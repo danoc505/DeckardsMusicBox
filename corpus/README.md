@@ -47,6 +47,13 @@ these scripts regenerate those literals in place.
   source's shape and no solo is ever reproduced (the `LICENSING.md` rationale, made literal).
   across pool: rhythms 1300->2308, contours 2200->3647.
 
+- **`ingest_ragtime.py`** — pre-1930 PD ragtime/early-jazz (Joplin d.1917 etc.), the
+  syncopated root of jazz. Self-contained MIDI parser (stdlib only) → melody top-line →
+  key-detect → de-identified rhythm/contour dims (s="ragtime"). Proven on synthetic MIDI
+  (`--selftest`). **Not yet fed:** this sandbox can't reach a bulk PD ragtime source
+  (github API gated, codeload proxy-blocked, kern.humdrum.org unreachable, ragtime sites
+  HTML-only). Point it at a local folder of PD `.mid` files: `python3 corpus/ingest_ragtime.py <folder>`.
+
 ## Next (see ../docs/CORPUS_SOURCES.md)
 
 Folk melodic shapes from thesession.org / more ABC trad (pre-1930 PD) → `FOLK_CORPUS`
