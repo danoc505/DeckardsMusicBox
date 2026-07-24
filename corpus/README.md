@@ -54,6 +54,11 @@ these scripts regenerate those literals in place.
   (github API gated, codeload proxy-blocked, kern.humdrum.org unreachable, ragtime sites
   HTML-only). Point it at a local folder of PD `.mid` files: `python3 corpus/ingest_ragtime.py <folder>`.
 
+- **`ingest_session.py`** — thesession.org traditional folk (54,878 settings, ODbL; PD
+  compositions, our own relative encoding stored). Self-contained ABC parser -> relative
+  contours/rhythms + FOLK melodicShapes (s="session"). Widened the CONTOUR pool 3,647 ->
+  4,972 (now 5 sources). Validated: 56% stepwise, matching existing folk/bach/wjazz (53-58%).
+
 ## Next (see ../docs/CORPUS_SOURCES.md)
 
 Folk melodic shapes from thesession.org / more ABC trad (pre-1930 PD) → `FOLK_CORPUS`
