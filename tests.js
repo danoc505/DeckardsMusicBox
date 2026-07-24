@@ -194,6 +194,28 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
         (100*share).toFixed(1)+"% of harmony voice motions are stepwise  [Bach 77.3%]");
 })();
 
+/* ── 8d. STYLE FINGERPRINTS — melodies characterized by tradition (closes the
+   handoff gap "melodies/grooves not characterized like progressions"). Each
+   source's contour pool has a distinct, measurable profile; genres lean on the
+   traditions that fit their feel via GENRE_SRC affinities (a soft weight). ── */
+(function fingerprints(){
+  const D = globalThis.IMPROV_DIMENSIONS ||
+            (function(){ try{ return require("./engine_bundle.js").IMPROV_DIMENSIONS; }catch(e){ return null; } })();
+  if(!D){ check("style fingerprints per tradition", false, "IMPROV_DIMENSIONS not reachable"); return; }
+  const prof={};
+  for(const c of D.contours){ const s=c.s||"?"; const p=prof[s]||(prof[s]={step:0,leap:0,n:0});
+    for(const x of c.v){ p.n++; if(Math.abs(x)<=1)p.step++; if(Math.abs(x)>=3)p.leap++; } }
+  const rows=Object.keys(prof).filter(s=>prof[s].n>=200).map(s=>{
+    const p=prof[s]; return s+":"+(100*p.step/p.n|0)+"%st/"+(100*p.leap/p.n|0)+"%lp"; });
+  // robust check: the traditions are measurably DISTINCT — their stepwise and leap
+  // profiles span a real range, so genre can select on tradition, not just major/minor
+  const sts=Object.keys(prof).filter(s=>prof[s].n>=200).map(s=>100*prof[s].step/prof[s].n);
+  const lps=Object.keys(prof).filter(s=>prof[s].n>=200).map(s=>100*prof[s].leap/prof[s].n);
+  const spread=Math.max(...sts)-Math.min(...sts) + Math.max(...lps)-Math.min(...lps);
+  check("style fingerprints per tradition (distinguishable profiles)", spread>=10,
+        rows.join("  "));
+})();
+
 
 /* ── 9. ABSOLUTE REGISTERS: bass below chords below lead (the roll must LOOK right) ── */
 (function registers(){

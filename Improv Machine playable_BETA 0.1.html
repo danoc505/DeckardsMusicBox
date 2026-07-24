@@ -6034,6 +6034,15 @@ function fitContour(moves, needed){
 }
 
 /* draw each dimension from a DIFFERENT source and put them together */
+// STYLE FINGERPRINTS as soft genre→tradition affinities: which sources' phrasing
+// a genre leans on (measured profiles live in corpus/build_fingerprints.py). These
+// are WEIGHTS, not filters — every tradition stays reachable by any genre.
+const GENRE_SRC = {
+  citypop:{bach:2,wjazz:2.5,grammar:1.5}, lofi:{bach:1.5,wjazz:2,session:1.2,grammar:1.5},
+  barber:{bach:2,wjazz:2,grammar:1.3},   wise:{bach:1.8,wjazz:1.5,folk:1.3,grammar:1.3},
+  house:{wjazz:1.5,session:1.5,grammar:1.5}, jungle:{wjazz:2,grammar:1.5},
+  dungeon:{folk:2,session:2,bach:1.3},   ambient:{folk:1.8,session:1.8,bach:1.5}
+};
 function recombine(dims, opts){
   const { rng, mode, scale, root, LO, HI, nBars, startBar, chordAt, want } = opts;
   if(!dims || !dims.rhythms || !dims.contours) return null;
@@ -6065,7 +6074,12 @@ function recombine(dims, opts){
     scored.sort((a,b)=>a.d-b.d);
     cPool = scored.slice(0, Math.max(24, Math.floor(scored.length*0.4))).map(s=>s.x);
   }
-  const cEntry = cPool[Math.floor(rng()*cPool.length)];
+  // STYLE FINGERPRINT: prefer contours from the traditions that fit this genre's
+  // feel — a jazz genre leans on bebop/chorale phrasing, a dungeon on modal folk —
+  // as a SOFT weight, so every source stays possible (never a hard filter).
+  let cEntry;
+  if(want && want.src){ cEntry = wpick(rng, cPool.map(c=>[c, (want.src[c.s]||1)])); }
+  else cEntry = cPool[Math.floor(rng()*cPool.length)];
   if(!cEntry) return null;
   const moves = fitContour(cEntry.v, Math.max(1, rhythm.length-1));
 
@@ -6557,7 +6571,7 @@ function composeSong(conductorChart, rng){
                  (function(){ try{ return require("./dimensions.json"); }catch(e){ return null; } })();
     if(lead && DIMS){
       const heard = session.perception && session.perception.harmony;
-      const want = { density: chart._leadDensity, leap: chart._leadLeap };
+      const want = { density: chart._leadDensity, leap: chart._leadLeap, src: GENRE_SRC[chart.genre] };
       // build ONE LOOP of recombined material, then repeat it across the song.
       // Music is repeated patterns: a phrase that runs on continuously breaks
       // the loop law every other engine obeys.
