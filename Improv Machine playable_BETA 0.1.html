@@ -7091,11 +7091,13 @@ function scheduleAll(t0){
     const t=t0+e.step*td;
     if(e.kind==="riser"){ Synth.riser(t, e.durSteps*td, e.riserKind); continue; }
     if(e.kind==="drum"){
-      const dt2 = t+(e.micro||0)*td;
+      const dt2 = Math.max(0, t+(e.micro||0)*td);   // never a negative time: a swing/
+                                                    // humanise offset on the first step
+                                                    // would crash the offline render (WAV)
       const si = (SAMPLE.play==="drums") ? sliceForLane(e.lane, e.step) : -1;
       if(si >= 0) playSlice(si, dt2, e.vel, SAMPLE.rate); else Synth.drum(e.lane, dt2, e.vel);
       if(e.lane==="kick") Synth.duck(t); continue; }
-    const tt=t+(e.micro||0)*td;
+    const tt=Math.max(0, t+(e.micro||0)*td);        // clamp (see drum note above)
     if(SEGA){ if(Synth.isOPN2Ready()) Synth.opn2Note(e.role, e.midi, tt, e.dur, e.vel);
               else Synth.fm(SEGA_MAP[e.role]||"fmLead", e.midi, tt, e.dur, e.vel); }
     else if(e.inst==="modal") Synth.modal(e.midi, tt, e.dur, e.vel);
