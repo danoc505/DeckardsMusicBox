@@ -1936,6 +1936,7 @@ const OPN2_GENRE_VOICES = {
   jungle:  { harmony:"brass" },
   dungeon: { lead:"organ", harmony:"organ", pad:"organ" },
   ambient: { lead:"bell", harmony:"organ", pad:"organ" },
+  synthwave:{ harmony:"brass", pad:"organ", counter:"brass" },
 };
 /* the four operator register slots within a channel */
 const OPN2_OPOFF = [0x00, 0x08, 0x04, 0x0C];
@@ -5222,7 +5223,7 @@ function drumEngine(chart, perception, rng){
   return { name:"drums", role:"drums", notes, feel:feelName };
 }
 
-const GENRE_FEEL = { house:"four", techno:"four", lofi:"boombap", citypop:"boombap",
+const GENRE_FEEL = { house:"four", techno:"four", synthwave:"four", lofi:"boombap", citypop:"boombap",
   barber:"boombap", wise:"boombap", jungle:"breaks", ambient:"sparse", dungeon:"sparse" };
 
 function laneName(k){ return k; }  // keep the lane key as-is (kick/snare/…)
@@ -5754,12 +5755,13 @@ function ghostPass(parts, chart){
       while(nt.midi<floor){ nt.midi+=12; n++; } } }
   if(n)corrections.push({kind:"register lift", count:n});
 
-  // 2) BASS CEILING: the bass stays low
+  // 2) BASS REGISTER: the bass stays low — but never below C2 (36). Octave-fit both ways.
   n=0;
   for(const p of parts){ if(p.role!=="bass")continue;
     for(const nt of p.notes){ if(nt.midi==null)continue;
-      while(nt.midi>BASS_CEIL){ nt.midi-=12; n++; } } }
-  if(n)corrections.push({kind:"bass ceiling", count:n});
+      while(nt.midi>BASS_CEIL){ nt.midi-=12; n++; }
+      while(nt.midi<36){ nt.midi+=12; n++; } } }   // C2 floor (was ceiling-only: a low root could sink below)
+  if(n)corrections.push({kind:"bass register", count:n});
 
   // 3) OUT-OF-KEY notes that don't resolve by step → snap to the nearest scale
   //    tone. (A non-scale tone stepping out is a legal approach tone — physics.)
@@ -6168,6 +6170,7 @@ const GROOVE_BOUNDS = {
   wise:    { swing:[1.15,1.55], feel:["drag","even"] },
   dungeon: { swing:[1.00,1.15], feel:["even"] },
   ambient: { swing:[1.00,1.10], feel:["even"] },
+  synthwave:{ swing:[1.00,1.04], feel:["even","push"] },   // straight, driving, machine-tight
 };
 
 /* build this song's groove profile (drawn within the genre's bounds) */
@@ -6433,7 +6436,9 @@ const GENRE_SRC = {
   house:{wjazz:1.8,grammar:1.5},         jungle:{wjazz:2,grammar:1.5},
   // dungeon & ambient are MODAL/folkloric, NOT jazz: no bebop or chorale affinity
   // (research: dungeon synth = modal drones, parallel fifths, no extended chords)
-  dungeon:{folk:2.5,session:2,grammar:1.3}, ambient:{folk:1.8,session:1.8,grammar:1.5}
+  dungeon:{folk:2.5,session:2,grammar:1.3}, ambient:{folk:1.8,session:1.8,grammar:1.5},
+  // synthwave leads are scalar/arpeggiated minor, not bebop or chorale: grammar + folk
+  synthwave:{grammar:2.2,session:1.5,folk:1.2}
 };
 function recombine(dims, opts){
   const { rng, mode, scale, root, LO, HI, nBars, startBar, chordAt, want } = opts;
@@ -6526,6 +6531,9 @@ const GENRES = {
   ambient: { scales:["major","dorian","lydian"],        tempo:[50,72],   feel:"sparse",  forms:["strophic"],                        swingBias:0 },
   barber:  { scales:["major","minor"],                 tempo:[70,92],   feel:"boombap", forms:["binary","strophic","rondo"],       swingBias:0.4 },
   jungle:  { scales:["minor","aeolian"],                tempo:[160,176], feel:"breaks",  forms:["binary","strophic"],               swingBias:0.15 },
+  // DARK SYNTHWAVE (Perturbator/darksynth): driving four-on-floor, minor/phrygian,
+  // pulsing octave bass, 16th arps, big gated reverb, neon-noir. Research-grounded.
+  synthwave:{ scales:["minor","aeolian","phrygian"],   tempo:[98,118],  feel:"four",    forms:["binary","versechorus","strophic"], swingBias:0 },
 };
 
 /* FORM templates — section lists. Each section: {name, role, bars, contrast} */
@@ -6873,6 +6881,7 @@ function improvise(chart, rng, engineNames){
     barber: {harmony:4,melody:3,bass:2,drums:1},
     dungeon:{harmony:3,melody:3,bass:2,drums:2},
     ambient:{harmony:4,melody:3,bass:2,drums:1},
+    synthwave:{drums:4,bass:4,harmony:3,melody:2},   // rhythm section leads, arps/lead on top
   };
   const aff=AFFINITY[chart.genre]||{};
   const order=[]; const pool=engineNames.slice();
@@ -7114,6 +7123,11 @@ function composeSong(conductorChart, rng){
   // so it never disturbs the pitch physics the ghost just settled.
   const groove = makeGroove(chart, rng);
   const grooveInfo = applyGroove(session.parts, chart, groove, rng);
+  // FINAL bass-register guard: the groove/loop-variation layer can octave-shift a
+  // later-loop bass note past its bounds — the HARD register law holds regardless.
+  for(const p of session.parts){ if(p.role!=="bass")continue;
+    for(const nt of p.notes){ if(nt.midi==null)continue;
+      while(nt.midi>BASS_CEIL) nt.midi-=12; while(nt.midi<36) nt.midi+=12; } }
   session.chart = coreChart;   // expose the core chart so material can be harvested
   return { chart, session, arrangement:plan.sections, entries:plan.entries,
            style:plan.style, themeLog, finalCorrections,
@@ -7284,6 +7298,10 @@ const DRUM_MAP = {
 const INST_MAP = {
   harmony:"rhodes", bass:"sub", lead:"pluck", counter:"harp", pad:"pad", arp:"marimba", lowline:"saw",
 };
+// per-genre TIMBRE overrides (falls back to INST_MAP). Gives a genre its own palette.
+const GENRE_INST = {
+  synthwave:{ lead:"saw", arp:"saw", counter:"saw", harmony:"choir", pad:"strings", bass:"sub", lowline:"saw" },
+};
 // ambient/dungeon pads use the Rings-style modal resonator instead
 const MODAL_GENRES={ambient:1,dungeon:1,wise:1};
 const SEGA_MAP={harmony:"fmEP",bass:"fmBass",lead:"fmLead",counter:"fmPluck",pad:"fmPad",arp:"fmBell",lowline:"fmBrass"};
@@ -7329,7 +7347,7 @@ function buildSession(seed, overrides){
         const lane=DRUM_MAP[n.lane] || "hat";
         events.push({step, kind:"drum", lane, vel:(n.vel||0.5)*lift*dyn, micro:n.micro||0});
       } else {
-        let inst=INST_MAP[p.role]||"sine";
+        let inst=(GENRE_INST[chart.genre]&&GENRE_INST[chart.genre][p.role]) || INST_MAP[p.role] || "sine";
         if(p.role==="pad" && MODAL_GENRES[chart.genre]) inst="modal";
         events.push({step, kind:"note", inst, role:p.role, midi:n.midi+keyShift,
                      dur:(n.dur||2)*tickDur(), vel:(n.vel||0.5)*lift*dyn, micro:n.micro||0});
@@ -7442,7 +7460,7 @@ function schedule(){
   }
 }
 
-const PUMP_BY_GENRE={house:.5, citypop:.3, lofi:.25, jungle:.2, barber:.15};
+const PUMP_BY_GENRE={house:.5, synthwave:.42, citypop:.3, lofi:.25, jungle:.2, barber:.15};
 // per-genre KICK voicing + drum-bus level — the dance genres get a full, upfront kick
 const KICK_BY_GENRE={
   house:  {tune:50,decay:.42,click:.85,drive:.6,body:1.15,gain:1.25},
@@ -7453,9 +7471,10 @@ const KICK_BY_GENRE={
   barber: {tune:62,decay:.16,click:.3, drive:.15,body:.85, gain:.85},
   dungeon:{tune:54,decay:.30,click:.5, drive:.35,body:1.05,gain:1.1},
   ambient:{tune:58,decay:.28,click:.25,drive:.2, body:.9,  gain:.8},
+  synthwave:{tune:49,decay:.34,click:.9, drive:.6, body:1.15,gain:1.25},   // full four-on-floor punch
 };
-const DRUMBUS_BY_GENRE={house:1.45,jungle:1.4,dungeon:1.3,citypop:1.15,lofi:1.05,wise:1.05,barber:1.0,ambient:.95};
-const VOICESTYLE_BY_GENRE={house:"punchy",jungle:"punchy"};
+const DRUMBUS_BY_GENRE={house:1.45,synthwave:1.4,jungle:1.4,dungeon:1.3,citypop:1.15,lofi:1.05,wise:1.05,barber:1.0,ambient:.95};
+const VOICESTYLE_BY_GENRE={house:"punchy",jungle:"punchy",synthwave:"punchy"};
 // apply the genre's PERFORMANCE settings — used by BOTH live playback and the offline
 // renderer, so an exported WAV is the same performance you hear (voice, kick, drums, pump).
 function applyGenrePerf(){
@@ -7992,7 +8011,8 @@ function play(){
   const SPACE={ambient:{time:0.92,wet:0.42,lp:0.55}, dungeon:{time:0.88,wet:0.40,lp:0.5},
                barber:{time:0.7,wet:0.26,lp:0.7},    wise:{time:0.7,wet:0.28,lp:0.65},
                lofi:{time:0.6,wet:0.24,lp:0.6},      citypop:{time:0.6,wet:0.22,lp:0.8},
-               house:{time:0.5,wet:0.18,lp:0.85},    jungle:{time:0.45,wet:0.16,lp:0.85}};
+               house:{time:0.5,wet:0.18,lp:0.85},    jungle:{time:0.45,wet:0.16,lp:0.85},
+               synthwave:{time:0.72,wet:0.30,lp:0.72}};   // big 80s plate/gated space
   setTimeout(()=>Synth.setReverb(SPACE[SESSION.chart.genre]||{time:0.7,wet:0.25,lp:0.7}), 120);
   applyGenrePerf();   // voice character, kick voicing, drum-bus level, sidechain — see below
   // TIDES/FRAMES-style macro: the filtered-intro sweep — closed to open across
