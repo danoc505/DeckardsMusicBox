@@ -42,66 +42,291 @@
   .lline.done{color:#9db0c4;font-weight:600;margin-top:4px;}
   .lline.eng.harmony{color:#5b8dd6}.lline.eng.bass{color:#d67b5b}
   .lline.eng.melody{color:#6dd66d}.lline.eng.drums{color:#aaa}
+
+  /* ============ DECKARD'S ORCHESTRATOR — retrofuturism control panel ============
+     A single committed visual world: an aged scientific/military instrument panel.
+     Colors are the device's own, not the OS theme's. All original IDs preserved. */
+  :root{
+    --panel:#b8b096; --panel-hi:#c8c0a4; --panel-lo:#9a9377;
+    --olive:#6d7150; --bezel:#24221b; --bezel-hi:#3b3830; --bezel-lo:#16150f;
+    --engrave:#2b2720; --label:#4c4636; --label-hi:#6a624c;
+    --screen:#08130d; --screen-hi:#0f2016; --phos:#8ee06a; --phos-dim:#3c7a45; --phos-glow:rgba(130,224,106,.35);
+    --amber:#e6a23c; --red:#cf5a3c; --green:#79c063; --teal:#5fa0a0; --brass:#b39355; --brass-hi:#d8bd82;
+    --key:#cfc7ac; --key-lo:#a49c81; --key-edge:#7d765d;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;padding:28px 18px 56px;min-height:100vh;color:var(--engrave);
+    font:13px/1.5 "Helvetica Neue",Arial,system-ui,sans-serif;
+    background:radial-gradient(120% 90% at 50% -10%, #2a2820 0%, #1a1913 55%, #100f0b 100%);
+  }
+  .rig{max-width:1120px;margin:0 auto;position:relative;padding:20px 22px 26px;border-radius:16px;
+    background:linear-gradient(180deg,var(--panel-hi),var(--panel) 30%,var(--panel-lo));
+    border:2px solid var(--bezel-hi);
+    box-shadow:0 0 0 6px var(--bezel),0 0 0 7px #0d0c08,0 26px 60px -20px rgba(0,0,0,.8),
+      inset 0 2px 0 rgba(255,255,255,.25),inset 0 -3px 8px rgba(0,0,0,.28);}
+  .rig::before{content:"";position:absolute;inset:0;border-radius:16px;pointer-events:none;
+    background:repeating-linear-gradient(90deg,rgba(255,255,255,.028) 0 1px,transparent 1px 3px);
+    mix-blend-mode:overlay;opacity:.5;}
+  .screw{position:absolute;width:15px;height:15px;border-radius:50%;
+    background:radial-gradient(circle at 38% 34%,#e7dfc4,#8f8869 62%,#5f5942 100%);
+    box-shadow:inset 0 1px 2px rgba(255,255,255,.6),0 1px 2px rgba(0,0,0,.5);}
+  .screw::after{content:"";position:absolute;inset:4px;border-top:1.5px solid rgba(40,36,26,.75);transform:rotate(28deg);}
+  .screw.tl{top:9px;left:9px}.screw.tr{top:9px;right:9px}.screw.bl{bottom:9px;left:9px}.screw.br{bottom:9px;right:9px}
+
+  .nameplate{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:2px 22px 18px;padding:10px 18px;border-radius:8px;
+    background:linear-gradient(180deg,var(--brass-hi),var(--brass) 55%,#8f7440);
+    border:1px solid #7a6234;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 4px rgba(0,0,0,.3),0 2px 4px rgba(0,0,0,.35);}
+  .nameplate h1{margin:0;font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    color:#3a2f16;text-shadow:0 1px 0 rgba(255,255,255,.35);}
+  .nameplate .mk{font-size:10px;letter-spacing:.24em;color:#5a4a24;border:1px solid #6f5a2e;border-radius:3px;padding:2px 6px;}
+  .nameplate .sub{margin-left:auto;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#4a3c1c;}
+
+  .rack{display:grid;grid-template-columns:1.55fr 1fr;gap:16px;}
+  .mod{position:relative;border-radius:10px;padding:22px 16px 16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(0,0,0,.05) 22%,rgba(0,0,0,.10));
+    border:1px solid var(--key-edge);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 0 0 1px rgba(255,255,255,.05),0 2px 3px rgba(0,0,0,.18);}
+  .mod>.tag{position:absolute;top:6px;left:12px;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--label);font-weight:700;}
+  .mod>.tag::after{content:"";position:absolute;left:0;right:-8px;bottom:-3px;height:1px;background:linear-gradient(90deg,var(--label-hi),transparent);}
+  .span2{grid-column:1 / -1;}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+  .col{display:flex;flex-direction:column;gap:10px;}
+
+  .screen{position:relative;border-radius:8px;overflow:hidden;
+    background:radial-gradient(120% 130% at 50% 0%,var(--screen-hi),var(--screen) 70%);
+    border:1px solid #05100a;box-shadow:inset 0 0 22px rgba(0,0,0,.85),inset 0 0 0 1px rgba(130,224,106,.06),0 1px 0 rgba(255,255,255,.25);}
+  .screen::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px);opacity:.6;}
+  #scope{display:block;width:100%;height:120px;}
+  .rollwrap{position:relative;margin-top:12px;border-radius:8px;overflow:hidden;
+    border:1px solid #05100a;box-shadow:inset 0 0 20px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.22);}
+  #roll{display:block;width:100%;height:300px;}
+  #playhead{position:absolute;top:0;width:2px;height:100%;background:var(--phos);opacity:.7;left:0;pointer-events:none;box-shadow:0 0 6px var(--phos-glow);}
+
+  .readout{margin-top:12px;padding:10px 12px;border-radius:6px;background:var(--screen);
+    border:1px solid #05100a;box-shadow:inset 0 0 16px rgba(0,0,0,.8);font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;}
+  #info{color:var(--phos);font-size:12.5px;letter-spacing:.02em;text-shadow:0 0 6px var(--phos-glow);margin:0;}
+  #form{color:var(--phos-dim);font-size:11px;margin:3px 0 0;}
+  #theme{color:var(--teal);font-size:10.5px;margin:2px 0 0;}
+  #pos{color:var(--phos-dim);font-size:10.5px;margin:2px 0 0;}
+
+  button{font-family:inherit;cursor:pointer;color:var(--engrave);
+    background:linear-gradient(180deg,var(--key),var(--key-lo));border:1px solid var(--key-edge);border-radius:7px;
+    padding:9px 15px;font-size:12px;font-weight:600;letter-spacing:.03em;margin:0;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.2),0 2px 3px rgba(0,0,0,.25);
+    transition:transform .05s,box-shadow .1s,background .1s;}
+  button:hover{background:linear-gradient(180deg,#d8d1b6,#b0a888);}
+  button:active{transform:translateY(1px);box-shadow:inset 0 2px 4px rgba(0,0,0,.35);}
+  button:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  .btn-big{font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:14px 20px;border-radius:9px;}
+  #play{background:linear-gradient(180deg,#8fd07a,#5f9a52);color:#183014;border-color:#3f6b36;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 4px rgba(0,0,0,.28),0 2px 4px rgba(0,0,0,.3),0 0 14px rgba(130,224,106,.35);}
+  #play:hover{background:linear-gradient(180deg,#9edd88,#6aa85c);}
+  #new{background:linear-gradient(180deg,var(--amber),#c67f26);color:#3a2708;border-color:#916018;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -2px 4px rgba(0,0,0,.28),0 2px 4px rgba(0,0,0,.3),0 0 14px rgba(230,162,60,.35);}
+  #new:hover{background:linear-gradient(180deg,#f0af4c,#d08b2c);}
+  #sega,#wav,#midi,#chop{font-size:11px;padding:8px 12px;text-transform:uppercase;letter-spacing:.05em;}
+  #sega.hot{background:linear-gradient(180deg,#6fd0e6,#3f9ec6);color:#082630;border-color:#2e7fa0;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 12px rgba(109,214,255,.5);}
+  #chop.hot{background:linear-gradient(180deg,#e6906f,#c6603f);color:#301008;border-color:#9a4326;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 12px rgba(207,90,60,.5);}
+
+  .mini{background:linear-gradient(180deg,var(--key),var(--key-lo));border:1px solid var(--key-edge);border-radius:5px;
+    color:var(--engrave);font-size:10.5px;font-weight:600;padding:5px 9px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 1px 2px rgba(0,0,0,.2);cursor:pointer;font-family:inherit;}
+  .mini:hover{background:linear-gradient(180deg,#d8d1b6,#b0a888);}
+  .mini:active{transform:translateY(1px);}
+  .mini.hot{background:linear-gradient(180deg,#8fd07a,#5f9a52);color:#183014;border-color:#3f6b36;}
+
+  .lab{color:var(--label);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-right:4px;}
+  .sel{font-family:inherit;background:var(--screen);border:1px solid #05100a;border-radius:5px;color:var(--phos);
+    font-size:10.5px;padding:4px 6px;box-shadow:inset 0 0 10px rgba(0,0,0,.7);}
+  #seedfield{background:var(--screen);border:1px solid #05100a;border-radius:5px;color:var(--phos);
+    font-family:ui-monospace,Menlo,monospace;padding:6px 8px;font-size:12px;width:120px;
+    box-shadow:inset 0 0 10px rgba(0,0,0,.75);letter-spacing:.05em;}
+  #seedfield::placeholder{color:var(--phos-dim);}
+
+  .lamp{width:11px;height:11px;border-radius:50%;flex:0 0 auto;display:inline-block;
+    background:radial-gradient(circle at 35% 30%,#5a5442,#33301f);box-shadow:inset 0 1px 1px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.2);}
+  .lamp.on.amber{background:radial-gradient(circle at 35% 30%,#ffd98a,var(--amber));box-shadow:0 0 8px 1px rgba(230,162,60,.75);}
+  .lamp.on.green{background:radial-gradient(circle at 35% 30%,#c6f0b0,var(--green));box-shadow:0 0 8px 1px rgba(121,192,99,.75);}
+  .lamp.on.red{background:radial-gradient(circle at 35% 30%,#ffb59a,var(--red));box-shadow:0 0 8px 1px rgba(207,90,60,.75);}
+  .lamprow{display:flex;align-items:center;gap:7px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--label);}
+
+  .knobs{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-around;padding-top:6px;}
+  .knobwrap{display:flex;flex-direction:column;align-items:center;gap:5px;width:62px;text-align:center;}
+  .knob{--ang:-135deg;position:relative;width:52px;height:52px;border-radius:50%;cursor:ns-resize;touch-action:none;
+    background:radial-gradient(circle at 40% 32%,#4a4636,#2c2a20 62%,#191811);border:1px solid #100f0a;
+    box-shadow:0 3px 6px rgba(0,0,0,.45),inset 0 2px 3px rgba(255,255,255,.14),inset 0 -3px 5px rgba(0,0,0,.5);}
+  .knob::before{content:"";position:absolute;inset:8px;border-radius:50%;
+    background:radial-gradient(circle at 42% 34%,#38352a,#211f18);box-shadow:inset 0 1px 2px rgba(255,255,255,.1);}
+  .knob::after{content:"";position:absolute;left:50%;top:7px;width:2.5px;height:16px;margin-left:-1.25px;border-radius:2px;
+    background:var(--amber);box-shadow:0 0 6px rgba(230,162,60,.8);transform-origin:50% 19px;transform:rotate(var(--ang));}
+  .knobwrap .kl{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--label);font-weight:700;}
+  .knobwrap .kv{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--phos-dim);}
+
+  #vu{display:block;width:100%;height:96px;}
+
+  #parts{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 0;}
+  .part{display:inline-block;padding:3px 9px;border-radius:4px;font-size:10px;font-weight:600;letter-spacing:.03em;
+    background:var(--screen);border:1px solid #05100a;box-shadow:inset 0 0 8px rgba(0,0,0,.6);}
+  .part.harmony{color:#7fb0e6}.part.bass{color:#e69b6f}.part.lead{color:var(--phos)}
+  .part.counter{color:#e6d06f}.part.pad{color:#b78fe6}.part.arp{color:#6fe6d0}.part.drums{color:#c9c4b0}
+  .libgroup{margin:2px 0;display:flex;align-items:center;flex-wrap:wrap;gap:3px;}
+  .libg{display:inline-block;width:62px;color:var(--label);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+  .libbtn{background:linear-gradient(180deg,var(--key),var(--key-lo));border:1px solid var(--key-edge);border-radius:4px;
+    color:var(--engrave);font-size:9.5px;font-weight:600;padding:3px 7px;font-family:ui-monospace,Menlo,monospace;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.4);cursor:pointer;}
+  .libbtn:hover{background:linear-gradient(180deg,#d8d1b6,#b0a888);}
+
+  #sampfile{color:var(--label);font-size:10.5px;margin:2px 0;}
+  #dropzone{border:1px dashed var(--key-edge);border-radius:7px;padding:9px 12px;margin:6px 0;
+    color:var(--label-hi);font-size:10.5px;background:rgba(0,0,0,.06);transition:background .15s,border-color .15s;}
+  #dropzone.hot{border-color:var(--green);background:rgba(121,192,99,.14);color:var(--engrave);}
+  #dropzone b{color:var(--engrave);}
+  #chopstatus{color:var(--label);font-size:10px;margin:3px 0;}
+  #progline{color:var(--amber);font-size:10px;margin:2px 0;font-family:ui-monospace,Menlo,monospace;}
+  #winlabel{color:var(--phos-dim);font-size:10.5px;font-family:ui-monospace,Menlo,monospace;}
+
+  #loading{margin-top:12px;padding:12px 14px;border-radius:6px;background:var(--screen);
+    border:1px solid #05100a;box-shadow:inset 0 0 16px rgba(0,0,0,.8);
+    font-family:ui-monospace,Menlo,monospace;font-size:11px;line-height:1.65;transition:opacity .4s;}
+  .lline{opacity:0;transform:translateX(-6px);transition:opacity .25s,transform .25s;color:var(--phos-dim);}
+  .lline.show{opacity:1;transform:none;}
+  .lline.cond{color:var(--amber);font-weight:700;}
+  .lline.ok{color:var(--green);padding-left:4px;}
+  .lline.ghostfix{color:var(--red);padding-left:4px;}
+  .lline.done{color:var(--phos);font-weight:700;margin-top:4px;}
+  .lline.eng.harmony{color:#7fb0e6}.lline.eng.bass{color:#e69b6f}
+  .lline.eng.melody{color:var(--phos)}.lline.eng.drums{color:#c9c4b0}
+
+  @media (max-width:820px){ .rack{grid-template-columns:1fr;} .nameplate .sub{margin-left:0;width:100%;} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none!important;} }
 </style></head>
 <body>
-  <h1>Improv Machine</h1>
-  <div class="sub">four engines · random order · each reads the others · press play to hear it</div>
-  <button id="play">▶ play</button>
-  <button id="new">⟳ new song</button>
-  <button id="sega" title="the real Yamaha YM2612 (Nuked-OPN2)">SEGA mode: off</button>
-  <button id="wav" title="render this song to an audio file">↓ export WAV</button>
-  <button id="midi" title="export MIDI for your DAW or hardware">↓ export MIDI</button>
-  <button id="chop" title="play a sampled recording instead of the synth kit">CHOP: off</button>
-  <input id="sampfile" type="file">
-  <div id="dropzone">
-    <b>load a record</b> — choose a file above, or drop one here.
-    <span style="color:#6b7684;">wav &amp; mp3 work everywhere · flac fails in Safari</span>
+<div class="rig">
+  <span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>
+
+  <div class="nameplate">
+    <h1>Deckard's Orchestrator</h1>
+    <span class="mk">Improv Machine · Mk I</span>
+    <span class="sub">four engines · random order · each reads the others</span>
   </div>
-  <div id="chopstatus" style="color:#6b7684;font-size:11px;margin:4px 0;">no sample loaded</div>
-  <div id="chopctl" style="margin:6px 0;">
-    <span class="lab">chop:</span>
-    <select id="chopmode" class="sel"><option value="pads">pad bank (MPC style)</option><option value="smart">smart (cuts on notes)</option><option value="grid">strict grid</option><option value="transient">transients only</option></select>
-    <span class="lab" style="margin-left:8px;">pads:</span>
-    <select id="padcount" class="sel"><option>8</option><option selected>16</option><option>32</option></select>
-    <span class="lab" style="margin-left:8px;">fit:</span>
-    <select id="fitmode" class="sel"><option value="varispeed">varispeed (pitch moves)</option><option value="stretch">time-stretch (pitch held)</option></select>
-    <span class="lab" style="margin-left:8px;">flip:</span>
-    <select id="flipstyle" class="sel"><option value="daft">Daft Punk (reorder + filter)</option><option value="dilla">Dilla (sparse, dragged)</option><option value="aphex">Aphex (dense, retriggered)</option><option value="plain">plain</option></select>
-    <span class="lab" style="margin-left:8px;">room:</span>
-    <select id="roommode" class="sel"><option value="on">band makes room</option><option value="off">everyone plays</option></select>
-    <span class="lab" style="margin-left:8px;">play as:</span>
-    <select id="playmode" class="sel"><option value="drums">pads (played like a kit)</option><option value="melodic">melodic (rarely right)</option></select>
-    <span class="lab" style="margin-left:8px;">window:</span>
-    <button class="mini" id="winback">&lt;</button>
-    <span id="winlabel" style="color:#8fa3b8;font-size:11px;">0s +8s</span>
-    <button class="mini" id="winfwd">&gt;</button>
-    <button class="mini" id="winlonger">longer</button>
-    <button class="mini" id="winshorter">shorter</button>
-    <button class="mini" id="tunetosample" title="rebuild the song in the record's key">tune band to sample</button>
-    <button class="mini" id="followchords" title="the band plays the record's chord progression">band follows record</button>
-  <div id="progline" style="color:#e0a45b;font-size:11px;margin:2px 0;"></div>
-  </div>
-  <div id="breaks" style="margin:6px 0;">
-    <span class="lab">breaks:</span>
-    <button class="mini" data-brk="lofi">lofi</button>
-    <button class="mini" data-brk="jungle">jungle</button>
-    <button class="mini" data-brk="house">house</button>
-    <button class="mini" data-brk="wise">boom bap</button>
-    <button class="mini" data-brk="dungeon">sparse</button>
-  </div>
-  <div style="margin:8px 0;">
-    <span class="lab">seed:</span>
-    <input id="seedfield" type="text" size="11" placeholder="any number">
-    <button class="mini" id="goseed">go</button>
-  </div>
-  <div id="library"></div>
-  <div id="info">—</div>
-  <div id="form" style="color:#6b7684;font-size:12px;margin:4px 0;">—</div>
-  <div id="theme" style="color:#5f7a8c;font-size:11px;margin:2px 0;">—</div>
-  <div id="pos">—</div>
-  <div id="parts"></div>
-  <div id="loading" style="display:none;"></div>
-  <div class="rollwrap"><canvas id="roll"></canvas><div id="playhead"></div></div>
+
+  <div class="rack">
+
+    <!-- ── main screen: oscilloscope + note-roll + readout ── -->
+    <section class="mod">
+      <span class="tag">Oscilloscope · Note Roll</span>
+      <div class="screen glow" style="margin-top:6px;"><canvas id="scope"></canvas></div>
+      <div class="rollwrap"><canvas id="roll"></canvas><div id="playhead"></div></div>
+      <div class="readout">
+        <div id="info">—</div>
+        <div id="form">—</div>
+        <div id="theme">—</div>
+        <div id="pos">—</div>
+      </div>
+      <div id="parts"></div>
+      <div id="loading" style="display:none;"></div>
+    </section>
+
+    <!-- ── right column: transport / levels / voice / seed ── -->
+    <div class="col">
+
+      <section class="mod">
+        <span class="tag">Transport</span>
+        <div class="row" style="margin-top:8px;">
+          <button id="play" class="btn-big">▶ play</button>
+          <button id="new" class="btn-big">⟳ new song</button>
+        </div>
+        <div class="row" style="margin-top:10px;">
+          <button id="sega" title="the real Yamaha YM2612 (Nuked-OPN2)">SEGA mode: off</button>
+          <button id="chop" title="play a sampled recording instead of the synth kit">CHOP: off</button>
+          <button id="wav" title="render this song to an audio file">↓ WAV</button>
+          <button id="midi" title="export MIDI for your DAW or hardware">↓ MIDI</button>
+        </div>
+        <div class="lamprow" style="margin-top:14px;">
+          <span class="lamp" data-lamp="play"></span> play
+          <span class="lamp" data-lamp="sega" style="margin-left:12px;"></span> sega
+          <span class="lamp" data-lamp="chop" style="margin-left:12px;"></span> chop
+          <span class="lamp" data-lamp="clip" style="margin-left:12px;"></span> clip
+        </div>
+      </section>
+
+      <section class="mod">
+        <span class="tag">Levels</span>
+        <canvas id="vu" style="margin-top:6px;"></canvas>
+      </section>
+
+      <section class="mod">
+        <span class="tag">Voice</span>
+        <div class="knobs">
+          <div class="knobwrap"><div class="knob" data-knob="master" tabindex="0" role="slider" aria-label="Master"><span class="tick"></span></div><span class="kl">Master</span><span class="kv" data-kv="master">70</span></div>
+          <div class="knobwrap"><div class="knob" data-knob="tone" tabindex="0" role="slider" aria-label="Tone"><span class="tick"></span></div><span class="kl">Tone</span><span class="kv" data-kv="tone">85</span></div>
+          <div class="knobwrap"><div class="knob" data-knob="space" tabindex="0" role="slider" aria-label="Space"><span class="tick"></span></div><span class="kl">Space</span><span class="kv" data-kv="space">25</span></div>
+          <div class="knobwrap"><div class="knob" data-knob="drive" tabindex="0" role="slider" aria-label="Drive"><span class="tick"></span></div><span class="kl">Drive</span><span class="kv" data-kv="drive">0</span></div>
+        </div>
+      </section>
+
+      <section class="mod">
+        <span class="tag">Seed</span>
+        <div class="row" style="margin-top:8px;">
+          <input id="seedfield" type="text" size="11" placeholder="any number">
+          <button class="mini" id="goseed">GO</button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ── genre presets (full width) ── -->
+    <section class="mod span2">
+      <span class="tag">Genre Presets</span>
+      <div id="breaks" class="row" style="margin-top:8px;">
+        <span class="lab">breaks:</span>
+        <button class="mini" data-brk="lofi">lofi</button>
+        <button class="mini" data-brk="jungle">jungle</button>
+        <button class="mini" data-brk="house">house</button>
+        <button class="mini" data-brk="wise">boom bap</button>
+        <button class="mini" data-brk="dungeon">sparse</button>
+      </div>
+      <div id="library" style="margin-top:10px;"></div>
+    </section>
+
+    <!-- ── sampler / patchbay (full width) ── -->
+    <section class="mod span2">
+      <span class="tag">Sampler · Chop</span>
+      <div class="row" style="margin-top:8px;"><input id="sampfile" type="file"></div>
+      <div id="dropzone">
+        <b>load a record</b> — choose a file above, or drop one here.
+        <span style="color:var(--label);">wav &amp; mp3 work everywhere · flac fails in Safari</span>
+      </div>
+      <div id="chopstatus">no sample loaded</div>
+      <div id="chopctl" class="row" style="margin:8px 0;">
+        <span class="lab">chop:</span>
+        <select id="chopmode" class="sel"><option value="pads">pad bank (MPC style)</option><option value="smart">smart (cuts on notes)</option><option value="grid">strict grid</option><option value="transient">transients only</option></select>
+        <span class="lab">pads:</span>
+        <select id="padcount" class="sel"><option>8</option><option selected>16</option><option>32</option></select>
+        <span class="lab">fit:</span>
+        <select id="fitmode" class="sel"><option value="varispeed">varispeed (pitch moves)</option><option value="stretch">time-stretch (pitch held)</option></select>
+        <span class="lab">flip:</span>
+        <select id="flipstyle" class="sel"><option value="daft">Daft Punk (reorder + filter)</option><option value="dilla">Dilla (sparse, dragged)</option><option value="aphex">Aphex (dense, retriggered)</option><option value="plain">plain</option></select>
+        <span class="lab">room:</span>
+        <select id="roommode" class="sel"><option value="on">band makes room</option><option value="off">everyone plays</option></select>
+        <span class="lab">play as:</span>
+        <select id="playmode" class="sel"><option value="drums">pads (played like a kit)</option><option value="melodic">melodic (rarely right)</option></select>
+        <span class="lab">window:</span>
+        <button class="mini" id="winback">&lt;</button>
+        <span id="winlabel">0s +8s</span>
+        <button class="mini" id="winfwd">&gt;</button>
+        <button class="mini" id="winlonger">longer</button>
+        <button class="mini" id="winshorter">shorter</button>
+        <button class="mini" id="tunetosample" title="rebuild the song in the record's key">tune band to sample</button>
+        <button class="mini" id="followchords" title="the band plays the record's chord progression">band follows record</button>
+      </div>
+      <div id="progline"></div>
+    </section>
+
+  </div><!-- /rack -->
+</div><!-- /rig -->
 <script>
 const OPN2_WORKLET_SRC = `/* Nuked-OPN2 (Yamaha YM3438 / YM2612) — mechanically transpiled to
    JavaScript from Alexey Khokholov's cycle-accurate C emulator.
@@ -7786,4 +8011,125 @@ window.addEventListener("DOMContentLoaded",()=>{
   newSong();
 });
 
+</script>
+<script>
+/* ==== PANEL FX — oscilloscope, VU needles, working knobs, indicator lamps.
+   A separate classic <script>: it shares the engine's global scope, so Synth /
+   PLAYING are visible. Purely presentational + a few live control nudges; it
+   never touches composition, determinism, or the engine's own laws. ==== */
+(function(){
+  "use strict";
+  var S = function(){ try{ return (typeof Synth!=="undefined") ? Synth : null; }catch(e){ return null; } };
+  var TD = new Uint8Array(1024);
+
+  // ---- hi-dpi canvas sizing ----
+  function fit(cv){ if(!cv) return null; var dpr=Math.min(2,window.devicePixelRatio||1);
+    var w=cv.clientWidth||480, h=cv.clientHeight||100;
+    if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){ cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr); }
+    var g=cv.getContext("2d"); g.setTransform(dpr,0,0,dpr,0,0); return {g:g,w:w,h:h}; }
+
+  // ---- oscilloscope ----
+  var scopeCv=document.getElementById("scope"), scT=0;
+  function drawScope(){ var f=fit(scopeCv); if(!f) return; var g=f.g,w=f.w,h=f.h,mid=h/2;
+    g.clearRect(0,0,w,h);
+    // faint grid
+    g.strokeStyle="rgba(130,224,106,.10)"; g.lineWidth=1; g.beginPath();
+    for(var x=0;x<=w;x+=w/12){ g.moveTo(x,0); g.lineTo(x,h); }
+    for(var y=0;y<=h;y+=h/4){ g.moveTo(0,y); g.lineTo(w,y); } g.stroke();
+    g.strokeStyle="rgba(130,224,106,.22)"; g.beginPath(); g.moveTo(0,mid); g.lineTo(w,mid); g.stroke();
+    var an=null, syn=S(); try{ an=syn&&syn.analyser?syn.analyser():null; }catch(e){}
+    g.lineWidth=2; g.strokeStyle="#8ee06a"; g.shadowColor="rgba(130,224,106,.7)"; g.shadowBlur=8; g.beginPath();
+    if(an){ if(TD.length!==an.fftSize) TD=new Uint8Array(an.fftSize); an.getByteTimeDomainData(TD);
+      var step=TD.length/w;
+      for(var i=0;i<w;i++){ var v=(TD[Math.floor(i*step)]-128)/128; var yy=mid - v*(mid-6); i?g.lineTo(i,yy):g.moveTo(i,yy); } }
+    else { scT+=0.05; for(var j=0;j<w;j++){ var yy2=mid+Math.sin(j*0.035+scT)*Math.exp(-j/w*0.4)*(mid*0.28)*(0.5+0.5*Math.sin(scT*0.7)); j?g.lineTo(j,yy2):g.moveTo(j,yy2); } }
+    g.stroke(); g.shadowBlur=0;
+  }
+
+  // ---- VU needle meters ----
+  var vuCv=document.getElementById("vu"), vuL=0, vuR=0, pkL=0, pkR=0;
+  function needle(g,cx,cy,r,level,peak,label){
+    var a0=-Math.PI*0.72, a1=Math.PI*0.72; // sweep
+    // face
+    g.save();
+    // arc scale
+    g.lineWidth=2; g.strokeStyle="rgba(70,64,48,.6)"; g.beginPath(); g.arc(cx,cy,r,a0,a1); g.stroke();
+    // red zone
+    var ar=a0+(a1-a0)*0.78; g.strokeStyle="rgba(207,90,60,.85)"; g.lineWidth=3; g.beginPath(); g.arc(cx,cy,r,ar,a1); g.stroke();
+    // ticks
+    g.strokeStyle="rgba(70,64,48,.7)"; g.lineWidth=1;
+    for(var t=0;t<=10;t++){ var a=a0+(a1-a0)*t/10; var r2=t%5===0?r-8:r-4;
+      g.beginPath(); g.moveTo(cx+Math.cos(a)*r, cy+Math.sin(a)*r); g.lineTo(cx+Math.cos(a)*r2, cy+Math.sin(a)*r2); g.stroke(); }
+    // peak hold marker
+    var ap=a0+(a1-a0)*Math.min(1,peak); g.strokeStyle="rgba(230,162,60,.9)"; g.lineWidth=2;
+    g.beginPath(); g.moveTo(cx+Math.cos(ap)*(r-2), cy+Math.sin(ap)*(r-2)); g.lineTo(cx+Math.cos(ap)*(r-9), cy+Math.sin(ap)*(r-9)); g.stroke();
+    // needle
+    var an=a0+(a1-a0)*Math.min(1,level);
+    g.strokeStyle= level>0.78? "#cf5a3c":"#e6a23c"; g.lineWidth=2; g.shadowColor="rgba(230,162,60,.6)"; g.shadowBlur=6;
+    g.beginPath(); g.moveTo(cx,cy); g.lineTo(cx+Math.cos(an)*(r-3), cy+Math.sin(an)*(r-3)); g.stroke(); g.shadowBlur=0;
+    // hub + label
+    g.fillStyle="#2c2a20"; g.beginPath(); g.arc(cx,cy,4,0,7); g.fill();
+    g.fillStyle="rgba(76,70,54,.9)"; g.font="8px ui-monospace,monospace"; g.textAlign="center"; g.fillText(label,cx,cy+12);
+    g.restore();
+  }
+  function drawVU(){ var f=fit(vuCv); if(!f) return; var g=f.g,w=f.w,h=f.h; g.clearRect(0,0,w,h);
+    var an=null, syn=S(); try{ an=syn&&syn.analyser?syn.analyser():null; }catch(e){}
+    var rms=0, pk=0;
+    if(an){ if(TD.length!==an.fftSize) TD=new Uint8Array(an.fftSize); an.getByteTimeDomainData(TD);
+      for(var i=0;i<TD.length;i++){ var v=(TD[i]-128)/128; rms+=v*v; var av=Math.abs(v); if(av>pk)pk=av; }
+      rms=Math.sqrt(rms/TD.length); }
+    var lvL=Math.min(1,rms*3.2), lvR=Math.min(1,pk*1.15);
+    vuL+=(lvL-vuL)*0.25; vuR+=(lvR-vuR)*0.25;
+    pkL=Math.max(pkL*0.96, vuL); pkR=Math.max(pkR*0.96, vuR);
+    var r=Math.min(h*0.62, w*0.22), cy=h*0.72;
+    needle(g, w*0.28, cy, r, vuL, pkL, "L");
+    needle(g, w*0.72, cy, r, vuR, pkR, "R");
+    window.__clip = pk>=0.985;
+  }
+
+  // ---- indicator lamps (state read from the DOM, robust across scripts) ----
+  function txt(id){ var e=document.getElementById(id); return e?(e.textContent||""):""; }
+  function setLamp(name,on,color){ var e=document.querySelector('[data-lamp="'+name+'"]'); if(!e)return;
+    e.className="lamp"+(on?(" on "+color):""); }
+  function lamps(){
+    setLamp("play", /pause/i.test(txt("play")), "green");
+    setLamp("sega", /\bON\b/.test(txt("sega")), "amber");
+    setLamp("chop", /:\s*on/i.test(txt("chop")), "red");
+    setLamp("clip", !!window.__clip, "red");
+  }
+
+  // ---- knobs (drag / wheel / arrows → real synth params) ----
+  function expMap(v,lo,hi){ return lo*Math.pow(hi/lo, v); }
+  function apply(kind,v){ var s=S(); if(!s)return;
+    try{
+      if(kind==="master") s.setMaster(0.05+v*1.05);
+      else if(kind==="tone") s.setTone({lp: Math.round(expMap(v,700,18000))});
+      else if(kind==="space") s.setReverb({wet: +(v*0.5).toFixed(3)});
+      // "drive" is presentational for now (a saturation stage is queued for the synth pass)
+    }catch(e){}
+  }
+  function initKnob(el){
+    var kind=el.getAttribute("data-knob");
+    var def={master:0.62, tone:0.85, space:0.25, drive:0}[kind]; if(def==null)def=0.5;
+    var val=def;
+    var kv=document.querySelector('[data-kv="'+kind+'"]');
+    function render(){ el.style.setProperty("--ang",(-135+val*270)+"deg"); if(kv)kv.textContent=Math.round(val*100); el.setAttribute("aria-valuenow",Math.round(val*100)); }
+    function set(v){ val=Math.max(0,Math.min(1,v)); render(); apply(kind,val); }
+    render(); apply(kind,val);
+    var drag=false, sy=0, sv=0;
+    el.addEventListener("pointerdown",function(e){ drag=true; sy=e.clientY; sv=val; el.setPointerCapture(e.pointerId); e.preventDefault(); });
+    el.addEventListener("pointermove",function(e){ if(!drag)return; set(sv+(sy-e.clientY)/160); });
+    el.addEventListener("pointerup",function(){ drag=false; });
+    el.addEventListener("pointercancel",function(){ drag=false; });
+    el.addEventListener("wheel",function(e){ set(val - Math.sign(e.deltaY)*0.04); e.preventDefault(); },{passive:false});
+    el.addEventListener("keydown",function(e){ if(e.key==="ArrowUp"||e.key==="ArrowRight"){ set(val+0.05); e.preventDefault(); }
+      else if(e.key==="ArrowDown"||e.key==="ArrowLeft"){ set(val-0.05); e.preventDefault(); } });
+  }
+
+  function boot(){
+    var ks=document.querySelectorAll(".knob"); for(var i=0;i<ks.length;i++) initKnob(ks[i]);
+    (function loop(){ drawScope(); drawVU(); lamps(); requestAnimationFrame(loop); })();
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",boot); else boot();
+})();
 </script></body></html>

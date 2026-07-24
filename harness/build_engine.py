@@ -96,7 +96,9 @@ SHIMS = {
 def main():
     src = find_player()
     html = io.open(src, encoding="utf-8").read()
-    m = re.search(r"<script>(.*)</script>", html, re.S)
+    # non-greedy: the FIRST <script> is the engine; a later one is the UI/panel FX,
+    # which the headless harness does not need (and must not concatenate in).
+    m = re.search(r"<script>(.*?)</script>", html, re.S)
     if not m: raise SystemExit("no <script> block found in "+src)
     os.makedirs(RUN, exist_ok=True)
     io.open(os.path.join(RUN, "engine_bundle.js"), "w", encoding="utf-8").write(HEADER + m.group(1) + EPILOGUE)
