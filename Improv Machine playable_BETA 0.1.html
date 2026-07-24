@@ -335,6 +335,20 @@
       <div id="progline"></div>
     </section>
 
+    <!-- ── horns → AUM: expressive MIDI for external modeled instruments ── -->
+    <section class="mod span2">
+      <span class="tag">Horns → AUM · expressive MIDI</span>
+      <div class="row" style="margin-top:8px;">
+        <button id="exptrumpet" title="melody as a SWAM-ready MIDI file: CC11 dynamics + pitch-bend scoops/falls">↓ SWAM Trumpet (.mid)</button>
+        <button id="expsax" title="melody as an MPE MIDI file: per-note pitch bend + channel-pressure expression">↓ GeoShred Sax · MPE (.mid)</button>
+      </div>
+      <div style="color:var(--label);font-size:10px;margin-top:8px;line-height:1.6;">
+        iOS Safari can't send live MIDI, so these bake the expression into a file.
+        Load it into a MIDI-file player / sequencer AUv3 inside <b>AUM</b>, route its output to your instrument.
+        <b>Trumpet</b>: point at your SWAM Miles preset (expression = CC11). <b>Sax</b>: set GeoShred to <b>MPE</b>, pitch-bend range <b>24</b>.
+      </div>
+    </section>
+
   </div><!-- /rack -->
 </div><!-- /rig -->
 <script>
@@ -7852,6 +7866,122 @@ function exportMidi(){
   btn.disabled=false;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   EXPRESSIVE MIDI EXPORT — for external physically-modeled horns played in AUM
+   (Audio Modeling SWAM Trumpet, moForte GeoShred sax). A web page cannot send
+   live MIDI on iOS (Safari has no Web MIDI), so we bake the expression these
+   instruments need into a MIDI FILE you load into a player/sequencer inside AUM.
+
+   · SWAM Trumpet  → one channel, notes + CC11 dynamic swells (its expression
+                     controller) + pitch-bend scoops into leaps and falls at
+                     phrase ends + legato overlaps. Point it at your Miles preset.
+   · GeoShred sax  → MPE: one channel per note (2-9), each with its own pitch
+                     bend and CHANNEL PRESSURE swell (GeoShred's primary MPE
+                     expression), pitch-bend range set via RPN. Set GeoShred to MPE.
+   Own minimal Standard-MIDI-File writer so we control every byte. ═══ */
+function _vlq(n){ const b=[n&0x7f]; n=Math.floor(n/128); while(n>0){ b.unshift((n&0x7f)|0x80); n=Math.floor(n/128); } return b; }
+function _usTempo(bpm){ const us=Math.round(60000000/bpm); return [(us>>16)&0xff,(us>>8)&0xff,us&0xff]; }
+function _nameMeta(s){ const b=[...s].map(c=>c.charCodeAt(0)&0x7f); return [0xff,0x03,..._vlq(b.length),...b]; }
+function _pb(ch,v){ v=Math.max(-8192,Math.min(8191,Math.round(v))); const u=v+8192; return [0xe0|ch, u&0x7f, (u>>7)&0x7f]; }
+function _buildSMF(tracks, ppq){
+  const out=[], put=(...a)=>{for(const x of a)out.push(x&0xff);}, str=s=>{for(const c of s)out.push(c.charCodeAt(0));};
+  str("MThd"); put(0,0,0,6, 0,1, (tracks.length>>8),tracks.length, (ppq>>8),ppq);
+  for(const evs of tracks){
+    evs.sort((a,b)=>(a.tick-b.tick)||((a.ord||0)-(b.ord||0)));
+    const body=[]; let last=0;
+    for(const e of evs){ const dt=Math.max(0,Math.round(e.tick-last)); last=e.tick; body.push(..._vlq(dt),...e.bytes); }
+    body.push(..._vlq(0),0xff,0x2f,0x00);
+    str("MTrk"); put((body.length>>24),(body.length>>16),(body.length>>8),body.length); for(const b of body) out.push(b&0xff);
+  }
+  return new Uint8Array(out);
+}
+function _downloadSMF(tracks, ppq, fname){
+  const blob=new Blob([_buildSMF(tracks,ppq)],{type:"audio/midi"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=fname;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+/* pull one melodic line out of the current song (same gating as exportMidi) */
+function _collectMelody(prefRoles){
+  if(!SESSION) return null;
+  const parts=SESSION.song.parts, spans=SESSION.song.arrangement, entries=SESSION.song.entries||{};
+  const sectionAt=bar=>spans.find(s=>bar>=s.startBar && bar<s.endBar);
+  let part=null; for(const r of prefRoles){ part=parts.find(p=>p.role===r); if(part)break; }
+  if(!part) part=parts.find(p=>p.role!=="drums"&&p.role!=="pad");
+  if(!part) return null;
+  const out=[];
+  for(const n of part.notes){
+    const sec=sectionAt(n.bar); if(!sec) continue;
+    if(n.bar < ((entries[part.name])??0)) continue;
+    if(sec.activeRoles && !sec.activeRoles.includes(part.role)) continue;
+    if(n.midi==null) continue;
+    out.push({ step:n.bar*SPB_PLAY+n.step+(n.micro||0), midi:Math.round(n.midi+(sec.keyShift||0)),
+               dur:Math.max(1,n.dur||2), vel:Math.max(.05,Math.min(1,n.vel||.6)) });
+  }
+  out.sort((a,b)=>a.step-b.step);
+  return out.length?{name:part.name,notes:out}:null;
+}
+function exportSwamTrumpet(){
+  const line=_collectMelody(["lead","counter","harmony","arp"]);
+  if(!line){ alert("Generate a song with a melody first."); return; }
+  const c=SESSION.chart, ppq=480, tps=(ppq*4)/SPB_PLAY, ch=0, ev=[]; let ord=0;
+  ev.push({tick:0,ord:ord++,bytes:[0xff,0x51,0x03,..._usTempo(c.tempo)]});
+  ev.push({tick:0,ord:ord++,bytes:_nameMeta("SWAM Trumpet — "+c.genre+" seed"+c.seed)});
+  ev.push({tick:0,ord:ord++,bytes:[0xb0|ch,11,0]});
+  const N=line.notes;
+  for(let i=0;i<N.length;i++){
+    const n=N[i], t0=Math.round(n.step*tps), t1=Math.round((n.step+n.dur)*tps), dur=Math.max(20,t1-t0);
+    const nextGap=(i<N.length-1)?(N[i+1].step-(n.step+n.dur)):99;
+    const legato=nextGap<=0.5;
+    // CC11 dynamic swell (SWAM's expression controller — without it the trumpet is flat/silent)
+    const tgt=Math.round(38+n.vel*82), st=Math.round(tgt*0.55);
+    ev.push({tick:t0,ord:ord++,bytes:[0xb0|ch,11,st]});
+    ev.push({tick:t0+Math.round(dur*0.25),ord:ord++,bytes:[0xb0|ch,11,tgt]});
+    ev.push({tick:t0+Math.round(dur*0.70),ord:ord++,bytes:[0xb0|ch,11,Math.max(20,Math.round(tgt*0.9))]});
+    if(!legato) ev.push({tick:Math.max(t0+1,t1-Math.min(40,Math.round(dur*0.25))),ord:ord++,bytes:[0xb0|ch,11,Math.max(8,Math.round(tgt*0.45))]});
+    // pitch-bend scoop into leaps / phrase starts
+    const scoop=(i===0)||(i>0 && n.midi-N[i-1].midi>=4)||(i%6===0);
+    if(scoop){ ev.push({tick:Math.max(0,t0-2),ord:ord++,bytes:_pb(ch,-1600)}); ev.push({tick:t0+Math.round(dur*0.28),ord:ord++,bytes:_pb(ch,0)}); }
+    ev.push({tick:t0,ord:ord++,bytes:[0x90|ch,n.midi,Math.round(28+n.vel*92)]});
+    ev.push({tick:legato?t1+10:t1,ord:ord++,bytes:[0x80|ch,n.midi,0]});
+    // fall / doit at the end of a held phrase-ending note
+    if(nextGap>2 && dur>ppq*0.5){ ev.push({tick:t1-Math.round(dur*0.18),ord:ord++,bytes:_pb(ch,0)});
+      ev.push({tick:t1+2,ord:ord++,bytes:_pb(ch,-5200)}); ev.push({tick:t1+30,ord:ord++,bytes:_pb(ch,0)}); }
+  }
+  _downloadSMF([ev], ppq, "improv_TRUMPET_swam_"+c.genre+"_seed"+c.seed+".mid");
+}
+function exportGeoSax(){
+  const line=_collectMelody(["counter","lead","harmony","arp"]);
+  if(!line){ alert("Generate a song with a melody first."); return; }
+  const c=SESSION.chart, ppq=480, tps=(ppq*4)/SPB_PLAY, RANGE=24, ev=[]; let ord=0;
+  const members=[1,2,3,4,5,6,7,8];   // MPE member channels 2–9 (master is channel 1 / index 0)
+  ev.push({tick:0,ord:ord++,bytes:[0xff,0x51,0x03,..._usTempo(c.tempo)]});
+  ev.push({tick:0,ord:ord++,bytes:_nameMeta("GeoShred Sax MPE — "+c.genre+" seed"+c.seed)});
+  for(const ch of members){ // set pitch-bend range (RPN 0) per member channel
+    ev.push({tick:0,ord:ord++,bytes:[0xb0|ch,101,0]});  ev.push({tick:0,ord:ord++,bytes:[0xb0|ch,100,0]});
+    ev.push({tick:0,ord:ord++,bytes:[0xb0|ch,6,RANGE]}); ev.push({tick:0,ord:ord++,bytes:[0xb0|ch,38,0]});
+    ev.push({tick:0,ord:ord++,bytes:[0xb0|ch,101,127]}); ev.push({tick:0,ord:ord++,bytes:[0xb0|ch,100,127]});
+  }
+  const freeAt={}; members.forEach(m=>freeAt[m]=-1); let rr=0;
+  const N=line.notes;
+  for(let i=0;i<N.length;i++){
+    const n=N[i], t0=Math.round(n.step*tps), t1=Math.round((n.step+n.dur)*tps), dur=Math.max(20,t1-t0);
+    let ch=members.find(m=>freeAt[m]<=t0); if(ch==null){ ch=members[rr%members.length]; rr++; } freeAt[ch]=t1;
+    // scoop via per-note pitch bend
+    const scoop=(i%4===0)||(i>0 && n.midi-N[i-1].midi>=5);
+    if(scoop){ ev.push({tick:Math.max(0,t0-2),ord:ord++,bytes:_pb(ch,-Math.round(8192*(2/RANGE)))}); ev.push({tick:t0+Math.round(dur*0.3),ord:ord++,bytes:_pb(ch,0)}); }
+    else ev.push({tick:Math.max(0,t0-1),ord:ord++,bytes:_pb(ch,0)});
+    // channel pressure = MPE expression swell (GeoShred's primary expression)
+    const tgt=Math.round(48+n.vel*79), st=Math.round(tgt*0.4);
+    ev.push({tick:t0,ord:ord++,bytes:[0xd0|ch,st]});
+    ev.push({tick:t0+Math.round(dur*0.3),ord:ord++,bytes:[0xd0|ch,tgt]});
+    ev.push({tick:t0+Math.round(dur*0.75),ord:ord++,bytes:[0xd0|ch,Math.round(tgt*0.85)]});
+    ev.push({tick:Math.max(t0+1,t1-Math.min(20,Math.round(dur*0.2))),ord:ord++,bytes:[0xd0|ch,8]});
+    ev.push({tick:t0,ord:ord++,bytes:[0x90|ch,n.midi,Math.round(38+n.vel*82)]});
+    ev.push({tick:t1,ord:ord++,bytes:[0x80|ch,n.midi,0]});
+  }
+  _downloadSMF([ev], ppq, "improv_SAX_geoshred_MPE_"+c.genre+"_seed"+c.seed+".mid");
+}
+
 function play(){
   if(!SESSION) newSong();
   Synth.ensure(); Synth.ensurePump(); Synth.initOPN2(); Synth.resume();
@@ -8081,6 +8211,8 @@ window.addEventListener("DOMContentLoaded",()=>{
   document.getElementById("new").addEventListener("click",()=>{pause();newSong();});
   document.getElementById("wav").addEventListener("click",exportWav);
   document.getElementById("midi").addEventListener("click",exportMidi);
+  document.getElementById("exptrumpet").addEventListener("click",exportSwamTrumpet);
+  document.getElementById("expsax").addEventListener("click",exportGeoSax);
   document.getElementById("goseed").addEventListener("click",()=>{
     pause(); newSong(document.getElementById("seedfield").value); });
   document.getElementById("seedfield").addEventListener("keydown",e=>{
