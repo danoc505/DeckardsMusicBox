@@ -6128,11 +6128,11 @@ const TH = (typeof require!=="undefined" ? require("./09_theme.js") : null);
 const GENRES = {
   lofi:    { scales:["minor","dorian","major"],        tempo:[70,90],   feel:"boombap", forms:["binary","versechorus","strophic"], swingBias:0.5 },
   house:   { scales:["minor","major"],                 tempo:[118,128], feel:"four",    forms:["binary","strophic"],               swingBias:0.1 },
-  citypop: { scales:["major","dorian"],                tempo:[95,115],  feel:"boombap", forms:["versechorus","binary"],            swingBias:0.15 },
-  wise:    { scales:["minor","aeolian","dorian"],       tempo:[80,100],  feel:"boombap", forms:["binary","aaba"],                   swingBias:0.1 },
+  citypop: { scales:["major","dorian"],                tempo:[95,115],  feel:"boombap", forms:["versechorus","binary","rondo"],    swingBias:0.15 },
+  wise:    { scales:["minor","aeolian","dorian"],       tempo:[80,100],  feel:"boombap", forms:["binary","aaba","rondo"],          swingBias:0.1 },
   dungeon: { scales:["minor","phrygian","aeolian"],     tempo:[60,84],   feel:"sparse",  forms:["strophic","binary"],               swingBias:0 },
   ambient: { scales:["major","dorian","lydian"],        tempo:[50,72],   feel:"sparse",  forms:["strophic"],                        swingBias:0 },
-  barber:  { scales:["major","minor"],                 tempo:[70,92],   feel:"boombap", forms:["binary","strophic"],               swingBias:0.4 },
+  barber:  { scales:["major","minor"],                 tempo:[70,92],   feel:"boombap", forms:["binary","strophic","rondo"],       swingBias:0.4 },
   jungle:  { scales:["minor","aeolian"],                tempo:[160,176], feel:"breaks",  forms:["binary","strophic"],               swingBias:0.15 },
 };
 
@@ -6154,6 +6154,13 @@ const FORMS = {
   aaba: () => [
     {name:"A", role:"body", bars:8}, {name:"A", role:"body", bars:8},
     {name:"B", role:"bridge", bars:8, contrast:true}, {name:"A", role:"body", bars:8},
+  ],
+  // RONDO (ABACA): the refrain A keeps returning between contrasting episodes —
+  // a real song structure that gives more macro variety than a single loop tiled.
+  rondo: () => [
+    {name:"A", role:"body", bars:8}, {name:"B", role:"hook", bars:8},
+    {name:"A", role:"body", bars:8}, {name:"C", role:"bridge", bars:8, contrast:true},
+    {name:"A", role:"body", bars:8},
   ],
 };
 
