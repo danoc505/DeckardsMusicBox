@@ -8,6 +8,12 @@
 > **Weimar Jazz DB** (456 recorded solos) changes ingested via `corpus/ingest_wjazz.py`
 > — JAZZ_CORPUS 1361→1674; top recorded change is the blues (I7-IV7). See `LICENSING.md`
 > for why jazz harmony is clean (progressions aren't copyrightable). Next: folk (ABC) + drums.
+>
+> **Dark synthwave** harmony analysed the same way (`corpus/analyze_synthwave.py`):
+> the genre's characteristic chord progressions (i–VI–VII, "Dreamy Dystopia"
+> i–III–VI–VII, descending i–VII–VI–v, …) encoded as key-relative scale degrees and
+> weighted by how characteristic each is — embedded as `SYNTHWAVE_CORPUS`, drawn by the
+> synthwave genre via `drawSynthwaveProgression()`. Progressions only, no melodies.
 
 The engine stores only **relative** material (scale degrees, steps, durations, drum lanes),
 so the bar is: (a) can we get *symbolic* data, and (b) is the license clean for a

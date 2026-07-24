@@ -6577,6 +6577,38 @@ let BACH = (typeof globalThis!=="undefined" && globalThis.BACH_CORPUS) || null;
 if(!BACH && typeof require!=="undefined"){
   try{ BACH = require("./bach_corpus.json"); }catch(e){ BACH = null; }
 }
+/* ── SYNTHWAVE HARMONY CORPUS — analysed the same way as the jazz set: the
+   characteristic chord progressions of dark synthwave (Perturbator/darksynth) in
+   scale-degree form (minor: 0=i, 2=bIII, 3=iv, 4=v, 5=bVI, 6=bVII). Chord
+   progressions aren't copyrightable — this is the genre's documented harmonic
+   grammar (triadic, minor, loop-driven, stepwise bVI–bVII motion, the "Dreamy
+   Dystopia" i–III–VI–VII, descending darksynth lines, occasional lush add9).
+   Provenance + sources: corpus/analyze_synthwave.py, docs/CORPUS_SOURCES.md. ── */
+if(typeof globalThis!=="undefined" && !globalThis.SYNTHWAVE_CORPUS){
+  const P=(n,arr)=>({m:"minor",n,c:arr.map(a=>({d:a[0],q:a[1]}))});
+  globalThis.SYNTHWAVE_CORPUS={ source:"dark-synthwave harmonic analysis (chord progressions only, no melodies)",
+    progressions:[
+      P(100,[[0,"min"],[5,"maj"],[6,"maj"]]),               // i–VI–VII, the anthem
+      P(80,[[0,"min"],[6,"maj"],[5,"maj"]]),                // i–VII–VI
+      P(90,[[0,"min"],[5,"maj"],[6,"maj"],[0,"min"]]),      // i–VI–VII–i
+      P(85,[[0,"m9"],[2,"maj"],[5,"maj"],[6,"maj"]]),       // i–III–VI–VII "Dreamy Dystopia"
+      P(60,[[0,"min"],[5,"maj"],[2,"maj"],[6,"maj"]]),      // i–VI–III–VII
+      P(55,[[0,"min"],[6,"maj"],[5,"maj"],[6,"maj"]]),
+      P(50,[[0,"min"],[3,"min"],[5,"maj"],[6,"maj"]]),      // i–iv–VI–VII
+      P(45,[[0,"min"],[3,"min"],[6,"maj"],[2,"maj"]]),
+      P(48,[[0,"min"],[5,"maj"],[3,"min"],[6,"maj"]]),
+      P(40,[[0,"min"],[4,"min"],[5,"maj"],[3,"min"]]),
+      P(60,[[5,"maj"],[6,"maj"],[0,"min"]]),                // VI–VII–i (rise into the drop)
+      P(44,[[0,"min"],[6,"maj"],[2,"maj"],[5,"maj"]]),
+      P(50,[[0,"min"],[6,"maj"],[5,"maj"],[4,"min"]]),      // descending darksynth
+      P(38,[[0,"min"],[5,"maj"],[6,"maj"],[4,"min"]]),
+      P(36,[[0,"sus2"],[5,"maj"],[3,"min"],[6,"maj"]]),
+      P(42,[[0,"min"],[2,"maj"],[6,"maj"],[5,"maj"]]),
+      P(30,[[0,"min"],[3,"min"],[4,"min"],[0,"min"]]),      // minor plagal loop
+      P(35,[[0,"m9"],[5,"maj9"],[2,"maj"],[6,"maj"]]),      // lush pad variant
+    ]};
+}
+let SYNTH = (typeof globalThis!=="undefined" && globalThis.SYNTHWAVE_CORPUS) || null;
 /* JAZZ: 2,817 Real Book tunes, progressions only. Weighted by how often each
    actually occurs, so common turnarounds come up more than curiosities —
    the same way a player reaches for a ii-V-I before an oddity. */
@@ -6603,6 +6635,7 @@ const GENRE_HARMONY = {
   jungle:  { sev:0.30, fif:0.35, stp:0.40, loop:1.0, mv:2 },  // harmony stays out of the way
   dungeon: { sev:0.15, fif:0.30, stp:0.60, loop:1.0, mv:3 },  // modal, stepwise
   ambient: { sev:0.40, fif:0.20, stp:0.55, loop:1.0, mv:2 },  // drifting, no cadence
+  synthwave:{ sev:0.15, fif:0.30, stp:0.50, loop:1.0, mv:3 }, // triadic, minor, loop-driven, stepwise VI-VII
 };
 function harmonyFit(ch, want){
   if(!ch || !want) return 1;
@@ -6631,6 +6664,17 @@ function drawJazzProgression(rng, mode, genreName){
   return use[use.length-1].c.map(x=>({d:x.d, q:x.q}));
 }
 
+/* draw a dark-synthwave progression, weighted by how characteristic it is */
+function drawSynthwaveProgression(rng){
+  if(!SYNTH || !SYNTH.progressions || !SYNTH.progressions.length || noCorpus()) return null;
+  const use = SYNTH.progressions;
+  const weights = use.map(p=>Math.sqrt(p.n));
+  let total=0; for(const w of weights) total+=w;
+  if(total<=0) return use[0].c.map(x=>({d:x.d, q:x.q}));
+  let r=rng()*total;
+  for(let i=0;i<use.length;i++){ r-=weights[i]; if(r<=0) return use[i].c.map(x=>({d:x.d, q:x.q})); }
+  return use[use.length-1].c.map(x=>({d:x.d, q:x.q}));
+}
 function drawBachProgression(rng, mode){
   if(!BACH || !BACH.progressions || !BACH.progressions.length) return null;
   if(noCorpus() || rng() > 0.45) return null;
@@ -6800,6 +6844,8 @@ function conduct(seed, overrides){
       return 4;
     })(),
     _realProg: (function(){
+      // synthwave draws from its OWN analysed harmonic corpus (like jazz has its own)
+      if(genreName==="synthwave"){ const sp=drawSynthwaveProgression(rng); if(sp) return sp; }
       const jazzy = ["lofi","citypop","barber","wise","house"].indexOf(genreName)>=0;
       const p = (jazzy || rng()<0.5) ? drawJazzProgression(rng, scale, genreName) : null;
       if(p && rng()<0.7) return p;
