@@ -6083,13 +6083,23 @@ function recombine(dims, opts){
   if(!cEntry) return null;
   const moves = fitContour(cEntry.v, Math.max(1, rhythm.length-1));
 
-  // realise: the combined phrase, repeated to fill the span, corrected to key
-  // and chord exactly as a flipped phrase is
-  const pads = [{ rhythm, moves, entry: moves[0] || 1 }];
+  // realise: build the loop as ANTECEDENT + cadential CONSEQUENT — a question, then
+  // an answer that settles — joined function-to-function (SPEAC), not one shape
+  // tiled. A "cadence" contour ends stepwise and overall descends, coming to rest.
+  const isCad = c => { const v=c.v; return v.length>=2 && v[v.length-1]<=0 &&
+                       Math.abs(v[v.length-1])<=2 && v.reduce((a,b)=>a+b,0)<=0; };
+  const cadPool = cPool.filter(isCad);
+  const cadEntry = cadPool.length
+      ? (want&&want.src ? wpick(rng, cadPool.map(c=>[c,(want.src[c.s]||1)]))
+                        : cadPool[Math.floor(rng()*cadPool.length)])
+      : cEntry;
+  const movesB = fitContour(cadEntry.v, Math.max(1, rhythm.length-1));
+  const pads = [{ rhythm, moves,        entry: moves[0]  || 1 },     // antecedent (the question)
+                { rhythm, moves: movesB, entry: movesB[0] || 1 }];   // cadential consequent (the answer)
   const reps = Math.max(2, Math.ceil((nBars*16) / Math.max(4, rhythm.reduce((a,b)=>a+b,0))));
-  const order = new Array(Math.min(reps, 24)).fill(0);
+  const order = []; for(let i=0;i<Math.min(reps,24);i++) order.push(i%2);   // A B A B — function at each seam
   const notes = realiseFlip(pads, order, { scale, root, LO, HI, nBars, startBar, chordAt, rng });
-  return { notes, rhythmFrom: rEntry.s, contourFrom: cEntry.s,
+  return { notes, rhythmFrom: rEntry.s, contourFrom: cEntry.s, cadenceFrom: cadEntry.s,
            rhythm, moves };
 }
 
