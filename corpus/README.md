@@ -41,6 +41,12 @@ these scripts regenerate those literals in place.
   transcriptions of copyrighted performances). JAZZ_CORPUS 1361->1674; the top recorded
   change is the blues (I7-IV7), a flavor lead sheets under-represent. See `../docs/LICENSING.md`.
 
+- **`ingest_wjazz_solos.py`** — jazz-solo PHRASING as ABSTRACT dimensions from WJazzD.
+  Splits each real jazz phrase into a rhythm and a contour and stores them in SEPARATE
+  pools (s="wjazz", role="lead"), so recombination pairs a jazz rhythm with some other
+  source's shape and no solo is ever reproduced (the `LICENSING.md` rationale, made literal).
+  across pool: rhythms 1300->2308, contours 2200->3647.
+
 ## Next (see ../docs/CORPUS_SOURCES.md)
 
 Folk melodic shapes from thesession.org / more ABC trad (pre-1930 PD) → `FOLK_CORPUS`
