@@ -5612,13 +5612,17 @@ function buildCounter(voice, chart, chords, perception, rng){
   } else {
     answer={ rhythm: pick(rng,[[2,2,12],[4,4,8],[2,2,4,8]]), moves:[wpick(rng,[[1,3],[-1,3],[2,2],[-2,2]])] };
   }
+  // REGISTER SUPPORT: reply in the biggest OPEN register the others leave (perceived),
+  // so the answer holds up the lead from a clear space instead of crowding it.
+  const _space = perception.register && perception.register.biggestSpace;
+  const _spaceRef = _space ? clamp(T.fold(Math.round((_space.from+_space.to)/2),LO,HI),LO,HI) : null;
   const notes=[];
   for(let bar=entry; bar<nBars; bar++){
     const lb=(bar-entry)%loop;
     if(!slots.includes(lb)) continue;
     const chord=chords[bar%chords.length]||{root};
     const tones=chordToneMidis(chord, root, scale, LO, HI);
-    let m=nearestTone(tones[Math.floor(tones.length/2)], tones), step=0;
+    let m=nearestTone(_spaceRef!=null?_spaceRef:tones[Math.floor(tones.length/2)], tones), step=0;
     answer.rhythm.forEach((dur,k)=>{
       if(k>0){ const mv=answer.moves[(k-1)%answer.moves.length]; m=T.scaleStep2(m, scale, root, mv); }
       if(step%4===0) m=nearestTone(m,tones);
