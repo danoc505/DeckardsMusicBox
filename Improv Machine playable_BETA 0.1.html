@@ -5393,6 +5393,37 @@ function ghostPass(parts, chart){
       } } }
   if(n)corrections.push({kind:"out-of-key snap", count:n});
 
+  // 3b) IN-KEY non-chord tones approached by leap AND left by leap have no
+  //     theoretic justification: a passing/neighbour tone steps in and out, an
+  //     appoggiatura steps out, an escape tone steps in — each resolves BY STEP
+  //     on one side. A dissonance leapt into and out of is the one the Melody
+  //     files reject. Snap it to the nearest tone that is BOTH in the sounding
+  //     chord and in key (within a third, never below the voice's floor).
+  //     Melodic voices only; harmony/bass voicings are never touched.
+  n=0;
+  { const MEL={lead:1,counter:1,arp:1,lowline:1};
+    const harm=parts.find(p=>p.role==="harmony");
+    const chordByBar={};
+    if(harm) for(const nt of harm.notes){ if(nt.midi==null)continue;
+      (chordByBar[nt.bar]||(chordByBar[nt.bar]=new Set())).add(pcg(nt.midi)); }
+    for(const p of parts){ if(!MEL[p.role])continue;
+      const floor=FLOORS[p.role]||50;
+      const ns=p.notes.filter(x=>x.midi!=null)
+        .sort((a,b)=>(a.bar*16+a.step)-(b.bar*16+b.step));
+      for(let i=0;i<ns.length;i++){ const nt=ns[i];
+        const chord=chordByBar[nt.bar]; if(!chord||!chord.size)continue;
+        if(!scaleSet.has(pcg(nt.midi)))continue;   // out-of-key is handled in (3)
+        if(chord.has(pcg(nt.midi)))continue;       // already a chord tone: consonant
+        const pv=ns[i-1], nx=ns[i+1];
+        if(!pv||!nx)continue;                       // need both neighbours to judge
+        if(Math.abs(nt.midi-pv.midi)<=2 || Math.abs(nx.midi-nt.midi)<=2)continue; // stepped in or out → legal NCT
+        let best=nt.midi, bd=99;
+        for(let d=-3;d<=3;d++){ const q=pcg(nt.midi+d);
+          if((nt.midi+d)>=floor && chord.has(q) && scaleSet.has(q) && Math.abs(d)<bd){ bd=Math.abs(d); best=nt.midi+d; } }
+        if(best!==nt.midi){ nt.midi=best; n++; }
+      } } }
+  if(n)corrections.push({kind:"unresolved NCT snap", count:n});
+
   // 4) UNISON COLLISIONS: same pitch, same absolute moment, different parts →
   //    the later voice is displaced up an octave (independence, no masking)
   n=0; let dropped=0;

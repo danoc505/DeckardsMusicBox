@@ -135,6 +135,36 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
   check("notes stay in-key (≥92%)", (total-outOfKey)/total>=0.92, (100*(total-outOfKey)/total).toFixed(1)+"% in-key");
 })();
 
+/* ── 8b. NON-CHORD TONES RESOLVE BY STEP: a melodic dissonance approached by
+   leap AND left by leap is not a passing/neighbour/appoggiatura/escape tone —
+   it is the unresolved dissonance the Melody files reject. The ghost snaps it to
+   a chord tone; this guards that it stays rare. (Was 6.8% of melodic notes before
+   the ghost's NCT pass; measured across all seeds.) ── */
+(function nctResolution(){
+  const MEL={lead:1,counter:1,arp:1,lowline:1};
+  let melodic=0, unjustified=0;
+  for(const {chart, song} of songs){
+    const scale=new Set(B.T.semis(chart.key.scale).map(o=>pc(chart.key.root+o)));
+    const harm=song.parts.find(p=>p.role==="harmony");
+    const chordByBar={};
+    if(harm) for(const n of harm.notes){ if(n.midi==null)continue;
+      (chordByBar[n.bar]||(chordByBar[n.bar]=new Set())).add(pc(n.midi)); }
+    for(const p of song.parts){ if(!MEL[p.role])continue;
+      const ns=p.notes.filter(x=>x.midi!=null).sort((a,b)=>(a.bar*16+a.step)-(b.bar*16+b.step));
+      for(let i=0;i<ns.length;i++){ const nt=ns[i]; melodic++;
+        const chord=chordByBar[nt.bar]; if(!chord||!chord.size)continue;
+        if(!scale.has(pc(nt.midi))) continue;      // out-of-key: a different guard
+        if(chord.has(pc(nt.midi))) continue;       // chord tone: consonant
+        const pv=ns[i-1], nx=ns[i+1]; if(!pv||!nx) continue;
+        if(Math.abs(nt.midi-pv.midi)<=2 || Math.abs(nx.midi-nt.midi)<=2) continue; // stepped in or out
+        unjustified++;
+      } }
+  }
+  const pct = melodic ? 100*unjustified/melodic : 0;
+  check("non-chord tones resolve by step (leap-in+leap-out ≤1%)", pct<=1.0,
+        pct.toFixed(2)+"% ("+unjustified+"/"+melodic+" melodic notes)");
+})();
+
 
 /* ── 9. ABSOLUTE REGISTERS: bass below chords below lead (the roll must LOOK right) ── */
 (function registers(){

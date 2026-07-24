@@ -59,21 +59,32 @@ The two sampling checks (`the band steps aside…`, `…high-passed so our bass 
 
 ## Findings
 
-### 1. Real & measured — the one to fix
+### 1. Non-chord-tone resolution — FIXED (measured) ✅
 
-**Non-chord tones do not resolve by step (unenforced HARD law).**
-`HARD.resolvesByStep` (HTML ~line 4067) is **dead code — never called anywhere.** The
-ghost only checks *out-of-key* notes, never in-key non-chord tones. The suite has **no
-test** for it. Measured across 40 seeds (`harness/probe_nct.js`):
+`HARD.resolvesByStep` (HTML ~line 4067) was **dead code — never called**, and the suite
+had **no test** for the documented law *"non-chord tones resolve by step."*
 
-- 18.2% of melodic notes are in-key non-chord tones;
-- **57.5% of those leap away unresolved (>2 semitones) → 10.5% of ALL melodic notes.**
+Grounded in music theory ([NCT types](https://en.wikipedia.org/wiki/Nonchord_tone)): a
+passing/neighbour tone steps in and out; an appoggiatura steps out; an escape tone steps
+in — each resolves BY STEP on one side and is **legal**. The only unjustified dissonance
+is one **approached by leap AND left by leap**. That is the real defect, and it measured at
+**6.79% of all melodic notes** (981/14,454 across 40 seeds).
 
-*Honest caveat:* leaving an NCT by leap is not automatically wrong (escape tones,
-arpeggiated 7ths, blue notes). This flags an **unenforced, untested law**; whether 10.5%
-is audibly a defect is a call for your ears. Fix = wire a resolve-by-step preference into
-the melody engine (SOFT weight, or HARD reject for accented NCTs) **and add a standing
-test**, then re-run the probe and confirm the number moves.
+**Fix:** a ghost sub-pass (new section 3b in `ghostPass`, the codebase's own idiom — section
+3 already snaps out-of-key non-resolvers) snaps a leap-in/leap-out in-key NCT to the nearest
+tone that is both in the sounding chord and in key (within a third, never below the voice's
+floor). Melodic voices only; harmony/bass voicings are never touched; it runs before the
+unison pass so side effects are cleaned.
+
+**Measured result:** unjustified NCTs **6.79% → 0.12%** (981 → 17 notes) — a 98% drop. The
+"loose" left-by-leap metric fell 10.4% → 4.0%, and the remainder is *legal* escape
+tones/appoggiaturas (correctly preserved). **No regressions:** suite still green on every
+music law (chords-above-bass 0/40, lead-above-chord 0/40, in-key 98.6%, ghost invariants 0).
+A **standing test** now guards it (`tests.js` §8b, threshold ≤1%): passes at 0.12% with the
+fix, would fail at 6.79% without it. Reproduce: `node harness/run/probe_nct.js`.
+
+*Note on porting:* the change lives in the engine inside the HTML (the only source here). If
+the real numbered-module tree is restored, port section 3b into `08_ghost.js` and rebundle.
 
 ### 2. Prime-directive (baked-in) — two minor violations
 
