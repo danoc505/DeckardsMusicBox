@@ -1,5 +1,9 @@
 # More music for the corpora — copyright-free sources (licensing-aware)
 
+> **Status:** Bach chorales (382, PD) ingested — see `corpus/ingest_bach.py`. Bach
+> voice-lines 700→2200 and across-pool contours 700→2200; validated at 76.0% stepwise
+> vs Bach's 77.3%. Next: folk (ABC) and Groove MIDI drums.
+
 The engine stores only **relative** material (scale degrees, steps, durations, drum lanes),
 so the bar is: (a) can we get *symbolic* data, and (b) is the license clean for a
 **shippable** product. Public-domain *compositions* are safe even inside a packaged

@@ -73,6 +73,12 @@ module.exports = {
   makeRng, T, pick, wpick, HARD, SOFT,
   conduct, composeSong, improvise,
   ghostPass: (typeof ghostPass!=='undefined'? ghostPass : undefined),
+  // corpora (for corpus tooling / ingestion measurement)
+  IMPROV_CORPUS: (typeof IMPROV_CORPUS!=='undefined'? IMPROV_CORPUS : undefined),
+  BACH_CORPUS:   (typeof BACH_CORPUS!=='undefined'?   BACH_CORPUS   : undefined),
+  JAZZ_CORPUS:   (typeof JAZZ_CORPUS!=='undefined'?   JAZZ_CORPUS   : undefined),
+  FOLK_CORPUS:   (typeof FOLK_CORPUS!=='undefined'?   FOLK_CORPUS   : undefined),
+  IMPROV_DIMENSIONS: (typeof IMPROV_DIMENSIONS!=="undefined"? IMPROV_DIMENSIONS : undefined),
 };
 """
 
