@@ -86,17 +86,17 @@ fix, would fail at 6.79% without it. Reproduce: `node harness/run/probe_nct.js`.
 *Note on porting:* the change lives in the engine inside the HTML (the only source here). If
 the real numbered-module tree is restored, port section 3b into `08_ghost.js` and rebundle.
 
-### 2. Prime-directive (baked-in) — two minor violations
+### 2. Prime-directive (baked-in) — two minor violations — FIXED ✅
 
-- **Fixed 4-tom entrance fill** — `composeSong` ~6504–6509 pushes an identical descending
-  tom fill (lanes, steps 12–15, pitches `[50,48,45,41]`, flat velocity) on every
-  non-breaks entrance, consulting **no RNG** — even though the drum engine's own
-  `fillBar()` (~4887) is fully seeded. Visible directly in the roll (seed 11, bar 1).
-  Different seed → bit-identical fill. Fix: route entrance fills through `fillBar()`.
-- **Hardcoded opening-companion order** — `arrangeSections` ~6722 picks the starter's
-  companions from a fixed list `["drums","harmony","bass","lead","pad","arp","counter"]`
-  instead of a weighted draw. The *opener* stays seed-random; the companion order does
-  not. Fix: `wpick` over the resting roles.
+- **Fixed 4-tom entrance fill** — the entrance fill pushed an identical descending tom fill
+  (`[50,48,45,41]`, flat velocity) on every non-breaks entrance, consulting **no RNG**.
+  **Fixed:** the fill now derives a seeded RNG (`makeRng(hashName(seed,"fill"+bar))`) and
+  rolls the toms up or down, dropping hits by chance. Measured: **20 distinct fill
+  signatures across 20 seeds** (was 1); determinism preserved.
+- **Hardcoded opening-companion order** — the opening companions were chosen from a fixed
+  priority list `["drums","harmony","bass",…]`. **Fixed:** a seeded `wpick` over the
+  arrived roles with soft weights (drums/harmony/bass likelier, but the seed decides).
+  Measured: **8 distinct opening lineups across 20 seeds** (was ~1); determinism preserved.
 
 ### 3. Solid — confirmed by measurement (no action)
 
@@ -112,10 +112,10 @@ the real numbered-module tree is restored, port section 3b into `08_ghost.js` an
 
 ### 4. Latent traps (cheap hygiene)
 
-- Dead `chooseContrary` with a `Math.random()` (~5320) would break seed-determinism if
-  ever wired in. Delete it.
-- Documented "nothing thin >4s" is coded as ~9s (`maxSoloBars=floor(9/secsPerBar)`,
-  ~6688). Align the constant or the doc.
+- Dead `chooseContrary` with a `Math.random()` would break seed-determinism if ever wired
+  in. **Deleted ✅** (removed, not buried).
+- Documented "nothing thin >4s" is coded as ~9s (`maxSoloBars=floor(9/secsPerBar)`). Align
+  the constant or the doc. *(open — measured to 0 in practice, so cosmetic.)*
 
 ---
 

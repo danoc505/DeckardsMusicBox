@@ -2,7 +2,10 @@
 
 > **Status:** Bach chorales (382, PD) ingested — see `corpus/ingest_bach.py`. Bach
 > voice-lines 700→2200 and across-pool contours 700→2200; validated at 76.0% stepwise
-> vs Bach's 77.3%. Next: folk (ABC) and Groove MIDI drums.
+> vs Bach's 77.3%. **Jazz Harmony Treebank** (1170 standards) ingested via
+> `corpus/ingest_jazz.py` — progressions 600->1361, cadences 120->238, 93% seventh-chord
+> share (chord progressions are non-copyrightable; melodies were NOT taken).
+> Next: folk (ABC) and Groove MIDI drums.
 
 The engine stores only **relative** material (scale degrees, steps, durations, drum lanes),
 so the bar is: (a) can we get *symbolic* data, and (b) is the license clean for a

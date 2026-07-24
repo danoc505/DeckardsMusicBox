@@ -27,6 +27,15 @@ these scripts regenerate those literals in place.
       python3 corpus/ingest_bach.py         # inject into the HTML
       # then: python3 harness/build_engine.py && (cd harness/run && node tests.js)
 
+- **`ingest_jazz.py`** — Jazz Harmony Treebank (1170 standards; EPFL DCMLab). Windows each
+  tune's real changes into short progressions, converts to relative `{m,c:[{d,q}],n,ch}`,
+  frequency-weights by recurrence, and expands `JAZZ_CORPUS` (600->1361 progressions). Only
+  chord PROGRESSIONS are taken (not copyrightable; melodies are protected and were not
+  touched); our own relative encoding is stored, not the source file. Validation: 93%
+  seventh-chord share, top change = iii-VI-ii-V (a jazz turnaround).
+
+      python3 corpus/ingest_jazz.py --dry / python3 corpus/ingest_jazz.py
+
 ## Next (see ../docs/CORPUS_SOURCES.md)
 
 Folk melodic shapes from thesession.org / more ABC trad (pre-1930 PD) → `FOLK_CORPUS`
