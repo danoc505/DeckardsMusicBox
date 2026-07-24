@@ -5616,15 +5616,25 @@ function buildCounter(voice, chart, chords, perception, rng){
   // so the answer holds up the lead from a clear space instead of crowding it.
   const _space = perception.register && perception.register.biggestSpace;
   const _spaceRef = _space ? clamp(T.fold(Math.round((_space.from+_space.to)/2),LO,HI),LO,HI) : null;
+  // IMITATE moves = the lead's contour kept (echo); OPPOSE moves = answer.moves (inverted, above)
+  const imitateMoves = (leadMotif && leadMotif.intervals && leadMotif.intervals.length)
+    ? leadMotif.intervals.map(iv=>{ const s=Math.sign(iv)||1; return s*Math.max(1,Math.min(3,Math.round(Math.abs(iv)/2)||1)); })
+    : null;
   const notes=[];
   for(let bar=entry; bar<nBars; bar++){
     const lb=(bar-entry)%loop;
     if(!slots.includes(lb)) continue;
+    // THE COUNTER DECIDES how to relate to the lead THIS phrase (Rowe/Lewis: a
+    // repertoire of inter-part relationships — imitate / oppose / lay out — chosen
+    // per phrase, not one fixed reaction). "Lay out" (leave space) is a real reply.
+    const rel = leadMotif ? wpick(rng,[["oppose",4],["imitate",3],["layout",2]]) : "oppose";
+    if(rel==="layout") continue;                                   // the space itself is the answer
+    const useMoves = (rel==="imitate" && imitateMoves) ? imitateMoves : answer.moves;
     const chord=chords[bar%chords.length]||{root};
     const tones=chordToneMidis(chord, root, scale, LO, HI);
     let m=nearestTone(_spaceRef!=null?_spaceRef:tones[Math.floor(tones.length/2)], tones), step=0;
     answer.rhythm.forEach((dur,k)=>{
-      if(k>0){ const mv=answer.moves[(k-1)%answer.moves.length]; m=T.scaleStep2(m, scale, root, mv); }
+      if(k>0){ const mv=useMoves[(k-1)%useMoves.length]; m=T.scaleStep2(m, scale, root, mv); }
       if(step%4===0) m=nearestTone(m,tones);
       m=clamp(T.fold(m,LO,HI),LO,HI);
       notes.push({bar, step, midi:m, dur, vel:.42});
