@@ -7319,7 +7319,12 @@ function arrangeSections(chart, session, rng){
       // the MOMENT is the payoff — give it a strict energy bump so it's the single
       // loudest, latest peak (not merely tied with an earlier held peak).
       energy: active.length + (lift?0.5:0) + (event==="moment"?1:0),
-      keyShift: sec.contrast ? pick(rng,[5,-2,3]) : 0 });
+      // #4 GLOBAL MELODIC CLIMAX: the lead soars an octave at the payoff so the melody
+      // itself arcs to a peak (not just the dynamics). Register-capped in scheduling.
+      leadLift: (event==="moment") ? 12 : 0,
+      // #3 HARMONIC JOURNEY: the payoff MODULATES up a whole step (the classic
+      // final-chorus lift) so the song leads somewhere harmonically, not just a loop.
+      keyShift: sec.contrast ? pick(rng,[5,-2,3]) : (event==="moment" ? 2 : 0) });
     prevActive=active; prevEvent=event;
   }
 
@@ -7410,7 +7415,12 @@ function buildSession(seed, overrides){
       } else {
         let inst=(GENRE_INST[chart.genre]&&GENRE_INST[chart.genre][p.role]) || INST_MAP[p.role] || "sine";
         if(p.role==="pad" && MODAL_GENRES[chart.genre]) inst="modal";
-        events.push({step, kind:"note", inst, role:p.role, midi:n.midi+keyShift,
+        // #4 melodic climax: lift the lead voices an octave at the payoff, capped so
+        // it soars without screaming (drops back an octave if it would go past ~86).
+        let climax = (sec.leadLift && (p.role==="lead"||p.role==="counter")) ? sec.leadLift : 0;
+        let m = n.midi + keyShift + climax;
+        if(climax) m = Math.min(m, 88);      // soar, but clamp the very top so it doesn't shriek
+        events.push({step, kind:"note", inst, role:p.role, midi:m,
                      dur:(n.dur||2)*tickDur(), vel:(n.vel||0.5)*lift*dyn, micro:n.micro||0});
       }
     }
