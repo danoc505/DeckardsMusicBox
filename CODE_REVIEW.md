@@ -126,6 +126,10 @@ the real numbered-module tree is restored, port section 3b into `08_ghost.js` an
   onset-repeat invariant (drops it below the 0.9 threshold). Reverted rather than shipped;
   the proper fix reworks the texture generator to stay voicing-structure-stable, then re-adds
   the variants. The metric makes the number visible so that rework can be measured.
+- **loop->song / structure recombination DONE ✅** — `corpus/build_structure.py` harvests
+  real song forms (AABA/ABAC/AB…) from the standards by section-repetition detection; the
+  conductor now recombines real macro structure (repeated to song length so the story arc
+  holds: moment 34/38, drops 34/38). See docs.
 - Documented "nothing thin >4s" is coded as ~9s (`maxSoloBars=floor(9/secsPerBar)`). Align
   the constant or the doc. *(open — measured to 0 in practice, so cosmetic.)*
 

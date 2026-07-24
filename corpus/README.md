@@ -67,6 +67,13 @@ these scripts regenerate those literals in place.
   and IDEMPOTENT (strips prior grammar and regenerates). The recombination/harmony draw uses
   them like any other entry.
 
+- **`build_structure.py`** — harvests real song FORMS from the 1,170 Jazz Treebank
+  standards by detecting which 8-bar sections repeat (AABA, ABAC, AB, AAB-blues...) --
+  read off the chord structure like a musician reads a lead sheet. Stores 19 recombinant
+  forms (with repetition) as IMPROV_FORMS; the conductor draws one (frequency-weighted,
+  ~50%) and repeats the head to full length, so songs get REAL macro structure, not just a
+  loop tiled. Only progressions used (non-copyrightable). Idempotent.
+
 ## Next (see ../docs/CORPUS_SOURCES.md)
 
 Folk melodic shapes from thesession.org / more ABC trad (pre-1930 PD) → `FOLK_CORPUS`
