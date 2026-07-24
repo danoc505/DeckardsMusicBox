@@ -11,11 +11,12 @@ is reproducible with `harness/` (see the bottom of this file).*
   suite against the shipped engine: **75 passed / 20 failed**, and **all 20 failures are
   environmental** — absent `node_modules`, un-checked-in sampling modules, and corpora.
   **Zero music-logic regressions.** Every physics/loop/story/theme/groove check passes.
-- **One real, measurable gap:** the documented HARD law *"non-chord tones resolve by
-  step"* is **not enforced and not tested**. Measured: **10.5% of all melodic notes** are
-  non-chord tones that leap away unresolved (across 40 seeds, 14,454 notes).
-- **Two minor baked-in violations** of the prime directive (a fixed entrance drum fill; a
-  hardcoded opening-companion order). Both are small and shovel-ready.
+- **One real, measurable gap — now FIXED:** the documented HARD law *"non-chord tones
+  resolve by step"* was **not enforced and not tested**. The unjustified case (leap-in +
+  leap-out) measured **6.79% of melodic notes**; a ghost sub-pass drops it to **0.12%**,
+  now guarded by a standing test. See finding #1.
+- **Two minor baked-in violations — now FIXED** (a fixed entrance drum fill; a hardcoded
+  opening-companion order), plus the bass/harmony register overlap. See findings #2, #4.
 - Several concerns from a code-only read **measured to zero in practice** and are *not*
   real problems (register overlap; thin intros). Reporting them as bugs would have been
   the exact "statistics that agree with themselves" mistake the project warns about.
@@ -114,6 +115,9 @@ the real numbered-module tree is restored, port section 3b into `08_ghost.js` an
 
 - Dead `chooseContrary` with a `Math.random()` would break seed-determinism if ever wired
   in. **Deleted ✅** (removed, not buried).
+- **Bass/harmony register overlap FIXED ✅** — `BASS_CEIL` was `50` while harmony floor is
+  `50` (the code comment said "bass tops at 48"), so a chord could touch the bass ceiling and
+  read as an inversion. Set `BASS_CEIL=48` for a clean gap; restored `chords above bass 0/40`.
 - Documented "nothing thin >4s" is coded as ~9s (`maxSoloBars=floor(9/secsPerBar)`). Align
   the constant or the doc. *(open — measured to 0 in practice, so cosmetic.)*
 

@@ -36,6 +36,11 @@ these scripts regenerate those literals in place.
 
       python3 corpus/ingest_jazz.py --dry / python3 corpus/ingest_jazz.py
 
+- **`ingest_wjazz.py`** — Weimar Jazz Database (456 real recorded solos; SQLite). Takes
+  ONLY the beat-wise chord CHANGES (non-copyrightable), not the solo melodies (those are
+  transcriptions of copyrighted performances). JAZZ_CORPUS 1361->1674; the top recorded
+  change is the blues (I7-IV7), a flavor lead sheets under-represent. See `../docs/LICENSING.md`.
+
 ## Next (see ../docs/CORPUS_SOURCES.md)
 
 Folk melodic shapes from thesession.org / more ABC trad (pre-1930 PD) → `FOLK_CORPUS`
