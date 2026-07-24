@@ -7209,6 +7209,21 @@ function composeSong(conductorChart, rng){
   // so it never disturbs the pitch physics the ghost just settled.
   const groove = makeGroove(chart, rng);
   const grooveInfo = applyGroove(session.parts, chart, groove, rng);
+  // FORAGER-STYLE MUTUAL COUPLING — the band COMPS to the lead (research-grounded:
+  // Voyager couples a voice's parameters to running stats of the others; "leave space
+  // for the soloist"). Every SUPPORTING voice ducks where the lead is busy and lifts a
+  // touch where it rests. Velocity-only, so it never disturbs the stored texture/pitch.
+  (function compToLead(){
+    const lead = session.parts.find(p=>p.role==="lead"); if(!lead) return;
+    const leadPerBar = {}; for(const n of lead.notes){ if(n.midi==null) continue; leadPerBar[n.bar]=(leadPerBar[n.bar]||0)+1; }
+    const bars = Object.keys(leadPerBar); if(!bars.length) return;
+    const avg = bars.reduce((a,b)=>a+leadPerBar[b],0)/bars.length;
+    const SUPPORT = {harmony:1, pad:1, arp:1, counter:1};
+    for(const p of session.parts){ if(!SUPPORT[p.role]) continue;
+      for(const n of p.notes){ const busy=leadPerBar[n.bar]||0;
+        const f = busy>avg*1.3 ? 0.82 : (busy<avg*0.5 ? 1.12 : 1.0);   // duck when lead busy, lift when it rests
+        n.vel = Math.max(0.05, Math.min(1, (n.vel!=null?n.vel:0.5)*f)); } }
+  })();
   // FINAL bass-register guard: the groove/loop-variation layer can octave-shift a
   // later-loop bass note past its bounds — the HARD register law holds regardless.
   for(const p of session.parts){ if(p.role!=="bass")continue;
