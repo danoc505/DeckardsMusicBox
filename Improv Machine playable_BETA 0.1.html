@@ -4516,7 +4516,13 @@ function harmonyEngine(chart, perception, rng){
     const rq = realProg ? (realProg[slotIdx % realProg.length]||{}).q : null;
     const wantSeventh = rq ? (rq==="min7"||rq==="dom7"||rq==="maj7") : TEX.seventh;
     const tones = T.chordTones(scale, deg, wantSeventh?4:3, root);
-    const voiced = chooseVoicing(tones, prevVoicing, center, rng);
+    // ONE voicing per chord, chosen once (voice-led vs the running previous chord)
+    // then stored and reused — so the texture repeats bar-to-bar while the inversions
+    // buy smoother voice-leading around the progression cycle.
+    const _vk = deg+":"+(wantSeventh?1:0);
+    if(!chart._voicingCache) chart._voicingCache={};
+    const voiced = chart._voicingCache[_vk] ||
+                   (chart._voicingCache[_vk]=chooseVoicing(tones, prevVoicing, center, rng));
     prevVoicing = voiced;
 
     const rel=stepsPerSlot, base0=slot*stepsPerSlot;
@@ -4631,7 +4637,13 @@ function chooseVoicing(tones, prevVoicing, center, rng){
   const candidates=[];
   // generate close-position stacks anchored at a range of low notes
   for(let lowAnchor=center-12; lowAnchor<=center-2; lowAnchor++){
-    const v=closeStack(tones, lowAnchor);
+   for(let inv=0; inv<Math.max(1,tones.length); inv++){
+    // INVERSIONS: rotate which chord tone sits on the bottom. Still close-position
+    // — the spacing structure stays stable, so the stored texture tiles the same —
+    // but a different inversion lets the voice-leading below pick smoother motion
+    // between chords (open/drop voicings would destabilise the texture; inversions do not).
+    const rot = inv ? tones.slice(inv).concat(tones.slice(0,inv)) : tones;
+    const v=closeStack(rot, lowAnchor);
     if(v[0]<FLOOR) continue;                            // REJECT: below the bass's territory
     if(!HARD.voiceSpacing(v)) continue;                 // REJECT strays
     // REJECT semitone clusters. Tonal, used as an independent judge, could not
@@ -4658,6 +4670,7 @@ function chooseVoicing(tones, prevVoicing, center, rng){
     if(prevVoicing){ const n=Math.min(v.length,prevVoicing.length);
       for(let k=0;k<n;k++) motion -= Math.abs(v[v.length-1-k]-prevVoicing[prevVoicing.length-1-k]); }
     candidates.push([v, common*3 + topCloseness + motion*0.5]);
+   }
   }
   if(!candidates.length){ let f=closeStack(tones, center-6); while(f[0]<50)f=f.map(m=>m+12); return f; } // fallback obeys the floor
   // prefer the voicing whose voices move by step from the last chord, in the

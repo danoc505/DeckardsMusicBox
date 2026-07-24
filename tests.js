@@ -189,8 +189,9 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
     }
   }
   const share = tot ? step/tot : 0;
-  // floor 0.30 (current baseline ~0.36); target is Bach's 0.773 — raise as voicings improve
-  check("voice-leading stepwise share (metric; target 77%)", share>=0.30,
+  // now ~82% (inversions + one-voicing-per-chord cache), right at Bach's 77.3%; floor
+  // 0.60 guards the gain — was 35.5% before the voice-leading fix
+  check("voice-leading stepwise share (metric; ~Bach 77%)", share>=0.60,
         (100*share).toFixed(1)+"% of harmony voice motions are stepwise  [Bach 77.3%]");
 })();
 
