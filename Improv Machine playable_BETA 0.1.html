@@ -1859,7 +1859,7 @@ const OPN2_PATCHES = {
                                [0x01,0x18,0x1F,0x08,0x04,0x3A,0],
                                [0x01,0x22,0x1F,0x09,0x04,0x2A,0],
                                [0x01,0x00,0x1F,0x0A,0x05,0x1A,0]] },
-  lead:    { alg:4, fb:6, ops:[[0x31,0x25,0x1F,0x0D,0x02,0x2A,0],
+  lead:    { alg:4, fb:6, pms:3, ops:[[0x31,0x25,0x1F,0x0D,0x02,0x2A,0],
                                [0x01,0x00,0x1D,0x08,0x02,0x1A,0],
                                [0x32,0x28,0x1F,0x0C,0x02,0x2A,0],
                                [0x01,0x00,0x1D,0x09,0x02,0x1A,0]] },
@@ -1867,7 +1867,7 @@ const OPN2_PATCHES = {
                                [0x0D,0x2D,0x99,0x05,0x02,0x11,0],
                                [0x33,0x26,0x5F,0x05,0x02,0x11,0],
                                [0x01,0x00,0x94,0x07,0x02,0xA6,0]] },
-  pad:     { alg:7, fb:2, ops:[[0x01,0x2E,0x14,0x06,0x02,0x28,0],
+  pad:     { alg:7, fb:2, pms:2, ams:1, ops:[[0x01,0x2E,0x14,0x06,0x02,0x28,0],
                                [0x02,0x30,0x13,0x06,0x02,0x28,0],
                                [0x04,0x32,0x12,0x06,0x02,0x28,0],
                                [0x01,0x2C,0x11,0x06,0x02,0x28,0]] },
@@ -1883,6 +1883,35 @@ const OPN2_PATCHES = {
                                [0x01,0x14,0x1F,0x0A,0x03,0x3A,0],
                                [0x12,0x20,0x1F,0x0C,0x03,0x2A,0],
                                [0x01,0x08,0x1F,0x0A,0x03,0x1A,0]] },
+  /* ── expanded voice set — DX-flavored FM instruments the genres draw on ── */
+  epiano:  { alg:5, fb:3, pms:1, ops:[[0x01,0x2A,0x1F,0x0E,0x06,0x2A,0],   /* tine mod */
+                                      [0x01,0x00,0x1F,0x0C,0x05,0x2A,0],   /* carrier */
+                                      [0x0E,0x30,0x1F,0x10,0x07,0x3A,0],   /* bright tine mod */
+                                      [0x01,0x02,0x1F,0x0C,0x05,0x2A,0]] },
+  brass:   { alg:2, fb:4, pms:3, ams:1, ops:[[0x31,0x1C,0x14,0x08,0x04,0x18,0],
+                                             [0x01,0x1A,0x14,0x08,0x04,0x18,0],
+                                             [0x31,0x1E,0x14,0x08,0x04,0x18,0],
+                                             [0x01,0x00,0x14,0x0A,0x04,0x28,0]] },
+  bell:    { alg:1, fb:2, ops:[[0x0E,0x24,0x1F,0x04,0x02,0x15,0],          /* inharmonic mod */
+                               [0x01,0x00,0x1F,0x03,0x01,0x14,0],
+                               [0x07,0x28,0x1F,0x04,0x02,0x15,0],
+                               [0x01,0x08,0x1F,0x03,0x01,0x14,0]] },
+  organ:   { alg:7, fb:0, pms:2, ams:1, ops:[[0x01,0x18,0x1F,0x00,0x00,0x0F,0],  /* additive drawbars */
+                                             [0x02,0x1C,0x1F,0x00,0x00,0x0F,0],
+                                             [0x01,0x14,0x1F,0x00,0x00,0x0F,0],
+                                             [0x04,0x20,0x1F,0x00,0x00,0x0F,0]] },
+};
+/* which voice each role plays, per genre — gives SEGA mode a distinct chip
+   palette per style (falls back to the role's own patch when unlisted). */
+const OPN2_GENRE_VOICES = {
+  lofi:    { lead:"epiano", harmony:"epiano", counter:"epiano" },
+  citypop: { harmony:"epiano", counter:"brass", arp:"bell" },
+  wise:    { lead:"epiano", harmony:"epiano" },
+  barber:  { lead:"epiano", harmony:"organ" },
+  house:   { harmony:"organ", arp:"bell" },
+  jungle:  { harmony:"brass" },
+  dungeon: { lead:"organ", harmony:"organ", pad:"organ" },
+  ambient: { lead:"bell", harmony:"organ", pad:"organ" },
 };
 /* the four operator register slots within a channel */
 const OPN2_OPOFF = [0x00, 0x08, 0x04, 0x0C];
@@ -1901,7 +1930,8 @@ function opn2PatchWrites(chNum, patch){
     w.push([port, 0x90 + o + base, op[6]]);
   }
   w.push([port, 0xB0 + base, ((patch.fb & 7) << 3) | (patch.alg & 7)]);
-  w.push([port, 0xB4 + base, 0xC0]);                 /* both speakers */
+  /* 0xB4: both speakers (0xC0) | AMS (bits 5-4) | PMS (bits 2-0) — the chip's LFO depth */
+  w.push([port, 0xB4 + base, 0xC0 | (((patch.ams||0) & 3) << 4) | ((patch.pms||0) & 7)]);
   return w;
 }
 
@@ -3832,9 +3862,26 @@ const Synth=(function(){
      the program actually sounds like: render it and measure the samples. ── */
   async function renderOffline(seconds, scheduleFn, sr){
     const saved=[ctx,master,rev,analyser,toneLP,delaySend,convWet,miReverbNode,miWetNode,pumpBus,shaper,shaperPre,shaperPost];
+    // preserve live SEGA chip state across the offline swap
+    const opn2Saved=[opn2Node,opn2Gain,opn2Ready,opn2Free.slice(),opn2Patched.slice()];
     const rate=sr||44100;
     const off=new OfflineAudioContext(2, Math.ceil(seconds*rate), rate);
     buildGraph(off); ensurePump();
+    // if SEGA mode is on, stand up the real chip on the OFFLINE context too, so the
+    // exported WAV contains the YM2612 melodic voices (not silence).
+    if(typeof SEGA!=="undefined" && SEGA && off.audioWorklet && typeof OPN2_WORKLET_SRC!=="undefined"){
+      opn2Node=null; opn2Gain=null; opn2Ready=false;
+      for(let i=0;i<6;i++){opn2Free[i]=0;opn2Patched[i]=null;}
+      try{
+        const ourl=URL.createObjectURL(new Blob([OPN2_WORKLET_SRC],{type:"application/javascript"}));
+        await off.audioWorklet.addModule(ourl);
+        opn2Node=new AudioWorkletNode(off,"opn2-ym2612",{outputChannelCount:[2]});
+        opn2Gain=off.createGain(); opn2Gain.gain.value=0.85;
+        opn2Node.connect(opn2Gain); opn2Gain.connect(pumpBus||master);
+        opn2Node.port.postMessage({type:"writes", when:0, list:[[0,0x22,0x08|0x03]]});
+        opn2Ready=true;
+      }catch(e){ opn2Ready=false; }
+    }
     try{
       const url=URL.createObjectURL(new Blob([MI_REVERB_WORKLET],{type:"application/javascript"}));
       await off.audioWorklet.addModule(url);
@@ -3848,6 +3895,9 @@ const Synth=(function(){
     try{ scheduleFn(0); }catch(e){}
     const buf=await off.startRendering();
     [ctx,master,rev,analyser,toneLP,delaySend,convWet,miReverbNode,miWetNode,pumpBus,shaper,shaperPre,shaperPost]=saved;
+    // restore live chip state
+    opn2Node=opn2Saved[0]; opn2Gain=opn2Saved[1]; opn2Ready=opn2Saved[2];
+    for(let i=0;i<6;i++){opn2Free[i]=opn2Saved[3][i];opn2Patched[i]=opn2Saved[4][i];}
     return buf;
   }
   /* encode an AudioBuffer as a 16-bit PCM WAV blob */
@@ -4119,6 +4169,8 @@ registerProcessor("mi-clouds-reverb", MiCloudsReverb);`;
       opn2Node=new AudioWorkletNode(ctx,"opn2-ym2612",{outputChannelCount:[2]});
       opn2Gain=ctx.createGain(); opn2Gain.gain.value=0.85;
       opn2Node.connect(opn2Gain); opn2Gain.connect(pumpBus||master);
+      // enable the chip's global LFO (~4 Hz) so patch PMS/AMS give real vibrato & tremolo
+      opn2Node.port.postMessage({type:"writes", when:0, list:[[0,0x22,0x08|0x03]]});
       opn2Ready=true;
     }).catch(()=>{});
   }
@@ -4132,12 +4184,16 @@ registerProcessor("mi-clouds-reverb", MiCloudsReverb);`;
      velocity as carrier total-level, frequency, then key on and key off */
   function opn2Note(role, midi, when, dur, vel){
     if(!opn2Ready || !opn2Node) return;
-    const patch=(typeof OPN2_PATCHES!=="undefined" && OPN2_PATCHES[role]) ||
+    // genre-aware voice: each style maps roles to a chip patch (falls back to the role)
+    const genre=(typeof SESSION!=="undefined" && SESSION && SESSION.chart) ? SESSION.chart.genre : null;
+    const gmap=(typeof OPN2_GENRE_VOICES!=="undefined" && genre) ? OPN2_GENRE_VOICES[genre] : null;
+    const pname=(gmap && gmap[role]) || role;
+    const patch=(typeof OPN2_PATCHES!=="undefined" && (OPN2_PATCHES[pname]||OPN2_PATCHES[role])) ||
                 (typeof OPN2_PATCHES!=="undefined" && OPN2_PATCHES.lead);
     if(!patch) return;
     const ch=opn2Alloc(when);
     const w=[];
-    if(opn2Patched[ch]!==role){ opn2PatchWrites(ch,patch).forEach(x=>w.push(x)); opn2Patched[ch]=role; }
+    if(opn2Patched[ch]!==pname){ opn2PatchWrites(ch,patch).forEach(x=>w.push(x)); opn2Patched[ch]=pname; }
     opn2VelWrites(ch,patch,vel).forEach(x=>w.push(x));
     opn2FreqWrites(ch,midi).forEach(x=>w.push(x));
     opn2KeyWrites(ch,false).forEach(x=>w.push(x));
