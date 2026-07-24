@@ -3797,6 +3797,9 @@ globalThis.IMPROV_DIMENSIONS = {"built":"2026-07-24","note":"dimensions split ap
 globalThis.IMPROV_FORMS = {"note":"real song forms harvested from Jazz Harmony Treebank by section-repetition detection","forms":[{"form":"AABA","sections":[{"name":"A","role":"body","bars":8},{"name":"A","role":"body","bars":8},{"name":"B","role":"bridge","bars":8,"contrast":true},{"name":"A","role":"body","bars":8}],"n":280},{"form":"ABAC","sections":[{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8},{"name":"A","role":"body","bars":8},{"name":"C","role":"bridge","bars":8,"contrast":true}],"n":155},{"form":"AABC","sections":[{"name":"A","role":"body","bars":8},{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8},{"name":"C","role":"bridge","bars":8,"contrast":true}],"n":38},{"form":"ABCB","sections":[{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8},{"name":"C","role":"bridge","bars":8,"contrast":true},{"name":"B","role":"hook","bars":8}],"n":33},{"form":"ABCA","sections":[{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8},{"name":"C","role":"bridge","bars":8,"contrast":true},{"name":"A","role":"body","bars":8}],"n":30},{"form":"AAB","sections":[{"name":"A","role":"body","bars":8},{"name":"A","role":"body","bars":8},{"name":"B","role":"bridge","bars":8,"contrast":true}],"n":25},{"form":"ABAB","sections":[{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8},{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8}],"n":14},{"form":"ABA","sections":[{"name":"A","role":"body","bars":8},{"name":"B","role":"bridge","bars":8,"contrast":true},{"name":"A","role":"body","bars":8}],"n":12},{"form":"AABCD","sections":[{"name":"A","role":"body","bars":8},{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8},{"name":"C","role":"bridge","bars":8},{"name":"D","role":"bridge","bars":8,"contrast":true}],"n":7},{"form":"AAAA","sections":[{"name":"A","role":"body","bars":8},{"name":"A","role":"body","bars":8},{"name":"A","role":"body","bars":8},{"name":"A","role":"body","bars":8}],"n":6},{"form":"ABACD","sections":[{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8},{"name":"A","role":"body","bars":8},{"name":"C","role":"bridge","bars":8},{"name":"D","role":"bridge","bars":8,"contrast":true}],"n":5},{"form":"ABBCB","sections":[{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8},{"name":"B","role":"hook","bars":8},{"name":"C","role":"bridge","bars":8,"contrast":true},{"name":"B","role":"hook","bars":8}],"n":4},{"form":"AABAC","sections":[{"name":"A","role":"body","bars":8},{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8},{"name":"A","role":"body","bars":8},{"name":"C","role":"bridge","bars":8,"contrast":true}],"n":4},{"form":"AAA","sections":[{"name":"A","role":"body","bars":8},{"name":"A","role":"body","bars":8},{"name":"A","role":"body","bars":8}],"n":3},{"form":"AABB","sections":[{"name":"A","role":"body","bars":8},{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8},{"name":"B","role":"hook","bars":8}],"n":3},{"form":"AABCA","sections":[{"name":"A","role":"body","bars":8},{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8},{"name":"C","role":"bridge","bars":8,"contrast":true},{"name":"A","role":"body","bars":8}],"n":3},{"form":"ABCAD","sections":[{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8},{"name":"C","role":"bridge","bars":8},{"name":"A","role":"body","bars":8},{"name":"D","role":"bridge","bars":8,"contrast":true}],"n":3},{"form":"ABCDA","sections":[{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8},{"name":"C","role":"bridge","bars":8},{"name":"D","role":"bridge","bars":8,"contrast":true},{"name":"A","role":"body","bars":8}],"n":3},{"form":"ABCAB","sections":[{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8},{"name":"C","role":"bridge","bars":8,"contrast":true},{"name":"A","role":"body","bars":8},{"name":"B","role":"hook","bars":8}],"n":3}]};
 const Synth=(function(){
   let ctx=null,master=null,rev=null,analyser=null,pendingMaster=.7,toneLP=null,delaySend=null,convWet=null;
+  let shaper=null,shaperPre=null,shaperPost=null,driveAmt=0;   // master warmth / soft-clip stage
+  // a fixed tanh soft-clip curve; the Drive knob scales how hard we push into it
+  const _satCurve=(function(){ const n=2049,c=new Float32Array(n); for(let i=0;i<n;i++){ const x=i/(n-1)*2-1; c[i]=Math.tanh(x*1.8); } return c; })();
   function buildGraph(c){ ctx=c;
     master=ctx.createGain();master.gain.value=pendingMaster;
     const comp=ctx.createDynamicsCompressor();comp.threshold.value=-18;comp.ratio.value=3;
@@ -3809,11 +3812,18 @@ const Synth=(function(){
     // the N64 "reverb" was a single stereo delay line — off unless Zelda mode asks
     delaySend=ctx.createGain();delaySend.gain.value=0;
     const dl=ctx.createDelay();dl.delayTime.value=0.13;const fb=ctx.createGain();fb.gain.value=0.32;
-    master.connect(toneLP);toneLP.connect(comp);comp.connect(analyser);analyser.connect(ctx.destination);
+    // master warmth: soft-clip saturation between the compressor and the analyser.
+    // Even at drive 0 the tanh curve rounds off harsh digital peaks a little.
+    shaperPre=ctx.createGain(); shaper=ctx.createWaveShaper(); shaper.curve=_satCurve; shaper.oversample="2x"; shaperPost=ctx.createGain();
+    master.connect(toneLP);toneLP.connect(comp);comp.connect(shaperPre);shaperPre.connect(shaper);shaper.connect(shaperPost);shaperPost.connect(analyser);analyser.connect(ctx.destination);
     toneLP.connect(delaySend);delaySend.connect(dl);dl.connect(fb);fb.connect(dl);dl.connect(ctx.destination);
     master.connect(rev);rev.connect(wet);wet.connect(ctx.destination);
-    applyTone(); pumpBus=null; miReverbNode=null; miWetNode=null;
+    applyTone(); applyDrive(); pumpBus=null; miReverbNode=null; miWetNode=null;
     return ctx;}
+  function applyDrive(){ if(!shaperPre)return; const d=driveAmt;
+    shaperPre.gain.value=1+d*3.2;              // push harder into the curve
+    shaperPost.gain.value=(0.9-d*0.35)/(1+d*0.6); } // compensate the loudness it adds
+  function setDrive(d){ driveAmt=Math.max(0,Math.min(1,d||0)); applyDrive(); }
   function ensure(){ if(ctx)return ctx;
     buildGraph(new (window.AudioContext||window.webkitAudioContext)());
     if(ctx.state==="suspended")ctx.resume(); return ctx;}
@@ -3821,7 +3831,7 @@ const Synth=(function(){
   /* ── OFFLINE RENDER → the song as audio. Also the honest way to VERIFY what
      the program actually sounds like: render it and measure the samples. ── */
   async function renderOffline(seconds, scheduleFn, sr){
-    const saved=[ctx,master,rev,analyser,toneLP,delaySend,convWet,miReverbNode,miWetNode,pumpBus];
+    const saved=[ctx,master,rev,analyser,toneLP,delaySend,convWet,miReverbNode,miWetNode,pumpBus,shaper,shaperPre,shaperPost];
     const rate=sr||44100;
     const off=new OfflineAudioContext(2, Math.ceil(seconds*rate), rate);
     buildGraph(off); ensurePump();
@@ -3837,7 +3847,7 @@ const Synth=(function(){
     }catch(e){ /* no worklet available: the convolver send carries the space */ }
     try{ scheduleFn(0); }catch(e){}
     const buf=await off.startRendering();
-    [ctx,master,rev,analyser,toneLP,delaySend,convWet,miReverbNode,miWetNode,pumpBus]=saved;
+    [ctx,master,rev,analyser,toneLP,delaySend,convWet,miReverbNode,miWetNode,pumpBus,shaper,shaperPre,shaperPost]=saved;
     return buf;
   }
   /* encode an AudioBuffer as a 16-bit PCM WAV blob */
@@ -3873,14 +3883,38 @@ const Synth=(function(){
   // sawtooth so the bass reads on small speakers (harmonics, not just fundamental)
   const FMUL={sub:[1,2,1],bell:[1,2.01],marimba:[1,2.01]};
   const OGAIN={sub:[1,.42,.26]};
+  /* per-genre voice character: WARM (mellow genres — longer attacks, lower/softer
+     filter, gentler sustain) vs PUNCHY (house/jungle — tight attacks, brighter and
+     more resonant, snappier decay). Set on each new song from the chart's genre. */
+  const VOICECHAR={
+    warm:  {atk:1.7, sus:.72, cut:.70, bright:1.7, q:0.5, gain:1.00, fenv:.06},
+    punchy:{atk:0.55,sus:.55, cut:1.18, bright:2.7, q:1.1, gain:1.05, fenv:.03},
+  };
+  let voiceChar="warm";
+  function setVoiceStyle(s){ voiceChar=(s==="punchy")?"punchy":"warm"; }
   function voice(inst,midi,t,dur,vel){ ensure();
+    const ch=VOICECHAR[voiceChar]||VOICECHAR.warm;
     const oscs=OSC[inst]||["sine"],g=ctx.createGain(),flt=ctx.createBiquadFilter();
-    flt.type="lowpass";flt.frequency.value=inst==="pad"||inst==="choir"||inst==="strings"?1800:inst==="sub"?1600:inst==="sine"?600:inst==="sax"||inst==="brass"?3000:4200;
+    flt.type="lowpass";
     const slow=inst==="pad"||inst==="choir"||inst==="strings"||inst==="brass";
-    const a=slow?.25:inst==="sax"?.06:inst==="bell"||inst==="pluck"||inst==="harp"||inst==="marimba"?.005:inst==="wurly"?.008:.02;
+    let baseCut=(inst==="pad"||inst==="choir"||inst==="strings"?1800:inst==="sub"?1600:inst==="sine"?600:inst==="sax"||inst==="brass"?3000:4200);
+    baseCut*=ch.cut*(0.62+0.55*vel);           // genre voice + velocity opens the filter
+    flt.Q.value=ch.q;
+    const a=(slow?.25:inst==="sax"?.06:inst==="bell"||inst==="pluck"||inst==="harp"||inst==="marimba"?.005:inst==="wurly"?.008:.02)*ch.atk;
+    const dec=slow?.4:(inst==="bell"||inst==="marimba"||inst==="pluck"||inst==="harp")?Math.min(Math.max(dur*.5,.12),.5):.12;
+    const sus=slow?.85:ch.sus;
     const rel=slow?.9:inst==="bell"||inst==="marimba"?dur*.9:inst==="sax"?.2:.18;
-    const peak=vel*(inst==="sub"?.95:inst==="strings"||inst==="brass"?.22:inst==="sax"?.26:.32);
-    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(peak,t+a);g.gain.setValueAtTime(peak*.8,t+Math.max(a,dur*.6));g.gain.exponentialRampToValueAtTime(.0005,t+dur+rel);
+    const peak=vel*(inst==="sub"?.95:inst==="strings"||inst==="brass"?.22:inst==="sax"?.26:.32)*ch.gain;
+    const susLvl=Math.max(.0009,peak*sus);
+    // amp ADSR — smooth, no hard step: attack, exp decay to sustain, hold, exp release
+    g.gain.setValueAtTime(.0001,t);
+    g.gain.linearRampToValueAtTime(Math.max(.0011,peak),t+a);
+    g.gain.exponentialRampToValueAtTime(susLvl,t+a+dec);
+    g.gain.setValueAtTime(susLvl,t+Math.max(a+dec,dur*.85));
+    g.gain.exponentialRampToValueAtTime(.0005,t+dur+rel);
+    // filter envelope — a brighter transient that settles, adds life and tames static hiss
+    flt.frequency.setValueAtTime(Math.min(16500,baseCut*ch.bright),t);
+    flt.frequency.exponentialRampToValueAtTime(Math.max(320,baseCut),t+a+dec+ch.fenv);
     const vib=(inst==="sax"||inst==="strings"||inst==="flute")?ctx.createOscillator():null,vibg=vib?ctx.createGain():null;
     if(vib){vib.frequency.value=5;vibg.gain.value=f(midi)*.006;vib.connect(vibg);vib.start(t);vib.stop(t+dur+rel+.05);}
     oscs.forEach((ty,i)=>{const o=ctx.createOscillator();o.type=ty;
@@ -4148,7 +4182,7 @@ registerProcessor("mi-clouds-reverb", MiCloudsReverb);`;
     else if(lane==="rim"){const o=ctx.createOscillator();o.type="triangle";o.frequency.setValueAtTime(1700,t);o.frequency.exponentialRampToValueAtTime(400,t+.02);g.gain.setValueAtTime(vel*.5,t);g.gain.exponentialRampToValueAtTime(.001,t+.04);o.connect(g);o.start(t);o.stop(t+.05);}
     else if(TOMF[lane]!=null){const base=TOMF[lane];const o=ctx.createOscillator();o.type="sine";o.frequency.setValueAtTime(base*1.2,t);o.frequency.exponentialRampToValueAtTime(base*.55,t+.26);g.gain.setValueAtTime(vel*.85,t);g.gain.setValueAtTime(vel*.7,t+.16);g.gain.linearRampToValueAtTime(.0001,t+.22);o.connect(g);o.start(t);o.stop(t+.24);if(vel>0.45){const nz=noise(t,.03);const nf=ctx.createBiquadFilter();nf.type="bandpass";nf.frequency.value=Math.min(6000,base*9);const ng=ctx.createGain();ng.gain.setValueAtTime(vel*.3,t);ng.gain.exponentialRampToValueAtTime(.001,t+.03);nz.connect(nf);nf.connect(ng);ng.connect(master);}}
   }
-  return {ensure,voice,drum,fm,modal,sampleVoice,setPump,duck,sweep,riser,ensurePump,initMiReverb,setReverb,renderOffline,encodeWav,initOPN2,opn2Note,opn2Reset,isOPN2Ready:()=>opn2Ready,setMaster,setTone,now:()=>ctx?ctx.currentTime:0,analyser:()=>analyser,resume:()=>{if(ctx&&ctx.state==="suspended")return ctx.resume();}};
+  return {ensure,voice,drum,fm,modal,sampleVoice,setPump,duck,sweep,riser,ensurePump,initMiReverb,setReverb,renderOffline,encodeWav,initOPN2,opn2Note,opn2Reset,isOPN2Ready:()=>opn2Ready,setMaster,setTone,setDrive,setVoiceStyle,now:()=>ctx?ctx.currentTime:0,analyser:()=>analyser,resume:()=>{if(ctx&&ctx.state==="suspended")return ctx.resume();}};
 })();
 const T=(function(){
   const mod=(n,m)=>((n%m)+m)%m;
@@ -7703,6 +7737,8 @@ function play(){
                lofi:{time:0.6,wet:0.24,lp:0.6},      citypop:{time:0.6,wet:0.22,lp:0.8},
                house:{time:0.5,wet:0.18,lp:0.85},    jungle:{time:0.45,wet:0.16,lp:0.85}};
   setTimeout(()=>Synth.setReverb(SPACE[SESSION.chart.genre]||{time:0.7,wet:0.25,lp:0.7}), 120);
+  // per-genre voice character: the dance genres play punchy, everything else warm
+  Synth.setVoiceStyle(({house:"punchy",jungle:"punchy"})[SESSION.chart.genre]||"warm");
   Synth.setPump(PUMP_BY_GENRE[SESSION.chart.genre]||0);
   // TIDES/FRAMES-style macro: the filtered-intro sweep — closed to open across
   // the gathering, when the song builds from sparse (not on drop starts)
@@ -8105,7 +8141,7 @@ window.addEventListener("DOMContentLoaded",()=>{
       if(kind==="master") s.setMaster(0.05+v*1.05);
       else if(kind==="tone") s.setTone({lp: Math.round(expMap(v,700,18000))});
       else if(kind==="space") s.setReverb({wet: +(v*0.5).toFixed(3)});
-      // "drive" is presentational for now (a saturation stage is queued for the synth pass)
+      else if(kind==="drive" && s.setDrive) s.setDrive(v);   // master soft-clip warmth
     }catch(e){}
   }
   function initKnob(el){
