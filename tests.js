@@ -165,6 +165,35 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
         pct.toFixed(2)+"% ("+unjustified+"/"+melodic+" melodic notes)");
 })();
 
+/* ── 8c. QUALITY MEASURE — harmony VOICE-LEADING smoothness. Not a hard law but a
+   "presence-of-good" gauge the engine should climb toward Bach's measured 77.3%
+   stepwise. Documented known-weakness (handoff: ~52%); tracked here so the number
+   is visible and cannot silently regress. Floor is deliberately low — this is a
+   metric to RAISE, and the fix (open/drop voicings) needs the stored-texture
+   generator reworked to stay voicing-structure-stable first. ── */
+(function voiceLeading(){
+  let step=0, tot=0;
+  for(const {song} of songs){
+    const h=song.parts.find(p=>p.role==="harmony"); if(!h)continue;
+    const byBar={};
+    for(const n of h.notes){ if(n.midi==null)continue; (byBar[n.bar]||(byBar[n.bar]=new Set())).add(n.midi); }
+    const bars=Object.keys(byBar).map(Number).sort((a,b)=>a-b);
+    let prev=null;
+    for(const b of bars){
+      const v=[...byBar[b]].sort((a,b)=>a-b);
+      if(prev && v.join()!==prev.join()){
+        const n=Math.min(v.length,prev.length);
+        for(let k=0;k<n;k++){ tot++; if(Math.abs(v[k]-prev[k])<=2) step++; }
+      }
+      prev=v;
+    }
+  }
+  const share = tot ? step/tot : 0;
+  // floor 0.30 (current baseline ~0.36); target is Bach's 0.773 — raise as voicings improve
+  check("voice-leading stepwise share (metric; target 77%)", share>=0.30,
+        (100*share).toFixed(1)+"% of harmony voice motions are stepwise  [Bach 77.3%]");
+})();
+
 
 /* ── 9. ABSOLUTE REGISTERS: bass below chords below lead (the roll must LOOK right) ── */
 (function registers(){

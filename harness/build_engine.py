@@ -106,9 +106,9 @@ def main():
         if os.path.exists(p): shutil.copyfile(p, os.path.join(RUN, dest))
     # the shipped HTML IS the built player; expose it under the name the suite greps for
     shutil.copyfile(src, os.path.join(RUN, "player.html"))
-    # the measurement probe for the one unenforced HARD law (see CODE_REVIEW.md)
-    probe = os.path.join(HERE, "probe_nct.js")
-    if os.path.exists(probe): shutil.copyfile(probe, os.path.join(RUN, "probe_nct.js"))
+    # measurement probes (see CODE_REVIEW.md)
+    for pb in glob.glob(os.path.join(HERE, "probe_*.js")):
+        shutil.copyfile(pb, os.path.join(RUN, os.path.basename(pb)))
     print("built", os.path.relpath(RUN, ROOT), "from", os.path.basename(src))
     print("run:  cd harness/run && node tests.js")
     print("      cd harness/run && node print_roll.js 11 8")

@@ -118,6 +118,14 @@ the real numbered-module tree is restored, port section 3b into `08_ghost.js` an
 - **Bass/harmony register overlap FIXED ✅** — `BASS_CEIL` was `50` while harmony floor is
   `50` (the code comment said "bass tops at 48"), so a chord could touch the bass ceiling and
   read as an inversion. Set `BASS_CEIL=48` for a clean gap; restored `chords above bass 0/40`.
+- **Voice-leading (known weakness) — measured + tracked, rework queued.** Handoff flagged
+  ~52% stepwise vs Bach's 77.3%; measured here at **35.5%** (`harness/probe_voiceleading.js`,
+  now a standing metric in the suite §8c). A prototype that adds open/drop-2 voicings so the
+  existing preference has smoother options DID move it (→~54%), confirming the diagnosis and
+  that the Bach material is now available — but open voicings destabilise the stored-texture
+  onset-repeat invariant (drops it below the 0.9 threshold). Reverted rather than shipped;
+  the proper fix reworks the texture generator to stay voicing-structure-stable, then re-adds
+  the variants. The metric makes the number visible so that rework can be measured.
 - Documented "nothing thin >4s" is coded as ~9s (`maxSoloBars=floor(9/secsPerBar)`). Align
   the constant or the doc. *(open — measured to 0 in practice, so cosmetic.)*
 
