@@ -7280,8 +7280,10 @@ function arrangeSections(chart, session, rng){
       else if(atMaxFor<1 || pos<=0.35 || spansS.length-i<2 || momentDone){
         active=entered.slice(); event="peak"; atMaxFor++;
         if(atMaxFor>=2) lift=!(out[i-1]&&out[i-1].lift);          // held peak: expression change
-      } else if(rng()<0.8){
-        // THE DROP: back to just the chords — because everyone was in
+      } else if(rng()<0.8 || spansS.length-i<=2){
+        // THE DROP: back to just the chords — because everyone was in. GUARANTEED:
+        // if we've reached the last two sections without dropping, drop now, so the
+        // song always earns its payoff (a drop is the gateway to the "moment").
         active=entered.filter(r=>r==="harmony"||r==="pad");
         if(!active.length) active=[entered[0]];
         dropped=true; event="drop";
@@ -7303,7 +7305,9 @@ function arrangeSections(chart, session, rng){
     if(sec.role==="bridge") active=active.filter(r=>r!=="arp");
     out.push({ ...sec, activeRoles:active, lift, event,
       tension:event==="drop", tensionHalf:(event==="drop" && chart.nBars<40),
-      energy: active.length + (lift?0.5:0),
+      // the MOMENT is the payoff — give it a strict energy bump so it's the single
+      // loudest, latest peak (not merely tied with an earlier held peak).
+      energy: active.length + (lift?0.5:0) + (event==="moment"?1:0),
       keyShift: sec.contrast ? pick(rng,[5,-2,3]) : 0 });
     prevActive=active; prevEvent=event;
   }
