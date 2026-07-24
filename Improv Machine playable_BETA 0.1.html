@@ -7323,8 +7323,10 @@ function arrangeSections(chart, session, rng){
       // itself arcs to a peak (not just the dynamics). Register-capped in scheduling.
       leadLift: (event==="moment") ? 12 : 0,
       // #3 HARMONIC JOURNEY: the payoff MODULATES up a whole step (the classic
-      // final-chorus lift) so the song leads somewhere harmonically, not just a loop.
-      keyShift: sec.contrast ? pick(rng,[5,-2,3]) : (event==="moment" ? 2 : 0) });
+      // final-chorus lift) so it leads somewhere harmonically — but ONLY on tonal
+      // genres; a functional key-change is wrong for the modal/drone ones (measured).
+      keyShift: sec.contrast ? pick(rng,[5,-2,3])
+                : (event==="moment" && !(typeof MODAL_GENRES!=="undefined" && MODAL_GENRES[chart.genre]) ? 2 : 0) });
     prevActive=active; prevEvent=event;
   }
 
