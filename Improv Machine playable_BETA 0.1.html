@@ -3828,6 +3828,11 @@ globalThis.IMPROV_FORMS = {"note":"real song forms harvested from Jazz Harmony T
 const Synth=(function(){
   let ctx=null,master=null,rev=null,analyser=null,pendingMaster=.7,toneLP=null,delaySend=null,convWet=null;
   let shaper=null,shaperPre=null,shaperPost=null,driveAmt=0;   // master warmth / soft-clip stage
+  let drumBus=null,drumBusGain=1.2;                           // drums get their own punchy, saturated bus
+  // kick voice params (genre sets defaults; the 808 panel can override live)
+  let kickParams={tune:52,decay:.30,click:.85,drive:.45,body:1.0,gain:1.12};
+  function setKick(o){ if(o) for(const k in o) if(kickParams[k]!=null) kickParams[k]=o[k]; }
+  function setDrumBus(g){ drumBusGain=Math.max(0,Math.min(2,g)); if(drumBus)drumBus.gain.value=drumBusGain; }
   // a fixed tanh soft-clip curve; the Drive knob scales how hard we push into it
   const _satCurve=(function(){ const n=2049,c=new Float32Array(n); for(let i=0;i<n;i++){ const x=i/(n-1)*2-1; c[i]=Math.tanh(x*1.8); } return c; })();
   function buildGraph(c){ ctx=c;
@@ -3845,6 +3850,11 @@ const Synth=(function(){
     // master warmth: soft-clip saturation between the compressor and the analyser.
     // Even at drive 0 the tanh curve rounds off harsh digital peaks a little.
     shaperPre=ctx.createGain(); shaper=ctx.createWaveShaper(); shaper.curve=_satCurve; shaper.oversample="2x"; shaperPost=ctx.createGain();
+    // dedicated drum bus: light soft-clip glue + makeup, straight into the master so
+    // the kit punches instead of getting buried under the melodic band.
+    drumBus=ctx.createGain(); drumBus.gain.value=drumBusGain;
+    const dsh=ctx.createWaveShaper(); dsh.curve=_satCurve; dsh.oversample="2x";
+    drumBus.connect(dsh); dsh.connect(master);
     master.connect(toneLP);toneLP.connect(comp);comp.connect(shaperPre);shaperPre.connect(shaper);shaper.connect(shaperPost);shaperPost.connect(analyser);analyser.connect(ctx.destination);
     toneLP.connect(delaySend);delaySend.connect(dl);dl.connect(fb);fb.connect(dl);dl.connect(ctx.destination);
     master.connect(rev);rev.connect(wet);wet.connect(ctx.destination);
@@ -3861,7 +3871,7 @@ const Synth=(function(){
   /* ── OFFLINE RENDER → the song as audio. Also the honest way to VERIFY what
      the program actually sounds like: render it and measure the samples. ── */
   async function renderOffline(seconds, scheduleFn, sr){
-    const saved=[ctx,master,rev,analyser,toneLP,delaySend,convWet,miReverbNode,miWetNode,pumpBus,shaper,shaperPre,shaperPost];
+    const saved=[ctx,master,rev,analyser,toneLP,delaySend,convWet,miReverbNode,miWetNode,pumpBus,shaper,shaperPre,shaperPost,drumBus];
     // preserve live SEGA chip state across the offline swap
     const opn2Saved=[opn2Node,opn2Gain,opn2Ready,opn2Free.slice(),opn2Patched.slice()];
     const rate=sr||44100;
@@ -3894,7 +3904,7 @@ const Synth=(function(){
     }catch(e){ /* no worklet available: the convolver send carries the space */ }
     try{ scheduleFn(0); }catch(e){}
     const buf=await off.startRendering();
-    [ctx,master,rev,analyser,toneLP,delaySend,convWet,miReverbNode,miWetNode,pumpBus,shaper,shaperPre,shaperPost]=saved;
+    [ctx,master,rev,analyser,toneLP,delaySend,convWet,miReverbNode,miWetNode,pumpBus,shaper,shaperPre,shaperPost,drumBus]=saved;
     // restore live chip state
     opn2Node=opn2Saved[0]; opn2Gain=opn2Saved[1]; opn2Ready=opn2Saved[2];
     for(let i=0;i<6;i++){opn2Free[i]=opn2Saved[3][i];opn2Patched[i]=opn2Saved[4][i];}
@@ -4228,17 +4238,41 @@ registerProcessor("mi-clouds-reverb", MiCloudsReverb);`;
     try{ src.start(t, Math.max(0,offsetSec), d); }catch(e){}
     return src;
   }
-  function drum(lane,t,vel){ ensure();const g=ctx.createGain();g.connect(master);
-    if(lane==="kick"){const o=ctx.createOscillator();o.type="sine";o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(45,t+.12);g.gain.setValueAtTime(vel*.9,t);g.gain.exponentialRampToValueAtTime(.001,t+.16);o.connect(g);o.start(t);o.stop(t+.18);}
-    else if(lane==="snare"){const n=noise(t,.2);const flt=ctx.createBiquadFilter();flt.type="highpass";flt.frequency.value=1200;g.gain.setValueAtTime(vel*.5,t);g.gain.exponentialRampToValueAtTime(.001,t+.14);n.connect(flt);flt.connect(g);const o=ctx.createOscillator();o.type="triangle";o.frequency.value=180;const og=ctx.createGain();og.gain.setValueAtTime(vel*.3,t);og.gain.exponentialRampToValueAtTime(.001,t+.09);o.connect(og);og.connect(master);o.start(t);o.stop(t+.1);}
-    else if(lane==="hat"){const n=noise(t,.05);const flt=ctx.createBiquadFilter();flt.type="highpass";flt.frequency.value=7000;g.gain.setValueAtTime(vel*.28,t);g.gain.exponentialRampToValueAtTime(.001,t+.04);n.connect(flt);flt.connect(g);}
-    else if(lane==="openhat"){const n=noise(t,.3);const flt=ctx.createBiquadFilter();flt.type="highpass";flt.frequency.value=6500;g.gain.setValueAtTime(vel*.24,t);g.gain.exponentialRampToValueAtTime(.001,t+.28);n.connect(flt);flt.connect(g);}
-    else if(lane==="ride"){const n=noise(t,.4);const flt=ctx.createBiquadFilter();flt.type="bandpass";flt.frequency.value=6000;flt.Q.value=2;g.gain.setValueAtTime(vel*.18,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);n.connect(flt);flt.connect(g);const o=ctx.createOscillator();o.type="square";o.frequency.value=520;const og=ctx.createGain();og.gain.setValueAtTime(vel*.05,t);og.gain.exponentialRampToValueAtTime(.001,t+.2);o.connect(og);og.connect(master);o.start(t);o.stop(t+.25);}
-    else if(lane==="clap"){for(let k=0;k<3;k++){const n=noise(t+k*.012,.12);const flt=ctx.createBiquadFilter();flt.type="bandpass";flt.frequency.value=1400;flt.Q.value=1.2;const cg=ctx.createGain();cg.gain.setValueAtTime(vel*.32,t+k*.012);cg.gain.exponentialRampToValueAtTime(.001,t+k*.012+.1);n.connect(flt);flt.connect(cg);cg.connect(master);}}
+  function drum(lane,t,vel){ ensure();const OUT=drumBus||master;const g=ctx.createGain();g.connect(OUT);
+    if(lane==="kick"){const kp=kickParams;
+      // SUB BODY: a fast pitch drop into the tuned fundamental
+      const o=ctx.createOscillator();o.type="sine";
+      o.frequency.setValueAtTime(kp.tune*3.4,t);
+      o.frequency.exponentialRampToValueAtTime(Math.max(30,kp.tune),t+.055);
+      g.gain.setValueAtTime(vel*.98*kp.gain*kp.body,t);
+      g.gain.exponentialRampToValueAtTime(.0008,t+kp.decay);
+      o.connect(g);o.start(t);o.stop(t+kp.decay+.05);
+      // CLICK / BEATER: a short transient so the kick cuts through the mix
+      if(kp.click>0){
+        const cb=ctx.createOscillator();cb.type="triangle";
+        cb.frequency.setValueAtTime(1900,t);cb.frequency.exponentialRampToValueAtTime(230,t+.013);
+        const cg=ctx.createGain();cg.gain.setValueAtTime(vel*.6*kp.click,t);cg.gain.exponentialRampToValueAtTime(.0006,t+.022);
+        cb.connect(cg);cg.connect(OUT);cb.start(t);cb.stop(t+.03);
+        const nz=noise(t,.014);const nf=ctx.createBiquadFilter();nf.type="highpass";nf.frequency.value=2400;
+        const ng=ctx.createGain();ng.gain.setValueAtTime(vel*.3*kp.click,t);ng.gain.exponentialRampToValueAtTime(.0006,t+.013);
+        nz.connect(nf);nf.connect(ng);ng.connect(OUT);
+      }
+      // DRIVE: a saturated harmonic layer for weight on small speakers
+      if(kp.drive>0){
+        const o2=ctx.createOscillator();o2.type="sine";o2.frequency.setValueAtTime(kp.tune*2.0,t);o2.frequency.exponentialRampToValueAtTime(kp.tune,t+.05);
+        const sh=ctx.createWaveShaper();sh.curve=_satCurve;
+        const dg=ctx.createGain();dg.gain.setValueAtTime(vel*kp.gain*(.5+kp.drive),t);dg.gain.exponentialRampToValueAtTime(.0008,t+kp.decay*.7);
+        o2.connect(dg);dg.connect(sh);sh.connect(OUT);o2.start(t);o2.stop(t+kp.decay*.7+.05);
+      }}
+    else if(lane==="snare"){const n=noise(t,.22);const flt=ctx.createBiquadFilter();flt.type="highpass";flt.frequency.value=1400;flt.Q.value=.7;g.gain.setValueAtTime(vel*.62,t);g.gain.exponentialRampToValueAtTime(.001,t+.15);n.connect(flt);flt.connect(g);const o=ctx.createOscillator();o.type="triangle";o.frequency.setValueAtTime(330,t);o.frequency.exponentialRampToValueAtTime(180,t+.06);const og=ctx.createGain();og.gain.setValueAtTime(vel*.42,t);og.gain.exponentialRampToValueAtTime(.001,t+.1);o.connect(og);og.connect(OUT);o.start(t);o.stop(t+.12);}
+    else if(lane==="hat"){const n=noise(t,.05);const flt=ctx.createBiquadFilter();flt.type="highpass";flt.frequency.value=8000;g.gain.setValueAtTime(vel*.3,t);g.gain.exponentialRampToValueAtTime(.001,t+.035);n.connect(flt);flt.connect(g);}
+    else if(lane==="openhat"){const n=noise(t,.3);const flt=ctx.createBiquadFilter();flt.type="highpass";flt.frequency.value=7000;g.gain.setValueAtTime(vel*.26,t);g.gain.exponentialRampToValueAtTime(.001,t+.28);n.connect(flt);flt.connect(g);}
+    else if(lane==="ride"){const n=noise(t,.4);const flt=ctx.createBiquadFilter();flt.type="bandpass";flt.frequency.value=6000;flt.Q.value=2;g.gain.setValueAtTime(vel*.18,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);n.connect(flt);flt.connect(g);const o=ctx.createOscillator();o.type="square";o.frequency.value=520;const og=ctx.createGain();og.gain.setValueAtTime(vel*.05,t);og.gain.exponentialRampToValueAtTime(.001,t+.2);o.connect(og);og.connect(OUT);o.start(t);o.stop(t+.25);}
+    else if(lane==="clap"){for(let k=0;k<3;k++){const n=noise(t+k*.012,.12);const flt=ctx.createBiquadFilter();flt.type="bandpass";flt.frequency.value=1500;flt.Q.value=1.2;const cg=ctx.createGain();cg.gain.setValueAtTime(vel*.38,t+k*.012);cg.gain.exponentialRampToValueAtTime(.001,t+k*.012+.11);n.connect(flt);flt.connect(cg);cg.connect(OUT);}}
     else if(lane==="rim"){const o=ctx.createOscillator();o.type="triangle";o.frequency.setValueAtTime(1700,t);o.frequency.exponentialRampToValueAtTime(400,t+.02);g.gain.setValueAtTime(vel*.5,t);g.gain.exponentialRampToValueAtTime(.001,t+.04);o.connect(g);o.start(t);o.stop(t+.05);}
-    else if(TOMF[lane]!=null){const base=TOMF[lane];const o=ctx.createOscillator();o.type="sine";o.frequency.setValueAtTime(base*1.2,t);o.frequency.exponentialRampToValueAtTime(base*.55,t+.26);g.gain.setValueAtTime(vel*.85,t);g.gain.setValueAtTime(vel*.7,t+.16);g.gain.linearRampToValueAtTime(.0001,t+.22);o.connect(g);o.start(t);o.stop(t+.24);if(vel>0.45){const nz=noise(t,.03);const nf=ctx.createBiquadFilter();nf.type="bandpass";nf.frequency.value=Math.min(6000,base*9);const ng=ctx.createGain();ng.gain.setValueAtTime(vel*.3,t);ng.gain.exponentialRampToValueAtTime(.001,t+.03);nz.connect(nf);nf.connect(ng);ng.connect(master);}}
+    else if(TOMF[lane]!=null){const base=TOMF[lane];const o=ctx.createOscillator();o.type="sine";o.frequency.setValueAtTime(base*1.2,t);o.frequency.exponentialRampToValueAtTime(base*.55,t+.26);g.gain.setValueAtTime(vel*.85,t);g.gain.setValueAtTime(vel*.7,t+.16);g.gain.linearRampToValueAtTime(.0001,t+.22);o.connect(g);o.start(t);o.stop(t+.24);if(vel>0.45){const nz=noise(t,.03);const nf=ctx.createBiquadFilter();nf.type="bandpass";nf.frequency.value=Math.min(6000,base*9);const ng=ctx.createGain();ng.gain.setValueAtTime(vel*.3,t);ng.gain.exponentialRampToValueAtTime(.001,t+.03);nz.connect(nf);nf.connect(ng);ng.connect(OUT);}}
   }
-  return {ensure,voice,drum,fm,modal,sampleVoice,setPump,duck,sweep,riser,ensurePump,initMiReverb,setReverb,renderOffline,encodeWav,initOPN2,opn2Note,opn2Reset,isOPN2Ready:()=>opn2Ready,setMaster,setTone,setDrive,setVoiceStyle,now:()=>ctx?ctx.currentTime:0,analyser:()=>analyser,resume:()=>{if(ctx&&ctx.state==="suspended")return ctx.resume();}};
+  return {ensure,voice,drum,fm,modal,sampleVoice,setPump,duck,sweep,riser,ensurePump,initMiReverb,setReverb,renderOffline,encodeWav,initOPN2,opn2Note,opn2Reset,isOPN2Ready:()=>opn2Ready,setMaster,setTone,setDrive,setVoiceStyle,setKick,setDrumBus,getKick:()=>({...kickParams}),now:()=>ctx?ctx.currentTime:0,analyser:()=>analyser,resume:()=>{if(ctx&&ctx.state==="suspended")return ctx.resume();}};
 })();
 const T=(function(){
   const mod=(n,m)=>((n%m)+m)%m;
@@ -7795,6 +7829,20 @@ function play(){
   setTimeout(()=>Synth.setReverb(SPACE[SESSION.chart.genre]||{time:0.7,wet:0.25,lp:0.7}), 120);
   // per-genre voice character: the dance genres play punchy, everything else warm
   Synth.setVoiceStyle(({house:"punchy",jungle:"punchy"})[SESSION.chart.genre]||"warm");
+  // per-genre KICK voicing + drum-bus level — the dance genres get a full, upfront kick
+  const KICK_BY_GENRE={
+    house:  {tune:50,decay:.42,click:.85,drive:.6,body:1.15,gain:1.25},
+    jungle: {tune:48,decay:.26,click:1.0,drive:.55,body:1.0, gain:1.2},
+    citypop:{tune:56,decay:.22,click:.6, drive:.3, body:1.0, gain:1.05},
+    lofi:   {tune:60,decay:.18,click:.35,drive:.2, body:.9,  gain:.9},
+    wise:   {tune:60,decay:.18,click:.35,drive:.2, body:.9,  gain:.9},
+    barber: {tune:62,decay:.16,click:.3, drive:.15,body:.85, gain:.85},
+    dungeon:{tune:54,decay:.30,click:.5, drive:.35,body:1.05,gain:1.1},
+    ambient:{tune:58,decay:.28,click:.25,drive:.2, body:.9,  gain:.8},
+  };
+  const DRUMBUS_BY_GENRE={house:1.45,jungle:1.4,dungeon:1.3,citypop:1.15,lofi:1.05,wise:1.05,barber:1.0,ambient:.95};
+  Synth.setKick(KICK_BY_GENRE[SESSION.chart.genre]||{tune:54,decay:.24,click:.6,drive:.35,body:1,gain:1.05});
+  Synth.setDrumBus(DRUMBUS_BY_GENRE[SESSION.chart.genre]||1.15);
   Synth.setPump(PUMP_BY_GENRE[SESSION.chart.genre]||0);
   // TIDES/FRAMES-style macro: the filtered-intro sweep — closed to open across
   // the gathering, when the song builds from sparse (not on drop starts)
