@@ -4725,19 +4725,30 @@ function bassEngine(chart, perception, rng){
       corpusBass = C.basses[Math.floor(rng()*C.basses.length)];
     }
   }
-  const rhythm=[0];                                  // GENERATED, downbeat-anchored
-  { const nHits=1+wpick(rng,[[1,1],[2,3],[3,4],[4,3],[5,2]]);
-    const cands=[[2,1],[3,1],[4,4],[6,2],[8,4],[10,2],[11,1],[12,4],[14,2]];
-    while(rhythm.length<nHits && cands.length){
-      const c=wpick(rng,cands);
+  // LOCK TO THE KICK — the bass reinforces the drums' pulse so the low end drives as
+  // ONE pocket, instead of floating on its own grid (the "no clear primary beat"
+  // problem). The bass's anchor hits sit ON the kick; fills only go between them.
+  const _feelName = chart.feel || (chart.genre && (typeof GENRE_FEEL!=="undefined" && GENRE_FEEL[chart.genre])) || "boombap";
+  const _feel = (typeof FEELS!=="undefined" && FEELS[_feelName]) || null;
+  const kickPulse = (_feel && _feel.kick && _feel.kick.length) ? _feel.kick.slice() : [0,8];
+  const rhythm = kickPulse.slice();                  // primary hits sit ON the kick pulse
+  { // add fills between the kicks for movement AND so the line has enough material to
+    // evolve loop-to-loop (Rule of 3). At least 4 hits total; the pulse stays the anchor.
+    const fillCands = [2,6,10,14,4,12,8,3,7,11].filter(s=>rhythm.indexOf(s)<0);
+    const want = Math.max(4, kickPulse.length + wpick(rng,[[1,3],[2,4],[3,2]]));
+    while(rhythm.length<want && fillCands.length){
+      const c = wpick(rng, fillCands.map(s=>[s, s%4===2?2:1]));   // favour the off-beat "and"s
       if(rhythm.every(x=>Math.abs(x-c)>=2)) rhythm.push(c);
-      const ci=cands.findIndex(x=>x[0]===c); if(ci>=0)cands.splice(ci,1);
+      const ci=fillCands.indexOf(c); if(ci>=0) fillCands.splice(ci,1);
     }
-    rhythm.sort((a,b)=>a-b); }
-  if(corpusBass && corpusBass.rhythm.length>=2){
-    rhythm.length=0;
-    for(const st of corpusBass.rhythm) if(st>=0 && st<16) rhythm.push(st);
-    if(rhythm[0]!==0) rhythm.unshift(0);
+    rhythm.sort((a,b)=>a-b);
+  }
+  // a corpus bassline may add its shape, but we KEEP the kick pulse so it still locks
+  // into the pocket (union with the pulse — never float free of the beat).
+  if(corpusBass && corpusBass.rhythm.length>=2 && rng()<0.4){
+    const merged = new Set(kickPulse);
+    for(const st of corpusBass.rhythm) if(st>=0 && st<16) merged.add(st);
+    rhythm.length=0; for(const s of [...merged].sort((a,b)=>a-b)) rhythm.push(s);
   }
   // per-hit pitch roles: Root, fifth, octave, scale approach — fixed shape, like the rhythm
   const shape = rhythm.map((_,k)=> k===0 ? "R" : wpick(rng,[["R",4],["5",3],["R8",2],["APP",2]]));
