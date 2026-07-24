@@ -268,6 +268,16 @@
       </section>
 
       <section class="mod">
+        <span class="tag">Drums · 808</span>
+        <div class="knobs">
+          <div class="knobwrap"><div class="knob" data-knob="ktune" tabindex="0" role="slider" aria-label="Kick tune"><span class="tick"></span></div><span class="kl">Tune</span><span class="kv" data-kv="ktune">—</span></div>
+          <div class="knobwrap"><div class="knob" data-knob="kpunch" tabindex="0" role="slider" aria-label="Kick punch"><span class="tick"></span></div><span class="kl">Punch</span><span class="kv" data-kv="kpunch">—</span></div>
+          <div class="knobwrap"><div class="knob" data-knob="kdecay" tabindex="0" role="slider" aria-label="Kick decay"><span class="tick"></span></div><span class="kl">Decay</span><span class="kv" data-kv="kdecay">—</span></div>
+          <div class="knobwrap"><div class="knob" data-knob="klevel" tabindex="0" role="slider" aria-label="Drum level"><span class="tick"></span></div><span class="kl">Level</span><span class="kv" data-kv="klevel">—</span></div>
+        </div>
+      </section>
+
+      <section class="mod">
         <span class="tag">Seed</span>
         <div class="row" style="margin-top:8px;">
           <input id="seedfield" type="text" size="11" placeholder="any number">
@@ -277,23 +287,23 @@
 
     </div>
 
-    <!-- ── genre presets (full width) ── -->
+    <!-- ── genre selector (full width) ── -->
     <section class="mod span2">
-      <span class="tag">Genre Presets</span>
+      <span class="tag">Genre</span>
+      <div id="library" class="row" style="margin-top:8px;"></div>
+    </section>
+
+    <!-- ── sampler / patchbay (full width) ── -->
+    <section class="mod span2">
+      <span class="tag">Sampler · Chop</span>
       <div id="breaks" class="row" style="margin-top:8px;">
-        <span class="lab">breaks:</span>
+        <span class="lab">make a break to chop:</span>
         <button class="mini" data-brk="lofi">lofi</button>
         <button class="mini" data-brk="jungle">jungle</button>
         <button class="mini" data-brk="house">house</button>
         <button class="mini" data-brk="wise">boom bap</button>
         <button class="mini" data-brk="dungeon">sparse</button>
       </div>
-      <div id="library" style="margin-top:10px;"></div>
-    </section>
-
-    <!-- ── sampler / patchbay (full width) ── -->
-    <section class="mod span2">
-      <span class="tag">Sampler · Chop</span>
       <div class="row" style="margin-top:8px;"><input id="sampfile" type="file"></div>
       <div id="dropzone">
         <b>load a record</b> — choose a file above, or drop one here.
@@ -4272,7 +4282,7 @@ registerProcessor("mi-clouds-reverb", MiCloudsReverb);`;
     else if(lane==="rim"){const o=ctx.createOscillator();o.type="triangle";o.frequency.setValueAtTime(1700,t);o.frequency.exponentialRampToValueAtTime(400,t+.02);g.gain.setValueAtTime(vel*.5,t);g.gain.exponentialRampToValueAtTime(.001,t+.04);o.connect(g);o.start(t);o.stop(t+.05);}
     else if(TOMF[lane]!=null){const base=TOMF[lane];const o=ctx.createOscillator();o.type="sine";o.frequency.setValueAtTime(base*1.2,t);o.frequency.exponentialRampToValueAtTime(base*.55,t+.26);g.gain.setValueAtTime(vel*.85,t);g.gain.setValueAtTime(vel*.7,t+.16);g.gain.linearRampToValueAtTime(.0001,t+.22);o.connect(g);o.start(t);o.stop(t+.24);if(vel>0.45){const nz=noise(t,.03);const nf=ctx.createBiquadFilter();nf.type="bandpass";nf.frequency.value=Math.min(6000,base*9);const ng=ctx.createGain();ng.gain.setValueAtTime(vel*.3,t);ng.gain.exponentialRampToValueAtTime(.001,t+.03);nz.connect(nf);nf.connect(ng);ng.connect(OUT);}}
   }
-  return {ensure,voice,drum,fm,modal,sampleVoice,setPump,duck,sweep,riser,ensurePump,initMiReverb,setReverb,renderOffline,encodeWav,initOPN2,opn2Note,opn2Reset,isOPN2Ready:()=>opn2Ready,setMaster,setTone,setDrive,setVoiceStyle,setKick,setDrumBus,getKick:()=>({...kickParams}),now:()=>ctx?ctx.currentTime:0,analyser:()=>analyser,resume:()=>{if(ctx&&ctx.state==="suspended")return ctx.resume();}};
+  return {ensure,voice,drum,fm,modal,sampleVoice,setPump,duck,sweep,riser,ensurePump,initMiReverb,setReverb,renderOffline,encodeWav,initOPN2,opn2Note,opn2Reset,isOPN2Ready:()=>opn2Ready,setMaster,setTone,setDrive,setVoiceStyle,setKick,setDrumBus,getKick:()=>({...kickParams}),getDrumBus:()=>drumBusGain,now:()=>ctx?ctx.currentTime:0,analyser:()=>analyser,resume:()=>{if(ctx&&ctx.state==="suspended")return ctx.resume();}};
 })();
 const T=(function(){
   const mod=(n,m)=>((n%m)+m)%m;
@@ -7419,6 +7429,28 @@ function schedule(){
 }
 
 const PUMP_BY_GENRE={house:.5, citypop:.3, lofi:.25, jungle:.2, barber:.15};
+// per-genre KICK voicing + drum-bus level — the dance genres get a full, upfront kick
+const KICK_BY_GENRE={
+  house:  {tune:50,decay:.42,click:.85,drive:.6,body:1.15,gain:1.25},
+  jungle: {tune:48,decay:.26,click:1.0,drive:.55,body:1.0, gain:1.2},
+  citypop:{tune:56,decay:.22,click:.6, drive:.3, body:1.0, gain:1.05},
+  lofi:   {tune:60,decay:.18,click:.35,drive:.2, body:.9,  gain:.9},
+  wise:   {tune:60,decay:.18,click:.35,drive:.2, body:.9,  gain:.9},
+  barber: {tune:62,decay:.16,click:.3, drive:.15,body:.85, gain:.85},
+  dungeon:{tune:54,decay:.30,click:.5, drive:.35,body:1.05,gain:1.1},
+  ambient:{tune:58,decay:.28,click:.25,drive:.2, body:.9,  gain:.8},
+};
+const DRUMBUS_BY_GENRE={house:1.45,jungle:1.4,dungeon:1.3,citypop:1.15,lofi:1.05,wise:1.05,barber:1.0,ambient:.95};
+const VOICESTYLE_BY_GENRE={house:"punchy",jungle:"punchy"};
+// apply the genre's PERFORMANCE settings — used by BOTH live playback and the offline
+// renderer, so an exported WAV is the same performance you hear (voice, kick, drums, pump).
+function applyGenrePerf(){
+  if(!SESSION||!SESSION.chart) return; const g=SESSION.chart.genre;
+  Synth.setVoiceStyle(VOICESTYLE_BY_GENRE[g]||"warm");
+  Synth.setKick(KICK_BY_GENRE[g]||{tune:54,decay:.24,click:.6,drive:.35,body:1,gain:1.05});
+  Synth.setDrumBus(DRUMBUS_BY_GENRE[g]||1.15);
+  Synth.setPump(PUMP_BY_GENRE[g]||0);
+}
 /* schedule EVERY event at absolute times — used by the offline renderer so the
    exported file is the same performance you hear, groove and all. */
 function rebuildEvents(){ /* slices are chosen at fire time */ }
@@ -7431,7 +7463,7 @@ function syncChopUI(){
 
 function scheduleAll(t0){
   const td=tickDur();
-  Synth.setPump(PUMP_BY_GENRE[SESSION.chart.genre]||0);
+  applyGenrePerf();   // so the exported WAV carries the genre's voice/kick/drums/pump
   if(SESSION.song.style!=="allin"){
     const lastIn=Math.max(0,...Object.values(SESSION.song.entries||{}));
     if(lastIn>0) Synth.sweep(t0+0.01, t0+0.01+lastIn*16*td, 900, 18000);
@@ -7701,16 +7733,21 @@ function chopForStep(absStep, loopSteps, loopIdx){
 /* ═══ THE SONG LIBRARY — songs are deterministic, so a seed IS a song. These
    were chosen by scanning thousands of seeds and scoring them on ensemble
    richness, story completeness and how much the theme develops. ═══ */
+/* the GENRE SELECTOR (replaces the old prerendered-song list): pick a style and
+   the machine generates a fresh best-of-N song in it; "random" lets it choose. */
 function buildLibraryUI(){
   const el=document.getElementById("library"); if(!el) return;
-  const genres=[...new Set(SONG_LIBRARY.map(s=>s.genre))];
-  el.innerHTML = genres.map(g=>
-    `<div class="libgroup"><span class="libg">${g}</span>` +
-    SONG_LIBRARY.filter(s=>s.genre===g).map(s=>
-      `<button class="libbtn" data-seed="${s.seed}" title="${s.key} · ${s.tempo}bpm · ${s.form} · ${s.bars} bars · ${s.parts} parts">`+
-      `${s.key} ${s.tempo}</button>`).join("") + `</div>`).join("");
-  el.querySelectorAll(".libbtn").forEach(b=>b.addEventListener("click",()=>{
-    pause(); newSong(b.getAttribute("data-seed")); }));
+  const genres=(typeof GENRES!=="undefined")?Object.keys(GENRES):[];
+  el.innerHTML =
+    `<button class="mini genrebtn" data-genre="">★ any</button>` +
+    genres.map(g=>`<button class="mini genrebtn" data-genre="${g}">${g}</button>`).join("");
+  el.querySelectorAll(".genrebtn").forEach(b=>b.addEventListener("click",()=>{
+    window.__genreForce = b.getAttribute("data-genre") || null;
+    el.querySelectorAll(".genrebtn").forEach(x=>x.classList.remove("hot"));
+    b.classList.add("hot");
+    if(typeof pause==="function") pause();
+    newSong();
+  }));
 }
 
 /* ═══ ORIGINAL BREAKS — the chopper needs material, and copyrighted records
@@ -7827,23 +7864,7 @@ function play(){
                lofi:{time:0.6,wet:0.24,lp:0.6},      citypop:{time:0.6,wet:0.22,lp:0.8},
                house:{time:0.5,wet:0.18,lp:0.85},    jungle:{time:0.45,wet:0.16,lp:0.85}};
   setTimeout(()=>Synth.setReverb(SPACE[SESSION.chart.genre]||{time:0.7,wet:0.25,lp:0.7}), 120);
-  // per-genre voice character: the dance genres play punchy, everything else warm
-  Synth.setVoiceStyle(({house:"punchy",jungle:"punchy"})[SESSION.chart.genre]||"warm");
-  // per-genre KICK voicing + drum-bus level — the dance genres get a full, upfront kick
-  const KICK_BY_GENRE={
-    house:  {tune:50,decay:.42,click:.85,drive:.6,body:1.15,gain:1.25},
-    jungle: {tune:48,decay:.26,click:1.0,drive:.55,body:1.0, gain:1.2},
-    citypop:{tune:56,decay:.22,click:.6, drive:.3, body:1.0, gain:1.05},
-    lofi:   {tune:60,decay:.18,click:.35,drive:.2, body:.9,  gain:.9},
-    wise:   {tune:60,decay:.18,click:.35,drive:.2, body:.9,  gain:.9},
-    barber: {tune:62,decay:.16,click:.3, drive:.15,body:.85, gain:.85},
-    dungeon:{tune:54,decay:.30,click:.5, drive:.35,body:1.05,gain:1.1},
-    ambient:{tune:58,decay:.28,click:.25,drive:.2, body:.9,  gain:.8},
-  };
-  const DRUMBUS_BY_GENRE={house:1.45,jungle:1.4,dungeon:1.3,citypop:1.15,lofi:1.05,wise:1.05,barber:1.0,ambient:.95};
-  Synth.setKick(KICK_BY_GENRE[SESSION.chart.genre]||{tune:54,decay:.24,click:.6,drive:.35,body:1,gain:1.05});
-  Synth.setDrumBus(DRUMBUS_BY_GENRE[SESSION.chart.genre]||1.15);
-  Synth.setPump(PUMP_BY_GENRE[SESSION.chart.genre]||0);
+  applyGenrePerf();   // voice character, kick voicing, drum-bus level, sidechain — see below
   // TIDES/FRAMES-style macro: the filtered-intro sweep — closed to open across
   // the gathering, when the song builds from sparse (not on drop starts)
   if(curStep===0 && SESSION.song.style!=="allin"){
@@ -7906,13 +7927,17 @@ function bestSeed(n, overrides, baseSeed){
 
 function newSong(forcedSeed){
   let seed, score=null;
+  // merge any live overrides: key (from a loaded sample) + a user-selected genre
+  const ov=(function(){ let o=window.__keyOverride?{...window.__keyOverride}:null;
+    if(window.__genreForce){ o=o||{}; o.genre=window.__genreForce; } return o; })();
   if(forcedSeed!=null && forcedSeed!==""){ seed=parseInt(forcedSeed,10)||1; }   // a pinned seed is honoured
   else { const b=Math.floor(Math.random()*1e9);                                 // random → BEST OF N
-         const best=bestSeed(8, window.__keyOverride||null, b); seed=best.seed; score=best.q; }
+         const best=bestSeed(8, ov, b); seed=best.seed; score=best.q; }
   window.__lastScore=score;
-  SESSION=buildSession(seed, window.__keyOverride||null);
+  SESSION=buildSession(seed, ov);
   const sf=document.getElementById("seedfield"); if(sf) sf.value=seed;
   window.SESSION=SESSION;                       // exposed for inspection/debug
+  applyGenrePerf();                             // reflect the genre's kick/voice immediately (before play)
   curStep=0;
   const c=SESSION.chart, sc=SESSION.song;
   const keyName=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"][c.key.root];
@@ -8240,6 +8265,15 @@ window.addEventListener("DOMContentLoaded",()=>{
 
   // ---- knobs (drag / wheel / arrows → real synth params) ----
   function expMap(v,lo,hi){ return lo*Math.pow(hi/lo, v); }
+  function clamp01(v){ return Math.max(0,Math.min(1,v)); }
+  // the DRUM knobs mirror live engine state (getKick/getDrumBus) instead of owning
+  // their own value, so they follow the per-genre kick and still let you override.
+  var KICKMAP={
+    ktune:  {get:function(s){return clamp01((s.getKick().tune-35)/45);}, set:function(s,v){s.setKick({tune:Math.round(35+v*45)});}, fmt:function(v){return Math.round(35+v*45)+"Hz";}},
+    kpunch: {get:function(s){return clamp01(s.getKick().click/1.5);}, set:function(s,v){s.setKick({click:+(v*1.5).toFixed(2)});}, fmt:function(v){return Math.round(v*100);}},
+    kdecay: {get:function(s){return clamp01((s.getKick().decay-0.1)/0.4);}, set:function(s,v){s.setKick({decay:+(0.1+v*0.4).toFixed(3)});}, fmt:function(v){return Math.round((0.1+v*0.4)*1000)+"ms";}},
+    klevel: {get:function(s){return clamp01((s.getDrumBus()-0.4)/1.4);}, set:function(s,v){s.setDrumBus(+(0.4+v*1.4).toFixed(2));}, fmt:function(v){return Math.round(v*100);}},
+  };
   function apply(kind,v){ var s=S(); if(!s)return;
     try{
       if(kind==="master") s.setMaster(0.05+v*1.05);
@@ -8248,15 +8282,19 @@ window.addEventListener("DOMContentLoaded",()=>{
       else if(kind==="drive" && s.setDrive) s.setDrive(v);   // master soft-clip warmth
     }catch(e){}
   }
+  var KNOBS=[];
   function initKnob(el){
     var kind=el.getAttribute("data-knob");
-    var def={master:0.62, tone:0.85, space:0.25, drive:0}[kind]; if(def==null)def=0.5;
-    var val=def;
+    var kmap=KICKMAP[kind]||null;
+    var s0=S();
+    var def = kmap ? (s0?kmap.get(s0):0.5) : ({master:0.62,tone:0.85,space:0.25,drive:0}[kind]);
+    if(def==null)def=0.5;
+    var val=def, drag=false, sy=0, sv=0;
     var kv=document.querySelector('[data-kv="'+kind+'"]');
-    function render(){ el.style.setProperty("--ang",(-135+val*270)+"deg"); if(kv)kv.textContent=Math.round(val*100); el.setAttribute("aria-valuenow",Math.round(val*100)); }
-    function set(v){ val=Math.max(0,Math.min(1,v)); render(); apply(kind,val); }
-    render(); apply(kind,val);
-    var drag=false, sy=0, sv=0;
+    function render(){ el.style.setProperty("--ang",(-135+val*270)+"deg"); if(kv)kv.textContent=kmap?kmap.fmt(val):Math.round(val*100); el.setAttribute("aria-valuenow",Math.round(val*100)); }
+    function doApply(){ var s=S(); if(!s)return; try{ if(kmap)kmap.set(s,val); else apply(kind,val); }catch(e){} }
+    function set(v){ val=clamp01(v); render(); doApply(); }
+    render(); if(!kmap) doApply();          // control knobs stage their value; kick knobs mirror the engine
     el.addEventListener("pointerdown",function(e){ drag=true; sy=e.clientY; sv=val; el.setPointerCapture(e.pointerId); e.preventDefault(); });
     el.addEventListener("pointermove",function(e){ if(!drag)return; set(sv+(sy-e.clientY)/160); });
     el.addEventListener("pointerup",function(){ drag=false; });
@@ -8264,11 +8302,13 @@ window.addEventListener("DOMContentLoaded",()=>{
     el.addEventListener("wheel",function(e){ set(val - Math.sign(e.deltaY)*0.04); e.preventDefault(); },{passive:false});
     el.addEventListener("keydown",function(e){ if(e.key==="ArrowUp"||e.key==="ArrowRight"){ set(val+0.05); e.preventDefault(); }
       else if(e.key==="ArrowDown"||e.key==="ArrowLeft"){ set(val-0.05); e.preventDefault(); } });
+    // kick knobs follow the engine when not being dragged (genre changes, new song)
+    KNOBS.push({ sync:function(){ if(!kmap||drag)return; var s=S(); if(!s)return; var nv=kmap.get(s); if(Math.abs(nv-val)>0.004){ val=nv; render(); } } });
   }
 
   function boot(){
     var ks=document.querySelectorAll(".knob"); for(var i=0;i<ks.length;i++) initKnob(ks[i]);
-    (function loop(){ drawScope(); drawVU(); lamps(); requestAnimationFrame(loop); })();
+    (function loop(){ drawScope(); drawVU(); lamps(); for(var i=0;i<KNOBS.length;i++) KNOBS[i].sync(); requestAnimationFrame(loop); })();
   }
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",boot); else boot();
 })();
