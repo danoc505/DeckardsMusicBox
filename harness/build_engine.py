@@ -80,6 +80,7 @@ module.exports = {
   FOLK_CORPUS:   (typeof FOLK_CORPUS!=='undefined'?   FOLK_CORPUS   : undefined),
   IMPROV_DIMENSIONS: (typeof IMPROV_DIMENSIONS!=="undefined"? IMPROV_DIMENSIONS : undefined),
   IMPROV_FORMS: (typeof IMPROV_FORMS!=="undefined"? IMPROV_FORMS : undefined),
+  scoreSong: (typeof scoreSong!=='undefined'? scoreSong : undefined),
 };
 """
 

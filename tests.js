@@ -217,6 +217,24 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
         rows.join("  "));
 })();
 
+/* ── 8e. THE JUDGE (best-of-N) — the engine now rates PRESENCE-OF-GOOD (voice-leading,
+   story arc, theme development, in-key, contour interest, fullness) and picks the best
+   of several candidates, not just the first seed. Guard that scoring the best of 8 beats
+   a single seed on average — i.e. the judge actually improves what ships. ── */
+(function judge(){
+  if(typeof B.scoreSong!=="function"){ check("best-of-N judge improves quality", false, "scoreSong not exported"); return; }
+  const q=seed=>{ const c=conduct(seed); return B.scoreSong(c, composeSong(c, B.makeRng(seed))).score; };
+  let single=0, best=0, N=20;
+  for(let base=1; base<=N; base++){
+    single += q((base*104729)%1000000);
+    let bq=-1; for(let i=0;i<8;i++){ const s=q((base*7919+i*104729)%1000000); if(s>bq)bq=s; }
+    best += bq;
+  }
+  const ms=single/N, mb=best/N;
+  check("best-of-N judge improves quality (best-of-8 > single seed)", mb>ms+0.05,
+        "single "+(100*ms).toFixed(0)+"%  vs  best-of-8 "+(100*mb).toFixed(0)+"%");
+})();
+
 
 /* ── 9. ABSOLUTE REGISTERS: bass below chords below lead (the roll must LOOK right) ── */
 (function registers(){

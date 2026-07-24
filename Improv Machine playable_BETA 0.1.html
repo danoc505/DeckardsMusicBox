@@ -7494,9 +7494,57 @@ function pause(){ PLAYING=false; clearInterval(timer);
   document.getElementById("play").textContent="▶ play"; }
 function toggle(){ PLAYING?pause():play(); }
 
+/* ── THE JUDGE — rate a composed song on PRESENCE-OF-GOOD, not just absence-of-wrong.
+   The constraints referee (reject invalid); the ghost corrects; this scores what is
+   GOOD so best-of-N can choose. Deterministic: same song → same score. ── */
+function scoreSong(chart, song){
+  const pcg=m=>((m%12)+12)%12, parts=song.parts, arr=song.arrangement||[];
+  // 1) voice-leading smoothness — reward proximity to Bach's ~0.72 stepwise (not maximisation)
+  let vs=0,vt=0; const h=parts.find(p=>p.role==="harmony");
+  if(h){ const bb={}; for(const n of h.notes){ if(n.midi==null)continue;(bb[n.bar]||(bb[n.bar]=new Set())).add(n.midi); }
+    const bars=Object.keys(bb).map(Number).sort((a,b)=>a-b); let prev=null;
+    for(const b of bars){ const v=[...bb[b]].sort((a,b)=>a-b);
+      if(prev&&v.join()!==prev.join()){ const n=Math.min(v.length,prev.length); for(let k=0;k<n;k++){vt++;if(Math.abs(v[k]-prev[k])<=2)vs++;} } prev=v; } }
+  const vl=vt?vs/vt:0, sVL=1-Math.min(1,Math.abs(vl-0.72)/0.45);
+  // 2) story arc — rises from the opening AND the payoff lands late
+  let sArc=0;
+  if(arr.length>=3){ const e=arr.map(s=>s.energy||(s.activeRoles?s.activeRoles.length:1));
+    const mi=arr.findIndex(s=>s.event==="moment");
+    sArc=(e[0]<Math.max(...e)?0.5:0)+(mi>=0&&mi>=arr.length*0.4?0.5:0); }
+  // 3) theme development — stated then transformed (variety of ops)
+  const sTheme=Math.min(1,(new Set((song.themeLog||[]).map(l=>l.op)).size)/4);
+  // 4) in-key
+  let ink=0,tot=0; const sc=new Set(T.semis(chart.key.scale).map(o=>pcg(chart.key.root+o)));
+  for(const p of parts){ if(p.role==="drums")continue; for(const n of p.notes){ if(n.midi==null)continue; tot++; if(sc.has(pcg(n.midi)))ink++; } }
+  const sKey=tot?ink/tot:0;
+  // 5) melodic contour interest — lead leap-ratio near ~0.25 (not static, not jumpy)
+  let sC=0; const ld=parts.find(p=>p.role==="lead");
+  if(ld){ const ns=ld.notes.slice().sort((a,b)=>a.bar-b.bar||a.step-b.step); let lp=0,mv=0;
+    for(let i=1;i<ns.length;i++){ const d=Math.abs(ns[i].midi-ns[i-1].midi); if(d>0){mv++;if(d>2)lp++;} }
+    sC=1-Math.min(1,Math.abs((mv?lp/mv:0)-0.25)/0.4); }
+  // 6) fullness — average active roles per section (not thin)
+  const sFull=arr.length?Math.min(1,(arr.reduce((a,s)=>a+(s.activeRoles?s.activeRoles.length:0),0)/arr.length)/4):0;
+  const score=0.28*sVL+0.18*sArc+0.14*sTheme+0.12*sKey+0.14*sC+0.14*sFull;
+  return { score, sVL, sArc, sTheme, sKey, sC, sFull };
+}
+/* generate N candidate songs, score them, return the best seed (the judge chooses) */
+function bestSeed(n, overrides, baseSeed){
+  let best=null;
+  for(let i=0;i<n;i++){
+    const seed = baseSeed!=null ? (baseSeed + i*7919) % 1e9 : Math.floor(Math.random()*1e9);
+    let q; try{ const chart=conduct(seed, overrides||{}); q=scoreSong(chart, composeSong(chart, makeRng(seed))).score; }
+    catch(e){ q=-1; }
+    if(!best || q>best.q) best={seed, q};
+  }
+  return best;
+}
+
 function newSong(forcedSeed){
-  const seed = (forcedSeed!=null && forcedSeed!=="") ? (parseInt(forcedSeed,10)||1)
-                                                    : Math.floor(Math.random()*1e9);
+  let seed, score=null;
+  if(forcedSeed!=null && forcedSeed!==""){ seed=parseInt(forcedSeed,10)||1; }   // a pinned seed is honoured
+  else { const b=Math.floor(Math.random()*1e9);                                 // random → BEST OF N
+         const best=bestSeed(8, window.__keyOverride||null, b); seed=best.seed; score=best.q; }
+  window.__lastScore=score;
   SESSION=buildSession(seed, window.__keyOverride||null);
   const sf=document.getElementById("seedfield"); if(sf) sf.value=seed;
   window.SESSION=SESSION;                       // exposed for inspection/debug
@@ -7504,7 +7552,8 @@ function newSong(forcedSeed){
   const c=SESSION.chart, sc=SESSION.song;
   const keyName=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"][c.key.root];
   document.getElementById("info").textContent =
-    `${c.genre}  ·  ${keyName} ${c.key.scale}  ·  ${c.tempo}bpm  ·  ${c.form} (${c.nBars} bars)  ·  focal: ${c.focal}`;
+    `${c.genre}  ·  ${keyName} ${c.key.scale}  ·  ${c.tempo}bpm  ·  ${c.form} (${c.nBars} bars)  ·  focal: ${c.focal}` +
+    (score!=null ? `  ·  best-of-8, quality ${(score*100).toFixed(0)}%` : "");
   document.getElementById("form").textContent =
     "story: " + sc.arrangement.map(s=>s.event+(s.lift?"^":"")).join(" → ") +
     "   |   band entered: " + sc.order.join(" → ");
