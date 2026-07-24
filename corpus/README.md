@@ -59,12 +59,13 @@ these scripts regenerate those literals in place.
   contours/rhythms + FOLK melodicShapes (s="session"). Widened the CONTOUR pool 3,647 ->
   4,972 (now 5 sources). Validated: 56% stepwise, matching existing folk/bach/wjazz (53-58%).
 
-- **`build_grammar.py`** — the plunderphonics move done cleanly: learns an order-2 Markov
-  grammar (with back-off) over ALL ingested contours (~5k) and GENERATES 900 novel melodic
-  shapes from the aggregate. No source melody is retained; each generated contour is filtered
-  to never be a contiguous sub-sequence of any source. Validated: 0 verbatim duplicates,
-  stepwise 50.8% vs training 55.9%, mean |interval| 1.82 vs 1.65 (in-distribution). Tagged
-  s="grammar"; the recombination draws it like any other contour.
+- **`build_grammar.py`** — the plunderphonics move done cleanly, across ALL THREE dimensions:
+  learns an order-2 Markov grammar (with back-off) over every ingested contour, rhythm, and
+  chord-progression, and GENERATES new material from the aggregate — no source phrase retained;
+  each generated sequence is rejected if it's even a contiguous sub-sequence of any source.
+  Adds ~900 contours + ~500 rhythms + ~500 progressions (s="grammar"/_grammar). Deterministic
+  and IDEMPOTENT (strips prior grammar and regenerates). The recombination/harmony draw uses
+  them like any other entry.
 
 ## Next (see ../docs/CORPUS_SOURCES.md)
 

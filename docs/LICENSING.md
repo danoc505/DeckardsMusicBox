@@ -54,13 +54,13 @@ protection comes from our *method* (above), not from the source's jurisdiction.
 | JSB Chorales (382, Bach) | voice-lines, contours (relative) | PD composition (d.1750) |
 | Jazz Harmony Treebank (1170 standards) | chord **progressions** only | progressions non-copyrightable |
 | Weimar Jazz DB (456 recorded solos) | chord **changes** only (no melodies) | progressions non-copyrightable; ODbL DB |
-| Grammar (order-2 Markov over the pooled corpus) | **nothing** — new contours generated from statistics | no source melody retained; strongest position |
+| Grammar (order-2 Markov over the pooled corpus) | **nothing** — new contours, rhythms & progressions generated from statistics | no source material retained; strongest position |
 
 ## The strongest move: learn the grammar, generate the notes
 
-Beyond recombining fragments, `corpus/build_grammar.py` learns an order-2 Markov
-grammar over every ingested contour (~5k) and GENERATES new melodic shapes from
-the aggregate. The output retains **no source melody** — it is built from pooled
+Beyond recombining fragments, `corpus/build_grammar.py` learns an order-2 Markov grammar
+over every ingested **contour, rhythm, and chord-progression** and GENERATES new
+material in each dimension from the aggregate. The output retains **no source melody** — it is built from pooled
 statistics the way a player internalises a tradition. Every generated contour is
 filtered so it is never even a contiguous sub-sequence of any single source. This
 is the strongest not-infringing position in the project: there is no source to be
