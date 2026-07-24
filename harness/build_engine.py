@@ -103,7 +103,8 @@ def main():
     for name, body in SHIMS.items():
         io.open(os.path.join(RUN, name), "w", encoding="utf-8").write(body)
     # bring the project's own tools next to the shims (copied verbatim, not modified)
-    for tool, dest in [("tests.js","tests.js"), ("print roll.js","print_roll.js")]:
+    for tool, dest in [("tests/tests.js","tests.js"), ("tests/print_roll.js","print_roll.js"),
+                       ("tests.js","tests.js"), ("print roll.js","print_roll.js")]:
         p = os.path.join(ROOT, tool)
         if os.path.exists(p): shutil.copyfile(p, os.path.join(RUN, dest))
     # the shipped HTML IS the built player; expose it under the name the suite greps for

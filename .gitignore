@@ -1,0 +1,12 @@
+# build & run artifacts
+harness/run/
+**/__pycache__/
+*.pyc
+
+# local audio renders / scratch
+*.wav
+scratch/
+.DS_Store
+
+# editor / tooling
+.claude/
