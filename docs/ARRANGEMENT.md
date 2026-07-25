@@ -1,0 +1,84 @@
+# Arrangement — the leader and the tracks that orbit it
+
+> **Status:** the engine now designates a **LEADER** track (the melodic foreground,
+> `chart._leader`, currently the `lead`) and defines every other track by its
+> relationship to it. This is grounded in orchestration / film-scoring practice, not
+> invented. What's implemented and what's still ahead is tracked at the bottom.
+
+The user's ask, in their words: *"identify a leader of the track… one of the tracks
+is the leader and all other tracks move around it — introduce, compliment, counter,
+duel."* The web research below (film/orchestral arranging) turned that into concrete,
+codifiable rules.
+
+## The model: melody-dominated homophony
+
+Professional practice converges on a **layered stack**, not a flat set of equal
+tracks:
+
+- **Foreground** — the melody / lead. *One* leader at a time.
+- **Middleground** — counter-melody, harmonic comping, active figuration.
+- **Background** — sustained pads/harmony, bass foundation, rhythmic bed.
+
+Clarity comes from **functional hierarchy, not volume equality**: "when everything is
+equally prominent, the listener does not know where to focus." A dense mix reads
+clearly only when the roles are ranked.
+
+## Codified principles → engine rules
+
+| # | Principle | Rule in the engine | Source |
+|---|-----------|--------------------|--------|
+| 1 | One voice leads; all others are explicitly subordinate ("melody-dominated homophony") | `chart._leader = "lead"`; **prominence hierarchy** pass in `ghostPass` ranks every pitched voice at a defined level beneath the lead | Rimsky-Korsakov; hellomusictheory; filipeleitao |
+| 2 | Give the lead its own register; keep busy accompaniment out of the melody's octave | lead is the highest melodic band; the arp (which sat *above* the lead) is dropped to background level so it sparkles rather than rivals | Rimsky-Korsakov; Open Music Theory |
+| 5 | Rhythmic complementarity: busy under held, held under busy | harmony **comps** — its inner motif ducks −7 dB under a held lead note (`ghostPass §2c`) | Panman; Composing the Score |
+| 6 | Counter/answer voices fill the leader's **rests** (call-and-response) | `buildCounter` places its reply inside the lead's largest within-bar silence, not from step 0 over a held note | Panman; Wikipedia (Counter-melody) |
+| 7 | Attenuate competing higher voices so the lead is prioritized | prominence ratios: counter/lead2 ≈ 0.80×, arp ≈ 0.62×, pad ≈ 0.55× the lead's level | Rimsky-Korsakov; Panman |
+| 11 | Film scoring: the score **supports, never competes** with the focal element | the lead is the protected focal element; supports duck and sit beneath it | Soundverse (underscoring) |
+
+Ratios are applied proportionally (each voice's median velocity is scaled to its
+target, preserving internal dynamics) and only ever pull a voice **down** — nothing
+is boosted except a gentle +8% lift on the leader itself. Bass and drums are the
+**foundation** (a different function) and keep their own levels.
+
+## Measured effect (40 seeds, `harness/run/probe_hierarchy.js`)
+
+| voice | avg velocity before → after |
+|-------|-----------------------------|
+| lead (leader) | 0.506 → **0.598** |
+| counter | 0.468 → 0.425 |
+| arp | 0.401 → **0.293** (was *above* the lead in register) |
+| harmony | 0.335 → 0.316 |
+| pad | 0.269 |
+| bass (foundation) | 0.762 |
+
+The lead is now clearly the loudest melodic voice with real separation beneath it,
+instead of a crowded stack where the arp out-registered the tune and the counter
+nearly matched its level.
+
+## Not yet done (ranked, honest)
+
+- **#10 Hand the lead between tracks across sections.** The leader is currently
+  always the `lead`. The research's strongest arrangement idea is passing the melody
+  (verse: lead; solo: counter; etc.), re-orchestrating on each hand-off. This needs
+  the leader to be a *token* that reassigns per section, plus a smooth one-phrase
+  overlap. Biggest remaining lever.
+- **#8 `contribution` per track** (weight / warmth / motion / attack / air) so an
+  optional voice is added only when it adds something the mix lacks.
+- **#9 Intensity by layer count over time** — partly present (arrangement adds/drops
+  voices per section); not yet driven by an explicit target layer-count per energy.
+- **#12 Leitmotif** — the theme object exists (`09_theme.js`); re-orchestrating the
+  leader's theme on recurrence (new instrument/register) is not wired to the leader.
+
+## Sources
+
+- Rimsky-Korsakov, *Principles of Orchestration* — https://www.gutenberg.org/files/33900/33900-h/33900-h.htm
+- Filipe Leitão, "You're Not Supposed to Hear Every Instrument" — https://www.filipeleitao.com/post/you-re-not-supposed-to-hear-every-instrument
+- Evenant, "A Practical Approach To Orchestration" (MeHaRyTe) — https://evenant.com/a-practical-approach-to-orchestration/
+- Panman Music, "How to Write Countermelody" — https://www.panmanmusic.com/writing-countermelodies/
+- Composing the Score, "Creating Counter-Melodies" — https://composingthescore.wordpress.com/2016/01/08/creating-counter-melodies/
+- Soundverse, "What Is Underscoring in Film" — https://www.soundverse.ai/blog/article/what-is-underscoring-in-film-0816
+- Splice, "What is Arrangement in Music?" — https://splice.com/blog/what-is-arrangement-in-music/
+- music4beginner, "Ravel's Boléro" — https://music4beginner.com/ravels-bolero-building-tension-and-orchestration-explained/
+- Filimowicz (Sound & Design), "Orchestration & Arrangement" — https://soundand.design/orchestration-f93ab89e83a5
+- HelloMusicTheory, "Homophonic Texture" — https://hellomusictheory.com/learn/homophonic-texture/
+- Wikipedia, "Counter-melody" — https://en.wikipedia.org/wiki/Counter-melody
+- Open Music Theory, "Core Principles of Orchestration" — https://viva.pressbooks.pub/openmusictheory/chapter/core-principles-of-orchestration/
