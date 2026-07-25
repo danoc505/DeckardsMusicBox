@@ -5645,14 +5645,36 @@ function buildCounter(voice, chart, chords, perception, rng){
     const useMoves = (rel==="imitate" && imitateMoves) ? imitateMoves : answer.moves;
     const chord=chords[bar%chords.length]||{root};
     const tones=chordToneMidis(chord, root, scale, LO, HI);
-    let m=nearestTone(_spaceRef!=null?_spaceRef:tones[Math.floor(tones.length/2)], tones), step=0;
-    answer.rhythm.forEach((dur,k)=>{
+    // ANSWER IN THE LEAD'S SILENCE. A "quiet bar" can still hold ONE long lead note
+    // sustaining across it; laying the reply from step 0 then talks straight over it
+    // (measured: ~half of counter onsets landed on the lead). Find the largest run of
+    // steps in THIS bar where the lead is NOT sounding, and place the reply there — so
+    // the counter answers in the gap instead of doubling the melody.
+    const leadForGap = lead || (perception.parts||[]).find(p=>p.role==="melody");
+    let gapStart=0, gapEnd=16;
+    if(leadForGap){
+      const occ=new Array(16).fill(false), barBase=bar*16;
+      for(const n of leadForGap.notes){ const a=n.bar*16+n.step;   // absolute, so a note SUSTAINING across the barline still blocks this bar
+        for(let k=0;k<(n.dur||1);k++){ const abs=a+k; if(abs>=barBase && abs<barBase+16) occ[abs-barBase]=true; } }
+      let bestS=0,bestLen=-1,runS=-1;
+      for(let st=0; st<16; st++){
+        if(!occ[st]){ if(runS<0) runS=st; }
+        else if(runS>=0){ const len=st-runS; if(len>bestLen){bestLen=len;bestS=runS;} runS=-1; }
+      }
+      if(runS>=0){ const len=16-runS; if(len>bestLen){bestLen=len;bestS=runS;} }
+      if(bestLen<2) continue;                       // no room for even one reply note → lay out
+      gapStart=bestS; gapEnd=bestS+bestLen;
+    }
+    let m=nearestTone(_spaceRef!=null?_spaceRef:tones[Math.floor(tones.length/2)], tones), step=gapStart;
+    for(let k=0;k<answer.rhythm.length;k++){
+      if(step>=gapEnd) break;                       // keep the reply inside the gap
+      const dur=answer.rhythm[k];
       if(k>0){ const mv=useMoves[(k-1)%useMoves.length]; m=T.scaleStep2(m, scale, root, mv); }
       if(step%4===0) m=nearestTone(m,tones);
       m=clamp(T.fold(m,LO,HI),LO,HI);
-      notes.push({bar, step, midi:m, dur, vel:.42});
+      notes.push({bar, step, midi:m, dur:Math.max(2,Math.min(dur,gapEnd-step)), vel:.42});
       step+=dur;
-    });
+    }
   }
   return { name:(voice.name||"counter"), role:"counter", notes };
 }
