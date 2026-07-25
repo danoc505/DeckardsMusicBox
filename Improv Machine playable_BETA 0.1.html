@@ -7385,6 +7385,45 @@ function composeSong(conductorChart, rng){
     }
   }
   const themeLog = developTheme(session.parts, plan.sections, chart, rng);
+  // DERIVE THE LEADER first (before the ghost), so the leader-derived voices below are
+  // validated by the ghost like any other material. The leader is NOT always the
+  // melody: the conductor's FOCAL picks who leads, and a bass-led song is as valid as
+  // a melody-led one. Whatever we pick must actually be PLAYING; else hand off.
+  (function pickLeader(){
+    const nb=chart.nBars||1;
+    const cov=role=>{ const p=session.parts.find(x=>x.role===role); if(!p)return 0;
+      return new Set(p.notes.filter(n=>n.midi!=null).map(n=>n.bar)).size/nb; };
+    const FOCAL2ROLE={ melody:"lead", bass:"bass" };   // harmony is a sustained comp, not a riff → can't lead by level (future: chord-riff)
+    let leader = FOCAL2ROLE[chart.focal] || "lead";
+    if(cov(leader)<0.3){ leader="lead"; let lc=cov("lead");
+      if(lc<0.3){ for(const r of ["counter","lead2","bass"]){ const c=cov(r); if(c>lc+0.05){ lc=c; leader=r; } } } }
+    chart._leader=leader;
+  })();
+  // PLAY OFF THE LEADER (step 1 of relational generation) — the arp used to run a
+  // fixed chord arpeggio in ISOLATION (it only knew the progression, never the tune).
+  // Now it is DERIVED from the leader: each of its steps sweeps a small broken chord
+  // ANCHORED on the leader's current pitch (leader, 3rd, 5th above, in key), in the
+  // arp's register — so it rises and falls WITH the leader instead of doing its own
+  // thing. Runs BEFORE the ghost, so unisons with the leader and any unresolved leaps
+  // it creates get corrected like normal material. (Counter already answers the
+  // leader; pad is the simple bed; this makes the busy arp play off the leader too.)
+  (function relateToLeader(){
+    const leaderRole=chart._leader||"lead";
+    const L=session.parts.find(p=>p.role===leaderRole); if(!L||!L.notes.length) return;
+    const arp=session.parts.find(p=>p.role==="arp"); if(!arp||!arp.notes.length) return;
+    const [ALO,AHI]=BAND.arp, sc=chart.key.scale, rt=chart.key.root;
+    const lp={};
+    for(const n of L.notes){ if(n.midi==null)continue; const a=n.bar*16+n.step;
+      for(let k=0;k<(n.dur||1);k++){ if(lp[a+k]==null) lp[a+k]=n.midi; } }
+    const OFFS=[2,4,2,6];   // sweep a broken chord ABOVE the leader (3rd,5th,3rd,7th) — near it but not in unison (the ghost still guards collisions)
+    let i=0;
+    for(const n of arp.notes){ if(n.midi==null)continue; const a=n.bar*16+n.step;
+      let t=lp[a]; if(t==null){ for(let d=1;d<=6 && t==null;d++) t=lp[a-d]; }
+      if(t==null){ i++; continue; }
+      let m=T.scaleStep2(t, sc, rt, OFFS[i%OFFS.length]); i++;
+      while(m<ALO)m+=12; while(m>AHI)m-=12;
+      n.midi=m; }
+  })();
   const finalCorrections = ghostPass(session.parts, chart);
   // SECTION RECURRENCE — a song has structure BECAUSE material RETURNS. When a form
   // section comes back AFTER a departure (the A after the B in A-A-B-A; the chorus
@@ -7416,31 +7455,6 @@ function composeSong(conductorChart, rng){
       restated++;
     }
     return restated;
-  })();
-  // DERIVE THE LEADER — the one track the whole song is built around; every other
-  // voice then sits beneath it in the prominence hierarchy (it is what they "dance
-  // around"). The leader is NOT always the melody: the conductor's FOCAL picks who
-  // leads, and ANY pitched track can — a bass-led (dub/funk/DnB) or chord/riff-led
-  // (minimalism/acid) song is as valid as a melody-led one (research: the leader is
-  // whichever track carries the hook, decoupled from instrument). Drums can't carry a
-  // pitched motif, so a drums-focal song still leads with the melody. Whatever we pick
-  // must actually be PLAYING; if it lays out, hand off to the most-present voice.
-  (function pickLeader(){
-    const nb=chart.nBars||1;
-    const cov=role=>{ const p=session.parts.find(x=>x.role===role); if(!p)return 0;
-      return new Set(p.notes.filter(n=>n.midi!=null).map(n=>n.bar)).size/nb; };
-    // A track can LEAD only if it can carry the foreground now: the melody, or the
-    // BASS (bass-led dub/funk/DnB — the bass is the hook and everything thins around
-    // it). HARMONY here is a sustained comp texture, not a rhythmic chord RIFF, so it
-    // can't lead by level without drowning under the bass — chord-riff leadership is a
-    // future engine behaviour, so a harmony/drums focal leads with the melody for now.
-    const FOCAL2ROLE={ melody:"lead", bass:"bass" };
-    let leader = FOCAL2ROLE[chart.focal] || "lead";
-    if(cov(leader)<0.3){                                  // the chosen leader isn't really present — fall back
-      leader="lead"; let lc=cov("lead");
-      if(lc<0.3){ for(const r of ["counter","lead2","bass"]){ const c=cov(r); if(c>lc+0.05){ lc=c; leader=r; } } }   // voices that can actually lead (not the sustained harmony comp)
-    }
-    chart._leader=leader;
   })();
   // THE GROOVE goes on last — it is a PERFORMANCE layer (timing and dynamics),
   // so it never disturbs the pitch physics the ghost just settled.
