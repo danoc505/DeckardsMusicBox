@@ -7624,6 +7624,38 @@ function composeSong(conductorChart, rng){
       }
     }
   }
+  // SECTION-DISTINCT MELODY — the chorus is the peak, sung at FULL HEIGHT; the verse is
+  // a LOWER, calmer statement of the same tune (production research: the verse melody
+  // sits ~a 4th–5th below the chorus, the pre-chorus lifts a step into it). The whole
+  // melodic group (lead + its leader-derived partners) is shifted together as a rigid
+  // DIATONIC block, so every relationship the relateToLeader pass built survives — a
+  // mirror stays a mirror, a parallel 6th stays a 6th — but the section's register (and
+  // therefore its energy) changes. The chorus/bridge keep their generated height (the
+  // bridge is its own material); everything else drops. Shifts only ever fold DOWNWARD
+  // to a floor (never wrap up past the chorus), so the chorus is always the peak.
+  {
+    const mel = session.parts.filter(p=>["lead","lead2","counter","arp"].includes(p.role) && p.notes.length);
+    if(mel.length && plan.sections && plan.sections.length){
+      const sc=chart.key.scale, rt=chart.key.root;
+      const secByBar={}; for(const sec of plan.sections) for(let b=sec.startBar;b<sec.endBar;b++) secByBar[b]=sec;
+      const SHIFT = { chorus:0, pre:1, verse:-3, intro:-4, breakdown:-4, outro:-2 }; // diatonic steps (−3 ≈ a 4th, −4 ≈ a 5th down)
+      const FLOOR = { lead:60, lead2:57, counter:55, arp:59 };                  // lead stays above the harmony floor; the ghost has the last word
+      for(const p of mel){ const bd=BAND[p.role]||BAND.lead2, floor=FLOOR[p.role]||55, ceil=bd[1];
+        for(const n of p.notes){ if(n.midi==null) continue;
+          const sec=secByBar[n.bar]; if(!sec) continue; const k=_sectionKind(sec);
+          if(k==="chorus"||k==="bridge") continue;                             // the peak / departure keep their generated height
+          const s=SHIFT[k]; if(!s) continue;
+          let m=T.scaleStep2(n.midi,sc,rt,s);
+          // clamp to the nearest IN-KEY pitch inside [floor,ceil] (do not wrap up past the
+          // chorus). Landing in-key matters: a raw floor can be an out-of-key pitch the
+          // ghost would then snap DOWN below the floor.
+          while(m<floor) m=T.scaleStep2(m,sc,rt,1);
+          while(m>ceil)  m=T.scaleStep2(m,sc,rt,-1);
+          n.midi=m;
+        }
+      }
+    }
+  }
   // ═══════════════════════════════════════════════════════════════════════════
   // PEAK-FIRST COMPOSITION — write the song FROM its climax outward.
   // The material generated above IS the peak: the moment where the motif is fully
