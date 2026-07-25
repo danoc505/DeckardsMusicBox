@@ -343,11 +343,23 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
     const loop=chart.loopBars||8;
     const rhythmOf=(p,b)=>p.notes.filter(n=>n.bar===b).map(n=>n.step).sort((a,x)=>a-x).join(",");
     const bass=song.parts.find(p=>p.role==="bass");
+    // SECTION-RELATIVE (same rationale as the loop test below, which was already
+    // updated): the groove must REPEAT — that is the law, and it still holds — but it
+    // repeats WITHIN a section. The verse and the chorus now play genuinely different
+    // bass LINES (a second take, not the same line re-pitched), so comparing bar b of
+    // the intro against bar b of the chorus compares two different parts and proves
+    // nothing. Pairs are counted only when both bars sit in the SAME section.
+    const arrB=song.arrangement||[];
+    const secOfB=b=>arrB.find(s=>b>=s.startBar && b<s.endBar);
     if(bass){ let same=0,tot=0;
-      for(let b=0;b<loop;b++){ const r0=rhythmOf(bass,b);
-        for(let L=1;L*loop+b<Math.min(chart.nBars,loop*3);L++){ tot++;
-          if(rhythmOf(bass,L*loop+b)===r0||rhythmOf(bass,L*loop+b).length<r0.length) same++; } }
-      bassN++; if(tot&&same/tot>=0.6) bassOk++; }
+      // scan the WHOLE song (not just the first 3 loops) so restricting to same-section
+      // pairs keeps full coverage instead of shrinking the sample
+      for(let b=0; b+loop<chart.nBars; b++){
+        const b2=b+loop, s1=secOfB(b), s2=secOfB(b2);
+        if(!s1||!s2||s1!==s2) continue;                   // different sections play different material
+        const r0=rhythmOf(bass,b); tot++;
+        if(rhythmOf(bass,b2)===r0||rhythmOf(bass,b2).length<r0.length) same++; }
+      if(tot){ bassN++; if(same/tot>=0.6) bassOk++; } }
     const lead=song.parts.find(p=>p.role==="lead");
     if(lead && lead.notes.length){ const e=Math.min(...lead.notes.map(n=>n.bar));
       let same=0,tot=0;

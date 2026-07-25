@@ -7240,9 +7240,28 @@ function composeSong(conductorChart, rng){
                       _progLen:chart._progLen,           // the conductor-fixed cycle length (if drawn from a real progression)
                       _chordBeats:chart._chordBeats };   // a record's changes, if following one
   const session = improvise(coreChart, rng);
+  // CARRY THE SEED BACK. improvise() assigns the base seed onto the chart it is GIVEN
+  // (coreChart); the conductor's chart never had `_seed` at all. Every seeded decision
+  // later in this function — entrance fills, the relationship assignment, the density
+  // peel — read `chart._seed||0` and so were all running on seed **0**: identical in
+  // every song, whatever the seed. That silently collapsed exactly the variety those
+  // passes exist to create (measured: the second bass take produced 4 distinct patterns
+  // across 40 songs; with the real seed, 20).
+  chart._seed = coreChart._seed;
   chart.realizedFocal = session.order[0];        // whoever actually started
   chart._progLen = coreChart._progLen;           // surface the cycle length
   const plan = arrangeSections(chart, session, rng);
+  // what KIND of section is this, musically? (the peak/chorus is the destination;
+  // the verse is the low ground; the pre-chorus lifts; the intro/outro frame it)
+  const _sectionKind = sec => {
+    if(sec.event==="moment"||sec.event==="peak"||sec.role==="hook") return "chorus";
+    if(sec.role==="bridge"||sec.contrast) return "bridge";
+    if(sec.role==="lift") return "pre";
+    if(sec.event==="drop") return "breakdown";
+    if(sec.event==="open"||sec.role==="intro") return "intro";
+    if(sec.event==="out"||sec.role==="coda") return "outro";
+    return "verse";
+  };
   // TRANSITION CRAFT (2-Loop text): every entrance has an entry side — the bar
   // before it gets a fill, so arrivals are announced, not accidental.
   const drums = session.parts.find(pt=>pt.role==="drums");
@@ -7522,6 +7541,39 @@ function composeSong(conductorChart, rng){
     }
     return restated;
   })();
+  // ═══════════════════════════════════════════════════════════════════════════
+  // A SECOND TAKE — the verse plays a DIFFERENT BASS LINE, not the chorus line
+  // re-pitched. This is the real fix for "it sounded like there was one single bass
+  // line for the whole song — that's not how songs are made." A producer does not
+  // edit one take into a song; they WRITE A DIFFERENT PART for the verse. So we run
+  // the bass engine a SECOND time on its own seeded sub-stream: same chart, same key,
+  // same progression roots (it is the same song), but a genuinely different rhythm
+  // and shape. Take A — the material composed at the peak — keeps the chorus and the
+  // bridge; take B plays the verse/intro/outro/breakdown. Runs BEFORE the groove so
+  // the new line gets the same performance layer (swing, dynamics) as everything else,
+  // and the ghost validates it against the harmony that is actually sounding.
+  {
+    const bass = session.parts.find(p=>p.role==="bass");
+    if(bass && plan.sections && plan.sections.length){
+      const secByBar={}; for(const sec of plan.sections) for(let b=sec.startBar;b<sec.endBar;b++) secByBar[b]=sec;
+      const kindAt = bar => { const s=secByBar[bar]; return s?_sectionKind(s):"verse"; };
+      const TAKE_B = {verse:1, intro:1, outro:1, breakdown:1};      // the down sections get their own line
+      let takeB=null;
+      try{ takeB = ENGINES.bass(coreChart, session.perception,
+                                makeRng(hashName(chart._seed||0,"bass:take2"))); }catch(e){ takeB=null; }
+      if(takeB && takeB.notes && takeB.notes.length){
+        const kept = bass.notes.filter(n=>!TAKE_B[kindAt(n.bar)]);   // take A keeps chorus/bridge/pre
+        for(const n of takeB.notes){ if(TAKE_B[kindAt(n.bar)]) kept.push({...n}); }
+        bass.notes = kept.sort((a,b)=>(a.bar*16+a.step)-(b.bar*16+b.step));
+      }
+      // the pre-chorus still holds a DOMINANT PEDAL on the 5th (tension into the chorus)
+      const rootByBar={}; for(const n of bass.notes){ if(n.midi!=null && n.step===0 && rootByBar[n.bar]==null) rootByBar[n.bar]=n.midi; }
+      for(const n of bass.notes){ if(n.midi==null||n.step===0) continue;
+        if(kindAt(n.bar)!=="pre") continue; const root=rootByBar[n.bar]; if(root==null) continue;
+        n.midi=T.fold(root+7,36,BASS_CEIL); }
+      ghostPass(session.parts, chart);      // the new line is validated like any other
+    }
+  }
   // THE GROOVE goes on last — it is a PERFORMANCE layer (timing and dynamics),
   // so it never disturbs the pitch physics the ghost just settled.
   const groove = makeGroove(chart, rng);
@@ -7591,39 +7643,8 @@ function composeSong(conductorChart, rng){
       while(nt.midi>BASS_CEIL) nt.midi-=12; while(nt.midi<36) nt.midi+=12; } }
   // ═══════════════════════════════════════════════════════════════════════════
   // SECTIONS ARE DISTINCT — each plays its OWN material, derived from the peak by role.
-  // A song is not one loop tiled: the verse, chorus, pre-chorus and breakdown play
-  // DIFFERENT lines. The peak (chorus/moment) is the full realization; other sections
-  // transform it. Here the BASS is made distinct per section (the "one bass line for the
-  // whole song" fix, grounded in production research — docs/ARRANGEMENT.md): the verse
-  // bass is simple and root-driven, the chorus keeps its full busy line, the pre-chorus
-  // holds a DOMINANT PEDAL (tension into the chorus), the breakdown sustains the root.
-  // The downbeat roots (the progression) are always kept, so it stays the same song —
-  // only the bass's ELABORATION changes as the song moves. (Melody/harmony per-section
-  // is the next pass; it needs the leader-relative voices re-derived after the shift.)
-  const _sectionKind = sec => {
-    if(sec.event==="moment"||sec.event==="peak"||sec.role==="hook") return "chorus";
-    if(sec.role==="bridge"||sec.contrast) return "bridge";
-    if(sec.role==="lift") return "pre";
-    if(sec.event==="drop") return "breakdown";
-    if(sec.event==="open"||sec.role==="intro") return "intro";
-    if(sec.event==="out"||sec.role==="coda") return "outro";
-    return "verse";
-  };
-  {
-    const bass = session.parts.find(p=>p.role==="bass");
-    if(bass && plan.sections && plan.sections.length){
-      const secByBar={}; for(const sec of plan.sections) for(let b=sec.startBar;b<sec.endBar;b++) secByBar[b]=sec;
-      const rootByBar={}; for(const n of bass.notes){ if(n.midi!=null && n.step===0 && rootByBar[n.bar]==null) rootByBar[n.bar]=n.midi; }
-      // Keep each song's bass RHYTHM (so per-song rhythmic identity and the loop survive);
-      // only the PITCH elaboration changes by section — that is what differs verse↔chorus.
-      for(const n of bass.notes){ if(n.midi==null || n.step===0) continue;      // downbeat root always kept (the progression)
-        const sec=secByBar[n.bar]; const k=sec?_sectionKind(sec):"verse"; const root=rootByBar[n.bar]; if(root==null) continue;
-        if(k==="chorus"||k==="bridge") continue;                               // the peak keeps its full melodic bass; the bridge is its own thing
-        else if(k==="pre") n.midi=T.fold(root+7,36,BASS_CEIL);                  // PEDAL on the 5th (dominant tension into the chorus)
-        else n.midi=root;                                                      // verse/intro/outro/breakdown: a steady ROOT groove (simple, not the melodic line)
-      }
-    }
-  }
+  // A song is not one loop tiled. The BASS gets a genuine SECOND TAKE (above, before
+  // the groove); here the MELODY and HARMONY take their per-section treatment.
   // SECTION-DISTINCT MELODY — the chorus is the peak, sung at FULL HEIGHT; the verse is
   // a LOWER, calmer statement of the same tune (production research: the verse melody
   // sits ~a 4th–5th below the chorus, the pre-chorus lifts a step into it). The whole
@@ -7703,8 +7724,27 @@ function composeSong(conductorChart, rng){
     // thin out, toward it they fill in. That is what "peeling from the peak" sounds
     // like — the tune and the texture recede and return around the climax while the
     // rhythm section stays solid.
+    // ...but the KIT is only exempt where the song is actually running. In the INTRO and
+    // the OUTRO the drums thin too, or the song "opens at full blast": the opening is
+    // usually the rhythm section, and it played its full loop from bar one, so no amount
+    // of dropping melodic voices made it sound like an intro. At the frame the kit keeps
+    // its downbeats and loses a share of its off-beats, so the groove ARRIVES.
+    // (Bass and harmony keep their patterns intact: their bar-to-bar repetition is the
+    // stored-texture/loop law, and thinning them made every song's opening bass look
+    // alike — measured, it collapsed cross-song bass variety from 20 to 4.)
     const FOUNDATION = { bass:1, harmony:1, drums:1 };
-    for(const p of session.parts){ if(FOUNDATION[p.role]) continue;
+    const FRAME_PEEL = { open:0.55, out:0.7 };
+    for(const p of session.parts){
+      if(p.role==="drums"){
+        const kept=[];
+        for(const n of p.notes){ const sec=secByBar[n.bar];
+          const f = sec ? FRAME_PEEL[sec.event] : undefined;
+          if(f==null || (n.step%4)===0 || keepScore(p.role, n.bar%loopB, n.step) < f) kept.push(n);
+        }
+        p.notes = kept;
+        continue;
+      }
+      if(FOUNDATION[p.role]) continue;
       const kept=[];
       for(const n of p.notes){ if(n.midi==null){ kept.push(n); continue; }
         const sec = secByBar[n.bar];
@@ -7718,6 +7758,50 @@ function composeSong(conductorChart, rng){
     // the peel can leave a passing tone stranded as a leap-in/leap-out non-chord tone;
     // the ghost gets the last word so the thinned lines stay legal cross-engine.
     ghostPass(session.parts, chart);
+  }
+  // ═══════════════════════════════════════════════════════════════════════════
+  // THE HOOK — the one phrase you remember, and the reason you can NAME the song.
+  // A hook is not "a good melody": it is the SAME melodic phrase returning, intact,
+  // every time the chorus comes round. Before this, every chorus developed the theme
+  // differently (measured: 6 choruses → 4 different melodies), so there was nothing to
+  // recognise — the song had a tune but no hook. Here the CANONICAL chorus is the PEAK
+  // (the moment where the motif is fully realized — the destination the whole song is
+  // built around), and its melodic material is stamped into EVERY other chorus, tiled
+  // if that chorus is longer. So the hook is literally the peak, heard early, heard
+  // again, and finally heard at full power — which is what makes the payoff land.
+  // Runs LAST, after the density peel, because the peel thins each section by its own
+  // loop position and would otherwise make every chorus a slightly different shape.
+  {
+    const secs = plan.sections || [];
+    const chorus = secs.filter(s=>_sectionKind(s)==="chorus");
+    if(chorus.length > 1){
+      const src = chorus.find(s=>s.event==="moment") || chorus[0];     // the peak IS the hook
+      const srcLen = Math.max(1, src.endBar - src.startBar);
+      const HOOKV = {lead:1, lead2:1, counter:1, arp:1};               // the melodic voices carry it
+      let stamped = 0;
+      for(const p of session.parts){
+        if(!HOOKV[p.role]) continue;
+        const srcNotes = p.notes.filter(n=>n.bar>=src.startBar && n.bar<src.endBar);
+        if(!srcNotes.length) continue;
+        for(const sec of chorus){
+          if(sec===src) continue;
+          const len = sec.endBar - sec.startBar; if(len<=0) continue;
+          p.notes = p.notes.filter(n=>n.bar<sec.startBar || n.bar>=sec.endBar);
+          for(let off=0; off<len; off+=srcLen){                        // tile the hook to fill a longer chorus
+            for(const n of srcNotes){ const rel=(n.bar-src.startBar)+off;
+              if(rel>=len) continue; p.notes.push({...n, bar:sec.startBar+rel}); }
+          }
+          stamped++;
+        }
+        p.notes.sort((a,b)=>(a.bar*16+a.step)-(b.bar*16+b.step));
+      }
+      if(themeLog) themeLog.hook = { from:src.startBar, bars:srcLen, stamped };
+      // the stamped hook lands against each chorus's own neighbours, so it can collide
+      // in unison with another voice there — the ghost gets the last word, as always.
+      // (Its corrections are the same in every chorus because the harmony under them is
+      // the same, so the hook stays recognisably identical; measured below.)
+      ghostPass(session.parts, chart);
+    }
   }
   session.chart = coreChart;   // expose the core chart so material can be harvested
   return { chart, session, arrangement:plan.sections, entries:plan.entries,
@@ -7797,23 +7881,30 @@ function arrangeSections(chart, session, rng){
     const pos=i/Math.max(1,spansS.length-1);
     let active, event, lift=false;
     if(i===0){
-      // A REAL INTRO — the song does NOT open at full blast with the melody from bar
-      // one. The intro is rhythm + atmosphere (drums/bass/harmony/pad/arp); the TUNE
-      // ARRIVES after it. So the MELODIC voices (lead/lead2/counter) are held OUT of the
-      // opening and enter at the next section — the melody is an arrival, not the
-      // starting gun. Still 2+ elements so it grooves (an intro is atmosphere building,
-      // not silence), just not the hook. (The old code deliberately kept the lead in
-      // the opening "never one alone" — that is exactly why there were no intros.)
+      // A REAL INTRO — the song does not open at full blast.
+      // ANYTHING can start a song, in any combination — a lone drum groove, a bass
+      // figure, a chord wash, or the hook riff itself. The old code banned the melodic
+      // voices from the opening and always filled to exactly THREE (measured: every
+      // song opened with exactly 3 roles), which is its own kind of "full blast" — a
+      // fixed-size band from bar one. Now the opening SIZE and its MEMBERS are both
+      // seeded choices over every voice that has entered, so intros differ song to song.
       const MEL = r => r==="lead"||r==="lead2"||r==="counter";
-      const nonLead = entered.filter(r=>!MEL(r));
-      const starter = nonLead[0] || entered[0];
-      const keep = [starter];
-      const W={drums:4,harmony:4,bass:3,pad:3,arp:2};        // rhythm/atmosphere — never the hook
-      let avail = nonLead.filter(r=>r!==starter);
-      while(keep.length<3 && avail.length){
+      const W={drums:4,harmony:4,bass:4,pad:3,arp:3,lead:3,counter:2,lead2:2,lowline:1};
+      const openSize = wpick(rng, [[2,5],[3,3]]);            // small — the band is not all here yet
+      let avail = entered.slice();
+      const keep = [];
+      // the opener can be ANY entered voice (the tune included); the rest join it
+      while(keep.length<openSize && avail.length){
         const c = wpick(rng, avail.map(r=>[r, W[r]||1]));
         keep.push(c); avail = avail.filter(r=>r!==c);
       }
+      // ...but a bare pair of MELODIC voices with no floor under them is not an intro,
+      // it is a fragment: make sure something holds the ground (drums/bass/harmony/pad).
+      if(keep.length && keep.every(MEL)){
+        const floorRoles = entered.filter(r=>!MEL(r));
+        if(floorRoles.length) keep[keep.length-1] = wpick(rng, floorRoles.map(r=>[r, W[r]||1]));
+      }
+      const starter = keep[0] || entered[0];
       if(keep.length < 2){                                   // guarantee 2+ so the intro grooves, not thin
         const soon = roles.filter(r=>r!==starter && !MEL(r))
                           .sort((a,c)=>(roleEntry[a]??99)-(roleEntry[c]??99));
