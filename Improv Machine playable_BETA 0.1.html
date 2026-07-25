@@ -7398,19 +7398,29 @@ function composeSong(conductorChart, rng){
   }
   const themeLog = developTheme(session.parts, plan.sections, chart, rng);
   const finalCorrections = ghostPass(session.parts, chart);
-  // DERIVE THE LEADER from who is actually present. Normally the lead is the leader,
-  // but a few songs have the lead lay out / barely play (measured: some covered <15%
-  // of bars) — leaving no voice for the song to be built around. When that happens we
-  // hand leadership to the most-present MELODIC voice (counter, then lead2), so there
-  // is always a leader (arrangement research #10: the lead can move between voices).
+  // DERIVE THE LEADER — the one track the whole song is built around; every other
+  // voice then sits beneath it in the prominence hierarchy (it is what they "dance
+  // around"). The leader is NOT always the melody: the conductor's FOCAL picks who
+  // leads, and ANY pitched track can — a bass-led (dub/funk/DnB) or chord/riff-led
+  // (minimalism/acid) song is as valid as a melody-led one (research: the leader is
+  // whichever track carries the hook, decoupled from instrument). Drums can't carry a
+  // pitched motif, so a drums-focal song still leads with the melody. Whatever we pick
+  // must actually be PLAYING; if it lays out, hand off to the most-present voice.
   (function pickLeader(){
     const nb=chart.nBars||1;
     const cov=role=>{ const p=session.parts.find(x=>x.role===role); if(!p)return 0;
       return new Set(p.notes.filter(n=>n.midi!=null).map(n=>n.bar)).size/nb; };
-    let leader="lead", lc=cov("lead");
-    // only reassign when the lead is genuinely sparse (a through-line is missing) AND
-    // another melodic voice is clearly more present — then lead with what's actually there.
-    if(lc<0.3){ for(const r of ["counter","lead2"]){ const c=cov(r); if(c>lc+0.05){ lc=c; leader=r; } } }
+    // A track can LEAD only if it can carry the foreground now: the melody, or the
+    // BASS (bass-led dub/funk/DnB — the bass is the hook and everything thins around
+    // it). HARMONY here is a sustained comp texture, not a rhythmic chord RIFF, so it
+    // can't lead by level without drowning under the bass — chord-riff leadership is a
+    // future engine behaviour, so a harmony/drums focal leads with the melody for now.
+    const FOCAL2ROLE={ melody:"lead", bass:"bass" };
+    let leader = FOCAL2ROLE[chart.focal] || "lead";
+    if(cov(leader)<0.3){                                  // the chosen leader isn't really present — fall back
+      leader="lead"; let lc=cov("lead");
+      if(lc<0.3){ for(const r of ["counter","lead2","bass"]){ const c=cov(r); if(c>lc+0.05){ lc=c; leader=r; } } }   // voices that can actually lead (not the sustained harmony comp)
+    }
     chart._leader=leader;
   })();
   // THE GROOVE goes on last — it is a PERFORMANCE layer (timing and dynamics),

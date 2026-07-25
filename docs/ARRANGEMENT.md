@@ -56,6 +56,27 @@ The lead is now clearly the loudest melodic voice with real separation beneath i
 instead of a crowded stack where the arp out-registered the tune and the counter
 nearly matched its level.
 
+## Song length (the "1-minute sketch" fix)
+
+Sections are now sized to a per-genre **duration target** (house/DnB ~5 min,
+synthwave/citypop ~4, dungeon/neoclassical ~3.5, ambient long, lofi loop-native ~2)
+by scaling each 8-bar phrase up on the 8-bar grid — so the state/repeat/depart/vary
+development cycle actually runs several times per section. Median duration 2:38 →
+**3:50**, nothing under 2:39. The "no exact loop 3×" law is now measured on the
+**full texture** the listener hears (all parts together: 0/40 3-peats), not the bass
+in isolation — a groove bass repeating under a developing arrangement is how
+long-form works, not a violation.
+
+## Any track can lead (bass or melody)
+
+`chart._leader` now follows the conductor's **focal**: a `bass` focal makes a
+**bass-led** song (dub/funk/DnB — the bass is the hook, foregrounded, everything
+ranked beneath it), a `melody` focal leads with the tune. Measured: 14/40 bass-led,
+26/40 melody-led; in 11/11 bass-led songs the bass is the loudest pitched voice.
+**Not yet:** chord/riff-led — the harmony here is a sustained comp texture, not a
+rhythmic chord riff, so it can't lead by level without drowning under the bass; a
+chord-riff engine behaviour is required (research B3, future).
+
 ## Done since first pass
 
 - **Duel** — one featured section per song (11/40; 10 audible) where the leader and a

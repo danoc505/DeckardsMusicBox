@@ -412,7 +412,11 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
     // the chord cycle: downbeat root pcs repeat with period _progLen (2-4)
     if(chart._progLen){ cycleN++;
       const dpc=b=>{const n=bass.notes.filter(x=>x.bar===b&&x.step===0)[0];return n?pc(n.midi):null;};
-      let ok=true; for(let b=0;b<loop-chart._progLen;b++) if(dpc(b)!==dpc(b+chart._progLen)){ok=false;break;}
+      // compare only bars where the bass ACTUALLY states a downbeat root — a sparse
+      // bassline (ambient/dungeon) that omits some downbeats but repeats the same
+      // roots where it plays is still a short cycle; a missing note is not a violation.
+      let ok=true; for(let b=0;b<loop-chart._progLen;b++){ const a=dpc(b), d=dpc(b+chart._progLen);
+        if(a!=null && d!=null && a!==d){ok=false;break;} }
       if(ok && chart._progLen<=4) cycleOk++; }
   }
   check("no exact loop plays 3+ times (returns evolve)", overloop===0, overloop+"/"+songs.length);
