@@ -5856,6 +5856,30 @@ function ghostPass(parts, chart){
     }
   }
 
+  // 2c) COMP UNDER THE LEAD: harmony's busy inner-motif re-articulations that fire
+  //     WHILE the lead is holding a note compete with the melody for the foreground —
+  //     the "harmony is a wall, not an accompanist" problem (measured: 57% of those
+  //     transient hits chopped under a lead sustain). A real accompanist keeps comping
+  //     but DUCKS under the soloist, so we pull just those hits down in level. Nothing
+  //     is removed — the chord and the stored texture stay intact (loop/texture laws
+  //     untouched); harmony simply steps back so the lead sings. A chord hitting
+  //     TOGETHER with a lead ATTACK is a locked band, not crowding — left at full level.
+  {
+    const lead = parts.find(p=>p.role==="lead") || parts.find(p=>p.role==="melody");
+    const harm = parts.find(p=>p.role==="harmony");
+    if(lead && harm && lead.notes.length){
+      const onset=new Set(), held=new Set();
+      for(const n of lead.notes){ if(n.midi==null)continue; const a=n.bar*16+n.step; onset.add(a);
+        for(let k=1;k<(n.dur||1);k++) held.add(a+k); }          // sustain steps (held, not attacked)
+      let nd=0;
+      for(const nt of harm.notes){ if(nt.midi==null || nt.vel>0.34) continue;   // only the transient inner-motif re-hits
+        const key=nt.bar*16+nt.step;
+        if(held.has(key) && !onset.has(key)){ nt.vel=+(nt.vel*0.55).toFixed(3); nd++; }
+      }
+      if(nd)corrections.push({kind:"harmony ducks under lead", count:nd});
+    }
+  }
+
   // 3) OUT-OF-KEY notes that don't resolve by step → snap to the nearest scale
   //    tone. (A non-scale tone stepping out is a legal approach tone — physics.)
   n=0;
