@@ -7589,6 +7589,47 @@ function composeSong(conductorChart, rng){
   for(const p of session.parts){ if(p.role!=="bass")continue;
     for(const nt of p.notes){ if(nt.midi==null)continue;
       while(nt.midi>BASS_CEIL) nt.midi-=12; while(nt.midi<36) nt.midi+=12; } }
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PEAK-FIRST COMPOSITION — write the song FROM its climax outward.
+  // The material generated above IS the peak: the moment where the motif is fully
+  // realized and every voice plays at full density. That is the destination. Now we
+  // PEEL AWAY from it: the further a section sits from the peak on the arc, the LESS of
+  // each voice sounds — fewer of its notes, on top of the arrangement's fewer voices.
+  // So the intro is a sparse hint of the peak, the build fills in toward it, the peak
+  // is the whole thing, and the outro withdraws — one composed climax, revealed and
+  // peeled back around itself. This is the method, not just a property: every section's
+  // density is DERIVED from the peak's, not generated independently. (Loop-consistent —
+  // the same loop-position is thinned the same way, so loops still repeat — and every
+  // downbeat and half-bar is kept, so the beat skeleton and the progression survive.)
+  {
+    const loopB = chart.loopBars || 8;
+    const PEEL = { open:0.55, build:0.78, peak:0.92, moment:1.0, drop:0.5, rebuild:0.72, out:0.62 };
+    chart._peak = { density:1.0, event:"moment", loopBars:loopB };   // the composed reference (full realization)
+    const secByBar = {};
+    for(const sec of plan.sections) for(let b=sec.startBar;b<sec.endBar;b++) secByBar[b]=sec;
+    const keepScore = (role,lp,step)=> (hashName(chart._seed||0, role+"@"+lp+"@"+step) % 1000) / 1000;
+    // The FOUNDATION holds the groove throughout — bass, harmony and drums keep their
+    // loop intact so the song never loses its floor. The density arc lives in the
+    // MELODIC / COLOR layers (lead, lead2, counter, arp, pad): away from the peak they
+    // thin out, toward it they fill in. That is what "peeling from the peak" sounds
+    // like — the tune and the texture recede and return around the climax while the
+    // rhythm section stays solid.
+    const FOUNDATION = { bass:1, harmony:1, drums:1 };
+    for(const p of session.parts){ if(FOUNDATION[p.role]) continue;
+      const kept=[];
+      for(const n of p.notes){ if(n.midi==null){ kept.push(n); continue; }
+        const sec = secByBar[n.bar];
+        const f = sec ? (PEEL[sec.event] ?? 0.85) : 0.85;
+        // keep every STRONG BEAT (0/4/8/12 — the skeleton) and a loop-consistent
+        // fraction of the off-beats; only the off-beat ornament peels
+        if((n.step%4)===0 || f>=0.999 || keepScore(p.role, n.bar%loopB, n.step) < f) kept.push(n);
+      }
+      p.notes = kept;
+    }
+    // the peel can leave a passing tone stranded as a leap-in/leap-out non-chord tone;
+    // the ghost gets the last word so the thinned lines stay legal cross-engine.
+    ghostPass(session.parts, chart);
+  }
   session.chart = coreChart;   // expose the core chart so material can be harvested
   return { chart, session, arrangement:plan.sections, entries:plan.entries,
            style:plan.style, themeLog, finalCorrections,
