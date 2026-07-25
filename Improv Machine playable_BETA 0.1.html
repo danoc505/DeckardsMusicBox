@@ -7386,6 +7386,37 @@ function composeSong(conductorChart, rng){
   }
   const themeLog = developTheme(session.parts, plan.sections, chart, rng);
   const finalCorrections = ghostPass(session.parts, chart);
+  // SECTION RECURRENCE — a song has structure BECAUSE material RETURNS. When a form
+  // section comes back AFTER a departure (the A after the B in A-A-B-A; the chorus
+  // after the bridge), restate that section's material from its FIRST occurrence, so
+  // the listener actually hears it come home — not a variation that wandered off.
+  // (The user's law: the loop must come up again elsewhere, or it's just noise.)
+  // Only true RETURNS are restated (not two A's in a row — those stay in the
+  // develop cycle, so we never create a long identical run); the bridge/intro/coda
+  // are departures/frames and are never restated. Arrangement (which voices play,
+  // energy) still differs per section, so the return is recognizable but not static.
+  (function restateSections(){
+    const secs=plan.sections; if(!secs||secs.length<3) return;
+    const SKIP=s=>s.contrast||s.role==="bridge"||s.role==="intro"||s.role==="coda";
+    const firstByName={};
+    for(const s of secs){ if(!SKIP(s) && !firstByName[s.name]) firstByName[s.name]=s; }
+    let restated=0;
+    for(let i=1;i<secs.length;i++){ const sec=secs[i];
+      if(SKIP(sec)) continue;
+      const src=firstByName[sec.name]; if(!src||src===sec) continue;
+      if(secs[i-1].name===sec.name) continue;                 // adjacent same-name → leave the develop cycle (no long identical run)
+      const srcLen=src.endBar-src.startBar, len=sec.endBar-sec.startBar;
+      if(srcLen!==len||len<=0) continue;                      // only restate an equal-length return
+      const off=sec.startBar-src.startBar;
+      for(const p of session.parts){
+        const srcNotes=p.notes.filter(n=>n.bar>=src.startBar && n.bar<src.endBar);
+        p.notes=p.notes.filter(n=>n.bar<sec.startBar || n.bar>=sec.endBar);
+        for(const n of srcNotes) p.notes.push({...n, bar:n.bar+off});
+      }
+      restated++;
+    }
+    return restated;
+  })();
   // DERIVE THE LEADER — the one track the whole song is built around; every other
   // voice then sits beneath it in the prominence hierarchy (it is what they "dance
   // around"). The leader is NOT always the melody: the conductor's FOCAL picks who

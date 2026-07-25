@@ -380,8 +380,11 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
     if(loops>=3){ departN++;
       let diff=0; for(let b=loop/2;b<loop;b++) if(sig(b)!==sig(b+2*loop)) diff++;
       if(diff>0) departOk++;                                  // L2 back half departs
-      let allSame=true; for(let b=0;b<loop;b++) if(sig(b)!==sig(b+2*loop)){allSame=false;break;}
-      if(allSame) tripleIdentical++; }                        // L0==L1==L2 → overuse
+      // 3 identical IN A ROW = overuse, measured on the FULL TEXTURE (all parts): the
+      // bass repeating under a CHANGED arrangement (A→B→A) is "something new" (an
+      // element added) and is allowed — only a fully static 3-in-a-row is the defect.
+      const fsig=L=>song.parts.map(p=>p.role+":"+p.notes.filter(n=>n.bar>=L*loop && n.bar<(L+1)*loop).map(n=>(n.bar-L*loop)+"."+n.step+"."+(n.midi==null?("d"+(n.lane||"")):n.midi)).join(",")).sort().join("|");
+      if(fsig(0)===fsig(1) && fsig(1)===fsig(2)) tripleIdentical++; }
   }
   check("REINFORCE: loop 2 repeats loop 1 exactly", reinforceN>0&&reinforceOk/reinforceN>=0.9, reinforceOk+"/"+reinforceN);
   check("DEPART: the 3rd loop goes somewhere different", departN>0&&departOk/departN>=0.8, departOk+"/"+departN);
