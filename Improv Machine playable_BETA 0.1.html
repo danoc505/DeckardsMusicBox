@@ -6989,6 +6989,25 @@ function conduct(seed, overrides){
   // maybe an intro (sparse lead-in) — soft
   if(rng()<0.5) sections = [{name:"intro", role:"intro", bars:4}].concat(sections);
 
+  // SONG LENGTH — a 1-minute instrumental is a sketch, not a song; there's no room
+  // for the arc (state → build → peak → drop → moment) to breathe. Size the sections
+  // to a per-genre DURATION target (researched: house/DnB 5-6 min, synthwave/citypop
+  // ~4 min, dungeon/neoclassical ~3.5, ambient long, lofi loop-native ~2). Each 8-bar
+  // phrase scales up in whole steps (16/24/32… — still on the 8-bar grid), so a
+  // section becomes several 8-bar loops and the state/repeat/depart/vary development
+  // cycle actually runs, instead of a fast tempo flashing past in 45 seconds.
+  if(!overrides.nBars && !overrides.form){
+    const DUR_TARGET={ lofi:135, house:300, jungle:315, synthwave:240, citypop:240,
+                       dungeon:210, ambient:330, barber:240, wise:255 };
+    const secsPerBar=(60/tempo)*4;
+    const targetBars=(DUR_TARGET[genreName]||240)/secsPerBar;
+    const curBars=sections.reduce((s,x)=>s+x.bars,0);
+    if(curBars>0){
+      const mult=Math.max(1, Math.min(3, Math.round(targetBars/curBars)));   // whole-number, keeps the grid; capped so nothing runs away
+      if(mult>1) for(const s of sections) s.bars*=mult;
+    }
+  }
+
   // FEEL (drum grammar) + phrase unit
   const feel = overrides.feel || G.feel;
   const phraseUnit = 8;

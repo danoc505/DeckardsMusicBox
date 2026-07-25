@@ -397,9 +397,18 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
     const loop=chart.loopBars||8, loops=Math.floor(chart.nBars/loop);
     const bass=song.parts.find(p=>p.role==="bass"); if(!bass)continue;
     if(Math.min(...bass.notes.map(n=>n.midi))<36) bassLow++;
-    const sig=L=>{let s="";for(let b=0;b<loop;b++)s+=bass.notes.filter(n=>n.bar===L*loop+b).map(n=>n.step+":"+n.midi).join("|")+"/";return s;};
+    // THE LAW is "the SONG never just repeats" — measured on the FULL TEXTURE the
+    // listener hears (every part together), NOT the bass in isolation. A groove bass
+    // that repeats under a DEVELOPING arrangement is how long-form music works
+    // (research: a multi-minute track develops by adding/removing layers and varying
+    // the other voices, not by making every 8-bar bassline unique — that would sound
+    // restless, not composed). A full-texture 3-peat means the song genuinely stalled.
+    const sig=L=>song.parts.map(p=>p.role+":"+p.notes
+        .filter(n=>n.bar>=L*loop && n.bar<(L+1)*loop)
+        .map(n=>(n.bar-L*loop)+"."+n.step+"."+(n.midi==null?("d"+(n.lane||"")):n.midi))
+        .join(",")).sort().join("|");
     const counts={}; for(let L=0;L<loops;L++){const k=sig(L);counts[k]=(counts[k]||0)+1;}
-    if(Math.max(...Object.values(counts))>=3) overloop++;
+    if(Math.max(...Object.values(counts),0)>=3) overloop++;
     // the chord cycle: downbeat root pcs repeat with period _progLen (2-4)
     if(chart._progLen){ cycleN++;
       const dpc=b=>{const n=bass.notes.filter(x=>x.bar===b&&x.step===0)[0];return n?pc(n.midi):null;};
