@@ -104,10 +104,16 @@ The **backward** pass strips density from the peak toward the intro/outro (the d
 *peel*, foundation held). The section-distinct passes are the **alterations** that make
 each section its own thing — not one loop tiled:
 
-- **Bass** — the downbeat roots (the progression) are always kept, but the elaboration
-  changes by section: the verse/intro/outro is a steady ROOT groove, the pre-chorus
-  holds a DOMINANT PEDAL on the 5th, the chorus/bridge keep the full melodic bass.
-  Measured: bass identical verse↔chorus **0/40** (was 18/40).
+- **Bass — a genuine SECOND TAKE.** The first attempt at this was cosmetic and was
+  correctly rejected by ear: it re-pitched off-beats but KEPT the rhythm, so it was the
+  same LINE (measured after the fact: 2 distinct bar-rhythms across 120 bars). A producer
+  does not edit one take into a song, they *write a different part*. So the bass engine
+  runs a **second time** on its own seeded sub-stream — same chart, key and progression
+  roots (it is the same song), genuinely different rhythm and shape. Take A (composed at
+  the peak) keeps the chorus and bridge; take B plays verse/intro/outro/breakdown. Runs
+  before the groove so the new line gets the same performance layer; the ghost validates
+  it. The pre-chorus still holds a DOMINANT PEDAL on the 5th.
+  Measured: verse and chorus share **no** rhythm pattern in **33/34** songs.
 - **Melody** — the chorus is the peak sung at FULL HEIGHT; the whole melodic group
   (lead + its leader-derived partners) drops a rigid DIATONIC block for the verse
   (~a 4th–5th down), lifts a step for the pre-chorus. Moving the group *together*
@@ -120,7 +126,42 @@ each section its own thing — not one loop tiled:
   are unaffected. Measured: verse harmony sparser than chorus **28/34** (7.71 → 5.79
   notes/bar).
 
-All laws hold across the rebuild: bass consonance **0.19%**, NCT **~0%**, below-floor
+## THE HOOK — the reason you can name the song
+
+A hook is not "a good melody": it is the **same phrase returning intact** every time the
+chorus comes round. The engine had no hook at all — every chorus developed the theme
+differently (measured: 6 choruses → **4 different melodies**), so there was nothing to
+recognise. Now the canonical chorus is the **PEAK** (the motif fully realized — the
+destination the whole song is built around) and its melodic material is stamped into
+every other chorus, tiled if that chorus is longer. So the hook *is* the peak: heard
+early, heard again, and finally heard at full power. It runs after the density peel
+(which thins by loop position and would otherwise reshape each chorus), then the ghost
+gets the last word. Measured: every chorus plays the same phrase in **31/36** songs.
+
+## Real intros — anything can start a song
+
+The opening was hardcoded to exactly **three** roles in every song (min 3, max 3) with
+melodic voices banned outright — a fixed-size band from bar one, which is its own kind
+of "full blast". Now the opening **size** and its **members** are both seeded choices
+over every voice that has entered: any instrument can open, including the tune itself (a
+hook riff is a classic intro), with a floor voice guaranteed so a bare melodic pair is
+never the whole opening. The **kit** also thins at the frame — it had been exempt from
+the density peel everywhere, so the opening (usually the rhythm section) played its full
+loop from bar one. Bass and harmony keep their patterns (their bar-to-bar repetition is
+the stored-texture law). Measured: opening size 2 or 3 (**23/17**, was always 3); intro
+density **23.1** notes/bar vs chorus **32.7**.
+
+## The seed-0 bug (found while measuring the above)
+
+`improvise()` assigns the base seed onto the chart it is **given** (`coreChart`); the
+conductor's chart never had `_seed`. Every seeded decision later in `composeSong` —
+entrance fills, the relationship assignment, the density peel — read `chart._seed||0`
+and therefore ran on seed **0**: *identical in every song, whatever the seed*. It
+silently collapsed the exact variety those passes exist to create. One line carries the
+seed back. Measured: distinct bar-0 bass rhythms across 40 songs **4 → 34** (the
+pre-existing ceiling was 20 — the bug had been suppressing variety all along).
+
+All laws hold across the rebuild: bass consonance **0.16%**, NCT **~0%**, below-floor
 **0**, hierarchy intact (lead loudest), the peak IS the global energy max **38/38**,
 intro↔peak foreshadow **0.72**; determinism **40/40** per seed. Grounded in production
 research (peak-first writing; verse-a-4th-below-chorus; verse-holds/chorus-comps) — see
