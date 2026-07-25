@@ -5803,6 +5803,33 @@ function ghostPass(parts, chart){
       while(nt.midi<36){ nt.midi+=12; n++; } } }   // C2 floor (was ceiling-only: a low root could sink below)
   if(n)corrections.push({kind:"bass register", count:n});
 
+  // 2b) BASS CONSONANCE: a bass note that HARSHLY clashes (min-2nd or tritone from
+  //     EVERY tone the harmony is actually sounding) is snapped to the nearest chord
+  //     tone — so the bass agrees with the chord under it, in the low register where
+  //     such clashes read as mud/dissonance. Consonant passing tones are left alone.
+  {
+    const harm = parts.find(p=>p.role==="harmony");
+    if(harm){
+      const chordPcs={};
+      for(const nt of harm.notes){ if(nt.midi==null)continue; (chordPcs[nt.bar]=chordPcs[nt.bar]||new Set()).add(pcg(nt.midi)); }
+      let nb=0;
+      for(const p of parts){ if(p.role!=="bass")continue;
+        for(const nt of p.notes){ if(nt.midi==null)continue; const cs=chordPcs[nt.bar]; if(!cs||!cs.size)continue;
+          if(nt.step===0) continue;                                       // leave downbeat roots — they carry the progression cycle
+          let mn=12; for(const t of cs){ let d=Math.abs(pcg(nt.midi)-t); d=Math.min(d,12-d); if(d<mn)mn=d; }
+          if(mn===1||mn===6){                                             // harsh → nearest chord tone
+            let best=nt.midi, bd=99;
+            for(const t of cs){ let cand=nt.midi + (((t - pcg(nt.midi)) + 18) % 12 - 6);
+              while(cand<36) cand+=12; while(cand>BASS_CEIL) cand-=12;
+              const d=Math.abs(cand-nt.midi); if(d<bd){ bd=d; best=cand; } }
+            if(best!==nt.midi){ nt.midi=best; nb++; }
+          }
+        }
+      }
+      if(nb)corrections.push({kind:"bass→chord snap", count:nb});
+    }
+  }
+
   // 3) OUT-OF-KEY notes that don't resolve by step → snap to the nearest scale
   //    tone. (A non-scale tone stepping out is a legal approach tone — physics.)
   n=0;
