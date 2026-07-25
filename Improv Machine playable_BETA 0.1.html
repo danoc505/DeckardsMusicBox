@@ -4757,6 +4757,19 @@ function bassEngine(chart, perception, rng){
   let loopRoots=[];
   if(chart._sampleCycle && chart._sampleCycle.length){
     for(let b=0;b<loop;b++) loopRoots.push(chart._sampleCycle[b % chart._sampleCycle.length]);
+  } else if(chart._realProg && chart._realProg.length){
+    // THE CONDUCTOR'S PROGRESSION is the shared ground truth. Harmony voices these
+    // EXACT roots (bachRoots, @harmonyEngine); if the bass instead re-derives the
+    // cycle from listen()'s lossy chord read, the two disagree on the downbeat root
+    // and the bar opens a semitone/tritone apart — the residual bass dissonance.
+    // Which chord we are on is written by the Conductor (Layer 1); BOTH players
+    // realise it, so the bass anchors its downbeats on the same roots. Index by
+    // SLOT (harmony advances per slot when there are two chords a bar), so the
+    // bass downbeat matches harmony's first chord of the bar exactly.
+    const _bpc = chart._chordBeats || 4;
+    const _spb = Math.max(1, Math.round(4/_bpc));
+    const realRoots = chart._realProg.map(x=>pc(T.degToMidi(x.d, scale, root)));
+    for(let b=0;b<loop;b++) loopRoots.push(realRoots[(b*_spb) % realRoots.length]);
   } else if(heardHarmony){
     if(!chart._heardCycle){
       if(!chart._progLen) chart._progLen = wpick(rng,[[4,6],[3,2],[2,1]]);
@@ -5810,12 +5823,25 @@ function ghostPass(parts, chart){
   {
     const harm = parts.find(p=>p.role==="harmony");
     if(harm){
-      const chordPcs={};
-      for(const nt of harm.notes){ if(nt.midi==null)continue; (chordPcs[nt.bar]=chordPcs[nt.bar]||new Set()).add(pcg(nt.midi)); }
+      // group harmony notes by bar so we can ask "what is sounding WHEN this bass
+      // note plays" — the honest reference is the chord tones overlapping the bass
+      // note in TIME, not a bar-wide union that also sweeps in transient inner-motif
+      // neighbours the bass never actually sounds against.
+      const harmByBar={};
+      for(const nt of harm.notes){ if(nt.midi==null)continue; (harmByBar[nt.bar]=harmByBar[nt.bar]||[]).push(nt); }
       let nb=0;
       for(const p of parts){ if(p.role!=="bass")continue;
-        for(const nt of p.notes){ if(nt.midi==null)continue; const cs=chordPcs[nt.bar]; if(!cs||!cs.size)continue;
+        for(const nt of p.notes){ if(nt.midi==null)continue;
           if(nt.step===0) continue;                                       // leave downbeat roots — they carry the progression cycle
+          const hs=harmByBar[nt.bar]; if(!hs||!hs.length)continue;
+          const bEnd=nt.step+(nt.dur||1);
+          // pcs sounding during this bass note; prefer the SUSTAINED voicing (the
+          // real chord), fall back to whatever overlaps if nothing sustains here.
+          const sust=new Set(), overlap=new Set();
+          for(const h of hs){ const hEnd=h.step+(h.dur||1);
+            if(h.step<bEnd && hEnd>nt.step){ overlap.add(pcg(h.midi)); if((h.dur||1)>=6) sust.add(pcg(h.midi)); } }
+          const cs = sust.size ? sust : overlap;
+          if(!cs.size)continue;
           let mn=12; for(const t of cs){ let d=Math.abs(pcg(nt.midi)-t); d=Math.min(d,12-d); if(d<mn)mn=d; }
           if(mn===1||mn===6){                                             // harsh → nearest chord tone
             let best=nt.midi, bd=99;
@@ -6887,7 +6913,7 @@ function conduct(seed, overrides){
   };
   const focal = overrides.focal || wpick(rng, FOCALW[genreName]||[["melody",4],["harmony",3],["bass",2],["drums",2]]);
 
-  return {
+  const _chart = {
     seed, genre:genreName, key:{root, scale}, tempo, meter, feel, phraseUnit,
     // THE THEME — the song's protagonist. Either invented now, or drawn from
     // the CORPUS: material the engines themselves made and that scored well.
@@ -6936,6 +6962,20 @@ function conduct(seed, overrides){
     // harmony engine reads this flag; here we just carry the intent.
     sharedProgression:true,
   };
+  // THE PROGRESSION LENGTH is the harmonic reality, not a guess: when the
+  // conductor drew a real progression, its cycle length in BARS (accounting for
+  // two-chords-a-bar harmonic rhythm) is what the bass anchors its downbeats to
+  // AND what the "short cycle" law measures. Fixing it here — before any engine
+  // runs — keeps bass, harmony and the invariant on ONE cycle instead of three
+  // (the bass used to force its own arbitrary _progLen, disagreeing with harmony
+  // on the downbeat root — the residual bass dissonance).
+  if(_chart._realProg && _chart._realProg.length){
+    const spb = Math.max(1, Math.round(4/(_chart._chordBeats||4)));
+    const L = _chart._realProg.length;
+    const gcd = (a,b)=>b?gcd(b,a%b):a;
+    _chart._progLen = L / gcd(L, spb);        // period of the per-bar downbeat cycle
+  }
+  return _chart;
 }
 
 function buildSpans(sections){
@@ -7074,6 +7114,7 @@ function composeSong(conductorChart, rng){
                       _sampleCycle:chart._sampleCycle,
                       _chordTexture:chart._chordTexture,
                       _realProg:chart._realProg,
+                      _progLen:chart._progLen,           // the conductor-fixed cycle length (if drawn from a real progression)
                       _chordBeats:chart._chordBeats };   // a record's changes, if following one
   const session = improvise(coreChart, rng);
   chart.realizedFocal = session.order[0];        // whoever actually started
