@@ -7399,30 +7399,90 @@ function composeSong(conductorChart, rng){
       if(lc<0.3){ for(const r of ["counter","lead2","bass"]){ const c=cov(r); if(c>lc+0.05){ lc=c; leader=r; } } } }
     chart._leader=leader;
   })();
-  // PLAY OFF THE LEADER (step 1 of relational generation) — the arp used to run a
-  // fixed chord arpeggio in ISOLATION (it only knew the progression, never the tune).
-  // Now it is DERIVED from the leader: each of its steps sweeps a small broken chord
-  // ANCHORED on the leader's current pitch (leader, 3rd, 5th above, in key), in the
-  // arp's register — so it rises and falls WITH the leader instead of doing its own
-  // thing. Runs BEFORE the ghost, so unisons with the leader and any unresolved leaps
-  // it creates get corrected like normal material. (Counter already answers the
-  // leader; pad is the simple bed; this makes the busy arp play off the leader too.)
+  // ═══ RELATIONAL GENERATION — the band plays OFF the leader, not past it ═══
+  // The user's architecture: generate the leader, then DERIVE every other voice from
+  // it with a deliberate, VARIED relationship, so they play WITH each other instead of
+  // each realizing the chords in isolation. One relationship is assigned per present
+  // voice ONCE per song (seeded), with hard variety budgets: at most one MIRROR, one
+  // HARMONIZE, one COUNTER; always at least one simple BED and at least one ANSWER/
+  // COUNTER — so every song is a different, legible division of labour (one clear
+  // foreground, one voice moving with it, one holding a bed, others answering) and
+  // never collapses to five-part unison mush. Runs BEFORE the ghost so everything is
+  // validated (in key, no unison with the leader, leaps resolve). Design + adversarial
+  // review: workflow relational-generation-design; see docs/ARRANGEMENT.md.
   (function relateToLeader(){
     const leaderRole=chart._leader||"lead";
     const L=session.parts.find(p=>p.role===leaderRole); if(!L||!L.notes.length) return;
-    const arp=session.parts.find(p=>p.role==="arp"); if(!arp||!arp.notes.length) return;
-    const [ALO,AHI]=BAND.arp, sc=chart.key.scale, rt=chart.key.root;
-    const lp={};
-    for(const n of L.notes){ if(n.midi==null)continue; const a=n.bar*16+n.step;
+    const sc=chart.key.scale, rt=chart.key.root, nb=chart.nBars, GB=chart.genre;
+    const isBassLeader=(leaderRole==="bass");
+    // ---- read the leader ----
+    const lp={}, onset=new Set();
+    for(const n of L.notes){ if(n.midi==null)continue; const a=n.bar*16+n.step; onset.add(a);
       for(let k=0;k<(n.dur||1);k++){ if(lp[a+k]==null) lp[a+k]=n.midi; } }
-    const OFFS=[2,4,2,6];   // sweep a broken chord ABOVE the leader (3rd,5th,3rd,7th) — near it but not in unison (the ghost still guards collisions)
-    let i=0;
-    for(const n of arp.notes){ if(n.midi==null)continue; const a=n.bar*16+n.step;
-      let t=lp[a]; if(t==null){ for(let d=1;d<=6 && t==null;d++) t=lp[a-d]; }
-      if(t==null){ i++; continue; }
-      let m=T.scaleStep2(t, sc, rt, OFFS[i%OFFS.length]); i++;
-      while(m<ALO)m+=12; while(m>AHI)m-=12;
-      n.midi=m; }
+    const leadAt=abs=>{ let t=lp[abs]; if(t==null){ for(let d=1;d<=6&&t==null;d++) t=lp[abs-d]; } return t; };
+    const strongAt=bar=>{ for(const st of [0,4,8,12]){ const t=lp[bar*16+st]; if(t!=null) return t; } return leadAt(bar*16); };
+    let cov=0; const tot=(nb*16)||1; for(let a=0;a<nb*16;a++) if(lp[a]!=null) cov++; cov/=tot;
+    // chord pitch-classes per bar (sustained harmony), for snapping derived voices to the chord
+    const harm=session.parts.find(p=>p.role==="harmony"); const chordPcs={};
+    if(harm) for(const n of harm.notes){ if(n.midi==null||(n.dur||1)<6)continue; (chordPcs[n.bar]=chordPcs[n.bar]||new Set()).add(((n.midi%12)+12)%12); }
+    const snap=(m,bar,lo,hi)=>{ const pcs=chordPcs[bar];
+      if(pcs&&pcs.size){ let best=m,bd=99; for(let c=m-6;c<=m+6;c++){ if(pcs.has(((c%12)+12)%12)){ const d=Math.abs(c-m); if(d<bd){bd=d;best=c;} } } m=best; }
+      else m=T.scaleStep2(m,sc,rt,0);
+      while(m<lo)m+=12; while(m>hi)m-=12; return m; };
+    const noUni=(m,abs)=> (lp[abs]!=null && m===lp[abs]) ? T.scaleStep2(m,sc,rt,1) : m;
+    // place a leader-derived pitch into a voice's band by a UNIFORM whole-octave shift
+    // (same for every note of the voice), so the contour is preserved — a per-note
+    // while-fold adds a VARIABLE number of octaves and can INVERT the line (measured:
+    // bass-led arps came out contrary to the bass). Only a rare extreme is octave-clamped.
+    const leaderMed=(()=>{ const v=L.notes.filter(n=>n.midi!=null).map(n=>n.midi).sort((a,b)=>a-b); return v.length?v[v.length>>1]:70; })();
+    const place=(m,lo,hi)=>{ m += Math.round((((lo+hi)/2)-leaderMed)/12)*12; while(m>hi)m-=12; while(m<lo)m+=12; return m; };
+    // ---- assign ONE relationship per present support voice (seeded, once per song) ----
+    const R=makeRng(hashName(chart._seed||0,'relate:'+leaderRole));
+    const sup=session.parts.filter(p=>p.notes.length && p.role!==leaderRole && p.role!=="drums" && p.role!=="harmony" && p.role!=="bass");
+    const has=role=>sup.some(p=>p.role===role);
+    const b={mirror:1,harmonize:1,counter:1}; let bed=0; const A={};
+    for(const role of ["pad","counter","arp","lead2","lowline"]){
+      if(!has(role)) continue; let ch;
+      if(role==="pad"){ ch=wpick(R,[["BED",5],["DRONE",(GB==="ambient"||GB==="dungeon")?4:1],["SHADOW",2]]); bed++; }
+      else if(role==="lowline"){ ch=isBassLeader ? wpick(R,[["REINFORCE",3],["LAYOUT",2]]) : "DUEL_BASS"; }   // when the melody leads, lowline stays coupled to the BASS (not the tune)
+      else if(role==="counter"){ if(cov>0.9 && b.harmonize>0){ ch="HARMONIZE"; b.harmonize--; } else ch="ANSWER"; }
+      else if(role==="arp"){ const c=[]; if(b.mirror>0)c.push(["MIRROR",(GB==="house"||GB==="jungle"||GB==="synthwave")?4:3]); c.push(["DRIVE",(GB==="house"||GB==="jungle")?3:1]); if(b.harmonize>0)c.push(["HARMONIZE",1]); ch=wpick(R,c); if(ch==="MIRROR")b.mirror--; if(ch==="HARMONIZE")b.harmonize--; }
+      else if(role==="lead2"){ const c=[]; if(b.harmonize>0)c.push(["HARMONIZE",(GB==="citypop"||GB==="synthwave")?4:3]); c.push(["SHADOW",2]); if(b.counter>0)c.push(["COUNTER",2]); if(b.mirror>0)c.push(["MIRROR",1]); ch=wpick(R,c); if(ch==="HARMONIZE")b.harmonize--; if(ch==="COUNTER")b.counter--; if(ch==="MIRROR")b.mirror--; }
+      A[role]=ch;
+    }
+    const vals=Object.values(A);
+    if(!vals.includes("ANSWER")&&!vals.includes("COUNTER")){                 // invariant: never all-parallel
+      if(has("counter"))A.counter="ANSWER"; else if(has("lead2")&&b.counter>0)A.lead2="COUNTER"; else if(has("lowline"))A.lowline="COUNTER_BASS"; }
+    if(bed===0){ if(has("lowline")&&A.lowline!=="COUNTER_BASS")A.lowline="PEDAL"; else if(has("lead2"))A.lead2="SHADOW"; }  // invariant: always a simple bed
+    if(themeLog) themeLog.relate={leader:leaderRole, ...A};
+    // ---- realize ----
+    const DEC=[0,2,0,4][Math.floor(R()*4)] || 2;                            // MIRROR decoration interval (a 3rd or 5th above), chosen once
+    for(const p of sup){
+      const rel=A[p.role]; if(!rel) continue;
+      const bd=BAND[p.role]||BAND.lead2, lo=bd[0], hi=bd[1];
+      if(rel==="ANSWER"||rel==="BED"||rel==="DUEL_BASS") continue;           // already relates as generated (counter answers, pad bed, lowline duels bass)
+      if(rel==="LAYOUT"){ p.notes=[]; continue; }
+      if(rel==="MIRROR"){ // TRACK the leader: play its pitch (uniformly placed in band), decorated a 3rd up on off-steps — so the arp rises and falls WITH the tune. No chord-snap (that collapses strong beats to one chord tone and kills tracking); the leader is in key and the ghost still guards leap-NCTs.
+        let i=0; for(const n of p.notes){ if(n.midi==null){i++;continue;} const a=n.bar*16+n.step; const t=leadAt(a); if(t==null){i++;continue;}
+          let m=place(t,lo,hi);
+          if(i%2===1){ const u=T.scaleStep2(m,sc,rt,DEC); if(u<=hi) m=u; }    // light lift on alternate steps, only if it stays in band (no inversion)
+          i++; n.midi=noUni(m,a); } continue; }
+      if(rel==="DRIVE"){ for(const n of p.notes){ if(n.midi==null)continue; const a=n.bar*16+n.step; const t=leadAt(a); if(t==null)continue; let m=place(t,lo,hi); n.midi=noUni(snap(m,n.bar,lo,hi),a); } continue; }
+      if(rel==="HARMONIZE"){ // a genuine DUET: parallel diatonic 6th moving with the leader (5 scale-degrees), kept consistent (no chord-snap that would vary the interval)
+        const deg=(p.role==="lead2"&&!isBassLeader)?5:-5; const keep=[];      // lead2 a 6th ABOVE; counter/others a 6th BELOW; above a bass leader
+        for(const n of p.notes){ if(n.midi==null)continue; const a=n.bar*16+n.step; if(!onset.has(a))continue;
+          let m=place(T.scaleStep2(lp[a],sc,rt,deg),lo,hi); n.midi=noUni(m,a); keep.push(n); } p.notes=keep; continue; }
+      if(rel==="COUNTER"||rel==="COUNTER_BASS"){ const ref=(rel==="COUNTER_BASS")?(session.parts.find(x=>x.role==="bass")||L):L;
+          const rp={}; for(const n of ref.notes){ if(n.midi==null)continue; rp[n.bar*16+n.step]=n.midi; }
+          let cur=null,pr=null; for(const n of p.notes.slice().sort((x,y)=>(x.bar*16+x.step)-(y.bar*16+y.step))){ if(n.midi==null)continue; const a=n.bar*16+n.step;
+            const rf=rp[a]!=null?rp[a]:leadAt(a); if(rf==null)continue;
+            if(cur==null||n.step===0){ cur=snap(rf,n.bar,lo,hi); pr=rf; } else { cur=T.scaleStep2(cur,sc,rt,-Math.round((rf-pr)/2)); pr=rf; }
+            cur=(n.step%4===0)?snap(cur,n.bar,lo,hi):(()=>{while(cur<lo)cur+=12;while(cur>hi)cur-=12;return cur;})(); n.midi=noUni(cur,a); } continue; }
+      if(rel==="SHADOW"){ const out=[]; for(let bar=0;bar<nb;bar++){ const t=strongAt(bar); if(t==null)continue; out.push({bar,step:0,midi:noUni(snap(t,bar,lo,hi),bar*16),dur:16,vel:0.3}); } p.notes=out; continue; }
+      if(rel==="DRONE"||rel==="PEDAL"){ const base=snap(rt+(lo<52?36:60),0,lo,hi); const out=[]; for(let bar=0;bar<nb;bar++) out.push({bar,step:0,midi:base,dur:16,vel:0.24}); p.notes=out; continue; }
+      if(rel==="REINFORCE"){ const bs=session.parts.find(x=>x.role==="bass")||L, bp={}; for(const n of bs.notes){ if(n.midi==null||n.step!==0)continue; bp[n.bar]=n.midi; }
+          for(const n of p.notes){ if(n.midi==null)continue; const t=bp[n.bar]; if(t==null)continue; let m=t; while(m<lo)m+=12; while(m>hi)m-=12; n.midi=noUni(snap(m,n.bar,lo,hi),n.bar*16+n.step); } continue; }
+    }
   })();
   const finalCorrections = ghostPass(session.parts, chart);
   // SECTION RECURRENCE — a song has structure BECAUSE material RETURNS. When a form
