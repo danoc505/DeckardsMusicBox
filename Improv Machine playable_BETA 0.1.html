@@ -4966,7 +4966,7 @@ function harmonyEngine(chart, perception, rng){
           }
           const nx = RH[k+1] || rel;
           if(s>=rel) return;
-          notes.push({bar:b, step:base0+s, midi:m, dur:Math.max(2,Math.min(rel-s,nx-s)), vel:.33});
+          notes.push({bar:b, step:base0+s, midi:m, dur:Math.max(2,Math.min(rel-s,nx-s)), vel:.33, _rehit:true});
         });
       } else {
         // outer & other voices: staggered start, SUSTAIN to the bar end
@@ -7654,6 +7654,28 @@ function composeSong(conductorChart, rng){
           n.midi=m;
         }
       }
+    }
+  }
+  // SECTION-DISTINCT HARMONY — the verse holds, the chorus comps. Production research:
+  // the verse has a SLOWER harmonic rhythm (chords sustain), the chorus is rhythmically
+  // active (busier re-articulation) — a big part of why the chorus lifts. Here the
+  // harmony's inner-motif RE-ARTICULATIONS (the comping motion, flagged `_rehit`) are
+  // dropped in the held sections, leaving the SUSTAINED chord — so the verse is a pad
+  // and the chorus keeps its full motion. Pitches and the progression are untouched
+  // (only re-hits are removed), so the bass consonance and the leader-derived voices
+  // that snap to the chord are unaffected; the loop's stored texture still governs the
+  // chorus. The chorus/pre/bridge keep comping (the payoff and the lift into it stay
+  // active); the down sections breathe.
+  {
+    const harm = session.parts.find(p=>p.role==="harmony");
+    if(harm && plan.sections && plan.sections.length){
+      const secByBar={}; for(const sec of plan.sections) for(let b=sec.startBar;b<sec.endBar;b++) secByBar[b]=sec;
+      const HOLD={verse:1,intro:1,outro:1,breakdown:1};
+      harm.notes = harm.notes.filter(n=>{
+        if(!n._rehit) return true;                                             // sustained chord voices always kept
+        const sec=secByBar[n.bar]; if(!sec) return true;
+        return !HOLD[_sectionKind(sec)];                                       // drop comping re-hits only in held sections
+      });
     }
   }
   // ═══════════════════════════════════════════════════════════════════════════
