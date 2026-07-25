@@ -4295,7 +4295,26 @@ registerProcessor("mi-clouds-reverb", MiCloudsReverb);`;
     else if(lane==="ride"){const n=noise(t,.4);const flt=ctx.createBiquadFilter();flt.type="bandpass";flt.frequency.value=6000;flt.Q.value=2;g.gain.setValueAtTime(vel*.18,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);n.connect(flt);flt.connect(g);const o=ctx.createOscillator();o.type="square";o.frequency.value=520;const og=ctx.createGain();og.gain.setValueAtTime(vel*.05,t);og.gain.exponentialRampToValueAtTime(.001,t+.2);o.connect(og);og.connect(OUT);o.start(t);o.stop(t+.25);}
     else if(lane==="clap"){for(let k=0;k<3;k++){const n=noise(t+k*.012,.12);const flt=ctx.createBiquadFilter();flt.type="bandpass";flt.frequency.value=1500;flt.Q.value=1.2;const cg=ctx.createGain();cg.gain.setValueAtTime(vel*.38,t+k*.012);cg.gain.exponentialRampToValueAtTime(.001,t+k*.012+.11);n.connect(flt);flt.connect(cg);cg.connect(OUT);}}
     else if(lane==="rim"){const o=ctx.createOscillator();o.type="triangle";o.frequency.setValueAtTime(1700,t);o.frequency.exponentialRampToValueAtTime(400,t+.02);g.gain.setValueAtTime(vel*.5,t);g.gain.exponentialRampToValueAtTime(.001,t+.04);o.connect(g);o.start(t);o.stop(t+.05);}
-    else if(TOMF[lane]!=null){const base=TOMF[lane];const o=ctx.createOscillator();o.type="sine";o.frequency.setValueAtTime(base*1.2,t);o.frequency.exponentialRampToValueAtTime(base*.55,t+.26);g.gain.setValueAtTime(vel*.85,t);g.gain.setValueAtTime(vel*.7,t+.16);g.gain.linearRampToValueAtTime(.0001,t+.22);o.connect(g);o.start(t);o.stop(t+.24);if(vel>0.45){const nz=noise(t,.03);const nf=ctx.createBiquadFilter();nf.type="bandpass";nf.frequency.value=Math.min(6000,base*9);const ng=ctx.createGain();ng.gain.setValueAtTime(vel*.3,t);ng.gain.exponentialRampToValueAtTime(.001,t+.03);nz.connect(nf);nf.connect(ng);ng.connect(OUT);}}
+    else if(TOMF[lane]!=null){const base=TOMF[lane];
+      // A TOM IS PERCUSSIVE: fast attack, then an immediate EXPONENTIAL decay — not a
+      // loud sine held flat for 160ms (the old envelope blasted a sustained tone that
+      // clipped the saturator = "blown out", and rang long enough that fast fills
+      // piled up = "mashed"). Peak kept below the snare so toms sit IN the kit.
+      const peak=Math.min(0.9,vel)*.5;
+      const o=ctx.createOscillator();o.type="sine";
+      o.frequency.setValueAtTime(base*1.3,t);
+      o.frequency.exponentialRampToValueAtTime(base*.82,t+.07);   // a punchy drop that SETTLES on the tuned pitch (not a dive to nothing)
+      g.gain.setValueAtTime(.0001,t);
+      g.gain.exponentialRampToValueAtTime(peak,t+.005);           // 5ms attack (no click, still snappy)
+      g.gain.exponentialRampToValueAtTime(.0001,t+.24);           // natural drum decay
+      o.connect(g);o.start(t);o.stop(t+.26);
+      // stick DEFINITION: a quiet upper transient so each tom in a fill is distinct
+      const o2=ctx.createOscillator();o2.type="triangle";
+      o2.frequency.setValueAtTime(base*2.1,t);o2.frequency.exponentialRampToValueAtTime(base*1.2,t+.04);
+      const g2=ctx.createGain();g2.gain.setValueAtTime(peak*.3,t);g2.gain.exponentialRampToValueAtTime(.0001,t+.05);
+      o2.connect(g2);g2.connect(OUT);o2.start(t);o2.stop(t+.06);
+      // a touch of skin noise on accents (short + filtered — texture, not a blast)
+      if(vel>0.5){const nz=noise(t,.02);const nf=ctx.createBiquadFilter();nf.type="bandpass";nf.frequency.value=Math.min(3800,base*6);nf.Q.value=1.4;const ng=ctx.createGain();ng.gain.setValueAtTime(vel*.14,t);ng.gain.exponentialRampToValueAtTime(.0006,t+.02);nz.connect(nf);nf.connect(ng);ng.connect(OUT);}}
   }
   return {ensure,voice,drum,fm,modal,sampleVoice,setPump,duck,sweep,riser,ensurePump,initMiReverb,setReverb,renderOffline,encodeWav,initOPN2,opn2Note,opn2Reset,isOPN2Ready:()=>opn2Ready,setMaster,setTone,setDrive,setVoiceStyle,setKick,setDrumBus,getKick:()=>({...kickParams}),getDrumBus:()=>drumBusGain,now:()=>ctx?ctx.currentTime:0,analyser:()=>analyser,resume:()=>{if(ctx&&ctx.state==="suspended")return ctx.resume();}};
 })();
