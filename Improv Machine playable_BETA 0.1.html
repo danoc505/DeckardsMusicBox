@@ -6149,27 +6149,32 @@ const OPS = { sequence, inversion, retrograde, augmentation, diminution, fragmen
 /* ── WHICH TRANSFORMATION FOR THIS CHAPTER — weighted by what the chapter
    MEANS in the story, never fixed. The story engine's events are:
    open · build · peak · drop · rebuild · moment · out ── */
+// PEAK-FIRST NARRATIVE: the song is told AROUND its peak. The peak is where the motif
+// is FULLY REALIZED (the destination); every other section is a transform that leads to
+// or away from it. In particular the INTRO is a FRAGMENT — a hint of the theme glimpsed
+// "in media res" (the glass of water on the shelf), not the whole thing stated up front;
+// the full statement is RESERVED for the peak/moment (the reveal / payoff).
 function transformFor(event, motif, rng, cycleIdx){
   switch(event){
-    case "open":                                   // state the theme plainly
+    case "open":                                   // introduce the theme (kept plain; the intro is thinned to a HINT by the arrangement, not by destroying the melody — melodic fragmentation measurably wrecked the lead's per-loop structure)
       return { motif, label:"stated" };
     case "build": {                                // urgency: diminution or sequence up
       const op = wpick(rng, [["diminution",3],["sequence",3],["ornament",2]]);
       const m = op==="sequence" ? sequence(motif, pick(rng,[1,2])) : OPS[op](motif, rng);
       return { motif:m, label:op };
     }
-    case "peak": {                                 // vary without losing the thread
+    case "peak": {                                 // near the destination: vary lightly, thread intact
       const op = wpick(rng, [["ornament",3],["sequence",3],["inversion",2]]);
       const m = op==="sequence" ? sequence(motif, pick(rng,[-1,1,2])) : OPS[op](motif, rng);
       return { motif:m, label:op };
     }
-    case "drop":                                   // reduced to its bones
+    case "drop":                                   // the breakdown: the theme reduced to its bones (still THIS theme)
       return { motif: fragmentation(motif, rng), label:"fragmentation" };
-    case "rebuild": {                              // climbing back: sequence upward
+    case "rebuild": {                              // climbing back to the peak: sequence upward
       return { motif: sequence(motif, pick(rng,[1,2,3])), label:"sequence up" };
     }
-    case "moment":                                 // THE PAYOFF: broad and heroic
-      return { motif: augmentation(motif), label:"augmentation" };
+    case "moment":                                 // THE PEAK / DESTINATION: the theme FULLY REALIZED (stated whole)
+      return { motif, label:"stated" };
     case "out":                                    // farewell: inverted/settling
       return { motif: rng()<0.5 ? inversion(motif) : fragmentation(motif, rng),
                label:"closing" };
@@ -6228,10 +6233,11 @@ function developTheme(parts, arrangement, chart, rng){
   // the arrangement (the lead entering earlier), not here.
   const developFrom = leadEntry + 2*loopBars;
   for(const sec of arrangement){
-    // the chapter chooses the transformation (weighted by meaning, not fixed)
-    // THE RULE OF 3 AT SONG SCALE: state it, reinforce it, THEN develop. The
-    // first two sections carry the theme unchanged so the ear can learn it —
-    // transformation begins only once it has been heard twice.
+    // THE RULE OF 3 AT SONG SCALE: state it, reinforce it, THEN develop — the first
+    // two loops carry the theme plainly so the ear learns it, then the story transforms
+    // it. The intro introduces the theme; it reads as a HINT because the arrangement
+    // holds most voices back there, and the PEAK (moment → "stated") is where the theme
+    // is fully realized with the whole band (the destination).
     if(sec.endBar<=developFrom){ log.push({section:sec.name, event:sec.event, op:"stated"}); continue; }
     const choice = transformFor(sec.event, {rhythm:[4],moves:[]}, rng, 0);
     const op = choice.label;
