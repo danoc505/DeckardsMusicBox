@@ -7653,6 +7653,13 @@ function arrangeSections(chart, session, rng){
 
   const spansS=chart._sectionSpans;
   const out=[];
+  // NOT EVERY SONG BREAKS DOWN — decide ONCE per song (seeded, genre-biased) whether
+  // this one has a breakdown at all. Beat-driven genres lean on it; ambient/neoclassical/
+  // downtempo often just build to a height and stay there. A song without a breakdown
+  // still gets its payoff (build → peak → moment), it just never strips out.
+  const BD_PROB={ house:0.7, jungle:0.7, synthwave:0.6, citypop:0.5, wise:0.45, lofi:0.4,
+                  dungeon:0.4, barber:0.35, ambient:0.3 };
+  const wantBreakdown = rng() < (BD_PROB[chart.genre] ?? 0.5);
   let dropped=false, momentDone=false, atMaxFor=0, prevActive=null, prevEvent="";
   for(let i=0;i<spansS.length;i++){
     const sec=spansS[i];
@@ -7660,59 +7667,63 @@ function arrangeSections(chart, session, rng){
     const pos=i/Math.max(1,spansS.length-1);
     let active, event, lift=false;
     if(i===0){
-      // the opening is a CHOICE, not an accident of who has arrived: keep the
-      // starter and at most one companion, so there is somewhere to build to.
-      // TWO OR THREE ELEMENTS, never one alone. A single sparse part is the
-      // thing that makes an intro sound like nothing is happening.
-      const starter = entered[0];
+      // A REAL INTRO — the song does NOT open at full blast with the melody from bar
+      // one. The intro is rhythm + atmosphere (drums/bass/harmony/pad/arp); the TUNE
+      // ARRIVES after it. So the MELODIC voices (lead/lead2/counter) are held OUT of the
+      // opening and enter at the next section — the melody is an arrival, not the
+      // starting gun. Still 2+ elements so it grooves (an intro is atmosphere building,
+      // not silence), just not the hook. (The old code deliberately kept the lead in
+      // the opening "never one alone" — that is exactly why there were no intros.)
+      const MEL = r => r==="lead"||r==="lead2"||r==="counter";
+      const nonLead = entered.filter(r=>!MEL(r));
+      const starter = nonLead[0] || entered[0];
       const keep = [starter];
-      // companions are a SEEDED weighted choice among who has arrived, not a
-      // fixed priority list: drums/harmony/bass are likelier partners (a soft
-      // tendency), but a different seed opens with a different pairing.
-      const W={drums:4,harmony:4,bass:3,pad:2,lead:2,arp:1,counter:1};
-      let avail = entered.filter(r=>r!==starter);
+      const W={drums:4,harmony:4,bass:3,pad:3,arp:2};        // rhythm/atmosphere — never the hook
+      let avail = nonLead.filter(r=>r!==starter);
       while(keep.length<3 && avail.length){
         const c = wpick(rng, avail.map(r=>[r, W[r]||1]));
         keep.push(c); avail = avail.filter(r=>r!==c);
       }
-      if(keep.length < 2){
-        const soon = roles.filter(r=>r!==starter)
+      if(keep.length < 2){                                   // guarantee 2+ so the intro grooves, not thin
+        const soon = roles.filter(r=>r!==starter && !MEL(r))
                           .sort((a,c)=>(roleEntry[a]??99)-(roleEntry[c]??99));
         if(soon.length) keep.push(soon[0]);
+        else { const any=roles.filter(r=>r!==starter).sort((a,c)=>(roleEntry[a]??99)-(roleEntry[c]??99)); if(any.length) keep.push(any[0]); }
       }
-      // AND THEY ACTUALLY SOUND: if a part is in the opening it starts at bar
-      // one. Listing it as active while its entrance still gates it is how the
-      // first bars ended up as one instrument alone.
+      // the kept (non-melodic) intro voices sound from bar one; the melodic voices are
+      // NOT forced in — they arrive when the first real section opens (the tune's entrance).
       for(const r of keep){
         roleEntry[r] = 0;
         for(const pt of parts) if(pt.role===r) entries[pt.name]=0;
       }
       active = keep; event="open";
-    } else if(!dropped){
+    } else if(!momentDone){
       const grew = entered.length > prevActive.length;
-      if(grew){ active=entered.slice(); event="build"; }          // arrivals ARE the build
-      else if(prevActive.length < entered.length){ active=entered.slice(); event="build"; }
-      else if(atMaxFor<1 || pos<=0.35 || spansS.length-i<2 || momentDone){
-        active=entered.slice(); event="peak"; atMaxFor++;
-        if(atMaxFor>=2) lift=!(out[i-1]&&out[i-1].lift);          // held peak: expression change
-      } else if(rng()<0.8 || spansS.length-i<=2){
-        // THE DROP / BREAKDOWN: strip out the rhythm section (drums + bass + the busy
-        // color voices) but KEEP the tune (the lead) over the chords — a breakdown is
-        // a stripped-down version of THIS song, carrying its motif, not a generic
-        // chord-hold that sounds like another song's intro. The scheduler filters/
-        // thins it, so it still reads as a low-energy valley before the payoff.
+      const nearEnd = spansS.length-i<=2;
+      if(dropped){
+        // after a breakdown: the rhythm section returns (rebuild), then the payoff
+        if(prevEvent==="drop" && !nearEnd){
+          active=entered.filter(r=>r==="harmony"||r==="pad"||r==="bass"||r==="drums");
+          event="rebuild";
+        } else { active=entered.slice(); lift=true; event="moment"; momentDone=true; }
+      } else if(grew){ active=entered.slice(); event="build"; }    // arrivals ARE the build
+      else if(atMaxFor<1 || pos<=0.35){
+        active=entered.slice(); event="peak"; atMaxFor++;          // reach the top first
+        if(atMaxFor>=2) lift=!(out[i-1]&&out[i-1].lift);
+      } else if(nearEnd){
+        // Reached the climax zone. NOT every song breaks down — a song that has built
+        // to its height can pay off DIRECTLY (build → peak → moment), no breakdown.
+        active=entered.slice(); lift=true; event="moment"; momentDone=true;
+      } else if(wantBreakdown){
+        // THIS song's breakdown (decided once, above): strip the rhythm section but KEEP
+        // the tune over the chords — a stripped version of THIS song, carrying its
+        // motif, a valley before the payoff (never a foreign chord-hold). Songs without
+        // wantBreakdown never reach here — they build straight through to the moment.
         active=entered.filter(r=>r==="harmony"||r==="pad"||r==="lead");
         if(!active.length) active=[entered[0]];
         dropped=true; event="drop";
-      } else { active=entered.slice(); event="peak"; atMaxFor++; }
-    } else if(!momentDone){
-      if(prevEvent==="drop" && spansS.length-i>1){
-        // REBUILD: the rhythm section returns first (the release of the low end)
-        active=entered.filter(r=>r==="harmony"||r==="pad"||r==="bass"||r==="drums");
-        event="rebuild";
-      } else {
-        active=entered.slice(); lift=true; event="moment"; momentDone=true;  // THE PAYOFF
-      }
+      } else { active=entered.slice(); event="peak"; atMaxFor++;
+        if(atMaxFor>=2) lift=!(out[i-1]&&out[i-1].lift); }
     } else {
       if(sec.role==="coda" || (i===spansS.length-1 && rng()<0.4)){
         active=entered.filter(r=>!["arp","lead2","counter"].includes(r)); event="out";
