@@ -4830,21 +4830,12 @@ function bassEngine(chart, perception, rng){
       else if(sel==="R8") m=Math.min(HI, base+12);
       else if(sel==="APP")m=T.fold(T.scaleStep(base, scale, root, (k%2?-1:1)), LO, HI);
       if(mode==="vary" && k===1 && rng()<0.4) m=Math.min(HI, m+12); // octave pop
-      // returns are slightly changed, and the CHANGE ITSELF differs per cycle
-      // (odd cycles lift a hit an octave; even cycles nudge its timing) so no
-      // two returns are ever bit-identical, even with a 2-hit rhythm
-      if(cycleIdx>0 && (mode==="state"||mode==="repeat")
-         && k===1+(cycleIdx%(Math.max(1,rhythm.length-1)))){
-        const nxG=rhythm[k+1]!=null?rhythm[k+1]:16;
-        if(cycleIdx%2===1){ const m2=Math.min(HI, m+12);
-          if(m2!==m) m=m2;
-          else if(st+2<nxG-1) st=st+1;
-          else return;                                 // last resort: the note taken out
-        } else {
-          if(st+2<nxG-1) st=st+1+(((cycleIdx/2)|0)%2);
-          else return;                                 // last resort: the note taken out
-        }
-      }
+      // RECURRENCE IS THE POINT: a "state" loop plays the SAME material every cycle,
+      // so the core theme RETURNS across the song (A … A … A) — that recurrence is
+      // what makes it a song and not noise. (The old code deliberately nudged each
+      // return so no two were bit-identical — that killed recurrence; removed.) The
+      // Rule of 3 is satisfied by the cycle shape itself: state+repeat (2 the same),
+      // then DEPART / VARY bring something new before a 3rd identical hearing.
       const nx=rhythm[k+1]!=null?rhythm[k+1]:16;
       notes.push({bar:b, step:st, midi:m, dur:Math.max(2,nx-st), vel: st===0?.9:.7});
     });
@@ -5600,11 +5591,12 @@ function buildLead(voice, chart, chords, perception, rng, implyHarmony){
       if(step%4===0) m = nearestTone(m, tones);             // chord tone on the strong beat
       m = clamp(T.fold(m, LO, HI), LO, HI);
       const isCadence = (slot==="C" && k===rhythm.length-1);
-      // returns slightly changed (Björk): cycle 2+ displaces one note by a 16th,
-      // a different note each cycle — familiar, but never bit-exact again
+      // RECURRENCE: a "state" loop restates the theme UNCHANGED each cycle so the
+      // melody RETURNS across the song (the A that comes back). The old code nudged a
+      // note every cycle so returns were "never bit-exact again" — that is what made
+      // the tune wander off and never come home; removed. DEPART/VARY provide the
+      // "something new" the Rule of 3 needs between identical hearings.
       let st2=step;
-      if(cycleIdx>0 && (mode==="state"||mode==="repeat")
-         && k===(cycleIdx%rhythm.length) && step+1<16) st2=step+1;
       notes.push({bar, step:st2, midi:(isCadence?nearestTone(m,tones):m),
                   dur:(isCadence?16-st2:dur), vel: st2===0?.58:.48});
       prev=m; step+=dur;
@@ -7379,14 +7371,10 @@ function composeSong(conductorChart, rng){
             }
             if(mode2 === "depart" && n.bar >= loopB/2) midi = Math.min(50, midi + 12);
             if(mode2 === "vary" && n.step > 0 && (n.step % 8) === 6) continue;
-            // CUMULATIVE EVOLUTION: the cycle repeats every four loops, so
-            // without this loop 0 and loop 4 are identical and the Rule of 3
-            // is broken on a longer timescale. Each time around differs.
-            const cyc = Math.floor(L/4);
-            if(cyc > 0 && n.step > 0){
-              if(cyc % 2 === 1){ const m2 = Math.min(50, midi+12); if(m2!==midi) midi = m2; }
-              else if(step + 1 < 16) step = step + 1;
-            }
+            // RECURRENCE: loop 0 and loop 4 (both "state") play the SAME line so the
+            // bass figure RETURNS across the song — that is structure, not a bug. (The
+            // old "cumulative evolution" forced each cycle to differ, which prevented
+            // the return; removed. DEPART/VARY still provide the new material between.)
             out2.push({ bar, step, midi, dur:n.dur, vel:0.85 });
           }
         }

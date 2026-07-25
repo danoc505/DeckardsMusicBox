@@ -397,18 +397,20 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
     const loop=chart.loopBars||8, loops=Math.floor(chart.nBars/loop);
     const bass=song.parts.find(p=>p.role==="bass"); if(!bass)continue;
     if(Math.min(...bass.notes.map(n=>n.midi))<36) bassLow++;
-    // THE LAW is "the SONG never just repeats" — measured on the FULL TEXTURE the
-    // listener hears (every part together), NOT the bass in isolation. A groove bass
-    // that repeats under a DEVELOPING arrangement is how long-form music works
-    // (research: a multi-minute track develops by adding/removing layers and varying
-    // the other voices, not by making every 8-bar bassline unique — that would sound
-    // restless, not composed). A full-texture 3-peat means the song genuinely stalled.
+    // THE LAW (stated correctly): it is not good practice to repeat a loop 3 times IN
+    // A ROW with nothing new — where "something new" is EITHER altering the loop OR
+    // adding/removing an element (an arrangement change). Measured on the FULL TEXTURE
+    // (all parts together), so an arrangement change on an otherwise-repeated loop
+    // counts as "new" and is allowed. Recurrence of a loop LATER in the song is NOT a
+    // violation — it is the point (a song has structure BECAUSE material returns); so
+    // we check for 3 CONSECUTIVE identical loops, not 3 occurrences total.
     const sig=L=>song.parts.map(p=>p.role+":"+p.notes
         .filter(n=>n.bar>=L*loop && n.bar<(L+1)*loop)
         .map(n=>(n.bar-L*loop)+"."+n.step+"."+(n.midi==null?("d"+(n.lane||"")):n.midi))
         .join(",")).sort().join("|");
-    const counts={}; for(let L=0;L<loops;L++){const k=sig(L);counts[k]=(counts[k]||0)+1;}
-    if(Math.max(...Object.values(counts),0)>=3) overloop++;
+    const sigs=[]; for(let L=0;L<loops;L++) sigs.push(sig(L));
+    let run=1,mx=1; for(let i=1;i<sigs.length;i++){ if(sigs[i]===sigs[i-1]){run++;mx=Math.max(mx,run);} else run=1; }
+    if(mx>=3) overloop++;                              // 3 identical IN A ROW = the violation
     // the chord cycle: downbeat root pcs repeat with period _progLen (2-4)
     if(chart._progLen){ cycleN++;
       const dpc=b=>{const n=bass.notes.filter(x=>x.bar===b&&x.step===0)[0];return n?pc(n.midi):null;};
