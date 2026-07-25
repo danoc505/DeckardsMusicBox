@@ -67,6 +67,28 @@ development cycle actually runs several times per section. Median duration 2:38 
 in isolation — a groove bass repeating under a developing arrangement is how
 long-form works, not a violation.
 
+## Relational generation — the band derives from the leader
+
+The core fix for "every track does its own thing": generate the leader, then DERIVE
+every other voice from it. One relationship is assigned per present support voice ONCE
+per song from a seeded stream, with hard variety budgets — at most one MIRROR, one
+HARMONIZE, one COUNTER; always ≥1 simple bed (pad pinned); always ≥1 answer/counter;
+genre-biased weights. So each song is a distinct, legible division of labour (one
+foreground, one voice moving with it, one bed, the rest answering) and never collapses
+to unison mush. Realizations run BEFORE the ghost (so they're validated) and are placed
+into each band by a uniform whole-octave shift (a per-note fold was inverting bass-led
+lines). Relationships: MIRROR (arp tracks the leader's pitch), HARMONIZE (parallel-6th
+duet on the leader's onsets), ANSWER (counter fills the leader's gaps), COUNTER
+(contrary motion), SHADOW (the leader's strong beats, simplified), DRIVE (rhythmic
+double), PEDAL/DRONE/BED (the simple bed); lowline stays coupled to the bass, not the
+tune. Design + adversarial review: the `relational-generation-design` workflow
+(arranger / engine-safety / anti-monotony proposers + a synthesis critic).
+
+Measured (40 seeds): MIRROR per-bar pitch correlation with the leader **0.68** (was
+~0, now all-positive), ANSWER gap-fill **0.86**, HARMONIZE interval-consistency
+**0.96**; relationship mix well spread. All laws hold (NCT 0.42%, unisons 0,
+recurrence intact), determinism 40/40.
+
 ## Any track can lead (bass or melody)
 
 `chart._leader` now follows the conductor's **focal**: a `bass` focal makes a
