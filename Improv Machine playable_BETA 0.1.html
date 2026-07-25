@@ -7590,6 +7590,41 @@ function composeSong(conductorChart, rng){
     for(const nt of p.notes){ if(nt.midi==null)continue;
       while(nt.midi>BASS_CEIL) nt.midi-=12; while(nt.midi<36) nt.midi+=12; } }
   // ═══════════════════════════════════════════════════════════════════════════
+  // SECTIONS ARE DISTINCT — each plays its OWN material, derived from the peak by role.
+  // A song is not one loop tiled: the verse, chorus, pre-chorus and breakdown play
+  // DIFFERENT lines. The peak (chorus/moment) is the full realization; other sections
+  // transform it. Here the BASS is made distinct per section (the "one bass line for the
+  // whole song" fix, grounded in production research — docs/ARRANGEMENT.md): the verse
+  // bass is simple and root-driven, the chorus keeps its full busy line, the pre-chorus
+  // holds a DOMINANT PEDAL (tension into the chorus), the breakdown sustains the root.
+  // The downbeat roots (the progression) are always kept, so it stays the same song —
+  // only the bass's ELABORATION changes as the song moves. (Melody/harmony per-section
+  // is the next pass; it needs the leader-relative voices re-derived after the shift.)
+  const _sectionKind = sec => {
+    if(sec.event==="moment"||sec.event==="peak"||sec.role==="hook") return "chorus";
+    if(sec.role==="bridge"||sec.contrast) return "bridge";
+    if(sec.role==="lift") return "pre";
+    if(sec.event==="drop") return "breakdown";
+    if(sec.event==="open"||sec.role==="intro") return "intro";
+    if(sec.event==="out"||sec.role==="coda") return "outro";
+    return "verse";
+  };
+  {
+    const bass = session.parts.find(p=>p.role==="bass");
+    if(bass && plan.sections && plan.sections.length){
+      const secByBar={}; for(const sec of plan.sections) for(let b=sec.startBar;b<sec.endBar;b++) secByBar[b]=sec;
+      const rootByBar={}; for(const n of bass.notes){ if(n.midi!=null && n.step===0 && rootByBar[n.bar]==null) rootByBar[n.bar]=n.midi; }
+      // Keep each song's bass RHYTHM (so per-song rhythmic identity and the loop survive);
+      // only the PITCH elaboration changes by section — that is what differs verse↔chorus.
+      for(const n of bass.notes){ if(n.midi==null || n.step===0) continue;      // downbeat root always kept (the progression)
+        const sec=secByBar[n.bar]; const k=sec?_sectionKind(sec):"verse"; const root=rootByBar[n.bar]; if(root==null) continue;
+        if(k==="chorus"||k==="bridge") continue;                               // the peak keeps its full melodic bass; the bridge is its own thing
+        else if(k==="pre") n.midi=T.fold(root+7,36,BASS_CEIL);                  // PEDAL on the 5th (dominant tension into the chorus)
+        else n.midi=root;                                                      // verse/intro/outro/breakdown: a steady ROOT groove (simple, not the melodic line)
+      }
+    }
+  }
+  // ═══════════════════════════════════════════════════════════════════════════
   // PEAK-FIRST COMPOSITION — write the song FROM its climax outward.
   // The material generated above IS the peak: the moment where the motif is fully
   // realized and every voice plays at full density. That is the destination. Now we
