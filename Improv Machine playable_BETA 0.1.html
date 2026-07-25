@@ -5995,40 +5995,38 @@ function ghostPass(parts, chart){
   if(n)corrections.push({kind:"collision", count:n});
   if(dropped)corrections.push({kind:"masked-note cut", count:dropped});
 
-  // 5) PROMINENCE HIERARCHY — one LEADER, everyone else ranked beneath it.
-  //    Film/orchestral practice is "melody-dominated homophony": a single foreground
-  //    voice leads and every other pitched part sits at a DEFINED level below it, so
-  //    a dense mix still reads clearly and the ear always knows what to follow — the
-  //    user's "which track is the leader?" problem. Measured, the field was crowded
-  //    at the top: the arp sat ABOVE the lead and the counter nearly matched it.
-  //    The LEAD is the leader (already the highest, most-present melodic voice); we
-  //    lift it a touch into the foreground and pull the competitors to a fixed ratio
-  //    beneath it — counter/lead2 just under, arp/pad well under (an arp above the
-  //    tune is fine as background SPARKLE, not as a rival). Bass and drums are the
-  //    foundation, a different function, and keep their own levels. Scaling is
-  //    proportional (median→target) so each voice keeps its internal dynamics, and
-  //    only voices louder than their target are pulled down — nothing is boosted.
-  //    Sources: Rimsky-Korsakov (melody by position); "melody-dominated homophony";
-  //    film-scoring "support never dominates" (see docs/ARRANGEMENT.md).
-  {
-    const leadP = parts.find(p=>p.role==="lead") || parts.find(p=>p.role==="melody");
-    const med = arr => { const v=arr.slice().sort((a,b)=>a-b); return v.length?v[Math.floor(v.length/2)]:0; };
-    if(leadP && leadP.notes.some(x=>x.midi!=null)){
-      const leadMed = med(leadP.notes.filter(x=>x.midi!=null).map(x=>x.vel||0)) || 0.5;
-      for(const x of leadP.notes) if(x.midi!=null) x.vel=+Math.min(0.98,(x.vel||0)*1.08).toFixed(3);  // lift the leader
-      const RATIO={counter:0.80, lead2:0.80, arp:0.62, harmony:0.75, pad:0.55};
-      let touched=0;
-      for(const p of parts){ const r=RATIO[p.role]; if(r==null)continue;
-        const rMed=med(p.notes.filter(x=>x.midi!=null).map(x=>x.vel||0)); if(!rMed)continue;
-        const target=leadMed*r;
-        if(rMed>target){ const f=target/rMed;
-          for(const x of p.notes) if(x.midi!=null) x.vel=+((x.vel||0)*f).toFixed(3);
-          touched++; } }
-      if(touched)corrections.push({kind:"prominence hierarchy", count:touched});
-    }
-  }
-
   return corrections;
+}
+
+/* PROMINENCE HIERARCHY — one LEADER, everyone else ranked beneath it. Run ONCE on the
+   finished song (NOT inside ghostPass, which fires after every entry and would compound
+   the scaling). Film/orchestral practice is "melody-dominated homophony": a single
+   foreground voice leads and every other pitched part sits at a DEFINED level below it,
+   so a dense mix still reads clearly and the ear always knows what to follow — the
+   user's "which track is the leader?" problem. Lift the leader a touch; pull every
+   competitor to a fixed ratio beneath it (counter/lead2 just under, arp/pad well under;
+   an arp above the tune is fine as background SPARKLE, not a rival). Bass and drums are
+   the foundation — different function — and keep their levels. Scaling is proportional
+   (median→target) so voices keep their internal dynamics, and only voices louder than
+   target are pulled down. Sources: Rimsky-Korsakov; "melody-dominated homophony";
+   film-scoring "support never dominates" (docs/ARRANGEMENT.md). */
+function prominenceHierarchy(parts, leaderRole){
+  const med = arr => { const v=arr.slice().sort((a,b)=>a-b); return v.length?v[Math.floor(v.length/2)]:0; };
+  const leadP = parts.find(p=>p.role===leaderRole)
+             || parts.find(p=>p.role==="lead") || parts.find(p=>p.role==="melody");
+  if(!leadP || !leadP.notes.some(x=>x.midi!=null)) return 0;
+  const leadMed = med(leadP.notes.filter(x=>x.midi!=null).map(x=>x.vel||0)) || 0.5;
+  for(const x of leadP.notes) if(x.midi!=null) x.vel=+Math.min(0.98,(x.vel||0)*1.08).toFixed(3);  // lift the leader
+  const RATIO={lead:0.80, counter:0.80, lead2:0.80, arp:0.62, harmony:0.75, pad:0.55};
+  let touched=0;
+  for(const p of parts){ if(p.role===leadP.role) continue;      // never duck the leader itself
+    const r=RATIO[p.role]; if(r==null)continue;
+    const rMed=med(p.notes.filter(x=>x.midi!=null).map(x=>x.vel||0)); if(!rMed)continue;
+    const target=leadMed*r;
+    if(rMed>target){ const f=target/rMed;
+      for(const x of p.notes) if(x.midi!=null) x.vel=+((x.vel||0)*f).toFixed(3);
+      touched++; } }
+  return touched;
 }
 
 
@@ -7381,6 +7379,21 @@ function composeSong(conductorChart, rng){
   }
   const themeLog = developTheme(session.parts, plan.sections, chart, rng);
   const finalCorrections = ghostPass(session.parts, chart);
+  // DERIVE THE LEADER from who is actually present. Normally the lead is the leader,
+  // but a few songs have the lead lay out / barely play (measured: some covered <15%
+  // of bars) — leaving no voice for the song to be built around. When that happens we
+  // hand leadership to the most-present MELODIC voice (counter, then lead2), so there
+  // is always a leader (arrangement research #10: the lead can move between voices).
+  (function pickLeader(){
+    const nb=chart.nBars||1;
+    const cov=role=>{ const p=session.parts.find(x=>x.role===role); if(!p)return 0;
+      return new Set(p.notes.filter(n=>n.midi!=null).map(n=>n.bar)).size/nb; };
+    let leader="lead", lc=cov("lead");
+    // only reassign when the lead is genuinely sparse (a through-line is missing) AND
+    // another melodic voice is clearly more present — then lead with what's actually there.
+    if(lc<0.3){ for(const r of ["counter","lead2"]){ const c=cov(r); if(c>lc+0.05){ lc=c; leader=r; } } }
+    chart._leader=leader;
+  })();
   // THE GROOVE goes on last — it is a PERFORMANCE layer (timing and dynamics),
   // so it never disturbs the pitch physics the ghost just settled.
   const groove = makeGroove(chart, rng);
@@ -7399,6 +7412,29 @@ function composeSong(conductorChart, rng){
       for(const n of p.notes){ const busy=leadPerBar[n.bar]||0;
         const f = busy>avg*1.3 ? 0.82 : (busy<avg*0.5 ? 1.12 : 1.0);   // duck when lead busy, lift when it rests
         n.vel = Math.max(0.05, Math.min(1, (n.vel!=null?n.vel:0.5)*f)); } }
+  })();
+  // PROMINENCE HIERARCHY — run ONCE here (authoritative over the per-bar comping),
+  // ranking every voice beneath the derived leader so the leader is the clear focus.
+  prominenceHierarchy(session.parts, chart._leader);
+  // THE DUEL — in the one section arrangeSections marked, the leader and its partner
+  // trade as EQUALS. The partner (counter/lead2) already answers in the lead's gaps;
+  // here we bring it UP to the leader's level for that span, overriding the prominence
+  // duck, so the two voices go back and forth on even footing instead of leader-over-
+  // support. Runs LAST (after comping/hierarchy) so nothing re-ducks it. Velocity-only.
+  (function duel(){
+    const dsec=(plan.sections||[]).find(s=>s.duel); if(!dsec) return;
+    let voice=dsec.duel; const s0=dsec.startBar, s1=dsec.endBar;
+    const leaderRole=chart._leader||"lead";
+    if(voice===leaderRole) voice = (leaderRole==="lead") ? "counter" : "lead";   // can't duel yourself
+    const lead=session.parts.find(p=>p.role===leaderRole); if(!lead) return;
+    const md=arr=>{ const v=arr.slice().sort((a,b)=>a-b); return v.length?v[Math.floor(v.length/2)]:0; };
+    const leadMed=md(lead.notes.filter(n=>n.midi!=null&&n.bar>=s0&&n.bar<s1).map(n=>n.vel||0));
+    if(!leadMed) return;
+    for(const p of session.parts){ if(p.role!==voice) continue;
+      const pMed=md(p.notes.filter(n=>n.midi!=null&&n.bar>=s0&&n.bar<s1).map(n=>n.vel||0)); if(!pMed) continue;
+      const f=leadMed/pMed;                       // match the partner to the leader in this span
+      for(const n of p.notes){ if(n.midi==null||n.bar<s0||n.bar>=s1) continue;
+        n.vel=+Math.min(0.98,(n.vel||0)*f).toFixed(3); } }
   })();
   // FINAL bass-register guard: the groove/loop-variation layer can octave-shift a
   // later-loop bass note past its bounds — the HARD register law holds regardless.
@@ -7566,6 +7602,22 @@ function arrangeSections(chart, session, rng){
       } else { out[i].lift = !out[i-1].lift; }
       if(sig(out[i])===sig(out[i-1])) out[i].lift = !out[i-1].lift;
     }
+  }
+  // THE DUEL — designate ONE featured section where the leader and a second melodic
+  // voice (counter, else lead2) TRADE AS EQUALS instead of leader-over-support. We
+  // only mark it here (the level match is applied after comping); pick the LATEST
+  // peak/moment section where both are active, deterministically (no rng draw, so the
+  // rest of the arrangement is unchanged). The partner already answers in the lead's
+  // gaps, so matching its level there turns support into a genuine call-and-response
+  // duel. (Arrangement research: leadership can be briefly shared / handed off.)
+  { let di=-1, dv=null, dbest=1;      // pick the featured section where the partner plays MOST (needs ≥2)
+    for(let i=0;i<out.length;i++){ const ar=out[i].activeRoles;
+      const partner = ar.includes("counter")?"counter":(ar.includes("lead2")?"lead2":null);
+      if(!(ar.includes("lead") && partner && (out[i].event==="peak"||out[i].event==="moment"))) continue;
+      const pp=parts.find(p=>p.role===partner);
+      const cnt=pp?pp.notes.filter(n=>n.midi!=null&&n.bar>=out[i].startBar&&n.bar<out[i].endBar).length:0;
+      if(cnt>dbest){ dbest=cnt; di=i; dv=partner; } }   // most partner activity = the strongest trade
+    if(di>=0) out[di].duel=dv;
   }
   return { sections:out, entries, style };
 }

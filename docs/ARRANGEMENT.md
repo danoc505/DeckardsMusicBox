@@ -33,6 +33,8 @@ clearly only when the roles are ranked.
 | 6 | Counter/answer voices fill the leader's **rests** (call-and-response) | `buildCounter` places its reply inside the lead's largest within-bar silence, not from step 0 over a held note | Panman; Wikipedia (Counter-melody) |
 | 7 | Attenuate competing higher voices so the lead is prioritized | prominence ratios: counter/lead2 ≈ 0.80×, arp ≈ 0.62×, pad ≈ 0.55× the lead's level | Rimsky-Korsakov; Panman |
 | 11 | Film scoring: the score **supports, never competes** with the focal element | the lead is the protected focal element; supports duck and sit beneath it | Soundverse (underscoring) |
+| 10a | Leadership can move — the lead is a role, not a fixed track | `pickLeader` hands leadership to the most-present melodic voice when the lead lays out (measured: some songs' lead covered <15% of bars); the hierarchy then ranks around the *actual* leader | Filimowicz (Sound & Design) |
+| duel | Two voices trade as **equals** (not leader-over-support) in a featured moment | `arrangeSections` marks one peak/moment section where a partner (counter/lead2) plays most; a final pass brings the partner **up to the leader's level** in that span so they answer each other on even footing | Panman (antiphony); Filimowicz |
 
 Ratios are applied proportionally (each voice's median velocity is scaled to its
 target, preserving internal dynamics) and only ever pull a voice **down** — nothing
@@ -54,13 +56,23 @@ The lead is now clearly the loudest melodic voice with real separation beneath i
 instead of a crowded stack where the arp out-registered the tune and the counter
 nearly matched its level.
 
+## Done since first pass
+
+- **Duel** — one featured section per song (11/40; 10 audible) where the leader and a
+  partner voice trade at matched level (`arrangeSections` marks it, a final pass
+  equalizes the span). See the "duel" row above.
+- **Dynamic leader (partial #10)** — when the lead lays out, `pickLeader` hands
+  leadership to the most-present melodic voice so the song always has a leader to
+  build around (1/40 today — the fragmented songs). This is the *within-song fallback*
+  form of leadership handoff.
+
 ## Not yet done (ranked, honest)
 
-- **#10 Hand the lead between tracks across sections.** The leader is currently
-  always the `lead`. The research's strongest arrangement idea is passing the melody
-  (verse: lead; solo: counter; etc.), re-orchestrating on each hand-off. This needs
-  the leader to be a *token* that reassigns per section, plus a smooth one-phrase
-  overlap. Biggest remaining lever.
+- **#10 (full) Hand the lead between tracks across SECTIONS as a design choice**, not
+  just as a fallback — passing the melody verse→solo (lead → counter → back),
+  re-orchestrating on each hand-off, with a smooth one-phrase overlap. The engine now
+  has the leader as a reassignable token (`chart._leader`); making it *change per
+  section* deliberately is the remaining lever.
 - **#8 `contribution` per track** (weight / warmth / motion / attack / air) so an
   optional voice is added only when it adds something the mix lacks.
 - **#9 Intensity by layer count over time** — partly present (arrangement adds/drops
