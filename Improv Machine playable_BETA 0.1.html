@@ -7690,10 +7690,12 @@ function arrangeSections(chart, session, rng){
         active=entered.slice(); event="peak"; atMaxFor++;
         if(atMaxFor>=2) lift=!(out[i-1]&&out[i-1].lift);          // held peak: expression change
       } else if(rng()<0.8 || spansS.length-i<=2){
-        // THE DROP: back to just the chords — because everyone was in. GUARANTEED:
-        // if we've reached the last two sections without dropping, drop now, so the
-        // song always earns its payoff (a drop is the gateway to the "moment").
-        active=entered.filter(r=>r==="harmony"||r==="pad");
+        // THE DROP / BREAKDOWN: strip out the rhythm section (drums + bass + the busy
+        // color voices) but KEEP the tune (the lead) over the chords — a breakdown is
+        // a stripped-down version of THIS song, carrying its motif, not a generic
+        // chord-hold that sounds like another song's intro. The scheduler filters/
+        // thins it, so it still reads as a low-energy valley before the payoff.
+        active=entered.filter(r=>r==="harmony"||r==="pad"||r==="lead");
         if(!active.length) active=[entered[0]];
         dropped=true; event="drop";
       } else { active=entered.slice(); event="peak"; atMaxFor++; }
@@ -7723,7 +7725,10 @@ function arrangeSections(chart, session, rng){
       // #3 HARMONIC JOURNEY: the payoff MODULATES up a whole step (the classic
       // final-chorus lift) so it leads somewhere harmonically — but ONLY on tonal
       // genres; a functional key-change is wrong for the modal/drone ones (measured).
-      keyShift: sec.contrast ? pick(rng,[5,-2,3])
+      // The BRIDGE no longer transposes by a random chromatic interval (was ±2/3/5 —
+      // that shifted it to an unrelated key and made it sound like a DIFFERENT song).
+      // A bridge stays in the tonic; its contrast comes from arrangement, not a key jump.
+      keyShift: sec.contrast ? 0
                 : (event==="moment" && !(typeof MODAL_GENRES!=="undefined" && MODAL_GENRES[chart.genre]) ? 2 : 0) });
     prevActive=active; prevEvent=event;
   }
