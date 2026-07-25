@@ -89,6 +89,48 @@ Measured (40 seeds): MIRROR per-bar pitch correlation with the leader **0.68** (
 **0.96**; relationship mix well spread. All laws hold (NCT 0.42%, unisons 0,
 recurrence intact), determinism 40/40.
 
+## Peak-first method + sections that play DISTINCT material
+
+The user's method, in their words: *"two starting points, the leader and the peak. The
+leader sets what all other things follow and the peak where the whole thing is leading
+to and going away from… start composition at the climax, then work backward, then work
+forward making alterations and corrections… like a real producer."* And the core
+complaint that drove it: *"it sounded like there was one single bass line for the whole
+song — that's not how songs are made."*
+
+So the engine composes the **peak** (the moment where the motif is fully realized and
+every voice plays at full density) and treats every other section as a transform of it.
+The **backward** pass strips density from the peak toward the intro/outro (the density
+*peel*, foundation held). The section-distinct passes are the **alterations** that make
+each section its own thing — not one loop tiled:
+
+- **Bass** — the downbeat roots (the progression) are always kept, but the elaboration
+  changes by section: the verse/intro/outro is a steady ROOT groove, the pre-chorus
+  holds a DOMINANT PEDAL on the 5th, the chorus/bridge keep the full melodic bass.
+  Measured: bass identical verse↔chorus **0/40** (was 18/40).
+- **Melody** — the chorus is the peak sung at FULL HEIGHT; the whole melodic group
+  (lead + its leader-derived partners) drops a rigid DIATONIC block for the verse
+  (~a 4th–5th down), lifts a step for the pre-chorus. Moving the group *together*
+  preserves every relateToLeader interval (a mirror stays a mirror, a 6th stays a 6th).
+  Clamps fold downward to an in-key floor only, so the chorus is always the peak.
+  Measured: verse lead LOWER than chorus **33/33**, avg drop **4.8 semis**.
+- **Harmony** — the verse holds (slower harmonic rhythm — the chords sustain), the
+  chorus comps (the inner-motif re-articulations, flagged `_rehit`, are dropped in the
+  held sections). Pitches/progression untouched, so consonance and the derived voices
+  are unaffected. Measured: verse harmony sparser than chorus **28/34** (7.71 → 5.79
+  notes/bar).
+
+All laws hold across the rebuild: bass consonance **0.19%**, NCT **~0%**, below-floor
+**0**, hierarchy intact (lead loudest), the peak IS the global energy max **38/38**,
+intro↔peak foreshadow **0.72**; determinism **40/40** per seed. Grounded in production
+research (peak-first writing; verse-a-4th-below-chorus; verse-holds/chorus-comps) — see
+`harness/probe_peak_arc.js` and the sources below.
+
+**Still ahead (the forward pass):** producer-style transition/correction passes —
+fills and risers *into* the big sections and an impact on the chorus downbeat (the
+moment already gets a riser+wash; a true crash awaits a crash voice — the synth maps
+`crash`→a thin open-hat today), plus energy-curve smoothing at the seams.
+
 ## Any track can lead (bass or melody)
 
 `chart._leader` now follows the conductor's **focal**: a `bass` focal makes a
