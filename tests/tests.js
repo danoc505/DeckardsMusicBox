@@ -392,12 +392,21 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
         const r0=rhythmOf(bass,b); tot++;
         if(rhythmOf(bass,b2)===r0||rhythmOf(bass,b2).length<r0.length) same++; }
       if(tot){ bassN++; if(same/tot>=0.6) bassOk++; } }
+    // SECTION-RELATIVE, for the same reason its BASS twin above already is: the song is
+    // no longer one motif tiled end to end. A form of "A B A C" gives each letter its
+    // own material, so the loop AFTER the lead's first is often a different section --
+    // different music by design, which is what makes it a form (007-structure: binary is
+    // "two CONTRASTING sections"). The law being protected is that the motif REPEATS,
+    // and it still must: compared between two loops INSIDE one section.
     const lead=song.parts.find(p=>p.role==="lead");
-    if(lead && lead.notes.length){ const e=Math.min(...lead.notes.map(n=>n.bar));
+    if(lead && lead.notes.length){
       let same=0,tot=0;
-      for(let b=0;b<loop;b++){ const r0=rhythmOf(lead,e+b);
-        const b2=e+loop+b; if(b2>=chart.nBars)continue; tot++;
-        if(rhythmOf(lead,b2)===r0) same++; }
+      for(const sec of (song.arrangement||[])){
+        if(sec.endBar-sec.startBar < 2*loop) continue;
+        for(let b=0;b<loop;b++){ const b1=sec.startBar+b, b2=b1+loop;
+          if(b2>=sec.endBar) continue;
+          const r0=rhythmOf(lead,b1); if(!r0) continue;
+          tot++; if(rhythmOf(lead,b2)===r0) same++; } }
       if(tot){ leadN++; if(same/tot>=0.5) leadOk++; } }
     const maxE=Math.max(...Object.values(song.entries||{0:0}));
     if(maxE > chart.nBars*0.67) lateEntry++;

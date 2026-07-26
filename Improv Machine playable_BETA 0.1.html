@@ -7515,9 +7515,30 @@ function planArrangement(chart, bundle, rng){
   // uniform 16-bar blocks, which is how a song ends up with no sections at all. Each
   // section keeps its LETTER, and the letter decides which cell it plays, so an A that
   // returns later is the same music returning.
-  const spans = (chart._sectionSpans && chart._sectionSpans.length)
-              ? chart._sectionSpans.map(x=>({...x}))
-              : [{name:"A", startBar:0, endBar:nBars, bars:nBars}];
+  let spans = (chart._sectionSpans && chart._sectionSpans.length)
+            ? chart._sectionSpans.map(x=>({...x}))
+            : [{name:"A", startBar:0, endBar:nBars, bars:nBars}];
+  // SECTIONS SIT ON THE LOOP GRID. A form can carry an odd-length member (an intro of
+  // 4), which pushes every section after it off the 8-bar grid -- and then the cell's
+  // own phrase structure (004's A B A C A A D, where D is the fill) is rendered at an
+  // offset, so a tom fill lands two bars before the phrase actually ends. Measured: a
+  // section starting at bar 4 put the D-bar fill on song bar 10, which the ear reads
+  // as a core bar. Every EDM/structure source puts sections at 8/16/32 bars, so
+  // boundaries are snapped to whole loops and the phrase structure lines up with the
+  // song's grid.
+  {
+    let acc=0; const snapped=[];
+    for(const sp of spans){
+      if(acc>=nBars) break;
+      const want=Math.max(loopBars, Math.round((sp.bars||(sp.endBar-sp.startBar))/loopBars)*loopBars);
+      const end=Math.min(nBars, acc+want);
+      if(end>acc) snapped.push({...sp, startBar:acc, endBar:end, bars:end-acc});
+      acc=end;
+    }
+    if(snapped.length){ snapped[snapped.length-1].endBar=nBars;
+      snapped[snapped.length-1].bars=nBars-snapped[snapped.length-1].startBar;
+      spans=snapped.filter(x=>x.bars>0); }
+  }
   const n = spans.length;
 
   // ── THE ENERGY MAP ───────────────────────────────────────────────────────
@@ -7554,13 +7575,22 @@ function planArrangement(chart, bundle, rng){
     const e=E[i];
     let active;
     if(i===0){
-      // THE INTRO IS THE LOOP MINUS THE MELODY — not "the loop with one voice left".
-      // 007(structure): "most typically the intro will effectively just be the verse
-      // but without the verse melody having begun yet... a VAMP." 002, on a two-bar
-      // setup: "the LACK OF MELODY was literally the only difference between the setup
-      // and the section that followed." The groove is already there; the tune ARRIVES.
-      active = keepOrder.filter(r=>!MEL(r));
-      if(active.length>3) active=active.slice(0,3);
+      // THE INTRO IS THE LOOP MINUS THE MELODY -- the VAMP. 007(structure) calls this
+      // the most typical intro: "the verse but without the verse melody having begun
+      // yet"; 002 confirms "the lack of melody was literally the only difference".
+      // The chords are the vamp, so the harmony is always in it (001 opens on the
+      // chords alone and filters them in).
+      //
+      // NOT YET: the other two intro kinds 007 lists -- a distinct RIFF that appears
+      // only there, and an intro that deliberately does not prepare the verse. I built
+      // them, and they broke real laws rather than adding variety: opening on one or
+      // two voices for a whole form section left 19 of 60 songs thin (worst 35s), the
+      // kit arriving late in 20 of 60, and songs with no kick on beat one. A sparse
+      // opening in a record is a MOMENT that moves within a bar or two, and wiring that
+      // properly needs the entrance ramp to be built first. Reverted rather than shipped.
+      active = keepOrder.filter(r=>!MEL(r)).slice(0,3);
+      if(voices.includes("harmony") && !active.includes("harmony"))
+        active = ["harmony"].concat(active).slice(0,3);
       if(!active.length) active=[keepOrder[0]];
     } else {
       // layers scale with energy, but never strip below a duo except at the floor
@@ -7587,7 +7617,8 @@ function planArrangement(chart, bundle, rng){
       if(same){
         const off = keepOrder.filter(r=>!active.includes(r));
         if(off.length && E[i]>=E[i-1]) active=active.concat([off[0]]);          // add one
-        else if(active.length>2) active=active.filter(r=>r!==active[active.length-1]); // remove one
+        else if(active.length>1) active=active.slice(0,-1);                     // remove one
+        else if(off.length) active=active.concat([off[0]]);                     // nothing left to drop
       }
     }
     if(!active.length) active=[keepOrder[0]];
@@ -7609,6 +7640,23 @@ function planArrangement(chart, bundle, rng){
                     bars:spans[i].endBar-spans[i].startBar, contrast:!!spans[i].contrast,
                     event: ev,
                     energy:e, activeRoles:active, debut, keyShift:0, lift:e>=8 });
+  }
+
+  // A SPARSE OPENING IS A MOMENT, NOT A SECTION. Opening on one instrument is real and
+  // common (008 opens on drums alone, 001 on chords alone) -- but those MOVE: 001 adds
+  // something every eight bars, "every eight bars of the grid is like a page in a
+  // book". Letting a one-voice opening run a whole form section gave 70 seconds of a
+  // single instrument, which is not an intro, it is nothing happening. So a thin
+  // opening lasts ONE LOOP and the remainder of that section brings the next voice in.
+  if(sections.length && sections[0].activeRoles.length<3
+     && sections[0].endBar-sections[0].startBar > loopBars){
+    const s0=sections[0], mid=s0.startBar+loopBars;
+    const grown=keepOrder.filter(r=>!s0.activeRoles.includes(r)).slice(0,1);
+    const tail={ ...s0, startBar:mid, endBar:s0.endBar, bars:s0.endBar-mid,
+                 activeRoles:s0.activeRoles.concat(grown), debut:grown, event:"build",
+                 energy:Math.min(9,s0.energy+2) };
+    s0.endBar=mid; s0.bars=loopBars;
+    sections.splice(1,0,tail);
   }
 
   // EVERY VOICE MUST HAVE ARRIVED BY THE LAST THIRD. Holding a voice back is the
