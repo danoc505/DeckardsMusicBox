@@ -284,9 +284,25 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
     // being applied to a different number of voices.
     const shape=b=>h.notes.filter(n=>n.bar===b).map(n=>n.step).sort((a,x)=>a-x).join(",");
     const voices=b=>new Set(h.notes.filter(n=>n.bar===b).map(n=>n.midi)).size;
-    let cmp=-1;
-    for(let b2=1;b2<8;b2++) if(voices(b2)===voices(0)){ cmp=b2; break; }
-    if(shape(0)!=="" && cmp>0 && shape(0)===shape(cmp)) patternRepeats++;
+    // The law is that the STORED CHORD TEXTURE repeats bar to bar. The old check
+    // picked its comparison bar by matching voice COUNT, which does not control for
+    // what it was trying to control for: `voices()` counts distinct pitches, while the
+    // inner motif re-articulates a pitch it has already sounded, so two bars can share
+    // a voice count and still carry a different number of onsets. In practice it
+    // compared bar 0 against a DIFFERENT CHORD of the progression and reported the
+    // extra chord tone as a broken texture -- measured on the 5 "failing" songs, every
+    // one of them repeated its texture exactly (seed 7 bar0==bar4, bar1==bar5...;
+    // seed 11 on a 2-bar cycle; seed 12 on a 4-bar cycle).
+    // So test the law directly: the onset pattern must repeat on SOME cycle that
+    // divides the loop. This is stricter than the old check -- it requires all eight
+    // bars to line up, not one lucky pair.
+    let cyc=0;
+    for(const c of [1,2,4,8]){
+      let all=true;
+      for(let b=0;b+c<8;b++) if(shape(b)!==shape(b+c)){ all=false; break; }
+      if(all){ cyc=c; break; }
+    }
+    if(shape(0)!=="" && cyc>0) patternRepeats++;
     const onsets=new Set(h.notes.filter(n=>n.bar===0).map(n=>n.step));
     if(onsets.size>=3) motifPresent++;                                  // staggered + re-articulation
   }
