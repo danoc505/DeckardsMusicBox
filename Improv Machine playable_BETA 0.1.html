@@ -7530,7 +7530,16 @@ function planArrangement(chart, bundle, rng){
     let acc=0; const snapped=[];
     for(const sp of spans){
       if(acc>=nBars) break;
-      const want=Math.max(loopBars, Math.round((sp.bars||(sp.endBar-sp.startBar))/loopBars)*loopBars);
+      // ...and a section lasts AT LEAST two loops. 005 is a rule about how long an
+      // arrangement state HOLDS: "the arrangement has to change every two loops of the
+      // chords, because our ears naturally expect songs to change every two loops."
+      // With one-loop sections the lineup changed every single loop -- 86% of loop
+      // boundaries -- which is the opposite failure to the one we started with: nothing
+      // is stated long enough to be recognised. Two loops per section also gives the
+      // rule of three its first two hearings (state, then repeat) inside the section,
+      // with the depart arriving when the letter next returns.
+      const want=Math.max(2*loopBars,
+                          Math.round((sp.bars||(sp.endBar-sp.startBar))/loopBars)*loopBars);
       const end=Math.min(nBars, acc+want);
       if(end>acc) snapped.push({...sp, startBar:acc, endBar:end, bars:end-acc});
       acc=end;
@@ -7565,12 +7574,12 @@ function planArrangement(chart, bundle, rng){
   // ── SUBTRACTION ORDER ────────────────────────────────────────────────────
   // Which voice goes first as energy drops. Seeded per song, but the tune and the kit
   // are the last things to go.
-  const WEIGHT={answer:1, ornament:1, harmony:2, drums:3, bass:3, lead:4};
+  const WEIGHT={answer:1, ornament:1, harmony:2, bass:3, lead:4, drums:5};
   const keepOrder = voices.slice().sort((a,b)=>(WEIGHT[b]||2)-(WEIGHT[a]||2)
                     || (hashName(chart._seed||0,a)%97)-(hashName(chart._seed||0,b)%97));
   const MEL = r => r==="lead"||r==="answer";
 
-  const sections=[]; const seenVoice={};
+  const sections=[]; const seenVoice={}; const heard={};
   for(let i=0;i<n;i++){
     const e=E[i];
     let active;
@@ -7645,7 +7654,18 @@ function planArrangement(chart, bundle, rng){
     // starts its own cell at loop 0 and develops from there by the rule of three.
     const ev = i===0?"open" : i===peakI?"moment" : i===n-1?"out"
              : (i>0 && E[i]>E[i-1] ? "build":"drop");
-    const cellBase = 0;
+    // THE RULE OF THREE, ACROSS RETURNS. 006: an idea is stated, repeated to fix it in
+    // memory, and by the THIRD hearing "your brain is automatically making decisions...
+    // primarily that you are now losing interest" -- so the third pass must either go
+    // somewhere different or start the same and diverge. Every section here was one
+    // loop long, so the within-section rule never fired once (measured: cellLoop was 0
+    // for all nine loops of seed 7, and its A returned bit-identical three times). The
+    // count that matters is how many times this LETTER has been heard: the first two
+    // hearings state and confirm it, and every hearing after that takes a later loop of
+    // the letter's own cell -- the same music, developed, which is what a return is.
+    heard[spans[i].name] = (heard[spans[i].name]||0) + 1;
+    const nth = heard[spans[i].name] - 1;
+    const cellBase = nth<2 ? 0 : (1 + ((nth-2) % (CELL_LOOPS-1)));
     sections.push({ cellBase, name:spans[i].name, cell:spans[i].name,
                     startBar:spans[i].startBar, endBar:spans[i].endBar,
                     bars:spans[i].endBar-spans[i].startBar, contrast:!!spans[i].contrast,
@@ -7660,7 +7680,8 @@ function planArrangement(chart, bundle, rng){
   // toward. Anything still unheard by the two-thirds mark is brought in there, which
   // is one of the four legal moves (005: add an instrument).
   {
-    const cut = Math.max(1, Math.floor(sections.length*0.6));
+    let cut = 0;
+    for(let i=0;i<sections.length;i++) if(sections[i].startBar <= nBars*0.55) cut=i;
     const heard = new Set();
     for(let i=0;i<=cut && i<sections.length;i++) for(const r of sections[i].activeRoles) heard.add(r);
     const late = keepOrder.filter(r=>!heard.has(r));
@@ -7670,6 +7691,39 @@ function planArrangement(chart, bundle, rng){
       for(let i=cut+1;i<sections.length;i++)
         sections[i].debut = (sections[i].debut||[]).filter(r=>!late.includes(r));
     }
+  }
+
+  // ── THE 2-LOOP RULE, APPLIED THROUGH THE WHOLE SONG ─────────────────────
+  // 005: "the arrangement has to change every two loops of the chords, because our ears
+  // naturally expect songs to change every two loops of the main instruments", and the
+  // video colour-codes eight loops of chords into 2-loop blocks, putting a change at
+  // every one. MusicRadar's write-up is explicit that it runs "after every two loop
+  // cycles" through the composition -- it is not a section-boundary rule, which is all
+  // ours was. So any section running longer than two loops is split on the 2-loop grid
+  // and each block makes one of the four legal moves (005): add an instrument, remove
+  // one, or change expression.
+  {
+    const span = 2*loopBars, out=[];
+    for(const sec of sections){
+      const len = sec.endBar - sec.startBar;
+      if(len <= span){ out.push(sec); continue; }
+      for(let off=0; off<len; off+=span){
+        const st=sec.startBar+off, en=Math.min(sec.endBar, st+span);
+        if(en<=st) break;
+        const blk = {...sec, startBar:st, endBar:en, bars:en-st, debut:off?[]:sec.debut};
+        if(off){
+          // one legal move per block, alternating so the energy still breathes
+          const idx = off/span;
+          const off2 = keepOrder.filter(r=>!blk.activeRoles.includes(r));
+          if(idx%2===1 && blk.activeRoles.length>2) blk.activeRoles = blk.activeRoles.slice(0,-1);
+          else if(off2.length){ blk.activeRoles = blk.activeRoles.concat([off2[0]]); blk.debut=[off2[0]]; }
+          else if(blk.activeRoles.length>2) blk.activeRoles = blk.activeRoles.slice(0,-1);
+          blk.energy = Math.max(1, Math.min(9, sec.energy + (idx%2===1 ? -1 : 1)));
+        }
+        out.push(blk);
+      }
+    }
+    sections.length=0; sections.push(...out);
   }
 
   // A SPARSE OPENING IS A MOMENT, NOT A SECTION. Opening on one instrument is real and
@@ -7801,18 +7855,19 @@ function renderArrangement(chart, bundle, plan, rng){
         // position is read against the section, not the song bar.
         const fsec = plan.sections.find(x=>fb>=x.startBar && fb<x.endBar);
         if(!fsec) continue;
-        if(((fb - fsec.startBar) % loopBars + loopBars) % loopBars !== loopBars-1) continue;
-        if(!have.has(fb) && !drumsIn(m)) continue;     // the fill may lead INTO the kit too
+        // An ENTRANCE fill sits in the bar immediately before the arrival -- that is
+        // what "announced" means. It cannot be a tom fill: 004's phrase grammar puts
+        // the tom slot ("D") at index 6 of the eight, and a loud tom anywhere else is a
+        // core-bar violation. But 004 also describes fills as "extra syncopation, extra
+        // snare hits on weaker beats, a couple extra kick drums on the eighth notes,
+        // and MAY also incorporate toms" -- so the announcement is snare-and-kick led,
+        // which breaks no law and is what most records actually do.
         const fR=makeRng(hashName(chart._seed||0,"fill"+fb));
-        if(breaks){
-          // jungle is amen turf -- toms are forbidden there, so the fill is a snare stutter
-          for(let st=12; st<16; st++) if(fR()<0.85)
-            drums.notes.push({bar:fb, step:st, midi:38, lane:"snare", dur:1, vel:0.3+fR()*0.3});
-        } else {
-          const toms=[["highTom",50],["hiMidTom",48],["lowTom",45],["lowFloorTom",41]];
-          if(fR()<0.5) toms.reverse();
-          toms.forEach(([lane,midi],i)=>{ if(fR()<0.85)
-            drums.notes.push({bar:fb, step:12+i, midi, lane, dur:1, vel:0.4+fR()*0.25}); });
+        for(let st=12; st<16; st++){
+          if(fR()<0.8) drums.notes.push({bar:fb, step:st, midi:38, lane:"snare",
+                                         dur:1, vel:0.30+ (st-12)*0.06 + fR()*0.15});
+          if(!breaks && st%2===0 && fR()<0.4)
+            drums.notes.push({bar:fb, step:st, midi:36, lane:"kick", dur:1, vel:0.55});
         }
       }
     }
