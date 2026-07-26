@@ -5577,7 +5577,11 @@ function fitToBand(notes, lo, hi){
   for(let oct=-2; oct<=2; oct++){
     const sh=oct*12; let bad=0;
     for(const n of notes){ if(n.midi==null) continue; const m=n.midi+sh; if(m<lo||m>hi) bad++; }
-    if(bad<bestBad){ bestBad=bad; best=sh; }
+    // ties go to the SMALLEST move. Taking the first octave that fits meant a line
+    // already sitting correctly was dragged down as far as it could go and still fit,
+    // which quietly undid every deliberate placement and parked every melody on the
+    // floor of its band.
+    if(bad<bestBad || (bad===bestBad && Math.abs(sh)<Math.abs(best))){ bestBad=bad; best=sh; }
   }
   return best ? notes.map(n=> n.midi==null ? n : ({...n, midi:n.midi+best})) : notes;
 }
@@ -5594,24 +5598,55 @@ const baseKind = k => k.replace(/[0-9]+$/,"");
    remainder is a tail rest — space is part of the motif. Replaces the old
    baked-in RPOOL lookup (a prime-directive violation). */
 function genRhythm(rng){
-  const DUR=[[1,1],[2,5],[3,3],[4,6],[6,2],[8,3]];
-  const nWant=2+Math.floor(rng()*5);
+  // MEASURED, not guessed. 17,840 human-transcribed sections in the Hooktheory corpus
+  // (corpus/harvest_melody.py) put a real melody at 4.3-4.75 notes per bar with a mean
+  // note length of 0.72-0.80 BEATS -- about three sixteenths -- and onsets spread almost
+  // evenly across the four beats (13.8 / 10.2 / 11.3 / 11.4 %), with a third of all
+  // onsets on the eighth-note offbeats and only ~2% on sixteenths.
+  //
+  // Ours drew 2-6 notes averaging FOUR sixteenths and stopped when it ran out, which
+  // gave 2.0-4.0 notes per bar and an onset profile that decayed from 22.7% on the
+  // downbeat to 5% at the end of the bar. The tune was half as dense as real music and
+  // lived in the front half of every bar. So: durations weighted to average ~3.1, and
+  // the figure fills the bar unless it deliberately stops early to leave a tail rest.
+  const DUR=[[1,2],[2,7],[3,4],[4,5],[6,1],[8,1]];   // mean 3.1 sixteenths
   const out=[]; let sum=0;
-  for(let i=0;i<nWant;i++){
+  for(let i=0;i<8;i++){
     const d=wpick(rng,DUR);
     if(sum+d>16) break;
     out.push(d); sum+=d;
-    if(sum>=14 && rng()<0.5) break;          // leave a tail rest sometimes
+    if(sum>=14) break;                       // the bar is full
+    if(sum>=10 && rng()<0.22) break;         // ...or it stops early, and the tail rests
   }
   if(out.length<2){ out.length=0; out.push(4,4); }
+  // A MELODY BREATHES INSIDE THE BAR, not only at the end of it. Durations packed from
+  // step 0 can only reach a late position if every earlier draw sums to it exactly, so
+  // the onset profile decayed across the bar -- 18.8% of onsets on the downbeat and 6.1%
+  // on beat four, where real music is nearly flat (13.8 / 10.2 / 11.3 / 11.4). One
+  // interior REST, sometimes, is what a written phrase has and a packed one does not.
+  // A rest is a NEGATIVE duration; the realizer advances past it without sounding a note.
+  if(out.length>=3 && rng()<0.34){
+    const at = 1+Math.floor(rng()*(out.length-2));       // never first, never last
+    out[at] = -out[at];
+  }
   return out;
 }
 /* GENERATIVE contour: per-note movement — runs, arches, zigzags, and leaps
    that resolve by step (the Melody file: balance steps & leaps). */
 function genContour(rng, n){
-  const kind=wpick(rng,[["run",3],["arch",3],["zigzag",3],["leap",2]]);
+  // "leap" weighted down: ours leapt on 41% of moves against a measured 35.3%,
+  // and a leap is the most expensive move a melody can make.
+  const kind=wpick(rng,[["run",3],["arch",3],["zigzag",3],["leap",1]]);
   const dir=rng()<0.5?1:-1, out=[];
   for(let i=1;i<n;i++){
+    // A REPEATED NOTE IS A MELODIC MOVE. Measured over 852,544 intervals in 17,840
+    // human-transcribed sections, real pop melodies hold the SAME pitch 23.4% of the
+    // time -- it is the single most common thing a melody does, because that is how a
+    // line of lyrics gets sung. This generator could not emit one at all: every move
+    // was forced to be nonzero, and ours repeated only 11.5%. Never twice running,
+    // though -- a bar of one pitch struck over and over was a real bug once, and the
+    // guard against it is that a hold is always followed by a move.
+    if(out.length && out[out.length-1]!==0 && rng()<0.34){ out.push(0); continue; }
     if(kind==="run")      out.push(dir*pick(rng,[1,1,2]));
     else if(kind==="arch")out.push((i<n/2?dir:-dir)*pick(rng,[1,2]));
     else if(kind==="zigzag")out.push((i%2?dir:-dir)*pick(rng,[1,2]));
@@ -5657,7 +5692,7 @@ function buildLead(voice, chart, chords, perception, rng, implyHarmony){
   // per bar-of-the-loop, so the bars of a loop differ from each other while the loop
   // itself still repeats bit-for-bit, which is what makes it a loop.
   const TREAT=[]; for(let i=0;i<loop;i++)
-    TREAT.push(wpick(rng,[["plain",4],["hold",5],["pickup",2]]));
+    TREAT.push(wpick(rng,[["plain",4],["hold",5],["pickup",4]]));
 
   let prev=null;
   for(let bar=entry; bar<nBars; bar++){
@@ -5674,14 +5709,14 @@ function buildLead(voice, chart, chords, perception, rng, implyHarmony){
     let M = slot==="B" ? B : A;
     if(mode==="depart" && lb>=loop/2 && slot!=="B") M=D;    // the back half departs
     let rhythm=M.rhythm.slice();
-    if(mode==="vary" && rhythm[rhythm.length-1]>=4){        // rhythmic acceleration (A2)
+    if(mode==="vary" && rhythm[rhythm.length-1]>=4){        // rhythmic acceleration (A2) -- rests are negative, so this skips them
       const last=rhythm.pop(); rhythm.push(last/2, last/2);
     }
     const dropIdx = (mode==="vary" && rhythm.length>2) ? 1 : -1;   // "a note taken out"
     // realize: start on a chord tone near the previous pitch; move by the motif's
     // movement; strong beats snap to chord tones; C-slot ends long on a chord tone
     let m = nearestTone(prev!=null?prev:tones[Math.floor(tones.length/2)], tones);
-    const rSum = rhythm.reduce((x,y)=>x+y,0);
+    const rSum = rhythm.reduce((x,y)=>x+Math.abs(y),0);
     const treat = TREAT[lb] || "plain";
     // a PICKUP: the figure enters after the downbeat, leaving the front of the bar open
     // instead of the back. Only when there is room for it.
@@ -5689,10 +5724,18 @@ function buildLead(voice, chart, chords, perception, rng, implyHarmony){
     let lastNote=null;
     rhythm.forEach((dur,k)=>{
       if(step>=16) return;
+      if(dur<0){ step += Math.min(-dur, 16-step); return; }   // an interior rest
       dur = Math.min(dur, 16-step);
       if(k===dropIdx){ step+=dur; return; }
-      if(k>0){ m = T.scaleStep2(m, scale, root, (M.moves&&M.moves[k-1])||1); }
-      if(step%4===0) m = nearestTone(m, tones);             // chord tone on the strong beat
+      // `|| 1` treated a deliberate HOLD as falsy and turned it into a step up, so the
+      // repeated notes the contour asked for never sounded -- the same falsy-zero trap
+      // that once made an empty contour repeat one pitch forever, in the other direction.
+      const mv = (M.moves && M.moves[k-1] != null) ? M.moves[k-1] : 1;
+      if(k>0) m = T.scaleStep2(m, scale, root, mv);
+      // ...and a held note stays held. Snapping every strong beat to a chord tone was
+      // absolute; measured, a real melody sits on a chord tone on 75% of downbeats, not
+      // 100%, and forcing it there also broke every hold that landed on a beat.
+      if(step%4===0 && !(k>0 && mv===0)) m = nearestTone(m, tones);
       m = clamp(T.fold(m, LO, HI), LO, HI);
       const isCadence = (slot==="C" && k===rhythm.length-1);
       // RECURRENCE: a "state" loop restates the theme UNCHANGED each cycle so the
@@ -5813,9 +5856,23 @@ function buildCounter(voice, chart, chords, perception, rng){
       gapStart=bestS; gapEnd=bestS+bestLen;
     }
     const shape = solo ? SOLO[lb] : null;
-    const RH = shape ? shape.rhythm : answer.rhythm;
+    // ── AND IT DEVELOPS ACROSS THE LOOPS ─────────────────────────────────────
+    // buildLead runs the rule of three off its loop index; this ran off `lb` alone, so
+    // all four loops of the cell came out identical. When the counter is the only
+    // melodic voice that means the CELL never develops -- and since the arrangement
+    // gives each section a different loop of the same cell, every section then played
+    // exactly the same music. Reading the roll found chorus, postchorus and the next
+    // chorus as sixteen bars of one four-bar phrase, all from this.
+    const cMode = ["state","repeat","depart","vary"][Math.floor((bar-entry)/loop) % 4];
+    let RH = shape ? shape.rhythm.slice() : answer.rhythm.slice();
+    if(solo && cMode==="depart") RH = RH.slice().reverse();           // go somewhere else
+    if(solo && cMode==="vary" && RH.length>2){                        // a note taken out
+      RH = RH.slice(); RH.splice(1,1);
+    }
+    const cShift = solo && (cMode==="depart" ? 1 : cMode==="vary" ? -1 : 0);
     let m=nearestTone(_spaceRef!=null?_spaceRef:tones[Math.floor(tones.length/2)], tones),
         step=gapStart + (shape ? shape.pickup : 0);
+    if(cShift) m = T.scaleStep2(m, scale, root, cShift);
     let lastN=null;
     for(let k=0;k<RH.length;k++){
       if(step>=gapEnd) break;                       // keep the reply inside the gap
@@ -5823,7 +5880,7 @@ function buildCounter(voice, chart, chords, perception, rng){
       if(k>0){ // and guard the use site too: a repeated note is a legitimate melodic
                // move (19.7% of ours, which is fine), but a whole bar of them is not
                const mv = (useMoves && useMoves.length) ? useMoves[(k-1)%useMoves.length] : null;
-               m = T.scaleStep2(m, scale, root, mv || (k%2 ? 1 : -1)); }
+               m = T.scaleStep2(m, scale, root, mv==null ? (k%2 ? 1 : -1) : mv); }
       if(step%4===0) m=nearestTone(m,tones);
       m=clamp(T.fold(m,LO,HI),LO,HI);
       lastN={bar, step, midi:m, dur:Math.max(2,Math.min(dur,gapEnd-step)), vel:.42};
@@ -7690,7 +7747,13 @@ function buildCells(chart, rng){
     const src = cells[primaryL].session.parts.find(p=>p.role==="lead");
     const dst = cell.session.parts.find(p=>p.role==="lead");
     if(src && dst && src.notes.length){
-      const OPPOSE = ["inversion","retrograde","augmentation","diminution","displace","sequence"];
+      // The chorus opposes the verse in CONTOUR AND HEIGHT, not in density: measured,
+      // a chorus is +1.53 semitones above its own verse and very slightly SPARSER
+      // (-0.13 notes per bar). Diminution -- halving the note values -- makes it denser,
+      // which is the opposite of what records do, so the chorus cell does not draw it.
+      const OPPOSE = (L===CHORUS_CELL)
+        ? ["inversion","retrograde","augmentation","displace","sequence"]
+        : ["inversion","retrograde","augmentation","diminution","displace","sequence"];
       const oR = makeRng(hashName(chart.seed||0,"oppose:"+L));
       const chain = alterChain(oR, 2, OPPOSE);              // one drawn, one that answers it
       // THE BAND IS THE VOICE'S OWN, NOT "lead"'s. The trio normalises whichever
@@ -7716,9 +7779,47 @@ function buildCells(chart, rng){
     }
     cells[L] = cell;
   }
+  // ── THE VERSE SITS LOW SO THE CHORUS HAS SOMEWHERE TO GO ──────────────────
+  // The single clearest measured difference between a verse and its OWN chorus, over
+  // 2,669 songs in the Hooktheory corpus: the chorus melody is +1.53 SEMITONES higher.
+  // Not denser -- it is very slightly SPARSER (-0.13 notes per bar) -- and not wider.
+  // Higher. Ours differed by +0.08, which is nothing, and that is most of why a chorus
+  // did not read as a chorus: the arrangement got louder and the tune stayed put.
+  //
+  // Lifting the chorus alone does not work, because each cell had already been fitted
+  // to sit wherever it landed -- often near the top of the band, with no room above.
+  // The height has to be COMPOSED IN: the verse cell is placed low in its register and
+  // the chorus cell above it, which is what a songwriter does when they leave the top of
+  // the singer's range for the part that has to lift. The move is a uniform scale-step
+  // shift, so every line keeps its own contour and stays in key.
+  {
+    const PLACE = { A:0.30, B:0.48, C:0.38 };        // verse low, chorus above, bridge between
+    for(const L of Object.keys(cells)){
+      const p = cells[L].session.parts.find(x=>x.role==="lead");
+      if(!p || !p.notes.length) continue;
+      const bd = (typeof BAND!=="undefined" && (BAND[p.character]||BAND.lead)) || [67,84];
+      const lo = Math.max(bd[0], (typeof FLOORS!=="undefined" && FLOORS[p.role]) || 0), hi = bd[1];
+      const aim = lo + (PLACE[L]==null?0.38:PLACE[L])*(hi-lo);
+      const mean = ns => ns.reduce((t,x)=>t+x.midi,0)/ns.length;
+      for(let g=0; g<6; g++){
+        const d = aim - mean(p.notes);
+        if(Math.abs(d) < 0.8) break;
+        const dir = d > 0 ? 1 : -1;
+        const mv = p.notes.map(x=>({...x,
+          midi:T.scaleStep2(x.midi, chart.key.scale, chart.key.root, dir)}));
+        if(mv.some(x=>x.midi>hi || x.midi<lo)) break;     // the band has run out
+        p.notes = mv;
+      }
+      ghostPass(cells[L].session.parts, cells[L].loopChart);
+    }
+  }
   const fallback = cells[pick3[0]];
   return { cells, primary: pick3[0] };
 }
+
+// Which lettered cell the chorus plays. planArrangement's FCELL maps chorus -> "B";
+// this is the same fact, named where the cells are built so the two cannot drift apart.
+const CHORUS_CELL = "B";
 
 function buildLoop(chart, rng, letter){
   const loopBars = chart.loopBars || 8;
@@ -7917,6 +8018,14 @@ function planArrangement(chart, bundle, rng){
   const FLEN = {intro:4, verse:8, prechorus:8, chorus:8, postchorus:8, bridge:8, outro:8};
   const FCELL= {intro:"A", verse:"A", prechorus:"A", chorus:"B", postchorus:"B",
                 bridge:"C", outro:"A"};
+  // ...and WHERE IN THAT CELL each function starts. Six functions share three cells, so
+  // two functions pointing at the same letter played bit-identical music the first time
+  // each was heard: chorus -> postchorus -> chorus came out as sixteen bars of the same
+  // four, and a prechorus was indistinguishable from the verse it was supposed to be
+  // building out of. Reading the roll showed it; the statistics could not, because more
+  // repetition is exactly what they had been asking for. Each function enters its cell
+  // at its own loop -- the same material, at a different stage of its development.
+  const FBASE = {intro:0, verse:0, prechorus:1, chorus:0, postchorus:2, bridge:0, outro:3};
   const gR = makeRng(hashName(chart._seed||0,"form"));
   const spans=[]; let bar=0, fn="intro";
   const push=(f,len)=>{ const L=Math.min(len, nBars-bar); if(L<=0) return false;
@@ -8113,8 +8222,33 @@ function planArrangement(chart, bundle, rng){
     // came back meant the chorus was never once heard twice the same way, so there was
     // nothing to recognise. Almen's revaluation is about the return AFTER a departure;
     // it belongs from the third hearing on.
-    const revalue = nth<=1 ? null : (nth%2 ? "reorchestrate" : "octaveUp");
-    const cellBase = nth<2 ? 0 : (1 + ((nth-2) % (CELL_LOOPS-1)));
+    // ── THE CHORUS DOES NOT DEVELOP ─────────────────────────────────────────
+    // The rule of three governs a LOOP -- 006 is a beatmaker talking about a bar he is
+    // about to hear thirty more times. It does not govern the chorus, and applying it
+    // there is why the hook could not be heard: every third statement moved to a later
+    // loop of the cell, so by the time the peak arrived it was playing something else.
+    // Measured: the most-repeated phrase in a song showed up in its peak section 10% of
+    // the time. Real songs do the opposite -- measured over 2,669 songs in the Hooktheory
+    // corpus, a chorus repeats its own bars 3.6 points MORE than its verse does. The
+    // chorus is the invariant. Development belongs to the verse; what changes around a
+    // chorus is the arrangement, not the tune.
+    // The POSTCHORUS is not the hook. It plays the chorus's cell, so pinning it to the
+    // same loop made chorus -> postchorus -> chorus sixteen bars of identical music --
+    // which the roll showed and the statistics did not, because "more repetition" is
+    // exactly what they were asking for. The postchorus is the tail AFTER the hook and
+    // develops like everything else; only the chorus itself is the invariant.
+    const HOOK = (spans[i].fn==="chorus");
+    // ...and the revaluation is NOT an octave. Lifting a returning verse a full octave
+    // was a bigger move than anything real songs make between sections -- measured, the
+    // largest routine register change in the Hooktheory corpus is verse-to-chorus at
+    // +1.53 SEMITONES -- and it left our verses sitting as high as our choruses, which
+    // erased the one difference that most reliably marks a chorus. Height is composed
+    // into the cells now; a return is marked by re-orchestration, which is what the
+    // arrangement was already doing.
+    const revalue = nth<=1 ? null : "reorchestrate";
+    const fb = FBASE[spans[i].fn] || 0;
+    const cellBase = HOOK ? 0
+                   : (nth<2 ? fb : (fb + 1 + ((nth-2) % (CELL_LOOPS-1))) % CELL_LOOPS);
     // SECTION CHARACTER. A section is a FUNCTION, not a letter, and what this block IS
     // can be read off what plays in it: the tune alone over a bed is a SOLO, the bed
     // with no tune at all is a BREAKDOWN, a thin block between full ones an INTERLUDE.
