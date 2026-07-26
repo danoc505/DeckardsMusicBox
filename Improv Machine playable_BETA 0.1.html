@@ -4929,6 +4929,43 @@ function harmonyEngine(chart, perception, rng){
                                   : [[0.5,4],[0.75,3],[1.0,2]]);
   }
 
+  // ── THE COMP CHANGES BAR TO BAR ─────────────────────────────────────────
+  // Measured over 200 songs of POP909 (corpus/harvest_accompaniment.py): a real
+  // accompaniment plays 26 DISTINCT bar-rhythms across a song, its commonest one covers
+  // only 23% of the bars, and the pattern in the last third is NEVER the pattern in the
+  // first -- 0.00 of songs. Ours played one pattern in 97% of every song's bars, and in
+  // 100% of songs the comp at the end was the comp at the start.
+  //
+  // The "one stored texture per song" law is about the song having one IDENTITY -- the
+  // voicing, the stagger of the onsets, the register -- not about every bar being
+  // byte-identical. Freezing the re-articulation is what turned that identity into a
+  // stuck loop. The identity stays; the RHYTHM moves.
+  //
+  // Weights follow the measured onset profile. Real comping hits all four BEATS about
+  // equally (18.1 / 17.0 / 15.8 / 15.8% of its onsets) with the offbeat eighths much
+  // lighter (3.7-5.9%) and the odd sixteenths almost never (0.5-2.5%). Ours front-loaded
+  // beat one and put 7.9% on the sixteenth immediately after it, which real comping does
+  // not do. Drawn per BAR OF THE CELL from a seeded stream, so a loop still repeats
+  // itself exactly while the four loops of a cell differ from each other.
+  if(!TEX.rhythmFor){
+    const W=[[4,85],[8,79],[12,79],[6,30],[10,29],[14,29],[2,19],
+             [11,13],[7,12],[3,10],[15,8],[13,8],[5,6],[9,4],[1,3]];
+    TEX.rhythmFor = function(bar){
+      const r = makeRng(hashName(chart._seed||0, "comp:"+bar));
+      const pool = W.map(x=>x.slice()), out=[];
+      const n = 1+Math.floor(r()*3);                    // 1-3 re-articulations: measured,
+                                                       // a real comp plays 6.45 onsets a
+                                                       // bar and 2-4 put ours at 7.94
+      for(let k=0;k<n && pool.length;k++){
+        let tot=0; for(const x of pool) tot+=x[1];
+        let q=r()*tot;
+        for(let j=0;j<pool.length;j++){ q-=pool[j][1];
+          if(q<=0){ out.push(pool[j][0]); pool.splice(j,1); break; } }
+      }
+      return out.length ? out.sort((x,y)=>x-y) : [8];
+    };
+  }
+
   // two chords a bar when the harmonic rhythm says so: each bar is split into
   // as many chord slots as fit, and the progression advances per SLOT.
   const beatsPerChord = chart._chordBeats || 4;
@@ -4977,8 +5014,7 @@ function harmonyEngine(chart, perception, rng){
         // THE INNER MOTIF: state the tone, then re-articulate on the stored
         // rhythm with neighbor movement — repeated every bar, varied slightly
         // on the vary-bar (Rule of 3: don't let the 3rd+ hearing be identical).
-        const loopIdxT=Math.floor(b/(chart.loopBars||8));
-        const RH=(loopIdxT%4===2)?(TEX.altRhythm||TEX.motifRhythm):TEX.motifRhythm;  // depart loops shift the motif
+        const RH=TEX.rhythmFor(b);       // this bar's own re-articulation (see above)
         const _s0=Math.min(onset,rel-1);
         notes.push({bar:b, step:base0+_s0, midi,
                     dur:Math.max(1, Math.min(slotEnd,(RH[0]||8)) - _s0), vel:.4});
@@ -5000,10 +5036,17 @@ function harmonyEngine(chart, perception, rng){
           for(const other of v){
             if(other!==m && Math.abs(m-other)===1){ m = midi; break; }
           }
+          // HOLD IS A DURATION, NOT A CURFEW. This skipped every re-articulation at or
+          // after the chord's release point, and for a stabby genre that release is step
+          // 4 -- so every re-hit on beats two, three and four was silently dropped and
+          // the comp came out as ONE STAB PER BAR for the whole song, which is exactly
+          // what reading seed 4 showed: ninety-six identical bars. Re-articulating IS
+          // the comp; `hold` says how long each hit rings, not that the bar is over.
           const nx = RH[k+1] || rel;
-          if(s>=slotEnd) return;                           // the chord has already released
+          if(s>=rel) return;                               // only the slot itself ends it
+          const _ring = Math.max(2, Math.round(rel*(TEX.hold==null?1:TEX.hold)));
           notes.push({bar:b, step:base0+s, midi:m,
-                      dur:Math.max(1, Math.min(slotEnd,nx) - s), vel:.33, _rehit:true});
+                      dur:Math.max(1, Math.min(_ring, nx-s)), vel:.33, _rehit:true});
         });
       } else {
         // outer & other voices: staggered start, then ring for the chord's HOLD
@@ -8722,8 +8765,20 @@ function composeSong(conductorChart, rng){
                      : /snare/i.test(l||"") ? "snare"
                      : /kick/i.test(l||"")  ? "kick"
                      : /[Tt]om/.test(l||"") ? "tom" : "cymbal";
+    // ...BUT NOT TO A BREAK. Everything measured above comes from drummers playing
+    // STRAIGHT grooves -- rock, funk, jazz, latin, hiphop, soul, punk -- and their accent
+    // template puts the loud hits on the backbeat, steps 4 and 12. A resequenced breakbeat
+    // is a sampled PERFORMANCE whose whole identity is its own accent pattern: the Amen's
+    // loud hits land on 5, 7, 10 and 15, and there is frequently nothing on 4 at all.
+    // Imposing the straight-groove template on it pushed the break's own accents DOWN and
+    // lifted positions it does not play -- `.....O.o..o.o.oo` came back as
+    // `.....x.x..O.o.ox`, which is the break inverted. The microtiming remap does the same
+    // damage in time, smearing chopped slices across a fifth of a sixteenth, and the chop
+    // path picks its slice by lane and velocity, so a wrecked accent wrecks the sampler
+    // too. A human already played this one. The right correction is none.
+    const isBreak = (chart.feel === "breaks");
     for(const p of parts){
-      if(p.role!=="drums") continue;
+      if(p.role!=="drums" || isBreak) continue;
       // ...and the reference is the lane's median AT THAT STEP, not across the whole
       // lane. Measuring a hit against its lane overall leaves OUR positional accent
       // inside `rel`, and multiplying by the measured accent then compounds the two:
@@ -9037,26 +9092,35 @@ function buildSession(seed, overrides){
   // them in*; 007(8bar) empties the bar before the drop so the drop has a hole to
   // land in -- a hole in the spectrum, not only in the arrangement.
   // TONE[bar] is a cutoff multiplier applied to every pitched voice in that bar.
+  // NEUTRAL IS THE DEFAULT, AND A FILTER IS AN EVENT. The first version made the BODY of
+  // every section dark -- the base curve only reached neutral at energy 7, and most
+  // sections sit at 3-6, so measured, 49% of every song's bars played with the highs
+  // pulled down, on EVERY track, for a run-up four bars long. That is not automation,
+  // it is a blanket. A filter sweep is a gesture: it belongs to the bar or two before an
+  // arrival, and it belongs to the BED -- records filter the chords, the pad, the loop,
+  // not the voice carrying the tune. So the body sits at 1.0, only a genuinely quiet
+  // section ducks and only slightly, the sweep is two bars, and the lead and bass are
+  // never touched.
   const _nb = spans.length ? spans[spans.length-1].endBar : 0;
   const TONE = new Array(Math.max(0,_nb)).fill(1);
-  for(const s of spans){                       // a section's body sits at its own colour
-    const base = 0.64 + 0.052*(s.energy||5);   // e2 -> 0.74 (veiled), e9 -> 1.11 (open)
+  for(const s of spans){
+    const e = s.energy||5;
+    const base = e >= 5 ? 1 : 0.86 + 0.028*e;   // e2 -> 0.92, e4 -> 0.97, e5+ -> open
     for(let b=s.startBar; b<s.endBar && b<_nb; b++) TONE[b]=base;
   }
   for(let i=1;i<spans.length;i++){
     const cur=spans[i], prev=spans[i-1];
     // an ARRIVAL is a chorus (or the moment) that is louder than what came before it
     if(!((cur.fn==="chorus" || cur.event==="moment") && (cur.energy||5) > (prev.energy||5))) continue;
-    const runup = Math.max(1, Math.min(prev.endBar-prev.startBar, chart.loopBars||8));
+    const runup = Math.max(1, Math.min(prev.endBar-prev.startBar, 2));
     for(let k=0;k<runup;k++){                  // closed, then opening, across the run-up
       const b = cur.startBar-runup+k; if(b<0 || b>=_nb) continue;
-      TONE[b] = 0.50 + ((k+1)/runup)*0.72;
+      TONE[b] = 0.62 + ((k+1)/runup)*0.5;
     }
-    for(let k=0;k<2;k++){                       // and it opens WIDE on the downbeat
-      const b = cur.startBar+k;
-      if(b<_nb) TONE[b] = Math.max(TONE[b], 1.42-0.22*k);
-    }
+    TONE[cur.startBar] = Math.max(TONE[cur.startBar], 1.35);   // and it opens on the downbeat
   }
+  // the tune and the low end are never filtered -- only the bed moves
+  const TONED = {harmony:1, pad:1, arp:1, ornament:1, answer:1};
 
   for(const p of song.parts){
     for(const n of p.notes){
@@ -9086,7 +9150,8 @@ function buildSession(seed, overrides){
         let climax = (sec.leadLift && (p.role==="lead"||p.role==="counter")) ? sec.leadLift : 0;
         let m = n.midi + keyShift + climax;
         if(climax) m = Math.min(m, 88);      // soar, but clamp the very top so it doesn't shriek
-        events.push({step, kind:"note", inst, role:p.role, midi:m, tone:TONE[bar]||1,
+        events.push({step, kind:"note", inst, role:p.role, midi:m,
+                     tone: TONED[p.role] ? (TONE[bar]||1) : 1,
                      dur:(n.dur||2)*tickDur(), vel:(n.vel||0.5)*lift*dyn, micro:n.micro||0});
       }
     }
