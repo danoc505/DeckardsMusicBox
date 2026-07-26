@@ -100,7 +100,20 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
   const TOMS=[41,43,45,47,48,50];
   for(const {song} of songs){
     const d=song.parts.find(p=>p.role==="drums"); if(!d)continue;
-    for(let b=0;b<song.chart.nBars;b++){ const slot=["A","B","A","C","A","A","D","A"][b%8];
+    // The phrase grid is the LOOP, not a fixed eight bars, AND the bar of the song is
+    // not the bar of the cell: the arrangement maps section bar -> cell bar, so a slot
+    // has to be read where the drum engine actually wrote it. Keying this off b%8
+    // measured a grid nothing was written to.
+    const _P=(song.chart&&song.chart.loopBars)||8;
+    const _PH=Math.max(8,_P), _CB=4*_P;
+    const _SCH=["A","B","A","C","A","A","D","A"];
+    // the kit's cell bar: the drums read a 2-loop window (see lbD in renderArrangement)
+    const _cellBar=b=>{ const s=(song.arrangement||[]).find(x=>b>=x.startBar&&x.endBar>b);
+      if(!s) return b;
+      const k=Math.floor((b-s.startBar)/_P);
+      const cl=(((s.cellBase||0)+(k>=2?1+((k-2)%2):0))%4);
+      return (cl*_P + ((b-s.startBar)%_PH)) % _CB; };
+    for(let b=0;b<song.chart.nBars;b++){ const cb=_cellBar(b), slot=_SCH[(cb%_PH)%8];
       const hits=d.notes.filter(n=>n.bar===b);
       const loudTom=hits.some(h=>TOMS.includes(h.midi)&&h.vel>0.3);
       // Which development loop is actually SOUNDING here. The old line assumed the
@@ -111,10 +124,9 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
       // belong to fills and to depart loops, never to a core bar -- just located
       // where the information now lives.
       const _sec=(song.arrangement||[]).find(x=>b>=x.startBar&&b<x.endBar);
-      const _loop=(song.chart&&song.chart.loopBars)||8;
-      const _k=_sec?Math.floor((b-_sec.startBar)/_loop):0;
-      const _cl=_sec?(((_sec.cellBase||0)+(_k>=2?1+((_k-2)%2):0))%4):Math.floor(b/8)%4;
-      const modeD=["state","repeat","depart","vary"][_cl];
+      // development mode runs on the LOOP (the harmonic cycle), read where the drum
+      // engine wrote it -- floor(cellBar / loopBars) -- not off the song bar
+      const modeD=["state","repeat","depart","vary"][Math.floor(cb/_P)%4];
       if(slot==="D"){ fills++; if(hits.some(h=>TOMS.includes(h.midi)))fillsWithToms++; }
       else if(slot==="A" && modeD!=="depart"){ coreBars++; if(loudTom)tomCore++; }
     }
@@ -523,8 +535,13 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
       const _arr=song.arrangement||[];
       const _sameSec=(x,y)=>{ const a=_arr.find(s=>x>=s.startBar&&x<s.endBar),
                               b2=_arr.find(s=>y>=s.startBar&&y<s.endBar); return a&&b2&&a===b2; };
+      // ...and the OUTRO is exempt. A coda deliberately lands on the tonic in the final
+      // bar — that is what a coda IS — so its downbeat root is supposed to break the
+      // cycle. Measuring it as a violation would be testing against the intent.
+      const _last=_arr[_arr.length-1];
       let ok=true;
       for(let b=0;b<chart.nBars-chart._progLen && ok;b++){
+        if(_last && b+chart._progLen >= _last.startBar) continue;
         if(!_sameSec(b, b+chart._progLen)) continue;
         const a=dpc(b), d=dpc(b+chart._progLen);
         if(a!=null && d!=null && a!==d) ok=false;

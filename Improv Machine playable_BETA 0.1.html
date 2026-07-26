@@ -3977,13 +3977,16 @@ const Synth=(function(){
   };
   let voiceChar="warm";
   function setVoiceStyle(s){ voiceChar=(s==="punchy")?"punchy":"warm"; }
-  function voice(inst,midi,t,dur,vel){ ensure();
+  // `tone` is a per-note multiplier on the filter cutoff (1 = neutral). The arrangement
+  // uses it to open and close the band across a build -- see TONE in conduct().
+  function voice(inst,midi,t,dur,vel,tone){ ensure();
     const ch=VOICECHAR[voiceChar]||VOICECHAR.warm;
     const oscs=OSC[inst]||["sine"],g=ctx.createGain(),flt=ctx.createBiquadFilter();
     flt.type="lowpass";
     const slow=inst==="pad"||inst==="choir"||inst==="strings"||inst==="brass";
     let baseCut=(inst==="pad"||inst==="choir"||inst==="strings"?1800:inst==="sub"?1600:inst==="sine"?600:inst==="sax"||inst==="brass"?3000:4200);
-    baseCut*=ch.cut*(0.62+0.55*vel);           // genre voice + velocity opens the filter
+    baseCut*=ch.cut*(0.62+0.55*vel)            // genre voice + velocity opens the filter
+             *Math.max(0.35,Math.min(1.6,tone==null?1:tone));   // ...and so does the arrangement
     flt.Q.value=ch.q;
     const a=(slow?.25:inst==="sax"?.06:inst==="bell"||inst==="pluck"||inst==="harp"||inst==="marimba"?.005:inst==="wurly"?.008:.02)*ch.atk;
     const dec=slow?.4:(inst==="bell"||inst==="marimba"||inst==="pluck"||inst==="harp")?Math.min(Math.max(dur*.5,.12),.5):.12;
@@ -5227,6 +5230,14 @@ function drumEngine(chart, perception, rng){
   const A = buildBar(feel, rng, {fill:false, empty:false});
 
   // ABACAAD across 8-bar phrases (transcript's exact letter scheme)
+  // TWO GRIDS, NOT ONE. The kit does not phrase on the chord cycle: 004's letter scheme
+  // is EIGHT bars long whatever the harmony is doing, and the fill slot "D" is a
+  // phrase-level event. Squeezing the scheme into a four-bar harmonic loop put a
+  // descending tom fill every four bars, the same one all song -- which reading the
+  // roll caught and no law did. So the LETTERS run on the 8-bar phrase, and the
+  // state/repeat/depart/vary DEVELOPMENT runs on the loop, which is the harmonic cycle.
+  const PHRASE = Math.max(8, chart.loopBars || 8);
+  const DEVLOOP = chart.loopBars || 8;
   const SCHEME = ["A","B","A","C","A","A","D","A"];  // 8-bar; D at bar 7 (0-indexed 6)
   // a groove lifted from the corpus: lanes and steps only, so it fits any key.
   // Kept to the core (A) bars — fills and development stay engine-generated so
@@ -5243,8 +5254,8 @@ function drumEngine(chart, perception, rng){
     }
   }
   for(let b=0; b<nBars; b++){
-    const slot = SCHEME[b % 8];
-    const loopIdxD = Math.floor(b/8);
+    const slot = SCHEME[(b % PHRASE) % 8];
+    const loopIdxD = Math.floor(b/DEVLOOP);
     const modeD = ["state","repeat","depart","vary"][loopIdxD%4];
     let bar;
     if(feel.resequence && slot!=="D"){
@@ -7171,7 +7182,32 @@ function conduct(seed, overrides){
     const spb = Math.max(1, Math.round(4/(_chart._chordBeats||4)));
     const L = _chart._realProg.length;
     _chart._progLen = L / gcd(L, spb);        // period of the per-bar downbeat cycle
+    // A CYCLE THAT DOES NOT FIT THE PHRASE NEVER LINES UP. Pop phrases are four and
+    // eight bars; a THREE-bar progression inside them wraps at a different place every
+    // time through, so what the listener gets is not a cycle they can hold -- and every
+    // 3-bar song failed the short-cycle law for exactly that reason. Records square this
+    // the same way: SIT on the last chord for the extra bar. The harmony is unchanged
+    // and the phrase closes where the ear expects it to.
+    const p2 = x=>{ let k=1; while(k<x) k*=2; return k; };
+    const wantBars = p2(_chart._progLen);
+    if(wantBars !== _chart._progLen){
+      const cur=_chart._realProg, need=wantBars*spb, out=[];
+      for(let k=0;k<need;k++) out.push({...cur[Math.min(k, cur.length-1)]});
+      _chart._realProg = out; _chart._progLen = wantBars;
+    }
   }
+  // ── THE LOOP IS THE PROGRESSION ─────────────────────────────────────────
+  // loopBars was hardcoded to 8 while the MEASURED harmonic cycle is 2 bars (28 of
+  // 60 songs) or 4 (26 of 60) -- never 8. So "one loop" was really two to four turns
+  // of the chords, every form section was exactly one loop long, and the result was a
+  // song that never restated ANYTHING: 83% of its bars were unique, a section restated
+  // its own first half 0 times in 456, and two hearings of the same letter came back
+  // identical 12 times in 987. That is not development, it is a song with no memory --
+  // and Margulis is blunt that the repeat is what lets a listener parse structure at
+  // all, while 006's rule of three cannot state-then-repeat inside a section that only
+  // turns over once. Anchoring the loop to the real cycle makes an 8-bar verse two
+  // turns of its own loop: stated, then confirmed.
+  _chart.loopBars = (_chart._progLen && _chart._progLen > 4) ? 8 : 4;
   return _chart;
 }
 
@@ -7481,10 +7517,12 @@ function applyAlterIn(name, notes, ctx){
    different music. Sections with the same letter play the same cell, so A RETURNS
    intact, which is what makes it a return. */
 function buildCells(chart, rng){
-  const secs = (chart.sections && chart.sections.length) ? chart.sections : [{name:"A"}];
-  const letters = [...new Set(secs.map(s=>s.name))];
-  const MAIN = letters.filter(l=>l!=="intro" && l!=="coda");
-  const pick3 = (MAIN.length?MAIN:letters).slice(0,3);
+  // Three cells, keyed by LETTER. The form grammar below works in FUNCTIONS (verse,
+  // prechorus, chorus, bridge...) and maps them onto these: verse and prechorus play A,
+  // chorus and postchorus play B, the bridge plays C. That mapping is what makes the
+  // chorus a RETURN -- every chorus in the song plays the same cell, so the hook is the
+  // same music each time it comes back.
+  const pick3 = ["A","B","C"];
   const cells = {};
   const primaryL = pick3[0];
   cells[primaryL] = buildLoop(chart, makeRng(hashName(chart.seed||0,"cell:"+primaryL)), primaryL);
@@ -7526,7 +7564,6 @@ function buildCells(chart, rng){
     cells[L] = cell;
   }
   const fallback = cells[pick3[0]];
-  for(const L of letters) if(!cells[L]) cells[L] = fallback;   // intro/coda borrow the main cell
   return { cells, primary: pick3[0] };
 }
 
@@ -7703,45 +7740,46 @@ function planArrangement(chart, bundle, rng){
   const voices = [...new Set(Object.values(bundle.cells).flatMap(c=>c.session.parts.map(p=>p.role)))];
   const V = voices.length;
 
-  // ── THE CONDUCTOR'S FORM IS THE FORM ────────────────────────────────────
-  // It already emits real structures -- "A B A C A B A C coda", "verse chorus verse
-  // chorus" -- with contrast flags. The previous version threw that away and imposed
-  // uniform 16-bar blocks, which is how a song ends up with no sections at all. Each
-  // section keeps its LETTER, and the letter decides which cell it plays, so an A that
-  // returns later is the same music returning.
-  let spans = (chart._sectionSpans && chart._sectionSpans.length)
-            ? chart._sectionSpans.map(x=>({...x}))
-            : [{name:"A", startBar:0, endBar:nBars, bars:nBars}];
-  // SECTIONS SIT ON THE LOOP GRID. A form can carry an odd-length member (an intro of
-  // 4), which pushes every section after it off the 8-bar grid -- and then the cell's
-  // own phrase structure (004's A B A C A A D, where D is the fill) is rendered at an
-  // offset, so a tom fill lands two bars before the phrase actually ends. Measured: a
-  // section starting at bar 4 put the D-bar fill on song bar 10, which the ear reads
-  // as a core bar. Every EDM/structure source puts sections at 8/16/32 bars, so
-  // boundaries are snapped to whole loops and the phrase structure lines up with the
-  // song's grid.
-  {
-    let acc=0; const snapped=[];
-    for(const sp of spans){
-      if(acc>=nBars) break;
-      // ...and a section lasts AT LEAST two loops. 005 is a rule about how long an
-      // arrangement state HOLDS: "the arrangement has to change every two loops of the
-      // chords, because our ears naturally expect songs to change every two loops."
-      // With one-loop sections the lineup changed every single loop -- 86% of loop
-      // boundaries -- which is the opposite failure to the one we started with: nothing
-      // is stated long enough to be recognised. Two loops per section also gives the
-      // rule of three its first two hearings (state, then repeat) inside the section,
-      // with the depart arriving when the letter next returns.
-      const want=Math.max(2*loopBars,
-                          Math.round((sp.bars||(sp.endBar-sp.startBar))/loopBars)*loopBars);
-      const end=Math.min(nBars, acc+want);
-      if(end>acc) snapped.push({...sp, startBar:acc, endBar:end, bars:end-acc});
-      acc=end;
-    }
-    if(snapped.length){ snapped[snapped.length-1].endBar=nBars;
-      snapped[snapped.length-1].bars=nBars-snapped[snapped.length-1].startBar;
-      spans=snapped.filter(x=>x.bars>0); }
+  // ── THE FORM IS A GRAMMAR, NOT A TEMPLATE ───────────────────────────────
+  // Measured from the Harmonix Set (corpus/harvest_structure.py, 119 annotated songs),
+  // section order is strongly directional: verse->chorus 151, chorus->verse 112,
+  // prechorus->chorus 87 (near-deterministic), verse->prechorus 77, intro->verse 70,
+  // chorus->bridge 54 and bridge->chorus 51 (the bridge is SANDWICHED by choruses),
+  // chorus->chorus 50 (the double chorus), chorus->postchorus 41.
+  //
+  // We were using fixed jazz letter-forms (AABA, ABAC) whose every section is 8 bars,
+  // and the result was verse->verse NINETY times with exactly ONE chorus per song. The
+  // most important section -- the thing meant to be remembered -- happened once. Real
+  // songs state the chorus a median of THREE times. Chorus is a FUNCTION that returns,
+  // not an energy level, which is the category error that produced one of them.
+  const GRAMMAR = {
+    intro:      [["verse",70],["chorus",28]],
+    verse:      [["chorus",151],["prechorus",77]],
+    prechorus:  [["chorus",87]],
+    chorus:     [["verse",112],["bridge",54],["chorus",50],["postchorus",41]],
+    postchorus: [["verse",60],["chorus",20]],
+    bridge:     [["chorus",51]],
+  };
+  // section lengths in bars, from the same measurement (medians)
+  const FLEN = {intro:4, verse:8, prechorus:8, chorus:8, postchorus:8, bridge:8, outro:8};
+  const FCELL= {intro:"A", verse:"A", prechorus:"A", chorus:"B", postchorus:"B",
+                bridge:"C", outro:"A"};
+  const gR = makeRng(hashName(chart._seed||0,"form"));
+  const spans=[]; let bar=0, fn="intro";
+  const push=(f,len)=>{ const L=Math.min(len, nBars-bar); if(L<=0) return false;
+    spans.push({ fn:f, name:FCELL[f], startBar:bar, endBar:bar+L, bars:L }); bar+=L; return true; };
+  push("intro", Math.max(2, Math.min(FLEN.intro, Math.round(10/(4*(60/(chart.tempo||90)))))));
+  let guard=0;
+  while(bar < nBars - FLEN.outro && guard++ < 64){
+    let opts = GRAMMAR[fn] || GRAMMAR.chorus;
+    // the bridge belongs in the last third -- measured median position 0.66
+    if(bar < nBars*0.55) opts = opts.filter(([k])=>k!=="bridge");
+    if(!opts.length) opts = [["chorus",1]];
+    fn = wpick(gR, opts);
+    if(!push(fn, FLEN[fn]||8)) break;
   }
+  if(bar < nBars) push("outro", nBars-bar);
+  spans[spans.length-1].fn="outro"; spans[spans.length-1].name=FCELL.outro;
   const n = spans.length;
 
   // ── THE ENERGY MAP ───────────────────────────────────────────────────────
@@ -7759,7 +7797,11 @@ function planArrangement(chart, bundle, rng){
   // one later (Hyperbits' "classic two-drop structure"): the song delivers something
   // around a quarter of the way in, pulls back, and the real peak lands at ~65%. The
   // early arrival is what buys the later build its patience.
-  const peakI  = Math.max(1, Math.min(n-1, Math.round((n-1)*0.65)));
+  // the peak is the LAST chorus before the closing stretch -- the biggest statement of
+  // the thing the song keeps returning to
+  let peakI = -1;
+  for(let i=0;i<n;i++) if(spans[i].fn==="chorus" && spans[i].startBar <= nBars*0.8) peakI=i;
+  if(peakI<1) peakI = Math.max(1, Math.min(n-1, Math.round((n-1)*0.65)));
   // placed by position in BARS, not by section index -- sections vary in length, so the
   // same index sits at a different point in time from song to song
   // ...and the first chorus/drop lands at a MEASURED median of 17% through the song
@@ -7783,6 +7825,31 @@ function planArrangement(chart, bundle, rng){
   for(let i=1;i<n;i++)
     if(Math.abs(E[i]-E[i-1])<2 && i!==peakI && i!==n-1)
       E[i]=Math.max(1,Math.min(9, E[i-1] + (E[i-1]>5?-2:2)));
+
+  // ── ENERGY FOLLOWS FUNCTION, NOT JUST POSITION ──────────────────────────
+  // The measured indictment of the old curve: "chorus" was an ENERGY THRESHOLD
+  // (e>=8), and the curve awards 9 to exactly one section, so every song had
+  // exactly ONE chorus. Real songs state it a median of THREE times. The chorus
+  // is the thing the song RETURNS to, and every statement of it has to land --
+  // not just the last one. So the grammar decides the function and the function
+  // sets the floor: the peak chorus is the 9, every other chorus is at least 7,
+  // the prechorus sits UNDER the chorus it feeds so the arrival has somewhere to
+  // arrive from, and the bridge -- the sanctioned departure -- is capped at 5.
+  for(let i=0;i<n;i++){
+    const f = spans[i].fn;
+    if(f==="chorus")          E[i] = (i===peakI) ? 9 : Math.max(7, E[i]);
+    else if(f==="postchorus") E[i] = Math.max(6, Math.min(8, E[i]));
+    else if(f==="prechorus")  E[i] = Math.max(3, Math.min(6, E[i]));
+    else if(f==="bridge")     E[i] = Math.min(5, E[i]);
+    else if(f==="verse")      E[i] = Math.max(3, Math.min(6, E[i]));
+    else if(f==="intro")      E[i] = 2;
+    else if(f==="outro")      E[i] = 3;
+  }
+  // 007(8bar): the drop only lands as hard as the hole in front of it. Whatever
+  // sits before a chorus has to be at least two rungs below it.
+  for(let i=1;i<n;i++)
+    if(spans[i].fn==="chorus" && spans[i-1].fn!=="chorus")
+      E[i-1] = Math.max(1, Math.min(E[i-1], E[i]-2));
 
   // ── SUBTRACTION ORDER ────────────────────────────────────────────────────
   // Which voice goes first as energy drops. Seeded per song, but the tune and the kit
@@ -7865,8 +7932,13 @@ function planArrangement(chart, bundle, rng){
     // whole reason ABA is a form -- 007(structure) brings the A back, and Margulis
     // shows the return is what lets a listener hear structure at all. So every section
     // starts its own cell at loop 0 and develops from there by the rule of three.
+    // A DROP IS A FALL, NOT A NON-RISE. This read "build if higher, else drop", so two
+    // choruses at the same level -- the double chorus, one of the commonest moves in the
+    // measured grammar -- were labelled a drop, and the seam got a riser and an emptied
+    // bar in front of a section that does not actually go anywhere. Equal energy is a
+    // HOLD: the song stays where it is, and nothing is announced.
     const ev = i===0?"open" : i===peakI?"moment" : i===n-1?"out"
-             : (i>0 && E[i]>E[i-1] ? "build":"drop");
+             : (i>0 && E[i]>E[i-1] ? "build" : (i>0 && E[i]<E[i-1] ? "drop" : "hold"));
     // THE RULE OF THREE, ACROSS RETURNS. 006: an idea is stated, repeated to fix it in
     // memory, and by the THIRD hearing "your brain is automatically making decisions...
     // primarily that you are now losing interest" -- so the third pass must either go
@@ -7883,19 +7955,23 @@ function planArrangement(chart, bundle, rng){
     // Development alone (a later loop of the same cell) is not revaluation; the return
     // must be RANKED differently. So each return is also lifted an octave or
     // re-orchestrated: the same music, heard from a new position.
-    const revalue = nth===0 ? null : (nth===1 ? "octaveUp" : (nth%2 ? "reorchestrate" : "octaveUp"));
+    // ...but NOT on the second hearing. 006's three legs are state, REPEAT, depart, and
+    // the repeat is what fixes the idea in memory -- lifting it an octave the moment it
+    // came back meant the chorus was never once heard twice the same way, so there was
+    // nothing to recognise. Almen's revaluation is about the return AFTER a departure;
+    // it belongs from the third hearing on.
+    const revalue = nth<=1 ? null : (nth%2 ? "reorchestrate" : "octaveUp");
     const cellBase = nth<2 ? 0 : (1 + ((nth-2) % (CELL_LOOPS-1)));
     // SECTION CHARACTER. A section is a FUNCTION, not a letter, and what this block IS
     // can be read off what plays in it: the tune alone over a bed is a SOLO, the bed
     // with no tune at all is a BREAKDOWN, a thin block between full ones an INTERLUDE.
-    const _hasLead = active.includes("lead");
-    const _bedOnly = !_hasLead && !active.includes("answer");
-    const character = i===0 ? "intro" : i===n-1 ? "outro"
-                    : e>=8 ? "chorus"
-                    : (_bedOnly && e<=4) ? "breakdown"
-                    : (_hasLead && active.length<=2) ? "solo"
-                    : e<=3 ? "interlude" : "verse";
-    sections.push({ cellBase, revalue, character, name:spans[i].name, cell:spans[i].name,
+    // THE FUNCTION THE GRAMMAR CHOSE *IS* THE CHARACTER. It used to be re-derived from
+    // energy ("e>=8 means chorus"), and since the energy curve awards 9 exactly once,
+    // every song had exactly ONE chorus. A chorus is the section that RETURNS, at
+    // whatever level the arrangement gives it -- that was the category error.
+    const character = spans[i].fn || "verse";
+    sections.push({ cellBase, revalue, character, fn:spans[i].fn,
+                    name:spans[i].name, cell:spans[i].name,
                     startBar:spans[i].startBar, endBar:spans[i].endBar,
                     bars:spans[i].endBar-spans[i].startBar, contrast:!!spans[i].contrast,
                     event: ev,
@@ -8118,6 +8194,13 @@ function renderArrangement(chart, bundle, plan, rng){
       const k = Math.floor((bar - sec.startBar)/loopBars);
       const cellLoop = ((sec.cellBase||0) + (k>=2 ? 1+((k-2)%2) : 0)) % CELL_LOOPS;
       const lb = cellLoop*loopBars + ((bar - sec.startBar) % loopBars);
+      // THE KIT GETS THE WHOLE PHRASE. Everything else repeats on the harmonic loop; the
+      // drums read a TWO-LOOP window of the same cell, so 004's eight-bar letter scheme
+      // lands its fill once at the end of the phrase instead of once per loop. Reading
+      // the roll is what caught this -- a descending tom fill every four bars, the same
+      // one all song -- and no law saw it, because the kit obeyed a grid nobody plays on.
+      const CELLBARS = CELL_LOOPS*loopBars;
+      const lbD = (cellLoop*loopBars + ((bar - sec.startBar) % Math.max(8, loopBars))) % CELLBARS;
       const lastBar = (bar === sec.endBar-1);
       for(const p of cell.session.parts){
         if(!act.has(p.role)) continue;
@@ -8141,7 +8224,8 @@ function renderArrangement(chart, bundle, plan, rng){
         // the EMPTY: strip the rhythm section from the final bar before a big arrival
         if(sec.emptyLastBar && lastBar && (p.role==="drums"||p.role==="bass")) continue;
         const debut = sec.debut && sec.debut.includes(p.role);
-        let bag = p.notes.filter(n=>n.bar===lb);
+        const lbr = (p.role==="drums") ? lbD : lb;
+        let bag = p.notes.filter(n=>n.bar===lbr);
         if(aloneLead && !bag.length){                      // fill the breath when alone
           const alt = p.notes.filter(n=>n.bar===(lb>0?lb-1:lb+1));
           bag = alt.map(n=>({...n}));
@@ -8162,7 +8246,7 @@ function renderArrangement(chart, bundle, plan, rng){
           else if(p.role==="lead") bag = applyAlterIn("octaveUp", bag, ctx);
         }
         for(const n of bag){
-          if(n.bar!==lb) continue;
+          if(n.bar!==lbr) continue;
           // a reduced debut: the quiet ornamental half of the part is held back
           if(debut && p.role==="drums" && /[Hh]at|clap/.test(n.lane||"")) continue;
           // the coprime drift: which of the ornament's hits sound rotates per bar
@@ -8529,6 +8613,37 @@ function buildSession(seed, overrides){
   const events=[];
   const spans = song.arrangement;            // sections with activeRoles + keyShift
   const sectionAt = (bar)=> spans.find(s=>bar>=s.startBar && bar<s.endBar) || spans[spans.length-1];
+
+  // ── TIMBRE MOVES INTO THE ARRIVAL ───────────────────────────────────────────
+  // Until now the ONLY thing that changed with energy was velocity, so every build
+  // was just a crescendo -- the same sound, louder. On records the thing that
+  // actually rises into a chorus is BRIGHTNESS: the filter closes down over the
+  // bars before the downbeat and opens on it, which is why the arrival reads as a
+  // release rather than a volume step. 001 opens on the chords alone and *filters
+  // them in*; 007(8bar) empties the bar before the drop so the drop has a hole to
+  // land in -- a hole in the spectrum, not only in the arrangement.
+  // TONE[bar] is a cutoff multiplier applied to every pitched voice in that bar.
+  const _nb = spans.length ? spans[spans.length-1].endBar : 0;
+  const TONE = new Array(Math.max(0,_nb)).fill(1);
+  for(const s of spans){                       // a section's body sits at its own colour
+    const base = 0.64 + 0.052*(s.energy||5);   // e2 -> 0.74 (veiled), e9 -> 1.11 (open)
+    for(let b=s.startBar; b<s.endBar && b<_nb; b++) TONE[b]=base;
+  }
+  for(let i=1;i<spans.length;i++){
+    const cur=spans[i], prev=spans[i-1];
+    // an ARRIVAL is a chorus (or the moment) that is louder than what came before it
+    if(!((cur.fn==="chorus" || cur.event==="moment") && (cur.energy||5) > (prev.energy||5))) continue;
+    const runup = Math.max(1, Math.min(prev.endBar-prev.startBar, chart.loopBars||8));
+    for(let k=0;k<runup;k++){                  // closed, then opening, across the run-up
+      const b = cur.startBar-runup+k; if(b<0 || b>=_nb) continue;
+      TONE[b] = 0.50 + ((k+1)/runup)*0.72;
+    }
+    for(let k=0;k<2;k++){                       // and it opens WIDE on the downbeat
+      const b = cur.startBar+k;
+      if(b<_nb) TONE[b] = Math.max(TONE[b], 1.42-0.22*k);
+    }
+  }
+
   for(const p of song.parts){
     for(const n of p.notes){
       const bar = n.bar;
@@ -8557,7 +8672,7 @@ function buildSession(seed, overrides){
         let climax = (sec.leadLift && (p.role==="lead"||p.role==="counter")) ? sec.leadLift : 0;
         let m = n.midi + keyShift + climax;
         if(climax) m = Math.min(m, 88);      // soar, but clamp the very top so it doesn't shriek
-        events.push({step, kind:"note", inst, role:p.role, midi:m,
+        events.push({step, kind:"note", inst, role:p.role, midi:m, tone:TONE[bar]||1,
                      dur:(n.dur||2)*tickDur(), vel:(n.vel||0.5)*lift*dyn, micro:n.micro||0});
       }
     }
@@ -8660,7 +8775,7 @@ function schedule(){
         else if(SEGA){ if(Synth.isOPN2Ready()) Synth.opn2Note(e.role, e.midi, tt, e.dur, e.vel);
                   else Synth.fm(SEGA_MAP[e.role]||"fmLead", e.midi, tt, e.dur, e.vel); }
         else if(e.inst==="modal") Synth.modal(e.midi, tt, e.dur, e.vel);
-        else Synth.voice(e.inst, e.midi, tt, e.dur, e.vel); }
+        else Synth.voice(e.inst, e.midi, tt, e.dur, e.vel, e.tone); }
     }
     nextT += tickDur();
     curStep++;
@@ -8723,7 +8838,7 @@ function scheduleAll(t0){
     if(SEGA){ if(Synth.isOPN2Ready()) Synth.opn2Note(e.role, e.midi, tt, e.dur, e.vel);
               else Synth.fm(SEGA_MAP[e.role]||"fmLead", e.midi, tt, e.dur, e.vel); }
     else if(e.inst==="modal") Synth.modal(e.midi, tt, e.dur, e.vel);
-    else Synth.voice(e.inst, e.midi, tt, e.dur, e.vel);
+    else Synth.voice(e.inst, e.midi, tt, e.dur, e.vel, e.tone);
   }
 }
 
