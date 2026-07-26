@@ -7141,9 +7141,25 @@ function conduct(seed, overrides){
   // (the bass used to force its own arbitrary _progLen, disagreeing with harmony
   // on the downbeat root — the residual bass dissonance).
   if(_chart._realProg && _chart._realProg.length){
+    const gcd = (a,b)=>b?gcd(b,a%b):a;
+    // A PROGRESSION MUST MOVE ACROSS BARS, NOT INSIDE ONE. A short cycle played at two
+    // chords per bar puts the whole progression inside a single bar -- 0,6,0,6 at
+    // chordBeats=2 means every bar is chord 0 then chord 6, so the harmony is identical
+    // in every bar of the song and no amount of arranging can make a section sound
+    // different (measured: 4 of 40 songs, and the harmony had ONE distinct bar in 80).
+    // The chords are fine; the harmonic RHYTHM is too fast for them. Slowing it to one
+    // chord per bar turns 0,6,0,6 into a real four-bar cycle.
+    for(let guard=0; guard<2; guard++){
+      const spb = Math.max(1, Math.round(4/(_chart._chordBeats||4)));
+      const pat = new Set();
+      for(let b=0;b<16;b++){ const sl=[];
+        for(let k=0;k<spb;k++) sl.push(_chart._realProg[(b*spb+k)%_chart._realProg.length].d);
+        pat.add(sl.join(",")); }
+      if(pat.size>1 || spb<=1) break;
+      _chart._chordBeats = 4;                 // one chord per bar: let the cycle breathe
+    }
     const spb = Math.max(1, Math.round(4/(_chart._chordBeats||4)));
     const L = _chart._realProg.length;
-    const gcd = (a,b)=>b?gcd(b,a%b):a;
     _chart._progLen = L / gcd(L, spb);        // period of the per-bar downbeat cycle
   }
   return _chart;
@@ -7312,9 +7328,22 @@ function hashName(seed, name){
 /* Build the ONE loop the whole song is made of. Every voice lives here and nowhere
    else. Because it is only loopBars long, the ghost validates the entire musical
    content of the song in a single pass — not four passes over 96 bars of drift. */
+const CELL_LOOPS = 4;      // state · repeat · depart · vary  (006, the rule of three)
+
 function buildLoop(chart, rng){
   const loopBars = chart.loopBars || 8;
-  const loopChart = { key:chart.key, nBars:loopBars, phraseUnit:loopBars, loopBars,
+  // THE CELL IS FOUR LOOPS, NOT ONE. Every engine already carries its own development
+  // cycle keyed on loopIdx = floor(bar/loop) -- ["state","repeat","depart","vary"] --
+  // which IS 006's rule of three: state an idea, repeat it, and on the third pass go
+  // somewhere different. Generating a single loop pinned loopIdx to 0 forever, so only
+  // "state" ever ran and the whole song came out as one bar-identical loop (measured:
+  // seed 8's bass played 143 bars with ONE distinct bar; harmony 80 bars, one distinct).
+  // Four loops give the engines room to actually develop, and the arrangement then maps
+  // sections onto DIFFERENT loops of the cell -- so the chorus can restate the hook
+  // while the verse plays genuinely different notes over the same progression, which is
+  // what 009 describes: the chord loop runs the whole song, the melodies do not.
+  const cellBars = CELL_LOOPS*loopBars;
+  const loopChart = { key:chart.key, nBars:cellBars, phraseUnit:loopBars, loopBars,
                       feel:chart.feel, genre:chart.genre, _seed:chart.seed, focal:chart.focal,
                       _sampleCycle:chart._sampleCycle, _chordTexture:chart._chordTexture,
                       _realProg:chart._realProg, _progLen:chart._progLen,
@@ -7336,7 +7365,7 @@ function buildLoop(chart, rng){
   // where a singer would breathe.
   if(lead && lead.notes.length && loopBars>=4){
     const restBars = new Set();
-    for(let b=3;b<loopBars;b+=4) restBars.add(b);
+    for(let b=3;b<CELL_LOOPS*loopBars;b+=4) restBars.add(b);
     lead.notes = lead.notes.filter(n=> !(restBars.has(n.bar) && n.step>=8));
     for(const n of lead.notes)                    // don't let a held note cover the rest
       if(restBars.has(n.bar) && n.step+(n.dur||1)>8) n.dur = Math.max(1, 8-n.step);
@@ -7384,7 +7413,7 @@ function buildLoop(chart, rng){
     if(harm && oR()<0.55){
       const steps=[0,3,6,10,12].filter(()=>oR()<0.8);
       const notes=[];
-      for(let b=0;b<loopBars;b++){
+      for(let b=0;b<CELL_LOOPS*loopBars;b++){
         const chord=harm.notes.filter(n=>n.midi!=null&&n.bar===b).map(n=>n.midi);
         if(!chord.length) continue;
         steps.forEach((st,si)=>notes.push({bar:b, step:st, midi:chord[si%chord.length]+12,
@@ -7543,10 +7572,19 @@ function planArrangement(chart, loop, rng){
 
     const debut = active.filter(r=>!seenVoice[r]);
     for(const r of active) seenVoice[r]=true;
-    sections.push({ name:nameAt(blocks[i].startBar), startBar:blocks[i].startBar, endBar:blocks[i].endBar,
+    // WHICH LOOP OF THE CELL THIS SECTION PLAYS. 009: the chord progression loops the
+    // whole song, but the sections do NOT play the same melody -- the verse melody was
+    // written separately from the chorus. So the chorus/peak restates cell loop 0 (the
+    // statement -- the hook, identical every time it returns), the builds take loop 1,
+    // the verses and low blocks take loop 2 (the DEPART -- different notes, same
+    // progression), and the outro takes loop 3.
+    const ev = i===0?"open" : i===peakI?"moment" : i===n-1?"out"
+             : (i>0 && E[i]>E[i-1] ? "build":"drop");
+    const cellBase = (ev==="moment"||e>=8) ? 0 : ev==="open" ? 0
+                   : ev==="build" ? 1 : ev==="out" ? 3 : 2;
+    sections.push({ cellBase, name:nameAt(blocks[i].startBar), startBar:blocks[i].startBar, endBar:blocks[i].endBar,
                     bars:blocks[i].endBar-blocks[i].startBar,
-                    event: i===0?"open" : i===peakI?"moment" : i===n-1?"out"
-                         : (i>0 && E[i]>E[i-1] ? "build":"drop"),
+                    event: ev,
                     energy:e, activeRoles:active, debut, keyShift:0, lift:e>=8 });
   }
 
@@ -7614,7 +7652,13 @@ function renderArrangement(chart, loop, plan, rng){
     const act = new Set(sec.activeRoles);
     const dyn = 0.72 + (sec.energy/9)*0.34;               // expression follows energy
     for(let bar=sec.startBar; bar<sec.endBar; bar++){
-      const lb = bar % loopBars;                          // phase-locked to the song grid
+      // THE RULE OF THREE, INSIDE THE SECTION. 006: state it, repeat it, and by the
+      // third pass go somewhere different -- "by the third time your brain is
+      // automatically making decisions... primarily that you are now losing interest."
+      // So a section plays its own cell loop twice, then moves to the next one.
+      const k = Math.floor((bar - sec.startBar)/loopBars);
+      const cellLoop = ((sec.cellBase||0) + (k>=2 ? 1+((k-2)%2) : 0)) % CELL_LOOPS;
+      const lb = cellLoop*loopBars + ((bar - sec.startBar) % loopBars);
       const lastBar = (bar === sec.endBar-1);
       for(const p of loop.session.parts){
         if(!act.has(p.role)) continue;
@@ -7651,6 +7695,9 @@ function renderArrangement(chart, loop, plan, rng){
       const breaks = chart.feel==="breaks";
       for(const m of marks){
         const fb=m-1; if(fb<0) continue;
+        // a fill belongs on the PHRASE-END bar (004's "D" bar), never mid-phrase --
+        // a loud tom in a core bar is the fault the kit laws exist to catch
+        if(((fb % loopBars)+loopBars)%loopBars !== loopBars-1) continue;
         if(!have.has(fb) && !drumsIn(m)) continue;     // the fill may lead INTO the kit too
         const fR=makeRng(hashName(chart._seed||0,"fill"+fb));
         if(breaks){

@@ -103,7 +103,18 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
     for(let b=0;b<song.chart.nBars;b++){ const slot=["A","B","A","C","A","A","D","A"][b%8];
       const hits=d.notes.filter(n=>n.bar===b);
       const loudTom=hits.some(h=>TOMS.includes(h.midi)&&h.vel>0.3);
-      const modeD=["state","repeat","depart","vary"][Math.floor(b/8)%4];
+      // Which development loop is actually SOUNDING here. The old line assumed the
+      // song's bar index was the loop index (floor(b/8)%4), which was true when every
+      // engine tiled its own material across the whole song. Now a four-loop cell is
+      // generated once and the ARRANGEMENT decides which loop of it each section
+      // plays, so the mode has to be read off that mapping. Same law -- loud toms
+      // belong to fills and to depart loops, never to a core bar -- just located
+      // where the information now lives.
+      const _sec=(song.arrangement||[]).find(x=>b>=x.startBar&&b<x.endBar);
+      const _loop=(song.chart&&song.chart.loopBars)||8;
+      const _k=_sec?Math.floor((b-_sec.startBar)/_loop):0;
+      const _cl=_sec?(((_sec.cellBase||0)+(_k>=2?1+((_k-2)%2):0))%4):Math.floor(b/8)%4;
+      const modeD=["state","repeat","depart","vary"][_cl];
       if(slot==="D"){ fills++; if(hits.some(h=>TOMS.includes(h.midi)))fillsWithToms++; }
       else if(slot==="A" && modeD!=="depart"){ coreBars++; if(loudTom)tomCore++; }
     }
