@@ -5587,6 +5587,13 @@ function genContour(rng, n){
     else if(kind==="zigzag")out.push((i%2?dir:-dir)*pick(rng,[1,2]));
     else out.push(i===1 ? dir*pick(rng,[3,4]) : -dir*1);   // leap, then resolve by step
   }
+  // A CONTOUR CANNOT BE EMPTY. This loop starts at 1, so a single-element rhythm
+  // returned [] -- and an empty move list means scaleStep2 is handed `undefined`, which
+  // it treats as "no movement" and returns the same pitch. Every note in the bar then
+  // came out identical: measured, 32.6% of ALL lead bars were one pitch struck over and
+  // over. Contour is the first thing a listener encodes about a melody (Deutsch), before
+  // any interval content, so a bar with no contour is a bar with nothing to remember.
+  if(!out.length) out.push(dir*pick(rng,[1,2]));
   return out;
 }
 
@@ -5731,7 +5738,10 @@ function buildCounter(voice, chart, chords, perception, rng){
     for(let k=0;k<answer.rhythm.length;k++){
       if(step>=gapEnd) break;                       // keep the reply inside the gap
       const dur=answer.rhythm[k];
-      if(k>0){ const mv=useMoves[(k-1)%useMoves.length]; m=T.scaleStep2(m, scale, root, mv); }
+      if(k>0){ // and guard the use site too: a repeated note is a legitimate melodic
+               // move (19.7% of ours, which is fine), but a whole bar of them is not
+               const mv = (useMoves && useMoves.length) ? useMoves[(k-1)%useMoves.length] : null;
+               m = T.scaleStep2(m, scale, root, mv || (k%2 ? 1 : -1)); }
       if(step%4===0) m=nearestTone(m,tones);
       m=clamp(T.fold(m,LO,HI),LO,HI);
       notes.push({bar, step, midi:m, dur:Math.max(2,Math.min(dur,gapEnd-step)), vel:.42});
