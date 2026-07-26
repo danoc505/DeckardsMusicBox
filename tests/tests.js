@@ -317,7 +317,16 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
     }
     if(song.order[0]===chart.focal) focalFirst++;
   }
-  check("gathering styles vary (trickle/cluster/allin all appear)", Object.keys(styles).length>=3, JSON.stringify(styles));
+  // "allin" was RETIRED with the loop+arrangement rewrite. It meant every voice
+  // sounding from bar one, which the intro rule now forbids on purpose: two
+  // independent sources define an intro as the loop MINUS THE MELODY (007-structure:
+  // "the verse but without the verse melody having begun yet... a vamp"; 002: "the
+  // lack of melody was literally the only difference"). The tune ARRIVES; it never
+  // starts the song. So the reachable styles are trickle and cluster, and both must
+  // still appear -- a song where the band assembles the same way every time is the
+  // failure this test exists to catch.
+  check("gathering styles vary (trickle and cluster both appear)",
+        Object.keys(styles).length>=2, JSON.stringify(styles));
   check("the starter always opens at bar 0", starterAt0===songs.length, starterAt0+"/"+songs.length);
   check("staggered songs build (start sparser than peak)", staggeredChecks===0||staggeredOk>=staggeredChecks*0.9, staggeredOk+"/"+staggeredChecks);
   check("the focal usually starts (soft ≥40%)", focalFirst>=songs.length*0.4, focalFirst+"/"+songs.length);
@@ -380,11 +389,19 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
         if(rhythmOf(lead,b2)===r0) same++; }
       if(tot){ leadN++; if(same/tot>=0.5) leadOk++; } }
     const maxE=Math.max(...Object.values(song.entries||{0:0}));
-    if(maxE>2*loop) lateEntry++;
+    if(maxE > chart.nBars*0.67) lateEntry++;
   }
   check("BASS is a repeating loop (rhythm recurs)", bassN>0&&bassOk/bassN>=0.9, bassOk+"/"+bassN);
   check("LEAD repeats its motif structure per loop", leadN>0&&leadOk/leadN>=0.8, leadOk+"/"+leadN);
-  check("everyone enters within 2 loops", lateEntry===0, lateEntry+" late songs");
+  // WAS "everyone enters within 2 loops". That law came from the one-loop-tiled model,
+  // where every voice existed for the whole song and entry was just a mask. Subtractive
+  // arrangement holds voices back ON PURPOSE -- 001 is explicit: "I like to avoid
+  // bringing instruments in for as long as possible; this way I have something to build
+  // to." A voice arriving at the third block is the method working, not a fault. What
+  // still matters is that nothing shows up only at the very end as a surprise, and that
+  // the song is never thin for long (covered by "nothing thin > ~4s", which passes).
+  check("every voice has entered by the last third",
+        lateEntry===0, lateEntry+" songs with a voice arriving in the final third");
 })();
 
 
@@ -529,7 +546,7 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
     if(played < chart.nBars*0.55) under++;
     if(chart.genre==="house"){ houseN++; if(dE>loop) houseLate++; }
     const cap=Math.min(2*loop, Math.max(loop/2, Math.floor((chart.nBars*0.35)/(loop/2))*(loop/2)));
-    if(Math.max(...Object.values(song.entries))>cap) lateCap++;
+    if(Math.max(...Object.values(song.entries)) > chart.nBars*0.67) lateCap++;   // see note above
   }
   // NB: "sparse" is half-time — kick on 1, snare on beat 3 — which reading the
   // roll confirmed is correct for slow genres, not a missing backbeat.

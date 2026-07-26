@@ -7277,467 +7277,441 @@ function hashName(seed, name){
    material ONCE (shared across sections); then each SECTION is arranged — which
    voices play (intro sparse → chorus full), and the BRIDGE modulates.
    ═══════════════════════════════════════════════════════════════════════════ */
-function composeSong(conductorChart, rng){
-  const chart = conductorChart;
-  const coreChart = { key:chart.key, nBars:chart.nBars, phraseUnit:chart.phraseUnit,
-                      loopBars:chart.loopBars||8,
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE LOOP AND THE ARRANGEMENT   (docs/DEEP_RESEARCH_ARRANGEMENT.md)
+
+   The old pipeline had every engine emit the WHOLE SONG — five independent
+   `for(b=0;b<nBars;b++)` loops, each tiling its own idea across 96 bars in its own
+   room. Measured: 4.9 pitched voices sounding at once, the chord voice audible 97%
+   of the song, every voice pair hitting together more than chance. And because
+   material existed at song length from birth, "the verse should differ" could only
+   ever be said as "mutate notes at bars 16-32" — so every idea became another
+   post-hoc pass. composeSong reached 461 lines holding TEN of them and ran the ghost
+   four times to keep the mutations legal. That is the thing being removed here.
+
+   Six independent sources describe the same method instead — three practitioner
+   transcripts (008, 009, 007-8bar), two production schools (Hyperbits, Ableton) and
+   one algorithmic-arrangement paper (Libretto, arXiv 2606.22708):
+
+       Compose ONE loop at FULL strength — that loop IS the peak — then copy it
+       across the timeline and MUTE BACKWARDS. Sections are subsets, not new music.
+
+   Hyperbits states it outright: "start with your 8-bar loop at full instrumentation
+   (your final chorus), copy it across, then mute as many tracks as you can get away
+   with — it's easier to take away what's already there than to add what isn't."
+   Ableton gives the reason, and it is the reason this suits a generative engine:
+   "it's often easier to hear when something is bad than to imagine something good."
+   Choosing what to SILENCE is a far better-posed problem than choosing what to invent.
+
+   So there are now exactly two objects and one rule:
+     · THE LOOP        — loopBars long, every voice, mutually aware, validated ONCE.
+     · THE ARRANGEMENT — per section: which voices sound, and how hard.
+     · NO NOTE IS EVER MUTATED AFTER THE LOOP IS VALIDATED.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Build the ONE loop the whole song is made of. Every voice lives here and nowhere
+   else. Because it is only loopBars long, the ghost validates the entire musical
+   content of the song in a single pass — not four passes over 96 bars of drift. */
+function buildLoop(chart, rng){
+  const loopBars = chart.loopBars || 8;
+  const loopChart = { key:chart.key, nBars:loopBars, phraseUnit:loopBars, loopBars,
                       feel:chart.feel, genre:chart.genre, _seed:chart.seed, focal:chart.focal,
-                      _sampleCycle:chart._sampleCycle,
-                      _chordTexture:chart._chordTexture,
-                      _realProg:chart._realProg,
-                      _progLen:chart._progLen,           // the conductor-fixed cycle length (if drawn from a real progression)
-                      _chordBeats:chart._chordBeats };   // a record's changes, if following one
-  const session = improvise(coreChart, rng);
-  // CARRY THE SEED BACK. improvise() assigns the base seed onto the chart it is GIVEN
-  // (coreChart); the conductor's chart never had `_seed` at all. Every seeded decision
-  // later in this function — entrance fills, the relationship assignment, the density
-  // peel — read `chart._seed||0` and so were all running on seed **0**: identical in
-  // every song, whatever the seed. That silently collapsed exactly the variety those
-  // passes exist to create (measured: the second bass take produced 4 distinct patterns
-  // across 40 songs; with the real seed, 20).
-  chart._seed = coreChart._seed;
-  chart.realizedFocal = session.order[0];        // whoever actually started
-  chart._progLen = coreChart._progLen;           // surface the cycle length
-  const plan = arrangeSections(chart, session, rng);
-  // what KIND of section is this, musically? (the peak/chorus is the destination;
-  // the verse is the low ground; the pre-chorus lifts; the intro/outro frame it)
-  const _sectionKind = sec => {
-    if(sec.event==="moment"||sec.event==="peak"||sec.role==="hook") return "chorus";
-    if(sec.role==="bridge"||sec.contrast) return "bridge";
-    if(sec.role==="lift") return "pre";
-    if(sec.event==="drop") return "breakdown";
-    if(sec.event==="open"||sec.role==="intro") return "intro";
-    if(sec.event==="out"||sec.role==="coda") return "outro";
-    return "verse";
-  };
-  // TRANSITION CRAFT (2-Loop text): every entrance has an entry side — the bar
-  // before it gets a fill, so arrivals are announced, not accidental.
-  const drums = session.parts.find(pt=>pt.role==="drums");
-  if(drums){
-    const drumEntry = plan.entries["drums"] ?? 0;
-    const entryBars = [...new Set(Object.values(plan.entries))].filter(e=>e>drumEntry);
-    for(const E of entryBars){
-      const fb = E-1;
-      if(fb < drumEntry) continue;
-      // entrance fill — SEEDED, not a stored pattern: a different seed gives a
-      // different fill (prime directive). Breaks stutter the snare; others roll
-      // the toms up OR down, dropping a hit here and there.
-      const frng = makeRng(hashName(chart._seed||0, "fill"+fb));
-      if(chart.feel==="breaks"){
-        for(let st=12; st<16; st++) if(frng()<0.85)
-          drums.notes.push({bar:fb, step:st, midi:38, lane:"snare", vel:0.3+frng()*0.3});
-      } else {
-        const toms=[["highTom",50],["hiMidTom",48],["lowTom",45],["lowFloorTom",41]];
-        if(frng()<0.5) toms.reverse();
-        toms.forEach(([tk,mid],i)=>{ if(frng()<0.85)
-          drums.notes.push({bar:fb, step:12+i, midi:mid, lane:tk, vel:0.4+frng()*0.25}); });
-      }
-    }
+                      _sampleCycle:chart._sampleCycle, _chordTexture:chart._chordTexture,
+                      _realProg:chart._realProg, _progLen:chart._progLen,
+                      _chordBeats:chart._chordBeats };
+  const session = improvise(loopChart, rng);
+  chart._seed    = loopChart._seed;              // carry the real seed back (see below)
+  chart._progLen = loopChart._progLen;
+  chart._chordTexture = loopChart._chordTexture;
+
+  const lead = session.parts.find(p=>p.role==="lead");
+
+  // ── THE LEAD BREATHES ────────────────────────────────────────────────────
+  // 009: "A lead part doesn't usually go constantly throughout the whole song, so in
+  // the spaces it leaves you often want to add a little something else." 003, on the
+  // Zelda theme: the melody is written "with lots of held notes that leave space for
+  // the inner voice to move." Measured, ours sounded 92% of the song — it never
+  // stopped, so nothing could answer it. We clear the back half of the last bar of
+  // each 4-bar group: a two-beat rest at each phrase ending, twice per loop, which is
+  // where a singer would breathe.
+  if(lead && lead.notes.length && loopBars>=4){
+    const restBars = new Set();
+    for(let b=3;b<loopBars;b+=4) restBars.add(b);
+    lead.notes = lead.notes.filter(n=> !(restBars.has(n.bar) && n.step>=8));
+    for(const n of lead.notes)                    // don't let a held note cover the rest
+      if(restBars.has(n.bar) && n.step+(n.dur||1)>8) n.dur = Math.max(1, 8-n.step);
+    lead._restBars = [...restBars];
   }
-  // THE STORY TRANSFORMS THE THEME — then the ghost gets the last word, so
-  // transformed pitches still obey the cross-engine physics.
-  // THE SYMBOLIC FLIP: sometimes the lead is not generated at all — it is a
-  // real phrase from public-domain music, chopped into pads, rearranged, and
-  // corrected into this song's key and chords. Sampling, done on notes.
-  let flipInfo = null;
-  // CROSS-SOURCE RECOMBINATION: rhythm from one piece, melodic contour from
-  // another, over the harmony already in play. None of the sources contained
-  // the result — this is the recombination, not a chop of one phrase.
-  if(chart._recombineLead){
-    const lead = session.parts.find(pt=>pt.role==="lead");
-    const DIMS = (typeof globalThis!=="undefined" && globalThis.IMPROV_DIMENSIONS) ||
-                 (function(){ try{ return require("./dimensions.json"); }catch(e){ return null; } })();
-    if(lead && DIMS){
-      const heard = session.perception && session.perception.harmony;
-      const want = { density: chart._leadDensity, leap: chart._leadLeap, src: GENRE_SRC[chart.genre] };
-      // build ONE LOOP of recombined material, then repeat it across the song.
-      // Music is repeated patterns: a phrase that runs on continuously breaks
-      // the loop law every other engine obeys.
-      const loopBars = chart.loopBars || 8;
-      const r = recombine(DIMS, {
-        rng, mode: chart.key.scale, scale: chart.key.scale, root: chart.key.root,
-        LO: 67, HI: 84, nBars: loopBars, startBar: 0, want,
-        chordAt: bar => { const h = heard && heard[bar % (heard.length||1)];
-                          return h && h.pcs ? h.pcs : null; }
-      });
-      if(r && r.notes.length > 4){
-        const out = [];
-        const loops = Math.ceil(chart.nBars / loopBars);
-        for(let L=0; L<loops; L++){
-          for(const n of r.notes){
-            const bar = n.bar + L*loopBars;
-            if(bar >= chart.nBars) continue;
-            out.push({ ...n, bar });
-          }
-        }
-        lead.notes = out;
-        flipInfo = { kind:"recombined", rhythmFrom:r.rhythmFrom, contourFrom:r.contourFrom };
-      }
-    }
-  }
-  if(!flipInfo && chart._flipLead){
-    const lead = session.parts.find(pt=>pt.role==="lead");
-    const FOLKC = (typeof globalThis!=="undefined" && globalThis.FOLK_CORPUS) ||
-                  (function(){ try{ return require("./folk_corpus.json"); }catch(e){ return null; } })();
-    if(lead && FOLKC && FOLKC.melodicShapes){
-      const heard = session.perception && session.perception.harmony;
-      const res = flipRealPhrase(FOLKC.melodicShapes, {
-        rng, mode: chart.key.scale, scale: chart.key.scale, root: chart.key.root,
-        LO: 67, HI: 84, nBars: chart.nBars, startBar: 0,
-        chordAt: bar => {
-          const h = heard && heard[bar % (heard.length||1)];
-          return h && h.pcs ? h.pcs : null;
-        }
-      });
-      if(res && res.notes.length > 8){
-        lead.notes = res.notes;
-        flipInfo = { kind:"chop", pads: res.pads, steps: res.order.length };
-      }
-    }
-  }
-  // THE BASS, RECOMBINED. A chorale bass line is a real walking line: taking
-  // its contour and pairing it with a rhythm from elsewhere gives a bass part
-  // neither source had, corrected into our key and onto our chords.
-  if(chart._recombineBass){
-    const bs2 = session.parts.find(pt=>pt.role==="bass");
-    const DIMS2 = (typeof globalThis!=="undefined" && globalThis.IMPROV_DIMENSIONS) ||
-                  (function(){ try{ return require("./dimensions.json"); }catch(e){ return null; } })();
-    const heard2 = session.perception && session.perception.harmony;
-    const knowChanges = heard2 && heard2.some(h=>h && h.root!=null);
-    // only recombine when the changes are actually known: a bass that cannot
-    // state the roots is worse than the one the engine already wrote
-    // and only when there is ONE chord per bar: with changes twice a bar the
-    // bass must state both roots, which a single recombined line does not do.
-    const oneChordPerBar = (chart._chordBeats || 4) >= 4;
-    if(bs2 && DIMS2 && knowChanges && oneChordPerBar){
-      const loopB = chart.loopBars || 8;
-      const rb = recombine(DIMS2, {
-        rng, mode: chart.key.scale, scale: chart.key.scale, root: chart.key.root,
-        LO: 36, HI: 50, nBars: loopB, startBar: 0,
-        want: { density: 0.30, role: "bass" },
-        chordAt: bar => { const h = heard2 && heard2[bar % (heard2.length||1)];
-                          return h && h.pcs ? h.pcs : null; }
-      });
-      if(rb && rb.notes.length > 4){
-        // A recombined part still obeys the laws. Two of them bit here:
-        //  · THE ROOT: the bass states the chord, so every bar's downbeat is
-        //    pulled onto the root of the progression, not just any chord tone.
-        //  · THE RULE OF 3: state, repeat, DEPART, return. Repeating a loop
-        //    unchanged forever is exactly what the whole program forbids.
-        const out2 = [];
-        const loops2 = Math.ceil(chart.nBars / loopB);
-        for(let L=0; L<loops2; L++){
-          const mode2 = ["state","repeat","depart","vary"][L % 4];
-          for(const n of rb.notes){
-            const bar = n.bar + L*loopB;
-            if(bar >= chart.nBars) continue;
-            let midi = n.midi, step = n.step;
-            if(n.step === 0){
-              const h = heard2 && heard2[bar % (heard2.length||1)];
-              const rootPc = h && h.root != null ? h.root
-                           : (chart._realProg ? null : null);
-              if(rootPc != null){
-                let m = Math.round((midi - rootPc)/12)*12 + rootPc;
-                while(m < 36) m += 12; while(m > 50) m -= 12;
-                midi = m;
-              }
-            }
-            if(mode2 === "depart" && n.bar >= loopB/2) midi = Math.min(50, midi + 12);
-            if(mode2 === "vary" && n.step > 0 && (n.step % 8) === 6) continue;
-            // RECURRENCE: loop 0 and loop 4 (both "state") play the SAME line so the
-            // bass figure RETURNS across the song — that is structure, not a bug. (The
-            // old "cumulative evolution" forced each cycle to differ, which prevented
-            // the return; removed. DEPART/VARY still provide the new material between.)
-            out2.push({ bar, step, midi, dur:n.dur, vel:0.85 });
-          }
-        }
-        bs2.notes = out2;
-        flipInfo = flipInfo || {};
-        flipInfo.bass = { rhythmFrom: rb.rhythmFrom, contourFrom: rb.contourFrom };
-      }
-    }
-  }
-  const themeLog = developTheme(session.parts, plan.sections, chart, rng);
-  // DERIVE THE LEADER first (before the ghost), so the leader-derived voices below are
-  // validated by the ghost like any other material. The leader is NOT always the
-  // melody: the conductor's FOCAL picks who leads, and a bass-led song is as valid as
-  // a melody-led one. Whatever we pick must actually be PLAYING; else hand off.
-  (function pickLeader(){
-    const nb=chart.nBars||1;
-    const cov=role=>{ const p=session.parts.find(x=>x.role===role); if(!p)return 0;
-      return new Set(p.notes.filter(n=>n.midi!=null).map(n=>n.bar)).size/nb; };
-    const FOCAL2ROLE={ melody:"lead", bass:"bass" };   // harmony is a sustained comp, not a riff → can't lead by level (future: chord-riff)
-    let leader = FOCAL2ROLE[chart.focal] || "lead";
-    if(cov(leader)<0.3){ leader="lead"; let lc=cov("lead");
-      if(lc<0.3){ for(const r of ["counter","lead2","bass"]){ const c=cov(r); if(c>lc+0.05){ lc=c; leader=r; } } } }
-    chart._leader=leader;
-  })();
-  // ═══ RELATIONAL GENERATION — the band plays OFF the leader, not past it ═══
-  // The user's architecture: generate the leader, then DERIVE every other voice from
-  // it with a deliberate, VARIED relationship, so they play WITH each other instead of
-  // each realizing the chords in isolation. One relationship is assigned per present
-  // voice ONCE per song (seeded), with hard variety budgets: at most one MIRROR, one
-  // HARMONIZE, one COUNTER; always at least one simple BED and at least one ANSWER/
-  // COUNTER — so every song is a different, legible division of labour (one clear
-  // foreground, one voice moving with it, one holding a bed, others answering) and
-  // never collapses to five-part unison mush. Runs BEFORE the ghost so everything is
-  // validated (in key, no unison with the leader, leaps resolve). Design + adversarial
-  // review: workflow relational-generation-design; see docs/ARRANGEMENT.md.
-  (function relateToLeader(){
-    const leaderRole=chart._leader||"lead";
-    const L=session.parts.find(p=>p.role===leaderRole); if(!L||!L.notes.length) return;
-    const sc=chart.key.scale, rt=chart.key.root, nb=chart.nBars, GB=chart.genre;
-    const isBassLeader=(leaderRole==="bass");
-    // ---- read the leader ----
-    const lp={}, onset=new Set();
-    for(const n of L.notes){ if(n.midi==null)continue; const a=n.bar*16+n.step; onset.add(a);
-      for(let k=0;k<(n.dur||1);k++){ if(lp[a+k]==null) lp[a+k]=n.midi; } }
-    const leadAt=abs=>{ let t=lp[abs]; if(t==null){ for(let d=1;d<=6&&t==null;d++) t=lp[abs-d]; } return t; };
-    const strongAt=bar=>{ for(const st of [0,4,8,12]){ const t=lp[bar*16+st]; if(t!=null) return t; } return leadAt(bar*16); };
-    let cov=0; const tot=(nb*16)||1; for(let a=0;a<nb*16;a++) if(lp[a]!=null) cov++; cov/=tot;
-    // chord pitch-classes per bar (sustained harmony), for snapping derived voices to the chord
-    const harm=session.parts.find(p=>p.role==="harmony"); const chordPcs={};
-    if(harm) for(const n of harm.notes){ if(n.midi==null||(n.dur||1)<6)continue; (chordPcs[n.bar]=chordPcs[n.bar]||new Set()).add(((n.midi%12)+12)%12); }
-    const snap=(m,bar,lo,hi)=>{ const pcs=chordPcs[bar];
-      if(pcs&&pcs.size){ let best=m,bd=99; for(let c=m-6;c<=m+6;c++){ if(pcs.has(((c%12)+12)%12)){ const d=Math.abs(c-m); if(d<bd){bd=d;best=c;} } } m=best; }
-      else m=T.scaleStep2(m,sc,rt,0);
-      while(m<lo)m+=12; while(m>hi)m-=12; return m; };
-    const noUni=(m,abs)=> (lp[abs]!=null && m===lp[abs]) ? T.scaleStep2(m,sc,rt,1) : m;
-    // place a leader-derived pitch into a voice's band by a UNIFORM whole-octave shift
-    // (same for every note of the voice), so the contour is preserved — a per-note
-    // while-fold adds a VARIABLE number of octaves and can INVERT the line (measured:
-    // bass-led arps came out contrary to the bass). Only a rare extreme is octave-clamped.
-    const leaderMed=(()=>{ const v=L.notes.filter(n=>n.midi!=null).map(n=>n.midi).sort((a,b)=>a-b); return v.length?v[v.length>>1]:70; })();
-    const place=(m,lo,hi)=>{ m += Math.round((((lo+hi)/2)-leaderMed)/12)*12; while(m>hi)m-=12; while(m<lo)m+=12; return m; };
-    // ---- assign ONE relationship per present support voice (seeded, once per song) ----
-    const R=makeRng(hashName(chart._seed||0,'relate:'+leaderRole));
-    const sup=session.parts.filter(p=>p.notes.length && p.role!==leaderRole && p.role!=="drums" && p.role!=="harmony" && p.role!=="bass");
-    const has=role=>sup.some(p=>p.role===role);
-    const b={mirror:1,harmonize:1,counter:1}; let bed=0; const A={};
-    for(const role of ["pad","counter","arp","lead2","lowline"]){
-      if(!has(role)) continue; let ch;
-      if(role==="pad"){ ch=wpick(R,[["BED",5],["DRONE",(GB==="ambient"||GB==="dungeon")?4:1],["SHADOW",2]]); bed++; }
-      else if(role==="lowline"){ ch=isBassLeader ? wpick(R,[["REINFORCE",3],["LAYOUT",2]]) : "DUEL_BASS"; }   // when the melody leads, lowline stays coupled to the BASS (not the tune)
-      else if(role==="counter"){ if(cov>0.9 && b.harmonize>0){ ch="HARMONIZE"; b.harmonize--; } else ch="ANSWER"; }
-      else if(role==="arp"){ const c=[]; if(b.mirror>0)c.push(["MIRROR",(GB==="house"||GB==="jungle"||GB==="synthwave")?4:3]); c.push(["DRIVE",(GB==="house"||GB==="jungle")?3:1]); if(b.harmonize>0)c.push(["HARMONIZE",1]); ch=wpick(R,c); if(ch==="MIRROR")b.mirror--; if(ch==="HARMONIZE")b.harmonize--; }
-      else if(role==="lead2"){ const c=[]; if(b.harmonize>0)c.push(["HARMONIZE",(GB==="citypop"||GB==="synthwave")?4:3]); c.push(["SHADOW",2]); if(b.counter>0)c.push(["COUNTER",2]); if(b.mirror>0)c.push(["MIRROR",1]); ch=wpick(R,c); if(ch==="HARMONIZE")b.harmonize--; if(ch==="COUNTER")b.counter--; if(ch==="MIRROR")b.mirror--; }
-      A[role]=ch;
-    }
-    const vals=Object.values(A);
-    if(!vals.includes("ANSWER")&&!vals.includes("COUNTER")){                 // invariant: never all-parallel
-      if(has("counter"))A.counter="ANSWER"; else if(has("lead2")&&b.counter>0)A.lead2="COUNTER"; else if(has("lowline"))A.lowline="COUNTER_BASS"; }
-    if(bed===0){ if(has("lowline")&&A.lowline!=="COUNTER_BASS")A.lowline="PEDAL"; else if(has("lead2"))A.lead2="SHADOW"; }  // invariant: always a simple bed
-    if(themeLog) themeLog.relate={leader:leaderRole, ...A};
-    // ---- realize ----
-    const DEC=[0,2,0,4][Math.floor(R()*4)] || 2;                            // MIRROR decoration interval (a 3rd or 5th above), chosen once
-    for(const p of sup){
-      const rel=A[p.role]; if(!rel) continue;
-      const bd=BAND[p.role]||BAND.lead2, lo=bd[0], hi=bd[1];
-      if(rel==="ANSWER"||rel==="BED"||rel==="DUEL_BASS") continue;           // already relates as generated (counter answers, pad bed, lowline duels bass)
-      if(rel==="LAYOUT"){ p.notes=[]; continue; }
-      if(rel==="MIRROR"){ // TRACK the leader: play its pitch (uniformly placed in band), decorated a 3rd up on off-steps — so the arp rises and falls WITH the tune. No chord-snap (that collapses strong beats to one chord tone and kills tracking); the leader is in key and the ghost still guards leap-NCTs.
-        let i=0; for(const n of p.notes){ if(n.midi==null){i++;continue;} const a=n.bar*16+n.step; const t=leadAt(a); if(t==null){i++;continue;}
-          let m=place(t,lo,hi);
-          if(i%2===1){ const u=T.scaleStep2(m,sc,rt,DEC); if(u<=hi) m=u; }    // light lift on alternate steps, only if it stays in band (no inversion)
-          i++; n.midi=noUni(m,a); } continue; }
-      if(rel==="DRIVE"){ for(const n of p.notes){ if(n.midi==null)continue; const a=n.bar*16+n.step; const t=leadAt(a); if(t==null)continue; let m=place(t,lo,hi); n.midi=noUni(snap(m,n.bar,lo,hi),a); } continue; }
-      if(rel==="HARMONIZE"){ // a genuine DUET: parallel diatonic 6th moving with the leader (5 scale-degrees), kept consistent (no chord-snap that would vary the interval)
-        const deg=(p.role==="lead2"&&!isBassLeader)?5:-5; const keep=[];      // lead2 a 6th ABOVE; counter/others a 6th BELOW; above a bass leader
-        for(const n of p.notes){ if(n.midi==null)continue; const a=n.bar*16+n.step; if(!onset.has(a))continue;
-          let m=place(T.scaleStep2(lp[a],sc,rt,deg),lo,hi); n.midi=noUni(m,a); keep.push(n); } p.notes=keep; continue; }
-      if(rel==="COUNTER"||rel==="COUNTER_BASS"){ const ref=(rel==="COUNTER_BASS")?(session.parts.find(x=>x.role==="bass")||L):L;
-          const rp={}; for(const n of ref.notes){ if(n.midi==null)continue; rp[n.bar*16+n.step]=n.midi; }
-          let cur=null,pr=null; for(const n of p.notes.slice().sort((x,y)=>(x.bar*16+x.step)-(y.bar*16+y.step))){ if(n.midi==null)continue; const a=n.bar*16+n.step;
-            const rf=rp[a]!=null?rp[a]:leadAt(a); if(rf==null)continue;
-            if(cur==null||n.step===0){ cur=snap(rf,n.bar,lo,hi); pr=rf; } else { cur=T.scaleStep2(cur,sc,rt,-Math.round((rf-pr)/2)); pr=rf; }
-            cur=(n.step%4===0)?snap(cur,n.bar,lo,hi):(()=>{while(cur<lo)cur+=12;while(cur>hi)cur-=12;return cur;})(); n.midi=noUni(cur,a); } continue; }
-      if(rel==="SHADOW"){ const out=[]; for(let bar=0;bar<nb;bar++){ const t=strongAt(bar); if(t==null)continue; out.push({bar,step:0,midi:noUni(snap(t,bar,lo,hi),bar*16),dur:16,vel:0.3}); } p.notes=out; continue; }
-      if(rel==="DRONE"||rel==="PEDAL"){ const base=snap(rt+(lo<52?36:60),0,lo,hi); const out=[]; for(let bar=0;bar<nb;bar++) out.push({bar,step:0,midi:base,dur:16,vel:0.24}); p.notes=out; continue; }
-      if(rel==="REINFORCE"){ const bs=session.parts.find(x=>x.role==="bass")||L, bp={}; for(const n of bs.notes){ if(n.midi==null||n.step!==0)continue; bp[n.bar]=n.midi; }
-          for(const n of p.notes){ if(n.midi==null)continue; const t=bp[n.bar]; if(t==null)continue; let m=t; while(m<lo)m+=12; while(m>hi)m-=12; n.midi=noUni(snap(m,n.bar,lo,hi),n.bar*16+n.step); } continue; }
-    }
-  })();
-  const finalCorrections = ghostPass(session.parts, chart);
-  // SECTION RECURRENCE — a song has structure BECAUSE material RETURNS. When a form
-  // section comes back AFTER a departure (the A after the B in A-A-B-A; the chorus
-  // after the bridge), restate that section's material from its FIRST occurrence, so
-  // the listener actually hears it come home — not a variation that wandered off.
-  // (The user's law: the loop must come up again elsewhere, or it's just noise.)
-  // Only true RETURNS are restated (not two A's in a row — those stay in the
-  // develop cycle, so we never create a long identical run); the bridge/intro/coda
-  // are departures/frames and are never restated. Arrangement (which voices play,
-  // energy) still differs per section, so the return is recognizable but not static.
-  (function restateSections(){
-    const secs=plan.sections; if(!secs||secs.length<3) return;
-    const SKIP=s=>s.contrast||s.role==="bridge"||s.role==="intro"||s.role==="coda";
-    const firstByName={};
-    for(const s of secs){ if(!SKIP(s) && !firstByName[s.name]) firstByName[s.name]=s; }
-    let restated=0;
-    for(let i=1;i<secs.length;i++){ const sec=secs[i];
-      if(SKIP(sec)) continue;
-      const src=firstByName[sec.name]; if(!src||src===sec) continue;
-      if(secs[i-1].name===sec.name) continue;                 // adjacent same-name → leave the develop cycle (no long identical run)
-      const srcLen=src.endBar-src.startBar, len=sec.endBar-sec.startBar;
-      if(srcLen!==len||len<=0) continue;                      // only restate an equal-length return
-      const off=sec.startBar-src.startBar;
-      for(const p of session.parts){
-        const srcNotes=p.notes.filter(n=>n.bar>=src.startBar && n.bar<src.endBar);
-        p.notes=p.notes.filter(n=>n.bar<sec.startBar || n.bar>=sec.endBar);
-        for(const n of srcNotes) p.notes.push({...n, bar:n.bar+off});
-      }
-      restated++;
-    }
-    return restated;
-  })();
-  // THE GROOVE goes on last — it is a PERFORMANCE layer (timing and dynamics),
-  // so it never disturbs the pitch physics the ghost just settled.
-  const groove = makeGroove(chart, rng);
-  const grooveInfo = applyGroove(session.parts, chart, groove, rng);
-  // FORAGER-STYLE MUTUAL COUPLING — the band COMPS to the lead (research-grounded:
-  // Voyager couples a voice's parameters to running stats of the others; "leave space
-  // for the soloist"). Every SUPPORTING voice ducks where the lead is busy and lifts a
-  // touch where it rests. Velocity-only, so it never disturbs the stored texture/pitch.
-  (function compToLead(){
-    const lead = session.parts.find(p=>p.role==="lead"); if(!lead) return;
-    const leadPerBar = {}; for(const n of lead.notes){ if(n.midi==null) continue; leadPerBar[n.bar]=(leadPerBar[n.bar]||0)+1; }
-    const bars = Object.keys(leadPerBar); if(!bars.length) return;
-    const avg = bars.reduce((a,b)=>a+leadPerBar[b],0)/bars.length;
-    const SUPPORT = {harmony:1, pad:1, arp:1, counter:1};
-    for(const p of session.parts){ if(!SUPPORT[p.role]) continue;
-      for(const n of p.notes){ const busy=leadPerBar[n.bar]||0;
-        const f = busy>avg*1.3 ? 0.82 : (busy<avg*0.5 ? 1.12 : 1.0);   // duck when lead busy, lift when it rests
-        n.vel = Math.max(0.05, Math.min(1, (n.vel!=null?n.vel:0.5)*f)); } }
-  })();
-  // PROMINENCE HIERARCHY — run ONCE here (authoritative over the per-bar comping),
-  // ranking every voice beneath the derived leader so the leader is the clear focus.
-  prominenceHierarchy(session.parts, chart._leader);
-  // PROTECT THE LEADER'S REGISTER — even ranked below, a support note sounding a few
-  // semitones from the leader AT THE SAME MOMENT masks it (register overlap: the arp
-  // sitting above the tune, the counter just under it). This is a big part of the
-  // "middle so full the main is lost" problem (measured ~0.5 masking notes per step).
-  // Modal-jazz / orchestration rule: keep the lead's register clear. We DUCK any
-  // non-leader pitched note within ±5 semitones of a leader note at that instant, so
-  // the leader stays legible even in a dense section. Velocity-only (no pitch moved),
-  // and the bass is exempt (it's the low foundation, never in the leader's register).
-  (function protectLeaderRegister(){
-    const leaderRole=chart._leader||"lead";
-    const L=session.parts.find(p=>p.role===leaderRole); if(!L||!L.notes.length) return;
-    const leadAt={};
-    for(const n of L.notes){ if(n.midi==null)continue; const a=n.bar*16+n.step;
-      for(let k=0;k<(n.dur||1);k++){ (leadAt[a+k]=leadAt[a+k]||[]).push(n.midi); } }
-    let nd=0;
-    for(const p of session.parts){ if(p.role===leaderRole||p.role==="drums"||p.role==="bass")continue;
-      for(const n of p.notes){ if(n.midi==null)continue;
-        const ls=leadAt[n.bar*16+n.step]; if(!ls)continue;
-        if(ls.some(lm=>Math.abs(lm-n.midi)<=5)){ n.vel=+Math.max(0.05,(n.vel||0)*0.6).toFixed(3); nd++; } } }
-  })();
-  // THE DUEL — in the one section arrangeSections marked, the leader and its partner
-  // trade as EQUALS. The partner (counter/lead2) already answers in the lead's gaps;
-  // here we bring it UP to the leader's level for that span, overriding the prominence
-  // duck, so the two voices go back and forth on even footing instead of leader-over-
-  // support. Runs LAST (after comping/hierarchy) so nothing re-ducks it. Velocity-only.
-  (function duel(){
-    const dsec=(plan.sections||[]).find(s=>s.duel); if(!dsec) return;
-    let voice=dsec.duel; const s0=dsec.startBar, s1=dsec.endBar;
-    const leaderRole=chart._leader||"lead";
-    if(voice===leaderRole) voice = (leaderRole==="lead") ? "counter" : "lead";   // can't duel yourself
-    const lead=session.parts.find(p=>p.role===leaderRole); if(!lead) return;
-    const md=arr=>{ const v=arr.slice().sort((a,b)=>a-b); return v.length?v[Math.floor(v.length/2)]:0; };
-    const leadMed=md(lead.notes.filter(n=>n.midi!=null&&n.bar>=s0&&n.bar<s1).map(n=>n.vel||0));
-    if(!leadMed) return;
-    for(const p of session.parts){ if(p.role!==voice) continue;
-      const pMed=md(p.notes.filter(n=>n.midi!=null&&n.bar>=s0&&n.bar<s1).map(n=>n.vel||0)); if(!pMed) continue;
-      const f=leadMed/pMed;                       // match the partner to the leader in this span
-      for(const n of p.notes){ if(n.midi==null||n.bar<s0||n.bar>=s1) continue;
-        n.vel=+Math.min(0.98,(n.vel||0)*f).toFixed(3); } }
-  })();
-  // FINAL bass-register guard: the groove/loop-variation layer can octave-shift a
-  // later-loop bass note past its bounds — the HARD register law holds regardless.
-  for(const p of session.parts){ if(p.role!=="bass")continue;
-    for(const nt of p.notes){ if(nt.midi==null)continue;
-      while(nt.midi>BASS_CEIL) nt.midi-=12; while(nt.midi<36) nt.midi+=12; } }
-  // ═══════════════════════════════════════════════════════════════════════════
-  // SECTIONS ARE DISTINCT — each plays its OWN material, derived from the peak by role.
-  // A song is not one loop tiled. The BASS gets a genuine SECOND TAKE (above, before
-  // the groove); here the MELODY and HARMONY take their per-section treatment.
-  // SECTION-DISTINCT MELODY — the chorus is the peak, sung at FULL HEIGHT; the verse is
-  // a LOWER, calmer statement of the same tune (production research: the verse melody
-  // sits ~a 4th–5th below the chorus, the pre-chorus lifts a step into it). The whole
-  // melodic group (lead + its leader-derived partners) is shifted together as a rigid
-  // DIATONIC block, so every relationship the relateToLeader pass built survives — a
-  // mirror stays a mirror, a parallel 6th stays a 6th — but the section's register (and
-  // therefore its energy) changes. The chorus/bridge keep their generated height (the
-  // bridge is its own material); everything else drops. Shifts only ever fold DOWNWARD
-  // to a floor (never wrap up past the chorus), so the chorus is always the peak.
-  {
-    const mel = session.parts.filter(p=>["lead","lead2","counter","arp"].includes(p.role) && p.notes.length);
-    if(mel.length && plan.sections && plan.sections.length){
-      const sc=chart.key.scale, rt=chart.key.root;
-      const secByBar={}; for(const sec of plan.sections) for(let b=sec.startBar;b<sec.endBar;b++) secByBar[b]=sec;
-      const SHIFT = { chorus:0, pre:1, verse:-3, intro:-4, breakdown:-4, outro:-2 }; // diatonic steps (−3 ≈ a 4th, −4 ≈ a 5th down)
-      const FLOOR = { lead:60, lead2:57, counter:55, arp:59 };                  // lead stays above the harmony floor; the ghost has the last word
-      for(const p of mel){ const bd=BAND[p.role]||BAND.lead2, floor=FLOOR[p.role]||55, ceil=bd[1];
-        for(const n of p.notes){ if(n.midi==null) continue;
-          const sec=secByBar[n.bar]; if(!sec) continue; const k=_sectionKind(sec);
-          if(k==="chorus"||k==="bridge") continue;                             // the peak / departure keep their generated height
-          const s=SHIFT[k]; if(!s) continue;
-          let m=T.scaleStep2(n.midi,sc,rt,s);
-          // clamp to the nearest IN-KEY pitch inside [floor,ceil] (do not wrap up past the
-          // chorus). Landing in-key matters: a raw floor can be an out-of-key pitch the
-          // ghost would then snap DOWN below the floor.
-          while(m<floor) m=T.scaleStep2(m,sc,rt,1);
-          while(m>ceil)  m=T.scaleStep2(m,sc,rt,-1);
-          n.midi=m;
+
+  // ── THE ANSWER ───────────────────────────────────────────────────────────
+  // 003: "just about every single bar features some echoing of MELODIC FRAGMENTS in
+  // this inner voice." The answering material is the tune's OWN notes, not an
+  // independently generated counter-line — this is the concrete form of "lay down one
+  // track then use its notes to make the next." It only ever plays where the lead has
+  // stopped, so the two can never collide, and it is dropped entirely at the peak
+  // (003: at the climax the melody is "not being obscured by inner counterline
+  // movement like the rest of the melody was").
+  if(lead && lead._restBars && lead._restBars.length){
+    const band = (typeof BAND!=="undefined" && BAND.counter) || [57,72];
+    const pitches = lead.notes.filter(n=>n.midi!=null).map(n=>n.midi);
+    if(pitches.length>=2){
+      const aR = makeRng(hashName(chart._seed||0,"answer"));
+      const notes=[];
+      for(const b of lead._restBars){
+        const k = 2 + Math.floor(aR()*2);                       // a 2-3 note reply
+        for(let i=0;i<k;i++){
+          let m = pitches[Math.floor(aR()*pitches.length)];      // the LEAD's own pitch
+          while(m>band[1]) m-=12; while(m<band[0]) m+=12;        // uniform octave into its band
+          notes.push({bar:b, step:8+i*2, midi:m, dur:2, vel:0.34});
         }
       }
+      if(notes.length) session.parts.push({name:"answer", role:"answer", notes});
     }
   }
-  // SECTION-DISTINCT HARMONY — the verse holds, the chorus comps. Production research:
-  // the verse has a SLOWER harmonic rhythm (chords sustain), the chorus is rhythmically
-  // active (busier re-articulation) — a big part of why the chorus lifts. Here the
-  // harmony's inner-motif RE-ARTICULATIONS (the comping motion, flagged `_rehit`) are
-  // dropped in the held sections, leaving the SUSTAINED chord — so the verse is a pad
-  // and the chorus keeps its full motion. Pitches and the progression are untouched
-  // (only re-hits are removed), so the bass consonance and the leader-derived voices
-  // that snap to the chord are unaffected; the loop's stored texture still governs the
-  // chorus. The chorus/pre/bridge keep comping (the payoff and the lift into it stay
-  // active); the down sections breathe.
+
+  // ── THE ORNAMENT, ON A COPRIME LOOP ─────────────────────────────────────
+  // 008 layers 5- and 6-bar figures against the 8/16 grid so they "forever rotate on
+  // top of each other... off enough that you won't be able to catch it." Formally
+  // polymeter, and "more interesting when the loop lengths are relatively prime",
+  // producing interference intricate enough to read as "variations similar to the
+  // embellishments of a live performer." The PITCHES are chord tones of the loop bar
+  // they sit in -- so they are built HERE, inside the loop, and validated by the ghost
+  // like everything else. Only WHICH of them sound rotates at render time; the drift
+  // never invents a note.
   {
     const harm = session.parts.find(p=>p.role==="harmony");
-    if(harm && plan.sections && plan.sections.length){
-      const secByBar={}; for(const sec of plan.sections) for(let b=sec.startBar;b<sec.endBar;b++) secByBar[b]=sec;
-      const HOLD={verse:1,intro:1,outro:1,breakdown:1};
-      harm.notes = harm.notes.filter(n=>{
-        if(!n._rehit) return true;                                             // sustained chord voices always kept
-        const sec=secByBar[n.bar]; if(!sec) return true;
-        return !HOLD[_sectionKind(sec)];                                       // drop comping re-hits only in held sections
-      });
+    const oR = makeRng(hashName(chart._seed||0,"ornament"));
+    if(harm && oR()<0.55){
+      const steps=[0,3,6,10,12].filter(()=>oR()<0.8);
+      const notes=[];
+      for(let b=0;b<loopBars;b++){
+        const chord=harm.notes.filter(n=>n.midi!=null&&n.bar===b).map(n=>n.midi);
+        if(!chord.length) continue;
+        steps.forEach((st,si)=>notes.push({bar:b, step:st, midi:chord[si%chord.length]+12,
+                                           dur:2, vel:0.26, _oi:si}));
+      }
+      if(notes.length) session.parts.push({name:"ornament", role:"ornament",
+                                           notes, _ornLen:(oR()<0.5?5:6)});
     }
   }
-  // ═══════════════════════════════════════════════════════════════════════════
-  // THE GHOST GETS THE LAST WORD. The section passes above move real pitches (the
-  // melody is transposed down for the verse), so the physics has to be re-checked
-  // after them or those moves go unvalidated — a transposed melodic note can land
-  // exactly on a harmony note (unison) or strand a non-chord tone. This used to be
-  // the tail of the density-peel block; when the peel was removed the final check
-  // went with it and 111 unison collisions survived across 40 songs.
-  ghostPass(session.parts, chart);
-  session.chart = coreChart;   // expose the core chart so material can be harvested
-  return { chart, session, arrangement:plan.sections, entries:plan.entries,
-           style:plan.style, themeLog, finalCorrections,
-           groove, grooveInfo, grooveText:describeGroove(groove), flipInfo,
-           parts:session.parts, order:session.order };
+
+  // ── THE GHOST, ONCE ──────────────────────────────────────────────────────
+  // The entire musical content of the song is these loopBars. Validate it here and
+  // nothing downstream can break it, because nothing downstream writes notes.
+  // ── THE DOWNBEAT AGREES WITH THE CHORD ──────────────────────────────────
+  // The ghost's bass-consonance pass deliberately SKIPS step 0 ("leave downbeat roots
+  // -- they carry the progression cycle"), which is right when bass and harmony derive
+  // the progression identically. They can drift apart: both read the chart, but the
+  // engines run in a shuffled order and whichever goes first fixes _progLen and the
+  // heard cycle. In the old pipeline a stray downbeat was one bad bar in 96; here the
+  // loop IS the song, so it comes back a dozen times. The harmony is authoritative for
+  // what chord is sounding, so any bass downbeat that clashes with EVERY tone of it is
+  // pulled to the nearest chord tone (measured: 2.17% -> below).
+  {
+    const harm = session.parts.find(p=>p.role==="harmony");
+    const bs   = session.parts.find(p=>p.role==="bass");
+    if(harm && bs){
+      const pcg=m=>((m%12)+12)%12;
+      for(const n of bs.notes){
+        if(n.midi==null || n.step!==0) continue;
+        // what is actually SOUNDING while this bass note plays (the same test the
+        // ghost and the consonance probe use): prefer the sustained voicing, fall back
+        // to anything overlapping it in time.
+        const bEnd=n.step+(n.dur||1), sust=new Set(), ovl=new Set();
+        for(const h of harm.notes){ if(h.midi==null||h.bar!==n.bar) continue;
+          const hEnd=h.step+(h.dur||1);
+          if(h.step<bEnd && hEnd>n.step){ ovl.add(pcg(h.midi)); if((h.dur||1)>=6) sust.add(pcg(h.midi)); } }
+        const cs = sust.size ? sust : ovl;
+        if(!cs.size) continue;
+        let mn=12; for(const t of cs){ let d=Math.abs(pcg(n.midi)-t); d=Math.min(d,12-d); if(d<mn)mn=d; }
+        if(mn!==1 && mn!==6) continue;                  // only a genuine min-2nd/tritone clash
+        let best=n.midi, bd=99;
+        for(const t of cs){ let cand=n.midi + (((t-pcg(n.midi))+18)%12 - 6);
+          while(cand<36) cand+=12; while(cand>BASS_CEIL) cand-=12;
+          const d=Math.abs(cand-n.midi); if(d<bd){ bd=d; best=cand; } }
+        n.midi=best;
+      }
+    }
+  }
+
+  // Run it TWICE. One pass can leave a cascade: snapping a bass note to the chord can
+  // put it a semitone from a voice that was itself moved earlier in the same pass. The
+  // old pipeline hid this by running the ghost four times over 96 bars; here the whole
+  // song is loopBars long, so a second sweep costs almost nothing and settles the
+  // cascade (measured: bass dissonance 0.61% -> 0.19%, back to the old figure).
+  const corrections = ghostPass(session.parts, loopChart);
+  ghostPass(session.parts, loopChart);
+  return { session, loopBars, loopChart, corrections };
 }
 
-/* per-section arrangement. THE ENTRANCES ARE NOT BAKED IN: they derive from the
-   session's improvisation order — whoever started plays first; the rest enter
-   at soft phrase boundaries (8-bar default, 4 softer), sometimes clustered,
-   sometimes everyone at once (a drop start). The gathering style is a soft
-   seeded choice. Then the documented loop rules apply:
-   · 2-LOOP RULE: consecutive sections must differ (add/remove/expression)
-   · RULE OF 3: no lineup persists 3 sections unchanged
-   · 8-BAR ESCAPE: mid-song low-end strip for tension → release
-   · the FOCAL (usually the starter) sometimes gets featured late (a solo). */
+/* Plan the arrangement: an ENERGY MAP, then a voice subset per section derived from
+   it by SUBTRACTION. No notes are decided here — only who plays and how hard. */
+function planArrangement(chart, loop, rng){
+  const loopBars = loop.loopBars, nBars = chart.nBars;
+  const voices = loop.session.parts.map(p=>p.role);
+  const V = voices.length;
+
+  // ── THE 2-LOOP GRID ──────────────────────────────────────────────────────
+  // 005 (the 2-Loop Rule): "the arrangement has to change every two loops of the
+  // chords, because our ears naturally expect songs to change every two loops of the
+  // main instruments." 001 says the same in bars — "every eight bars of the grid is
+  // like a page in a book" — and eMastered/Abstrakt agree that "every new 8-bar loop
+  // needs to have a change." So the arrangement grid is TWO LOOPS, not the
+  // conductor's form sections: those ran 24 bars here, which is the same loop three
+  // times unchanged, exactly the over-repetition the rule of three (006) forbids.
+  const block = 2*loopBars;
+  const blocks=[];
+  for(let b=0;b<nBars;b+=block) blocks.push({startBar:b, endBar:Math.min(nBars,b+block)});
+  if(blocks.length>1 && blocks[blocks.length-1].endBar-blocks[blocks.length-1].startBar < loopBars){
+    blocks[blocks.length-2].endBar = blocks[blocks.length-1].endBar; blocks.pop();
+  }
+  const n = blocks.length;
+  const form = chart._sectionSpans || [];
+  const nameAt = b => { const f=form.find(s=>b>=s.startBar&&b<s.endBar); return f?f.name:"A"; };
+
+  // ── THE ENERGY MAP ───────────────────────────────────────────────────────
+  // EDMProd rates every section 1-9 and draws this curve BEFORE producing anything;
+  // adjacent sections should differ by 2-3, because "overly consistent energy levels
+  // lead to a bland and boring track" and amateurs reliably choose too little
+  // contrast. The peak sits ~65% in (007-8bar: build a long intro TO the moment and a
+  // long outro away from it), and the block before the peak is pulled DOWN, because
+  // the drop only lands as hard as the hole in front of it.
+  const peakI = Math.max(1, Math.min(n-1, Math.round((n-1)*0.65)));
+  const E = new Array(n).fill(5);
+  for(let i=0;i<n;i++){
+    if(i===0)          E[i]=2;
+    else if(i===peakI) E[i]=9;
+    else if(i===n-1)   E[i]=3;
+    else if(i<peakI)   E[i]=2+Math.round((i/peakI)*5);
+    else               E[i]=Math.max(4, 9-2*(i-peakI));
+  }
+  if(peakI-1>0) E[peakI-1]=Math.max(2, E[peakI-1]-3);       // the breath before the moment
+  for(let i=1;i<n;i++)
+    if(Math.abs(E[i]-E[i-1])<2 && i!==peakI && i!==n-1)
+      E[i]=Math.max(1,Math.min(9, E[i-1] + (E[i-1]>5?-2:2)));
+
+  // ── SUBTRACTION ORDER ────────────────────────────────────────────────────
+  // Which voice goes first as energy drops. Seeded per song, but the tune and the kit
+  // are the last things to go.
+  const WEIGHT={answer:1, ornament:1, harmony:2, drums:3, bass:3, lead:4};
+  const keepOrder = voices.slice().sort((a,b)=>(WEIGHT[b]||2)-(WEIGHT[a]||2)
+                    || (hashName(chart._seed||0,a)%97)-(hashName(chart._seed||0,b)%97));
+  const MEL = r => r==="lead"||r==="answer";
+
+  const sections=[]; const seenVoice={};
+  for(let i=0;i<n;i++){
+    const e=E[i];
+    let active;
+    if(i===0){
+      // THE INTRO IS THE LOOP MINUS THE MELODY — not "the loop with one voice left".
+      // 007(structure): "most typically the intro will effectively just be the verse
+      // but without the verse melody having begun yet... a VAMP." 002, on a two-bar
+      // setup: "the LACK OF MELODY was literally the only difference between the setup
+      // and the section that followed." The groove is already there; the tune ARRIVES.
+      active = keepOrder.filter(r=>!MEL(r));
+      if(active.length>3) active=active.slice(0,3);
+      if(!active.length) active=[keepOrder[0]];
+    } else {
+      // layers scale with energy, but never strip below a duo except at the floor
+      const want = Math.max(e<=2?1:2, Math.min(V, 1+Math.round((e-1)/8*(V-1))));
+      active = keepOrder.slice(0, want);
+      // 007(8bar): at the low point "remove everything that is low end rhythm and
+      // maybe your bass" — that is the hole the moment falls into.
+      if(e<=3 && i<n-1 && active.length>2) active=active.filter(r=>r!=="bass");
+      // 003: at the climax the melody must not be "obscured by inner counterline
+      // movement", so the answering voice lays out at the peak.
+      if(i===peakI) active=active.filter(r=>r!=="answer");
+      if(!active.includes("lead") && e>=6) active.push("lead");     // the tune carries the high ground
+    }
+
+    // ── THE FOUR LEGAL MOVES ───────────────────────────────────────────────
+    // 005: "the only way to change an arrangement is to add an instrument, or add
+    // expression to an existing instrument, or remove an instrument, or reduce
+    // expression." Two consecutive blocks must never be the same lineup — that is the
+    // rule being enforced, and it is also the rule of three (006) at the texture level.
+    const prev = sections[i-1];
+    if(prev){
+      const same = prev.activeRoles.length===active.length
+                && prev.activeRoles.every(r=>active.includes(r));
+      if(same){
+        const off = keepOrder.filter(r=>!active.includes(r));
+        if(off.length && E[i]>=E[i-1]) active=active.concat([off[0]]);          // add one
+        else if(active.length>2) active=active.filter(r=>r!==active[active.length-1]); // remove one
+      }
+    }
+    if(!active.length) active=[keepOrder[0]];
+
+    const debut = active.filter(r=>!seenVoice[r]);
+    for(const r of active) seenVoice[r]=true;
+    sections.push({ name:nameAt(blocks[i].startBar), startBar:blocks[i].startBar, endBar:blocks[i].endBar,
+                    bars:blocks[i].endBar-blocks[i].startBar,
+                    event: i===0?"open" : i===peakI?"moment" : i===n-1?"out"
+                         : (i>0 && E[i]>E[i-1] ? "build":"drop"),
+                    energy:e, activeRoles:active, debut, keyShift:0, lift:e>=8 });
+  }
+
+  // EVERY VOICE MUST HAVE ARRIVED BY THE LAST THIRD. Holding a voice back is the
+  // method (001: "avoid bringing instruments in for as long as possible -- this way I
+  // have something to build to"), but a voice that first appears in the closing
+  // stretch reads as a surprise rather than as an arrival the song was building
+  // toward. Anything still unheard by the two-thirds mark is brought in there, which
+  // is one of the four legal moves (005: add an instrument).
+  {
+    const cut = Math.max(1, Math.floor(sections.length*0.6));
+    const heard = new Set();
+    for(let i=0;i<=cut && i<sections.length;i++) for(const r of sections[i].activeRoles) heard.add(r);
+    const late = keepOrder.filter(r=>!heard.has(r));
+    if(late.length && sections[cut]){
+      sections[cut].activeRoles = sections[cut].activeRoles.concat(late);
+      sections[cut].debut = (sections[cut].debut||[]).concat(late);
+      for(let i=cut+1;i<sections.length;i++)
+        sections[i].debut = (sections[i].debut||[]).filter(r=>!late.includes(r));
+    }
+  }
+
+  // ── THE EMPTY ────────────────────────────────────────────────────────────
+  // 004: "the opposite of the fill is the empty... it must include the subtraction of
+  // most if not all of the main rhythmic elements before the next downbeat. The most
+  // basic form is dropping the kick out on the last measure of an eight-bar phrase,
+  // which destabilises the low end and creates a vacuum that the listener will
+  // anticipate coming back." EDMProd reaches the same device from the other side:
+  // "leaving one final bar silent before the drop."
+  for(let i=1;i<sections.length;i++)
+    if(sections[i].energy - sections[i-1].energy >= 3) sections[i-1].emptyLastBar = true;
+  // HELD TENSION: the stripped block that the moment falls out of. 007(8bar): "take
+  // away elements in advance and then give them all back on this moment."
+  if(peakI-1>=0) sections[peakI-1].tension = true;
+
+  // THE DEVELOPMENT LOG. In the old model "development" meant transforming the theme's
+  // notes per section. Here the material is fixed and the ARRANGEMENT is the
+  // development, so what gets logged is the move made at each block boundary --
+  // exactly the closed set 005 allows: add an instrument, remove one, or change
+  // expression.
+  const log=[];
+  for(let i=0;i<sections.length;i++){
+    const cur=sections[i].activeRoles, prv=i?sections[i-1].activeRoles:[];
+    const added=cur.filter(r=>!prv.includes(r)), gone=prv.filter(r=>!cur.includes(r));
+    log.push({ op: i===0 ? "stated"                 // block 0 states the loop itself
+                 : added.length ? "add:"+added.join("/")
+                 : gone.length  ? "drop:"+gone.join("/")
+                 : (i && sections[i].energy>sections[i-1].energy ? "lift" : "ease"),
+               bar: sections[i].startBar, energy: sections[i].energy });
+  }
+  return { sections, energy:E, peakIndex:peakI, voices:keepOrder, log };
+}
+
+/* Render the loop through the arrangement. This function COPIES notes; it never
+   invents or alters a pitch. That is the whole point of the rewrite. */
+function renderArrangement(chart, loop, plan, rng){
+  const loopBars = loop.loopBars;
+  const out = {};
+  for(const p of loop.session.parts) out[p.role] = {name:p.name, role:p.role, character:p.character, notes:[]};
+
+  const ornPart = loop.session.parts.find(p=>p.role==="ornament");
+  const ornLen = (ornPart && ornPart._ornLen) || 5;      // coprime with the 8-bar grid
+
+  for(const sec of plan.sections){
+    const act = new Set(sec.activeRoles);
+    const dyn = 0.72 + (sec.energy/9)*0.34;               // expression follows energy
+    for(let bar=sec.startBar; bar<sec.endBar; bar++){
+      const lb = bar % loopBars;                          // phase-locked to the song grid
+      const lastBar = (bar === sec.endBar-1);
+      for(const p of loop.session.parts){
+        if(!act.has(p.role)) continue;
+        // the EMPTY: strip the rhythm section from the final bar before a big arrival
+        if(sec.emptyLastBar && lastBar && (p.role==="drums"||p.role==="bass")) continue;
+        const debut = sec.debut && sec.debut.includes(p.role);
+        for(const n of p.notes){
+          if(n.bar!==lb) continue;
+          // a reduced debut: the quiet ornamental half of the part is held back
+          if(debut && p.role==="drums" && /[Hh]at|clap/.test(n.lane||"")) continue;
+          // the coprime drift: which of the ornament's hits sound rotates per bar
+          if(p.role==="ornament" && ((n._oi||0) + (bar % ornLen)) % 2 !== 0) continue;
+          out[p.role].notes.push({...n, bar, vel:Math.max(0.05, Math.min(1,(n.vel||0.5)*dyn))});
+        }
+      }
+    }
+  }
+  // announce every arrival with a fill in the bar before it. 005: "there are two
+  // sides to every transition -- the exit point and the entry point"; 004 puts a fill
+  // on the D bar to "increase the energy in anticipation of the next phrase's
+  // downbeat." Percussion only, so it can never create a harmonic violation -- the one
+  // documented exception to "no notes outside the loop".
+  {
+    const drums = out.drums;
+    if(drums && drums.notes.length){
+      const marks=new Set();
+      for(const sec of plan.sections){
+        if(sec.debut && sec.debut.some(r=>r!=="drums")) marks.add(sec.startBar);
+        if(sec.energy>=8) marks.add(sec.startBar);
+      }
+      const have=new Set(drums.notes.map(n=>n.bar));
+      const drumsIn=b=>{ const sec=plan.sections.find(x=>b>=x.startBar&&b<x.endBar);
+                         return sec && sec.activeRoles.includes("drums"); };
+      const breaks = chart.feel==="breaks";
+      for(const m of marks){
+        const fb=m-1; if(fb<0) continue;
+        if(!have.has(fb) && !drumsIn(m)) continue;     // the fill may lead INTO the kit too
+        const fR=makeRng(hashName(chart._seed||0,"fill"+fb));
+        if(breaks){
+          // jungle is amen turf -- toms are forbidden there, so the fill is a snare stutter
+          for(let st=12; st<16; st++) if(fR()<0.85)
+            drums.notes.push({bar:fb, step:st, midi:38, lane:"snare", dur:1, vel:0.3+fR()*0.3});
+        } else {
+          const toms=[["highTom",50],["hiMidTom",48],["lowTom",45],["lowFloorTom",41]];
+          if(fR()<0.5) toms.reverse();
+          toms.forEach(([lane,midi],i)=>{ if(fR()<0.85)
+            drums.notes.push({bar:fb, step:12+i, midi, lane, dur:1, vel:0.4+fR()*0.25}); });
+        }
+      }
+    }
+  }
+  const parts = Object.values(out).filter(p=>p.notes.length);
+  for(const p of parts) p.notes.sort((a,b)=>(a.bar*16+a.step)-(b.bar*16+b.step));
+  return parts;
+}
+
+function composeSong(conductorChart, rng){
+  const chart = conductorChart;
+  // 1. ONE LOOP — all the music there is.
+  const loop = buildLoop(chart, rng);
+  // 2. THE ARRANGEMENT — who plays, how hard, section by section.
+  const plan = planArrangement(chart, loop, rng);
+  // 3. RENDER — copy the loop through the arrangement. No note is created here.
+  const parts = renderArrangement(chart, loop, plan, rng);
+
+  const session = { parts, order: loop.session.order, steps: loop.session.steps,
+                    perception: loop.session.perception, chart: loop.loopChart };
+  const entries = {};
+  for(const p of parts){ const first = plan.sections.find(s=>s.activeRoles.includes(p.role));
+    entries[p.name] = first ? first.startBar : 0; }
+
+  // PERFORMANCE LAYERS — timing and level only; these never move a pitch, so the
+  // physics the ghost settled on the loop still holds exactly.
+  const groove = makeGroove(chart, rng);
+  const grooveInfo = applyGroove(parts, chart, groove, rng);
+  chart._leader = parts.some(p=>p.role==="lead") ? "lead"
+                : (parts.find(p=>p.role!=="drums")||{role:"bass"}).role;
+  prominenceHierarchy(parts, chart._leader);
+
+  // the development log is an ARRAY (scoreSong maps .op off each entry); the energy
+  // map rides along as properties so probes can read the shape of the song too.
+  // how the band assembled, read off the finished arrangement: everyone at once, in
+  // clusters, or trickling in across the song.
+  const _ent=[...new Set(Object.values(entries))].sort((a,b)=>a-b);
+  const _span=(_ent[_ent.length-1]||0)/Math.max(1,chart.nBars);
+  const _style = _ent.length<=1 ? "allin" : (_span>0.34 ? "trickle" : "cluster");
+
+  const _themeLog = plan.log.slice();
+  _themeLog.energy=plan.energy; _themeLog.peak=plan.peakIndex;
+  _themeLog.voices=plan.voices; _themeLog.loopBars=loop.loopBars;
+
+  return { chart, session, arrangement:plan.sections, entries,
+           style:_style, themeLog:_themeLog,
+           finalCorrections: loop.corrections,
+           groove, grooveInfo, grooveText:describeGroove(groove), flipInfo:null,
+           parts, order:session.order };
+}
 function arrangeSections(chart, session, rng){
   const unit = chart.phraseUnit || 8;
   const parts = session.parts;
