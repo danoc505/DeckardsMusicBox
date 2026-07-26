@@ -4895,11 +4895,36 @@ function harmonyEngine(chart, perception, rng){
     motifRhythm.sort((a,b)=>a-b);
     // the ALTERNATE inner rhythm for depart loops (leave-and-return, ABA)
     const altRhythm = motifRhythm.map(x=>Math.min(15, x+2));
+    // CHORD SPACE — how much of the bar the chord actually SOUNDS.
+    // The chord voice used to sustain wall-to-wall: measured across 40 songs it was
+    // audible 97% of the song, a 3-4 note pad under literally everything, which is
+    // why the band read as a homogeneous wall rather than players leaving each other
+    // room. A chord voice mostly does NOT drone — it stabs, comps, and gets out of the
+    // way. `hold` is the fraction of its slot the chord rings for, drawn once per song
+    // and biased by genre: dance/synth genres stab, ambient/neoclassical genuinely do
+    // sustain (a pad is correct there), everything else sits between.
     chart._chordTexture={ offsets, motifRhythm, altRhythm, seventh: rng()<0.4,
       motifDir: rng()<0.5?1:-1,                          // neighbor direction
       varyBar: 2+Math.floor(rng()*2) };                  // vary every 3rd-4th bar (Rule of 3)
   }
   const TEX=chart._chordTexture;
+  if(TEX.hold==null){
+    // CHORD SPACE — the fraction of its slot the chord actually RINGS before it
+    // releases. The chord voice used to sustain wall-to-wall: measured across 40
+    // songs it sounded for 97% of the song, a 3-4 note pad under literally
+    // everything, which is why the band read as one homogeneous wall instead of
+    // players leaving each other room. A chord voice mostly does not drone -- it
+    // stabs, comps, and gets out of the way. Drawn once per song, biased by genre:
+    // dance/synth genres stab, ambient/neoclassical genuinely do sustain (a pad is
+    // right there), the rest sit between. Set HERE rather than at texture creation
+    // because the conductor normally hands us a corpus texture already built.
+    const _G = chart.genre;
+    const _stabby = (_G==="house"||_G==="techno"||_G==="jungle"||_G==="synthwave");
+    const _pady   = (_G==="ambient"||_G==="dungeon"||_G==="barber");
+    TEX.hold = _pady ? 1.0
+             : wpick(rng, _stabby ? [[0.25,4],[0.375,3],[0.5,2],[1.0,1]]
+                                  : [[0.5,4],[0.75,3],[1.0,2]]);
+  }
 
   // two chords a bar when the harmonic rhythm says so: each bar is split into
   // as many chord slots as fit, and the progression advances per SLOT.
@@ -4934,6 +4959,13 @@ function harmonyEngine(chart, perception, rng){
     prevVoicing = voiced;
 
     const rel=stepsPerSlot, base0=slot*stepsPerSlot;
+    // THE CHORD RELEASES AS A BLOCK. Every voice of the chord stops at the SAME
+    // point in the slot, so the chord rings and then genuinely stops. Releasing each
+    // voice on its own clock does nothing audible: the voices have staggered onsets,
+    // so one voice's release is covered by the next voice's attack and the union
+    // still smears wall-to-wall (measured: shortening each note individually moved
+    // the chord's duty cycle 97% -> 95%). One shared cutoff is what makes the silence.
+    const slotEnd = Math.max(2, Math.round(rel*(TEX.hold==null?1:TEX.hold)));
     const v=voiced.slice().sort((a,x)=>a-x);
     const motifVoice = Math.max(1, Math.floor(v.length/2));   // an inner voice
     v.forEach((midi,i)=>{
@@ -4944,8 +4976,9 @@ function harmonyEngine(chart, perception, rng){
         // on the vary-bar (Rule of 3: don't let the 3rd+ hearing be identical).
         const loopIdxT=Math.floor(b/(chart.loopBars||8));
         const RH=(loopIdxT%4===2)?(TEX.altRhythm||TEX.motifRhythm):TEX.motifRhythm;  // depart loops shift the motif
-        notes.push({bar:b, step:base0+Math.min(onset,rel-1), midi,
-                    dur:Math.max(2,Math.min(rel-onset,(RH[0]||8)-onset)), vel:.4});
+        const _s0=Math.min(onset,rel-1);
+        notes.push({bar:b, step:base0+_s0, midi,
+                    dur:Math.max(1, Math.min(slotEnd,(RH[0]||8)) - _s0), vel:.4});
         RH.forEach((s,k)=>{
           const vary = (b % (TEX.varyBar+1) === TEX.varyBar);
           let m = midi;
@@ -4965,13 +4998,18 @@ function harmonyEngine(chart, perception, rng){
             if(other!==m && Math.abs(m-other)===1){ m = midi; break; }
           }
           const nx = RH[k+1] || rel;
-          if(s>=rel) return;
-          notes.push({bar:b, step:base0+s, midi:m, dur:Math.max(2,Math.min(rel-s,nx-s)), vel:.33, _rehit:true});
+          if(s>=slotEnd) return;                           // the chord has already released
+          notes.push({bar:b, step:base0+s, midi:m,
+                      dur:Math.max(1, Math.min(slotEnd,nx) - s), vel:.33, _rehit:true});
         });
       } else {
-        // outer & other voices: staggered start, SUSTAIN to the bar end
-        notes.push({bar:b, step:base0+Math.min(onset,rel-1), midi,
-                    dur:Math.max(2,rel-Math.min(onset,rel-1)), vel:(i===0?.42:.36)});
+        // outer & other voices: staggered start, then ring for the chord's HOLD
+        // fraction and RELEASE — the silence after the chord is the space the rest of
+        // the band plays into. (hold=1.0 is the old wall-to-wall sustain, correct for
+        // genuinely pad-led genres.)
+        const _st = Math.min(onset, rel-1);
+        notes.push({bar:b, step:base0+_st, midi,
+                    dur:Math.max(1, slotEnd - _st), vel:(i===0?.42:.36)});
       }
     });
    }
@@ -5433,7 +5471,19 @@ function melodyEngine(chart, perception, rng){
                                        key:chart.key, phraseUnit:chart.phraseUnit });
     // pass the shared chords; flag whether the LEAD is implying harmony (cold)
     const part = buildVoice(voice, chart, localPerception, rng, sharedChords, chords===null);
-    if(part && part.notes.length){ parts.push(part); working.push(part); }
+    if(part && part.notes.length){
+      // THE ONE MELODIC VOICE *IS* THE LEAD. A running arp or a sparse answering
+      // line is a STYLE of lead, not a different job — there is only one melodic
+      // voice in the band now, so it is the voice that carries the tune. Normalising
+      // the role here means the theme machinery (state it, then develop it), the
+      // leader hierarchy and the register protection all apply to whichever
+      // character was drawn; otherwise 17 of 40 songs had no theme at all, because
+      // those passes only ever looked for a part literally named "lead".
+      part.character = part.role;
+      part.role = "lead";
+      part.name = "lead";
+      parts.push(part); working.push(part);
+    }
   }
   // return a COMBINED part list; the pipeline treats each as its own track
   return parts;
@@ -5446,26 +5496,24 @@ function melodyEngine(chart, perception, rng){
 function decideRoster(chart, perception, rng){
   const present = new Set((perception?perception.parts:[]).map(p=>p.role));
   const unit = chart.phraseUnit || 8;
-  const roster = [];
-  roster.push({ kind:"lead", entry:0 });        // material from the top; the
-                                               // arrangement decides when it enters
-  // ensemble size: 1-6 voices, mid sizes favored
-  const n = wpick(rng, [[1,2],[2,4],[3,4],[4,2],[5,1],[6,1]]);
-  // the COUNTER is the conversation voice (call-and-response with the lead); favour
-  // it so "parts playing off each other" is common, not rare — but still a draw, so
-  // sparse/minimal songs can leave it out.
-  const POOL=[["lead2",2],["counter",5],["pad",2],["arp",3],["lowline",1]];
-  const counts={};
-  for(let i=1;i<n;i++){
-    const kind=wpick(rng, POOL);
-    counts[kind]=(counts[kind]||0)+1;
-    const name = counts[kind]===1 ? kind : kind+counts[kind];   // arp, arp2, arp3…
-    if(kind==="lead2" && counts[kind]>1) continue;              // at most one duet partner
-    if(kind==="lowline" && counts[kind]>1) continue;            // one duel is enough
-    const loop = chart.loopBars || unit;
-    roster.push({ kind, name, entry: Math.min(pickEntrance(chart, rng, 0), loop) });
-  }
-  return roster;
+  // ── THE TRIO ──────────────────────────────────────────────────────────────
+  // The band is BASS + ONE CHORD VOICE + ONE MELODIC VOICE, plus drums. It used to
+  // draw 1-6 melodic voices and could stack duplicates (arp2, arp3, counter2), which
+  // is why the middle register was a clashing mess: measured across 40 songs, 4.9
+  // pitched voices sounding AT ONCE (max 12), 91% of the time three or more, and 8%
+  // of all simultaneous note-pairs a semitone apart. Five generators reading the same
+  // chord chart in separate rooms is not a band playing together.
+  //
+  // Richie Hawtin gets a whole record out of one 303 line and a drum machine. The
+  // interest comes from TIME — filter movement, pattern mutation, what enters and
+  // leaves — not from stacking voices. So this engine contributes exactly ONE voice.
+  // Its CHARACTER is a seeded swap (a sung lead, a running arp, a sparse counter
+  // line), so songs still differ from each other — they differ in KIND, not by
+  // piling up. No duplicates, ever.
+  const kind = wpick(rng, [["lead",6],["arp",2],["counter",1]]);
+  const voice = { kind, entry:0 };              // the arrangement decides when it enters
+  if(kind!=="lead") voice.name = kind;
+  return [voice];
 }
 
 // choose an entrance bar quantised to a phrase boundary at/after `earliest`
@@ -7541,39 +7589,6 @@ function composeSong(conductorChart, rng){
     }
     return restated;
   })();
-  // ═══════════════════════════════════════════════════════════════════════════
-  // A SECOND TAKE — the verse plays a DIFFERENT BASS LINE, not the chorus line
-  // re-pitched. This is the real fix for "it sounded like there was one single bass
-  // line for the whole song — that's not how songs are made." A producer does not
-  // edit one take into a song; they WRITE A DIFFERENT PART for the verse. So we run
-  // the bass engine a SECOND time on its own seeded sub-stream: same chart, same key,
-  // same progression roots (it is the same song), but a genuinely different rhythm
-  // and shape. Take A — the material composed at the peak — keeps the chorus and the
-  // bridge; take B plays the verse/intro/outro/breakdown. Runs BEFORE the groove so
-  // the new line gets the same performance layer (swing, dynamics) as everything else,
-  // and the ghost validates it against the harmony that is actually sounding.
-  {
-    const bass = session.parts.find(p=>p.role==="bass");
-    if(bass && plan.sections && plan.sections.length){
-      const secByBar={}; for(const sec of plan.sections) for(let b=sec.startBar;b<sec.endBar;b++) secByBar[b]=sec;
-      const kindAt = bar => { const s=secByBar[bar]; return s?_sectionKind(s):"verse"; };
-      const TAKE_B = {verse:1, intro:1, outro:1, breakdown:1};      // the down sections get their own line
-      let takeB=null;
-      try{ takeB = ENGINES.bass(coreChart, session.perception,
-                                makeRng(hashName(chart._seed||0,"bass:take2"))); }catch(e){ takeB=null; }
-      if(takeB && takeB.notes && takeB.notes.length){
-        const kept = bass.notes.filter(n=>!TAKE_B[kindAt(n.bar)]);   // take A keeps chorus/bridge/pre
-        for(const n of takeB.notes){ if(TAKE_B[kindAt(n.bar)]) kept.push({...n}); }
-        bass.notes = kept.sort((a,b)=>(a.bar*16+a.step)-(b.bar*16+b.step));
-      }
-      // the pre-chorus still holds a DOMINANT PEDAL on the 5th (tension into the chorus)
-      const rootByBar={}; for(const n of bass.notes){ if(n.midi!=null && n.step===0 && rootByBar[n.bar]==null) rootByBar[n.bar]=n.midi; }
-      for(const n of bass.notes){ if(n.midi==null||n.step===0) continue;
-        if(kindAt(n.bar)!=="pre") continue; const root=rootByBar[n.bar]; if(root==null) continue;
-        n.midi=T.fold(root+7,36,BASS_CEIL); }
-      ghostPass(session.parts, chart);      // the new line is validated like any other
-    }
-  }
   // THE GROOVE goes on last — it is a PERFORMANCE layer (timing and dynamics),
   // so it never disturbs the pitch physics the ghost just settled.
   const groove = makeGroove(chart, rng);
@@ -7700,109 +7715,13 @@ function composeSong(conductorChart, rng){
     }
   }
   // ═══════════════════════════════════════════════════════════════════════════
-  // PEAK-FIRST COMPOSITION — write the song FROM its climax outward.
-  // The material generated above IS the peak: the moment where the motif is fully
-  // realized and every voice plays at full density. That is the destination. Now we
-  // PEEL AWAY from it: the further a section sits from the peak on the arc, the LESS of
-  // each voice sounds — fewer of its notes, on top of the arrangement's fewer voices.
-  // So the intro is a sparse hint of the peak, the build fills in toward it, the peak
-  // is the whole thing, and the outro withdraws — one composed climax, revealed and
-  // peeled back around itself. This is the method, not just a property: every section's
-  // density is DERIVED from the peak's, not generated independently. (Loop-consistent —
-  // the same loop-position is thinned the same way, so loops still repeat — and every
-  // downbeat and half-bar is kept, so the beat skeleton and the progression survive.)
-  {
-    const loopB = chart.loopBars || 8;
-    const PEEL = { open:0.55, build:0.78, peak:0.92, moment:1.0, drop:0.5, rebuild:0.72, out:0.62 };
-    chart._peak = { density:1.0, event:"moment", loopBars:loopB };   // the composed reference (full realization)
-    const secByBar = {};
-    for(const sec of plan.sections) for(let b=sec.startBar;b<sec.endBar;b++) secByBar[b]=sec;
-    const keepScore = (role,lp,step)=> (hashName(chart._seed||0, role+"@"+lp+"@"+step) % 1000) / 1000;
-    // The FOUNDATION holds the groove throughout — bass, harmony and drums keep their
-    // loop intact so the song never loses its floor. The density arc lives in the
-    // MELODIC / COLOR layers (lead, lead2, counter, arp, pad): away from the peak they
-    // thin out, toward it they fill in. That is what "peeling from the peak" sounds
-    // like — the tune and the texture recede and return around the climax while the
-    // rhythm section stays solid.
-    // ...but the KIT is only exempt where the song is actually running. In the INTRO and
-    // the OUTRO the drums thin too, or the song "opens at full blast": the opening is
-    // usually the rhythm section, and it played its full loop from bar one, so no amount
-    // of dropping melodic voices made it sound like an intro. At the frame the kit keeps
-    // its downbeats and loses a share of its off-beats, so the groove ARRIVES.
-    // (Bass and harmony keep their patterns intact: their bar-to-bar repetition is the
-    // stored-texture/loop law, and thinning them made every song's opening bass look
-    // alike — measured, it collapsed cross-song bass variety from 20 to 4.)
-    const FOUNDATION = { bass:1, harmony:1, drums:1 };
-    const FRAME_PEEL = { open:0.55, out:0.7 };
-    for(const p of session.parts){
-      if(p.role==="drums"){
-        const kept=[];
-        for(const n of p.notes){ const sec=secByBar[n.bar];
-          const f = sec ? FRAME_PEEL[sec.event] : undefined;
-          if(f==null || (n.step%4)===0 || keepScore(p.role, n.bar%loopB, n.step) < f) kept.push(n);
-        }
-        p.notes = kept;
-        continue;
-      }
-      if(FOUNDATION[p.role]) continue;
-      const kept=[];
-      for(const n of p.notes){ if(n.midi==null){ kept.push(n); continue; }
-        const sec = secByBar[n.bar];
-        const f = sec ? (PEEL[sec.event] ?? 0.85) : 0.85;
-        // keep every STRONG BEAT (0/4/8/12 — the skeleton) and a loop-consistent
-        // fraction of the off-beats; only the off-beat ornament peels
-        if((n.step%4)===0 || f>=0.999 || keepScore(p.role, n.bar%loopB, n.step) < f) kept.push(n);
-      }
-      p.notes = kept;
-    }
-    // the peel can leave a passing tone stranded as a leap-in/leap-out non-chord tone;
-    // the ghost gets the last word so the thinned lines stay legal cross-engine.
-    ghostPass(session.parts, chart);
-  }
-  // ═══════════════════════════════════════════════════════════════════════════
-  // THE HOOK — the one phrase you remember, and the reason you can NAME the song.
-  // A hook is not "a good melody": it is the SAME melodic phrase returning, intact,
-  // every time the chorus comes round. Before this, every chorus developed the theme
-  // differently (measured: 6 choruses → 4 different melodies), so there was nothing to
-  // recognise — the song had a tune but no hook. Here the CANONICAL chorus is the PEAK
-  // (the moment where the motif is fully realized — the destination the whole song is
-  // built around), and its melodic material is stamped into EVERY other chorus, tiled
-  // if that chorus is longer. So the hook is literally the peak, heard early, heard
-  // again, and finally heard at full power — which is what makes the payoff land.
-  // Runs LAST, after the density peel, because the peel thins each section by its own
-  // loop position and would otherwise make every chorus a slightly different shape.
-  {
-    const secs = plan.sections || [];
-    const chorus = secs.filter(s=>_sectionKind(s)==="chorus");
-    if(chorus.length > 1){
-      const src = chorus.find(s=>s.event==="moment") || chorus[0];     // the peak IS the hook
-      const srcLen = Math.max(1, src.endBar - src.startBar);
-      const HOOKV = {lead:1, lead2:1, counter:1, arp:1};               // the melodic voices carry it
-      let stamped = 0;
-      for(const p of session.parts){
-        if(!HOOKV[p.role]) continue;
-        const srcNotes = p.notes.filter(n=>n.bar>=src.startBar && n.bar<src.endBar);
-        if(!srcNotes.length) continue;
-        for(const sec of chorus){
-          if(sec===src) continue;
-          const len = sec.endBar - sec.startBar; if(len<=0) continue;
-          p.notes = p.notes.filter(n=>n.bar<sec.startBar || n.bar>=sec.endBar);
-          for(let off=0; off<len; off+=srcLen){                        // tile the hook to fill a longer chorus
-            for(const n of srcNotes){ const rel=(n.bar-src.startBar)+off;
-              if(rel>=len) continue; p.notes.push({...n, bar:sec.startBar+rel}); }
-          }
-          stamped++;
-        }
-        p.notes.sort((a,b)=>(a.bar*16+a.step)-(b.bar*16+b.step));
-      }
-      if(themeLog) themeLog.hook = { from:src.startBar, bars:srcLen, stamped };
-      // the stamped hook lands against each chorus's own neighbours, so it can collide
-      // in unison with another voice there — the ghost gets the last word, as always.
-      // (Its corrections are the same in every chorus because the harmony under them is
-      // the same, so the hook stays recognisably identical; measured below.)
-      ghostPass(session.parts, chart);
-    }
-  }
+  // THE GHOST GETS THE LAST WORD. The section passes above move real pitches (the
+  // melody is transposed down for the verse), so the physics has to be re-checked
+  // after them or those moves go unvalidated — a transposed melodic note can land
+  // exactly on a harmony note (unison) or strand a non-chord tone. This used to be
+  // the tail of the density-peel block; when the peel was removed the final check
+  // went with it and 111 unison collisions survived across 40 songs.
+  ghostPass(session.parts, chart);
   session.chart = coreChart;   // expose the core chart so material can be harvested
   return { chart, session, arrangement:plan.sections, entries:plan.entries,
            style:plan.style, themeLog, finalCorrections,

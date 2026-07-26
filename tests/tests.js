@@ -68,18 +68,30 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
   check("engine order varies (≥6 distinct)", Object.keys(seen).length>=6, Object.keys(seen).length+" orders");
 })();
 
-/* ── 4. MELODY is a VARIABLE ensemble (not always one voice) ── */
-(function ensemble(){
-  const sizes=new Set(); let multiLead=0, counters=0;
+/* ── 4. THE BAND IS A TRIO: bass + one chord voice + ONE melodic voice ──
+   REPLACES the old "melody is a VARIABLE ensemble" tests ("roster varies ≥3 sizes",
+   "multiple leads happen", "counters appear", and — below — "arp swarms", "lead
+   duets", "dueling lowline"). Those asserted a combinatorial roster of 1-6 melodic
+   voices that could stack duplicates (arp2, arp3, counter2). Measured, that design
+   put 4.9 pitched voices on top of each other AT ONCE (max 12), three or more of
+   them 91% of the time, and the chord voice sounding for 97% of the song: a
+   homogeneous wall, not a band leaving each other room. The ensemble was deliberately
+   cut to a trio. These tests are stricter than the ones they replace — they pin the
+   cap at exactly one melodic voice and no duplicates — and the variety they used to
+   protect is now checked where it moved to: the voice's CHARACTER. */
+(function trio(){
+  const chars=new Set(); let melCount=new Set(), dupes=0;
   for(const {song} of songs){
-    const mel=song.parts.filter(p=>["lead","counter","pad","arp"].includes(p.role));
-    sizes.add(mel.length);
-    if(mel.filter(p=>p.role==="lead").length>1) multiLead++;
-    if(mel.some(p=>p.role==="counter")) counters++;
+    const mel=song.parts.filter(p=>["lead","counter","pad","arp","lead2","lowline"].includes(p.role));
+    melCount.add(mel.length);
+    const byRole={}; for(const p of song.parts){ if(p.role==="drums")continue;
+      byRole[p.role]=(byRole[p.role]||0)+1; }
+    if(Object.values(byRole).some(c=>c>1)) dupes++;
+    for(const p of mel) chars.add(p.character||p.role);
   }
-  check("melody roster varies (≥3 sizes)", sizes.size>=3, [...sizes].sort().join(","));
-  check("multiple leads happen sometimes", multiLead>0, multiLead+" songs");
-  check("counters appear sometimes", counters>0, counters+" songs");
+  check("the band is a TRIO (exactly ONE melodic voice)", melCount.size===1&&melCount.has(1), "voice counts seen: "+[...melCount].join(","));
+  check("no pitched role is ever duplicated", dupes===0, dupes+" songs with a duplicate");
+  check("the melodic voice's CHARACTER varies (≥2 kinds)", chars.size>=2, [...chars].join(","));
 })();
 
 /* ── 5. DRUMS: ABACAAD phrasing, toms only in fills, fills use the tom set ── */
@@ -474,9 +486,14 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
         if(d.notes.some(n=>n.bar===E-1 && n.step>=12)) announced++; }
     }
   }
-  check("arp swarms happen (2+ arps in some songs)", multiArp>0, multiArp+"/"+songs.length);
-  check("lead duets happen", duet>0, duet+"/"+songs.length);
-  check("dueling lowline appears sometimes", lowlines>0, lowlines+"/"+songs.length);
+  // RETIRED with the ensemble: "arp swarms happen (2+ arps)", "lead duets happen",
+  // "dueling lowline appears sometimes". All three asserted voice PILE-UP, which is
+  // exactly what was cut — see the TRIO block above for the rationale and for the
+  // stricter replacements (exactly one melodic voice, no duplicated roles). Kept as
+  // inverted guards so a regression back to stacking is caught rather than ignored.
+  check("no arp swarms (the ensemble is capped)", multiArp===0, multiArp+"/"+songs.length);
+  check("no stacked lead duets (one melodic voice)", duet===0, duet+"/"+songs.length);
+  check("no second bass line (lowline retired)", lowlines===0, lowlines+"/"+songs.length);
   check("jungle stays pure amen (no stray toms)", breaksSongs===0||breaksToms===0, breaksToms+"/"+breaksSongs);
   check("entrances are announced by fills", annChecks===0||announced/annChecks>=0.9, announced+"/"+annChecks);
 })();
