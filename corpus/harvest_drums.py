@@ -25,11 +25,23 @@ import io
 import os
 import statistics as st
 import sys
+import urllib.request
 import zipfile
 
-import mido
+import mido            # pip install mido
 
-ZIP = os.path.join(os.path.dirname(__file__), ".groove", "groove.zip")
+CACHE = os.path.join(os.path.dirname(__file__), ".groove")
+ZIP = os.path.join(CACHE, "groove.zip")
+URL = "https://storage.googleapis.com/magentadata/datasets/groove/groove-v1.0.0-midionly.zip"
+
+
+def fetch():
+    """~3 MB, CC BY 4.0, but still not ours to vendor -- downloaded on first run."""
+    if os.path.exists(ZIP):
+        return
+    os.makedirs(CACHE, exist_ok=True)
+    sys.stderr.write(f"downloading groove-v1.0.0-midionly.zip -> {ZIP}\n")
+    urllib.request.urlretrieve(URL, ZIP)
 
 # Roland TD-11 mapping, collapsed to the lanes the engine actually writes
 LANE = {}
@@ -43,6 +55,7 @@ for p in (49, 55, 51, 52, 53, 59, 57): LANE[p] = "cymbal"
 
 def main():
     want = sys.argv[1] if len(sys.argv) > 1 else None
+    fetch()
     z = zipfile.ZipFile(ZIP)
     info = list(csv.DictReader(io.TextIOWrapper(z.open("groove/info.csv"))))
     by_id = {r["midi_filename"]: r for r in info}

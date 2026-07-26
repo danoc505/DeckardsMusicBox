@@ -28,8 +28,21 @@ import json
 import os
 import statistics as st
 import sys
+import urllib.request
 
-RAW = os.path.join(os.path.dirname(__file__), ".hooktheory", "raw.json.gz")
+CACHE = os.path.join(os.path.dirname(__file__), ".hooktheory")
+RAW = os.path.join(CACHE, "raw.json.gz")
+URL = ("https://raw.githubusercontent.com/chrisdonahue/sheetsage-data/main"
+       "/hooktheory/Hooktheory_Raw.json.gz")
+
+
+def fetch():
+    """The corpus is ~92 MB and is not ours to redistribute, so it is not in the repo."""
+    if os.path.exists(RAW):
+        return
+    os.makedirs(CACHE, exist_ok=True)
+    sys.stderr.write(f"downloading Hooktheory_Raw.json.gz (~92 MB) -> {RAW}\n")
+    urllib.request.urlretrieve(URL, RAW)
 
 # scale degree token -> semitones above the tonic, in the annotated scale.
 # Hooktheory writes degrees as "1".."7" with optional accidental; the major-scale
@@ -64,6 +77,7 @@ def pitch(nt):
 
 def main():
     limit = int(sys.argv[1]) if len(sys.argv) > 1 else 0
+    fetch()
     data = json.load(gzip.open(RAW))
 
     per = collections.defaultdict(lambda: collections.defaultdict(list))
