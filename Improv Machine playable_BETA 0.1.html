@@ -7762,8 +7762,10 @@ function planArrangement(chart, bundle, rng){
   const peakI  = Math.max(1, Math.min(n-1, Math.round((n-1)*0.65)));
   // placed by position in BARS, not by section index -- sections vary in length, so the
   // same index sits at a different point in time from song to song
+  // ...and the first chorus/drop lands at a MEASURED median of 17% through the song
+  // (34.6 seconds), not the quarter I guessed. Same source.
   let firstI = 1;
-  for(let i=1;i<n;i++) if(spans[i].startBar <= nBars*0.22) firstI=i;
+  for(let i=1;i<n;i++) if(spans[i].startBar <= nBars*0.17) firstI=i;
   firstI = Math.max(1, Math.min(peakI-1, firstI));
   const E = new Array(n).fill(5);
   for(let i=0;i<n;i++){
@@ -7993,11 +7995,13 @@ function planArrangement(chart, bundle, rng){
   // ~18 seconds of intro, and it may be SHORTER than a loop: forcing a whole loop made
   // a 38-second opening at 51bpm. Four bars of vamp is an intro; forty seconds is a wait.
   const _sbp = 4*(60/(chart.tempo||90));
-  // ...but not shorter than a whole loop. A 4-bar intro knocks every later section off
-  // the 8-bar grid, which shifts the cell phase and breaks the progression cycle
-  // (measured: short-cycle progressions fell to 25/40). One loop is the floor; the cap
-  // stops it running past two.
-  const _introMax = Math.max(loopBars, Math.min(2*loopBars, Math.round(18/_sbp)));
+  // MEASURED FROM REAL SONGS, not guessed. corpus/harvest_structure.py over the
+  // Harmonix Set (912 annotated pop/dance/rock tracks) gives an intro median of FOUR
+  // BARS / 7.8 seconds, p90 nine bars. Ours were running 21 seconds on average and 38
+  // at worst -- three to five times too long. Half a loop is the floor, two loops the
+  // cap, and the target is four bars wherever the tempo allows.
+  const _introMax = Math.max(Math.round(loopBars/2),
+                             Math.min(2*loopBars, Math.max(4, Math.round(10/_sbp))));
   if(sections.length && sections[0].endBar-sections[0].startBar > _introMax){
     const s0=sections[0], mid=s0.startBar+_introMax;
     const rest={ ...s0, startBar:mid, endBar:s0.endBar, bars:s0.endBar-mid,
@@ -8024,9 +8028,14 @@ function planArrangement(chart, bundle, rng){
   if(sections.length>1){
     const last=sections[sections.length-1];
     const oR=makeRng(hashName(chart._seed||0,"outro"));
-    last.outro = wpick(oR, [["reprise",5],["coda",3],["tag",3],["cold",2],["fade",2]]);
+    // 47% of real songs carry an outro or coda; the rest simply stop on the last
+    // chorus. Ours gave every song one.
+    last.outro = (oR() < 0.5) ? null
+               : wpick(oR, [["reprise",5],["coda",3],["tag",3],["cold",2],["fade",2]]);
+    if(!last.outro) last.outro = "none";
     last.character="outro";
-    if(last.outro==="reprise"){                 // the intro's voices and its shadowed tune
+    if(last.outro==="none"){ /* stops on the last section, as most songs do */ }
+    else if(last.outro==="reprise"){                 // the intro's voices and its shadowed tune
       last.cell = sections[0].cell; last.cellBase = sections[0].cellBase; last.revalue=null;
       last.activeRoles = [...new Set(sections[0].activeRoles.concat(["lead"]))];
     } else if(last.outro==="tag"){              // a short figure repeated to close

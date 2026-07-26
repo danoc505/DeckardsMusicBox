@@ -514,8 +514,21 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
       // compare only bars where the bass ACTUALLY states a downbeat root — a sparse
       // bassline (ambient/dungeon) that omits some downbeats but repeats the same
       // roots where it plays is still a short cycle; a missing note is not a violation.
-      let ok=true; for(let b=0;b<loop-chart._progLen;b++){ const a=dpc(b), d=dpc(b+chart._progLen);
-        if(a!=null && d!=null && a!==d){ok=false;break;} }
+      // SECTION-RELATIVE, like its two siblings above. Real songs measured from the
+      // Harmonix Set open with a FOUR-bar intro (median), so the section after it does
+      // not begin on the 8-bar grid -- and each section restarts its own cell, which is
+      // what a section boundary is for. Comparing bar 2 against bar 4 across that seam
+      // compares two different points of the cycle and proves nothing. The law -- the
+      // progression is a short repeating cycle -- is checked inside one section.
+      const _arr=song.arrangement||[];
+      const _sameSec=(x,y)=>{ const a=_arr.find(s=>x>=s.startBar&&x<s.endBar),
+                              b2=_arr.find(s=>y>=s.startBar&&y<s.endBar); return a&&b2&&a===b2; };
+      let ok=true;
+      for(let b=0;b<chart.nBars-chart._progLen && ok;b++){
+        if(!_sameSec(b, b+chart._progLen)) continue;
+        const a=dpc(b), d=dpc(b+chart._progLen);
+        if(a!=null && d!=null && a!==d) ok=false;
+      }
       if(ok && chart._progLen<=4) cycleOk++; }
   }
   check("no exact loop plays 3+ times (returns evolve)", overloop===0, overloop+"/"+songs.length);
