@@ -5562,6 +5562,25 @@ function buildVoice(voice, chart, perception, rng, chords, isLeadingHarmony){
 
 /* register bands per voice kind (corpus-grounded: lead centre ≈ C#5/73) */
 const BAND = { lead:[67,84], lead2:[64,81], counter:[57,72], pad:[52,67], arp:[64,84], lowline:[41,55] };
+/* Put a whole line back inside its register with ONE octave shift applied to every
+   note. Register is HARD physics, and it was only being enforced where each generator
+   happened to fold -- measured, 11 songs in 40 put the tune outside its own band, one
+   by a full octave for 320 notes, because the opposition and the octave-lift both ran
+   against BAND.lead while the voice that was actually drawn was a counter (ceiling 72).
+   The shift is UNIFORM by construction: clamping note by note folds different pitches
+   onto the same one and flattens the contour, which is the exact fault that once turned
+   the intro's shadow into one repeated note. If no octave fits everything, take the one
+   that leaves the fewest notes outside. */
+function fitToBand(notes, lo, hi){
+  if(!notes || !notes.length) return notes;
+  let best=0, bestBad=Infinity;
+  for(let oct=-2; oct<=2; oct++){
+    const sh=oct*12; let bad=0;
+    for(const n of notes){ if(n.midi==null) continue; const m=n.midi+sh; if(m<lo||m>hi) bad++; }
+    if(bad<bestBad){ bestBad=bad; best=sh; }
+  }
+  return best ? notes.map(n=> n.midi==null ? n : ({...n, midi:n.midi+best})) : notes;
+}
 const baseKind = k => k.replace(/[0-9]+$/,"");
 
 /* ── LEAD: THE MOTIF GRAMMAR (from the reference analyses).
@@ -5627,6 +5646,18 @@ function buildLead(voice, chart, chords, perception, rng, implyHarmony){
   const Bsilent = rng()<0.35;                               // S: B is silence (call&response room)
   // structure per loop (one motif per bar): 8 → A B A C A B A C
   const STRUCT=[]; for(let i=0;i<loop;i++) STRUCT.push(i%4===1?"B":(i%4===3?"C":"A"));
+  // ── THE BAR IS FOUR BEATS, NOT TWO ────────────────────────────────────────
+  // genRhythm packs its durations forward from step 0 and stops when it runs out, so
+  // HALF of all lead bars ended by beat three and the back of the bar was a hole -- in
+  // the same place, every bar. That is exactly "a short repeating phrase that ends in
+  // silence then picks right back up". 003 describes the opposite: a melody written
+  // "with lots of HELD notes that leave space for the inner voice to move" -- the space
+  // is made by SUSTAIN, not by stopping. And a phrase is allowed to start late; the
+  // pickup is the most ordinary device in melody writing. The treatment is drawn ONCE
+  // per bar-of-the-loop, so the bars of a loop differ from each other while the loop
+  // itself still repeats bit-for-bit, which is what makes it a loop.
+  const TREAT=[]; for(let i=0;i<loop;i++)
+    TREAT.push(wpick(rng,[["plain",4],["hold",5],["pickup",2]]));
 
   let prev=null;
   for(let bar=entry; bar<nBars; bar++){
@@ -5650,8 +5681,15 @@ function buildLead(voice, chart, chords, perception, rng, implyHarmony){
     // realize: start on a chord tone near the previous pitch; move by the motif's
     // movement; strong beats snap to chord tones; C-slot ends long on a chord tone
     let m = nearestTone(prev!=null?prev:tones[Math.floor(tones.length/2)], tones);
-    let step=0;
+    const rSum = rhythm.reduce((x,y)=>x+y,0);
+    const treat = TREAT[lb] || "plain";
+    // a PICKUP: the figure enters after the downbeat, leaving the front of the bar open
+    // instead of the back. Only when there is room for it.
+    let step = (treat==="pickup" && rSum<=12) ? (rSum<=8?4:2) : 0;
+    let lastNote=null;
     rhythm.forEach((dur,k)=>{
+      if(step>=16) return;
+      dur = Math.min(dur, 16-step);
       if(k===dropIdx){ step+=dur; return; }
       if(k>0){ m = T.scaleStep2(m, scale, root, (M.moves&&M.moves[k-1])||1); }
       if(step%4===0) m = nearestTone(m, tones);             // chord tone on the strong beat
@@ -5663,11 +5701,16 @@ function buildLead(voice, chart, chords, perception, rng, implyHarmony){
       // the tune wander off and never come home; removed. DEPART/VARY provide the
       // "something new" the Rule of 3 needs between identical hearings.
       let st2=step;
-      notes.push({bar, step:st2, midi:(isCadence?nearestTone(m,tones):m),
-                  dur:(isCadence?16-st2:dur), vel: st2===0?.58:.48});
+      lastNote={bar, step:st2, midi:(isCadence?nearestTone(m,tones):m),
+                dur:(isCadence?16-st2:dur), vel: st2===0?.58:.48};
+      notes.push(lastNote);
       prev=m; step+=dur;
-      if(step>=16) return;
     });
+    // HOLD instead of stopping: rather than leaving the tail of the bar silent, the
+    // last note sustains into it. The lead still stops sounding new material -- which
+    // is the room the answer needs -- but the bar does not fall out from under it.
+    if(lastNote && treat==="hold" && step<16 && step>0)
+      lastNote.dur = Math.max(lastNote.dur, 16-lastNote.step);
   }
   return { name:(voice.name||voice.kind),
            role: baseKind(voice.kind)==="lead2" ? "lead" : baseKind(voice.kind), notes };
@@ -5692,8 +5735,12 @@ function buildCounter(voice, chart, chords, perception, rng){
   // HEARD and reply with a transformation of it — invert its contour (antecedent →
   // consequent), keep a related rhythm — placed in its gaps. A reply to the material,
   // not a random shape. Falls back to a generated answer if no lead phrase was heard.
-  const leadMotif = (perception.motifs||[]).find(m=>m.role==="lead"||m.role==="melody")
-                    || (perception.motifs||[]).find(m=>m.role!=="bass"&&m.role!=="counter");
+  // ...and it has to actually BE the lead's motif. The fallback here took any motif
+  // that was not the bass or the counter, which in a trio means the HARMONY -- so the
+  // "answer to the melody" was an answer to the chords, and the guard below that asks
+  // "is there a lead to answer?" always said yes even when the counter was the only
+  // melodic voice in the band.
+  const leadMotif = (perception.motifs||[]).find(m=>m.role==="lead"||m.role==="melody");
   let answer;
   if(leadMotif && leadMotif.intervals && leadMotif.intervals.length){
     const moves = leadMotif.intervals.map(iv=>{ const s=-Math.sign(iv)||1;      // invert up<->down
@@ -5713,6 +5760,26 @@ function buildCounter(voice, chart, chords, perception, rng){
   const imitateMoves = (leadMotif && leadMotif.intervals && leadMotif.intervals.length)
     ? leadMotif.intervals.map(iv=>{ const s=Math.sign(iv)||1; return s*Math.max(1,Math.min(3,Math.round(Math.abs(iv)/2)||1)); })
     : null;
+  // ── WHEN THERE IS NO LEAD, THE COUNTER *IS* THE TUNE ─────────────────────
+  // The trio draws exactly ONE melodic voice, and when that draw lands on "counter"
+  // this line carries the whole song. A counter is written to be one fixed figure
+  // repeated in the lead's gaps -- correct as an ANSWER, and wrong as a melody:
+  // measured, six songs in forty played the identical rhythm in every single bar, so
+  // the entire tune was four notes over and over for three minutes. With nobody to
+  // answer, it has to take a phrase shape of its own -- the figure, the figure
+  // retrograded, the figure again, then a cadence that holds through the bar.
+  const solo = !(perception.parts||[]).some(p=>p.role==="lead"||p.role==="melody");
+  const SOLO = [];
+  if(solo){
+    const base = answer.rhythm.slice();
+    const retro = base.slice().reverse();
+    for(let i=0;i<loop;i++){
+      const q = i%4;
+      SOLO.push({ rhythm: q===1 ? retro : base,
+                  pickup: q===1 ? 2 : 0,
+                  hold:   q===3 });
+    }
+  }
   const notes=[];
   for(let bar=entry; bar<nBars; bar++){
     const lb=(bar-entry)%loop;
@@ -5745,19 +5812,27 @@ function buildCounter(voice, chart, chords, perception, rng){
       if(bestLen<2) continue;                       // no room for even one reply note → lay out
       gapStart=bestS; gapEnd=bestS+bestLen;
     }
-    let m=nearestTone(_spaceRef!=null?_spaceRef:tones[Math.floor(tones.length/2)], tones), step=gapStart;
-    for(let k=0;k<answer.rhythm.length;k++){
+    const shape = solo ? SOLO[lb] : null;
+    const RH = shape ? shape.rhythm : answer.rhythm;
+    let m=nearestTone(_spaceRef!=null?_spaceRef:tones[Math.floor(tones.length/2)], tones),
+        step=gapStart + (shape ? shape.pickup : 0);
+    let lastN=null;
+    for(let k=0;k<RH.length;k++){
       if(step>=gapEnd) break;                       // keep the reply inside the gap
-      const dur=answer.rhythm[k];
+      const dur=RH[k];
       if(k>0){ // and guard the use site too: a repeated note is a legitimate melodic
                // move (19.7% of ours, which is fine), but a whole bar of them is not
                const mv = (useMoves && useMoves.length) ? useMoves[(k-1)%useMoves.length] : null;
                m = T.scaleStep2(m, scale, root, mv || (k%2 ? 1 : -1)); }
       if(step%4===0) m=nearestTone(m,tones);
       m=clamp(T.fold(m,LO,HI),LO,HI);
-      notes.push({bar, step, midi:m, dur:Math.max(2,Math.min(dur,gapEnd-step)), vel:.42});
+      lastN={bar, step, midi:m, dur:Math.max(2,Math.min(dur,gapEnd-step)), vel:.42};
+      notes.push(lastN);
       step+=dur;
     }
+    // the cadence bar sustains to the end instead of dropping into a hole
+    if(lastN && shape && shape.hold && step<gapEnd)
+      lastN.dur = Math.max(lastN.dur, gapEnd-lastN.step);
   }
   return { name:(voice.name||"counter"), role:"counter", notes };
 }
@@ -5906,12 +5981,33 @@ function ghostPass(parts, chart){
   const scaleSet = new Set(T.semis(chart.key.scale).map(o=>pcg(chart.key.root+o)));
 
   // 1) REGISTER: no pitched voice below its floor (the bass's territory)
+  //    ...and none above its CEILING either. There was no ceiling for a melodic voice
+  //    at all -- only the bass had one -- so a tune could climb out of its own band and
+  //    simply stay there: measured, 15 songs in 40 and 10% of every melodic note. The
+  //    band is the CHARACTER's, not role "lead"'s, because the trio renames whichever
+  //    melodic voice it drew, and a counter's ceiling is 72 where the lead's is 84.
+  //    The line is fitted as a WHOLE first, by a single octave shift, because per-note
+  //    octave folding keeps the pitch class and destroys the contour -- the same fault
+  //    that once turned the intro's shadow into one repeated note. Only what is still
+  //    outside after that gets folded individually.
   let n=0;
   for(const p of parts){ if(p.role==="drums"||p.role==="bass")continue;
-    const floor=FLOORS[p.role]||50;
+    const bandR = (typeof BAND!=="undefined" && (BAND[p.character]||BAND[p.role])) || null;
+    //    Where the two disagree, the ROLE floor wins: FLOORS is the cross-engine rule
+    //    that keeps everyone out of the bass's territory, and a generator's own band is
+    //    not allowed to reach under it. The ceiling is the character's, since nothing
+    //    else defines one.
+    const floor = Math.max(bandR ? bandR[0] : 0, FLOORS[p.role]||50);
+    const ceil  = bandR ? bandR[1] : null;
+    if(bandR){
+      const was = p.notes.length && p.notes[0].midi;
+      p.notes = fitToBand(p.notes, floor, ceil);
+      if(p.notes.length && p.notes[0].midi!==was) n++;
+    }
     for(const nt of p.notes){ if(nt.midi==null)continue;
-      while(nt.midi<floor){ nt.midi+=12; n++; } } }
-  if(n)corrections.push({kind:"register lift", count:n});
+      while(nt.midi<floor){ nt.midi+=12; n++; }
+      if(ceil!=null) while(nt.midi>ceil){ nt.midi-=12; n++; } } }
+  if(n)corrections.push({kind:"register fit", count:n});
 
   // 2) BASS REGISTER: the bass stays low — but never below C2 (36). Octave-fit both ways.
   n=0;
@@ -6033,6 +6129,29 @@ function ghostPass(parts, chart){
       } } }
   if(n)corrections.push({kind:"unresolved NCT snap", count:n});
 
+  // 3b) REGISTER, RE-CHECKED. The passes above move pitches -- key snaps, non-chord-tone
+  //     snaps, spacing -- and none of them re-checks the register, so a note could be
+  //     nudged one semitone past a ceiling and simply stay there (measured: 88 notes
+  //     across 40 songs, every one 1-2 semitones out). A note that close is walked back
+  //     INTO the band by scale step; folding it a whole octave to fix a semitone
+  //     overshoot breaks the line to enforce a boundary it was already nearly inside.
+  //     This runs BEFORE the unison pass so that anything it lands on gets resolved.
+  n=0;
+  for(const p of parts){ if(p.role==="drums"||p.role==="bass")continue;
+    const bandR=(typeof BAND!=="undefined" && (BAND[p.character]||BAND[p.role]))||null;
+    if(!bandR) continue;
+    const bfloor=Math.max(bandR[0], FLOORS[p.role]||50), bceil=bandR[1];
+    if(bceil<=bfloor) continue;
+    for(const nt of p.notes){ if(nt.midi==null)continue;
+      if(nt.midi>=bfloor && nt.midi<=bceil) continue;
+      let m=nt.midi;
+      while(m-bceil>6) m-=12;
+      while(bfloor-m>6) m+=12;
+      if(m>bceil){ let c=bceil; while(c>bfloor && !scaleSet.has(pcg(c))) c--; m=c; }
+      else if(m<bfloor){ let c=bfloor; while(c<bceil && !scaleSet.has(pcg(c))) c++; m=c; }
+      if(m!==nt.midi){ nt.midi=m; n++; } } }
+  if(n)corrections.push({kind:"register re-check", count:n});
+
   // 4) UNISON COLLISIONS: same pitch, same absolute moment, different parts →
   //    the later voice is displaced up an octave (independence, no masking)
   n=0; let dropped=0;
@@ -6045,10 +6164,26 @@ function ghostPass(parts, chart){
     const structural=(p.role==="harmony"||p.role==="bass");
     if(structural){ for(const nt of p.notes){ if(nt.midi==null)continue;
         seen[(nt.bar*16+nt.step)+":"+nt.midi]=p.name; } continue; }
+    // ...and the displacement respects the voice's ceiling. Lifting an octave to clear
+    // a unison was the LAST word on a pitch, so it could push the tune straight back out
+    // of the band the register pass had just fitted it into. If there is no room above,
+    // the voice moves DOWN instead -- either direction clears the unison.
+    const uB=(typeof BAND!=="undefined" && (BAND[p.character]||BAND[p.role]))||null;
+    const uCeil=uB?uB[1]:null, uFloor=uB?Math.max(uB[0], FLOORS[p.role]||50):(FLOORS[p.role]||50);
     for(const nt of p.notes){ if(nt.midi==null)continue;
       let k=(nt.bar*16+nt.step)+":"+nt.midi, tries=0;
-      while(seen[k] && seen[k]!==p.name && tries<3){ nt.midi+=12; tries++;
-        k=(nt.bar*16+nt.step)+":"+nt.midi; }
+      while(seen[k] && seen[k]!==p.name && tries<3){
+        const up=nt.midi+12, dn=nt.midi-12;
+        const upOK = uCeil==null || up<=uCeil, dnOK = dn>=uFloor;
+        // and if NEITHER octave fits the band, the note is CUT, not thrown out of
+        // register. Lifting it anyway produced exactly one note an octave clear of its
+        // neighbours -- E4 G5 C4 where the rest of the loop plays E4 G4 C4 -- a
+        // fifteen-semitone leap and back to clear a unison. A rest there is a rest; a
+        // note in the wrong octave is a wrong note, and it is the one the ear hears.
+        if(!upOK && !dnOK){ tries=99; break; }
+        nt.midi = upOK ? up : dn;
+        tries++; k=(nt.bar*16+nt.step)+":"+nt.midi; }
+      if(tries===99){ nt._drop=true; dropped++; continue; }
       if(seen[k] && seen[k]!==p.name){ nt._drop=true; dropped++; }   // true duplicate: cut it
       else { seen[k]=p.name; if(tries)n++; } } }
   for(const p of orderP){ if(p.role==="drums")continue;
@@ -7129,13 +7264,24 @@ function conduct(seed, overrides){
       return 4;
     })(),
     _realProg: (function(){
+      // A PROGRESSION HAS TO GO SOMEWHERE. The corpus draws can return a vamp that
+      // never leaves the tonic -- literally [0,0,0,0] -- and then the bass plays one
+      // identical bar for the length of the song, which is exactly "there still seems
+      // to be only one bass line". Measured: 3 of 56 songs. A single chord is a legal
+      // thing to sit on for a section; it is not a progression to build a song from,
+      // so a degenerate draw is redrawn from the other source.
+      const moves = pr => pr && new Set(pr.map(x=>x.d)).size >= 2;
       // synthwave draws from its OWN analysed harmonic corpus (like jazz has its own)
-      if(genreName==="synthwave"){ const sp=drawSynthwaveProgression(rng); if(sp) return sp; }
+      if(genreName==="synthwave"){ const sp=drawSynthwaveProgression(rng); if(moves(sp)) return sp; }
       const jazzy = ["lofi","citypop","barber","wise","house"].indexOf(genreName)>=0;
       const p = (jazzy || rng()<0.5) ? drawJazzProgression(rng, scale, genreName) : null;
-      if(p && rng()<0.7) return p;
+      if(moves(p) && rng()<0.7) return p;
       const bp = drawBachProgression(rng, scale);
-      return bp ? bp.map(d=>({d, q:null})) : (p||undefined);
+      const b2 = bp ? bp.map(d=>({d, q:null})) : null;
+      if(moves(b2)) return b2;
+      if(moves(p)) return p;
+      // both sources came back static: give it a real cycle rather than one chord
+      return [0,5,3,4].map(d=>({d, q:null}));
     })(),
     // the tune may be RECOMBINED across sources, or a chop of one phrase, or
     // invented outright. Genre says what density and leapiness it wants.
@@ -7547,7 +7693,13 @@ function buildCells(chart, rng){
       const OPPOSE = ["inversion","retrograde","augmentation","diminution","displace","sequence"];
       const oR = makeRng(hashName(chart.seed||0,"oppose:"+L));
       const chain = alterChain(oR, 2, OPPOSE);              // one drawn, one that answers it
-      const band = (typeof BAND!=="undefined" && BAND.lead) || [67,84];
+      // THE BAND IS THE VOICE'S OWN, NOT "lead"'s. The trio normalises whichever
+      // melodic character was drawn to role "lead", so these lookups were handing an
+      // ARP or a COUNTER the lead's register -- and a counter's ceiling is 72 while the
+      // lead's is 84. Measured: 11 songs in 40 put the tune outside its own band, one
+      // of them by a full octave for 320 notes. The character is what the generator
+      // wrote to, so the character is what bounds it.
+      const band = (typeof BAND!=="undefined" && (BAND[dst.character]||BAND.lead)) || [67,84];
       const ctx = { scale:chart.key.scale, root:chart.key.root, floor:band[0], ceil:band[1],
                     dir: li%2 ? 2 : -2 };
       const byBar={}; for(const n of src.notes){ if(n.midi==null)continue; (byBar[n.bar]=byBar[n.bar]||[]).push(n); }
@@ -7557,7 +7709,8 @@ function buildCells(chart, rng){
         for(const op of chain) ns = applyAlterIn(op, ns, ctx);
         for(const n of ns) out.push({...n, bar:+b});
       }
-      if(out.length){ dst.notes = out.sort((a,b)=>(a.bar*16+a.step)-(b.bar*16+b.step));
+      if(out.length){ dst.notes = fitToBand(out.sort((a,b)=>(a.bar*16+a.step)-(b.bar*16+b.step)),
+                                            band[0], band[1]);
                       cell.opposedBy = chain.join("+"); }
       ghostPass(cell.session.parts, cell.loopChart);
     }
@@ -8179,6 +8332,14 @@ function renderArrangement(chart, bundle, plan, rng){
   // shape (measured: distinct opening lead rhythms fell to 10 of 40).
   const fR = makeRng(hashName(chart._seed||0,"foreshadow"));
   const fsChain = alterChain(fR, 1, ["head","fragmentation","truncation"]);   // ONE op, not two
+  // the shadow's octave shift, decided once from the whole tune so it never wobbles
+  const fsDrop = (function(){
+    const lead = primary.session.parts.find(p=>p.role==="lead");
+    if(!lead || !lead.notes.length) return 0;
+    const bd = (typeof BAND!=="undefined" && (BAND[lead.character]||BAND.lead)) || [67,84];
+    const lowest = lead.notes.reduce((m,x)=>Math.min(m, x.midi==null?999:x.midi), 999);
+    return (lowest-12 >= bd[0]) ? 12 : 0;
+  })();
   const ornRef = primary.session.parts.find(p=>p.role==="ornament");
   const ornLen = (ornRef && ornRef._ornLen) || 5;      // coprime with the 8-bar grid
 
@@ -8231,7 +8392,7 @@ function renderArrangement(chart, bundle, plan, rng){
           bag = alt.map(n=>({...n}));
         }
         if(foreshadow || sec.revalue==="octaveUp"){
-          const bd=(typeof BAND!=="undefined"&&BAND[p.role])||[48,84];
+          const bd=(typeof BAND!=="undefined"&&(BAND[p.character]||BAND[p.role]))||[48,84];
           const ctx={scale:chart.key.scale, root:chart.key.root, floor:bd[0], ceil:bd[1], dir:2};
           if(foreshadow){ for(const op of fsChain) bag = applyAlterIn(op, bag, ctx);
             // A UNIFORM shift, never a per-note clamp. Clamping each note to the band
@@ -8240,10 +8401,19 @@ function renderArrangement(chart, bundle, plan, rng){
             // different pitches all clamped to 67. This is the identical per-note-fold
             // fault that once inverted the derived voices; contour only survives a shift
             // applied equally to every note.
-            const lowest = bag.reduce((m,x)=>Math.min(m,x.midi), 999);
-            const drop = (lowest-12 >= bd[0]) ? 12 : 0;
-            if(drop) bag = bag.map(x=>({...x, midi:x.midi-drop})); }
-          else if(p.role==="lead") bag = applyAlterIn("octaveUp", bag, ctx);
+            // ...and the shift is decided ONCE FOR THE WHOLE PART, not per bar. Deciding
+            // it bar by bar meant some bars of the intro dropped an octave and their
+            // neighbours did not -- D5 F5 / D4 E4 / D5 F5 -- so the shadow leapt an
+            // octave back and forth inside a four-bar phrase. Reading the roll caught it.
+            if(fsDrop) bag = bag.map(x=>({...x, midi:x.midi-fsDrop})); }
+          else if(p.role==="lead"){
+            // the lift only happens if the voice has ROOM for it. Revaluing the return
+            // must not push the tune out of its own register -- if there is no octave
+            // above, the return is marked by re-orchestration alone.
+            const up = applyAlterIn("octaveUp", bag, ctx);
+            const fits = up.every(x=>x.midi==null || (x.midi>=bd[0] && x.midi<=bd[1]));
+            if(fits) bag = up;
+          }
         }
         for(const n of bag){
           if(n.bar!==lbr) continue;
