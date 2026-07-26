@@ -7751,15 +7751,32 @@ function planArrangement(chart, bundle, rng){
   // contrast. The peak sits ~65% in (007-8bar: build a long intro TO the moment and a
   // long outro away from it), and the block before the peak is pulled DOWN, because
   // the drop only lands as hard as the hole in front of it.
-  const peakI = Math.max(1, Math.min(n-1, Math.round((n-1)*0.65)));
+  // ── THE SONG HAS TO GET GOING ───────────────────────────────────────────
+  // A single ramp from the opening to a peak at 65% means the whole first half is
+  // build: measured, songs took an average of 116 SECONDS -- and up to 199 -- to reach
+  // even 60% of their peak energy, with intros running to 75s. Nothing earns two
+  // minutes of waiting. Records solve this with an EARLY high point and then a bigger
+  // one later (Hyperbits' "classic two-drop structure"): the song delivers something
+  // around a quarter of the way in, pulls back, and the real peak lands at ~65%. The
+  // early arrival is what buys the later build its patience.
+  const peakI  = Math.max(1, Math.min(n-1, Math.round((n-1)*0.65)));
+  // placed by position in BARS, not by section index -- sections vary in length, so the
+  // same index sits at a different point in time from song to song
+  let firstI = 1;
+  for(let i=1;i<n;i++) if(spans[i].startBar <= nBars*0.22) firstI=i;
+  firstI = Math.max(1, Math.min(peakI-1, firstI));
   const E = new Array(n).fill(5);
   for(let i=0;i<n;i++){
-    if(i===0)          E[i]=2;
-    else if(i===peakI) E[i]=9;
-    else if(i===n-1)   E[i]=3;
-    else if(i<peakI)   E[i]=2+Math.round((i/peakI)*5);
-    else               E[i]=Math.max(4, 9-2*(i-peakI));
+    if(i===0)            E[i]=2;
+    else if(i===peakI)   E[i]=9;
+    else if(i===n-1)     E[i]=3;
+    else if(i<firstI)    E[i]=2+Math.round((i/Math.max(1,firstI))*5);   // climb fast
+    else if(i===firstI)  E[i]=7;                                        // the early arrival
+    else if(i<peakI)     E[i]=Math.max(4, 7-2*(i-firstI)) ;             // pull back...
+    else                 E[i]=Math.max(4, 9-2*(i-peakI));
   }
+  for(let i=firstI+1;i<peakI;i++)                                       // ...then climb again
+    E[i]=Math.max(E[i], 4+Math.round(((i-firstI)/Math.max(1,peakI-firstI))*4));
   if(peakI-1>0) E[peakI-1]=Math.max(2, E[peakI-1]-3);       // the breath before the moment
   for(let i=1;i<n;i++)
     if(Math.abs(E[i]-E[i-1])<2 && i!==peakI && i!==n-1)
@@ -7973,12 +7990,20 @@ function planArrangement(chart, bundle, rng){
   // AN INTRO IS SHORT. Sources put intros at 8, 16 or 32 bars, and ours ran to 24 --
   // at 84bpm that is over a minute before the song proper starts. Anything past two
   // loops becomes the first verse, which is where the song actually begins.
-  if(sections.length && sections[0].endBar-sections[0].startBar > 2*loopBars){
-    const s0=sections[0], mid=s0.startBar+2*loopBars;
+  // ~18 seconds of intro, and it may be SHORTER than a loop: forcing a whole loop made
+  // a 38-second opening at 51bpm. Four bars of vamp is an intro; forty seconds is a wait.
+  const _sbp = 4*(60/(chart.tempo||90));
+  // ...but not shorter than a whole loop. A 4-bar intro knocks every later section off
+  // the 8-bar grid, which shifts the cell phase and breaks the progression cycle
+  // (measured: short-cycle progressions fell to 25/40). One loop is the floor; the cap
+  // stops it running past two.
+  const _introMax = Math.max(loopBars, Math.min(2*loopBars, Math.round(18/_sbp)));
+  if(sections.length && sections[0].endBar-sections[0].startBar > _introMax){
+    const s0=sections[0], mid=s0.startBar+_introMax;
     const rest={ ...s0, startBar:mid, endBar:s0.endBar, bars:s0.endBar-mid,
                  character:"verse", event:"build", debut:[],
                  energy:Math.min(9, s0.energy+2) };
-    s0.endBar=mid; s0.bars=2*loopBars;
+    s0.endBar=mid; s0.bars=mid-s0.startBar;
     sections.splice(1,0,rest);
   }
 
@@ -8099,15 +8124,32 @@ function renderArrangement(chart, bundle, plan, rng){
         // whole almost nowhere, which is not foreshadowing, it is having no melody.
         // A shadow is only a shadow if the thing itself is what you mostly hear.
         const foreshadow = (p.role==="lead" && sec.character==="intro");
+        // The lead rests at each phrase end so something can answer it. When the lead is
+        // the ONLY voice, nothing answers -- the rest is just a hole, and the opening
+        // reads as "a short phrase, then silence, then the short phrase again". If it is
+        // alone, it plays through.
+        const aloneLead = (p.role==="lead" && act.size<=1);
         // the EMPTY: strip the rhythm section from the final bar before a big arrival
         if(sec.emptyLastBar && lastBar && (p.role==="drums"||p.role==="bass")) continue;
         const debut = sec.debut && sec.debut.includes(p.role);
         let bag = p.notes.filter(n=>n.bar===lb);
+        if(aloneLead && !bag.length){                      // fill the breath when alone
+          const alt = p.notes.filter(n=>n.bar===(lb>0?lb-1:lb+1));
+          bag = alt.map(n=>({...n}));
+        }
         if(foreshadow || sec.revalue==="octaveUp"){
           const bd=(typeof BAND!=="undefined"&&BAND[p.role])||[48,84];
           const ctx={scale:chart.key.scale, root:chart.key.root, floor:bd[0], ceil:bd[1], dir:2};
           if(foreshadow){ for(const op of fsChain) bag = applyAlterIn(op, bag, ctx);
-                          bag = bag.map(x=>({...x, midi:Math.max(bd[0], x.midi-12)})); }
+            // A UNIFORM shift, never a per-note clamp. Clamping each note to the band
+            // floor collapses different pitches onto the SAME note -- the shadow came
+            // out "G4 G4 G4 G4" even after the melody itself was fixed, because three
+            // different pitches all clamped to 67. This is the identical per-note-fold
+            // fault that once inverted the derived voices; contour only survives a shift
+            // applied equally to every note.
+            const lowest = bag.reduce((m,x)=>Math.min(m,x.midi), 999);
+            const drop = (lowest-12 >= bd[0]) ? 12 : 0;
+            if(drop) bag = bag.map(x=>({...x, midi:x.midi-drop})); }
           else if(p.role==="lead") bag = applyAlterIn("octaveUp", bag, ctx);
         }
         for(const n of bag){
