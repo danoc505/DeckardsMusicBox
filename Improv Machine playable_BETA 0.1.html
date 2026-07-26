@@ -4326,6 +4326,11 @@ const T=(function(){
   const NOTE=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
   const SCALES={major:[0,2,4,5,7,9,11],dorian:[0,2,3,5,7,9,10],phrygian:[0,1,3,5,7,8,10],
     lydian:[0,2,4,6,7,9,11],mixolydian:[0,2,4,5,7,9,10],minor:[0,2,3,5,7,8,10],
+    // AEOLIAN was drawn by three genres and defined by none: `semis()` falls back to
+    // minor for an unknown name, so 13% of songs were LABELLED aeolian while behaving
+    // as minor. The notes were right by luck -- aeolian IS natural minor -- but the
+    // roll lied about the song, and every branch that tests the mode NAME missed it.
+    aeolian:[0,2,3,5,7,8,10],
     harmonicMinor:[0,2,3,5,7,8,11],majPentatonic:[0,2,4,7,9],minPentatonic:[0,3,5,7,10]};
   const PULL={0:[0,1,1,3,3,2,.5],1:[.5,0,.5,1,3,.5,1],2:[.5,1,0,2,1,3,.5],3:[3,1,.5,0,3,1,.5],4:[4,.5,.5,1,0,2,.5],5:[1,2,.5,2,2,0,.5],6:[4,.5,1,.5,1,.5,0]};
   const pc=m=>mod(m,12), nn=m=>NOTE[pc(m)]+(Math.floor(m/12)-1);
@@ -5021,7 +5026,14 @@ function harmonyEngine(chart, perception, rng){
         RH.forEach((s,k)=>{
           const vary = (b % (TEX.varyBar+1) === TEX.varyBar);
           let m = midi;
-          if(k%2===0){                                     // alternate: neighbor move
+          // A NEIGHBOUR ON EVERY OTHER RE-HIT SMEARS THE BAR. Real comping holds a
+          // median of 3 pitch classes in a bar (mean 2.99) -- essentially the chord and
+          // nothing else. Ours averaged 4.74 and hit six or more in a third of bars,
+          // because half of every re-articulation moved to a neighbour tone and each one
+          // adds a pitch class the chord does not contain. A neighbour is an ornament,
+          // not the default.
+          const _nb = makeRng(hashName(chart._seed||0, "nb:"+b+":"+k));
+          if(k%2===0 && _nb()<0.35){                        // occasionally: neighbor move
             m = T.scaleStep(midi, scale, root, vary ? -TEX.motifDir : TEX.motifDir);
             if(m<=v[i-1]||m>=v[i+1]) m = midi;             // stay INSIDE the chord
             // and never a semitone from a voice that is still sounding: tonal,
@@ -5611,7 +5623,12 @@ function buildVoice(voice, chart, perception, rng, chords, isLeadingHarmony){
 }
 
 /* register bands per voice kind (corpus-grounded: lead centre ≈ C#5/73) */
-const BAND = { lead:[67,84], lead2:[64,81], counter:[57,72], pad:[52,67], arp:[64,84], lowline:[41,55] };
+// ORNAMENT and ANSWER had no entry here at all, so the ghost's register pass found no
+// band for them and applied no ceiling -- measured, the ornament reached MIDI 92, a full
+// octave above the lead's own ceiling of 84, which is the "notes too high". Both are
+// SUPPORTING voices: they sit under the tune, not over it.
+const BAND = { lead:[67,84], lead2:[64,81], counter:[57,72], pad:[52,67], arp:[64,84],
+               lowline:[41,55], ornament:[64,79], answer:[57,74] };
 /* Put a whole line back inside its register with ONE octave shift applied to every
    note. Register is HARD physics, and it was only being enforced where each generator
    happened to fold -- measured, 11 songs in 40 put the tune outside its own band, one
@@ -7362,13 +7379,18 @@ function conduct(seed, overrides){
     // the time and 4 beats 29%. Our engines assumed one chord per bar, which
     // is simply wrong for this idiom — half of jazz changes twice a bar.
     _chordBeats: (function(){
+      // TWO CHORDS A BAR IS A JAZZ FIGURE. This drew from the Real Book corpus, where
+      // changes move twice a bar 48% of the time -- true of jazz, and applied here to
+      // every genre. Measured over 17,840 Hooktheory sections, pop holds a chord for
+      // 0.79-0.84 BARS: about one chord per bar. Running two doubles the pitch classes
+      // sounding in a bar, and ours reached six or more in 32% of bars against a
+      // measured 3% -- at which point there is no chord for the bass to agree with,
+      // which is what "bass notes that sound wrong with the rest" actually is.
+      // The jazz rhythm stays available for the jazz-influenced genres, as a minority.
+      const jazzy = ["lofi","citypop","barber","wise"].indexOf(genreName)>=0;
+      if(!jazzy) return 4;                                  // one chord a bar
       if(noCorpus() || !JAZZ || !JAZZ.harmonicRhythm) return 4;
-      const hr = JAZZ.harmonicRhythm.filter(x=>x.beats===2||x.beats===4||x.beats===8);
-      if(!hr.length) return 4;
-      let tot=0; for(const x of hr) tot+=x.n;
-      let r=rng()*tot;
-      for(const x of hr){ r-=x.n; if(r<=0) return x.beats; }
-      return 4;
+      return wpick(rng, [[4,7],[2,3]]);                     // mostly one, sometimes two
     })(),
     _realProg: (function(){
       // A PROGRESSION HAS TO GO SOMEWHERE. The corpus draws can return a vamp that
