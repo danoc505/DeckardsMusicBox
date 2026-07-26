@@ -5280,7 +5280,14 @@ function drumEngine(chart, perception, rng){
     if(modeD==="depart"){
       bar=bar.map(h=> h.lane==="closedHat" && rng()<0.3 ? {...h,lane:"openHat",vel:Math.min(1,h.vel*1.1)} : h);
       // a Phil-style gated TOM answer on the depart loops — never in breaks (amen turf)
-      if(!(feel && feel._name==="breaks") && rng()<0.6){ const t0=pick(rng,[10,12]);
+      // ...ONCE PER DEPART LOOP, not in every bar of it. This fired on every bar of the
+      // depart loop, so with a four-bar loop a two-tom gesture landed every fourth bar
+      // for the whole song -- measured, 21% of all bars carried a tom RUN, which is a
+      // fill every four bars. Real drumming puts toms at 6.7% of groove hits and 27.5%
+      // of fill hits: a stray tom in a groove is normal, a tom RUN is a fill and belongs
+      // at the end of a phrase.
+      if(!(feel && feel._name==="breaks") && (b % DEVLOOP)===DEVLOOP-1 && rng()<0.5){
+        const t0=pick(rng,[10,12]);
         pick(rng,[["hiMidTom","lowTom"],["highTom","lowMidTom"],["lowMidTom","lowFloorTom"]])
           .forEach((tk,ti)=>bar.push({step:t0+ti*2, lane:tk, vel:0.55}));
       } else bar.push({step:pick(rng,[3,7,11]), lane:"snare", vel:0.2, ghost:true});
@@ -8666,6 +8673,109 @@ function composeSong(conductorChart, rng){
   chart._leader = parts.some(p=>p.role==="lead") ? "lead"
                 : (parts.find(p=>p.role!=="drums")||{role:"bass"}).role;
   prominenceHierarchy(parts, chart._leader);
+
+  // ── THE KIT IS BALANCED LIKE A DRUMMER PLAYS IT ──────────────────────────
+  // Measured off the Groove MIDI Dataset (corpus/harvest_drums.py -- 1,150 human
+  // performances captured with velocity, 21,515 groove bars). Two things were wrong,
+  // and both are the difference between a groove and a metronome:
+  //
+  //   THE ACCENT WAS ON THE DOWNBEAT. Ours hit step 0 at 115 of 127 -- the loudest
+  //   thing in the bar by a wide margin -- where a real drummer's loudest hits are the
+  //   BACKBEAT, steps 4 and 12 (81 and 83), with the downbeat at 67. And real playing
+  //   keeps the offbeat eighths nearly as loud as the beats (62-67); ours dropped them
+  //   to 42-49, which is what flattens a beat into a click track.
+  //
+  //   THE LANES SAT AT THE WRONG LEVELS. Our kick ran at a median of 116 against a
+  //   measured 53 and never came below 84; our hats sat at 45 against 65 and never rose
+  //   above 67. A drummer's dynamic range per lane spans roughly 20 to 120.
+  //
+  // Each hit keeps its OWN relative dynamic -- a ghost stays a ghost, a fill still
+  // swells -- and is re-centred on the measured level for its lane and shaped by the
+  // measured accent for its position.
+  {
+    // PER LANE, because a single template cannot carry the snare's ghost pattern -- and
+    // the ghost pattern is where a groove's feel actually lives. Read the snare row: the
+    // backbeat at 110 and 114, every other position between 38 and 69. That ratio IS
+    // ghosting, measured, and one global curve flattened ours from 22% of snare hits to
+    // 6%. Each row is the median velocity a real drummer plays at that sixteenth.
+    const LEVEL  = {kick:53, snare:56, hat:65, openhat:93, tom:89, cymbal:70};
+    const ACCENT = {
+      kick:   [ 61, 13, 62, 49, 57, 51, 45, 46, 58, 45, 58, 47, 56, 51, 45, 40],
+      snare:  [ 46, 38, 49, 54,110, 40, 63, 44, 55, 47, 56, 55,114, 48, 69, 43],
+      hat:    [ 69, 40, 65, 52, 75, 43, 66, 47, 67, 48, 67, 51, 74, 47, 65, 48],
+      openhat:[ 96, 51,106, 60,110, 45, 79, 62, 93, 53,110, 60,126, 63,114, 61],
+      tom:    [ 81, 71, 67, 79, 96, 74, 90, 75, 89, 90, 92, 93,108, 87, 95, 83],
+      cymbal: [ 83, 62, 61, 59, 85, 54, 64, 59, 70, 63, 68, 54, 83, 55, 68, 60],
+    };
+    const ACC_MEAN = {};
+    for(const k in ACCENT) ACC_MEAN[k] = ACCENT[k].reduce((x,y)=>x+y,0)/16;
+    // AND THE FEEL SITS AHEAD OF THE GRID. Measured over 341,000 hits, drummers play
+    // EARLY -- kick -0.047 of a sixteenth, snare -0.045, hat -0.077 -- with a spread of
+    // about 0.21. Ours pushed LATE (+0.031 to +0.082) with half the looseness (0.09-0.11),
+    // which is a beat that drags and does not breathe. Each part's own timing is remapped
+    // onto the measured distribution, so deliberate pushes survive with the right centre
+    // and the right amount of give.
+    const MICRO = {kick:[-0.047,0.213], snare:[-0.045,0.223], hat:[-0.077,0.197],
+                   openhat:[-0.077,0.197], tom:[-0.045,0.220], cymbal:[-0.050,0.210]};
+    const lane0 = l => /open/i.test(l||"") ? "openhat"
+                     : /[Hh]at/.test(l||"") ? "hat"
+                     : /snare/i.test(l||"") ? "snare"
+                     : /kick/i.test(l||"")  ? "kick"
+                     : /[Tt]om/.test(l||"") ? "tom" : "cymbal";
+    for(const p of parts){
+      if(p.role!=="drums") continue;
+      // ...and the reference is the lane's median AT THAT STEP, not across the whole
+      // lane. Measuring a hit against its lane overall leaves OUR positional accent
+      // inside `rel`, and multiplying by the measured accent then compounds the two:
+      // the backbeat came out at 107 against a real 83. Dividing by our own accent at
+      // that step removes it, so the measured shape is imposed rather than added to.
+      const by = {};
+      for(const n of p.notes){ const k=lane0(n.lane)+":"+(n.step%16);
+        (by[k]=by[k]||[]).push(n.vel||0.5); }
+      const all = {};
+      for(const n of p.notes){ const k=lane0(n.lane);
+        (all[k]=all[k]||[]).push(n.vel||0.5); }
+      const midOf = o => { const m={};
+        for(const k in o){ const v=o[k].slice().sort((a,b)=>a-b); m[k]=v[Math.floor(v.length/2)]||0.5; }
+        return m; };
+      const mid = midOf(by), midL = midOf(all);
+      for(const n of p.notes){
+        const L = lane0(n.lane), k = L+":"+(n.step%16);
+        const ref = (by[k] && by[k].length>=4) ? mid[k] : (midL[L] || 0.5);
+        const rel = (n.vel||0.5) / (ref || 0.5);              // this hit's own dynamic
+        const v = (LEVEL[L]/127) * (ACCENT[L][n.step%16]/ACC_MEAN[L]) * rel;
+        n.vel = Math.max(0.05, Math.min(1, v));
+      }
+      // ── AND NO TWO HITS ARE THE SAME ────────────────────────────────────
+      // The accent table fixes WHERE the loud hits are; it cannot fix that our engine
+      // plays a given position at very nearly the same velocity every single time. Real
+      // drumming does not: measured, the snare's 10th percentile is 20 and its 90th is
+      // 127 around a median of 56, and that hit-to-hit variation AT THE SAME POSITION is
+      // what 24% of snare hits being ghosts actually is -- ours came out at 4%. The
+      // spread below is each lane's measured 10th-to-90th range in log terms, and it is
+      // drawn from a seeded stream keyed to the bar and step, so the song is still
+      // bit-identical for a given seed while no two bars play quite alike.
+      const SPREAD = {kick:0.93, snare:0.92, hat:0.74, openhat:0.80, tom:0.48, cymbal:0.60};
+      for(const n of p.notes){
+        const L = lane0(n.lane), S = SPREAD[L]; if(!S) continue;
+        const r = makeRng(hashName(chart._seed||0, "hit:"+L+":"+n.bar+":"+n.step));
+        n.vel = Math.max(0.05, Math.min(1, n.vel * Math.exp(S*(r()*2-1))));
+      }
+
+      // remap the timing onto the measured distribution, per lane
+      const mt = {};
+      for(const n of p.notes){ const k=lane0(n.lane); (mt[k]=mt[k]||[]).push(n.micro||0); }
+      const stat = {};
+      for(const k in mt){ const a2=mt[k], u=a2.reduce((x,y)=>x+y,0)/a2.length;
+        stat[k]=[u, Math.sqrt(a2.reduce((x,y)=>x+(y-u)*(y-u),0)/a2.length)]; }
+      for(const n of p.notes){
+        const L = lane0(n.lane), tgt = MICRO[L]; if(!tgt) continue;
+        const [u,sd] = stat[L] || [0,0];
+        const z = sd > 1e-6 ? ((n.micro||0)-u)/sd : 0;
+        n.micro = Math.max(-0.45, Math.min(0.45, tgt[0] + z*tgt[1]));
+      }
+    }
+  }
 
   // the development log is an ARRAY (scoreSong maps .op off each entry); the energy
   // map rides along as properties so probes can read the shape of the song too.

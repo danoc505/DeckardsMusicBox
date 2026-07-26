@@ -115,7 +115,14 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
       return (cl*_P + ((b-s.startBar)%_PH)) % _CB; };
     for(let b=0;b<song.chart.nBars;b++){ const cb=_cellBar(b), slot=_SCH[(cb%_PH)%8];
       const hits=d.notes.filter(n=>n.bar===b);
-      const loudTom=hits.some(h=>TOMS.includes(h.midi)&&h.vel>0.3);
+      // A TOM RUN is a fill; a stray tom is not. Measured off 1,150 real performances,
+      // toms are 6.7% of the hits in groove bars and 27.5% in fills — so a drummer DOES
+      // put single toms in a groove, and calling every one of them a violation measured
+      // the wrong thing. What never belongs in a core bar is the fill GESTURE: two or
+      // more toms in the same bar. The old absolute threshold (vel > 0.3) also stopped
+      // meaning anything once the kit was levelled to measured velocities, where a tom
+      // sits at a median of 89 of 127 because a tom is simply a loud drum.
+      const loudTom=hits.filter(h=>TOMS.includes(h.midi)).length>1;
       // Which development loop is actually SOUNDING here. The old line assumed the
       // song's bar index was the loop index (floor(b/8)%4), which was true when every
       // engine tiled its own material across the whole song. Now a four-loop cell is
