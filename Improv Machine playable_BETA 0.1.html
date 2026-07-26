@@ -7330,7 +7330,33 @@ function hashName(seed, name){
    content of the song in a single pass — not four passes over 96 bars of drift. */
 const CELL_LOOPS = 4;      // state · repeat · depart · vary  (006, the rule of three)
 
-function buildLoop(chart, rng){
+/* ABA MEANS A AND B ARE DIFFERENT MUSIC.
+   Not one motif with alterations -- that is A A' A''. 007(structure) defines binary as
+   "two CONTRASTING sections"; 006 says the third pass must "go somewhere COMPLETELY
+   different -- a new melody with the same chords, or a new progression along with a new
+   melody"; 009 had a separate verse melody written for the verse. So each distinct
+   letter of the conductor's form (A, B, C, verse, chorus...) gets its OWN cell, built
+   from its own seed stream. They share the key, the progression, the chord texture and
+   the feel -- it is the same song, and 009 is explicit that the chord loop runs the
+   whole track -- but the melody, the bass line and the drum development are genuinely
+   different music. Sections with the same letter play the same cell, so A RETURNS
+   intact, which is what makes it a return. */
+function buildCells(chart, rng){
+  const secs = (chart.sections && chart.sections.length) ? chart.sections : [{name:"A"}];
+  const letters = [...new Set(secs.map(s=>s.name))];
+  const MAIN = letters.filter(l=>l!=="intro" && l!=="coda");
+  const pick3 = (MAIN.length?MAIN:letters).slice(0,3);
+  const cells = {};
+  for(const L of pick3){
+    const sub = makeRng(hashName(chart.seed||0, "cell:"+L));
+    cells[L] = buildLoop(chart, sub, L);
+  }
+  const fallback = cells[pick3[0]];
+  for(const L of letters) if(!cells[L]) cells[L] = fallback;   // intro/coda borrow the main cell
+  return { cells, primary: pick3[0] };
+}
+
+function buildLoop(chart, rng, letter){
   const loopBars = chart.loopBars || 8;
   // THE CELL IS FOUR LOOPS, NOT ONE. Every engine already carries its own development
   // cycle keyed on loopIdx = floor(bar/loop) -- ["state","repeat","depart","vary"] --
@@ -7344,12 +7370,15 @@ function buildLoop(chart, rng){
   // what 009 describes: the chord loop runs the whole song, the melodies do not.
   const cellBars = CELL_LOOPS*loopBars;
   const loopChart = { key:chart.key, nBars:cellBars, phraseUnit:loopBars, loopBars,
-                      feel:chart.feel, genre:chart.genre, _seed:chart.seed, focal:chart.focal,
+                      feel:chart.feel, genre:chart.genre, focal:chart.focal,
+                      // a distinct stream per letter -- this is what makes B different
+                      // music from A rather than a variation of it
+                      _seed: hashName(chart.seed||0, "cell:"+(letter||"A")),
                       _sampleCycle:chart._sampleCycle, _chordTexture:chart._chordTexture,
                       _realProg:chart._realProg, _progLen:chart._progLen,
                       _chordBeats:chart._chordBeats };
   const session = improvise(loopChart, rng);
-  chart._seed    = loopChart._seed;              // carry the real seed back (see below)
+  if(chart._seed==null) chart._seed = chart.seed;
   chart._progLen = loopChart._progLen;
   chart._chordTexture = loopChart._chordTexture;
 
@@ -7475,28 +7504,21 @@ function buildLoop(chart, rng){
 
 /* Plan the arrangement: an ENERGY MAP, then a voice subset per section derived from
    it by SUBTRACTION. No notes are decided here — only who plays and how hard. */
-function planArrangement(chart, loop, rng){
-  const loopBars = loop.loopBars, nBars = chart.nBars;
-  const voices = loop.session.parts.map(p=>p.role);
+function planArrangement(chart, bundle, rng){
+  const loopBars = chart.loopBars||8, nBars = chart.nBars;
+  const voices = [...new Set(Object.values(bundle.cells).flatMap(c=>c.session.parts.map(p=>p.role)))];
   const V = voices.length;
 
-  // ── THE 2-LOOP GRID ──────────────────────────────────────────────────────
-  // 005 (the 2-Loop Rule): "the arrangement has to change every two loops of the
-  // chords, because our ears naturally expect songs to change every two loops of the
-  // main instruments." 001 says the same in bars — "every eight bars of the grid is
-  // like a page in a book" — and eMastered/Abstrakt agree that "every new 8-bar loop
-  // needs to have a change." So the arrangement grid is TWO LOOPS, not the
-  // conductor's form sections: those ran 24 bars here, which is the same loop three
-  // times unchanged, exactly the over-repetition the rule of three (006) forbids.
-  const block = 2*loopBars;
-  const blocks=[];
-  for(let b=0;b<nBars;b+=block) blocks.push({startBar:b, endBar:Math.min(nBars,b+block)});
-  if(blocks.length>1 && blocks[blocks.length-1].endBar-blocks[blocks.length-1].startBar < loopBars){
-    blocks[blocks.length-2].endBar = blocks[blocks.length-1].endBar; blocks.pop();
-  }
-  const n = blocks.length;
-  const form = chart._sectionSpans || [];
-  const nameAt = b => { const f=form.find(s=>b>=s.startBar&&b<s.endBar); return f?f.name:"A"; };
+  // ── THE CONDUCTOR'S FORM IS THE FORM ────────────────────────────────────
+  // It already emits real structures -- "A B A C A B A C coda", "verse chorus verse
+  // chorus" -- with contrast flags. The previous version threw that away and imposed
+  // uniform 16-bar blocks, which is how a song ends up with no sections at all. Each
+  // section keeps its LETTER, and the letter decides which cell it plays, so an A that
+  // returns later is the same music returning.
+  const spans = (chart._sectionSpans && chart._sectionSpans.length)
+              ? chart._sectionSpans.map(x=>({...x}))
+              : [{name:"A", startBar:0, endBar:nBars, bars:nBars}];
+  const n = spans.length;
 
   // ── THE ENERGY MAP ───────────────────────────────────────────────────────
   // EDMProd rates every section 1-9 and draws this curve BEFORE producing anything;
@@ -7572,18 +7594,19 @@ function planArrangement(chart, loop, rng){
 
     const debut = active.filter(r=>!seenVoice[r]);
     for(const r of active) seenVoice[r]=true;
-    // WHICH LOOP OF THE CELL THIS SECTION PLAYS. 009: the chord progression loops the
-    // whole song, but the sections do NOT play the same melody -- the verse melody was
-    // written separately from the chorus. So the chorus/peak restates cell loop 0 (the
-    // statement -- the hook, identical every time it returns), the builds take loop 1,
-    // the verses and low blocks take loop 2 (the DEPART -- different notes, same
-    // progression), and the outro takes loop 3.
+    // THE LETTER DECIDES THE MATERIAL; THE ENERGY DECIDES ONLY WHO PLAYS.
+    // Keying the cell offset off the section's EVENT meant two A sections at different
+    // energies pulled different music, so an A never actually returned (measured: a
+    // repeated section restated its material only 34 times in 79). The return is the
+    // whole reason ABA is a form -- 007(structure) brings the A back, and Margulis
+    // shows the return is what lets a listener hear structure at all. So every section
+    // starts its own cell at loop 0 and develops from there by the rule of three.
     const ev = i===0?"open" : i===peakI?"moment" : i===n-1?"out"
              : (i>0 && E[i]>E[i-1] ? "build":"drop");
-    const cellBase = (ev==="moment"||e>=8) ? 0 : ev==="open" ? 0
-                   : ev==="build" ? 1 : ev==="out" ? 3 : 2;
-    sections.push({ cellBase, name:nameAt(blocks[i].startBar), startBar:blocks[i].startBar, endBar:blocks[i].endBar,
-                    bars:blocks[i].endBar-blocks[i].startBar,
+    const cellBase = 0;
+    sections.push({ cellBase, name:spans[i].name, cell:spans[i].name,
+                    startBar:spans[i].startBar, endBar:spans[i].endBar,
+                    bars:spans[i].endBar-spans[i].startBar, contrast:!!spans[i].contrast,
                     event: ev,
                     energy:e, activeRoles:active, debut, keyShift:0, lift:e>=8 });
   }
@@ -7640,15 +7663,19 @@ function planArrangement(chart, loop, rng){
 
 /* Render the loop through the arrangement. This function COPIES notes; it never
    invents or alters a pitch. That is the whole point of the rewrite. */
-function renderArrangement(chart, loop, plan, rng){
-  const loopBars = loop.loopBars;
+function renderArrangement(chart, bundle, plan, rng){
+  const loopBars = chart.loopBars||8;
   const out = {};
-  for(const p of loop.session.parts) out[p.role] = {name:p.name, role:p.role, character:p.character, notes:[]};
+  for(const c of Object.values(bundle.cells))
+    for(const p of c.session.parts)
+      if(!out[p.role]) out[p.role] = {name:p.name, role:p.role, character:p.character, notes:[]};
 
-  const ornPart = loop.session.parts.find(p=>p.role==="ornament");
-  const ornLen = (ornPart && ornPart._ornLen) || 5;      // coprime with the 8-bar grid
+  const primary = bundle.cells[bundle.primary];
+  const ornRef = primary.session.parts.find(p=>p.role==="ornament");
+  const ornLen = (ornRef && ornRef._ornLen) || 5;      // coprime with the 8-bar grid
 
   for(const sec of plan.sections){
+    const cell = bundle.cells[sec.cell] || primary;    // THIS section's own music
     const act = new Set(sec.activeRoles);
     const dyn = 0.72 + (sec.energy/9)*0.34;               // expression follows energy
     for(let bar=sec.startBar; bar<sec.endBar; bar++){
@@ -7660,7 +7687,7 @@ function renderArrangement(chart, loop, plan, rng){
       const cellLoop = ((sec.cellBase||0) + (k>=2 ? 1+((k-2)%2) : 0)) % CELL_LOOPS;
       const lb = cellLoop*loopBars + ((bar - sec.startBar) % loopBars);
       const lastBar = (bar === sec.endBar-1);
-      for(const p of loop.session.parts){
+      for(const p of cell.session.parts){
         if(!act.has(p.role)) continue;
         // the EMPTY: strip the rhythm section from the final bar before a big arrival
         if(sec.emptyLastBar && lastBar && (p.role==="drums"||p.role==="bass")) continue;
@@ -7695,9 +7722,13 @@ function renderArrangement(chart, loop, plan, rng){
       const breaks = chart.feel==="breaks";
       for(const m of marks){
         const fb=m-1; if(fb<0) continue;
-        // a fill belongs on the PHRASE-END bar (004's "D" bar), never mid-phrase --
-        // a loud tom in a core bar is the fault the kit laws exist to catch
-        if(((fb % loopBars)+loopBars)%loopBars !== loopBars-1) continue;
+        // A fill belongs on the phrase-end bar -- 004's "D" slot -- never mid-phrase; a
+        // loud tom in a core bar is exactly what the kit laws exist to catch. Sections
+        // no longer start on loop boundaries (forms carry odd-length intros), so the
+        // position is read against the section, not the song bar.
+        const fsec = plan.sections.find(x=>fb>=x.startBar && fb<x.endBar);
+        if(!fsec) continue;
+        if(((fb - fsec.startBar) % loopBars + loopBars) % loopBars !== loopBars-1) continue;
         if(!have.has(fb) && !drumsIn(m)) continue;     // the fill may lead INTO the kit too
         const fR=makeRng(hashName(chart._seed||0,"fill"+fb));
         if(breaks){
@@ -7721,11 +7752,12 @@ function renderArrangement(chart, loop, plan, rng){
 function composeSong(conductorChart, rng){
   const chart = conductorChart;
   // 1. ONE LOOP — all the music there is.
-  const loop = buildLoop(chart, rng);
+  const bundle = buildCells(chart, rng);
+  const loop = bundle.cells[bundle.primary];
   // 2. THE ARRANGEMENT — who plays, how hard, section by section.
-  const plan = planArrangement(chart, loop, rng);
+  const plan = planArrangement(chart, bundle, rng);
   // 3. RENDER — copy the loop through the arrangement. No note is created here.
-  const parts = renderArrangement(chart, loop, plan, rng);
+  const parts = renderArrangement(chart, bundle, plan, rng);
 
   const session = { parts, order: loop.session.order, steps: loop.session.steps,
                     perception: loop.session.perception, chart: loop.loopChart };
