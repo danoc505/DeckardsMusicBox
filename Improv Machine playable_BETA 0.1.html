@@ -7330,6 +7330,121 @@ function hashName(seed, name){
    content of the song in a single pass — not four passes over 96 bars of drift. */
 const CELL_LOOPS = 4;      // state · repeat · depart · vary  (006, the rule of three)
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE ALTERATION CATALOGUE  (docs/STORY_AND_MATERIAL.md)
+
+   Every way a loop can be changed, in the two families the research separates:
+   INSIDE the loop (the material itself changes — the classical motivic set) and
+   OUTSIDE it (the frame around unchanged material changes).
+
+   They are drawn two ways. Some are picked at random from the weighted pool; the NEXT
+   one is then picked from a table CONDITIONED on the one before it, because alterations
+   answer each other — a thinning wants a filling, an augmentation wants a diminution,
+   an inversion wants its subject restated. That is what makes a run of changes read as
+   an argument rather than as a shuffle.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ---- INSIDE: the material changes. Pure functions over a bar-relative note list. ---- */
+const ALTER_IN = {
+  // restate it unchanged — the reference every other alteration is heard against
+  restate:      (ns)=>ns.map(n=>({...n})),
+  // stepwise transposition of the whole figure (the classical sequence)
+  sequence:     (ns,C)=>ns.map(n=>({...n, midi:n.midi==null?null:T.scaleStep2(n.midi,C.scale,C.root, C.dir||2)})),
+  // flip every interval about the figure's first note: rises become falls
+  inversion:    (ns,C)=>{ const a=ns.find(n=>n.midi!=null); if(!a) return ns.map(n=>({...n}));
+                  return ns.map(n=>n.midi==null?{...n}:{...n, midi:T.snap(2*a.midi-n.midi, C.scale, C.root)}); },
+  // play the pitches backwards over the same rhythm
+  retrograde:   (ns)=>{ const p=ns.filter(n=>n.midi!=null).map(n=>n.midi).reverse(); let i=0;
+                  return ns.map(n=>n.midi==null?{...n}:{...n, midi:p[i++]}); },
+  // stretch the durations — the figure becomes broader, grander
+  augmentation: (ns)=>{ const out=[]; for(const n of ns){ if(n.step%2) continue;
+                  out.push({...n, step:Math.min(15,n.step), dur:Math.min(16-n.step,(n.dur||1)*2)}); } return out; },
+  // compress — the figure becomes urgent
+  diminution:   (ns)=>{ const out=[]; for(const n of ns){ out.push({...n, dur:Math.max(1,Math.round((n.dur||2)/2))});
+                  if(n.step+2<16 && (n.dur||1)>=2) out.push({...n, step:n.step+2, dur:1, vel:(n.vel||.5)*.8}); } return out; },
+  // keep only a recognisable piece and let that stand alone
+  fragmentation:(ns)=>ns.filter(n=>n.step<8),
+  // cut the phrase short
+  truncation:   (ns)=>ns.filter(n=>n.step<12),
+  // only the head of the figure — the SHADOW used to foreshadow it
+  head:         (ns)=>{ const k=Math.max(1,Math.ceil(ns.filter(n=>n.midi!=null).length/3));
+                  let c=0; return ns.filter(n=>n.midi==null?false:(++c<=k)); },
+  // same shape, one octave up: the classic revaluation of a return
+  octaveUp:     (ns,C)=>ns.map(n=>n.midi==null?{...n}:{...n, midi:Math.min(C.ceil||96,n.midi+12)}),
+  octaveDown:   (ns,C)=>ns.map(n=>n.midi==null?{...n}:{...n, midi:Math.max(C.floor||24,n.midi-12)}),
+  // shift the figure later in the bar — same notes, different metric weight
+  displace:     (ns)=>ns.map(n=>({...n, step:Math.min(15,n.step+2)})),
+  // add a passing neighbour between the figure's notes
+  ornament:     (ns,C)=>{ const out=[]; for(const n of ns){ out.push({...n});
+                  if(n.midi!=null && n.step+1<16 && (n.dur||1)>1)
+                    out.push({...n, step:n.step+1, dur:1, vel:(n.vel||.5)*.55,
+                              midi:T.scaleStep2(n.midi,C.scale,C.root,1)}); } return out; },
+};
+
+/* ---- OUTSIDE: the material is untouched; the frame changes. ---- */
+const ALTER_OUT = ["addVoice","dropVoice","reorchestrate","lift","duck","thin","fill","silence"];
+
+/* ---- WHAT ANSWERS WHAT ----------------------------------------------------
+   The conditional half. After an alteration, the next is drawn from ITS row, so a
+   change is a reply to the change before it: a thinning is answered by a filling, a
+   stretch by a compression, an inversion by its subject restated (which is how the
+   listener learns the inversion WAS one), a fragment by the whole.               */
+const ALTER_FOLLOWS = {
+  restate:      [["sequence",3],["ornament",3],["fragmentation",2],["octaveUp",2],["displace",1]],
+  sequence:     [["restate",4],["inversion",2],["truncation",2],["diminution",1]],
+  inversion:    [["restate",5],["sequence",2],["octaveUp",1]],            // show the subject again
+  retrograde:   [["restate",5],["fragmentation",2]],
+  augmentation: [["diminution",4],["restate",3],["fragmentation",1]],     // broad answered by urgent
+  diminution:   [["augmentation",3],["restate",3],["truncation",2]],
+  fragmentation:[["restate",5],["extension",2],["sequence",2]],           // the piece answered by the whole
+  truncation:   [["restate",4],["ornament",2],["sequence",1]],
+  head:         [["restate",6],["fragmentation",2]],                      // the shadow answered by the thing
+  octaveUp:     [["octaveDown",3],["restate",3],["ornament",2]],
+  octaveDown:   [["octaveUp",3],["restate",3]],
+  displace:     [["restate",4],["diminution",2]],
+  ornament:     [["restate",4],["fragmentation",2],["augmentation",1]],
+  // outside alterations answer each other the same way
+  addVoice:     [["lift",3],["dropVoice",2],["reorchestrate",2],["thin",1]],
+  dropVoice:    [["addVoice",4],["fill",2],["lift",1]],
+  reorchestrate:[["lift",3],["restate",2],["addVoice",2]],
+  lift:         [["duck",3],["addVoice",2],["thin",1]],
+  duck:         [["lift",4],["addVoice",2]],
+  thin:         [["fill",5],["addVoice",2]],
+  fill:         [["thin",3],["lift",2],["dropVoice",1]],
+  silence:      [["addVoice",5],["lift",3]],                              // a hole is answered by arrival
+};
+
+/* Draw a chain of alterations: the first at random from `pool`, each next one CHOSEN
+   BECAUSE OF the last via ALTER_FOLLOWS (falling back to the pool if the row is empty
+   or its picks are unavailable). */
+function alterChain(rng, n, pool){
+  const chain=[]; let prev=null;
+  for(let i=0;i<n;i++){
+    let pick=null;
+    if(prev && ALTER_FOLLOWS[prev]){
+      const row=ALTER_FOLLOWS[prev].filter(([k])=>pool.includes(k));
+      if(row.length) pick=wpick(rng,row);
+    }
+    if(!pick) pick=pool[Math.floor(rng()*pool.length)];
+    chain.push(pick); prev=pick;
+  }
+  return chain;
+}
+
+/* Apply an INSIDE alteration to one bar's worth of notes. */
+function applyAlterIn(name, notes, ctx){
+  const f = ALTER_IN[name] || ALTER_IN.restate;
+  let out = f(notes.map(n=>({...n})), ctx) || [];
+  const lo = ctx.floor||24, hi = ctx.ceil||96;
+  for(const n of out){ if(n.midi==null) continue;
+    // an alteration may never take a note OUT OF KEY -- inversion in particular
+    // reflects about a pivot and can land between scale degrees
+    if(ctx.scale!=null) n.midi = T.snap(n.midi, ctx.scale, ctx.root);
+    while(n.midi<lo) n.midi+=12; while(n.midi>hi) n.midi-=12;
+    n.step=Math.max(0,Math.min(15,n.step|0)); n.dur=Math.max(1,Math.min(16-n.step,n.dur||1)); }
+  return out.filter(n=>n.midi!=null);
+}
+
 /* ABA MEANS A AND B ARE DIFFERENT MUSIC.
    Not one motif with alterations -- that is A A' A''. 007(structure) defines binary as
    "two CONTRASTING sections"; 006 says the third pass must "go somewhere COMPLETELY
@@ -7347,9 +7462,44 @@ function buildCells(chart, rng){
   const MAIN = letters.filter(l=>l!=="intro" && l!=="coda");
   const pick3 = (MAIN.length?MAIN:letters).slice(0,3);
   const cells = {};
-  for(const L of pick3){
+  const primaryL = pick3[0];
+  cells[primaryL] = buildLoop(chart, makeRng(hashName(chart.seed||0,"cell:"+primaryL)), primaryL);
+
+  // ── B IS DERIVED FROM A BY OPPOSITION ────────────────────────────────────
+  // Almén: motives are the story's AGENTS, and "motives a and b constitute
+  // OPPOSITIONAL elements" whose reconciliation is the narrative. Generating each
+  // letter from its own seed gave contrast but no RELATIONSHIP -- B was a stranger, not
+  // an antagonist, so A's return could not be the outcome of anything. Thematic
+  // transformation is the technique: one theme "made to appear in several contrasting
+  // roles", where "the transformed theme has a life of its own and is no longer a
+  // sibling to the original". So the other letters take the primary cell's TUNE and
+  // oppose it -- inverted contour, retrograde, the figure displaced, stretched or
+  // compressed -- while keeping their own rhythm section, so the song stays one song.
+  for(let li=1; li<pick3.length; li++){
+    const L = pick3[li];
     const sub = makeRng(hashName(chart.seed||0, "cell:"+L));
-    cells[L] = buildLoop(chart, sub, L);
+    const cell = buildLoop(chart, sub, L);
+    const src = cells[primaryL].session.parts.find(p=>p.role==="lead");
+    const dst = cell.session.parts.find(p=>p.role==="lead");
+    if(src && dst && src.notes.length){
+      const OPPOSE = ["inversion","retrograde","augmentation","diminution","displace","sequence"];
+      const oR = makeRng(hashName(chart.seed||0,"oppose:"+L));
+      const chain = alterChain(oR, 2, OPPOSE);              // one drawn, one that answers it
+      const band = (typeof BAND!=="undefined" && BAND.lead) || [67,84];
+      const ctx = { scale:chart.key.scale, root:chart.key.root, floor:band[0], ceil:band[1],
+                    dir: li%2 ? 2 : -2 };
+      const byBar={}; for(const n of src.notes){ if(n.midi==null)continue; (byBar[n.bar]=byBar[n.bar]||[]).push(n); }
+      const out=[];
+      for(const b of Object.keys(byBar)){
+        let ns = byBar[b];
+        for(const op of chain) ns = applyAlterIn(op, ns, ctx);
+        for(const n of ns) out.push({...n, bar:+b});
+      }
+      if(out.length){ dst.notes = out.sort((a,b)=>(a.bar*16+a.step)-(b.bar*16+b.step));
+                      cell.opposedBy = chain.join("+"); }
+      ghostPass(cell.session.parts, cell.loopChart);
+    }
+    cells[L] = cell;
   }
   const fallback = cells[pick3[0]];
   for(const L of letters) if(!cells[L]) cells[L] = fallback;   // intro/coda borrow the main cell
@@ -7665,8 +7815,24 @@ function planArrangement(chart, bundle, rng){
     // the letter's own cell -- the same music, developed, which is what a return is.
     heard[spans[i].name] = (heard[spans[i].name]||0) + 1;
     const nth = heard[spans[i].name] - 1;
+    // REVALUE THE RETURN. Almén's narrative works by MARKEDNESS and the "revaluation of
+    // rank through time" -- A after B is not A before B, or nothing has happened.
+    // Development alone (a later loop of the same cell) is not revaluation; the return
+    // must be RANKED differently. So each return is also lifted an octave or
+    // re-orchestrated: the same music, heard from a new position.
+    const revalue = nth===0 ? null : (nth===1 ? "octaveUp" : (nth%2 ? "reorchestrate" : "octaveUp"));
     const cellBase = nth<2 ? 0 : (1 + ((nth-2) % (CELL_LOOPS-1)));
-    sections.push({ cellBase, name:spans[i].name, cell:spans[i].name,
+    // SECTION CHARACTER. A section is a FUNCTION, not a letter, and what this block IS
+    // can be read off what plays in it: the tune alone over a bed is a SOLO, the bed
+    // with no tune at all is a BREAKDOWN, a thin block between full ones an INTERLUDE.
+    const _hasLead = active.includes("lead");
+    const _bedOnly = !_hasLead && !active.includes("answer");
+    const character = i===0 ? "intro" : i===n-1 ? "outro"
+                    : e>=8 ? "chorus"
+                    : (_bedOnly && e<=4) ? "breakdown"
+                    : (_hasLead && active.length<=2) ? "solo"
+                    : e<=3 ? "interlude" : "verse";
+    sections.push({ cellBase, revalue, character, name:spans[i].name, cell:spans[i].name,
                     startBar:spans[i].startBar, endBar:spans[i].endBar,
                     bars:spans[i].endBar-spans[i].startBar, contrast:!!spans[i].contrast,
                     event: ev,
@@ -7757,6 +7923,39 @@ function planArrangement(chart, bundle, rng){
     }
   }
 
+  // ── THE SONG NEEDS AN ENDING ────────────────────────────────────────────
+  // An intro answers "how does this world begin"; an outro answers "how does it end".
+  // Ours just stopped being -- the last block was simply the quietest. The real
+  // vocabulary is fade, cold stop, coda, tag, REPRISE, ritardando and button, typically
+  // 8-16 bars. The reprise is the one that closes the circle: "bring back a musical
+  // motif from the song's INTRO, but play it differently". Since our intro states the
+  // motif in shadow, the outro can state it once more and the song ends where it began.
+  if(sections.length>1){
+    const last=sections[sections.length-1];
+    const oR=makeRng(hashName(chart._seed||0,"outro"));
+    last.outro = wpick(oR, [["reprise",5],["coda",3],["tag",3],["cold",2],["fade",2]]);
+    last.character="outro";
+    if(last.outro==="reprise"){                 // the intro's voices and its shadowed tune
+      last.cell = sections[0].cell; last.cellBase = sections[0].cellBase; last.revalue=null;
+      last.activeRoles = [...new Set(sections[0].activeRoles.concat(["lead"]))];
+    } else if(last.outro==="tag"){              // a short figure repeated to close
+      last.activeRoles = last.activeRoles.filter(r=>r!=="ornament"&&r!=="answer");
+    } else if(last.outro==="cold"){             // decisive: full band, then stop
+      last.activeRoles = [...new Set(last.activeRoles.concat(sections[peakI].activeRoles))];
+      last.energy = Math.max(last.energy, 6);
+    }
+  }
+
+  // the outro rewrote the last lineup, so the no-two-neighbours-alike rule is re-checked
+  for(let i=1;i<sections.length;i++){
+    const a=sections[i-1].activeRoles, b=sections[i].activeRoles;
+    if(a.length===b.length && a.every(r=>b.includes(r))){
+      const off=keepOrder.filter(r=>!b.includes(r));
+      sections[i].activeRoles = off.length ? b.concat([off[0]])
+                              : (b.length>1 ? b.slice(0,-1) : b);
+    }
+  }
+
   // ── THE EMPTY ────────────────────────────────────────────────────────────
   // 004: "the opposite of the fill is the empty... it must include the subtraction of
   // most if not all of the main rhythmic elements before the next downbeat. The most
@@ -7798,6 +7997,12 @@ function renderArrangement(chart, bundle, plan, rng){
       if(!out[p.role]) out[p.role] = {name:p.name, role:p.role, character:p.character, notes:[]};
 
   const primary = bundle.cells[bundle.primary];
+  // HOW the motif is withheld is itself a choice: only its head, only a fragment, or the
+  // phrase cut short. Drawn once per song, with the second op answering the first
+  // through ALTER_FOLLOWS -- otherwise every song's opening wears the same shortened
+  // shape (measured: distinct opening lead rhythms fell to 10 of 40).
+  const fR = makeRng(hashName(chart._seed||0,"foreshadow"));
+  const fsChain = alterChain(fR, 2, ["head","fragmentation","truncation","diminution"]);
   const ornRef = primary.session.parts.find(p=>p.role==="ornament");
   const ornLen = (ornRef && ornRef._ornLen) || 5;      // coprime with the 8-bar grid
 
@@ -7816,10 +8021,26 @@ function renderArrangement(chart, bundle, plan, rng){
       const lastBar = (bar === sec.endBar-1);
       for(const p of cell.session.parts){
         if(!act.has(p.role)) continue;
+        // ── FORESHADOW THE MOTIF ────────────────────────────────────────────
+        // "A theme that emerges in fragments long before it fully unfolds -- like a
+        // shadow of the future", the rule being that it is "a subtle play with
+        // expectation, never a spoiler". If the tune arrives complete the first time,
+        // every later statement can only be repetition and the full arrival has nothing
+        // left to reveal. So before the peak the lead is heard REDUCED -- its head only,
+        // and an octave down -- and the peak is the first time it is whole.
+        const foreshadow = (p.role==="lead" && sec.energy<=5);
         // the EMPTY: strip the rhythm section from the final bar before a big arrival
         if(sec.emptyLastBar && lastBar && (p.role==="drums"||p.role==="bass")) continue;
         const debut = sec.debut && sec.debut.includes(p.role);
-        for(const n of p.notes){
+        let bag = p.notes.filter(n=>n.bar===lb);
+        if(foreshadow || sec.revalue==="octaveUp"){
+          const bd=(typeof BAND!=="undefined"&&BAND[p.role])||[48,84];
+          const ctx={scale:chart.key.scale, root:chart.key.root, floor:bd[0], ceil:bd[1], dir:2};
+          if(foreshadow){ for(const op of fsChain) bag = applyAlterIn(op, bag, ctx);
+                          bag = bag.map(x=>({...x, midi:Math.max(bd[0], x.midi-12)})); }
+          else if(p.role==="lead") bag = applyAlterIn("octaveUp", bag, ctx);
+        }
+        for(const n of bag){
           if(n.bar!==lb) continue;
           // a reduced debut: the quiet ornamental half of the part is held back
           if(debut && p.role==="drums" && /[Hh]at|clap/.test(n.lane||"")) continue;
@@ -7895,6 +8116,42 @@ function composeSong(conductorChart, rng){
 
   // PERFORMANCE LAYERS — timing and level only; these never move a pitch, so the
   // physics the ghost settled on the loop still holds exactly.
+  // ── LAND IT ─────────────────────────────────────────────────────────────
+  // Almén: the resolution of a narrative conflict is marked by "the arrival of TONIC
+  // harmony". Our progression looped indifferently to the end, so nothing ever landed --
+  // the song stopped rather than closed. The final bar is given the tonic: the bass
+  // takes the root, the chord voice states the tonic triad, and a cold ending stops
+  // everything dead on it.
+  {
+    const last = plan.sections[plan.sections.length-1];
+    if(last && chart.key){
+      const endBar = last.endBar-1, rt = chart.key.root;
+      const tonic = T.chordTones(chart.key.scale, 0, 3, rt);
+      for(const p of parts){
+        if(p.role==="bass"){
+          let m=T.degToMidi(0,chart.key.scale,rt); while(m>BASS_CEIL)m-=12; while(m<36)m+=12;
+          const low = p.notes.filter(n=>n.bar===endBar);
+          if(low.length) low.forEach((n,i)=>{ n.midi=m; if(i) n.vel=(n.vel||.6)*.8; });
+          else p.notes.push({bar:endBar, step:0, midi:m, dur:16, vel:0.62});  // the arrival must SOUND
+        } else if(p.role==="harmony"){
+          p.notes = p.notes.filter(n=>n.bar!==endBar);
+          tonic.forEach((t,i)=>{ let m=t; while(m<52)m+=12; while(m>76)m-=12;
+            p.notes.push({bar:endBar, step:0, midi:m, dur:16, vel:0.42}); });
+        }
+      }
+      if(last.outro==="cold")                      // stop dead: nothing rings past the chord
+        for(const p of parts) for(const n of p.notes)
+          if(n.bar===endBar && n.step>0) n.vel=Math.min(n.vel||.5, 0.12);
+      parts.forEach(p=>p.notes.sort((a,b)=>(a.bar*16+a.step)-(b.bar*16+b.step)));
+    }
+  }
+
+  // The foreshadow reduction and the octave revaluation move real pitches after the
+  // cell was validated, so the ghost checks the finished song once. Every earlier
+  // attempt to alter pitch outside a validated pass left unisons behind; this is the
+  // one sweep that catches it.
+  ghostPass(parts, chart);
+
   const groove = makeGroove(chart, rng);
   const grooveInfo = applyGroove(parts, chart, groove, rng);
   chart._leader = parts.some(p=>p.role==="lead") ? "lead"
