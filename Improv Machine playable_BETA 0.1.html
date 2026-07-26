@@ -7442,7 +7442,18 @@ function applyAlterIn(name, notes, ctx){
     if(ctx.scale!=null) n.midi = T.snap(n.midi, ctx.scale, ctx.root);
     while(n.midi<lo) n.midi+=12; while(n.midi>hi) n.midi-=12;
     n.step=Math.max(0,Math.min(15,n.step|0)); n.dur=Math.max(1,Math.min(16-n.step,n.dur||1)); }
-  return out.filter(n=>n.midi!=null);
+  out = out.filter(n=>n.midi!=null).sort((a,b)=>a.step-b.step);
+  // A MELODIC LINE IS MONOPHONIC. diminution and ornament both insert a note two steps
+  // on, which can land on a step that is already sounding -- printing the notes showed
+  // the peak carrying "2:D5 2:C5", two pitches at once in what is supposed to be a
+  // single line. Keep the first note on any step and let the later one go.
+  const seen=new Set(); out = out.filter(n=>{ if(seen.has(n.step)) return false; seen.add(n.step); return true; });
+  // ...and a reduction must still be a FIGURE, not a monotone. The foreshadow chain
+  // could strip a phrase down to one pitch repeated ("G4 G4 G4 G4"), which foreshadows
+  // nothing -- there is no shape left to recognise later. If that happens, hand back the
+  // original: better to state the motif plainly than to reduce it to a pulse.
+  if(out.length>1 && new Set(out.map(n=>n.midi)).size===1) return notes.map(n=>({...n}));
+  return out;
 }
 
 /* ABA MEANS A AND B ARE DIFFERENT MUSIC.
@@ -7574,6 +7585,26 @@ function buildLoop(chart, rng, letter){
         }
       }
       if(notes.length) session.parts.push({name:"answer", role:"answer", notes});
+    }
+  }
+
+  // ── A MELODY IS NOT A PULSE ──────────────────────────────────────────────
+  // Printing the notes showed cell A's tune as "G4 G4 G4 G4" -- one pitch struck four
+  // times. Measured across 40 songs, 32.6% of ALL lead bars were a single pitch
+  // repeated, so a third of the melody was rhythm with no contour, and no amount of
+  // arranging or foreshadowing can make a monotone memorable. Where a bar has no shape,
+  // one is given to it by neighbour motion: the off-beats step away and come back,
+  // which is the smallest gesture that turns a pulse into a figure.
+  if(lead && lead.notes.length){
+    const byBar={}; for(const n of lead.notes){ if(n.midi==null)continue; (byBar[n.bar]=byBar[n.bar]||[]).push(n); }
+    const mR = makeRng(hashName(chart.seed||0,"contour:"+(letter||"A")));
+    for(const b of Object.keys(byBar)){
+      const ns = byBar[b].sort((x,y)=>x.step-y.step);
+      if(ns.length<2 || new Set(ns.map(n=>n.midi)).size>1) continue;   // it already has a shape
+      const dir = mR()<0.5 ? 1 : -1;
+      ns.forEach((n,i)=>{ if(i===0) return;
+        const step = (i%2===1) ? dir : (i%4===2 ? dir*2 : 0);          // up-and-back, reaching further
+        if(step) n.midi = T.scaleStep2(n.midi, chart.key.scale, chart.key.root, step); });
     }
   }
 
