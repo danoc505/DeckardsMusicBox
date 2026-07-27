@@ -1143,26 +1143,115 @@ function referenceEvents(tempo){
    STAGE 1 — CHART. Owns identity: key, mode, tempo. ~[corpus:conduct history]
    Lofi lives at 74-92 bpm in minor-family modes.
    ═══════════════════════════════════════════════════════════════════════════ */
-function makeChart(seed, rigChoice){
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE GENRE TABLE.
+
+   Law 4: A GENRE IS PARAMETER TABLES ONLY. Stages 2-5 contain no genre name and
+   no special case; they read this table and do the same work for everyone. If a
+   genre ever needs a correction mechanism or an `if (genre === ...)` in stage
+   logic, the architecture has a hole and the right move is to stop and widen the
+   TABLE, never to branch the code.
+
+   This began as lofi's numbers scattered as literals through five stages. Moving
+   them here changed nothing -- verified by hashing every event of 300 seeds
+   before and after (harness/mk2_snapshot.js): not one note moved. That check is
+   the only reason to believe a refactor was a refactor.
+   ═══════════════════════════════════════════════════════════════════════════ */
+const SECTION_LEN = { intro: 4, verse: 8, chorus: 8, bridge: 8, instrumental: 8, outro: 4 };
+
+const GENRE = {
+  lofi: {
+    label: "lofi hip hop",
+    /* ── stage 1: identity ── */
+    tempo:    [74, 92],                                  // [corpus:conduct history]
+    modes:    [["minor", 5], ["dorian", 4], ["major", 2]],
+    rig:      [["band", 7], ["sega", 3]],                // [EAR]
+    keysChar: [["rhodes", 6], ["wurly", 4]],             // the soulful pick [EAR]
+    tape:     { wow: [0.0012, 0.0018], crackle: [0.006, 0.008] },   // the patina [EAR]
+
+    /* ── stage 2: form. Weights are measured; the rule of three is enforced by
+       stage 2 itself and is not a genre choice. [corpus:harvest_structure] ── */
+    form: {
+      coldOpen:   0.15,          // a cold open is a choice, not an absence
+      openVerse:  0.78,          // P(open on a verse | there was an intro)
+      target:     [40, 4, 8],    // base bars, how many steps, step size -> 40..64
+      transitions: {
+        verse:        [["chorus", 8], ["verse", 1], ["bridge", 1]],
+        chorus:       [["verse", 5], ["chorus", 2], ["bridge", 3], ["instrumental", 2]],
+        bridge:       [["chorus", 8], ["verse", 2]],
+        instrumental: [["chorus", 6], ["verse", 4]],
+      },
+      bridgeAfterChorus: { verse: 1, chorus: 2 },   // choruses heard before a bridge may be drawn
+      energy: { intro: 0.55, outro: 0.5, bridge: 0.68, instrumental: 0.72,
+                chorus: 0.92, chorusPeak: 1.0, verse: 0.74 },
+    },
+
+    /* ── stage 3: materials ── */
+    pocket: [[[0, 10], 5], [[0, 7, 10], 3], [[0, 10, 14], 2], [[0, 6, 10], 2]],
+    kit: {
+      snare:       [4, 12],            // the backbeat, as sixteenth indices
+      hatEvery:    2,                  // straight eighths
+      hatVel:      0.62,
+      ghostChance: 0.55,
+      ghostSpots:  [3, 7, 9, 11, 15],
+      openSpot:    [[14, 4], [7, 2], [-1, 4]],   // -1 = this song has no open hat
+      openBars:    [1, 3],
+    },
+    progressions: {
+      minor:  [[[0,5,2,6], 4], [[0,3,5,6], 3], [[0,3,0,4], 2], [[5,3,0,6], 2]],
+      dorian: [[[0,3,0,3], 4], [[0,3,4,3], 3], [[0,5,3,4], 2]],
+      major:  [[[1,4,0,5], 4], [[3,4,2,5], 3], [[0,5,1,4], 2]],
+    },
+    /* the bridge's harmony: rotated to open OFF the tonic, so the last chorus
+       has somewhere to arrive from [theory] */
+    bridgeProgressions: {
+      minor:  [[[3,6,2,4], 3], [[5,2,3,4], 2], [[3,0,5,4], 2]],
+      dorian: [[[5,3,4,3], 3], [[3,4,5,4], 2]],
+      major:  [[[5,3,1,4], 3], [[2,5,1,4], 2]],
+    },
+    /* the registers. The "two hands" idea made structural: bass owns the bottom,
+       the comp owns the middle, the tune sits above both, and they overlap only
+       at the edges -- a countermelody that never crosses the comp is not one. */
+    registers: { bass: [33, 45], keys: [52, 74], counter: [57, 74],
+                 themeA: [64, 80], themeB: [67, 84], themeC: [62, 78] },
+
+    /* ── stage 5: performance ── */
+    groove: {
+      styles:     [["dilla", 6], ["even", 4]],           // [EAR]
+      swing:      [1.5, 0.16],                           // ratio base, range
+      snareEarly: [0.10, 0.15],                          // sixteenths, toward "a 32nd early"
+      kickLate:   [0.06, 0.12],
+      hatMul:     0.25,                                  // hats stay nearly straight: the friction
+      jitter:     { dilla: 0.002, even: 0.005 },         // seconds; dilla REPEATS, it does not wander
+      push:       -0.008,                                // the whole kit sits fractionally early
+    },
+    touch: { bassArtic: [[0.6, 3], [0.85, 4], [1.0, 3]], strum: [0.004, 0.005] },   // [EAR]
+    space: { wet: 0.16 },                                                            // [EAR]
+  },
+};
+
+function makeChart(seed, rigChoice, genreChoice){
   const rng = stream(seed, "chart");
   /* THE RIG -- which band plays this song. Drawn on its OWN named substream, so
      adding it moved no existing song by a single sample: every draw in "chart"
      keeps its place. That is what named substreams are for. The UI may PIN it,
      exactly the way the seed field pins the seed -- an input to stage 1, never
      an override applied downstream. The draw runs unconditionally either way. */
+  const genre = GENRE[genreChoice] ? genreChoice : "lofi";
+  const G = GENRE[genre];
   const rigRng   = stream(seed, "rig");
-  const rigDrawn = wpick(rigRng, [["band", 7], ["sega", 3]]);            // [EAR]
+  const rigDrawn = wpick(rigRng, G.rig);
   const chart = {
     seed,
-    genre: "lofi",
+    genre,
     rig: (rigChoice === "band" || rigChoice === "sega") ? rigChoice : rigDrawn,
     root: Math.floor(rng() * 12),
-    mode: wpick(rng, [["minor", 5], ["dorian", 4], ["major", 2]]),
-    tempo: 74 + Math.round(rng() * 18),
-    keysChar: wpick(rng, [["rhodes", 6], ["wurly", 4]]),   // the soulful pick [EAR]
-    tape: Object.freeze({                                    // the lofi patina [EAR]
-      wow:     0.0012 + rng() * 0.0018,   // slow pitch drift depth (fraction of f)
-      crackle: 0.006 + rng() * 0.008,     // vinyl bed level (way under the band)
+    mode: wpick(rng, G.modes),
+    tempo: G.tempo[0] + Math.round(rng() * (G.tempo[1] - G.tempo[0])),
+    keysChar: wpick(rng, G.keysChar),
+    tape: Object.freeze({
+      wow:     G.tape.wow[0]     + rng() * G.tape.wow[1],
+      crackle: G.tape.crackle[0] + rng() * G.tape.crackle[1],
     }),
   };
   return Object.freeze(chart);
@@ -1177,16 +1266,15 @@ function makeChart(seed, rigChoice){
    third OCCURRENCE of a function emits a `vary` demand that a later stage must
    satisfy with the property it owns. Form demands; it never edits notes.
    ═══════════════════════════════════════════════════════════════════════════ */
-const SECTION_LEN = { intro: 4, verse: 8, chorus: 8, bridge: 8, instrumental: 8, outro: 4 };
-
 function makeForm(chart){
+  const F = GENRE[chart.genre].form;
   const rng = stream(chart.seed, "form");
   const fns = [];
-  const coldOpen = rng() < 0.15;                        // a cold open is a choice, not an absence
+  const coldOpen = rng() < F.coldOpen;                  // a cold open is a choice, not an absence
   if(!coldOpen) fns.push("intro");
   let fn = coldOpen ? (rng() < 0.5 ? "chorus" : "verse")
-                    : (rng() < 0.78 ? "verse" : "chorus");
-  const target = 40 + Math.floor(rng() * 4) * 8;        // 40-64 bars of body+caps
+                    : (rng() < F.openVerse ? "verse" : "chorus");
+  const target = F.target[0] + Math.floor(rng() * F.target[1]) * F.target[2];
   let bars = coldOpen ? 0 : 4, bridgeUsed = false, chorusSeen = 0;
   for(let guard = 0; guard < 10; guard++){
     fns.push(fn); bars += SECTION_LEN[fn];
@@ -1196,18 +1284,14 @@ function makeForm(chart){
     /* transition table [corpus:harvest_structure], with the rule of three:
        two consecutive statements of a function zero its own weight */
     const consec = fns.length >= 2 && fns[fns.length - 1] === fns[fns.length - 2];
-    let table;
-    if(fn === "verse")
-      table = [["chorus", 8], ["verse", consec ? 0 : 1],
-               ["bridge", (!bridgeUsed && chorusSeen >= 1) ? 1 : 0]];
-    else if(fn === "chorus")
-      table = [["verse", 5], ["chorus", consec ? 0 : 2],
-               ["bridge", (!bridgeUsed && chorusSeen >= 2) ? 3 : 0],
-               ["instrumental", 2]];
-    else if(fn === "bridge")
-      table = [["chorus", 8], ["verse", 2]];
-    else /* instrumental */
-      table = [["chorus", 6], ["verse", 4]];
+    /* the genre supplies the weights; stage 2 supplies the LAWS -- a function
+       cannot follow itself twice (rule of three), and the bridge cannot be drawn
+       before its genre has heard enough choruses to make leaving mean anything */
+    const need = F.bridgeAfterChorus[fn];
+    const table = F.transitions[fn].map(([to, w]) =>
+      [to, to === fn && consec ? 0
+         : to === "bridge" ? ((!bridgeUsed && need != null && chorusSeen >= need) ? w : 0)
+         : w]);
     fn = wpick(rng, table);
   }
   fns.push("outro");
@@ -1223,9 +1307,8 @@ function makeForm(chart){
       fn: f, startBar: bar, endBar: bar + SECTION_LEN[f],
       occurrence: seen[f],
       demand: (seen[f] >= 3 && (f === "verse" || f === "chorus")) ? "vary" : null,
-      energy: f === "intro" ? 0.55 : f === "outro" ? 0.5
-            : f === "bridge" ? 0.68 : f === "instrumental" ? 0.72
-            : f === "chorus" ? (i === lastChorus ? 1.0 : 0.92) : 0.74,
+      energy: f === "chorus" ? (i === lastChorus ? F.energy.chorusPeak : F.energy.chorus)
+                              : F.energy[f],
       peak: i === lastChorus,
     };
     bar += SECTION_LEN[f];
@@ -1257,80 +1340,56 @@ function makeForm(chart){
    Every note frozen on exit. Nothing downstream re-pitches anything.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* THE REGISTERS — one band per role, declared once instead of as a bare pair of
-   numbers at each call site. This is the "two hands" idea made structural: the
-   left hand (bass) owns the bottom, the comping hand owns the middle, and the
-   tune sits above both, so the parts cannot fight for the same air. The bands
-   overlap by design at their edges -- a countermelody that never crosses the
-   comp is not a countermelody. [theory: keyboard voicing practice] */
-const REGISTER = {
-  keys:    [52, 74],     // both hands' worth of comp: E3 to D5
-  themeA:  [64, 80],     // the verse tune sits above the comp
-  themeB:  [67, 84],     // the hook is the highest thing in the song
-  themeC:  [62, 78],     // the bridge tune steps down to signal the departure
-};
-const KEYS_LO = REGISTER.keys[0], KEYS_HI = REGISTER.keys[1];
-
 function makeMaterials(chart){
   const BARS = 4;
+  const G = GENRE[chart.genre];
   const { root, mode } = chart;
   const key = (b, s, p) => b + ":" + s + ":" + p;
 
   /* ── the pocket: ONE object read by drums, bass and keys in every material
      [corpus:harvest_ensemble -- bass+comp co-onset 77% in real bands] ── */
   const rngP = stream(chart.seed, "pocket");
-  const pocket = wpick(rngP, [
-    [[0, 10], 5], [[0, 7, 10], 3], [[0, 10, 14], 2], [[0, 6, 10], 2],
-  ]);
+  const pocket = wpick(rngP, G.pocket);
 
   /* ── ONE progression per song (loop law) ── */
   const rngH = stream(chart.seed, "harmony");
-  const POOLS = {
-    minor:  [[[0,5,2,6], 4], [[0,3,5,6], 3], [[0,3,0,4], 2], [[5,3,0,6], 2]],
-    dorian: [[[0,3,0,3], 4], [[0,3,4,3], 3], [[0,5,3,4], 2]],
-    major:  [[[1,4,0,5], 4], [[3,4,2,5], 3], [[0,5,1,4], 2]],
-  };
-  const degrees = wpick(rngH, POOLS[mode]);
+  const degrees = wpick(rngH, G.progressions[mode]);
   const mkChords = degs => degs.map(d => Object.freeze({
     degree: d,
     tones: chordTones(root, mode, d, true),
-    rootMidi: intoBand(degMidi(root, mode, d), 33, 45),   // [corpus:harvest_bass median 38]
+    rootMidi: intoBand(degMidi(root, mode, d), G.registers.bass[0], G.registers.bass[1]),
   }));
   const chords = mkChords(degrees);
   /* the bridge's harmony: the departure -- rotated to open OFF the tonic
      [theory: the bridge leaves home so the last chorus can arrive] */
   const rngC = stream(chart.seed, "depart");
-  const BRIDGE_POOLS = {
-    minor:  [[[3,6,2,4], 3], [[5,2,3,4], 2], [[3,0,5,4], 2]],
-    dorian: [[[5,3,4,3], 3], [[3,4,5,4], 2]],
-    major:  [[[5,3,1,4], 3], [[2,5,1,4], 2]],
-  };
-  const bridgeChords = mkChords(wpick(rngC, BRIDGE_POOLS[mode]));
+  const bridgeChords = mkChords(wpick(rngC, G.bridgeProgressions[mode]));
 
   /* ── shared builders (each material calls them with its own streams) ── */
   function buildDrums(streamName){
     const rng = stream(chart.seed, streamName);
     const notes = [];
-    const ghostSpots = [3, 7, 9, 11, 15];
-    const openSpot = wpick(rng, [[14, 4], [7, 2], [-1, 4]]);
+    const K = G.kit;
+    const ghostSpots = K.ghostSpots;
+    const openSpot = wpick(rng, K.openSpot);
     /* velocity here is IDENTITY -- what kind of hit this is (a full snare, a
        ghost, a hat). WHERE in the bar a hit is loud belongs to the performance
        stage's measured accent map [corpus:harvest_drums], so the two never
        compound the way the first build's stacked velocity passes did. */
     for(let b = 0; b < BARS; b++){
       for(const s of pocket) notes.push({ bar: b, step: s, dur: 1, lane: "kick", vel: s === 0 ? 1.0 : 0.9, role: "drums" });
-      notes.push({ bar: b, step: 4,  dur: 1, lane: "snare", vel: 1.0, role: "drums" });
-      notes.push({ bar: b, step: 12, dur: 1, lane: "snare", vel: 1.0, role: "drums" });
-      for(let s = 0; s < 16; s += 2)
-        notes.push({ bar: b, step: s, dur: 1, lane: "hat", vel: 0.62, role: "drums" });
+      for(const s of K.snare)
+        notes.push({ bar: b, step: s, dur: 1, lane: "snare", vel: 1.0, role: "drums" });
+      for(let s = 0; s < 16; s += K.hatEvery)
+        notes.push({ bar: b, step: s, dur: 1, lane: "hat", vel: K.hatVel, role: "drums" });
       /* BOTH DRAWS RUN, ALWAYS. A draw inside a condition makes every later
          draw in this stream depend on the condition, which couples owners that
          are supposed to be independent -- pinning the pocket used to change
          bass PITCHES. Decide first, then use or discard. [Law 7] */
-      const ghostHere = rng() < 0.55, ghostAt = pick(rng, ghostSpots);
+      const ghostHere = rng() < K.ghostChance, ghostAt = pick(rng, ghostSpots);
       if(ghostHere)
         notes.push({ bar: b, step: ghostAt, dur: 1, lane: "ghost", vel: 0.35, role: "drums" });
-      if(openSpot >= 0 && (b === 1 || b === 3))
+      if(openSpot >= 0 && K.openBars.includes(b))
         notes.push({ bar: b, step: openSpot, dur: 1, lane: "openhat", vel: 0.55, role: "drums" });
     }
     return notes;
@@ -1360,7 +1419,7 @@ function makeMaterials(chart){
         // ...and never onto a step this bass already owns: a pocket that ends on 14
         // put two bass notes on one instant, which the seam check rightly threw on
         const from = scaleStep(root, mode, next.rootMidi, walkStep);
-        notes.push({ bar: b, step: 14, dur: 2, pitch: intoBand(from, 33, 47), vel: 0.6, role: "bass" });
+        notes.push({ bar: b, step: 14, dur: 2, pitch: intoBand(from, G.registers.bass[0], G.registers.bass[1] + 2), vel: 0.6, role: "bass" });
       }
     }
     return notes;
@@ -1389,16 +1448,16 @@ function makeMaterials(chart){
          declared [52,74]. Fold FIRST, then invert by lifting the lowest voices
          -- that is what an inversion is. Candidates that push past the ceiling
          are not clamped, they are not offered. */
-      const base = ch.tones.map(t => intoBand(t, KEYS_LO, KEYS_HI)).sort((a, z) => a - z);
+      const base = ch.tones.map(t => intoBand(t, G.registers.keys[0], G.registers.keys[1])).sort((a, z) => a - z);
       let voiced = null, bestCost = 1e9;
       for(let inv = 0; inv < base.length; inv++){
         const cand = base.map((p, i) => i < inv ? p + 12 : p).sort((a, z) => a - z);
-        if(cand[cand.length - 1] > KEYS_HI) continue;         // this inversion does not fit
+        if(cand[cand.length - 1] > G.registers.keys[1]) continue;   // this inversion does not fit
         let cost = prev ? 0 : Math.abs(cand[0] - 60);
         if(prev) for(let i = 0; i < Math.min(cand.length, prev.length); i++) cost += Math.abs(cand[i] - prev[i]);
         if(cost < bestCost){ bestCost = cost; voiced = cand; }
       }
-      if(!voiced) throw new Error("no keys voicing fits [" + KEYS_LO + "," + KEYS_HI + "] on bar " + b);
+      if(!voiced) throw new Error("no keys voicing fits [" + G.registers.keys + "] on bar " + b);
       prev = voiced;
       for(let si = 0; si < strikes.length; si++){
         const st = strikes[si], nxt = si + 1 < strikes.length ? strikes[si + 1] : 16;
@@ -1525,7 +1584,7 @@ function makeMaterials(chart){
   function deriveCounter(themeNotes, reserved){
     const out = [];
     for(const n of themeNotes){
-      const pch = intoBand(scaleStep(root, mode, n.pitch, -2), 57, 74);
+      const pch = intoBand(scaleStep(root, mode, n.pitch, -2), G.registers.counter[0], G.registers.counter[1]);
       if(pch === n.pitch || reserved.has(key(n.bar, n.step, pch))) continue;
       out.push({ bar: n.bar, step: n.step, dur: n.dur, pitch: pch, vel: n.vel * 0.8, role: "counter" });
       reserved.add(key(n.bar, n.step, pch));
@@ -1539,7 +1598,7 @@ function makeMaterials(chart){
   const bassA  = buildBass(chords, "bass", false);
   const keysA  = buildKeys(chords, "keys", { dense: false });
   const resA   = reserve(bassA.concat(keysA));
-  const themeA = buildTheme(chords, "themeA", resA, { lo: REGISTER.themeA[0], hi: REGISTER.themeA[1], dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
+  const themeA = buildTheme(chords, "themeA", resA, { lo: G.registers.themeA[0], hi: G.registers.themeA[1], dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
   const counterA = deriveCounter(themeA.notes, resA);
 
   /* ── B = hook(A): same bed family, new tune FROM A's DNA, denser comp,
@@ -1548,7 +1607,7 @@ function makeMaterials(chart){
   const keysB  = buildKeys(chords, "keysB", { dense: true });
   const resB   = reserve(bassA.concat(keysB));
   const themeB = buildTheme(chords, "themeB", resB,
-    { lo: REGISTER.themeB[0], hi: REGISTER.themeB[1], dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
+    { lo: G.registers.themeB[0], hi: G.registers.themeB[1], dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
   const counterB = deriveCounter(themeB.notes, resB);
 
   /* ── C = depart(A): new changes, sustained keys, roots-only bass,
@@ -1556,12 +1615,12 @@ function makeMaterials(chart){
   const bassC  = buildBass(bridgeChords, "bassC", true);
   const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true });
   const resC   = reserve(bassC.concat(keysC));
-  const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: REGISTER.themeC[0], hi: REGISTER.themeC[1], augmentOf: themeA.notes });
+  const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: G.registers.themeC[0], hi: G.registers.themeC[1], augmentOf: themeA.notes });
 
   /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
      the canonical rule-of-three answer at the material level ── */
   const resV = reserve(bassA.concat(keysA).concat(themeA.notes.filter(n => n.bar < 2)));
-  const varTail = buildTheme(chords, "themeA:var", resV, { lo: REGISTER.themeA[0], hi: REGISTER.themeA[1], dir: -1 });
+  const varTail = buildTheme(chords, "themeA:var", resV, { lo: G.registers.themeA[0], hi: G.registers.themeA[1], dir: -1 });
   const leadAvar = themeA.notes.filter(n => n.bar < 2)
     .concat(varTail.notes.filter(n => n.bar >= 2));
 
@@ -1690,8 +1749,9 @@ const DRUM_ACCENT = {
 
 function makePerformance(chart, form, materials, sections){
   const spb = (60 / chart.tempo) / 4;
+  const GR = GENRE[chart.genre].groove, TOUCH = GENRE[chart.genre].touch;
   const rngG = stream(chart.seed, "groove");
-  const swingRatio = 1.5 + rngG() * 0.16;
+  const swingRatio = GR.swing[0] + rngG() * GR.swing[1];
   const swingOffset = 4 * swingRatio / (swingRatio + 1) - 2;   // true ratio conversion [theory]
   /* ── DILLA TIME [research, SYNTH-RESEARCH.md §4]. The drunken feel is NOT
      looseness: snares sit deliberately EARLY, kicks LATE, the hats stay nearly
@@ -1700,15 +1760,15 @@ function makePerformance(chart, form, materials, sections){
      offsets drawn ONCE per song, applied the same way every bar, and the random
      jitter nearly zeroed in this mode (a wandering pattern is generic MPC swing,
      which is exactly what this is not). ── */
-  const grooveStyle = wpick(rngG, [["dilla", 6], ["even", 4]]);   // [EAR]
-  const snareEarly = grooveStyle === "dilla" ? -(0.10 + rngG() * 0.15) : 0;   // toward "a 32nd early"
-  const kickLate   = grooveStyle === "dilla" ?  (0.06 + rngG() * 0.12) : 0;   // the downbeat stays anchored
-  const hatSwingMul = grooveStyle === "dilla" ? 0.25 : 1;
-  const jitterSec  = grooveStyle === "dilla" ? 0.002 : 0.005;
+  const grooveStyle = wpick(rngG, GR.styles);
+  const snareEarly = grooveStyle === "dilla" ? -(GR.snareEarly[0] + rngG() * GR.snareEarly[1]) : 0;
+  const kickLate   = grooveStyle === "dilla" ?  (GR.kickLate[0]   + rngG() * GR.kickLate[1])   : 0;
+  const hatSwingMul = grooveStyle === "dilla" ? GR.hatMul : 1;
+  const jitterSec  = GR.jitter[grooveStyle] != null ? GR.jitter[grooveStyle] : GR.jitter.even;
   /* the player's touch, drawn once per song: how long the bass lets notes ring,
      and how wide the keys' strum rolls (a real strum is milliseconds, not grid) */
-  const bassArtic = wpick(rngG, [[0.6, 3], [0.85, 4], [1.0, 3]]);        // [EAR]
-  const strumSec  = 0.004 + rngG() * 0.005;
+  const bassArtic = wpick(rngG, TOUCH.bassArtic);
+  const strumSec  = TOUCH.strum[0] + rngG() * TOUCH.strum[1];
   const events = [];
   /* the tape bed: ONE event, dispatched like every other -- the crackle and the
      song go through the same scheduler on the same graph (Law 10) */
@@ -1748,7 +1808,7 @@ function makePerformance(chart, form, materials, sections){
                           : swingOffset;
           if(n.step % 4 === 2) micro += swingHere;
           else if(n.step % 2 === 1) micro += swingHere * 0.5;
-          if(role === "drums") micro += -0.008 / spb;
+          if(role === "drums") micro += GR.push / spb;
           if(lane === "snare" || lane === "ghost") micro += snareEarly;
           if(lane === "kick" && n.step > 0) micro += kickLate;
           const j = stream(chart.seed, "jit:" + role + ":" + bar + ":" + n.step + ":" + (n.pitch || n.lane));
@@ -1789,8 +1849,8 @@ function makePerformance(chart, form, materials, sections){
    THE PIPELINE — and the invariant checks at each seam. Checks THROW: a law
    violation is a build failure, not a thing to correct downstream.
    ═══════════════════════════════════════════════════════════════════════════ */
-function composeSong(seed, rig){
-  const chart = makeChart(seed, rig);
+function composeSong(seed, rig, genre){
+  const chart = makeChart(seed, rig, genre);
   const form = makeForm(chart);
   const materials = makeMaterials(chart);
   const sections = makeArrangement(chart, form, materials);
