@@ -35,6 +35,7 @@
   <button id="new">new song</button>
   <button id="play">&#9654; play</button>
   <button id="wav">render .wav</button>
+  <button id="mid">export .mid</button>
   <span id="pos"></span>
 </div>
 <div id="info">press "new song".</div>
@@ -1821,6 +1822,99 @@ function composeSong(seed, rig){
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   MIDI EXPORT — a Standard MIDI File, type 1, from the SAME perf.events the
+   audio renderer plays. Not a debug view: the notes ARE the program's output,
+   and audio is one interpretation of them. A .mid opens in any DAW, so the
+   music can be judged without trusting this file's synth at all.
+
+   It carries the MICRO-TIMING, which is the whole point. Stage 5's dilla
+   offsets live in ev.tSec as fractions of a sixteenth; at 960 ticks per
+   quarter a sixteenth is 240 ticks, so a snare pushed 0.15 of a sixteenth
+   early lands 36 ticks early and survives the trip. Quantised export would
+   throw away the one thing that makes the groove the groove.
+   ═══════════════════════════════════════════════════════════════════════════ */
+const MIDI_PPQ = 960;
+/* GM percussion keys, so a drum track reads correctly on any device
+   [theory: General MIDI level 1 percussion map, channel 10] */
+const GM_DRUM = { kick: 36, snare: 38, ghost: 38, hat: 42, openhat: 46 };
+/* one track per role. Programs are ADVISORY -- a hint for whoever opens the
+   file, never something this program's own sound depends on. */
+const MIDI_TRACK = {
+  drums:   { ch: 9, prog: 0,  name: "drums"   },
+  bass:    { ch: 0, prog: 38, name: "bass"    },   // synth bass 1
+  keys:    { ch: 1, prog: 4,  name: "keys"    },   // electric piano 1
+  lead:    { ch: 2, prog: 81, name: "lead"    },   // lead 2 (sawtooth)
+  counter: { ch: 3, prog: 82, name: "counter" },   // lead 3 (calliope)
+};
+
+function midiVLQ(n){                       // variable-length quantity, 7 bits at a time
+  const out = [n & 0x7f];
+  n >>= 7;
+  while(n > 0){ out.unshift((n & 0x7f) | 0x80); n >>= 7; }
+  return out;
+}
+function midiStr(s){ const o = []; for(let i = 0; i < s.length; i++) o.push(s.charCodeAt(i) & 0x7f); return o; }
+function midiChunk(id, bytes){
+  const n = bytes.length;
+  return midiStr(id).concat([(n >> 24) & 255, (n >> 16) & 255, (n >> 8) & 255, n & 255], bytes);
+}
+
+function toMidi(song){
+  const tempo = song.chart.tempo;
+  const tick = sec => Math.round(sec * tempo / 60 * MIDI_PPQ);
+  /* group the events by role; the tape bed is not a note and does not go */
+  const byRole = {};
+  for(const ev of song.perf.events){
+    if(ev.role === "tape") continue;
+    (byRole[ev.role] = byRole[ev.role] || []).push(ev);
+  }
+  const tracks = [];
+
+  /* track 0 — the conductor: tempo, metre, and what this file IS */
+  {
+    const us = Math.round(60000000 / tempo);
+    let b = [];
+    const meta = (delta, type, data) => { b = b.concat(midiVLQ(delta), [0xff, type], midiVLQ(data.length), data); };
+    meta(0, 0x03, midiStr(`MK2 ${song.chart.genre} seed ${song.chart.seed}`));
+    meta(0, 0x51, [(us >> 16) & 255, (us >> 8) & 255, us & 255]);
+    meta(0, 0x58, [4, 2, 24, 8]);                    // 4/4, 24 clocks per beat
+    meta(0, 0x59, [0, song.chart.mode === "major" ? 0 : 1]);   // key sig: major/minor flag
+    b = b.concat(midiVLQ(0), [0xff, 0x2f, 0x00]);
+    tracks.push(b);
+  }
+
+  for(const role in MIDI_TRACK){
+    const evs = byRole[role];
+    if(!evs || !evs.length) continue;
+    const T = MIDI_TRACK[role];
+    /* every note becomes an on and an off; sort by tick, then offs before ons at
+       the same instant so a repeated pitch retriggers instead of cancelling */
+    const msgs = [];
+    for(const ev of evs){
+      const key = role === "drums" ? GM_DRUM[ev.lane] : ev.pitch;
+      if(key == null) continue;
+      const vel = Math.max(1, Math.min(127, Math.round(ev.gain * 100)));
+      const on = tick(ev.tSec), off = Math.max(on + 1, tick(ev.tSec + ev.durSec));
+      msgs.push({ t: on,  order: 1, b: [0x90 | T.ch, key, vel] });
+      msgs.push({ t: off, order: 0, b: [0x80 | T.ch, key, 64] });
+    }
+    msgs.sort((a, z) => a.t - z.t || a.order - z.order);
+    let b = midiVLQ(0).concat([0xff, 0x03], midiVLQ(T.name.length), midiStr(T.name));
+    if(role !== "drums") b = b.concat(midiVLQ(0), [0xc0 | T.ch, T.prog]);
+    let last = 0;
+    for(const m of msgs){ b = b.concat(midiVLQ(m.t - last), m.b); last = m.t; }
+    b = b.concat(midiVLQ(0), [0xff, 0x2f, 0x00]);
+    tracks.push(b);
+  }
+
+  const head = midiChunk("MThd", [0, 1, (tracks.length >> 8) & 255, tracks.length & 255,
+                                  (MIDI_PPQ >> 8) & 255, MIDI_PPQ & 255]);
+  let all = head;
+  for(const t of tracks) all = all.concat(midiChunk("MTrk", t));
+  return new Uint8Array(all);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    UI — thin. Owns no music state beyond the current Song.
    ═══════════════════════════════════════════════════════════════════════════ */
 let SONG = null, playing = false;
@@ -1857,6 +1951,14 @@ function togglePlay(){
   Sound.playLive(SONG.perf.events);
   playing = true; $("play").innerHTML = "&#9632; stop";
 }
+function downloadMidi(){
+  if(!SONG) newSong();
+  const blob = new Blob([toMidi(SONG)], { type: "audio/midi" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `mk2_${SONG.chart.genre}_${SONG.chart.tempo}bpm_seed${SONG.chart.seed}.mid`;
+  a.click();
+}
 async function downloadWav(){
   if(!SONG) newSong();
   $("wav").textContent = "rendering…"; $("wav").disabled = true;
@@ -1873,6 +1975,7 @@ window.addEventListener("DOMContentLoaded", () => {
     newSong(Math.floor((Date.now() % 100000)) ); });   // the button draws a fresh seed; the FIELD pins one
   $("play").addEventListener("click", togglePlay);
   $("wav").addEventListener("click", downloadWav);
+  $("mid").addEventListener("click", downloadMidi);
   $("seed").addEventListener("change", () => newSong());
   $("rig").addEventListener("change", () => {
     Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play"; newSong(); });
@@ -1884,6 +1987,7 @@ window.MK2 = {
   composeSong, newSong,
   referenceEvents,
   renderWav: (events, seconds, sr) => Sound.renderWav(events, seconds, sr),
+  toMidi,
   /* measurement handles: the chip's tuning grid and its patch table, so a probe
      can sweep TL/feedback and PROVE the FM depth behaves the way the arithmetic
      says it does. The UI never touches these. */
