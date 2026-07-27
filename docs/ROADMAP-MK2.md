@@ -58,9 +58,34 @@ three verifiable in the printed story line; user A/B against the pre-R1 build.
 Per-lane accent maps inside the one velocity formula; keys strums; articulation
 draws; lofi tape character (wow, vinyl bed, tilt) [EAR]. Exit: logged A/B.
 
-## R3 — THE TEST BATTERY BECOMES PERMANENT
-Output assertions vs 5 seeds on every merge; node seam-tests for stages 1–5;
-`test/ears/LOG.md` — no taste decision merges without a dated A/B entry.
+## R3 — THE TEST BATTERY BECOMES PERMANENT  *(✔ done 2026-07-27)*
+Three commands, ~30 s total, run on every change:
+
+```
+node    harness/mk2_test.js                 # 14 seam checks, note level, 1.4 s
+node    harness/render_audio.js <dir>       # 45 renders, 26 s
+python3 harness/test_audio.py  <dir>        # 337 assertions on the SAMPLES
+```
+
+The shape came from a measurement: `renderWav` builds the whole song's ~5,000 nodes
+up front and an OfflineAudioContext pays for every node it holds on every render
+quantum, so cost is **super-linear in length** — 128 s of audio costs 227 s of wall
+in one piece and ~13 s in twenty. So the battery renders 45 short excerpts (every
+voice soloed, two bars from the middle of every section of two songs, one section
+rendered twice, the fill and its landing) instead of whole songs. Fast enough to
+actually run, which is the only kind of battery that protects anything.
+
+A soloed voice is just an event list containing one voice, through the same
+`MK2.renderWav` the export button calls — no stem bus, no test-only API, nothing in
+the shipped file to keep in sync.
+
+Also `harness/mk2_solo.js` and `harness/mk2_measure.py` for ad-hoc probing, and
+`test/ears/LOG.md`: no taste decision merges without a dated A/B entry.
+
+**One thing this proved that changes how to read any render:** Chrome's offline
+render is *not* bit-reproducible. Two renders of the identical file differ by 1–3
+LSB on up to 21% of samples. Determinism is exact at the NOTE seam and tested
+there; a WAV hash can never be the test for it.
 
 ## R4 — GENRE 2: CITYPOP
 A genre = parameter tables only: tempo, modes, progression pools, pocket set,

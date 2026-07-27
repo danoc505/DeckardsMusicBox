@@ -308,8 +308,22 @@ const YM_PATCH = {
   /* alg 5 -- op1 feeds three carriers. op3 rides at MUL 14 with the fastest
      decay in the patch: that inharmonic partial IS the tine ping. */
   chipKeys: { alg:5, fb:3, pms:1, ops:[
-    { dt:0, mul: 1, rs:0, tl:42, ar:31, d1r:14, d2r:6, sl:2, rr:10 },
+    /* op1 modulates all three carriers, so its TL IS this patch's brightness, and
+       the first build's 42 left the voice measuring as two partials -- a filtered
+       sine, which fails the palette's own rule that a pitched voice carries energy
+       in three octaves. Swept at midi 60 over a 0.9 s window:
+           TL 42 -> 2 partials, h2  9.4%      TL 34 -> 3 partials, h2 19.5%
+           TL 38 -> 2 partials, h2 13.5%      TL 30 -> 4 partials, h2 29.8%
+       34 sits exactly on the threshold; 30 clears it with margin, at a second
+       harmonic where an electric piano actually lives. [EAR: 42 was the original] */
+    { dt:0, mul: 1, rs:0, tl:30, ar:31, d1r:14, d2r:6, sl:2, rr:10 },
     { dt:0, mul: 1, rs:0, tl: 0, ar:31, d1r:12, d2r:5, sl:2, rr:10 },
+    /* the tine, at the first build's value. I raised this to 34 assuming it was
+       the missing brightness. Measuring says it is not: the tine is a CARRIER in
+       this algorithm, so lowering its TL also raises the normalising carrier sum
+       and largely cancels itself, and d1r 16 decays it at ~104 dB/s -- gone inside
+       60 ms. Over a 0.9 s window a six-step change moved the 14th partial from
+       0.16% to 0.27% of f0. It is an attack ping, and it was already right. */
     { dt:0, mul:14, rs:0, tl:48, ar:31, d1r:16, d2r:7, sl:3, rr:10 },
     { dt:0, mul: 1, rs:0, tl: 2, ar:31, d1r:12, d2r:5, sl:2, rr:10 } ] },
   /* alg 4 -- two 2-op stacks in parallel, both modulators detuned (DT 3) and
@@ -922,7 +936,18 @@ const Sound = (function(){
         oscs.push(o); envs.push(gn); freqs.push(f);
       }
       const out = c.createGain(); out.gain.value = 1;
-      out.connect(g.bus[busName]);
+      /* AC-COUPLE THE CHIP, exactly as the hardware does -- the YM2612's output
+         reaches the amplifier through a coupling capacitor. It is not cosmetic
+         here: WebAudio integrates the modulator to get phase, and that integral
+         carries a constant, so a 1:1 modulator ratio leaves real DC in the
+         carrier. chipKeys is alg 5 with three carriers all at MUL 1, so it was
+         the worst of them -- 2.2% of peak soloed, and stacked four-to-a-chord it
+         put -0.018 of DC on every SEGA mix, which the output battery caught on
+         every single excerpt. Blocking it costs nothing audible and gives the
+         headroom back. [theory: MD hardware] */
+      const dcb = c.createBiquadFilter(); dcb.type = "highpass";
+      dcb.frequency.value = 20; dcb.Q.value = 0.7;
+      out.connect(dcb); dcb.connect(g.bus[busName]);
       let end = keyOff;
       /* modulators: ONE envelope each, in Hz of peak deviation, fanned out to
          every operator that modulator drives. Brightness tracks velocity through
