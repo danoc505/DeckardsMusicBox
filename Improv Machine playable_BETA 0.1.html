@@ -5841,7 +5841,13 @@ function buildLead(voice, chart, chords, perception, rng, implyHarmony){
   const A = TH_ ? { rhythm:TH_.question.rhythm.slice(), moves:TH_.question.moves.slice() } : mkMotif();
   const B = TH_ ? { rhythm:TH_.answer.rhythm.slice(),   moves:TH_.answer.moves.slice()   } : mkMotif();
   const D=mkMotif();                                        // the DEPARTURE idea (Rule of 3)
-  const Bsilent = rng()<0.35;                               // S: B is silence (call&response room)
+  // S: the B motif is silence -- the room a call-and-response needs. This was a 35% coin
+  // flip, so two songs in three had a tune that never once stopped inside a loop, and
+  // the ones that did rested for exactly one bar. Real leads are silent in 42% of their
+  // bars (corpus/harvest_ensemble.py, 300 arrangements). The long silences come from the
+  // arrangement giving the tune whole sections off; this is the short breath inside a
+  // phrase, and it should be the normal case rather than the exception.
+  const Bsilent = rng()<0.62;
   // structure per loop (one motif per bar): 8 → A B A C A B A C
   const STRUCT=[]; for(let i=0;i<loop;i++) STRUCT.push(i%4===1?"B":(i%4===3?"C":"A"));
   // ── THE BAR IS FOUR BEATS, NOT TWO ────────────────────────────────────────
@@ -8312,6 +8318,33 @@ function planArrangement(chart, bundle, rng){
                     || (hashName(chart._seed||0,a)%97)-(hashName(chart._seed||0,b)%97));
   const MEL = r => r==="lead"||r==="answer";
 
+  // ── THE TUNE LAYS OUT ────────────────────────────────────────────────────
+  // Measured over 300 full-band arrangements (corpus/harvest_ensemble.py): the lead part
+  // is SILENT IN 42% OF BARS, its longest unbroken silence runs a median of 14 bars, and
+  // it carries only 4.2% of the arrangement's onsets. It is the rarest thing in the band.
+  //
+  // Ours played in EVERY BAR of 23 songs out of 40 (mean rest 9.4%, longest silence one
+  // bar), because the only mechanism for melodic space was a per-song coin flip inside
+  // the melody engine -- and because whatever it did was overruled here: the tune was
+  // force-added to every section at energy 6 or above. A tune that never stops is the
+  // largest single reason a mix sounds like too much going on at once; there is no
+  // relief in it, and nothing else in the band ever gets the foreground.
+  //
+  // A one-bar gap is not the answer either. Real silences are SECTIONS: the instrumental
+  // break, the breakdown, the intro before the tune has begun. So one or two interior
+  // sections are given to the band without the tune -- the quietest ones, which is where
+  // a break naturally falls -- and the peak and the final section are never among them,
+  // because the tune is what the peak is FOR.
+  const layOut = new Set();
+  {
+    const lr = makeRng(hashName(chart._seed||0, "layout"));
+    const cand = [];
+    for(let i=1;i<n-1;i++) if(i!==peakI && spans[i].fn!=="chorus") cand.push(i);
+    cand.sort((a,b)=>(E[a]-E[b]) || (hashName(chart._seed||0,"lo"+a)%97)-(hashName(chart._seed||0,"lo"+b)%97));
+    const want = cand.length>=4 ? 1+Math.floor(lr()*2) : (cand.length ? 1 : 0);
+    for(let k=0;k<want && k<cand.length;k++) layOut.add(cand[k]);
+  }
+
   const sections=[]; const seenVoice={}; const heard={};
   for(let i=0;i<n;i++){
     const e=E[i];
@@ -8355,7 +8388,17 @@ function planArrangement(chart, bundle, rng){
       // 003: at the climax the melody must not be "obscured by inner counterline
       // movement", so the answering voice lays out at the peak.
       if(i===peakI) active=active.filter(r=>r!=="answer");
-      if(!active.includes("lead") && e>=6) active.push("lead");     // the tune carries the high ground
+      // the tune carries the high ground -- except where it has been given the section
+      // off, and then nothing may put it back (see THE TUNE LAYS OUT above)
+      if(!active.includes("lead") && e>=6 && !layOut.has(i)) active.push("lead");
+    }
+    if(layOut.has(i)){
+      active = active.filter(r=>r!=="lead");
+      // the band does not simply get thinner: whatever was next in line steps up, so a
+      // break is a change of texture rather than a hole
+      const up = keepOrder.filter(r=>r!=="lead" && !active.includes(r));
+      if(up.length) active = active.concat([up[0]]);
+      if(!active.length) active = [keepOrder.find(r=>r!=="lead") || keepOrder[0]];
     }
 
     // ── THE FOUR LEGAL MOVES ───────────────────────────────────────────────
@@ -8608,6 +8651,22 @@ function planArrangement(chart, bundle, rng){
       sections[i].activeRoles = off.length ? b.concat([off[0]])
                               : (b.length>1 ? b.slice(0,-1) : b);
     }
+  }
+
+  // THE TUNE'S SECTIONS OFF ARE FINAL. Four separate passes between here and the choice
+  // can hand a voice back to a section -- the every-voice-has-arrived sweep, the two
+  // no-two-neighbours-alike re-checks, and the outro rewrite -- and each of them picks
+  // "the first role not currently playing", which is the tune more often than not. Every
+  // one of them would have silently undone the lay-out. The rule is re-asserted after
+  // all of them, and the neighbour rule is given a different voice to work with instead.
+  for(const i of layOut){
+    const s = sections[i]; if(!s) continue;
+    if(!s.activeRoles.includes("lead")) continue;
+    s.activeRoles = s.activeRoles.filter(r=>r!=="lead");
+    const up = keepOrder.filter(r=>r!=="lead" && !s.activeRoles.includes(r));
+    if(up.length) s.activeRoles = s.activeRoles.concat([up[0]]);
+    if(!s.activeRoles.length) s.activeRoles = [keepOrder.find(r=>r!=="lead") || keepOrder[0]];
+    if(s.debut) s.debut = s.debut.filter(r=>r!=="lead");
   }
 
   // ── THE EMPTY ────────────────────────────────────────────────────────────
