@@ -4856,7 +4856,16 @@ function bassEngine(chart, perception, rng){
             (typeof IMPROV_CORPUS!=="undefined" ? IMPROV_CORPUS : null);
     if(C && C.basses && C.basses.length &&
        !(typeof globalThis!=="undefined" && globalThis.IMPROV_HARVEST) && rng()<0.45){
-      corpusBass = C.basses[Math.floor(rng()*C.basses.length)];
+      // ...from this song's OWN genre where the bank has any. Unlike the kit, this draw
+      // was never destructive -- it takes relative dimensions (step positions and
+      // intervals from its own root) and the rhythm is UNIONED with the kick pulse
+      // below, so the pocket survives whatever it brings. But the bank is tagged by
+      // genre across seven of them and the tag was simply not being read, so a house
+      // line could turn up in an ambient song for no reason. Same principle as the kit:
+      // material harvested under one label does not get spent under another.
+      const same = C.basses.filter(x=>x.genre===chart.genre);
+      const pool = same.length ? same : C.basses;
+      corpusBass = pool[Math.floor(rng()*pool.length)];
     }
   }
   // LOCK TO THE KICK — the bass reinforces the drums' pulse so the low end drives as
