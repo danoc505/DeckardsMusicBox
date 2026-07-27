@@ -8012,13 +8012,42 @@ function buildLoop(chart, rng, letter){
   // stopped, so the two can never collide, and it is dropped entirely at the peak
   // (003: at the climax the melody is "not being obscured by inner counterline
   // movement like the rest of the melody was").
-  if(lead && lead._restBars && lead._restBars.length){
-    const band = (typeof BAND!=="undefined" && BAND.counter) || [57,72];
+  if(lead && lead.notes.length){
+    const band = (typeof BAND!=="undefined" && BAND.answer) || [57,74];
     const pitches = lead.notes.filter(n=>n.midi!=null).map(n=>n.midi);
     if(pitches.length>=2){
       const aR = makeRng(hashName(chart._seed||0,"answer"));
       const notes=[];
-      for(const b of lead._restBars){
+
+      // ── ...AND IT ALSO SINGS WITH THE TUNE ─────────────────────────────
+      // Measured over 300 full-band arrangements (corpus/harvest_ensemble.py), the
+      // second melodic voice is NOT mainly an answerer. It plays in 85% of bars,
+      // carries 7.7% of the arrangement's onsets, and lands on the SAME SIXTEENTH AS
+      // THE LEAD 54% of the time. Reading the grids shows what that is: in both Linda
+      // Ronstadt songs the counter's rhythm is identical to the lead's, note for note,
+      // a third or a sixth below it. It is a harmony vocal, not a reply.
+      //
+      // Ours only ever existed in the lead's rest bars -- silent in 66% of bars, 1.7%
+      // of the onsets, landing with the lead 22% of the time. Answering is a real
+      // device and it stays; but on most songs the voice now also SHADOWS the tune,
+      // which is the most direct way two parts can be heard working together at all.
+      const shadow = aR() < 0.55;
+      chart._answerShadows = shadow;      // read by planArrangement: see WEIGHT below
+      if(shadow && chart.key){
+        const below = aR()<0.6 ? -2 : -5;        // a third, or a sixth, IN THE SCALE
+        for(const n of lead.notes){
+          if(n.midi==null) continue;
+          let m = T.scaleStep(n.midi, chart.key.scale, chart.key.root, below);
+          if(m==null || m===n.midi) continue;
+          while(m>band[1]) m-=12; while(m<band[0]) m+=12;
+          if(m===n.midi) continue;               // never in unison with the voice it doubles
+          notes.push({bar:n.bar, step:n.step, midi:m,
+                      dur:Math.max(1,n.dur||2), vel:(n.vel||0.5)*0.62});
+        }
+      }
+
+      // the reply, in the room the lead's phrase-end breath leaves
+      for(const b of (lead._restBars||[])){
         const k = 2 + Math.floor(aR()*2);                       // a 2-3 note reply
         for(let i=0;i<k;i++){
           let m = pitches[Math.floor(aR()*pitches.length)];      // the LEAD's own pitch
@@ -8026,7 +8055,10 @@ function buildLoop(chart, rng, letter){
           notes.push({bar:b, step:8+i*2, midi:m, dur:2, vel:0.34});
         }
       }
-      if(notes.length) session.parts.push({name:"answer", role:"answer", notes});
+      if(notes.length){
+        notes.sort((a,b)=>(a.bar*16+a.step)-(b.bar*16+b.step));
+        session.parts.push({name:"answer", role:"answer", notes});
+      }
     }
   }
 
@@ -8254,7 +8286,17 @@ function planArrangement(chart, bundle, rng){
   // ── SUBTRACTION ORDER ────────────────────────────────────────────────────
   // Which voice goes first as energy drops. Seeded per song, but the tune and the kit
   // are the last things to go.
-  const WEIGHT={answer:1, ornament:1, harmony:2, bass:3, lead:4, drums:5};
+  // ...and an answering voice that SHADOWS the tune is not an ornament. When it is
+  // doubling the lead in thirds it is a harmony vocal, and a harmony vocal comes and
+  // goes WITH the tune -- it is not the first thing an arranger cuts. Left at the bottom
+  // of the subtraction order it was arranged out of nearly every section, which is why
+  // it still only reached 2.8% of our onsets against a measured 7.7% even once it was
+  // singing along. A pure answerer stays where it was.
+  // ...and the COMP outranks the bass. Measured over 300 arrangements, the chord part
+  // and the bass are BOTH silent in 0% of bars -- the rhythm section is what never stops.
+  // Harmony sat at 2 here, below the bass and barely above an ornament, so it was being
+  // arranged out of a quarter of every song's bars. It is the glue; it cannot go.
+  const WEIGHT={answer:1, ornament:1, harmony:3.7, bass:3.8, lead:4, drums:5};
   const keepOrder = voices.slice().sort((a,b)=>(WEIGHT[b]||2)-(WEIGHT[a]||2)
                     || (hashName(chart._seed||0,a)%97)-(hashName(chart._seed||0,b)%97));
   const MEL = r => r==="lead"||r==="answer";
@@ -8333,6 +8375,16 @@ function planArrangement(chart, bundle, rng){
       // off, and then nothing may put it back (see THE TUNE LAYS OUT above)
       if(!active.includes("lead") && e>=6 && !layOut.has(i)) active.push("lead");
     }
+    // A HARMONY VOCAL IS NOT A SIXTH INSTRUMENT. When the answering voice is shadowing
+    // the tune it is playing the LEAD'S OWN NOTES, harmonised -- one idea in two voices,
+    // not another thing competing for room. Making it earn a slot in the subtraction
+    // order was the wrong model either way round: left at the bottom it was arranged out
+    // of 66% of bars (real: 15%), and promoted above the comp it pushed the chord part
+    // out of a quarter of the song. It rides with the lead instead, and goes when the
+    // lead goes.
+    if(chart._answerShadows && active.includes("lead") && voices.includes("answer")
+       && !active.includes("answer") && i!==peakI)
+      active = active.concat(["answer"]);
     if(layOut.has(i)){
       active = active.filter(r=>r!=="lead");
       // the band does not simply get thinner: whatever was next in line steps up, so a
@@ -8608,6 +8660,19 @@ function planArrangement(chart, bundle, rng){
     if(up.length) s.activeRoles = s.activeRoles.concat([up[0]]);
     if(!s.activeRoles.length) s.activeRoles = [keepOrder.find(r=>r!=="lead") || keepOrder[0]];
     if(s.debut) s.debut = s.debut.filter(r=>r!=="lead");
+  }
+
+  // ...and NOW the no-two-neighbours-alike rule, because the lay-out re-assertion above
+  // runs after the earlier two and can leave a pair identical (it did: 2 pairs in 443).
+  // The candidate list excludes the tune wherever the tune has the section off, so this
+  // pass cannot be the fifth thing that quietly undoes it.
+  for(let i=1;i<sections.length;i++){
+    const a=sections[i-1].activeRoles, b=sections[i].activeRoles;
+    if(a.length===b.length && a.every(r=>b.includes(r))){
+      const off=keepOrder.filter(r=>!b.includes(r) && !(layOut.has(i) && r==="lead"));
+      sections[i].activeRoles = off.length ? b.concat([off[0]])
+                              : (b.length>1 ? b.slice(0,-1) : b);
+    }
   }
 
   // ── THE EMPTY ────────────────────────────────────────────────────────────
