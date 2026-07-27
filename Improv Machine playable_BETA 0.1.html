@@ -4773,7 +4773,25 @@ function bassEngine(chart, perception, rng){
   { // add fills between the kicks for movement AND so the line has enough material to
     // evolve loop-to-loop (Rule of 3). At least 4 hits total; the pulse stays the anchor.
     const fillCands = [2,6,10,14,4,12,8,3,7,11].filter(s=>rhythm.indexOf(s)<0);
-    const want = Math.max(4, kickPulse.length + wpick(rng,[[1,3],[2,4],[3,2]]));
+    // ── HOW BUSY THE BASS IS, IS A DECISION ABOUT THE SONG ────────────────────
+    // `Math.max(4, ...)` was a hard MINIMUM of four hits in every bar of every song --
+    // asserted in the comment above ("At least 4 hits total") and never checked against
+    // anything. It is why our sparsest bass line sits at 3.25 onsets a bar when the
+    // quietest quarter of real bass playing is at 2.2.
+    //
+    // Measured over 400 real bass-guitar tracks (corpus/harvest_bass.py, Lakh Clean MIDI,
+    // GM programs 32-39), density spans 2.23 onsets a bar at the 5th percentile to 13.12
+    // at the 95th -- a spread of 10.9 BETWEEN SONGS. Ours spanned 2.9, and was the same
+    // mid-busy line whether the song's focal voice was the bass (4.29 a bar) or the
+    // melody (4.51). There was no quiet bass in the catalogue at all.
+    //
+    // So the floor goes, and the draw depends on what the song is ABOUT: a bass-led song
+    // gets a moving line, and everything else usually gets the kick pulse and little
+    // else -- which for boombap is two notes in the bar, and is what a bass holding down
+    // a song under a melody actually plays.
+    const _bassLed = (chart.focal === "bass");
+    const want = kickPulse.length + (_bassLed ? wpick(rng,[[2,3],[3,4],[4,3],[6,1]])
+                                              : wpick(rng,[[0,5],[1,4],[2,2],[3,1]]));
     while(rhythm.length<want && fillCands.length){
       const c = wpick(rng, fillCands.map(s=>[s, s%4===2?2:1]));   // favour the off-beat "and"s
       if(rhythm.every(x=>Math.abs(x-c)>=2)) rhythm.push(c);
@@ -4920,14 +4938,12 @@ function harmonyEngine(chart, perception, rng){
     const onsetPool=[0,1,2,3,4,6];
     const offsets=[0];                                   // bottom voice anchors the beat
     for(let i=1;i<6;i++) offsets.push(pick(rng,onsetPool));
-    const motifRhythm=[];                                // inner re-articulation steps
-    const cands=[4,6,8,10,12,14];
-    const nHits=2+Math.floor(rng()*2);                   // 2-3 re-hits per bar
-    while(motifRhythm.length<nHits && cands.length){
-      const c=cands.splice(Math.floor(rng()*cands.length),1)[0]; motifRhythm.push(c); }
-    motifRhythm.sort((a,b)=>a-b);
-    // the ALTERNATE inner rhythm for depart loops (leave-and-return, ABA)
-    const altRhythm = motifRhythm.map(x=>Math.min(15, x+2));
+    // NB: this used to also store `motifRhythm` -- one fixed set of re-articulation
+    // steps for the whole song -- and `altRhythm`, its shifted twin for depart loops.
+    // Both are GONE, not merely unused: the comp's re-articulation is now drawn per bar
+    // (TEX.rhythmFor, and re-placed per SONG bar at render time), so those two fields
+    // were being written, copied out of the corpus, and never read by anything. Dead
+    // state that still looks authoritative is how two versions of a rule end up fighting.
     // CHORD SPACE — how much of the bar the chord actually SOUNDS.
     // The chord voice used to sustain wall-to-wall: measured across 40 songs it was
     // audible 97% of the song, a 3-4 note pad under literally everything, which is
@@ -4939,7 +4955,7 @@ function harmonyEngine(chart, perception, rng){
     // SEVENTHS are a jazz habit. Real pop comping holds a median of THREE pitch classes
     // in a bar -- a triad -- and a seventh on every chord is a fourth voice in every one
     // of them. The jazz-influenced genres keep the old rate; the rest are triadic.
-    chart._chordTexture={ offsets, motifRhythm, altRhythm,
+    chart._chordTexture={ offsets,
       seventh: rng() < (["lofi","citypop","barber","wise"].indexOf(chart.genre)>=0 ? 0.4 : 0.18),
       motifDir: rng()<0.5?1:-1,                          // neighbor direction
       varyBar: 2+Math.floor(rng()*2) };                  // vary every 3rd-4th bar (Rule of 3)
@@ -7333,8 +7349,10 @@ function drawTexture(rng){
   if(noCorpus()) return null;
   if(CORPUS && CORPUS.textures && CORPUS.textures.length && rng() < 0.5){
     const x = CORPUS.textures[Math.floor(rng()*CORPUS.textures.length)].t;
-    return { offsets:x.offsets.slice(), motifRhythm:x.motifRhythm.slice(),
-             altRhythm:(x.altRhythm||x.motifRhythm).slice(),
+    // motifRhythm / altRhythm are deliberately NOT carried over: nothing reads them any
+    // more (see the texture builder), and copying them would put stale rhythm data back
+    // into the object the comp is generated from.
+    return { offsets:x.offsets.slice(),
              motifDir:x.motifDir, varyBar:x.varyBar, seventh:x.seventh, fromCorpus:true };
   }
   return null;
@@ -8843,6 +8861,8 @@ function composeSong(conductorChart, rng){
   // cell was validated, so the ghost checks the finished song once. Every earlier
   // attempt to alter pitch outside a validated pass left unisons behind; this is the
   // one sweep that catches it.
+  ghostPass(parts, chart);
+
   // ── NO SPIKES ────────────────────────────────────────────────────────────
   // A note at the very top of the band that is LEAPT TO and LEAPT AWAY FROM is the one
   // the ear catches -- seed 8 opened a phrase on C6 and dropped a minor 7th to D#5.
@@ -8854,6 +8874,9 @@ function composeSong(conductorChart, rng){
   // changed nothing at all: 1.03% before, 1.03% after.
   {
     const pcSet = new Set(T.semis(chart.key.scale).map(o=>((chart.key.root+o)%12+12)%12));
+    const taken = new Set();
+    for(const q of parts){ if(q.role==="drums") continue;
+      for(const n of q.notes) if(n.midi!=null) taken.add(n.bar+":"+n.step+":"+n.midi); }
     for(const p of parts){
       if(p.role!=="lead") continue;
       const bd = (typeof BAND!=="undefined" && (BAND[p.character]||BAND.lead)) || [67,84];
@@ -8868,12 +8891,16 @@ function composeSong(conductorChart, rng){
           m = mid;
           for(let d=0; d<3 && !pcSet.has(((m%12)+12)%12); d++) m++;
         }
-        if(m>=lo && m<=hi) p.notes[i].midi = m;
+        // ...and it runs AFTER the ghost now, so the ghost's own octave folds cannot
+        // put the spike back -- measured, 0.70% of lead notes were spikes again when
+        // this ran first. Running last means this pass must not undo the ghost either,
+        // so a candidate that would collide with another voice at the same instant is
+        // refused outright rather than moved.
+        if(m>=lo && m<=hi && !taken.has(p.notes[i].bar+":"+p.notes[i].step+":"+m))
+          p.notes[i].midi = m;
       }
     }
   }
-
-  ghostPass(parts, chart);
 
   const groove = makeGroove(chart, rng);
   const grooveInfo = applyGroove(parts, chart, groove, rng);

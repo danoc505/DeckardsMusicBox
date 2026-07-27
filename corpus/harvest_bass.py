@@ -68,6 +68,7 @@ def main():
     fetch()
 
     distinct, top_share, per_bar, same_end, pitch = [], [], [], [], []
+    durs, same = [], [0, 0]
     onset = collections.Counter()
     used = scanned = 0
 
@@ -109,6 +110,11 @@ def main():
                 continue
             used += 1
 
+            seq = sorted(notes, key=lambda x: (x[0], x[1]))
+            for i2 in range(len(seq)-1):
+                gap = (seq[i2+1][0]-seq[i2][0])*16 + (seq[i2+1][1]-seq[i2][1])
+                if 0 < gap <= 16:
+                    durs.append(gap)          # gap to the next onset, in sixteenths
             by = collections.defaultdict(set)
             for b, s, _ in notes:
                 by[b].add(s)
@@ -124,6 +130,10 @@ def main():
             z = collections.Counter(pats[k] for k in ks[-third:]).most_common(1)[0][0]
             same_end.append(1.0 if a == z else 0.0)
             pitch += [n[2] for n in notes]
+            for i2 in range(1, len(notes)):
+                same[1] += 1
+                if notes[i2][2] == notes[i2-1][2]:
+                    same[0] += 1
             for _, s, _ in notes:
                 onset[s] += 1
 
@@ -138,6 +148,11 @@ def main():
     print(f"  first third and last third match       {st.mean(same_end):.2f}")
     print(f"  pitch: 5th {q(pitch,.05):.0f}  median {st.median(pitch):.0f}  95th {q(pitch,.95):.0f}")
     tot = sum(onset.values())
+    print(f"  onsets per bar SPREAD across songs: 5th {q(per_bar,.05):.2f}"
+          f"   median {st.median(per_bar):.2f}   95th {q(per_bar,.95):.2f}"
+          f"   spread {q(per_bar,.95)-q(per_bar,.05):.2f}")
+    print(f"  note length (16ths): median {st.median(durs):.0f}   95th {q(durs,.95):.0f}")
+    print(f"  the next note is the SAME pitch: {100*same[0]/max(1,same[1]):.0f}%")
     print("\n  WHERE THE BASS LANDS, by sixteenth:")
     print("   " + "".join(f"{100*onset[s]/tot:5.1f}" for s in range(16)))
 
