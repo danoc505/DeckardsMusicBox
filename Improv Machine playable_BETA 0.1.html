@@ -4291,61 +4291,148 @@ registerProcessor("mi-clouds-reverb", MiCloudsReverb);`;
     try{ src.start(t, Math.max(0,offsetSec), d); }catch(e){}
     return src;
   }
+  /* ══ THE KIT ═════════════════════════════════════════════════════════════════
+     Rebuilt from scratch, and then measured voice by voice with each lane rendered
+     ON ITS OWN (harness/probe_kit.js + probe_kit.py). What the old kit measured as:
+
+       lane      sub    low  lomid    mid  himid   pres    air
+       kick     41.3   56.5    2.0    0.1    0.0    0.0    0.0
+       snare     0.0    5.2   18.0    9.2   21.1   39.2    7.1
+       hat       0.0    0.0    0.0    0.1    3.9   85.1   10.8
+       openhat   0.0    0.0    0.0    0.1    7.4   80.4   12.2
+       tomlo     0.3   99.3    0.3    0.0    0.0    0.0    0.0
+
+     Boom, sizzle, hiss and pure tones. Almost NOTHING between 800 Hz and 5 kHz --
+     which is exactly where a drum kit's impact lives: the beater on the head, the
+     stick on the skin, the crack of a snare. The hats were highpassed at 8 kHz, so
+     they had no body at all and had to be turned up to be heard; the kick was 98%
+     below 250 Hz with a beater click too quiet to register; the toms were sine waves.
+     Turning the levels up (which is what I did last time) makes a thin kit LOUDER.
+
+     Every voice here is built as BODY + ATTACK, because that is what a struck drum
+     is: something with mass that resonates, hit by something hard that does not.  */
   function drum(lane,t,vel){ ensure();const OUT=drumBus||master;const g=ctx.createGain();g.connect(OUT);
+    // a filtered burst of noise: the transient every struck thing has
+    const hit=(at,dur,type,freq,q,amp,rel)=>{
+      const n=noise(at,dur),f=ctx.createBiquadFilter();f.type=type;f.frequency.value=freq;
+      if(q!=null)f.Q.value=q;
+      const ng=ctx.createGain();ng.gain.setValueAtTime(amp,at);
+      ng.gain.exponentialRampToValueAtTime(.0006,at+(rel||dur));
+      n.connect(f);f.connect(ng);ng.connect(OUT);return ng;};
     if(lane==="kick"){const kp=kickParams;
-      // SUB BODY: a fast pitch drop into the tuned fundamental
+      // BODY: a fast pitch drop into the tuned fundamental
       const o=ctx.createOscillator();o.type="sine";
       o.frequency.setValueAtTime(kp.tune*3.4,t);
       o.frequency.exponentialRampToValueAtTime(Math.max(30,kp.tune),t+.055);
-      g.gain.setValueAtTime(vel*.98*kp.gain*kp.body,t);
+      g.gain.setValueAtTime(vel*.92*kp.gain*kp.body,t);
       g.gain.exponentialRampToValueAtTime(.0008,t+kp.decay);
       o.connect(g);o.start(t);o.stop(t+kp.decay+.05);
-      // CLICK / BEATER: a short transient so the kick cuts through the mix
+      // BEATER: the sound of felt striking a head, at 2-4 kHz. This is what makes a
+      // kick audible on a laptop, and the old one measured 0.0% of the voice's energy.
       if(kp.click>0){
+        hit(t,.020,"bandpass",2600,1.1, vel*.55*kp.click,.018);
         const cb=ctx.createOscillator();cb.type="triangle";
-        cb.frequency.setValueAtTime(1900,t);cb.frequency.exponentialRampToValueAtTime(230,t+.013);
-        const cg=ctx.createGain();cg.gain.setValueAtTime(vel*.6*kp.click,t);cg.gain.exponentialRampToValueAtTime(.0006,t+.022);
+        cb.frequency.setValueAtTime(1400,t);cb.frequency.exponentialRampToValueAtTime(240,t+.016);
+        const cg=ctx.createGain();cg.gain.setValueAtTime(vel*.30*kp.click,t);
+        cg.gain.exponentialRampToValueAtTime(.0006,t+.026);
         cb.connect(cg);cg.connect(OUT);cb.start(t);cb.stop(t+.03);
-        const nz=noise(t,.014);const nf=ctx.createBiquadFilter();nf.type="highpass";nf.frequency.value=2400;
-        const ng=ctx.createGain();ng.gain.setValueAtTime(vel*.3*kp.click,t);ng.gain.exponentialRampToValueAtTime(.0006,t+.013);
-        nz.connect(nf);nf.connect(ng);ng.connect(OUT);
       }
-      // DRIVE: a saturated harmonic layer for weight on small speakers
+      // WEIGHT: a saturated harmonic so the note survives a speaker with no bottom.
+      // It used to run at nearly the level of the body itself (vel*gain*(.5+drive) vs
+      // vel*.98*gain), which is two stacked sines an octave apart -- the reason the
+      // whole mix measured 81% below 250 Hz.
       if(kp.drive>0){
-        const o2=ctx.createOscillator();o2.type="sine";o2.frequency.setValueAtTime(kp.tune*2.0,t);o2.frequency.exponentialRampToValueAtTime(kp.tune,t+.05);
+        const o2=ctx.createOscillator();o2.type="sine";
+        o2.frequency.setValueAtTime(kp.tune*2.0,t);o2.frequency.exponentialRampToValueAtTime(kp.tune,t+.05);
         const sh=ctx.createWaveShaper();sh.curve=_satCurve;
-        const dg=ctx.createGain();dg.gain.setValueAtTime(vel*kp.gain*(.5+kp.drive),t);dg.gain.exponentialRampToValueAtTime(.0008,t+kp.decay*.7);
+        const dg=ctx.createGain();dg.gain.setValueAtTime(vel*kp.gain*.26*kp.drive,t);
+        dg.gain.exponentialRampToValueAtTime(.0008,t+kp.decay*.7);
         o2.connect(dg);dg.connect(sh);sh.connect(OUT);o2.start(t);o2.stop(t+kp.decay*.7+.05);
       }}
-    else if(lane==="snare"){const n=noise(t,.22);const flt=ctx.createBiquadFilter();flt.type="highpass";flt.frequency.value=1400;flt.Q.value=.7;g.gain.setValueAtTime(vel*.62,t);g.gain.exponentialRampToValueAtTime(.001,t+.15);n.connect(flt);flt.connect(g);const o=ctx.createOscillator();o.type="triangle";o.frequency.setValueAtTime(330,t);o.frequency.exponentialRampToValueAtTime(180,t+.06);const og=ctx.createGain();og.gain.setValueAtTime(vel*.42,t);og.gain.exponentialRampToValueAtTime(.001,t+.1);o.connect(og);og.connect(OUT);o.start(t);o.stop(t+.12);}
-    // the kit's own balance, measured: the kick is vel*0.98*1.12 and the hat vel*0.30 --
-    // eleven dB apart before the kick's 52 Hz sine reaches the meter at all. The drum
-    // stem came back 73.8% in 60-250 Hz with 0.7% above 2 kHz: the hats were inaudible.
-    else if(lane==="hat"){const n=noise(t,.05);const flt=ctx.createBiquadFilter();flt.type="highpass";flt.frequency.value=8000;g.gain.setValueAtTime(vel*.62,t);g.gain.exponentialRampToValueAtTime(.001,t+.035);n.connect(flt);flt.connect(g);}
-    else if(lane==="openhat"){const n=noise(t,.3);const flt=ctx.createBiquadFilter();flt.type="highpass";flt.frequency.value=7000;g.gain.setValueAtTime(vel*.52,t);g.gain.exponentialRampToValueAtTime(.001,t+.28);n.connect(flt);flt.connect(g);}
-    else if(lane==="ride"){const n=noise(t,.4);const flt=ctx.createBiquadFilter();flt.type="bandpass";flt.frequency.value=6000;flt.Q.value=2;g.gain.setValueAtTime(vel*.40,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);n.connect(flt);flt.connect(g);const o=ctx.createOscillator();o.type="square";o.frequency.value=520;const og=ctx.createGain();og.gain.setValueAtTime(vel*.05,t);og.gain.exponentialRampToValueAtTime(.001,t+.2);o.connect(og);og.connect(OUT);o.start(t);o.stop(t+.25);}
-    else if(lane==="clap"){for(let k=0;k<3;k++){const n=noise(t+k*.012,.12);const flt=ctx.createBiquadFilter();flt.type="bandpass";flt.frequency.value=1500;flt.Q.value=1.2;const cg=ctx.createGain();cg.gain.setValueAtTime(vel*.38,t+k*.012);cg.gain.exponentialRampToValueAtTime(.001,t+k*.012+.11);n.connect(flt);flt.connect(cg);cg.connect(OUT);}}
-    else if(lane==="rim"){const o=ctx.createOscillator();o.type="triangle";o.frequency.setValueAtTime(1700,t);o.frequency.exponentialRampToValueAtTime(400,t+.02);g.gain.setValueAtTime(vel*.5,t);g.gain.exponentialRampToValueAtTime(.001,t+.04);o.connect(g);o.start(t);o.stop(t+.05);}
+    else if(lane==="snare"){
+      // SHELL: two tuned modes, not one. A snare drum's head has more than one.
+      // ...and the lower mode stays QUIET. Given equal weight it put 31% of the snare's
+      // energy under 250 Hz and buried the crack at 3.7% -- a boom where a snare's whole
+      // job is to cut. The shell is the colour; the crack is the sound.
+      for(const [f0,f1,a,d] of [[330,185,.22,.09],[185,150,.09,.11]]){
+        const o=ctx.createOscillator();o.type="triangle";
+        o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(f1,t+.05);
+        const og=ctx.createGain();og.gain.setValueAtTime(vel*a,t);
+        og.gain.exponentialRampToValueAtTime(.001,t+d);
+        o.connect(og);og.connect(OUT);o.start(t);o.stop(t+d+.02);
+      }
+      // CRACK: the stick on the head, around 1.8 kHz. The old snare was highpassed at
+      // 1400 Hz with everything tilted above it -- 39% of its energy over 6 kHz and 9%
+      // in the 800-2500 band -- so it hissed where it should have cracked.
+      hit(t,.10,"bandpass",1800,0.8, vel*.66,.075);
+      // WIRES: the rattle underneath, and it is the TAIL, not the sound
+      hit(t,.20,"highpass",4200,null, vel*.26,.15);
+    }
+    // ── THE HATS HAVE A BODY ──────────────────────────────────────────────────
+    // Measured, the old closed hat put 85% of its energy in 6-12 kHz and 0.0% below
+    // 2.5 kHz: an 8 kHz highpass on white noise leaves nothing but hiss, which is why
+    // it had to be turned up to be heard at all. A real hi-hat is two metal discs --
+    // it rings from the low mids up, with the stick attack around 3 kHz.
+    else if(lane==="hat"){
+      const n=noise(t,.05),f=ctx.createBiquadFilter();f.type="highpass";f.frequency.value=1600;
+      g.gain.setValueAtTime(vel*.30,t);g.gain.exponentialRampToValueAtTime(.001,t+.032);
+      n.connect(f);f.connect(g);
+      hit(t,.03,"bandpass",7800,1.6, vel*.24,.022);      // the shimmer on top
+    }
+    else if(lane==="openhat"){
+      const n=noise(t,.32),f=ctx.createBiquadFilter();f.type="highpass";f.frequency.value=1300;
+      g.gain.setValueAtTime(vel*.26,t);g.gain.exponentialRampToValueAtTime(.001,t+.28);
+      n.connect(f);f.connect(g);
+      hit(t,.30,"bandpass",7200,1.4, vel*.20,.26);
+    }
+    else if(lane==="ride"){
+      // a ride is a BELL and a wash. The old one had the wash and a bell at vel*.05.
+      const n=noise(t,.42),f=ctx.createBiquadFilter();f.type="bandpass";f.frequency.value=4200;f.Q.value=1.1;
+      g.gain.setValueAtTime(vel*.22,t);g.gain.exponentialRampToValueAtTime(.001,t+.38);
+      n.connect(f);f.connect(g);
+      for(const [fr,a,d] of [[520,.13,.34],[1180,.07,.22],[2460,.05,.16]]){
+        const o=ctx.createOscillator();o.type="sine";o.frequency.value=fr;
+        const og=ctx.createGain();og.gain.setValueAtTime(vel*a,t);
+        og.gain.exponentialRampToValueAtTime(.001,t+d);
+        o.connect(og);og.connect(OUT);o.start(t);o.stop(t+d+.02);
+      }
+      hit(t,.04,"bandpass",3200,1.2, vel*.20,.03);        // the stick landing
+    }
+    else if(lane==="clap"){
+      for(let k=0;k<4;k++) hit(t+k*.011, .10, "bandpass", 1500, 1.1, vel*(k===3?.34:.26), k===3?.13:.03);
+      hit(t,.09,"highpass",3600,null, vel*.16,.07);        // the slap off the palms
+    }
+    else if(lane==="rim"){
+      const o=ctx.createOscillator();o.type="triangle";
+      o.frequency.setValueAtTime(1700,t);o.frequency.exponentialRampToValueAtTime(400,t+.02);
+      g.gain.setValueAtTime(vel*.42,t);g.gain.exponentialRampToValueAtTime(.001,t+.04);
+      o.connect(g);o.start(t);o.stop(t+.05);
+      hit(t,.02,"bandpass",3000,1.0, vel*.30,.016);
+    }
     else if(TOMF[lane]!=null){const base=TOMF[lane];
-      // A TOM IS PERCUSSIVE: fast attack, then an immediate EXPONENTIAL decay — not a
-      // loud sine held flat for 160ms (the old envelope blasted a sustained tone that
-      // clipped the saturator = "blown out", and rang long enough that fast fills
-      // piled up = "mashed"). Peak kept below the snare so toms sit IN the kit.
-      const peak=Math.min(0.9,vel)*.5;
+      // A TOM IS PERCUSSIVE: fast attack, then an immediate exponential decay -- not a
+      // loud sine held flat for 160ms (that blasted a sustained tone into the saturator
+      // = "blown out", and rang long enough that fast fills piled up = "mashed").
+      // ...but it was then a sine and NOTHING ELSE: measured, the low tom put 99.3% of
+      // its energy in 80-250 Hz. A struck drum has a stick on it.
+      const peak=Math.min(0.9,vel)*.46;
       const o=ctx.createOscillator();o.type="sine";
       o.frequency.setValueAtTime(base*1.3,t);
-      o.frequency.exponentialRampToValueAtTime(base*.82,t+.07);   // a punchy drop that SETTLES on the tuned pitch (not a dive to nothing)
+      o.frequency.exponentialRampToValueAtTime(base*.82,t+.07);   // a punchy drop that SETTLES on the tuned pitch
       g.gain.setValueAtTime(.0001,t);
       g.gain.exponentialRampToValueAtTime(peak,t+.005);           // 5ms attack (no click, still snappy)
-      g.gain.exponentialRampToValueAtTime(.0001,t+.24);           // natural drum decay
+      g.gain.exponentialRampToValueAtTime(.0001,t+.24);
       o.connect(g);o.start(t);o.stop(t+.26);
-      // stick DEFINITION: a quiet upper transient so each tom in a fill is distinct
-      const o2=ctx.createOscillator();o2.type="triangle";
-      o2.frequency.setValueAtTime(base*2.1,t);o2.frequency.exponentialRampToValueAtTime(base*1.2,t+.04);
-      const g2=ctx.createGain();g2.gain.setValueAtTime(peak*.3,t);g2.gain.exponentialRampToValueAtTime(.0001,t+.05);
-      o2.connect(g2);g2.connect(OUT);o2.start(t);o2.stop(t+.06);
-      // a touch of skin noise on accents (short + filtered — texture, not a blast)
-      if(vel>0.5){const nz=noise(t,.02);const nf=ctx.createBiquadFilter();nf.type="bandpass";nf.frequency.value=Math.min(3800,base*6);nf.Q.value=1.4;const ng=ctx.createGain();ng.gain.setValueAtTime(vel*.14,t);ng.gain.exponentialRampToValueAtTime(.0006,t+.02);nz.connect(nf);nf.connect(ng);ng.connect(OUT);}}
+      // the second mode of the head, so a tom is a drum and not a sine
+      const o2=ctx.createOscillator();o2.type="sine";
+      o2.frequency.setValueAtTime(base*2.6,t);o2.frequency.exponentialRampToValueAtTime(base*2.1,t+.05);
+      const g2=ctx.createGain();g2.gain.setValueAtTime(peak*.34,t);
+      g2.gain.exponentialRampToValueAtTime(.0001,t+.09);
+      o2.connect(g2);g2.connect(OUT);o2.start(t);o2.stop(t+.10);
+      // STICK: the attack, at 3 kHz where it belongs, on every hit and not only accents
+      hit(t,.012,"bandpass",3200,1.0, vel*.44,.010);
+      hit(t,.05,"bandpass",Math.min(1800,base*7),1.2, vel*.16,.035);   // skin
+    }
   }
   return {ensure,voice,drum,fm,modal,sampleVoice,setPump,duck,sweep,riser,ensurePump,initMiReverb,setReverb,renderOffline,encodeWav,initOPN2,opn2Note,opn2Reset,isOPN2Ready:()=>opn2Ready,setMaster,setTone,setDrive,setVoiceStyle,setKick,setDrumBus,getKick:()=>({...kickParams}),getDrumBus:()=>drumBusGain,now:()=>ctx?ctx.currentTime:0,analyser:()=>analyser,resume:()=>{if(ctx&&ctx.state==="suspended")return ctx.resume();}};
 })();
@@ -4564,16 +4651,6 @@ const STEPS_PER_BAR = 16;
 /* ---- a PART is { name, role, notes:[{bar,step,midi,dur,vel}] } ------------
    role ∈ {harmony, bass, drums, lead, counter, pad, arp}  (drums use lane not midi) */
 
-// gather every sounding pitch at an absolute 16th-step position across all parts
-function soundingAt(parts, absStep){
-  const out=[];
-  for(const p of parts){ if(p.role==="drums") continue;
-    for(const n of p.notes){ const start=n.bar*STEPS_PER_BAR+n.step;
-      if(start<=absStep && start+(n.dur||1)>absStep && n.midi!=null)
-        out.push({midi:n.midi, part:p.name, role:p.role, onset:start===absStep}); } }
-  return out;
-}
-
 /* (a) HARMONY — infer the implied chord & scale for each bar from the notes
    that sound in it. Bass roots weight the root (research: bass implies harmony);
    the collected pitch-classes are matched to the nearest triad/7th. */
@@ -4710,33 +4787,6 @@ function listen(session){
     has: role => parts.some(p=>p.role===role),
     partCount: parts.length,
   };
-}
-
-/* A readable text PRINTOUT of the perception — this is how a person (or the
-   model) SEES what the program is hearing. The shared ears, made legible. */
-function describePerception(P){
-  const L=[];
-  L.push(`LISTENING  ·  ${P.partCount} part(s): ${P.parts.map(p=>p.role).join(", ")||"(silence)"}`);
-  L.push(`  key: ${T.NOTE[P.key.root]} ${P.key.scale}   phrase unit: ${P.phrase.unit} bars`);
-  // harmony line
-  const h=P.harmony.map(b=>b?`${b.rootName}${b.quality==="min"?"m":b.quality==="maj"?"":b.quality}${b.seventh}`:"·").join(" ");
-  L.push(`  harmony implied: ${h}`);
-  // register / space
-  if(P.register.low!=null){
-    L.push(`  register: ${T.nn(P.register.low)}–${T.nn(P.register.high)} occupied`);
-    if(P.register.biggestSpace){ const s=P.register.biggestSpace;
-      L.push(`  biggest SPACE: ${T.nn(s.from)}–${T.nn(s.to)} (${s.size}st${s.edge?", "+s.edge:""})`); }
-  } else L.push(`  register: (nothing pitched yet)`);
-  // rhythm
-  const acc=P.rhythm.accents.filter(a=>a.strong).map(a=>a.step).join(",");
-  L.push(`  groove accents on steps: [${acc}]   pulse: ${P.rhythm.pulse}`);
-  // motifs
-  if(P.motifs.length) P.motifs.forEach(m=>
-    L.push(`  motif (${m.role}): intervals [${m.intervals.join(",")}] rhythm [${m.rhythm.join(",")}] ${m.contour}`));
-  else L.push(`  motifs: (none yet)`);
-  // density
-  L.push(`  density/bar: [${P.density.normalized.map(x=>x.toFixed(1)).join(" ")}]  fullest bar ${P.density.busiest}`);
-  return L.join("\n");
 }
 
 
@@ -5635,28 +5685,6 @@ function decideRoster(chart, perception, rng){
   return [voice];
 }
 
-// choose an entrance bar quantised to a phrase boundary at/after `earliest`
-// (soft EDM rule: 8-bar default, 4 softer; occasional off-boundary deviation).
-// Always leaves at least `minPlay` bars to actually play, so late voices aren't
-// scheduled past the end of a short song (which would produce zero notes).
-function pickEntrance(chart, rng, earliest){
-  const unit = chart.phraseUnit || 8;
-  const n = chart.nBars;
-  const minPlay = Math.max(2, Math.floor(n/4));         // must have room to be heard
-  const latest = Math.max(0, n - minPlay);
-  // clamp the requested earliest so it never exceeds the latest usable entrance
-  earliest = Math.min(earliest, latest);
-  const options = [];
-  for(let b=0; b<=latest; b++){
-    if(b<earliest) continue;
-    let w = SOFT.entranceWeight(b, unit);
-    if(b===earliest) w *= 1.5;
-    options.push([b, w]);
-  }
-  if(!options.length) return Math.min(earliest, latest);
-  return wpick(rng, options);
-}
-
 /* ── build ONE voice, reading the harmony + the ensemble ── */
 function buildVoice(voice, chart, perception, rng, chords, isLeadingHarmony){
   switch(baseKind(voice.kind)){
@@ -5823,6 +5851,33 @@ function genContour(rng, n){
   // any interval content, so a bar with no contour is a bar with nothing to remember.
   if(!out.length) out.push(dir*pick(rng,[1,2]));
   return out;
+}
+
+function chordToneMidis(chord, root, scale, LO, HI){
+  let pcs;
+  if(chord.pcs) pcs = chord.pcs;                          // from the listening layer
+  else {
+    const deg = nearestDegreeLocal(chord.root!=null?chord.root:pc(root), root, scale);
+    pcs = T.chordTones(scale, deg, chord.seventh?4:3, root).map(pc);
+  }
+  // realise those pitch-classes into the band
+  const out=[];
+  for(const p of pcs){ let m = Math.round(((LO+HI)/2)/12)*12 + p;
+    while(m<LO) m+=12; while(m>HI) m-=12;
+    out.push(m); }
+  return [...new Set(out)].sort((a,b)=>a-b);
+}
+
+function nearestDegreeLocal(targetPc, root, scale){
+  const a=T.semis(scale); let best=0,bd=99;
+  a.forEach((off,i)=>{ const d=Math.min(((pc(root+off)-targetPc)+12)%12,((targetPc-pc(root+off))+12)%12);
+    if(d<bd){bd=d;best=i;} }); return best;
+}
+
+function nearestTone(target, tones){
+  let best=target, bd=1e9;
+  for(const t of tones){ const p=pc(t), c=Math.round((target-p)/12)*12+p, d=Math.abs(c-target);
+    if(d<bd){bd=d;best=c;} } return best;
 }
 
 function buildLead(voice, chart, chords, perception, rng, implyHarmony){
@@ -6133,37 +6188,6 @@ function buildLowline(voice, chart, chords, perception, rng){
 // ensure the very last note approaches by step onto a chord tone (soft ending)
 
 /* ═══════════ helpers ═══════════ */
-
-// get chord-tone MIDIs for a perceived-or-generated chord, in a register band
-function chordToneMidis(chord, root, scale, LO, HI){
-  let pcs;
-  if(chord.pcs) pcs = chord.pcs;                          // from the listening layer
-  else {
-    const deg = nearestDegreeLocal(chord.root!=null?chord.root:pc(root), root, scale);
-    pcs = T.chordTones(scale, deg, chord.seventh?4:3, root).map(pc);
-  }
-  // realise those pitch-classes into the band
-  const out=[];
-  for(const p of pcs){ let m = Math.round(((LO+HI)/2)/12)*12 + p;
-    while(m<LO) m+=12; while(m>HI) m-=12;
-    out.push(m); }
-  return [...new Set(out)].sort((a,b)=>a-b);
-}
-function nearestDegreeLocal(targetPc, root, scale){
-  const a=T.semis(scale); let best=0,bd=99;
-  a.forEach((off,i)=>{ const d=Math.min(((pc(root+off)-targetPc)+12)%12,((targetPc-pc(root+off))+12)%12);
-    if(d<bd){bd=d;best=i;} }); return best;
-}
-function nearestTone(target, tones){
-  let best=target, bd=1e9;
-  for(const t of tones){ const p=pc(t), c=Math.round((target-p)/12)*12+p, d=Math.abs(c-target);
-    if(d<bd){bd=d;best=c;} } return best;
-}
-function nearestByStep(leadNotes, step){
-  let best=leadNotes[0].midi, bd=99;
-  for(const n of leadNotes){ const d=Math.abs(n.step-step); if(d<bd){bd=d;best=n.midi;} }
-  return best;
-}
 // (removed dead chooseContrary: it was never called and used Math.random(),
 //  a seed-determinism trap. Deleted rather than buried.)
 
@@ -6651,64 +6675,6 @@ function realise(motif, bar, tones, scale, root, LO, HI, anchor, startStep, velB
   return { notes, last:m };
 }
 
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   THE DEVELOPMENT PASS — the story transforms the theme.
-   Runs after the arrangement is known: for each section, the chapter's meaning
-   selects a transformation, and it is applied to the LEAD's notes in that
-   section. This is what makes the sections share a protagonist — "each phrase
-   takes the last piece of the melody and twists it in a new way".
-   Operations act on the note list, so they compose with whatever the engine
-   generated; pitches are snapped back into the key afterwards.
-   ═══════════════════════════════════════════════════════════════════════════ */
-function developTheme(parts, arrangement, chart, rng){
-  const leads = parts.filter(p=>p.role==="lead");
-  if(!leads.length) return [];
-  const scaleSemis = T.semis(chart.key.scale).map(o=>pc(chart.key.root+o));
-  const log=[];
-  // THE RULE OF 3 COUNTS HEARINGS OF THE LOOP, not sections: the theme is
-  // stated and reinforced for two full loops from the lead's entry, and only
-  // then developed. (Sections can be 4 bars — the intro — so counting sections
-  // would cut a transformation into the middle of a loop.)
-  const loopBars = chart.loopBars || 8;
-  const leadEntry = Math.min(...leads.map(l=> l.notes.length ? Math.min(...l.notes.map(n=>n.bar)) : 0));
-  // Two statements is the ideal (state + reinforce). If the lead entered late
-  // there may not be room for two before the song ends, so the count drops to
-  // one rather than letting a song pass with no development at all — the
-  // statement stays LOOP-ALIGNED either way so repetition is never cut mid-loop.
-  // Two statements, always: the Rule of 3 says play it, repeat it ONCE, and
-  // only then depart. Shortening that to one statement would break the law the
-  // whole program is built on, so the fix for "no room to develop" belongs in
-  // the arrangement (the lead entering earlier), not here.
-  const developFrom = leadEntry + 2*loopBars;
-  for(const sec of arrangement){
-    // THE RULE OF 3 AT SONG SCALE: state it, reinforce it, THEN develop — the first
-    // two loops carry the theme plainly so the ear learns it, then the story transforms
-    // it. The intro introduces the theme; it reads as a HINT because the arrangement
-    // holds most voices back there, and the PEAK (moment → "stated") is where the theme
-    // is fully realized with the whole band (the destination).
-    if(sec.endBar<=developFrom){ log.push({section:sec.name, event:sec.event, op:"stated"}); continue; }
-    const choice = transformFor(sec.event, {rhythm:[4],moves:[]}, rng, 0);
-    const op = choice.label;
-    if(op==="stated"){ log.push({section:sec.name, event:sec.event, op:"stated"}); continue; }
-    // "start the same but go somewhere different halfway through": gradual
-    // chapters transform only the BACK HALF; the dramatic chapters (drop,
-    // rebuild, moment, out) recast the whole section.
-    const wholeSection = ["fragmentation","sequence up","augmentation","closing"].includes(op);
-    let from = wholeSection ? sec.startBar
-                            : sec.startBar + Math.floor((sec.endBar-sec.startBar)/2);
-    from = Math.max(from, developFrom);            // never reach back into the statement
-    for(const lead of leads){
-      for(let bar=from; bar<sec.endBar; bar++){
-        const inBar = lead.notes.filter(n=>n.bar===bar).sort((a,b)=>a.step-b.step);
-        if(inBar.length<2) continue;
-        applyOp(op, inBar, lead, bar, scaleSemis, rng);
-      }
-    }
-    log.push({section:sec.name, event:sec.event, op});
-  }
-  return log;
-}
 
 /* the operators, acting on one bar's worth of notes (in place on the part) */
 function applyOp(op, inBar, part, bar, scaleSemis, rng){
@@ -7617,16 +7583,6 @@ function buildSpans(sections){
   return spans;
 }
 
-/* readable description of the chart the band agreed on */
-function describeChart(chart){
-  const L=[];
-  L.push(`CONDUCTOR · ${chart.genre}`);
-  L.push(`  key: ${T.NOTE[chart.key.root]} ${chart.key.scale}   tempo: ${chart.tempo}   meter: ${chart.meter}/4   feel: ${chart.feel}`);
-  L.push(`  form: ${chart.form}  (${chart.nBars} bars)   leader: ${chart._leader||"lead"}   focal: ${chart.focal}`);
-  L.push(`  sections: ${chart.sections.map(s=>s.name+(s.contrast?"*":"")+"["+s.bars+"]").join(" ")}`);
-  return L.join("\n");
-}
-
 
 
 /* ===== 04_pipeline.js ===== */
@@ -7708,21 +7664,6 @@ function improvise(chart, rng, engineNames){
   return { chart, order, parts,
            perception: listen({parts, nBars:chart.nBars, key:chart.key, phraseUnit:chart.phraseUnit}),
            steps };
-}
-
-/* a readable transcript of the session — SHOWS the band assembling, each
-   engine's entry and what it heard. This is the loading-screen content. */
-function describeSession(session){
-  const out=[];
-  out.push(`═══ SESSION · ${T.NOTE[session.chart.key.root]} ${session.chart.key.scale} · ${session.chart.nBars} bars ═══`);
-  out.push(`ORDER: ${session.order.join(" → ")}`);
-  session.steps.forEach((s,i)=>{
-    out.push(`\n[${i+1}] ${s.engine.toUpperCase()} ${s.wasLeading?"leads (cold start)":"reads the band & responds"}`);
-    // show the harmony line after this entry
-    const h=s.perception.harmony.map(b=>b?`${b.rootName}${b.quality==="min"?"m":b.quality==="maj"?"":b.quality}`:"·").join(" ");
-    out.push(`    now sounding: [${session.parts.slice(0,i+1).map(p=>p.role).join(", ")}]  harmony: ${h}`);
-  });
-  return out.join("\n");
 }
 
 
@@ -9143,193 +9084,6 @@ function composeSong(conductorChart, rng){
            groove, grooveInfo, grooveText:describeGroove(groove), flipInfo:null,
            parts, order:session.order };
 }
-function arrangeSections(chart, session, rng){
-  const unit = chart.phraseUnit || 8;
-  const parts = session.parts;
-  // group parts by the engine entry that produced them (from the real steps)
-  const groups=[]; let gidx=0;
-  session.steps.forEach(st=>{ const n=st.produced||0;
-    if(n>0){ groups.push({engine:st.engine, parts:parts.slice(gidx,gidx+n)}); gidx+=n; } });
-  // GATHERING STYLE — soft: trickle in / cluster / everyone at once.
-  // Spacing is measured in LOOPS: the default gap is ONE loop (the precise
-  // amount), a HALF loop is the "sooner" option, and EVERYONE is in within two
-  // loops — a band assembles fast; it does not dribble in over half the song.
-  const loop = chart.loopBars || 8;
-  const style = wpick(rng, [["trickle",4],["cluster",3],["allin",2]]);
-  const half=loop/2;
-  const maxEntry = Math.min(2*loop, Math.max(half, Math.floor((chart.nBars*0.35)/half)*half));
-  // THE BUSY-INTRO RULE: a starter may hold the intro alone only if its loop is
-  // actually full. A sparse line alone is noise — if the starter is thin, the
-  // next group comes in at the half-loop instead of waiting a whole loop.
-  const starterOnsets = groups.length ? groups[0].parts.reduce((s,pt)=>s+pt.notes.length,0)
-        / Math.max(1,chart.nBars) : 0;
-  const starterBusy = starterOnsets >= 2.5;               // ≥ ~2.5 onsets/bar carries a solo
-  const entries={};
-  let bar=0;
-  groups.forEach((g,gi)=>{
-    g.parts.forEach(pt=>entries[pt.name]=Math.min(bar, maxEntry));
-    if(style!=="allin" && gi<groups.length-1){
-      const secsPerBar = 4*(60/(chart.tempo||90));
-      const maxSoloBars = Math.max(2, Math.floor(9/secsPerBar));   // ~9s ceiling
-      // gaps shrink as the band assembles; nobody waits four groups deep
-      let step = starterBusy ? loop/4 : loop/8;
-      if(gi>0) step = loop/8;
-      step = Math.min(step, maxSoloBars);
-      step = Math.max(1, Math.round(step));
-      if(style==="cluster" && rng()<0.45) step=0;        // next group joins together
-      bar = Math.min(bar+step, maxEntry);
-    }
-  });
-  if(style==="allin") Object.keys(entries).forEach(k=>entries[k]=0);
-  // the kit is not something a listener waits eight bars for
-  for(const pt of parts) if(pt.role==="drums" && entries[pt.name]>loop/2)
-    entries[pt.name]=Math.round(loop/2);
-
-  const roles=[...new Set(parts.map(pt=>pt.role))];
-  const roleEntry={}; parts.forEach(pt=>{ const e=entries[pt.name]??0;
-    roleEntry[pt.role]=Math.min(roleEntry[pt.role]??1e9, e); });
-
-  const spansS=chart._sectionSpans;
-  const out=[];
-  // NOT EVERY SONG BREAKS DOWN — decide ONCE per song (seeded, genre-biased) whether
-  // this one has a breakdown at all. Beat-driven genres lean on it; ambient/neoclassical/
-  // downtempo often just build to a height and stay there. A song without a breakdown
-  // still gets its payoff (build → peak → moment), it just never strips out.
-  const BD_PROB={ house:0.7, jungle:0.7, synthwave:0.6, citypop:0.5, wise:0.45, lofi:0.4,
-                  dungeon:0.4, barber:0.35, ambient:0.3 };
-  const wantBreakdown = rng() < (BD_PROB[chart.genre] ?? 0.5);
-  let dropped=false, momentDone=false, atMaxFor=0, prevActive=null, prevEvent="";
-  for(let i=0;i<spansS.length;i++){
-    const sec=spansS[i];
-    const entered=roles.filter(r=>(roleEntry[r]??0) < sec.endBar);
-    const pos=i/Math.max(1,spansS.length-1);
-    let active, event, lift=false;
-    if(i===0){
-      // A REAL INTRO — the song does not open at full blast.
-      // ANYTHING can start a song, in any combination — a lone drum groove, a bass
-      // figure, a chord wash, or the hook riff itself. The old code banned the melodic
-      // voices from the opening and always filled to exactly THREE (measured: every
-      // song opened with exactly 3 roles), which is its own kind of "full blast" — a
-      // fixed-size band from bar one. Now the opening SIZE and its MEMBERS are both
-      // seeded choices over every voice that has entered, so intros differ song to song.
-      const MEL = r => r==="lead"||r==="lead2"||r==="counter";
-      const W={drums:4,harmony:4,bass:4,pad:3,arp:3,lead:3,counter:2,lead2:2,lowline:1};
-      const openSize = wpick(rng, [[2,5],[3,3]]);            // small — the band is not all here yet
-      let avail = entered.slice();
-      const keep = [];
-      // the opener can be ANY entered voice (the tune included); the rest join it
-      while(keep.length<openSize && avail.length){
-        const c = wpick(rng, avail.map(r=>[r, W[r]||1]));
-        keep.push(c); avail = avail.filter(r=>r!==c);
-      }
-      // ...but a bare pair of MELODIC voices with no floor under them is not an intro,
-      // it is a fragment: make sure something holds the ground (drums/bass/harmony/pad).
-      if(keep.length && keep.every(MEL)){
-        const floorRoles = entered.filter(r=>!MEL(r));
-        if(floorRoles.length) keep[keep.length-1] = wpick(rng, floorRoles.map(r=>[r, W[r]||1]));
-      }
-      const starter = keep[0] || entered[0];
-      if(keep.length < 2){                                   // guarantee 2+ so the intro grooves, not thin
-        const soon = roles.filter(r=>r!==starter && !MEL(r))
-                          .sort((a,c)=>(roleEntry[a]??99)-(roleEntry[c]??99));
-        if(soon.length) keep.push(soon[0]);
-        else { const any=roles.filter(r=>r!==starter).sort((a,c)=>(roleEntry[a]??99)-(roleEntry[c]??99)); if(any.length) keep.push(any[0]); }
-      }
-      // the kept (non-melodic) intro voices sound from bar one; the melodic voices are
-      // NOT forced in — they arrive when the first real section opens (the tune's entrance).
-      for(const r of keep){
-        roleEntry[r] = 0;
-        for(const pt of parts) if(pt.role===r) entries[pt.name]=0;
-      }
-      active = keep; event="open";
-    } else if(!momentDone){
-      const grew = entered.length > prevActive.length;
-      const nearEnd = spansS.length-i<=2;
-      if(dropped){
-        // after a breakdown: the rhythm section returns (rebuild), then the payoff
-        if(prevEvent==="drop" && !nearEnd){
-          active=entered.filter(r=>r==="harmony"||r==="pad"||r==="bass"||r==="drums");
-          event="rebuild";
-        } else { active=entered.slice(); lift=true; event="moment"; momentDone=true; }
-      } else if(grew){ active=entered.slice(); event="build"; }    // arrivals ARE the build
-      else if(atMaxFor<1 || pos<=0.35){
-        active=entered.slice(); event="peak"; atMaxFor++;          // reach the top first
-        if(atMaxFor>=2) lift=!(out[i-1]&&out[i-1].lift);
-      } else if(nearEnd){
-        // Reached the climax zone. NOT every song breaks down — a song that has built
-        // to its height can pay off DIRECTLY (build → peak → moment), no breakdown.
-        active=entered.slice(); lift=true; event="moment"; momentDone=true;
-      } else if(wantBreakdown){
-        // THIS song's breakdown (decided once, above): strip the rhythm section but KEEP
-        // the tune over the chords — a stripped version of THIS song, carrying its
-        // motif, a valley before the payoff (never a foreign chord-hold). Songs without
-        // wantBreakdown never reach here — they build straight through to the moment.
-        active=entered.filter(r=>r==="harmony"||r==="pad"||r==="lead");
-        if(!active.length) active=[entered[0]];
-        dropped=true; event="drop";
-      } else { active=entered.slice(); event="peak"; atMaxFor++;
-        if(atMaxFor>=2) lift=!(out[i-1]&&out[i-1].lift); }
-    } else {
-      if(sec.role==="coda" || (i===spansS.length-1 && rng()<0.4)){
-        active=entered.filter(r=>!["arp","lead2","counter"].includes(r)); event="out";
-      } else { active=entered.slice(); event="peak";
-        lift=!(out[i-1]&&out[i-1].lift); }
-    }
-    if(sec.role==="bridge") active=active.filter(r=>r!=="arp");
-    out.push({ ...sec, activeRoles:active, lift, event,
-      tension:event==="drop", tensionHalf:(event==="drop" && chart.nBars<40),
-      // the MOMENT is the payoff — give it a strict energy bump so it's the single
-      // loudest, latest peak (not merely tied with an earlier held peak).
-      energy: active.length + (lift?0.5:0) + (event==="moment"?1:0),
-      // #4 GLOBAL MELODIC CLIMAX: the lead soars an octave at the payoff so the melody
-      // itself arcs to a peak (not just the dynamics). Register-capped in scheduling.
-      leadLift: (event==="moment") ? 12 : 0,
-      // #3 HARMONIC JOURNEY: the payoff MODULATES up a whole step (the classic
-      // final-chorus lift) so it leads somewhere harmonically — but ONLY on tonal
-      // genres; a functional key-change is wrong for the modal/drone ones (measured).
-      // The BRIDGE no longer transposes by a random chromatic interval (was ±2/3/5 —
-      // that shifted it to an unrelated key and made it sound like a DIFFERENT song).
-      // A bridge stays in the tonic; its contrast comes from arrangement, not a key jump.
-      keyShift: sec.contrast ? 0
-                : (event==="moment" && !(typeof MODAL_GENRES!=="undefined" && MODAL_GENRES[chart.genre]) ? 2 : 0) });
-    prevActive=active; prevEvent=event;
-  }
-
-  // 2-LOOP RULE + RULE OF 3 enforcement (add / remove / expression)
-  const sig=a=>a.activeRoles.slice().sort().join("+")+(a.lift?"^":"");
-  for(let i=1;i<out.length;i++){
-    if(sig(out[i])===sig(out[i-1])){
-      const cur=new Set(out[i].activeRoles);
-      const entered=roles.filter(r=>(roleEntry[r]??0)<=out[i].startBar);
-      const resting=entered.filter(r=>!cur.has(r));
-      const colors=out[i].activeRoles.filter(r=>["pad","arp","counter","lead2"].includes(r));
-      if(resting.length && (rng()<0.6 || !colors.length)){
-        out[i].activeRoles = out[i].activeRoles.concat([pick(rng,resting)]);
-      } else if(colors.length){
-        const drop=pick(rng,colors);
-        out[i].activeRoles = out[i].activeRoles.filter(r=>r!==drop);
-      } else { out[i].lift = !out[i-1].lift; }
-      if(sig(out[i])===sig(out[i-1])) out[i].lift = !out[i-1].lift;
-    }
-  }
-  // THE DUEL — designate ONE featured section where the leader and a second melodic
-  // voice (counter, else lead2) TRADE AS EQUALS instead of leader-over-support. We
-  // only mark it here (the level match is applied after comping); pick the LATEST
-  // peak/moment section where both are active, deterministically (no rng draw, so the
-  // rest of the arrangement is unchanged). The partner already answers in the lead's
-  // gaps, so matching its level there turns support into a genuine call-and-response
-  // duel. (Arrangement research: leadership can be briefly shared / handed off.)
-  { let di=-1, dv=null, dbest=1;      // pick the featured section where the partner plays MOST (needs ≥2)
-    for(let i=0;i<out.length;i++){ const ar=out[i].activeRoles;
-      const partner = ar.includes("counter")?"counter":(ar.includes("lead2")?"lead2":null);
-      if(!(ar.includes("lead") && partner && (out[i].event==="peak"||out[i].event==="moment"))) continue;
-      const pp=parts.find(p=>p.role===partner);
-      const cnt=pp?pp.notes.filter(n=>n.midi!=null&&n.bar>=out[i].startBar&&n.bar<out[i].endBar).length:0;
-      if(cnt>dbest){ dbest=cnt; di=i; dv=partner; } }   // most partner activity = the strongest trade
-    if(di>=0) out[di].duel=dv;
-  }
-  return { sections:out, entries, style };
-}
 
 
 const SONG_LIBRARY = [{"seed":5589,"score":61,"genre":"ambient","key":"G major","tempo":52,"form":"strophic","bars":52,"parts":8,"story":"open build peak drop rebuild moment out"},{"seed":4925,"score":60,"genre":"ambient","key":"A# dorian","tempo":71,"form":"strophic","bars":60,"parts":8,"story":"open peak peak drop rebuild moment peak out"},{"seed":40,"score":59,"genre":"ambient","key":"A major","tempo":65,"form":"strophic","bars":52,"parts":9,"story":"open build peak drop rebuild moment out"},{"seed":3516,"score":60,"genre":"barber","key":"G major","tempo":74,"form":"binary","bars":60,"parts":8,"story":"open build build peak peak drop rebuild moment"},{"seed":5388,"score":60,"genre":"barber","key":"D major","tempo":83,"form":"binary","bars":60,"parts":7,"story":"open build build peak drop rebuild moment out"},{"seed":2488,"score":59,"genre":"barber","key":"F# minor","tempo":77,"form":"binary","bars":60,"parts":8,"story":"open build build peak drop rebuild moment out"},{"seed":5379,"score":67,"genre":"citypop","key":"G major","tempo":101,"form":"versechorus","bars":68,"parts":9,"story":"open build peak build drop rebuild moment peak peak out"},{"seed":419,"score":65,"genre":"citypop","key":"G dorian","tempo":113,"form":"versechorus","bars":64,"parts":8,"story":"open build build peak drop rebuild moment peak out"},{"seed":500,"score":65,"genre":"citypop","key":"G# major","tempo":112,"form":"binary","bars":60,"parts":9,"story":"open build build peak drop rebuild moment out"},{"seed":4828,"score":62,"genre":"dungeon","key":"D phrygian","tempo":67,"form":"strophic","bars":60,"parts":9,"story":"open peak peak drop rebuild moment peak out"},{"seed":50,"score":60,"genre":"dungeon","key":"C# phrygian","tempo":62,"form":"strophic","bars":60,"parts":8,"story":"open peak peak drop rebuild moment peak out"},{"seed":1087,"score":60,"genre":"dungeon","key":"A# phrygian","tempo":70,"form":"binary","bars":60,"parts":7,"story":"open build build peak drop rebuild moment out"},{"seed":4416,"score":65,"genre":"house","key":"D# major","tempo":120,"form":"binary","bars":60,"parts":9,"story":"open build build peak drop rebuild moment out"},{"seed":5641,"score":62,"genre":"house","key":"B minor","tempo":126,"form":"strophic","bars":60,"parts":9,"story":"open peak peak drop rebuild moment peak out"},{"seed":202,"score":60,"genre":"house","key":"B minor","tempo":123,"form":"binary","bars":52,"parts":9,"story":"open build build peak drop rebuild moment"},{"seed":2439,"score":65,"genre":"jungle","key":"A aeolian","tempo":175,"form":"binary","bars":60,"parts":9,"story":"open build build peak drop rebuild moment out"},{"seed":2424,"score":63,"genre":"jungle","key":"F aeolian","tempo":172,"form":"binary","bars":60,"parts":8,"story":"open build build peak drop rebuild moment out"},{"seed":717,"score":62,"genre":"jungle","key":"F aeolian","tempo":174,"form":"strophic","bars":60,"parts":9,"story":"open peak peak drop rebuild moment peak out"},{"seed":65,"score":65,"genre":"lofi","key":"E dorian","tempo":85,"form":"versechorus","bars":64,"parts":8,"story":"open build build peak drop rebuild moment peak out"},{"seed":1090,"score":65,"genre":"lofi","key":"C dorian","tempo":90,"form":"versechorus","bars":60,"parts":9,"story":"open build peak build drop rebuild moment peak out"},{"seed":3636,"score":65,"genre":"lofi","key":"D major","tempo":81,"form":"binary","bars":60,"parts":9,"story":"open build build peak drop rebuild moment out"},{"seed":2810,"score":63,"genre":"wise","key":"D dorian","tempo":85,"form":"binary","bars":60,"parts":8,"story":"open build build peak drop rebuild moment out"},{"seed":3154,"score":63,"genre":"wise","key":"A aeolian","tempo":82,"form":"binary","bars":60,"parts":8,"story":"open build build peak drop rebuild moment out"},{"seed":5750,"score":63,"genre":"wise","key":"D# minor","tempo":97,"form":"binary","bars":60,"parts":8,"story":"open build build peak drop rebuild moment out"}];
@@ -9581,7 +9335,6 @@ function applyGenrePerf(){
 }
 /* schedule EVERY event at absolute times — used by the offline renderer so the
    exported file is the same performance you hear, groove and all. */
-function rebuildEvents(){ /* slices are chosen at fire time */ }
 function syncChopUI(){
   const cm=document.getElementById("chopmode"), pm=document.getElementById("playmode");
   if(cm) cm.value=SAMPLE.chop; if(pm) pm.value=SAMPLE.play;
