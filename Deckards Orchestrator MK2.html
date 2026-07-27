@@ -150,7 +150,7 @@ const Sound = (function(){
 
   let ctx = null;            // live context (lazy)
   let liveGraph = null;      // built once per live context
-  let liveHandles = [];      // sources of the currently playing performance
+  let liveHandles = new Set();   // sources currently alive; prunes itself on ended
 
   /* ── the graph: role buses -> mix -> soft clip (real headroom) -> limiter.
      Reverb is ONE send bus, low-cut at 200 Hz so kick/bass stay dry, returned
@@ -209,6 +209,16 @@ const Sound = (function(){
     /* who feeds the space: keys and lead breathe; the rhythm section stays dry */
     g.bus.keys.connect(g.send);
     g.bus.lead.connect(g.send);
+
+    /* one shared noise source for the whole kit: a 2-second seeded buffer, and every
+       burst plays a slice of it at a deterministic offset. A fresh JS-filled buffer
+       per drum hit was pure allocation churn. */
+    {
+      const len = 2 * c.sampleRate;
+      g.noise = c.createBuffer(1, len, c.sampleRate);
+      const d = g.noise.getChannelData(0), r2 = makeRng(hash32("noisebank"));
+      for(let i = 0; i < len; i++) d[i] = r2() * 2 - 1;
+    }
     return g;
   }
 
@@ -295,12 +305,13 @@ const Sound = (function(){
   V.counter = V.lead;
 
   /* the kit — every voice is BODY + ATTACK (masterdoc §4.1). */
-  function burst(c, t, durSec){
-    const len = Math.max(8, Math.floor(c.sampleRate * durSec));
-    const b = c.createBuffer(1, len, c.sampleRate), d = b.getChannelData(0);
-    const r2 = makeRng(hash32("noise") ^ len);           // deterministic noise
-    for(let i = 0; i < len; i++) d[i] = r2() * 2 - 1;
-    const src = c.createBufferSource(); src.buffer = b; src.start(t); return src;
+  function burst(g, t, durSec){
+    const c = g.ctx;
+    const src = c.createBufferSource(); src.buffer = g.noise;
+    const span = g.noise.duration - durSec - 0.01;
+    const off = (hash32("off:" + t.toFixed(5)) % 10000) / 10000 * Math.max(0.01, span);
+    src.start(t, off, durSec + 0.01);
+    return src;
   }
   V.kick = function(g, ev, t){
     const c = g.ctx;
@@ -311,7 +322,7 @@ const Sound = (function(){
     og.gain.setValueAtTime(LEVEL.kick * ev.gain, t);
     og.gain.exponentialRampToValueAtTime(0.0002, t + 0.30);
     o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + 0.34);
-    const n = burst(c, t, 0.016);                                          // beater
+    const n = burst(g, t, 0.016);                                          // beater
     const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 2600; bp.Q.value = 1.1;
     const ng = c.createGain();
     ng.gain.setValueAtTime(LEVEL.kick * ev.gain * 0.42, t);
@@ -329,13 +340,13 @@ const Sound = (function(){
       og.gain.exponentialRampToValueAtTime(0.0002, t + dec);
       o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + dec + 0.02); out.push(o);
     }
-    const crack = burst(c, t, 0.08);                                        // stick on head
+    const crack = burst(g, t, 0.08);                                        // stick on head
     const cb = c.createBiquadFilter(); cb.type = "bandpass"; cb.frequency.value = 1850; cb.Q.value = 0.8;
     const cg = c.createGain();
     cg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.72, t);
     cg.gain.exponentialRampToValueAtTime(0.0002, t + 0.065);
     crack.connect(cb); cb.connect(cg); cg.connect(g.bus.drums); out.push(crack);
-    const wire = burst(c, t, 0.16);                                         // the tail, not the sound
+    const wire = burst(g, t, 0.16);                                         // the tail, not the sound
     const wh = c.createBiquadFilter(); wh.type = "highpass"; wh.frequency.value = 4400;
     const wg = c.createGain();
     wg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.46, t);
@@ -346,13 +357,13 @@ const Sound = (function(){
   V.ghost = V.snare;
   V.hat = function(g, ev, t){
     const c = g.ctx;
-    const body = burst(c, t, 0.035);                        // metal body from the low mids up
+    const body = burst(g, t, 0.035);                        // metal body from the low mids up
     const hb = c.createBiquadFilter(); hb.type = "highpass"; hb.frequency.value = 1600;
     const bg = c.createGain();
     bg.gain.setValueAtTime(LEVEL.hat * ev.gain, t);
     bg.gain.exponentialRampToValueAtTime(0.0002, t + 0.030);
     body.connect(hb); hb.connect(bg); bg.connect(g.bus.drums);
-    const shine = burst(c, t, 0.02);                        // stick shimmer
+    const shine = burst(g, t, 0.02);                        // stick shimmer
     const sb = c.createBiquadFilter(); sb.type = "bandpass"; sb.frequency.value = 8200; sb.Q.value = 1.4;
     const sg = c.createGain();
     sg.gain.setValueAtTime(LEVEL.hat * ev.gain * 0.8, t);
@@ -362,7 +373,7 @@ const Sound = (function(){
   };
   V.openhat = function(g, ev, t){
     const c = g.ctx;
-    const body = burst(c, t, 0.30);
+    const body = burst(g, t, 0.30);
     const hb = c.createBiquadFilter(); hb.type = "highpass"; hb.frequency.value = 1400;
     const bg = c.createGain();
     bg.gain.setValueAtTime(LEVEL.openhat * ev.gain, t);
@@ -371,15 +382,24 @@ const Sound = (function(){
     return [body];
   };
 
-  /* ── THE ONE SCHEDULER (Law 10). Events are already absolute seconds. ── */
+  /* ── THE ONE SCHEDULER (Law 10): every event, live or offline, goes through
+     dispatch(). Offline fires the whole list at once (an OfflineAudioContext does
+     not care). Live feeds the same dispatch through a rolling window, because a
+     WebAudio graph pays for every node it holds on every render quantum -- creating
+     a whole song's five thousand nodes up front is a dropped-frame machine. ── */
+  function dispatch(graph, ev, at, alive){
+    const voice = V[ev.voice];
+    if(!voice) throw new Error("unknown voice: " + ev.voice);   // fail loud, never substitute
+    const made = voice(graph, ev, at);
+    for(const h of made){
+      if(alive) alive.add(h);
+      h.onended = () => { try{ h.disconnect(); }catch(e){} if(alive) alive.delete(h); };
+    }
+    return made;
+  }
   function perform(graph, events, t0){
     const handles = [];
-    for(const ev of events){
-      const voice = V[ev.voice];
-      if(!voice) throw new Error("unknown voice: " + ev.voice);   // fail loud, never substitute
-      const made = voice(graph, ev, t0 + ev.tSec);
-      for(const h of made) handles.push(h);
-    }
+    for(const ev of events) for(const h of dispatch(graph, ev, t0 + ev.tSec)) handles.push(h);
     return handles;
   }
 
@@ -391,15 +411,28 @@ const Sound = (function(){
     if(ctx.state === "suspended") ctx.resume();
     return ctx;
   }
+  let liveTimer = null;
   function playLive(events){
     ensureLive();
     stopLive();
-    liveHandles = perform(liveGraph, events, ctx.currentTime + 0.12);
-    return ctx.currentTime + 0.12;
+    const t0 = ctx.currentTime + 0.15;
+    let i = 0;
+    const pump = () => {
+      const horizon = ctx.currentTime + 0.6;              // schedule ~0.6 s ahead
+      while(i < events.length && t0 + events[i].tSec < horizon){
+        dispatch(liveGraph, events[i], t0 + events[i].tSec, liveHandles);
+        i++;
+      }
+      if(i >= events.length){ clearInterval(liveTimer); liveTimer = null; }
+    };
+    pump();
+    liveTimer = setInterval(pump, 150);
+    return t0;
   }
   function stopLive(){
+    if(liveTimer){ clearInterval(liveTimer); liveTimer = null; }
     for(const h of liveHandles){ try{ h.stop(0); }catch(e){} try{ h.disconnect(); }catch(e){} }
-    liveHandles = [];
+    liveHandles.clear();
   }
   async function renderWav(events, seconds, sampleRate){
     const sr = sampleRate || 44100;
