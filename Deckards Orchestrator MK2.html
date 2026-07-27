@@ -276,8 +276,16 @@ const Sound = (function(){
     const tGain = c.createGain(); car2.connect(tGain); tGain.connect(out);
     tGain.gain.setValueAtTime(0.34 * (0.3 + 0.7 * ev.gain), t);
     tGain.gain.exponentialRampToValueAtTime(0.0002, t + 0.22);
-    /* wurly tremolo: the amp wobble is the instrument's signature */
+    /* the tape wow: a slow drift (~0.7 Hz) on the body carrier, depth drawn per
+       song by the chart -- pitch instability is half the lofi patina [EAR] */
     const nodes = [car, mod, car2, mod2];
+    if(ev.wow){
+      const wowLfo = osc(c, "sine", 0.7, t, end), wg = c.createGain();
+      wg.gain.value = f * ev.wow;
+      wowLfo.connect(wg); wg.connect(car.frequency); wg.connect(car2.frequency);
+      nodes.push(wowLfo);
+    }
+    /* wurly tremolo: the amp wobble is the instrument's signature */
     if(wurly){
       const lfo = osc(c, "sine", 5.5, t, end), lg = c.createGain();
       lg.gain.value = LEVEL.keys * 0.28;
@@ -429,6 +437,25 @@ const Sound = (function(){
     shine.connect(sb); sb.connect(sg); sg.connect(g.bus.drums);
     return [body, shine];
   };
+  /* tape — the vinyl bed. Sparse seeded impulses through a bandpass, sitting far
+     under the band (the event's gain arrives ~0.006-0.014). It is an EVENT like any
+     note, so live and render carry the identical patina [EAR: depth, or off]. */
+  V.tape = function(g, ev, t){
+    const c = g.ctx;
+    const len = Math.min(Math.ceil(ev.durSec * c.sampleRate), c.sampleRate * 300);
+    const buf = c.createBuffer(1, len, c.sampleRate);
+    const d = buf.getChannelData(0), r2 = makeRng(hash32("vinyl"));
+    for(let i = 0; i < len; i++){
+      d[i] = (r2() < 0.0006) ? (r2() * 2 - 1) * (0.3 + r2() * 0.7) : (r2() * 2 - 1) * 0.012;
+    }
+    const src = c.createBufferSource(); src.buffer = buf;
+    const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 3400; bp.Q.value = 0.35;
+    const gn = c.createGain(); gn.gain.value = ev.gain;
+    src.connect(bp); bp.connect(gn); gn.connect(g.bus.keys);   // rides the keys bus into the space
+    src.start(t); src.stop(t + ev.durSec);
+    return [src];
+  };
+
   V.openhat = function(g, ev, t){
     const c = g.ctx;
     const body = burst(g, t, 0.30);
@@ -562,6 +589,10 @@ function makeChart(seed){
     mode: wpick(rng, [["minor", 5], ["dorian", 4], ["major", 2]]),
     tempo: 74 + Math.round(rng() * 18),
     keysChar: wpick(rng, [["rhodes", 6], ["wurly", 4]]),   // the soulful pick [EAR]
+    tape: Object.freeze({                                    // the lofi patina [EAR]
+      wow:     0.0012 + rng() * 0.0018,   // slow pitch drift depth (fraction of f)
+      crackle: 0.006 + rng() * 0.008,     // vinyl bed level (way under the band)
+    }),
   };
   return Object.freeze(chart);
 }
@@ -696,16 +727,20 @@ function makeMaterials(chart){
     const notes = [];
     const ghostSpots = [3, 7, 9, 11, 15];
     const openSpot = wpick(rng, [[14, 4], [7, 2], [-1, 4]]);
+    /* velocity here is IDENTITY -- what kind of hit this is (a full snare, a
+       ghost, a hat). WHERE in the bar a hit is loud belongs to the performance
+       stage's measured accent map [corpus:harvest_drums], so the two never
+       compound the way the first build's stacked velocity passes did. */
     for(let b = 0; b < BARS; b++){
-      for(const s of pocket) notes.push({ bar: b, step: s, dur: 1, lane: "kick", vel: s === 0 ? 1.0 : 0.82, role: "drums" });
-      notes.push({ bar: b, step: 4,  dur: 1, lane: "snare", vel: 0.96, role: "drums" });
-      notes.push({ bar: b, step: 12, dur: 1, lane: "snare", vel: 1.0,  role: "drums" });
+      for(const s of pocket) notes.push({ bar: b, step: s, dur: 1, lane: "kick", vel: s === 0 ? 1.0 : 0.9, role: "drums" });
+      notes.push({ bar: b, step: 4,  dur: 1, lane: "snare", vel: 1.0, role: "drums" });
+      notes.push({ bar: b, step: 12, dur: 1, lane: "snare", vel: 1.0, role: "drums" });
       for(let s = 0; s < 16; s += 2)
-        notes.push({ bar: b, step: s, dur: 1, lane: "hat", vel: s % 4 === 0 ? 0.62 : 0.40, role: "drums" });
+        notes.push({ bar: b, step: s, dur: 1, lane: "hat", vel: 0.62, role: "drums" });
       if(rng() < 0.55)
-        notes.push({ bar: b, step: pick(rng, ghostSpots), dur: 1, lane: "ghost", vel: 0.16, role: "drums" });
+        notes.push({ bar: b, step: pick(rng, ghostSpots), dur: 1, lane: "ghost", vel: 0.35, role: "drums" });
       if(openSpot >= 0 && (b === 1 || b === 3))
-        notes.push({ bar: b, step: openSpot, dur: 1, lane: "openhat", vel: 0.5, role: "drums" });
+        notes.push({ bar: b, step: openSpot, dur: 1, lane: "openhat", vel: 0.55, role: "drums" });
     }
     return notes;
   }
@@ -975,6 +1010,18 @@ function makeArrangement(chart, form, materials){
    jitter). Reads the arrangement's SELECTIONS (material, fill, strip, ending);
    changes nothing upstream.
    ═══════════════════════════════════════════════════════════════════════════ */
+/* WHERE THE KIT IS LOUD, by lane and sixteenth -- median velocities from 1,150
+   human performances [corpus:harvest_drums], each row normalized to its own
+   peak. The snare's row IS ghosting: backbeats at 1.0, everything else under
+   half. This is a static part of the one gain formula, not a pass. */
+const DRUM_ACCENT = {
+  kick:  [0.98,0.21,1.00,0.79,0.92,0.82,0.73,0.74,0.94,0.73,0.94,0.76,0.90,0.82,0.73,0.65],
+  snare: [0.40,0.33,0.43,0.47,0.96,0.35,0.55,0.39,0.48,0.41,0.49,0.48,1.00,0.42,0.61,0.38],
+  ghost: [0.40,0.33,0.43,0.47,0.96,0.35,0.55,0.39,0.48,0.41,0.49,0.48,1.00,0.42,0.61,0.38],
+  hat:   [0.92,0.53,0.87,0.69,1.00,0.57,0.88,0.63,0.89,0.64,0.89,0.68,0.99,0.63,0.87,0.64],
+  openhat:[0.92,0.53,0.87,0.69,1.00,0.57,0.88,0.63,0.89,0.64,0.89,0.68,0.99,0.63,0.87,0.64],
+};
+
 function makePerformance(chart, form, materials, sections){
   const spb = (60 / chart.tempo) / 4;
   const rngG = stream(chart.seed, "groove");
@@ -992,7 +1039,16 @@ function makePerformance(chart, form, materials, sections){
   const kickLate   = grooveStyle === "dilla" ?  (0.06 + rngG() * 0.12) : 0;   // the downbeat stays anchored
   const hatSwingMul = grooveStyle === "dilla" ? 0.25 : 1;
   const jitterSec  = grooveStyle === "dilla" ? 0.002 : 0.005;
+  /* the player's touch, drawn once per song: how long the bass lets notes ring,
+     and how wide the keys' strum rolls (a real strum is milliseconds, not grid) */
+  const bassArtic = wpick(rngG, [[0.6, 3], [0.85, 4], [1.0, 3]]);        // [EAR]
+  const strumSec  = 0.004 + rngG() * 0.005;
   const events = [];
+  /* the tape bed: ONE event, dispatched like every other -- the crackle and the
+     song go through the same scheduler on the same graph (Law 10) */
+  const totalSec = form.nBars * 16 * spb;
+  events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "tape",
+                              role: "tape", gain: chart.tape.crackle }));
 
   for(const sec of sections){
     const mat = materials[sec.material];
@@ -1000,6 +1056,7 @@ function makePerformance(chart, form, materials, sections){
       const loopBar = (bar - sec.startBar) % materials.bars;
       const lastBar = bar === sec.endBar - 1;
       const firstHalf = (bar - sec.startBar) < (sec.endBar - sec.startBar) / 2;
+      const strumAt = {};                       // per (step): index within a keys strike
       for(const role of sec.active){
         let notes = mat[role];
         if(role === "drums" && lastBar && sec.fillInto) notes = materials.fill;
@@ -1015,8 +1072,14 @@ function makePerformance(chart, form, materials, sections){
           if(sec.emptyLastBar && lastBar && (role === "drums" || role === "bass") && n.step > 0) continue;
           let micro = 0;
           const lane = n.lane || "";
+          /* in dilla mode the kick/snare/ghost lanes live on their OWN early/late
+             straight grids -- swinging their odd-step hits (fills, ghosts) mixed two
+             grids inside one lane, which the seam battery caught as wandering offsets.
+             The friction is BETWEEN lanes, never within one. */
           const swingHere = (role === "drums" && (lane === "hat" || lane === "openhat"))
-                          ? swingOffset * hatSwingMul : swingOffset;
+                          ? swingOffset * hatSwingMul
+                          : (grooveStyle === "dilla" && role === "drums") ? 0
+                          : swingOffset;
           if(n.step % 4 === 2) micro += swingHere;
           else if(n.step % 2 === 1) micro += swingHere * 0.5;
           if(role === "drums") micro += -0.008 / spb;
@@ -1024,14 +1087,24 @@ function makePerformance(chart, form, materials, sections){
           if(lane === "kick" && n.step > 0) micro += kickLate;
           const j = stream(chart.seed, "jit:" + role + ":" + bar + ":" + n.step + ":" + (n.pitch || n.lane));
           micro += ((j() * 2 - 1) * jitterSec) / spb;
-          const gain = Math.min(1.25, n.vel * (0.72 + 0.28 * sec.energy) * (sec.peak ? 1.06 : 1));
+          /* the strum: notes of one keys strike roll low-to-high by a few ms --
+             a hand, not a machine stamp */
+          if(role === "keys"){
+            const k = "k" + n.step;
+            strumAt[k] = (strumAt[k] || 0) + 1;
+            micro += ((strumAt[k] - 1) * strumSec) / spb;
+          }
+          /* THE ONE GAIN FORMULA: identity x position accent x section dynamic */
+          const accent = (role === "drums" && DRUM_ACCENT[lane]) ? DRUM_ACCENT[lane][n.step % 16] : 1;
+          const gain = Math.min(1.25, n.vel * accent * (0.72 + 0.28 * sec.energy) * (sec.peak ? 1.06 : 1));
+          const artic = role === "bass" ? bassArtic : 1;
           const ev = {
             tSec: (bar * 16 + n.step + micro) * spb,
-            durSec: Math.max(spb * 0.9, n.dur * spb),
+            durSec: Math.max(spb * 0.9, n.dur * spb * artic),
             voice: n.lane || role,
             role, gain,
           };
-          if(role === "keys") ev.timbre = chart.keysChar;
+          if(role === "keys"){ ev.timbre = chart.keysChar; ev.wow = chart.tape.wow; }
           if(n.pitch != null) ev.pitch = n.pitch;
           events.push(Object.freeze(ev));
         }
