@@ -55,6 +55,35 @@ protection comes from our *method* (above), not from the source's jurisdiction.
 | Jazz Harmony Treebank (1170 standards) | chord **progressions** only | progressions non-copyrightable |
 | Weimar Jazz DB (456 recorded solos) | chord **changes** only (no melodies) | progressions non-copyrightable; ODbL DB |
 | Grammar (order-2 Markov over the pooled corpus) | **nothing** — new contours, rhythms & progressions generated from statistics | no source material retained; strongest position |
+| **mda ePiano sample bank** (MK2's Rhodes) | the **audio samples themselves** — 422,418 shorts, 33 zones | **MIT**, © 2008 Paul Kellett — see the note below |
+
+### The one place we DO ship someone else's audio — and how it was checked
+
+Everything above is symbolic. MK2's Rhodes is the exception: it embeds Paul Kellett's
+mda ePiano sample bank as real PCM. That is fine *because of the licence*, not because of
+the abstraction argument — so the licence had to be right, and the first attempt got it
+wrong.
+
+The data was originally taken from **mda-lv2** (drobilla), whose every file is headed
+**GPL-3.0-or-later**. Shipping that inside this single-file HTML would have made the whole
+program GPL-3. The file nonetheless claimed MIT, which was an unchecked assumption.
+
+What settles it: the upstream carries the MIT grant. `elk-audio/mda-vst2` ships
+`plugins/mdaEPianoData.h` and states in its README that the mda plugins are *"taken from
+the original Sourceforge repository … and are covered by the MIT License, mda VST
+plug-ins, Copyright (c) 2008 Paul Kellett."* Both files were fetched and **all 422,418
+samples compared: bit-identical**. So the bank we ship is Kellett's MIT-licensed data, and
+the GPL-3 header belonged to someone else's *port* of it, not to the samples.
+
+**Rule this establishes:** a licence header describes the file you are holding, not the
+data inside it. When the same data ships under two licences, take it from the permissive
+source and *prove the bytes match* — do not reason about which one "really" applies.
+
+**The SEGA chip is not a licence question.** Nuked-OPN2 is LGPL-2.1 and we did **not**
+vendor it. MK2's YM2612 voice is our own WebAudio code; what it takes from Nuked is
+*facts* — envelope rates, the TL step, the detune table — which are unprotectable
+descriptions of how a 1988 chip behaves. The patch bytes come from this project's own
+earlier build. No LGPL obligation attaches.
 
 ## The strongest move: learn the grammar, generate the notes
 

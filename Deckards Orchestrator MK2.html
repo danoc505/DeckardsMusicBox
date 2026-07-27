@@ -1623,15 +1623,20 @@ function makeArrangement(chart, form, materials){
       energy: sec.energy, peak: sec.peak, occurrence: sec.occurrence,
       material, stripHalf,
       active: Object.freeze(ROLES[sec.fn].slice()),
-      /* TWO WAYS INTO AN ARRIVAL, and they are mutually exclusive because they
-         occupy the same bar: roll a fill into it, or drop out and let it land in
-         silence. The old code set both whenever the next section was the peak --
-         emptyLastBar then stripped everything past step 0 out of the fill that
-         fillInto had just selected, deleting 22.6% of all fills and, by
-         construction, exactly the fill into the song's biggest moment. Doing
-         both is not both; it is neither. The peak gets the drop, which is what
-         makes it the peak, and every other arrival gets its fill. [EAR] */
-      fillInto: !!(next && !next.peak && (next.fn === "chorus" || next.fn === "bridge")
+      /* TWO WAYS INTO AN ARRIVAL: roll a fill into it, or drop out and let it
+         land in silence (docs/DEEP_RESEARCH_ARRANGEMENT.md:162 -- "silence OR a
+         fill"; :318 -- the empty before a big arrival is called essential by two
+         independent sources). Both flags can be true on the same bar, and that
+         is DELIBERATE PRECEDENCE, not a collision: stage 5 selects the fill
+         first, then the empty filter keeps only step 0. Measured over 300 seeds,
+         emptyLastBar fires on exactly one section per song and what survives is
+         `kick step 0` plus `hat step 0 at 0.34` -- the same downbeat the loop bar
+         would have given, with a SOFTER hat, which is the right direction for a
+         bar that is emptying out. I "fixed" this once by suppressing fillInto
+         under emptyLastBar; measured, that changed exactly one hat per song from
+         0.34 to 0.53, i.e. it made the empty bar louder. Reverted. Leaving the
+         reasoning here so the next reader does not re-fix it either. */
+      fillInto: !!(next && (next.fn === "chorus" || next.fn === "bridge")
                    && ROLES[sec.fn].includes("drums")),
       emptyLastBar: !!(next && next.peak),
       endingLastBar: sec.fn === "outro",
