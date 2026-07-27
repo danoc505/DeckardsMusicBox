@@ -241,22 +241,80 @@ const Sound = (function(){
   }
   const F = m => 440 * Math.pow(2, (m - 69) / 12);
 
-  /* keys — an electric-piano-ish stack: fundamental, a tine partial, and a saw
-     for the upper body a real EP's bark carries. Gains sum to 1.42; the level
-     table is calibrated against that sum. */
+  /* keys — a REAL electric piano mechanism: two FM pairs summed, the DX7/STK
+     Rhodey lineage [docs/SYNTH-RESEARCH.md §2]:
+       BODY pair: carrier at the note, modulator ~1:1, index scales with velocity
+                  -- the warm fundamental, and the BARK when struck hard
+       TINE pair: carrier at the note, modulator at a HIGH ratio (rhodes ~14:1,
+                  wurly ~7:1 with an odd 3:1 body) with a fast-decaying index --
+                  the metallic ping that IS the instrument, gone in ~150 ms
+     The wurly variant is reedier (odd-ratio body) and carries its ~5.5 Hz tremolo.
+     ev.timbre chooses; the chart draws it once per song [EAR]. */
   V.keys = function(g, ev, t){
-    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 0.35;
+    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 0.40;
+    const wurly = ev.timbre === "wurly";
     const out = c.createGain();
     const flt = c.createBiquadFilter(); flt.type = "lowpass"; flt.Q.value = 0.4;
-    flt.frequency.setValueAtTime(2200 + 3600 * ev.gain, t);
-    flt.frequency.exponentialRampToValueAtTime(1200 + 1600 * ev.gain, t + 0.30);
+    flt.frequency.setValueAtTime(2400 + 3600 * ev.gain, t);
+    flt.frequency.exponentialRampToValueAtTime(1400 + 1600 * ev.gain, t + 0.30);
     out.connect(flt); flt.connect(g.bus.keys);
-    const mk = (type, mul, gain) => {
-      const o = osc(c, type, f * mul, t, end), og = c.createGain();
-      og.gain.value = gain; o.connect(og); og.connect(out); return o;
+    /* body pair */
+    const car = osc(c, "sine", f, t, end);
+    const mod = osc(c, "sine", f * (wurly ? 3.0 : 1.0), t, end);
+    const mg = c.createGain(); mod.connect(mg); mg.connect(car.frequency);
+    const idx0 = f * (wurly ? 0.85 : 0.55) * (0.35 + 0.85 * ev.gain);   // velocity opens the bark
+    mg.gain.setValueAtTime(idx0, t);
+    mg.gain.exponentialRampToValueAtTime(Math.max(1, idx0 * 0.22), t + 0.30);
+    car.connect(out);
+    /* tine pair — its own short life */
+    const tEnd = t + 0.30;
+    const car2 = osc(c, "sine", f, t, tEnd);
+    const mod2 = osc(c, "sine", f * (wurly ? 7.0 : 14.0), t, tEnd);
+    const mg2 = c.createGain(); mod2.connect(mg2); mg2.connect(car2.frequency);
+    mg2.gain.setValueAtTime(f * 2.4 * (0.25 + 0.75 * ev.gain), t);
+    mg2.gain.exponentialRampToValueAtTime(1, t + 0.13);
+    const tGain = c.createGain(); car2.connect(tGain); tGain.connect(out);
+    tGain.gain.setValueAtTime(0.34 * (0.3 + 0.7 * ev.gain), t);
+    tGain.gain.exponentialRampToValueAtTime(0.0002, t + 0.22);
+    /* wurly tremolo: the amp wobble is the instrument's signature */
+    const nodes = [car, mod, car2, mod2];
+    if(wurly){
+      const lfo = osc(c, "sine", 5.5, t, end), lg = c.createGain();
+      lg.gain.value = LEVEL.keys * 0.28;
+      lfo.connect(lg); lg.connect(out.gain);
+      nodes.push(lfo);
+    }
+    adsr(c, out, t, LEVEL.keys * ev.gain / 1.34, 0.003, 0.15, 0.55, t + ev.durSec, 0.30);
+    return nodes;
+  };
+
+  /* cs80 — a voice in the CS-80's LINEAGE (not an emulation): the architecture
+     fact that matters is TWO COMPLETE PARALLEL LAYERS, each its own osc -> HP ->
+     LP chain, then late-onset vibrato over the pair [docs/SYNTH-RESEARCH.md §3].
+     Unused by lofi; here for the genres that will want the Vangelis air, and for
+     auditioning now. [EAR when its genre arrives] */
+  V.cs80 = function(g, ev, t){
+    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 0.8;
+    const out = c.createGain(); out.connect(g.bus.lead);
+    const nodes = [];
+    const layer = (type, det, hpHz, lpHz, amt) => {
+      const o = osc(c, type, f * det, t, end);
+      const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = hpHz; hp.Q.value = 0.8;
+      const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = 1.2;
+      lp.frequency.setValueAtTime(900 + 1400 * ev.gain, t);
+      lp.frequency.exponentialRampToValueAtTime(lpHz + 2600 * ev.gain, t + 0.5);
+      const lg = c.createGain(); lg.gain.value = amt;
+      o.connect(hp); hp.connect(lp); lp.connect(lg); lg.connect(out);
+      nodes.push(o);
     };
-    const nodes = [ mk("sine", 1, 1.0), mk("sine", 3.97, 0.30), mk("triangle", 2.0, 0.34), mk("sawtooth", 1.0, 0.42) ];
-    adsr(c, out, t, LEVEL.keys * ev.gain / 2.06, 0.004, 0.16, 0.55, t + ev.durSec, 0.30);
+    layer("sawtooth", 1.0, 40, 1800, 1.0);
+    layer("square", 1.0042, 120, 1500, 0.55);        // the ensemble beat lives in the detune
+    const vib = osc(c, "sine", 5.4, t, end), vg = c.createGain();
+    vg.gain.setValueAtTime(0, t);
+    vg.gain.linearRampToValueAtTime(f * 0.008, t + 0.6);   // vibrato ARRIVES, CS-80 style
+    vib.connect(vg); for(const n of nodes) vg.connect(n.frequency);
+    nodes.push(vib);
+    adsr(c, out, t, LEVEL.lead * ev.gain / 1.55, 0.10, 0.25, 0.75, t + ev.durSec, 0.55);
     return nodes;
   };
 
@@ -503,6 +561,7 @@ function makeChart(seed){
     root: Math.floor(rng() * 12),
     mode: wpick(rng, [["minor", 5], ["dorian", 4], ["major", 2]]),
     tempo: 74 + Math.round(rng() * 18),
+    keysChar: wpick(rng, [["rhodes", 6], ["wurly", 4]]),   // the soulful pick [EAR]
   };
   return Object.freeze(chart);
 }
@@ -921,6 +980,18 @@ function makePerformance(chart, form, materials, sections){
   const rngG = stream(chart.seed, "groove");
   const swingRatio = 1.5 + rngG() * 0.16;
   const swingOffset = 4 * swingRatio / (swingRatio + 1) - 2;   // true ratio conversion [theory]
+  /* ── DILLA TIME [research, SYNTH-RESEARCH.md §4]. The drunken feel is NOT
+     looseness: snares sit deliberately EARLY, kicks LATE, the hats stay nearly
+     straight against them ("rhythmic friction"), and the deviations REPEAT
+     IDENTICALLY every bar -- the precise repetition is what magnifies it. So:
+     offsets drawn ONCE per song, applied the same way every bar, and the random
+     jitter nearly zeroed in this mode (a wandering pattern is generic MPC swing,
+     which is exactly what this is not). ── */
+  const grooveStyle = wpick(rngG, [["dilla", 6], ["even", 4]]);   // [EAR]
+  const snareEarly = grooveStyle === "dilla" ? -(0.10 + rngG() * 0.15) : 0;   // toward "a 32nd early"
+  const kickLate   = grooveStyle === "dilla" ?  (0.06 + rngG() * 0.12) : 0;   // the downbeat stays anchored
+  const hatSwingMul = grooveStyle === "dilla" ? 0.25 : 1;
+  const jitterSec  = grooveStyle === "dilla" ? 0.002 : 0.005;
   const events = [];
 
   for(const sec of sections){
@@ -943,11 +1014,16 @@ function makePerformance(chart, form, materials, sections){
           if(n.bar !== useBar) continue;
           if(sec.emptyLastBar && lastBar && (role === "drums" || role === "bass") && n.step > 0) continue;
           let micro = 0;
-          if(n.step % 4 === 2) micro += swingOffset;
-          else if(n.step % 2 === 1) micro += swingOffset * 0.5;
+          const lane = n.lane || "";
+          const swingHere = (role === "drums" && (lane === "hat" || lane === "openhat"))
+                          ? swingOffset * hatSwingMul : swingOffset;
+          if(n.step % 4 === 2) micro += swingHere;
+          else if(n.step % 2 === 1) micro += swingHere * 0.5;
           if(role === "drums") micro += -0.008 / spb;
+          if(lane === "snare" || lane === "ghost") micro += snareEarly;
+          if(lane === "kick" && n.step > 0) micro += kickLate;
           const j = stream(chart.seed, "jit:" + role + ":" + bar + ":" + n.step + ":" + (n.pitch || n.lane));
-          micro += ((j() * 2 - 1) * 0.005) / spb;
+          micro += ((j() * 2 - 1) * jitterSec) / spb;
           const gain = Math.min(1.25, n.vel * (0.72 + 0.28 * sec.energy) * (sec.peak ? 1.06 : 1));
           const ev = {
             tSec: (bar * 16 + n.step + micro) * spb,
@@ -955,6 +1031,7 @@ function makePerformance(chart, form, materials, sections){
             voice: n.lane || role,
             role, gain,
           };
+          if(role === "keys") ev.timbre = chart.keysChar;
           if(n.pitch != null) ev.pitch = n.pitch;
           events.push(Object.freeze(ev));
         }
@@ -962,7 +1039,8 @@ function makePerformance(chart, form, materials, sections){
     }
   }
   events.sort((a, z) => a.tSec - z.tSec);
-  return Object.freeze({ events: Object.freeze(events), seconds: form.nBars * 16 * spb + 2.5 });
+  return Object.freeze({ events: Object.freeze(events), seconds: form.nBars * 16 * spb + 2.5,
+                         groove: Object.freeze({ style: grooveStyle, snareEarly, kickLate }) });
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1014,7 +1092,12 @@ function describe(song){
     `lofi · ${NOTE_NAMES[c.root]} ${c.mode} · ${c.tempo} bpm · ${song.form.nBars} bars · seed ${c.seed}\n` +
     `progression: ${song.materials.chords.map(name).join("  ")}` +
     `   ·   bridge goes: ${song.materials.bridgeChords.map(name).join("  ")}` +
-    `   ·   pocket [${song.materials.pocket.join(",")}] · ${song.perf.events.length} events`;
+    `   ·   pocket [${song.materials.pocket.join(",")}] · keys: ${c.keysChar}` +
+    `   ·   groove: ${song.perf.groove.style}` +
+    (song.perf.groove.style === "dilla"
+      ? ` (snare ${(song.perf.groove.snareEarly*100).toFixed(0)}%%16 early, kick +${(song.perf.groove.kickLate*100).toFixed(0)}%%16 late)`
+      : "") +
+    ` · ${song.perf.events.length} events`;
   $("story").textContent = "story:  " + song.sections.map(s =>
     s.fn + (s.peak ? "^" : "") + "[" + s.material + (s.stripHalf ? "*strip" : "") + "]" +
     (s.fillInto ? "+fill" : "")).join("  →  ");
