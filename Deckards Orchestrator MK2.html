@@ -438,6 +438,28 @@ const Sound = (function(){
       for(let i = 0; i < len; i++) d[i] = r2() * 2 - 1;
     }
 
+    /* ── the vinyl bed, baked ONCE per graph as a seamless 10-second loop.
+       It used to be built inside V.tape at song length: 5.7 to 9.6 MILLION
+       samples, 22-36 MB, 130-305 ms of synchronous main-thread work -- and
+       because the tape event is events[0], all of that ran AFTER playLive had
+       already captured t0 = currentTime + 0.15. A 305 ms stall against a 150 ms
+       lead means every node in the first window is scheduled in the past, which
+       is a glitch you can hear on the downbeat of every play. Crackle is sparse
+       impulses; ten seconds of it repeats without the ear finding the seam, and
+       the seam itself is crossfaded away. 441k samples, ~10 ms, once. ── */
+    {
+      const sr = c.sampleRate, len = Math.floor(10 * sr), fade = Math.floor(0.05 * sr);
+      g.vinyl = c.createBuffer(1, len, sr);
+      const d = g.vinyl.getChannelData(0), r2 = makeRng(hash32("vinyl"));
+      for(let i = 0; i < len; i++)
+        d[i] = (r2() < 0.0006) ? (r2() * 2 - 1) * (0.3 + r2() * 0.7) : (r2() * 2 - 1) * 0.012;
+      for(let i = 0; i < fade; i++){               // tail into head: no seam at the loop
+        const w = i / fade;
+        d[i] = d[i] * w + d[len - fade + i] * (1 - w);
+      }
+      g.vinylLoop = (len - fade) / sr;
+    }
+
     /* ── the SEGA rig's percussion sources. On a Mega Drive the drums are NOT FM:
        kick and snare are 8-bit PCM pushed through the YM2612's DAC on channel 6
        at roughly 10.5 kHz, and the hats are the SN76489's noise channel -- a
@@ -702,11 +724,20 @@ const Sound = (function(){
   V.counter = V.lead;
 
   /* the kit — every voice is BODY + ATTACK (masterdoc §4.1). */
-  function burst(g, t, durSec, buf){
+  /* A slice of the shared bank, chosen by a DETERMINISTIC tag.
+     It used to hash the absolute schedule time -- which live is
+     ctx.currentTime + 0.15 (wall clock) and offline is 0.05, so the same song
+     drew different noise when you played it than when you rendered it, and
+     "same seed, same samples" quietly did not hold for the whole kit. Worse,
+     both layers of a voice passed the SAME t, so a snare's crack and its wire
+     were the identical slice filtered two ways -- correlated copies pretending
+     to be two sources. The tag is the event's own tSec plus the layer's name:
+     song-relative, identical live and offline, different per layer. */
+  function burst(g, t, durSec, tag, buf){
     const c = g.ctx, b = buf || g.noise;      // the PSG hats pass their own LFSR bank
     const src = c.createBufferSource(); src.buffer = b;
     const span = b.duration - durSec - 0.01;
-    const off = (hash32("off:" + t.toFixed(5)) % 10000) / 10000 * Math.max(0.01, span);
+    const off = (hash32("off:" + tag) % 10000) / 10000 * Math.max(0.01, span);
     src.start(t, off, durSec + 0.01);
     return src;
   }
@@ -719,7 +750,7 @@ const Sound = (function(){
     og.gain.setValueAtTime(LEVEL.kick * ev.gain, t);
     og.gain.exponentialRampToValueAtTime(0.0002, t + 0.30);
     o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + 0.34);
-    const n = burst(g, t, 0.016);                                          // beater
+    const n = burst(g, t, 0.016, ev.tSec.toFixed(5) + ":beater");          // beater
     const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 2600; bp.Q.value = 1.1;
     const ng = c.createGain();
     ng.gain.setValueAtTime(LEVEL.kick * ev.gain * 0.42, t);
@@ -737,13 +768,13 @@ const Sound = (function(){
       og.gain.exponentialRampToValueAtTime(0.0002, t + dec);
       o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + dec + 0.02); out.push(o);
     }
-    const crack = burst(g, t, 0.08);                                        // stick on head
+    const crack = burst(g, t, 0.08, ev.tSec.toFixed(5) + ":crack");         // stick on head
     const cb = c.createBiquadFilter(); cb.type = "bandpass"; cb.frequency.value = 1850; cb.Q.value = 0.8;
     const cg = c.createGain();
     cg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.72, t);
     cg.gain.exponentialRampToValueAtTime(0.0002, t + 0.065);
     crack.connect(cb); cb.connect(cg); cg.connect(g.bus.drums); out.push(crack);
-    const wire = burst(g, t, 0.16);                                         // the tail, not the sound
+    const wire = burst(g, t, 0.16, ev.tSec.toFixed(5) + ":wire");           // the tail, not the sound
     const wh = c.createBiquadFilter(); wh.type = "highpass"; wh.frequency.value = 4400;
     const wg = c.createGain();
     wg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.46, t);
@@ -754,13 +785,13 @@ const Sound = (function(){
   V.ghost = V.snare;
   V.hat = function(g, ev, t){
     const c = g.ctx;
-    const body = burst(g, t, 0.035);                        // metal body from the low mids up
+    const body = burst(g, t, 0.035, ev.tSec.toFixed(5) + ":hatbody");   // metal body from the low mids up
     const hb = c.createBiquadFilter(); hb.type = "highpass"; hb.frequency.value = 1600;
     const bg = c.createGain();
     bg.gain.setValueAtTime(LEVEL.hat * ev.gain, t);
     bg.gain.exponentialRampToValueAtTime(0.0002, t + 0.030);
     body.connect(hb); hb.connect(bg); bg.connect(g.bus.drums);
-    const shine = burst(g, t, 0.02);                        // stick shimmer
+    const shine = burst(g, t, 0.02, ev.tSec.toFixed(5) + ":hatshine");  // stick shimmer
     const sb = c.createBiquadFilter(); sb.type = "bandpass"; sb.frequency.value = 8200; sb.Q.value = 1.4;
     const sg = c.createGain();
     sg.gain.setValueAtTime(LEVEL.hat * ev.gain * 0.8, t);
@@ -773,13 +804,8 @@ const Sound = (function(){
      note, so live and render carry the identical patina [EAR: depth, or off]. */
   V.tape = function(g, ev, t){
     const c = g.ctx;
-    const len = Math.min(Math.ceil(ev.durSec * c.sampleRate), c.sampleRate * 300);
-    const buf = c.createBuffer(1, len, c.sampleRate);
-    const d = buf.getChannelData(0), r2 = makeRng(hash32("vinyl"));
-    for(let i = 0; i < len; i++){
-      d[i] = (r2() < 0.0006) ? (r2() * 2 - 1) * (0.3 + r2() * 0.7) : (r2() * 2 - 1) * 0.012;
-    }
-    const src = c.createBufferSource(); src.buffer = buf;
+    const src = c.createBufferSource(); src.buffer = g.vinyl;
+    src.loop = true; src.loopStart = 0; src.loopEnd = g.vinylLoop;
     const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 3400; bp.Q.value = 0.35;
     const gn = c.createGain(); gn.gain.value = ev.gain;
     src.connect(bp); bp.connect(gn); gn.connect(g.bus.keys);   // rides the keys bus into the space
@@ -789,7 +815,7 @@ const Sound = (function(){
 
   V.openhat = function(g, ev, t){
     const c = g.ctx;
-    const body = burst(g, t, 0.30);
+    const body = burst(g, t, 0.30, ev.tSec.toFixed(5) + ":openhat");
     const hb = c.createBiquadFilter(); hb.type = "highpass"; hb.frequency.value = 1400;
     const bg = c.createGain();
     bg.gain.setValueAtTime(LEVEL.openhat * ev.gain, t);
@@ -946,8 +972,13 @@ const Sound = (function(){
      hardware has exactly one noise source and that thinness IS the sound. */
   function psgHit(g, ev, t, lvl, durSec, hpHz){
     const c = g.ctx;
-    const src = burst(g, t, durSec, g.psg);
-    const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = hpHz;
+    const src = burst(g, t, durSec, ev.tSec.toFixed(5) + ":psg" + hpHz, g.psg);
+    /* Q explicitly, like every other filter here. The default is 1.0, which is
+       resonant, and a resonant shaping filter on a +/-0.9 LFSR was quietly
+       adding to a level the LEVEL table already accounts for. Measured after:
+       the PSG hats sit within 1 dB of the band hats they stand in for. */
+    const hp = c.createBiquadFilter(); hp.type = "highpass";
+    hp.frequency.value = hpHz; hp.Q.value = 0.7;
     const gn = c.createGain();
     gn.gain.setValueAtTime(lvl * ev.gain, t);
     gn.gain.exponentialRampToValueAtTime(0.0002, t + durSec);
@@ -1250,8 +1281,13 @@ function makeMaterials(chart){
       notes.push({ bar: b, step: 12, dur: 1, lane: "snare", vel: 1.0, role: "drums" });
       for(let s = 0; s < 16; s += 2)
         notes.push({ bar: b, step: s, dur: 1, lane: "hat", vel: 0.62, role: "drums" });
-      if(rng() < 0.55)
-        notes.push({ bar: b, step: pick(rng, ghostSpots), dur: 1, lane: "ghost", vel: 0.35, role: "drums" });
+      /* BOTH DRAWS RUN, ALWAYS. A draw inside a condition makes every later
+         draw in this stream depend on the condition, which couples owners that
+         are supposed to be independent -- pinning the pocket used to change
+         bass PITCHES. Decide first, then use or discard. [Law 7] */
+      const ghostHere = rng() < 0.55, ghostAt = pick(rng, ghostSpots);
+      if(ghostHere)
+        notes.push({ bar: b, step: ghostAt, dur: 1, lane: "ghost", vel: 0.35, role: "drums" });
       if(openSpot >= 0 && (b === 1 || b === 3))
         notes.push({ bar: b, step: openSpot, dur: 1, lane: "openhat", vel: 0.55, role: "drums" });
     }
@@ -1273,11 +1309,15 @@ function makeMaterials(chart){
                   : intoBand(degMidi(root, mode, ch.degree + 4), 33, 47);
         notes.push({ bar: b, step: pocket[i], dur: 2, pitch: pch, vel: 0.72, role: "bass" });
       }
-      const w = rng();                              // drawn unconditionally: stream stability
+      /* w was hoisted for stream stability but the SECOND draw stayed inside the
+         guard, so the hoist bought nothing: pinning the pocket to [0,10,14]
+         instead of [0,10,12] moved bass pitches in 373 of 500 songs. Both draws
+         are unconditional now. [Law 7] */
+      const w = rng(), walkStep = wpick(rng, [[-1, 3], [1, 2]]);
       if(w < 0.5 && !pocket.includes(14)){          // the walk INTO the next chord [corpus:harvest_bass]
         // ...and never onto a step this bass already owns: a pocket that ends on 14
         // put two bass notes on one instant, which the seam check rightly threw on
-        const from = scaleStep(root, mode, next.rootMidi, wpick(rng, [[-1, 3], [1, 2]]));
+        const from = scaleStep(root, mode, next.rootMidi, walkStep);
         notes.push({ bar: b, step: 14, dur: 2, pitch: intoBand(from, 33, 47), vel: 0.6, role: "bass" });
       }
     }
@@ -1506,14 +1546,24 @@ function makeMaterials(chart){
     C:    { drums: drumsA, bass: bassC, keys: keysC, lead: themeC.notes, counter: [] },
     fill, ending,
   };
-  for(const m of ["A", "Avar", "B", "C"]) for(const role in materials[m])
-    for(const n of materials[m][role]) Object.freeze(n);
-  for(const n of fill) Object.freeze(n);
-  for(const n of ending) Object.freeze(n);
+  /* FREEZE DEEP, not just the top. A, Avar and B deliberately SHARE drumsA and
+     bassA -- one groove under three tunes is the point -- but the freeze only
+     reached the individual notes, so the role arrays stayed mutable and one
+     push into materials.B.drums also lengthened materials.A.drums and
+     materials.C.drums. Shared data is only safe when it is immutable; sharing
+     mutable arrays is the same class of bug as the first build's correcting
+     passes, just quieter. */
+  const freezeNotes = arr => { for(const n of arr) Object.freeze(n); return Object.freeze(arr); };
+  for(const m of ["A", "Avar", "B", "C"]){
+    for(const role in materials[m]) freezeNotes(materials[m][role]);
+    Object.freeze(materials[m]);
+  }
+  freezeNotes(fill); freezeNotes(ending);
   materials.bars = BARS;
   materials.pocket = Object.freeze(pocket);
-  materials.chords = Object.freeze(chords);
-  materials.bridgeChords = Object.freeze(bridgeChords);
+  const freezeChords = cs => { for(const c of cs){ Object.freeze(c.tones); Object.freeze(c); } return Object.freeze(cs); };
+  materials.chords = freezeChords(chords);
+  materials.bridgeChords = freezeChords(bridgeChords);
   return Object.freeze(materials);
 }
 
@@ -1548,7 +1598,15 @@ function makeArrangement(chart, form, materials){
       energy: sec.energy, peak: sec.peak, occurrence: sec.occurrence,
       material, stripHalf,
       active: Object.freeze(ROLES[sec.fn].slice()),
-      fillInto: !!(next && (next.fn === "chorus" || next.fn === "bridge")
+      /* TWO WAYS INTO AN ARRIVAL, and they are mutually exclusive because they
+         occupy the same bar: roll a fill into it, or drop out and let it land in
+         silence. The old code set both whenever the next section was the peak --
+         emptyLastBar then stripped everything past step 0 out of the fill that
+         fillInto had just selected, deleting 22.6% of all fills and, by
+         construction, exactly the fill into the song's biggest moment. Doing
+         both is not both; it is neither. The peak gets the drop, which is what
+         makes it the peak, and every other arrival gets its fill. [EAR] */
+      fillInto: !!(next && !next.peak && (next.fn === "chorus" || next.fn === "bridge")
                    && ROLES[sec.fn].includes("drums")),
       emptyLastBar: !!(next && next.peak),
       endingLastBar: sec.fn === "outro",
