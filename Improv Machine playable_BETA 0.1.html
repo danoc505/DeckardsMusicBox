@@ -4736,7 +4736,18 @@ const SPB = 16;
 function bassEngine(chart, perception, rng){
   const { root, scale } = chart.key;
   const nBars = chart.nBars, loop = chart.loopBars || 8;
-  const LO=36, HI=48;                                 // floor C2 — below that is mud
+  // MEASURED AGAINST A REAL BASS. 600 bass-guitar tracks from the Lakh Clean MIDI
+  // subset (corpus/harvest_bass.py, GM programs 32-39) sit at a median of MIDI 38, with
+  // a 5th percentile of 28 and a 95th of 61. Ours sits at 43 -- five semitones high.
+  //
+  // The obvious fix is to lower this floor, and it is NOT taken: "bass never below C2"
+  // is a documented law of this project with its own test, and the rationale given for
+  // it ("below that is mud") is about OUR synth, not about records -- a sampled bass at
+  // E1 is fine, a saw-wave sub at E1 may not be. That is an ears question and it is not
+  // mine to answer by overriding the law silently. What IS in scope is not pushing the
+  // line UP unnecessarily: the octave pops are what lift the median above the root
+  // octave, and they are now the exception rather than a third of the shape.
+  const LO=36, HI=48;
   const heardHarmony = perception && perception.harmony && perception.harmony.some(h=>h);
 
   // THE RHYTHM MOTIF — one per song, busier shapes favored (a busy line can
@@ -4778,7 +4789,7 @@ function bassEngine(chart, perception, rng){
     rhythm.length=0; for(const s of [...merged].sort((a,b)=>a-b)) rhythm.push(s);
   }
   // per-hit pitch roles: Root, fifth, octave, scale approach — fixed shape, like the rhythm
-  const shape = rhythm.map((_,k)=> k===0 ? "R" : wpick(rng,[["R",4],["5",3],["R8",2],["APP",2]]));
+  const shape = rhythm.map((_,k)=> k===0 ? "R" : wpick(rng,[["R",5],["5",3],["R8",1],["APP",2]]));
 
   // the LOOP's roots: read the harmony if it exists, else generate a loop progression
   let loopRoots=[];
@@ -4813,7 +4824,10 @@ function bassEngine(chart, perception, rng){
 
   // a stored ALTERNATE second-half shape for the DEPART loops (Rule of 3 option 2:
   // "start the same but go somewhere different halfway through")
-  let altShape = rhythm.map((_,k)=> k===0 ? "R" : wpick(rng,[["5",3],["R8",3],["APP",3],["R",1]]));
+  // "R8" is an octave pop, and at weight 3 of 10 it was a third of every shape -- which
+  // is what carries the line above the root octave and holds our median at 43 against a
+  // measured 38. An octave pop is a punctuation mark, not a default.
+  let altShape = rhythm.map((_,k)=> k===0 ? "R" : wpick(rng,[["5",4],["R8",1],["APP",4],["R",2]]));
   // HARD: a departure must actually depart — if the draw matched the original
   // shape, flip a mid element so the 3rd loop genuinely goes somewhere different
   if(altShape.join()===shape.join() && altShape.length>1){
@@ -4829,8 +4843,19 @@ function bassEngine(chart, perception, rng){
     const base=T.fold(36+((rpc%12)+12)%12, LO, HI);
     const inBackHalf = lb >= loop/2;
     const useAlt = (mode==="depart" && inBackHalf);             // diverge the 2nd half
+    // ── THE BASS VARIES, BUT INSIDE THE LOOP ────────────────────────────────
+    // A real bass plays 10 distinct bar-rhythms across a song and its commonest covers
+    // 40% of the bars -- ours played 4 at 55%. But it also REPEATS: the pattern in the
+    // last third of a real bass line matches the first third 57% of the time, where ours
+    // matched 0%. So the variation belongs INSIDE the loop, not across the song: the
+    // motif keeps its identity and its downbeat, and which of its inner hits sound moves
+    // from bar to bar of the cell. (The piano-derived figures this was first compared
+    // against -- 32 patterns, 12% -- were a pianist's left hand, not a bass.)
+    const _br = makeRng(hashName(chart._seed||0, "bassbar:"+b));
+    const _skip = (_br() < 0.45) ? 1+Math.floor(_br()*Math.max(1,rhythm.length-1)) : -1;
     rhythm.forEach((st0,k)=>{
       let st=st0;
+      if(k===_skip) return;                          // one inner hit sits out this bar
       if(mode==="vary" && k===rhythm.length-1 && rng()<0.6) return;  // "a note taken out"
       let m=base;
       const sel=(useAlt?altShape:shape)[k];
@@ -4911,7 +4936,11 @@ function harmonyEngine(chart, perception, rng){
     // way. `hold` is the fraction of its slot the chord rings for, drawn once per song
     // and biased by genre: dance/synth genres stab, ambient/neoclassical genuinely do
     // sustain (a pad is correct there), everything else sits between.
-    chart._chordTexture={ offsets, motifRhythm, altRhythm, seventh: rng()<0.4,
+    // SEVENTHS are a jazz habit. Real pop comping holds a median of THREE pitch classes
+    // in a bar -- a triad -- and a seventh on every chord is a fourth voice in every one
+    // of them. The jazz-influenced genres keep the old rate; the rest are triadic.
+    chart._chordTexture={ offsets, motifRhythm, altRhythm,
+      seventh: rng() < (["lofi","citypop","barber","wise"].indexOf(chart.genre)>=0 ? 0.4 : 0.18),
       motifDir: rng()<0.5?1:-1,                          // neighbor direction
       varyBar: 2+Math.floor(rng()*2) };                  // vary every 3rd-4th bar (Rule of 3)
   }
@@ -4953,8 +4982,7 @@ function harmonyEngine(chart, perception, rng){
   // not do. Drawn per BAR OF THE CELL from a seeded stream, so a loop still repeats
   // itself exactly while the four loops of a cell differ from each other.
   if(!TEX.rhythmFor){
-    const W=[[4,85],[8,79],[12,79],[6,30],[10,29],[14,29],[2,19],
-             [11,13],[7,12],[3,10],[15,8],[13,8],[5,6],[9,4],[1,3]];
+    const W=COMP_ONSET_W;
     TEX.rhythmFor = function(bar){
       const r = makeRng(hashName(chart._seed||0, "comp:"+bar));
       const pool = W.map(x=>x.slice()), out=[];
@@ -5032,8 +5060,12 @@ function harmonyEngine(chart, perception, rng){
           // because half of every re-articulation moved to a neighbour tone and each one
           // adds a pitch class the chord does not contain. A neighbour is an ornament,
           // not the default.
+          // ...and NEVER when the bar already carries two chords. Two changes in a bar
+          // is idiomatic for the jazz-influenced genres and already puts six or seven
+          // pitch classes in it; adding a neighbour on top is what pushed 22% of their
+          // bars past six, against a measured 3% for real comping.
           const _nb = makeRng(hashName(chart._seed||0, "nb:"+b+":"+k));
-          if(k%2===0 && _nb()<0.35){                        // occasionally: neighbor move
+          if(k%2===0 && slotsPerBar<=1 && _nb()<0.35){      // occasionally: neighbor move
             m = T.scaleStep(midi, scale, root, vary ? -TEX.motifDir : TEX.motifDir);
             if(m<=v[i-1]||m>=v[i+1]) m = midi;             // stay INSIDE the chord
             // and never a semitone from a voice that is still sounding: tonal,
@@ -5629,6 +5661,22 @@ function buildVoice(voice, chart, perception, rng, chords, isLeadingHarmony){
 // SUPPORTING voices: they sit under the tune, not over it.
 const BAND = { lead:[67,84], lead2:[64,81], counter:[57,72], pad:[52,67], arp:[64,84],
                lowline:[41,55], ornament:[64,79], answer:[57,74] };
+/* Where a real comp re-articulates, measured from POP909: the four BEATS carry
+   18.1/17.0/15.8/15.8% of its onsets, the offbeat eighths 3.7-5.9%, the odd sixteenths
+   0.5-2.5%. Shared by the cell generator and the renderer so the two cannot drift. */
+const COMP_ONSET_W = [[4,85],[8,79],[12,79],[6,30],[10,29],[14,29],[2,19],
+                      [11,13],[7,12],[3,10],[15,8],[13,8],[5,6],[9,4],[1,3]];
+function compRhythm(rng){
+  const pool = COMP_ONSET_W.map(x=>x.slice()), out=[];
+  const n = 1+Math.floor(rng()*3);
+  for(let k=0;k<n && pool.length;k++){
+    let tot=0; for(const x of pool) tot+=x[1];
+    let q=rng()*tot;
+    for(let j=0;j<pool.length;j++){ q-=pool[j][1];
+      if(q<=0){ out.push(pool[j][0]); pool.splice(j,1); break; } }
+  }
+  return out.length ? out.sort((x,y)=>x-y) : [8];
+}
 /* Put a whole line back inside its register with ONE octave shift applied to every
    note. Register is HARD physics, and it was only being enforced where each generator
    happened to fold -- measured, 11 songs in 40 put the tune outside its own band, one
@@ -6138,7 +6186,7 @@ function ghostPass(parts, chart){
   for(const p of parts){ if(p.role!=="bass")continue;
     for(const nt of p.notes){ if(nt.midi==null)continue;
       while(nt.midi>BASS_CEIL){ nt.midi-=12; n++; }
-      while(nt.midi<36){ nt.midi+=12; n++; } } }   // C2 floor (was ceiling-only: a low root could sink below)
+      while(nt.midi<36){ nt.midi+=12; n++; } } }   // C2 floor: a documented law here
   if(n)corrections.push({kind:"bass register", count:n});
 
   // 2b) BASS CONSONANCE: a bass note that HARSHLY clashes (min-2nd or tritone from
@@ -8621,6 +8669,25 @@ function renderArrangement(chart, bundle, plan, rng){
             if(fits) bag = up;
           }
         }
+        // ── THE COMP MOVES ACROSS THE SONG, NOT JUST ACROSS THE CELL ──────
+        // The cell is sixteen bars and the arrangement replays it, so a comp rhythm
+        // keyed to the CELL bar returns identically every time that bar comes round:
+        // measured, the pattern in the last third of our songs was the pattern in the
+        // first in 100% of them, where real songs do that in 0%. The chord's own onsets
+        // -- the voicing and its stagger, which ARE the song's identity -- still repeat
+        // exactly. Only the RE-ARTICULATIONS, already flagged `_rehit` by the harmony
+        // engine, are re-placed, and they are drawn against the SONG bar so the comp
+        // keeps moving for as long as the song lasts.
+        if(p.role==="harmony" && bag.some(n=>n._rehit)){
+          const rr = makeRng(hashName(chart._seed||0, "compbar:"+bar));
+          const steps = compRhythm(rr);
+          let i2 = 0;
+          bag = bag.map(n=>{
+            if(!n._rehit) return n;
+            const st2 = steps[(i2++) % steps.length];
+            return {...n, step:st2, dur:Math.max(1, Math.min(n.dur||2, 16-st2))};
+          });
+        }
         for(const n of bag){
           if(n.bar!==lbr) continue;
           // a reduced debut: the quiet ornamental half of the part is held back
@@ -8731,6 +8798,36 @@ function composeSong(conductorChart, rng){
   // cell was validated, so the ghost checks the finished song once. Every earlier
   // attempt to alter pitch outside a validated pass left unisons behind; this is the
   // one sweep that catches it.
+  // ── NO SPIKES ────────────────────────────────────────────────────────────
+  // A note at the very top of the band that is LEAPT TO and LEAPT AWAY FROM is the one
+  // the ear catches -- seed 8 opened a phrase on C6 and dropped a minor 7th to D#5.
+  // Measured, 1% of our lead notes did this. It is not a register problem: our median is
+  // 74 against a real 73. It is one note sticking out of an otherwise stepwise line.
+  // This has to run HERE, not inside the melody engine, because the spikes do not exist
+  // yet when the tune is written -- the cell opposition, the register placement and the
+  // ghost's octave folds all move pitches afterwards, and putting the pass in buildLead
+  // changed nothing at all: 1.03% before, 1.03% after.
+  {
+    const pcSet = new Set(T.semis(chart.key.scale).map(o=>((chart.key.root+o)%12+12)%12));
+    for(const p of parts){
+      if(p.role!=="lead") continue;
+      const bd = (typeof BAND!=="undefined" && (BAND[p.character]||BAND.lead)) || [67,84];
+      const hi = bd[1], lo = Math.max(bd[0], (typeof FLOORS!=="undefined" && FLOORS[p.role])||0);
+      for(let i=1;i<p.notes.length-1;i++){
+        const a0=p.notes[i-1].midi, b0=p.notes[i].midi, c0=p.notes[i+1].midi;
+        if(a0==null||b0==null||c0==null) continue;
+        if(b0 < hi-2 || (b0-a0) < 5 || (b0-c0) < 5) continue;
+        const mid = Math.round((a0+c0)/2);
+        let m = b0-12;                                  // an octave down, if that helps
+        if(m < lo || Math.abs(m-mid) > 7){              // otherwise step in between them
+          m = mid;
+          for(let d=0; d<3 && !pcSet.has(((m%12)+12)%12); d++) m++;
+        }
+        if(m>=lo && m<=hi) p.notes[i].midi = m;
+      }
+    }
+  }
+
   ghostPass(parts, chart);
 
   const groove = makeGroove(chart, rng);
