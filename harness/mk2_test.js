@@ -15,8 +15,11 @@ const html = fs.readFileSync(path.resolve(__dirname, "..", "Deckards Orchestrato
 const src = html.split("<script>")[1].split("</script>")[0];
 global.window = { addEventListener(){}, MK2: null };
 global.document = { getElementById: () => ({ addEventListener(){}, textContent: "", value: "1", innerHTML: "" }) };
-eval(src);
+/* the theory helpers are module-locals in the shipped file; append an export so
+   the battery can test the LAWS directly and not only their downstream effects */
+eval(src + ";global.__T = { degMidi, MODES, inKey, scaleStep, intoBand };");
 const M = global.window.MK2;
+const T = global.__T;
 
 const N = parseInt(process.argv[2], 10) || 300;
 let pass = 0, fail = 0;
@@ -103,6 +106,48 @@ check("...and it really does change who plays", rigVoices === rigChecked,
 check("every voice a rig names exists", unknownVoice.length === 0, unknownVoice.join(" | "));
 check("both rigs get drawn", (rigs.band || 0) > N * 0.4 && (rigs.sega || 0) > N * 0.1,
       "band " + (rigs.band || 0) + " / sega " + (rigs.sega || 0));
+
+/* scaleStep(…, 0) means "keep this note". It has to be an identity on every
+   in-key pitch, at every root, in every mode. A bounded nearest-degree search
+   silently failed this above its ceiling and moved 24% of the notes it was
+   told to leave alone. */
+{
+  let moved = 0, tried = 0, ex = "";
+  for(let root = 0; root < 12; root++) for(const mode in T.MODES)
+    for(let m = 21; m <= 108; m++){
+      if(!T.inKey(root, mode, m)) continue;
+      tried++;
+      const r = T.scaleStep(root, mode, m, 0);
+      if(r !== m){ moved++; if(!ex) ex = `root ${root} ${mode} ${m} -> ${r}`; }
+    }
+  check("scaleStep keeps a note it is told to keep", moved === 0,
+        moved ? moved + "/" + tried + " moved, e.g. " + ex : tried + " in-key pitches, all identity");
+  /* ...and one step really is one scale degree, never a fifth of one */
+  let bad = 0;
+  for(let root = 0; root < 12; root++) for(const mode in T.MODES)
+    for(let m = 36; m <= 84; m++){
+      if(!T.inKey(root, mode, m)) continue;
+      const up = T.scaleStep(root, mode, m, 1), dn = T.scaleStep(root, mode, m, -1);
+      if(up - m < 1 || up - m > 3 || m - dn < 1 || m - dn > 3) bad++;
+    }
+  check("one scale step moves 1-3 semitones", bad === 0, bad + " out of range");
+}
+
+/* the comp must really invert. When the inversion search was a no-op the keys
+   sat in one octave at the bottom of their band and voice-leading was dead
+   code — silent, and only visible as "the chords never move". */
+{
+  const pitches = new Set();
+  let span = 0;
+  for(let s = 1; s <= 60; s++){
+    const ks = M.composeSong(s).materials.A.keys.map(n => n.pitch);
+    for(const p of ks) pitches.add(p);
+    span = Math.max(span, Math.max(...ks) - Math.min(...ks));
+  }
+  const lo = Math.min(...pitches), hi = Math.max(...pitches);
+  check("the comp uses its whole register, not one octave", hi - lo > 12,
+        "keys span " + lo + ".." + hi + " (" + (hi - lo) + " semitones), widest single song " + span);
+}
 
 console.log("\n" + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);

@@ -128,13 +128,21 @@ function nearestTone(m, tones){
 }
 /* step through the mode from midi m by `steps` scale degrees [theory] */
 function scaleStep(root, mode, m, steps){
-  const sc = MODES[mode];
-  /* locate m's degree (snap to nearest scale tone first) */
+  /* Locate m's degree EXACTLY. This used to scan d in [-21,42] and take the
+     nearest -- but degMidi treats root as a pitch class, so d=42 is only
+     root+72, and any m above that ceiling saturated the search and came back a
+     different note than asked for. Measured across the full grid: the search
+     pinned at its top in 26.7% of calls and returned a note up to 6 semitones
+     off in 24.0% -- including 24.0% of steps=0 calls, which mean "keep this
+     note" and were silently moving it. Compute the octave m sits in and check
+     that octave and its two neighbours: exact, no bound, nothing to saturate. */
   let bestD = 0, bd = 1e9;
-  for(let d = -21; d <= 42; d++){
-    const c = degMidi(root, mode, d), dist = Math.abs(c - m);
-    if(dist < bd){ bd = dist; bestD = d; }
-  }
+  const oct0 = Math.floor((m - root) / 12);
+  for(let o = oct0 - 1; o <= oct0 + 1; o++)
+    for(let s = 0; s < 7; s++){
+      const d = o * 7 + s, dist = Math.abs(degMidi(root, mode, d) - m);
+      if(dist < bd){ bd = dist; bestD = d; }
+    }
   return degMidi(root, mode, bestD + steps);
 }
 
@@ -1175,6 +1183,21 @@ function makeForm(chart){
 
    Every note frozen on exit. Nothing downstream re-pitches anything.
    ═══════════════════════════════════════════════════════════════════════════ */
+
+/* THE REGISTERS — one band per role, declared once instead of as a bare pair of
+   numbers at each call site. This is the "two hands" idea made structural: the
+   left hand (bass) owns the bottom, the comping hand owns the middle, and the
+   tune sits above both, so the parts cannot fight for the same air. The bands
+   overlap by design at their edges -- a countermelody that never crosses the
+   comp is not a countermelody. [theory: keyboard voicing practice] */
+const REGISTER = {
+  keys:    [52, 74],     // both hands' worth of comp: E3 to D5
+  themeA:  [64, 80],     // the verse tune sits above the comp
+  themeB:  [67, 84],     // the hook is the highest thing in the song
+  themeC:  [62, 78],     // the bridge tune steps down to signal the departure
+};
+const KEYS_LO = REGISTER.keys[0], KEYS_HI = REGISTER.keys[1];
+
 function makeMaterials(chart){
   const BARS = 4;
   const { root, mode } = chart;
@@ -1275,13 +1298,25 @@ function makeMaterials(chart){
         for(let e = 0; e < extra; e++) strikes.push(wpick(rng, SYNC));
         strikes = [...new Set(strikes)].sort((a, z) => a - z);
       }
+      /* THE VOICING, and it has to be done in this order. The old code wrote
+         intoBand(t + (i < inv ? 12 : 0), LO, HI) -- but chordTones returns
+         pitch-class-rooted values far below LO, and folding UP is invariant
+         under adding an octave first, so all four candidates came out
+         byte-identical: inversion 0 won 1600/1600 chords, the voice-leading
+         cost below was dead code, and the comp sat in 52..63 instead of its
+         declared [52,74]. Fold FIRST, then invert by lifting the lowest voices
+         -- that is what an inversion is. Candidates that push past the ceiling
+         are not clamped, they are not offered. */
+      const base = ch.tones.map(t => intoBand(t, KEYS_LO, KEYS_HI)).sort((a, z) => a - z);
       let voiced = null, bestCost = 1e9;
-      for(let inv = 0; inv < 4; inv++){
-        const cand = ch.tones.map((t, i) => intoBand(t + (i < inv ? 12 : 0), 52, 74)).sort((a, z) => a - z);
+      for(let inv = 0; inv < base.length; inv++){
+        const cand = base.map((p, i) => i < inv ? p + 12 : p).sort((a, z) => a - z);
+        if(cand[cand.length - 1] > KEYS_HI) continue;         // this inversion does not fit
         let cost = prev ? 0 : Math.abs(cand[0] - 60);
         if(prev) for(let i = 0; i < Math.min(cand.length, prev.length); i++) cost += Math.abs(cand[i] - prev[i]);
         if(cost < bestCost){ bestCost = cost; voiced = cand; }
       }
+      if(!voiced) throw new Error("no keys voicing fits [" + KEYS_LO + "," + KEYS_HI + "] on bar " + b);
       prev = voiced;
       for(let si = 0; si < strikes.length; si++){
         const st = strikes[si], nxt = si + 1 < strikes.length ? strikes[si + 1] : 16;
@@ -1299,6 +1334,14 @@ function makeMaterials(chart){
     const LO = opts.lo, HI = opts.hi;
     const notes = [], dna = [];
     const onsetPool = [[0, 5], [2, 3], [4, 4], [6, 3], [8, 4], [10, 3], [12, 4], [14, 3]];
+    /* A seat is only free if the note can ALSO sit in its restatement. The hook
+       states bars 0-1 and then repeats them at 2-3 exactly, so a pitch that
+       collides two bars later is not a usable pitch NOW -- checking it only at
+       copy time meant the copy got dropped and the hook came back inexact
+       (269/300 seeds once the comp reached its real register). The requirement
+       belongs to the pitch choice, which is the owner's, not to a later filter. */
+    const fits = (b, st, p) => !reserved.has(key(b % BARS, st, p)) &&
+      (!opts.hooky || !reserved.has(key((b + 2) % BARS, st, p)));
     function phrase(startBar, dir, endOnTone, moveBias){
       let m = intoBand(degMidi(root, mode, 7 + Math.floor(rng() * 3)), LO + 4, HI - 4);
       for(let b = startBar; b < startBar + 2; b++){
@@ -1320,20 +1363,39 @@ function makeMaterials(chart){
           if(dna.length < 4) dna.push(move);
           let cand = intoBand(scaleStep(root, mode, m, move), LO, HI);
           let tries = 0;
-          while(reserved.has(key(b % BARS, steps[i], cand)) && tries < 3){
+          while(!fits(b, steps[i], cand) && tries < 3){
             cand = intoBand(scaleStep(root, mode, cand, 1), LO, HI); tries++;
           }
-          if(reserved.has(key(b % BARS, steps[i], cand))) continue;
+          if(!fits(b, steps[i], cand)) continue;
           const dur = i + 1 < steps.length ? Math.max(1, steps[i + 1] - steps[i]) : (isBreath ? 4 : 3);
           m = cand;
           notes.push({ bar: b, step: steps[i], dur, pitch: cand, vel: steps[i] === 0 ? 0.85 : 0.7, role: "lead" });
           reserved.add(key(b % BARS, steps[i], cand));
         }
       }
+      /* LAND THE PHRASE ON A CHORD TONE. This is the owner finishing its own
+         note, not a correcting pass -- but it has to keep the owner's own books
+         straight, and it did not. It stamped last.pitch AFTER the note had been
+         reserved under its OLD pitch, so the seat it left stayed marked taken
+         and the seat it took was never marked at all: that pitch skipped the
+         collision check entirely and deriveCounter read a stale map. Invisible
+         while the comp sat an octave below the tune; the moment the keys reached
+         their real band the seam check threw on it, which is the check doing its
+         job. Also lands on the chord of the note's OWN bar -- when the second
+         bar of a phrase yields no notes the last note is still in startBar, and
+         the old code snapped it to the next bar's chord regardless. */
       if(endOnTone && notes.length){
         const last = notes[notes.length - 1];
-        last.pitch = intoBand(nearestTone(last.pitch, chordSet[(startBar + 1) % BARS].tones), LO, HI);
+        const bar = last.bar % BARS;
+        reserved.delete(key(bar, last.step, last.pitch));      // it is moving; free the seat
+        const cands = [];
+        for(const t of chordSet[bar].tones)
+          for(let o = -3; o <= 3; o++) cands.push(intoBand(t + 12 * o, LO, HI));
+        cands.sort((a, z) => Math.abs(a - last.pitch) - Math.abs(z - last.pitch));
+        const free = cands.find(c => fits(last.bar, last.step, c));
+        last.pitch = free != null ? free : last.pitch;         // nothing free: keep its own seat
         last.dur = Math.max(last.dur, 4);
+        reserved.add(key(bar, last.step, last.pitch));
       }
     }
     if(opts.hooky){
@@ -1386,7 +1448,7 @@ function makeMaterials(chart){
   const bassA  = buildBass(chords, "bass", false);
   const keysA  = buildKeys(chords, "keys", { dense: false });
   const resA   = reserve(bassA.concat(keysA));
-  const themeA = buildTheme(chords, "themeA", resA, { lo: 64, hi: 80, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
+  const themeA = buildTheme(chords, "themeA", resA, { lo: REGISTER.themeA[0], hi: REGISTER.themeA[1], dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
   const counterA = deriveCounter(themeA.notes, resA);
 
   /* ── B = hook(A): same bed family, new tune FROM A's DNA, denser comp,
@@ -1395,7 +1457,7 @@ function makeMaterials(chart){
   const keysB  = buildKeys(chords, "keysB", { dense: true });
   const resB   = reserve(bassA.concat(keysB));
   const themeB = buildTheme(chords, "themeB", resB,
-    { lo: 67, hi: 84, dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
+    { lo: REGISTER.themeB[0], hi: REGISTER.themeB[1], dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
   const counterB = deriveCounter(themeB.notes, resB);
 
   /* ── C = depart(A): new changes, sustained keys, roots-only bass,
@@ -1403,12 +1465,12 @@ function makeMaterials(chart){
   const bassC  = buildBass(bridgeChords, "bassC", true);
   const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true });
   const resC   = reserve(bassC.concat(keysC));
-  const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: 62, hi: 78, augmentOf: themeA.notes });
+  const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: REGISTER.themeC[0], hi: REGISTER.themeC[1], augmentOf: themeA.notes });
 
   /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
      the canonical rule-of-three answer at the material level ── */
   const resV = reserve(bassA.concat(keysA).concat(themeA.notes.filter(n => n.bar < 2)));
-  const varTail = buildTheme(chords, "themeA:var", resV, { lo: 64, hi: 80, dir: -1 });
+  const varTail = buildTheme(chords, "themeA:var", resV, { lo: REGISTER.themeA[0], hi: REGISTER.themeA[1], dir: -1 });
   const leadAvar = themeA.notes.filter(n => n.bar < 2)
     .concat(varTail.notes.filter(n => n.bar >= 2));
 
