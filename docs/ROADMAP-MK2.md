@@ -1,104 +1,81 @@
-# MK2 ROADMAP
+# MK2 ROADMAP — rev 2
 
-*Where the rebuild stands, what comes next, and what each step needs before the next
-one starts. Every phase exits through a render, not a feature list. The masterdoc
-(MASTERDOC-REBUILD.md) is the constitution; this is the schedule.*
+*Rewritten after the form research (FORM-RESEARCH.md). The first revision treated
+"more sections" as a later nicety; that was wrong. A song IS its form — the section
+pool, the grammar that sequences it, and the rule of three that forces motion are the
+skeleton everything else hangs on, so they move to the front. Every phase still exits
+through a render. The masterdoc is the constitution; this is the schedule.*
 
 ## Where we are
 
-| done | what |
-|---|---|
-| ✔ | M0 — sound engine built first: 4 voices + kit, role buses, soft-clip with real headroom, one limiter, one seeded reverb, low-cut send. Reference bar rendered and iterated twice (presence 0.7% → 3.3%, no clipping). |
-| ✔ | M1 first cut — one 4-bar lofi loop composed in pocket order (pocket → drums → bass → keys → theme → counter), valid by construction, no correction passes, seam checks throw. |
-| ✔ | M2 first cut — form grammar, subtractive arrangement, lead sits out a section, the empty bar before the peak, performance stage owning gain and timing once. |
-| ✔ | Live playback fixed (rolling window; the graph holds dozens of nodes, not thousands). |
-| ✔ | Determinism proven per render (compose twice, compare events). |
+- ✔ M0 — sound engine built and gated first (reference bar canary ships in the file)
+- ✔ M1 — one 4-bar lofi loop composed together in pocket order, valid by construction
+- ✔ Live playback rolling-window fix; determinism proven per render
+- ✔ Form research done: ~30-section taxonomy by function; measured transition
+  probabilities; the rule of three formalized as a cross-stage constraint
+- ◻ GATE 0 — the user's ear verdict on the palette (open; collected alongside R1,
+  since R1 changes composition, not sound)
 
-## GATE 0 — the ear verdict (needs: the user, ~10 minutes)
+## R1 — THE FORM IS THE SONG  *(in progress)*
 
-Everything below branches on this. Listen to 3–5 seeds in the artifact and answer
-three questions, roughly:
+The current build has one material and three hardcoded section sequences. R1 replaces
+that with the researched model:
 
-1. **The sound**: does the palette feel like an instrument or a toy? Too dark / too
-   bright / thin where? (Every `[EAR]` mark in the file is waiting on this.)
-2. **The groove**: does the rhythm section feel like one thing? Swing too little/much?
-3. **The biggest annoyance**: name the one thing you'd fix first. That becomes R1's
-   top item, whatever this document says.
+**R1a — the grammar.** Stage 2 draws the section sequence from a function pool
+(intro/vamp, verse, chorus, bridge, instrumental, outro — the lofi-weighted subset of
+the taxonomy; other genres will enable more of the pool later) via measured Markov
+transitions [corpus: prechorus→chorus 88%, verse→chorus 64%, bridge→chorus 57%].
+The grammar carries two counters per function — consecutive statements and total
+occurrences — and enforces the rule of three at the section level: a third
+consecutive identical section cannot be drawn, and a third *occurrence* of a function
+emits a `vary` demand that a downstream stage must satisfy.
 
-No verdict, no next phase — building on an ungated palette is how MK1 died.
+**R1b — the material family.** Stage 3 stops producing one loop and produces a
+FAMILY, where every member is DERIVED from A so the sections are informed by each
+other by construction, never by a correction pass:
 
-## R1 — THE LOOP EARNS REPEATING (the biggest known musical gap)
+- **A** — the verse set (what exists today)
+- **B = hook(A)** — the chorus: same progression, same pocket, same bass; a new tune
+  built FROM A's opening intervals (inverted), denser keys, a 2-bar phrase stated
+  twice exactly [corpus: the chorus repeats itself more than the verse], counter on
+- **C = depart(A)** — the bridge: the one member allowed to leave the progression;
+  A's theme rhythm AUGMENTED (durations doubled), sustained keys, roots-only bass
+- **A′ = vary(A)** — same first half, redrawn second half [research: "start the same,
+  go somewhere different halfway" — the canonical rule-of-three answer]
+- **fill** — the drum bar that leads into an arrival, composed here, selected there
+- **ending** — the tonic landing bar
 
-Today the same 4 bars tile the whole song; verse and chorus differ only by who plays.
-That is honest but monotonous. R1 gives the song a reason to be 40 bars long:
+**R1c — the arrangement consumes demands.** Stage 4 maps functions to materials,
+selects (never edits): verse→A, chorus→B, bridge→C, instrumental→A minus the tune,
+vamp intro→A's bed. A `vary` demand on a 3rd verse is satisfied with A′ (material
+level); on a 3rd chorus with a stripped first half (arrangement level) — the change
+may live at a different level than the repetition that demanded it.
 
-- **Chorus material**: a second theme (the hook) composed against the same loop —
-  chorus sections play it instead of the verse theme. The hook repeats itself more
-  than the verse tune does [corpus: chorus self-similarity +3.6 pts].
-- **Pass-to-pass life**: the second pass of a loop inside a section varies ONE thing,
-  owned by the stage that owns the property — e.g. the drums' ghost placement or one
-  keys syncopation — drawn per pass, still deterministic.
-- **The fill grammar**: a drum fill in the last bar before a section change (snare-led,
-  toms only at phrase ends), owned by the arrangement's treatment set.
-- **Intro that builds**: intro = the loop filtering/entering (keys alone → +bass →
-  +hats), not the full bed at bar 0. Outro lands on the tonic and stops.
-
-EXIT: 10 seeds; A/B against today's build; the user picks R1 blind on at least 7.
+EXIT: 10 seeds; sections audibly distinct (B is a hook, C is a departure); rule of
+three verifiable in the printed story line; user A/B against the pre-R1 build.
 
 ## R2 — THE PERFORMANCE DEEPENS
-
-- Per-lane accent maps from the Groove tables (backbeat loudest, ghosts genuinely
-  ghost) — inside the one velocity formula, not a new pass.
-- Humanized keys strums (few-ms roll), bass note-length articulation (staccato vs
-  held drawn per song), lead phrase dynamics (peak of phrase slightly louder).
-- Tape character for lofi [EAR]: gentle wow (slow pitch drift on keys), vinyl noise
-  bed at −40 dB, high shelf tilt. All in the sound stage, all behind an A/B.
-
-EXIT: A/B pair logged; user verdict.
+Per-lane accent maps inside the one velocity formula; keys strums; articulation
+draws; lofi tape character (wow, vinyl bed, tilt) [EAR]. Exit: logged A/B.
 
 ## R3 — THE TEST BATTERY BECOMES PERMANENT
+Output assertions vs 5 seeds on every merge; node seam-tests for stages 1–5;
+`test/ears/LOG.md` — no taste decision merges without a dated A/B entry.
 
-- `harness/mk2_test.py`: the output assertions (audible, no clip, crest, dynamics
-  arc, band envelope, determinism) against 5 seeds — the MK1 `test_output` pattern,
-  pointed at MK2, run on every merge.
-- Note-seam tests in node (the stages are plain functions — extract the script once
-  with a 10-line build step, no browser needed for stages 1–5).
-- `test/ears/LOG.md` starts: every [EAR] decision gets its date, its A/B pair, and
-  the verdict. Nothing merges on taste without a line here.
+## R4 — GENRE 2: CITYPOP
+A genre = parameter tables only: tempo, modes, progression pools, pocket set,
+palette additions (gated on solo renders), space, swing bounds, and its OWN slice of
+the section pool (citypop enables prechorus/postchorus that lofi leaves off). If a
+genre needs a correction mechanism anywhere, the architecture has a hole — stop.
 
-EXIT: suite green in CI fashion (one command), ear log has its first entries.
+## R5 — THE CATALOGUE, ONE GENRE AT A TIME
+barber → wise → dungeon → ambient → house (enables build-up/drop/breakdown from the
+pool) → synthwave → jungle last (the break resequencer that is still a loop).
 
-## R4 — GENRE 2: CITYPOP (the first proof the machine generalizes)
+## R6 — THE TOYS
+Sampler (all ten slicer lessons apply), export parity, library, visuals.
 
-A genre = parameter tables only (Law 4): tempo range, mode weights, progression
-pools, pocket set, palette (new voices allowed — they're additions to the sound
-stage, gated on solo renders), space, swing bounds, form weights. **If citypop needs
-a new correction mechanism anywhere, stop: the architecture has a hole, fix the
-stage that owns it.**
-
-EXIT: 10 citypop seeds pass the same battery at citypop envelopes; user ear gate.
-
-## R5 — THE REST OF THE CATALOGue, ONE AT A TIME
-
-Order by distance from what works: barber → wise → dungeon → ambient → house →
-synthwave → jungle last (it needs the one genuinely new subsystem — a break
-resequencer that is still a LOOP; it gets designed against the masterdoc checklist
-before a line is written).
-
-EXIT per genre: battery + ear gate. No two genres land in one phase.
-
-## R6 — THE TOYS (only after the band convinces)
-
-Sampler/chopper (all ten slicer lessons from the audit apply), WAV/MIDI export
-parity (one code path — exports read the same performance events), the seed
-library, visualization. Each behind the same gates.
-
-## Standing rules while any of this happens
-
-- One change per commit with its measurement; renders attached to every claim.
-- The reference bar re-renders on every sound-stage change — if the canary sounds
-  worse, the change is wrong regardless of the numbers.
-- MK1 (`Improv Machine playable_BETA 0.1.html`) is frozen: reference and corpus
-  source only. No more fixes land there.
-- The corpora and harvesters serve both builds; new measurements go through
-  `corpus/` scripts, never hand-entered.
+## Standing rules
+One change per commit with its measurement · the reference bar re-renders on every
+sound change · MK1 is frozen (reference + corpus source only) · new numbers come
+through `corpus/` harvesters, never hand-entered.

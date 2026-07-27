@@ -508,30 +508,66 @@ function makeChart(seed){
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   STAGE 2 — FORM. Owns where things go and how hard. Small grammar; the
-   energy curve rises to the last chorus. [corpus:harvest_structure — verse/
-   chorus alternation with intro/outro caps is the dominant lofi-scale form]
+   STAGE 2 — FORM. Owns where things go and how hard. R1: the section sequence
+   is DRAWN FROM A GRAMMAR over the function pool (docs/FORM-RESEARCH.md), with
+   measured transition weights [corpus:harvest_structure -- verse->chorus 64%,
+   bridge->chorus 57%, 66% of sections return], and the RULE OF THREE enforced
+   at this level: a third consecutive identical section cannot be drawn, and a
+   third OCCURRENCE of a function emits a `vary` demand that a later stage must
+   satisfy with the property it owns. Form demands; it never edits notes.
    ═══════════════════════════════════════════════════════════════════════════ */
+const SECTION_LEN = { intro: 4, verse: 8, chorus: 8, bridge: 8, instrumental: 8, outro: 4 };
+
 function makeForm(chart){
   const rng = stream(chart.seed, "form");
-  const body = wpick(rng, [
-    [["verse","chorus","verse","chorus"], 5],
-    [["verse","chorus","verse","chorus","chorus"], 2],
-    [["verse","verse","chorus","verse","chorus"], 2],
-  ]);
-  const secs = [{ fn: "intro", bars: 4 }];
-  for(const fn of body) secs.push({ fn, bars: 8 });
-  secs.push({ fn: "outro", bars: 4 });
+  const fns = [];
+  const coldOpen = rng() < 0.15;                        // a cold open is a choice, not an absence
+  if(!coldOpen) fns.push("intro");
+  let fn = coldOpen ? (rng() < 0.5 ? "chorus" : "verse")
+                    : (rng() < 0.78 ? "verse" : "chorus");
+  const target = 40 + Math.floor(rng() * 4) * 8;        // 40-64 bars of body+caps
+  let bars = coldOpen ? 0 : 4, bridgeUsed = false, chorusSeen = 0;
+  for(let guard = 0; guard < 10; guard++){
+    fns.push(fn); bars += SECTION_LEN[fn];
+    if(fn === "chorus") chorusSeen++;
+    if(fn === "bridge") bridgeUsed = true;
+    if(bars >= target && fn === "chorus") break;        // a song ends off its payoff
+    /* transition table [corpus:harvest_structure], with the rule of three:
+       two consecutive statements of a function zero its own weight */
+    const consec = fns.length >= 2 && fns[fns.length - 1] === fns[fns.length - 2];
+    let table;
+    if(fn === "verse")
+      table = [["chorus", 8], ["verse", consec ? 0 : 1],
+               ["bridge", (!bridgeUsed && chorusSeen >= 1) ? 1 : 0]];
+    else if(fn === "chorus")
+      table = [["verse", 5], ["chorus", consec ? 0 : 2],
+               ["bridge", (!bridgeUsed && chorusSeen >= 2) ? 3 : 0],
+               ["instrumental", 2]];
+    else if(fn === "bridge")
+      table = [["chorus", 8], ["verse", 2]];
+    else /* instrumental */
+      table = [["chorus", 6], ["verse", 4]];
+    fn = wpick(rng, table);
+  }
+  fns.push("outro");
+
+  /* occurrence counters -> the vary demand (3rd time a function is HEARD, the
+     hearing must differ -- research: state, repeat, change on the third) */
+  const seen = {};
   let bar = 0;
-  const lastChorus = secs.map(s => s.fn).lastIndexOf("chorus");
-  const out = secs.map((s, i) => {
+  const lastChorus = fns.lastIndexOf("chorus");
+  const out = fns.map((f, i) => {
+    seen[f] = (seen[f] || 0) + 1;
     const o = {
-      fn: s.fn, startBar: bar, endBar: bar + s.bars,
-      energy: s.fn === "intro" ? 0.55 : s.fn === "outro" ? 0.55
-            : s.fn === "chorus" ? (i === lastChorus ? 1.0 : 0.92) : 0.74,
+      fn: f, startBar: bar, endBar: bar + SECTION_LEN[f],
+      occurrence: seen[f],
+      demand: (seen[f] >= 3 && (f === "verse" || f === "chorus")) ? "vary" : null,
+      energy: f === "intro" ? 0.55 : f === "outro" ? 0.5
+            : f === "bridge" ? 0.68 : f === "instrumental" ? 0.72
+            : f === "chorus" ? (i === lastChorus ? 1.0 : 0.92) : 0.74,
       peak: i === lastChorus,
     };
-    bar += s.bars;
+    bar += SECTION_LEN[f];
     return Object.freeze(o);
   });
   out.nBars = bar;
@@ -539,34 +575,39 @@ function makeForm(chart){
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   STAGE 3 — THE LOOP. The heart. One 4-bar cell composed TOGETHER, in pocket
-   order: kick pocket -> drums -> bass ON the pocket -> keys ON the pocket ->
-   theme in the space left -> counter as the theme's harmony vocal.
-   Valid by construction; every note frozen on exit; NOTHING downstream
-   re-pitches anything.
+   STAGE 3 — THE MATERIALS. R1: not one loop but a FAMILY, every member DERIVED
+   from A so the sections are informed by each other BY CONSTRUCTION -- the
+   relationship is the generating operation, never a check afterwards.
 
-   Note (grid domain): { bar, step, dur, pitch|lane, vel, role }
-   vel here is the note's own dynamic 0..1 relative to its role — the absolute
-   level is Stage 5's property, written once.
+     A        the verse set: pocket -> drums -> bass -> keys -> theme -> counter
+     B        hook(A): same progression, pocket and bass; a tune built from A's
+              opening intervals inverted; denser keys; a 2-bar phrase stated
+              twice exactly [corpus: the chorus repeats itself MORE than verse]
+     C        depart(A): the one member allowed to leave the progression;
+              A's theme rhythm AUGMENTED (durations doubled); sustained keys;
+              roots-only bass  [research: the bridge is the sanctioned left turn]
+     Avar     vary(A): same first half, redrawn second half [research: "start
+              the same, go somewhere different halfway" -- the canonical
+              rule-of-three answer]
+     fill     the drum bar that leads INTO an arrival (composed here, selected
+              by the arrangement)
+     ending   the tonic landing bar
+
+   Every note frozen on exit. Nothing downstream re-pitches anything.
    ═══════════════════════════════════════════════════════════════════════════ */
-function makeLoop(chart){
+function makeMaterials(chart){
   const BARS = 4;
   const { root, mode } = chart;
-  const loop = { bars: BARS, parts: {} };
-  const reserved = new Set();                       // (bar:step:pitch) taken so far
   const key = (b, s, p) => b + ":" + s + ":" + p;
 
-  /* ── the pocket: ONE object read by drums, bass and keys (they share it by
-     construction — [corpus:harvest_ensemble] bass+comp co-onset 77%). Lofi
-     boombap kicks. [corpus:harvest_drums groove spines] ── */
+  /* ── the pocket: ONE object read by drums, bass and keys in every material
+     [corpus:harvest_ensemble -- bass+comp co-onset 77% in real bands] ── */
   const rngP = stream(chart.seed, "pocket");
   const pocket = wpick(rngP, [
     [[0, 10], 5], [[0, 7, 10], 3], [[0, 10, 14], 2], [[0, 6, 10], 2],
   ]);
 
-  /* ── the progression: one per song (loop law). Degrees in the mode, sevenths
-     — the lofi sound. Pools are idiomatic [EAR + theory]; realized against
-     this chart's mode so every tone is in key by construction. ── */
+  /* ── ONE progression per song (loop law) ── */
   const rngH = stream(chart.seed, "harmony");
   const POOLS = {
     minor:  [[[0,5,2,6], 4], [[0,3,5,6], 3], [[0,3,0,4], 2], [[5,3,0,6], 2]],
@@ -574,125 +615,126 @@ function makeLoop(chart){
     major:  [[[1,4,0,5], 4], [[3,4,2,5], 3], [[0,5,1,4], 2]],
   };
   const degrees = wpick(rngH, POOLS[mode]);
-  const chords = degrees.map(d => Object.freeze({
+  const mkChords = degs => degs.map(d => Object.freeze({
     degree: d,
-    tones: chordTones(root, mode, d, true),        // sevenths: the lofi color [EAR]
-    rootMidi: intoBand(degMidi(root, mode, d), 33, 45),   // bass register [corpus:harvest_bass median 38]
+    tones: chordTones(root, mode, d, true),
+    rootMidi: intoBand(degMidi(root, mode, d), 33, 45),   // [corpus:harvest_bass median 38]
   }));
-  loop.chords = Object.freeze(chords);
+  const chords = mkChords(degrees);
+  /* the bridge's harmony: the departure -- rotated to open OFF the tonic
+     [theory: the bridge leaves home so the last chorus can arrive] */
+  const rngC = stream(chart.seed, "depart");
+  const BRIDGE_POOLS = {
+    minor:  [[[3,6,2,4], 3], [[5,2,3,4], 2], [[3,0,5,4], 2]],
+    dorian: [[[5,3,4,3], 3], [[3,4,5,4], 2]],
+    major:  [[[5,3,1,4], 3], [[2,5,1,4], 2]],
+  };
+  const bridgeChords = mkChords(wpick(rngC, BRIDGE_POOLS[mode]));
 
-  /* ── drums. Backbeat law: snare 4 & 12, loudest thing in the bar
-     [corpus:harvest_drums accent rows]. Hats every 8th WITH the downbeat.
-     One ghost region per bar at most; one open hat as the loop's signature. ── */
-  {
-    const rng = stream(chart.seed, "drums");
+  /* ── shared builders (each material calls them with its own streams) ── */
+  function buildDrums(streamName){
+    const rng = stream(chart.seed, streamName);
     const notes = [];
     const ghostSpots = [3, 7, 9, 11, 15];
-    const openSpot = wpick(rng, [[14, 4], [7, 2], [-1, 4]]);   // -1: this loop has none
+    const openSpot = wpick(rng, [[14, 4], [7, 2], [-1, 4]]);
     for(let b = 0; b < BARS; b++){
       for(const s of pocket) notes.push({ bar: b, step: s, dur: 1, lane: "kick", vel: s === 0 ? 1.0 : 0.82, role: "drums" });
       notes.push({ bar: b, step: 4,  dur: 1, lane: "snare", vel: 0.96, role: "drums" });
       notes.push({ bar: b, step: 12, dur: 1, lane: "snare", vel: 1.0,  role: "drums" });
       for(let s = 0; s < 16; s += 2)
         notes.push({ bar: b, step: s, dur: 1, lane: "hat", vel: s % 4 === 0 ? 0.62 : 0.40, role: "drums" });
-      if(rng() < 0.55){
-        const gs = pick(rng, ghostSpots);
-        notes.push({ bar: b, step: gs, dur: 1, lane: "ghost", vel: 0.16, role: "drums" });
-      }
+      if(rng() < 0.55)
+        notes.push({ bar: b, step: pick(rng, ghostSpots), dur: 1, lane: "ghost", vel: 0.16, role: "drums" });
       if(openSpot >= 0 && (b === 1 || b === 3))
         notes.push({ bar: b, step: openSpot, dur: 1, lane: "openhat", vel: 0.5, role: "drums" });
     }
-    loop.parts.drums = notes;
+    return notes;
   }
-
-  /* ── bass ON the pocket: root on the kick, held; a walk-up INTO the next
-     chord at bar end half the time — where real basses put their movement
-     [corpus:harvest_bass]. Density stays modest: this is a bed, not a solo. ── */
-  {
-    const rng = stream(chart.seed, "bass");
+  function buildBass(chordSet, streamName, rootsOnly){
+    const rng = stream(chart.seed, streamName);
     const notes = [];
     for(let b = 0; b < BARS; b++){
-      const ch = chords[b], next = chords[(b + 1) % BARS];
+      const ch = chordSet[b], next = chordSet[(b + 1) % BARS];
       notes.push({ bar: b, step: 0, dur: Math.min(8, pocket[1] || 8), pitch: ch.rootMidi, vel: 0.9, role: "bass" });
+      if(rootsOnly) continue;                       // the bridge's bass just holds home-away roots
       for(let i = 1; i < pocket.length; i++){
-        const s = pocket[i];
         const choice = wpick(rng, [["root", 5], ["fifth", 3], ["rest", 2]]);
         if(choice === "rest") continue;
-        const p = choice === "root" ? ch.rootMidi : intoBand(ch.rootMidi + 7, 33, 47);
-        notes.push({ bar: b, step: s, dur: 2, pitch: p, vel: 0.72, role: "bass" });
+        // the DIATONIC fifth, not +7 semitones: on a diminished degree (dorian's vi)
+        // a blind +7 leaves the key -- the seam check caught it at seed 103
+        const pch = choice === "root" ? ch.rootMidi
+                  : intoBand(degMidi(root, mode, ch.degree + 4), 33, 47);
+        notes.push({ bar: b, step: pocket[i], dur: 2, pitch: pch, vel: 0.72, role: "bass" });
       }
-      if(rng() < 0.5){                                       // the walk-up
-        const target = next.rootMidi;
-        const from = scaleStep(root, mode, target, wpick(rng, [[-1, 3], [1, 2]]));
+      const w = rng();                              // drawn unconditionally: stream stability
+      if(w < 0.5 && !pocket.includes(14)){          // the walk INTO the next chord [corpus:harvest_bass]
+        // ...and never onto a step this bass already owns: a pocket that ends on 14
+        // put two bass notes on one instant, which the seam check rightly threw on
+        const from = scaleStep(root, mode, next.rootMidi, wpick(rng, [[-1, 3], [1, 2]]));
         notes.push({ bar: b, step: 14, dur: 2, pitch: intoBand(from, 33, 47), vel: 0.6, role: "bass" });
       }
     }
-    for(const n of notes) reserved.add(key(n.bar, n.step, n.pitch));
-    loop.parts.bass = notes;
+    return notes;
   }
-
-  /* ── keys ON the pocket: the chord is STRUCK AS A CHORD (3-4 notes on one
-     sixteenth [corpus:harvest_ensemble 3.65/strike]); strikes = pocket + one
-     or two syncopations of its own; each strike rings ~60% of the gap to the
-     next. Voice-led: each voicing chosen to move least from the previous. ── */
-  {
-    const rng = stream(chart.seed, "keys");
-    const SYNC = [[8, 5], [6, 3], [13, 2], [11, 2], [2, 1]];   // and-of-2, upbeats [corpus:harvest_accompaniment]
+  function buildKeys(chordSet, streamName, opts){
+    const rng = stream(chart.seed, streamName);
+    const SYNC = [[8, 5], [6, 3], [13, 2], [11, 2], [2, 1]];
     const notes = [];
     let prev = null;
     for(let b = 0; b < BARS; b++){
-      const ch = chords[b];
-      const strikes = [...new Set(pocket.concat([wpick(rng, SYNC)]))].sort((a, z) => a - z);
-      /* voicing: try each inversion in [52,74], keep the one nearest prev [theory] */
+      const ch = chordSet[b];
+      let strikes;
+      if(opts.sustain) strikes = [0];                              // the bridge pads
+      else {
+        strikes = pocket.slice();
+        const extra = opts.dense ? 2 : 1;                          // the chorus comps harder
+        for(let e = 0; e < extra; e++) strikes.push(wpick(rng, SYNC));
+        strikes = [...new Set(strikes)].sort((a, z) => a - z);
+      }
       let voiced = null, bestCost = 1e9;
       for(let inv = 0; inv < 4; inv++){
         const cand = ch.tones.map((t, i) => intoBand(t + (i < inv ? 12 : 0), 52, 74)).sort((a, z) => a - z);
-        let cost = 0;
+        let cost = prev ? 0 : Math.abs(cand[0] - 60);
         if(prev) for(let i = 0; i < Math.min(cand.length, prev.length); i++) cost += Math.abs(cand[i] - prev[i]);
-        else cost = Math.abs(cand[0] - 60);
         if(cost < bestCost){ bestCost = cost; voiced = cand; }
       }
       prev = voiced;
       for(let si = 0; si < strikes.length; si++){
-        const s = strikes[si], nxt = si + 1 < strikes.length ? strikes[si + 1] : 16;
-        const ring = Math.max(2, Math.round((nxt - s) * 0.6));
-        for(const p of voiced)
-          notes.push({ bar: b, step: s, dur: ring, pitch: p, vel: si === 0 ? 0.8 : 0.55, role: "keys" });
+        const st = strikes[si], nxt = si + 1 < strikes.length ? strikes[si + 1] : 16;
+        const ring = opts.sustain ? 16 : Math.max(2, Math.round((nxt - st) * 0.6));
+        for(const pch of voiced)
+          notes.push({ bar: b, step: st, dur: ring, pitch: pch, vel: si === 0 ? 0.8 : 0.55, role: "keys" });
       }
     }
-    for(const n of notes) reserved.add(key(n.bar, n.step, n.pitch));
-    loop.parts.keys = notes;
+    return notes;
   }
-
-  /* ── the theme: a 2-bar QUESTION and a 2-bar ANSWER (contrary contour,
-     lands on a chord tone). Written INTO the space: it rests where the bar is
-     crowded, breathes at phrase ends, and redraws on any collision with what
-     is already placed (Law 3: valid by construction). Register [64,82].
-     [corpus:harvest_melody — 3-5 notes/sounding bar, near-flat beat onsets] ── */
-  {
-    const rng = stream(chart.seed, "theme");
-    const LO = 64, HI = 82;
-    const notes = [];
+  /* the theme builder: phrases into the space `reserved` already holds.
+     Returns notes AND its opening interval DNA, so other materials can derive. */
+  function buildTheme(chordSet, streamName, reserved, opts){
+    const rng = stream(chart.seed, streamName);
+    const LO = opts.lo, HI = opts.hi;
+    const notes = [], dna = [];
     const onsetPool = [[0, 5], [2, 3], [4, 4], [6, 3], [8, 4], [10, 3], [12, 4], [14, 3]];
-    function makePhrase(startBar, dir, endOnTone){
-      let m = intoBand(degMidi(root, mode, 7 + Math.floor(rng() * 3)), 68, 78);
+    function phrase(startBar, dir, endOnTone, moveBias){
+      let m = intoBand(degMidi(root, mode, 7 + Math.floor(rng() * 3)), LO + 4, HI - 4);
       for(let b = startBar; b < startBar + 2; b++){
-        const isBreath = (b === startBar + 1);
-        const count = isBreath ? 1 + Math.floor(rng() * 2) : 3 + Math.floor(rng() * 2);
+        const isBreath = (b === startBar + 1) && !opts.hooky;
+        const count = opts.hooky ? 4 + Math.floor(rng() * 2)
+                    : isBreath ? 1 + Math.floor(rng() * 2) : 3 + Math.floor(rng() * 2);
         const steps = [];
         const poolCopy = onsetPool.slice();
         while(steps.length < count && poolCopy.length){
-          const s = wpick(rng, poolCopy);
-          poolCopy.splice(poolCopy.findIndex(x => x[0] === s), 1);
-          steps.push(s);
+          const st = wpick(rng, poolCopy);
+          poolCopy.splice(poolCopy.findIndex(x => x[0] === st), 1);
+          steps.push(st);
         }
         steps.sort((a, z) => a - z);
         for(let i = 0; i < steps.length; i++){
-          const move = wpick(rng, [[0, 2], [dir, 5], [dir * 2, 2], [-dir, 2]]);
-          let cand = scaleStep(root, mode, m, move);
-          cand = intoBand(cand, LO, HI);
-          /* collision: never share an instant+pitch with anything placed; step
-             sideways in the scale, then give up the onset (a rest is legal) */
+          const move = (moveBias && moveBias.length > dna.length)
+                     ? moveBias[dna.length]                          // derivation: follow given DNA
+                     : wpick(rng, [[0, 2], [dir, 5], [dir * 2, 2], [-dir, 2]]);
+          if(dna.length < 4) dna.push(move);
+          let cand = intoBand(scaleStep(root, mode, m, move), LO, HI);
           let tries = 0;
           while(reserved.has(key(b % BARS, steps[i], cand)) && tries < 3){
             cand = intoBand(scaleStep(root, mode, cand, 1), LO, HI); tries++;
@@ -704,113 +746,213 @@ function makeLoop(chart){
           reserved.add(key(b % BARS, steps[i], cand));
         }
       }
-      if(endOnTone && notes.length){                       // the answer RESOLVES [theory]
+      if(endOnTone && notes.length){
         const last = notes[notes.length - 1];
-        const t = nearestTone(last.pitch, chords[(startBar + 1) % BARS].tones);
-        last.pitch = intoBand(t, LO, HI);
+        last.pitch = intoBand(nearestTone(last.pitch, chordSet[(startBar + 1) % BARS].tones), LO, HI);
         last.dur = Math.max(last.dur, 4);
       }
     }
-    makePhrase(0, rng() < 0.5 ? 1 : -1, false);            // question
-    const qDir = notes.length >= 2 && notes[notes.length - 1].pitch >= notes[0].pitch ? 1 : -1;
-    makePhrase(2, -qDir, true);                            // answer: contrary, resolving
-    loop.parts.lead = notes;
-  }
-
-  /* ── the counter: the theme's harmony vocal — the SAME rhythm a third below
-     in the scale, register [57,74]. [corpus:harvest_ensemble — the second
-     voice sings WITH the lead 54% of the time; it is not an answerer] ── */
-  {
-    const notes = [];
-    for(const n of loop.parts.lead){
-      let p = intoBand(scaleStep(root, mode, n.pitch, -2), 57, 74);
-      if(p === n.pitch) continue;
-      if(reserved.has(key(n.bar, n.step, p))) continue;
-      notes.push({ bar: n.bar, step: n.step, dur: n.dur, pitch: p, vel: n.vel * 0.8, role: "counter" });
-      reserved.add(key(n.bar, n.step, p));
+    if(opts.hooky){
+      /* THE HOOK: one 2-bar phrase... then the SAME phrase again, exactly.
+         [corpus:harvest_melody -- the chorus repeats its own bars MORE than the
+         verse does; the hook is the invariant] */
+      phrase(0, opts.dir, true, opts.moveBias);
+      for(const n of notes.slice()){
+        if(n.bar >= 2) break;
+        const cp = { ...n, bar: n.bar + 2 };
+        if(reserved.has(key(cp.bar, cp.step, cp.pitch))) continue;
+        notes.push(cp); reserved.add(key(cp.bar, cp.step, cp.pitch));
+      }
+    } else if(opts.augmentOf){
+      /* THE DEPARTURE'S TUNE: A's rhythm AUGMENTED -- every duration doubled, so
+         half the density at the same shape [research: augmentation is a
+         canonical derivation]. Pitches walk the new (bridge) changes. */
+      let m = intoBand(degMidi(root, mode, 9), LO, HI);
+      let t = 0;
+      for(const src of opts.augmentOf){
+        const st = (t * 2) % 16, b = Math.min(BARS - 1, Math.floor((t * 2) / 16));
+        t += src.dur;
+        const tones = chordSet[b].tones;
+        m = intoBand(nearestTone(scaleStep(root, mode, m, wpick(rng, [[1, 2], [-1, 3], [0, 2]])), tones), LO, HI);
+        if(reserved.has(key(b, st, m))) continue;
+        notes.push({ bar: b, step: st, dur: Math.min(8, src.dur * 2), pitch: m, vel: 0.7, role: "lead" });
+        reserved.add(key(b, st, m));
+      }
+    } else {
+      phrase(0, opts.dir, false, opts.moveBias);
+      const qDir = notes.length >= 2 && notes[notes.length - 1].pitch >= notes[0].pitch ? 1 : -1;
+      phrase(2, -qDir, true, null);                     // the answer: contrary, resolving
     }
-    loop.parts.counter = notes;
+    return { notes, dna };
   }
+  function deriveCounter(themeNotes, reserved){
+    const out = [];
+    for(const n of themeNotes){
+      const pch = intoBand(scaleStep(root, mode, n.pitch, -2), 57, 74);
+      if(pch === n.pitch || reserved.has(key(n.bar, n.step, pch))) continue;
+      out.push({ bar: n.bar, step: n.step, dur: n.dur, pitch: pch, vel: n.vel * 0.8, role: "counter" });
+      reserved.add(key(n.bar, n.step, pch));
+    }
+    return out;
+  }
+  const reserve = notes => { const r = new Set(); for(const n of notes) if(n.pitch != null) r.add(key(n.bar, n.step, n.pitch)); return r; };
 
-  for(const role in loop.parts){
-    for(const n of loop.parts[role]) Object.freeze(n);
-    Object.freeze(loop.parts[role]);
-  }
-  loop.pocket = Object.freeze(pocket);
-  return Object.freeze(loop);
+  /* ── A: the verse set ── */
+  const drumsA = buildDrums("drums");
+  const bassA  = buildBass(chords, "bass", false);
+  const keysA  = buildKeys(chords, "keys", { dense: false });
+  const resA   = reserve(bassA.concat(keysA));
+  const themeA = buildTheme(chords, "themeA", resA, { lo: 64, hi: 80, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
+  const counterA = deriveCounter(themeA.notes, resA);
+
+  /* ── B = hook(A): same bed family, new tune FROM A's DNA, denser comp,
+     a half-octave up [corpus: verse->chorus register lift ~ +1.5 st; the hook
+     sits above the verse, not an octave above it] ── */
+  const keysB  = buildKeys(chords, "keysB", { dense: true });
+  const resB   = reserve(bassA.concat(keysB));
+  const themeB = buildTheme(chords, "themeB", resB,
+    { lo: 67, hi: 84, dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
+  const counterB = deriveCounter(themeB.notes, resB);
+
+  /* ── C = depart(A): new changes, sustained keys, roots-only bass,
+     A's rhythm augmented ── */
+  const bassC  = buildBass(bridgeChords, "bassC", true);
+  const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true });
+  const resC   = reserve(bassC.concat(keysC));
+  const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: 62, hi: 78, augmentOf: themeA.notes });
+
+  /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
+     the canonical rule-of-three answer at the material level ── */
+  const resV = reserve(bassA.concat(keysA).concat(themeA.notes.filter(n => n.bar < 2)));
+  const varTail = buildTheme(chords, "themeA:var", resV, { lo: 64, hi: 80, dir: -1 });
+  const leadAvar = themeA.notes.filter(n => n.bar < 2)
+    .concat(varTail.notes.filter(n => n.bar >= 2));
+
+  /* ── the fill: composed here, SELECTED by the arrangement ── */
+  const fill = (() => {
+    const rng = stream(chart.seed, "fill");
+    const notes = [{ bar: 0, step: 0, dur: 1, lane: "kick", vel: 1.0, role: "drums" }];
+    for(let s = 0; s < 8; s += 2) notes.push({ bar: 0, step: s, dur: 1, lane: "hat", vel: 0.4, role: "drums" });
+    notes.push({ bar: 0, step: 4, dur: 1, lane: "snare", vel: 0.9, role: "drums" });
+    for(const s of [10, 12, 13, 14, 15])
+      if(s === 12 || rng() < 0.75)
+        notes.push({ bar: 0, step: s, dur: 1, lane: "snare", vel: 0.34 + (s - 10) * 0.11, role: "drums" });
+    return notes;
+  })();
+
+  /* ── the ending: the tonic landing [theory: resolution is the arrival of
+     tonic harmony -- the song closes, it does not just stop] ── */
+  const ending = (() => {
+    const tonic = chordTones(root, mode, 0, false).map(t => intoBand(t, 55, 72));
+    const notes = [{ bar: 0, step: 0, dur: 16, pitch: intoBand(degMidi(root, mode, 0), 33, 45), vel: 0.85, role: "bass" }];
+    for(const t of tonic) notes.push({ bar: 0, step: 0, dur: 16, pitch: t, vel: 0.7, role: "keys" });
+    return notes;
+  })();
+
+  const materials = {
+    A:    { drums: drumsA, bass: bassA, keys: keysA, lead: themeA.notes, counter: counterA },
+    // Avar carries NO counter: the harmony vocal was derived from A's tune, and the
+    // variant's redrawn second half is a different tune -- a shadow of the wrong line.
+    // Verses (Avar's consumers) never activate the counter anyway; if a future section
+    // wants one, it derives it from leadAvar, it does not borrow A's.
+    Avar: { drums: drumsA, bass: bassA, keys: keysA, lead: leadAvar,     counter: [] },
+    B:    { drums: drumsA, bass: bassA, keys: keysB, lead: themeB.notes, counter: counterB },
+    C:    { drums: drumsA, bass: bassC, keys: keysC, lead: themeC.notes, counter: [] },
+    fill, ending,
+  };
+  for(const m of ["A", "Avar", "B", "C"]) for(const role in materials[m])
+    for(const n of materials[m][role]) Object.freeze(n);
+  for(const n of fill) Object.freeze(n);
+  for(const n of ending) Object.freeze(n);
+  materials.bars = BARS;
+  materials.pocket = Object.freeze(pocket);
+  materials.chords = Object.freeze(chords);
+  materials.bridgeChords = Object.freeze(bridgeChords);
+  return Object.freeze(materials);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   STAGE 4 — ARRANGEMENT. Owns the story. Subtractive: the loop is whole and
-   sections REMOVE. The lead sits out one whole interior section (the break —
-   [corpus:harvest_ensemble] real leads are silent 42% of bars, in SECTIONS).
-   Treatments are a closed set applied to copies; loop notes stay frozen.
+   STAGE 4 — ARRANGEMENT. Owns the story. Maps section FUNCTIONS to MATERIALS
+   and consumes the form's `vary` demands with the property it owns: a third
+   verse gets Avar (material level); a third chorus gets a stripped first half
+   (arrangement level) -- the change may live at a different level than the
+   repetition that demanded it [research, FORM-RESEARCH.md part 2]. Selection
+   only; this stage never edits a note.
    ═══════════════════════════════════════════════════════════════════════════ */
-function makeArrangement(chart, form, loop){
-  const rng = stream(chart.seed, "arrange");
-  const ROLES = ["drums", "bass", "keys", "lead", "counter"];
-  /* the lead's section off: one non-peak chorus-or-verse in the interior */
-  const interior = form.map((s, i) => i).filter(i => i > 0 && i < form.length - 1 && !form[i].peak);
-  const leadOut = interior.length ? pick(rng, interior.slice(1)) : -1;
-
-  const sections = form.map((sec, i) => {
-    let active;
-    if(sec.fn === "intro")       active = ["keys", "bass"];
-    else if(sec.fn === "outro")  active = ["keys", "bass", "lead"];
-    else if(sec.fn === "verse")  active = ["drums", "bass", "keys", "lead"];
-    else                         active = ROLES.slice();          // chorus: everyone
-    if(i === leadOut) active = active.filter(r => r !== "lead" && r !== "counter");
+function makeArrangement(chart, form, materials){
+  const MAT = { intro: "A", verse: "A", chorus: "B", bridge: "C", instrumental: "A", outro: "A" };
+  const ROLES = {
+    intro:        ["keys", "bass"],                       // the vamp intro: the bed before the tune
+    verse:        ["drums", "bass", "keys", "lead"],
+    chorus:       ["drums", "bass", "keys", "lead", "counter"],
+    bridge:       ["bass", "keys", "lead"],               // the kit sits out the departure
+    instrumental: ["drums", "bass", "keys"],              // the tune's section off
+    outro:        ["keys", "bass"],
+  };
+  return Object.freeze(form.map((sec, i) => {
+    let material = MAT[sec.fn];
+    let stripHalf = false;
+    if(sec.demand === "vary"){
+      if(sec.fn === "verse") material = "Avar";
+      else stripHalf = true;                              // the 3rd chorus: arrangement answers
+    }
+    const next = form[i + 1];
     return Object.freeze({
       fn: sec.fn, startBar: sec.startBar, endBar: sec.endBar,
-      energy: sec.energy, peak: !!sec.peak, active: Object.freeze(active),
-      /* the empty: strip the rhythm section from the last bar before the peak
-         so the arrival lands into a hole [corpus:harvest_structure, 004 law] */
-      emptyLastBar: !!(form[i + 1] && form[i + 1].peak),
+      energy: sec.energy, peak: sec.peak, occurrence: sec.occurrence,
+      material, stripHalf,
+      active: Object.freeze(ROLES[sec.fn].slice()),
+      fillInto: !!(next && (next.fn === "chorus" || next.fn === "bridge")
+                   && ROLES[sec.fn].includes("drums")),
+      emptyLastBar: !!(next && next.peak),
+      endingLastBar: sec.fn === "outro",
     });
-  });
-  return Object.freeze(sections);
+  }));
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
    STAGE 5 — PERFORMANCE. Grid -> seconds. Owns, exclusively and finally:
-   GAIN (one formula: note.vel x section energy) and TIMING (one formula:
-   swing + lane lean + seeded jitter). Nothing before this stage knew seconds;
-   nothing after it may change gain or time.
-
-   swing: offbeat 8ths slide by 4r/(r+1)-2 sixteenths for ratio r [theory];
-   lofi ratio 1.5-1.66 [corpus:harvest_drums GROOVE_BOUNDS + EAR].
-   lean: the kit plays ~8 ms ahead [corpus:harvest_drums microtiming means].
-   jitter: +-5 ms, deterministic per note (Law 7).
+   GAIN (one formula) and TIMING (one formula: swing + lane lean + seeded
+   jitter). Reads the arrangement's SELECTIONS (material, fill, strip, ending);
+   changes nothing upstream.
    ═══════════════════════════════════════════════════════════════════════════ */
-function makePerformance(chart, form, loop, sections){
-  const spb = (60 / chart.tempo) / 4;                     // seconds per 16th
+function makePerformance(chart, form, materials, sections){
+  const spb = (60 / chart.tempo) / 4;
   const rngG = stream(chart.seed, "groove");
   const swingRatio = 1.5 + rngG() * 0.16;
-  const swingOffset = 4 * swingRatio / (swingRatio + 1) - 2;   // in sixteenths
+  const swingOffset = 4 * swingRatio / (swingRatio + 1) - 2;   // true ratio conversion [theory]
   const events = [];
 
   for(const sec of sections){
+    const mat = materials[sec.material];
     for(let bar = sec.startBar; bar < sec.endBar; bar++){
-      const loopBar = (bar - sec.startBar) % loop.bars;
+      const loopBar = (bar - sec.startBar) % materials.bars;
       const lastBar = bar === sec.endBar - 1;
+      const firstHalf = (bar - sec.startBar) < (sec.endBar - sec.startBar) / 2;
       for(const role of sec.active){
-        for(const n of loop.parts[role]){
-          if(n.bar !== loopBar) continue;
+        let notes = mat[role];
+        if(role === "drums" && lastBar && sec.fillInto) notes = materials.fill;
+        if(sec.stripHalf && firstHalf && (role === "drums" || role === "bass")) continue;
+        if(sec.endingLastBar && lastBar){
+          if(role === "keys" || role === "bass") notes = materials.ending.filter(n => n.role === role);
+          else continue;
+        }
+        const useBar = (role === "drums" && lastBar && sec.fillInto) ? 0
+                     : (sec.endingLastBar && lastBar) ? 0 : loopBar;
+        for(const n of notes){
+          if(n.bar !== useBar) continue;
           if(sec.emptyLastBar && lastBar && (role === "drums" || role === "bass") && n.step > 0) continue;
-          /* TIME — the one formula */
-          let stepPos = bar * 16 + n.step;
           let micro = 0;
-          if(n.step % 4 === 2) micro += swingOffset;                       // offbeat 8ths swing
-          else if(n.step % 2 === 1) micro += swingOffset * 0.5;            // odd 16ths half
-          if(role === "drums") micro += -0.008 / spb;                      // the kit leans in
+          if(n.step % 4 === 2) micro += swingOffset;
+          else if(n.step % 2 === 1) micro += swingOffset * 0.5;
+          if(role === "drums") micro += -0.008 / spb;
           const j = stream(chart.seed, "jit:" + role + ":" + bar + ":" + n.step + ":" + (n.pitch || n.lane));
-          micro += ((j() * 2 - 1) * 0.005) / spb;                          // +-5 ms
-          /* GAIN — the one formula */
+          micro += ((j() * 2 - 1) * 0.005) / spb;
           const gain = Math.min(1.25, n.vel * (0.72 + 0.28 * sec.energy) * (sec.peak ? 1.06 : 1));
           const ev = {
-            tSec: (stepPos + micro) * spb,
+            tSec: (bar * 16 + n.step + micro) * spb,
             durSec: Math.max(spb * 0.9, n.dur * spb),
-            voice: n.lane || role,          // drums dispatch by lane; pitched by role
+            voice: n.lane || role,
             role, gain,
           };
           if(n.pitch != null) ev.pitch = n.pitch;
@@ -820,8 +962,7 @@ function makePerformance(chart, form, loop, sections){
     }
   }
   events.sort((a, z) => a.tSec - z.tSec);
-  const total = form.nBars * 16 * spb;
-  return Object.freeze({ events: Object.freeze(events), seconds: total + 2.5 });
+  return Object.freeze({ events: Object.freeze(events), seconds: form.nBars * 16 * spb + 2.5 });
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -831,23 +972,33 @@ function makePerformance(chart, form, loop, sections){
 function composeSong(seed){
   const chart = makeChart(seed);
   const form = makeForm(chart);
-  const loop = makeLoop(chart);
-  const sections = makeArrangement(chart, form, loop);
-  const perf = makePerformance(chart, form, loop, sections);
+  const materials = makeMaterials(chart);
+  const sections = makeArrangement(chart, form, materials);
+  const perf = makePerformance(chart, form, materials, sections);
 
-  /* seam checks (Law: valid by construction — so PROVE it, every song) */
-  const seen = new Set();
-  for(const role in loop.parts) for(const n of loop.parts[role]){
-    if(n.pitch != null){
-      if(!inKey(chart.root, chart.mode, n.pitch))
-        throw new Error("out of key: " + role + " " + n.pitch);
-      const k = n.bar + ":" + n.step + ":" + n.pitch;
-      if(seen.has(k)) throw new Error("collision at " + k);
-      seen.add(k);
+  /* seam checks (Law: valid by construction — so PROVE it, every song).
+     A material's parts sound TOGETHER, so collisions are checked inside each
+     material; materials never sound simultaneously with each other. */
+  for(const m of ["A", "Avar", "B", "C"]){
+    const seen = new Set();
+    for(const role in materials[m]) for(const n of materials[m][role]){
+      if(n.pitch != null){
+        if(!inKey(chart.root, chart.mode, n.pitch))
+          throw new Error("out of key in " + m + ": " + role + " " + n.pitch);
+        const k = n.bar + ":" + n.step + ":" + n.pitch;
+        if(seen.has(k)) throw new Error("collision in " + m + " at " + k);
+        seen.add(k);
+      }
+      if(n.step < 0 || n.step > 15 || n.dur < 1) throw new Error("bad grid: " + m + "/" + role);
     }
-    if(n.step < 0 || n.step > 15 || n.dur < 1) throw new Error("bad grid: " + role);
   }
-  return { chart, form, loop, sections, perf };
+  /* form sanity: contiguous, capped, rule of three at the section level */
+  for(let i = 1; i < form.length; i++){
+    if(form[i].startBar !== form[i - 1].endBar) throw new Error("form gap at " + i);
+    if(i >= 2 && form[i].fn === form[i-1].fn && form[i].fn === form[i-2].fn)
+      throw new Error("rule of three broken: " + form[i].fn + " x3");
+  }
+  return { chart, form, materials, sections, perf };
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -858,12 +1009,15 @@ const $ = id => document.getElementById(id);
 
 function describe(song){
   const c = song.chart;
+  const name = ch => NOTE_NAMES[pc(degMidi(c.root, c.mode, ch.degree))] + "7";
   $("info").textContent =
     `lofi · ${NOTE_NAMES[c.root]} ${c.mode} · ${c.tempo} bpm · ${song.form.nBars} bars · seed ${c.seed}\n` +
-    `progression: ${song.loop.chords.map(ch => NOTE_NAMES[pc(degMidi(c.root, c.mode, ch.degree))] + (c.mode === "major" && ch.degree % 7 === 0 ? "maj7" : "7")).join("  ")}` +
-    ` · pocket [${song.loop.pocket.join(",")}] · ${song.perf.events.length} events`;
+    `progression: ${song.materials.chords.map(name).join("  ")}` +
+    `   ·   bridge goes: ${song.materials.bridgeChords.map(name).join("  ")}` +
+    `   ·   pocket [${song.materials.pocket.join(",")}] · ${song.perf.events.length} events`;
   $("story").textContent = "story:  " + song.sections.map(s =>
-    `${s.fn}${s.peak ? "^" : ""}(${s.active.length === 5 ? "all" : s.active.join("+")})`).join("  →  ");
+    s.fn + (s.peak ? "^" : "") + "[" + s.material + (s.stripHalf ? "*strip" : "") + "]" +
+    (s.fillInto ? "+fill" : "")).join("  →  ");
 }
 function newSong(forcedSeed){
   const seed = forcedSeed != null ? forcedSeed : (parseInt($("seed").value, 10) || 1);
