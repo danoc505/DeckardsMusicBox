@@ -3981,7 +3981,25 @@ const Synth=(function(){
   // for definition. Quiet enough to be air, not a new instrument.
   const FMUL={sub:[1,2,1],bell:[1,2.01],marimba:[1,2.01],
               pluck:[1,5], rhodes:[1,1,7], harp:[1,5]};
-  const OGAIN={sub:[1,.42,.26], pluck:[1,.09], rhodes:[1,.5,.05], harp:[1,.05]};
+  // ── THERE IS NOTHING UP THERE TO HEAR ──────────────────────────────────────
+  // Counted off the scheduled events, the whole program only ever plays FOUR pitched
+  // voices: rhodes (11,476 events across eight songs), sub (3,497), pluck (2,233) and
+  // sine (1,250). The dominant one by a factor of three is `rhodes` -- two sine waves
+  // plus a triangle at seven times the fundamental at a gain of 0.05, which is 0.25% of
+  // the voice's energy. `sine` is a literal pure sine with a 600 Hz cutoff on top of it.
+  //
+  // So the mix measures the way it does for a reason that is not a filter at all.
+  // Rendered and split into stems: the whole mix carries 0.24% of its energy above 2 kHz
+  // and 99% of it below 800 Hz, and the drum bus -- which is where the only real top end
+  // lives, the rebuilt hats being 47% above 6 kHz on their own -- is just 7% of the mix's
+  // energy, three quarters of which is kick. Raising the hats cannot fix this. A partial
+  // at 0.05 cannot fix this. The palette itself is sine-and-triangle.
+  //
+  // The tine at 7x IS the Rhodes sound, and a plucked string has real upper partials.
+  // These are still small numbers -- 2.6% and 4% of the voice's energy -- and this is the
+  // one thing on this list that measurement can only take so far: how bright is right is
+  // a decision for the ear, so it is rendered as an A/B rather than asserted.
+  const OGAIN={sub:[1,.42,.26], pluck:[1,.20], rhodes:[1,.45,.16], harp:[1,.14]};
   /* per-genre voice character: WARM (mellow genres — longer attacks, lower/softer
      filter, gentler sustain) vs PUNCHY (house/jungle — tight attacks, brighter and
      more resonant, snappier decay). Set on each new song from the chart's genre. */
