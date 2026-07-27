@@ -5942,9 +5942,36 @@ function buildLead(voice, chart, chords, perception, rng, implyHarmony){
     let m = nearestTone(prev!=null?prev:tones[Math.floor(tones.length/2)], tones);
     const rSum = rhythm.reduce((x,y)=>x+Math.abs(y),0);
     const treat = TREAT[lb] || "plain";
-    // a PICKUP: the figure enters after the downbeat, leaving the front of the bar open
-    // instead of the back. Only when there is room for it.
-    let step = (treat==="pickup" && rSum<=12) ? (rSum<=8?4:2) : 0;
+    // ── WHERE THE SLACK GOES ────────────────────────────────────────────────
+    // The figure's durations pack forward from step 0, so whatever is left over falls at
+    // the BACK of the bar -- every bar, in the same place, for the whole song. Measured
+    // across 40 songs, our lead put 22.0% of its onsets on the downbeat and 2.1% on the
+    // second-to-last sixteenth; a real melody is nearly flat (13.3 / 10.2 / 11.3 / 10.8
+    // on the four beats, and 9.3% on step 14). A hole in the same place in every bar is
+    // what makes a tune sound mechanical however good the notes are.
+    // A pickup was already here to fix precisely this and it was not enough: it fired on
+    // a third of bars and only when the figure was short. The leftover is now SPLIT --
+    // some of it in front of the figure, the rest behind it -- drawn per BAR OF THE LOOP
+    // so the loop still repeats itself bit-for-bit, which is what makes it a loop.
+    const slack = Math.max(0, 16 - rSum);
+    let step = 0;
+    if(slack > 0){
+      const pr = makeRng(hashName(chart._seed||0, "slack:"+lb+":"+slot));
+      // ...and the offset is an EIGHTH, not any sixteenth. Drawn freely it put 6.6% of
+      // the tune's onsets on step 1 against a measured 2.0%: shifting a whole figure by
+      // an odd sixteenth lands every note in it on an odd sixteenth, and real melodies
+      // put ~2% of their onsets there. A pickup enters on a beat or an offbeat eighth.
+      // ...and zero is only one of the choices, weighted against the rest. Drawn flat,
+      // "all the slack at the back" still came up half the time whenever the slack was a
+      // single eighth, and the downbeat stayed at 17.1% against a measured 13.3%.
+      if(treat==="pickup") step = Math.min(slack - slack%2, 4);
+      else {
+        const opts=[]; for(let q=0;q<=slack;q+=2) opts.push(q);
+        let tot=0; for(const q of opts) tot += (q===0?1:2);
+        let r2 = pr()*tot; step = opts[0];
+        for(const q of opts){ r2 -= (q===0?1:2); if(r2<=0){ step=q; break; } }
+      }
+    }
     let lastNote=null;
     rhythm.forEach((dur,k)=>{
       if(step>=16) return;
