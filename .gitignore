@@ -7,6 +7,9 @@ harness/run/
 *.wav
 scratch/
 .DS_Store
+# output-test renders (harness/test_output.js): WAVs plus their manifest.json --
+# regenerated on every run, never source
+harness/output_renders*/
 
 # editor / tooling
 .claude/
