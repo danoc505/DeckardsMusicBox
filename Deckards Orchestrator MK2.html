@@ -349,12 +349,28 @@ const RIG = {
    ═══════════════════════════════════════════════════════════════════════════ */
 const Sound = (function(){
 
-  /* ── the palette's LEVEL TABLE. Peak amplitude per voice at velocity 1,
-     designed on paper so the worst-case simultaneous sum sits ~6 dB under the
-     clipper knee (masterdoc §4.2): kick .82 + bass .30 + 4 keys ×.15 + lead .28
-     + snare .55 + hat .20 = 2.75 raw -> ×0.5 pre-shaper = 1.37 into a knee
-     that softens from ~1.0 and hard-limits at 2.0. Musical peaks live in the
-     tanh bend, never at the wall. [EAR, gated on the reference bar] ── */
+  /* ── the palette's LEVEL TABLE: peak amplitude per voice at velocity 1.
+
+     THE HEADROOM BUDGET, MEASURED rather than asserted. The comment that used
+     to sit here did arithmetic over numbers that were not in the table below
+     (it cited kick .82, bass .30, snare .55, hat .20 against .72/.26/.62/.44,
+     and omitted openhat, ghost and counter) and concluded a headroom figure
+     that was therefore meaningless. Law 8 says a constant carries its
+     provenance; a provenance that does not match its constant is worse than
+     none, because it stops anyone checking.
+
+     What the events actually ask for, summed over every 12 ms window across 120
+     songs, in units of pre-shaper amplitude:
+
+         median 0.279   p99 1.438   p99.9 1.738   worst 1.884
+
+     Through the x0.5 pre-gain into tanh(3.6x), that is -0.7 dB of soft-clip at
+     the median, -8.4 dB at p99 and -10.6 dB at the worst hit. So the median mix
+     is essentially linear and the loudest transients are genuinely saturating.
+     For lofi that reads as tape rather than as damage -- rendered songs come out
+     at -2.3 dBFS peak with a 12.9 dB crest and zero samples at the wall -- but
+     it IS a choice, and g.pre is the knob: 0.5 is the shipped value, 0.35 would
+     put p99 at about -5 dB. [EAR: A/B the pre-gain on a peak chorus] ── */
   const LEVEL = {
     kick: 0.72, snare: 0.62, hat: 0.44, openhat: 0.34, ghost: 0.62, // ghost is a snare; quiet comes from velocity
     bass: 0.26, keys: 0.15, lead: 0.28, counter: 0.16,
@@ -1456,7 +1472,16 @@ function makeMaterials(chart){
       let m = intoBand(degMidi(root, mode, 9), LO, HI);
       let t = 0;
       for(const src of opts.augmentOf){
-        const st = (t * 2) % 16, b = Math.min(BARS - 1, Math.floor((t * 2) / 16));
+        /* Augmentation is twice as long as its source, so it runs out of loop
+           partway through: the tune it yields is A's OPENING, stretched to fill
+           four bars. It used to clamp the overflow with Math.min(BARS-1, ...),
+           which piled every remaining note into bar 3 -- 33% of the notes in the
+           last quarter, landing on already-occupied slots and silently dropping
+           6.4% of them at the reserved guard. A note past the end of the loop
+           does not belong in the last bar; it does not exist. */
+        const at = t * 2;
+        if(at >= BARS * 16) break;
+        const st = at % 16, b = Math.floor(at / 16);
         t += src.dur;
         const tones = chordSet[b].tones;
         m = intoBand(nearestTone(scaleStep(root, mode, m, wpick(rng, [[1, 2], [-1, 3], [0, 2]])), tones), LO, HI);
