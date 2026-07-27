@@ -556,6 +556,21 @@ for(let s=1;s<=SEEDS;s++){ const chart=conduct(s); songs.push({chart, song:compo
       if(ok && chart._progLen<=4) cycleOk++; }
   }
   check("no exact loop plays 3+ times (returns evolve)", overloop===0, overloop+"/"+songs.length);
+  // ONE VOICE, ONE PITCH, ONE INSTANT. The ghost's unison pass compares notes across
+  // parts and skips a part against itself, so a voice stacking its own pitch on a single
+  // sixteenth passed every check. The roll showed it as "3nt  D#4+D#4+D#4" -- one note at
+  // triple velocity, not a chord.
+  {
+    let stacked=0, tot=0;
+    for(const {song} of songs){
+      for(const p of song.parts){ if(p.role==="drums") continue;
+        const seen=new Set();
+        for(const n of p.notes){ if(n.midi==null) continue; tot++;
+          const k=n.bar+":"+n.step+":"+n.midi;
+          if(seen.has(k)) stacked++; else seen.add(k); } }
+    }
+    check("no voice stacks its own pitch on one step", stacked===0, stacked+"/"+tot);
+  }
   check("bass never below C2", bassLow===0, bassLow+"/"+songs.length);
   check("progression is a short cycle (≤4 chords, repeating)", cycleN>0&&cycleOk/cycleN>=0.9, cycleOk+"/"+cycleN);
 })();

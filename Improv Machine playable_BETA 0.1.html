@@ -6324,6 +6324,25 @@ function ghostPass(parts, chart){
       if(m!==nt.midi){ nt.midi=m; n++; } } }
   if(n)corrections.push({kind:"register re-check", count:n});
 
+  // 3c) A VOICE CANNOT PLAY THE SAME PITCH TWICE AT THE SAME INSTANT. The unison pass
+  //     below only compares notes ACROSS parts -- it explicitly skips a part against
+  //     itself -- so a voice stacking its own pitch on one sixteenth was invisible to
+  //     every check here. The roll prints it as "3nt  D#4+D#4+D#4": three notes, one
+  //     step, one pitch, which is not a chord, it is one note at triple velocity.
+  n=0;
+  for(const p of parts){
+    if(p.role==="drums") continue;
+    const seen=new Set(), keep=[];
+    for(const nt of p.notes){
+      if(nt.midi==null){ keep.push(nt); continue; }
+      const k=nt.bar+":"+nt.step+":"+nt.midi;
+      if(seen.has(k)){ n++; continue; }
+      seen.add(k); keep.push(nt);
+    }
+    if(n) p.notes=keep;
+  }
+  if(n)corrections.push({kind:"self-unison", count:n});
+
   // 4) UNISON COLLISIONS: same pitch, same absolute moment, different parts →
   //    the later voice is displaced up an octave (independence, no masking)
   n=0; let dropped=0;
@@ -8681,12 +8700,18 @@ function renderArrangement(chart, bundle, plan, rng){
         if(p.role==="harmony" && bag.some(n=>n._rehit)){
           const rr = makeRng(hashName(chart._seed||0, "compbar:"+bar));
           const steps = compRhythm(rr);
+          // one step per re-articulation, and no more re-articulations than steps.
+          // Cycling the list with `%` stacked three identical notes on one sixteenth
+          // when a bar had more re-hits than the draw gave steps -- the roll printed it
+          // as "3nt  D#4+D#4+D#4". The ghost's unison pass cannot catch that: it only
+          // compares notes ACROSS parts, and these are the same voice hitting itself.
           let i2 = 0;
           bag = bag.map(n=>{
             if(!n._rehit) return n;
-            const st2 = steps[(i2++) % steps.length];
+            if(i2 >= steps.length) return null;          // no step left: this hit sits out
+            const st2 = steps[i2++];
             return {...n, step:st2, dur:Math.max(1, Math.min(n.dur||2, 16-st2))};
-          });
+          }).filter(Boolean);
         }
         for(const n of bag){
           if(n.bar!==lbr) continue;
