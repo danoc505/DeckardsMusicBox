@@ -4794,9 +4794,9 @@ function bassEngine(chart, perception, rng){
   // LOCK TO THE KICK — the bass reinforces the drums' pulse so the low end drives as
   // ONE pocket, instead of floating on its own grid (the "no clear primary beat"
   // problem). The bass's anchor hits sit ON the kick; fills only go between them.
-  const _feelName = chart.feel || (chart.genre && (typeof GENRE_FEEL!=="undefined" && GENRE_FEEL[chart.genre])) || "boombap";
-  const _feel = (typeof FEELS!=="undefined" && FEELS[_feelName]) || null;
-  const kickPulse = (_feel && _feel.kick && _feel.kick.length) ? _feel.kick.slice() : [0,8];
+  // ...and it is the SAME pocket object the comp anchors to (songPulse), not a second
+  // copy of the lookup that could drift from it.
+  const kickPulse = songPulse(chart).slice();
   const rhythm = kickPulse.slice();                  // primary hits sit ON the kick pulse
   { // add fills between the kicks for movement AND so the line has enough material to
     // evolve loop-to-loop (Rule of 3). At least 4 hits total; the pulse stays the anchor.
@@ -4821,7 +4821,13 @@ function bassEngine(chart, perception, rng){
     const want = kickPulse.length + (_bassLed ? wpick(rng,[[2,3],[3,4],[4,3],[6,1]])
                                               : wpick(rng,[[0,5],[1,4],[2,2],[3,1]]));
     while(rhythm.length<want && fillCands.length){
-      const c = wpick(rng, fillCands.map(s=>[s, s%4===2?2:1]));   // favour the off-beat "and"s
+      // ...and the fills are weighted by the SAME profile the comp draws from, so the
+      // bass's extra notes land where a comping hand would be rather than in the gaps
+      // between its strikes. This used to favour the offbeat "and"s two to one, which
+      // is backwards for a bass: measured over 400 real bass tracks the four BEATS carry
+      // 58% of all onsets and the "and"s 29%. Both hands now draw from one distribution.
+      const _w = s => { const e = COMP_ONSET_W.find(x=>x[0]===s); return e ? e[1] : 1; };
+      const c = wpick(rng, fillCands.map(s=>[s, _w(s)]));
       if(rhythm.every(x=>Math.abs(x-c)>=2)) rhythm.push(c);
       const ci=fillCands.indexOf(c); if(ci>=0) fillCands.splice(ci,1);
     }
@@ -4958,14 +4964,25 @@ function harmonyEngine(chart, perception, rng){
   // ═══ THE STORED CHORD TEXTURE (the reference image, generated not copied) ═══
   // Created ONCE per song from randomness, then REPEATED every bar with minor
   // variation — this is the pattern the listener locks onto:
-  //  · staggered onsets: most voices do NOT start together (random offsets)
-  //  · outer voices SUSTAIN the bar
-  //  · one inner voice carries a small MOTIF — it re-articulates in a repeating
-  //    rhythm with neighbor-note movement, varied slightly every other phrase
+  //  · the chord is STRUCK AS A CHORD, all voices on the same sixteenth
+  //  · the whole chord re-articulates on the bar's comp rhythm
+  //  · each strike rings for the texture's `hold` fraction of the gap, then stops
   if(!chart._chordTexture){
-    const onsetPool=[0,1,2,3,4,6];
-    const offsets=[0];                                   // bottom voice anchors the beat
-    for(let i=1;i<6;i++) offsets.push(pick(rng,onsetPool));
+    // ── A CHORD IS STRUCK AS A CHORD ────────────────────────────────────────
+    // Measured over 300 full-band arrangements (corpus/harvest_ensemble.py): a real
+    // comp part strikes a MEDIAN OF 3.65 NOTES ON ONE SIXTEENTH. Ours struck 1.08 --
+    // reading seed 7 bar by bar, a whole song contained 191 single notes, 69 doubles
+    // and 2 triples -- because every voice of the chord drew its OWN onset from
+    // [0,1,2,3,4,6] sixteenths. That is not a strum, it is an arpeggio spread across a
+    // dotted quarter, and it meant the harmony part was never heard AS HARMONY: it was
+    // a fourth monophonic line competing with the tune. That is how five parts each
+    // hitting their own solo target still came out as a scramble instead of a band --
+    // every corpus measured before this one measured ONE PART ON ITS OWN, so nothing
+    // ever checked what the parts do relative to each other.
+    // A guitarist's strum and a pianist's roll DO spread the voices -- by milliseconds.
+    // They quantise onto the SAME sixteenth, which is exactly why the corpus reads 3.65
+    // and not 1. The spread is real; it belongs in microtiming, not on the grid.
+    const roll = pick(rng,[0,0,0,0.10,0.18,0.28]);        // per voice, in 16ths
     // NB: this used to also store `motifRhythm` -- one fixed set of re-articulation
     // steps for the whole song -- and `altRhythm`, its shifted twin for depart loops.
     // Both are GONE, not merely unused: the comp's re-articulation is now drawn per bar
@@ -4983,10 +5000,8 @@ function harmonyEngine(chart, perception, rng){
     // SEVENTHS are a jazz habit. Real pop comping holds a median of THREE pitch classes
     // in a bar -- a triad -- and a seventh on every chord is a fourth voice in every one
     // of them. The jazz-influenced genres keep the old rate; the rest are triadic.
-    chart._chordTexture={ offsets,
-      seventh: rng() < (["lofi","citypop","barber","wise"].indexOf(chart.genre)>=0 ? 0.4 : 0.18),
-      motifDir: rng()<0.5?1:-1,                          // neighbor direction
-      varyBar: 2+Math.floor(rng()*2) };                  // vary every 3rd-4th bar (Rule of 3)
+    chart._chordTexture={ roll,
+      seventh: rng() < (["lofi","citypop","barber","wise"].indexOf(chart.genre)>=0 ? 0.4 : 0.18) };
   }
   const TEX=chart._chordTexture;
   if(TEX.hold==null){
@@ -5026,20 +5041,8 @@ function harmonyEngine(chart, perception, rng){
   // not do. Drawn per BAR OF THE CELL from a seeded stream, so a loop still repeats
   // itself exactly while the four loops of a cell differ from each other.
   if(!TEX.rhythmFor){
-    const W=COMP_ONSET_W;
     TEX.rhythmFor = function(bar){
-      const r = makeRng(hashName(chart._seed||0, "comp:"+bar));
-      const pool = W.map(x=>x.slice()), out=[];
-      const n = 1+Math.floor(r()*3);                    // 1-3 re-articulations: measured,
-                                                       // a real comp plays 6.45 onsets a
-                                                       // bar and 2-4 put ours at 7.94
-      for(let k=0;k<n && pool.length;k++){
-        let tot=0; for(const x of pool) tot+=x[1];
-        let q=r()*tot;
-        for(let j=0;j<pool.length;j++){ q-=pool[j][1];
-          if(q<=0){ out.push(pool[j][0]); pool.splice(j,1); break; } }
-      }
-      return out.length ? out.sort((x,y)=>x-y) : [8];
+      return compRhythm(makeRng(hashName(chart._seed||0, "comp:"+bar)), songPulse(chart));
     };
   }
 
@@ -5076,75 +5079,42 @@ function harmonyEngine(chart, perception, rng){
     prevVoicing = voiced;
 
     const rel=stepsPerSlot, base0=slot*stepsPerSlot;
-    // THE CHORD RELEASES AS A BLOCK. Every voice of the chord stops at the SAME
-    // point in the slot, so the chord rings and then genuinely stops. Releasing each
-    // voice on its own clock does nothing audible: the voices have staggered onsets,
-    // so one voice's release is covered by the next voice's attack and the union
-    // still smears wall-to-wall (measured: shortening each note individually moved
-    // the chord's duty cycle 97% -> 95%). One shared cutoff is what makes the silence.
-    const slotEnd = Math.max(2, Math.round(rel*(TEX.hold==null?1:TEX.hold)));
+    // ── THE WHOLE CHORD RE-ARTICULATES, NOT ONE INNER VOICE ─────────────────
+    // The comp used to sustain its outer voices wall-to-wall and let a single inner
+    // voice carry all the rhythm. That is a pad with a tune living inside it, and it is
+    // the other half of why the harmony read as a fourth melodic line: the only thing
+    // MOVING in the chord part was one monophonic voice.
+    //
+    // Real comping re-strikes the CHORD. Reading Linda Ronstadt's "You're No Good" bar
+    // by bar, the comp is `#...#...#...#...` -- four strikes of three notes each; "When
+    // Will I Be Loved" is `#..B#..##..B#...` -- the full chord on the syncopations with
+    // single passing notes between them. So the bar's comp rhythm now drives every voice
+    // at once, which is also what locks the comp to the bass: they are the two hands of
+    // one rhythm section, and in 300 real arrangements they land on the same sixteenth
+    // 77% of the time (ours managed 51% while the chord was arpeggiating past it).
+    //
+    // HOW LONG EACH STRIKE RINGS. Real comp notes are a median of 2 sixteenths -- short.
+    // `hold` is now the fraction of the GAP TO THE NEXT STRIKE that the chord sounds
+    // for, so a comp at four strikes a bar with hold=0.5 rings two sixteenths and rests
+    // two, landing exactly on the measured median; hold=1.0 is the genuine pad, joined
+    // strike to strike. It used to be a fraction of the whole slot, which is why the
+    // chord's duty cycle could not be brought down without silencing re-articulations.
+    const HOLD = (TEX.hold==null?1:TEX.hold);
     const v=voiced.slice().sort((a,x)=>a-x);
-    const motifVoice = Math.max(1, Math.floor(v.length/2));   // an inner voice
-    v.forEach((midi,i)=>{
-      const onset = TEX.offsets[i]!=null ? TEX.offsets[i] : 0;
-      if(i===motifVoice && v.length>=3){
-        // THE INNER MOTIF: state the tone, then re-articulate on the stored
-        // rhythm with neighbor movement — repeated every bar, varied slightly
-        // on the vary-bar (Rule of 3: don't let the 3rd+ hearing be identical).
-        const RH=TEX.rhythmFor(b);       // this bar's own re-articulation (see above)
-        const _s0=Math.min(onset,rel-1);
-        notes.push({bar:b, step:base0+_s0, midi,
-                    dur:Math.max(1, Math.min(slotEnd,(RH[0]||8)) - _s0), vel:.4});
-        RH.forEach((s,k)=>{
-          const vary = (b % (TEX.varyBar+1) === TEX.varyBar);
-          let m = midi;
-          // A NEIGHBOUR ON EVERY OTHER RE-HIT SMEARS THE BAR. Real comping holds a
-          // median of 3 pitch classes in a bar (mean 2.99) -- essentially the chord and
-          // nothing else. Ours averaged 4.74 and hit six or more in a third of bars,
-          // because half of every re-articulation moved to a neighbour tone and each one
-          // adds a pitch class the chord does not contain. A neighbour is an ornament,
-          // not the default.
-          // ...and NEVER when the bar already carries two chords. Two changes in a bar
-          // is idiomatic for the jazz-influenced genres and already puts six or seven
-          // pitch classes in it; adding a neighbour on top is what pushed 22% of their
-          // bars past six, against a measured 3% for real comping.
-          const _nb = makeRng(hashName(chart._seed||0, "nb:"+b+":"+k));
-          if(k%2===0 && slotsPerBar<=1 && _nb()<0.35){      // occasionally: neighbor move
-            m = T.scaleStep(midi, scale, root, vary ? -TEX.motifDir : TEX.motifDir);
-            if(m<=v[i-1]||m>=v[i+1]) m = midi;             // stay INSIDE the chord
-            // and never a semitone from a voice that is still sounding: tonal,
-            // judging what sounds together, could not name those (C Eb A Bb).
-            for(const other of v){
-              if(other!==midi && Math.abs(m-other)===1){ m = midi; break; }
-            }
-          }
-          // GUARD EVERY motif note, not just the neighbour-move branch: a
-          // texture drawn from the corpus can re-articulate on steps where a
-          // sustained voice sits a semitone away, and tonal cannot name those.
-          for(const other of v){
-            if(other!==m && Math.abs(m-other)===1){ m = midi; break; }
-          }
-          // HOLD IS A DURATION, NOT A CURFEW. This skipped every re-articulation at or
-          // after the chord's release point, and for a stabby genre that release is step
-          // 4 -- so every re-hit on beats two, three and four was silently dropped and
-          // the comp came out as ONE STAB PER BAR for the whole song, which is exactly
-          // what reading seed 4 showed: ninety-six identical bars. Re-articulating IS
-          // the comp; `hold` says how long each hit rings, not that the bar is over.
-          const nx = RH[k+1] || rel;
-          if(s>=rel) return;                               // only the slot itself ends it
-          const _ring = Math.max(2, Math.round(rel*(TEX.hold==null?1:TEX.hold)));
-          notes.push({bar:b, step:base0+s, midi:m,
-                      dur:Math.max(1, Math.min(_ring, nx-s)), vel:.33, _rehit:true});
-        });
-      } else {
-        // outer & other voices: staggered start, then ring for the chord's HOLD
-        // fraction and RELEASE — the silence after the chord is the space the rest of
-        // the band plays into. (hold=1.0 is the old wall-to-wall sustain, correct for
-        // genuinely pad-led genres.)
-        const _st = Math.min(onset, rel-1);
-        notes.push({bar:b, step:base0+_st, midi,
-                    dur:Math.max(1, slotEnd - _st), vel:(i===0?.42:.36)});
-      }
+    const RH = TEX.rhythmFor(b) || [];
+    const strikes = [0].concat(RH.filter(s=>s>0 && s<rel))
+                       .sort((a,x)=>a-x).filter((s,i,a)=>i===0 || s!==a[i-1]);
+    const roll = TEX.roll || 0;
+    strikes.forEach((s,k)=>{
+      const nx = strikes[k+1]!=null ? strikes[k+1] : rel;
+      const ring = Math.max(1, Math.round((nx-s)*HOLD));
+      v.forEach((midi,i)=>{
+        notes.push({bar:b, step:base0+s, midi, dur:ring,
+                    // a strum or a roll is MILLISECONDS, not sixteenths: one step, the
+                    // voices staggered inside it by the scheduler's micro offset
+                    micro: roll*i,
+                    vel:(k===0 ? (i===0?.42:.36) : .30), _rehit:k>0});
+      });
     });
    }
   }
@@ -5710,16 +5680,50 @@ const BAND = { lead:[67,84], lead2:[64,81], counter:[57,72], pad:[52,67], arp:[6
    0.5-2.5%. Shared by the cell generator and the renderer so the two cannot drift. */
 const COMP_ONSET_W = [[4,85],[8,79],[12,79],[6,30],[10,29],[14,29],[2,19],
                       [11,13],[7,12],[3,10],[15,8],[13,8],[5,6],[9,4],[1,3]];
-function compRhythm(rng){
-  const pool = COMP_ONSET_W.map(x=>x.slice()), out=[];
-  const n = 1+Math.floor(rng()*3);
+/* THE POCKET — the steps the rhythm section shares, taken from the genre's kick
+   pattern. Read by the bass and by the comp, so the two cannot be on different grids. */
+function songPulse(chart){
+  if(chart._pulse) return chart._pulse;
+  const nm = chart.feel
+          || (chart.genre && (typeof GENRE_FEEL!=="undefined" && GENRE_FEEL[chart.genre]))
+          || "boombap";
+  const f = (typeof FEELS!=="undefined" && FEELS[nm]) || null;
+  return (chart._pulse = (f && f.kick && f.kick.length) ? f.kick.slice() : [0,8]);
+}
+/* ── THE TWO HANDS PLAY ONE RHYTHM ──────────────────────────────────────────
+   Measured over 300 full-band arrangements (corpus/harvest_ensemble.py): when the bass
+   plays, the comp is playing on the SAME SIXTEENTH 77% of the time. They are not two
+   parts that happen to coexist -- they are the two hands of one rhythm section, and that
+   lock is what a listener hears as a band rather than as players.
+
+   Ours drew the comp's steps from a weighted pool that had never heard of the bass and
+   managed 39%. Two people in the same room on different grids is exactly what "too much
+   going on and not enough working together" sounds like, and no amount of getting each
+   part right ON ITS OWN could have fixed it, because nothing measured the relationship.
+
+   So the comp is ANCHORED on the pocket -- the same kick pulse the bass anchors to --
+   and adds its own syncopations on top. The bass plays the skeleton, the comp plays the
+   skeleton plus more, which is the relationship the corpus actually shows: the comp
+   carries 46% of every onset in a real arrangement and the bass 10%.
+   (This also retires a second, byte-for-byte copy of the weighted draw that lived inside
+   the texture's `rhythmFor` -- two implementations of one rule, either of which could
+   have been edited without the other.) */
+function compRhythm(rng, pulse){
+  const out = new Set((pulse||[]).filter(s=>s>0 && s<16));
+  const pool = COMP_ONSET_W.filter(x=>x[0]>0 && !out.has(x[0])).map(x=>x.slice());
+  // HOW MANY STRIKES. A real comp plays 6.1 of them in a bar -- it is the densest part
+  // in the arrangement, carrying 46% of every onset in it. The pocket supplies two or
+  // three; these are the rest. Being the dense part is also what lets the comp COVER the
+  // bass: the bass's own fills land on the beats, and a comp that only drew one extra
+  // step left them uncovered (seed 12 missed on steps 4, 8 and 12 -- the beats).
+  const n = 2+Math.floor(rng()*3);                     // 2-4 syncopations of its own
   for(let k=0;k<n && pool.length;k++){
     let tot=0; for(const x of pool) tot+=x[1];
     let q=rng()*tot;
     for(let j=0;j<pool.length;j++){ q-=pool[j][1];
-      if(q<=0){ out.push(pool[j][0]); pool.splice(j,1); break; } }
+      if(q<=0){ out.add(pool[j][0]); pool.splice(j,1); break; } }
   }
-  return out.length ? out.sort((x,y)=>x-y) : [8];
+  return out.size ? [...out].sort((x,y)=>x-y) : [8];
 }
 /* Put a whole line back inside its register with ONE octave shift applied to every
    note. Register is HARD physics, and it was only being enforced where each generator
@@ -7377,11 +7381,13 @@ function drawTexture(rng){
   if(noCorpus()) return null;
   if(CORPUS && CORPUS.textures && CORPUS.textures.length && rng() < 0.5){
     const x = CORPUS.textures[Math.floor(rng()*CORPUS.textures.length)].t;
-    // motifRhythm / altRhythm are deliberately NOT carried over: nothing reads them any
-    // more (see the texture builder), and copying them would put stale rhythm data back
-    // into the object the comp is generated from.
-    return { offsets:x.offsets.slice(),
-             motifDir:x.motifDir, varyBar:x.varyBar, seventh:x.seventh, fromCorpus:true };
+    // motifRhythm / altRhythm / offsets / motifDir / varyBar are deliberately NOT carried
+    // over: nothing reads any of them any more (see the texture builder). `offsets` and
+    // `motifDir`/`varyBar` belonged to the one-inner-voice comp that the whole chord now
+    // replaces, and copying them would put stale rhythm data straight back into the
+    // object the comp is generated from -- which is precisely how two versions of a rule
+    // end up fighting where nobody can see it.
+    return { roll:(x.roll!=null?x.roll:0), seventh:x.seventh, fromCorpus:true };
   }
   return null;
 }
@@ -8765,17 +8771,26 @@ function renderArrangement(chart, bundle, plan, rng){
         // keeps moving for as long as the song lasts.
         if(p.role==="harmony" && bag.some(n=>n._rehit)){
           const rr = makeRng(hashName(chart._seed||0, "compbar:"+bar));
-          const steps = compRhythm(rr);
-          // one step per re-articulation, and no more re-articulations than steps.
-          // Cycling the list with `%` stacked three identical notes on one sixteenth
-          // when a bar had more re-hits than the draw gave steps -- the roll printed it
-          // as "3nt  D#4+D#4+D#4". The ghost's unison pass cannot catch that: it only
-          // compares notes ACROSS parts, and these are the same voice hitting itself.
-          let i2 = 0;
+          const steps = compRhythm(rr, songPulse(chart));
+          // ONE NEW STEP PER STRIKE, NOT PER NOTE. This used to advance the step index
+          // for every re-articulated NOTE, which was harmless for exactly as long as a
+          // re-hit WAS a single inner voice -- and shattered the chord the moment the
+          // whole chord started re-articulating. Seed 7 bar 25 came out as one note on
+          // step 9 and a different note on step 11, the other six dropped for want of a
+          // step: the builder emitted chords and this pass quietly turned them back into
+          // the scattered single notes it was written for. A strike is a chord; it moves
+          // as a chord or it does not move.
+          // (Grouping by step also retires the old `%` hazard the previous version
+          // guarded against -- three identical pitches on one sixteenth, which the
+          // ghost's unison pass cannot see because it only compares ACROSS parts. Each
+          // strike keeps its own distinct pitches and lands on its own distinct step.)
+          const order = [...new Set(bag.filter(n=>n._rehit).map(n=>n.step))].sort((a,b)=>a-b);
+          const remap = new Map();
+          order.forEach((s0,i2)=>{ if(i2 < steps.length) remap.set(s0, steps[i2]); });
           bag = bag.map(n=>{
             if(!n._rehit) return n;
-            if(i2 >= steps.length) return null;          // no step left: this hit sits out
-            const st2 = steps[i2++];
+            if(!remap.has(n.step)) return null;          // no step left: this strike sits out
+            const st2 = remap.get(n.step);
             return {...n, step:st2, dur:Math.max(1, Math.min(n.dur||2, 16-st2))};
           }).filter(Boolean);
         }
