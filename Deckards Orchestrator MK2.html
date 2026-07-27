@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Deckard's Orchestrator MK2</title>
+<style>
+  :root{ --bg:#14120f; --panel:#1d1a16; --ink:#d8d2c4; --dim:#8a8375; --hot:#d99a5b; }
+  body{ background:var(--bg); color:var(--ink); font:14px/1.5 "Iosevka","SF Mono",Menlo,monospace;
+        max-width:880px; margin:2.5rem auto; padding:0 1rem; }
+  h1{ font-size:16px; letter-spacing:.14em; color:var(--hot); font-weight:normal; }
+  h1 small{ color:var(--dim); letter-spacing:0; }
+  .row{ display:flex; gap:.6rem; align-items:center; margin:.9rem 0; flex-wrap:wrap; }
+  button{ background:var(--panel); color:var(--ink); border:1px solid #33302a;
+          padding:.45rem .9rem; font:inherit; cursor:pointer; }
+  button:hover{ border-color:var(--hot); color:var(--hot); }
+  input{ background:var(--panel); color:var(--ink); border:1px solid #33302a;
+         padding:.45rem .6rem; font:inherit; width:9ch; }
+  #info{ color:var(--dim); white-space:pre-wrap; }
+  #story{ color:var(--ink); white-space:pre-wrap; margin-top:.4rem; }
+  .law{ color:var(--dim); font-size:12px; border-left:2px solid #33302a; padding-left:.8rem; margin-top:2rem; }
+</style>
+</head>
+<body>
+<h1>DECKARD'S ORCHESTRATOR <small>MK2 — the rewrite. one genre, built to sound right first.</small></h1>
+<div class="row">
+  <input id="seed" value="1" inputmode="numeric" title="seed">
+  <button id="new">new song</button>
+  <button id="play">&#9654; play</button>
+  <button id="wav">render .wav</button>
+  <span id="pos"></span>
+</div>
+<div id="info">press "new song".</div>
+<div id="story"></div>
+<div class="law">Laws of this build: the render is the only truth &middot; sound before composition &middot;
+one owner per property, no correction layers &middot; the corpus informs, it never replaces &middot;
+same seed, same samples. See docs/MASTERDOC-REBUILD.md.</div>
+
+<script>
+"use strict";
+/* ═══════════════════════════════════════════════════════════════════════════
+   DECKARD'S ORCHESTRATOR MK2 — a clean rewrite. Nothing here is copied from
+   the first build. Architecture per docs/MASTERDOC-REBUILD.md:
+
+     stage 1 CHART  -> stage 2 FORM -> stage 3 LOOP -> stage 4 ARRANGEMENT
+     -> stage 5 PERFORMANCE (grid->seconds, velocity & timing decided ONCE)
+     -> stage 6 SOUND (one graph, one scheduler, live and render identical)
+
+   Each stage freezes its output. There is no correcting pass anywhere in this
+   file: material is valid because its OWNER made it valid, or its owner redrew.
+
+   Provenance marks: [corpus:<harvester>] = measured on the first build's
+   corpora (tables carried in the masterdoc appendix); [EAR] = taste decision
+   to be settled by A/B renders; [theory] = music-theory fact.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── RNG — seeded, named substreams, no Math.random anywhere in this file ── */
+function hash32(str){
+  let h = 2166136261 >>> 0;
+  for(let i = 0; i < str.length; i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return h >>> 0;
+}
+function makeRng(seed){
+  let s = (seed >>> 0) || 1;
+  return function(){
+    s = (s + 0x6D2B79F5) >>> 0;
+    let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+/* a named substream: the seed contract survives refactors because streams are
+   keyed by NAME, not by draw order across the whole program */
+const stream = (seed, name) => makeRng(hash32(name + ":" + (seed >>> 0)));
+/* weighted pick: pairs [value, weight] */
+function wpick(rng, pairs){
+  let total = 0; for(const p of pairs) total += p[1];
+  let x = rng() * total;
+  for(const p of pairs){ x -= p[1]; if(x <= 0) return p[0]; }
+  return pairs[pairs.length - 1][0];
+}
+const pick = (rng, arr) => arr[Math.floor(rng() * arr.length)];
+
+/* ── THEORY — pure functions, no state ─────────────────────────────────── */
+const MODES = {                                   // [theory]
+  minor:  [0,2,3,5,7,8,10],
+  dorian: [0,2,3,5,7,9,10],
+  major:  [0,2,4,5,7,9,11],
+};
+const NOTE_NAMES = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+const pc = m => ((m % 12) + 12) % 12;
+/* midi of scale degree d (any integer) in a mode rooted at `root` (pitch class) */
+function degMidi(root, mode, d){
+  const sc = MODES[mode];
+  const oct = Math.floor(d / 7), step = ((d % 7) + 7) % 7;
+  return root + sc[step] + 12 * oct;
+}
+/* chord tones of the triad/seventh on degree d — stacked thirds in the mode [theory] */
+function chordTones(root, mode, d, seventh){
+  const n = seventh ? 4 : 3, out = [];
+  for(let i = 0; i < n; i++) out.push(degMidi(root, mode, d + 2 * i));
+  return out;
+}
+const inKey = (root, mode, midi) => MODES[mode].includes(pc(midi - root));
+/* smallest octave shift landing m inside [lo,hi] (band width >= 12 assumed) */
+function intoBand(m, lo, hi){
+  while(m < lo) m += 12;
+  while(m > hi) m -= 12;
+  return m;
+}
+/* nearest chord tone to m, searching by semitone distance [theory] */
+function nearestTone(m, tones){
+  let best = tones[0], bd = 1e9;
+  for(const t of tones){
+    for(let o = -3; o <= 3; o++){
+      const c = t + 12 * o, d = Math.abs(c - m);
+      if(d < bd){ bd = d; best = c; }
+    }
+  }
+  return best;
+}
+/* step through the mode from midi m by `steps` scale degrees [theory] */
+function scaleStep(root, mode, m, steps){
+  const sc = MODES[mode];
+  /* locate m's degree (snap to nearest scale tone first) */
+  let bestD = 0, bd = 1e9;
+  for(let d = -21; d <= 42; d++){
+    const c = degMidi(root, mode, d), dist = Math.abs(c - m);
+    if(dist < bd){ bd = dist; bestD = d; }
+  }
+  return degMidi(root, mode, bestD + steps);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STAGE 6 FIRST — THE SOUND. Built and ear-gated before any composition
+   existed (Law 2). One graph builder used by the live context AND the offline
+   renderer; one scheduler used by both. There is no second code path.
+   ═══════════════════════════════════════════════════════════════════════════ */
+const Sound = (function(){
+
+  /* ── the palette's LEVEL TABLE. Peak amplitude per voice at velocity 1,
+     designed on paper so the worst-case simultaneous sum sits ~6 dB under the
+     clipper knee (masterdoc §4.2): kick .82 + bass .30 + 4 keys ×.15 + lead .28
+     + snare .55 + hat .20 = 2.75 raw -> ×0.5 pre-shaper = 1.37 into a knee
+     that softens from ~1.0 and hard-limits at 2.0. Musical peaks live in the
+     tanh bend, never at the wall. [EAR, gated on the reference bar] ── */
+  const LEVEL = {
+    kick: 0.72, snare: 0.62, hat: 0.44, openhat: 0.34, ghost: 0.62, // ghost is a snare; quiet comes from velocity
+    bass: 0.26, keys: 0.15, lead: 0.28, counter: 0.16,
+  };
+
+  let ctx = null;            // live context (lazy)
+  let liveGraph = null;      // built once per live context
+  let liveHandles = [];      // sources of the currently playing performance
+
+  /* ── the graph: role buses -> mix -> soft clip (real headroom) -> limiter.
+     Reverb is ONE send bus, low-cut at 200 Hz so kick/bass stay dry, returned
+     INTO the limiter path so the wet can never exceed the ceiling the dry
+     obeys (first build: wet bypassed the limiter; masterdoc App. B). ── */
+  function buildGraph(c, rng){
+    const g = { ctx: c };
+    g.bus = {};
+    for(const name of ["drums","bass","keys","lead"]){
+      g.bus[name] = c.createGain(); g.bus[name].gain.value = 1;
+    }
+    g.mix = c.createGain(); g.mix.gain.value = 1;
+    for(const name in g.bus) g.bus[name].connect(g.mix);
+
+    /* soft clip: curve tanh(3.6x) over the shaper's [-1,1] input with a 0.5
+       pre-gain — same small-signal slope as tanh(1.8x) but clipping begins at
+       twice the level. A WaveShaper hard-clamps outside [-1,1]; pretending
+       otherwise is how the first build square-waved its kicks. */
+    g.pre = c.createGain(); g.pre.gain.value = 0.5;
+    g.shaper = c.createWaveShaper();
+    {
+      const N = 2049, curve = new Float32Array(N);
+      for(let i = 0; i < N; i++){ const x = (i / (N - 1)) * 2 - 1; curve[i] = Math.tanh(3.6 * x); }
+      g.shaper.curve = curve; g.shaper.oversample = "2x";
+    }
+    g.post = c.createGain(); g.post.gain.value = 0.62;      // makeup back to sane loudness [EAR]
+    g.limit = c.createDynamicsCompressor();
+    g.limit.threshold.value = -6; g.limit.knee.value = 4;
+    g.limit.ratio.value = 12; g.limit.attack.value = 0.002; g.limit.release.value = 0.12;
+
+    g.mix.connect(g.pre); g.pre.connect(g.shaper); g.shaper.connect(g.post);
+    g.post.connect(g.limit); g.limit.connect(c.destination);
+
+    /* reverb: one synthetic room, deterministic (seeded noise IR — Law 7:
+       same seed, same samples, reverb included). */
+    const irSec = 1.4, sr = c.sampleRate, irLen = Math.floor(irSec * sr);
+    const ir = c.createBuffer(2, irLen, sr);
+    for(let ch = 0; ch < 2; ch++){
+      const d = ir.getChannelData(ch), r2 = makeRng(hash32("ir" + ch) ^ 0x5EED);
+      let lp = 0;
+      for(let i = 0; i < irLen; i++){
+        const t = i / irLen;
+        const w = (r2() * 2 - 1) * Math.pow(1 - t, 2.2);   // exp-ish decay
+        lp = lp + 0.32 * (w - lp);                          // darken the tail
+        d[i] = lp;
+      }
+    }
+    g.verb = c.createConvolver(); g.verb.buffer = ir;
+    g.send = c.createGain(); g.send.gain.value = 1;
+    g.sendHp = c.createBiquadFilter(); g.sendHp.type = "highpass";
+    g.sendHp.frequency.value = 200; g.sendHp.Q.value = 0.5;   // low end stays out of the wash
+    g.wet = c.createGain(); g.wet.gain.value = 0.16;          // lofi's space [EAR]
+    g.send.connect(g.sendHp); g.sendHp.connect(g.verb); g.verb.connect(g.wet);
+    g.wet.connect(g.post);                                    // wet obeys the limiter too
+
+    /* who feeds the space: keys and lead breathe; the rhythm section stays dry */
+    g.bus.keys.connect(g.send);
+    g.bus.lead.connect(g.send);
+    return g;
+  }
+
+  /* ── voices. Every pitched voice has energy in 3+ octaves (masterdoc §4.1):
+     per-oscillator gains are explicit and sum-documented. ── */
+  const V = {}; // each: (g, ev, t) -> array of source nodes (for live stop)
+
+  function adsr(c, node, t, peak, a, d, sus, holdTo, rel){
+    const p = node.gain;
+    p.setValueAtTime(0.0001, t);
+    p.linearRampToValueAtTime(peak, t + a);
+    p.exponentialRampToValueAtTime(Math.max(0.0002, peak * sus), t + a + d);
+    p.setValueAtTime(Math.max(0.0002, peak * sus), Math.max(t + a + d, holdTo));
+    p.exponentialRampToValueAtTime(0.0002, holdTo + rel);
+  }
+  function osc(c, type, freq, t, stopAt){
+    const o = c.createOscillator(); o.type = type; o.frequency.value = freq;
+    o.start(t); o.stop(stopAt);
+    return o;
+  }
+  const F = m => 440 * Math.pow(2, (m - 69) / 12);
+
+  /* keys — an electric-piano-ish stack: fundamental, a tine partial, and a saw
+     for the upper body a real EP's bark carries. Gains sum to 1.42; the level
+     table is calibrated against that sum. */
+  V.keys = function(g, ev, t){
+    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 0.35;
+    const out = c.createGain();
+    const flt = c.createBiquadFilter(); flt.type = "lowpass"; flt.Q.value = 0.4;
+    flt.frequency.setValueAtTime(2200 + 3600 * ev.gain, t);
+    flt.frequency.exponentialRampToValueAtTime(1200 + 1600 * ev.gain, t + 0.30);
+    out.connect(flt); flt.connect(g.bus.keys);
+    const mk = (type, mul, gain) => {
+      const o = osc(c, type, f * mul, t, end), og = c.createGain();
+      og.gain.value = gain; o.connect(og); og.connect(out); return o;
+    };
+    const nodes = [ mk("sine", 1, 1.0), mk("sine", 3.97, 0.30), mk("triangle", 2.0, 0.34), mk("sawtooth", 1.0, 0.42) ];
+    adsr(c, out, t, LEVEL.keys * ev.gain / 2.06, 0.004, 0.16, 0.55, t + ev.durSec, 0.30);
+    return nodes;
+  };
+
+  /* bass — a sub that is also audible on a laptop: sine body + quiet saw edge
+     + a 25 ms pick transient at 1.2 kHz. Sum 1.25. */
+  V.bass = function(g, ev, t){
+    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 0.20;
+    const out = c.createGain();
+    const flt = c.createBiquadFilter(); flt.type = "lowpass"; flt.frequency.value = 800; flt.Q.value = 0.6;
+    out.connect(flt); flt.connect(g.bus.bass);
+    const o1 = osc(c, "sine", f, t, end);
+    const o2 = osc(c, "sawtooth", f, t, end), g2 = c.createGain(); g2.gain.value = 0.38;
+    o1.connect(out); o2.connect(g2); g2.connect(out);
+    adsr(c, out, t, LEVEL.bass * ev.gain / 1.38, 0.006, 0.10, 0.72, t + ev.durSec, 0.14);
+    const pk = c.createOscillator(); pk.type = "triangle";
+    pk.frequency.setValueAtTime(1200, t); pk.frequency.exponentialRampToValueAtTime(300, t + 0.02);
+    const pg = c.createGain();
+    pg.gain.setValueAtTime(LEVEL.bass * ev.gain * 0.30, t);
+    pg.gain.exponentialRampToValueAtTime(0.0002, t + 0.028);
+    pk.connect(pg); pg.connect(g.bus.bass); pk.start(t); pk.stop(t + 0.05);
+    return [o1, o2, pk];
+  };
+
+  /* lead — triangle core, square color, saw air; slow vibrato so held notes
+     live. Sum 1.46. */
+  V.lead = function(g, ev, t){
+    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 0.30;
+    const out = c.createGain();
+    const flt = c.createBiquadFilter(); flt.type = "lowpass"; flt.Q.value = 0.7;
+    flt.frequency.setValueAtTime(3000 + 3600 * ev.gain, t);
+    flt.frequency.exponentialRampToValueAtTime(1800 + 1600 * ev.gain, t + 0.22);
+    out.connect(flt); flt.connect(g.bus.lead);
+    const mk = (type, mul, gain) => {
+      const o = osc(c, type, f * mul, t, end), og = c.createGain();
+      og.gain.value = gain; o.connect(og); og.connect(out); return o;
+    };
+    const nodes = [ mk("triangle", 1, 1.0), mk("square", 1.0, 0.34), mk("sawtooth", 2.0, 0.34) ];
+    const vib = osc(c, "sine", 5.1, t, end), vg = c.createGain();
+    vg.gain.setValueAtTime(0, t); vg.gain.linearRampToValueAtTime(f * 0.005, t + 0.35);
+    vib.connect(vg); for(const n of nodes) vg.connect(n.frequency);
+    nodes.push(vib);
+    const lvl = (ev.role === "counter" ? LEVEL.counter : LEVEL.lead);
+    adsr(c, out, t, lvl * ev.gain / 1.68, 0.010, 0.12, 0.62, t + ev.durSec, 0.24);
+    return nodes;
+  };
+  V.counter = V.lead;
+
+  /* the kit — every voice is BODY + ATTACK (masterdoc §4.1). */
+  function burst(c, t, durSec){
+    const len = Math.max(8, Math.floor(c.sampleRate * durSec));
+    const b = c.createBuffer(1, len, c.sampleRate), d = b.getChannelData(0);
+    const r2 = makeRng(hash32("noise") ^ len);           // deterministic noise
+    for(let i = 0; i < len; i++) d[i] = r2() * 2 - 1;
+    const src = c.createBufferSource(); src.buffer = b; src.start(t); return src;
+  }
+  V.kick = function(g, ev, t){
+    const c = g.ctx;
+    const o = c.createOscillator(); o.type = "sine";                       // body
+    o.frequency.setValueAtTime(150, t);
+    o.frequency.exponentialRampToValueAtTime(47, t + 0.055);
+    const og = c.createGain();
+    og.gain.setValueAtTime(LEVEL.kick * ev.gain, t);
+    og.gain.exponentialRampToValueAtTime(0.0002, t + 0.30);
+    o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + 0.34);
+    const n = burst(c, t, 0.016);                                          // beater
+    const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 2600; bp.Q.value = 1.1;
+    const ng = c.createGain();
+    ng.gain.setValueAtTime(LEVEL.kick * ev.gain * 0.42, t);
+    ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.015);
+    n.connect(bp); bp.connect(ng); ng.connect(g.bus.drums);
+    return [o, n];
+  };
+  V.snare = function(g, ev, t){
+    const c = g.ctx, out = [];
+    for(const [f0, f1, amp, dec] of [[330,195,0.32,0.09],[185,150,0.14,0.11]]){ // shell modes
+      const o = c.createOscillator(); o.type = "triangle";
+      o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + 0.05);
+      const og = c.createGain();
+      og.gain.setValueAtTime(LEVEL.snare * ev.gain * amp, t);
+      og.gain.exponentialRampToValueAtTime(0.0002, t + dec);
+      o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + dec + 0.02); out.push(o);
+    }
+    const crack = burst(c, t, 0.08);                                        // stick on head
+    const cb = c.createBiquadFilter(); cb.type = "bandpass"; cb.frequency.value = 1850; cb.Q.value = 0.8;
+    const cg = c.createGain();
+    cg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.72, t);
+    cg.gain.exponentialRampToValueAtTime(0.0002, t + 0.065);
+    crack.connect(cb); cb.connect(cg); cg.connect(g.bus.drums); out.push(crack);
+    const wire = burst(c, t, 0.16);                                         // the tail, not the sound
+    const wh = c.createBiquadFilter(); wh.type = "highpass"; wh.frequency.value = 4400;
+    const wg = c.createGain();
+    wg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.46, t);
+    wg.gain.exponentialRampToValueAtTime(0.0002, t + 0.13);
+    wire.connect(wh); wh.connect(wg); wg.connect(g.bus.drums); out.push(wire);
+    return out;
+  };
+  V.ghost = V.snare;
+  V.hat = function(g, ev, t){
+    const c = g.ctx;
+    const body = burst(c, t, 0.035);                        // metal body from the low mids up
+    const hb = c.createBiquadFilter(); hb.type = "highpass"; hb.frequency.value = 1600;
+    const bg = c.createGain();
+    bg.gain.setValueAtTime(LEVEL.hat * ev.gain, t);
+    bg.gain.exponentialRampToValueAtTime(0.0002, t + 0.030);
+    body.connect(hb); hb.connect(bg); bg.connect(g.bus.drums);
+    const shine = burst(c, t, 0.02);                        // stick shimmer
+    const sb = c.createBiquadFilter(); sb.type = "bandpass"; sb.frequency.value = 8200; sb.Q.value = 1.4;
+    const sg = c.createGain();
+    sg.gain.setValueAtTime(LEVEL.hat * ev.gain * 0.8, t);
+    sg.gain.exponentialRampToValueAtTime(0.0002, t + 0.018);
+    shine.connect(sb); sb.connect(sg); sg.connect(g.bus.drums);
+    return [body, shine];
+  };
+  V.openhat = function(g, ev, t){
+    const c = g.ctx;
+    const body = burst(c, t, 0.30);
+    const hb = c.createBiquadFilter(); hb.type = "highpass"; hb.frequency.value = 1400;
+    const bg = c.createGain();
+    bg.gain.setValueAtTime(LEVEL.openhat * ev.gain, t);
+    bg.gain.exponentialRampToValueAtTime(0.0002, t + 0.26);
+    body.connect(hb); hb.connect(bg); bg.connect(g.bus.drums);
+    return [body];
+  };
+
+  /* ── THE ONE SCHEDULER (Law 10). Events are already absolute seconds. ── */
+  function perform(graph, events, t0){
+    const handles = [];
+    for(const ev of events){
+      const voice = V[ev.voice];
+      if(!voice) throw new Error("unknown voice: " + ev.voice);   // fail loud, never substitute
+      const made = voice(graph, ev, t0 + ev.tSec);
+      for(const h of made) handles.push(h);
+    }
+    return handles;
+  }
+
+  function ensureLive(){
+    if(!ctx){
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      liveGraph = buildGraph(ctx);
+    }
+    if(ctx.state === "suspended") ctx.resume();
+    return ctx;
+  }
+  function playLive(events){
+    ensureLive();
+    stopLive();
+    liveHandles = perform(liveGraph, events, ctx.currentTime + 0.12);
+    return ctx.currentTime + 0.12;
+  }
+  function stopLive(){
+    for(const h of liveHandles){ try{ h.stop(0); }catch(e){} try{ h.disconnect(); }catch(e){} }
+    liveHandles = [];
+  }
+  async function renderWav(events, seconds, sampleRate){
+    const sr = sampleRate || 44100;
+    const off = new OfflineAudioContext(2, Math.ceil(seconds * sr), sr);
+    const graph = buildGraph(off);
+    perform(graph, events, 0.05);              // the SAME perform() — no second path
+    const buf = await off.startRendering();
+    return encodeWav(buf);
+  }
+  function encodeWav(buf){
+    const nCh = Math.min(2, buf.numberOfChannels), n = buf.length, sr = buf.sampleRate;
+    const bytes = 44 + n * nCh * 2, dv = new DataView(new ArrayBuffer(bytes));
+    const w4 = (o, s) => { for(let i = 0; i < 4; i++) dv.setUint8(o + i, s.charCodeAt(i)); };
+    w4(0, "RIFF"); dv.setUint32(4, bytes - 8, true); w4(8, "WAVE");
+    w4(12, "fmt "); dv.setUint32(16, 16, true); dv.setUint16(20, 1, true);
+    dv.setUint16(22, nCh, true); dv.setUint32(24, sr, true);
+    dv.setUint32(28, sr * nCh * 2, true); dv.setUint16(32, nCh * 2, true); dv.setUint16(34, 16, true);
+    w4(36, "data"); dv.setUint32(40, n * nCh * 2, true);
+    let o = 44;
+    const chans = []; for(let c = 0; c < nCh; c++) chans.push(buf.getChannelData(c));
+    for(let i = 0; i < n; i++) for(let c = 0; c < nCh; c++){
+      const v = Math.max(-1, Math.min(1, chans[c][i]));
+      dv.setInt16(o, v < 0 ? v * 0x8000 : v * 0x7FFF, true); o += 2;
+    }
+    return new Blob([dv], { type: "audio/wav" });
+  }
+
+  return { playLive, stopLive, renderWav, now: () => (ctx ? ctx.currentTime : 0), LEVEL };
+})();
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   M0 EAR GATE — the reference bar. Two bars of hardcoded groove; if this does
+   not sound like music through the engine, no composition happens (Law 2).
+   Kept forever as the canary: every synth change re-renders it.
+   ═══════════════════════════════════════════════════════════════════════════ */
+function referenceEvents(tempo){
+  const spb = (60 / tempo) / 4;                         // seconds per 16th
+  const ev = [];
+  const put = (bar, step, voice, gain, extra) =>
+    ev.push(Object.assign({ tSec: (bar * 16 + step) * spb, durSec: spb * 2, voice, gain, role: voice }, extra || {}));
+  for(let b = 0; b < 2; b++){
+    put(b, 0, "kick", 0.85); put(b, 10, "kick", 0.75);
+    put(b, 4, "snare", 0.95); put(b, 12, "snare", 1.0);
+    put(b, 7, "ghost", 0.16);
+    for(let s = 0; s < 16; s += 2) put(b, s, "hat", s % 4 === 0 ? 0.55 : 0.35);
+    put(b, 14, "openhat", 0.4);
+    /* A minor: bass A1-ish, keys Am7, lead a two-note answer */
+    put(b, 0, "bass", 0.9, { pitch: 45, durSec: spb * 8 });
+    put(b, 10, "bass", 0.7, { pitch: 45, durSec: spb * 3 });
+    put(b, 14, "bass", 0.6, { pitch: b ? 43 : 47, durSec: spb * 2 });
+    for(const [s, tones] of [[0, [57,60,64,67]], [10, [57,60,64,67]]])
+      for(const p of tones) put(b, s, "keys", 0.75, { pitch: p, durSec: spb * (s === 0 ? 6 : 4) });
+    if(b === 1){ put(1, 4, "lead", 0.8, { pitch: 76, durSec: spb * 3 });
+                 put(1, 8, "lead", 0.7, { pitch: 72, durSec: spb * 4 }); }
+  }
+  return ev;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STAGE 1 — CHART. Owns identity: key, mode, tempo. ~[corpus:conduct history]
+   Lofi lives at 74-92 bpm in minor-family modes.
+   ═══════════════════════════════════════════════════════════════════════════ */
+function makeChart(seed){
+  const rng = stream(seed, "chart");
+  const chart = {
+    seed,
+    genre: "lofi",
+    root: Math.floor(rng() * 12),
+    mode: wpick(rng, [["minor", 5], ["dorian", 4], ["major", 2]]),
+    tempo: 74 + Math.round(rng() * 18),
+  };
+  return Object.freeze(chart);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STAGE 2 — FORM. Owns where things go and how hard. Small grammar; the
+   energy curve rises to the last chorus. [corpus:harvest_structure — verse/
+   chorus alternation with intro/outro caps is the dominant lofi-scale form]
+   ═══════════════════════════════════════════════════════════════════════════ */
+function makeForm(chart){
+  const rng = stream(chart.seed, "form");
+  const body = wpick(rng, [
+    [["verse","chorus","verse","chorus"], 5],
+    [["verse","chorus","verse","chorus","chorus"], 2],
+    [["verse","verse","chorus","verse","chorus"], 2],
+  ]);
+  const secs = [{ fn: "intro", bars: 4 }];
+  for(const fn of body) secs.push({ fn, bars: 8 });
+  secs.push({ fn: "outro", bars: 4 });
+  let bar = 0;
+  const lastChorus = secs.map(s => s.fn).lastIndexOf("chorus");
+  const out = secs.map((s, i) => {
+    const o = {
+      fn: s.fn, startBar: bar, endBar: bar + s.bars,
+      energy: s.fn === "intro" ? 0.55 : s.fn === "outro" ? 0.55
+            : s.fn === "chorus" ? (i === lastChorus ? 1.0 : 0.92) : 0.74,
+      peak: i === lastChorus,
+    };
+    bar += s.bars;
+    return Object.freeze(o);
+  });
+  out.nBars = bar;
+  return Object.freeze(out);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STAGE 3 — THE LOOP. The heart. One 4-bar cell composed TOGETHER, in pocket
+   order: kick pocket -> drums -> bass ON the pocket -> keys ON the pocket ->
+   theme in the space left -> counter as the theme's harmony vocal.
+   Valid by construction; every note frozen on exit; NOTHING downstream
+   re-pitches anything.
+
+   Note (grid domain): { bar, step, dur, pitch|lane, vel, role }
+   vel here is the note's own dynamic 0..1 relative to its role — the absolute
+   level is Stage 5's property, written once.
+   ═══════════════════════════════════════════════════════════════════════════ */
+function makeLoop(chart){
+  const BARS = 4;
+  const { root, mode } = chart;
+  const loop = { bars: BARS, parts: {} };
+  const reserved = new Set();                       // (bar:step:pitch) taken so far
+  const key = (b, s, p) => b + ":" + s + ":" + p;
+
+  /* ── the pocket: ONE object read by drums, bass and keys (they share it by
+     construction — [corpus:harvest_ensemble] bass+comp co-onset 77%). Lofi
+     boombap kicks. [corpus:harvest_drums groove spines] ── */
+  const rngP = stream(chart.seed, "pocket");
+  const pocket = wpick(rngP, [
+    [[0, 10], 5], [[0, 7, 10], 3], [[0, 10, 14], 2], [[0, 6, 10], 2],
+  ]);
+
+  /* ── the progression: one per song (loop law). Degrees in the mode, sevenths
+     — the lofi sound. Pools are idiomatic [EAR + theory]; realized against
+     this chart's mode so every tone is in key by construction. ── */
+  const rngH = stream(chart.seed, "harmony");
+  const POOLS = {
+    minor:  [[[0,5,2,6], 4], [[0,3,5,6], 3], [[0,3,0,4], 2], [[5,3,0,6], 2]],
+    dorian: [[[0,3,0,3], 4], [[0,3,4,3], 3], [[0,5,3,4], 2]],
+    major:  [[[1,4,0,5], 4], [[3,4,2,5], 3], [[0,5,1,4], 2]],
+  };
+  const degrees = wpick(rngH, POOLS[mode]);
+  const chords = degrees.map(d => Object.freeze({
+    degree: d,
+    tones: chordTones(root, mode, d, true),        // sevenths: the lofi color [EAR]
+    rootMidi: intoBand(degMidi(root, mode, d), 33, 45),   // bass register [corpus:harvest_bass median 38]
+  }));
+  loop.chords = Object.freeze(chords);
+
+  /* ── drums. Backbeat law: snare 4 & 12, loudest thing in the bar
+     [corpus:harvest_drums accent rows]. Hats every 8th WITH the downbeat.
+     One ghost region per bar at most; one open hat as the loop's signature. ── */
+  {
+    const rng = stream(chart.seed, "drums");
+    const notes = [];
+    const ghostSpots = [3, 7, 9, 11, 15];
+    const openSpot = wpick(rng, [[14, 4], [7, 2], [-1, 4]]);   // -1: this loop has none
+    for(let b = 0; b < BARS; b++){
+      for(const s of pocket) notes.push({ bar: b, step: s, dur: 1, lane: "kick", vel: s === 0 ? 1.0 : 0.82, role: "drums" });
+      notes.push({ bar: b, step: 4,  dur: 1, lane: "snare", vel: 0.96, role: "drums" });
+      notes.push({ bar: b, step: 12, dur: 1, lane: "snare", vel: 1.0,  role: "drums" });
+      for(let s = 0; s < 16; s += 2)
+        notes.push({ bar: b, step: s, dur: 1, lane: "hat", vel: s % 4 === 0 ? 0.62 : 0.40, role: "drums" });
+      if(rng() < 0.55){
+        const gs = pick(rng, ghostSpots);
+        notes.push({ bar: b, step: gs, dur: 1, lane: "ghost", vel: 0.16, role: "drums" });
+      }
+      if(openSpot >= 0 && (b === 1 || b === 3))
+        notes.push({ bar: b, step: openSpot, dur: 1, lane: "openhat", vel: 0.5, role: "drums" });
+    }
+    loop.parts.drums = notes;
+  }
+
+  /* ── bass ON the pocket: root on the kick, held; a walk-up INTO the next
+     chord at bar end half the time — where real basses put their movement
+     [corpus:harvest_bass]. Density stays modest: this is a bed, not a solo. ── */
+  {
+    const rng = stream(chart.seed, "bass");
+    const notes = [];
+    for(let b = 0; b < BARS; b++){
+      const ch = chords[b], next = chords[(b + 1) % BARS];
+      notes.push({ bar: b, step: 0, dur: Math.min(8, pocket[1] || 8), pitch: ch.rootMidi, vel: 0.9, role: "bass" });
+      for(let i = 1; i < pocket.length; i++){
+        const s = pocket[i];
+        const choice = wpick(rng, [["root", 5], ["fifth", 3], ["rest", 2]]);
+        if(choice === "rest") continue;
+        const p = choice === "root" ? ch.rootMidi : intoBand(ch.rootMidi + 7, 33, 47);
+        notes.push({ bar: b, step: s, dur: 2, pitch: p, vel: 0.72, role: "bass" });
+      }
+      if(rng() < 0.5){                                       // the walk-up
+        const target = next.rootMidi;
+        const from = scaleStep(root, mode, target, wpick(rng, [[-1, 3], [1, 2]]));
+        notes.push({ bar: b, step: 14, dur: 2, pitch: intoBand(from, 33, 47), vel: 0.6, role: "bass" });
+      }
+    }
+    for(const n of notes) reserved.add(key(n.bar, n.step, n.pitch));
+    loop.parts.bass = notes;
+  }
+
+  /* ── keys ON the pocket: the chord is STRUCK AS A CHORD (3-4 notes on one
+     sixteenth [corpus:harvest_ensemble 3.65/strike]); strikes = pocket + one
+     or two syncopations of its own; each strike rings ~60% of the gap to the
+     next. Voice-led: each voicing chosen to move least from the previous. ── */
+  {
+    const rng = stream(chart.seed, "keys");
+    const SYNC = [[8, 5], [6, 3], [13, 2], [11, 2], [2, 1]];   // and-of-2, upbeats [corpus:harvest_accompaniment]
+    const notes = [];
+    let prev = null;
+    for(let b = 0; b < BARS; b++){
+      const ch = chords[b];
+      const strikes = [...new Set(pocket.concat([wpick(rng, SYNC)]))].sort((a, z) => a - z);
+      /* voicing: try each inversion in [52,74], keep the one nearest prev [theory] */
+      let voiced = null, bestCost = 1e9;
+      for(let inv = 0; inv < 4; inv++){
+        const cand = ch.tones.map((t, i) => intoBand(t + (i < inv ? 12 : 0), 52, 74)).sort((a, z) => a - z);
+        let cost = 0;
+        if(prev) for(let i = 0; i < Math.min(cand.length, prev.length); i++) cost += Math.abs(cand[i] - prev[i]);
+        else cost = Math.abs(cand[0] - 60);
+        if(cost < bestCost){ bestCost = cost; voiced = cand; }
+      }
+      prev = voiced;
+      for(let si = 0; si < strikes.length; si++){
+        const s = strikes[si], nxt = si + 1 < strikes.length ? strikes[si + 1] : 16;
+        const ring = Math.max(2, Math.round((nxt - s) * 0.6));
+        for(const p of voiced)
+          notes.push({ bar: b, step: s, dur: ring, pitch: p, vel: si === 0 ? 0.8 : 0.55, role: "keys" });
+      }
+    }
+    for(const n of notes) reserved.add(key(n.bar, n.step, n.pitch));
+    loop.parts.keys = notes;
+  }
+
+  /* ── the theme: a 2-bar QUESTION and a 2-bar ANSWER (contrary contour,
+     lands on a chord tone). Written INTO the space: it rests where the bar is
+     crowded, breathes at phrase ends, and redraws on any collision with what
+     is already placed (Law 3: valid by construction). Register [64,82].
+     [corpus:harvest_melody — 3-5 notes/sounding bar, near-flat beat onsets] ── */
+  {
+    const rng = stream(chart.seed, "theme");
+    const LO = 64, HI = 82;
+    const notes = [];
+    const onsetPool = [[0, 5], [2, 3], [4, 4], [6, 3], [8, 4], [10, 3], [12, 4], [14, 3]];
+    function makePhrase(startBar, dir, endOnTone){
+      let m = intoBand(degMidi(root, mode, 7 + Math.floor(rng() * 3)), 68, 78);
+      for(let b = startBar; b < startBar + 2; b++){
+        const isBreath = (b === startBar + 1);
+        const count = isBreath ? 1 + Math.floor(rng() * 2) : 3 + Math.floor(rng() * 2);
+        const steps = [];
+        const poolCopy = onsetPool.slice();
+        while(steps.length < count && poolCopy.length){
+          const s = wpick(rng, poolCopy);
+          poolCopy.splice(poolCopy.findIndex(x => x[0] === s), 1);
+          steps.push(s);
+        }
+        steps.sort((a, z) => a - z);
+        for(let i = 0; i < steps.length; i++){
+          const move = wpick(rng, [[0, 2], [dir, 5], [dir * 2, 2], [-dir, 2]]);
+          let cand = scaleStep(root, mode, m, move);
+          cand = intoBand(cand, LO, HI);
+          /* collision: never share an instant+pitch with anything placed; step
+             sideways in the scale, then give up the onset (a rest is legal) */
+          let tries = 0;
+          while(reserved.has(key(b % BARS, steps[i], cand)) && tries < 3){
+            cand = intoBand(scaleStep(root, mode, cand, 1), LO, HI); tries++;
+          }
+          if(reserved.has(key(b % BARS, steps[i], cand))) continue;
+          const dur = i + 1 < steps.length ? Math.max(1, steps[i + 1] - steps[i]) : (isBreath ? 4 : 3);
+          m = cand;
+          notes.push({ bar: b, step: steps[i], dur, pitch: cand, vel: steps[i] === 0 ? 0.85 : 0.7, role: "lead" });
+          reserved.add(key(b % BARS, steps[i], cand));
+        }
+      }
+      if(endOnTone && notes.length){                       // the answer RESOLVES [theory]
+        const last = notes[notes.length - 1];
+        const t = nearestTone(last.pitch, chords[(startBar + 1) % BARS].tones);
+        last.pitch = intoBand(t, LO, HI);
+        last.dur = Math.max(last.dur, 4);
+      }
+    }
+    makePhrase(0, rng() < 0.5 ? 1 : -1, false);            // question
+    const qDir = notes.length >= 2 && notes[notes.length - 1].pitch >= notes[0].pitch ? 1 : -1;
+    makePhrase(2, -qDir, true);                            // answer: contrary, resolving
+    loop.parts.lead = notes;
+  }
+
+  /* ── the counter: the theme's harmony vocal — the SAME rhythm a third below
+     in the scale, register [57,74]. [corpus:harvest_ensemble — the second
+     voice sings WITH the lead 54% of the time; it is not an answerer] ── */
+  {
+    const notes = [];
+    for(const n of loop.parts.lead){
+      let p = intoBand(scaleStep(root, mode, n.pitch, -2), 57, 74);
+      if(p === n.pitch) continue;
+      if(reserved.has(key(n.bar, n.step, p))) continue;
+      notes.push({ bar: n.bar, step: n.step, dur: n.dur, pitch: p, vel: n.vel * 0.8, role: "counter" });
+      reserved.add(key(n.bar, n.step, p));
+    }
+    loop.parts.counter = notes;
+  }
+
+  for(const role in loop.parts){
+    for(const n of loop.parts[role]) Object.freeze(n);
+    Object.freeze(loop.parts[role]);
+  }
+  loop.pocket = Object.freeze(pocket);
+  return Object.freeze(loop);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STAGE 4 — ARRANGEMENT. Owns the story. Subtractive: the loop is whole and
+   sections REMOVE. The lead sits out one whole interior section (the break —
+   [corpus:harvest_ensemble] real leads are silent 42% of bars, in SECTIONS).
+   Treatments are a closed set applied to copies; loop notes stay frozen.
+   ═══════════════════════════════════════════════════════════════════════════ */
+function makeArrangement(chart, form, loop){
+  const rng = stream(chart.seed, "arrange");
+  const ROLES = ["drums", "bass", "keys", "lead", "counter"];
+  /* the lead's section off: one non-peak chorus-or-verse in the interior */
+  const interior = form.map((s, i) => i).filter(i => i > 0 && i < form.length - 1 && !form[i].peak);
+  const leadOut = interior.length ? pick(rng, interior.slice(1)) : -1;
+
+  const sections = form.map((sec, i) => {
+    let active;
+    if(sec.fn === "intro")       active = ["keys", "bass"];
+    else if(sec.fn === "outro")  active = ["keys", "bass", "lead"];
+    else if(sec.fn === "verse")  active = ["drums", "bass", "keys", "lead"];
+    else                         active = ROLES.slice();          // chorus: everyone
+    if(i === leadOut) active = active.filter(r => r !== "lead" && r !== "counter");
+    return Object.freeze({
+      fn: sec.fn, startBar: sec.startBar, endBar: sec.endBar,
+      energy: sec.energy, peak: !!sec.peak, active: Object.freeze(active),
+      /* the empty: strip the rhythm section from the last bar before the peak
+         so the arrival lands into a hole [corpus:harvest_structure, 004 law] */
+      emptyLastBar: !!(form[i + 1] && form[i + 1].peak),
+    });
+  });
+  return Object.freeze(sections);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STAGE 5 — PERFORMANCE. Grid -> seconds. Owns, exclusively and finally:
+   GAIN (one formula: note.vel x section energy) and TIMING (one formula:
+   swing + lane lean + seeded jitter). Nothing before this stage knew seconds;
+   nothing after it may change gain or time.
+
+   swing: offbeat 8ths slide by 4r/(r+1)-2 sixteenths for ratio r [theory];
+   lofi ratio 1.5-1.66 [corpus:harvest_drums GROOVE_BOUNDS + EAR].
+   lean: the kit plays ~8 ms ahead [corpus:harvest_drums microtiming means].
+   jitter: +-5 ms, deterministic per note (Law 7).
+   ═══════════════════════════════════════════════════════════════════════════ */
+function makePerformance(chart, form, loop, sections){
+  const spb = (60 / chart.tempo) / 4;                     // seconds per 16th
+  const rngG = stream(chart.seed, "groove");
+  const swingRatio = 1.5 + rngG() * 0.16;
+  const swingOffset = 4 * swingRatio / (swingRatio + 1) - 2;   // in sixteenths
+  const events = [];
+
+  for(const sec of sections){
+    for(let bar = sec.startBar; bar < sec.endBar; bar++){
+      const loopBar = (bar - sec.startBar) % loop.bars;
+      const lastBar = bar === sec.endBar - 1;
+      for(const role of sec.active){
+        for(const n of loop.parts[role]){
+          if(n.bar !== loopBar) continue;
+          if(sec.emptyLastBar && lastBar && (role === "drums" || role === "bass") && n.step > 0) continue;
+          /* TIME — the one formula */
+          let stepPos = bar * 16 + n.step;
+          let micro = 0;
+          if(n.step % 4 === 2) micro += swingOffset;                       // offbeat 8ths swing
+          else if(n.step % 2 === 1) micro += swingOffset * 0.5;            // odd 16ths half
+          if(role === "drums") micro += -0.008 / spb;                      // the kit leans in
+          const j = stream(chart.seed, "jit:" + role + ":" + bar + ":" + n.step + ":" + (n.pitch || n.lane));
+          micro += ((j() * 2 - 1) * 0.005) / spb;                          // +-5 ms
+          /* GAIN — the one formula */
+          const gain = Math.min(1.25, n.vel * (0.72 + 0.28 * sec.energy) * (sec.peak ? 1.06 : 1));
+          const ev = {
+            tSec: (stepPos + micro) * spb,
+            durSec: Math.max(spb * 0.9, n.dur * spb),
+            voice: n.lane || role,          // drums dispatch by lane; pitched by role
+            role, gain,
+          };
+          if(n.pitch != null) ev.pitch = n.pitch;
+          events.push(Object.freeze(ev));
+        }
+      }
+    }
+  }
+  events.sort((a, z) => a.tSec - z.tSec);
+  const total = form.nBars * 16 * spb;
+  return Object.freeze({ events: Object.freeze(events), seconds: total + 2.5 });
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE PIPELINE — and the invariant checks at each seam. Checks THROW: a law
+   violation is a build failure, not a thing to correct downstream.
+   ═══════════════════════════════════════════════════════════════════════════ */
+function composeSong(seed){
+  const chart = makeChart(seed);
+  const form = makeForm(chart);
+  const loop = makeLoop(chart);
+  const sections = makeArrangement(chart, form, loop);
+  const perf = makePerformance(chart, form, loop, sections);
+
+  /* seam checks (Law: valid by construction — so PROVE it, every song) */
+  const seen = new Set();
+  for(const role in loop.parts) for(const n of loop.parts[role]){
+    if(n.pitch != null){
+      if(!inKey(chart.root, chart.mode, n.pitch))
+        throw new Error("out of key: " + role + " " + n.pitch);
+      const k = n.bar + ":" + n.step + ":" + n.pitch;
+      if(seen.has(k)) throw new Error("collision at " + k);
+      seen.add(k);
+    }
+    if(n.step < 0 || n.step > 15 || n.dur < 1) throw new Error("bad grid: " + role);
+  }
+  return { chart, form, loop, sections, perf };
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UI — thin. Owns no music state beyond the current Song.
+   ═══════════════════════════════════════════════════════════════════════════ */
+let SONG = null, playing = false;
+const $ = id => document.getElementById(id);
+
+function describe(song){
+  const c = song.chart;
+  $("info").textContent =
+    `lofi · ${NOTE_NAMES[c.root]} ${c.mode} · ${c.tempo} bpm · ${song.form.nBars} bars · seed ${c.seed}\n` +
+    `progression: ${song.loop.chords.map(ch => NOTE_NAMES[pc(degMidi(c.root, c.mode, ch.degree))] + (c.mode === "major" && ch.degree % 7 === 0 ? "maj7" : "7")).join("  ")}` +
+    ` · pocket [${song.loop.pocket.join(",")}] · ${song.perf.events.length} events`;
+  $("story").textContent = "story:  " + song.sections.map(s =>
+    `${s.fn}${s.peak ? "^" : ""}(${s.active.length === 5 ? "all" : s.active.join("+")})`).join("  →  ");
+}
+function newSong(forcedSeed){
+  const seed = forcedSeed != null ? forcedSeed : (parseInt($("seed").value, 10) || 1);
+  $("seed").value = seed;
+  SONG = composeSong(seed);
+  describe(SONG);
+  return SONG;
+}
+function togglePlay(){
+  if(!SONG) newSong();
+  if(playing){ Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play"; return; }
+  Sound.playLive(SONG.perf.events);
+  playing = true; $("play").innerHTML = "&#9632; stop";
+}
+async function downloadWav(){
+  if(!SONG) newSong();
+  $("wav").textContent = "rendering…"; $("wav").disabled = true;
+  try{
+    const blob = await Sound.renderWav(SONG.perf.events, SONG.perf.seconds, 44100);
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `mk2_lofi_${SONG.chart.tempo}bpm_seed${SONG.chart.seed}.wav`;
+    a.click();
+  } finally { $("wav").textContent = "render .wav"; $("wav").disabled = false; }
+}
+window.addEventListener("DOMContentLoaded", () => {
+  $("new").addEventListener("click", () => { Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play";
+    newSong(Math.floor((Date.now() % 100000)) ); });   // the button draws a fresh seed; the FIELD pins one
+  $("play").addEventListener("click", togglePlay);
+  $("wav").addEventListener("click", downloadWav);
+  $("seed").addEventListener("change", () => newSong());
+  newSong(1);
+});
+
+/* hooks for the render/measure harness — the same functions the UI uses */
+window.MK2 = {
+  composeSong, newSong,
+  referenceEvents,
+  renderWav: (events, seconds, sr) => Sound.renderWav(events, seconds, sr),
+};
+</script>
+</body>
+</html>
