@@ -28,6 +28,12 @@ const check = (name, ok, detail) => {
 const errors = [];
 let dilla = 0, hookExact = 0, hookTotal = 0, forms = new Set(), nondet = 0, ruleOf3 = 0;
 let dillaIdentical = 0, dillaChecked = 0;
+let rigs = {}, rigSame = 0, rigChecked = 0, rigVoices = 0, unknownVoice = [];
+
+/* the rig table is the ONLY thing a rig changes; every voice it names must exist */
+const RIG_NAMES = new Set(["kick","snare","ghost","hat","openhat","bass","keys","lead","counter",
+  "dacKick","dacSnare","dacGhost","psgHat","psgOpenhat",
+  "chipBass","chipKeys","chipLead","chipCounter","tape"]);
 
 for(let s = 1; s <= N; s++){
   let song;
@@ -35,6 +41,21 @@ for(let s = 1; s <= N; s++){
   catch(e){ errors.push(s + ": " + e.message); continue; }
 
   forms.add(song.form.map(x => x.fn).join(","));
+  rigs[song.chart.rig] = (rigs[song.chart.rig] || 0) + 1;
+  for(const e of song.perf.events)
+    if(!RIG_NAMES.has(e.voice) && unknownVoice.length < 3) unknownVoice.push(s + ":" + e.voice);
+
+  /* the rig changes WHO plays, never WHAT is played: strip `voice` and the two
+     performances must be byte-identical. This is the law that makes a rig a
+     lookup table instead of a second engine. */
+  if(s <= 40){
+    rigChecked++;
+    const strip = x => JSON.stringify(x.perf.events.map(e => { const { voice, ...rest } = e; return rest; }));
+    const b = M.composeSong(s, "band"), g = M.composeSong(s, "sega");
+    if(strip(b) === strip(g)) rigSame++;
+    if(JSON.stringify(b.perf.events.map(e => e.voice)) !==
+       JSON.stringify(g.perf.events.map(e => e.voice))) rigVoices++;
+  }
 
   /* determinism (a sample — full JSON compare is heavy at N=300) */
   if(s <= 40){
@@ -56,7 +77,7 @@ for(let s = 1; s <= N; s++){
   if(song.perf.groove.style === "dilla"){
     dilla++;
     const spb = (60 / song.chart.tempo) / 4;
-    const offs = song.perf.events.filter(e => e.voice === "snare")
+    const offs = song.perf.events.filter(e => e.lane === "snare")
       .map(e => { const st = e.tSec / spb; return st - Math.round(st); });
     if(offs.length > 4){
       dillaChecked++;
@@ -75,6 +96,13 @@ check("dilla offsets repeat identically bar to bar", dillaChecked > 0 && dillaId
       dillaIdentical + "/" + dillaChecked + " songs");
 check("forms genuinely vary", forms.size > N / 4, forms.size + " distinct in " + N);
 check("both grooves get drawn", dilla > N * 0.3 && dilla < N * 0.9, "dilla " + dilla + "/" + N);
+check("the rig changes who plays, never what is played", rigChecked > 0 && rigSame === rigChecked,
+      rigSame + "/" + rigChecked + " seeds identical apart from `voice`");
+check("...and it really does change who plays", rigVoices === rigChecked,
+      rigVoices + "/" + rigChecked + " seeds swap their voice names");
+check("every voice a rig names exists", unknownVoice.length === 0, unknownVoice.join(" | "));
+check("both rigs get drawn", (rigs.band || 0) > N * 0.4 && (rigs.sega || 0) > N * 0.1,
+      "band " + (rigs.band || 0) + " / sega " + (rigs.sega || 0));
 
 console.log("\n" + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);

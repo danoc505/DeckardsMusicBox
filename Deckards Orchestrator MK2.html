@@ -15,6 +15,9 @@
   button:hover{ border-color:var(--hot); color:var(--hot); }
   input{ background:var(--panel); color:var(--ink); border:1px solid #33302a;
          padding:.45rem .6rem; font:inherit; width:9ch; }
+  select{ background:var(--panel); color:var(--ink); border:1px solid #33302a;
+          padding:.45rem .6rem; font:inherit; cursor:pointer; }
+  select:hover{ border-color:var(--hot); }
   #info{ color:var(--dim); white-space:pre-wrap; }
   #story{ color:var(--ink); white-space:pre-wrap; margin-top:.4rem; }
   .law{ color:var(--dim); font-size:12px; border-left:2px solid #33302a; padding-left:.8rem; margin-top:2rem; }
@@ -24,6 +27,11 @@
 <h1>DECKARD'S ORCHESTRATOR <small>MK2 — the rewrite. one genre, built to sound right first.</small></h1>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
+  <select id="rig" title="which band plays it — same notes either way">
+    <option value="draw">rig: drawn</option>
+    <option value="band">rig: band</option>
+    <option value="sega">rig: SEGA — YM2612</option>
+  </select>
   <button id="new">new song</button>
   <button id="play">&#9654; play</button>
   <button id="wav">render .wav</button>
@@ -157,6 +165,169 @@ const EPIANO = (() => {
 })();
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   THE SEGA CHIPSET — Yamaha YM2612 (OPN2), the Mega Drive's FM chip.
+
+   This is NOT an emulation and does not pretend to be. It is a voice in the
+   chip's lineage: four operators, the chip's eight algorithms, the chip's
+   tuning grid, and the chip's envelope arithmetic, realised in ordinary
+   WebAudio nodes so it returns source nodes to dispatch() like every other
+   voice. A worklet emulator cannot do that -- a chip note is a postMessage,
+   not a node, so it returns nothing for stopLive() to stop, and "one dispatch,
+   one buildGraph" is the law this build is made of.
+
+   The die-accurate emulator (Nuked-OPN2, Alexey Khokholov, LGPL-2.1) stays the
+   drop-in path if we ever want the real ladder-effect grit -- which is why the
+   patch table below is stored in CHIP REGISTER UNITS: that backend reads it
+   unchanged. Every number here was read off Nuked-OPN2 rather than guessed;
+   [corpus:nuked-opn2] cites the function it came from.
+   ═══════════════════════════════════════════════════════════════════════════ */
+const YM = {
+  MASTER: 7670453,                  // NTSC Mega Drive master clock          [theory]
+  RATE:   7670453 / 144,            // the chip's own sample rate, 53267 Hz  [theory]
+  /* the envelope generator advances once every 3 chip samples: EnvelopePrepare
+     only acts when eg_quotient == 2, and eg_quotient cycles 0,1,2 once per
+     chip sample (OPN2_Clock case 1).                        [corpus:nuked-opn2] */
+  EG_HZ:  7670453 / 144 / 3,        // 17755.7 Hz
+  /* the EG level is 10 bits spanning 96 dB; TL enters it as tl<<3, so one TL
+     step is 8 EG units = 0.75 dB and amplitude is exactly 2^(-TL/8).
+                                                    [corpus:nuked-opn2, theory] */
+  EG_DB:  96 / 1024,
+  /* peak PHASE deviation of a modulator at TL 0, in CYCLES of its own frequency:
+     fm_out peaks at 8168 of a 14-bit signed word (FMGenerate), the FM path
+     halves it (FMPrepare: mod >>= 1), and the phase accumulator's top 10 bits
+     are one full cycle -- 8168/2/1024 = 3.988 cycles = 8*pi radians.
+                                                          [corpus:nuked-opn2] */
+  BETA:   3.988,
+  LFO_HZ: 6.37,                     // LFO freq index 3 (the datasheet table)  [theory]
+  PMS_CENTS: [0, 3.4, 6.7, 10, 14, 20, 40, 80],       // vibrato depth by PMS [theory]
+  DETUNE:  [16, 17, 19, 20, 22, 24, 27, 29],          // pg_detune  [corpus:nuked-opn2]
+  FN_NOTE: [0,0,0,0,0,0,0,1,2,3,3,3,3,3,3,3],         // fn_note    [corpus:nuked-opn2]
+  /* which operators of each algorithm reach the output, and who modulates whom.
+     Index 0..3 is operator 1..4 in the chip's logical order.             [theory] */
+  CARRIERS: [[3],[3],[3],[3],[1,3],[1,2,3],[1,2,3],[0,1,2,3]],
+  MOD: [
+    [[0,1],[1,2],[2,3]],            // 0: 1->2->3->4
+    [[0,2],[1,2],[2,3]],            // 1: (1+2)->3->4
+    [[0,3],[1,2],[2,3]],            // 2: (1 + (2->3)) -> 4
+    [[0,1],[1,3],[2,3]],            // 3: ((1->2) + 3) -> 4
+    [[0,1],[2,3]],                  // 4: 1->2, 3->4
+    [[0,1],[0,2],[0,3]],            // 5: 1 -> 2,3,4
+    [[0,1]],                        // 6: 1->2, plus 3 and 4 open
+    [],                             // 7: four carriers, additive
+  ],
+  DAC_HZ: 10500,                    // the Z80-driven PCM rate the DAC ran at [theory]
+  PSG_HZ: 3579545 / 16 / 16,        // SN76489 noise shift rate, 13982 Hz     [theory]
+};
+
+/* a midi note as the chip would tune it: block/fnum, the 5-bit key code that
+   scales every envelope rate, and the frequency the chip's grid can actually
+   reach (about 0.6 cents off equal temperament -- that error IS the chip). */
+function ymNote(midi){
+  const f = 440 * Math.pow(2, (midi - 69) / 12);
+  const calc = b => f * 144 * Math.pow(2, 21 - b) / YM.MASTER;
+  let block = 4, fnum = calc(block);
+  while(fnum > 2047 && block < 7){ block++; fnum = calc(block); }
+  while(fnum < 340  && block > 0){ block--; fnum = calc(block); }
+  block = Math.max(0, Math.min(7, block));
+  fnum  = Math.max(0, Math.min(2047, Math.round(fnum)));
+  return { kcode: (block << 2) | YM.FN_NOTE[fnum >> 7],
+           hz:    fnum * YM.MASTER / (144 * Math.pow(2, 21 - block)),
+           base:  ((fnum << 1) << block) >> 2 };     // phase-increment domain, for detune
+}
+/* DT: a sub-cent to ~5-cent offset applied BEFORE the MUL. Its job is not pitch,
+   it is slow beating between operators -- which is why stacked-detune patches
+   breathe.                                [corpus:nuked-opn2 PhaseCalcIncrement] */
+function ymDetune(dt, n){
+  const dl = dt & 3;
+  if(!dl) return 1;
+  const kc  = Math.min(0x1c, n.kcode);
+  const sum = (kc >> 2) + 9 + (dl === 3 ? 3 : dl === 2 ? 2 : 0);
+  const d   = YM.DETUNE[((sum & 1) << 2) | (kc & 3)] >> (9 - (sum >> 1));
+  const fr  = d / Math.max(1, n.base);
+  return (dt & 4) ? 1 - fr : 1 + fr;
+}
+const ymAmp   = tl => Math.pow(2, -tl / 8);           // TL -> linear amplitude [theory]
+/* THE LAW THE FIRST BUILD GOT BACKWARDS. TL is LOGARITHMIC at 0.75 dB/step, so
+   a linear velocity v becomes  TLoffset = -20*log10(v)/0.75 = -8*log2(v).
+   The first build wrote  atten = (1-v)*40  -- linear in v against a log scale,
+   so v=0.5 came out 15 dB down (2.8x too quiet) and its clamp made every note
+   at v>=1 identical.                                                  [theory] */
+const ymVelTL = v  => -8 * Math.log2(Math.max(0.02, v));
+/* rate r (0..63) -> dB per second. Anchor: at r=48 the EG advances 1 unit every
+   EG tick (inc = (r>>2) - 11), and every 4 steps of r doubles it -- below 48 the
+   same doubling comes from the eg_shift gate.            [corpus:nuked-opn2] */
+const ymDbSec = r  => (r <= 0) ? 0 : YM.EG_HZ * Math.pow(2, (r - 48) / 4) * YM.EG_DB;
+/* sustain level: 3 dB per SL step, and SL 15 is special-cased to 31 in the
+   register decode -- 93 dB, i.e. silence.                 [corpus:nuked-opn2] */
+const ymSlDb  = sl => (sl === 15 ? 31 : sl) * 32 * YM.EG_DB;
+/* op1's self-feedback is an audio-rate loop, which WebAudio cannot close inside
+   one render quantum. What feedback DOES, spectrally, is bend op1's sine toward
+   a saw as the loop gain rises: beta_self = 2*pi*7.977*2^(fb-10) radians
+   (FMPrepare: mod >>= 10 - fb) -- 0.10 rad at fb 1, 6.27 rad at fb 7. So we
+   substitute the waveform that self-modulation would have produced. This is the
+   one place the voice is knowingly not the chip.       [corpus:nuked-opn2, EAR] */
+const ymFbWave = fb => {
+  const b = fb ? 2 * Math.PI * 7.977 * Math.pow(2, fb - 10) : 0;
+  return b < 0.3 ? "sine" : b < 2.0 ? "triangle" : "sawtooth";
+};
+/* how much of velocity reaches MODULATOR total level, i.e. brightness. Carrier
+   level is NOT touched here: stage 5 already owns loudness and it arrives as
+   ev.gain. 1.0 would make a quiet note fully dark; 0 would make velocity purely
+   a volume control. [EAR] */
+const CHIP_VEL_TL = 0.6;
+
+/* THE PATCHES — decoded from the first build's OPN2_PATCHES register bytes,
+   which are genuine YM2612 patches and are the part of that build the ear
+   approved. Register packing, for the day a real chip reads these back:
+   0x30 = (dt<<4)|mul · 0x40 = tl · 0x50 = (rs<<6)|ar · 0x60 = d1r · 0x70 = d2r
+   0x80 = (sl<<4)|rr · 0xB0 = (fb<<3)|alg · 0xB4 = 0xC0|pms
+   [corpus: Improv Machine BETA 0.1, OPN2_PATCHES] */
+const YM_PATCH = {
+  /* alg 1 -- (1+2) -> 3 -> 4, every operator at the fundamental: the fat,
+     all-harmonic OPN2 bass. fb 5 puts the growl in op1. */
+  chipBass: { alg:1, fb:5, pms:0, ops:[
+    { dt:0, mul: 1, rs:0, tl:26, ar:31, d1r:10, d2r:4, sl:2, rr:10 },
+    { dt:0, mul: 1, rs:0, tl:24, ar:31, d1r: 8, d2r:4, sl:3, rr:10 },
+    { dt:0, mul: 1, rs:0, tl:34, ar:31, d1r: 9, d2r:4, sl:2, rr:10 },
+    { dt:0, mul: 1, rs:0, tl: 0, ar:31, d1r:10, d2r:5, sl:1, rr:10 } ] },
+  /* alg 5 -- op1 feeds three carriers. op3 rides at MUL 14 with the fastest
+     decay in the patch: that inharmonic partial IS the tine ping. */
+  chipKeys: { alg:5, fb:3, pms:1, ops:[
+    { dt:0, mul: 1, rs:0, tl:42, ar:31, d1r:14, d2r:6, sl:2, rr:10 },
+    { dt:0, mul: 1, rs:0, tl: 0, ar:31, d1r:12, d2r:5, sl:2, rr:10 },
+    { dt:0, mul:14, rs:0, tl:48, ar:31, d1r:16, d2r:7, sl:3, rr:10 },
+    { dt:0, mul: 1, rs:0, tl: 2, ar:31, d1r:12, d2r:5, sl:2, rr:10 } ] },
+  /* alg 4 -- two 2-op stacks in parallel, both modulators detuned (DT 3) and
+     the second stack an octave up: the singing Mega Drive lead. PMS 3 = 10 cents
+     of vibrato from the chip's own LFO. */
+  chipLead: { alg:4, fb:6, pms:3, ops:[
+    { dt:3, mul: 1, rs:0, tl:37, ar:31, d1r:13, d2r:2, sl:2, rr:10 },
+    { dt:0, mul: 1, rs:0, tl: 0, ar:29, d1r: 8, d2r:2, sl:1, rr:10 },
+    { dt:3, mul: 2, rs:0, tl:40, ar:31, d1r:12, d2r:2, sl:2, rr:10 },
+    { dt:0, mul: 1, rs:0, tl: 0, ar:29, d1r: 9, d2r:2, sl:1, rr:10 } ] },
+  /* alg 3 -- (1->2) and 3 both land on op4. Reedier and quicker to sit down
+     than the lead, which is what a counter-line is for. */
+  chipCounter: { alg:3, fb:4, pms:0, ops:[
+    { dt:2, mul: 1, rs:0, tl:40, ar:31, d1r:14, d2r:5, sl:3, rr:10 },
+    { dt:0, mul: 1, rs:0, tl:28, ar:31, d1r:12, d2r:5, sl:4, rr:10 },
+    { dt:2, mul: 2, rs:0, tl:42, ar:31, d1r:14, d2r:5, sl:3, rr:10 },
+    { dt:0, mul: 1, rs:0, tl:16, ar:31, d1r:12, d2r:5, sl:4, rr:10 } ] },
+};
+
+/* THE RIG TABLE — which instrument plays which part. Stage 5 still writes the
+   `voice` field in exactly one place; this is the lookup it writes through, and
+   it is the ONLY thing a rig changes. The notes, the groove, the form and every
+   gain are identical on both rigs: composeSong(1,"band") and composeSong(1,"sega")
+   are the same performance on two bands. A name missing here reaches dispatch()
+   as undefined and throws, which is exactly the behaviour we want. */
+const RIG = {
+  band: { kick:"kick",    snare:"snare",    ghost:"ghost",    hat:"hat",    openhat:"openhat",
+          bass:"bass",     keys:"keys",     lead:"lead",     counter:"counter" },
+  sega: { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat", openhat:"psgOpenhat",
+          bass:"chipBass", keys:"chipKeys", lead:"chipLead", counter:"chipCounter" },
+};
+
+/* ═══════════════════════════════════════════════════════════════════════════
    STAGE 6 FIRST — THE SOUND. Built and ear-gated before any composition
    existed (Law 2). One graph builder used by the live context AND the offline
    renderer; one scheduler used by both. There is no second code path.
@@ -250,6 +421,64 @@ const Sound = (function(){
       g.noise = c.createBuffer(1, len, c.sampleRate);
       const d = g.noise.getChannelData(0), r2 = makeRng(hash32("noisebank"));
       for(let i = 0; i < len; i++) d[i] = r2() * 2 - 1;
+    }
+
+    /* ── the SEGA rig's percussion sources. On a Mega Drive the drums are NOT FM:
+       kick and snare are 8-bit PCM pushed through the YM2612's DAC on channel 6
+       at roughly 10.5 kHz, and the hats are the SN76489's noise channel -- a
+       16-bit LFSR tapped at bits 0 and 3, shifted at 3579545/16/16 = 13982 Hz.
+       Baking the DAC drums as real low-rate 8-bit buffers gets the 5.25 kHz
+       Nyquist ceiling for free, which is exactly why a Mega Drive snare is a
+       thud with a hiss and not a crack.
+       Built UNCONDITIONALLY: the graph does not know which rig the song drew,
+       and that is what keeps buildGraph one code path. [theory: MD hardware] ── */
+    {
+      const q8 = x => Math.round(Math.max(-1, Math.min(1, x)) * 127) / 127;   // the DAC's 8 bits
+      const bake = (sec, fill) => {
+        const n = Math.ceil(sec * YM.DAC_HZ), b = c.createBuffer(1, n, YM.DAC_HZ);
+        const d = b.getChannelData(0);
+        fill(d, n, YM.DAC_HZ);
+        for(let i = 0; i < n; i++) d[i] = q8(d[i]);
+        return b;
+      };
+      g.dac = {};
+      /* the same kick V.kick draws -- 150 Hz falling to 47 over 55 ms, body to
+         -74 dB in 300 ms -- rendered as a sample instead of as nodes, so the two
+         rigs play the SAME drum, differently reproduced. */
+      g.dac.kick = bake(0.34, (d, n, sr) => {
+        let ph = 0;
+        for(let i = 0; i < n; i++){
+          const t = i / sr;
+          ph += 2 * Math.PI * (150 * Math.pow(47 / 150, Math.min(1, t / 0.055))) / sr;
+          d[i] = Math.sin(ph) * Math.exp(-t / 0.0352);
+        }
+      });
+      /* the snare: V.snare's two shell modes plus one high-passed noise crack.
+         No wire layer -- at 5.25 kHz there is nowhere for it to live. */
+      g.dac.snare = bake(0.22, (d, n, sr) => {
+        const r2 = makeRng(hash32("dacsnare"));
+        let p1 = 0, p2 = 0, hp = 0, prev = 0;
+        for(let i = 0; i < n; i++){
+          const t = i / sr;
+          p1 += 2 * Math.PI * (330 * Math.pow(195 / 330, Math.min(1, t / 0.05))) / sr;
+          p2 += 2 * Math.PI * (185 * Math.pow(150 / 185, Math.min(1, t / 0.05))) / sr;
+          const w = r2() * 2 - 1;
+          hp = 0.72 * (hp + w - prev); prev = w;              // one-pole HP, ~1.2 kHz
+          d[i] = Math.sin(p1) * 0.32 * Math.exp(-t / 0.0122)
+               + Math.sin(p2) * 0.14 * Math.exp(-t / 0.0168)
+               + hp           * 0.72 * Math.exp(-t / 0.0079);
+        }
+      });
+      /* the PSG noise channel: 16-bit LFSR, taps 0 and 3, feedback into bit 15 */
+      const pn = Math.ceil(2 * YM.PSG_HZ);
+      g.psg = c.createBuffer(1, pn, YM.PSG_HZ);
+      const pd = g.psg.getChannelData(0);
+      let lfsr = 0x8000;
+      for(let i = 0; i < pn; i++){
+        pd[i] = (lfsr & 1) ? 0.9 : -0.9;
+        const fb = (lfsr & 1) ^ ((lfsr >> 3) & 1);
+        lfsr = (lfsr >>> 1) | (fb << 15);
+      }
     }
     return g;
   }
@@ -448,10 +677,10 @@ const Sound = (function(){
   V.counter = V.lead;
 
   /* the kit — every voice is BODY + ATTACK (masterdoc §4.1). */
-  function burst(g, t, durSec){
-    const c = g.ctx;
-    const src = c.createBufferSource(); src.buffer = g.noise;
-    const span = g.noise.duration - durSec - 0.01;
+  function burst(g, t, durSec, buf){
+    const c = g.ctx, b = buf || g.noise;      // the PSG hats pass their own LFSR bank
+    const src = c.createBufferSource(); src.buffer = b;
+    const span = b.duration - durSec - 0.01;
     const off = (hash32("off:" + t.toFixed(5)) % 10000) / 10000 * Math.max(0.01, span);
     src.start(t, off, durSec + 0.01);
     return src;
@@ -543,6 +772,165 @@ const Sound = (function(){
     body.connect(hb); hb.connect(bg); bg.connect(g.bus.drums);
     return [body];
   };
+
+  /* ══ THE SEGA RIG ═══════════════════════════════════════════════════════════
+     ONE YM2612 CHANNEL. Four operators; each is an oscillator plus a gain that
+     carries that operator's envelope. For a CARRIER the gain is amplitude; for a
+     MODULATOR the gain is peak frequency deviation in HERTZ, because WebAudio's
+     frequency AudioParam gives us linear FM.
+
+     THE CONVERSION, derived rather than assumed, because guessing it cost 16 dB
+     of brightness once already: if the instantaneous frequency is
+     f_c + df*sin(2*pi*f_m*t), the phase is its integral, so the phase swings by
+     df/f_m RADIANS -- not cycles. The chip states its depth in cycles, so
+         df = 2*pi * BETA_cycles * f_mod.
+     A probe against a bare WebAudio FM pair confirms it: df = 26.7 Hz on a
+     164.8 Hz modulator measures its second harmonic at -21.7 dB, which is
+     J1/J0 at beta = 0.162 rad exactly -- one radian per cycle-unit, not 2*pi.
+     Note this scales with the MODULATOR's frequency, not the note's. (The first
+     build's FM fallback used f0 there, which silently divided every modulation
+     index by its own ratio.) Because that deviation depends only on the
+     modulator, ONE gain node feeds all of an operator's targets, exactly as the
+     chip's single output bus does. ═════════════════════════════════════════ */
+
+  /* one operator's envelope, in the chip's own arithmetic: the attack is a
+     first-order approach (the chip's inc = (~level << eg_inc) >> 5), and decay /
+     sustain-droop / release are LINEAR IN dB, which in amplitude is exactly an
+     exponential ramp. Returns when this operator finally reaches silence. */
+  function chipEnv(p, t, peak, op, ksv, keyOff){
+    const floor = Math.max(1e-7, peak * 1e-4);          // -80 dB; exp ramps need > 0
+    const rA  = Math.min(63, 2 * op.ar  + ksv);         // effective rate = 2*R + key scaling
+    const rD1 = Math.min(63, 2 * op.d1r + ksv);
+    const rD2 = Math.min(63, 2 * op.d2r + ksv);
+    const rR  = Math.min(63, 2 * ((op.rr << 1) | 1) + ksv);     // release: R = (RR<<1)|1
+    const tauA = (rA >= 62) ? 0 : 16 / (YM.EG_HZ * Math.pow(2, (rA - 48) / 4));
+    p.setValueAtTime(floor, t);
+    let cur = t, lvl = peak;
+    if(tauA > 0){
+      cur = t + Math.min(4 * tauA, 4.0);
+      p.setTargetAtTime(peak, t, tauA);
+      lvl = peak * 0.9817;                              // 1 - e^-4, where we cut the approach
+      p.setValueAtTime(lvl, cur);
+    } else {
+      p.setValueAtTime(peak, t);                        // AR 31: the chip jumps (eg_ratemax)
+    }
+    const off  = Math.max(keyOff, cur + 0.002);         // a note is never shorter than its attack
+    const dps1 = ymDbSec(rD1), dps2 = ymDbSec(rD2), sl = ymSlDb(op.sl);
+    const d1   = dps1 > 0 ? sl / dps1 : 1e9;
+    if(cur + d1 < off){                                 // D1 completes, then D2 droops
+      lvl = Math.max(floor, lvl * Math.pow(10, -sl / 20));
+      p.exponentialRampToValueAtTime(lvl, cur + d1);
+      cur += d1;
+      lvl = Math.max(floor, lvl * Math.pow(10, -(dps2 * (off - cur)) / 20));
+      p.exponentialRampToValueAtTime(lvl, off);
+    } else {                                            // key-off lands mid-decay
+      lvl = Math.max(floor, lvl * Math.pow(10, -(dps1 * (off - cur)) / 20));
+      p.exponentialRampToValueAtTime(lvl, off);
+    }
+    const rel = Math.min(2.0, 80 / Math.max(1, ymDbSec(rR)));
+    p.exponentialRampToValueAtTime(floor, off + rel);
+    return off + rel;
+  }
+
+  function chipVoice(patchName, busName, level){
+    return function(g, ev, t){
+      const c = g.ctx, P = YM_PATCH[patchName], n = ymNote(ev.pitch);
+      const ksv = op => n.kcode >> (op.rs ^ 3);         // KSR: high notes decay faster
+      const car = YM.CARRIERS[P.alg];
+      /* normalise by the algorithm's carrier sum so the peak is LEVEL * gain
+         whatever the algorithm -- the mix budget is unchanged by the rig, and no
+         master-chain constant moves when a song draws sega instead of band. */
+      let csum = 0; for(const i of car) csum += ymAmp(P.ops[i].tl);
+      const peak = level * ev.gain / csum;
+      const keyOff = t + ev.durSec;
+      const oscs = [], envs = [], freqs = [];
+      for(let i = 0; i < 4; i++){
+        const op = P.ops[i];
+        const f  = n.hz * (op.mul || 0.5) * ymDetune(op.dt, n);   // MUL 0 is the chip's half [theory]
+        const o  = c.createOscillator();
+        o.type = (i === 0) ? ymFbWave(P.fb) : "sine";             // op1 carries the feedback
+        o.frequency.value = f;
+        const gn = c.createGain();
+        o.connect(gn);
+        oscs.push(o); envs.push(gn); freqs.push(f);
+      }
+      const out = c.createGain(); out.gain.value = 1;
+      out.connect(g.bus[busName]);
+      let end = keyOff;
+      /* modulators: ONE envelope each, in Hz of peak deviation, fanned out to
+         every operator that modulator drives. Brightness tracks velocity through
+         the chip's own logarithmic TL law. */
+      const targets = new Map();
+      for(const [m, tgt] of YM.MOD[P.alg]){
+        if(!targets.has(m)) targets.set(m, []);
+        targets.get(m).push(tgt);
+      }
+      for(const [m, tgts] of targets){
+        const op = P.ops[m];
+        const tl = Math.max(0, op.tl + ymVelTL(ev.gain) * CHIP_VEL_TL);
+        const dev = 2 * Math.PI * YM.BETA * ymAmp(tl) * freqs[m];   // cycles -> Hz of deviation
+        const e   = chipEnv(envs[m].gain, t, dev, op, ksv(op), keyOff);
+        for(const tgt of tgts) envs[m].connect(oscs[tgt].frequency);
+        if(e > end) end = e;
+      }
+      /* carriers: envelope in amplitude. ev.gain is ALREADY the one gain formula's
+         output, so velocity is not applied a second time here. */
+      for(const i of car){
+        const op = P.ops[i];
+        const e  = chipEnv(envs[i].gain, t, peak * ymAmp(op.tl), op, ksv(op), keyOff);
+        envs[i].connect(out);
+        if(e > end) end = e;
+      }
+      const nodes = oscs.slice();
+      if(P.pms){
+        /* the chip's LFO is GLOBAL and phase-shared by all six channels; ours is
+           per note. That is the second knowing deviation in this voice. [EAR] */
+        const lfo = c.createOscillator(); lfo.type = "sine"; lfo.frequency.value = YM.LFO_HZ;
+        const depth = Math.pow(2, YM.PMS_CENTS[P.pms] / 1200) - 1;
+        for(let i = 0; i < 4; i++){
+          const d = c.createGain(); d.gain.value = depth * freqs[i];   // PM is proportional
+          lfo.connect(d); d.connect(oscs[i].frequency);
+        }
+        lfo.start(t); lfo.stop(end + 0.02);
+        nodes.push(lfo);
+      }
+      for(const o of oscs){ o.start(t); o.stop(end + 0.02); }
+      return nodes;
+    };
+  }
+  V.chipBass    = chipVoice("chipBass",    "bass", LEVEL.bass);
+  V.chipKeys    = chipVoice("chipKeys",    "keys", LEVEL.keys);
+  V.chipLead    = chipVoice("chipLead",    "lead", LEVEL.lead);
+  V.chipCounter = chipVoice("chipCounter", "lead", LEVEL.counter);
+
+  /* the SEGA rig's kit. The DAC voices play the baked 8-bit sample: the gain
+     scales the SAMPLE, not the converter, which is the point -- a quiet Mega
+     Drive kick is a quantised kick, not a smaller one. */
+  function dacHit(g, buf, t, lvl){
+    const c = g.ctx;
+    const src = c.createBufferSource(); src.buffer = buf;
+    const gn = c.createGain(); gn.gain.value = lvl;
+    src.connect(gn); gn.connect(g.bus.drums);
+    src.start(t); src.stop(t + buf.duration + 0.01);
+    return [src];
+  }
+  V.dacKick  = function(g, ev, t){ return dacHit(g, g.dac.kick,  t, LEVEL.kick  * ev.gain); };
+  V.dacSnare = function(g, ev, t){ return dacHit(g, g.dac.snare, t, LEVEL.snare * ev.gain); };
+  V.dacGhost = V.dacSnare;                       // a ghost is a snare; quiet comes from velocity
+  /* one PSG noise channel, one setting: no body-plus-shine pair, because the
+     hardware has exactly one noise source and that thinness IS the sound. */
+  function psgHit(g, ev, t, lvl, durSec, hpHz){
+    const c = g.ctx;
+    const src = burst(g, t, durSec, g.psg);
+    const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = hpHz;
+    const gn = c.createGain();
+    gn.gain.setValueAtTime(lvl * ev.gain, t);
+    gn.gain.exponentialRampToValueAtTime(0.0002, t + durSec);
+    src.connect(hp); hp.connect(gn); gn.connect(g.bus.drums);
+    return [src];
+  }
+  V.psgHat     = function(g, ev, t){ return psgHit(g, ev, t, LEVEL.hat,     0.030, 3200); };
+  V.psgOpenhat = function(g, ev, t){ return psgHit(g, ev, t, LEVEL.openhat, 0.260, 2600); };
 
   /* ── THE ONE SCHEDULER (Law 10): every event, live or offline, goes through
      dispatch(). Offline fires the whole list at once (an OfflineAudioContext does
@@ -657,11 +1045,19 @@ function referenceEvents(tempo){
    STAGE 1 — CHART. Owns identity: key, mode, tempo. ~[corpus:conduct history]
    Lofi lives at 74-92 bpm in minor-family modes.
    ═══════════════════════════════════════════════════════════════════════════ */
-function makeChart(seed){
+function makeChart(seed, rigChoice){
   const rng = stream(seed, "chart");
+  /* THE RIG -- which band plays this song. Drawn on its OWN named substream, so
+     adding it moved no existing song by a single sample: every draw in "chart"
+     keeps its place. That is what named substreams are for. The UI may PIN it,
+     exactly the way the seed field pins the seed -- an input to stage 1, never
+     an override applied downstream. The draw runs unconditionally either way. */
+  const rigRng   = stream(seed, "rig");
+  const rigDrawn = wpick(rigRng, [["band", 7], ["sega", 3]]);            // [EAR]
   const chart = {
     seed,
     genre: "lofi",
+    rig: (rigChoice === "band" || rigChoice === "sega") ? rigChoice : rigDrawn,
     root: Math.floor(rng() * 12),
     mode: wpick(rng, [["minor", 5], ["dorian", 4], ["major", 2]]),
     tempo: 74 + Math.round(rng() * 18),
@@ -1175,11 +1571,14 @@ function makePerformance(chart, form, materials, sections){
           const accent = (role === "drums" && DRUM_ACCENT[lane]) ? DRUM_ACCENT[lane][n.step % 16] : 1;
           const gain = Math.min(1.25, n.vel * accent * (0.72 + 0.28 * sec.energy) * (sec.peak ? 1.06 : 1));
           const artic = role === "bass" ? bassArtic : 1;
+          /* `lane` is WHAT the note is; `voice` is WHO plays it. The rig table is
+             the only thing between them, and it is consulted here, in the one
+             place stage 5 writes the field. */
           const ev = {
             tSec: (bar * 16 + n.step + micro) * spb,
             durSec: Math.max(spb * 0.9, n.dur * spb * artic),
-            voice: n.lane || role,
-            role, gain,
+            voice: RIG[chart.rig][n.lane || role],
+            role, lane: n.lane || role, gain,
           };
           if(role === "keys"){ ev.timbre = chart.keysChar; ev.wow = chart.tape.wow; }
           if(n.pitch != null) ev.pitch = n.pitch;
@@ -1197,8 +1596,8 @@ function makePerformance(chart, form, materials, sections){
    THE PIPELINE — and the invariant checks at each seam. Checks THROW: a law
    violation is a build failure, not a thing to correct downstream.
    ═══════════════════════════════════════════════════════════════════════════ */
-function composeSong(seed){
-  const chart = makeChart(seed);
+function composeSong(seed, rig){
+  const chart = makeChart(seed, rig);
   const form = makeForm(chart);
   const materials = makeMaterials(chart);
   const sections = makeArrangement(chart, form, materials);
@@ -1239,7 +1638,8 @@ function describe(song){
   const c = song.chart;
   const name = ch => NOTE_NAMES[pc(degMidi(c.root, c.mode, ch.degree))] + "7";
   $("info").textContent =
-    `lofi · ${NOTE_NAMES[c.root]} ${c.mode} · ${c.tempo} bpm · ${song.form.nBars} bars · seed ${c.seed}\n` +
+    `lofi · ${NOTE_NAMES[c.root]} ${c.mode} · ${c.tempo} bpm · rig ${c.rig} · ` +
+    `${song.form.nBars} bars · seed ${c.seed}\n` +
     `progression: ${song.materials.chords.map(name).join("  ")}` +
     `   ·   bridge goes: ${song.materials.bridgeChords.map(name).join("  ")}` +
     `   ·   pocket [${song.materials.pocket.join(",")}] · keys: ${c.keysChar}` +
@@ -1255,7 +1655,7 @@ function describe(song){
 function newSong(forcedSeed){
   const seed = forcedSeed != null ? forcedSeed : (parseInt($("seed").value, 10) || 1);
   $("seed").value = seed;
-  SONG = composeSong(seed);
+  SONG = composeSong(seed, $("rig").value);
   describe(SONG);
   return SONG;
 }
@@ -1272,7 +1672,7 @@ async function downloadWav(){
     const blob = await Sound.renderWav(SONG.perf.events, SONG.perf.seconds, 44100);
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `mk2_lofi_${SONG.chart.tempo}bpm_seed${SONG.chart.seed}.wav`;
+    a.download = `mk2_lofi_${SONG.chart.rig}_${SONG.chart.tempo}bpm_seed${SONG.chart.seed}.wav`;
     a.click();
   } finally { $("wav").textContent = "render .wav"; $("wav").disabled = false; }
 }
@@ -1282,6 +1682,8 @@ window.addEventListener("DOMContentLoaded", () => {
   $("play").addEventListener("click", togglePlay);
   $("wav").addEventListener("click", downloadWav);
   $("seed").addEventListener("change", () => newSong());
+  $("rig").addEventListener("change", () => {
+    Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play"; newSong(); });
   newSong(1);
 });
 
@@ -1290,6 +1692,10 @@ window.MK2 = {
   composeSong, newSong,
   referenceEvents,
   renderWav: (events, seconds, sr) => Sound.renderWav(events, seconds, sr),
+  /* measurement handles: the chip's tuning grid and its patch table, so a probe
+     can sweep TL/feedback and PROVE the FM depth behaves the way the arithmetic
+     says it does. The UI never touches these. */
+  ym: { patches: YM_PATCH, note: ymNote, rigs: RIG },
 };
 </script>
 </body>

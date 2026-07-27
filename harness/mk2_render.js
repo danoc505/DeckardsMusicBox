@@ -2,12 +2,14 @@
 /* Render MK2 output for measurement — the reference bar (M0 gate) and songs.
      node harness/mk2_render.js <outdir> ref            # the M0 ear-gate bar
      node harness/mk2_render.js <outdir> songs 1,2,3    # full songs by seed
+     node harness/mk2_render.js <outdir> songs 1 sega   # ...pinned to a rig
 */
 const { chromium } = require(require('path').resolve(__dirname, '..', 'node_modules', 'playwright'));
 const path = require('path'), fs = require('fs');
 const HTML = path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html');
 const OUT = process.argv[2], MODE = process.argv[3] || 'ref';
 const SEEDS = (process.argv[4] || '1').split(',').map(Number);
+const RIG = process.argv[5] || 'draw';        // 'band' | 'sega' | 'draw' (the seed decides)
 const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 
 (async () => {
@@ -40,20 +42,20 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
     await save('mk2_reference_bar.wav', r);
   } else {
     for(const seed of SEEDS){
-      const r = await page.evaluate(async (seed) => {
-        const song = MK2.composeSong(seed);
+      const r = await page.evaluate(async ({ seed, rig }) => {
+        const song = MK2.composeSong(seed, rig);
         // determinism proof: compose twice, compare event JSON
-        const song2 = MK2.composeSong(seed);
+        const song2 = MK2.composeSong(seed, rig);
         const j = s => JSON.stringify(s.perf.events);
         const det = j(song) === j(song2);
         const blob = await MK2.renderWav(song.perf.events, song.perf.seconds, 44100);
         const ab = await blob.arrayBuffer(); let s2 = ''; const u = new Uint8Array(ab);
         for(let i = 0; i < u.length; i += 0x8000) s2 += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000));
-        return { b64: btoa(s2), det, tempo: song.chart.tempo, mode: song.chart.mode,
+        return { b64: btoa(s2), det, tempo: song.chart.tempo, mode: song.chart.mode, rig: song.chart.rig,
                  nBars: song.form.nBars, events: song.perf.events.length };
-      }, seed);
-      console.log(`  seed ${seed}: ${r.mode} ${r.tempo}bpm ${r.nBars} bars ${r.events} events deterministic=${r.det}`);
-      await save(`mk2_seed${seed}.wav`, r.b64);
+      }, { seed, rig: RIG });
+      console.log(`  seed ${seed}: ${r.rig} · ${r.mode} ${r.tempo}bpm ${r.nBars} bars ${r.events} events deterministic=${r.det}`);
+      await save(`mk2_seed${seed}_${r.rig}.wav`, r.b64);
     }
   }
   if(errs.length) console.log('PAGE ERRORS: ' + errs.join(' | '));
