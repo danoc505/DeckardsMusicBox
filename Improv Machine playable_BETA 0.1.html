@@ -5417,9 +5417,31 @@ function drumEngine(chart, perception, rng){
               (typeof IMPROV_CORPUS!=="undefined" ? IMPROV_CORPUS : null);
     if(C && C.grooves && C.grooves.length && !(typeof globalThis!=="undefined" && globalThis.IMPROV_HARVEST)
        && rng() < 0.5){
+      // ── A HARVESTED GROOVE NEVER CROSSES FEELS ───────────────────────────
+      // This used to read:
+      //
+      //     const pool = sameFeel.length ? sameFeel : C.grooves;
+      //
+      // and every one of the 320 harvested grooves is tagged `breaks`. There is not a
+      // single boombap or four-on-the-floor in the bank. So EVERY non-jungle song asked
+      // for its own feel, found nothing, fell through to "any groove at all", and had a
+      // jungle amen bar pasted over its core groove -- in four bars of every eight,
+      // since A appears four times in ABACAAD, and REPLACING the bar outright rather
+      // than developing it.
+      //
+      // 15% of those grooves have no downbeat kick. That is why citypop seed 12 came out
+      // with its kick on steps 1 and 2 and its snare on 10, 12 and 14: not a variation
+      // of boombap, not a pattern at all -- a breakbeat fragment with its head cut off,
+      // in the one place the whole phrase is supposed to be anchored.
+      //
+      // Every other corpus draw here takes RELATIVE dimensions and merges them with what
+      // the song already has -- the bass unions its harvested rhythm with the kick pulse
+      // instead of replacing it. The kit was the one place that pasted a bar of absolute
+      // hits over the top of the genre's own spine. If nothing in the bank shares this
+      // song's feel, the song keeps its own groove.
       const sameFeel = C.grooves.filter(g=>g.feel===feelName);
-      const pool = sameFeel.length ? sameFeel : C.grooves;
-      CORPUS_GROOVE = pool[Math.floor(rng()*pool.length)];
+      const at = Math.floor(rng()*Math.max(1, sameFeel.length));   // drawn either way,
+      if(sameFeel.length) CORPUS_GROOVE = sameFeel[at];            // so the stream is stable
     }
   }
   for(let b=0; b<nBars; b++){
@@ -5503,12 +5525,24 @@ function buildBar(feel, rng, opts){
   // the same drums... most common is the snare." Ghosts are snare & hat, mixing
   // the high frequencies; TOMS are reserved for fills (not sprinkled on the core).
   const weak=[1,2,3,5,6,7,9,10,11,13,14,15].filter(s=>!feel.kick.includes(s)&&!feel.snarePlaces.includes(s));
+  // ONE TOM IN A GROOVE BAR, NEVER TWO. Measured on the Groove MIDI Dataset, toms are
+  // 6.7% of the hits in a groove bar and 27.5% in a fill: a drummer DOES drop a single
+  // tom into a groove, and what never belongs there is the fill GESTURE -- two or more
+  // toms in the same bar. A quarter of every ghost being a tom put a run in 7% of core
+  // bars. (This was invisible until the corpus groove stopped overwriting the A bar
+  // wholesale: the harvested grooves are all breakbeats and carry no toms at all, so
+  // replacing half of every song's core bars with them had been hiding it.)
+  let tomHere = false;
   for(const s of weak){
     if(rng() < feel.ghost*0.35){
       const r=rng();
-      const lane = (feel && feel._name==="breaks") ? (r<0.6?"snare":"closedHat")   // jungle: amen only, no toms
-                 : r<0.45 ? "snare" : r<0.75 ? "closedHat"
-                 : pick(rng,["lowTom","lowFloorTom","highFloorTom"]);   // the LOW half of the mix
+      let lane = (feel && feel._name==="breaks") ? (r<0.6?"snare":"closedHat")   // jungle: amen only, no toms
+               : r<0.45 ? "snare" : r<0.75 ? "closedHat"
+               : pick(rng,["lowTom","lowFloorTom","highFloorTom"]);   // the LOW half of the mix
+      if(lane.indexOf("Tom")>=0){
+        if(tomHere) lane = r<0.87 ? "closedHat" : "snare";   // the bar already has its one
+        else tomHere = true;
+      }
       bar.push({step:s, lane, vel: lane.indexOf("Tom")>=0?0.22:0.18, ghost:true});
     }
   }
