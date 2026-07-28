@@ -1677,7 +1677,16 @@ const GENRE = {
        the same pitch at the same instant is not a texture, it is a collision.
        The tune above still crosses the ostinato and works around it, because it
        reserves; the pads do not reserve, so they get their own air. */
-    registers: { bass: [28, 43], keys: [50, 66], counter: [55, 70], bassWalk: [28, 45],
+    /* the comp floor sits above the pedal's octave double (bass tops out at 43,
+       so the double reaches 55). It used to be 50, and the double was then
+       DROPPED on any bar whose root was high enough to collide -- so the pedal
+       was octave-doubled in some bars and not others, which is not a pedal, it
+       is an inconsistency. Give the double room and it is doubled every bar. */
+    /* the bands OVERLAP on purpose now, because buildKeys works around what the
+       bass and the ostinato already placed rather than relying on a table nobody
+       enforces. A comp squeezed into the ten semitones between a pedal and an
+       ostinato had no room for its own inversions. */
+    registers: { bass: [28, 43], keys: [50, 74], counter: [58, 76], bassWalk: [28, 45],
                  ostinato: [67, 84],
                  themeA: [69, 86], themeB: [71, 88], themeC: [67, 83] },
 
@@ -1972,8 +1981,19 @@ function makeMaterials(chart){
     }
     return notes;
   }
+  /* THE COMP AVOIDS WHAT IS ALREADY PLACED. It used to rely purely on its declared
+     register not overlapping anyone else's -- which turns every new genre into a
+     game of register tetris: DKC's pedal reaches up to 55 and its ostinato starts
+     at 67, leaving the comp ten semitones to live in, too narrow for its own
+     inversions. And "the bands do not overlap" is a fact about a table that
+     nothing enforces, so a genre that gets it wrong produces unison collisions in
+     almost every seed. The builder is an OWNER, so it makes valid material: it is
+     handed what the bass and the ostinato already put on the grid and picks an
+     inversion that lands on none of them at a step it strikes. If none fits it
+     THROWS, exactly like the band check. It never nudges a note. */
   function buildKeys(chordSet, streamName, opts){
     const rng = stream(chart.seed, streamName);
+    const taken = opts.avoid || new Set();
     const SYNC = [[8, 5], [6, 3], [13, 2], [11, 2], [2, 1]];
     const notes = [];
     let prev = null;
@@ -2001,11 +2021,15 @@ function makeMaterials(chart){
       for(let inv = 0; inv < base.length; inv++){
         const cand = base.map((p, i) => i < inv ? p + 12 : p).sort((a, z) => a - z);
         if(cand[cand.length - 1] > R.keys[1]) continue;   // this inversion does not fit
+        /* ...and it must not land on a pitch somebody else already owns, at a
+           step this voicing actually strikes. Onsets are what collide. */
+        if(strikes.some(st => cand.some(pch => taken.has(key(b, st, pch))))) continue;
         let cost = prev ? 0 : Math.abs(cand[0] - 60);
         if(prev) for(let i = 0; i < Math.min(cand.length, prev.length); i++) cost += Math.abs(cand[i] - prev[i]);
         if(cost < bestCost){ bestCost = cost; voiced = cand; }
       }
-      if(!voiced) throw new Error("no keys voicing fits [" + R.keys + "] on bar " + b);
+      if(!voiced) throw new Error("no keys voicing fits [" + R.keys + "] clear of the bass and " +
+                                 "ostinato on bar " + b);
       prev = voiced;
       for(let si = 0; si < strikes.length; si++){
         const st = strikes[si], nxt = si + 1 < strikes.length ? strikes[si + 1] : 16;
@@ -2243,7 +2267,8 @@ function makeMaterials(chart){
   const drumsB = buildDrums("drumsB", "lift");     // the chorus opens up
   const drumsC = buildDrums("drumsC", "depart");   // the bridge thins out
   const bassA  = buildBass(chords, "bass", false);
-  const keysA  = buildKeys(chords, "keys", { dense: false });
+  const placed = reserve(ostA.concat(bassA));
+  const keysA  = buildKeys(chords, "keys", { dense: false, avoid: placed });
   /* the ostinato goes into every reservation set BEFORE the tunes are drawn.
      It is the fixed thing in this music -- the cell that does not move -- so
      the melody and the counter are the parts that must find room, not it. */
@@ -2254,7 +2279,7 @@ function makeMaterials(chart){
   /* ── B = hook(A): same bed family, new tune FROM A's DNA, denser comp,
      a half-octave up [corpus: verse->chorus register lift ~ +1.5 st; the hook
      sits above the verse, not an octave above it] ── */
-  const keysB  = buildKeys(chords, "keysB", { dense: true });
+  const keysB  = buildKeys(chords, "keysB", { dense: true, avoid: placed });
   const resB   = reserve(ostA.concat(bassA, keysB));
   const themeB = buildTheme(chords, "themeB", resB,
     { lo: R.themeB[0], hi: R.themeB[1], dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
@@ -2263,8 +2288,9 @@ function makeMaterials(chart){
   /* ── C = depart(A): new changes, sustained keys, roots-only bass,
      A's rhythm augmented ── */
   const bassC  = buildBass(bridgeChords, "bassC", true);
-  const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true });
-  const resC   = reserve(bassC.concat(keysC));
+  const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true,
+                                                   avoid: reserve(ostA.concat(bassC)) });
+  const resC   = reserve(ostA.concat(bassC, keysC));
   const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: R.themeC[0], hi: R.themeC[1], augmentOf: themeA.notes });
 
   /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
@@ -2303,7 +2329,12 @@ function makeMaterials(chart){
     // wants one, it derives it from leadAvar, it does not borrow A's.
     Avar: { drums: drumsA, bass: bassA, keys: keysA, lead: leadAvar,     counter: [], ostinato: ostA },
     B:    { drums: drumsB, bass: bassA, keys: keysB, lead: themeB.notes, counter: counterB, ostinato: ostA },
-    C:    { drums: drumsC, bass: bassC, keys: keysC, lead: themeC.notes, counter: [], ostinato: [] },
+    /* C KEEPS THE OSTINATO. It ignores the chords by construction, so it needs no
+       new version for the bridge's new changes -- and letting it run straight
+       through IS the departure: a constant cell with the harmony moving under it
+       is the device these tracks are built on, applied at section scale instead
+       of bar scale. Dropping it made the bridge stop sounding like the genre. */
+    C:    { drums: drumsC, bass: bassC, keys: keysC, lead: themeC.notes, counter: [], ostinato: ostA },
     fill, ending,
   };
   /* FREEZE DEEP, not just the top. A, Avar and B deliberately SHARE drumsA and

@@ -142,7 +142,7 @@ console.log(`  B's hook restates:     bars 1-2 vs 3-4 ${bar(B.lead,0) === bar(B.
 console.log(`  C leaves the changes?  ${same(song.materials.chords.map(c=>c.degree).join(),
                                               song.materials.bridgeChords.map(c=>c.degree).join())}`);
 console.log(`  C's tune vs A's:       ${Cm.lead.length} notes vs ${A.lead.length} ` +
-            `(augmentation halves density)`);
+            `(augmentation doubles durations; it halves density only when A fills the loop)`);
 console.log(`  Avar first half:       ${same(rhythm(A.lead.filter(n=>n.bar<2)), rhythm(V.lead.filter(n=>n.bar<2)))}`);
 console.log(`  Avar second half:      ${same(rhythm(A.lead.filter(n=>n.bar>=2)), rhythm(V.lead.filter(n=>n.bar>=2)))}`);
 const iv = ns => { const s = ns.slice().sort((a,z)=>a.bar-z.bar||a.step-z.step); const o=[];
