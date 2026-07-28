@@ -1569,7 +1569,14 @@ const GENRE = {
     /* counted by pitch-class duration weight over ten tracks: aeolian 6,
        mixolydian 3 (Forest Interlude Bb mixo, Ice Cave Chant A mixo), major 1 */
     modes:    [["minor", 6], ["mixolydian", 3], ["major", 1]],
-    rig:      [["band", 1]],
+    /* THE SEGA RIG, by the user's call: "we dont need snes chip we are using the
+       Sega one close enough". The research wanted an SNES rig -- a sample
+       playback chip with an 8-tap FIR echo is genuinely a different instrument
+       from a YM2612 -- but we have a real chip voice already built and measured,
+       and a chip DKC is closer to the thing than a Rhodes-and-drumkit DKC is.
+       Weighted toward sega and not pinned to it, so the band rig stays as the
+       A/B: the notes are identical either way and the seam battery proves it. */
+    rig:      [["sega", 7], ["band", 3]],
     keysChar: [["rhodes", 1]],
     tape:     { wow: [0, 0], crackle: [0, 0] },       // a cartridge has no tape
 
