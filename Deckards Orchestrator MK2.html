@@ -362,9 +362,9 @@ const YM_PATCH = {
    as undefined and throws, which is exactly the behaviour we want. */
 const RIG = {
   band: { kick:"kick",    snare:"snare",    ghost:"ghost",    hat:"hat",    openhat:"openhat",
-          bass:"bass",     keys:"keys",     lead:"lead",     counter:"counter" },
+          bass:"bass",     keys:"keys",     lead:"lead",     counter:"counter", ostinato:"counter" },
   sega: { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat", openhat:"psgOpenhat",
-          bass:"chipBass", keys:"chipKeys", lead:"chipLead", counter:"chipCounter" },
+          bass:"chipBass", keys:"chipKeys", lead:"chipLead", counter:"chipCounter", ostinato:"chipCounter" },
   /* synthwave's band. The comp goes to the CS-80 voice, which has been built and
      probed since the synth research and has been sitting unwired waiting for a
      genre that wants it: two parallel layers, each with its own resonant HP and
@@ -372,7 +372,7 @@ const RIG = {
      CS-80, but of everything in this palette it is the one in that lineage, and
      it is the right instrument for a wide sustained synth comp. [EAR] */
   neon: { kick:"kick",    snare:"snare",    ghost:"ghost",    hat:"hat",    openhat:"openhat",
-          bass:"bass",     keys:"cs80",     lead:"lead",     counter:"counter" },
+          bass:"bass",     keys:"cs80",     lead:"lead",     counter:"counter", ostinato:"counter" },
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1410,6 +1410,8 @@ const GENRE = {
     },
     space: { wet: 0.16 },                                                            // [EAR]
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },   // lofi has no ribbon
+    bassStyle: "follow",
+    ostinato: null,                                          // lofi has no ostinato
   },
 
   /* ═════════════════════════════════════════════════════════════════════════
@@ -1534,6 +1536,146 @@ const GENRE = {
     },
     space: { wet: 0.30 },        // a WET genre: plate/hall, roughly double lofi [tut:futureproof]
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },   // no ribbon in this genre
+    bassStyle: "follow",
+    ostinato: null,
+  },
+
+  /* ═════════════════════════════════════════════════════════════════════════
+     DONKEY KONG COUNTRY — GENRE 3. David Wise (DKC1/2/3), Grant Kirkhope (DK64).
+     From docs/genre-research/dkc.md, whose numbers were MEASURED off MIDI
+     transcriptions rather than estimated -- the strongest-sourced of the seven.
+     Its verification pass never ran, so it is still a claim, but it is a claim
+     that shows its working and names the file and bar it came from.
+
+     THIS GENRE EXISTS TO TEST THE TWO NEW CAPABILITIES. Its identity is not its
+     chords: it is a fixed melodic cell that ignores them, over a held
+     octave-doubled pedal. Four bars of that and a listener names the game.
+
+     NOT YET RIGHT, and worth saying rather than hiding: there is no `snes` rig,
+     so this plays on the band -- a sample-playback chip with an 8-tap FIR echo
+     is a different instrument from anything in this palette. The pan-flute lead
+     and the tuned-percussion bed are missing for the same reason.
+     ═════════════════════════════════════════════════════════════════════════ */
+  dkc: {
+    label: "Donkey Kong Country",
+    /* trimodal, and a flat draw over [72,146] would spend most of its time where
+       the music never is. Each band is >=2 independent transcriptions:
+       ambient/cave 72-82 (Aquatic Ambience 74/75/75/80, Life in the Mines 72/75),
+       level/forest 94-110 (Stickerbush 95/96/99/100/100, Forest Interlude 95/96.5/97),
+       driving/factory 128-146 (Fear Factory 134/135/140, DK Island Swing 146).
+       Weights are each band's share of the analysed corpus. [corpus:vgmusic] */
+    tempoBands: [[[72, 82], 3], [[94, 110], 5], [[128, 146], 3]],
+    tempo:    [72, 146],
+    /* counted by pitch-class duration weight over ten tracks: aeolian 6,
+       mixolydian 3 (Forest Interlude Bb mixo, Ice Cave Chant A mixo), major 1 */
+    modes:    [["minor", 6], ["mixolydian", 3], ["major", 1]],
+    rig:      [["band", 1]],
+    keysChar: [["rhodes", 1]],
+    tape:     { wow: [0, 0], crackle: [0, 0] },       // a cartridge has no tape
+
+    form: {
+      lengths:  { intro: 8, verse: 8, chorus: 8, bridge: 8, instrumental: 8, outro: 8 },
+      material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
+                  instrumental: "A", outro: "A" },
+      roles: {
+        /* the ostinato is the constant: it is in every section, and in the intro
+           it is nearly the whole texture -- which is how these tracks open */
+        intro:        ["ostinato", "bass"],
+        verse:        ["ostinato", "bass", "keys", "lead"],
+        chorus:       ["ostinato", "bass", "keys", "lead", "drums"],
+        bridge:       ["ostinato", "bass", "keys"],
+        instrumental: ["ostinato", "bass", "keys", "drums"],
+        outro:        ["ostinato", "bass"],
+      },
+      coldOpen:  0.30,          // these tracks often start straight on the figure
+      openVerse: 0.85,
+      target:    [40, 5, 8],
+      /* flatter than a pop grammar on purpose: this music wanders between
+         states rather than driving to a payoff, so no single transition
+         dominates the walk. [research: DKC is loop-based, not verse/chorus] */
+      transitions: {
+        verse:        [["chorus", 4], ["verse", 3], ["instrumental", 3], ["bridge", 2]],
+        chorus:       [["verse", 4], ["instrumental", 4], ["bridge", 3], ["chorus", 2]],
+        bridge:       [["chorus", 4], ["verse", 4], ["instrumental", 2]],
+        instrumental: [["chorus", 4], ["verse", 4], ["bridge", 2]],
+      },
+      bridgeAfterChorus: { verse: 1, chorus: 1 },
+      energy: { intro: 0.50, outro: 0.45, bridge: 0.62, instrumental: 0.80,
+                chorus: 0.92, chorusPeak: 1.0, verse: 0.70 },
+    },
+
+    /* THE TWO THINGS THAT MAKE IT THIS GENRE ─────────────────────────────── */
+    bassStyle: "pedal",
+    ostinato: {
+      unit: 1,          // straight sixteenths [corpus:vgmusic Aquatic/Stickerbush]
+      vel:  0.55,
+      /* scale degrees, and note what is NOT in any of them: 0, the tonic. The
+         measured cells never play the root pitch class. */
+      cells: [
+        [[1, 2, 6, 4], 5],                 // Aquatic Ambience: D-Eb-Bb-G in C aeolian
+        [[6, 1, 2, 1], 4],                 // Stickerbush: G-B-C, inside a fifth
+        [[6, 1, 3, 1, 4, 5, 4, 5, 3, 4], 3], // Forest Interlude, in Bb mixolydian
+        [[1, 4, 6, 4], 2],                 // [EAR] the same family, unmeasured
+      ],
+    },
+
+    pocket: [[[0, 8], 5], [[0, 7, 9, 10], 3], [[0, 6, 8, 14], 2]],
+    kit: {
+      snare: [8], hatEvery: 4, hatVel: 0.5, ghostChance: 0.2,
+      ghostSpots: [3, 7, 11, 15], openSpot: [[-1, 6], [14, 2]], openBars: [3],
+      kickKeep: 9, flourishBar: 3,
+      flourish: [[[14], 3], [[], 5]],
+      variants: {
+        main:   {},
+        lift:   { hatEvery: 2, ghostChance: 0.3 },
+        depart: { hatEvery: 8, ghostChance: 0, snare: [], kickKeep: 1,
+                  openBars: [], flourish: [[[], 1]] },
+      },
+    },
+    counter: { style: "line", density: 0.45, intervals: [-2, -3, -4] },
+    sevenths: false,      // Wise's harmony is add9 and sus, not stacked sevenths
+    progressions: {
+      minor:     [[[0,5,3,6], 5],   // i-VI-iv-VII: AQUATIC AMBIENCE [corpus:vgmusic, shrine]
+                  [[0,6,5,4], 3],
+                  [[0,3,5,4], 2]],
+      mixolydian:[[[5,3,0,5], 4], [[0,5,3,0], 3], [[0,3,5,3], 2]],
+      major:     [[[0,5,3,4], 4], [[0,3,5,3], 3]],
+    },
+    bridgeProgressions: {
+      minor:     [[[5,3,6,4], 3], [[3,5,0,6], 2]],
+      mixolydian:[[[3,5,0,5], 3], [[5,0,3,0], 2]],
+      major:     [[[3,5,0,4], 3], [[5,3,4,0], 2]],
+    },
+    /* THE OSTINATO SITS ABOVE THE PADS, and that separation is not cosmetic --
+       it is what the transcriptions show and it is what stops the two parts
+       fighting for the same pitch. The measured cells live in the 4th and 5th
+       octaves (Stickerbush G4-B4-C5, Forest Interlude Ab4 up to G5), with the
+       chordal bed underneath. Overlapping their bands made the seam check throw
+       on unisons in nearly every seed -- correctly, because two parts landing on
+       the same pitch at the same instant is not a texture, it is a collision.
+       The tune above still crosses the ostinato and works around it, because it
+       reserves; the pads do not reserve, so they get their own air. */
+    registers: { bass: [28, 43], keys: [50, 66], counter: [55, 70], bassWalk: [28, 45],
+                 ostinato: [67, 84],
+                 themeA: [69, 86], themeB: [71, 88], themeC: [67, 83] },
+
+    groove: {
+      styles: [["even", 10]],
+      swing: [1.0, 0.0], swingUnit: 2,
+      snareEarly: [0, 0], kickLate: [0, 0], hatMul: 1,
+      jitter: { dilla: 0.004, even: 0.004 },   // sequenced, but not machine-rigid
+      push: 0,
+    },
+    touch: { bassArtic: [[1.0, 1]], strum: [0, 0] },   // a pedal rings; it does not clip
+    accent: {
+      kick:  [1.00,0.80,0.85,0.80,0.95,0.80,0.85,0.80,1.00,0.80,0.85,0.80,0.95,0.80,0.85,0.80],
+      snare: [0.85,0.80,0.82,0.80,0.95,0.80,0.82,0.80,1.00,0.80,0.82,0.80,0.95,0.80,0.82,0.80],
+      ghost: [0.85,0.80,0.82,0.80,0.95,0.80,0.82,0.80,1.00,0.80,0.82,0.80,0.95,0.80,0.82,0.80],
+      hat:   [0.95,0.78,0.86,0.78,0.92,0.78,0.86,0.78,0.95,0.78,0.86,0.78,0.92,0.78,0.86,0.78],
+      openhat:[0.95,0.78,0.86,0.78,0.92,0.78,0.86,0.78,0.95,0.78,0.86,0.78,0.92,0.78,0.86,0.78],
+    },
+    space: { wet: 0.34 },        // the SNES echo unit is most of this music's air [EAR]
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },
   },
 };
 
@@ -1554,7 +1696,19 @@ function makeChart(seed, rigChoice, genreChoice){
     rig: (rigChoice === "band" || rigChoice === "sega") ? rigChoice : rigDrawn,
     root: Math.floor(rng() * 12),
     mode: wpick(rng, G.modes),
-    tempo: G.tempo[0] + Math.round(rng() * (G.tempo[1] - G.tempo[0])),
+    /* A single [lo,hi] draws UNIFORMLY, and for some genres that is a lie: DKC's
+       tempo is trimodal, clustered at 72-82, 94-110 and 128-146 with almost
+       nothing between, so a flat draw over [72,146] spends most of its time
+       where the music never is. A genre with `tempoBands` draws the BAND first
+       and then a position inside it; a genre without one keeps the single draw.
+       The stream shape is therefore a property of the TABLE, which is fixed for
+       a genre -- so determinism per (seed, genre) is exact, which is the
+       contract that matters. [corpus:vgmusic transcription BPMs] */
+    tempo: (() => {
+      if(!G.tempoBands) return G.tempo[0] + Math.round(rng() * (G.tempo[1] - G.tempo[0]));
+      const band = wpick(rng, G.tempoBands), pos = rng();
+      return band[0] + Math.round(pos * (band[1] - band[0]));
+    })(),
     keysChar: wpick(rng, G.keysChar),
     tape: Object.freeze({
       wow:     G.tape.wow[0]     + rng() * G.tape.wow[1],
@@ -1713,6 +1867,29 @@ function makeMaterials(chart){
   function buildBass(chordSet, streamName, rootsOnly){
     const rng = stream(chart.seed, streamName);
     const notes = [];
+    /* THE PEDAL. Not every genre's bass follows the chord by walking it -- Wise's
+       bass is a held, OCTAVE-DOUBLED pedal: one note, both octaves struck
+       together, ringing a whole bar or longer. Measured: Aquatic Ambience holds
+       C2+C3 for eight beats then Ab1+Ab2 for eight; Fear Factory's E is 52% of
+       the whole track's duration weight; Hideout Helm plays G1 on every eighth,
+       unchanged, for the entire track. [corpus:vgmusic MIDI transcriptions]
+       A style, not a correction: the bass is BUILT this way from the start. */
+    if(G.bassStyle === "pedal"){
+      for(let b = 0; b < BARS; b++){
+        const root0 = chordSet[b].rootMidi;
+        notes.push({ bar: b, step: 0, dur: 16, pitch: root0, vel: 0.92, role: "bass" });
+        /* the octave double must stay OUT of the comp's register. The bass and
+           the keys are both built without consulting reservations -- they are
+           independent owners -- so the only thing keeping them off each other's
+           pitches is their declared bands, and a blind +12 walked straight
+           through that boundary and landed on a comp note. Declaring the rule
+           is better than tuning the numbers until it stops happening. */
+        const up = root0 + 12;
+        if(up < R.keys[0])
+          notes.push({ bar: b, step: 0, dur: 16, pitch: up, vel: 0.78, role: "bass" });
+      }
+      return notes;
+    }
     for(let b = 0; b < BARS; b++){
       const ch = chordSet[b], next = chordSet[(b + 1) % BARS];
       notes.push({ bar: b, step: 0, dur: Math.min(8, pocket[1] || 8), pitch: ch.rootMidi, vel: 0.9, role: "bass" });
@@ -1897,6 +2074,39 @@ function makeMaterials(chart){
     }
     return { notes, dna };
   }
+  /* THE OSTINATO -- the one material that IGNORES THE CHORDS, and the single
+     most-cited hole in the whole research pass ("THE BIG ONE: there is no
+     material that ignores the harmony"). Every other builder takes a chordSet
+     and reads chordSet[b]; this one deliberately does not.
+
+     That is not laziness, it is the sound. Measured across three flagship Wise
+     tracks, the ostinato voice never plays the tonic pitch class at all:
+       Aquatic Ambience (C aeolian)  D-Eb-Bb-G, straight 16ths, four times a bar
+       Stickerbush (A aeolian)       only G-B-C, inside a fifth
+       Forest Interlude (Bb mixo)    Ab-C-Eb-C-F-G-F-G-Eb-F, in 8ths
+     and in Forest Interlude that cell is IDENTICAL across bars 8-11 while the
+     bass moves Ab -> F -> Bb -> Ab underneath. The harmony is an EMERGENT
+     BY-PRODUCT of a fixed cell over a moving pedal. The Ab against a Bb bass is
+     not an error waiting for a correcting pass -- it is the music.
+     [corpus:vgmusic MIDI transcriptions, byte-identical bars] */
+  function buildOstinato(streamName){
+    const O = G.ostinato;
+    if(!O) return [];
+    const rng = stream(chart.seed, streamName);
+    const cell = wpick(rng, O.cells);
+    const notes = [];
+    for(let b = 0; b < BARS; b++){
+      let i = 0;
+      for(let st = 0; st < 16; st += O.unit, i++){
+        const deg = cell[i % cell.length];
+        notes.push({ bar: b, step: st, dur: O.unit,
+                     pitch: intoBand(degMidi(root, mode, deg), R.ostinato[0], R.ostinato[1]),
+                     vel: O.vel, role: "ostinato" });
+      }
+    }
+    return notes;
+  }
+
   /* THE SECOND LINE. The old version transposed every note of the tune down two
      scale steps and kept its rhythm exactly, so it moved in rigid parallel on
      every single note -- a harmoniser, not a counter-line, and reading the roll
@@ -1973,12 +2183,16 @@ function makeMaterials(chart){
   const reserve = notes => { const r = new Set(); for(const n of notes) if(n.pitch != null) r.add(key(n.bar, n.step, n.pitch)); return r; };
 
   /* ── A: the verse set ── */
+  const ostA = buildOstinato("ostinato");
   const drumsA = buildDrums("drums", "main");
   const drumsB = buildDrums("drumsB", "lift");     // the chorus opens up
   const drumsC = buildDrums("drumsC", "depart");   // the bridge thins out
   const bassA  = buildBass(chords, "bass", false);
   const keysA  = buildKeys(chords, "keys", { dense: false });
-  const resA   = reserve(bassA.concat(keysA));
+  /* the ostinato goes into every reservation set BEFORE the tunes are drawn.
+     It is the fixed thing in this music -- the cell that does not move -- so
+     the melody and the counter are the parts that must find room, not it. */
+  const resA   = reserve(ostA.concat(bassA, keysA));
   const themeA = buildTheme(chords, "themeA", resA, { lo: R.themeA[0], hi: R.themeA[1], dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
   const counterA = deriveCounter(themeA.notes, resA, "counterA");
 
@@ -1986,7 +2200,7 @@ function makeMaterials(chart){
      a half-octave up [corpus: verse->chorus register lift ~ +1.5 st; the hook
      sits above the verse, not an octave above it] ── */
   const keysB  = buildKeys(chords, "keysB", { dense: true });
-  const resB   = reserve(bassA.concat(keysB));
+  const resB   = reserve(ostA.concat(bassA, keysB));
   const themeB = buildTheme(chords, "themeB", resB,
     { lo: R.themeB[0], hi: R.themeB[1], dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
   const counterB = deriveCounter(themeB.notes, resB, "counterB");
@@ -2000,7 +2214,7 @@ function makeMaterials(chart){
 
   /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
      the canonical rule-of-three answer at the material level ── */
-  const resV = reserve(bassA.concat(keysA).concat(themeA.notes.filter(n => n.bar < 2)));
+  const resV = reserve(ostA.concat(bassA, keysA, themeA.notes.filter(n => n.bar < 2)));
   const varTail = buildTheme(chords, "themeA:var", resV, { lo: R.themeA[0], hi: R.themeA[1], dir: -1 });
   const leadAvar = themeA.notes.filter(n => n.bar < 2)
     .concat(varTail.notes.filter(n => n.bar >= 2));
@@ -2027,14 +2241,14 @@ function makeMaterials(chart){
   })();
 
   const materials = {
-    A:    { drums: drumsA, bass: bassA, keys: keysA, lead: themeA.notes, counter: counterA },
+    A:    { drums: drumsA, bass: bassA, keys: keysA, lead: themeA.notes, counter: counterA, ostinato: ostA },
     // Avar carries NO counter: the harmony vocal was derived from A's tune, and the
     // variant's redrawn second half is a different tune -- a shadow of the wrong line.
     // Verses (Avar's consumers) never activate the counter anyway; if a future section
     // wants one, it derives it from leadAvar, it does not borrow A's.
-    Avar: { drums: drumsA, bass: bassA, keys: keysA, lead: leadAvar,     counter: [] },
-    B:    { drums: drumsB, bass: bassA, keys: keysB, lead: themeB.notes, counter: counterB },
-    C:    { drums: drumsC, bass: bassC, keys: keysC, lead: themeC.notes, counter: [] },
+    Avar: { drums: drumsA, bass: bassA, keys: keysA, lead: leadAvar,     counter: [], ostinato: ostA },
+    B:    { drums: drumsB, bass: bassA, keys: keysB, lead: themeB.notes, counter: counterB, ostinato: ostA },
+    C:    { drums: drumsC, bass: bassC, keys: keysC, lead: themeC.notes, counter: [], ostinato: [] },
     fill, ending,
   };
   /* FREEZE DEEP, not just the top. A, Avar and B deliberately SHARE drumsA and

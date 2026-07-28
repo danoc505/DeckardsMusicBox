@@ -81,7 +81,7 @@ function printMaterial(key, mat, bars){
     if(!ns.length) continue;
     console.log(lane.padEnd(8) + gridLine(ns, bars, () => DRUM_CH[lane]));
   }
-  for(const role of ["bass", "keys", "lead", "counter"]){
+  for(const role of ["ostinato", "bass", "keys", "lead", "counter"]){
     const ns = mat[role] || [];
     if(!ns.length) continue;
     /* one char per note: the scale DEGREE it sits on, so a line's shape and its
@@ -94,7 +94,7 @@ function printMaterial(key, mat, bars){
     }));
   }
   /* the notes themselves, because a grid cannot show octave or velocity */
-  for(const role of ["bass", "keys", "lead", "counter"]){
+  for(const role of ["ostinato", "bass", "keys", "lead", "counter"]){
     const ns = (mat[role] || []).slice().sort((a, z) => a.bar - z.bar || a.step - z.step || a.pitch - z.pitch);
     if(!ns.length) continue;
     const parts = ns.map(n => `${n.bar + 1}.${String(n.step).padStart(2)} ${nm(n.pitch).padEnd(4)}` +
