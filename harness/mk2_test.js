@@ -145,8 +145,57 @@ check("both rigs get drawn", (rigs.band || 0) > N * 0.4 && (rigs.sega || 0) > N 
     span = Math.max(span, Math.max(...ks) - Math.min(...ks));
   }
   const lo = Math.min(...pitches), hi = Math.max(...pitches);
-  check("the comp uses its whole register, not one octave", hi - lo > 12,
+check("the comp uses its whole register, not one octave", hi - lo > 12,
         "keys span " + lo + ".." + hi + " (" + (hi - lo) + " semitones), widest single song " + span);
+}
+
+/* The three things reading the ROLL exposed that no audio measurement could.
+   A second line that moves in parallel with the tune on every note is a
+   harmoniser; a bridge with the verse's exact kit is not a departure; and
+   four identical bars of eighth-note hats is a metronome. All three were true
+   and all three were invisible in a spectrum. */
+{
+  let contrary = 0, parallel = 0, oblique = 0, sounded = 0, total = 0;
+  let bridgeSame = 0, chorusSame = 0, songs = 0, flourish = 0;
+  const sig = ns => ns.map(n => n.bar + ":" + n.step + ":" + n.lane).sort().join(",");
+  for(let s = 1; s <= 120; s++){
+    const m = M.composeSong(s, "band").materials;
+    songs++;
+    if(sig(m.A.drums) === sig(m.C.drums)) bridgeSame++;
+    if(sig(m.A.drums) === sig(m.B.drums)) chorusSame++;
+    /* the fourth bar must answer the first three, at least in the hats */
+    const hb = b => m.A.drums.filter(n => n.lane === "hat" && n.bar === b).map(n => n.step).join(",");
+    if(hb(3) !== hb(0)) flourish++;
+    for(const [lead, ctr] of [[m.A.lead, m.A.counter], [m.B.lead, m.B.counter]]){
+      if(!ctr.length) continue;
+      total += lead.length; sounded += ctr.length;
+      const at = new Map(); for(const n of ctr) at.set(n.bar + ":" + n.step, n.pitch);
+      const L = lead.slice().sort((a, z) => a.bar - z.bar || a.step - z.step);
+      let pl = null, pc = null;
+      for(const n of L){
+        const c = at.get(n.bar + ":" + n.step);
+        if(c == null){ pl = n.pitch; continue; }
+        if(pl != null && pc != null){
+          const lm = n.pitch - pl, cm = c - pc;
+          if(lm === 0 || cm === 0) oblique++;
+          else if((lm > 0) !== (cm > 0)) contrary++;
+          else parallel++;
+        }
+        pl = n.pitch; pc = c;
+      }
+    }
+  }
+  const tot = contrary + parallel + oblique;
+  check("the counter-line is a LINE, not a harmoniser", contrary > parallel,
+        `contrary ${(100*contrary/tot).toFixed(0)}% vs parallel ${(100*parallel/tot).toFixed(0)}% (oblique ${(100*oblique/tot).toFixed(0)}%)`);
+  check("the counter has its own rhythm", sounded / total < 0.8,
+        `sounds on ${(100*sounded/total).toFixed(0)}% of the tune's notes`);
+  check("the bridge is a departure, not the verse's kit", bridgeSame === 0,
+        bridgeSame + "/" + songs + " bridges share the verse's drums");
+  check("the chorus changes the kit", chorusSame === 0,
+        chorusSame + "/" + songs + " choruses share the verse's drums");
+  check("the fourth bar answers the first three", flourish > songs * 0.5,
+        flourish + "/" + songs + " loops vary their last bar's hats");
 }
 
 console.log("\n" + pass + " passed, " + fail + " failed");
