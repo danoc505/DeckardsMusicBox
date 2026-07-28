@@ -27,6 +27,7 @@
 <h1>DECKARD'S ORCHESTRATOR <small>MK2 — the rewrite. one genre, built to sound right first.</small></h1>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
+  <select id="genre" title="which genre's tables build the song"></select>
   <select id="rig" title="which band plays it — same notes either way">
     <option value="draw">rig: drawn</option>
     <option value="band">rig: band</option>
@@ -445,7 +446,11 @@ const Sound = (function(){
     g.send = c.createGain(); g.send.gain.value = 1;
     g.sendHp = c.createBiquadFilter(); g.sendHp.type = "highpass";
     g.sendHp.frequency.value = 200; g.sendHp.Q.value = 0.5;   // low end stays out of the wash
-    g.wet = c.createGain(); g.wet.gain.value = 0.16;          // lofi's space [EAR]
+    /* the send level is a SONG parameter, not a graph constant: one live context
+       plays many songs and genres do not share a room. buildGraph fixes the
+       topology; setSpace() sets the one number, before any event is scheduled.
+       That keeps live and offline on one graph builder and one scheduler. */
+    g.wet = c.createGain(); g.wet.gain.value = 0.16;          // replaced per song [EAR]
     g.send.connect(g.sendHp); g.sendHp.connect(g.verb); g.verb.connect(g.wet);
     g.wet.connect(g.post);                                    // wet obeys the limiter too
 
@@ -1051,6 +1056,13 @@ const Sound = (function(){
     return handles;
   }
 
+  /* everything about the room a genre gets to choose. Applied to whichever graph
+     is about to play -- the live one or a fresh offline one -- so the two cannot
+     drift apart. */
+  function setSpace(g, space){
+    if(!space) return;
+    if(space.wet != null) g.wet.gain.value = space.wet;
+  }
   function ensureLive(){
     if(!ctx){
       ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1060,9 +1072,10 @@ const Sound = (function(){
     return ctx;
   }
   let liveTimer = null;
-  function playLive(events){
+  function playLive(events, space){
     ensureLive();
     stopLive();
+    setSpace(liveGraph, space);                // the song's room, before anything sounds
     const t0 = ctx.currentTime + 0.15;
     let i = 0;
     const pump = () => {
@@ -1082,10 +1095,11 @@ const Sound = (function(){
     for(const h of liveHandles){ try{ h.stop(0); }catch(e){} try{ h.disconnect(); }catch(e){} }
     liveHandles.clear();
   }
-  async function renderWav(events, seconds, sampleRate){
+  async function renderWav(events, seconds, sampleRate, space){
     const sr = sampleRate || 44100;
     const off = new OfflineAudioContext(2, Math.ceil(seconds * sr), sr);
     const graph = buildGraph(off);
+    setSpace(graph, space);                    // the same one number the live graph gets
     perform(graph, events, 0.05);              // the SAME perform() — no second path
     const buf = await off.startRendering();
     return encodeWav(buf);
@@ -2058,7 +2072,7 @@ function describe(song){
   const c = song.chart;
   const name = ch => NOTE_NAMES[pc(degMidi(c.root, c.mode, ch.degree))] + "7";
   $("info").textContent =
-    `lofi · ${NOTE_NAMES[c.root]} ${c.mode} · ${c.tempo} bpm · rig ${c.rig} · ` +
+    `${GENRE[c.genre].label} · ${NOTE_NAMES[c.root]} ${c.mode} · ${c.tempo} bpm · rig ${c.rig} · ` +
     `${song.form.nBars} bars · seed ${c.seed}\n` +
     `progression: ${song.materials.chords.map(name).join("  ")}` +
     `   ·   bridge goes: ${song.materials.bridgeChords.map(name).join("  ")}` +
@@ -2075,14 +2089,14 @@ function describe(song){
 function newSong(forcedSeed){
   const seed = forcedSeed != null ? forcedSeed : (parseInt($("seed").value, 10) || 1);
   $("seed").value = seed;
-  SONG = composeSong(seed, $("rig").value);
+  SONG = composeSong(seed, $("rig").value, $("genre").value);
   describe(SONG);
   return SONG;
 }
 function togglePlay(){
   if(!SONG) newSong();
   if(playing){ Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play"; return; }
-  Sound.playLive(SONG.perf.events);
+  Sound.playLive(SONG.perf.events, GENRE[SONG.chart.genre].space);
   playing = true; $("play").innerHTML = "&#9632; stop";
 }
 function downloadMidi(){
@@ -2097,10 +2111,11 @@ async function downloadWav(){
   if(!SONG) newSong();
   $("wav").textContent = "rendering…"; $("wav").disabled = true;
   try{
-    const blob = await Sound.renderWav(SONG.perf.events, SONG.perf.seconds, 44100);
+    const blob = await Sound.renderWav(SONG.perf.events, SONG.perf.seconds, 44100,
+                                       GENRE[SONG.chart.genre].space);
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `mk2_lofi_${SONG.chart.rig}_${SONG.chart.tempo}bpm_seed${SONG.chart.seed}.wav`;
+    a.download = `mk2_${SONG.chart.genre}_${SONG.chart.rig}_${SONG.chart.tempo}bpm_seed${SONG.chart.seed}.wav`;
     a.click();
   } finally { $("wav").textContent = "render .wav"; $("wav").disabled = false; }
 }
@@ -2111,6 +2126,13 @@ window.addEventListener("DOMContentLoaded", () => {
   $("wav").addEventListener("click", downloadWav);
   $("mid").addEventListener("click", downloadMidi);
   $("seed").addEventListener("change", () => newSong());
+  {                                            // the picker is built FROM the table
+    const g = $("genre");
+    g.innerHTML = Object.keys(GENRE).map(k =>
+      `<option value="${k}">${GENRE[k].label}</option>`).join("");
+  }
+  $("genre").addEventListener("change", () => {
+    Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play"; newSong(); });
   $("rig").addEventListener("change", () => {
     Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play"; newSong(); });
   newSong(1);
@@ -2120,7 +2142,8 @@ window.addEventListener("DOMContentLoaded", () => {
 window.MK2 = {
   composeSong, newSong,
   referenceEvents,
-  renderWav: (events, seconds, sr) => Sound.renderWav(events, seconds, sr),
+  renderWav: (events, seconds, sr, space) => Sound.renderWav(events, seconds, sr, space),
+  genres: () => Object.keys(GENRE),
   toMidi,
   /* measurement handles: the chip's tuning grid and its patch table, so a probe
      can sweep TL/feedback and PROVE the FM depth behaves the way the arithmetic
