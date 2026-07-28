@@ -234,6 +234,28 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   };
   const seen = new Map();
   for(const g of genres) seen.set(g, fp(g));
+  /* the bass STYLES have to produce different behaviour, not just different
+     numbers in a table. A pedal, a pocket-follower and an eighth-note sequencer
+     are three instruments; if they converge, a table entry is doing nothing.
+     Measured when this landed: lofi 10.6 notes per 4 bars, synthwave 30.8,
+     dkc 7.3 -- and the counter sounding on 63% / 90% / 45% of the tune. */
+  {
+    const dens = {};
+    for(const g of genres){
+      let n = 0, songs = 0, lead = 0, ctr = 0;
+      for(let s = 1; s <= 60; s++){
+        const m = M.composeSong(s, undefined, g).materials;
+        n += m.A.bass.length; songs++;
+        for(const k of ["A", "B"]){ lead += m[k].lead.length; ctr += m[k].counter.length; }
+      }
+      dens[g] = { bass: n / songs, ctr: lead ? ctr / lead : 0 };
+    }
+    const vals = genres.map(g => Math.round(dens[g].bass));
+    check("the bass styles really differ", new Set(vals).size === genres.length,
+          genres.map(g => `${g} ${dens[g].bass.toFixed(1)}/4bars`).join("  "));
+    check("every genre's second voice actually sounds", genres.every(g => dens[g].ctr > 0.3),
+          genres.map(g => `${g} ${(100*dens[g].ctr).toFixed(0)}%`).join("  "));
+  }
   check("the genres are actually different music", new Set(seen.values()).size === genres.length,
         [...seen].map(([g, v]) => `${g}: ${v}`).join("  |  "));
 }

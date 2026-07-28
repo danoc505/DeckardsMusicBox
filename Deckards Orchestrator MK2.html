@@ -1411,6 +1411,7 @@ const GENRE = {
     space: { wet: 0.16 },                                                            // [EAR]
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },   // lofi has no ribbon
     bassStyle: "follow",
+    bassPulse: null,
     ostinato: null,                                          // lofi has no ostinato
   },
 
@@ -1510,7 +1511,12 @@ const GENRE = {
       major: [[[5,3,0,4], 4], [[3,4,5,4], 3], [[1,4,0,4], 2]],
       dorian:[[[6,3,0,3], 3], [[3,6,3,0], 2]],
     },
-    registers: { bass: [33, 45], keys: [57, 81], counter: [64, 86], bassWalk: [33, 47],
+    /* the counter here is an OCTAVE DOUBLE, so its band has to reach a full
+       octave either side of the tune's -- at [64,86] against a tune in [72,88],
+       a lead note at 75 had no legal candidate at all (-12 fell below the floor,
+       +12 above the ceiling) and simply did not sound. The roll showed whole bars
+       of the doubling missing. A band for a doubling is not a band for a line. */
+    registers: { bass: [33, 45], keys: [57, 81], counter: [60, 100], bassWalk: [33, 47],
                  themeA: [72, 88],   // "far above the driving rhythm" [tut:modeaudio]
                  themeB: [74, 91], themeC: [69, 84] },
 
@@ -1536,7 +1542,10 @@ const GENRE = {
     },
     space: { wet: 0.30 },        // a WET genre: plate/hall, roughly double lofi [tut:futureproof]
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },   // no ribbon in this genre
-    bassStyle: "follow",
+    bassStyle: "pulse",
+    /* [tut:babyaudio, tut:soundbridge, tut:modeaudio] eighth-note repeating roots
+       with an octave arp; the weights are [EAR] */
+    bassPulse: { unit: 2, rootBias: 0.85, octaveJump: 0.30, restChance: 0.05 },
     ostinato: null,
   },
 
@@ -1887,6 +1896,32 @@ function makeMaterials(chart){
        the whole track's duration weight; Hideout Helm plays G1 on every eighth,
        unchanged, for the entire track. [corpus:vgmusic MIDI transcriptions]
        A style, not a correction: the bass is BUILT this way from the start. */
+    /* THE PULSE. Synthwave's bass is a SEQUENCER, not a bass player: it repeats
+       the root on a fixed division, occasionally jumping an octave, and it almost
+       never walks. Reading the roll is what made this obvious -- the notes coming
+       out were lofi's bass (root, fifth, a walk-up into the next chord) under a
+       four-on-the-floor kick, which is a different instrument's behaviour wearing
+       this genre's tempo. [tut:babyaudio "Arpeggiated Octave Bass"; tut:modeaudio
+       "simple, constant root notes to really give that classic driving feel"] */
+    if(G.bassStyle === "pulse"){
+      const P = G.bassPulse;
+      for(let b = 0; b < BARS; b++){
+        const ch = chordSet[b];
+        for(let st = 0; st < 16; st += P.unit){
+          /* every draw runs on every step, whatever the outcome [Law 7] */
+          const rest = rng() < P.restChance, up = rng() < P.octaveJump, alt = rng();
+          if(rest && st > 0) continue;
+          let pch = ch.rootMidi;
+          if(up && st > 0) pch += 12;
+          else if(alt > P.rootBias && st > 0)
+            pch = intoBand(degMidi(root, mode, ch.degree + 4), R.bass[0], R.bassWalk[1]);
+          if(pch > R.bassWalk[1] + 12) pch -= 12;
+          notes.push({ bar: b, step: st, dur: P.unit,
+                       pitch: pch, vel: st === 0 ? 0.92 : 0.74, role: "bass" });
+        }
+      }
+      return notes;
+    }
     if(G.bassStyle === "pedal"){
       for(let b = 0; b < BARS; b++){
         const root0 = chordSet[b].rootMidi;
