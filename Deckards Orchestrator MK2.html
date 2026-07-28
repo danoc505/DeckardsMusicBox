@@ -1761,8 +1761,15 @@ function makePerformance(chart, form, materials, sections){
      jitter nearly zeroed in this mode (a wandering pattern is generic MPC swing,
      which is exactly what this is not). ── */
   const grooveStyle = wpick(rngG, GR.styles);
-  const snareEarly = grooveStyle === "dilla" ? -(GR.snareEarly[0] + rngG() * GR.snareEarly[1]) : 0;
-  const kickLate   = grooveStyle === "dilla" ?  (GR.kickLate[0]   + rngG() * GR.kickLate[1])   : 0;
+  /* BOTH DRAWS RUN WHATEVER THE STYLE. They used to sit inside the dilla branch,
+     so an even-groove song consumed two fewer numbers from this stream and every
+     later draw in it -- the touch, the strum -- shifted. That couples the groove's
+     owner to the performer's touch for no reason: changing the dilla/even weight
+     would have moved the bass articulation of songs that are not dilla at all.
+     Decide first, then use or discard. [Law 7] */
+  const seDraw = rngG(), klDraw = rngG();
+  const snareEarly = grooveStyle === "dilla" ? -(GR.snareEarly[0] + seDraw * GR.snareEarly[1]) : 0;
+  const kickLate   = grooveStyle === "dilla" ?  (GR.kickLate[0]   + klDraw * GR.kickLate[1])   : 0;
   const hatSwingMul = grooveStyle === "dilla" ? GR.hatMul : 1;
   const jitterSec  = GR.jitter[grooveStyle] != null ? GR.jitter[grooveStyle] : GR.jitter.even;
   /* the player's touch, drawn once per song: how long the bass lets notes ring,
