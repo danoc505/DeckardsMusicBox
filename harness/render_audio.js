@@ -50,12 +50,21 @@ const { chromium } = require(path.join(ROOT, 'node_modules', 'playwright'));
 const HTML = process.env.MK2_HTML || path.join(ROOT, 'Deckards Orchestrator MK2.html');
 const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const OUT = process.argv[2] || path.join(ROOT, 'harness', 'audio_renders');
-const SEEDS = (process.argv[3] || '1,2').split(',').map(Number);
+/* ONE SONG PER GENRE, plus the rig alternated across them. Rendering only lofi
+   meant genre 2 and 3 had no audio coverage at all -- the seam battery proves
+   their NOTES are lawful, which is a different claim from "they make sound".
+   A genre whose new voice throws, or whose register lands a part inaudibly under
+   the kick, fails here and nowhere else. */
+const SONGS = (process.argv[3] || '1:lofi:band,2:synthwave:neon,3:dkc:sega')
+  .split(',').map(spec => {
+    const [seed, genre, rig] = spec.split(':');
+    return { seed: Number(seed), genre, rig };
+  });
 /* the rig is pinned per seed so the mix excerpts exercise BOTH bands: the notes
    are identical either way (mk2_test proves it), so any difference the audio
    battery sees between them is a SOUND difference, which is the only kind this
    battery is for. */
-const RIG_FOR = i => (i % 2 === 0 ? 'band' : 'sega');
+
 const SR = 44100;                       // the rate the export button ships at
 const TAIL = 1.7;                       // release + the 1.4 s reverb IR
 
@@ -154,7 +163,7 @@ const PROBES = [
     };
   });
 
-  const manifest = { sr: SR, seeds: SEEDS, tail: TAIL, items: [], pageErrors };
+  const manifest = { sr: SR, songs: SONGS, tail: TAIL, items: [], pageErrors };
   async function render(file, events, seconds, meta) {
     const t = Date.now();
     const r = await page.evaluate(([ev, secs, sr]) => window.__render(ev, secs, sr), [events, seconds, SR]);
@@ -190,20 +199,21 @@ const PROBES = [
   }
 
   /* ── 3. the song, section by section ──────────────────────────────────────── */
-  for (const seed of SEEDS) {
-    const song = await page.evaluate(seed => {
-      const s = MK2.composeSong(seed[0], seed[1]);
-      return { seed: seed[0], rig: s.chart.rig, tempo: s.chart.tempo, mode: s.chart.mode, keysChar: s.chart.keysChar,
+  for (const spec of SONGS) {
+    const seed = spec.seed;
+    const song = await page.evaluate(a => {
+      const s = MK2.composeSong(a.seed, a.rig, a.genre);
+      return { seed: a.seed, rig: s.chart.rig, genre: s.chart.genre, tempo: s.chart.tempo, mode: s.chart.mode, keysChar: s.chart.keysChar,
                groove: s.perf.groove.style, nBars: s.form.nBars, nEvents: s.perf.events.length,
                voices: [...new Set(s.perf.events.map(e => e.voice))],
                sections: s.sections.map(x => ({ fn: x.fn, startBar: x.startBar, endBar: x.endBar,
                  energy: x.energy, peak: x.peak, occurrence: x.occurrence, material: x.material,
                  stripHalf: x.stripHalf, fillInto: x.fillInto, emptyLastBar: x.emptyLastBar,
                  endingLastBar: x.endingLastBar, active: x.active })) };
-    }, [seed, RIG_FOR(SEEDS.indexOf(seed))]);
+    }, spec);
     manifest['song_' + seed] = song;
-    console.log(`seed ${seed}: ${song.mode} ${song.tempo}bpm ${song.nBars} bars, ` +
-                `${song.sections.length} sections, ${song.groove} groove, rig=${song.rig}, keys=${song.keysChar}`);
+    console.log(`seed ${seed} [${song.genre}]: ${song.mode} ${song.tempo}bpm ${song.nBars} bars, ` +
+                `${song.sections.length} sections, ${song.groove} groove, rig=${song.rig}`);
 
     let dupDone = false, xitDone = false;
     for (let i = 0; i < song.sections.length; i++) {
@@ -215,8 +225,9 @@ const PROBES = [
       const special = s.fillInto || s.emptyLastBar || s.endingLastBar;
       const w1 = Math.min(s.endBar - (special ? 1 : 0), s.startBar + Math.floor(L / 2) + 2);
       const w0 = Math.max(s.startBar, w1 - 2);
-      const r = await page.evaluate(([sd, a, b, tl]) => window.__excerpt(MK2.composeSong(sd[0], sd[1]), a, b, tl),
-                                    [[seed, RIG_FOR(SEEDS.indexOf(seed))], w0, w1, TAIL]);
+      const r = await page.evaluate(([sd, a, b, tl]) =>
+                  window.__excerpt(MK2.composeSong(sd.seed, sd.rig, sd.genre), a, b, tl),
+                                    [spec, w0, w1, TAIL]);
       const tag = `mix_s${seed}_${String(i).padStart(2, '0')}_${s.fn}`;
       await render(`${tag}.wav`, r.events, r.seconds,
         { kind: 'mix', seed, idx: i, fn: s.fn, occurrence: s.occurrence, energy: s.energy,
@@ -229,8 +240,9 @@ const PROBES = [
         dupDone = true;
       }
       if (!xitDone && s.fillInto && song.sections[i + 1]) {       // the fill and its landing
-        const rx = await page.evaluate(([sd, a, b, tl]) => window.__excerpt(MK2.composeSong(sd[0], sd[1]), a, b, tl),
-                                       [[seed, RIG_FOR(SEEDS.indexOf(seed))], s.endBar - 1, s.endBar + 1, TAIL]);
+        const rx = await page.evaluate(([sd, a, b, tl]) =>
+                    window.__excerpt(MK2.composeSong(sd.seed, sd.rig, sd.genre), a, b, tl),
+                                       [spec, s.endBar - 1, s.endBar + 1, TAIL]);
         await render(`xit_s${seed}_${String(i).padStart(2, '0')}.wav`, rx.events, rx.seconds,
           { kind: 'transition', seed, idx: i, fromFn: s.fn, toFn: song.sections[i + 1].fn,
             toPeak: song.sections[i + 1].peak, tempo: song.tempo, bars: [s.endBar - 1, s.endBar + 1] });

@@ -294,17 +294,30 @@ def mix_battery(fn, label, kit, RIG="band"):
         # thing up here, which is exactly what makes this sensitive.
         # [measured: >2 kHz is 1.15-1.87% and >6 kHz is 0.45-0.85% in every kit-active
         #  excerpt; both floors sit ~3x down]
-        check(f"{label}: presence above 2 kHz exists", pres + air > 0.40,
-              f">2k is {pres+air:.2f}%")
+        # The floor has to be the rig's, because the rigs have different physics.
+        # 1.15-1.87% is what a BAND-rig excerpt measures; a chip rig cannot reach it
+        # and is not supposed to.
+        pfloor = 0.20 if RIG == "sega" else 0.40
+        check(f"{label}: presence above 2 kHz exists ({RIG} rig)", pres + air > pfloor,
+              f">2k is {pres+air:.2f}%, floor {pfloor}")
         # A Mega Drive kit CANNOT have air and it is not supposed to: the DAC drums
         # are 8-bit PCM at 10.5 kHz (Nyquist 5.25 kHz) and the hats are an SN76489
         # LFSR shifted at 13.98 kHz. Everything above 6 kHz is gone by construction,
         # which is exactly why an MD snare is a thud with a hiss. Measured: 0.09-0.13%
         # on the sega rig against 0.45-0.85% on the band rig. Holding both to one
         # number would either excuse a broken band kit or fail a correct chip one.
-        floor = 0.05 if RIG == "sega" else 0.15
-        check(f"{label}: the kit's air is there ({RIG} rig)", air > floor,
-              f">6k is {air:.2f}%, floor {floor}")
+        # AND ASK THE QUESTION IN THE BAND THE KIT CAN ACTUALLY REACH. This check
+        # exists to catch "the kit vanished" and "the hats got highpassed into
+        # inaudibility" -- it is not a demand for air per se. On the band rig the
+        # kit's own band is above 6 kHz. On the SEGA rig there is nothing up there
+        # BY CONSTRUCTION: the DAC drums are 8-bit at 10.5 kHz so they stop dead at
+        # 5.25 kHz, and the PSG's LFSR runs at 13.98 kHz so its noise stops near 7.
+        # Measuring a Mega Drive above 6 kHz asks whether it is a Mega Drive, not
+        # whether its kit is playing. So for that rig the kit's band is 2-6 kHz.
+        kitBand, floor = (pres, 0.18) if RIG == "sega" else (air, 0.15)
+        where = "2-6k" if RIG == "sega" else ">6k"
+        check(f"{label}: the kit is audible in its own band ({RIG} rig)", kitBand > floor,
+              f"{where} is {kitBand:.2f}%, floor {floor}")
     elif kit is False:
         # The other half of the same assertion, and the reason it has teeth: when the
         # arrangement takes the kit out, the top end must GO.

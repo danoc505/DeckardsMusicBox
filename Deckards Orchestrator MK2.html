@@ -1628,7 +1628,13 @@ const GENRE = {
 
     pocket: [[[0, 8], 5], [[0, 7, 9, 10], 3], [[0, 6, 8, 14], 2]],
     kit: {
-      snare: [8], hatEvery: 4, hatVel: 0.5, ghostChance: 0.2,
+      /* eighths, not quarters. At quarter-note hats over the chip kit -- whose DAC
+         drums stop at 5.25 kHz and whose PSG noise stops near 7 -- the instrumental
+         sections measured 0.03% of their energy above 6 kHz and 0.25% above 2 kHz,
+         and a mix with no top at all is dull rather than atmospheric. These tracks
+         have a busy tuned-percussion bed we do not model; the hats stand in for it
+         until we do. [EAR] */
+      snare: [8], hatEvery: 2, hatVel: 0.5, ghostChance: 0.2,
       ghostSpots: [3, 7, 11, 15], openSpot: [[-1, 6], [14, 2]], openBars: [3],
       kickKeep: 9, flourishBar: 3,
       flourish: [[[14], 3], [[], 5]],
@@ -1884,7 +1890,14 @@ function makeMaterials(chart){
     if(G.bassStyle === "pedal"){
       for(let b = 0; b < BARS; b++){
         const root0 = chordSet[b].rootMidi;
-        notes.push({ bar: b, step: 0, dur: 16, pitch: root0, vel: 0.92, role: "bass" });
+        /* THE UPPER OCTAVE CARRIES THE PITCH, the lower one carries the weight --
+           and the weight has to be the smaller share. A pedal SUSTAINS where a
+           plucked bass decays, so at midi 28-31 (the measured Fear Factory E1 and
+           Hideout Helm G1) an equal-velocity pair put 27-40% of the whole mix's
+           energy under 60 Hz, which the render battery caught on six sections of
+           the first DKC song it ever measured. The register is right; the balance
+           was not. [corpus:vgmusic for the register, EAR for the split] */
+        notes.push({ bar: b, step: 0, dur: 16, pitch: root0, vel: 0.62, role: "bass" });
         /* the octave double must stay OUT of the comp's register. The bass and
            the keys are both built without consulting reservations -- they are
            independent owners -- so the only thing keeping them off each other's
@@ -1893,7 +1906,7 @@ function makeMaterials(chart){
            is better than tuning the numbers until it stops happening. */
         const up = root0 + 12;
         if(up < R.keys[0])
-          notes.push({ bar: b, step: 0, dur: 16, pitch: up, vel: 0.78, role: "bass" });
+          notes.push({ bar: b, step: 0, dur: 16, pitch: up, vel: 0.88, role: "bass" });
       }
       return notes;
     }
