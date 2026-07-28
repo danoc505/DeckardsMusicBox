@@ -99,6 +99,14 @@ const PROBES = [
   { name: 'kick_dkc',       voice: 'kick', role: 'drums', gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75, genre: 'dkc' },
   { name: 'snare_soft',  voice: 'snare',   role: 'drums',   gain: 0.25, durSec: 0.18, n: 4, spacing: 0.75 },
   { name: 'ghost',       voice: 'ghost',   role: 'drums',   gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75 },
+  /* the full tom kit, and the GATE. synthwave is the genre that opens the gate, so
+     the gated probes render under its settings -- a tom probed on lofi's kit would
+     measure the dry drum and call the gate tested. */
+  { name: 'tom1',        voice: 'tom1',    role: 'drums',   gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75 },
+  { name: 'tom2',        voice: 'tom2',    role: 'drums',   gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75 },
+  { name: 'tom3',        voice: 'tom3',    role: 'drums',   gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75 },
+  { name: 'tom3_gated',  voice: 'tom3',    role: 'drums',   gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75, genre: 'synthwave' },
+  { name: 'snare_gated', voice: 'snare',   role: 'drums',   gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75, genre: 'synthwave' },
   { name: 'hat',         voice: 'hat',     role: 'drums',   gain: 0.90, durSec: 0.12, n: 4, spacing: 0.75 },
   { name: 'openhat',     voice: 'openhat', role: 'drums',   gain: 0.90, durSec: 0.12, n: 4, spacing: 0.75 },
   { name: 'bass',        voice: 'bass',    role: 'bass',    gain: 0.90, durSec: 1.20, n: 2, spacing: 1.80, pitch: 45 },
@@ -154,7 +162,7 @@ const PROBES = [
          it here so ONE missing voice is reported as one failed check instead of
          taking the whole battery down. */
       try {
-        const blob = await MK2.renderWav(ev, secs, sr, S.space, S.kick, S.drumDrive);
+        const blob = await MK2.renderWav(ev, secs, sr, S.space, S.kick, S.drumDrive, S.gate);
         const ab = await blob.arrayBuffer(); let s = ''; const u = new Uint8Array(ab);
         for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000));
         return { b64: btoa(s) };
@@ -216,7 +224,7 @@ const PROBES = [
       const s = MK2.composeSong(a.seed, a.rig, a.genre);
       const snd = MK2.soundOf(a.genre);
       return { seed: a.seed, rig: s.chart.rig, genre: s.chart.genre, wet: snd.space.wet,
-               drumDrive: snd.drumDrive, tempo: s.chart.tempo, mode: s.chart.mode, keysChar: s.chart.keysChar,
+               gated: !!snd.gate, drumDrive: snd.drumDrive, tempo: s.chart.tempo, mode: s.chart.mode, keysChar: s.chart.keysChar,
                groove: s.perf.groove.style, nBars: s.form.nBars, nEvents: s.perf.events.length,
                voices: [...new Set(s.perf.events.map(e => e.voice))],
                sections: s.sections.map(x => ({ fn: x.fn, startBar: x.startBar, endBar: x.endBar,

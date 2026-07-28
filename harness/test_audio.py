@@ -227,7 +227,7 @@ for it in man["items"]:
           f"(Chrome's own render noise is 1-3 LSB)")
 
 # ── the per-mix battery, run on the reference bar and every section excerpt ───
-def mix_battery(fn, label, kit, RIG="band", WET=0.16):
+def mix_battery(fn, label, kit, RIG="band", WET=0.16, GATED=False):
     """kit=True  -> the arrangement has the drums on in this excerpt
        kit=False -> it does not (intro / outro / bridge: keys and bass only)
        kit=None  -> do not judge the kit bands (a transition bar spans both)"""
@@ -282,8 +282,15 @@ def mix_battery(fn, label, kit, RIG="band", WET=0.16):
     # dry genre or fails the wet one for being what it says it is. Measured: sid
     # runs about 0.3-0.55x the declared wet, so the wet value itself is a ceiling
     # with ~1.8x headroom, and a DOUBLED send clears it at every setting.
-    check(f"{label}: reverb return present, at depth", 0.02 < sid < max(0.16, WET),
-          f"side/mid {sid:.4f}, ceiling {max(0.16, WET):.2f} (declared wet {WET})")
+    # A GATED GENRE HAS TWO STEREO RETURNS, not one. The gate is its own convolver
+    # with its own 2-channel IR, so a genre that declares one legitimately carries
+    # far more side energy than its reverb send alone would explain -- measured
+    # 0.42-0.49 on synthwave against 0.03-0.08 on the ungated genres. Judging both
+    # against one ceiling either excuses a doubled send on the dry genres or fails
+    # the gated one for having the sound it asked for.
+    ceil = max(0.16, WET) + (0.35 if GATED else 0.0)
+    check(f"{label}: reverb return present, at depth", 0.02 < sid < ceil,
+          f"side/mid {sid:.4f}, ceiling {ceil:.2f} (wet {WET}{', gated' if GATED else ''})")
 
     # CAUGHT: a mix that is nothing but low end -- the first build shipped one.
     # [measured: 48-75%; MK1's battery used the same 88% bar, kept for continuity]
@@ -423,6 +430,11 @@ for loud, soft in [("kick", "kick_soft"), ("snare", "snare_soft")]:
 # [theory: the probe schedules exactly `hits` events]
 for name, it in solos.items():
     if not it.get("percussive"): continue
+    # ...except on a GATED probe, where the extra transients are the point. A gate
+    # opens and slams, and both edges are events an onset detector will and should
+    # see -- measured 11 for four hits. The ungated probe of the same voice still
+    # answers this question, which is what the check is actually for.
+    if name.endswith("_gated"): continue
     n = onset_count(MEAS[name]["x"], MEAS[name]["sr"])
     check(f"solo {name}: one hit per event", n == it["hits"], f"{n} onsets, {it['hits']} scheduled")
 
@@ -613,7 +625,8 @@ for key in sorted(k for k in man if k.startswith("song_")):
     for it in rows:
         s = mix_battery(it["file"], f"{it['fn']}[{it['idx']}]", kit=it["hasDrums"],
                         RIG=man.get("song_" + str(it["seed"]), {}).get("rig", "band"),
-                        WET=man.get("song_" + str(it["seed"]), {}).get("wet", 0.16))
+                        WET=man.get("song_" + str(it["seed"]), {}).get("wet", 0.16),
+                        GATED=man.get("song_" + str(it["seed"]), {}).get("gated", False))
         if s: stats.append((it, s))
     if len(stats) < 4:
         check(f"seed {seed}: enough sections measured to judge an arc", False, f"{len(stats)}")
@@ -667,7 +680,13 @@ for key in sorted(k for k in man if k.startswith("song_")):
     # that has no kit at all, and is supposed to get quieter.]
     for it in man["items"]:
         if it["kind"] != "transition" or it.get("seed") != seed or "error" in it: continue
-        mix_battery(it["file"], f"fill->{it['toFn']}", kit=None)
+        # the transition excerpts were being judged with lofi's defaults whatever
+        # genre they came from -- so a gated synthwave fill was measured against a
+        # dry lofi ceiling and failed for being what it is
+        _sg = man.get("song_" + str(it["seed"]), {})
+        mix_battery(it["file"], f"fill->{it['toFn']}", kit=None,
+                    RIG=_sg.get("rig", "band"), WET=_sg.get("wet", 0.16),
+                    GATED=_sg.get("gated", False))
         if it["toFn"] != "chorus": continue
         L, R, sr = wav(it["file"]); x = (L + R) / 2
         bar = int(16 * ((60 / it["tempo"]) / 4) * sr)

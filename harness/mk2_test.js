@@ -36,7 +36,8 @@ let rigs = {}, rigSame = 0, rigChecked = 0, rigVoices = 0, unknownVoice = [];
 /* the rig table is the ONLY thing a rig changes; every voice it names must exist */
 const RIG_NAMES = new Set(["kick","snare","ghost","hat","openhat","bass","keys","lead","counter",
   "dacKick","dacSnare","dacGhost","psgHat","psgOpenhat",
-  "chipBass","chipKeys","chipLead","chipCounter","tape"]);
+  "chipBass","chipKeys","chipLead","chipCounter","tape",
+  "tom1","tom2","tom3"]);
 
 for(let s = 1; s <= N; s++){
   let song;
@@ -256,6 +257,26 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     check("every genre's second voice actually sounds", genres.every(g => dens[g].ctr > 0.3),
           genres.map(g => `${g} ${(100*dens[g].ctr).toFixed(0)}%`).join("  "));
   }
+  /* THE DRUMMER HAS TO ACTUALLY USE THE TOMS. A kit with three tom voices that
+     nothing ever strikes is three dead voices and a fill that is a snare roll.
+     Measured when this landed: synthwave 12.9 hits a song in 111/120 songs,
+     lofi 3.7 in 49/120, dkc 3.8 in 81/120 -- a genre may want few, but a genre
+     that declares toms must play them. */
+  {
+    const rows = [];
+    let anyGenreUses = 0;
+    for(const g of genres){
+      let hits = 0, songs = 0, withToms = 0;
+      for(let s = 1; s <= 60; s++){
+        const ev = M.composeSong(s, undefined, g).perf.events;
+        const n = ev.filter(e => /^tom/.test(e.lane || "")).length;
+        hits += n; songs++; if(n > 0) withToms++;
+      }
+      rows.push(`${g} ${(hits/songs).toFixed(1)}/song in ${withToms}/${songs}`);
+      if(withToms > songs * 0.25) anyGenreUses++;
+    }
+    check("the drummer actually uses the toms", anyGenreUses === genres.length, rows.join("  |  "));
+  }
   check("the genres are actually different music", new Set(seen.values()).size === genres.length,
         [...seen].map(([g, v]) => `${g}: ${v}`).join("  |  "));
 }
@@ -290,7 +311,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     }
     return ons;
   };
-  const LANES = new Set(["kick", "snare", "ghost", "hat", "openhat"]);
+  const LANES = new Set(["kick", "snare", "ghost", "hat", "openhat", "tom1", "tom2", "tom3"]);
   let bad = [];
   for(const g of M.genres()) for(const seed of [1, 2, 3]){
     const song = M.composeSong(seed, undefined, g);

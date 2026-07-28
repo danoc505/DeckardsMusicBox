@@ -51,7 +51,8 @@ const nm = p => T.NOTE_NAMES[T.pc(p)] + (Math.floor(p / 12) - 1);   // midi 60 -
 
 /* ── the grid. 16 steps a bar, four bars across, one line per lane/role. ── */
 const RULER = "1e+a2e+a3e+a4e+a";
-const DRUM_CH = { kick: "K", snare: "S", ghost: "g", hat: "x", openhat: "O" };
+const DRUM_CH = { kick: "K", snare: "S", ghost: "g", hat: "x", openhat: "O",
+                  tom1: "1", tom2: "2", tom3: "3" };
 
 function gridLine(notes, bars, pick){
   const out = [];
@@ -75,7 +76,7 @@ function gridLine(notes, bars, pick){
 function printMaterial(key, mat, bars){
   console.log(`\n── MATERIAL ${key} ${"─".repeat(62 - key.length)}`);
   console.log("        " + Array.from({ length: bars }, (_, i) => RULER).join(" "));
-  const lanes = ["kick", "snare", "ghost", "hat", "openhat"];
+  const lanes = ["kick", "snare", "ghost", "tom1", "tom2", "tom3", "hat", "openhat"];
   for(const lane of lanes){
     const ns = (mat.drums || []).filter(n => n.lane === lane);
     if(!ns.length) continue;

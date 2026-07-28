@@ -362,8 +362,12 @@ const YM_PATCH = {
    as undefined and throws, which is exactly the behaviour we want. */
 const RIG = {
   band: { kick:"kick",    snare:"snare",    ghost:"ghost",    hat:"hat",    openhat:"openhat",
+          tom1:"tom1", tom2:"tom2", tom3:"tom3",
           bass:"bass",     keys:"keys",     lead:"lead",     counter:"counter", ostinato:"counter" },
   sega: { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat", openhat:"psgOpenhat",
+          /* the Mega Drive has no tom sample; its DAC snare stands in, which is
+             what a 4-channel PCM kit actually did. [theory: MD hardware] */
+          tom1:"tom1", tom2:"tom2", tom3:"tom3",
           bass:"chipBass", keys:"chipKeys", lead:"chipLead", counter:"chipCounter", ostinato:"chipCounter" },
   /* synthwave's band. The comp goes to the CS-80 voice, which has been built and
      probed since the synth research and has been sitting unwired waiting for a
@@ -372,6 +376,7 @@ const RIG = {
      CS-80, but of everything in this palette it is the one in that lineage, and
      it is the right instrument for a wide sustained synth comp. [EAR] */
   neon: { kick:"kick",    snare:"snare",    ghost:"ghost",    hat:"hat",    openhat:"openhat",
+          tom1:"tom1", tom2:"tom2", tom3:"tom3",
           bass:"bass",     keys:"cs80",     lead:"lead",     counter:"counter", ostinato:"counter" },
 };
 
@@ -459,10 +464,57 @@ const Sound = (function(){
        saturation stage is for. The makeup divides the slope back out, so at
        drumDrive 1.0 the kit measures exactly as it did before and only its SHAPE
        has changed; above 1.0 the genre is genuinely pushing it harder. */
+    /* ══ THE GATE — the Phil Collins drum sound, and it is not a reverb preset.
+       Hugh Padgham found it by accident on Peter Gabriel's "Intruder": the SSL's
+       talkback mic got left open, and the console had a compressor AND a noise
+       gate on every channel, so the room ambience could be squashed flat and then
+       cut off dead. What you hear on "In the Air Tonight" is heavily COMPRESSED
+       ROOM AMBIENCE with a gate slammed across it -- the drum hits with a fat
+       room around it and then the room vanishes in an instant, which is a thing
+       no natural space does. The compression is half of it: it is what makes the
+       tail as loud as the hit, so the cut is audible at all.
+
+       Built the way the desk built it: one short bright room, a hard compressor
+       across the return, and ONE gate on the bus that every hit retriggers --
+       which is exactly what a channel gate is. Hold about 150 ms, then off in
+       about 15. [corpus: SoundOnSound "How do I set up a gated reverb", MusicRadar
+       on Padgham/Gabriel/Collins -- hold ~150 ms, release ~148 ms] ══ */
+    {
+      const sr = c.sampleRate, len = Math.floor(0.22 * sr);
+      const ir = c.createBuffer(2, len, sr);
+      for(let ch = 0; ch < 2; ch++){
+        const d = ir.getChannelData(ch), r2 = makeRng(hash32("gate" + ch));
+        for(let i = 0; i < len; i++){
+          const t = i / len;
+          /* a small bright room: dense, barely decaying, no dark tail -- the gate
+             is going to remove the tail anyway, so the room only has to be LOUD */
+          d[i] = (r2() * 2 - 1) * Math.pow(1 - t, 0.35);
+        }
+      }
+      g.gateVerb = c.createConvolver(); g.gateVerb.buffer = ir;
+      g.gateSend = c.createGain(); g.gateSend.gain.value = 0;   // per genre
+      g.gateComp = c.createDynamicsCompressor();
+      g.gateComp.threshold.value = -34; g.gateComp.knee.value = 2;
+      g.gateComp.ratio.value = 16; g.gateComp.attack.value = 0.001; g.gateComp.release.value = 0.05;
+      /* MAKEUP, because WebAudio's compressor has none and without it the whole
+         effect is inaudible. Measured before adding it: the gated tom decayed at
+         -3.5 dB across the gate point against the dry drum's -3.6 -- i.e. the room
+         was so far down that nothing was heard to cut, which is not a gated
+         reverb, it is a slightly wetter drum. The compression is HALF the sound:
+         it is what makes the tail as loud as the hit, and only then does slamming
+         it shut register as an event. [corpus: Sweetwater/MusicRadar -- "the whole
+         essence is the compression ... then the gate just shuts it off"] */
+      g.gateMakeup = c.createGain(); g.gateMakeup.gain.value = 5.5;
+      g.gate = c.createGain(); g.gate.gain.value = 0.0001;      // shut until a hit opens it
+      g.gateSend.connect(g.gateVerb); g.gateVerb.connect(g.gateComp);
+      g.gateComp.connect(g.gateMakeup); g.gateMakeup.connect(g.gate);
+      g.gateHold = 0.15; g.gateFall = 0.015;
+    }
     g.drumMakeup = c.createGain(); g.drumMakeup.gain.value = 1 / 1.8;
     g.bus.drums.connect(g.drumDrive); g.drumDrive.connect(g.drumPre);
     g.drumPre.connect(g.drumSat); g.drumSat.connect(g.drumMakeup);
     g.drumMakeup.connect(g.mix);
+    g.gate.connect(g.mix);          // the gated room sits beside the dry kit
 
     /* soft clip: curve tanh(3.6x) over the shaper's [-1,1] input with a 0.5
        pre-gain — same small-signal slope as tanh(1.8x) but clipping begins at
@@ -973,6 +1025,75 @@ const Sound = (function(){
     }
     return made;
   };
+  /* ── THE TOMS. A tom is a tuned membrane: a sine that drops in pitch as the
+     head relaxes, a quieter octave above it for the shell, and a short stick
+     transient. The drop is what makes it a tom and not a bass note -- about a
+     fifth over 120 ms on the floor tom, less as they get smaller.
+     Each one also feeds the GATE, which is the whole point: this is the sound
+     the 80s was built on and the reason the user asked for a full kit.
+     [theory: membrane tuning; the frequencies are the standard 12"/14"/16" range] ── */
+  /* ONE GATE ON THE BUS, retriggered by every hit -- which is what a channel gate
+     on a desk is. It opens FAST BUT NOT INSTANTLY: stepping the gain from near
+     zero to one in a single sample is a click, and the output battery counted 11
+     onsets where four hits were scheduled because of exactly that. A real gate's
+     attack is under a millisecond, but it is not a step. */
+  function openGate(g, t){
+    const gt = g.gate.gain;
+    gt.setValueAtTime(Math.max(0.0001, gt.value), t);
+    gt.linearRampToValueAtTime(1, t + 0.0015);
+    gt.setValueAtTime(1, t + g.gateHold);
+    gt.exponentialRampToValueAtTime(0.0001, t + g.gateHold + g.gateFall);
+  }
+  function tomVoice(f0, f1, decay0, lvl){
+    return function(g, ev, t){
+      const c = g.ctx;
+      /* THE DRUM ITSELF GETS SHORTER WHEN THE GENRE GATES, because that is what
+         gated drums are. Measured with a natural 680 ms floor tom: the gate cut
+         the room dead but the composite still decayed at -4.4 dB across the gate
+         point against the dry drum's -4.5 -- the drum's own ring simply masked
+         it. On the records this sound comes from, the kit is squashed flat and
+         SHORT and the room carries all the length, so when the gate slams there
+         is nothing left underneath. A genre that gates therefore also shortens
+         the drum. [corpus: Sweetwater on the Collins chain -- compression first] */
+      const decay = decay0 * (g.tomDecay != null ? g.tomDecay : 1);
+      const o = c.createOscillator(); o.type = "sine";
+      o.frequency.setValueAtTime(f0, t);
+      o.frequency.exponentialRampToValueAtTime(f1, t + 0.12);
+      const og = c.createGain();
+      og.gain.setValueAtTime(lvl * ev.gain, t);
+      og.gain.exponentialRampToValueAtTime(0.0002, t + decay);
+      o.connect(og); og.connect(g.bus.drums);
+      o.start(t); o.stop(t + decay + 0.05);
+      /* the shell: an octave up, quiet and shorter -- a drum is not one mode */
+      const o2 = c.createOscillator(); o2.type = "triangle";
+      o2.frequency.setValueAtTime(f0 * 2, t);
+      o2.frequency.exponentialRampToValueAtTime(f1 * 2, t + 0.10);
+      const o2g = c.createGain();
+      o2g.gain.setValueAtTime(lvl * ev.gain * 0.22, t);
+      o2g.gain.exponentialRampToValueAtTime(0.0002, t + decay * 0.5);
+      o2.connect(o2g); o2g.connect(g.bus.drums);
+      o2.start(t); o2.stop(t + decay * 0.5 + 0.05);
+      /* the stick */
+      const n = burst(g, t, 0.014, ev.tSec.toFixed(5) + ":tom" + f0);
+      const bp = c.createBiquadFilter(); bp.type = "bandpass";
+      bp.frequency.value = 1900; bp.Q.value = 0.9;
+      const ng = c.createGain();
+      ng.gain.setValueAtTime(lvl * ev.gain * 0.34, t);
+      ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.016);
+      n.connect(bp); bp.connect(ng); ng.connect(g.bus.drums);
+      /* ...and into the gate. ONE gate on the bus, retriggered by every hit,
+         which is what a channel gate on a desk actually is: it opens flat and
+         then slams, and a second hit inside the hold simply reopens it. */
+      og.connect(g.gateSend); ng.connect(g.gateSend);
+      openGate(g, t);
+      return [o, o2, n];
+    };
+  }
+  /* 12", 14" and 16": high, mid, floor. [theory: standard tom tuning ranges] */
+  V.tom1 = tomVoice(240, 150, 0.42, 0.62);
+  V.tom2 = tomVoice(180, 112, 0.52, 0.66);
+  V.tom3 = tomVoice(120,  76, 0.68, 0.70);
+
   V.snare = function(g, ev, t){
     const c = g.ctx, out = [];
     for(const [f0, f1, amp, dec] of [[330,195,0.32,0.09],[185,150,0.14,0.11]]){ // shell modes
@@ -995,6 +1116,11 @@ const Sound = (function(){
     wg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.46, t);
     wg.gain.exponentialRampToValueAtTime(0.0002, t + 0.13);
     wire.connect(wh); wh.connect(wg); wg.connect(g.bus.drums); out.push(wire);
+    /* THE SNARE IS THE DRUM THE GATE WAS INVENTED ON -- "In the Air Tonight" is a
+       gated snare before it is anything else. Same shared gate as the toms: one
+       instance on the bus, retriggered per hit, exactly like a channel gate. */
+    cg.connect(g.gateSend); wg.connect(g.gateSend);
+    openGate(g, t);
     return out;
   };
   V.ghost = V.snare;
@@ -1242,9 +1368,14 @@ const Sound = (function(){
      whichever graph is about to play. buildGraph fixes the topology; this sets
      the numbers, before any event is scheduled. */
   const KICK_DEFAULT = { tune: 54, decay: 0.24, click: 0.6, drive: 0.35, body: 1, gain: 1.05 };
-  function setSpace(g, space, kick, drumDrive){
+  function setSpace(g, space, kick, drumDrive, gate){
     g.kick = Object.assign({}, KICK_DEFAULT, kick || {});
+    g.tomDecay = gate ? (gate.tomDecay != null ? gate.tomDecay : 0.45) : 1;
     if(drumDrive != null && g.drumDrive) g.drumDrive.gain.value = drumDrive;
+    /* the gate is a GENRE decision and a strong one: at 0 it is not there at all,
+       which is right for lofi and for DKC. Synthwave is the genre it belongs to. */
+    if(g.gateSend) g.gateSend.gain.value = gate ? gate.send : 0;
+    if(gate){ g.gateHold = gate.hold; g.gateFall = gate.fall; }
     if(!space) return;
     if(space.wet != null) g.wet.gain.value = space.wet;
   }
@@ -1257,10 +1388,10 @@ const Sound = (function(){
     return ctx;
   }
   let liveTimer = null;
-  function playLive(events, space, kick, drumDrive){
+  function playLive(events, space, kick, drumDrive, gate){
     ensureLive();
     stopLive();
-    setSpace(liveGraph, space, kick, drumDrive);   // the song's room and kit, before anything sounds
+    setSpace(liveGraph, space, kick, drumDrive, gate);   // room, kit and gate, before anything sounds
     const t0 = ctx.currentTime + 0.15;
     let i = 0;
     const pump = () => {
@@ -1280,11 +1411,11 @@ const Sound = (function(){
     for(const h of liveHandles){ try{ h.stop(0); }catch(e){} try{ h.disconnect(); }catch(e){} }
     liveHandles.clear();
   }
-  async function renderWav(events, seconds, sampleRate, space, kick, drumDrive){
+  async function renderWav(events, seconds, sampleRate, space, kick, drumDrive, gate){
     const sr = sampleRate || 44100;
     const off = new OfflineAudioContext(2, Math.ceil(seconds * sr), sr);
     const graph = buildGraph(off);
-    setSpace(graph, space, kick, drumDrive);    // the same numbers the live graph gets
+    setSpace(graph, space, kick, drumDrive, gate);   // the same numbers the live graph gets
     perform(graph, events, 0.05);              // the SAME perform() — no second path
     const buf = await off.startRendering();
     return encodeWav(buf);
@@ -1412,6 +1543,16 @@ const GENRE = {
       ghostSpots:  [3, 7, 9, 11, 15],
       openSpot:    [[14, 4], [7, 2], [-1, 4]],   // -1 = this song has no open hat
       openBars:    [1, 3],
+      /* THE TOMS. `use` is how often a fill comes down the kit instead of being a
+         snare roll; `loop` is how often the drummer answers a phrase with a tom
+         even when nothing is arriving. A drummer who enjoys toms has both. */
+      toms: { use: 0.30, loop: 0.15, loopSpots: [14, 15], loopLanes: ["tom2", "tom3"],
+        shapes: [
+          [[[10,"tom1"],[12,"tom2"],[14,"tom3"]], 4],                 // the classic descent
+          [[[8,"tom1"],[10,"tom1"],[12,"tom2"],[14,"tom3"]], 3],      // doubled at the top
+          [[[11,"tom2"],[13,"tom3"],[14,"tom3"],[15,"tom3"]], 2],     // leaning on the floor
+          [[[12,"tom1"],[13,"tom2"],[14,"tom3"],[15,"tom3"]], 2],     // a sixteenth run down
+        ] },
       kickKeep:    9,                  // how many of the pocket's hits to play
       /* THE FOURTH BAR. Straight eighths for four bars is a metronome, not a
          hat part -- but varying every bar is not a pattern either, which is the
@@ -1483,6 +1624,9 @@ const GENRE = {
       snare: [0.40,0.33,0.43,0.47,0.96,0.35,0.55,0.39,0.48,0.41,0.49,0.48,1.00,0.42,0.61,0.38],
       ghost: [0.40,0.33,0.43,0.47,0.96,0.35,0.55,0.39,0.48,0.41,0.49,0.48,1.00,0.42,0.61,0.38],
       hat:   [0.92,0.53,0.87,0.69,1.00,0.57,0.88,0.63,0.89,0.64,0.89,0.68,0.99,0.63,0.87,0.64],
+      tom1:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
+      tom2:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
+      tom3:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
       openhat:[0.92,0.53,0.87,0.69,1.00,0.57,0.88,0.63,0.89,0.68,0.89,0.68,0.99,0.63,0.87,0.64],
     },
     space: { wet: 0.16 },                                                            // [EAR]
@@ -1491,6 +1635,7 @@ const GENRE = {
        KICK_BY_GENRE.lofi] */
     kick: { tune: 60, decay: 0.18, click: 0.35, drive: 0.20, body: 0.90, gain: 0.90 },
     drumDrive: 1.05,
+    gate: null,                  // a boom-bap kit is a room, not a gate
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },   // lofi has no ribbon
     bassStyle: "follow",
     bassPulse: null,
@@ -1560,6 +1705,16 @@ const GENRE = {
       ghostSpots:  [3, 7, 11, 15],
       openSpot:    [[14, 5], [6, 2], [-1, 3]],   // open hats feature; no-open-hat is rarer than lofi
       openBars:    [1, 3],
+      /* THE TOMS. `use` is how often a fill comes down the kit instead of being a
+         snare roll; `loop` is how often the drummer answers a phrase with a tom
+         even when nothing is arriving. A drummer who enjoys toms has both. */
+      toms: { use: 0.85, loop: 0.45, loopSpots: [10, 14, 15], loopLanes: ["tom1", "tom2", "tom3"],
+        shapes: [
+          [[[10,"tom1"],[12,"tom2"],[14,"tom3"]], 4],                 // the classic descent
+          [[[8,"tom1"],[10,"tom1"],[12,"tom2"],[14,"tom3"]], 3],      // doubled at the top
+          [[[11,"tom2"],[13,"tom3"],[14,"tom3"],[15,"tom3"]], 2],     // leaning on the floor
+          [[[12,"tom1"],[13,"tom2"],[14,"tom3"],[15,"tom3"]], 2],     // a sixteenth run down
+        ] },
       kickKeep:    8,          // the machine plays its whole pattern
       flourishBar: 3,
       flourish:    [[[14, 15], 4], [[7, 15], 2], [[10, 11, 14, 15], 2], [[], 2]],
@@ -1620,6 +1775,9 @@ const GENRE = {
       snare: [0.90,0.85,0.85,0.85,1.00,0.85,0.85,0.85,0.90,0.85,0.85,0.85,1.00,0.85,0.85,0.85],
       ghost: [0.90,0.85,0.85,0.85,1.00,0.85,0.85,0.85,0.90,0.85,0.85,0.85,1.00,0.85,0.85,0.85],
       hat:   [1.00,0.86,0.92,0.86,0.96,0.86,0.92,0.86,1.00,0.86,0.92,0.86,0.96,0.86,0.92,0.86],
+      tom1:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
+      tom2:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
+      tom3:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
       openhat:[1.00,0.86,0.92,0.86,0.96,0.86,0.92,0.86,1.00,0.86,0.92,0.86,0.96,0.86,0.92,0.86],
     },
     space: { wet: 0.30 },        // a WET genre: plate/hall, roughly double lofi [tut:futureproof]
@@ -1628,6 +1786,12 @@ const GENRE = {
        [corpus: Improv Machine BETA 0.1, KICK_BY_GENRE.synthwave / DRUMBUS 1.4] */
     kick: { tune: 49, decay: 0.34, click: 0.90, drive: 0.60, body: 1.15, gain: 1.25 },
     drumDrive: 1.40,
+    /* THE GATED REVERB, and this is the genre it belongs to -- arguably the single
+       most identifying sound of the decade synthwave is about. Hold 150 ms then off
+       in 15, which is the desk setting the effect was found on.
+       [corpus: SoundOnSound "How do I set up a gated reverb"; MusicRadar on
+       Padgham, Gabriel and Collins -- hold ~150 ms, release ~148 ms] */
+    gate: { send: 0.95, hold: 0.150, fall: 0.015, tomDecay: 0.40 },
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },   // no ribbon in this genre
     bassStyle: "pulse",
     /* [tut:babyaudio, tut:soundbridge, tut:modeaudio] eighth-note repeating roots
@@ -1732,6 +1896,16 @@ const GENRE = {
          until we do. [EAR] */
       snare: [8], hatEvery: 2, hatVel: 0.5, ghostChance: 0.2,
       ghostSpots: [3, 7, 11, 15], openSpot: [[-1, 6], [14, 2]], openBars: [3],
+      /* THE TOMS. `use` is how often a fill comes down the kit instead of being a
+         snare roll; `loop` is how often the drummer answers a phrase with a tom
+         even when nothing is arriving. A drummer who enjoys toms has both. */
+      toms: { use: 0.55, loop: 0.35, loopSpots: [12, 14], loopLanes: ["tom1", "tom2", "tom3"],
+        shapes: [
+          [[[10,"tom1"],[12,"tom2"],[14,"tom3"]], 4],                 // the classic descent
+          [[[8,"tom1"],[10,"tom1"],[12,"tom2"],[14,"tom3"]], 3],      // doubled at the top
+          [[[11,"tom2"],[13,"tom3"],[14,"tom3"],[15,"tom3"]], 2],     // leaning on the floor
+          [[[12,"tom1"],[13,"tom2"],[14,"tom3"],[15,"tom3"]], 2],     // a sixteenth run down
+        ] },
       kickKeep: 9, flourishBar: 3,
       flourish: [[[14], 3], [[], 5]],
       variants: {
@@ -1790,6 +1964,9 @@ const GENRE = {
       snare: [0.85,0.80,0.82,0.80,0.95,0.80,0.82,0.80,1.00,0.80,0.82,0.80,0.95,0.80,0.82,0.80],
       ghost: [0.85,0.80,0.82,0.80,0.95,0.80,0.82,0.80,1.00,0.80,0.82,0.80,0.95,0.80,0.82,0.80],
       hat:   [0.95,0.78,0.86,0.78,0.92,0.78,0.86,0.78,0.95,0.78,0.86,0.78,0.92,0.78,0.86,0.78],
+      tom1:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
+      tom2:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
+      tom3:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
       openhat:[0.95,0.78,0.86,0.78,0.92,0.78,0.86,0.78,0.95,0.78,0.86,0.78,0.92,0.78,0.86,0.78],
     },
     space: { wet: 0.34 },        // the SNES echo unit is most of this music's air [EAR]
@@ -1798,6 +1975,7 @@ const GENRE = {
        [corpus: Improv Machine BETA 0.1, KICK_BY_GENRE.wise] */
     kick: { tune: 60, decay: 0.18, click: 0.35, drive: 0.20, body: 0.90, gain: 0.90 },
     drumDrive: 1.05,
+    gate: null,                  // the SNES echo is this genre's space, not a gate
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },
   },
 };
@@ -1982,6 +2160,16 @@ function makeMaterials(chart){
       const ghostHere = rng() < K.ghostChance, ghostAt = pick(rng, ghostSpots);
       if(ghostHere)
         notes.push({ bar: b, step: ghostAt, dur: 1, lane: "ghost", vel: 0.35, role: "drums" });
+      /* A DRUMMER WHO LIKES TOMS reaches for one inside the loop too, not only in
+         fills -- the tom answer at the end of a phrase is a habit, not an event.
+         Drawn per bar so it lands where it lands, and gated behind a genre weight
+         so a genre that does not want toms never hears one. Both draws run. */
+      const T2 = K.toms || { loop: 0, loopSpots: [], loopLanes: ["tom2"] };
+      const tomHere = rng() < (T2.loop || 0);
+      const tomAt = T2.loopSpots && T2.loopSpots.length ? pick(rng, T2.loopSpots) : 14;
+      const tomLane = T2.loopLanes && T2.loopLanes.length ? pick(rng, T2.loopLanes) : "tom2";
+      if(tomHere && b === BARS - 1)
+        notes.push({ bar: b, step: tomAt, dur: 1, lane: tomLane, vel: 0.72, role: "drums" });
       if(openSpot >= 0 && K.openBars.includes(b))
         notes.push({ bar: b, step: openSpot, dur: 1, lane: "openhat", vel: 0.55, role: "drums" });
     }
@@ -2393,14 +2581,41 @@ function makeMaterials(chart){
     .concat(varTail.notes.filter(n => n.bar >= 2));
 
   /* ── the fill: composed here, SELECTED by the arrangement ── */
+  /* ── THE FILL, and it comes DOWN THE TOMS. It used to be five snare hits in a
+     row, which is not a fill, it is a snare roll -- and it meant the kit had
+     three toms it never touched. A fill is the one bar where a drummer stops
+     keeping time and plays the kit, and the shape that says so is descending:
+     high tom to mid to floor, arriving on the downbeat of whatever comes next.
+     Which shape gets drawn, and how much the drummer reaches for toms at all,
+     is a GENRE decision -- a boom-bap drummer and an 80s drummer want opposite
+     amounts of this. [theory: the descending tom fill is the canonical
+     turnaround; EAR for the weights] ── */
   const fill = (() => {
     const rng = stream(chart.seed, "fill");
+    const K = G.kit, T = K.toms || { use: 0, shapes: [[[], 1]] };
     const notes = [{ bar: 0, step: 0, dur: 1, lane: "kick", vel: 1.0, role: "drums" }];
-    for(let s = 0; s < 8; s += 2) notes.push({ bar: 0, step: s, dur: 1, lane: "hat", vel: 0.4, role: "drums" });
+    for(let s = 0; s < 8; s += K.hatEvery)
+      notes.push({ bar: 0, step: s, dur: 1, lane: "hat", vel: K.hatVel * 0.65, role: "drums" });
     notes.push({ bar: 0, step: 4, dur: 1, lane: "snare", vel: 0.9, role: "drums" });
-    for(const s of [10, 12, 13, 14, 15])
-      if(s === 12 || rng() < 0.75)
-        notes.push({ bar: 0, step: s, dur: 1, lane: "snare", vel: 0.34 + (s - 10) * 0.11, role: "drums" });
+    /* both draws always run, whatever the genre decides to do with them [Law 7] */
+    const useToms = rng() < T.use, shape = wpick(rng, T.shapes);
+    if(useToms && shape.length){
+      /* the shape is [step, lane] pairs over the back half of the bar, and it
+         crescendos into the arrival the way a drummer leans on the last one */
+      for(let i = 0; i < shape.length; i++){
+        const [st, lane] = shape[i];
+        /* the crescendo leads INTO the arrival and must stay UNDER it. At 0.62-0.92
+           the tom fill measured within 0.61 dB of the chorus it sets up, which the
+           output battery caught -- a fill that arrives as loud as the thing it is
+           announcing has announced nothing. [EAR: how hard a drummer leans] */
+        notes.push({ bar: 0, step: st, dur: 1, lane,
+                     vel: 0.52 + 0.26 * (i / Math.max(1, shape.length - 1)), role: "drums" });
+      }
+    } else {
+      for(const st of [10, 12, 13, 14, 15])
+        if(st === 12 || rng() < 0.75)
+          notes.push({ bar: 0, step: st, dur: 1, lane: "snare", vel: 0.34 + (st - 10) * 0.11, role: "drums" });
+    }
     return notes;
   })();
 
@@ -2708,7 +2923,8 @@ function composeSong(seed, rig, genre){
 const MIDI_PPQ = 960;
 /* GM percussion keys, so a drum track reads correctly on any device
    [theory: General MIDI level 1 percussion map, channel 10] */
-const GM_DRUM = { kick: 36, snare: 38, ghost: 38, hat: 42, openhat: 46 };
+const GM_DRUM = { kick: 36, snare: 38, ghost: 38, hat: 42, openhat: 46,
+                  tom1: 50, tom2: 47, tom3: 43 };   // high / low-mid / high-floor
 /* one track per role. Programs are ADVISORY -- a hint for whoever opens the
    file, never something this program's own sound depends on. */
 const MIDI_TRACK = {
@@ -2828,7 +3044,7 @@ function togglePlay(){
   if(playing){ Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play"; return; }
   {
     const G = GENRE[SONG.chart.genre];
-    Sound.playLive(SONG.perf.events, G.space, G.kick, G.drumDrive);
+    Sound.playLive(SONG.perf.events, G.space, G.kick, G.drumDrive, G.gate);
   }
   playing = true; $("play").innerHTML = "&#9632; stop";
 }
@@ -2846,7 +3062,7 @@ async function downloadWav(){
   try{
     const G = GENRE[SONG.chart.genre];
     const blob = await Sound.renderWav(SONG.perf.events, SONG.perf.seconds, 44100,
-                                       G.space, G.kick, G.drumDrive);
+                                       G.space, G.kick, G.drumDrive, G.gate);
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = `mk2_${SONG.chart.genre}_${SONG.chart.rig}_${SONG.chart.tempo}bpm_seed${SONG.chart.seed}.wav`;
@@ -2876,9 +3092,10 @@ window.addEventListener("DOMContentLoaded", () => {
 window.MK2 = {
   composeSong, newSong,
   referenceEvents,
-  renderWav: (events, seconds, sr, space, kick, drumDrive) =>
-    Sound.renderWav(events, seconds, sr, space, kick, drumDrive),
-  soundOf: g => { const G = GENRE[g] || GENRE.lofi; return { space: G.space, kick: G.kick, drumDrive: G.drumDrive }; },
+  renderWav: (events, seconds, sr, space, kick, drumDrive, gate) =>
+    Sound.renderWav(events, seconds, sr, space, kick, drumDrive, gate),
+  soundOf: g => { const G = GENRE[g] || GENRE.lofi;
+    return { space: G.space, kick: G.kick, drumDrive: G.drumDrive, gate: G.gate }; },
   genres: () => Object.keys(GENRE),
   toMidi,
   /* measurement handles: the chip's tuning grid and its patch table, so a probe
