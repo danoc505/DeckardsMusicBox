@@ -1255,6 +1255,10 @@ const GENRE = {
     groove: {
       styles:     [["dilla", 6], ["even", 4]],           // [EAR]
       swing:      [1.5, 0.16],                           // ratio base, range
+      /* WHICH subdivision swings: 2 = eighths (a shuffle), 1 = sixteenths (what
+         an MPC does, and what hip-hop was actually made against). 2 is what has
+         shipped; 1 is the open question for this genre. [EAR] */
+      swingUnit:  2,
       snareEarly: [0.10, 0.15],                          // sixteenths, toward "a 32nd early"
       kickLate:   [0.06, 0.12],
       hatMul:     0.25,                                  // hats stay nearly straight: the friction
@@ -1833,7 +1837,33 @@ function makePerformance(chart, form, materials, sections){
   const GR = GENRE[chart.genre].groove, TOUCH = GENRE[chart.genre].touch;
   const rngG = stream(chart.seed, "groove");
   const swingRatio = GR.swing[0] + rngG() * GR.swing[1];
-  const swingOffset = 4 * swingRatio / (swingRatio + 1) - 2;   // true ratio conversion [theory]
+  /* SWING AS A TIME WARP, not an offset added to selected steps.
+
+     A research pass called the old code a bug -- "neither 16th swing nor 8th
+     swing" -- and the arithmetic says it was not: adding the full offset at
+     steps 2/6/10/14 and half of it at the odd sixteenths produces gaps of
+     1.2, 1.2, 0.8, 0.8, which is EXACTLY correct eighth-note swing with the
+     sixteenths placed proportionally inside each uneven half. Refuted, and
+     nothing was broken.
+
+     What the pass was really pointing at is a genre question, not a defect:
+     hip-hop swing is a SIXTEENTH-note swing (the MPC delays the second
+     sixteenth of each pair), while what MK2 does is an EIGHTH-note shuffle.
+     That is a table entry, so it becomes one. The warp below expresses both
+     without a special case: a pair of the swung unit spans 2u sixteenths and
+     is split long:short by the ratio, and anything falling inside a half is
+     placed proportionally within it -- which is what a hardware swing does.
+
+     swingUnit 2 (eighths) reproduces the shipped timing to the sample; that is
+     checked by the snapshot, and 1 (sixteenths) is the [EAR] question. */
+  const swingUnit = GR.swingUnit;
+  const swingWarp = step => {
+    const span = 2 * swingUnit;
+    const pair = Math.floor(step / span), p = step - pair * span;
+    const long = span * swingRatio / (swingRatio + 1);
+    return (p < swingUnit ? p * (long / swingUnit)
+                          : long + (p - swingUnit) * ((span - long) / swingUnit)) - p;
+  };
   /* ── DILLA TIME [research, SYNTH-RESEARCH.md §4]. The drunken feel is NOT
      looseness: snares sit deliberately EARLY, kicks LATE, the hats stay nearly
      straight against them ("rhythmic friction"), and the deviations REPEAT
@@ -1890,12 +1920,15 @@ function makePerformance(chart, form, materials, sections){
              straight grids -- swinging their odd-step hits (fills, ghosts) mixed two
              grids inside one lane, which the seam battery caught as wandering offsets.
              The friction is BETWEEN lanes, never within one. */
-          const swingHere = (role === "drums" && (lane === "hat" || lane === "openhat"))
-                          ? swingOffset * hatSwingMul
+          /* how much of the warp this lane feels. In dilla mode the kick, snare
+             and ghost sit on their own straight early/late grids and the hats
+             alone carry the residual shuffle -- the friction is BETWEEN lanes,
+             never inside one. */
+          const swingAmt = (role === "drums" && (lane === "hat" || lane === "openhat"))
+                          ? hatSwingMul
                           : (grooveStyle === "dilla" && role === "drums") ? 0
-                          : swingOffset;
-          if(n.step % 4 === 2) micro += swingHere;
-          else if(n.step % 2 === 1) micro += swingHere * 0.5;
+                          : 1;
+          micro += swingWarp(n.step) * swingAmt;
           if(role === "drums") micro += GR.push / spb;
           if(lane === "snare" || lane === "ghost") micro += snareEarly;
           if(lane === "kick" && n.step > 0) micro += kickLate;
