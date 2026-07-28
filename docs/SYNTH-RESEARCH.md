@@ -52,10 +52,38 @@ CS-80 emulation — a voice *in its lineage*, honest about the distance. It beco
 pad/brass-lead for the synthwave/ambient genres and it earns its keep there, not in
 lofi. [EAR when its genre arrives]
 
-Open-source note: no usable open CS-80 core exists (the good ones are commercial:
-GX-80, CS-80V, XILS); Faust/WebChucK can compile DSP to AudioWorklets if we ever want
-deeper modeling. For now hand-rolled WebAudio stays the approach — it kept the whole
-program dependency-free.
+**Corrected 2026-07-28, and the earlier claim here was wrong.** This section used to
+say "no usable open CS-80 core exists". One does: **JS80P** (Attila M. Magyar), a
+genuine CS-80 emulation, source on GitHub. It is **GPL-3**, so it cannot be vendored
+into this file without relicensing the whole program — but "it does not exist" and
+"it exists and we cannot use it" are different statements and only the second is true.
+
+What the research did give us, and what `V.cs80` is now built from, are facts about the
+hardware rather than anyone's code:
+
+- **Two complete layers per voice** (Voice I / Voice II), each with its own oscillator,
+  filters, amplifier and touch response, blended by a mix fader — "the entire synth
+  architecture is doubled".
+- **Each layer has a resonant HPF *and* a resonant LPF, both 2nd order (12 dB/oct), IN
+  SERIES.** They are the same Yamaha custom filter ASIC (iG00156) wired two ways.
+  Together they form a bandpass, which is where the thin chime colours come from.
+- **The filter envelope is ADR with separate INITIAL and ATTACK levels**, so the cutoff
+  can begin somewhere other than the bottom — that is why CS-80 brass bites at the front
+  instead of only opening slowly.
+- **The sine routes post-filter** (no harmonics for a filter to shape).
+- **Ring modulator** against a sine, with its own attack/decay.
+- **Touch goes to cutoff AND level**; "brilliance" is a global cutoff offset.
+
+## 3b. The ribbon
+
+Not a pitch wheel and not a Moog ribbon: **it has no centre position.** Wherever you
+first touch becomes the zero point, and you move up or down from there until you let go;
+the next touch sets a new zero. The range is about **an octave up** from a touch at the
+far left, and downward it reaches sub-audio. That is the Blade Runner glide.
+
+Modelled as a PERFORMANCE property (stage 5), which is the right owner: a glide has a
+distance and a duration, and it does **not** change the note's pitch — stage 3 still owns
+that. A ribbon is how a player arrives at a note, not a different note.
 
 ## 4. Dilla time — the drunken drums
 

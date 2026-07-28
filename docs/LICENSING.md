@@ -79,6 +79,17 @@ the GPL-3 header belonged to someone else's *port* of it, not to the samples.
 data inside it. When the same data ships under two licences, take it from the permissive
 source and *prove the bytes match* — do not reason about which one "really" applies.
 
+**The CS-80 is not a licence question either, and it nearly was.** There IS a real
+open-source CS-80 emulation — **JS80P** by Attila M. Magyar — and it is **GPL-3**.
+Vendoring it would relicense this entire single-file program, which is exactly the trap
+the mda samples nearly sprang. So we did not take it. What MK2's `V.cs80` uses is the
+published *analysis* of the hardware: that each voice is two complete parallel layers,
+that each layer has a resonant high-pass and a resonant low-pass **in series**, that both
+are 2nd order, that the filter envelope is ADR with separate initial and attack levels,
+and that the sine is routed post-filter. Those are descriptions of a 1976 instrument, not
+anyone's source code, and they came from a KVR DSP thread analysing the iG00156 filter
+ASIC and from Reverb Machine's teardown. No code was copied and no licence attaches.
+
 **The SEGA chip is not a licence question.** Nuked-OPN2 is LGPL-2.1 and we did **not**
 vendor it. MK2's YM2612 voice is our own WebAudio code; what it takes from Nuked is
 *facts* — envelope rates, the TL step, the detune table — which are unprotectable

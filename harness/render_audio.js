@@ -94,6 +94,13 @@ const PROBES = [
   { name: 'lead',        voice: 'lead',    role: 'lead',    gain: 0.85, durSec: 1.20, n: 2, spacing: 1.80, pitch: 72 },
   { name: 'counter',     voice: 'counter', role: 'counter', gain: 0.85, durSec: 1.20, n: 2, spacing: 1.80, pitch: 72 },
   { name: 'cs80',        voice: 'cs80',    role: 'lead',    gain: 0.85, durSec: 1.20, n: 2, spacing: 1.80, pitch: 64 },
+  /* the RIBBON, probed so it cannot rot while it waits for its genre. No genre
+     ships a ribbon yet (Blade Runner is not built), so without this the glide
+     path would be unreachable code that nothing exercises. Verified separately:
+     a note told to slide a semitone octave into midi 64 reads 229.7 Hz partway
+     through the glide and 331.6 Hz after it, against a 329.6 Hz target. */
+  { name: 'cs80_ribbon', voice: 'cs80',    role: 'lead',    gain: 0.85, durSec: 1.20, n: 2, spacing: 1.80, pitch: 64,
+    extra: { glide: { from: -12, sec: 0.45 } } },
   { name: 'tape',        voice: 'tape',    role: 'tape',    gain: 0.010, durSec: 3.00, n: 1, spacing: 0 },
   /* THE SEGA RIG. Every voice a rig can name has to be probed, or "the rig table
      points at a voice that does not exist / points at the wrong one" is a fault

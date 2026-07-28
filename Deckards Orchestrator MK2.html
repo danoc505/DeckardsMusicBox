@@ -707,28 +707,119 @@ const Sound = (function(){
      LP chain, then late-onset vibrato over the pair [docs/SYNTH-RESEARCH.md §3].
      Unused by lofi; here for the genres that will want the Vangelis air, and for
      auditioning now. [EAR when its genre arrives] */
+  /* ══ THE CS-80 ═══════════════════════════════════════════════════════════
+     A voice in the Yamaha CS-80's lineage, rebuilt from what the instrument
+     actually is rather than from the idea of it. The facts that shape it:
+
+       - The architecture is DOUBLED. Each voice is two complete, independently
+         programmable layers -- Voice I and Voice II -- each with its own
+         oscillator, filters, amplifier and touch response, blended by a mix
+         fader. Not two oscillators into one filter.   [corpus:reverbmachine]
+       - Each layer has BOTH a high-pass and a low-pass, each 2nd order
+         (12 dB/oct), IN SERIES, each resonant. Together they make a bandpass,
+         which is where the thin chime colours come from. They are the same
+         Yamaha custom filter ASIC wired two ways.
+                    [corpus:kvraudio "Yamaha CS filter: analysis", JCJR]
+       - The filter envelope is ADR with separate INITIAL and ATTACK levels, so
+         the cutoff can start somewhere other than the bottom -- that is why
+         CS-80 brass has bite at the very front instead of only a slow opening.
+       - The sine is routed POST-filter: it has no harmonics for a filter to
+         shape.                                            [corpus:reverbmachine]
+       - The ring modulator multiplies against a sine and has its own envelope.
+       - Touch (velocity and aftertouch) is routed to cutoff AND to level.
+
+     Open source: JS80P (Attila M. Magyar) is a real CS-80 emulation and the
+     only serious one -- but it is GPL-3, so vendoring it would relicense this
+     whole file, exactly the trap the mda samples nearly sprang. We take the
+     published ANALYSIS (filter order, topology, series arrangement) which is a
+     description of 1976 hardware and not anyone's code. [see docs/LICENSING.md]
+     ═══════════════════════════════════════════════════════════════════════ */
   V.cs80 = function(g, ev, t){
-    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 0.8;
-    const out = c.createGain(); out.connect(g.bus.lead);
+    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 1.2;
+    const out = c.createGain();
+    const touch = Math.min(1.2, ev.gain);          // velocity -> cutoff AND level
     const nodes = [];
-    const layer = (type, det, hpHz, lpHz, amt) => {
-      const o = osc(c, type, f * det, t, end);
-      const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = hpHz; hp.Q.value = 0.8;
-      const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = 1.2;
-      lp.frequency.setValueAtTime(900 + 1400 * ev.gain, t);
-      lp.frequency.exponentialRampToValueAtTime(lpHz + 2600 * ev.gain, t + 0.5);
-      const lg = c.createGain(); lg.gain.value = amt;
-      o.connect(hp); hp.connect(lp); lp.connect(lg); lg.connect(out);
+
+    /* THE RIBBON. Stage 5 decides whether this note is arrived at by sliding
+       into it and from how far; the voice only realises that. The note's PITCH
+       is still exactly what stage 3 wrote -- a glide is how a player reaches a
+       note, not a different note. That is why this can live here without
+       breaking one-owner-per-property. */
+    const glideFrom = ev.glide ? Math.pow(2, ev.glide.from / 12) : 1;
+    const glideSec  = ev.glide ? ev.glide.sec : 0;
+
+    /* one complete layer: OSC -> resonant HPF -> resonant LPF -> VCA */
+    const layer = (type, det, L) => {
+      const o = c.createOscillator(); o.type = type;
+      if(glideSec > 0){
+        o.frequency.setValueAtTime(f * det * glideFrom, t);
+        o.frequency.exponentialRampToValueAtTime(f * det, t + glideSec);
+      } else o.frequency.value = f * det;
+      o.start(t); o.stop(end);
+
+      const hp = c.createBiquadFilter(); hp.type = "highpass";
+      hp.frequency.value = L.hp; hp.Q.value = L.hpQ;          // resonant, 12 dB/oct
+      const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = L.lpQ;
+      /* the ADR filter envelope, with its own initial and attack levels. Touch
+         opens the whole envelope, which is the CS-80's defining gesture. */
+      const openTo = L.al * (0.55 + 0.75 * touch);
+      lp.frequency.setValueAtTime(L.il, t);
+      lp.frequency.exponentialRampToValueAtTime(Math.max(60, openTo), t + L.fa);
+      lp.frequency.exponentialRampToValueAtTime(Math.max(60, L.fs * (0.6 + 0.6 * touch)),
+                                                t + L.fa + L.fd);
+      const vca = c.createGain(); vca.gain.value = L.mix;
+      o.connect(hp); hp.connect(lp); lp.connect(vca); vca.connect(out);
       nodes.push(o);
+      return o;
     };
-    layer("sawtooth", 1.0, 40, 1800, 1.0);
-    layer("square", 1.0042, 120, 1500, 0.55);        // the ensemble beat lives in the detune
-    const vib = osc(c, "sine", 5.4, t, end), vg = c.createGain();
+    /* Voice I: the saw body, opening slowly and wide -- the brass.
+       Voice II: a detuned pulse, brighter at the front and quicker to sit down.
+       The beat between them IS the instrument's width before any chorus. */
+    const oscA = layer("sawtooth", 1.0,     { hp: 45,  hpQ: 0.9, lpQ: 3.2,
+                                              il: 260, al: 4200, fs: 1500, fa: 0.28, fd: 0.9, mix: 1.0 });
+    const oscB = layer("square",   1.0042,  { hp: 130, hpQ: 1.4, lpQ: 2.4,
+                                              il: 900, al: 2600, fs: 1100, fa: 0.05, fd: 0.5, mix: 0.5 });
+
+    /* the ring modulator: layer I against a sine, with its own envelope. Kept
+       modest -- on the real panel it is a colour, not the sound. [EAR] */
+    const rm = c.createOscillator(); rm.type = "sine";
+    rm.frequency.value = f * 2.006;                 // slightly off a harmonic, so it beats
+    const rmDepth = c.createGain(); rmDepth.gain.value = 0;
+    const rmOut = c.createGain(); rmOut.gain.value = 0;
+    rmDepth.gain.setValueAtTime(0.0001, t);
+    rmDepth.gain.exponentialRampToValueAtTime(0.16 * touch, t + 0.12);
+    rmDepth.gain.exponentialRampToValueAtTime(0.0001, t + 0.9);
+    oscA.connect(rmOut); rm.connect(rmDepth); rmDepth.connect(rmOut.gain);
+    rmOut.connect(out); rm.start(t); rm.stop(end); nodes.push(rm);
+
+    /* vibrato that ARRIVES rather than being there from the start -- the hand
+       reaching the note first and shaping it after. [EAR] */
+    const vib = c.createOscillator(); vib.type = "sine"; vib.frequency.value = 5.4;
+    const vg = c.createGain();
     vg.gain.setValueAtTime(0, t);
-    vg.gain.linearRampToValueAtTime(f * 0.008, t + 0.6);   // vibrato ARRIVES, CS-80 style
-    vib.connect(vg); for(const n of nodes) vg.connect(n.frequency);
-    nodes.push(vib);
-    adsr(c, out, t, LEVEL.lead * ev.gain / 1.55, 0.10, 0.25, 0.75, t + ev.durSec, 0.55);
+    vg.gain.linearRampToValueAtTime(f * 0.007, t + Math.max(0.35, glideSec + 0.25));
+    vib.connect(vg); vg.connect(oscA.frequency); vg.connect(oscB.frequency);
+    vib.start(t); vib.stop(end); nodes.push(vib);
+
+    /* THE ENSEMBLE. The CS-80's chorus is a real modulated delay, and a static
+       detune is not one: what makes it swim is that the delay time MOVES. Two
+       taps, slightly different rates, against the dry. */
+    const wet = c.createGain(); wet.gain.value = 0.42;
+    for(const [ms, rate, ph] of [[11, 0.31, 1], [17, 0.23, -1]]){
+      const d = c.createDelay(0.06); d.delayTime.value = ms / 1000;
+      const l = c.createOscillator(); l.type = "sine"; l.frequency.value = rate;
+      const la = c.createGain(); la.gain.value = ph * 0.0028;
+      l.connect(la); la.connect(d.delayTime);
+      out.connect(d); d.connect(wet);
+      l.start(t); l.stop(end); nodes.push(l);
+    }
+    const bus = ev.role === "keys" ? g.bus.keys : g.bus.lead;
+    out.connect(bus); wet.connect(bus);
+
+    const lvl = ev.role === "keys" ? LEVEL.keys * 2.0 : LEVEL.lead;
+    /* the slow swell the instrument is known for, opened further by touch */
+    adsr(c, out, t, lvl * ev.gain / 1.55, 0.10 + 0.10 * (1 - touch), 0.25, 0.75,
+         t + ev.durSec, 0.55);
     return nodes;
   };
 
@@ -1318,6 +1409,7 @@ const GENRE = {
       openhat:[0.92,0.53,0.87,0.69,1.00,0.57,0.88,0.63,0.89,0.68,0.89,0.68,0.99,0.63,0.87,0.64],
     },
     space: { wet: 0.16 },                                                            // [EAR]
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },   // lofi has no ribbon
   },
 
   /* ═════════════════════════════════════════════════════════════════════════
@@ -1441,6 +1533,7 @@ const GENRE = {
       openhat:[1.00,0.86,0.92,0.86,0.96,0.86,0.92,0.86,1.00,0.86,0.92,0.86,0.96,0.86,0.92,0.86],
     },
     space: { wet: 0.30 },        // a WET genre: plate/hall, roughly double lofi [tut:futureproof]
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },   // no ribbon in this genre
   },
 };
 
@@ -2074,6 +2167,7 @@ function makePerformance(chart, form, materials, sections){
   const jitterSec  = GR.jitter[grooveStyle] != null ? GR.jitter[grooveStyle] : GR.jitter.even;
   /* the player's touch, drawn once per song: how long the bass lets notes ring,
      and how wide the keys' strum rolls (a real strum is milliseconds, not grid) */
+  const RIB = GENRE[chart.genre].ribbon;
   const bassArtic = wpick(rngG, TOUCH.bassArtic);
   const strumSec  = TOUCH.strum[0] + rngG() * TOUCH.strum[1];
   const events = [];
@@ -2144,6 +2238,22 @@ function makePerformance(chart, form, materials, sections){
             role, lane: n.lane || role, gain,
           };
           if(role === "keys"){ ev.timbre = chart.keysChar; ev.wow = chart.tape.wow; }
+          /* THE RIBBON, if this genre plays one. The CS-80's ribbon has no
+             centre: wherever you first touch becomes zero, and you slide up to
+             an octave from there [corpus:soundonsound CS-80 review]. So a glide
+             has a distance and a duration, and it is drawn per note from its
+             own named substream -- adding it moved no existing song, and a
+             genre without a ribbon draws nothing at all.
+             It does NOT change ev.pitch. Stage 3 owns pitch and still does;
+             this is only how the player arrives at it. */
+          if(RIB && RIB.chance > 0 && n.pitch != null && (role === "lead" || role === "keys")){
+            const rr = stream(chart.seed, "ribbon:" + role + ":" + bar + ":" + n.step);
+            const hit = rr() < RIB.chance, dist = rr(), dur = rr();
+            if(hit) ev.glide = {
+              from: (RIB.semitones[0] + dist * RIB.semitones[1]) * (rr() < 0.5 ? -1 : 1),
+              sec:  RIB.secs[0] + dur * RIB.secs[1],
+            };
+          }
           if(n.pitch != null) ev.pitch = n.pitch;
           events.push(Object.freeze(ev));
         }
