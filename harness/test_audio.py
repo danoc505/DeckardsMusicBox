@@ -227,7 +227,7 @@ for it in man["items"]:
           f"(Chrome's own render noise is 1-3 LSB)")
 
 # ── the per-mix battery, run on the reference bar and every section excerpt ───
-def mix_battery(fn, label, kit, RIG="band"):
+def mix_battery(fn, label, kit, RIG="band", WET=0.16):
     """kit=True  -> the arrangement has the drums on in this excerpt
        kit=False -> it does not (intro / outro / bridge: keys and bass only)
        kit=None  -> do not judge the kit bands (a transition bar spans both)"""
@@ -276,7 +276,14 @@ def mix_battery(fn, label, kit, RIG="band"):
     # [theory: the only stereo node in buildGraph is the 2-channel seeded IR].
     # [measured: 0.045-0.090 across mixes, 0.069 on the reference bar. A doubled
     #  wet gain lands at 0.09-0.18 and a disconnected send at 0.]
-    check(f"{label}: reverb return present, at depth", 0.02 < sid < 0.16, f"side/mid {sid:.4f}")
+    # ...and the ceiling is the GENRE'S, because a genre chooses its own room.
+    # Synthwave declares wet 0.30 against lofi's 0.16 and DKC's 0.34, and the return
+    # scales with it -- so one fixed ceiling either excuses a doubled send on the
+    # dry genre or fails the wet one for being what it says it is. Measured: sid
+    # runs about 0.3-0.55x the declared wet, so the wet value itself is a ceiling
+    # with ~1.8x headroom, and a DOUBLED send clears it at every setting.
+    check(f"{label}: reverb return present, at depth", 0.02 < sid < max(0.16, WET),
+          f"side/mid {sid:.4f}, ceiling {max(0.16, WET):.2f} (declared wet {WET})")
 
     # CAUGHT: a mix that is nothing but low end -- the first build shipped one.
     # [measured: 48-75%; MK1's battery used the same 88% bar, kept for continuity]
@@ -368,6 +375,10 @@ for name in solos:
 #  measurement noise (there is none -- see the determinism section) and narrower than
 #  the +6 dB a doubled layer costs. A DELIBERATE revoicing is expected to fail this
 #  and to update the table in the same commit; that is the point of a baseline.]
+# kick and kick_soft moved when the kick became a GENRE instrument: the default
+# probe now plays lofi's kit, which is deliberately the soft one (gain .90, body .90,
+# click .35 -- a muffled boom-bap drum, not a club drum). That is a revoicing, so the
+# table moves with it in the same commit, which is what the note above says to do.
 LEVEL_DBFS = {"kick": -21.7, "snare": -31.7, "ghost": -31.7, "hat": -37.0, "openhat": -29.6,
               "bass": -18.9, "keys_rhodes": -27.9, "keys_wurly": -26.0, "lead": -21.8,
               "counter": -26.6, "cs80": -21.6}
@@ -385,7 +396,10 @@ for name, want in LEVEL_DBFS.items():
 # carrying a second kick" when the two kicks are simultaneous, which no onset counter
 # can ever see).
 # [measured on this build; window +/-2.5 dB, which clears a doubled layer by 3.2 dB]
-SOFT_DBFS = {"kick_soft": -31.3, "snare_soft": -41.7}
+# kick_soft moved -3.5 dB with the same revoicing: lofi's kit is gain .90 x body .90
+# on the fundamental and click .35 on the beater, against the old fixed drum's 1.0 and
+# .42. A deliberately soft kick measures soft; that is the change, not a regression.
+SOFT_DBFS = {"kick_soft": -34.8, "snare_soft": -41.7}
 for name, want in SOFT_DBFS.items():
     if name not in MEAS: continue
     got = 20 * math.log10(max(MEAS[name]["rms"], 1e-12))
@@ -598,7 +612,8 @@ for key in sorted(k for k in man if k.startswith("song_")):
     stats = []
     for it in rows:
         s = mix_battery(it["file"], f"{it['fn']}[{it['idx']}]", kit=it["hasDrums"],
-                        RIG=man.get("song_" + str(it["seed"]), {}).get("rig", "band"))
+                        RIG=man.get("song_" + str(it["seed"]), {}).get("rig", "band"),
+                        WET=man.get("song_" + str(it["seed"]), {}).get("wet", 0.16))
         if s: stats.append((it, s))
     if len(stats) < 4:
         check(f"seed {seed}: enough sections measured to judge an arc", False, f"{len(stats)}")

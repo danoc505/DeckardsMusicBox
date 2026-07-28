@@ -91,6 +91,12 @@ const PROBES = [
      and the same fault reads +5.7 dB. These two probes are what make the level
      baseline able to see a stacked voice at all. */
   { name: 'kick_soft',   voice: 'kick',    role: 'drums',   gain: 0.25, durSec: 0.18, n: 4, spacing: 0.75 },
+  /* THE KICK IS A GENRE INSTRUMENT NOW -- six parameters and a bus drive per
+     genre -- so one probe of it tests one genre's drum and calls it the palette.
+     One per genre, and they must NOT measure the same. */
+  { name: 'kick_lofi',      voice: 'kick', role: 'drums', gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75, genre: 'lofi' },
+  { name: 'kick_synthwave', voice: 'kick', role: 'drums', gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75, genre: 'synthwave' },
+  { name: 'kick_dkc',       voice: 'kick', role: 'drums', gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75, genre: 'dkc' },
   { name: 'snare_soft',  voice: 'snare',   role: 'drums',   gain: 0.25, durSec: 0.18, n: 4, spacing: 0.75 },
   { name: 'ghost',       voice: 'ghost',   role: 'drums',   gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75 },
   { name: 'hat',         voice: 'hat',     role: 'drums',   gain: 0.90, durSec: 0.12, n: 4, spacing: 0.75 },
@@ -139,12 +145,16 @@ const PROBES = [
   await page.waitForFunction(() => window.MK2, { timeout: 30000 });
 
   await page.evaluate(() => {
-    window.__render = async (ev, secs, sr) => {
+    /* the genre's own sound settings go through, or the battery is not measuring
+       what ships: the drum bus drive and the kick's six parameters are per-genre
+       now, and a probe rendered with defaults would test a kit no song plays. */
+    window.__render = async (ev, secs, sr, genre) => {
+      const S = MK2.soundOf(genre || "lofi");
       /* dispatch() throws on an unknown voice -- fail loud, never substitute. Catch
          it here so ONE missing voice is reported as one failed check instead of
          taking the whole battery down. */
       try {
-        const blob = await MK2.renderWav(ev, secs, sr);
+        const blob = await MK2.renderWav(ev, secs, sr, S.space, S.kick, S.drumDrive);
         const ab = await blob.arrayBuffer(); let s = ''; const u = new Uint8Array(ab);
         for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000));
         return { b64: btoa(s) };
@@ -166,7 +176,8 @@ const PROBES = [
   const manifest = { sr: SR, songs: SONGS, tail: TAIL, items: [], pageErrors };
   async function render(file, events, seconds, meta) {
     const t = Date.now();
-    const r = await page.evaluate(([ev, secs, sr]) => window.__render(ev, secs, sr), [events, seconds, SR]);
+    const r = await page.evaluate(([ev, secs, sr, gen]) => window.__render(ev, secs, sr, gen),
+                                  [events, seconds, SR, meta.genre]);
     if (r.err) {
       manifest.items.push(Object.assign({ file, seconds, error: r.err }, meta));
       console.log(`  ${file.padEnd(30)} RENDER FAILED: ${r.err}`);
@@ -193,7 +204,7 @@ const PROBES = [
                                   voice: p.voice, role: p.role, gain: p.gain },
                                 p.pitch != null ? { pitch: p.pitch } : {}, p.extra || {}));
     await render(`solo_${p.name}.wav`, events, 0.05 + (p.n - 1) * p.spacing + p.durSec + TAIL,
-      { kind: 'solo', name: p.name, voice: p.voice, role: p.role,
+      { kind: 'solo', name: p.name, voice: p.voice, role: p.role, genre: p.genre || 'lofi',
         pitch: p.pitch == null ? null : p.pitch, gain: p.gain,
         percussive: p.n === 4, hits: p.n, onsetT: events.map(e => e.tSec) });
   }
@@ -203,7 +214,9 @@ const PROBES = [
     const seed = spec.seed;
     const song = await page.evaluate(a => {
       const s = MK2.composeSong(a.seed, a.rig, a.genre);
-      return { seed: a.seed, rig: s.chart.rig, genre: s.chart.genre, tempo: s.chart.tempo, mode: s.chart.mode, keysChar: s.chart.keysChar,
+      const snd = MK2.soundOf(a.genre);
+      return { seed: a.seed, rig: s.chart.rig, genre: s.chart.genre, wet: snd.space.wet,
+               drumDrive: snd.drumDrive, tempo: s.chart.tempo, mode: s.chart.mode, keysChar: s.chart.keysChar,
                groove: s.perf.groove.style, nBars: s.form.nBars, nEvents: s.perf.events.length,
                voices: [...new Set(s.perf.events.map(e => e.voice))],
                sections: s.sections.map(x => ({ fn: x.fn, startBar: x.startBar, endBar: x.endBar,
@@ -230,13 +243,13 @@ const PROBES = [
                                     [spec, w0, w1, TAIL]);
       const tag = `mix_s${seed}_${String(i).padStart(2, '0')}_${s.fn}`;
       await render(`${tag}.wav`, r.events, r.seconds,
-        { kind: 'mix', seed, idx: i, fn: s.fn, occurrence: s.occurrence, energy: s.energy,
+        { kind: 'mix', seed, genre: spec.genre, idx: i, fn: s.fn, occurrence: s.occurrence, energy: s.energy,
           peak: s.peak, material: s.material, stripHalf: s.stripHalf, active: s.active,
           hasDrums: s.active.includes('drums'), bars: [w0, w1], nEvents: r.events.length });
 
       if (!dupDone && s.active.length >= 4) {                     // the determinism pair
         await render(`dup_s${seed}_${String(i).padStart(2, '0')}.wav`, r.events, r.seconds,
-          { kind: 'dup', seed, name: tag, pairOf: `${tag}.wav` });
+          { kind: 'dup', seed, genre: spec.genre, name: tag, pairOf: `${tag}.wav` });
         dupDone = true;
       }
       if (!xitDone && s.fillInto && song.sections[i + 1]) {       // the fill and its landing
@@ -244,7 +257,7 @@ const PROBES = [
                     window.__excerpt(MK2.composeSong(sd.seed, sd.rig, sd.genre), a, b, tl),
                                        [spec, s.endBar - 1, s.endBar + 1, TAIL]);
         await render(`xit_s${seed}_${String(i).padStart(2, '0')}.wav`, rx.events, rx.seconds,
-          { kind: 'transition', seed, idx: i, fromFn: s.fn, toFn: song.sections[i + 1].fn,
+          { kind: 'transition', seed, genre: spec.genre, idx: i, fromFn: s.fn, toFn: song.sections[i + 1].fn,
             toPeak: song.sections[i + 1].peak, tempo: song.tempo, bars: [s.endBar - 1, s.endBar + 1] });
         xitDone = true;
       }

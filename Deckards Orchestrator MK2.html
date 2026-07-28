@@ -424,7 +424,45 @@ const Sound = (function(){
       g.bus[name] = c.createGain(); g.bus[name].gain.value = 1;
     }
     g.mix = c.createGain(); g.mix.gain.value = 1;
-    for(const name in g.bus) g.bus[name].connect(g.mix);
+    for(const name in g.bus) if(name !== "drums") g.bus[name].connect(g.mix);
+
+    /* ── THE DRUM BUS, WITH ITS OWN SATURATION. Carried back from the first
+       build, which had it and which the user says had better-sounding drums --
+       and this is the reason. Everything else went straight to the mix and met
+       the master shaper along with the whole band; drums met nothing of their
+       own. A kit that is saturated BEFORE it is summed with sustained material
+       behaves completely differently: the transients round over instead of
+       poking through, the body thickens, and the whole kit glues into one
+       object rather than four separate hits. It is the single most audible
+       thing the first build did that this one did not.
+
+       Same curve and the same headroom trick as the master stage: tanh(3.6x)
+       with a 0.5 pre-gain, so the small-signal slope matches 1.8 while clipping
+       does not begin until twice the level. The DRIVE is a genre parameter --
+       house and synthwave were at 1.45 and 1.4 in the first build, lofi at
+       1.05, ambient at 0.95 -- because how hard a kit is pushed is a genre
+       decision, not a global one. [corpus: Improv Machine BETA 0.1,
+       DRUMBUS_BY_GENRE / _satCurve] ── */
+    g.kick = { tune: 54, decay: 0.24, click: 0.6, drive: 0.35, body: 1, gain: 1.05 };
+    g.drumDrive = c.createGain(); g.drumDrive.gain.value = 1.05;   // both set per song
+    g.drumPre = c.createGain(); g.drumPre.gain.value = 0.5;
+    g.drumSat = c.createWaveShaper();
+    {
+      const N = 2049, curve = new Float32Array(N);
+      for(let i = 0; i < N; i++){ const x = (i / (N - 1)) * 2 - 1; curve[i] = Math.tanh(3.6 * x); }
+      g.drumSat.curve = curve; g.drumSat.oversample = "2x";
+    }
+    /* AND THE STAGE IS UNITY AT UNITY DRIVE. tanh(3.6x) after a 0.5 pre-gain has a
+       small-signal slope of 1.8, so simply inserting it made every drum in the
+       program 5.1 dB louder -- which the output battery caught immediately as a
+       soft snare sitting 5 dB above its recorded baseline. That is not what a
+       saturation stage is for. The makeup divides the slope back out, so at
+       drumDrive 1.0 the kit measures exactly as it did before and only its SHAPE
+       has changed; above 1.0 the genre is genuinely pushing it harder. */
+    g.drumMakeup = c.createGain(); g.drumMakeup.gain.value = 1 / 1.8;
+    g.bus.drums.connect(g.drumDrive); g.drumDrive.connect(g.drumPre);
+    g.drumPre.connect(g.drumSat); g.drumSat.connect(g.drumMakeup);
+    g.drumMakeup.connect(g.mix);
 
     /* soft clip: curve tanh(3.6x) over the shaper's [-1,1] input with a 0.5
        pre-gain — same small-signal slope as tanh(1.8x) but clipping begins at
@@ -885,22 +923,55 @@ const Sound = (function(){
     src.start(t, off, durSec + 0.01);
     return src;
   }
+  /* THE KICK IS A GENRE INSTRUMENT. It used to be one fixed drum -- 150 Hz down
+     to 47 over 55 ms, a fixed beater, a 300 ms tail -- played by lofi, synthwave
+     and DKC alike. But a lofi kick and a synthwave kick are not the same drum
+     with different notes around them: one is tuned high, short and soft, the
+     other is tuned low, long, hard and driven. The first build parameterised
+     exactly this and it is why its kits read as different genres.
+     Six numbers, carried over with their meanings [corpus: Improv Machine BETA
+     0.1, KICK_BY_GENRE]:
+       tune   the fundamental it falls to, in Hz
+       decay  how long the body rings
+       click  how much beater -- what makes a kick audible on a laptop
+       drive  a saturated harmonic at 2x, so it survives a speaker with no bottom
+       body   the fundamental's weight
+       gain   the whole drum */
   V.kick = function(g, ev, t){
-    const c = g.ctx;
+    const c = g.ctx, K = g.kick;
     const o = c.createOscillator(); o.type = "sine";                       // body
-    o.frequency.setValueAtTime(150, t);
-    o.frequency.exponentialRampToValueAtTime(47, t + 0.055);
+    o.frequency.setValueAtTime(K.tune * 3.4, t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(30, K.tune), t + 0.055);
     const og = c.createGain();
-    og.gain.setValueAtTime(LEVEL.kick * ev.gain, t);
-    og.gain.exponentialRampToValueAtTime(0.0002, t + 0.30);
-    o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + 0.34);
-    const n = burst(g, t, 0.016, ev.tSec.toFixed(5) + ":beater");          // beater
+    og.gain.setValueAtTime(LEVEL.kick * ev.gain * K.gain * K.body, t);
+    og.gain.exponentialRampToValueAtTime(0.0002, t + K.decay);
+    o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + K.decay + 0.05);
+    const made = [o];
+    /* the beater: felt on a head, 2-3 kHz, plus a short pitched knock. Both draws
+       of the shape happen whatever `click` is; only the level responds. */
+    const n = burst(g, t, 0.016, ev.tSec.toFixed(5) + ":beater");
     const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 2600; bp.Q.value = 1.1;
     const ng = c.createGain();
-    ng.gain.setValueAtTime(LEVEL.kick * ev.gain * 0.42, t);
-    ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.015);
+    ng.gain.setValueAtTime(LEVEL.kick * ev.gain * 0.62 * K.click, t);
+    ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.018);
     n.connect(bp); bp.connect(ng); ng.connect(g.bus.drums);
-    return [o, n];
+    made.push(n);
+    /* WEIGHT: a saturated harmonic an octave up, falling to the fundamental. It
+       is what lets the note survive a speaker with no bottom -- but it stays
+       well under the body, because two stacked sines an octave apart at similar
+       level is how the first build put 81% of its mix below 250 Hz. */
+    if(K.drive > 0){
+      const o2 = c.createOscillator(); o2.type = "sine";
+      o2.frequency.setValueAtTime(K.tune * 2, t);
+      o2.frequency.exponentialRampToValueAtTime(K.tune, t + 0.05);
+      const dg = c.createGain();
+      dg.gain.setValueAtTime(LEVEL.kick * ev.gain * 0.26 * K.drive, t);
+      dg.gain.exponentialRampToValueAtTime(0.0008, t + K.decay * 0.7);
+      o2.connect(dg); dg.connect(g.bus.drums);
+      o2.start(t); o2.stop(t + K.decay * 0.7 + 0.05);
+      made.push(o2);
+    }
+    return made;
   };
   V.snare = function(g, ev, t){
     const c = g.ctx, out = [];
@@ -1167,7 +1238,13 @@ const Sound = (function(){
   /* everything about the room a genre gets to choose. Applied to whichever graph
      is about to play -- the live one or a fresh offline one -- so the two cannot
      drift apart. */
-  function setSpace(g, space){
+  /* everything about the room AND the kit a genre gets to choose, applied to
+     whichever graph is about to play. buildGraph fixes the topology; this sets
+     the numbers, before any event is scheduled. */
+  const KICK_DEFAULT = { tune: 54, decay: 0.24, click: 0.6, drive: 0.35, body: 1, gain: 1.05 };
+  function setSpace(g, space, kick, drumDrive){
+    g.kick = Object.assign({}, KICK_DEFAULT, kick || {});
+    if(drumDrive != null && g.drumDrive) g.drumDrive.gain.value = drumDrive;
     if(!space) return;
     if(space.wet != null) g.wet.gain.value = space.wet;
   }
@@ -1180,10 +1257,10 @@ const Sound = (function(){
     return ctx;
   }
   let liveTimer = null;
-  function playLive(events, space){
+  function playLive(events, space, kick, drumDrive){
     ensureLive();
     stopLive();
-    setSpace(liveGraph, space);                // the song's room, before anything sounds
+    setSpace(liveGraph, space, kick, drumDrive);   // the song's room and kit, before anything sounds
     const t0 = ctx.currentTime + 0.15;
     let i = 0;
     const pump = () => {
@@ -1203,11 +1280,11 @@ const Sound = (function(){
     for(const h of liveHandles){ try{ h.stop(0); }catch(e){} try{ h.disconnect(); }catch(e){} }
     liveHandles.clear();
   }
-  async function renderWav(events, seconds, sampleRate, space){
+  async function renderWav(events, seconds, sampleRate, space, kick, drumDrive){
     const sr = sampleRate || 44100;
     const off = new OfflineAudioContext(2, Math.ceil(seconds * sr), sr);
     const graph = buildGraph(off);
-    setSpace(graph, space);                    // the same one number the live graph gets
+    setSpace(graph, space, kick, drumDrive);    // the same numbers the live graph gets
     perform(graph, events, 0.05);              // the SAME perform() — no second path
     const buf = await off.startRendering();
     return encodeWav(buf);
@@ -1409,6 +1486,11 @@ const GENRE = {
       openhat:[0.92,0.53,0.87,0.69,1.00,0.57,0.88,0.63,0.89,0.68,0.89,0.68,0.99,0.63,0.87,0.64],
     },
     space: { wet: 0.16 },                                                            // [EAR]
+    /* the kit's own character. Tuned HIGH, short, soft and barely driven -- a
+       muffled boom-bap kick, not a club kick. [corpus: Improv Machine BETA 0.1,
+       KICK_BY_GENRE.lofi] */
+    kick: { tune: 60, decay: 0.18, click: 0.35, drive: 0.20, body: 0.90, gain: 0.90 },
+    drumDrive: 1.05,
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },   // lofi has no ribbon
     bassStyle: "follow",
     bassPulse: null,
@@ -1541,6 +1623,11 @@ const GENRE = {
       openhat:[1.00,0.86,0.92,0.86,0.96,0.86,0.92,0.86,1.00,0.86,0.92,0.86,0.96,0.86,0.92,0.86],
     },
     space: { wet: 0.30 },        // a WET genre: plate/hall, roughly double lofi [tut:futureproof]
+    /* deep, long, hard and driven: full four-on-the-floor punch, and the kit is
+       pushed harder into its saturation than any other genre here.
+       [corpus: Improv Machine BETA 0.1, KICK_BY_GENRE.synthwave / DRUMBUS 1.4] */
+    kick: { tune: 49, decay: 0.34, click: 0.90, drive: 0.60, body: 1.15, gain: 1.25 },
+    drumDrive: 1.40,
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },   // no ribbon in this genre
     bassStyle: "pulse",
     /* [tut:babyaudio, tut:soundbridge, tut:modeaudio] eighth-note repeating roots
@@ -1706,6 +1793,11 @@ const GENRE = {
       openhat:[0.95,0.78,0.86,0.78,0.92,0.78,0.86,0.78,0.95,0.78,0.86,0.78,0.92,0.78,0.86,0.78],
     },
     space: { wet: 0.34 },        // the SNES echo unit is most of this music's air [EAR]
+    /* the first build's `wise` entry, which is what it called this music: high,
+       short, soft. A DKC kit sits under the texture, it does not drive it.
+       [corpus: Improv Machine BETA 0.1, KICK_BY_GENRE.wise] */
+    kick: { tune: 60, decay: 0.18, click: 0.35, drive: 0.20, body: 0.90, gain: 0.90 },
+    drumDrive: 1.05,
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },
   },
 };
@@ -2734,7 +2826,10 @@ function newSong(forcedSeed){
 function togglePlay(){
   if(!SONG) newSong();
   if(playing){ Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play"; return; }
-  Sound.playLive(SONG.perf.events, GENRE[SONG.chart.genre].space);
+  {
+    const G = GENRE[SONG.chart.genre];
+    Sound.playLive(SONG.perf.events, G.space, G.kick, G.drumDrive);
+  }
   playing = true; $("play").innerHTML = "&#9632; stop";
 }
 function downloadMidi(){
@@ -2749,8 +2844,9 @@ async function downloadWav(){
   if(!SONG) newSong();
   $("wav").textContent = "rendering…"; $("wav").disabled = true;
   try{
+    const G = GENRE[SONG.chart.genre];
     const blob = await Sound.renderWav(SONG.perf.events, SONG.perf.seconds, 44100,
-                                       GENRE[SONG.chart.genre].space);
+                                       G.space, G.kick, G.drumDrive);
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = `mk2_${SONG.chart.genre}_${SONG.chart.rig}_${SONG.chart.tempo}bpm_seed${SONG.chart.seed}.wav`;
@@ -2780,7 +2876,9 @@ window.addEventListener("DOMContentLoaded", () => {
 window.MK2 = {
   composeSong, newSong,
   referenceEvents,
-  renderWav: (events, seconds, sr, space) => Sound.renderWav(events, seconds, sr, space),
+  renderWav: (events, seconds, sr, space, kick, drumDrive) =>
+    Sound.renderWav(events, seconds, sr, space, kick, drumDrive),
+  soundOf: g => { const G = GENRE[g] || GENRE.lofi; return { space: G.space, kick: G.kick, drumDrive: G.drumDrive }; },
   genres: () => Object.keys(GENRE),
   toMidi,
   /* measurement handles: the chip's tuning grid and its patch table, so a probe
