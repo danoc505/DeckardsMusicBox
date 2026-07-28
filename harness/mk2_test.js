@@ -260,5 +260,48 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         [...seen].map(([g, v]) => `${g}: ${v}`).join("  |  "));
 }
 
+/* THE MIDI EXPORT MUST CARRY EVERY NOTE. MIDI_TRACK is a table keyed by role, and
+   a role with no entry is dropped in total silence -- which is what happened when
+   the ostinato arrived: 1520 of DKC's 3009 notes never reached the file, i.e. the
+   entire identity of the genre, missing from the artefact a musician opens. The
+   .mid is the deliverable the author cannot hear, so it gets checked like one. */
+{
+  const parse = bytes => {
+    const b = Buffer.from(bytes);
+    let p = 0, ons = 0;
+    const str = n => { const v = b.slice(p, p + n).toString("latin1"); p += n; return v; };
+    const u32 = () => { const v = b.readUInt32BE(p); p += 4; return v; };
+    const u16 = () => { const v = b.readUInt16BE(p); p += 2; return v; };
+    if(str(4) !== "MThd") throw new Error("not a MIDI file");
+    u32(); u16(); const ntrk = u16(); u16();
+    for(let t = 0; t < ntrk; t++){
+      if(str(4) !== "MTrk") throw new Error("bad track");
+      const len = u32(), end = p + len;   // u32() advances p, so read it FIRST
+      let running = 0;
+      while(p < end){
+        let c; do { c = b[p++]; } while(c & 0x80);       // delta time
+        let st = b[p];
+        if(st & 0x80){ p++; running = st; } else st = running;
+        if(st === 0xff){ p++; let l = 0, k; do { k = b[p++]; l = (l << 7) | (k & 0x7f); } while(k & 0x80); p += l; }
+        else if(st === 0xf0 || st === 0xf7){ let l = 0, k; do { k = b[p++]; l = (l << 7) | (k & 0x7f); } while(k & 0x80); p += l; }
+        else { const hi = st & 0xf0; if(hi === 0x90 && b[p + 1] > 0) ons++; p += (hi === 0xc0 || hi === 0xd0) ? 1 : 2; }
+      }
+      p = end;
+    }
+    return ons;
+  };
+  const LANES = new Set(["kick", "snare", "ghost", "hat", "openhat"]);
+  let bad = [];
+  for(const g of M.genres()) for(const seed of [1, 2, 3]){
+    const song = M.composeSong(seed, undefined, g);
+    const want = song.perf.events.filter(e => e.role !== "tape" &&
+      (e.role === "drums" ? LANES.has(e.lane) : e.pitch != null)).length;
+    const got = parse(M.toMidi(song));
+    if(got !== want) bad.push(`${g}/${seed}: ${got} of ${want}`);
+  }
+  check("the .mid carries every note of every genre", bad.length === 0,
+        bad.length ? bad.join(" | ") : M.genres().length * 3 + " songs round-trip exactly");
+}
+
 console.log("\n" + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);

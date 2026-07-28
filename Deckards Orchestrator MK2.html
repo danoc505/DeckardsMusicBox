@@ -2625,6 +2625,12 @@ const MIDI_TRACK = {
   keys:    { ch: 1, prog: 4,  name: "keys"    },   // electric piano 1
   lead:    { ch: 2, prog: 81, name: "lead"    },   // lead 2 (sawtooth)
   counter: { ch: 3, prog: 82, name: "counter" },   // lead 3 (calliope)
+  /* the ostinato needed its own track and did not have one, so 1520 of DKC's
+     3009 notes were dropped on export in silence -- the whole identity of the
+     genre, gone from the file a musician would actually open. Caught by the
+     round-trip check in mk2_roll.js, which parses the .mid back and counts:
+     1489 note-ons for 3009 events. That check exists for exactly this. */
+  ostinato: { ch: 4, prog: 11, name: "ostinato" },  // vibraphone: a struck, ringing cell
 };
 
 function midiVLQ(n){                       // variable-length quantity, 7 bits at a time
