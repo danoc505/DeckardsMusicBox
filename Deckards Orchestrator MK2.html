@@ -91,10 +91,19 @@ function wpick(rng, pairs){
 const pick = (rng, arr) => arr[Math.floor(rng() * arr.length)];
 
 /* ── THEORY — pure functions, no state ─────────────────────────────────── */
-const MODES = {                                   // [theory]
-  minor:  [0,2,3,5,7,8,10],
-  dorian: [0,2,3,5,7,9,10],
-  major:  [0,2,4,5,7,9,11],
+/* [theory]. Six of the seven researched genres asked for a mode that was not
+   here -- phrygian for acid/techno/jungle (the b2 over a static root IS that
+   sound), mixolydian for Wise's DKC writing, lydian and phrygian for Vangelis,
+   harmonic minor for synthwave. These are facts about scales, not opinions, so
+   they belong in the theory block and cost nothing until a genre draws them. */
+const MODES = {
+  minor:    [0,2,3,5,7,8,10],
+  dorian:   [0,2,3,5,7,9,10],
+  major:    [0,2,4,5,7,9,11],
+  phrygian: [0,1,3,5,7,8,10],
+  lydian:   [0,2,4,6,7,9,11],
+  mixolydian:[0,2,4,5,7,9,10],
+  harmMinor:[0,2,3,5,7,8,11],
 };
 const NOTE_NAMES = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 const pc = m => ((m % 12) + 12) % 12;
@@ -356,6 +365,14 @@ const RIG = {
           bass:"bass",     keys:"keys",     lead:"lead",     counter:"counter" },
   sega: { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat", openhat:"psgOpenhat",
           bass:"chipBass", keys:"chipKeys", lead:"chipLead", counter:"chipCounter" },
+  /* synthwave's band. The comp goes to the CS-80 voice, which has been built and
+     probed since the synth research and has been sitting unwired waiting for a
+     genre that wants it: two parallel layers, each with its own resonant HP and
+     LP, slow attack, late vibrato, ensemble detune. A Juno/Jupiter pad is not a
+     CS-80, but of everything in this palette it is the one in that lineage, and
+     it is the right instrument for a wide sustained synth comp. [EAR] */
+  neon: { kick:"kick",    snare:"snare",    ghost:"ghost",    hat:"hat",    openhat:"openhat",
+          bass:"bass",     keys:"cs80",     lead:"lead",     counter:"counter" },
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1171,7 +1188,11 @@ function referenceEvents(tempo){
    before and after (harness/mk2_snapshot.js): not one note moved. That check is
    the only reason to believe a refactor was a refactor.
    ═══════════════════════════════════════════════════════════════════════════ */
-const SECTION_LEN = { intro: 4, verse: 8, chorus: 8, bridge: 8, instrumental: 8, outro: 4 };
+/* named by six of the seven genres as a hole: section LENGTHS, which roles play
+   in which section, which material each section uses, and the drum accent map
+   were all module constants, so a genre could not say "my intro is 16 bars",
+   "this section has no drums at all", or "my kit is a machine and does not
+   accent like a human drummer". They are genre entries now. */
 
 const GENRE = {
   lofi: {
@@ -1186,6 +1207,19 @@ const GENRE = {
     /* ── stage 2: form. Weights are measured; the rule of three is enforced by
        stage 2 itself and is not a genre choice. [corpus:harvest_structure] ── */
     form: {
+      lengths:    { intro: 4, verse: 8, chorus: 8, bridge: 8, instrumental: 8, outro: 4 },
+      /* which material each function plays, and who is in the room for it.
+         A genre with no drums simply never lists "drums". */
+      material:   { intro: "A", verse: "A", chorus: "B", bridge: "C",
+                    instrumental: "A", outro: "A" },
+      roles: {
+        intro:        ["keys", "bass"],                    // the bed before the tune
+        verse:        ["drums", "bass", "keys", "lead"],
+        chorus:       ["drums", "bass", "keys", "lead", "counter"],
+        bridge:       ["bass", "keys", "lead"],            // the kit sits out the departure
+        instrumental: ["drums", "bass", "keys"],
+        outro:        ["keys", "bass"],
+      },
       coldOpen:   0.15,          // a cold open is a choice, not an absence
       openVerse:  0.78,          // P(open on a verse | there was an intro)
       target:     [40, 4, 8],    // base bars, how many steps, step size -> 40..64
@@ -1232,7 +1266,10 @@ const GENRE = {
        a doubling, and it is what "everything at once and nothing together"
        sounds like. A counter-line needs its own rhythm (it does not sound on
        every note) and CONTRARY motion (when the tune rises it falls). */
-    counter: { density: 0.62, intervals: [-2, -3, -4, -5] },
+    counter: { style: "line", density: 0.62, intervals: [-2, -3, -4, -5] },
+    /* sevenths were hardcoded `true` at the one call site, which three genres
+       flagged: synthwave and jungle want bare triads, Vangelis wants neither. */
+    sevenths: true,
     progressions: {
       minor:  [[[0,5,2,6], 4], [[0,3,5,6], 3], [[0,3,0,4], 2], [[5,3,0,6], 2]],
       dorian: [[[0,3,0,3], 4], [[0,3,4,3], 3], [[0,5,3,4], 2]],
@@ -1249,6 +1286,10 @@ const GENRE = {
        the comp owns the middle, the tune sits above both, and they overlap only
        at the edges -- a countermelody that never crosses the comp is not one. */
     registers: { bass: [33, 45], keys: [52, 74], counter: [57, 74],
+                 /* a walk-up leads INTO the next chord and is allowed slightly
+                    above the root band -- declared, rather than the bare "+2"
+                    that used to sit at the call site [theory] */
+                 bassWalk: [33, 47],
                  themeA: [64, 80], themeB: [67, 84], themeC: [62, 78] },
 
     /* ── stage 5: performance ── */
@@ -1266,7 +1307,140 @@ const GENRE = {
       push:       -0.008,                                // the whole kit sits fractionally early
     },
     touch: { bassArtic: [[0.6, 3], [0.85, 4], [1.0, 3]], strum: [0.004, 0.005] },   // [EAR]
+    /* WHERE in the bar a hit is loud. Measured off human drummers
+       [corpus:harvest_drums] -- which is right for this genre and wrong for a
+       drum machine, so it is a genre entry rather than a global. */
+    accent: {
+      kick:  [0.98,0.21,1.00,0.79,0.92,0.82,0.73,0.74,0.94,0.73,0.94,0.76,0.90,0.82,0.73,0.65],
+      snare: [0.40,0.33,0.43,0.47,0.96,0.35,0.55,0.39,0.48,0.41,0.49,0.48,1.00,0.42,0.61,0.38],
+      ghost: [0.40,0.33,0.43,0.47,0.96,0.35,0.55,0.39,0.48,0.41,0.49,0.48,1.00,0.42,0.61,0.38],
+      hat:   [0.92,0.53,0.87,0.69,1.00,0.57,0.88,0.63,0.89,0.64,0.89,0.68,0.99,0.63,0.87,0.64],
+      openhat:[0.92,0.53,0.87,0.69,1.00,0.57,0.88,0.63,0.89,0.68,0.89,0.68,0.99,0.63,0.87,0.64],
+    },
     space: { wet: 0.16 },                                                            // [EAR]
+  },
+
+  /* ═════════════════════════════════════════════════════════════════════════
+     SYNTHWAVE / OUTRUN — GENRE 2, and the test of Law 4: everything below is a
+     PARAMETER. Not one line of stage 2-5 logic knows this genre exists.
+
+     From docs/genre-research/synthwave.md. That file's own warning applies: its
+     verification pass never ran, so these are the researcher's claims. Where a
+     number is taste it says [EAR]; where it is one tutorial's value rather than
+     a distribution it says so. The most useful thing in it is a caution: the
+     one public key survey of synthwave (Orpheus, 50 songs) reports 34 major /
+     16 minor, but its author used an ALGORITHMIC key detector -- and
+     i-VI-III-VII in minor is exactly vi-IV-I-V in the relative major, identical
+     pitch content. That survey measures the detector, not the music. So the
+     mode weights here are honest taste, not false measurement.
+     ═════════════════════════════════════════════════════════════════════════ */
+  synthwave: {
+    label: "synthwave",
+    tempo:    [92, 132],                                  // [corpus:orpheus-50 + songbpm]
+    modes:    [["minor", 7], ["major", 3], ["dorian", 1]],          // [EAR]
+    rig:      [["neon", 1]],                              // its own band, always
+    keysChar: [["rhodes", 1]],                            // unused: the neon rig sends keys to cs80
+    tape:     { wow: [0.0006, 0.0010], crackle: [0.0008, 0.0015] }, // VHS warble, not vinyl [EAR]
+
+    form: {
+      lengths:  { intro: 8, verse: 8, chorus: 8, bridge: 8, instrumental: 8, outro: 4 },
+      material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
+                  instrumental: "B", outro: "A" },        // the instrumental is the SOLO, so it takes the hook
+      roles: {
+        intro:        ["keys", "bass"],
+        verse:        ["drums", "bass", "keys", "lead"],
+        chorus:       ["drums", "bass", "keys", "lead", "counter"],
+        bridge:       ["bass", "keys", "lead"],
+        instrumental: ["drums", "bass", "keys", "lead"],  // the lead steps forward, it does not sit out
+        outro:        ["keys", "bass"],
+      },
+      coldOpen:   0.08,        // [tut:orpheus] Nightcall opens on a filtered arp; a cold open is rare
+      openVerse:  0.72,        // [EAR]
+      target:     [48, 4, 8],  // 48-72 bars [tut:edmprod, The Midnight "Souvenir" template]
+      transitions: {
+        verse:        [["chorus", 8], ["verse", 2], ["bridge", 1]],
+        chorus:       [["verse", 5], ["instrumental", 4], ["bridge", 3], ["chorus", 2]],
+        bridge:       [["chorus", 9], ["verse", 1]],
+        instrumental: [["chorus", 7], ["verse", 3]],
+      },
+      bridgeAfterChorus: { verse: 1, chorus: 2 },
+      /* the instrumental is a PEAK here, not a rest -- the lead solo section.
+         Lofi puts it at 0.72; synthwave must not. [tut:orpheus-structure] */
+      energy: { intro: 0.42, outro: 0.38, bridge: 0.55, instrumental: 0.88,
+                chorus: 0.95, chorusPeak: 1.0, verse: 0.70 },          // [EAR]
+    },
+
+    pocket: [[[0, 8], 5],                    // 1 and 3   [tut:orpheus-drums, tut:modeaudio]
+             [[0, 4, 8, 12], 5],             // four on the floor [tut:edmprod]
+             [[0, 8, 14], 2],                // with the pickup [EAR]
+             [[0, 6, 8], 2],                 // the Miami Vice lean [EAR]
+             [[0, 4, 8, 12, 14], 1]],        // driving four with a pickup [EAR]
+    kit: {
+      snare:       [4, 12],    // beats 2 and 4, unanimous across every source read
+      hatEvery:    2,
+      hatVel:      0.58,       // [tut:native-instruments] their walkthrough programs hats at 74/127
+      ghostChance: 0.10,       // [tut:modeaudio] "virtually no velocity deviation is used"
+      ghostSpots:  [3, 7, 11, 15],
+      openSpot:    [[14, 5], [6, 2], [-1, 3]],   // open hats feature; no-open-hat is rarer than lofi
+      openBars:    [1, 3],
+      kickKeep:    8,          // the machine plays its whole pattern
+      flourishBar: 3,
+      flourish:    [[[14, 15], 4], [[7, 15], 2], [[10, 11, 14, 15], 2], [[], 2]],
+      variants: {
+        main:   {},
+        lift:   { hatEvery: 1, hatVel: 0.62, ghostChance: 0.15 },   // the chorus goes to sixteenths
+        depart: { hatEvery: 4, ghostChance: 0.0, snare: [12], kickKeep: 2,
+                  openBars: [], flourish: [[[], 1]] },
+      },
+    },
+    /* the "counter" in this genre is the octave double, not a contrary line --
+       the one place synthwave wants exactly what lofi does not. +/-7 scale
+       steps is +/-1 octave in a 7-note mode. [theory] */
+    /* the octave double, not a counter-line. [theory: an octave is 12 semitones] */
+    counter: { style: "double", density: 0.90, octaves: [-12, 12], intervals: [-7, 7] },
+    sevenths: false,           // synthwave is TRIADS; the seventh is a lofi habit
+    progressions: {
+      minor: [[[0,5,2,6], 6],  // i-VI-III-VII, the synthwave loop [tut:futureproof]
+              [[0,6,5,3], 5],  // i-VII-VI-iv -- Kavinsky "Nightcall" verse [corpus:reverbmachine]
+              [[0,6,5,6], 4],  // i-VII-VI-VII [tut:futureproof]
+              [[0,5,6,5], 3],  // i-VI-VII-VI, "The Retro Cascade" [tut:emastered]
+              [[0,2,5,6], 3]], // i-III-VI-VII, Timecop1983 "Lovers" [tut:unison]
+      major: [[[0,4,5,3], 5],  // I-V-vi-IV [tut:unison]
+              [[5,3,0,4], 5],  // vi-IV-I-V, The Midnight "Shadows" [tut:unison]
+              [[0,5,3,4], 4],  // I-vi-IV-V [tut:orpheus-chords]
+              [[0,5,1,4], 2]], // I-vi-ii-V [tut:unison]
+      dorian:[[[0,3,0,3], 4], [[0,6,0,3], 3], [[0,3,6,3], 2]],       // [GUESS], and says so
+    },
+    bridgeProgressions: {
+      minor: [[[5,6,2,4], 4], [[3,5,6,4], 3], [[5,2,3,6], 2]],
+      major: [[[5,3,0,4], 4], [[3,4,5,4], 3], [[1,4,0,4], 2]],
+      dorian:[[[6,3,0,3], 3], [[3,6,3,0], 2]],
+    },
+    registers: { bass: [33, 45], keys: [57, 81], counter: [64, 86], bassWalk: [33, 47],
+                 themeA: [72, 88],   // "far above the driving rhythm" [tut:modeaudio]
+                 themeB: [74, 91], themeC: [69, 84] },
+
+    groove: {
+      styles:     [["even", 10]],   // machine-tight by definition [tut:modeaudio]
+      swing:      [1.0, 0.06],      // 1.0 is dead straight; the whisper is the LinnDrum shuffle
+      swingUnit:  1,                // sixteenths -- what a LinnDrum's shuffle actually delays
+      snareEarly: [0, 0],
+      kickLate:   [0, 0],
+      hatMul:     1,
+      jitter:     { dilla: 0.0008, even: 0.0008 },   // 0.8 ms: a machine, not a drummer
+      push:       0,                // drum machines do not rush; lofi's -8 ms must not be inherited
+    },
+    /* A JUNO IS NOT A HAND: every note of a chord strikes together, so the strum
+       is zero here. The draw still runs, it just yields nothing. [theory] */
+    touch: { bassArtic: [[0.45, 5], [0.70, 3], [1.00, 2]], strum: [0, 0] },
+    accent: {   // a machine's grid, not a drummer's -- flat but for the backbeat
+      kick:  [1.00,0.90,0.90,0.90,1.00,0.90,0.90,0.90,1.00,0.90,0.90,0.90,1.00,0.90,0.90,0.90],
+      snare: [0.90,0.85,0.85,0.85,1.00,0.85,0.85,0.85,0.90,0.85,0.85,0.85,1.00,0.85,0.85,0.85],
+      ghost: [0.90,0.85,0.85,0.85,1.00,0.85,0.85,0.85,0.90,0.85,0.85,0.85,1.00,0.85,0.85,0.85],
+      hat:   [1.00,0.86,0.92,0.86,0.96,0.86,0.92,0.86,1.00,0.86,0.92,0.86,0.96,0.86,0.92,0.86],
+      openhat:[1.00,0.86,0.92,0.86,0.96,0.86,0.92,0.86,1.00,0.86,0.92,0.86,0.96,0.86,0.92,0.86],
+    },
+    space: { wet: 0.30 },        // a WET genre: plate/hall, roughly double lofi [tut:futureproof]
   },
 };
 
@@ -1307,7 +1481,7 @@ function makeChart(seed, rigChoice, genreChoice){
    satisfy with the property it owns. Form demands; it never edits notes.
    ═══════════════════════════════════════════════════════════════════════════ */
 function makeForm(chart){
-  const F = GENRE[chart.genre].form;
+  const F = GENRE[chart.genre].form, LEN = F.lengths;
   const rng = stream(chart.seed, "form");
   const fns = [];
   const coldOpen = rng() < F.coldOpen;                  // a cold open is a choice, not an absence
@@ -1317,7 +1491,7 @@ function makeForm(chart){
   const target = F.target[0] + Math.floor(rng() * F.target[1]) * F.target[2];
   let bars = coldOpen ? 0 : 4, bridgeUsed = false, chorusSeen = 0;
   for(let guard = 0; guard < 10; guard++){
-    fns.push(fn); bars += SECTION_LEN[fn];
+    fns.push(fn); bars += LEN[fn];
     if(fn === "chorus") chorusSeen++;
     if(fn === "bridge") bridgeUsed = true;
     if(bars >= target && fn === "chorus") break;        // a song ends off its payoff
@@ -1344,14 +1518,14 @@ function makeForm(chart){
   const out = fns.map((f, i) => {
     seen[f] = (seen[f] || 0) + 1;
     const o = {
-      fn: f, startBar: bar, endBar: bar + SECTION_LEN[f],
+      fn: f, startBar: bar, endBar: bar + LEN[f],
       occurrence: seen[f],
       demand: (seen[f] >= 3 && (f === "verse" || f === "chorus")) ? "vary" : null,
       energy: f === "chorus" ? (i === lastChorus ? F.energy.chorusPeak : F.energy.chorus)
                               : F.energy[f],
       peak: i === lastChorus,
     };
-    bar += SECTION_LEN[f];
+    bar += LEN[f];
     return Object.freeze(o);
   });
   out.nBars = bar;
@@ -1382,7 +1556,7 @@ function makeForm(chart){
 
 function makeMaterials(chart){
   const BARS = 4;
-  const G = GENRE[chart.genre];
+  const G = GENRE[chart.genre], R = G.registers;
   const { root, mode } = chart;
   const key = (b, s, p) => b + ":" + s + ":" + p;
 
@@ -1396,8 +1570,8 @@ function makeMaterials(chart){
   const degrees = wpick(rngH, G.progressions[mode]);
   const mkChords = degs => degs.map(d => Object.freeze({
     degree: d,
-    tones: chordTones(root, mode, d, true),
-    rootMidi: intoBand(degMidi(root, mode, d), G.registers.bass[0], G.registers.bass[1]),
+    tones: chordTones(root, mode, d, G.sevenths),
+    rootMidi: intoBand(degMidi(root, mode, d), R.bass[0], R.bass[1]),
   }));
   const chords = mkChords(degrees);
   /* the bridge's harmony: the departure -- rotated to open OFF the tonic
@@ -1456,7 +1630,7 @@ function makeMaterials(chart){
         // the DIATONIC fifth, not +7 semitones: on a diminished degree (dorian's vi)
         // a blind +7 leaves the key -- the seam check caught it at seed 103
         const pch = choice === "root" ? ch.rootMidi
-                  : intoBand(degMidi(root, mode, ch.degree + 4), 33, 47);
+                  : intoBand(degMidi(root, mode, ch.degree + 4), R.bassWalk[0], R.bassWalk[1]);
         notes.push({ bar: b, step: pocket[i], dur: 2, pitch: pch, vel: 0.72, role: "bass" });
       }
       /* w was hoisted for stream stability but the SECOND draw stayed inside the
@@ -1468,7 +1642,7 @@ function makeMaterials(chart){
         // ...and never onto a step this bass already owns: a pocket that ends on 14
         // put two bass notes on one instant, which the seam check rightly threw on
         const from = scaleStep(root, mode, next.rootMidi, walkStep);
-        notes.push({ bar: b, step: 14, dur: 2, pitch: intoBand(from, G.registers.bass[0], G.registers.bass[1] + 2), vel: 0.6, role: "bass" });
+        notes.push({ bar: b, step: 14, dur: 2, pitch: intoBand(from, R.bassWalk[0], R.bassWalk[1]), vel: 0.6, role: "bass" });
       }
     }
     return notes;
@@ -1497,16 +1671,16 @@ function makeMaterials(chart){
          declared [52,74]. Fold FIRST, then invert by lifting the lowest voices
          -- that is what an inversion is. Candidates that push past the ceiling
          are not clamped, they are not offered. */
-      const base = ch.tones.map(t => intoBand(t, G.registers.keys[0], G.registers.keys[1])).sort((a, z) => a - z);
+      const base = ch.tones.map(t => intoBand(t, R.keys[0], R.keys[1])).sort((a, z) => a - z);
       let voiced = null, bestCost = 1e9;
       for(let inv = 0; inv < base.length; inv++){
         const cand = base.map((p, i) => i < inv ? p + 12 : p).sort((a, z) => a - z);
-        if(cand[cand.length - 1] > G.registers.keys[1]) continue;   // this inversion does not fit
+        if(cand[cand.length - 1] > R.keys[1]) continue;   // this inversion does not fit
         let cost = prev ? 0 : Math.abs(cand[0] - 60);
         if(prev) for(let i = 0; i < Math.min(cand.length, prev.length); i++) cost += Math.abs(cand[i] - prev[i]);
         if(cost < bestCost){ bestCost = cost; voiced = cand; }
       }
-      if(!voiced) throw new Error("no keys voicing fits [" + G.registers.keys + "] on bar " + b);
+      if(!voiced) throw new Error("no keys voicing fits [" + R.keys + "] on bar " + b);
       prev = voiced;
       for(let si = 0; si < strikes.length; si++){
         const st = strikes[si], nxt = si + 1 < strikes.length ? strikes[si + 1] : 16;
@@ -1637,9 +1811,21 @@ function makeMaterials(chart){
      Two things make a line a line: it does not sound on every note of the tune
      (its own rhythm), and it tends to move CONTRARY to it (its own shape). Both
      are here, and both are drawn from the genre's table. */
+  /* TWO KINDS OF SECOND VOICE, because two genres want opposite things and
+     neither is a correction of the other.
+       "line"   -- its own rhythm, contrary motion. A countermelody. (lofi)
+       "double" -- the SAME rhythm, a fixed octave away, on nearly every note.
+                   A thickener, and it is what synthwave means by a second
+                   voice: the research for that genre said in as many words
+                   that deriveCounter's design "is built to prevent what
+                   synthwave wants".
+     Reading the roll is what caught this: with style "line" and octave
+     intervals, the +7 candidate folds back onto the lead's own pitch inside the
+     band and gets filtered, so the doubling mostly did not sound at all -- one
+     note where three were asked for. */
   function deriveCounter(themeNotes, reserved, streamName){
     const rng = stream(chart.seed, streamName);
-    const CT = G.counter, LO = G.registers.counter[0], HI = G.registers.counter[1];
+    const CT = G.counter, LO = R.counter[0], HI = R.counter[1];
     const src = themeNotes.slice().sort((a, z) => a.bar - z.bar || a.step - z.step);
     const out = [];
     let prevLead = null, prevOwn = null;
@@ -1649,6 +1835,23 @@ function makeMaterials(chart){
       const leadMove = prevLead == null ? 0 : n.pitch - prevLead;
       prevLead = n.pitch;
       if(!sounds){ continue; }
+      if(CT.style === "double"){
+        /* an octave is an OCTAVE -- 12 semitones, not a scale-step count that
+           intoBand can fold back onto the note it came from. Try each offset in
+           order and take the first that fits the band and is free. */
+        let put = null;
+        for(const semis of CT.octaves){
+          const c = n.pitch + semis;
+          if(c < LO || c > HI) continue;
+          if(reserved.has(key(n.bar, n.step, c))) continue;
+          put = c; break;
+        }
+        if(put == null) continue;
+        out.push({ bar: n.bar, step: n.step, dur: n.dur, pitch: put, vel: n.vel * 0.8, role: "counter" });
+        reserved.add(key(n.bar, n.step, put));
+        prevOwn = put;
+        continue;
+      }
       /* score every legal interval: prefer the one whose motion OPPOSES the
          tune's, then the one that moves least -- contrary motion first, smooth
          voice leading second. */
@@ -1683,7 +1886,7 @@ function makeMaterials(chart){
   const bassA  = buildBass(chords, "bass", false);
   const keysA  = buildKeys(chords, "keys", { dense: false });
   const resA   = reserve(bassA.concat(keysA));
-  const themeA = buildTheme(chords, "themeA", resA, { lo: G.registers.themeA[0], hi: G.registers.themeA[1], dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
+  const themeA = buildTheme(chords, "themeA", resA, { lo: R.themeA[0], hi: R.themeA[1], dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
   const counterA = deriveCounter(themeA.notes, resA, "counterA");
 
   /* ── B = hook(A): same bed family, new tune FROM A's DNA, denser comp,
@@ -1692,7 +1895,7 @@ function makeMaterials(chart){
   const keysB  = buildKeys(chords, "keysB", { dense: true });
   const resB   = reserve(bassA.concat(keysB));
   const themeB = buildTheme(chords, "themeB", resB,
-    { lo: G.registers.themeB[0], hi: G.registers.themeB[1], dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
+    { lo: R.themeB[0], hi: R.themeB[1], dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
   const counterB = deriveCounter(themeB.notes, resB, "counterB");
 
   /* ── C = depart(A): new changes, sustained keys, roots-only bass,
@@ -1700,12 +1903,12 @@ function makeMaterials(chart){
   const bassC  = buildBass(bridgeChords, "bassC", true);
   const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true });
   const resC   = reserve(bassC.concat(keysC));
-  const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: G.registers.themeC[0], hi: G.registers.themeC[1], augmentOf: themeA.notes });
+  const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: R.themeC[0], hi: R.themeC[1], augmentOf: themeA.notes });
 
   /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
      the canonical rule-of-three answer at the material level ── */
   const resV = reserve(bassA.concat(keysA).concat(themeA.notes.filter(n => n.bar < 2)));
-  const varTail = buildTheme(chords, "themeA:var", resV, { lo: G.registers.themeA[0], hi: G.registers.themeA[1], dir: -1 });
+  const varTail = buildTheme(chords, "themeA:var", resV, { lo: R.themeA[0], hi: R.themeA[1], dir: -1 });
   const leadAvar = themeA.notes.filter(n => n.bar < 2)
     .concat(varTail.notes.filter(n => n.bar >= 2));
 
@@ -1724,8 +1927,8 @@ function makeMaterials(chart){
   /* ── the ending: the tonic landing [theory: resolution is the arrival of
      tonic harmony -- the song closes, it does not just stop] ── */
   const ending = (() => {
-    const tonic = chordTones(root, mode, 0, false).map(t => intoBand(t, 55, 72));
-    const notes = [{ bar: 0, step: 0, dur: 16, pitch: intoBand(degMidi(root, mode, 0), 33, 45), vel: 0.85, role: "bass" }];
+    const tonic = chordTones(root, mode, 0, false).map(t => intoBand(t, R.keys[0] + 3, R.keys[1] - 2));
+    const notes = [{ bar: 0, step: 0, dur: 16, pitch: intoBand(degMidi(root, mode, 0), R.bass[0], R.bass[1]), vel: 0.85, role: "bass" }];
     for(const t of tonic) notes.push({ bar: 0, step: 0, dur: 16, pitch: t, vel: 0.7, role: "keys" });
     return notes;
   })();
@@ -1771,15 +1974,7 @@ function makeMaterials(chart){
    only; this stage never edits a note.
    ═══════════════════════════════════════════════════════════════════════════ */
 function makeArrangement(chart, form, materials){
-  const MAT = { intro: "A", verse: "A", chorus: "B", bridge: "C", instrumental: "A", outro: "A" };
-  const ROLES = {
-    intro:        ["keys", "bass"],                       // the vamp intro: the bed before the tune
-    verse:        ["drums", "bass", "keys", "lead"],
-    chorus:       ["drums", "bass", "keys", "lead", "counter"],
-    bridge:       ["bass", "keys", "lead"],               // the kit sits out the departure
-    instrumental: ["drums", "bass", "keys"],              // the tune's section off
-    outro:        ["keys", "bass"],
-  };
+  const F = GENRE[chart.genre].form, MAT = F.material, ROLES = F.roles;
   return Object.freeze(form.map((sec, i) => {
     let material = MAT[sec.fn];
     let stripHalf = false;
@@ -1824,17 +2019,11 @@ function makeArrangement(chart, form, materials){
    human performances [corpus:harvest_drums], each row normalized to its own
    peak. The snare's row IS ghosting: backbeats at 1.0, everything else under
    half. This is a static part of the one gain formula, not a pass. */
-const DRUM_ACCENT = {
-  kick:  [0.98,0.21,1.00,0.79,0.92,0.82,0.73,0.74,0.94,0.73,0.94,0.76,0.90,0.82,0.73,0.65],
-  snare: [0.40,0.33,0.43,0.47,0.96,0.35,0.55,0.39,0.48,0.41,0.49,0.48,1.00,0.42,0.61,0.38],
-  ghost: [0.40,0.33,0.43,0.47,0.96,0.35,0.55,0.39,0.48,0.41,0.49,0.48,1.00,0.42,0.61,0.38],
-  hat:   [0.92,0.53,0.87,0.69,1.00,0.57,0.88,0.63,0.89,0.64,0.89,0.68,0.99,0.63,0.87,0.64],
-  openhat:[0.92,0.53,0.87,0.69,1.00,0.57,0.88,0.63,0.89,0.64,0.89,0.68,0.99,0.63,0.87,0.64],
-};
 
 function makePerformance(chart, form, materials, sections){
   const spb = (60 / chart.tempo) / 4;
   const GR = GENRE[chart.genre].groove, TOUCH = GENRE[chart.genre].touch;
+  const ACC = GENRE[chart.genre].accent;
   const rngG = stream(chart.seed, "groove");
   const swingRatio = GR.swing[0] + rngG() * GR.swing[1];
   /* SWING AS A TIME WARP, not an offset added to selected steps.
@@ -1942,7 +2131,7 @@ function makePerformance(chart, form, materials, sections){
             micro += ((strumAt[k] - 1) * strumSec) / spb;
           }
           /* THE ONE GAIN FORMULA: identity x position accent x section dynamic */
-          const accent = (role === "drums" && DRUM_ACCENT[lane]) ? DRUM_ACCENT[lane][n.step % 16] : 1;
+          const accent = (role === "drums" && ACC[lane]) ? ACC[lane][n.step % 16] : 1;
           const gain = Math.min(1.25, n.vel * accent * (0.72 + 0.28 * sec.energy) * (sec.peak ? 1.06 : 1));
           const artic = role === "bass" ? bassArtic : 1;
           /* `lane` is WHAT the note is; `voice` is WHO plays it. The rig table is

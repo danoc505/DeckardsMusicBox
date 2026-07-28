@@ -2,7 +2,7 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    THE ROLL — print the NOTES.
 
-       node harness/mk2_roll.js <seed> [band|sega] [--song] [--mid <file>]
+       node harness/mk2_roll.js <seed> [rig] [--genre <name>] [--song] [--mid <file>]
 
    WHY THIS IS THE TEST THAT MATTERS.  I do not have ears.  Every audio number I
    can produce -- band balance, crest factor, spectral centroid -- describes a
@@ -38,12 +38,14 @@ const M = global.window.MK2, T = global.__T;
 
 const argv = process.argv.slice(2);
 const seed = parseInt(argv[0], 10) || 1;
-const rig = (argv[1] === "band" || argv[1] === "sega") ? argv[1] : undefined;
+const rig = ["band","sega","neon"].includes(argv[1]) ? argv[1] : undefined;
+const gAt = argv.indexOf("--genre");
+const genre = gAt >= 0 ? argv[gAt + 1] : undefined;
 const wantSong = argv.includes("--song");
 const midAt = argv.indexOf("--mid");
 const midFile = midAt >= 0 ? argv[midAt + 1] : null;
 
-const song = M.composeSong(seed, rig);
+const song = M.composeSong(seed, rig, genre);
 const C = song.chart;
 const nm = p => T.NOTE_NAMES[T.pc(p)] + (Math.floor(p / 12) - 1);   // midi 60 -> C4
 

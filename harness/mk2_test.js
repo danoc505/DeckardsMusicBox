@@ -198,5 +198,45 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         flourish + "/" + songs + " loops vary their last bar's hats");
 }
 
+/* EVERY GENRE, not just the one that shipped first. Law 4 says a genre is
+   parameter tables only -- so the way to test that claim is to run the same
+   laws against every table in the file and let the seam checks throw. */
+{
+  const genres = M.genres();
+  for(const g of genres){
+    const errs = [];
+    let hookExact = 0, r3 = 0, forms = new Set(), nondet = 0;
+    for(let s = 1; s <= 120; s++){
+      let song;
+      try{ song = M.composeSong(s, undefined, g); }
+      catch(e){ if(errs.length < 3) errs.push(s + ": " + e.message); continue; }
+      forms.add(song.form.map(x => x.fn).join(","));
+      const B = song.materials.B.lead;
+      const sig = b => B.filter(n => n.bar === b).map(n => n.step + "/" + n.pitch).join(",");
+      if(sig(0) === sig(2) && sig(1) === sig(3)) hookExact++;
+      for(let i = 2; i < song.form.length; i++)
+        if(song.form[i].fn === song.form[i-1].fn && song.form[i].fn === song.form[i-2].fn) r3++;
+      if(s <= 10 && JSON.stringify(song.perf.events) !==
+                    JSON.stringify(M.composeSong(s, undefined, g).perf.events)) nondet++;
+    }
+    check(`[${g}] every seed composes and passes its own seam checks`, errs.length === 0,
+          errs.length ? errs.join(" | ") : "120 seeds");
+    check(`[${g}] same seed, same events`, nondet === 0, nondet + " mismatches in 10");
+    check(`[${g}] the hook restates itself exactly`, hookExact === 120, hookExact + "/120");
+    check(`[${g}] no function three times in a row`, r3 === 0, r3 + " violations");
+    check(`[${g}] forms genuinely vary`, forms.size > 20, forms.size + " distinct in 120");
+  }
+  /* ...and the genres must not all be the same song in a hat */
+  const fp = g => {
+    const x = M.composeSong(7, undefined, g);
+    return [x.chart.tempo, x.materials.pocket.join("/"), x.perf.groove.style,
+            x.materials.A.drums.length, x.form.nBars].join(" ");
+  };
+  const seen = new Map();
+  for(const g of genres) seen.set(g, fp(g));
+  check("the genres are actually different music", new Set(seen.values()).size === genres.length,
+        [...seen].map(([g, v]) => `${g}: ${v}`).join("  |  "));
+}
+
 console.log("\n" + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);
