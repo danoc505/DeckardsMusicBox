@@ -443,6 +443,66 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
           unread.length ? unread.join(" | ") : "all controls wired");
   }
 
+  /* ── 1b-ii. WHAT THE GENRE SAYS MUST REACH THE PANEL. The check above proves
+     a knob is wired to a voice; this proves the GENRE's setting for it is
+     actually loaded, which is a different claim and was false for four genres.
+     applyRack walked the three slots and skipped any set to "auto" -- and
+     "auto" means "whatever the rig names", which is most machines. So every
+     value a genre declared for a machine it reaches through the rig was thrown
+     away: 69 of them, including Vangelis's cs80.initBend, the one control that
+     makes that score identifiable. Nothing failed, nothing threw, and the
+     panel showed a plausible factory default. This is the check that names it. */
+  {
+    const unapplied = [], unknown = [];
+    for(const g of M.genres()){
+      const song = M.composeSong(1, undefined, g);
+      const P = (T.GENRE[g].params || {});
+      for(const m in P) for(const k in P[m]){
+        const key = m + "." + k;
+        if(!M.CONTROL[key]){ unknown.push(g + ":" + key); continue; }
+        if(Math.abs(P[m][k] - M.panelValue(m, k)) > 1e-9)
+          unapplied.push(`${g}:${key} wants ${P[m][k]} reads ${M.panelValue(m, k)}`);
+      }
+    }
+    check("a genre's params name controls that exist", unknown.length === 0,
+          unknown.length ? unknown.join(" | ") : "no phantom parameters");
+    /* ...AND NO GENRE INHERITS THE LAST ONE'S SETTINGS. PARAMS is one global
+       table, so a machine a genre says nothing about keeps whatever was loaded
+       before it. Measured before the fix: composing Vangelis and then synthwave
+       left the CS-80 holding a 1.0 initial pitch bend -- the Blade Runner scoop
+       -- on every note of a genre that never asks for one. The check is
+       decisive and cheap: composing A then B must leave the panel exactly where
+       composing B alone does. */
+    {
+      const gs = M.genres(), leak = [];
+      for(const b2 of gs){
+        M.composeSong(1, undefined, b2);
+        const alone = {};
+        for(const m in M.INSTRUMENTS) for(const c of M.INSTRUMENTS[m].controls)
+          alone[m + "." + c.k] = M.panelValue(m, c.k);
+        for(const a2 of gs){
+          if(a2 === b2) continue;
+          M.composeSong(1, undefined, a2);
+          M.composeSong(1, undefined, b2);
+          for(const key in alone){
+            const [m, k] = key.split(".");
+            if(Math.abs(alone[key] - M.panelValue(m, k)) > 1e-9)
+              leak.push(`${a2}->${b2} ${key}`);
+          }
+        }
+      }
+      check("no genre inherits the previous genre's panel", leak.length === 0,
+            leak.length ? [...new Set(leak)].slice(0, 6).join(" | ") +
+              (leak.length > 6 ? ` (+${leak.length - 6} more)` : "")
+            : gs.length + " genres, every order gives the same panel");
+    }
+
+    check("every value a genre declares actually reaches the panel", unapplied.length === 0,
+          unapplied.length ? unapplied.slice(0, 6).join(" | ") +
+            (unapplied.length > 6 ? ` (+${unapplied.length - 6} more)` : "")
+          : "all genre parameters loaded");
+  }
+
   /* ── 1c. THE CONDUCTOR'S CONTRACT, and the answer to "how should the program
      decide what to do?". Every control declares its KIND, and the kind decides
      who may touch it:

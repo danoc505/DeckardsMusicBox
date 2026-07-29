@@ -100,6 +100,30 @@ removing that idea is the central reason MK2 exists.
 The question "how should the program decide what to do?" needs a stated rule,
 not per-genre improvisation. Every control in `INSTRUMENTS` carries a `kind`:
 
+**The four timescales `motion` can express**, and a genre should think in all of
+them:
+
+| kind | timescale | what it is for |
+|------|-----------|----------------|
+| `plock` | within a bar | per-step detail — the acid p-lock |
+| `lfo` | bars, free-phase or bar-locked | weather; nobody should be able to point at it |
+| `section` | section to section | *categorical* — chorus is always +X |
+| `gesture` | 1–2 bars into a fill or a peak | the hand on the dial over an arrival |
+| `arc` | **the whole record** | where the song ENDS UP vs where it started |
+
+`arc` was added last and it closed a real hole. Measured across 81 automated
+controls *before* it existed: 3.7% of dial within a bar, 6.5% bar to bar, 12.0%
+section to section — and 6.8% start-to-end, which was **incidental**, whatever
+the free-running LFO phases and the section order happened to leave behind.
+Nothing expressed "the record goes somewhere", because a `section` move is
+categorical: the third chorus is identical to the first, and a nine-minute acid
+record built that way arrives where it started. Wikipedia's definition of acid
+house is literally an arc — the sound is made *"by raising the filter resonance
+and lowering the cutoff frequency"* over the record — and Hawtin's Consumed is
+*"a year of subtraction"* across an album side. With arcs in, acid's
+`tb303.cutoff` travels **43% of its dial** from the top of the record to the
+end, and dkc's `rhodes.tone` 25%.
+
 | kind | meaning | may the conductor move it? |
 |------|---------|----------------------------|
 | `switch` | a discrete choice — the 303's waveform, the Mellotron's tape set | **no** — mid-song it is a different instrument, not a gesture |
@@ -118,6 +142,30 @@ Four seam checks enforce it, and together they close the loop:
   bus nobody rides is a knob the conductor is not using. Ten gestures and then
   twelve bus/kick controls were idle before this landed.
 - **no switch or voicing control is automated** — the reverse error.
+- **a genre's params name controls that exist** — no phantom parameters.
+- **every value a genre declares actually reaches the panel.**
+- **no genre inherits the previous genre's panel.**
+
+**The last two exist because of the worst bug this rack has had, and it shipped
+green.** `applyRack` walked the three *slots* and skipped any set to `"auto"` —
+and `"auto"` means "whatever the rig names", which is most machines. So every
+value a genre declared for a machine it reaches through the rig was thrown away:
+**69 of them**, including `vangelis.params.cs80.initBend`, the initial pitch
+bend that is the single identifying feature of that score. It read 0. The scoop
+had never once happened, while the table, the commit message and the comment all
+said it was the line that named the genre.
+
+Fixing that half exposed the other: `PARAMS` is one global table, so a machine a
+genre says *nothing* about keeps whatever the last genre left on it. Composing
+Vangelis then synthwave left the CS-80 holding a 1.0 initial bend on every note
+of a genre that never asks for one — **382 controls** carrying another genre's
+settings. `applyRack` now loads every machine every time: the genre's value where
+the table has an opinion, the machine's own default where it does not. The user's
+hand is untouched either way, because a drag writes `TRIM` (an offset), not
+`PARAMS`.
+
+Nothing threw. Nothing failed. The panel showed a plausible number the whole
+time. **If you change how parameters reach a voice, write the check first.**
 
 The upshot, measured: **57 controls — 38 gesture, 10 voicing, 6 bus, 3 switch.
 All wired; 46 set by at least one genre; 44 ridden by at least one.** The 13
@@ -166,7 +214,7 @@ WAV hash can never be the determinism test. The determinism test is the
 Run all of these before you claim anything.
 
 ```bash
-node harness/mk2_test.js                              # 80 seam checks
+node harness/mk2_test.js                              # 83 seam checks
 node harness/mk2_roll.js 1 --genre vangelis           # any of the six genres
 node harness/mk2_snapshot.js check harness/mk2_baseline.snap
 node harness/mk2_roll.js 1                            # THE test that matters
@@ -175,10 +223,10 @@ node harness/mk2_roll.js 1 --mid out.mid              # .mid round-trip check
 node harness/mk2_ui.js                                # 20 checks, in a browser
 ```
 
-- **`mk2_test.js`** — 80 assertions over composition seams: per-genre loops,
+- **`mk2_test.js`** — 83 assertions over composition seams: per-genre loops,
   "the counter is a line not a harmoniser", "the bridge is a departure", "the
   bass styles differ", "the .mid carries every note", plus the rack, the motion
-  and the pins. Currently **80 passed, 0 failed**.
+  and the pins. Currently **83 passed, 0 failed**.
 
   Two of these were rewritten when the new genres arrived, and the reason
   generalises: *"the drummer actually uses the toms"* and *"every genre's second

@@ -813,6 +813,13 @@ function motionAt(plan, key, ev, offset){
       const ph = mv.phase + (bar * 16 + step) / (16 * mv.bars);
       d += mv.depth * MOTION_WAVE[mv.shape](ph - Math.floor(ph));
     }
+    else if(mv.kind === "arc"){
+      const u = Math.max(0, Math.min(1, tSec / Math.max(1e-9, mv.seconds)));
+      const w = mv.curve === "exp" ? u * u
+              : mv.curve === "log" ? Math.sqrt(u)
+              : u * u * (3 - 2 * u);                 // sCurve: smoothstep
+      d += mv.from + (mv.to - mv.from) * w;
+    }
     else if(mv.kind === "gesture"){
       for(const w of mv.win){
         if(tSec < w.a || tSec >= w.b) continue;
@@ -873,6 +880,31 @@ function makeMotion(chart, form, sections){
           phase: sp.freePhase ? rng() : 0,      // 0 = the cycle starts with the song
           shape: sp.shape,
         }));
+      }
+      /* ══ ARC — THE TIMESCALE THAT WAS MISSING ═════════════════════════════
+         Measured before this existed: across 79 automated controls the movement
+         split 3.7% within a bar, 6.5% bar to bar, 12.0% section to section, and
+         6.8% from the start of the record to the end -- and that last figure
+         was INCIDENTAL, whatever the free-running LFO phases and the section
+         order happened to leave behind. Nothing expressed "the record goes
+         somewhere". A `section` move is categorical: chorus is always +X, so
+         the third chorus is identical to the first, and a nine-minute acid
+         record built that way arrives where it started.
+
+         An arc is indexed by POSITION IN THE SONG rather than by which section
+         you are in. Wikipedia's definition of acid house is literally this
+         move -- the sound is made "by raising the filter resonance and lowering
+         the cutoff frequency" over the record -- and Hawtin's Consumed is "a
+         year of subtraction" across a whole album side. Both are arcs, neither
+         is a section move. [corpus:wikipedia/Acid_house, corpus:hawtin]
+
+         `sCurve` is the useful default: flat at the top, flat at the end, and
+         all the travel in the middle, which is how a record opens out rather
+         than ramping like an automation line. ══════════════════════════════ */
+      else if(sp.kind === "arc"){
+        const from = drawIn(sp.from, rng), to = drawIn(sp.to, rng);
+        out.push(Object.freeze({ kind: "arc", from, to, curve: sp.curve || "sCurve",
+                                 seconds: nBars * 16 * spb }));
       }
       else if(sp.kind === "gesture"){
         /* the size is drawn once per song so the gesture is the same gesture
@@ -1023,15 +1055,46 @@ function soundOf(genre, drumMachine){
 
 /* what has been loaded, per slot, so that re-rolling a seed does NOT stamp on
    knobs the user has moved. Changing genre or machine reloads; nothing else. */
-const RACK_STATE = { drums:"", bass:"", keys:"" };
+/* keyed by MACHINE, not by slot -- see below for why the slot version was wrong */
+const RACK_STATE = {};
 function applyRack(chart, force){
   const G = GENRE[chart.genre] || {};
-  for(const slot in RACK_STATE){
-    const m = chart.picks[slot];
-    if(m === "auto") { RACK_STATE[slot] = ""; continue; }
+  /* ═══ EVERY MACHINE THIS SONG CAN SOUND, not just the ones in a slot. ═══
+     This loop used to walk the three SLOTS and skip any set to "auto" -- and
+     "auto" means "whatever the rig names", which is most of them. So a genre's
+     `params` for any machine it reaches through the RIG rather than through a
+     draw were silently never loaded, and the panel showed the control's factory
+     default instead. That is not a small miss: it meant Vangelis's
+     `cs80.initBend: 1.00` read 0, so the initial pitch bend -- the single thing
+     that makes that score identifiable, the note arriving from a semitone below
+     -- had never once happened. Measured across the four genres that reach
+     their machines through the rig, 69 of their declared parameter values were
+     being thrown away.
+
+     A genre only names a machine in `params` if it means to set it, so that
+     list IS the answer to "what does this song play": the picked machines, plus
+     everything the table speaks for. */
+  /* EVERY MACHINE, EVERY TIME. Two half-measures were tried and both leaked.
+     Walking the three SLOTS skipped "auto", which is most machines, so a genre's
+     settings for anything it reaches through the rig were never loaded at all --
+     Vangelis's cs80.initBend read 0 and the scoop that names that score had
+     never once happened. Walking the rig as well fixed that and left the other
+     half: PARAMS is one global table, so a machine a genre says NOTHING about
+     keeps whatever the last genre left on it. Composing Vangelis and then
+     synthwave left the CS-80 with a 1.0 initial bend on every note of a genre
+     that never asks for one; the battery counted 382 controls carrying another
+     genre's settings.
+
+     Loading all of them costs 57 assignments and removes the whole class of
+     bug: a machine gets its genre's value where the table has an opinion, and
+     its own declared default where it does not. The user's hand is never
+     touched, because a drag writes TRIM -- an offset -- and not PARAMS. */
+  const want = new Set(Object.keys(INSTRUMENTS));
+  for(const m of want){
+    if(!INSTRUMENTS[m]) continue;
     const tag = chart.genre + "/" + m;
-    if(!force && RACK_STATE[slot] === tag) continue;
-    RACK_STATE[slot] = tag;
+    if(!force && RACK_STATE[m] === tag) continue;
+    RACK_STATE[m] = tag;
     loadParams(m, (G.params || {})[m]);
   }
   /* the acoustic kit is the one machine whose panel duplicates numbers the
@@ -3530,6 +3593,10 @@ const GENRE = {
                                         chorus: [0.03, 0.09], bridge: [-0.13, -0.05],
                                         instrumental: [-0.04, 0.02], outro: [-0.20, -0.12] } }],
         bark: [{ kind: "lfo", bars: [[8, 3], [16, 2]], depth: [0.04, 0.10], shape: "tri" }],
+        /* the record gets a little duller as the side runs. Tiny, because this
+           genre's whole affect is that nothing lunges -- but a four-minute loop
+           that ends exactly where it started is a loop, not a record. [EAR] */
+        tone: [{ kind: "arc", from: [0.02, 0.06], to: [-0.10, -0.04], curve: "sCurve" }],
       },
       wurly: {
         trem: [{ kind: "section", by: { verse: [0.00, 0.05], chorus: [0.09, 0.18],
@@ -3711,7 +3778,11 @@ const GENRE = {
       tom3:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
       openhat:[1.00,0.86,0.92,0.86,0.96,0.86,0.92,0.86,1.00,0.86,0.92,0.86,0.96,0.86,0.92,0.86],
     },
-    space: { wet: 0.30 },        // a WET genre: plate/hall, roughly double lofi [tut:futureproof]
+    /* a WET genre: plate/hall, roughly double lofi [tut:futureproof] -- and a
+       room to match, which it did not have. Every genre shared one 1.4 s box
+       until `space` grew, and a 1.4 s room under an 80s synth pad is a booth.
+       2.6 s is a plate. [EAR] */
+    space: { wet: 0.30, irSec: 2.6, tailPow: 1.9, tailDark: 0.30, sendHp: 170 },
     /* deep, long, hard and driven: full four-on-the-floor punch, and the kit is
        pushed harder into its saturation than any other genre here.
        [corpus: Improv Machine BETA 0.1, KICK_BY_GENRE.synthwave / DRUMBUS 1.4] */
@@ -3761,7 +3832,14 @@ const GENRE = {
     machines: {
       drums: [["tr808", 6], ["kit", 3], ["segakit", 1]],
       bass:  [["auto", 5], ["tb303", 5]],
-      keys:  [["auto", 1]],
+      /* THE SCI-FI PALETTE, reached rather than admired. This genre's own
+         research describes it as influenced by "dark new wave, Blade Runner,
+         80s and future" -- and it was getting the CS-80 voice and nothing else
+         of that world. The VP-330 is the string machine under every one of
+         those records; giving it a real share of the keys slot is the
+         difference between a genre that CITES Blade Runner and one that can
+         sound like it. `auto` still wins most songs, and auto is the CS-80. */
+      keys:  [["auto", 6], ["vp330", 3], ["mellotron", 1]],
     },
     /* the 808 as the 80s used it and lofi does not: BD decay long enough to be a
        note rather than a thump, tone bright, snappy up, open hat wide, hard into
@@ -3787,6 +3865,15 @@ const GENRE = {
                chdecay: 0.055, ohdecay: 0.58, bus: 1.40, gate: 0.95, hold: 0.150 },
       tb303: { cutoff: 620, res: 11.0, envmod: 0.58, decay: 0.30,
                accent: 0.70, drive: 3.0, wave: 0 },
+      /* THE INITIAL PITCH BEND, at a synthwave depth rather than a Vangelis
+         one. Vangelis runs it at 1.00 -- every note arriving a full semitone
+         flat and swooping up -- which IS that score. At 0.45 you get the same
+         mechanism as a colour rather than as a signature: the lead has a lip on
+         the front of each note instead of a scoop. The control has existed
+         since the CS-80 was built and only one genre had ever switched it on.
+         [corpus:cs80.com/tour, corpus:soundonsound arturia-cs80v] */
+      cs80:  { initBend: 0.45, bright: 0.52, res: 0.50, ring: 0.16, ens: 0.55, vib: 0.50 },
+      vp330: { ens: 0.66, choir: 0.30, attack: 0.55, release: 2.10 },
       mellotron: { voice: 1, wow: 0.0030, flutter: 0.25, hiss: 0.18, tapeEnd: 1 },
       rhodes:    { bark: 0.55, wow: 0.0010, tone: 0.95 },
       wurly:     { trem: 0.35, tremhz: 6.0, bark: 0.62 },
@@ -3815,6 +3902,10 @@ const GENRE = {
           /* and the dive: two bars leading into an arrival, exponential so it
              holds low and then goes, which is what a hand on a cutoff does. */
           { kind: "gesture", on: "fill", bars: 2, from: [0, 0], to: [900, 2000], curve: "exp" },
+          /* the record opens out across its length. Modest against acid's,
+             because synthwave is a SONG form and one that has doubled its
+             brightness by the last chorus has spent its arrival. [EAR] */
+          { kind: "arc", from: [-180, -80], to: [200, 620], curve: "sCurve" },
         ],
         res:   [{ kind: "section", by: { chorus: [1.5, 4.0], bridge: [-2.0, -0.5],
                                          instrumental: [0.5, 2.0] } }],
@@ -3863,7 +3954,10 @@ const GENRE = {
       },
       mellotron: {
         wow: [{ kind: "lfo", bars: [[16, 3], [8, 1]], depth: [0.0006, 0.0016],
-                shape: "sin", freePhase: true }],
+                shape: "sin", freePhase: true },
+              /* the tape has been running longer by the end of the side */
+              { kind: "arc", from: [-0.0008, -0.0002], to: [0.0006, 0.0018],
+                curve: "sCurve" }],
       },
       rhodes: { tone: [{ kind: "section", by: { chorus: [0.02, 0.08], outro: [-0.16, -0.08] } }] },
       wurly:  { trem: [{ kind: "section", by: { chorus: [0.08, 0.16] } }] },
@@ -4077,7 +4171,9 @@ const GENRE = {
       tom3:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
       openhat:[0.95,0.78,0.86,0.78,0.92,0.78,0.86,0.78,0.95,0.78,0.86,0.78,0.92,0.78,0.86,0.78],
     },
-    space: { wet: 0.34 },        // the SNES echo unit is most of this music's air [EAR]
+    /* the SNES echo unit is most of this music's air [EAR], and an echo unit is
+       a long room rather than a short one. 2.4 s against the shared 1.4. */
+    space: { wet: 0.34, irSec: 2.4, tailPow: 2.0, tailDark: 0.36, sendHp: 190 },
     /* the first build's `wise` entry, which is what it called this music: high,
        short, soft. A DKC kit sits under the texture, it does not drive it.
        [corpus: Improv Machine BETA 0.1, KICK_BY_GENRE.wise] */
@@ -4368,6 +4464,9 @@ const GENRE = {
                  { kind: "lfo", bars: [[32, 4], [16, 2]], depth: [0.02, 0.06], shape: "sin" }],
         ens:    [{ kind: "lfo", bars: [[32, 3], [16, 1]], depth: [0.03, 0.08],
                    shape: "sin", freePhase: true }],
+        /* a cue arrives from nowhere and opens. Very small -- this score's
+           dynamics live in the filter and the room, not in lunges. [EAR] */
+        vib:    [{ kind: "arc", from: [-0.12, -0.05], to: [0.04, 0.12], curve: "sCurve" }],
       },
       vp330: {
         ens:   [{ kind: "lfo", bars: [[32, 3], [16, 2]], depth: [0.05, 0.12], shape: "sin" }],
@@ -4608,10 +4707,19 @@ const GENRE = {
           { kind: "lfo", bars: [[16, 4], [32, 3], [8, 2]], depth: [180, 620], shape: "tri" },
           { kind: "plock", density: [0.14, 0.30], amt: [300, 1800] },
           { kind: "gesture", on: "fill", bars: 2, from: [0, 0], to: [1100, 2600], curve: "exp" },
+          /* THE ARC, and this genre's own definition IS it: the sound is made
+             "by raising the filter resonance and lowering the cutoff frequency
+             of the synthesizer" -- over the RECORD, not over a bar. Nearly shut
+             at the top, wide open by the end, with the travel in the middle.
+             [corpus:wikipedia/Acid_house] */
+          { kind: "arc", from: [-260, -160], to: [900, 2200], curve: "sCurve" },
         ],
         res:   [{ kind: "section", by: { chorus: [1.5, 4.0], bridge: [-3.0, -1.0],
                                          instrumental: [0.5, 2.5] } },
-                { kind: "lfo", bars: [[32, 2], [16, 1]], depth: [0.5, 1.8], shape: "sin" }],
+                { kind: "lfo", bars: [[32, 2], [16, 1]], depth: [0.5, 1.8], shape: "sin" },
+                /* the second half of the same sentence: resonance up as the
+                   cutoff comes down and then opens. [corpus:wikipedia/Acid_house] */
+                { kind: "arc", from: [-1.5, -0.5], to: [1.5, 4.0], curve: "sCurve" }],
         decay: [{ kind: "plock", density: [0.12, 0.24], amt: [-0.12, 0.20] }],
         drive: [{ kind: "section", by: { chorus: [0.4, 1.2], bridge: [-0.8, -0.3] } }],
       },
@@ -4621,7 +4729,14 @@ const GENRE = {
         snappy:  [{ kind: "plock", density: [0.10, 0.22], amt: [-0.16, 0.20] }],
         decay:   [{ kind: "section", by: { chorus: [0.08, 0.20], bridge: [-0.25, -0.12] } }],
       },
-      wash: { cut: [{ kind: "section", by: { bridge: [180, 520], chorus: [-120, -40] } }] },
+      /* THE PAD HAS TO DRIFT OR IT IS WALLPAPER. Measured before this: a
+         section-only move on a control whose section rarely occurs travelled
+         1.4% of its dial across a whole song, which is a knob that is
+         automated on paper and static to an ear. A free-phase LFO is what a
+         pad wants anyway -- it is weather, not a gesture. */
+      wash: { cut: [{ kind: "section", by: { bridge: [180, 520], chorus: [-120, -40] } },
+                    { kind: "lfo", bars: [[24, 3], [16, 2], [48, 1]], depth: [180, 520],
+                      shape: "tri", freePhase: true }] },
     },
   },
 
@@ -4836,7 +4951,11 @@ const GENRE = {
 
     machines: { drums: [["auto", 6], ["tr808", 4]],
                 bass:  [["auto", 1]],
-                keys:  [["auto", 1]] },
+                /* Consumed was "delays and reverbs, and effects more than
+                   anything else... an architecture of sound", and a string
+                   machine is the one instrument in this rack that is mostly
+                   architecture. [corpus:hawtin] */
+                keys:  [["auto", 7], ["vp330", 3]] },
     params: {
       tb303: { cutoff: 380, res: 14.0, envmod: 0.66, decay: 0.28,
                accent: 0.75, drive: 2.8, wave: 1 },
@@ -4844,6 +4963,7 @@ const GENRE = {
                chdecay: 0.038, ohdecay: 0.40, bus: 1.30, gate: 0, hold: 0.150 },
       drone: { cut: 240, res: 2.4, detune: 0.35 },
       wash:  { cut: 620 },
+      vp330: { ens: 0.55, choir: 0.20, attack: 1.60, release: 4.20 },
     },
     /* SLOW AND CONTINUOUS. No gestures and no section jumps worth the name: in
        this music the filter is always moving and never arrives. The LFO periods
@@ -4857,6 +4977,12 @@ const GENRE = {
                  { kind: "plock", density: [0.08, 0.16], amt: [200, 900] }],
         res:   [{ kind: "lfo", bars: [[64, 3], [32, 2]], depth: [0.8, 2.4],
                   shape: "sin", freePhase: true }],
+        /* SUBTRACTION AS AN ARC. Hawtin on Consumed: "a year of subtraction".
+           This music does not build, it thins -- so its arc runs the other way
+           from acid's, opening early and closing across the record. Long and
+           shallow on purpose: you should not be able to point at where it
+           changed. [corpus:hawtin] */
+        decay: [{ kind: "arc", from: [0.06, 0.14], to: [-0.10, -0.03], curve: "sCurve" }],
       },
       tr808: {
         ohdecay: [{ kind: "lfo", bars: [[32, 3], [64, 2]], depth: [0.04, 0.10],
@@ -5046,12 +5172,20 @@ const GENRE = {
     bassAccent: { accent: 0, slide: 0 },
     ostinato: null,
 
-    machines: { drums: [["auto", 1]], bass: [["auto", 1]], keys: [["auto", 1]] },
+    /* the string machine, because the pad IS the atmosphere in this music and a
+       wash is the plainest thing that could play it. [EAR] */
+    machines: { drums: [["auto", 1]], bass: [["auto", 1]],
+                keys: [["auto", 6], ["vp330", 4]] },
     params: {
+      vp330: { ens: 0.80, choir: 0.62, attack: 1.40, release: 3.60 },
       /* the break's own front panel. TUNE is on top of the tempo ratio, so 0
          means "however fast this song is"; the low cut takes out what little
          bottom a 1969 drum recording has so the sub owns that band on its own. */
-      amen:  { tune: 0, tone: 13000, hp: 60, tail: 0.035, bus: 1.15, gate: 0, hold: 0.150 },
+      /* no gate or hold: this panel does not declare them, because the break
+         arrives with its own room and jungle is not a gated-reverb genre.
+         Naming them here was a leftover from before they were removed, and
+         the panel read NaN for both. */
+      amen:  { tune: 0, tone: 13000, hp: 60, tail: 0.035, bus: 1.15 },
       drone: { cut: 210, res: 2.0, detune: 0.30 },
       wash:  { cut: 700 },
       tb303: { cutoff: 400, res: 12.0, envmod: 0.60, decay: 0.26,
@@ -5064,7 +5198,10 @@ const GENRE = {
         tone: [{ kind: "section", by: { intro: [-4000, -2000], chorus: [1200, 2600],
                                         instrumental: [400, 1600], outro: [-3000, -1500] } },
                { kind: "lfo", bars: [[16, 3], [32, 2]], depth: [400, 1400], shape: "tri" }],
-        hp:   [{ kind: "section", by: { intro: [60, 180], outro: [40, 140] } }],
+        hp:   [{ kind: "section", by: { intro: [60, 180], outro: [40, 140] } },
+               /* the low cut walks OFF across the record: the break arrives thin
+                  and gains its bottom as the track goes. [EAR] */
+               { kind: "arc", from: [40, 110], to: [-10, 0], curve: "sCurve" }],
         /* TAIL is how much room survives the cut: long in the chorus so the
            chops ring into each other, short under a verse so they snap. */
         tail: [{ kind: "section", by: { chorus: [0.020, 0.060], verse: [-0.010, 0.005] } }],
@@ -5078,7 +5215,9 @@ const GENRE = {
         res: [{ kind: "lfo", bars: [[32, 2], [64, 1]], depth: [0.4, 1.2],
                 shape: "sin", freePhase: true }],
       },
-      wash: { cut: [{ kind: "section", by: { bridge: [200, 560], chorus: [-100, -30] } }] },
+      wash: { cut: [{ kind: "section", by: { bridge: [200, 560], chorus: [-100, -30] } },
+                    { kind: "lfo", bars: [[32, 3], [16, 2]], depth: [150, 420],
+                      shape: "sin", freePhase: true }] },
     },
   },
 };
