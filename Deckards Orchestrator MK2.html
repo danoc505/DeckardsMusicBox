@@ -4919,7 +4919,7 @@ async function downloadWav(){
     a.click();
   } finally { $("wav").textContent = "render .wav"; $("wav").disabled = false; }
 }
-window.addEventListener("DOMContentLoaded", () => {
+function boot(){
   $("new").addEventListener("click", () => { stopPlayback();
     newSong(Math.floor((Date.now() % 100000)) ); });   // the button draws a fresh seed; the FIELD pins one
   $("play").addEventListener("click", togglePlay);
@@ -4949,7 +4949,21 @@ window.addEventListener("DOMContentLoaded", () => {
   $("genre").addEventListener("change", () => { stopPlayback(); newSong(); });
   $("rig").addEventListener("change", () => { stopPlayback(); newSong(); });
   newSong(1);
-});
+}
+/* BOOT WHENEVER THIS SCRIPT ARRIVES. Waiting on DOMContentLoaded alone is a bet
+   that the event has not already fired -- true when the file is opened directly,
+   and false in any context that injects or streams the document, where the app
+   would simply never start and show an empty page with no error at all.
+
+   AND ONLY WHEN THERE IS A DOCUMENT TO BOOT INTO. Every measurement harness in
+   harness/ eval's this script with a stub `document` that has getElementById and
+   nothing else, and they worked because DOMContentLoaded never fired in them.
+   Take that bet away and they run the whole UI against the stub and die on the
+   first createElement -- which is exactly what happened. `readyState` is the
+   honest test: a real document has one, a stub does not. */
+if(document.readyState == null) { /* a harness eval, not a browser: do not boot */ }
+else if(document.readyState === "loading") window.addEventListener("DOMContentLoaded", boot);
+else boot();
 
 /* hooks for the render/measure harness — the same functions the UI uses */
 window.MK2 = {
