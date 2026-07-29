@@ -72,8 +72,20 @@ const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")
   const solo = await pg.evaluate(()=>({ label: MK2.currentSong().chart.table.label,
                                         blend: MK2.currentSong().chart.blend,
                                         ev: MK2.currentSong().perf.events.length }));
+  /* ── COMPARED AGAINST THE GENRE, NOT AGAINST A MAGIC NUMBER ────────────────
+     This asserted solo.ev === 1383, which is what lofi happened to compose the
+     day it was written. It went red the moment lofi gained a rim shot and a
+     crash -- for a change that was correct, and it would have gone green again
+     for any change that happened to land back on 1383.
+
+     The claim is "soloing gives the PLAIN GENRE back", so ask the plain genre.
+     A number typed into a test is a second copy of the program that nobody
+     updates. */
+  const plain = await pg.evaluate(() =>
+    MK2.composeSong(1, MK2.currentSong().chart.rig, "lofi").perf.events.length);
   check("soloing gives the plain genre back, not a blend of one",
-        solo.blend===null && solo.ev===1383, `${solo.label} · ${solo.ev} events · blend ${solo.blend}`);
+        solo.blend===null && solo.ev===plain,
+        `${solo.label} · ${solo.ev} events (genre composes ${plain}) · blend ${solo.blend}`);
 
   check("no uncaught page errors", errs.length===0, errs.join(" | "));
   console.log(`\n${pass} passed, ${fail} failed`);

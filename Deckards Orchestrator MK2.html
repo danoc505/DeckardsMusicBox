@@ -208,7 +208,7 @@
      panel is a 2-wide grid of knobs with the fader down the front, not a single
      stack. Stacked single-file the five columns ran nine knobs deep and the
      panel was taller than the rest of the rack put together. */
-  .sk-tr1000 .col{ flex:1 1 0; min-width:8.6rem; display:grid;
+  .sk-tr1000 .col{ flex:1 1 0; min-width:7.4rem; display:grid;
                    grid-template-columns:1fr 1fr; gap:.3rem .2rem;
                    align-content:start; justify-items:center;
                    padding:.35rem .3rem .45rem;
@@ -315,7 +315,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29j · six knobs per channel</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29k · ten voices in the conductor</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -577,7 +577,16 @@ function P(g, ev, m, k, dflt){
    on is a machine DECLARING the controls, which setSpace tests for. A machine
    that does not declare them routes its voices straight to the shared bus
    exactly as before. ─────────────────────────────────────────────────────── */
-const CHAIN_GROUPS = [["k", "BD"], ["s", "SD"], ["h", "CH"], ["o", "OH"], ["t", "TOM"]];
+/* ── TEN CHANNELS, as the machine has them ─────────────────────────────────
+   BD SD LT HT RS HC CH OH CC RC. `t` stays LOW TOM rather than becoming a
+   letter of its own, because seven genres already carry tCut/tEcho/tVerb/tMix
+   settings for the toms and renaming it would silently drop every one of them --
+   the same class of failure as the rack's "auto" slots losing 69 genre values.
+   The five new letters are the five channels that did not exist. */
+const CHAIN_GROUPS = [["k", "BD"], ["s", "SD"], ["t", "LT"], ["m", "HT"],
+                      ["r", "RS"], ["c", "HC"], ["h", "CH"], ["o", "OH"],
+                      ["a", "CC"], ["d", "RC"]];
+const CHAIN_LETTERS = CHAIN_GROUPS.map(x => x[0]);
 function chainControls(){
   const out = [];
   for(const [g, cap] of CHAIN_GROUPS){
@@ -614,6 +623,7 @@ const INSTRUMENTS = {
   kit: { legacy: true,
     slot: "drums", label: "acoustic kit",
     lanes: { kick:"kick", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
+             rim:"rim", clap:"clap", crash:"crash", ride:"ride",
              tom1:"tom1", tom2:"tom2", tom3:"tom3" },
     /* the whole kick is on this panel now, including BODY and GAIN, which used
        to live only in the genre's `kick` block and could therefore be read but
@@ -683,6 +693,7 @@ const INSTRUMENTS = {
   tr1000: {
     slot: "drums", label: "TR-1000",
     lanes: { kick:"k808", snare:"s808", ghost:"s808", hat:"h808", openhat:"oh808",
+             rim:"rim", clap:"clap", crash:"crash", ride:"ride",
              tom1:"t808hi", tom2:"t808mid", tom3:"t808lo" },
     /* ── THE KIT BUTTON ──────────────────────────────────────────────────────
        The front panel has a KIT key beside INST, and that is the whole answer to
@@ -704,17 +715,24 @@ const INSTRUMENTS = {
        One box, four kits, one panel to learn. */
     kits: {
       analog:   { kick:"k808", snare:"s808", ghost:"s808", hat:"h808", openhat:"oh808",
-                  tom1:"t808hi", tom2:"t808mid", tom3:"t808lo" },
+                  tom1:"t808hi", tom2:"t808mid", tom3:"t808lo",
+                  rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
       acoustic: { kick:"kick", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
-                  tom1:"tom1", tom2:"tom2", tom3:"tom3" },
+                  tom1:"tom1", tom2:"tom2", tom3:"tom3",
+                  rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
       sega:     { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat",
-                  openhat:"psgOpenhat", tom1:"tom1", tom2:"tom2", tom3:"tom3" },
+                  openhat:"psgOpenhat", tom1:"tom1", tom2:"tom2", tom3:"tom3",
+                  /* the chip has no cymbal circuit -- the PSG's noise channel IS
+                     its cymbal, so the crash and ride are the open hat played
+                     long. Naming that is better than pretending otherwise. */
+                  rim:"rim", clap:"clap", crash:"psgOpenhat", ride:"psgHat" },
       /* the chopper as a kit: every lane is the same recording and the composer
          decides which slice. It is the one kit whose lanes are not separate
          instruments, so its chains process slice TYPES rather than voices --
          a real jungle move, and a different claim from the other three. */
       brk:      { brk:"brk", kick:"brk", snare:"brk", ghost:"brk", hat:"brk",
-                  openhat:"brk", tom1:"brk", tom2:"brk", tom3:"brk" },
+                  openhat:"brk", tom1:"brk", tom2:"brk", tom3:"brk",
+                  rim:"brk", clap:"brk", crash:"brk", ride:"brk" },
     },
     controls: [
       /* the voice circuits, inherited from the 808 because that is literally
@@ -782,21 +800,38 @@ const INSTRUMENTS = {
         { label: "DELAY", keys: ["dlySend", "hold"] },
         { label: "ANALOG FX", keys: ["fxFilter"] },
       ],
+      /* ── TEN CHANNELS, in the machine's own order ─────────────────────────
+         BD SD LT HT | RS HC | CH OH | CC RC. On the panel the first four are
+         wide single sections and the last six are paired into three doubles;
+         here they are ten equal strips, because a browser column that narrows
+         to a pair's width has nowhere to put six knobs and a fader. The ORDER
+         and the CONTENT are the machine's; the section rules are not. */
       columns: [
-        { label: "BASS DRUM",   trig: "BD", lane: "kick",    tone: "red",
+        { label: "BASS DRUM",    trig: "BD", lane: "kick",    tone: "red",
           keys: ["kTune", "kDecay", "kMix", "kVerb", "kEcho", "kCut"], fader: "kMix" },
-        { label: "SNARE DRUM",  trig: "SD", lane: "snare",   tone: "red",
+        { label: "SNARE DRUM",   trig: "SD", lane: "snare",   tone: "red",
           keys: ["sTune", "sDecay", "sMix", "sVerb", "sEcho", "sCut"], fader: "sMix" },
-        { label: "CLOSED HIHAT",trig: "CH", lane: "hat",     tone: "amber",
-          keys: ["hTune", "hDecay", "hMix", "hVerb", "hEcho", "hCut"], fader: "hMix" },
-        { label: "OPEN HIHAT",  trig: "OH", lane: "openhat", tone: "amber",
-          keys: ["oTune", "oDecay", "oMix", "oVerb", "oEcho", "oCut"], fader: "oMix" },
-        { label: "TOMS",        trig: "LT", lane: "tom3",    tone: "pale",
+        { label: "LOW TOM",      trig: "LT", lane: "tom3",    tone: "red",
           keys: ["tTune", "tDecay", "tMix", "tVerb", "tEcho", "tCut"], fader: "tMix" },
+        { label: "HIGH TOM",     trig: "HT", lane: "tom1",    tone: "red",
+          keys: ["mTune", "mDecay", "mMix", "mVerb", "mEcho", "mCut"], fader: "mMix" },
+        { label: "RIM SHOT",     trig: "RS", lane: "rim",     tone: "amber",
+          keys: ["rTune", "rDecay", "rMix", "rVerb", "rEcho", "rCut"], fader: "rMix" },
+        { label: "HAND CLAP",    trig: "HC", lane: "clap",    tone: "amber",
+          keys: ["cTune", "cDecay", "cMix", "cVerb", "cEcho", "cCut"], fader: "cMix" },
+        { label: "CLOSED HIHAT", trig: "CH", lane: "hat",     tone: "amber",
+          keys: ["hTune", "hDecay", "hMix", "hVerb", "hEcho", "hCut"], fader: "hMix" },
+        { label: "OPEN HIHAT",   trig: "OH", lane: "openhat", tone: "amber",
+          keys: ["oTune", "oDecay", "oMix", "oVerb", "oEcho", "oCut"], fader: "oMix" },
+        { label: "CRASH CYM",    trig: "CC", lane: "crash",   tone: "pale",
+          keys: ["aTune", "aDecay", "aMix", "aVerb", "aEcho", "aCut"], fader: "aMix" },
+        { label: "RIDE CYM",     trig: "RC", lane: "ride",    tone: "pale",
+          keys: ["dTune", "dDecay", "dMix", "dVerb", "dEcho", "dCut"], fader: "dMix" },
       ],
       grid: "drums",
-      voices: [["kick","BD"], ["snare","SD"], ["ghost","SD·g"], ["tom1","HT"],
-               ["tom2","MT"], ["tom3","LT"], ["hat","CH"], ["openhat","OH"]],
+      voices: [["kick","BD"], ["snare","SD"], ["tom3","LT"], ["tom1","HT"],
+               ["rim","RS"], ["clap","HC"], ["hat","CH"], ["openhat","OH"],
+               ["crash","CC"], ["ride","RC"], ["ghost","SD·g"], ["tom2","MT"]],
     },
   },
 
@@ -837,6 +872,7 @@ const INSTRUMENTS = {
   segakit: { legacy: true,
     slot: "drums", label: "SEGA DAC + PSG",
     lanes: { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat", openhat:"psgOpenhat",
+             rim:"rim", clap:"clap", crash:"crash", ride:"ride",
              tom1:"tom1", tom2:"tom2", tom3:"tom3" },
     controls: [
       { k:"bus",  label:"kit drive",  cap:"DRIVE", min:0.6, max:2, step:0.01, def:1.05, kind:"bus" },
@@ -1793,8 +1829,10 @@ const AMEN_ONSETS = AMEN.grid.map(row => {
    have no rack slot yet and always come from the rig. */
 const SLOT_OF = {
   kick:"drums", snare:"drums", ghost:"drums", hat:"drums", openhat:"drums",
-  brk:"brk",
-          tom1:"drums", tom2:"drums", tom3:"drums", brk:"drums", bass:"bass", keys:"keys",
+  tom1:"drums", tom2:"drums", tom3:"drums", brk:"drums",
+  /* the four the machine has and this engine did not */
+  rim:"drums", clap:"drums", crash:"drums", ride:"drums",
+  bass:"bass", keys:"keys",
 };
 
 /* THE RIG TABLE — which instrument plays which part. Stage 5 still writes the
@@ -1807,13 +1845,15 @@ const RIG = {
   band: { kick:"kick",    snare:"snare",    ghost:"ghost",    hat:"hat",    openhat:"openhat",
           brk:"brk",
           tom1:"tom1", tom2:"tom2", tom3:"tom3",
-          bass:"bass",     keys:"keys",     lead:"lead",     counter:"counter", ostinato:"counter" },
+          bass:"bass",     keys:"keys",     lead:"lead",     counter:"counter", ostinato:"counter" ,
+            rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
   sega: { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat", openhat:"psgOpenhat",
           /* the Mega Drive has no tom sample; its DAC snare stands in, which is
              what a 4-channel PCM kit actually did. [theory: MD hardware] */
           brk:"brk",
           tom1:"tom1", tom2:"tom2", tom3:"tom3",
-          bass:"chipBass", keys:"chipKeys", lead:"chipLead", counter:"chipCounter", ostinato:"chipCounter" },
+          bass:"chipBass", keys:"chipKeys", lead:"chipLead", counter:"chipCounter", ostinato:"chipCounter" ,
+            rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
   /* synthwave's band. The comp goes to the CS-80 voice, which has been built and
      probed since the synth research and has been sitting unwired waiting for a
      genre that wants it: two parallel layers, each with its own resonant HP and
@@ -1823,7 +1863,8 @@ const RIG = {
   neon: { kick:"kick",    snare:"snare",    ghost:"ghost",    hat:"hat",    openhat:"openhat",
           brk:"brk",
           tom1:"tom1", tom2:"tom2", tom3:"tom3",
-          bass:"bass",     keys:"cs80",     lead:"lead",     counter:"counter", ostinato:"counter" },
+          bass:"bass",     keys:"cs80",     lead:"lead",     counter:"counter", ostinato:"counter" ,
+            rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
   /* NEMO -- the Blade Runner room, named for nemostudios, whose teardown of the
      sessions is where the gear list comes from. There is no drum kit in this
      score, so this rig does not name one either: the genre's form.roles simply
@@ -1835,7 +1876,8 @@ const RIG = {
   nemo: { kick:"kick", snare:"rim", ghost:"rim", hat:"hat", openhat:"openhat",
           brk:"brk",
           tom1:"tom1", tom2:"tom2", tom3:"tom3",
-          bass:"drone", keys:"vp330", lead:"cs80", counter:"rhodes", ostinato:"rhodes" },
+          bass:"drone", keys:"vp330", lead:"cs80", counter:"rhodes", ostinato:"rhodes" ,
+            rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
   /* THE BOX -- acid house. Every element is a machine and every machine is one
      somebody can name: the 808's bridged-T kick and its six-square hats, a CLAP
      on 2 and 4 (not a snare; the difference is the record), a rimshot filling
@@ -1845,7 +1887,8 @@ const RIG = {
           brk:"brk",
           tom1:"t808hi", tom2:"t808mid", tom3:"t808lo",
           bass:"acid303", keys:"wash", lead:"acid303", counter:"acid303",
-          ostinato:"acid303" },
+          ostinato:"acid303" ,
+            rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
   /* PLASTIK -- minimal techno. The same box with the backbeat taken out and a
      sub under it: Hawtin's records are "driven largely by deep, rumbling
      basslines" with the 303 pitched UP an octave over the top, which is why the
@@ -1860,7 +1903,8 @@ const RIG = {
             brk:"brk",
           tom1:"brk", tom2:"brk", tom3:"brk",
             bass:"reese", keys:"wash", lead:"acid303", counter:"acid303",
-            ostinato:"acid303" },
+            ostinato:"acid303" ,
+            rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
   /* THE 303 IS THE BASSLINE, and this rig had it on the wrong lane. "One of the
      core fundamental sounds of Plastikman has always been Roland TB-303
      basslines; it's on nearly every track except for a couple of drum things"
@@ -1876,7 +1920,8 @@ const RIG = {
              brk:"brk",
           tom1:"t808hi", tom2:"t808mid", tom3:"t808lo",
              bass:"acid303", keys:"wash", lead:"acid303", counter:"acid303",
-             ostinato:"acid303" },
+             ostinato:"acid303" ,
+            rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -2260,7 +2305,7 @@ const Sound = (function(){
     g.kitFilter.frequency.value = 20000; g.kitFilter.Q.value = 0.707;
 
     g.dchain = {};
-    for(const grp of ["k", "s", "h", "o", "t"]){
+    for(const grp of CHAIN_LETTERS){
       const inp = c.createGain();
       const lp  = c.createBiquadFilter(); lp.type = "lowpass";
       lp.frequency.value = 20000; lp.Q.value = 0.707;
@@ -3183,6 +3228,77 @@ const Sound = (function(){
   /* the hats: SIX squares at the 808's inharmonic ratios, high-passed. Open and
      closed are the same circuit -- only the decay differs. */
   const R808 = [1, 1.4471, 1.6170, 1.9265, 2.5028, 2.6637];   // [theory: 808 HH ratios]
+
+  /* ── CRASH AND RIDE ────────────────────────────────────────────────────────
+     The last two of the machine's ten voices, and the only two that did not
+     exist here in any form -- rim and clap were already built and simply had no
+     lane playing them.
+
+     Both are the same circuit as the 808 hats: six square waves at the metal
+     ratios through a highpass, with an envelope. What separates a crash from a
+     ride is entirely the envelope and where the filter sits -- a crash is a wash
+     that blooms and takes seconds to go, a ride is a stick hitting a bell, so it
+     has a hard front and a much shorter body with a ping on top of it. That is
+     the honest way to build them from what this file already has, and it is also
+     roughly what the analogue machines did.
+     [theory: TR-808 cymbal circuit is the hat circuit with a longer envelope] */
+  V.crash = function(g, ev, t){
+    const c = g.ctx, chD = chDecay(g, ev), chT = chTune(g, ev);
+    const dec = 1.9 * chD;
+    const hp = c.createBiquadFilter(); hp.type = "highpass";
+    hp.frequency.value = 3200 * chT; hp.Q.value = 0.6;
+    const gn = c.createGain();
+    /* a crash BLOOMS -- it is not at its loudest when it is struck */
+    gn.gain.setValueAtTime(0.0002, t);
+    gn.gain.exponentialRampToValueAtTime(LEVEL.openhat * ev.gain * 0.62, t + 0.035);
+    gn.gain.exponentialRampToValueAtTime(0.0002, t + dec);
+    hp.connect(gn); gn.connect(drumOut(g, ev.lane));
+    const made = [];
+    for(const r of R808){
+      const o = c.createOscillator(); o.type = "square";
+      o.frequency.value = 263 * r * 1.6 * chT;
+      o.connect(hp); o.start(t); o.stop(t + dec + 0.05); made.push(o);
+    }
+    /* and the sizzle, which is what makes it a cymbal and not a chord of squares */
+    const n = burst(g, t, dec, ev.tSec.toFixed(5) + ":crash");
+    const nb = c.createBiquadFilter(); nb.type = "highpass";
+    nb.frequency.value = 5200 * chT; nb.Q.value = 0.5;
+    const ng = c.createGain();
+    ng.gain.setValueAtTime(0.0002, t);
+    ng.gain.exponentialRampToValueAtTime(LEVEL.openhat * ev.gain * 0.5, t + 0.030);
+    ng.gain.exponentialRampToValueAtTime(0.0002, t + dec);
+    n.connect(nb); nb.connect(ng); ng.connect(drumOut(g, ev.lane));
+    made.push(n);
+    return made;
+  };
+
+  V.ride = function(g, ev, t){
+    const c = g.ctx, chD = chDecay(g, ev), chT = chTune(g, ev);
+    const dec = 0.85 * chD;
+    const hp = c.createBiquadFilter(); hp.type = "highpass";
+    hp.frequency.value = 5200 * chT; hp.Q.value = 0.7;
+    const gn = c.createGain();
+    gn.gain.setValueAtTime(LEVEL.hat * ev.gain * 0.44, t);
+    gn.gain.exponentialRampToValueAtTime(0.0002, t + dec);
+    hp.connect(gn); gn.connect(drumOut(g, ev.lane));
+    const made = [];
+    for(const r of R808){
+      const o = c.createOscillator(); o.type = "square";
+      o.frequency.value = 263 * r * 2.1 * chT;
+      o.connect(hp); o.start(t); o.stop(t + dec + 0.03); made.push(o);
+    }
+    /* THE PING. A ride is a stick on a bell and the bell is the reason anybody
+       uses one -- a short pitched tap on the front, over the wash. */
+    const png = c.createOscillator(); png.type = "triangle";
+    png.frequency.value = 3150 * chT;
+    const pg = c.createGain();
+    pg.gain.setValueAtTime(LEVEL.hat * ev.gain * 0.30, t);
+    pg.gain.exponentialRampToValueAtTime(0.0002, t + 0.10 * chD);
+    png.connect(pg); pg.connect(drumOut(g, ev.lane));
+    png.start(t); png.stop(t + 0.14 * chD + 0.02); made.push(png);
+    return made;
+  };
+
   function hat808(decayKey, dflt, hpHz){
     return function(g, ev, t){
       const c = g.ctx, dec = P(g, ev, DM(g), decayKey, dflt) * chDecay(g, ev);
@@ -3984,8 +4100,17 @@ const Sound = (function(){
      three pitches and the ghost is the snare played quietly, so they share. A
      graph whose drum machine declares no chains returns the shared bus, which is
      exactly what every drum voice connected to before this existed. */
-  const DCHAIN_OF = { kick:"k", snare:"s", ghost:"s", hat:"h", openhat:"o",
-                      tom1:"t", tom2:"t", tom3:"t", rim:"s", clap:"s" };
+  /* ── LANE -> CHANNEL. Ten channels means ten of these, and the four that used
+     to be folded in are folded out: rim and clap had been routed through the
+     SNARE's chain (they are neither), and the three toms all shared one (a high
+     tom and a low tom are two drums on the machine and now on this panel too).
+     `ghost` stays with the snare, because a ghost note IS the snare played
+     quietly, and tom2 stays with the low tom rather than inventing an eleventh
+     channel the machine does not have. */
+  const DCHAIN_OF = { kick:"k", snare:"s", ghost:"s",
+                      tom3:"t", tom2:"t", tom1:"m",
+                      rim:"r", clap:"c", hat:"h", openhat:"o",
+                      crash:"a", ride:"d" };
   /* THE CHANNEL'S OWN TUNE AND DECAY. Six knobs a channel means every one of
      them has to arrive somewhere: these are OFFSETS the voice applies on top of
      whatever its circuit already decided -- a semitone shift and a decay
@@ -4125,7 +4250,7 @@ const Sound = (function(){
         rideBus(g, g.dlyTrim.gain,        M + ".dlySend",  panelValue(M, "dlySend"),  t0);
         rideBus(g, g.kitFilter.frequency, M + ".fxFilter", panelValue(M, "fxFilter"), t0);
       }
-      for(const grp of ["k", "s", "h", "o", "t"]){
+      for(const grp of CHAIN_LETTERS){
         const ch = g.dchain[grp];
         rideBus(g, ch.lp.frequency, M + "." + grp + "Cut",  panelValue(M, grp + "Cut"),  t0);
         rideBus(g, ch.echo.gain,    M + "." + grp + "Echo", panelValue(M, grp + "Echo"), t0);
@@ -4156,7 +4281,7 @@ const Sound = (function(){
         rideBus(g, ch.mk.gain, M + "." + grp + "Mix", mix, t0);
       }
     } else if(g.dchain){
-      for(const grp of ["k", "s", "h", "o", "t"]){
+      for(const grp of CHAIN_LETTERS){
         const ch = g.dchain[grp];
         ch.echo.gain.value = 0; ch.verb.gain.value = 0;
       }
@@ -4478,6 +4603,12 @@ const GENRE = {
           [[[12,"tom1"],[13,"tom2"],[14,"tom3"],[15,"tom3"]], 2],     // a sixteenth run down
         ] },
       kickKeep:    9,                  // how many of the pocket's hits to play
+      /* ── THE FOUR NEW CHANNELS. A cross-stick on the "and" of four is the
+         boom-bap answer to a backbeat, and a crash marks the top of a loop the
+         way a drummer counting in does. No clap and no ride: this is a kit in a
+         room, and a clap is a machine. [EAR, on the same axis as the rest of
+         this kit] */
+      rim: [14], clap: [], rideEvery: 0, crashChance: 0.25, crashStep: 0,
       /* THE FOURTH BAR. Straight eighths for four bars is a metronome, not a
          hat part -- but varying every bar is not a pattern either, which is the
          complaint that started this. So the loop states its figure three times
@@ -4706,6 +4837,48 @@ const GENRE = {
         oDecay: [{ kind: "lfo", bars: [[22, 3], [32, 2]], depth: [0.06, 0.22], shape: "sin", freePhase: true }],
         tTune:  [{ kind: "lfo", bars: [[36, 2], [24, 1]], depth: [0.20, 0.55], shape: "sin", freePhase: true }],
         tDecay: [{ kind: "lfo", bars: [[34, 2], [26, 1]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
+              /* ── THE FIVE CHANNELS THE MACHINE HAS AND THIS ENGINE DID NOT ─────────
+           HIGH TOM, RIM SHOT, HAND CLAP, CRASH and RIDE, each on its own period.
+           Ten channels moving on ten schedules is the whole argument for having
+           ten channels: a kit where every voice is somewhere different every
+           time the loop comes round is what lets the loop come round. ── */
+        mTune: [{ kind: "lfo", bars: [[46, 2], [30, 1]], depth: [0.15, 0.45], shape: "sin", freePhase: true }],
+        mDecay:[{ kind: "lfo", bars: [[27, 2], [39, 1]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
+        mMix:  [{ kind: "lfo", bars: [[33, 2], [21, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        mVerb: [{ kind: "lfo", bars: [[25, 2], [37, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        mEcho: [{ kind: "lfo", bars: [[31, 2], [43, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        mCut:  [{ kind: "lfo", bars: [[29, 2], [41, 1]], depth: [600, 1900], shape: "tri", freePhase: true }],
+
+        rTune: [{ kind: "lfo", bars: [[23, 3], [35, 2]], depth: [0.25, 0.70], shape: "tri", freePhase: true }],
+        rDecay:[{ kind: "lfo", bars: [[19, 2], [31, 1]], depth: [0.06, 0.20], shape: "sin", freePhase: true }],
+        rMix:  [{ kind: "lfo", bars: [[37, 2], [25, 1]], depth: [0.05, 0.15], shape: "sin", freePhase: true }],
+        /* the rim is the one that wants a long tail on it -- "I was always into
+           really small rimshots", and a small sound a long way away is the whole
+           trick [corpus:hawtin] */
+        rVerb: [{ kind: "lfo", bars: [[21, 3], [33, 2]], depth: [0.06, 0.20], shape: "sin", freePhase: true }],
+        rEcho: [{ kind: "lfo", bars: [[17, 3], [29, 2]], depth: [0.06, 0.18], shape: "tri", freePhase: true }],
+        rCut:  [{ kind: "lfo", bars: [[35, 2], [23, 1]], depth: [700, 2200], shape: "tri", freePhase: true }],
+
+        cTune: [{ kind: "lfo", bars: [[41, 2], [27, 1]], depth: [0.20, 0.55], shape: "sin", freePhase: true }],
+        cDecay:[{ kind: "lfo", bars: [[26, 2], [38, 1]], depth: [0.06, 0.18], shape: "sin", freePhase: true }],
+        cMix:  [{ kind: "lfo", bars: [[22, 3], [34, 2]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        cVerb: [{ kind: "lfo", bars: [[28, 3], [40, 2]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
+        cEcho: [{ kind: "lfo", bars: [[24, 2], [36, 1]], depth: [0.04, 0.13], shape: "sin", freePhase: true }],
+        cCut:  [{ kind: "lfo", bars: [[32, 2], [20, 1]], depth: [800, 2400], shape: "tri", freePhase: true }],
+
+        aTune: [{ kind: "lfo", bars: [[52, 2], [36, 1]], depth: [0.10, 0.30], shape: "sin", freePhase: true }],
+        aDecay:[{ kind: "lfo", bars: [[44, 2], [30, 1]], depth: [0.08, 0.24], shape: "sin", freePhase: true }],
+        aMix:  [{ kind: "lfo", bars: [[48, 2], [32, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        aVerb: [{ kind: "lfo", bars: [[42, 2], [58, 1]], depth: [0.06, 0.18], shape: "sin", freePhase: true }],
+        aEcho: [{ kind: "lfo", bars: [[38, 2], [50, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        aCut:  [{ kind: "lfo", bars: [[46, 2], [34, 1]], depth: [900, 2800], shape: "tri", freePhase: true }],
+
+        dTune: [{ kind: "lfo", bars: [[39, 2], [51, 1]], depth: [0.15, 0.40], shape: "sin", freePhase: true }],
+        dDecay:[{ kind: "lfo", bars: [[20, 3], [28, 2]], depth: [0.05, 0.18], shape: "sin", freePhase: true }],
+        dMix:  [{ kind: "lfo", bars: [[43, 2], [29, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        dVerb: [{ kind: "lfo", bars: [[47, 2], [31, 1]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
+        dEcho: [{ kind: "lfo", bars: [[27, 3], [45, 2]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
+        dCut:  [{ kind: "lfo", bars: [[49, 2], [33, 1]], depth: [700, 2300], shape: "tri", freePhase: true }],
       },
 
       /* THE DRUM BUS, which could not move until the bus gains learned to be
@@ -4792,6 +4965,48 @@ const GENRE = {
         oDecay: [{ kind: "lfo", bars: [[22, 3], [32, 2]], depth: [0.06, 0.22], shape: "sin", freePhase: true }],
         tTune:  [{ kind: "lfo", bars: [[36, 2], [24, 1]], depth: [0.20, 0.55], shape: "sin", freePhase: true }],
         tDecay: [{ kind: "lfo", bars: [[34, 2], [26, 1]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
+              /* ── THE FIVE CHANNELS THE MACHINE HAS AND THIS ENGINE DID NOT ─────────
+           HIGH TOM, RIM SHOT, HAND CLAP, CRASH and RIDE, each on its own period.
+           Ten channels moving on ten schedules is the whole argument for having
+           ten channels: a kit where every voice is somewhere different every
+           time the loop comes round is what lets the loop come round. ── */
+        mTune: [{ kind: "lfo", bars: [[46, 2], [30, 1]], depth: [0.15, 0.45], shape: "sin", freePhase: true }],
+        mDecay:[{ kind: "lfo", bars: [[27, 2], [39, 1]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
+        mMix:  [{ kind: "lfo", bars: [[33, 2], [21, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        mVerb: [{ kind: "lfo", bars: [[25, 2], [37, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        mEcho: [{ kind: "lfo", bars: [[31, 2], [43, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        mCut:  [{ kind: "lfo", bars: [[29, 2], [41, 1]], depth: [600, 1900], shape: "tri", freePhase: true }],
+
+        rTune: [{ kind: "lfo", bars: [[23, 3], [35, 2]], depth: [0.25, 0.70], shape: "tri", freePhase: true }],
+        rDecay:[{ kind: "lfo", bars: [[19, 2], [31, 1]], depth: [0.06, 0.20], shape: "sin", freePhase: true }],
+        rMix:  [{ kind: "lfo", bars: [[37, 2], [25, 1]], depth: [0.05, 0.15], shape: "sin", freePhase: true }],
+        /* the rim is the one that wants a long tail on it -- "I was always into
+           really small rimshots", and a small sound a long way away is the whole
+           trick [corpus:hawtin] */
+        rVerb: [{ kind: "lfo", bars: [[21, 3], [33, 2]], depth: [0.06, 0.20], shape: "sin", freePhase: true }],
+        rEcho: [{ kind: "lfo", bars: [[17, 3], [29, 2]], depth: [0.06, 0.18], shape: "tri", freePhase: true }],
+        rCut:  [{ kind: "lfo", bars: [[35, 2], [23, 1]], depth: [700, 2200], shape: "tri", freePhase: true }],
+
+        cTune: [{ kind: "lfo", bars: [[41, 2], [27, 1]], depth: [0.20, 0.55], shape: "sin", freePhase: true }],
+        cDecay:[{ kind: "lfo", bars: [[26, 2], [38, 1]], depth: [0.06, 0.18], shape: "sin", freePhase: true }],
+        cMix:  [{ kind: "lfo", bars: [[22, 3], [34, 2]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        cVerb: [{ kind: "lfo", bars: [[28, 3], [40, 2]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
+        cEcho: [{ kind: "lfo", bars: [[24, 2], [36, 1]], depth: [0.04, 0.13], shape: "sin", freePhase: true }],
+        cCut:  [{ kind: "lfo", bars: [[32, 2], [20, 1]], depth: [800, 2400], shape: "tri", freePhase: true }],
+
+        aTune: [{ kind: "lfo", bars: [[52, 2], [36, 1]], depth: [0.10, 0.30], shape: "sin", freePhase: true }],
+        aDecay:[{ kind: "lfo", bars: [[44, 2], [30, 1]], depth: [0.08, 0.24], shape: "sin", freePhase: true }],
+        aMix:  [{ kind: "lfo", bars: [[48, 2], [32, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        aVerb: [{ kind: "lfo", bars: [[42, 2], [58, 1]], depth: [0.06, 0.18], shape: "sin", freePhase: true }],
+        aEcho: [{ kind: "lfo", bars: [[38, 2], [50, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        aCut:  [{ kind: "lfo", bars: [[46, 2], [34, 1]], depth: [900, 2800], shape: "tri", freePhase: true }],
+
+        dTune: [{ kind: "lfo", bars: [[39, 2], [51, 1]], depth: [0.15, 0.40], shape: "sin", freePhase: true }],
+        dDecay:[{ kind: "lfo", bars: [[20, 3], [28, 2]], depth: [0.05, 0.18], shape: "sin", freePhase: true }],
+        dMix:  [{ kind: "lfo", bars: [[43, 2], [29, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        dVerb: [{ kind: "lfo", bars: [[47, 2], [31, 1]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
+        dEcho: [{ kind: "lfo", bars: [[27, 3], [45, 2]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
+        dCut:  [{ kind: "lfo", bars: [[49, 2], [33, 1]], depth: [700, 2300], shape: "tri", freePhase: true }],
       },
       /* THE SUB BASS, whose two controls were dead until they were wired -- so
          this is the first time any genre has been able to reach them. The tone
@@ -4960,6 +5175,12 @@ const GENRE = {
           [[[12,"tom1"],[13,"tom2"],[14,"tom3"],[15,"tom3"]], 2],     // a sixteenth run down
         ] },
       kickKeep:    8,          // the machine plays its whole pattern
+      /* THE CLAP IS THE GENRE. An 80s backbeat is a clap layered on the snare,
+         not a snare -- and the crash on the downbeat of the loop is the other
+         half of that production. A ride under the chorus, because this music
+         borrows a rock kit whenever it can. */
+      rim: [], clap: [4, 12], rideEvery: 4, rideFrom: 0, rideVel: 0.32,
+      crashChance: 0.55, crashStep: 0,
       flourishBar: 3,
       flourish:    [[[14, 15], 4], [[7, 15], 2], [[10, 11, 14, 15], 2], [[], 2]],
       variants: {
@@ -5294,6 +5515,48 @@ const GENRE = {
         oDecay: [{ kind: "lfo", bars: [[22, 3], [32, 2]], depth: [0.06, 0.22], shape: "sin", freePhase: true }],
         tTune:  [{ kind: "lfo", bars: [[36, 2], [24, 1]], depth: [0.20, 0.55], shape: "sin", freePhase: true }],
         tDecay: [{ kind: "lfo", bars: [[34, 2], [26, 1]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
+              /* ── THE FIVE CHANNELS THE MACHINE HAS AND THIS ENGINE DID NOT ─────────
+           HIGH TOM, RIM SHOT, HAND CLAP, CRASH and RIDE, each on its own period.
+           Ten channels moving on ten schedules is the whole argument for having
+           ten channels: a kit where every voice is somewhere different every
+           time the loop comes round is what lets the loop come round. ── */
+        mTune: [{ kind: "lfo", bars: [[46, 2], [30, 1]], depth: [0.15, 0.45], shape: "sin", freePhase: true }],
+        mDecay:[{ kind: "lfo", bars: [[27, 2], [39, 1]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
+        mMix:  [{ kind: "lfo", bars: [[33, 2], [21, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        mVerb: [{ kind: "lfo", bars: [[25, 2], [37, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        mEcho: [{ kind: "lfo", bars: [[31, 2], [43, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        mCut:  [{ kind: "lfo", bars: [[29, 2], [41, 1]], depth: [600, 1900], shape: "tri", freePhase: true }],
+
+        rTune: [{ kind: "lfo", bars: [[23, 3], [35, 2]], depth: [0.25, 0.70], shape: "tri", freePhase: true }],
+        rDecay:[{ kind: "lfo", bars: [[19, 2], [31, 1]], depth: [0.06, 0.20], shape: "sin", freePhase: true }],
+        rMix:  [{ kind: "lfo", bars: [[37, 2], [25, 1]], depth: [0.05, 0.15], shape: "sin", freePhase: true }],
+        /* the rim is the one that wants a long tail on it -- "I was always into
+           really small rimshots", and a small sound a long way away is the whole
+           trick [corpus:hawtin] */
+        rVerb: [{ kind: "lfo", bars: [[21, 3], [33, 2]], depth: [0.06, 0.20], shape: "sin", freePhase: true }],
+        rEcho: [{ kind: "lfo", bars: [[17, 3], [29, 2]], depth: [0.06, 0.18], shape: "tri", freePhase: true }],
+        rCut:  [{ kind: "lfo", bars: [[35, 2], [23, 1]], depth: [700, 2200], shape: "tri", freePhase: true }],
+
+        cTune: [{ kind: "lfo", bars: [[41, 2], [27, 1]], depth: [0.20, 0.55], shape: "sin", freePhase: true }],
+        cDecay:[{ kind: "lfo", bars: [[26, 2], [38, 1]], depth: [0.06, 0.18], shape: "sin", freePhase: true }],
+        cMix:  [{ kind: "lfo", bars: [[22, 3], [34, 2]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        cVerb: [{ kind: "lfo", bars: [[28, 3], [40, 2]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
+        cEcho: [{ kind: "lfo", bars: [[24, 2], [36, 1]], depth: [0.04, 0.13], shape: "sin", freePhase: true }],
+        cCut:  [{ kind: "lfo", bars: [[32, 2], [20, 1]], depth: [800, 2400], shape: "tri", freePhase: true }],
+
+        aTune: [{ kind: "lfo", bars: [[52, 2], [36, 1]], depth: [0.10, 0.30], shape: "sin", freePhase: true }],
+        aDecay:[{ kind: "lfo", bars: [[44, 2], [30, 1]], depth: [0.08, 0.24], shape: "sin", freePhase: true }],
+        aMix:  [{ kind: "lfo", bars: [[48, 2], [32, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        aVerb: [{ kind: "lfo", bars: [[42, 2], [58, 1]], depth: [0.06, 0.18], shape: "sin", freePhase: true }],
+        aEcho: [{ kind: "lfo", bars: [[38, 2], [50, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        aCut:  [{ kind: "lfo", bars: [[46, 2], [34, 1]], depth: [900, 2800], shape: "tri", freePhase: true }],
+
+        dTune: [{ kind: "lfo", bars: [[39, 2], [51, 1]], depth: [0.15, 0.40], shape: "sin", freePhase: true }],
+        dDecay:[{ kind: "lfo", bars: [[20, 3], [28, 2]], depth: [0.05, 0.18], shape: "sin", freePhase: true }],
+        dMix:  [{ kind: "lfo", bars: [[43, 2], [29, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        dVerb: [{ kind: "lfo", bars: [[47, 2], [31, 1]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
+        dEcho: [{ kind: "lfo", bars: [[27, 3], [45, 2]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
+        dCut:  [{ kind: "lfo", bars: [[49, 2], [33, 1]], depth: [700, 2300], shape: "tri", freePhase: true }],
       },
       mellotron: {
         wow: [{ kind: "lfo", bars: [[16, 3], [8, 1]], depth: [0.0006, 0.0016],
@@ -5448,6 +5711,10 @@ const GENRE = {
           [[[12,"tom1"],[13,"tom2"],[14,"tom3"],[15,"tom3"]], 2],     // a sixteenth run down
         ] },
       kickKeep: 9, flourishBar: 3,
+      /* the chip has no cymbal circuit, so the crash and ride are its noise
+         channel played long and short -- named in the `sega` kit map. Sparing,
+         because on this hardware a cymbal eats the channel the hats are on. */
+      rim: [], clap: [], rideEvery: 0, crashChance: 0.20, crashStep: 0,
       flourish: [[[14], 3], [[], 5]],
       variants: {
         main:   {},
@@ -5632,6 +5899,48 @@ const GENRE = {
         oDecay: [{ kind: "lfo", bars: [[22, 3], [32, 2]], depth: [0.06, 0.22], shape: "sin", freePhase: true }],
         tTune:  [{ kind: "lfo", bars: [[36, 2], [24, 1]], depth: [0.20, 0.55], shape: "sin", freePhase: true }],
         tDecay: [{ kind: "lfo", bars: [[34, 2], [26, 1]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
+              /* ── THE FIVE CHANNELS THE MACHINE HAS AND THIS ENGINE DID NOT ─────────
+           HIGH TOM, RIM SHOT, HAND CLAP, CRASH and RIDE, each on its own period.
+           Ten channels moving on ten schedules is the whole argument for having
+           ten channels: a kit where every voice is somewhere different every
+           time the loop comes round is what lets the loop come round. ── */
+        mTune: [{ kind: "lfo", bars: [[46, 2], [30, 1]], depth: [0.15, 0.45], shape: "sin", freePhase: true }],
+        mDecay:[{ kind: "lfo", bars: [[27, 2], [39, 1]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
+        mMix:  [{ kind: "lfo", bars: [[33, 2], [21, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        mVerb: [{ kind: "lfo", bars: [[25, 2], [37, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        mEcho: [{ kind: "lfo", bars: [[31, 2], [43, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        mCut:  [{ kind: "lfo", bars: [[29, 2], [41, 1]], depth: [600, 1900], shape: "tri", freePhase: true }],
+
+        rTune: [{ kind: "lfo", bars: [[23, 3], [35, 2]], depth: [0.25, 0.70], shape: "tri", freePhase: true }],
+        rDecay:[{ kind: "lfo", bars: [[19, 2], [31, 1]], depth: [0.06, 0.20], shape: "sin", freePhase: true }],
+        rMix:  [{ kind: "lfo", bars: [[37, 2], [25, 1]], depth: [0.05, 0.15], shape: "sin", freePhase: true }],
+        /* the rim is the one that wants a long tail on it -- "I was always into
+           really small rimshots", and a small sound a long way away is the whole
+           trick [corpus:hawtin] */
+        rVerb: [{ kind: "lfo", bars: [[21, 3], [33, 2]], depth: [0.06, 0.20], shape: "sin", freePhase: true }],
+        rEcho: [{ kind: "lfo", bars: [[17, 3], [29, 2]], depth: [0.06, 0.18], shape: "tri", freePhase: true }],
+        rCut:  [{ kind: "lfo", bars: [[35, 2], [23, 1]], depth: [700, 2200], shape: "tri", freePhase: true }],
+
+        cTune: [{ kind: "lfo", bars: [[41, 2], [27, 1]], depth: [0.20, 0.55], shape: "sin", freePhase: true }],
+        cDecay:[{ kind: "lfo", bars: [[26, 2], [38, 1]], depth: [0.06, 0.18], shape: "sin", freePhase: true }],
+        cMix:  [{ kind: "lfo", bars: [[22, 3], [34, 2]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        cVerb: [{ kind: "lfo", bars: [[28, 3], [40, 2]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
+        cEcho: [{ kind: "lfo", bars: [[24, 2], [36, 1]], depth: [0.04, 0.13], shape: "sin", freePhase: true }],
+        cCut:  [{ kind: "lfo", bars: [[32, 2], [20, 1]], depth: [800, 2400], shape: "tri", freePhase: true }],
+
+        aTune: [{ kind: "lfo", bars: [[52, 2], [36, 1]], depth: [0.10, 0.30], shape: "sin", freePhase: true }],
+        aDecay:[{ kind: "lfo", bars: [[44, 2], [30, 1]], depth: [0.08, 0.24], shape: "sin", freePhase: true }],
+        aMix:  [{ kind: "lfo", bars: [[48, 2], [32, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        aVerb: [{ kind: "lfo", bars: [[42, 2], [58, 1]], depth: [0.06, 0.18], shape: "sin", freePhase: true }],
+        aEcho: [{ kind: "lfo", bars: [[38, 2], [50, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        aCut:  [{ kind: "lfo", bars: [[46, 2], [34, 1]], depth: [900, 2800], shape: "tri", freePhase: true }],
+
+        dTune: [{ kind: "lfo", bars: [[39, 2], [51, 1]], depth: [0.15, 0.40], shape: "sin", freePhase: true }],
+        dDecay:[{ kind: "lfo", bars: [[20, 3], [28, 2]], depth: [0.05, 0.18], shape: "sin", freePhase: true }],
+        dMix:  [{ kind: "lfo", bars: [[43, 2], [29, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        dVerb: [{ kind: "lfo", bars: [[47, 2], [31, 1]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
+        dEcho: [{ kind: "lfo", bars: [[27, 3], [45, 2]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
+        dCut:  [{ kind: "lfo", bars: [[49, 2], [33, 1]], depth: [700, 2300], shape: "tri", freePhase: true }],
       },
 
       mellotron: {
@@ -6058,6 +6367,10 @@ const GENRE = {
       toms: { use: 0.12, loop: 0.05, loopSpots: [14, 15], loopLanes: ["tom2", "tom3"],
               shapes: [[[[12, "tom1"], [14, "tom2"]], 3], [[[14, "tom3"], [15, "tom3"]], 2]] },
       kickKeep: 4,
+      /* THE 808 CLAP ON THE BACKBEAT is acid house -- in this music the clap IS
+         the snare -- with a rim as the little off-beat tick underneath it. No
+         ride: a ride cymbal is a drummer, and there is no drummer here. */
+      rim: [7, 15], clap: [4, 12], rideEvery: 0, crashChance: 0.15, crashStep: 0,
       /* "the first tambourine hit coming in on the last 16th-note of the third
          bar" = bar index 2, step 15 [corpus:attackmagazine] */
       flourishBar: 2,
@@ -6444,6 +6757,17 @@ const GENRE = {
       toms: { use: 0.05, loop: 0.02, loopSpots: [15], loopLanes: ["tom3"],
               shapes: [[[[15, "tom3"]], 1]] },
       kickKeep: 4,
+      /* ── THE NEW CHANNELS, AND THIS GENRE'S OWN LAW APPLIES ────────────────
+         "I always liked to have two different types of claps, and I was always
+         into really small rimshots" [corpus:hawtin] -- so it wants both, and it
+         wants them nowhere near a backbeat. The table three lines up says NO
+         BACKBEAT SNARE in capitals; a clap on 4 and 12 is a backbeat by another
+         name, and that is exactly what the first version of this entry gave it
+         (it was written for acid house and landed here). One rim on the last
+         sixteenth and one clap off the beat, both sparse. The crash is almost
+         never: this music does not announce its sections, it slides between
+         them. */
+      rim: [11], clap: [7], rideEvery: 0, crashChance: 0.03, crashStep: 0,
       /* ── THE LINE THIS GENRE IS ABOUT ── */
       flourishBar: -1,
       flourish: [[[], 1]],
@@ -7704,6 +8028,43 @@ function makeMaterials(chart){
         notes.push({ bar: b, step: tomAt, dur: 1, lane: tomLane, vel: 0.72, role: "drums" });
       if(openSpot >= 0 && K.openBars.includes(b))
         notes.push({ bar: b, step: openSpot, dur: 1, lane: "openhat", vel: 0.55, role: "drums" });
+
+      /* ── THE FOUR CHANNELS THE MACHINE HAS AND THIS BUILDER DID NOT ─────────
+         RIM SHOT, HAND CLAP, CRASH and RIDE. `rim` and `clap` existed as VOICES
+         for as long as the rack has -- three rigs even name them -- and no kit
+         table ever wrote a note on either, so they were reachable only by
+         putting one on the snare lane. Crash and ride did not exist at all.
+
+         Every one is a genre TABLE entry and none of them is a rule [Law 4]. A
+         genre that declares nothing gets nothing, which is why adding these
+         changes no existing song: `rim`, `clap` and `ride` default to empty and
+         `crash` to never.
+
+         All four draws run whatever the outcome [Law 7]. ── */
+      const rimAt   = K.rim   || [];
+      const clapAt  = K.clap  || [];
+      for(const st of rimAt)
+        notes.push({ bar: b, step: st, dur: 1, lane: "rim", vel: 0.62, role: "drums" });
+      for(const st of clapAt)
+        notes.push({ bar: b, step: st, dur: 1, lane: "clap", vel: 0.90, role: "drums" });
+
+      /* THE RIDE is a pulse like the hat, so it is declared the same way -- a
+         division, not a step list -- and it is the one that most often replaces
+         the hat rather than joining it. */
+      const rideEvery = K.rideEvery || 0;
+      if(rideEvery > 0)
+        for(let st = (K.rideFrom || 0); st < 16; st += rideEvery)
+          notes.push({ bar: b, step: st, dur: 1, lane: "ride",
+                       vel: (K.rideVel || 0.5) * (st % 4 === 0 ? 1 : 0.8), role: "drums" });
+
+      /* THE CRASH marks an arrival, so it belongs on the FIRST bar of the loop
+         and nowhere else -- a crash on every bar is a cymbal wash, which is a
+         different instrument. The draw runs every bar so the stream does not
+         depend on which bar this is. */
+      const crashRoll = rng();
+      if(b === 0 && crashRoll < (K.crashChance || 0))
+        notes.push({ bar: b, step: (K.crashStep == null ? 0 : K.crashStep),
+                     dur: 1, lane: "crash", vel: 0.85, role: "drums" });
     }
     return notes;
   }
