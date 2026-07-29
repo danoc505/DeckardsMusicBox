@@ -1612,6 +1612,31 @@ function voiceFor(chart, lane){
   return RIG[chart.rig][lane];
 }
 
+/* WHICH BOX IS ACTUALLY IN A SLOT, with "auto" resolved.
+
+   Reported as "the correct racks are not loading with the genres -- Acid should
+   always load the 303". MEASURED: acid's bass pick is "auto" on 19 of 30 seeds,
+   and "auto" means "whatever the rig names", which for acid's `box` rig is the
+   303. So the 303 was always PLAYING -- and the panel loop skips any slot whose
+   pick is "auto", so its front panel was never DRAWN. The machine was right and
+   invisible, which to a conductor is the same as absent: there was no 303 to put
+   a hand on.
+
+   This resolves the lane's voice back to the machine that owns it, so the panel
+   shows the box that is really playing. It changes no note -- voiceFor is still
+   the one place `voice` is written, and this only asks it a question. */
+function machineIn(chart, slot){
+  const m = chart.picks && chart.picks[slot];
+  if(m && m !== "auto" && INSTRUMENTS[m]) return m;
+  const voice = RIG[chart.rig][slot];
+  if(!voice) return m;
+  for(const k in INSTRUMENTS){
+    const M = INSTRUMENTS[k];
+    if(M.slot === slot && M.lanes && M.lanes[slot] === voice) return k;
+  }
+  return m;
+}
+
 /* A SLOT'S MACHINE: what the user asked for if it exists and fits the slot, else
    what the GENRE DREW, else the rig's.
 
@@ -5576,6 +5601,20 @@ const GENRE = {
       build: {
         enter: { drums: [0, 0], bass: [0.04, 0.03], ostinato: [0.11, 0.08],
                  keys: [0.26, 0.12] },
+        /* ── AND NOT ALWAYS THE DRUMS ──────────────────────────────────────
+           "Every song starts with just drums, this is not correct." It was: the
+           entry table gave drums 0 and everything else a later fraction, so
+           every seed opened the same way. That is a constant wearing a build's
+           clothes.
+
+           `openWith` draws WHICH part gets the zero. Whatever is drawn opens
+           alone and the rest keep their own entry points, so the accretion is
+           unchanged -- only its first term moves. A record that starts on the
+           303 alone, or on the figure with no kit under it, is as much this
+           music as one that starts on the machine. [corpus:hawtin -- the
+           machines are "getting the machines running and then jamming out
+           live", and which one is running first is not fixed] */
+        openWith: [["drums", 5], ["bass", 3], ["ostinato", 2]],
       },
       /* "getting the machines running, and then jamming out live" -- the track is
          already going when the record starts. [corpus:hawtin] */
@@ -5611,8 +5650,17 @@ const GENRE = {
          32nd-note roll, not a backbeat. An empty array is the honest encoding;
          the one added hit lives in `lift`. [corpus:hawtin, corpus:attack] */
       snare: [],
-      hatEvery: 1,             // "a closed 909 hat plays all four 16th-notes per
-                               // quarter-bar" [corpus:attack]
+      /* HATS ON EIGHTHS, NOT SIXTEENTHS, AND THAT IS A CORRECTION. The Attack
+         source says a closed 909 hat plays all four 16th-notes per quarter-bar,
+         and that is Spastik -- one track, and the busiest one. Taken as this
+         genre's default it made plastikman the DENSEST table in the file:
+         MEASURED, 20.7 drum notes per bar and 20.0 events per second, against
+         lofi's 10.2/10.8 and jungle's 8.5/8.1. A wall of constant sixteenths is
+         not "how much you can achieve with less notes", and it is what was being
+         heard as stuttering.
+         Eighths in the main pattern, sixteenths in `lift` -- so the density is
+         something the record BUILDS to rather than opens on. */
+      hatEvery: 2,
       hatVel: 0.55,
       /* a per-bar random extra hit is precisely the bar-to-bar variation this
          music refuses. Zero -- and the draw still runs [Law 7]. */
@@ -5629,7 +5677,11 @@ const GENRE = {
       variants: {
         main:   {},
         /* the lift is ONE added hit and nothing else changes. [corpus:hawtin] */
-        lift:   { snare: [12], hatVel: 0.60 },
+        /* the lift is ONE added hit and the hats double. That doubling is the
+           genre's whole dynamic range and it is why the main pattern had to
+           come down to eighths first -- you cannot build to a wall you started
+           on. [corpus:hawtin, corpus:attack] */
+        lift:   { snare: [12], hatVel: 0.60, hatEvery: 1 },
         /* "a year of subtraction" -- a minimal-techno breakdown REMOVES; it never
            rewrites. [corpus:hawtin on Consumed] */
         depart: { hatEvery: 2, openBars: [], kickKeep: 4 },
@@ -5768,8 +5820,13 @@ const GENRE = {
       grid: 1,
       /* sparser than acid house's 9-13, because "the importance of silence
          between sounds" is one of the two things every account of this music
-         names. Five to eight of the twelve steps the kick leaves open. */
-      density: [5, 8],
+         names.
+         AND SPARSER AGAIN, reported: "the bass is coming in with far too many
+         notes... minimal is slow building, less notes". Three to six of the
+         twelve steps the kick leaves open, where it was five to eight. The
+         silence between the notes is the material here, not the gaps left over
+         after the material. */
+      density: [3, 6],
       /* TWO pitches, not acid house's three or four. This is the genre that
          reduces. [EAR, on the same axis as everything else here] */
       distinctPitches: [2, 2],
@@ -5779,6 +5836,13 @@ const GENRE = {
       /* and the mechanism: off the kick, always. [corpus:attackmagazine] */
       avoidKick: true,
     },
+    /* THE BALANCE. Reported: "the bass is coming in way too loud". In this genre
+       the kick carries the bottom -- it is tuned to 46 Hz with a 0.60 s decay
+       precisely so it can -- and the 303 is a LINE over it, not the weight. The
+       ostinato is the same instrument an octave and a half up and wants trimming
+       further, because at 554-740 Hz it sits exactly where the ear is most
+       sensitive. [corpus:stealifysounds for the kick carrying the low end] */
+    roleGain: { bass: 0.62, ostinato: 0.70 },
     bassPulse: { unit: 4, rootBias: 1, octaveJump: 0, restChance: 0 },   // unused by "acid"
     /* a 303 line without accent and slide is a 303 with its two front-panel
        switches taped down. Lower than acid house's -- this music states rather
@@ -5826,7 +5890,13 @@ const GENRE = {
          off the grid and walks, which is how a two-note figure turns into
          something that never repeats the same way twice.
          [corpus:attackmagazine dub-delays] */
-      echo:  { div: 3, fb: 0.42, tone: 2200, hp: 200, send: 0.34, verb: 0.62 },
+      /* REPORTED AS FILLING THE WHOLE SPACE, and it was: 0.42 feedback with a
+         0.34 send, and then the phrase LFOs I added on top drove the feedback
+         across 97% of its dial. A dub delay that never clears leaves no silence
+         for the next note to arrive into, which in this genre removes the one
+         thing the music is made of. Pulled back so the repeats are a tail rather
+         than a wash. */
+      echo:  { div: 3, fb: 0.28, tone: 2200, hp: 240, send: 0.20, verb: 0.45 },
       /* THE DESK, and this is the genre it was built for. The crossovers sit
          where a DJ mixer's do; the three gains start at unity and the whole
          performance is in `motion.desk` below. */
@@ -5992,14 +6062,17 @@ const GENRE = {
       echo: {
         fb:   [{ kind: "lfo", bars: [[64, 4], [32, 3], [16, 1]], depth: [0.06, 0.20],
                  shape: "sin", freePhase: true },
-               { kind: "lfo", bars: [[16, 3], [24, 2], [12, 1]], depth: [0.05, 0.14],
+               /* shallower than the first attempt: with the base at 0.28 this
+                  keeps the feedback moving without ever letting it run away and
+                  fill the gaps the notes are supposed to arrive into */
+               { kind: "lfo", bars: [[16, 3], [24, 2], [12, 1]], depth: [0.03, 0.08],
                  shape: "sin", freePhase: true },
                { kind: "section", by: { bridge: [0.14, 0.30], instrumental: [0.05, 0.14],
                                         outro: [0.08, 0.20] } },
                /* and across the whole record it thickens -- the arc that the
                   "year of subtraction" leaves room for, because what subtracts
                   is the KIT, while the space fills in behind it */
-               { kind: "arc", from: [-0.10, -0.03], to: [0.08, 0.18], curve: "sCurve" }],
+               { kind: "arc", from: [-0.08, -0.02], to: [0.05, 0.12], curve: "sCurve" }],
         tone: [{ kind: "lfo", bars: [[48, 3], [96, 2]], depth: [220, 700],
                  shape: "tri", freePhase: true },
                { kind: "lfo", bars: [[20, 3], [14, 2]], depth: [180, 520],
@@ -7529,6 +7602,29 @@ function makeArrangement(chart, form, materials){
       const e = BUILD.enter[role], d = rb();
       arrivesAt[role] = (e[0] + d * e[1]) * nBars;
     }
+    /* WHICH PART OPENS. The entry table alone gives one role the zero and
+       therefore gives every seed the same opening -- a constant wearing a
+       build's clothes. This draw moves the zero. The opener starts the record
+       alone; every other part keeps the entry point it was just given, so the
+       accretion is unchanged and only its first term differs.
+       The draw runs whether or not the genre declares openWith. [Law 7] */
+    const ow = rb();
+    if(BUILD.openWith && BUILD.openWith.length){
+      let tot = 0; for(const [, w] of BUILD.openWith) tot += w;
+      let x = ow * tot, opener = BUILD.openWith[0][0];
+      for(const [r, w] of BUILD.openWith){ if(x < w){ opener = r; break; } x -= w; }
+      if(arrivesAt[opener] != null){
+        /* the old opener has to go somewhere, or two parts share bar zero and
+           nothing has actually changed. It takes the new opener's slot. */
+        let wasFirst = null;
+        for(const r in arrivesAt)
+          if(wasFirst == null || arrivesAt[r] < arrivesAt[wasFirst]) wasFirst = r;
+        if(wasFirst !== opener){
+          arrivesAt[wasFirst] = arrivesAt[opener];
+          arrivesAt[opener] = 0;
+        }
+      }
+    }
   }
   /* WHO IS FIRST. If a section's whole list is still waiting, the song would be
      silent there -- so the earliest-arriving member of that list plays anyway.
@@ -7677,6 +7773,7 @@ function makePerformance(chart, form, materials, sections){
      and how wide the keys' strum rolls (a real strum is milliseconds, not grid) */
   const RIB = chart.table.ribbon;
   const PRESS = chart.table.pressure;
+  const RGAIN = chart.table.roleGain || {};
   const bassArtic = wpick(rngG, TOUCH.bassArtic);
   const strumSec  = TOUCH.strum[0] + rngG() * TOUCH.strum[1];
   const events = [];
@@ -7746,9 +7843,19 @@ function makePerformance(chart, form, materials, sections){
             strumAt[k] = (strumAt[k] || 0) + 1;
             micro += ((strumAt[k] - 1) * strumSec) / spb;
           }
-          /* THE ONE GAIN FORMULA: identity x position accent x section dynamic */
+          /* THE ONE GAIN FORMULA: identity x position accent x section dynamic
+             x the genre's balance for this role.
+
+             `roleGain` is the last of those and it is a BALANCE, not a mix pass:
+             one number per role, read here, in the one place gain is written.
+             It exists because "the bass is coming in way too loud" had no honest
+             answer before it -- the 303's drive is a timbre control with makeup
+             gain by design, LEVEL.bass is global to every genre, and the desk is
+             a band EQ rather than a fader. There was nowhere to say "in THIS
+             genre the bass sits under the kit". Absent or 1 changes nothing. */
           const accent = (role === "drums" && ACC[lane]) ? ACC[lane][n.step % 16] : 1;
-          const gain = Math.min(1.25, n.vel * accent * (0.72 + 0.28 * sec.energy) * (sec.peak ? 1.06 : 1));
+          const gain = Math.min(1.25, n.vel * accent * (0.72 + 0.28 * sec.energy)
+                                      * (sec.peak ? 1.06 : 1) * (RGAIN[role] || 1));
           const artic = role === "bass" ? bassArtic : 1;
           /* `lane` is WHAT the note is; `voice` is WHO plays it. The rig table is
              the only thing between them, and it is consulted here, in the one
@@ -8586,7 +8693,7 @@ function drawPanels(){
      the music rather than a treatment of it, this is the most important box on
      the screen. */
   const boxes = ["drums", "bass", "keys"]
-    .map(slot => [slot, SONG.chart.picks[slot]])
+    .map(slot => [slot, machineIn(SONG.chart, slot)])
     .concat(Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].fixed).map(k => [INSTRUMENTS[k].slot, k]));
   for(const [slot, m] of boxes){
     if(m === "auto" || !INSTRUMENTS[m]) continue;

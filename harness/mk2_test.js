@@ -356,14 +356,47 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       if(want != null && Math.abs(got - want) > Math.max(2, want * 0.18))
         bad.push(`${g} writes ${got.toFixed(1)}, its table asks for ~${want.toFixed(1)}`);
     }
-    /* ...and the styles must still be telling different instruments apart */
+    /* ...and the styles must still be telling different instruments apart.
+
+       THIS USED TO AVERAGE THE GENRES INSIDE EACH STYLE and compare the means,
+       which is the same mistake the comment at the top of this check describes
+       and then walks away from. Acid house writes 44 notes and Plastikman 18 --
+       deliberately, that is the whole reason `acidLine` is a table -- and their
+       MEAN is 31, which collided with pulse's 31 the moment Plastikman was made
+       sparser. The check went red for a change that was correct, and it would
+       have gone green again for any change that happened to move the average
+       back, which is worse.
+
+       A style is not a number, so do not reduce it to one. The real property is
+       pairwise: two genres on DIFFERENT builders should not land on the same
+       note count unless their own tables asked them to. That compares each
+       genre against its own declaration, which is the axis the rest of this
+       check already uses. */
     const byStyle = {};
     for(const g of genres) (byStyle[T.GENRE[g].bassStyle] ||= []).push(dens[g].bass);
-    const means = Object.keys(byStyle).map(k =>
-      byStyle[k].reduce((a, b) => a + b, 0) / byStyle[k].length);
-    const distinct = new Set(means.map(x => Math.round(x / 4))).size === means.length;
-    check("each bass builder writes what its own table asks for", bad.length === 0 && distinct,
-          (bad.join(" | ") || "predictions hold") + "  |  " +
+    const collisions = [];
+    for(let i = 0; i < genres.length; i++) for(let j = i + 1; j < genres.length; j++){
+      const a = genres[i], b2 = genres[j];
+      if(T.GENRE[a].bassStyle === T.GENRE[b2].bassStyle) continue;
+      if(Math.abs(dens[a].bass - dens[b2].bass) > 2) continue;      // clearly different
+      /* same output from different builders is only honest if both tables asked
+         for it -- predict for each, and if either has no prediction we cannot
+         tell, so say so rather than pass silently */
+      const pred = gg => {
+        const G3 = T.GENRE[gg];
+        if(G3.bassStyle === "acid") return ((G3.acidLine.density[0] + G3.acidLine.density[1]) / 2) * 4;
+        if(G3.bassStyle === "pulse") return (16 / G3.bassPulse.unit) * 4 * (1 - G3.bassPulse.restChance * 0.9);
+        return null;
+      };
+      const pa = pred(a), pb = pred(b2);
+      if(pa == null || pb == null) continue;
+      if(Math.abs(pa - pb) > 2)
+        collisions.push(`${a}(${T.GENRE[a].bassStyle}) and ${b2}(${T.GENRE[b2].bassStyle}) ` +
+                        `both write ~${dens[a].bass.toFixed(0)} but their tables ask for ${pa.toFixed(0)} vs ${pb.toFixed(0)}`);
+    }
+    check("each bass builder writes what its own table asks for",
+          bad.length === 0 && collisions.length === 0,
+          (bad.concat(collisions).join(" | ") || "predictions hold") + "  |  " +
           Object.keys(byStyle).map(k => `${k} ${byStyle[k].map(x => x.toFixed(0)).join("/")}`).join("  "));
     /* THE COUNTER SOUNDS AS OFTEN AS ITS TABLE SAYS IT DOES. This used to be a
        flat "more than 30% of the tune's notes" -- which is synthwave's octave
