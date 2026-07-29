@@ -152,6 +152,33 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         "keys span " + lo + ".." + hi + " (" + (hi - lo) + " semitones), widest single song " + span);
 }
 
+/* VARY(A) MUST VARY SOMETHING THE GENRE ACTUALLY PLAYS. Avar is the material
+   the rule of three is answered with -- "start the same, go somewhere different
+   halfway" -- and it redrew the LEAD and the counter, full stop. That is fine
+   for five of the seven genres and a no-op for the two whose tune is not a lead:
+   Plastikman's melodic content is its ostinato and jungle's is the break itself,
+   and neither has a lead role in any section. So their Avar came out
+   byte-identical to A in every role, and a form that alternates verse and
+   instrumental specifically to satisfy the rule of three was stating the same
+   music eleven times running. The section names passed the law; the notes
+   defeated it. This check compares Avar to A across only the roles the genre is
+   ever heard playing. */
+{
+  const dead = [], rows = [];
+  for(const g of M.genres()){
+    const song = M.composeSong(1, undefined, g), m = song.materials;
+    const played = new Set();
+    for(const e of song.perf.events) if(e.role !== "tape") played.add(e.role);
+    const sig = x => JSON.stringify((x || []).map(n => [n.bar, n.step, n.pitch, n.lane, n.slice]));
+    const useful = ["ostinato", "bass", "keys", "lead", "counter", "drums"]
+      .filter(r => played.has(r) && sig(m.A[r]) !== sig(m.Avar[r]));
+    rows.push(`${g} [${useful.join(",") || "NOTHING"}]`);
+    if(!useful.length) dead.push(g);
+  }
+  check("vary(A) varies something the genre actually plays", dead.length === 0,
+        rows.join("  "));
+}
+
 /* The three things reading the ROLL exposed that no audio measurement could.
    A second line that moves in parallel with the tune on every note is a
    harmoniser; a bridge with the verse's exact kit is not a departure; and

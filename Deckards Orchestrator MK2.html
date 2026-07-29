@@ -4941,6 +4941,12 @@ const GENRE = {
     ostinato: {
       unit: 2,
       vel: 0.62,
+      /* THIS genre's cell may change. DKC's may not: there the cell IS the
+         identity and four bars of it is how a listener names the game. Here the
+         cell is a 303 figure and a Hawtin record does introduce a second one --
+         and without it `vary(A)` had nothing to redraw in a genre with no lead,
+         so every section of the record was the same music. [corpus:hawtin] */
+      vary: true,
       cells: [
         [[0, 0, 3, 0], 5],       // root-heavy, one neighbour [theory: acid construction]
         [[0, 6, 0, 3], 4],       // [EAR]
@@ -5919,16 +5925,32 @@ function makeMaterials(chart){
      BY-PRODUCT of a fixed cell over a moving pedal. The Ab against a Bb bass is
      not an error waiting for a correcting pass -- it is the music.
      [corpus:vgmusic MIDI transcriptions, byte-identical bars] */
-  function buildOstinato(streamName){
+  function buildOstinato(streamName, varyTail){
     const O = G.ostinato;
     if(!O) return [];
     const rng = stream(chart.seed, streamName);
     const cell = wpick(rng, O.cells);
+    /* the ALTERNATE cell, drawn unconditionally whether or not it gets used
+       [Law 7], and drawn from the cells that are NOT the one already chosen --
+       an "alternate" that can come back identical is not one. */
+    const pickAlt = rng();
+    const others = O.cells.filter(pr => pr[0] !== cell);
+    const alt = others.length ? others[Math.floor(pickAlt * others.length) % others.length][0] : cell;
     const notes = [];
     for(let b = 0; b < BARS; b++){
+      /* AVAR HAS TO VARY SOMETHING THIS GENRE ACTUALLY PLAYS. `vary(A)` redraws
+         the second half of the TUNE -- and for a genre whose tune is an
+         ostinato rather than a lead, that meant redrawing a part it does not
+         have. Measured: Plastikman's and jungle's Avar came out byte-identical
+         to A in every role, so a form that alternates verse and instrumental
+         to satisfy the rule of three was stating the same music eleven times
+         running. The law passed on the section names and was defeated in the
+         notes. A genre whose cell IS its identity says vary:false and keeps it
+         -- that is DKC, where four bars of the cell is how you name the game. */
+      const c = (varyTail && O.vary && b >= 2) ? alt : cell;
       let i = 0;
       for(let st = 0; st < 16; st += O.unit, i++){
-        const deg = cell[i % cell.length];
+        const deg = c[i % c.length];
         notes.push({ bar: b, step: st, dur: O.unit,
                      pitch: intoBand(degMidi(root, mode, deg), R.ostinato[0], R.ostinato[1]),
                      vel: O.vel, role: "ostinato" });
@@ -6014,6 +6036,10 @@ function makeMaterials(chart){
 
   /* ── A: the verse set ── */
   const ostA = buildOstinato("ostinato");
+  /* the varied cell for Avar, and -- for a genre whose kit IS the tune -- a
+     second chop. Both are cheap and both are no-ops for a genre that says
+     nothing, so no existing song moves. */
+  const ostAvar = buildOstinato("ostinato", true);
   /* THE ONE PLACE A PINNED PATTERN ENTERS. Every drum and bass pattern in the
      song goes through `pin`, so a grid the user has programmed substitutes for
      the drawn one at the moment the material is built -- before the seam checks,
@@ -6022,6 +6048,13 @@ function makeMaterials(chart){
      downstream still proves it. */
   const pin = (notes, role, pat) => applyPins(notes, role, pat, chart.pins);
   const drumsA = pin(buildDrums("drums", "main"), "drums", "A");
+  /* A GENRE WHOSE KIT IS THE TUNE RE-CHOPS FOR Avar. Jungle has no lead and no
+     counter, so `vary(A)` had nothing to redraw and its instrumental came out
+     identical to its verse. The break IS the melodic content there, so varying
+     it is what "vary" means in that genre. Every other genre keeps A's kit
+     byte-for-byte -- the drums are not the tune anywhere else, and a bridge
+     that changed its kit without being asked would be a correcting pass. */
+  const drumsAvar = G.chop ? pin(buildDrums("drums:var", "main"), "drums", "Avar") : drumsA;
   const drumsB = pin(buildDrums("drumsB", "lift"), "drums", "B");     // the chorus opens up
   const drumsC = pin(buildDrums("drumsC", "depart"), "drums", "C");   // the bridge thins out
   const bassA  = pin(buildBass(chords, "bass", false), "bass", "A");
@@ -6053,7 +6086,13 @@ function makeMaterials(chart){
 
   /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
      the canonical rule-of-three answer at the material level ── */
-  const resV = reserve(ostA.concat(bassA, keysA, themeA.notes.filter(n => n.bar < 2)));
+  /* AVAR'S TUNE IS DRAWN AROUND AVAR'S OWN CELL. This reserved ostA -- the
+     cell material A plays -- which was right while Avar shared it and wrong the
+     moment Avar could have a different one: the redrawn tail landed on the
+     alternate cell's notes and 16 of 120 Plastikman seeds threw "collision in
+     Avar at 2:4:71". The seam check named the material, the bar, the step and
+     the pitch, which is exactly why it throws instead of warning. */
+  const resV = reserve(ostAvar.concat(bassA, keysA, themeA.notes.filter(n => n.bar < 2)));
   const varTail = buildTheme(chords, "themeA:var", resV, { lo: R.themeA[0], hi: R.themeA[1], dir: -1 });
   const leadAvar = themeA.notes.filter(n => n.bar < 2)
     .concat(varTail.notes.filter(n => n.bar >= 2));
@@ -6143,7 +6182,7 @@ function makeMaterials(chart){
     // variant's redrawn second half is a different tune -- a shadow of the wrong line.
     // Verses (Avar's consumers) never activate the counter anyway; if a future section
     // wants one, it derives it from leadAvar, it does not borrow A's.
-    Avar: { drums: drumsA, bass: bassA, keys: keysA, lead: leadAvar,     counter: [], ostinato: ostA },
+    Avar: { drums: drumsAvar, bass: bassA, keys: keysA, lead: leadAvar, counter: [], ostinato: ostAvar },
     B:    { drums: drumsB, bass: bassA, keys: keysB, lead: themeB.notes, counter: counterB, ostinato: ostA },
     /* C KEEPS THE OSTINATO. It ignores the chords by construction, so it needs no
        new version for the bridge's new changes -- and letting it run straight
