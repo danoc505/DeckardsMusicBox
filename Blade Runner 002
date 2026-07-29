@@ -1,0 +1,329 @@
+and welcome to Dr Mix today I'm going
+0:38
+to explain to you how to replicate the
+0:41
+famous Blade Runner brass Sound by
+0:44
+vanelis today I'm going to show you
+0:46
+exactly how to do it on a MOG Muse how
+0:50
+you doing Lou I'm good good to see you I
+0:52
+see him every day let's start from the
+0:55
+beginning there is a specific thing that
+0:58
+this Blade Runner sound does which is
+1:00
+some kind of phasing thing I don't know
+1:02
+if you can recognize it let's listen to
+1:04
+it actually
+1:06
+[Music]
+1:10
+quickly right I'm not talking about the
+1:13
+strings that are up there I'm talking
+1:16
+about the the sound that's in the middle
+1:17
+that goes
+1:19
+[Music]
+1:24
+like right yeah that sound I will start
+1:28
+with an initialized patch that sounds
+1:31
+like this let's just have
+1:34
+[Music]
+1:37
+sustain
+1:38
+woo so uh here we got controls for
+1:42
+oscillator one and oscillator 2
+1:45
+oscillator One turns out it's just a
+1:47
+simple Sawtooth
+1:51
+yeah a little bit of attack on the
+1:54
+VCA bit of
+1:57
+Decay sustain and a touch of release so
+2:01
+that's a pad so what makes it brassy of
+2:04
+course we have a filter that's happening
+2:06
+right we got this low pass
+2:09
+filter
+2:10
+[Music]
+2:15
+right we wish it was that easy right CU
+2:18
+we we can simply put some envelope here
+2:21
+maybe a bit of resonance and then a bit
+2:24
+of attack bit of Decay bit of sustain
+2:27
+bit of release close the filter and we
+2:29
+have a little bit of that
+2:34
+automation let's pull up the resonance
+2:36
+so that we can hear it there you
+2:47
+go right but also there is another
+2:49
+component to this because there is a
+2:51
+little bit of high pass filter we think
+2:54
+yeah we think we
+2:57
+think right so all I need to do is put a
+3:01
+decent amount of envelope bit of
+3:03
+[Music]
+3:20
+resonance so far so good but it's not it
+3:23
+the next thing we do is we pull up a
+3:25
+second oscillator let's just listen to
+3:27
+that all right now
+3:30
+there's a trick there's a trick because
+3:32
+this is actually a square
+3:35
+wave yeah and this Square wave has a
+3:40
+pulse width that can be
+3:42
+determined with with with this knob
+3:44
+right
+3:47
+here all right now check out what
+3:50
+happens if I am all the way to the
+3:54
+left so
+3:57
+that's sort of modulation
+4:00
+is what I
+4:01
+believe makes the sound very special
+4:04
+when you mix it up with this
+4:07
+other the result
+4:09
+[Music]
+4:17
+is right now what we want to do is we
+4:21
+want to automate this into different
+4:24
+ways we want to give it a little bit of
+4:26
+LFO so that it naturally does it by
+4:28
+itself so so we will go to assign
+4:31
+control we have the low lfo1 we're going
+4:35
+to assign it to the oscillator 2 pulse
+4:39
+with and we're going to
+4:41
+go like
+4:47
+[Music]
+4:49
+that can you can you feel
+4:52
+it if I go with a lot of
+4:56
+modulation it will get to the point you
+4:58
+know what let's listen to just oscillat
+5:00
+too there you
+5:08
+[Music]
+5:25
+go yeah
+5:32
+right we're getting close
+5:37
+now right yes exactly and then what else
+5:41
+did we do we used some modulation on the
+5:44
+with the after touch we use a little bit
+5:46
+of modulation so the way we do it is we
+5:49
+create another source after touch again
+5:52
+after touch we get to Route it to
+5:57
+oscillator 2 with so yeah like
+6:04
+that so that once we push the fingers
+6:10
+down we get a bit of that
+6:14
+modulation let's see if we go
+6:16
+negative theoretically we should mute it
+6:18
+if we go negative right which is exactly
+6:21
+where we want to
+6:24
+go so let's push it all the way
+6:28
+down and just make
+6:38
+sure
+6:41
+still right and in order to make it
+6:43
+smoother a function Source right slw the
+6:46
+slw basically allows us to smooth the
+6:49
+curve to make it basically a bit slower
+6:52
+yeah right so that when we go it's
+6:57
+not but it's slightly
+7:02
+slow
+7:04
+yeah right and then when we mix it back
+7:08
+with
+7:09
+[Music]
+7:11
+[Applause]
+7:13
+this also we want to assign a little bit
+7:17
+of um after touch as well to the filter
+7:20
+right so what do we do we do another one
+7:23
+right same thing same thing after Touch
+7:25
+by the way you've got to love the Muse
+7:28
+man look at it it's awesome love it so
+7:31
+much already yeah it's like an instant
+7:34
+classic isn't it so we go with after
+7:36
+touch assign it to the VCF 2 cut off
+7:43
+right so we should
+7:45
+[Music]
+7:58
+get and again we want to use some
+8:02
+slooh that what we call it slooh to just
+8:05
+make it a little
+8:08
+bit less hysterical
+8:14
+yeah and then we open the cut off again
+8:20
+[Music]
+8:38
+right okay we also have a little bit of
+8:41
+oscillation in all of that on the pitch
+8:43
+on the pitch so what we decided to do is
+8:45
+we went for some oscillator power
+8:55
+here yeah this really sells it right
+8:58
+yeah we can send it to oscillator one
+9:02
+only or maybe two I like it better I
+9:06
+like it with both yeah I prefer that
+9:09
+finally we seal the deal with the effect
+9:12
+yeah because of course we have a
+9:15
+fantastic effect
+9:22
+here on the effect what we want to do we
+9:26
+set it at 16 bits yeah cuz we like that
+9:29
+and then the character filter it's off
+9:32
+MH and instead we have the character
+9:35
+diffuse on yes which means that this
+9:38
+button this knob
+9:40
+[Music]
+9:43
+here gives us a nice gorgeous infinite
+9:48
+Reverb apparently uh what is it 6
+9:51
+seconds too much couple of seconds
+9:54
+couple of seconds
+9:57
+[Music]
+10:03
+it's good it's
+10:05
+[Music]
+10:20
+good if you haven't subscribed to this
+10:23
+channel you probably never will
+10:28
+so goodbye I'll see you next time come
+10:32
+on you've got to subscribe Lou tell them
+10:35
+you have to it's it's that it's that
+10:38
+simple it's that simple it's almost
+10:41
+mandatory no for real it really helps
+10:44
+this channel a lot I hope you learned
+10:46
+something from this yeah I know I
