@@ -21,6 +21,17 @@
   #info{ color:var(--dim); white-space:pre-wrap; }
   #story{ color:var(--ink); white-space:pre-wrap; margin-top:.4rem; }
   .law{ color:var(--dim); font-size:12px; border-left:2px solid #33302a; padding-left:.8rem; margin-top:2rem; }
+  /* the front panels. One box per machine currently in a slot; nothing else
+     is drawn, which is the whole point of the pickers above them. */
+  #panels{ display:flex; gap:.6rem; flex-wrap:wrap; margin:.9rem 0; }
+  .panel{ background:var(--panel); border:1px solid #33302a; padding:.6rem .7rem; min-width:15rem; flex:1; }
+  .panel h2{ font-size:11px; letter-spacing:.16em; color:var(--hot); font-weight:normal;
+             margin:0 0 .5rem; text-transform:uppercase; }
+  .knob{ display:grid; grid-template-columns:8.5rem 1fr 5rem; align-items:center; gap:.4rem; margin:.15rem 0; }
+  .knob label{ color:var(--dim); font-size:12px; }
+  .knob output{ color:var(--ink); font-size:12px; text-align:right; }
+  .knob input[type=range]{ width:100%; accent-color:var(--hot); background:none; border:none; padding:0; }
+  .panel .reset{ font-size:11px; padding:.2rem .5rem; margin-top:.45rem; }
 </style>
 </head>
 <body>
@@ -39,6 +50,12 @@
   <button id="mid">export .mid</button>
   <span id="pos"></span>
 </div>
+<div class="row" id="rack">
+  <select id="mDrums" title="which drum machine plays the kit part"></select>
+  <select id="mBass"  title="which bass instrument plays the bass part"></select>
+  <select id="mKeys"  title="which keyboard plays the comp"></select>
+</div>
+<div id="panels"></div>
 <div id="info">press "new song".</div>
 <div id="story"></div>
 <div class="law">Laws of this build: the render is the only truth &middot; sound before composition &middot;
@@ -189,6 +206,232 @@ const EPIANO = (() => {
   const roots = EPIANO_ROOTS.split(";").map(z => z.split(",").map(Number));   // [idx,root,high]
   return { f32, zones, roots, rate: 32000 };
 })();
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE INSTRUMENT RACK — selectable machines, and every knob on them.
+
+   ON VSTs, since the question was asked: we cannot use them, and it is worth
+   being exact about why rather than hand-waving. A VST is a compiled native
+   binary that a HOST process loads; a browser cannot load one, there is no host
+   here, and this program is one HTML file with no server and no dependencies --
+   which is the property that makes it work at all. What we CAN take, and have
+   been taking, is open-source WORK: permissively-licensed sample data (the mda
+   ePiano bank, MIT, is in this file), and published ANALYSIS of hardware
+   (Nuked-OPN2's envelope arithmetic, Stinchcombe's measurements of the 303's
+   diode ladder, the CS-80 filter teardown). Those become WebAudio here. A GPL-3
+   emulator like JS80P cannot be vendored without relicensing the whole program.
+
+   HOW THIS RACK WORKS. Every machine declares its own controls -- range, default
+   and what the number MEANS. The GENRE sets them when a song is built; the user
+   can move any of them and hear it on the next note. Sound parameters are stage
+   6's: they change timbre, never notes, so moving a knob cannot alter the
+   composition and the seam battery is unaffected by anything in this block.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* live values, keyed "<machine>.<control>". The UI writes here; voices read. */
+const PARAMS = {};
+const P = (m, k, dflt) => { const v = PARAMS[m + "." + k]; return v == null ? dflt : v; };
+
+const INSTRUMENTS = {
+  /* ── DRUM MACHINES ─────────────────────────────────────────────────────── */
+  kit: {
+    slot: "drums", label: "acoustic kit",
+    lanes: { kick:"kick", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
+             tom1:"tom1", tom2:"tom2", tom3:"tom3" },
+    controls: [
+      { k:"tune",  label:"kick tune",   min:35,  max:80,  step:1,    def:54,  unit:"Hz" },
+      { k:"decay", label:"kick decay",  min:0.08,max:0.60,step:0.01, def:0.24,unit:"s" },
+      { k:"click", label:"beater",      min:0,   max:1.5, step:0.01, def:0.60 },
+      { k:"drive", label:"kick drive",  min:0,   max:1,   step:0.01, def:0.35 },
+      { k:"bus",   label:"kit drive",   min:0.6, max:2,   step:0.01, def:1.05 },
+      { k:"gate",  label:"gated verb",  min:0,   max:1,   step:0.01, def:0 },
+      { k:"hold",  label:"gate hold",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s" },
+    ],
+  },
+  tr808: {
+    slot: "drums", label: "TR-808",
+    lanes: { kick:"k808", snare:"s808", ghost:"s808", hat:"h808", openhat:"oh808",
+             tom1:"t808hi", tom2:"t808mid", tom3:"t808lo" },
+    controls: [
+      /* the 808's own front panel. TUNE and DECAY are the two that made it
+         famous -- a long decay on a bridged-T oscillator is the 808 kick.
+         [theory: TR-808 service manual control set] */
+      { k:"tune",   label:"BD tune",    min:35,  max:70,  step:1,    def:47,  unit:"Hz" },
+      { k:"decay",  label:"BD decay",   min:0.15,max:1.60,step:0.01, def:0.85,unit:"s" },
+      { k:"tone",   label:"BD tone",    min:0,   max:1,   step:0.01, def:0.45 },
+      { k:"snappy", label:"SD snappy",  min:0,   max:1,   step:0.01, def:0.55 },
+      { k:"sdtone", label:"SD tone",    min:0,   max:1,   step:0.01, def:0.50 },
+      { k:"chdecay",label:"CH decay",   min:0.01,max:0.14,step:0.005,def:0.045,unit:"s" },
+      { k:"ohdecay",label:"OH decay",   min:0.10,max:0.90,step:0.01, def:0.42,unit:"s" },
+      { k:"bus",    label:"kit drive",  min:0.6, max:2,   step:0.01, def:1.30 },
+      { k:"gate",   label:"gated verb", min:0,   max:1,   step:0.01, def:0 },
+      { k:"hold",   label:"gate hold",  min:0.04,max:0.40,step:0.005,def:0.150,unit:"s" },
+    ],
+  },
+  segakit: {
+    slot: "drums", label: "SEGA DAC + PSG",
+    lanes: { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat", openhat:"psgOpenhat",
+             tom1:"tom1", tom2:"tom2", tom3:"tom3" },
+    controls: [
+      { k:"bus",  label:"kit drive", min:0.6, max:2, step:0.01, def:1.05 },
+      { k:"gate", label:"gated verb", min:0, max:1, step:0.01, def:0 },
+    ],
+  },
+
+  /* ── BASSES ────────────────────────────────────────────────────────────── */
+  subbass: {
+    slot: "bass", label: "sub bass",
+    lanes: { bass:"bass" },
+    controls: [
+      { k:"cut",  label:"tone",   min:200, max:4000, step:10,  def:1200, unit:"Hz" },
+      { k:"drive",label:"drive",  min:0,   max:1,    step:0.01,def:0.20 },
+    ],
+  },
+  tb303: {
+    slot: "bass", label: "TB-303 acid",
+    lanes: { bass:"acid303" },
+    controls: [
+      /* the six that are on the box, in the order they are on the box.
+         The filter is a FOUR-pole 24 dB/oct diode ladder -- Roland's "18 dB"
+         is marketing, and Stinchcombe measured -23.9 dB/oct four independent
+         ways. [corpus:timstinchcombe.co.uk diode ladder analysis] */
+      { k:"cutoff", label:"cutoff",    min:80,  max:6000, step:10,  def:520, unit:"Hz" },
+      { k:"res",    label:"resonance", min:0.5, max:18,   step:0.1, def:9.0 },
+      { k:"envmod", label:"env mod",   min:0,   max:1,    step:0.01,def:0.62 },
+      { k:"decay",  label:"decay",     min:0.05,max:1.20, step:0.01,def:0.36, unit:"s" },
+      { k:"accent", label:"accent",    min:0,   max:1,    step:0.01,def:0.65 },
+      { k:"drive",  label:"drive",     min:1,   max:8,    step:0.1, def:2.6 },
+      { k:"wave",   label:"saw / square", min:0, max:1,   step:1,   def:0 },
+    ],
+  },
+  chipbass: {
+    slot: "bass", label: "YM2612 FM bass",
+    lanes: { bass:"chipBass" },
+    controls: [
+      { k:"bright", label:"brightness", min:0, max:1, step:0.01, def:0.60 },
+    ],
+  },
+
+  /* ── KEYBOARDS ─────────────────────────────────────────────────────────── */
+  rhodes: {
+    slot: "keys", label: "Rhodes (sampled)",
+    lanes: { keys:"rhodes" },
+    /* three knobs, and each one moves something that is really in the signal
+       path -- bark switches velocity layers, wow scales the chart's drawn tape
+       depth, tone is a preamp lowpass that ships open. There is deliberately no
+       "brightness" knob pretending to be a filter that isn't there. */
+    controls: [
+      { k:"bark", label:"bark (layer)", min:0, max:1,     step:0.01,   def:0.50 },
+      { k:"wow",  label:"tape wow",     min:0, max:0.006, step:0.0002, def:0.0020 },
+      { k:"tone", label:"tone",         min:0.3, max:1,   step:0.01,   def:1.00 },
+    ],
+  },
+  wurly: {
+    slot: "keys", label: "Wurlitzer",
+    lanes: { keys:"wurly" },
+    controls: [
+      { k:"trem",  label:"tremolo",  min:0, max:1,  step:0.01, def:0.45 },
+      { k:"tremhz",label:"trem rate",min:3, max:8,  step:0.1,  def:5.5, unit:"Hz" },
+      { k:"bark",  label:"bark",     min:0, max:1,  step:0.01, def:0.55 },
+    ],
+  },
+  mellotron: {
+    slot: "keys", label: "Mellotron",
+    lanes: { keys:"mellotron" },
+    controls: [
+      /* a Mellotron is a tape replay machine: every key has its OWN 8-second
+         strip of tape, and the character is the tape -- wow, flutter, hiss, and
+         the hard stop when the strip runs out. [theory: Mellotron M400 mechanism] */
+      { k:"voice", label:"flute / strings / choir", min:0, max:2, step:1, def:1 },
+      { k:"wow",   label:"tape wow",  min:0, max:0.012, step:0.0002, def:0.0045 },
+      { k:"flutter",label:"flutter",  min:0, max:1,  step:0.01, def:0.35 },
+      { k:"hiss",  label:"tape hiss", min:0, max:1,  step:0.01, def:0.30 },
+      { k:"tapeEnd",label:"8s tape stop", min:0, max:1, step:1, def:1 },
+    ],
+  },
+  cs80: {
+    slot: "keys", label: "CS-80",
+    lanes: { keys:"cs80" },
+    controls: [
+      { k:"bright", label:"brilliance", min:0, max:1, step:0.01, def:0.50 },
+      { k:"ring",   label:"ring mod",   min:0, max:1, step:0.01, def:0.16 },
+      { k:"ens",    label:"ensemble",   min:0, max:1, step:0.01, def:0.42 },
+      { k:"vib",    label:"vibrato",    min:0, max:1, step:0.01, def:0.50 },
+    ],
+  },
+  chipkeys: {
+    slot: "keys", label: "YM2612 FM keys",
+    lanes: { keys:"chipKeys" },
+    controls: [ { k:"bright", label:"brightness", min:0, max:1, step:0.01, def:0.60 } ],
+  },
+};
+
+/* the machine a slot is currently using; "auto" means the genre's rig decides */
+const PICK = { drums: "auto", bass: "auto", keys: "auto" };
+
+/* apply a machine's defaults, or a genre's override of them */
+function loadParams(machine, over){
+  const M = INSTRUMENTS[machine];
+  if(!M) return;
+  for(const c of M.controls)
+    PARAMS[machine + "." + c.k] = (over && over[c.k] != null) ? over[c.k] : c.def;
+}
+
+/* THE ROOM AND THE KIT, as the front panel currently has them. The genre table
+   is the source of the defaults and applyRack() has already copied them into
+   PARAMS; from that moment the panel is the owner and this reads it. A caller
+   that passes no drum machine gets the genre's own numbers unchanged, which is
+   why every existing harness call still measures exactly what it measured. */
+function soundOf(genre, drumMachine){
+  const G = GENRE[genre] || GENRE.lofi;
+  const m = drumMachine || "kit";
+  const M = INSTRUMENTS[m];
+  const has = k => M && M.controls.some(c => c.k === k) && PARAMS[m + "." + k] != null;
+  const kick = (m === "kit" && has("tune"))
+    ? { tune:  PARAMS["kit.tune"],  decay: PARAMS["kit.decay"],
+        click: PARAMS["kit.click"], drive: PARAMS["kit.drive"],
+        body:  (G.kick && G.kick.body) != null ? G.kick.body : 1,
+        gain:  (G.kick && G.kick.gain) != null ? G.kick.gain : 1.05 }
+    : G.kick;
+  const gate = G.gate && {
+    send:     has("gate") ? PARAMS[m + ".gate"] : G.gate.send,
+    hold:     has("hold") ? PARAMS[m + ".hold"] : G.gate.hold,
+    fall:     G.gate.fall,
+    tomDecay: G.gate.tomDecay,
+  };
+  return {
+    space: G.space, kick, gate,
+    drumDrive: has("bus") ? PARAMS[m + ".bus"] : G.drumDrive,
+  };
+}
+
+/* what has been loaded, per slot, so that re-rolling a seed does NOT stamp on
+   knobs the user has moved. Changing genre or machine reloads; nothing else. */
+const RACK_STATE = { drums:"", bass:"", keys:"" };
+function applyRack(chart, force){
+  const G = GENRE[chart.genre] || {};
+  for(const slot in RACK_STATE){
+    const m = chart.picks[slot];
+    if(m === "auto") { RACK_STATE[slot] = ""; continue; }
+    const tag = chart.genre + "/" + m;
+    if(!force && RACK_STATE[slot] === tag) continue;
+    RACK_STATE[slot] = tag;
+    loadParams(m, (G.params || {})[m]);
+  }
+  /* the acoustic kit is the one machine whose panel duplicates numbers the
+     genre table already owns -- the kick voicing and the drum bus. Load those
+     from the genre so the knobs READ what the song is actually doing, rather
+     than inventing a second set of defaults that disagree with it. */
+  if(chart.picks.drums === "kit" || chart.picks.drums === "auto"){
+    const K = G.kick || {}, GT = G.gate;
+    for(const k of ["tune", "decay", "click", "drive"])
+      if(K[k] != null) PARAMS["kit." + k] = K[k];
+    if(G.drumDrive != null) PARAMS["kit.bus"] = G.drumDrive;
+    PARAMS["kit.gate"] = GT ? GT.send : 0;
+    if(GT) PARAMS["kit.hold"] = GT.hold;
+  }
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    THE SEGA CHIPSET — Yamaha YM2612 (OPN2), the Mega Drive's FM chip.
@@ -354,6 +597,13 @@ const YM_PATCH = {
     { dt:0, mul: 1, rs:0, tl:16, ar:31, d1r:12, d2r:5, sl:4, rr:10 } ] },
 };
 
+/* which rack slot owns a lane. Lanes not named here (lead, counter, ostinato)
+   have no rack slot yet and always come from the rig. */
+const SLOT_OF = {
+  kick:"drums", snare:"drums", ghost:"drums", hat:"drums", openhat:"drums",
+  tom1:"drums", tom2:"drums", tom3:"drums", bass:"bass", keys:"keys",
+};
+
 /* THE RIG TABLE — which instrument plays which part. Stage 5 still writes the
    `voice` field in exactly one place; this is the lookup it writes through, and
    it is the ONLY thing a rig changes. The notes, the groove, the form and every
@@ -385,6 +635,31 @@ const RIG = {
    existed (Law 2). One graph builder used by the live context AND the offline
    renderer; one scheduler used by both. There is no second code path.
    ═══════════════════════════════════════════════════════════════════════════ */
+/* WHO PLAYS THIS LANE. Stage 5 still writes `voice` in exactly one place; this
+   is the lookup it writes through. The rig answers by default; if the user has
+   put a specific machine in a slot, that machine answers for the lanes it
+   covers. Either way it is a stage-6 question -- the note, its time and its gain
+   were all decided before anyone asked who was holding the instrument. */
+function voiceFor(chart, lane){
+  const m = chart.picks && chart.picks[SLOT_OF[lane]];
+  const M = m && m !== "auto" && INSTRUMENTS[m];
+  if(M && M.lanes[lane]) return M.lanes[lane];
+  return RIG[chart.rig][lane];
+}
+
+/* a slot's machine: what the user asked for if it exists and fits the slot,
+   else what the genre's table names, else the rig's. */
+function resolvePicks(genre, picks){
+  const def = (GENRE[genre] && GENRE[genre].machines) || {};
+  const out = {};
+  for(const slot of ["drums", "bass", "keys"]){
+    const want = (picks && picks[slot]) || "auto";
+    out[slot] = (want !== "auto" && INSTRUMENTS[want] && INSTRUMENTS[want].slot === slot)
+              ? want : (def[slot] || "auto");
+  }
+  return Object.freeze(out);
+}
+
 const Sound = (function(){
 
   /* ── the palette's LEVEL TABLE: peak amplitude per voice at velocity 1.
@@ -455,6 +730,9 @@ const Sound = (function(){
     {
       const N = 2049, curve = new Float32Array(N);
       for(let i = 0; i < N; i++){ const x = (i / (N - 1)) * 2 - 1; curve[i] = Math.tanh(3.6 * x); }
+      /* ONE curve per graph, shared. A per-note WaveShaper would rebuild this
+         2049-point table eight times a second under an acid line. */
+      g.satCurve = curve;
       g.drumSat.curve = curve; g.drumSat.oversample = "2x";
     }
     /* AND THE STAGE IS UNITY AT UNITY DRIVE. tanh(3.6x) after a 0.5 pre-gain has a
@@ -710,7 +988,13 @@ const Sound = (function(){
      fields in a source file are not features. [corpus:mdaEPiano.cpp] */
   V.rhodes = function(g, ev, t){
     const c = g.ctx, midi = ev.pitch;
-    const vel = Math.max(20, Math.min(120, Math.round(ev.gain * 100)));
+    /* BARK biases which velocity LAYER the sampler reaches for. That is the
+       only brightness control this instrument honestly has -- the bank holds
+       soft/mid/hard recordings and the layer switch is what a harder touch
+       does. It is not a filter; see the note above about the muffle that
+       isn't. */
+    const vel = Math.max(20, Math.min(120,
+      Math.round(ev.gain * 100 * (0.72 + 0.56 * P("rhodes", "bark", 0.5)))));
     let k = 0;
     while(k < EPIANO.roots.length - 1 && midi > EPIANO.roots[k][2]) k++;
     let zi = EPIANO.roots[k][0];
@@ -723,9 +1007,12 @@ const Sound = (function(){
     src.loop = true;
     src.loopStart = (zend - loop) / EPIANO.rate;
     src.loopEnd = zend / EPIANO.rate;
-    if(ev.wow){                                   // the tape wow rides playbackRate here
+    /* the wow rides playbackRate here. The chart draws a per-song depth; the
+       knob scales it, so a genre that wants none still gets none. */
+    const wowAmt = (ev.wow || 0) * (P("rhodes", "wow", 0.0020) / 0.0020);
+    if(wowAmt > 0){
       const lfo = osc(c, "sine", 0.7, t, t + ev.durSec + 1.5), wg = c.createGain();
-      wg.gain.value = src.playbackRate.value * ev.wow;
+      wg.gain.value = src.playbackRate.value * wowAmt;
       lfo.connect(wg); wg.connect(src.playbackRate);
     }
     const gn = c.createGain();
@@ -739,14 +1026,27 @@ const Sound = (function(){
     gn.gain.setValueAtTime(peak, t);
     gn.gain.setTargetAtTime(0, t, tau);
     gn.gain.setTargetAtTime(0, t + ev.durSec, rel);            // the note ends: quick damp
-    src.connect(gn); gn.connect(g.bus.keys);
+    /* TONE: an amp-preamp lowpass, shipped effectively open (18 kHz). This is
+       NOT the mda muffle -- that one read fields processReplacing never touches
+       and cost 40 dB of air. This is a control the player turns. */
+    const tone = P("rhodes", "tone", 1);
+    src.connect(gn);
+    if(tone >= 0.995) gn.connect(g.bus.keys);
+    else {
+      const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = 0.6;
+      lp.frequency.value = 700 * Math.pow(18000 / 700, tone);
+      gn.connect(lp); lp.connect(g.bus.keys);
+    }
     src.start(t, pos / EPIANO.rate);
     src.stop(t + ev.durSec + 0.5);
     return [src];
   };
 
-  V.keys = function(g, ev, t){
-    if(ev.timbre !== "wurly") return V.rhodes(g, ev, t);
+  /* The Wurlitzer, as its own instrument rather than a branch. `V.keys` is
+     still what a rig points at -- it asks the chart which of the two the song
+     drew -- but the rack can now name either one directly. Same code, one
+     dispatch level up. */
+  V.wurly = function(g, ev, t){
     const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 0.40;
     const wurly = true;
     const out = c.createGain();
@@ -758,7 +1058,9 @@ const Sound = (function(){
     const car = osc(c, "sine", f, t, end);
     const mod = osc(c, "sine", f * (wurly ? 3.0 : 1.0), t, end);
     const mg = c.createGain(); mod.connect(mg); mg.connect(car.frequency);
-    const idx0 = f * (wurly ? 0.85 : 0.55) * (0.35 + 0.85 * ev.gain);   // velocity opens the bark
+    /* BARK is the body FM index -- how hard the reed is being hit. Velocity
+       opens it too; the knob sets how far velocity can go. */
+    const idx0 = f * (0.30 + 1.10 * P("wurly", "bark", 0.55)) * (0.35 + 0.85 * ev.gain);
     mg.gain.setValueAtTime(idx0, t);
     mg.gain.exponentialRampToValueAtTime(Math.max(1, idx0 * 0.22), t + 0.30);
     car.connect(out);
@@ -781,15 +1083,22 @@ const Sound = (function(){
       wowLfo.connect(wg); wg.connect(car.frequency); wg.connect(car2.frequency);
       nodes.push(wowLfo);
     }
-    /* wurly tremolo: the amp wobble is the instrument's signature */
-    if(wurly){
-      const lfo = osc(c, "sine", 5.5, t, end), lg = c.createGain();
-      lg.gain.value = LEVEL.keys * 0.28;
+    /* wurly tremolo: the amp wobble is the instrument's signature, and on the
+       real thing it is a knob you turn -- rate AND depth. */
+    const trem = P("wurly", "trem", 0.45);
+    if(trem > 0){
+      const lfo = osc(c, "sine", P("wurly", "tremhz", 5.5), t, end), lg = c.createGain();
+      lg.gain.value = LEVEL.keys * 0.62 * trem;
       lfo.connect(lg); lg.connect(out.gain);
       nodes.push(lfo);
     }
     adsr(c, out, t, LEVEL.keys * ev.gain / 1.34, 0.003, 0.15, 0.55, t + ev.durSec, 0.30);
     return nodes;
+  };
+
+  /* what a rig means by "the keyboard": whichever one this song drew. */
+  V.keys = function(g, ev, t){
+    return ev.timbre === "wurly" ? V.wurly(g, ev, t) : V.rhodes(g, ev, t);
   };
 
   /* cs80 — a voice in the CS-80's LINEAGE (not an emulation): the architecture
@@ -1093,6 +1402,226 @@ const Sound = (function(){
   V.tom1 = tomVoice(240, 150, 0.42, 0.62);
   V.tom2 = tomVoice(180, 112, 0.52, 0.66);
   V.tom3 = tomVoice(120,  76, 0.68, 0.70);
+
+
+  /* ══ THE TR-808 ═══════════════════════════════════════════════════════════
+     Not a sample set -- the 808 is entirely analogue and every voice on it is a
+     circuit, which is why it can be built rather than recorded:
+
+       BD   a bridged-T oscillator rung by a pulse. It does not have an envelope
+            so much as a RESONANCE that rings, which is why the DECAY knob can
+            reach a second and a half and why the note is a pitch rather than a
+            thud. A tiny pitch drop at the very front is the trigger pulse
+            feeding through, and that is the "click".
+       SD   two tuned oscillators (the shell) plus a noise burst (the snappy),
+            with the two balanced by the SNAPPY knob -- the one 808 control
+            everybody knows.
+       CH/OH SIX square-wave oscillators at fixed inharmonic ratios through a
+            high-pass. It is metallic because the ratios are not harmonic, and
+            open and closed hats are the SAME circuit with different decays.
+       TOM  bridged-T again, tuned lower, with more of the trigger pulse left in.
+     [theory: TR-808 service manual voice circuits] ═══════════════════════════ */
+
+  V.k808 = function(g, ev, t){
+    const c = g.ctx;
+    const tune = P("tr808", "tune", 47), dec = P("tr808", "decay", 0.85), tone = P("tr808", "tone", 0.45);
+    /* the ring: one sine at the tuned pitch with a long exponential fall, and a
+       small drop at the front that is the trigger bleeding into the resonator */
+    const o = c.createOscillator(); o.type = "sine";
+    o.frequency.setValueAtTime(tune * 4.2, t);
+    o.frequency.exponentialRampToValueAtTime(tune, t + 0.030);
+    const og = c.createGain();
+    og.gain.setValueAtTime(LEVEL.kick * ev.gain * 1.15, t);
+    og.gain.exponentialRampToValueAtTime(0.0002, t + dec);
+    o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + dec + 0.05);
+    /* TONE opens a short noise click on the front -- the 808's only transient */
+    const n = burst(g, t, 0.008, ev.tSec.toFixed(5) + ":808bd");
+    const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 1200; hp.Q.value = 0.7;
+    const ng = c.createGain();
+    ng.gain.setValueAtTime(LEVEL.kick * ev.gain * 0.5 * tone, t);
+    ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.010);
+    n.connect(hp); hp.connect(ng); ng.connect(g.bus.drums);
+    return [o, n];
+  };
+
+  V.s808 = function(g, ev, t){
+    const c = g.ctx, out = [];
+    const snappy = P("tr808", "snappy", 0.55), tone = P("tr808", "sdtone", 0.50);
+    /* the shell: two fixed oscillators, and TONE tilts between them */
+    for(const [f, a, d] of [[238, 0.55 * (1 - tone * 0.5), 0.11], [476, 0.35 * (0.4 + tone * 0.6), 0.06]]){
+      const o = c.createOscillator(); o.type = "triangle"; o.frequency.value = f;
+      const og = c.createGain();
+      og.gain.setValueAtTime(LEVEL.snare * ev.gain * a * (1 - snappy * 0.45), t);
+      og.gain.exponentialRampToValueAtTime(0.0002, t + d);
+      o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + d + 0.02); out.push(o);
+    }
+    /* the snappy: a single noise band, and it is what SNAPPY actually controls */
+    const n = burst(g, t, 0.16, ev.tSec.toFixed(5) + ":808sd");
+    const bp = c.createBiquadFilter(); bp.type = "bandpass";
+    bp.frequency.value = 1600 + 2200 * tone; bp.Q.value = 0.6;
+    const ng = c.createGain();
+    ng.gain.setValueAtTime(LEVEL.snare * ev.gain * (0.30 + 0.75 * snappy), t);
+    ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.045 + 0.10 * snappy);
+    n.connect(bp); bp.connect(ng); ng.connect(g.bus.drums); out.push(n);
+    if(g.gateSend && g.gateSend.gain.value > 0){ ng.connect(g.gateSend); openGate(g, t); }
+    return out;
+  };
+
+  /* the hats: SIX squares at the 808's inharmonic ratios, high-passed. Open and
+     closed are the same circuit -- only the decay differs. */
+  const R808 = [1, 1.4471, 1.6170, 1.9265, 2.5028, 2.6637];   // [theory: 808 HH ratios]
+  function hat808(decayKey, dflt, hpHz){
+    return function(g, ev, t){
+      const c = g.ctx, dec = P("tr808", decayKey, dflt);
+      const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = hpHz; hp.Q.value = 0.7;
+      const gn = c.createGain();
+      gn.gain.setValueAtTime(LEVEL.hat * ev.gain * 0.42, t);
+      gn.gain.exponentialRampToValueAtTime(0.0002, t + dec);
+      hp.connect(gn); gn.connect(g.bus.drums);
+      const made = [];
+      for(const r of R808){
+        const o = c.createOscillator(); o.type = "square"; o.frequency.value = 263 * r;
+        o.connect(hp); o.start(t); o.stop(t + dec + 0.02); made.push(o);
+      }
+      return made;
+    };
+  }
+  V.h808  = hat808("chdecay", 0.045, 7200);
+  V.oh808 = hat808("ohdecay", 0.42,  6200);
+
+  /* 808 toms: the same bridged-T as the kick, tuned up and shorter */
+  function tom808(f0){
+    return function(g, ev, t){
+      const c = g.ctx;
+      const o = c.createOscillator(); o.type = "sine";
+      o.frequency.setValueAtTime(f0 * 1.9, t);
+      o.frequency.exponentialRampToValueAtTime(f0, t + 0.06);
+      const og = c.createGain();
+      og.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.9, t);
+      og.gain.exponentialRampToValueAtTime(0.0002, t + 0.52);
+      o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + 0.58);
+      if(g.gateSend && g.gateSend.gain.value > 0){ og.connect(g.gateSend); openGate(g, t); }
+      return [o];
+    };
+  }
+  V.t808hi = tom808(210); V.t808mid = tom808(150); V.t808lo = tom808(98);
+
+  /* ══ THE TB-303 ═══════════════════════════════════════════════════════════
+     One oscillator (saw or square), one filter, one envelope, and the whole
+     genre lives in how the filter moves. Facts that shaped this:
+
+     - THE FILTER IS FOUR-POLE, 24 dB/oct. Roland's "18 dB" is marketing;
+       Stinchcombe measured the diode ladder four independent ways -- section
+       count, SPICE gradient (-24.1), a 4th-order transfer function, and a
+       plotted -23.9 dB/oct. So: two cascaded biquads.
+       [corpus:timstinchcombe.co.uk diode-ladder analysis]
+     - THE RESONANCE LIVES IN ONE SECTION ONLY. Two 12 dB sections both at high Q
+       multiply their peaks and you get a sine oscillator, not a 303. Section one
+       resonates; section two is Butterworth and contributes slope alone.
+       [theory: cascaded biquad peak gains multiply]
+     - A STOCK 303 DOES NOT SELF-OSCILLATE, and on record the squeal is always
+       into distortion -- so the peak is tamed by the same overdrive the records
+       tame it with, inside the voice, rather than by a constant I invented.
+     - ACCENT does three things at once: louder, filter envelope deeper, and the
+       decay forced short. That is why an accented step sounds like a different
+       note rather than the same note louder.                        ═══════════ */
+  V.acid303 = function(g, ev, t){
+    const c = g.ctx, f = F(ev.pitch);
+    const cutoff = P("tb303", "cutoff", 520), res = P("tb303", "res", 9);
+    const envmod = P("tb303", "envmod", 0.62), dec = P("tb303", "decay", 0.36);
+    const accAmt = P("tb303", "accent", 0.65), drive = P("tb303", "drive", 2.6);
+    const square = P("tb303", "wave", 0) >= 0.5;
+    const accented = !!ev.accent;
+
+    const o = c.createOscillator(); o.type = square ? "square" : "sawtooth";
+    /* SLIDE: portamento from the previous step. Stage 3 writes how far, on the
+       note being slid INTO -- a note cannot see its successor at play time. */
+    if(ev.slide){
+      o.frequency.setValueAtTime(f * Math.pow(2, -ev.slide / 12), t);
+      o.frequency.exponentialRampToValueAtTime(f, t + 0.055);
+    } else o.frequency.value = f;
+    o.start(t); o.stop(t + ev.durSec + 0.30);
+
+    const lp1 = c.createBiquadFilter(); lp1.type = "lowpass"; lp1.Q.value = res;
+    const lp2 = c.createBiquadFilter(); lp2.type = "lowpass"; lp2.Q.value = 0.707;
+    const env = accented ? Math.min(1, envmod * 2.2) : envmod;
+    const d   = accented ? Math.min(dec, 0.20) : dec;
+    const top = Math.min(11000, cutoff * (1 + 14 * env));
+    for(const lp of [lp1, lp2]){
+      lp.frequency.setValueAtTime(top, t);
+      lp.frequency.exponentialRampToValueAtTime(Math.max(60, cutoff), t + d);
+    }
+    const vca = c.createGain();
+    const lvl = LEVEL.bass * ev.gain * (accented ? 1 + 0.5 * accAmt : 1);
+    vca.gain.setValueAtTime(lvl, t);
+    vca.gain.setValueAtTime(lvl, t + ev.durSec * 0.9);
+    vca.gain.exponentialRampToValueAtTime(0.0002, t + ev.durSec * 0.9 + 0.012);
+    /* the overdrive, and the makeup that keeps drive a TIMBRE control rather
+       than a loudness control -- the same lesson the drum bus taught. */
+    const pre = c.createGain(); pre.gain.value = drive;
+    const sh = c.createWaveShaper(); sh.curve = g.satCurve; sh.oversample = "2x";
+    const post = c.createGain(); post.gain.value = 1 / Math.max(1, drive * 0.8);
+    o.connect(lp1); lp1.connect(lp2); lp2.connect(vca);
+    vca.connect(pre); pre.connect(sh); sh.connect(post); post.connect(g.bus.bass);
+    return [o];
+  };
+
+  /* ══ THE MELLOTRON ════════════════════════════════════════════════════════
+     A tape replay machine, not a synth: every key pulls its OWN eight-second
+     strip of tape across a head, and when the strip runs out the note simply
+     STOPS. The character is entirely the tape -- wow, flutter, hiss, and that
+     hard ending. Three of the M400's tape sets are famous: flute (Strawberry
+     Fields), 3-violin strings, and choir.
+     This is a synthesised stand-in and says so: we have no licence to ship
+     Mellotron recordings, so the tone is built from filtered harmonics with the
+     tape behaviour on top -- which is the part that makes it recognisable.
+     [theory: Mellotron M400 mechanism; the 8-second limit is the tape length] */
+  V.mellotron = function(g, ev, t){
+    const c = g.ctx, f = F(ev.pitch);
+    const which = Math.round(P("mellotron", "voice", 1));       // 0 flute 1 strings 2 choir
+    const wow = P("mellotron", "wow", 0.0045), flut = P("mellotron", "flutter", 0.35);
+    const hiss = P("mellotron", "hiss", 0.30), stops = P("mellotron", "tapeEnd", 1) >= 0.5;
+    const TAPE = 8.0;                                            // the strip runs out
+    const dur = stops ? Math.min(ev.durSec, TAPE) : ev.durSec;
+    const end = t + dur + 0.35;
+    const out = c.createGain(); out.connect(g.bus.keys);
+    const made = [];
+    /* the tape sets, as harmonic recipes: flute is nearly pure with a breathy
+       second, strings are saw-like and detuned three ways, choir sits between */
+    const SETS = [
+      [[1, 1.0], [2, 0.10], [3, 0.05]],
+      [[1, 1.0], [2, 0.42], [3, 0.26], [4, 0.16], [5, 0.10], [6, 0.07]],
+      [[1, 1.0], [2, 0.30], [3, 0.12], [4, 0.18], [5, 0.06]],
+    ];
+    const det = which === 1 ? [0.996, 1.0, 1.004] : [1.0];       // three violins
+    for(const dt of det) for(const [mult, amp] of SETS[which]){
+      const o = c.createOscillator(); o.type = "sine";
+      o.frequency.value = f * mult * dt;
+      const og = c.createGain(); og.gain.value = amp / (det.length * 1.6);
+      o.connect(og); og.connect(out); o.start(t); o.stop(end); made.push(o);
+    }
+    /* WOW is slow and FLUTTER is fast -- two different mechanical faults, and a
+       Mellotron has both. They ride the playback pitch of every partial. */
+    const w = c.createOscillator(); w.type = "sine"; w.frequency.value = 0.7;
+    const wg = c.createGain(); wg.gain.value = f * wow;
+    const fl = c.createOscillator(); fl.type = "sine"; fl.frequency.value = 7.4;
+    const fg = c.createGain(); fg.gain.value = f * 0.0016 * flut;
+    w.connect(wg); fl.connect(fg);
+    for(const o of made){ wg.connect(o.frequency); fg.connect(o.frequency); }
+    w.start(t); w.stop(end); fl.start(t); fl.stop(end); made.push(w, fl);
+    /* the tape's own noise floor, gated by the note like the tape it is on */
+    if(hiss > 0){
+      const n = burst(g, t, dur + 0.2, ev.tSec.toFixed(5) + ":tron");
+      const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 2200; hp.Q.value = 0.5;
+      const ng = c.createGain(); ng.gain.value = 0.020 * hiss * ev.gain;
+      n.connect(hp); hp.connect(ng); ng.connect(out); made.push(n);
+    }
+    /* the mechanism: a slow-ish attack as the head engages, and a HARD stop when
+       the strip ends -- the one thing everybody recognises about the machine */
+    const a = 0.055, r = 0.12;
+    adsr(c, out, t, LEVEL.keys * 1.9 * ev.gain, a, 0.25, 0.82, t + dur, r);
+    return made;
+  };
 
   V.snare = function(g, ev, t){
     const c = g.ctx, out = [];
@@ -1980,7 +2509,7 @@ const GENRE = {
   },
 };
 
-function makeChart(seed, rigChoice, genreChoice){
+function makeChart(seed, rigChoice, genreChoice, picks){
   const rng = stream(seed, "chart");
   /* THE RIG -- which band plays this song. Drawn on its OWN named substream, so
      adding it moved no existing song by a single sample: every draw in "chart"
@@ -2010,6 +2539,10 @@ function makeChart(seed, rigChoice, genreChoice){
       const band = wpick(rng, G.tempoBands), pos = rng();
       return band[0] + Math.round(pos * (band[1] - band[0]));
     })(),
+    /* the rack, frozen into the chart. Like the rig it is an INPUT to stage 1,
+       never an override applied downstream, so a song is fully described by
+       (seed, genre, rig, picks) and nothing later can quietly change who plays. */
+    picks: resolvePicks(genre, picks),
     keysChar: wpick(rng, G.keysChar),
     tape: Object.freeze({
       wow:     G.tape.wow[0]     + rng() * G.tape.wow[1],
@@ -2841,7 +3374,7 @@ function makePerformance(chart, form, materials, sections){
           const ev = {
             tSec: (bar * 16 + n.step + micro) * spb,
             durSec: Math.max(spb * 0.9, n.dur * spb * artic),
-            voice: RIG[chart.rig][n.lane || role],
+            voice: voiceFor(chart, n.lane || role),
             role, lane: n.lane || role, gain,
           };
           if(role === "keys"){ ev.timbre = chart.keysChar; ev.wow = chart.tape.wow; }
@@ -2876,8 +3409,8 @@ function makePerformance(chart, form, materials, sections){
    THE PIPELINE — and the invariant checks at each seam. Checks THROW: a law
    violation is a build failure, not a thing to correct downstream.
    ═══════════════════════════════════════════════════════════════════════════ */
-function composeSong(seed, rig, genre){
-  const chart = makeChart(seed, rig, genre);
+function composeSong(seed, rig, genre, picks){
+  const chart = makeChart(seed, rig, genre, picks);
   const form = makeForm(chart);
   const materials = makeMaterials(chart);
   const sections = makeArrangement(chart, form, materials);
@@ -2905,6 +3438,11 @@ function composeSong(seed, rig, genre){
     if(i >= 2 && form[i].fn === form[i-1].fn && form[i].fn === form[i-2].fn)
       throw new Error("rule of three broken: " + form[i].fn + " x3");
   }
+  /* stage 6 only: load this genre's front-panel settings into whichever
+     machines it is using. This touches no note, no time and no gain -- it sets
+     knobs, and it is skipped when the same genre keeps the same machine so that
+     a knob the user has moved survives pressing "new song". */
+  applyRack(chart);
   return { chart, form, materials, sections, perf };
 }
 
@@ -3035,16 +3573,63 @@ function describe(song){
 function newSong(forcedSeed){
   const seed = forcedSeed != null ? forcedSeed : (parseInt($("seed").value, 10) || 1);
   $("seed").value = seed;
-  SONG = composeSong(seed, $("rig").value, $("genre").value);
+  SONG = composeSong(seed, $("rig").value, $("genre").value, PICK);
   describe(SONG);
+  drawPanels();
   return SONG;
+}
+
+/* the sound the CURRENT panel settings ask for -- what play and render both use,
+   so what you hear is what you rendered. */
+function soundNow(){ return soundOf(SONG.chart.genre, SONG.chart.picks.drums); }
+
+/* ── THE FRONT PANELS ───────────────────────────────────────────────────────
+   Every machine declares its own controls and this draws whatever it declared;
+   there is no per-machine UI code, so adding an instrument adds its panel. Only
+   the machines in the three slots are drawn. A slider writes straight into
+   PARAMS, which the voices read when they next fire -- so a knob moves on the
+   NEXT note, live, and never on a note already scheduled. */
+function fmt(c, v){
+  const d = c.step >= 1 ? 0 : (c.step >= 0.01 ? 2 : 4);
+  return v.toFixed(d) + (c.unit ? " " + c.unit : "");
+}
+function drawPanels(){
+  const host = $("panels");
+  host.innerHTML = "";
+  if(!SONG) return;
+  for(const slot of ["drums", "bass", "keys"]){
+    const m = SONG.chart.picks[slot];
+    if(m === "auto" || !INSTRUMENTS[m]) continue;
+    const M = INSTRUMENTS[m];
+    const box = document.createElement("div"); box.className = "panel";
+    const h = document.createElement("h2"); h.textContent = M.label; box.appendChild(h);
+    for(const c of M.controls){
+      const key = m + "." + c.k;
+      if(PARAMS[key] == null) PARAMS[key] = c.def;
+      const row = document.createElement("div"); row.className = "knob";
+      const lab = document.createElement("label"); lab.textContent = c.label;
+      const sl = document.createElement("input");
+      sl.type = "range"; sl.min = c.min; sl.max = c.max; sl.step = c.step; sl.value = PARAMS[key];
+      const out = document.createElement("output"); out.textContent = fmt(c, +PARAMS[key]);
+      sl.addEventListener("input", () => {
+        PARAMS[key] = +sl.value;
+        out.textContent = fmt(c, +sl.value);
+      });
+      row.appendChild(lab); row.appendChild(sl); row.appendChild(out); box.appendChild(row);
+    }
+    const rst = document.createElement("button"); rst.className = "reset";
+    rst.textContent = "reset to " + GENRE[SONG.chart.genre].label;
+    rst.addEventListener("click", () => { applyRack(SONG.chart, true); drawPanels(); });
+    box.appendChild(rst);
+    host.appendChild(box);
+  }
 }
 function togglePlay(){
   if(!SONG) newSong();
   if(playing){ Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play"; return; }
   {
-    const G = GENRE[SONG.chart.genre];
-    Sound.playLive(SONG.perf.events, G.space, G.kick, G.drumDrive, G.gate);
+    const S = soundNow();
+    Sound.playLive(SONG.perf.events, S.space, S.kick, S.drumDrive, S.gate);
   }
   playing = true; $("play").innerHTML = "&#9632; stop";
 }
@@ -3060,9 +3645,9 @@ async function downloadWav(){
   if(!SONG) newSong();
   $("wav").textContent = "rendering…"; $("wav").disabled = true;
   try{
-    const G = GENRE[SONG.chart.genre];
+    const S = soundNow();
     const blob = await Sound.renderWav(SONG.perf.events, SONG.perf.seconds, 44100,
-                                       G.space, G.kick, G.drumDrive, G.gate);
+                                       S.space, S.kick, S.drumDrive, S.gate);
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = `mk2_${SONG.chart.genre}_${SONG.chart.rig}_${SONG.chart.tempo}bpm_seed${SONG.chart.seed}.wav`;
@@ -3081,6 +3666,21 @@ window.addEventListener("DOMContentLoaded", () => {
     g.innerHTML = Object.keys(GENRE).map(k =>
       `<option value="${k}">${GENRE[k].label}</option>`).join("");
   }
+  {                                  /* the slot pickers, built FROM the rack */
+    const ids = { drums:"mDrums", bass:"mBass", keys:"mKeys" };
+    const auto = { drums:"drums: as the rig", bass:"bass: as the rig", keys:"keys: as the rig" };
+    for(const slot in ids){
+      const el = $(ids[slot]);
+      el.innerHTML = `<option value="auto">${auto[slot]}</option>` +
+        Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].slot === slot)
+          .map(k => `<option value="${k}">${slot}: ${INSTRUMENTS[k].label}</option>`).join("");
+      el.addEventListener("change", () => {
+        PICK[slot] = el.value;
+        Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play";
+        newSong(SONG ? SONG.chart.seed : 1);
+      });
+    }
+  }
   $("genre").addEventListener("change", () => {
     Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play"; newSong(); });
   $("rig").addEventListener("change", () => {
@@ -3094,8 +3694,8 @@ window.MK2 = {
   referenceEvents,
   renderWav: (events, seconds, sr, space, kick, drumDrive, gate) =>
     Sound.renderWav(events, seconds, sr, space, kick, drumDrive, gate),
-  soundOf: g => { const G = GENRE[g] || GENRE.lofi;
-    return { space: G.space, kick: G.kick, drumDrive: G.drumDrive, gate: G.gate }; },
+  soundOf,
+  INSTRUMENTS, PARAMS, PICK, loadParams,
   genres: () => Object.keys(GENRE),
   toMidi,
   /* measurement handles: the chip's tuning grid and its patch table, so a probe
