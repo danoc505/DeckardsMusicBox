@@ -84,6 +84,47 @@ const check = (label, ok, detail) => {
         fixed.every(f => shape.some(s => s.skin === f)),
         `${shape.length} panels (3 slots + ${fixed.length} fixed: ${fixed.join(",")}) · ` +
         shape.map(s => `${s.skin}:${s.knobs}kn/${s.steps}st`).join(" "));
+  /* ── EVERY MACHINE'S PANEL MUST DRAW, not just the three this file names ──
+     The check above selects tr808, tb303 and mellotron BY NAME, so it can only
+     ever prove that those three draw. The TR-1000 shipped with a `grid:"drums"`
+     panel and no `voices` list; drawing it threw "M.panel.voices is not
+     iterable", and because every panel is built in one loop the throw took the
+     WHOLE RACK down -- no drum machine, no 303, no echo, no desk. Two genres
+     rendered zero panels and this battery stayed green.
+
+     A check that names its subjects cannot notice a new one. So: put every
+     machine into its slot in turn and require a panel and at least one knob,
+     with the page's error log empty. */
+  {
+    const machines = await pg.evaluate(() => Object.keys(MK2.INSTRUMENTS)
+      .filter(k => !MK2.INSTRUMENTS[k].fixed)
+      .map(k => [k, MK2.INSTRUMENTS[k].slot]));
+    const broken = [];
+    const selOf = { drums: "#mDrums", bass: "#mBass", keys: "#mKeys" };
+    for(const [m, slot] of machines){
+      const sel = selOf[slot];
+      if(!sel) continue;
+      const before = errs.length;
+      try { await pg.selectOption(sel, m); } catch(e){ broken.push(m + " (not offered)"); continue; }
+      await pg.waitForTimeout(160);
+      const drew = await pg.evaluate(() => ({
+        panels: document.querySelectorAll(".machine").length,
+        knobs: document.querySelectorAll(".kn").length,
+      }));
+      if(drew.panels < 3 || drew.knobs < 1 || errs.length > before)
+        broken.push(`${m}: ${drew.panels} panels / ${drew.knobs} knobs` +
+                    (errs.length > before ? " + threw" : ""));
+    }
+    check("every machine in the rack draws a panel without throwing",
+          broken.length === 0,
+          broken.length ? broken.join(" | ") : machines.length + " machines, all drew");
+  }
+  /* put the three the rest of this file expects back */
+  await pg.selectOption("#mDrums", "tr808");
+  await pg.selectOption("#mBass", "tb303");
+  await pg.selectOption("#mKeys", "mellotron");
+  await pg.waitForTimeout(400);
+
   check("both step grids are sixteen steps",
         shape.filter(s => s.steps === 16).length === 2,
         shape.map(s => s.steps).join(","));

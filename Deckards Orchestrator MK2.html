@@ -219,7 +219,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29b · TR-1000 · per-voice chains</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29c · TR-1000 · rack panels fixed</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -574,27 +574,27 @@ const INSTRUMENTS = {
       { k:"hold",   label:"gate hold",  cap:"HOLD",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s", kind:"gesture" },
 
       /* -- THE PER-VOICE CHAINS. Five groups x four nodes. -- */
-      { k:"kCut",  label:"BD filter",  cap:"CUT",  min:120, max:12000, step:20, def:12000, unit:"Hz", kind:"bus" },
+      { k:"kCut",  label:"BD filter",  cap:"CUT",  min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" },
       { k:"kDrv",  label:"BD drive",   cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
       { k:"kEcho", label:"BD to echo", cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
       { k:"kVerb", label:"BD to room", cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
 
-      { k:"sCut",  label:"SD filter",  cap:"CUT",  min:120, max:12000, step:20, def:12000, unit:"Hz", kind:"bus" },
+      { k:"sCut",  label:"SD filter",  cap:"CUT",  min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" },
       { k:"sDrv",  label:"SD drive",   cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
       { k:"sEcho", label:"SD to echo", cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
       { k:"sVerb", label:"SD to room", cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
 
-      { k:"hCut",  label:"CH filter",  cap:"CUT",  min:120, max:12000, step:20, def:12000, unit:"Hz", kind:"bus" },
+      { k:"hCut",  label:"CH filter",  cap:"CUT",  min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" },
       { k:"hDrv",  label:"CH drive",   cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
       { k:"hEcho", label:"CH to echo", cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
       { k:"hVerb", label:"CH to room", cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
 
-      { k:"oCut",  label:"OH filter",  cap:"CUT",  min:120, max:12000, step:20, def:12000, unit:"Hz", kind:"bus" },
+      { k:"oCut",  label:"OH filter",  cap:"CUT",  min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" },
       { k:"oDrv",  label:"OH drive",   cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
       { k:"oEcho", label:"OH to echo", cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
       { k:"oVerb", label:"OH to room", cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
 
-      { k:"tCut",  label:"TOM filter", cap:"CUT",  min:120, max:12000, step:20, def:12000, unit:"Hz", kind:"bus" },
+      { k:"tCut",  label:"TOM filter", cap:"CUT",  min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" },
       { k:"tDrv",  label:"TOM drive",  cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
       { k:"tEcho", label:"TOM to echo",cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
       { k:"tVerb", label:"TOM to room",cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
@@ -613,6 +613,21 @@ const INSTRUMENTS = {
         { label: "TOM CHAIN", keys: ["tCut", "tDrv", "tEcho", "tVerb"] },
       ],
       grid: "drums",
+      /* THE INSTRUMENT-SELECT ROW, and leaving it out took the WHOLE RACK DOWN.
+         A `grid: "drums"` panel iterates panel.voices to build its selector; this
+         block declared the grid and not the list, so drawing it threw
+         "M.panel.voices is not iterable" -- and because every panel is drawn in
+         one loop, the throw killed the loop and NOTHING rendered. Not the
+         TR-1000, not the 303, not the echo or the desk. Measured across the
+         genres: acid and plastikman drew zero panels and zero knobs while the
+         other five were untouched, which is exactly the shape of one machine
+         taking the render down with it.
+
+         The seam battery could not see it: the UI test selects tr808/tb303/
+         mellotron by name, so it never drew a TR-1000 at all. A check that names
+         its subjects cannot notice a new one. */
+      voices: [["kick","BD"], ["snare","SD"], ["ghost","SD·g"], ["tom1","HT"],
+               ["tom2","MT"], ["tom3","LT"], ["hat","CH"], ["openhat","OH"]],
     },
   },
 
@@ -1822,6 +1837,14 @@ const Sound = (function(){
        1.05, ambient at 0.95 -- because how hard a kit is pushed is a genre
        decision, not a global one. [corpus: Improv Machine BETA 0.1,
        DRUMBUS_BY_GENRE / _satCurve] ── */
+    /* the per-voice chain's curve: tanh(k x)/k, slope 1 at the origin, so a chain
+       at drive 1 is transparent and a chain at drive 4 is saturated without also
+       being four times louder. See the chain loop below. */
+    {
+      const N = 2049, k = 2.2, curve = new Float32Array(N);
+      for(let i = 0; i < N; i++){ const x = (i / (N - 1)) * 2 - 1; curve[i] = Math.tanh(k * x) / k; }
+      g.chainCurve = curve;
+    }
     g.kick = { tune: 54, decay: 0.24, click: 0.6, drive: 0.35, body: 1, gain: 1.05 };
     g.drumDrive = c.createGain(); g.drumDrive.gain.value = 1.05;   // both set per song
     g.drumPre = c.createGain(); g.drumPre.gain.value = 0.5;
@@ -2030,17 +2053,36 @@ const Sound = (function(){
     for(const grp of ["k", "s", "h", "o", "t"]){
       const inp = c.createGain();
       const lp  = c.createBiquadFilter(); lp.type = "lowpass";
-      lp.frequency.value = 12000; lp.Q.value = 0.707;
+      lp.frequency.value = 20000; lp.Q.value = 0.707;
       const drv = c.createGain(); drv.gain.value = 1;
-      const sat = c.createWaveShaper(); sat.curve = g.satCurve; sat.oversample = "2x";
-      const mk  = c.createGain(); mk.gain.value = 1;      // moves with the drive
+      /* A CHAIN AT NEUTRAL HAS TO BE A WIRE, and this was not. It reused the
+         drum bus's satCurve -- tanh(3.6x) -- whose small-signal slope is 3.6,
+         and paired it with a makeup of 1. Measured against the plain 808 on the
+         same events: worst sample difference 1.23, difference energy 6.7 dB
+         ABOVE the signal. That is not colour, it is a second saturation stage
+         at nearly four times the gain, sitting in front of the one the drum bus
+         already has.
+
+         This curve is tanh(k x)/k, which has slope exactly 1 at the origin, so
+         at drive 1 with makeup 1 the chain passes the signal through and only
+         starts bending when the signal is actually large. The drive then does
+         what a drive should: more of the curve, same level, because the makeup
+         is its reciprocal. */
+      const sat = c.createWaveShaper(); sat.curve = g.chainCurve; sat.oversample = "2x";
+      const mk  = c.createGain(); mk.gain.value = 1;      // the drive's reciprocal
       const echo = c.createGain(); echo.gain.value = 0;
       const verb = c.createGain(); verb.gain.value = 0;
-      inp.connect(lp); lp.connect(drv); drv.connect(sat); sat.connect(mk);
+      /* the saturator is PATCHED IN, not wired in. See setSpace: at drive 1 the
+         chain runs lp -> drv -> mk and the shaper is out of the path entirely.
+         A near-identity curve is still not an identity for a drum TRANSIENT --
+         tanh(2.2x)/2.2 bends a full-scale hit down to 0.44 -- so "nearly
+         transparent" was measured at 1.8 dB of difference energy and that is
+         audible. The only honest transparent is absent. */
+      inp.connect(lp); lp.connect(mk);
       mk.connect(g.bus.drums);
       mk.connect(echo); if(g.echoSend) echo.connect(g.echoSend);
       mk.connect(verb); verb.connect(g.send);
-      g.dchain[grp] = { inp, lp, drv, mk, echo, verb };
+      g.dchain[grp] = { inp, lp, drv, sat, mk, echo, verb };
     }
 
 
@@ -3846,15 +3888,44 @@ const Sound = (function(){
       for(const grp of ["k", "s", "h", "o", "t"]){
         const ch = g.dchain[grp];
         rideBus(g, ch.lp.frequency, M + "." + grp + "Cut",  panelValue(M, grp + "Cut"),  t0);
-        rideBus(g, ch.drv.gain,     M + "." + grp + "Drv",  panelValue(M, grp + "Drv"),  t0);
         rideBus(g, ch.echo.gain,    M + "." + grp + "Echo", panelValue(M, grp + "Echo"), t0);
         rideBus(g, ch.verb.gain,    M + "." + grp + "Verb", panelValue(M, grp + "Verb"), t0);
         /* the makeup is not a control -- it is the drive's inverse, so it is
            computed rather than declared, and it tracks the ridden curve by
            sharing its lane through a second rideBus on the reciprocal */
+        /* PATCH THE SATURATOR IN ONLY WHEN IT IS DOING SOMETHING. At drive 1 the
+           chain is filter -> makeup and nothing else, so a genre that asks for
+           no drive gets a wire and the TR-1000 is a strict superset of the 808.
+           Measured: with the shaper always in the path, the same events through
+           the two machines differed by 1.8 dB of energy even at neutral -- a
+           near-identity curve is not an identity for a full-scale drum
+           transient. Patched out, they are the same signal. */
         const d = panelValue(M, grp + "Drv");
+        const cut = panelValue(M, grp + "Cut");
+        const cutMax = CONTROL[M + "." + grp + "Cut"].max;
+        const cutMoves = !!(g.motion && g.motion.lanes && g.motion.lanes[M + "." + grp + "Cut"]);
+        try { ch.inp.disconnect(); } catch(e){}
+        try { ch.lp.disconnect(); } catch(e){}
+        try { ch.drv.disconnect(); } catch(e){}
+        try { ch.sat.disconnect(); } catch(e){}
+        /* THE FILTER IS PATCHED IN THE SAME WAY, and it had to be: a biquad
+           lowpass parked at the top of its range is not a wire either. On a
+           44.1 kHz clock a 20 kHz corner is a hair under Nyquist and the
+           bilinear warping bends the top octave audibly -- with the saturator
+           already bypassed, the two machines still differed by 2.1 dB of energy
+           and every bit of it was this. Neutral means OUT OF THE PATH. */
+        const filterOn = cutMoves || cut < cutMax - 1;
+        let head = ch.inp;
+        if(filterOn){ head.connect(ch.lp); head = ch.lp; }
+        if(d > 1.001){
+          head.connect(ch.drv); ch.drv.connect(ch.sat); ch.sat.connect(ch.mk);
+          ch.drv.gain.cancelScheduledValues(t0);
+          rideBus(g, ch.drv.gain, M + "." + grp + "Drv", d, t0);
+        } else {
+          head.connect(ch.mk);
+        }
         ch.mk.gain.cancelScheduledValues(t0);
-        ch.mk.gain.setValueAtTime(1 / Math.max(1, d * 0.85), t0);
+        ch.mk.gain.setValueAtTime(1 / Math.max(1e-6, d), t0);
       }
     } else if(g.dchain){
       for(const grp of ["k", "s", "h", "o", "t"]){
