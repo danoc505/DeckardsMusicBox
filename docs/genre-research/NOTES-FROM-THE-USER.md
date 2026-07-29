@@ -233,3 +233,122 @@ found. Honestly:
 **So: for Plastikman, stop looking for notes and transcribe the MOVEMENT.** The
 user has been saying this: "the effects, the movement of the parameters — this
 is where the music is."
+
+---
+
+## 5. `CS-80` on `main`, plus the panel screenshot — the performance envelope
+
+The single most important idea in this repo's research, and it is an
+**architectural** claim, not a sound-design one:
+
+> "A Blade Runner patch should **not be stored as one fixed preset**. It should
+> be stored as a **performance envelope**: a range of possible states the
+> musician moves through."
+
+And the number that goes with it:
+
+> "The static patch is only about 40% of the sound."
+
+The file is honest about its own status and that honesty should be preserved
+when citing it: there is **no archive of verified original Vangelis CS-80 knob
+positions**. The settings were never released. What exists is factory presets he
+is believed to have started from, modern recreations (Arturia CS-80V, GX-80,
+Deckard's Dream), ear-matched reverse-engineering, and performance settings. Its
+own sources are Arturia forum threads. Treat every number in it as a
+**programming target**, not a measurement. It says so itself.
+
+### The 60% — what the sheet ranks
+
+| Performance element | Importance |
+| --- | --- |
+| Polyphonic aftertouch | Extremely high |
+| Ribbon controller | Extremely high |
+| Manual filter opening | High |
+| Long reverb tail | High |
+| Slight detuning | Medium |
+| Oscillator waveform | Medium |
+| **Exact slider position** | **Lower than expected** |
+
+> "This is why people chasing the exact knob positions often fail: the CS-80 was
+> designed as a performance instrument, not a preset machine."
+
+### What the panel screenshot confirms structurally
+
+The Arturia CS-80V panel is a spec, not a picture. Two channels, I and II,
+mirrored. Per channel: LFO mode (FREE/TRIG/MONO), waveform, speed, PWM and PW,
+sync, noise; a VCF block with 24 dB / HPF / LPF switching, **both** an HPF and an
+LPF each with its own RES, then IL / AL / A / D / R; a VCA block with VCF level,
+A / D / S / R and level.
+
+And the block that matters most here:
+
+**TOUCH RESPONSE is two sub-blocks per channel — INITIAL and AFTER — and each
+has its own BRILL and LEVEL slider.** Below, a global TOUCH RESPONSE section
+routes aftertouch to BEND, SPEED, VCO and VCF. So aftertouch→brightness and
+aftertouch→level are independent depths, and aftertouch also reaches pitch and
+LFO rate. There is also a RIBBON section with its own PITCH switch and COURSE /
+TUNE, sitting apart from the wheel — it is its own controller, exactly as the
+user said.
+
+### What was built from this, and what it measured
+
+Two controls, and **the program had their polarity backwards**:
+
+- **The ribbon is ONE hand on ONE strip.** It was drawn per note on a substream
+  keyed by role and step, so every note of a chord bent by a different amount at
+  a different moment. It is now drawn once per BAR, keyed on the bar alone, and
+  every note still sounding when the hand lands takes the same bend — which also
+  means two roles computing it independently arrive at the same gesture with no
+  plumbing between them. Measured: **224/224 and 451/451 simultaneous groups
+  agree, 0 disagree.**
+- **The aftertouch is PER KEY.** It did not exist: `touch` was
+  `Math.min(1.2, ev.gain)` — velocity, one number for the note's whole length,
+  i.e. only the INITIAL column of the panel. `ev.press` is now a per-note
+  pressure *curve*, realised as a ConstantSourceNode summed into cutoff, level
+  and vibrato depth at three separate depths (`atBrill` / `atLevel` / `atVib`,
+  defaulted from the sheet's 80 / 20 / 40). Measured: **4291/4291 and 1478/1478
+  chords move independently.**
+
+  It was wrong first, and measurement caught it: the substream key was
+  `role:bar:step`, and every note of a chord shares all three — so 694 of 951
+  chords moved as a block. That is *channel* aftertouch, the exact thing poly
+  aftertouch is defined against, and it would have shipped looking correct.
+  Keying on pitch as well fixed it.
+
+Audio, same held note with and without a finger, zero crossings per 0.2 s: 2792
+→ 3155, with the gap opening in the middle of the note (1.4 s: 106 → 146). With
+every AFTER knob at 0 it is exactly 2792 — so the change provably comes from
+those knobs.
+
+### What is STILL not built from this file
+
+Written down rather than implied, because the file is a spec and most of it is
+unimplemented:
+
+1. **`params` are still POINTS, not RANGES.** This is the file's headline idea
+   and it is the one thing not done. `vangelis.params.cs80` is a set of fixed
+   numbers plus `motion` on top. The performance-envelope idea says the base
+   itself should be drawn per song from a constrained range — the file even
+   gives them: PWM 40–60%, cutoff 35–60%, resonance 5–20%, attack 0–150 ms,
+   release 2–8 s, detune 2–8 cents, aftertouch brilliance +20–60%. A `paramRange`
+   block alongside `params`, drawn once per song on its own substream, would be
+   a small change and is the highest-value remaining item in this document.
+2. **Two independent channels.** `V.cs80` has two layers, but they share one
+   filter topology and one envelope shape; the real thing has a full independent
+   VCF and VCA per channel, and the sheet specifies different values for each
+   (16' vs 8', cutoff 4.5 vs 5, release 3.5 s vs 5 s).
+3. **Both HPF and LPF resonant per channel** — the voice has a resonant HPF but
+   its Q is fixed per layer rather than being a control.
+4. **Aftertouch → pitch and → LFO speed.** The panel routes both; only
+   brilliance, level and vibrato *depth* are wired.
+5. **Humanisation as specified:** pitch drift ±4 cents, velocity ±15%, timing
+   ±20 ms. Timing jitter exists; per-note pitch drift does not, and "the tuning
+   is all over the place" is the thing `Blade Runner 001` says twice is the
+   instrument's whole character.
+6. **The reverb is not long enough.** The sheet asks for 6–12 s with 40–80 ms
+   pre-delay; the genre's room is set in `space` and is nowhere near that, and
+   there is no pre-delay parameter at all.
+7. **"Blade Runner Blues" as a variant** — lower cutoff, lower resonance, slower
+   attack, longer release, more vibrato, more detune, more reverb, subtler
+   aftertouch. That is a second parameter set for the same genre, which the
+   architecture has no way to express today.

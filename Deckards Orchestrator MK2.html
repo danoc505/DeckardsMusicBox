@@ -846,10 +846,30 @@ const INSTRUMENTS = {
           corpus:soundonsound Yamaha CS80 review, which names Vangelis on
           "Blade Runner Blues" as the demonstration of it] */
       { k:"initBend", label:"initial pitch bend", cap:"INIT BEND", min:0, max:1, step:0.01, def:0 , kind:"voicing" },
+      /* ── THE "AFTER" HALF OF TOUCH RESPONSE ────────────────────────────────
+         On the panel, TOUCH RESPONSE is two blocks per channel -- INITIAL and
+         AFTER -- and each has its own BRILL and LEVEL slider. INITIAL is
+         velocity, and this voice already had it as `touch`. AFTER is PRESSURE,
+         and it did not exist here at all: `touch` was the note's gain, one
+         number fixed for the note's whole length.
+
+         These three are the AFTER column: how far pressure opens the filter,
+         how much it lifts the level, and how much vibrato it brings in. The
+         reconstruction sheet rates poly aftertouch "Extremely high" among the
+         60% of the sound that is not the static patch, and puts filter opening
+         at 80%, brightness at 70%, vibrato at 40%, level at 20% -- which is the
+         shape of the defaults below.
+
+         Zero on all three reproduces exactly what this voice rendered before,
+         which is what makes the wiring provable rather than claimed. */
+      { k:"atBrill", label:"aftertouch → brilliance", cap:"AFTER BRILL", min:0, max:1, step:0.01, def:0 , kind:"gesture" },
+      { k:"atLevel", label:"aftertouch → level",      cap:"AFTER LEVEL", min:0, max:1, step:0.01, def:0 , kind:"gesture" },
+      { k:"atVib",   label:"aftertouch → vibrato",    cap:"AFTER VIB",   min:0, max:1, step:0.01, def:0 , kind:"gesture" },
     ],
     panel: { skin: "cs80", maker: "Yamaha", title: "CS-80",
              groups: [{ label: "PERFORMANCE", keys: ["bright", "res", "initBend"] },
-                      { label: "MODULATION",  keys: ["ring", "ens", "vib"] }] },
+                      { label: "MODULATION",  keys: ["ring", "ens", "vib"] },
+                      { label: "AFTER",       keys: ["atBrill", "atLevel", "atVib"] }] },
   },
   chipkeys: {
     slot: "keys", label: "YM2612 FM keys",
@@ -2293,6 +2313,41 @@ const Sound = (function(){
     const bright = 0.45 + 1.10 * P(g, ev, "cs80", "bright", 0.5);   // 0.5 -> 1.0x
     const resm   = 0.50 + 1.00 * P(g, ev, "cs80", "res", 0.5);      // 0.5 -> 1.0x
 
+    /* ── PRESSURE: A SIGNAL, NOT A NUMBER ─────────────────────────────────────
+       `touch` above is INITIAL touch response -- velocity, one value for the
+       note. This is AFTER: the pressure the finger goes on applying while the
+       note sounds, which is the control the reconstruction sheet rates
+       "Extremely high" and which this voice did not have.
+
+       It is built as a ConstantSourceNode carrying a 0..1 envelope, because an
+       AudioParam SUMS every signal connected to it with its own automation.
+       That is what lets one per-note gesture reach three destinations at once
+       -- cutoff, level and vibrato depth -- at three different depths, without
+       any of them fighting the envelopes already written on those params. It is
+       the same shape as an MPE per-note controller, and that is not a
+       coincidence: polyphonic aftertouch is what MPE was invented to give back.
+
+       Drawn per note in stage 5 and deliberately NOT shared between notes: "hold
+       chord, increase pressure gradually, allow upper notes to brighten
+       independently". A chord whose notes all brighten together is a swell, and
+       a swell is the thing this instrument is famous for NOT doing. ────────── */
+    const PR = ev.press || null;
+    const atBrill = P(g, ev, "cs80", "atBrill", 0);
+    const atLevel = P(g, ev, "cs80", "atLevel", 0);
+    const atVib   = P(g, ev, "cs80", "atVib",   0);
+    let press = null;
+    if(PR && (atBrill > 0 || atLevel > 0 || atVib > 0)){
+      press = c.createConstantSource(); press.offset.value = 0;
+      const peakAt = t + Math.max(0.02, PR.at);
+      press.offset.setValueAtTime(0, t);
+      /* the finger arrives over `rise` and leaves across the rest of the note --
+         asymmetric on purpose, because pressure is easier to apply than to take
+         off cleanly */
+      press.offset.linearRampToValueAtTime(PR.peak, peakAt);
+      press.offset.linearRampToValueAtTime(0, t + ev.durSec + 0.25);
+      press.start(t); press.stop(end); nodes.push(press);
+    }
+
     /* one complete layer: OSC -> resonant HPF -> resonant LPF -> VCA */
     const layer = (type, det, L) => {
       const o = c.createOscillator(); o.type = type;
@@ -2319,6 +2374,15 @@ const Sound = (function(){
       lp.frequency.exponentialRampToValueAtTime(Math.max(60, openTo), t + L.fa);
       lp.frequency.exponentialRampToValueAtTime(Math.max(60, L.fs * (0.6 + 0.6 * touch) * bright),
                                                 t + L.fa + L.fd);
+      /* AFTER BRILL: pressure opens this layer's filter further, summed on top
+         of the ADR above rather than replacing it. Scaled by the layer's own
+         attack level, so a dark layer stays the darker of the two under
+         pressure -- the hand moves both, it does not flatten them together. */
+      if(press && atBrill > 0){
+        const toBrill = c.createGain();
+        toBrill.gain.value = atBrill * L.al * 1.35;
+        press.connect(toBrill); toBrill.connect(lp.frequency);
+      }
       const vca = c.createGain(); vca.gain.value = L.mix;
       o.connect(hp); hp.connect(lp); lp.connect(vca); vca.connect(out);
       nodes.push(o);
@@ -2356,6 +2420,14 @@ const Sound = (function(){
                                     t + Math.max(0.35, bendSec + 0.25));
     vib.connect(vg); vg.connect(oscA.frequency); vg.connect(oscB.frequency);
     vib.start(t); vib.stop(end); nodes.push(vib);
+    /* AFTER VIB: pressure brings the vibrato IN, which is the routing the panel
+       shows under TOUCH RESPONSE -> SPEED/VCO and the sheet lists at 40%. It
+       adds to the ramp above, so a genre with vib at zero still gets vibrato
+       from the finger and only from the finger. */
+    if(press && atVib > 0){
+      const toVib = c.createGain(); toVib.gain.value = f * 0.020 * atVib;
+      press.connect(toVib); toVib.connect(vg.gain);
+    }
 
     /* THE ENSEMBLE. The CS-80's chorus is a real modulated delay, and a static
        detune is not one: what makes it swim is that the delay time MOVES. Two
@@ -2376,6 +2448,16 @@ const Sound = (function(){
     /* the slow swell the instrument is known for, opened further by touch */
     adsr(c, out, t, lvl * ev.gain / 1.55, 0.10 + 0.10 * (1 - touch), 0.25, 0.75,
          t + ev.durSec, 0.55);
+    /* AFTER LEVEL, and it goes on LAST for a reason: adsr has just written the
+       amplitude envelope onto out.gain, and a connected signal SUMS with that
+       automation rather than overwriting it. The sheet puts this at 20% against
+       80% for filter opening -- pressure on a CS-80 is mostly a brightness
+       control that happens to get slightly louder, not a volume pedal. */
+    if(press && atLevel > 0){
+      const toLevel = c.createGain();
+      toLevel.gain.value = atLevel * lvl * ev.gain * 0.42;
+      press.connect(toLevel); toLevel.connect(out.gain);
+    }
     return nodes;
   };
 
@@ -4000,7 +4082,8 @@ const GENRE = {
     gate: null,                  // a boom-bap kit is a room, not a gate
     /* no ribbon: a boom-bap Rhodes player has no free hand and no ribbon to put
        it on. Fields present and zeroed so the shape is one shape. */
-    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, down: false },
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
+    pressure: { depth: 0, amount: [0, 0], at: [0, 0], rise: [0, 0] },
     bassStyle: "follow",
     bassPulse: null,
     /* a fingered boom-bap bass does accent the pocket and does occasionally
@@ -4326,8 +4409,14 @@ const GENRE = {
        rather than a Vangelis swoop. The genre's own reference points -- Blade
        Runner among them -- are exactly where this gesture comes from. [EAR for
        the weights; the mechanism is measured, see stage 5] */
-    ribbon: { chance: 0.17, semitones: [2, 3], secs: [0.10, 0.16],
-              at: [0.35, 0.30], returns: 0.65, down: false },
+    /* `chance` is per BAR since the ribbon became one hand rather than a draw
+       per note -- 0.17 of notes was roughly one long note in six, and 0.22 of
+       bars lands in the same place for a genre whose lead is sparse. */
+    ribbon: { chance: 0.22, semitones: [2, 3], secs: [0.10, 0.16],
+              at: [0.30, 0.55], returns: 0.65, downChance: 0 },
+    /* a little pressure, as colour rather than as the instrument: this genre
+       borrows the CS-80, it is not a score performed on one */
+    pressure: { depth: 0.35, amount: [0.30, 0.40], at: [0.40, 0.40], rise: [0.20, 0.30] },
     bassStyle: "pulse",
     /* [tut:babyaudio, tut:soundbridge, tut:modeaudio] eighth-note repeating roots
        with an octave arp; the weights are [EAR] */
@@ -4395,7 +4484,9 @@ const GENRE = {
          the front of each note instead of a scoop. The control has existed
          since the CS-80 was built and only one genre had ever switched it on.
          [corpus:cs80.com/tour, corpus:soundonsound arturia-cs80v] */
-      cs80:  { initBend: 0.45, bright: 0.52, res: 0.50, ring: 0.16, ens: 0.55, vib: 0.50 },
+      cs80:  { initBend: 0.45, bright: 0.52, res: 0.50, ring: 0.16, ens: 0.55, vib: 0.50,
+               /* the AFTER column, at a synthwave depth: present, not the point */
+               atBrill: 0.40, atLevel: 0.14, atVib: 0.25 },
       vp330: { ens: 0.66, choir: 0.30, attack: 0.55, release: 2.10 },
       /* a bright quarter-note repeat: an 80s delay keeps its top */
       echo:  { div: 4, fb: 0.22, tone: 7000, hp: 150, send: 0.18, verb: 0.55 },
@@ -4724,7 +4815,8 @@ const GENRE = {
     drumDrive: 1.05,
     gate: null,                  // the SNES echo is this genre's space, not a gate
     /* no ribbon: this is a sample-playback chip, and a chip has no strip. */
-    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, down: false },
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
+    pressure: { depth: 0, amount: [0, 0], at: [0, 0], rise: [0, 0] },
     /* a held octave-doubled pedal has one note a bar and nothing to slide from,
        so these are near zero by the shape of the part rather than by taste. */
     bassAccent: { accent: 0.08, slide: 0.04 },
@@ -4994,8 +5086,31 @@ const GENRE = {
        the initial bend on every note, which is a panel setting and lives in
        `params` below. The ribbon is the other hand, and Reverb Machine documents
        it at the END of Tears in Rain, not throughout. */
-    ribbon: { chance: 0.10, semitones: [5, 7], secs: [0.35, 0.25],
-              at: [0.55, 0.30], returns: 0.15, down: true },
+    /* ── THE RIBBON, now a bar-level gesture rather than a per-note one ───────
+       "Ribbon controller: Extremely high" among the 60% of this sound that is
+       not the static patch. The reconstruction sheet describes the move
+       exactly: "start slightly flat, push upward into pitch, return slowly",
+       typical movement +-2-3 semitones against a +-1 octave range. So the
+       common gesture is SMALL and the range is large -- and both directions
+       happen, because Reverb Machine documents descending slides at the end of
+       Tears in Rain while the sheet describes pushing up into pitch.
+
+       `chance` is now per BAR, not per note, because one hand makes one gesture
+       and every note still sounding takes it together. 0.30 of bars, against
+       0.10 of notes before: a ribbon you hear three or four times a minute is
+       the instrument being played; one you hear on every third note is a
+       vibrato arm. [corpus:CS-80 sheet, corpus:reverbmachine, corpus:soundonsound] */
+    ribbon: { chance: 0.30, semitones: [2, 4], secs: [0.35, 0.30],
+              at: [0.10, 0.75], returns: 0.55, downChance: 0.45 },
+    /* ── AND THE OTHER HALF. "Polyphonic aftertouch: Extremely high." Depth 1.0
+       because on this instrument, in this score, it is not a colour: the sheet
+       puts filter opening at 80% and brightness at 70%, and Reverb Machine hears
+       it as "the brass sound subtly changing in brightness and intensity from
+       note to note, giving the performance an almost orchestral quality". The
+       peak lands late in the note and arrives slowly -- "hold chord, increase
+       pressure gradually". Every note draws its own, which is what makes a held
+       chord move internally. */
+    pressure: { depth: 1.0, amount: [0.45, 0.55], at: [0.35, 0.45], rise: [0.25, 0.45] },
     bassStyle: "drone",
     bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },   // unused by "drone"
     bassAccent: { accent: 0, slide: 0 },      // a drone has nothing to accent
@@ -5009,7 +5124,15 @@ const GENRE = {
          by strike velocity. V.cs80 has had this control since the CS-80 was
          built and no genre had ever switched it on.
          [corpus:cs80.com/tour + corpus:soundonsound + corpus:arturia manual] */
-      cs80:  { initBend: 1.00, bright: 0.44, res: 0.42, ring: 0.10, ens: 0.62, vib: 0.72 },
+      cs80:  { initBend: 1.00, bright: 0.44, res: 0.42, ring: 0.10, ens: 0.62, vib: 0.72,
+               /* THE AFTER COLUMN, and this genre runs it hard, because the
+                  reconstruction sheet is unambiguous that the static patch is
+                  only about 40% of this sound and poly aftertouch is one of the
+                  two elements rated "Extremely high". Its own routing table
+                  gives filter opening 80%, brightness 70%, vibrato 40% and
+                  volume 20% -- which is the shape of these three.
+                  [corpus:CS-80 reconstruction sheet] */
+               atBrill: 0.80, atLevel: 0.20, atVib: 0.40 },
       /* a quarter note, barely fed back, mostly into the room */
       echo:  { div: 4, fb: 0.18, tone: 3200, hp: 120, send: 0.16, verb: 0.85 },
       vp330: { ens: 0.72, choir: 0.55, attack: 1.10, release: 3.20 },
@@ -5030,6 +5153,25 @@ const GENRE = {
         /* a cue arrives from nowhere and opens. Very small -- this score's
            dynamics live in the filter and the room, not in lunges. [EAR] */
         vib:    [{ kind: "arc", from: [-0.12, -0.05], to: [0.04, 0.12], curve: "sCurve" }],
+        /* ── HOW HARD THE PLAYER IS LEANING, across the record ───────────────
+           The AFTER column is not a setting that gets dialled once. It is how
+           much pressure this performance is using, and a player leans harder as
+           a cue develops and backs off at the end -- so it arcs, and it sits
+           down in the intro and the outro. This is the knob that stops the
+           aftertouch being a constant treatment: the same chord, played twice,
+           has to be a different amount of hand.
+
+           Modest depths on purpose. The base is already 0.80, and the sheet's
+           point is that pressure is the LIVE part of this sound, not that it is
+           pinned open. [corpus:CS-80 reconstruction sheet] */
+        atBrill: [{ kind: "arc", from: [-0.22, -0.10], to: [0.05, 0.16], curve: "sCurve" },
+                  { kind: "section", by: { intro: [-0.20, -0.10], chorus: [0.04, 0.14],
+                                           outro: [-0.24, -0.12] } },
+                  { kind: "lfo", bars: [[32, 3], [64, 2]], depth: [0.03, 0.09],
+                    shape: "sin", freePhase: true }],
+        atVib:   [{ kind: "section", by: { chorus: [0.05, 0.15], bridge: [-0.10, -0.04] } }],
+        atLevel: [{ kind: "lfo", bars: [[48, 2], [24, 1]], depth: [0.02, 0.06],
+                    shape: "sin", freePhase: true }],
       },
       vp330: {
         ens:   [{ kind: "lfo", bars: [[32, 3], [16, 2]], depth: [0.05, 0.12], shape: "sin" }],
@@ -5232,7 +5374,8 @@ const GENRE = {
     kick: { tune: 47, decay: 0.55, click: 0.70, drive: 0.55, body: 1.05, gain: 1.20 },
     drumDrive: 1.35,
     gate: null,                  // acid house is not a gated-reverb genre
-    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, down: false },
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
+    pressure: { depth: 0, amount: [0, 0], at: [0, 0], rise: [0, 0] },
     bassStyle: "acid",
     bassPulse: { unit: 1, rootBias: 1, octaveJump: 0, restChance: 0 },   // unused by "acid"
     /* THE TWO SWITCHES ON EVERY STEP OF THE BOX. "Don't overdo it with ties,
@@ -5567,7 +5710,8 @@ const GENRE = {
     kick: { tune: 46, decay: 0.60, click: 0.55, drive: 0.50, body: 1.10, gain: 1.22 },
     drumDrive: 1.30,
     gate: null,
-    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, down: false },
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
+    pressure: { depth: 0, amount: [0, 0], at: [0, 0], rise: [0, 0] },
     /* A 303 LINE, not a drone. The drone was a misreading: it restruck only when
        the chord changed and this genre's chord never changes, so seed 1 had
        THREE bass notes in four bars under a record that is "driven largely by
@@ -5910,7 +6054,8 @@ const GENRE = {
     kick: { tune: 47, decay: 0.30, click: 0.50, drive: 0.35, body: 1, gain: 1.0 },
     drumDrive: 1.15,
     gate: null,
-    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, down: false },
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
+    pressure: { depth: 0, amount: [0, 0], at: [0, 0], rise: [0, 0] },
     bassStyle: "drone",
     bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },   // unused by "drone"
     bassAccent: { accent: 0, slide: 0 },
@@ -6054,7 +6199,7 @@ const BLEND_DRAW = new Set([
   "kit.openBars", "kit.hatEvery", "kit.kickKeep", "kit.flourishBar",
   "kit.toms.loopSpots", "kit.toms.loopLanes",
   "counter.style", "counter.intervals", "groove.swingUnit", "theme.count",
-  "bassPulse", "acidLine", "ribbon.down", "space.feeds", "space.echoFeeds",
+  "bassPulse", "acidLine", "space.feeds", "space.echoFeeds",
 ]);
 /* fields that must come from the SAME genre or the builder runs on another
    instrument's numbers */
@@ -7366,6 +7511,7 @@ function makePerformance(chart, form, materials, sections){
   /* the player's touch, drawn once per song: how long the bass lets notes ring,
      and how wide the keys' strum rolls (a real strum is milliseconds, not grid) */
   const RIB = chart.table.ribbon;
+  const PRESS = chart.table.pressure;
   const bassArtic = wpick(rngG, TOUCH.bassArtic);
   const strumSec  = TOUCH.strum[0] + rngG() * TOUCH.strum[1];
   const events = [];
@@ -7461,22 +7607,86 @@ function makePerformance(chart, form, materials, sections){
              nothing; it was simply wrong and dead at the same time.
 
              It does NOT change ev.pitch. Stage 3 owns pitch and still does;
-             this is only what the player's other hand did afterwards. Drawn per
-             note from its own named substream, and a genre without a ribbon
-             draws nothing at all. */
+             this is only what the player's other hand did afterwards.
+
+             ── ONE HAND, ONE STRIP, EVERY NOTE ───────────────────────────────
+             This was drawn PER NOTE, on a substream keyed by role AND step, so
+             every note of a chord bent by a different amount at a different
+             moment. That is four players with four pitch wheels; it is not a
+             ribbon. A CS-80's ribbon has no centre position, remembers where it
+             was first touched, and bends every key currently held down TOGETHER
+             -- it produces polyphonic glissandos, which is the whole reason
+             Vangelis's chords slide as a block.
+             [corpus:soundonsound CS-80; corpus:perfectcircuit]
+
+             So the gesture is drawn ONCE PER BAR, on a substream keyed by the
+             bar alone. Every note that is still sounding when the hand lands
+             gets the SAME bend, by the same interval, at the same instant --
+             and any two roles computing it independently arrive at the same
+             object, because the draw does not depend on which of them is
+             asking. No plumbing between roles, and one hand by construction.
+
+             The distinction that matters, and the program had it exactly
+             backwards: the RIBBON is shared across simultaneous notes and the
+             AFTERTOUCH below is independent per note. Those are the two halves
+             of this instrument's expression and they have opposite polarity. */
+          const noteStart = (bar * 16 + n.step + micro) * spb;
+          const noteSec   = Math.max(spb * 0.9, n.dur * spb * artic);
           if(RIB && RIB.chance > 0 && n.pitch != null && (role === "lead" || role === "keys")){
-            const rr = stream(chart.seed, "ribbon:" + role + ":" + bar + ":" + n.step);
+            const rr = stream(chart.seed, "ribbon:" + bar);
             /* every draw runs whatever the outcome [Law 7] */
-            const hit = rr() < RIB.chance, dist = rr(), when = rr(), dur = rr(), ret = rr();
-            const noteSec = Math.max(spb * 0.9, n.dur * spb * artic);
-            /* a bend needs a note long enough to still be sounding when it
-               arrives -- on a sixteenth there is nothing left to bend */
-            if(hit && noteSec > 0.35) ev.ribbon = {
-              at:  noteSec * (RIB.at[0] + when * RIB.at[1]),
-              by:  (RIB.semitones[0] + dist * RIB.semitones[1]) * (RIB.down ? -1 : 1),
-              sec: RIB.secs[0] + dur * RIB.secs[1],
+            const hit = rr() < RIB.chance, dist = rr(), when = rr(), dur = rr(),
+                  ret = rr(), dir = rr();
+            /* where in the BAR the hand lands, in seconds from the song's zero */
+            const at = (bar * 16 + 16 * (RIB.at[0] + when * RIB.at[1])) * spb;
+            const sec = RIB.secs[0] + dur * RIB.secs[1];
+            /* a bend needs a note that is still sounding when the hand arrives,
+               with enough of it left to hear the move */
+            if(hit && at >= noteStart && at < noteStart + noteSec - 0.12) ev.ribbon = {
+              at:  at - noteStart,
+              by:  (RIB.semitones[0] + dist * RIB.semitones[1]) *
+                   (dir < (RIB.downChance || 0) ? -1 : 1),
+              sec,
               back: ret < RIB.returns,
-              backSec: (RIB.secs[0] + dur * RIB.secs[1]) * 1.4,
+              backSec: sec * 1.4,
+            };
+          }
+          /* ── POLYPHONIC AFTERTOUCH, which is the other 60% ─────────────────
+             "The static patch is only about 40% of the sound", and the two
+             elements rated Extremely High are the ribbon and this. The panel
+             says the same thing structurally: TOUCH RESPONSE is two blocks per
+             channel, INITIAL and AFTER, each with its own BRILL and LEVEL
+             slider. INITIAL is velocity -- which this program already had, as
+             `touch` -- and AFTER is pressure, which it did not have at all.
+
+             `touch` was `Math.min(1.2, ev.gain)`: one number, fixed for the
+             note's whole length. Real polyphonic aftertouch is pressure applied
+             DURING the note, and it is per KEY -- "hold chord, increase pressure
+             gradually, allow upper notes to brighten independently".
+
+             So this is drawn per NOTE, on its own substream, and deliberately
+             not shared: independence is the point, and it is what makes a held
+             chord move internally instead of swelling as a block. A curve, not
+             a level -- where the pressure peaks, how fast it arrives, how far
+             it goes. What it reaches is the voice's business. */
+          if(PRESS && PRESS.depth > 0 && n.pitch != null && (role === "lead" || role === "keys")){
+            /* KEYED ON THE PITCH TOO, and leaving it out was a real bug that
+               measurement caught: every note of a chord shares its role, bar and
+               step, so a key without the pitch handed all of them the SAME
+               pressure curve -- 694 of 951 chords moved as one block. That is
+               channel aftertouch, which is the thing polyphonic aftertouch is
+               defined against, and it would have shipped looking correct. The
+               jitter stream two lines up already keys on pitch for exactly this
+               reason. */
+            const pr = stream(chart.seed, "press:" + role + ":" + bar + ":" + n.step +
+                              ":" + n.pitch);
+            const amt = pr(), when = pr(), rise = pr();
+            /* pressure needs a note to lean on; on a short one the hand has not
+               arrived before it is over */
+            if(noteSec > 0.30) ev.press = {
+              peak: PRESS.depth * (PRESS.amount[0] + amt * PRESS.amount[1]),
+              at:   noteSec * (PRESS.at[0] + when * PRESS.at[1]),
+              rise: PRESS.rise[0] + rise * PRESS.rise[1],
             };
           }
           if(n.pitch != null) ev.pitch = n.pitch;

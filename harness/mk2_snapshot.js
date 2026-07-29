@@ -59,9 +59,23 @@ const lines = [];
 for(let s = 1; s <= N; s++) for(const g of GENRES){
   const song = M.composeSong(s, "draw", g);
   /* the NOTES, not the audio: everything stage 5 emits, to full precision */
+  /* THE EXPRESSION FIELDS ARE PART OF THE NOTE. This hashed seven fields and
+     none of them was ribbon or press -- so rewriting the ribbon from a per-note
+     draw into a shared bar gesture, and adding polyphonic aftertouch to every
+     lead and keys note in two genres, produced a byte-identical snapshot. The
+     second blind spot of the same shape as the genre one, found the same way:
+     by changing something on purpose and not being contradicted.
+
+     A field a voice reads is a field this file has to see, or "not one note
+     moved" is a claim about the subset somebody remembered to list. */
+  const x = o => o == null ? "" :
+    Object.keys(o).sort().map(k => k + ":" +
+      (typeof o[k] === "number" ? o[k].toFixed(6) : String(o[k]))).join(",");
   const ev = song.perf.events.map(e =>
     [e.tSec.toFixed(9), e.durSec.toFixed(9), e.voice, e.role, e.lane || "", e.gain.toFixed(9),
-     e.pitch == null ? "" : e.pitch].join("|")).join("\n");
+     e.pitch == null ? "" : e.pitch,
+     e.accent ? "A" : "", e.slide == null ? "" : e.slide,
+     x(e.ribbon), x(e.press), x(e.chop)].join("|")).join("\n");
   const form = song.sections.map(x => `${x.fn}:${x.startBar}-${x.endBar}:${x.material}`).join(",");
   /* the ARRANGEMENT too, because a build plan changes who plays without
      necessarily changing how many events exist -- a part that has not arrived
