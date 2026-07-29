@@ -507,7 +507,13 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     "segakit.bus","segakit.gate","amen.bus",
     /* the space: a delay division and five gain/filter nodes the whole mix
        passes through. setSpace reads them; rideBus rides five of them. */
-    "echo.div","echo.fb","echo.tone","echo.hp","echo.send","echo.verb"]);
+    "echo.div","echo.fb","echo.tone","echo.hp","echo.send","echo.verb",
+    /* the desk: three shelf/bell gains the whole mix passes through, plus the
+       three crossovers that place them. Same shape as the echo -- setSpace sets
+       the frequencies once and rideBus rides the three gains. Being on this
+       list is not proof they are audible, which is why probe_desk measures the
+       spectrum either side of a kill rather than trusting the name. */
+    "desk.low","desk.mid","desk.high","desk.lowF","desk.midF","desk.highF"]);
 
   const dead = [];
   for(const g of M.genres()){

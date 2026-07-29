@@ -187,6 +187,13 @@
   .sk-wurly .brand{ background:#3f4a34; color:#e8e4d2; margin:-.85rem -1rem .8rem;
                     padding:.4rem 1rem; border-radius:4px 4px 0 0; }
 
+  /* the desk: a mixer, so it is dark metal with a brushed strip, not a synth */
+  .sk-desk{ background:linear-gradient(#2b2e33, #1e2126); color:#d6d9de;
+            border:1px solid #14161a; }
+  .sk-desk .brand{ background:#101216; color:#cfd3d9; margin:-.85rem -1rem .8rem;
+                   padding:.4rem 1rem; border-radius:4px 4px 0 0; }
+  .sk-desk .brand .model{ color:#7fb2d9; }
+
   /* the fallback panel, for the six machines with no `panel` block yet */
   .plain{ background:var(--panel); border:1px solid #33302a; color:var(--ink); }
   .plain .brand{ color:var(--hot); }
@@ -581,6 +588,50 @@ const INSTRUMENTS = {
     ],
     panel: { skin: "echo", maker: "", title: "space",
              groups: [{ label: "", keys: ["div", "fb", "tone", "hp", "send", "verb"] }] },
+  },
+
+  /* ── THE DESK ─────────────────────────────────────────────────────────────
+     A three-band mixer EQ with kill, across the whole mix, ridden as a curve.
+
+     This exists because of one sentence: "It means using high, mid and lows like
+     a DJ does to shape and move the sounds." That is not a filter on a synth --
+     it is a hand on a mixer, working three bands of everything at once, and
+     until now there was nowhere in this program to put that hand. A minimal
+     techno record is performed on a desk; Hawtin recorded Consumed "live to
+     2-track DAT in a single take" [corpus:wikipedia/Consumed], which means every
+     change on it is one of these.
+
+     It is also the mechanism the four-ingredients source asks for by name:
+     "build up all the frequencies creating a wall of sound almost like white
+     noise and then cut that to create space between elements so that the purity
+     of each element becomes clearer" [corpus:underdog]. Cutting a band IS the
+     release, and no amount of arrangement gets you there because the notes do
+     not change -- only what is let through does.
+
+     SHELVES AND A BELL, NOT A CROSSOVER. The obvious build is a three-way split
+     summed back together, and it is wrong here: at unity the three legs phase-
+     cancel around the crossovers, so a genre that never touches this node would
+     still be coloured by it. Every genre gets this in the path, so neutral has
+     to be BIT-transparent. A lowshelf, a peaking bell and a highshelf at 0 dB
+     each pass the signal through untouched, which is also what a DJM or a Xone
+     actually does. Gains are in dB for the same reason: -30 is a kill, 0 is
+     absent, and the scale is the one the hardware is labelled in. */
+  desk: {
+    slot: "desk", label: "the desk", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"low",  label:"low",   cap:"LOW",  min:-30, max:8, step:0.5, def:0, unit:"dB", kind:"bus" },
+      { k:"mid",  label:"mid",   cap:"MID",  min:-30, max:8, step:0.5, def:0, unit:"dB", kind:"bus" },
+      { k:"high", label:"high",  cap:"HIGH", min:-30, max:8, step:0.5, def:0, unit:"dB", kind:"bus" },
+      /* where the bands meet. A switch, not a dial: a DJ mixer's crossovers are
+         built in, and sliding them mid-performance is not a move anybody makes. */
+      { k:"lowF",  label:"low knee",  cap:"LO Hz", min:80,  max:400,  step:10, def:200,  unit:"Hz", kind:"switch" },
+      { k:"midF",  label:"mid centre",cap:"MID Hz",min:400, max:3000, step:50, def:1000, unit:"Hz", kind:"switch" },
+      { k:"highF", label:"high knee", cap:"HI Hz", min:2000,max:9000, step:100,def:4000, unit:"Hz", kind:"switch" },
+    ],
+    panel: { skin: "desk", maker: "", title: "desk",
+             groups: [{ label: "", keys: ["low", "mid", "high"] },
+                      { label: "", keys: ["lowF", "midF", "highF"] }] },
   },
 
   /* ── BASSES ────────────────────────────────────────────────────────────── */
@@ -1717,8 +1768,21 @@ const Sound = (function(){
     g.limit.threshold.value = -6; g.limit.knee.value = 4;
     g.limit.ratio.value = 12; g.limit.attack.value = 0.002; g.limit.release.value = 0.12;
 
+    /* ── THE DESK, between the makeup and the limiter ──────────────────────
+       Three filters in series. At 0 dB each one is transparent, so a genre that
+       never rides the desk gets exactly the chain it got before this existed --
+       which is the whole reason these are shelves and a bell rather than a
+       split-and-sum crossover. See INSTRUMENTS.desk. */
+    g.deskLow  = c.createBiquadFilter(); g.deskLow.type  = "lowshelf";
+    g.deskLow.frequency.value  = 200;  g.deskLow.gain.value  = 0;
+    g.deskMid  = c.createBiquadFilter(); g.deskMid.type  = "peaking";
+    g.deskMid.frequency.value  = 1000; g.deskMid.gain.value  = 0; g.deskMid.Q.value = 0.9;
+    g.deskHigh = c.createBiquadFilter(); g.deskHigh.type = "highshelf";
+    g.deskHigh.frequency.value = 4000; g.deskHigh.gain.value = 0;
+
     g.mix.connect(g.pre); g.pre.connect(g.shaper); g.shaper.connect(g.post);
-    g.post.connect(g.limit); g.limit.connect(c.destination);
+    g.post.connect(g.deskLow); g.deskLow.connect(g.deskMid); g.deskMid.connect(g.deskHigh);
+    g.deskHigh.connect(g.limit); g.limit.connect(c.destination);
 
     /* reverb: one synthetic room, deterministic (seeded noise IR — Law 7:
        same seed, same samples, reverb included). */
@@ -3504,6 +3568,26 @@ const Sound = (function(){
        which is right for lofi and for DKC. Synthwave is the genre it belongs to. */
     if(g.gateSend)
       rideBus(g, g.gateSend.gain, g.drumMachine + ".gate", gate ? gate.send : 0, t0);
+
+    /* ── THE DESK, ridden. The three crossovers are switches and get set once;
+       the three gains are the hand, and they get the same automation curve every
+       other bus control does. A genre with no desk lane sits at 0 dB, which is
+       transparent -- so this costs the other six genres nothing.
+
+       ABOVE the `if(!space) return` on purpose, and that placement is the whole
+       bug this had the first time: the desk is not part of the room. It is the
+       master EQ, it exists on every graph, and a render that passes no space --
+       the reference bar, a probe, the M0 ear gate -- must still get it. Measured
+       when it sat below that line: killing the low band changed the low band by
+       -0.00 dB, which is what a control that is never reached looks like. ── */
+    if(g.deskLow){
+      g.deskLow.frequency.value  = panelValue("desk", "lowF");
+      g.deskMid.frequency.value  = panelValue("desk", "midF");
+      g.deskHigh.frequency.value = panelValue("desk", "highF");
+      rideBus(g, g.deskLow.gain,  "desk.low",  panelValue("desk", "low"),  t0);
+      rideBus(g, g.deskMid.gain,  "desk.mid",  panelValue("desk", "mid"),  t0);
+      rideBus(g, g.deskHigh.gain, "desk.high", panelValue("desk", "high"), t0);
+    }
     if(!space) return;
     if(space.wet != null) g.wet.gain.value = space.wet;
     /* the ROOM ITSELF, when a genre asks for a different one. Rebuilding the IR
@@ -3553,6 +3637,7 @@ const Sound = (function(){
       g.echoExtra = (space.echoFeeds || []).filter(b => g.bus[b]);
       for(const b of g.echoExtra) g.bus[b].connect(g.echoSend);
     }
+
   }
   function ensureLive(){
     if(!ctx){
@@ -5287,9 +5372,35 @@ const GENRE = {
         intro:        ["drums"],
         verse:        ["drums", "ostinato", "bass"],
         chorus:       ["drums", "ostinato", "bass", "keys"],
-        bridge:       ["ostinato", "keys"],
+        /* THE BREAKDOWN, and it is the one place this genre subtracts to almost
+           nothing. "Now all you've got is this polymeter and because it doesn't
+           line up with the one people on the dance floor are going 'oh where was
+           the one again'" -- take the kick, the hat and the clap away and leave
+           the part that never agreed with the bar. [corpus:underdog] */
+        bridge:       ["ostinato"],
         instrumental: ["drums", "ostinato", "bass", "keys"],
         outro:        ["drums", "ostinato"],
+      },
+      /* ── STARTING SMALL ────────────────────────────────────────────────────
+         "It's about how much you can do with the least amount. It means
+          starting small and building up."
+
+         The role lists above say who is allowed in each KIND of section. These
+         numbers say how far into the RECORD each part first arrives, as a
+         fraction of its length, drawn per song. A verse forty bars in and a
+         verse two hundred bars in play the same role list and are not the same
+         music, which is the whole point.
+
+         The drums arrive at zero and everything else waits, so the opening is
+         the kit alone -- and the kit at that moment is `variants.seed` below,
+         which is one rimshot and nothing else. That is the "single cricket".
+         The 303 is next because in this music it is the bass; the figure and
+         the wash are late, because a record that has shown you everything in
+         its first minute has nowhere to go for the next nine.
+         [corpus:hawtin, corpus:underdog] */
+      build: {
+        enter: { drums: [0, 0], bass: [0.10, 0.08], ostinato: [0.26, 0.12],
+                 keys: [0.50, 0.16] },
       },
       /* "getting the machines running, and then jamming out live" -- the track is
          already going when the record starts. [corpus:hawtin] */
@@ -5527,12 +5638,46 @@ const GENRE = {
          something that never repeats the same way twice.
          [corpus:attackmagazine dub-delays] */
       echo:  { div: 3, fb: 0.42, tone: 2200, hp: 200, send: 0.34, verb: 0.62 },
+      /* THE DESK, and this is the genre it was built for. The crossovers sit
+         where a DJ mixer's do; the three gains start at unity and the whole
+         performance is in `motion.desk` below. */
+      desk:  { low: 0, mid: 0, high: 0, lowF: 180, midF: 900, highF: 4500 },
     },
     /* SLOW AND CONTINUOUS. No gestures and no section jumps worth the name: in
        this music the filter is always moving and never arrives. The LFO periods
        are long on purpose -- 32 and 64 bars is 60 to 120 seconds at this tempo,
        which is the timescale of a Hawtin record rather than of a chorus. */
     motion: {
+      /* ── THE HAND ON THE DESK ─────────────────────────────────────────────
+         "It means using high, mid and lows like a DJ does to shape and move the
+         sounds." Everything here is one hand on three band knobs, and it is the
+         largest-scale movement in this table -- the arcs run the length of the
+         record, so no single moment is the one where it changed.
+
+         The lows and the highs both open ACROSS the whole song: the record
+         starts thin and filled in, which is the same instruction the build
+         above follows with parts. The bridge kills the low outright -- that is
+         the breakdown, and it is a subtraction, not a new section. And the mid
+         drifts on a free-phase LFO longer than any section, so the body of the
+         sound is never quite where it was a minute ago.
+
+         "Build up all the frequencies creating a wall of sound almost like
+         white noise and then cut that to create space between elements so that
+         the purity of each element becomes clearer." [corpus:underdog] */
+      desk: {
+        low:  [{ kind: "arc", from: [-11, -6], to: [0, 1.5], curve: "sCurve" },
+               { kind: "section", by: { bridge: [-26, -17], intro: [-8, -4],
+                                        outro: [-9, -4] } },
+               { kind: "lfo", bars: [[96, 3], [64, 2]], depth: [0.8, 2.0],
+                 shape: "sin", freePhase: true }],
+        high: [{ kind: "arc", from: [-9, -5], to: [1, 3], curve: "sCurve" },
+               { kind: "section", by: { bridge: [2, 5], intro: [-6, -3] } },
+               { kind: "lfo", bars: [[64, 3], [32, 2]], depth: [1.2, 3.0],
+                 shape: "tri", freePhase: true }],
+        mid:  [{ kind: "lfo", bars: [[96, 2], [48, 1]], depth: [1.0, 2.8],
+                 shape: "sin", freePhase: true },
+               { kind: "section", by: { bridge: [-5, -2] } }],
+      },
       tb303: {
         cutoff: [{ kind: "lfo", bars: [[64, 4], [32, 3], [16, 1]], depth: [200, 700],
                    shape: "tri", freePhase: true },
@@ -5901,6 +6046,10 @@ const GENRE = {
 const BLEND_DRAW = new Set([
   "label", "sevenths", "bassStyle", "gate", "chop", "ostinato",
   "registers", "form.lengths", "form.material", "form.roles", "form.target",
+  /* the build arrives whole or not at all: averaging one genre's entry points
+     with another's -- or with a genre that has none -- gives a record that
+     accretes halfway, which is not a blend of two arrangements, it is neither */
+  "form.build",
   "form.bridgeAfterChorus", "kit.variants", "kit.snare", "kit.ghostSpots",
   "kit.openBars", "kit.hatEvery", "kit.kickKeep", "kit.flourishBar",
   "kit.toms.loopSpots", "kit.toms.loopLanes",
@@ -5912,6 +6061,10 @@ const BLEND_DRAW = new Set([
 const BLEND_GROUP = {
   "bassStyle": "bass", "bassPulse": "bass", "acidLine": "bass", "bassAccent": "bass",
   "form.lengths": "form", "form.material": "form", "form.roles": "form",
+  /* the build names ROLES, so it has to come from whichever genre supplied the
+     role lists -- an entry point for a part that section never plays is inert,
+     and worse, silently so */
+  "form.build": "form",
   "form.target": "form", "form.bridgeAfterChorus": "form",
   "kit.snare": "kit", "kit.ghostSpots": "kit", "kit.openBars": "kit",
   "kit.hatEvery": "kit", "kit.kickKeep": "kit", "kit.flourishBar": "kit",
@@ -7060,6 +7213,47 @@ function makeMaterials(chart){
    ═══════════════════════════════════════════════════════════════════════════ */
 function makeArrangement(chart, form, materials){
   const F = chart.table.form, MAT = F.material, ROLES = F.roles;
+
+  /* ── THE BUILD ───────────────────────────────────────────────────────────
+     "It means starting small and building up." A section's role list says who
+     is ALLOWED to play in that kind of section; it cannot say who has ARRIVED
+     yet, because sections repeat. A verse is a verse whether it is the first
+     one or the seventh, so a role list alone makes density oscillate around a
+     mean -- which is a pop arrangement, and it is the opposite of a record that
+     accretes.
+
+     `enter` fixes that with one number per role: the fraction of the RECORD at
+     which that part first appears. Intersect it with the section's list and the
+     first third of the song is genuinely thinner than the last, without writing
+     a separate role list for every section, and without any stage below this
+     one knowing which genre it is building. [Law 4]
+
+     Once in, a part stays in -- the section's own list is still free to drop it
+     for a breakdown, which is how "remove everything but the polymeter" stays
+     expressible. Subtraction is a section's job; arrival is this one's.
+
+     A genre with no `build` block gets exactly the arrangement it got before
+     this existed. ─────────────────────────────────────────────────────────── */
+  const BUILD = F.build || null;
+  const nBars = form.length ? form[form.length - 1].endBar : 1;
+  const arrivesAt = {};
+  if(BUILD && BUILD.enter){
+    const rb = stream(chart.seed, "build");
+    /* every draw runs whatever the outcome [Law 7] -- the keys are walked in
+       table order, so adding a role to the block cannot shift an earlier one */
+    for(const role of Object.keys(BUILD.enter)){
+      const e = BUILD.enter[role], d = rb();
+      arrivesAt[role] = (e[0] + d * e[1]) * nBars;
+    }
+  }
+  /* WHO IS FIRST. If a section's whole list is still waiting, the song would be
+     silent there -- so the earliest-arriving member of that list plays anyway.
+     This is a floor, not a correction: it fires only where the table asked for
+     something impossible, and it is better to state it here than to let a genre
+     discover it as a silent bar. */
+  const hasArrived = (role, startBar) =>
+    !BUILD || arrivesAt[role] == null || startBar >= arrivesAt[role];
+
   return Object.freeze(form.map((sec, i) => {
     let material = MAT[sec.fn];
     let stripHalf = false;
@@ -7067,12 +7261,21 @@ function makeArrangement(chart, form, materials){
       if(sec.fn === "verse") material = "Avar";
       else stripHalf = true;                              // the 3rd chorus: arrangement answers
     }
+    const allowed = ROLES[sec.fn];
+    let active = allowed.filter(r => hasArrived(r, sec.startBar));
+    if(!active.length && allowed.length){
+      let first = allowed[0];
+      for(const r of allowed)
+        if((arrivesAt[r] == null ? -1 : arrivesAt[r]) < (arrivesAt[first] == null ? -1 : arrivesAt[first]))
+          first = r;
+      active = [first];
+    }
     const next = form[i + 1];
     return Object.freeze({
       fn: sec.fn, startBar: sec.startBar, endBar: sec.endBar,
       energy: sec.energy, peak: sec.peak, occurrence: sec.occurrence,
       material, stripHalf,
-      active: Object.freeze(ROLES[sec.fn].slice()),
+      active: Object.freeze(active),
       /* TWO WAYS INTO AN ARRIVAL: roll a fill into it, or drop out and let it
          land in silence (docs/DEEP_RESEARCH_ARRANGEMENT.md:162 -- "silence OR a
          fill"; :318 -- the empty before a big arrival is called essential by two
@@ -7086,8 +7289,10 @@ function makeArrangement(chart, form, materials){
          under emptyLastBar; measured, that changed exactly one hat per song from
          0.34 to 0.53, i.e. it made the empty bar louder. Reverted. Leaving the
          reasoning here so the next reader does not re-fix it either. */
+      /* the drums have to have ARRIVED to roll a fill, not merely be allowed to
+         -- before the build this was the same list */
       fillInto: !!(next && (next.fn === "chorus" || next.fn === "bridge")
-                   && ROLES[sec.fn].includes("drums")),
+                   && active.includes("drums")),
       emptyLastBar: !!(next && next.peak),
       endingLastBar: sec.fn === "outro",
     });
