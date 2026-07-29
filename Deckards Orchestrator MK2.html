@@ -531,6 +531,91 @@ const INSTRUMENTS = {
                ["tom2","MT"], ["tom3","LT"], ["hat","CH"], ["openhat","OH"]],
     },
   },
+  /* -- THE TR-1000 ---------------------------------------------------------
+     Roland's 2025 machine, and the reason to build it is not its sound set --
+     its sixteen analogue voice circuits ARE the TR-808 and TR-909 designs
+     rebuilt with modern components, so the sounds are the ones this program
+     already has. What is new is the ARCHITECTURE, and it is exactly the thing
+     that was missing here: "each sound engine includes a dedicated filter, amp,
+     compressor, modulation", on top of a shared delay and reverb.
+     [corpus:musictech, corpus:vintageking, corpus:perfectcircuit]
+
+     Every drum in this program used to share one bus into one gate send and one
+     room. There was no way to put a long delay on the rim and a short room on
+     the clap, and no way to move them apart -- which is why six repeated
+     elements stayed six repeated elements however much the master moved. The
+     909's virtue over the 606 was individual outputs per voice; this is that,
+     with a filter, a drive and two sends on each one.
+
+     FIVE CHAINS, not eight, because the three toms are one instrument played at
+     three pitches and the ghost is the snare played quietly. Four controls each
+     -- cut, drive, echo, room -- and every one is kind:"bus", because they are
+     NODES the voice passes through rather than anything a note can ask about.
+     Being bus-kind is the point: rideBus writes a curve on each, so each drum's
+     character can swell on its own timescale. That is "everything needs its own
+     character that also at times is moving and swelling", and it is not
+     expressible on a single shared bus at any price. --------------------------- */
+  tr1000: {
+    slot: "drums", label: "TR-1000",
+    lanes: { kick:"k808", snare:"s808", ghost:"s808", hat:"h808", openhat:"oh808",
+             tom1:"t808hi", tom2:"t808mid", tom3:"t808lo" },
+    controls: [
+      /* the voice circuits, inherited from the 808 because that is literally
+         what the analogue engine is */
+      { k:"tune",   label:"BD tune",    cap:"TUNE",   min:35,  max:70,  step:1,    def:47,  unit:"Hz" , kind:"voicing" },
+      { k:"decay",  label:"BD decay",   cap:"DECAY",  min:0.15,max:1.60,step:0.01, def:0.85,unit:"s" , kind:"gesture" },
+      { k:"tone",   label:"BD tone",    cap:"TONE",   min:0,   max:1,   step:0.01, def:0.45 , kind:"gesture" },
+      { k:"snappy", label:"SD snappy",  cap:"SNAPPY", min:0,   max:1,   step:0.01, def:0.55 , kind:"gesture" },
+      { k:"sdtone", label:"SD tone",    cap:"TONE",   min:0,   max:1,   step:0.01, def:0.50 , kind:"voicing" },
+      { k:"chdecay",label:"CH decay",   cap:"CH",     min:0.01,max:0.14,step:0.005,def:0.045,unit:"s" , kind:"gesture" },
+      { k:"ohdecay",label:"OH decay",   cap:"OH",     min:0.10,max:0.90,step:0.01, def:0.42,unit:"s" , kind:"gesture" },
+      { k:"bus",    label:"kit drive",  cap:"DRIVE",  min:0.6, max:2,   step:0.01, def:1.30 , kind:"bus" },
+      { k:"gate",   label:"gated verb", cap:"GATE",   min:0,   max:1,   step:0.01, def:0 , kind:"bus" },
+      { k:"hold",   label:"gate hold",  cap:"HOLD",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s", kind:"gesture" },
+
+      /* -- THE PER-VOICE CHAINS. Five groups x four nodes. -- */
+      { k:"kCut",  label:"BD filter",  cap:"CUT",  min:120, max:12000, step:20, def:12000, unit:"Hz", kind:"bus" },
+      { k:"kDrv",  label:"BD drive",   cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
+      { k:"kEcho", label:"BD to echo", cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
+      { k:"kVerb", label:"BD to room", cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
+
+      { k:"sCut",  label:"SD filter",  cap:"CUT",  min:120, max:12000, step:20, def:12000, unit:"Hz", kind:"bus" },
+      { k:"sDrv",  label:"SD drive",   cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
+      { k:"sEcho", label:"SD to echo", cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
+      { k:"sVerb", label:"SD to room", cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
+
+      { k:"hCut",  label:"CH filter",  cap:"CUT",  min:120, max:12000, step:20, def:12000, unit:"Hz", kind:"bus" },
+      { k:"hDrv",  label:"CH drive",   cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
+      { k:"hEcho", label:"CH to echo", cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
+      { k:"hVerb", label:"CH to room", cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
+
+      { k:"oCut",  label:"OH filter",  cap:"CUT",  min:120, max:12000, step:20, def:12000, unit:"Hz", kind:"bus" },
+      { k:"oDrv",  label:"OH drive",   cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
+      { k:"oEcho", label:"OH to echo", cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
+      { k:"oVerb", label:"OH to room", cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
+
+      { k:"tCut",  label:"TOM filter", cap:"CUT",  min:120, max:12000, step:20, def:12000, unit:"Hz", kind:"bus" },
+      { k:"tDrv",  label:"TOM drive",  cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
+      { k:"tEcho", label:"TOM to echo",cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
+      { k:"tVerb", label:"TOM to room",cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
+    ],
+    panel: {
+      skin: "tr1000", maker: "Roland", title: "Rhythm Creator TR-1000",
+      groups: [
+        { label: "BASS DRUM", keys: ["tune", "tone", "decay"] },
+        { label: "SNARE DRUM", keys: ["sdtone", "snappy"] },
+        { label: "HATS", keys: ["chdecay", "ohdecay"] },
+        { label: "KIT", keys: ["bus", "gate", "hold"] },
+        { label: "BD CHAIN", keys: ["kCut", "kDrv", "kEcho", "kVerb"] },
+        { label: "SD CHAIN", keys: ["sCut", "sDrv", "sEcho", "sVerb"] },
+        { label: "CH CHAIN", keys: ["hCut", "hDrv", "hEcho", "hVerb"] },
+        { label: "OH CHAIN", keys: ["oCut", "oDrv", "oEcho", "oVerb"] },
+        { label: "TOM CHAIN", keys: ["tCut", "tDrv", "tEcho", "tVerb"] },
+      ],
+      grid: "drums",
+    },
+  },
+
   amen: {
     slot: "drums", label: "Amen chopper",
     /* one lane, because a break IS one lane: the whole kit arrives together and
@@ -1925,6 +2010,40 @@ const Sound = (function(){
     g.echoToVerb = c.createGain(); g.echoToVerb.gain.value = 0.5;
     g.echoOut.connect(g.echoToVerb); g.echoToVerb.connect(g.send);
 
+    /* BUILT HERE, NOT WITH THE DRUM BUS, and the placement is the bug this had
+       first: each chain takes a send to the room and a send to the echo, so both
+       of those nodes have to EXIST before the loop runs. Constructed next to the
+       drum bus they did not, and every graph threw "Failed to execute 'connect'"
+       -- which killed playback outright rather than degrading it. */
+    /* -- THE PER-VOICE DRUM CHAINS (the TR-1000's architecture) --------------
+       Five groups, each a filter -> drive -> saturator -> makeup into the shared
+       drum bus, plus its OWN echo and room sends taken after the drive. Built on
+       every graph and inert unless a genre asks: the filters open at 12 kHz, the
+       drives sit at 1.0 with matching makeup, and the sends are zero, so a genre
+       on the plain 808 renders exactly what it always did.
+
+       The sends come off the chain's OUTPUT rather than the raw voice, so a drum
+       filtered dark sends a dark tail. That is the difference between a send and
+       a parallel copy, and it is what makes a delayed rim sound like the rim
+       instead of like a second instrument. ---------------------------------- */
+    g.dchain = {};
+    for(const grp of ["k", "s", "h", "o", "t"]){
+      const inp = c.createGain();
+      const lp  = c.createBiquadFilter(); lp.type = "lowpass";
+      lp.frequency.value = 12000; lp.Q.value = 0.707;
+      const drv = c.createGain(); drv.gain.value = 1;
+      const sat = c.createWaveShaper(); sat.curve = g.satCurve; sat.oversample = "2x";
+      const mk  = c.createGain(); mk.gain.value = 1;      // moves with the drive
+      const echo = c.createGain(); echo.gain.value = 0;
+      const verb = c.createGain(); verb.gain.value = 0;
+      inp.connect(lp); lp.connect(drv); drv.connect(sat); sat.connect(mk);
+      mk.connect(g.bus.drums);
+      mk.connect(echo); if(g.echoSend) echo.connect(g.echoSend);
+      mk.connect(verb); verb.connect(g.send);
+      g.dchain[grp] = { inp, lp, drv, mk, echo, verb };
+    }
+
+
     /* who feeds the space: keys and lead breathe; the rhythm section stays dry */
     g.bus.keys.connect(g.send);
     g.bus.lead.connect(g.send);
@@ -2634,7 +2753,7 @@ const Sound = (function(){
     const og = c.createGain();
     og.gain.setValueAtTime(LEVEL.kick * ev.gain * K.gain * K.body, t);
     og.gain.exponentialRampToValueAtTime(0.0002, t + K.decay);
-    o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + K.decay + 0.05);
+    o.connect(og); og.connect(drumOut(g, ev.lane)); o.start(t); o.stop(t + K.decay + 0.05);
     const made = [o];
     /* the beater: felt on a head, 2-3 kHz, plus a short pitched knock. Both draws
        of the shape happen whatever `click` is; only the level responds. */
@@ -2643,7 +2762,7 @@ const Sound = (function(){
     const ng = c.createGain();
     ng.gain.setValueAtTime(LEVEL.kick * ev.gain * 0.62 * K.click, t);
     ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.018);
-    n.connect(bp); bp.connect(ng); ng.connect(g.bus.drums);
+    n.connect(bp); bp.connect(ng); ng.connect(drumOut(g, ev.lane));
     made.push(n);
     /* WEIGHT: a saturated harmonic an octave up, falling to the fundamental. It
        is what lets the note survive a speaker with no bottom -- but it stays
@@ -2656,7 +2775,7 @@ const Sound = (function(){
       const dg = c.createGain();
       dg.gain.setValueAtTime(LEVEL.kick * ev.gain * 0.26 * K.drive, t);
       dg.gain.exponentialRampToValueAtTime(0.0008, t + K.decay * 0.7);
-      o2.connect(dg); dg.connect(g.bus.drums);
+      o2.connect(dg); dg.connect(drumOut(g, ev.lane));
       o2.start(t); o2.stop(t + K.decay * 0.7 + 0.05);
       made.push(o2);
     }
@@ -2708,7 +2827,7 @@ const Sound = (function(){
       const og = c.createGain();
       og.gain.setValueAtTime(lvl * ev.gain, t);
       og.gain.exponentialRampToValueAtTime(0.0002, t + decay);
-      o.connect(og); og.connect(g.bus.drums);
+      o.connect(og); og.connect(drumOut(g, ev.lane));
       o.start(t); o.stop(t + decay + 0.05);
       /* the shell: an octave up, quiet and shorter -- a drum is not one mode */
       const o2 = c.createOscillator(); o2.type = "triangle";
@@ -2717,7 +2836,7 @@ const Sound = (function(){
       const o2g = c.createGain();
       o2g.gain.setValueAtTime(lvl * ev.gain * 0.22, t);
       o2g.gain.exponentialRampToValueAtTime(0.0002, t + decay * 0.5);
-      o2.connect(o2g); o2g.connect(g.bus.drums);
+      o2.connect(o2g); o2g.connect(drumOut(g, ev.lane));
       o2.start(t); o2.stop(t + decay * 0.5 + 0.05);
       /* the stick */
       const n = burst(g, t, 0.014, ev.tSec.toFixed(5) + ":tom" + f0);
@@ -2726,7 +2845,7 @@ const Sound = (function(){
       const ng = c.createGain();
       ng.gain.setValueAtTime(lvl * ev.gain * 0.34, t);
       ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.016);
-      n.connect(bp); bp.connect(ng); ng.connect(g.bus.drums);
+      n.connect(bp); bp.connect(ng); ng.connect(drumOut(g, ev.lane));
       /* ...and into the gate. ONE gate on the bus, retriggered by every hit,
          which is what a channel gate on a desk actually is: it opens flat and
          then slams, and a second hit inside the hold simply reopens it. */
@@ -2761,7 +2880,7 @@ const Sound = (function(){
 
   V.k808 = function(g, ev, t){
     const c = g.ctx;
-    const tune = P(g, ev, "tr808", "tune", 47), dec = P(g, ev, "tr808", "decay", 0.85), tone = P(g, ev, "tr808", "tone", 0.45);
+    const tune = P(g, ev, DM(g), "tune", 47), dec = P(g, ev, DM(g), "decay", 0.85), tone = P(g, ev, DM(g), "tone", 0.45);
     /* the ring: one sine at the tuned pitch with a long exponential fall, and a
        small drop at the front that is the trigger bleeding into the resonator */
     const o = c.createOscillator(); o.type = "sine";
@@ -2770,27 +2889,27 @@ const Sound = (function(){
     const og = c.createGain();
     og.gain.setValueAtTime(LEVEL.kick * ev.gain * 1.15, t);
     og.gain.exponentialRampToValueAtTime(0.0002, t + dec);
-    o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + dec + 0.05);
+    o.connect(og); og.connect(drumOut(g, ev.lane)); o.start(t); o.stop(t + dec + 0.05);
     /* TONE opens a short noise click on the front -- the 808's only transient */
     const n = burst(g, t, 0.008, ev.tSec.toFixed(5) + ":808bd");
     const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 1200; hp.Q.value = 0.7;
     const ng = c.createGain();
     ng.gain.setValueAtTime(LEVEL.kick * ev.gain * 0.5 * tone, t);
     ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.010);
-    n.connect(hp); hp.connect(ng); ng.connect(g.bus.drums);
+    n.connect(hp); hp.connect(ng); ng.connect(drumOut(g, ev.lane));
     return [o, n];
   };
 
   V.s808 = function(g, ev, t){
     const c = g.ctx, out = [];
-    const snappy = P(g, ev, "tr808", "snappy", 0.55), tone = P(g, ev, "tr808", "sdtone", 0.50);
+    const snappy = P(g, ev, DM(g), "snappy", 0.55), tone = P(g, ev, DM(g), "sdtone", 0.50);
     /* the shell: two fixed oscillators, and TONE tilts between them */
     for(const [f, a, d] of [[238, 0.55 * (1 - tone * 0.5), 0.11], [476, 0.35 * (0.4 + tone * 0.6), 0.06]]){
       const o = c.createOscillator(); o.type = "triangle"; o.frequency.value = f;
       const og = c.createGain();
       og.gain.setValueAtTime(LEVEL.snare * ev.gain * a * (1 - snappy * 0.45), t);
       og.gain.exponentialRampToValueAtTime(0.0002, t + d);
-      o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + d + 0.02); out.push(o);
+      o.connect(og); og.connect(drumOut(g, ev.lane)); o.start(t); o.stop(t + d + 0.02); out.push(o);
     }
     /* the snappy: a single noise band, and it is what SNAPPY actually controls */
     const n = burst(g, t, 0.16, ev.tSec.toFixed(5) + ":808sd");
@@ -2799,7 +2918,7 @@ const Sound = (function(){
     const ng = c.createGain();
     ng.gain.setValueAtTime(LEVEL.snare * ev.gain * (0.30 + 0.75 * snappy), t);
     ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.045 + 0.10 * snappy);
-    n.connect(bp); bp.connect(ng); ng.connect(g.bus.drums); out.push(n);
+    n.connect(bp); bp.connect(ng); ng.connect(drumOut(g, ev.lane)); out.push(n);
     if(g.gateSend && g.gateSend.gain.value > 0){ ng.connect(g.gateSend); openGate(g, ev, t); }
     return out;
   };
@@ -2809,12 +2928,12 @@ const Sound = (function(){
   const R808 = [1, 1.4471, 1.6170, 1.9265, 2.5028, 2.6637];   // [theory: 808 HH ratios]
   function hat808(decayKey, dflt, hpHz){
     return function(g, ev, t){
-      const c = g.ctx, dec = P(g, ev, "tr808", decayKey, dflt);
+      const c = g.ctx, dec = P(g, ev, DM(g), decayKey, dflt);
       const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = hpHz; hp.Q.value = 0.7;
       const gn = c.createGain();
       gn.gain.setValueAtTime(LEVEL.hat * ev.gain * 0.42, t);
       gn.gain.exponentialRampToValueAtTime(0.0002, t + dec);
-      hp.connect(gn); gn.connect(g.bus.drums);
+      hp.connect(gn); gn.connect(drumOut(g, ev.lane));
       const made = [];
       for(const r of R808){
         const o = c.createOscillator(); o.type = "square"; o.frequency.value = 263 * r;
@@ -2836,7 +2955,7 @@ const Sound = (function(){
       const og = c.createGain();
       og.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.9, t);
       og.gain.exponentialRampToValueAtTime(0.0002, t + 0.52);
-      o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + 0.58);
+      o.connect(og); og.connect(drumOut(g, ev.lane)); o.start(t); o.stop(t + 0.58);
       if(g.gateSend && g.gateSend.gain.value > 0){ og.connect(g.gateSend); openGate(g, ev, t); }
       return [o];
     };
@@ -3004,7 +3123,7 @@ const Sound = (function(){
     lp.frequency.value = P(g, ev, "amen", "tone", 12000);
     const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.Q.value = 0.7;
     hp.frequency.value = P(g, ev, "amen", "hp", 30);
-    n.connect(out); out.connect(lp); lp.connect(hp); hp.connect(g.bus.drums);
+    n.connect(out); out.connect(lp); lp.connect(hp); hp.connect(drumOut(g, ev.lane));
     const rel = P(g, ev, "amen", "tail", 0.030);
     const lvl = LEVEL.brk * ev.gain;
     out.gain.setValueAtTime(lvl, t);
@@ -3259,7 +3378,7 @@ const Sound = (function(){
     const spread = 0.010;
     const bp = c.createBiquadFilter(); bp.type = "bandpass";
     bp.frequency.value = 1050; bp.Q.value = 1.6;
-    bp.connect(g.bus.drums);
+    bp.connect(drumOut(g, ev.lane));
     /* the hands */
     for(let i = 0; i < 3; i++){
       const at = t + i * spread;
@@ -3294,7 +3413,7 @@ const Sound = (function(){
     const og = c.createGain();
     og.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.68, t);
     og.gain.exponentialRampToValueAtTime(0.0002, t + 0.030);
-    o.connect(bp); bp.connect(og); og.connect(g.bus.drums);
+    o.connect(bp); bp.connect(og); og.connect(drumOut(g, ev.lane));
     o.start(t); o.stop(t + 0.05);
     const n = burst(g, t, 0.012, ev.tSec.toFixed(5) + ":rim");
     const nb = c.createBiquadFilter(); nb.type = "bandpass";
@@ -3302,7 +3421,7 @@ const Sound = (function(){
     const ng = c.createGain();
     ng.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.26, t);
     ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.014);
-    n.connect(nb); nb.connect(ng); ng.connect(g.bus.drums);
+    n.connect(nb); nb.connect(ng); ng.connect(drumOut(g, ev.lane));
     return [o, n];
   };
 
@@ -3339,20 +3458,20 @@ const Sound = (function(){
       const og = c.createGain();
       og.gain.setValueAtTime(LEVEL.snare * ev.gain * amp, t);
       og.gain.exponentialRampToValueAtTime(0.0002, t + dec);
-      o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + dec + 0.02); out.push(o);
+      o.connect(og); og.connect(drumOut(g, ev.lane)); o.start(t); o.stop(t + dec + 0.02); out.push(o);
     }
     const crack = burst(g, t, 0.08, ev.tSec.toFixed(5) + ":crack");         // stick on head
     const cb = c.createBiquadFilter(); cb.type = "bandpass"; cb.frequency.value = 1850; cb.Q.value = 0.8;
     const cg = c.createGain();
     cg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.72, t);
     cg.gain.exponentialRampToValueAtTime(0.0002, t + 0.065);
-    crack.connect(cb); cb.connect(cg); cg.connect(g.bus.drums); out.push(crack);
+    crack.connect(cb); cb.connect(cg); cg.connect(drumOut(g, ev.lane)); out.push(crack);
     const wire = burst(g, t, 0.16, ev.tSec.toFixed(5) + ":wire");           // the tail, not the sound
     const wh = c.createBiquadFilter(); wh.type = "highpass"; wh.frequency.value = 4400;
     const wg = c.createGain();
     wg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.46, t);
     wg.gain.exponentialRampToValueAtTime(0.0002, t + 0.13);
-    wire.connect(wh); wh.connect(wg); wg.connect(g.bus.drums); out.push(wire);
+    wire.connect(wh); wh.connect(wg); wg.connect(drumOut(g, ev.lane)); out.push(wire);
     /* THE SNARE IS THE DRUM THE GATE WAS INVENTED ON -- "In the Air Tonight" is a
        gated snare before it is anything else. Same shared gate as the toms: one
        instance on the bus, retriggered per hit, exactly like a channel gate. */
@@ -3368,13 +3487,13 @@ const Sound = (function(){
     const bg = c.createGain();
     bg.gain.setValueAtTime(LEVEL.hat * ev.gain, t);
     bg.gain.exponentialRampToValueAtTime(0.0002, t + 0.030);
-    body.connect(hb); hb.connect(bg); bg.connect(g.bus.drums);
+    body.connect(hb); hb.connect(bg); bg.connect(drumOut(g, ev.lane));
     const shine = burst(g, t, 0.02, ev.tSec.toFixed(5) + ":hatshine");  // stick shimmer
     const sb = c.createBiquadFilter(); sb.type = "bandpass"; sb.frequency.value = 8200; sb.Q.value = 1.4;
     const sg = c.createGain();
     sg.gain.setValueAtTime(LEVEL.hat * ev.gain * 0.8, t);
     sg.gain.exponentialRampToValueAtTime(0.0002, t + 0.018);
-    shine.connect(sb); sb.connect(sg); sg.connect(g.bus.drums);
+    shine.connect(sb); sb.connect(sg); sg.connect(drumOut(g, ev.lane));
     return [body, shine];
   };
   /* tape — the vinyl bed. Sparse seeded impulses through a bandpass, sitting far
@@ -3398,7 +3517,7 @@ const Sound = (function(){
     const bg = c.createGain();
     bg.gain.setValueAtTime(LEVEL.openhat * ev.gain, t);
     bg.gain.exponentialRampToValueAtTime(0.0002, t + 0.26);
-    body.connect(hb); hb.connect(bg); bg.connect(g.bus.drums);
+    body.connect(hb); hb.connect(bg); bg.connect(drumOut(g, ev.lane));
     return [body];
   };
 
@@ -3563,7 +3682,7 @@ const Sound = (function(){
     const c = g.ctx;
     const src = c.createBufferSource(); src.buffer = buf;
     const gn = c.createGain(); gn.gain.value = lvl;
-    src.connect(gn); gn.connect(g.bus.drums);
+    src.connect(gn); gn.connect(drumOut(g, ev.lane));
     src.start(t); src.stop(t + buf.duration + 0.01);
     return [src];
   }
@@ -3584,11 +3703,35 @@ const Sound = (function(){
     const gn = c.createGain();
     gn.gain.setValueAtTime(lvl * ev.gain, t);
     gn.gain.exponentialRampToValueAtTime(0.0002, t + durSec);
-    src.connect(hp); hp.connect(gn); gn.connect(g.bus.drums);
+    src.connect(hp); hp.connect(gn); gn.connect(drumOut(g, ev.lane));
     return [src];
   }
   V.psgHat     = function(g, ev, t){ return psgHit(g, ev, t, LEVEL.hat,     0.030, 3200); };
   V.psgOpenhat = function(g, ev, t){ return psgHit(g, ev, t, LEVEL.openhat, 0.260, 2600); };
+
+  /* WHICH DRUM PANEL THE 808-CIRCUIT VOICES READ. They named "tr808" as a
+     literal, which was true while it was the only machine built on those
+     circuits. The TR-1000's analogue engine IS the 808 and 909 rebuilt, so it
+     shares every voice -- and with a literal in the read, a TR-1000 song would
+     have taken its tuning and decay from a panel nobody was looking at, exactly
+     the way the rack's "auto" slots silently dropped 69 genre values before.
+     One owner, asked by name at the point of use. */
+  function DM(g){
+    const m = g && g.drumMachine;
+    return (m && CONTROL[m + ".tune"]) ? m : "tr808";
+  }
+
+  /* WHICH CHAIN A DRUM LANE GOES THROUGH. The three toms are one instrument at
+     three pitches and the ghost is the snare played quietly, so they share. A
+     graph whose drum machine declares no chains returns the shared bus, which is
+     exactly what every drum voice connected to before this existed. */
+  const DCHAIN_OF = { kick:"k", snare:"s", ghost:"s", hat:"h", openhat:"o",
+                      tom1:"t", tom2:"t", tom3:"t", rim:"s", clap:"s" };
+  function drumOut(g, lane){
+    if(!g.dchainOn) return g.bus.drums;
+    const grp = DCHAIN_OF[lane];
+    return (grp && g.dchain && g.dchain[grp]) ? g.dchain[grp].inp : g.bus.drums;
+  }
 
   /* ── THE ONE SCHEDULER (Law 10): every event, live or offline, goes through
      dispatch(). Offline fires the whole list at once (an OfflineAudioContext does
@@ -3686,6 +3829,39 @@ const Sound = (function(){
        which is right for lofi and for DKC. Synthwave is the genre it belongs to. */
     if(g.gateSend)
       rideBus(g, g.gateSend.gain, g.drumMachine + ".gate", gate ? gate.send : 0, t0);
+
+    /* -- THE PER-VOICE DRUM CHAINS, ridden ---------------------------------
+       On only for a machine that declares them. Every other drum machine keeps
+       the single shared bus it has always had, and drumOut() hands its voices
+       g.bus.drums exactly as before -- so this is additive and provably so.
+
+       Each group gets four curves. The makeup moves WITH the drive so that
+       driving a drum changes its character and not its level, which is the same
+       lesson the kit bus and the 303 both taught: a drive control that is really
+       a volume control makes every A/B sound like an improvement. ------------ */
+    g.dchainOn = !!(g.dchain && INSTRUMENTS[g.drumMachine] &&
+                    CONTROL[g.drumMachine + ".kCut"]);
+    if(g.dchainOn){
+      const M = g.drumMachine;
+      for(const grp of ["k", "s", "h", "o", "t"]){
+        const ch = g.dchain[grp];
+        rideBus(g, ch.lp.frequency, M + "." + grp + "Cut",  panelValue(M, grp + "Cut"),  t0);
+        rideBus(g, ch.drv.gain,     M + "." + grp + "Drv",  panelValue(M, grp + "Drv"),  t0);
+        rideBus(g, ch.echo.gain,    M + "." + grp + "Echo", panelValue(M, grp + "Echo"), t0);
+        rideBus(g, ch.verb.gain,    M + "." + grp + "Verb", panelValue(M, grp + "Verb"), t0);
+        /* the makeup is not a control -- it is the drive's inverse, so it is
+           computed rather than declared, and it tracks the ridden curve by
+           sharing its lane through a second rideBus on the reciprocal */
+        const d = panelValue(M, grp + "Drv");
+        ch.mk.gain.cancelScheduledValues(t0);
+        ch.mk.gain.setValueAtTime(1 / Math.max(1, d * 0.85), t0);
+      }
+    } else if(g.dchain){
+      for(const grp of ["k", "s", "h", "o", "t"]){
+        const ch = g.dchain[grp];
+        ch.echo.gain.value = 0; ch.verb.gain.value = 0;
+      }
+    }
 
     /* ── THE DESK, ridden. The three crossovers are switches and get set once;
        the three gains are the hand, and they get the same automation curve every
@@ -5430,16 +5606,31 @@ const GENRE = {
     },
     ostinato: null,
 
-    machines: { drums: [["auto", 6], ["tr808", 4]],
-                bass:  [["auto", 7], ["tb303", 3]],
+    machines: { drums: [["tr1000", 1]],
+                /* THE 303, PINNED. It resolved to the 303 through the rig anyway
+                   -- but as "auto", which the panel loop skipped, so the box that
+                   defines this genre had no front panel to put a hand on. */
+                bass:  [["tb303", 1]],
                 keys:  [["auto", 1]] },
     params: {
       tb303: { cutoff: 420, res: 13.0, envmod: 0.70, decay: 0.42,
                accent: 0.80, drive: 3.4, wave: 0 },
       /* the dotted eighth on the 303, the setting the acid chain names */
       echo:  { div: 3, fb: 0.26, tone: 3400, hp: 220, send: 0.20, verb: 0.35 },
-      tr808: { tune: 47, decay: 0.52, tone: 0.62, snappy: 0.70, sdtone: 0.55,
-               chdecay: 0.042, ohdecay: 0.48, bus: 1.35, gate: 0, hold: 0.150 },
+      /* ACID HOUSE ALSO GETS THE TR-1000. Its analogue engine is the 808 and 909
+         circuits rebuilt, which is exactly this genre's kit, and the per-voice
+         chains give the one thing an acid track needs that a shared bus cannot:
+         the clap and the open hat living in different rooms while the kick stays
+         dead dry. The 303 is not the only thing moving in this music. */
+      tr1000: { tune: 47, decay: 0.52, tone: 0.62, snappy: 0.70, sdtone: 0.55,
+                chdecay: 0.042, ohdecay: 0.48, bus: 1.35, gate: 0.10, hold: 0.150,
+                kCut: 12000, kDrv: 1.30, kEcho: 0.00, kVerb: 0.02,
+                /* the clap is the sound of this genre's snare position and it is
+                   the one that gets thrown into the room */
+                sCut: 7400, sDrv: 1.30, sEcho: 0.20, sVerb: 0.38,
+                hCut: 10000, hDrv: 1.30, hEcho: 0.08, hVerb: 0.12,
+                oCut: 8200, oDrv: 1.15, oEcho: 0.30, oVerb: 0.28,
+                tCut: 5000, tDrv: 1.15, tEcho: 0.22, tVerb: 0.40 },
       wash:  { cut: 780 },
     },
     /* WIKIPEDIA'S DEFINITION OF THE GENRE IS LITERALLY THIS MOVE: the sound is
@@ -5472,11 +5663,45 @@ const GENRE = {
         decay: [{ kind: "plock", density: [0.12, 0.24], amt: [-0.12, 0.20] }],
         drive: [{ kind: "section", by: { chorus: [0.4, 1.2], bridge: [-0.8, -0.3] } }],
       },
-      tr808: {
+      tr1000: {
         ohdecay: [{ kind: "lfo", bars: [[16, 2], [32, 1]], depth: [0.05, 0.14],
                     shape: "sin", freePhase: true }],
         snappy:  [{ kind: "plock", density: [0.10, 0.22], amt: [-0.16, 0.20] }],
         decay:   [{ kind: "section", by: { chorus: [0.08, 0.20], bridge: [-0.25, -0.12] } }],
+        /* THE GATE IS AN ACID-HOUSE MOVE, opened into the chorus and shut for
+           the breakdown -- and the hold with it, so the gated tail lengthens as
+           the track lifts rather than the send merely getting louder. */
+        gate:    [{ kind: "section", by: { chorus: [0.14, 0.34], bridge: [-0.08, -0.03],
+                                           instrumental: [0.05, 0.16] } }],
+        hold:    [{ kind: "section", by: { chorus: [0.04, 0.10], bridge: [-0.04, -0.02] } }],
+        /* -- THE CHAINS THIS GENRE PLAYS. Deliberately the ones Plastikman
+           leaves alone, so between the two of them every knob on this machine is
+           a knob some genre actually moves rather than decoration on a panel. -- */
+        /* A SECTION-ONLY MOVE ON A SECTION THAT MAY NOT OCCUR IS A DEAD LANE, and
+           the battery caught this one at seed 1: acid's form there has no bridge,
+           so the kick's echo send resolved to zero for the whole record. The file
+           already learned this once on the pad -- "a section-only move on a
+           control whose section rarely occurs travelled 1.4% of its dial across a
+           whole song". Same fix: give it weather underneath the gesture. */
+        kEcho:  [{ kind: "section", by: { bridge: [0.06, 0.16] } },
+                 { kind: "lfo", bars: [[36, 2], [28, 1]], depth: [0.015, 0.05],
+                   shape: "sin", freePhase: true }],
+        kVerb:  [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.02, 0.06],
+                   shape: "sin", freePhase: true }],
+        sDrv:   [{ kind: "section", by: { chorus: [0.20, 0.60], bridge: [-0.25, -0.10] } }],
+        sVerb:  [{ kind: "lfo", bars: [[20, 3], [28, 2]], depth: [0.06, 0.18],
+                   shape: "tri", freePhase: true }],
+        hDrv:   [{ kind: "lfo", bars: [[16, 3], [24, 2]], depth: [0.10, 0.30],
+                   shape: "sin", freePhase: true }],
+        hVerb:  [{ kind: "section", by: { chorus: [0.05, 0.14], bridge: [0.08, 0.20] } }],
+        oDrv:   [{ kind: "lfo", bars: [[28, 3], [18, 2]], depth: [0.08, 0.24],
+                   shape: "tri", freePhase: true }],
+        oVerb:  [{ kind: "section", by: { bridge: [0.10, 0.26], chorus: [0.04, 0.12] } }],
+        tCut:   [{ kind: "lfo", bars: [[24, 2], [36, 1]], depth: [500, 1600],
+                   shape: "sin", freePhase: true }],
+        tDrv:   [{ kind: "section", by: { chorus: [0.15, 0.45] } }],
+        tEcho:  [{ kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.05, 0.14],
+                   shape: "sin", freePhase: true }],
       },
       /* THE PAD HAS TO DRIFT OR IT IS WALLPAPER. Measured before this: a
          section-only move on a control whose section rarely occurs travelled
@@ -5870,7 +6095,11 @@ const GENRE = {
       ],
     },
 
-    machines: { drums: [["auto", 6], ["tr808", 4]],
+    /* THE TR-1000, ALWAYS. This genre is the reason it exists -- its per-voice
+       chains are what "we need to effect each instrument on the drums" asks for,
+       and a genre that gets them only 40% of the time would be a genre whose
+       identity is a coin toss. Pinned, not weighted. */
+    machines: { drums: [["tr1000", 1]],
                 bass:  [["auto", 1]],
                 /* Consumed was "delays and reverbs, and effects more than
                    anything else... an architecture of sound", and a string
@@ -5880,8 +6109,27 @@ const GENRE = {
     params: {
       tb303: { cutoff: 380, res: 14.0, envmod: 0.66, decay: 0.28,
                accent: 0.75, drive: 2.8, wave: 1 },
-      tr808: { tune: 46, decay: 0.60, tone: 0.55, snappy: 0.62, sdtone: 0.48,
-               chdecay: 0.038, ohdecay: 0.40, bus: 1.30, gate: 0, hold: 0.150 },
+      /* the voice circuits are the 808's, because on this machine they literally
+         are; what follows them is the new part */
+      tr1000: { tune: 46, decay: 0.60, tone: 0.55, snappy: 0.62, sdtone: 0.48,
+                chdecay: 0.038, ohdecay: 0.40, bus: 1.30, gate: 0, hold: 0.150,
+                /* THE KICK stays dry and stays wide open. It is carrying the
+                   bottom of this music and anything sent to a delay at 46 Hz
+                   turns into mud a bar later. */
+                kCut: 12000, kDrv: 1.25, kEcho: 0.00, kVerb: 0.04,
+                /* THE SNARE/RIM is the one with a tail. "I was always into
+                   really small rimshots" -- small, and then a long way away.
+                   [corpus:hawtin] */
+                sCut: 6200, sDrv: 1.35, sEcho: 0.34, sVerb: 0.30,
+                /* THE CLOSED HAT is filtered and slightly driven and mostly dry:
+                   it is the pulse, and a pulse with a tail stops being one. */
+                hCut: 9000, hDrv: 1.45, hEcho: 0.10, hVerb: 0.10,
+                /* THE OPEN HAT is the opposite -- it exists to be smeared, and
+                   it is the loudest thing in the echo return. */
+                oCut: 7000, oDrv: 1.10, oEcho: 0.42, oVerb: 0.34,
+                /* THE TOM is rare here and gets the deepest room of the five, so
+                   the one bar it appears in opens the whole picture up. */
+                tCut: 4200, tDrv: 1.20, tEcho: 0.30, tVerb: 0.52 },
       drone: { cut: 240, res: 2.4, detune: 0.35 },
       wash:  { cut: 620 },
       vp330: { ens: 0.55, choir: 0.20, attack: 1.60, release: 4.20 },
@@ -6003,7 +6251,7 @@ const GENRE = {
          here. Depths stay small -- "too much movement is exhausting"
          [corpus:underdog] -- but they are no longer zero on the only thing in
          the room. */
-      tr808: {
+      tr1000: {
         ohdecay: [{ kind: "lfo", bars: [[32, 3], [64, 2]], depth: [0.04, 0.10],
                     shape: "sin", freePhase: true },
                   { kind: "lfo", bars: [[12, 2], [16, 1]], depth: [0.03, 0.07],
@@ -6032,6 +6280,41 @@ const GENRE = {
         bus:     [{ kind: "lfo", bars: [[24, 3], [40, 2]], depth: [0.05, 0.14],
                     shape: "sin", freePhase: true },
                   { kind: "section", by: { bridge: [-0.20, -0.10] } }],
+
+        /* -- AND NOW THE FIVE CHAINS MOVE INDEPENDENTLY ---------------------
+           This is what the TR-1000 was built for. Every drum gets its own
+           filter and its own sends on its OWN period -- 14, 18, 22, 26 and 34
+           bars, deliberately coprime-ish so no two of them arrive at the same
+           place twice in a record. That is the difference between a kit that is
+           being EQ'd and six instruments each being played.
+
+           Nothing here is fast. The shortest period is 14 bars, which is 26
+           seconds at this tempo: these are swells, not wobbles. "Not enough
+           movement is boring, too much movement is exhausting."
+           [corpus:underdog] -------------------------------------------------- */
+        hCut:  [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [900, 2600],
+                  shape: "tri", freePhase: true }],
+        hEcho: [{ kind: "lfo", bars: [[22, 3], [14, 2]], depth: [0.04, 0.12],
+                  shape: "sin", freePhase: true }],
+        oCut:  [{ kind: "lfo", bars: [[26, 3], [34, 2]], depth: [800, 2400],
+                  shape: "sin", freePhase: true }],
+        /* the open hat's tail is the most visible moving part in this music:
+           when it opens into the delay the whole bar smears */
+        oEcho: [{ kind: "lfo", bars: [[14, 3], [22, 2]], depth: [0.08, 0.22],
+                  shape: "tri", freePhase: true },
+                { kind: "section", by: { bridge: [0.10, 0.24] } }],
+        sEcho: [{ kind: "lfo", bars: [[34, 3], [18, 2]], depth: [0.06, 0.16],
+                  shape: "sin", freePhase: true }],
+        sCut:  [{ kind: "lfo", bars: [[22, 2], [30, 1]], depth: [600, 1800],
+                  shape: "tri", freePhase: true }],
+        /* the kick's filter breathes a little and its room does not: the bottom
+           of this music has to stay where it is */
+        kCut:  [{ kind: "lfo", bars: [[30, 3], [20, 2]], depth: [700, 2000],
+                  shape: "sin", freePhase: true }],
+        kDrv:  [{ kind: "lfo", bars: [[26, 3], [40, 2]], depth: [0.06, 0.18],
+                  shape: "sin", freePhase: true }],
+        tVerb: [{ kind: "lfo", bars: [[34, 2], [26, 1]], depth: [0.05, 0.14],
+                  shape: "sin", freePhase: true }],
       },
       drone: {
         cut: [{ kind: "lfo", bars: [[64, 4], [32, 1]], depth: [30, 90],
