@@ -203,6 +203,7 @@
                       margin-bottom:.6rem; }
   .sk-tr1000 .cols{ display:flex; gap:.5rem; align-items:stretch; overflow-x:auto;
                     padding-bottom:.3rem; }
+  .sk-tr1000 .toprow{ flex-wrap:nowrap; overflow-x:auto; }
   /* KNOBS TWO ABREAST, as the machine has them -- a voice column on the real
      panel is a 2-wide grid of knobs with the fader down the front, not a single
      stack. Stacked single-file the five columns ran nine knobs deep and the
@@ -228,6 +229,60 @@
                     background:#24272b; color:#e6e8ea; }
   /* the fader reads as a fader: taller, and marked */
   .sk-tr1000 .kn.fader{ margin-top:.25rem; }
+  /* ── THE FADER, as the machine has it: a slot cut into the panel with a wide
+     capped throw riding in it. ── */
+  /* margin-top:auto pushes every fader to the FOOT of its column, so the ten
+     throws line up across the panel however many knobs sit above them -- which
+     is what makes a row of faders read as a mixer instead of as a ragged edge. */
+  .sk-tr1000 .fad{ grid-column:1 / -1; width:100%; display:flex; flex-direction:column;
+                   align-items:center; margin-top:auto; padding-top:.35rem;
+                   border-top:1px solid rgba(0,0,0,.20); }
+  .sk-tr1000 .fadslot{ height:104px; width:34px; display:flex; align-items:center;
+                       justify-content:center; position:relative;
+                       background:linear-gradient(90deg, rgba(0,0,0,0) 42%,
+                                  rgba(0,0,0,.55) 46%, rgba(0,0,0,.55) 54%,
+                                  rgba(0,0,0,0) 58%); border-radius:2px; }
+  .sk-tr1000 .fadin{ -webkit-appearance:none; appearance:none; background:none;
+                     width:104px; height:26px; transform:rotate(-90deg); margin:0; }
+  .sk-tr1000 .fadin::-webkit-slider-runnable-track{ height:26px; background:none; }
+  .sk-tr1000 .fadin::-webkit-slider-thumb{ -webkit-appearance:none; appearance:none;
+                     width:15px; height:26px; border-radius:2px; cursor:ns-resize;
+                     background:linear-gradient(#4a4d52, #23262a 46%, #14161a 52%, #2c2f34);
+                     border:1px solid #0b0d10;
+                     box-shadow:0 0 0 1px rgba(255,255,255,.16) inset, 0 1px 2px rgba(0,0,0,.5); }
+  .sk-tr1000 .fadin::-moz-range-thumb{ width:15px; height:26px; border-radius:2px;
+                     background:#23262a; border:1px solid #0b0d10; }
+  .sk-tr1000 .fadval{ font-size:9.5px; opacity:.75; font-variant-numeric:tabular-nums; }
+  .sk-tr1000 .fad .cap{ font-size:8px; letter-spacing:.14em; opacity:.7; }
+  .sk-tr1000 .fad.touched .fadval{ color:#a8410f; font-weight:600; }
+
+  /* the trigger key under each fader, and it LIGHTS */
+  .sk-tr1000 .trig{ grid-column:1 / -1; margin-top:.35rem; font-size:9.5px;
+                    letter-spacing:.12em; width:100%; text-align:center;
+                    padding:.34rem .1rem; border-radius:2px; font-weight:600;
+                    background:#17191c; color:#6d7176; border:1px solid #0a0c0e;
+                    transition:none; }
+  .sk-tr1000 .trig.red.lit{   background:#2a1113; color:#ff5a4e; box-shadow:0 0 8px rgba(255,60,45,.5) inset; }
+  .sk-tr1000 .trig.amber.lit{ background:#2a2410; color:#ffd34a; box-shadow:0 0 8px rgba(255,200,60,.45) inset; }
+  .sk-tr1000 .trig.pale.lit{  background:#26282b; color:#eef1f4; box-shadow:0 0 8px rgba(235,240,245,.4) inset; }
+
+  /* ── THE SCREEN ── */
+  .sk-tr1000 .lcd{ margin-left:auto; min-width:14rem; background:#0a1a18;
+                   border:1px solid #05100f; border-radius:3px; padding:.4rem .5rem;
+                   color:#7dffe0; font-size:9.5px; letter-spacing:.06em;
+                   box-shadow:0 0 12px rgba(40,255,210,.10) inset;
+                   font-variant-numeric:tabular-nums; }
+  .sk-tr1000 .lcdtop{ display:flex; justify-content:space-between; opacity:.85; }
+  .sk-tr1000 .lcdbig{ display:flex; gap:.55rem; margin:.3rem 0 .25rem; }
+  .sk-tr1000 .lcdcell{ flex:1 1 0; display:block; position:relative; }
+  .sk-tr1000 .lcdcell b{ display:block; font-size:15px; font-weight:600; line-height:1.1; }
+  .sk-tr1000 .lcdcell i{ display:block; font-style:normal; font-size:7.5px; opacity:.6;
+                         letter-spacing:.12em; }
+  .sk-tr1000 .lcdcell u{ display:block; height:3px; background:#2ee6bd; margin-top:.18rem;
+                         border-radius:1px; text-decoration:none; }
+  .sk-tr1000 .lcdfoot{ opacity:.55; border-top:1px solid rgba(125,255,224,.18);
+                       padding-top:.22rem; }
+
   .sk-tr1000 .kitwrap select{ font:11px inherit; background:#1b1d20; color:#e6e8ea;
                               border:1px solid #000; border-radius:2px; padding:.2rem .3rem; }
   .sk-tr1000 .kn.fader .cap{ color:#1b1d20; font-weight:600; }
@@ -260,7 +315,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29h · TR-1000 channel strips + faders</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29i · faders, trigger keys, screen</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -674,6 +729,17 @@ const INSTRUMENTS = {
          batteries know not to demand that a voice read it. */
       { k:"kit",    label:"kit",        cap:"KIT",    min:0,   max:3,   step:1,    def:0,   kind:"switch", pick: true },
 
+      /* ── THE TOP FX ROW, and every one of these is a real node ──────────────
+         The photo's top strip is REVERB / DELAY / MASTER FX / ANALOG FX. Two of
+         those already exist as shared buses in this program -- the echo machine
+         and the room -- so duplicating them would be two knobs fighting over one
+         gain. What the MACHINE genuinely owns is how much of ITSELF it sends to
+         each, and what it does to its own output before it gets there. That is
+         what these are: a master trim on all five voices' room sends, the same
+         for their delay sends, and a filter across the whole kit. */
+      { k:"revSend", label:"reverb level", cap:"LEVEL", min:0, max:2, step:0.01, def:1, kind:"bus" },
+      { k:"dlySend", label:"delay level",  cap:"LEVEL", min:0, max:2, step:0.01, def:1, kind:"bus" },
+      { k:"fxFilter",label:"analog filter",cap:"FILTER",min:200,max:20000,step:50,def:20000,unit:"Hz",kind:"bus" },
       /* the five chains, from the shared block every drum machine can adopt */
       ...chainControls(),
     ],
@@ -698,21 +764,24 @@ const INSTRUMENTS = {
          already the way a hand overrides them. A button that does nothing is the
          defect this file has a check for; a button that does nothing and looks
          like a Roland one is worse. */
+      /* the top strip, in the machine's own section order */
       top: [
         { label: "KIT", keys: ["kit"] },
         { label: "ACCENT", keys: ["bus"] },
-        { label: "REVERB", keys: ["gate", "hold"] },
+        { label: "REVERB", keys: ["revSend", "gate"] },
+        { label: "DELAY", keys: ["dlySend", "hold"] },
+        { label: "ANALOG FX", keys: ["fxFilter"] },
       ],
       columns: [
-        { label: "BASS DRUM",   trig: "BD",
+        { label: "BASS DRUM",   trig: "BD", lane: "kick",    tone: "red",
           keys: ["tune", "decay", "tone", "kCut", "kDrv", "kEcho", "kVerb"], fader: "kMix" },
-        { label: "SNARE DRUM",  trig: "SD",
+        { label: "SNARE DRUM",  trig: "SD", lane: "snare",   tone: "red",
           keys: ["sdtone", "snappy", "sCut", "sDrv", "sEcho", "sVerb"], fader: "sMix" },
-        { label: "CLOSED HIHAT",trig: "CH",
+        { label: "CLOSED HIHAT",trig: "CH", lane: "hat",     tone: "amber",
           keys: ["chdecay", "hCut", "hDrv", "hEcho", "hVerb"], fader: "hMix" },
-        { label: "OPEN HIHAT",  trig: "OH",
+        { label: "OPEN HIHAT",  trig: "OH", lane: "openhat", tone: "amber",
           keys: ["ohdecay", "oCut", "oDrv", "oEcho", "oVerb"], fader: "oMix" },
-        { label: "TOMS",        trig: "LT",
+        { label: "TOMS",        trig: "LT", lane: "tom3",    tone: "pale",
           keys: ["tCut", "tDrv", "tEcho", "tVerb"], fader: "tMix" },
       ],
       grid: "drums",
@@ -2170,6 +2239,16 @@ const Sound = (function(){
        filtered dark sends a dark tail. That is the difference between a send and
        a parallel copy, and it is what makes a delayed rim sound like the rim
        instead of like a second instrument. ---------------------------------- */
+    /* the kit-wide trims the top FX row drives: every chain's room send passes
+       through revTrim, every delay send through dlyTrim, and the whole kit
+       through kitFilter on its way to the drum bus */
+    g.revTrim = c.createGain(); g.revTrim.gain.value = 1;
+    g.dlyTrim = c.createGain(); g.dlyTrim.gain.value = 1;
+    g.revTrim.connect(g.send);
+    if(g.echoSend) g.dlyTrim.connect(g.echoSend);
+    g.kitFilter = c.createBiquadFilter(); g.kitFilter.type = "lowpass";
+    g.kitFilter.frequency.value = 20000; g.kitFilter.Q.value = 0.707;
+
     g.dchain = {};
     for(const grp of ["k", "s", "h", "o", "t"]){
       const inp = c.createGain();
@@ -2201,8 +2280,8 @@ const Sound = (function(){
          audible. The only honest transparent is absent. */
       inp.connect(lp); lp.connect(mk);
       mk.connect(g.bus.drums);
-      mk.connect(echo); if(g.echoSend) echo.connect(g.echoSend);
-      mk.connect(verb); verb.connect(g.send);
+      mk.connect(echo); echo.connect(g.dlyTrim);
+      mk.connect(verb); verb.connect(g.revTrim);
       g.dchain[grp] = { inp, lp, drv, sat, mk, echo, verb };
     }
 
@@ -4006,6 +4085,11 @@ const Sound = (function(){
                     CONTROL[g.drumMachine + ".kCut"]);
     if(g.dchainOn){
       const M = g.drumMachine;
+      if(CONTROL[M + ".revSend"]){
+        rideBus(g, g.revTrim.gain,        M + ".revSend",  panelValue(M, "revSend"),  t0);
+        rideBus(g, g.dlyTrim.gain,        M + ".dlySend",  panelValue(M, "dlySend"),  t0);
+        rideBus(g, g.kitFilter.frequency, M + ".fxFilter", panelValue(M, "fxFilter"), t0);
+      }
       for(const grp of ["k", "s", "h", "o", "t"]){
         const ch = g.dchain[grp];
         rideBus(g, ch.lp.frequency, M + "." + grp + "Cut",  panelValue(M, grp + "Cut"),  t0);
@@ -5161,6 +5245,15 @@ const GENRE = {
         hMix: [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.04, 0.12], shape: "tri", freePhase: true }],
         oMix: [{ kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
         tMix: [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.04, 0.10], shape: "sin", freePhase: true }],
+              /* ── THE TOP FX STRIP, RIDDEN. How much of the kit is in the room and in
+           the delay is a hand on a send, and it is the same gesture the desk
+           makes with its bands -- slow, and never arriving. ── */
+        revSend:  [{ kind: "lfo", bars: [[32, 3], [44, 2]], depth: [0.08, 0.22], shape: "sin", freePhase: true },
+                   { kind: "section", by: { bridge: [0.15, 0.40] } }],
+        dlySend:  [{ kind: "lfo", bars: [[26, 3], [38, 2]], depth: [0.08, 0.24], shape: "sin", freePhase: true },
+                   { kind: "section", by: { bridge: [0.12, 0.34] } }],
+        fxFilter: [{ kind: "lfo", bars: [[40, 3], [28, 2]], depth: [1200, 4200], shape: "tri", freePhase: true },
+                   { kind: "section", by: { bridge: [-3000, -1200] } }],
       },
       mellotron: {
         wow: [{ kind: "lfo", bars: [[16, 3], [8, 1]], depth: [0.0006, 0.0016],
@@ -9118,6 +9211,41 @@ function songTime(){
    dead one. Dragging writes TRIM, an OFFSET, so grabbing a moving filter does
    not stop it moving -- it moves around where you put it. ── */
 const KNOBS = [];
+/* ── A REAL FADER ────────────────────────────────────────────────────────────
+   The last pass drew the per-voice level as a knob with a `fader` class on it,
+   which is not a fader -- the machine's whole front half is ten vertical throws
+   and they read as the loudest thing on the panel. This is a range input turned
+   on its side, with a cap that moves, the same drag-to-TRIM and double-click-to-
+   release contract every knob here has. */
+function faderEl(m, c){
+  const key = m + "." + c.k;
+  if(PARAMS[key] == null) PARAMS[key] = c.def;
+  const wrap = el("div", "fad");
+  wrap.dataset.key = key;
+  const slot = el("div", "fadslot");
+  const inp = document.createElement("input");
+  inp.type = "range"; inp.min = c.min; inp.max = c.max; inp.step = c.step;
+  inp.value = panelValue(m, c.k);
+  inp.className = "fadin";
+  const val = el("div", "fadval", (+inp.value).toFixed(2));
+  const mark = () => {
+    wrap.classList.toggle("touched", TRIM[key] != null && TRIM[key] !== 0);
+    val.textContent = (+panelValue(m, c.k)).toFixed(2);
+  };
+  inp.addEventListener("input", () => {
+    TRIM[key] = (+inp.value) - (PARAMS[key] == null ? c.def : PARAMS[key]);
+    mark();
+  });
+  wrap.addEventListener("dblclick", () => {
+    delete TRIM[key]; inp.value = panelValue(m, c.k); mark();
+  });
+  slot.appendChild(inp);
+  wrap.appendChild(slot);
+  wrap.appendChild(val);
+  wrap.appendChild(el("div", "cap", c.cap || c.k));
+  return wrap;
+}
+
 function knobEl(m, c){
   const key = m + "." + c.k;
   if(PARAMS[key] == null) PARAMS[key] = c.def;
@@ -9435,7 +9563,7 @@ function bassGridEl(m, M){
 function drawPanels(){
   const host = $("panels");
   host.innerHTML = "";
-  KNOBS.length = 0; GRIDS.length = 0;
+  KNOBS.length = 0; GRIDS.length = 0; TRIGS.length = 0; LCD.length = 0;
   if(!SONG) return;
   /* the three picked slots, and then the SPACE -- which is not picked because
      there is nothing to choose: every genre has exactly one, and its panel is
@@ -9466,6 +9594,18 @@ function drawPanels(){
       if(P.columns){
         if(P.top){
           const topRow = el("div", "toprow");
+          let scr = null;
+          /* ── THE SCREEN. The real panel has a small LCD in the top right with
+             the kit name, the tempo, the pattern, and a readout of whatever knob
+             the hand is on. Ours shows what this program actually knows: the kit
+             loaded, the tempo, the bar, and the three values under the cursor.
+             It is written by refreshLive, so it moves with the music. ── */
+          scr = el("div", "lcd");
+          scr.innerHTML = '<div class="lcdtop"><span class="lcdkit">--</span>' +
+                          '<span class="lcdbar">--</span></div>' +
+                          '<div class="lcdbig"></div>' +
+                          '<div class="lcdfoot"></div>';
+          LCD.push([m, M, scr]);
           for(const g of P.top){
             const grp = el("div", "grp"), row = el("div", "row");
             for(const k of g.keys){
@@ -9505,6 +9645,10 @@ function drawPanels(){
             if(g.label) grp.appendChild(el("div", "leg", g.label));
             topRow.appendChild(grp);
           }
+          /* the screen goes on LAST so it sits at the right-hand end of the strip,
+             where the machine has it. Appended first it led the row and pushed
+             every section along. */
+          if(scr) topRow.appendChild(scr);
           box.appendChild(topRow);
         }
         const cols = el("div", "cols");
@@ -9518,9 +9662,16 @@ function drawPanels(){
           }
           if(col.fader){
             const fc = M.controls.find(x => x.k === col.fader);
-            if(fc){ const f = knobEl(m, fc); f.classList.add("fader"); cEl.appendChild(f); }
+            if(fc) cEl.appendChild(faderEl(m, fc));
           }
-          if(col.trig) cEl.appendChild(el("div", "trig", col.trig));
+          /* the trigger key sits BELOW the fader on the real panel, and it
+             lights with the playhead like the step grid does */
+          if(col.trig){
+            const t = el("div", "trig " + (col.tone || ""), col.trig);
+            t.dataset.lane = col.lane || "";
+            cEl.appendChild(t);
+            TRIGS.push(t);
+          }
           cols.appendChild(cEl);
         }
         box.appendChild(cols);
@@ -9585,6 +9736,10 @@ function drawPanels(){
 /* ── ONE ANIMATION LOOP, driven by the audio clock, updating every live thing on
    the panels: the automation dots, the lit step, and the position readout. ── */
 const GRIDS = [];
+/* the voice trigger keys, so the playhead can light them like the step grid */
+const TRIGS = [];
+/* the machine screens, refreshed with the playhead */
+const LCD = [];
 function refreshLive(){
   for(const k of KNOBS) k.refresh();
   for(const [role, gr] of GRIDS){
@@ -9594,6 +9749,42 @@ function refreshLive(){
       : (p && p.pat === SEQ.bass.pat && p.bar === SEQ.bass.bar);
     for(let i = 0; i < gr.stepEls.length; i++)
       gr.stepEls[i].classList.toggle("now", !!showing && p.step === i);
+  }
+  /* ── THE TRIGGER KEYS LIGHT WITH THE MUSIC, like the step grid above them.
+     A key that never lights is a picture of a button. ── */
+  if(TRIGS.length && SONG){
+    const now = songTime();
+    for(const el2 of TRIGS){
+      const lane = el2.dataset.lane;
+      let on = false;
+      if(now != null && lane){
+        for(const e of SONG.perf.events){
+          if(e.lane !== lane) continue;
+          if(e.tSec > now) break;
+          if(now - e.tSec < 0.09){ on = true; break; }
+        }
+      }
+      el2.classList.toggle("lit", on);
+    }
+  }
+  /* ── AND THE SCREEN ── */
+  for(const [mName, M2, scr] of LCD){
+    const kit = (SONG && SONG.chart.picks.drumKit) || "analog";
+    scr.querySelector(".lcdkit").textContent = mName.toUpperCase() + " · " + kit;
+    scr.querySelector(".lcdbar").textContent = SONG ? (SONG.chart.tempo.toFixed(2)) : "--";
+    /* three readouts, the way the machine shows three knob values */
+    const show = ["tune", "decay", "bus"].filter(k => CONTROL[mName + "." + k]);
+    scr.querySelector(".lcdbig").innerHTML = show.map(k => {
+      const c = CONTROL[mName + "." + k];
+      const v = panelValue(mName, k);
+      const pct = Math.round(100 * (v - c.min) / Math.max(1e-9, c.max - c.min));
+      return `<span class="lcdcell"><b>${pct}%</b><i>${(c.cap || k)}</i>` +
+             `<u style="width:${pct}%"></u></span>`;
+    }).join("");
+    const t2 = songTime();
+    scr.querySelector(".lcdfoot").textContent = SONG
+      ? `${SONG.chart.genre} · bar ${t2 == null ? 1 : Math.floor(t2 / (16 * SONG.motion.spb)) + 1}/${SONG.form.nBars}`
+      : "";
   }
   const t = songTime();
   $("pos").textContent = t == null ? ""

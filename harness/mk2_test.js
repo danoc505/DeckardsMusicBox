@@ -565,9 +565,15 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      Being on this list is not proof of audibility. probe_chains measures that
      each chain moves its own drum and no other; this only asserts that a
      bus-kind control is ridden per song rather than read at a note. */
+  /* DERIVED FROM `kind`, not from a name pattern. This matched
+     /^[kshot](Cut|Drv|Echo|Verb|Mix)$/ -- which covered the chains and went stale
+     the moment the TR-1000's top strip added revSend, dlySend and fxFilter. The
+     declaration already says what these are: kind:"bus" MEANS a node the whole
+     machine passes through, ridden per song rather than read at a note. Ask the
+     declaration instead of guessing from the spelling. */
   for(const m in M.INSTRUMENTS)
     for(const c of M.INSTRUMENTS[m].controls)
-      if(/^[kshot](Cut|Drv|Echo|Verb|Mix)$/.test(c.k)) PER_SONG.add(m + "." + c.k);
+      if(c.kind === "bus") PER_SONG.add(m + "." + c.k);
 
 
   const dead = [];
