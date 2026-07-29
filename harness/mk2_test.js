@@ -462,5 +462,73 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         simultaneous + " slides from a simultaneous note");
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   PINNED PATTERNS — what the machines' own grids write. The property under test
+   is not "editing works": it is that an edit is an INPUT, that it is surgical,
+   and that a song nobody has edited is bit-identical to one that never could be.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  const four = [0, 4, 8, 12].map(s =>
+    ({ bar: 0, step: s, dur: 1, lane: "kick", vel: s === 0 ? 1.0 : 0.9, role: "drums" }));
+  const evKey = e => [e.tSec.toFixed(9), e.durSec.toFixed(9), e.voice, e.role,
+                      e.lane || "", e.gain.toFixed(9), e.pitch == null ? "" : e.pitch].join("|");
+
+  /* 1. no pins changes nothing -- the seam that matters most, because every
+        existing song in the world goes through this code path now */
+  let untouched = 0, n = 0;
+  for(const g of M.genres()) for(let s = 1; s <= 10; s++){
+    n++;
+    const a = M.composeSong(s, "band", g).perf.events.map(evKey).join("\n");
+    const b = M.composeSong(s, "band", g, null, {}).perf.events.map(evKey).join("\n");
+    if(a === b) untouched++;
+  }
+  check("an empty pin set composes the identical song", untouched === n, untouched + "/" + n + " songs");
+
+  /* 2. a pin reaches the performance */
+  const base = M.composeSong(1, "band", "lofi");
+  const pinned = M.composeSong(1, "band", "lofi", null, { "drums:A:0:kick": four });
+  const kicksIn = song => song.materials.A.drums.filter(x => x.lane === "kick" && x.bar === 0)
+                              .map(x => x.step).join(",");
+  check("a pinned lane replaces the composed one", kicksIn(pinned) === "0,4,8,12",
+        `[${kicksIn(base)}] -> [${kicksIn(pinned)}]`);
+  check("...and it reaches the events", base.perf.events.filter(e => e.lane === "kick").length
+        !== pinned.perf.events.filter(e => e.lane === "kick").length,
+        base.perf.events.filter(e => e.lane === "kick").length + " -> " +
+        pinned.perf.events.filter(e => e.lane === "kick").length + " kick events");
+
+  /* 3. and it is SURGICAL -- one lane of one bar of one pattern. If pinning the
+        kick quietly rewrote the hats, the grid would be lying about its scope. */
+  const untouchedLanes = ["snare", "hat", "ghost", "openhat"].every(l =>
+    JSON.stringify(base.materials.A.drums.filter(x => x.lane === l)) ===
+    JSON.stringify(pinned.materials.A.drums.filter(x => x.lane === l)));
+  const otherBars = JSON.stringify(base.materials.A.drums.filter(x => x.lane === "kick" && x.bar > 0)) ===
+                    JSON.stringify(pinned.materials.A.drums.filter(x => x.lane === "kick" && x.bar > 0));
+  const otherPats = JSON.stringify(base.materials.C.drums) === JSON.stringify(pinned.materials.C.drums);
+  check("a pin touches only its own lane, bar and pattern",
+        untouchedLanes && otherBars && otherPats,
+        `other lanes ${untouchedLanes} · other bars ${otherBars} · other patterns ${otherPats}`);
+
+  /* 4. the pin is frozen into the chart, and a malformed one is DROPPED rather
+        than carried -- a pin nothing can apply is a silent no-op */
+  check("pins are frozen into the chart", Object.isFrozen(pinned.chart.pins),
+        "chart.pins frozen");
+  const junk = M.composeSong(1, "band", "lofi", null,
+    { "drums:Z:0:kick": four, "drums:A:9:kick": four, "bass:A:0:kick": four, "drums:A:0": four });
+  check("a pin that names nothing real is dropped", Object.keys(junk.chart.pins).length === 0,
+        Object.keys(junk.chart.pins).length + " of 4 bad pins survived");
+
+  /* 5. a pinned song still PROVES ITSELF. Every seam check runs over pinned
+        material exactly as over drawn material -- that is the point of making a
+        pin an input to stage 1 rather than an edit applied afterwards. */
+  let threw = 0, built = 0;
+  for(const g of M.genres()) for(let s = 1; s <= 10; s++){
+    try { M.composeSong(s, "band", g, null, { "drums:A:0:kick": four, "drums:B:1:snare":
+      [{ bar: 1, step: 4, dur: 1, lane: "snare", vel: 1, role: "drums" }] }); built++; }
+    catch(e){ threw++; }
+  }
+  check("a pinned song still passes its own seam checks", threw === 0,
+        built + " pinned songs composed, " + threw + " threw");
+}
+
 console.log("\n" + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);

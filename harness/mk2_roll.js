@@ -45,7 +45,13 @@ const wantSong = argv.includes("--song");
 const midAt = argv.indexOf("--mid");
 const midFile = midAt >= 0 ? argv[midAt + 1] : null;
 
-const song = M.composeSong(seed, rig, genre);
+/* --pins <file.json> composes with a programmed pattern in place, so the thing
+   the front panel's grids write can be read here the same way everything else
+   is. The file is the same shape as chart.pins: {"drums:A:0:kick":[ ...notes ]} */
+const pinAt = argv.indexOf("--pins");
+const pinsIn = pinAt >= 0 ? JSON.parse(fs.readFileSync(argv[pinAt + 1], "utf8")) : null;
+
+const song = M.composeSong(seed, rig, genre, null, pinsIn);
 const C = song.chart;
 const nm = p => T.NOTE_NAMES[T.pc(p)] + (Math.floor(p / 12) - 1);   // midi 60 -> C4
 
@@ -73,14 +79,42 @@ function gridLine(notes, bars, pick){
   return out.join(" ");
 }
 
+/* WHICH PATTERN EACH MATERIAL PLAYS, so a pinned bar can be named. A, Avar and
+   B deliberately SHARE one drum pattern and one bass line -- that sharing is the
+   point of the family -- so the pin lives on the pattern, not on the material. */
+const PIN_PAT = { A:    { drums: "A", bass: "A" },
+                  Avar: { drums: "A", bass: "A" },
+                  B:    { drums: "B", bass: "A" },
+                  C:    { drums: "C", bass: "C" },
+                  fill: { drums: "fill" } };
+const PINS = song.chart.pins || {};
+const pinnedAt = (role, pat, bar, lane) =>
+  PINS[[role, pat, bar, lane].filter(x => x != null).join(":")] != null;
+
 function printMaterial(key, mat, bars){
   console.log(`\n── MATERIAL ${key} ${"─".repeat(62 - key.length)}`);
   console.log("        " + Array.from({ length: bars }, (_, i) => RULER).join(" "));
+  const pat = PIN_PAT[key] || {};
+  /* A PINNED BAR IS MARKED, PER BAR, right under the ruler. A user-typed pattern
+     is not a seed-derived one and this grid must never let the two be confused
+     -- the whole reason pins are an INPUT to stage 1 rather than an edit applied
+     afterwards is so that this line can be true. */
+  const pinRow = (role, lane) => {
+    let s = "", anyPin = false;
+    for(let b = 0; b < bars; b++){
+      const p = pat[role] && pinnedAt(role, pat[role], b, lane);
+      if(p) anyPin = true;
+      s += (p ? "PINNED".padEnd(16, "·") : " ".repeat(16)) + " ";
+    }
+    return anyPin ? s : null;
+  };
   const lanes = ["kick", "snare", "ghost", "tom1", "tom2", "tom3", "hat", "openhat"];
   for(const lane of lanes){
     const ns = (mat.drums || []).filter(n => n.lane === lane);
-    if(!ns.length) continue;
+    if(!ns.length && !(pat.drums && [0,1,2,3].some(b => pinnedAt("drums", pat.drums, b, lane)))) continue;
     console.log(lane.padEnd(8) + gridLine(ns, bars, () => DRUM_CH[lane]));
+    const pr = pinRow("drums", lane);
+    if(pr) console.log("  ↑pin  " + pr);
   }
   for(const role of ["ostinato", "bass", "keys", "lead", "counter"]){
     const ns = mat[role] || [];
@@ -93,6 +127,7 @@ function printMaterial(key, mat, bars){
       const sc = T.MODES[C.mode], d = sc.indexOf(T.pc(n.pitch - C.root));
       return d < 0 ? "?" : String(d + 1);
     }));
+    if(role === "bass"){ const pr = pinRow("bass", null); if(pr) console.log("  ↑pin  " + pr); }
   }
   /* the notes themselves, because a grid cannot show octave or velocity */
   for(const role of ["ostinato", "bass", "keys", "lead", "counter"]){

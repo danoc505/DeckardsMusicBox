@@ -583,8 +583,75 @@ function makeMotion(chart, form, sections){
   return Object.freeze({ spb, nBars, secFn: Object.freeze(secFn), lanes: Object.freeze(lanes) });
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   PINNED PATTERNS — what the user programmed on the machine's own grid.
+
+   The 808's front panel IS sixteen step buttons and the 303's IS a row of
+   note/accent/slide switches, so cloning those panels without letting them be
+   pressed would be a photograph of an instrument rather than an instrument. But
+   a pattern a human typed is NOT a pattern the seed produced, and the single
+   most expensive habit this project has had is output that quietly claims to be
+   something it is not. So:
+
+     A PIN IS AN INPUT TO STAGE 1, exactly like the seed, the rig and the picks.
+     It is frozen into the chart, composeSong is still a pure function of
+     (seed, rig, genre, picks, pins), and every seam check runs over the pinned
+     material the same as over a drawn one -- a pin that collides throws.
+
+     THE ROLL PRINTS IT AS PINNED, per pattern and per lane, so nobody reading a
+     note grid can mistake a typed bar for a composed one.
+
+   The unit is one LANE of one BAR of one PATTERN for drums ("drums:A:2:kick"),
+   and one BAR of one PATTERN for the bass ("bass:A:2"), which is monophonic and
+   has no lanes. Pinning the kick leaves the hats composed; that is the surgical
+   granularity the hardware implies, since on an 808 you select an instrument and
+   then program its sixteen steps.
+
+   A pin holds COMPLETE NOTES, not flags. That is deliberate: it means velocity,
+   duration, accent and slide have exactly one owner each in a pinned bar (the
+   pin) rather than being half-composed and half-typed, and it means this
+   function needs no copy of the composer's velocity tables to fill in a step
+   that was switched on. The panel seeds a pin from the composed notes, so an
+   untouched pin is byte-identical to what the composer wrote. */
+function applyPins(notes, role, pat, pins){
+  if(!pins) return notes;
+  const taken = {};
+  let any = false;
+  for(const k in pins){
+    const bits = k.split(":");                    // role : pattern : bar : lane?
+    if(bits[0] !== role || bits[1] !== pat) continue;
+    taken[bits[2] + ":" + (bits[3] || "")] = pins[k];
+    any = true;
+  }
+  if(!any) return notes;
+  const out = [];
+  for(const n of notes)
+    if(!taken[n.bar + ":" + (role === "drums" ? n.lane : "")]) out.push(n);
+  for(const k in taken) for(const n of taken[k]) out.push({ ...n });
+  return out;
+}
+
+/* frozen into the chart, and validated on the way in: a pin that does not name
+   a real role, pattern and bar is dropped rather than carried, because a pin
+   nothing can apply is a silent no-op and this program does not do those. */
+const PIN_PATTERNS = { drums: ["A", "B", "C", "fill"], bass: ["A", "C"] };
+function freezePins(pins){
+  const out = {};
+  for(const k in (pins || {})){
+    const [role, pat, bar, lane] = k.split(":");
+    if(!PIN_PATTERNS[role] || !PIN_PATTERNS[role].includes(pat)) continue;
+    if(!(+bar >= 0 && +bar < 4)) continue;
+    if(role === "drums" ? !lane : !!lane) continue;
+    if(!Array.isArray(pins[k])) continue;
+    out[k] = Object.freeze(pins[k].map(n => Object.freeze({ ...n })));
+  }
+  return Object.freeze(out);
+}
+
 /* the machine a slot is currently using; "auto" means the genre's rig decides */
 const PICK = { drums: "auto", bass: "auto", keys: "auto" };
+/* and what the user has programmed on their grids, same shape as chart.pins */
+const PINS = {};
 
 /* apply a machine's defaults, or a genre's override of them */
 function loadParams(machine, over){
@@ -2957,7 +3024,7 @@ const GENRE = {
   },
 };
 
-function makeChart(seed, rigChoice, genreChoice, picks){
+function makeChart(seed, rigChoice, genreChoice, picks, pins){
   const rng = stream(seed, "chart");
   /* THE RIG -- which band plays this song. Drawn on its OWN named substream, so
      adding it moved no existing song by a single sample: every draw in "chart"
@@ -2991,6 +3058,9 @@ function makeChart(seed, rigChoice, genreChoice, picks){
        never an override applied downstream, so a song is fully described by
        (seed, genre, rig, picks) and nothing later can quietly change who plays. */
     picks: resolvePicks(genre, picks, seed),
+    /* and what the user programmed on the machines' own grids -- an input on
+       exactly the same footing as picks, never an override applied later */
+    pins: freezePins(pins),
     keysChar: wpick(rng, G.keysChar),
     tape: Object.freeze({
       wow:     G.tape.wow[0]     + rng() * G.tape.wow[1],
@@ -3580,10 +3650,17 @@ function makeMaterials(chart){
 
   /* ── A: the verse set ── */
   const ostA = buildOstinato("ostinato");
-  const drumsA = buildDrums("drums", "main");
-  const drumsB = buildDrums("drumsB", "lift");     // the chorus opens up
-  const drumsC = buildDrums("drumsC", "depart");   // the bridge thins out
-  const bassA  = buildBass(chords, "bass", false);
+  /* THE ONE PLACE A PINNED PATTERN ENTERS. Every drum and bass pattern in the
+     song goes through `pin`, so a grid the user has programmed substitutes for
+     the drawn one at the moment the material is built -- before the seam checks,
+     before the arrangement, before the performance. Nothing downstream knows or
+     needs to know that a bar was typed rather than drawn, and everything
+     downstream still proves it. */
+  const pin = (notes, role, pat) => applyPins(notes, role, pat, chart.pins);
+  const drumsA = pin(buildDrums("drums", "main"), "drums", "A");
+  const drumsB = pin(buildDrums("drumsB", "lift"), "drums", "B");     // the chorus opens up
+  const drumsC = pin(buildDrums("drumsC", "depart"), "drums", "C");   // the bridge thins out
+  const bassA  = pin(buildBass(chords, "bass", false), "bass", "A");
   const placed = reserve(ostA.concat(bassA));
   const keysA  = buildKeys(chords, "keys", { dense: false, avoid: placed });
   /* the ostinato goes into every reservation set BEFORE the tunes are drawn.
@@ -3604,7 +3681,7 @@ function makeMaterials(chart){
 
   /* ── C = depart(A): new changes, sustained keys, roots-only bass,
      A's rhythm augmented ── */
-  const bassC  = buildBass(bridgeChords, "bassC", true);
+  const bassC  = pin(buildBass(bridgeChords, "bassC", true), "bass", "C");
   const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true,
                                                    avoid: reserve(ostA.concat(bassC)) });
   const resC   = reserve(ostA.concat(bassC, keysC));
@@ -3653,7 +3730,7 @@ function makeMaterials(chart){
         if(st === 12 || rng() < 0.75)
           notes.push({ bar: 0, step: st, dur: 1, lane: "snare", vel: 0.34 + (st - 10) * 0.11, role: "drums" });
     }
-    return notes;
+    return pin(notes, "drums", "fill");        // the fill is a pattern too
   })();
 
   /* ── the ending: the tonic landing [theory: resolution is the arrival of
@@ -3920,8 +3997,8 @@ function makePerformance(chart, form, materials, sections){
    THE PIPELINE — and the invariant checks at each seam. Checks THROW: a law
    violation is a build failure, not a thing to correct downstream.
    ═══════════════════════════════════════════════════════════════════════════ */
-function composeSong(seed, rig, genre, picks){
-  const chart = makeChart(seed, rig, genre, picks);
+function composeSong(seed, rig, genre, picks, pins){
+  const chart = makeChart(seed, rig, genre, picks, pins);
   const form = makeForm(chart);
   const materials = makeMaterials(chart);
   const sections = makeArrangement(chart, form, materials);
@@ -4088,7 +4165,7 @@ function describe(song){
 function newSong(forcedSeed){
   const seed = forcedSeed != null ? forcedSeed : (parseInt($("seed").value, 10) || 1);
   $("seed").value = seed;
-  SONG = composeSong(seed, $("rig").value, $("genre").value, PICK);
+  SONG = composeSong(seed, $("rig").value, $("genre").value, PICK, PINS);
   describe(SONG);
   drawPanels();
   return SONG;
@@ -4214,7 +4291,7 @@ window.MK2 = {
   renderWav: (events, seconds, sr, space, kick, drumDrive, gate, motion) =>
     Sound.renderWav(events, seconds, sr, space, kick, drumDrive, gate, motion),
   soundOf,
-  INSTRUMENTS, PARAMS, TRIM, CONTROL, PICK, loadParams, panelValue,
+  INSTRUMENTS, PARAMS, TRIM, CONTROL, PICK, PINS, PIN_PATTERNS, loadParams, panelValue,
   makeMotion, motionAt,
   voiceNames: () => Sound.voiceNames(),
   genres: () => Object.keys(GENRE),
