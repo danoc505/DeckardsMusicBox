@@ -844,6 +844,29 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
           dupes.length === 0, dupes.length ? dupes.join(" | ") : "0 duplicate keys, both levels");
   }
 
+  /* ── NOTHING IS WRITTEN BELOW HEARING ─────────────────────────────────────
+     The drone's octave-down sub was guarded by `low >= R.bass[0] - 12`, which
+     permits a full octave UNDER the register the genre declared -- so jungle
+     wrote a C0 at 16.4 Hz and vangelis an A0 at 27.5 Hz. Below about 20 Hz
+     there is no pitch to hear and no system reproduces it; the energy is spent
+     on excursion and headroom the rest of the mix then works under.
+
+     MIDI 24 is C1, 32.7 Hz -- the bottom of a five-string bass. A genre may sit
+     as high as it likes above that; nothing may go below it. */
+  {
+    const SUB_FLOOR = 24;
+    const low = [];
+    for(const g of M.genres()){
+      let lo = 999;
+      for(let s = 1; s <= 30; s++)
+        for(const e of M.composeSong(s, "draw", g).perf.events)
+          if(e.pitch != null && e.pitch < lo) lo = e.pitch;
+      if(lo < SUB_FLOOR) low.push(`${g} midi ${lo} (${(440 * Math.pow(2, (lo - 69) / 12)).toFixed(1)} Hz)`);
+    }
+    check("no genre writes a pitch below hearing (midi 24 / 32.7 Hz)",
+          low.length === 0, low.length ? low.join(", ") : "30 seeds x every genre");
+  }
+
   /* ── 5. the genre picks machines, and "auto" survives -- because auto is what
      keeps the RIG picker meaningful. A genre that named all three slots would
      silently disable a feature this program has. ── */

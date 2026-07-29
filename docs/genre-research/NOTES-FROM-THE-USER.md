@@ -771,3 +771,97 @@ which is the best possible evidence that it works.
   per-hearing change lives on the echo and the CS-80's vibrato instead.
 - The sizes of every step above are **mine, not measured**. The shapes are
   researched; the amounts are taste until they are heard.
+
+---
+
+## A battery run, with the notes actually read
+
+*"Do more research and run a battery of tests on everything and make sure you
+are printing out notes."*
+
+Reading the rolls for all seven genres — rather than only measuring — is what
+found three of the four things below.
+
+### 1. The 303 has three time states and this had two
+
+From the TENOR 2019 paper on acid-pattern notation: to program a TB-303 you
+supply "the pitch data … pitch modification such as slide, accent, transpose
+down and up. **The time data uses symbols and notation for note, tie and rest**."
+
+Measured, 40 seeds: **acid's ties ran at 0.0%** — every note exactly one step
+long, on the genre named after the instrument. The roll made it obvious once
+printed: `11441...11..1.4.`, sixteen identical lengths.
+
+`tieChance` now exists. Acid 0.0% → **11.0%**, Plastikman 0.0% → **32.4%** (more,
+not less: with three to six notes in a bar the question is how *long* they are).
+The same bar now reads `11421---41--1.4.`
+
+Blast radius: acid 300/300 seeds and plastikman 289/300 moved; the other five
+genres byte-identical, which is right — they use different bass builders.
+
+### 2. A sub below hearing
+
+The drone builder guarded its octave-down with `low >= R.bass[0] - 12` — a full
+octave *under* the register the genre declared. Measured lowest bass note over
+30 seeds:
+
+```
+  jungle     C0   16.4 Hz
+  vangelis   A0   27.5 Hz
+```
+
+16.4 Hz is not a low note. There is no pitch to hear below ~20 Hz, no monitor or
+headphone reproduces it, and the energy is spent on woofer excursion and on
+headroom the rest of the mix then works under. **A sub you cannot hear still
+costs you.** Floored at MIDI 24 (C1, 32.7 Hz — the bottom of a five-string bass),
+with a seam check. Both genres now bottom out at 32.7 Hz.
+
+### 3. Five probes that measure a program that no longer exists
+
+`probe_nct`, `probe_voiceleading`, `probe_hierarchy`, `probe_bass_consonance`
+and `probe_peak_arc` all crash. They are **MK1 probes**: they require `HARD`,
+`SOFT`, `conduct` and `improvise`, none of which exist in this engine.
+
+Two things were wrong underneath them and both are fixed:
+
+- `build_engine.py`'s DOM stub returned a proxy for *every* property, so the
+  moment the UI grew a real fader — `(+inp.value).toFixed(2)` — the whole bundle
+  died with "Cannot convert object to primitive value". The stub now answers
+  with primitives where the engine reads primitives.
+- Its export list named MK1 symbols as bare identifiers, so the bundle threw
+  `ReferenceError: T is not defined` at load. Every name is now optional.
+
+The bundle loads again. The five probes still cannot run, because the laws they
+measure are addressed to a different architecture — so `harness/probe_theory.js`
+asks those laws of MK2 directly, by reading the notes:
+
+```
+  genre        out of key   NCT unresolved   chord<bass   lead<chord   unisons
+  lofi              0.0%          33.0%        0.0%        5.5%     10.9%
+  synthwave         0.0%          33.8%        0.0%        0.0%      1.5%
+  dkc               0.0%          34.6%        0.0%        0.0%      3.8%
+  vangelis          0.0%          36.8%        0.0%        0.0%      0.8%
+```
+
+- **In key: 0.0% violations everywhere.** That law holds.
+- **Chords above the bass: 0.0%.** In absolute register, which is the trap.
+- **Non-chord tones: a third of them leap away instead of resolving by step.**
+  This was the dead HARD law the MK1 review found, and **it is still not
+  enforced here.** For this repertoire the classical resolution rule may not be
+  the right law — but that should be a decision on the record, not an accident.
+  It is not fixed; it is now measured.
+- **Lofi: 5.5% of frames have the lead below the top of the chord**, and **10.9%
+  have two parts on the same pitch** — a part disappearing rather than a chord.
+
+### 4. A finding I got wrong by reading, and measurement corrected
+
+Synthwave's roll printed the lead and counter rows **byte-identical**. That looks
+like a copied part. Measured across 30 seeds: **0.0% of counter notes share a
+pitch with a lead note** — in any genre. The roll prints scale degrees, and the
+two lines were using the same degrees in different octaves. Not a defect.
+
+But the same measurement found a real one: **100% of counter notes land on the
+same step as a lead note, in all seven genres.** The pitches are independent; the
+*rhythm* never is. A countermelody that only moves when the tune moves is a
+harmony part wearing a different name. The seam check called "the counter is a
+line not a harmoniser" tests pitch, not rhythm. Not fixed — named.

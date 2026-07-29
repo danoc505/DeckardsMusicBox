@@ -386,7 +386,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29o · the third time sounds different</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29p · ties, and a sub you can hear</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -7165,6 +7165,11 @@ const GENRE = {
       degreePool: [[0, 12], [3, 5], [4, 3], [6, 3], [2, 2], [1, 2], [5, 1]],
       rootShare: 0.45,           // [GUESS]
       octaveUp: 0.12, octaveDown: 0.06,   // the octave buttons [corpus:archive.org manual]
+      /* the TIE button. A dense line needs them or all sixteen steps are the
+         same length; the long notes are what the short ones are heard against.
+         [corpus:Davis TENOR 2019 -- note / tie / rest is the instrument's own
+         three-state time data. The RATE is [EAR].] */
+      tieChance: 0.30,
     },
     ostinato: null,
 
@@ -7709,6 +7714,12 @@ const GENRE = {
          reduces. [EAR, on the same axis as everything else here] */
       distinctPitches: [2, 2],
       degreePool: [[0, 14], [6, 4], [3, 3], [1, 2], [4, 1]],
+      /* MORE ties than acid house, not fewer. With three to six notes in a bar
+         the question is not how many hits there are but how LONG they are --
+         a held note across the gap is the difference between a sparse line and
+         a line with holes in it, and holding is how this music fills a space
+         it has deliberately emptied. [EAR, on the instrument's own tie] */
+      tieChance: 0.45,
       rootShare: 0.62,
       octaveUp: 0.06, octaveDown: 0.04,
       /* and the mechanism: off the kick, always. [corpus:attackmagazine] */
@@ -9109,8 +9120,26 @@ function makeMaterials(chart){
         const ch = chordSet[b], deep = rng() < 0.45;         // unconditional [Law 7]
         if(b > 0 && chordSet[b - 1].degree === ch.degree) continue;
         notes.push({ bar: b, step: 0, dur: 16, pitch: ch.rootMidi, vel: 0.70, role: "bass" });
+        /* ── AND THE SUB HAS A FLOOR, BECAUSE HEARING DOES ────────────────────
+           `low >= R.bass[0] - 12` let the octave-down walk a full octave BELOW
+           the register the genre declared -- which is the one guard that was
+           supposed to hold it. MEASURED, lowest bass note over 30 seeds:
+
+             jungle     C0   16.4 Hz
+             vangelis   A0   27.5 Hz
+
+           16.4 Hz is not a low note, it is a DC-ish wobble: below roughly 20 Hz
+           there is no pitch to hear, no monitor or headphone reproduces it, and
+           the energy is spent on woofer excursion and headroom that the rest of
+           the mix then has to work under. A sub you cannot hear still costs you.
+
+           SUB_FLOOR is MIDI 24 -- C1, 32.7 Hz, the bottom of a five-string bass
+           and about the lowest fundamental a real system puts in a room. The
+           genre's own floor still applies on top of it; this is the limit
+           underneath every genre's opinion. */
+        const SUB_FLOOR = 24;
         const low = ch.rootMidi - 12;
-        if(deep && low >= R.bass[0] - 12)
+        if(deep && low >= Math.max(SUB_FLOOR, R.bass[0] - 12))
           notes.push({ bar: b, step: 0, dur: 16, pitch: low, vel: 0.50, role: "bass" });
       }
       return notes;
@@ -9164,18 +9193,44 @@ function makeMaterials(chart){
       const on = roll.slice().sort((a, z) => a[1] - z[1])
                      .slice(0, Math.min(dens, 16 - banned.size))
                      .map(x => x[0]).sort((a, z) => a - z);
+      /* ── NOTE, TIE OR REST -- THE 303 HAS THREE, THIS HAD TWO ───────────────
+         Every note this builder emitted was exactly one step long. MEASURED
+         over 40 seeds: acid's ties ran at 0.0%, on the one genre in the file
+         named after the instrument.
+
+         The instrument's own sequencer disagrees. Its time data per step is
+         "whole note, TIE or rest" -- three states, not two -- and every account
+         of programming one lists the same set: "the pitch modifications are
+         slide, accent, transpose down and transpose up ... the time data uses
+         symbols and notation for note, tie and rest."
+         [corpus:Davis, TENOR 2019, "The Monthly Acid Pattern"]
+
+         A tie holds the gate open into the following step, and that is where a
+         303 line's long/short contrast comes from -- without it every note is
+         the same length and the line reads as a typed grid rather than a
+         played one. It is also what a slide is usually written ON: the gate
+         stays open and the pitch walks.
+
+         Drawn once per cell step, unconditionally [Law 7]; a tie runs to the
+         next sounding step, so it can never overlap the note after it. */
       const cell = [];
       for(const st of on){
         const isRoot = rng() < A.rootShare, wi = Math.floor(rng() * degs.length);
         const k = isRoot ? 0 : wi;
-        cell.push({ step: st, deg: degs[k], oct: octs[k] });
+        const tie = rng() < (A.tieChance || 0);
+        cell.push({ step: st, deg: degs[k], oct: octs[k], tie });
+      }
+      for(let ci = 0; ci < cell.length; ci++){
+        /* how far this note may run: to the next one, or to the end of the bar */
+        const next = ci + 1 < cell.length ? cell[ci + 1].step : 16;
+        cell[ci].dur = cell[ci].tie ? Math.max(A.grid, next - cell[ci].step) : A.grid;
       }
       for(let b = 0; b < BARS; b++){
         const ch = chordSet[b];
         for(const c of cell){
           const base = intoBand(degMidi(root, mode, ch.degree + c.deg), R.bass[0], R.bass[1]);
           const p = intoBand(base + c.oct, R.bass[0] - 12, R.bass[1] + 12);
-          notes.push({ bar: b, step: c.step, dur: A.grid, pitch: p,
+          notes.push({ bar: b, step: c.step, dur: c.dur, pitch: p,
                        vel: c.step === 0 ? 0.95 : 0.78, role: "bass" });
         }
       }
