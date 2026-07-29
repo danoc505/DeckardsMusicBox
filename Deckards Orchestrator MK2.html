@@ -21,17 +21,159 @@
   #info{ color:var(--dim); white-space:pre-wrap; }
   #story{ color:var(--ink); white-space:pre-wrap; margin-top:.4rem; }
   .law{ color:var(--dim); font-size:12px; border-left:2px solid #33302a; padding-left:.8rem; margin-top:2rem; }
-  /* the front panels. One box per machine currently in a slot; nothing else
-     is drawn, which is the whole point of the pickers above them. */
-  #panels{ display:flex; gap:.6rem; flex-wrap:wrap; margin:.9rem 0; }
-  .panel{ background:var(--panel); border:1px solid #33302a; padding:.6rem .7rem; min-width:15rem; flex:1; }
-  .panel h2{ font-size:11px; letter-spacing:.16em; color:var(--hot); font-weight:normal;
-             margin:0 0 .5rem; text-transform:uppercase; }
+  /* ═══ THE FRONT PANELS ════════════════════════════════════════════════════
+     One panel per machine currently in a slot -- nothing else is drawn, which
+     is the whole point of the pickers above them. A machine that declares a
+     `panel` block gets its own case, its own knob caps and its own step grid;
+     a machine that does not falls back to .plain, the generic slider list that
+     every machine used before this. Both are drawn by the same code. ══════ */
+  #panels{ display:flex; flex-direction:column; gap:1.1rem; margin:1.1rem 0; }
+  .machine{ border-radius:5px; padding:.85rem 1rem 1rem; position:relative;
+            box-shadow:0 10px 26px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14); }
+  .machine .brand{ display:flex; align-items:baseline; gap:.6rem; margin-bottom:.7rem; }
+  .machine .maker{ font-size:10px; letter-spacing:.30em; text-transform:uppercase; opacity:.62; }
+  .machine .model{ font-size:13px; letter-spacing:.09em; }
+  .machine .slotTag{ margin-left:auto; font-size:9.5px; letter-spacing:.20em; opacity:.5;
+                     text-transform:uppercase; }
+
+  /* the knob strip: voice groups side by side, each with its rule and legend,
+     the way a drum machine's silkscreen divides its own front panel */
+  .strip{ display:flex; flex-wrap:wrap; gap:.55rem 1.1rem; align-items:flex-start; }
+  .grp{ display:flex; flex-direction:column; gap:.28rem; }
+  .grp .row{ display:flex; gap:.75rem; }
+  .grp .leg{ font-size:8.5px; letter-spacing:.20em; text-align:center; opacity:.68;
+             border-top:1px solid currentColor; padding-top:.2rem; margin-top:.1rem; }
+
+  /* ── THE KNOB. Drag it up or down; it turns 270 degrees like a real one, from
+     seven o'clock to five o'clock. TWO indicators, because two different things
+     are true at once: the bright pointer is where YOU have it (the genre's base
+     plus your hand), and the dim arc-dot is where the song's automation has it
+     right now. Watching the dot travel while the pointer stays put is the whole
+     three-owner model made visible. ── */
+  .kn{ width:3.05rem; display:flex; flex-direction:column; align-items:center; gap:.16rem;
+       cursor:ns-resize; user-select:none; -webkit-user-select:none; touch-action:none; }
+  .kn .dial{ width:2.35rem; height:2.35rem; border-radius:50%; position:relative;
+             background:radial-gradient(circle at 38% 30%, #5a5a5a, #1b1b1b 62%, #0b0b0b);
+             box-shadow:0 2px 4px rgba(0,0,0,.6), inset 0 1px 1px rgba(255,255,255,.30),
+                        inset 0 -2px 3px rgba(0,0,0,.55); }
+  /* both indicators pivot on the dial's CENTRE and point up at zero, so the
+     angle is simply -135deg (seven o'clock) to +135deg (five o'clock) */
+  .kn .ptr{ position:absolute; left:50%; top:6%; width:2px; height:44%;
+            margin-left:-1px; transform-origin:50% 100%; background:#f2ede1;
+            border-radius:1px; box-shadow:0 0 2px rgba(0,0,0,.8); }
+  .kn .auto{ position:absolute; left:50%; top:-2%; width:0; height:52%;
+             transform-origin:50% 100%; }
+  .kn .auto::before{ content:""; position:absolute; left:-2.5px; top:-3px; width:5px; height:5px;
+                     border-radius:50%; background:var(--hot); opacity:.85;
+                     box-shadow:0 0 5px var(--hot); }
+  .kn.still .auto{ display:none; }                 /* no automation on this knob: no dot */
+  /* the cap legend is its own class, not a .kn descendant -- a switch has one
+     too, and scoping it under .kn left every switch label at body size */
+  /* two lines are reserved whether or not the legend needs them, so a row of
+     knobs with mixed-length caps ("TUNE" beside "CUT OFF FREQ") keeps its value
+     readouts on one line rather than stepping down where a cap wrapped */
+  .cap{ font-size:8px; letter-spacing:.10em; text-align:center; line-height:1.15; opacity:.82;
+        min-height:2.5em; display:flex; align-items:center; justify-content:center; }
+  .kn .val{ font-size:9px; opacity:.58; font-variant-numeric:tabular-nums; }
+  .kn.touched .val{ opacity:1; font-weight:600; }
+  .kn.touched .cap::after{ content:" •"; }         /* your hand is on this one */
+
+  /* a two- or three-position selector is a switch on the real machines, not a
+     knob, so it is drawn as one */
+  .sw{ display:flex; flex-direction:column; align-items:center; gap:.16rem;
+       align-self:flex-start; padding-top:.55rem; }
+  .sw .opts{ display:flex; border:1px solid rgba(0,0,0,.45); border-radius:2px; overflow:hidden; }
+  .sw button{ font:inherit; font-size:9px; letter-spacing:.06em; padding:.2rem .42rem;
+              border:none; border-right:1px solid rgba(0,0,0,.3); cursor:pointer;
+              background:rgba(0,0,0,.16); color:inherit; }
+  .sw button:last-child{ border-right:none; }
+  .sw button[aria-pressed=true]{ background:#d8481c; color:#fff; }
+
+  /* ── THE STEP GRID ── */
+  .seq{ margin-top:.85rem; padding-top:.7rem; border-top:1px solid rgba(0,0,0,.22); }
+  .seqbar{ display:flex; flex-wrap:wrap; gap:.35rem .9rem; align-items:center;
+           font-size:9px; letter-spacing:.14em; text-transform:uppercase; margin-bottom:.5rem; }
+  .seqbar .lab{ opacity:.55; }
+  .pill{ font:inherit; font-size:9px; letter-spacing:.10em; padding:.16rem .44rem; cursor:pointer;
+         border:1px solid rgba(0,0,0,.35); background:rgba(0,0,0,.14); color:inherit; border-radius:2px; }
+  .pill[aria-pressed=true]{ background:#d8481c; color:#fff; border-color:#d8481c; }
+  .pill.warn{ border-color:#d8481c; color:#d8481c; }
+  .steps{ display:grid; grid-template-columns:repeat(16, 1fr); gap:.24rem; }
+  .steps .st{ position:relative; height:2.05rem; border-radius:2px; cursor:pointer;
+              border:1px solid rgba(0,0,0,.45); box-shadow:inset 0 1px 0 rgba(255,255,255,.22); }
+  /* the 808's four-colour banding, in groups of four -- the single most
+     recognisable thing about the machine's face */
+  .steps .st.g0{ background:#c33a26; } .steps .st.g1{ background:#e07a2a; }
+  .steps .st.g2{ background:#e4bc32; } .steps .st.g3{ background:#e7e0cf; }
+  /* a programmed step LIGHTS -- it keeps its group colour and gains a lamp,
+     rather than turning white and losing the banding that identifies it */
+  /* the lamp needs a dark surround as well as a bright core, or a lit step in
+     the fourth (cream) group is indistinguishable from an unlit one */
+  .steps .st.on{ box-shadow:inset 0 0 0 2px rgba(30,20,10,.85), 0 0 10px rgba(255,236,190,.7); }
+  .steps .st.on::after{ content:""; position:absolute; inset:5px; border-radius:1px;
+                        background:#fff6df; box-shadow:0 0 7px rgba(255,240,200,.95); }
+  .steps .st.now{ outline:2px solid #fff; outline-offset:2px; }
+  /* the step numbers are a SIBLING of the button row, not a child -- scoping
+     this under .steps meant the numbers never got the grid and ran together */
+  .seq .num{ display:grid; grid-template-columns:repeat(16, 1fr); gap:.24rem;
+             font-size:8px; opacity:.5; text-align:center; margin-bottom:.18rem; }
+
+  /* the 303's step editor: a note column per step with accent/slide/gate under */
+  .acid{ display:grid; grid-template-columns:repeat(16, 1fr); gap:.24rem; }
+  .acid .col{ display:flex; flex-direction:column; gap:.16rem; }
+  .acid .note{ height:1.85rem; border:1px solid rgba(0,0,0,.4); border-radius:2px;
+               background:#e9e6dd; color:#1c1c1c; font:inherit; font-size:10px; cursor:ns-resize;
+               display:flex; align-items:center; justify-content:center; user-select:none;
+               touch-action:none; font-variant-numeric:tabular-nums; }
+  .acid .note.off{ background:#3b3a36; color:#7d7a72; }
+  .acid .flag{ height:.85rem; border:1px solid rgba(0,0,0,.4); border-radius:2px;
+               background:#3b3a36; cursor:pointer; font-size:7px; color:#8d8a80;
+               display:flex; align-items:center; justify-content:center; }
+  .acid .flag.on{ background:#d8481c; color:#fff; border-color:#d8481c; }
+  .acid .col.now .note{ outline:2px solid #fff; outline-offset:1px; }
+  .seq .rowlab{ display:grid; grid-template-columns:repeat(16,1fr); gap:.24rem;
+                font-size:8px; opacity:.5; text-align:center; margin-bottom:.18rem; }
+
+  /* ── THE SKINS. Colours off photographs of the machines. ── */
+  .sk-tr808{ background:linear-gradient(#dcd4c3, #cdc4b1); color:#241f19;
+             border:1px solid #8d8574; }
+  .sk-tr808 .brand{ background:linear-gradient(#e8681f, #cf4b16); color:#fff;
+                    margin:-.85rem -1rem .8rem; padding:.4rem 1rem; border-radius:4px 4px 0 0; }
+  .sk-tb303{ background:linear-gradient(#cfd0cb, #b9bab4); color:#22231f;
+             border:1px solid #7d7e78; }
+  .sk-tb303 .brand{ background:#22231f; color:#e6e3d8; margin:-.85rem -1rem .8rem;
+                    padding:.4rem 1rem; border-radius:4px 4px 0 0; }
+  .sk-tb303 .brand .model{ color:#e8a33a; }
+  /* the case is quarter-sawn: light bands over a dark ground, at a slight angle */
+  .sk-mellotron{ color:#e8dcc4; border:1px solid #2e1c0e;
+    background:linear-gradient(102deg, rgba(255,255,255,.05) 0 2px, transparent 2px 9px),
+               linear-gradient(98deg,  rgba(0,0,0,.16) 0 3px, transparent 3px 14px),
+               linear-gradient(#6b4423, #4a2d16); }
+  .sk-mellotron .brand{ background:rgba(0,0,0,.30); color:#f0e6d2; margin:-.85rem -1rem .8rem;
+                        padding:.4rem 1rem; border-radius:4px 4px 0 0; }
+  /* black tolex is a texture, not a colour: a fine crosshatch over near-black */
+  .sk-rhodes{ color:#e4e0d6; border:1px solid #000;
+    background:repeating-linear-gradient(45deg, rgba(255,255,255,.035) 0 1px, transparent 1px 4px),
+               repeating-linear-gradient(-45deg, rgba(255,255,255,.03) 0 1px, transparent 1px 4px),
+               linear-gradient(#26241f, #171613); }
+  .sk-rhodes .brand{ margin:-.85rem -1rem .8rem; padding:.4rem 1rem; border-radius:4px 4px 0 0;
+                     background:linear-gradient(#8a1c14, #5e120d); color:#f4e9d8; }
+  .sk-wurly{ background:linear-gradient(#b9b39a, #9c957c); color:#26241c;
+             border:1px solid #6a6553; }
+  .sk-wurly .brand{ background:#3f4a34; color:#e8e4d2; margin:-.85rem -1rem .8rem;
+                    padding:.4rem 1rem; border-radius:4px 4px 0 0; }
+
+  /* the fallback panel, for the six machines with no `panel` block yet */
+  .plain{ background:var(--panel); border:1px solid #33302a; color:var(--ink); }
+  .plain .brand{ color:var(--hot); }
   .knob{ display:grid; grid-template-columns:8.5rem 1fr 5rem; align-items:center; gap:.4rem; margin:.15rem 0; }
   .knob label{ color:var(--dim); font-size:12px; }
   .knob output{ color:var(--ink); font-size:12px; text-align:right; }
   .knob input[type=range]{ width:100%; accent-color:var(--hot); background:none; border:none; padding:0; }
-  .panel .reset{ font-size:11px; padding:.2rem .5rem; margin-top:.45rem; }
+  .machine .reset{ font-size:10px; padding:.22rem .55rem; margin-top:.7rem;
+                   background:rgba(0,0,0,.18); color:inherit; border:1px solid rgba(0,0,0,.35); }
+  .machine .reset:hover{ border-color:currentColor; color:inherit; }
+  .dead{ font-size:9.5px; opacity:.6; margin-top:.5rem; }
 </style>
 </head>
 <body>
@@ -303,18 +445,38 @@ const INSTRUMENTS = {
     controls: [
       /* the 808's own front panel. TUNE and DECAY are the two that made it
          famous -- a long decay on a bridged-T oscillator is the 808 kick.
+         `cap` is what the cap says on the real box; `label` is what it means.
          [theory: TR-808 service manual control set] */
-      { k:"tune",   label:"BD tune",    min:35,  max:70,  step:1,    def:47,  unit:"Hz" },
-      { k:"decay",  label:"BD decay",   min:0.15,max:1.60,step:0.01, def:0.85,unit:"s" },
-      { k:"tone",   label:"BD tone",    min:0,   max:1,   step:0.01, def:0.45 },
-      { k:"snappy", label:"SD snappy",  min:0,   max:1,   step:0.01, def:0.55 },
-      { k:"sdtone", label:"SD tone",    min:0,   max:1,   step:0.01, def:0.50 },
-      { k:"chdecay",label:"CH decay",   min:0.01,max:0.14,step:0.005,def:0.045,unit:"s" },
-      { k:"ohdecay",label:"OH decay",   min:0.10,max:0.90,step:0.01, def:0.42,unit:"s" },
-      { k:"bus",    label:"kit drive",  min:0.6, max:2,   step:0.01, def:1.30 },
-      { k:"gate",   label:"gated verb", min:0,   max:1,   step:0.01, def:0 },
-      { k:"hold",   label:"gate hold",  min:0.04,max:0.40,step:0.005,def:0.150,unit:"s" },
+      { k:"tune",   label:"BD tune",    cap:"TUNE",   min:35,  max:70,  step:1,    def:47,  unit:"Hz" },
+      { k:"decay",  label:"BD decay",   cap:"DECAY",  min:0.15,max:1.60,step:0.01, def:0.85,unit:"s" },
+      { k:"tone",   label:"BD tone",    cap:"TONE",   min:0,   max:1,   step:0.01, def:0.45 },
+      { k:"snappy", label:"SD snappy",  cap:"SNAPPY", min:0,   max:1,   step:0.01, def:0.55 },
+      { k:"sdtone", label:"SD tone",    cap:"TONE",   min:0,   max:1,   step:0.01, def:0.50 },
+      { k:"chdecay",label:"CH decay",   cap:"CH",     min:0.01,max:0.14,step:0.005,def:0.045,unit:"s" },
+      { k:"ohdecay",label:"OH decay",   cap:"OH",     min:0.10,max:0.90,step:0.01, def:0.42,unit:"s" },
+      { k:"bus",    label:"kit drive",  cap:"DRIVE",  min:0.6, max:2,   step:0.01, def:1.30 },
+      { k:"gate",   label:"gated verb", cap:"GATE",   min:0,   max:1,   step:0.01, def:0 },
+      { k:"hold",   label:"gate hold",  cap:"HOLD",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s" },
     ],
+    /* THE FRONT PANEL, as the box lays it out: a knob strip in labelled voice
+       groups, an instrument selector, and sixteen step buttons in four groups of
+       four. This is DATA, so "adding an instrument adds its panel" is still true
+       -- a machine without a `panel` block falls back to the plain control list
+       and is drawn by the same generic code that drew all of them before. */
+    panel: {
+      skin: "tr808", maker: "Roland", title: "Rhythm Composer TR-808",
+      groups: [
+        { label: "BASS DRUM", keys: ["tune", "tone", "decay"] },
+        { label: "SNARE DRUM", keys: ["sdtone", "snappy"] },
+        { label: "HI HAT", keys: ["chdecay", "ohdecay"] },
+        { label: "MASTER", keys: ["bus", "gate", "hold"] },
+      ],
+      grid: "drums",
+      /* the instrument-select row, in the order the machine has them, with the
+         two-letter legends off the real panel */
+      voices: [["kick","BD"], ["snare","SD"], ["ghost","SD·g"], ["tom1","HT"],
+               ["tom2","MT"], ["tom3","LT"], ["hat","CH"], ["openhat","OH"]],
+    },
   },
   segakit: {
     slot: "drums", label: "SEGA DAC + PSG",
@@ -331,8 +493,15 @@ const INSTRUMENTS = {
     slot: "bass", label: "sub bass",
     lanes: { bass:"bass" },
     controls: [
-      { k:"cut",  label:"tone",   min:200, max:4000, step:10,  def:1200, unit:"Hz" },
-      { k:"drive",label:"drive",  min:0,   max:1,    step:0.01,def:0.20 },
+      /* `dead` MEANS THIS KNOB IS NOT WIRED TO THE VOICE. V.bass reads neither
+         of these, so moving them does nothing at all -- and a control that
+         appears to do something and does not is a lie the user cannot detect by
+         listening, which makes it worse than a missing feature. Marked here so
+         the panel can say so out loud, so a genre cannot automate one (there is
+         a seam check), and so whoever wires them can find them. Four machines
+         have this problem: subbass, chipbass, chipkeys and cs80. */
+      { k:"cut",  label:"tone",   min:200, max:4000, step:10,  def:1200, unit:"Hz", dead:true },
+      { k:"drive",label:"drive",  min:0,   max:1,    step:0.01,def:0.20, dead:true },
     ],
   },
   tb303: {
@@ -343,20 +512,36 @@ const INSTRUMENTS = {
          The filter is a FOUR-pole 24 dB/oct diode ladder -- Roland's "18 dB"
          is marketing, and Stinchcombe measured -23.9 dB/oct four independent
          ways. [corpus:timstinchcombe.co.uk diode ladder analysis] */
-      { k:"cutoff", label:"cutoff",    min:80,  max:6000, step:10,  def:520, unit:"Hz" },
-      { k:"res",    label:"resonance", min:0.5, max:18,   step:0.1, def:9.0 },
-      { k:"envmod", label:"env mod",   min:0,   max:1,    step:0.01,def:0.62 },
-      { k:"decay",  label:"decay",     min:0.05,max:1.20, step:0.01,def:0.36, unit:"s" },
-      { k:"accent", label:"accent",    min:0,   max:1,    step:0.01,def:0.65 },
-      { k:"drive",  label:"drive",     min:1,   max:8,    step:0.1, def:2.6 },
-      { k:"wave",   label:"saw / square", min:0, max:1,   step:1,   def:0 },
+      { k:"cutoff", label:"cutoff",    cap:"CUT OFF FREQ", min:80,  max:6000, step:10,  def:520, unit:"Hz" },
+      { k:"res",    label:"resonance", cap:"RESONANCE",    min:0.5, max:18,   step:0.1, def:9.0 },
+      { k:"envmod", label:"env mod",   cap:"ENV MOD",      min:0,   max:1,    step:0.01,def:0.62 },
+      { k:"decay",  label:"decay",     cap:"DECAY",        min:0.05,max:1.20, step:0.01,def:0.36, unit:"s" },
+      { k:"accent", label:"accent",    cap:"ACCENT",       min:0,   max:1,    step:0.01,def:0.65 },
+      { k:"drive",  label:"drive",     cap:"DRIVE",        min:1,   max:8,    step:0.1, def:2.6 },
+      { k:"wave",   label:"saw / square", cap:"WAVEFORM",  min:0, max:1,   step:1,   def:0 },
     ],
+    /* THE 303'S PANEL. The knob row is the box's own, in the box's own order and
+       with its own legends. The STEP GRID is not: a real 303 is programmed
+       through a one-octave keyboard in a mode nobody enjoyed, and the sixteen-
+       step note/accent/slide/gate editor is what every software 303 since
+       ReBirth has used instead. That is a deliberate departure from the hardware
+       and it is the reason anybody can program one now, so it is named here
+       rather than passed off as authentic. */
+    panel: {
+      skin: "tb303", maker: "Roland", title: "Bass Line TB-303",
+      groups: [
+        { label: "", keys: ["wave", "cutoff", "res"] },
+        { label: "", keys: ["envmod", "decay", "accent"] },
+        { label: "", keys: ["drive"] },
+      ],
+      grid: "bass",
+    },
   },
   chipbass: {
     slot: "bass", label: "YM2612 FM bass",
     lanes: { bass:"chipBass" },
-    controls: [
-      { k:"bright", label:"brightness", min:0, max:1, step:0.01, def:0.60 },
+    controls: [                                        // not wired -- see subbass
+      { k:"bright", label:"brightness", min:0, max:1, step:0.01, def:0.60, dead:true },
     ],
   },
 
@@ -369,19 +554,26 @@ const INSTRUMENTS = {
        depth, tone is a preamp lowpass that ships open. There is deliberately no
        "brightness" knob pretending to be a filter that isn't there. */
     controls: [
-      { k:"bark", label:"bark (layer)", min:0, max:1,     step:0.01,   def:0.50 },
-      { k:"wow",  label:"tape wow",     min:0, max:0.006, step:0.0002, def:0.0020 },
-      { k:"tone", label:"tone",         min:0.3, max:1,   step:0.01,   def:1.00 },
+      { k:"bark", label:"bark (layer)", cap:"BARK", min:0, max:1,     step:0.01,   def:0.50 },
+      { k:"wow",  label:"tape wow",     cap:"WOW",  min:0, max:0.006, step:0.0002, def:0.0020 },
+      { k:"tone", label:"tone",         cap:"TONE", min:0.3, max:1,   step:0.01,   def:1.00 },
     ],
+    panel: { skin: "rhodes", maker: "Fender", title: "Rhodes Suitcase Piano",
+             groups: [{ label: "", keys: ["bark", "tone", "wow"] }] },
   },
   wurly: {
     slot: "keys", label: "Wurlitzer",
     lanes: { keys:"wurly" },
     controls: [
-      { k:"trem",  label:"tremolo",  min:0, max:1,  step:0.01, def:0.45 },
-      { k:"tremhz",label:"trem rate",min:3, max:8,  step:0.1,  def:5.5, unit:"Hz" },
-      { k:"bark",  label:"bark",     min:0, max:1,  step:0.01, def:0.55 },
+      { k:"trem",  label:"tremolo",  cap:"VIBRATO", min:0, max:1,  step:0.01, def:0.45 },
+      { k:"tremhz",label:"trem rate",cap:"RATE",    min:3, max:8,  step:0.1,  def:5.5, unit:"Hz" },
+      { k:"bark",  label:"bark",     cap:"BARK",    min:0, max:1,  step:0.01, def:0.55 },
     ],
+    /* the 200A calls it VIBRATO on the cheek and it is amplitude modulation, so
+       it is a tremolo. Keeping the machine's word on the cap and the true word
+       in the label rather than picking one and being wrong somewhere. */
+    panel: { skin: "wurly", maker: "Wurlitzer", title: "Electronic Piano 200A",
+             groups: [{ label: "", keys: ["bark", "trem", "tremhz"] }] },
   },
   mellotron: {
     slot: "keys", label: "Mellotron",
@@ -390,27 +582,36 @@ const INSTRUMENTS = {
       /* a Mellotron is a tape replay machine: every key has its OWN 8-second
          strip of tape, and the character is the tape -- wow, flutter, hiss, and
          the hard stop when the strip runs out. [theory: Mellotron M400 mechanism] */
-      { k:"voice", label:"flute / strings / choir", min:0, max:2, step:1, def:1 },
-      { k:"wow",   label:"tape wow",  min:0, max:0.012, step:0.0002, def:0.0045 },
-      { k:"flutter",label:"flutter",  min:0, max:1,  step:0.01, def:0.35 },
-      { k:"hiss",  label:"tape hiss", min:0, max:1,  step:0.01, def:0.30 },
-      { k:"tapeEnd",label:"8s tape stop", min:0, max:1, step:1, def:1 },
+      { k:"voice", label:"flute / strings / choir", cap:"STATION", min:0, max:2, step:1, def:1 },
+      { k:"wow",   label:"tape wow",  cap:"WOW",     min:0, max:0.012, step:0.0002, def:0.0045 },
+      { k:"flutter",label:"flutter",  cap:"FLUTTER", min:0, max:1,  step:0.01, def:0.35 },
+      { k:"hiss",  label:"tape hiss", cap:"HISS",    min:0, max:1,  step:0.01, def:0.30 },
+      { k:"tapeEnd",label:"8s tape stop", cap:"TAPE STOP", min:0, max:1, step:1, def:1 },
     ],
+    /* STATION is the M400's own word: the tape frame slides and a different set
+       of strips comes under the heads. It is a three-way selector, not a knob. */
+    panel: { skin: "mellotron", maker: "Mellotronics", title: "Mellotron M400",
+             groups: [{ label: "TAPE FRAME", keys: ["voice", "tapeEnd"] },
+                      { label: "TRANSPORT", keys: ["wow", "flutter", "hiss"] }] },
   },
   cs80: {
     slot: "keys", label: "CS-80",
     lanes: { keys:"cs80" },
     controls: [
-      { k:"bright", label:"brilliance", min:0, max:1, step:0.01, def:0.50 },
-      { k:"ring",   label:"ring mod",   min:0, max:1, step:0.01, def:0.16 },
-      { k:"ens",    label:"ensemble",   min:0, max:1, step:0.01, def:0.42 },
-      { k:"vib",    label:"vibrato",    min:0, max:1, step:0.01, def:0.50 },
+      /* all four not wired -- V.cs80 builds its layers from constants and reads
+         no PARAMS at all. See the note on subbass. This is the machine where it
+         stings most: brilliance and ring mod are the CS-80's two signature
+         controls and both of these do nothing today. */
+      { k:"bright", label:"brilliance", min:0, max:1, step:0.01, def:0.50, dead:true },
+      { k:"ring",   label:"ring mod",   min:0, max:1, step:0.01, def:0.16, dead:true },
+      { k:"ens",    label:"ensemble",   min:0, max:1, step:0.01, def:0.42, dead:true },
+      { k:"vib",    label:"vibrato",    min:0, max:1, step:0.01, def:0.50, dead:true },
     ],
   },
   chipkeys: {
     slot: "keys", label: "YM2612 FM keys",
-    lanes: { keys:"chipKeys" },
-    controls: [ { k:"bright", label:"brightness", min:0, max:1, step:0.01, def:0.60 } ],
+    lanes: { keys:"chipKeys" },                        // not wired -- see subbass
+    controls: [ { k:"bright", label:"brightness", min:0, max:1, step:0.01, def:0.60, dead:true } ],
   },
 };
 
@@ -2227,12 +2428,20 @@ const Sound = (function(){
     return ctx;
   }
   let liveTimer = null;
-  function playLive(events, space, kick, drumDrive, gate, motion){
+  /* `fromSec` starts the song part-way in, at the same song time it would have
+     been at. Editing a step on the 808's grid recomposes the whole song -- that
+     is what makes a pin an input rather than a patch -- and without this, every
+     button press would throw playback back to bar one, which would make the grid
+     unusable for the one thing a grid is for. The returned t0 is the context
+     time the song's ZERO is at, so it stays the right reference either way. */
+  function playLive(events, space, kick, drumDrive, gate, motion, fromSec){
     ensureLive();
     stopLive();
     setSpace(liveGraph, space, kick, drumDrive, gate, motion);   // room, kit, gate and motion, before anything sounds
-    const t0 = ctx.currentTime + 0.15;
+    const skip = fromSec > 0 ? fromSec : 0;
+    const t0 = ctx.currentTime + 0.15 - skip;
     let i = 0;
+    while(i < events.length && events[i].tSec < skip) i++;
     const pump = () => {
       const horizon = ctx.currentTime + 0.6;              // schedule ~0.6 s ahead
       while(i < events.length && t0 + events[i].tSec < horizon){
@@ -2546,6 +2755,18 @@ const GENRE = {
            the bar, so a decay locked to a handful of them is heard as a pattern
            rather than as noise. This is the one place lofi gets machine detail. */
         chdecay: [{ kind: "plock", density: [0.12, 0.26], amt: [-0.012, 0.022] }],
+      },
+      /* THE GENRE DOES NOT DRAW A 303 -- machines.bass is auto only -- but the
+         user can put one in the slot by hand, and a machine whose knobs sit dead
+         still is worse than one that is not offered. So lofi describes how IT
+         would move a 303 if asked: slowly, narrowly, and without the acid dive.
+         This is the general rule the table should follow -- a genre describes
+         every machine it can plausibly host, not only the ones it draws. */
+      tb303: {
+        cutoff: [{ kind: "section", by: { chorus: [140, 380], bridge: [-160, -60],
+                                          outro: [-200, -110] } },
+                 { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [90, 240], shape: "tri" }],
+        decay:  [{ kind: "plock", density: [0.08, 0.16], amt: [-0.06, 0.10] }],
       },
     },
   },
@@ -4165,8 +4386,26 @@ function describe(song){
 function newSong(forcedSeed){
   const seed = forcedSeed != null ? forcedSeed : (parseInt($("seed").value, 10) || 1);
   $("seed").value = seed;
-  SONG = composeSong(seed, $("rig").value, $("genre").value, PICK, PINS);
+  /* A BASS PIN CARRIES ABSOLUTE PITCHES, so it belongs to the key it was typed
+     in. Change the seed or the genre and the root and mode change with it, and
+     those pitches are then out of key -- which the stage-3 seam check rightly
+     THROWS on. The check is correct and stays; what would be wrong is letting a
+     correct check take the whole program down. So: a compose that throws drops
+     the pitched pins, retries once, and SAYS SO. Drum pins have no pitch and
+     survive a key change untouched, which is why only the bass ones go. */
+  let dropped = 0;
+  try {
+    SONG = composeSong(seed, $("rig").value, $("genre").value, PICK, PINS);
+  } catch(err){
+    for(const k in PINS) if(k.startsWith("bass:")){ delete PINS[k]; dropped++; }
+    if(!dropped) throw err;
+    SONG = composeSong(seed, $("rig").value, $("genre").value, PICK, PINS);
+  }
   describe(SONG);
+  if(dropped) $("info").textContent +=
+    `\n${dropped} pinned bass bar${dropped > 1 ? "s were" : " was"} dropped: ` +
+    `it was written in a different key and this song is in ` +
+    `${NOTE_NAMES[SONG.chart.root]} ${SONG.chart.mode}.`;
   drawPanels();
   return SONG;
 }
@@ -4189,45 +4428,452 @@ function fmt(c, v){
   const d = c.step >= 1 ? 0 : (c.step >= 0.01 ? 2 : 4);
   return v.toFixed(d) + (c.unit ? " " + c.unit : "");
 }
+const el = (tag, cls, txt) => {
+  const e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(txt != null) e.textContent = txt;
+  return e;
+};
+
+/* ── WHERE THE PLAYHEAD IS, in song seconds, or null when nothing is playing.
+   Everything live on the panels -- the automation dots, the lit step, the
+   position readout -- is a function of this one number, so there is one clock
+   and it is the audio context's, not a timer's. ── */
+let PLAY_T0 = null;
+function songTime(){
+  if(PLAY_T0 == null || !SONG) return null;
+  const t = Sound.now() - PLAY_T0;
+  return (t < 0 || t > SONG.perf.seconds) ? null : t;
+}
+
+/* ── THE KNOB. Drag it up or down; it turns 270 degrees, seven o'clock to five,
+   the way the real ones do. It carries TWO indicators because two things are
+   true about it at once:
+
+     the bright pointer   where YOU have it -- the genre's base plus your hand
+     the dim orange dot   where the SONG has it right now
+
+   Watching the dot travel while the pointer stays put is the three-owner model
+   made visible, and it is the only way a user can tell an automated knob from a
+   dead one. Dragging writes TRIM, an OFFSET, so grabbing a moving filter does
+   not stop it moving -- it moves around where you put it. ── */
+const KNOBS = [];
+function knobEl(m, c){
+  const key = m + "." + c.k;
+  if(PARAMS[key] == null) PARAMS[key] = c.def;
+  const box = el("div", "kn");
+  box.dataset.key = key;              // so a probe can ask which control this is
+  box.title = c.label + (c.unit ? " (" + c.unit + ")" : "") +
+              (c.dead ? "  — NOT WIRED: this knob does nothing yet" : "");
+  const dial = el("div", "dial"), ptr = el("div", "ptr"), auto = el("div", "auto");
+  dial.appendChild(ptr); dial.appendChild(auto);
+  const cap = el("div", "cap", c.cap || c.label), val = el("div", "val");
+  box.appendChild(dial); box.appendChild(cap); box.appendChild(val);
+  if(c.dead) box.style.opacity = ".45";
+
+  const ang = v => -135 + 270 * (v - c.min) / (c.max - c.min);
+  box.refresh = () => {
+    const set = panelValue(m, c.k);
+    ptr.style.transform = "rotate(" + ang(set) + "deg)";
+    val.textContent = fmt(c, set);
+    box.classList.toggle("touched", !!TRIM[key]);
+    const t = songTime(), moving = SONG && SONG.motion.lanes[key];
+    box.classList.toggle("still", !(moving && t != null));
+    if(moving && t != null){
+      const live = Math.max(c.min, Math.min(c.max, set + motionAt(SONG.motion, key, { tSec: t })));
+      auto.style.transform = "rotate(" + ang(live) + "deg)";
+    }
+  };
+  /* the whole dial is ~160 px of travel, so fine control is a slow hand rather
+     than a modifier key nobody discovers */
+  let v0 = 0, y0 = 0, on = false;
+  const yOf = e => (e.touches ? e.touches[0] : e).clientY;
+  box.addEventListener("pointerdown", e => {
+    on = true; y0 = yOf(e); v0 = panelValue(m, c.k);
+    box.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  box.addEventListener("pointermove", e => {
+    if(!on) return;
+    let v = v0 + (y0 - yOf(e)) / 160 * (c.max - c.min);
+    v = Math.max(c.min, Math.min(c.max, Math.round(v / c.step) * c.step));
+    TRIM[key] = v - (PARAMS[key] == null ? c.def : PARAMS[key]);   // an OFFSET, never a replacement
+    box.refresh(); e.preventDefault();
+  });
+  box.addEventListener("pointerup", () => { on = false; });
+  /* double-click releases this one knob back to the genre and its automation */
+  box.addEventListener("dblclick", () => { delete TRIM[key]; box.refresh(); });
+  box.refresh(); KNOBS.push(box);
+  return box;
+}
+
+/* a two- or three-position control is a SWITCH on the real machines */
+function switchEl(m, c){
+  const key = m + "." + c.k;
+  if(PARAMS[key] == null) PARAMS[key] = c.def;
+  const names = (c.label.split("/").length === (c.max - c.min + 1))
+    ? c.label.split("/").map(s => s.trim().toUpperCase())
+    : Array.from({ length: c.max - c.min + 1 }, (_, i) => (c.min + i ? "ON" : "OFF"));
+  const box = el("div", "sw"), opts = el("div", "opts");
+  const btns = [];
+  for(let i = 0; i <= c.max - c.min; i++){
+    const b = el("button", null, names[i]);
+    b.addEventListener("click", () => { TRIM[key] = (c.min + i) - PARAMS[key]; box.refresh(); });
+    opts.appendChild(b); btns.push(b);
+  }
+  box.appendChild(opts); box.appendChild(el("div", "cap", c.cap || c.label));
+  box.refresh = () => {
+    const v = Math.round(panelValue(m, c.k));
+    btns.forEach((b, i) => b.setAttribute("aria-pressed", String(c.min + i === v)));
+  };
+  box.refresh(); KNOBS.push(box);
+  return box;
+}
+
+/* ── WHICH PATTERN IS WHICH. A, Avar and B deliberately SHARE one drum pattern
+   and one bass line, so the grids address the PATTERN, not the material -- the
+   same reason pins are keyed that way. ── */
+const PAT_OF = { A: { drums: "A", bass: "A" }, Avar: { drums: "A", bass: "A" },
+                 B: { drums: "B", bass: "A" }, C: { drums: "C", bass: "C" } };
+const SEQ = { drums: { pat: "A", bar: 0, lane: "kick" }, bass: { pat: "A", bar: 0 } };
+function patternNotes(role, pat){
+  const M = SONG.materials;
+  if(role === "drums") return pat === "fill" ? M.fill : M[pat === "A" ? "A" : pat].drums;
+  return M[pat].bass;
+}
+/* the pattern the song is playing AT this moment, so the lit step is the step
+   you are actually hearing rather than the step you happen to be looking at */
+function playingPattern(role){
+  const t = songTime();
+  if(t == null) return null;
+  const bar = Math.floor(t / (16 * SONG.motion.spb));
+  const sec = SONG.sections.find(s => bar >= s.startBar && bar < s.endBar);
+  if(!sec) return null;
+  const isFill = role === "drums" && sec.fillInto && bar === sec.endBar - 1;
+  return { pat: isFill ? "fill" : (PAT_OF[sec.material] || {})[role],
+           bar: isFill ? 0 : (bar - sec.startBar) % SONG.materials.bars,
+           step: Math.floor(t / SONG.motion.spb) % 16 };
+}
+
+/* ── PINNING. Reading the grid gives the notes currently in force (composed, or
+   already pinned). Writing one hands a complete bar of notes to chart.pins and
+   recomposes -- so the seam checks run over it, the roll prints it as pinned,
+   and the .wav and .mid carry exactly what you hear. ── */
+function pinKey(role, pat, bar, lane){
+  return [role, pat, bar, lane].filter(x => x != null).join(":");
+}
+function writePin(role, pat, bar, lane, notes){
+  PINS[pinKey(role, pat, bar, lane)] = notes;
+  recompose();
+}
+function clearPin(role, pat, bar, lane){
+  delete PINS[pinKey(role, pat, bar, lane)];
+  recompose();
+}
+/* rebuild the song around the edit and keep playing from the same song second */
+function recompose(){
+  const at = songTime();
+  newSong(SONG.chart.seed);
+  if(playing) startPlayback(at || 0);
+}
+
+/* ── THE 808's SIXTEEN STEPS. Instrument select, then sixteen buttons -- which
+   is how the machine works and why it could be programmed by people who could
+   not read music. ── */
+function drumGridEl(m, M){
+  const S = SEQ.drums, pats = PIN_PATTERNS.drums;
+  const wrap = el("div", "seq");
+  const bar = el("div", "seqbar");
+  bar.appendChild(el("span", "lab", "pattern"));
+  for(const p of pats){
+    const b = el("button", "pill", p === "fill" ? "FILL" : p);
+    b.setAttribute("aria-pressed", String(S.pat === p));
+    b.addEventListener("click", () => { S.pat = p; if(p === "fill") S.bar = 0; drawPanels(); });
+    bar.appendChild(b);
+  }
+  bar.appendChild(el("span", "lab", "bar"));
+  for(let i = 0; i < (S.pat === "fill" ? 1 : SONG.materials.bars); i++){
+    const b = el("button", "pill", String(i + 1));
+    b.setAttribute("aria-pressed", String(S.bar === i));
+    b.addEventListener("click", () => { S.bar = i; drawPanels(); });
+    bar.appendChild(b);
+  }
+  wrap.appendChild(bar);
+
+  const vrow = el("div", "seqbar");
+  vrow.appendChild(el("span", "lab", "instrument"));
+  for(const [lane, legend] of M.panel.voices){
+    const b = el("button", "pill", legend);
+    b.setAttribute("aria-pressed", String(S.lane === lane));
+    b.addEventListener("click", () => { S.lane = lane; drawPanels(); });
+    vrow.appendChild(b);
+  }
+  const isPinned = PINS[pinKey("drums", S.pat, S.bar, S.lane)] != null;
+  if(isPinned){
+    const rev = el("button", "pill warn", "PINNED — revert this lane");
+    rev.addEventListener("click", () => clearPin("drums", S.pat, S.bar, S.lane));
+    vrow.appendChild(rev);
+  }
+  wrap.appendChild(vrow);
+
+  const nums = el("div", "num");
+  for(let i = 0; i < 16; i++) nums.appendChild(el("span", null, String(i + 1)));
+  wrap.appendChild(nums);
+
+  const here = patternNotes("drums", S.pat).filter(n => n.bar === S.bar && n.lane === S.lane);
+  const onAt = {}; for(const n of here) onAt[n.step] = n;
+  /* a step switched ON needs a velocity, and the honest source for one is the
+     lane's OWN other hits in this pattern -- not a number invented here. The
+     0.8 fallback is only reached for a lane with nothing in it anywhere. */
+  const laneVels = patternNotes("drums", S.pat).filter(n => n.lane === S.lane).map(n => n.vel).sort();
+  const vel = laneVels.length ? laneVels[Math.floor(laneVels.length / 2)] : 0.8;
+
+  const grid = el("div", "steps");
+  for(let i = 0; i < 16; i++){
+    const b = el("div", "st g" + Math.floor(i / 4));
+    if(onAt[i]) b.classList.add("on");
+    b.dataset.step = i;
+    b.addEventListener("click", () => {
+      const next = [];
+      for(let s = 0; s < 16; s++){
+        if(s === i ? !onAt[i] : !!onAt[s])
+          next.push(onAt[s] ? { ...onAt[s] }
+                            : { bar: S.bar, step: s, dur: 1, lane: S.lane, vel, role: "drums" });
+      }
+      writePin("drums", S.pat, S.bar, S.lane, next);
+    });
+    grid.appendChild(b);
+  }
+  wrap.appendChild(grid);
+  wrap.stepEls = grid.children;
+  return wrap;
+}
+
+/* ── THE 303's STEP EDITOR. Note, accent, slide and gate per step. A real 303 is
+   programmed through a one-octave keyboard in a mode nobody enjoyed; this is the
+   software convention every 303 emulation has used since ReBirth, and it is
+   named as a departure in the machine's own panel block rather than passed off
+   as authentic. Notes move by SCALE DEGREE, so an edit cannot leave the key --
+   which matters, because the seam checks throw on an out-of-key note and a UI
+   that can crash the composer is not a UI. ── */
+function bassGridEl(m, M){
+  const S = SEQ.bass, C = SONG.chart;
+  const wrap = el("div", "seq");
+  const bar = el("div", "seqbar");
+  bar.appendChild(el("span", "lab", "pattern"));
+  for(const p of PIN_PATTERNS.bass){
+    const b = el("button", "pill", p);
+    b.setAttribute("aria-pressed", String(S.pat === p));
+    b.addEventListener("click", () => { S.pat = p; drawPanels(); });
+    bar.appendChild(b);
+  }
+  bar.appendChild(el("span", "lab", "bar"));
+  for(let i = 0; i < SONG.materials.bars; i++){
+    const b = el("button", "pill", String(i + 1));
+    b.setAttribute("aria-pressed", String(S.bar === i));
+    b.addEventListener("click", () => { S.bar = i; drawPanels(); });
+    bar.appendChild(b);
+  }
+  if(PINS[pinKey("bass", S.pat, S.bar)] != null){
+    const rev = el("button", "pill warn", "PINNED — revert this bar");
+    rev.addEventListener("click", () => clearPin("bass", S.pat, S.bar));
+    bar.appendChild(rev);
+  }
+  wrap.appendChild(bar);
+
+  const here = patternNotes("bass", S.pat).filter(n => n.bar === S.bar);
+  const at = {}; for(const n of here) at[n.step] = n;
+  const fallback = here.length ? here[0].pitch
+                 : intoBand(degMidi(C.root, C.mode, 0), GENRE[C.genre].registers.bass[0],
+                            GENRE[C.genre].registers.bass[1]);
+
+  /* WRITING THE BAR. Duration is the distance to the next gate and slide is the
+     interval from the previous one -- both are what the sequence says, computed
+     the same way acidize computes them, so a typed bar and a composed bar carry
+     the same kind of data rather than two kinds. */
+  const commit = cells => {
+    const on = [];
+    for(let s = 0; s < 16; s++) if(cells[s]) on.push(s);
+    const out = on.map((s, i) => {
+      const nxt = i + 1 < on.length ? on[i + 1] : 16;
+      const n = { bar: S.bar, step: s, dur: Math.max(1, nxt - s),
+                  pitch: cells[s].pitch, vel: s === 0 ? 0.92 : 0.74, role: "bass" };
+      if(cells[s].accent) n.accent = true;
+      const prev = i > 0 ? cells[on[i - 1]] : null;
+      if(cells[s].slide && prev && Math.abs(n.pitch - prev.pitch) <= 12 && n.pitch !== prev.pitch)
+        n.slide = n.pitch - prev.pitch;
+      return n;
+    });
+    writePin("bass", S.pat, S.bar, null, out);
+  };
+  const cellsNow = () => {
+    const c = {};
+    for(let s = 0; s < 16; s++) if(at[s])
+      c[s] = { pitch: at[s].pitch, accent: !!at[s].accent, slide: at[s].slide != null };
+    return c;
+  };
+
+  const lab = el("div", "rowlab");
+  for(let i = 0; i < 16; i++) lab.appendChild(el("span", null, String(i + 1)));
+  wrap.appendChild(lab);
+
+  const grid = el("div", "acid");
+  for(let i = 0; i < 16; i++){
+    const col = el("div", "col"), n = at[i];
+    const note = el("div", "note" + (n ? "" : " off"));
+    if(n){
+      const sc = MODES[C.mode], d = sc.indexOf(pc(n.pitch - C.root));
+      note.textContent = (d < 0 ? "?" : d + 1) + (n.pitch >= 48 ? "'" : "");
+      note.title = NOTE_NAMES[pc(n.pitch)] + (Math.floor(n.pitch / 12) - 1) + " — drag to transpose";
+    } else note.textContent = "·";
+    /* click toggles the gate; dragging a live step transposes it by scale steps */
+    note.addEventListener("click", e => {
+      if(note.dataset.dragged){ delete note.dataset.dragged; return; }
+      const c = cellsNow();
+      if(c[i]) delete c[i];
+      else c[i] = { pitch: at[i] ? at[i].pitch : fallback, accent: false, slide: false };
+      commit(c);
+    });
+    if(n){
+      let y0 = 0, p0 = 0, on = false;
+      note.addEventListener("pointerdown", e => {
+        on = true; y0 = e.clientY; p0 = n.pitch; note.setPointerCapture(e.pointerId);
+      });
+      note.addEventListener("pointermove", e => {
+        if(!on) return;
+        const steps = Math.round((y0 - e.clientY) / 14);
+        if(!steps) return;
+        note.dataset.dragged = "1";
+        const c = cellsNow();
+        c[i].pitch = scaleStep(C.root, C.mode, p0, steps);
+        on = false; commit(c);
+      });
+      note.addEventListener("pointerup", () => { on = false; });
+    }
+    col.appendChild(note);
+    for(const [flag, legend] of [["accent", "ACC"], ["slide", "SLD"]]){
+      const f = el("div", "flag" + (n && (flag === "accent" ? n.accent : n.slide != null) ? " on" : ""), legend);
+      f.addEventListener("click", () => {
+        if(!at[i]) return;                       // a rest has nothing to accent
+        const c = cellsNow(); c[i][flag] = !c[i][flag]; commit(c);
+      });
+      col.appendChild(f);
+    }
+    grid.appendChild(col);
+  }
+  wrap.appendChild(grid);
+  wrap.stepEls = grid.children;
+  return wrap;
+}
+
 function drawPanels(){
   const host = $("panels");
   host.innerHTML = "";
+  KNOBS.length = 0; GRIDS.length = 0;
   if(!SONG) return;
   for(const slot of ["drums", "bass", "keys"]){
     const m = SONG.chart.picks[slot];
     if(m === "auto" || !INSTRUMENTS[m]) continue;
-    const M = INSTRUMENTS[m];
-    const box = document.createElement("div"); box.className = "panel";
-    const h = document.createElement("h2"); h.textContent = M.label; box.appendChild(h);
-    for(const c of M.controls){
-      const key = m + "." + c.k;
-      if(PARAMS[key] == null) PARAMS[key] = c.def;
-      const row = document.createElement("div"); row.className = "knob";
-      const lab = document.createElement("label"); lab.textContent = c.label;
-      const sl = document.createElement("input");
-      sl.type = "range"; sl.min = c.min; sl.max = c.max; sl.step = c.step; sl.value = PARAMS[key];
-      const out = document.createElement("output"); out.textContent = fmt(c, +PARAMS[key]);
-      sl.addEventListener("input", () => {
-        PARAMS[key] = +sl.value;
-        out.textContent = fmt(c, +sl.value);
-      });
-      row.appendChild(lab); row.appendChild(sl); row.appendChild(out); box.appendChild(row);
+    const M = INSTRUMENTS[m], P = M.panel;
+    const box = el("div", "machine " + (P ? "sk-" + P.skin : "plain"));
+
+    const brand = el("div", "brand");
+    brand.appendChild(el("span", "maker", P ? P.maker : ""));
+    brand.appendChild(el("span", "model", P ? P.title : M.label));
+    brand.appendChild(el("span", "slotTag", slot));
+    box.appendChild(brand);
+
+    if(P){
+      const strip = el("div", "strip");
+      for(const g of P.groups){
+        const grp = el("div", "grp"), row = el("div", "row");
+        for(const k of g.keys){
+          const c = M.controls.find(x => x.k === k);
+          if(!c) continue;
+          row.appendChild((c.step >= 1 && c.max - c.min <= 2) ? switchEl(m, c) : knobEl(m, c));
+        }
+        grp.appendChild(row);
+        if(g.label) grp.appendChild(el("div", "leg", g.label));
+        strip.appendChild(grp);
+      }
+      box.appendChild(strip);
+      if(P.grid === "drums") { const gr = drumGridEl(m, M); box.appendChild(gr); GRIDS.push(["drums", gr]); }
+      if(P.grid === "bass")  { const gr = bassGridEl(m, M);  box.appendChild(gr); GRIDS.push(["bass", gr]); }
+    } else {
+      /* the machines with no panel block yet: the same generic slider list every
+         machine had before, drawn by the same code so nothing regressed */
+      for(const c of M.controls){
+        const key = m + "." + c.k;
+        if(PARAMS[key] == null) PARAMS[key] = c.def;
+        const row = el("div", "knob");
+        row.appendChild(el("label", null, c.label + (c.dead ? "  (not wired)" : "")));
+        const sl = document.createElement("input");
+        sl.type = "range"; sl.min = c.min; sl.max = c.max; sl.step = c.step; sl.value = panelValue(m, c.k);
+        const out = el("output", null, fmt(c, panelValue(m, c.k)));
+        sl.addEventListener("input", () => {
+          TRIM[key] = +sl.value - PARAMS[key];        // still an offset, same model
+          out.textContent = fmt(c, +sl.value);
+        });
+        row.appendChild(sl); row.appendChild(out); box.appendChild(row);
+      }
     }
-    const rst = document.createElement("button"); rst.className = "reset";
-    rst.textContent = "reset to " + GENRE[SONG.chart.genre].label;
-    rst.addEventListener("click", () => { applyRack(SONG.chart, true); drawPanels(); });
+    const deadOnes = M.controls.filter(c => c.dead);
+    if(deadOnes.length)
+      box.appendChild(el("div", "dead",
+        "note: " + deadOnes.map(c => c.cap || c.label).join(", ") +
+        (deadOnes.length > 1 ? " are" : " is") +
+        " declared but NOT WIRED to the voice — moving " +
+        (deadOnes.length > 1 ? "them" : "it") + " does nothing yet."));
+
+    const rst = el("button", "reset", "reset to " + GENRE[SONG.chart.genre].label);
+    rst.addEventListener("click", () => {
+      for(const c of M.controls) delete TRIM[m + "." + c.k];
+      applyRack(SONG.chart, true); drawPanels();
+    });
     box.appendChild(rst);
     host.appendChild(box);
   }
+  refreshLive();
+}
+
+/* ── ONE ANIMATION LOOP, driven by the audio clock, updating every live thing on
+   the panels: the automation dots, the lit step, and the position readout. ── */
+const GRIDS = [];
+function refreshLive(){
+  for(const k of KNOBS) k.refresh();
+  for(const [role, gr] of GRIDS){
+    const p = playingPattern(role);
+    const showing = role === "drums"
+      ? (p && p.pat === SEQ.drums.pat && p.bar === SEQ.drums.bar)
+      : (p && p.pat === SEQ.bass.pat && p.bar === SEQ.bass.bar);
+    for(let i = 0; i < gr.stepEls.length; i++)
+      gr.stepEls[i].classList.toggle("now", !!showing && p.step === i);
+  }
+  const t = songTime();
+  $("pos").textContent = t == null ? ""
+    : `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}` +
+      ` · bar ${Math.floor(t / (16 * SONG.motion.spb)) + 1}/${SONG.form.nBars}`;
+}
+let RAF = null;
+function pumpLive(){
+  refreshLive();
+  RAF = playing ? requestAnimationFrame(pumpLive) : null;
+  if(!playing){ PLAY_T0 = null; refreshLive(); }
+}
+function startPlayback(fromSec){
+  const S = soundNow();
+  PLAY_T0 = Sound.playLive(SONG.perf.events, S.space, S.kick, S.drumDrive, S.gate, S.motion, fromSec);
+  playing = true; $("play").innerHTML = "&#9632; stop";
+  if(!RAF) RAF = requestAnimationFrame(pumpLive);
+}
+function stopPlayback(){
+  Sound.stopLive(); playing = false; PLAY_T0 = null;
+  $("play").innerHTML = "&#9654; play";
+  if(RAF){ cancelAnimationFrame(RAF); RAF = null; }
+  refreshLive();
 }
 function togglePlay(){
   if(!SONG) newSong();
-  if(playing){ Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play"; return; }
-  {
-    const S = soundNow();
-    Sound.playLive(SONG.perf.events, S.space, S.kick, S.drumDrive, S.gate, S.motion);
-  }
-  playing = true; $("play").innerHTML = "&#9632; stop";
+  if(playing) stopPlayback(); else startPlayback(0);
 }
 function downloadMidi(){
   if(!SONG) newSong();
@@ -4251,7 +4897,7 @@ async function downloadWav(){
   } finally { $("wav").textContent = "render .wav"; $("wav").disabled = false; }
 }
 window.addEventListener("DOMContentLoaded", () => {
-  $("new").addEventListener("click", () => { Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play";
+  $("new").addEventListener("click", () => { stopPlayback();
     newSong(Math.floor((Date.now() % 100000)) ); });   // the button draws a fresh seed; the FIELD pins one
   $("play").addEventListener("click", togglePlay);
   $("wav").addEventListener("click", downloadWav);
@@ -4266,21 +4912,19 @@ window.addEventListener("DOMContentLoaded", () => {
     const ids = { drums:"mDrums", bass:"mBass", keys:"mKeys" };
     const auto = { drums:"drums: as the rig", bass:"bass: as the rig", keys:"keys: as the rig" };
     for(const slot in ids){
-      const el = $(ids[slot]);
-      el.innerHTML = `<option value="auto">${auto[slot]}</option>` +
+      const sel = $(ids[slot]);
+      sel.innerHTML = `<option value="auto">${auto[slot]}</option>` +
         Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].slot === slot)
           .map(k => `<option value="${k}">${slot}: ${INSTRUMENTS[k].label}</option>`).join("");
-      el.addEventListener("change", () => {
-        PICK[slot] = el.value;
-        Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play";
+      sel.addEventListener("change", () => {
+        PICK[slot] = sel.value;
+        stopPlayback();
         newSong(SONG ? SONG.chart.seed : 1);
       });
     }
   }
-  $("genre").addEventListener("change", () => {
-    Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play"; newSong(); });
-  $("rig").addEventListener("change", () => {
-    Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play"; newSong(); });
+  $("genre").addEventListener("change", () => { stopPlayback(); newSong(); });
+  $("rig").addEventListener("change", () => { stopPlayback(); newSong(); });
   newSong(1);
 });
 
@@ -4294,6 +4938,10 @@ window.MK2 = {
   INSTRUMENTS, PARAMS, TRIM, CONTROL, PICK, PINS, PIN_PATTERNS, loadParams, panelValue,
   makeMotion, motionAt,
   voiceNames: () => Sound.voiceNames(),
+  /* the song the panels are currently showing -- a read handle for a probe
+     driving the real UI in a real browser, so "the grid writes a pin and the
+     pin reaches the material" can be measured rather than asserted */
+  currentSong: () => SONG,
   genres: () => Object.keys(GENRE),
   toMidi,
   /* measurement handles: the chip's tuning grid and its patch table, so a probe

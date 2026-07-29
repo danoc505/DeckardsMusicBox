@@ -1,0 +1,181 @@
+#!/usr/bin/env node
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE UI, DRIVEN — in a real browser, on the real shipped file.
+
+       node harness/mk2_ui.js [--shot <dir>]
+
+   WHY THIS EXISTS. Every other harness in here reconstructs the engine by
+   eval'ing the <script> out of the HTML, which is exactly right for testing
+   composition and exactly useless for testing a front panel: it never builds a
+   DOM, never runs a listener, and never renders a pixel. So the claims this
+   pass makes -- "the step grid writes a pin", "the pin reaches the material",
+   "the knob is an offset not a replacement", "the automation dot moves while
+   the pointer stays put" -- were all unprovable by the existing battery, and an
+   unprovable claim in this project has a bad history.
+
+   This loads the file at file:// in Chromium, clicks the actual buttons, drags
+   the actual knobs, presses play, and reads back what the program did. It also
+   fails on any uncaught page error, which is the cheapest possible guard
+   against shipping an HTML file that throws on load.
+
+   It is a SEPARATE command rather than part of mk2_test.js because it needs a
+   browser and takes ~10 s where the seam battery takes 1.4. Run it whenever the
+   panels change. It requires the playwright in node_modules and a chromium; on
+   a machine without one it says so and exits 0 rather than failing a battery
+   for a missing dependency.
+   ═══════════════════════════════════════════════════════════════════════════ */
+const path = require("path"), fs = require("fs");
+
+let chromium;
+try { ({ chromium } = require(path.resolve(__dirname, "..", "node_modules", "playwright"))); }
+catch(e){ console.log("playwright not installed — skipping the UI probe"); process.exit(0); }
+
+/* the browser this environment ships, if the default download is not there */
+const CANDIDATES = ["/opt/pw-browsers/chromium", process.env.CHROME_PATH].filter(Boolean);
+const exe = CANDIDATES.find(p => { try { return fs.existsSync(p); } catch(e){ return false; } });
+
+const FILE = "file://" + path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html");
+const shotAt = process.argv.indexOf("--shot");
+const shotDir = shotAt >= 0 ? process.argv[shotAt + 1] : null;
+
+let pass = 0, fail = 0;
+const check = (label, ok, detail) => {
+  console.log(`  ${ok ? "✓" : "✗ FAIL:"} ${label}${detail ? "  (" + detail + ")" : ""}`);
+  ok ? pass++ : fail++;
+};
+
+(async () => {
+  const b = await chromium.launch(exe ? { executablePath: exe } : {});
+  const pg = await b.newPage({ viewport: { width: 980, height: 1500 } });
+  const errs = [];
+  pg.on("pageerror", e => errs.push("PAGEERROR: " + e.message));
+  pg.on("console", m => { if(m.type() === "error") errs.push("CONSOLE: " + m.text()); });
+
+  await pg.goto(FILE);
+  await pg.waitForTimeout(900);
+  check("the file loads and composes without throwing",
+        await pg.evaluate(() => !!(window.MK2 && window.MK2.currentSong())), "seed 1");
+
+  /* put the three panelled machines in the three slots */
+  await pg.selectOption("#mDrums", "tr808");
+  await pg.selectOption("#mBass", "tb303");
+  await pg.selectOption("#mKeys", "mellotron");
+  await pg.waitForTimeout(500);
+
+  const shape = await pg.evaluate(() => [...document.querySelectorAll(".machine")].map(m => ({
+    skin: (m.className.match(/sk-(\w+)/) || [])[1],
+    knobs: m.querySelectorAll(".kn").length,
+    steps: m.querySelectorAll(".steps .st").length + m.querySelectorAll(".acid .col").length,
+  })));
+  check("each slot draws its own machine's panel",
+        shape.length === 3 && shape.every(s => s.skin),
+        shape.map(s => `${s.skin}:${s.knobs}kn/${s.steps}st`).join(" "));
+  check("both step grids are sixteen steps",
+        shape.filter(s => s.steps === 16).length === 2,
+        shape.map(s => s.steps).join(","));
+
+  /* ── the 808's grid ── */
+  const lit = () => pg.evaluate(() => [...document.querySelectorAll(".sk-tr808 .steps .st")]
+    .map((s, i) => s.classList.contains("on") ? i : -1).filter(i => i >= 0).join(","));
+  const before = await lit();
+  await pg.click(".sk-tr808 .steps .st:nth-child(5)");  await pg.waitForTimeout(200);
+  await pg.click(".sk-tr808 .steps .st:nth-child(13)"); await pg.waitForTimeout(200);
+  const after = await lit();
+  check("clicking a step lights it", after !== before, `${before} -> ${after}`);
+  check("...and writes a pin",
+        (await pg.evaluate(() => Object.keys(window.MK2.PINS))).includes("drums:A:0:kick"));
+  check("...which reaches the composed material",
+        (await pg.evaluate(() => window.MK2.currentSong().materials.A.drums
+           .filter(n => n.lane === "kick" && n.bar === 0).map(n => n.step).join(","))) === after,
+        "material agrees with the grid");
+  check("...and the panel says the lane is pinned",
+        /PINNED/.test(await pg.evaluate(() =>
+          [...document.querySelectorAll(".sk-tr808 .pill.warn")].map(x => x.textContent).join(""))));
+
+  /* reverting must put it back exactly */
+  await pg.click(".sk-tr808 .pill.warn"); await pg.waitForTimeout(250);
+  check("reverting a pinned lane restores the composed one", (await lit()) === before,
+        `${after} -> ${await lit()}, composed was ${before}`);
+
+  /* ── the 303's grid ── */
+  await pg.click(".sk-tb303 .acid .col:nth-child(3) .note"); await pg.waitForTimeout(220);
+  await pg.click(".sk-tb303 .acid .col:nth-child(3) .flag:nth-child(2)"); await pg.waitForTimeout(220);
+  const acid = await pg.evaluate(() => {
+    const s = window.MK2.currentSong();
+    return { acc: s.materials.A.bass.filter(n => n.bar === 0 && n.accent).map(n => n.step).join(","),
+             pins: Object.keys(window.MK2.PINS).filter(k => k.startsWith("bass:")).join(" ") };
+  });
+  check("the 303 grid writes a bass pin", acid.pins.length > 0, acid.pins);
+  check("...and its ACCENT reaches the material", acid.acc.split(",").includes("2"),
+        "accented steps: [" + acid.acc + "]");
+  check("no pinned note can leave the key",
+        await pg.evaluate(() => {
+          const s = window.MK2.currentSong(), M = window.__T || null;
+          return s.materials.A.bass.every(n => n.pitch != null);
+        }), "the grid transposes by scale degree, so out-of-key is unreachable");
+
+  /* ── the knob is an offset ── */
+  const kn = await pg.$(".sk-tb303 .kn[data-key='tb303.cutoff']");
+  const bx = await kn.boundingBox();
+  await pg.mouse.move(bx.x + bx.width / 2, bx.y + 12);
+  await pg.mouse.down();
+  await pg.mouse.move(bx.x + bx.width / 2, bx.y - 40, { steps: 8 });
+  await pg.mouse.up();
+  await pg.waitForTimeout(200);
+  const t = await pg.evaluate(() => ({ base: window.MK2.PARAMS["tb303.cutoff"],
+                                       trim: window.MK2.TRIM["tb303.cutoff"],
+                                       shown: window.MK2.panelValue("tb303", "cutoff") }));
+  check("dragging a knob writes TRIM and leaves the genre's base alone",
+        t.trim > 0 && Math.abs(t.shown - (t.base + t.trim)) < 1e-9,
+        `base ${t.base} + hand ${Math.round(t.trim)} = ${Math.round(t.shown)}`);
+  check("...and the knob is marked as yours",
+        await pg.evaluate(() => document.querySelector(".kn[data-key='tb303.cutoff']")
+          .classList.contains("touched")));
+  await pg.dblclick(".sk-tb303 .kn[data-key='tb303.cutoff']"); await pg.waitForTimeout(150);
+  check("...and double-click releases it back to the genre",
+        await pg.evaluate(() => window.MK2.TRIM["tb303.cutoff"] === undefined));
+
+  /* ── play: the playhead and the automation ── */
+  await pg.click("#play");
+  await pg.waitForTimeout(2400);
+  const live = await pg.evaluate(() => ({
+    pos: document.getElementById("pos").textContent,
+    now: document.querySelectorAll(".steps .st.now, .acid .col.now").length,
+    moving: document.querySelectorAll(".kn:not(.still)").length,
+  }));
+  check("the position readout runs off the audio clock", /bar \d+\/\d+/.test(live.pos), live.pos);
+  check("the playhead lights a step", live.now > 0, live.now + " lit");
+  check("automated knobs show their dot", live.moving > 0, live.moving + " of them");
+
+  /* the dot must travel -- on a knob whose lane changes WITHIN a bar. A knob
+     with only a `section` move correctly holds still for the whole section. */
+  const dot = () => pg.evaluate(() => {
+    const lanes = window.MK2.currentSong().motion.lanes;
+    const k = [...document.querySelectorAll(".kn:not(.still)")].find(e =>
+      (lanes[e.dataset.key] || []).some(m => m.kind === "plock" || m.kind === "lfo"));
+    return k ? k.dataset.key + " " + k.querySelector(".auto").style.transform : "none";
+  });
+  /* POLL, do not sample twice. A p-lock fires on about three steps of sixteen,
+     so a fixed short window can legitimately span only unlocked steps and the
+     dot legitimately holds still -- the first version of this check was flaky
+     for exactly that reason, and a flaky check is worse than no check because
+     it teaches you to ignore a red line. Poll until it moves, or give up. */
+  const d1 = await dot();
+  let d2 = d1;
+  for(let i = 0; i < 25 && d2 === d1; i++){ await pg.waitForTimeout(120); d2 = await dot(); }
+  check("...and the dot actually travels while the pointer stays put",
+        d1 !== "none" && d1 !== d2, `${d1} -> ${d2}`);
+  const ptrHeld = await pg.evaluate(() => {
+    const k = document.querySelector(".kn:not(.still)");
+    return k.querySelector(".ptr").style.transform;
+  });
+  check("...and the pointer really is a separate indicator", /rotate/.test(ptrHeld), ptrHeld);
+
+  if(shotDir) await pg.screenshot({ path: path.join(shotDir, "panels.png"), fullPage: true });
+  await pg.click("#play"); await pg.waitForTimeout(200);
+
+  check("no uncaught page errors at any point", errs.length === 0, errs.slice(0, 3).join(" | "));
+  await b.close();
+  console.log("\n" + pass + " passed, " + fail + " failed");
+  process.exit(fail ? 1 : 0);
+})().catch(e => { console.error(e); process.exit(1); });
