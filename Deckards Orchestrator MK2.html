@@ -158,6 +158,14 @@
                linear-gradient(#26241f, #171613); }
   .sk-rhodes .brand{ margin:-.85rem -1rem .8rem; padding:.4rem 1rem; border-radius:4px 4px 0 0;
                      background:linear-gradient(#8a1c14, #5e120d); color:#f4e9d8; }
+  /* the CS-80 is a wooden console with a brushed-steel control deck and the
+     coloured slider caps that make its panel photograph the way it does */
+  .sk-cs80{ color:#e8e3d6; border:1px solid #241a12;
+    background:linear-gradient(#4a4a4c, #3a3a3c 62%, #2e2621); }
+  .sk-cs80 .brand{ margin:-.85rem -1rem .8rem; padding:.4rem 1rem; border-radius:4px 4px 0 0;
+    background:linear-gradient(96deg, rgba(255,255,255,.06) 0 2px, transparent 2px 11px),
+               linear-gradient(#6b4a2a, #4a3119); color:#f0e6d2; }
+  .sk-cs80 .brand .model{ color:#e8c37a; }
   .sk-wurly{ background:linear-gradient(#b9b39a, #9c957c); color:#26241c;
              border:1px solid #6a6553; }
   .sk-wurly .brand{ background:#3f4a34; color:#e8e4d2; margin:-.85rem -1rem .8rem;
@@ -599,15 +607,46 @@ const INSTRUMENTS = {
     slot: "keys", label: "CS-80",
     lanes: { keys:"cs80" },
     controls: [
-      /* all four not wired -- V.cs80 builds its layers from constants and reads
-         no PARAMS at all. See the note on subbass. This is the machine where it
-         stings most: brilliance and ring mod are the CS-80's two signature
-         controls and both of these do nothing today. */
-      { k:"bright", label:"brilliance", min:0, max:1, step:0.01, def:0.50, dead:true },
-      { k:"ring",   label:"ring mod",   min:0, max:1, step:0.01, def:0.16, dead:true },
-      { k:"ens",    label:"ensemble",   min:0, max:1, step:0.01, def:0.42, dead:true },
-      { k:"vib",    label:"vibrato",    min:0, max:1, step:0.01, def:0.50, dead:true },
+      /* THE PERFORMANCE CONTROLS, which on the real CS-80 sit in a row under the
+         left hand and are meant to be moved WHILE PLAYING. All five are read by
+         V.cs80 now; all five were declared and dead before.
+
+         BRILLIANCE and RESONANCE are global: they offset the cutoff and the Q of
+         EVERY filter at once, and the panel tour is emphatic that the intended
+         range is subtle -- "nudging brilliance can shift a trumpet to sound
+         sweeter or remove glass from a string section", not a sweep from closed
+         to open. The filters also cannot self-oscillate, "due to external
+         limiting resistors", so the Q range is bounded well under a howl.
+         [corpus:cs80.com Old Crow front panel tour]
+
+         EVERY DEFAULT BELOW REPRODUCES THE CONSTANT IT REPLACED, exactly. That
+         is what makes wiring them a provable change rather than a claimed one:
+         with the panel untouched the voice must render what it rendered before,
+         and only a moved knob may differ. */
+      { k:"bright",   label:"brilliance",  cap:"BRILLIANCE", min:0, max:1, step:0.01, def:0.50 },
+      { k:"res",      label:"resonance",   cap:"RESONANCE",  min:0, max:1, step:0.01, def:0.50 },
+      { k:"ring",     label:"ring mod",    cap:"RING MOD",   min:0, max:1, step:0.01, def:0.16 },
+      { k:"ens",      label:"ensemble",    cap:"ENSEMBLE",   min:0, max:1, step:0.01, def:0.42 },
+      { k:"vib",      label:"vibrato",     cap:"VIBRATO",    min:0, max:1, step:0.01, def:0.50 },
+      /* INITIAL PITCH BEND -- the control this instrument is famous for and the
+         one thing that makes a listener say "Blade Runner" in a single held
+         note. It is a PANEL slider, not a played gesture: it fires on every note
+         and its depth is driven by KEY STRIKE VELOCITY, sliding the note in from
+         about a semitone below. That is why it lives here, among the knobs the
+         genre sets and the motion table can move, rather than in the performance
+         stage beside the ribbon -- the two are different controls on the real
+         instrument and conflating them is what the ribbon field had been doing.
+         Off by default: on the real panel the slider can sit at zero, and no
+         genre shipping today asks for it.
+         [corpus:cs80.com "key strike velocity control voltage to induce a brief
+          portamento of a note from about 1 semitone below the key's actual pitch";
+          corpus:soundonsound Yamaha CS80 review, which names Vangelis on
+          "Blade Runner Blues" as the demonstration of it] */
+      { k:"initBend", label:"initial pitch bend", cap:"INIT BEND", min:0, max:1, step:0.01, def:0 },
     ],
+    panel: { skin: "cs80", maker: "Yamaha", title: "CS-80",
+             groups: [{ label: "PERFORMANCE", keys: ["bright", "res", "initBend"] },
+                      { label: "MODULATION",  keys: ["ring", "ens", "vib"] }] },
   },
   chipkeys: {
     slot: "keys", label: "YM2612 FM keys",
@@ -1654,32 +1693,60 @@ const Sound = (function(){
     const touch = Math.min(1.2, ev.gain);          // velocity -> cutoff AND level
     const nodes = [];
 
-    /* THE RIBBON. Stage 5 decides whether this note is arrived at by sliding
-       into it and from how far; the voice only realises that. The note's PITCH
-       is still exactly what stage 3 wrote -- a glide is how a player reaches a
-       note, not a different note. That is why this can live here without
-       breaking one-owner-per-property. */
-    const glideFrom = ev.glide ? Math.pow(2, ev.glide.from / 12) : 1;
-    const glideSec  = ev.glide ? ev.glide.sec : 0;
+    /* ── THE TWO PITCH CONTROLS, AND WHY THEY ARE TWO ─────────────────────────
+       The CS-80 has two ways to arrive somewhere other than the written pitch,
+       they are different controls, and this file used to have one field doing a
+       muddled version of both.
+
+       INITIAL PITCH BEND is a PANEL SLIDER. It fires on every note without
+       anyone touching anything, and its depth is scaled by key strike velocity:
+       the note starts about a semitone flat and slides up over a few tens of
+       milliseconds. It is the "twang" -- and per Sound On Sound it is exactly
+       what Vangelis is doing on "Blade Runner Blues". Being a setting rather
+       than a gesture, it is read from the panel here.
+
+       THE RIBBON is a PLAYED GESTURE, so stage 5 decides it and this voice only
+       realises it. And it does something genuinely different: the circuit
+       "remembers where the ribbon is initially touched", reaches about +1 octave,
+       and -- the fact that corrected this code -- "only affects keys currently
+       held down". A ribbon does not deliver you to a note. It takes a note that
+       is ALREADY SOUNDING and bends it away, mid-flight, and maybe back.
+       [corpus:cs80.com Old Crow front panel tour] ────────────────────────────── */
+    const initBend = P(g, ev, "cs80", "initBend", 0);
+    /* velocity scales it, which is the control's whole mechanism */
+    const bendFrom = initBend > 0 ? Math.pow(2, -(initBend * touch) / 12) : 1;
+    const bendSec  = 0.045;                     // "a few tens of milliseconds"
+    const R = ev.ribbon || null;
+
+    /* the two global performance controls, offsetting every filter at once */
+    const bright = 0.45 + 1.10 * P(g, ev, "cs80", "bright", 0.5);   // 0.5 -> 1.0x
+    const resm   = 0.50 + 1.00 * P(g, ev, "cs80", "res", 0.5);      // 0.5 -> 1.0x
 
     /* one complete layer: OSC -> resonant HPF -> resonant LPF -> VCA */
     const layer = (type, det, L) => {
       const o = c.createOscillator(); o.type = type;
-      if(glideSec > 0){
-        o.frequency.setValueAtTime(f * det * glideFrom, t);
-        o.frequency.exponentialRampToValueAtTime(f * det, t + glideSec);
-      } else o.frequency.value = f * det;
+      const base = f * det;
+      if(initBend > 0){
+        o.frequency.setValueAtTime(base * bendFrom, t);
+        o.frequency.exponentialRampToValueAtTime(base, t + bendSec);
+      } else o.frequency.value = base;
+      /* and the ribbon, ON TOP, after the note is already sounding */
+      if(R){
+        o.frequency.setValueAtTime(base, t + R.at);
+        o.frequency.exponentialRampToValueAtTime(base * Math.pow(2, R.by / 12), t + R.at + R.sec);
+        if(R.back) o.frequency.exponentialRampToValueAtTime(base, t + R.at + R.sec + R.backSec);
+      }
       o.start(t); o.stop(end);
 
       const hp = c.createBiquadFilter(); hp.type = "highpass";
       hp.frequency.value = L.hp; hp.Q.value = L.hpQ;          // resonant, 12 dB/oct
-      const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = L.lpQ;
+      const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = L.lpQ * resm;
       /* the ADR filter envelope, with its own initial and attack levels. Touch
          opens the whole envelope, which is the CS-80's defining gesture. */
-      const openTo = L.al * (0.55 + 0.75 * touch);
-      lp.frequency.setValueAtTime(L.il, t);
+      const openTo = L.al * (0.55 + 0.75 * touch) * bright;
+      lp.frequency.setValueAtTime(L.il * bright, t);
       lp.frequency.exponentialRampToValueAtTime(Math.max(60, openTo), t + L.fa);
-      lp.frequency.exponentialRampToValueAtTime(Math.max(60, L.fs * (0.6 + 0.6 * touch)),
+      lp.frequency.exponentialRampToValueAtTime(Math.max(60, L.fs * (0.6 + 0.6 * touch) * bright),
                                                 t + L.fa + L.fd);
       const vca = c.createGain(); vca.gain.value = L.mix;
       o.connect(hp); hp.connect(lp); lp.connect(vca); vca.connect(out);
@@ -1700,8 +1767,9 @@ const Sound = (function(){
     rm.frequency.value = f * 2.006;                 // slightly off a harmonic, so it beats
     const rmDepth = c.createGain(); rmDepth.gain.value = 0;
     const rmOut = c.createGain(); rmOut.gain.value = 0;
+    const ringAmt = P(g, ev, "cs80", "ring", 0.16);
     rmDepth.gain.setValueAtTime(0.0001, t);
-    rmDepth.gain.exponentialRampToValueAtTime(0.16 * touch, t + 0.12);
+    rmDepth.gain.exponentialRampToValueAtTime(Math.max(0.0002, ringAmt * touch), t + 0.12);
     rmDepth.gain.exponentialRampToValueAtTime(0.0001, t + 0.9);
     oscA.connect(rmOut); rm.connect(rmDepth); rmDepth.connect(rmOut.gain);
     rmOut.connect(out); rm.start(t); rm.stop(end); nodes.push(rm);
@@ -1711,14 +1779,17 @@ const Sound = (function(){
     const vib = c.createOscillator(); vib.type = "sine"; vib.frequency.value = 5.4;
     const vg = c.createGain();
     vg.gain.setValueAtTime(0, t);
-    vg.gain.linearRampToValueAtTime(f * 0.007, t + Math.max(0.35, glideSec + 0.25));
+    /* 0.5 on the dial is the 0.007 this was hardcoded at, so an untouched panel
+       renders what it always rendered */
+    vg.gain.linearRampToValueAtTime(f * 0.014 * P(g, ev, "cs80", "vib", 0.5),
+                                    t + Math.max(0.35, bendSec + 0.25));
     vib.connect(vg); vg.connect(oscA.frequency); vg.connect(oscB.frequency);
     vib.start(t); vib.stop(end); nodes.push(vib);
 
     /* THE ENSEMBLE. The CS-80's chorus is a real modulated delay, and a static
        detune is not one: what makes it swim is that the delay time MOVES. Two
        taps, slightly different rates, against the dry. */
-    const wet = c.createGain(); wet.gain.value = 0.42;
+    const wet = c.createGain(); wet.gain.value = P(g, ev, "cs80", "ens", 0.42);
     for(const [ms, rate, ph] of [[11, 0.31, 1], [17, 0.23, -1]]){
       const d = c.createDelay(0.06); d.delayTime.value = ms / 1000;
       const l = c.createOscillator(); l.type = "sine"; l.frequency.value = rate;
@@ -1766,8 +1837,20 @@ const Sound = (function(){
     flt.frequency.setValueAtTime(3000 + 3600 * ev.gain, t);
     flt.frequency.exponentialRampToValueAtTime(1800 + 1600 * ev.gain, t + 0.22);
     out.connect(flt); flt.connect(g.bus.lead);
+    /* THE RIBBON REACHES THE LEAD TOO. Stage 5 offers a bend to the lead and the
+       keys, but only the CS-80 knew how to realise one -- so on a rig whose lead
+       is this voice (synthwave's is), the gesture was written and then silently
+       dropped. A bend is a bend whatever is holding the note: the pitch stays
+       exactly what stage 3 wrote and this is only what the hand did to it after
+       the note was already sounding. */
+    const R = ev.ribbon || null;
     const mk = (type, mul, gain) => {
       const o = osc(c, type, f * mul, t, end), og = c.createGain();
+      if(R){
+        o.frequency.setValueAtTime(f * mul, t + R.at);
+        o.frequency.exponentialRampToValueAtTime(f * mul * Math.pow(2, R.by / 12), t + R.at + R.sec);
+        if(R.back) o.frequency.exponentialRampToValueAtTime(f * mul, t + R.at + R.sec + R.backSec);
+      }
       og.gain.value = gain; o.connect(og); og.connect(out); return o;
     };
     const nodes = [ mk("triangle", 1, 1.0), mk("square", 1.0, 0.34), mk("sawtooth", 2.0, 0.34) ];
@@ -2698,7 +2781,9 @@ const GENRE = {
     kick: { tune: 60, decay: 0.18, click: 0.35, drive: 0.20, body: 0.90, gain: 0.90 },
     drumDrive: 1.05,
     gate: null,                  // a boom-bap kit is a room, not a gate
-    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },   // lofi has no ribbon
+    /* no ribbon: a boom-bap Rhodes player has no free hand and no ribbon to put
+       it on. Fields present and zeroed so the shape is one shape. */
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, down: false },
     bassStyle: "follow",
     bassPulse: null,
     /* a fingered boom-bap bass does accent the pocket and does occasionally
@@ -2930,7 +3015,17 @@ const GENRE = {
        [corpus: SoundOnSound "How do I set up a gated reverb"; MusicRadar on
        Padgham, Gabriel and Collins -- hold ~150 ms, release ~148 ms] */
     gate: { send: 0.95, hold: 0.150, fall: 0.015, tomDecay: 0.40 },
-    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },   // no ribbon in this genre
+    /* SYNTHWAVE PLAYS THE RIBBON, and this is the first genre in the program to
+       switch it on. The lead in this music bends -- it is a hand on a wheel or a
+       strip, not a sampled instrument, and a lead line that never leaves its
+       written pitch is the single most obvious tell of a machine playing it.
+       Kept to roughly one long note in six, up a whole tone to a fourth, arriving
+       late in the note and usually coming back, which is a lead player's bend
+       rather than a Vangelis swoop. The genre's own reference points -- Blade
+       Runner among them -- are exactly where this gesture comes from. [EAR for
+       the weights; the mechanism is measured, see stage 5] */
+    ribbon: { chance: 0.17, semitones: [2, 3], secs: [0.10, 0.16],
+              at: [0.35, 0.30], returns: 0.65, down: false },
     bassStyle: "pulse",
     /* [tut:babyaudio, tut:soundbridge, tut:modeaudio] eighth-note repeating roots
        with an octave arp; the weights are [EAR] */
@@ -3028,6 +3123,28 @@ const GENRE = {
       },
       rhodes: { tone: [{ kind: "section", by: { chorus: [0.02, 0.08], outro: [-0.16, -0.08] } }] },
       wurly:  { trem: [{ kind: "section", by: { chorus: [0.08, 0.16] } }] },
+      /* AND THE CS-80, which is this genre's comp on the neon rig -- so this is
+         the motion table finally reaching the instrument that plays every
+         synthwave song. It could not before: all four of its controls were
+         declared and unread, so any entry here would have been automation of
+         nothing, and the seam check would have said so.
+
+         BRILLIANCE is the one to move. It is a global cutoff offset meant to be
+         worked while playing, and the panel tour is explicit that its range is
+         subtle -- so these are small numbers on purpose, and the gesture into a
+         chorus is the hand pushing it up over the fill. Measured: the control
+         moves the voice's spectral centroid from 657 Hz to 1025 Hz across its
+         travel, so a 0.1 move is audible without being a filter sweep. */
+      cs80: {
+        bright: [{ kind: "section", by: { intro: [-0.16, -0.08], verse: [-0.08, -0.02],
+                                          chorus: [0.06, 0.14], bridge: [-0.12, -0.04],
+                                          instrumental: [0.02, 0.09], outro: [-0.18, -0.10] } },
+                  { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [0.02, 0.05], shape: "tri" },
+                  { kind: "gesture", on: "fill", bars: 2, from: [0, 0], to: [0.10, 0.20],
+                    curve: "exp" }],
+        /* the ensemble widens where the song opens out, and closes for the bridge */
+        ens:    [{ kind: "section", by: { chorus: [0.06, 0.14], bridge: [-0.12, -0.04] } }],
+      },
     },
   },
 
@@ -3207,7 +3324,8 @@ const GENRE = {
     kick: { tune: 60, decay: 0.18, click: 0.35, drive: 0.20, body: 0.90, gain: 0.90 },
     drumDrive: 1.05,
     gate: null,                  // the SNES echo is this genre's space, not a gate
-    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },
+    /* no ribbon: this is a sample-playback chip, and a chip has no strip. */
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, down: false },
     /* a held octave-doubled pedal has one note a bar and nothing to slide from,
        so these are near zero by the shape of the part rather than by taste. */
     bassAccent: { accent: 0.08, slide: 0.04 },
@@ -4203,20 +4321,38 @@ function makePerformance(chart, form, materials, sections){
             role, lane: n.lane || role, gain,
           };
           if(role === "keys"){ ev.timbre = chart.keysChar; ev.wow = chart.tape.wow; }
-          /* THE RIBBON, if this genre plays one. The CS-80's ribbon has no
-             centre: wherever you first touch becomes zero, and you slide up to
-             an octave from there [corpus:soundonsound CS-80 review]. So a glide
-             has a distance and a duration, and it is drawn per note from its
-             own named substream -- adding it moved no existing song, and a
-             genre without a ribbon draws nothing at all.
+          /* THE RIBBON, if this genre plays one -- and it is a HAND, which is
+             why it lives in the performance stage rather than on a panel.
+
+             WHAT A RIBBON ACTUALLY DOES, which this used to get wrong: the
+             circuit "remembers where the ribbon is initially touched", reaches
+             about +1 octave, and "only affects keys currently held down"
+             [corpus:cs80.com Old Crow front panel tour; corpus:soundonsound
+             CS-80 review for the no-centre design and the octave range]. So it
+             does not deliver you TO a note -- it takes a note that is already
+             sounding and bends it away mid-flight, and sometimes back. The old
+             field described a portamento INTO the note, which is the other
+             control on that instrument (initial pitch bend) wearing this one's
+             name. Nothing shipped with it enabled, so correcting it moved
+             nothing; it was simply wrong and dead at the same time.
+
              It does NOT change ev.pitch. Stage 3 owns pitch and still does;
-             this is only how the player arrives at it. */
+             this is only what the player's other hand did afterwards. Drawn per
+             note from its own named substream, and a genre without a ribbon
+             draws nothing at all. */
           if(RIB && RIB.chance > 0 && n.pitch != null && (role === "lead" || role === "keys")){
             const rr = stream(chart.seed, "ribbon:" + role + ":" + bar + ":" + n.step);
-            const hit = rr() < RIB.chance, dist = rr(), dur = rr();
-            if(hit) ev.glide = {
-              from: (RIB.semitones[0] + dist * RIB.semitones[1]) * (rr() < 0.5 ? -1 : 1),
-              sec:  RIB.secs[0] + dur * RIB.secs[1],
+            /* every draw runs whatever the outcome [Law 7] */
+            const hit = rr() < RIB.chance, dist = rr(), when = rr(), dur = rr(), ret = rr();
+            const noteSec = Math.max(spb * 0.9, n.dur * spb * artic);
+            /* a bend needs a note long enough to still be sounding when it
+               arrives -- on a sixteenth there is nothing left to bend */
+            if(hit && noteSec > 0.35) ev.ribbon = {
+              at:  noteSec * (RIB.at[0] + when * RIB.at[1]),
+              by:  (RIB.semitones[0] + dist * RIB.semitones[1]) * (RIB.down ? -1 : 1),
+              sec: RIB.secs[0] + dur * RIB.secs[1],
+              back: ret < RIB.returns,
+              backSec: (RIB.secs[0] + dur * RIB.secs[1]) * 1.4,
             };
           }
           if(n.pitch != null) ev.pitch = n.pitch;
