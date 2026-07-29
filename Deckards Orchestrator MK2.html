@@ -5505,7 +5505,16 @@ const GENRE = {
     tape: { wow: [0, 0], crackle: [0, 0] },  // no tape patina [EAR]
 
     form: {
-      lengths:  { intro: 32, verse: 32, chorus: 32, bridge: 16, instrumental: 32, outro: 16 },
+      /* THE INTRO IS 16 BARS, NOT 32, AND THAT IS A CONSEQUENCE OF THE BUILD.
+         A part can only arrive at a SECTION boundary -- that is what stage 4
+         selects on -- so the earliest the 303 can possibly enter is the start of
+         section two. With a 32-bar intro that is bar 32, which at 127 bpm is 60
+         seconds, and no `enter` value however small can beat it: measured, the
+         303 still landed at 60 s after the entry fraction was cut from 0.10 to
+         0.04. The floor was the section length, not the fraction.
+         16 bars is 30 seconds and is inside the 16-32 bar intro every source
+         describes. [corpus:underdog, corpus:beatkey] */
+      lengths:  { intro: 16, verse: 32, chorus: 32, bridge: 16, instrumental: 32, outro: 16 },
       /* chorus maps to A as well: this genre has no hook and B is a hook by
          construction, so asking for one would import a gesture the music
          refuses. The only material that ever differs is Avar. */
@@ -5541,9 +5550,21 @@ const GENRE = {
          the wash are late, because a record that has shown you everything in
          its first minute has nowhere to go for the next nine.
          [corpus:hawtin, corpus:underdog] */
+      /* MEASURED AND TOO SLOW ON THE FIRST TRY. These were [0.10,0.08] /
+         [0.26,0.12] / [0.50,0.16], which on a 637-second record put the 303 --
+         the instrument this genre IS -- at 121 seconds on seed 1. Two minutes of
+         drums is not "starting small", it is a listener waiting for the track to
+         begin, and it was reported as the 303 being broken.
+
+         The right unit is BARS, not minutes: the sources describe a 16-32 bar
+         intro, and at 127 bpm 16 bars is 30 seconds. So the 303 now arrives
+         inside the first 16-24 bars, the figure around bar 40-64, and the wash
+         late. Still an accretion -- the first fifth is still the thinnest -- but
+         on the timescale the music is actually counted in. [corpus:underdog,
+         corpus:beatkey] */
       build: {
-        enter: { drums: [0, 0], bass: [0.10, 0.08], ostinato: [0.26, 0.12],
-                 keys: [0.50, 0.16] },
+        enter: { drums: [0, 0], bass: [0.04, 0.03], ostinato: [0.11, 0.08],
+                 keys: [0.26, 0.12] },
       },
       /* "getting the machines running, and then jamming out live" -- the track is
          already going when the record starts. [corpus:hawtin] */
@@ -5705,8 +5726,21 @@ const GENRE = {
                 inaudible, and this genre has no lead role at all. Measured, the
                 echo changed the sound by +0.0 points and 0.0 dB -- a send that
                 was on, correct, and connected to nothing that has gaps. The
-                parts whose tails belong in the space are the percussive ones. */
-             feeds: ["bass"], echoFeeds: ["bass", "keys"] },
+                parts whose tails belong in the space are the percussive ones.
+
+                THEN THE BUILD ARRIVED AND MADE IT WRONG AGAIN, in a way that
+                only shows up once parts stop playing from bar one. MEASURED on
+                seed 1: the first 90 seconds are `drums` and nothing else, and
+                this list fed `bass` and `keys` -- so for a minute and a half the
+                echo and the room were both connected to instruments with no
+                events, while echo.fb travelled 39% of its dial and tb303.cutoff
+                30% on a silent 303. Every bit of movement in the opening was
+                attached to something that had not arrived.
+
+                In dub techno the DRUMS are what goes into the delay anyway --
+                that is the genre, not a workaround. [corpus:attackmagazine
+                Basic-Channel-style] */
+             feeds: ["bass", "drums"], echoFeeds: ["drums", "bass", "keys"] },
     kick: { tune: 46, decay: 0.60, click: 0.55, drive: 0.50, body: 1.10, gain: 1.22 },
     drumDrive: 1.30,
     gate: null,
@@ -5807,18 +5841,31 @@ const GENRE = {
 
          "Build up all the frequencies creating a wall of sound almost like
          white noise and then cut that to create space between elements so that
-         the purity of each element becomes clearer." [corpus:underdog] */
+         the purity of each element becomes clearer." [corpus:underdog]
+
+         MEASURED AND TOO SLOW ON THE FIRST TRY, the same fault as the build. An
+         arc across 637 seconds moves 6.5% of the low band's dial in the first
+         90, and a 96-bar LFO at 127 bpm has a three-minute period -- that is
+         drift, not a swell. Drift is right and it is not sufficient: a hand on a
+         desk also moves on the timescale of a phrase. Each band now carries
+         BOTH, a 16-32 bar swell (30 to 60 seconds here) over the long arc. */
       desk: {
         low:  [{ kind: "arc", from: [-11, -6], to: [0, 1.5], curve: "sCurve" },
                { kind: "section", by: { bridge: [-26, -17], intro: [-8, -4],
                                         outro: [-9, -4] } },
                { kind: "lfo", bars: [[96, 3], [64, 2]], depth: [0.8, 2.0],
+                 shape: "sin", freePhase: true },
+               { kind: "lfo", bars: [[24, 3], [32, 2], [16, 1]], depth: [1.2, 3.0],
                  shape: "sin", freePhase: true }],
         high: [{ kind: "arc", from: [-9, -5], to: [1, 3], curve: "sCurve" },
                { kind: "section", by: { bridge: [2, 5], intro: [-6, -3] } },
                { kind: "lfo", bars: [[64, 3], [32, 2]], depth: [1.2, 3.0],
+                 shape: "tri", freePhase: true },
+               { kind: "lfo", bars: [[16, 3], [28, 2]], depth: [1.5, 3.5],
                  shape: "tri", freePhase: true }],
         mid:  [{ kind: "lfo", bars: [[96, 2], [48, 1]], depth: [1.0, 2.8],
+                 shape: "sin", freePhase: true },
+               { kind: "lfo", bars: [[20, 3], [36, 2]], depth: [1.0, 2.6],
                  shape: "sin", freePhase: true },
                { kind: "section", by: { bridge: [-5, -2] } }],
       },
@@ -5836,11 +5883,54 @@ const GENRE = {
            changed. [corpus:hawtin] */
         decay: [{ kind: "arc", from: [0.06, 0.14], to: [-0.10, -0.03], curve: "sCurve" }],
       },
+      /* ── THE DRUMS HAVE TO CARRY THE OPENING ─────────────────────────────
+         "It's all slow swells of changing effects -- this is how you can get
+         away with repeating something so long, because there actually is so
+         much character changing."
+
+         That is the genre's whole licence to repeat, and this table was not
+         paying for it. MEASURED on seed 1 before this: the first 90 seconds are
+         drums and nothing else, and the only two drum lanes that moved were the
+         two hat decays -- 16.6% and 18.8% of their dials, on a hi-hat. Every
+         lane with real travel belonged to an instrument with no events yet.
+
+         So the machine that IS playing gets the swells: the drum bus breathing,
+         the kick's own body and tune drifting, the snap and tone of the hats
+         moving on periods a listener can actually perceive. 16 bars is 30
+         seconds at this tempo and 32 is a minute; the 64- and 96-bar layers
+         above are drift, which is a different and slower thing, and both belong
+         here. Depths stay small -- "too much movement is exhausting"
+         [corpus:underdog] -- but they are no longer zero on the only thing in
+         the room. */
       tr808: {
         ohdecay: [{ kind: "lfo", bars: [[32, 3], [64, 2]], depth: [0.04, 0.10],
-                    shape: "sin", freePhase: true }],
-        chdecay: [{ kind: "lfo", bars: [[16, 2], [32, 1]], depth: [0.004, 0.012],
+                    shape: "sin", freePhase: true },
+                  { kind: "lfo", bars: [[12, 2], [16, 1]], depth: [0.03, 0.07],
                     shape: "tri", freePhase: true }],
+        chdecay: [{ kind: "lfo", bars: [[16, 2], [32, 1]], depth: [0.004, 0.012],
+                    shape: "tri", freePhase: true },
+                  { kind: "lfo", bars: [[8, 2], [6, 1]], depth: [0.003, 0.009],
+                    shape: "sin", freePhase: true }],
+        /* the hats' character, not just their length */
+        tone:    [{ kind: "lfo", bars: [[24, 3], [16, 2]], depth: [0.05, 0.14],
+                    shape: "sin", freePhase: true }],
+        snappy:  [{ kind: "lfo", bars: [[16, 3], [32, 2]], depth: [0.06, 0.16],
+                    shape: "tri", freePhase: true }],
+        /* THE KICK ITSELF. In this music the kick is the bass, so its decay and
+           tuning drifting IS the low end moving -- and it is the one voice
+           guaranteed to be sounding from bar one. */
+        decay:   [{ kind: "lfo", bars: [[32, 3], [20, 2]], depth: [0.05, 0.12],
+                    shape: "sin", freePhase: true }],
+        /* THE KICK'S TUNE IS NOT AUTOMATED, and it was, for one commit. The seam
+           battery caught it: `tune` is declared kind:"voicing" -- what the drum
+           IS rather than what a hand is doing to it -- and the contract says a
+           voicing control does not move under a composer. Reclassifying it to
+           make this table pass would have been changing the declaration to fit
+           the code. The kick's decay is a gesture and carries the same idea. */
+        /* and the whole kit's drive, which is a hand on a channel fader */
+        bus:     [{ kind: "lfo", bars: [[24, 3], [40, 2]], depth: [0.05, 0.14],
+                    shape: "sin", freePhase: true },
+                  { kind: "section", by: { bridge: [-0.20, -0.10] } }],
       },
       drone: {
         cut: [{ kind: "lfo", bars: [[64, 4], [32, 1]], depth: [30, 90],
@@ -5859,9 +5949,19 @@ const GENRE = {
          closing is what makes the tail dissolve rather than end; the send
          opening in a breakdown is what a hand on a desk does when the drums
          leave. Long, free-phase, and slow: you should not be able to point at
-         the moment it changed. ── */
+         the moment it changed.
+
+         WITH ONE CORRECTION MEASUREMENT FORCED. "Slow" was doing too much work
+         here: `verb` moved 0.7% of its dial in the first 90 seconds and `send`
+         12.7%, on periods of 32 to 96 bars -- one to three minutes at this
+         tempo. You should not be able to point at the moment it changed, and you
+         should still be able to TELL that it did. Those are different claims and
+         only the first was built. Each lane now carries a phrase-length swell
+         (12-24 bars, 23-45 seconds here) under its long drift. ── */
       echo: {
         fb:   [{ kind: "lfo", bars: [[64, 4], [32, 3], [16, 1]], depth: [0.06, 0.20],
+                 shape: "sin", freePhase: true },
+               { kind: "lfo", bars: [[16, 3], [24, 2], [12, 1]], depth: [0.05, 0.14],
                  shape: "sin", freePhase: true },
                { kind: "section", by: { bridge: [0.14, 0.30], instrumental: [0.05, 0.14],
                                         outro: [0.08, 0.20] } },
@@ -5871,15 +5971,23 @@ const GENRE = {
                { kind: "arc", from: [-0.10, -0.03], to: [0.08, 0.18], curve: "sCurve" }],
         tone: [{ kind: "lfo", bars: [[48, 3], [96, 2]], depth: [220, 700],
                  shape: "tri", freePhase: true },
+               { kind: "lfo", bars: [[20, 3], [14, 2]], depth: [180, 520],
+                 shape: "sin", freePhase: true },
                { kind: "section", by: { bridge: [400, 1100], outro: [-500, -200] } },
                { kind: "arc", from: [300, 900], to: [-700, -250], curve: "sCurve" }],
         hp:   [{ kind: "lfo", bars: [[64, 2], [32, 1]], depth: [30, 90],
-                 shape: "sin", freePhase: true }],
+                 shape: "sin", freePhase: true },
+               { kind: "lfo", bars: [[18, 2], [26, 1]], depth: [25, 70],
+                 shape: "tri", freePhase: true }],
         send: [{ kind: "section", by: { intro: [-0.12, -0.05], bridge: [0.16, 0.34],
                                         instrumental: [0.04, 0.14], outro: [0.06, 0.18] } },
                { kind: "lfo", bars: [[32, 3], [64, 2]], depth: [0.03, 0.09],
+                 shape: "sin", freePhase: true },
+               { kind: "lfo", bars: [[14, 3], [22, 2]], depth: [0.04, 0.11],
                  shape: "sin", freePhase: true }],
         verb: [{ kind: "section", by: { bridge: [0.10, 0.26], outro: [0.06, 0.18] } },
+               { kind: "lfo", bars: [[22, 3], [16, 2]], depth: [0.06, 0.16],
+                 shape: "tri", freePhase: true },
                { kind: "arc", from: [-0.08, -0.02], to: [0.06, 0.16], curve: "sCurve" }],
       },
     },
@@ -7396,8 +7504,25 @@ function makeArrangement(chart, form, materials){
      This is a floor, not a correction: it fires only where the table asked for
      something impossible, and it is better to state it here than to let a genre
      discover it as a silent bar. */
-  const hasArrived = (role, startBar) =>
-    !BUILD || arrivesAt[role] == null || startBar >= arrivesAt[role];
+  /* ── AND IT ARRIVES MID-SECTION ──────────────────────────────────────────
+     Gating on the section START looked right and had a floor nobody had
+     measured: a part could only ever appear at a section boundary, so with a
+     32-bar opening section the 303 could not enter before bar 32 -- 60 seconds
+     at this tempo -- no matter how small its `enter` fraction was. Cutting the
+     fraction from 0.10 to 0.04 moved it from 121 s to 60 s and then stopped
+     dead, because the limit was the section length and not the fraction.
+
+     It is also wrong musically. This music slides an element in halfway through
+     a stretch; waiting for the next section is a pop arrangement's habit. So a
+     role now has an entry BAR, `active` says who plays anywhere in the section,
+     and stage 5 skips a role's notes until its bar comes round.
+
+     Snapped to 8-bar phrases so an element still lands where the music counts,
+     rather than at an arbitrary bar. ─────────────────────────────────────── */
+  const PHRASE = 8;
+  for(const r in arrivesAt) arrivesAt[r] = Math.round(arrivesAt[r] / PHRASE) * PHRASE;
+  const hasArrived = (role, byBar) =>
+    !BUILD || arrivesAt[role] == null || byBar > arrivesAt[role];
 
   return Object.freeze(form.map((sec, i) => {
     let material = MAT[sec.fn];
@@ -7407,7 +7532,13 @@ function makeArrangement(chart, form, materials){
       else stripHalf = true;                              // the 3rd chorus: arrangement answers
     }
     const allowed = ROLES[sec.fn];
-    let active = allowed.filter(r => hasArrived(r, sec.startBar));
+    /* who plays ANYWHERE in this section -- so a part arriving at bar 8 of a
+       32-bar section is active here, and stage 5 gates the bars before it */
+    let active = allowed.filter(r => hasArrived(r, sec.endBar));
+    const enterBar = {};
+    for(const r of allowed)
+      if(arrivesAt[r] != null && arrivesAt[r] >= sec.startBar && arrivesAt[r] < sec.endBar)
+        enterBar[r] = arrivesAt[r];
     if(!active.length && allowed.length){
       let first = allowed[0];
       for(const r of allowed)
@@ -7421,6 +7552,9 @@ function makeArrangement(chart, form, materials){
       energy: sec.energy, peak: sec.peak, occurrence: sec.occurrence,
       material, stripHalf,
       active: Object.freeze(active),
+      /* the bar each arriving role starts on, for the roles that arrive INSIDE
+         this section. Stage 5 reads it; nothing else does. */
+      enterBar: Object.freeze(enterBar),
       /* TWO WAYS INTO AN ARRIVAL: roll a fill into it, or drop out and let it
          land in silence (docs/DEEP_RESEARCH_ARRANGEMENT.md:162 -- "silence OR a
          fill"; :318 -- the empty before a big arrival is called essential by two
@@ -7532,6 +7666,10 @@ function makePerformance(chart, form, materials, sections){
         let notes = mat[role];
         if(role === "drums" && lastBar && sec.fillInto) notes = materials.fill;
         if(sec.stripHalf && firstHalf && (role === "drums" || role === "bass")) continue;
+        /* THE BUILD, gated per bar. Stage 4 decided which bar this part arrives
+           on; this is stage 5 obeying it, exactly the way it obeys `active` --
+           selection upstream, no note edited here. */
+        if(sec.enterBar[role] != null && bar < sec.enterBar[role]) continue;
         if(sec.endingLastBar && lastBar){
           if(role === "keys" || role === "bass") notes = materials.ending.filter(n => n.role === role);
           else continue;
