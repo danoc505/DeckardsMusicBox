@@ -381,21 +381,27 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      see rather than silently missing them. */
   READS.add("tr808.chdecay"); READS.add("tr808.ohdecay");
   READS.add("chipbass.bright"); READS.add("chipkeys.bright");
-  /* and the ones a voice never reads at the note because setSpace hands them to
-     the GRAPH once, before a sample is scheduled: bus gains, the reverb send,
-     the gate hold, and the acoustic kick's voicing. They are reachable and
-     settable; they are structurally not automatable, which is why they are
-     declared kind:"bus" / kind:"voicing" and checked as such below. */
-  const PER_SONG = new Set(["kit.tune","kit.decay","kit.click","kit.drive",
-    "kit.bus","kit.gate","kit.hold","tr808.bus","tr808.gate","tr808.hold",
+  /* the whole acoustic kick reads through one helper keyed by a variable, and
+     every gate's hold is looked up on whichever drum panel the plan names */
+  for(const k of ["tune","decay","click","drive","body","gain"]) READS.add("kit." + k);
+  READS.add("kit.hold"); READS.add("tr808.hold");
+  /* THE BUS GAINS are the only controls no voice reads at a note, because they
+     are gain NODES the whole kit passes through rather than anything a note can
+     ask about. They are not frozen -- setSpace writes an automation curve on
+     them across the song -- so they are automatable, just not per note. That is
+     what kind:"bus" now means. */
+  const PER_SONG = new Set(["kit.bus","kit.gate","tr808.bus","tr808.gate",
     "segakit.bus","segakit.gate"]);
 
   const dead = [];
   for(const g of M.genres()){
     const mo = M.composeSong(1, "band", g).motion;
-    for(const key in mo.lanes) if(!READS.has(key)) dead.push(g + ":" + key);
+    /* a bus gain is automated by rideBus writing a curve on the node, not by a
+       voice reading it at a note -- so PER_SONG counts as reached here too */
+    for(const key in mo.lanes)
+      if(!READS.has(key) && !PER_SONG.has(key)) dead.push(g + ":" + key);
   }
-  check("every automated knob is one a voice actually reads", dead.length === 0,
+  check("every automated knob reaches the sound, at the note or on the bus", dead.length === 0,
         dead.length ? dead.join(" | ") : READS.size + " live controls, none automated in vain");
 
   /* ── 1b. NO KNOB ON ANY PANEL IS A LIE. Every control a machine declares must
@@ -458,12 +464,17 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       for(const c of M.INSTRUMENTS[m].controls){
         const key = m + "." + c.k;
         if(!c.kind) wrong.push(key + " declares no kind");
-        else if(c.kind === "gesture"){ if(hosted[m] && !moved.has(key)) idle.push(key); }
+        /* a gesture is ridden at the note; a bus is ridden as a curve on its
+           gain node. Both are things the conductor moves, so both must be moved
+           by some genre that hosts the machine. */
+        else if(c.kind === "gesture" || c.kind === "bus"){
+          if(hosted[m] && !moved.has(key)) idle.push(key);
+        }
         else if(moved.has(key)) wrong.push(key + " is a " + c.kind + " and is automated");
       }
-    check("every gesture knob is one some genre actually rides", idle.length === 0,
+    check("every knob the conductor can move is one some genre moves", idle.length === 0,
           idle.length ? idle.join(" | ") : moved.size + " controls ridden across the genres");
-    check("no switch, voicing or bus control is automated", wrong.length === 0,
+    check("no switch or voicing control is automated", wrong.length === 0,
           wrong.length ? wrong.join(" | ") : "kinds respected");
   }
 

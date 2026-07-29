@@ -437,14 +437,23 @@ const INSTRUMENTS = {
     slot: "drums", label: "acoustic kit",
     lanes: { kick:"kick", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
              tom1:"tom1", tom2:"tom2", tom3:"tom3" },
+    /* the whole kick is on this panel now, including BODY and GAIN, which used
+       to live only in the genre's `kick` block and could therefore be read but
+       never touched. One owner, one panel: V.kick reads all six here. */
     controls: [
-      { k:"tune",  label:"kick tune",   min:35,  max:80,  step:1,    def:54,  unit:"Hz" , kind:"voicing" },
-      { k:"decay", label:"kick decay",  min:0.08,max:0.60,step:0.01, def:0.24,unit:"s" , kind:"voicing" },
-      { k:"click", label:"beater",      min:0,   max:1.5, step:0.01, def:0.60 , kind:"voicing" },
-      { k:"drive", label:"kick drive",  min:0,   max:1,   step:0.01, def:0.35 , kind:"voicing" },
-      { k:"bus",   label:"kit drive",   min:0.6, max:2,   step:0.01, def:1.05 , kind:"bus" },
-      { k:"gate",  label:"gated verb",  min:0,   max:1,   step:0.01, def:0 , kind:"bus" },
-      { k:"hold",  label:"gate hold",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s" , kind:"bus" },
+      { k:"tune",  label:"kick tune",   cap:"TUNE",   min:35,  max:80,  step:1,    def:54,  unit:"Hz", kind:"gesture" },
+      { k:"decay", label:"kick decay",  cap:"DECAY",  min:0.08,max:0.60,step:0.01, def:0.24, unit:"s", kind:"gesture" },
+      { k:"click", label:"beater",      cap:"ATTACK", min:0,   max:1.5, step:0.01, def:0.60, kind:"gesture" },
+      { k:"drive", label:"kick drive",  cap:"DRIVE",  min:0,   max:1,   step:0.01, def:0.35, kind:"gesture" },
+      /* what the drum IS rather than what a hand is doing to it */
+      { k:"body",  label:"body",        cap:"BODY",   min:0.5, max:1.6, step:0.01, def:1.00, kind:"voicing" },
+      { k:"gain",  label:"kick level",  cap:"LEVEL",  min:0.6, max:1.6, step:0.01, def:1.05, kind:"voicing" },
+      /* the two that are gain nodes the whole kit passes through, ridden as a
+         curve across the song rather than read at a note; and the gate's hold,
+         which every hit decides for itself and is therefore a gesture. */
+      { k:"bus",   label:"kit drive",   cap:"DRIVE",  min:0.6, max:2,   step:0.01, def:1.05, kind:"bus" },
+      { k:"gate",  label:"gated verb",  cap:"SEND",   min:0,   max:1,   step:0.01, def:0,    kind:"bus" },
+      { k:"hold",  label:"gate hold",   cap:"HOLD",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s", kind:"gesture" },
     ],
   },
   tr808: {
@@ -465,7 +474,7 @@ const INSTRUMENTS = {
       { k:"ohdecay",label:"OH decay",   cap:"OH",     min:0.10,max:0.90,step:0.01, def:0.42,unit:"s" , kind:"gesture" },
       { k:"bus",    label:"kit drive",  cap:"DRIVE",  min:0.6, max:2,   step:0.01, def:1.30 , kind:"bus" },
       { k:"gate",   label:"gated verb", cap:"GATE",   min:0,   max:1,   step:0.01, def:0 , kind:"bus" },
-      { k:"hold",   label:"gate hold",  cap:"HOLD",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s" , kind:"bus" },
+      { k:"hold",   label:"gate hold",  cap:"HOLD",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s", kind:"gesture" },
     ],
     /* THE FRONT PANEL, as the box lays it out: a knob strip in labelled voice
        groups, an instrument selector, and sixteen step buttons in four groups of
@@ -492,8 +501,8 @@ const INSTRUMENTS = {
     lanes: { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat", openhat:"psgOpenhat",
              tom1:"tom1", tom2:"tom2", tom3:"tom3" },
     controls: [
-      { k:"bus",  label:"kit drive", min:0.6, max:2, step:0.01, def:1.05 , kind:"bus" },
-      { k:"gate", label:"gated verb", min:0, max:1, step:0.01, def:0 , kind:"bus" },
+      { k:"bus",  label:"kit drive",  cap:"DRIVE", min:0.6, max:2, step:0.01, def:1.05, kind:"bus" },
+      { k:"gate", label:"gated verb", cap:"SEND",  min:0, max:1, step:0.01, def:0,    kind:"bus" },
     ],
   },
 
@@ -866,7 +875,14 @@ function makeMotion(chart, form, sections){
     }
     lanes[key] = Object.freeze(out);
   }
-  return Object.freeze({ spb, nBars, secFn: Object.freeze(secFn), lanes: Object.freeze(lanes) });
+  /* the plan carries WHICH drum machine its bus lanes belong to, and how long
+     the song runs. Both are things setSpace would otherwise have to be told
+     twice through an already-long positional signature -- and the plan is the
+     right owner, because "what moves, where, and on whose panel" is one fact. */
+  return Object.freeze({ spb, nBars, secFn: Object.freeze(secFn),
+                         drums: (chart.picks && chart.picks.drums) || "kit",
+                         seconds: nBars * 16 * spb,
+                         lanes: Object.freeze(lanes) });
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1989,7 +2005,18 @@ const Sound = (function(){
        body   the fundamental's weight
        gain   the whole drum */
   V.kick = function(g, ev, t){
-    const c = g.ctx, K = g.kick;
+    const c = g.ctx;
+    /* THE KICK READS ITS OWN PANEL. It used to read g.kick -- a snapshot setSpace
+       took once, before a sample was scheduled -- which meant the acoustic kit's
+       four voicing controls were frozen for the whole song no matter what a genre
+       asked for. Reading them here puts them on the same footing as every other
+       knob in the rack: base, plus the user's hand, plus wherever the plan has
+       moved them at this note. g.kick stays as the fallback for a graph with no
+       rack loaded (the reference bar, a probe), which is the honest answer when
+       there is no song to move against. */
+    const kp = k => P(g, ev, "kit", k, g.kick[k]);
+    const K = { tune: kp("tune"), decay: kp("decay"), click: kp("click"),
+                drive: kp("drive"), body: kp("body"), gain: kp("gain") };
     const o = c.createOscillator(); o.type = "sine";                       // body
     o.frequency.setValueAtTime(K.tune * 3.4, t);
     o.frequency.exponentialRampToValueAtTime(Math.max(30, K.tune), t + 0.055);
@@ -2036,12 +2063,21 @@ const Sound = (function(){
      zero to one in a single sample is a click, and the output battery counted 11
      onsets where four hits were scheduled because of exactly that. A real gate's
      attack is under a millisecond, but it is not a step. */
-  function openGate(g, t){
+  /* HOLD IS PER HIT, not per song, and calling it a bus control was a mistake of
+     category. Every drum hit reopens this gate and decides for itself when the
+     door slams -- that is exactly what a gesture is, and it is the difference
+     between a gate that is a setting and a gate somebody is riding. The graph
+     carries the drum machine's name (setSpace put it there) so the hold can be
+     looked up on the panel that owns it. */
+  function openGate(g, ev, t){
     const gt = g.gate.gain;
+    const hold = g.drumMachine
+      ? P(g, ev, g.drumMachine, "hold", g.gateHold)
+      : g.gateHold;
     gt.setValueAtTime(Math.max(0.0001, gt.value), t);
     gt.linearRampToValueAtTime(1, t + 0.0015);
-    gt.setValueAtTime(1, t + g.gateHold);
-    gt.exponentialRampToValueAtTime(0.0001, t + g.gateHold + g.gateFall);
+    gt.setValueAtTime(1, t + hold);
+    gt.exponentialRampToValueAtTime(0.0001, t + hold + g.gateFall);
   }
   function tomVoice(f0, f1, decay0, lvl){
     return function(g, ev, t){
@@ -2084,7 +2120,7 @@ const Sound = (function(){
          which is what a channel gate on a desk actually is: it opens flat and
          then slams, and a second hit inside the hold simply reopens it. */
       og.connect(g.gateSend); ng.connect(g.gateSend);
-      openGate(g, t);
+      openGate(g, ev, t);
       return [o, o2, n];
     };
   }
@@ -2153,7 +2189,7 @@ const Sound = (function(){
     ng.gain.setValueAtTime(LEVEL.snare * ev.gain * (0.30 + 0.75 * snappy), t);
     ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.045 + 0.10 * snappy);
     n.connect(bp); bp.connect(ng); ng.connect(g.bus.drums); out.push(n);
-    if(g.gateSend && g.gateSend.gain.value > 0){ ng.connect(g.gateSend); openGate(g, t); }
+    if(g.gateSend && g.gateSend.gain.value > 0){ ng.connect(g.gateSend); openGate(g, ev, t); }
     return out;
   };
 
@@ -2190,7 +2226,7 @@ const Sound = (function(){
       og.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.9, t);
       og.gain.exponentialRampToValueAtTime(0.0002, t + 0.52);
       o.connect(og); og.connect(g.bus.drums); o.start(t); o.stop(t + 0.58);
-      if(g.gateSend && g.gateSend.gain.value > 0){ og.connect(g.gateSend); openGate(g, t); }
+      if(g.gateSend && g.gateSend.gain.value > 0){ og.connect(g.gateSend); openGate(g, ev, t); }
       return [o];
     };
   }
@@ -2433,7 +2469,7 @@ const Sound = (function(){
     tg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.34, t + 0.012);
     tg.gain.exponentialRampToValueAtTime(0.0002, t + 0.24);
     tail.connect(tg); tg.connect(bp); out.push(tail);
-    if(g.gateSend){ tg.connect(g.gateSend); openGate(g, t); }
+    if(g.gateSend){ tg.connect(g.gateSend); openGate(g, ev, t); }
     return out;
   };
 
@@ -2515,7 +2551,7 @@ const Sound = (function(){
        gated snare before it is anything else. Same shared gate as the toms: one
        instance on the bus, retriggered per hit, exactly like a channel gate. */
     cg.connect(g.gateSend); wg.connect(g.gateSend);
-    openGate(g, t);
+    openGate(g, ev, t);
     return out;
   };
   V.ghost = V.snare;
@@ -2776,7 +2812,51 @@ const Sound = (function(){
      whichever graph is about to play. buildGraph fixes the topology; this sets
      the numbers, before any event is scheduled. */
   const KICK_DEFAULT = { tune: 54, decay: 0.24, click: 0.6, drive: 0.35, body: 1, gain: 1.05 };
-  function setSpace(g, space, kick, drumDrive, gate, motion, motionOffset){
+
+  /* ═══ THE BUS RIDE ═════════════════════════════════════════════════════════
+     Two of the drum machine's controls are not on a voice at all: the drum bus
+     drive and the gate send are GAIN NODES that the whole kit passes through.
+     A voice reads its knobs per note; these have no note to read at, which is
+     why they sat frozen for the whole song and were documented as "structurally
+     cannot move". That was true of the mechanism and false of the intent --
+     riding the drum bus into a chorus is one of the oldest gestures there is,
+     and the program could not make it.
+
+     They can move, because an AudioParam is a curve, not a number. This samples
+     the song's motion plan on a grid and writes the result as an automation
+     curve on the node itself: one setValueAtTime to anchor, then a linear ramp
+     per grid point. Four points a bar -- a beat -- is smooth for the section
+     steps and the slowest LFOs any genre declares, and cheap: a ten-minute
+     Plastikman song is about 1300 points on two params.
+
+     It is deliberately NOT per note. A bus gain that jumped at each hit would be
+     a different effect (that is what the gate is), and two owners writing one
+     param is the bug this file exists to avoid. The note-level knobs go through
+     P(); these go through here; nothing writes both. ═══════════════════════ */
+  function rideBus(g, param, key, base, t0){
+    if(!param) return;
+    const plan = g.motion;
+    try { param.cancelScheduledValues(t0); } catch(e){}
+    if(!plan || !plan.lanes || !plan.lanes[key]){ param.value = base; return; }
+    const seconds = plan.seconds;
+    const c = CONTROL[key];
+    const step = plan.spb * 4;                       // one point per beat
+    const n = Math.max(1, Math.ceil(seconds / step));
+    /* the first point is an anchor, not a ramp: ramping from whatever the node
+       happened to be left at by the previous song is how you get a swell nobody
+       asked for at the top of every playback. */
+    let v = base + motionAt(plan, key, { tSec: 0 }, g.motionOffset);
+    if(c) v = Math.max(c.min, Math.min(c.max, v));
+    param.setValueAtTime(v, t0);
+    for(let i = 1; i <= n; i++){
+      const tSec = i * step;
+      let x = base + motionAt(plan, key, { tSec }, g.motionOffset);
+      if(c) x = Math.max(c.min, Math.min(c.max, x));
+      param.linearRampToValueAtTime(x, t0 + tSec);
+    }
+  }
+
+  function setSpace(g, space, kick, drumDrive, gate, motion, motionOffset, busT0){
     /* the song's motion plan rides on the GRAPH, not on a module variable, so a
        live playback and an offline render running at the same moment cannot
        read each other's automation. Same reason the room is set per-graph. */
@@ -2784,11 +2864,22 @@ const Sound = (function(){
     g.motionOffset = motionOffset || 0;      // where in the song this render starts
     g.kick = Object.assign({}, KICK_DEFAULT, kick || {});
     g.tomDecay = gate ? (gate.tomDecay != null ? gate.tomDecay : 0.45) : 1;
-    if(drumDrive != null && g.drumDrive) g.drumDrive.gain.value = drumDrive;
+    /* which panel the drums are on, so openGate can find its hold and rideBus
+       can find the right motion lane. The plan says; nothing guesses. */
+    g.drumMachine = (motion && motion.drums && motion.drums !== "auto") ? motion.drums : "kit";
+    if(gate){ g.gateHold = gate.hold; g.gateFall = gate.fall; }
+    /* THE TWO BUS GAINS, ridden across the song rather than pinned for it. The
+       base is what the genre asked for; the curve is what the plan says on top.
+       A graph with no motion plan gets the base and one assignment, which is
+       exactly what it used to get. */
+    const t0 = busT0 || 0;
+    if(g.drumDrive)
+      rideBus(g, g.drumDrive.gain, g.drumMachine + ".bus",
+              drumDrive != null ? drumDrive : 1.05, t0);
     /* the gate is a GENRE decision and a strong one: at 0 it is not there at all,
        which is right for lofi and for DKC. Synthwave is the genre it belongs to. */
-    if(g.gateSend) g.gateSend.gain.value = gate ? gate.send : 0;
-    if(gate){ g.gateHold = gate.hold; g.gateFall = gate.fall; }
+    if(g.gateSend)
+      rideBus(g, g.gateSend.gain, g.drumMachine + ".gate", gate ? gate.send : 0, t0);
     if(!space) return;
     if(space.wet != null) g.wet.gain.value = space.wet;
     /* the ROOM ITSELF, when a genre asks for a different one. Rebuilding the IR
@@ -2832,9 +2923,12 @@ const Sound = (function(){
   function playLive(events, space, kick, drumDrive, gate, motion, fromSec){
     ensureLive();
     stopLive();
-    setSpace(liveGraph, space, kick, drumDrive, gate, motion);   // room, kit, gate and motion, before anything sounds
     const skip = fromSec > 0 ? fromSec : 0;
     const t0 = ctx.currentTime + 0.15 - skip;
+    /* t0 is the context time the song's ZERO is at, which is what the bus ride
+       has to be written against -- the automation is in song time like every
+       event, so starting part-way in lands on the right part of the curve. */
+    setSpace(liveGraph, space, kick, drumDrive, gate, motion, 0, t0);
     let i = 0;
     while(i < events.length && events[i].tSec < skip) i++;
     const pump = () => {
@@ -2858,7 +2952,9 @@ const Sound = (function(){
     const sr = sampleRate || 44100;
     const off = new OfflineAudioContext(2, Math.ceil(seconds * sr), sr);
     const graph = buildGraph(off);
-    setSpace(graph, space, kick, drumDrive, gate, motion, motionOffset);   // the same numbers the live graph gets
+    /* 0.05 is the lead-in perform() schedules against, so the bus ride is
+       written against the same zero the events are. */
+    setSpace(graph, space, kick, drumDrive, gate, motion, motionOffset, 0.05);
     perform(graph, events, 0.05);              // the SAME perform() — no second path
     const buf = await off.startRendering();
     return encodeWav(buf);
@@ -3138,6 +3234,18 @@ const GENRE = {
        nothing lunges. The one thing lofi really does do on a dial is open up
        slightly for the chorus and go duller for the outro. */
     motion: {
+      /* THE DRUM BUS, which could not move until the bus gains learned to be
+         curves rather than numbers. Small, because lofi's whole affect is that
+         nothing lunges -- but a kit that leans in for the chorus and sits back
+         for the bridge is the oldest gesture on a desk and this program could
+         not make it. The kick's own voicing moves with it: a touch more beater
+         where the song opens, a touch less at the end. */
+      kit: {
+        bus:   [{ kind: "section", by: { intro: [-0.10, -0.04], chorus: [0.05, 0.14],
+                                         bridge: [-0.12, -0.05], outro: [-0.14, -0.06] } }],
+        decay: [{ kind: "section", by: { chorus: [0.02, 0.06], bridge: [-0.05, -0.02] } }],
+        click: [{ kind: "section", by: { chorus: [0.05, 0.14], outro: [-0.18, -0.09] } }],
+      },
       /* THE SUB BASS, whose two controls were dead until they were wired -- so
          this is the first time any genre has been able to reach them. The tone
          opens where the song opens and closes for the bridge; the drive puts
@@ -3456,7 +3564,34 @@ const GENRE = {
         envmod:[{ kind: "section", by: { chorus: [0.08, 0.20], bridge: [-0.16, -0.06],
                                          instrumental: [0.04, 0.14] } }],
       },
+      /* THE GATE IS THE GESTURE IN THIS GENRE, and until the bus gains could be
+         ridden it was a switch: on for the whole song at one depth. What a desk
+         actually does is pull the gated room back under a breakdown and let it
+         open again on the arrival -- and the HOLD moves with it, because a
+         longer hold is a bigger room and a shorter one is a tighter snap. Both
+         are here, on all three kits this genre can draw, because the gate
+         belongs to the genre and not to whichever machine happened to win. */
+      kit: {
+        bus:  [{ kind: "section", by: { intro: [-0.18, -0.08], chorus: [0.10, 0.26],
+                                        bridge: [-0.25, -0.12], outro: [-0.20, -0.10] } }],
+        gate: [{ kind: "section", by: { intro: [-0.30, -0.15], bridge: [-0.45, -0.25],
+                                        chorus: [0.00, 0.04], outro: [-0.35, -0.18] } }],
+        hold: [{ kind: "section", by: { chorus: [0.010, 0.032], bridge: [-0.045, -0.018] } }],
+        /* pitched down for the arrival, back up underneath -- a tuning move,
+           not a sweep, so the numbers are small and in Hz */
+        tune: [{ kind: "section", by: { chorus: [-2.5, -0.8], bridge: [0.8, 2.5] } }],
+        drive:[{ kind: "section", by: { chorus: [0.05, 0.14], bridge: [-0.12, -0.05] } }],
+      },
+      segakit: {
+        bus:  [{ kind: "section", by: { chorus: [0.08, 0.22], bridge: [-0.20, -0.10] } }],
+        gate: [{ kind: "section", by: { bridge: [-0.40, -0.20], chorus: [0.00, 0.04] } }],
+      },
       tr808: {
+        bus:     [{ kind: "section", by: { intro: [-0.20, -0.09], chorus: [0.10, 0.28],
+                                           bridge: [-0.28, -0.14], outro: [-0.22, -0.10] } }],
+        gate:    [{ kind: "section", by: { intro: [-0.30, -0.15], bridge: [-0.45, -0.25],
+                                           chorus: [0.00, 0.04], outro: [-0.35, -0.18] } }],
+        hold:    [{ kind: "section", by: { chorus: [0.010, 0.032], bridge: [-0.045, -0.018] } }],
         decay:   [{ kind: "section", by: { chorus: [0.15, 0.35], instrumental: [0.05, 0.20],
                                            bridge: [-0.30, -0.12], outro: [-0.20, -0.08] } }],
         ohdecay: [{ kind: "lfo", bars: [[8, 1], [16, 2]], depth: [0.04, 0.11],

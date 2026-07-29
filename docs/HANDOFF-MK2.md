@@ -100,30 +100,57 @@ removing that idea is the central reason MK2 exists.
 The question "how should the program decide what to do?" needs a stated rule,
 not per-genre improvisation. Every control in `INSTRUMENTS` carries a `kind`:
 
-| kind | meaning | who sets it | may motion move it? |
-|------|---------|-------------|---------------------|
-| `switch` | a discrete choice — the 303's waveform, the Mellotron's tape set | genre `params` | **no** — mid-song it is a different instrument, not a gesture |
-| `voicing` | what the instrument *is* — kick tuning, tremolo rate, the CS-80's initial bend | genre `params` | **no** — automating it makes the instrument wander instead of the performance moving |
-| `bus` | a graph-level number `setSpace` hands over once, before anything is scheduled | genre `params` | **structurally cannot** |
-| `gesture` | what a player's hand is on — cutoff, resonance, brightness, decay, ensemble | genre `params` sets the base | **yes — this is what `motion` is for** |
+| kind | meaning | may the conductor move it? |
+|------|---------|----------------------------|
+| `switch` | a discrete choice — the 303's waveform, the Mellotron's tape set | **no** — mid-song it is a different instrument, not a gesture |
+| `voicing` | what the instrument *is* — kick body and level, tremolo rate, the CS-80's initial bend | **no** — automating it makes the instrument wander instead of the performance moving |
+| `bus` | a gain **node** the whole kit passes through — drum drive, gate send | **yes, as a curve** — `rideBus()` writes an automation curve on the node across the song. Not per note. |
+| `gesture` | what a player's hand is on — cutoff, resonance, brightness, decay, ensemble | **yes, per note** — through `P()`. This is what `motion` is for. |
 
-Three seam checks enforce it, and together they close the loop:
+Four seam checks enforce it, and together they close the loop:
 
+- **every automated knob reaches the sound, at the note or on the bus**
 - **every knob on every panel reaches the sound** — no control may be declared
   that no voice reads. (Four were, for as long as the rack existed: `subbass.cut`,
   `subbass.drive`, `chipbass.bright`, `chipkeys.bright`. They were drawn, they
   moved, and nothing happened.)
-- **every gesture knob is one some genre actually rides** — a gesture nobody
-  moves is a knob the conductor is not using. Ten were idle before this landed.
-- **no switch, voicing or bus control is automated** — the reverse error.
+- **every knob the conductor can move is one some genre moves** — a gesture or a
+  bus nobody rides is a knob the conductor is not using. Ten gestures and then
+  twelve bus/kick controls were idle before this landed.
+- **no switch or voicing control is automated** — the reverse error.
 
-The upshot, measured: **55 controls, all wired; 46 set by at least one genre; 32
-ridden by at least one.** The 23 that are never ridden are exactly the switches,
-voicings and bus gains — by contract, not by neglect.
+The upshot, measured: **57 controls — 38 gesture, 10 voicing, 6 bus, 3 switch.
+All wired; 46 set by at least one genre; 44 ridden by at least one.** The 13
+never ridden are exactly the switches and voicings — by contract, not neglect.
 
-When you add a machine, give every control a `kind`. If it's a `gesture`, some
-genre that hosts the machine has to ride it or the battery fails — which is the
-point: it stops a panel growing knobs nobody uses.
+**The bus gains were the last thing to move,** and they were the hardest,
+because an AudioParam has no note to be read at. `rideBus()` samples the motion
+plan one point per beat and writes `setValueAtTime` + a `linearRampToValueAtTime`
+chain onto the node. Measured with byte-identical drum events rendered at
+different song positions — so the only variable is where the plan is read —
+lofi's kit is **+1.16 dB** in the chorus and synthwave's spans **5.7 dB** between
+bridge and chorus. Peaks move by 0.1 dB across that span: riding the bus pushes
+the kit further into the drum saturator, so it thickens rather than just getting
+louder, which is what riding a bus into a driven desk actually does.
+
+Two related fixes came with it: the acoustic kick now reads its own panel per
+note (it used to read a snapshot `setSpace` took before anything was scheduled,
+so all four of its voicing controls were frozen for the whole song), and
+`kit.body` / `kit.gain` moved onto that panel instead of living only in the
+genre's `kick` block where nothing could touch them. The gate's **hold** turned
+out not to be a bus control at all — every hit reopens the gate and decides for
+itself when the door slams, which is a gesture — so `openGate` takes the event
+now and looks the hold up on whichever drum panel the plan names.
+
+When you add a machine, give every control a `kind`. If it's a `gesture` or a
+`bus`, some genre that hosts the machine has to ride it or the battery fails —
+which is the point: it stops a panel growing knobs nobody uses.
+
+**How much of the movement is arrangement-driven?** 92 motion terms across the
+six genres: **59% section- or fill/peak-driven** (the arrangement tells the knobs
+where the song is), 32% free-running LFOs, 10% per-step p-locks. The reverse
+direction — knobs changing notes — is forbidden by the stage boundary and must
+stay forbidden.
 
 ### Determinism has a hard limit you must know
 
