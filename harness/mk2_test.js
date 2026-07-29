@@ -280,28 +280,43 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       }
       dens[g] = { bass: n / songs, ctr: lead ? ctr / lead : 0 };
     }
-    /* ONE BEHAVIOUR PER STYLE, not one per genre. This used to require every
-       genre's bass density to be distinct, which was true while no two genres
-       shared a bassStyle and became wrong the moment two did: Plastikman and
-       jungle are both "drone" over a static progression, so of course they
-       write the same number of notes -- that is the style doing its job, not a
-       table doing nothing. What must stay true is that the STYLES diverge. */
-    const styleOf = {}, seenStyle = {};
+    /* THE BUILDER MUST DO WHAT ITS OWN TABLE ASKS. Two thresholds have been
+       tried here and both were wrong. The first required every GENRE's bass
+       density to be distinct, which broke when two genres shared a style. The
+       second required a style's density to be TIGHT across the genres sharing
+       it -- and that broke the moment the two acid genres wanted different
+       lines, which is the entire point of having an `acidLine` table: acid
+       house is 9-13 notes of 16 and Plastikman is 5-8 of the 12 the kick leaves
+       open, same builder, different music.
+
+       What is actually checkable is the builder against its own parameters. An
+       acid line's note count is its declared density; a pulse's is its
+       division. Predict from the table, compare to the notes, and a table entry
+       that does nothing shows up immediately as a prediction that does not
+       move. */
+    const bad = [];
     for(const g of genres){
-      const st = T.GENRE[g].bassStyle;
-      styleOf[st] = (styleOf[st] || []).concat(Math.round(dens[g].bass));
-      seenStyle[st] = 1;
+      const G2 = T.GENRE[g], got = dens[g].bass;
+      let want = null;
+      if(G2.bassStyle === "acid"){
+        const d = G2.acidLine.density;
+        want = ((d[0] + d[1]) / 2) * 4;                 // per bar x 4 bars
+      } else if(G2.bassStyle === "pulse"){
+        const P2 = G2.bassPulse;
+        want = (16 / P2.unit) * 4 * (1 - P2.restChance * 0.9);
+      }
+      if(want != null && Math.abs(got - want) > Math.max(2, want * 0.18))
+        bad.push(`${g} writes ${got.toFixed(1)}, its table asks for ~${want.toFixed(1)}`);
     }
-    const perStyle = Object.keys(styleOf).map(st => Math.round(
-      styleOf[st].reduce((a, b) => a + b, 0) / styleOf[st].length));
-    const stylesDiffer = new Set(perStyle).size === Object.keys(styleOf).length;
-    /* ...and a style must not vary wildly between the genres that share it,
-       or the "style" is not the thing deciding */
-    const tight = Object.keys(styleOf).every(st =>
-      Math.max(...styleOf[st]) - Math.min(...styleOf[st]) <= 6);
-    check("the bass styles really differ", stylesDiffer && tight,
-          Object.keys(styleOf).map(st => `${st} ${styleOf[st].join("/")}`).join("  ") +
-          "  |  " + genres.map(g => `${g} ${dens[g].bass.toFixed(1)}`).join(" "));
+    /* ...and the styles must still be telling different instruments apart */
+    const byStyle = {};
+    for(const g of genres) (byStyle[T.GENRE[g].bassStyle] ||= []).push(dens[g].bass);
+    const means = Object.keys(byStyle).map(k =>
+      byStyle[k].reduce((a, b) => a + b, 0) / byStyle[k].length);
+    const distinct = new Set(means.map(x => Math.round(x / 4))).size === means.length;
+    check("each bass builder writes what its own table asks for", bad.length === 0 && distinct,
+          (bad.join(" | ") || "predictions hold") + "  |  " +
+          Object.keys(byStyle).map(k => `${k} ${byStyle[k].map(x => x.toFixed(0)).join("/")}`).join("  "));
     /* THE COUNTER SOUNDS AS OFTEN AS ITS TABLE SAYS IT DOES. This used to be a
        flat "more than 30% of the tune's notes" -- which is synthwave's octave
        double wearing the name of a law, and it failed the moment three genres

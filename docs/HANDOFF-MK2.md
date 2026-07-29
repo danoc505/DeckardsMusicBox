@@ -490,6 +490,39 @@ how it was visible at all. Fixed to draw from the target bar's own onsets.
 - The tempo band `[160,176]` is `[EAR]`. No corpus of measured jungle BPMs was
   gathered; do not read it as one.
 
+### 5.4a Plastikman's bass, and the shape of a research error
+
+Worth reading before you write another genre table, because the mistake is easy
+to repeat. The research said two things: *"many of the 303 lines were pitched up
+an octave"* and *Consumed* is *"driven largely by deep, rumbling basslines."* I
+built a sub **drone** on the bass lane and put the 303 on the ostinato — keeping
+the octave and losing the instrument. The drone restruck only when the chord
+changed, and this genre's chord never changes, so **seed 1 had three bass notes
+in four bars** under a record described as bass-driven.
+
+The primary source is unambiguous: *"one of the core fundamental sounds of
+Plastikman has always been Roland TB-303 basslines; it's on nearly every track
+except for a couple of drum things."* Both facts are true at once — the 303
+plays the **bass**, a second voice of it sits an octave and a half up as the
+**figure**, and the very bottom is the **kick** (*"basslines in minimal tend to
+be carried by the kicks, with the drums tuned to fill in the bottom end"*).
+
+The fix brought one genuinely new mechanism, and it is sourced rather than
+tasted: **`acidLine.avoidKick`**. *"Leaving the first 16th-note of every beat
+empty is important to prevent clashing with the kick"* — under four-on-the-floor
+that empties steps 0, 4, 8, 12 and the line rolls in the three sixteenths after
+each kick. Acid house does **not** do this (its 303 sits on the downbeat), so
+the flag is off by default and the genre that wants it asks.
+
+**Measured afterwards**, because a C2 bassline next to a 0.60 s 808 kick is the
+mix problem every one of those guides opens with: eight bars of seed 1 put
+**50.4%** of energy under 60 Hz — and **taking the bass out raises it to 77.9%**.
+The kick alone is 81.7%. The 303 line is what stops the genre being nothing but
+sub; it does not cause it. Acid house measures 58.2% and was not touched.
+Whether that is too much bottom is an ears question, not a number question — the
+35% figure quoted elsewhere in this file came from a lofi/synthwave judgement and
+should not be applied to a genre that is a kick.
+
 ### 5.4 Genre identity, for all seven
 
 The user's framing, which is the right one: *"lofi hip hop is defined by more

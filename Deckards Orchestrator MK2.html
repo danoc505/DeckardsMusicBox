@@ -1410,10 +1410,21 @@ const RIG = {
           tom1:"brk", tom2:"brk", tom3:"brk", brk:"brk",
             bass:"drone", keys:"wash", lead:"acid303", counter:"acid303",
             ostinato:"acid303" },
+  /* THE 303 IS THE BASSLINE, and this rig had it on the wrong lane. "One of the
+     core fundamental sounds of Plastikman has always been Roland TB-303
+     basslines; it's on nearly every track except for a couple of drum things"
+     [corpus:gearnews/techno-legends-gear]. It was on `ostinato` with a sub drone
+     underneath -- a reading of "many of the 303 lines were pitched up an octave"
+     that kept the octave and lost the instrument. BOTH are true: the 303 plays
+     the bass, and a second voice of it sits an octave and a half up as the
+     figure. What holds the very bottom is the kick -- "basslines in minimal tend
+     to be carried by the kicks, with the drums tuned to fill in the bottom end"
+     [corpus:stealifysounds] -- which is why this genre's 808 runs a 0.60 s decay
+     at 46 Hz. */
   plastik: { kick:"k808", snare:"rim", ghost:"rim", hat:"h808", openhat:"oh808",
              brk:"brk",
           tom1:"t808hi", tom2:"t808mid", tom3:"t808lo",
-             bass:"drone", keys:"wash", lead:"acid303", counter:"acid303",
+             bass:"acid303", keys:"wash", lead:"acid303", counter:"acid303",
              ostinato:"acid303" },
 };
 
@@ -4757,6 +4768,25 @@ const GENRE = {
      is no functional harmony present to detect. So the progressions are a drone
      and the mode weights are a stated taste call, not a corpus statistic.
 
+     THE BASS IS THE 303, and getting that wrong was the biggest single error in
+     this table. It read "many of the 303 lines were pitched up an octave" and
+     built a sub drone underneath -- keeping the octave and losing the
+     instrument. The primary source is unambiguous: "one of the core fundamental
+     sounds of Plastikman has always been Roland TB-303 basslines; it's on
+     nearly every track except for a couple of drum things"
+     [corpus:gearnews/techno-legends-gear]. Both facts are true at once -- the
+     303 plays the BASS, and a second voice of it sits an octave and a half up
+     as the figure -- and the very bottom is the KICK, because "basslines in
+     minimal tend to be carried by the kicks, with the drums tuned to fill in
+     the bottom end" [corpus:stealifysounds]. That is why the 808 here runs a
+     0.60 s decay at 46 Hz and why the line sits around C2 rather than under it.
+
+     MEASURED, because a bassline that low next to a kick that long is exactly
+     the mix problem every one of these guides opens with: eight bars of seed 1
+     put 50.4% of their energy under 60 Hz -- and taking the BASS OUT raises
+     that to 77.9%. The kick alone is 81.7%. The 303 line is what stops this
+     genre being nothing but sub; it does not cause it.
+
      THE GENRE'S OWN LAW, and the single most important line in its table:
      lofi's flourishBar 3 states a figure three times and answers on the fourth.
      This music exists to refuse that. flourishBar is -1, which is out of range
@@ -4881,7 +4911,12 @@ const GENRE = {
        lines were pitched up an octave", ABOVE the pad, not through it. Widening
        the comp and lifting the cell clear fixes it by describing the record
        correctly rather than by loosening a check. [corpus:hawtin] */
-    registers: { bass: [28, 43], keys: [48, 72], counter: [55, 74], bassWalk: [28, 43],
+    /* the line sits around C2, which is where the sources put a techno bass
+       ("the part sits within the C2 octave range" [corpus:attackmagazine]) --
+       higher than the old drone's A0, because the 808 kick at 46 Hz owns the
+       floor and a bassline fighting it is the mix problem every one of these
+       guides opens with. */
+    registers: { bass: [31, 47], keys: [48, 72], counter: [55, 74], bassWalk: [31, 47],
                  ostinato: [67, 86],
                  themeA: [64, 84], themeB: [64, 84], themeC: [64, 84] },
 
@@ -4930,9 +4965,33 @@ const GENRE = {
     drumDrive: 1.30,
     gate: null,
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, down: false },
-    bassStyle: "drone",
-    bassPulse: { unit: 4, rootBias: 1, octaveJump: 0, restChance: 0 },   // unused by "drone"
-    bassAccent: { accent: 0, slide: 0 },
+    /* A 303 LINE, not a drone. The drone was a misreading: it restruck only when
+       the chord changed and this genre's chord never changes, so seed 1 had
+       THREE bass notes in four bars under a record that is "driven largely by
+       deep, rumbling basslines". Minimal's bass is "simple and repetitive,
+       locking in with the kick drum ... often only playing a few notes per bar"
+       [corpus:stealifysounds, corpus:beatkey] -- a few per BAR, not per four. */
+    bassStyle: "acid",
+    acidLine: {
+      grid: 1,
+      /* sparser than acid house's 9-13, because "the importance of silence
+         between sounds" is one of the two things every account of this music
+         names. Five to eight of the twelve steps the kick leaves open. */
+      density: [5, 8],
+      /* TWO pitches, not acid house's three or four. This is the genre that
+         reduces. [EAR, on the same axis as everything else here] */
+      distinctPitches: [2, 2],
+      degreePool: [[0, 14], [6, 4], [3, 3], [1, 2], [4, 1]],
+      rootShare: 0.62,
+      octaveUp: 0.06, octaveDown: 0.04,
+      /* and the mechanism: off the kick, always. [corpus:attackmagazine] */
+      avoidKick: true,
+    },
+    bassPulse: { unit: 4, rootBias: 1, octaveJump: 0, restChance: 0 },   // unused by "acid"
+    /* a 303 line without accent and slide is a 303 with its two front-panel
+       switches taped down. Lower than acid house's -- this music states rather
+       than shouts -- but not zero, which is what a drone needed. */
+    bassAccent: { accent: 0.22, slide: 0.12 },
     /* THE ACID OSTINATO: sixteen steps, a couple of pitches, repeated
        identically for the whole record and never phrased. That is what the
        ostinato lane is -- the cell that does not move -- and it is why this
@@ -5637,11 +5696,25 @@ function makeMaterials(chart){
       /* WHICH STEPS SOUND. One draw per step, always, and the quietest `dens` of
          them win -- rank selection rather than a per-step coin, so the density
          is the number the table asked for instead of the number it averages to
-         over many bars. Step 0 always sounds. */
+         over many bars. Step 0 always sounds, unless the genre is one that
+         keeps the bass OFF the kick.
+
+         AVOIDKICK is a mechanism, not a taste: "leaving the first 16th-note of
+         every beat empty is important to prevent clashing with the kick"
+         [corpus:attackmagazine, rolling techno bass]. Under four-on-the-floor
+         that empties 0, 4, 8 and 12 and the line rolls in the three sixteenths
+         after each kick -- which is a different instrument from a line that
+         lands ON the beat, and it is why minimal techno has a bottom end you
+         can hear through the kick instead of underneath it. Acid house does NOT
+         do this: its 303 sits on the downbeat, so the flag is off by default
+         and the genre that wants it asks. */
       const dens = A.density[0] + Math.floor(rng() * (A.density[1] - A.density[0] + 1));
+      const banned = A.avoidKick ? new Set(pocket) : new Set();
       const roll = [];
-      for(let st = 0; st < 16; st++) roll.push([st, st === 0 ? -1 : rng()]);
-      const on = roll.slice().sort((a, z) => a[1] - z[1]).slice(0, dens)
+      for(let st = 0; st < 16; st++)
+        roll.push([st, banned.has(st) ? 2 : (st === 0 && !A.avoidKick) ? -1 : rng()]);
+      const on = roll.slice().sort((a, z) => a[1] - z[1])
+                     .slice(0, Math.min(dens, 16 - banned.size))
                      .map(x => x[0]).sort((a, z) => a - z);
       const cell = [];
       for(const st of on){
