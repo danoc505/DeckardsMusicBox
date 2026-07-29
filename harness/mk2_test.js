@@ -253,9 +253,28 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       }
       dens[g] = { bass: n / songs, ctr: lead ? ctr / lead : 0 };
     }
-    const vals = genres.map(g => Math.round(dens[g].bass));
-    check("the bass styles really differ", new Set(vals).size === genres.length,
-          genres.map(g => `${g} ${dens[g].bass.toFixed(1)}/4bars`).join("  "));
+    /* ONE BEHAVIOUR PER STYLE, not one per genre. This used to require every
+       genre's bass density to be distinct, which was true while no two genres
+       shared a bassStyle and became wrong the moment two did: Plastikman and
+       jungle are both "drone" over a static progression, so of course they
+       write the same number of notes -- that is the style doing its job, not a
+       table doing nothing. What must stay true is that the STYLES diverge. */
+    const styleOf = {}, seenStyle = {};
+    for(const g of genres){
+      const st = T.GENRE[g].bassStyle;
+      styleOf[st] = (styleOf[st] || []).concat(Math.round(dens[g].bass));
+      seenStyle[st] = 1;
+    }
+    const perStyle = Object.keys(styleOf).map(st => Math.round(
+      styleOf[st].reduce((a, b) => a + b, 0) / styleOf[st].length));
+    const stylesDiffer = new Set(perStyle).size === Object.keys(styleOf).length;
+    /* ...and a style must not vary wildly between the genres that share it,
+       or the "style" is not the thing deciding */
+    const tight = Object.keys(styleOf).every(st =>
+      Math.max(...styleOf[st]) - Math.min(...styleOf[st]) <= 6);
+    check("the bass styles really differ", stylesDiffer && tight,
+          Object.keys(styleOf).map(st => `${st} ${styleOf[st].join("/")}`).join("  ") +
+          "  |  " + genres.map(g => `${g} ${dens[g].bass.toFixed(1)}`).join(" "));
     /* THE COUNTER SOUNDS AS OFTEN AS ITS TABLE SAYS IT DOES. This used to be a
        flat "more than 30% of the tune's notes" -- which is synthwave's octave
        double wearing the name of a law, and it failed the moment three genres
@@ -341,7 +360,11 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     }
     return ons;
   };
-  const LANES = new Set(["kick", "snare", "ghost", "hat", "openhat", "tom1", "tom2", "tom3"]);
+  /* every drum lane the exporter can write, INCLUDING the break -- a chopped
+     bar exports as whatever drums its source slices strike, so it is notes
+     like any other lane and has to be counted like any other lane. */
+  const LANES = new Set(["kick", "snare", "ghost", "hat", "openhat",
+                         "tom1", "tom2", "tom3", "brk"]);
   let bad = [];
   for(const g of M.genres()) for(const seed of [1, 2, 3]){
     const song = M.composeSong(seed, undefined, g);
@@ -391,7 +414,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      them across the song -- so they are automatable, just not per note. That is
      what kind:"bus" now means. */
   const PER_SONG = new Set(["kit.bus","kit.gate","tr808.bus","tr808.gate",
-    "segakit.bus","segakit.gate"]);
+    "segakit.bus","segakit.gate","amen.bus"]);
 
   const dead = [];
   for(const g of M.genres()){
@@ -535,8 +558,16 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     const p = M.composeSong(s, "band", g).chart.picks;
     for(const slot in p){ slots++; if(p[slot] === "auto") autos++; seen[g + "/" + p[slot]] = 1; }
   }
-  check("the genre draws more than one machine per slot", Object.keys(seen).length > M.genres().length * 3,
-        Object.keys(seen).length + " distinct genre/machine pairs");
+  /* the threshold used to be "more than three pairs per genre", which quietly
+     required EVERY genre to offer an alternative in some slot -- and that is
+     not a law. Jungle names no alternatives at all, on purpose: its kit is a
+     break and there is no second break to swap in. What must be true is that
+     the feature is exercised somewhere, so: count the distinct NAMED machines
+     drawn across all genres. */
+  const named = new Set(Object.keys(seen).map(k => k.split("/")[1]).filter(x => x !== "auto"));
+  check("the genres really do draw alternative machines", named.size >= 4,
+        named.size + " named machines drawn (" + [...named].join(", ") + ") over " +
+        Object.keys(seen).length + " genre/machine pairs");
   check("...and every genre still leaves room for the rig", autos > slots * 0.2,
         autos + "/" + slots + " slots fall through to the rig");
 }

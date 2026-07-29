@@ -33,7 +33,7 @@ const src = html.split("<script>")[1].split("</script>")[0];
 global.window = { addEventListener(){}, MK2: null };
 global.document = { getElementById: () => ({ addEventListener(){}, textContent: "", value: "1", innerHTML: "" }),
                     createElement: () => ({ click(){} }) };
-eval(src + ";global.__T = { NOTE_NAMES, degMidi, MODES, pc, inKey };");
+eval(src + ";global.__T = { NOTE_NAMES, degMidi, MODES, pc, inKey, AMEN };");
 const M = global.window.MK2, T = global.__T;
 
 const argv = process.argv.slice(2);
@@ -58,7 +58,14 @@ const nm = p => T.NOTE_NAMES[T.pc(p)] + (Math.floor(p / 12) - 1);   // midi 60 -
 /* ── the grid. 16 steps a bar, four bars across, one line per lane/role. ── */
 const RULER = "1e+a2e+a3e+a4e+a";
 const DRUM_CH = { kick: "K", snare: "S", ghost: "g", hat: "x", openhat: "O",
-                  tom1: "1", tom2: "2", tom3: "3" };
+                  tom1: "1", tom2: "2", tom3: "3",
+                  /* the break lane exports too -- as whatever drum its source
+                     slice actually strikes, so a chopped bar reads as the kit it
+                     is made of. Listed here because this table is what the
+                     round-trip counter uses to say which events OUGHT to be
+                     notes, and leaving it out made the check cry wolf on 2372
+                     notes that were exported perfectly well. */
+                  brk: "#" };
 
 function gridLine(notes, bars, pick){
   const out = [];
@@ -108,6 +115,32 @@ function printMaterial(key, mat, bars){
     }
     return anyPin ? s : null;
   };
+  /* THE BREAK LANE, first, because in a genre that chops one it IS the drums and
+     everything else is decoration. Two rows: where the chops land, and WHICH
+     SLICE of the source each one plays -- because "the chopper ran" and "the
+     chopper rearranged anything" are different claims and only the second row
+     can tell them apart. A slice is printed in a 64-character alphabet so all
+     64 of them fit in ONE column -- base 36 did not, and slices 36 and up
+     printed two characters each, which silently knocked every row after them
+     out of alignment with the step grid above. */
+  const B64 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/";
+  {
+    const ns = (mat.drums || []).filter(n => n.lane === "brk");
+    if(ns.length){
+      console.log("break   " + gridLine(ns, bars, n => n.rev ? "<" : "#"));
+      console.log("slice   " + gridLine(ns, bars, n => B64[n.slice] || "?"));
+      /* and what that slice actually IS in the source, so a reader can see
+         whether a chop landed on a snare or on a pickup */
+      const AM = T.AMEN;
+      const what = sl => {
+        const row = AM.grid[Math.floor(sl / 16) % AM.bars], st = sl % 16;
+        for(const [lane, ch] of [["snare","S"],["kick","K"],["ghost","g"],["openhat","O"],["ride","-"]])
+          if((row[lane] || []).includes(st)) return ch;
+        return ".";
+      };
+      console.log("source  " + gridLine(ns, bars, n => what(n.slice)));
+    }
+  }
   const lanes = ["kick", "snare", "ghost", "tom1", "tom2", "tom3", "hat", "openhat"];
   for(const lane of lanes){
     const ns = (mat.drums || []).filter(n => n.lane === lane);

@@ -496,6 +496,31 @@ const INSTRUMENTS = {
                ["tom2","MT"], ["tom3","LT"], ["hat","CH"], ["openhat","OH"]],
     },
   },
+  amen: {
+    slot: "drums", label: "Amen chopper",
+    /* one lane, because a break IS one lane: the whole kit arrives together and
+       the chopper decides which bit of it you hear. The other drum lanes are
+       named so a rig lookup cannot come back undefined, and they point at the
+       same voice -- a genre using this machine never writes them. */
+    lanes: { brk:"brk", kick:"brk", snare:"brk", ghost:"brk", hat:"brk",
+             openhat:"brk", tom1:"brk", tom2:"brk", tom3:"brk" },
+    controls: [
+      { k:"tune", label:"tune",      cap:"TUNE",  min:-12,  max:12,   step:0.5,  def:0,     unit:"st", kind:"gesture" },
+      { k:"tone", label:"tone",      cap:"TONE",  min:1200, max:16000,step:100,  def:12000, unit:"Hz", kind:"gesture" },
+      { k:"hp",   label:"low cut",   cap:"HPF",   min:20,   max:400,  step:5,    def:30,    unit:"Hz", kind:"gesture" },
+      { k:"tail", label:"tail",      cap:"TAIL",  min:0.005,max:0.40, step:0.005,def:0.030, unit:"s",  kind:"gesture" },
+      { k:"bus",  label:"kit drive", cap:"DRIVE", min:0.6,  max:2,    step:0.01, def:1.15,  kind:"bus" },
+      /* NO GATE CONTROLS ON THIS PANEL, deliberately. The other kits declare a
+         send and a hold because a programmed kit is dry until you give it a
+         room; the break arrives with its own room already in the buffer, and
+         jungle is not a gated-reverb genre. If a gated genre ever puts the
+         chopper in its drums slot, the break still feeds the gate at whatever
+         that genre's send and hold are -- V.brk checks for it -- so nothing is
+         lost by not drawing two knobs nobody would turn. */
+    ],
+    panel: { skin: "amen", maker: "", title: "break chopper",
+             groups: [{ label: "", keys: ["tune", "tone", "hp", "tail"] }] },
+  },
   segakit: {
     slot: "drums", label: "SEGA DAC + PSG",
     lanes: { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat", openhat:"psgOpenhat",
@@ -1187,11 +1212,75 @@ const YM_PATCH = {
     { dt:0, mul: 1, rs:0, tl:16, ar:31, d1r:12, d2r:5, sl:4, rr:10 } ] },
 };
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE AMEN BREAK — four bars from "Amen, Brother" (The Winstons, 1969), played
+   by Gregory Coleman, and the most sampled drum recording there is.
+
+   NOTHING IS SAMPLED HERE. There is no recording in this file and none is
+   downloaded: the grid below is a TRANSCRIPTION, and the program synthesises
+   the break from it into a buffer at graph-build time, then chops the buffer.
+   That is why this table exists rather than a .wav.
+
+   AND THE REASON IT IS A BUFFER RATHER THAN NOTES. Ethan Hein, whose thirteen-
+   step construction the grid below follows exactly: "You can't adequately
+   represent the Amen via MIDI or music notation. Its timbre is doing as much
+   musical work as the placement and timing of drum hits." He is right, and it
+   settles the architecture: a chopped break sounds chopped because you hear
+   slice boundaries, room tone running across a cut, and a tail that belongs to
+   the hit before. Emitting kick and snare events instead would give fast drum
+   programming, which is a different genre. So: render once, then slice.
+
+   THE CONSTRUCTION, step by step, from the source [corpus:ethanhein]:
+     1  a beat on quarter notes           -> kick 0,8   snare 4,12
+     2  ride on the eighth offbeats       -> ride 2,6,10,14
+     3  last bar: the ride on the "and of 3" becomes an OPEN hat
+     4  kicks on the eighth offbeats      -> kick 2,6,10,14
+     5  omit the kick on beat three in every bar, and on the downbeat of the
+        last bar                          -> no kick 8; bar 3 has no kick 0
+     6  LAST TWO BARS: delay the beat-four snare by an eighth -> 12 becomes 14.
+        "This disruptive move is probably the most crucial element."
+     7  first two bars: double the kick on the "and of 3"   -> add 11
+     8  last bar: double the kick on the "and of 1"         -> add 3
+     9  every bar: snare pickup on the 16th before beat 3   -> ghost 7
+    10  first two bars: pickup on the 16th before the next downbeat -> ghost 15
+    11  last bar: pickup on the 16th before the "and of 1" -> ghost 1.
+        "Another highly disruptive move, especially combined with the
+         displaced snares."
+    12  every bar: pickup on the 16th before the "and of 3" -> ghost 9
+    13  groove -- Coleman's microtiming, which no grid holds. The chopper's
+        own swing and the per-slice timing are the nearest this gets, and it
+        is NOT the same thing. Said out loud rather than claimed.
+   ═══════════════════════════════════════════════════════════════════════════ */
+const AMEN = {
+  bpm: 136,          // the record. 4 bars at 136 is 7.06 s, which is the break's
+                     // documented length [corpus:wikipedia "lasts for seven seconds"]
+  bars: 4,
+  /* one entry per bar; each is a map of lane -> the 16th steps it strikes */
+  grid: [
+    { kick:[0,2,6,10,11,14], snare:[4,12], ghost:[7,9,15], ride:[2,6,10,14] },
+    { kick:[0,2,6,10,11,14], snare:[4,12], ghost:[7,9,15], ride:[2,6,10,14] },
+    { kick:[0,2,6,10,14],    snare:[4,14], ghost:[7,9],    ride:[2,6,10,14] },
+    { kick:[2,3,6,10,14],    snare:[4,14], ghost:[1,7,9],  ride:[2,6,14], openhat:[10] },
+  ],
+  /* velocities, [EAR]: a break is a human playing hard, so the backbeat is at
+     the top, the pickups are genuinely quiet, and the ride is under both. */
+  vel: { kick: 0.95, snare: 1.0, ghost: 0.26, ride: 0.34, openhat: 0.46 },
+};
+/* the source's own ONSETS, per bar: every step where the break strikes anything
+   you would call a hit. The ride alone is not an onset -- cutting on a cymbal
+   and nothing else is where a chop stops sounding like drums. Derived once,
+   because the chopper and the fill both have to agree about where the hits are. */
+const AMEN_ONSETS = AMEN.grid.map(row => {
+  const set = new Set([...(row.kick || []), ...(row.snare || []), ...(row.ghost || [])]);
+  return [...set].sort((a, z) => a - z);
+});
+
 /* which rack slot owns a lane. Lanes not named here (lead, counter, ostinato)
    have no rack slot yet and always come from the rig. */
 const SLOT_OF = {
   kick:"drums", snare:"drums", ghost:"drums", hat:"drums", openhat:"drums",
-  tom1:"drums", tom2:"drums", tom3:"drums", bass:"bass", keys:"keys",
+  brk:"brk",
+          tom1:"drums", tom2:"drums", tom3:"drums", brk:"drums", bass:"bass", keys:"keys",
 };
 
 /* THE RIG TABLE — which instrument plays which part. Stage 5 still writes the
@@ -1202,11 +1291,13 @@ const SLOT_OF = {
    as undefined and throws, which is exactly the behaviour we want. */
 const RIG = {
   band: { kick:"kick",    snare:"snare",    ghost:"ghost",    hat:"hat",    openhat:"openhat",
+          brk:"brk",
           tom1:"tom1", tom2:"tom2", tom3:"tom3",
           bass:"bass",     keys:"keys",     lead:"lead",     counter:"counter", ostinato:"counter" },
   sega: { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat", openhat:"psgOpenhat",
           /* the Mega Drive has no tom sample; its DAC snare stands in, which is
              what a 4-channel PCM kit actually did. [theory: MD hardware] */
+          brk:"brk",
           tom1:"tom1", tom2:"tom2", tom3:"tom3",
           bass:"chipBass", keys:"chipKeys", lead:"chipLead", counter:"chipCounter", ostinato:"chipCounter" },
   /* synthwave's band. The comp goes to the CS-80 voice, which has been built and
@@ -1216,6 +1307,7 @@ const RIG = {
      CS-80, but of everything in this palette it is the one in that lineage, and
      it is the right instrument for a wide sustained synth comp. [EAR] */
   neon: { kick:"kick",    snare:"snare",    ghost:"ghost",    hat:"hat",    openhat:"openhat",
+          brk:"brk",
           tom1:"tom1", tom2:"tom2", tom3:"tom3",
           bass:"bass",     keys:"cs80",     lead:"lead",     counter:"counter", ostinato:"counter" },
   /* NEMO -- the Blade Runner room, named for nemostudios, whose teardown of the
@@ -1227,6 +1319,7 @@ const RIG = {
      correct, the Tears in Rain melody is a Fender Rhodes with chorus.
      [corpus:nemostudios br03, corpus:alijamieson, corpus:reverbmachine] */
   nemo: { kick:"kick", snare:"rim", ghost:"rim", hat:"hat", openhat:"openhat",
+          brk:"brk",
           tom1:"tom1", tom2:"tom2", tom3:"tom3",
           bass:"drone", keys:"vp330", lead:"cs80", counter:"rhodes", ostinato:"rhodes" },
   /* THE BOX -- acid house. Every element is a machine and every machine is one
@@ -1235,6 +1328,7 @@ const RIG = {
      the gaps, and the 303 on the bass. [corpus:attackmagazine's Armando
      dissection; the 303/808 pairing is Voodoo Ray and No Way Back] */
   box:  { kick:"k808", snare:"clap", ghost:"rim", hat:"h808", openhat:"oh808",
+          brk:"brk",
           tom1:"t808hi", tom2:"t808mid", tom3:"t808lo",
           bass:"acid303", keys:"wash", lead:"acid303", counter:"acid303",
           ostinato:"acid303" },
@@ -1243,8 +1337,19 @@ const RIG = {
      basslines" with the 303 pitched UP an octave over the top, which is why the
      bass here is a drone and the ostinato is the acid line rather than the other
      way round. [corpus:hawtin / Wikipedia on Consumed] */
+  /* THE BREAK RIG. Every drum lane points at the chopper because a break is not
+     a set of lanes -- it is one recording of a whole kit, and which drum you
+     hear is a consequence of where the composer cut it. The bass is a sub,
+     because that is the other half of jungle: a break up top and a weight
+     underneath that the break has none of. */
+  jungle: { kick:"brk", snare:"brk", ghost:"brk", hat:"brk", openhat:"brk",
+            brk:"brk",
+          tom1:"brk", tom2:"brk", tom3:"brk", brk:"brk",
+            bass:"drone", keys:"wash", lead:"acid303", counter:"acid303",
+            ostinato:"acid303" },
   plastik: { kick:"k808", snare:"rim", ghost:"rim", hat:"h808", openhat:"oh808",
-             tom1:"t808hi", tom2:"t808mid", tom3:"t808lo",
+             brk:"brk",
+          tom1:"t808hi", tom2:"t808mid", tom3:"t808lo",
              bass:"drone", keys:"wash", lead:"acid303", counter:"acid303",
              ostinato:"acid303" },
 };
@@ -1324,6 +1429,12 @@ const Sound = (function(){
   const LEVEL = {
     kick: 0.72, snare: 0.62, hat: 0.44, openhat: 0.34, ghost: 0.62, // ghost is a snare; quiet comes from velocity
     bass: 0.26, keys: 0.15, lead: 0.28, counter: 0.16,
+    /* the break is a whole kit in one voice, so it sits where a kit sits rather
+       than where a single drum does. Calibrated against the acoustic kick's
+       peak: the rendered break is normalised to 0.92, so 0.55 puts a chopped
+       hit in the same place a programmed one lands. [EAR, and the arithmetic is
+       0.92 x 0.55 = 0.51 against LEVEL.kick 0.72 x a typical 0.8 velocity] */
+    brk: 0.55,
   };
 
   let ctx = null;            // live context (lazy)
@@ -1497,6 +1608,101 @@ const Sound = (function(){
        decodeAudioData, so live and offline stay one code path. */
     g.epiano = c.createBuffer(1, EPIANO.f32.length, EPIANO.rate);
     g.epiano.copyToChannel(EPIANO.f32, 0);
+
+    /* ── THE BREAK, rendered once per graph and then chopped ─────────────────
+       Written straight into a Float32Array by hand rather than through the node
+       graph, for one reason: buildGraph is synchronous and an OfflineAudioContext
+       render is not. Doing it here also means the break is ONE continuous piece
+       of audio with a room across it -- which is the whole point. A slice cut out
+       of the middle carries the tail of the hit before it, and that is what a
+       chopped break sounds like.
+
+       Deterministic: one named RNG, no Math.random, so the same graph builds the
+       same break every time -- exactly the contract the reverb IR is under. ── */
+    {
+      const sr = c.sampleRate;
+      const stepSec = (60 / AMEN.bpm) / 4;
+      const steps = AMEN.bars * 16;
+      const n = Math.ceil(stepSec * steps * sr);
+      const tail = Math.ceil(0.7 * sr);              // the last hit needs somewhere to ring
+      const dry = new Float32Array(n + tail);
+      const rnd = makeRng(hash32("amen:break"));
+      const nz = () => rnd() * 2 - 1;
+      const put = (at, len, f) => {
+        const a = Math.floor(at * sr), L = Math.floor(len * sr);
+        for(let i = 0; i < L && a + i < dry.length; i++) dry[a + i] += f(i / sr);
+      };
+      /* a Chamberlin state-variable filter -- two adds and two multiplies, and
+         stable well below sr/4, which is all a 1.7 kHz snare band needs */
+      const svf = (fc, q) => {
+        const f = 2 * Math.sin(Math.PI * Math.min(fc, sr * 0.24) / sr), qq = 1 / q;
+        let lp = 0, bp = 0;
+        return x => { const hp = x - lp - qq * bp; bp += f * hp; lp += f * bp; return bp; };
+      };
+      const kick = (at, v) => { let ph = 0; put(at, 0.34, t => {
+        ph += 2 * Math.PI * (48 + 150 * Math.exp(-t / 0.028)) / sr;
+        return Math.sin(ph) * v * Math.exp(-t / 0.075);
+      }); };
+      const snare = (at, v, dec) => {
+        const bp = svf(1750, 1.1); let p1 = 0, p2 = 0;
+        put(at, dec * 4, t => {
+          p1 += 2 * Math.PI * 331 / sr; p2 += 2 * Math.PI * 187 / sr;
+          const body = (Math.sin(p1) * 0.30 + Math.sin(p2) * 0.15) * Math.exp(-t / (dec * 0.55));
+          return (body + bp(nz()) * 0.95 * Math.exp(-t / dec)) * v;
+        });
+      };
+      const cymbal = (at, v, dec) => {
+        let lp = 0;
+        put(at, dec * 4, t => {
+          const x = nz(); lp += (x - lp) * 0.62;
+          return (x - lp) * v * Math.exp(-t / dec);
+        });
+      };
+      for(let b = 0; b < AMEN.bars; b++){
+        const G = AMEN.grid[b], V = AMEN.vel;
+        const at = s => (b * 16 + s) * stepSec;
+        for(const s of G.kick    || []) kick(at(s), V.kick);
+        for(const s of G.snare   || []) snare(at(s), V.snare, 0.115);
+        for(const s of G.ghost   || []) snare(at(s), V.ghost, 0.038);
+        for(const s of G.ride    || []) cymbal(at(s), V.ride, 0.055);
+        for(const s of G.openhat || []) cymbal(at(s), V.openhat, 0.230);
+      }
+      /* THE ROOM, and it is half of what makes this recognisable: 1969, one
+         room, not many close mics. A Schroeder network -- four combs in
+         parallel into two allpasses -- is O(n) and gives a small live room,
+         which is what direct convolution could not do here at any sane cost.
+         [theory: Schroeder 1962; the delay lengths are the Freeverb set,
+         scaled to this graph's rate] */
+      {
+        const k = sr / 44100;
+        const mk = (d, fb, ap) => {
+          const len = Math.max(1, Math.round(d * k)), buf = new Float32Array(len);
+          let i = 0;
+          return ap
+            ? x => { const y = buf[i]; const v = x + y * fb; buf[i] = v; i = (i + 1) % len; return y - fb * v; }
+            : x => { const y = buf[i]; buf[i] = x + y * fb; i = (i + 1) % len; return y; };
+        };
+        const combs = [mk(1557, 0.62), mk(1617, 0.60), mk(1491, 0.63), mk(1422, 0.61)];
+        const aps = [mk(225, 0.5, true), mk(556, 0.5, true)];
+        const wet = 0.26;
+        for(let i = 0; i < dry.length; i++){
+          const x = dry[i];
+          let w = 0; for(const cb of combs) w += cb(x);
+          w *= 0.25; for(const ap of aps) w = ap(w);
+          dry[i] = x + w * wet;
+        }
+      }
+      /* normalise to a known peak so the chopper's own level control starts from
+         somewhere stated rather than from whatever the synthesis happened to hit */
+      let pk = 0;
+      for(let i = 0; i < dry.length; i++) pk = Math.max(pk, Math.abs(dry[i]));
+      if(pk > 0){ const s2 = 0.92 / pk; for(let i = 0; i < dry.length; i++) dry[i] *= s2; }
+
+      g.breakBuf = c.createBuffer(1, dry.length, sr);
+      g.breakBuf.copyToChannel(dry, 0);
+      g.breakStepSec = stepSec;                 // one slice, at the source tempo
+      g.breakSteps = steps;                     // 64
+    }
 
     /* one shared noise source for the whole kit: a 2-second seeded buffer, and every
        burst plays a slice of it at a deterministic offset. A fresh JS-filled buffer
@@ -2347,6 +2553,61 @@ const Sound = (function(){
     const a = 0.055, r = 0.12;
     adsr(c, out, t, LEVEL.keys * 1.9 * ev.gain, a, 0.25, 0.82, t + dur, r);
     return made;
+  };
+
+  /* ══ THE CHOPPER ══════════════════════════════════════════════════════════
+     One slice of the rendered break, played from wherever the composer pointed
+     at it. Everything that makes a chop sound like a chop is here:
+
+       SLICE      where in the break this event starts. Stage 3 decided, and it
+                  is a composition decision -- rearranging a break IS writing
+                  the part -- so it arrives on the event like a pitch does.
+       RATE       the break was played at 136 and jungle runs at 165-175, so the
+                  slice is sped up to fit, which pitches it up. That is not a
+                  side effect to be corrected: a sped-up Amen is the sound of
+                  the genre. TUNE is a further offset on top, by ear.
+       REVERSE    a slice played backwards. The buffer is reversed once per
+                  graph, not per note, so this costs a second buffer and no
+                  per-hit work.
+       TAIL       a chopped slice usually gets cut off by the next one. The
+                  amp envelope closes at the note's own duration with a short
+                  release, which is what a gate on a break does; a long release
+                  lets the room ring through the cut instead.
+     [corpus:ethanhein for why this is a buffer at all] ══════════════════════ */
+  V.brk = function(g, ev, t){
+    const c = g.ctx;
+    if(!g.breakBuf) return [];
+    const rev = !!ev.rev;
+    if(rev && !g.breakRev){                    // built once, on first use
+      const src = g.breakBuf.getChannelData(0);
+      g.breakRev = c.createBuffer(1, src.length, g.breakBuf.sampleRate);
+      const d = g.breakRev.getChannelData(0);
+      for(let i = 0; i < src.length; i++) d[i] = src[src.length - 1 - i];
+    }
+    const buf = rev ? g.breakRev : g.breakBuf;
+    const n = c.createBufferSource(); n.buffer = buf;
+    /* the source tempo against this song's: the ratio IS the pitch shift */
+    const fit = ev.brkRate || 1;
+    n.playbackRate.value = fit * Math.pow(2, P(g, ev, "amen", "tune", 0) / 12);
+    const off = rev
+      ? Math.max(0, buf.duration - (ev.slice + 1) * g.breakStepSec)
+      : ev.slice * g.breakStepSec;
+    const out = c.createGain();
+    /* the break's own top end, so the chopper has a tone control that is not a
+       second filter on the drum bus */
+    const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = 0.7;
+    lp.frequency.value = P(g, ev, "amen", "tone", 12000);
+    const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.Q.value = 0.7;
+    hp.frequency.value = P(g, ev, "amen", "hp", 30);
+    n.connect(out); out.connect(lp); lp.connect(hp); hp.connect(g.bus.drums);
+    const rel = P(g, ev, "amen", "tail", 0.030);
+    const lvl = LEVEL.brk * ev.gain;
+    out.gain.setValueAtTime(lvl, t);
+    out.gain.setValueAtTime(lvl, t + ev.durSec);
+    out.gain.exponentialRampToValueAtTime(0.0002, t + ev.durSec + rel);
+    n.start(t, Math.max(0, off), ev.durSec + rel + 0.02);
+    if(g.gateSend && g.gateSend.gain.value > 0){ out.connect(g.gateSend); openGate(g, ev, t); }
+    return [n];
   };
 
   /* ══ THE VP-330 ═══════════════════════════════════════════════════════════
@@ -4614,6 +4875,212 @@ const GENRE = {
       },
     },
   },
+
+  /* ═════════════════════════════════════════════════════════════════════════
+     UK JUNGLE — GENRE 7, and the only one whose kit is not programmed.
+
+     The identity of this music is a CHOPPED BREAK, and that is why it was the
+     last of the seven and why it needed a new subsystem rather than a new
+     table. Everything else here plays lanes; this plays a recording of a whole
+     kit and decides which bit of it you hear. See the AMEN block near the top
+     for the transcription and for why it is a buffer rather than notes.
+
+     THE TWO HALVES, and both are needed or it is not the genre:
+       up top   the break, sped up. It was played at 136 and this runs at
+                160-176, so it arrives a third to a fifth higher, and that is
+                the sound rather than an error.
+       beneath  a sub bass on its own clock. The break has no bottom at all --
+                it is a 1969 drum recording -- so the weight is a separate
+                instrument, long and low, moving at half the rate of anything
+                on top. That contrast IS jungle: fast drums, slow bass.
+
+     THE HALF-TIME FEEL falls out of the two rather than being asked for: the
+     chopper is running sixteenths at 170 while the bass holds whole bars.
+
+     HONESTY, because this genre earns more of it than the others. The break is
+     SYNTHESISED from a transcription, not sampled, and it does not sound like
+     Gregory Coleman playing -- his microtiming is the thirteenth step of the
+     construction and no grid holds it. What this reproduces is the ARRANGEMENT
+     of the break and the act of cutting it up. [corpus:ethanhein for the grid
+     and for that caveat, stated in his words in the AMEN block]
+     ═════════════════════════════════════════════════════════════════════════ */
+  jungle: {
+    label: "UK jungle",
+    /* the canon sits either side of 170: jungle and early d&b are conventionally
+       160-180, and the Amen at 136 pitched into that band is the genre's own
+       arithmetic. [EAR for the exact bracket -- no corpus of measured jungle
+       BPMs was gathered this session, and it would be dishonest to imply one] */
+    tempo: [160, 176],
+    /* minor and phrygian, for the same reason acid and techno are: there is no
+       functional harmony to speak of, the bass is a drone, and the b2 is the
+       colour that gets reached for over a static root. [EAR] */
+    modes: [["minor", 6], ["phrygian", 3], ["dorian", 1]],
+    rig: [["jungle", 1]],
+    keysChar: [["rhodes", 1]],               // dead draw; the rig sends keys to the wash
+    tape: { wow: [0.0004, 0.0006], crackle: [0.0020, 0.0018] },
+
+    form: {
+      lengths:  { intro: 16, verse: 32, chorus: 32, bridge: 16, instrumental: 32, outro: 16 },
+      material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
+                  instrumental: "Avar", outro: "A" },
+      roles: {
+        intro:        ["drums"],
+        verse:        ["drums", "bass"],
+        chorus:       ["drums", "bass", "keys"],
+        /* THE DROP IS THE OTHER WAY ROUND HERE. A jungle breakdown takes the
+           DRUMS out and leaves the bass and the pad -- which is the opposite of
+           what every other genre in this file does with its bridge, and it is
+           why the arrival hits. */
+        bridge:       ["bass", "keys"],
+        instrumental: ["drums", "bass"],
+        outro:        ["drums"],
+      },
+      coldOpen:  0.35,        // a DJ tool, but the break announcing itself is
+                              // also a way in [EAR]
+      openVerse: 0.90,
+      target:    [128, 5, 32],
+      transitions: {
+        verse:        [["verse", 5], ["instrumental", 4], ["chorus", 4], ["bridge", 3]],
+        chorus:       [["verse", 5], ["instrumental", 3], ["bridge", 4], ["chorus", 2]],
+        bridge:       [["chorus", 8], ["verse", 2]],       // the breakdown resolves UP
+        instrumental: [["verse", 5], ["chorus", 5]],
+      },
+      bridgeAfterChorus: { verse: 1, chorus: 1 },
+      energy: { intro: 0.55, outro: 0.50, bridge: 0.38, instrumental: 0.82,
+                chorus: 0.96, chorusPeak: 1.00, verse: 0.84 },
+    },
+
+    /* the pocket is read by the bass here, not by the drums -- the chopper does
+       not consult it, because the break brings its own rhythm. One or two bass
+       events a bar is the whole point. */
+    pocket: [[[0], 6], [[0, 8], 3], [[0, 10], 1]],
+    /* THE CHOP. Every value is [EAR] and the block says so: the edit vocabulary
+       is what the records do, the WEIGHTS are taste awaiting the user's ears.
+       `variants` is how the arrangement changes the drums without editing a
+       note -- the chorus chops harder, the bridge is not asked for at all. */
+    chop: {
+      sourceBars: [[0, 4], [1, 3], [2, 3], [3, 4]],  // which bar of the break a bar reads from
+      thin:    0.18,   // how often an onset is dropped: the space in the pattern
+      jump:    0.28,   // read from somewhere else entirely
+      stutter: 0.14,   // hold and retrigger -- the move that reads as "chopped"
+      reverse: 0.05,   // backwards
+      variants: {
+        main:   {},
+        lift:   { thin: 0.10, jump: 0.38, stutter: 0.22, reverse: 0.07 },
+        depart: { thin: 0.45, jump: 0.12, stutter: 0.05, reverse: 0.02 },
+      },
+    },
+    /* the kit block still has to exist -- the seam battery reads toms.use from
+       it, and so does anything else asking what this genre's drummer does. A
+       break has no tom lane to reach for: the toms are inside the recording. */
+    kit: {
+      snare: [], hatEvery: 4, hatVel: 0.5, ghostChance: 0, ghostSpots: [7],
+      openSpot: [[-1, 1]], openBars: [],
+      toms: { use: 0, loop: 0, loopSpots: [15], loopLanes: ["tom3"],
+              shapes: [[[[15, "tom3"]], 1]] },
+      kickKeep: 0, flourishBar: -1, flourish: [[[], 1]],
+      variants: { main: {}, lift: {}, depart: {} },
+    },
+    counter: { style: "line", density: 0.20, intervals: [-7, -4, -3], octaves: [-12, 12] },
+    sevenths: false,
+    theme: { count: { hooky: [2, 1], breath: [1, 1], normal: [1, 2] },
+             onsetPool: [[0, 4], [8, 3], [4, 2], [12, 2]] },
+    progressions: {
+      minor:    [[[0,0,0,0], 8], [[0,0,0,5], 2], [[0,0,5,5], 1]],
+      phrygian: [[[0,0,0,0], 8], [[0,0,1,1], 2]],
+      dorian:   [[[0,0,0,0], 8], [[0,0,3,3], 2]],
+    },
+    bridgeProgressions: {
+      minor:    [[[0,0,5,5], 3], [[0,0,0,0], 2]],
+      phrygian: [[[1,1,0,0], 3], [[0,0,0,0], 2]],
+      dorian:   [[[3,3,0,0], 3], [[0,0,0,0], 2]],
+    },
+    /* the sub sits LOW -- 24 is C1, below where any other genre here puts a
+       bass -- because the whole point is that it occupies a band the break
+       physically has nothing in. [EAR] */
+    registers: { bass: [24, 40], keys: [50, 72], counter: [52, 71], bassWalk: [24, 40],
+                 themeA: [60, 81], themeB: [60, 81], themeC: [60, 81] },
+
+    groove: {
+      styles:     [["even", 10]],
+      /* NOT straight, and this is the one place jungle differs from the techno
+         tables: the break was PLAYED, and a chopped break keeps some of that
+         lean. This is a stand-in for Coleman's microtiming and it is a poor one
+         -- a global swing ratio is not the same shape as a drummer's placement,
+         which is the thirteenth step of the construction and the one this
+         program cannot do. [EAR, and flagged] */
+      swing:      [1.0, 0.10],
+      swingUnit:  1,
+      snareEarly: [0, 0],
+      kickLate:   [0, 0],
+      hatMul:     1,
+      jitter:     { even: 0.0016, dilla: 0.0016 },
+      push:       0,
+    },
+    /* the sub holds for a whole bar and longer: dur 16 times three or four */
+    touch: { bassArtic: [[3.0, 5], [4.0, 3], [2.0, 2]], strum: [0, 0] },
+    accent: {
+      kick:  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      snare: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      ghost: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      /* THE BREAK CARRIES ITS OWN DYNAMICS. AMEN.vel already says how hard each
+         hit was struck, and it is baked into the buffer -- so a second accent
+         map here would be a second owner writing the same property, which is
+         the one thing this file does not do. Flat, on purpose. */
+      brk:   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      hat:   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      tom1:  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      tom2:  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      tom3:  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      openhat:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    },
+    /* the break already has a room baked into it (a Schroeder network, see the
+       AMEN render), so the send here is for the pad and the sub, not the kit */
+    space: { wet: 0.22, irSec: 2.2, tailPow: 2.0, tailDark: 0.38, sendHp: 180 },
+    kick: { tune: 47, decay: 0.30, click: 0.50, drive: 0.35, body: 1, gain: 1.0 },
+    drumDrive: 1.15,
+    gate: null,
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, down: false },
+    bassStyle: "drone",
+    bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },   // unused by "drone"
+    bassAccent: { accent: 0, slide: 0 },
+    ostinato: null,
+
+    machines: { drums: [["auto", 1]], bass: [["auto", 1]], keys: [["auto", 1]] },
+    params: {
+      /* the break's own front panel. TUNE is on top of the tempo ratio, so 0
+         means "however fast this song is"; the low cut takes out what little
+         bottom a 1969 drum recording has so the sub owns that band on its own. */
+      amen:  { tune: 0, tone: 13000, hp: 60, tail: 0.035, bus: 1.15, gate: 0, hold: 0.150 },
+      drone: { cut: 210, res: 2.0, detune: 0.30 },
+      wash:  { cut: 700 },
+      tb303: { cutoff: 400, res: 12.0, envmod: 0.60, decay: 0.26,
+               accent: 0.70, drive: 2.4, wave: 0 },
+    },
+    motion: {
+      amen: {
+        /* the filter is the arrangement here: the break opens for the drop and
+           is cut down to a telephone under the build. */
+        tone: [{ kind: "section", by: { intro: [-4000, -2000], chorus: [1200, 2600],
+                                        instrumental: [400, 1600], outro: [-3000, -1500] } },
+               { kind: "lfo", bars: [[16, 3], [32, 2]], depth: [400, 1400], shape: "tri" }],
+        hp:   [{ kind: "section", by: { intro: [60, 180], outro: [40, 140] } }],
+        /* TAIL is how much room survives the cut: long in the chorus so the
+           chops ring into each other, short under a verse so they snap. */
+        tail: [{ kind: "section", by: { chorus: [0.020, 0.060], verse: [-0.010, 0.005] } }],
+        tune: [{ kind: "plock", density: [0.05, 0.12], amt: [-2.0, 2.0] }],
+        bus:  [{ kind: "section", by: { intro: [-0.15, -0.06], chorus: [0.10, 0.26],
+                                        instrumental: [0.04, 0.16], outro: [-0.18, -0.08] } }],
+      },
+      drone: {
+        cut: [{ kind: "section", by: { chorus: [80, 240], bridge: [-60, -20] } },
+              { kind: "lfo", bars: [[32, 3], [16, 2]], depth: [20, 70], shape: "sin", freePhase: true }],
+        res: [{ kind: "lfo", bars: [[32, 2], [64, 1]], depth: [0.4, 1.2],
+                shape: "sin", freePhase: true }],
+      },
+      wash: { cut: [{ kind: "section", by: { bridge: [200, 560], chorus: [-100, -30] } }] },
+    },
+  },
 };
 
 function makeChart(seed, rigChoice, genreChoice, picks, pins){
@@ -4771,7 +5238,93 @@ function makeMaterials(chart){
   const bridgeChords = mkChords(wpick(rngC, G.bridgeProgressions[mode]));
 
   /* ── shared builders (each material calls them with its own streams) ── */
+  /* ══ THE CHOPPER, and it is a COMPOSITION stage, not a sound one ═══════════
+     Rearranging a break is writing the drum part. Which slice of the Amen lands
+     on which sixteenth is exactly the kind of decision stage 3 owns -- it is
+     the same class of choice as which pitch a bass note takes -- so it happens
+     here, is drawn from named substreams, and is frozen with everything else.
+     Stage 6 only plays what this decided.
+
+     THE MODEL, and it is the one the records use rather than a random shuffle:
+
+       ONSETS   a chop keeps a break-LIKE rhythm. The onsets are the source's own
+                hits, which is why a chopped Amen still swings like the Amen even
+                when every slice has been moved. `thin` drops some of them, which
+                is what opens the half-time feel up.
+       SOURCE   each bar starts reading from some bar of the break, and the
+                cursor walks forward from there. That single choice is most of
+                what makes two chops of one break different records.
+       EDITS    the three moves everybody makes, drawn per onset:
+                  jump     read from somewhere else entirely
+                  stutter  hold the same slice and retrigger it -- the one that
+                           reads as "chopped" more than any other
+                  reverse  play the slice backwards
+     [corpus:ethanhein for the source grid; the edit vocabulary is [EAR] and the
+      weights say so] ═══════════════════════════════════════════════════════ */
+  function buildBreak(streamName, variant){
+    const rng = stream(chart.seed, streamName);
+    const CH = Object.assign({}, G.chop, (G.chop.variants || {})[variant] || {});
+    const notes = [];
+    const srcOnsets = AMEN_ONSETS;
+    for(let b = 0; b < BARS; b++){
+      /* every draw runs for every bar and every step whatever it yields [Law 7] */
+      /* THE LOOP HAS TO START ON SOMETHING. The break's last bar has no kick on
+         the downbeat -- step 5 of the construction removes it, and that absence
+         is part of what makes that bar distinctive. Mid-loop it is a good
+         chop: you get the tail of the bar before running through the bar line.
+         As the FIRST bar of a four-bar material it is not, because then the loop
+         has no point at all, and the roll showed exactly that -- bar 1 opening
+         on a rest across several seeds. The draw still runs every time; bar 0
+         simply refuses a source that cannot start it. */
+      const drawnFrom = wpick(rng, CH.sourceBars);
+      const from = (b === 0 && !srcOnsets[drawnFrom % AMEN.bars].includes(0)) ? 0 : drawnFrom;
+      const onsets = srcOnsets[from % AMEN.bars].filter(st => {
+        const keep = rng() >= CH.thin;         // the draw runs for every onset
+        return st === 0 || keep;
+      });
+      let cursor = (from % AMEN.bars) * 16;
+      for(let i = 0; i < onsets.length; i++){
+        const st = onsets[i];
+        const nxt = i + 1 < onsets.length ? onsets[i + 1] : 16;
+        const rJump = rng(), rStut = rng(), rRev = rng(), rWhere = rng(), rBar = rng();
+        /* the cursor normally tracks the bar, so a slice lands where its own
+           hit was -- that is what keeps the groove. A jump breaks it on
+           purpose.
+
+           A JUMP MUST LAND ON A HIT. The first version picked a target bar and
+           then a step out of THIS bar's onset list, which is not the same list:
+           the reader showed bar 3 opening on slice 63, a step where the source
+           has nothing at all, so the chop began on room tone instead of on a
+           transient. Reading the roll caught it; no audio measurement would
+           have, because "quiet where a drum should be" is not a defect any
+           spectrum can name. Draw the bar, then draw from THAT bar's onsets. */
+        const toBar = Math.floor(rBar * AMEN.bars) % AMEN.bars;
+        const toOns = srcOnsets[toBar];
+        let slice = (from % AMEN.bars) * 16 + st;
+        if(rJump < CH.jump)
+          slice = toBar * 16 + toOns[Math.floor(rWhere * toOns.length) % toOns.length];
+        slice = ((slice % (AMEN.bars * 16)) + AMEN.bars * 16) % (AMEN.bars * 16);
+        cursor = slice;
+        const rev = rRev < CH.reverse;
+        const span = nxt - st;
+        if(rStut < CH.stutter && span >= 2){
+          /* a retrigger: the same slice, twice as fast, for the whole span */
+          const half = Math.max(1, Math.floor(span / 2));
+          for(let k = 0; k < 2; k++)
+            notes.push({ bar: b, step: st + k * half, dur: half, lane: "brk",
+                         slice, rev, vel: k === 0 ? 1.0 : 0.82, role: "drums" });
+        } else {
+          notes.push({ bar: b, step: st, dur: span, lane: "brk",
+                       slice, rev, vel: st === 0 ? 1.0 : 0.9, role: "drums" });
+        }
+      }
+    }
+    return notes;
+  }
+
   function buildDrums(streamName, variant){
+    /* a genre whose kit IS a break builds one instead of programming lanes */
+    if(G.chop) return buildBreak(streamName, variant);
     const rng = stream(chart.seed, streamName);
     const notes = [];
     /* the variant OVERRIDES the base kit; it never edits notes afterwards. A
@@ -5379,6 +5932,37 @@ function makeMaterials(chart){
   const fill = (() => {
     const rng = stream(chart.seed, "fill");
     const K = G.kit, T = K.toms || { use: 0, shapes: [[[], 1]] };
+    /* A GENRE WHOSE KIT IS A BREAK FILLS WITH A CHOP. The programmed fill below
+       -- kick, hats, snare, a descending tom run -- is a drummer's turnaround,
+       and handing it to a genre that has no tom lane and no programmed kick
+       produced exactly what the event dump showed: one stray kick and one stray
+       hat in a song otherwise made entirely of break slices. A jungle fill is a
+       ROLL: the front of the bar reads straight and the back half is one slice
+       retriggered faster and faster into the arrival. */
+    if(G.chop){
+      const out = [];
+      const bar = Math.floor(rng() * AMEN.bars) % AMEN.bars;   // unconditional [Law 7]
+      const ons = AMEN_ONSETS[bar];
+      const pickSlice = rng();
+      for(const st of ons){                        // the straight half
+        if(st >= 8) continue;
+        out.push({ bar: 0, step: st, dur: 1, lane: "brk",
+                   slice: bar * 16 + st, rev: false,
+                   vel: st === 0 ? 1.0 : 0.9, role: "drums" });
+      }
+      /* the roll: halves twice, so 8ths then 16ths, on ONE slice -- a machine
+         gun on a single hit, which is the gesture rather than a tom run */
+      const hit = bar * 16 + ons[Math.floor(pickSlice * ons.length) % ons.length];
+      let st = 8, span = 2;
+      while(st < 16){
+        out.push({ bar: 0, step: st, dur: Math.max(1, span), lane: "brk",
+                   slice: hit, rev: false,
+                   vel: 0.72 + 0.28 * (st / 16), role: "drums" });
+        st += span;
+        if(st >= 12) span = 1;                     // the last beat doubles up
+      }
+      return out;
+    }
     const notes = [{ bar: 0, step: 0, dur: 1, lane: "kick", vel: 1.0, role: "drums" }];
     for(let s = 0; s < 8; s += K.hatEvery)
       notes.push({ bar: 0, step: s, dur: 1, lane: "hat", vel: K.hatVel * 0.65, role: "drums" });
@@ -5683,6 +6267,17 @@ function makePerformance(chart, form, materials, sections){
              is why every bass carries them and only the 303 acts on them. */
           if(n.accent) ev.accent = true;
           if(n.slide)  ev.slide  = n.slide;
+          /* THE CHOP rides along the same way. Which slice, and whether it is
+             backwards, were decided in stage 3; the RATE is stage 5's, because
+             it is the ratio between the tempo the break was played at and the
+             tempo this song runs at -- and tempo is the chart's. A break sped
+             up from 136 to 172 comes out a fifth higher, and that is the sound
+             of the genre rather than an error to correct. */
+          if(n.lane === "brk"){
+            ev.slice = n.slice;
+            if(n.rev) ev.rev = true;
+            ev.brkRate = chart.tempo / AMEN.bpm;
+          }
           events.push(Object.freeze(ev));
         }
       }
@@ -5755,6 +6350,23 @@ const MIDI_PPQ = 960;
    [theory: General MIDI level 1 percussion map, channel 10] */
 const GM_DRUM = { kick: 36, snare: 38, ghost: 38, hat: 42, openhat: 46,
                   tom1: 50, tom2: 47, tom3: 43 };   // high / low-mid / high-floor
+/* THE BREAK LANE IS NOT ONE DRUM, so it cannot have one GM key. What it can have
+   is the key of whatever the SOURCE slice actually strikes, which is knowable:
+   the transcription says what is on every one of the 64 steps. So a chopped bar
+   exports as the drums it is made of, and a musician opening the file sees the
+   rearrangement rather than sixty-four identical notes on one pitch.
+   Where a slice lands on a step with no hit -- a legitimate chop into the room
+   tone -- there is nothing to name, and 39 (hand clap) is the honest "something
+   was struck here that is not a kit piece" rather than a silent drop. */
+function gmForSlice(slice){
+  const row = AMEN.grid[Math.floor(slice / 16) % AMEN.bars], st = slice % 16;
+  if((row.snare   || []).includes(st)) return GM_DRUM.snare;
+  if((row.kick    || []).includes(st)) return GM_DRUM.kick;
+  if((row.ghost   || []).includes(st)) return GM_DRUM.ghost;
+  if((row.openhat || []).includes(st)) return GM_DRUM.openhat;
+  if((row.ride    || []).includes(st)) return 51;          // GM ride cymbal 1
+  return 39;
+}
 /* one track per role. Programs are ADVISORY -- a hint for whoever opens the
    file, never something this program's own sound depends on. */
 const MIDI_TRACK = {
@@ -5815,7 +6427,9 @@ function toMidi(song){
        the same instant so a repeated pitch retriggers instead of cancelling */
     const msgs = [];
     for(const ev of evs){
-      const key = role === "drums" ? GM_DRUM[ev.lane] : ev.pitch;
+      const key = role === "drums"
+        ? (ev.lane === "brk" ? gmForSlice(ev.slice) : GM_DRUM[ev.lane])
+        : ev.pitch;
       if(key == null) continue;
       const vel = Math.max(1, Math.min(127, Math.round(ev.gain * 100)));
       const on = tick(ev.tSec), off = Math.max(on + 1, tick(ev.tSec + ev.durSec));
@@ -6444,6 +7058,9 @@ window.MK2 = {
      can sweep TL/feedback and PROVE the FM depth behaves the way the arithmetic
      says it does. The UI never touches these. */
   ym: { patches: YM_PATCH, note: ymNote, rigs: RIG },
+  /* the break's transcription, so a probe can hold the RENDER against what the
+     table said rather than against a description of it */
+  AMEN,
 };
 </script>
 </body>
