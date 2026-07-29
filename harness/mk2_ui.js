@@ -96,8 +96,13 @@ const check = (label, ok, detail) => {
      machine into its slot in turn and require a panel and at least one knob,
      with the page's error log empty. */
   {
+    /* fixed machines are always drawn and never picked; LEGACY ones are kits of
+       another machine now -- the acoustic, Sega and break voice sets live behind
+       the TR-1000's KIT key -- so they are in the table for voice resolution and
+       are deliberately not offered as separate boxes. Neither is selectable, so
+       neither belongs in a check about selecting things. */
     const machines = await pg.evaluate(() => Object.keys(MK2.INSTRUMENTS)
-      .filter(k => !MK2.INSTRUMENTS[k].fixed)
+      .filter(k => !MK2.INSTRUMENTS[k].fixed && !MK2.INSTRUMENTS[k].legacy)
       .map(k => [k, MK2.INSTRUMENTS[k].slot]));
     const broken = [];
     const selOf = { drums: "#mDrums", bass: "#mBass", keys: "#mKeys" };

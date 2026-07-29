@@ -219,7 +219,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29e · break chain knobs reachable</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29f · one machine, four kits</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -499,7 +499,7 @@ function chainGroups(){
 
 const INSTRUMENTS = {
   /* ── DRUM MACHINES ─────────────────────────────────────────────────────── */
-  kit: {
+  kit: { legacy: true,
     slot: "drums", label: "acoustic kit",
     lanes: { kick:"kick", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
              tom1:"tom1", tom2:"tom2", tom3:"tom3" },
@@ -572,6 +572,38 @@ const INSTRUMENTS = {
     slot: "drums", label: "TR-1000",
     lanes: { kick:"k808", snare:"s808", ghost:"s808", hat:"h808", openhat:"oh808",
              tom1:"t808hi", tom2:"t808mid", tom3:"t808lo" },
+    /* ── THE KIT BUTTON ──────────────────────────────────────────────────────
+       The front panel has a KIT key beside INST, and that is the whole answer to
+       "we should be able to load an acoustic, SEGA or other drum set into it".
+       The real machine carries an ACB engine, an FM engine, a PCM engine and a
+       sampler behind one panel; which voices are loaded is a SETTING, not a
+       different box.
+
+       So the four drum machines this file used to carry become four KITS of one
+       machine. `lanes` above stays as the fallback and is the ANALOG kit; a
+       chart that names a kit gets that map instead. Nothing else changes: the
+       chains, the panel and the automation are the machine's, and the kit only
+       decides which voice each lane calls.
+
+       This is also what makes the earlier objection go away. Collapsing the
+       machines looked like it would add indirection -- the machine name already
+       WAS the sound set -- and it does not, because the chain block, the panel
+       and twenty motion lanes were being duplicated four ways to say one thing.
+       One box, four kits, one panel to learn. */
+    kits: {
+      analog:   { kick:"k808", snare:"s808", ghost:"s808", hat:"h808", openhat:"oh808",
+                  tom1:"t808hi", tom2:"t808mid", tom3:"t808lo" },
+      acoustic: { kick:"kick", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
+                  tom1:"tom1", tom2:"tom2", tom3:"tom3" },
+      sega:     { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat",
+                  openhat:"psgOpenhat", tom1:"tom1", tom2:"tom2", tom3:"tom3" },
+      /* the chopper as a kit: every lane is the same recording and the composer
+         decides which slice. It is the one kit whose lanes are not separate
+         instruments, so its chains process slice TYPES rather than voices --
+         a real jungle move, and a different claim from the other three. */
+      brk:      { brk:"brk", kick:"brk", snare:"brk", ghost:"brk", hat:"brk",
+                  openhat:"brk", tom1:"brk", tom2:"brk", tom3:"brk" },
+    },
     controls: [
       /* the voice circuits, inherited from the 808 because that is literally
          what the analogue engine is */
@@ -617,7 +649,7 @@ const INSTRUMENTS = {
     },
   },
 
-  amen: {
+  amen: { legacy: true,
     slot: "drums", label: "Amen chopper",
     /* one lane, because a break IS one lane: the whole kit arrives together and
        the chopper decides which bit of it you hear. The other drum lanes are
@@ -651,7 +683,7 @@ const INSTRUMENTS = {
                          that does nothing, and just as much a lie. */
                       ...chainGroups()] },
   },
-  segakit: {
+  segakit: { legacy: true,
     slot: "drums", label: "SEGA DAC + PSG",
     lanes: { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat", openhat:"psgOpenhat",
              tom1:"tom1", tom2:"tom2", tom3:"tom3" },
@@ -1706,7 +1738,15 @@ const RIG = {
 function voiceFor(chart, lane){
   const m = chart.picks && chart.picks[SLOT_OF[lane]];
   const M = m && m !== "auto" && INSTRUMENTS[m];
-  if(M && M.lanes[lane]) return M.lanes[lane];
+  if(M){
+    /* THE KIT FIRST, then the machine's own lanes. A machine with a `kits` table
+       is one box that can have different voices loaded into it; the chart said
+       which, in stage 1, on the rack's own stream. Stage 5 still writes `voice`
+       in exactly one place -- this is that place, asking one more question. */
+    const kit = chart.picks.drumKit;
+    if(kit && M.kits && M.kits[kit] && M.kits[kit][lane]) return M.kits[kit][lane];
+    if(M.lanes[lane]) return M.lanes[lane];
+  }
   return RIG[chart.rig][lane];
 }
 
@@ -1763,6 +1803,14 @@ function resolvePicks(genre, picks, seed){
     const fits = m => m !== "auto" && INSTRUMENTS[m] && INSTRUMENTS[m].slot === slot;
     out[slot] = fits(want) ? want : (fits(drawn) ? drawn : "auto");
   }
+  /* WHICH KIT IS LOADED, drawn on the same stream and in the same breath as the
+     machines -- because on this instrument the kit IS the choice of sounds and
+     the machine is the choice of architecture. The draw runs whether or not the
+     genre names kits [Law 7]. A genre that says nothing gets the machine's own
+     `lanes`, which is the analog kit. */
+  const kitDraw = M.drumKit ? wpick(rng, M.drumKit) : (rng(), null);
+  const wantKit = picks && picks.drumKit;
+  out.drumKit = wantKit || kitDraw;
   return Object.freeze(out);
 }
 
@@ -4384,7 +4432,12 @@ const GENRE = {
        sub is already what the rig gives. [GUESS: the weights are taste, not
        measurement, and are the first thing to change if the ear disagrees] */
     machines: {
-      drums: [["kit", 7], ["tr1000", 3]],
+      /* ONE MACHINE, and the kit says which voices are in it. Lofi keeps the
+         acoustic set seven times in ten -- sampled acoustic drums ARE this
+         genre, and putting everything on the analogue circuits would have taken
+         that away in the name of tidiness. */
+      drums:   [["tr1000", 1]],
+      drumKit: [["acoustic", 7], ["analog", 3]],
       bass:  [["auto", 1]],
       keys:  [["auto", 8], ["mellotron", 2]],
     },
@@ -4820,7 +4873,8 @@ const GENRE = {
        right instrument for this comp. [GUESS on the weights; the SHAPE of the
        claim -- machine drums, sequenced bass -- is the genre's definition] */
     machines: {
-      drums: [["tr1000", 6], ["kit", 3], ["segakit", 1]],
+      drums:   [["tr1000", 1]],
+      drumKit: [["analog", 6], ["acoustic", 3], ["sega", 1]],
       bass:  [["auto", 5], ["tb303", 5]],
       /* THE SCI-FI PALETTE, reached rather than admired. This genre's own
          research describes it as influenced by "dark new wave, Blade Runner,
@@ -5250,7 +5304,10 @@ const GENRE = {
                    got there -- so it takes a real share of the keys slot rather
                    than being offered as a curiosity. The Mellotron keeps its
                    place: a tape choir is the other half of that atmosphere. */
-                drums: [["auto", 8], ["tr1000", 2]],
+                drums:   [["tr1000", 1]],
+                /* the Mega Drive's DAC and PSG, loaded into the same box --
+                   "we can still use our TR-1000 but load up SEGA drum sounds" */
+                drumKit: [["sega", 8], ["analog", 2]],
                 bass:  [["auto", 1]],
                 keys:  [["waveseq", 5], ["auto", 3], ["mellotron", 3]] },
     /* the choir strip, clean: this is a 1994 sample chip pretending to be a
@@ -5838,7 +5895,8 @@ const GENRE = {
     },
     ostinato: null,
 
-    machines: { drums: [["tr1000", 1]],
+    machines: { drums:   [["tr1000", 1]],
+                drumKit: [["analog", 1]],
                 /* THE 303, PINNED. It resolved to the 303 through the rig anyway
                    -- but as "auto", which the panel loop skipped, so the box that
                    defines this genre had no front panel to put a hand on. */
@@ -6331,7 +6389,8 @@ const GENRE = {
        chains are what "we need to effect each instrument on the drums" asks for,
        and a genre that gets them only 40% of the time would be a genre whose
        identity is a coin toss. Pinned, not weighted. */
-    machines: { drums: [["tr1000", 1]],
+    machines: { drums:   [["tr1000", 1]],
+                drumKit: [["analog", 1]],
                 bass:  [["auto", 1]],
                 /* Consumed was "delays and reverbs, and effects more than
                    anything else... an architecture of sound", and a string
@@ -6790,7 +6849,13 @@ const GENRE = {
 
     /* the string machine, because the pad IS the atmosphere in this music and a
        wash is the plainest thing that could play it. [EAR] */
-    machines: { drums: [["auto", 1]], bass: [["auto", 1]],
+    /* AND THE BREAK IS A KIT, not a separate machine. Its lanes are all the same
+       recording with the composer choosing slices, so its chains process slice
+       TYPES rather than voices -- a real jungle move and a different claim from
+       the other three kits, which is why it is named as one rather than quietly
+       treated the same. */
+    machines: { drums: [["tr1000", 1]], drumKit: [["brk", 1]],
+                bass: [["auto", 1]],
                 keys: [["auto", 6], ["vp330", 4]] },
     params: {
       vp330: { ens: 0.80, choir: 0.62, attack: 1.40, release: 3.60 },
@@ -9382,7 +9447,15 @@ function boot(){
     for(const slot in ids){
       const sel = $(ids[slot]);
       sel.innerHTML = `<option value="auto">${auto[slot]}</option>` +
-        Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].slot === slot)
+        /* NOT the legacy entries. The acoustic kit, the Sega kit and the
+           chopper are KITS of the TR-1000 now -- one box with different voices
+           loaded, which is what its front panel's KIT key means. They remain in
+           the table because machineIn() resolves a rig-named voice back to the
+           machine that owns it, and deleting them would leave a rig-resolved
+           acoustic kit with no panel at all; they are simply not offered as
+           separate boxes to choose between. */
+        Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].slot === slot
+                                             && !INSTRUMENTS[k].legacy)
           .map(k => `<option value="${k}">${slot}: ${INSTRUMENTS[k].label}</option>`).join("");
       sel.addEventListener("change", () => {
         PICK[slot] = sel.value;
