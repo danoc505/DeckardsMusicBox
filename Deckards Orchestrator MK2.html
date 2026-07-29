@@ -438,13 +438,13 @@ const INSTRUMENTS = {
     lanes: { kick:"kick", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
              tom1:"tom1", tom2:"tom2", tom3:"tom3" },
     controls: [
-      { k:"tune",  label:"kick tune",   min:35,  max:80,  step:1,    def:54,  unit:"Hz" },
-      { k:"decay", label:"kick decay",  min:0.08,max:0.60,step:0.01, def:0.24,unit:"s" },
-      { k:"click", label:"beater",      min:0,   max:1.5, step:0.01, def:0.60 },
-      { k:"drive", label:"kick drive",  min:0,   max:1,   step:0.01, def:0.35 },
-      { k:"bus",   label:"kit drive",   min:0.6, max:2,   step:0.01, def:1.05 },
-      { k:"gate",  label:"gated verb",  min:0,   max:1,   step:0.01, def:0 },
-      { k:"hold",  label:"gate hold",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s" },
+      { k:"tune",  label:"kick tune",   min:35,  max:80,  step:1,    def:54,  unit:"Hz" , kind:"voicing" },
+      { k:"decay", label:"kick decay",  min:0.08,max:0.60,step:0.01, def:0.24,unit:"s" , kind:"voicing" },
+      { k:"click", label:"beater",      min:0,   max:1.5, step:0.01, def:0.60 , kind:"voicing" },
+      { k:"drive", label:"kick drive",  min:0,   max:1,   step:0.01, def:0.35 , kind:"voicing" },
+      { k:"bus",   label:"kit drive",   min:0.6, max:2,   step:0.01, def:1.05 , kind:"bus" },
+      { k:"gate",  label:"gated verb",  min:0,   max:1,   step:0.01, def:0 , kind:"bus" },
+      { k:"hold",  label:"gate hold",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s" , kind:"bus" },
     ],
   },
   tr808: {
@@ -456,16 +456,16 @@ const INSTRUMENTS = {
          famous -- a long decay on a bridged-T oscillator is the 808 kick.
          `cap` is what the cap says on the real box; `label` is what it means.
          [theory: TR-808 service manual control set] */
-      { k:"tune",   label:"BD tune",    cap:"TUNE",   min:35,  max:70,  step:1,    def:47,  unit:"Hz" },
-      { k:"decay",  label:"BD decay",   cap:"DECAY",  min:0.15,max:1.60,step:0.01, def:0.85,unit:"s" },
-      { k:"tone",   label:"BD tone",    cap:"TONE",   min:0,   max:1,   step:0.01, def:0.45 },
-      { k:"snappy", label:"SD snappy",  cap:"SNAPPY", min:0,   max:1,   step:0.01, def:0.55 },
-      { k:"sdtone", label:"SD tone",    cap:"TONE",   min:0,   max:1,   step:0.01, def:0.50 },
-      { k:"chdecay",label:"CH decay",   cap:"CH",     min:0.01,max:0.14,step:0.005,def:0.045,unit:"s" },
-      { k:"ohdecay",label:"OH decay",   cap:"OH",     min:0.10,max:0.90,step:0.01, def:0.42,unit:"s" },
-      { k:"bus",    label:"kit drive",  cap:"DRIVE",  min:0.6, max:2,   step:0.01, def:1.30 },
-      { k:"gate",   label:"gated verb", cap:"GATE",   min:0,   max:1,   step:0.01, def:0 },
-      { k:"hold",   label:"gate hold",  cap:"HOLD",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s" },
+      { k:"tune",   label:"BD tune",    cap:"TUNE",   min:35,  max:70,  step:1,    def:47,  unit:"Hz" , kind:"voicing" },
+      { k:"decay",  label:"BD decay",   cap:"DECAY",  min:0.15,max:1.60,step:0.01, def:0.85,unit:"s" , kind:"gesture" },
+      { k:"tone",   label:"BD tone",    cap:"TONE",   min:0,   max:1,   step:0.01, def:0.45 , kind:"gesture" },
+      { k:"snappy", label:"SD snappy",  cap:"SNAPPY", min:0,   max:1,   step:0.01, def:0.55 , kind:"gesture" },
+      { k:"sdtone", label:"SD tone",    cap:"TONE",   min:0,   max:1,   step:0.01, def:0.50 , kind:"voicing" },
+      { k:"chdecay",label:"CH decay",   cap:"CH",     min:0.01,max:0.14,step:0.005,def:0.045,unit:"s" , kind:"gesture" },
+      { k:"ohdecay",label:"OH decay",   cap:"OH",     min:0.10,max:0.90,step:0.01, def:0.42,unit:"s" , kind:"gesture" },
+      { k:"bus",    label:"kit drive",  cap:"DRIVE",  min:0.6, max:2,   step:0.01, def:1.30 , kind:"bus" },
+      { k:"gate",   label:"gated verb", cap:"GATE",   min:0,   max:1,   step:0.01, def:0 , kind:"bus" },
+      { k:"hold",   label:"gate hold",  cap:"HOLD",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s" , kind:"bus" },
     ],
     /* THE FRONT PANEL, as the box lays it out: a knob strip in labelled voice
        groups, an instrument selector, and sixteen step buttons in four groups of
@@ -492,8 +492,8 @@ const INSTRUMENTS = {
     lanes: { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat", openhat:"psgOpenhat",
              tom1:"tom1", tom2:"tom2", tom3:"tom3" },
     controls: [
-      { k:"bus",  label:"kit drive", min:0.6, max:2, step:0.01, def:1.05 },
-      { k:"gate", label:"gated verb", min:0, max:1, step:0.01, def:0 },
+      { k:"bus",  label:"kit drive", min:0.6, max:2, step:0.01, def:1.05 , kind:"bus" },
+      { k:"gate", label:"gated verb", min:0, max:1, step:0.01, def:0 , kind:"bus" },
     ],
   },
 
@@ -504,24 +504,23 @@ const INSTRUMENTS = {
     /* every one of these is read by V.drone. A drone has no pick attack, so
        there is no attack control -- that absence is the instrument. */
     controls: [
-      { k:"cut",    label:"filter",  cap:"CUTOFF", min:120, max:1400, step:10,   def:420, unit:"Hz" },
-      { k:"res",    label:"reso",    cap:"RESONANCE", min:0.5, max:12, step:0.1, def:3.2 },
-      { k:"detune", label:"detune",  cap:"DETUNE", min:0,   max:1,    step:0.01, def:0.55 },
+      { k:"cut",    label:"filter",  cap:"CUTOFF", min:120, max:1400, step:10,   def:420, unit:"Hz" , kind:"gesture" },
+      { k:"res",    label:"reso",    cap:"RESONANCE", min:0.5, max:12, step:0.1, def:3.2 , kind:"gesture" },
+      { k:"detune", label:"detune",  cap:"DETUNE", min:0,   max:1,    step:0.01, def:0.55 , kind:"voicing" },
     ],
   },
   subbass: {
     slot: "bass", label: "sub bass",
     lanes: { bass:"bass" },
     controls: [
-      /* `dead` MEANS THIS KNOB IS NOT WIRED TO THE VOICE. V.bass reads neither
-         of these, so moving them does nothing at all -- and a control that
-         appears to do something and does not is a lie the user cannot detect by
-         listening, which makes it worse than a missing feature. Marked here so
-         the panel can say so out loud, so a genre cannot automate one (there is
-         a seam check), and so whoever wires them can find them. Four machines
-         have this problem: subbass, chipbass, chipkeys and cs80. */
-      { k:"cut",  label:"tone",   min:200, max:4000, step:10,  def:1200, unit:"Hz", dead:true },
-      { k:"drive",label:"drive",  min:0,   max:1,    step:0.01,def:0.20, dead:true },
+      /* These two carried `dead:true` for as long as the rack existed: declared,
+         drawn on the panel, greyed out, and read by nothing. They are wired now
+         -- cut is the voice's lowpass, drive is the saw against the sine -- with
+         the constants V.bass shipped with as their defaults, so the sound did
+         not move when they were connected. The def was 1200 Hz against a filter
+         actually fixed at 800; 800 is the honest default. */
+      { k:"cut",  label:"tone",  cap:"TONE",  min:200, max:4000, step:10,  def:800 , unit:"Hz" , kind:"gesture" },
+      { k:"drive",label:"drive", cap:"DRIVE", min:0,   max:1,    step:0.01,def:0.20 , kind:"gesture" },
     ],
   },
   tb303: {
@@ -532,13 +531,13 @@ const INSTRUMENTS = {
          The filter is a FOUR-pole 24 dB/oct diode ladder -- Roland's "18 dB"
          is marketing, and Stinchcombe measured -23.9 dB/oct four independent
          ways. [corpus:timstinchcombe.co.uk diode ladder analysis] */
-      { k:"cutoff", label:"cutoff",    cap:"CUT OFF FREQ", min:80,  max:6000, step:10,  def:520, unit:"Hz" },
-      { k:"res",    label:"resonance", cap:"RESONANCE",    min:0.5, max:18,   step:0.1, def:9.0 },
-      { k:"envmod", label:"env mod",   cap:"ENV MOD",      min:0,   max:1,    step:0.01,def:0.62 },
-      { k:"decay",  label:"decay",     cap:"DECAY",        min:0.05,max:1.20, step:0.01,def:0.36, unit:"s" },
-      { k:"accent", label:"accent",    cap:"ACCENT",       min:0,   max:1,    step:0.01,def:0.65 },
-      { k:"drive",  label:"drive",     cap:"DRIVE",        min:1,   max:8,    step:0.1, def:2.6 },
-      { k:"wave",   label:"saw / square", cap:"WAVEFORM",  min:0, max:1,   step:1,   def:0 },
+      { k:"cutoff", label:"cutoff",    cap:"CUT OFF FREQ", min:80,  max:6000, step:10,  def:520, unit:"Hz" , kind:"gesture" },
+      { k:"res",    label:"resonance", cap:"RESONANCE",    min:0.5, max:18,   step:0.1, def:9.0 , kind:"gesture" },
+      { k:"envmod", label:"env mod",   cap:"ENV MOD",      min:0,   max:1,    step:0.01,def:0.62 , kind:"gesture" },
+      { k:"decay",  label:"decay",     cap:"DECAY",        min:0.05,max:1.20, step:0.01,def:0.36, unit:"s" , kind:"gesture" },
+      { k:"accent", label:"accent",    cap:"ACCENT",       min:0,   max:1,    step:0.01,def:0.65 , kind:"voicing" },
+      { k:"drive",  label:"drive",     cap:"DRIVE",        min:1,   max:8,    step:0.1, def:2.6 , kind:"gesture" },
+      { k:"wave",   label:"saw / square", cap:"WAVEFORM",  min:0, max:1,   step:1,   def:0 , kind:"switch" },
     ],
     /* THE 303'S PANEL. The knob row is the box's own, in the box's own order and
        with its own legends. The STEP GRID is not: a real 303 is programmed
@@ -560,8 +559,11 @@ const INSTRUMENTS = {
   chipbass: {
     slot: "bass", label: "YM2612 FM bass",
     lanes: { bass:"chipBass" },
-    controls: [                                        // not wired -- see subbass
-      { k:"bright", label:"brightness", min:0, max:1, step:0.01, def:0.60, dead:true },
+    controls: [
+      /* on this chip brightness IS total level on the modulator: a lower TL
+         drives the carrier harder and puts more partials in. Wired as a TL
+         offset, zero at the default. [theory: YM2612 TL] */
+      { k:"bright", label:"brightness", cap:"TL", min:0, max:1, step:0.01, def:0.60, kind:"gesture" },
     ],
   },
 
@@ -574,9 +576,9 @@ const INSTRUMENTS = {
        depth, tone is a preamp lowpass that ships open. There is deliberately no
        "brightness" knob pretending to be a filter that isn't there. */
     controls: [
-      { k:"bark", label:"bark (layer)", cap:"BARK", min:0, max:1,     step:0.01,   def:0.50 },
-      { k:"wow",  label:"tape wow",     cap:"WOW",  min:0, max:0.006, step:0.0002, def:0.0020 },
-      { k:"tone", label:"tone",         cap:"TONE", min:0.3, max:1,   step:0.01,   def:1.00 },
+      { k:"bark", label:"bark (layer)", cap:"BARK", min:0, max:1,     step:0.01,   def:0.50 , kind:"gesture" },
+      { k:"wow",  label:"tape wow",     cap:"WOW",  min:0, max:0.006, step:0.0002, def:0.0020 , kind:"gesture" },
+      { k:"tone", label:"tone",         cap:"TONE", min:0.3, max:1,   step:0.01,   def:1.00 , kind:"gesture" },
     ],
     panel: { skin: "rhodes", maker: "Fender", title: "Rhodes Suitcase Piano",
              groups: [{ label: "", keys: ["bark", "tone", "wow"] }] },
@@ -589,10 +591,10 @@ const INSTRUMENTS = {
        one), the balance between the string and the choir registers, and the
        swell. All four are read by the voice. */
     controls: [
-      { k:"ens",     label:"ensemble", cap:"ENSEMBLE", min:0, max:1,   step:0.01, def:0.60 },
-      { k:"choir",   label:"choir",    cap:"HUMAN VOICE", min:0, max:1, step:0.01, def:0.45 },
-      { k:"attack",  label:"swell",    cap:"ATTACK",   min:0.05, max:2.5, step:0.05, def:0.90, unit:"s" },
-      { k:"release", label:"release",  cap:"RELEASE",  min:0.2, max:5,  step:0.1,  def:2.40, unit:"s" },
+      { k:"ens",     label:"ensemble", cap:"ENSEMBLE", min:0, max:1,   step:0.01, def:0.60 , kind:"gesture" },
+      { k:"choir",   label:"choir",    cap:"HUMAN VOICE", min:0, max:1, step:0.01, def:0.45 , kind:"gesture" },
+      { k:"attack",  label:"swell",    cap:"ATTACK",   min:0.05, max:2.5, step:0.05, def:0.90, unit:"s" , kind:"voicing" },
+      { k:"release", label:"release",  cap:"RELEASE",  min:0.2, max:5,  step:0.1,  def:2.40, unit:"s" , kind:"voicing" },
     ],
     panel: { skin: "vp330", maker: "Roland", title: "VP-330 Vocoder Plus",
              groups: [{ label: "", keys: ["ens", "choir", "attack", "release"] }] },
@@ -601,7 +603,7 @@ const INSTRUMENTS = {
     slot: "keys", label: "wash pad",
     lanes: { keys:"wash" },
     controls: [
-      { k:"cut", label:"filter", cap:"CUTOFF", min:200, max:3000, step:10, def:900, unit:"Hz" },
+      { k:"cut", label:"filter", cap:"CUTOFF", min:200, max:3000, step:10, def:900, unit:"Hz" , kind:"gesture" },
     ],
     panel: { skin: "wash", maker: "", title: "wash", groups: [{ label: "", keys: ["cut"] }] },
   },
@@ -609,9 +611,9 @@ const INSTRUMENTS = {
     slot: "keys", label: "Wurlitzer",
     lanes: { keys:"wurly" },
     controls: [
-      { k:"trem",  label:"tremolo",  cap:"VIBRATO", min:0, max:1,  step:0.01, def:0.45 },
-      { k:"tremhz",label:"trem rate",cap:"RATE",    min:3, max:8,  step:0.1,  def:5.5, unit:"Hz" },
-      { k:"bark",  label:"bark",     cap:"BARK",    min:0, max:1,  step:0.01, def:0.55 },
+      { k:"trem",  label:"tremolo",  cap:"VIBRATO", min:0, max:1,  step:0.01, def:0.45 , kind:"gesture" },
+      { k:"tremhz",label:"trem rate",cap:"RATE",    min:3, max:8,  step:0.1,  def:5.5, unit:"Hz" , kind:"voicing" },
+      { k:"bark",  label:"bark",     cap:"BARK",    min:0, max:1,  step:0.01, def:0.55 , kind:"gesture" },
     ],
     /* the 200A calls it VIBRATO on the cheek and it is amplitude modulation, so
        it is a tremolo. Keeping the machine's word on the cap and the true word
@@ -626,11 +628,11 @@ const INSTRUMENTS = {
       /* a Mellotron is a tape replay machine: every key has its OWN 8-second
          strip of tape, and the character is the tape -- wow, flutter, hiss, and
          the hard stop when the strip runs out. [theory: Mellotron M400 mechanism] */
-      { k:"voice", label:"flute / strings / choir", cap:"STATION", min:0, max:2, step:1, def:1 },
-      { k:"wow",   label:"tape wow",  cap:"WOW",     min:0, max:0.012, step:0.0002, def:0.0045 },
-      { k:"flutter",label:"flutter",  cap:"FLUTTER", min:0, max:1,  step:0.01, def:0.35 },
-      { k:"hiss",  label:"tape hiss", cap:"HISS",    min:0, max:1,  step:0.01, def:0.30 },
-      { k:"tapeEnd",label:"8s tape stop", cap:"TAPE STOP", min:0, max:1, step:1, def:1 },
+      { k:"voice", label:"flute / strings / choir", cap:"STATION", min:0, max:2, step:1, def:1 , kind:"switch" },
+      { k:"wow",   label:"tape wow",  cap:"WOW",     min:0, max:0.012, step:0.0002, def:0.0045 , kind:"gesture" },
+      { k:"flutter",label:"flutter",  cap:"FLUTTER", min:0, max:1,  step:0.01, def:0.35 , kind:"gesture" },
+      { k:"hiss",  label:"tape hiss", cap:"HISS",    min:0, max:1,  step:0.01, def:0.30 , kind:"gesture" },
+      { k:"tapeEnd",label:"8s tape stop", cap:"TAPE STOP", min:0, max:1, step:1, def:1 , kind:"switch" },
     ],
     /* STATION is the M400's own word: the tape frame slides and a different set
        of strips comes under the heads. It is a three-way selector, not a knob. */
@@ -658,11 +660,11 @@ const INSTRUMENTS = {
          is what makes wiring them a provable change rather than a claimed one:
          with the panel untouched the voice must render what it rendered before,
          and only a moved knob may differ. */
-      { k:"bright",   label:"brilliance",  cap:"BRILLIANCE", min:0, max:1, step:0.01, def:0.50 },
-      { k:"res",      label:"resonance",   cap:"RESONANCE",  min:0, max:1, step:0.01, def:0.50 },
-      { k:"ring",     label:"ring mod",    cap:"RING MOD",   min:0, max:1, step:0.01, def:0.16 },
-      { k:"ens",      label:"ensemble",    cap:"ENSEMBLE",   min:0, max:1, step:0.01, def:0.42 },
-      { k:"vib",      label:"vibrato",     cap:"VIBRATO",    min:0, max:1, step:0.01, def:0.50 },
+      { k:"bright",   label:"brilliance",  cap:"BRILLIANCE", min:0, max:1, step:0.01, def:0.50 , kind:"gesture" },
+      { k:"res",      label:"resonance",   cap:"RESONANCE",  min:0, max:1, step:0.01, def:0.50 , kind:"gesture" },
+      { k:"ring",     label:"ring mod",    cap:"RING MOD",   min:0, max:1, step:0.01, def:0.16 , kind:"gesture" },
+      { k:"ens",      label:"ensemble",    cap:"ENSEMBLE",   min:0, max:1, step:0.01, def:0.42 , kind:"gesture" },
+      { k:"vib",      label:"vibrato",     cap:"VIBRATO",    min:0, max:1, step:0.01, def:0.50 , kind:"gesture" },
       /* INITIAL PITCH BEND -- the control this instrument is famous for and the
          one thing that makes a listener say "Blade Runner" in a single held
          note. It is a PANEL slider, not a played gesture: it fires on every note
@@ -677,7 +679,7 @@ const INSTRUMENTS = {
           portamento of a note from about 1 semitone below the key's actual pitch";
           corpus:soundonsound Yamaha CS80 review, which names Vangelis on
           "Blade Runner Blues" as the demonstration of it] */
-      { k:"initBend", label:"initial pitch bend", cap:"INIT BEND", min:0, max:1, step:0.01, def:0 },
+      { k:"initBend", label:"initial pitch bend", cap:"INIT BEND", min:0, max:1, step:0.01, def:0 , kind:"voicing" },
     ],
     panel: { skin: "cs80", maker: "Yamaha", title: "CS-80",
              groups: [{ label: "PERFORMANCE", keys: ["bright", "res", "initBend"] },
@@ -685,8 +687,9 @@ const INSTRUMENTS = {
   },
   chipkeys: {
     slot: "keys", label: "YM2612 FM keys",
-    lanes: { keys:"chipKeys" },                        // not wired -- see subbass
-    controls: [ { k:"bright", label:"brightness", min:0, max:1, step:0.01, def:0.60, dead:true } ],
+    lanes: { keys:"chipKeys" },
+    controls: [ { k:"bright", label:"brightness", cap:"TL", min:0, max:1, step:0.01,
+                  def:0.60, kind:"gesture" } ],
   },
 };
 
@@ -1889,10 +1892,23 @@ const Sound = (function(){
   V.bass = function(g, ev, t){
     const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 0.20;
     const out = c.createGain();
-    const flt = c.createBiquadFilter(); flt.type = "lowpass"; flt.frequency.value = 800; flt.Q.value = 0.6;
+    /* TONE and DRIVE were declared on this machine's panel and read by nothing
+       for as long as the rack has existed -- two sliders that moved and did
+       nothing, which is worse than a missing feature because a listener cannot
+       detect it. The filter was a fixed 800 Hz and the saw sat at a fixed 0.38.
+       Both were already the right shape for a knob; they were simply not
+       connected to one. Wired here, with the old constants as the defaults, so
+       nothing about the shipped sound moved. */
+    const cut = P(g, ev, "subbass", "cut", 800);
+    const drive = P(g, ev, "subbass", "drive", 0.20);
+    const flt = c.createBiquadFilter(); flt.type = "lowpass";
+    flt.frequency.value = cut; flt.Q.value = 0.6;
     out.connect(flt); flt.connect(g.bus.bass);
     const o1 = osc(c, "sine", f, t, end);
-    const o2 = osc(c, "sawtooth", f, t, end), g2 = c.createGain(); g2.gain.value = 0.38;
+    /* DRIVE is the saw against the sine: at 0 it is a pure sub, at 1 it has
+       teeth. 0.20 reproduces the 0.38 saw gain this voice shipped with. */
+    const o2 = osc(c, "sawtooth", f, t, end), g2 = c.createGain();
+    g2.gain.value = 0.38 * (drive / 0.20);
     o1.connect(out); o2.connect(g2); g2.connect(out);
     adsr(c, out, t, LEVEL.bass * ev.gain / 1.38, 0.006, 0.10, 0.72, t + ev.durSec, 0.14);
     const pk = c.createOscillator(); pk.type = "triangle";
@@ -2603,23 +2619,34 @@ const Sound = (function(){
     return off + rel;
   }
 
-  function chipVoice(patchName, busName, level){
+  /* `machine` names the rack panel this voice answers to, so BRIGHTNESS can be a
+     knob rather than a label. It was declared on two panels and read by nothing:
+     the modulator TL was the patch's own number plus a velocity term, with no
+     way for a genre or a hand to reach it. On this chip brightness IS total
+     level on the modulator -- a lower TL drives the carrier harder and puts more
+     partials in -- so the control is a TL OFFSET, and at its default of 0.60 the
+     offset is exactly zero and the patch sounds as it always has.
+     [theory: YM2612 TL is a 0-127 logarithmic attenuator on each operator] */
+  function chipVoice(patchName, busName, level, machine){
     return function(g, ev, t){
-      const c = g.ctx, P = YM_PATCH[patchName], n = ymNote(ev.pitch);
+      const c = g.ctx, PATCH = YM_PATCH[patchName], n = ymNote(ev.pitch);
+      /* +-24 TL either side of the patch. 24 is 4 of the chip's 6 dB steps, i.e.
+         about 18 dB of modulator level, which is a wide but not silly range. */
+      const brightTL = machine ? (0.60 - P(g, ev, machine, "bright", 0.60)) * 48 : 0;
       const ksv = op => n.kcode >> (op.rs ^ 3);         // KSR: high notes decay faster
-      const car = YM.CARRIERS[P.alg];
+      const car = YM.CARRIERS[PATCH.alg];
       /* normalise by the algorithm's carrier sum so the peak is LEVEL * gain
          whatever the algorithm -- the mix budget is unchanged by the rig, and no
          master-chain constant moves when a song draws sega instead of band. */
-      let csum = 0; for(const i of car) csum += ymAmp(P.ops[i].tl);
+      let csum = 0; for(const i of car) csum += ymAmp(PATCH.ops[i].tl);
       const peak = level * ev.gain / csum;
       const keyOff = t + ev.durSec;
       const oscs = [], envs = [], freqs = [];
       for(let i = 0; i < 4; i++){
-        const op = P.ops[i];
+        const op = PATCH.ops[i];
         const f  = n.hz * (op.mul || 0.5) * ymDetune(op.dt, n);   // MUL 0 is the chip's half [theory]
         const o  = c.createOscillator();
-        o.type = (i === 0) ? ymFbWave(P.fb) : "sine";             // op1 carries the feedback
+        o.type = (i === 0) ? ymFbWave(PATCH.fb) : "sine";             // op1 carries the feedback
         o.frequency.value = f;
         const gn = c.createGain();
         o.connect(gn);
@@ -2643,13 +2670,13 @@ const Sound = (function(){
          every operator that modulator drives. Brightness tracks velocity through
          the chip's own logarithmic TL law. */
       const targets = new Map();
-      for(const [m, tgt] of YM.MOD[P.alg]){
+      for(const [m, tgt] of YM.MOD[PATCH.alg]){
         if(!targets.has(m)) targets.set(m, []);
         targets.get(m).push(tgt);
       }
       for(const [m, tgts] of targets){
-        const op = P.ops[m];
-        const tl = Math.max(0, op.tl + ymVelTL(ev.gain) * CHIP_VEL_TL);
+        const op = PATCH.ops[m];
+        const tl = Math.max(0, op.tl + ymVelTL(ev.gain) * CHIP_VEL_TL + brightTL);
         const dev = 2 * Math.PI * YM.BETA * ymAmp(tl) * freqs[m];   // cycles -> Hz of deviation
         const e   = chipEnv(envs[m].gain, t, dev, op, ksv(op), keyOff);
         for(const tgt of tgts) envs[m].connect(oscs[tgt].frequency);
@@ -2658,17 +2685,17 @@ const Sound = (function(){
       /* carriers: envelope in amplitude. ev.gain is ALREADY the one gain formula's
          output, so velocity is not applied a second time here. */
       for(const i of car){
-        const op = P.ops[i];
+        const op = PATCH.ops[i];
         const e  = chipEnv(envs[i].gain, t, peak * ymAmp(op.tl), op, ksv(op), keyOff);
         envs[i].connect(out);
         if(e > end) end = e;
       }
       const nodes = oscs.slice();
-      if(P.pms){
+      if(PATCH.pms){
         /* the chip's LFO is GLOBAL and phase-shared by all six channels; ours is
            per note. That is the second knowing deviation in this voice. [EAR] */
         const lfo = c.createOscillator(); lfo.type = "sine"; lfo.frequency.value = YM.LFO_HZ;
-        const depth = Math.pow(2, YM.PMS_CENTS[P.pms] / 1200) - 1;
+        const depth = Math.pow(2, YM.PMS_CENTS[PATCH.pms] / 1200) - 1;
         for(let i = 0; i < 4; i++){
           const d = c.createGain(); d.gain.value = depth * freqs[i];   // PM is proportional
           lfo.connect(d); d.connect(oscs[i].frequency);
@@ -2680,8 +2707,10 @@ const Sound = (function(){
       return nodes;
     };
   }
-  V.chipBass    = chipVoice("chipBass",    "bass", LEVEL.bass);
-  V.chipKeys    = chipVoice("chipKeys",    "keys", LEVEL.keys);
+  /* the two that have a rack panel get its name, so their BRIGHTNESS slider is
+     wired; lead and counter have no panel and pass none. */
+  V.chipBass    = chipVoice("chipBass",    "bass", LEVEL.bass, "chipbass");
+  V.chipKeys    = chipVoice("chipKeys",    "keys", LEVEL.keys, "chipkeys");
   V.chipLead    = chipVoice("chipLead",    "lead", LEVEL.lead);
   V.chipCounter = chipVoice("chipCounter", "lead", LEVEL.counter);
 
@@ -3096,12 +3125,38 @@ const GENRE = {
       rhodes:    { bark: 0.42, wow: 0.0024, tone: 0.84 },
       wurly:     { trem: 0.55, tremhz: 5.2, bark: 0.50 },
       mellotron: { voice: 0, wow: 0.0058, flutter: 0.46, hiss: 0.44, tapeEnd: 1 },
+      /* the three machines whose panels were declared and read by nothing until
+         they were wired. This is the first time any genre has SET them, which is
+         why the numbers here are the shipped constants rather than a taste
+         call: darker than the panel default on the sub, and the chip left at the
+         patch's own brightness. Move them from here, with ears. */
+      subbass:   { cut: 720, drive: 0.18 },
+      chipbass:  { bright: 0.60 },
+      chipkeys:  { bright: 0.60 },
     },
     /* and the movement. Small everywhere: this genre's whole affect is that
        nothing lunges. The one thing lofi really does do on a dial is open up
        slightly for the chorus and go duller for the outro. */
     motion: {
+      /* THE SUB BASS, whose two controls were dead until they were wired -- so
+         this is the first time any genre has been able to reach them. The tone
+         opens where the song opens and closes for the bridge; the drive puts
+         teeth on it at the peak and takes them off underneath. */
+      subbass: {
+        cut:   [{ kind: "section", by: { intro: [-260, -140], chorus: [180, 520],
+                                         bridge: [-300, -160], outro: [-320, -180] } },
+                { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [60, 180], shape: "tri" }],
+        drive: [{ kind: "section", by: { chorus: [0.05, 0.16], bridge: [-0.10, -0.04] } }],
+      },
+      /* the tape drifts more when the tape has been running longer -- a slow
+         free-phase wander rather than anything tied to the form. */
+      chipbass: { bright: [{ kind: "section", by: { chorus: [0.05, 0.14], bridge: [-0.12, -0.05] } }] },
+      chipkeys: { bright: [{ kind: "lfo", bars: [[16, 3], [32, 2]], depth: [0.03, 0.09],
+                             shape: "sin", freePhase: true },
+                           { kind: "section", by: { chorus: [0.04, 0.11] } }] },
       rhodes: {
+        wow:  [{ kind: "lfo", bars: [[24, 3], [16, 2]], depth: [0.0003, 0.0011],
+                 shape: "sin", freePhase: true }],
         tone: [{ kind: "section", by: { intro: [-0.16, -0.08], verse: [-0.08, -0.02],
                                         chorus: [0.03, 0.09], bridge: [-0.13, -0.05],
                                         instrumental: [-0.04, 0.02], outro: [-0.20, -0.12] } }],
@@ -3110,6 +3165,8 @@ const GENRE = {
       wurly: {
         trem: [{ kind: "section", by: { verse: [0.00, 0.05], chorus: [0.09, 0.18],
                                         bridge: [-0.10, -0.02], outro: [0.04, 0.12] } }],
+        /* the reed bites harder where the player leans in */
+        bark: [{ kind: "section", by: { chorus: [0.06, 0.15], bridge: [-0.12, -0.05] } }],
       },
       mellotron: {
         /* two mechanical faults on two timescales: the capstan wanders slowly
@@ -3364,6 +3421,10 @@ const GENRE = {
       mellotron: { voice: 1, wow: 0.0030, flutter: 0.25, hiss: 0.18, tapeEnd: 1 },
       rhodes:    { bark: 0.55, wow: 0.0010, tone: 0.95 },
       wurly:     { trem: 0.35, tremhz: 6.0, bark: 0.62 },
+      /* the sub bass, now that its two controls are real. Slightly darker and
+         with more teeth than the default -- this genre's bass is a synth, not a
+         finger. */
+      subbass:   { cut: 950, drive: 0.32 },
     },
     /* THE MOVEMENT, and this genre gets the most of it, because the thing that
        makes an eight-bar synth loop into a four-minute record is a filter that
@@ -3389,6 +3450,11 @@ const GENRE = {
         res:   [{ kind: "section", by: { chorus: [1.5, 4.0], bridge: [-2.0, -0.5],
                                          instrumental: [0.5, 2.0] } }],
         decay: [{ kind: "plock", density: [0.10, 0.20], amt: [-0.10, 0.16] }],
+        /* ENV MOD is how far the filter envelope reaches on each note, which is
+           a different gesture from where the filter is SITTING -- riding both is
+           what makes a 303 line change character rather than just brightness. */
+        envmod:[{ kind: "section", by: { chorus: [0.08, 0.20], bridge: [-0.16, -0.06],
+                                         instrumental: [0.04, 0.14] } }],
       },
       tr808: {
         decay:   [{ kind: "section", by: { chorus: [0.15, 0.35], instrumental: [0.05, 0.20],
@@ -3426,6 +3492,18 @@ const GENRE = {
                     curve: "exp" }],
         /* the ensemble widens where the song opens out, and closes for the bridge */
         ens:    [{ kind: "section", by: { chorus: [0.06, 0.14], bridge: [-0.12, -0.04] } }],
+        /* the three that were declared, wired, and never moved by anybody. Each
+           is a hand on the panel and each does something different: RES sharpens
+           the peak at the top of the song, RING is a colour that drifts because
+           its own oscillator is not locked to anything, and VIB is the depth of
+           the late-arriving wobble -- which deepens on the long held notes of a
+           chorus and pulls back under a bridge. Small numbers on purpose: these
+           are seasonings, not sweeps. */
+        res:    [{ kind: "section", by: { chorus: [0.05, 0.13], bridge: [-0.10, -0.03] } }],
+        ring:   [{ kind: "lfo", bars: [[16, 3], [32, 2]], depth: [0.02, 0.06],
+                   shape: "sin", freePhase: true }],
+        vib:    [{ kind: "section", by: { chorus: [0.06, 0.16], instrumental: [0.04, 0.12],
+                                          bridge: [-0.12, -0.04] } }],
       },
     },
   },
@@ -3641,6 +3719,12 @@ const GENRE = {
                    chdecay: 0.038, ohdecay: 0.30, bus: 1.05, gate: 0, hold: 0.15 },
       tb303:     { cutoff: 480, res: 7.0, envmod: 0.45, decay: 0.40,
                    accent: 0.50, drive: 2.0, wave: 0 },
+      /* the chip is this genre's own band, so its brightness is the one of these
+         three that really matters here -- a shade brighter than the patch,
+         because Wise's writing sits up in the air. */
+      subbass:   { cut: 860, drive: 0.16 },
+      chipbass:  { bright: 0.66 },
+      chipkeys:  { bright: 0.68 },
     },
     /* MOVEMENT AS WEATHER. Everything here is slow, free-phase and small: the
        point is that you cannot point at the moment it changed. No p-locks and no
@@ -3898,6 +3982,12 @@ const GENRE = {
         cut: [{ kind: "section", by: { intro: [-90, -40], chorus: [60, 190],
                                        outro: [-120, -60] } },
               { kind: "lfo", bars: [[32, 4], [16, 1]], depth: [25, 80], shape: "tri" }],
+        /* the resonance leans on the drone's own filter peak as the cue opens.
+           Free-phase and slow: this is the bottom of the picture breathing, not
+           a gesture anyone would notice being made. */
+        res: [{ kind: "lfo", bars: [[32, 3], [64, 2]], depth: [0.3, 1.1],
+                shape: "sin", freePhase: true },
+              { kind: "section", by: { chorus: [0.3, 1.0], outro: [-0.8, -0.3] } }],
       },
     },
   },
@@ -5717,13 +5807,20 @@ function knobEl(m, c){
   if(PARAMS[key] == null) PARAMS[key] = c.def;
   const box = el("div", "kn");
   box.dataset.key = key;              // so a probe can ask which control this is
+  /* the tooltip says which of the three kinds this control is, because that is
+     what tells you whether the program will move it while you listen: a
+     GESTURE is ridden by the genre, a VOICING or a SWITCH is set once and left
+     alone, a BUS is handed to the graph before the song starts. */
+  const KIND_SAYS = { gesture: "the program rides this one",
+                      voicing: "a setting — the program sets it, then leaves it",
+                      switch:  "a switch — set per song, never moved",
+                      bus:     "set once before the song starts" };
   box.title = c.label + (c.unit ? " (" + c.unit + ")" : "") +
-              (c.dead ? "  — NOT WIRED: this knob does nothing yet" : "");
+              (KIND_SAYS[c.kind] ? "  — " + KIND_SAYS[c.kind] : "");
   const dial = el("div", "dial"), ptr = el("div", "ptr"), auto = el("div", "auto");
   dial.appendChild(ptr); dial.appendChild(auto);
   const cap = el("div", "cap", c.cap || c.label), val = el("div", "val");
   box.appendChild(dial); box.appendChild(cap); box.appendChild(val);
-  if(c.dead) box.style.opacity = ".45";
 
   const ang = v => -135 + 270 * (v - c.min) / (c.max - c.min);
   box.refresh = () => {
@@ -6059,7 +6156,7 @@ function drawPanels(){
         const key = m + "." + c.k;
         if(PARAMS[key] == null) PARAMS[key] = c.def;
         const row = el("div", "knob");
-        row.appendChild(el("label", null, c.label + (c.dead ? "  (not wired)" : "")));
+        row.appendChild(el("label", null, c.label));
         const sl = document.createElement("input");
         sl.type = "range"; sl.min = c.min; sl.max = c.max; sl.step = c.step; sl.value = panelValue(m, c.k);
         const out = el("output", null, fmt(c, panelValue(m, c.k)));
@@ -6070,13 +6167,9 @@ function drawPanels(){
         row.appendChild(sl); row.appendChild(out); box.appendChild(row);
       }
     }
-    const deadOnes = M.controls.filter(c => c.dead);
-    if(deadOnes.length)
-      box.appendChild(el("div", "dead",
-        "note: " + deadOnes.map(c => c.cap || c.label).join(", ") +
-        (deadOnes.length > 1 ? " are" : " is") +
-        " declared but NOT WIRED to the voice — moving " +
-        (deadOnes.length > 1 ? "them" : "it") + " does nothing yet."));
+    /* there is no "not wired" note any more, and that is the point: every
+       control on every panel reaches the sound, and a seam check fails the
+       build if a new one is declared that does not. */
 
     const rst = el("button", "reset", "reset to " + GENRE[SONG.chart.genre].label);
     rst.addEventListener("click", () => {

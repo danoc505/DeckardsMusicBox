@@ -92,6 +92,38 @@ removing that idea is the central reason MK2 exists.
    comment.
 6. **A rig changes WHO plays, never WHAT is played.** `composeSong(1,"band")`
    and `composeSong(1,"sega")` are the same performance by two bands.
+7. **Every knob declares its kind, and the kind says who may touch it.** See
+   below — this is what decides which controls the program rides.
+
+### The conductor's contract — which knobs the program may move
+
+The question "how should the program decide what to do?" needs a stated rule,
+not per-genre improvisation. Every control in `INSTRUMENTS` carries a `kind`:
+
+| kind | meaning | who sets it | may motion move it? |
+|------|---------|-------------|---------------------|
+| `switch` | a discrete choice — the 303's waveform, the Mellotron's tape set | genre `params` | **no** — mid-song it is a different instrument, not a gesture |
+| `voicing` | what the instrument *is* — kick tuning, tremolo rate, the CS-80's initial bend | genre `params` | **no** — automating it makes the instrument wander instead of the performance moving |
+| `bus` | a graph-level number `setSpace` hands over once, before anything is scheduled | genre `params` | **structurally cannot** |
+| `gesture` | what a player's hand is on — cutoff, resonance, brightness, decay, ensemble | genre `params` sets the base | **yes — this is what `motion` is for** |
+
+Three seam checks enforce it, and together they close the loop:
+
+- **every knob on every panel reaches the sound** — no control may be declared
+  that no voice reads. (Four were, for as long as the rack existed: `subbass.cut`,
+  `subbass.drive`, `chipbass.bright`, `chipkeys.bright`. They were drawn, they
+  moved, and nothing happened.)
+- **every gesture knob is one some genre actually rides** — a gesture nobody
+  moves is a knob the conductor is not using. Ten were idle before this landed.
+- **no switch, voicing or bus control is automated** — the reverse error.
+
+The upshot, measured: **55 controls, all wired; 46 set by at least one genre; 32
+ridden by at least one.** The 23 that are never ridden are exactly the switches,
+voicings and bus gains — by contract, not by neglect.
+
+When you add a machine, give every control a `kind`. If it's a `gesture`, some
+genre that hosts the machine has to ride it or the battery fails — which is the
+point: it stops a panel growing knobs nobody uses.
 
 ### Determinism has a hard limit you must know
 
@@ -107,7 +139,7 @@ WAV hash can never be the determinism test. The determinism test is the
 Run all of these before you claim anything.
 
 ```bash
-node harness/mk2_test.js                              # 72 seam checks
+node harness/mk2_test.js                              # 75 seam checks
 node harness/mk2_roll.js 1 --genre vangelis           # any of the six genres
 node harness/mk2_snapshot.js check harness/mk2_baseline.snap
 node harness/mk2_roll.js 1                            # THE test that matters
@@ -116,10 +148,10 @@ node harness/mk2_roll.js 1 --mid out.mid              # .mid round-trip check
 node harness/mk2_ui.js                                # 20 checks, in a browser
 ```
 
-- **`mk2_test.js`** — 72 assertions over composition seams: per-genre loops,
+- **`mk2_test.js`** — 75 assertions over composition seams: per-genre loops,
   "the counter is a line not a harmoniser", "the bridge is a departure", "the
   bass styles differ", "the .mid carries every note", plus the rack, the motion
-  and the pins. Currently **72 passed, 0 failed**.
+  and the pins. Currently **75 passed, 0 failed**.
 
   Two of these were rewritten when the new genres arrived, and the reason
   generalises: *"the drummer actually uses the toms"* and *"every genre's second

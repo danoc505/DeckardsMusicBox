@@ -368,14 +368,27 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      cannot detect by listening. Automating one would be the same lie with a
      composer behind it. So: scan the shipped source for the knob reads the
      voices actually perform, and require every automated control to be in that
-     set. (The declared-but-dead controls are still there and still dead -- that
-     is a separate, honest, unfixed problem. This check stops it SPREADING.) */
+     set. The four that WERE dead -- subbass.cut, subbass.drive, chipbass.bright
+     and chipkeys.bright -- are wired now, and check 1b below is what stops any
+     new one being declared. */
   const READS = new Set();
   const rx = /P\(g,\s*ev,\s*"([A-Za-z0-9]+)",\s*"([A-Za-z0-9]+)"/g;
   for(let mm; (mm = rx.exec(src)); ) READS.add(mm[1] + "." + mm[2]);
-  /* one voice reads its decay through a variable key (the 808's two hats share
-     a circuit and differ only by which decay control they name), so name them */
+  /* two reads name their key through a variable rather than a literal: the
+     808's two hats share one circuit and differ only by which decay control
+     they name, and the chip's brightness is looked up by the machine name its
+     factory was handed. Named here so the scan is honest about what it cannot
+     see rather than silently missing them. */
   READS.add("tr808.chdecay"); READS.add("tr808.ohdecay");
+  READS.add("chipbass.bright"); READS.add("chipkeys.bright");
+  /* and the ones a voice never reads at the note because setSpace hands them to
+     the GRAPH once, before a sample is scheduled: bus gains, the reverb send,
+     the gate hold, and the acoustic kick's voicing. They are reachable and
+     settable; they are structurally not automatable, which is why they are
+     declared kind:"bus" / kind:"voicing" and checked as such below. */
+  const PER_SONG = new Set(["kit.tune","kit.decay","kit.click","kit.drive",
+    "kit.bus","kit.gate","kit.hold","tr808.bus","tr808.gate","tr808.hold",
+    "segakit.bus","segakit.gate"]);
 
   const dead = [];
   for(const g of M.genres()){
@@ -384,6 +397,75 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   }
   check("every automated knob is one a voice actually reads", dead.length === 0,
         dead.length ? dead.join(" | ") : READS.size + " live controls, none automated in vain");
+
+  /* ── 1b. NO KNOB ON ANY PANEL IS A LIE. Every control a machine declares must
+     reach the sound somehow -- per note through P(), or per song through
+     setSpace. Four of them did not for as long as the rack existed: they were
+     drawn, they moved, and nothing happened. That is worse than a missing
+     feature because a listener cannot detect it by listening. */
+  {
+    const unread = [];
+    for(const m in M.INSTRUMENTS)
+      for(const c of M.INSTRUMENTS[m].controls){
+        const key = m + "." + c.k;
+        if(!READS.has(key) && !PER_SONG.has(key)) unread.push(key);
+      }
+    check("every knob on every panel reaches the sound", unread.length === 0,
+          unread.length ? unread.join(" | ") : "all controls wired");
+  }
+
+  /* ── 1c. THE CONDUCTOR'S CONTRACT, and the answer to "how should the program
+     decide what to do?". Every control declares its KIND, and the kind decides
+     who may touch it:
+
+       switch    a discrete choice -- the 303's waveform, the Mellotron's tape
+                 set. Moving it mid-song is a different instrument, not a
+                 gesture. Set per song; NEVER automated.
+       voicing   what the instrument IS -- the kick's tuning, the tremolo rate,
+                 the CS-80's initial bend. Automating it makes the instrument
+                 wander instead of the performance moving. Set per song.
+       bus       a graph-level number setSpace hands over once, before anything
+                 is scheduled. Structurally cannot be per-note.
+       gesture   what a player's hand is actually on -- cutoff, resonance,
+                 brightness, decay, ensemble. THIS is what motion is for.
+
+     Two checks fall straight out of that, and together they close the loop:
+     a gesture nobody rides is a knob the conductor is not using, and a switch
+     somebody rides is a category error. Measured before this landed: TEN
+     gesture controls on hosted machines that no genre had ever moved. */
+  {
+    const moved = new Set(), hosted = {};
+    for(const g of M.genres()){
+      const mo = M.composeSong(1, "band", g).motion;
+      for(const key in mo.lanes) moved.add(key);
+      /* a machine is HOSTED by a genre if a voice of one of its lanes actually
+         sounds -- measured from the events, not read off the machines table,
+         because "auto" resolves through the rig and the keys lane dispatches on
+         the chart's own draw */
+      const heard = new Set();
+      for(let s = 1; s <= 12; s++)
+        for(const e of M.composeSong(s, undefined, g).perf.events) heard.add(e.voice);
+      for(const m in M.INSTRUMENTS){
+        const lanes = Object.values(M.INSTRUMENTS[m].lanes);
+        /* V.keys dispatches to V.rhodes or V.wurly on the chart's timbre draw,
+           so those two machines are reachable through the "keys" voice too */
+        const extra = (m === "rhodes" || m === "wurly") ? ["keys"] : [];
+        if(lanes.concat(extra).some(v => heard.has(v))) hosted[m] = true;
+      }
+    }
+    const idle = [], wrong = [];
+    for(const m in M.INSTRUMENTS)
+      for(const c of M.INSTRUMENTS[m].controls){
+        const key = m + "." + c.k;
+        if(!c.kind) wrong.push(key + " declares no kind");
+        else if(c.kind === "gesture"){ if(hosted[m] && !moved.has(key)) idle.push(key); }
+        else if(moved.has(key)) wrong.push(key + " is a " + c.kind + " and is automated");
+      }
+    check("every gesture knob is one some genre actually rides", idle.length === 0,
+          idle.length ? idle.join(" | ") : moved.size + " controls ridden across the genres");
+    check("no switch, voicing or bus control is automated", wrong.length === 0,
+          wrong.length ? wrong.join(" | ") : "kinds respected");
+  }
 
   /* ── 2. determinism, both directions ── */
   const J = m => JSON.stringify(m.lanes);
