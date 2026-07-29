@@ -986,3 +986,90 @@ measurement. A chip tune with no bottom is a ringtone.
   plastikman    0/300         unchanged
   jungle        0/300         unchanged
 ```
+
+---
+
+## The cymbal, and the fader that did nothing
+
+*"There is a cymbal that is horrible. It's harsh and sounds bad. I tried to bring
+the slider down on all the cymbals, nothing happened."*
+
+Both true. They were separate faults.
+
+### The fader — and it was every bus control, not just the cymbals
+
+A **gesture** control is read by `P()` at the moment each note sounds, so turning
+one mid-song is heard on the next note. A **bus** control is not: `rideBus`
+writes its entire automation curve onto the AudioParam once, when the graph is
+configured at playback start. After that the curve owns the parameter and a hand
+on the fader writes a `TRIM` that nothing ever reads again.
+
+So **every mix fader, every send, every per-voice filter and the whole desk were
+frozen the moment playback started.** The panel moved, the number changed, the
+sound did not — the exact defect this project has a standing rule about, sitting
+inside the one control a hand reaches for first.
+
+Fixed by rewriting the curve from the current moment when a bus control is
+touched, anchored to the same song zero so a mid-song move doesn't also throw
+the automation back to bar one. Throttled at 60 ms, because a fader drag fires
+on every pointer move. Verified: a fader move triggers the rewrite, a gesture
+knob correctly does not.
+
+**And my first measurement of this was wrong** — the fifth time this session. It
+rendered with no `space` argument, so `setSpace` never ran, no chain was ever
+configured, and it reported all ten faders dead. They were not: in a properly
+configured render the fader moves its drum by **176 dB**. The bug was never in
+`rideBus`; it was that nothing called it again.
+
+### The cymbal
+
+Measured dry, against the hats that nobody has complained about:
+
+```
+        mid%   2-6kHz   tail     the harsh band, absolute
+crash   19.6    18.7%   1.54 s   0.0231
+hat     14.4    14.1%   0.13 s   0.0032
+```
+
+The spectrum was not the problem — a cymbal *is* mostly high. **The tail was.**
+Six square waves through a highpass, all on one shared envelope, so the thing
+was exactly as bright at 1.4 seconds as at 40 milliseconds. Nothing physical
+does that: a struck cymbal's high modes are the most heavily damped, so it
+**darkens** as it rings. The clang is short; what sustains is a wash that keeps
+losing top. Six undamped squares holding their brightness for a second and a
+half is a buzzer.
+
+Three changes, each one a thing the object actually does:
+
+1. **The clang is short** — the tonal partials get their own envelope at ~26% of
+   the total, so the metal rings and stops while the wash carries on.
+2. **It darkens** — a lowpass across the whole voice sweeps 14 kHz → 3.5 kHz over
+   the decay. This is the one that removes the harshness: the ear reads
+   sustained *unchanging* top end as harsh long before it reads it as loud.
+3. **Less metal, more air** — the square stack drops 0.62 → 0.34 and the noise
+   comes up, because a crash is far closer to filtered noise than to a chord.
+
+```
+              harsh RMS (2-6 kHz)   HARSH%   tail    peak
+  before            0.0231           18.7%   1.54 s  0.626
+  after             0.0129           16.4%   1.23 s  0.474
+```
+
+**44% less energy in the harsh band**, a shorter tail and 2.4 dB off the peak.
+
+### A measurement note worth keeping
+
+The probe's first band split was low / 140 Hz–2 kHz / everything above. Cymbal
+harshness is specifically **2–6 kHz**, and lumping 2–20 kHz into one bucket
+cannot see it — worse, when the mid dropped the "high" *percentage rose*, which
+reads as brighter when the absolute energy had fallen. There are four bands now
+and the harsh one is reported in absolute terms as well as as a share, so a drop
+in proportion cannot disguise a rise in level.
+
+Also: the tone rows render **dry**. With the genre's reverb on, every tail in the
+table lengthened — kick 0.25 s → 2.25 s — and I nearly read a room as a change to
+the crash.
+
+**The ears are still the judge.** The numbers say the thing that made it harsh is
+44% smaller and no longer sustains. Whether it now sounds like a cymbal you want
+is not something this probe can tell either of us.

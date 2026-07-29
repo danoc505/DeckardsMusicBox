@@ -386,7 +386,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29q · a second voice, a sequencer, and the chip's limit</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29r · the faders work while it plays</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -3569,21 +3569,57 @@ const Sound = (function(){
      roughly what the analogue machines did.
      [theory: TR-808 cymbal circuit is the hat circuit with a longer envelope] */
   V.crash = function(g, ev, t){
+    /* ── WHY THIS WAS HARSH, AND WHAT A REAL CYMBAL DOES ─────────────────────
+       Reported plainly: the cymbal is harsh and sounds bad. Measured against
+       the hats, which nobody has complained about:
+
+         crash   19.6% mid  55.9% high   tail 1.54 s
+         hat     14.4% mid  60.2% high   tail 0.13 s
+
+       The spectrum is not the problem -- a cymbal IS mostly high. The TAIL is:
+       one and a half seconds of six square waves through a highpass, every one
+       of them on the SAME envelope, so the thing is exactly as bright at 1.4
+       seconds as it was at 40 milliseconds. Nothing in the physical world does
+       that. A struck cymbal's high modes are the most heavily damped, so it
+       DARKENS as it rings -- the clang is short and what sustains is a wash
+       that keeps losing top. Six undamped square waves holding their brightness
+       for a second and a half is a buzzer.
+
+       Three changes, each one a thing the object does:
+
+       1. THE CLANG IS SHORT. The tonal partials get their own envelope at about
+          a quarter of the total, so the metallic attack rings and stops while
+          the wash carries on. They were sharing the wash's 1.9 s.
+       2. IT DARKENS. A lowpass over the whole voice sweeps from 14 kHz down to
+          about 3.5 kHz across the decay. This is the change that removes the
+          harshness: the ear reads sustained unchanging top end as harsh long
+          before it reads it as loud.
+       3. LESS METAL, MORE AIR. The square stack drops from 0.62 to 0.34 of the
+          level and the noise wash comes up, because a crash is far closer to
+          filtered noise than to a chord. */
     const c = g.ctx, chD = chDecay(g, ev), chT = chTune(g, ev);
     const dec = 1.9 * chD;
+    const clang = dec * 0.26;                    // the metal, and it stops first
+
+    /* the darkening, shared by both halves of the voice */
+    const dark = c.createBiquadFilter(); dark.type = "lowpass"; dark.Q.value = 0.707;
+    dark.frequency.setValueAtTime(14000, t);
+    dark.frequency.exponentialRampToValueAtTime(3500, t + dec);
+    dark.connect(drumOut(g, ev.lane));
+
     const hp = c.createBiquadFilter(); hp.type = "highpass";
     hp.frequency.value = 3200 * chT; hp.Q.value = 0.6;
     const gn = c.createGain();
     /* a crash BLOOMS -- it is not at its loudest when it is struck */
     gn.gain.setValueAtTime(0.0002, t);
-    gn.gain.exponentialRampToValueAtTime(LEVEL.openhat * ev.gain * 0.62, t + 0.035);
-    gn.gain.exponentialRampToValueAtTime(0.0002, t + dec);
-    hp.connect(gn); gn.connect(drumOut(g, ev.lane));
+    gn.gain.exponentialRampToValueAtTime(LEVEL.openhat * ev.gain * 0.34, t + 0.035);
+    gn.gain.exponentialRampToValueAtTime(0.0002, t + clang);
+    hp.connect(gn); gn.connect(dark);
     const made = [];
     for(const r of R808){
       const o = c.createOscillator(); o.type = "square";
       o.frequency.value = 263 * r * 1.6 * chT;
-      o.connect(hp); o.start(t); o.stop(t + dec + 0.05); made.push(o);
+      o.connect(hp); o.start(t); o.stop(t + clang + 0.05); made.push(o);
     }
     /* and the sizzle, which is what makes it a cymbal and not a chord of squares */
     const n = burst(g, t, dec, ev.tSec.toFixed(5) + ":crash");
@@ -3591,9 +3627,9 @@ const Sound = (function(){
     nb.frequency.value = 5200 * chT; nb.Q.value = 0.5;
     const ng = c.createGain();
     ng.gain.setValueAtTime(0.0002, t);
-    ng.gain.exponentialRampToValueAtTime(LEVEL.openhat * ev.gain * 0.5, t + 0.030);
+    ng.gain.exponentialRampToValueAtTime(LEVEL.openhat * ev.gain * 0.58, t + 0.030);
     ng.gain.exponentialRampToValueAtTime(0.0002, t + dec);
-    n.connect(nb); nb.connect(ng); ng.connect(drumOut(g, ev.lane));
+    n.connect(nb); nb.connect(ng); ng.connect(dark);
     made.push(n);
     return made;
   };
@@ -4860,6 +4896,31 @@ const Sound = (function(){
     if(ctx.state === "suspended") ctx.resume();
     return ctx;
   }
+  /* ── THE FADER HAS TO WORK WHILE IT IS PLAYING ────────────────────────────
+     Reported: "I tried to bring the slider down on all the cymbals, nothing
+     happened." It is true, and it is true of every `bus` control, not only the
+     cymbals -- every mix fader, every send, every filter, the whole desk.
+
+     WHY. A `gesture` control is read by P() at the moment each note sounds, so
+     turning one mid-song is heard on the next note. A `bus` control is
+     different: rideBus writes its ENTIRE automation curve onto the AudioParam
+     when the graph is configured, once, at playback start. After that the curve
+     owns the parameter, and moving the fader writes a TRIM that nothing ever
+     reads again. The panel moves, the number changes, and the sound does not --
+     which is the exact defect this file has a standing rule about, hiding
+     inside the one control a hand reaches for first.
+
+     THE FIX is not to make bus controls per-note -- they are buses, they are
+     supposed to be scheduled -- it is to REWRITE the curve from the current
+     moment when a hand moves one. `t0` is kept from playLive so the rewritten
+     curve stays anchored to the same song zero, which is what keeps a mid-song
+     fader move from also jumping the automation to bar one. */
+  let liveT0 = 0, liveSound = null;
+  function refreshBus(){
+    if(!ctx || !liveGraph || !liveSound) return;
+    const S = liveSound;
+    setSpace(liveGraph, S.space, S.kick, S.drumDrive, S.gate, S.motion, 0, liveT0);
+  }
   let liveTimer = null;
   /* `fromSec` starts the song part-way in, at the same song time it would have
      been at. Editing a step on the 808's grid recomposes the whole song -- that
@@ -4876,6 +4937,9 @@ const Sound = (function(){
        has to be written against -- the automation is in song time like every
        event, so starting part-way in lands on the right part of the curve. */
     setSpace(liveGraph, space, kick, drumDrive, gate, motion, 0, t0);
+    /* remembered so a hand on a fader can rewrite the curve against the same
+       song zero rather than restarting the automation */
+    liveT0 = t0; liveSound = { space, kick, drumDrive, gate, motion };
     let i = 0;
     while(i < events.length && events[i].tSec < skip) i++;
     lateDropped = 0;
@@ -4980,6 +5044,8 @@ const Sound = (function(){
      stale the moment the rack could name a voice the rig never does. */
   return { playLive, stopLive, renderWav, now: () => (ctx ? ctx.currentTime : 0), LEVEL,
            voiceNames: () => Object.keys(V),
+           /* rewrite the bus automation from a hand's move, mid-song */
+           refreshBus,
            /* the pump's overrun counter, so a probe can hold the scheduler to a
               number instead of to a description of it */
            lateDropped: () => lateDropped };
@@ -11005,6 +11071,24 @@ const KNOBS = [];
    and they read as the loudest thing on the panel. This is a range input turned
    on its side, with a cap that moves, the same drag-to-TRIM and double-click-to-
    release contract every knob here has. */
+/* ── A HAND ON A BUS CONTROL REWRITES ITS CURVE ─────────────────────────────
+   `bus` controls are scheduled onto their AudioParam once, when the graph is
+   configured. Moving one mid-song therefore changed the panel and nothing else
+   until this existed. Throttled, because a fader drag fires on every pointer
+   move and re-running setSpace per pixel would be a graph rebuild sixty times a
+   second; ~60 ms is under the threshold where a hand notices lag and far above
+   the rate at which the work is wasteful. */
+let busPending = null;
+function busTouched(key){
+  const c = CONTROL[key];
+  if(!c || c.kind !== "bus") return;
+  if(busPending) return;
+  busPending = setTimeout(() => {
+    busPending = null;
+    try { MK2.refreshBus(); } catch(e){}
+  }, 60);
+}
+
 function faderEl(m, c){
   const key = m + "." + c.k;
   if(PARAMS[key] == null) PARAMS[key] = c.def;
@@ -11022,10 +11106,10 @@ function faderEl(m, c){
   };
   inp.addEventListener("input", () => {
     TRIM[key] = (+inp.value) - (PARAMS[key] == null ? c.def : PARAMS[key]);
-    mark();
+    mark(); busTouched(key);
   });
   wrap.addEventListener("dblclick", () => {
-    delete TRIM[key]; inp.value = panelValue(m, c.k); mark();
+    delete TRIM[key]; inp.value = panelValue(m, c.k); mark(); busTouched(key);
   });
   slot.appendChild(inp);
   wrap.appendChild(slot);
@@ -11080,11 +11164,11 @@ function knobEl(m, c){
     let v = v0 + (y0 - yOf(e)) / 160 * (c.max - c.min);
     v = Math.max(c.min, Math.min(c.max, Math.round(v / c.step) * c.step));
     TRIM[key] = v - (PARAMS[key] == null ? c.def : PARAMS[key]);   // an OFFSET, never a replacement
-    box.refresh(); e.preventDefault();
+    box.refresh(); busTouched(key); e.preventDefault();
   });
   box.addEventListener("pointerup", () => { on = false; });
   /* double-click releases this one knob back to the genre and its automation */
-  box.addEventListener("dblclick", () => { delete TRIM[key]; box.refresh(); });
+  box.addEventListener("dblclick", () => { delete TRIM[key]; box.refresh(); busTouched(key); });
   box.refresh(); KNOBS.push(box);
   return box;
 }
@@ -11848,6 +11932,7 @@ window.MK2 = {
   INSTRUMENTS, PARAMS, TRIM, CONTROL, PICK, PINS, PIN_PATTERNS, loadParams, panelValue,
   makeMotion, motionAt,
   voiceNames: () => Sound.voiceNames(),
+  refreshBus: () => Sound.refreshBus(),
   /* the song the panels are currently showing -- a read handle for a probe
      driving the real UI in a real browser, so "the grid writes a pin and the
      pin reaches the material" can be measured rather than asserted */
