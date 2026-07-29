@@ -420,5 +420,47 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         autos + "/" + slots + " slots fall through to the rig");
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   ACCENT AND SLIDE — the two things V.acid303 has always read and nothing ever
+   wrote. Four checks, one of which encodes a defect this pass actually made.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  let rates = [];
+  let simultaneous = 0, tooFar = 0, zero = 0, bassTotal = 0;
+  for(const g of M.genres()){
+    let acc = 0, sld = 0, n = 0;
+    for(let s = 1; s <= 30; s++){
+      const evs = M.composeSong(s, "band", g).perf.events.filter(e => e.role === "bass");
+      /* group by instant so a slide onto a note struck simultaneously with its
+         neighbour can be counted rather than argued about */
+      const byT = {};
+      for(const e of evs) (byT[e.tSec.toFixed(6)] = byT[e.tSec.toFixed(6)] || []).push(e);
+      for(const e of evs){
+        n++; bassTotal++;
+        if(e.accent) acc++;
+        if(e.slide != null){
+          sld++;
+          if(Math.abs(e.slide) > 12) tooFar++;
+          if(e.slide === 0) zero++;
+          if(byT[e.tSec.toFixed(6)].length > 1) simultaneous++;
+        }
+      }
+    }
+    rates.push(`${g} ${(100*acc/n).toFixed(0)}%acc ${(100*sld/n).toFixed(0)}%slide`);
+  }
+  check("the composer writes accent and slide onto the bass", bassTotal > 0 && rates.length === M.genres().length,
+        rates.join("  |  "));
+  check("no slide travels more than an octave", tooFar === 0, tooFar + " slides over 12 semitones");
+  check("no slide is a slide to nowhere", zero === 0, zero + " zero-distance slides");
+  /* THE ONE THAT CAUGHT A REAL DEFECT. DKC's bass is a pedal that strikes its
+     root and its octave double on the SAME instant. Read naively, the octave
+     looked like a twelve-semitone slide into a note it is actually a chord
+     with -- an octave siren on every downbeat, and it was most of DKC's slides
+     until the builder was made to require a strictly earlier predecessor.
+     Measured before: mean slide 10.8 semitones. After: 4.7. */
+  check("a slide never comes from a note struck at the same instant", simultaneous === 0,
+        simultaneous + " slides from a simultaneous note");
+}
+
 console.log("\n" + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);

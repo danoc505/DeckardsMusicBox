@@ -99,9 +99,30 @@ function printMaterial(key, mat, bars){
     const ns = (mat[role] || []).slice().sort((a, z) => a.bar - z.bar || a.step - z.step || a.pitch - z.pitch);
     if(!ns.length) continue;
     const parts = ns.map(n => `${n.bar + 1}.${String(n.step).padStart(2)} ${nm(n.pitch).padEnd(4)}` +
-                              `${String(n.dur).padStart(2)}s v${n.vel.toFixed(2)}`);
-    console.log(`\n  ${role} (${ns.length} notes)`);
-    for(let i = 0; i < parts.length; i += 4) console.log("    " + parts.slice(i, i + 4).join("  |  "));
+                              `${String(n.dur).padStart(2)}s v${n.vel.toFixed(2)}` +
+                              /* ACCENT AND SLIDE, printed, because they are the two
+                                 things that make a bass line a 303 line and an
+                                 unreadable property is one nobody checks */
+                              (n.accent ? " >" : "  ") +
+                              (n.slide ? (n.slide > 0 ? "/" : "\\") + String(Math.abs(n.slide)).padStart(2) : "   "));
+    console.log(`\n  ${role} (${ns.length} notes` +
+                (role === "bass"
+                  ? `, ${ns.filter(n => n.accent).length} accented, ${ns.filter(n => n.slide).length} sliding` +
+                    `   > accent · /n slide up n · \\n slide down n`
+                  : "") + `)`);
+    for(let i = 0; i < parts.length; i += 3) console.log("    " + parts.slice(i, i + 3).join("  |  "));
+  }
+  /* the acid row: the bass line as a 303 SEQUENCER shows it -- one column per
+     step, accent and slide on their own lines under the notes. This is the same
+     data the 303's front panel grid displays, printed. */
+  const bl = mat.bass || [];
+  if(bl.some(n => n.accent || n.slide)){
+    const acc = gridLine(bl.filter(n => n.accent), bars, () => ">");
+    const sld = gridLine(bl.filter(n => n.slide),  bars, n => n.slide > 0 ? "/" : "\\");
+    console.log("\n  the 303 view of that bass line");
+    console.log("        " + Array.from({ length: bars }, (_, i) => RULER).join(" "));
+    console.log("accent  " + acc.replace(/-/g, "."));
+    console.log("slide   " + sld.replace(/-/g, "."));
   }
 }
 

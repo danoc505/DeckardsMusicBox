@@ -2416,6 +2416,10 @@ const GENRE = {
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },   // lofi has no ribbon
     bassStyle: "follow",
     bassPulse: null,
+    /* a fingered boom-bap bass does accent the pocket and does occasionally
+       slide into a chord tone, but it is not a sequencer and this is not an
+       acid genre -- so both stay low. [EAR] */
+    bassAccent: { accent: 0.18, slide: 0.10 },
     ostinato: null,                                          // lofi has no ostinato
 
     /* ── stage 6: THE RACK. Which machines this genre reaches for, how it sets
@@ -2634,6 +2638,13 @@ const GENRE = {
     /* [tut:babyaudio, tut:soundbridge, tut:modeaudio] eighth-note repeating roots
        with an octave arp; the weights are [EAR] */
     bassPulse: { unit: 2, rootBias: 0.85, octaveJump: 0.30, restChance: 0.05 },
+    /* THE ACID SETTING, and this is the genre that earns it: bassStyle "pulse"
+       already writes a sequencer part -- repeated roots on a fixed division with
+       an octave jump -- and a sequencer part with accents and slides on it IS an
+       acid line. Roughly one step in three accented and one in five sliding is
+       what a programmed 303 pattern looks like on the box. [EAR, and the shape
+       is the machine's: 16 steps, an accent switch and a slide switch on each] */
+    bassAccent: { accent: 0.32, slide: 0.22 },
     ostinato: null,
 
     /* ── stage 6: THE RACK ─────────────────────────────────────────────────────
@@ -2886,6 +2897,9 @@ const GENRE = {
     drumDrive: 1.05,
     gate: null,                  // the SNES echo is this genre's space, not a gate
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },
+    /* a held octave-doubled pedal has one note a bar and nothing to slide from,
+       so these are near zero by the shape of the part rather than by taste. */
+    bassAccent: { accent: 0.08, slide: 0.04 },
 
     /* ── stage 6: THE RACK ─────────────────────────────────────────────────────
        This genre is atmosphere, and the atmosphere is a tape choir over a held
@@ -3142,7 +3156,63 @@ function makeMaterials(chart){
     }
     return notes;
   }
+  /* ── ACCENT AND SLIDE: the two things that make a bass line a 303 line ──────
+     V.acid303 has read ev.accent and ev.slide since the day it was written and
+     nothing in the program has ever written either one, so picking the TB-303
+     got you a 303 with both of its defining behaviours switched off. Accent is
+     not "louder": it is louder AND a deeper filter envelope AND a forced short
+     decay, which is why an accented step sounds like a different note rather
+     than the same note harder. Slide is portamento from the previous step, and
+     it is the reason a 303 line reads as one gesture instead of sixteen.
+
+     THESE ARE PROPERTIES OF THE SEQUENCE, NOT OF A NOTE. Slide is by definition
+     a relationship to the note before it -- a note cannot see its predecessor
+     until the predecessor exists -- so they are written here, once the bass
+     line has been built, inside the builder that owns it. That is construction,
+     not a correcting pass: nothing outside this function has seen these notes
+     and nothing is being repaired.
+
+     EVERY BASS GETS THEM, not just the acid one. They are note properties like
+     velocity; a sub bass simply ignores them, and the genre table sets the
+     chances (a genre that wants none writes zero). No stage branches on a genre
+     name to decide, which is Law 4.
+
+     Each note draws from its OWN named substream keyed by material, bar and
+     step, so adding this moved no existing song by a single sample -- verified
+     over 300 seeds. [theory: Roland TB-303 accent bus and slide circuit] */
+  function acidize(notes, streamName){
+    const A = G.bassAccent || { accent: 0, slide: 0 };
+    let prev = null, prevAt = -1;
+    for(const n of notes){
+      /* keyed by pitch as well as position, the way the jitter stream is, so two
+         notes struck on the same instant -- the pedal's octave double -- decide
+         independently instead of sharing one draw */
+      const r = stream(chart.seed, "acid:" + streamName + ":" + n.bar + ":" + n.step + ":" + n.pitch);
+      /* both draws run on every note whatever the outcome [Law 7] */
+      const wantAcc = r() < A.accent, wantSlide = r() < A.slide;
+      const at = n.bar * 16 + n.step;
+      if(wantAcc) n.accent = true;
+      /* A SLIDE IS TO THE NOTE BEFORE IT IN TIME, and the qualifier is not
+         pedantry: DKC's pedal strikes its root and its octave double on the same
+         instant, and without `prevAt < at` the octave was read as a twelve-
+         semitone slide into a note it is actually a CHORD with. Measured, that
+         mistake was most of DKC's slides and pulled its mean slide distance to
+         10.8 semitones -- an octave siren on every downbeat. A leap of more than
+         an octave glided over 55 ms is a siren too, so that is capped. All three
+         are reasons to decline AFTER the draw, never reasons to skip it. */
+      if(wantSlide && prev && prevAt < at
+         && Math.abs(n.pitch - prev.pitch) <= 12 && n.pitch !== prev.pitch)
+        n.slide = n.pitch - prev.pitch;
+      if(at > prevAt){ prev = n; prevAt = at; }
+      else if(at === prevAt && n.pitch < prev.pitch) prev = n;   // the pedal slides from its low note
+    }
+    return notes;
+  }
+  /* one seam, so every bass style gets the treatment and none can forget to */
   function buildBass(chordSet, streamName, rootsOnly){
+    return acidize(buildBassLine(chordSet, streamName, rootsOnly), streamName);
+  }
+  function buildBassLine(chordSet, streamName, rootsOnly){
     const rng = stream(chart.seed, streamName);
     const notes = [];
     /* THE PEDAL. Not every genre's bass follows the chord by walking it -- Wise's
@@ -3829,6 +3899,13 @@ function makePerformance(chart, form, materials, sections){
             };
           }
           if(n.pitch != null) ev.pitch = n.pitch;
+          /* ACCENT AND SLIDE ride along. Stage 3 owns them -- it decided which
+             steps are accented and how far each slide travels -- and stage 5
+             does here what it does for pitch: carries the decision without
+             touching it. A voice that does not model them ignores them, which
+             is why every bass carries them and only the 303 acts on them. */
+          if(n.accent) ev.accent = true;
+          if(n.slide)  ev.slide  = n.slide;
           events.push(Object.freeze(ev));
         }
       }
