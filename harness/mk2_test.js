@@ -567,7 +567,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      bus-kind control is ridden per song rather than read at a note. */
   for(const m in M.INSTRUMENTS)
     for(const c of M.INSTRUMENTS[m].controls)
-      if(/^[kshot](Cut|Drv|Echo|Verb)$/.test(c.k)) PER_SONG.add(m + "." + c.k);
+      if(/^[kshot](Cut|Drv|Echo|Verb|Mix)$/.test(c.k)) PER_SONG.add(m + "." + c.k);
 
 
   const dead = [];
@@ -591,6 +591,10 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     for(const m in M.INSTRUMENTS)
       for(const c of M.INSTRUMENTS[m].controls){
         const key = m + "." + c.k;
+        /* a control marked `pick` is an INPUT to stage 1 -- it decides which
+           voice a note calls, and is drawn as a select that recomposes. There is
+           nothing for a voice to read, so demanding one would be wrong. */
+        if(c.pick) continue;
         if(!READS.has(key) && !PER_SONG.has(key)) unread.push(key);
       }
     check("every knob on every panel reaches the sound", unread.length === 0,

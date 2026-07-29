@@ -191,6 +191,47 @@
                text-transform:uppercase; color:var(--dim); border:1px solid #3a352c;
                border-radius:3px; padding:.12rem .45rem; vertical-align:middle; }
 
+  /* ── THE TR-1000, as the machine looks: a brushed silver panel, dark knobs,
+     white section legends, and voice columns with a fader down the front. ── */
+  .sk-tr1000{ background:linear-gradient(#c9cbcd, #b3b6b9); color:#222426;
+              border:1px solid #85888c; }
+  .sk-tr1000 .brand{ background:#1b1d20; color:#e6e8ea; margin:-.85rem -1rem .7rem;
+                     padding:.4rem 1rem; border-radius:4px 4px 0 0; }
+  .sk-tr1000 .brand .model{ color:#e9ecef; letter-spacing:.14em; }
+  .sk-tr1000 .toprow{ display:flex; gap:1.1rem; flex-wrap:wrap; align-items:flex-end;
+                      padding:.2rem 0 .6rem; border-bottom:1px solid rgba(0,0,0,.22);
+                      margin-bottom:.6rem; }
+  .sk-tr1000 .cols{ display:flex; gap:.5rem; align-items:stretch; overflow-x:auto;
+                    padding-bottom:.3rem; }
+  /* KNOBS TWO ABREAST, as the machine has them -- a voice column on the real
+     panel is a 2-wide grid of knobs with the fader down the front, not a single
+     stack. Stacked single-file the five columns ran nine knobs deep and the
+     panel was taller than the rest of the rack put together. */
+  .sk-tr1000 .col{ flex:1 1 0; min-width:8.6rem; display:grid;
+                   grid-template-columns:1fr 1fr; gap:.3rem .2rem;
+                   align-content:start; justify-items:center;
+                   padding:.35rem .3rem .45rem;
+                   background:rgba(255,255,255,.16); border:1px solid rgba(0,0,0,.14);
+                   border-radius:3px; }
+  .sk-tr1000 .col > .colhead,
+  .sk-tr1000 .col > .trig,
+  .sk-tr1000 .col > .kn.fader{ grid-column:1 / -1; }
+  .sk-tr1000 .colhead{ font-size:8.5px; letter-spacing:.10em; text-transform:uppercase;
+                       background:#1b1d20; color:#e6e8ea; width:100%; text-align:center;
+                       padding:.18rem .1rem; border-radius:2px; margin-bottom:.15rem;
+                       align-self:start; }
+  /* the fader reads as one: a wide slot across the foot of the strip */
+  .sk-tr1000 .kn.fader{ width:100%; border-top:1px solid rgba(0,0,0,.20);
+                        padding-top:.3rem; margin-top:.15rem; }
+  .sk-tr1000 .trig{ margin-top:.3rem; font-size:9px; letter-spacing:.10em; width:100%;
+                    text-align:center; padding:.3rem .1rem; border-radius:2px;
+                    background:#24272b; color:#e6e8ea; }
+  /* the fader reads as a fader: taller, and marked */
+  .sk-tr1000 .kn.fader{ margin-top:.25rem; }
+  .sk-tr1000 .kitwrap select{ font:11px inherit; background:#1b1d20; color:#e6e8ea;
+                              border:1px solid #000; border-radius:2px; padding:.2rem .3rem; }
+  .sk-tr1000 .kn.fader .cap{ color:#1b1d20; font-weight:600; }
+
   /* the desk: a mixer, so it is dark metal with a brushed strip, not a synth */
   .sk-desk{ background:linear-gradient(#2b2e33, #1e2126); color:#d6d9de;
             border:1px solid #14161a; }
@@ -219,7 +260,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29g · the stutter was a flam</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29h · TR-1000 channel strips + faders</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -489,12 +530,18 @@ function chainControls(){
     out.push({ k:g+"Drv",  label:cap+" drive",  cap:"DRV", min:1,   max:6,     step:0.05, def:1,   kind:"bus" });
     out.push({ k:g+"Echo", label:cap+" to echo",cap:"DLY", min:0,   max:1,     step:0.01, def:0,   kind:"bus" });
     out.push({ k:g+"Verb", label:cap+" to room",cap:"RVB", min:0,   max:1,     step:0.01, def:0,   kind:"bus" });
+    /* THE FADER. Every voice on the real panel has one and this program had no
+       per-voice level at all -- the only way to make the rim quieter than the
+       kick was to rewrite the velocity table. It rides the chain's makeup gain,
+       so it is a level and not a drive: the saturation stays where the DRV knob
+       put it. */
+    out.push({ k:g+"Mix",  label:cap+" level",  cap:"MIX", min:0,   max:1.6,   step:0.01, def:1,   kind:"bus" });
   }
   return out;
 }
 function chainGroups(){
   return CHAIN_GROUPS.map(([g, cap]) => ({ label: cap + " CHAIN",
-    keys: [g+"Cut", g+"Drv", g+"Echo", g+"Verb"] }));
+    keys: [g+"Cut", g+"Drv", g+"Echo", g+"Verb", g+"Mix"] }));
 }
 
 const INSTRUMENTS = {
@@ -617,33 +664,58 @@ const INSTRUMENTS = {
       { k:"bus",    label:"kit drive",  cap:"DRIVE",  min:0.6, max:2,   step:0.01, def:1.30 , kind:"bus" },
       { k:"gate",   label:"gated verb", cap:"GATE",   min:0,   max:1,   step:0.01, def:0 , kind:"bus" },
       { k:"hold",   label:"gate hold",  cap:"HOLD",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s", kind:"gesture" },
+      /* THE KIT KEY, as a switch on the front panel. The chart draws it per song
+         and this is the hand overriding that draw -- 0 analog, 1 acoustic,
+         2 sega, 3 break. A switch, because a machine sliding between two sound
+         sets is not a thing that exists. */
+      /* declared so the panel can place it; it is drawn as a SELECT and writes
+         PICK.drumKit rather than PARAMS, because which voices are loaded is a
+         stage-1 decision and not something a note reads. Marked `pick` so the
+         batteries know not to demand that a voice read it. */
+      { k:"kit",    label:"kit",        cap:"KIT",    min:0,   max:3,   step:1,    def:0,   kind:"switch", pick: true },
 
       /* the five chains, from the shared block every drum machine can adopt */
       ...chainControls(),
     ],
     panel: {
       skin: "tr1000", maker: "Roland", title: "Rhythm Creator TR-1000",
-      groups: [
-        { label: "BASS DRUM", keys: ["tune", "tone", "decay"] },
-        { label: "SNARE DRUM", keys: ["sdtone", "snappy"] },
-        { label: "HATS", keys: ["chdecay", "ohdecay"] },
-        { label: "KIT", keys: ["bus", "gate", "hold"] },
-        ...chainGroups(),
+      /* ── LAID OUT AS THE MACHINE IS ────────────────────────────────────────
+         The real panel is a row of global sections along the top and then VOICE
+         COLUMNS, each with its knobs stacked and a fader down the front. That is
+         what `top` and `columns` build.
+
+         WHAT MAPS AND WHAT DOES NOT, stated rather than faked. The photo shows
+         ten voice columns -- BD SD LT HT RS HC CH OH CC RC -- and this engine has
+         eight drum LANES that group into five chains, with no rim, clap, crash or
+         ride as separate lanes at all. Drawing ten columns would mean four of
+         them controlled nothing. So the columns here are the five this program
+         really has, under the real machine's section names.
+
+         Not drawn, and deliberately: C1-C6 macros, MOTION record, MORPH, LAYER
+         A/B, SONG and PATTERN select, TR-REC and the play-mode keys. Those are
+         SEQUENCER controls, and this program composes rather than sequences --
+         its patterns come from the genre tables and the step grid below is
+         already the way a hand overrides them. A button that does nothing is the
+         defect this file has a check for; a button that does nothing and looks
+         like a Roland one is worse. */
+      top: [
+        { label: "KIT", keys: ["kit"] },
+        { label: "ACCENT", keys: ["bus"] },
+        { label: "REVERB", keys: ["gate", "hold"] },
+      ],
+      columns: [
+        { label: "BASS DRUM",   trig: "BD",
+          keys: ["tune", "decay", "tone", "kCut", "kDrv", "kEcho", "kVerb"], fader: "kMix" },
+        { label: "SNARE DRUM",  trig: "SD",
+          keys: ["sdtone", "snappy", "sCut", "sDrv", "sEcho", "sVerb"], fader: "sMix" },
+        { label: "CLOSED HIHAT",trig: "CH",
+          keys: ["chdecay", "hCut", "hDrv", "hEcho", "hVerb"], fader: "hMix" },
+        { label: "OPEN HIHAT",  trig: "OH",
+          keys: ["ohdecay", "oCut", "oDrv", "oEcho", "oVerb"], fader: "oMix" },
+        { label: "TOMS",        trig: "LT",
+          keys: ["tCut", "tDrv", "tEcho", "tVerb"], fader: "tMix" },
       ],
       grid: "drums",
-      /* THE INSTRUMENT-SELECT ROW, and leaving it out took the WHOLE RACK DOWN.
-         A `grid: "drums"` panel iterates panel.voices to build its selector; this
-         block declared the grid and not the list, so drawing it threw
-         "M.panel.voices is not iterable" -- and because every panel is drawn in
-         one loop, the throw killed the loop and NOTHING rendered. Not the
-         TR-1000, not the 303, not the echo or the desk. Measured across the
-         genres: acid and plastikman drew zero panels and zero knobs while the
-         other five were untouched, which is exactly the shape of one machine
-         taking the render down with it.
-
-         The seam battery could not see it: the UI test selects tr808/tb303/
-         mellotron by name, so it never drew a TR-1000 at all. A check that names
-         its subjects cannot notice a new one. */
       voices: [["kick","BD"], ["snare","SD"], ["ghost","SD·g"], ["tom1","HT"],
                ["tom2","MT"], ["tom3","LT"], ["hat","CH"], ["openhat","OH"]],
     },
@@ -1301,7 +1373,10 @@ function freezePins(pins){
 }
 
 /* the machine a slot is currently using; "auto" means the genre's rig decides */
-const PICK = { drums: "auto", bass: "auto", keys: "auto" };
+/* `drumKit` sits beside the three slots because it is the same KIND of decision:
+   an input the conductor may pin, which stage 1 resolves against the genre's own
+   draw. The TR-1000's KIT key writes it. null means "let the genre draw". */
+const PICK = { drums: "auto", bass: "auto", keys: "auto", drumKit: null };
 /* and what the user has programmed on their grids, same shape as chart.pins */
 const PINS = {};
 
@@ -3970,8 +4045,12 @@ const Sound = (function(){
         } else {
           head.connect(ch.mk);
         }
+        /* makeup = the drive's reciprocal x the fader. One node carries both
+           because they multiply: driving a voice must not change its level, and
+           the fader is the only thing that may. */
+        const mix = panelValue(M, grp + "Mix");
         ch.mk.gain.cancelScheduledValues(t0);
-        ch.mk.gain.setValueAtTime(1 / Math.max(1e-6, d), t0);
+        rideBus(g, ch.mk.gain, M + "." + grp + "Mix", mix / Math.max(1e-6, d), t0);
       }
     } else if(g.dchain){
       for(const grp of ["k", "s", "h", "o", "t"]){
@@ -4505,6 +4584,17 @@ const GENRE = {
         tEcho: [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tVerb: [{ kind: "lfo", bars: [[28, 2], [36, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
       
+              /* ── THE FADERS. A hand riding a channel is the oldest movement on a
+           desk and the one this program had no way to make: per-voice level did
+           not exist until the TR-1000's front panel demanded it. Shallow and
+           slow -- a fader that swings hard stops being a balance and becomes an
+           arrangement. ── */
+        kMix: [{ kind: "lfo", bars: [[40, 2], [28, 1]], depth: [0.02, 0.06], shape: "sin", freePhase: true }],
+        sMix: [{ kind: "lfo", bars: [[24, 3], [34, 2]], depth: [0.04, 0.12], shape: "sin", freePhase: true },
+               { kind: "section", by: { bridge: [-0.10, -0.04] } }],
+        hMix: [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.04, 0.12], shape: "tri", freePhase: true }],
+        oMix: [{ kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        tMix: [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.04, 0.10], shape: "sin", freePhase: true }],
       },
 
       /* THE DRUM BUS, which could not move until the bus gains learned to be
@@ -4575,6 +4665,17 @@ const GENRE = {
                   shape: "sin", freePhase: true }],
         hVerb: [{ kind: "lfo", bars: [[22, 2], [30, 1]], depth: [0.02, 0.07],
                   shape: "sin", freePhase: true }],
+              /* ── THE FADERS. A hand riding a channel is the oldest movement on a
+           desk and the one this program had no way to make: per-voice level did
+           not exist until the TR-1000's front panel demanded it. Shallow and
+           slow -- a fader that swings hard stops being a balance and becomes an
+           arrangement. ── */
+        kMix: [{ kind: "lfo", bars: [[40, 2], [28, 1]], depth: [0.02, 0.06], shape: "sin", freePhase: true }],
+        sMix: [{ kind: "lfo", bars: [[24, 3], [34, 2]], depth: [0.04, 0.12], shape: "sin", freePhase: true },
+               { kind: "section", by: { bridge: [-0.10, -0.04] } }],
+        hMix: [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.04, 0.12], shape: "tri", freePhase: true }],
+        oMix: [{ kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        tMix: [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.04, 0.10], shape: "sin", freePhase: true }],
       },
       /* THE SUB BASS, whose two controls were dead until they were wired -- so
          this is the first time any genre has been able to reach them. The tone
@@ -5049,6 +5150,17 @@ const GENRE = {
         tDrv:  [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tEcho: [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tVerb: [{ kind: "lfo", bars: [[28, 2], [36, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+              /* ── THE FADERS. A hand riding a channel is the oldest movement on a
+           desk and the one this program had no way to make: per-voice level did
+           not exist until the TR-1000's front panel demanded it. Shallow and
+           slow -- a fader that swings hard stops being a balance and becomes an
+           arrangement. ── */
+        kMix: [{ kind: "lfo", bars: [[40, 2], [28, 1]], depth: [0.02, 0.06], shape: "sin", freePhase: true }],
+        sMix: [{ kind: "lfo", bars: [[24, 3], [34, 2]], depth: [0.04, 0.12], shape: "sin", freePhase: true },
+               { kind: "section", by: { bridge: [-0.10, -0.04] } }],
+        hMix: [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.04, 0.12], shape: "tri", freePhase: true }],
+        oMix: [{ kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        tMix: [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.04, 0.10], shape: "sin", freePhase: true }],
       },
       mellotron: {
         wow: [{ kind: "lfo", bars: [[16, 3], [8, 1]], depth: [0.0006, 0.0016],
@@ -5368,6 +5480,17 @@ const GENRE = {
         tDrv:  [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tEcho: [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tVerb: [{ kind: "lfo", bars: [[28, 2], [36, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+              /* ── THE FADERS. A hand riding a channel is the oldest movement on a
+           desk and the one this program had no way to make: per-voice level did
+           not exist until the TR-1000's front panel demanded it. Shallow and
+           slow -- a fader that swings hard stops being a balance and becomes an
+           arrangement. ── */
+        kMix: [{ kind: "lfo", bars: [[40, 2], [28, 1]], depth: [0.02, 0.06], shape: "sin", freePhase: true }],
+        sMix: [{ kind: "lfo", bars: [[24, 3], [34, 2]], depth: [0.04, 0.12], shape: "sin", freePhase: true },
+               { kind: "section", by: { bridge: [-0.10, -0.04] } }],
+        hMix: [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.04, 0.12], shape: "tri", freePhase: true }],
+        oMix: [{ kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        tMix: [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.04, 0.10], shape: "sin", freePhase: true }],
       },
 
       mellotron: {
@@ -9334,6 +9457,83 @@ function drawPanels(){
     box.appendChild(brand);
 
     if(P){
+      /* ── CHANNEL STRIPS, when a panel declares them ────────────────────────
+         The TR-1000's front panel is not a row of knob groups, it is ten VOICE
+         COLUMNS -- each with its knobs stacked vertically and a fader down the
+         front -- under a row of global sections. `columns` renders that: one
+         vertical strip per voice, the named control as its fader, a header on
+         top. Panels without `columns` are unchanged. */
+      if(P.columns){
+        if(P.top){
+          const topRow = el("div", "toprow");
+          for(const g of P.top){
+            const grp = el("div", "grp"), row = el("div", "row");
+            for(const k of g.keys){
+              const c = M.controls.find(x => x.k === k);
+              if(!c) continue;
+              /* THE KIT KEY IS A PICK, NOT A PARAMETER. Every other control on
+                 this panel is read while a note sounds; this one decides WHICH
+                 VOICE that note calls, which is a stage-1 decision. So it writes
+                 PICK and recomposes, exactly as the machine dropdown does --
+                 anything else would be a knob that moves and changes nothing,
+                 which is the defect this file has a check for. */
+              if(m === "tr1000" && c.k === "kit"){
+                const names = Object.keys(M.kits || {});
+                const sel = document.createElement("select");
+                sel.className = "kitpick";
+                sel.innerHTML = '<option value="">kit: (genre draws)</option>' +
+                  names.map(n => `<option value="${n}">kit: ${n}</option>`).join("");
+                sel.value = PICK.drumKit || "";
+                sel.addEventListener("change", () => {
+                  PICK.drumKit = sel.value || null;
+                  stopPlayback();
+                  newSong(SONG ? SONG.chart.seed : 1);
+                });
+                /* its own class, NOT `kn`. It is a select, not a knob -- it has
+                   no pointer and no automation dot, and borrowing the knob class
+                   put it in front of every query that looks for one. The UI
+                   battery found it immediately: reading `.ptr` off the first
+                   non-still `.kn` returned null. */
+                const wrap = el("div", "kitwrap");
+                wrap.appendChild(sel);
+                row.appendChild(wrap);
+                continue;
+              }
+              row.appendChild((c.step >= 1 && c.max - c.min <= 2) ? switchEl(m, c) : knobEl(m, c));
+            }
+            grp.appendChild(row);
+            if(g.label) grp.appendChild(el("div", "leg", g.label));
+            topRow.appendChild(grp);
+          }
+          box.appendChild(topRow);
+        }
+        const cols = el("div", "cols");
+        for(const col of P.columns){
+          const cEl = el("div", "col");
+          cEl.appendChild(el("div", "colhead", col.label));
+          for(const k of col.keys){
+            const c = M.controls.find(x => x.k === k);
+            if(!c) continue;
+            cEl.appendChild((c.step >= 1 && c.max - c.min <= 2) ? switchEl(m, c) : knobEl(m, c));
+          }
+          if(col.fader){
+            const fc = M.controls.find(x => x.k === col.fader);
+            if(fc){ const f = knobEl(m, fc); f.classList.add("fader"); cEl.appendChild(f); }
+          }
+          if(col.trig) cEl.appendChild(el("div", "trig", col.trig));
+          cols.appendChild(cEl);
+        }
+        box.appendChild(cols);
+        if(P.grid === "drums"){ const gr = drumGridEl(m, M); box.appendChild(gr); GRIDS.push(["drums", gr]); }
+        if(P.grid === "bass"){ const gr = bassGridEl(m, M); box.appendChild(gr); GRIDS.push(["bass", gr]); }
+        /* NOT `continue`. The first version of this skipped the rest of the loop
+           to avoid the group renderer -- and the rest of the loop is where the
+           box is added to the page, so the TR-1000 built its whole panel and
+           then threw it away. The UI battery caught it as four panels where
+           there should be five. Fall through to host.appendChild instead. */
+        host.appendChild(box);
+        continue;
+      }
       const strip = el("div", "strip");
       for(const g of P.groups){
         const grp = el("div", "grp"), row = el("div", "row");
