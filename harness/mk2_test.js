@@ -546,43 +546,29 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      them across the song -- so they are automatable, just not per note. That is
      what kind:"bus" now means. */
   const PER_SONG = new Set(["kit.bus","kit.gate","tr808.bus","tr808.gate",
-    "segakit.bus","segakit.gate","amen.bus",
-    /* THE TR-1000'S FIVE PER-VOICE CHAINS. Each drum has its own filter, drive
-       and two sends -- gain and filter NODES the voice passes through, ridden by
-       rideBus across the song, which is what kind:"bus" means. Being on this
-       list is not proof they are audible; probe_chains measures that the sound
-       of one drum moves when its own chain moves and that its neighbours do
-       not, which is the claim that actually matters. */
-    "tr1000.bus","tr1000.gate",
-    "tr1000.kCut",
-    "tr1000.kDrv",
-    "tr1000.kEcho",
-    "tr1000.kVerb",
-    "tr1000.sCut",
-    "tr1000.sDrv",
-    "tr1000.sEcho",
-    "tr1000.sVerb",
-    "tr1000.hCut",
-    "tr1000.hDrv",
-    "tr1000.hEcho",
-    "tr1000.hVerb",
-    "tr1000.oCut",
-    "tr1000.oDrv",
-    "tr1000.oEcho",
-    "tr1000.oVerb",
-    "tr1000.tCut",
-    "tr1000.tDrv",
-    "tr1000.tEcho",
-    "tr1000.tVerb",
+    "segakit.bus","segakit.gate","amen.bus","tr1000.bus","tr1000.gate",
     /* the space: a delay division and five gain/filter nodes the whole mix
        passes through. setSpace reads them; rideBus rides five of them. */
     "echo.div","echo.fb","echo.tone","echo.hp","echo.send","echo.verb",
     /* the desk: three shelf/bell gains the whole mix passes through, plus the
-       three crossovers that place them. Same shape as the echo -- setSpace sets
-       the frequencies once and rideBus rides the three gains. Being on this
-       list is not proof they are audible, which is why probe_desk measures the
-       spectrum either side of a kill rather than trusting the name. */
-    "desk.low","desk.mid","desk.high","desk.lowF","desk.midF","desk.highF"]);
+       three crossovers that place them */
+    "desk.low","desk.mid","desk.high","desk.lowF","desk.midF","desk.highF",
+    ]);
+  /* ── THE PER-VOICE CHAINS, DERIVED, NOT LISTED ──────────────────────────────
+     These were twenty names typed in for tr1000 alone. Then the acoustic kit and
+     the 808 adopted the same block -- "reverb and delay aren't just spatial
+     effects, they're arrangement tools" is a claim about techno in general, not
+     about one Roland box -- and the list went stale the same afternoon it was
+     written. It is now read off the rack, so a machine that adopts the chains
+     is covered the moment it does.
+
+     Being on this list is not proof of audibility. probe_chains measures that
+     each chain moves its own drum and no other; this only asserts that a
+     bus-kind control is ridden per song rather than read at a note. */
+  for(const m in M.INSTRUMENTS)
+    for(const c of M.INSTRUMENTS[m].controls)
+      if(/^[kshot](Cut|Drv|Echo|Verb)$/.test(c.k)) PER_SONG.add(m + "." + c.k);
+
 
   const dead = [];
   for(const g of M.genres()){

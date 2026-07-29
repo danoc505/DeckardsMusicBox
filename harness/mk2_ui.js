@@ -57,7 +57,7 @@ const check = (label, ok, detail) => {
         await pg.evaluate(() => !!(window.MK2 && window.MK2.currentSong())), "seed 1");
 
   /* put the three panelled machines in the three slots */
-  await pg.selectOption("#mDrums", "tr808");
+  await pg.selectOption("#mDrums", "tr1000");
   await pg.selectOption("#mBass", "tb303");
   await pg.selectOption("#mKeys", "mellotron");
   await pg.waitForTimeout(500);
@@ -120,7 +120,7 @@ const check = (label, ok, detail) => {
           broken.length ? broken.join(" | ") : machines.length + " machines, all drew");
   }
   /* put the three the rest of this file expects back */
-  await pg.selectOption("#mDrums", "tr808");
+  await pg.selectOption("#mDrums", "tr1000");
   await pg.selectOption("#mBass", "tb303");
   await pg.selectOption("#mKeys", "mellotron");
   await pg.waitForTimeout(400);
@@ -129,12 +129,13 @@ const check = (label, ok, detail) => {
         shape.filter(s => s.steps === 16).length === 2,
         shape.map(s => s.steps).join(","));
 
-  /* ── the 808's grid ── */
-  const lit = () => pg.evaluate(() => [...document.querySelectorAll(".sk-tr808 .steps .st")]
+  /* ── the drum machine's grid (the TR-1000 now; the 808 was retired once it
+     measured identical to it with the chains at neutral) ── */
+  const lit = () => pg.evaluate(() => [...document.querySelectorAll(".sk-tr1000 .steps .st")]
     .map((s, i) => s.classList.contains("on") ? i : -1).filter(i => i >= 0).join(","));
   const before = await lit();
-  await pg.click(".sk-tr808 .steps .st:nth-child(5)");  await pg.waitForTimeout(200);
-  await pg.click(".sk-tr808 .steps .st:nth-child(13)"); await pg.waitForTimeout(200);
+  await pg.click(".sk-tr1000 .steps .st:nth-child(5)");  await pg.waitForTimeout(200);
+  await pg.click(".sk-tr1000 .steps .st:nth-child(13)"); await pg.waitForTimeout(200);
   const after = await lit();
   check("clicking a step lights it", after !== before, `${before} -> ${after}`);
   check("...and writes a pin",
@@ -145,10 +146,10 @@ const check = (label, ok, detail) => {
         "material agrees with the grid");
   check("...and the panel says the lane is pinned",
         /PINNED/.test(await pg.evaluate(() =>
-          [...document.querySelectorAll(".sk-tr808 .pill.warn")].map(x => x.textContent).join(""))));
+          [...document.querySelectorAll(".sk-tr1000 .pill.warn")].map(x => x.textContent).join(""))));
 
   /* reverting must put it back exactly */
-  await pg.click(".sk-tr808 .pill.warn"); await pg.waitForTimeout(250);
+  await pg.click(".sk-tr1000 .pill.warn"); await pg.waitForTimeout(250);
   check("reverting a pinned lane restores the composed one", (await lit()) === before,
         `${after} -> ${await lit()}, composed was ${before}`);
 

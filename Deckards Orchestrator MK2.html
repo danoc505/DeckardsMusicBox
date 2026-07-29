@@ -219,7 +219,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29c · TR-1000 · rack panels fixed</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29d · chains on every kit · 808 retired</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -466,6 +466,37 @@ function P(g, ev, m, k, dflt){
   return c ? Math.max(c.min, Math.min(c.max, v)) : v;
 }
 
+/* ── THE PER-VOICE CHAIN, AS A SHARED BLOCK ────────────────────────────────
+   Five groups -- kick, snare/ghost, closed hat, open hat, toms -- each with a
+   filter, a drive and its own echo and room send. It began as the TR-1000's
+   private architecture and that was too narrow: "reverb and delay aren't just
+   spatial effects, they're arrangement tools, with automating sends creating
+   movement and tension in a genre where the core elements stay relatively
+   static" [corpus:trackscore techno mixing] is a statement about techno in
+   general, and an automated send on a rimshot is as useful to a lofi kit as to
+   a Roland one.
+
+   So any drum machine can adopt it by spreading chainControls() into its list.
+   The graph builds the five chains on every graph regardless; what switches them
+   on is a machine DECLARING the controls, which setSpace tests for. A machine
+   that does not declare them routes its voices straight to the shared bus
+   exactly as before. ─────────────────────────────────────────────────────── */
+const CHAIN_GROUPS = [["k", "BD"], ["s", "SD"], ["h", "CH"], ["o", "OH"], ["t", "TOM"]];
+function chainControls(){
+  const out = [];
+  for(const [g, cap] of CHAIN_GROUPS){
+    out.push({ k:g+"Cut",  label:cap+" filter", cap:"CUT", min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" });
+    out.push({ k:g+"Drv",  label:cap+" drive",  cap:"DRV", min:1,   max:6,     step:0.05, def:1,   kind:"bus" });
+    out.push({ k:g+"Echo", label:cap+" to echo",cap:"DLY", min:0,   max:1,     step:0.01, def:0,   kind:"bus" });
+    out.push({ k:g+"Verb", label:cap+" to room",cap:"RVB", min:0,   max:1,     step:0.01, def:0,   kind:"bus" });
+  }
+  return out;
+}
+function chainGroups(){
+  return CHAIN_GROUPS.map(([g, cap]) => ({ label: cap + " CHAIN",
+    keys: [g+"Cut", g+"Drv", g+"Echo", g+"Verb"] }));
+}
+
 const INSTRUMENTS = {
   /* ── DRUM MACHINES ─────────────────────────────────────────────────────── */
   kit: {
@@ -489,48 +520,30 @@ const INSTRUMENTS = {
       { k:"bus",   label:"kit drive",   cap:"DRIVE",  min:0.6, max:2,   step:0.01, def:1.05, kind:"bus" },
       { k:"gate",  label:"gated verb",  cap:"SEND",   min:0,   max:1,   step:0.01, def:0,    kind:"bus" },
       { k:"hold",  label:"gate hold",   cap:"HOLD",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s", kind:"gesture" },
+      /* the acoustic kit gets the chains too. A rimshot with an automated delay
+         send is a hip-hop move long before it was a techno one. */
+      ...chainControls(),
     ],
   },
-  tr808: {
-    slot: "drums", label: "TR-808",
-    lanes: { kick:"k808", snare:"s808", ghost:"s808", hat:"h808", openhat:"oh808",
-             tom1:"t808hi", tom2:"t808mid", tom3:"t808lo" },
-    controls: [
-      /* the 808's own front panel. TUNE and DECAY are the two that made it
-         famous -- a long decay on a bridged-T oscillator is the 808 kick.
-         `cap` is what the cap says on the real box; `label` is what it means.
-         [theory: TR-808 service manual control set] */
-      { k:"tune",   label:"BD tune",    cap:"TUNE",   min:35,  max:70,  step:1,    def:47,  unit:"Hz" , kind:"voicing" },
-      { k:"decay",  label:"BD decay",   cap:"DECAY",  min:0.15,max:1.60,step:0.01, def:0.85,unit:"s" , kind:"gesture" },
-      { k:"tone",   label:"BD tone",    cap:"TONE",   min:0,   max:1,   step:0.01, def:0.45 , kind:"gesture" },
-      { k:"snappy", label:"SD snappy",  cap:"SNAPPY", min:0,   max:1,   step:0.01, def:0.55 , kind:"gesture" },
-      { k:"sdtone", label:"SD tone",    cap:"TONE",   min:0,   max:1,   step:0.01, def:0.50 , kind:"voicing" },
-      { k:"chdecay",label:"CH decay",   cap:"CH",     min:0.01,max:0.14,step:0.005,def:0.045,unit:"s" , kind:"gesture" },
-      { k:"ohdecay",label:"OH decay",   cap:"OH",     min:0.10,max:0.90,step:0.01, def:0.42,unit:"s" , kind:"gesture" },
-      { k:"bus",    label:"kit drive",  cap:"DRIVE",  min:0.6, max:2,   step:0.01, def:1.30 , kind:"bus" },
-      { k:"gate",   label:"gated verb", cap:"GATE",   min:0,   max:1,   step:0.01, def:0 , kind:"bus" },
-      { k:"hold",   label:"gate hold",  cap:"HOLD",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s", kind:"gesture" },
-    ],
-    /* THE FRONT PANEL, as the box lays it out: a knob strip in labelled voice
-       groups, an instrument selector, and sixteen step buttons in four groups of
-       four. This is DATA, so "adding an instrument adds its panel" is still true
-       -- a machine without a `panel` block falls back to the plain control list
-       and is drawn by the same generic code that drew all of them before. */
-    panel: {
-      skin: "tr808", maker: "Roland", title: "Rhythm Composer TR-808",
-      groups: [
-        { label: "BASS DRUM", keys: ["tune", "tone", "decay"] },
-        { label: "SNARE DRUM", keys: ["sdtone", "snappy"] },
-        { label: "HI HAT", keys: ["chdecay", "ohdecay"] },
-        { label: "MASTER", keys: ["bus", "gate", "hold"] },
-      ],
-      grid: "drums",
-      /* the instrument-select row, in the order the machine has them, with the
-         two-letter legends off the real panel */
-      voices: [["kick","BD"], ["snare","SD"], ["ghost","SD·g"], ["tom1","HT"],
-               ["tom2","MT"], ["tom3","LT"], ["hat","CH"], ["openhat","OH"]],
-    },
-  },
+  /* THE TR-808 IS GONE, and the measurement is why. Its circuits are the
+     TR-1000's analogue engine -- the same k808/s808/h808 voices, the same
+     controls with the same defaults -- so the only question was whether the
+     per-voice chain colours the signal when nobody is using it.
+
+     MEASURED, with every shared control pinned to the same value on both:
+       TR-808 against TR-1000 ......... -111.8 dB
+       the SAME machine rendered twice  -113.6 dB
+     The two machines differ by the renderer's own noise floor. Chrome's offline
+     render is not bit-reproducible, so that control run is the only meaningful
+     threshold -- an earlier pass compared against a fixed 1e-6 and reported "not
+     identical" three times running, and an earlier pass than that compared the
+     machines with DIFFERENT bus defaults (1.05 against 1.30, which is 1.85 dB)
+     and blamed the chain for it.
+
+     So the TR-1000 is a strict superset and keeping both meant two panels of the
+     same box to hold in sync -- which had already produced one silent bug, the
+     voices reading "tr808" as a literal. See harness/probe_super.js. */
+
   /* -- THE TR-1000 ---------------------------------------------------------
      Roland's 2025 machine, and the reason to build it is not its sound set --
      its sixteen analogue voice circuits ARE the TR-808 and TR-909 designs
@@ -573,31 +586,8 @@ const INSTRUMENTS = {
       { k:"gate",   label:"gated verb", cap:"GATE",   min:0,   max:1,   step:0.01, def:0 , kind:"bus" },
       { k:"hold",   label:"gate hold",  cap:"HOLD",   min:0.04,max:0.40,step:0.005,def:0.150,unit:"s", kind:"gesture" },
 
-      /* -- THE PER-VOICE CHAINS. Five groups x four nodes. -- */
-      { k:"kCut",  label:"BD filter",  cap:"CUT",  min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" },
-      { k:"kDrv",  label:"BD drive",   cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
-      { k:"kEcho", label:"BD to echo", cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
-      { k:"kVerb", label:"BD to room", cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
-
-      { k:"sCut",  label:"SD filter",  cap:"CUT",  min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" },
-      { k:"sDrv",  label:"SD drive",   cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
-      { k:"sEcho", label:"SD to echo", cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
-      { k:"sVerb", label:"SD to room", cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
-
-      { k:"hCut",  label:"CH filter",  cap:"CUT",  min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" },
-      { k:"hDrv",  label:"CH drive",   cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
-      { k:"hEcho", label:"CH to echo", cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
-      { k:"hVerb", label:"CH to room", cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
-
-      { k:"oCut",  label:"OH filter",  cap:"CUT",  min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" },
-      { k:"oDrv",  label:"OH drive",   cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
-      { k:"oEcho", label:"OH to echo", cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
-      { k:"oVerb", label:"OH to room", cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
-
-      { k:"tCut",  label:"TOM filter", cap:"CUT",  min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" },
-      { k:"tDrv",  label:"TOM drive",  cap:"DRV",  min:1,   max:6,     step:0.05, def:1,   kind:"bus" },
-      { k:"tEcho", label:"TOM to echo",cap:"DLY",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
-      { k:"tVerb", label:"TOM to room",cap:"RVB",  min:0,   max:1,     step:0.01, def:0,   kind:"bus" },
+      /* the five chains, from the shared block every drum machine can adopt */
+      ...chainControls(),
     ],
     panel: {
       skin: "tr1000", maker: "Roland", title: "Rhythm Creator TR-1000",
@@ -606,11 +596,7 @@ const INSTRUMENTS = {
         { label: "SNARE DRUM", keys: ["sdtone", "snappy"] },
         { label: "HATS", keys: ["chdecay", "ohdecay"] },
         { label: "KIT", keys: ["bus", "gate", "hold"] },
-        { label: "BD CHAIN", keys: ["kCut", "kDrv", "kEcho", "kVerb"] },
-        { label: "SD CHAIN", keys: ["sCut", "sDrv", "sEcho", "sVerb"] },
-        { label: "CH CHAIN", keys: ["hCut", "hDrv", "hEcho", "hVerb"] },
-        { label: "OH CHAIN", keys: ["oCut", "oDrv", "oEcho", "oVerb"] },
-        { label: "TOM CHAIN", keys: ["tCut", "tDrv", "tEcho", "tVerb"] },
+        ...chainGroups(),
       ],
       grid: "drums",
       /* THE INSTRUMENT-SELECT ROW, and leaving it out took the WHOLE RACK DOWN.
@@ -652,6 +638,9 @@ const INSTRUMENTS = {
          chopper in its drums slot, the break still feeds the gate at whatever
          that genre's send and hold are -- V.brk checks for it -- so nothing is
          lost by not drawing two knobs nobody would turn. */
+      /* the shared per-voice chains: a filter, a drive and two sends on each
+         drum. Same block the TR-1000 and the acoustic kit use. */
+      ...chainControls(),
     ],
     panel: { skin: "amen", maker: "", title: "break chopper",
              groups: [{ label: "", keys: ["tune", "tone", "hp", "tail"] }] },
@@ -663,6 +652,9 @@ const INSTRUMENTS = {
     controls: [
       { k:"bus",  label:"kit drive",  cap:"DRIVE", min:0.6, max:2, step:0.01, def:1.05, kind:"bus" },
       { k:"gate", label:"gated verb", cap:"SEND",  min:0, max:1, step:0.01, def:0,    kind:"bus" },
+      /* the shared per-voice chains: a filter, a drive and two sends on each
+         drum. Same block the TR-1000 and the acoustic kit use. */
+      ...chainControls(),
     ],
   },
 
@@ -3760,7 +3752,7 @@ const Sound = (function(){
      One owner, asked by name at the point of use. */
   function DM(g){
     const m = g && g.drumMachine;
-    return (m && CONTROL[m + ".tune"]) ? m : "tr808";
+    return (m && CONTROL[m + ".tune"]) ? m : "tr1000";
   }
 
   /* WHICH CHAIN A DRUM LANE GOES THROUGH. The three toms are one instrument at
@@ -4386,7 +4378,7 @@ const GENRE = {
        sub is already what the rig gives. [GUESS: the weights are taste, not
        measurement, and are the first thing to change if the ear disagrees] */
     machines: {
-      drums: [["kit", 7], ["tr808", 3]],
+      drums: [["kit", 7], ["tr1000", 3]],
       bass:  [["auto", 1]],
       keys:  [["auto", 8], ["mellotron", 2]],
     },
@@ -4396,7 +4388,16 @@ const GENRE = {
        rolled off. [EAR, and consistent with this genre's own kick voicing above:
        tune 60, decay 0.18] */
     params: {
-      tr808:     { tune: 45, decay: 0.42, tone: 0.28, snappy: 0.38, sdtone: 0.34,
+      /* ── THE CHAINS ON THE ACOUSTIC KIT. "Reverb and delay aren't just spatial
+         effects, they're arrangement tools" -- and boom-bap has always known it:
+         the snare goes to a plate and the kick does not.
+         [corpus:trackscore] ── */
+      kit:       { sCut: 8000, sDrv: 1.30, sEcho: 0.16, sVerb: 0.34,
+                   kCut: 20000, kDrv: 1.15, kEcho: 0.00, kVerb: 0.05,
+                   hCut: 11000, hDrv: 1.10, hEcho: 0.06, hVerb: 0.14,
+                   oCut: 9000,  oDrv: 1.05, oEcho: 0.12, oVerb: 0.22,
+                   tCut: 6000,  tDrv: 1.10, tEcho: 0.08, tVerb: 0.30 },
+      tr1000:    { tune: 45, decay: 0.42, tone: 0.28, snappy: 0.38, sdtone: 0.34,
                    chdecay: 0.032, ohdecay: 0.26, bus: 1.05, gate: 0, hold: 0.15 },
       rhodes:    { bark: 0.42, wow: 0.0024, tone: 0.84 },
       wurly:     { trem: 0.55, tremhz: 5.2, bark: 0.50 },
@@ -4416,6 +4417,37 @@ const GENRE = {
        nothing lunges. The one thing lofi really does do on a dial is open up
        slightly for the chorus and go duller for the outro. */
     motion: {
+      amen: {
+        /* ── THE CHAINS, AUTOMATED. "Automating sends creating movement and
+           tension in a genre where the core elements stay relatively static"
+           [corpus:trackscore] -- five drums on five different periods, so the
+           kit is never in the same state twice. ── */
+        sVerb: [{ kind: "section", by: { chorus: [0.06, 0.18], bridge: [0.06, 0.16] } },
+                { kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
+        sEcho: [{ kind: "lfo", bars: [[22, 3], [30, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
+        sCut:  [{ kind: "lfo", bars: [[26, 2], [34, 1]], depth: [800, 2400], shape: "tri", freePhase: true }],
+        sDrv:  [{ kind: "section", by: { chorus: [0.12, 0.36] } },
+                { kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
+        kCut:  [{ kind: "lfo", bars: [[30, 3], [20, 2]], depth: [500, 1700], shape: "sin", freePhase: true }],
+        kDrv:  [{ kind: "lfo", bars: [[34, 2], [24, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        kEcho: [{ kind: "lfo", bars: [[38, 2], [28, 1]], depth: [0.01, 0.04], shape: "sin", freePhase: true }],
+        kVerb: [{ kind: "lfo", bars: [[32, 2], [22, 1]], depth: [0.01, 0.05], shape: "sin", freePhase: true }],
+        hCut:  [{ kind: "lfo", bars: [[14, 3], [22, 2]], depth: [900, 2600], shape: "tri", freePhase: true }],
+        hDrv:  [{ kind: "lfo", bars: [[20, 2], [28, 1]], depth: [0.05, 0.15], shape: "sin", freePhase: true }],
+        hEcho: [{ kind: "lfo", bars: [[24, 2], [16, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
+        hVerb: [{ kind: "lfo", bars: [[28, 2], [20, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
+        oCut:  [{ kind: "lfo", bars: [[24, 3], [32, 2]], depth: [700, 2200], shape: "sin", freePhase: true }],
+        oDrv:  [{ kind: "lfo", bars: [[30, 2], [18, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        oEcho: [{ kind: "lfo", bars: [[16, 3], [24, 2]], depth: [0.05, 0.16], shape: "tri", freePhase: true }],
+        oVerb: [{ kind: "section", by: { bridge: [0.08, 0.22] } },
+                { kind: "lfo", bars: [[26, 2], [34, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        tCut:  [{ kind: "lfo", bars: [[34, 2], [22, 1]], depth: [500, 1600], shape: "sin", freePhase: true }],
+        tDrv:  [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        tEcho: [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        tVerb: [{ kind: "lfo", bars: [[28, 2], [36, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+      
+      },
+
       /* THE DRUM BUS, which could not move until the bus gains learned to be
          curves rather than numbers. Small, because lofi's whole affect is that
          nothing lunges -- but a kit that leans in for the chorus and sits back
@@ -4427,6 +4459,63 @@ const GENRE = {
                                          bridge: [-0.12, -0.05], outro: [-0.14, -0.06] } }],
         decay: [{ kind: "section", by: { chorus: [0.02, 0.06], bridge: [-0.05, -0.02] } }],
         click: [{ kind: "section", by: { chorus: [0.05, 0.14], outro: [-0.18, -0.09] } }],
+      
+        /* ── AND THE CHAINS. "Reverb and delay aren't just spatial effects,
+           they're arrangement tools, with automating sends creating movement and
+           tension" [corpus:trackscore] -- and boom-bap knew it first: the snare
+           goes to a plate and the kick does not. Shallow next to the techno
+           genres, because this is a band being recorded rather than a desk being
+           played.
+
+           MERGED INTO THIS BLOCK, not declared as a second `kit:` key. The first
+           attempt added one, and a duplicate key in an object literal silently
+           keeps the LAST -- which deleted lofi's kick decay and click automation
+           without a word. The battery caught it as two controls no genre moves. ── */
+
+        sVerb: [{ kind: "section", by: { chorus: [0.06, 0.16], bridge: [0.08, 0.20],
+                                          outro: [-0.10, -0.04] } },
+                { kind: "lfo", bars: [[16, 3], [24, 2]], depth: [0.02, 0.06],
+                  shape: "sin", freePhase: true }],
+        sEcho: [{ kind: "section", by: { bridge: [0.06, 0.16] } },
+                { kind: "lfo", bars: [[24, 2], [32, 1]], depth: [0.02, 0.05],
+                  shape: "sin", freePhase: true }],
+        hCut:  [{ kind: "lfo", bars: [[12, 3], [20, 2]], depth: [700, 2200],
+                  shape: "tri", freePhase: true }],
+        oVerb: [{ kind: "lfo", bars: [[20, 2], [28, 1]], depth: [0.03, 0.09],
+                  shape: "sin", freePhase: true }],
+        kCut:  [{ kind: "section", by: { bridge: [-2500, -900] } },
+                { kind: "lfo", bars: [[28, 2], [18, 1]], depth: [400, 1400],
+                  shape: "sin", freePhase: true }],
+        tVerb: [{ kind: "lfo", bars: [[24, 2], [16, 1]], depth: [0.04, 0.10],
+                  shape: "sin", freePhase: true }],
+        sDrv:  [{ kind: "section", by: { chorus: [0.10, 0.30] } }],
+        kDrv:  [{ kind: "lfo", bars: [[32, 2], [22, 1]], depth: [0.04, 0.12],
+                  shape: "sin", freePhase: true }],
+        hDrv:  [{ kind: "lfo", bars: [[18, 2], [26, 1]], depth: [0.04, 0.12],
+                  shape: "sin", freePhase: true }],
+        hEcho: [{ kind: "lfo", bars: [[26, 2], [34, 1]], depth: [0.02, 0.06],
+                  shape: "sin", freePhase: true }],
+        oCut:  [{ kind: "lfo", bars: [[22, 2], [30, 1]], depth: [600, 1900],
+                  shape: "tri", freePhase: true }],
+        oDrv:  [{ kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.03, 0.10],
+                  shape: "sin", freePhase: true }],
+        oEcho: [{ kind: "section", by: { bridge: [0.05, 0.14] } },
+                { kind: "lfo", bars: [[28, 2], [20, 1]], depth: [0.02, 0.07],
+                  shape: "sin", freePhase: true }],
+        sCut:  [{ kind: "lfo", bars: [[26, 3], [34, 2]], depth: [700, 2100],
+                  shape: "tri", freePhase: true }],
+        tCut:  [{ kind: "lfo", bars: [[34, 2], [22, 1]], depth: [500, 1500],
+                  shape: "sin", freePhase: true }],
+        tDrv:  [{ kind: "lfo", bars: [[36, 2], [24, 1]], depth: [0.03, 0.09],
+                  shape: "sin", freePhase: true }],
+        tEcho: [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.02, 0.07],
+                  shape: "sin", freePhase: true }],
+        kEcho: [{ kind: "lfo", bars: [[38, 2], [26, 1]], depth: [0.01, 0.04],
+                  shape: "sin", freePhase: true }],
+        kVerb: [{ kind: "lfo", bars: [[34, 2], [26, 1]], depth: [0.01, 0.04],
+                  shape: "sin", freePhase: true }],
+        hVerb: [{ kind: "lfo", bars: [[22, 2], [30, 1]], depth: [0.02, 0.07],
+                  shape: "sin", freePhase: true }],
       },
       /* THE SUB BASS, whose two controls were dead until they were wired -- so
          this is the first time any genre has been able to reach them. The tone
@@ -4498,7 +4587,7 @@ const GENRE = {
                     shape: "sin", freePhase: true }],
         flutter: [{ kind: "section", by: { bridge: [0.08, 0.18], outro: [0.06, 0.16] } }],
       },
-      tr808: {
+      tr1000: {
         decay: [{ kind: "section", by: { chorus: [0.08, 0.20], bridge: [-0.16, -0.06],
                                          outro: [-0.12, -0.04] } }],
         /* the p-lock, on the closed hat: hats land on eight or sixteen steps of
@@ -4725,7 +4814,7 @@ const GENRE = {
        right instrument for this comp. [GUESS on the weights; the SHAPE of the
        claim -- machine drums, sequenced bass -- is the genre's definition] */
     machines: {
-      drums: [["tr808", 6], ["kit", 3], ["segakit", 1]],
+      drums: [["tr1000", 6], ["kit", 3], ["segakit", 1]],
       bass:  [["auto", 5], ["tb303", 5]],
       /* THE SCI-FI PALETTE, reached rather than admired. This genre's own
          research describes it as influenced by "dark new wave, Blade Runner,
@@ -4756,7 +4845,15 @@ const GENRE = {
          assertions, one cause. One beat of decay is long -- far longer than the
          acoustic kick -- without the kick playing through its own next hit.
          [EAR: 0.55 is a beat at this tempo; the user's ears own the final value] */
-      tr808: { tune: 50, decay: 0.55, tone: 0.68, snappy: 0.72, sdtone: 0.62,
+      /* THE CHAINS. Synthwave's gated snare is the genre's signature and it is
+         exactly a per-voice send: the snare goes to a big room and the kick and
+         hats stay dry, which a shared bus cannot express at all. */
+      tr1000: { sCut: 9000, sDrv: 1.20, sEcho: 0.14, sVerb: 0.52,
+                kCut: 20000, kDrv: 1.20, kEcho: 0.00, kVerb: 0.06,
+                hCut: 12000, hDrv: 1.10, hEcho: 0.08, hVerb: 0.16,
+                oCut: 10000, oDrv: 1.05, oEcho: 0.18, oVerb: 0.30,
+                tCut: 6500,  tDrv: 1.15, tEcho: 0.16, tVerb: 0.44,
+                tune: 50, decay: 0.55, tone: 0.68, snappy: 0.72, sdtone: 0.62,
                chdecay: 0.055, ohdecay: 0.58, bus: 1.40, gate: 0.95, hold: 0.150 },
       tb303: { cutoff: 620, res: 11.0, envmod: 0.58, decay: 0.30,
                accent: 0.70, drive: 3.0, wave: 0 },
@@ -4851,7 +4948,7 @@ const GENRE = {
         bus:  [{ kind: "section", by: { chorus: [0.08, 0.22], bridge: [-0.20, -0.10] } }],
         gate: [{ kind: "section", by: { bridge: [-0.40, -0.20], chorus: [0.00, 0.04] } }],
       },
-      tr808: {
+      tr1000: {
         bus:     [{ kind: "section", by: { intro: [-0.20, -0.09], chorus: [0.10, 0.28],
                                            bridge: [-0.28, -0.14], outro: [-0.22, -0.10] } }],
         gate:    [{ kind: "section", by: { intro: [-0.30, -0.15], bridge: [-0.45, -0.25],
@@ -4864,6 +4961,34 @@ const GENRE = {
         snappy:  [{ kind: "plock", density: [0.10, 0.22], amt: [-0.18, 0.22] }],
         tone:    [{ kind: "gesture", on: "peak", bars: 2, from: [0.10, 0.22], to: [0, 0],
                     curve: "lin" }],
+      
+         /* ── THE CHAINS, AUTOMATED. "Automating sends creating movement and
+           tension in a genre where the core elements stay relatively static"
+           [corpus:trackscore] -- five drums on five different periods, so the
+           kit is never in the same state twice. ── */
+        sVerb: [{ kind: "section", by: { chorus: [0.10, 0.28], bridge: [0.06, 0.16] } },
+                { kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
+        sEcho: [{ kind: "lfo", bars: [[22, 3], [30, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
+        sCut:  [{ kind: "lfo", bars: [[26, 2], [34, 1]], depth: [800, 2400], shape: "tri", freePhase: true }],
+        sDrv:  [{ kind: "section", by: { chorus: [0.12, 0.36] } },
+                { kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
+        kCut:  [{ kind: "lfo", bars: [[30, 3], [20, 2]], depth: [500, 1700], shape: "sin", freePhase: true }],
+        kDrv:  [{ kind: "lfo", bars: [[34, 2], [24, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        kEcho: [{ kind: "lfo", bars: [[38, 2], [28, 1]], depth: [0.01, 0.04], shape: "sin", freePhase: true }],
+        kVerb: [{ kind: "lfo", bars: [[32, 2], [22, 1]], depth: [0.01, 0.05], shape: "sin", freePhase: true }],
+        hCut:  [{ kind: "lfo", bars: [[14, 3], [22, 2]], depth: [900, 2600], shape: "tri", freePhase: true }],
+        hDrv:  [{ kind: "lfo", bars: [[20, 2], [28, 1]], depth: [0.05, 0.15], shape: "sin", freePhase: true }],
+        hEcho: [{ kind: "lfo", bars: [[24, 2], [16, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
+        hVerb: [{ kind: "lfo", bars: [[28, 2], [20, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
+        oCut:  [{ kind: "lfo", bars: [[24, 3], [32, 2]], depth: [700, 2200], shape: "sin", freePhase: true }],
+        oDrv:  [{ kind: "lfo", bars: [[30, 2], [18, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        oEcho: [{ kind: "lfo", bars: [[16, 3], [24, 2]], depth: [0.05, 0.16], shape: "tri", freePhase: true }],
+        oVerb: [{ kind: "section", by: { bridge: [0.08, 0.22] } },
+                { kind: "lfo", bars: [[26, 2], [34, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        tCut:  [{ kind: "lfo", bars: [[34, 2], [22, 1]], depth: [500, 1600], shape: "sin", freePhase: true }],
+        tDrv:  [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        tEcho: [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        tVerb: [{ kind: "lfo", bars: [[28, 2], [36, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
       },
       mellotron: {
         wow: [{ kind: "lfo", bars: [[16, 3], [8, 1]], depth: [0.0006, 0.0016],
@@ -5119,7 +5244,7 @@ const GENRE = {
                    got there -- so it takes a real share of the keys slot rather
                    than being offered as a curiosity. The Mellotron keeps its
                    place: a tape choir is the other half of that atmosphere. */
-                drums: [["auto", 8], ["tr808", 2]],
+                drums: [["auto", 8], ["tr1000", 2]],
                 bass:  [["auto", 1]],
                 keys:  [["waveseq", 5], ["auto", 3], ["mellotron", 3]] },
     /* the choir strip, clean: this is a 1994 sample chip pretending to be a
@@ -5130,7 +5255,7 @@ const GENRE = {
       mellotron: { voice: 2, wow: 0.0022, flutter: 0.18, hiss: 0.12, tapeEnd: 1 },
       rhodes:    { bark: 0.38, wow: 0.0012, tone: 0.90 },
       wurly:     { trem: 0.30, tremhz: 5.8, bark: 0.45 },
-      tr808:     { tune: 52, decay: 0.35, tone: 0.35, snappy: 0.45, sdtone: 0.40,
+      tr1000:    { tune: 52, decay: 0.35, tone: 0.35, snappy: 0.45, sdtone: 0.40,
                    chdecay: 0.038, ohdecay: 0.30, bus: 1.05, gate: 0, hold: 0.15 },
       tb303:     { cutoff: 480, res: 7.0, envmod: 0.45, decay: 0.40,
                    accent: 0.50, drive: 2.0, wave: 0 },
@@ -5152,6 +5277,36 @@ const GENRE = {
        gestures -- a stepped lock or a filter dive would announce a machine, and
        this genre's whole trick is that the loop does not seem to be a loop. */
     motion: {
+      segakit: {
+        /* ── THE CHAINS, AUTOMATED. "Automating sends creating movement and
+           tension in a genre where the core elements stay relatively static"
+           [corpus:trackscore] -- five drums on five different periods, so the
+           kit is never in the same state twice. ── */
+        sVerb: [{ kind: "section", by: { chorus: [0.06, 0.18], bridge: [0.06, 0.16] } },
+                { kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
+        sEcho: [{ kind: "lfo", bars: [[22, 3], [30, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
+        sCut:  [{ kind: "lfo", bars: [[26, 2], [34, 1]], depth: [800, 2400], shape: "tri", freePhase: true }],
+        sDrv:  [{ kind: "section", by: { chorus: [0.12, 0.36] } },
+                { kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
+        kCut:  [{ kind: "lfo", bars: [[30, 3], [20, 2]], depth: [500, 1700], shape: "sin", freePhase: true }],
+        kDrv:  [{ kind: "lfo", bars: [[34, 2], [24, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        kEcho: [{ kind: "lfo", bars: [[38, 2], [28, 1]], depth: [0.01, 0.04], shape: "sin", freePhase: true }],
+        kVerb: [{ kind: "lfo", bars: [[32, 2], [22, 1]], depth: [0.01, 0.05], shape: "sin", freePhase: true }],
+        hCut:  [{ kind: "lfo", bars: [[14, 3], [22, 2]], depth: [900, 2600], shape: "tri", freePhase: true }],
+        hDrv:  [{ kind: "lfo", bars: [[20, 2], [28, 1]], depth: [0.05, 0.15], shape: "sin", freePhase: true }],
+        hEcho: [{ kind: "lfo", bars: [[24, 2], [16, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
+        hVerb: [{ kind: "lfo", bars: [[28, 2], [20, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
+        oCut:  [{ kind: "lfo", bars: [[24, 3], [32, 2]], depth: [700, 2200], shape: "sin", freePhase: true }],
+        oDrv:  [{ kind: "lfo", bars: [[30, 2], [18, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        oEcho: [{ kind: "lfo", bars: [[16, 3], [24, 2]], depth: [0.05, 0.16], shape: "tri", freePhase: true }],
+        oVerb: [{ kind: "section", by: { bridge: [0.08, 0.22] } },
+                { kind: "lfo", bars: [[26, 2], [34, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        tCut:  [{ kind: "lfo", bars: [[34, 2], [22, 1]], depth: [500, 1600], shape: "sin", freePhase: true }],
+        tDrv:  [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        tEcho: [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        tVerb: [{ kind: "lfo", bars: [[28, 2], [36, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+      },
+
       mellotron: {
         wow:     [{ kind: "lfo", bars: [[16, 4], [8, 1]], depth: [0.0010, 0.0026],
                     shape: "sin", freePhase: true }],
@@ -5167,7 +5322,7 @@ const GENRE = {
                { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [0.03, 0.07], shape: "tri" }],
       },
       wurly: { trem: [{ kind: "section", by: { bridge: [0.06, 0.14], outro: [0.04, 0.12] } }] },
-      tr808: { decay: [{ kind: "section", by: { chorus: [0.06, 0.15], outro: [-0.10, -0.04] } }] },
+      tr1000: { decay: [{ kind: "section", by: { chorus: [0.06, 0.15], outro: [-0.10, -0.04] } }] },
       tb303: {
         cutoff: [{ kind: "section", by: { chorus: [220, 560], bridge: [-160, -50],
                                           outro: [-220, -120] } },
@@ -6671,6 +6826,34 @@ const GENRE = {
         tune: [{ kind: "plock", density: [0.05, 0.12], amt: [-2.0, 2.0] }],
         bus:  [{ kind: "section", by: { intro: [-0.15, -0.06], chorus: [0.10, 0.26],
                                         instrumental: [0.04, 0.16], outro: [-0.18, -0.08] } }],
+      
+         /* ── THE CHAINS, AUTOMATED. "Automating sends creating movement and
+           tension in a genre where the core elements stay relatively static"
+           [corpus:trackscore] -- five drums on five different periods, so the
+           kit is never in the same state twice. ── */
+        sVerb: [{ kind: "section", by: { chorus: [0.05, 0.14], bridge: [0.06, 0.16] } },
+                { kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
+        sEcho: [{ kind: "lfo", bars: [[22, 3], [30, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
+        sCut:  [{ kind: "lfo", bars: [[26, 2], [34, 1]], depth: [800, 2400], shape: "tri", freePhase: true }],
+        sDrv:  [{ kind: "section", by: { chorus: [0.12, 0.36] } },
+                { kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
+        kCut:  [{ kind: "lfo", bars: [[30, 3], [20, 2]], depth: [500, 1700], shape: "sin", freePhase: true }],
+        kDrv:  [{ kind: "lfo", bars: [[34, 2], [24, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        kEcho: [{ kind: "lfo", bars: [[38, 2], [28, 1]], depth: [0.01, 0.04], shape: "sin", freePhase: true }],
+        kVerb: [{ kind: "lfo", bars: [[32, 2], [22, 1]], depth: [0.01, 0.05], shape: "sin", freePhase: true }],
+        hCut:  [{ kind: "lfo", bars: [[14, 3], [22, 2]], depth: [900, 2600], shape: "tri", freePhase: true }],
+        hDrv:  [{ kind: "lfo", bars: [[20, 2], [28, 1]], depth: [0.05, 0.15], shape: "sin", freePhase: true }],
+        hEcho: [{ kind: "lfo", bars: [[24, 2], [16, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
+        hVerb: [{ kind: "lfo", bars: [[28, 2], [20, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
+        oCut:  [{ kind: "lfo", bars: [[24, 3], [32, 2]], depth: [700, 2200], shape: "sin", freePhase: true }],
+        oDrv:  [{ kind: "lfo", bars: [[30, 2], [18, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        oEcho: [{ kind: "lfo", bars: [[16, 3], [24, 2]], depth: [0.05, 0.16], shape: "tri", freePhase: true }],
+        oVerb: [{ kind: "section", by: { bridge: [0.08, 0.22] } },
+                { kind: "lfo", bars: [[26, 2], [34, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        tCut:  [{ kind: "lfo", bars: [[34, 2], [22, 1]], depth: [500, 1600], shape: "sin", freePhase: true }],
+        tDrv:  [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        tEcho: [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        tVerb: [{ kind: "lfo", bars: [[28, 2], [36, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
       },
       /* THE REESE IS RIDDEN, and the detune most of all -- widening it is how a
          junglist makes the bass turn over harder into a drop, and it is the one
