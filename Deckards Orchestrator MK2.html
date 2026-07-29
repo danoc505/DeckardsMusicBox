@@ -578,6 +578,20 @@ const INSTRUMENTS = {
       { k:"detune", label:"detune",  cap:"DETUNE", min:0,   max:1,    step:0.01, def:0.55 , kind:"voicing" },
     ],
   },
+  reese: {
+    slot: "bass", label: "Reese",
+    lanes: { bass:"reese" },
+    controls: [
+      /* DETUNE is the instrument. Everything else is dressing. */
+      { k:"detune", label:"detune", cap:"DETUNE", min:2,   max:60,   step:1,    def:22,   unit:"c",  kind:"gesture" },
+      { k:"sub",    label:"sub",    cap:"SUB",    min:0,   max:1,    step:0.01, def:0.45, kind:"gesture" },
+      { k:"cut",    label:"filter", cap:"CUTOFF", min:150, max:4000, step:10,   def:900,  unit:"Hz", kind:"gesture" },
+      { k:"res",    label:"reso",   cap:"RESO",   min:0.5, max:14,   step:0.1,  def:4.0,  kind:"gesture" },
+      { k:"sweep",  label:"sweep",  cap:"SWEEP",  min:0,   max:1,    step:0.01, def:0.35, kind:"gesture" },
+    ],
+    panel: { skin: "reese", maker: "", title: "Reese bass",
+             groups: [{ label: "", keys: ["detune", "sub", "cut", "res", "sweep"] }] },
+  },
   subbass: {
     slot: "bass", label: "sub bass",
     lanes: { bass:"bass" },
@@ -588,8 +602,12 @@ const INSTRUMENTS = {
          the constants V.bass shipped with as their defaults, so the sound did
          not move when they were connected. The def was 1200 Hz against a filter
          actually fixed at 800; 800 is the honest default. */
-      { k:"cut",  label:"tone",  cap:"TONE",  min:200, max:4000, step:10,  def:800 , unit:"Hz" , kind:"gesture" },
-      { k:"drive",label:"drive", cap:"DRIVE", min:0,   max:1,    step:0.01,def:0.20 , kind:"gesture" },
+      { k:"cut",  label:"tone",  cap:"TONE",  min:200, max:4000, step:10,  def:800,  unit:"Hz", kind:"gesture" },
+      { k:"drive",label:"drive", cap:"DRIVE", min:0,   max:1,    step:0.01,def:0.20, kind:"gesture" },
+      /* the three that make it a sweep rather than a tone */
+      { k:"env",  label:"sweep", cap:"ENV",   min:0,   max:1,    step:0.01,def:0,    kind:"gesture" },
+      { k:"res",  label:"reso",  cap:"RESO",  min:0.4, max:12,   step:0.1, def:0.6,  kind:"gesture" },
+      { k:"fall", label:"decay", cap:"DECAY", min:0.1, max:1.5,  step:0.05,def:0.8,  kind:"gesture" },
     ],
   },
   tb303: {
@@ -667,6 +685,17 @@ const INSTRUMENTS = {
     ],
     panel: { skin: "vp330", maker: "Roland", title: "VP-330 Vocoder Plus",
              groups: [{ label: "", keys: ["ens", "choir", "attack", "release"] }] },
+  },
+  waveseq: {
+    slot: "keys", label: "wave sequence",
+    lanes: { keys:"waveseq" },
+    controls: [
+      { k:"rate",   label:"step",    cap:"RATE",   min:0.08, max:1.5, step:0.02, def:0.42, unit:"s", kind:"gesture" },
+      { k:"depth",  label:"sequence",cap:"DEPTH",  min:0,    max:1,   step:0.01, def:0.75, kind:"gesture" },
+      { k:"attack", label:"swell",   cap:"ATTACK", min:0.02, max:2,   step:0.02, def:0.35, unit:"s", kind:"voicing" },
+    ],
+    panel: { skin: "waveseq", maker: "", title: "wave sequence",
+             groups: [{ label: "", keys: ["rate", "depth", "attack"] }] },
   },
   wash: {
     slot: "keys", label: "wash pad",
@@ -1442,8 +1471,8 @@ const RIG = {
      underneath that the break has none of. */
   jungle: { kick:"brk", snare:"brk", ghost:"brk", hat:"brk", openhat:"brk",
             brk:"brk",
-          tom1:"brk", tom2:"brk", tom3:"brk", brk:"brk",
-            bass:"drone", keys:"wash", lead:"acid303", counter:"acid303",
+          tom1:"brk", tom2:"brk", tom3:"brk",
+            bass:"reese", keys:"wash", lead:"acid303", counter:"acid303",
             ostinato:"acid303" },
   /* THE 303 IS THE BASSLINE, and this rig had it on the wrong lane. "One of the
      core fundamental sounds of Plastikman has always been Roland TB-303
@@ -2280,7 +2309,24 @@ const Sound = (function(){
     const cut = P(g, ev, "subbass", "cut", 800);
     const drive = P(g, ev, "subbass", "drive", 0.20);
     const flt = c.createBiquadFilter(); flt.type = "lowpass";
-    flt.frequency.value = cut; flt.Q.value = 0.6;
+    flt.frequency.value = cut;
+    /* ── THE RESONANT SWEEP, which this voice did not have and synthwave is
+       defined by. Reverb Machine, taking "Nightcall" apart: the verse bass "is
+       a resonant sweep patch ... characterized by a decaying filter sweep,
+       achieved by setting the filter resonance high and using the filter
+       envelope with a long decay time to sweep the filter downwards". A static
+       lowpass at 800 Hz cannot make that sound at any setting. The genre drew
+       the 303 half the time and got a sweep; the other half it got a sub with
+       no movement in it at all. env 0 is off, which is what every other genre
+       here wants. [corpus:reverbmachine/nightcall] ── */
+    const env = P(g, ev, "subbass", "env", 0);
+    flt.Q.value = P(g, ev, "subbass", "res", 0.6);
+    if(env > 0.01){
+      const top = Math.min(9000, cut * (1 + 7 * env));
+      flt.frequency.setValueAtTime(top, t);
+      flt.frequency.exponentialRampToValueAtTime(Math.max(60, cut),
+        t + Math.min(2.0, Math.max(0.06, ev.durSec * P(g, ev, "subbass", "fall", 0.8))));
+    }
     out.connect(flt); flt.connect(g.bus.bass);
     const o1 = osc(c, "sine", f, t, end);
     /* DRIVE is the saw against the sine: at 0 it is a pure sub, at 1 it has
@@ -2851,6 +2897,146 @@ const Sound = (function(){
     lp.frequency.setValueAtTime(P(g, ev, "drone", "cut", 420) * 0.55, t);
     lp.frequency.linearRampToValueAtTime(P(g, ev, "drone", "cut", 420), t + Math.min(3.0, ev.durSec));
     adsr(c, out, t, LEVEL.bass * 1.30 * ev.gain, 0.35, 0.80, 0.90, t + ev.durSec, 1.20);
+    return made;
+  };
+
+  /* ══ WAVE SEQUENCING ══════════════════════════════════════════════════════
+     David Wise on how Aquatic Ambience was made: he was inspired by WAVE
+     SEQUENCING on the Korg Wavestation and set out to reproduce it on the SNES.
+     In his words he "just [took] eight waveforms and played them in sequence
+     and that first experiment became the baseline for Aquatic Ambiance". The
+     track took five weeks. [corpus:vgmonline David Wise interview]
+
+     That is a MECHANISM, not an adjective, and it is the reason the DKC pads do
+     not sound like a synth holding a note: wave sequencing steps through
+     different waveforms while the note is still sounding, so the timbre is
+     never where it was a moment ago. The accounts of the track all reach for
+     the same phrase -- "a slowly moving soundscape", "evolving sound shapes
+     rather than simple sampled instruments" -- and this is what produces it.
+
+     Built as four harmonic recipes crossfaded in sequence across the note.
+     WebAudio cannot swap an oscillator's PeriodicWave mid-note, so the steps
+     are four banks whose gains hand over to each other, which is what a
+     Wavestation is doing anyway. The rate is in seconds per step, slow: on the
+     record you hear the timbre travel, you do not hear it click.
+     ═══════════════════════════════════════════════════════════════════════ */
+  V.waveseq = function(g, ev, t){
+    const c = g.ctx, f = F(ev.pitch);
+    const step = P(g, ev, "waveseq", "rate", 0.42);
+    const end = t + ev.durSec + 1.4;
+    const out = c.createGain(); out.connect(g.bus.keys);
+    const made = [];
+    /* four points in the sequence: hollow, reedy, bright, and a soft bell. The
+       shapes are [harmonic, level] pairs -- deliberately different SPECTRA
+       rather than different filter settings, because a filter sweep is not a
+       wave sequence and the difference is audible. [EAR for the recipes] */
+    const SEQ4 = [
+      [[1, 1.0], [3, 0.34], [5, 0.12]],
+      [[1, 1.0], [2, 0.46], [3, 0.30], [4, 0.14]],
+      [[1, 0.86], [2, 0.22], [4, 0.30], [6, 0.20], [8, 0.10]],
+      [[1, 1.0], [2, 0.10], [5, 0.26], [7, 0.14]],
+    ];
+    const depth = P(g, ev, "waveseq", "depth", 0.75);
+    for(let k = 0; k < SEQ4.length; k++){
+      const bank = c.createGain();
+      /* each bank owns a window of the note and fades across its neighbours;
+         at depth 0 they all sit level and the voice is one static blend, which
+         is the honest "off" for this control. */
+      const base = 1 / SEQ4.length;
+      bank.gain.setValueAtTime(base, t);
+      if(depth > 0.01){
+        const cyc = step * SEQ4.length;
+        for(let n = 0; n < Math.ceil((ev.durSec + 1.0) / cyc) + 1; n++){
+          const t0 = t + n * cyc + k * step;
+          if(t0 > end) break;
+          bank.gain.setValueAtTime(Math.max(0.0001, base * (1 - depth)), Math.max(t, t0 - step * 0.5));
+          bank.gain.linearRampToValueAtTime(base * (1 + depth * 2.2), Math.max(t, t0));
+          bank.gain.linearRampToValueAtTime(Math.max(0.0001, base * (1 - depth)), t0 + step * 0.5);
+        }
+      }
+      bank.connect(out);
+      for(const [mult, amp] of SEQ4[k]){
+        const o = c.createOscillator(); o.type = "sine";
+        o.frequency.value = f * mult;
+        const og = c.createGain(); og.gain.value = amp * 0.55;
+        o.connect(og); og.connect(bank); o.start(t); o.stop(end); made.push(o);
+      }
+    }
+    /* the SNES echo lived on this part; a slow drift stands in for the hardware's
+       own instability [EAR] */
+    if(ev.wow){
+      const w = c.createOscillator(); w.type = "sine"; w.frequency.value = 0.5;
+      const wg = c.createGain(); wg.gain.value = f * ev.wow;
+      w.connect(wg);
+      for(const o of made) if(o.frequency) wg.connect(o.frequency);
+      w.start(t); w.stop(end); made.push(w);
+    }
+    adsr(c, out, t, LEVEL.keys * 1.5 * ev.gain,
+         P(g, ev, "waveseq", "attack", 0.35), 0.60, 0.88, t + ev.durSec, 1.10);
+    return made;
+  };
+
+  /* ══ THE REESE ════════════════════════════════════════════════════════════
+     Jungle's bass, and it has a name, an inventor and a date: Kevin "Reese"
+     Saunderson, "Just Want Another Chance", 1988, on a Casio CZ-5000. Junglists
+     lifted it, pitched it down and put it under the Amen, and by 1994 it was
+     half the genre. [corpus:emastered/reese-bass, corpus:electronicmusic]
+
+     WHAT MAKES IT GROWL, and it is not the filter: it is PHASE. Two or more
+     sawtooths detuned against each other beat, and where the detuned partials
+     cross they cancel -- "there are certain points where, as the detuned parts
+     cross over in phase, they cancel each other out, creating the wub wub wub
+     sound". The beating speeds up as the pitch rises, because the cancellation
+     is between offset PARTIALS rather than at a fixed rate.
+     [corpus:futureproofmusicschool, corpus:bestdrumandbass]
+
+     So the detune here is WIDE -- tens of cents, not the four a smooth drone
+     used. A quiet low pad with a bit of chorus is not a Reese: the movement IS
+     the instrument, and if you cannot hear it turning over it is the wrong
+     sound. This lane held a Prophet-style drone until the research was done.
+
+     AND THE SUB UNDERNEATH. Jungle carries two low layers, not one: the growl,
+     and "pure sine tones, sampled and processed through gear like the Akai
+     S950" as "a pulsing undercurrent below the frantic breaks"
+     [corpus:reasonstudios]. They are one patch here because the lane is one --
+     a rig maps a lane to a voice -- and the balance is a knob.
+     ═══════════════════════════════════════════════════════════════════════ */
+  V.reese = function(g, ev, t){
+    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 1.2;
+    const out = c.createGain();
+    const cut0 = P(g, ev, "reese", "cut", 900);
+    const lp = c.createBiquadFilter(); lp.type = "lowpass";
+    lp.frequency.value = cut0; lp.Q.value = P(g, ev, "reese", "res", 4.0);
+    out.connect(lp); lp.connect(g.bus.bass);
+    const made = [], subAmt = P(g, ev, "reese", "sub", 0.45);
+    /* THE GROWL: three saws, detuned in CENTS and wide. At 22 cents a pair at
+       55 Hz beat about 0.7 times a second, and the partials higher up beat
+       faster -- which is the "wub", and why it is not an LFO. */
+    const det = P(g, ev, "reese", "detune", 22);
+    const growl = c.createGain(); growl.gain.value = 1 - 0.55 * subAmt;
+    growl.connect(out);
+    for(const cents of [-det, 0, det * 0.82]){
+      const o = c.createOscillator(); o.type = "sawtooth";
+      o.frequency.value = f; o.detune.value = cents;
+      const og = c.createGain(); og.gain.value = 1 / 3;
+      o.connect(og); og.connect(growl); o.start(t); o.stop(end); made.push(o);
+    }
+    /* THE SUB: one sine an octave down -- the Akai test tone. It is the layer
+       that survives a sound system; the growl is the layer you hear on
+       headphones. */
+    const sub = c.createOscillator(); sub.type = "sine";
+    sub.frequency.value = f / 2;
+    const sg = c.createGain(); sg.gain.value = 0.95 * subAmt;
+    sub.connect(sg); sg.connect(out); sub.start(t); sub.stop(end); made.push(sub);
+    /* and the filter moves across the note, which is the other half of it --
+       Saunderson's original was phase distortion plus filter modulation */
+    const sweep = P(g, ev, "reese", "sweep", 0.35);
+    if(sweep > 0.01){
+      lp.frequency.setValueAtTime(cut0 * (1 + 2.2 * sweep), t);
+      lp.frequency.exponentialRampToValueAtTime(Math.max(60, cut0),
+        t + Math.min(2.5, Math.max(0.05, ev.durSec * 0.7)));
+    }
+    adsr(c, out, t, LEVEL.bass * 1.25 * ev.gain, 0.020, 0.35, 0.90, t + ev.durSec, 0.45);
     return made;
   };
 
@@ -3603,6 +3789,30 @@ const GENRE = {
       kickLate:   [0.06, 0.12],
       hatMul:     0.25,                                  // hats stay nearly straight: the friction
       jitter:     { dilla: 0.002, even: 0.005 },         // seconds; dilla REPEATS, it does not wander
+      /* ── THE OTHER HALF OF THE DILLA FEEL, and it was missing. This genre had
+         the snare pushed early and the kick pushed late and nothing else, which
+         is two of the four things the measured analyses describe. Ethan Hein,
+         bar by bar on Slum Village's "Get Dis Money":
+
+           "The claps on beats two and four are EARLY. Because the claps are the
+            loudest and clearest elements in the beat, your ear orients itself
+            around them, and everything else sounds late."
+           "The off-beat hi-hats on the 'and' of one and the 'and' of three are
+            actually LATE, which contributes to the dragging feel."
+           and the bass is pushed behind: "several of those notes are an entire
+            32nd note late."
+
+         So the mechanism is not one displaced drum. It is an EARLY ANCHOR and
+         everything else trailing it, and the parts that trail are the hats and
+         the BASS -- the bass furthest. laneLean already existed, built for
+         Hawtin's machine drift, and this genre was not using it.
+
+         TWO CAVEATS, stated rather than buried: Hein's hats are late on the
+         OFFBEATS specifically and laneLean is per-lane, so every hat here leans;
+         and a full 32nd at this tempo is about 89 ms, which is further than a
+         whole genre should sit, so the bass figure is scaled back from it.
+         [corpus:ethanhein/get-dis-money] ── */
+      laneLean:   { hat: 0.014, openhat: 0.014, bass: 0.030 },
       push:       -0.008,                                // the whole kit sits fractionally early
     },
     touch: { bassArtic: [[0.6, 3], [0.85, 4], [1.0, 3]], strum: [0.004, 0.005] },   // [EAR]
@@ -3702,6 +3912,19 @@ const GENRE = {
                                          bridge: [-300, -160], outro: [-320, -180] } },
                 { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [60, 180], shape: "tri" }],
         drive: [{ kind: "section", by: { chorus: [0.05, 0.16], bridge: [-0.10, -0.04] } }],
+        /* lofi's sub does not sweep -- env stays at 0 here and the movement is
+           small -- but the controls exist on this panel now, so this genre
+           still says what it wants of them rather than leaving them to drift
+           with whatever the last genre set. */
+        env:   [{ kind: "section", by: { chorus: [0.02, 0.06] } }],
+        res:   [{ kind: "lfo", bars: [[16, 2], [8, 1]], depth: [0.05, 0.20], shape: "sin" }],
+        /* a section-only move on a section this genre often does not have is a
+           lane that sometimes does nothing -- seed 1's form is
+           chorus,verse,chorus,verse,chorus,outro and the battery caught it as a
+           dead lane. An LFO underneath means it always breathes. */
+        fall:  [{ kind: "section", by: { bridge: [0.05, 0.15] } },
+                { kind: "lfo", bars: [[16, 2], [8, 1]], depth: [0.03, 0.10],
+                  shape: "sin", freePhase: true }],
       },
       /* the tape drifts more when the tape has been running longer -- a slow
          free-phase wander rather than anything tied to the form. */
@@ -3726,6 +3949,20 @@ const GENRE = {
                                         bridge: [-0.10, -0.02], outro: [0.04, 0.12] } }],
         /* the reed bites harder where the player leans in */
         bark: [{ kind: "section", by: { chorus: [0.06, 0.15], bridge: [-0.12, -0.05] } }],
+      },
+      /* THE SEQUENCE ITSELF DRIFTS, which is the whole point of it: a wave
+         sequence that steps at a fixed rate for four minutes is a tremolo. The
+         rate wanders free-phase so the timbre never arrives at the same place
+         twice, and the depth opens where the music opens. "A slowly moving
+         soundscape" is a description of automation as much as of a patch. */
+      waveseq: {
+        rate:  [{ kind: "lfo", bars: [[32, 3], [16, 2], [64, 1]], depth: [0.05, 0.16],
+                  shape: "sin", freePhase: true },
+                { kind: "section", by: { chorus: [-0.10, -0.04], bridge: [0.06, 0.16] } }],
+        depth: [{ kind: "section", by: { intro: [-0.20, -0.08], chorus: [0.05, 0.14],
+                                          bridge: [-0.16, -0.06], outro: [-0.18, -0.08] } },
+                { kind: "lfo", bars: [[24, 3], [48, 2]], depth: [0.04, 0.12],
+                  shape: "tri", freePhase: true }],
       },
       mellotron: {
         /* two mechanical faults on two timescales: the capstan wanders slowly
@@ -4006,10 +4243,12 @@ const GENRE = {
       mellotron: { voice: 1, wow: 0.0030, flutter: 0.25, hiss: 0.18, tapeEnd: 1 },
       rhodes:    { bark: 0.55, wow: 0.0010, tone: 0.95 },
       wurly:     { trem: 0.35, tremhz: 6.0, bark: 0.62 },
-      /* the sub bass, now that its two controls are real. Slightly darker and
-         with more teeth than the default -- this genre's bass is a synth, not a
-         finger. */
-      subbass:   { cut: 950, drive: 0.32 },
+      /* the sub bass. Slightly darker and with more teeth than the default --
+         this genre's bass is a synth, not a finger. */
+      /* the Nightcall verse bass: resonance high, a long decay sweeping the
+         filter down. Unreachable before this voice had an envelope.
+         [corpus:reverbmachine/nightcall] */
+      subbass:   { cut: 620, drive: 0.32, env: 0.62, res: 6.5, fall: 0.85 },
     },
     /* THE MOVEMENT, and this genre gets the most of it, because the thing that
        makes an eight-bar synth loop into a four-minute record is a filter that
@@ -4044,6 +4283,18 @@ const GENRE = {
            what makes a 303 line change character rather than just brightness. */
         envmod:[{ kind: "section", by: { chorus: [0.08, 0.20], bridge: [-0.16, -0.06],
                                          instrumental: [0.04, 0.14] } }],
+      },
+      /* THE SWEEP IS THIS GENRE'S BASS GESTURE. Nightcall's verse bass is a
+         filter falling through the note; riding how FAR it falls and how fast
+         is the same move a hand makes on that patch. */
+      subbass: {
+        env:  [{ kind: "section", by: { chorus: [0.08, 0.22], bridge: [-0.18, -0.06],
+                                        instrumental: [0.04, 0.14] } },
+               { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [0.03, 0.10], shape: "tri" }],
+        res:  [{ kind: "section", by: { chorus: [0.8, 2.4], bridge: [-1.5, -0.5] } }],
+        fall: [{ kind: "lfo", bars: [[16, 2], [32, 1]], depth: [0.05, 0.18],
+                 shape: "sin", freePhase: true }],
+        cut:  [{ kind: "section", by: { chorus: [120, 380], bridge: [-160, -60] } }],
       },
       /* THE GATE IS THE GESTURE IN THIS GENRE, and until the bus gains could be
          ridden it was a switch: on for the whole song at one depth. What a desk
@@ -4328,10 +4579,15 @@ const GENRE = {
        and bass stay auto: the chip IS this genre's kit and its bass, and putting
        an 808 under a David Wise cue would be a different game. [EAR] */
     machines: {
-      drums: [["auto", 1]],
-      bass:  [["auto", 1]],
-      keys:  [["auto", 7], ["mellotron", 3]],
-    },
+                /* THE WAVE SEQUENCE, which is what Wise actually reached for and
+                   this genre could not play. "For him it is all about the
+                   environments and atmosphere", and the Wavestation is how he
+                   got there -- so it takes a real share of the keys slot rather
+                   than being offered as a curiosity. The Mellotron keeps its
+                   place: a tape choir is the other half of that atmosphere. */
+                drums: [["auto", 8], ["tr808", 2]],
+                bass:  [["auto", 1]],
+                keys:  [["waveseq", 5], ["auto", 3], ["mellotron", 3]] },
     /* the choir strip, clean: this is a 1994 sample chip pretending to be a
        tape machine, not a 1968 tape machine. Wow and hiss well down from lofi's
        settings, because the SNES echo is the space here and tape noise is not
@@ -4348,6 +4604,9 @@ const GENRE = {
          three that really matters here -- a shade brighter than the patch,
          because Wise's writing sits up in the air. */
       subbass:   { cut: 860, drive: 0.16 },
+      /* the Wavestation experiment, slow: on the record the timbre travels, it
+         does not click. [corpus:vgmonline David Wise interview] */
+      waveseq:   { rate: 0.55, depth: 0.80, attack: 0.45 },
       /* the SNES echo: an eighth, fed back further than anything else here,
          because on that hardware it is the reverb as well as the delay */
       echo:      { div: 2, fb: 0.34, tone: 2400, hp: 200, send: 0.20, verb: 0.60 },
@@ -5452,6 +5711,11 @@ const GENRE = {
          Naming them here was a leftover from before they were removed, and
          the panel read NaN for both. */
       amen:  { tune: 0, tone: 13000, hp: 60, tail: 0.035, bus: 1.15 },
+      /* the Reese as 1994 used it: wide detune so the beating is audible at
+         this register, the sub carrying nearly half the level because the break
+         has no bottom at all, and the filter low so what you hear is growl
+         rather than saw. [corpus:emastered, corpus:reasonstudios] */
+      reese: { detune: 26, sub: 0.52, cut: 620, res: 5.5, sweep: 0.40 },
       drone: { cut: 210, res: 2.0, detune: 0.30 },
       wash:  { cut: 700 },
       tb303: { cutoff: 400, res: 12.0, envmod: 0.60, decay: 0.26,
@@ -5477,6 +5741,26 @@ const GENRE = {
         tune: [{ kind: "plock", density: [0.05, 0.12], amt: [-2.0, 2.0] }],
         bus:  [{ kind: "section", by: { intro: [-0.15, -0.06], chorus: [0.10, 0.26],
                                         instrumental: [0.04, 0.16], outro: [-0.18, -0.08] } }],
+      },
+      /* THE REESE IS RIDDEN, and the detune most of all -- widening it is how a
+         junglist makes the bass turn over harder into a drop, and it is the one
+         control on this voice whose movement is unmistakably the sound rather
+         than a treatment of it. */
+      reese: {
+        detune: [{ kind: "section", by: { chorus: [6, 16], bridge: [-8, -3],
+                                          instrumental: [3, 10], intro: [-10, -4] } },
+                 { kind: "lfo", bars: [[16, 3], [32, 2]], depth: [2, 7],
+                   shape: "tri", freePhase: true },
+                 { kind: "arc", from: [-6, -2], to: [4, 12], curve: "sCurve" }],
+        cut:   [{ kind: "section", by: { chorus: [180, 520], bridge: [-200, -80],
+                                          outro: [-260, -120] } },
+                { kind: "lfo", bars: [[16, 4], [8, 1]], depth: [60, 200], shape: "tri" },
+                { kind: "gesture", on: "fill", bars: 2, from: [0, 0], to: [400, 1100],
+                  curve: "exp" }],
+        res:   [{ kind: "section", by: { chorus: [1.0, 3.0], bridge: [-1.5, -0.5] } }],
+        sub:   [{ kind: "section", by: { bridge: [0.10, 0.24], chorus: [-0.06, 0.04] } }],
+        sweep: [{ kind: "lfo", bars: [[32, 2], [16, 1]], depth: [0.05, 0.16],
+                  shape: "sin", freePhase: true }],
       },
       drone: {
         cut: [{ kind: "section", by: { chorus: [80, 240], bridge: [-60, -20] } },

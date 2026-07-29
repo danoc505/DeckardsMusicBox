@@ -571,6 +571,59 @@ all. The send was on, correct, and connected to nothing with gaps in it: the
 measurement read **+0.0 dB**. **Check which bus a voice actually returns to
 before naming it in a feed.**
 
+### 5.4c The artist research pass — four more errors of the same shape
+
+Plastikman's bass turned out to be on the wrong lane, so every genre was
+re-researched against its named artists. **Four more errors, and three of them
+are the same shape: one voice doing the job of two, or a defining mechanism
+simply absent.**
+
+**JUNGLE — the Reese.** Jungle's bass has a name, an inventor and a date: Kevin
+"Reese" Saunderson, *Just Want Another Chance*, 1988, Casio CZ-5000. Junglists
+pitched it down and put it under the Amen. I had a smooth Prophet-style drone.
+The growl is **phase, not filter** — detuned sawtooths beat against each other
+and cancel where the partials cross ("the wub wub wub sound"), and the beating
+speeds up with pitch because it is between *partials*, not at a fixed rate. So
+the detune is **tens of cents, not four**. Jungle also carries two low layers,
+not one: the growl, plus "pure sine tones, sampled and processed through gear
+like the Akai S950" as "a pulsing undercurrent below the frantic breaks."
+`V.reese` is both in one patch, because the lane is one.
+
+**LOFI — the Dilla feel was half-built.** The genre had snare-early and
+kick-late and nothing else. Ethan Hein, bar by bar on Slum Village's *Get Dis
+Money*: the claps on 2 and 4 are **early** ("your ear orients itself around them,
+and everything else sounds late"); the offbeat hi-hats are **late**; the bass is
+pushed behind — "several of those notes are an entire 32nd note late." The
+mechanism is an **early anchor with everything trailing it**, and the parts that
+trail are the hats and the bass. `laneLean` already existed (built for Hawtin's
+machine drift) and this genre wasn't using it. Measured after: **snare 38 ms
+early, hats 16 ms late, bass 51 ms late.** This moved the snapshot; it was
+re-baselined deliberately.
+
+**SYNTHWAVE — the bass had no envelope.** Reverb Machine on *Nightcall*: the
+verse bass "is a resonant sweep patch ... a decaying filter sweep, achieved by
+setting the filter resonance high and using the filter envelope with a long
+decay time to sweep the filter downwards." `V.bass` had a **static** lowpass. The
+genre drew the 303 half the time and got a sweep; the other half it got a sub
+with no movement in it at all. `env` / `res` / `fall` added, `env: 0` is off and
+is what every other genre wants.
+
+**DKC — wave sequencing.** Wise: he was inspired by wave sequencing on the Korg
+Wavestation and "just [took] eight waveforms and played them in sequence and
+that first experiment became the baseline for Aquatic Ambiance." That is a
+*mechanism*, not an adjective, and it is why those pads don't sound like a synth
+holding a note. `V.waveseq` is four harmonic recipes crossfading in sequence
+across the note — deliberately different **spectra**, not filter settings,
+because a filter sweep is not a wave sequence. DKC now draws it for half its
+songs.
+
+**One thing I checked and did NOT change:** the Dilla kick. Sources conflict —
+"kick drum hits about 32nd notes ahead" and "a kick hitting 30 ms early" against
+"his snares and kick drums came in a fraction of a second later." Mine sits
+essentially on the grid (−1.5 ms measured) because `push` pulls the kit early and
+`kickLate` only applies off the downbeat. That is a defensible middle between two
+contested readings, and churning it on one source would be guessing.
+
 ### 5.4 Genre identity, for all seven
 
 The user's framing, which is the right one: *"lofi hip hop is defined by more
