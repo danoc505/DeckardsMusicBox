@@ -438,3 +438,132 @@ unimplemented:
    attack, longer release, more vibrato, more detune, more reverb, subtler
    aftertouch. That is a second parameter set for the same genre, which the
    architecture has no way to express today.
+
+---
+
+## The TD-3-MO panel, and the Devil Fish manual
+
+*From the photograph of a modded-out 303, and from Robin Whittle's own manual
+for the Devil Fish mod set (firstpr.com.au/rwi/dfish). Read after shipping ten
+knobs based on a photograph alone — which was not enough, and the manual said
+so in several places.*
+
+### What the manual corrected
+
+| control | what shipped | what the manual says |
+|---|---|---|
+| **MUFFLER** | a lowpass across the output | *not a filter.* "Two types of muted clipping … softens the loudest extremes … **whilst allowing the bass to pass largely unaffected** … little or no effect when the signal level at the VCA output is low." A lowpass does the opposite of the phrase in bold — it takes the top off everything at every level. |
+| **FILTER FM** | an independent oscillator driving the cutoff | *feedback.* "The output signal of the filter passes through the VCA (which includes the Muffler on its output) to the Filter FM pot, which feeds none, some or a lot of this signal back into" the filter. It is a loop around the whole voice, which is why it screams rather than merely brightening. |
+| **FILTER TRACKING** | a ratio on the cutoff knob | additive, ~**2.7 kHz per octave** at maximum, zero point about C at the bottom of the normal octave. As a ratio, how much it tracked depended on where the cutoff happened to sit. |
+| **ACCENT SWEEP** | a continuous 1–4 depth knob | a **three-position switch** that also doubles the resonance: on/normal-res, on/hi-res, off/hi-res. The depth it was setting is the ACCENT pot, which already existed. |
+| **SOFT ATTACK** | 0–200 ms | **0.3–30 ms.** Seven times too wide; the top of the dial was a pad. |
+| **NORMAL / ACCENT DECAY** | 50 ms–1.2 s / 40 ms–1.2 s | **16 ms–3 s** and **30 ms–3 s**, and they are *independent* — the accented one was being floored by the normal one, so a long accent decay could never be heard. |
+| **SLIDE TIME** | 10–300 ms | **60–360 ms** (normal, to five times normal). Most of the old dial was below anything the instrument can do. |
+
+### The one that matters most: the accent sweep has a MEMORY
+
+> "The first accent causes a positive output, but when the resonance pot is
+> fully clockwise, this sweeps upwards and **some charge remains in a capacitor
+> (C13)** by the time the next accent occurs. Consequently the second and
+> subsequent accent pulses cause a **higher output than the first**. This is one
+> of the keys to the emotional nature of the TB-303 — you poke it and it squeals
+> a little . . . you poke it again and it squeals even more."
+
+The voice had no state between notes at all: every accent opened the filter by
+exactly the same amount, so a bar of accents sat flat instead of winding up.
+That is now modelled — charge accumulates on the graph and bleeds away between
+notes — and the **SWEEP SPEED** switch is the manual's three time constants:
+
+- **fast** — first accent strong, subsequent ones smaller
+- **normal** — later accents *higher* than the first (the 303's own behaviour)
+- **slow** — slower to rise, rises about twice as high, slower to cool
+
+This is better than the automation lane it replaced, because it responds to
+what the part is playing rather than to the clock.
+
+### Still a departure, and named as one
+
+- **OVERDRIVE** here is a waveshaper with makeup gain. On the instrument it is
+  the *level of the oscillator into the filter*, "zero to 66.6 times normal" —
+  and at zero the self-oscillating filter can be heard alone. Different
+  topology; not yet changed.
+- **The step editor** is not on the instrument at all. A real 303 is programmed
+  through a one-octave keyboard in a mode nobody enjoyed.
+- **TEMPO, PATTERN GROUP, MODE** are drawn as the machine draws them but they
+  *report* rather than set — this program is the sequencer. They read the
+  tempo, which section is playing, and whether the lane is composed or pinned.
+- **The patch sockets** are drawn and inert. There is no outside to patch to.
+
+---
+
+## The apex arc
+
+*"It's not building, which the apex build should do… We can start with one bass
+note and fill in the silence with reverb, delay etc. and build up around that.
+It's maximising the minimal."*
+
+### What was wrong
+
+A song's energy was a **step function**: every bar of a section carried that
+section's one `energy` number, and the loudest thing in the record was whichever
+chorus happened to be last — almost always the final bars. Nothing moved *within*
+a section, and nothing expressed "the record goes somewhere".
+
+### What it is now
+
+FORM owns one value per **bar**, drawn from a genre table:
+
+- a low **floor** at the open, rising to the apex on a curve with a **bend**, so
+  the climb is slow first and steep near the top rather than a straight ramp
+- the apex **about two thirds through** (0.61–0.71 measured across genres)
+- one or two **lesser highs** before it, as raised-cosine bumps
+- a **dip** immediately before the apex — an arrival lands from a height only if
+  something falls first
+- a **tail**: the record leaves rather than stops
+
+Three things read it, each for a property it already owned:
+
+1. **The one gain formula** — `sec.energy` became the bar's arc value. The old
+   "+6% if this is the last chorus" bump is gone; the arc *is* the peak now.
+2. **The note thinner** — the new part, and the answer to "how much can we strip
+   away and then build up". Volume alone cannot do it: a quiet full pattern is
+   still a full pattern. Every note draws a keep value and survives if it clears
+   the bar's threshold, weighted by metric position so what is left at the floor
+   is the *pulse*, not a random scatter. The genre says what fraction it is
+   willing to lose — Plastikman 0.76 on the bass, lofi 0.30.
+3. **A new motion kind, `apex`** — a lane that follows the song's shape instead
+   of the clock, so the desk's high band and the 303's cutoff open *into the
+   arrival* and pull back through the dip. That is the DJ move — "using high,
+   mid and lows like a DJ does" — tied to the arrangement rather than to time.
+
+### Measured, 40 seeds per genre
+
+```
+  genre        apex at   arc open/apex/end    ev/bar open -> apex   loudest bar
+  lofi           0.64    0.50 / 1.00 / 0.55       25.8 -> 31.6         0.50
+  synthwave      0.68    0.29 / 1.00 / 0.41       24.4 -> 40.8         0.64
+  dkc            0.61    0.60 / 1.00 / 0.63       26.1 -> 35.9         0.50
+  vangelis       0.71    0.23 / 1.00 / 0.27        7.1 ->  9.6         0.64
+  acid           0.66    0.33 / 1.00 / 0.52       23.1 -> 31.9         0.61
+  plastikman     0.69    0.13 / 1.00 / 0.38       10.7 -> 33.3         0.69
+  jungle         0.65    0.37 / 1.00 / 0.46        9.6 -> 10.5         0.57
+```
+
+**Plastikman builds 3.1×** and its loudest bar now lands at 0.69 of the record —
+on the apex, not at the end. Synthwave 1.7×, acid and dkc about 1.4×.
+
+**Honest about the weak rows:** lofi and dkc still put their loudest bar at 0.50
+rather than on the apex, and jungle and vangelis barely thin at all (9.6→10.5,
+7.1→9.6). For vangelis and lofi that is partly deliberate — a beat tape sets a
+mood and stays in it, and the score swells rather than builds — but it is not
+*entirely* deliberate, and those three tables have not been earned by listening
+yet. Jungle in particular should drop and rebuild more than these numbers show.
+
+### A note on how this was checked
+
+The bar-by-bar note grid (`harness/probe_arc.js`) showed seed 1's Plastikman
+bass using **only steps 1, 2 and 5** in every bar of the song — which looked
+exactly like a bug. Measured across 60 seeds: the distribution is flat (53.1% in
+the first half, steps 0/4/8/12 correctly empty because `avoidKick` is on). Seed
+1 had simply drawn a three-note cell that landed early. Suspicion is not
+evidence in either direction.

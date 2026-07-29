@@ -159,8 +159,8 @@ const check = (label, ok, detail) => {
         `${after} -> ${await lit()}, composed was ${before}`);
 
   /* ── the 303's grid ── */
-  await pg.click(".sk-tb303 .acid .col:nth-child(3) .note"); await pg.waitForTimeout(220);
-  await pg.click(".sk-tb303 .acid .col:nth-child(3) .flag:nth-child(2)"); await pg.waitForTimeout(220);
+  await pg.click(".sk-td3mo .acid .col:nth-child(3) .note"); await pg.waitForTimeout(220);
+  await pg.click(".sk-td3mo .acid .col:nth-child(3) .flag:nth-child(2)"); await pg.waitForTimeout(220);
   const acid = await pg.evaluate(() => {
     const s = window.MK2.currentSong();
     return { acc: s.materials.A.bass.filter(n => n.bar === 0 && n.accent).map(n => n.step).join(","),
@@ -176,7 +176,7 @@ const check = (label, ok, detail) => {
         }), "the grid transposes by scale degree, so out-of-key is unreachable");
 
   /* ── the knob is an offset ── */
-  const kn = await pg.$(".sk-tb303 .kn[data-key='tb303.cutoff']");
+  const kn = await pg.$(".sk-td3mo .kn[data-key='tb303.cutoff']");
   const bx = await kn.boundingBox();
   await pg.mouse.move(bx.x + bx.width / 2, bx.y + 12);
   await pg.mouse.down();
@@ -192,7 +192,7 @@ const check = (label, ok, detail) => {
   check("...and the knob is marked as yours",
         await pg.evaluate(() => document.querySelector(".kn[data-key='tb303.cutoff']")
           .classList.contains("touched")));
-  await pg.dblclick(".sk-tb303 .kn[data-key='tb303.cutoff']"); await pg.waitForTimeout(150);
+  await pg.dblclick(".sk-td3mo .kn[data-key='tb303.cutoff']"); await pg.waitForTimeout(150);
   check("...and double-click releases it back to the genre",
         await pg.evaluate(() => window.MK2.TRIM["tb303.cutoff"] === undefined));
 

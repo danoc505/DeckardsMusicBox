@@ -160,6 +160,77 @@
   .sk-tb303 .brand{ background:#22231f; color:#e6e3d8; margin:-.85rem -1rem .8rem;
                     padding:.4rem 1rem; border-radius:4px 4px 0 0; }
   .sk-tb303 .brand .model{ color:#e8a33a; }
+
+  /* ── THE MODDED-OUT 303, as the machine looks ──────────────────────────────
+     Yellow powder-coat, black knobs with a red line, a row of patch sockets
+     along the top edge, and a lower deck of toggles and big rotaries. The panel
+     being cloned is a Devil-Fish-style modded 303 -- the same instrument the
+     knob row above describes, in the livery it actually wears. ── */
+  .sk-td3mo{ background:linear-gradient(#f2b21c, #e8a512 60%, #dd9b0c); color:#211a05;
+             border:1px solid #9a6c04; }
+  .sk-td3mo .brand{ background:#211a05; color:#f6e4b0; margin:-.85rem -1rem .7rem;
+                    padding:.4rem 1rem; border-radius:4px 4px 0 0; }
+  .sk-td3mo .brand .model{ color:#f2b21c; letter-spacing:.10em; }
+  /* the patch bay: sockets, drawn because they are on the panel, inert because
+     this program has no outside to patch to */
+  .sk-td3mo .jacks{ display:flex; gap:.55rem; flex-wrap:wrap; align-items:flex-start;
+                    padding:0 0 .5rem; margin-bottom:.5rem;
+                    border-bottom:1px solid rgba(0,0,0,.22); }
+  .sk-td3mo .jack{ width:2.35rem; text-align:center; }
+  .sk-td3mo .jack i{ display:block; width:19px; height:19px; margin:0 auto 2px;
+                     border-radius:50%; background:radial-gradient(#0b0b0b 42%, #2b2b2b 46%, #101010 62%);
+                     border:1px solid rgba(0,0,0,.55);
+                     box-shadow:inset 0 1px 2px rgba(255,255,255,.16); }
+  .sk-td3mo .jack span{ font-size:6.4px; letter-spacing:.03em; line-height:1.15;
+                        display:block; color:#4a3a08; text-transform:uppercase; }
+  .sk-td3mo .jacklab{ font-size:7px; letter-spacing:.14em; color:#6b5410;
+                      align-self:center; margin-left:.2rem; text-transform:uppercase; }
+  /* the main knob row and the lower deck */
+  .sk-td3mo .krow{ display:flex; gap:.5rem; flex-wrap:wrap; align-items:flex-start;
+                   padding-bottom:.6rem; }
+  .sk-td3mo .deck{ display:flex; gap:.7rem; flex-wrap:wrap; align-items:flex-end;
+                   border-top:1px solid rgba(0,0,0,.22); padding-top:.6rem; }
+  .sk-td3mo .kn .dial{ background:radial-gradient(circle at 38% 32%, #4a4a4a, #141414 68%);
+                       border:1px solid #6d4f06; }
+  .sk-td3mo .kn .ptr{ background:#d92b2b; }
+  .sk-td3mo .kn .cap, .sk-td3mo .sw .cap{ color:#3a2c06; }
+  .sk-td3mo .kn .val{ color:#6b5410; }
+  .sk-td3mo .sw button{ background:#1a1a1a; color:#e8dcae; border:1px solid #6d4f06; }
+  .sk-td3mo .sw button[aria-pressed="true"]{ background:#d92b2b; color:#fff; }
+  /* the two big rotaries and the volume: same knob, bigger dial */
+  .sk-td3mo .kn.big .dial{ width:56px; height:56px; }
+  .sk-td3mo .kn.big .cap{ font-size:8px; }
+  /* a red momentary button (SUB OSC, ACCENT) */
+  .sk-td3mo .btn3{ width:3.1rem; text-align:center; }
+  .sk-td3mo .btn3 b{ display:block; width:26px; height:26px; margin:0 auto 3px;
+                     border-radius:50%; border:1px solid #7a1010; cursor:pointer;
+                     background:radial-gradient(circle at 38% 32%, #ff6a5a, #c81f1f 70%);
+                     box-shadow:inset 0 1px 2px rgba(255,255,255,.35); }
+  .sk-td3mo .btn3[data-on="1"] b{ background:radial-gradient(circle at 38% 32%, #ffd0c8, #ff2a2a 70%);
+                                  box-shadow:0 0 7px rgba(255,60,40,.85); }
+  .sk-td3mo .btn3 span{ font-size:7px; letter-spacing:.10em; color:#3a2c06;
+                        text-transform:uppercase; display:block; }
+  /* the panel's readouts: knobs that report rather than set. Drawn like the
+     machine's, marked so nobody turns one expecting it to do something. */
+  .sk-td3mo .kn.ro .dial{ border-style:dashed; }
+  .sk-td3mo .kn.ro .ptr{ background:#2a2a2a; }
+  .sk-td3mo .rolab{ font-size:7px; letter-spacing:.10em; color:#6b5410;
+                    text-transform:uppercase; width:100%; padding-top:.35rem; }
+  .sk-td3mo .led{ width:3rem; text-align:center; }
+  .sk-td3mo .led i{ display:block; width:9px; height:9px; margin:0 auto 3px; border-radius:50%;
+                    background:#5c1a12; border:1px solid rgba(0,0,0,.4); }
+  .sk-td3mo .led.on i{ background:#ff3b22; box-shadow:0 0 6px rgba(255,60,34,.9); }
+  .sk-td3mo .led span{ font-size:7px; letter-spacing:.10em; color:#3a2c06; text-transform:uppercase; }
+  .sk-td3mo .smiley{ width:44px; height:44px; align-self:center; border-radius:50%;
+                     border:2px solid #211a05; position:relative; flex:0 0 auto; }
+  .sk-td3mo .smiley::before, .sk-td3mo .smiley::after{ content:""; position:absolute; top:12px;
+                     width:5px; height:8px; background:#211a05; border-radius:1px; }
+  .sk-td3mo .smiley::before{ left:11px; transform:rotate(18deg); }
+  .sk-td3mo .smiley::after{ right:11px; transform:rotate(-18deg); }
+  .sk-td3mo .smiley i{ position:absolute; left:9px; right:9px; bottom:9px; height:9px;
+                     border-bottom:2px solid #211a05; border-radius:0 0 40px 40px; }
+  .sk-td3mo .steps .st{ background:#1a1a1a; border-color:#6d4f06; color:#e8dcae; }
+  .sk-td3mo .grid > .cap, .sk-td3mo .seqlab{ color:#3a2c06; }
   /* the case is quarter-sawn: light bands over a dark ground, at a slight angle */
   .sk-mellotron{ color:#e8dcc4; border:1px solid #2e1c0e;
     background:linear-gradient(102deg, rgba(255,255,255,.05) 0 2px, transparent 2px 9px),
@@ -315,7 +386,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29l · the 303 gets its modded-out panel</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29m · the TD-3-MO panel and the apex arc</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1039,16 +1110,81 @@ const INSTRUMENTS = {
          decision the program was making for the conductor. These are those four,
          plus the five the mod adds that had no equivalent here at all.
          [theory: Devil Fish / TD-3-MO control set] */
+      /* ── THE RANGES ARE THE MANUAL'S ────────────────────────────────────────
+         These shipped as numbers that felt right and were not. The Devil Fish
+         manual states them, so they are stated here:
+
+           SOFT ATTACK   0.3 to 30 ms      (this had 0 to 200 ms -- 7x too wide,
+                                            and the top of the dial was a pad)
+           NORMAL DECAY  16 ms to 3 s      (this had 50 ms to 1.2 s)
+           ACCENT DECAY  30 ms to 3 s      (this had 40 ms to 1.2 s)
+           SLIDE TIME    60 to 360 ms      (normal, to five times normal; this
+                                            had 10 to 300 ms, so most of its
+                                            travel was below anything the
+                                            instrument can do)
+
+         [corpus:firstpr.com.au/rwi/dfish Devil Fish manual] */
       { k:"tune",     label:"tune",           cap:"TUNE",       min:-12, max:12,  step:0.5,  def:0, unit:"st", kind:"gesture" },
-      { k:"softAtk",  label:"soft attack",    cap:"SOFT ATTACK",min:0,   max:0.20,step:0.005,def:0.002, unit:"s", kind:"gesture" },
-      { k:"accDecay", label:"accent decay",   cap:"ACCENT DECAY",min:0.04,max:1.20,step:0.01, def:0.20, unit:"s", kind:"gesture" },
+      { k:"softAtk",  label:"soft attack",    cap:"SOFT ATTACK",min:0.0003,max:0.030,step:0.0005,def:0.002, unit:"s", kind:"gesture" },
+      { k:"accDecay", label:"accent decay",   cap:"ACCENT DECAY",min:0.030,max:3.0,step:0.01, def:0.20, unit:"s", kind:"gesture" },
       { k:"track",    label:"filter tracking",cap:"FILTER TRACKING",min:0,max:1,  step:0.01, def:0, kind:"gesture" },
-      { k:"slideTime",label:"slide time",     cap:"SLIDE TIME", min:0.01,max:0.30,step:0.005,def:0.055, unit:"s", kind:"gesture" },
+      { k:"slideTime",label:"slide time",     cap:"SLIDE TIME", min:0.060,max:0.360,step:0.005,def:0.060, unit:"s", kind:"gesture" },
       { k:"sweep",    label:"sweep depth",    cap:"SWEEP",      min:2,   max:24,  step:0.5,  def:14, kind:"gesture" },
-      { k:"accSweep", label:"accent sweep",   cap:"ACCENT SWEEP",min:1,  max:4,   step:0.05, def:2.2, kind:"gesture" },
+      /* ── ACCENT SWEEP IS A SWITCH, AND IT DOES TWO THINGS ───────────────────
+         It shipped here as a continuous 1..4 depth knob, which is not what is on
+         the instrument. The real control is a three-position toggle whose lower
+         two positions ALSO double the resonance feedback:
+
+           2  sweep on,  normal resonance
+           1  sweep on,  high resonance (the filter can self-oscillate)
+           0  sweep OFF, high resonance
+
+         "The Accent Sweep circuit is disabled when the Acc Sweep - Hi Resonance
+         switch is in its lower position. With the switch in the mid and upper
+         positions, the circuit is in operation." The depth it used to set is
+         not a separate knob on the machine at all -- it is the ACCENT pot,
+         which is already here. [corpus:dfish manual] */
+      { k:"accSweep", label:"off hi-res/on hi-res/on", cap:"ACCENT SWEEP", min:0, max:2, step:1, def:2, kind:"switch" },
+      /* ── SWEEP SPEED, AND THE THING IT CONTROLS ─────────────────────────────
+         This is the control that was missing, and it is the most interesting one
+         on the panel, because what it sets is a MEMORY. From the manual:
+
+           "The first accent causes a positive output, but ... some charge
+            remains in a capacitor (C13) by the time the next accent occurs.
+            Consequently the second and subsequent accent pulses cause a HIGHER
+            output than the first. This is one of the keys to the emotional
+            nature of the TB-303 - you poke it and it squeals a little . . . you
+            poke it again and it squeals even more."
+
+         So a run of accents climbs. This voice had no memory between notes at
+         all: every accent opened the filter by exactly the same amount, which is
+         why a bar of accents sat flat instead of winding up. The three positions
+         are the manual's three time constants.  [corpus:dfish manual] */
+      { k:"sweepSpeed", label:"slow/norm/fast", cap:"SWEEP SPEED", min:0, max:2, step:1, def:1, kind:"switch" },
       { k:"filterFM", label:"filter FM",      cap:"FILTER FM",  min:0,   max:1,   step:0.01, def:0, kind:"gesture" },
       { k:"subOsc",   label:"sub oscillator", cap:"SUB OSC",    min:0,   max:1,   step:0.01, def:0, kind:"gesture" },
-      { k:"muffler",  label:"muffler",        cap:"MUFFLER",    min:0,   max:1,   step:0.01, def:0, kind:"gesture" },
+      /* the sub's LEVEL switch, which is next to it on the panel */
+      { k:"subLevel", label:"low/mid/high",   cap:"LEVEL",      min:0, max:2, step:1, def:1, kind:"switch" },
+      /* ── THE MUFFLER IS NOT A FILTER ────────────────────────────────────────
+         It shipped here as a lowpass across the output. It is not one. From the
+         manual: "A three position Muffler Switch ... affects the output of the
+         VCA and provides two types of muted clipping ... It softens the loudest
+         extremes of the sound and introduces a moderate level square wave
+         clipping buzz, WHILST ALLOWING THE BASS TO PASS LARGELY UNAFFECTED. The
+         Muffler affects sounds which are louder than usual ... It has little or
+         no effect when the signal level at the VCA output is low."
+
+         A lowpass does the opposite of the sentence in capitals: it takes the
+         top off everything at every level. This is now a level-dependent soft
+         clipper with the lows routed around it, which is what the words
+         describe.  [corpus:dfish manual] */
+      { k:"muffler",  label:"off/soft/hard",  cap:"MUFFLER",    min:0, max:2, step:1, def:0, kind:"switch" },
+      { k:"volume",   label:"volume",         cap:"VOLUME",     min:0, max:1.4, step:0.01, def:1.0, kind:"voicing" },
+      /* the VCA's own decay. At the top of its travel the note holds for its
+         written duration, which is what this voice did before this knob
+         existed -- so the default changes nothing and turning it down is what
+         gives the short, plucked notes a 303 makes when the gate is brief. */
+      { k:"vcaDecay", label:"normal decay",   cap:"NORMAL DECAY", min:0.016, max:3.0, step:0.01, def:3.0, unit:"s", kind:"gesture" },
     ],
     /* THE 303'S PANEL. The knob row is the box's own, in the box's own order and
        with its own legends. The STEP GRID is not: a real 303 is programmed
@@ -1057,13 +1193,63 @@ const INSTRUMENTS = {
        ReBirth has used instead. That is a deliberate departure from the hardware
        and it is the reason anybody can program one now, so it is named here
        rather than passed off as authentic. */
+    /* ── THE PANEL IS THE PANEL ─────────────────────────────────────────────
+       This was four rows of knob groups in whatever order they were declared,
+       which is not what the instrument looks like and was fairly called out as
+       such. The machine has a specific physical arrangement and it is legible
+       in a photograph, so it is reproduced here:
+
+         a strip of PATCH SOCKETS along the top edge
+         ONE ROW of eleven knobs -- the six original 303 pots on the left, the
+           smiley badge, then the five modded-out pots on the right
+         a LOWER DECK of toggles, buttons and three big rotaries
+         the STEP EDITOR underneath
+
+       Three things on that deck report rather than set: TEMPO, PATTERN GROUP
+       and MODE. On the instrument they drive its own sequencer; here the
+       program IS the sequencer, so a knob of mine that claimed to set the tempo
+       would be a knob that does nothing. They are drawn as the machine draws
+       them and wired to READ the song -- tempo, which section is playing, and
+       whether this lane is running composed material or pinned material. They
+       are marked with a dashed bezel and say READS THE SONG underneath.
+
+       The sockets are drawn and inert. They are sockets: on the real panel they
+       do nothing until something is plugged into them, and this program has no
+       outside to plug into. They are labelled as such rather than left out,
+       because leaving them out is what made this panel stop looking like the
+       machine in the first place. */
     panel: {
-      skin: "tb303", maker: "Roland", title: "Bass Line TB-303",
-      groups: [
-        { label: "", keys: ["tune", "cutoff", "res", "envmod", "decay", "accent"] },
-        { label: "MODDED OUT", keys: ["softAtk", "accDecay", "track", "drive"] },
-        { label: "", keys: ["wave", "slideTime", "sweep", "accSweep"] },
-        { label: "", keys: ["filterFM", "subOsc", "muffler"] },
+      skin: "td3mo", maker: "Devil Fish", title: "Modded Out Bass Line",
+      jacks: [["FILTER", "IN"], ["FILTER FM", "IN"], ["FILTER CV", "IN"], ["", ""],
+              ["ACCENT", "IN"], ["SLIDE", "IN"], ["GATE", "IN"], ["CV", "IN"], ["SYNC", "IN"],
+              ["ACCENT", "OUT"], ["GATE", "OUT"], ["CV", "OUT"], ["FILTER", "OUT"], ["PHONES", ""]],
+      /* the knob row, left to right, exactly as it reads on the box */
+      /* ELEVEN KNOBS, because the machine has eleven. The right-hand pair reads
+         NORMAL - DECAY - ACCENT on the box: two decay pots where the original
+         303 had one. This instrument only ever had one decay parameter -- the
+         filter envelope's -- so the left DECAY keeps that job and NORMAL DECAY
+         takes the one the voice genuinely lacked: the VCA's own fall, which
+         until now was pinned to the note's written duration and nothing else.
+         That mapping is a judgement call and is called one; the manual's two
+         pots are both envelope-generator times, in series on the same axis. */
+      krow: ["tune", "cutoff", "res", "envmod", "decay", "accent",
+             "%smiley",
+             "softAtk", "vcaDecay", "accDecay", "track", "drive"],
+      deck: [
+        { t:"sw",   k:"subLevel" },
+        { t:"btn",  k:"subOsc",  cap:"SUB OSC" },
+        { t:"ro",   k:"tempo",   cap:"TEMPO" },
+        { t:"sw",   k:"wave" },
+        { t:"ro",   k:"group",   cap:"PATTERN GROUP" },
+        { t:"ro",   k:"mode",    cap:"MODE" },
+        { t:"led",  k:"gate",    cap:"GATE" },
+        { t:"knob", k:"slideTime" },
+        { t:"sw",   k:"sweepSpeed" },
+        { t:"sw",   k:"accSweep" },
+        { t:"knob", k:"filterFM" },
+        { t:"big",  k:"volume" },
+        { t:"sw",   k:"muffler" },
+        { t:"btn",  k:"accent",  cap:"ACCENT" },
       ],
       grid: "bass",
     },
@@ -1329,6 +1515,16 @@ function motionAt(plan, key, ev, offset){
               : u * u * (3 - 2 * u);                 // sCurve: smoothstep
       d += mv.from + (mv.to - mv.from) * w;
     }
+    /* ── APEX: a lane that follows the song's own shape ──────────────────────
+       An `arc` move runs from one end of the record to the other and knows
+       nothing about where the song peaks. This one reads FORM's arc, so a
+       filter opening under it opens into the apex, backs off through the dip
+       and comes down over the outro without anyone writing those times down.
+       `at` is a bar-indexed copy of form.arc, handed to the plan when it is
+       built. Depth is the swing from arc 0 to arc 1. */
+    else if(mv.kind === "apex"){
+      d += mv.from + (mv.to - mv.from) * (plan.arc ? plan.arc[bar] : 0.5);
+    }
     else if(mv.kind === "gesture"){
       for(const w of mv.win){
         if(tSec < w.a || tSec >= w.b) continue;
@@ -1415,6 +1611,17 @@ function makeMotion(chart, form, sections){
         out.push(Object.freeze({ kind: "arc", from, to, curve: sp.curve || "sCurve",
                                  seconds: nBars * 16 * spb }));
       }
+      /* ══ APEX — THE ARC, BUT SHAPED LIKE THE SONG ═════════════════════════
+         `arc` above runs from one end of the record to the other on a fixed
+         curve. It cannot know where the song peaks, so a filter riding it opens
+         steadily whether or not anything is arriving. `apex` reads FORM's own
+         arc instead: the same low opening, lesser highs, dip and peak that the
+         gain and the note thinner are already using. One shape, three readers.
+         A knob on this kind is doing what a hand does -- following the music. */
+      else if(sp.kind === "apex"){
+        const from = drawIn(sp.from, rng), to = drawIn(sp.to, rng);
+        out.push(Object.freeze({ kind: "apex", from, to }));
+      }
       else if(sp.kind === "gesture"){
         /* the size is drawn once per song so the gesture is the same gesture
            every time it happens; WHERE it happens is the arrangement's call and
@@ -1448,6 +1655,9 @@ function makeMotion(chart, form, sections){
   return Object.freeze({ spb, nBars, secFn: Object.freeze(secFn),
                          drums: (chart.picks && chart.picks.drums) || "kit",
                          seconds: nBars * 16 * spb,
+                         /* form's arc, so an `apex` lane can follow the song's
+                            own shape rather than the clock */
+                         arc: form.arc || null,
                          lanes: Object.freeze(lanes) });
 }
 
@@ -3396,13 +3606,51 @@ const Sound = (function(){
     const softAtk  = P(g, ev, "tb303", "softAtk", 0.002);
     const accDec   = P(g, ev, "tb303", "accDecay", 0.20);
     const track    = P(g, ev, "tb303", "track", 0);
-    const slideSec = P(g, ev, "tb303", "slideTime", 0.055);
+    const slideSec = P(g, ev, "tb303", "slideTime", 0.060);
     const sweep    = P(g, ev, "tb303", "sweep", 14);
-    const accSweep = P(g, ev, "tb303", "accSweep", 2.2);
+    const swMode   = Math.round(P(g, ev, "tb303", "accSweep", 2));    // 0 off+hi-res, 1 on+hi-res, 2 on
+    const swSpeed  = Math.round(P(g, ev, "tb303", "sweepSpeed", 1));  // 0 slow, 1 norm, 2 fast
     const fFM      = P(g, ev, "tb303", "filterFM", 0);
     const sub      = P(g, ev, "tb303", "subOsc", 0);
-    const muff     = P(g, ev, "tb303", "muffler", 0);
+    const subLvl   = Math.round(P(g, ev, "tb303", "subLevel", 1));
+    const muff     = Math.round(P(g, ev, "tb303", "muffler", 0));
+    const vol      = P(g, ev, "tb303", "volume", 1);
+    const vcaDec   = P(g, ev, "tb303", "vcaDecay", 3.0);
     const accented = !!ev.accent;
+
+    /* ── THE ACCENT SWEEP HAS A MEMORY ─────────────────────────────────────
+       "you poke it and it squeals a little . . . you poke it again and it
+       squeals even more" -- the charge left on C13 by one accent is still there
+       when the next arrives, so a RUN of accents climbs. This voice had no
+       state between notes: every accent opened the filter by exactly the same
+       amount, which is why a bar of accents sat flat.
+
+       The charge lives on the graph, not in a closure, because the graph is
+       what a render owns -- two renders of the same song each start from zero
+       and see the same events in the same order, so this stays deterministic.
+
+       SWEEP SPEED is the manual's three time constants:
+         fast    first accent strong, later ones SMALLER  (charge bleeds fast)
+         normal  later accents higher than the first      (the 303's own)
+         slow    slower to rise, rises about twice as high, slower to cool
+       [corpus:dfish manual] */
+    /* FAST GOES NEGATIVE, AND HAD TO BE ALLOWED TO. The manual is explicit that
+       in fast mode "the first accent causes a strong positive output, but
+       subsequent accents produce a SMALLER output" -- so its accumulation is a
+       damping, not a build. The first version clamped charge at zero, which
+       made fast mode identical to having no memory at all: a switch position
+       that did nothing. Each mode carries its own floor. */
+    const SPEED = [{ cool: 0.55, gain:  0.55, cap: 2.0, floor:  0 },     // slow
+                   { cool: 1.60, gain:  0.38, cap: 1.0, floor:  0 },     // normal
+                   { cool: 6.00, gain: -0.20, cap: 0.6, floor: -0.55 }]; // fast
+    const SP = SPEED[Math.max(0, Math.min(2, swSpeed))];
+    if(g.accQ == null){ g.accQ = 0; g.accT = t; }
+    /* cool down by however long it has been since the last note touched it */
+    g.accQ *= Math.exp(-Math.max(0, t - g.accT) * SP.cool);
+    g.accT = t;
+    const swOn = swMode >= 1;                    // lower position disables the circuit
+    const charge = swOn ? g.accQ : 0;
+    if(accented && swOn) g.accQ = Math.max(SP.floor, Math.min(SP.cap, g.accQ + SP.gain));
     const f = F(ev.pitch) * Math.pow(2, tune / 12);
     const nodes = [];
 
@@ -3426,50 +3674,52 @@ const Sound = (function(){
       subN.start(t); subN.stop(t + ev.durSec + 0.30); nodes.push(subN);
     }
 
-    const lp1 = c.createBiquadFilter(); lp1.type = "lowpass"; lp1.Q.value = res;
+    /* HI RES: the switch's lower two positions double the resonance feedback,
+       which is what lets the filter sing on its own. [corpus:dfish manual] */
+    const hiRes = swMode <= 1;
+    const lp1 = c.createBiquadFilter(); lp1.type = "lowpass";
+    lp1.Q.value = Math.min(30, res * (hiRes ? 2 : 1));
     const lp2 = c.createBiquadFilter(); lp2.type = "lowpass"; lp2.Q.value = 0.707;
-    /* ACCENT SWEEP is how much harder an accented note opens the filter, and
-       ACCENT DECAY is how fast it shuts again. On a stock 303 the second of
-       those is fixed -- which is exactly the limitation the mod removes, so
-       here it is a knob rather than Math.min(dec, 0.20). */
-    /* THE CEILING WAS THE BUG. This clamped at 1, and the default ENV MOD of
-       0.62 times the default ACCENT SWEEP of 2.2 is already 1.36 -- so the knob
-       saturated across its entire range and moved the sound by exactly nothing.
-       Measured: 0.0% on peak, brightness, low-band and level alike, which is
-       what a control clamped out of existence looks like.
-
-       There is no need for a tight ceiling here: `top` below is already bounded
-       at 11 kHz, which is the limit that actually matters. 3 lets the knob open
-       an accented note about twice as far as a plain one at the top of its
-       travel, which is what the accent sweep is for. */
-    const env = accented ? Math.min(3, envmod * accSweep) : envmod;
-    const d   = accented ? Math.min(dec, accDec) : dec;
-    /* FILTER TRACKING: how far the cutoff follows the note being played. At 0
-       the filter sits where the knob says whatever the pitch, which is the 303's
-       own behaviour and why its high notes go dull. */
-    const base = cutoff * (1 + track * (f / 110 - 1));
+    /* ACCENT DECAY is how fast the filter shuts again after an accent. On a
+       stock 303 it is fixed at about 200 ms -- which is exactly the limitation
+       the mod removes, so here it is a knob rather than Math.min(dec, 0.20).
+       It is no longer floored by the NORMAL decay either: the two envelopes are
+       independent on the instrument, and clamping the accented one to the
+       shorter of the pair meant a long accent decay could never be heard. */
+    /* the accent's own depth is the ACCENT pot -- which is what drives the sweep
+       circuit on the instrument -- plus whatever charge the last accents left */
+    const env = accented ? Math.min(3, envmod * (1 + accAmt + charge)) : envmod;
+    const d   = accented ? accDec : dec;
+    /* ── FILTER TRACKING, IN HERTZ PER OCTAVE ──────────────────────────────
+       This was a ratio -- cutoff * (1 + track*(f/110 - 1)) -- which makes the
+       tracking amount depend on where the cutoff knob happens to sit. The
+       instrument is additive and the manual gives the number: "at maximum, the
+       maximum Filter Tracking is about 2.7 kHz per volt (i.e. the filter goes
+       up ~2.7 kHz when the oscillator CV goes up an octave)", about a zero
+       point of C at the bottom of the normal octave. [corpus:dfish manual] */
+    const OCT = Math.log2(Math.max(20, f) / 65.41);            // octaves above C2
+    const base = Math.max(30, cutoff + track * 2700 * OCT);
     const top  = Math.min(11000, Math.max(60, base) * (1 + sweep * env));
     for(const lp of [lp1, lp2]){
       lp.frequency.setValueAtTime(top, t);
       lp.frequency.exponentialRampToValueAtTime(Math.max(60, base), t + d);
     }
-    /* FILTER FM: the oscillator modulating its own filter at audio rate. It is
-       the mod's most extreme control and the reason a TD-3-MO can scream. */
-    if(fFM > 0){
-      const fm = c.createGain(); fm.gain.value = fFM * base * 3.5;
-      o.connect(fm); fm.connect(lp1.frequency);
-    }
-
     const vca = c.createGain();
-    const lvl = LEVEL.bass * ev.gain * (accented ? 1 + 0.5 * accAmt : 1);
+    const lvl = LEVEL.bass * ev.gain * vol * (accented ? 1 + 0.5 * accAmt : 1);
     /* SOFT ATTACK. A stock 303 has no attack at all -- every note is a click --
-       and the mod adds one. Zero here reproduces the old behaviour exactly. */
+       and the mod adds one, between 0.3 and 30 ms. */
     if(softAtk > 0.0005){
       vca.gain.setValueAtTime(0.0002, t);
       vca.gain.linearRampToValueAtTime(lvl, t + softAtk);
     } else vca.gain.setValueAtTime(lvl, t);
-    vca.gain.setValueAtTime(lvl, t + ev.durSec * 0.9);
-    vca.gain.exponentialRampToValueAtTime(0.0002, t + ev.durSec * 0.9 + 0.012);
+    /* NORMAL DECAY: the VCA's own fall. At the top of the dial the note simply
+       holds for its written duration, which is what this voice did before the
+       knob existed, so the default is the old behaviour exactly. Below that the
+       note decays under the gate and you get the short plucked 303. */
+    const hold = ev.durSec * 0.9;
+    if(vcaDec < 2.99) vca.gain.setTargetAtTime(0.0002, t + Math.min(softAtk, 0.01), vcaDec / 3);
+    else              vca.gain.setValueAtTime(lvl, t + hold);
+    vca.gain.exponentialRampToValueAtTime(0.0002, t + hold + 0.012);
 
     /* the overdrive, and the makeup that keeps drive a TIMBRE control rather
        than a loudness control -- the same lesson the drum bus taught. */
@@ -3477,18 +3727,75 @@ const Sound = (function(){
     const sh = c.createWaveShaper(); sh.curve = g.satCurve; sh.oversample = "2x";
     const post = c.createGain(); post.gain.value = 1 / Math.max(1, drive * 0.8);
     o.connect(lp1);
-    if(subN){ const sg = c.createGain(); sg.gain.value = sub * 0.55; subN.connect(sg); sg.connect(lp1); }
+    /* the sub's LEVEL switch, low / mid / high, next to the button on the panel */
+    if(subN){
+      const sg = c.createGain(); sg.gain.value = sub * [0.28, 0.55, 0.95][Math.max(0, Math.min(2, subLvl))];
+      subN.connect(sg); sg.connect(lp1);
+    }
     lp1.connect(lp2); lp2.connect(vca);
     vca.connect(pre); pre.connect(sh); sh.connect(post);
-    /* THE MUFFLER is the last thing on that panel and the simplest: a lowpass
-       across the output that takes the edge off everything the overdrive just
-       did. At 0 it is out of the path, so it costs a genre that ignores it
-       nothing at all. */
-    if(muff > 0.001){
-      const mf = c.createBiquadFilter(); mf.type = "lowpass";
-      mf.frequency.value = 12000 - muff * 10600; mf.Q.value = 0.707;
-      post.connect(mf); mf.connect(g.bus.bass);
-    } else post.connect(g.bus.bass);
+
+    /* ── THE MUFFLER, AS THE MANUAL DESCRIBES IT ───────────────────────────
+       Not a lowpass. "Two types of muted clipping ... softens the loudest
+       extremes ... whilst ALLOWING THE BASS TO PASS LARGELY UNAFFECTED ... It
+       has little or no effect when the signal level at the VCA output is low."
+
+       So: split the output. The lows go straight through untouched, and only
+       the band above them is clipped -- which is what "the bass passes
+       unaffected" means in a signal chain. It is level-dependent by
+       construction, because a soft clipper does nothing to a small signal and
+       everything to a large one. Position 1 is the gentler curve, 2 the harder.
+       At 0 the whole thing is out of the path. */
+    let outNode = post;
+    if(muff >= 1){
+      const split = c.createGain();
+      post.connect(split);
+      const lowPass = c.createBiquadFilter(); lowPass.type = "lowpass";
+      lowPass.frequency.value = 160; lowPass.Q.value = 0.707;
+      const hi = c.createBiquadFilter(); hi.type = "highpass";
+      hi.frequency.value = 160; hi.Q.value = 0.707;
+      /* THE CURVE MATTERS, AND THE FIRST ONE WAS WRONG. This used `satCurve`
+         with hand-picked makeup, and measured +2.0 dB and +27% peak: a device
+         whose entire job is to soften the loudest extremes was making the voice
+         LOUDER. That is the same defect this file has now hit three times --
+         drum bus, 303 overdrive, 808 decay -- a timbre control that moves the
+         level. `chainCurve` is tanh(kx)/k, slope exactly 1 at the origin, so
+         drive-then-undrive is transparent for a small signal and clips a large
+         one. No taste constant, and level-neutral by construction. */
+      const D = muff >= 2 ? 3.4 : 1.9;
+      const mDrive = c.createGain(); mDrive.gain.value = D;
+      const mSh = c.createWaveShaper(); mSh.curve = g.chainCurve; mSh.oversample = "2x";
+      const mBack = c.createGain(); mBack.gain.value = 1 / D;
+      const mOut = c.createGain(); mOut.gain.value = 1;
+      /* the lows go round it untouched -- "allowing the bass to pass largely
+         unaffected" is the sentence this split exists to honour */
+      split.connect(lowPass); lowPass.connect(mOut);
+      split.connect(hi); hi.connect(mDrive); mDrive.connect(mSh); mSh.connect(mBack);
+      mBack.connect(mOut);
+      outNode = mOut;
+    }
+
+    /* ── FILTER FM IS FEEDBACK, NOT AN OSCILLATOR ──────────────────────────
+       This drove lp1.frequency from the raw oscillator, which is a second
+       modulation source the instrument does not have. The manual is explicit
+       about where the signal comes from: "the output signal of the filter
+       passes through the VCA (WHICH INCLUDES THE MUFFLER ON ITS OUTPUT) to the
+       Filter FM pot, which feeds none, some or a lot of this signal back into"
+       the filter. It is a feedback loop around the whole voice, which is why it
+       screams rather than merely brightening -- and it is taken from AFTER the
+       muffler, so the muffler setting changes what the feedback does. */
+    if(fFM > 0){
+      /* WebAudio silences a feedback cycle that contains no DelayNode, so the
+         loop needs one. A render quantum -- 128 samples, 2.9 ms at 44.1 k -- is
+         the smallest delay the graph can actually honour, and it is what the
+         API imposes rather than anything the instrument does. Named here so the
+         next reader does not "simplify" it away and wonder why FILTER FM stops
+         working. */
+      const dly = c.createDelay(0.05); dly.delayTime.value = 128 / c.sampleRate;
+      const fm = c.createGain(); fm.gain.value = fFM * base * 2.2;
+      outNode.connect(dly); dly.connect(fm); fm.connect(lp1.frequency);
+    }
+    outNode.connect(g.bus.bass);
     return nodes;
   };
 
@@ -4681,6 +4988,11 @@ const GENRE = {
       bridgeAfterChorus: { verse: 1, chorus: 2 },   // choruses heard before a bridge may be drawn
       energy: { intro: 0.55, outro: 0.5, bridge: 0.68, instrumental: 0.72,
                 chorus: 0.92, chorusPeak: 1.0, verse: 0.74 },
+      /* a beat tape does not climb much: it sets a mood and stays in it. High
+         floor, gentle bend, shallow dip. [EAR] */
+      arc: { apexAt: [0.58, 0.70], floor: [0.42, 0.56], tail: [0.48, 0.62],
+             bend: [1.1, 1.5], dip: [0.04, 0.10], preHighs: [1, 2],
+             thin: { drums: 0.22, bass: 0.30, keys: 0.38, lead: 0.42 } },
     },
 
     /* ── stage 3: materials ── */
@@ -5250,6 +5562,11 @@ const GENRE = {
          Lofi puts it at 0.72; synthwave must not. [tut:orpheus-structure] */
       energy: { intro: 0.42, outro: 0.38, bridge: 0.55, instrumental: 0.88,
                 chorus: 0.95, chorusPeak: 1.0, verse: 0.70 },          // [EAR]
+      /* an outrun record is built like a film cue: a long low opening, a clear
+         drop before the last chorus, a big finish that then leaves. [EAR] */
+      arc: { apexAt: [0.62, 0.74], floor: [0.22, 0.34], tail: [0.34, 0.48],
+             bend: [1.4, 2.0], dip: [0.16, 0.26], preHighs: [1, 2],
+             thin: { drums: 0.34, bass: 0.36, keys: 0.44, lead: 0.52 } },
     },
 
     pocket: [[[0, 8], 5],                    // 1 and 3   [tut:orpheus-drums, tut:modeaudio]
@@ -5782,6 +6099,11 @@ const GENRE = {
       bridgeAfterChorus: { verse: 1, chorus: 1 },
       energy: { intro: 0.50, outro: 0.45, bridge: 0.62, instrumental: 0.80,
                 chorus: 0.92, chorusPeak: 1.0, verse: 0.70 },
+      /* a level theme loops forever and cannot afford a long quiet opening --
+         it has to be playing by the time the player is. Highest floor here. */
+      arc: { apexAt: [0.55, 0.68], floor: [0.52, 0.66], tail: [0.55, 0.70],
+             bend: [1.0, 1.3], dip: [0.03, 0.09], preHighs: [1, 2],
+             thin: { drums: 0.16, bass: 0.20, keys: 0.28, lead: 0.30 } },
     },
 
     /* THE TWO THINGS THAT MAKE IT THIS GENRE ─────────────────────────────── */
@@ -6167,6 +6489,11 @@ const GENRE = {
          filter and the reverb, not in note velocity. [EAR] */
       energy: { intro: 0.35, outro: 0.30, bridge: 0.55, instrumental: 0.50,
                 chorus: 0.82, chorusPeak: 0.95, verse: 0.62 },
+      /* the score swells and recedes; it does not drop. A late apex, almost no
+         dip, and a long fade out of it. [EAR] */
+      arc: { apexAt: [0.64, 0.78], floor: [0.16, 0.28], tail: [0.20, 0.34],
+             bend: [1.5, 2.2], dip: [0.02, 0.08], preHighs: [1, 2],
+             thin: { drums: 0.30, bass: 0.34, keys: 0.30, lead: 0.44 } },
     },
 
     /* one event per bar is the whole point [corpus:theconversation] */
@@ -6447,6 +6774,12 @@ const GENRE = {
          intro -- because the kick leaves. [EAR] */
       energy: { intro: 0.45, outro: 0.40, bridge: 0.42, instrumental: 0.72,
                 chorus: 0.94, chorusPeak: 1.00, verse: 0.80 },
+      /* acid is a DJ record: a long tool-like intro, a hard breakdown before
+         the last third, and a tail that keeps going for the mix out. The
+         deepest dip of any genre here -- the breakdown IS the form. */
+      arc: { apexAt: [0.60, 0.72], floor: [0.26, 0.38], tail: [0.44, 0.60],
+             bend: [1.3, 1.9], dip: [0.22, 0.34], preHighs: [1, 2],
+             thin: { drums: 0.28, bass: 0.40, keys: 0.46, lead: 0.50 } },
     },
 
     /* four-on-the-floor, "on all four quarter-note beats (16th steps 1,5,9,13)"
@@ -6645,8 +6978,20 @@ const GENRE = {
            that is the whole reason anybody mods a 303. ── */
         sweep:    [{ kind: "section", by: { chorus: [2.0, 6.0], bridge: [-3.0, -1.0] } },
                    { kind: "lfo", bars: [[24, 3], [16, 2]], depth: [1.0, 3.5], shape: "tri", freePhase: true }],
-        accSweep: [{ kind: "section", by: { chorus: [0.15, 0.55] } },
-                   { kind: "lfo", bars: [[32, 2], [20, 1]], depth: [0.08, 0.28], shape: "sin", freePhase: true }],
+        /* ── ACCENT SWEEP USED TO BE RIDDEN HERE, AND NOTHING REPLACES IT ────
+           It is a three-position toggle on the instrument, not a knob, so it is
+           set per song and left alone. The obvious substitute was to ride the
+           ACCENT pot instead -- and the seam battery refused it, correctly:
+           `accent` is declared a VOICING, and the answer to "my table wants to
+           automate a control that is not automatable" is to drop the table, not
+           to relabel the control. That mistake has already been made once in
+           this file with the 808's tune knob.
+
+           What the sweep motion was FOR -- accents that grow across a passage
+           -- is now in the instrument itself, where the hardware puts it: a run
+           of accents leaves charge behind and climbs on its own. That is a
+           better answer than an automation lane, because it responds to what
+           the part is playing rather than to the clock. */
         accDecay: [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
         filterFM: [{ kind: "section", by: { chorus: [0.05, 0.22], bridge: [-0.05, -0.01] } },
                    { kind: "arc", from: [0, 0], to: [0.04, 0.16], curve: "sCurve" }],
@@ -6848,6 +7193,25 @@ const GENRE = {
          gesture, and this music's changes are timbral. [EAR, but principled] */
       energy: { intro: 0.80, outro: 0.72, bridge: 0.70, instrumental: 0.88,
                 chorus: 0.92, chorusPeak: 0.96, verse: 0.86 },
+      /* ── THE ONE THIS WAS BUILT FOR ───────────────────────────────────────
+         "It means starting small and building up ... How much can we strip away
+         and then build up." This genre's energy column is deliberately narrow
+         (0.70-0.96) because its dynamics are timbral, not loud -- so the arc
+         does the building instead, and it does it through THINNING rather than
+         through volume.
+
+         The lowest floor and the steepest bend in the file: the opening runs at
+         about a fifth of the record's density and takes two thirds of the song
+         to arrive. The thin numbers are the highest here too -- at the floor,
+         roughly three quarters of the bass notes and two thirds of the drum
+         hits simply do not play, and what is left is the skeleton with the
+         reverb and the echo around it. That is the "one bass note in a big
+         space" idea as a mechanism rather than as a special case: the material
+         is the full part all along, and the arc decides how much of it you are
+         allowed to hear yet. */
+      arc: { apexAt: [0.62, 0.76], floor: [0.08, 0.16], tail: [0.30, 0.46],
+             bend: [1.8, 2.6], dip: [0.10, 0.20], preHighs: [1, 2],
+             thin: { drums: 0.62, bass: 0.76, keys: 0.70, lead: 0.72 } },
     },
 
     pocket: [[[0, 4, 8, 12], 9], [[0, 4, 8, 12, 15], 1]],
@@ -7200,7 +7564,16 @@ const GENRE = {
                  shape: "sin", freePhase: true },
                { kind: "lfo", bars: [[24, 3], [32, 2], [16, 1]], depth: [1.2, 3.0],
                  shape: "sin", freePhase: true }],
-        high: [{ kind: "arc", from: [-9, -5], to: [1, 3], curve: "sCurve" },
+        /* ── THE HIGH BAND FOLLOWS THE SONG, NOT THE CLOCK ───────────────────
+           This was an `arc`: a smoothstep from -7 dB to +2 across the record,
+           which climbs whether or not anything is happening. `apex` reads the
+           shape FORM drew, so the top end opens as the record fills, pulls back
+           through the dip before the arrival, and comes down over the outro --
+           the same curve the note thinner and the gain formula are on. This is
+           the DJ move the user asked for ("using high, mid and lows like a DJ
+           does to shape and move the sounds") tied to the arrangement rather
+           than to elapsed time. */
+        high: [{ kind: "apex", from: [-9, -5], to: [1, 3] },
                { kind: "section", by: { bridge: [2, 5], intro: [-6, -3] } },
                { kind: "lfo", bars: [[64, 3], [32, 2]], depth: [1.2, 3.0],
                  shape: "tri", freePhase: true },
@@ -7215,6 +7588,9 @@ const GENRE = {
       tb303: {
         cutoff: [{ kind: "lfo", bars: [[64, 4], [32, 3], [16, 1]], depth: [200, 700],
                    shape: "tri", freePhase: true },
+                 /* and the filter opens INTO the arrival rather than across the
+                    clock -- the one gesture this music is made of */
+                 { kind: "apex", from: [-220, -120], to: [260, 700] },
                  { kind: "section", by: { bridge: [-160, -60], instrumental: [80, 300] } },
                  { kind: "plock", density: [0.08, 0.16], amt: [200, 900] }],
         res:   [{ kind: "lfo", bars: [[64, 3], [32, 2]], depth: [0.8, 2.4],
@@ -7230,8 +7606,12 @@ const GENRE = {
            All three are slow shaping rather than gestures -- which is this
            music's whole method. */
         slideTime:[{ kind: "lfo", bars: [[40, 3], [28, 2]], depth: [0.010, 0.045], shape: "sin", freePhase: true }],
-        muffler:  [{ kind: "arc", from: [0, 0.05], to: [0.10, 0.30], curve: "sCurve" },
-                   { kind: "lfo", bars: [[48, 2], [32, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        /* the MUFFLER was ridden here as if it were a knob. It is a three-way
+           toggle on the box. What it was doing -- a slow darkening across the
+           record -- is the VCA's own decay closing the notes down, which is a
+           knob, and belongs to this genre more honestly anyway. */
+        vcaDecay: [{ kind: "arc", from: [0, 0.20], to: [-1.40, -0.60], curve: "sCurve" },
+                   { kind: "lfo", bars: [[48, 2], [32, 1]], depth: [0.10, 0.35], shape: "sin", freePhase: true }],
         track:    [{ kind: "lfo", bars: [[64, 2], [44, 1]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
       },
       /* ── THE DRUMS HAVE TO CARRY THE OPENING ─────────────────────────────
@@ -7452,6 +7832,12 @@ const GENRE = {
       bridgeAfterChorus: { verse: 1, chorus: 1 },
       energy: { intro: 0.55, outro: 0.50, bridge: 0.38, instrumental: 0.82,
                 chorus: 0.96, chorusPeak: 1.00, verse: 0.84 },
+      /* jungle drops the break and brings it back, more than once -- so two
+         pre-highs are the norm rather than the exception, and the dip is deep
+         because the drop is the point. */
+      arc: { apexAt: [0.58, 0.72], floor: [0.30, 0.42], tail: [0.38, 0.54],
+             bend: [1.2, 1.7], dip: [0.20, 0.32], preHighs: [2, 2],
+             thin: { drums: 0.24, bass: 0.38, keys: 0.46, lead: 0.48 } },
     },
 
     /* the pocket is read by the bass here, not by the drums -- the chopper does
@@ -7976,6 +8362,73 @@ function makeForm(chart){
     return Object.freeze(o);
   });
   out.nBars = bar;
+
+  /* ═══ THE ARC ═════════════════════════════════════════════════════════════
+     A song's shape was a STEP FUNCTION: every bar of a section carried that
+     section's `energy` number and nothing moved inside it, so the loudest thing
+     in the record was wherever the last chorus happened to fall -- almost
+     always the very end. Records are not shaped that way. The research is
+     consistent: one main peak about two thirds of the way through, one or two
+     smaller highs before it, and a long quiet opening that earns them.
+
+     So FORM now owns a value per BAR. It is drawn here because form is the
+     stage that decides shape, and it is frozen with the rest of the form so no
+     later stage can bend it. Three things read it, and each reads it for the
+     property it already owned:
+
+       the gain formula        -- one line, replacing sec.energy
+       the note thinner        -- how much of the material is allowed to play
+       motion, kind "apex"     -- so filters and the desk swell with the song
+
+     THE SHAPE:
+       floor -> apex     a curve with a BEND, so the rise is slow at first and
+                         steep near the top rather than a straight ramp
+       apex -> tail      a smoothstep down; the record leaves rather than stops
+       pre-highs         one or two raised-cosine bumps before the apex
+       the dip           a short drop immediately before the apex, because an
+                         arrival lands from a height only if something falls
+                         first
+
+     Every draw here executes unconditionally -- the pre-high positions are
+     drawn to the genre's MAXIMUM count and then used up to the drawn count --
+     so changing how many bumps a genre gets cannot shift the stream underneath
+     everything drawn afterwards. */
+  const A = F.arc;
+  const ar = stream(chart.seed, "arc");
+  const apexAt = A.apexAt[0] + ar() * (A.apexAt[1] - A.apexAt[0]);
+  const floor  = A.floor[0]  + ar() * (A.floor[1]  - A.floor[0]);
+  const tail   = A.tail[0]   + ar() * (A.tail[1]   - A.tail[0]);
+  const bend   = A.bend[0]   + ar() * (A.bend[1]   - A.bend[0]);
+  const dipAmt = A.dip[0]    + ar() * (A.dip[1]    - A.dip[0]);
+  const nPre   = A.preHighs[0] + Math.floor(ar() * (A.preHighs[1] - A.preHighs[0] + 1));
+  const preP = [], preH = [];
+  for(let i = 0; i < A.preHighs[1]; i++){ preP.push(ar()); preH.push(ar()); }
+
+  const nB = Math.max(1, out.nBars);
+  const arc = [];
+  for(let b = 0; b < nB; b++){
+    const x = nB <= 1 ? 1 : b / (nB - 1);
+    let v;
+    if(x <= apexAt){
+      const u = apexAt <= 0 ? 1 : x / apexAt;
+      v = floor + (1 - floor) * Math.pow(u, bend);
+    } else {
+      const u = (x - apexAt) / Math.max(1e-6, 1 - apexAt);
+      v = 1 - (1 - tail) * (u * u * (3 - 2 * u));
+    }
+    for(let i = 0; i < nPre; i++){
+      const centre = apexAt * (0.22 + 0.62 * ((i + 1) / (nPre + 1)) + 0.10 * (preP[i] - 0.5));
+      const width  = 0.050 + 0.045 * preH[i];
+      const height = 0.14  + 0.20  * preH[i];
+      const dd = Math.abs(x - centre) / width;
+      if(dd < 1) v += height * 0.5 * (1 + Math.cos(Math.PI * dd));
+    }
+    const dd2 = Math.abs(x - (apexAt - 0.055)) / 0.042;
+    if(dd2 < 1) v -= dipAmt * 0.5 * (1 + Math.cos(Math.PI * dd2));
+    arc.push(Math.max(0, Math.min(1, v)));
+  }
+  out.arc = Object.freeze(arc);
+  out.apexBar = Math.round(apexAt * (nB - 1));
   return Object.freeze(out);
 }
 
@@ -9122,6 +9575,43 @@ function makePerformance(chart, form, materials, sections){
   const RIB = chart.table.ribbon;
   const PRESS = chart.table.pressure;
   const RGAIN = chart.table.roleGain || {};
+  /* how much of each part this genre is willing to lose at the bottom of the
+     arc. Read here, used in the one place notes are emitted. */
+  const THIN = (chart.table.form.arc && chart.table.form.arc.thin) || {};
+  /* ── A SLIDE NEEDS THE NOTE IT SLIDES FROM ──────────────────────────────────
+     Stage 3 writes `slide` on the note being slid INTO, and the note it glides
+     from is simply its predecessor in that lane. Thin that predecessor away and
+     the slide is left gliding from whatever is nearest -- which the seam battery
+     caught immediately: 473 slides arriving from a note struck at the same
+     instant, on the very first run of the thinner.
+
+     That check exists because this file has made the same mistake before, in
+     DKC, and it is worth reading as a general rule: a stage that REMOVES
+     material has to know which material something else depends on. So both ends
+     of every slide are protected here, and the thinner is not allowed near them.
+     Cheap: one pass over each part, once per song. */
+  const slideSafe = new Set();
+  const protectSlides = notes => {
+    const byLane = {};
+    for(const n of notes){
+      const L = n.lane || "";
+      (byLane[L] || (byLane[L] = [])).push(n);
+    }
+    for(const L in byLane){
+      const seq = byLane[L].slice().sort((a, b) => (a.bar - b.bar) || (a.step - b.step));
+      for(let i = 0; i < seq.length; i++){
+        if(seq[i].slide == null) continue;
+        slideSafe.add(L + ":" + seq[i].bar + ":" + seq[i].step);
+        if(i > 0) slideSafe.add(L + ":" + seq[i - 1].bar + ":" + seq[i - 1].step);
+      }
+    }
+  };
+  for(const k in materials){
+    const M2 = materials[k];
+    if(!M2) continue;
+    if(Array.isArray(M2)) protectSlides(M2);
+    else for(const r in M2) if(Array.isArray(M2[r])) protectSlides(M2[r]);
+  }
   const bassArtic = wpick(rngG, TOUCH.bassArtic);
   const strumSec  = TOUCH.strum[0] + rngG() * TOUCH.strum[1];
   const events = [];
@@ -9221,8 +9711,45 @@ function makePerformance(chart, form, materials, sections){
              a band EQ rather than a fader. There was nowhere to say "in THIS
              genre the bass sits under the kit". Absent or 1 changes nothing. */
           const accent = (role === "drums" && ACC[lane]) ? ACC[lane][n.step % 16] : 1;
-          const gain = Math.min(1.25, n.vel * accent * (0.72 + 0.28 * sec.energy)
-                                      * (sec.peak ? 1.06 : 1) * (RGAIN[role] || 1));
+          /* ── THE ARC REPLACES THE SECTION STEP ────────────────────────────
+             This read `sec.energy`, one number held flat for a whole section,
+             plus a 6% bump on whichever chorus happened to be last. So a song's
+             loudest moment was wherever that chorus landed -- nearly always the
+             final bars -- and nothing moved within a section at all.
+
+             `arcE` is the same quantity per BAR, from a curve form drew: a low
+             opening, one or two lesser highs, a dip, and the apex about two
+             thirds through. Same single owner, same formula, better source. The
+             sec.peak bump is gone because the arc IS the peak now; keeping both
+             would be two things claiming the same 6%. */
+          const arcE = form.arc ? form.arc[Math.min(form.arc.length - 1, bar)] : sec.energy;
+          const gain = Math.min(1.25, n.vel * accent * (0.72 + 0.28 * arcE)
+                                      * (RGAIN[role] || 1));
+          /* ── AND IT DECIDES HOW MUCH OF THE PART PLAYS ────────────────────
+             "How much can we strip away and then build up." Volume alone cannot
+             do that: a quiet full pattern is a quiet full pattern, not a sparse
+             one. So the arc also gates NOTES.
+
+             Every note draws its own keep value unconditionally, and the note
+             survives if that value clears the bar's threshold. Two things
+             protect the skeleton: the downbeat of every bar is never thinned,
+             and strong metric positions are weighted to survive first, so what
+             is left at the floor is the pulse rather than a random scatter.
+
+             `thin` is the genre's number: the FRACTION of the part it is
+             willing to lose when the arc is at zero. Plastikman sets 0.76 on
+             the bass; lofi sets 0.30. The material is the same either way --
+             this decides how much of it you are allowed to hear yet. */
+          const th = THIN[role] || 0;
+          const keepR = stream(chart.seed, "thin:" + role + ":" + bar + ":" + n.step + ":" + lane)();
+          if(th > 0 && n.step > 0 && !slideSafe.has(lane + ":" + n.bar + ":" + n.step)){
+            /* the metric weight of this step: downbeats survive, then the
+               half-bar, then quarters, then everything else */
+            const w = n.step % 16 === 0 ? 1 : n.step % 8 === 0 ? 0.78
+                    : n.step % 4 === 0 ? 0.55 : n.step % 2 === 0 ? 0.32 : 0.14;
+            const need = th * (1 - arcE) * (1 - w);
+            if(keepR < need) continue;
+          }
           const artic = role === "bass" ? bassArtic : 1;
           /* `lane` is WHAT the note is; `voice` is WHO plays it. The rig table is
              the only thing between them, and it is consulted here, in the one
@@ -9825,6 +10352,63 @@ function knobEl(m, c){
   return box;
 }
 
+/* ── A PANEL BUTTON ─────────────────────────────────────────────────────────
+   SUB OSC and ACCENT are red buttons on the machine, not knobs. A button is a
+   switch with a light: it writes the same TRIM the knobs do, so it is released
+   by the same double-click and read by the same panelValue. Continuous
+   controls (SUB OSC is 0..1) latch between zero and full. */
+function buttonEl(m, c, cap){
+  const key = m + "." + c.k;
+  if(PARAMS[key] == null) PARAMS[key] = c.def;
+  const box = el("div", "btn3");
+  box.dataset.key = key;
+  const b = el("b"), lab = el("span", null, cap || c.cap || c.label);
+  box.appendChild(b); box.appendChild(lab);
+  box.title = c.label + " — " + (c.max > 1 ? "a switch" : "on / off");
+  const on = () => panelValue(m, c.k) > (c.min + c.max) / 2;
+  box.refresh = () => {
+    box.dataset.on = on() ? "1" : "0";
+    box.classList.toggle("touched", !!TRIM[key]);
+  };
+  b.addEventListener("click", () => {
+    const to = on() ? c.min : c.max;
+    TRIM[key] = to - (PARAMS[key] == null ? c.def : PARAMS[key]);
+    box.refresh();
+  });
+  box.addEventListener("dblclick", () => { delete TRIM[key]; box.refresh(); });
+  box.refresh(); KNOBS.push(box);
+  return box;
+}
+
+/* ── A READOUT ──────────────────────────────────────────────────────────────
+   TEMPO, PATTERN GROUP and MODE are big rotaries on the instrument that drive
+   ITS sequencer. Here the program is the sequencer, so a knob of mine claiming
+   to set the tempo would move and change nothing -- the exact defect this file
+   has a check for. They are drawn the way the machine draws them and wired to
+   REPORT: the song's tempo, which section is playing, and whether this lane is
+   running composed or pinned material. The dashed bezel and the legend say so.
+   They are refreshed by refreshLive, so they move with the music. */
+const READOUTS = [];
+function readoutEl(m, it){
+  const box = el("div", "kn ro still");
+  box.dataset.ro = it.k;
+  box.title = "a readout — it reports the song, it does not set it";
+  const dial = el("div", "dial"), ptr = el("div", "ptr");
+  dial.appendChild(ptr);
+  const cap = el("div", "cap", it.cap || it.k), val = el("div", "val", "--");
+  box.appendChild(dial); box.appendChild(cap); box.appendChild(val);
+  box.appendChild(el("div", "rolab", "reads the song"));
+  box.setValue = (frac, text) => {
+    ptr.style.transform = "rotate(" + (-135 + 270 * Math.max(0, Math.min(1, frac))) + "deg)";
+    val.textContent = text;
+  };
+  READOUTS.push(box);
+  return box;
+}
+
+/* the indicator lamps, lit from the playhead by refreshLive */
+const LEDS = [];
+
 /* a two- or three-position control is a SWITCH on the real machines */
 function switchEl(m, c){
   const key = m + "." + c.k;
@@ -10088,6 +10672,7 @@ function drawPanels(){
   const host = $("panels");
   host.innerHTML = "";
   KNOBS.length = 0; GRIDS.length = 0; TRIGS.length = 0; LCD.length = 0;
+  READOUTS.length = 0; LEDS.length = 0;
   if(!SONG) return;
   /* the three picked slots, and then the SPACE -- which is not picked because
      there is nothing to choose: every genre has exactly one, and its panel is
@@ -10209,6 +10794,62 @@ function drawPanels(){
         host.appendChild(box);
         continue;
       }
+      /* ── A PANEL LAID OUT LIKE THE MACHINE ─────────────────────────────────
+         `krow` + `deck` render one knob row and one mixed lower deck, which is
+         what a 303-shaped instrument actually is. Panels with `groups` are
+         untouched. Element kinds on the deck:
+           knob/big  a knob, optionally oversized
+           sw        a toggle
+           btn       a red panel button (a switch drawn as the machine draws it)
+           led       an indicator that lights with the music
+           ro        a READOUT: shaped like a knob, reports the song, sets nothing */
+      if(P.krow || P.deck){
+        if(P.jacks){
+          const jr = el("div", "jacks");
+          for(const [a, b2] of P.jacks){
+            if(!a){ jr.appendChild(el("div", "jacklab", "·")); continue; }
+            const j = el("div", "jack");
+            j.appendChild(el("i"));
+            j.appendChild(el("span", null, a + (b2 ? " " + b2 : "")));
+            jr.appendChild(j);
+          }
+          jr.appendChild(el("div", "jacklab", "patch points — nothing to patch to"));
+          box.appendChild(jr);
+        }
+        if(P.krow){
+          const kr = el("div", "krow");
+          for(const k of P.krow){
+            if(k === "%smiley"){ const s = el("div", "smiley"); s.appendChild(el("i")); kr.appendChild(s); continue; }
+            const c = M.controls.find(x => x.k === k);
+            if(!c) continue;
+            kr.appendChild((c.step >= 1 && c.max - c.min <= 2) ? switchEl(m, c) : knobEl(m, c));
+          }
+          box.appendChild(kr);
+        }
+        if(P.deck){
+          const dk = el("div", "deck");
+          for(const it of P.deck){
+            if(it.t === "ro"){ dk.appendChild(readoutEl(m, it)); continue; }
+            if(it.t === "led"){
+              const L = el("div", "led"); L.appendChild(el("i"));
+              L.appendChild(el("span", null, it.cap || it.k));
+              L.dataset.led = it.k; LEDS.push(L); dk.appendChild(L); continue;
+            }
+            const c = M.controls.find(x => x.k === it.k);
+            if(!c) continue;
+            if(it.t === "btn"){ dk.appendChild(buttonEl(m, c, it.cap)); continue; }
+            const e2 = (it.t === "sw" || (c.step >= 1 && c.max - c.min <= 2))
+              ? switchEl(m, c) : knobEl(m, c);
+            if(it.t === "big") e2.classList.add("big");
+            dk.appendChild(e2);
+          }
+          box.appendChild(dk);
+        }
+        if(P.grid === "bass"){ const gr = bassGridEl(m, M); box.appendChild(gr); GRIDS.push(["bass", gr]); }
+        if(P.grid === "drums"){ const gr = drumGridEl(m, M); box.appendChild(gr); GRIDS.push(["drums", gr]); }
+        host.appendChild(box);
+        continue;
+      }
       const strip = el("div", "strip");
       for(const g of P.groups){
         const grp = el("div", "grp"), row = el("div", "row");
@@ -10289,6 +10930,47 @@ function refreshLive(){
         }
       }
       el2.classList.toggle("lit", on);
+    }
+  }
+  /* ── THE 303'S READOUTS AND ITS GATE LAMP ────────────────────────────────
+     TEMPO, PATTERN GROUP and MODE report; GATE lights while a bass note is
+     sounding. All four read the song rather than setting it. ── */
+  if((READOUTS.length || LEDS.length) && SONG){
+    const now = songTime();
+    const bar = now == null ? null : Math.floor(now / (16 * SONG.motion.spb));
+    const sec = bar == null ? null : SONG.sections.find(s => bar >= s.startBar && bar < s.endBar);
+    const iSec = sec ? SONG.sections.indexOf(sec) : -1;
+    const ROMAN = ["I", "II", "III", "IV"];
+    for(const r of READOUTS){
+      if(r.dataset.ro === "tempo"){
+        /* the dial spans the range a 303 sequencer spans, so the pointer sits
+           where it would on the machine at this song's tempo */
+        r.setValue((SONG.chart.tempo - 60) / 140, SONG.chart.tempo.toFixed(1));
+      } else if(r.dataset.ro === "group"){
+        r.setValue(iSec < 0 ? 0 : (iSec + 1) / Math.max(1, SONG.sections.length),
+                   iSec < 0 ? "--" : ROMAN[iSec % 4] + "·" + (iSec + 1));
+      } else if(r.dataset.ro === "mode"){
+        /* PLAY when the lane is running what the program composed, WRITE when a
+           hand has pinned steps into it -- which is the same distinction the
+           machine's own switch makes */
+        /* pins are an OBJECT keyed "role:pattern:bar:lane", not a list -- the
+           first version of this called .some() on it and threw, which took the
+           keys panel down with it because refreshLive runs inside drawPanels */
+        const pinned = !!SONG.chart.pins &&
+          Object.keys(SONG.chart.pins).some(k => k.split(":")[0] === "bass");
+        r.setValue(pinned ? 0.85 : 0.15, pinned ? "WRITE" : "PLAY");
+      }
+    }
+    for(const L of LEDS){
+      let on = false;
+      if(now != null && L.dataset.led === "gate"){
+        for(const e of SONG.perf.events){
+          if(e.role !== "bass") continue;
+          if(e.tSec > now) break;
+          if(now < e.tSec + e.durSec){ on = true; break; }
+        }
+      }
+      L.classList.toggle("on", on);
     }
   }
   /* ── AND THE SCREEN ── */
