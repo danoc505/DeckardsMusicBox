@@ -28,6 +28,22 @@
      a machine that does not falls back to .plain, the generic slider list that
      every machine used before this. Both are drawn by the same code. ══════ */
   #panels{ display:flex; flex-direction:column; gap:1.1rem; margin:1.1rem 0; }
+  /* THE BLEND. Seven sliders that always sum to 100: move one and the unlocked
+     others give way in proportion to what they already had. A lock pins a
+     genre's share so the give comes from somewhere else. */
+  #blend{ background:var(--panel); border:1px solid #33302a; padding:.55rem .7rem; margin:.9rem 0; }
+  #blend h2{ font-size:10px; letter-spacing:.16em; color:var(--hot); font-weight:normal;
+             margin:0 0 .45rem; text-transform:uppercase; }
+  #blend h2 span{ color:var(--dim); letter-spacing:0; text-transform:none; float:right; }
+  .bl{ display:grid; grid-template-columns:1.6rem 8.5rem 1fr 3.2rem; align-items:center;
+       gap:.4rem; margin:.1rem 0; }
+  .bl label{ color:var(--dim); font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .bl output{ color:var(--ink); font-size:12px; text-align:right; font-variant-numeric:tabular-nums; }
+  .bl input[type=range]{ width:100%; accent-color:var(--hot); background:none; border:none; padding:0; }
+  .bl .lk{ font-size:10px; padding:.05rem .25rem; border:1px solid #33302a; background:none;
+           color:var(--dim); cursor:pointer; line-height:1.1; }
+  .bl .lk.on{ color:var(--hot); border-color:var(--hot); }
+  .bl.zero label, .bl.zero output{ opacity:.4; }
   .machine{ border-radius:5px; padding:.85rem 1rem 1rem; position:relative;
             box-shadow:0 10px 26px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14); }
   .machine .brand{ display:flex; align-items:baseline; gap:.6rem; margin-bottom:.7rem; }
@@ -188,7 +204,7 @@
 <h1>DECKARD'S ORCHESTRATOR <small>MK2 — the rewrite. one genre, built to sound right first.</small></h1>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
-  <select id="genre" title="which genre's tables build the song"></select>
+  <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
   <select id="rig" title="which band plays it — same notes either way">
     <option value="draw">rig: drawn</option>
     <option value="band">rig: band</option>
@@ -200,6 +216,7 @@
   <button id="mid">export .mid</button>
   <span id="pos"></span>
 </div>
+<div id="blend"></div>
 <div class="row" id="rack">
   <select id="mDrums" title="which drum machine plays the kit part"></select>
   <select id="mBass"  title="which bass instrument plays the bass part"></select>
@@ -899,7 +916,7 @@ function motionAt(plan, key, ev, offset){
    to know where the fills are), frozen, and hung on the song. It is not a
    pipeline stage: it writes no note and no stage reads it. */
 function makeMotion(chart, form, sections){
-  const G = GENRE[chart.genre] || {};
+  const G = chart.table || GENRE[chart.genre] || {};
   const spb = (60 / chart.tempo) / 4;
   const nBars = form.nBars;
   /* which section function owns each bar -- the lookup a `section` move needs */
@@ -1090,7 +1107,9 @@ function loadParams(machine, over){
    that passes no drum machine gets the genre's own numbers unchanged, which is
    why every existing harness call still measures exactly what it measured. */
 function soundOf(genre, drumMachine){
-  const G = GENRE[genre] || GENRE.lofi;
+  /* a name, or a resolved table straight off a chart -- a blended song has no
+     name to look up and its sound is in the table like everything else */
+  const G = (genre && typeof genre === "object") ? genre : (GENRE[genre] || GENRE.lofi);
   const m = drumMachine || "kit";
   const M = INSTRUMENTS[m];
   /* base + the user's hand, and deliberately NOT motion: these four numbers are
@@ -1122,7 +1141,7 @@ function soundOf(genre, drumMachine){
 /* keyed by MACHINE, not by slot -- see below for why the slot version was wrong */
 const RACK_STATE = {};
 function applyRack(chart, force){
-  const G = GENRE[chart.genre] || {};
+  const G = chart.table || GENRE[chart.genre] || {};
   /* ═══ EVERY MACHINE THIS SONG CAN SOUND, not just the ones in a slot. ═══
      This loop used to walk the three SLOTS and skip any set to "auto" -- and
      "auto" means "whatever the rig names", which is most of them. So a genre's
@@ -1156,7 +1175,9 @@ function applyRack(chart, force){
   const want = new Set(Object.keys(INSTRUMENTS));
   for(const m of want){
     if(!INSTRUMENTS[m]) continue;
-    const tag = chart.genre + "/" + m;
+    /* keyed by the WHOLE blend, not just the dominant name: two different
+       blends that share a leading genre are different sounds and must reload. */
+    const tag = (chart.blend ? chart.blend.map(x => x[0] + x[1].toFixed(2)).join(",") : chart.genre) + "/" + m;
     if(!force && RACK_STATE[m] === tag) continue;
     RACK_STATE[m] = tag;
     loadParams(m, (G.params || {})[m]);
@@ -5775,6 +5796,179 @@ const GENRE = {
   },
 };
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE BLEND — elements of any genre in any other.
+
+   THE RULE, and it is the whole design: AVERAGE WHAT IS CONTINUOUS, DRAW WHAT
+   IS STRUCTURAL. Three operations cover the entire table:
+
+     mix    numbers and same-shape numeric arrays -> weighted average.
+            Tempo, gains, wet, densities, filter frequencies, accent maps.
+     merge  weighted tables [[value, weight], ...] -> concatenated, with each
+            genre's weights scaled by its share of the blend. This is the most
+            natural blend in the file: half lofi and half acid means the mode
+            draw is lofi's minor/dorian at half weight plus acid's
+            minor/phrygian at half, which is exactly what blending should mean.
+     draw   pick ONE genre to own this field, weighted by the blend.
+
+   WHY DRAWING IS NOT A COMPROMISE. The identifying features of these genres are
+   switches, and half a switch is nothing. Vangelis IS `initBend: 1.0`.
+   Plastikman IS `flourishBar: -1`, the line that says nothing is ever answered.
+   Jungle IS `chop`. Averaging flourishBar between -1 and 3 gives 1, which is
+   neither genre and is musically nothing at all. Drawn instead, a 70/30 song
+   makes a DEFINITE choice on every element -- so any single song is coherent,
+   and you hear the blend across the parts and across seeds rather than as a
+   smear inside every part. A chopped break under a Rhodes, not a half-chopped
+   half-Rhodes.
+
+   TWO FAILURE MODES, both found by measurement on a naive blender before this
+   was written, both fixed here:
+
+     1. INTEGER DOMAINS. counter.intervals are SCALE STEPS. Averaged, lofi and
+        acid gave -4.5, and there is no such thing as four and a half scale
+        steps: degMidi indexes MODES[mode][3.5], gets undefined, the pitch is
+        NaN and the seam check throws "out of key". Same class: swingUnit 1.5,
+        flourishBar 2.5, every step position and bar length. Those fields DRAW.
+     2. INTERNAL CONSISTENCY. A genre's register bands are tuned so that ITS
+        parts miss each other; averaging two sets put two parts on one pitch and
+        threw "collision in Avar". So `registers` is drawn AS A WHOLE, and the
+        same goes for the roles map, the material map and the kit variants.
+
+   AND DRAW GROUPS, for fields that only make sense together: taking bassStyle
+   from one genre and its acidLine table from another is a builder running on
+   another instrument's parameters. Fields in a group are drawn from the SAME
+   genre.
+
+   Determinism and Law 4 both hold: a blend is an INPUT to stage 1 exactly like
+   the rig and the picks, drawn on its own named substream, and no stage below
+   learns a genre name.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* paths whose subtree is drawn whole rather than blended */
+const BLEND_DRAW = new Set([
+  "label", "sevenths", "bassStyle", "gate", "chop", "ostinato",
+  "registers", "form.lengths", "form.material", "form.roles", "form.target",
+  "form.bridgeAfterChorus", "kit.variants", "kit.snare", "kit.ghostSpots",
+  "kit.openBars", "kit.hatEvery", "kit.kickKeep", "kit.flourishBar",
+  "kit.toms.loopSpots", "kit.toms.loopLanes",
+  "counter.style", "counter.intervals", "groove.swingUnit", "theme.count",
+  "bassPulse", "acidLine", "ribbon.down", "space.feeds", "space.echoFeeds",
+]);
+/* fields that must come from the SAME genre or the builder runs on another
+   instrument's numbers */
+const BLEND_GROUP = {
+  "bassStyle": "bass", "bassPulse": "bass", "acidLine": "bass", "bassAccent": "bass",
+  "form.lengths": "form", "form.material": "form", "form.roles": "form",
+  "form.target": "form", "form.bridgeAfterChorus": "form",
+  "kit.snare": "kit", "kit.ghostSpots": "kit", "kit.openBars": "kit",
+  "kit.hatEvery": "kit", "kit.kickKeep": "kit", "kit.flourishBar": "kit",
+  "kit.variants": "kit", "chop": "kit",
+  /* THE OSTINATO AND THE REGISTERS ARE ONE DECISION. Measured before this
+     grouping existed: 172 of 1890 blended songs threw "Cannot read properties
+     of undefined", every one of them a blend involving DKC or Plastikman -- the
+     two genres with an ostinato. The cell was drawn from one of them and the
+     register set from a genre that has no `ostinato` band, so the builder read
+     R.ostinato[0] off undefined. Grouping them is the same principle that the
+     register set is drawn whole for: a band only means something next to the
+     other bands it was tuned against, and an ostinato only means something next
+     to the band it was given. */
+  "registers": "ost", "ostinato": "ost",
+};
+
+const isWeightedTable = v => Array.isArray(v) && v.length &&
+  Array.isArray(v[0]) && v[0].length === 2 && typeof v[0][1] === "number" &&
+  !(typeof v[0][0] === "number" && v.length === 2 && typeof v[1][1] === "number" && v.length < 3);
+
+function blendField(vals, ws, path, owner){
+  const first = vals[0];
+  /* a drawn field: one genre owns it, and a group picks its owner once */
+  if(BLEND_DRAW.has(path)){
+    const grp = BLEND_GROUP[path];
+    if(grp != null && owner.group[grp] != null){
+      const i = owner.group[grp];
+      return vals[i] !== undefined ? vals[i] : first;
+    }
+    let x = owner.rng() * ws.reduce((a, b) => a + b, 0), k = 0;
+    for(let i = 0; i < vals.length; i++){ x -= ws[i]; if(x <= 0){ k = i; break; } k = i; }
+    if(grp != null) owner.group[grp] = k;
+    return vals[k];
+  }
+  if(typeof first === "number"){
+    let s = 0, w = 0;
+    for(let i = 0; i < vals.length; i++) if(typeof vals[i] === "number"){ s += vals[i] * ws[i]; w += ws[i]; }
+    return w ? s / w : first;
+  }
+  if(typeof first === "boolean" || typeof first === "string" || first === null){
+    let x = owner.rng() * ws.reduce((a, b) => a + b, 0);
+    for(let i = 0; i < vals.length; i++){ x -= ws[i]; if(x <= 0) return vals[i]; }
+    return first;
+  }
+  if(Array.isArray(first)){
+    /* a weighted table merges; a same-length numeric array averages; anything
+       else (ragged, mixed) is drawn */
+    if(isWeightedTable(first)){
+      const out = [];
+      for(let i = 0; i < vals.length; i++) if(isWeightedTable(vals[i]))
+        for(const pair of vals[i]) out.push([pair[0], pair[1] * ws[i]]);
+      return out.length ? out : first;
+    }
+    if(first.every(x => typeof x === "number") &&
+       vals.every(v => Array.isArray(v) && v.length === first.length && v.every(x => typeof x === "number"))){
+      return first.map((_, j) => {
+        let s = 0, w = 0;
+        for(let i = 0; i < vals.length; i++){ s += vals[i][j] * ws[i]; w += ws[i]; }
+        return s / w;
+      });
+    }
+    let x = owner.rng() * ws.reduce((a, b) => a + b, 0);
+    for(let i = 0; i < vals.length; i++){ x -= ws[i]; if(x <= 0) return vals[i]; }
+    return first;
+  }
+  /* an object: blend key by key */
+  const out = {}, keys = new Set();
+  for(const v of vals) if(v && typeof v === "object") for(const k in v) keys.add(k);
+  for(const k of keys){
+    const sub = [], sw = [];
+    for(let i = 0; i < vals.length; i++)
+      if(vals[i] && typeof vals[i] === "object" && vals[i][k] !== undefined){ sub.push(vals[i][k]); sw.push(ws[i]); }
+    if(sub.length) out[k] = blendField(sub, sw, path ? path + "." + k : k, owner);
+  }
+  return out;
+}
+
+/* names -> normalised weights, dropping anything at zero */
+function normaliseBlend(blend){
+  const names = [], ws = [];
+  for(const n in (blend || {})){
+    const w = +blend[n];
+    if(GENRE[n] && w > 0.0001){ names.push(n); ws.push(w); }
+  }
+  const tot = ws.reduce((a, b) => a + b, 0);
+  if(!names.length) return null;
+  return { names, ws: ws.map(w => w / tot) };
+}
+
+/* the blended table, built once per song and frozen like any other stage-1 input */
+function blendGenres(blend, seed){
+  const B = normaliseBlend(blend);
+  if(!B) return null;
+  if(B.names.length === 1) return GENRE[B.names[0]];
+  const owner = { rng: stream(seed, "blend"), group: {} };
+  const out = {}, keys = new Set();
+  for(const n of B.names) for(const k in GENRE[n]) keys.add(k);
+  for(const k of keys){
+    const vals = [], ws = [];
+    for(let i = 0; i < B.names.length; i++){
+      const v = GENRE[B.names[i]][k];
+      if(v !== undefined){ vals.push(v); ws.push(B.ws[i]); }
+    }
+    out[k] = blendField(vals, ws, k, owner);
+  }
+  out.label = B.names.map((n, i) => GENRE[n].label + " " + Math.round(B.ws[i] * 100) + "%").join(" + ");
+  out.blendOf = B.names.map((n, i) => [n, B.ws[i]]);
+  return out;
+}
+
 function makeChart(seed, rigChoice, genreChoice, picks, pins){
   const rng = stream(seed, "chart");
   /* THE RIG -- which band plays this song. Drawn on its OWN named substream, so
@@ -5782,8 +5976,25 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins){
      keeps its place. That is what named substreams are for. The UI may PIN it,
      exactly the way the seed field pins the seed -- an input to stage 1, never
      an override applied downstream. The draw runs unconditionally either way. */
-  const genre = GENRE[genreChoice] ? genreChoice : "lofi";
-  const G = GENRE[genre];
+  /* THE GENRE, or a BLEND of several. `genreChoice` may be a name or a map of
+     names to weights; either way stage 1 resolves it to ONE table and freezes
+     that onto the chart, so every stage below reads `chart.table` and none of
+     them can tell the difference. That is what keeps Law 4 true under blending:
+     no stage learns a genre name, it reads a table, and whether that table was
+     written by hand or blended from four is stage 1's business alone. */
+  const asBlend = (genreChoice && typeof genreChoice === "object") ? genreChoice : null;
+  const blended = asBlend ? blendGenres(asBlend, seed) : null;
+  /* A BLEND OF ONE IS THAT GENRE, byte for byte -- blendGenres returns the
+     plain table for a single name and never touches the blend substream, so
+     moving a slider to 100% gives back exactly the song the dropdown gave. That
+     is checked, and it is what keeps the 300-seed snapshot meaningful once the
+     sliders exist. The consequence here is that `blended` may be a plain table
+     with no blendOf on it, which the first version of this line read anyway. */
+  const names = asBlend ? Object.keys(asBlend).filter(n => GENRE[n] && asBlend[n] > 0.0001)
+                        : null;
+  const genre = names && names.length ? names.reduce((a, b2) => asBlend[b2] > asBlend[a] ? b2 : a, names[0])
+              : (GENRE[genreChoice] ? genreChoice : "lofi");
+  const G = blended || GENRE[genre];
   const rigRng   = stream(seed, "rig");
   const rigDrawn = wpick(rigRng, G.rig);
   const chart = {
@@ -5800,11 +6011,23 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins){
        The stream shape is therefore a property of the TABLE, which is fixed for
        a genre -- so determinism per (seed, genre) is exact, which is the
        contract that matters. [corpus:vgmusic transcription BPMs] */
-    tempo: (() => {
+    /* BPM IS AN INTEGER DOMAIN, and blending exposed that this only rounded the
+       OFFSET, not the base. A blend averages the tempo bounds, so 60% Vangelis
+       and 40% acid gives a lower bound of 80.8 and the song announced itself at
+       "82.80000000000001 bpm". Rounding the result costs nothing for a single
+       genre -- every genre's bounds are already whole numbers -- and the
+       snapshot says so. */
+    tempo: Math.round((() => {
       if(!G.tempoBands) return G.tempo[0] + Math.round(rng() * (G.tempo[1] - G.tempo[0]));
       const band = wpick(rng, G.tempoBands), pos = rng();
       return band[0] + Math.round(pos * (band[1] - band[0]));
-    })(),
+    })()),
+    /* the resolved table: what every stage below actually reads. */
+    table: G,
+    /* the blend that produced it, or null -- carried so the UI and the harness
+       can say what a song IS without re-deriving it. */
+    blend: (blended && blended.blendOf)
+             ? Object.freeze(blended.blendOf.map(x => Object.freeze(x.slice()))) : null,
     /* the rack, frozen into the chart. Like the rig it is an INPUT to stage 1,
        never an override applied downstream, so a song is fully described by
        (seed, genre, rig, picks) and nothing later can quietly change who plays. */
@@ -5831,7 +6054,7 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins){
    satisfy with the property it owns. Form demands; it never edits notes.
    ═══════════════════════════════════════════════════════════════════════════ */
 function makeForm(chart){
-  const F = GENRE[chart.genre].form, LEN = F.lengths;
+  const F = chart.table.form, LEN = F.lengths;
   const rng = stream(chart.seed, "form");
   const fns = [];
   const coldOpen = rng() < F.coldOpen;                  // a cold open is a choice, not an absence
@@ -5906,7 +6129,7 @@ function makeForm(chart){
 
 function makeMaterials(chart){
   const BARS = 4;
-  const G = GENRE[chart.genre], R = G.registers;
+  const G = chart.table, R = G.registers;
   const { root, mode } = chart;
   const key = (b, s, p) => b + ":" + s + ":" + p;
 
@@ -6783,7 +7006,7 @@ function makeMaterials(chart){
    only; this stage never edits a note.
    ═══════════════════════════════════════════════════════════════════════════ */
 function makeArrangement(chart, form, materials){
-  const F = GENRE[chart.genre].form, MAT = F.material, ROLES = F.roles;
+  const F = chart.table.form, MAT = F.material, ROLES = F.roles;
   return Object.freeze(form.map((sec, i) => {
     let material = MAT[sec.fn];
     let stripHalf = false;
@@ -6831,9 +7054,9 @@ function makeArrangement(chart, form, materials){
 
 function makePerformance(chart, form, materials, sections){
   const spb = (60 / chart.tempo) / 4;
-  const GR = GENRE[chart.genre].groove, TOUCH = GENRE[chart.genre].touch;
+  const GR = chart.table.groove, TOUCH = chart.table.touch;
   const LEAN = GR.laneLean || {};
-  const ACC = GENRE[chart.genre].accent;
+  const ACC = chart.table.accent;
   const rngG = stream(chart.seed, "groove");
   const swingRatio = GR.swing[0] + rngG() * GR.swing[1];
   /* SWING AS A TIME WARP, not an offset added to selected steps.
@@ -6884,7 +7107,7 @@ function makePerformance(chart, form, materials, sections){
   const jitterSec  = GR.jitter[grooveStyle] != null ? GR.jitter[grooveStyle] : GR.jitter.even;
   /* the player's touch, drawn once per song: how long the bass lets notes ring,
      and how wide the keys' strum rolls (a real strum is milliseconds, not grid) */
-  const RIB = GENRE[chart.genre].ribbon;
+  const RIB = chart.table.ribbon;
   const bassArtic = wpick(rngG, TOUCH.bassArtic);
   const strumSec  = TOUCH.strum[0] + rngG() * TOUCH.strum[1];
   const events = [];
@@ -7197,11 +7420,12 @@ function toMidi(song){
 let SONG = null, playing = false;
 const $ = id => document.getElementById(id);
 
-function describe(song){
+function describe(song){ $("info").textContent = describeText(song); describeStory(song); }
+function describeText(song){
   const c = song.chart;
   const name = ch => NOTE_NAMES[pc(degMidi(c.root, c.mode, ch.degree))] + "7";
-  $("info").textContent =
-    `${GENRE[c.genre].label} · ${NOTE_NAMES[c.root]} ${c.mode} · ${c.tempo} bpm · rig ${c.rig} · ` +
+  return (
+    `${c.table.label} · ${NOTE_NAMES[c.root]} ${c.mode} · ${c.tempo} bpm · rig ${c.rig} · ` +
     `${song.form.nBars} bars · seed ${c.seed}\n` +
     `progression: ${song.materials.chords.map(name).join("  ")}` +
     `   ·   bridge goes: ${song.materials.bridgeChords.map(name).join("  ")}` +
@@ -7210,11 +7434,106 @@ function describe(song){
     (song.perf.groove.style === "dilla"
       ? ` (snare ${(song.perf.groove.snareEarly*100).toFixed(0)}%%16 early, kick +${(song.perf.groove.kickLate*100).toFixed(0)}%%16 late)`
       : "") +
-    ` · ${song.perf.events.length} events`;
+    ` · ${song.perf.events.length} events`);
+}
+function describeStory(song){
   $("story").textContent = "story:  " + song.sections.map(s =>
     s.fn + (s.peak ? "^" : "") + "[" + s.material + (s.stripHalf ? "*strip" : "") + "]" +
     (s.fillInto ? "+fill" : "")).join("  →  ");
 }
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE BLEND SLIDERS — a constrained simplex with locks.
+
+   The weights always sum to 1. Move one to v and the UNLOCKED others give way
+   in proportion to what they already had, which is what makes it feel like a
+   mixer rather than seven independent dials: taking a genre from 100 to 75 and
+   then adding a third does not wipe out the second.
+
+   LOCKS pin a share. If the locked total is L, an unlocked slider can only
+   reach 1 - L, and it clamps there rather than silently refusing -- a slider
+   that will not move and does not say why is the worst kind. If everything is
+   locked, nothing can move, and the header says so.
+
+   EDGE CASE that matters: if every other unlocked genre is at zero there is
+   nothing to give way in proportion TO, so the remainder is shared equally.
+   Without that, moving a slider down from 100 leaves 0.25 nowhere to go and
+   the sum breaks.
+   ═══════════════════════════════════════════════════════════════════════════ */
+const BLEND = {};                 // genre -> weight, always summing to 1
+const BLEND_LOCK = new Set();
+
+function setBlend(name, v){
+  const names = Object.keys(BLEND);
+  let locked = 0;
+  for(const n of names) if(n !== name && BLEND_LOCK.has(n)) locked += BLEND[n];
+  v = Math.max(0, Math.min(1 - locked, v));
+  const free = names.filter(n => n !== name && !BLEND_LOCK.has(n));
+  const rest = 1 - locked - v;
+  const had = free.reduce((a, n) => a + BLEND[n], 0);
+  BLEND[name] = v;
+  if(had > 1e-9) for(const n of free) BLEND[n] = BLEND[n] / had * rest;
+  else if(free.length) for(const n of free) BLEND[n] = rest / free.length;
+  /* rounding dust: put it on the largest unlocked share so the sum is exact */
+  const sum = names.reduce((a, n) => a + BLEND[n], 0);
+  if(Math.abs(sum - 1) > 1e-9){
+    const big = (free.length ? free : names).reduce((a, n) => BLEND[n] > BLEND[a] ? n : a, (free[0] || names[0]));
+    BLEND[big] += 1 - sum;
+  }
+}
+/* the preset the dropdown sets: one genre, everything else off */
+function soloBlend(name){
+  BLEND_LOCK.clear();
+  for(const n in BLEND) BLEND[n] = (n === name) ? 1 : 0;
+}
+/* what composeSong is handed: a name when it really is one genre, so a single
+   genre stays byte-for-byte the song it always was, and a weight map otherwise */
+function blendArg(){
+  const on = Object.keys(BLEND).filter(n => BLEND[n] > 0.0005);
+  if(on.length === 1) return on[0];
+  const out = {};
+  for(const n of on) out[n] = BLEND[n];
+  return out;
+}
+function drawBlend(){
+  const host = $("blend");
+  host.innerHTML = "";
+  const h = el("h2", null, "genre blend");
+  const allLocked = Object.keys(BLEND).every(n => BLEND_LOCK.has(n));
+  h.appendChild(el("span", null, allLocked ? "every genre is locked — unlock one to move"
+                                           : "sliders always total 100%"));
+  host.appendChild(h);
+  for(const n of Object.keys(BLEND)){
+    const row = el("div", "bl" + (BLEND[n] < 0.0005 ? " zero" : ""));
+    const lk = el("button", "lk" + (BLEND_LOCK.has(n) ? " on" : ""), BLEND_LOCK.has(n) ? "L" : "·");
+    lk.title = "lock this share so other sliders take from elsewhere";
+    lk.addEventListener("click", () => {
+      BLEND_LOCK.has(n) ? BLEND_LOCK.delete(n) : BLEND_LOCK.add(n);
+      drawBlend();
+    });
+    row.appendChild(lk);
+    row.appendChild(el("label", null, GENRE[n].label));
+    const sl = document.createElement("input");
+    sl.type = "range"; sl.min = 0; sl.max = 100; sl.step = 1;
+    sl.value = Math.round(BLEND[n] * 100);
+    sl.disabled = BLEND_LOCK.has(n);
+    const out = el("output", null, Math.round(BLEND[n] * 100) + "%");
+    sl.addEventListener("input", () => {
+      setBlend(n, +sl.value / 100);
+      /* redraw every readout: this slider moved the others too */
+      for(const r of host.querySelectorAll(".bl")) if(r.refresh) r.refresh();
+      out.textContent = Math.round(BLEND[n] * 100) + "%";
+    });
+    sl.addEventListener("change", () => { newSong(SONG ? SONG.chart.seed : 1); drawBlend(); });
+    row.refresh = () => {
+      sl.value = Math.round(BLEND[n] * 100);
+      out.textContent = Math.round(BLEND[n] * 100) + "%";
+      row.classList.toggle("zero", BLEND[n] < 0.0005);
+    };
+    row.appendChild(sl); row.appendChild(out);
+    host.appendChild(row);
+  }
+}
+
 function newSong(forcedSeed){
   const seed = forcedSeed != null ? forcedSeed : (parseInt($("seed").value, 10) || 1);
   $("seed").value = seed;
@@ -7225,13 +7544,28 @@ function newSong(forcedSeed){
      correct check take the whole program down. So: a compose that throws drops
      the pitched pins, retries once, and SAYS SO. Drum pins have no pitch and
      survive a key change untouched, which is why only the bass ones go. */
-  let dropped = 0;
+  let dropped = 0, blendNote = "";
+  const G0 = blendArg();
   try {
-    SONG = composeSong(seed, $("rig").value, $("genre").value, PICK, PINS);
+    SONG = composeSong(seed, $("rig").value, G0, PICK, PINS);
   } catch(err){
     for(const k in PINS) if(k.startsWith("bass:")){ delete PINS[k]; dropped++; }
-    if(!dropped) throw err;
-    SONG = composeSong(seed, $("rig").value, $("genre").value, PICK, PINS);
+    if(dropped){
+      SONG = composeSong(seed, $("rig").value, G0, PICK, PINS);
+    } else if(typeof G0 === "object"){
+      /* A BLEND CAN FAIL TO COMPOSE, and the seam check is right to say so
+         rather than be loosened. Measured across 1890 blended pairs: 1 threw a
+         register collision, and a three-way found a bar where no chord voicing
+         fit clear of the bass and the ostinato. That is roughly one song in six
+         hundred, it is caught, and the honest answer is to say WHICH seed and
+         WHY rather than silently reseed behind the user's back. */
+      blendNote = `\nthis blend does not compose at seed ${seed}: ${err.message}` +
+                  `\ntry another seed, or move a slider — the seam check is right, ` +
+                  `these tables genuinely collide here.`;
+      if(!SONG) throw err;
+      $("info").textContent = describeText(SONG) + blendNote;
+      return SONG;
+    } else throw err;
   }
   describe(SONG);
   if(dropped) $("info").textContent +=
@@ -7749,6 +8083,11 @@ function boot(){
     const g = $("genre");
     g.innerHTML = Object.keys(GENRE).map(k =>
       `<option value="${k}">${GENRE[k].label}</option>`).join("");
+    /* the blend starts as whatever the dropdown says: one genre at 100%, which
+       is byte-for-byte the song this program has always made. */
+    for(const k of Object.keys(GENRE)) BLEND[k] = 0;
+    soloBlend(g.value || Object.keys(GENRE)[0]);
+    drawBlend();
   }
   {                                  /* the slot pickers, built FROM the rack */
     const ids = { drums:"mDrums", bass:"mBass", keys:"mKeys" };
@@ -7765,7 +8104,9 @@ function boot(){
       });
     }
   }
-  $("genre").addEventListener("change", () => { stopPlayback(); newSong(); });
+  /* the dropdown is a PRESET now: it solos one genre and the sliders follow */
+  $("genre").addEventListener("change", () => {
+    stopPlayback(); soloBlend($("genre").value); drawBlend(); newSong(); });
   $("rig").addEventListener("change", () => { stopPlayback(); newSong(); });
   newSong(1);
 }

@@ -200,6 +200,58 @@ where the song is), 32% free-running LFOs, 10% per-step p-locks. The reverse
 direction — knobs changing notes — is forbidden by the stage boundary and must
 stay forbidden.
 
+### The blend — elements of any genre in any other
+
+`composeSong`'s genre argument takes a **name or a map of names to weights**.
+Stage 1 resolves either to ONE table and freezes it onto `chart.table`, which is
+what every stage below reads. That is what keeps Law 4 true under blending: no
+stage learns a genre name, it reads a table, and whether that table was written
+by hand or blended from seven is stage 1's business alone.
+
+**The rule: average what is continuous, draw what is structural.** Three
+operations cover the whole table:
+
+| op | applies to | why |
+|----|-----------|-----|
+| `mix` | numbers, same-shape numeric arrays | tempo, gains, wet, densities, accent maps |
+| `merge` | weighted tables `[[v,w],…]` | half lofi + half acid means the mode draw is lofi's weights at half plus acid's at half — the most natural blend in the file |
+| `draw` | everything else | one genre owns the field, weighted |
+
+**Drawing is not a compromise.** The identifying features are *switches*, and
+half a switch is nothing. Vangelis IS `initBend: 1.0`; Plastikman IS
+`flourishBar: -1`; jungle IS `chop`. Averaging `flourishBar` between −1 and 3
+gives 1, which is neither genre and is musically nothing. Drawn instead, a 70/30
+song makes a **definite choice on every element** — so any single song is
+coherent, and you hear the blend across the parts and across seeds rather than
+as a smear inside every part. A chopped break under a Rhodes, not a half-chopped
+half-Rhodes.
+
+**Two failure modes, both found by measurement on a naive blender first:**
+
+1. **Integer domains.** `counter.intervals` are *scale steps*. Averaged, lofi and
+   acid gave **−4.5**, `degMidi` indexed `MODES[mode][3.5]`, got `undefined`, and
+   the pitch was NaN. Same class: `swingUnit 1.5`, `flourishBar 2.5`, every step
+   position and bar length — and `tempo`, which only rounded its *offset* and
+   announced a blend at `82.80000000000001 bpm`. Those fields are in `BLEND_DRAW`.
+2. **Internal consistency.** Fields that only mean something together must be
+   drawn from the same genre — `BLEND_GROUP`. The ostinato cell and the register
+   set were drawn independently, so a song could get DKC's cell with lofi's
+   registers, which have no `ostinato` band: **172 of 1890 blended songs threw**
+   until they were grouped.
+
+**Measured now: 1889/1890 pairs compose at 25/50/75, and all seven blended at
+once composes 30/30.** The one failure is a genuine register collision, caught by
+the seam check — a blend *can* fail, roughly one song in six hundred, and the UI
+says which seed and why rather than silently reseeding.
+
+The sliders are a **constrained simplex with locks**: move one to *v* and the
+unlocked others give way in proportion to what they already had; if the locked
+total is *L*, an unlocked slider clamps at *1 − L* rather than silently refusing;
+if every other unlocked genre is at zero, the remainder is shared equally (without
+that, dropping the only genre leaves weight nowhere to go and the sum breaks).
+`harness/mk2_blend.js` drives all of that through the real DOM handlers — none of
+it is visible from the note grid, because it happens before a note exists.
+
 ### Determinism has a hard limit you must know
 
 **Chrome's `OfflineAudioContext` is NOT bit-reproducible.** Measured: 1–3 LSB of
@@ -221,6 +273,8 @@ node harness/mk2_roll.js 1                            # THE test that matters
 node harness/mk2_roll.js 1 --song                     # full arrangement
 node harness/mk2_roll.js 1 --mid out.mid              # .mid round-trip check
 node harness/mk2_ui.js                                # 20 checks, in a browser
+node harness/mk2_blend.js                             # 10 checks, the blend sliders
+node harness/mk2_roll.js 1 --blend lofi:50,jungle:50  # read a blended song
 ```
 
 - **`mk2_test.js`** — 83 assertions over composition seams: per-genre loops,

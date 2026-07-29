@@ -152,6 +152,54 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         "keys span " + lo + ".." + hi + " (" + (hi - lo) + " semitones), widest single song " + span);
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE BLEND. A genre blend is an INPUT to stage 1 like the rig and the picks,
+   so the seam checks apply to it exactly as they do to a plain genre -- a
+   blended song either composes or it throws, and there is no third state.
+
+   Two things get measured here and both were found the hard way. Averaging a
+   field whose domain is INTEGERS produces values outside the domain: counter
+   intervals are scale steps, and half a scale step indexes MODES[mode][3.5],
+   gets undefined, and yields NaN. And drawing two fields independently that
+   only mean something together -- the ostinato cell and the register set --
+   gave 172 failures in 1890 blended songs until they were grouped.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  const gs = M.genres();
+  let tot = 0, ok = 0; const why = {};
+  for(let i = 0; i < gs.length; i++) for(let j = i + 1; j < gs.length; j++)
+    for(const w of [0.25, 0.5, 0.75])
+      for(let seed = 1; seed <= 8; seed++){
+        tot++;
+        try { M.composeSong(seed, undefined, { [gs[i]]: 1 - w, [gs[j]]: w }); ok++; }
+        catch(e){ const k = e.message.replace(/\d+/g, "#").slice(0, 46); why[k] = (why[k] || 0) + 1; }
+      }
+  /* 99% rather than 100: a blend CAN genuinely collide -- two register sets
+     that each work alone can crowd one pitch -- and the seam check is right to
+     throw. What must not happen is a whole pair failing, or a NaN. */
+  check("blended genres compose", ok > tot * 0.99,
+        `${ok}/${tot} pairs at 25/50/75` +
+        (Object.keys(why).length ? "  |  " + Object.keys(why).map(k => why[k] + "x " + k).join(" ") : ""));
+  const nan = Object.keys(why).some(k => /NaN|undefined/.test(k));
+  check("no blend produces a NaN or an undefined read", !nan,
+        nan ? Object.keys(why).filter(k => /NaN|undefined/.test(k)).join(" | ") : "integer domains hold");
+  /* all seven at once is the extreme the sliders allow */
+  let all = 0;
+  const seven = {}; for(const g of gs) seven[g] = 1 / gs.length;
+  for(let seed = 1; seed <= 20; seed++){ try { M.composeSong(seed, undefined, seven); all++; } catch(e){} }
+  check("all seven blended at once still composes", all >= 19, all + "/20");
+  /* and a blend of ONE must be the plain genre, byte for byte, or the snapshot
+     means nothing the moment anyone touches a slider */
+  let same = 0;
+  for(const g of gs) for(let seed = 1; seed <= 5; seed++){
+    const a = JSON.stringify(M.composeSong(seed, "band", g).perf.events);
+    const b = JSON.stringify(M.composeSong(seed, "band", { [g]: 1 }).perf.events);
+    if(a === b) same++;
+  }
+  check("a blend of one genre IS that genre", same === gs.length * 5,
+        same + "/" + (gs.length * 5) + " identical");
+}
+
 /* VARY(A) MUST VARY SOMETHING THE GENRE ACTUALLY PLAYS. Avar is the material
    the rule of three is answered with -- "start the same, go somewhere different
    halfway" -- and it redrew the LEAD and the counter, full stop. That is fine

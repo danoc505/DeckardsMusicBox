@@ -40,7 +40,19 @@ const argv = process.argv.slice(2);
 const seed = parseInt(argv[0], 10) || 1;
 const rig = ["band","sega","neon"].includes(argv[1]) ? argv[1] : undefined;
 const gAt = argv.indexOf("--genre");
-const genre = gAt >= 0 ? argv[gAt + 1] : undefined;
+/* --blend lofi:50,jungle:50  -- the roll has to be able to read a blended song
+   or the test that matters cannot see the feature at all. Percentages, because
+   that is what the sliders show; they are normalised downstream anyway. */
+const bAt = argv.indexOf("--blend");
+const blend = bAt >= 0 ? (() => {
+  const o = {};
+  for(const part of argv[bAt + 1].split(",")){
+    const [n, w] = part.split(":");
+    o[n.trim()] = (w == null ? 1 : parseFloat(w)) / 100;
+  }
+  return o;
+})() : null;
+const genre = blend || (gAt >= 0 ? argv[gAt + 1] : undefined);
 const wantSong = argv.includes("--song");
 const midAt = argv.indexOf("--mid");
 const midFile = midAt >= 0 ? argv[midAt + 1] : null;
@@ -196,7 +208,7 @@ function printMaterial(key, mat, bars){
 
 /* ── header ── */
 console.log("═".repeat(78));
-console.log(`SEED ${C.seed} · ${C.genre} · ${T.NOTE_NAMES[C.root]} ${C.mode} · ${C.tempo} bpm · ` +
+console.log(`SEED ${C.seed} · ${C.table.label} · ${T.NOTE_NAMES[C.root]} ${C.mode} · ${C.tempo} bpm · ` +
             `rig ${C.rig} · keys ${C.keysChar} · ${song.form.nBars} bars · ` +
             `${song.perf.events.length} events`);
 console.log(`GROOVE  ${song.perf.groove.style}` +
