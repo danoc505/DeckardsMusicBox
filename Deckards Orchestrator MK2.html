@@ -315,7 +315,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29i · faders, trigger keys, screen</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29j · six knobs per channel</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -581,22 +581,32 @@ const CHAIN_GROUPS = [["k", "BD"], ["s", "SD"], ["h", "CH"], ["o", "OH"], ["t", 
 function chainControls(){
   const out = [];
   for(const [g, cap] of CHAIN_GROUPS){
-    out.push({ k:g+"Cut",  label:cap+" filter", cap:"CUT", min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" });
-    out.push({ k:g+"Drv",  label:cap+" drive",  cap:"DRV", min:1,   max:6,     step:0.05, def:1,   kind:"bus" });
-    out.push({ k:g+"Echo", label:cap+" to echo",cap:"DLY", min:0,   max:1,     step:0.01, def:0,   kind:"bus" });
-    out.push({ k:g+"Verb", label:cap+" to room",cap:"RVB", min:0,   max:1,     step:0.01, def:0,   kind:"bus" });
-    /* THE FADER. Every voice on the real panel has one and this program had no
-       per-voice level at all -- the only way to make the rim quieter than the
-       kick was to rewrite the velocity table. It rides the chain's makeup gain,
-       so it is a level and not a drive: the saturation stays where the DRV knob
-       put it. */
-    out.push({ k:g+"Mix",  label:cap+" level",  cap:"MIX", min:0,   max:1.6,   step:0.01, def:1,   kind:"bus" });
+    /* ── SIX KNOBS PER CHANNEL, as the machine has them ─────────────────────
+       TUNE, DECAY, MIX and three CTRLs on every one of its ten channels. The
+       CTRLs are assignable on the real box; here they are fixed to the three
+       that earn the slot in this engine -- reverb send, delay send, filter.
+
+       Per-voice DRIVE is gone. It was the seventh knob and the machine has six,
+       and ANALOG FX DRIVE on the top strip already drives the whole kit, which
+       is what that section is for. One drive per kit, not five.
+
+       TUNE and DECAY are OFFSETS, not absolutes: a semitone shift and a decay
+       multiplier, both neutral at their defaults. That is what lets every
+       channel have them without rewriting the sound tables of seven genres --
+       the 808's own TUNE and DECAY still set what a kick IS, and these say what
+       this channel is doing to it. */
+    out.push({ k:g+"Tune", label:cap+" tune",   cap:"TUNE",  min:-12, max:12,  step:0.5,  def:0, unit:"st", kind:"bus" });
+    out.push({ k:g+"Decay",label:cap+" decay",  cap:"DECAY", min:0.2, max:3,   step:0.01, def:1, kind:"bus" });
+    out.push({ k:g+"Mix",  label:cap+" level",  cap:"MIX",   min:0,   max:1.6, step:0.01, def:1, kind:"bus" });
+    out.push({ k:g+"Verb", label:cap+" reverb", cap:"CTRL 1",min:0,   max:1,   step:0.01, def:0, kind:"bus" });
+    out.push({ k:g+"Echo", label:cap+" delay",  cap:"CTRL 2",min:0,   max:1,   step:0.01, def:0, kind:"bus" });
+    out.push({ k:g+"Cut",  label:cap+" filter", cap:"CTRL 3",min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" });
   }
   return out;
 }
 function chainGroups(){
   return CHAIN_GROUPS.map(([g, cap]) => ({ label: cap + " CHAIN",
-    keys: [g+"Cut", g+"Drv", g+"Echo", g+"Verb", g+"Mix"] }));
+    keys: [g+"Tune", g+"Decay", g+"Mix", g+"Verb", g+"Echo", g+"Cut"] }));
 }
 
 const INSTRUMENTS = {
@@ -774,15 +784,15 @@ const INSTRUMENTS = {
       ],
       columns: [
         { label: "BASS DRUM",   trig: "BD", lane: "kick",    tone: "red",
-          keys: ["tune", "decay", "tone", "kCut", "kDrv", "kEcho", "kVerb"], fader: "kMix" },
+          keys: ["kTune", "kDecay", "kMix", "kVerb", "kEcho", "kCut"], fader: "kMix" },
         { label: "SNARE DRUM",  trig: "SD", lane: "snare",   tone: "red",
-          keys: ["sdtone", "snappy", "sCut", "sDrv", "sEcho", "sVerb"], fader: "sMix" },
+          keys: ["sTune", "sDecay", "sMix", "sVerb", "sEcho", "sCut"], fader: "sMix" },
         { label: "CLOSED HIHAT",trig: "CH", lane: "hat",     tone: "amber",
-          keys: ["chdecay", "hCut", "hDrv", "hEcho", "hVerb"], fader: "hMix" },
+          keys: ["hTune", "hDecay", "hMix", "hVerb", "hEcho", "hCut"], fader: "hMix" },
         { label: "OPEN HIHAT",  trig: "OH", lane: "openhat", tone: "amber",
-          keys: ["ohdecay", "oCut", "oDrv", "oEcho", "oVerb"], fader: "oMix" },
+          keys: ["oTune", "oDecay", "oMix", "oVerb", "oEcho", "oCut"], fader: "oMix" },
         { label: "TOMS",        trig: "LT", lane: "tom3",    tone: "pale",
-          keys: ["tCut", "tDrv", "tEcho", "tVerb"], fader: "tMix" },
+          keys: ["tTune", "tDecay", "tMix", "tVerb", "tEcho", "tCut"], fader: "tMix" },
       ],
       grid: "drums",
       voices: [["kick","BD"], ["snare","SD"], ["ghost","SD·g"], ["tom1","HT"],
@@ -3122,7 +3132,11 @@ const Sound = (function(){
 
   V.k808 = function(g, ev, t){
     const c = g.ctx;
-    const tune = P(g, ev, DM(g), "tune", 47), dec = P(g, ev, DM(g), "decay", 0.85), tone = P(g, ev, DM(g), "tone", 0.45);
+    /* the CIRCUIT's tune and decay, then the CHANNEL's on top -- six knobs a
+       channel means these two have to arrive somewhere, and this is where */
+    const tune = P(g, ev, DM(g), "tune", 47) * chTune(g, ev);
+    const dec  = P(g, ev, DM(g), "decay", 0.85) * chDecay(g, ev);
+    const tone = P(g, ev, DM(g), "tone", 0.45);
     /* the ring: one sine at the tuned pitch with a long exponential fall, and a
        small drop at the front that is the trigger bleeding into the resonator */
     const o = c.createOscillator(); o.type = "sine";
@@ -3145,6 +3159,7 @@ const Sound = (function(){
   V.s808 = function(g, ev, t){
     const c = g.ctx, out = [];
     const snappy = P(g, ev, DM(g), "snappy", 0.55), tone = P(g, ev, DM(g), "sdtone", 0.50);
+    const chT = chTune(g, ev), chD = chDecay(g, ev);
     /* the shell: two fixed oscillators, and TONE tilts between them */
     for(const [f, a, d] of [[238, 0.55 * (1 - tone * 0.5), 0.11], [476, 0.35 * (0.4 + tone * 0.6), 0.06]]){
       const o = c.createOscillator(); o.type = "triangle"; o.frequency.value = f;
@@ -3170,15 +3185,17 @@ const Sound = (function(){
   const R808 = [1, 1.4471, 1.6170, 1.9265, 2.5028, 2.6637];   // [theory: 808 HH ratios]
   function hat808(decayKey, dflt, hpHz){
     return function(g, ev, t){
-      const c = g.ctx, dec = P(g, ev, DM(g), decayKey, dflt);
-      const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = hpHz; hp.Q.value = 0.7;
+      const c = g.ctx, dec = P(g, ev, DM(g), decayKey, dflt) * chDecay(g, ev);
+      const hp = c.createBiquadFilter(); hp.type = "highpass";
+      hp.frequency.value = hpHz * chTune(g, ev); hp.Q.value = 0.7;
       const gn = c.createGain();
       gn.gain.setValueAtTime(LEVEL.hat * ev.gain * 0.42, t);
       gn.gain.exponentialRampToValueAtTime(0.0002, t + dec);
       hp.connect(gn); gn.connect(drumOut(g, ev.lane));
       const made = [];
       for(const r of R808){
-        const o = c.createOscillator(); o.type = "square"; o.frequency.value = 263 * r;
+        const o = c.createOscillator(); o.type = "square";
+        o.frequency.value = 263 * r * chTune(g, ev);
         o.connect(hp); o.start(t); o.stop(t + dec + 0.02); made.push(o);
       }
       return made;
@@ -3969,6 +3986,24 @@ const Sound = (function(){
      exactly what every drum voice connected to before this existed. */
   const DCHAIN_OF = { kick:"k", snare:"s", ghost:"s", hat:"h", openhat:"o",
                       tom1:"t", tom2:"t", tom3:"t", rim:"s", clap:"s" };
+  /* THE CHANNEL'S OWN TUNE AND DECAY. Six knobs a channel means every one of
+     them has to arrive somewhere: these are OFFSETS the voice applies on top of
+     whatever its circuit already decided -- a semitone shift and a decay
+     multiplier, both neutral at their defaults, so a genre that says nothing
+     renders exactly what it rendered before. A voice with no chain group (a
+     machine that declares none) gets 1.0 and 0, which is the same thing. */
+  function chTune(g, ev){
+    const grp = DCHAIN_OF[ev && ev.lane];
+    if(!g || !g.dchainOn || !grp) return 1;
+    const st = P(g, ev, g.drumMachine, grp + "Tune", 0);
+    return Math.pow(2, st / 12);
+  }
+  function chDecay(g, ev){
+    const grp = DCHAIN_OF[ev && ev.lane];
+    if(!g || !g.dchainOn || !grp) return 1;
+    return P(g, ev, g.drumMachine, grp + "Decay", 1);
+  }
+
   function drumOut(g, lane){
     if(!g.dchainOn) return g.bus.drums;
     const grp = DCHAIN_OF[lane];
@@ -4095,17 +4130,16 @@ const Sound = (function(){
         rideBus(g, ch.lp.frequency, M + "." + grp + "Cut",  panelValue(M, grp + "Cut"),  t0);
         rideBus(g, ch.echo.gain,    M + "." + grp + "Echo", panelValue(M, grp + "Echo"), t0);
         rideBus(g, ch.verb.gain,    M + "." + grp + "Verb", panelValue(M, grp + "Verb"), t0);
-        /* the makeup is not a control -- it is the drive's inverse, so it is
-           computed rather than declared, and it tracks the ridden curve by
-           sharing its lane through a second rideBus on the reciprocal */
-        /* PATCH THE SATURATOR IN ONLY WHEN IT IS DOING SOMETHING. At drive 1 the
-           chain is filter -> makeup and nothing else, so a genre that asks for
-           no drive gets a wire and the TR-1000 is a strict superset of the 808.
-           Measured: with the shaper always in the path, the same events through
-           the two machines differed by 1.8 dB of energy even at neutral -- a
-           near-identity curve is not an identity for a full-scale drum
-           transient. Patched out, they are the same signal. */
-        const d = panelValue(M, grp + "Drv");
+        /* ── NO PER-VOICE DRIVE ANY MORE. The machine has six knobs a channel and
+           ANALOG FX DRIVE on the top strip drives the whole kit, so the chain is
+           filter -> makeup and the saturator stays out of the path entirely.
+           That is also the only way it is transparent: a near-identity curve is
+           not an identity for a full-scale drum transient, and with the shaper
+           always in the path the same events through two machines differed by
+           1.8 dB of energy at neutral.
+
+           The makeup therefore carries the FADER alone. ── */
+        const mix = panelValue(M, grp + "Mix");
         const cut = panelValue(M, grp + "Cut");
         const cutMax = CONTROL[M + "." + grp + "Cut"].max;
         const cutMoves = !!(g.motion && g.motion.lanes && g.motion.lanes[M + "." + grp + "Cut"]);
@@ -4113,28 +4147,13 @@ const Sound = (function(){
         try { ch.lp.disconnect(); } catch(e){}
         try { ch.drv.disconnect(); } catch(e){}
         try { ch.sat.disconnect(); } catch(e){}
-        /* THE FILTER IS PATCHED IN THE SAME WAY, and it had to be: a biquad
-           lowpass parked at the top of its range is not a wire either. On a
-           44.1 kHz clock a 20 kHz corner is a hair under Nyquist and the
-           bilinear warping bends the top octave audibly -- with the saturator
-           already bypassed, the two machines still differed by 2.1 dB of energy
-           and every bit of it was this. Neutral means OUT OF THE PATH. */
         const filterOn = cutMoves || cut < cutMax - 1;
         let head = ch.inp;
         if(filterOn){ head.connect(ch.lp); head = ch.lp; }
-        if(d > 1.001){
-          head.connect(ch.drv); ch.drv.connect(ch.sat); ch.sat.connect(ch.mk);
-          ch.drv.gain.cancelScheduledValues(t0);
-          rideBus(g, ch.drv.gain, M + "." + grp + "Drv", d, t0);
-        } else {
-          head.connect(ch.mk);
-        }
-        /* makeup = the drive's reciprocal x the fader. One node carries both
-           because they multiply: driving a voice must not change its level, and
-           the fader is the only thing that may. */
-        const mix = panelValue(M, grp + "Mix");
+        head.connect(ch.mk);
+        const d = 1;
         ch.mk.gain.cancelScheduledValues(t0);
-        rideBus(g, ch.mk.gain, M + "." + grp + "Mix", mix / Math.max(1e-6, d), t0);
+        rideBus(g, ch.mk.gain, M + "." + grp + "Mix", mix, t0);
       }
     } else if(g.dchain){
       for(const grp of ["k", "s", "h", "o", "t"]){
@@ -4614,11 +4633,11 @@ const GENRE = {
          effects, they're arrangement tools" -- and boom-bap has always known it:
          the snare goes to a plate and the kick does not.
          [corpus:trackscore] ── */
-      kit:       { sCut: 8000, sDrv: 1.30, sEcho: 0.16, sVerb: 0.34,
-                   kCut: 20000, kDrv: 1.15, kEcho: 0.00, kVerb: 0.05,
-                   hCut: 11000, hDrv: 1.10, hEcho: 0.06, hVerb: 0.14,
-                   oCut: 9000,  oDrv: 1.05, oEcho: 0.12, oVerb: 0.22,
-                   tCut: 6000,  tDrv: 1.10, tEcho: 0.08, tVerb: 0.30 },
+      kit:       { sCut: 8000, sEcho: 0.16, sVerb: 0.34,
+                   kCut: 20000, kEcho: 0.00, kVerb: 0.05,
+                   hCut: 11000, hEcho: 0.06, hVerb: 0.14,
+                   oCut: 9000, oEcho: 0.12, oVerb: 0.22,
+                   tCut: 6000, tEcho: 0.08, tVerb: 0.30 },
       tr1000:    { tune: 45, decay: 0.42, tone: 0.28, snappy: 0.38, sdtone: 0.34,
                    chdecay: 0.032, ohdecay: 0.26, bus: 1.05, gate: 0, hold: 0.15 },
       rhodes:    { bark: 0.42, wow: 0.0024, tone: 0.84 },
@@ -4648,23 +4667,17 @@ const GENRE = {
                 { kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         sEcho: [{ kind: "lfo", bars: [[22, 3], [30, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         sCut:  [{ kind: "lfo", bars: [[26, 2], [34, 1]], depth: [800, 2400], shape: "tri", freePhase: true }],
-        sDrv:  [{ kind: "section", by: { chorus: [0.12, 0.36] } },
-                { kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         kCut:  [{ kind: "lfo", bars: [[30, 3], [20, 2]], depth: [500, 1700], shape: "sin", freePhase: true }],
-        kDrv:  [{ kind: "lfo", bars: [[34, 2], [24, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
         kEcho: [{ kind: "lfo", bars: [[38, 2], [28, 1]], depth: [0.01, 0.04], shape: "sin", freePhase: true }],
         kVerb: [{ kind: "lfo", bars: [[32, 2], [22, 1]], depth: [0.01, 0.05], shape: "sin", freePhase: true }],
         hCut:  [{ kind: "lfo", bars: [[14, 3], [22, 2]], depth: [900, 2600], shape: "tri", freePhase: true }],
-        hDrv:  [{ kind: "lfo", bars: [[20, 2], [28, 1]], depth: [0.05, 0.15], shape: "sin", freePhase: true }],
         hEcho: [{ kind: "lfo", bars: [[24, 2], [16, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
         hVerb: [{ kind: "lfo", bars: [[28, 2], [20, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
         oCut:  [{ kind: "lfo", bars: [[24, 3], [32, 2]], depth: [700, 2200], shape: "sin", freePhase: true }],
-        oDrv:  [{ kind: "lfo", bars: [[30, 2], [18, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
         oEcho: [{ kind: "lfo", bars: [[16, 3], [24, 2]], depth: [0.05, 0.16], shape: "tri", freePhase: true }],
         oVerb: [{ kind: "section", by: { bridge: [0.08, 0.22] } },
                 { kind: "lfo", bars: [[26, 2], [34, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tCut:  [{ kind: "lfo", bars: [[34, 2], [22, 1]], depth: [500, 1600], shape: "sin", freePhase: true }],
-        tDrv:  [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tEcho: [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tVerb: [{ kind: "lfo", bars: [[28, 2], [36, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
       
@@ -4679,6 +4692,20 @@ const GENRE = {
         hMix: [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.04, 0.12], shape: "tri", freePhase: true }],
         oMix: [{ kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
         tMix: [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.04, 0.10], shape: "sin", freePhase: true }],
+              /* ── THE CHANNEL TUNE AND DECAY, RIDDEN. Six knobs a channel is only six
+           knobs if all six do something: these are the two the machine puts
+           first, and a kit whose hats shorten while its kick lengthens is doing
+           what a hand on a TR does. Small, and slow. ── */
+        kTune:  [{ kind: "lfo", bars: [[44, 2], [30, 1]], depth: [0.10, 0.35], shape: "sin", freePhase: true }],
+        kDecay: [{ kind: "lfo", bars: [[32, 3], [22, 2]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
+        sTune:  [{ kind: "lfo", bars: [[38, 2], [26, 1]], depth: [0.15, 0.45], shape: "sin", freePhase: true }],
+        sDecay: [{ kind: "lfo", bars: [[28, 3], [20, 2]], depth: [0.05, 0.18], shape: "sin", freePhase: true }],
+        hTune:  [{ kind: "lfo", bars: [[24, 3], [34, 2]], depth: [0.20, 0.60], shape: "tri", freePhase: true }],
+        hDecay: [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.06, 0.20], shape: "tri", freePhase: true }],
+        oTune:  [{ kind: "lfo", bars: [[30, 2], [40, 1]], depth: [0.15, 0.50], shape: "sin", freePhase: true }],
+        oDecay: [{ kind: "lfo", bars: [[22, 3], [32, 2]], depth: [0.06, 0.22], shape: "sin", freePhase: true }],
+        tTune:  [{ kind: "lfo", bars: [[36, 2], [24, 1]], depth: [0.20, 0.55], shape: "sin", freePhase: true }],
+        tDecay: [{ kind: "lfo", bars: [[34, 2], [26, 1]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
       },
 
       /* THE DRUM BUS, which could not move until the bus gains learned to be
@@ -4721,25 +4748,16 @@ const GENRE = {
                   shape: "sin", freePhase: true }],
         tVerb: [{ kind: "lfo", bars: [[24, 2], [16, 1]], depth: [0.04, 0.10],
                   shape: "sin", freePhase: true }],
-        sDrv:  [{ kind: "section", by: { chorus: [0.10, 0.30] } }],
-        kDrv:  [{ kind: "lfo", bars: [[32, 2], [22, 1]], depth: [0.04, 0.12],
-                  shape: "sin", freePhase: true }],
-        hDrv:  [{ kind: "lfo", bars: [[18, 2], [26, 1]], depth: [0.04, 0.12],
-                  shape: "sin", freePhase: true }],
         hEcho: [{ kind: "lfo", bars: [[26, 2], [34, 1]], depth: [0.02, 0.06],
                   shape: "sin", freePhase: true }],
         oCut:  [{ kind: "lfo", bars: [[22, 2], [30, 1]], depth: [600, 1900],
                   shape: "tri", freePhase: true }],
-        oDrv:  [{ kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.03, 0.10],
-                  shape: "sin", freePhase: true }],
         oEcho: [{ kind: "section", by: { bridge: [0.05, 0.14] } },
                 { kind: "lfo", bars: [[28, 2], [20, 1]], depth: [0.02, 0.07],
                   shape: "sin", freePhase: true }],
         sCut:  [{ kind: "lfo", bars: [[26, 3], [34, 2]], depth: [700, 2100],
                   shape: "tri", freePhase: true }],
         tCut:  [{ kind: "lfo", bars: [[34, 2], [22, 1]], depth: [500, 1500],
-                  shape: "sin", freePhase: true }],
-        tDrv:  [{ kind: "lfo", bars: [[36, 2], [24, 1]], depth: [0.03, 0.09],
                   shape: "sin", freePhase: true }],
         tEcho: [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.02, 0.07],
                   shape: "sin", freePhase: true }],
@@ -4760,6 +4778,20 @@ const GENRE = {
         hMix: [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.04, 0.12], shape: "tri", freePhase: true }],
         oMix: [{ kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
         tMix: [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.04, 0.10], shape: "sin", freePhase: true }],
+              /* ── THE CHANNEL TUNE AND DECAY, RIDDEN. Six knobs a channel is only six
+           knobs if all six do something: these are the two the machine puts
+           first, and a kit whose hats shorten while its kick lengthens is doing
+           what a hand on a TR does. Small, and slow. ── */
+        kTune:  [{ kind: "lfo", bars: [[44, 2], [30, 1]], depth: [0.10, 0.35], shape: "sin", freePhase: true }],
+        kDecay: [{ kind: "lfo", bars: [[32, 3], [22, 2]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
+        sTune:  [{ kind: "lfo", bars: [[38, 2], [26, 1]], depth: [0.15, 0.45], shape: "sin", freePhase: true }],
+        sDecay: [{ kind: "lfo", bars: [[28, 3], [20, 2]], depth: [0.05, 0.18], shape: "sin", freePhase: true }],
+        hTune:  [{ kind: "lfo", bars: [[24, 3], [34, 2]], depth: [0.20, 0.60], shape: "tri", freePhase: true }],
+        hDecay: [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.06, 0.20], shape: "tri", freePhase: true }],
+        oTune:  [{ kind: "lfo", bars: [[30, 2], [40, 1]], depth: [0.15, 0.50], shape: "sin", freePhase: true }],
+        oDecay: [{ kind: "lfo", bars: [[22, 3], [32, 2]], depth: [0.06, 0.22], shape: "sin", freePhase: true }],
+        tTune:  [{ kind: "lfo", bars: [[36, 2], [24, 1]], depth: [0.20, 0.55], shape: "sin", freePhase: true }],
+        tDecay: [{ kind: "lfo", bars: [[34, 2], [26, 1]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
       },
       /* THE SUB BASS, whose two controls were dead until they were wired -- so
          this is the first time any genre has been able to reach them. The tone
@@ -5093,11 +5125,11 @@ const GENRE = {
       /* THE CHAINS. Synthwave's gated snare is the genre's signature and it is
          exactly a per-voice send: the snare goes to a big room and the kick and
          hats stay dry, which a shared bus cannot express at all. */
-      tr1000: { sCut: 9000, sDrv: 1.20, sEcho: 0.14, sVerb: 0.52,
-                kCut: 20000, kDrv: 1.20, kEcho: 0.00, kVerb: 0.06,
-                hCut: 12000, hDrv: 1.10, hEcho: 0.08, hVerb: 0.16,
-                oCut: 10000, oDrv: 1.05, oEcho: 0.18, oVerb: 0.30,
-                tCut: 6500,  tDrv: 1.15, tEcho: 0.16, tVerb: 0.44,
+      tr1000: { sCut: 9000, sEcho: 0.14, sVerb: 0.52,
+                kCut: 20000, kEcho: 0.00, kVerb: 0.06,
+                hCut: 12000, hEcho: 0.08, hVerb: 0.16,
+                oCut: 10000, oEcho: 0.18, oVerb: 0.30,
+                tCut: 6500, tEcho: 0.16, tVerb: 0.44,
                 tune: 50, decay: 0.55, tone: 0.68, snappy: 0.72, sdtone: 0.62,
                chdecay: 0.055, ohdecay: 0.58, bus: 1.40, gate: 0.95, hold: 0.150 },
       tb303: { cutoff: 620, res: 11.0, envmod: 0.58, decay: 0.30,
@@ -5215,23 +5247,17 @@ const GENRE = {
                 { kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         sEcho: [{ kind: "lfo", bars: [[22, 3], [30, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         sCut:  [{ kind: "lfo", bars: [[26, 2], [34, 1]], depth: [800, 2400], shape: "tri", freePhase: true }],
-        sDrv:  [{ kind: "section", by: { chorus: [0.12, 0.36] } },
-                { kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         kCut:  [{ kind: "lfo", bars: [[30, 3], [20, 2]], depth: [500, 1700], shape: "sin", freePhase: true }],
-        kDrv:  [{ kind: "lfo", bars: [[34, 2], [24, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
         kEcho: [{ kind: "lfo", bars: [[38, 2], [28, 1]], depth: [0.01, 0.04], shape: "sin", freePhase: true }],
         kVerb: [{ kind: "lfo", bars: [[32, 2], [22, 1]], depth: [0.01, 0.05], shape: "sin", freePhase: true }],
         hCut:  [{ kind: "lfo", bars: [[14, 3], [22, 2]], depth: [900, 2600], shape: "tri", freePhase: true }],
-        hDrv:  [{ kind: "lfo", bars: [[20, 2], [28, 1]], depth: [0.05, 0.15], shape: "sin", freePhase: true }],
         hEcho: [{ kind: "lfo", bars: [[24, 2], [16, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
         hVerb: [{ kind: "lfo", bars: [[28, 2], [20, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
         oCut:  [{ kind: "lfo", bars: [[24, 3], [32, 2]], depth: [700, 2200], shape: "sin", freePhase: true }],
-        oDrv:  [{ kind: "lfo", bars: [[30, 2], [18, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
         oEcho: [{ kind: "lfo", bars: [[16, 3], [24, 2]], depth: [0.05, 0.16], shape: "tri", freePhase: true }],
         oVerb: [{ kind: "section", by: { bridge: [0.08, 0.22] } },
                 { kind: "lfo", bars: [[26, 2], [34, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tCut:  [{ kind: "lfo", bars: [[34, 2], [22, 1]], depth: [500, 1600], shape: "sin", freePhase: true }],
-        tDrv:  [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tEcho: [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tVerb: [{ kind: "lfo", bars: [[28, 2], [36, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
               /* ── THE FADERS. A hand riding a channel is the oldest movement on a
@@ -5254,6 +5280,20 @@ const GENRE = {
                    { kind: "section", by: { bridge: [0.12, 0.34] } }],
         fxFilter: [{ kind: "lfo", bars: [[40, 3], [28, 2]], depth: [1200, 4200], shape: "tri", freePhase: true },
                    { kind: "section", by: { bridge: [-3000, -1200] } }],
+              /* ── THE CHANNEL TUNE AND DECAY, RIDDEN. Six knobs a channel is only six
+           knobs if all six do something: these are the two the machine puts
+           first, and a kit whose hats shorten while its kick lengthens is doing
+           what a hand on a TR does. Small, and slow. ── */
+        kTune:  [{ kind: "lfo", bars: [[44, 2], [30, 1]], depth: [0.10, 0.35], shape: "sin", freePhase: true }],
+        kDecay: [{ kind: "lfo", bars: [[32, 3], [22, 2]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
+        sTune:  [{ kind: "lfo", bars: [[38, 2], [26, 1]], depth: [0.15, 0.45], shape: "sin", freePhase: true }],
+        sDecay: [{ kind: "lfo", bars: [[28, 3], [20, 2]], depth: [0.05, 0.18], shape: "sin", freePhase: true }],
+        hTune:  [{ kind: "lfo", bars: [[24, 3], [34, 2]], depth: [0.20, 0.60], shape: "tri", freePhase: true }],
+        hDecay: [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.06, 0.20], shape: "tri", freePhase: true }],
+        oTune:  [{ kind: "lfo", bars: [[30, 2], [40, 1]], depth: [0.15, 0.50], shape: "sin", freePhase: true }],
+        oDecay: [{ kind: "lfo", bars: [[22, 3], [32, 2]], depth: [0.06, 0.22], shape: "sin", freePhase: true }],
+        tTune:  [{ kind: "lfo", bars: [[36, 2], [24, 1]], depth: [0.20, 0.55], shape: "sin", freePhase: true }],
+        tDecay: [{ kind: "lfo", bars: [[34, 2], [26, 1]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
       },
       mellotron: {
         wow: [{ kind: "lfo", bars: [[16, 3], [8, 1]], depth: [0.0006, 0.0016],
@@ -5554,23 +5594,17 @@ const GENRE = {
                 { kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         sEcho: [{ kind: "lfo", bars: [[22, 3], [30, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         sCut:  [{ kind: "lfo", bars: [[26, 2], [34, 1]], depth: [800, 2400], shape: "tri", freePhase: true }],
-        sDrv:  [{ kind: "section", by: { chorus: [0.12, 0.36] } },
-                { kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         kCut:  [{ kind: "lfo", bars: [[30, 3], [20, 2]], depth: [500, 1700], shape: "sin", freePhase: true }],
-        kDrv:  [{ kind: "lfo", bars: [[34, 2], [24, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
         kEcho: [{ kind: "lfo", bars: [[38, 2], [28, 1]], depth: [0.01, 0.04], shape: "sin", freePhase: true }],
         kVerb: [{ kind: "lfo", bars: [[32, 2], [22, 1]], depth: [0.01, 0.05], shape: "sin", freePhase: true }],
         hCut:  [{ kind: "lfo", bars: [[14, 3], [22, 2]], depth: [900, 2600], shape: "tri", freePhase: true }],
-        hDrv:  [{ kind: "lfo", bars: [[20, 2], [28, 1]], depth: [0.05, 0.15], shape: "sin", freePhase: true }],
         hEcho: [{ kind: "lfo", bars: [[24, 2], [16, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
         hVerb: [{ kind: "lfo", bars: [[28, 2], [20, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
         oCut:  [{ kind: "lfo", bars: [[24, 3], [32, 2]], depth: [700, 2200], shape: "sin", freePhase: true }],
-        oDrv:  [{ kind: "lfo", bars: [[30, 2], [18, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
         oEcho: [{ kind: "lfo", bars: [[16, 3], [24, 2]], depth: [0.05, 0.16], shape: "tri", freePhase: true }],
         oVerb: [{ kind: "section", by: { bridge: [0.08, 0.22] } },
                 { kind: "lfo", bars: [[26, 2], [34, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tCut:  [{ kind: "lfo", bars: [[34, 2], [22, 1]], depth: [500, 1600], shape: "sin", freePhase: true }],
-        tDrv:  [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tEcho: [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tVerb: [{ kind: "lfo", bars: [[28, 2], [36, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
               /* ── THE FADERS. A hand riding a channel is the oldest movement on a
@@ -5584,6 +5618,20 @@ const GENRE = {
         hMix: [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.04, 0.12], shape: "tri", freePhase: true }],
         oMix: [{ kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
         tMix: [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.04, 0.10], shape: "sin", freePhase: true }],
+              /* ── THE CHANNEL TUNE AND DECAY, RIDDEN. Six knobs a channel is only six
+           knobs if all six do something: these are the two the machine puts
+           first, and a kit whose hats shorten while its kick lengthens is doing
+           what a hand on a TR does. Small, and slow. ── */
+        kTune:  [{ kind: "lfo", bars: [[44, 2], [30, 1]], depth: [0.10, 0.35], shape: "sin", freePhase: true }],
+        kDecay: [{ kind: "lfo", bars: [[32, 3], [22, 2]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
+        sTune:  [{ kind: "lfo", bars: [[38, 2], [26, 1]], depth: [0.15, 0.45], shape: "sin", freePhase: true }],
+        sDecay: [{ kind: "lfo", bars: [[28, 3], [20, 2]], depth: [0.05, 0.18], shape: "sin", freePhase: true }],
+        hTune:  [{ kind: "lfo", bars: [[24, 3], [34, 2]], depth: [0.20, 0.60], shape: "tri", freePhase: true }],
+        hDecay: [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.06, 0.20], shape: "tri", freePhase: true }],
+        oTune:  [{ kind: "lfo", bars: [[30, 2], [40, 1]], depth: [0.15, 0.50], shape: "sin", freePhase: true }],
+        oDecay: [{ kind: "lfo", bars: [[22, 3], [32, 2]], depth: [0.06, 0.22], shape: "sin", freePhase: true }],
+        tTune:  [{ kind: "lfo", bars: [[36, 2], [24, 1]], depth: [0.20, 0.55], shape: "sin", freePhase: true }],
+        tDecay: [{ kind: "lfo", bars: [[34, 2], [26, 1]], depth: [0.05, 0.16], shape: "sin", freePhase: true }],
       },
 
       mellotron: {
@@ -6130,13 +6178,13 @@ const GENRE = {
          dead dry. The 303 is not the only thing moving in this music. */
       tr1000: { tune: 47, decay: 0.52, tone: 0.62, snappy: 0.70, sdtone: 0.55,
                 chdecay: 0.042, ohdecay: 0.48, bus: 1.35, gate: 0.10, hold: 0.150,
-                kCut: 12000, kDrv: 1.30, kEcho: 0.00, kVerb: 0.02,
+                kCut: 12000, kEcho: 0.00, kVerb: 0.02,
                 /* the clap is the sound of this genre's snare position and it is
                    the one that gets thrown into the room */
-                sCut: 7400, sDrv: 1.30, sEcho: 0.20, sVerb: 0.38,
-                hCut: 10000, hDrv: 1.30, hEcho: 0.08, hVerb: 0.12,
-                oCut: 8200, oDrv: 1.15, oEcho: 0.30, oVerb: 0.28,
-                tCut: 5000, tDrv: 1.15, tEcho: 0.22, tVerb: 0.40 },
+                sCut: 7400, sEcho: 0.20, sVerb: 0.38,
+                hCut: 10000, hEcho: 0.08, hVerb: 0.12,
+                oCut: 8200, oEcho: 0.30, oVerb: 0.28,
+                tCut: 5000, tEcho: 0.22, tVerb: 0.40 },
       wash:  { cut: 780 },
     },
     /* WIKIPEDIA'S DEFINITION OF THE GENRE IS LITERALLY THIS MOVE: the sound is
@@ -6194,18 +6242,12 @@ const GENRE = {
                    shape: "sin", freePhase: true }],
         kVerb:  [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.02, 0.06],
                    shape: "sin", freePhase: true }],
-        sDrv:   [{ kind: "section", by: { chorus: [0.20, 0.60], bridge: [-0.25, -0.10] } }],
         sVerb:  [{ kind: "lfo", bars: [[20, 3], [28, 2]], depth: [0.06, 0.18],
                    shape: "tri", freePhase: true }],
-        hDrv:   [{ kind: "lfo", bars: [[16, 3], [24, 2]], depth: [0.10, 0.30],
-                   shape: "sin", freePhase: true }],
         hVerb:  [{ kind: "section", by: { chorus: [0.05, 0.14], bridge: [0.08, 0.20] } }],
-        oDrv:   [{ kind: "lfo", bars: [[28, 3], [18, 2]], depth: [0.08, 0.24],
-                   shape: "tri", freePhase: true }],
         oVerb:  [{ kind: "section", by: { bridge: [0.10, 0.26], chorus: [0.04, 0.12] } }],
         tCut:   [{ kind: "lfo", bars: [[24, 2], [36, 1]], depth: [500, 1600],
                    shape: "sin", freePhase: true }],
-        tDrv:   [{ kind: "section", by: { chorus: [0.15, 0.45] } }],
         tEcho:  [{ kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.05, 0.14],
                    shape: "sin", freePhase: true }],
       },
@@ -6623,20 +6665,20 @@ const GENRE = {
                 /* THE KICK stays dry and stays wide open. It is carrying the
                    bottom of this music and anything sent to a delay at 46 Hz
                    turns into mud a bar later. */
-                kCut: 12000, kDrv: 1.25, kEcho: 0.00, kVerb: 0.04,
+                kCut: 12000, kEcho: 0.00, kVerb: 0.04,
                 /* THE SNARE/RIM is the one with a tail. "I was always into
                    really small rimshots" -- small, and then a long way away.
                    [corpus:hawtin] */
-                sCut: 6200, sDrv: 1.35, sEcho: 0.34, sVerb: 0.30,
+                sCut: 6200, sEcho: 0.34, sVerb: 0.30,
                 /* THE CLOSED HAT is filtered and slightly driven and mostly dry:
                    it is the pulse, and a pulse with a tail stops being one. */
-                hCut: 9000, hDrv: 1.45, hEcho: 0.10, hVerb: 0.10,
+                hCut: 9000, hEcho: 0.10, hVerb: 0.10,
                 /* THE OPEN HAT is the opposite -- it exists to be smeared, and
                    it is the loudest thing in the echo return. */
-                oCut: 7000, oDrv: 1.10, oEcho: 0.42, oVerb: 0.34,
+                oCut: 7000, oEcho: 0.42, oVerb: 0.34,
                 /* THE TOM is rare here and gets the deepest room of the five, so
                    the one bar it appears in opens the whole picture up. */
-                tCut: 4200, tDrv: 1.20, tEcho: 0.30, tVerb: 0.52 },
+                tCut: 4200, tEcho: 0.30, tVerb: 0.52 },
       drone: { cut: 240, res: 2.4, detune: 0.35 },
       wash:  { cut: 620 },
       vp330: { ens: 0.55, choir: 0.20, attack: 1.60, release: 4.20 },
@@ -6817,8 +6859,6 @@ const GENRE = {
         /* the kick's filter breathes a little and its room does not: the bottom
            of this music has to stay where it is */
         kCut:  [{ kind: "lfo", bars: [[30, 3], [20, 2]], depth: [700, 2000],
-                  shape: "sin", freePhase: true }],
-        kDrv:  [{ kind: "lfo", bars: [[26, 3], [40, 2]], depth: [0.06, 0.18],
                   shape: "sin", freePhase: true }],
         tVerb: [{ kind: "lfo", bars: [[34, 2], [26, 1]], depth: [0.05, 0.14],
                   shape: "sin", freePhase: true }],
@@ -7122,23 +7162,17 @@ const GENRE = {
                 { kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         sEcho: [{ kind: "lfo", bars: [[22, 3], [30, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         sCut:  [{ kind: "lfo", bars: [[26, 2], [34, 1]], depth: [800, 2400], shape: "tri", freePhase: true }],
-        sDrv:  [{ kind: "section", by: { chorus: [0.12, 0.36] } },
-                { kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         kCut:  [{ kind: "lfo", bars: [[30, 3], [20, 2]], depth: [500, 1700], shape: "sin", freePhase: true }],
-        kDrv:  [{ kind: "lfo", bars: [[34, 2], [24, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
         kEcho: [{ kind: "lfo", bars: [[38, 2], [28, 1]], depth: [0.01, 0.04], shape: "sin", freePhase: true }],
         kVerb: [{ kind: "lfo", bars: [[32, 2], [22, 1]], depth: [0.01, 0.05], shape: "sin", freePhase: true }],
         hCut:  [{ kind: "lfo", bars: [[14, 3], [22, 2]], depth: [900, 2600], shape: "tri", freePhase: true }],
-        hDrv:  [{ kind: "lfo", bars: [[20, 2], [28, 1]], depth: [0.05, 0.15], shape: "sin", freePhase: true }],
         hEcho: [{ kind: "lfo", bars: [[24, 2], [16, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
         hVerb: [{ kind: "lfo", bars: [[28, 2], [20, 1]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
         oCut:  [{ kind: "lfo", bars: [[24, 3], [32, 2]], depth: [700, 2200], shape: "sin", freePhase: true }],
-        oDrv:  [{ kind: "lfo", bars: [[30, 2], [18, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
         oEcho: [{ kind: "lfo", bars: [[16, 3], [24, 2]], depth: [0.05, 0.16], shape: "tri", freePhase: true }],
         oVerb: [{ kind: "section", by: { bridge: [0.08, 0.22] } },
                 { kind: "lfo", bars: [[26, 2], [34, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tCut:  [{ kind: "lfo", bars: [[34, 2], [22, 1]], depth: [500, 1600], shape: "sin", freePhase: true }],
-        tDrv:  [{ kind: "lfo", bars: [[36, 2], [26, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tEcho: [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tVerb: [{ kind: "lfo", bars: [[28, 2], [36, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
       },
