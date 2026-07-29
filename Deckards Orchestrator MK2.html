@@ -386,7 +386,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29p · ties, and a sub you can hear</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29q · a second voice, a sequencer, and the chip's limit</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -5130,7 +5130,10 @@ const GENRE = {
        a doubling, and it is what "everything at once and nothing together"
        sounds like. A counter-line needs its own rhythm (it does not sound on
        every note) and CONTRARY motion (when the tune rises it falls). */
-    counter: { style: "line", density: 0.62, intervals: [-2, -3, -4, -5] },
+    counter: { style: "line", density: 0.62, intervals: [-2, -3, -4, -5],
+               /* a beat tape's second line is a lazy answer behind the tune,
+                  not a harmony under it -- most of it lands in the gaps */
+               answer: 0.65 },
     /* sevenths were hardcoded `true` at the one call site, which three genres
        flagged: synthwave and jungle want bare triads, Vangelis wants neither. */
     sevenths: true,
@@ -5704,12 +5707,15 @@ const GENRE = {
       material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
                   instrumental: "B", outro: "A" },        // the instrumental is the SOLO, so it takes the hook
       roles: {
-        intro:        ["keys", "bass"],
-        verse:        ["drums", "bass", "keys", "lead"],
-        chorus:       ["drums", "bass", "keys", "lead", "counter"],
-        bridge:       ["bass", "keys", "lead"],
-        instrumental: ["drums", "bass", "keys", "lead"],  // the lead steps forward, it does not sit out
-        outro:        ["keys", "bass"],
+        /* the arp is the FIRST thing you hear -- "Nightcall opens on a filtered
+           arp" is in this genre's own coldOpen note, and until now there was no
+           arp to open on */
+        intro:        ["keys", "bass", "ostinato"],
+        verse:        ["drums", "bass", "keys", "lead", "ostinato"],
+        chorus:       ["drums", "bass", "keys", "lead", "counter", "ostinato"],
+        bridge:       ["bass", "keys", "lead", "ostinato"],
+        instrumental: ["drums", "bass", "keys", "lead", "ostinato"],  // the lead steps forward, it does not sit out
+        outro:        ["keys", "bass", "ostinato"],
       },
       coldOpen:   0.08,        // [tut:orpheus] Nightcall opens on a filtered arp; a cold open is rare
       openVerse:  0.72,        // [EAR]
@@ -5804,6 +5810,8 @@ const GENRE = {
        +12 above the ceiling) and simply did not sound. The roll showed whole bars
        of the doubling missing. A band for a doubling is not a band for a line. */
     registers: { bass: [33, 45], keys: [57, 81], counter: [60, 100], bassWalk: [33, 47],
+                 /* above the pad, below where the counter goes */
+                 ostinato: [69, 88],
                  themeA: [72, 88],   // "far above the driving rhythm" [tut:modeaudio]
                  themeB: [74, 91], themeC: [69, 84] },
 
@@ -5878,7 +5886,28 @@ const GENRE = {
        what a programmed 303 pattern looks like on the box. [EAR, and the shape
        is the machine's: 16 steps, an accent switch and a slide switch on each] */
     bassAccent: { accent: 0.32, slide: 0.22 },
-    ostinato: null,
+    /* ══ THE ARP, WHICH IS NOT THE SAME INSTRUMENT AS VANGELIS'S SEQUENCER ══
+       An arpeggiator spells the chord you are holding; a sequencer plays a
+       figure and is transposed by the harmony. This genre wants the first one,
+       so it FOLLOWS but does not RUN: the figure restarts every bar, locked to
+       the grid, the way a Juno's arpeggiator locks to its clock.
+
+       The classic arp synths are the Roland Juno-6 and Juno-60 -- up to three
+       octaves, three directions, a rate fader. The Juno-106 that everyone
+       associates with this music actually LOST the arpeggiator; the Jupiter-8
+       and the Oberheim OB-X kept theirs. [corpus:perfectcircuit Juno history]
+
+       So: sixteenths, chord tones plus the octave above, restarting each bar.
+       Degrees are 0-2-4-7 against the current chord -- root, third, fifth,
+       octave -- which is what a hardware arp in UP mode plays. */
+    ostinato: {
+      unit: 1, vel: 0.34, run: false, follow: true, ratchet: 0,
+      cells: [
+        [[0, 2, 4, 7], 5],           // UP -- the default on every hardware arp
+        [[0, 2, 4, 7, 4, 2], 3],     // UP/DOWN
+        [[7, 4, 2, 0], 2],           // DOWN
+      ],
+    },
 
     /* ── stage 6: THE RACK ─────────────────────────────────────────────────────
        This is the genre the rack was built for. The drum machine is not a
@@ -6268,8 +6297,14 @@ const GENRE = {
         /* the ostinato is the constant: it is in every section, and in the intro
            it is nearly the whole texture -- which is how these tracks open */
         intro:        ["ostinato", "bass"],
-        verse:        ["ostinato", "bass", "keys", "lead"],
-        chorus:       ["ostinato", "bass", "keys", "lead", "drums"],
+        /* THE COUNTER WAS BEING COMPOSED AND THROWN AWAY. This genre declares a
+           counter table -- density 0.45, its own interval pool -- and the role
+           appeared in no section's active list, so eleven notes a song were
+           built and discarded. Rare's scores are BUILT on second lines; this is
+           the genre with the strongest case for one. Activated where the tune
+           is: the verse and the chorus. */
+        verse:        ["ostinato", "bass", "keys", "lead", "counter"],
+        chorus:       ["ostinato", "bass", "keys", "lead", "counter", "drums"],
         bridge:       ["ostinato", "bass", "keys"],
         instrumental: ["ostinato", "bass", "keys", "drums"],
         outro:        ["ostinato", "bass"],
@@ -6311,6 +6346,13 @@ const GENRE = {
       ],
     },
 
+    /* ══ THE CHIP'S OWN LIMIT ═══════════════════════════════════════════════
+       Six FM channels, of which the sixth is traded away whenever the DAC plays
+       a sample, plus three PSG squares. Measured before this table existed: this
+       genre peaked at EIGHT simultaneous FM voices. The priority is which part
+       keeps its channel when they run out -- bass first, because a chip tune
+       with no bottom is a ringtone. [corpus:wikipedia YM2612] */
+    chipBudget: { fm: 6, psg: 3, priority: ["bass", "lead", "keys", "ostinato", "counter"] },
     pocket: [[[0, 8], 5], [[0, 7, 9, 10], 3], [[0, 6, 8, 14], 2]],
     kit: {
       /* eighths, not quarters. At quarter-note hats over the chip kit -- whose DAC
@@ -6344,7 +6386,10 @@ const GENRE = {
                   openBars: [], flourish: [[[], 1]] },
       },
     },
-    counter: { style: "line", density: 0.45, intervals: [-2, -3, -4] },
+    counter: { style: "line", density: 0.45, intervals: [-2, -3, -4],
+               /* a chip counter-line is a real second voice on its own channel;
+                  the Rare scores answer the tune constantly */
+               answer: 0.70 },
     sevenths: false,      // Wise's harmony is add9 and sus, not stacked sevenths
     /* the density of a bar of tune, and where its notes may land. These are the
        values that were literals inside buildTheme, written out unchanged. */
@@ -6683,11 +6728,11 @@ const GENRE = {
          are colour, not a kit -- and colour with no lane to live in is better
          left out than faked. [corpus:wikipedia BR soundtrack instrument list] */
       roles: {
-        intro:        ["keys"],
-        verse:        ["keys", "bass", "lead"],
-        chorus:       ["keys", "bass", "lead", "counter"],
-        bridge:       ["keys", "bass"],
-        instrumental: ["keys", "bass", "lead"],
+        intro:        ["keys", "ostinato"],
+        verse:        ["keys", "bass", "lead", "ostinato"],
+        chorus:       ["keys", "bass", "lead", "counter", "ostinato"],
+        bridge:       ["keys", "bass", "ostinato"],
+        instrumental: ["keys", "bass", "lead", "ostinato"],
         outro:        ["keys", "bass"],
       },
       coldOpen:  0.08,        // [EAR] a cue fades up out of atmosphere first
@@ -6732,7 +6777,11 @@ const GENRE = {
     },
     /* Tears in Rain is "call-and-response between Rhodes and CS-80"
        [corpus:alijamieson]. Response, not doubling: sparse, low, contrary. */
-    counter: { style: "line", density: 0.28, intervals: [-2, -4, -5, -7], octaves: [-12, 12] },
+    counter: { style: "line", density: 0.28, intervals: [-2, -4, -5, -7], octaves: [-12, 12],
+               /* the score's second line drifts in AFTER the phrase -- almost
+                  none of it is simultaneous, which is what makes the writing
+                  sound like two players rather than one chord */
+               answer: 0.85 },
     sevenths: false,          // the documented vertical writing is plain triads
     /* THE SPARSEST TABLE IN THE FILE, and the reason this field exists at all.
        One or two notes a bar, landing on the downbeat and the half-bar. */
@@ -6763,6 +6812,12 @@ const GENRE = {
        the CS-80 brass singing high above everything. [corpus:nemostudios br03
        gear list; the MIDI numbers are [EAR]] */
     registers: { bass: [33, 45], keys: [48, 72], counter: [55, 74], bassWalk: [33, 47],
+                 /* THE SEQUENCER SITS CLEAR OF THE PAD. At [60,79] it ate the
+                    top half of the keys band [48,72] and the comp could not find
+                    a voicing that avoided both it and the bass -- 18 blended
+                    pairs threw "no keys voicing fits". The bands are the only
+                    thing keeping independent builders off each other. */
+                 ostinato: [73, 88],
                  themeA: [69, 89], themeB: [72, 92], themeC: [64, 84] },
 
     groove: {
@@ -6846,7 +6901,45 @@ const GENRE = {
     bassStyle: "drone",
     bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },   // unused by "drone"
     bassAccent: { accent: 0, slide: 0 },      // a drone has nothing to accent
-    ostinato: null,
+    /* ══ THE SEQUENCER ═══════════════════════════════════════════════════════
+       Blade Runner is a Berlin School record with an orchestra's manners, and
+       the sequencer is what this genre was missing. It is NOT an arpeggiator:
+       an arpeggiator spells the chord you are holding; a sequencer plays a
+       figure you programmed and is TRANSPOSED by the harmony. Phaedra was the
+       first commercial album built on one, and Chris Franke's contribution was
+       turning the Moog modular's CV step sequencer into a live instrument.
+       [corpus:wikipedia Phaedra, corpus:synthtopia]
+
+       Three things make it Berlin School rather than a loop:
+
+       POLYMETER -- "two individual sequencer parts play at odd lengths, usually
+       one or two steps apart ... this causes variations in the overall sequence
+       as the parts loop back around, each time playing different combinations
+       of notes until they line up again" [corpus:modwiggler]. These cells are
+       11, 13 and 7 notes long against a 16-step bar, so the 11 takes ELEVEN
+       BARS to return to its own downbeat. Nothing repeats for a minute and a
+       half and not one note of it was drawn twice.
+
+       FOLLOW -- the MIDIbox Berlin School tutorial's top track is a TRANSPOSER
+       on whole notes, with the fast tracks set to Transpose + Force-to-Scale.
+       Our chord progression is that transposer. [corpus:ucapps tut4]
+
+       RATCHET -- "used to rapidly repeat notes on single steps", the only fast
+       thing in a slow record. [corpus:thedigitallifestyle]
+
+       EIGHTHS, not sixteenths: at 67 bpm a sixteenth-note sequence is a
+       different genre. The delay does the rest -- "the sequence is often played
+       slower than it sounds and the rhythmic pulse is filled in by an audio
+       delay set to some mathematical division of the tempo" -- and this genre
+       already runs one. */
+    ostinato: {
+      unit: 2, vel: 0.42, run: true, follow: true, ratchet: 0.06,
+      cells: [
+        [[0, 4, 2, 7, 4, 2, 0, 4, 7, 2, 4], 5],        // 11 against 16
+        [[0, 2, 4, 2, 7, 4, 2, 0, 4, 2, 7, 4, 2], 3],  // 13 against 16
+        [[0, 4, 7, 4, 2, 7, 4], 2],                    // 7 against 16
+      ],
+    },
 
     machines: { drums: [["auto", 1]], bass: [["auto", 1]],
                 keys: [["auto", 6], ["mellotron", 3], ["cs80", 2]] },
@@ -7083,7 +7176,12 @@ const GENRE = {
        Higher State. A second acid line is not a countermelody -- it is the same
        instrument an octave or a fifth away, sounding on some of the notes.
        [corpus:fazemag, corpus:articles.roland.com] */
-    counter: { style: "line", density: 0.35, intervals: [-7, 7, 4, -4], octaves: [-12, 12] },
+    /* NO COUNTER-LINE, SAID OUT LOUD. This genre declared one and never put the
+       role in a section, so it was composed and discarded every song. Acid house
+       is a 303 and a drum machine -- two pitched parts was not a shortfall, it
+       was the genre. Saying null is the honest version of what the arrangement
+       was already doing silently. */
+    counter: null,
     sevenths: false,
     theme: { count: { hooky: [3, 2], breath: [2, 2], normal: [2, 3] },
              onsetPool: [[0,5],[2,4],[4,4],[6,4],[8,4],[10,4],[12,4],[14,4]] },
@@ -7571,7 +7669,9 @@ const GENRE = {
       },
     },
     /* the counter should sound like a delay tail, not a duet [EAR] */
-    counter: { style: "line", density: 0.22, intervals: [-7, -4, -3], octaves: [-12, 12] },
+    /* likewise: minimal techno's second voice is the ostinato, which this genre
+       does have. A counter-line on top of it is a different music. */
+    counter: null,
     sevenths: false,
     /* there is barely a tune here at all: the melodic interest is the ostinato,
        which repeats identically, and the theme is an occasional event over it. */
@@ -8210,7 +8310,10 @@ const GENRE = {
       kickKeep: 0, flourishBar: -1, flourish: [[[], 1]],
       variants: { main: {}, lift: {}, depart: {} },
     },
-    counter: { style: "line", density: 0.20, intervals: [-7, -4, -3], octaves: [-12, 12] },
+    /* jungle's melodic content is the bass and the stabs -- the break carries
+       everything else. It declared a counter-line and never activated the role,
+       so one was composed and discarded every song. Said out loud instead. */
+    counter: null,
     sevenths: false,
     theme: { count: { hooky: [2, 1], breath: [1, 1], normal: [1, 2] },
              onsetPool: [[0, 4], [8, 3], [4, 2], [12, 2]] },
@@ -9501,7 +9604,12 @@ function makeMaterials(chart){
      BY-PRODUCT of a fixed cell over a moving pedal. The Ab against a Bb bass is
      not an error waiting for a correcting pass -- it is the music.
      [corpus:vgmusic MIDI transcriptions, byte-identical bars] */
-  function buildOstinato(streamName, varyTail){
+  /* `chords` is passed IN rather than closed over, because this builder
+     deliberately ignores harmony by default -- that is DKC's whole finding, a
+     fixed cell over a moving pedal -- and only a genre that asks with
+     `follow: true` gets it. An argument makes the dependency visible; a
+     closure would have hidden it. */
+  function buildOstinato(streamName, varyTail, chords){
     const O = G.ostinato;
     if(!O) return [];
     const rng = stream(chart.seed, streamName);
@@ -9513,6 +9621,8 @@ function makeMaterials(chart){
     const others = O.cells.filter(pr => pr[0] !== cell);
     const alt = others.length ? others[Math.floor(pickAlt * others.length) % others.length][0] : cell;
     const notes = [];
+    /* the running index for a polymetric cell -- it does NOT reset per bar */
+    let seqI = 0;
     for(let b = 0; b < BARS; b++){
       /* AVAR HAS TO VARY SOMETHING THIS GENRE ACTUALLY PLAYS. `vary(A)` redraws
          the second half of the TUNE -- and for a genre whose tune is an
@@ -9524,12 +9634,66 @@ function makeMaterials(chart){
          notes. A genre whose cell IS its identity says vary:false and keeps it
          -- that is DKC, where four bars of the cell is how you name the game. */
       const c = (varyTail && O.vary && b >= 2) ? alt : cell;
-      let i = 0;
-      for(let st = 0; st < 16; st += O.unit, i++){
-        const deg = c[i % c.length];
-        notes.push({ bar: b, step: st, dur: O.unit,
-                     pitch: intoBand(degMidi(root, mode, deg), R.ostinato[0], R.ostinato[1]),
-                     vel: O.vel, role: "ostinato" });
+      /* ── THE SEQUENCER, AS BERLIN SCHOOL BUILT IT ────────────────────────
+         Three optional switches turn this cell player into the thing Tangerine
+         Dream and Klaus Schulze actually did. All three default OFF, so DKC --
+         whose identity IS four bars of an unchanging cell over a moving pedal,
+         measured byte-identical in the transcriptions -- is untouched.
+
+         RUN. The cell index restarted every bar, so a four-note cell was four
+         notes forever and an eleven-note cell would have been silently truncated
+         to a bar. Letting the index RUN across bars is the whole technique:
+         "two individual sequencer parts play at odd lengths, usually one or two
+         steps apart ... this causes variations in the overall sequence as the
+         parts loop back around, each time playing different combinations of
+         notes until they line up again." An 11-step cell against a 16-step bar
+         realigns every 11 bars. The MIDIbox Berlin School tutorial builds
+         exactly this -- an 11-step track made by skipping steps 4, 6, 8, 12 and
+         14 out of sixteen. [corpus:modwiggler, corpus:ucapps MIDIbox tut4]
+
+         FOLLOW. The tutorial's top track is a TRANSPOSER running whole notes
+         under everything, with the fast tracks set to Transpose + Force-to-
+         Scale. Our chord progression is that transposer -- so `follow` reads the
+         degrees against the CURRENT CHORD rather than against the key, and the
+         sequence moves when the harmony does, which is what makes a Berlin
+         School sequence sound composed rather than looped.
+
+         RATCHET. "Ratcheting is a common technique heard in Berlin School
+         music, used to rapidly repeat notes on single steps." One step becomes
+         two or three, which is the only fast thing in a slow record.
+         [corpus:thedigitallifestyle] */
+      const ch = (O.follow && chords && chords.length) ? chords[b % chords.length] : null;
+      for(let st = 0; st < 16; st += O.unit){
+        const idx = O.run ? (seqI++) : (st / O.unit);
+        const deg = c[((idx % c.length) + c.length) % c.length];
+        const abs = ch ? degMidi(root, mode, ch.degree + deg)
+                       : degMidi(root, mode, deg);
+        const pitch = intoBand(abs, R.ostinato[0], R.ostinato[1]);
+        /* ── THE RATCHET DRAWS FROM ITS OWN STREAM ─────────────────────────
+           Taken from `rng` this consumed a number on every step of every
+           ostinato, which shifted every draw after it: 882 of 2100 snapshot
+           lines moved on a change that is supposed to be inert until a genre
+           asks for it. Law 7 says a draw must not sit inside a condition; it
+           does not say a new feature may reach back and move the music of
+           genres that never enable it.
+
+           A NAMED SUBSTREAM is this project's answer to exactly that, and it is
+           already how every stage keeps its randomness from starving another's.
+           Keyed on bar and step so it is stable and reproducible. */
+        const rt = stream(chart.seed, "ratchet:" + streamName + ":" + b + ":" + st)();
+        /* A RATCHET CANNOT BE FINER THAN THE GRID. Asking for three hits inside
+           an eighth-note step gives each one a duration of 2/3 of a sixteenth,
+           and the grid law -- integer steps, dur at least 1 -- threw on 18
+           blended pairs. That law is right: this program's whole timing model is
+           sixteenths, and a triplet ratchet needs a finer grid than it has.
+           So the subdivision is clamped to what the unit can actually hold: an
+           eighth-note step ratchets into two sixteenths and no further. A
+           genuine triplet ratchet is a grid change, and it is not this one. */
+        let hits = (O.ratchet && rt < O.ratchet) ? (rt < O.ratchet / 2 ? 3 : 2) : 1;
+        while(hits > 1 && (O.unit % hits !== 0 || O.unit / hits < 1)) hits--;
+        for(let h = 0; h < hits; h++)
+          notes.push({ bar: b, step: st + (h * O.unit) / hits, dur: O.unit / hits,
+                       pitch, vel: O.vel * (h ? 0.82 : 1), role: "ostinato" });
       }
     }
     return notes;
@@ -9556,16 +9720,80 @@ function makeMaterials(chart){
      note where three were asked for. */
   function deriveCounter(themeNotes, reserved, streamName){
     const rng = stream(chart.seed, streamName);
-    const CT = G.counter, LO = R.counter[0], HI = R.counter[1];
+    /* A GENRE MAY SAY NO. `ostinato: null` was already handled this way and
+       `counter: null` was not -- because until now every genre declared a
+       counter table whether or not the arrangement ever played it. The moment
+       three of them said null honestly, blending threw
+       "Cannot read properties of null" on 46 pairs. Same guard, same reason. */
+    const CT = G.counter;
+    if(!CT) return [];
+    const LO = R.counter[0], HI = R.counter[1];
     const src = themeNotes.slice().sort((a, z) => a.bar - z.bar || a.step - z.step);
     const out = [];
+    /* ── WHERE THE LEAD IS NOT ─────────────────────────────────────────────
+       MEASURED: 100% of counter notes landed on the same step as a lead note,
+       in every genre. Pitches were independent -- 0.0% duplication -- but the
+       rhythm never was, because this function walks the THEME'S notes and emits
+       one at each. A part that only moves when the tune moves is a harmony
+       part, whatever its pitches do.
+
+       For the `double` style that is exactly right and stays: synthwave's
+       counter IS the octave double, declared as one, and an octave double that
+       arrives late is a mistake rather than a countermelody.
+
+       For the `line` style it is wrong, and the fix is the oldest idea in
+       counterpoint: the second voice answers in the gaps. `answer` is the
+       fraction of notes that displace into the space after the lead note they
+       were derived from -- so the line is still DERIVED (it keeps its contrary
+       motion and its interval pool) but it speaks when the tune has stopped.
+       At 0 this is exactly the old behaviour, which is what jungle and any
+       genre that has not been listened to yet gets. */
+    const gapAfter = i => {
+      /* how many steps of silence follow src[i] before the next lead note in
+         the same bar. Bars are 16 steps and the counter does not cross them. */
+      const n = src[i], end = n.step + (n.dur || 1);
+      let next = 16;
+      for(let j = i + 1; j < src.length; j++){
+        if(src[j].bar !== n.bar) break;
+        if(src[j].step >= end){ next = src[j].step; break; }
+      }
+      return Math.max(0, next - end);
+    };
     let prevLead = null, prevOwn = null;
-    for(const n of src){
+    for(let si = 0; si < src.length; si++){
+      const n = src[si];
       const sounds = rng() < CT.density;          // unconditional draw [Law 7]
       const pickAt = rng();
+      /* both drawn every time, whatever the style or the outcome [Law 7] */
+      const ansDraw = rng(), gapDraw = rng();
       const leadMove = prevLead == null ? 0 : n.pitch - prevLead;
       prevLead = n.pitch;
       if(!sounds){ continue; }
+      /* the answer: a line-style counter may step off the lead's onset into the
+         silence that follows it. `at` and `dur` are decided here and used below
+         in the one place the note is written. */
+      let at = n.step, dur = n.dur;
+      if(CT.style !== "double" && ansDraw < (CT.answer || 0)){
+        /* PREFER the silence, but do not REQUIRE it. Measured with the gap as a
+           precondition: acid moved 5.6% of its notes and dkc 11.4%, because a
+           dense tune leaves no silence to answer into -- so on exactly the
+           genres whose leads are busiest, the counter stayed welded to them.
+
+           A second voice does not need the first to stop. Entering a step or
+           two behind it is IMITATION, which is the oldest counterpoint there
+           is, and it reads as two players either way. So: take the gap when
+           there is one, and otherwise displace a little regardless. Pitch
+           collisions are still refused below, which is the constraint that
+           actually matters. */
+        const g = gapAfter(si);
+        const room = 16 - (n.step + (n.dur || 1));
+        const span = g >= 1 ? g : Math.min(3, Math.max(0, room));
+        if(span >= 1){
+          const off = 1 + Math.floor(gapDraw * span);        // 1..span steps later
+          at = Math.min(15, n.step + (n.dur || 1) + off - 1);
+          dur = Math.max(1, Math.min(n.dur, 16 - at));
+        }
+      }
       if(CT.style === "double"){
         /* an octave is an OCTAVE -- 12 semitones, not a scale-step count that
            intoBand can fold back onto the note it came from. Try each offset in
@@ -9579,7 +9807,7 @@ function makeMaterials(chart){
         }
         if(put == null) continue;
         out.push({ bar: n.bar, step: n.step, dur: n.dur, pitch: put, vel: n.vel * 0.8, role: "counter" });
-        reserved.add(key(n.bar, n.step, put));
+        reserved.add(key(n.bar, n.step, put));  /* the double never displaces */
         prevOwn = put;
         continue;
       }
@@ -9588,7 +9816,7 @@ function makeMaterials(chart){
          voice leading second. */
       const cands = CT.intervals
         .map(iv => intoBand(scaleStep(root, mode, n.pitch, iv), LO, HI))
-        .filter(pchr => pchr !== n.pitch && !reserved.has(key(n.bar, n.step, pchr)));
+        .filter(pchr => pchr !== n.pitch && !reserved.has(key(n.bar, at, pchr)));
       if(!cands.length) continue;
       const score = pchr => {
         if(prevOwn == null) return Math.abs(pchr - 64);
@@ -9602,8 +9830,8 @@ function makeMaterials(chart){
          does not depend on how many candidates survived */
       const pchr = cands[Math.min(cands.length - 1, Math.floor(pickAt * cands.length))];
       const best = score(cands[0]) <= score(pchr) ? cands[0] : pchr;
-      out.push({ bar: n.bar, step: n.step, dur: n.dur, pitch: best, vel: n.vel * 0.8, role: "counter" });
-      reserved.add(key(n.bar, n.step, best));
+      out.push({ bar: n.bar, step: at, dur: dur, pitch: best, vel: n.vel * 0.8, role: "counter" });
+      reserved.add(key(n.bar, at, best));
       prevOwn = best;
     }
     return out;
@@ -9611,11 +9839,11 @@ function makeMaterials(chart){
   const reserve = notes => { const r = new Set(); for(const n of notes) if(n.pitch != null) r.add(key(n.bar, n.step, n.pitch)); return r; };
 
   /* ── A: the verse set ── */
-  const ostA = buildOstinato("ostinato");
+  const ostA = buildOstinato("ostinato", false, chords);
   /* the varied cell for Avar, and -- for a genre whose kit IS the tune -- a
      second chop. Both are cheap and both are no-ops for a genre that says
      nothing, so no existing song moves. */
-  const ostAvar = buildOstinato("ostinato", true);
+  const ostAvar = buildOstinato("ostinato", true, chords);
   /* THE ONE PLACE A PINNED PATTERN ENTERS. Every drum and bass pattern in the
      song goes through `pin`, so a grid the user has programmed substitutes for
      the drawn one at the moment the material is built -- before the seam checks,
@@ -10312,6 +10540,87 @@ function makePerformance(chart, form, materials, sections){
     }
   }
   events.sort((a, z) => a.tSec - z.tSec);
+
+  /* ═══ THE CHIP HAS SIX VOICES AND WE WERE ASKING FOR EIGHT ═════════════════
+     The Mega Drive's YM2612 has six four-operator FM channels, and "the sixth
+     channel may be used for direct DAC sample playback ... a game can trade
+     that FM voice for drums, speech or other digitised sounds. It does not gain
+     a seventh channel." Alongside it the VDP provides four PSG channels: three
+     square-wave tone channels and one noise.
+     [corpus:wikipedia YM2612, corpus:consolemods Genesis audio chip notes]
+
+     MEASURED before this existed, dkc on the sega rig: peak 8 simultaneous FM
+     voices, 7 on another seed. On a chip with six. And with a drum playing, the
+     DAC has taken channel 6, so the real budget is FIVE.
+
+     This is the best kind of constraint in the whole program because it is not
+     taste -- it is the machine, it is documented, and it forces exactly the
+     decision real Mega Drive composers made every day: when everything wants to
+     sound at once, SOMETHING DOES NOT PLAY. That choice is the arrangement.
+
+     THE PRIORITY, and it is a stated opinion rather than a measurement: bass
+     first (a chip tune with no bottom is a ringtone), then lead, then keys,
+     then the second voices. A note that cannot get a channel is dropped, not
+     retuned and not quietly stacked -- which is what the hardware does.
+
+     Genres that do not run on the chip pay nothing: `budget` is absent and this
+     whole block is skipped. */
+  const CHIP = chart.table.chipBudget;
+  if(CHIP && chart.rig === "sega"){
+    const FM = new Set(["chipBass", "chipKeys", "chipLead", "chipCounter"]);
+    const PSG = new Set(["psgHat", "psgOpenhat"]);
+    const DAC = new Set(["dacKick", "dacSnare", "dacGhost"]);
+    const PRI = CHIP.priority || ["bass", "lead", "keys", "ostinato", "counter"];
+    const rank = r => { const i = PRI.indexOf(r); return i < 0 ? PRI.length : i; };
+    /* walk in time order; at each onset count what is still sounding */
+    const live = [];                       // {end, kind, rank}
+    const kept = [];
+    let dropped = 0;
+    for(const ev of events){
+      const kind = FM.has(ev.voice) ? "fm" : PSG.has(ev.voice) ? "psg"
+                 : DAC.has(ev.voice) ? "dac" : null;
+      if(!kind){ kept.push(ev); continue; }
+      while(live.length && live[0].end <= ev.tSec + 1e-9) live.shift();
+      for(let i = live.length - 1; i >= 0; i--) if(live[i].end <= ev.tSec + 1e-9) live.splice(i, 1);
+      const nFM = live.filter(x => x.kind === "fm").length;
+      const nPSG = live.filter(x => x.kind === "psg").length;
+      const dacOn = live.some(x => x.kind === "dac");
+      /* channel 6 is shared: an FM note may not use it while a sample sounds */
+      const fmRoom = (CHIP.fm || 6) - (dacOn || kind === "dac" ? 1 : 0);
+      const ok = kind === "fm"  ? nFM  < fmRoom
+               : kind === "psg" ? nPSG < (CHIP.psg || 3)
+               : true;                                    // the DAC owns its channel
+      /* ── AND THE DAC STEALS THE CHANNEL, IT DOES NOT QUEUE FOR IT ──────────
+         Refusing new FM notes while a sample plays got the peak from 8 to 6 on
+         most seeds and left seed 3 at 7 -- because a DAC note arriving while
+         six FM voices are already sounding has nowhere to go, and drums on a
+         Mega Drive do not wait their turn. The hardware TAKES channel 6.
+
+         So the lowest-priority FM voice still sounding gets cut short at the
+         moment the sample starts. That is a real note ending early, which is
+         exactly what a listener hears on the console, and it is why chip
+         arrangements leave holes under the drums. */
+      if(kind === "dac" && nFM >= (CHIP.fm || 6)){
+        let worst = -1;
+        for(let i = 0; i < live.length; i++)
+          if(live[i].kind === "fm" && (worst < 0 || live[i].rank > live[worst].rank)) worst = i;
+        if(worst >= 0){
+          const victim = live[worst], cut = ev.tSec - victim.ev.tSec;
+          const at = kept.lastIndexOf(victim.ev);
+          if(at >= 0 && cut > 0.001)
+            kept[at] = Object.freeze({ ...victim.ev, durSec: cut });
+          else if(at >= 0) kept.splice(at, 1);
+          live.splice(worst, 1);
+          dropped++;
+        }
+      }
+      if(!ok){ dropped++; continue; }
+      live.push({ end: ev.tSec + ev.durSec, kind, rank: rank(ev.role), ev });
+      kept.push(ev);
+    }
+    if(dropped){ events.length = 0; events.push(...kept); }
+  }
+
   return Object.freeze({ events: Object.freeze(events), seconds: form.nBars * 16 * spb + 2.5,
                          groove: Object.freeze({ style: grooveStyle, snareEarly, kickLate }) });
 }

@@ -865,3 +865,124 @@ same step as a lead note, in all seven genres.** The pitches are independent; th
 *rhythm* never is. A countermelody that only moves when the tune moves is a
 harmony part wearing a different name. The seam check called "the counter is a
 line not a harmoniser" tests pitch, not rhythm. Not fixed — named.
+
+---
+
+## Counter melody, the Berlin School sequencer, and the chip's own limit
+
+### 1. The counter had no rhythm of its own
+
+`deriveCounter` walked the *lead's* notes and emitted one at each — structurally
+incapable of an independent rhythm. Measured: **100% of counter notes on the same
+step as a lead note, in every genre.**
+
+For `style: "double"` that is correct and untouched — synthwave's counter *is*
+the octave double, and a double that arrives late is a mistake. For `style:
+"line"` it is wrong, so a line-style counter now takes the gap after the note it
+was derived from. Preferring silence but not requiring it: a first attempt
+demanded a real rest and moved only 5.6% of acid's notes, because a dense tune
+leaves no silence — and a second voice entering a step behind the first is
+**imitation**, the oldest counterpoint there is.
+
+```
+              same step as the lead
+              before    after
+  lofi         100%      65%
+  dkc          100%      63%
+  vangelis     100%      35%
+  plastikman   100%      30%
+  synthwave    100%     100%   (double — correct)
+```
+
+### …and it exposed something worse
+
+**Four genres composed a counter-line the arrangement never played.** `dkc`,
+`acid`, `plastikman` and `jungle` each declared a full counter table — density,
+interval pool — and `counter` appeared in no section's active list. Eleven notes
+a song built and discarded.
+
+**Reading the roll cannot catch this.** The roll prints MATERIAL, so the counter
+row sits right there on the page looking like music. I had read those rows.
+
+Each genre now says what it means: DKC activates it (Rare's scores are built on
+second lines); acid, plastikman and jungle declare `counter: null`, because two
+pitched parts was never a shortfall — it is the genre. There is a seam check so
+the silent third state cannot come back.
+
+### 2. The sequencer, and why it is not an arpeggiator
+
+**An arpeggiator spells the chord you are holding. A sequencer plays a figure and
+is transposed by the harmony.** They compose differently and Berlin School is the
+second one — Phaedra was the first commercial album built on a sequencer, and
+Chris Franke's contribution was turning the Moog modular's CV step sequencer into
+a live instrument.
+
+Three switches on the existing ostinato builder, all defaulting off so DKC's
+fixed cell over a moving pedal is untouched:
+
+- **`run`** — the cell index does not reset each bar. *"Two individual sequencer
+  parts play at odd lengths, usually one or two steps apart … each time playing
+  different combinations of notes until they line up again."* Vangelis's cells
+  are **11, 13 and 7 notes against a 16-step bar**, so the 11 takes eleven bars
+  to return to its own downbeat.
+- **`follow`** — degrees read against the current chord. The MIDIbox Berlin
+  School tutorial's top track is a **transposer** on whole notes with the fast
+  tracks set to Transpose + Force-to-Scale; our chord progression is that
+  transposer.
+- **`ratchet`** — repeat a note on a step. Clamped to what the grid can hold: an
+  eighth-note step ratchets into two sixteenths and no further, because a triplet
+  ratchet needs a finer grid than this program has. The grid law caught that on
+  18 blended pairs and was right to.
+
+Vangelis, seed 1 — **every bar different**, from a 7-note cell:
+```
+ostinato 1-5-3-1-5-3-1-5- | 1-3-5-1-5-3-1-5- | 7-5-2-5-7-2-5-2- | 7-5-2-7-5-2-5-7-
+```
+
+Synthwave gets the other instrument — an **arp**: follows the chord, restarts
+every bar, locked to the grid the way a Juno's arpeggiator locks to its clock.
+The classic arp synths are the **Juno-6 and Juno-60**; the Juno-106 everyone
+associates with this music actually *lost* the arpeggiator.
+```
+ostinato 1351135113511351 | 6136613661366136 | 7247724772477247
+```
+
+### 3. The chip has six voices and we were asking for eight
+
+The YM2612 has six 4-operator FM channels, and *"the sixth channel may be used
+for direct DAC sample playback … a game can trade that FM voice for drums,
+speech or other digitised sounds. **It does not gain a seventh channel.**"* Plus
+three PSG squares and one noise.
+
+Measured, DKC on the sega rig: **peak 8 simultaneous FM voices**, 7 on another
+seed. With a drum playing the real budget is five.
+
+This is the best constraint in the program because it isn't taste — it's the
+machine, it's documented, and it forces the decision real Mega Drive composers
+made daily: when everything wants to sound, something does not play.
+
+Refusing new FM notes while a sample sounds got the peak from 8 to 6 and left one
+seed at 7 — because **the DAC steals channel 6, it does not queue for it**. Drums
+on a Mega Drive do not wait their turn. So the lowest-priority FM voice still
+sounding is cut short at the moment the sample starts, which is a real note
+ending early and is why chip arrangements leave holes under the drums.
+
+```
+  peak FM+DAC over 20 seeds:  8  ->  6/6      within the chip
+  peak PSG:                          2/3
+```
+
+Priority — bass, lead, keys, ostinato, counter — is a stated opinion, not a
+measurement. A chip tune with no bottom is a ringtone.
+
+### Blast radius
+
+```
+  lofi        300/300 seeds   1951 -> 1951 events   (counter displaced, none added)
+  synthwave   300/300         2844 -> 4040          (the arp)
+  vangelis    300/300          659 -> 1195          (the sequencer)
+  dkc         300/300         2609 -> 2545          (counter activated, chip budget enforced)
+  acid          0/300         unchanged             (counter nulled, no ostinato change)
+  plastikman    0/300         unchanged
+  jungle        0/300         unchanged
+```

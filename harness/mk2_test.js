@@ -324,7 +324,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       for(let s = 1; s <= 60; s++){
         const m = M.composeSong(s, undefined, g).materials;
         n += m.A.bass.length; songs++;
-        for(const k of ["A", "B"]){ lead += m[k].lead.length; ctr += m[k].counter.length; }
+        for(const k of ["A", "B"]){ lead += m[k].lead.length; ctr += (m[k].counter || []).length; }
       }
       dens[g] = { bass: n / songs, ctr: lead ? ctr / lead : 0 };
     }
@@ -409,13 +409,21 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
        is the contract, and the floor stops a genre buying a pass by declaring
        zero. Measured when this landed: every genre delivers 92-99% of what it
        declared. */
+    /* A GENRE MAY DECLARE NO COUNTER AT ALL. This read `.counter.density`
+       unconditionally, which was safe only while every genre had a table --
+       including the three that declared one and never let the arrangement play
+       it. The moment those said `counter: null` honestly, the harness itself
+       threw. A genre with no counter is not a genre failing this check; it is a
+       genre this check does not apply to. */
+    const withCtr = genres.filter(g => T.GENRE[g].counter);
     check("the counter sounds as often as its table declares",
-          genres.every(g => {
+          withCtr.every(g => {
             const want = T.GENRE[g].counter.density;
             return want >= 0.15 && dens[g].ctr >= want * 0.70;
           }),
-          genres.map(g => `${g} ${(100*dens[g].ctr).toFixed(0)}% of ` +
-                          `${(100*T.GENRE[g].counter.density).toFixed(0)}% asked`).join("  "));
+          withCtr.map(g => `${g} ${(100*dens[g].ctr).toFixed(0)}% of ` +
+                          `${(100*T.GENRE[g].counter.density).toFixed(0)}% asked`).join("  ") +
+          `  ·  no counter: ${genres.filter(g => !T.GENRE[g].counter).join(",") || "none"}`);
   }
   /* THE DRUMMER HAS TO ACTUALLY USE THE TOMS. A kit with three tom voices that
      nothing ever strikes is three dead voices and a fill that is a snare roll.
@@ -865,6 +873,63 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     }
     check("no genre writes a pitch below hearing (midi 24 / 32.7 Hz)",
           low.length === 0, low.length ? low.join(", ") : "30 seeds x every genre");
+  }
+
+  /* ── A PART THAT IS BUILT MUST BE ABLE TO PLAY ────────────────────────────
+     MEASURED: dkc, acid, plastikman and jungle each declared a `counter` table
+     -- density, interval pool, the lot -- and the role appeared in NO section's
+     active list. So the second line was composed every song and thrown away
+     before it reached the performance. Reading the roll cannot catch this: the
+     roll prints MATERIAL, so the counter row is right there on the page looking
+     like music that plays.
+
+     Either a genre wants a part or it does not. Declaring a table and never
+     activating the role is the silent third state, and this is the check that
+     removes it. Same test for the ostinato, which has the same shape. */
+  {
+    const orphan = [];
+    for(const g of M.genres()){
+      const song = M.composeSong(1, "draw", g);
+      const T = song.chart.table;
+      for(const role of ["counter", "ostinato"]){
+        if(!T[role]) continue;                       // declared null: fine
+        const active = song.sections.some(s => s.active.includes(role));
+        if(!active) orphan.push(`${g}.${role} declared but never active`);
+      }
+    }
+    check("no genre composes a part the arrangement never plays",
+          orphan.length === 0, orphan.length ? orphan.join(", ") : "counter + ostinato, every genre");
+  }
+
+  /* ── THE CHIP'S POLYPHONY IS PHYSICS, NOT TASTE ───────────────────────────
+     Six FM channels, and the sixth is traded away whenever the DAC plays a
+     sample: "a game can trade that FM voice for drums, speech or other
+     digitised sounds. It does not gain a seventh channel." Three PSG squares
+     alongside. Measured before the budget existed: peak 8 simultaneous FM
+     voices on a chip that has six.
+     [corpus:wikipedia YM2612, corpus:consolemods] */
+  {
+    const FM = new Set(["chipBass", "chipKeys", "chipLead", "chipCounter"]);
+    const PSG = new Set(["psgHat", "psgOpenhat"]);
+    const DAC = new Set(["dacKick", "dacSnare", "dacGhost"]);
+    let worstFM = 0, worstPSG = 0, at = "";
+    for(let s = 1; s <= 20; s++){
+      const song = M.composeSong(s, "sega", "dkc"), spb = song.motion.spb;
+      for(let t = 0; t < Math.min(song.perf.seconds, 90); t += spb){
+        let f = 0, p = 0, d = 0;
+        for(const e of song.perf.events){
+          if(e.tSec > t) break;
+          if(e.tSec + e.durSec <= t) continue;
+          if(FM.has(e.voice)) f++; else if(PSG.has(e.voice)) p++; else if(DAC.has(e.voice)) d++;
+        }
+        const used = f + (d > 0 ? 1 : 0);
+        if(used > worstFM){ worstFM = used; at = `seed ${s} @${t.toFixed(1)}s`; }
+        if(p > worstPSG) worstPSG = p;
+      }
+    }
+    check("the SEGA rig never asks the chip for more voices than it has",
+          worstFM <= 6 && worstPSG <= 3,
+          `peak ${worstFM}/6 FM+DAC, ${worstPSG}/3 PSG over 20 seeds` + (worstFM > 6 ? " — " + at : ""));
   }
 
   /* ── 5. the genre picks machines, and "auto" survives -- because auto is what
