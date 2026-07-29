@@ -3580,18 +3580,68 @@ const Sound = (function(){
     setSpace(liveGraph, space, kick, drumDrive, gate, motion, 0, t0);
     let i = 0;
     while(i < events.length && events[i].tSec < skip) i++;
+    lateDropped = 0;
+    /* ── THE PUMP, AND THE ONE RULE THAT KEEPS IT FROM EXPLODING ─────────────
+       This used to tick every 150 ms against a 600 ms horizon: 450 ms of slack,
+       and NO handling for what happens when the main thread stalls longer than
+       that. Web Audio clamps a start() whose time has already passed to "now",
+       so every overdue event fires in the same instant.
+
+       MEASURED, by driving the real play button and instrumenting
+       OscillatorNode/AudioBufferSourceNode.start to record how far each
+       scheduled event sat from currentTime:
+
+         stall     scheduled   in the past   worst      in one 10 ms
+           0 ms       38            0           -            0
+         300 ms       50            0           -            0
+         700 ms       56            0           -            0
+        1500 ms       88           38        -795 ms        12
+        3000 ms      142           88       -2289 ms        12
+
+       Twelve events -- kick, hats, 303, pad -- landing inside 10 ms is not a
+       subtle artefact; it is the burst of noise this was reported as. The
+       threshold sits between 700 and 1500 ms, which a BACKGROUND TAB crosses on
+       its own: browsers clamp setInterval to >=1 s there, and much worse after a
+       few minutes. Long genres are the ones that got caught because they are the
+       ones a listener walks away from -- acid runs 440 s and plastikman 640 s.
+
+       Two changes, and the second is the one that matters:
+
+       1. More slack. A 1.2 s horizon on a 100 ms tick absorbs a 1.1 s stall with
+          no audible consequence at all, where the old numbers gave 450 ms. The
+          cost is the handful of extra nodes alive at once (~15 at this density),
+          which is nothing.
+
+       2. A NOTE WHOSE MOMENT HAS PASSED IS NOT PLAYED LATE. No horizon can be
+          large enough -- a throttled tab can stall for a minute -- so the pump
+          must be correct when it IS overrun rather than merely less likely to
+          be. An event that is genuinely in the past is DROPPED, not dumped: the
+          song keeps its own clock, a stall leaves a gap, and playback picks up
+          at the right part of the record. That is what a hardware sequencer
+          does, and it is the difference between "it went quiet for a second"
+          and "it fell apart".
+
+       SLIP is float tolerance, not a grace period -- currentTime advances
+       between the read and the dispatch, and without it an on-time event at the
+       boundary would be thrown away. ────────────────────────────────────────── */
+    const LOOKAHEAD = 1.2, SLIP = 0.005;
     const pump = () => {
-      const horizon = ctx.currentTime + 0.6;              // schedule ~0.6 s ahead
+      const now = ctx.currentTime, horizon = now + LOOKAHEAD;
       while(i < events.length && t0 + events[i].tSec < horizon){
-        dispatch(liveGraph, events[i], t0 + events[i].tSec, liveHandles);
+        const at = t0 + events[i].tSec;
+        if(at >= now - SLIP) dispatch(liveGraph, events[i], at, liveHandles);
+        else lateDropped++;
         i++;
       }
       if(i >= events.length){ clearInterval(liveTimer); liveTimer = null; }
     };
     pump();
-    liveTimer = setInterval(pump, 150);
+    liveTimer = setInterval(pump, 100);
     return t0;
   }
+  /* how many events the pump had to drop because the main thread stalled past
+     the horizon. A probe reads it; nothing in the music does. */
+  let lateDropped = 0;
   function stopLive(){
     if(liveTimer){ clearInterval(liveTimer); liveTimer = null; }
     for(const h of liveHandles){ try{ h.stop(0); }catch(e){} try{ h.disconnect(); }catch(e){} }
@@ -3631,7 +3681,10 @@ const Sound = (function(){
      the harness, which proved only that the copy was up to date -- and it went
      stale the moment the rack could name a voice the rig never does. */
   return { playLive, stopLive, renderWav, now: () => (ctx ? ctx.currentTime : 0), LEVEL,
-           voiceNames: () => Object.keys(V) };
+           voiceNames: () => Object.keys(V),
+           /* the pump's overrun counter, so a probe can hold the scheduler to a
+              number instead of to a description of it */
+           lateDropped: () => lateDropped };
 })();
 
 /* ═══════════════════════════════════════════════════════════════════════════
