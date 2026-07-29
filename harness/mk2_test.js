@@ -780,6 +780,70 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   check("every declared motion lane actually swings", moved === lanes,
         moved + "/" + lanes + " lanes move at seed 1");
 
+  /* ── NO MOTION TABLE NAMES A MACHINE TWICE ────────────────────────────────
+     A duplicate key in an object literal does not merge, it REPLACES -- so a
+     second `tr1000:` in one genre's motion block silently deletes the first,
+     and the table that was deleted goes on looking perfectly correct in the
+     source. It has happened three times in this file. The most recent: a whole
+     block of per-voice chain automation was added to lofi and dkc, both genres
+     already had a second tr1000 key further down, and the new work was gone
+     before it ever ran. A probe measured zero and was right.
+
+     Source text is the only place this is visible -- by the time the object
+     exists the loser is gone without a trace -- so this check reads the file.
+     Braces are matched rather than regexed line-by-line, so a nested object
+     inside a machine block cannot be mistaken for a machine. */
+  {
+    /* `html` is the shipped file, already read at the top of this harness.
+
+       THE FIRST VERSION OF THIS CHECK WAS TOO WEAK AND SAID ZERO. It walked
+       lines carrying a running depth counter, which loses its place on any
+       line that opens and closes braces unevenly -- so it caught the two
+       duplicate MACHINE keys and missed four duplicate CONTROL keys, including
+       three created in the same sitting and one (lofi's Rhodes tone) that had
+       been silently dead for who knows how long.
+
+       This one matches braces properly and checks BOTH levels: a machine
+       declared twice in one motion table, and a control declared twice in one
+       machine block. Same defect, one level apart. */
+    const L = html.split("\n");
+    const endOf = i => {                       // line closing the block opened at i
+      let d = 0;
+      for(let j = i; j < L.length; j++){
+        for(const ch of L[j]){
+          if(ch === "{") d++;
+          else if(ch === "}" && --d === 0) return j;
+        }
+      }
+      return L.length - 1;
+    };
+    const dupes = [];
+    let genre = null;
+    for(let i = 0; i < L.length; i++){
+      const g = /^  (\w+): \{/.exec(L[i]);
+      if(g && M.genres().includes(g[1])) genre = g[1];
+      if(!genre || L[i].trim() !== "motion: {") continue;
+      const mEnd = endOf(i);
+      const seenM = {};
+      for(let j = i + 1; j < mEnd; j++){
+        const mm = /^      (\w+): \{/.exec(L[j]);
+        if(!mm) continue;
+        if(seenM[mm[1]]) dupes.push(`${genre}.${mm[1]} (machine, lines ${seenM[mm[1]]},${j + 1})`);
+        seenM[mm[1]] = j + 1;
+        const bEnd = endOf(j), seenC = {};
+        for(let k = j + 1; k < bEnd; k++){
+          const ck = /^        (\w+):/.exec(L[k]);
+          if(!ck) continue;
+          if(seenC[ck[1]]) dupes.push(`${genre}.${mm[1]}.${ck[1]} (control, lines ${seenC[ck[1]]},${k + 1})`);
+          seenC[ck[1]] = k + 1;
+        }
+        j = bEnd;
+      }
+    }
+    check("no motion table declares a machine or a control twice",
+          dupes.length === 0, dupes.length ? dupes.join(" | ") : "0 duplicate keys, both levels");
+  }
+
   /* ── 5. the genre picks machines, and "auto" survives -- because auto is what
      keeps the RIG picker meaningful. A genre that named all three slots would
      silently disable a feature this program has. ── */

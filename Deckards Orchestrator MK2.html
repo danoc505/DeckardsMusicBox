@@ -386,7 +386,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29n · every genre gets a hand on the desk</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29o · the third time sounds different</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1525,6 +1525,35 @@ function motionAt(plan, key, ev, offset){
     else if(mv.kind === "apex"){
       d += mv.from + (mv.to - mv.from) * (plan.arc ? plan.arc[bar] : 0.5);
     }
+    /* ── OCCURRENCE: THE THIRD TIME SOUNDS DIFFERENT ────────────────────────
+       "Open a low-pass filter by a few percent each time the loop repeats, so
+       over 32 bars the sound brightens gradually" [corpus:musicradar]. The step
+       is per STATEMENT of the section's function, not per bar and not per
+       second: the second verse is one step along, the third is two.
+
+       This is the rule of three answered with timbre. Stage 2 already emits a
+       `vary` demand on the third hearing and only the material could satisfy
+       it, by rewriting notes -- which is the wrong instrument for music whose
+       changes are meant to be timbral. Now a genre can say "and the filter is
+       further open every time you hear this", and the third statement differs
+       from the first without a note moving. */
+    else if(mv.kind === "occurrence"){
+      const occ = (plan.secOcc ? plan.secOcc[bar] : 1) - 1;
+      d += mv.step * Math.min(occ, mv.cap);
+    }
+    /* ── THROW: the send that spikes and is gone ────────────────────────────
+       A delay throw is not a send level, it is a MOMENT -- the send jumps for a
+       beat at the end of a phrase and the tail carries into the next one.
+       "Delay functions as a compositional tool that creates rhythm and melody
+       from single notes or short phrases" [corpus:attackmagazine dub techno].
+       A steady send cannot do this; it just makes everything wet. */
+    else if(mv.kind === "throw"){
+      const inPhrase = bar % mv.every;
+      if(inPhrase === mv.every - 1){
+        const u = step / 16;
+        if(u >= mv.at) d += mv.amt * (1 - (u - mv.at) / Math.max(1e-6, 1 - mv.at));
+      }
+    }
     else if(mv.kind === "gesture"){
       for(const w of mv.win){
         if(tSec < w.a || tSec >= w.b) continue;
@@ -1547,6 +1576,22 @@ function makeMotion(chart, form, sections){
   const secFn = new Array(nBars).fill("verse");
   for(const s of sections)
     for(let b = s.startBar; b < s.endBar && b < nBars; b++) secFn[b] = s.fn;
+  /* ── WHICH STATEMENT OF ITS FUNCTION EACH BAR BELONGS TO ───────────────────
+     Form already counts this -- `occurrence` is 1 for the first verse, 2 for the
+     second, 3 for the third -- and it is what the rule of three is stated in.
+     Until now only the MATERIAL could answer a vary demand, by rewriting notes.
+     A knob can answer it too, and in this music it is the more idiomatic
+     answer: "techno's hypnotic quality comes from automation and modulation
+     rather than constant arrangement changes -- filter sweeps, delay throws and
+     reverb sends replacing chord changes and new melodic ideas. This is how a
+     four-bar loop stays interesting for eight minutes."
+     [corpus:attackmagazine dub techno, corpus:izotope on repetition]
+
+     So the plan carries the occurrence per bar, and an `occurrence` move reads
+     it. Nothing else needed it, which is why it was not here. */
+  const secOcc = new Array(nBars).fill(1);
+  for(const s of sections)
+    for(let b = s.startBar; b < s.endBar && b < nBars; b++) secOcc[b] = s.occurrence || 1;
 
   const lanes = {};
   const MO = G.motion || {};
@@ -1622,6 +1667,19 @@ function makeMotion(chart, form, sections){
         const from = drawIn(sp.from, rng), to = drawIn(sp.to, rng);
         out.push(Object.freeze({ kind: "apex", from, to }));
       }
+      else if(sp.kind === "occurrence"){
+        /* the size of one step is drawn per song; how many steps it takes is
+           the arrangement's business, and the cap stops a genre that repeats a
+           function eight times from walking a filter off its dial */
+        const step = drawIn(sp.step, rng);
+        out.push(Object.freeze({ kind: "occurrence", step, cap: sp.cap == null ? 3 : sp.cap }));
+      }
+      else if(sp.kind === "throw"){
+        const amt = drawIn(sp.amt, rng);
+        out.push(Object.freeze({ kind: "throw", amt,
+                                 every: sp.every || 8,
+                                 at: sp.at == null ? 0.75 : sp.at }));
+      }
       else if(sp.kind === "gesture"){
         /* the size is drawn once per song so the gesture is the same gesture
            every time it happens; WHERE it happens is the arrangement's call and
@@ -1681,6 +1739,7 @@ function makeMotion(chart, form, sections){
      twice through an already-long positional signature -- and the plan is the
      right owner, because "what moves, where, and on whose panel" is one fact. */
   return Object.freeze({ spb, nBars, secFn: Object.freeze(secFn),
+                         secOcc: Object.freeze(secOcc),
                          drums: (chart.picks && chart.picks.drums) || "kit",
                          seconds: nBars * 16 * spb,
                          /* form's arc, so an `apex` lane can follow the song's
@@ -5262,6 +5321,37 @@ const GENRE = {
         fb:   [{ kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.03, 0.09],
                  shape: "sin", freePhase: true }],
       },
+      /* ── THE KIT HAS TEN VOICES AND THIS GENRE MOVED TWO KNOBS ─────────────
+         MEASURED: lofi drew a TR-1000 -- ten voices, sixty per-voice controls --
+         and rode exactly two lanes on it, neither of them a chain. Four of the
+         seven genres were in that position. The machine was built for "everything
+         needs its own character that also at times is moving and swelling" and
+         then only one genre used it that way.
+
+         Lofi's version is a dusty one: the hats lose their top over each repeat,
+         the snare gets wetter, the kick barely moves. Small numbers -- this is a
+         beat tape, and the point is that you notice it on the third listen and
+         not the first. */
+      tr1000: {
+        hCut:  [{ kind: "occurrence", step: [-520, -240], cap: 3 },
+                { kind: "lfo", bars: [[16, 3], [32, 2]], depth: [300, 900],
+                  shape: "sin", freePhase: true }],
+        hDecay:[{ kind: "plock", density: [0.10, 0.22], amt: [-0.010, 0.014] }],
+        sVerb: [{ kind: "occurrence", step: [0.03, 0.09], cap: 3 },
+                { kind: "section", by: { chorus: [0.03, 0.10], outro: [0.04, 0.12] } }],
+        decay: [{ kind: "section", by: { chorus: [0.08, 0.20], bridge: [-0.16, -0.06],
+                                         outro: [-0.12, -0.04] } }],
+        /* the p-lock, on the closed hat: hats land on eight or sixteen steps of
+           the bar, so a decay locked to a handful of them is heard as a pattern
+           rather than as noise. */
+        chdecay: [{ kind: "plock", density: [0.12, 0.26], amt: [-0.012, 0.022] }],
+        sCut:  [{ kind: "lfo", bars: [[24, 2], [40, 1]], depth: [400, 1100],
+                  shape: "sin", freePhase: true }],
+        kCut:  [{ kind: "occurrence", step: [-260, -110], cap: 3 }],
+        oCut:  [{ kind: "lfo", bars: [[16, 2], [28, 1]], depth: [500, 1400],
+                  shape: "tri", freePhase: true }],
+        oEcho: [{ kind: "throw", amt: [0.10, 0.26], every: 8, at: 0.75 }],
+      },
       amen: {
         /* ── THE CHAINS, AUTOMATED. "Automating sends creating movement and
            tension in a genre where the core elements stay relatively static"
@@ -5385,7 +5475,11 @@ const GENRE = {
         sEcho: [{ kind: "section", by: { bridge: [0.06, 0.16] } },
                 { kind: "lfo", bars: [[24, 2], [32, 1]], depth: [0.02, 0.05],
                   shape: "sin", freePhase: true }],
-        hCut:  [{ kind: "lfo", bars: [[12, 3], [20, 2]], depth: [700, 2200],
+        /* the per-hearing step, on a song form: each time you hear the verse the
+           hats are a shade darker. Smaller than the club genres' -- in a song
+           the third verse should still feel like the verse. */
+        hCut:  [{ kind: "occurrence", step: [-360, -150], cap: 3 },
+                { kind: "lfo", bars: [[12, 3], [20, 2]], depth: [700, 2200],
                   shape: "tri", freePhase: true }],
         oVerb: [{ kind: "lfo", bars: [[20, 2], [28, 1]], depth: [0.03, 0.09],
                   shape: "sin", freePhase: true }],
@@ -5513,14 +5607,21 @@ const GENRE = {
       rhodes: {
         wow:  [{ kind: "lfo", bars: [[24, 3], [16, 2]], depth: [0.0003, 0.0011],
                  shape: "sin", freePhase: true }],
+        /* ONE `tone` KEY, NOT TWO. These were two separate `tone:` entries in
+           this same object and the second silently replaced the first -- so the
+           Rhodes' section-by-section tone shaping had not run for however long
+           this has been here, and the source read as though it did. Found by a
+           duplicate-key scan after the same defect ate a block of new work
+           twice in one sitting. Merged; both move now. */
         tone: [{ kind: "section", by: { intro: [-0.16, -0.08], verse: [-0.08, -0.02],
                                         chorus: [0.03, 0.09], bridge: [-0.13, -0.05],
-                                        instrumental: [-0.04, 0.02], outro: [-0.20, -0.12] } }],
+                                        instrumental: [-0.04, 0.02], outro: [-0.20, -0.12] } },
+               /* the record gets a little duller as the side runs. Tiny, because
+                  this genre's whole affect is that nothing lunges -- but a
+                  four-minute loop that ends exactly where it started is a loop,
+                  not a record. [EAR] */
+               { kind: "arc", from: [0.02, 0.06], to: [-0.10, -0.04], curve: "sCurve" }],
         bark: [{ kind: "lfo", bars: [[8, 3], [16, 2]], depth: [0.04, 0.10], shape: "tri" }],
-        /* the record gets a little duller as the side runs. Tiny, because this
-           genre's whole affect is that nothing lunges -- but a four-minute loop
-           that ends exactly where it started is a loop, not a record. [EAR] */
-        tone: [{ kind: "arc", from: [0.02, 0.06], to: [-0.10, -0.04], curve: "sCurve" }],
       },
       wurly: {
         trem: [{ kind: "section", by: { verse: [0.00, 0.05], chorus: [0.09, 0.18],
@@ -5551,14 +5652,16 @@ const GENRE = {
                     shape: "sin", freePhase: true }],
         flutter: [{ kind: "section", by: { bridge: [0.08, 0.18], outro: [0.06, 0.16] } }],
       },
-      tr1000: {
-        decay: [{ kind: "section", by: { chorus: [0.08, 0.20], bridge: [-0.16, -0.06],
-                                         outro: [-0.12, -0.04] } }],
-        /* the p-lock, on the closed hat: hats land on eight or sixteen steps of
-           the bar, so a decay locked to a handful of them is heard as a pattern
-           rather than as noise. This is the one place lofi gets machine detail. */
-        chdecay: [{ kind: "plock", density: [0.12, 0.26], amt: [-0.012, 0.022] }],
-      },
+      /* MERGED INTO THE tr1000 BLOCK ABOVE. These two lanes used to live in a
+         SECOND `tr1000:` key in this same object -- and a duplicate key in an
+         object literal does not merge, it REPLACES. Adding the chain block above
+         therefore deleted nothing and was itself deleted: the probe measured
+         zero designed lanes in lofi and dkc and was right.
+
+         This is the third time a duplicate key has silently eaten a table in
+         this file. It is now checked: `no motion table declares a machine
+         twice` is a seam check, so the next one fails a battery instead of
+         quietly doing nothing. */
       /* THE GENRE DOES NOT DRAW A 303 -- machines.bass is auto only -- but the
          user can put one in the slot by hand, and a machine whose knobs sit dead
          still is worse than one that is not offered. So lofi describes how IT
@@ -5977,6 +6080,7 @@ const GENRE = {
            [corpus:trackscore] -- five drums on five different periods, so the
            kit is never in the same state twice. ── */
         sVerb: [{ kind: "section", by: { chorus: [0.10, 0.28], bridge: [0.06, 0.16] } },
+                { kind: "occurrence", step: [0.025, 0.075], cap: 3 },
                 { kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         sEcho: [{ kind: "lfo", bars: [[22, 3], [30, 2]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         sCut:  [{ kind: "lfo", bars: [[26, 2], [34, 1]], depth: [800, 2400], shape: "tri", freePhase: true }],
@@ -6385,6 +6489,21 @@ const GENRE = {
         send: [{ kind: "section", by: { chorus: [0.02, 0.08], instrumental: [0.03, 0.10],
                                         outro: [-0.05, -0.02] } }],
       },
+      /* the chip kit's chains, which had one lane and now have five. A level
+         theme loops for as long as the player is in the level, so the case for
+         per-repeat movement is stronger here than anywhere -- but it has to stay
+         under the tune, because this music is melody-first. */
+      tr1000: {
+        hCut:  [{ kind: "occurrence", step: [-380, -160], cap: 3 },
+                { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [400, 1000],
+                  shape: "tri", freePhase: true }],
+        sVerb: [{ kind: "occurrence", step: [0.02, 0.07], cap: 3 }],
+        decay: [{ kind: "section", by: { chorus: [0.06, 0.15], outro: [-0.10, -0.04] } }],
+        sCut:  [{ kind: "lfo", bars: [[32, 2], [16, 1]], depth: [300, 900],
+                  shape: "sin", freePhase: true }],
+        kDecay:[{ kind: "plock", density: [0.08, 0.18], amt: [-0.012, 0.016] }],
+        oEcho: [{ kind: "throw", amt: [0.08, 0.20], every: 8, at: 0.8 }],
+      },
       segakit: {
         /* ── THE CHAINS, AUTOMATED. "Automating sends creating movement and
            tension in a genre where the core elements stay relatively static"
@@ -6491,7 +6610,8 @@ const GENRE = {
                { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [0.03, 0.07], shape: "tri" }],
       },
       wurly: { trem: [{ kind: "section", by: { bridge: [0.06, 0.14], outro: [0.04, 0.12] } }] },
-      tr1000: { decay: [{ kind: "section", by: { chorus: [0.06, 0.15], outro: [-0.10, -0.04] } }] },
+      /* this genre's second `tr1000:` key -- its `decay` lane moved up into the
+         block above, because a duplicate key replaces rather than merges */
       tb303: {
         cutoff: [{ kind: "section", by: { chorus: [220, 560], bridge: [-160, -50],
                                           outro: [-220, -120] } },
@@ -6770,7 +6890,13 @@ const GENRE = {
                  shape: "sin", freePhase: true }],
       },
       echo: {
+        /* this genre has no drum machine to step -- its kit is barely there --
+           so the per-hearing change goes where its sound actually lives: the
+           room gets deeper and the CS-80 breathier each time a cue returns.
+           That is the same idea as a filter opening on the third statement,
+           spent on the instrument this music is made of. */
         send: [{ kind: "apex", from: [0.06, 0.16], to: [-0.02, 0.04] },
+               { kind: "occurrence", step: [0.03, 0.08], cap: 3 },
                { kind: "section", by: { bridge: [0.08, 0.20], outro: [0.06, 0.16] } }],
         verb: [{ kind: "apex", from: [0.05, 0.14], to: [-0.02, 0.05] },
                { kind: "lfo", bars: [[96, 2], [64, 1]], depth: [0.03, 0.09],
@@ -6786,7 +6912,11 @@ const GENRE = {
                    shape: "sin", freePhase: true }],
         /* a cue arrives from nowhere and opens. Very small -- this score's
            dynamics live in the filter and the room, not in lunges. [EAR] */
-        vib:    [{ kind: "arc", from: [-0.12, -0.05], to: [0.04, 0.12], curve: "sCurve" }],
+        vib:    [{ kind: "arc", from: [-0.12, -0.05], to: [0.04, 0.12], curve: "sCurve" },
+                 /* and a little more of it each time a cue comes back, which is
+                    what a player does with a held chord they have played twice
+                    already */
+                 { kind: "occurrence", step: [0.02, 0.06], cap: 3 }],
         /* ── HOW HARD THE PLAYER IS LEANING, across the record ───────────────
            The AFTER column is not a setting that gets dialled once. It is how
            much pressure this performance is using, and a player leans harder as
@@ -7154,6 +7284,11 @@ const GENRE = {
                    { kind: "arc", from: [0, 0], to: [0.04, 0.16], curve: "sCurve" }],
       },
       tr1000: {
+        /* the acid house version of the same idea: each statement the hats get
+           darker and the open hat wetter, so the fourth verse is a different
+           room from the first without one drum moving */
+        hCut:    [{ kind: "occurrence", step: [-480, -220], cap: 3 }],
+        sEcho:   [{ kind: "throw", amt: [0.12, 0.28], every: 8, at: 0.75 }],
         ohdecay: [{ kind: "lfo", bars: [[16, 2], [32, 1]], depth: [0.05, 0.14],
                     shape: "sin", freePhase: true }],
         snappy:  [{ kind: "plock", density: [0.10, 0.22], amt: [-0.16, 0.20] }],
@@ -7181,7 +7316,11 @@ const GENRE = {
         sVerb:  [{ kind: "lfo", bars: [[20, 3], [28, 2]], depth: [0.06, 0.18],
                    shape: "tri", freePhase: true }],
         hVerb:  [{ kind: "section", by: { chorus: [0.05, 0.14], bridge: [0.08, 0.20] } }],
-        oVerb:  [{ kind: "section", by: { bridge: [0.10, 0.26], chorus: [0.04, 0.12] } }],
+        oVerb:  [{ kind: "section", by: { bridge: [0.10, 0.26], chorus: [0.04, 0.12] } },
+                 /* and wetter each time you hear the section -- the per-hearing
+                    step lives here rather than in a second oVerb key, which is
+                    what it was and which did nothing */
+                 { kind: "occurrence", step: [0.03, 0.10], cap: 3 }],
         tCut:   [{ kind: "lfo", bars: [[24, 2], [36, 1]], depth: [500, 1600],
                    shape: "sin", freePhase: true }],
         tEcho:  [{ kind: "lfo", bars: [[30, 2], [20, 1]], depth: [0.05, 0.14],
@@ -7805,6 +7944,20 @@ const GENRE = {
          [corpus:underdog] -- but they are no longer zero on the only thing in
          the room. */
       tr1000: {
+        /* ── THE THIRD TIME, ON THE GENRE THAT REPEATS MOST ──────────────────
+           This music states one figure for nine minutes, so the rule of three
+           lands here harder than anywhere: by the third statement of a section
+           something has to have changed, and in THIS music it must not be the
+           notes. Every one of these steps once per statement and stops after
+           three -- the hats close, the kick shortens, the clap goes further
+           into the room, the ride gets thrown into the delay.
+
+           "Filter sweeps, delay throws and reverb sends replacing chord changes
+           and new melodic ideas -- this is how a four-bar loop stays
+           interesting for eight minutes." [corpus:attackmagazine dub techno] */
+        kDecay:  [{ kind: "occurrence", step: [-0.030, -0.012], cap: 3 }],
+        cVerb:   [{ kind: "occurrence", step: [0.04, 0.11], cap: 3 }],
+        dEcho:   [{ kind: "throw", amt: [0.14, 0.32], every: 8, at: 0.75 }],
         ohdecay: [{ kind: "lfo", bars: [[32, 3], [64, 2]], depth: [0.04, 0.10],
                     shape: "sin", freePhase: true },
                   { kind: "lfo", bars: [[12, 2], [16, 1]], depth: [0.03, 0.07],
@@ -7846,7 +7999,10 @@ const GENRE = {
            movement is boring, too much movement is exhausting."
            [corpus:underdog] -------------------------------------------------- */
         hCut:  [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [900, 2600],
-                  shape: "tri", freePhase: true }],
+                  shape: "tri", freePhase: true },
+                /* and darker on each statement -- the rule of three, answered
+                   with the hats rather than with the notes */
+                { kind: "occurrence", step: [-560, -260], cap: 3 }],
         hEcho: [{ kind: "lfo", bars: [[22, 3], [14, 2]], depth: [0.04, 0.12],
                   shape: "sin", freePhase: true }],
         oCut:  [{ kind: "lfo", bars: [[26, 3], [34, 2]], depth: [800, 2400],
@@ -7855,7 +8011,8 @@ const GENRE = {
            when it opens into the delay the whole bar smears */
         oEcho: [{ kind: "lfo", bars: [[14, 3], [22, 2]], depth: [0.08, 0.22],
                   shape: "tri", freePhase: true },
-                { kind: "section", by: { bridge: [0.10, 0.24] } }],
+                { kind: "section", by: { bridge: [0.10, 0.24] } },
+                { kind: "throw", amt: [0.10, 0.24], every: 16, at: 0.875 }],
         sEcho: [{ kind: "lfo", bars: [[34, 3], [18, 2]], depth: [0.06, 0.16],
                   shape: "sin", freePhase: true }],
         sCut:  [{ kind: "lfo", bars: [[22, 2], [30, 1]], depth: [600, 1800],
@@ -8171,9 +8328,26 @@ const GENRE = {
       },
       echo: {
         send: [{ kind: "section", by: { bridge: [0.10, 0.24], intro: [0.04, 0.12] } },
-               { kind: "gesture", on: "build", bars: 8, from: [0.10, 0.22], to: [0, 0], curve: "lin" }],
+               { kind: "gesture", on: "build", bars: 8, from: [0.10, 0.22], to: [0, 0], curve: "lin" },
+               /* the throw: jungle's delay is a thrown thing, not a wash */
+               { kind: "throw", amt: [0.16, 0.34], every: 8, at: 0.75 }],
         fb:   [{ kind: "lfo", bars: [[16, 2], [32, 1]], depth: [0.04, 0.12],
                  shape: "sin", freePhase: true }],
+      },
+      /* jungle drew a TR-1000 and rode NOTHING on it -- the break carries the
+         record, so the kit underneath had been left as a static layer. It is
+         still a layer, but a moving one: the sub-kick and the hats get the
+         per-repeat treatment, and the ride gets thrown into the delay. */
+      tr1000: {
+        kCut:  [{ kind: "occurrence", step: [-300, -140], cap: 3 },
+                { kind: "gesture", on: "build", bars: 8, from: [-900, -500], to: [0, 0], curve: "exp" }],
+        kDecay:[{ kind: "lfo", bars: [[32, 2], [16, 1]], depth: [0.02, 0.06],
+                  shape: "sin", freePhase: true }],
+        hCut:  [{ kind: "occurrence", step: [-420, -180], cap: 3 },
+                { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [500, 1300],
+                  shape: "tri", freePhase: true }],
+        hEcho: [{ kind: "throw", amt: [0.12, 0.30], every: 8, at: 0.8 }],
+        dVerb: [{ kind: "occurrence", step: [0.03, 0.10], cap: 3 }],
       },
       amen: {
         /* the filter is the arrangement here: the break opens for the drop and

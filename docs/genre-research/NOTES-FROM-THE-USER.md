@@ -665,3 +665,109 @@ They ride the desk gently and arc instead.
   70 cents and very audible, so the flat threshold is the wrong test — it is the
   same flat-threshold mistake this project has already documented twice. That
   probe should report travel in each control's own units.
+
+---
+
+## The rule of three, answered with a knob
+
+*"This is how we can bring change into the rule of three with any kind of change
+like this. But it also gives the song character and movement."*
+
+That is the right reading of the architecture, and the research backs it
+completely.
+
+### What the sources say
+
+- **"Techno's hypnotic quality comes from automation and modulation rather than
+  constant arrangement changes, with filter sweeps, delay throws, and reverb
+  sends replacing chord changes and new melodic ideas. This is how a four-bar
+  loop stays interesting for eight minutes."** [attackmagazine, dub techno]
+- **"Open a low-pass filter by a few percent each time the loop repeats, so over
+  32 bars the sound brightens gradually."** [musicradar] — the change is keyed to
+  the REPETITION, not to the clock.
+- "The foundational pattern repeats, but small changes are introduced over time
+  — a hi-hat removed every other bar, a filter that opens slightly … the
+  repetition creates the groove while the variation sustains interest." [izotope]
+- "Delay functions as a compositional tool that creates rhythm and melody from
+  single notes or short phrases" — the **throw**, a send that spikes and is gone,
+  not a wet level.
+- And a warning worth keeping: "Once listeners begin to anticipate something
+  strange might happen, there won't be anything left to surprise them."
+
+### What was here, measured
+
+Stage 2 emits a `vary` demand on the third statement of a function, and **only
+the material could answer it** — by rewriting notes. For music whose changes are
+meant to be timbral that is the wrong instrument entirely.
+
+And the TR-1000 was in the same state as the desk before it: all 69 controls
+ridden by *someone*, so nothing was parked, but
+
+| genre | TR-1000 lanes | of which per-voice chain knobs (of 60) |
+|---|---|---|
+| synthwave | 70 | 60 |
+| plastikman | 14 | 8 |
+| acid | 12 | 7 |
+| lofi | 2 | **0** |
+| dkc | 1 | **0** |
+| jungle | 0 | **0** |
+
+Three genres drew a ten-voice drum machine and never moved one of its per-voice
+knobs.
+
+### Two new motion kinds
+
+- **`occurrence`** — a step per statement of the section's function, capped.
+  The second verse is one step along, the third is two. This is the rule of
+  three answered with timbre.
+- **`throw`** — a send that jumps at the end of every Nth bar and decays into the
+  next phrase.
+
+### Measured after: the third statement, against the first
+
+The first version of this measurement said every genre already varied — and it
+was wrong. Its biggest movers were `mellotron.wow`, `reese.detune`,
+`tb303.softAtk`: all **free-running LFOs**, which sit at a different phase two
+minutes later whether or not anyone intended it. **Drift is not variation.** It
+is not keyed to the hearing and a listener cannot connect it to "this is the
+third time". So the probe now separates the two, and only the designed column
+is claimed:
+
+```
+  genre        fn            DESIGNED (keyed to the hearing)   drift
+  lofi         verse           4.0 lanes  tr1000.sVerb 18%      112
+  synthwave    verse           1.0 lanes  tr1000.sVerb 13%       63
+  dkc          verse           2.0 lanes  tr1000.sVerb 14%       55
+  vangelis     verse           2.0 lanes  echo.send 15%          13
+  acid         verse           2.0 lanes  tr1000.oVerb 20%       12
+  plastikman   verse           2.9 lanes  tr1000.cVerb 22%       26
+  jungle       verse           3.0 lanes  tr1000.dVerb 20%       23
+```
+
+### And the reason none of it worked at first: DUPLICATE KEYS
+
+A duplicate key in an object literal does not merge, it **replaces**. Four were
+found, and the new work had been silently deleted before it ever ran:
+
+- `lofi.tr1000` and `dkc.tr1000` — two machine blocks each; the second erased the
+  chain automation just added to the first
+- `acid.tr1000.oVerb`, `plastikman.tr1000.hCut`, `plastikman.tr1000.oEcho` —
+  the same defect one level down
+- **`lofi.rhodes.tone`** — pre-existing and not mine. The Rhodes' section-by-
+  section tone shaping had been dead for an unknown length of time, while the
+  source read as though it ran.
+
+There is now a seam check for both levels. Its first version was too weak — a
+running brace counter that lost its place — and reported zero while four
+duplicates sat in the file; the current one matches braces properly. It then
+immediately caught me creating a *fifth* duplicate while fixing the others,
+which is the best possible evidence that it works.
+
+### Still not done
+
+- **`plock` remains rare** (0–3 a genre) on music whose signature is the
+  per-step lock.
+- **Vangelis has no TR-1000 lanes** — correct, it barely has a kit; its
+  per-hearing change lives on the echo and the CS-80's vibrato instead.
+- The sizes of every step above are **mine, not measured**. The shapes are
+  researched; the amounts are taste until they are heard.
