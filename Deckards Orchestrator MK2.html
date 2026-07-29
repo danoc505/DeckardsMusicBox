@@ -315,7 +315,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29k · ten voices in the conductor</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29l · the 303 gets its modded-out panel</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1021,6 +1021,34 @@ const INSTRUMENTS = {
       { k:"accent", label:"accent",    cap:"ACCENT",       min:0,   max:1,    step:0.01,def:0.65 , kind:"voicing" },
       { k:"drive",  label:"drive",     cap:"DRIVE",        min:1,   max:8,    step:0.1, def:2.6 , kind:"gesture" },
       { k:"wave",   label:"saw / square", cap:"WAVEFORM",  min:0, max:1,   step:1,   def:0 , kind:"switch" },
+
+      /* ── THE MODDED-OUT SECTION ────────────────────────────────────────────
+         The panel this is drawn from is a TD-3-MO -- a 303 with the Devil Fish
+         mod set built in -- and the striking thing about its extra knobs is that
+         almost every one of them was already a HARDCODED CONSTANT in this voice:
+
+           SLIDE TIME     was 0.055 s, written into the portamento ramp
+           ACCENT DECAY   was Math.min(dec, 0.20), so an accented note always
+                          collapsed to 200 ms however the DECAY knob was set --
+                          which is exactly the behaviour the Devil Fish mod
+                          exists to make adjustable
+           ACCENT SWEEP   was envmod * 2.2
+           SWEEP          was the 14 in cutoff * (1 + 14 * env)
+
+         A constant with a knob printed next to it on the real instrument is a
+         decision the program was making for the conductor. These are those four,
+         plus the five the mod adds that had no equivalent here at all.
+         [theory: Devil Fish / TD-3-MO control set] */
+      { k:"tune",     label:"tune",           cap:"TUNE",       min:-12, max:12,  step:0.5,  def:0, unit:"st", kind:"gesture" },
+      { k:"softAtk",  label:"soft attack",    cap:"SOFT ATTACK",min:0,   max:0.20,step:0.005,def:0.002, unit:"s", kind:"gesture" },
+      { k:"accDecay", label:"accent decay",   cap:"ACCENT DECAY",min:0.04,max:1.20,step:0.01, def:0.20, unit:"s", kind:"gesture" },
+      { k:"track",    label:"filter tracking",cap:"FILTER TRACKING",min:0,max:1,  step:0.01, def:0, kind:"gesture" },
+      { k:"slideTime",label:"slide time",     cap:"SLIDE TIME", min:0.01,max:0.30,step:0.005,def:0.055, unit:"s", kind:"gesture" },
+      { k:"sweep",    label:"sweep depth",    cap:"SWEEP",      min:2,   max:24,  step:0.5,  def:14, kind:"gesture" },
+      { k:"accSweep", label:"accent sweep",   cap:"ACCENT SWEEP",min:1,  max:4,   step:0.05, def:2.2, kind:"gesture" },
+      { k:"filterFM", label:"filter FM",      cap:"FILTER FM",  min:0,   max:1,   step:0.01, def:0, kind:"gesture" },
+      { k:"subOsc",   label:"sub oscillator", cap:"SUB OSC",    min:0,   max:1,   step:0.01, def:0, kind:"gesture" },
+      { k:"muffler",  label:"muffler",        cap:"MUFFLER",    min:0,   max:1,   step:0.01, def:0, kind:"gesture" },
     ],
     /* THE 303'S PANEL. The knob row is the box's own, in the box's own order and
        with its own legends. The STEP GRID is not: a real 303 is programmed
@@ -1032,9 +1060,10 @@ const INSTRUMENTS = {
     panel: {
       skin: "tb303", maker: "Roland", title: "Bass Line TB-303",
       groups: [
-        { label: "", keys: ["wave", "cutoff", "res"] },
-        { label: "", keys: ["envmod", "decay", "accent"] },
-        { label: "", keys: ["drive"] },
+        { label: "", keys: ["tune", "cutoff", "res", "envmod", "decay", "accent"] },
+        { label: "MODDED OUT", keys: ["softAtk", "accDecay", "track", "drive"] },
+        { label: "", keys: ["wave", "slideTime", "sweep", "accSweep"] },
+        { label: "", keys: ["filterFM", "subOsc", "muffler"] },
       ],
       grid: "bass",
     },
@@ -3357,44 +3386,110 @@ const Sound = (function(){
        decay forced short. That is why an accented step sounds like a different
        note rather than the same note louder.                        ═══════════ */
   V.acid303 = function(g, ev, t){
-    const c = g.ctx, f = F(ev.pitch);
+    const c = g.ctx;
     const cutoff = P(g, ev, "tb303", "cutoff", 520), res = P(g, ev, "tb303", "res", 9);
     const envmod = P(g, ev, "tb303", "envmod", 0.62), dec = P(g, ev, "tb303", "decay", 0.36);
     const accAmt = P(g, ev, "tb303", "accent", 0.65), drive = P(g, ev, "tb303", "drive", 2.6);
     const square = P(g, ev, "tb303", "wave", 0) >= 0.5;
+    /* ── THE MODDED-OUT KNOBS, every one of which used to be a constant ────── */
+    const tune     = P(g, ev, "tb303", "tune", 0);
+    const softAtk  = P(g, ev, "tb303", "softAtk", 0.002);
+    const accDec   = P(g, ev, "tb303", "accDecay", 0.20);
+    const track    = P(g, ev, "tb303", "track", 0);
+    const slideSec = P(g, ev, "tb303", "slideTime", 0.055);
+    const sweep    = P(g, ev, "tb303", "sweep", 14);
+    const accSweep = P(g, ev, "tb303", "accSweep", 2.2);
+    const fFM      = P(g, ev, "tb303", "filterFM", 0);
+    const sub      = P(g, ev, "tb303", "subOsc", 0);
+    const muff     = P(g, ev, "tb303", "muffler", 0);
     const accented = !!ev.accent;
+    const f = F(ev.pitch) * Math.pow(2, tune / 12);
+    const nodes = [];
 
     const o = c.createOscillator(); o.type = square ? "square" : "sawtooth";
     /* SLIDE: portamento from the previous step. Stage 3 writes how far, on the
-       note being slid INTO -- a note cannot see its successor at play time. */
+       note being slid INTO -- a note cannot see its successor at play time.
+       HOW LONG it takes is the SLIDE TIME knob, which the real instrument has
+       and this voice had written into the ramp as 0.055. */
     if(ev.slide){
       o.frequency.setValueAtTime(f * Math.pow(2, -ev.slide / 12), t);
-      o.frequency.exponentialRampToValueAtTime(f, t + 0.055);
+      o.frequency.exponentialRampToValueAtTime(f, t + slideSec);
     } else o.frequency.value = f;
     o.start(t); o.stop(t + ev.durSec + 0.30);
+    nodes.push(o);
+
+    /* THE SUB. A square an octave down, mixed under the main oscillator -- the
+       one thing on that panel that adds weight rather than shaping it. */
+    let subN = null;
+    if(sub > 0){
+      subN = c.createOscillator(); subN.type = "square"; subN.frequency.value = f / 2;
+      subN.start(t); subN.stop(t + ev.durSec + 0.30); nodes.push(subN);
+    }
 
     const lp1 = c.createBiquadFilter(); lp1.type = "lowpass"; lp1.Q.value = res;
     const lp2 = c.createBiquadFilter(); lp2.type = "lowpass"; lp2.Q.value = 0.707;
-    const env = accented ? Math.min(1, envmod * 2.2) : envmod;
-    const d   = accented ? Math.min(dec, 0.20) : dec;
-    const top = Math.min(11000, cutoff * (1 + 14 * env));
+    /* ACCENT SWEEP is how much harder an accented note opens the filter, and
+       ACCENT DECAY is how fast it shuts again. On a stock 303 the second of
+       those is fixed -- which is exactly the limitation the mod removes, so
+       here it is a knob rather than Math.min(dec, 0.20). */
+    /* THE CEILING WAS THE BUG. This clamped at 1, and the default ENV MOD of
+       0.62 times the default ACCENT SWEEP of 2.2 is already 1.36 -- so the knob
+       saturated across its entire range and moved the sound by exactly nothing.
+       Measured: 0.0% on peak, brightness, low-band and level alike, which is
+       what a control clamped out of existence looks like.
+
+       There is no need for a tight ceiling here: `top` below is already bounded
+       at 11 kHz, which is the limit that actually matters. 3 lets the knob open
+       an accented note about twice as far as a plain one at the top of its
+       travel, which is what the accent sweep is for. */
+    const env = accented ? Math.min(3, envmod * accSweep) : envmod;
+    const d   = accented ? Math.min(dec, accDec) : dec;
+    /* FILTER TRACKING: how far the cutoff follows the note being played. At 0
+       the filter sits where the knob says whatever the pitch, which is the 303's
+       own behaviour and why its high notes go dull. */
+    const base = cutoff * (1 + track * (f / 110 - 1));
+    const top  = Math.min(11000, Math.max(60, base) * (1 + sweep * env));
     for(const lp of [lp1, lp2]){
       lp.frequency.setValueAtTime(top, t);
-      lp.frequency.exponentialRampToValueAtTime(Math.max(60, cutoff), t + d);
+      lp.frequency.exponentialRampToValueAtTime(Math.max(60, base), t + d);
     }
+    /* FILTER FM: the oscillator modulating its own filter at audio rate. It is
+       the mod's most extreme control and the reason a TD-3-MO can scream. */
+    if(fFM > 0){
+      const fm = c.createGain(); fm.gain.value = fFM * base * 3.5;
+      o.connect(fm); fm.connect(lp1.frequency);
+    }
+
     const vca = c.createGain();
     const lvl = LEVEL.bass * ev.gain * (accented ? 1 + 0.5 * accAmt : 1);
-    vca.gain.setValueAtTime(lvl, t);
+    /* SOFT ATTACK. A stock 303 has no attack at all -- every note is a click --
+       and the mod adds one. Zero here reproduces the old behaviour exactly. */
+    if(softAtk > 0.0005){
+      vca.gain.setValueAtTime(0.0002, t);
+      vca.gain.linearRampToValueAtTime(lvl, t + softAtk);
+    } else vca.gain.setValueAtTime(lvl, t);
     vca.gain.setValueAtTime(lvl, t + ev.durSec * 0.9);
     vca.gain.exponentialRampToValueAtTime(0.0002, t + ev.durSec * 0.9 + 0.012);
+
     /* the overdrive, and the makeup that keeps drive a TIMBRE control rather
        than a loudness control -- the same lesson the drum bus taught. */
     const pre = c.createGain(); pre.gain.value = drive;
     const sh = c.createWaveShaper(); sh.curve = g.satCurve; sh.oversample = "2x";
     const post = c.createGain(); post.gain.value = 1 / Math.max(1, drive * 0.8);
-    o.connect(lp1); lp1.connect(lp2); lp2.connect(vca);
-    vca.connect(pre); pre.connect(sh); sh.connect(post); post.connect(g.bus.bass);
-    return [o];
+    o.connect(lp1);
+    if(subN){ const sg = c.createGain(); sg.gain.value = sub * 0.55; subN.connect(sg); sg.connect(lp1); }
+    lp1.connect(lp2); lp2.connect(vca);
+    vca.connect(pre); pre.connect(sh); sh.connect(post);
+    /* THE MUFFLER is the last thing on that panel and the simplest: a lowpass
+       across the output that takes the edge off everything the overdrive just
+       did. At 0 it is out of the path, so it costs a genre that ignores it
+       nothing at all. */
+    if(muff > 0.001){
+      const mf = c.createBiquadFilter(); mf.type = "lowpass";
+      mf.frequency.value = 12000 - muff * 10600; mf.Q.value = 0.707;
+      post.connect(mf); mf.connect(g.bus.bass);
+    } else post.connect(g.bus.bass);
+    return nodes;
   };
 
   /* ══ THE MELLOTRON ════════════════════════════════════════════════════════
@@ -4053,7 +4148,13 @@ const Sound = (function(){
   /* the SEGA rig's kit. The DAC voices play the baked 8-bit sample: the gain
      scales the SAMPLE, not the converter, which is the point -- a quiet Mega
      Drive kick is a quantised kick, not a smaller one. */
-  function dacHit(g, buf, t, lvl){
+  /* the EVENT comes in, not just its gain. Routing every drum through its own
+     chain made the destination depend on the lane -- drumOut(g, ev.lane) -- and
+     this one helper was left reading an `ev` it had never been passed. It is a
+     ReferenceError on the first DAC hit, which means the SEGA kick and snare
+     threw on every note and took the render down with them. Nothing caught it:
+     no seam check fires a voice, and the snapshot hashes notes, not sound. */
+  function dacHit(g, ev, buf, t, lvl){
     const c = g.ctx;
     const src = c.createBufferSource(); src.buffer = buf;
     const gn = c.createGain(); gn.gain.value = lvl;
@@ -4061,8 +4162,8 @@ const Sound = (function(){
     src.start(t); src.stop(t + buf.duration + 0.01);
     return [src];
   }
-  V.dacKick  = function(g, ev, t){ return dacHit(g, g.dac.kick,  t, LEVEL.kick  * ev.gain); };
-  V.dacSnare = function(g, ev, t){ return dacHit(g, g.dac.snare, t, LEVEL.snare * ev.gain); };
+  V.dacKick  = function(g, ev, t){ return dacHit(g, ev, g.dac.kick,  t, LEVEL.kick  * ev.gain); };
+  V.dacSnare = function(g, ev, t){ return dacHit(g, ev, g.dac.snare, t, LEVEL.snare * ev.gain); };
   V.dacGhost = V.dacSnare;                       // a ghost is a snare; quiet comes from velocity
   /* one PSG noise channel, one setting: no body-plus-shine pair, because the
      hardware has exactly one noise source and that thinness IS the sound. */
@@ -5411,6 +5512,14 @@ const GENRE = {
            what makes a 303 line change character rather than just brightness. */
         envmod:[{ kind: "section", by: { chorus: [0.08, 0.20], bridge: [-0.16, -0.06],
                                          instrumental: [0.04, 0.14] } }],
+              /* THE THREE THIS GENRE REACHES FOR: a soft attack so the bass swells
+           rather than clicks, a sub under it, and a little tuning drift -- the
+           three that make a sequenced line sound played rather than typed. */
+        tune:     [{ kind: "lfo", bars: [[36, 2], [52, 1]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
+        softAtk:  [{ kind: "section", by: { chorus: [-0.004, -0.001], bridge: [0.004, 0.014] } },
+                   { kind: "lfo", bars: [[28, 2], [40, 1]], depth: [0.002, 0.008], shape: "sin", freePhase: true }],
+        subOsc:   [{ kind: "section", by: { chorus: [0.08, 0.26], bridge: [-0.06, -0.02] } },
+                   { kind: "arc", from: [0, 0.05], to: [0.06, 0.20], curve: "sCurve" }],
       },
       /* THE SWEEP IS THIS GENRE'S BASS GESTURE. Nightcall's verse bass is a
          filter falling through the note; riding how FAR it falls and how fast
@@ -6529,6 +6638,18 @@ const GENRE = {
                 { kind: "arc", from: [-1.5, -0.5], to: [1.5, 4.0], curve: "sCurve" }],
         decay: [{ kind: "plock", density: [0.12, 0.24], amt: [-0.12, 0.20] }],
         drive: [{ kind: "section", by: { chorus: [0.4, 1.2], bridge: [-0.8, -0.3] } }],
+              /* ── THE MODDED-OUT KNOBS THIS GENRE REACHES FOR. Acid house is the
+           sound of a hand on the filter section, so it gets the four that make
+           the filter scream: how far the envelope sweeps, how much harder an
+           accent sweeps it, how fast an accented note shuts, and the filter FM
+           that is the whole reason anybody mods a 303. ── */
+        sweep:    [{ kind: "section", by: { chorus: [2.0, 6.0], bridge: [-3.0, -1.0] } },
+                   { kind: "lfo", bars: [[24, 3], [16, 2]], depth: [1.0, 3.5], shape: "tri", freePhase: true }],
+        accSweep: [{ kind: "section", by: { chorus: [0.15, 0.55] } },
+                   { kind: "lfo", bars: [[32, 2], [20, 1]], depth: [0.08, 0.28], shape: "sin", freePhase: true }],
+        accDecay: [{ kind: "lfo", bars: [[18, 3], [26, 2]], depth: [0.02, 0.08], shape: "sin", freePhase: true }],
+        filterFM: [{ kind: "section", by: { chorus: [0.05, 0.22], bridge: [-0.05, -0.01] } },
+                   { kind: "arc", from: [0, 0], to: [0.04, 0.16], curve: "sCurve" }],
       },
       tr1000: {
         ohdecay: [{ kind: "lfo", bars: [[16, 2], [32, 1]], depth: [0.05, 0.14],
@@ -7104,6 +7225,14 @@ const GENRE = {
            shallow on purpose: you should not be able to point at where it
            changed. [corpus:hawtin] */
         decay: [{ kind: "arc", from: [0.06, 0.14], to: [-0.10, -0.03], curve: "sCurve" }],
+              /* THE THREE THIS GENRE REACHES FOR: how long a slide takes, how much
+           top the muffler takes off, and how far the filter follows the note.
+           All three are slow shaping rather than gestures -- which is this
+           music's whole method. */
+        slideTime:[{ kind: "lfo", bars: [[40, 3], [28, 2]], depth: [0.010, 0.045], shape: "sin", freePhase: true }],
+        muffler:  [{ kind: "arc", from: [0, 0.05], to: [0.10, 0.30], curve: "sCurve" },
+                   { kind: "lfo", bars: [[48, 2], [32, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
+        track:    [{ kind: "lfo", bars: [[64, 2], [44, 1]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
       },
       /* ── THE DRUMS HAVE TO CARRY THE OPENING ─────────────────────────────
          "It's all slow swells of changing effects -- this is how you can get

@@ -266,21 +266,21 @@ WAV hash can never be the determinism test. The determinism test is the
 Run all of these before you claim anything.
 
 ```bash
-node harness/mk2_test.js                              # 83 seam checks
+node harness/mk2_test.js                              # 88 seam checks
 node harness/mk2_roll.js 1 --genre vangelis           # any of the six genres
 node harness/mk2_snapshot.js check harness/mk2_baseline.snap
 node harness/mk2_roll.js 1                            # THE test that matters
 node harness/mk2_roll.js 1 --song                     # full arrangement
 node harness/mk2_roll.js 1 --mid out.mid              # .mid round-trip check
-node harness/mk2_ui.js                                # 20 checks, in a browser
+node harness/mk2_ui.js                                # 23 checks, in a browser
 node harness/mk2_blend.js                             # 10 checks, the blend sliders
 node harness/mk2_roll.js 1 --blend lofi:50,jungle:50  # read a blended song
 ```
 
-- **`mk2_test.js`** — 83 assertions over composition seams: per-genre loops,
+- **`mk2_test.js`** — 88 assertions over composition seams: per-genre loops,
   "the counter is a line not a harmoniser", "the bridge is a departure", "the
   bass styles differ", "the .mid carries every note", plus the rack, the motion
-  and the pins. Currently **83 passed, 0 failed**.
+  and the pins. Currently **88 passed, 0 failed**.
 
   Two of these were rewritten when the new genres arrived, and the reason
   generalises: *"the drummer actually uses the toms"* and *"every genre's second
@@ -296,7 +296,7 @@ node harness/mk2_roll.js 1 --blend lofi:50,jungle:50  # read a blended song
   prove a refactor is a refactor. It now defaults to however many seeds the
   baseline file holds, so the bare command is correct (it used to default to 200
   against a 300-seed baseline and report a false CHANGED). Current state:
-  `IDENTICAL — 300 seeds, not one note moved`.
+  `IDENTICAL — 2100 seeds, not one note moved` (one line per seed AND genre; it used to compose only lofi on every seed and say "300 seeds").
 - **`mk2_roll.js`** — prints the material as an ASCII grid plus note tables, a
   DERIVATION section, THE POCKET in milliseconds, **accent and slide on the bass**
   (`>` accent, `/n` `\n` slide) with a "303 view" block per material, and
@@ -306,6 +306,21 @@ node harness/mk2_roll.js 1 --blend lofi:50,jungle:50  # read a blended song
   buttons, drags the knobs, presses play, reads back what happened. Every other
   harness eval's the `<script>` out of the HTML and never builds a DOM, so
   nothing about the front panels was provable before this existed. ~10 s.
+
+  Its last two checks are not about the UI at all: **every voice renders without
+  throwing**, and **none comes out silent**. They live here because this is the
+  only suite with a browser, and the hole they close cost real money. `dacHit` —
+  the SEGA rig's kick and snare — spent several commits reading `ev.lane` off an
+  `ev` it had never been passed, left behind when per-drum chains made the output
+  destination depend on the lane. Every DAC hit was a `ReferenceError`, which in
+  WebAudio does not degrade: it takes the rest of the render with it, so the DKC
+  genre was simply broken. **88 seam checks, 21 UI checks, 10 blend checks and a
+  2100-line snapshot were all green the entire time**, because not one of them
+  ever CONSTRUCTS A SOUND. The seam checks read tables; the snapshot hashes
+  notes; this file reads the DOM. Nothing stood between "the voice exists in `V`"
+  and "the voice makes a noise". If you add a voice, this is what covers you.
+- **`probe_voices.js`** — the same sweep with the full report: every voice, its
+  lane, and its peak. Run it when a voice or a routing change lands.
 
 The audio harness (`render_audio.js` / `test_audio.py`, 515 output assertions)
 exists and works, and now renders WITH the motion plan at each excerpt's own
@@ -750,6 +765,17 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
   timbre controls; if one of them changes how loud the thing is, it needs
   makeup. That is now three times this file has learned it (drum bus, 303
   overdrive, 808 decay).
+- **A measurement taken outside the instrument's working range measures the
+  range, not the instrument.** Twice in one day, in two different shapes. First:
+  the 303's ACCENT SWEEP knob read DEAD, and it was not — at the panel's default
+  cutoff of 520 the envelope already opens the filter to 10.4 kHz, and 10.4 kHz
+  against 11 kHz on an 82 Hz saw is the same filter to an ear. The knob had no
+  room because the filter was open past audibility before it was touched; at
+  cutoff 250 the same knob moves the top from 4,019 to 7,144 Hz. Second: a
+  before/after render of the first 20 seconds reported that ACID — the genre
+  named after the instrument — had not moved at all, because since the build
+  work the 303 does not enter until 31 s. I measured the intro and called it the
+  genre. **Anchor the window to the thing you are measuring**, then read it.
 - **Do not "fix" an audio threshold by raising it.** When the 808 failed the sub
   and air checks, the answer was not a bigger number — it was that the bar has
   to be the *machine's*, the same way the air floor was already the *rig's*,

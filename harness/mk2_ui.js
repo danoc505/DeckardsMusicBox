@@ -235,6 +235,62 @@ const check = (label, ok, detail) => {
   if(shotDir) await pg.screenshot({ path: path.join(shotDir, "panels.png"), fullPage: true });
   await pg.click("#play"); await pg.waitForTimeout(200);
 
+  /* ── EVERY VOICE MAKES A SOUND ────────────────────────────────────────────
+     Not a UI claim, but this is the only suite with a browser in it, and the
+     gap it closes was expensive. `dacHit` -- the SEGA kick and snare -- spent
+     several commits reading `ev.lane` off an `ev` it was never passed, left
+     behind when per-drum chains made the destination depend on the lane. Every
+     DAC hit was a ReferenceError, and a throw inside a WebAudio render does not
+     degrade gracefully: it takes the rest of the render with it.
+
+     88 seam checks, 21 UI checks, 10 blend checks and a 2100-line composition
+     snapshot all passed the whole time, because NOT ONE OF THEM BUILDS A SOUND.
+     The seam checks read tables, the snapshot hashes notes, this file reads the
+     DOM. Nothing stood between "the voice is in V" and "the voice makes a
+     noise". It was found by accident, by a probe rendering old against new for
+     an unrelated reason.
+
+     So: fire all of them, once each, and fail on a throw. The detailed report
+     (per-voice peak, silent voices) lives in harness/probe_voices.js. */
+  const voices = await pg.evaluate(async () => {
+    const laneOf = name => {
+      const n = name.toLowerCase();
+      if(n.includes("openhat")) return "openhat";
+      for(const k of ["kick","snare","ghost","hat","clap","rim","crash","ride"])
+        if(n.includes(k)) return k;
+      if(n.includes("tom")) return n.includes("lo") ? "tom3" : "tom1";
+      if(/^k/.test(n)) return "kick"; if(/^s/.test(n)) return "snare";
+      if(/^oh/.test(n)) return "openhat"; if(/^h/.test(n)) return "hat";
+      if(/^t/.test(n)) return "tom3";
+      return null;
+    };
+    const bad = [], quiet = [];
+    for(const v of window.MK2.voiceNames()){
+      const lane = laneOf(v);
+      /* `slice` is the chopper's offset into the break; the composer always
+         writes it, so a synthetic event without it tests my event literal
+         rather than the voice */
+      const ev = { voice: v, role: lane ? "drums" : "bass", lane: lane || "bass",
+                   tSec: 0.05, durSec: 0.40, gain: 0.9, pitch: 45, slice: 0 };
+      try {
+        const blob = await window.MK2.renderWav([ev], 1.6, 44100);
+        const ab = await blob.arrayBuffer(), dv = new DataView(ab);
+        const n = (ab.byteLength - 44) / 4;
+        let peak = 0;
+        for(let i = 0; i < n; i++){
+          const s = Math.abs(dv.getInt16(44 + (i*2)*2, true) / 32768);
+          if(s > peak) peak = s;
+        }
+        if(peak < 1e-4) quiet.push(v);
+      } catch(e){ bad.push(v + ": " + String(e && e.message || e)); }
+    }
+    return { bad, quiet, n: window.MK2.voiceNames().length };
+  });
+  check(`every one of the ${voices.n} voices renders without throwing`,
+        voices.bad.length === 0, voices.bad.slice(0, 3).join(" | "));
+  check("...and none of them comes out silent",
+        voices.quiet.length === 0, voices.quiet.join(", "));
+
   check("no uncaught page errors at any point", errs.length === 0, errs.slice(0, 3).join(" | "));
   await b.close();
   console.log("\n" + pass + " passed, " + fail + " failed");
