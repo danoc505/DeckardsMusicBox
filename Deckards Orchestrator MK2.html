@@ -229,9 +229,56 @@ const EPIANO = (() => {
    composition and the seam battery is unaffected by anything in this block.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* live values, keyed "<machine>.<control>". The UI writes here; voices read. */
-const PARAMS = {};
-const P = (m, k, dflt) => { const v = PARAMS[m + "." + k]; return v == null ? dflt : v; };
+/* ── THE KNOB, AND ITS THREE OWNERS ─────────────────────────────────────────
+   A knob used to be one number in PARAMS. It is three now, and they SUM, because
+   three different things have a legitimate claim on it and stacking them is the
+   only way each one keeps exactly one owner:
+
+     PARAMS   the BASE.  The genre's table sets it when the song is built
+              (GENRE.params), falling back to the machine's own declared
+              default.  Owner: applyRack.  Nothing else writes it.
+     motion   the MOVEMENT.  A composed, frozen plan -- p-locks, section moves,
+              LFO sweeps, one-shot gestures -- evaluated at the position of the
+              note being played.  Owner: makeMotion.  It is a property of the
+              SONG, not of the panel, which is why switching machines mid-song
+              cannot change it.
+     TRIM     the HAND.  What the user's finger added, as a signed offset in the
+              control's own unit.  Owner: the front panel.
+
+   Summing rather than overriding is the whole reason the hand and the machine
+   can both be telling the truth at once: you grab a filter that is sweeping, it
+   keeps sweeping, and it sweeps around where you put it.  The alternative --
+   last writer wins -- makes two of the three into liars, and a knob that lies
+   about what the sound is doing is the thing this program is least allowed to
+   have.  A trim of 0 is the untouched state, so a song the user has not touched
+   is exactly base + motion.
+
+   The sum is CLAMPED to the control's declared range.  A section move plus an
+   LFO plus a p-lock can add up past the end of the dial; a real dial stops. */
+const PARAMS = {};                 // the base, per "<machine>.<control>"
+const TRIM   = {};                 // the user's signed offset, same keys
+const CONTROL = {};                // the declaration, same keys -- filled below
+
+/* what the panel shows and what setSpace is handed: base + hand, no motion.
+   Motion is per-note and belongs at the note, not at the bus. */
+function panelValue(m, k, dflt){
+  const key = m + "." + k, c = CONTROL[key];
+  const base = PARAMS[key] == null ? (c ? c.def : dflt) : PARAMS[key];
+  const v = base + (TRIM[key] || 0);
+  return c ? Math.max(c.min, Math.min(c.max, v)) : v;
+}
+
+/* THE ONE KNOB READ. Every voice goes through this and no voice reads PARAMS.
+   `g` carries the song's motion plan (setSpace put it there); `ev` says where
+   in the song this note is. A voice called with neither -- the reference-bar
+   canary, a probe -- gets base + hand, which is the honest answer when there is
+   no song to move against. */
+function P(g, ev, m, k, dflt){
+  const key = m + "." + k;
+  const v = panelValue(m, k, dflt) + ((g && g.motion) ? motionAt(g.motion, key, ev) : 0);
+  const c = CONTROL[key];
+  return c ? Math.max(c.min, Math.min(c.max, v)) : v;
+}
 
 const INSTRUMENTS = {
   /* ── DRUM MACHINES ─────────────────────────────────────────────────────── */
@@ -367,6 +414,175 @@ const INSTRUMENTS = {
   },
 };
 
+/* the declaration index, so a knob read can clamp to the dial's real ends and
+   the panel can format a number without hunting for the machine that owns it. */
+for(const m in INSTRUMENTS) for(const c of INSTRUMENTS[m].controls) CONTROL[m + "." + c.k] = c;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOTION — the knobs move, and the song is what moves them.
+
+   A machine whose knobs never move is a machine playing one sound for four
+   minutes, and four minutes of one sound is the difference between a loop and a
+   song. Elektron's word for the first kind below is a PARAMETER LOCK: a knob
+   value stored against a STEP, so step 7 has a different filter than step 6 and
+   the difference repeats every bar until it stops sounding like a repeat and
+   starts sounding like a part. The other three kinds move at the other three
+   timescales that matter, and a genre may use any mixture of them:
+
+     plock     per STEP.     A value bound to a sixteenth, the same every bar.
+                             Mechanical, hypnotic, and the reason a 303 line has
+                             internal detail without a second instrument.
+     section   per SECTION.  A value per section FUNCTION -- filter shut in the
+                             verse, open in the chorus. This is the song's story
+                             told on a dial.
+     lfo       per BAR.      A tempo-synced glide over N bars. The slow filter
+                             opening nobody can point at and everybody hears.
+     gesture   per EVENT.    A one-shot move tied to something the arrangement
+                             actually did -- a dive across the fill into a
+                             chorus, a lift over the peak section.
+
+   ─ THE LAWS THIS OBEYS ─────────────────────────────────────────────────────
+
+   1. IT MOVES NO NOTE. Motion is stage 6. It reaches the sound through P() and
+      nowhere else, so no pitch, no time and no gain can see it. The snapshot is
+      the proof: adding this moved nothing.
+   2. THE GENRE DECLARES RANGES, THE SONG DRAWS INSIDE THEM. A table entry is
+      [lo,hi]; makeMotion draws one number per song on a named substream. So two
+      lofi songs move differently and the same seed always moves the same way --
+      character, not chaos.
+   3. EVERY MOVE GETS ITS OWN SUBSTREAM, keyed by machine, control and index.
+      Adding a move to one control cannot shift any other draw in the program,
+      which is the property that let this land without moving a single note.
+   4. POSITION IS DERIVED, NOT CARRIED. The plan knows the song's spb and its
+      section-per-bar map, so it turns ev.tSec back into (bar, step). Stage 5
+      therefore needed no new field, and the event list is byte-identical to
+      what it was before motion existed. Micro-timing is far under half a
+      sixteenth -- the largest displacement in the program is dilla's snare at
+      17% -- so rounding to the nearest sixteenth recovers the step exactly.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* the LFO shapes, all returning -1..1 over one cycle of phase 0..1, so `depth`
+   is a peak deviation in the control's own unit and reads the same on all four */
+const MOTION_WAVE = {
+  tri:  u => 1 - 4 * Math.abs(u - 0.5),
+  sin:  u => Math.sin(u * 2 * Math.PI),
+  ramp: u => 2 * u - 1,                  // sweeps up across the cycle, then resets
+  fall: u => 1 - 2 * u,                  // and its mirror: opens, then closes
+};
+
+/* [lo,hi] draws; a bare number is a bare number. The draw runs either way so a
+   table author cannot change the stream shape by pinning one value. */
+function drawIn(v, rng){
+  const x = rng();
+  return Array.isArray(v) ? v[0] + x * (v[1] - v[0]) : v;
+}
+
+/* the value this control is displaced by, at this note. Arithmetic only -- the
+   plan is fully drawn and frozen before a single sample is scheduled. */
+function motionAt(plan, key, ev){
+  const moves = plan.lanes[key];
+  if(!moves || !ev || ev.tSec == null) return 0;
+  const s16  = Math.round(ev.tSec / plan.spb);
+  const bar  = Math.max(0, Math.min(plan.nBars - 1, Math.floor(s16 / 16)));
+  const step = ((s16 % 16) + 16) % 16;
+  let d = 0;
+  for(const mv of moves){
+    if(mv.kind === "plock") d += mv.amt[step];
+    else if(mv.kind === "section") d += mv.by[plan.secFn[bar]] || 0;
+    else if(mv.kind === "lfo"){
+      const ph = mv.phase + (bar * 16 + step) / (16 * mv.bars);
+      d += mv.depth * MOTION_WAVE[mv.shape](ph - Math.floor(ph));
+    }
+    else if(mv.kind === "gesture"){
+      for(const w of mv.win){
+        if(ev.tSec < w.a || ev.tSec >= w.b) continue;
+        const u = (ev.tSec - w.a) / (w.b - w.a);
+        d += mv.from + (mv.to - mv.from) * (mv.curve === "exp" ? u * u : u);
+      }
+    }
+  }
+  return d;
+}
+
+/* THE PLAN. Built once per song, after the arrangement exists (a gesture needs
+   to know where the fills are), frozen, and hung on the song. It is not a
+   pipeline stage: it writes no note and no stage reads it. */
+function makeMotion(chart, form, sections){
+  const G = GENRE[chart.genre] || {};
+  const spb = (60 / chart.tempo) / 4;
+  const nBars = form.nBars;
+  /* which section function owns each bar -- the lookup a `section` move needs */
+  const secFn = new Array(nBars).fill("verse");
+  for(const s of sections)
+    for(let b = s.startBar; b < s.endBar && b < nBars; b++) secFn[b] = s.fn;
+
+  const lanes = {};
+  const MO = G.motion || {};
+  for(const m in MO) for(const k in MO[m]){
+    const key = m + "." + k;
+    const c = CONTROL[key];
+    if(!c) throw new Error("motion names a control that does not exist: " + key);
+    const specs = MO[m][k];
+    const out = [];
+    for(let i = 0; i < specs.length; i++){
+      const sp = specs[i];
+      const rng = stream(chart.seed, "motion:" + key + ":" + i);
+      if(sp.kind === "plock"){
+        /* thirty-three draws, always, whatever lands: the density first, then a
+           hit and an amount for each of the sixteen steps. A conditional draw
+           here would make one genre's p-lock density shift another control's
+           sweep, which is exactly the coupling named substreams exist to kill. */
+        const density = drawIn(sp.density, rng);
+        const amt = [];
+        for(let s = 0; s < 16; s++){
+          const hit = rng(), size = drawIn(sp.amt, rng);
+          amt.push(hit < density ? size : 0);
+        }
+        out.push(Object.freeze({ kind: "plock", amt: Object.freeze(amt) }));
+      }
+      else if(sp.kind === "section"){
+        const by = {};
+        for(const fn in sp.by) by[fn] = drawIn(sp.by[fn], rng);
+        out.push(Object.freeze({ kind: "section", by: Object.freeze(by) }));
+      }
+      else if(sp.kind === "lfo"){
+        out.push(Object.freeze({
+          kind: "lfo",
+          bars:  wpick(rng, sp.bars),           // musical lengths, weighted
+          depth: drawIn(sp.depth, rng),
+          phase: sp.freePhase ? rng() : 0,      // 0 = the cycle starts with the song
+          shape: sp.shape,
+        }));
+      }
+      else if(sp.kind === "gesture"){
+        /* the size is drawn once per song so the gesture is the same gesture
+           every time it happens; WHERE it happens is the arrangement's call and
+           is not drawn at all. */
+        const from = drawIn(sp.from, rng), to = drawIn(sp.to, rng);
+        const win = [];
+        for(const s of sections){
+          const hit = sp.on === "fill" ? s.fillInto
+                    : sp.on === "peak" ? s.peak
+                    : sp.on === "empty" ? s.emptyLastBar : false;
+          if(!hit) continue;
+          /* a fill gesture lands ON the bars leading out of the section; a peak
+             gesture lands on the bars leading INTO the peak section's front. */
+          const b1 = sp.on === "peak" ? s.startBar : s.endBar - (sp.bars || 1);
+          const b0 = sp.on === "peak" ? s.startBar : Math.max(s.startBar, b1);
+          const a = (sp.on === "peak" ? b0 : b1) * 16 * spb;
+          const b = ((sp.on === "peak" ? b0 + (sp.bars || 1) : s.endBar)) * 16 * spb;
+          if(b > a) win.push(Object.freeze({ a, b }));
+        }
+        out.push(Object.freeze({ kind: "gesture", from, to, curve: sp.curve || "lin",
+                                 win: Object.freeze(win) }));
+      }
+      else throw new Error("unknown motion kind: " + sp.kind);
+    }
+    lanes[key] = Object.freeze(out);
+  }
+  return Object.freeze({ spb, nBars, secFn: Object.freeze(secFn), lanes: Object.freeze(lanes) });
+}
+
 /* the machine a slot is currently using; "auto" means the genre's rig decides */
 const PICK = { drums: "auto", bass: "auto", keys: "auto" };
 
@@ -387,22 +603,27 @@ function soundOf(genre, drumMachine){
   const G = GENRE[genre] || GENRE.lofi;
   const m = drumMachine || "kit";
   const M = INSTRUMENTS[m];
+  /* base + the user's hand, and deliberately NOT motion: these four numbers are
+     handed to setSpace once, before a sample is scheduled, so a per-note
+     displacement has nowhere to land on them. The knobs that move are the ones
+     voices read at the note -- which is every control on the five machines with
+     a front panel. Said plainly rather than left to be discovered. */
   const has = k => M && M.controls.some(c => c.k === k) && PARAMS[m + "." + k] != null;
   const kick = (m === "kit" && has("tune"))
-    ? { tune:  PARAMS["kit.tune"],  decay: PARAMS["kit.decay"],
-        click: PARAMS["kit.click"], drive: PARAMS["kit.drive"],
+    ? { tune:  panelValue("kit", "tune"),  decay: panelValue("kit", "decay"),
+        click: panelValue("kit", "click"), drive: panelValue("kit", "drive"),
         body:  (G.kick && G.kick.body) != null ? G.kick.body : 1,
         gain:  (G.kick && G.kick.gain) != null ? G.kick.gain : 1.05 }
     : G.kick;
   const gate = G.gate && {
-    send:     has("gate") ? PARAMS[m + ".gate"] : G.gate.send,
-    hold:     has("hold") ? PARAMS[m + ".hold"] : G.gate.hold,
+    send:     has("gate") ? panelValue(m, "gate") : G.gate.send,
+    hold:     has("hold") ? panelValue(m, "hold") : G.gate.hold,
     fall:     G.gate.fall,
     tomDecay: G.gate.tomDecay,
   };
   return {
     space: G.space, kick, gate,
-    drumDrive: has("bus") ? PARAMS[m + ".bus"] : G.drumDrive,
+    drumDrive: has("bus") ? panelValue(m, "bus") : G.drumDrive,
   };
 }
 
@@ -647,15 +868,33 @@ function voiceFor(chart, lane){
   return RIG[chart.rig][lane];
 }
 
-/* a slot's machine: what the user asked for if it exists and fits the slot,
-   else what the genre's table names, else the rig's. */
-function resolvePicks(genre, picks){
-  const def = (GENRE[genre] && GENRE[genre].machines) || {};
+/* A SLOT'S MACHINE: what the user asked for if it exists and fits the slot, else
+   what the GENRE DREW, else the rig's.
+
+   The genre's entry is a weighted list, not a name, and it is DRAWN on its own
+   named substream -- exactly the way the rig is drawn -- so "which drum machine
+   is this song using" is a decision the conductor makes per song rather than a
+   constant per genre. Two lofi seeds can be an acoustic kit and an 808.
+
+   "auto" is a legitimate outcome and every genre leaves room for it, because
+   auto is what keeps the RIG meaningful: a slot the genre does not care about
+   falls through to RIG[rig][lane], so switching band -> SEGA still changes who
+   plays it. A genre that named a machine for all three slots would silently
+   disable the rig picker, which is a feature this program already has.
+
+   All three draws run on every song whether or not the user has pinned a slot.
+   A draw inside a condition starves every later draw on the stream, and here it
+   would mean pinning the drums quietly changed which keyboard the song used.
+   Decide first, then use or discard. [Law 7] */
+function resolvePicks(genre, picks, seed){
+  const M = (GENRE[genre] && GENRE[genre].machines) || {};
+  const rng = stream(seed, "rack");
   const out = {};
   for(const slot of ["drums", "bass", "keys"]){
+    const drawn = M[slot] ? wpick(rng, M[slot]) : "auto";
     const want = (picks && picks[slot]) || "auto";
-    out[slot] = (want !== "auto" && INSTRUMENTS[want] && INSTRUMENTS[want].slot === slot)
-              ? want : (def[slot] || "auto");
+    const fits = m => m !== "auto" && INSTRUMENTS[m] && INSTRUMENTS[m].slot === slot;
+    out[slot] = fits(want) ? want : (fits(drawn) ? drawn : "auto");
   }
   return Object.freeze(out);
 }
@@ -994,7 +1233,7 @@ const Sound = (function(){
        does. It is not a filter; see the note above about the muffle that
        isn't. */
     const vel = Math.max(20, Math.min(120,
-      Math.round(ev.gain * 100 * (0.72 + 0.56 * P("rhodes", "bark", 0.5)))));
+      Math.round(ev.gain * 100 * (0.72 + 0.56 * P(g, ev, "rhodes", "bark", 0.5)))));
     let k = 0;
     while(k < EPIANO.roots.length - 1 && midi > EPIANO.roots[k][2]) k++;
     let zi = EPIANO.roots[k][0];
@@ -1009,7 +1248,7 @@ const Sound = (function(){
     src.loopEnd = zend / EPIANO.rate;
     /* the wow rides playbackRate here. The chart draws a per-song depth; the
        knob scales it, so a genre that wants none still gets none. */
-    const wowAmt = (ev.wow || 0) * (P("rhodes", "wow", 0.0020) / 0.0020);
+    const wowAmt = (ev.wow || 0) * (P(g, ev, "rhodes", "wow", 0.0020) / 0.0020);
     if(wowAmt > 0){
       const lfo = osc(c, "sine", 0.7, t, t + ev.durSec + 1.5), wg = c.createGain();
       wg.gain.value = src.playbackRate.value * wowAmt;
@@ -1029,7 +1268,7 @@ const Sound = (function(){
     /* TONE: an amp-preamp lowpass, shipped effectively open (18 kHz). This is
        NOT the mda muffle -- that one read fields processReplacing never touches
        and cost 40 dB of air. This is a control the player turns. */
-    const tone = P("rhodes", "tone", 1);
+    const tone = P(g, ev, "rhodes", "tone", 1);
     src.connect(gn);
     if(tone >= 0.995) gn.connect(g.bus.keys);
     else {
@@ -1060,7 +1299,7 @@ const Sound = (function(){
     const mg = c.createGain(); mod.connect(mg); mg.connect(car.frequency);
     /* BARK is the body FM index -- how hard the reed is being hit. Velocity
        opens it too; the knob sets how far velocity can go. */
-    const idx0 = f * (0.30 + 1.10 * P("wurly", "bark", 0.55)) * (0.35 + 0.85 * ev.gain);
+    const idx0 = f * (0.30 + 1.10 * P(g, ev, "wurly", "bark", 0.55)) * (0.35 + 0.85 * ev.gain);
     mg.gain.setValueAtTime(idx0, t);
     mg.gain.exponentialRampToValueAtTime(Math.max(1, idx0 * 0.22), t + 0.30);
     car.connect(out);
@@ -1085,9 +1324,9 @@ const Sound = (function(){
     }
     /* wurly tremolo: the amp wobble is the instrument's signature, and on the
        real thing it is a knob you turn -- rate AND depth. */
-    const trem = P("wurly", "trem", 0.45);
+    const trem = P(g, ev, "wurly", "trem", 0.45);
     if(trem > 0){
-      const lfo = osc(c, "sine", P("wurly", "tremhz", 5.5), t, end), lg = c.createGain();
+      const lfo = osc(c, "sine", P(g, ev, "wurly", "tremhz", 5.5), t, end), lg = c.createGain();
       lg.gain.value = LEVEL.keys * 0.62 * trem;
       lfo.connect(lg); lg.connect(out.gain);
       nodes.push(lfo);
@@ -1424,7 +1663,7 @@ const Sound = (function(){
 
   V.k808 = function(g, ev, t){
     const c = g.ctx;
-    const tune = P("tr808", "tune", 47), dec = P("tr808", "decay", 0.85), tone = P("tr808", "tone", 0.45);
+    const tune = P(g, ev, "tr808", "tune", 47), dec = P(g, ev, "tr808", "decay", 0.85), tone = P(g, ev, "tr808", "tone", 0.45);
     /* the ring: one sine at the tuned pitch with a long exponential fall, and a
        small drop at the front that is the trigger bleeding into the resonator */
     const o = c.createOscillator(); o.type = "sine";
@@ -1446,7 +1685,7 @@ const Sound = (function(){
 
   V.s808 = function(g, ev, t){
     const c = g.ctx, out = [];
-    const snappy = P("tr808", "snappy", 0.55), tone = P("tr808", "sdtone", 0.50);
+    const snappy = P(g, ev, "tr808", "snappy", 0.55), tone = P(g, ev, "tr808", "sdtone", 0.50);
     /* the shell: two fixed oscillators, and TONE tilts between them */
     for(const [f, a, d] of [[238, 0.55 * (1 - tone * 0.5), 0.11], [476, 0.35 * (0.4 + tone * 0.6), 0.06]]){
       const o = c.createOscillator(); o.type = "triangle"; o.frequency.value = f;
@@ -1472,7 +1711,7 @@ const Sound = (function(){
   const R808 = [1, 1.4471, 1.6170, 1.9265, 2.5028, 2.6637];   // [theory: 808 HH ratios]
   function hat808(decayKey, dflt, hpHz){
     return function(g, ev, t){
-      const c = g.ctx, dec = P("tr808", decayKey, dflt);
+      const c = g.ctx, dec = P(g, ev, "tr808", decayKey, dflt);
       const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = hpHz; hp.Q.value = 0.7;
       const gn = c.createGain();
       gn.gain.setValueAtTime(LEVEL.hat * ev.gain * 0.42, t);
@@ -1527,10 +1766,10 @@ const Sound = (function(){
        note rather than the same note louder.                        ═══════════ */
   V.acid303 = function(g, ev, t){
     const c = g.ctx, f = F(ev.pitch);
-    const cutoff = P("tb303", "cutoff", 520), res = P("tb303", "res", 9);
-    const envmod = P("tb303", "envmod", 0.62), dec = P("tb303", "decay", 0.36);
-    const accAmt = P("tb303", "accent", 0.65), drive = P("tb303", "drive", 2.6);
-    const square = P("tb303", "wave", 0) >= 0.5;
+    const cutoff = P(g, ev, "tb303", "cutoff", 520), res = P(g, ev, "tb303", "res", 9);
+    const envmod = P(g, ev, "tb303", "envmod", 0.62), dec = P(g, ev, "tb303", "decay", 0.36);
+    const accAmt = P(g, ev, "tb303", "accent", 0.65), drive = P(g, ev, "tb303", "drive", 2.6);
+    const square = P(g, ev, "tb303", "wave", 0) >= 0.5;
     const accented = !!ev.accent;
 
     const o = c.createOscillator(); o.type = square ? "square" : "sawtooth";
@@ -1578,9 +1817,9 @@ const Sound = (function(){
      [theory: Mellotron M400 mechanism; the 8-second limit is the tape length] */
   V.mellotron = function(g, ev, t){
     const c = g.ctx, f = F(ev.pitch);
-    const which = Math.round(P("mellotron", "voice", 1));       // 0 flute 1 strings 2 choir
-    const wow = P("mellotron", "wow", 0.0045), flut = P("mellotron", "flutter", 0.35);
-    const hiss = P("mellotron", "hiss", 0.30), stops = P("mellotron", "tapeEnd", 1) >= 0.5;
+    const which = Math.round(P(g, ev, "mellotron", "voice", 1));       // 0 flute 1 strings 2 choir
+    const wow = P(g, ev, "mellotron", "wow", 0.0045), flut = P(g, ev, "mellotron", "flutter", 0.35);
+    const hiss = P(g, ev, "mellotron", "hiss", 0.30), stops = P(g, ev, "mellotron", "tapeEnd", 1) >= 0.5;
     const TAPE = 8.0;                                            // the strip runs out
     const dur = stops ? Math.min(ev.durSec, TAPE) : ev.durSec;
     const end = t + dur + 0.35;
@@ -1897,7 +2136,11 @@ const Sound = (function(){
      whichever graph is about to play. buildGraph fixes the topology; this sets
      the numbers, before any event is scheduled. */
   const KICK_DEFAULT = { tune: 54, decay: 0.24, click: 0.6, drive: 0.35, body: 1, gain: 1.05 };
-  function setSpace(g, space, kick, drumDrive, gate){
+  function setSpace(g, space, kick, drumDrive, gate, motion){
+    /* the song's motion plan rides on the GRAPH, not on a module variable, so a
+       live playback and an offline render running at the same moment cannot
+       read each other's automation. Same reason the room is set per-graph. */
+    g.motion = motion || null;
     g.kick = Object.assign({}, KICK_DEFAULT, kick || {});
     g.tomDecay = gate ? (gate.tomDecay != null ? gate.tomDecay : 0.45) : 1;
     if(drumDrive != null && g.drumDrive) g.drumDrive.gain.value = drumDrive;
@@ -1917,10 +2160,10 @@ const Sound = (function(){
     return ctx;
   }
   let liveTimer = null;
-  function playLive(events, space, kick, drumDrive, gate){
+  function playLive(events, space, kick, drumDrive, gate, motion){
     ensureLive();
     stopLive();
-    setSpace(liveGraph, space, kick, drumDrive, gate);   // room, kit and gate, before anything sounds
+    setSpace(liveGraph, space, kick, drumDrive, gate, motion);   // room, kit, gate and motion, before anything sounds
     const t0 = ctx.currentTime + 0.15;
     let i = 0;
     const pump = () => {
@@ -1940,11 +2183,11 @@ const Sound = (function(){
     for(const h of liveHandles){ try{ h.stop(0); }catch(e){} try{ h.disconnect(); }catch(e){} }
     liveHandles.clear();
   }
-  async function renderWav(events, seconds, sampleRate, space, kick, drumDrive, gate){
+  async function renderWav(events, seconds, sampleRate, space, kick, drumDrive, gate, motion){
     const sr = sampleRate || 44100;
     const off = new OfflineAudioContext(2, Math.ceil(seconds * sr), sr);
     const graph = buildGraph(off);
-    setSpace(graph, space, kick, drumDrive, gate);   // the same numbers the live graph gets
+    setSpace(graph, space, kick, drumDrive, gate, motion);   // the same numbers the live graph gets
     perform(graph, events, 0.05);              // the SAME perform() — no second path
     const buf = await off.startRendering();
     return encodeWav(buf);
@@ -1967,7 +2210,12 @@ const Sound = (function(){
     return new Blob([dv], { type: "audio/wav" });
   }
 
-  return { playLive, stopLive, renderWav, now: () => (ctx ? ctx.currentTime : 0), LEVEL };
+  /* the names dispatch() can actually resolve. Exported because the seam battery
+     used to check event voices against a list of thirteen names hand-copied into
+     the harness, which proved only that the copy was up to date -- and it went
+     stale the moment the rack could name a voice the rig never does. */
+  return { playLive, stopLive, renderWav, now: () => (ctx ? ctx.currentTime : 0), LEVEL,
+           voiceNames: () => Object.keys(V) };
 })();
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -2169,6 +2417,66 @@ const GENRE = {
     bassStyle: "follow",
     bassPulse: null,
     ostinato: null,                                          // lofi has no ostinato
+
+    /* ── stage 6: THE RACK. Which machines this genre reaches for, how it sets
+       their front panels, and how it moves them. ────────────────────────────── */
+
+    /* Boom-bap is an SP/MPC genre and the 808 is in it constantly, but the
+       soft-brush acoustic kit is what "lofi hip hop" mostly is, so the kit keeps
+       the majority. The mellotron earns its place on tape character alone: this
+       is a genre whose entire identity is degraded tape, and a Mellotron IS
+       degraded tape. Bass stays auto -- a 303 is not a lofi instrument and the
+       sub is already what the rig gives. [GUESS: the weights are taste, not
+       measurement, and are the first thing to change if the ear disagrees] */
+    machines: {
+      drums: [["kit", 7], ["tr808", 3]],
+      bass:  [["auto", 1]],
+      keys:  [["auto", 8], ["mellotron", 2]],
+    },
+    /* the panel as this genre wants to find it. Soft, dark, short: an 808 in
+       lofi is not the long booming 808 of trap -- it is a muffled thump under a
+       sample, so BD decay sits near the bottom of its range and the tone is
+       rolled off. [EAR, and consistent with this genre's own kick voicing above:
+       tune 60, decay 0.18] */
+    params: {
+      tr808:     { tune: 45, decay: 0.42, tone: 0.28, snappy: 0.38, sdtone: 0.34,
+                   chdecay: 0.032, ohdecay: 0.26, bus: 1.05, gate: 0, hold: 0.15 },
+      rhodes:    { bark: 0.42, wow: 0.0024, tone: 0.84 },
+      wurly:     { trem: 0.55, tremhz: 5.2, bark: 0.50 },
+      mellotron: { voice: 0, wow: 0.0058, flutter: 0.46, hiss: 0.44, tapeEnd: 1 },
+    },
+    /* and the movement. Small everywhere: this genre's whole affect is that
+       nothing lunges. The one thing lofi really does do on a dial is open up
+       slightly for the chorus and go duller for the outro. */
+    motion: {
+      rhodes: {
+        tone: [{ kind: "section", by: { intro: [-0.16, -0.08], verse: [-0.08, -0.02],
+                                        chorus: [0.03, 0.09], bridge: [-0.13, -0.05],
+                                        instrumental: [-0.04, 0.02], outro: [-0.20, -0.12] } }],
+        bark: [{ kind: "lfo", bars: [[8, 3], [16, 2]], depth: [0.04, 0.10], shape: "tri" }],
+      },
+      wurly: {
+        trem: [{ kind: "section", by: { verse: [0.00, 0.05], chorus: [0.09, 0.18],
+                                        bridge: [-0.10, -0.02], outro: [0.04, 0.12] } }],
+      },
+      mellotron: {
+        /* two mechanical faults on two timescales: the capstan wanders slowly
+           (wow), the pinch roller chatters fast (flutter). Giving wow a free
+           phase means it is not in step with the bar, which is the point --
+           a tape machine does not know where the downbeat is. */
+        wow:     [{ kind: "lfo", bars: [[16, 3], [8, 1]], depth: [0.0008, 0.0020],
+                    shape: "sin", freePhase: true }],
+        flutter: [{ kind: "section", by: { bridge: [0.08, 0.18], outro: [0.06, 0.16] } }],
+      },
+      tr808: {
+        decay: [{ kind: "section", by: { chorus: [0.08, 0.20], bridge: [-0.16, -0.06],
+                                         outro: [-0.12, -0.04] } }],
+        /* the p-lock, on the closed hat: hats land on eight or sixteen steps of
+           the bar, so a decay locked to a handful of them is heard as a pattern
+           rather than as noise. This is the one place lofi gets machine detail. */
+        chdecay: [{ kind: "plock", density: [0.12, 0.26], amt: [-0.012, 0.022] }],
+      },
+    },
   },
 
   /* ═════════════════════════════════════════════════════════════════════════
@@ -2327,6 +2635,78 @@ const GENRE = {
        with an octave arp; the weights are [EAR] */
     bassPulse: { unit: 2, rootBias: 0.85, octaveJump: 0.30, restChance: 0.05 },
     ostinato: null,
+
+    /* ── stage 6: THE RACK ─────────────────────────────────────────────────────
+       This is the genre the rack was built for. The drum machine is not a
+       stylistic option in 80s synth music, it is the instrument -- so the 808
+       takes the majority here and the acoustic kit becomes the exception. And
+       the bass: this genre's bassStyle is already "pulse", a sequencer repeating
+       roots on a fixed division with an octave jump, which is a description of a
+       303 pattern. Giving the 303 a real share of those songs puts the machine
+       under the part that was already written for it.
+       Keys stay auto -- the neon rig sends them to the CS-80 and that is the
+       right instrument for this comp. [GUESS on the weights; the SHAPE of the
+       claim -- machine drums, sequenced bass -- is the genre's definition] */
+    machines: {
+      drums: [["tr808", 6], ["kit", 3], ["segakit", 1]],
+      bass:  [["auto", 5], ["tb303", 5]],
+      keys:  [["auto", 1]],
+    },
+    /* the 808 as the 80s used it and lofi does not: BD decay long enough to be a
+       note rather than a thump, tone bright, snappy up, open hat wide, hard into
+       the drive, and straight into this genre's gated reverb. The gate and the
+       bus numbers mirror the kit values twenty lines above -- one genre, one
+       drum sound, whichever machine is making it. */
+    params: {
+      tr808: { tune: 50, decay: 1.05, tone: 0.68, snappy: 0.72, sdtone: 0.62,
+               chdecay: 0.055, ohdecay: 0.58, bus: 1.40, gate: 0.95, hold: 0.150 },
+      tb303: { cutoff: 620, res: 11.0, envmod: 0.58, decay: 0.30,
+               accent: 0.70, drive: 3.0, wave: 0 },
+      mellotron: { voice: 1, wow: 0.0030, flutter: 0.25, hiss: 0.18, tapeEnd: 1 },
+      rhodes:    { bark: 0.55, wow: 0.0010, tone: 0.95 },
+      wurly:     { trem: 0.35, tremhz: 6.0, bark: 0.62 },
+    },
+    /* THE MOVEMENT, and this genre gets the most of it, because the thing that
+       makes an eight-bar synth loop into a four-minute record is a filter that
+       is somewhere different every time the loop comes round. All four kinds
+       are here and they stack: the section says where the song is, the LFO
+       breathes underneath it, the p-locks give the pattern internal detail, and
+       the gesture takes the whole thing up over the fill into the chorus. */
+    motion: {
+      tb303: {
+        cutoff: [
+          { kind: "section", by: { intro: [-240, -140], verse: [-140, -30],
+                                   chorus: [380, 900], bridge: [-220, -70],
+                                   instrumental: [180, 520], outro: [-280, -160] } },
+          { kind: "lfo", bars: [[8, 3], [16, 4], [4, 1]], depth: [160, 520], shape: "tri" },
+          /* the acid detail: a handful of steps a bar that open much further
+             than their neighbours. High amounts on purpose -- a p-lock that is
+             within the noise of the sweep is not a lock, it is a wobble. */
+          { kind: "plock", density: [0.12, 0.28], amt: [250, 1500] },
+          /* and the dive: two bars leading into an arrival, exponential so it
+             holds low and then goes, which is what a hand on a cutoff does. */
+          { kind: "gesture", on: "fill", bars: 2, from: [0, 0], to: [900, 2000], curve: "exp" },
+        ],
+        res:   [{ kind: "section", by: { chorus: [1.5, 4.0], bridge: [-2.0, -0.5],
+                                         instrumental: [0.5, 2.0] } }],
+        decay: [{ kind: "plock", density: [0.10, 0.20], amt: [-0.10, 0.16] }],
+      },
+      tr808: {
+        decay:   [{ kind: "section", by: { chorus: [0.15, 0.35], instrumental: [0.05, 0.20],
+                                           bridge: [-0.30, -0.12], outro: [-0.20, -0.08] } }],
+        ohdecay: [{ kind: "lfo", bars: [[8, 1], [16, 2]], depth: [0.04, 0.11],
+                    shape: "sin", freePhase: true }],
+        snappy:  [{ kind: "plock", density: [0.10, 0.22], amt: [-0.18, 0.22] }],
+        tone:    [{ kind: "gesture", on: "peak", bars: 2, from: [0.10, 0.22], to: [0, 0],
+                    curve: "lin" }],
+      },
+      mellotron: {
+        wow: [{ kind: "lfo", bars: [[16, 3], [8, 1]], depth: [0.0006, 0.0016],
+                shape: "sin", freePhase: true }],
+      },
+      rhodes: { tone: [{ kind: "section", by: { chorus: [0.02, 0.08], outro: [-0.16, -0.08] } }] },
+      wurly:  { trem: [{ kind: "section", by: { chorus: [0.08, 0.16] } }] },
+    },
   },
 
   /* ═════════════════════════════════════════════════════════════════════════
@@ -2506,6 +2886,60 @@ const GENRE = {
     drumDrive: 1.05,
     gate: null,                  // the SNES echo is this genre's space, not a gate
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0] },
+
+    /* ── stage 6: THE RACK ─────────────────────────────────────────────────────
+       This genre is atmosphere, and the atmosphere is a tape choir over a held
+       pedal. So the Mellotron gets a real share of the keys slot -- Aquatic
+       Ambience's pad is exactly the sound a Mellotron choir strip makes, and
+       unlike everything else in the rack it comes with the mechanical drift that
+       makes a held chord feel like weather rather than a sustain pedal. Drums
+       and bass stay auto: the chip IS this genre's kit and its bass, and putting
+       an 808 under a David Wise cue would be a different game. [EAR] */
+    machines: {
+      drums: [["auto", 1]],
+      bass:  [["auto", 1]],
+      keys:  [["auto", 7], ["mellotron", 3]],
+    },
+    /* the choir strip, clean: this is a 1994 sample chip pretending to be a
+       tape machine, not a 1968 tape machine. Wow and hiss well down from lofi's
+       settings, because the SNES echo is the space here and tape noise is not
+       part of the reference. [EAR] */
+    params: {
+      mellotron: { voice: 2, wow: 0.0022, flutter: 0.18, hiss: 0.12, tapeEnd: 1 },
+      rhodes:    { bark: 0.38, wow: 0.0012, tone: 0.90 },
+      wurly:     { trem: 0.30, tremhz: 5.8, bark: 0.45 },
+      tr808:     { tune: 52, decay: 0.35, tone: 0.35, snappy: 0.45, sdtone: 0.40,
+                   chdecay: 0.038, ohdecay: 0.30, bus: 1.05, gate: 0, hold: 0.15 },
+      tb303:     { cutoff: 480, res: 7.0, envmod: 0.45, decay: 0.40,
+                   accent: 0.50, drive: 2.0, wave: 0 },
+    },
+    /* MOVEMENT AS WEATHER. Everything here is slow, free-phase and small: the
+       point is that you cannot point at the moment it changed. No p-locks and no
+       gestures -- a stepped lock or a filter dive would announce a machine, and
+       this genre's whole trick is that the loop does not seem to be a loop. */
+    motion: {
+      mellotron: {
+        wow:     [{ kind: "lfo", bars: [[16, 4], [8, 1]], depth: [0.0010, 0.0026],
+                    shape: "sin", freePhase: true }],
+        flutter: [{ kind: "lfo", bars: [[16, 3], [8, 2]], depth: [0.04, 0.10],
+                    shape: "tri", freePhase: true },
+                  { kind: "section", by: { bridge: [0.08, 0.18], outro: [0.05, 0.14] } }],
+        hiss:    [{ kind: "section", by: { intro: [0.06, 0.14], outro: [0.05, 0.12],
+                                           chorus: [-0.05, 0.00] } }],
+      },
+      rhodes: {
+        tone: [{ kind: "section", by: { intro: [-0.14, -0.06], chorus: [0.02, 0.07],
+                                        outro: [-0.18, -0.10] } },
+               { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [0.03, 0.07], shape: "tri" }],
+      },
+      wurly: { trem: [{ kind: "section", by: { bridge: [0.06, 0.14], outro: [0.04, 0.12] } }] },
+      tr808: { decay: [{ kind: "section", by: { chorus: [0.06, 0.15], outro: [-0.10, -0.04] } }] },
+      tb303: {
+        cutoff: [{ kind: "section", by: { chorus: [220, 560], bridge: [-160, -50],
+                                          outro: [-220, -120] } },
+                 { kind: "lfo", bars: [[16, 4], [8, 2]], depth: [120, 340], shape: "tri" }],
+      },
+    },
   },
 };
 
@@ -2542,7 +2976,7 @@ function makeChart(seed, rigChoice, genreChoice, picks){
     /* the rack, frozen into the chart. Like the rig it is an INPUT to stage 1,
        never an override applied downstream, so a song is fully described by
        (seed, genre, rig, picks) and nothing later can quietly change who plays. */
-    picks: resolvePicks(genre, picks),
+    picks: resolvePicks(genre, picks, seed),
     keysChar: wpick(rng, G.keysChar),
     tape: Object.freeze({
       wow:     G.tape.wow[0]     + rng() * G.tape.wow[1],
@@ -3443,7 +3877,11 @@ function composeSong(seed, rig, genre, picks){
      knobs, and it is skipped when the same genre keeps the same machine so that
      a knob the user has moved survives pressing "new song". */
   applyRack(chart);
-  return { chart, form, materials, sections, perf };
+  /* and the movement those knobs will make. Also stage 6, also after the fact:
+     it needs the arrangement to know where the fills are, and it can be built
+     last precisely because nothing upstream is allowed to read it. */
+  const motion = makeMotion(chart, form, sections);
+  return { chart, form, materials, sections, perf, motion };
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -3581,7 +4019,11 @@ function newSong(forcedSeed){
 
 /* the sound the CURRENT panel settings ask for -- what play and render both use,
    so what you hear is what you rendered. */
-function soundNow(){ return soundOf(SONG.chart.genre, SONG.chart.picks.drums); }
+function soundNow(){
+  const S = soundOf(SONG.chart.genre, SONG.chart.picks.drums);
+  S.motion = SONG.motion;                 // the movement is the song's, not the panel's
+  return S;
+}
 
 /* ── THE FRONT PANELS ───────────────────────────────────────────────────────
    Every machine declares its own controls and this draws whatever it declared;
@@ -3629,7 +4071,7 @@ function togglePlay(){
   if(playing){ Sound.stopLive(); playing = false; $("play").innerHTML = "&#9654; play"; return; }
   {
     const S = soundNow();
-    Sound.playLive(SONG.perf.events, S.space, S.kick, S.drumDrive, S.gate);
+    Sound.playLive(SONG.perf.events, S.space, S.kick, S.drumDrive, S.gate, S.motion);
   }
   playing = true; $("play").innerHTML = "&#9632; stop";
 }
@@ -3647,7 +4089,7 @@ async function downloadWav(){
   try{
     const S = soundNow();
     const blob = await Sound.renderWav(SONG.perf.events, SONG.perf.seconds, 44100,
-                                       S.space, S.kick, S.drumDrive, S.gate);
+                                       S.space, S.kick, S.drumDrive, S.gate, S.motion);
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = `mk2_${SONG.chart.genre}_${SONG.chart.rig}_${SONG.chart.tempo}bpm_seed${SONG.chart.seed}.wav`;
@@ -3692,10 +4134,12 @@ window.addEventListener("DOMContentLoaded", () => {
 window.MK2 = {
   composeSong, newSong,
   referenceEvents,
-  renderWav: (events, seconds, sr, space, kick, drumDrive, gate) =>
-    Sound.renderWav(events, seconds, sr, space, kick, drumDrive, gate),
+  renderWav: (events, seconds, sr, space, kick, drumDrive, gate, motion) =>
+    Sound.renderWav(events, seconds, sr, space, kick, drumDrive, gate, motion),
   soundOf,
-  INSTRUMENTS, PARAMS, PICK, loadParams,
+  INSTRUMENTS, PARAMS, TRIM, CONTROL, PICK, loadParams, panelValue,
+  makeMotion, motionAt,
+  voiceNames: () => Sound.voiceNames(),
   genres: () => Object.keys(GENRE),
   toMidi,
   /* measurement handles: the chip's tuning grid and its patch table, so a probe

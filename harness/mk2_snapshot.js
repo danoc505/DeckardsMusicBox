@@ -21,7 +21,15 @@ eval(src);
 const M = global.window.MK2;
 
 const mode = process.argv[2], file = process.argv[3];
-const N = parseInt(process.argv[4], 10) || 200;
+/* THE DEFAULT READS THE BASELINE. It used to be a bare 200 while the file on
+   disk held 300, so running this the obvious way -- no seed count -- compared
+   300 recorded lines against 200 fresh ones and reported a confident CHANGED to
+   anyone who had changed nothing. A test that cries wolf is worse than no test.
+   `check` now defaults to however many seeds the file it is checking contains;
+   `write` still defaults to 300 because there is nothing to read. */
+const N = parseInt(process.argv[4], 10) ||
+  (mode === "check" && file && fs.existsSync(file)
+    ? fs.readFileSync(file, "utf8").trim().split("\n").length : 300);
 if(!mode || !file){ console.error("usage: mk2_snapshot.js write|check <file> [nSeeds]"); process.exit(2); }
 
 const sha = s => crypto.createHash("sha256").update(s).digest("hex").slice(0, 16);

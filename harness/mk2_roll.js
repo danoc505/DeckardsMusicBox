@@ -220,8 +220,16 @@ if(midFile){
     }
     p = end;
   }
+  /* THE TOMS WERE MISSING FROM THIS LIST and had been since the tom kit landed,
+     so this check reported "*** MISMATCH ***" on every song with a tom in it --
+     11 of them on lofi seed 1, which is exactly the discrepancy it printed. The
+     .mid was correct the whole time; the expectation was stale. Worth naming,
+     because a round-trip check that cries wolf is one nobody reads, and this
+     particular check is the one that caught 1520 genuinely missing notes once.
+     The lane list now matches MIDI_MAP -- the same table the exporter writes
+     through -- so it cannot fall behind a new lane again. */
   const expect = song.perf.events.filter(e => e.role !== "tape" &&
-                  (e.role === "drums" ? ["kick","snare","ghost","hat","openhat"].includes(e.lane) : e.pitch != null)).length;
+                  (e.role === "drums" ? DRUM_CH[e.lane] != null : e.pitch != null)).length;
   const lastSec = maxTick / ppq * 60 / C.tempo;
   const songSec = song.form.nBars * 16 * spb;
   console.log(`\n── MIDI ${"─".repeat(70)}`);

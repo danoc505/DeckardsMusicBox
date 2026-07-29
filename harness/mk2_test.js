@@ -33,11 +33,13 @@ let dilla = 0, hookExact = 0, hookTotal = 0, forms = new Set(), nondet = 0, rule
 let dillaIdentical = 0, dillaChecked = 0;
 let rigs = {}, rigSame = 0, rigChecked = 0, rigVoices = 0, unknownVoice = [];
 
-/* the rig table is the ONLY thing a rig changes; every voice it names must exist */
-const RIG_NAMES = new Set(["kick","snare","ghost","hat","openhat","bass","keys","lead","counter",
-  "dacKick","dacSnare","dacGhost","psgHat","psgOpenhat",
-  "chipBass","chipKeys","chipLead","chipCounter","tape",
-  "tom1","tom2","tom3"]);
+/* EVERY VOICE AN EVENT NAMES MUST BE ONE THE PROGRAM CAN DISPATCH. This used to
+   compare against a set of thirteen names typed into this file, which proved the
+   copy was current and nothing else -- and it went stale the moment the RACK
+   could name a voice (mellotron, k808, acid303) that no rig names. It now asks
+   the shipped voice table directly, so a machine wired into a slot without a
+   voice behind it fails here instead of throwing at the first note played. */
+const RIG_NAMES = new Set(M.voiceNames());
 
 for(let s = 1; s <= N; s++){
   let song;
@@ -322,6 +324,100 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   }
   check("the .mid carries every note of every genre", bad.length === 0,
         bad.length ? bad.join(" | ") : M.genres().length * 3 + " songs round-trip exactly");
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE RACK AND THE MOTION. Six checks over the two things the conductor now
+   owns that it did not before: WHICH machine plays a slot, and how its knobs
+   move while it does.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  /* ── 1. A GENRE MUST NOT AUTOMATE A KNOB NO VOICE READS. This is the check
+     that matters most here, and it exists because the failure it catches was
+     found by hand in this codebase: `cs80`, `subbass`, `chipbass` and
+     `chipkeys` all DECLARE controls that no voice ever reads, so their sliders
+     move and nothing happens. A panel knob that does nothing is a lie the user
+     cannot detect by listening. Automating one would be the same lie with a
+     composer behind it. So: scan the shipped source for the knob reads the
+     voices actually perform, and require every automated control to be in that
+     set. (The declared-but-dead controls are still there and still dead -- that
+     is a separate, honest, unfixed problem. This check stops it SPREADING.) */
+  const READS = new Set();
+  const rx = /P\(g,\s*ev,\s*"([A-Za-z0-9]+)",\s*"([A-Za-z0-9]+)"/g;
+  for(let mm; (mm = rx.exec(src)); ) READS.add(mm[1] + "." + mm[2]);
+  /* one voice reads its decay through a variable key (the 808's two hats share
+     a circuit and differ only by which decay control they name), so name them */
+  READS.add("tr808.chdecay"); READS.add("tr808.ohdecay");
+
+  const dead = [];
+  for(const g of M.genres()){
+    const mo = M.composeSong(1, "band", g).motion;
+    for(const key in mo.lanes) if(!READS.has(key)) dead.push(g + ":" + key);
+  }
+  check("every automated knob is one a voice actually reads", dead.length === 0,
+        dead.length ? dead.join(" | ") : READS.size + " live controls, none automated in vain");
+
+  /* ── 2. determinism, both directions ── */
+  const J = m => JSON.stringify(m.lanes);
+  let same = 0, diff = 0, n = 0;
+  for(const g of M.genres()) for(let s = 1; s <= 20; s++){
+    n++;
+    if(J(M.composeSong(s, "band", g).motion) === J(M.composeSong(s, "band", g).motion)) same++;
+    if(J(M.composeSong(s, "band", g).motion) !== J(M.composeSong(s + 500, "band", g).motion)) diff++;
+  }
+  check("same seed, same movement", same === n, same + "/" + n + " plans reproduce");
+  check("...and a different seed moves differently", diff > n * 0.9,
+        diff + "/" + n + " plans differ from a distant seed");
+
+  /* ── 3. the movement STAYS ON THE DIAL. Four kinds stack; three of them can
+     be at their extreme at once, and a filter that resolves past its own range
+     is a number, not a sound. The clamp is in P(); this proves it holds over
+     every sixteenth of every song rather than over the one case I thought of. */
+  let off = [];
+  for(const g of M.genres()) for(let s = 1; s <= 8 && off.length < 3; s++){
+    const song = M.composeSong(s, "band", g), mo = song.motion;
+    for(const key in mo.lanes){
+      const [mach, k] = key.split(".");
+      const c = M.CONTROL[key];
+      for(let st = 0; st < mo.nBars * 16; st += 3){
+        const v = M.panelValue(mach, k) + M.motionAt(mo, key, { tSec: st * mo.spb });
+        const clamped = Math.max(c.min, Math.min(c.max, v));
+        if(clamped < c.min - 1e-9 || clamped > c.max + 1e-9){ off.push(g + ":" + key); break; }
+      }
+    }
+  }
+  check("the movement never leaves the dial", off.length === 0,
+        off.length ? off.join(" | ") : "every sixteenth of 24 songs inside its range");
+
+  /* ── 4. it actually MOVES. A plan that resolves to zero everywhere would pass
+     every check above and change nothing, which is the exact shape of the false
+     "done" this project has been bitten by. So measure the swing. ── */
+  let moved = 0, lanes = 0;
+  for(const g of M.genres()){
+    const song = M.composeSong(1, "band", g), mo = song.motion;
+    for(const key in mo.lanes){
+      lanes++;
+      const vals = [];
+      for(let st = 0; st < mo.nBars * 16; st++)
+        vals.push(M.motionAt(mo, key, { tSec: st * mo.spb }));
+      if(Math.max(...vals) - Math.min(...vals) > 1e-6) moved++;
+    }
+  }
+  check("every declared motion lane actually swings", moved === lanes,
+        moved + "/" + lanes + " lanes move at seed 1");
+
+  /* ── 5. the genre picks machines, and "auto" survives -- because auto is what
+     keeps the RIG picker meaningful. A genre that named all three slots would
+     silently disable a feature this program has. ── */
+  const seen = {}; let autos = 0, slots = 0;
+  for(const g of M.genres()) for(let s = 1; s <= 60; s++){
+    const p = M.composeSong(s, "band", g).chart.picks;
+    for(const slot in p){ slots++; if(p[slot] === "auto") autos++; seen[g + "/" + p[slot]] = 1; }
+  }
+  check("the genre draws more than one machine per slot", Object.keys(seen).length > M.genres().length * 3,
+        Object.keys(seen).length + " distinct genre/machine pairs");
+  check("...and every genre still leaves room for the rig", autos > slots * 0.2,
+        autos + "/" + slots + " slots fall through to the rig");
 }
 
 console.log("\n" + pass + " passed, " + fail + " failed");
