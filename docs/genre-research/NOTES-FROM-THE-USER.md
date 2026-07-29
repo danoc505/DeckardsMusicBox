@@ -567,3 +567,101 @@ exactly like a bug. Measured across 60 seeds: the distribution is flat (53.1% in
 the first half, steps 0/4/8/12 correctly empty because `avoidKick` is on). Seed
 1 had simply drawn a three-note cell that landed early. Suspicion is not
 evidence in either direction.
+
+---
+
+## How knobs are used in arrangement — the research, and what it found missing
+
+*Asked directly: "Did you do research on how knobs are used in arrangement? Do
+you understand how to do that properly?" The honest answer at the time was no,
+not properly. Here is the research and, more importantly, what measuring against
+it exposed.*
+
+### What the sources say
+
+Three moves come up in every account of filter work in this music:
+
+1. **The 8–16 bar sweep.** "Automate the filter cutoff over 8–16 bars for
+   gradual build and release" — even a subtle 20% sweep over 8 bars keeps a loop
+   moving without being obvious.
+2. **The build into the drop, and the snap-back.** "During a build-up, apply a
+   high pass filter to your entire synths/instruments group and over the course
+   of 8 bars automate the cutoff to move from 20 Hz up to around 200–250 Hz,
+   then have the cutoff **shoot back down to 20 Hz on the drop**." The reset is
+   the move — the build is only felt because it ends instantly.
+3. **Constant subtle movement.** "A very common technique in house and techno
+   to make otherwise loop-based music feel as if it's evolving over time." And
+   for breakdowns specifically: reverb send increases to open up space.
+
+Hawtin's own account is the same idea by hand rather than by automation lane:
+he does "most of the construction and arrangement live by moving faders and
+muting or turning things on the machines — you can hear things coming in and
+feel that **push and pull** of the faders or the knobs."
+
+### Measured against that, three real gaps
+
+Measured with `harness/probe_automation.js` (coverage) and a kind-census:
+
+| what | before | after |
+|---|---|---|
+| genres riding the **desk** (the DJ high/mid/low) | **1 of 7** | 7 of 7 |
+| genres riding the **echo** | **1 of 7** | 6 of 7 |
+| `gesture` motions in the whole file | **5** | 15 |
+| `gesture`s in Plastikman — the "push and pull" genre | **0** | 2 |
+| parked controls (automatable, nothing rides them) | 0 | 0 |
+
+The desk finding is the blunt one. Six of seven records had a three-band DJ
+mixer and a delay across the master and **never touched either**. The one genre
+that did was the one that had been complained about, which is not a coincidence
+and is not a good way to find these.
+
+**Point 3 was already well covered** — 309 ridden lanes, no parked controls,
+LFOs everywhere. **Point 2 did not exist at all.** Every gesture in the file was
+two bars long, which is a fill, not a build.
+
+### And the new gesture was on the wrong side of the beat
+
+`on:"peak"` places a gesture on the first N bars **of** the arrival. Used for a
+build, it measured backwards — the low band was cut for eight bars *after* the
+drop and filled in afterwards:
+
+```
+  bar  175     0.4 dB   ####################
+  bar  176   -10.7 dB   ###########   <-- ARRIVAL
+  ...
+  bar  184     0.3 dB   ####################
+```
+
+A build that happens after the thing it builds to is not a build. `on:"build"`
+is the new placement — the N bars *before* the arrival, ending on its downbeat,
+so a gesture contributing nothing outside its window **is** the snap-back:
+
+```
+  bar  167     0.5 dB   ####################
+  bar  168   -10.7 dB   ###########      <-- the cut lands
+  bar  172    -7.9 dB   #############
+  bar  175    -2.2 dB   ##################
+  bar  176     0.4 dB   ####################   <-- ARRIVAL
+```
+
+`on:"peak"` is untouched — two genres use it deliberately for a gesture that
+decays *out* of the arrival. The new side got a new name rather than a silent
+redefinition.
+
+### Deliberately still zero
+
+Lofi, DKC and Vangelis have **no build gestures** and that is a decision, not an
+omission: a beat tape, a loop-forever level theme and a film cue do not drop.
+They ride the desk gently and arc instead.
+
+### Not yet done
+
+- **`plock` is rare** — 0–3 per genre. Per-step parameter locks are a signature
+  of this music and are barely used.
+- **LFO lengths are odd numbers** (22, 26, 27, 30, 34 bars). For free-running
+  texture that is correct and deliberate; but nothing is *aligned* to 8/16/32
+  except the gestures, so there is no "this move happens every 16 bars" pulse.
+- **13 lanes move under 3% of their dial.** For a ±12-semitone tune knob 3% is
+  70 cents and very audible, so the flat threshold is the wrong test — it is the
+  same flat-threshold mistake this project has already documented twice. That
+  probe should report travel in each control's own units.

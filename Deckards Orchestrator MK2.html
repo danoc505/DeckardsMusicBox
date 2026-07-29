@@ -386,7 +386,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29m · the TD-3-MO panel and the apex arc</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29n · every genre gets a hand on the desk</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1628,17 +1628,45 @@ function makeMotion(chart, form, sections){
            is not drawn at all. */
         const from = drawIn(sp.from, rng), to = drawIn(sp.to, rng);
         const win = [];
-        for(const s of sections){
-          const hit = sp.on === "fill" ? s.fillInto
-                    : sp.on === "peak" ? s.peak
+        for(let si = 0; si < sections.length; si++){
+          const s = sections[si];
+          const hit = sp.on === "fill"  ? s.fillInto
+                    : sp.on === "peak"  ? s.peak
+                    : sp.on === "build" ? s.peak
                     : sp.on === "empty" ? s.emptyLastBar : false;
           if(!hit) continue;
-          /* a fill gesture lands ON the bars leading out of the section; a peak
-             gesture lands on the bars leading INTO the peak section's front. */
-          const b1 = sp.on === "peak" ? s.startBar : s.endBar - (sp.bars || 1);
-          const b0 = sp.on === "peak" ? s.startBar : Math.max(s.startBar, b1);
-          const a = (sp.on === "peak" ? b0 : b1) * 16 * spb;
-          const b = ((sp.on === "peak" ? b0 + (sp.bars || 1) : s.endBar)) * 16 * spb;
+          /* ── WHERE A GESTURE LANDS, AND THE ONE THAT WAS ON THE WRONG SIDE ──
+               fill    the bars leading OUT of the section, into what follows
+               peak    the first N bars OF the arrival -- a gesture that decays
+                       out of it
+               build   the N bars BEFORE the arrival, ending exactly on it
+
+             `build` is new and it is the one the sources describe: "over the
+             course of 8 bars automate the cutoff ... then have the cutoff shoot
+             back down on the drop". A gesture contributes nothing outside its
+             window, so ending the window ON the downbeat of the peak IS the
+             snap-back -- no second move required.
+
+             The first attempt used `peak` for this, and measured backwards: the
+             low band was cut for the first eight bars OF the arrival and filled
+             in afterwards, so the drop landed thin and recovered. A build that
+             happens after the thing it is building to is not a build. `peak`
+             is left exactly as it was -- two genres use it deliberately -- and
+             the new side gets its own name rather than a redefinition. */
+          const nb = sp.bars || 1;
+          let b0, b1;
+          if(sp.on === "build"){
+            /* clipped at the previous section's start, so a short section before
+               a long build does not reach back through an entire earlier part */
+            const floorBar = si > 0 ? sections[si - 1].startBar : 0;
+            b1 = s.startBar;
+            b0 = Math.max(floorBar, s.startBar - nb);
+          } else if(sp.on === "peak"){
+            b0 = s.startBar; b1 = s.startBar + nb;
+          } else {
+            b1 = s.endBar; b0 = Math.max(s.startBar, s.endBar - nb);
+          }
+          const a = b0 * 16 * spb, b = b1 * 16 * spb;
           if(b > a) win.push(Object.freeze({ a, b }));
         }
         out.push(Object.freeze({ kind: "gesture", from, to, curve: sp.curve || "lin",
@@ -5202,6 +5230,38 @@ const GENRE = {
        nothing lunges. The one thing lofi really does do on a dial is open up
        slightly for the chorus and go duller for the outro. */
     motion: {
+      /* ── THE DESK AND THE ECHO, ON EVERY GENRE ─────────────────────────────
+         MEASURED, and it was one of the plainer results this file has produced:
+         the desk was ridden by ONE genre out of seven, and so was the echo. Six
+         records had a three-band DJ mixer and a delay sitting across the master
+         and never touched either of them. "These kinds of things are useful on
+         all genres. We need proper automization of the parameters" -- the honest
+         reading of that measurement is that it was right and the tables were
+         not.
+
+         Lofi's hand is the lightest of the seven on purpose: a beat tape is not
+         mixed live, and a band that swings its EQ around is a different record.
+         A dB or two, slowly. [EAR] */
+      desk: {
+        high: [{ kind: "apex", from: [-2.5, -1.2], to: [0.6, 1.8] },
+               { kind: "lfo", bars: [[32, 3], [64, 2]], depth: [0.5, 1.2],
+                 shape: "sin", freePhase: true }],
+        low:  [{ kind: "section", by: { intro: [-2.5, -1.0], outro: [-3, -1.2] } },
+               { kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.4, 1.0],
+                 shape: "sin", freePhase: true }],
+        mid:  [{ kind: "lfo", bars: [[40, 2], [56, 1]], depth: [0.4, 1.1],
+                 shape: "sin", freePhase: true }],
+      },
+      echo: {
+        /* the tape slap opens up where the record does and pulls back for the
+           outro -- the delay is part of the arrangement, not a fixed insert */
+        send: [{ kind: "section", by: { chorus: [0.03, 0.10], bridge: [0.06, 0.16],
+                                        outro: [-0.06, -0.02] } },
+               { kind: "lfo", bars: [[32, 2], [48, 1]], depth: [0.02, 0.06],
+                 shape: "sin", freePhase: true }],
+        fb:   [{ kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.03, 0.09],
+                 shape: "sin", freePhase: true }],
+      },
       amen: {
         /* ── THE CHAINS, AUTOMATED. "Automating sends creating movement and
            tension in a genre where the core elements stay relatively static"
@@ -5803,6 +5863,32 @@ const GENRE = {
        breathes underneath it, the p-locks give the pattern internal detail, and
        the gesture takes the whole thing up over the fill into the chorus. */
     motion: {
+      /* ── A SONG FORM'S DESK, NOT A DJ'S ────────────────────────────────────
+         Synthwave is written, not mixed live, so its desk moves like a mix
+         engineer's automation rather than a hand on a rotary: the low band
+         opens toward the last chorus, the high band arcs across the record, and
+         the one hard move is the eight-bar lift into the arrival. No breakdown
+         cut -- this music does not drop, it arrives. [EAR] */
+      desk: {
+        high: [{ kind: "apex", from: [-5, -2.5], to: [1.0, 2.8] },
+               { kind: "gesture", on: "build", bars: 8, from: [-3, -1.5], to: [1.5, 3.5], curve: "exp" },
+               { kind: "section", by: { bridge: [-2, 0], intro: [-3, -1.5] } },
+               { kind: "lfo", bars: [[32, 3], [16, 2]], depth: [0.6, 1.6],
+                 shape: "sin", freePhase: true }],
+        low:  [{ kind: "apex", from: [-3.0, -1.4], to: [0.6, 1.8] },
+               { kind: "gesture", on: "build", bars: 8, from: [-9, -6], to: [0, 0], curve: "exp" },
+               { kind: "section", by: { intro: [-4, -2], bridge: [-5, -2] } }],
+        mid:  [{ kind: "lfo", bars: [[40, 2], [24, 1]], depth: [0.5, 1.4],
+                 shape: "sin", freePhase: true }],
+      },
+      echo: {
+        send: [{ kind: "section", by: { bridge: [0.08, 0.20], chorus: [0.02, 0.08],
+                                        outro: [0.05, 0.14] } },
+               { kind: "gesture", on: "build", bars: 8, from: [0.08, 0.18], to: [0, 0], curve: "lin" }],
+        fb:   [{ kind: "section", by: { bridge: [0.06, 0.16] } },
+               { kind: "lfo", bars: [[32, 2], [48, 1]], depth: [0.03, 0.09],
+                 shape: "sin", freePhase: true }],
+      },
       tb303: {
         cutoff: [
           { kind: "section", by: { intro: [-240, -140], verse: [-140, -30],
@@ -6283,6 +6369,22 @@ const GENRE = {
        gestures -- a stepped lock or a filter dive would announce a machine, and
        this genre's whole trick is that the loop does not seem to be a loop. */
     motion: {
+      /* the desk on a console game score is a gentle thing -- the chip has a
+         fixed output stage and the music is meant to loop without drawing
+         attention to its own mixing. A high band that opens toward the middle
+         of the cue and a low that ducks for the intro. [EAR] */
+      desk: {
+        high: [{ kind: "apex", from: [-2.0, -0.9], to: [0.5, 1.6] },
+               { kind: "lfo", bars: [[32, 2], [48, 1]], depth: [0.4, 1.1],
+                 shape: "sin", freePhase: true }],
+        low:  [{ kind: "section", by: { intro: [-2.0, -0.8], outro: [-2.5, -1.0] } }],
+        mid:  [{ kind: "lfo", bars: [[36, 2], [52, 1]], depth: [0.3, 0.9],
+                 shape: "sin", freePhase: true }],
+      },
+      echo: {
+        send: [{ kind: "section", by: { chorus: [0.02, 0.08], instrumental: [0.03, 0.10],
+                                        outro: [-0.05, -0.02] } }],
+      },
       segakit: {
         /* ── THE CHAINS, AUTOMATED. "Automating sends creating movement and
            tension in a genre where the core elements stay relatively static"
@@ -6654,6 +6756,28 @@ const GENRE = {
        sweep over two. No plocks and no gestures: this music has no fills to
        gesture into. */
     motion: {
+      /* the score swells and recedes rather than building, so its desk moves on
+         the longest timescales in the file and never cuts hard. The reverb is
+         the instrument here as much as the CS-80 is -- so the send rides the
+         arc, opening as the cue arrives. [EAR] */
+      desk: {
+        high: [{ kind: "apex", from: [-4.0, -2.0], to: [0.8, 2.4] },
+               { kind: "lfo", bars: [[64, 3], [96, 2]], depth: [0.6, 1.6],
+                 shape: "sin", freePhase: true }],
+        low:  [{ kind: "apex", from: [-2.5, -1.0], to: [0.5, 1.6] },
+               { kind: "section", by: { intro: [-3, -1.4], outro: [-4, -2] } }],
+        mid:  [{ kind: "lfo", bars: [[80, 2], [64, 1]], depth: [0.5, 1.4],
+                 shape: "sin", freePhase: true }],
+      },
+      echo: {
+        send: [{ kind: "apex", from: [0.06, 0.16], to: [-0.02, 0.04] },
+               { kind: "section", by: { bridge: [0.08, 0.20], outro: [0.06, 0.16] } }],
+        verb: [{ kind: "apex", from: [0.05, 0.14], to: [-0.02, 0.05] },
+               { kind: "lfo", bars: [[96, 2], [64, 1]], depth: [0.03, 0.09],
+                 shape: "sin", freePhase: true }],
+        tone: [{ kind: "lfo", bars: [[64, 2], [48, 1]], depth: [400, 1400],
+                 shape: "sin", freePhase: true }],
+      },
       cs80: {
         bright: [{ kind: "section", by: { intro: [-0.14, -0.06], chorus: [0.05, 0.12],
                                           bridge: [-0.10, -0.03], outro: [-0.18, -0.10] } },
@@ -6948,6 +7072,39 @@ const GENRE = {
        of acid house -- which is why the widest cutoff automation in the file is
        here rather than in synthwave. */
     motion: {
+      /* ── THE DESK, AND THE EIGHT-BAR BUILD ─────────────────────────────────
+         The move every account of this music describes and this file did not
+         have: "during a build-up, apply a high pass ... and over the course of
+         8 bars automate the cutoff to move from 20 Hz up to around 200-250 Hz,
+         then have the cutoff shoot back down on the drop"
+         [corpus:edmprod, corpus:hyperbits]. A `gesture` on `peak` runs for the
+         named number of bars at the front of the peak section and contributes
+         NOTHING outside that window -- which is the snap-back, for free.
+
+         Eight bars is the number the sources give, and it is also the number
+         this file's own arrangement is built on. Every gesture here had been
+         two bars long: that is a fill, not a build. */
+      desk: {
+        low:  [{ kind: "gesture", on: "build", bars: 8, from: [-16, -11], to: [0, 0], curve: "exp" },
+               { kind: "section", by: { bridge: [-14, -8], intro: [-6, -3] } },
+               { kind: "apex", from: [-2.0, -0.8], to: [0.4, 1.4] }],
+        high: [{ kind: "apex", from: [-7, -4], to: [1.2, 3.0] },
+               { kind: "section", by: { bridge: [1, 4] } },
+               { kind: "lfo", bars: [[32, 3], [16, 2]], depth: [0.8, 2.2],
+                 shape: "tri", freePhase: true }],
+        mid:  [{ kind: "lfo", bars: [[24, 2], [40, 1]], depth: [0.6, 1.8],
+                 shape: "sin", freePhase: true }],
+      },
+      echo: {
+        /* "reverb send increases during breakdowns open up space" -- so the
+           send climbs where the parts thin and comes back for the arrival */
+        send: [{ kind: "section", by: { bridge: [0.10, 0.24], chorus: [-0.04, 0.02],
+                                        intro: [0.04, 0.12] } },
+               { kind: "gesture", on: "build", bars: 8, from: [0.10, 0.22], to: [0, 0], curve: "lin" }],
+        fb:   [{ kind: "section", by: { bridge: [0.08, 0.20] } },
+               { kind: "lfo", bars: [[32, 2], [16, 1]], depth: [0.03, 0.10],
+                 shape: "sin", freePhase: true }],
+      },
       tb303: {
         cutoff: [
           { kind: "section", by: { intro: [-260, -160], verse: [-120, 120],
@@ -7557,7 +7714,20 @@ const GENRE = {
            The deep cut stays where it belongs -- the bridge, where killing the
            low is the actual DJ move and lasts sixteen bars rather than half the
            record. [measured; corpus:underdog for the cut-to-release] */
+        /* ── AND THE HAND THAT WAS NOT ON IT ─────────────────────────────────
+           MEASURED: this genre had 30 motion lanes and not ONE gesture in them
+           -- no windowed move tied to an arrival anywhere in the record. For
+           the music whose own account is "you can hear things coming in and
+           feel that push and pull of the faders or the knobs" [corpus:hawtin],
+           that is the wrong shape of automation entirely: LFOs and arcs move
+           all the time, and a hand does not. It waits, and then it does
+           something.
+
+           Sixteen bars rather than acid's eight, and the low comes back rather
+           than being cut: this music arrives by accumulating, so the build is
+           a long opening-up and not a rug pulled out. */
         low:  [{ kind: "arc", from: [-3, -1.5], to: [0, 1.0], curve: "sCurve" },
+               { kind: "gesture", on: "build", bars: 16, from: [-9, -6], to: [0, 0], curve: "exp" },
                { kind: "section", by: { bridge: [-26, -17], intro: [-5, -2],
                                         outro: [-6, -3] } },
                { kind: "lfo", bars: [[96, 3], [64, 2]], depth: [0.8, 2.0],
@@ -7591,6 +7761,7 @@ const GENRE = {
                  /* and the filter opens INTO the arrival rather than across the
                     clock -- the one gesture this music is made of */
                  { kind: "apex", from: [-220, -120], to: [260, 700] },
+                 { kind: "gesture", on: "build", bars: 16, from: [-180, -80], to: [300, 900], curve: "exp" },
                  { kind: "section", by: { bridge: [-160, -60], instrumental: [80, 300] } },
                  { kind: "plock", density: [0.08, 0.16], amt: [200, 900] }],
         res:   [{ kind: "lfo", bars: [[64, 3], [32, 2]], depth: [0.8, 2.4],
@@ -7976,6 +8147,34 @@ const GENRE = {
       echo:  { div: 2, fb: 0.30, tone: 1900, hp: 240, send: 0.22, verb: 0.55 },
     },
     motion: {
+      /* ── JUNGLE'S DESK IS THE DROP ─────────────────────────────────────────
+         This genre's arc already carries two pre-highs because the break goes
+         away and comes back more than once. The desk is what makes that
+         audible: the bass is REMOVED for the eight bars before the drop and
+         lands at it, which is the oldest move in the music and the reason the
+         drop hits at all. The high band lifts with it.
+
+         Its `amen` tone automation below was already doing half of this to the
+         break alone; the desk does it to the whole record, which is what a
+         hand on a mixer does. [corpus:edmprod build-up technique] */
+      desk: {
+        low:  [{ kind: "gesture", on: "build", bars: 8, from: [-22, -16], to: [0, 0], curve: "exp" },
+               { kind: "section", by: { bridge: [-20, -12], intro: [-9, -5] } },
+               { kind: "apex", from: [-2.5, -1.0], to: [0.6, 1.8] }],
+        high: [{ kind: "gesture", on: "build", bars: 8, from: [-3, -1], to: [2, 5], curve: "exp" },
+               { kind: "apex", from: [-6, -3], to: [1.2, 3.0] },
+               { kind: "lfo", bars: [[16, 3], [32, 2]], depth: [1.0, 2.4],
+                 shape: "tri", freePhase: true }],
+        mid:  [{ kind: "section", by: { bridge: [-5, -2] } },
+               { kind: "lfo", bars: [[32, 2], [16, 1]], depth: [0.6, 1.8],
+                 shape: "sin", freePhase: true }],
+      },
+      echo: {
+        send: [{ kind: "section", by: { bridge: [0.10, 0.24], intro: [0.04, 0.12] } },
+               { kind: "gesture", on: "build", bars: 8, from: [0.10, 0.22], to: [0, 0], curve: "lin" }],
+        fb:   [{ kind: "lfo", bars: [[16, 2], [32, 1]], depth: [0.04, 0.12],
+                 shape: "sin", freePhase: true }],
+      },
       amen: {
         /* the filter is the arrangement here: the break opens for the drop and
            is cut down to a telephone under the build. */
