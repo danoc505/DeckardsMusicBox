@@ -17,7 +17,7 @@ global.window = { addEventListener(){}, MK2: null };
 global.document = { getElementById: () => ({ addEventListener(){}, textContent: "", value: "1", innerHTML: "" }) };
 /* the theory helpers are module-locals in the shipped file; append an export so
    the battery can test the LAWS directly and not only their downstream effects */
-eval(src + ";global.__T = { degMidi, MODES, inKey, scaleStep, intoBand };");
+eval(src + ";global.__T = { degMidi, MODES, inKey, scaleStep, intoBand, GENRE };");
 const M = global.window.MK2;
 const T = global.__T;
 
@@ -256,8 +256,24 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     const vals = genres.map(g => Math.round(dens[g].bass));
     check("the bass styles really differ", new Set(vals).size === genres.length,
           genres.map(g => `${g} ${dens[g].bass.toFixed(1)}/4bars`).join("  "));
-    check("every genre's second voice actually sounds", genres.every(g => dens[g].ctr > 0.3),
-          genres.map(g => `${g} ${(100*dens[g].ctr).toFixed(0)}%`).join("  "));
+    /* THE COUNTER SOUNDS AS OFTEN AS ITS TABLE SAYS IT DOES. This used to be a
+       flat "more than 30% of the tune's notes" -- which is synthwave's octave
+       double wearing the name of a law, and it failed the moment three genres
+       arrived whose second voice is deliberately sparse: Vangelis answers on
+       roughly one note in four ("call-and-response between Rhodes and CS-80"),
+       Plastikman's is a delay tail at 0.22, acid's second 303 at 0.35. A flat
+       threshold cannot tell "the genre wants little" from "the code delivers
+       nothing", so it now checks the genre's own declared density -- the table
+       is the contract, and the floor stops a genre buying a pass by declaring
+       zero. Measured when this landed: every genre delivers 92-99% of what it
+       declared. */
+    check("the counter sounds as often as its table declares",
+          genres.every(g => {
+            const want = T.GENRE[g].counter.density;
+            return want >= 0.15 && dens[g].ctr >= want * 0.70;
+          }),
+          genres.map(g => `${g} ${(100*dens[g].ctr).toFixed(0)}% of ` +
+                          `${(100*T.GENRE[g].counter.density).toFixed(0)}% asked`).join("  "));
   }
   /* THE DRUMMER HAS TO ACTUALLY USE THE TOMS. A kit with three tom voices that
      nothing ever strikes is three dead voices and a fill that is a snare roll.
@@ -274,10 +290,22 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         const n = ev.filter(e => /^tom/.test(e.lane || "")).length;
         hits += n; songs++; if(n > 0) withToms++;
       }
-      rows.push(`${g} ${(hits/songs).toFixed(1)}/song in ${withToms}/${songs}`);
-      if(withToms > songs * 0.25) anyGenreUses++;
+      /* A GENRE THAT DECLARES TOMS MUST PLAY THEM -- AND ONE THAT DOES NOT MUST
+         NOT. The first version of this asserted every genre reaches for the
+         toms, which is synthwave's drummer imposed on everybody, and it broke
+         the moment a genre arrived with no drum kit at all: there is no kit
+         anywhere in the Blade Runner score, acid house's fill is a filter rather
+         than a drum, and a Plastikman bar that answers itself with a tom roll is
+         the exact gesture that music refuses. So the check reads the genre's own
+         `kit.toms.use` and holds it to it in BOTH directions -- which is what
+         stops a genre buying a pass by simply declaring nothing. */
+      const want = T.GENRE[g].kit.toms.use;
+      const rate = withToms / songs;
+      rows.push(`${g} wants ${want} -> ${(hits/songs).toFixed(1)}/song in ${withToms}/${songs}`);
+      if(want >= 0.25 ? rate > 0.25 : rate < 0.35) anyGenreUses++;
     }
-    check("the drummer actually uses the toms", anyGenreUses === genres.length, rows.join("  |  "));
+    check("the toms are played exactly as much as each genre asks",
+          anyGenreUses === genres.length, rows.join("  |  "));
   }
   check("the genres are actually different music", new Set(seen.values()).size === genres.length,
         [...seen].map(([g, v]) => `${g}: ${v}`).join("  |  "));

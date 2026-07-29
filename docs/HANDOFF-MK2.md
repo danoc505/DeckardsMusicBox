@@ -107,7 +107,8 @@ WAV hash can never be the determinism test. The determinism test is the
 Run all of these before you claim anything.
 
 ```bash
-node harness/mk2_test.js                              # 57 seam checks
+node harness/mk2_test.js                              # 72 seam checks
+node harness/mk2_roll.js 1 --genre vangelis           # any of the six genres
 node harness/mk2_snapshot.js check harness/mk2_baseline.snap
 node harness/mk2_roll.js 1                            # THE test that matters
 node harness/mk2_roll.js 1 --song                     # full arrangement
@@ -115,11 +116,21 @@ node harness/mk2_roll.js 1 --mid out.mid              # .mid round-trip check
 node harness/mk2_ui.js                                # 20 checks, in a browser
 ```
 
-- **`mk2_test.js`** — 57 assertions over composition seams: per-genre loops,
+- **`mk2_test.js`** — 72 assertions over composition seams: per-genre loops,
   "the counter is a line not a harmoniser", "the bridge is a departure", "the
-  bass styles differ", "the drummer uses the toms", "the .mid carries every
-  note", plus the rack, the motion and the pins. Currently **57 passed, 0
-  failed**.
+  bass styles differ", "the .mid carries every note", plus the rack, the motion
+  and the pins. Currently **72 passed, 0 failed**.
+
+  Two of these were rewritten when the new genres arrived, and the reason
+  generalises: *"the drummer actually uses the toms"* and *"every genre's second
+  voice actually sounds"* both applied a **flat threshold** — synthwave's
+  drummer and synthwave's octave double — to every genre. They failed the moment
+  a genre arrived with no drum kit at all. A flat threshold cannot tell "the
+  genre wants little" from "the code delivers nothing", so both now read the
+  genre's own declared `kit.toms.use` / `counter.density` and hold the program
+  to it **in both directions** — which is what stops a genre buying a pass by
+  declaring nothing. If you add a genre and a test fails, ask which of the two
+  it is before you touch the table.
 - **`mk2_snapshot.js`** — SHA over every event of every seed. This is how you
   prove a refactor is a refactor. It now defaults to however many seeds the
   baseline file holds, so the bare command is correct (it used to default to 200
@@ -148,12 +159,15 @@ measure, not to deliver.
 
 - **Six-stage pipeline complete**, seam-checked, deterministic per
   `(seed, genre, rig, picks)`.
-- **Three genres in the `GENRE` table:** `lofi`, `synthwave`, `dkc`. Each
-  carries ~30 fields — tempo bands, modes, rig weights, form grammar,
-  progressions, registers, groove (swing, dilla displacement, jitter, push),
-  kit (ghost placement, open-hat spots, flourishes, toms, variants), counter
-  style, bass style, ostinato, space, kick voicing, drum drive, gate.
-- **Rigs:** `band`, `sega` (YM2612 + PSG + DAC), `neon` (CS-80 comp).
+- **Six genres in the `GENRE` table:** `lofi`, `synthwave`, `dkc`, `vangelis`,
+  `acid`, `plastikman`. Each carries ~30 fields — tempo bands, modes, rig
+  weights, form grammar, progressions, registers, groove (swing, dilla
+  displacement, jitter, push, lane lean), kit (ghost placement, open-hat spots,
+  flourishes, toms, variants), counter style, bass style, theme density,
+  ostinato, space, kick voicing, drum drive, gate, machines, params, motion.
+- **Rigs:** `band`, `sega` (YM2612 + PSG + DAC), `neon` (CS-80 comp),
+  `nemo` (CS-80 + VP-330 + Prophet drone, no drum kit), `box` (808 + clap +
+  303), `plastik` (808 + rim + sub drone + acid ostinato).
 - **A full tom kit** — 12"/14"/16" — and a **gated reverb** built the way
   Padgham/SSL actually did it: a compressed bright room, then a hard gate
   (hold ~150 ms, release ~15 ms). The compression is *half the sound*; without
@@ -314,31 +328,73 @@ One rule the tables should keep: **a genre describes every machine it can
 plausibly host, not only the ones it draws** — a hand-picked machine whose knobs
 sit dead still is worse than one that is not offered.
 
-### 5.3 The remaining four genres
+### 5.3 The last genre — UK jungle
 
-Three of seven exist. Still to build, each as a `GENRE` table entry with
-researched parameters and no code branches:
+Six of seven exist. **`vangelis`, `acid` and `plastikman` landed** and are
+described in §4. The one still missing:
 
-| genre | notes already gathered |
-|-------|------------------------|
-| Acid house | needs the 303 work in 5.1; 808/909 kit; 120–130 bpm |
-| Plastikman minimal techno | `ev.morph` automation design exists |
-| UK jungle | **design failed, needs redoing** — breakbeat chopping, half-time, sub bass |
-| Blade Runner / Vangelis | CS-80 + ribbon exist; design exists, not wired to a genre |
+| genre | state |
+|-------|-------|
+| UK jungle | **the research design failed and needs redoing** — breakbeat chopping, half-time, sub bass |
+
+Jungle is the hardest of the seven for this architecture and it is worth knowing
+why before starting: it is *sample surgery*. The identity is a chopped and
+rearranged Amen break, and MK2 composes onto a 16-step grid from voices it
+synthesises — there is no sampler and no chopper. Either the program grows one,
+or jungle is built as a very fast half-time kit pattern with a sub bass, which
+would be honest but would not be jungle. Decide that out loud before writing a
+table.
 
 Research lives in `docs/genre-research/*.md` — **seven files, all flagged
 unverified.** Several verification passes died on a weekly rate limit. Verify
-before trusting; the flags are there for a reason.
+before trusting; the flags are there for a reason. The three genres that landed
+carry the researcher's own marks through into the table, including the
+`[GUESS]`es and the `UNCONFIRMED`s — do not launder them.
+
+**Architecture gaps the three new genres closed** (all pure widenings; the
+snapshot stayed IDENTICAL across 300 seeds through every one):
+
+- `G.theme` — note count and onset pool per genre. Was two literals in
+  `buildTheme`, which meant every genre got 3–6 melody notes a bar for ever.
+- `bassStyle: "drone"` — a held root that does not restrike an unchanged chord.
+- `bassStyle: "acid"` + `G.acidLine` — a one-bar 16-step cell of 3–4 pitches
+  that repeats, with the octave buttons per step. Accent and slide stay with
+  `acidize()`, which already knows the 303's two rules.
+- `space` grew from `{wet}` into a room: `irSec`, `tailPow`, `tailDark`,
+  `sendHp`, `feeds`. The IR is rebuilt only when the numbers differ and is
+  still seeded, so determinism holds.
+- `groove.laneLean` — a fixed per-lane offset, the general form of the
+  `snareEarly`/`kickLate` pair that was already there.
+
+**Gaps still open**, named honestly:
+
+- **No tempo map, so rubato is inexpressible.** Vangelis worked with no click
+  track; the table stands in for it with ±38 ms of per-note jitter, which is
+  the wrong *shape* — real rubato is correlated across a phrase. Flagged in
+  the table itself.
+- **Harmonic rhythm bottoms out at two bars per chord.** `BARS = 4` and one
+  degree maps to one bar, so `[0,0,5,5]` is the floor. Blade Runner Blues holds
+  two chords far longer than that.
+- **One open hat per bar.** Acid house and minimal techno both want the offbeat
+  open hat on 2, 6, 10 *and* 14 in every bar. The table draws one of them.
+- **The `tape` bed bypasses the rig** — stage 5 pushes `voice: "tape"` directly,
+  so every genre gets vinyl surface noise whether it wants it or not. Vangelis
+  wants room hiss and a Lexicon wash.
+- **The rule of three fights repetition-based genres.** Stage 2 forbids a third
+  consecutive identical section; acid house and Plastikman want exactly that.
+  Both tables work around it by alternating into a function that maps to nearly
+  the same music (`verse` ↔ `instrumental`, A ↔ Avar). It is a compromise and
+  both tables say so in a comment.
 
 ### 5.4 Genre identity, for all seven
 
 The user's framing, which is the right one: *"lofi hip hop is defined by more
 than macro constraints on sound — it's the kind of chords, the often sparse
 keys; synthwave is influenced by dark new wave, Blade Runner, 80s and future;
-DKC was building atmosphere."* This has been partially delivered for lofi,
-synthwave and DKC (chords, registers, counter style, bass style, ostinato,
-groove). It has **not** been done from artist-level understanding for the rest,
-and the drums research was never completed. Research the artists, then put the
+DKC was building atmosphere."* This has now been delivered for six genres
+(chords, registers, theme density, counter style, bass style, ostinato, groove,
+machines, params, motion). It has **not** been done for jungle, and the drums
+research was never completed. Research the artists, then put the
 findings in the table.
 
 ### 5.5 Smaller, known, honest

@@ -498,6 +498,17 @@ const INSTRUMENTS = {
   },
 
   /* ── BASSES ────────────────────────────────────────────────────────────── */
+  drone: {
+    slot: "bass", label: "low drone (Prophet)",
+    lanes: { bass:"drone" },
+    /* every one of these is read by V.drone. A drone has no pick attack, so
+       there is no attack control -- that absence is the instrument. */
+    controls: [
+      { k:"cut",    label:"filter",  cap:"CUTOFF", min:120, max:1400, step:10,   def:420, unit:"Hz" },
+      { k:"res",    label:"reso",    cap:"RESONANCE", min:0.5, max:12, step:0.1, def:3.2 },
+      { k:"detune", label:"detune",  cap:"DETUNE", min:0,   max:1,    step:0.01, def:0.55 },
+    ],
+  },
   subbass: {
     slot: "bass", label: "sub bass",
     lanes: { bass:"bass" },
@@ -569,6 +580,30 @@ const INSTRUMENTS = {
     ],
     panel: { skin: "rhodes", maker: "Fender", title: "Rhodes Suitcase Piano",
              groups: [{ label: "", keys: ["bark", "tone", "wow"] }] },
+  },
+  vp330: {
+    slot: "keys", label: "VP-330 strings / choir",
+    lanes: { keys:"vp330" },
+    /* the four controls the VP-330's own front panel actually has that mean
+       anything here: the ENSEMBLE (its BBD chorus, the reason anyone bought
+       one), the balance between the string and the choir registers, and the
+       swell. All four are read by the voice. */
+    controls: [
+      { k:"ens",     label:"ensemble", cap:"ENSEMBLE", min:0, max:1,   step:0.01, def:0.60 },
+      { k:"choir",   label:"choir",    cap:"HUMAN VOICE", min:0, max:1, step:0.01, def:0.45 },
+      { k:"attack",  label:"swell",    cap:"ATTACK",   min:0.05, max:2.5, step:0.05, def:0.90, unit:"s" },
+      { k:"release", label:"release",  cap:"RELEASE",  min:0.2, max:5,  step:0.1,  def:2.40, unit:"s" },
+    ],
+    panel: { skin: "vp330", maker: "Roland", title: "VP-330 Vocoder Plus",
+             groups: [{ label: "", keys: ["ens", "choir", "attack", "release"] }] },
+  },
+  wash: {
+    slot: "keys", label: "wash pad",
+    lanes: { keys:"wash" },
+    controls: [
+      { k:"cut", label:"filter", cap:"CUTOFF", min:200, max:3000, step:10, def:900, unit:"Hz" },
+    ],
+    panel: { skin: "wash", maker: "", title: "wash", groups: [{ label: "", keys: ["cut"] }] },
   },
   wurly: {
     slot: "keys", label: "Wurlitzer",
@@ -1164,6 +1199,35 @@ const RIG = {
   neon: { kick:"kick",    snare:"snare",    ghost:"ghost",    hat:"hat",    openhat:"openhat",
           tom1:"tom1", tom2:"tom2", tom3:"tom3",
           bass:"bass",     keys:"cs80",     lead:"lead",     counter:"counter", ostinato:"counter" },
+  /* NEMO -- the Blade Runner room, named for nemostudios, whose teardown of the
+     sessions is where the gear list comes from. There is no drum kit in this
+     score, so this rig does not name one either: the genre's form.roles simply
+     never asks for drums, and the lanes below exist so that a rig lookup cannot
+     return undefined if something ever does. The CS-80 takes the melody, the
+     VP-330 holds the bed, the Rhodes answers it -- and the Rhodes is literally
+     correct, the Tears in Rain melody is a Fender Rhodes with chorus.
+     [corpus:nemostudios br03, corpus:alijamieson, corpus:reverbmachine] */
+  nemo: { kick:"kick", snare:"rim", ghost:"rim", hat:"hat", openhat:"openhat",
+          tom1:"tom1", tom2:"tom2", tom3:"tom3",
+          bass:"drone", keys:"vp330", lead:"cs80", counter:"rhodes", ostinato:"rhodes" },
+  /* THE BOX -- acid house. Every element is a machine and every machine is one
+     somebody can name: the 808's bridged-T kick and its six-square hats, a CLAP
+     on 2 and 4 (not a snare; the difference is the record), a rimshot filling
+     the gaps, and the 303 on the bass. [corpus:attackmagazine's Armando
+     dissection; the 303/808 pairing is Voodoo Ray and No Way Back] */
+  box:  { kick:"k808", snare:"clap", ghost:"rim", hat:"h808", openhat:"oh808",
+          tom1:"t808hi", tom2:"t808mid", tom3:"t808lo",
+          bass:"acid303", keys:"wash", lead:"acid303", counter:"acid303",
+          ostinato:"acid303" },
+  /* PLASTIK -- minimal techno. The same box with the backbeat taken out and a
+     sub under it: Hawtin's records are "driven largely by deep, rumbling
+     basslines" with the 303 pitched UP an octave over the top, which is why the
+     bass here is a drone and the ostinato is the acid line rather than the other
+     way round. [corpus:hawtin / Wikipedia on Consumed] */
+  plastik: { kick:"k808", snare:"rim", ghost:"rim", hat:"h808", openhat:"oh808",
+             tom1:"t808hi", tom2:"t808mid", tom3:"t808lo",
+             bass:"drone", keys:"wash", lead:"acid303", counter:"acid303",
+             ostinato:"acid303" },
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1369,19 +1433,31 @@ const Sound = (function(){
 
     /* reverb: one synthetic room, deterministic (seeded noise IR — Law 7:
        same seed, same samples, reverb included). */
-    const irSec = 1.4, sr = c.sampleRate, irLen = Math.floor(irSec * sr);
-    const ir = c.createBuffer(2, irLen, sr);
-    for(let ch = 0; ch < 2; ch++){
-      const d = ir.getChannelData(ch), r2 = makeRng(hash32("ir" + ch) ^ 0x5EED);
-      let lp = 0;
-      for(let i = 0; i < irLen; i++){
-        const t = i / irLen;
-        const w = (r2() * 2 - 1) * Math.pow(1 - t, 2.2);   // exp-ish decay
-        lp = lp + 0.32 * (w - lp);                          // darken the tail
-        d[i] = lp;
+    /* THE ROOM IS NOW A SONG PARAMETER, not a graph constant. It was 1.4 s with
+       a fixed decay shape for every genre, and for a score run entirely through
+       a Lexicon 224 at multi-second decay that is not the wrong number, it is
+       the wrong ORDER OF MAGNITUDE -- the 224's own decay range is quoted 2 to
+       75 seconds and Vangelis was an early user of the long settings. The IR
+       stays seeded from hash32("ir"+ch), so it is still bit-identical for a
+       given (irSec, tailPow): determinism is preserved because these are song
+       parameters, never live controls. [corpus:valhalladsp on the 224] */
+    g.makeIr = (irSec, tailPow, dark) => {
+      const sr = c.sampleRate, irLen = Math.max(1, Math.floor(irSec * sr));
+      const ir = c.createBuffer(2, irLen, sr);
+      for(let ch = 0; ch < 2; ch++){
+        const d = ir.getChannelData(ch), r2 = makeRng(hash32("ir" + ch) ^ 0x5EED);
+        let lp = 0;
+        for(let i = 0; i < irLen; i++){
+          const t = i / irLen;
+          const w = (r2() * 2 - 1) * Math.pow(1 - t, tailPow);   // exp-ish decay
+          lp = lp + dark * (w - lp);                             // darken the tail
+          d[i] = lp;
+        }
       }
-    }
-    g.verb = c.createConvolver(); g.verb.buffer = ir;
+      return ir;
+    };
+    g.irSpec = { sec: 1.4, pow: 2.2, dark: 0.32 };
+    g.verb = c.createConvolver(); g.verb.buffer = g.makeIr(1.4, 2.2, 0.32);
     g.send = c.createGain(); g.send.gain.value = 1;
     g.sendHp = c.createBiquadFilter(); g.sendHp.type = "highpass";
     g.sendHp.frequency.value = 200; g.sendHp.Q.value = 0.5;   // low end stays out of the wash
@@ -2221,6 +2297,182 @@ const Sound = (function(){
     return made;
   };
 
+  /* ══ THE VP-330 ═══════════════════════════════════════════════════════════
+     Roland VP-330 Vocoder Plus -- the string/choir ensemble sitting under the
+     CS-80 on Blade Runner Blues, and the thing playing the chords of Tears in
+     Rain [corpus:alijamieson, corpus:reverbmachine]. Without it the CS-80 has
+     nothing to sit on and the genre has no bed.
+
+     This is ARCHITECTURE, not emulation, and it says so: a string ensemble is a
+     divide-down oscillator through a BBD chorus, and the chorus is three taps
+     modulated by two LFOs at different rates and phases -- that topology is the
+     standard string-machine design [theory], not a measurement of this unit.
+     The choir is the same signal through a pair of vocal formant bands. Every
+     NUMBER below is [EAR]; I found no VP-330 service spec and will not pretend
+     otherwise. ═══════════════════════════════════════════════════════════════ */
+  V.vp330 = function(g, ev, t){
+    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 2.6;
+    const out = c.createGain(); out.connect(g.bus.keys);
+    const made = [];
+    const choir = P(g, ev, "vp330", "choir", 0.45);
+    /* the divide-down source: a saw, plus its octave, which is what the organ
+       divider chain actually gives you */
+    const mix = c.createGain(); mix.gain.value = 0.5;
+    for(const [mult, amp] of [[1, 1.0], [2, 0.34], [0.5, 0.22]]){
+      const o = c.createOscillator(); o.type = "sawtooth"; o.frequency.value = f * mult;
+      const og = c.createGain(); og.gain.value = amp;
+      o.connect(og); og.connect(mix); o.start(t); o.stop(end); made.push(o);
+    }
+    /* THE ENSEMBLE: three delay taps, two LFOs, 120 degrees apart. The slow one
+       is the swirl, the fast one is the shimmer. */
+    const ens = P(g, ev, "vp330", "ens", 0.60);
+    const slow = c.createOscillator(); slow.type = "sine"; slow.frequency.value = 0.62;
+    const fast = c.createOscillator(); fast.type = "sine"; fast.frequency.value = 6.1;
+    slow.start(t); slow.stop(end); fast.start(t); fast.stop(end); made.push(slow, fast);
+    for(let i = 0; i < 3; i++){
+      const dl = c.createDelay(0.06);
+      dl.delayTime.value = 0.012 + i * 0.007;
+      const sg = c.createGain(); sg.gain.value = 0.0028 * ens;
+      const fg = c.createGain(); fg.gain.value = 0.00035 * ens;
+      /* the 120-degree phase offset, done as a delay on the modulator itself --
+         a phase shifter would need an AudioParam a plain oscillator has not got */
+      const ph = c.createDelay(1.0); ph.delayTime.value = i * (1 / 0.62) / 3;
+      const ph2 = c.createDelay(1.0); ph2.delayTime.value = i * (1 / 6.1) / 3;
+      slow.connect(ph); ph.connect(sg); sg.connect(dl.delayTime);
+      fast.connect(ph2); ph2.connect(fg); fg.connect(dl.delayTime);
+      const tg = c.createGain(); tg.gain.value = 1 / 3;
+      mix.connect(dl); dl.connect(tg); tg.connect(out);
+    }
+    mix.connect(out);
+    /* the CHOIR is the same signal through two vocal formant bands; at 0 it is
+       the string register alone */
+    if(choir > 0.01) for(const [hz, q, amp] of [[520, 1.2, 1.0], [1500, 1.2, 0.62]]){
+      const bp = c.createBiquadFilter(); bp.type = "bandpass";
+      bp.frequency.value = hz; bp.Q.value = q;
+      const bg = c.createGain(); bg.gain.value = amp * choir * 1.4;
+      mix.connect(bp); bp.connect(bg); bg.connect(out);
+    }
+    /* a string machine has no attack transient and a very long release: the
+       bowing swells in and the room keeps it afterwards */
+    adsr(c, out, t, LEVEL.keys * 1.5 * ev.gain,
+         P(g, ev, "vp330", "attack", 0.90), 0.60, 0.86, t + ev.durSec, P(g, ev, "vp330", "release", 2.40));
+    return made;
+  };
+
+  /* ══ THE LOW DRONE ════════════════════════════════════════════════════════
+     A Prophet-10 low drone [corpus:nemostudios br03 gear list]. Two detuned
+     saws through a gently resonant lowpass and NO pick transient -- V.bass's
+     25 ms 1.2 kHz attack click is a plucked string, and a drone is not plucked.
+     The point of the voice is that it arrives without an edge and outlasts the
+     bar. ═══════════════════════════════════════════════════════════════════ */
+  V.drone = function(g, ev, t){
+    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 1.8;
+    const out = c.createGain();
+    const lp = c.createBiquadFilter(); lp.type = "lowpass";
+    lp.frequency.value = P(g, ev, "drone", "cut", 420); lp.Q.value = P(g, ev, "drone", "res", 3.2);
+    out.connect(lp); lp.connect(g.bus.bass);
+    const made = [], det = P(g, ev, "drone", "detune", 0.55);
+    for(const cents of [-7 * det, 0, 7 * det]){
+      const o = c.createOscillator(); o.type = "sawtooth";
+      o.frequency.value = f; o.detune.value = cents;
+      const og = c.createGain(); og.gain.value = 1 / 3;
+      o.connect(og); og.connect(out); o.start(t); o.stop(end); made.push(o);
+    }
+    /* the filter opens slowly across the note -- a slow VCF, not an envelope */
+    lp.frequency.setValueAtTime(P(g, ev, "drone", "cut", 420) * 0.55, t);
+    lp.frequency.linearRampToValueAtTime(P(g, ev, "drone", "cut", 420), t + Math.min(3.0, ev.durSec));
+    adsr(c, out, t, LEVEL.bass * 1.30 * ev.gain, 0.35, 0.80, 0.90, t + ev.durSec, 1.20);
+    return made;
+  };
+
+  /* ══ THE CLAP ═════════════════════════════════════════════════════════════
+     Acid house's backbeat is a CLAP, not a snare, and the difference is not
+     cosmetic: V.snare has tuned shell modes and reads as a rock kit on 2 and 4,
+     which is the wrong record. A clap is three or four noise bursts a few
+     milliseconds apart -- many hands, not quite together -- into a narrow band,
+     with a longer reverberant tail behind them.
+     [theory: TR-808/909 clap circuit -- a retriggered noise envelope plus a
+     slow tail] ═══════════════════════════════════════════════════════════════ */
+  V.clap = function(g, ev, t){
+    const c = g.ctx, out = [];
+    /* 10 ms between hands. No knob for it: it is not on any front panel here,
+       and a slider that no machine declares would be a control that reads
+       nothing. [theory: the 808's clap retrigger interval] */
+    const spread = 0.010;
+    const bp = c.createBiquadFilter(); bp.type = "bandpass";
+    bp.frequency.value = 1050; bp.Q.value = 1.6;
+    bp.connect(g.bus.drums);
+    /* the hands */
+    for(let i = 0; i < 3; i++){
+      const at = t + i * spread;
+      const n = burst(g, at, 0.012, ev.tSec.toFixed(5) + ":clap" + i);
+      const ng = c.createGain();
+      ng.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.72, at);
+      ng.gain.exponentialRampToValueAtTime(0.0002, at + 0.011);
+      n.connect(ng); ng.connect(bp); out.push(n);
+    }
+    /* and the room behind them, which is what makes it a clap and not a tick */
+    const tail = burst(g, t, 0.26, ev.tSec.toFixed(5) + ":claptail");
+    const tg = c.createGain();
+    tg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.34, t + 0.012);
+    tg.gain.exponentialRampToValueAtTime(0.0002, t + 0.24);
+    tail.connect(tg); tg.connect(bp); out.push(tail);
+    if(g.gateSend){ tg.connect(g.gateSend); openGate(g, t); }
+    return out;
+  };
+
+  /* ══ THE RIMSHOT ══════════════════════════════════════════════════════════
+     Hawtin: "I was always into really small rimshots." A rim is a short pitched
+     click -- a hard triangle burst at ~1.7 kHz through a bandpass, gone in
+     30 ms. It is the one percussive event minimal techno adds to a bar.
+     [theory: TR-909 rim circuit; [EAR] for the tuning] ══════════════════════ */
+  V.rim = function(g, ev, t){
+    const c = g.ctx;
+    const o = c.createOscillator(); o.type = "triangle";
+    o.frequency.setValueAtTime(1720, t);
+    o.frequency.exponentialRampToValueAtTime(480, t + 0.018);
+    const bp = c.createBiquadFilter(); bp.type = "bandpass";
+    bp.frequency.value = 1650; bp.Q.value = 2.4;
+    const og = c.createGain();
+    og.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.68, t);
+    og.gain.exponentialRampToValueAtTime(0.0002, t + 0.030);
+    o.connect(bp); bp.connect(og); og.connect(g.bus.drums);
+    o.start(t); o.stop(t + 0.05);
+    const n = burst(g, t, 0.012, ev.tSec.toFixed(5) + ":rim");
+    const nb = c.createBiquadFilter(); nb.type = "bandpass";
+    nb.frequency.value = 3100; nb.Q.value = 1.4;
+    const ng = c.createGain();
+    ng.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.26, t);
+    ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.014);
+    n.connect(nb); nb.connect(ng); ng.connect(g.bus.drums);
+    return [o, n];
+  };
+
+  /* ══ THE WASH ═════════════════════════════════════════════════════════════
+     Minimal techno's "keys" are not a comp. Hawtin used the Wavestation "as an
+     FX box, and for some pads... not for musical content" -- so this is a pad
+     that states the chord and gets out of the way: two detuned saws through a
+     slow filter, very quiet, very long. [corpus:hawtin] ════════════════════ */
+  V.wash = function(g, ev, t){
+    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 3.0;
+    const out = c.createGain();
+    const lp = c.createBiquadFilter(); lp.type = "lowpass";
+    lp.frequency.value = P(g, ev, "wash", "cut", 900); lp.Q.value = 1.4;
+    out.connect(lp); lp.connect(g.bus.keys);
+    const made = [];
+    for(const dt of [-9, 9]){
+      const o = c.createOscillator(); o.type = "sawtooth";
+      o.frequency.value = f; o.detune.value = dt;
+      const og = c.createGain(); og.gain.value = 0.5;
+      o.connect(og); og.connect(out); o.start(t); o.stop(end); made.push(o);
+    }
+    const lfo = c.createOscillator(); lfo.type = "sine"; lfo.frequency.value = 0.09;
+    const lg = c.createGain(); lg.gain.value = P(g, ev, "wash", "cut", 900) * 0.35;
+    lfo.connect(lg); lg.connect(lp.frequency); lfo.start(t); lfo.stop(end); made.push(lfo);
+    adsr(c, out, t, LEVEL.keys * 0.85 * ev.gain, 1.20, 0.90, 0.90, t + ev.durSec, 2.20);
+    return made;
+  };
+
   V.snare = function(g, ev, t){
     const c = g.ctx, out = [];
     for(const [f0, f1, amp, dec] of [[330,195,0.32,0.09],[185,150,0.14,0.11]]){ // shell modes
@@ -2510,6 +2762,28 @@ const Sound = (function(){
     if(gate){ g.gateHold = gate.hold; g.gateFall = gate.fall; }
     if(!space) return;
     if(space.wet != null) g.wet.gain.value = space.wet;
+    /* the ROOM ITSELF, when a genre asks for a different one. Rebuilding the IR
+       is expensive, so it only happens when the numbers actually differ -- a
+       genre that says nothing keeps the 1.4 s room every song has had. */
+    const sec = space.irSec != null ? space.irSec : 1.4;
+    const pow = space.tailPow != null ? space.tailPow : 2.2;
+    const dark = space.tailDark != null ? space.tailDark : 0.32;
+    if(g.makeIr && (sec !== g.irSpec.sec || pow !== g.irSpec.pow || dark !== g.irSpec.dark)){
+      g.irSpec = { sec, pow, dark };
+      g.verb.buffer = g.makeIr(sec, pow, dark);
+    }
+    /* and how much of the mix is allowed INTO it. 200 Hz keeps kick and bass out
+       of the wash, which is right for every genre built so far and wrong for a
+       score in which nothing is dry. */
+    if(g.sendHp) g.sendHp.frequency.value = space.sendHp != null ? space.sendHp : 200;
+    /* WHO feeds it. keys and lead always do; bass and drums only where the genre
+       says the room swallows the whole band. Connect/disconnect rather than a
+       gain, so a genre that does not ask for it pays nothing. */
+    if(g.sendExtra){
+      for(const b of g.sendExtra) try { g.bus[b].disconnect(g.send); } catch(e){}
+    }
+    g.sendExtra = (space.feeds || []).filter(b => b !== "keys" && b !== "lead" && g.bus[b]);
+    for(const b of g.sendExtra) g.bus[b].connect(g.send);
   }
   function ensureLive(){
     if(!ctx){
@@ -2724,6 +2998,10 @@ const GENRE = {
     /* sevenths were hardcoded `true` at the one call site, which three genres
        flagged: synthwave and jungle want bare triads, Vangelis wants neither. */
     sevenths: true,
+    /* the density of a bar of tune, and where its notes may land. These are the
+       values that were literals inside buildTheme, written out unchanged. */
+    theme: { count: { hooky: [4, 2], breath: [1, 2], normal: [3, 2] },
+             onsetPool: [[0,5],[2,3],[4,4],[6,3],[8,4],[10,3],[12,4],[14,3]] },
     progressions: {
       minor:  [[[0,5,2,6], 4], [[0,3,5,6], 3], [[0,3,0,4], 2], [[5,3,0,6], 2]],
       dorian: [[[0,3,0,3], 4], [[0,3,4,3], 3], [[0,5,3,4], 2]],
@@ -2954,6 +3232,10 @@ const GENRE = {
     /* the octave double, not a counter-line. [theory: an octave is 12 semitones] */
     counter: { style: "double", density: 0.90, octaves: [-12, 12], intervals: [-7, 7] },
     sevenths: false,           // synthwave is TRIADS; the seventh is a lofi habit
+    /* the density of a bar of tune, and where its notes may land. These are the
+       values that were literals inside buildTheme, written out unchanged. */
+    theme: { count: { hooky: [4, 2], breath: [1, 2], normal: [3, 2] },
+             onsetPool: [[0,5],[2,3],[4,4],[6,3],[8,4],[10,3],[12,4],[14,3]] },
     progressions: {
       minor: [[[0,5,2,6], 6],  // i-VI-III-VII, the synthwave loop [tut:futureproof]
               [[0,6,5,3], 5],  // i-VII-VI-iv -- Kavinsky "Nightcall" verse [corpus:reverbmachine]
@@ -3265,6 +3547,10 @@ const GENRE = {
     },
     counter: { style: "line", density: 0.45, intervals: [-2, -3, -4] },
     sevenths: false,      // Wise's harmony is add9 and sus, not stacked sevenths
+    /* the density of a bar of tune, and where its notes may land. These are the
+       values that were literals inside buildTheme, written out unchanged. */
+    theme: { count: { hooky: [4, 2], breath: [1, 2], normal: [3, 2] },
+             onsetPool: [[0,5],[2,3],[4,4],[6,3],[8,4],[10,3],[12,4],[14,3]] },
     progressions: {
       minor:     [[[0,5,3,6], 5],   // i-VI-iv-VII: AQUATIC AMBIENCE [corpus:vgmusic, shrine]
                   [[0,6,5,4], 3],
@@ -3381,6 +3667,725 @@ const GENRE = {
         cutoff: [{ kind: "section", by: { chorus: [220, 560], bridge: [-160, -50],
                                           outro: [-220, -120] } },
                  { kind: "lfo", bars: [[16, 4], [8, 2]], depth: [120, 340], shape: "tri" }],
+      },
+    },
+  },
+
+  /* ═════════════════════════════════════════════════════════════════════════
+     VANGELIS / BLADE RUNNER (1982) — GENRE 4. From docs/genre-research/
+     bladerunner.md, whose verification pass never ran; every number below
+     carries the mark the researcher gave it and a lot of them are [EAR].
+
+     ONE THING makes this music identifiable and it is not the harmony: THE NOTE
+     ARRIVES FROM BELOW. The CS-80's Initial Pitch Bend starts every note about a
+     semitone flat and swoops it up over a few tens of milliseconds, scaled by how
+     hard the key was struck. Three independent sources describe the same
+     mechanism -- Old Crow's front-panel tour ("brief portamento of a note from
+     about 1 semitone below the key's actual pitch"), Sound On Sound on the
+     Arturia emulation ("a quick, velocity-sensitive, upward pitch swoop to the
+     start of each note"), and Arturia's own parameter list (`atinit`). If the
+     notes start dead in tune, no amount of correct harmony will make anybody say
+     Blade Runner. It is one line in `params` below, and it is the genre.
+
+     SECOND: THE TAIL IS LONGER THAN THE NOTE THAT CAUSED IT. Everything went
+     through a Lexicon 224 at long settings, over a texture of "longer drawn out
+     notes, rather than thick instrumental combinations" -- two or three events a
+     bar floating in a room several seconds deep. That is why this genre is the
+     reason `space` grew from one number into a room, and why `theme` had to stop
+     being a literal: at the old hardcoded 3-6 melody notes a bar you get a busy
+     lofi tune over a Vangelis pad, which is neither.
+     [corpus:cs80.com, corpus:soundonsound, corpus:theconversation,
+      corpus:valhalladsp, corpus:alijamieson, corpus:nemostudios]
+     ═════════════════════════════════════════════════════════════════════════ */
+  vangelis: {
+    label: "Vangelis — Blade Runner",
+    /* Vangelis worked with NO CLICK TRACK, hand-syncing to VHS, and called the
+       looseness part of the method. So there is no published tempo to cite. Four
+       machine readings were fetched directly: Blade Runner Blues 65, Memories of
+       Green 70 [corpus:songbpm], Main Titles 80.025 [corpus:chordu], End Titles
+       113 [corpus:songbpm]. THE SPREAD IS THE FINDING -- detectors disagree by a
+       factor of two on one track because there is no stable pulse to detect.
+       [56,76] brackets the three unpulsed cues and deliberately excludes End
+       Titles: a generator set to 113 produces something that is not this score. */
+    tempo: [56, 76],
+    /* named-record evidence, not vibes: Main Titles E major, Love Theme Db major,
+       Memories of Green D major [corpus:alijamieson, corpus:chordu]; Blade Runner
+       Blues F# minor, two chords [corpus:alijamieson]. phrygian comes from a
+       secondary source the researcher could NOT reach (the primary 503'd), so it
+       is weighted small and says so. lydian is taste and nothing else. */
+    modes: [["major", 5], ["minor", 5], ["dorian", 2],
+            ["phrygian", 2],                 // [corpus:secondary, UNCONFIRMED]
+            ["lydian", 1]],                  // [EAR]
+    rig: [["nemo", 1]],
+    keysChar: [["rhodes", 1]],               // dead draw: the nemo rig sends keys to the VP-330
+    /* not vinyl -- a Lyrec 24-track hand-synced to VHS. Slow drift, faint room,
+       no surface noise. [corpus:nemostudios br03] */
+    tape: { wow: [0.0010, 0.0014], crackle: [0.0030, 0.0020] },
+
+    form: {
+      lengths:  { intro: 8, verse: 8, chorus: 8, bridge: 8, instrumental: 8, outro: 8 },
+      material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
+                  instrumental: "A", outro: "A" },
+      /* THERE IS NO DRUM KIT IN THIS SCORE, and this is the honest way to say so
+         rather than the workaround the research had to propose: a near-silent
+         bell kit that is "papering, not design". Since form.roles moved into the
+         table, a genre can simply never ask for drums, and this one never does.
+         What the instrument list documents is gamelan and tubular bells, which
+         are colour, not a kit -- and colour with no lane to live in is better
+         left out than faked. [corpus:wikipedia BR soundtrack instrument list] */
+      roles: {
+        intro:        ["keys"],
+        verse:        ["keys", "bass", "lead"],
+        chorus:       ["keys", "bass", "lead", "counter"],
+        bridge:       ["keys", "bass"],
+        instrumental: ["keys", "bass", "lead"],
+        outro:        ["keys", "bass"],
+      },
+      coldOpen:  0.08,        // [EAR] a cue fades up out of atmosphere first
+      openVerse: 0.85,        // [EAR] the drone, then the theme
+      /* 32-72 bars. At 60 bpm one bar is 4 s, so that is 2:08-4:48 -- Main Titles
+         is 3:42, Tears in Rain 3:00. [corpus:wikipedia track listing] */
+      target:    [32, 5, 8],
+      /* these cues state and restate; they rarely go anywhere, so the table is
+         weighted toward return and the bridge is weak. No corpus of Vangelis cue
+         forms exists that the researcher could find. Every weight here is [EAR]
+         and it would be dishonest to present them otherwise. */
+      transitions: {
+        verse:        [["chorus", 5], ["verse", 3], ["instrumental", 2], ["bridge", 1]],
+        chorus:       [["verse", 6], ["instrumental", 3], ["chorus", 2], ["bridge", 1]],
+        bridge:       [["chorus", 6], ["verse", 4]],
+        instrumental: [["verse", 5], ["chorus", 5]],
+      },
+      bridgeAfterChorus: { verse: 2, chorus: 2 },
+      /* the gain formula is (0.72 + 0.28*energy), so this column only spans
+         0.82-0.99 of full. That is correct: this score's dynamics live in the
+         filter and the reverb, not in note velocity. [EAR] */
+      energy: { intro: 0.35, outro: 0.30, bridge: 0.55, instrumental: 0.50,
+                chorus: 0.82, chorusPeak: 0.95, verse: 0.62 },
+    },
+
+    /* one event per bar is the whole point [corpus:theconversation] */
+    pocket: [[[0], 6], [[0, 8], 3], [[0, 6], 1]],
+    /* the kit is never asked for by any role above; these exist so that a lookup
+       cannot return undefined, and so the seam battery has something to read. */
+    kit: {
+      snare: [], hatEvery: 16, hatVel: 0.14, ghostChance: 0, ghostSpots: [8],
+      openSpot: [[-1, 10]], openBars: [],
+      toms: { use: 0, loop: 0, loopSpots: [14], loopLanes: ["tom3"],
+              shapes: [[[[14, "tom3"]], 1]] },
+      kickKeep: 1, flourishBar: 3, flourish: [[[], 10]],
+      variants: { main: {}, lift: { hatVel: 0.20 }, depart: { kickKeep: 0, hatVel: 0.08 } },
+    },
+    /* Tears in Rain is "call-and-response between Rhodes and CS-80"
+       [corpus:alijamieson]. Response, not doubling: sparse, low, contrary. */
+    counter: { style: "line", density: 0.28, intervals: [-2, -4, -5, -7], octaves: [-12, 12] },
+    sevenths: false,          // the documented vertical writing is plain triads
+    /* THE SPARSEST TABLE IN THE FILE, and the reason this field exists at all.
+       One or two notes a bar, landing on the downbeat and the half-bar. */
+    theme: { count: { hooky: [2, 2], breath: [1, 1], normal: [1, 2] },
+             onsetPool: [[0, 8], [8, 5], [4, 2], [12, 2], [6, 1], [10, 1]] },
+    /* WHAT IS ACTUALLY DOCUMENTED, by record: Blade Runner Blues is "just two
+       chords, F#m and D" = i-VI, held far longer than a bar each; the Love Theme
+       is "repetition of the IV and I chords for the first eight bars"; Main
+       Titles is E major moving to B at bars 7-8. Repeating a degree is how this
+       architecture slows harmonic rhythm, so every entry does.
+       [corpus:alijamieson] Chord-detection sites were NOT used: three chordu
+       uploads of the same Main Titles disagreed with each other. */
+    progressions: {
+      minor:    [[[0,0,5,5], 6], [[0,0,3,3], 3], [[0,5,0,5], 2], [[0,0,6,6], 2]],
+      major:    [[[3,0,3,0], 6], [[0,0,3,3], 4], [[0,0,4,4], 2], [[0,3,1,4], 2]],
+      dorian:   [[[0,0,3,3], 5], [[0,3,0,3], 3], [[0,0,6,6], 2]],
+      phrygian: [[[0,0,1,1], 5], [[0,1,0,1], 3], [[0,0,6,6], 2]],
+      lydian:   [[[0,0,1,1], 4], [[0,1,0,1], 3], [[0,0,4,4], 2]],
+    },
+    bridgeProgressions: {
+      minor:    [[[3,3,5,5], 3], [[5,5,3,3], 2], [[6,6,3,3], 2]],
+      major:    [[[3,3,4,4], 3], [[1,1,4,4], 2], [[5,5,3,3], 2]],
+      dorian:   [[[3,3,0,0], 3], [[6,6,3,3], 2]],
+      phrygian: [[[1,1,6,6], 3], [[6,6,1,1], 2]],
+      lydian:   [[[1,1,4,4], 3], [[4,4,1,1], 2]],
+    },
+    /* the Prophet-10 drone at the bottom, the VP-330 bed wide in the low middle,
+       the CS-80 brass singing high above everything. [corpus:nemostudios br03
+       gear list; the MIDI numbers are [EAR]] */
+    registers: { bass: [33, 45], keys: [48, 72], counter: [55, 74], bassWalk: [33, 47],
+                 themeA: [69, 89], themeB: [72, 92], themeC: [64, 84] },
+
+    groove: {
+      styles:     [["even", 10]],   // no click track; "dilla" is meaningless here
+      swing:      [1.0, 0.0],       // dead straight [corpus:nemostudios, free time]
+      swingUnit:  2,
+      snareEarly: [0, 0],
+      kickLate:   [0, 0],
+      hatMul:     1,
+      /* +/-38 ms. THE WEAKEST NUMBER IN THIS TABLE and it is the wrong SHAPE for
+         what it stands in for: real rubato is correlated across a phrase and
+         this is independent per note. It is a stand-in for a tempo map the
+         architecture has not got. [EAR, and flagged as such in the research] */
+      jitter:     { dilla: 0.038, even: 0.038 },
+      push:       0.014,
+    },
+    /* bassArtic multiplies duration in stage 5, which is the stage that owns it.
+       dur 16 x 4.0 at 60 bpm is 16 seconds of one note -- that is what "drone"
+       means, and it is why bassStyle "drone" does not restrike an unchanged
+       chord. [theory] */
+    touch: { bassArtic: [[3.0, 3], [4.0, 5], [5.0, 2]], strum: [0.035, 0.045] },
+    accent: {
+      kick:  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      snare: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      ghost: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      hat:   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      tom1:  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      tom2:  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      tom3:  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      openhat:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    },
+    /* THE LEXICON. Five seconds against every other genre's 1.4, a slower tail
+       (a hall, not a room), a darker one, the send high-pass dropped from 200 Hz
+       to 80 so the drone is IN the wash, and the bass bus feeding it -- because
+       in this score nothing is dry. The 224's quoted decay range is 2-75 s and
+       Vangelis was an early user of the long settings; 5.0 is a pick inside a
+       documented range, not a measurement of any cue, and that citation was read
+       as a search summary rather than fetched. Weakest link in the table.
+       [corpus:valhalladsp, flagged UNCERTAIN in the research] */
+    space: { wet: 0.42, irSec: 5.0, tailPow: 1.6, tailDark: 0.50, sendHp: 80,
+             feeds: ["bass"] },
+    kick: { tune: 54, decay: 0.24, click: 0.20, drive: 0.10, body: 1, gain: 0.60 },
+    drumDrive: 1.0,
+    gate: null,
+    /* no ribbon GESTURE by default -- the identifying pitch move in this score is
+       the initial bend on every note, which is a panel setting and lives in
+       `params` below. The ribbon is the other hand, and Reverb Machine documents
+       it at the END of Tears in Rain, not throughout. */
+    ribbon: { chance: 0.10, semitones: [5, 7], secs: [0.35, 0.25],
+              at: [0.55, 0.30], returns: 0.15, down: true },
+    bassStyle: "drone",
+    bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },   // unused by "drone"
+    bassAccent: { accent: 0, slide: 0 },      // a drone has nothing to accent
+    ostinato: null,
+
+    machines: { drums: [["auto", 1]], bass: [["auto", 1]],
+                keys: [["auto", 6], ["mellotron", 3], ["cs80", 2]] },
+    params: {
+      /* ═══ THE ONE LINE THAT NAMES THE GENRE ═══
+         initBend 1.0 = every note starts a semitone flat and slides up, scaled
+         by strike velocity. V.cs80 has had this control since the CS-80 was
+         built and no genre had ever switched it on.
+         [corpus:cs80.com/tour + corpus:soundonsound + corpus:arturia manual] */
+      cs80:  { initBend: 1.00, bright: 0.44, res: 0.42, ring: 0.10, ens: 0.62, vib: 0.72 },
+      vp330: { ens: 0.72, choir: 0.55, attack: 1.10, release: 3.20 },
+      drone: { cut: 340, res: 3.6, detune: 0.62 },
+      rhodes:{ bark: 0.38, wow: 0.0018, tone: 0.88 },
+      mellotron: { voice: 2, wow: 0.0055, flutter: 0.30, hiss: 0.22, tapeEnd: 1 },
+    },
+    /* the movement is SLOW here -- a cue breathes over sixteen bars, it does not
+       sweep over two. No plocks and no gestures: this music has no fills to
+       gesture into. */
+    motion: {
+      cs80: {
+        bright: [{ kind: "section", by: { intro: [-0.14, -0.06], chorus: [0.05, 0.12],
+                                          bridge: [-0.10, -0.03], outro: [-0.18, -0.10] } },
+                 { kind: "lfo", bars: [[32, 4], [16, 2]], depth: [0.02, 0.06], shape: "sin" }],
+        ens:    [{ kind: "lfo", bars: [[32, 3], [16, 1]], depth: [0.03, 0.08],
+                   shape: "sin", freePhase: true }],
+      },
+      vp330: {
+        ens:   [{ kind: "lfo", bars: [[32, 3], [16, 2]], depth: [0.05, 0.12], shape: "sin" }],
+        choir: [{ kind: "section", by: { chorus: [0.06, 0.16], bridge: [-0.12, -0.04],
+                                         outro: [-0.14, -0.06] } }],
+      },
+      drone: {
+        cut: [{ kind: "section", by: { intro: [-90, -40], chorus: [60, 190],
+                                       outro: [-120, -60] } },
+              { kind: "lfo", bars: [[32, 4], [16, 1]], depth: [25, 80], shape: "tri" }],
+      },
+    },
+  },
+
+  /* ═════════════════════════════════════════════════════════════════════════
+     ACID HOUSE — GENRE 5. From docs/genre-research/acid.md.
+
+     The tempo band is a hull of NAMED RECORDS, so it can be argued with:
+     Voodoo Ray 118, Acid Tracks 120 (cut from a ~128 demo and slowed by
+     Marshall Jefferson so Chicago DJs could open with it), Attack Magazine's
+     Armando dissection 122, No Way Back 125, Acperience 1 125 (three TB-303s
+     and a 909), Higher State of Consciousness 126 (two stock 303s and a 909).
+
+     THE FINDING THAT SHAPES THE WHOLE TABLE: acid house is a ONE-CHORD genre.
+     Wikipedia calls it minimalist, emphasising "texture over melody", with the
+     variation produced by filter, accent and slide "in otherwise simple bass
+     patterns". Davis's peer-reviewed content analysis of the Acid Pattern
+     community found "very few patterns were more than 1 bar". So the harmony is
+     a drone and the MOVEMENT IS IN THE KNOBS -- which is exactly what the motion
+     tables were built for. Writing anything richer into `progressions` would be
+     fabricating a genre trait to fill a field.
+     [corpus:wikipedia/Acid_house, corpus:tenor2019, corpus:attackmagazine,
+      corpus:musicradar, corpus:archive.org TB-303 owner's manual]
+     ═════════════════════════════════════════════════════════════════════════ */
+  acid: {
+    label: "acid house",
+    tempo: [118, 128],
+    /* No measured mode distribution exists and one will not be invented. What is
+       documented is that mode barely matters here. minor dominates because every
+       description of the genre reaches for "dark"; phrygian earns its share
+       because a 303 line is written by walking semitones off a root and the b2 is
+       the first neighbour you hit. major is weight 0 -- the draw still runs, it
+       just never wins [Law 7]. All [EAR]. */
+    modes: [["minor", 6], ["phrygian", 3], ["dorian", 1], ["major", 0]],
+    rig: [["box", 1]],
+    keysChar: [["rhodes", 1]],               // dead draw; there is no e-piano here
+    tape: { wow: [0.0002, 0.0003], crackle: [0.0015, 0.0015] },  // Trax pressings [EAR]
+
+    form: {
+      /* 16s and 32s, not 4s and 8s: with lofi's section lengths you cannot build
+         a nine-minute record inside stage 2's ten-section guard. Acperience is
+         ~9:00, Spastik ~9:00, Acid Tracks 12:16. [corpus:fazemag, corpus:wikipedia] */
+      lengths:  { intro: 16, verse: 32, chorus: 32, bridge: 16, instrumental: 32, outro: 16 },
+      material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
+                  instrumental: "Avar", outro: "A" },
+      roles: {
+        intro:        ["drums"],
+        verse:        ["drums", "bass"],
+        chorus:       ["drums", "bass", "lead"],
+        bridge:       ["bass", "keys"],          // THE BREAKDOWN: the kick leaves
+        instrumental: ["drums", "bass", "lead"],
+        outro:        ["drums", "bass"],
+      },
+      /* acid records are DJ tools: they open on drums so they can be mixed in.
+         A cold open is close to disqualifying. [corpus:fazemag, corpus:attackmagazine] */
+      coldOpen:  0.05,
+      openVerse: 0.95,
+      target:    [128, 5, 32],   // 128-256 bars = 4:10-8:20 at the median 123
+      /* verse->verse carries the top weight ON PURPOSE: an acid record states the
+         same 32 bars four or five times running and the change is in the knobs.
+         Stage 2's rule of three still forbids a THIRD consecutive statement, so
+         the table alternates into `instrumental`, which maps to Avar -- the same
+         music with its second half redrawn. That is this architecture's honest
+         answer to a genre built on repetition, and it is a compromise, not a
+         match. [EAR] */
+      transitions: {
+        verse:        [["verse", 5], ["instrumental", 4], ["chorus", 4], ["bridge", 2]],
+        chorus:       [["verse", 4], ["instrumental", 3], ["bridge", 4], ["chorus", 3]],
+        bridge:       [["chorus", 7], ["verse", 3]],
+        instrumental: [["verse", 5], ["chorus", 5]],
+      },
+      bridgeAfterChorus: { verse: 1, chorus: 1 },
+      /* the breakdown is the QUIETEST thing in the record -- quieter than the
+         intro -- because the kick leaves. [EAR] */
+      energy: { intro: 0.45, outro: 0.40, bridge: 0.42, instrumental: 0.72,
+                chorus: 0.94, chorusPeak: 1.00, verse: 0.80 },
+    },
+
+    /* four-on-the-floor, "on all four quarter-note beats (16th steps 1,5,9,13)"
+       = 0-indexed 0,4,8,12 [corpus:attackmagazine + corpus:wikipedia] */
+    pocket: [[[0, 4, 8, 12], 9], [[0, 4, 8, 12, 14], 1]],
+    kit: {
+      /* THE CLAP, on 2 and 4: "the claps sit on the 2nd and 4th beat of every
+         bar ... program it to play on steps 5 and 13" [corpus:attackmagazine].
+         The box rig sends this lane to V.clap, not V.snare, and the difference
+         is the record: a tuned snare shell on 2 and 4 is a rock kit. */
+      snare: [4, 12],
+      hatEvery: 2,             // 8ths as the base, 16ths in the lift [EAR, a coin-flip
+                               // the sources could not settle]
+      hatVel: 0.58,
+      /* the rimshot "fills in spaces between the main kick and open hi-hat hits,
+         catching them only occasionally" [corpus:attackmagazine for the concept] */
+      ghostChance: 0.45,
+      ghostSpots: [3, 7, 11, 15, 6, 14],
+      /* THE OFFBEAT OPEN HAT -- the second most identifying element after the
+         303 itself. MK2 can place one open hat per bar, so this is a weighted
+         draw over WHICH offbeat; the genre wants all four and cannot have them.
+         Said out loud rather than hidden. [corpus:attackmagazine, corpus:gearspace] */
+      openSpot: [[2, 4], [6, 3], [10, 2], [14, 3]],
+      openBars: [0, 1, 2, 3],  // every bar, not a sometimes-thing
+      /* an 808 has toms and acid house barely reaches for them: the fill in this
+         music is a filter, not a drum. */
+      toms: { use: 0.12, loop: 0.05, loopSpots: [14, 15], loopLanes: ["tom2", "tom3"],
+              shapes: [[[[12, "tom1"], [14, "tom2"]], 3], [[[14, "tom3"], [15, "tom3"]], 2]] },
+      kickKeep: 4,
+      /* "the first tambourine hit coming in on the last 16th-note of the third
+         bar" = bar index 2, step 15 [corpus:attackmagazine] */
+      flourishBar: 2,
+      flourish: [[[15], 5], [[14, 15], 3], [[], 2]],
+      variants: {
+        main:   {},
+        lift:   { hatEvery: 1, ghostChance: 0.70, hatVel: 0.64 },
+        /* THE BREAKDOWN: the kick LEAVES and the hats and the acid stay. */
+        depart: { kickKeep: 0, snare: [], hatEvery: 2, ghostChance: 0.20,
+                  openBars: [1, 3], flourish: [[[], 1]] },
+      },
+    },
+    /* THE SECOND 303. Hardfloor ran three on Acperience 1; Josh Wink ran two on
+       Higher State. A second acid line is not a countermelody -- it is the same
+       instrument an octave or a fifth away, sounding on some of the notes.
+       [corpus:fazemag, corpus:articles.roland.com] */
+    counter: { style: "line", density: 0.35, intervals: [-7, 7, 4, -4], octaves: [-12, 12] },
+    sevenths: false,
+    theme: { count: { hooky: [3, 2], breath: [2, 2], normal: [2, 3] },
+             onsetPool: [[0,5],[2,4],[4,4],[6,4],[8,4],[10,4],[12,4],[14,4]] },
+    progressions: {
+      minor:    [[[0,0,0,0], 8], [[0,0,0,6], 2], [[0,0,5,0], 1]],
+      phrygian: [[[0,0,0,0], 8], [[0,0,1,0], 2]],
+      dorian:   [[[0,0,0,0], 8], [[0,0,3,0], 2]],
+      major:    [[[0,0,0,0], 1]],
+    },
+    /* the breakdown's departure is TIMBRAL, not harmonic -- you close the filter,
+       you do not modulate. These exist because stage 3 demands the field and are
+       deliberately near-identity. */
+    bridgeProgressions: {
+      minor:    [[[0,0,0,0], 6], [[5,5,0,0], 2]],
+      phrygian: [[[0,0,0,0], 6], [[1,1,0,0], 2]],
+      dorian:   [[[0,0,0,0], 6], [[3,3,0,0], 2]],
+      major:    [[[0,0,0,0], 1]],
+    },
+    /* bass [33,57] is the 303's own working range -- low, but played with the
+       cutoff open so it reads as a lead. [EAR for the MIDI numbers] */
+    registers: { bass: [33, 57], keys: [52, 74], counter: [45, 69], bassWalk: [33, 51],
+                 themeA: [57, 81], themeB: [57, 81], themeC: [57, 81] },
+
+    groove: {
+      /* the 303's sequencer is a rigid 16-step grid -- the manual: "4 steps x 4
+         beats = 16 steps". A drum machine does not play behind the beat. */
+      styles:     [["even", 10], ["dilla", 0]],
+      swing:      [1.0, 0.12],    // base straight; the range reaches a light 909 shuffle [EAR]
+      swingUnit:  1,
+      snareEarly: [0, 0],
+      kickLate:   [0, 0],
+      hatMul:     1.0,
+      jitter:     { even: 0.0012, dilla: 0.0012 },   // [GUESS] -- nobody measured a 909's clock
+      push:       0,
+    },
+    /* THE 303 GATE: a regular gate is "approximately 3 clock pulses plus the
+       positive portion of a fourth -- shorter than a full step to create
+       staccato feel", about 7/8 of a step. 1.0 is the TIED note.
+       [corpus:olney.ai ct-modular-book ch.13] */
+    touch: { bassArtic: [[0.85, 8], [1.0, 2]], strum: [0, 0] },
+    accent: {
+      kick:  [1.00,0.90,0.90,0.90,1.00,0.90,0.90,0.90,1.00,0.90,0.90,0.90,1.00,0.90,0.90,0.90],
+      snare: [0.92,0.86,0.86,0.86,1.00,0.86,0.86,0.86,0.92,0.86,0.86,0.86,1.00,0.86,0.86,0.86],
+      ghost: [0.92,0.86,0.86,0.86,1.00,0.86,0.86,0.86,0.92,0.86,0.86,0.86,1.00,0.86,0.86,0.86],
+      hat:   [1.00,0.84,0.90,0.84,0.94,0.84,0.90,0.84,1.00,0.84,0.90,0.84,0.94,0.84,0.90,0.84],
+      tom1:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
+      tom2:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
+      tom3:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
+      openhat:[1.00,0.84,0.90,0.84,0.94,0.84,0.90,0.84,1.00,0.84,0.90,0.84,0.94,0.84,0.90,0.84],
+    },
+    /* A DRY GENRE. The 303 goes through DISTORTION and a delay, not a hall --
+       Attack's acid chain is EQ, tube saturation, dotted-eighth delay, then two
+       reverbs with the low end rolled off. There is no delay in this program, so
+       this number is standing in for less than it should.
+       [corpus:musicradar, corpus:attackmagazine] */
+    space: { wet: 0.10 },
+    kick: { tune: 47, decay: 0.55, click: 0.70, drive: 0.55, body: 1.05, gain: 1.20 },
+    drumDrive: 1.35,
+    gate: null,                  // acid house is not a gated-reverb genre
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, down: false },
+    bassStyle: "acid",
+    bassPulse: { unit: 1, rootBias: 1, octaveJump: 0, restChance: 0 },   // unused by "acid"
+    /* THE TWO SWITCHES ON EVERY STEP OF THE BOX. "Don't overdo it with ties,
+       slides and octave jumps -- a simple, repetitive pattern livened up with one
+       or two flourishes often works better": one or two out of ten to thirteen
+       notes is 0.10-0.20. The accent share is [GUESS]; the mechanism is fully
+       documented. [corpus:musicradar, corpus:archive.org manual] */
+    bassAccent: { accent: 0.28, slide: 0.15 },
+    acidLine: {
+      grid: 1,                   // sixteenths [corpus:archive.org manual]
+      density: [9, 13],          // notes per 16 steps [GUESS on the count, near-continuous is the shape]
+      distinctPitches: [3, 2],   // THREE OR FOUR [corpus:techno-music.com / musictech]
+      degreePool: [[0, 12], [3, 5], [4, 3], [6, 3], [2, 2], [1, 2], [5, 1]],
+      rootShare: 0.45,           // [GUESS]
+      octaveUp: 0.12, octaveDown: 0.06,   // the octave buttons [corpus:archive.org manual]
+    },
+    ostinato: null,
+
+    machines: { drums: [["auto", 6], ["tr808", 4]],
+                bass:  [["auto", 7], ["tb303", 3]],
+                keys:  [["auto", 1]] },
+    params: {
+      tb303: { cutoff: 420, res: 13.0, envmod: 0.70, decay: 0.42,
+               accent: 0.80, drive: 3.4, wave: 0 },
+      tr808: { tune: 47, decay: 0.52, tone: 0.62, snappy: 0.70, sdtone: 0.55,
+               chdecay: 0.042, ohdecay: 0.48, bus: 1.35, gate: 0, hold: 0.150 },
+      wash:  { cut: 780 },
+    },
+    /* WIKIPEDIA'S DEFINITION OF THE GENRE IS LITERALLY THIS MOVE: the sound is
+       created "by raising the filter resonance and lowering the cutoff frequency
+       of the synthesizer". Without it you have the notes of acid house and none
+       of acid house -- which is why the widest cutoff automation in the file is
+       here rather than in synthwave. */
+    motion: {
+      tb303: {
+        cutoff: [
+          { kind: "section", by: { intro: [-260, -160], verse: [-120, 120],
+                                   chorus: [520, 1500], bridge: [-300, -180],
+                                   instrumental: [240, 900], outro: [-300, -180] } },
+          { kind: "lfo", bars: [[16, 4], [32, 3], [8, 2]], depth: [180, 620], shape: "tri" },
+          { kind: "plock", density: [0.14, 0.30], amt: [300, 1800] },
+          { kind: "gesture", on: "fill", bars: 2, from: [0, 0], to: [1100, 2600], curve: "exp" },
+        ],
+        res:   [{ kind: "section", by: { chorus: [1.5, 4.0], bridge: [-3.0, -1.0],
+                                         instrumental: [0.5, 2.5] } },
+                { kind: "lfo", bars: [[32, 2], [16, 1]], depth: [0.5, 1.8], shape: "sin" }],
+        decay: [{ kind: "plock", density: [0.12, 0.24], amt: [-0.12, 0.20] }],
+        drive: [{ kind: "section", by: { chorus: [0.4, 1.2], bridge: [-0.8, -0.3] } }],
+      },
+      tr808: {
+        ohdecay: [{ kind: "lfo", bars: [[16, 2], [32, 1]], depth: [0.05, 0.14],
+                    shape: "sin", freePhase: true }],
+        snappy:  [{ kind: "plock", density: [0.10, 0.22], amt: [-0.16, 0.20] }],
+        decay:   [{ kind: "section", by: { chorus: [0.08, 0.20], bridge: [-0.25, -0.12] } }],
+      },
+      wash: { cut: [{ kind: "section", by: { bridge: [180, 520], chorus: [-120, -40] } }] },
+    },
+  },
+
+  /* ═════════════════════════════════════════════════════════════════════════
+     PLASTIKMAN — GENRE 6. Richie Hawtin, 1993-2003. From
+     docs/genre-research/minimal.md, which is the only one of the seven whose
+     tempo and length figures were MEASURED this session rather than cited:
+     durations from the MusicBrainz web service, BPM from AcousticBrainz over
+     n=49 recordings across Sheet One / Musik / Consumed / Closer / Artifakts.
+
+     Medians by record: Sheet One 127.8, Closer 128.0, Consumed 122.0,
+     Artifakts 125.1, Spastik 126.3. Musik measures 106.9 and is deliberately
+     NOT averaged in -- it is a different tempo animal and would only blur the
+     band. Helikopter (137.9) and Locomotion (150.4) excluded for the same reason.
+
+     A MEASUREMENT THAT SAYS "DO NOT MEASURE THIS": Essentia's key detector split
+     42 tracks minor 22 / major 20 at a median key strength of 0.55 -- i.e. there
+     is no functional harmony present to detect. So the progressions are a drone
+     and the mode weights are a stated taste call, not a corpus statistic.
+
+     THE GENRE'S OWN LAW, and the single most important line in its table:
+     lofi's flourishBar 3 states a figure three times and answers on the fourth.
+     This music exists to refuse that. flourishBar is -1, which is out of range
+     for a bar index, so the branch never fires. Nothing is ever answered.
+     [corpus:mb+ab measured, corpus:hawtin MusicRadar 2016 + RBMA 2013,
+      corpus:attack "Beat Dissected: Spastik-Style Percussive Techno"]
+     ═════════════════════════════════════════════════════════════════════════ */
+  plastikman: {
+    label: "minimal techno (Plastikman)",
+    tempo: [120, 132],
+    modes: [["minor", 6], ["phrygian", 3], ["dorian", 1]],
+    rig: [["plastik", 1]],
+    keysChar: [["rhodes", 1]],               // dead draw; the plastik rig sends keys to the wash
+    tape: { wow: [0, 0], crackle: [0, 0] },  // no tape patina [EAR]
+
+    form: {
+      lengths:  { intro: 32, verse: 32, chorus: 32, bridge: 16, instrumental: 32, outro: 16 },
+      /* chorus maps to A as well: this genre has no hook and B is a hook by
+         construction, so asking for one would import a gesture the music
+         refuses. The only material that ever differs is Avar. */
+      material: { intro: "A", verse: "A", chorus: "A", bridge: "C",
+                  instrumental: "Avar", outro: "A" },
+      roles: {
+        intro:        ["drums"],
+        verse:        ["drums", "ostinato", "bass"],
+        chorus:       ["drums", "ostinato", "bass", "keys"],
+        bridge:       ["ostinato", "keys"],
+        instrumental: ["drums", "ostinato", "bass", "keys"],
+        outro:        ["drums", "ostinato"],
+      },
+      /* "getting the machines running, and then jamming out live" -- the track is
+         already going when the record starts. [corpus:hawtin] */
+      coldOpen:  0.85,
+      openVerse: 1.0,           // there is no chorus to open on
+      /* MEASURED: n=42 tracks over three minutes, median 233 bars, quartiles
+         156/233/332. 160-288 is that interquartile range snapped to the 32-bar
+         grid this music is built on, inside stage 2's ten-section guard.
+         [corpus:mb+ab] */
+      target:    [160, 5, 32],
+      /* the genre wants ONE function repeated and stage 2's rule of three
+         forbids a third consecutive statement. The honest encoding is to
+         alternate between two functions that map to nearly the same music --
+         verse and instrumental, A and Avar. It is a compromise with the
+         architecture and it is written down as one rather than hidden. */
+      transitions: {
+        verse:        [["instrumental", 8], ["verse", 6], ["chorus", 3], ["bridge", 1]],
+        instrumental: [["verse", 9], ["chorus", 3], ["instrumental", 2]],
+        chorus:       [["verse", 7], ["instrumental", 4]],
+        bridge:       [["verse", 10]],
+      },
+      bridgeAfterChorus: { verse: 2, chorus: 2 },
+      /* deliberately half of lofi's range: a section that gets LOUDER is a pop
+         gesture, and this music's changes are timbral. [EAR, but principled] */
+      energy: { intro: 0.80, outro: 0.72, bridge: 0.70, instrumental: 0.88,
+                chorus: 0.92, chorusPeak: 0.96, verse: 0.86 },
+    },
+
+    pocket: [[[0, 4, 8, 12], 9], [[0, 4, 8, 12, 15], 1]],
+    kit: {
+      /* NO BACKBEAT SNARE. "I always liked to have two different types of claps,
+         and I was always into really small rimshots" -- and Spastik's snare is a
+         32nd-note roll, not a backbeat. An empty array is the honest encoding;
+         the one added hit lives in `lift`. [corpus:hawtin, corpus:attack] */
+      snare: [],
+      hatEvery: 1,             // "a closed 909 hat plays all four 16th-notes per
+                               // quarter-bar" [corpus:attack]
+      hatVel: 0.55,
+      /* a per-bar random extra hit is precisely the bar-to-bar variation this
+         music refuses. Zero -- and the draw still runs [Law 7]. */
+      ghostChance: 0.0,
+      ghostSpots: [3, 7, 11, 15],
+      openSpot: [[14, 4], [6, 3], [2, 2], [10, 1]],
+      openBars: [0, 1, 2, 3],
+      toms: { use: 0.05, loop: 0.02, loopSpots: [15], loopLanes: ["tom3"],
+              shapes: [[[[15, "tom3"]], 1]] },
+      kickKeep: 4,
+      /* ── THE LINE THIS GENRE IS ABOUT ── */
+      flourishBar: -1,
+      flourish: [[[], 1]],
+      variants: {
+        main:   {},
+        /* the lift is ONE added hit and nothing else changes. [corpus:hawtin] */
+        lift:   { snare: [12], hatVel: 0.60 },
+        /* "a year of subtraction" -- a minimal-techno breakdown REMOVES; it never
+           rewrites. [corpus:hawtin on Consumed] */
+        depart: { hatEvery: 2, openBars: [], kickKeep: 4 },
+      },
+    },
+    /* the counter should sound like a delay tail, not a duet [EAR] */
+    counter: { style: "line", density: 0.22, intervals: [-7, -4, -3], octaves: [-12, 12] },
+    sevenths: false,
+    /* there is barely a tune here at all: the melodic interest is the ostinato,
+       which repeats identically, and the theme is an occasional event over it. */
+    theme: { count: { hooky: [2, 1], breath: [1, 1], normal: [1, 2] },
+             onsetPool: [[0, 4], [4, 3], [8, 4], [12, 3], [2, 1], [10, 1]] },
+    /* STATIC HARMONY: degree 0 for all four bars is one chord for the whole
+       record. Justified by the key measurement above and by "sometimes my
+       melodies are more rhythmical than musical". The rare non-tonic bar is a
+       single drone move, never a cadence. [corpus:hawtin] */
+    progressions: {
+      minor:    [[[0,0,0,0], 8], [[0,0,0,5], 2], [[0,0,5,0], 1]],
+      phrygian: [[[0,0,0,0], 9], [[0,0,1,0], 1]],
+      dorian:   [[[0,0,0,0], 9], [[0,0,3,0], 1]],
+    },
+    /* there is no departure. Same drone, so C cannot leave home. */
+    bridgeProgressions: {
+      minor:    [[[0,0,0,0], 1]],
+      phrygian: [[[0,0,0,0], 1]],
+      dorian:   [[[0,0,0,0], 1]],
+    },
+    /* "Many of the 303 lines were pitched up an octave" -- so the acid line sits
+       ABOVE the pad in the ostinato register, while a separate deep sub holds the
+       bottom (Consumed is "driven largely by deep, rumbling basslines").
+       themeB == themeA == themeC deliberately: no hook register lift.
+       [corpus:hawtin, Wikipedia/AllMusic] */
+    /* THE FIRST DRAFT PUT THE OSTINATO AT [55,79] AGAINST A COMP AT [48,67] and
+       120 seeds said no: with a one-chord progression the same three pitch
+       classes are reserved in every bar, and a sixteen-step acid cell sitting on
+       top of the comp's own nineteen semitones left the voicer nowhere legal to
+       put a chord at all -- "no keys voicing fits" on seeds 4, 8 and 12. The
+       overlap was the bug and the research already said so: "many of the 303
+       lines were pitched up an octave", ABOVE the pad, not through it. Widening
+       the comp and lifting the cell clear fixes it by describing the record
+       correctly rather than by loosening a check. [corpus:hawtin] */
+    registers: { bass: [28, 43], keys: [48, 72], counter: [55, 74], bassWalk: [28, 43],
+                 ostinato: [67, 86],
+                 themeA: [64, 84], themeB: [64, 84], themeC: [64, 84] },
+
+    groove: {
+      styles:     [["even", 10]],
+      /* the 909 manual: shuffle setting 1 "gives no effect". Attack lists
+         Spastik's swing as "Manual" -- individual 32nds nudged by hand, not a
+         global shuffle. So: straight, with a small range. [corpus:roland] */
+      swing:      [1.00, 0.06],
+      swingUnit:  1,
+      snareEarly: [0, 0],
+      kickLate:   [0, 0],
+      hatMul:     1.0,
+      jitter:     { even: 0.0015, dilla: 0.0015 },
+      push:       0,
+      /* THE GROOVE SOURCE FOR THIS GENRE, and the reason laneLean exists: "I
+         would let each machine go... Each one had its own processor and
+         interpretation of timing that somehow created the funk or feeling of
+         tracks like Gak." A fixed offset per machine, identical every bar --
+         which is what makes it feel rather than sloppiness. The SHAPE is
+         Hawtin's; the milliseconds are [EAR]. [corpus:hawtin] */
+      laneLean:   { kick: 0.000, hat: 0.0035, openhat: -0.0025,
+                    ghost: 0.0060, snare: 0.0040 },
+    },
+    touch: { bassArtic: [[3.0, 5], [4.0, 3], [2.0, 2]], strum: [0, 0] },
+    accent: {
+      kick:  [1.00,0.92,0.92,0.92,1.00,0.92,0.92,0.92,1.00,0.92,0.92,0.92,1.00,0.92,0.92,0.92],
+      snare: [0.94,0.90,0.90,0.90,0.98,0.90,0.90,0.90,0.94,0.90,0.90,0.90,0.98,0.90,0.90,0.90],
+      ghost: [0.94,0.90,0.90,0.90,0.98,0.90,0.90,0.90,0.94,0.90,0.90,0.90,0.98,0.90,0.90,0.90],
+      /* almost flat on purpose: a 909 hat pattern that breathes is a drummer */
+      hat:   [1.00,0.90,0.94,0.90,0.96,0.90,0.94,0.90,1.00,0.90,0.94,0.90,0.96,0.90,0.94,0.90],
+      tom1:  [1.00,0.90,0.94,0.90,0.96,0.90,0.94,0.90,1.00,0.90,0.94,0.90,0.96,0.90,0.94,0.90],
+      tom2:  [1.00,0.90,0.94,0.90,0.96,0.90,0.94,0.90,1.00,0.90,0.94,0.90,0.96,0.90,0.94,0.90],
+      tom3:  [1.00,0.90,0.94,0.90,0.96,0.90,0.94,0.90,1.00,0.90,0.94,0.90,0.96,0.90,0.94,0.90],
+      openhat:[1.00,0.90,0.94,0.90,0.96,0.90,0.94,0.90,1.00,0.90,0.94,0.90,0.96,0.90,0.94,0.90],
+    },
+    /* Consumed was "delays and reverbs, and effects more than anything else...
+       an architecture of sound"; Sheet One had "delays on the reverbs, and
+       reverbs on the delays". There is ONE reverb send here and no delay, so
+       this single number is carrying a signature it cannot carry alone -- worth
+       saying rather than pretending the wet control is the sound. The long,
+       dark room is the closest this program gets. [corpus:hawtin] */
+    space: { wet: 0.34, irSec: 3.2, tailPow: 1.8, tailDark: 0.42, sendHp: 140,
+             feeds: ["bass"] },
+    kick: { tune: 46, decay: 0.60, click: 0.55, drive: 0.50, body: 1.10, gain: 1.22 },
+    drumDrive: 1.30,
+    gate: null,
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, down: false },
+    bassStyle: "drone",
+    bassPulse: { unit: 4, rootBias: 1, octaveJump: 0, restChance: 0 },   // unused by "drone"
+    bassAccent: { accent: 0, slide: 0 },
+    /* THE ACID OSTINATO: sixteen steps, a couple of pitches, repeated
+       identically for the whole record and never phrased. That is what the
+       ostinato lane is -- the cell that does not move -- and it is why this
+       genre uses it rather than a theme. "Sometimes my melodies are more
+       rhythmical than musical." [corpus:hawtin] */
+    ostinato: {
+      unit: 2,
+      vel: 0.62,
+      cells: [
+        [[0, 0, 3, 0], 5],       // root-heavy, one neighbour [theory: acid construction]
+        [[0, 6, 0, 3], 4],       // [EAR]
+        [[0, 0, 1, 0], 3],       // the b2 -- the phrygian colour [theory]
+        [[0, 4, 0, 3, 0, 6], 2], // [EAR]
+      ],
+    },
+
+    machines: { drums: [["auto", 6], ["tr808", 4]],
+                bass:  [["auto", 1]],
+                keys:  [["auto", 1]] },
+    params: {
+      tb303: { cutoff: 380, res: 14.0, envmod: 0.66, decay: 0.28,
+               accent: 0.75, drive: 2.8, wave: 1 },
+      tr808: { tune: 46, decay: 0.60, tone: 0.55, snappy: 0.62, sdtone: 0.48,
+               chdecay: 0.038, ohdecay: 0.40, bus: 1.30, gate: 0, hold: 0.150 },
+      drone: { cut: 240, res: 2.4, detune: 0.35 },
+      wash:  { cut: 620 },
+    },
+    /* SLOW AND CONTINUOUS. No gestures and no section jumps worth the name: in
+       this music the filter is always moving and never arrives. The LFO periods
+       are long on purpose -- 32 and 64 bars is 60 to 120 seconds at this tempo,
+       which is the timescale of a Hawtin record rather than of a chorus. */
+    motion: {
+      tb303: {
+        cutoff: [{ kind: "lfo", bars: [[64, 4], [32, 3], [16, 1]], depth: [200, 700],
+                   shape: "tri", freePhase: true },
+                 { kind: "section", by: { bridge: [-160, -60], instrumental: [80, 300] } },
+                 { kind: "plock", density: [0.08, 0.16], amt: [200, 900] }],
+        res:   [{ kind: "lfo", bars: [[64, 3], [32, 2]], depth: [0.8, 2.4],
+                  shape: "sin", freePhase: true }],
+      },
+      tr808: {
+        ohdecay: [{ kind: "lfo", bars: [[32, 3], [64, 2]], depth: [0.04, 0.10],
+                    shape: "sin", freePhase: true }],
+        chdecay: [{ kind: "lfo", bars: [[16, 2], [32, 1]], depth: [0.004, 0.012],
+                    shape: "tri", freePhase: true }],
+      },
+      drone: {
+        cut: [{ kind: "lfo", bars: [[64, 4], [32, 1]], depth: [30, 90],
+                shape: "sin", freePhase: true }],
+      },
+      wash: {
+        cut: [{ kind: "lfo", bars: [[64, 3], [32, 2]], depth: [120, 380],
+                shape: "tri", freePhase: true },
+              { kind: "section", by: { bridge: [200, 520] } }],
       },
     },
   },
@@ -3661,6 +4666,77 @@ function makeMaterials(chart){
        four-on-the-floor kick, which is a different instrument's behaviour wearing
        this genre's tempo. [tut:babyaudio "Arpeggiated Octave Bass"; tut:modeaudio
        "simple, constant root notes to really give that classic driving feel"] */
+    /* THE DRONE. A held root that does not restrike when the chord has not
+       changed -- which is what makes it a drone rather than a very slow bass
+       part. Vangelis's bottom end is a Prophet-10 low drone under a cue that
+       changes chord twice in sixteen seconds; a note per bar would be four times
+       too many events. [corpus:nemostudios br03 gear list, "Prophet 10 (low
+       drones)"] The length comes from touch.bassArtic, which multiplies duration
+       in stage 5 -- so a genre that wants two bars of one note asks for it
+       there, in the stage that owns duration, instead of here. */
+    if(G.bassStyle === "drone"){
+      for(let b = 0; b < BARS; b++){
+        const ch = chordSet[b], deep = rng() < 0.45;         // unconditional [Law 7]
+        if(b > 0 && chordSet[b - 1].degree === ch.degree) continue;
+        notes.push({ bar: b, step: 0, dur: 16, pitch: ch.rootMidi, vel: 0.70, role: "bass" });
+        const low = ch.rootMidi - 12;
+        if(deep && low >= R.bass[0] - 12)
+          notes.push({ bar: b, step: 0, dur: 16, pitch: low, vel: 0.50, role: "bass" });
+      }
+      return notes;
+    }
+    /* THE ACID LINE, and it is a SEQUENCE, not a bass part played on a 303. The
+       construction facts, each sourced, each of which changes the notes:
+         - THE PATTERN IS ONE BAR AND IT REPEATS. [corpus:tenor2019 -- Davis's
+           content analysis of the Acid Pattern community: "very few patterns
+           were more than 1 bar"]
+         - IT USES THREE OR FOUR PITCHES. The single most useful compositional
+           number in the whole acid research: not a range, a count.
+           [corpus:techno-music.com / musictech programming guides -- "choose 3
+           or 4 notes within that scale to create a pattern"]
+         - it is near-continuous sixteenths with a couple of rests, and the root
+           dominates. [corpus:wikipedia "otherwise simple bass patterns"]
+         - the octave buttons are per-step, not per-phrase. [corpus:archive.org
+           TB-303 owner's manual]
+       Accent and slide are deliberately NOT written here. acidize() owns them
+       for every style and already knows the machine's two rules -- a slide is
+       written on the first of the two notes, and a slide cannot cross a rest. */
+    if(G.bassStyle === "acid"){
+      const A = G.acidLine;
+      /* the palette. The tonic is always in it; the rest are drawn, and the
+         draws run a fixed number of times whatever they yield [Law 7]. */
+      const want = A.distinctPitches[0] + Math.floor(rng() * A.distinctPitches[1]);
+      const degs = [0], octs = [0];
+      for(let i = 0; i < 8; i++){
+        const d = wpick(rng, A.degreePool), up = rng() < A.octaveUp, dn = rng() < A.octaveDown;
+        if(degs.length < want && !degs.includes(d)){ degs.push(d); octs.push(up ? 12 : dn ? -12 : 0); }
+      }
+      /* WHICH STEPS SOUND. One draw per step, always, and the quietest `dens` of
+         them win -- rank selection rather than a per-step coin, so the density
+         is the number the table asked for instead of the number it averages to
+         over many bars. Step 0 always sounds. */
+      const dens = A.density[0] + Math.floor(rng() * (A.density[1] - A.density[0] + 1));
+      const roll = [];
+      for(let st = 0; st < 16; st++) roll.push([st, st === 0 ? -1 : rng()]);
+      const on = roll.slice().sort((a, z) => a[1] - z[1]).slice(0, dens)
+                     .map(x => x[0]).sort((a, z) => a - z);
+      const cell = [];
+      for(const st of on){
+        const isRoot = rng() < A.rootShare, wi = Math.floor(rng() * degs.length);
+        const k = isRoot ? 0 : wi;
+        cell.push({ step: st, deg: degs[k], oct: octs[k] });
+      }
+      for(let b = 0; b < BARS; b++){
+        const ch = chordSet[b];
+        for(const c of cell){
+          const base = intoBand(degMidi(root, mode, ch.degree + c.deg), R.bass[0], R.bass[1]);
+          const p = intoBand(base + c.oct, R.bass[0] - 12, R.bass[1] + 12);
+          notes.push({ bar: b, step: c.step, dur: A.grid, pitch: p,
+                       vel: c.step === 0 ? 0.95 : 0.78, role: "bass" });
+        }
+      }
+      return notes;
+    }
     if(G.bassStyle === "pulse"){
       const P = G.bassPulse;
       for(let b = 0; b < BARS; b++){
@@ -3795,7 +4871,16 @@ function makeMaterials(chart){
     const rng = stream(chart.seed, streamName);
     const LO = opts.lo, HI = opts.hi;
     const notes = [], dna = [];
-    const onsetPool = [[0, 5], [2, 3], [4, 4], [6, 3], [8, 4], [10, 3], [12, 4], [14, 3]];
+    /* HOW MANY NOTES A BAR OF TUNE HAS, and where they can land. These were two
+       literals here, which meant every genre got 3-6 melody notes per bar for
+       ever. That is a lofi habit, and for a genre whose whole texture is "longer
+       drawn out notes, rather than thick instrumental combinations" it is not a
+       tuning problem, it is a wall: load a Vangelis table against a hardcoded
+       3-6 and you get a busy lofi tune over a Vangelis pad, which is neither.
+       Moved into the table with every existing genre's values written out, so
+       nothing moved -- the snapshot says so. [corpus:theconversation for why] */
+    const TH = G.theme;
+    const onsetPool = TH.onsetPool;
     /* A seat is only free if the note can ALSO sit in its restatement. The hook
        states bars 0-1 and then repeats them at 2-3 exactly, so a pitch that
        collides two bars later is not a usable pitch NOW -- checking it only at
@@ -3808,8 +4893,8 @@ function makeMaterials(chart){
       let m = intoBand(degMidi(root, mode, 7 + Math.floor(rng() * 3)), LO + 4, HI - 4);
       for(let b = startBar; b < startBar + 2; b++){
         const isBreath = (b === startBar + 1) && !opts.hooky;
-        const count = opts.hooky ? 4 + Math.floor(rng() * 2)
-                    : isBreath ? 1 + Math.floor(rng() * 2) : 3 + Math.floor(rng() * 2);
+        const cnt = opts.hooky ? TH.count.hooky : isBreath ? TH.count.breath : TH.count.normal;
+        const count = cnt[0] + Math.floor(rng() * cnt[1]);
         const steps = [];
         const poolCopy = onsetPool.slice();
         while(steps.length < count && poolCopy.length){
@@ -4199,6 +5284,7 @@ function makeArrangement(chart, form, materials){
 function makePerformance(chart, form, materials, sections){
   const spb = (60 / chart.tempo) / 4;
   const GR = GENRE[chart.genre].groove, TOUCH = GENRE[chart.genre].touch;
+  const LEAN = GR.laneLean || {};
   const ACC = GENRE[chart.genre].accent;
   const rngG = stream(chart.seed, "groove");
   const swingRatio = GR.swing[0] + rngG() * GR.swing[1];
@@ -4296,6 +5382,15 @@ function makePerformance(chart, form, materials, sections){
                           : 1;
           micro += swingWarp(n.step) * swingAmt;
           if(role === "drums") micro += GR.push / spb;
+          /* MACHINE DRIFT. Hawtin on where his groove came from: "I would let
+             each machine go... Each one had its own processor and interpretation
+             of timing that somehow created the funk." That is not jitter --
+             jitter wanders note to note. It is a FIXED offset per machine, the
+             same every bar, which is why it reads as feel instead of sloppiness.
+             snareEarly and kickLate are the two special cases of it this file
+             already had; this is the general form, and a genre that declares
+             none pays nothing. [corpus:hawtin, MusicRadar 2016] */
+          if(LEAN[lane]) micro += LEAN[lane] / spb;
           if(lane === "snare" || lane === "ghost") micro += snareEarly;
           if(lane === "kick" && n.step > 0) micro += kickLate;
           const j = stream(chart.seed, "jit:" + role + ":" + bar + ":" + n.step + ":" + (n.pitch || n.lane));
