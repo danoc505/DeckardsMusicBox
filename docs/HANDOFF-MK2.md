@@ -1,8 +1,9 @@
 # HANDOFF — Deckard's Orchestrator MK2
 
-*Written 2026-07-29 on branch `claude/code-review-6jd9cz`, at commit
-`02906b7`. For whoever picks this up next. Read this whole file before you
-touch the HTML.*
+*Written 2026-07-29 on branch `claude/code-review-6jd9cz`, at commit `02906b7`;
+revised the same day at `077e08b` after the rack was wired to the conductor and
+the five named machines got their real front panels. For whoever picks this up
+next. Read this whole file before you touch the HTML.*
 
 ---
 
@@ -106,28 +107,37 @@ WAV hash can never be the determinism test. The determinism test is the
 Run all of these before you claim anything.
 
 ```bash
-node harness/mk2_test.js                              # 39 seam checks
-node harness/mk2_snapshot.js check harness/mk2_baseline.snap 300
+node harness/mk2_test.js                              # 57 seam checks
+node harness/mk2_snapshot.js check harness/mk2_baseline.snap
 node harness/mk2_roll.js 1                            # THE test that matters
 node harness/mk2_roll.js 1 --song                     # full arrangement
-node harness/mk2_roll.js 1 --mid                      # .mid round-trip check
+node harness/mk2_roll.js 1 --mid out.mid              # .mid round-trip check
+node harness/mk2_ui.js                                # 20 checks, in a browser
 ```
 
-- **`mk2_test.js`** — 39 assertions over composition seams: per-genre loops,
+- **`mk2_test.js`** — 57 assertions over composition seams: per-genre loops,
   "the counter is a line not a harmoniser", "the bridge is a departure", "the
   bass styles differ", "the drummer uses the toms", "the .mid carries every
-  note". Currently **39 passed, 0 failed**.
+  note", plus the rack, the motion and the pins. Currently **57 passed, 0
+  failed**.
 - **`mk2_snapshot.js`** — SHA over every event of every seed. This is how you
-  prove a refactor is a refactor. ⚠️ **Pass `300`** — the baseline holds 300
-  seeds and the script defaults to 200, which reports a false "CHANGED".
-  Current state: `IDENTICAL — 300 seeds, not one note moved`.
-- **`mk2_roll.js`** — prints the material as an ASCII grid plus note tables,
-  a DERIVATION section (measured relationships between materials) and THE
-  POCKET in milliseconds. **Read this before and after every composition
-  change.**
+  prove a refactor is a refactor. It now defaults to however many seeds the
+  baseline file holds, so the bare command is correct (it used to default to 200
+  against a 300-seed baseline and report a false CHANGED). Current state:
+  `IDENTICAL — 300 seeds, not one note moved`.
+- **`mk2_roll.js`** — prints the material as an ASCII grid plus note tables, a
+  DERIVATION section, THE POCKET in milliseconds, **accent and slide on the bass**
+  (`>` accent, `/n` `\n` slide) with a "303 view" block per material, and
+  **PINNED markers** under any lane-bar the user has programmed. Takes
+  `--pins <file.json>`. **Read this before and after every composition change.**
+- **`mk2_ui.js`** *(new)* — loads the shipped file in Chromium, clicks the step
+  buttons, drags the knobs, presses play, reads back what happened. Every other
+  harness eval's the `<script>` out of the HTML and never builds a DOM, so
+  nothing about the front panels was provable before this existed. ~10 s.
 
 The audio harness (`render_audio.js` / `test_audio.py`, 515 output assertions)
-exists and works, but the user does not want songs rendered for them. Use it to
+exists and works, and now renders WITH the motion plan at each excerpt's own
+song position. The user does not want songs rendered for them. Use it to
 measure, not to deliver.
 
 ---
@@ -200,40 +210,109 @@ measure, not to deliver.
 300 seeds, page loads with zero errors, all three slots switch machines live and
 every new voice dispatches and renders.
 
+### The conductor, the motion and the panels — the session after that
+
+Everything above described a rack the *user* drove. The composer drives it now,
+and the machines have faces.
+
+- **`GENRE.machines`** — the two seams `resolvePicks` and `applyRack` had been
+  reading since the rack landed were both **empty**; no genre defined either, so
+  the composer could not pick an instrument or set a panel. `machines` is a
+  weighted list per slot, **drawn** on its own substream like the rig, so two
+  lofi seeds can be a kit and an 808. `"auto"` is a legitimate outcome and every
+  genre leaves room for it — auto is what keeps the RIG picker meaningful.
+  Measured: 356 of 540 slots still fall through to the rig.
+- **`GENRE.params`** — the genre's starting front panel per machine.
+- **`GENRE.motion`** — the knobs move, and the song moves them. Four kinds, any
+  mixture: `plock` (per step — Elektron's parameter lock), `section` (per section
+  function), `lfo` (tempo-synced, optionally free-phase), `gesture` (one-shot on
+  a fill or a peak). The genre declares RANGES; `makeMotion` draws one number per
+  song per move on a substream keyed by machine, control and index — so movement
+  is character, not chaos, and adding a move cannot shift a draw anywhere else.
+- **A knob has three owners and they SUM:** `PARAMS` (genre base) + motion
+  (composed) + `TRIM` (the user's hand, a signed offset), clamped to the dial.
+  Summing is why the hand and the machine can both be telling the truth: grab a
+  sweeping filter and it keeps sweeping, around where you put it.
+- **Motion touches no note.** It reaches the sound through `P()` alone and
+  derives its position by rounding `ev.tSec` to a sixteenth, so stage 5 needed no
+  new field and the snapshot never moved.
+- **Accent and slide** are written onto every bass note from their own
+  substreams (handoff §5.1, done). The 303 finally behaves like one.
+- **Pins** — a pattern typed on a machine's grid is an **input to stage 1**,
+  frozen into the chart beside `picks`. Unit: one lane, one bar, one pattern.
+  Seam checks run over pinned material like any other; the roll prints PINNED.
+- **Five faithful front panels** — 808, 303, Mellotron, Rhodes, Wurlitzer — with
+  drag-to-turn knobs carrying **two indicators**: the bright pointer is where you
+  have it, the dim orange dot is where the song has it *right now*. The panel is
+  DATA (`INSTRUMENTS[m].panel`), so a machine without one still falls through to
+  the old generic slider list and nothing regressed.
+- **The 808 and 303 have their sixteen steps**, with pattern (A/B/C/fill) and bar
+  (1–4) selectors — which is both the hardware's pattern-group-then-number and
+  the actual shape of the material family, since A, Avar and B share one drum
+  pattern. Editing recomposes and playback resumes at the same song second.
+
+**Verified:** 57 seam checks, 20 UI checks in a real browser, 515 audio
+assertions, snapshot IDENTICAL over 300 seeds. The one deliberate snapshot move
+was `GENRE.machines`: 592,057 events compared field by field, `voice` the only
+one that changed (93,288 events, all machine swaps), everything else zero.
+
 ---
 
 ## 5. What needs to be done — in priority order
 
-### 5.1 The 303 has no accent and no slide *(highest priority)*
+### 5.1 ✔ DONE — the 303 has its accent and its slide
+### 5.2 ✔ DONE — the step sequencers, editable and pinned
 
-`V.acid303` reads `ev.accent` and `ev.slide`. **Stage 5 never writes either
-one.** Grep confirms it: the only occurrences are inside the voice. So today,
-picking the TB-303 gives you a 303 with the two things that make it a 303
-switched off — accent (louder + deeper filter envelope + *forced short decay*,
-which is why an accented step sounds like a different note rather than the same
-note louder) and slide (portamento from the previous step).
+Both landed. See §4. Kept here so the numbering in older notes still resolves.
 
-This is a **composition** change, not a sound change: a `bassStyle: "acid"` in
-the `GENRE` table that draws accent and slide flags per step from named
-substreams, written into the note in stage 3 and carried into the event in
-stage 5. It will move the snapshot for any genre that uses it — that is
-expected and correct; re-baseline deliberately, do not paper over it.
+### 5.0 Four machines have knobs that do NOTHING *(highest priority now)*
 
-### 5.2 The step sequencers the user asked for
+`cs80`, `subbass`, `chipbass` and `chipkeys` declare front-panel controls that
+**no voice reads**. Their sliders move and nothing happens. This is a lie a user
+cannot detect by listening, which makes it worse than a missing feature.
 
-The user's request, verbatim in intent: *a TR-808 UI for drum patterns and
-play, and under it a 303 bass synth UI, used for bass programming.* The rack and
-the panels are done; the **16-step grids are not**. What is needed:
+State of it:
 
-- An 808 grid: 16 steps × the lanes the machine declares, with the program
-  filling it from the composed drum part and the user able to toggle steps.
-- A 303 grid: 16 steps with note, accent, slide and gate per step — which is
-  exactly the data 5.1 introduces, so **do 5.1 first** and the sequencer becomes
-  a view onto it rather than a second source of truth.
-- Decide honestly where the edited pattern lives. A user-edited pattern is not
-  a seed-derived one; it must not pretend to be. Simplest honest model: an edit
-  pins that lane's pattern into `chart.picks`-like input territory, and the roll
-  prints it as pinned.
+- Each such control is marked `dead: true` in its declaration, every panel that
+  has one prints *"declared but NOT WIRED to the voice — moving it does nothing
+  yet"*, and a seam check (*"every automated knob is one a voice actually
+  reads"*) scans the shipped source for the reads voices actually perform and
+  fails if a genre automates one. The problem is contained and visible.
+- It is **not fixed.** The CS-80 is where it stings: `brilliance` and `ring mod`
+  are its two signature controls and both do nothing today, and the CS-80 is the
+  synthwave rig's comp instrument.
+
+Wiring them is mostly mechanical — read through `P(g, ev, machine, key, dflt)`
+like the five wired machines do — but each one is a *sound* change and wants an
+A/B before it merges. Do the CS-80 first; it plays on every synthwave song.
+
+### 5.2b The 808's hi-hat may be too dark
+
+A/B measured, synthwave seed 2, same notes, only the drums machine changed:
+above 6 kHz the acoustic kit reads **2.73–3.78%** and the TR-808 reads
+**0.11–0.13%** (a kit-free excerpt reads 0.00–0.03%). So the 808 kit is present
+— four times its own silence — but **twenty-five times darker** than the
+acoustic one on top. A real 808 hat is bright and cutting.
+
+The circuit is the right shape (six inharmonic squares through a high-pass, CH
+and OH the same circuit at two decays). Whether it is bright *enough* is an ear
+question no battery can answer. Same for the low end: the 808 puts **four times**
+the sub of an acoustic kit under an identical performance (29.4–32.8% vs
+6.5–7.8% under 60 Hz). Both numbers are in `test_audio.py` with their
+provenance, and both thresholds branch per-machine so a correct 808 is not
+failed for being an 808. **Listen before changing either.**
+
+### 5.2c Motion values are taste, and marked as such
+
+Every number in the three `GENRE.motion` tables and most of `GENRE.machines` and
+`GENRE.params` is `[EAR]` or `[GUESS]`. They are defensible and they are not
+measured. They are the first thing to change if the ear disagrees. In
+particular the weights that decide how often lofi reaches for an 808 (3 in 10)
+and how often synthwave reaches for a 303 (1 in 2) are pure taste.
+
+One rule the tables should keep: **a genre describes every machine it can
+plausibly host, not only the ones it draws** — a hand-picked machine whose knobs
+sit dead still is worse than one that is not offered.
 
 ### 5.3 The remaining four genres
 
@@ -264,15 +343,31 @@ findings in the table.
 
 ### 5.5 Smaller, known, honest
 
-- `mk2_snapshot.js` defaults to 200 seeds but the baseline holds 300. Either
-  change the default or make it read the file's length. It currently reports a
-  false CHANGED to anyone who runs it the obvious way.
+- ✔ `mk2_snapshot.js` defaulting to 200 against a 300-seed baseline — fixed;
+  `check` now reads the file's length.
+- ✔ `mk2_test.js` comparing event voices against thirteen names hand-copied into
+  the harness — fixed; it asks `MK2.voiceNames()`, the shipped voice table.
+- ✔ `mk2_roll.js`'s `.mid` round-trip check omitting the toms from its
+  expectation, so it printed `*** MISMATCH ***` on every song containing one
+  (11 on lofi seed 1, exactly the gap shown). The export was right the whole
+  time. All three genres MATCH now.
 - `makeChart` cannot pin `rig: "neon"` from the UI — the guard only accepts
   `"band"` and `"sega"`. The `neon` rig is reachable only by genre draw.
-- `harness/mk2_render.js` takes a genre argument but not `picks`.
+  **Still open.**
+- `harness/mk2_render.js` takes a genre argument but not `picks` or `pins`.
+  **Still open.**
 - `INSTRUMENTS.segakit` maps toms to the acoustic `tom1/2/3`; the Mega Drive
   has no tom sample. That is a documented stand-in, not an oversight — but if
   it ever sounds wrong, that is why.
+- A **bass pin belongs to the key it was typed in.** Change seed or genre and
+  root/mode change, so its absolute pitches go out of key and stage 3 rightly
+  throws. `newSong` catches that, drops the pitched pins, retries once and says
+  so in the info line. Drum pins have no pitch and survive. If you ever want
+  pins to survive a key change, they must store scale degrees, not pitches.
+- The `kit` machine's bus/gate/kick knobs reach the graph through `soundOf` →
+  `setSpace`, which happens once per render, so **those four are not
+  automatable**. Every control on the five panelled machines is read per-note
+  and is. Not a defect, but know it before adding motion to `kit.*`.
 
 ---
 
@@ -295,6 +390,23 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
   two statements.
 - **`pkill -f chrome-linux` kills your own shell** — the pattern matches your
   own command line.
+- **A slide is not "the previous note in the array".** DKC's pedal strikes its
+  root and its octave double on the SAME instant; taking the predecessor
+  literally read that octave as a 12-semitone slide into a note it is actually a
+  CHORD with. It was most of DKC's slides — mean slide distance 10.8 semitones,
+  an octave siren on every downbeat. The predecessor must be at a strictly
+  earlier grid position. There is a seam check named exactly that.
+- **A long decay is a loudness change.** Energy goes as amplitude squared TIMES
+  duration, so synthwave's 808 at 1.05 s decay tripled the low end without
+  moving a peak level and failed 18 audio assertions. Decay, drive and gate are
+  timbre controls; if one of them changes how loud the thing is, it needs
+  makeup. That is now three times this file has learned it (drum bus, 303
+  overdrive, 808 decay).
+- **Do not "fix" an audio threshold by raising it.** When the 808 failed the sub
+  and air checks, the answer was not a bigger number — it was that the bar has
+  to be the *machine's*, the same way the air floor was already the *rig's*,
+  with both sides A/B measured on identical notes. Raising a global threshold to
+  make a red line go green is how a battery stops protecting anything.
 
 ---
 
@@ -323,5 +435,6 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
 | `docs/SYNTH-RESEARCH.md` | CS-80, filter topologies |
 | `docs/genre-research/*.md` | seven genres, **all unverified** |
 | `harness/mk2_roll.js` | the test that matters |
-| `harness/mk2_test.js` | the 39 seam checks |
+| `harness/mk2_test.js` | the 57 seam checks |
 | `harness/mk2_snapshot.js` | proof that a refactor is a refactor |
+| `harness/mk2_ui.js` | the panels, driven in a real browser |
