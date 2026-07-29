@@ -803,18 +803,44 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     let acc = 0, sld = 0, n = 0;
     for(let s = 1; s <= 30; s++){
       const evs = M.composeSong(s, "band", g).perf.events.filter(e => e.role === "bass");
-      /* group by instant so a slide onto a note struck simultaneously with its
-         neighbour can be counted rather than argued about */
-      const byT = {};
-      for(const e of evs) (byT[e.tSec.toFixed(6)] = byT[e.tSec.toFixed(6)] || []).push(e);
-      for(const e of evs){
+      /* ── WHAT THIS ACTUALLY HAS TO PROVE ─────────────────────────────────
+         A slide is a glide FROM the note before it, so the invariant is that a
+         sliding note has a strictly EARLIER predecessor whose pitch the slide
+         distance matches. That is what the builder enforces (`prevAt < at`).
+
+         This used to test something narrower and differently shaped: that no
+         other note shares the sliding note's instant. Those coincided only by
+         accident. The timing jitter was keyed on PITCH, so an octave double --
+         two notes written to sound together -- was split by a few milliseconds
+         and never shared an instant, and this passed. Fixing that flam (it was
+         the "stuttering", measured at 0.3 to 25 ms across three genres) locked
+         the pair back together and this went red on 41 slides whose sources were
+         all strictly earlier and entirely correct.
+
+         A check that goes red when a real defect is FIXED is measuring the
+         symptom of the defect. So it now tests the claim in its own name. */
+      const sorted = evs.slice().sort((a, b2) => a.tSec - b2.tSec);
+      for(let i = 0; i < sorted.length; i++){
+        const e = sorted[i];
         n++; bassTotal++;
         if(e.accent) acc++;
         if(e.slide != null){
           sld++;
           if(Math.abs(e.slide) > 12) tooFar++;
           if(e.slide === 0) zero++;
-          if(byT[e.tSec.toFixed(6)].length > 1) simultaneous++;
+          /* the nearest STRICTLY earlier note, which is what it glides from */
+          let j = i - 1;
+          while(j >= 0 && sorted[j].tSec >= e.tSec - 1e-9) j--;
+          if(j < 0) simultaneous++;                       // nothing before it at all
+          else if(e.pitch - sorted[j].pitch !== e.slide){
+            /* the octave partner may be the nearer of the two -- accept either
+               member of that earlier instant, and only then call it wrong */
+            const t0 = sorted[j].tSec;
+            let ok = false;
+            for(let k = j; k >= 0 && sorted[k].tSec >= t0 - 1e-9; k--)
+              if(e.pitch - sorted[k].pitch === e.slide) ok = true;
+            if(!ok) simultaneous++;
+          }
         }
       }
     }
@@ -830,7 +856,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      with -- an octave siren on every downbeat, and it was most of DKC's slides
      until the builder was made to require a strictly earlier predecessor.
      Measured before: mean slide 10.8 semitones. After: 4.7. */
-  check("a slide never comes from a note struck at the same instant", simultaneous === 0,
+  check("every slide glides from a strictly earlier note", simultaneous === 0,
         simultaneous + " slides from a simultaneous note");
 }
 

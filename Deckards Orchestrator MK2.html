@@ -219,7 +219,7 @@
        taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
        looks exactly like a broken program and neither of us could tell them
        apart from where we were sitting. Now the page says which build it is. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-29f · one machine, four kits</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-29g · the stutter was a flam</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -8442,7 +8442,26 @@ function makePerformance(chart, form, materials, sections){
           if(LEAN[lane]) micro += LEAN[lane] / spb;
           if(lane === "snare" || lane === "ghost") micro += snareEarly;
           if(lane === "kick" && n.step > 0) micro += kickLate;
-          const j = stream(chart.seed, "jit:" + role + ":" + bar + ":" + n.step + ":" + (n.pitch || n.lane));
+          /* ── JITTER IS A PLAYER'S HAND, AND A HAND HITS BOTH NOTES AT ONCE ──
+             This keyed on PITCH, so two notes written to sound TOGETHER each drew
+             their own offset and landed a few milliseconds apart. Reported three
+             times as "stuttering", and it was never a dropout: it is an octave
+             double turned into a flam.
+
+             MEASURED, same lane, smallest gap between consecutive notes:
+               dkc      0.0 ms, 754 pairs under 30 ms  (37 -> 49, an octave up)
+               jungle   0.0 ms, 356 pairs              (25 -> 13, an octave down)
+               vangelis 0.3 ms, 121 pairs              (25 -> 37, up to 23 ms apart)
+             Two notes 1-25 ms apart do not read as two notes. They read as one
+             note with a comb filter on it, and on a drone -- where the pair is
+             held for fourteen seconds -- it is a permanent phasing buzz.
+
+             Keyed on the LANE instead, so everything one instrument plays at one
+             instant shares one offset. Different lanes still differ, which is the
+             friction the groove is made of. The keys' strum is untouched: that
+             one spreads a chord ON PURPOSE, a few milliseconds low to high, and
+             it is applied below rather than drawn here. */
+          const j = stream(chart.seed, "jit:" + role + ":" + bar + ":" + n.step + ":" + (n.lane || role));
           micro += ((j() * 2 - 1) * jitterSec) / spb;
           /* the strum: notes of one keys strike roll low-to-high by a few ms --
              a hand, not a machine stamp */
