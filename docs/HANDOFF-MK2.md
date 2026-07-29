@@ -523,6 +523,54 @@ Whether that is too much bottom is an ears question, not a number question — t
 35% figure quoted elsewhere in this file came from a lofi/synthwave judgement and
 should not be applied to a genre that is a kick.
 
+### 5.4b The space is an instrument — the echo bus
+
+For a long time this program had **one reverb send and no delay**, and its own
+minimal-techno research said at the time: *"MK2 has ONE reverb send and NO
+delay, so this single number is carrying the entire signature. It cannot."* It
+was right, and in Plastikman and in jungle the space between the notes is not
+empty — it is where the music is.
+
+`g.echo` is a tempo-synced delay with **the lowpass inside the feedback loop**,
+which is what makes it a dub delay rather than a copy machine: every pass loses
+top and the tail dissolves instead of ending. It returns both dry and **into the
+reverb**, which is the *"delays on the reverbs"* half of Hawtin's sentence.
+The other half — reverb back into the delay — is **not built**; it is a feedback
+path between two effects that needs its own stability work, and claiming it
+without building it is not something this file does.
+
+Numbers from the technique sources, not taste: dotted eighth at ~20% feedback,
+or straight eighth at ~30%; filtered repeats; delays run into long dark reverbs.
+
+All six controls live on a machine with `slot: "space"` and `fixed: true` — no
+picker, because there is nothing to choose, but a **panel** and **motion lanes**,
+because *"filters and delay feedback are modulated live, with sends ridden on
+the mixer to create evolving dub mixes"* is a description of automation. Five of
+the six are `kind: "bus"` and ride as curves.
+
+**Measured**, by rendering four bars with the send at zero and at its value and
+subtracting — the difference *is* the echo:
+
+| genre | echo adds (rel. dry) | share landing >55 ms from any hit |
+|---|---|---|
+| **plastikman** | **−12.3 dB** | **79%** |
+| dkc | −19.3 dB | 33% |
+| vangelis | −20.8 dB | 88% |
+| jungle | −25.7 dB | 45% |
+| acid | −26.2 dB | 58% |
+| lofi | −31.7 dB | 56% |
+| synthwave | −32.2 dB | 100% |
+
+**Two measurement traps worth knowing**, because both wasted a pass. First, "%
+of the bar above −45 dB" cannot answer this: a wash pad holds 99% of the bar on
+its own and a 16th-note hat pattern fills the rest, so the metric reads 99%
+either way. Only the difference signal isolates the effect. Second, the first
+version of Plastikman's `echoFeeds` named `["keys","lead"]` — but its 303 (both
+the bassline and the figure) returns to `bus.bass`, and it has no lead role at
+all. The send was on, correct, and connected to nothing with gaps in it: the
+measurement read **+0.0 dB**. **Check which bus a voice actually returns to
+before naming it in a feed.**
+
 ### 5.4 Genre identity, for all seven
 
 The user's framing, which is the right one: *"lofi hip hop is defined by more

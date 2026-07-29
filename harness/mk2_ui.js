@@ -67,8 +67,13 @@ const check = (label, ok, detail) => {
     knobs: m.querySelectorAll(".kn").length,
     steps: m.querySelectorAll(".steps .st").length + m.querySelectorAll(".acid .col").length,
   })));
-  check("each slot draws its own machine's panel",
-        shape.length === 3 && shape.every(s => s.skin),
+  /* three picked machines PLUS the space, which is not picked -- there is
+     nothing to choose, every genre has exactly one -- and is therefore always
+     drawn. This asserted exactly three panels, which was right until the space
+     got a front panel of its own. */
+  check("each slot draws its own machine's panel, and the space is always there",
+        shape.length === 4 && shape.every(s => s.skin) &&
+        shape.some(s => s.skin === "echo"),
         shape.map(s => `${s.skin}:${s.knobs}kn/${s.steps}st`).join(" "));
   check("both step grids are sixteen steps",
         shape.filter(s => s.steps === 16).length === 2,

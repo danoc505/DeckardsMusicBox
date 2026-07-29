@@ -456,7 +456,10 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      them across the song -- so they are automatable, just not per note. That is
      what kind:"bus" now means. */
   const PER_SONG = new Set(["kit.bus","kit.gate","tr808.bus","tr808.gate",
-    "segakit.bus","segakit.gate","amen.bus"]);
+    "segakit.bus","segakit.gate","amen.bus",
+    /* the space: a delay division and five gain/filter nodes the whole mix
+       passes through. setSpace reads them; rideBus rides five of them. */
+    "echo.div","echo.fb","echo.tone","echo.hp","echo.send","echo.verb"]);
 
   const dead = [];
   for(const g of M.genres()){
@@ -581,7 +584,13 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         /* V.keys dispatches to V.rhodes or V.wurly on the chart's timbre draw,
            so those two machines are reachable through the "keys" voice too */
         const extra = (m === "rhodes" || m === "wurly") ? ["keys"] : [];
-        if(lanes.concat(extra).some(v => heard.has(v))) hosted[m] = true;
+        /* a `fixed` machine is not an instrument and has no lanes -- the space
+           is not something a genre chooses, it is something every genre has. It
+           would otherwise be silently exempt from the "must be ridden" rule for
+           want of a voice to be heard playing, which is the exact hole that
+           lets a panel grow knobs nobody uses. */
+        if(M.INSTRUMENTS[m].fixed || lanes.concat(extra).some(v => heard.has(v)))
+          hosted[m] = true;
       }
     }
     const idle = [], wrong = [];

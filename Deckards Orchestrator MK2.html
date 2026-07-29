@@ -531,6 +531,41 @@ const INSTRUMENTS = {
     ],
   },
 
+  /* ── THE SPACE ─────────────────────────────────────────────────────────
+     Not an instrument and not a choice -- every genre has exactly one space, so
+     this slot has no picker. It has a PANEL and it has motion lanes, because in
+     dub techno and in Plastikman the movement of these six controls is where
+     the music is: "filters and delay feedback are modulated live, with sends
+     ridden on the mixer to create evolving dub mixes"
+     [corpus:attackmagazine Basic-Channel-style]. ──────────────────────────── */
+  echo: {
+    slot: "space", label: "echo + room", fixed: true,
+    lanes: {},
+    controls: [
+      /* DIVISION is in sixteenths, and it is a switch rather than a dial: a
+         delay that slides between musical divisions is a tape machine being
+         adjusted, not a rhythm. 3 is the dotted eighth every source names
+         first. [corpus:attackmagazine dub-delays] */
+      { k:"div",  label:"delay",     cap:"TIME", min:1,   max:8,    step:1,    def:3,    unit:"/16", kind:"switch" },
+      /* the other five are all kind:"bus" and that is not a technicality -- they
+         are properties of NODES the whole mix passes through, not of a note, so
+         they move the way the drum bus moves: as an automation curve across the
+         song rather than a value read at each hit. Which is exactly how they
+         are played on a desk. */
+      { k:"fb",   label:"feedback",  cap:"FDBK", min:0,   max:0.85, step:0.01, def:0.25, kind:"bus" },
+      /* the lowpass INSIDE the loop -- what makes it a dub delay rather than a
+         copy machine, because every pass loses more top */
+      { k:"tone", label:"repeat tone", cap:"TONE", min:300, max:9000, step:50, def:2600, unit:"Hz", kind:"bus" },
+      { k:"hp",   label:"repeat cut", cap:"HPF",  min:40,  max:600,  step:10,  def:180,  unit:"Hz", kind:"bus" },
+      { k:"send", label:"echo send",  cap:"SEND", min:0,   max:1,    step:0.01, def:0,   kind:"bus" },
+      /* how much of the echo goes into the room. "Delays sound great when run
+         through a bit of reverb." [corpus:attackmagazine] */
+      { k:"verb", label:"echo → room", cap:"WASH", min:0,  max:1,    step:0.01, def:0.50, kind:"bus" },
+    ],
+    panel: { skin: "echo", maker: "", title: "space",
+             groups: [{ label: "", keys: ["div", "fb", "tone", "hp", "send", "verb"] }] },
+  },
+
   /* ── BASSES ────────────────────────────────────────────────────────────── */
   drone: {
     slot: "bass", label: "low drone (Prophet)",
@@ -1672,6 +1707,53 @@ const Sound = (function(){
     g.wet = c.createGain(); g.wet.gain.value = 0.16;          // replaced per song [EAR]
     g.send.connect(g.sendHp); g.sendHp.connect(g.verb); g.verb.connect(g.wet);
     g.wet.connect(g.post);                                    // wet obeys the limiter too
+
+    /* ── THE ECHO, and in one genre it is where the music is ──────────────────
+       There was one reverb send and no delay at all, and this file's own
+       minimal-techno research said so at the time: "MK2 has ONE reverb send and
+       NO delay, so this single number is carrying the entire signature. It
+       cannot." It was right. In dub techno and in Plastikman the space between
+       the notes is not empty -- it is the instrument. Hawtin on Sheet One:
+       "delays on the reverbs, and reverbs on the delays"; on Consumed: "an
+       album of feedback -- everything was cross-modulating everything else".
+
+       THE TOPOLOGY, from the technique sources rather than from taste:
+         - TEMPO-SYNCED. A dotted eighth against straight sixteenths is the
+           classic: it lands off the grid and walks. Feedback around 20% at a
+           dotted eighth, or 30% at a straight eighth.
+           [corpus:attackmagazine dub-delays]
+         - THE REPEATS DARKEN. A lowpass INSIDE the feedback loop is what makes
+           it a dub delay rather than a copy machine -- each pass loses top and
+           the tail dissolves instead of ending. "Total control over which
+           frequencies of the delay channels are let through."
+           [corpus:attackmagazine Basic-Channel-style]
+         - AND IT FEEDS THE ROOM. "Delays sound great when run through a bit of
+           reverb", into "long, dark reverbs". So the echo returns BOTH dry to
+           the mix and into the reverb send -- which is the "delays on the
+           reverbs" half of Hawtin's sentence. The other half, reverb back into
+           the delay, is NOT built: it is a feedback path between two effects
+           that would need its own stability work, and claiming it without
+           building it is the kind of thing this file does not do.
+       Everything here is a SEND, so a genre that wants none pays one silent
+       gain node. ─────────────────────────────────────────────────────────── */
+    g.echoSend = c.createGain(); g.echoSend.gain.value = 0;
+    g.echo = c.createDelay(2.0);  g.echo.delayTime.value = 0.25;
+    g.echoFb = c.createGain();    g.echoFb.gain.value = 0.25;
+    /* the two filters in the loop: the lowpass is the dub, the highpass keeps
+       the repeats from piling mud under the kick */
+    g.echoLp = c.createBiquadFilter(); g.echoLp.type = "lowpass";
+    g.echoLp.frequency.value = 2600; g.echoLp.Q.value = 0.6;
+    g.echoHp = c.createBiquadFilter(); g.echoHp.type = "highpass";
+    g.echoHp.frequency.value = 180; g.echoHp.Q.value = 0.5;
+    g.echoOut = c.createGain(); g.echoOut.gain.value = 1;
+    g.echoSend.connect(g.echo);
+    g.echo.connect(g.echoLp); g.echoLp.connect(g.echoHp);
+    g.echoHp.connect(g.echoFb); g.echoFb.connect(g.echo);      // the loop
+    g.echoHp.connect(g.echoOut);
+    g.echoOut.connect(g.post);                                 // dry return, past the shaper
+    /* ...and into the room, so the repeats are washed rather than dry copies */
+    g.echoToVerb = c.createGain(); g.echoToVerb.gain.value = 0.5;
+    g.echoOut.connect(g.echoToVerb); g.echoToVerb.connect(g.send);
 
     /* who feeds the space: keys and lead breathe; the rhythm section stays dry */
     g.bus.keys.connect(g.send);
@@ -3239,6 +3321,31 @@ const Sound = (function(){
     }
     g.sendExtra = (space.feeds || []).filter(b => b !== "keys" && b !== "lead" && g.bus[b]);
     for(const b of g.sendExtra) g.bus[b].connect(g.send);
+
+    /* ── THE ECHO, set per song and then RIDDEN. The division is tempo-synced,
+       so the delay time is a musical fact rather than a number of milliseconds:
+       a dotted eighth is three sixteenths, and at this song's spb that is what
+       it becomes. Feedback and the two loop filters are gestures the plan moves
+       per note; the send is a bus gain and gets the same automation curve the
+       drum bus does. ── */
+    if(g.echo){
+      const spb = (motion && motion.spb) || 0.125;
+      g.echo.delayTime.value = Math.min(2.0, panelValue("echo", "div") * spb);
+      rideBus(g, g.echoFb.gain,        "echo.fb",   panelValue("echo", "fb"),   t0);
+      rideBus(g, g.echoLp.frequency,   "echo.tone", panelValue("echo", "tone"), t0);
+      rideBus(g, g.echoHp.frequency,   "echo.hp",   panelValue("echo", "hp"),   t0);
+      rideBus(g, g.echoToVerb.gain,    "echo.verb", panelValue("echo", "verb"), t0);
+      rideBus(g, g.echoSend.gain,      "echo.send", panelValue("echo", "send"), t0);
+      /* WHO GOES INTO IT. Everything a genre names, and nothing otherwise --
+         `echoFeeds` rather than reusing the reverb's list, because the two want
+         different sources: a room takes the whole band, an echo takes the parts
+         whose tails are supposed to be heard between the notes. */
+      if(g.echoExtra){
+        for(const b of g.echoExtra) try { g.bus[b].disconnect(g.echoSend); } catch(e){}
+      }
+      g.echoExtra = (space.echoFeeds || []).filter(b => g.bus[b]);
+      for(const b of g.echoExtra) g.bus[b].connect(g.echoSend);
+    }
   }
   function ensureLive(){
     if(!ctx){
@@ -3512,7 +3619,10 @@ const GENRE = {
       tom3:  [1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86,1.00,0.86,0.90,0.86,0.96,0.86,0.90,0.86],
       openhat:[0.92,0.53,0.87,0.69,1.00,0.57,0.88,0.63,0.89,0.68,0.89,0.68,0.99,0.63,0.87,0.64],
     },
-    space: { wet: 0.16 },                                                            // [EAR]
+    /* even here: a quarter-note tape repeat, barely there, on the tune. Lofi's
+       whole lineage is a sampler through a tape machine, and a tape machine
+       echoes. Small numbers -- this is patina, not an effect. */
+    space: { wet: 0.16, echoFeeds: ["lead"] },                                                            // [EAR]
     /* the kit's own character. Tuned HIGH, short, soft and barely driven -- a
        muffled boom-bap kick, not a club kick. [corpus: Improv Machine BETA 0.1,
        KICK_BY_GENRE.lofi] */
@@ -3562,6 +3672,8 @@ const GENRE = {
          call: darker than the panel default on the sub, and the chip left at the
          patch's own brightness. Move them from here, with ears. */
       subbass:   { cut: 720, drive: 0.18 },
+      /* a quarter note, soft, dark: a tape slap rather than a dub delay */
+      echo:      { div: 4, fb: 0.16, tone: 1800, hp: 160, send: 0.10, verb: 0.45 },
       chipbass:  { bright: 0.60 },
       chipkeys:  { bright: 0.60 },
     },
@@ -3793,7 +3905,11 @@ const GENRE = {
        room to match, which it did not have. Every genre shared one 1.4 s box
        until `space` grew, and a 1.4 s room under an 80s synth pad is a booth.
        2.6 s is a plate. [EAR] */
-    space: { wet: 0.30, irSec: 2.6, tailPow: 1.9, tailDark: 0.30, sendHp: 170 },
+    /* the other 80s effect: a bright quarter-note repeat on the lead, short
+       feedback, sitting in the plate. Not a dub delay -- the repeats keep their
+       top, which is why the tone here is wide open against Plastikman's 2200. */
+    space: { wet: 0.30, irSec: 2.6, tailPow: 1.9, tailDark: 0.30, sendHp: 170,
+             echoFeeds: ["lead"] },
     /* deep, long, hard and driven: full four-on-the-floor punch, and the kit is
        pushed harder into its saturation than any other genre here.
        [corpus: Improv Machine BETA 0.1, KICK_BY_GENRE.synthwave / DRUMBUS 1.4] */
@@ -3885,6 +4001,8 @@ const GENRE = {
          [corpus:cs80.com/tour, corpus:soundonsound arturia-cs80v] */
       cs80:  { initBend: 0.45, bright: 0.52, res: 0.50, ring: 0.16, ens: 0.55, vib: 0.50 },
       vp330: { ens: 0.66, choir: 0.30, attack: 0.55, release: 2.10 },
+      /* a bright quarter-note repeat: an 80s delay keeps its top */
+      echo:  { div: 4, fb: 0.22, tone: 7000, hp: 150, send: 0.18, verb: 0.55 },
       mellotron: { voice: 1, wow: 0.0030, flutter: 0.25, hiss: 0.18, tapeEnd: 1 },
       rhodes:    { bark: 0.55, wow: 0.0010, tone: 0.95 },
       wurly:     { trem: 0.35, tremhz: 6.0, bark: 0.62 },
@@ -4184,7 +4302,11 @@ const GENRE = {
     },
     /* the SNES echo unit is most of this music's air [EAR], and an echo unit is
        a long room rather than a short one. 2.4 s against the shared 1.4. */
-    space: { wet: 0.34, irSec: 2.4, tailPow: 2.0, tailDark: 0.36, sendHp: 190 },
+    /* the SNES echo unit is most of this music's air [EAR], and an echo unit is
+       a long room rather than a short one -- AND a delay, which is literally
+       what the hardware is. Wise's writing leans on it. */
+    space: { wet: 0.34, irSec: 2.4, tailPow: 2.0, tailDark: 0.36, sendHp: 190,
+             echoFeeds: ["lead", "keys"] },
     /* the first build's `wise` entry, which is what it called this music: high,
        short, soft. A DKC kit sits under the texture, it does not drive it.
        [corpus: Improv Machine BETA 0.1, KICK_BY_GENRE.wise] */
@@ -4226,6 +4348,9 @@ const GENRE = {
          three that really matters here -- a shade brighter than the patch,
          because Wise's writing sits up in the air. */
       subbass:   { cut: 860, drive: 0.16 },
+      /* the SNES echo: an eighth, fed back further than anything else here,
+         because on that hardware it is the reverb as well as the delay */
+      echo:      { div: 2, fb: 0.34, tone: 2400, hp: 200, send: 0.20, verb: 0.60 },
       chipbass:  { bright: 0.66 },
       chipkeys:  { bright: 0.68 },
     },
@@ -4435,8 +4560,15 @@ const GENRE = {
        documented range, not a measurement of any cue, and that citation was read
        as a search summary rather than fetched. Weakest link in the table.
        [corpus:valhalladsp, flagged UNCERTAIN in the research] */
+    /* the Lexicon is the room and it is already five seconds deep, so the echo
+       here is not the effect -- it is a long quarter-note repeat behind the
+       lead, feeding straight back into that room so a single held CS-80 note
+       answers itself once, faintly, out of the wash. */
     space: { wet: 0.42, irSec: 5.0, tailPow: 1.6, tailDark: 0.50, sendHp: 80,
-             feeds: ["bass"] },
+             /* the CS-80 returns to BOTH keys and lead -- it is two parallel
+                layers and they land on different buses -- so naming only one
+                fed the echo nothing at all. */
+             feeds: ["bass"], echoFeeds: ["keys", "lead"] },
     kick: { tune: 54, decay: 0.24, click: 0.20, drive: 0.10, body: 1, gain: 0.60 },
     drumDrive: 1.0,
     gate: null,
@@ -4460,6 +4592,8 @@ const GENRE = {
          built and no genre had ever switched it on.
          [corpus:cs80.com/tour + corpus:soundonsound + corpus:arturia manual] */
       cs80:  { initBend: 1.00, bright: 0.44, res: 0.42, ring: 0.10, ens: 0.62, vib: 0.72 },
+      /* a quarter note, barely fed back, mostly into the room */
+      echo:  { div: 4, fb: 0.18, tone: 3200, hp: 120, send: 0.16, verb: 0.85 },
       vp330: { ens: 0.72, choir: 0.55, attack: 1.10, release: 3.20 },
       drone: { cut: 340, res: 3.6, detune: 0.62 },
       rhodes:{ bark: 0.38, wow: 0.0018, tone: 0.88 },
@@ -4671,7 +4805,12 @@ const GENRE = {
        reverbs with the low end rolled off. There is no delay in this program, so
        this number is standing in for less than it should.
        [corpus:musicradar, corpus:attackmagazine] */
-    space: { wet: 0.10 },
+    /* Attack's acid-bassline chain is EQ, tube saturation, DOTTED EIGHTH
+       DELAY, then two reverbs with the low end rolled off -- and until now this
+       genre had the reverb number and none of the delay, which is the part of
+       that sentence doing the work. The echo takes the bass, because in acid
+       house the delay is on the 303. [corpus:attackmagazine, corpus:musicradar] */
+    space: { wet: 0.10, echoFeeds: ["bass"] },
     kick: { tune: 47, decay: 0.55, click: 0.70, drive: 0.55, body: 1.05, gain: 1.20 },
     drumDrive: 1.35,
     gate: null,                  // acid house is not a gated-reverb genre
@@ -4700,6 +4839,8 @@ const GENRE = {
     params: {
       tb303: { cutoff: 420, res: 13.0, envmod: 0.70, decay: 0.42,
                accent: 0.80, drive: 3.4, wave: 0 },
+      /* the dotted eighth on the 303, the setting the acid chain names */
+      echo:  { div: 3, fb: 0.26, tone: 3400, hp: 220, send: 0.20, verb: 0.35 },
       tr808: { tune: 47, decay: 0.52, tone: 0.62, snappy: 0.70, sdtone: 0.55,
                chdecay: 0.042, ohdecay: 0.48, bus: 1.35, gate: 0, hold: 0.150 },
       wash:  { cut: 780 },
@@ -4959,8 +5100,26 @@ const GENRE = {
        this single number is carrying a signature it cannot carry alone -- worth
        saying rather than pretending the wet control is the sound. The long,
        dark room is the closest this program gets. [corpus:hawtin] */
+    /* THE SPACE IS WHERE THIS MUSIC IS. Consumed was "delays and reverbs, and
+       effects more than anything else... an architecture of sound"; Sheet One
+       had "delays on the reverbs, and reverbs on the delays"; Consumed is "an
+       album of feedback -- everything was cross-modulating everything else".
+       For a long time that sentence was carried here by ONE number, the reverb
+       wet, and this file's own research said out loud that it could not be.
+       The echo takes the ostinato and the keys -- the parts whose tails are
+       meant to be heard BETWEEN the notes -- and returns both dry and into a
+       long dark room, so the gaps in a very sparse pattern are full of the
+       pattern's own decaying past. [corpus:hawtin] */
     space: { wet: 0.34, irSec: 3.2, tailPow: 1.8, tailDark: 0.42, sendHp: 140,
-             feeds: ["bass"] },
+             /* THE 303 IS ON THE BASS BUS -- both the bassline and the figure an
+                octave and a half above it, because V.acid303 returns there. The
+                first version of this fed ["keys","lead"]: keys is the wash pad,
+                which holds 99.2% of the bar on its own so an echo behind it is
+                inaudible, and this genre has no lead role at all. Measured, the
+                echo changed the sound by +0.0 points and 0.0 dB -- a send that
+                was on, correct, and connected to nothing that has gaps. The
+                parts whose tails belong in the space are the percussive ones. */
+             feeds: ["bass"], echoFeeds: ["bass", "keys"] },
     kick: { tune: 46, decay: 0.60, click: 0.55, drive: 0.50, body: 1.10, gain: 1.22 },
     drumDrive: 1.30,
     gate: null,
@@ -5029,6 +5188,12 @@ const GENRE = {
       drone: { cut: 240, res: 2.4, detune: 0.35 },
       wash:  { cut: 620 },
       vp330: { ens: 0.55, choir: 0.20, attack: 1.60, release: 4.20 },
+      /* a dotted eighth at 20% is the setting every source names first, and it
+         is deliberately NOT a straight division: against sixteenths it lands
+         off the grid and walks, which is how a two-note figure turns into
+         something that never repeats the same way twice.
+         [corpus:attackmagazine dub-delays] */
+      echo:  { div: 3, fb: 0.42, tone: 2200, hp: 200, send: 0.34, verb: 0.62 },
     },
     /* SLOW AND CONTINUOUS. No gestures and no section jumps worth the name: in
        this music the filter is always moving and never arrives. The LFO periods
@@ -5063,6 +5228,37 @@ const GENRE = {
         cut: [{ kind: "lfo", bars: [[64, 3], [32, 2]], depth: [120, 380],
                 shape: "tri", freePhase: true },
               { kind: "section", by: { bridge: [200, 520] } }],
+      },
+      /* ── AND THE SPACE ITSELF, RIDDEN. "Filters and delay feedback are
+         modulated live, with sends ridden on the mixer to create evolving dub
+         mixes" [corpus:attackmagazine] -- which is a description of automation,
+         and it is the single most important motion block in this genre. The
+         feedback climbing is what turns a repeat into a wash; the repeat tone
+         closing is what makes the tail dissolve rather than end; the send
+         opening in a breakdown is what a hand on a desk does when the drums
+         leave. Long, free-phase, and slow: you should not be able to point at
+         the moment it changed. ── */
+      echo: {
+        fb:   [{ kind: "lfo", bars: [[64, 4], [32, 3], [16, 1]], depth: [0.06, 0.20],
+                 shape: "sin", freePhase: true },
+               { kind: "section", by: { bridge: [0.14, 0.30], instrumental: [0.05, 0.14],
+                                        outro: [0.08, 0.20] } },
+               /* and across the whole record it thickens -- the arc that the
+                  "year of subtraction" leaves room for, because what subtracts
+                  is the KIT, while the space fills in behind it */
+               { kind: "arc", from: [-0.10, -0.03], to: [0.08, 0.18], curve: "sCurve" }],
+        tone: [{ kind: "lfo", bars: [[48, 3], [96, 2]], depth: [220, 700],
+                 shape: "tri", freePhase: true },
+               { kind: "section", by: { bridge: [400, 1100], outro: [-500, -200] } },
+               { kind: "arc", from: [300, 900], to: [-700, -250], curve: "sCurve" }],
+        hp:   [{ kind: "lfo", bars: [[64, 2], [32, 1]], depth: [30, 90],
+                 shape: "sin", freePhase: true }],
+        send: [{ kind: "section", by: { intro: [-0.12, -0.05], bridge: [0.16, 0.34],
+                                        instrumental: [0.04, 0.14], outro: [0.06, 0.18] } },
+               { kind: "lfo", bars: [[32, 3], [64, 2]], depth: [0.03, 0.09],
+                 shape: "sin", freePhase: true }],
+        verb: [{ kind: "section", by: { bridge: [0.10, 0.26], outro: [0.06, 0.18] } },
+               { kind: "arc", from: [-0.08, -0.02], to: [0.06, 0.16], curve: "sCurve" }],
       },
     },
   },
@@ -5227,7 +5423,12 @@ const GENRE = {
     },
     /* the break already has a room baked into it (a Schroeder network, see the
        AMEN render), so the send here is for the pad and the sub, not the kit */
-    space: { wet: 0.22, irSec: 2.2, tailPow: 2.0, tailDark: 0.38, sendHp: 180 },
+    /* JUNGLE IS A SOUND-SYSTEM MUSIC and the delay is half of that lineage --
+       the chop throws an echo and the echo answers it in the gap the chop left.
+       Fed from the DRUMS as well as the keys, which no other genre does: in
+       this music the echo on a snare hit IS an arrangement element. */
+    space: { wet: 0.22, irSec: 2.2, tailPow: 2.0, tailDark: 0.38, sendHp: 180,
+             echoFeeds: ["drums", "keys"] },
     kick: { tune: 47, decay: 0.30, click: 0.50, drive: 0.35, body: 1, gain: 1.0 },
     drumDrive: 1.15,
     gate: null,
@@ -5255,6 +5456,9 @@ const GENRE = {
       wash:  { cut: 700 },
       tb303: { cutoff: 400, res: 12.0, envmod: 0.60, decay: 0.26,
                accent: 0.70, drive: 2.4, wave: 0 },
+      /* a straight eighth at 30%, which is the other setting the sources name,
+         and darker repeats than synthwave's -- this is dub lineage. */
+      echo:  { div: 2, fb: 0.30, tone: 1900, hp: 240, send: 0.22, verb: 0.55 },
     },
     motion: {
       amen: {
@@ -7121,8 +7325,15 @@ function drawPanels(){
   host.innerHTML = "";
   KNOBS.length = 0; GRIDS.length = 0;
   if(!SONG) return;
-  for(const slot of ["drums", "bass", "keys"]){
-    const m = SONG.chart.picks[slot];
+  /* the three picked slots, and then the SPACE -- which is not picked because
+     there is nothing to choose: every genre has exactly one, and its panel is
+     always drawn. In the genres where the movement of these six controls is
+     the music rather than a treatment of it, this is the most important box on
+     the screen. */
+  const boxes = ["drums", "bass", "keys"]
+    .map(slot => [slot, SONG.chart.picks[slot]])
+    .concat(Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].fixed).map(k => [INSTRUMENTS[k].slot, k]));
+  for(const [slot, m] of boxes){
     if(m === "auto" || !INSTRUMENTS[m]) continue;
     const M = INSTRUMENTS[m], P = M.panel;
     const box = el("div", "machine " + (P ? "sk-" + P.skin : "plain"));
