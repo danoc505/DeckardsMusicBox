@@ -320,6 +320,92 @@ Audio, same held note with and without a finger, zero crossings per 0.2 s: 2792
 every AFTER knob at 0 it is exactly 2792 — so the change provably comes from
 those knobs.
 
+---
+
+## 6. What Hawtin actually used, and the TR-1000
+
+### The machines
+
+From several sources, kept separate from the technique claims below:
+
+- **Drum machines: 707, 808, 909, and the 606.** "Spastik" is described as heavily
+  processed jams across the 707, 808 and 909. The 606 matters more than its
+  reputation suggests: "many drums came from the 606 — which had one mono out,
+  and hi-hats were different little pots, so mixing happened that way."
+  [corpus:insomniac, corpus:technomusicnews]
+- **TB-303, and more than one.** Photos of the Plastikman live rig show a TR-909
+  above **two** TB-303s, next to a TR-808. [corpus:gearnews]
+- **Juno-106, SH-101, Sequential Pro-One / Six-Trak.** [corpus:gemtracks,
+  corpus:equipboard]
+- **Serge Modular** — he was an early adopter of the West Coast approach.
+  [corpus:gearnews]
+- **Effects, which several sources treat as the real instrument:** a BEL
+  Electronics BD80 delay for most of the delay work, an Ensoniq DP4, later
+  Roland reverbs and Eventides. Live and DJ, Lexicon PCM42/PCM84-class delays.
+  [corpus:vintagesynth forum, corpus:gearnews]
+
+**An honesty note that matters for this repo:** the forum sources say directly
+that his processing chains are *not* publicly documented. So the *list* of boxes
+is well attested and the *chains* are not. Anything in the tables about how the
+effects are ordered or set is [EAR] or [GUESS], not [corpus].
+
+### The one structural fact that changes the program
+
+The 606's single mono out is described as the *reason* mixing happened a certain
+way — and the 909's virtue, by contrast, is **individual outputs per voice**.
+That is the technical basis for the user's instruction:
+
+> "We need to effect each instrument on the drums. This is what we are missing —
+> everything needs its own character that also at times is moving and swelling."
+
+This is correct and the program cannot currently express it. Today every drum
+lane in a machine shares one bus (`g.drumDrive`) into one gate send and one room.
+There is no per-voice send, so there is no way to put a long delay on the rim and
+a short gated room on the clap, and no way to move those independently. The
+motion system is already capable of it — `rideBus` will ride any AudioParam — but
+the graph has one bus where it needs one per voice.
+
+**This is the single highest-value unbuilt item for this genre**, above the
+TR-1000 itself: a drum machine with per-voice sends is what makes six repeated
+elements sound like an evolving record, and it is exactly the "groove at all
+levels" and "movement in each element" pair from `Min Tech 001`.
+
+### The TR-1000
+
+Roland's TR-1000 (announced late 2025) is their first drum machine in forty years
+with a genuinely analogue engine. What is relevant here:
+
+- **16 analogue voice circuits** rebuilt from the TR-808 and TR-909 designs with
+  modern components — not emulation.
+- **ACB modelling alongside it** for 808, 909, 707, 606 and CR-78, plus ~75
+  "circuit-bent" ACB variants (marked X) giving far wider control of pitch,
+  dynamics and character than the originals had.
+- **Three engines: ACB, FM and PCM**, plus sampling with time-stretch, BPM sync
+  and non-destructive slicing.
+- **Per-sound processing: each engine has its own filter, amp, compressor and
+  modulation**, on top of a dedicated delay and reverb, master FX and an analogue
+  FX section.
+
+[corpus:musictech, corpus:vintageking, corpus:djtechtools, corpus:perfectcircuit]
+
+That last bullet is why the user named this box specifically. **A per-voice
+filter/amp/compressor/modulation section is precisely the missing architecture
+described above** — the TR-1000 is not a different set of samples, it is a drum
+machine whose design assumption is that every voice has its own character and its
+own movement. Modelling it means building the per-voice chain first; the sound
+set is the easy half.
+
+**Scope, honestly:** replacing `tr808` with a `tr1000` machine is not a table
+edit. It needs (a) a per-voice chain in the graph — filter, drive, compressor,
+send — for each of kick/snare/clap/rim/hat/openhat/toms, (b) those parameters
+declared per voice on the panel, which multiplies the control count by roughly
+seven, and (c) motion lanes per voice. The 808's existing voices can be the
+starting sound set, since the TR-1000's analogue circuits *are* the 808 and 909
+circuits rebuilt — so this is an architecture change wearing a new name, and the
+name is the least of it.
+
+---
+
 ### What is STILL not built from this file
 
 Written down rather than implied, because the file is a spec and most of it is

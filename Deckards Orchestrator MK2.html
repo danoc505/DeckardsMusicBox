@@ -187,6 +187,10 @@
   .sk-wurly .brand{ background:#3f4a34; color:#e8e4d2; margin:-.85rem -1rem .8rem;
                     padding:.4rem 1rem; border-radius:4px 4px 0 0; }
 
+  #buildStamp{ display:inline-block; margin-left:.7rem; font-size:10px; letter-spacing:.12em;
+               text-transform:uppercase; color:var(--dim); border:1px solid #3a352c;
+               border-radius:3px; padding:.12rem .45rem; vertical-align:middle; }
+
   /* the desk: a mixer, so it is dark metal with a brushed strip, not a synth */
   .sk-desk{ background:linear-gradient(#2b2e33, #1e2126); color:#d6d9de;
             border:1px solid #14161a; }
@@ -208,7 +212,14 @@
 </style>
 </head>
 <body>
-<h1>DECKARD'S ORCHESTRATOR <small>MK2 — the rewrite. one genre, built to sound right first.</small></h1>
+<h1>DECKARD'S ORCHESTRATOR <small>MK2 — the rewrite. one genre, built to sound right first.</small>
+  <!-- THE BUILD STAMP. Three rounds were spent on "the bass is not playing"
+       while every measurement here said it was: the composer emits it at 15-48 s
+       on 40/40 seeds, the live pump schedules 69/78 Hz oscillators at 30 s, and
+       taking it out of 32-48 s drops RMS by 7.15 dB. A stale page in a browser
+       looks exactly like a broken program and neither of us could tell them
+       apart from where we were sitting. Now the page says which build it is. -->
+  <span id="buildStamp" title="which build this page is">build 2026-07-29 · desk · build · ribbon+after</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -5850,9 +5861,29 @@ const GENRE = {
          desk also moves on the timescale of a phrase. Each band now carries
          BOTH, a 16-32 bar swell (30 to 60 seconds here) over the long arc. */
       desk: {
-        low:  [{ kind: "arc", from: [-11, -6], to: [0, 1.5], curve: "sCurve" },
-               { kind: "section", by: { bridge: [-26, -17], intro: [-8, -4],
-                                        outro: [-9, -4] } },
+        /* ── THE LOW BAND DOES NOT ARC ACROSS THE RECORD, AND IT DID ──────────
+           Reported as "no bass on Plastikman", twice. The 303 is scheduled at
+           30 s and is loud -- taking it out of 32-48 s drops RMS by 7.96 dB --
+           but MEASURED by band, it contributed 0.36 dB below 80 Hz and 3.41 dB
+           in the midrange. It was entering as a thin squelch instead of as a
+           bassline, so the ear kept reading the track as drums only.
+
+           The cause was this arc. `from: [-11,-6]` with a whole-record sCurve
+           puts the low shelf at -8.5 dB at t=32 s and it does not reach unity
+           until the second half -- so the bass walks in underneath an 8.5 dB
+           cut that I had automated onto it. "The record opens up over its
+           length" is a real idea and the LOW band is the wrong place to spend
+           it: cutting the bottom for four minutes is not an arrangement, it is
+           a mix fault. The opening thins through the BUILD (parts that have not
+           arrived) and through the high band, both of which leave the bass
+           alone once it is in.
+
+           The deep cut stays where it belongs -- the bridge, where killing the
+           low is the actual DJ move and lasts sixteen bars rather than half the
+           record. [measured; corpus:underdog for the cut-to-release] */
+        low:  [{ kind: "arc", from: [-3, -1.5], to: [0, 1.0], curve: "sCurve" },
+               { kind: "section", by: { bridge: [-26, -17], intro: [-5, -2],
+                                        outro: [-6, -3] } },
                { kind: "lfo", bars: [[96, 3], [64, 2]], depth: [0.8, 2.0],
                  shape: "sin", freePhase: true },
                { kind: "lfo", bars: [[24, 3], [32, 2], [16, 1]], depth: [1.2, 3.0],
