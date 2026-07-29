@@ -417,7 +417,8 @@ function panelValue(m, k, dflt){
    no song to move against. */
 function P(g, ev, m, k, dflt){
   const key = m + "." + k;
-  const v = panelValue(m, k, dflt) + ((g && g.motion) ? motionAt(g.motion, key, ev) : 0);
+  const v = panelValue(m, k, dflt) +
+            ((g && g.motion) ? motionAt(g.motion, key, ev, g.motionOffset) : 0);
   const c = CONTROL[key];
   return c ? Math.max(c.min, Math.min(c.max, v)) : v;
 }
@@ -680,10 +681,17 @@ function drawIn(v, rng){
 
 /* the value this control is displaced by, at this note. Arithmetic only -- the
    plan is fully drawn and frozen before a single sample is scheduled. */
-function motionAt(plan, key, ev){
+/* `offset` exists for one caller and is worth the parameter: the render battery
+   measures two-bar EXCERPTS whose tSec has been re-based to zero, and motion is
+   a function of absolute song position. Without it, an excerpt cut from the last
+   chorus would be rendered with the intro's automation -- a battery measuring a
+   sound no song makes, which is exactly the defect this file's own comments warn
+   about two functions up. The excerpt carries its own start time instead. */
+function motionAt(plan, key, ev, offset){
   const moves = plan.lanes[key];
   if(!moves || !ev || ev.tSec == null) return 0;
-  const s16  = Math.round(ev.tSec / plan.spb);
+  const tSec = ev.tSec + (offset || 0);
+  const s16  = Math.round(tSec / plan.spb);
   const bar  = Math.max(0, Math.min(plan.nBars - 1, Math.floor(s16 / 16)));
   const step = ((s16 % 16) + 16) % 16;
   let d = 0;
@@ -696,8 +704,8 @@ function motionAt(plan, key, ev){
     }
     else if(mv.kind === "gesture"){
       for(const w of mv.win){
-        if(ev.tSec < w.a || ev.tSec >= w.b) continue;
-        const u = (ev.tSec - w.a) / (w.b - w.a);
+        if(tSec < w.a || tSec >= w.b) continue;
+        const u = (tSec - w.a) / (w.b - w.a);
         d += mv.from + (mv.to - mv.from) * (mv.curve === "exp" ? u * u : u);
       }
     }
@@ -2404,11 +2412,12 @@ const Sound = (function(){
      whichever graph is about to play. buildGraph fixes the topology; this sets
      the numbers, before any event is scheduled. */
   const KICK_DEFAULT = { tune: 54, decay: 0.24, click: 0.6, drive: 0.35, body: 1, gain: 1.05 };
-  function setSpace(g, space, kick, drumDrive, gate, motion){
+  function setSpace(g, space, kick, drumDrive, gate, motion, motionOffset){
     /* the song's motion plan rides on the GRAPH, not on a module variable, so a
        live playback and an offline render running at the same moment cannot
        read each other's automation. Same reason the room is set per-graph. */
     g.motion = motion || null;
+    g.motionOffset = motionOffset || 0;      // where in the song this render starts
     g.kick = Object.assign({}, KICK_DEFAULT, kick || {});
     g.tomDecay = gate ? (gate.tomDecay != null ? gate.tomDecay : 0.45) : 1;
     if(drumDrive != null && g.drumDrive) g.drumDrive.gain.value = drumDrive;
@@ -2459,11 +2468,11 @@ const Sound = (function(){
     for(const h of liveHandles){ try{ h.stop(0); }catch(e){} try{ h.disconnect(); }catch(e){} }
     liveHandles.clear();
   }
-  async function renderWav(events, seconds, sampleRate, space, kick, drumDrive, gate, motion){
+  async function renderWav(events, seconds, sampleRate, space, kick, drumDrive, gate, motion, motionOffset){
     const sr = sampleRate || 44100;
     const off = new OfflineAudioContext(2, Math.ceil(seconds * sr), sr);
     const graph = buildGraph(off);
-    setSpace(graph, space, kick, drumDrive, gate, motion);   // the same numbers the live graph gets
+    setSpace(graph, space, kick, drumDrive, gate, motion, motionOffset);   // the same numbers the live graph gets
     perform(graph, events, 0.05);              // the SAME perform() — no second path
     const buf = await off.startRendering();
     return encodeWav(buf);
@@ -2957,7 +2966,21 @@ const GENRE = {
        bus numbers mirror the kit values twenty lines above -- one genre, one
        drum sound, whichever machine is making it. */
     params: {
-      tr808: { tune: 50, decay: 1.05, tone: 0.68, snappy: 0.72, sdtone: 0.62,
+      /* DECAY IS A TIMBRE CONTROL AND IT WAS ACTING AS A LOUDNESS CONTROL -- the
+         third time this file has learned that lesson, after the drum bus and the
+         303's overdrive. The first value here was 1.05 s. At this genre's tempi a
+         beat is about 0.53 s, so a 1.05 s bass drum on four-on-the-floor rings
+         for two beats and every kick overlaps the next; energy goes as amplitude
+         squared TIMES duration, so tripling the acoustic kick's 0.34 s decay
+         tripled the low-frequency energy without touching a peak level. The
+         render battery caught it immediately and precisely: under-60 Hz went to
+         42-48% of total on eight of seed 2's sections against a 35% ceiling, and
+         because it is a RATIO the same inflation pushed >6k below its floor and
+         failed the "kit is audible in its own band" check as well. Eighteen
+         assertions, one cause. One beat of decay is long -- far longer than the
+         acoustic kick -- without the kick playing through its own next hit.
+         [EAR: 0.55 is a beat at this tempo; the user's ears own the final value] */
+      tr808: { tune: 50, decay: 0.55, tone: 0.68, snappy: 0.72, sdtone: 0.62,
                chdecay: 0.055, ohdecay: 0.58, bus: 1.40, gate: 0.95, hold: 0.150 },
       tb303: { cutoff: 620, res: 11.0, envmod: 0.58, decay: 0.30,
                accent: 0.70, drive: 3.0, wave: 0 },
@@ -4932,8 +4955,8 @@ window.addEventListener("DOMContentLoaded", () => {
 window.MK2 = {
   composeSong, newSong,
   referenceEvents,
-  renderWav: (events, seconds, sr, space, kick, drumDrive, gate, motion) =>
-    Sound.renderWav(events, seconds, sr, space, kick, drumDrive, gate, motion),
+  renderWav: (events, seconds, sr, space, kick, drumDrive, gate, motion, motionOffset) =>
+    Sound.renderWav(events, seconds, sr, space, kick, drumDrive, gate, motion, motionOffset),
   soundOf,
   INSTRUMENTS, PARAMS, TRIM, CONTROL, PICK, PINS, PIN_PATTERNS, loadParams, panelValue,
   makeMotion, motionAt,

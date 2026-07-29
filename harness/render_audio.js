@@ -156,13 +156,21 @@ const PROBES = [
     /* the genre's own sound settings go through, or the battery is not measuring
        what ships: the drum bus drive and the kick's six parameters are per-genre
        now, and a probe rendered with defaults would test a kit no song plays. */
-    window.__render = async (ev, secs, sr, genre) => {
+    /* AND ITS MOTION, at the excerpt's own position in the song. The knobs move
+       now -- p-locks, section moves, LFO sweeps, gestures -- and a battery that
+       rendered without them would measure a sound no song makes, which is the
+       same defect the comment above is about, one layer up. An excerpt has been
+       re-based to tSec 0, so it also carries the song second it was cut from and
+       renderWav shifts the automation back by it. An excerpt from the last
+       chorus is then rendered with the last chorus's filter, not the intro's. */
+    window.__render = async (ev, secs, sr, genre, motion, offset) => {
       const S = MK2.soundOf(genre || "lofi");
       /* dispatch() throws on an unknown voice -- fail loud, never substitute. Catch
          it here so ONE missing voice is reported as one failed check instead of
          taking the whole battery down. */
       try {
-        const blob = await MK2.renderWav(ev, secs, sr, S.space, S.kick, S.drumDrive, S.gate);
+        const blob = await MK2.renderWav(ev, secs, sr, S.space, S.kick, S.drumDrive, S.gate,
+                                         motion || null, offset || 0);
         const ab = await blob.arrayBuffer(); let s = ''; const u = new Uint8Array(ab);
         for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000));
         return { b64: btoa(s) };
@@ -177,15 +185,22 @@ const PROBES = [
         if (e.voice === 'tape') { ev.push(Object.assign({}, e, { tSec: 0, durSec: (t1 - t0) + tail })); continue; }
         if (e.tSec >= t0 - 0.06 && e.tSec < t1) ev.push(Object.assign({}, e, { tSec: Math.max(0, e.tSec - t0) }));
       }
-      return { events: ev, seconds: (t1 - t0) + tail };
+      /* the plan and the song second this excerpt starts at, so the automation
+         can be evaluated where the excerpt actually LIVES */
+      return { events: ev, seconds: (t1 - t0) + tail, motion: song.motion, offset: t0 };
     };
   });
 
   const manifest = { sr: SR, songs: SONGS, tail: TAIL, items: [], pageErrors };
   async function render(file, events, seconds, meta) {
     const t = Date.now();
-    const r = await page.evaluate(([ev, secs, sr, gen]) => window.__render(ev, secs, sr, gen),
-                                  [events, seconds, SR, meta.genre]);
+    /* the plan and the offset drive the render; they do not belong in the
+       manifest, where a whole motion plan per item would dwarf the measurements */
+    const { motion, offset } = meta;
+    delete meta.motion; delete meta.offset;
+    meta.automated = !!motion;
+    const r = await page.evaluate(([ev, secs, sr, gen, mo, off]) => window.__render(ev, secs, sr, gen, mo, off),
+                                  [events, seconds, SR, meta.genre, motion || null, offset || 0]);
     if (r.err) {
       manifest.items.push(Object.assign({ file, seconds, error: r.err }, meta));
       console.log(`  ${file.padEnd(30)} RENDER FAILED: ${r.err}`);
@@ -223,7 +238,12 @@ const PROBES = [
     const song = await page.evaluate(a => {
       const s = MK2.composeSong(a.seed, a.rig, a.genre);
       const snd = MK2.soundOf(a.genre);
+      /* WHICH MACHINES the conductor put in the slots. The assertions branch on
+         the rig already ("measuring a Mega Drive above 6 kHz asks whether it is
+         a Mega Drive"); the same is now true of the KIT, since an 808 bass drum
+         is a pure sine and an acoustic kick is not. */
       return { seed: a.seed, rig: s.chart.rig, genre: s.chart.genre, wet: snd.space.wet,
+               picks: s.chart.picks, drumMachine: s.chart.picks.drums,
                gated: !!snd.gate, drumDrive: snd.drumDrive, tempo: s.chart.tempo, mode: s.chart.mode, keysChar: s.chart.keysChar,
                groove: s.perf.groove.style, nBars: s.form.nBars, nEvents: s.perf.events.length,
                voices: [...new Set(s.perf.events.map(e => e.voice))],
@@ -251,13 +271,15 @@ const PROBES = [
                                     [spec, w0, w1, TAIL]);
       const tag = `mix_s${seed}_${String(i).padStart(2, '0')}_${s.fn}`;
       await render(`${tag}.wav`, r.events, r.seconds,
-        { kind: 'mix', seed, genre: spec.genre, idx: i, fn: s.fn, occurrence: s.occurrence, energy: s.energy,
+        { motion: r.motion, offset: r.offset,
+          kind: 'mix', seed, genre: spec.genre, idx: i, fn: s.fn, occurrence: s.occurrence, energy: s.energy,
           peak: s.peak, material: s.material, stripHalf: s.stripHalf, active: s.active,
           hasDrums: s.active.includes('drums'), bars: [w0, w1], nEvents: r.events.length });
 
       if (!dupDone && s.active.length >= 4) {                     // the determinism pair
         await render(`dup_s${seed}_${String(i).padStart(2, '0')}.wav`, r.events, r.seconds,
-          { kind: 'dup', seed, genre: spec.genre, name: tag, pairOf: `${tag}.wav` });
+          { motion: r.motion, offset: r.offset,
+            kind: 'dup', seed, genre: spec.genre, name: tag, pairOf: `${tag}.wav` });
         dupDone = true;
       }
       if (!xitDone && s.fillInto && song.sections[i + 1]) {       // the fill and its landing
@@ -265,7 +287,8 @@ const PROBES = [
                     window.__excerpt(MK2.composeSong(sd.seed, sd.rig, sd.genre), a, b, tl),
                                        [spec, s.endBar - 1, s.endBar + 1, TAIL]);
         await render(`xit_s${seed}_${String(i).padStart(2, '0')}.wav`, rx.events, rx.seconds,
-          { kind: 'transition', seed, genre: spec.genre, idx: i, fromFn: s.fn, toFn: song.sections[i + 1].fn,
+          { motion: rx.motion, offset: rx.offset,
+            kind: 'transition', seed, genre: spec.genre, idx: i, fromFn: s.fn, toFn: song.sections[i + 1].fn,
             toPeak: song.sections[i + 1].peak, tempo: song.tempo, bars: [s.endBar - 1, s.endBar + 1] });
         xitDone = true;
       }
