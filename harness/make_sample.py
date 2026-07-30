@@ -20,15 +20,40 @@ higher, which the --rate flag is for.
 Nothing from the sample library is committed to this repo. This tool reads a
 file wherever it lives and prints a payload; only the payload lands in the HTML.
 """
-import argparse, base64, struct, sys, wave
+import argparse, base64, os, struct, sys, wave
 
 
 def read_wav(path):
-    """returns (frames as list of float, samplerate). Handles 8/16/24/32-bit."""
+    """returns (frames as list of float, samplerate). Handles 8/16/24/32-bit,
+    WAV or AIFF.
+
+    AIFF matters because the best freely-licensed acoustic sources are shipped
+    that way -- the University of Iowa MIS library, recorded note by note in an
+    anechoic chamber and free without restrictions since 1997, is all .aif. A
+    tool that only reads WAV would have made those unreachable for no reason
+    beyond the container.
+
+    AIFF is big-endian where WAV is little, so the frames are byte-swapped into
+    the same shape before anything downstream sees them; every caller below is
+    unchanged."""
+    if os.path.splitext(path)[1].lower() in (".aif", ".aiff", ".aifc"):
+        import aifc
+        w = aifc.open(path, "rb")
+        ch, sw, sr, n = w.getnchannels(), w.getsampwidth(), w.getframerate(), w.getnframes()
+        raw = bytearray(w.readframes(n))
+        w.close()
+        for i in range(0, len(raw) - sw + 1, sw):      # big-endian -> little
+            raw[i:i + sw] = raw[i:i + sw][::-1]
+        raw = bytes(raw)
+        return _frames(raw, ch, sw), sr
     w = wave.open(path, "rb")
     ch, sw, sr, n = w.getnchannels(), w.getsampwidth(), w.getframerate(), w.getnframes()
     raw = w.readframes(n)
     w.close()
+    return _frames(raw, ch, sw), sr
+
+
+def _frames(raw, ch, sw):
     out = []
     step = sw * ch
     for i in range(0, len(raw) - step + 1, step):
@@ -47,7 +72,7 @@ def read_wav(path):
                 raise SystemExit("unsupported sample width: %d bytes" % sw)
             acc += v
         out.append(acc / ch)
-    return out, sr
+    return out
 
 
 def trim(sig, sr, floor_db, max_sec):
