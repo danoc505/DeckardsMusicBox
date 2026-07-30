@@ -5059,6 +5059,31 @@ const Sound = (function(){
     for(const h of liveHandles){ try{ h.stop(0); }catch(e){} try{ h.disconnect(); }catch(e){} }
     liveHandles.clear();
   }
+  /* ── A METER ON THE OUTPUT ────────────────────────────────────────────────
+     Reported: the echo builds up and the program starts to stutter, and it
+     survives a change of genre. The live graph is built ONCE per context and
+     reused for every song, so anything circulating in the delay line is still
+     circulating when the next song starts -- but that is a story, and a story
+     is not a measurement. This is the measurement: an analyser on the master,
+     attached lazily, so a probe can watch the level after playback has stopped
+     and see for itself whether the tail decays or keeps going. */
+  let liveMeterNode = null;
+  function liveLevel(){
+    if(!ctx || !liveGraph) return null;
+    if(!liveMeterNode){
+      liveMeterNode = ctx.createAnalyser();
+      liveMeterNode.fftSize = 2048;
+      try { liveGraph.post.connect(liveMeterNode); } catch(e){ return null; }
+    }
+    const buf = new Float32Array(liveMeterNode.fftSize);
+    liveMeterNode.getFloatTimeDomainData(buf);
+    let sum = 0, peak = 0;
+    for(let i = 0; i < buf.length; i++){
+      sum += buf[i] * buf[i];
+      if(Math.abs(buf[i]) > peak) peak = Math.abs(buf[i]);
+    }
+    return { rms: Math.sqrt(sum / buf.length), peak };
+  }
   async function renderWav(events, seconds, sampleRate, space, kick, drumDrive, gate, motion, motionOffset){
     const sr = sampleRate || 44100;
     const off = new OfflineAudioContext(2, Math.ceil(seconds * sr), sr);
@@ -5098,7 +5123,8 @@ const Sound = (function(){
            refreshBus,
            /* the pump's overrun counter, so a probe can hold the scheduler to a
               number instead of to a description of it */
-           lateDropped: () => lateDropped };
+           lateDropped: () => lateDropped,
+           liveLevel };
 })();
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -11944,17 +11970,40 @@ function boot(){
         Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].slot === slot
                                              && !INSTRUMENTS[k].legacy)
           .map(k => `<option value="${k}">${slot}: ${INSTRUMENTS[k].label}</option>`).join("");
+      /* ── CHANGING A BOX DOES NOT STOP THE MUSIC ────────────────────────────
+         Reported: loading a Mellotron while synthwave was playing made the
+         program die, and changing the genre did not bring it back. MEASURED,
+         level at the master: -22 dB, then -69, then -131, then silence, and it
+         never recovered.
+
+         It was doing exactly what it was told. Every one of these handlers
+         called stopPlayback() and then newSong(), and nothing started it again
+         -- so swapping a machine STOPPED the song and left the transport dead.
+
+         `recompose()` has been in this file the whole time doing the right
+         thing for the step grid: rebuild the song around the edit and carry on
+         from the same song second. Editing a step keeps playing; swapping a box
+         did not. That is backwards -- the whole point of the rack is that a
+         hand can change something while it runs. */
       sel.addEventListener("change", () => {
         PICK[slot] = sel.value;
-        stopPlayback();
-        newSong(SONG ? SONG.chart.seed : 1);
+        recompose();
       });
     }
   }
   /* the dropdown is a PRESET now: it solos one genre and the sliders follow */
+  /* the genre and the rig keep playing too, for the same reason -- a genre
+     change mid-song is a DJ move, not a reason to stop the record */
   $("genre").addEventListener("change", () => {
-    stopPlayback(); soloBlend($("genre").value); drawBlend(); newSong(); });
-  $("rig").addEventListener("change", () => { stopPlayback(); newSong(); });
+    const at = songTime();
+    soloBlend($("genre").value); drawBlend(); newSong();
+    if(playing) startPlayback(at || 0);
+  });
+  $("rig").addEventListener("change", () => {
+    const at = songTime();
+    newSong();
+    if(playing) startPlayback(at || 0);
+  });
   newSong(1);
 }
 /* BOOT WHENEVER THIS SCRIPT ARRIVES. Waiting on DOMContentLoaded alone is a bet
@@ -11983,6 +12032,7 @@ window.MK2 = {
   makeMotion, motionAt,
   voiceNames: () => Sound.voiceNames(),
   refreshBus: () => Sound.refreshBus(),
+  liveLevel: () => Sound.liveLevel(),
   /* the song the panels are currently showing -- a read handle for a probe
      driving the real UI in a real browser, so "the grid writes a pin and the
      pin reaches the material" can be measured rather than asserted */
