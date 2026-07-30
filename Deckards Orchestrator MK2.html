@@ -4844,13 +4844,38 @@ const Sound = (function(){
        A graph with no motion plan gets the base and one assignment, which is
        exactly what it used to get. */
     const t0 = busT0 || 0;
+    /* ── THE HAND ON THESE TWO WAS NEVER READ ────────────────────────────────
+       The base handed to rideBus was the GENRE'S ARGUMENT -- `drumDrive` and
+       `gate.send` -- so `panelValue(machine, "bus")` and `panelValue(machine,
+       "gate")` were never consulted at all. Both knobs are on the TR-1000's top
+       strip, both are declared `bus`, both are automated by genres, and neither
+       had ever been connected to the hand that turns it.
+
+       MEASURED by sweeping every control of every machine from min to max: BUS
+       and GATE were dead on all five drum machines, and they were the only
+       controls in the whole rack that were.
+
+       It is also the answer to a mystery left open yesterday -- driving
+       `tr1000.gate` from 0 to 0.9 changed nothing, on this build and on the one
+       before it. Of course it did: nothing read it.
+
+       The genre's value stays the base, which is right -- a genre's kit drive
+       and gated-verb send are its own decision -- and the hand's TRIM is added
+       on top, which is the model every other control in this program already
+       uses. Untouched, the sound is identical to a sample. */
+    const withHand = (key, base) => {
+      const c = CONTROL[key];
+      const v = base + (TRIM[key] || 0);
+      return c ? Math.max(c.min, Math.min(c.max, v)) : v;
+    };
     if(g.drumDrive)
       rideBus(g, g.drumDrive.gain, g.drumMachine + ".bus",
-              drumDrive != null ? drumDrive : 1.05, t0);
+              withHand(g.drumMachine + ".bus", drumDrive != null ? drumDrive : 1.05), t0);
     /* the gate is a GENRE decision and a strong one: at 0 it is not there at all,
        which is right for lofi and for DKC. Synthwave is the genre it belongs to. */
     if(g.gateSend)
-      rideBus(g, g.gateSend.gain, g.drumMachine + ".gate", gate ? gate.send : 0, t0);
+      rideBus(g, g.gateSend.gain, g.drumMachine + ".gate",
+              withHand(g.drumMachine + ".gate", gate ? gate.send : 0), t0);
 
     /* -- THE PER-VOICE DRUM CHAINS, ridden ---------------------------------
        On only for a machine that declares them. Every other drum machine keeps
