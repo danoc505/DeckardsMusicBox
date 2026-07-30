@@ -1217,3 +1217,41 @@ claimed to be.
 The TR-1000 sweep now reads: **1 control moves the sound in no way at all**, and
 it is `kit` — a switch that chooses between four voice sets, which a one-note
 test with a fixed voice cannot see by construction.
+
+### What "silent" is allowed to mean
+
+The sweep then went round the rest of the rack and reported six more dead
+controls. **None of them was a wiring bug.** All six were the probe again, in
+three distinct new ways, and it is worth naming them because they are the three
+reasons a working knob can look dead:
+
+**A control can live inside another control's condition.** `subbass.fall` only
+exists while the filter envelope `env` is above zero; `tb303.subLevel` scales
+`subOsc`, which defaults to nothing; `tb303.sweepSpeed` is the rate of an
+accumulator that only charges under accents. Each read dead against a host genre
+that happened to leave the control it depends on at its default — a fact about
+the genre, not about the wiring. A control that moves nothing now gets **one
+more try with the whole machine wide open**, every other control at the top of
+its travel. If it moves then it is conditional and the table says
+`only with the machine open`. If it still does not, nothing can rescue it.
+
+**A control can need a kind of note nobody wrote.** `tb303.slideTime` was
+measured on a bass line with no slides in it. `mellotron.tapeEnd` was measured
+on a three-second note when a Mellotron strip is eight seconds long — the note
+never reached the end of the tape. There are four kinds of note per lane now:
+long and accented, short and plain, one **slid into**, and a **run of six
+accents** for controls with memory.
+
+The short one being plain matters more than it looks. An earlier version made it
+accented too, and that hid `tb303.decay` completely — an accented 303 note takes
+`accDecay` and never reads `decay` at all. Making the test *more* thorough made
+it *blind*.
+
+**A control can be too fast for the ruler.** `softAtk` is a thirty-millisecond
+difference. Averaged over a 4.2-second window it is nothing. There are three
+time scales per lane now: the whole block, and sixty milliseconds at each onset.
+The knob worked; the ruler was a kilometre long.
+
+Every one of these was found by asking *why* a knob looked dead instead of
+believing the table. Nine setup errors before the probe was trustworthy, and
+three more after it had already found real bugs.

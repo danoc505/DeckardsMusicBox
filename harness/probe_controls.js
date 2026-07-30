@@ -75,12 +75,12 @@ const ONLY = process.argv[2] || null;
        compared against the rim alone.
 
        Ninth setup error, same shape as the other eight. */
-    const analyse = (ab, nWin, winSec) => {
+    const analyse = (ab, wins) => {
       const dv = new DataView(ab), n = (ab.byteLength - 44) / 4, SR = 44100;
       const w = [];
-      for(let k = 0; k < nWin; k++){
-        const a = Math.min(n, Math.round(k * winSec * SR));
-        const b = Math.min(n, Math.round((k + 1) * winSec * SR));
+      for(const win of wins){
+        const a = Math.min(n, Math.round(win[0] * SR));
+        const b = Math.min(n, Math.round(win[1] * SR));
         let peak = 0, sum = 0, zc = 0, prev = 0, last = 0;
         for(let i = a; i < b; i++){
           const v = dv.getInt16(44 + (i*2)*2, true) / 32768;
@@ -152,21 +152,61 @@ const ONLY = process.argv[2] || null;
          the program builds it. */
       const keys = (role === 'keys')
         ? { timbre: song.chart.keysChar, wow: song.chart.tape.wow } : {};
+      /* A NOTE LONG ENOUGH TO REACH THE END OF THE TAPE. A Mellotron strip is
+         about eight seconds and then it STOPS -- that is what tapeEnd switches
+         -- so a three-second note can never see the control and the probe
+         called it dead. A machine that declares it gets a note that outlives
+         its tape. */
+      const LONG = M.controls.some(c => c.k === 'tapeEnd') ? 9.0 : 3.0;
+      const WIN = LONG + 2.4;
       for(const ln of laneNames){
-        /* long and accented, then short and plain: a release, a tape end and an
-           accent knob each need a note that reaches them */
-        ev.push({ voice: lanes[ln], lane: ln, role, tSec: at, durSec: 3.0,
+        /* FOUR KINDS OF NOTE, because four different kinds of control need one.
+
+           long and ACCENTED   a release, a tape end, an accent knob
+           short and PLAIN     the un-accented path. Making this one accented
+                               too -- which an earlier version did -- hid
+                               tb303.decay completely, because an accented 303
+                               note takes accDecay and never reads decay at all
+           SLID INTO           `slide` is an event field no synthetic note had,
+                               so slideTime was measured on a line with no
+                               slides in it
+           a RUN of accents    a control with MEMORY cannot be seen on a single
+                               hit. The 303's accent sweep is an accumulator
+                               that charges across consecutive accents and cools
+                               between them, so sweepSpeed -- the rate it
+                               charges at -- is invisible until something makes
+                               it charge. */
+        ev.push({ voice: lanes[ln], lane: ln, role, tSec: at, durSec: LONG,
                   gain: 0.9, pitch: 45, accent: true, slice: 0, ...keys });
-        ev.push({ voice: lanes[ln], lane: ln, role, tSec: at + 3.4, durSec: 0.4,
-                  gain: 0.7, pitch: 45, slice: 0, ...keys });
-        at += 4.2;
+        ev.push({ voice: lanes[ln], lane: ln, role, tSec: at + LONG + 0.4, durSec: 0.4,
+                  gain: 0.7, pitch: 50, slide: 45, slice: 0, ...keys });
+        for(let r = 0; r < 6; r++)
+          ev.push({ voice: lanes[ln], lane: ln, role, tSec: at + LONG + 1.0 + r * 0.12,
+                    durSec: 0.10, gain: 0.95, pitch: 45 + (r % 2) * 3, accent: true,
+                    slice: 0, ...keys });
+        at += WIN;
       }
 
-      const WIN = 4.2, nWin = laneNames.length;
+      /* THREE WINDOWS A LANE, at two time scales. The lane's whole block, and
+         then sixty milliseconds at each of its two onsets -- because an ATTACK
+         control is a thirty-millisecond difference and a 4.2-second average
+         cannot see one. tb303.softAtk read as dead for exactly that reason:
+         the knob works, the ruler was a kilometre long. */
+      const wins = [], winLane = [];
+      for(let i = 0; i < laneNames.length; i++){
+        const t0 = 0.3 + i * WIN;
+        wins.push([i * WIN, (i + 1) * WIN]);       winLane.push(laneNames[i]);
+        wins.push([t0, t0 + 0.06]);                winLane.push(laneNames[i] + ' onset');
+        wins.push([t0 + LONG + 0.4, t0 + LONG + 0.46]); winLane.push(laneNames[i] + ' onset2');
+        /* the accent run gets its own window, and it is the LAST hits of it that
+           carry the accumulator -- the first one has nothing charged yet */
+        wins.push([t0 + LONG + 1.3, t0 + LONG + 1.9]); winLane.push(laneNames[i] + ' accent run');
+      }
+      const nWin = wins.length;
       const render = async () => {
         const blob = await MK2.renderWav(ev, at + 3, 44100, S.space, S.kick, S.drumDrive,
                                          S.gate, song.motion, 0);
-        return analyse(await blob.arrayBuffer(), nWin, WIN);
+        return analyse(await blob.arrayBuffer(), wins);
       };
 
       for(const c of M.controls){
@@ -181,8 +221,6 @@ const ONLY = process.argv[2] || null;
         const lo = await render();
         setTo(c.max);
         const hi = await render();
-        MK2.PARAMS[key] = saveP;
-        if(saveT === undefined) delete MK2.TRIM[key]; else MK2.TRIM[key] = saveT;
         /* the biggest move over any single lane's window, and the lane it
            happened on -- which is also the most useful thing to print, because
            it says WHICH drum a control turned out to belong to */
@@ -195,10 +233,53 @@ const ONLY = process.argv[2] || null;
             tail: Math.abs(hi[w].tail - lo[w].tail),
           };
           const score = D.peak / 0.01 + D.rms / 0.1 + D.zc / 0.01 + D.tail / 0.01;
-          if(score > best){ best = score; d = D; on = laneNames[w]; }
+          if(score > best){ best = score; d = D; on = winLane[w]; }
         }
-        const moved = d.peak > 0.01 || d.rms > 0.1 || d.zc > 0.01 || d.tail > 0.01;
-        rows.push({ m, k: c.k, kind: c.kind || '?', moved, on, ...d });
+        let moved = d.peak > 0.01 || d.rms > 0.1 || d.zc > 0.01 || d.tail > 0.01;
+        let note = '';
+        /* ── A CONTROL CAN LIVE INSIDE ANOTHER CONTROL'S CONDITION ───────────
+           subbass.fall only exists while `env` is above zero; tb303.subLevel
+           scales `subOsc`, which defaults to nothing; tb303.sweepSpeed is the
+           rate of an accumulator that only charges under accents. Every one of
+           them read as dead against a genre that happened to leave the control
+           they depend on at its default -- which is a fact about the genre, not
+           about the wiring.
+
+           So a control that moved nothing gets ONE more try with the whole
+           machine wide open: every other control pushed to the top of its
+           travel, so anything it might be gated behind is on. If it moves then,
+           it is conditional and says so. If it still does not, nothing it
+           depends on can rescue it and it is simply not connected. */
+        if(!moved){
+          const saved = {};
+          for(const o of M.controls) if(o.k !== c.k){
+            saved[o.k] = [MK2.PARAMS[m + '.' + o.k], MK2.TRIM[m + '.' + o.k]];
+            MK2.PARAMS[m + '.' + o.k] = o.max;
+            MK2.TRIM[m + '.' + o.k] = o.max - (saved[o.k][0] == null ? o.def : saved[o.k][0]);
+          }
+          setTo(c.min); const lo2 = await render();
+          setTo(c.max); const hi2 = await render();
+          for(const o of M.controls) if(o.k !== c.k){
+            const [pv, tv] = saved[o.k];
+            MK2.PARAMS[m + '.' + o.k] = pv;
+            if(tv === undefined) delete MK2.TRIM[m + '.' + o.k]; else MK2.TRIM[m + '.' + o.k] = tv;
+          }
+          for(let w = 0; w < nWin; w++){
+            const D = {
+              peak: Math.abs(hi2[w].peak - lo2[w].peak) / Math.max(1e-6, lo2[w].peak),
+              rms:  Math.abs(20 * Math.log10(Math.max(1e-9, hi2[w].rms) / Math.max(1e-9, lo2[w].rms))),
+              zc:   Math.abs(hi2[w].zc - lo2[w].zc) / Math.max(1, lo2[w].zc),
+              tail: Math.abs(hi2[w].tail - lo2[w].tail),
+            };
+            if(D.peak > 0.01 || D.rms > 0.1 || D.zc > 0.01 || D.tail > 0.01){
+              moved = true; d = D; on = winLane[w]; note = 'only with the machine open';
+              break;
+            }
+          }
+        }
+        MK2.PARAMS[key] = saveP;
+        if(saveT === undefined) delete MK2.TRIM[key]; else MK2.TRIM[key] = saveT;
+        rows.push({ m, k: c.k, kind: c.kind || '?', moved, on, note, ...d });
       }
     }
     MK2.PICK.drums = PICK0.drums; MK2.PICK.bass = PICK0.bass; MK2.PICK.keys = PICK0.keys;
@@ -214,8 +295,8 @@ const ONLY = process.argv[2] || null;
     for(const r of byM[m]){
       console.log(`  ${r.k.padEnd(15)} ${r.kind.padEnd(9)} ${(100*r.peak).toFixed(1).padStart(6)}%  ` +
                   `${r.rms.toFixed(2).padStart(6)}dB  ${(100*r.zc).toFixed(1).padStart(7)}%  ` +
-                  `${r.tail.toFixed(3).padStart(6)}s  ${(r.moved ? r.on : '').padEnd(8)}` +
-                  `${r.moved ? '' : '<<< SILENT'}`);
+                  `${r.tail.toFixed(3).padStart(6)}s  ${(r.moved ? r.on : '').padEnd(14)}` +
+                  `${r.moved ? r.note : '<<< SILENT'}`);
       if(!r.moved) dead.push(`${r.m}.${r.k} (${r.kind})`);
     }
   }
