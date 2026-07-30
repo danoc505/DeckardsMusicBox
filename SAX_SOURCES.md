@@ -136,43 +136,75 @@ already consume, and it is *melody with its harmony attached* — which
 - `wjazzd.db`: https://jazzomat.hfm-weimar.de/download/downloads/wjazzd.db
 - Unquantized MIDI: `downloads/RELEASE2.0_mid_unquant.zip`
 
-### Two licence problems, and the honest way through them
+### Licensing: not a constraint here
 
-1. **ODbL.** The database is Open Database License. A derived database that gets
-   distributed publicly generally has to be offered under ODbL too. `player.html` ships
-   its corpora embedded — that is distribution.
-2. **The melodies are not free.** The handoff records a deliberate rights stance: the folk
-   corpus was chosen because the tunes are public domain ("melodies free to take"), and
-   the jazz corpus is "chords only, no melodies". WJazzD is transcriptions of copyrighted
-   recorded improvisations by named living-memory players. Harvesting licks out of it
-   contradicts the choice already made everywhere else in this project.
+This program is not distributed. It is one person's instrument.
 
-**Both problems disappear if you take statistics instead of material.** The handoff
-already says how genres select from the corpus: progressions are *characterised* —
-seventh-chord share, functional pull, stepwise motion — and each genre states what it
-wants. Do the same here. Measure from WJazzD what a sax line actually does — interval
-distribution, phrase length, rest-to-note ratio, where phrases start relative to the beat,
-how often a phrase ends on a chord tone, range per style — and ship **the numbers as SOFT
-weights**. Facts about a corpus are not the corpus. Nothing copyrighted crosses into
-`player.html`, ODbL never attaches to a derived database because no derived database is
-distributed, and a different seed still produces a different valid result.
+That settles both of the questions that would otherwise apply. ODbL's share-alike
+obligation attaches to publicly distributing a derived database — a private corpus on
+your own machine never triggers it. And the reason `jazz_corpus.json` is "chords only, no
+melodies" while `folk_corpus.json` is public-domain tunes was a *distribution* stance;
+it does not govern what a private tool reads. Harvest the melodies.
 
-That is the same relationship the drum engine wants with Google's Groove MIDI Dataset,
-listed under *Known unfinished*.
+The only thing worth keeping in mind is downstream: if a song this machine writes ever
+gets released, that's the moment the provenance of the material matters, not now. The
+recombination architecture makes verbatim survival unlikely anyway — a phrase enters as
+relative degrees, gets split into rhythm and contour by `13_flip.js`, and comes back out
+carrying someone else's rhythm.
+
+### What a direct harvest yields (measured)
+
+| | |
+|---|---|
+| Sax PHRASE segments | 7,843 |
+| Phrase length in notes | median 14, mean 18.1, p10 4, p90 38, max 137 |
+| **Phrases 3–24 notes (corpus-usable)** | **5,717** |
+| Melodic intervals inside those phrases | 134,229 |
+| Stepwise (1–2 semitones) | 54.5% |
+| Repeated note | 4.0% |
+| Leap (3+ semitones) | 41.5% |
+| All 272 sax solos carry chord changes | yes |
+
+For scale: `folk_corpus.json` holds 900 melodic phrases. A sax harvest adds **5,717**, and
+unlike the folk phrases every one arrives with its chord changes attached, so a phrase can
+be stored against the harmony it was actually played over. Fed through `build_dimensions.js`
+the rhythm × contour split multiplies that the same way it turned 1,217 harvested phrases
+into 350,000 combinations.
+
+Remember `IMPROV_HARVEST` — harvesting must forbid the engines drawing on the corpus, or
+the library feeds on itself and narrows.
+
+### One number worth arguing about
+
+*Known unfinished* benchmarks voice leading at ~52% stepwise "against Bach's measured
+77.3%". Real jazz sax phrases measure **54.5% stepwise**. Those are two different things —
+Bach's 77.3% is inner-voice motion in four-part chorales, the 54.5% is a solo melodic line —
+and conflating them would set the melody engine chasing a target that would make it sound
+like a chorale alto part rather than a horn player. If the lead is a sax, 54.5% is its
+number. The harmony voices are still Bach's problem.
 
 ---
 
 ## Recommendation
 
-1. **Characterise sax phrasing from WJazzD → SOFT weights.** 142,072 measured note events
-   is the largest defensible thing available here, it needs no bytes in the bundle, it
-   sidesteps both licence problems, and it addresses a listed gap ("melodies and grooves
-   are not yet characterised the way progressions are").
-2. **FreePats small tenor (CC0, 4.7 MiB FLAC) as the sampled voice**, re-encoded down to a
-   thinned note set. CC0, already mapped, already looped, right order of magnitude.
-3. **Iowa alto as the second colour** if a brighter/anechoic alto is wanted — but budget
-   for the fact that it is single-dynamic.
-4. **Do not touch Weresax** until someone reads its current licence.
+1. **Harvest WJazzD into a sax corpus** — `build_sax.js` alongside the existing builders.
+   5,717 usable phrases, stored relatively like everything else, each against the chord
+   changes it was played over. Then run `build_dimensions.js` so the rhythms and contours
+   join the recombination pool.
+2. **Characterise it too, not just harvest it** — phrase length, stepwise share, where
+   phrases start against the beat, chord-tone landing rate, range per style. That is the
+   listed gap ("melodies and grooves are not yet characterised the way progressions are"),
+   and it is what lets a genre ask for sax phrasing on *properties* rather than by name.
+3. **FreePats small tenor (CC0, 4.7 MiB FLAC) as the sampled voice**, thinned and
+   re-encoded. Already mapped, already looped, right order of magnitude.
+4. **Weresax is fine to use** for a private instrument, and it is the best-playing free sax
+   here — 2 velocity layers × 2 round robins. 189 MB never goes in `player.html`; load it
+   through the drop-in path or thin it down first.
+5. **Iowa alto as a second colour** — but it is single-dynamic in the per-note sets.
+
+The 1 MB single-file constraint is *not* a licensing artifact and does not relax. It exists
+because the program has to open from a USB stick with no network. Sample bytes still have
+to be earned.
 
 Whatever gets built, the rule from the handoff stands: `node print_roll.js <seed> <bars>`
 before and after, and `node tests.js` before shipping. A sax that measures well and reads
