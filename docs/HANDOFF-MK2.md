@@ -1,9 +1,16 @@
 # HANDOFF — Deckard's Orchestrator MK2
 
-*Written 2026-07-29 on branch `claude/code-review-6jd9cz`, at commit `02906b7`;
-revised the same day at `077e08b` after the rack was wired to the conductor and
-the five named machines got their real front panels. For whoever picks this up
-next. Read this whole file before you touch the HTML.*
+*Written 2026-07-29 on branch `claude/code-review-6jd9cz` at `02906b7`; revised
+at `077e08b` when the rack reached the conductor; revised again **2026-07-30 at
+`4728512`**, after the control sweep and the non-chord-tone law. For whoever
+picks this up next. Read this whole file before you touch the HTML.*
+
+> **The container has rolled this clone back to an old commit three times in one
+> session.** Twice mid-task. Nothing was lost because everything was pushed, but
+> if `git log` shows a commit you do not recognise as HEAD, you have been rolled
+> back — `git fetch origin claude/code-review-6jd9cz && git reset --hard
+> origin/claude/code-review-6jd9cz` and check what you had uncommitted. **Commit
+> and push early. Do not sit on work.**
 
 ---
 
@@ -19,6 +26,12 @@ Corollaries that have already bitten, twice each:
 
 - **You do not have ears.** Audio renders prove nothing to you. The test that
   matters is `harness/mk2_roll.js` — the printed note grid — and the `.mid`.
+- **When a measurement says something surprising, the first suspect is the
+  measurement.** `harness/probe_controls.js` took **twelve** setup corrections
+  before its output could be trusted — nine before it found a single real bug
+  and three more after. Every real defect it reported was real; every *other*
+  "dead knob" it reported was the probe measuring its own setup. §3 lists all
+  twelve, because they are the twelve ways a measurement here goes wrong.
 - **The user's ears are the final judge.** Do not render songs for them unless
   asked; they have explicitly said it is a waste of effort. Ship the HTML, they
   will listen.
@@ -266,21 +279,28 @@ WAV hash can never be the determinism test. The determinism test is the
 Run all of these before you claim anything.
 
 ```bash
-node harness/mk2_test.js                              # 88 seam checks
-node harness/mk2_roll.js 1 --genre vangelis           # any of the six genres
+node harness/mk2_test.js                              # 93 seam checks
+node harness/mk2_roll.js 1 --genre vangelis           # any of the seven genres
 node harness/mk2_snapshot.js check harness/mk2_baseline.snap
 node harness/mk2_roll.js 1                            # THE test that matters
 node harness/mk2_roll.js 1 --song                     # full arrangement
 node harness/mk2_roll.js 1 --mid out.mid              # .mid round-trip check
-node harness/mk2_ui.js                                # 23 checks, in a browser
+node harness/mk2_ui.js                                # 24 checks, in a browser
 node harness/mk2_blend.js                             # 10 checks, the blend sliders
 node harness/mk2_roll.js 1 --blend lofi:50,jungle:50  # read a blended song
+node harness/probe_voices.js                          # fire every voice
+node harness/probe_theory.js                          # the music laws, off the notes
+node harness/probe_controls.js [machine]              # every knob reaches the sound
 ```
 
-- **`mk2_test.js`** — 88 assertions over composition seams: per-genre loops,
+**The five-minute battery, before any claim:** `mk2_test.js`, `mk2_ui.js`,
+`mk2_blend.js`, `mk2_snapshot.js check`, `probe_voices.js`. State at `4728512`:
+**93 / 24 / 10 / IDENTICAL / 0 threw, 0 silent.**
+
+- **`mk2_test.js`** — 93 assertions over composition seams: per-genre loops,
   "the counter is a line not a harmoniser", "the bridge is a departure", "the
   bass styles differ", "the .mid carries every note", plus the rack, the motion
-  and the pins. Currently **88 passed, 0 failed**.
+  and the pins. Currently **93 passed, 0 failed**.
 
   Two of these were rewritten when the new genres arrived, and the reason
   generalises: *"the drummer actually uses the toms"* and *"every genre's second
@@ -292,11 +312,25 @@ node harness/mk2_roll.js 1 --blend lofi:50,jungle:50  # read a blended song
   to it **in both directions** — which is what stops a genre buying a pass by
   declaring nothing. If you add a genre and a test fails, ask which of the two
   it is before you touch the table.
+
+  The newest is **"a non-chord tone that is still sounding resolves by step"**,
+  guarded at 20%. It is a **threshold, not a zero** — an escape tone and a free
+  appoggiatura are real writing, and a line with no dissonance left in it is a
+  line with nothing in it. §5.6 has the whole story.
 - **`mk2_snapshot.js`** — SHA over every event of every seed. This is how you
   prove a refactor is a refactor. It now defaults to however many seeds the
   baseline file holds, so the bare command is correct (it used to default to 200
   against a 300-seed baseline and report a false CHANGED). Current state:
-  `IDENTICAL — 2100 seeds, not one note moved` (one line per seed AND genre; it used to compose only lofi on every seed and say "300 seeds").
+  `IDENTICAL — 2100 seeds, not one note moved` (one line per seed AND genre; it
+  used to compose only lofi on every seed and say "300 seeds"). It hashes the
+  events, the form and the arrangement **separately**, which is how you tell a
+  melodic change from a structural one: the non-chord-tone work moved the events
+  hash on 1486 of 2100 lines and left form and arrangement untouched, which is
+  exactly the claim that work was making.
+
+  **If you change the music on purpose, rewrite the baseline in the same commit**
+  (`node harness/mk2_snapshot.js write harness/mk2_baseline.snap`) and say so in
+  the message. A stale baseline everyone has learned to ignore protects nothing.
 - **`mk2_roll.js`** — prints the material as an ASCII grid plus note tables, a
   DERIVATION section, THE POCKET in milliseconds, **accent and slide on the bass**
   (`>` accent, `/n` `\n` slide) with a "303 view" block per material, and
@@ -321,6 +355,56 @@ node harness/mk2_roll.js 1 --blend lofi:50,jungle:50  # read a blended song
   and "the voice makes a noise". If you add a voice, this is what covers you.
 - **`probe_voices.js`** — the same sweep with the full report: every voice, its
   lane, and its peak. Run it when a voice or a routing change lands.
+- **`probe_theory.js`** — the music laws read off the notes, per genre, over N
+  seeds: out of key, non-chord tones unresolved, non-chord tones that end a
+  phrase, chords under the bass, lead under the chords, unisons. Reports
+  **rates, never a pass/fail on one song**. Some of them SHOULD be non-zero and
+  the header says which.
+- **`probe_controls.js`** — the sweep that proves every control on every machine
+  changes the audio. Puts the machine in its slot, strikes every lane it owns
+  with four kinds of note, renders with the genre's real space, kick, drive,
+  gate and motion plan, and compares peak, level, brightness and tail with each
+  control at the bottom and then the top of its travel, over three time windows
+  per lane. **Slow** — the TR-1000 is ~40 minutes — so name one machine unless
+  you have the wall clock. Whole rack at `4728512`: **0 silent controls on every
+  machine except `tr1000.kit`**, a switch between four voice sets that a
+  fixed-voice test cannot see by construction.
+
+### The twelve ways probe_controls lied to me
+
+Read this before writing any probe in this repo. Every one of these produced a
+confident, wrong, red line, and the pattern is always the same: **the probe was
+measuring its own setup rather than the program.**
+
+1. It never PICKed the machine under test, so it read whatever the genre drew.
+2. It set `MK2.PICK` but never handed it to `composeSong` — the picks are an
+   **argument**, not a global the composer reads.
+3. It rendered only the first lane, then called the snare and hat controls dead
+   because the note was a kick.
+4. It skipped the TR-1000 entirely, because that machine declares `kits` where
+   the others declare `lanes` — the only drum machine anybody plays.
+5. It struck one short unaccented note, which cannot see an accent knob.
+6. It set `PARAMS` where `bus` and `gate` read `TRIM`.
+7. It gave keys notes no `wow` field, and the Rhodes scales wow **by** the
+   chart's drawn depth, so the knob multiplied zero.
+8. It averaged over the whole 55-second, twelve-lane file. Moving the rimshot's
+   filter end to end is under 0.1 dB of *global* level. → one window per lane.
+9. It averaged over 4.2 seconds when `softAtk` is a **30-millisecond**
+   difference. → a 60 ms window at each onset as well.
+10. It measured controls that live inside another control's condition
+    (`subbass.fall` needs `env`, `tb303.subLevel` needs `subOsc`,
+    `tb303.sweepSpeed` needs a run of accents). → one retry with the whole
+    machine wide open, reported as `only with the machine open`.
+11. It wrote no `slide` on any note, and no note long enough to reach the end of
+    a Mellotron tape. → four kinds of note per lane.
+12. It gave the CS-80 no `ev.press`, so all three aftertouch knobs multiplied
+    nothing — the same mistake as (7), three commits later.
+
+And one worse than all of them: making the short note **accented**, which looks
+like a more thorough test, hid `tb303.decay` completely — an accented 303 note
+takes `accDecay` and never reads `decay` at all. **A more thorough test can be a
+blinder one.** The only reason it was caught is that `decay` had been alive in
+the run before.
 
 The audio harness (`render_audio.js` / `test_audio.py`, 515 output assertions)
 exists and works, and now renders WITH the motion plan at each excerpt's own
@@ -450,31 +534,67 @@ one that changed (93,288 events, all machine swaps), everything else zero.
 
 ## 5. What needs to be done — in priority order
 
+> **START HERE.** The sub-sections below accumulated over many sessions and the
+> numbering no longer reflects order. This is the order, as of `4728512`:
+>
+> 1. **Nothing in this program has passed the user's ears since the crash fix.**
+>    The cymbal rebuild, the new tunes under the non-chord-tone law, eleven
+>    newly-live drum knobs — all measured, none heard. Ship the file and ask
+>    before building anything on top of them. If the ear says the tunes got
+>    blander, the constraint in §5.6 is the first thing to loosen, and the knob
+>    for it is the 20% threshold in `mk2_test.js`.
+> 2. **Harmony is the biggest un-started thing** (§5.6, "still open"). Zero
+>    chromaticism, 5–12 progressions a genre, voice leading at 4.38 semitones.
+>    Measured, named, untouched. This is where the next real musical gain is.
+> 3. **Role instances** — the user's "3 arps and two dueling basses" ask. One
+>    slot per role today; this needs a register allocator, not a table entry.
+> 4. **Genre identity for jungle** (§5.4) — the only genre whose artist research
+>    was never completed.
+> 5. The small honest list in §5.5.
+>
+> §5.0 and §5.6 are closed. They are kept in full because *how* they were closed
+> is the part worth copying.
+
 ### 5.1 ✔ DONE — the 303 has its accent and its slide
 ### 5.2 ✔ DONE — the step sequencers, editable and pinned
 
 Both landed. See §4. Kept here so the numbering in older notes still resolves.
 
-### 5.0 Four machines have knobs that do NOTHING *(highest priority now)*
+### 5.0 ✔ DONE — a knob that does nothing is a lie, and now none of them do
 
-`cs80`, `subbass`, `chipbass` and `chipkeys` declare front-panel controls that
-**no voice reads**. Their sliders move and nothing happens. This is a lie a user
-cannot detect by listening, which makes it worse than a missing feature.
+This was the standing top priority for several sessions and it is closed. The
+whole rack sweeps clean: **0 silent controls on every machine except
+`tr1000.kit`**, a switch between four voice sets that a fixed-voice test cannot
+see by construction.
 
-State of it:
+What it took, and why it is here rather than in §4: **five separate "this knob
+does not reach the sound" bugs turned up in one session and every single one was
+found by the USER HEARING IT**, never by anything in the harness. That is a
+class of defect, not five accidents. `harness/probe_controls.js` is the answer
+to the class. What the sweep found once it was honest:
 
-- Each such control is marked `dead: true` in its declaration, every panel that
-  has one prints *"declared but NOT WIRED to the voice — moving it does nothing
-  yet"*, and a seam check (*"every automated knob is one a voice actually
-  reads"*) scans the shipped source for the reads voices actually perform and
-  fails if a genre automates one. The problem is contained and visible.
-- It is **not fixed.** The CS-80 is where it stings: `brilliance` and `ring mod`
-  are its two signature controls and both do nothing today, and the CS-80 is the
-  synthwave rig's comp instrument.
+- **`bus` and `gate` on all five drum machines had never been connected to the
+  hand.** `setSpace` passed the genre's argument straight to `rideBus`, so
+  `panelValue(machine, "bus")` and `panelValue(machine, "gate")` were never read
+  at all. Also the answer to a mystery left open the day before: driving
+  `tr1000.gate` from 0 to 0.9 changed nothing, on that build and every build
+  before it. Nothing read it.
+- **Ten channel-strip knobs on the TR-1000 were wired to nothing** — `sTune`,
+  `sDecay`, `tTune`, `tDecay`, `mTune`, `mDecay`, `rTune`, `rDecay`, `cTune`,
+  `cDecay`. The kick's, both hats', the crash's and the ride's all worked, which
+  is why nobody noticed. `V.s808` called `chTune()` and `chDecay()` on its second
+  line, put both into locals, and **never mentioned either again** — grep says
+  wired, the sound says no. The other four never asked at all.
+- **The ANALOG FILTER was not in the circuit.** `g.kitFilter` was built, given a
+  cutoff, ridden by `rideBus` on every song and swept by the Plastikman table
+  with a 40-bar LFO — and connected to nothing. Every channel went
+  `mk → g.bus.drums` direct, past it. The comment four hundred lines above it
+  says "the whole kit through kitFilter on its way to the drum bus". The wire
+  disagreed, and the wire is what you hear.
 
-Wiring them is mostly mechanical — read through `P(g, ev, machine, key, dflt)`
-like the five wired machines do — but each one is a *sound* change and wants an
-A/B before it merges. Do the CS-80 first; it plays on every synthwave song.
+**Keep the sweep green.** Any new control, any new voice: run
+`probe_controls.js <machine>` before you claim it works. And read §3's list of
+twelve before you believe a red line.
 
 ### 5.2b The 808's hi-hat may be too dark
 
@@ -693,6 +813,51 @@ essentially on the grid (−1.5 ms measured) because `push` pulls the kit early 
 `kickLate` only applies off the downbeat. That is a defensible middle between two
 contested readings, and churning it on one source would be guessing.
 
+### 5.6 ✔ DONE — a dissonance has to step, and what is left of it
+
+Of the lead and counter notes **not in the chord under them**, the share that
+then leapt away instead of resolving by step: lofi 34.9%, synthwave 33.0%, DKC
+38.1%, Vangelis 44.8%, acid 50.0%. One of this project's own documented HARD
+laws, unenforced. MK1 had a `HARD.resolvesByStep` and **never called it once.**
+
+It is a **constraint, not a correcting pass** — nothing is moved after the fact;
+when the note just written is outside the chord, the *next note's choices* are
+narrowed. Three things carry it: the tune narrows its move to one scale step;
+the counter narrows its candidate list and **does not play** if nothing in it
+answers by step; and the question phrase now lands on a chord tone, because the
+answering phrase starts fresh and cannot know what was left hanging.
+
+```
+             off      on                     off      on
+  lofi     31.5%   14.0%      vangelis     34.2%   16.1%
+  synthwave 28.6%  13.3%      acid         50.0%    0.0%
+  dkc      32.8%    7.7%      TOTAL        30.8%   12.7%
+```
+
+for about 5% fewer lead and counter notes.
+
+**The measurement was also wrong, and in my favour.** Vangelis got *worse* while
+everything else improved, so I looked instead of shipping the number: 205 of its
+254 "unresolved" lead notes — **81%** — were followed by a REST, some of them
+bars long. A note that has died away does not need answering; the probe was
+counting phrase endings. There are two columns now because they say different
+true things.
+
+**What is still open here, all measured and none fixed:**
+
+- **Zero chromaticism.** Every genre is 0.0% out of key. That is the law working
+  and it is also a ceiling: no secondary dominants, no borrowed chords, no
+  chromatic passing tones. Nothing in the program can currently write one.
+- **5–12 progressions per genre**, and voice leading averaging 4.38 semitones.
+  The proposals that were offered and never started: neo-Riemannian PLR moves,
+  a voice-leading constraint on the comp, Coltrane's symmetric cycles, and
+  tension tied to the arc so the harmony gets harder as the song climbs.
+- **`plock` is still rare** — 0 to 3 lanes per genre carry one. The motion
+  vocabulary has eight kinds and the tables lean on two.
+- **Role instances.** The user asked for "3 arps and two dueling basses" and the
+  architecture has one slot per role. This needs a register allocator, not a
+  table entry.
+
 ### 5.4 Genre identity, for all seven
 
 The user's framing, which is the right one: *"lofi hip hop is defined by more
@@ -728,9 +893,17 @@ findings in the table.
   so in the info line. Drum pins have no pitch and survive. If you ever want
   pins to survive a key change, they must store scale degrees, not pitches.
 - The `kit` machine's bus/gate/kick knobs reach the graph through `soundOf` →
-  `setSpace`, which happens once per render, so **those four are not
-  automatable**. Every control on the five panelled machines is read per-note
-  and is. Not a defect, but know it before adding motion to `kit.*`.
+  `setSpace`, which happens once per render. They are ridden by `rideBus` across
+  the song, so they DO move with the plan — what they cannot do is change
+  per-note the way a panelled machine's controls do. Know that before adding a
+  `plock` to `kit.*`.
+- **Non-chord-tone resolution is 12.7%, not 0%, and that is deliberate.** §5.6.
+- **Crash harshness has not been heard.** Measured at 44% less energy in the
+  2–6 kHz band, shorter tail, 2.4 dB off the peak. Whether it now sounds like a
+  cymbal you want is not something a probe can say.
+- **`probe_controls.js` on the whole rack is roughly an hour.** The TR-1000
+  alone is ~40 minutes under the current four-notes-per-lane test. Run it in the
+  background and name one machine when you can.
 
 ---
 
@@ -776,6 +949,22 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
   named after the instrument — had not moved at all, because since the build
   work the 303 does not enter until 31 s. I measured the intro and called it the
   genre. **Anchor the window to the thing you are measuring**, then read it.
+- **The echo tail was not accumulating.** The stutter the user heard was real
+  and the theory was wrong: measured, the tail *decays*. So did "the main thread
+  is stuttering" — p50 frame time 17 ms. The actual causes were a note landing
+  before `t0` and never hearing the fader, and the gated-verb send sitting in
+  FRONT of the channel fader. **Two wrong theories died to one measurement
+  each**; do not start editing until you have the number.
+- **Routing a voice INTO the chain's gate node does not move it post-fader.**
+  First attempt at the gate fix did exactly that and put the raw output back in
+  front of the fader. `gateTap()` returns **null** for a voice that has a
+  channel, because the channel already feeds the gate from `mk`.
+- **A "softener" that makes things louder is not a softener.** The 303's muffler
+  measured **+2.0 dB**. Rebuilt on `chainCurve`, which has unity slope at the
+  origin.
+- **A more thorough test can be a blinder one.** Making `probe_controls`' short
+  note accented — strictly more coverage — hid `tb303.decay` completely, because
+  an accented 303 note takes `accDecay` and never reads `decay`.
 - **Do not "fix" an audio threshold by raising it.** When the 808 failed the sub
   and air checks, the answer was not a bigger number — it was that the bar has
   to be the *machine's*, the same way the air floor was already the *rig's*,
@@ -794,6 +983,13 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
   `git push -u origin claude/code-review-6jd9cz`.
 - **Never commit downloaded corpora.** `corpus/` content stays local.
 - **Seed 1 is the test seed.**
+- **The container has rolled this clone back three times in one session**, twice
+  mid-task, to a commit several days old. Nothing was lost because everything
+  was pushed. If `git log` shows a HEAD you do not recognise, that is what
+  happened: `git fetch origin claude/code-review-6jd9cz && git reset --hard
+  origin/claude/code-review-6jd9cz`, then check what you had uncommitted.
+  **Commit and push early. Do not sit on work.** And do not trust a file you
+  read before a long-running background job — read it again.
 
 ---
 
@@ -809,6 +1005,10 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
 | `docs/SYNTH-RESEARCH.md` | CS-80, filter topologies |
 | `docs/genre-research/*.md` | seven genres, **all unverified** |
 | `harness/mk2_roll.js` | the test that matters |
-| `harness/mk2_test.js` | the 57 seam checks |
+| `harness/mk2_test.js` | the 93 seam checks |
 | `harness/mk2_snapshot.js` | proof that a refactor is a refactor |
 | `harness/mk2_ui.js` | the panels, driven in a real browser |
+| `harness/probe_controls.js` | every knob on every machine reaches the sound |
+| `harness/probe_theory.js` | the music laws, read off the notes |
+| `harness/probe_voices.js` | every voice fires and none is silent |
+| `docs/genre-research/NOTES-FROM-THE-USER.md` | **the running log of what was measured, what was wrong, and why.** Read it with this file. |
