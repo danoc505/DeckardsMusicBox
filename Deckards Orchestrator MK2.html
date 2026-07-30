@@ -401,7 +401,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-30c · the comp rolls, opens, and an inner voice moves</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-30d · chromatic harmony: P, L and R reach outside the key</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -513,6 +513,70 @@ function chordTones(root, mode, d, seventh){
   return out;
 }
 const inKey = (root, mode, midi) => MODES[mode].includes(pc(midi - root));
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NEO-RIEMANNIAN TRANSFORMATIONS — chord motion that is not a scale degree.
+
+   Every progression in this program until now came from `G.progressions`, a
+   list of SCALE DEGREES, and `chordTones` stacks thirds inside the mode. So
+   every chord was diatonic by construction and the measured out-of-key rate was
+   0.0% in all seven genres -- the law working, and also a ceiling: no secondary
+   dominants, no borrowed chords, nothing chromatic anywhere in the program.
+
+   P, L and R are the other way of moving. They do not ask what degree a chord is
+   in a key; they take a triad and move exactly ONE voice by a semitone or a
+   tone, which is why they connect chords that are distant in the circle of
+   fifths with almost no voice movement at all [theory: Riemann, formalised by
+   Lewin and Cohn]:
+
+     P (parallel)      C major <-> C minor          the THIRD moves a semitone
+     L (leading-tone)  C major <-> E minor          the ROOT moves a semitone
+     R (relative)      C major <-> A minor          the FIFTH moves a tone
+
+   Two of the three hold two common tones and shift the third voice, so a chain
+   of them is smooth to sing and chromatic on paper -- exactly the thing this
+   program could not write. `PL` repeated cycles through the hexatonic system;
+   `PR` through the octatonic; `LR` walks the diatonic triads.
+
+   The triad is {pc, min} -- a pitch class and a quality -- because that is all
+   these operations need. Register is a later question, owned by the voicing. */
+function plr(tri, op){
+  const r = tri.pc, m = tri.min;
+  if(op === "P") return { pc: r, min: !m };
+  if(op === "L") return m ? { pc: pc(r + 8), min: false } : { pc: pc(r + 4), min: true };
+  if(op === "R") return m ? { pc: pc(r + 3), min: false } : { pc: pc(r + 9), min: true };
+  return tri;
+}
+/* COLTRANE'S CYCLE — the octave cut into three equal parts instead of into a
+   key. Giant Steps moves its tonic down a major third each time (B - G - Eb),
+   so the three centres are symmetric and NONE of them is more the tonic than
+   the others; the ear cannot settle, which is the whole effect. This returns
+   the cycle of roots from a starting pitch class. `dir` -1 descends as Coltrane
+   wrote it, +1 ascends. [theory: three-tonic system / the Coltrane matrix] */
+function coltraneCycle(startPc, dir){
+  return [0, 1, 2].map(i => pc(startPc + dir * 4 * i));
+}
+/* the tones of a triad, as `chordTones` returns them: pitch-class-rooted, with
+   the seventh stacked on when the genre asks. A dominant seventh is a minor
+   seventh over a major triad, which is what makes a secondary dominant pull. */
+function triadTones(tri, seventh, dominant){
+  const t = [tri.pc, tri.pc + (tri.min ? 3 : 4), tri.pc + 7];
+  if(seventh) t.push(tri.pc + (dominant ? 10 : (tri.min ? 10 : 11)));
+  return t;
+}
+/* WHICH SCALE DEGREE THIS CHORD IS NEAREST. A chromatic chord still has to
+   answer `ch.degree`, because the bass walk and the ostinato reach for
+   `degMidi(root, mode, ch.degree + n)` to find their approach notes. The
+   nearest diatonic degree keeps those builders sane while `tones` and
+   `rootMidi` carry the chord's real, possibly chromatic, identity. */
+function nearestDegree(root, mode, rootPc){
+  let best = 0, bd = 99;
+  for(let d = 0; d < 7; d++){
+    const dist = Math.min(pc(degMidi(root, mode, d) - rootPc), pc(rootPc - degMidi(root, mode, d)));
+    if(dist < bd){ bd = dist; best = d; }
+  }
+  return best;
+}
 /* smallest octave shift landing m inside [lo,hi] (band width >= 12 assumed) */
 function intoBand(m, lo, hi){
   while(m < lo) m += 12;
@@ -7017,6 +7081,15 @@ const GENRE = {
      ═════════════════════════════════════════════════════════════════════════ */
   vangelis: {
     label: "Vangelis — Blade Runner",
+    /* CHROMATIC HARMONY, BY TRANSFORMATION RATHER THAN BY DEGREE. This score is
+       the right first home for it: its harmony is famously non-functional -- it
+       does not cadence, it SLIDES, holding common tones while one voice steps
+       to somewhere the key does not contain. That is a description of P, L and
+       R, and it is what the diatonic degree tables could not write at any
+       setting. Three in ten songs, so the plainer changes still turn up and the
+       genre is not redefined by its newest mechanism. [EAR] on the rate; the
+       mechanism itself is [theory]. */
+    harmony: { style: "plr", chance: 0.30 },
     /* Vangelis worked with NO CLICK TRACK, hand-syncing to VHS, and called the
        looseness part of the method. So there is no published tempo to cite. Four
        machine readings were fetched directly: Blade Runner Blues 65, Memories of
@@ -9296,7 +9369,41 @@ function makeMaterials(chart){
     tones: chordTones(root, mode, d, G.sevenths),
     rootMidi: intoBand(degMidi(root, mode, d), R.bass[0], R.bass[1]),
   }));
-  const chords = mkChords(degrees);
+  /* ── THE CHROMATIC PROGRESSIONS ────────────────────────────────────────
+     A genre that declares `harmony` can have its changes generated by chord
+     TRANSFORMATION rather than by scale degree. Both draws run unconditionally,
+     whether or not the genre asks, so adding `harmony` to a table cannot move a
+     note in any genre that does not [Law 3].
+
+     The tonic is where both start, because a chromatic progression that never
+     states a home has nothing to be chromatic against. */
+  const rngN = stream(chart.seed, "neo");
+  const neoDraw = rngN(), neoOps = [0, 1, 2].map(() => wpick(rngN, [["P", 3], ["L", 4], ["R", 4]]));
+  const H = G.harmony;
+  const useNeo = !!H && neoDraw < (H.chance != null ? H.chance : 0);
+  const mkTriads = tris => tris.map((tri, i) => Object.freeze({
+    degree: nearestDegree(root, mode, tri.pc),
+    tones: triadTones(tri, G.sevenths, !!tri.dom),
+    rootMidi: intoBand(tri.pc, R.bass[0], R.bass[1]),
+    tri,
+  }));
+  let chords;
+  if(useNeo && H.style === "coltrane"){
+    /* three centres a major third apart, and the fourth bar comes home so the
+       loop is a departure and a return rather than a spiral */
+    const cyc = coltraneCycle(root, -1);
+    chords = mkTriads([{ pc: cyc[0], min: false }, { pc: cyc[1], min: false },
+                       { pc: cyc[2], min: false }, { pc: cyc[0], min: false }]);
+  } else if(useNeo){
+    /* a PLR chain from the tonic. Each step moves one voice; where it lands is
+       the transformation's business, not a key's. */
+    let tri = { pc: root, min: MODES[mode][2] === 3 };
+    const out = [tri];
+    for(const op of neoOps){ tri = plr(tri, op); out.push(tri); }
+    chords = mkTriads(out.slice(0, 4));
+  } else {
+    chords = mkChords(degrees);
+  }
   /* the bridge's harmony: the departure -- rotated to open OFF the tonic
      [theory: the bridge leaves home so the last chorus can arrive] */
   const rngC = stream(chart.seed, "depart");
@@ -10208,9 +10315,24 @@ function makeMaterials(chart){
         const last = notes[notes.length - 1];
         const bar = last.bar % BARS;
         reserved.delete(key(bar, last.step, last.pitch));      // it is moving; free the seat
-        const cands = [];
+        /* THE MELODY STAYS IN THE KEY EVEN WHEN THE HARMONY DOES NOT. With
+           chromatic changes the chord under a phrase ending can contain a pitch
+           the mode does not, and landing on it put an E natural in a C minor
+           tune -- then the hook RESTATED that phrase over a different chord,
+           where the note belonged to neither the key nor the harmony, and the
+           seam check threw. It was right to.
+
+           Filtering the landing to the chord tones that are also in the mode is
+           the honest resolution rather than a wider law: a modal line over
+           shifting harmony is what this score actually does, and it is why the
+           chromaticism reads as colour under the tune instead of as the tune
+           going somewhere else. If a chord offers no diatonic tone at all the
+           list falls back to all of them, because a phrase must still land. */
+        const all = [];
         for(const t of chordSet[bar].tones)
-          for(let o = -3; o <= 3; o++) cands.push(intoBand(t + 12 * o, LO, HI));
+          for(let o = -3; o <= 3; o++) all.push(intoBand(t + 12 * o, LO, HI));
+        const diatonic = all.filter(p => inKey(root, mode, p));
+        const cands = diatonic.length ? diatonic : all;
         cands.sort((a, z) => Math.abs(a - last.pitch) - Math.abs(z - last.pitch));
         /* the landing must not undo the law. If the note BEFORE the last one is
            a dissonance, the last note is its resolution, and moving it to a
@@ -11376,10 +11498,28 @@ function composeSong(seed, rig, genre, picks, pins){
      material; materials never sound simultaneously with each other. */
   for(const m of ["A", "Avar", "B", "C"]){
     const seen = new Set();
+    /* WHICH CHANGES THIS MATERIAL IS ON. C is the bridge and has its own. */
+    const chSet = m === "C" ? materials.bridgeChords : materials.chords;
     for(const role in materials[m]) for(const n of materials[m][role]){
       if(n.pitch != null){
-        if(!inKey(chart.root, chart.mode, n.pitch))
-          throw new Error("out of key in " + m + ": " + role + " " + n.pitch);
+        /* ── THE LAW IS NOT "EVERYTHING IS DIATONIC" ──────────────────────
+           It used to be, and it threw on any pitch outside the mode. That is
+           why every genre measured 0.0% out of key: not restraint, a wall.
+           And it is the wrong law, because it forbids the whole chromatic
+           vocabulary -- a secondary dominant, a borrowed chord, a
+           neo-Riemannian move -- on the same grounds as a wrong note.
+
+           The real law is that NO NOTE IS ARBITRARY. A pitch outside the key
+           is legal exactly when the chord sounding under it contains it: that
+           is what a chromatic chord IS, and a note belonging to it is spelled,
+           not stray. Anything else still throws, so the check has not been
+           loosened into a warning -- it has been asked the right question. */
+        if(!inKey(chart.root, chart.mode, n.pitch)){
+          const ch = chSet && chSet[n.bar % chSet.length];
+          const ok = ch && ch.tones.some(t => pc(t) === pc(n.pitch));
+          if(!ok) throw new Error("out of key and not in the chord, in " + m +
+                                  ": " + role + " " + n.pitch + " bar " + n.bar);
+        }
         const k = n.bar + ":" + n.step + ":" + n.pitch;
         if(seen.has(k)) throw new Error("collision in " + m + " at " + k);
         seen.add(k);
@@ -11734,7 +11874,17 @@ const $ = id => document.getElementById(id);
 function describe(song){ $("info").textContent = describeText(song); describeStory(song); }
 function describeText(song){
   const c = song.chart;
-  const name = ch => NOTE_NAMES[pc(degMidi(c.root, c.mode, ch.degree))] + "7";
+  /* NAME THE CHORD THAT IS ACTUALLY PLAYING. This read the chord's nearest
+     SCALE DEGREE and appended "7" to it, which was true while every chord was
+     diatonic and became a lie the moment one was not: a neo-Riemannian move
+     lands on a triad whose nearest degree is a different chord, so the roll
+     would print a name the notes do not play. Read the tones. */
+  const name = ch => {
+    const r = ch.tri ? ch.tri.pc : pc(degMidi(c.root, c.mode, ch.degree));
+    const third = ch.tones.length > 1 ? pc(ch.tones[1] - r) : 4;
+    const q = third === 3 ? "m" : third === 4 ? "" : "sus";
+    return NOTE_NAMES[r] + q + (ch.tones.length > 3 ? "7" : "");
+  };
   return (
     `${c.table.label} · ${NOTE_NAMES[c.root]} ${c.mode} · ${c.tempo} bpm · rig ${c.rig} · ` +
     `${song.form.nBars} bars · seed ${c.seed}\n` +

@@ -216,7 +216,20 @@ console.log(`GROOVE  ${song.perf.groove.style}` +
     ? `  snare ${(song.perf.groove.snareEarly * 100).toFixed(0)}% of a 16th EARLY, ` +
       `kick +${(song.perf.groove.kickLate * 100).toFixed(0)}% LATE`
     : ""));
-const chName = ch => T.NOTE_NAMES[T.pc(T.degMidi(C.root, C.mode, ch.degree))] + (ch.seventh ? "7" : "");
+/* NAME THE CHORD THE NOTES ACTUALLY SPELL. This read the chord's nearest SCALE
+   DEGREE, which was exactly true while every chord was diatonic and became a
+   lie the moment one was not: with chromatic harmony a transformation lands on
+   a triad whose nearest degree names a different chord, and seed 13 vangelis
+   printed "B B G B" for a progression that plays Bm B G#m B. The roll is the
+   test that matters in this repo; a roll that misnames the harmony sends the
+   next person looking for a bug in the notes. Read the tones. */
+const chName = ch => {
+  const r = ch.tri ? ch.tri.pc : T.pc(T.degMidi(C.root, C.mode, ch.degree));
+  const third = ch.tones && ch.tones.length > 1 ? T.pc(ch.tones[1] - r) : 4;
+  const q = third === 3 ? "m" : third === 4 ? "" : "sus";
+  const outside = (ch.tones || []).some(t => !T.MODES[C.mode].includes(T.pc(t - C.root)));
+  return T.NOTE_NAMES[r] + q + (ch.tones && ch.tones.length > 3 ? "7" : "") + (outside ? "*" : "");
+};
 console.log(`CHORDS  ${song.materials.chords.map(chName).join("  ")}` +
             `      bridge: ${song.materials.bridgeChords.map(chName).join("  ")}`);
 console.log(`POCKET  [${song.materials.pocket.join(", ")}]  (kick placements, 16ths)`);
