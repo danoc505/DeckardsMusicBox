@@ -401,7 +401,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-30d · chromatic harmony: P, L and R reach outside the key</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-30e · the ride stops buzzing</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -3773,20 +3773,69 @@ const Sound = (function(){
   };
 
   V.ride = function(g, ev, t){
+    /* ── THE RIDE WAS THE CRASH'S OLD DESIGN, STILL STANDING ─────────────────
+       Reported: the TR-1000 is crunchy and the ride is the worst offender.
+       Measured, and it is worse than the thing that was already complained
+       about and rebuilt:
+
+         crash (rebuilt)   16.3% of its energy in 2-6 kHz, tail 1.23 s
+         ride              18.7%                            tail 0.71 s
+         hat               13.9%                            tail 0.13 s
+
+       18.7% is not a coincidence: that is the number the CRASH measured before
+       its rebuild. This voice was six square waves through a fixed highpass on
+       ONE shared envelope -- exactly the design diagnosed there -- so it was as
+       bright at 0.7 seconds as at 40 milliseconds, which nothing struck does. A
+       cymbal's high modes damp fastest, so it darkens as it rings. Six undamped
+       squares holding their brightness is a buzzer, and a buzzer running under
+       every bar of a beat is more tiring than one crash at the top of a section.
+
+       The same three fixes the crash got, with the one difference that a ride
+       is a FOCUSED instrument where a crash is a wash: the bell stays
+       prominent, the stick attack keeps its edge, and the sustain is quieter
+       relative to them rather than louder.
+
+       1. THE STICK IS SHORT. The square partials get their own envelope at a
+          third of the total and stop, instead of riding the whole decay.
+       2. IT DARKENS. A lowpass sweeps 11 kHz -> 3.2 kHz across the decay. This
+          is the change that takes the crunch out: the ear hears sustained
+          UNCHANGING top as harsh well before it hears it as loud.
+       3. LESS METAL, MORE AIR. The square stack drops and a filtered noise wash
+          carries the body, because the shimmer between the strikes is air, not
+          a chord of squares. */
     const c = g.ctx, chD = chDecay(g, ev), chT = chTune(g, ev);
     const dec = 0.85 * chD;
+    const stick = dec * 0.34;                    // the metal, and it stops first
+
+    /* the darkening, shared by every part of the voice */
+    const dark = c.createBiquadFilter(); dark.type = "lowpass"; dark.Q.value = 0.707;
+    dark.frequency.setValueAtTime(11000, t);
+    dark.frequency.exponentialRampToValueAtTime(3200, t + dec);
+    dark.connect(drumOut(g, ev.lane));
+
     const hp = c.createBiquadFilter(); hp.type = "highpass";
     hp.frequency.value = 5200 * chT; hp.Q.value = 0.7;
     const gn = c.createGain();
-    gn.gain.setValueAtTime(LEVEL.hat * ev.gain * 0.44, t);
-    gn.gain.exponentialRampToValueAtTime(0.0002, t + dec);
-    hp.connect(gn); gn.connect(drumOut(g, ev.lane));
+    gn.gain.setValueAtTime(LEVEL.hat * ev.gain * 0.26, t);
+    gn.gain.exponentialRampToValueAtTime(0.0002, t + stick);
+    hp.connect(gn); gn.connect(dark);
     const made = [];
     for(const r of R808){
       const o = c.createOscillator(); o.type = "square";
       o.frequency.value = 263 * r * 2.1 * chT;
-      o.connect(hp); o.start(t); o.stop(t + dec + 0.03); made.push(o);
+      o.connect(hp); o.start(t); o.stop(t + stick + 0.03); made.push(o);
     }
+    /* THE WASH — the shimmer between the strikes, which is air rather than a
+       chord of squares. `burst` is the same seeded noise source the crash uses,
+       keyed so the sound stays deterministic per event [Law 3]. */
+    const n = burst(g, t, dec, ev.tSec.toFixed(5) + ":ride");
+    const nb = c.createBiquadFilter(); nb.type = "bandpass";
+    nb.frequency.value = 6200 * chT; nb.Q.value = 0.5;
+    const ng = c.createGain();
+    ng.gain.setValueAtTime(LEVEL.hat * ev.gain * 0.20, t);
+    ng.gain.exponentialRampToValueAtTime(0.0002, t + dec);
+    n.connect(nb); nb.connect(ng); ng.connect(dark);
+    made.push(n);
     /* THE PING. A ride is a stick on a bell and the bell is the reason anybody
        uses one -- a short pitched tap on the front, over the wash. */
     const png = c.createOscillator(); png.type = "triangle";
