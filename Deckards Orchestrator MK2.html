@@ -258,6 +258,9 @@
   .sk-wurly .brand{ background:#3f4a34; color:#e8e4d2; margin:-.85rem -1rem .8rem;
                     padding:.4rem 1rem; border-radius:4px 4px 0 0; }
 
+  /* the MIDI port's status line: it always says what happened, including the
+     cases where nothing can happen */
+  #midinote{ color:var(--dim); font-size:11px; margin:-.5rem 0 .6rem; min-height:1.1em; }
   #buildStamp{ display:inline-block; margin-left:.7rem; font-size:10px; letter-spacing:.12em;
                text-transform:uppercase; color:var(--dim); border:1px solid #3a352c;
                border-radius:3px; padding:.12rem .45rem; vertical-align:middle; }
@@ -398,7 +401,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-30a · a dissonance steps · the kit filter is in the circuit · every rig pinnable</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-30b · the comp rolls and an inner voice moves · MIDI out + clock</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -410,8 +413,18 @@
   <button id="play">&#9654; play</button>
   <button id="wav">render .wav</button>
   <button id="mid">export .mid</button>
+  <!-- THE PORT. Populated on click, not at boot: requestMIDIAccess is a
+       permission prompt, and a program that asks for your hardware before you
+       have asked it for anything is a program you stop trusting. -->
+  <select id="midiout" title="play this song out of a MIDI port, live, as well as through the speakers">
+    <option value="">MIDI out: off</option>
+  </select>
+  <!-- 24-ppqn clock + start/stop, so the gear on the other end runs at this
+       song's tempo instead of merely receiving its notes -->
+  <button id="midiclock" aria-pressed="false" title="send MIDI clock so your gear locks to this tempo">clock</button>
   <span id="pos"></span>
 </div>
+<div id="midinote"></div>
 <div id="blend"></div>
 <div class="row" id="rack">
   <select id="mDrums" title="which drum machine plays the kit part"></select>
@@ -4883,12 +4896,24 @@ const Sound = (function(){
        right number from the moment the graph is configured, and the scheduled
        curve takes over from t0 as before. */
     try { param.value = v; } catch(e){}
-    param.setValueAtTime(v, t0);
+    /* AN AUTOMATION POINT BEFORE THE CONTEXT'S ZERO HAS ALREADY HAPPENED.
+       `playLive` sets `t0 = currentTime + 0.15 - fromSec`, which goes NEGATIVE
+       whenever the song is started further in than the audio clock has been
+       running -- and `setValueAtTime` throws a RangeError on a negative time,
+       taking the whole render down with it. Nothing in today's UI can reach it,
+       because every caller passes an elapsed `songTime()` that is by definition
+       smaller than the clock; a seek control or a "start at bar N" is what makes
+       it live, and both are on the list. Found by the MIDI probe, which starts
+       at song second 30 on a fresh context to test the mid-song Continue path.
+
+       Clamping is the honest reading rather than a patch: the curve began before
+       we were listening, so it begins now, at the value it should already hold. */
+    param.setValueAtTime(v, Math.max(0, t0));
     for(let i = 1; i <= n; i++){
       const tSec = i * step;
       let x = base + depth * motionAt(plan, key, { tSec }, g.motionOffset);
       if(c) x = Math.max(c.min, Math.min(c.max, x));
-      param.linearRampToValueAtTime(x, t0 + tSec);
+      param.linearRampToValueAtTime(x, Math.max(0, t0 + tSec));
     }
   }
 
@@ -4987,7 +5012,10 @@ const Sound = (function(){
         if(filterOn){ head.connect(ch.lp); head = ch.lp; }
         head.connect(ch.mk);
         const d = 1;
-        ch.mk.gain.cancelScheduledValues(t0);
+        /* same clamp as rideBus, and for the same reason: t0 is negative when
+           the song starts further in than the audio clock has run, and every
+           AudioParam method rejects a negative time [see rideBus] */
+        ch.mk.gain.cancelScheduledValues(Math.max(0, t0));
         rideBus(g, ch.mk.gain, M + "." + grp + "Mix", mix, t0);
       }
     } else if(g.dchain){
@@ -5107,7 +5135,26 @@ const Sound = (function(){
      button press would throw playback back to bar one, which would make the grid
      unusable for the one thing a grid is for. The returned t0 is the context
      time the song's ZERO is at, so it stays the right reference either way. */
-  function playLive(events, space, kick, drumDrive, gate, motion, fromSec){
+  /* AUDIO TIME -> THE performance.now() DOMAIN, which is what Web MIDI stamps
+     are in. `getOutputTimestamp()` is the pair the spec defines for exactly this
+     and it accounts for output latency; the fallback reads the two clocks in the
+     same breath, which is close enough to be inaudible and honest about being a
+     fallback. Sound owns `ctx`, so Sound answers this. */
+  function toPerfTime(ctxTime){
+    if(!ctx) return performance.now();
+    let anchorCtx = ctx.currentTime, anchorPerf = performance.now();
+    if(typeof ctx.getOutputTimestamp === "function"){
+      const ts = ctx.getOutputTimestamp();
+      if(ts && ts.contextTime != null && ts.performanceTime != null){
+        anchorCtx = ts.contextTime; anchorPerf = ts.performanceTime;
+      }
+    }
+    return anchorPerf + (ctxTime - anchorCtx) * 1000;
+  }
+  /* `onEvent` is called at the ONE line that decides an event really happens, so
+     anything hanging off it inherits the pump's drop rule instead of inventing
+     its own. See MIDI_OUT. */
+  function playLive(events, space, kick, drumDrive, gate, motion, fromSec, onEvent){
     ensureLive();
     stopLive();
     const skip = fromSec > 0 ? fromSec : 0;
@@ -5170,7 +5217,12 @@ const Sound = (function(){
       const now = ctx.currentTime, horizon = now + LOOKAHEAD;
       while(i < events.length && t0 + events[i].tSec < horizon){
         const at = t0 + events[i].tSec;
-        if(at >= now - SLIP) dispatch(liveGraph, events[i], at, liveHandles);
+        if(at >= now - SLIP){
+          dispatch(liveGraph, events[i], at, liveHandles);
+          /* the same decision, told to anyone listening. A throw out here must
+             never take the audio with it. */
+          if(onEvent){ try { onEvent(events[i], at); } catch(e){} }
+        }
         else lateDropped++;
         i++;
       }
@@ -5246,7 +5298,8 @@ const Sound = (function(){
      used to check event voices against a list of thirteen names hand-copied into
      the harness, which proved only that the copy was up to date -- and it went
      stale the moment the rack could name a voice the rig never does. */
-  return { playLive, stopLive, renderWav, now: () => (ctx ? ctx.currentTime : 0), LEVEL,
+  return { playLive, stopLive, renderWav, toPerfTime,
+           now: () => (ctx ? ctx.currentTime : 0), LEVEL,
            voiceNames: () => Object.keys(V),
            /* rewrite the bus automation from a hand's move, mid-song */
            refreshBus,
@@ -9707,6 +9760,41 @@ function makeMaterials(chart){
     const SYNC = [[8, 5], [6, 3], [13, 2], [11, 2], [2, 1]];
     const notes = [];
     let prev = null;
+    /* THE ARTICULATION'S DRAWS, ALL OF THEM, BEFORE ANY BAR IS BUILT. A draw
+       inside the bar loop's conditionals would starve every later bar on this
+       stream the moment one bar took a different branch [Law 3], and the branch
+       below (a rolled voicing that clashes falls back to a plain one) is exactly
+       such a conditional. Drawing the whole song's worth up front means the
+       fallback cannot move a single note in any other bar.
+
+       `rngInner` and `rngAlter` are drawn per bar but the CELL they feed is one
+       decision for the material -- see the articulation comment below. */
+    const rngSpread = [], rngInner = [], rngAlter = [];
+    for(let b = 0; b < BARS; b++){ rngSpread.push(rng()); rngInner.push(rng()); rngAlter.push(rng()); }
+    /* ── THE FIGURE, DRAWN ONCE FOR THE WHOLE MATERIAL ────────────────────
+       "an inner melody that is repeated with slight alterations" is a CELL, not
+       a per-bar decision: the ear only hears a figure as a figure when the same
+       shape comes round again. Drawn here, once, and every bar plays it.
+
+       It also answers a real regression. The first version of this articulation
+       left only the arrival plus one or two inner notes a bar, and the event
+       count fell 1365 -> 1036 on seed 1 -- staggered, but THINNER, when the
+       reference photograph's good comp is plainly DENSER than its bad one. The
+       density has to come back as the inner line rather than as more block
+       chords, which is exactly what the picture shows: many short notes, one or
+       two voices at a time, spread across the bar.
+
+       Offbeats are weighted because that is where a comping hand lives -- on the
+       ands, between the kick and the snare -- and a figure on the beats is the
+       block chord again with extra steps. */
+    const CELL_POOL = [[2, 3], [3, 4], [6, 5], [7, 4], [10, 5], [11, 4], [14, 3], [15, 2]];
+    const cell = [];
+    { const want = 2 + Math.floor(rng() * 3);            // 2..4 inner notes a bar
+      for(let i = 0; i < 4; i++){                        // four draws, ALWAYS
+        const s = wpick(rng, CELL_POOL);
+        if(i < want && !cell.includes(s)) cell.push(s);
+      }
+      cell.sort((a, z) => a - z); }
     for(let b = 0; b < BARS; b++){
       const ch = chordSet[b];
       let strikes;
@@ -9741,11 +9829,147 @@ function makeMaterials(chart){
       if(!voiced) throw new Error("no keys voicing fits [" + R.keys + "] clear of the bass and " +
                                  "ostinato on bar " + b);
       prev = voiced;
-      for(let si = 0; si < strikes.length; si++){
-        const st = strikes[si], nxt = si + 1 < strikes.length ? strikes[si + 1] : 16;
-        const ring = opts.sustain ? 16 : Math.max(2, Math.round((nxt - st) * 0.6));
-        for(const pch of voiced)
-          notes.push({ bar: b, step: st, dur: ring, pitch: pch, vel: si === 0 ? 0.8 : 0.55, role: "keys" });
+      /* ── HOW THE VOICING SPEAKS ──────────────────────────────────────────
+         This used to be `for(const pch of voiced) push({step: st})` — every
+         voice of the chord arriving at the same instant, the same voicing
+         restruck two or three times a bar, every bar. Measured across all seven
+         genres: **100% of comp notes began at an instant another comp note also
+         began, and 0% of consecutive onsets inside a bar moved a voice while
+         another held.** That is a block chord, and held against the reference
+         photograph of a bad comp beside a good one, it is the bad one exactly:
+         few long notes, every voice changing together at the bar line.
+
+         What the good one is, in the user's words: "chords in which the notes
+         start at different times with an inner melody that is repeated with
+         slight alterations." Three separate mechanisms, and all three are
+         GENERATIVE — the notes are written this way, nothing is moved after the
+         fact [no correcting passes]:
+
+         1. THE VOICES DO NOT ARRIVE TOGETHER. A hand does not put four fingers
+            down on one instant; it rolls, bottom upward, and the roll is the
+            difference between a chord and a keyboard player. `off` spreads the
+            entries across a few sixteenths.
+
+         2. AN INNER VOICE MOVES WHILE THE OUTER ONES HOLD. This is the "inner
+            melody". On the strikes after the first, the outer voices are ALREADY
+            SOUNDING and are not restruck — only the inner voice speaks, and it
+            speaks a different chord tone. That is what makes the comp a line
+            rather than a repetition, and it is why the outer voices get a long
+            ring here and a short one before.
+
+         3. THE FIGURE REPEATS, WITH SLIGHT ALTERATIONS. The cell — which
+            strikes the inner voice takes — is drawn ONCE for the whole material,
+            so the ear hears the same shape bar after bar. `alter` then redraws
+            one element of it on some bars, which is the "slight alterations"
+            half. A figure redrawn every bar is not a figure.
+
+         EVERY DRAW IS UNCONDITIONAL [Law 3] — they all run before anything is
+         decided, so a bar that ends up playing the plain articulation does not
+         starve the bars after it. */
+      const spread = rngSpread[b], whichInner = rngInner[b], alter = rngAlter[b];
+      /* the inner voice is one of the middle ones: never the bass of the
+         voicing (that is the chord's foundation) and never the top (that is the
+         line the ear follows as melody). A three-note voicing has exactly one
+         candidate; a four-note has two. */
+      const innerLo = 1, innerHi = Math.max(1, voiced.length - 2);
+      const innerIx = innerLo + Math.floor(whichInner * (innerHi - innerLo + 1));
+      const inner = Math.min(voiced.length - 1, innerIx);
+      /* WHERE THAT VOICE CAN GO. First choice is the chord's OTHER tones in this
+         register — a move to a chord tone is always safe and always in key.
+
+         But a triad voiced as exactly its three tones HAS no other tone, and
+         measured, that is the common case rather than the exception: the first
+         version of this found `others` empty and quietly rolled the full voicing
+         on every strike instead, which is the block chord again wearing a roll.
+         So the fallback is the diatonic NEIGHBOURS of the inner voice — a step
+         above and a step below, through `scaleStep`, so they cannot leave the
+         key. A neighbour that returns to a chord tone is the oldest inner-voice
+         figure there is, and it is what the reference photograph shows: small
+         steps, not leaps. */
+      const held = new Set(voiced);
+      let others = ch.tones
+        .map(t => intoBand(t, voiced[0], voiced[voiced.length - 1] + 11))
+        .filter(p => !held.has(p));
+      if(!others.length){
+        const seed2 = voiced[Math.min(inner, voiced.length - 1)];
+        others = [scaleStep(chart.root, chart.mode, seed2, 1),
+                  scaleStep(chart.root, chart.mode, seed2, -1)].filter(p => !held.has(p));
+      }
+      others = [...new Set(others)];
+      /* THE ROLL, AND IT MUST FIT. The first version wrote
+         `Math.min(15, st + v*width)`, which does not spread a voicing — it
+         STACKS it, folding every voice past the end onto step 15, and two voices
+         on one step at one pitch is a collision the seam check threw on. The
+         width is bounded by the room actually available before the next strike
+         instead, and a bar with no room simply does not roll. Nothing is clamped
+         and nothing is moved afterwards. */
+      const emit = [];
+      /* THE ARRIVAL — the voicing itself, rolled from the bottom. */
+      {
+        const st = strikes[0], nxt = strikes.length > 1 ? strikes[1] : 16;
+        const room = Math.max(0, (nxt - 1) - st);
+        const want = opts.sustain ? 0 : (spread < 0.42 ? 1 : spread < 0.8 ? 1 : 2);
+        const width = voiced.length > 1
+          ? Math.max(0, Math.min(want, Math.floor(room / (voiced.length - 1)))) : 0;
+        for(let v = 0; v < voiced.length; v++){
+          const at = st + v * width;
+          const ring = opts.sustain ? 16 : Math.max(2, (16 - at) - 1);
+          emit.push({ bar: b, step: at, dur: ring, pitch: voiced[v],
+                      vel: 0.8, role: "keys" });
+        }
+      }
+      /* THE FIGURE — the inner voice, on the material's own cell, every bar.
+         The outer voices are still ringing from the arrival and are NOT
+         restruck: something holds while something moves. `alter` drops one note
+         of the cell on some bars and shifts which tone the voice reaches for on
+         others -- the "slight alterations" that keep a repeat from being a
+         copy. A pad does not do any of this. */
+      if(!opts.sustain && others.length){
+        const skip = alter < 0.28 ? Math.floor(alter * 37) % cell.length : -1;
+        for(let ci = 0; ci < cell.length; ci++){
+          if(ci === skip) continue;
+          const st = cell[ci];
+          if(st <= strikes[0]) continue;               // the arrival owns that instant
+          const nxt = ci + 1 < cell.length ? cell[ci + 1] : 16;
+          const pickIx = Math.floor(alter * 7 + ci) % others.length;
+          emit.push({ bar: b, step: st, dur: Math.max(2, Math.min(4, nxt - st)),
+                      pitch: others[pickIx], vel: 0.55, role: "keys" });
+        }
+      }
+      /* THE RESTATEMENT the pocket asks for — and it is the UPPER voices only.
+         Restating the whole voicing put simultaneity straight back up to 71%,
+         which is the block chord returning through the side door. A hand
+         comping does not lift and drop all four fingers again; the lower voices
+         are already ringing and it restates the top of the chord over them.
+         Two voices, and rolled if there is room for it. */
+      for(let si = 1; si < strikes.length && !opts.sustain; si++){
+        const st = strikes[si];
+        if(emit.some(n => n.step === st)) continue;
+        const top = voiced.slice(Math.max(0, voiced.length - 2));
+        for(let v = 0; v < top.length; v++){
+          const at = st + (spread < 0.5 ? 0 : v);
+          if(at > 15) continue;
+          emit.push({ bar: b, step: at, dur: Math.max(2, 16 - at - 1), pitch: top[v],
+                      vel: 0.5, role: "keys" });
+        }
+      }
+      /* THE COLLISION CHECK HAS TO SEE THE REAL ONSETS. The voicing above was
+         chosen clear of `taken` at the STRIKE steps; rolling moves entries off
+         those steps and the inner voice reaches pitches the voicing does not
+         contain, so both could land on a note the bass or the ostinato owns.
+         Rather than move anything afterwards, the bar takes the plain
+         articulation it has always had, which is known clear. Decided before a
+         note is emitted, never after. */
+      const clashes = emit.some(n => taken.has(key(n.bar, n.step, n.pitch)));
+      if(clashes){
+        for(let si = 0; si < strikes.length; si++){
+          const st = strikes[si], nxt = si + 1 < strikes.length ? strikes[si + 1] : 16;
+          const ring = opts.sustain ? 16 : Math.max(2, Math.round((nxt - st) * 0.6));
+          for(const pch of voiced)
+            notes.push({ bar: b, step: st, dur: ring, pitch: pch, vel: si === 0 ? 0.8 : 0.55, role: "keys" });
+        }
+      } else {
+        for(const n of emit) notes.push(n);
       }
     }
     return notes;
@@ -11156,6 +11380,23 @@ const MIDI_TRACK = {
   ostinato: { ch: 4, prog: 11, name: "ostinato" },  // vibraphone: a struck, ringing cell
 };
 
+/* WHICH KEY AND HOW HARD — the ONE answer, for the file you export and the port
+   you play. These were written inline inside toMidi(), which was correct while
+   the .mid was the only way a note left this program. The live MIDI port is a
+   second way out, and two copies of "what note is this" is exactly the shape of
+   defect this file keeps finding: a hand-copied subset drifting behind its
+   table. One function, both callers.
+
+   `tape` is a bed, not a note, and has no key. A drum lane with no GM name
+   returns null and is not sent rather than being sent as note 0. */
+function midiKeyFor(ev){
+  if(ev.role === "tape") return null;
+  if(ev.role === "drums")
+    return ev.lane === "brk" ? gmForSlice(ev.slice) : (GM_DRUM[ev.lane] != null ? GM_DRUM[ev.lane] : null);
+  return ev.pitch != null ? ev.pitch : null;
+}
+const midiVelFor = ev => Math.max(1, Math.min(127, Math.round(ev.gain * 100)));
+
 function midiVLQ(n){                       // variable-length quantity, 7 bits at a time
   const out = [n & 0x7f];
   n >>= 7;
@@ -11200,11 +11441,9 @@ function toMidi(song){
        the same instant so a repeated pitch retriggers instead of cancelling */
     const msgs = [];
     for(const ev of evs){
-      const key = role === "drums"
-        ? (ev.lane === "brk" ? gmForSlice(ev.slice) : GM_DRUM[ev.lane])
-        : ev.pitch;
+      const key = midiKeyFor(ev);
       if(key == null) continue;
-      const vel = Math.max(1, Math.min(127, Math.round(ev.gain * 100)));
+      const vel = midiVelFor(ev);
       const on = tick(ev.tSec), off = Math.max(on + 1, tick(ev.tSec + ev.durSec));
       msgs.push({ t: on,  order: 1, b: [0x90 | T.ch, key, vel] });
       msgs.push({ t: off, order: 0, b: [0x80 | T.ch, key, 64] });
@@ -11224,6 +11463,192 @@ function toMidi(song){
   for(const t of tracks) all = all.concat(midiChunk("MTrk", t));
   return new Uint8Array(all);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE MIDI PORT — the same song, played out of the box instead of into it.
+
+   The .mid export has always existed and it is a FILE: you stop, you save, you
+   drag it somewhere, and the thing you wanted was to hear this program through
+   your own instruments while it plays. This is that, on the hardware the user
+   actually owns, with no export step in the middle.
+
+   ── WHY IT HANGS OFF THE AUDIO PUMP, AND NOT ITS OWN CLOCK ─────────────────
+   The obvious build is a second scheduler walking the event list on a timer.
+   That is a SECOND OWNER of "when does this note happen" [Law 1], and the two
+   would disagree in exactly the case that matters: `playLive`'s pump DROPS an
+   event whose moment has passed rather than firing it late, because a stalled
+   main thread otherwise dumps twelve notes into one instant. A MIDI scheduler
+   that did not know about that rule would keep the dropped notes and play the
+   audio's silence against its own full bar -- the two outputs drifting apart
+   precisely when the machine is under load.
+
+   So there is no MIDI scheduler. `playLive` takes an `onEvent` hook and calls
+   it at the one line where it decides an event really happens. A note the audio
+   drops is a note MIDI drops, for free and by construction.
+
+   ── AND WHY BOTH MESSAGES GO AT ONCE ──────────────────────────────────────
+   The note-on and the note-off are sent in the same call, both with future
+   timestamps, so an event is atomic: there is no window in which the hook has
+   sent an on whose off is still owed. That is what makes a dropped event safe
+   -- dropping it drops both halves -- and it is the difference between a gap
+   and a hung note screaming until you pull the cable.
+
+   Web MIDI timestamps are DOMHighResTimeStamp (the `performance.now()` domain)
+   and the pump thinks in AudioContext time, so every send goes through
+   `Sound.toPerfTime`, which uses `getOutputTimestamp()` where the browser has
+   it -- that is the pair the spec defines for exactly this, and it accounts for
+   the output latency that a naive `performance.now()` reading does not.
+
+   ── WHAT IT DOES NOT DO ────────────────────────────────────────────────────
+   No MIDI IN, no clock yet (that is the next item and it is not claimed here),
+   no per-role channel picker -- the channels are `MIDI_TRACK`'s, the same ones
+   the .mid has always used, so a receiver set up for the exported file is set
+   up for this. And the program change is advisory on both, for the same reason.
+   ═══════════════════════════════════════════════════════════════════════════ */
+const MIDI_OUT = (() => {
+  let access = null, port = null, sent = 0, failed = "";
+  const used = new Set();                 // channels we have actually put a note on
+
+  /* the browser may not have Web MIDI at all, and an artifact iframe may hold
+     the permission back. Both are "no port", and BOTH MUST SAY SO -- a picker
+     that silently does nothing is the one defect this project has a standing
+     rule about. `failed` is what the UI prints. */
+  async function enable(){
+    if(access) return access;
+    if(!navigator.requestMIDIAccess){
+      failed = "this browser has no Web MIDI (Chrome/Edge have it; Safari and Firefox do not)";
+      return null;
+    }
+    try {
+      access = await navigator.requestMIDIAccess({ sysex: false });
+      failed = "";
+      return access;
+    } catch(e){
+      /* in a cross-origin iframe without `allow="midi"` this is a SecurityError,
+         which is not a bug in this file and must not be reported as one */
+      failed = (e && e.name === "SecurityError")
+        ? "the page hosting this file did not grant MIDI — open the .html directly and it works"
+        : "MIDI was refused: " + (e && e.message ? e.message : String(e));
+      access = null;
+      return null;
+    }
+  }
+  const outputs = () => access ? [...access.outputs.values()] : [];
+  function choose(id){
+    port = outputs().find(o => o.id === id) || null;
+    return port;
+  }
+  /* EVERY CHANNEL WE HAVE TOUCHED, silenced. Called on stop, on a song change and
+     before the tab goes away. All-notes-off (123) is the polite one and some
+     hardware ignores it, so all-sound-off (120) goes too. */
+  function panic(){
+    if(!port) return;
+    for(const ch of used){
+      try { port.send([0xb0 | ch, 120, 0]); port.send([0xb0 | ch, 123, 0]); } catch(e){}
+    }
+    used.clear();
+  }
+  /* announce the advisory programs once, so a fresh synth lands somewhere sane */
+  function programs(){
+    if(!port) return;
+    for(const role in MIDI_TRACK){
+      const T = MIDI_TRACK[role];
+      if(role === "drums") continue;
+      try { port.send([0xc0 | T.ch, T.prog]); } catch(e){}
+    }
+  }
+  /* THE HOOK. Called by the pump at the moment it decides this event happens,
+     with the AudioContext time it happens at. */
+  function onEvent(ev, atCtxTime){
+    if(!port) return;
+    const key = midiKeyFor(ev);
+    if(key == null) return;
+    const T = MIDI_TRACK[ev.role];
+    if(!T) return;
+    const onMs  = Sound.toPerfTime(atCtxTime);
+    /* a drum is a strike, not a held note: give it a short fixed gate rather
+       than its decay tail, or a 1.6 s 808 kick holds channel 10 for 1.6 s and
+       every retrigger inside that window cancels the one before it */
+    const durSec = ev.role === "drums" ? 0.02 : Math.max(0.02, ev.durSec);
+    const offMs = Sound.toPerfTime(atCtxTime + durSec);
+    used.add(T.ch);
+    try {
+      port.send([0x90 | T.ch, key, midiVelFor(ev)], onMs);
+      port.send([0x80 | T.ch, key, 64], offMs);
+      sent++;
+    } catch(e){}
+  }
+  /* ── THE CLOCK ────────────────────────────────────────────────────────────
+     Notes alone make the hardware sing; the clock makes it a MEMBER OF THE BAND.
+     A BeatStep Pro's own sequencer, an arpeggiator, a delay set to tempo -- none
+     of them can follow note events, they follow 24-ppqn clock, and without it
+     the user is playing a fixed sequence at his gear rather than with it.
+
+     Clock is NOT an event, so it cannot ride the note hook -- it has to be
+     generated. That makes it the second owner of a clock this file was careful
+     to keep single, so it is anchored to `t0`, the same song-zero the audio and
+     the bus automation use, and every tick is computed from it rather than
+     accumulated. Accumulating is how a clock drifts: add 60/tempo/24 a thousand
+     times in floating point and the error is audible as a slow flam against the
+     audio. `t0 + n * period` cannot drift, however many ticks there are.
+
+     The window numbers are the audio pump's, deliberately -- 100 ms tick, 1.2 s
+     horizon -- because the two want to survive the same stall.
+
+     STARTING MID-SONG is a real case here: editing a step recomposes and resumes
+     at the same second. A bare Start (0xFA) means "from the top" to every
+     receiver, which would put the hardware at bar 1 while the song is at bar 30.
+     So a mid-song start sends a Song Position Pointer (0xF2, counted in
+     sixteenths, which is what a MIDI beat is) and then Continue (0xFB). ── */
+  let clockTimer = null, clockN = 0, clockT0 = 0, clockPeriod = 0;
+  const CLOCK_TICK_MS = 100, CLOCK_HORIZON = 1.2;
+  let clockOn = false;
+  const setClock = on => { clockOn = on; };
+  function startClock(t0, tempo, fromSec){
+    stopClock(false);
+    if(!port || !clockOn) return;
+    clockPeriod = 60 / tempo / 24;
+    clockT0 = t0;
+    clockN = Math.max(0, Math.ceil((Sound.now() - t0) / clockPeriod));
+    const from = fromSec > 0 ? fromSec : 0;
+    try {
+      if(from > 0){
+        const sixteenth = Math.floor(from / (60 / tempo / 4));
+        port.send([0xf2, sixteenth & 0x7f, (sixteenth >> 7) & 0x7f]);
+        port.send([0xfb]);                                   // continue
+      } else {
+        port.send([0xfa]);                                   // start
+      }
+    } catch(e){}
+    const pump = () => {
+      if(!port || !clockOn) return;
+      const horizon = Sound.now() + CLOCK_HORIZON;
+      let at = clockT0 + clockN * clockPeriod;
+      while(at < horizon){
+        if(at >= Sound.now() - 0.005){
+          try { port.send([0xf8], Sound.toPerfTime(at)); ticks++; } catch(e){}
+        }
+        clockN++;
+        at = clockT0 + clockN * clockPeriod;
+      }
+    };
+    pump();
+    clockTimer = setInterval(pump, CLOCK_TICK_MS);
+  }
+  let ticks = 0;
+  function stopClock(announce){
+    if(clockTimer){ clearInterval(clockTimer); clockTimer = null; }
+    if(port && announce !== false && clockOn){ try { port.send([0xfc]); } catch(e){} }
+  }
+  return { enable, outputs, choose, panic, programs, onEvent,
+           startClock, stopClock, setClock,
+           get clockOn(){ return clockOn; },
+           get port(){ return port; },
+           get failed(){ return failed; },
+           sent: () => sent, ticks: () => ticks,
+           /* the probe reads these; nothing in the music does */
+           _reset: () => { sent = 0; ticks = 0; used.clear(); } };
+})();
 
 /* ═══════════════════════════════════════════════════════════════════════════
    UI — thin. Owns no music state beyond the current Song.
@@ -12196,11 +12621,22 @@ function pumpLive(){
 }
 function startPlayback(fromSec){
   const S = soundNow();
-  PLAY_T0 = Sound.playLive(SONG.perf.events, S.space, S.kick, S.drumDrive, S.gate, S.motion, fromSec);
+  /* the port is handed the pump's own decision; if no port is chosen the hook is
+     a no-op and nothing about playback changes */
+  MIDI_OUT.programs();
+  PLAY_T0 = Sound.playLive(SONG.perf.events, S.space, S.kick, S.drumDrive, S.gate, S.motion, fromSec,
+                           MIDI_OUT.port ? MIDI_OUT.onEvent : null);
+  /* the clock is anchored to the SAME song zero the audio and the bus ride use */
+  MIDI_OUT.startClock(PLAY_T0, SONG.chart.tempo, fromSec);
   playing = true; $("play").innerHTML = "&#9632; stop";
   if(!RAF) RAF = requestAnimationFrame(pumpLive);
 }
 function stopPlayback(){
+  /* SILENCE THE HARDWARE FIRST. Every note-off is already queued with a future
+     stamp, but stopping mid-note means the offs for notes still sounding are
+     out there and the audio is gone -- so anything held would hang until its
+     stamp came round. Nothing on the machine should ring after the stop button. */
+  MIDI_OUT.stopClock(); MIDI_OUT.panic();
   Sound.stopLive(); playing = false; PLAY_T0 = null;
   $("play").innerHTML = "&#9654; play";
   if(RAF){ cancelAnimationFrame(RAF); RAF = null; }
@@ -12247,6 +12683,62 @@ function boot(){
     for(const k of Object.keys(GENRE)) BLEND[k] = 0;
     soloBlend(g.value || Object.keys(GENRE)[0]);
     drawBlend();
+  }
+  {  /* ── THE MIDI PORT ────────────────────────────────────────────────────
+        Opening the list is what asks for access, so the prompt arrives when the
+        user reaches for the feature and never before. Every outcome SAYS what
+        happened: no Web MIDI, permission held back by the host page, access but
+        no devices, or a port. A picker that sits there doing nothing is the one
+        defect this project has a standing rule about. */
+    const sel = $("midiout"), note = $("midinote");
+    const say = t => { note.textContent = t || ""; };
+    const fill = () => {
+      const outs = MIDI_OUT.outputs();
+      const cur = sel.value;
+      sel.innerHTML = `<option value="">MIDI out: off</option>` +
+        outs.map(o => `<option value="${o.id}">MIDI: ${o.name}</option>`).join("");
+      if(outs.some(o => o.id === cur)) sel.value = cur;
+      return outs;
+    };
+    let asked = false;
+    const ask = async () => {
+      if(asked) return; asked = true;
+      const acc = await MIDI_OUT.enable();
+      if(!acc){ say("· " + MIDI_OUT.failed); return; }
+      const outs = fill();
+      say(outs.length ? "· " + outs.length + " port" + (outs.length === 1 ? "" : "s") +
+                        " — the same channels the .mid uses"
+                      : "· Web MIDI is on, but nothing is plugged in");
+      /* a device arriving or leaving mid-session should show up in the list */
+      acc.onstatechange = () => { const n = fill(); if(!MIDI_OUT.choose(sel.value)) say(n.length ? "" : "· no ports"); };
+    };
+    sel.addEventListener("mousedown", ask);
+    sel.addEventListener("focus", ask);
+    sel.addEventListener("change", () => {
+      MIDI_OUT.panic();                       // never leave the old port ringing
+      const p = MIDI_OUT.choose(sel.value);
+      if(sel.value && !p) say("· that port went away");
+      else if(p){ MIDI_OUT.programs(); say("· playing out of " + p.name); }
+      else say("");
+      /* the hook is read at playLive time, so a port chosen mid-song only takes
+         effect on the next start -- restart in place, at the same song second,
+         which is what every other live change in this file does */
+      if(playing){ const at = songTime(); stopPlayback(); startPlayback(at || 0); }
+    });
+    /* the clock toggle. Takes effect on the next start for the same reason the
+       port does -- it is anchored to the song zero playLive returns. */
+    const clk = $("midiclock");
+    clk.addEventListener("click", () => {
+      const on = clk.getAttribute("aria-pressed") !== "true";
+      clk.setAttribute("aria-pressed", on ? "true" : "false");
+      clk.style.borderColor = on ? "var(--hot)" : "";
+      clk.style.color = on ? "var(--hot)" : "";
+      MIDI_OUT.setClock(on);
+      if(!on) MIDI_OUT.stopClock();
+      if(playing){ const at = songTime(); stopPlayback(); startPlayback(at || 0); }
+      else if(on && !MIDI_OUT.port) say("· choose a port first — the clock has nowhere to go");
+    });
+    addEventListener("pagehide", () => { MIDI_OUT.stopClock(); MIDI_OUT.panic(); });
   }
   {                                 /* the rig picker, built FROM the RIG table */
     /* "drawn" first and selected, because that is the default this program has
@@ -12334,6 +12826,9 @@ window.MK2 = {
   INSTRUMENTS, PARAMS, TRIM, CONTROL, PICK, PINS, PIN_PATTERNS, loadParams, panelValue,
   makeMotion, motionAt,
   voiceNames: () => Sound.voiceNames(),
+  /* the MIDI mapping, exported for the same reason voiceNames is: a harness
+     that hand-copies these numbers proves its copy is current and nothing else */
+  midiTracks: () => MIDI_TRACK, gmDrum: () => GM_DRUM, midiKeyFor,
   refreshBus: () => Sound.refreshBus(),
   liveLevel: () => Sound.liveLevel(),
   /* the song the panels are currently showing -- a read handle for a probe
