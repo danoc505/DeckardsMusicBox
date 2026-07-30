@@ -1,3 +1,16 @@
+> ## ⚠ THIS IS AN MK1 REVIEW — of `Improv Machine playable_BETA 0.1.html`.
+>
+> It reviews `conduct()`, `improvise()`, the HARD/SOFT law tables and the ghost
+> corrector, **none of which exist in MK2** — the ghost pass was deliberately
+> removed and that removal is why MK2 exists. The probes it names
+> (`probe_nct`, `probe_voiceleading`, `probe_hierarchy`,
+> `probe_bass_consonance`, `probe_peak_arc`) were confirmed dead and deleted;
+> `harness/probe_theory.js` asks those same laws of MK2 directly.
+>
+> Kept because the *findings* were real and several drove MK2's design — above
+> all `HARD.resolvesByStep`, a documented law that was **never once called**,
+> which became MK2's non-chord-tone constraint. Read it as history.
+
 # Code review — Deckard's Orchestrator (Improv Machine BETA 0.1)
 
 *Reviewed by reading the engine embedded in `Improv Machine playable_BETA 0.1.html`

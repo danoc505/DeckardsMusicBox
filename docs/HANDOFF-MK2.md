@@ -1085,6 +1085,9 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
 | `docs/LICENSING.md` | what may and may not be vendored |
 | `docs/SYNTH-RESEARCH.md` | CS-80, filter topologies |
 | `docs/genre-research/*.md` | seven genres, **all unverified** |
+| `docs/UI_10X.md` | ⚠ **MK1** — its line numbers point at a frozen file. Marked, kept for the research only |
+| `docs/CODE_REVIEW.md` | ⚠ **MK1** — reviews `conduct`/`improvise`/the ghost pass. History |
+| `harness/README.md` | what every tool measures, and which are slow |
 | `harness/mk2_roll.js` | the test that matters |
 | `harness/mk2_test.js` | the 93 seam checks |
 | `harness/mk2_snapshot.js` | proof that a refactor is a refactor |
@@ -1202,3 +1205,41 @@ Gretsch kit, `Bohemian Upright Bass`, `Bansuri`, `Musical Saw`, `CymbalSwells`.
 
 Their roots are undeclared, so prefer Iowa where a real acoustic instrument is
 wanted and use these for the 90s-rompler character they actually have.
+
+
+---
+
+## 10. What was deleted at `fcc3c50`, and why
+
+The branch carried tools for a program that no longer exists. All of it was
+**verified dead by exit code before removal** — not by reading, and not by
+assuming:
+
+- **Seven probes**: `probe_nct`, `probe_voiceleading`, `probe_hierarchy`,
+  `probe_bass_consonance`, `probe_peak_arc`, `probe_ensemble`, `probe_grid`.
+  Every one `require`s `run/engine_bundle.js` and calls `conduct` / `makeRng` —
+  MK1's API. All exited 1. §5.5 recorded five of these; there were seven.
+  **`harness/probe_theory.js` asks the same laws of MK2 directly** and is the
+  replacement.
+- **`harness/build_engine.py`** — it existed only to build that bundle. With the
+  probes gone it had no consumer.
+- **`tests/tests.js` and `tests/print_roll.js`** — MK1's suite and roll reader,
+  both exit 1.
+
+**Rewritten because they described MK1 as though it were current:**
+`README.md` (the front door still told you to run `build_engine.py` and
+`tests.js`, and described the ghost corrector as a feature) and
+`harness/README.md`.
+
+**Marked, not deleted**, because the research in them is still good even though
+the plans are aimed at a dead program: `docs/UI_10X.md` and
+`docs/CODE_REVIEW.md`. `Improv Machine playable_BETA 0.1.html` stays frozen as
+reference. `corpus/` (456 KB of harvester scripts and derived tables) and
+`test/ears/LOG.md` are live and were left alone.
+
+**One near-miss worth keeping.** The first sweep classified probes by grepping
+their output for "Error" and reported `probe_rule_of_three.js` as dead — because
+one of its legitimate findings contains the word *cannot*. It exits 0 and works.
+A crude detector nearly deleted a working tool, which is the same lesson §3
+teaches about `probe_controls`: **suspect the measurement first.** Exit codes,
+not string matching.

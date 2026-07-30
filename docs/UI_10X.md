@@ -1,5 +1,31 @@
 # 10× the UI — inventory + plan
 
+> ## ⚠ THIS DOCUMENT IS ABOUT MK1. DO NOT PLAN FROM IT.
+>
+> **Every line number in this file points at
+> `Improv Machine playable_BETA 0.1.html`, which is frozen.** None of the seams
+> it names — `conduct()` at L6257, `schedule()` at L6879, `drawRoll()` at L7478,
+> `exportMidi()` at L7318 — exist in `Deckards Orchestrator MK2.html`.
+>
+> It is kept because the *research* is still good: the user is a hardware
+> musician judging by ear, offline, and the reasoning about what would earn a
+> "10×" for that person is sound. The **inventory** is worthless and the
+> **plan is aimed at a program that no longer exists.**
+>
+> It also actively misled a session: asked to make the program 10×, a coder read
+> this file, concluded the answer was Web MIDI, and built the MIDI port before
+> asking what "10×" meant. The user's correction was blunt and correct — *"MIDI
+> is a last step not something that will 10x the program this is a music making
+> program therefore 10x would be making it make better more proper more
+> interesting music."* **The 10× of this program is the music, not the UI.**
+>
+> Since built in MK2 anyway: **Web MIDI OUT and MIDI clock** (Tier 0 items 1 and
+> 2 — see `harness/mk2_midi.js`). Not built and still worth wanting: the live
+> roll, keyboard shortcuts, tap tempo, the waveform/onset view.
+>
+> For what to actually do next, read `docs/HANDOFF-MK2.md` §5 and §9.
+
+
 *Grounded in the actual file (`Improv Machine playable_BETA 0.1.html`) and in who the user
 is: a hardware musician (Organelle, BeatStep Pro, Kastle) judging by ear, offline, from a
 USB stick. Single-file/offline is **not** a blocker for any Tier 0–2 item — Web MIDI is a
