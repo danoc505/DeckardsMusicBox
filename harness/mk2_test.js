@@ -952,6 +952,43 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         Object.keys(seen).length + " genre/machine pairs");
   check("...and every genre still leaves room for the rig", autos > slots * 0.2,
         autos + "/" + slots + " slots fall through to the rig");
+
+  /* ── 6. EVERY RIG CAN ACTUALLY BE PINNED. makeChart's guard read
+     `rigChoice === "band" || rigChoice === "sega"` while RIG held seven rigs, so
+     five of them were silently unpinnable: the argument was discarded and the
+     genre's own draw answered instead. The UI offered exactly the same two, so
+     the two agreed with each other and nothing anywhere looked wrong -- the
+     same shape as the `"auto"` bug in applyRack, a hand-copied subset drifting
+     behind its table. This asks the RIG table what rigs exist rather than
+     naming any, so it cannot go stale the way the guard did. ── */
+  const RIGS = Object.keys(M.ym.rigs);
+  {
+    /* the invariant that makes offering every rig SAFE: a lane a rig does not
+       name reaches dispatch() as undefined and throws. Ask the union of every
+       lane any rig names, not one rig's keys, or a rig missing a lane the
+       others have is exactly what slips through. */
+    const lanes = new Set();
+    for(const r of RIGS) for(const l in M.ym.rigs[r]) lanes.add(l);
+    const voices = new Set(M.voiceNames());
+    const holes = [];
+    for(const r of RIGS) for(const l of lanes){
+      const v = M.ym.rigs[r][l];
+      if(v === undefined) holes.push(r + "." + l + " undefined");
+      else if(!voices.has(v)) holes.push(r + "." + l + " -> " + v + " not a voice");
+    }
+    check("every rig names every lane, with a voice that exists", holes.length === 0,
+          holes.length ? holes.slice(0, 4).join("; ") :
+          RIGS.length + " rigs x " + lanes.size + " lanes, all dispatchable");
+
+    let ignored = [];
+    for(const r of RIGS) for(const g of M.genres()) for(const s of [1, 7, 42]){
+      const got = M.composeSong(s, r, g).chart.rig;
+      if(got !== r) ignored.push(`${g}/${r} seed ${s} -> ${got}`);
+    }
+    check("...and pinning a rig actually pins it", ignored.length === 0,
+          ignored.length ? `${ignored.length} pins ignored: ` + ignored.slice(0, 3).join("; ")
+                         : `${RIGS.length * M.genres().length * 3} genre x rig x seed pins all honoured`);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
