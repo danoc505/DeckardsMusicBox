@@ -1255,3 +1255,25 @@ The knob worked; the ruler was a kilometre long.
 Every one of these was found by asking *why* a knob looked dead instead of
 believing the table. Nine setup errors before the probe was trustworthy, and
 three more after it had already found real bugs.
+
+### The whole rack, and where it landed
+
+```
+  kit 0    tr808 0    segakit 0    tr1000 1    subbass 0    tb303 0
+  rhodes 0 mellotron 0  drone 0    vp330 0     cs80 0       waveseq 0
+  brk 0    echo 0
+```
+
+The one remaining is `tr1000.kit` — a switch between four voice sets, which a
+test that fixes the voice cannot see by construction.
+
+The CS-80 cost one more correction to get there. Its three aftertouch controls —
+`atBrill`, `atLevel`, `atVib` — all read `ev.press`, a pressure shape stage 5
+attaches to any note long enough to lean on. A synthetic note has none, so all
+three multiplied nothing and read as dead. Exactly the same mistake as the
+Rhodes' `wow`: an event field the program writes and the probe did not.
+
+**Twelve setup errors in one probe.** Nine before it found anything, three after
+it had already found real bugs. Every real bug it reported was real; every dead
+knob it reported after those was me. The rule that keeps holding: when a
+measurement says something surprising, the first suspect is the measurement.

@@ -152,6 +152,17 @@ const ONLY = process.argv[2] || null;
          the program builds it. */
       const keys = (role === 'keys')
         ? { timbre: song.chart.keysChar, wow: song.chart.tape.wow } : {};
+      /* ── AND THE PRESSURE, for a machine that has aftertouch ────────────────
+         The CS-80's three aftertouch controls -- atBrill, atLevel, atVib -- all
+         read `ev.press`, a shape stage 5 attaches to any note long enough to
+         lean on. A synthetic note has none, so all three multiplied nothing and
+         the sweep called them dead. Twelfth setup error, and the same one as
+         the Rhodes' wow: an event field the program writes and the probe did
+         not. The values are the ones stage 5 draws -- a peak partway through a
+         long note, with a rise. */
+      const press = M.controls.some(c => /^at/.test(c.k))
+        ? { press: { peak: 0.8, at: 1.2, rise: 0.35 } } : {};
+      Object.assign(keys, press);
       /* A NOTE LONG ENOUGH TO REACH THE END OF THE TAPE. A Mellotron strip is
          about eight seconds and then it STOPS -- that is what tapeEnd switches
          -- so a three-second note can never see the control and the probe
