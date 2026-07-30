@@ -53,7 +53,7 @@ const ONLY = process.argv[2] || null;
 
   const out = await page.evaluate(async ONLY => {
     /* a genre that actually loads the machine, so the graph is the real one */
-    const HOST = { drums: 'synthwave', bass: 'acid', keys: 'vangelis', space: 'plastikman', desk: 'plastikman' };
+    const HOST = { drums: 'synthwave', bass: 'acid', keys: 'bladerunner', space: 'plastikman', desk: 'plastikman' };
     const rows = [];
 
     /* ── ONE WINDOW PER LANE, NOT ONE NUMBER PER RENDER ──────────────────────

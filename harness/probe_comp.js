@@ -25,7 +25,7 @@
                    is neither a new bar every time nor the same bar forever.
 
    Rates, never a pass/fail on one song, and some of them SHOULD be non-zero:
-   a genre whose comp is a held pad (vangelis' bridge, the drone genres) is
+   a genre whose comp is a held pad (bladerunner' bridge, the drone genres) is
    supposed to sit at one onset a bar, and reading it as a defect would be the
    flat-threshold mistake this repo has already made twice. */
 const fs = require("fs"), path = require("path");

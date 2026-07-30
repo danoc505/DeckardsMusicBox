@@ -1,4 +1,4 @@
-# Blade Runner / Vangelis (1982 score) — genre key `vangelis`
+# Blade Runner / Vangelis (1982 score) — genre key `bladerunner`
 
 *Web research delivered 2026-07-28. NOT independently verified — the verification pass hit the session limit before it ran. Treat every number as the researcher's claim until checked.*
 
@@ -14,7 +14,7 @@ Everything else (i–VI vamp, no dominant, harmonic rhythm of 2+ bars) is *suppo
 
 ```js
 /* ═══════════════════════════════════════════════════════════════════════════
-   vangelis — Blade Runner (1982). Written against MK2's actual table shape as
+   bladerunner — Blade Runner (1982). Written against MK2's actual table shape as
    shipped (GENRE.lofi at /tmp/mk2_readable.html:1173-1261). Where a field has
    no reader in the current code I have said so on the line; those are the
    architecture gaps, listed separately.
@@ -27,7 +27,7 @@ Everything else (i–VI vamp, no dominant, harmonic rhythm of 2+ bars) is *suppo
      (b) RIG (line 351) must gain a "nemo" row (given at the bottom).
    ═══════════════════════════════════════════════════════════════════════════ */
 
-vangelis: {
+bladerunner: {
   label: "Vangelis / Blade Runner",
 
   /* ── stage 1: identity ──────────────────────────────────────────────────
@@ -512,37 +512,37 @@ nemo: { kick:"bellLow",  snare:"gamelan",  ghost:"gamelan",  hat:"gamelan",
 
 - https://mfoxhd.blogspot.com/2016/01/cs-80-calibration-part-10-portamento.html
 
-- https://reverbmachine.com/blog/vangelis-blade-runner-synth-sounds/
+- https://reverbmachine.com/blog/bladerunner-blade-runner-synth-sounds/
 
-- https://reverbmachine.com/blog/vangelis-tears-in-rain-blade-runner/
+- https://reverbmachine.com/blog/bladerunner-tears-in-rain-blade-runner/
 
 - https://www.vintagesynth.com/yamaha/cs-80
 
-- https://musictech.com/guides/essential-guide/landmark-productions-vangelis-blade-runner-soundtrack/
+- https://musictech.com/guides/essential-guide/landmark-productions-bladerunner-blade-runner-soundtrack/
 
 - https://www.musicradar.com/news/blade-runner-best-synth-sound
 
-- https://www.syntorial.com/preset-recipe/vangelis-blade-runner-brass/
+- https://www.syntorial.com/preset-recipe/bladerunner-blade-runner-brass/
 
 - https://pianostringtheory.com/a-musical-analysis-of-the-tears-in-rain-monologue-from-blade-runner/
 
-- https://theconversation.com/blade-runner-soundtrack-at-30-how-vangelis-used-electronic-music-to-explore-what-it-means-to-be-human-221604
+- https://theconversation.com/blade-runner-soundtrack-at-30-how-bladerunner-used-electronic-music-to-explore-what-it-means-to-be-human-221604
 
 - https://en.wikipedia.org/wiki/Blade_Runner_(soundtrack)
 
-- https://songbpm.com/@vangelis/blade-runner-blues-bd2fd7d8-8dfb-456c-8f92-3bde7217e29d
+- https://songbpm.com/@bladerunner/blade-runner-blues-bd2fd7d8-8dfb-456c-8f92-3bde7217e29d
 
-- https://songbpm.com/vangelis/blade-runner-end-titles
+- https://songbpm.com/bladerunner/blade-runner-end-titles
 
-- https://songbpm.com/@vangelis/memories-of-green-from-blade-runner
+- https://songbpm.com/@bladerunner/memories-of-green-from-blade-runner
 
-- https://chordu.com/chords-tabs-vangelis-blade-runner-main-titles--id_ME2AiIGoOYc
+- https://chordu.com/chords-tabs-bladerunner-blade-runner-main-titles--id_ME2AiIGoOYc
 
-- https://chordu.com/chords-tabs-vangelis-blade-runner-opening-titles-id_E7Iao2gSZXw
+- https://chordu.com/chords-tabs-bladerunner-blade-runner-opening-titles-id_E7Iao2gSZXw
 
-- https://chordu.com/chords-tabs--blade-runner-soundtrack-end-titles-by-vangelis-id_qgz6jFxMpyk
+- https://chordu.com/chords-tabs--blade-runner-soundtrack-end-titles-by-bladerunner-id_qgz6jFxMpyk
 
-- https://www.yalp.io/chords/vangelis-blade-runner-main-titles-a9bb
+- https://www.yalp.io/chords/bladerunner-blade-runner-main-titles-a9bb
 
 - https://valhalladsp.wordpress.com/tag/lexicon-224/
 

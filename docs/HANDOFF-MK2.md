@@ -163,7 +163,7 @@ Four seam checks enforce it, and together they close the loop:
 green.** `applyRack` walked the three *slots* and skipped any set to `"auto"` —
 and `"auto"` means "whatever the rig names", which is most machines. So every
 value a genre declared for a machine it reaches through the rig was thrown away:
-**69 of them**, including `vangelis.params.cs80.initBend`, the initial pitch
+**69 of them**, including `bladerunner.params.cs80.initBend`, the initial pitch
 bend that is the single identifying feature of that score. It read 0. The scoop
 had never once happened, while the table, the commit message and the comment all
 said it was the line that named the genre.
@@ -280,7 +280,7 @@ Run all of these before you claim anything.
 
 ```bash
 node harness/mk2_test.js                              # 93 seam checks
-node harness/mk2_roll.js 1 --genre vangelis           # any of the seven genres
+node harness/mk2_roll.js 1 --genre bladerunner           # any of the seven genres
 node harness/mk2_snapshot.js check harness/mk2_baseline.snap
 node harness/mk2_roll.js 1                            # THE test that matters
 node harness/mk2_roll.js 1 --song                     # full arrangement
@@ -453,7 +453,7 @@ measure, not to deliver.
 
 - **Six-stage pipeline complete**, seam-checked, deterministic per
   `(seed, genre, rig, picks)`.
-- **Six genres in the `GENRE` table:** `lofi`, `synthwave`, `dkc`, `vangelis`,
+- **Six genres in the `GENRE` table:** `lofi`, `synthwave`, `dkc`, `bladerunner`,
   `acid`, `plastikman`. Each carries ~30 fields — tempo bands, modes, rig
   weights, form grammar, progressions, registers, groove (swing, dilla
   displacement, jitter, push, lane lean), kit (ghost placement, open-hat spots,
@@ -665,7 +665,7 @@ sit dead still is worse than one that is not offered.
 
 ### 5.3 All seven genres exist
 
-`lofi`, `synthwave`, `dkc`, `vangelis`, `acid`, `plastikman`, `jungle`.
+`lofi`, `synthwave`, `dkc`, `bladerunner`, `acid`, `plastikman`, `jungle`.
 
 **Jungle needed a subsystem, not a table**, because its identity is a chopped
 break and everything else in this program plays lanes. What was built:
@@ -783,7 +783,7 @@ subtracting — the difference *is* the echo:
 |---|---|---|
 | **plastikman** | **−12.3 dB** | **79%** |
 | dkc | −19.3 dB | 33% |
-| vangelis | −20.8 dB | 88% |
+| bladerunner | −20.8 dB | 88% |
 | jungle | −25.7 dB | 45% |
 | acid | −26.2 dB | 58% |
 | lofi | −31.7 dB | 56% |
@@ -868,7 +868,7 @@ answering phrase starts fresh and cannot know what was left hanging.
 
 ```
              off      on                     off      on
-  lofi     31.5%   14.0%      vangelis     34.2%   16.1%
+  lofi     31.5%   14.0%      bladerunner     34.2%   16.1%
   synthwave 28.6%  13.3%      acid         50.0%    0.0%
   dkc      32.8%    7.7%      TOTAL        30.8%   12.7%
 ```

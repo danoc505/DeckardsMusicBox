@@ -882,7 +882,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   /* ── NOTHING IS WRITTEN BELOW HEARING ─────────────────────────────────────
      The drone's octave-down sub was guarded by `low >= R.bass[0] - 12`, which
      permits a full octave UNDER the register the genre declared -- so jungle
-     wrote a C0 at 16.4 Hz and vangelis an A0 at 27.5 Hz. Below about 20 Hz
+     wrote a C0 at 16.4 Hz and bladerunner an A0 at 27.5 Hz. Below about 20 Hz
      there is no pitch to hear and no system reproduces it; the energy is spent
      on excursion and headroom the rest of the mix then works under.
 

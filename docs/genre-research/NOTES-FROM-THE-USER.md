@@ -412,7 +412,7 @@ Written down rather than implied, because the file is a spec and most of it is
 unimplemented:
 
 1. **`params` are still POINTS, not RANGES.** This is the file's headline idea
-   and it is the one thing not done. `vangelis.params.cs80` is a set of fixed
+   and it is the one thing not done. `bladerunner.params.cs80` is a set of fixed
    numbers plus `motion` on top. The performance-envelope idea says the base
    itself should be drawn per song from a constrained range — the file even
    gives them: PWM 40–60%, cutoff 35–60%, resonance 5–20%, attack 0–150 ms,
@@ -543,7 +543,7 @@ Three things read it, each for a property it already owned:
   lofi           0.64    0.50 / 1.00 / 0.55       25.8 -> 31.6         0.50
   synthwave      0.68    0.29 / 1.00 / 0.41       24.4 -> 40.8         0.64
   dkc            0.61    0.60 / 1.00 / 0.63       26.1 -> 35.9         0.50
-  vangelis       0.71    0.23 / 1.00 / 0.27        7.1 ->  9.6         0.64
+  bladerunner       0.71    0.23 / 1.00 / 0.27        7.1 ->  9.6         0.64
   acid           0.66    0.33 / 1.00 / 0.52       23.1 -> 31.9         0.61
   plastikman     0.69    0.13 / 1.00 / 0.38       10.7 -> 33.3         0.69
   jungle         0.65    0.37 / 1.00 / 0.46        9.6 -> 10.5         0.57
@@ -553,8 +553,8 @@ Three things read it, each for a property it already owned:
 on the apex, not at the end. Synthwave 1.7×, acid and dkc about 1.4×.
 
 **Honest about the weak rows:** lofi and dkc still put their loudest bar at 0.50
-rather than on the apex, and jungle and vangelis barely thin at all (9.6→10.5,
-7.1→9.6). For vangelis and lofi that is partly deliberate — a beat tape sets a
+rather than on the apex, and jungle and bladerunner barely thin at all (9.6→10.5,
+7.1→9.6). For bladerunner and lofi that is partly deliberate — a beat tape sets a
 mood and stays in it, and the score swells rather than builds — but it is not
 *entirely* deliberate, and those three tables have not been earned by listening
 yet. Jungle in particular should drop and rebuild more than these numbers show.
@@ -738,7 +738,7 @@ is claimed:
   lofi         verse           4.0 lanes  tr1000.sVerb 18%      112
   synthwave    verse           1.0 lanes  tr1000.sVerb 13%       63
   dkc          verse           2.0 lanes  tr1000.sVerb 14%       55
-  vangelis     verse           2.0 lanes  echo.send 15%          13
+  bladerunner     verse           2.0 lanes  echo.send 15%          13
   acid         verse           2.0 lanes  tr1000.oVerb 20%       12
   plastikman   verse           2.9 lanes  tr1000.cVerb 22%       26
   jungle       verse           3.0 lanes  tr1000.dVerb 20%       23
@@ -807,7 +807,7 @@ octave *under* the register the genre declared. Measured lowest bass note over
 
 ```
   jungle     C0   16.4 Hz
-  vangelis   A0   27.5 Hz
+  bladerunner   A0   27.5 Hz
 ```
 
 16.4 Hz is not a low note. There is no pitch to hear below ~20 Hz, no monitor or
@@ -840,7 +840,7 @@ asks those laws of MK2 directly, by reading the notes:
   lofi              0.0%          33.0%        0.0%        5.5%     10.9%
   synthwave         0.0%          33.8%        0.0%        0.0%      1.5%
   dkc               0.0%          34.6%        0.0%        0.0%      3.8%
-  vangelis          0.0%          36.8%        0.0%        0.0%      0.8%
+  bladerunner          0.0%          36.8%        0.0%        0.0%      0.8%
 ```
 
 - **In key: 0.0% violations everywhere.** That law holds.
@@ -889,7 +889,7 @@ leaves no silence — and a second voice entering a step behind the first is
               before    after
   lofi         100%      65%
   dkc          100%      63%
-  vangelis     100%      35%
+  bladerunner     100%      35%
   plastikman   100%      30%
   synthwave    100%     100%   (double — correct)
 ```
@@ -980,7 +980,7 @@ measurement. A chip tune with no bottom is a ringtone.
 ```
   lofi        300/300 seeds   1951 -> 1951 events   (counter displaced, none added)
   synthwave   300/300         2844 -> 4040          (the arp)
-  vangelis    300/300          659 -> 1195          (the sequencer)
+  bladerunner    300/300          659 -> 1195          (the sequencer)
   dkc         300/300         2609 -> 2545          (counter activated, chip budget enforced)
   acid          0/300         unchanged             (counter nulled, no ostinato change)
   plastikman    0/300         unchanged
@@ -1139,7 +1139,7 @@ the chord under them**, the share that then leapt away instead of resolving by
 step:
 
 ```
-  lofi 34.9%   synthwave 33.0%   dkc 38.1%   vangelis 44.8%   acid 50.0%
+  lofi 34.9%   synthwave 33.0%   dkc 38.1%   bladerunner 44.8%   acid 50.0%
 ```
 
 That is the oldest rule in common-practice writing, one of this project's own
@@ -1190,7 +1190,7 @@ Read the corrected way, the constraint on versus off:
   lofi         31.5%    14.0%
   synthwave    28.6%    13.3%
   dkc          32.8%     7.7%
-  vangelis     34.2%    16.1%
+  bladerunner     34.2%    16.1%
   acid         50.0%     0.0%
   TOTAL        30.8%    12.7%
 ```
@@ -1451,7 +1451,7 @@ over 60 seeds a genre:
 
 ```
   genre        chromatic chords   voice leading (semitones)
-  vangelis          10.4%              0.61      <- smoothest of the four
+  bladerunner          10.4%              0.61      <- smoothest of the four
   lofi               0.0%              0.71
   synthwave          0.0%              1.18
   dkc                0.0%              0.95
