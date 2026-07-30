@@ -291,11 +291,39 @@ node harness/mk2_roll.js 1 --blend lofi:50,jungle:50  # read a blended song
 node harness/probe_voices.js                          # fire every voice
 node harness/probe_theory.js                          # the music laws, off the notes
 node harness/probe_controls.js [machine]              # every knob reaches the sound
+node harness/mk2_stamp.js check                      # is the published build this build?
 ```
 
 **The five-minute battery, before any claim:** `mk2_test.js`, `mk2_ui.js`,
 `mk2_blend.js`, `mk2_snapshot.js check`, `probe_voices.js`. State at `4728512`:
-**93 / 24 / 10 / IDENTICAL / 0 threw, 0 silent.**
+**93 / 24 / 10 / IDENTICAL / 0 threw, 0 silent.** At `8a4f8db`: **95 / 24 / 10 /
+IDENTICAL / 0 threw, 0 silent** — two rig checks added, see below.
+
+### The build the user hears is not automatically the build you measured
+
+**This cost three commits of work going unheard.** The published artifact was
+byte-for-byte commit `0f3a0a9` while the repo was six commits on: no kitFilter in
+the circuit, five drum voices not reading their channel tune/decay, the gate send
+never reaching the hand, no non-chord-tone law. Every measurement in §5 was taken
+on a program the user had never played.
+
+It was invisible because **both files carried the stamp `build 2026-07-29r`** —
+the one instrument built to tell a stale page from a broken program, standing
+still through a day's work. A stamp that does not move is worse than no stamp,
+for the same reason a wrong provenance is worse than none: it stops anyone
+checking.
+
+So the stamp is a **seam** now, not a habit — `harness/mk2_stamp.js`, recorded in
+`harness/mk2_build.json`, run inside `mk2_test.js`. It fails on any program
+change until you bump the stamp in the HTML and re-record, exactly the way a
+moved snapshot fails: **not an error, a step not yet done.** Its three branches
+were each driven to failure before it was believed.
+
+It does not inspect the live artifact — it records what was published and hashes
+what you have. It catches the *cause* and hands you evidence for the *symptom*.
+
+**So: bump the stamp in the commit that changes the program, re-record, and
+republish.** Same discipline as the baseline, and for the same reason.
 
 - **`mk2_test.js`** — 93 assertions over composition seams: per-genre loops,
   "the counter is a line not a harmoniser", "the bridge is a departure", "the
@@ -537,12 +565,19 @@ one that changed (93,288 events, all machine swaps), everything else zero.
 > **START HERE.** The sub-sections below accumulated over many sessions and the
 > numbering no longer reflects order. This is the order, as of `4728512`:
 >
-> 1. **Nothing in this program has passed the user's ears since the crash fix.**
->    The cymbal rebuild, the new tunes under the non-chord-tone law, eleven
->    newly-live drum knobs — all measured, none heard. Ship the file and ask
->    before building anything on top of them. If the ear says the tunes got
->    blander, the constraint in §5.6 is the first thing to loosen, and the knob
->    for it is the 20% threshold in `mk2_test.js`.
+> 1. **The new tunes and the eleven drum knobs have not passed the user's ears —
+>    because they were never in the file being played.** This item used to say
+>    the cymbal rebuild was unheard too; that was wrong. The published artifact
+>    was commit `0f3a0a9`, which HAS the cymbal rebuild and the fader fix and
+>    does NOT have the knobs, the kitFilter or the non-chord-tone law. Corrected
+>    and republished at `8a4f8db`; see §3.
+>
+>    So what is genuinely awaiting ears is: **the tunes under the resolution law,
+>    the eleven drum knobs, and the kit filter.** Ask before building on top of
+>    them. If the ear says the tunes got blander, the constraint in §5.6 is the
+>    first thing to loosen, and the knob for it is the 20% threshold in
+>    `mk2_test.js`. **Check `harness/mk2_build.json` before you believe any
+>    sentence in this file about what has been heard.**
 > 2. **Harmony is the biggest un-started thing** (§5.6, "still open"). Zero
 >    chromaticism, 5–12 progressions a genre, voice leading at 4.38 semitones.
 >    Measured, named, untouched. This is where the next real musical gain is.
@@ -879,9 +914,19 @@ findings in the table.
   expectation, so it printed `*** MISMATCH ***` on every song containing one
   (11 on lofi seed 1, exactly the gap shown). The export was right the whole
   time. All three genres MATCH now.
-- `makeChart` cannot pin `rig: "neon"` from the UI — the guard only accepts
-  `"band"` and `"sega"`. The `neon` rig is reachable only by genre draw.
-  **Still open.**
+- ✔ `makeChart` could not pin `rig: "neon"` from the UI — the guard read
+  `rigChoice === "band" || rigChoice === "sega"` while `RIG` held **seven**, so
+  neon, nemo, box, jungle and plastik were silently unpinnable: the argument was
+  discarded and the genre's own draw answered. The picker listed the same two by
+  hand, so the two agreed with each other and nothing looked wrong — the same
+  shape as the `"auto"` bug in `applyRack`, a hand-copied subset drifting behind
+  its table. Fixed at `8a4f8db`: the guard asks `RIG`, the picker is BUILT from
+  `RIG`, and `RIG_LABEL` is a separate table because every key of a rig entry is
+  a lane and a `label` among them would break the new invariant. Two seam checks,
+  the second of which would have caught it: *every rig names every lane any rig
+  names, with a voice that exists* (7 × 18, all dispatchable) and *pinning a rig
+  actually pins it* (147 pins honoured). Snapshot IDENTICAL — this changes who
+  plays, never what is played [Law 6].
 - `harness/mk2_render.js` takes a genre argument but not `picks` or `pins`.
   **Still open.**
 - `INSTRUMENTS.segakit` maps toms to the acoustic `tom1/2/3`; the Mega Drive

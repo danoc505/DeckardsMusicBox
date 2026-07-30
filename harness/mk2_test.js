@@ -28,6 +28,33 @@ const check = (name, ok, detail) => {
   ok ? pass++ : fail++;
 };
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE STAMP MUST MOVE WHEN THE PROGRAM MOVES.
+
+   The artifact the user listens to was found to be exactly commit 0f3a0a9 while
+   the repo was six commits on -- three of them program changes nobody had heard,
+   because they were never in the file being played. What hid it was that BOTH
+   FILES CARRIED THE STAMP `build 2026-07-29r`. The stamp exists to tell a stale
+   page from a broken program and it had not been bumped for a day's work, so the
+   one instrument that answers this question read the same on both.
+
+   Nothing in this repo could catch that, which is the real defect: the stamp was
+   a matter of discipline, and discipline is what had already failed. So it is a
+   seam now. `harness/mk2_stamp.js` owns the logic and the explanation; this runs
+   it inside the battery, because a guard nobody runs guards nothing.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  const { execFileSync } = require("child_process");
+  let out = "", ok = true;
+  try { out = execFileSync(process.execPath,
+          [path.resolve(__dirname, "mk2_stamp.js"), "check"], { encoding: "utf8" }); }
+  catch(e){ ok = false; out = (e.stdout || "") + (e.stderr || ""); }
+  const first = out.split("\n").map(s => s.trim()).filter(Boolean)[0] || "no output";
+  check("the build stamp identifies this build", ok,
+        ok ? first.replace(/^✓ /, "") : "run: node harness/mk2_stamp.js check");
+  if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
+}
+
 const errors = [];
 let dilla = 0, hookExact = 0, hookTotal = 0, forms = new Set(), nondet = 0, ruleOf3 = 0;
 let dillaIdentical = 0, dillaChecked = 0;

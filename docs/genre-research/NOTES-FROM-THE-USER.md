@@ -1277,3 +1277,84 @@ Rhodes' `wow`: an event field the program writes and the probe did not.
 it had already found real bugs. Every real bug it reported was real; every dead
 knob it reported after those was me. The rule that keeps holding: when a
 measurement says something surprising, the first suspect is the measurement.
+
+---
+
+## The build you were listening to was three commits behind the one being measured
+
+*"The current MK2 is in the artifacts. The one you loaded up is not the current
+version."* — and it was the other way round, which is worse than it sounds,
+because it means every measurement in the sections above was taken on a program
+you had never heard.*
+
+### What was actually true
+
+The published artifact was fetched in full (1.8 MB) and diffed against every
+recent commit. It is **byte-for-byte commit `0f3a0a9`** — the only two differing
+lines are the hosting frame's own closing tags. 265 repo-only lines, 51
+artifact-only lines, and **every one of those 51 was the OLD form of code the
+repo has the new form of.** Nothing existed in the artifact that was absent from
+the repo, which is the thing to establish BEFORE republishing over it: there was
+no hand-edit in the page to destroy.
+
+Three commits of program change were missing from the file being played:
+
+| missing from the artifact | commit |
+|---|---|
+| the gate and bus sends never reached the hand, on all five drum machines | `7567881` |
+| ten TR-1000 channel-strip knobs wired to nothing — snare, both toms, rim, clap | `11f261e` |
+| the analog filter was not in the circuit; every channel went straight past it | `2b65391` |
+| the non-chord-tone law — so the tunes were the old ones, ~31% leaping away | `2b65391` |
+
+The other three commits (`d9b6ae2`, `4728512`, `7468236`) touched only the
+harness and the docs, so the artifact was six commits behind HEAD and **three
+behind in the program**. Worth stating precisely, because "four" was written in a
+commit message before the range was checked properly.
+
+### The thing to actually learn
+
+**The handoff's own top open item was wrong about which items were unheard.** It
+said the cymbal rebuild, the new tunes and the eleven drum knobs had all been
+measured and none heard. In fact the cymbal rebuild and the fader fix *were* in
+the artifact and had been heard; the knobs and the tunes were not in the file at
+all. A list of "awaiting your ears" is only as good as knowing which build the
+ears were on.
+
+### Why nothing caught it
+
+**Both files carried the identical stamp, `build 2026-07-29r`.** The stamp exists
+for exactly this — its own comment in the HTML says a stale page and a broken
+program are indistinguishable from where we sit — and it had not been bumped for
+a day's work. The one instrument that answers this question in two seconds read
+the same on both files.
+
+A stamp that does not move is worse than no stamp, for the same reason a
+provenance that does not match its constant is worse than none: **it stops anyone
+checking.** So it is not a matter of discipline any more, because discipline is
+what had already failed:
+
+- **`harness/mk2_stamp.js`** — hashes the whole file with the stamp's own text
+  neutralised (whole file, not the `<script>` body: the rig-picker fix that
+  shipped beside this was HTML, and a script-only hash would have called that
+  commit "no program change"). Neutralising the stamp is what stops the hash
+  chasing its own tail.
+- **`harness/mk2_build.json`** — what was published, and where. This is the first
+  thing in the repo that can answer "is the artifact current?"
+- **a seam check in the battery**, because a guard nobody runs guards nothing. It
+  fails on a program change until the stamp is bumped AND the record rewritten —
+  deliberately, the same way a moved snapshot fails. It is not an error, it is a
+  step that has not been done.
+
+All three failure branches were driven before it was believed: clean → pass;
+program changed with the stamp standing still → the loud failure; program changed
+with the stamp bumped → "now make the record true". A guard that has not been
+watched to fail is not a guard.
+
+### What it still cannot do, said plainly
+
+It does **not** reach across the network and inspect the live artifact. The
+`engine` hash is a record of what was pushed to that URL, written at publish
+time. So it catches the *cause* of the drift and hands you the evidence to check
+the *symptom* — it does not observe the page. Anything stronger would need the
+artifact fetched and hashed on every run, and claiming it without building it is
+not something these files do.
