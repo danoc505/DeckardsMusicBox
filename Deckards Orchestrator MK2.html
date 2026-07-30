@@ -401,7 +401,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-30b · the comp rolls and an inner voice moves · MIDI out + clock</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-30c · the comp rolls, opens, and an inner voice moves</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -9795,6 +9795,9 @@ function makeMaterials(chart){
         if(i < want && !cell.includes(s)) cell.push(s);
       }
       cell.sort((a, z) => a - z); }
+    /* open or close, once for the material — see the voicing block below.
+       Sustained pads stay close: an open pad is a hole, not a bed. */
+    const openVoicing = !opts.sustain && rng() < 0.72;
     for(let b = 0; b < BARS; b++){
       const ch = chordSet[b];
       let strikes;
@@ -9815,15 +9818,87 @@ function makeMaterials(chart){
          -- that is what an inversion is. Candidates that push past the ceiling
          are not clamped, they are not offered. */
       const base = ch.tones.map(t => intoBand(t, R.keys[0], R.keys[1])).sort((a, z) => a - z);
-      let voiced = null, bestCost = 1e9;
+      /* ── OPEN THE VOICING ────────────────────────────────────────────────
+         A second reference photograph, at pitch resolution: the frame of one
+         bar is B3 / B4 / D5 / C6 / F6 — an octave from the bass to the next
+         voice, a tenth from there to the one above. It is an OPEN voicing
+         spanning nearly three octaves, and the moving notes live in the gap it
+         leaves in the middle.
+
+         This program was writing the opposite. Folding every chord tone into
+         `R.keys` and sorting gives CLOSE position — seed 1 lofi voiced C#m7 as
+         57/61/64/66, three stacked thirds inside a single octave. Close and
+         open voicings of the same chord are not a shade apart; they are the
+         difference between a clump and a piano.
+
+         `drop2` is the standard way to open one: take the second voice from the
+         top down an octave. Drawn ONCE for the material, because whether a
+         keyboard player voices open or close is a property of the part, not a
+         per-bar coin toss — and the draw is unconditional, above the loop. */
+      const cands = [];
       for(let inv = 0; inv < base.length; inv++){
-        const cand = base.map((p, i) => i < inv ? p + 12 : p).sort((a, z) => a - z);
+        const close = base.map((p, i) => i < inv ? p + 12 : p).sort((a, z) => a - z);
+        cands.push(close);
+        if(close.length >= 3){
+          const d2 = close.slice();
+          d2[d2.length - 2] -= 12;                       // drop the 2nd from the top
+          cands.push(d2.slice().sort((a, z) => a - z));
+        }
+      }
+      let voiced = null, bestCost = 1e9;
+      for(const cand of cands){
+        /* OPENNESS IS A PREFERENCE, NOT A REQUIREMENT. The first version made it
+           a hard filter -- skip any candidate whose spread does not match what
+           the material drew -- and synthwave threw "no keys voicing fits" on bar
+           0: every open candidate also had to clear the band and the bass, and
+           when none did there was nothing left to choose. A constraint that can
+           be unsatisfiable has to be a cost, so the voicing degrades to close
+           rather than to an exception. */
+        const isOpen = (cand[cand.length - 1] - cand[0]) > 12;
+        /* HOW FAR DOWN AN OPEN VOICING MAY REACH. Measured: of the candidates
+           this loop rejected, 1680 fell below the keys floor and ZERO went above
+           the ceiling -- so the floor, not the preference weight, was what kept
+           the comp packed into one octave. Raising the openness cost from 9 to
+           22 moved the mean span by a tenth of a semitone, which is what a
+           weight does when it is not the binding constraint.
+
+           The floor is also further up than anything requires. lofi's bass owns
+           [33,45] and its keys start at 52: six semitones of register that no
+           role uses. A dropped voice may reach into that gap and no further --
+           two semitones clear of the bass's ceiling, so a comp note can never
+           sit under a bass note whatever either of them plays. The gap is read
+           from the genre's own two bands, so this adds no table field and every
+           genre keeps its own answer [Law 4].
+
+           AND IT MAY ONLY EVER REACH DOWN. The first version was
+           `max(bass.top + 2, keys.lo - 12)`, which quietly RAISED the floor for
+           any genre whose bass register overlaps its keys register -- and acid's
+           does by design, bass [33,57] against keys [52,74], because a 303 line
+           climbs into the comp's register. That gave acid a floor of 59 where it
+           had been 52, compressing the voicing instead of opening it: its mean
+           span fell 13.0 -> 7.8 while every other genre rose. A number moving
+           the wrong way is worth the same look as one moving the right way. */
+        const openFloor = Math.min(R.keys[0],
+          Math.max((R.bass && R.bass[1] != null ? R.bass[1] : 0) + 2, R.keys[0] - 12));
+        if(cand[0] < openFloor) continue;                // a dropped voice can fall out
         if(cand[cand.length - 1] > R.keys[1]) continue;   // this inversion does not fit
         /* ...and it must not land on a pitch somebody else already owns, at a
            step this voicing actually strikes. Onsets are what collide. */
         if(strikes.some(st => cand.some(pch => taken.has(key(b, st, pch))))) continue;
+        /* THE TOP VOICE IS A LINE, and the cost has to say so. Summing every
+           voice's movement equally treats the note the ear actually follows as
+           one of four interchangeable numbers -- and in the reference the top
+           voice is the clearest melodic thing in the comp, descending F6 - E6 -
+           D6 across the bars while the inner voices do their figure. Weighting
+           it means an inversion that keeps the top line stepwise beats one that
+           moves the inner voices slightly less and leaps the top. */
         let cost = prev ? 0 : Math.abs(cand[0] - 60);
-        if(prev) for(let i = 0; i < Math.min(cand.length, prev.length); i++) cost += Math.abs(cand[i] - prev[i]);
+        if(isOpen !== openVoicing) cost += 22;           // wanted, not required
+        if(prev){
+          for(let i = 0; i < Math.min(cand.length, prev.length); i++) cost += Math.abs(cand[i] - prev[i]);
+          const topNow = cand[cand.length - 1], topWas = prev[prev.length - 1];
+          cost += 2 * Math.abs(topNow - topWas);
+        }
         if(cost < bestCost){ bestCost = cost; voiced = cand; }
       }
       if(!voiced) throw new Error("no keys voicing fits [" + R.keys + "] clear of the bass and " +

@@ -41,12 +41,12 @@ const MATS = ["A", "Avar", "B", "C", "fill", "ending"];
 
 console.log("comp voicing, " + N + " seeds a genre");
 console.log("  a block chord is SIMULTANEOUS 100 / INNER 0 — the 'bad' photograph\n");
-console.log("  genre        simul%  onsets/bar  voices/onset  inner move%  bar repeat%");
+console.log("  genre        simul%  onsets/bar  voices/onset  inner move%  bar repeat%  span");
 
 const rows = [];
 for(const g of M.genres()){
   let sim = 0, tot = 0, onsets = 0, bars = 0, voices = 0, onsetN = 0;
-  let innerYes = 0, innerN = 0, rep = 0, repN = 0;
+  let innerYes = 0, innerN = 0, rep = 0, repN = 0, spanSum = 0, spanN = 0;
   for(let s = 1; s <= N; s++){
     const song = M.composeSong(s, "band", g);
     /* MATERIAL, not the arrangement: this is a question about how the part is
@@ -66,6 +66,14 @@ for(const g of M.genres()){
       for(const b in byBar){
         const steps = Object.keys(byBar[b]).map(Number).sort((a, z) => a - z);
         bars++; onsets += steps.length;
+        /* THE SPAN of the bar's frame, bottom voice to top, in semitones. The
+           reference photograph's frame is B3/B4/D5/C6/F6 -- thirty semitones,
+           an octave between the bottom two. A close voicing folded into one
+           register sits under twelve. This is the number that says which of the
+           two the program is writing, and it was missing from this probe while
+           the code that changes it was already being edited. */
+        const inBar = keys.filter(n => n.bar === +b).map(n => n.pitch);
+        if(inBar.length > 1){ spanSum += Math.max(...inBar) - Math.min(...inBar); spanN++; }
         for(const st of steps){ voices += byBar[b][st].length; onsetN++;
           tot += byBar[b][st].length;
           if(byBar[b][st].length > 1) sim += byBar[b][st].length;
@@ -104,9 +112,10 @@ for(const g of M.genres()){
   const pct = (a, b) => b ? (100 * a / b).toFixed(1) : "  -";
   rows.push({ g, sim: pct(sim, tot), ob: bars ? (onsets / bars).toFixed(2) : "-",
               vo: onsetN ? (voices / onsetN).toFixed(2) : "-",
-              inner: pct(innerYes, innerN), rep: pct(rep, repN) });
+              inner: pct(innerYes, innerN), rep: pct(rep, repN),
+              span: spanN ? (spanSum / spanN).toFixed(1) : "-" });
   const r = rows[rows.length - 1];
-  console.log(`  ${g.padEnd(12)} ${r.sim.padStart(5)}   ${r.ob.padStart(6)}      ${r.vo.padStart(6)}       ${r.inner.padStart(6)}      ${r.rep.padStart(6)}`);
+  console.log(`  ${g.padEnd(12)} ${r.sim.padStart(5)}   ${r.ob.padStart(6)}      ${r.vo.padStart(6)}       ${r.inner.padStart(6)}      ${r.rep.padStart(6)}   ${r.span.padStart(5)}`);
 }
 
 /* and PRINT ONE, because a table is not the notes */
