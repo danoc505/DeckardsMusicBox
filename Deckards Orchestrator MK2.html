@@ -2677,12 +2677,24 @@ const Sound = (function(){
          transparent" was measured at 1.8 dB of difference energy and that is
          audible. The only honest transparent is absent. */
       inp.connect(lp); lp.connect(mk);
-      mk.connect(g.bus.drums);
+      /* ── THE ANALOG FILTER WAS NOT IN THE CIRCUIT ────────────────────────
+         `g.kitFilter` was built, given a cutoff, ridden by rideBus every song
+         and automated by the Plastikman table with a 40-bar triangle LFO --
+         and connected to NOTHING. Every channel went `mk -> g.bus.drums`
+         direct, past it. The comment four hundred lines up says "the whole kit
+         through kitFilter on its way to the drum bus"; the wire disagreed, and
+         the wire is what you hear.
+
+         Found by the control sweep: FILTER on the TR-1000's top strip moved
+         the sound in no way at all, and it was the last knob on the machine
+         that did not. */
+      mk.connect(g.kitFilter);
       mk.connect(echo); echo.connect(g.dlyTrim);
       mk.connect(verb); verb.connect(g.revTrim);
       if(g.gateSend){ mk.connect(gate); gate.connect(g.gateSend); }
       g.dchain[grp] = { inp, lp, drv, sat, mk, echo, verb, gate };
     }
+    g.kitFilter.connect(g.bus.drums);
 
 
     /* who feeds the space: keys and lead breathe; the rhythm section stays dry */
@@ -3461,10 +3473,11 @@ const Sound = (function(){
          SHORT and the room carries all the length, so when the gate slams there
          is nothing left underneath. A genre that gates therefore also shortens
          the drum. [corpus: Sweetwater on the Collins chain -- compression first] */
-      const decay = decay0 * (g.tomDecay != null ? g.tomDecay : 1);
+      const chT = chTune(g, ev), chD = chDecay(g, ev);
+      const decay = decay0 * (g.tomDecay != null ? g.tomDecay : 1) * chD;
       const o = c.createOscillator(); o.type = "sine";
-      o.frequency.setValueAtTime(f0, t);
-      o.frequency.exponentialRampToValueAtTime(f1, t + 0.12);
+      o.frequency.setValueAtTime(f0 * chT, t);
+      o.frequency.exponentialRampToValueAtTime(f1 * chT, t + 0.12);
       const og = c.createGain();
       og.gain.setValueAtTime(lvl * ev.gain, t);
       og.gain.exponentialRampToValueAtTime(0.0002, t + decay);
@@ -3472,8 +3485,8 @@ const Sound = (function(){
       o.start(t); o.stop(t + decay + 0.05);
       /* the shell: an octave up, quiet and shorter -- a drum is not one mode */
       const o2 = c.createOscillator(); o2.type = "triangle";
-      o2.frequency.setValueAtTime(f0 * 2, t);
-      o2.frequency.exponentialRampToValueAtTime(f1 * 2, t + 0.10);
+      o2.frequency.setValueAtTime(f0 * 2 * chT, t);
+      o2.frequency.exponentialRampToValueAtTime(f1 * 2 * chT, t + 0.10);
       const o2g = c.createGain();
       o2g.gain.setValueAtTime(lvl * ev.gain * 0.22, t);
       o2g.gain.exponentialRampToValueAtTime(0.0002, t + decay * 0.5);
@@ -3549,13 +3562,16 @@ const Sound = (function(){
     const c = g.ctx, out = [];
     const snappy = P(g, ev, DM(g), "snappy", 0.55), tone = P(g, ev, DM(g), "sdtone", 0.50);
     const chT = chTune(g, ev), chD = chDecay(g, ev);
-    /* the shell: two fixed oscillators, and TONE tilts between them */
+    /* the shell: two fixed oscillators, and TONE tilts between them. The
+       channel's TUNE moves the shell and NOT the snares -- on the machine the
+       tune control is across the drum's tone circuit, and a wire buzz does not
+       change pitch when you tune the head. */
     for(const [f, a, d] of [[238, 0.55 * (1 - tone * 0.5), 0.11], [476, 0.35 * (0.4 + tone * 0.6), 0.06]]){
-      const o = c.createOscillator(); o.type = "triangle"; o.frequency.value = f;
+      const o = c.createOscillator(); o.type = "triangle"; o.frequency.value = f * chT;
       const og = c.createGain();
       og.gain.setValueAtTime(LEVEL.snare * ev.gain * a * (1 - snappy * 0.45), t);
-      og.gain.exponentialRampToValueAtTime(0.0002, t + d);
-      o.connect(og); og.connect(drumOut(g, ev.lane)); o.start(t); o.stop(t + d + 0.02); out.push(o);
+      og.gain.exponentialRampToValueAtTime(0.0002, t + d * chD);
+      o.connect(og); og.connect(drumOut(g, ev.lane)); o.start(t); o.stop(t + d * chD + 0.02); out.push(o);
     }
     /* the snappy: a single noise band, and it is what SNAPPY actually controls */
     const n = burst(g, t, 0.16, ev.tSec.toFixed(5) + ":808sd");
@@ -3563,7 +3579,7 @@ const Sound = (function(){
     bp.frequency.value = 1600 + 2200 * tone; bp.Q.value = 0.6;
     const ng = c.createGain();
     ng.gain.setValueAtTime(LEVEL.snare * ev.gain * (0.30 + 0.75 * snappy), t);
-    ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.045 + 0.10 * snappy);
+    ng.gain.exponentialRampToValueAtTime(0.0002, t + (0.045 + 0.10 * snappy) * chD);
     n.connect(bp); bp.connect(ng); ng.connect(drumOut(g, ev.lane)); out.push(n);
     if(g.gateSend && g.gateSend.gain.value > 0){ const tp = gateTap(g, ev.lane); if(tp) ng.connect(tp); openGate(g, ev, t); }
     return out;
@@ -3703,14 +3719,15 @@ const Sound = (function(){
   /* 808 toms: the same bridged-T as the kick, tuned up and shorter */
   function tom808(f0){
     return function(g, ev, t){
-      const c = g.ctx;
+      const c = g.ctx, chT = chTune(g, ev), chD = chDecay(g, ev);
+      const dec = 0.52 * chD;
       const o = c.createOscillator(); o.type = "sine";
-      o.frequency.setValueAtTime(f0 * 1.9, t);
-      o.frequency.exponentialRampToValueAtTime(f0, t + 0.06);
+      o.frequency.setValueAtTime(f0 * 1.9 * chT, t);
+      o.frequency.exponentialRampToValueAtTime(f0 * chT, t + 0.06);
       const og = c.createGain();
       og.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.9, t);
-      og.gain.exponentialRampToValueAtTime(0.0002, t + 0.52);
-      o.connect(og); og.connect(drumOut(g, ev.lane)); o.start(t); o.stop(t + 0.58);
+      og.gain.exponentialRampToValueAtTime(0.0002, t + dec);
+      o.connect(og); og.connect(drumOut(g, ev.lane)); o.start(t); o.stop(t + dec + 0.06);
       if(g.gateSend && g.gateSend.gain.value > 0){ const tp = gateTap(g, ev.lane); if(tp) og.connect(tp); openGate(g, ev, t); }
       return [o];
     };
@@ -4289,13 +4306,13 @@ const Sound = (function(){
      [theory: TR-808/909 clap circuit -- a retriggered noise envelope plus a
      slow tail] ═══════════════════════════════════════════════════════════════ */
   V.clap = function(g, ev, t){
-    const c = g.ctx, out = [];
+    const c = g.ctx, out = [], chT = chTune(g, ev), chD = chDecay(g, ev);
     /* 10 ms between hands. No knob for it: it is not on any front panel here,
        and a slider that no machine declares would be a control that reads
        nothing. [theory: the 808's clap retrigger interval] */
     const spread = 0.010;
     const bp = c.createBiquadFilter(); bp.type = "bandpass";
-    bp.frequency.value = 1050; bp.Q.value = 1.6;
+    bp.frequency.value = 1050 * chT; bp.Q.value = 1.6;
     bp.connect(drumOut(g, ev.lane));
     /* the hands */
     for(let i = 0; i < 3; i++){
@@ -4303,14 +4320,14 @@ const Sound = (function(){
       const n = burst(g, at, 0.012, ev.tSec.toFixed(5) + ":clap" + i);
       const ng = c.createGain();
       ng.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.72, at);
-      ng.gain.exponentialRampToValueAtTime(0.0002, at + 0.011);
+      ng.gain.exponentialRampToValueAtTime(0.0002, at + 0.011 * chD);
       n.connect(ng); ng.connect(bp); out.push(n);
     }
     /* and the room behind them, which is what makes it a clap and not a tick */
     const tail = burst(g, t, 0.26, ev.tSec.toFixed(5) + ":claptail");
     const tg = c.createGain();
     tg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.34, t + 0.012);
-    tg.gain.exponentialRampToValueAtTime(0.0002, t + 0.24);
+    tg.gain.exponentialRampToValueAtTime(0.0002, t + 0.24 * chD);
     tail.connect(tg); tg.connect(bp); out.push(tail);
     /* THE SAME GUARD EVERY OTHER VOICE HAS. This one was unconditional, so the
        clap connected to the gated-verb send and OPENED THE GATE on every hit
@@ -4328,23 +4345,23 @@ const Sound = (function(){
      30 ms. It is the one percussive event minimal techno adds to a bar.
      [theory: TR-909 rim circuit; [EAR] for the tuning] ══════════════════════ */
   V.rim = function(g, ev, t){
-    const c = g.ctx;
+    const c = g.ctx, chT = chTune(g, ev), chD = chDecay(g, ev);
     const o = c.createOscillator(); o.type = "triangle";
-    o.frequency.setValueAtTime(1720, t);
-    o.frequency.exponentialRampToValueAtTime(480, t + 0.018);
+    o.frequency.setValueAtTime(1720 * chT, t);
+    o.frequency.exponentialRampToValueAtTime(480 * chT, t + 0.018);
     const bp = c.createBiquadFilter(); bp.type = "bandpass";
-    bp.frequency.value = 1650; bp.Q.value = 2.4;
+    bp.frequency.value = 1650 * chT; bp.Q.value = 2.4;
     const og = c.createGain();
     og.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.68, t);
-    og.gain.exponentialRampToValueAtTime(0.0002, t + 0.030);
+    og.gain.exponentialRampToValueAtTime(0.0002, t + 0.030 * chD);
     o.connect(bp); bp.connect(og); og.connect(drumOut(g, ev.lane));
-    o.start(t); o.stop(t + 0.05);
+    o.start(t); o.stop(t + 0.05 * chD);
     const n = burst(g, t, 0.012, ev.tSec.toFixed(5) + ":rim");
     const nb = c.createBiquadFilter(); nb.type = "bandpass";
-    nb.frequency.value = 3100; nb.Q.value = 1.4;
+    nb.frequency.value = 3100 * chT; nb.Q.value = 1.4;
     const ng = c.createGain();
     ng.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.26, t);
-    ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.014);
+    ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.014 * chD);
     n.connect(nb); nb.connect(ng); ng.connect(drumOut(g, ev.lane));
     return [o, n];
   };
@@ -4375,10 +4392,12 @@ const Sound = (function(){
   };
 
   V.snare = function(g, ev, t){
-    const c = g.ctx, out = [];
-    for(const [f0, f1, amp, dec] of [[330,195,0.32,0.09],[185,150,0.14,0.11]]){ // shell modes
+    const c = g.ctx, out = [], chT = chTune(g, ev), chD = chDecay(g, ev);
+    for(const [f0, f1, amp, dec0] of [[330,195,0.32,0.09],[185,150,0.14,0.11]]){ // shell modes
+      const dec = dec0 * chD;
       const o = c.createOscillator(); o.type = "triangle";
-      o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + 0.05);
+      o.frequency.setValueAtTime(f0 * chT, t);
+      o.frequency.exponentialRampToValueAtTime(f1 * chT, t + 0.05);
       const og = c.createGain();
       og.gain.setValueAtTime(LEVEL.snare * ev.gain * amp, t);
       og.gain.exponentialRampToValueAtTime(0.0002, t + dec);
@@ -4388,13 +4407,13 @@ const Sound = (function(){
     const cb = c.createBiquadFilter(); cb.type = "bandpass"; cb.frequency.value = 1850; cb.Q.value = 0.8;
     const cg = c.createGain();
     cg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.72, t);
-    cg.gain.exponentialRampToValueAtTime(0.0002, t + 0.065);
+    cg.gain.exponentialRampToValueAtTime(0.0002, t + 0.065 * chD);
     crack.connect(cb); cb.connect(cg); cg.connect(drumOut(g, ev.lane)); out.push(crack);
     const wire = burst(g, t, 0.16, ev.tSec.toFixed(5) + ":wire");           // the tail, not the sound
     const wh = c.createBiquadFilter(); wh.type = "highpass"; wh.frequency.value = 4400;
     const wg = c.createGain();
     wg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.46, t);
-    wg.gain.exponentialRampToValueAtTime(0.0002, t + 0.13);
+    wg.gain.exponentialRampToValueAtTime(0.0002, t + 0.13 * chD);
     wire.connect(wh); wh.connect(wg); wg.connect(drumOut(g, ev.lane)); out.push(wire);
     /* THE SNARE IS THE DRUM THE GATE WAS INVENTED ON -- "In the Air Tonight" is a
        gated snare before it is anything else. Same shared gate as the toms: one
@@ -4672,6 +4691,25 @@ const Sound = (function(){
      multiplier, both neutral at their defaults, so a genre that says nothing
      renders exactly what it rendered before. A voice with no chain group (a
      machine that declares none) gets 1.0 and 0, which is the same thing. */
+  /* ── FIVE VOICES IGNORED THEIR OWN CHANNEL'S TUNE AND DECAY ────────────────
+     MEASURED by sweeping every control of every machine from the bottom of its
+     travel to the top, one lane at a time: sTune, sDecay, tTune, tDecay,
+     mTune, mDecay, rTune, rDecay, cTune and cDecay -- the snare's, both toms',
+     the rimshot's and the clap's -- moved nothing at all. The kick's, the two
+     hats', the crash's and the ride's all did.
+
+     The snare is the interesting one, because it looked wired: V.s808 called
+     chTune() and chDecay() on its second line, put both in locals, and then
+     never mentioned either again. A grep for "does this voice read its
+     channel?" answers yes. The sound answers no. The other four never asked at
+     all.
+
+     Ten knobs on the TR-1000's channel strip, drawn on the panel, declared as
+     `bus`, automated by the genre tables and connected to nothing -- which is
+     the defect this program is least allowed to have. They are OFFSETS, exactly
+     as they are on the kick: a semitone shift and a decay multiplier, both
+     neutral at their defaults, so a genre that says nothing renders what it
+     rendered before. */
   function chTune(g, ev){
     const grp = DCHAIN_OF[ev && ev.lane];
     if(!g || !g.dchainOn || !grp) return 1;

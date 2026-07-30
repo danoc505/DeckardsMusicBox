@@ -56,19 +56,44 @@ const ONLY = process.argv[2] || null;
     const HOST = { drums: 'synthwave', bass: 'acid', keys: 'vangelis', space: 'plastikman', desk: 'plastikman' };
     const rows = [];
 
-    const analyse = (ab) => {
-      const dv = new DataView(ab), n = (ab.byteLength - 44) / 4;
-      let peak = 0, sum = 0, zc = 0, prev = 0, last = 0;
-      for(let i = 0; i < n; i++){
-        const v = dv.getInt16(44 + (i*2)*2, true) / 32768;
-        if(Math.abs(v) > peak) peak = Math.abs(v);
-        sum += v*v;
-        if(Math.abs(v) > 0.001 && (v >= 0) !== (prev >= 0)) zc++;
-        prev = v;
+    /* ── ONE WINDOW PER LANE, NOT ONE NUMBER PER RENDER ──────────────────────
+       The first version took peak, level, brightness and tail across the WHOLE
+       file and then reported nine of the TR-1000's per-drum chain controls
+       dead: rCut, the whole clap channel, two hat sends, the crash echo.
+
+       They are not dead. They are QUIET. The render is twelve lanes over
+       fifty-five seconds, and moving the rimshot's filter from bottom to top
+       changes two hits out of twenty-four; against the kick and the snare in
+       the same file that is well under a tenth of a decibel of global level,
+       so the test could not see it. Every control it called dead belonged to
+       one of the quiet drums, which is the signature of an insensitive metric
+       rather than of a broken circuit.
+
+       So the file is cut into one window per lane -- the schedule already puts
+       each lane in its own 4.2 s slot -- each window measured on its own, and a
+       control counts as moving if it moves ANY of them. A rim filter now gets
+       compared against the rim alone.
+
+       Ninth setup error, same shape as the other eight. */
+    const analyse = (ab, nWin, winSec) => {
+      const dv = new DataView(ab), n = (ab.byteLength - 44) / 4, SR = 44100;
+      const w = [];
+      for(let k = 0; k < nWin; k++){
+        const a = Math.min(n, Math.round(k * winSec * SR));
+        const b = Math.min(n, Math.round((k + 1) * winSec * SR));
+        let peak = 0, sum = 0, zc = 0, prev = 0, last = 0;
+        for(let i = a; i < b; i++){
+          const v = dv.getInt16(44 + (i*2)*2, true) / 32768;
+          if(Math.abs(v) > peak) peak = Math.abs(v);
+          sum += v*v;
+          if(Math.abs(v) > 0.001 && (v >= 0) !== (prev >= 0)) zc++;
+          prev = v;
+        }
+        for(let i = b - 1; i > a; i--)
+          if(Math.abs(dv.getInt16(44 + (i*2)*2, true) / 32768) > peak * 0.02){ last = (i - a) / SR; break; }
+        w.push({ peak, rms: Math.sqrt(sum / Math.max(1, b - a)), zc, tail: last });
       }
-      for(let i = n - 1; i > 0; i--)
-        if(Math.abs(dv.getInt16(44 + (i*2)*2, true) / 32768) > peak * 0.02){ last = i / 44100; break; }
-      return { peak, rms: Math.sqrt(sum / Math.max(1, n)), zc, tail: last };
+      return w;
     };
 
     const PICK0 = { drums: MK2.PICK.drums, bass: MK2.PICK.bass, keys: MK2.PICK.keys };
@@ -117,20 +142,31 @@ const ONLY = process.argv[2] || null;
          then reported tb303.accent and mellotron.tapeEnd dead. */
       const ev = [];
       let at = 0.3;
+      /* WHAT THE PERFORMANCE STAGE PUTS ON A NOTE, put on these notes too. A
+         hand-built event is not a real one: stage 5 attaches `timbre` and `wow`
+         to every keys note, and the Rhodes scales its wow BY the chart's drawn
+         depth -- `(ev.wow || 0) * (knob / default)` -- so a note with no `wow`
+         field makes the wow knob multiply zero and the probe calls it dead. It
+         did. That is the eighth time in this file a measurement measured its
+         own setup, and the fix is the same every time: build the thing the way
+         the program builds it. */
+      const keys = (role === 'keys')
+        ? { timbre: song.chart.keysChar, wow: song.chart.tape.wow } : {};
       for(const ln of laneNames){
         /* long and accented, then short and plain: a release, a tape end and an
            accent knob each need a note that reaches them */
         ev.push({ voice: lanes[ln], lane: ln, role, tSec: at, durSec: 3.0,
-                  gain: 0.9, pitch: 45, accent: true, slice: 0 });
+                  gain: 0.9, pitch: 45, accent: true, slice: 0, ...keys });
         ev.push({ voice: lanes[ln], lane: ln, role, tSec: at + 3.4, durSec: 0.4,
-                  gain: 0.7, pitch: 45, slice: 0 });
+                  gain: 0.7, pitch: 45, slice: 0, ...keys });
         at += 4.2;
       }
 
+      const WIN = 4.2, nWin = laneNames.length;
       const render = async () => {
         const blob = await MK2.renderWav(ev, at + 3, 44100, S.space, S.kick, S.drumDrive,
                                          S.gate, song.motion, 0);
-        return analyse(await blob.arrayBuffer());
+        return analyse(await blob.arrayBuffer(), nWin, WIN);
       };
 
       for(const c of M.controls){
@@ -147,14 +183,22 @@ const ONLY = process.argv[2] || null;
         const hi = await render();
         MK2.PARAMS[key] = saveP;
         if(saveT === undefined) delete MK2.TRIM[key]; else MK2.TRIM[key] = saveT;
-        const d = {
-          peak: Math.abs(hi.peak - lo.peak) / Math.max(1e-6, lo.peak),
-          rms:  Math.abs(20 * Math.log10(Math.max(1e-9, hi.rms) / Math.max(1e-9, lo.rms))),
-          zc:   Math.abs(hi.zc - lo.zc) / Math.max(1, lo.zc),
-          tail: Math.abs(hi.tail - lo.tail),
-        };
+        /* the biggest move over any single lane's window, and the lane it
+           happened on -- which is also the most useful thing to print, because
+           it says WHICH drum a control turned out to belong to */
+        let d = { peak: 0, rms: 0, zc: 0, tail: 0 }, on = '-', best = -1;
+        for(let w = 0; w < nWin; w++){
+          const D = {
+            peak: Math.abs(hi[w].peak - lo[w].peak) / Math.max(1e-6, lo[w].peak),
+            rms:  Math.abs(20 * Math.log10(Math.max(1e-9, hi[w].rms) / Math.max(1e-9, lo[w].rms))),
+            zc:   Math.abs(hi[w].zc - lo[w].zc) / Math.max(1, lo[w].zc),
+            tail: Math.abs(hi[w].tail - lo[w].tail),
+          };
+          const score = D.peak / 0.01 + D.rms / 0.1 + D.zc / 0.01 + D.tail / 0.01;
+          if(score > best){ best = score; d = D; on = laneNames[w]; }
+        }
         const moved = d.peak > 0.01 || d.rms > 0.1 || d.zc > 0.01 || d.tail > 0.01;
-        rows.push({ m, k: c.k, kind: c.kind || '?', moved, ...d });
+        rows.push({ m, k: c.k, kind: c.kind || '?', moved, on, ...d });
       }
     }
     MK2.PICK.drums = PICK0.drums; MK2.PICK.bass = PICK0.bass; MK2.PICK.keys = PICK0.keys;
@@ -166,11 +210,12 @@ const ONLY = process.argv[2] || null;
   const dead = [];
   for(const m of Object.keys(byM)){
     console.log(`\n=== ${m} ===`);
-    console.log('  control          kind      d peak   d level   d bright   d tail');
+    console.log('  control          kind      d peak   d level   d bright   d tail  on');
     for(const r of byM[m]){
       console.log(`  ${r.k.padEnd(15)} ${r.kind.padEnd(9)} ${(100*r.peak).toFixed(1).padStart(6)}%  ` +
                   `${r.rms.toFixed(2).padStart(6)}dB  ${(100*r.zc).toFixed(1).padStart(7)}%  ` +
-                  `${r.tail.toFixed(3).padStart(6)}s${r.moved ? '' : '   <<< SILENT'}`);
+                  `${r.tail.toFixed(3).padStart(6)}s  ${(r.moved ? r.on : '').padEnd(8)}` +
+                  `${r.moved ? '' : '<<< SILENT'}`);
       if(!r.moved) dead.push(`${r.m}.${r.k} (${r.kind})`);
     }
   }
