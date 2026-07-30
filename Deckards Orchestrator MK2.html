@@ -2653,6 +2653,23 @@ const Sound = (function(){
       const mk  = c.createGain(); mk.gain.value = 1;      // the drive's reciprocal
       const echo = c.createGain(); echo.gain.value = 0;
       const verb = c.createGain(); verb.gain.value = 0;
+      /* ── THE GATED VERB TAPS THE CHANNEL, NOT THE VOICE ────────────────────
+         Six voices connected their own gain straight to g.gateSend, which sits
+         BEFORE the channel fader. BISECTED: with every fader at zero a clap
+         still peaked 0.1518, and killing gateSend or gateMakeup was the only
+         thing that stopped it -- the path is
+         gateSend -> gateVerb -> gateComp -> gateMakeup -> gate -> mix.
+
+         The reason it was open at all is worth writing down, because it is why
+         two earlier attempts to find this failed: the send is NOT the genre's
+         `space.gate.send`, which is 0 for synthwave. It is the TR-1000's own
+         `gate` control, and synthwave AUTOMATES it across 33% of its travel. So
+         the gate is open for most of the song, the voices feed it pre-fader,
+         and no fader on the panel can touch it.
+
+         Tapping `mk` puts the gate after the fader, like every other send on
+         the strip. */
+      const gate = c.createGain(); gate.gain.value = 1;
       /* the saturator is PATCHED IN, not wired in. See setSpace: at drive 1 the
          chain runs lp -> drv -> mk and the shaper is out of the path entirely.
          A near-identity curve is still not an identity for a drum TRANSIENT --
@@ -2663,7 +2680,8 @@ const Sound = (function(){
       mk.connect(g.bus.drums);
       mk.connect(echo); echo.connect(g.dlyTrim);
       mk.connect(verb); verb.connect(g.revTrim);
-      g.dchain[grp] = { inp, lp, drv, sat, mk, echo, verb };
+      if(g.gateSend){ mk.connect(gate); gate.connect(g.gateSend); }
+      g.dchain[grp] = { inp, lp, drv, sat, mk, echo, verb, gate };
     }
 
 
@@ -3472,7 +3490,7 @@ const Sound = (function(){
       /* ...and into the gate. ONE gate on the bus, retriggered by every hit,
          which is what a channel gate on a desk actually is: it opens flat and
          then slams, and a second hit inside the hold simply reopens it. */
-      og.connect(g.gateSend); ng.connect(g.gateSend);
+      { const tp = gateTap(g, ev.lane); if(tp){ og.connect(tp); ng.connect(tp); } }
       openGate(g, ev, t);
       return [o, o2, n];
     };
@@ -3547,7 +3565,7 @@ const Sound = (function(){
     ng.gain.setValueAtTime(LEVEL.snare * ev.gain * (0.30 + 0.75 * snappy), t);
     ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.045 + 0.10 * snappy);
     n.connect(bp); bp.connect(ng); ng.connect(drumOut(g, ev.lane)); out.push(n);
-    if(g.gateSend && g.gateSend.gain.value > 0){ ng.connect(g.gateSend); openGate(g, ev, t); }
+    if(g.gateSend && g.gateSend.gain.value > 0){ const tp = gateTap(g, ev.lane); if(tp) ng.connect(tp); openGate(g, ev, t); }
     return out;
   };
 
@@ -3693,7 +3711,7 @@ const Sound = (function(){
       og.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.9, t);
       og.gain.exponentialRampToValueAtTime(0.0002, t + 0.52);
       o.connect(og); og.connect(drumOut(g, ev.lane)); o.start(t); o.stop(t + 0.58);
-      if(g.gateSend && g.gateSend.gain.value > 0){ og.connect(g.gateSend); openGate(g, ev, t); }
+      if(g.gateSend && g.gateSend.gain.value > 0){ const tp = gateTap(g, ev.lane); if(tp) og.connect(tp); openGate(g, ev, t); }
       return [o];
     };
   }
@@ -4030,7 +4048,7 @@ const Sound = (function(){
     out.gain.setValueAtTime(lvl, t + ev.durSec);
     out.gain.exponentialRampToValueAtTime(0.0002, t + ev.durSec + rel);
     n.start(t, Math.max(0, off), ev.durSec + rel + 0.02);
-    if(g.gateSend && g.gateSend.gain.value > 0){ out.connect(g.gateSend); openGate(g, ev, t); }
+    if(g.gateSend && g.gateSend.gain.value > 0){ const tp = gateTap(g, ev.lane); if(tp) out.connect(tp); openGate(g, ev, t); }
     return [n];
   };
 
@@ -4294,7 +4312,13 @@ const Sound = (function(){
     tg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.34, t + 0.012);
     tg.gain.exponentialRampToValueAtTime(0.0002, t + 0.24);
     tail.connect(tg); tg.connect(bp); out.push(tail);
-    if(g.gateSend){ tg.connect(g.gateSend); openGate(g, ev, t); }
+    /* THE SAME GUARD EVERY OTHER VOICE HAS. This one was unconditional, so the
+       clap connected to the gated-verb send and OPENED THE GATE on every hit
+       even in a genre whose gate send is zero -- and opening the gate ramps
+       g.gate from 0.0001 to 1, putting the compressor + 5.5x makeup return
+       straight into the mix with nothing feeding it. Measured: with every fader
+       at zero the clap still peaked 0.1517 where the hat reached exactly 0. */
+    if(g.gateSend && g.gateSend.gain.value > 0){ const tp = gateTap(g, ev.lane); if(tp) tg.connect(tp); openGate(g, ev, t); }
     return out;
   };
 
@@ -4375,7 +4399,7 @@ const Sound = (function(){
     /* THE SNARE IS THE DRUM THE GATE WAS INVENTED ON -- "In the Air Tonight" is a
        gated snare before it is anything else. Same shared gate as the toms: one
        instance on the bus, retriggered per hit, exactly like a channel gate. */
-    cg.connect(g.gateSend); wg.connect(g.gateSend);
+    { const tp = gateTap(g, ev.lane); if(tp){ cg.connect(tp); wg.connect(tp); } }
     openGate(g, ev, t);
     return out;
   };
@@ -4660,6 +4684,21 @@ const Sound = (function(){
     return P(g, ev, g.drumMachine, grp + "Decay", 1);
   }
 
+  /* where a voice's GATED-VERB send goes: its channel's post-fader tap when it
+     has a channel, the global send when it does not (the chopper, the SEGA kit
+     and the acoustic kit have no strip of their own). */
+  /* Returns null for a voice that HAS a channel, because the channel already
+     feeds the gate from `mk` -- post-fader, automatically, for every drum on
+     the strip. A voice connecting itself to anything here would put its raw
+     output back in front of the fader, which is the bug being fixed; the first
+     attempt did exactly that by handing the voice the chain's own gate node,
+     and measured no better. Voices with no channel keep the direct send. */
+  function gateTap(g, lane){
+    if(!g.gateSend) return null;
+    const grp = g.dchainOn ? DCHAIN_OF[lane] : null;
+    if(grp && g.dchain && g.dchain[grp] && g.dchain[grp].gate) return null;
+    return g.gateSend;
+  }
   function drumOut(g, lane){
     if(!g.dchainOn) return g.bus.drums;
     const grp = DCHAIN_OF[lane];

@@ -286,6 +286,43 @@ const check = (label, ok, detail) => {
     }
     return { bad, quiet, n: window.MK2.voiceNames().length };
   });
+  /* ── A FADER AT THE BOTTOM MEANS SILENCE ──────────────────────────────────
+     Reported as "I turned all the faders down and I'm still hearing this
+     sound." It was true: with every TR-1000 MIX fader at zero the kit only
+     dropped 20.4 dB, because several voices connected to the gated-verb send
+     from their own gain -- in front of the fader -- and synthwave automates
+     that send across a third of its travel, so it is open for most of the song.
+
+     Three separate wrong theories were measured and killed before the bisect
+     found it, so this check exists to make the next one cheap. */
+  const silenced = await pg.evaluate(async () => {
+    const L = ['k','s','t','m','r','c','h','o','a','d'];
+    const song = MK2.composeSong(1, 'draw', 'synthwave');
+    const S = MK2.soundOf('synthwave');
+    const ev = song.perf.events.filter(e => e.role === 'drums' && e.tSec < 8);
+    const peak = async () => {
+      const blob = await MK2.renderWav(ev, 10, 44100, S.space, S.kick, S.drumDrive,
+                                       S.gate, song.motion, 0);
+      const ab = await blob.arrayBuffer(), dv = new DataView(ab);
+      const n = (ab.byteLength - 44) / 4;
+      let pk = 0;
+      for(let i = 0; i < n; i++){
+        const v = Math.abs(dv.getInt16(44 + (i*2)*2, true) / 32768);
+        if(v > pk) pk = v;
+      }
+      return pk;
+    };
+    for(const g of L) MK2.PARAMS['tr1000.' + g + 'Mix'] = 1;
+    const open = await peak();
+    for(const g of L) MK2.PARAMS['tr1000.' + g + 'Mix'] = 0;
+    const shut = await peak();
+    for(const g of L) delete MK2.PARAMS['tr1000.' + g + 'Mix'];
+    return { open, shut };
+  });
+  check("every fader at the bottom silences the kit",
+        silenced.shut < silenced.open * 0.001,
+        `open ${silenced.open.toFixed(4)} -> shut ${silenced.shut.toFixed(4)}`);
+
   check(`every one of the ${voices.n} voices renders without throwing`,
         voices.bad.length === 0, voices.bad.slice(0, 3).join(" | "));
   check("...and none of them comes out silent",
