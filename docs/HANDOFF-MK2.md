@@ -292,12 +292,18 @@ node harness/probe_voices.js                          # fire every voice
 node harness/probe_theory.js                          # the music laws, off the notes
 node harness/probe_controls.js [machine]              # every knob reaches the sound
 node harness/mk2_stamp.js check                      # is the published build this build?
+node harness/mk2_midi.js                             # 20 checks, the MIDI port, stub device
+node harness/probe_comp.js                           # how the comp is voiced
+node harness/probe_harmony_neo.js                    # chromaticism and voice leading
+node harness/probe_pull.js                           # does the genre outweigh the seed?
+node harness/probe_cymbals.js                        # the harsh band, absolute and as a share
+python3 harness/make_sample.py <file> --name x --pitched   # WAV/AIFF -> embeddable payload
 ```
 
 **The five-minute battery, before any claim:** `mk2_test.js`, `mk2_ui.js`,
-`mk2_blend.js`, `mk2_snapshot.js check`, `probe_voices.js`. State at `4728512`:
-**93 / 24 / 10 / IDENTICAL / 0 threw, 0 silent.** At `8a4f8db`: **95 / 24 / 10 /
-IDENTICAL / 0 threw, 0 silent** — two rig checks added, see below.
+`mk2_blend.js`, `mk2_snapshot.js check`, `probe_voices.js`, and now
+`mk2_midi.js`. State at `e172eea`: **96 / 24 / 10 / IDENTICAL / 0 threw, 0
+silent / 20 MIDI.** (93 at `4728512`; +2 rig checks, +1 stamp check.)
 
 ### The build the user hears is not automatically the build you measured
 
@@ -562,33 +568,31 @@ one that changed (93,288 events, all machine swaps), everything else zero.
 
 ## 5. What needs to be done — in priority order
 
-> **START HERE.** The sub-sections below accumulated over many sessions and the
-> numbering no longer reflects order. This is the order, as of `4728512`:
+> **START HERE.** Rewritten **2026-07-30 at `e172eea`**, after a session that
+> moved the comp, the harmony, the ride, the drums and the measurement of what
+> the genres actually control. This is the order:
 >
-> 1. **The new tunes and the eleven drum knobs have not passed the user's ears —
->    because they were never in the file being played.** This item used to say
->    the cymbal rebuild was unheard too; that was wrong. The published artifact
->    was commit `0f3a0a9`, which HAS the cymbal rebuild and the fader fix and
->    does NOT have the knobs, the kitFilter or the non-chord-tone law. Corrected
->    and republished at `8a4f8db`; see §3.
+> 1. **BUILD THE SAX, AND THE BAND AROUND IT.** The user has asked three times.
+>    It is unblocked and specified — §9. This is the top item.
+> 2. **NOBODY OWNS THE FORM.** Measured with `probe_pull.js`: 15 of 16 features
+>    are genre-owned at a **median pull of 19.5x**, so the seed is NOT
+>    overpowering the genre — except `sections`, which scores **0.06**. Every
+>    genre has the same average shape; the seed decides how a record is divided
+>    while the genre decides how long it is. The user named the arrangement as
+>    one of the two worst things and this is the arithmetic behind it.
+> 3. **Chromaticism reaches one genre.** `harmony: {style, chance}` works and
+>    Vangelis is at 10.4% out-of-key chords with the SMOOTHEST voice leading in
+>    the file. Six genres are still at 0.0%, and `coltraneCycle` is built,
+>    correct and **drawn by nobody** — do not claim it works until it does.
+> 4. **The sampled kit is opt-in and half-populated.** `gretsch` covers kick,
+>    snare, hat and ride; open hat, toms, crash and rim still fall back to the
+>    synthesised voices. No genre draws the kit.
+> 5. **The user's own Amen WAVs are still not in the repo.** `.gitignore` ate
+>    them (§5.5) and the rule is fixed, but the files have never been pushed.
+> 6. The small honest list in §5.5.
 >
->    So what is genuinely awaiting ears is: **the tunes under the resolution law,
->    the eleven drum knobs, and the kit filter.** Ask before building on top of
->    them. If the ear says the tunes got blander, the constraint in §5.6 is the
->    first thing to loosen, and the knob for it is the 20% threshold in
->    `mk2_test.js`. **Check `harness/mk2_build.json` before you believe any
->    sentence in this file about what has been heard.**
-> 2. **Harmony is the biggest un-started thing** (§5.6, "still open"). Zero
->    chromaticism, 5–12 progressions a genre, voice leading at 4.38 semitones.
->    Measured, named, untouched. This is where the next real musical gain is.
-> 3. **Role instances** — the user's "3 arps and two dueling basses" ask. One
->    slot per role today; this needs a register allocator, not a table entry.
-> 4. **Genre identity for jungle** (§5.4) — the only genre whose artist research
->    was never completed.
-> 5. The small honest list in §5.5.
->
-> §5.0 and §5.6 are closed. They are kept in full because *how* they were closed
-> is the part worth copying.
+> §5.0, §5.2 and §5.6 are closed. They are kept in full because *how* they were
+> closed is the part worth copying.
 
 ### 5.1 ✔ DONE — the 303 has its accent and its slide
 ### 5.2 ✔ DONE — the step sequencers, editable and pinned
@@ -906,6 +910,38 @@ findings in the table.
 
 ### 5.5 Smaller, known, honest
 
+- ✔ **`.gitignore` had a blanket `*.wav` and it ate real source.** Twenty Amen
+  WAVs were "on main" from where the user sat and had never been committed:
+  `git add` skips an ignored file **silently**, with nothing in `git status`.
+  The rule names the render locations now and `samples/**` is kept, verified
+  both ways. **The files themselves are still not pushed** — see
+  `samples/amen/README.md`.
+- ✔ **The build stamp is a seam now**, not a habit. The published artifact was
+  found to be three program commits behind while BOTH files carried the stamp
+  `build 2026-07-29r`. `harness/mk2_stamp.js` + `harness/mk2_build.json` + a
+  check inside the battery. **Bump the stamp in the commit that changes the
+  program, re-record, and republish** — same discipline as the snapshot.
+- ✔ **A latent crash on starting mid-song.** `playLive` computes
+  `t0 = currentTime + 0.15 - fromSec`, which goes negative when the song starts
+  further in than the audio clock has run, and every AudioParam method rejects a
+  negative time. Unreachable from today's UI; **a seek control makes it live.**
+  Clamped in `rideBus` and `setSpace`.
+- **`coltraneCycle` is built and drawn by nobody.** It is correct as far as
+  arithmetic goes and has never made a sound. Do not claim it works.
+- **`mk2_midi.js` FLAKES, about one run in five.** Observed once at `e172eea`:
+  19/20 with no `✗` line surviving to the next run, then 20/20 three times in a
+  row. Its checks are wall-clock — "did N notes arrive in 3 s", "did 40 clock
+  ticks arrive in 2.5 s" — and a loaded machine misses those windows. **Do not
+  treat a single red run as a regression, and do not treat that as permission to
+  ignore it**: the right fix is to make the checks wait on a count rather than
+  on a duration. Every other suite in this repo is deterministic.
+- **The MIDI port has no IN**, and no per-role channel picker — it uses
+  `MIDI_TRACK`'s channels so a receiver set up for the exported `.mid` is set up
+  for the port. Tested through a stub device (`mk2_midi.js`, 20 checks); it has
+  never met real hardware.
+- **The `gretsch` kit is half-populated**: kick, snare, hat, ride are sampled;
+  open hat, toms, crash and rim fall back to synthesised voices.
+
 - ✔ `mk2_snapshot.js` defaulting to 200 against a 300-seed baseline — fixed;
   `check` now reads the file's length.
 - ✔ `mk2_test.js` comparing event voices against thirteen names hand-copied into
@@ -1057,3 +1093,112 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
 | `harness/probe_theory.js` | the music laws, read off the notes |
 | `harness/probe_voices.js` | every voice fires and none is silent |
 | `docs/genre-research/NOTES-FROM-THE-USER.md` | **the running log of what was measured, what was wrong, and why.** Read it with this file. |
+
+---
+
+## 9. THE NEXT JOB — the sax, and the band it belongs to
+
+*Written at `e172eea`. Everything here is verified unless marked otherwise.*
+
+### It is not a list of instruments, it is a band
+
+Asked for: "a two string bass played with a glass slide, what about a Sax, or
+the 2 string asian instrument, horns, strings?" The first two are **Morphine's
+front line** — Mark Sandman's two-string slide bass and Dana Colley's baritone
+sax, which the band called *low rock*. That is a coherent thing to build toward
+rather than four unrelated patches.
+
+**The bass, specified:** two strings tuned **D–A** (his second-most-used was
+C–G), played with a **pick and a slide**, tone deliberately bright and cutting
+so it sat apart from the baritone sax. [corpus:eastwoodguitars, corpus:mmone]
+There are no frets, so every move between notes is a GLIDE — the 303's existing
+slide machinery is the right mechanism, not a new one. **It is not a diddley
+bow.** That was my error and it wasted a turn.
+
+### The sax is unblocked
+
+`harness/make_sample.py` reads **WAV and AIFF**, trims, downsamples, preserves
+the original peak as `pk`, and optionally detects the root note.
+
+The source is the **University of Iowa Musical Instrument Samples** — note by
+note, three dynamics, recorded in an anechoic chamber, online since 1997 and
+free *"without any restrictions on their use"*. Verified reachable:
+
+```
+https://theremin.music.uiowa.edu/MISaltosaxophone.html      ranges, all 6 combos
+https://theremin.music.uiowa.edu/MIS-Pitches-2012/MISEbAltoSaxophone2012.html
+   -> ../sound files/MIS Pitches - 2014/Woodwinds/Eb Alto Saxophone/
+      AltoSax.vib.ff.Db3.stereo.aif        (downloaded, 1.1 MB, valid AIFF)
+```
+
+**THE PITCH IS IN THE FILENAME**, which is what unblocked this. The Korg M1
+rompler samples in `open-samples` carry no declared root, and the detector read
+`Solo_Sax` as MIDI 36 at confidence 1.00 — plausible for a tenor, but an octave
+error is autocorrelation's signature failure and there was nothing to check it
+against. Iowa's filenames are the ground truth, and they also **validated the
+detector**: on `AltoSax.vib.ff.Db3` it returned MIDI 49 at 0.96, and Db3 IS
+MIDI 49. Use the detector on sources that have no filename to read; never trust
+it alone where one exists.
+
+### What Iowa has, and the one thing it does not
+
+**Six combinations: `Vib` / `NoVib` x `pp` / `mf` / `ff`.**
+
+The dynamics matter more than they look. A sax's dynamic is **timbral**: at `ff`
+the reed buzzes and the spectrum is full of upper harmonics, at `pp` it is close
+to a sine with breath around it. Sampling one layer and scaling its gain gives a
+loud quiet sax, which is the fake-horn giveaway. Three real velocity layers plus
+a vibrato switch is an expressive instrument.
+
+**There are NO GROWLS.** No flutter-tongue, no subtone, no altissimo, no doits
+or falls. The whole index was checked. So the growl is one of:
+
+1. **Synthesised over the sample** — physically it is amplitude *and* frequency
+   modulation at roughly 25–40 Hz plus added noise. Reproducible, and it would
+   be `[EAR]`, never `[corpus]`.
+2. **Found elsewhere.** Not searched for specifically. Given the last three
+   assumptions about sample availability were all wrong, look before assuming.
+3. **Shipped without, and said so.**
+
+Two more expressions are nearly free once the sampler exists, and are as
+characteristic of a sax line as the growl: a **scoop** into a note and a **fall**
+off the end, both a `playbackRate` ramp — the same machinery the 303 slide uses.
+
+### The design, in this architecture
+
+- A pitched sampler is a **voice**, so it lives in stage 6 and touches no note.
+- Velocity layers pick on `ev.gain`; crossfade rather than switch, or the seams
+  are audible on a swell.
+- `playbackRate = 2^((ev.pitch - root)/12)`. Never guess `root`.
+- Register it as a **machine in the `keys` or `bass` slot** with a `kind` on
+  every control — and remember the seam check: **a gesture or bus control that
+  no genre rides FAILS the battery.** That is the point; it stops panels growing
+  knobs nobody uses.
+- Embedding cost is small. The whole Gretsch kit is ~240 KB of base64 against
+  the 1.1 MB the ePiano bank already costs; one sax note at 32 kHz is ~166 KB,
+  so a playable range wants trimming and a sensible note spacing.
+
+### The sample sources, and what may be done with them
+
+| source | licence | use |
+|---|---|---|
+| `danoc505/open-samples` (14 GB, cloned at `/workspace/open-samples`) | Open Samples Permissive Use v1 | free for "any ... application that involves ... sound playback"; clause 2 forbids repackaging the samples **for sale as samples** — this program is not that |
+| University of Iowa MIS | free without restrictions since 1997 | anything |
+| Versilian VSCO-2 Community | CC0 | anything |
+
+**Never commit the corpora.** `make_sample.py` reads a file wherever it lives
+and prints a payload; only the payload lands in the HTML. Nothing from the 14 GB
+clone is in this repo.
+
+### What is in `open-samples`, since the folder names hide it
+
+The instruments are inside the **rompler packs**, not under folders named for
+them: sax (`M1/Solo_Sax`, `Tenor Sax`; `X5DR/Phantom_Sax`, `The_Sax_Man`), horns
+(`M1/Soft Horns`, `Brass_1`, `Trumpet`; `K1R/French Horn`; `X5DR/Muted_Horn`,
+`Brass_Swell`), strings (`M1/Strings`, `StringRise`; `X5DR/Full_String`;
+`K1R/Cellos`, `Bowed String`, `Orchestra`), and `M1/Koto_Trem` for the Asian
+string — **koto, not erhu; there is no erhu in the pack**. Also a multi-mic
+Gretsch kit, `Bohemian Upright Bass`, `Bansuri`, `Musical Saw`, `CymbalSwells`.
+
+Their roots are undeclared, so prefer Iowa where a real acoustic instrument is
+wanted and use these for the 90s-rompler character they actually have.

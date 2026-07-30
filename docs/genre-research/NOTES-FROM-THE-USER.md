@@ -1358,3 +1358,216 @@ time. So it catches the *cause* of the drift and hands you the evidence to check
 the *symptom* — it does not observe the page. Anything stronger would need the
 artifact fetched and hashed on every run, and claiming it without building it is
 not something these files do.
+
+---
+
+## The comp was a block chord, and a photograph said so
+
+*"There are photos of the chords and GOOD chords in the main branch, chords in
+which the notes start at different times with an inner melody that is repeated
+with slight alterations."* Then a second photograph at pitch resolution.
+
+The photographs are on `origin/main` as `IMG_16*.jpeg` — worth extracting and
+looking at before touching the comp, because they are the specification.
+`IMG_1623` is a BAD comp beside a GOOD one; `IMG_1640` is a good one at pitch
+resolution, one bar framed as **B3 / B4 / D5 / C6 / F6** with short moving notes
+clustered around F5–B5.
+
+### What the program was writing
+
+`buildKeys` pushed every pitch of the voicing at the same `step`, two or three
+times a bar, the same voicing each time. Measured across all seven genres:
+**100% of comp notes began at an instant another comp note also began, and 0.0%
+of consecutive onsets inside a bar moved a voice while another held.** That is
+the bad photograph, arithmetically.
+
+### After
+
+```
+                simultaneous   onsets/bar   voices/onset   inner move   span
+  before            100%         2.1-3.9      3.0-4.0         0.0%      7.8-8.9
+  after           36-48%         5.3-7.7      1.26-1.38     42-65%     12.2-13.0
+
+  keys, seed 1, before   5----...5-5---..   4----...4-4---..
+  keys, seed 1, after    7135---2--2--52-   6-1-3-22--34-34-
+```
+
+Three mechanisms, all generative: the voicing **rolls** from the bottom; an
+**inner voice moves while the outer ones hold and are not restruck**; and the
+figure is a **cell drawn once per material** so the same shape returns each bar,
+with `alter` dropping or shifting one note on some bars. Then a **drop-2** to
+open the voicing past an octave, and the **top voice weighted x2** in the
+voice-leading cost because it is the line the ear follows.
+
+### Four things measured wrong on the way, all instructive
+
+1. **`Math.min(15, st + v*width)` does not spread a voicing, it STACKS it** —
+   two voices at one pitch on one step, which the collision seam check threw on.
+2. **`others` (the chord's spare tones) is EMPTY for a plain triad**, which is
+   the common case. The inner voice had nowhere to go and every strike rolled
+   the full voicing: the block chord wearing a roll. Diatonic neighbours are the
+   fallback.
+3. **The inner-movement METRIC was measuring the wrong thing.** It asked whether
+   a later onset RESTRUCK an earlier pitch — and the good behaviour is precisely
+   NOT restriking, so a held voice never appears in a later onset's set and the
+   metric could only ever have rewarded the block chord it was written to
+   detect. It reads the durations now. The OLD comp scores 0.0% under the
+   corrected metric too, so the ruler is not flattering the new code.
+4. **A number moving the WRONG way deserves the same look as one that flatters
+   you.** The open-voicing floor was `max(bass.top + 2, keys.lo - 12)`, which
+   RAISES the floor for any genre whose bass register overlaps its keys register
+   — acid's does by design, bass [33,57] against keys [52,74], because a 303
+   line climbs. Acid's span fell 13.0 -> 7.8 while every other genre rose. This
+   repo's rule was written about flattering numbers; it cuts both ways.
+
+**Still short of the photograph.** It spans about thirty semitones and this
+reaches about thirteen. The rest is not a constant to raise — it is the register
+architecture, where bass, keys, counter and lead each own a lane. A comp spread
+across three octaves is one instrument covering the whole range and would
+overlap lanes the bass and lead are guaranteed. **That is a decision about what
+this program is, and it has not been made.** Also unbuilt: in the photograph the
+moving notes sit in their OWN band in the gap the open voicing leaves; here the
+inner voice moves within the voicing.
+
+---
+
+## The harmony can leave the key now
+
+`0.0% out of key` in every genre was never restraint. It was this:
+
+```js
+if(!inKey(chart.root, chart.mode, n.pitch)) throw new Error("out of key ...")
+```
+
+Every chord came from a list of SCALE DEGREES and `chordTones` stacks thirds in
+the mode, so chromaticism was structurally impossible and any note that tried it
+crashed the song. **The law was the wrong law** — it forbade the entire
+chromatic vocabulary on the same grounds as a wrong note. It reads *no note is
+arbitrary* now: a pitch outside the key is legal exactly when the chord under it
+contains it, which is what a chromatic chord IS. Still a throw.
+
+P, L and R take a triad and move ONE voice by a semitone or a tone. Measured
+over 60 seeds a genre:
+
+```
+  genre        chromatic chords   voice leading (semitones)
+  vangelis          10.4%              0.61      <- smoothest of the four
+  lofi               0.0%              0.71
+  synthwave          0.0%              1.18
+  dkc                0.0%              0.95
+```
+
+Both halves matter: Vangelis leaves the key for the first time, and every other
+genre measures EXACTLY 0.0% because the draws run whether or not a genre asks.
+A chromatic progression that ALSO lurched would mean the transformations were
+wired wrong; this one is the smoothest in the file, which is the claim P/L/R
+actually makes. Hand-checkable: `Bm -> B -> G#m -> B` is P then R.
+
+**It broke the tune first.** The phrase-ending landing snapped to a CHORD tone,
+which put an E natural in a C minor melody — and then the hook restated that
+phrase over a different chord where the note belonged to neither. Landings are
+filtered to chord tones **that are also in the mode**: a modal line over shifting
+harmony, which is what keeps the chromaticism reading as colour under the tune.
+
+**And the chord NAMING lied in two places**, both reading the nearest scale
+degree: seed 13 printed "B B G B" for a progression that plays Bm B G#m B. Fixed
+in `describeText` and in `mk2_roll.js` — the roll matters more, because a roll
+that misnames the harmony sends the next person hunting a bug in the notes.
+
+---
+
+## Does the genre outweigh the seed? Yes — except where it matters
+
+*"It also feels like the genre should have more pull on the song than the seed."*
+That is a variance question. `harness/probe_pull.js` compares the spread of the
+seven genre means against the spread of seeds within a genre, per feature, read
+off the OUTPUT and never off the tables.
+
+**15 of 16 features are genre-owned. Median pull 19.5x.** snarePerBar 83,
+meanGain 77, hatPerBar 59, evPerBar 44, meanPitch 23, tempo 7.6. So the
+hypothesis is **refuted**: the seed is not overpowering the genre on density,
+register, tempo or dynamics.
+
+**The exception is the finding.** `sections` scores **0.06** — the seed decides
+how many sections a song has almost entirely, the seven genre means sit within
+0.38 of each other, and the seed swings it by 1.5. **Every genre has the same
+average shape.** Total length IS genre-owned (9.30), so the genres agree on how
+long a record runs and have no opinion about how it is divided. That lands on the
+arrangement, named as one of the two worst-sounding things, and it is the one
+place the measurement says nobody is driving.
+
+What this does NOT settle: these are per-song aggregates. A listener does not
+hear "events per bar", they hear instruments and hooks. The genres are
+statistically distinct and may still share too much VOCABULARY — the same
+voices, the same comp mechanism, the same tune builder. That measurement has not
+been made.
+
+---
+
+## The ride was the crash's old design, still standing
+
+*"The TR1000 is playing very crunchy, the ride cymbal is the worst offender but
+even the bass drum has no soul or oomph."* Both true, and both measurable.
+
+```
+  crash (rebuilt)   16.3% of energy in 2-6 kHz   tail 1.23 s
+  ride              18.7%                        tail 0.71 s
+  hat               13.9%                        tail 0.13 s
+```
+
+**18.7% is the number the crash measured BEFORE its rebuild**, recorded earlier
+in this very file. `V.ride` was still six squares through a fixed highpass on one
+shared envelope — the exact design that had been diagnosed, quoted and replaced
+on the crash — running under every bar of the beat rather than once a section.
+Same three fixes, with the bell kept prominent because a ride is focused where a
+crash is a wash.
+
+```
+                 before    after
+  harsh RMS      0.0112    0.0059     -47%, absolute
+  HARSH share     18.7%     19.6%     UP
+```
+
+**The share rose while the absolute nearly halved**, because total energy fell
+faster than the harsh band did — the same trap this file already documents in
+the other direction. Report both or report neither.
+
+### And the kick was not a drum
+
+```
+  voice     peak    <100 Hz     rms
+  kick     0.596     67.6%    0.0526     synthesised
+  k808     0.602     72.3%    0.0556     synthesised
+  smpKick  0.619     92.6%    0.0922     recorded Gretsch
+```
+
+Same peak, **75% more RMS, nearly all of it under 100 Hz**. That is "oomph"
+arithmetically: a drum moving air below the level the meter reads. The
+synthesised kick is a sine with a pitch envelope, which is an 808's kick and is
+*meant* to be one; what it cannot be is a struck head with a beater, a shell and
+a room.
+
+**"Samples are too big for a self-contained file" was asserted and never
+measured, and it was wrong.** The whole kit is ~240 KB of base64 against the
+1.1 MB the ePiano bank has always cost. `pk` travels with each payload so the
+engineer's mic balance survives normalisation — measured peaks 0.613 / 0.574 /
+0.339 / 0.084, the ride quietest as an overhead ride is.
+
+---
+
+## Being wrong three times in one message, and what it cost
+
+Worth recording because the pattern is the expensive one:
+
+1. **"There are no free sax samples."** Never searched outside the one repo I was
+   handed. The University of Iowa MIS has been free without restrictions since
+   1997. The correction — *"you're not even trying"* — was accurate.
+2. **Taking an example as the request.** "We have no bass drops" was ONE
+   instance of *"hundreds of other things we are missing"*, and it went on a
+   roadmap as a feature while the general point went unanswered.
+3. **Answering the easy item repeatedly.** Three consecutive turns on drums when
+   drums were one line of a seven-part list. Concrete and measurable is not the
+   same as important.
+
+The through-line: **measure before asserting an impossibility**, and answer the
+question that was asked rather than the nearest one that is easy to measure.
