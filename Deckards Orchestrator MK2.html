@@ -4722,17 +4722,67 @@ const Sound = (function(){
     if(!plan || !plan.lanes || !plan.lanes[key]){ param.value = base; return; }
     const seconds = plan.seconds;
     const c = CONTROL[key];
+    /* ── A FADER AT THE BOTTOM MEANS OFF ──────────────────────────────────────
+       Reported: "I turned all the faders down and I'm still hearing this sound,
+       like a splash of high white noise."
+
+       MEASURED, synthwave with every MIX fader at zero: the kit dropped 20.4 dB
+       and stopped there. The motion is an OFFSET ADDED TO THE BASE, so with the
+       base at 0 the automation was still writing up to +0.143 onto lanes the
+       hand had shut:
+
+           rim  +0.143   clap +0.121   crash +0.108   snare +0.087
+
+       This on its own turned out NOT to be the leak that was heard -- the fix
+       below it was -- but it is wrong regardless, and it is wrong in the way
+       that matters: with it, a fader at the bottom of its travel is not off.
+
+       The offset model is right in general -- a hand and the program share a
+       control, and the hand moves it relative to what the program is doing. But
+       a control's MINIMUM has to be absolute, or no fader in this program can
+       ever silence anything, which is the one thing a fader must be able to do.
+
+       So the motion is scaled by how far the base sits above its minimum,
+       normalised to the default: at the bottom of the travel there is no
+       motion and the lane is silent; at the default the factor is exactly 1, so
+       nothing a hand has not touched moves by a sample. Controls whose default
+       IS their minimum -- the sends, which sit at 0 until motion opens them --
+       are left alone, because there the motion is not decoration on a base, it
+       is the whole signal. */
+    let depth = 1;
+    if(c && c.def > c.min){
+      depth = (base - c.min) / (c.def - c.min);
+      depth = Math.max(0, Math.min(1, depth));
+    }
     const step = plan.spb * 4;                       // one point per beat
     const n = Math.max(1, Math.ceil(seconds / step));
     /* the first point is an anchor, not a ramp: ramping from whatever the node
        happened to be left at by the previous song is how you get a swell nobody
        asked for at the top of every playback. */
-    let v = base + motionAt(plan, key, { tSec: 0 }, g.motionOffset);
+    let v = base + depth * motionAt(plan, key, { tSec: 0 }, g.motionOffset);
     if(c) v = Math.max(c.min, Math.min(c.max, v));
+    /* ── AND A NOTE CAN LAND BEFORE t0 ────────────────────────────────────────
+       `setValueAtTime(v, t0)` takes effect AT t0. Before it, the parameter still
+       holds whatever it was constructed with -- 1.0 on a mix fader. Groove
+       jitter moves notes either side of the grid, so the first hit of a lane
+       lands a fraction of a millisecond EARLY:
+
+           ride  -0.000500 s     hat  -0.000214 s     (leaked at full level)
+           crash +0.000141 s     kick +0.000182 s     (correctly silent)
+
+       Half a millisecond, and it was the whole difference between a fader that
+       works and a fader that lets one hit through at full volume every time the
+       song starts. On a hat at 78 hits that is a click; on a ride and a clap it
+       is the splash of high white noise that was reported.
+
+       Setting `.value` as well as scheduling closes it: the parameter holds the
+       right number from the moment the graph is configured, and the scheduled
+       curve takes over from t0 as before. */
+    try { param.value = v; } catch(e){}
     param.setValueAtTime(v, t0);
     for(let i = 1; i <= n; i++){
       const tSec = i * step;
-      let x = base + motionAt(plan, key, { tSec }, g.motionOffset);
+      let x = base + depth * motionAt(plan, key, { tSec }, g.motionOffset);
       if(c) x = Math.max(c.min, Math.min(c.max, x));
       param.linearRampToValueAtTime(x, t0 + tSec);
     }
