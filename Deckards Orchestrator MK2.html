@@ -9735,8 +9735,81 @@ function makeMaterials(chart){
        belongs to the pitch choice, which is the owner's, not to a later filter. */
     const fits = (b, st, p) => !reserved.has(key(b % BARS, st, p)) &&
       (!opts.hooky || !reserved.has(key((b + 2) % BARS, st, p)));
+    /* ── A DISSONANCE MUST STEP ────────────────────────────────────────────
+       MEASURED before this existed, over 20 seeds a genre: of the lead and
+       counter notes that are NOT in the chord under them, the share that then
+       LEAPT away was 34.9% on lofi, 33.0% on synthwave, 38.1% on DKC, 44.8% on
+       Vangelis and 50.0% on acid. That is the oldest rule in common-practice
+       writing and one of this project's own documented HARD laws, and nothing
+       in the program enforced it -- MK1 had `HARD.resolvesByStep` and never
+       called it once.
+
+       A note outside the chord is a passing tone, a neighbour or an
+       appoggiatura, and all three are defined by what happens NEXT: they move
+       by step. Leap away from one and it stops being an inflection and becomes
+       a wrong note. It is the loudest single difference between a line that
+       sounds written and one that sounds drawn.
+
+       This is a CONSTRAINT, not a correcting pass. Nothing is moved after the
+       fact; the next note's CHOICES are narrowed to the ones the dissonance
+       allows, which is how every other law in this program works. In a
+       seven-note scale every diatonic non-chord tone has a chord tone one
+       scale step away in at least one direction, so a resolution always
+       exists -- only an occupied seat can block it, and then the note is not
+       played at all and the dissonance waits for the next onset.
+
+       The direction PREFERRED is the one the dissonance arrived by, which
+       makes it a passing tone; the reverse is allowed, which makes it a
+       neighbour. Both are step motion and both are right.
+
+       WHAT COUNTS AS "THE CHORD" is the COMP AS IT RINGS, not the progression
+       and not even the comp's onsets. Three versions of this test were
+       measured:
+
+         the progression's triad            802 unresolved lead notes
+         the comp's notes, within their bar 802  -- identical, and it should be:
+                                            buildKeys voices the triad, so the
+                                            two sets are the same set. An
+                                            honest test that could not
+                                            possibly have found anything.
+         the comp AS IT SOUNDS              the one below
+
+       The third is the only one that matches what the ear does, because a comp
+       chord RINGS: buildKeys gives each voicing a `dur` that routinely runs
+       past its own barline, so for the first beats of a bar the chord still
+       sounding is the PREVIOUS one. A tune note that is a chord tone on paper
+       is a dissonance against what is actually in the air, and it was leaving
+       unconstrained exactly the notes at the front of the bar -- the loudest
+       place in the phrase to put a wrong one.
+
+       So the comp is laid out on the loop's 64 absolute sixteenths, durations
+       allowed to spill across barlines and to wrap round the loop, and the
+       question asked at the note's own absolute step. Falls back to the
+       progression where nothing is sounding at all, which is the honest
+       answer when there is no chord to be outside of. */
+    const COMP = opts.comp || [];
+    const SPAN = BARS * 16;
+    const RING = [];                      // pitch classes sounding at each 1/16
+    for(let i = 0; i < SPAN; i++) RING.push(null);
+    for(const k of COMP){
+      if(k.pitch == null) continue;
+      const from = (k.bar % BARS) * 16 + k.step;
+      for(let d = 0; d < Math.max(1, k.dur || 1); d++){
+        const at = (from + d) % SPAN;
+        (RING[at] || (RING[at] = new Set())).add(pc(k.pitch));
+      }
+    }
+    const isNCT = (b, st, p) => {
+      const s = RING[((b % BARS) * 16 + st) % SPAN];
+      return (s && s.size) ? !s.has(pc(p))
+                           : !chordSet[b % BARS].tones.some(t => pc(t) === pc(p));
+    };
     function phrase(startBar, dir, endOnTone, moveBias){
       let m = intoBand(degMidi(root, mode, 7 + Math.floor(rng() * 3)), LO + 4, HI - 4);
+      /* `hang` is the dissonance waiting to be answered, `hangDir` the
+         direction it came in on. Both live for the whole phrase, because a
+         note at the end of bar one is answered at the start of bar two. */
+      let hang = false, hangDir = 0;
       for(let b = startBar; b < startBar + 2; b++){
         const isBreath = (b === startBar + 1) && !opts.hooky;
         const cnt = opts.hooky ? TH.count.hooky : isBreath ? TH.count.breath : TH.count.normal;
@@ -9750,17 +9823,33 @@ function makeMaterials(chart){
         }
         steps.sort((a, z) => a - z);
         for(let i = 0; i < steps.length; i++){
-          const move = (moveBias && moveBias.length > dna.length)
-                     ? moveBias[dna.length]                          // derivation: follow given DNA
-                     : wpick(rng, [[0, 2], [dir, 5], [dir * 2, 2], [-dir, 2]]);
+          let move = (moveBias && moveBias.length > dna.length)
+                   ? moveBias[dna.length]                            // derivation: follow given DNA
+                   : wpick(rng, [[0, 2], [dir, 5], [dir * 2, 2], [-dir, 2]]);
+          /* the DNA is recorded as DRAWN, before the law narrows it: B is
+             derived from A's shape, and A's shape is what A wanted, not what
+             the chord under it allowed. */
           if(dna.length < 4) dna.push(move);
+          if(hang){
+            /* one scale step, keeping whatever direction was asked for -- so a
+               derivation still follows its DNA's contour, just at a step. A
+               repeat does not answer a dissonance, so it becomes a step in the
+               direction the dissonance arrived by. */
+            move = move !== 0 ? (move > 0 ? 1 : -1) : (hangDir || dir);
+          }
           let cand = intoBand(scaleStep(root, mode, m, move), LO, HI);
           let tries = 0;
           while(!fits(b, steps[i], cand) && tries < 3){
             cand = intoBand(scaleStep(root, mode, cand, 1), LO, HI); tries++;
           }
           if(!fits(b, steps[i], cand)) continue;
+          /* the seat-finding walk above can step the resolution out of reach.
+             A resolution that leaps is not a resolution, so the note is not
+             played and the dissonance stays hanging for the next onset. */
+          if(hang && Math.abs(cand - m) > 2) continue;
           const dur = i + 1 < steps.length ? Math.max(1, steps[i + 1] - steps[i]) : (isBreath ? 4 : 3);
+          if(cand !== m) hangDir = cand > m ? 1 : -1;
+          hang = isNCT(b, steps[i], cand);
           m = cand;
           notes.push({ bar: b, step: steps[i], dur, pitch: cand, vel: steps[i] === 0 ? 0.85 : 0.7, role: "lead" });
           reserved.add(key(b % BARS, steps[i], cand));
@@ -9785,7 +9874,16 @@ function makeMaterials(chart){
         for(const t of chordSet[bar].tones)
           for(let o = -3; o <= 3; o++) cands.push(intoBand(t + 12 * o, LO, HI));
         cands.sort((a, z) => Math.abs(a - last.pitch) - Math.abs(z - last.pitch));
-        const free = cands.find(c => fits(last.bar, last.step, c));
+        /* the landing must not undo the law. If the note BEFORE the last one is
+           a dissonance, the last note is its resolution, and moving it to a
+           chord tone more than a step away leaves that dissonance leaping --
+           the landing would have created exactly the defect the constraint
+           above just removed, at the most audible point in the phrase. */
+        const before = notes[notes.length - 2];
+        const tight  = before && before.bar === last.bar &&
+                       isNCT(before.bar, before.step, before.pitch);
+        const free = cands.find(c => fits(last.bar, last.step, c) &&
+                                     (!tight || Math.abs(c - before.pitch) <= 2));
         last.pitch = free != null ? free : last.pitch;         // nothing free: keep its own seat
         last.dur = Math.max(last.dur, 4);
         reserved.add(key(bar, last.step, last.pitch));
@@ -9827,7 +9925,19 @@ function makeMaterials(chart){
         reserved.add(key(b, st, m));
       }
     } else {
-      phrase(0, opts.dir, false, opts.moveBias);
+      /* THE QUESTION LANDS TOO. It used to end wherever its last move left it,
+         which is where a third of the surviving unresolved dissonances were:
+         the answering phrase starts on a fresh pitch and cannot know what the
+         question left hanging, so a dissonance at the end of bar 1 was always
+         leapt away from at the top of bar 2 -- the most exposed junction in
+         the four bars.
+
+         An antecedent that lands on a chord tone is not a weaker question. It
+         is what a half cadence is: the phrase arrives somewhere stable and
+         unfinished, and the consequent answers it. The two phrases are still
+         contrary and the consequent still resolves; the only thing that
+         changed is that the question stops making a mess for it to clear up. */
+      phrase(0, opts.dir, true, opts.moveBias);
       const qDir = notes.length >= 2 && notes[notes.length - 1].pitch >= notes[0].pitch ? 1 : -1;
       phrase(2, -qDir, true, null);                     // the answer: contrary, resolving
     }
@@ -9962,7 +10072,10 @@ function makeMaterials(chart){
      intervals, the +7 candidate folds back onto the lead's own pitch inside the
      band and gets filtered, so the doubling mostly did not sound at all -- one
      note where three were asked for. */
-  function deriveCounter(themeNotes, reserved, streamName){
+  /* `chordSet` is an argument for the same reason buildOstinato's is: the two
+     call sites both hand it the verse changes today, and a counter over the
+     bridge would need the bridge's. A closure would have hidden that. */
+  function deriveCounter(themeNotes, reserved, streamName, chordSet, comp){
     const rng = stream(chart.seed, streamName);
     /* A GENRE MAY SAY NO. `ostinato: null` was already handled this way and
        `counter: null` was not -- because until now every genre declared a
@@ -10003,7 +10116,19 @@ function makeMaterials(chart){
       }
       return Math.max(0, next - end);
     };
-    let prevLead = null, prevOwn = null;
+    /* the comp laid out on the loop's sixteenths, rings and wrap included --
+       the same map buildTheme makes, for the same reason */
+    const ring = [];
+    for(let i = 0; i < BARS * 16; i++) ring.push(null);
+    for(const k of (comp || [])){
+      if(k.pitch == null) continue;
+      const from = (k.bar % BARS) * 16 + k.step;
+      for(let d = 0; d < Math.max(1, k.dur || 1); d++){
+        const at2 = (from + d) % (BARS * 16);
+        (ring[at2] || (ring[at2] = new Set())).add(pc(k.pitch));
+      }
+    }
+    let prevLead = null, prevOwn = null, hangOwn = false;
     for(let si = 0; si < src.length; si++){
       const n = src[si];
       const sounds = rng() < CT.density;          // unconditional draw [Law 7]
@@ -10070,13 +10195,41 @@ function makeMaterials(chart){
         return (contrary ? 0 : 100) + Math.abs(own);
       };
       cands.sort((a, z) => score(a) - score(z) || a - z);
+      /* ── THE SAME LAW ON THE SECOND VOICE ────────────────────────────────
+         The counter's pitches are drawn as INTERVALS FROM THE LEAD, so two
+         consecutive counter notes can sit anywhere relative to each other and
+         nothing was watching. It is the noisier of the two lines by this
+         measure, and for the same reason the tune was: nobody asked what the
+         previous note was doing.
+
+         Where the tune narrows its move, this narrows its candidate list --
+         the note that answers a dissonance must be within a step of it. When
+         nothing in the pool is, the counter DOES NOT PLAY. Both were measured:
+
+           take the closest anyway   29.3% unresolved, 5437 counter notes
+           decline to play           20.4% unresolved, 5083 counter notes
+
+         so a third of the defect goes for 6.5% fewer notes, and the notes lost
+         are exactly the ones that had nowhere good to go. A second voice that
+         rests is a second voice; a second voice that plays a wrong note to
+         avoid resting is not. */
+      let pool = cands;
+      if(hangOwn && prevOwn != null){
+        const near = cands.filter(p => Math.abs(p - prevOwn) <= 2);
+        if(!near.length) continue;
+        pool = near;
+      }
       /* the draw is spent whether or not it changes the answer, so the stream
          does not depend on how many candidates survived */
-      const pchr = cands[Math.min(cands.length - 1, Math.floor(pickAt * cands.length))];
-      const best = score(cands[0]) <= score(pchr) ? cands[0] : pchr;
+      const pchr = pool[Math.min(pool.length - 1, Math.floor(pickAt * pool.length))];
+      const best = score(pool[0]) <= score(pchr) ? pool[0] : pchr;
       out.push({ bar: n.bar, step: at, dur: dur, pitch: best, vel: n.vel * 0.8, role: "counter" });
       reserved.add(key(n.bar, at, best));
       prevOwn = best;
+      /* the same sounding-comp test the tune uses, ring and all */
+      const und = ring[((n.bar % BARS) * 16 + at) % (BARS * 16)];
+      hangOwn = (und && und.size) ? !und.has(pc(best))
+                : !chordSet[n.bar % BARS].tones.some(t => pc(t) === pc(best));
     }
     return out;
   }
@@ -10112,8 +10265,8 @@ function makeMaterials(chart){
      It is the fixed thing in this music -- the cell that does not move -- so
      the melody and the counter are the parts that must find room, not it. */
   const resA   = reserve(ostA.concat(bassA, keysA));
-  const themeA = buildTheme(chords, "themeA", resA, { lo: R.themeA[0], hi: R.themeA[1], dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
-  const counterA = deriveCounter(themeA.notes, resA, "counterA");
+  const themeA = buildTheme(chords, "themeA", resA, { lo: R.themeA[0], hi: R.themeA[1], comp: keysA, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
+  const counterA = deriveCounter(themeA.notes, resA, "counterA", chords, keysA);
 
   /* ── B = hook(A): same bed family, new tune FROM A's DNA, denser comp,
      a half-octave up [corpus: verse->chorus register lift ~ +1.5 st; the hook
@@ -10121,8 +10274,8 @@ function makeMaterials(chart){
   const keysB  = buildKeys(chords, "keysB", { dense: true, avoid: placed });
   const resB   = reserve(ostA.concat(bassA, keysB));
   const themeB = buildTheme(chords, "themeB", resB,
-    { lo: R.themeB[0], hi: R.themeB[1], dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
-  const counterB = deriveCounter(themeB.notes, resB, "counterB");
+    { lo: R.themeB[0], hi: R.themeB[1], comp: keysB, dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
+  const counterB = deriveCounter(themeB.notes, resB, "counterB", chords, keysB);
 
   /* ── C = depart(A): new changes, sustained keys, roots-only bass,
      A's rhythm augmented ── */
@@ -10130,7 +10283,7 @@ function makeMaterials(chart){
   const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true,
                                                    avoid: reserve(ostA.concat(bassC)) });
   const resC   = reserve(ostA.concat(bassC, keysC));
-  const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: R.themeC[0], hi: R.themeC[1], augmentOf: themeA.notes });
+  const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: R.themeC[0], hi: R.themeC[1], comp: keysC, augmentOf: themeA.notes });
 
   /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
      the canonical rule-of-three answer at the material level ── */

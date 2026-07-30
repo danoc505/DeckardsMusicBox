@@ -49,11 +49,11 @@ const MODES = {
 };
 
 console.log(`\n=== the music laws, read off the notes (${N} seeds per genre) ===\n`);
-console.log("  genre        out of key   NCT unresolved   chord<bass   lead<chord   unisons");
+console.log("  genre        out of key   NCT unresolved   ...over a rest   chord<bass   lead<chord   unisons");
 const PITCHED = new Set(["bass", "keys", "lead", "counter", "ostinato", "pad", "harmony"]);
 
 for(const g of M.genres()){
-  let notes = 0, outKey = 0, nct = 0, nctBad = 0, cb = 0, lc = 0, uni = 0, frames = 0;
+  let notes = 0, outKey = 0, nct = 0, nctLive = 0, nctBad = 0, nctRest = 0, cb = 0, lc = 0, uni = 0, frames = 0;
   for(let s = 1; s <= N; s++){
     const song = M.composeSong(s, "draw", g);
     const scale = MODES[song.chart.mode] || MODES.minor;
@@ -88,8 +88,25 @@ for(const g of M.genres()){
         if(!under.size) continue;
         const pc = ((e.pitch % 12) + 12) % 12;
         if(under.has(pc)) continue;              // a chord tone; nothing to resolve
+        /* ── A DISSONANCE THAT HAS STOPPED SOUNDING IS NOT HANGING ──────
+           This counted every non-chord tone whose NEXT note was more than a
+           step away, whatever the distance in TIME. On a sparse genre that is
+           not measuring resolution, it is measuring phrase endings: 205 of
+           Vangelis's 254 "unresolved" lead notes -- 81% -- were followed by a
+           REST, some of them bars long. A note that has died away does not
+           need answering; the appoggiatura the rule is about is the one still
+           ringing when its neighbour arrives.
+
+           So the strict count now requires the next note to arrive while this
+           one is still sounding, or within a sixteenth of it. The old, looser
+           number is kept as its own column rather than deleted, because the
+           two say different true things: one is "how often does a dissonance
+           leap", the other is "how often does a phrase END on one", and both
+           are worth a number. */
         nct++;
-        if(Math.abs(nx.pitch - e.pitch) > 2) nctBad++;
+        const live = nx.tSec <= e.tSec + e.durSec + song.motion.spb + 1e-6;
+        if(live) nctLive++;
+        if(Math.abs(nx.pitch - e.pitch) > 2){ if(live) nctBad++; else nctRest++; }
       }
     }
 
@@ -117,8 +134,13 @@ for(const g of M.genres()){
   }
   const pc = (x, d) => d ? (100 * x / d).toFixed(1) + "%" : "  -  ";
   console.log(`  ${g.padEnd(12)} ${pc(outKey, notes).padStart(9)}   ` +
-              `${(nct ? (100 * nctBad / nct).toFixed(1) + "%" : "  -  ").padStart(12)}   ` +
+              `${(nctLive ? (100 * nctBad / nctLive).toFixed(1) + "%" : "  -  ").padStart(12)}   ` +
+          `${(nct ? (100 * nctRest / nct).toFixed(1) + "%" : "  -  ").padStart(12)}   ` +
               `${pc(cb, frames).padStart(9)}   ${pc(lc, frames).padStart(9)}   ${pc(uni, frames).padStart(7)}`);
 }
-console.log("\n  NCT unresolved = of the lead/counter notes that are NOT in the chord under them,");
-console.log("  the share that then LEAP away (>2 semitones) instead of resolving by step.");
+console.log("\n  NCT unresolved = of the lead/counter notes that are NOT in the chord under them AND");
+console.log("  are still sounding when the next one arrives, the share that LEAP away (>2");
+console.log("  semitones) instead of resolving by step.  ...over a rest = of ALL non-chord");
+console.log("  tones, the share that leap after the note has already died away -- a phrase");
+console.log("  ending on a dissonance rather than a dissonance left hanging. The two were one");
+console.log("  number until it turned out 81% of Vangelis's was the second kind.");

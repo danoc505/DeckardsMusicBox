@@ -1073,3 +1073,147 @@ the crash.
 **The ears are still the judge.** The numbers say the thing that made it harsh is
 44% smaller and no longer sustains. Whether it now sounds like a cymbal you want
 is not something this probe can tell either of us.
+
+---
+
+## The knob sweep, and the five voices that ignored their own channel
+
+Five separate "this knob does not reach the sound" bugs turned up in one
+session, and every single one was found by **you hearing it** — never by
+anything in the harness. That is a class of defect, not five accidents, so it
+got a sweep of its own rather than a sixth investigation.
+
+`harness/probe_controls.js` puts each machine in its slot, strikes every lane it
+owns with one long accented note and one short plain one, renders with the
+genre's real space, kick, drive, gate and motion plan, and compares peak, level,
+brightness and tail with each control at the bottom and then the top of its
+travel.
+
+It took **nine tries** to become trustworthy, and the failure was the same every
+time: *the probe was measuring its own setup rather than the program.*
+
+1. It never PICKed the machine under test, so it read whatever the genre drew.
+2. It set `MK2.PICK` but never handed it to `composeSong` — the picks are an
+   argument, not a global.
+3. It rendered only the first lane, and then called the snare and hat controls
+   dead because the note was a kick.
+4. It skipped the TR-1000 entirely, because that machine declares `kits` where
+   the others declare `lanes` — the only drum machine anybody plays.
+5. It struck one short unaccented note, which cannot see an accent knob or a
+   tape end.
+6. It set `PARAMS` where `bus` and `gate` read `TRIM`.
+7. It gave keys notes no `wow` field, and the Rhodes scales its wow **by** the
+   chart's drawn depth — so the knob multiplied zero and read as dead.
+8. It took peak, level, brightness and tail across the **whole** 55-second,
+   twelve-lane file. Moving the rimshot's filter end to end changes two hits out
+   of twenty-four, which is under a tenth of a decibel of global level. Nine
+   controls came back "dead" and every one belonged to a quiet drum — the
+   signature of a blunt metric, not a broken circuit. It now cuts the file into
+   one window per lane and asks each on its own.
+
+### What it found once it was honest
+
+**BUS and GATE on all five drum machines had never been connected to the hand.**
+`setSpace` passed the genre's argument straight to `rideBus`, so
+`panelValue(machine, "bus")` and `panelValue(machine, "gate")` were never read.
+That is also the answer to the mystery from the day before — driving
+`tr1000.gate` from 0 to 0.9 changed nothing, on that build and every build
+before it. Nothing read it.
+
+**Ten channel-strip knobs on the TR-1000 were wired to nothing.** `sTune`,
+`sDecay`, `tTune`, `tDecay`, `mTune`, `mDecay`, `rTune`, `rDecay`, `cTune`,
+`cDecay` — the snare's, both toms', the rimshot's and the clap's. The kick's,
+both hats', the crash's and the ride's all worked.
+
+The snare is the one worth remembering. `V.s808` called `chTune()` and
+`chDecay()` on its second line, put both into locals, and **then never mentioned
+either again**. Grep for "does this voice read its channel?" and the answer is
+yes. Listen, and the answer is no. The other four never asked at all.
+
+---
+
+## A dissonance has to step
+
+Measured over 20 seeds a genre, of the lead and counter notes that are **not in
+the chord under them**, the share that then leapt away instead of resolving by
+step:
+
+```
+  lofi 34.9%   synthwave 33.0%   dkc 38.1%   vangelis 44.8%   acid 50.0%
+```
+
+That is the oldest rule in common-practice writing, one of this project's own
+documented HARD laws, and **nothing enforced it**. MK1 had a
+`HARD.resolvesByStep` and never called it once.
+
+A note outside the chord is a passing tone, a neighbour or an appoggiatura, and
+all three are defined by what happens next: they move by step. Leap away from
+one and it stops being an inflection and becomes a wrong note.
+
+The fix is a **constraint, not a correcting pass**. Nothing is moved after the
+fact; when the note just written is outside the chord, the *next note's choices*
+are narrowed to the ones that answer it. In a seven-note scale every diatonic
+non-chord tone has a chord tone one step away in some direction, so a resolution
+always exists; only an occupied seat can block it, and then the note is not
+played and the dissonance waits for the next onset. The direction preferred is
+the one it arrived by — a passing tone — and the reverse is allowed, which is a
+neighbour.
+
+Three things carry it:
+
+- **the tune** narrows its move to a single scale step;
+- **the counter** narrows its candidate list, and if nothing in it answers by
+  step, *the counter does not play*. Measured both ways: taking the closest
+  anyway left 29.3% unresolved over 5437 notes; declining to play left 20.4%
+  over 5083. A third of the defect for 6.5% fewer notes;
+- **the question phrase now lands on a chord tone too.** It used to end wherever
+  its last move left it, and the answering phrase starts on a fresh pitch and
+  cannot know what was left hanging — so a dissonance at the end of bar 1 was
+  always leapt away from at the top of bar 2, the most exposed junction in the
+  four bars. An antecedent landing on a stable tone is not a weaker question;
+  that is what a half cadence is.
+
+### The measurement was wrong too, and in my favour
+
+Vangelis got *worse* while everything else improved, so I looked instead of
+shipping the number. **205 of its 254 "unresolved" lead notes — 81% — were
+followed by a rest**, some of them bars long. A note that has died away does not
+need answering. The probe was counting phrase endings.
+
+There are two columns now, because they say different true things: how often a
+dissonance **still sounding** leaps, and how often a phrase **ends** on one.
+
+Read the corrected way, the constraint on versus off:
+
+```
+                 off      on
+  lofi         31.5%    14.0%
+  synthwave    28.6%    13.3%
+  dkc          32.8%     7.7%
+  vangelis     34.2%    16.1%
+  acid         50.0%     0.0%
+  TOTAL        30.8%    12.7%
+```
+
+The price is about 5% fewer lead and counter notes. **Not zero, and it should
+not be** — an escape tone and a free appoggiatura are real writing, and a line
+with no dissonance left in it is a line with nothing in it. Whether it sounds
+better is still your call, not the probe's.
+
+### ...and the ANALOG FILTER was not in the circuit at all
+
+The last knob on the machine that still moved nothing. `g.kitFilter` was built,
+given a cutoff, ridden by `rideBus` on every song and automated by the
+Plastikman table with a 40-bar triangle LFO sweeping 1.2–4.2 kHz — and
+**connected to nothing**. Every channel went `mk → g.bus.drums` direct, straight
+past it. The comment four hundred lines above it says "the whole kit through
+kitFilter on its way to the drum bus". The wire disagreed, and the wire is what
+you hear.
+
+At its default of 20 kHz the filter now in circuit is a wire: peak 0.6199 →
+0.6172, RMS identical to five figures. Turned down, it is the knob it always
+claimed to be.
+
+The TR-1000 sweep now reads: **1 control moves the sound in no way at all**, and
+it is `kit` — a switch that chooses between four voice sets, which a one-note
+test with a fixed voice cannot see by construction.

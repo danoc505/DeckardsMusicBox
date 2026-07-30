@@ -1090,5 +1090,51 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         built + " pinned songs composed, " + threw + " threw");
 }
 
+/* ── A DISSONANCE STILL HAS TO STEP ─────────────────────────────────────────
+   This law was documented from the beginning, was dead code in MK1, and went
+   unenforced in MK2 until it was measured: a third of the non-chord tones in
+   the lead and the counter leapt away instead of resolving. It is now a
+   constraint inside buildTheme and deriveCounter, and a constraint that nothing
+   watches is one refactor away from being a comment again.
+
+   A THRESHOLD, not a zero. An escape tone and a free appoggiatura are real
+   writing, and a line with no unresolved dissonance left in it has had
+   something taken out of it. 30.8% was the defect; 12.7% is where the
+   constraint leaves it; 20% is the line past which something has broken. The
+   full picture, per genre and with the phrase-ending column beside it, is
+   `harness/probe_theory.js` -- this is only the guard.
+
+   The dissonance must be STILL SOUNDING when the next note arrives. Counting
+   the ones that had already died away was measuring phrase endings: 81% of
+   Vangelis's original figure was that, and nothing else. */
+{
+  let nct = 0, bad = 0;
+  for(const g of M.genres()) for(let s = 1; s <= 6; s++){
+    const song = M.composeSong(s, "draw", g);
+    const ev = song.perf.events.filter(e => e.pitch != null).sort((a, z) => a.tSec - z.tSec);
+    const byRole = {};
+    for(const e of ev) (byRole[e.role] || (byRole[e.role] = [])).push(e);
+    const keys = byRole.keys || byRole.harmony || [];
+    for(const role of ["lead", "counter"]){
+      const line = byRole[role] || [];
+      for(let i = 0; i < line.length - 1; i++){
+        const e = line[i], nx = line[i + 1], under = new Set();
+        for(const k of keys){
+          if(k.tSec > e.tSec + 1e-6) break;
+          if(k.tSec + k.durSec > e.tSec + 1e-6) under.add(((k.pitch % 12) + 12) % 12);
+        }
+        if(!under.size) continue;
+        if(under.has(((e.pitch % 12) + 12) % 12)) continue;          // a chord tone
+        if(nx.tSec > e.tSec + e.durSec + song.motion.spb + 1e-6) continue;  // died away
+        nct++;
+        if(Math.abs(nx.pitch - e.pitch) > 2) bad++;
+      }
+    }
+  }
+  const rate = nct ? 100 * bad / nct : 0;
+  check("a non-chord tone that is still sounding resolves by step", rate < 20,
+        rate.toFixed(1) + "% of " + nct + " leap away (was 30.8% unconstrained)");
+}
+
 console.log("\n" + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);
