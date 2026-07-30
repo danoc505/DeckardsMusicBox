@@ -6808,6 +6808,12 @@ const DRUM_MAP = {
 const INST_MAP = {
   harmony:"rhodes", bass:"sub", lead:"pluck", counter:"harp", pad:"pad", arp:"marimba", lowline:"saw",
 };
+// SOFT: how often the lead is a horn rather than the default pluck. A tendency,
+// never a fixture — a different seed in the same genre gets a different answer.
+const SAX_LEAN = {
+  citypop:0.55, barber:0.50, lofi:0.40, wise:0.15, house:0.12,
+  jungle:0.08, dungeon:0.05, ambient:0.05,
+};
 // ambient/dungeon pads use the Rings-style modal resonator instead
 const MODAL_GENRES={ambient:1,dungeon:1,wise:1};
 const SEGA_MAP={harmony:"fmEP",bass:"fmBass",lead:"fmLead",counter:"fmPluck",pad:"fmPad",arp:"fmBell",lowline:"fmBrass"};
@@ -6828,6 +6834,11 @@ function buildSession(seed, overrides){
   TEMPO = chart.tempo;
   // the band improvises + the song is arranged per section
   const song = composeSong(chart, makeRng(seed));
+  // does this song's lead play a horn? Its own rng stream, so adding this cannot
+  // shift any draw the composition already makes for a given seed.
+  const hornRng = makeRng((seed>>>0) ^ 0x5A11);
+  hornRng(); hornRng();          // this rng's first draws skew high on sequential seeds
+  const leadInst = hornRng() < (SAX_LEAN[chart.genre] ?? 0.15) ? "sax" : INST_MAP.lead;
   // build an absolute-step schedule, honoring per-section arrangement + bridge key-shift
   const events=[];
   const spans = song.arrangement;            // sections with activeRoles + keyShift
@@ -6854,6 +6865,7 @@ function buildSession(seed, overrides){
         events.push({step, kind:"drum", lane, vel:(n.vel||0.5)*lift*dyn, micro:n.micro||0});
       } else {
         let inst=INST_MAP[p.role]||"sine";
+        if(p.role==="lead") inst=leadInst;
         if(p.role==="pad" && MODAL_GENRES[chart.genre]) inst="modal";
         events.push({step, kind:"note", inst, role:p.role, midi:n.midi+keyShift,
                      dur:(n.dur||2)*tickDur(), vel:(n.vel||0.5)*lift*dyn, micro:n.micro||0});
