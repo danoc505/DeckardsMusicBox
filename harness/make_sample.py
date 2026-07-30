@@ -88,6 +88,50 @@ def resample(sig, sr_in, sr_out):
     return out
 
 
+def detect_root(sig, sr):
+    """The sample's own pitch, so playbackRate can transpose it.
+
+    A pitched sampler is useless without this: playbackRate is a RATIO, and a
+    ratio needs to know what it is a ratio to. Guessing C is how a sax ends up a
+    tritone out and gets blamed on the composer.
+
+    Autocorrelation over the sustain rather than the attack -- the first tens of
+    milliseconds of a brass or reed sample are noise and formant transients and
+    do not have the note in them yet. Searched over MIDI 33..84, which spans
+    every instrument here; returns the MIDI note and a 0..1 confidence so a
+    detection nobody should trust announces itself instead of shipping quietly.
+    """
+    n = len(sig)
+    if n < sr // 8:
+        return None, 0.0
+    a = int(0.15 * n)                      # skip the attack
+    b = min(n, a + int(0.35 * sr))         # ~350 ms of sustain
+    w = sig[a:b]
+    if len(w) < 512:
+        return None, 0.0
+    mean = sum(w) / len(w)
+    w = [x - mean for x in w]
+    energy = sum(x * x for x in w)
+    if energy <= 1e-9:
+        return None, 0.0
+    best, best_r = None, 0.0
+    for midi in range(33, 85):
+        f = 440.0 * (2 ** ((midi - 69) / 12.0))
+        lag = int(round(sr / f))
+        if lag < 2 or lag >= len(w):
+            continue
+        num = 0.0
+        for i in range(len(w) - lag):
+            num += w[i] * w[i + lag]
+        den = 0.0
+        for i in range(len(w) - lag):
+            den += w[i] * w[i]
+        r = num / den if den > 1e-9 else 0.0
+        if r > best_r:
+            best_r, best = r, midi
+    return best, max(0.0, min(1.0, best_r))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("wav")
@@ -96,6 +140,7 @@ def main():
     ap.add_argument("--trim-db", type=float, default=-60.0)
     ap.add_argument("--max-sec", type=float, default=1.2)
     ap.add_argument("--peak", type=float, default=0.97, help="normalise to this")
+    ap.add_argument("--pitched", action="store_true", help="detect and report the root note")
     a = ap.parse_args()
 
     sig, sr = read_wav(a.wav)
@@ -127,8 +172,15 @@ def main():
     # makes the hat as loud as the kick, which is not what anybody recorded. So
     # `pk` travels with the payload and the voice scales by it, and the mic
     # balance the drummer and the engineer set is preserved.
-    print('  %s: { rate: %d, pk: %.4f, d: "%s" },'
-          % (a.name, a.rate, pk, b64))
+    if a.pitched:
+        root, conf = detect_root(sig, a.rate)
+        sys.stderr.write("   root: MIDI %s  confidence %.2f%s\n"
+                         % (root, conf, "   <-- LOW, check by ear" if conf < 0.5 else ""))
+        print('  %s: { rate: %d, pk: %.4f, root: %s, d: "%s" },'
+              % (a.name, a.rate, pk, root if root else "null", b64))
+    else:
+        print('  %s: { rate: %d, pk: %.4f, d: "%s" },'
+              % (a.name, a.rate, pk, b64))
 
 
 if __name__ == "__main__":
