@@ -1,140 +1,139 @@
-# Autechre, and the polymeter Plastikman had only ever claimed — 2026-07-31
+# Autechre and Plastikman — 2026-07-31
 
-*Asked: "research Autechre, this is to make our minimal techno correct because it is not
-correct currently." I first read that as a request for a separate genre and was told
-plainly: **"I said that Autechre is meant to improve Plastikman, both are minimal
-techno."** That is the right call, and the Plastikman table itself is the evidence.*
+*Three rounds. I got the framing wrong twice and was corrected twice, and both
+corrections were right. This is the record of what the sources actually say.*
 
 ---
 
-## The finding that made the correction obvious
+## What I got wrong
 
-The Plastikman entry has carried this note on its breakdown since the day it was written:
+**Round 1.** Asked to "research Autechre to make our minimal techno correct", I built a
+separate genre and called it **"IDM (Autechre)"**, arguing they were a different music from
+Plastikman.
 
-> "Now all you've got is this **polymeter** and because it doesn't line up with the one,
-> people on the dance floor are going 'oh where was the one again'"
-> — [corpus:underdog]
+**Round 2.** Told: *"Autechre is meant to improve Plastikman, both are minimal techno."* I
+folded the polymetre in and removed the separate genre — but kept arguing the two were
+different musics in the write-up.
 
-**And the engine could not produce a polymeter.** Every drum lane in this program was
-written against the bar — a step list inside sixteen, or a division of sixteen — so the
-rimshot on step 11 and the clap on step 7 landed on exactly the same sixteenth in every bar
-of the record, forever.
+**Round 3.** Told: *"Autechre is not IDM, that's a dumb name — this is what the band said
+about that. They are techno and it is close to minimal… Both artists create stripped down
+electronic music with a techno backbone, use tons of reverb echo and space."*
 
-**Measured before the change: 0.0% of Plastikman's drum lanes differed from one bar to the
-next.** Nothing in the genre had ever failed to line up with the one. The quote described
-something the code did not do, which makes it decoration — and the section built to sound
-unmoored was the most locked thing in the genre.
+Every part of that is supported by the sources, including the part I had used as a genre
+label without checking.
 
-So the Autechre research did not need a new genre to live in. It needed to go where a
-table had already asked for it and been unable to say so.
+## The label
 
-## What Autechre gave the engine
+Sean Booth on "intelligent dance music": he calls it **"silly"**, and notes it is **a purely
+American invention** — *"Brits would never self-promote that way — it's kind of obscene to
+us."* On the "abstract and weird" framing that travels with it: *"is our music abstract and
+weird? To us or our mates it's not!"*
+([MusicRadar](https://www.musicradar.com/news/pioneers-autechre),
+[The Quietus](https://thequietus.com/interviews/autechre-interview-oversteps/))
 
-> "Using polymetres in electronic music can be as simple as **changing the pattern length
-> for only some parts while leaving most at the default bar-long 16 sixteenths**, and
-> independent step sequencers with arbitrary pattern lengths make this especially easy to
-> do without having to think about the maths involved."
-> — [Zoe Blade's notebook](https://notebook.zoeblade.com/Polymetre_and_polyrhythm.html),
-> whose worked example is **Autechre using a shorter pattern length on the MC-202 in
-> "Windwind"**
+Using a name the artist has explicitly rejected, as a *genre label in the program*, was the
+worst of the three errors — it is the one that would have shipped.
 
-> They use control voltages to skip steps and cascade sequencers with different timings,
-> "to create complex polyrhythmic results that appear chaotic but **follow quantifiable
-> rules**." — [Sound On Sound](https://www.soundonsound.com/people/autechre)
+## The shared lineage is real
 
-> "Rhythm is everything to us. A note is just a sound played for a different length at a
-> different pitch." — Sean Booth, [MusicRadar](https://www.musicradar.com/news/autechre-classic-interview)
+Booth grew up in Manchester's underground **electro** scene, collecting records from 1984.
+He has spoken to the Detroit originators, and says many of them **"rate what we're doing…
+because they were there as well."** When Autechre signed to Warp in 1993 their music **"wasn't
+far removed from acid house and Detroit techno."**
+([Nialler9](https://nialler9.com/autechre-conversation-music-art-funk-and-emotion-interview/),
+[Wikipedia](https://en.wikipedia.org/wiki/Autechre))
 
-That is the same technique Hawtin is describing when he says the record is made by "getting
-the machines running and then jamming out live" — two boxes whose patterns are not the same
-number of steps long.
+Acid house and Detroit techno is *also* exactly where Richie Hawtin comes from. These are not
+adjacent genres that happen to share a listener — they are two branches of one root, which is
+why "artists like Plastikman" returns Autechre.
 
-`kit.poly` gives a drum lane its **own length**, counted in absolute steps so it carries
-across the bar line. It is a table entry, not a rule — it defaults to nothing, so no genre
-that does not declare one moved by a sample — and it contains no random draws, so it cannot
-displace any later draw on its stream.
+## The thing I skipped entirely: space
 
-## What Plastikman got
+This was the substantive miss. Round 1's research was all rhythm; it never asked how either
+artist treats space, which is the trait they most obviously share.
 
-**The rimshot and the clap came off the grid.** They were fixed at steps 11 and 7; they are
-sequencers now, at **7 and 5**, both coprime with sixteen, so they phase against the
-four-on-the-floor and against each other and come home only when the four-bar loop does.
-Hawtin: *"I always liked to have two different types of claps, and I was always into really
-small rimshots"* — those are the two voices this genre is about, and now they move.
+**Autechre.** Booth, on his own stream:
 
-The kick and the hat stay on the grid **on purpose**. The one has to be there for the
-polymeter to be heard pulling away from it.
+> *"Quite often I'll use other techniques that aren't reverb at all, so I'll have, like,
+> **lots and lots of delay lines and all-passes** but not set up in a normal reverb topology."*
+>
+> *"I quite often use very simple reverb topology, but I have a hand in influencing **the
+> tuning** of it."* — and he tunes it to the harmonic content of the track.
+>
+> *"Sometimes the most simple machines can give the most complex results."*
+>
+> He favours *"those shitty reverbs from the eighties, the MIDIVerb and the Quadraverb."*
+> — [transcribed on Aesthetic Complexity](https://aestheticcomplexity.wordpress.com/2022/06/06/sean-on-autechres-reverb/)
 
-**The variants use pattern length as their dynamic.** The lift shortens both sequencers (5
-and 3) instead of adding a lane — *"how much you can do with the least amount"* applied to a
-sequencer length rather than a step list. The breakdown drops the clap entirely and stretches
-the rim to **11**, the longest pattern in the genre.
+**Plastikman.** *Consumed* is described as **"kick drums bathed in suffocating reverb"**, with
+**"dubby splashes… unfurling through billowing clouds of blue-hued vapour."** Hawtin's own
+description: **"an album of feedback — everything was cross-modulating everything else."** Cut
+live to 2-track DAT through a BEL BD80 delay and an Ensoniq DP4.
+([Crack](https://crackmagazine.net/article/long-reads/richie-hawtins-consumed-paved-new-roads-for-minimal-techno/),
+[DJ Mag](https://djmag.com/features/plastikmans-consumed-remains-masterclass-dark-minimalist-techno),
+[Sound On Sound](https://www.soundonsound.com/techniques/classic-tracks-plastikman-consumed))
 
-**The ostinato runs across the bar line.** The bridge role list is `["ostinato"]` and nothing
-else — that section *is* "all you've got is this polymeter" — and with the cell index
-restarting every downbeat it agreed with the bar perfectly: eight positions per bar, a
-four-note cell stating itself twice, every bar identical. `run: true` carries the index
-across bars, and two new cells of length **5 and 7** neither of which divides eight. The
-four-note cells stay, because a 303 figure that states itself cleanly is still this music —
-and with `run` on they are the ones that *do* line up, which is what makes the odd ones
-audible as odd.
+### And the genre was not delivering it
 
-**A second rack.** Minimal techno is not one set of boxes. `plastik` (808 + 303) stays the
-heavy favourite at 7:3; `ae` is the same genre with sequencers in the pitched slots instead
-of a filtered saw — wave-sequencer on the ostinato, Reese on the bass. A rig changes *who
-plays*, never *what is played*, so this widens the record without touching a note. Measured
-over 200 seeds: plastik 135, ae 65.
+Measured against the rest of the file:
 
-## Measured after
+| genre | wet | irSec | echo fb | echo send |
+|---|---|---|---|---|
+| bladerunner | 0.42 | 5.0 | 0.18 | 0.16 |
+| **plastikman** | **0.34** | **3.2** | **0.28** | **0.20** |
+| jungle | 0.22 | 2.2 | 0.30 | 0.22 |
+| dkc | 0.34 | 2.4 | 0.34 | 0.20 |
 
-Reconstructing each lane's true period from the notes — the smallest `p` that explains every
-onset across the four-bar material:
+The genre built on *"an album of feedback"* had **less delay feedback than jungle** and less
+room than a film score. Its send highpass sat at 140 Hz, so the kick — the thing that is
+supposed to be *bathed* — was mostly not in the reverb at all.
+
+**Changed:** `wet 0.34 → 0.44`, `irSec 3.2 → 4.6`, `tailDark 0.42 → 0.5`, `sendHp 140 → 95`
+(the kick now enters the room), `echo fb 0.28 → 0.46`, `send 0.20 → 0.32`, `verb 0.45 → 0.70`
+(the repeats go into the room — *"delays on the reverbs"*).
+
+**Measured after**, 17 rendered sections, plastikman on both rigs:
 
 ```
-  plastikman — the period actually written into each lane:
-    clap     13 hits   period  5   <- never lines up with the bar
-    hat      32 hits   period  2
-    kick     16 hits   period  4
-    openhat   4 hits   period 16   = the bar
-    rim       9 hits   period  7   <- never lines up with the bar
+              peak     rms   side/mid   clip%    tail
+  before     0.873  0.1760     0.2154   0.000   0.208
+  after      0.935  0.1806     0.3466   0.000   0.341
 ```
 
-Across 12 seeds and all four materials: **84 of 228 drum lanes run at a period that never
-lines up with the bar** (rim at 5/7/11, clap at 3/5 — the main, lift and depart variants).
-The control is acid — an 808 and a 303, same tempo range, built the ordinary way — at
-**0 of 246**.
+Stereo reverb return **+61%**, decay tail **+64%**, RMS essentially flat (0.176 → 0.181) — so
+it is more *space*, not more *level* — and still **zero clipped samples**.
 
-### One thing the check got wrong first
+## A negative result: the tuned room
 
-The first predicate was "period does not divide 16", and acid failed it with an `openhat` at
-period **32**. That open hat plays on bars 1 and 3: it lines up with the bar perfectly well,
-it just takes two of them to come round. A period that is a *multiple* of 16 is a multi-bar
-pattern, not a polymeter. A lane fails to line up only when its period neither divides 16 nor
-is divisible by it.
+Booth's "delay lines tuned to the harmonic content" is the most distinctive thing in any of
+these sources, so I built it: a feedback comb whose delay is one period of the song's root, so
+the room resonates on the tonic.
 
-The blunter measure — "do bar 2 and bar 1 differ" — is not the test either, and the same
-control shows why: a ghost drawn per bar, a crash on bar 0 and an open hat on two bars out of
-four all make bars differ with no metre involved. Acid reads 15% on that measure and 0 on
-this one.
+**It did not survive measurement.** A/B on plastikman seed 2 (root D, 61.74 Hz), five sections,
+everything else identical:
 
-## Two bugs this exposed, both pre-existing
+| amount | tonic-band energy | comb nulls | RMS | peak |
+|---|---|---|---|---|
+| 0.16 | ×1.01 | ×1.00 | ×1.01 | unchanged |
+| 0.90 | ×0.03–0.17 | — | ×2.3–4.1 | pinned at 1.000 |
 
-**The blend's group ownership was a position, not a genre.** Fields that only mean something
-together (`bassStyle` with `bassPulse`) are grouped so they come from one genre — but the
-group stored an *index into a filtered list*, filtered per field since genres skip fields
-they do not declare. Chosen against `bassStyle` (all genres have one) and read against
-`bassPulse` (DKC has none), every genre after DKC shifted by one, the index ran off the end,
-and the fallback returned lofi's `bassPulse: null` under someone else's `"pulse"`. Owners are
-recorded as genres now. All-genres-at-once blend went 18/20 → 20/20.
+At a usable level it does nothing. At an audible level it is not a tuned room at all — it is
+broadband comb colouration loud enough to flood the limiter, which drags the tonic *down*. Fed
+dense material a comb is a spectral shape, not a ringing pitch; it would need a sparse
+impulsive feed to read as one, which is a different design than the quote supports.
 
-**A `bassPulse.unit` that does not divide 16 lies about its own density.** At `unit: 3` the
-builder writes six notes a bar (0, 3, 6, 9, 12, 15) while the density prediction reads
-`16/3 = 5.33`.
+**Removed, and left as a comment in `buildGraph` explaining why.** An effect nobody can measure
+is not a feature, and "the render is the only truth" has to cut against ideas I like.
 
-## What is not claimed
+(One real bug found on the way: the first version fed the resonator *post* the send highpass,
+so a comb tuned to 62 Hz was being fed a signal with everything under 95 Hz already removed.
+Fixing that is what made the honest measurement possible.)
+
+## What is still not claimed
 
 The generative/reactive half — *"one fader determines how often a snare does a little roll or
-skip, and another thing listens and says: if that snare plays that roll three times, then
-I'll do this"* — is **not built**. Plastikman is polymetric now, which is the structural half;
-it is not a system with feedback rules watching its own output. That would be a new kind of
-builder rather than a table entry, and it is the honest next step.
+skip, and another thing listens and says: if that snare plays that roll three times, then I'll
+do this"* [[SOS](https://www.soundonsound.com/people/autechre)] — is **not built**. Plastikman
+is polymetric and it is now genuinely spacious; it is not a system with feedback rules watching
+its own output. That is a new kind of builder, not a table entry, and it is the honest next
+step.

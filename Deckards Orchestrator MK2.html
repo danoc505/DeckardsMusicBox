@@ -472,7 +472,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31l · the horn phrases, the rack is a list, and the polymeter is real</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31m · minimal techno gets the space its sources describe</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -3110,6 +3110,32 @@ const Sound = (function(){
     /* ...and into the room, so the repeats are washed rather than dry copies */
     g.echoToVerb = c.createGain(); g.echoToVerb.gain.value = 0.5;
     g.echoOut.connect(g.echoToVerb); g.echoToVerb.connect(g.send);
+
+    /* ── A TUNED SPACE WAS TRIED HERE AND DID NOT SURVIVE MEASUREMENT ───────
+       Booth describes Autechre's space as "lots and lots of delay lines and
+       all-passes but not set up in a normal reverb topology", tuned to the
+       harmonic content of the track [corpus:aestheticcomplexity]. The obvious
+       build is a feedback comb whose delay is one period of the song's root, so
+       the room resonates on the tonic.
+
+       IT WAS BUILT, RENDERED AND MEASURED, AND THE CLAIM DID NOT HOLD. A/B on
+       plastikman seed 2 (root D, 61.74 Hz), five sections, everything else
+       identical:
+
+         amount 0.16   tonic-band energy x1.01, comb nulls x1.00 -- inaudible
+         amount 0.90   tonic-band energy x0.03-0.17, RMS x2.3-4.1, peak pinned
+                       at 1.000 -- the mix crushed into the limiter
+
+       At a usable level it does nothing; at an audible level it is not a tuned
+       room at all but broadband comb colouration loud enough to flood the
+       limiter, which drags the tonic DOWN. Fed dense material a comb is a
+       spectral shape, not a ringing pitch -- it would need a sparse impulsive
+       feed to read as one, which is a different design than the quote supports.
+
+       Left as a note rather than as code, because "the render is the only
+       truth" cuts both ways: an effect nobody can measure is not a feature, and
+       a plausible one that ships unverified is exactly what this file's laws
+       exist to stop. The deepened room and echo below it ARE measured. */
 
     /* BUILT HERE, NOT WITH THE DRUM BUS, and the placement is the bug this had
        first: each chain takes a send to the room and a send to the echo, so both
@@ -9256,7 +9282,31 @@ const GENRE = {
        meant to be heard BETWEEN the notes -- and returns both dry and into a
        long dark room, so the gaps in a very sparse pattern are full of the
        pattern's own decaying past. [corpus:hawtin] */
-    space: { wet: 0.34, irSec: 3.2, tailPow: 1.8, tailDark: 0.42, sendHp: 140,
+    /* ══ THE SPACE, AND IT WAS NOT BIG ENOUGH ═══════════════════════════════
+       Put to me directly: both of these artists make "stripped down electronic
+       music with a techno backbone" and use "tons of reverb echo and space",
+       and this genre was not delivering it. MEASURED against the rest of the
+       file, that is right and it is embarrassing:
+
+         genre        wet   irSec   echo fb   echo send
+         bladerunner  0.42  5.0     0.18      0.16
+         plastikman   0.34  3.2     0.28      0.20      <- mid-table
+         jungle       0.22  2.2     0.30      0.22
+         dkc          0.34  2.4     0.34      0.20
+
+       The genre whose reference record is described as "kick drums bathed in
+       SUFFOCATING reverb", with "dubby splashes... unfurling through billowing
+       clouds" [corpus:crackmagazine, djmag on Consumed], had less feedback than
+       jungle and less room than a film score. Hawtin's own description of the
+       record is "an album of feedback -- everything was cross-modulating
+       everything else", and he cut it live to DAT through a BEL BD80 delay and
+       an Ensoniq DP4 [corpus:soundonsound Classic Tracks].
+
+       So: a longer and darker room, a lower send highpass so the kick actually
+       enters it -- "bathed" means the kick is IN the reverb, and at 140 Hz it
+       mostly was not -- and the echo opened up below. Not a taste change; the
+       numbers were behind their own sources. */
+    space: { wet: 0.44, irSec: 4.6, tailPow: 1.5, tailDark: 0.5, sendHp: 95,
              /* THE 303 IS ON THE BASS BUS -- both the bassline and the figure an
                 octave and a half above it, because V.acid303 returns there. The
                 first version of this fed ["keys","lead"]: keys is the wash pad,
@@ -9425,7 +9475,16 @@ const GENRE = {
          for the next note to arrive into, which in this genre removes the one
          thing the music is made of. Pulled back so the repeats are a tail rather
          than a wash. */
-      echo:  { div: 3, fb: 0.28, tone: 2200, hp: 240, send: 0.20, verb: 0.45 },
+      /* "AN ALBUM OF FEEDBACK -- everything was cross-modulating everything
+         else" [corpus:hawtin on Consumed]. 0.28 was less feedback than jungle
+         carries, in the genre this delay was built for. 0.46 is four or five
+         audible repeats instead of two, the send is up so they are heard at
+         all, and `verb` high puts them into the room -- "delays on the reverbs,
+         and reverbs on the delays", the half of that sentence this file can
+         honestly build. The repeats darken faster (tone down), which is what
+         makes it a dub delay rather than a copy machine.
+         [corpus:attackmagazine dub-delays, corpus:hawtin] */
+      echo:  { div: 3, fb: 0.46, tone: 1900, hp: 200, send: 0.32, verb: 0.70 },
       /* THE DESK, and this is the genre it was built for. The crossovers sit
          where a DJ mixer's do; the three gains start at unity and the whole
          performance is in `motion.desk` below. */
