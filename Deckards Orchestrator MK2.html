@@ -368,6 +368,59 @@
                    padding:.4rem 1rem; border-radius:4px 4px 0 0; }
   .sk-desk .brand .model{ color:#7fb2d9; }
 
+  /* ── THE KAOSS PAD, as the machine looks: a white case, a dark bezel around a
+     lit blue-green grid, and black rubber controls. ── */
+  .sk-kaoss{ background:linear-gradient(#f2f2f0, #dcdcd8); color:#1e1e1e;
+             border:1px solid #a8a8a4; }
+  .sk-kaoss .brand{ background:#f7f7f5; color:#141414; margin:-.85rem -1rem .7rem;
+                    padding:.4rem 1rem; border-radius:4px 4px 0 0;
+                    border-bottom:1px solid #c8c8c4; }
+  .sk-kaoss .brand .model{ color:#141414; letter-spacing:.16em; font-weight:600; }
+  .sk-kaoss .kn .dial{ background:radial-gradient(circle at 38% 30%, #4a4a4a, #141414 66%);
+                       border:1px solid #8e8e8a; }
+  .sk-kaoss .kn .ptr{ background:#f2f2f0; }
+  .sk-kaoss .kn .cap, .sk-kaoss .grp .leg{ color:#3a3a38; }
+  .sk-kaoss .kn .val{ color:#5a5a56; }
+  /* the pad itself: the bezel, then the grid, drawn as a repeating gradient so
+     the 8x8 of lit cells costs nothing and scales with the box */
+  .xywrap{ margin-top:.9rem; padding-top:.75rem; border-top:1px solid rgba(0,0,0,.18);
+           display:flex; flex-direction:column; align-items:center; gap:.4rem; }
+  .xylab{ display:flex; justify-content:space-between; width:min(300px,100%);
+          font-size:8px; letter-spacing:.16em; text-transform:uppercase; opacity:.6; }
+  .xypad{ position:relative; width:min(300px,100%); aspect-ratio:1/1; cursor:crosshair;
+          border-radius:3px; padding:6px; touch-action:none;
+          background:#14181a; border:5px solid #2a2a28;
+          box-shadow:inset 0 2px 10px rgba(0,0,0,.8); }
+  .xypad::before{ content:""; position:absolute; inset:6px; border-radius:2px;
+          background:
+            repeating-linear-gradient(90deg, rgba(0,0,0,.55) 0 2px, transparent 2px 12.5%),
+            repeating-linear-gradient(0deg,  rgba(0,0,0,.55) 0 2px, transparent 2px 12.5%),
+            linear-gradient(160deg, #2fb6c8, #2fc89a);
+          opacity:.62; }
+  /* the bright cross is YOUR hand; the dim dot is where the song has it now --
+     the same two-indicator idea the knobs carry, in two dimensions */
+  .xycross{ position:absolute; width:15px; height:15px; margin:-7.5px 0 0 -7.5px;
+            border-radius:50%; border:2px solid #fff; background:rgba(255,255,255,.28);
+            box-shadow:0 0 12px rgba(255,255,255,.85); pointer-events:none; z-index:2; }
+  .xydot{ position:absolute; width:8px; height:8px; margin:-4px 0 0 -4px; border-radius:50%;
+          background:var(--hot); opacity:.9; box-shadow:0 0 9px var(--hot);
+          pointer-events:none; display:none; z-index:1; }
+  .xypad.touched{ border-color:#d8481c; }
+  .sk-kaoss .pill{ border-color:#8e8e8a; background:#1a1a18; color:#e8e8e4; }
+  .sk-kaoss .pill[aria-pressed=true]{ background:#d8481c; border-color:#d8481c; color:#fff; }
+
+  /* ── THE SAXOPHONE. A horn is lacquered brass, so the panel is too. ── */
+  .sk-sax{ background:linear-gradient(150deg, #6b5320, #8a6a26 45%, #5a441a);
+           color:#f3e6c4; border:1px solid #3d2e11; }
+  .sk-sax .brand{ background:rgba(0,0,0,.32); color:#f7ecd0; margin:-.85rem -1rem .8rem;
+                  padding:.4rem 1rem; border-radius:4px 4px 0 0; }
+  .sk-sax .brand .model{ color:#f0d896; letter-spacing:.12em; }
+  .sk-sax .kn .dial{ background:radial-gradient(circle at 38% 30%, #d9c187, #6d5420 66%, #2e2409);
+                     border:1px solid #3d2e11; }
+  .sk-sax .kn .ptr{ background:#2e2409; }
+  .sk-sax .kn .cap, .sk-sax .grp .leg{ color:#f0e2bd; }
+  .sk-sax .kn .val{ color:#d8c68f; }
+
   /* the fallback panel, for the six machines with no `panel` block yet */
   .plain{ background:var(--panel); border:1px solid #33302a; color:var(--ink); }
   .plain .brand{ color:var(--hot); }
@@ -401,7 +454,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31d · a saxophone, and a fourth rack to put it in</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31e · the pad, and the horn gets a panel</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1089,8 +1142,20 @@ const INSTRUMENTS = {
          through a bit of reverb." [corpus:attackmagazine] */
       { k:"verb", label:"echo → room", cap:"WASH", min:0,  max:1,    step:0.01, def:0.50, kind:"bus" },
     ],
-    panel: { skin: "echo", maker: "", title: "space",
-             groups: [{ label: "", keys: ["div", "fb", "tone", "hp", "send", "verb"] }] },
+    /* ── THE PAD, AND WHY THIS BOX GETS ONE ────────────────────────────────
+         The source this genre's echo was built from describes the technique as
+         a HAND, not a setting: "filters and delay feedback are modulated live,
+         with sends ridden on the mixer to create evolving dub mixes". Two
+         controls, moved together, continuously. Six separate dials cannot
+         express that, and an XY pad is the instrument that was invented for it.
+         X is the repeat TONE and Y is the FEEDBACK -- the two the sources
+         actually name, so the pad is the described gesture rather than a
+         decoration. Nothing new is owned: it writes the same TRIM offsets the
+         knobs write, and both dials remain on the panel. */
+    panel: { skin: "kaoss", maker: "KORG", title: "KAOSS PAD",
+             xy: { x: "tone", y: "fb" },
+             groups: [{ label: "PROGRAM", keys: ["div", "send", "verb"] },
+                      { label: "FX", keys: ["fb", "tone", "hp"] }] },
   },
 
   /* ── THE DESK ─────────────────────────────────────────────────────────────
@@ -12820,6 +12885,85 @@ function knobEl(m, c){
   return box;
 }
 
+/* ── THE XY PAD ─────────────────────────────────────────────────────────────
+   A Kaoss pad is not a knob with two dimensions bolted on -- it is one gesture
+   that moves TWO controls at once, which is the only way to reach a filter and
+   a feedback together with one hand. That is exactly the thing this program had
+   nowhere to express: the echo's six controls are the music in two of these
+   genres ("filters and delay feedback are modulated live, with sends ridden on
+   the mixer to create evolving dub mixes") and they were six separate dials.
+
+   It writes the SAME `TRIM` offset the knobs write, so everything downstream is
+   unchanged: panelValue reads it, a double-click releases it, and the genre's
+   own automation still runs underneath -- which is why the pad shows TWO marks
+   like the knobs do. The bright cross is where your hand is; the dim dot is
+   where the song has those two controls right now. Watching the dot travel
+   across the pad while the cross stays put is the three-owner model, in two
+   dimensions.
+
+   HOLD is the machine's own word and its real behaviour: let go and the effect
+   stays where you left it. Without it a pad is a momentary control, and every
+   published description of how these are actually played assumes it latches. */
+function xyPadEl(m, cx, cy){
+  const kx = m + "." + cx.k, ky = m + "." + cy.k;
+  if(PARAMS[kx] == null) PARAMS[kx] = cx.def;
+  if(PARAMS[ky] == null) PARAMS[ky] = cy.def;
+  const wrap = el("div", "xywrap");
+  const pad = el("div", "xypad");
+  pad.dataset.key = kx;                       // so a probe can find it
+  const cross = el("div", "xycross"), dot = el("div", "xydot");
+  pad.appendChild(cross); pad.appendChild(dot);
+  const lab = el("div", "xylab");
+  lab.innerHTML = `<span>${cx.cap || cx.k} &rarr;</span><span>&uarr; ${cy.cap || cy.k}</span>`;
+  const hold = el("button", "pill", "HOLD");
+  hold.setAttribute("aria-pressed", "true");  // latched, like the machine
+  let latched = true;
+  hold.addEventListener("click", () => {
+    latched = !latched; hold.setAttribute("aria-pressed", latched ? "true" : "false");
+    if(!latched){ delete TRIM[kx]; delete TRIM[ky]; wrap.refresh(); busTouched(kx); busTouched(ky); }
+  });
+  const frac = (c, v) => (v - c.min) / (c.max - c.min);
+  wrap.refresh = () => {
+    const vx = panelValue(m, cx.k), vy = panelValue(m, cy.k);
+    cross.style.left = (frac(cx, vx) * 100) + "%";
+    cross.style.bottom = (frac(cy, vy) * 100) + "%";
+    pad.classList.toggle("touched", !!(TRIM[kx] || TRIM[ky]));
+    const t = songTime();
+    const mx = SONG && SONG.motion.lanes[kx], my = SONG && SONG.motion.lanes[ky];
+    const moving = (mx || my) && t != null;
+    dot.style.display = moving ? "block" : "none";
+    if(moving){
+      const lx = Math.max(cx.min, Math.min(cx.max, vx + (mx ? motionAt(SONG.motion, kx, { tSec: t }) : 0)));
+      const ly = Math.max(cy.min, Math.min(cy.max, vy + (my ? motionAt(SONG.motion, ky, { tSec: t }) : 0)));
+      dot.style.left = (frac(cx, lx) * 100) + "%";
+      dot.style.bottom = (frac(cy, ly) * 100) + "%";
+    }
+  };
+  let on = false;
+  const put = e => {
+    const r = pad.getBoundingClientRect();
+    const p = e.touches ? e.touches[0] : e;
+    const fx = Math.max(0, Math.min(1, (p.clientX - r.left) / r.width));
+    const fy = Math.max(0, Math.min(1, 1 - (p.clientY - r.top) / r.height));
+    const snap = (c, f) => Math.max(c.min, Math.min(c.max,
+      Math.round((c.min + f * (c.max - c.min)) / c.step) * c.step));
+    TRIM[kx] = snap(cx, fx) - (PARAMS[kx] == null ? cx.def : PARAMS[kx]);
+    TRIM[ky] = snap(cy, fy) - (PARAMS[ky] == null ? cy.def : PARAMS[ky]);
+    wrap.refresh(); busTouched(kx); busTouched(ky);
+  };
+  pad.addEventListener("pointerdown", e => {
+    on = true; pad.setPointerCapture(e.pointerId); put(e); e.preventDefault();
+  });
+  pad.addEventListener("pointermove", e => { if(on){ put(e); e.preventDefault(); } });
+  pad.addEventListener("pointerup", () => {
+    on = false;
+    if(!latched){ delete TRIM[kx]; delete TRIM[ky]; wrap.refresh(); busTouched(kx); busTouched(ky); }
+  });
+  wrap.appendChild(lab); wrap.appendChild(pad); wrap.appendChild(hold);
+  wrap.refresh(); KNOBS.push(wrap);
+  return wrap;
+}
+
 /* ── A PANEL BUTTON ─────────────────────────────────────────────────────────
    SUB OSC and ACCENT are red buttons on the machine, not knobs. A button is a
    switch with a light: it writes the same TRIM the knobs do, so it is released
@@ -13147,7 +13291,7 @@ function drawPanels(){
      always drawn. In the genres where the movement of these six controls is
      the music rather than a treatment of it, this is the most important box on
      the screen. */
-  const boxes = ["drums", "bass", "keys"]
+  const boxes = ["drums", "bass", "keys", "lead"]
     .map(slot => [slot, machineIn(SONG.chart, slot)])
     .concat(Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].fixed).map(k => [INSTRUMENTS[k].slot, k]));
   for(const [slot, m] of boxes){
@@ -13331,6 +13475,14 @@ function drawPanels(){
         strip.appendChild(grp);
       }
       box.appendChild(strip);
+      /* THE PAD, when a panel declares one. It names two controls it already
+         has, so nothing new is owned and nothing new is automatable -- the pad
+         is a second way to reach the same two dials, which is what the hardware
+         is. Declared, not special-cased by machine name. */
+      if(P.xy){
+        const cx = M.controls.find(x => x.k === P.xy.x), cy = M.controls.find(x => x.k === P.xy.y);
+        if(cx && cy) box.appendChild(xyPadEl(m, cx, cy));
+      }
       if(P.grid === "drums") { const gr = drumGridEl(m, M); box.appendChild(gr); GRIDS.push(["drums", gr]); }
       if(P.grid === "bass")  { const gr = bassGridEl(m, M);  box.appendChild(gr); GRIDS.push(["bass", gr]); }
     } else {
