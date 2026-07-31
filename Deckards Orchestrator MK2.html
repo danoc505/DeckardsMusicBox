@@ -401,7 +401,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31b · the CS-80 gets its pulse width, and its octave</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31c · the form has hard laws, and a wider pool</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -6373,16 +6373,48 @@ const GENRE = {
     tape:     { wow: [0.0006, 0.0010], crackle: [0.0008, 0.0015] }, // VHS warble, not vinyl [EAR]
 
     form: {
-      lengths:  { intro: 8, verse: 8, chorus: 8, bridge: 8, instrumental: 8, outro: 4 },
-      material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
-                  instrumental: "B", outro: "A" },        // the instrumental is the SOLO, so it takes the hook
+      /* ── THIS GENRE HAS A PRE-CHORUS AND A POST-CHORUS, AND THAT IS THE POINT ──
+         Every genre in this file drew from the same four functions -- verse,
+         chorus, bridge, instrumental -- and differed only in the WEIGHTS on the
+         arrows between them. Measured with probe_pull, `sections` scored 0.06
+         against a median of 19.5: the one feature out of sixteen that the SEED
+         owned rather than the genre. Two songs of one genre differed in shape
+         seventeen times more than the genres differed from each other, because
+         structurally there was only ever one shape to draw.
+
+         Weights cannot fix that. A different POOL can. Synthwave is the most
+         song-form music here -- its own target comment cites a Midnight track's
+         template -- so it is the one that gets the two pop functions the
+         taxonomy lists and this program never had. The rest keep the four they
+         had; a genre that should not have a pre-chorus does not get one, which
+         is the whole idea. [corpus:harvest_structure for the transition weights;
+         which genre gets which function is [EAR]] */
+      lengths:  { intro: 8, verse: 8, prechorus: 4, chorus: 8, postchorus: 4,
+                  bridge: 8, instrumental: 8, outro: 4 },
+      /* the pre-chorus is a RAMP INTO the hook, so it plays the hook's own
+         material -- that is what makes the arrival feel prepared rather than
+         announced. The post-chorus is the hook still ringing, so it takes it
+         too. Neither needs new material; both need a different LINEUP, which is
+         stage 4's property, not stage 3's. */
+      material: { intro: "A", verse: "A", prechorus: "B", chorus: "B", postchorus: "B",
+                  bridge: "C", instrumental: "B", outro: "A" },        // the instrumental is the SOLO, so it takes the hook
       roles: {
         /* the arp is the FIRST thing you hear -- "Nightcall opens on a filtered
            arp" is in this genre's own coldOpen note, and until now there was no
            arp to open on */
         intro:        ["keys", "bass", "ostinato"],
         verse:        ["drums", "bass", "keys", "lead", "ostinato"],
+        /* THE PRE-CHORUS TAKES SOMETHING AWAY so the chorus can put it back.
+           The kit steps out and the ostinato carries the pulse -- which is the
+           documented mechanic ("shifting the energy level, melodic direction or
+           rhythmic pattern") rather than simply playing quieter.
+           [corpus:izotope, producerhive] */
+        prechorus:    ["bass", "keys", "lead", "ostinato"],
         chorus:       ["drums", "bass", "keys", "lead", "counter", "ostinato"],
+        /* the post-chorus carries the hook with the VOICE gone -- "in most cases
+           very few lyrics at all". Here that means the lead sits out and the
+           counter's octave double holds the tune. [corpus:wikipedia/Post-chorus] */
+        postchorus:   ["drums", "bass", "keys", "counter", "ostinato"],
         bridge:       ["bass", "keys", "lead", "ostinato"],
         instrumental: ["drums", "bass", "keys", "lead", "ostinato"],  // the lead steps forward, it does not sit out
         outro:        ["keys", "bass", "ostinato"],
@@ -6390,16 +6422,27 @@ const GENRE = {
       coldOpen:   0.08,        // [tut:orpheus] Nightcall opens on a filtered arp; a cold open is rare
       openVerse:  0.72,        // [EAR]
       target:     [48, 4, 8],  // 48-72 bars [tut:edmprod, The Midnight "Souvenir" template]
+      /* the weights are the measured ones where a measurement exists:
+         verse->prechorus 18%, prechorus->chorus 88%, postchorus->verse 53%.
+         [corpus:harvest_structure, Harmonix 428 sections] */
       transitions: {
-        verse:        [["chorus", 8], ["verse", 2], ["bridge", 1]],
-        chorus:       [["verse", 5], ["instrumental", 4], ["bridge", 3], ["chorus", 2]],
+        verse:        [["chorus", 5], ["prechorus", 4], ["verse", 2], ["bridge", 1]],
+        prechorus:    [["chorus", 10]],                  // H4 enforces this anyway
+        chorus:       [["postchorus", 4], ["verse", 4], ["instrumental", 3],
+                       ["bridge", 3], ["chorus", 1]],
+        postchorus:   [["verse", 6], ["instrumental", 2], ["bridge", 2]],
         bridge:       [["chorus", 9], ["verse", 1]],
         instrumental: [["chorus", 7], ["verse", 3]],
       },
-      bridgeAfterChorus: { verse: 1, chorus: 2 },
+      bridgeAfterChorus: { verse: 1, chorus: 2, prechorus: 2, postchorus: 2 },
       /* the instrumental is a PEAK here, not a rest -- the lead solo section.
          Lofi puts it at 0.72; synthwave must not. [tut:orpheus-structure] */
+      /* the pre-chorus sits BELOW the verse it follows, because the climb is
+         relative: a ramp that starts high has nowhere to go. The post-chorus
+         holds the chorus's height rather than dropping off it -- "holds or
+         raises its energy" is the definition. [corpus:izotope, bmi] */
       energy: { intro: 0.42, outro: 0.38, bridge: 0.55, instrumental: 0.88,
+                prechorus: 0.62, postchorus: 0.90,
                 chorus: 0.95, chorusPeak: 1.0, verse: 0.70 },          // [EAR]
       /* an outrun record is built like a film cue: a long low opening, a clear
          drop before the last chorus, a big finish that then leaves. [EAR] */
@@ -8276,20 +8319,36 @@ const GENRE = {
          grid this music is built on, inside stage 2's ten-section guard.
          [corpus:mb+ab] */
       target:    [160, 5, 32],
-      /* the genre wants ONE function repeated and stage 2's rule of three
-         forbids a third consecutive statement. The honest encoding is to
-         alternate between two functions that map to nearly the same music --
-         verse and instrumental, A and Avar. It is a compromise with the
-         architecture and it is written down as one rather than hidden. */
+      /* ── THIS GENRE HAS NO CHORUS, AND NOW IT IS ALLOWED TO SAY SO ──────────
+         The note that used to sit here read: "the genre wants ONE function
+         repeated and stage 2's rule of three forbids a third consecutive
+         statement... It is a compromise with the architecture and it is written
+         down as one rather than hidden." The line above it still says "there is
+         no chorus to open on" -- so the table already knew, and had nowhere to
+         put it: stage 2 named `chorus` in four places, which made one
+         compulsory in every genre in the file.
+
+         It does not any more. `payoff` says which function carries the weight
+         and which one the record ends on, and here it is the instrumental --
+         because that is what a minimal techno record returns to. The chorus is
+         simply gone from the pool rather than present and avoided.
+
+         The rule of three still bites, and that is correct: three identical
+         statements is the one thing this music must not do either. Alternating
+         verse and instrumental -- A against Avar -- is now a real alternation
+         between the two functions the genre HAS, not a workaround standing in
+         for a shape the table could not express. */
+      payoff: "instrumental",
       transitions: {
-        verse:        [["instrumental", 8], ["verse", 6], ["chorus", 3], ["bridge", 1]],
-        instrumental: [["verse", 9], ["chorus", 3], ["instrumental", 2]],
-        chorus:       [["verse", 7], ["instrumental", 4]],
-        bridge:       [["verse", 10]],
+        verse:        [["instrumental", 9], ["verse", 6], ["bridge", 1]],
+        instrumental: [["verse", 9], ["instrumental", 2], ["bridge", 1]],
+        bridge:       [["verse", 7], ["instrumental", 3]],
       },
-      bridgeAfterChorus: { verse: 2, chorus: 2 },
+      bridgeAfterChorus: { verse: 2, instrumental: 2 },
       /* deliberately half of lofi's range: a section that gets LOUDER is a pop
          gesture, and this music's changes are timbral. [EAR, but principled] */
+      /* `chorusPeak` is stage 2's name for "the height of the LAST payoff",
+         whatever that payoff is called -- here it is the last instrumental. */
       energy: { intro: 0.80, outro: 0.72, bridge: 0.70, instrumental: 0.88,
                 chorus: 0.92, chorusPeak: 0.96, verse: 0.86 },
       /* ── THE ONE THIS WAS BUILT FOR ───────────────────────────────────────
@@ -9291,6 +9350,18 @@ const BLEND_DRAW = new Set([
      with another's -- or with a genre that has none -- gives a record that
      accretes halfway, which is not a blend of two arrangements, it is neither */
   "form.build",
+  /* THE ARROWS AND THE HEIGHTS ARRIVE WITH THE SECTIONS THEY NAME. Both were
+     merged key-by-key, which is correct while every genre draws from the same
+     four functions and silently wrong the moment one of them does not: the
+     merged `verse` row carried synthwave's ["prechorus", w] arrow while
+     `form.roles` -- which IS drawn whole -- came from lofi, so stage 4 read
+     ROLES["prechorus"] and got undefined. 39 of 504 pairs threw.
+     Note WHERE the bug was: `form.transitions` was already listed in
+     BLEND_GROUP, and that did nothing at all, because the group is only
+     consulted inside the drawn branch. A field has to be DRAWN before it can be
+     GROUPED. Same lesson as the ostinato and the registers, arriving through a
+     different door. */
+  "form.transitions", "form.energy", "form.payoff",
   "form.bridgeAfterChorus", "kit.variants", "kit.snare", "kit.ghostSpots",
   "kit.openBars", "kit.hatEvery", "kit.kickKeep", "kit.flourishBar",
   "kit.toms.loopSpots", "kit.toms.loopLanes",
@@ -9307,6 +9378,18 @@ const BLEND_GROUP = {
      and worse, silently so */
   "form.build": "form",
   "form.target": "form", "form.bridgeAfterChorus": "form",
+  /* THE TRANSITION TABLE NAMES SECTIONS, so it belongs to whichever genre
+     supplied the sections. This was NOT grouped, and it did not matter for as
+     long as every genre drew from the same four functions -- the moment one
+     genre gained a pre-chorus and a post-chorus, a blend could take synthwave's
+     arrows and lofi's lengths, and `LEN.prechorus` read undefined. 39 of 504
+     pairs threw on the first run.
+     `energy` is here for the same reason and would have thrown next: it is one
+     number per function, so a function the other genre has never heard of has
+     no height to sit at. Exactly the ostinato/registers lesson below, arriving
+     a second time through a different door -- which is the argument for stating
+     the principle rather than patching the instance. */
+  "form.transitions": "form", "form.energy": "form", "form.payoff": "form",
   "kit.snare": "kit", "kit.ghostSpots": "kit", "kit.openBars": "kit",
   "kit.hatEvery": "kit", "kit.kickKeep": "kit", "kit.flourishBar": "kit",
   "kit.variants": "kit", "chop": "kit",
@@ -9518,26 +9601,81 @@ function makeForm(chart){
   const fns = [];
   const coldOpen = rng() < F.coldOpen;                  // a cold open is a choice, not an absence
   if(!coldOpen) fns.push("intro");
-  let fn = coldOpen ? (rng() < 0.5 ? "chorus" : "verse")
-                    : (rng() < F.openVerse ? "verse" : "chorus");
+  /* ── THE PAYOFF IS A GENRE'S CHOICE, NOT THE WORD "CHORUS" ────────────────
+     This function named `chorus` in four places: the opening draw, the repeat
+     counter that unlocks the bridge, the break that ends a song on its payoff,
+     and the peak that the arrangement empties the bar before. Four baked
+     structural values, and together they made a chorus COMPULSORY -- which is
+     why every genre here has one, including the two that in life do not.
+
+     A minimal techno record has no chorus. Neither does most jungle. What they
+     have is a function that carries the weight and that the record ends on, and
+     for those genres it is the instrumental. So the payoff is declared, defaults
+     to "chorus" so nothing that already worked moves, and stage 2 stops knowing
+     what a chorus is -- it knows a song has a PAYOFF and returns to it. [Law 4] */
+  const PAY = F.payoff || "chorus";
+  let fn = coldOpen ? (rng() < 0.5 ? PAY : "verse")
+                    : (rng() < F.openVerse ? "verse" : PAY);
   const target = F.target[0] + Math.floor(rng() * F.target[1]) * F.target[2];
   let bars = coldOpen ? 0 : 4, bridgeUsed = false, chorusSeen = 0;
   for(let guard = 0; guard < 10; guard++){
     fns.push(fn); bars += LEN[fn];
-    if(fn === "chorus") chorusSeen++;
+    if(fn === PAY) chorusSeen++;
     if(fn === "bridge") bridgeUsed = true;
-    if(bars >= target && fn === "chorus") break;        // a song ends off its payoff
-    /* transition table [corpus:harvest_structure], with the rule of three:
-       two consecutive statements of a function zero its own weight */
+    if(bars >= target && fn === PAY) break;             // a song ends off its payoff
+    /* ══ THE HARD LAWS OF SUCCESSION ══════════════════════════════════════════
+       The genre supplies WEIGHTS; stage 2 supplies LAWS. Every law below zeroes
+       a weight rather than picking a section, so a genre can lean however it
+       likes inside them and none of them is a baked value.
+
+       WHAT MAKES A LAW HARD HERE IS NOT THAT IT IS COMMON -- it is that the
+       section's IDENTITY depends on its neighbour. A pre-chorus that never
+       reaches a chorus is not a pre-chorus; it is a verse. That is a definition,
+       not a tendency, and definitions are the only successions that earn HARD.
+       Researched rather than assumed, and the research also refused two laws
+       that looked hard and are not (see SOFT, below).
+
+         H1  RULE OF THREE. A function cannot follow itself twice. Two hearings
+             establish an idea; the third identical one is where attention goes.
+             [corpus:omnionsound, music-chips, songtown]
+         H2  A BRIDGE MUST HAVE SOMETHING TO DEPART FROM. "If the bridge lands
+             too early the listener never gets to build a pattern, so the bridge
+             has nothing to disrupt." How many choruses is the genre's call; that
+             it needs SOME is not. [corpus:lordreverb, careersinmusic]
+         H3  A POST-CHORUS MAY ONLY FOLLOW A CHORUS. Definitional: "a section
+             that appears after the chorus... postchoruses follow a chorus and
+             precede the next verse." [corpus:wikipedia/Post-chorus, mtosmt 28.2]
+         H4  A PRE-CHORUS MUST REACH A CHORUS. Definitional: pre-choruses
+             "always lead into the chorus"; the pattern is verse -> pre-chorus ->
+             chorus. Its whole function is to make the arrival land, so a
+             pre-chorus followed by anything else has not done its job -- it has
+             become a different section. [corpus:izotope, yousician, producerhive]
+
+       AND WHAT THE RESEARCH REFUSED, which matters as much: build -> drop reads
+       like a law and the sources say plainly it is not -- "there are no hard
+       rules around this, just a general structure" [corpus:cymatics, edmprod].
+       Nor is "the bridge goes after the second chorus": that is framed
+       everywhere as a guideline from listener psychology, with non-traditional
+       placement "showing up more often" [corpus:lordreverb]. Both stay SOFT, as
+       weights. A law nobody can break is worth having; a habit dressed as a law
+       just removes seeds. ═══════════════════════════════════════════════════ */
     const consec = fns.length >= 2 && fns[fns.length - 1] === fns[fns.length - 2];
-    /* the genre supplies the weights; stage 2 supplies the LAWS -- a function
-       cannot follow itself twice (rule of three), and the bridge cannot be drawn
-       before its genre has heard enough choruses to make leaving mean anything */
     const need = F.bridgeAfterChorus[fn];
-    const table = F.transitions[fn].map(([to, w]) =>
-      [to, to === fn && consec ? 0
-         : to === "bridge" ? ((!bridgeUsed && need != null && chorusSeen >= need) ? w : 0)
-         : w]);
+    let table = F.transitions[fn].map(([to, w]) => [to, w]);
+    table = table.map(([to, w]) => [to, (to === fn && consec) ? 0 : w]);          // H1
+    table = table.map(([to, w]) => [to, to === "bridge"                            // H2
+      ? ((!bridgeUsed && need != null && chorusSeen >= need) ? w : 0) : w]);
+    table = table.map(([to, w]) => [to, (to === "postchorus" && fn !== "chorus")   // H3
+      ? 0 : w]);
+    if(fn === "prechorus")                                                         // H4
+      table = table.map(([to, w]) => [to, to === "chorus" ? Math.max(w, 1) : 0]);
+    /* A LAW MAY LEAVE NOTHING LEGAL, and then the song still has to continue.
+       Falling through to the genre's own most-weighted destination keeps this a
+       constraint rather than a crash -- the laws narrow the draw, they do not
+       get to end the record. */
+    if(table.reduce((s, p) => s + p[1], 0) <= 0)
+      table = F.transitions[fn].map(([to, w]) => [to, to === fn ? 0 : w]);
+    if(table.reduce((s, p) => s + p[1], 0) <= 0) table = [["chorus", 1]];
     fn = wpick(rng, table);
   }
   fns.push("outro");
@@ -9546,14 +9684,17 @@ function makeForm(chart){
      hearing must differ -- research: state, repeat, change on the third) */
   const seen = {};
   let bar = 0;
-  const lastChorus = fns.lastIndexOf("chorus");
+  /* the LAST payoff is the record's peak, and stage 4 empties the bar before it.
+     Reading the genre's payoff rather than the word "chorus" is what lets a
+     chorus-free genre still have a highest point. */
+  const lastChorus = fns.lastIndexOf(PAY);
   const out = fns.map((f, i) => {
     seen[f] = (seen[f] || 0) + 1;
     const o = {
       fn: f, startBar: bar, endBar: bar + LEN[f],
       occurrence: seen[f],
       demand: (seen[f] >= 3 && (f === "verse" || f === "chorus")) ? "vary" : null,
-      energy: f === "chorus" ? (i === lastChorus ? F.energy.chorusPeak : F.energy.chorus)
+      energy: f === PAY ? (i === lastChorus ? F.energy.chorusPeak : F.energy[PAY])
                               : F.energy[f],
       peak: i === lastChorus,
     };

@@ -57,7 +57,35 @@ function features(song){
     keysPerBar:   byRole("keys").length / bars,
     leadPerBar:   byRole("lead").length / bars,
     meanDurSec:   mean(durs),
+    /* ── `sections` IS A COUNT, AND A COUNT IS NOT A SHAPE ────────────────────
+       This one number carried the whole "nobody owns the form" finding in the
+       handoff, and it cannot support it: song.sections.length says how MANY
+       sections a record has and nothing about which ones or in what order. A
+       verse/chorus/verse/chorus record and a verse/instrumental/verse/
+       instrumental record of the same length score identically here. So a genre
+       could be given a pre-chorus, a post-chorus, or no chorus at all, and this
+       feature would not move -- which is exactly what happened when it was.
+
+       Kept, because record LENGTH-in-sections is a real property worth owning.
+       The three below measure the thing the finding was actually about. */
     sections:     song.sections.length,
+    /* HOW MANY DIFFERENT KINDS of section a record is built from. A genre whose
+       pool is verse+instrumental can never score above 3 with its intro; one
+       with a pre-chorus and a post-chorus reaches 7. This is the pool, measured
+       through the songs rather than read off the table. */
+    fnVariety:    new Set(song.sections.map(s => s.fn)).size,
+    /* WHAT SHARE OF THE RECORD IS ITS PAYOFF -- a pop form returns to the hook
+       constantly; a techno record returns to the same instrumental. Different
+       shapes, same count, and this separates them. */
+    payoffShare:  song.sections.filter(s => s.fn === song.sections
+                    .map(x => x.fn)
+                    .reduce((a, b, _, arr) =>
+                      arr.filter(v => v === a).length >= arr.filter(v => v === b).length ? a : b))
+                    .length / Math.max(1, song.sections.length),
+    /* HOW OFTEN THE RECORD CHANGES FUNCTION rather than restating one. Low =
+       an accretion that stays put; high = a form that keeps moving. */
+    fnChanges:    song.sections.filter((s, i, a) => i > 0 && s.fn !== a[i - 1].fn).length /
+                  Math.max(1, song.sections.length - 1),
     barsTotal:    bars,
     meanGain:     mean(ev.map(e => e.gain)),
   };
