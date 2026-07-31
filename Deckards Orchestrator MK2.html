@@ -279,6 +279,9 @@
   /* the MIDI port's status line: it always says what happened, including the
      cases where nothing can happen */
   #midinote{ color:var(--dim); font-size:11px; margin:-.5rem 0 .6rem; min-height:1.1em; }
+  /* the audio status line. Same weight as the MIDI one -- it is not an error
+     banner, it is the transport saying what it did. */
+  #snd{ color:var(--dim); font-size:11px; margin:-.2rem 0 .2rem; min-height:1.1em; }
   #buildStamp{ display:inline-block; margin-left:.7rem; font-size:10px; letter-spacing:.12em;
                text-transform:uppercase; color:var(--dim); border:1px solid #3a352c;
                border-radius:3px; padding:.12rem .45rem; vertical-align:middle; }
@@ -472,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31p · the listener learns to roll, and to count rolls</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31r · the arc peaks with the form, and the kick belongs to the genre</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -495,6 +498,9 @@
   <button id="midiclock" aria-pressed="false" title="send MIDI clock so your gear locks to this tempo">clock</button>
   <span id="pos"></span>
 </div>
+<!-- what the audio is actually doing. Empty until the first press; a phone with
+     no console has to be able to read this off the page. -->
+<div id="snd"></div>
 <div id="midinote"></div>
 <div id="blend"></div>
 <!-- THE RACK IS A LIST, NOT A ROW OF FIXED BOXES. It used to be five hardcoded
@@ -2108,11 +2114,38 @@ function soundOf(genre, drumMachine, picks){
      voices read at the note -- which is every control on the five machines with
      a front panel. Said plainly rather than left to be discovered. */
   const has = k => M && M.controls.some(c => c.k === k) && PARAMS[m + "." + k] != null;
-  const kick = (m === "kit" && has("tune"))
-    ? { tune:  panelValue("kit", "tune"),  decay: panelValue("kit", "decay"),
-        click: panelValue("kit", "click"), drive: panelValue("kit", "drive"),
-        body:  (G.kick && G.kick.body) != null ? G.kick.body : 1,
-        gain:  (G.kick && G.kick.gain) != null ? G.kick.gain : 1.05 }
+  /* ── THIS FUNCTION IS ASKED ABOUT A GENRE AND MUST ANSWER ABOUT THAT GENRE ──
+     It read the KICK off the panel -- `panelValue("kit","tune")` and its three
+     neighbours -- and PARAMS is global, holding whatever genre applyRack loaded
+     LAST. So soundOf("synthwave") returned lofi's kick whenever lofi happened to
+     be the song on screen, and the argument was ignored.
+
+     MEASURED: the rendered-audio battery probes the kick once per genre
+     precisely so that one genre's drum cannot stand in for the palette -- and
+     lofi, synthwave and DKC came out BYTE-IDENTICAL, rms 0.07070 and peak 0.5998
+     all three. Three probes measuring one sound, and the check that was supposed
+     to notice could not, because it compares each against its own baseline
+     rather than against each other. It also made `kick_soft` drift: its level
+     depended on which genre was rendered before it, which is why that baseline
+     had gone stale by 3.2 dB with nothing in the kick voice having changed since
+     the day it was written.
+
+     THE FILE ALREADY HAS THE RIGHT SHAPE FOR THIS and states it two hundred
+     lines down, about the drum bus: "the genre's value stays the base, which is
+     right -- a genre's kit drive is its own decision -- and the hand's TRIM is
+     added on top". Same rule here. The genre owns the number; the hand offsets
+     it; a hand that has touched nothing changes nothing, so the panel still
+     drives the kick for the song actually on screen. */
+  const hand = (k, base) => {
+    const c = CONTROL["kit." + k];
+    const v = (base != null ? base : 0) + (TRIM["kit." + k] || 0);
+    return c ? Math.max(c.min, Math.min(c.max, v)) : v;
+  };
+  const kick = (m === "kit" && has("tune") && G.kick)
+    ? { tune:  hand("tune",  G.kick.tune),  decay: hand("decay", G.kick.decay),
+        click: hand("click", G.kick.click), drive: hand("drive", G.kick.drive),
+        body:  G.kick.body != null ? G.kick.body : 1,
+        gain:  G.kick.gain != null ? G.kick.gain : 1.05 }
     : G.kick;
   const gate = G.gate && {
     send:     has("gate") ? panelValue(m, "gate") : G.gate.send,
@@ -4024,7 +4057,33 @@ const Sound = (function(){
        moved them at this note. g.kick stays as the fallback for a graph with no
        rack loaded (the reference bar, a probe), which is the honest answer when
        there is no song to move against. */
-    const kp = k => P(g, ev, "kit", k, g.kick[k]);
+    /* ── AND THE GENRE OWNS THE BASE, NOT THE GLOBAL PANEL ───────────────────
+       This read `P(g, ev, "kit", k, g.kick[k])`, and P resolves through
+       panelValue, which takes PARAMS as the base and only reaches the fallback
+       when PARAMS has nothing. PARAMS always has something -- applyRack fills it
+       from whichever genre is on screen -- so `g.kick[k]` was unreachable and the
+       kick this voice played was the LOADED genre's, whatever genre it was
+       being rendered for.
+
+       MEASURED: the audio battery probes the kick once per genre exactly so one
+       genre's drum cannot stand in for the palette, and lofi, synthwave and DKC
+       came out byte-identical -- rms 0.07070, peak 0.5998, all three -- despite
+       synthwave asking for tune 49 / decay 0.34 / gain 1.25 against lofi's 60 /
+       0.18 / 0.90. It also made the soft-kick baseline drift by 3.2 dB with
+       nothing in this function having changed since the day it was written.
+
+       Same three-owner model the rest of the rack uses, in the right order: the
+       GENRE's number is the base, the HAND's trim rides on it, the PLAN's motion
+       moves it at this note. On screen nothing changes -- PARAMS holds the
+       genre's own values there, so base and panel agree -- and off screen the
+       voice now answers for the genre it was asked about. */
+    const kp = k => {
+      const key = "kit." + k, c = CONTROL[key];
+      const base = (g.kick && g.kick[k] != null) ? g.kick[k] : (c ? c.def : 0);
+      const v = base + (TRIM[key] || 0) +
+                (g.motion ? motionAt(g.motion, key, ev, g.motionOffset) : 0);
+      return c ? Math.max(c.min, Math.min(c.max, v)) : v;
+    };
     const K = { tune: kp("tune"), decay: kp("decay"), click: kp("click"),
                 drive: kp("drive"), body: kp("body"), gain: kp("gain") };
     const o = c.createOscillator(); o.type = "sine";                       // body
@@ -6053,14 +6112,100 @@ const Sound = (function(){
     }
 
   }
+  /* ══ GETTING SOUND OUT OF AN IPHONE ═══════════════════════════════════════
+     Reported twice: "it doesn't seem to want to play any audio" on iOS. The
+     first attempt was to await ctx.resume(), which was necessary and was not
+     sufficient, because the context was never the whole problem.
+
+     THREE SEPARATE THINGS SILENCE WEB AUDIO ON IOS, and a page has to answer
+     all three or it is silent for a reason nobody can see from the outside:
+
+     1. THE RINGER SWITCH. This is the one that was missed. Web Audio alone runs
+        in the AMBIENT audio session, and the ambient session is silenced by the
+        hardware mute switch on the side of the phone -- at any volume, with no
+        error, no warning and no state change. An HTMLAudioElement that is
+        actually playing promotes the page to the PLAYBACK session, which
+        ignores that switch. So a silent looping element is kept playing for as
+        long as the program is making sound. It is not a hack around a bug, it
+        is how the platform decides what kind of audio a page is making, and a
+        page that never plays a media element has told it "ambient".
+
+     2. THE GESTURE, AND IT IS SPENT BY AWAITING. A context may only start
+        inside a user gesture, and on iOS the gesture is consumed by the first
+        `await`. Everything here therefore runs SYNCHRONOUSLY on the click: the
+        context is constructed, the graph is built, the element is started and
+        the unlock buffer is fired before anything yields.
+
+     3. THE UNLOCK BUFFER. Older iOS will not start a context until it has been
+        handed something to play, so it is handed one sample of nothing.
+
+     AND IT REPORTS ITSELF. A phone cannot be asked to open a console, so
+     `soundState()` returns what actually happened and the transport prints it.
+     A program that is silent must be able to say WHY it is silent. */
+  let keeper = null, unlocked = false, unlockErr = "";
+  function silentWav(){
+    /* 50 ms of 8-bit silence, built here rather than base64'd in: it is 444
+       bytes of header and 0x80, and generating it costs nothing */
+    const rate = 8000, n = 400, buf = new ArrayBuffer(44 + n), v = new DataView(buf);
+    const w = (o, s) => { for(let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+    w(0, "RIFF"); v.setUint32(4, 36 + n, true); w(8, "WAVE");
+    w(12, "fmt "); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+    v.setUint32(24, rate, true); v.setUint32(28, rate, true);
+    v.setUint16(32, 1, true); v.setUint16(34, 8, true);
+    w(36, "data"); v.setUint32(40, n, true);
+    for(let i = 0; i < n; i++) v.setUint8(44 + i, 128);      // 8-bit silence is 0x80
+    return URL.createObjectURL(new Blob([buf], { type: "audio/wav" }));
+  }
+  function unlock(c){
+    if(unlocked) return;
+    unlocked = true;
+    try{
+      keeper = new Audio(silentWav());
+      keeper.loop = true;
+      keeper.playsInline = true;
+      keeper.setAttribute("playsinline", "");     // the attribute too: iOS reads it off the tag
+      /* NOT zero. A muted element does not always promote the session, because
+         from the platform's point of view a muted page is not playing anything.
+         The DATA is silent, so 1% of nothing is still nothing. */
+      keeper.volume = 0.01;
+      const p = keeper.play();
+      if(p && p.catch) p.catch(e => { unlockErr = "media: " + (e && e.name || e); });
+    }catch(e){ unlockErr = "media: " + (e && e.message || e); }
+    try{
+      const b = c.createBuffer(1, 1, c.sampleRate);
+      const s = c.createBufferSource();
+      s.buffer = b; s.connect(c.destination); s.start(0);
+    }catch(e){ unlockErr += " buffer: " + (e && e.message || e); }
+  }
+  /* what the transport prints, so a silent phone can say why it is silent */
+  function soundState(){
+    return {
+      state: ctx ? ctx.state : "none",
+      rate: ctx ? Math.round(ctx.sampleRate) : 0,
+      keeper: keeper ? (keeper.paused ? "paused" : "playing") : "none",
+      err: unlockErr,
+    };
+  }
   async function ensureLive(){
+    /* everything up to the first await is inside the user's gesture */
     if(!ctx){
       ctx = new (window.AudioContext || window.webkitAudioContext)();
       liveGraph = buildGraph(ctx);
     }
-    if(ctx.state === "suspended") await ctx.resume();
+    unlock(ctx);
+    /* resume() is called whatever the state says. On iOS the state can read
+       "running" on a context that is not, and calling resume on a running
+       context is defined to be a no-op -- so asking costs nothing and not
+       asking is the failure mode. */
+    try{ await ctx.resume(); }catch(e){ unlockErr = "resume: " + (e && e.message || e); }
     return ctx;
   }
+  /* IOS SUSPENDS THE CONTEXT WHEN THE PAGE GOES AWAY and does not always bring
+     it back on return, which reads as "it worked, then it stopped". */
+  if(typeof document !== "undefined" && document.addEventListener)
+    document.addEventListener("visibilitychange", () => {
+      if(!document.hidden && ctx && ctx.state === "suspended") ctx.resume().catch(() => {});
+    });
   /* ── THE FADER HAS TO WORK WHILE IT IS PLAYING ────────────────────────────
      Reported: "I tried to bring the slider down on all the cymbals, nothing
      happened." It is true, and it is true of every `bus` control, not only the
@@ -6257,6 +6402,8 @@ const Sound = (function(){
      the harness, which proved only that the copy was up to date -- and it went
      stale the moment the rack could name a voice the rig never does. */
   return { playLive, stopLive, renderWav, toPerfTime,
+           /* so a phone with no console can say why it is silent */
+           soundState,
            now: () => (ctx ? ctx.currentTime : 0), LEVEL,
            voiceNames: () => Object.keys(V),
            /* rewrite the bus automation from a hand's move, mid-song */
@@ -10689,7 +10836,35 @@ function makeForm(chart){
      everything drawn afterwards. */
   const A = F.arc;
   const ar = stream(chart.seed, "arc");
-  const apexAt = A.apexAt[0] + ar() * (A.apexAt[1] - A.apexAt[0]);
+  /* ── THE ARC PEAKS WHERE THE FORM SAYS THE RECORD PEAKS ────────────────────
+     MEASURED, 40 seeds x 7 genres: the arc's apex landed BEFORE the section the
+     form marks `peak` in 256 of 280 songs -- 40 of 40 in lofi and in Plastikman
+     -- with a mean gap of 13% to 45% of the whole record. So in almost every
+     song the energy curve had already turned and started thinning parts by the
+     time the arrangement's biggest moment arrived, and the final chorus was the
+     quietest statement of its own function.
+
+     It measured as exactly that: on lofi seed 2 the peak chorus carried 14.8
+     gain per bar against 22.3 for an ordinary one, and the rendered-audio
+     battery had been failing "the section marked peak is the loudest" and
+     "loudness follows the form's energy curve" on it for as long as both checks
+     have existed.
+
+     The cause is two owners deciding one thing. `apexAt` is a genre's guess at
+     WHERE IN THE RECORD the energy peaks, drawn as a fraction; `peak` is form's
+     statement of WHICH SECTION is the arrival. Those are the same fact, and
+     nothing made them agree. Form has already decided, and it decided with more
+     information -- it knows where the sections actually are -- so the arc
+     follows it.
+
+     THE DRAW STILL RUNS [Law 7]: `ar()` is consumed whether or not it is used,
+     so every later value on this stream is where it was. The drawn fraction is
+     the fallback for a genre whose form has no peak section at all. */
+  const apexDrawn = A.apexAt[0] + ar() * (A.apexAt[1] - A.apexAt[0]);
+  const peakSec = out.find(s => s.peak);
+  const apexAt = (peakSec && bar > 0)
+    ? Math.min(0.98, Math.max(0.02, ((peakSec.startBar + peakSec.endBar) / 2) / bar))
+    : apexDrawn;
   const floor  = A.floor[0]  + ar() * (A.floor[1]  - A.floor[0]);
   const tail   = A.tail[0]   + ar() * (A.tail[1]   - A.tail[0]);
   const bend   = A.bend[0]   + ar() * (A.bend[1]   - A.bend[0]);
@@ -10715,7 +10890,19 @@ function makeForm(chart){
       const width  = 0.050 + 0.045 * preH[i];
       const height = 0.14  + 0.20  * preH[i];
       const dd = Math.abs(x - centre) / width;
-      if(dd < 1) v += height * 0.5 * (1 + Math.cos(Math.PI * dd));
+      /* ── A LESSER HIGH HAS TO BE LESSER ────────────────────────────────────
+         This added the bump's height outright and the result was clamped to 1
+         at the end, so a bump landing anywhere the curve was already high came
+         out at exactly the apex's value -- and the record got a PLATEAU at full
+         height, minutes before its actual peak. Measured, that is why lofi's
+         and DKC's arcs still peaked early after the apex was moved onto the
+         form's peak section: 19 of 40 and 33 of 40 songs had their loudest bar
+         before the arrival, because a pre-high had been silently promoted to a
+         high by the clamp.
+         Scaling by the headroom instead lets a bump close part of the distance
+         to the top and never reach it, which is what "one or two raised-cosine
+         bumps BEFORE the apex" was always describing. */
+      if(dd < 1) v += height * 0.5 * (1 + Math.cos(Math.PI * dd)) * Math.max(0, 1 - v);
     }
     const dd2 = Math.abs(x - (apexAt - 0.055)) / 0.042;
     if(dd2 < 1) v -= dipAmt * 0.5 * (1 + Math.cos(Math.PI * dd2));
@@ -15118,9 +15305,38 @@ function stopPlayback(){
   if(RAF){ cancelAnimationFrame(RAF); RAF = null; }
   refreshLive();
 }
+/* ── THE TRANSPORT SAYS WHETHER THE SOUND ACTUALLY STARTED ──────────────────
+   A phone cannot be asked to open a console, and "it doesn't play" was all the
+   information a silent iPhone could give for two rounds of guessing. This turns
+   that into a sentence: whether the audio context is running, what rate it came
+   up at, whether the media element that escapes the ringer switch is playing,
+   and any error the unlock hit. It also SAYS SO when the mute switch is the
+   most likely answer, because that is the one cause the page cannot detect and
+   cannot fix -- Web Audio has no way to ask. */
+function sayAudio(){
+  const el = $("snd");
+  if(!el) return;
+  const s = Sound.soundState();
+  if(s.state === "none"){ el.textContent = ""; return; }
+  let t = "audio: " + s.state + " · " + s.rate + " Hz";
+  if(s.keeper !== "playing") t += " · silent-loop " + s.keeper;
+  if(s.err) t += " · " + s.err;
+  if(s.state === "running" && s.keeper === "playing")
+    t += " — if you still hear nothing, check the mute switch on the side of the phone";
+  el.textContent = t;
+}
 async function togglePlay(){
   if(!SONG) newSong();
-  if(playing) stopPlayback(); else await startPlayback(0);
+  try{
+    if(playing) stopPlayback(); else await startPlayback(0);
+  }catch(e){
+    /* a throw in here used to be invisible: the button changed and no sound
+       came out, which is indistinguishable from every other silent failure */
+    const el = $("snd");
+    if(el) el.textContent = "audio failed to start: " + (e && e.message || e);
+    throw e;
+  }
+  sayAudio();
 }
 function downloadMidi(){
   if(!SONG) newSong();
@@ -15266,6 +15482,7 @@ window.MK2 = {
   INSTRUMENTS, PARAMS, TRIM, CONTROL, PICK, PINS, PIN_PATTERNS, loadParams, panelValue,
   makeMotion, motionAt,
   voiceNames: () => Sound.voiceNames(),
+  soundState: () => Sound.soundState(),
   /* the MIDI mapping, exported for the same reason voiceNames is: a harness
      that hand-copies these numbers proves its copy is current and nothing else */
   midiTracks: () => MIDI_TRACK, gmDrum: () => GM_DRUM, midiKeyFor,

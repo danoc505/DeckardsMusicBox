@@ -227,7 +227,8 @@ for it in man["items"]:
           f"(Chrome's own render noise is 1-3 LSB)")
 
 # ── the per-mix battery, run on the reference bar and every section excerpt ───
-def mix_battery(fn, label, kit, RIG="band", WET=0.16, GATED=False, MACHINE="kit"):
+def mix_battery(fn, label, kit, RIG="band", WET=0.16, GATED=False, MACHINE="kit",
+                KIT="analog", FILLOUT=False):
     """kit=True  -> the arrangement has the drums on in this excerpt
        kit=False -> it does not (intro / outro / bridge: keys and bass only)
        kit=None  -> do not judge the kit bands (a transition bar spans both)"""
@@ -242,6 +243,14 @@ def mix_battery(fn, label, kit, RIG="band", WET=0.16, GATED=False, MACHINE="kit"
     sid = side_ratio(L, R)
     lo, bas, mid, pres, air = (band(f, S, 0, 60), band(f, S, 60, 250), band(f, S, 250, 2000),
                                band(f, S, 2000, 6000), band(f, S, 6000, sr / 2))
+    # the same band over the excerpt's BODY, with the hand-off to the next section
+    # left out. See the kit-free check below for why a fill makes this necessary.
+    if FILLOUT:
+        _h = x[:int(len(x) * 0.75)]
+        _hf, _hS = welch(_h, sr)
+        airBody = band(_hf, _hS, 6000, sr / 2)
+    else:
+        airBody = air
 
     # CAUGHT: silence -- a bus never connected, a master gain left at 0, an ending
     # that stops the song early. [measured: mixes 0.12-0.18, ref bar 0.156; floor is 6x down]
@@ -375,9 +384,22 @@ def mix_battery(fn, label, kit, RIG="band", WET=0.16, GATED=False, MACHINE="kit"
         # Floor 0.06, ~2x above the measurements and still 4x above silence, so the
         # check keeps the teeth it was built for -- "the kit vanished" and "the hats
         # got highpassed into inaudibility" both still fail it.
-        if RIG == "sega":   kitBand, floor, where = pres, 0.18, "2-6k"
-        elif MACHINE == "tr808": kitBand, floor, where = air, 0.06, ">6k"
-        else:               kitBand, floor, where = air, 0.15, ">6k"
+        # ── AND IT BRANCHES ON THE KIT, NOT ON THE MACHINE'S NAME ──────────────
+        # This read `MACHINE == "tr808"`, and the machine was renamed tr1000 when
+        # the drum machines became ONE BOX WITH KITS LOADED INTO IT. So the test
+        # never matched again and every 808 kit was measured against the ACOUSTIC
+        # kit's floor -- which it cannot reach, because it is six squares through
+        # a high-pass and the acoustic kit is filtered noise.
+        #
+        # A stale string, and it is the second time this file has been caught by
+        # one. The fix is not a new string: the floor depends on WHAT VOICES ARE
+        # LOADED, so it asks the manifest which KIT is in the box. Measured on the
+        # renders this shipped with, lofi seed 1 (808 voices): kit sections
+        # 0.068-0.118% against a kit-free outro at 0.000%. Plainly playing, plainly
+        # separable from silence, and nowhere near 0.15.
+        if RIG == "sega":     kitBand, floor, where = pres, 0.18, "2-6k"
+        elif KIT != "acoustic": kitBand, floor, where = air, 0.05, ">6k"
+        else:                 kitBand, floor, where = air, 0.15, ">6k"
         check(f"{label}: the kit is audible in its own band ({RIG} rig, {MACHINE})",
               kitBand > floor, f"{where} is {kitBand:.2f}%, floor {floor}")
     elif kit is False:
@@ -387,8 +409,21 @@ def mix_battery(fn, label, kit, RIG="band", WET=0.16, GATED=False, MACHINE="kit"
         # intro or an outro that is supposed to be keys and bass alone.
         # [measured: kit-free excerpts sit at 0.00-0.02% above 6 kHz vs 0.45-0.85%
         #  with the kit -- a 22x separation; the ceiling is 4x above the observed max]
-        check(f"{label}: kit-free section really has no kit", air < 0.08, f">6k is {air:.2f}%")
-    return dict(rms=rms, db=20 * math.log10(max(rms, 1e-12)), air=air, pres=pres + air, sid=sid)
+        # ── A FILL LIVES IN THE BAR BEFORE THE ARRIVAL ─────────────────────────
+        # MEASURED: lofi seed 2's intro reads 0.002% / 0.001% / 0.002% / 1.387%
+        # across its four quarters. Three quarters of silence and then a drum fill
+        # -- because the verse after it is marked fillInto, and a fill that leads
+        # INTO a section is played at the end of the one before it. That is right,
+        # and it is what "kit-free" cannot mean for that section's last bar.
+        # So when a fill leads out of this section, the assertion is made on the
+        # body and not on the hand-off. Everything else is unchanged: the outro,
+        # which nothing follows, is still held to the whole excerpt and still
+        # measures 0.001%.
+        seg = airBody
+        check(f"{label}: kit-free section really has no kit", seg < 0.08,
+              f">6k is {seg:.2f}%" + (" (body; a fill leads out of this section)" if FILLOUT else ""))
+    return dict(rms=rms, db=20 * math.log10(max(rms, 1e-12)), air=air, airBody=airBody,
+                pres=pres + air, sid=sid)
 
 print("\n── THE REFERENCE BAR (M0 ear gate) " + "─" * 36)
 # The canary that predates the composer: if this stops sounding like music through
@@ -466,6 +501,28 @@ for name, want in SOFT_DBFS.items():
 # A 11.6 dB gain step (0.95 vs 0.25) is measured at the output: a linear chain returns
 # 11.6 dB, MK2's tanh(3.6x) with a 0.5 pre-gain returns ~9.6 dB (2 dB of bend), and a
 # hard clipper returns far less. [measured 2.0 dB of compression; window 0.5-6.0 dB]
+# CAUGHT (and it was not, for months): the kick reading a GLOBAL panel instead of
+# the genre it is being rendered for. The palette is probed once per genre exactly
+# so that one genre's drum cannot stand in for all of them -- and lofi, synthwave
+# and DKC rendered BYTE-IDENTICALLY, rms 0.07070 and peak 0.5998 all three, because
+# V.kick resolved through panelValue and panelValue takes PARAMS as its base.
+#
+# Every one of those probes passed its own baseline check the whole time. A check
+# that compares each probe to a number cannot notice that three probes are the same
+# probe; only comparing them TO EACH OTHER can. So: two genres that ask for
+# different kicks must not render the same kick.
+_kg = [(n, MEAS[n]["rms"]) for n in ("kick_lofi", "kick_synthwave", "kick_dkc") if n in MEAS]
+if len(_kg) >= 2:
+    _lo = dict(_kg).get("kick_lofi"); _sw = dict(_kg).get("kick_synthwave")
+    if _lo and _sw:
+        _sep = abs(20 * math.log10(_sw / max(_lo, 1e-12)))
+        # synthwave asks for tune 49 / decay 0.34 / gain 1.25 against lofi's
+        # 60 / 0.18 / 0.90 -- a different drum, and it should measure like one.
+        check("the palette's kick is the genre's, not whichever genre is loaded",
+              _sep > 1.0,
+              f"synthwave vs lofi {_sep:.1f} dB apart  ("
+              + ", ".join(f"{n} {20*math.log10(max(r,1e-12)):.1f}" for n, r in _kg) + ")")
+
 for loud, soft in [("kick", "kick_soft"), ("snare", "snare_soft")]:
     if loud in MEAS and soft in MEAS:
         step = 20 * math.log10(MEAS[loud]["rms"] / max(MEAS[soft]["rms"], 1e-12))
@@ -671,11 +728,17 @@ for key in sorted(k for k in man if k.startswith("song_")):
     rows = [it for it in man["items"] if it["kind"] == "mix" and it.get("seed") == seed and "error" not in it]
     stats = []
     for it in rows:
+        _s = man.get("song_" + str(it["seed"]), {})
+        _secs = _s.get("sections", [])
+        # does a fill lead OUT of this section? (i.e. the NEXT one is filled into)
+        _nxt = _secs[it["idx"] + 1] if it["idx"] + 1 < len(_secs) else {}
         s = mix_battery(it["file"], f"{it['fn']}[{it['idx']}]", kit=it["hasDrums"],
-                        RIG=man.get("song_" + str(it["seed"]), {}).get("rig", "band"),
-                        WET=man.get("song_" + str(it["seed"]), {}).get("wet", 0.16),
-                        GATED=man.get("song_" + str(it["seed"]), {}).get("gated", False),
-                        MACHINE=man.get("song_" + str(it["seed"]), {}).get("drumMachine", "kit"))
+                        RIG=_s.get("rig", "band"),
+                        WET=_s.get("wet", 0.16),
+                        GATED=_s.get("gated", False),
+                        MACHINE=_s.get("drumMachine", "kit"),
+                        KIT=(_s.get("picks", {}) or {}).get("drumKit") or "analog",
+                        FILLOUT=bool(_nxt.get("fillInto")))
         if s: stats.append((it, s))
     if len(stats) < 4:
         check(f"seed {seed}: enough sections measured to judge an arc", False, f"{len(stats)}")
@@ -716,8 +779,12 @@ for key in sorted(k for k in man if k.startswith("song_")):
     # the kit have 22x the energy above 6 kHz of the sections it does not -- so this
     # is the arrangement, measured, not inferred. Skipped when a song has no kit-free
     # section (a cold open with no intro and a drummed outro).
+    # kit-free sections are read on their BODY: a fill that leads into the next
+    # section is played in this one's last bar, so the excerpt's tail legitimately
+    # has drums in it. Measured on lofi seed 2's intro: 0.002/0.001/0.002/1.387%
+    # across its four quarters -- three bars of nothing and then the hand-off.
     withkit = [s["air"] for it, s in stats if it["hasDrums"]]
-    nokit   = [s["air"] for it, s in stats if not it["hasDrums"]]
+    nokit   = [s["airBody"] for it, s in stats if not it["hasDrums"]]
     if withkit and nokit:
         check(f"seed {seed}: the kit is audibly in and out across the form",
               min(withkit) > 3 * max(nokit),
