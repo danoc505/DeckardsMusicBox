@@ -454,7 +454,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31g · the conductor can reach the new racks</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31h · a sax that stays in range, a pad that stays clear</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1625,6 +1625,26 @@ const INSTRUMENTS = {
   sax: {
     slot: "lead", label: "saxophone",
     lanes: { lead:"sax" },
+    /* ── WHAT THIS INSTRUMENT CAN ACTUALLY PLAY ──────────────────────────────
+       MEASURED before this existed, 40 seeds x 7 genres: the sax topped out at
+       G#6 (92) on bladerunner, G6 (91) on synthwave, E6 (88) on DKC and C6 (84)
+       on lofi. The common saxophone written range is about Bb3-F#6, and in
+       CONCERT pitch that puts an ALTO -- the highest of the family in ordinary
+       use -- at roughly Db3 to A5, i.e. MIDI 49 to 81. A tenor tops near 76, a
+       baritone near 69. So four genres were running a wind instrument up to
+       eleven semitones above its highest note, because the tune's register
+       comes from the genre's `themeA/B/C` bands and nothing had ever asked what
+       is holding the lane.
+       Declared as ALTO because that is the member Iowa documents and the one
+       these bands sit nearest. [corpus:tunable, saxtalk, arranging.fandom --
+       written Bb3-F#6 transposed down a major sixth]
+
+       A RANGE IS AN INPUT TO STAGE 3, NOT A CORRECTION IN STAGE 6. `picks` are
+       frozen into the chart in stage 1, so stage 3 may legally ask which
+       instrument is on a lane before it chooses that lane's register -- the
+       same standing the rig and the pins already have. Clamping a pitch in the
+       voice would be a correcting pass, and this file does not have those. */
+    range: [49, 81],
     controls: [
       { k:"bright",  label:"reed brightness", cap:"TONE",   min:0, max:1, step:0.01, def:0.50, kind:"voicing" },
       { k:"reed",    label:"second reed",     cap:"REED",   min:0, max:1, step:0.01, def:0.35, kind:"voicing" },
@@ -10829,6 +10849,27 @@ function makeMaterials(chart){
         const openFloor = Math.min(BAND[0],
           Math.max((R.bass && R.bass[1] != null ? R.bass[1] : 0) + 2, BAND[0] - 12));
         if(cand[0] < openFloor) continue;                // a dropped voice can fall out
+        /* ── THE LOW INTERVAL LIMIT ────────────────────────────────────────
+           Two notes close together low down stop reading as two notes and
+           start reading as mud -- the ear's frequency resolution is poor at
+           the bottom, so the partials of a narrow interval collide instead of
+           separating. Every arranging text names roughly the same threshold: a
+           MAJOR THIRD is the narrowest that stays clear around C3, and wider
+           still below that.
+
+           MEASURED before this existed, 40 seeds x 7 genres, stacks narrower
+           than a major third below MIDI 48: jungle 29, lofi 15, DKC 8,
+           bladerunner 2, synthwave 1, acid 0, plastikman 0. It never bit while
+           the comp was the only keyboard, because a comp's own band starts
+           near or above C3 -- the second keyboard's allocator prefers the
+           octave BELOW it, which is exactly where the limit lives.
+
+           A voicing is REJECTED rather than repaired, like every other
+           constraint here: the chooser simply keeps looking. [theory] */
+        let muddy = false;
+        for(let v = 1; v < cand.length; v++)
+          if(cand[v - 1] < 48 && cand[v] - cand[v - 1] < 4){ muddy = true; break; }
+        if(muddy) continue;
         if(cand[cand.length - 1] > BAND[1]) continue;   // this inversion does not fit
         /* ...and it must not land on a pitch somebody else already owns, at a
            step this voicing actually strikes. Onsets are what collide. */
@@ -10999,6 +11040,22 @@ function makeMaterials(chart){
   }
   /* the theme builder: phrases into the space `reserved` already holds.
      Returns notes AND its opening interval DNA, so other materials can derive. */
+  /* ── THE TUNE'S REGISTER, NARROWED TO WHAT IS HOLDING IT ──────────────────
+     The genre says where its tune lives; the instrument says what it can play.
+     Where they disagree the instrument wins, because a note above the horn is
+     not a high note, it is no note. If the two do not overlap at all the
+     genre's band stands and the mismatch is left visible rather than silently
+     transposing a tune somewhere it was never written for -- that would be a
+     different melody, decided by a rack pick, which is worse than an honest
+     out-of-range. */
+  const playable = (band) => {
+    const m = chart.picks && chart.picks.lead;
+    const M = m && m !== "auto" && INSTRUMENTS[m];
+    const r = M && M.range;
+    if(!r) return band;
+    const lo = Math.max(band[0], r[0]), hi = Math.min(band[1], r[1]);
+    return (hi - lo >= 7) ? [lo, hi] : band;     // a tune needs a fifth to move in
+  };
   function buildTheme(chordSet, streamName, reserved, opts){
     const rng = stream(chart.seed, streamName);
     const LO = opts.lo, HI = opts.hi;
@@ -11665,7 +11722,7 @@ function makeMaterials(chart){
   const keys2A = tryPad(() => buildKeys(chords, "keys2", { sustain: true, at: 2, band: k2band,
                             avoid: reserve(ostA.concat(ostAvar, bassA, keysA)) }));
   const resA   = reserve(ostA.concat(bassA, keysA, keys2A));
-  const themeA = buildTheme(chords, "themeA", resA, { lo: R.themeA[0], hi: R.themeA[1], comp: keysA, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
+  const themeA = buildTheme(chords, "themeA", resA, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], comp: keysA, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
   const counterA = deriveCounter(themeA.notes, resA, "counterA", chords, keysA);
 
   /* ── B = hook(A): same bed family, new tune FROM A's DNA, denser comp,
@@ -11676,7 +11733,7 @@ function makeMaterials(chart){
                             avoid: reserve(ostA.concat(bassA, keysB)) }));
   const resB   = reserve(ostA.concat(bassA, keysB, keys2B));
   const themeB = buildTheme(chords, "themeB", resB,
-    { lo: R.themeB[0], hi: R.themeB[1], comp: keysB, dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
+    { lo: playable(R.themeB)[0], hi: playable(R.themeB)[1], comp: keysB, dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
   const counterB = deriveCounter(themeB.notes, resB, "counterB", chords, keysB);
 
   /* ── C = depart(A): new changes, sustained keys, roots-only bass,
@@ -11687,7 +11744,7 @@ function makeMaterials(chart){
   const keys2C = tryPad(() => buildKeys(bridgeChords, "keys2C", { sustain: true, at: 2, band: k2band,
                             avoid: reserve(ostA.concat(bassC, keysC)) }));
   const resC   = reserve(ostA.concat(bassC, keysC, keys2C));
-  const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: R.themeC[0], hi: R.themeC[1], comp: keysC, augmentOf: themeA.notes });
+  const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: playable(R.themeC)[0], hi: playable(R.themeC)[1], comp: keysC, augmentOf: themeA.notes });
 
   /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
      the canonical rule-of-three answer at the material level ── */
@@ -11698,7 +11755,7 @@ function makeMaterials(chart){
      Avar at 2:4:71". The seam check named the material, the bar, the step and
      the pitch, which is exactly why it throws instead of warning. */
   const resV = reserve(ostAvar.concat(bassA, keysA, keys2A, themeA.notes.filter(n => n.bar < 2)));
-  const varTail = buildTheme(chords, "themeA:var", resV, { lo: R.themeA[0], hi: R.themeA[1], dir: -1 });
+  const varTail = buildTheme(chords, "themeA:var", resV, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], dir: -1 });
   const leadAvar = themeA.notes.filter(n => n.bar < 2)
     .concat(varTail.notes.filter(n => n.bar >= 2));
 

@@ -1200,5 +1200,69 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         rate.toFixed(1) + "% of " + nct + " leap away (was 30.8% unconstrained)");
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE NEW RACKS. Both checks below exist because reading the roll found the
+   defect, and both are here rather than in a probe because every bug this file
+   finds becomes a permanent test -- a throwaway check lets the regression back.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  /* A WIND INSTRUMENT CANNOT PLAY ABOVE ITS TOP NOTE. Measured before the fix,
+     40 seeds x 7 genres with a sax loaded: the lead reached G#6 (92) on
+     bladerunner, G6 (91) on synthwave, E6 (88) on DKC and C6 (84) on lofi,
+     against an alto's concert ceiling of about A5 (81). The tune's register
+     came from the genre's themeA/B/C bands and nothing asked what was holding
+     the lane. This holds the program to whatever range the loaded machine
+     DECLARES, so it covers the next sampled instrument too. */
+  let worst = 0, worstAt = "", n = 0, over = 0;
+  for(const g of M.genres()) for(let s = 1; s <= 20; s++){
+    const song = M.composeSong(s, undefined, g, { lead: "sax" });
+    const r = (M.INSTRUMENTS[song.chart.picks.lead] || {}).range;
+    if(!r) continue;
+    for(const m of ["A", "Avar", "B", "C"])
+      for(const nt of (song.materials[m].lead || [])){
+        n++;
+        if(nt.pitch > r[1] || nt.pitch < r[0]){
+          over++;
+          const d = Math.max(nt.pitch - r[1], r[0] - nt.pitch);
+          if(d > worst){ worst = d; worstAt = `${g}/${s} ${m} ${nt.bar}:${nt.step} midi ${nt.pitch}`; }
+        }
+      }
+  }
+  check("the tune stays inside the range of whatever is playing it", over === 0,
+        over === 0 ? `0 of ${n} lead notes out of range`
+                   : `${over} of ${n} out by up to ${worst} st — worst ${worstAt}`);
+}
+{
+  /* THE LOW INTERVAL LIMIT. Two notes closer than a major third below C3 stop
+     reading as two notes and start reading as mud. Measured before the fix,
+     stacks narrower than a major third below MIDI 48: jungle 29, lofi 15,
+     DKC 8, bladerunner 2, synthwave 1. It never bit while the comp was the
+     only keyboard -- the second keyboard's allocator prefers the octave BELOW
+     it, which is exactly where the limit lives. Checked over BOTH keyboards,
+     because the law is about the register and not about which part it is. */
+  let bad = 0, tot = 0, worstAt = "";
+  for(const g of M.genres()) for(let s = 1; s <= 20; s++){
+    const song = M.composeSong(s, undefined, g, { keys2: "wurly" });
+    for(const m of ["A", "Avar", "B", "C"])
+      for(const role of ["keys", "keys2"]){
+        const at = {};
+        for(const nt of (song.materials[m][role] || []))
+          (at[nt.bar + ":" + nt.step] = at[nt.bar + ":" + nt.step] || []).push(nt.pitch);
+        for(const k in at){
+          const v = at[k].sort((x, y) => x - y);
+          for(let i = 1; i < v.length; i++){
+            tot++;
+            if(v[i - 1] < 48 && v[i] - v[i - 1] < 4){
+              bad++;
+              if(!worstAt) worstAt = `${g}/${s} ${m} ${role} ${k} ${v[i-1]}+${v[i]}`;
+            }
+          }
+        }
+      }
+  }
+  check("no voicing muddies below C3 (the low interval limit)", bad === 0,
+        bad === 0 ? `0 of ${tot} adjacent pairs` : `${bad} of ${tot} — e.g. ${worstAt}`);
+}
+
 console.log("\n" + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);
