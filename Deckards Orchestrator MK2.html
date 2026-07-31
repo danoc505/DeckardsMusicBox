@@ -401,7 +401,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31a · the CS-80 numbers, checked against sources</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31b · the CS-80 gets its pulse width, and its octave</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1489,6 +1489,24 @@ const INSTRUMENTS = {
           corpus:soundonsound Yamaha CS80 review, which names Vangelis on
           "Blade Runner Blues" as the demonstration of it] */
       { k:"initBend", label:"initial pitch bend", cap:"INIT BEND", min:0, max:1, step:0.01, def:0 , kind:"voicing" },
+      /* ── PULSE WIDTH, AND ITS MODULATION ────────────────────────────────────
+         All three are kind:"voicing" on purpose. The contract in the handoff is
+         that a voicing is "what the instrument IS" and the conductor may not
+         automate it -- and a duty cycle is exactly that: move it mid-song and
+         you have swapped the oscillator, not played a gesture. The PWM sweep is
+         already movement; riding its depth as well would be movement on top of
+         movement, which is how a patch stops sounding like an instrument.
+
+         PW's floor is 0.50 because that is the instrument's floor, in three
+         independent sources' identical words -- and because duty d and 100-d
+         are the same waveform, so nothing below 50% is a new sound.
+         [corpus:yamaha-cs80-manual + cs80.com + arturia-cs80v-manual]
+         The RATE bound is the sub-oscillator's own published span, 0.7-60 Hz,
+         narrowed at the top to where width modulation is still a timbre rather
+         than a buzz. [corpus:yamaha-cs80-specs, ceiling [EAR]] */
+      { k:"pw",    label:"pulse width",     cap:"PULSE WIDTH", min:0.50, max:0.90, step:0.01, def:0.50 , kind:"voicing" },
+      { k:"pwm",   label:"PWM depth",       cap:"PWM",         min:0,    max:1,    step:0.01, def:0    , kind:"voicing" },
+      { k:"pwmHz", label:"PWM rate",        cap:"PWM RATE",    min:0.7,  max:12,   step:0.1,  def:2.2, unit:"Hz", kind:"voicing" },
       /* ── THE "AFTER" HALF OF TOUCH RESPONSE ────────────────────────────────
          On the panel, TOUCH RESPONSE is two blocks per channel -- INITIAL and
          AFTER -- and each has its own BRILL and LEVEL slider. INITIAL is
@@ -1511,6 +1529,7 @@ const INSTRUMENTS = {
     ],
     panel: { skin: "cs80", maker: "Yamaha", title: "CS-80",
              groups: [{ label: "PERFORMANCE", keys: ["bright", "res", "initBend"] },
+                      { label: "VCO",         keys: ["pw", "pwm", "pwmHz"] },
                       { label: "MODULATION",  keys: ["ring", "ens", "vib"] },
                       { label: "AFTER",       keys: ["atBrill", "atLevel", "atVib"] }] },
   },
@@ -3318,7 +3337,48 @@ const Sound = (function(){
       press.start(t); press.stop(end); nodes.push(press);
     }
 
-    /* one complete layer: OSC -> resonant HPF -> resonant LPF -> VCA */
+    /* ══ THE PULSE, AND THE MODULATION OF ITS WIDTH ═══════════════════════════
+       WebAudio's "square" is a pulse frozen at 50% duty. There is no width to
+       move, so this voice had no PWM at all -- and PWM is the first thing the
+       one published Blade Runner recipe names ("Destination: Pulse Width,
+       Triangle, Amount 80%") and the first thing the Dr Mix teardown reaches
+       for ("there is a specific thing that this Blade Runner sound does, which
+       is some kind of phasing thing").
+
+       A pulse IS a sawtooth minus a delayed copy of itself: the delay is the
+       width. Sweep the delay and the duty cycle sweeps with it, which is a real
+       pulse-width modulator rather than a filter pretending to be one.
+
+       THE RATE IS IN HERTZ, NOT IN NOTE VALUES, and that is deliberate. The
+       recipe says 1/8 note because Syntorial's synth has tempo sync. A CS-80
+       does not: its sub-oscillator is an analogue LFO specified at 0.7-60 Hz
+       and it is GLOBAL -- "modulation is applied equally to both voices and all
+       notes played" [corpus:yamaha-cs80-specs]. At the 65 bpm the cue actually
+       runs, an eighth is 2.17 Hz, which is where the default sits. Copying the
+       sync would have been copying the wrong instrument.
+
+       DEPTH DEFAULT 0.80, and two independent sources land on it: the recipe's
+       "Amount: 80%", and Old Crow's panel tour saying sine PWM "does not sound
+       'overmodulated' until past 80% of depth". Different people, decades apart.
+
+       DUTY RUNS 50%->90%, NEVER BELOW. Yamaha, cs80.com and the Arturia manual
+       state that bound in identical words, and a duty cycle of d and of 100-d
+       are the same waveform inverted -- so a range written symmetrically about
+       50% would contain every timbre twice and reach nothing new.
+       [corpus:yamaha-cs80-manual + cs80.com + arturia-cs80v-manual] ══════════ */
+    const pwDuty = P(g, ev, "cs80", "pw",    0.50);
+    const pwmAmt = P(g, ev, "cs80", "pwm",   0);
+    const pwmHz  = P(g, ev, "cs80", "pwmHz", 2.2);
+    /* ONE modulator for the whole voice, because the real one is global. Built
+       once here rather than per layer, so both channels breathe together. */
+    let pwmLfo = null;
+    if(pwmAmt > 0){
+      pwmLfo = c.createOscillator(); pwmLfo.type = "triangle";
+      pwmLfo.frequency.value = pwmHz;
+      pwmLfo.start(t); pwmLfo.stop(end); nodes.push(pwmLfo);
+    }
+
+    /* one complete layer: OSC -> pulse shaper -> resonant HPF -> resonant LPF -> VCA */
     const layer = (type, det, L) => {
       const o = c.createOscillator(); o.type = type;
       const base = f * det;
@@ -3333,6 +3393,31 @@ const Sound = (function(){
         if(R.back) o.frequency.exponentialRampToValueAtTime(base, t + R.at + R.sec + R.backSec);
       }
       o.start(t); o.stop(end);
+
+      /* THE PULSE SHAPER. saw(t) - saw(t - d) is a pulse whose width is d*base,
+         so a delay of duty/base gives that duty cycle. The delayed copy is
+         inverted and summed; the DC the sum leaves behind is removed by the
+         high-pass this feeds anyway. A layer asking for a sawtooth (`type`
+         still decides) simply skips the whole shaper. */
+      let src = o;
+      if(type === "pulse"){
+        o.type = "sawtooth";                       // the building block, not the sound
+        const mid = pwDuty / base;                 // seconds of delay = the duty cycle
+        const dly = c.createDelay(0.12);
+        dly.delayTime.value = mid;
+        /* the modulator sweeps the width UPWARD from the duty setting toward
+           90%, never below 50% -- the instrument's own bound, and the half of
+           the range that is not a duplicate of the other half */
+        if(pwmLfo){
+          const span = c.createGain();
+          span.gain.value = pwmAmt * Math.max(0, (0.90 - pwDuty)) / base;
+          pwmLfo.connect(span); span.connect(dly.delayTime);
+        }
+        const inv = c.createGain(); inv.gain.value = -1;
+        const sum = c.createGain(); sum.gain.value = 0.5;
+        o.connect(sum); o.connect(dly); dly.connect(inv); inv.connect(sum);
+        src = sum;
+      }
 
       const hp = c.createBiquadFilter(); hp.type = "highpass";
       hp.frequency.value = L.hp; hp.Q.value = L.hpQ;          // resonant, 12 dB/oct
@@ -3354,17 +3439,45 @@ const Sound = (function(){
         press.connect(toBrill); toBrill.connect(lp.frequency);
       }
       const vca = c.createGain(); vca.gain.value = L.mix;
-      o.connect(hp); hp.connect(lp); lp.connect(vca); vca.connect(out);
+      src.connect(hp); hp.connect(lp); lp.connect(vca); vca.connect(out);
       nodes.push(o);
-      return o;
+      return o;                                  // the OSCILLATOR, so vibrato and
+                                                 // the ribbon still reach .frequency
     };
-    /* Voice I: the saw body, opening slowly and wide -- the brass.
-       Voice II: a detuned pulse, brighter at the front and quicker to sit down.
-       The beat between them IS the instrument's width before any chorus. */
-    const oscA = layer("sawtooth", 1.0,     { hp: 45,  hpQ: 0.9, lpQ: 3.2,
-                                              il: 260, al: 4200, fs: 1500, fa: 0.28, fd: 0.9, mix: 1.0 });
-    const oscB = layer("square",   1.0042,  { hp: 130, hpQ: 1.4, lpQ: 2.4,
-                                              il: 900, al: 2600, fs: 1100, fa: 0.05, fd: 0.5, mix: 0.5 });
+    /* ══ THE TWO CHANNELS, AND THEY ARE AN OCTAVE APART ═══════════════════════
+       This used to be a sawtooth at unison against a square 7.26 cents sharp --
+       two voices beating inside one octave. The only published reconstruction
+       of this patch says otherwise, and says it precisely:
+
+         Oscillator 1   Pulse, pulse width 50%, volume 60%
+         Oscillator 2   Pulse, pulse width 50%, +1 OCTAVE and -6 CENTS, vol 40%
+         [corpus:syntorial "Vangelis Blade Runner Brass", fetched and verified
+          against the user's transcription line by line]
+
+       Three things follow, and each changes the sound rather than tidying it:
+
+       BOTH ARE PULSES. Neither is a sawtooth. A saw has every harmonic; a 50%
+       pulse has only the odd ones, which is most of why this patch reads as
+       hollow-brass rather than as a string machine.
+
+       THE SECOND IS AN OCTAVE UP, not a unison. 2 * 2^(-6/1200) = 1.993084.
+       That also settles a claim nothing had supported: the CS-80 file's
+       "footage 16' and 8'" was marked unattributed, and an independent recipe
+       putting osc 2 exactly one octave above osc 1 is what an 8' against a 16'
+       IS. Two sources, arrived at separately.
+
+       SIX CENTS, NOT SEVEN AND A QUARTER. Small, and it is the difference
+       between a beat you hear as width and one you hear as detuning. At A4 six
+       cents beats at 1.5 Hz; the octave above beats at twice that, which is
+       what gives the upper channel its shimmer.
+
+       Volumes 60/40 are the recipe's, and they are the one number here that
+       does NOT travel -- they are percentages of a different synth's mixer. The
+       RATIO (3:2) is what is kept. [EAR] */
+    const oscA = layer("pulse", 1.0,      { hp: 45,  hpQ: 0.9, lpQ: 3.2,
+                                            il: 260, al: 4200, fs: 1500, fa: 0.28, fd: 0.9, mix: 1.0 });
+    const oscB = layer("pulse", 1.993084, { hp: 130, hpQ: 1.4, lpQ: 2.4,
+                                            il: 900, al: 2600, fs: 1100, fa: 0.05, fd: 0.5, mix: 0.66 });
 
     /* the ring modulator: layer I against a sine, with its own envelope. Kept
        modest -- on the real panel it is a colour, not the sound. [EAR] */
@@ -7515,7 +7628,14 @@ const GENRE = {
          by strike velocity. V.cs80 has had this control since the CS-80 was
          built and no genre had ever switched it on.
          [corpus:cs80.com/tour + corpus:soundonsound + corpus:arturia manual] */
-      cs80:  { initBend: 1.00, bright: 0.44, res: 0.42, ring: 0.10, ens: 0.62, vib: 0.72,
+      /* PW at the floor and PWM at 0.80 are the recipe's own two numbers, and
+         0.80 is corroborated independently by Old Crow's ear on the real panel
+         ("does not sound 'overmodulated' until past 80% of depth"). The rate is
+         the eighth-note the recipe asks for, converted at the 65 bpm this cue
+         actually runs -- 2.2 Hz -- because the instrument has no tempo sync to
+         copy. [corpus:syntorial + cs80.com; the bpm conversion is [EAR]] */
+      cs80:  { pw: 0.50, pwm: 0.80, pwmHz: 2.2,
+               initBend: 1.00, bright: 0.44, res: 0.42, ring: 0.10, ens: 0.62, vib: 0.72,
                /* THE AFTER COLUMN, and this genre runs it hard.
                   THE MARK ON THIS LINE USED TO READ [corpus:CS-80 reconstruction
                   sheet] AND THAT WAS THE WORST KIND OF WRONG, because the
