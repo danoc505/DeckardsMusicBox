@@ -1264,5 +1264,40 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         bad === 0 ? `0 of ${tot} adjacent pairs` : `${bad} of ${tot} — e.g. ${worstAt}`);
 }
 
+{
+  /* A MACHINE YOU LOADED HAS TO MAKE A SOUND. Both new slots shipped able to
+     compose a full part and emit ZERO events: the sax was silent in plastikman
+     and jungle on 30 of 30 songs each, because `lead` appears in none of those
+     genres' section role lists, and the pad was composed-and-silent on acid
+     19/30, plastikman 17/30 and bladerunner 10/30. A picker that loads an
+     instrument you cannot hear is worse than no picker. Held at 90% rather than
+     100 because the register allocator is still allowed to decline honestly --
+     what must not happen is composing a part and then dropping it. */
+  let bad = [], tot = 0, ok = 0;
+  for(const g of M.genres()) for(const slot of ["lead", "keys2"]){
+    const mach = slot === "lead" ? "sax" : "wurly";
+    let silent = 0, n = 0;
+    for(let s = 1; s <= 15; s++){
+      const song = M.composeSong(s, undefined, g, { [slot]: mach });
+      /* ONLY THE MATERIALS THE SONG ACTUALLY PLAYS. The first version of this
+         check asked whether ANY material had the part, and went red on
+         plastikman 2/15 -- both of which composed a pad into material C, the
+         bridge, in a song whose form never draws a bridge. A part written for a
+         section that does not occur is not a dropped part, and counting it as
+         one would have had me "fix" a program that was right. First suspect the
+         measurement. */
+      const played = new Set(song.sections.map(x => x.material));
+      const composed = [...played].some(m => (song.materials[m][slot] || []).length);
+      if(!composed) continue;
+      n++; tot++;
+      if(song.perf.events.some(e => e.role === slot)) ok++; else silent++;
+    }
+    if(silent > n * 0.10) bad.push(`${g}/${slot} ${silent}/${n}`);
+  }
+  check("a machine you load into a slot is heard", bad.length === 0,
+        bad.length ? "composed and silent: " + bad.join(", ")
+                   : `${ok}/${tot} composed parts reach the performance`);
+}
+
 console.log("\n" + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);

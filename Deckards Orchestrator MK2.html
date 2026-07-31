@@ -454,7 +454,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31h · a sax that stays in range, a pad that stays clear</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31i · a machine you load is a machine you hear</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -11642,18 +11642,26 @@ function makeMaterials(chart){
        (acid's runs to 57, because a 303 climbs into the comp), an octave UP
        instead, capped under the tune's ceiling. Overlap is fine; unisons are
        not, and those are already somebody's job. ── */
+    /* BOTH ANSWERS, NOT THE FIRST ONE. This returned the downward band and
+       never reconsidered, so where that band was tight the pad simply failed to
+       voice -- bladerunner has a bass ceiling of 45 against a comp floor of 48,
+       one semitone of headroom, and its material A, Avar and B all came out
+       empty while C succeeded: composed and silent on 10 of 30 songs. A band
+       the voicer cannot use is not an answer. Hand back every candidate in
+       preference order and let the builder take the first that actually works. */
+    const out = [];
     const bassCeil = (bass && bass[1] != null) ? bass[1] : 0;
     const wide = keys[1] - keys[0];          // as much room as the first comp has
     const dnLo = Math.max(bassCeil + 2, keys[0] - 12), dnHi = dnLo + wide;
-    if(dnHi - dnLo >= MIN && dnLo < keys[0]) return [dnLo, dnHi];
+    if(dnHi - dnLo >= MIN && dnLo < keys[0]) out.push([dnLo, dnHi]);
     /* the ceiling for the upward answer: the top of the highest tune band, so a
        second comp cannot climb past where the melody lives */
     const top = [R.themeA, R.themeB, R.themeC, R.ostinato]
       .filter(b => Array.isArray(b) && b[1] != null)
       .reduce((hi, b) => Math.max(hi, b[1]), keys[1]);
     const upLo = keys[0] + 12, upHi = Math.min(top, keys[1] + 12);
-    if(upHi - upLo >= MIN) return [upLo, upHi];
-    return null;
+    if(upHi - upLo >= MIN) out.push([upLo, upHi]);
+    return out.length ? out : null;
   }
 
   /* ── A: the verse set ── */
@@ -11713,14 +11721,25 @@ function makeMaterials(chart){
      genuinely full. Degrading to absent is right; killing a song the user did
      not ask to be risky is not, and silently nudging a note would be worse than
      both. Measured fit rate is reported rather than assumed. */
-  const tryPad = (fn) => { try { return k2band ? fn() : []; } catch(e){ return []; } };
-  /* AVAR'S CELL, TOO. Avar reuses this pad, and for a genre whose ostinato
-     varies (DKC, Plastikman) ostAvar is NOT ostA -- so a pad that cleared only
-     ostA collided inside Avar. Ten seeds threw "collision in Avar at 2:2:xx",
-     which is the same shape as the bug already recorded a few lines below for
-     the tune. Clear BOTH cells and the pad is legal in both materials. */
-  const keys2A = tryPad(() => buildKeys(chords, "keys2", { sustain: true, at: 2, band: k2band,
-                            avoid: reserve(ostA.concat(ostAvar, bassA, keysA)) }));
+  const tryPad = (fn) => {
+    if(!k2band) return [];
+    for(const band of k2band){ try { const r = fn(band); if(r && r.length) return r; } catch(e){} }
+    return [];
+  };
+  /* AVAR GETS ITS OWN PAD, and the first attempt at this is why. Avar plays a
+     different ostinato cell, so a single pad shared by both materials had to
+     clear ostA AND ostAvar -- twice the occupied seats of any other material.
+     Measured: material A's pad then failed to build on plastikman 12 of 30
+     songs and bladerunner 10 of 30, while B and C succeeded, and since those
+     genres' sections are built almost entirely on A and Avar the pad was
+     COMPOSED AND SILENT. Clearing both cells fixed a collision by causing a
+     silence, which is the worse of the two.
+     Avar already has its own drums and its own tune for exactly this reason.
+     Give it its own pad and each one clears one cell. */
+  const keys2A = tryPad(band => buildKeys(chords, "keys2", { sustain: true, at: 2, band,
+                            avoid: reserve(ostA.concat(bassA, keysA)) }));
+  const keys2Avar = tryPad(band => buildKeys(chords, "keys2:var", { sustain: true, at: 2, band,
+                            avoid: reserve(ostAvar.concat(bassA, keysA)) }));
   const resA   = reserve(ostA.concat(bassA, keysA, keys2A));
   const themeA = buildTheme(chords, "themeA", resA, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], comp: keysA, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
   const counterA = deriveCounter(themeA.notes, resA, "counterA", chords, keysA);
@@ -11729,7 +11748,7 @@ function makeMaterials(chart){
      a half-octave up [corpus: verse->chorus register lift ~ +1.5 st; the hook
      sits above the verse, not an octave above it] ── */
   const keysB  = buildKeys(chords, "keysB", { dense: true, avoid: placed });
-  const keys2B = tryPad(() => buildKeys(chords, "keys2B", { sustain: true, at: 2, band: k2band,
+  const keys2B = tryPad(band => buildKeys(chords, "keys2B", { sustain: true, at: 2, band,
                             avoid: reserve(ostA.concat(bassA, keysB)) }));
   const resB   = reserve(ostA.concat(bassA, keysB, keys2B));
   const themeB = buildTheme(chords, "themeB", resB,
@@ -11741,7 +11760,7 @@ function makeMaterials(chart){
   const bassC  = pin(buildBass(bridgeChords, "bassC", true), "bass", "C");
   const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true,
                                                    avoid: reserve(ostA.concat(bassC)) });
-  const keys2C = tryPad(() => buildKeys(bridgeChords, "keys2C", { sustain: true, at: 2, band: k2band,
+  const keys2C = tryPad(band => buildKeys(bridgeChords, "keys2C", { sustain: true, at: 2, band,
                             avoid: reserve(ostA.concat(bassC, keysC)) }));
   const resC   = reserve(ostA.concat(bassC, keysC, keys2C));
   const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: playable(R.themeC)[0], hi: playable(R.themeC)[1], comp: keysC, augmentOf: themeA.notes });
@@ -11754,7 +11773,7 @@ function makeMaterials(chart){
      alternate cell's notes and 16 of 120 Plastikman seeds threw "collision in
      Avar at 2:4:71". The seam check named the material, the bar, the step and
      the pitch, which is exactly why it throws instead of warning. */
-  const resV = reserve(ostAvar.concat(bassA, keysA, keys2A, themeA.notes.filter(n => n.bar < 2)));
+  const resV = reserve(ostAvar.concat(bassA, keysA, keys2Avar, themeA.notes.filter(n => n.bar < 2)));
   const varTail = buildTheme(chords, "themeA:var", resV, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], dir: -1 });
   const leadAvar = themeA.notes.filter(n => n.bar < 2)
     .concat(varTail.notes.filter(n => n.bar >= 2));
@@ -11844,7 +11863,7 @@ function makeMaterials(chart){
     // variant's redrawn second half is a different tune -- a shadow of the wrong line.
     // Verses (Avar's consumers) never activate the counter anyway; if a future section
     // wants one, it derives it from leadAvar, it does not borrow A's.
-    Avar: { drums: drumsAvar, bass: bassA, keys: keysA, keys2: keys2A, lead: leadAvar, counter: [], ostinato: ostAvar },
+    Avar: { drums: drumsAvar, bass: bassA, keys: keysA, keys2: keys2Avar, lead: leadAvar, counter: [], ostinato: ostAvar },
     B:    { drums: drumsB, bass: bassA, keys: keysB, keys2: keys2B, lead: themeB.notes, counter: counterB, ostinato: ostA },
     /* C KEEPS THE OSTINATO. It ignores the chords by construction, so it needs no
        new version for the bridge's new changes -- and letting it run straight
@@ -11982,9 +12001,34 @@ function makeArrangement(chart, form, materials){
        and cannot forget to.
        Only when a machine is actually loaded, so a song nobody touched has no
        such role and no such notes. */
-    const allowed = (chart.picks && chart.picks.keys2 && chart.picks.keys2 !== "auto"
-                     && ROLES[sec.fn].includes("keys"))
-      ? ROLES[sec.fn].concat(["keys2"]) : ROLES[sec.fn];
+    /* ── A MACHINE YOU LOADED HAS TO SOUND ───────────────────────────────────
+       Both new slots were gated on the section ALREADY listing "keys", and that
+       was wrong in two different ways, both measured:
+
+         the SAX composed a full lead line in plastikman and jungle and emitted
+         ZERO events -- 30 of 30 songs each, because `lead` appears in 0 of ~275
+         of those genres' section role lists. Load a saxophone, hear silence.
+
+         the PAD went composed-and-silent on acid 19/30, plastikman 17/30 and
+         bladerunner 10/30, wherever a section listed a comp under another name
+         or none at all.
+
+       A genre not listing a role is a statement about what it does BY DEFAULT.
+       It is not a veto over a machine the user has deliberately loaded into a
+       rack -- that reading turns a picker into a lie. So an explicitly loaded
+       machine joins any section that already has something pitched in it, and a
+       genre that never asks for the slot is untouched because nothing is loaded.
+       Derived here rather than written into seven role tables, for the same
+       reason as before: a genre added later cannot forget to. */
+    const PITCHED = ["keys", "keys2", "bass", "lead", "counter", "ostinato"];
+    const loaded = sl => chart.picks && chart.picks[sl] && chart.picks[sl] !== "auto";
+    let allowed = ROLES[sec.fn];
+    if(allowed.some(r => PITCHED.includes(r))){
+      const add = [];
+      if(loaded("keys2") && !allowed.includes("keys2")) add.push("keys2");
+      if(loaded("lead")  && !allowed.includes("lead"))  add.push("lead");
+      if(add.length) allowed = allowed.concat(add);
+    }
     /* who plays ANYWHERE in this section -- so a part arriving at bar 8 of a
        32-bar section is active here, and stage 5 gates the bars before it */
     let active = allowed.filter(r => hasArrived(r, sec.endBar));
