@@ -2,18 +2,24 @@
 /* DOES THE GRID ACTUALLY DISAGREE WITH ITSELF?
      node harness/probe_poly.js [seeds]
 
-   A genre can declare `kit.poly` and still come out sounding like every other
-   four-to-the-floor record, because a table is a claim and the notes are the
-   evidence. This reads the notes back and asks the one question that separates
-   polymetre from decoration:
+   Plastikman's table has quoted Hawtin on the breakdown since the day it was
+   written -- "all you've got is this polymeter and because it doesn't line up
+   with the one people on the dance floor are going 'oh where was the one
+   again'" -- and until `kit.poly` existed the engine could not produce one.
+   Every drum lane was written against the bar, so the rimshot and the clap
+   landed on the same sixteenth in every bar of the record.
 
-     DOES BAR 2 LOOK LIKE BAR 1?
+   This reads the notes back and reconstructs each lane's PERIOD: the smallest
+   p that explains every onset across the whole four-bar material. A lane lines
+   up with the bar when its period divides 16 (it repeats inside a bar) or is a
+   multiple of 16 (a two- or four-bar pattern). It is polymetric only when it is
+   neither -- 7, 5, 11, 3.
 
-   In a 16-step-per-lane genre it does, exactly -- that is what a bar IS. In a
-   genre with sequencers of 7, 5 and 11 steps running against it, it cannot:
-   the hat lands on different steps in every bar of the loop, and the four bars
-   only agree again when the loop comes round.
+   The blunter question, "does bar 2 look like bar 1", is also printed, but it
+   is not the test: a ghost drawn per bar, a crash on bar 0 and an open hat on
+   two bars out of four all make bars differ with no metre involved.
 
+   [corpus:underdog -- Hawtin on the breakdown's polymeter]
    [corpus:notebook.zoeblade.com -- "changing the pattern length for only some
     parts while leaving most at the default bar-long 16 sixteenths"; Autechre's
     Windwind is that page's worked example]
@@ -58,14 +64,14 @@ for(const g of genres){
   for(let s = 1; s <= N; s++){ const r = barsDiffer(M.composeSong(s, undefined, g)); L += r.lanes; D += r.differing; }
   const pc = L ? (100 * D / L) : 0;
   console.log(`  ${g.padEnd(13)} ${String(L).padStart(10)}   ${pc.toFixed(1).padStart(6)}%` +
-              (pc > 40 ? "   <- polymetric" : ""));
+              (pc > 40 ? "   <- bars do not repeat" : ""));
 }
 
-/* AND THE SPECIFIC CLAIM: the three declared sequencers really are 7, 5 and 11
-   long. Reconstruct each lane's period from the notes by finding the smallest p
-   that explains every onset across the whole four-bar material. */
-console.log("\n  autechre — the period actually written into each lane:");
-const song = M.composeSong(1, undefined, "autechre");
+/* AND THE SPECIFIC CLAIM: the rimshot really runs at 7 and the clap at 5.
+   Reconstruct each lane's period from the notes by finding the smallest p that
+   explains every onset across the whole four-bar material. */
+console.log("\n  plastikman — the period actually written into each lane:");
+const song = M.composeSong(1, undefined, "plastikman");
 const notes = song.materials.A.drums;
 const byLane = {};
 for(const n of notes) (byLane[n.lane] ||= new Set()).add(n.bar * 16 + n.step);
@@ -80,6 +86,10 @@ for(const lane of Object.keys(byLane).sort()){
       if(cls.has(x % p) !== on.includes(x)) ok = false;
     if(ok){ period = p; break; }
   }
-  console.log(`    ${lane.padEnd(8)} ${on.length} hits   period ${period === 64 ? "(none under 32)" : period}` +
-              (period === 16 ? "  = the bar" : period < 16 ? "  <- shorter than the bar" : ""));
+  /* lines up with the bar if it divides 16 (repeats inside a bar) or is a
+     multiple of it (a two- or four-bar pattern). Polymetric only if neither. */
+  const lines = period === 64 || 16 % period === 0 || period % 16 === 0;
+  console.log(`    ${lane.padEnd(8)} ${String(on.length).padStart(2)} hits   ` +
+              `period ${period === 64 ? "(none under 32)" : String(period).padStart(2)}` +
+              (lines ? (period === 16 ? "   = the bar" : "") : "   <- never lines up with the bar"));
 }

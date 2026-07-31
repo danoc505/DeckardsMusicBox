@@ -1401,45 +1401,73 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
                    : `${heard}/${pairs} rack/machine pairs reach the performance`);
 }
 {
-  /* ── A SEQUENCER THAT IS NOT SIXTEEN STEPS LONG IS THE WHOLE GENRE ──────────
-     `kit.poly` is the one piece of engine the Autechre table needed, and a
-     table is a claim -- this is the evidence. A lane declared at length 7, 5 or
-     11 against a 16-step bar CANNOT put the same steps in every bar; if it
-     does, the poly block has stopped being read and the genre has quietly
-     become another four-to-the-floor record with odd accents.
+  /* ── THE POLYMETER PLASTIKMAN'S TABLE HAS ALWAYS CLAIMED ────────────────────
+     That entry has quoted Hawtin on the breakdown since the day it was written
+     -- "all you've got is this polymeter and because it doesn't line up with
+     the one people on the dance floor are going 'oh where was the one again'"
+     [corpus:underdog] -- and the engine could not produce one. Every drum lane
+     was written against the bar, so the rimshot and the clap landed on the same
+     sixteenth in every bar of the record. MEASURED before `kit.poly` existed:
+     0.0% of this genre's drum lanes differed bar to bar. The quote described
+     something the code did not do.
+
+     A lane declared at length 7, 5 or 11 against a 16-step bar CANNOT repeat
+     bar to bar; if it does, the poly block has stopped being read and the genre
+     is back to a four-to-the-floor with two fixed off-beats.
 
      Measured off the MATERIAL and not the performance, because the arc thins
      and the arrangement gates, and both would produce bar-to-bar difference
      that has nothing to do with metre.
 
-     The control is Plastikman, which is the same family of music built the
-     ordinary way: every one of its drum lanes repeats exactly, bar after bar.
-     [corpus:notebook.zoeblade.com, corpus:soundonsound -- see probe_poly.js] */
-  const share = g => {
-    let lanes = 0, differing = 0;
+     ACID IS THE CONTROL, and it is the right one: an 808 and a 303 like this
+     genre, the same tempo range, built the ordinary way against the bar. If the
+     mechanism ever leaks into the shared engine, acid moves off zero and says
+     so. [corpus:underdog, corpus:modwiggler -- see probe_poly.js] */
+  /* THE PERIOD OF A LANE, RECONSTRUCTED FROM ITS NOTES -- the smallest p that
+     explains every onset across the whole four-bar material. Deliberately not
+     "do the bars differ": a ghost drawn per bar, a crash on bar 0 and an open
+     hat on two bars out of four all make bars differ without any metre being
+     involved, which is why the control genre reads 15.7% on that measure and
+     0 on this one. A period is the claim itself. */
+  const periods = g => {
+    const out = [];
     for(let s = 1; s <= 12; s++){
       const song = M.composeSong(s, undefined, g);
-      for(const m of ["A", "Avar", "B", "C"]){
-        const notes = (song.materials[m] || {}).drums;
+      for(const mat of ["A", "Avar", "B", "C"]){
+        const notes = (song.materials[mat] || {}).drums;
         if(!notes) continue;
         const byLane = {};
-        for(const n of notes) (byLane[n.lane] = byLane[n.lane] || [[], [], [], []])[n.bar].push(n.step);
+        for(const n of notes) (byLane[n.lane] = byLane[n.lane] || new Set()).add(n.bar * 16 + n.step);
         for(const lane in byLane){
-          const bars = byLane[lane].map(a => a.slice().sort((x, y) => x - y).join(","))
-                                   .filter(b => b.length);
-          if(bars.length < 2) continue;
-          lanes++;
-          if(new Set(bars).size > 1) differing++;
+          const on = byLane[lane];
+          for(let p = 2; p <= 32; p++){
+            const cls = new Set([...on].map(x => x % p));
+            let ok = true;
+            for(let x = 0; x < 64 && ok; x++) if(cls.has(x % p) !== on.has(x)) ok = false;
+            if(ok){ out.push({ lane, p }); break; }
+          }
         }
       }
     }
-    return lanes ? differing / lanes : 0;
+    return out;
   };
-  const ae = share("autechre"), pm = share("plastikman");
-  check("the polymetric genre's bars genuinely do not repeat",
-        ae > 0.4 && pm < 0.05,
-        `autechre ${(100 * ae).toFixed(1)}% of drum lanes differ bar to bar · ` +
-        `plastikman ${(100 * pm).toFixed(1)}% (the control: same music, ordinary grid)`);
+  /* ── WHAT "DOES NOT LINE UP WITH THE BAR" ACTUALLY MEANS ───────────────────
+     First attempt was `16 % p !== 0`, and the control genre failed it with an
+     `openhat` at period 32. That open hat plays on bars 1 and 3, so its period
+     is two bars -- it lines up with the bar perfectly well, it just takes two
+     of them to come round. A period that is a MULTIPLE of 16 is a multi-bar
+     pattern, not a polymeter.
+     A lane fails to line up only when its period neither divides 16 nor is
+     divisible by it. 7, 5, 11 and 3 qualify; 8, 16 and 32 do not. */
+  const odd = rows => rows.filter(r => 16 % r.p !== 0 && r.p % 16 !== 0);
+  const pm = periods("plastikman"), ctl = periods("acid");
+  const pmOdd = odd(pm), ctlOdd = odd(ctl);
+  const lanesOf = rows => [...new Set(rows.map(r => `${r.lane}/${r.p}`))].sort().join(" ");
+  check("minimal techno's polymeter is real, not a comment",
+        pmOdd.length > 0 && new Set(pmOdd.map(r => r.lane)).size >= 2 && ctlOdd.length === 0,
+        `plastikman ${pmOdd.length}/${pm.length} drum lanes run at a period that never lines up with the bar ` +
+        `(${lanesOf(pmOdd) || "none"}) · acid ${ctlOdd.length}/${ctl.length} ` +
+        `(the control: 808 + 303, ordinary grid)`);
 }
 
 console.log("\n" + pass + " passed, " + fail + " failed");
