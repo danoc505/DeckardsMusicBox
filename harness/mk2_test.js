@@ -529,8 +529,19 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   /* every drum lane the exporter can write, INCLUDING the break -- a chopped
      bar exports as whatever drums its source slices strike, so it is notes
      like any other lane and has to be counted like any other lane. */
-  const LANES = new Set(["kick", "snare", "ghost", "hat", "openhat",
-                         "tom1", "tom2", "tom3", "brk"]);
+  /* ── ASK THE PROGRAM WHICH LANES IT CAN EXPORT, DO NOT COPY THE LIST ────────
+     This was a hand-written set, and it was missing rim, clap, crash and ride
+     -- the same four GM_DRUM was missing. A check whose lane list is copied
+     from the table it is checking agrees with it by construction and proves
+     nothing: four lanes were being dropped from every .mid and this check was
+     green throughout, because it had been told not to look at them.
+
+     It bit when minimal techno put its polymeter on the rim and the clap: the
+     two sequencers the genre is built on exported as silence.
+
+     Derived now, so the next lane to gain a voice is covered without anyone
+     remembering to come back here. */
+  const LANES = new Set(Object.keys(M.gmDrum()).concat(["brk"]));
   let bad = [];
   for(const g of M.genres()) for(const seed of [1, 2, 3]){
     const song = M.composeSong(seed, undefined, g);
@@ -1667,6 +1678,30 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       for(const b of per){ if(!b.some(x => x)) continue; bars++; worstBar = Math.max(worstBar, lhl(b)); }
     }
   }
+  /* 6. THE SAME RULES MUST NOT WRITE THE SAME FIGURE EVERY SONG. A listener is
+        a deterministic function of what it watches, so if everything it watches
+        is seed-fixed it is seed-fixed too -- perfectly reproducible AND
+        perfectly identical, which derives novelty against a loop but not
+        against the next record.
+        MEASURED before `poly.phase` existed: over 60 seeds, material A had FOUR
+        distinct listener outputs and material C had ONE. Giving each sequencer
+        a per-song starting phase took those to 43 and 11. This is the assertion
+        that the mechanism generates a RECORD rather than a fixture. */
+  const forms = mat => {
+    const seen = new Set();
+    for(let s = 1; s <= 40; s++){
+      const notes = ((M.composeSong(s, "band", "plastikman").materials[mat] || {}).drums) || [];
+      seen.add(JSON.stringify(notes.filter(n => n.heard)
+        .map(n => [n.heard, n.bar, n.step, n.lane]).sort()));
+    }
+    return seen.size;
+  };
+  const fA = forms("A"), fB = forms("B");
+  check("...and it does not write the same figure into every song",
+        fA >= 10 && fB >= 5,
+        `${fA} distinct listener figures in material A over 40 seeds, ${fB} in B ` +
+        `(4 and 3 before the sequencers got a per-song phase)`);
+
   check("...and the kit as heard still has the one", sane && worstBar === 0,
         sane ? `union syncopation 0 across ${bars} bars (worst ${worstBar}); the kick holds every strong beat`
              : "the syncopation index itself failed its own validation figures");

@@ -472,7 +472,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31n · something listens to the sequencers and answers</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31o · something listens, and the machines start where they like</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -9156,9 +9156,14 @@ const GENRE = {
          pulling away from it. Take those away -- which is exactly what the
          breakdown does -- and what is left is the part that never agreed.
          ═══════════════════════════════════════════════════════════════════ */
+      /* the PHASE is drawn per song, flat across the sequencer's own length --
+         two machines at 7 and 5 sound different depending on where each one was
+         when you pressed start, and that is never the same twice in a room */
       poly: [
-        { lane: "rim",  len: 7, on: [3], vel: 0.5 },
-        { lane: "clap", len: 5, on: [2], vel: 0.62 },
+        { lane: "rim",  len: 7, on: [3], vel: 0.5,
+          phase: [[0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1]] },
+        { lane: "clap", len: 5, on: [2], vel: 0.62,
+          phase: [[0,1],[1,1],[2,1],[3,1],[4,1]] },
       ],
       /* ══ AND SOMETHING LISTENS TO THEM ═══════════════════════════════════
          "One fader determines how often a snare does a little roll or skip,
@@ -9230,14 +9235,14 @@ const GENRE = {
            "how much you can do with the least amount" -- applied to a
            sequencer length instead of to a step list. */
         lift:   { snare: [12], hatVel: 0.60, hatEvery: 1,
-                  poly: [{ lane: "rim",  len: 5, on: [1],    vel: 0.52 },
-                         { lane: "clap", len: 3, on: [1],    vel: 0.6 }] },
+                  poly: [{ lane: "rim",  len: 5, on: [1], vel: 0.52, phase: [[0,1],[1,1],[2,1],[3,1],[4,1]] },
+                         { lane: "clap", len: 3, on: [1], vel: 0.6,  phase: [[0,1],[1,1],[2,1]] }] },
         /* "a year of subtraction" -- a minimal-techno breakdown REMOVES; it never
            rewrites. [corpus:hawtin on Consumed] So the departure takes the clap
            away entirely and stretches the rim to eleven, which is the longest
            pattern in the genre and the least often in the same place twice. */
         depart: { hatEvery: 2, openBars: [], kickKeep: 4,
-                  poly: [{ lane: "rim", len: 11, on: [4], vel: 0.46 }] },
+                  poly: [{ lane: "rim", len: 11, on: [4], vel: 0.46, phase: [[0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[7,1],[8,1],[9,1],[10,1]] }] },
       },
     },
     /* the counter should sound like a delay tail, not a duet [EAR] */
@@ -10859,6 +10864,34 @@ function makeMaterials(chart){
     const ghostSpots = K.ghostSpots;
     const openSpot = wpick(rng, K.openSpot);
     const flourish = wpick(rng, K.flourish);
+    /* ── WHERE EACH SEQUENCER STARTS, DRAWN ONCE PER MATERIAL ──────────────────
+       MEASURED, and it is the finding that made this necessary: over 60 seeds,
+       plastikman's material A produced only FOUR distinct listener outputs and
+       material C exactly ONE. The listener is a deterministic function of what
+       it watches, and everything it watches -- a fixed `on:[3]` on a length-7
+       lane, a fixed `on:[2]` on a length-5 one, a hat division, a kick pocket --
+       was itself the same in every song. Perfectly deterministic, and therefore
+       perfectly identical: the arithmetic derived novelty against a LOOP but not
+       against the NEXT SONG.
+
+       A sequencer's phase is exactly the free parameter that fixes this. Two
+       machines set to 7 and 5 sound different depending on where each one was
+       when you pressed start, and "getting the machines running and then jamming
+       out live" [corpus:hawtin] is a description of a room where that is never
+       the same twice. Same rules, different starting point, different emergent
+       figure -- which is what the brief asks for and what a fixed phase cannot
+       give.
+
+       ON ITS OWN NAMED SUBSTREAM, never on `rng`. This file records what taking
+       a draw from the shared builder stream costs: the ostinato ratchet did it
+       and moved 882 of 2100 snapshot seeds. A named stream keyed by material and
+       lane consumes nothing from `rng`, so every other draw in this builder is
+       where it was, and a genre that declares no `phase` draws nothing at all. */
+    const phaseOf = {};
+    for(const P of (K.poly || []))
+      phaseOf[P.lane] = P.phase
+        ? wpick(stream(chart.seed, "polyPhase:" + streamName + ":" + P.lane), P.phase)
+        : 0;
     /* velocity here is IDENTITY -- what kind of hit this is (a full snare, a
        ghost, a hat). WHERE in the bar a hit is loud belongs to the performance
        stage's measured accent map [corpus:harvest_drums], so the two never
@@ -10950,8 +10983,9 @@ function makeMaterials(chart){
          cannot displace any later draw on this stream either [Law 7]. */
       for(const P of (K.poly || [])){
         const len = P.len > 0 ? P.len : 16;
+        const ph = phaseOf[P.lane] || 0;         // where this machine was when it started
         for(let st = 0; st < 16; st++)
-          if((P.on || [0]).includes(((b * 16 + st) % len + len) % len))
+          if((P.on || [0]).includes(((b * 16 + st - ph) % len + len) % len))
             notes.push({ bar: b, step: st, dur: P.dur || 1, lane: P.lane,
                          vel: P.vel != null ? P.vel : 0.5, role: "drums" });
       }
@@ -13480,8 +13514,28 @@ function composeSong(seed, rig, genre, picks, pins){
 const MIDI_PPQ = 960;
 /* GM percussion keys, so a drum track reads correctly on any device
    [theory: General MIDI level 1 percussion map, channel 10] */
+/* ── FOUR LANES WERE FALLING OUT OF THE .MID ────────────────────────────────
+   `rim`, `clap`, `crash` and `ride` had no entry here, and midiKeyFor returns
+   null for a lane it cannot name, so every note on them was silently dropped
+   from the export. That was survivable while no genre wrote many of them.
+
+   It stopped being survivable the moment minimal techno's POLYMETER went onto
+   the rim and the clap: the two sequencers that are the whole point of the
+   genre exported as nothing at all, so the .mid of a Plastikman song was a
+   four-to-the-floor kick and a hat with the identifying part deleted. The seam
+   check that says "the .mid carries every note of every genre" did not catch
+   it because its own lane list was written from this table -- a check and the
+   thing it checks copied from one source agree by construction and prove
+   nothing.
+
+   All four are standard GM percussion and were simply never filled in.
+   [corpus:General MIDI level 1 percussion key map] */
 const GM_DRUM = { kick: 36, snare: 38, ghost: 38, hat: 42, openhat: 46,
-                  tom1: 50, tom2: 47, tom3: 43 };   // high / low-mid / high-floor
+                  tom1: 50, tom2: 47, tom3: 43,    // high / low-mid / high-floor
+                  rim: 37,      // side stick
+                  clap: 39,     // hand clap
+                  crash: 49,    // crash cymbal 1
+                  ride: 51 };   // ride cymbal 1
 /* THE BREAK LANE IS NOT ONE DRUM, so it cannot have one GM key. What it can have
    is the key of whatever the SOURCE slice actually strikes, which is knowable:
    the transcription says what is on every one of the 64 steps. So a chopped bar
