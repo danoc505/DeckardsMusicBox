@@ -1702,6 +1702,35 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         `${fA} distinct listener figures in material A over 40 seeds, ${fB} in B ` +
         `(4 and 3 before the sequencers got a per-song phase)`);
 
+  /* 7. THE ROLL. Booth's sentence has three nouns -- it counts, it counts A
+        ROLL, and it does THIS -- and the listener had one and a half of them:
+        it could only count single hits and could only answer with one note.
+        `roll` gives it the answer and `figure:"run"` gives it the count.
+
+        Adjacent same-lane sixteenths are the thing to measure, because a roll
+        IS adjacency: nothing else in this genre writes two rim hits in a row
+        (a length-7 sequencer cannot). The control is the rest of the file --
+        no other genre declares a roll, so no other genre should have any. */
+  let two = 0, three = 0, songs = 0, ctlAdj = 0;
+  for(let s = 1; s <= 20; s++){
+    songs++;
+    const notes = ((M.composeSong(s, "band", "plastikman").materials.A || {}).drums) || [];
+    const rim = new Array(64).fill(0);
+    for(const n of notes) if(n.lane === "rim") rim[n.bar * 16 + n.step] = 1;
+    for(let i = 0; i < 63; i++) if(rim[i] && rim[i + 1]) two++;
+    for(let i = 0; i < 62; i++) if(rim[i] && rim[i + 1] && rim[i + 2]) three++;
+    for(const g of ["acid", "lofi"]){
+      const cn = ((M.composeSong(s, "band", g).materials.A || {}).drums) || [];
+      const lane = new Array(64).fill(0);
+      for(const n of cn) if(n.lane === "rim") lane[n.bar * 16 + n.step] = 1;
+      for(let i = 0; i < 63; i++) if(lane[i] && lane[i + 1]) ctlAdj++;
+    }
+  }
+  check("...and it can answer with a roll, not only a hit",
+        two > songs && three > 0 && ctlAdj === 0,
+        `${(two / songs).toFixed(1)} two-stroke rolls a song and ${(three / songs).toFixed(1)} ` +
+        `three-stroke (grown by the rule that counts rolls) · control genres ${ctlAdj}`);
+
   check("...and the kit as heard still has the one", sane && worstBar === 0,
         sane ? `union syncopation 0 across ${bars} bars (worst ${worstBar}); the kick holds every strong beat`
              : "the syncopation index itself failed its own validation figures");

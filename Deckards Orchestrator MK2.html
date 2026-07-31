@@ -472,7 +472,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31o · something listens, and the machines start where they like</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31p · the listener learns to roll, and to count rolls</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -9218,6 +9218,34 @@ const GENRE = {
         { lane: "ghost",   watch: ["rim", "clap"],  every: 3, notOn: ["kick"], vel: 0.38 },
         { lane: "openhat", watch: ["ghost", "hat"], every: 4, notOn: ["kick"],
           mode: "alone", vel: 0.32 },
+
+        /* ── "HOW OFTEN A SNARE DOES A LITTLE ROLL OR SKIP" ─────────────────
+           The fader half of Booth's sentence. Same two sequencers row 1
+           watches, asked the harder question: not "did either speak" but did
+           exactly ONE of them -- the moment the two machines DISAGREE, which
+           is the only thing two coprime lengths do that one cannot. Every third
+           disagreement, away from the kick, becomes a two-stroke rimshot.
+
+           It writes onto the RIM because the rim measured -0.319 -- the worst
+           lane in the genre, below a plain loop -- and a roll is an interior
+           for a lane that had none. It is also the lane Hawtin names: "I was
+           always into really small rimshots". */
+        { lane: "rim", watch: ["rim", "clap"], every: 3, notOn: ["kick"],
+          mode: "alone", roll: 2, rollTaper: 0.82, vel: 0.5 },
+
+        /* ── "AND ANOTHER THING LISTENS AND SAYS: IF THAT SNARE PLAYS THAT
+           ROLL THREE TIMES, THEN I'LL DO THIS." ─────────────────────────────
+           Literally. This one counts RUNS rather than hits -- two adjacent rim
+           steps, which exist only because the rule above just made them -- and
+           on every third such roll it adds a stroke, turning that two into a
+           three. Three, because three is the number in the sentence.
+
+           It is generation two of the rule above, exactly as row 2 is
+           generation two of row 1: two independent chains, each two deep. The
+           measured finding that a third generation scores 1.000 still stands
+           and is still obeyed. */
+        { lane: "rim", watch: ["rim"], figure: "run", figLen: 2, every: 3,
+          notOn: ["kick"], roll: 1, vel: 0.42 },
       ],
       /* ── THE LINE THIS GENRE IS ABOUT ── */
       flourishBar: -1,
@@ -9229,20 +9257,32 @@ const GENRE = {
            genre's whole dynamic range and it is why the main pattern had to
            come down to eighths first -- you cannot build to a wall you started
            on. [corpus:hawtin, corpus:attack] */
-        /* the lift TIGHTENS the two sequencers as well as doubling the hats:
-           shorter patterns cycle faster, so the same two voices get busier
-           without a single new lane arriving. That is the genre's rule --
-           "how much you can do with the least amount" -- applied to a
-           sequencer length instead of to a step list. */
-        lift:   { snare: [12], hatVel: 0.60, hatEvery: 1,
-                  poly: [{ lane: "rim",  len: 5, on: [1], vel: 0.52, phase: [[0,1],[1,1],[2,1],[3,1],[4,1]] },
-                         { lane: "clap", len: 3, on: [1], vel: 0.6,  phase: [[0,1],[1,1],[2,1]] }] },
+        /* ── NO SEQUENCERS DECLARED IN THE VARIANTS, AND THAT IS MEASURED ──
+           The lift and the departure each had their own `poly` here -- shorter
+           patterns for the build, a length-11 rim for the breakdown -- and both
+           were deleted, because MEASURED over 30 seeds this genre spends:
+
+             material A     4432 bars      material B       0 bars
+             material Avar  3488 bars      material C     128 bars
+
+           Nothing maps to B. This genre has no chorus -- `payoff` is the
+           instrumental and the note above says so in capitals -- so the `lift`
+           variant is built on every song and played on none. And C is the
+           bridge, whose role list is ["ostinato"] and nothing else, so its
+           drums are never heard either. A and Avar are the same drum array by
+           object identity (no chop), which is correct: Avar varies the cell,
+           not the kit.
+
+           So THE GENRE PLAYS EXACTLY ONE 64-STEP DRUM MATERIAL, and anything
+           declared in a variant is a comment with syntax. The variants stay --
+           they are the shared shape every genre uses and the other six ride
+           them -- but nothing here pretends to sound through one. */
+        lift:   { snare: [12], hatVel: 0.60, hatEvery: 1 },
         /* "a year of subtraction" -- a minimal-techno breakdown REMOVES; it never
            rewrites. [corpus:hawtin on Consumed] So the departure takes the clap
            away entirely and stretches the rim to eleven, which is the longest
            pattern in the genre and the least often in the same place twice. */
-        depart: { hatEvery: 2, openBars: [], kickKeep: 4,
-                  poly: [{ lane: "rim", len: 11, on: [4], vel: 0.46, phase: [[0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[7,1],[8,1],[9,1],[10,1]] }] },
+        depart: { hatEvery: 2, openBars: [], kickKeep: 4 },
       },
     },
     /* the counter should sound like a delay tail, not a duet [EAR] */
@@ -11108,7 +11148,7 @@ function makeMaterials(chart){
       /* how many times the watch set spoke at all, so the contraction claim --
          a listener's output is at most its input over `every` -- is a number
          this pass reports rather than a property somebody has to trust */
-      let count = 0, watched = 0;
+      let count = 0, watched = 0, run = 0;
       const made = [];
       for(let at = 0; at < SPAN; at++){
         /* THE GUARD COMES FIRST, AND IT SUPPRESSES THE COUNT AS WELL AS THE
@@ -11130,7 +11170,21 @@ function makeMaterials(chart){
         const heard = rule.mode === "alone" ? n === 1
                     : rule.mode === "both"  ? n === watch.length && n > 0
                     : n > 0;
-        if(!heard) continue;
+        /* ── WHAT ONE OCCURRENCE IS ────────────────────────────────────────
+           `step` (the default) counts every step the watch set speaks on, and
+           it is what this listener has always done. `run` counts a ROLL: a
+           stretch of `figLen` adjacent steps that ALL speak, counted ONCE, at
+           the step where the stretch reaches that length.
+
+           That is the noun in Booth's sentence and the listener did not have
+           it: "if that snare plays THAT ROLL three times, then I'll do this"
+           counts rolls, not hits. Counting hits, the sentence cannot be said. */
+        if(rule.figure === "run"){
+          if(heard) run++; else run = 0;
+          if(run !== (rule.figLen || 2)) continue;
+        } else {
+          if(!heard) continue;
+        }
         watched++;
         count++;
         if(count % every !== 0) continue;
@@ -11168,9 +11222,36 @@ function makeMaterials(chart){
            is unmeasurable, and an unmeasurable claim does not ship here. Inert
            downstream: stage 5 reads named fields and ignores the rest, exactly
            as it does for the bass's `accent`. */
-        made.push({ bar: Math.floor(at / 16), step: at % 16, dur: rule.dur || 1,
-                    lane: rule.lane, vel: rule.vel != null ? rule.vel : 0.5,
-                    role: "drums", heard: gen });
+        /* ── AND WHAT IT ANSWERS WITH: ONE HIT, OR A LITTLE ROLL ────────────
+           `roll: n` writes n adjacent sixteenths from the trigger step instead
+           of one note, each stroke quieter than the last by `rollTaper`. A
+           stroke that lands where the lane already has a note is skipped rather
+           than doubled, so a roll running into an existing hit becomes a flam
+           into it.
+
+           TWO STROKES IS THE FINEST THING THIS PROGRAM CAN HOLD, and that is
+           arithmetic rather than restraint: at this genre's tempo a sixteenth
+           is about 118 ms, already at the 100-120 ms floor below which events
+           stop being heard as separate rhythmic positions [corpus:Repp on
+           sensorimotor synchronisation]. A 32nd is 59 ms and would be a timbre,
+           not a roll -- and the grid law downstream forbids it anyway.
+
+           WHY THE RIM GETS IT. Measured at 40 seeds, the two lanes carrying
+           this genre's whole polymetre claim were the two WORST in it: rim
+           -0.319 and clap -0.204, both BELOW a bar-locked loop, because a bare
+           pulse at length 7 is a very compressible thing however far out of
+           phase it runs. They were the parts most in need of an interior. */
+        const strokes = Math.max(1, rule.roll || 1);
+        const taper = rule.rollTaper != null ? rule.rollTaper : 1;
+        const v0 = rule.vel != null ? rule.vel : 0.5;
+        for(let k = 0; k < strokes; k++){
+          const at2 = at + k;
+          if(at2 >= SPAN) break;
+          if(k > 0 && hit(rule.lane, at2)) continue;
+          made.push({ bar: Math.floor(at2 / 16), step: at2 % 16, dur: rule.dur || 1,
+                      lane: rule.lane, vel: v0 * Math.pow(taper, k),
+                      role: "drums", heard: gen });
+        }
       }
       /* written AFTER this listener has finished reading, so a rule cannot hear
          its own output inside its own pass -- that is the one feedback path
