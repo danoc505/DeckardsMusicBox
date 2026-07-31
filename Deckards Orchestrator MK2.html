@@ -454,7 +454,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31e · the pad, and the horn gets a panel</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31f · a second keyboard, and a register allocator</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -487,6 +487,11 @@
        machine loaded for the comp answered for the tune as well: choose a Rhodes
        and the melody was a Rhodes too. Now the tune is its own box. -->
   <select id="mLead"  title="which instrument plays the tune"></select>
+  <!-- LOAD A SECOND KEYBOARD AND IT PLAYS. It takes a register the allocator
+       derives from the ones this genre already declares, and lays pads there.
+       Leave it on "as the rig" and there is no second keyboard at all -- not a
+       silent one, none: no role, no notes, no draw. -->
+  <select id="mKeys2" title="a second keyboard, in its own register"></select>
 </div>
 <div id="panels"></div>
 <div id="info">press "new song".</div>
@@ -2430,7 +2435,18 @@ const SLOT_OF = {
      A lane with no slot entry falls through to RIG[rig][lane], which is exactly
      what this did -- silently, and it looked like a design rather than a hole. */
   lead:"lead",
+  /* the second keyboard's lane. It has no entry in any RIG, deliberately: a rig
+     is a BAND, and no band here has two keyboard players. This slot only exists
+     when a hand puts a machine in it, so its lane resolves through the pick or
+     not at all. */
+  keys2:"keys2",
 };
+/* WHICH KIND OF MACHINE FILLS A RACK SLOT, where the slot is not the machine's
+   own. Every keyboard in INSTRUMENTS declares slot:"keys" -- there is no such
+   thing as a machine built for "the second keyboard", any more than there is a
+   piano built for being the second piano -- so the second rack accepts the same
+   boxes the first one does. */
+const SLOT_ACCEPTS = { keys2: "keys" };
 
 /* THE RIG TABLE — which instrument plays which part. Stage 5 still writes the
    `voice` field in exactly one place; this is the lookup it writes through, and
@@ -2558,6 +2574,11 @@ function voiceFor(chart, lane){
     const kit = chart.picks.drumKit;
     if(kit && M.kits && M.kits[kit] && M.kits[kit][lane]) return M.kits[kit][lane];
     if(M.lanes[lane]) return M.lanes[lane];
+    /* the second keyboard plays a KEYS machine, and a keys machine declares a
+       `keys` lane -- it has never heard of "keys2". Ask it for the lane it does
+       have, which is the one the slot accepts. */
+    const kind = SLOT_ACCEPTS[SLOT_OF[lane]];
+    if(kind && M.lanes[kind]) return M.lanes[kind];
   }
   return RIG[chart.rig][lane];
 }
@@ -2609,10 +2630,13 @@ function resolvePicks(genre, picks, seed){
   const M = (GENRE[genre] && GENRE[genre].machines) || {};
   const rng = stream(seed, "rack");
   const out = {};
-  for(const slot of ["drums", "bass", "keys", "lead"]){
+  for(const slot of ["drums", "bass", "keys", "lead", "keys2"]){
     const drawn = M[slot] ? wpick(rng, M[slot]) : "auto";
     const want = (picks && picks[slot]) || "auto";
-    const fits = m => m !== "auto" && INSTRUMENTS[m] && INSTRUMENTS[m].slot === slot;
+    /* a slot accepts its own machines, or -- for the second keyboard -- the
+       same ones the first accepts */
+    const kind = SLOT_ACCEPTS[slot] || slot;
+    const fits = m => m !== "auto" && INSTRUMENTS[m] && INSTRUMENTS[m].slot === kind;
     out[slot] = fits(want) ? want : (fits(drawn) ? drawn : "auto");
   }
   /* WHICH KIT IS LOADED, drawn on the same stream and in the same breath as the
@@ -10556,6 +10580,12 @@ function makeMaterials(chart){
   function buildKeys(chordSet, streamName, opts){
     const rng = stream(chart.seed, streamName);
     const taken = opts.avoid || new Set();
+    /* WHICH REGISTER THIS PAIR OF HANDS IS IN. The genre's `keys` band unless a
+       caller allocated another one -- which is what makes a second keyboard
+       possible without any genre declaring a second band. Everything below
+       reads BAND; nothing reads R.keys directly any more, or a second unit
+       would have voiced itself straight on top of the first. */
+    const BAND = opts.band || R.keys;
     const SYNC = [[8, 5], [6, 3], [13, 2], [11, 2], [2, 1]];
     const notes = [];
     let prev = null;
@@ -10600,7 +10630,16 @@ function makeMaterials(chart){
     for(let b = 0; b < BARS; b++){
       const ch = chordSet[b];
       let strikes;
-      if(opts.sustain) strikes = [0];                              // the bridge pads
+      /* A PAD MAY SWELL IN JUST AFTER THE DOWNBEAT, and for a second keyboard
+         that is the whole difference between fitting and not. Measured on lofi
+         seed 1: of fifteen candidate voicings, ten were rejected because the
+         pitch was already taken -- both keyboards striking the same chord on
+         the same instant. Two keyboards in overlapping registers is normal;
+         two hitting one pitch at one moment is a unison, and the seam check is
+         right to refuse it. Entering a sixteenth or two late is what a pad
+         does anyway, and it removes the entire collision class rather than
+         negotiating with it. */
+      if(opts.sustain) strikes = [opts.at || 0];                    // the bridge pads
       else {
         strikes = pocket.slice();
         const extra = opts.dense ? 2 : 1;                          // the chorus comps harder
@@ -10616,7 +10655,7 @@ function makeMaterials(chart){
          declared [52,74]. Fold FIRST, then invert by lifting the lowest voices
          -- that is what an inversion is. Candidates that push past the ceiling
          are not clamped, they are not offered. */
-      const base = ch.tones.map(t => intoBand(t, R.keys[0], R.keys[1])).sort((a, z) => a - z);
+      const base = ch.tones.map(t => intoBand(t, BAND[0], BAND[1])).sort((a, z) => a - z);
       /* ── OPEN THE VOICING ────────────────────────────────────────────────
          A second reference photograph, at pitch resolution: the frame of one
          bar is B3 / B4 / D5 / C6 / F6 — an octave from the bass to the next
@@ -10677,10 +10716,10 @@ function makeMaterials(chart){
            had been 52, compressing the voicing instead of opening it: its mean
            span fell 13.0 -> 7.8 while every other genre rose. A number moving
            the wrong way is worth the same look as one moving the right way. */
-        const openFloor = Math.min(R.keys[0],
-          Math.max((R.bass && R.bass[1] != null ? R.bass[1] : 0) + 2, R.keys[0] - 12));
+        const openFloor = Math.min(BAND[0],
+          Math.max((R.bass && R.bass[1] != null ? R.bass[1] : 0) + 2, BAND[0] - 12));
         if(cand[0] < openFloor) continue;                // a dropped voice can fall out
-        if(cand[cand.length - 1] > R.keys[1]) continue;   // this inversion does not fit
+        if(cand[cand.length - 1] > BAND[1]) continue;   // this inversion does not fit
         /* ...and it must not land on a pitch somebody else already owns, at a
            step this voicing actually strikes. Onsets are what collide. */
         if(strikes.some(st => cand.some(pch => taken.has(key(b, st, pch))))) continue;
@@ -10700,7 +10739,7 @@ function makeMaterials(chart){
         }
         if(cost < bestCost){ bestCost = cost; voiced = cand; }
       }
-      if(!voiced) throw new Error("no keys voicing fits [" + R.keys + "] clear of the bass and " +
+      if(!voiced) throw new Error("no keys voicing fits [" + BAND + "] clear of the bass and " +
                                  "ostinato on bar " + b);
       prev = voiced;
       /* ── HOW THE VOICING SPEAKS ──────────────────────────────────────────
@@ -10787,7 +10826,7 @@ function makeMaterials(chart){
           ? Math.max(0, Math.min(want, Math.floor(room / (voiced.length - 1)))) : 0;
         for(let v = 0; v < voiced.length; v++){
           const at = st + v * width;
-          const ring = opts.sustain ? 16 : Math.max(2, (16 - at) - 1);
+          const ring = opts.sustain ? Math.max(2, 16 - at) : Math.max(2, (16 - at) - 1);
           emit.push({ bar: b, step: at, dur: ring, pitch: voiced[v],
                       vel: 0.8, role: "keys" });
         }
@@ -11387,6 +11426,69 @@ function makeMaterials(chart){
   }
   const reserve = notes => { const r = new Set(); for(const n of notes) if(n.pitch != null) r.add(key(n.bar, n.step, n.pitch)); return r; };
 
+  /* ══ THE REGISTER ALLOCATOR ═══════════════════════════════════════════════
+     Asked for as "3 arps and two dueling basses", and the reason it needed an
+     allocator rather than a table entry is this: every band in `registers` was
+     hand-tuned against the other bands in the same genre, so a SECOND comp has
+     nowhere declared to live and no genre could declare one without the author
+     re-tetrising all seven. And "the bands do not overlap" is a fact about a
+     table that nothing enforces -- buildKeys already THROWS when it cannot find
+     a voicing clear of what is placed, which is the seam check doing its job
+     and also exactly what a second keyboard would hit on most seeds.
+
+     So the band is DERIVED from the ones the genre already declared, and the
+     rule is the one a real arranger uses: a second keyboard does not sit on top
+     of the first, it sits in a different part of the register. It looks UP
+     first -- above the comp, stopping short of wherever the tune lives, because
+     crowding the melody is the one thing that always sounds wrong -- and if
+     there is no octave there it looks DOWN into the gap between the comp's
+     floor and the bass's ceiling, which several genres leave empty by a
+     surprising margin (lofi's bass tops at 45 and its comp starts at 52).
+
+     IF NEITHER FITS, IT RETURNS NULL AND THERE IS NO SECOND KEYBOARD. That is a
+     legitimate answer, not a failure: a genre whose registers are already
+     packed has no room for another pair of hands, and saying so is better than
+     forcing one in and letting the collision check throw on the user. */
+  function allocKeysBand(R){
+    const MIN = 13;                          // an octave plus a step, or a comp cannot invert
+    const keys = R.keys, bass = R.bass;
+    /* ── THE FIRST VERSION OF THIS DEMANDED A FREE OCTAVE AND FOUND ONE IN NO
+       GENRE AT ALL. Measured: 0 of 140 songs got a second keyboard. Two things
+       were wrong with it and the second matters more than the first.
+
+       It treated `counter` as a ceiling to stay under -- but lofi's counter is
+       [57,74] against a comp of [52,74]. The counter does not sit ABOVE the
+       comp, it sits INSIDE it. Using its floor as a ceiling made the upward
+       search ask for a band from 76 to 55, which is empty by arithmetic.
+
+       And the premise was wrong. THE BANDS IN THIS PROGRAM ALREADY OVERLAP, by
+       design: lofi's comp is [52,74] and its verse tune is [64,80], sharing ten
+       semitones. Disjoint registers are not how parts are kept off each other
+       here -- the `avoid` SET is, note by note, and buildKeys throws when it
+       cannot find a voicing clear of it. Demanding a gap nothing else in the
+       file demands is asking for a property the genre tables were never written
+       to have.
+
+       So: a whole octave DOWN from the comp, floored two semitones above the
+       bass's ceiling -- a left hand under a right hand, which is what a second
+       keyboard in a band actually plays. If the bass reaches too high for that
+       (acid's runs to 57, because a 303 climbs into the comp), an octave UP
+       instead, capped under the tune's ceiling. Overlap is fine; unisons are
+       not, and those are already somebody's job. ── */
+    const bassCeil = (bass && bass[1] != null) ? bass[1] : 0;
+    const wide = keys[1] - keys[0];          // as much room as the first comp has
+    const dnLo = Math.max(bassCeil + 2, keys[0] - 12), dnHi = dnLo + wide;
+    if(dnHi - dnLo >= MIN && dnLo < keys[0]) return [dnLo, dnHi];
+    /* the ceiling for the upward answer: the top of the highest tune band, so a
+       second comp cannot climb past where the melody lives */
+    const top = [R.themeA, R.themeB, R.themeC, R.ostinato]
+      .filter(b => Array.isArray(b) && b[1] != null)
+      .reduce((hi, b) => Math.max(hi, b[1]), keys[1]);
+    const upLo = keys[0] + 12, upHi = Math.min(top, keys[1] + 12);
+    if(upHi - upLo >= MIN) return [upLo, upHi];
+    return null;
+  }
+
   /* ── A: the verse set ── */
   const ostA = buildOstinato("ostinato", false, chords);
   /* the varied cell for Avar, and -- for a genre whose kit IS the tune -- a
@@ -11416,7 +11518,43 @@ function makeMaterials(chart){
   /* the ostinato goes into every reservation set BEFORE the tunes are drawn.
      It is the fixed thing in this music -- the cell that does not move -- so
      the melody and the counter are the parts that must find room, not it. */
-  const resA   = reserve(ostA.concat(bassA, keysA));
+  /* ══ THE SECOND PAIR OF HANDS ═════════════════════════════════════════════
+     Built ONLY when a machine has actually been loaded into the keys2 slot.
+     Nobody loads one -> the allocator is never called, no stream is drawn, no
+     role exists, and every song in this file is what it was: the snapshot says
+     so over 2100 seeds. A feature that changes the music of people who did not
+     ask for it is not opt-in, whatever the UI says.
+
+     IT IS PART OF THE BED, WHICH IS WHY IT IS BUILT HERE. The first attempt put
+     it last, after the tune and the counter, so it had to avoid everything and
+     threw "no keys voicing fits" on 137 of 140 songs. That was the seam check
+     being right: a second comp cannot squeeze into a register three parts have
+     already filled. The ostinato's own note a few lines up says the principle --
+     the fixed things go into the reservation set BEFORE the tunes are drawn, so
+     the melody is what must find room. A second keyboard is a fixed thing.
+
+     AND IT IS SUSTAINED, not a second comp. Two keyboard players in a band do
+     not both comp; the second lays pads under or over the first. That is a
+     musical fact before it is a collision fix -- and it is also why it fits: a
+     pad strikes once a bar instead of five times. ═══════════════════════════ */
+  const k2m = chart.picks && chart.picks.keys2;
+  const k2band = (k2m && k2m !== "auto") ? allocKeysBand(R) : null;
+  /* ── AND IF IT STILL DOES NOT FIT, THERE IS NO SECOND KEYBOARD ─────────────
+     buildKeys throws when no voicing clears what is already placed, and for
+     this part that is not an error -- it is the same answer the allocator gives
+     when it finds no band, arriving later. The registers in some genres are
+     genuinely full. Degrading to absent is right; killing a song the user did
+     not ask to be risky is not, and silently nudging a note would be worse than
+     both. Measured fit rate is reported rather than assumed. */
+  const tryPad = (fn) => { try { return k2band ? fn() : []; } catch(e){ return []; } };
+  /* AVAR'S CELL, TOO. Avar reuses this pad, and for a genre whose ostinato
+     varies (DKC, Plastikman) ostAvar is NOT ostA -- so a pad that cleared only
+     ostA collided inside Avar. Ten seeds threw "collision in Avar at 2:2:xx",
+     which is the same shape as the bug already recorded a few lines below for
+     the tune. Clear BOTH cells and the pad is legal in both materials. */
+  const keys2A = tryPad(() => buildKeys(chords, "keys2", { sustain: true, at: 2, band: k2band,
+                            avoid: reserve(ostA.concat(ostAvar, bassA, keysA)) }));
+  const resA   = reserve(ostA.concat(bassA, keysA, keys2A));
   const themeA = buildTheme(chords, "themeA", resA, { lo: R.themeA[0], hi: R.themeA[1], comp: keysA, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
   const counterA = deriveCounter(themeA.notes, resA, "counterA", chords, keysA);
 
@@ -11424,7 +11562,9 @@ function makeMaterials(chart){
      a half-octave up [corpus: verse->chorus register lift ~ +1.5 st; the hook
      sits above the verse, not an octave above it] ── */
   const keysB  = buildKeys(chords, "keysB", { dense: true, avoid: placed });
-  const resB   = reserve(ostA.concat(bassA, keysB));
+  const keys2B = tryPad(() => buildKeys(chords, "keys2B", { sustain: true, at: 2, band: k2band,
+                            avoid: reserve(ostA.concat(bassA, keysB)) }));
+  const resB   = reserve(ostA.concat(bassA, keysB, keys2B));
   const themeB = buildTheme(chords, "themeB", resB,
     { lo: R.themeB[0], hi: R.themeB[1], comp: keysB, dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
   const counterB = deriveCounter(themeB.notes, resB, "counterB", chords, keysB);
@@ -11434,7 +11574,9 @@ function makeMaterials(chart){
   const bassC  = pin(buildBass(bridgeChords, "bassC", true), "bass", "C");
   const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true,
                                                    avoid: reserve(ostA.concat(bassC)) });
-  const resC   = reserve(ostA.concat(bassC, keysC));
+  const keys2C = tryPad(() => buildKeys(bridgeChords, "keys2C", { sustain: true, at: 2, band: k2band,
+                            avoid: reserve(ostA.concat(bassC, keysC)) }));
+  const resC   = reserve(ostA.concat(bassC, keysC, keys2C));
   const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: R.themeC[0], hi: R.themeC[1], comp: keysC, augmentOf: themeA.notes });
 
   /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
@@ -11445,7 +11587,7 @@ function makeMaterials(chart){
      alternate cell's notes and 16 of 120 Plastikman seeds threw "collision in
      Avar at 2:4:71". The seam check named the material, the bar, the step and
      the pitch, which is exactly why it throws instead of warning. */
-  const resV = reserve(ostAvar.concat(bassA, keysA, themeA.notes.filter(n => n.bar < 2)));
+  const resV = reserve(ostAvar.concat(bassA, keysA, keys2A, themeA.notes.filter(n => n.bar < 2)));
   const varTail = buildTheme(chords, "themeA:var", resV, { lo: R.themeA[0], hi: R.themeA[1], dir: -1 });
   const leadAvar = themeA.notes.filter(n => n.bar < 2)
     .concat(varTail.notes.filter(n => n.bar >= 2));
@@ -11530,19 +11672,19 @@ function makeMaterials(chart){
   })();
 
   const materials = {
-    A:    { drums: drumsA, bass: bassA, keys: keysA, lead: themeA.notes, counter: counterA, ostinato: ostA },
+    A:    { drums: drumsA, bass: bassA, keys: keysA, keys2: keys2A, lead: themeA.notes, counter: counterA, ostinato: ostA },
     // Avar carries NO counter: the harmony vocal was derived from A's tune, and the
     // variant's redrawn second half is a different tune -- a shadow of the wrong line.
     // Verses (Avar's consumers) never activate the counter anyway; if a future section
     // wants one, it derives it from leadAvar, it does not borrow A's.
-    Avar: { drums: drumsAvar, bass: bassA, keys: keysA, lead: leadAvar, counter: [], ostinato: ostAvar },
-    B:    { drums: drumsB, bass: bassA, keys: keysB, lead: themeB.notes, counter: counterB, ostinato: ostA },
+    Avar: { drums: drumsAvar, bass: bassA, keys: keysA, keys2: keys2A, lead: leadAvar, counter: [], ostinato: ostAvar },
+    B:    { drums: drumsB, bass: bassA, keys: keysB, keys2: keys2B, lead: themeB.notes, counter: counterB, ostinato: ostA },
     /* C KEEPS THE OSTINATO. It ignores the chords by construction, so it needs no
        new version for the bridge's new changes -- and letting it run straight
        through IS the departure: a constant cell with the harmony moving under it
        is the device these tracks are built on, applied at section scale instead
        of bar scale. Dropping it made the bridge stop sounding like the genre. */
-    C:    { drums: drumsC, bass: bassC, keys: keysC, lead: themeC.notes, counter: [], ostinato: ostA },
+    C:    { drums: drumsC, bass: bassC, keys: keysC, keys2: keys2C, lead: themeC.notes, counter: [], ostinato: ostA },
     fill, ending,
   };
   /* FREEZE DEEP, not just the top. A, Avar and B deliberately SHARE drumsA and
@@ -11664,7 +11806,18 @@ function makeArrangement(chart, form, materials){
       if(sec.fn === "verse") material = "Avar";
       else stripHalf = true;                              // the 3rd chorus: arrangement answers
     }
-    const allowed = ROLES[sec.fn];
+    /* ── THE SECOND KEYBOARD PLAYS WHERE THE FIRST ONE DOES ──────────────────
+       Derived, not declared, and that is what stops this feature from being
+       seven table edits: `roles` is a per-genre list of who is in the room for
+       each kind of section, and a second pair of hands is in the room whenever
+       the first pair is. So it is appended here rather than written into every
+       genre's roles block -- which also means a genre added later gets it free
+       and cannot forget to.
+       Only when a machine is actually loaded, so a song nobody touched has no
+       such role and no such notes. */
+    const allowed = (chart.picks && chart.picks.keys2 && chart.picks.keys2 !== "auto"
+                     && ROLES[sec.fn].includes("keys"))
+      ? ROLES[sec.fn].concat(["keys2"]) : ROLES[sec.fn];
     /* who plays ANYWHERE in this section -- so a part arriving at bar 8 of a
        32-bar section is active here, and stage 5 gates the bars before it */
     let active = allowed.filter(r => hasArrived(r, sec.endBar));
@@ -13291,7 +13444,7 @@ function drawPanels(){
      always drawn. In the genres where the movement of these six controls is
      the music rather than a treatment of it, this is the most important box on
      the screen. */
-  const boxes = ["drums", "bass", "keys", "lead"]
+  const boxes = ["drums", "bass", "keys", "lead", "keys2"]
     .map(slot => [slot, machineIn(SONG.chart, slot)])
     .concat(Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].fixed).map(k => [INSTRUMENTS[k].slot, k]));
   for(const [slot, m] of boxes){
@@ -13754,9 +13907,9 @@ function boot(){
         `<option value="${k}">rig: ${RIG_LABEL[k] || k}</option>`).join("");
   }
   {                                  /* the slot pickers, built FROM the rack */
-    const ids = { drums:"mDrums", bass:"mBass", keys:"mKeys", lead:"mLead" };
+    const ids = { drums:"mDrums", bass:"mBass", keys:"mKeys", lead:"mLead", keys2:"mKeys2" };
     const auto = { drums:"drums: as the rig", bass:"bass: as the rig", keys:"keys: as the rig",
-                   lead:"lead: as the rig" };
+                   lead:"lead: as the rig", keys2:"keys 2: none" };
     for(const slot in ids){
       const sel = $(ids[slot]);
       sel.innerHTML = `<option value="auto">${auto[slot]}</option>` +
@@ -13767,7 +13920,7 @@ function boot(){
            machine that owns it, and deleting them would leave a rig-resolved
            acoustic kit with no panel at all; they are simply not offered as
            separate boxes to choose between. */
-        Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].slot === slot
+        Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].slot === (SLOT_ACCEPTS[slot] || slot)
                                              && !INSTRUMENTS[k].legacy)
           .map(k => `<option value="${k}">${slot}: ${INSTRUMENTS[k].label}</option>`).join("");
       /* ── CHANGING A BOX DOES NOT STOP THE MUSIC ────────────────────────────
