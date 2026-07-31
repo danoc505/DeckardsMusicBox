@@ -454,7 +454,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31i · a machine you load is a machine you hear</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31j · iOS Web Audio context resume</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -5738,12 +5738,12 @@ const Sound = (function(){
     }
 
   }
-  function ensureLive(){
+  async function ensureLive(){
     if(!ctx){
       ctx = new (window.AudioContext || window.webkitAudioContext)();
       liveGraph = buildGraph(ctx);
     }
-    if(ctx.state === "suspended") ctx.resume();
+    if(ctx.state === "suspended") await ctx.resume();
     return ctx;
   }
   /* ── THE FADER HAS TO WORK WHILE IT IS PLAYING ────────────────────────────
@@ -5797,8 +5797,8 @@ const Sound = (function(){
   /* `onEvent` is called at the ONE line that decides an event really happens, so
      anything hanging off it inherits the pump's drop rule instead of inventing
      its own. See MIDI_OUT. */
-  function playLive(events, space, kick, drumDrive, gate, motion, fromSec, onEvent){
-    ensureLive();
+  async function playLive(events, space, kick, drumDrive, gate, motion, fromSec, onEvent){
+    await ensureLive();
     stopLive();
     const skip = fromSec > 0 ? fromSec : 0;
     const t0 = ctx.currentTime + 0.15 - skip;
@@ -13457,10 +13457,10 @@ function clearPin(role, pat, bar, lane){
   recompose();
 }
 /* rebuild the song around the edit and keep playing from the same song second */
-function recompose(){
+async function recompose(){
   const at = songTime();
   newSong(SONG.chart.seed);
-  if(playing) startPlayback(at || 0);
+  if(playing) await startPlayback(at || 0);
 }
 
 /* ── THE 808's SIXTEEN STEPS. Instrument select, then sixteen buttons -- which
@@ -13995,12 +13995,12 @@ function pumpLive(){
   RAF = playing ? requestAnimationFrame(pumpLive) : null;
   if(!playing){ PLAY_T0 = null; refreshLive(); }
 }
-function startPlayback(fromSec){
+async function startPlayback(fromSec){
   const S = soundNow();
   /* the port is handed the pump's own decision; if no port is chosen the hook is
      a no-op and nothing about playback changes */
   MIDI_OUT.programs();
-  PLAY_T0 = Sound.playLive(SONG.perf.events, S.space, S.kick, S.drumDrive, S.gate, S.motion, fromSec,
+  PLAY_T0 = await Sound.playLive(SONG.perf.events, S.space, S.kick, S.drumDrive, S.gate, S.motion, fromSec,
                            MIDI_OUT.port ? MIDI_OUT.onEvent : null);
   /* the clock is anchored to the SAME song zero the audio and the bus ride use */
   MIDI_OUT.startClock(PLAY_T0, SONG.chart.tempo, fromSec);
@@ -14018,9 +14018,9 @@ function stopPlayback(){
   if(RAF){ cancelAnimationFrame(RAF); RAF = null; }
   refreshLive();
 }
-function togglePlay(){
+async function togglePlay(){
   if(!SONG) newSong();
-  if(playing) stopPlayback(); else startPlayback(0);
+  if(playing) stopPlayback(); else await startPlayback(0);
 }
 function downloadMidi(){
   if(!SONG) newSong();
@@ -14090,7 +14090,7 @@ function boot(){
     };
     sel.addEventListener("mousedown", ask);
     sel.addEventListener("focus", ask);
-    sel.addEventListener("change", () => {
+    sel.addEventListener("change", async () => {
       MIDI_OUT.panic();                       // never leave the old port ringing
       const p = MIDI_OUT.choose(sel.value);
       if(sel.value && !p) say("· that port went away");
@@ -14099,19 +14099,19 @@ function boot(){
       /* the hook is read at playLive time, so a port chosen mid-song only takes
          effect on the next start -- restart in place, at the same song second,
          which is what every other live change in this file does */
-      if(playing){ const at = songTime(); stopPlayback(); startPlayback(at || 0); }
+      if(playing){ const at = songTime(); stopPlayback(); await startPlayback(at || 0); }
     });
     /* the clock toggle. Takes effect on the next start for the same reason the
        port does -- it is anchored to the song zero playLive returns. */
     const clk = $("midiclock");
-    clk.addEventListener("click", () => {
+    clk.addEventListener("click", async () => {
       const on = clk.getAttribute("aria-pressed") !== "true";
       clk.setAttribute("aria-pressed", on ? "true" : "false");
       clk.style.borderColor = on ? "var(--hot)" : "";
       clk.style.color = on ? "var(--hot)" : "";
       MIDI_OUT.setClock(on);
       if(!on) MIDI_OUT.stopClock();
-      if(playing){ const at = songTime(); stopPlayback(); startPlayback(at || 0); }
+      if(playing){ const at = songTime(); stopPlayback(); await startPlayback(at || 0); }
       else if(on && !MIDI_OUT.port) say("· choose a port first — the clock has nowhere to go");
     });
     addEventListener("pagehide", () => { MIDI_OUT.stopClock(); MIDI_OUT.panic(); });
@@ -14166,15 +14166,15 @@ function boot(){
   /* the dropdown is a PRESET now: it solos one genre and the sliders follow */
   /* the genre and the rig keep playing too, for the same reason -- a genre
      change mid-song is a DJ move, not a reason to stop the record */
-  $("genre").addEventListener("change", () => {
+  $("genre").addEventListener("change", async () => {
     const at = songTime();
     soloBlend($("genre").value); drawBlend(); newSong();
-    if(playing) startPlayback(at || 0);
+    if(playing) await startPlayback(at || 0);
   });
-  $("rig").addEventListener("change", () => {
+  $("rig").addEventListener("change", async () => {
     const at = songTime();
     newSong();
-    if(playing) startPlayback(at || 0);
+    if(playing) await startPlayback(at || 0);
   });
   newSong(1);
 }
