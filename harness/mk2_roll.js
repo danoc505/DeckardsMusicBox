@@ -63,11 +63,39 @@ const midFile = midAt >= 0 ? argv[midAt + 1] : null;
 const pinAt = argv.indexOf("--pins");
 const pinsIn = pinAt >= 0 ? JSON.parse(fs.readFileSync(argv[pinAt + 1], "utf8")) : null;
 
-const song = M.composeSong(seed, rig, genre, null, pinsIn);
+/* --picks drums=tr1000,lead=sax,keys2=wurly -- WHICH MACHINES ARE LOADED. The
+   roll is "the test that matters" and it could not reach the rack at all: the
+   picks argument was passed as null, so a sax lead and a second keyboard were
+   unreadable by the one instrument this project trusts. A slot the roll cannot
+   see is a slot nobody has read the notes of. */
+const pkAt = argv.indexOf("--picks");
+const picks = pkAt >= 0 ? Object.fromEntries(argv[pkAt + 1].split(",")
+                            .map(x => x.split("=").map(y => y.trim()))) : null;
+
+const song = M.composeSong(seed, rig, genre, picks, pinsIn);
 const C = song.chart;
 const nm = p => T.NOTE_NAMES[T.pc(p)] + (Math.floor(p / 12) - 1);   // midi 60 -> C4
 
 /* ── the grid. 16 steps a bar, four bars across, one line per lane/role. ── */
+/* WHICH PITCHED ROLES TO PRINT -- derived from the material, not listed here.
+   This was the literal ["ostinato","bass","keys","lead","counter"], and the
+   moment a second keyboard existed the roll printed every other part and left
+   that one out entirely: 12 notes and 141 events, composed, scheduled, audible,
+   and INVISIBLE to the one instrument this project says is its ears. A roll
+   that cannot see a part is a part nobody has read the notes of. Ordered low to
+   high so the page reads like a score; anything the material has and this list
+   does not is appended rather than dropped. */
+const ROLE_ORDER = ["ostinato", "bass", "keys2", "keys", "counter", "lead"];
+const PITCHED_ROLES = (() => {
+  const have = new Set();
+  for(const m of ["A", "Avar", "B", "C"])
+    for(const r in (song.materials[m] || {}))
+      if(r !== "drums" && (song.materials[m][r] || []).length) have.add(r);
+  const out = ROLE_ORDER.filter(r => have.has(r));
+  for(const r of have) if(!out.includes(r)) out.push(r);
+  return out;
+})();
+
 const RULER = "1e+a2e+a3e+a4e+a";
 const DRUM_CH = { kick: "K", snare: "S", ghost: "g", hat: "x", openhat: "O",
                   tom1: "1", tom2: "2", tom3: "3",
@@ -161,7 +189,7 @@ function printMaterial(key, mat, bars){
     const pr = pinRow("drums", lane);
     if(pr) console.log("  ↑pin  " + pr);
   }
-  for(const role of ["ostinato", "bass", "keys", "lead", "counter"]){
+  for(const role of PITCHED_ROLES){
     const ns = mat[role] || [];
     if(!ns.length) continue;
     /* one char per note: the scale DEGREE it sits on, so a line's shape and its
@@ -175,7 +203,7 @@ function printMaterial(key, mat, bars){
     if(role === "bass"){ const pr = pinRow("bass", null); if(pr) console.log("  ↑pin  " + pr); }
   }
   /* the notes themselves, because a grid cannot show octave or velocity */
-  for(const role of ["ostinato", "bass", "keys", "lead", "counter"]){
+  for(const role of PITCHED_ROLES){
     const ns = (mat[role] || []).slice().sort((a, z) => a.bar - z.bar || a.step - z.step || a.pitch - z.pitch);
     if(!ns.length) continue;
     const parts = ns.map(n => `${n.bar + 1}.${String(n.step).padStart(2)} ${nm(n.pitch).padEnd(4)}` +
