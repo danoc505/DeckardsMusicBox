@@ -56,10 +56,13 @@ const check = (label, ok, detail) => {
   check("the file loads and composes without throwing",
         await pg.evaluate(() => !!(window.MK2 && window.MK2.currentSong())), "seed 1");
 
-  /* put the three panelled machines in the three slots */
+  /* put a panelled machine in every slot the rack HAS -- asked of the program,
+     not listed here, because listing them here is what went stale last time */
   await pg.selectOption("#mDrums", "tr1000");
   await pg.selectOption("#mBass", "tb303");
   await pg.selectOption("#mKeys", "mellotron");
+  await pg.selectOption("#mLead", "sax");
+  await pg.selectOption("#mKeys2", "wurly");
   await pg.waitForTimeout(500);
 
   const shape = await pg.evaluate(() => [...document.querySelectorAll(".machine")].map(m => ({
@@ -79,8 +82,14 @@ const check = (label, ok, detail) => {
   const fixed = await pg.evaluate(() =>
     Object.keys(MK2.INSTRUMENTS).filter(k => MK2.INSTRUMENTS[k].fixed)
       .map(k => (MK2.INSTRUMENTS[k].panel || {}).skin || k));
+  /* HOW MANY SLOTS THERE ARE IS THE PROGRAM'S TO SAY. The comment above claims
+     this count is derived from the rack; only the FIXED half ever was, and the
+     picked half stayed the literal 3 -- so a fourth and a fifth rack turned
+     this green check red without anything being wrong with the program. Third
+     time this number has gone stale, and the last. */
+  const slots = await pg.evaluate(() => MK2.rackSlots().length);
   check("each slot draws its own machine's panel, and every fixed machine is always there",
-        shape.length === 3 + fixed.length && shape.every(s => s.skin) &&
+        shape.length === slots + fixed.length && shape.every(s => s.skin) &&
         fixed.every(f => shape.some(s => s.skin === f)),
         `${shape.length} panels (3 slots + ${fixed.length} fixed: ${fixed.join(",")}) · ` +
         shape.map(s => `${s.skin}:${s.knobs}kn/${s.steps}st`).join(" "));

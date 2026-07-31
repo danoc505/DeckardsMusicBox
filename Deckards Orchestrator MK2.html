@@ -454,7 +454,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31f · a second keyboard, and a register allocator</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31g · the conductor can reach the new racks</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -2447,6 +2447,11 @@ const SLOT_OF = {
    piano built for being the second piano -- so the second rack accepts the same
    boxes the first one does. */
 const SLOT_ACCEPTS = { keys2: "keys" };
+/* THE RACK, IN ONE PLACE. Four literals used to say how many slots there are --
+   resolvePicks, drawPanels, the picker builder and a harness check -- and each
+   one was a hand-copied subset of this list. Adding the lead slot needed three
+   of them changed and the fourth went red. One owner. */
+const RACK_SLOTS = ["drums", "bass", "keys", "lead", "keys2"];
 
 /* THE RIG TABLE — which instrument plays which part. Stage 5 still writes the
    `voice` field in exactly one place; this is the lookup it writes through, and
@@ -2630,7 +2635,7 @@ function resolvePicks(genre, picks, seed){
   const M = (GENRE[genre] && GENRE[genre].machines) || {};
   const rng = stream(seed, "rack");
   const out = {};
-  for(const slot of ["drums", "bass", "keys", "lead", "keys2"]){
+  for(const slot of RACK_SLOTS){
     const drawn = M[slot] ? wpick(rng, M[slot]) : "auto";
     const want = (picks && picks[slot]) || "auto";
     /* a slot accepts its own machines, or -- for the second keyboard -- the
@@ -6195,9 +6200,26 @@ const GENRE = {
          genre, and putting everything on the analogue circuits would have taken
          that away in the name of tidiness. */
       drums:   [["tr1000", 1]],
-      drumKit: [["acoustic", 7], ["analog", 3]],
+      /* AND THE SAMPLED ONE GETS DRAWN. `gretsch` -- a recorded kit, kick,
+         snare, hat and ride -- had been built, wired and reachable by hand
+         since the day it landed, and NO GENRE EVER DREW IT. A sampled acoustic
+         kit is closer to what a beat tape actually is than either circuit, so
+         it takes a share of the acoustic weight rather than being an extra:
+         7/3 acoustic/analog becomes 4/3/3. Its open hat, toms, crash and rim
+         still fall back to the synthesised voices -- that is the half of it
+         that is not populated, and it is written down rather than hidden. */
+      drumKit: [["acoustic", 4], ["gretsch", 3], ["analog", 3]],
       bass:  [["auto", 1]],
       keys:  [["auto", 8], ["mellotron", 2]],
+      /* THE HORN, AND THE SECOND PAIR OF HANDS. Both slots existed and no genre
+         could reach either -- they were pickable by hand and invisible to the
+         conductor, which makes them a UI feature rather than part of the music.
+         A sax over a boom-bap bed is the genre's own lineage; it stays a
+         minority draw because a lofi record is more often instrumental than
+         not. The second keyboard is a wurly laying pads under the rhodes, which
+         is the pair this genre already names in keysChar. [EAR] */
+      lead:  [["auto", 7], ["sax", 3]],
+      keys2: [["auto", 6], ["wurly", 3], ["rhodes", 1]],
     },
     /* the panel as this genre wants to find it. Soft, dark, short: an 808 in
        lofi is not the long booming 808 of trap -- it is a muffled thump under a
@@ -6257,6 +6279,18 @@ const GENRE = {
                  shape: "sin", freePhase: true }],
       },
       echo: {
+        /* ── SO THE PAD HAS SOMETHING TO SHOW ─────────────────────────────────
+           The XY pad drives `tone` and `fb`, and its dim dot only appears on a
+           control the song actually rides. MEASURED across the seven genres:
+           plastikman rode both, bladerunner rode tone, four rode fb, and DKC
+           rode NEITHER -- so on most genres one axis of the pad was a dead
+           half, and on one the whole thing was. That is the same defect as a
+           knob nothing reads, in a new shape.
+           Added shallow and slow, because this is a colour on a send and not a
+           filter sweep: enough that the dot travels and the repeats breathe,
+           not enough to become an effect of its own. [EAR] */
+        tone: [{ kind: "lfo", bars: [[64, 2], [48, 1]], depth: [350, 1100],
+                shape: "sin", freePhase: true }],
         /* the tape slap opens up where the record does and pulls back for the
            outro -- the delay is part of the arrangement, not a fixed insert */
         send: [{ kind: "section", by: { chorus: [0.03, 0.10], bridge: [0.06, 0.16],
@@ -6999,6 +7033,18 @@ const GENRE = {
                  shape: "sin", freePhase: true }],
       },
       echo: {
+        /* ── SO THE PAD HAS SOMETHING TO SHOW ─────────────────────────────────
+           The XY pad drives `tone` and `fb`, and its dim dot only appears on a
+           control the song actually rides. MEASURED across the seven genres:
+           plastikman rode both, bladerunner rode tone, four rode fb, and DKC
+           rode NEITHER -- so on most genres one axis of the pad was a dead
+           half, and on one the whole thing was. That is the same defect as a
+           knob nothing reads, in a new shape.
+           Added shallow and slow, because this is a colour on a send and not a
+           filter sweep: enough that the dot travels and the repeats breathe,
+           not enough to become an effect of its own. [EAR] */
+        tone: [{ kind: "lfo", bars: [[64, 2], [48, 1]], depth: [350, 1100],
+                shape: "sin", freePhase: true }],
         send: [{ kind: "section", by: { bridge: [0.08, 0.20], chorus: [0.02, 0.08],
                                         outro: [0.05, 0.14] } },
                { kind: "gesture", on: "build", bars: 8, from: [0.08, 0.18], to: [0, 0], curve: "lin" }],
@@ -7516,6 +7562,20 @@ const GENRE = {
                  shape: "sin", freePhase: true }],
       },
       echo: {
+        /* ── SO THE PAD HAS SOMETHING TO SHOW ─────────────────────────────────
+           The XY pad drives `tone` and `fb`, and its dim dot only appears on a
+           control the song actually rides. MEASURED across the seven genres:
+           plastikman rode both, bladerunner rode tone, four rode fb, and DKC
+           rode NEITHER -- so on most genres one axis of the pad was a dead
+           half, and on one the whole thing was. That is the same defect as a
+           knob nothing reads, in a new shape.
+           Added shallow and slow, because this is a colour on a send and not a
+           filter sweep: enough that the dot travels and the repeats breathe,
+           not enough to become an effect of its own. [EAR] */
+        tone: [{ kind: "lfo", bars: [[64, 2], [48, 1]], depth: [350, 1100],
+                shape: "sin", freePhase: true }],
+        fb:   [{ kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.03, 0.08],
+                shape: "sin", freePhase: true }],
         send: [{ kind: "section", by: { chorus: [0.02, 0.08], instrumental: [0.03, 0.10],
                                         outro: [-0.05, -0.02] } }],
       },
@@ -7936,7 +7996,21 @@ const GENRE = {
     },
 
     machines: { drums: [["auto", 1]], bass: [["auto", 1]],
-                keys: [["auto", 6], ["mellotron", 3], ["cs80", 2]] },
+                keys: [["auto", 6], ["mellotron", 3], ["cs80", 2]],
+                /* ══ THE SAX IS ON THIS RECORD, AND THAT IS NOT A TASTE CALL ══
+                   "Love Theme" has a saxophone on it played by DICK MORRISSEY,
+                   and apart from his sax every instrumental part on the cue was
+                   played by Vangelis himself. So of the two instruments that
+                   actually appear on this score, this program had one. Weighted
+                   heavily for that reason -- higher than any other genre's lead
+                   draw -- because a documented session player on the actual
+                   record is stronger evidence than anything else in this table.
+                   [corpus:bladerunner.fandom/Love_Theme, wikipedia/Love_Theme] */
+                lead:  [["sax", 5], ["auto", 5]],
+                /* the VP-330 under the CS-80: the nemo rig already names both,
+                   and a string machine holding pads under the brass is what the
+                   second keyboard is for. [EAR] */
+                keys2: [["auto", 5], ["vp330", 4], ["mellotron", 1]] },
     params: {
       /* ═══ THE ONE LINE THAT NAMES THE GENRE ═══
          initBend 1.0 = every note starts a semitone flat and slides up, scaled
@@ -7998,6 +8072,18 @@ const GENRE = {
                  shape: "sin", freePhase: true }],
       },
       echo: {
+        /* ── SO THE PAD HAS SOMETHING TO SHOW ─────────────────────────────────
+           The XY pad drives `tone` and `fb`, and its dim dot only appears on a
+           control the song actually rides. MEASURED across the seven genres:
+           plastikman rode both, bladerunner rode tone, four rode fb, and DKC
+           rode NEITHER -- so on most genres one axis of the pad was a dead
+           half, and on one the whole thing was. That is the same defect as a
+           knob nothing reads, in a new shape.
+           Added shallow and slow, because this is a colour on a send and not a
+           filter sweep: enough that the dot travels and the repeats breathe,
+           not enough to become an effect of its own. [EAR] */
+        fb:   [{ kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.03, 0.08],
+                shape: "sin", freePhase: true }],
         /* this genre has no drum machine to step -- its kit is barely there --
            so the per-hearing change goes where its sound actually lives: the
            room gets deeper and the CS-80 breathier each time a cue returns.
@@ -8344,6 +8430,18 @@ const GENRE = {
                  shape: "sin", freePhase: true }],
       },
       echo: {
+        /* ── SO THE PAD HAS SOMETHING TO SHOW ─────────────────────────────────
+           The XY pad drives `tone` and `fb`, and its dim dot only appears on a
+           control the song actually rides. MEASURED across the seven genres:
+           plastikman rode both, bladerunner rode tone, four rode fb, and DKC
+           rode NEITHER -- so on most genres one axis of the pad was a dead
+           half, and on one the whole thing was. That is the same defect as a
+           knob nothing reads, in a new shape.
+           Added shallow and slow, because this is a colour on a send and not a
+           filter sweep: enough that the dot travels and the repeats breathe,
+           not enough to become an effect of its own. [EAR] */
+        tone: [{ kind: "lfo", bars: [[64, 2], [48, 1]], depth: [350, 1100],
+                shape: "sin", freePhase: true }],
         /* "reverb send increases during breakdowns open up space" -- so the
            send climbs where the parts thin and comes back for the arrival */
         send: [{ kind: "section", by: { bridge: [0.10, 0.24], chorus: [-0.04, 0.02],
@@ -9472,6 +9570,18 @@ const GENRE = {
                  shape: "sin", freePhase: true }],
       },
       echo: {
+        /* ── SO THE PAD HAS SOMETHING TO SHOW ─────────────────────────────────
+           The XY pad drives `tone` and `fb`, and its dim dot only appears on a
+           control the song actually rides. MEASURED across the seven genres:
+           plastikman rode both, bladerunner rode tone, four rode fb, and DKC
+           rode NEITHER -- so on most genres one axis of the pad was a dead
+           half, and on one the whole thing was. That is the same defect as a
+           knob nothing reads, in a new shape.
+           Added shallow and slow, because this is a colour on a send and not a
+           filter sweep: enough that the dot travels and the repeats breathe,
+           not enough to become an effect of its own. [EAR] */
+        tone: [{ kind: "lfo", bars: [[64, 2], [48, 1]], depth: [350, 1100],
+                shape: "sin", freePhase: true }],
         send: [{ kind: "section", by: { bridge: [0.10, 0.24], intro: [0.04, 0.12] } },
                { kind: "gesture", on: "build", bars: 8, from: [0.10, 0.22], to: [0, 0], curve: "lin" },
                /* the throw: jungle's delay is a thrown thing, not a wash */
@@ -12438,6 +12548,14 @@ const MIDI_TRACK = {
      round-trip check in mk2_roll.js, which parses the .mid back and counts:
      1489 note-ons for 3009 events. That check exists for exactly this. */
   ostinato: { ch: 4, prog: 11, name: "ostinato" },  // vibraphone: a struck, ringing cell
+  /* AND THE SECOND KEYBOARD, for exactly the same reason the ostinato is here.
+     The moment that role existed the export dropped it in silence -- 1137 of
+     1309 notes on lofi seed 1 -- and the round-trip check named the number
+     before anyone could believe otherwise. A role added upstream is a track
+     that has to exist downstream; there is no third option, and this table is
+     where the file keeps learning it. Channel 5, and a warm pad program,
+     because that is what this part plays. */
+  keys2:    { ch: 5, prog: 89, name: "keys 2"   },  // pad 2 (warm)
 };
 
 /* WHICH KEY AND HOW HARD — the ONE answer, for the file you export and the port
@@ -13444,7 +13562,7 @@ function drawPanels(){
      always drawn. In the genres where the movement of these six controls is
      the music rather than a treatment of it, this is the most important box on
      the screen. */
-  const boxes = ["drums", "bass", "keys", "lead", "keys2"]
+  const boxes = RACK_SLOTS.slice()
     .map(slot => [slot, machineIn(SONG.chart, slot)])
     .concat(Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].fixed).map(k => [INSTRUMENTS[k].slot, k]));
   for(const [slot, m] of boxes){
@@ -13987,6 +14105,13 @@ window.MK2 = {
   /* the MIDI mapping, exported for the same reason voiceNames is: a harness
      that hand-copies these numbers proves its copy is current and nothing else */
   midiTracks: () => MIDI_TRACK, gmDrum: () => GM_DRUM, midiKeyFor,
+  /* WHICH SLOTS THE RACK HAS, for exactly the same reason. mk2_ui asserted a
+     panel count of "3 + the fixed machines" and its own comment said the number
+     had already been corrected twice and was "now DERIVED from the rack" -- but
+     only the FIXED half was derived; the picked half was still the literal 3.
+     So adding a fourth and fifth rack turned a green check red, which is the
+     check being stale rather than the program being wrong. One owner. */
+  rackSlots: () => RACK_SLOTS.slice(),
   refreshBus: () => Sound.refreshBus(),
   liveLevel: () => Sound.liveLevel(),
   /* the song the panels are currently showing -- a read handle for a probe
