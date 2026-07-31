@@ -401,7 +401,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-30g · the Blade Runner genre answers to its own name</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31a · the CS-80 numbers, checked against sources</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -7516,13 +7516,27 @@ const GENRE = {
          built and no genre had ever switched it on.
          [corpus:cs80.com/tour + corpus:soundonsound + corpus:arturia manual] */
       cs80:  { initBend: 1.00, bright: 0.44, res: 0.42, ring: 0.10, ens: 0.62, vib: 0.72,
-               /* THE AFTER COLUMN, and this genre runs it hard, because the
-                  reconstruction sheet is unambiguous that the static patch is
-                  only about 40% of this sound and poly aftertouch is one of the
-                  two elements rated "Extremely high". Its own routing table
-                  gives filter opening 80%, brightness 70%, vibrato 40% and
-                  volume 20% -- which is the shape of these three.
-                  [corpus:CS-80 reconstruction sheet] */
+               /* THE AFTER COLUMN, and this genre runs it hard.
+                  THE MARK ON THIS LINE USED TO READ [corpus:CS-80 reconstruction
+                  sheet] AND THAT WAS THE WORST KIND OF WRONG, because the
+                  "reconstruction sheet" is the user's own working document --
+                  whose opening paragraph says there is NO archive of verified
+                  CS-80 patch sheets for this score. The citation refuted itself,
+                  and a provenance that does not match its constant is worse than
+                  none: it tells the next reader the number was checked.
+
+                  WHAT A SIX-ANGLE WEB PASS ACTUALLY ESTABLISHED (fetched pages,
+                  not search summaries): AFTER-BRILLIANCE is real, there is one
+                  PER CHANNEL, and it is UNIPOLAR -- it can only add brightness,
+                  never subtract. So the SIGN is [corpus:yamaha-cs80-manual +
+                  arturia-cs80v-manual]. The MAGNITUDE is stated by nothing: the
+                  panel lever is calibrated 0-10 and no source converts a lever
+                  position into Hz, octaves or percent. The same document that
+                  proposed 0.80 elsewhere proposes a +20-60% band, which
+                  contradicts it.
+
+                  These three numbers are therefore taste, and they are marked as
+                  taste. They sound right and they are not measured. [EAR] */
                atBrill: 0.80, atLevel: 0.20, atVib: 0.40 },
       /* a quarter note, barely fed back, mostly into the room */
       echo:  { div: 4, fb: 0.18, tone: 3200, hp: 120, send: 0.16, verb: 0.85 },
