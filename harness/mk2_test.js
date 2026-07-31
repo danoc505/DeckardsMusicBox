@@ -214,7 +214,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   let all = 0;
   const seven = {}; for(const g of gs) seven[g] = 1 / gs.length;
   for(let seed = 1; seed <= 20; seed++){ try { M.composeSong(seed, undefined, seven); all++; } catch(e){} }
-  check("all seven blended at once still composes", all >= 19, all + "/20");
+  check("every genre blended at once still composes", all >= 19, all + "/20");
   /* and a blend of ONE must be the plain genre, byte for byte, or the snapshot
      means nothing the moment anyone touches a slider */
   let same = 0;
@@ -1399,6 +1399,47 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         bad.length === 0,
         bad.length ? bad.slice(0, 5).join(" | ")
                    : `${heard}/${pairs} rack/machine pairs reach the performance`);
+}
+{
+  /* ── A SEQUENCER THAT IS NOT SIXTEEN STEPS LONG IS THE WHOLE GENRE ──────────
+     `kit.poly` is the one piece of engine the Autechre table needed, and a
+     table is a claim -- this is the evidence. A lane declared at length 7, 5 or
+     11 against a 16-step bar CANNOT put the same steps in every bar; if it
+     does, the poly block has stopped being read and the genre has quietly
+     become another four-to-the-floor record with odd accents.
+
+     Measured off the MATERIAL and not the performance, because the arc thins
+     and the arrangement gates, and both would produce bar-to-bar difference
+     that has nothing to do with metre.
+
+     The control is Plastikman, which is the same family of music built the
+     ordinary way: every one of its drum lanes repeats exactly, bar after bar.
+     [corpus:notebook.zoeblade.com, corpus:soundonsound -- see probe_poly.js] */
+  const share = g => {
+    let lanes = 0, differing = 0;
+    for(let s = 1; s <= 12; s++){
+      const song = M.composeSong(s, undefined, g);
+      for(const m of ["A", "Avar", "B", "C"]){
+        const notes = (song.materials[m] || {}).drums;
+        if(!notes) continue;
+        const byLane = {};
+        for(const n of notes) (byLane[n.lane] = byLane[n.lane] || [[], [], [], []])[n.bar].push(n.step);
+        for(const lane in byLane){
+          const bars = byLane[lane].map(a => a.slice().sort((x, y) => x - y).join(","))
+                                   .filter(b => b.length);
+          if(bars.length < 2) continue;
+          lanes++;
+          if(new Set(bars).size > 1) differing++;
+        }
+      }
+    }
+    return lanes ? differing / lanes : 0;
+  };
+  const ae = share("autechre"), pm = share("plastikman");
+  check("the polymetric genre's bars genuinely do not repeat",
+        ae > 0.4 && pm < 0.05,
+        `autechre ${(100 * ae).toFixed(1)}% of drum lanes differ bar to bar · ` +
+        `plastikman ${(100 * pm).toFixed(1)}% (the control: same music, ordinary grid)`);
 }
 
 console.log("\n" + pass + " passed, " + fail + " failed");

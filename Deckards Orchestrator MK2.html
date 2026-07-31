@@ -472,7 +472,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31j · iOS Web Audio context resume</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31k · the horn phrases, the rack is a list, and Autechre arrives</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -2616,6 +2616,33 @@ const RIG = {
              bass:"acid303", keys:"wash", lead:"acid303", counter:"acid303",
              ostinato:"acid303" ,
             rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
+  /* ── THE AE RIG ────────────────────────────────────────────────────────────
+     Autechre's boxes are a Roland TR-606 and an R-8 for drums, an SH-2, an
+     MS-10/20 and a DX100 for pitch, and Ensoniq and Casio samplers for
+     everything else [corpus:soundonsound]. Nothing in this palette is any of
+     those, so this rig is chosen on BEHAVIOUR rather than on model names:
+
+       ostinato -> waveseq   The wave-sequencer is the closest thing this file
+                             has to "using the sound at different pitches to
+                             create a feel" [corpus:musicradar, Sean Booth] --
+                             a timbre that moves while the pitches repeat. In
+                             this genre the ostinato is the lead voice, so it
+                             gets the instrument that changes as it holds.
+       keys     -> wash      a bed rather than a comp. There are no chords being
+                             stated here, so the keyboard is a surface.
+       bass     -> reese     detuned saws with their own filter and sweep. The
+                             one bass in this file with movement built into it.
+       lead     -> waveseq   on the rare occasions this genre writes a tune, it
+                             is the same material as the ostinato, higher up.
+     The kit lanes are the 808's, because that is the most machine-like kit here
+     and this is machine music -- but every drum lane is polymetric in the genre
+     table, which is what actually makes it sound like this band. */
+  ae: { kick:"k808", snare:"rim", ghost:"rim", hat:"h808", openhat:"oh808",
+        brk:"brk",
+        tom1:"t808hi", tom2:"t808mid", tom3:"t808lo",
+        bass:"reese", keys:"wash", lead:"waveseq", counter:"waveseq",
+        ostinato:"waveseq",
+        rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
 };
 
 /* WHAT TO CALL EACH BAND IN THE PICKER. Kept OUT of the RIG entries on purpose:
@@ -2632,6 +2659,7 @@ const RIG_LABEL = {
   box:     "the box — 808 + 303",       // acid house
   jungle:  "break rig — the chopper",
   plastik: "plastik — 808 + sub",       // minimal techno
+  ae:      "ae — wave sequencer + Reese",
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -9950,6 +9978,375 @@ const GENRE = {
                       shape: "sin", freePhase: true }] },
     },
   },
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     AUTECHRE — and what this table is actually claiming
+
+     Asked for: "research Autechre, this is to make our minimal techno correct
+     because it is not correct currently."
+
+     ONE CORRECTION FIRST, because it changes what got built. Plastikman IS
+     minimal techno and its table is right about it -- Richie Hawtin, 808 and a
+     303, "starting small and building up". Autechre are not that music: they
+     are Warp, they are IDM, and the whole point of them is that the grid does
+     not agree with itself. Turning the Plastikman table into an Autechre table
+     would have produced neither, so this is a NEW genre and Plastikman is
+     untouched. The thing that was missing was an Autechre, not a fix.
+
+     WHAT THE BAND SAY THEY DO, which is what this table is built out of:
+
+       "RHYTHM IS EVERYTHING TO US. A NOTE IS JUST A SOUND PLAYED FOR A
+        DIFFERENT LENGTH AT A DIFFERENT PITCH."                [corpus:musicradar]
+
+       "In terms of melody, for us it isn't so much about writing a tune, it's
+        more about using the sound at different pitches to create a feel."
+                                                               [corpus:musicradar]
+
+       "We'll have maybe a handful of sounds and they'll dictate what kind of
+        rhythm we use."                                        [corpus:musicradar]
+
+       and on the machines: cascading sequencers with different timings, "to
+       create complex polyrhythmic results that appear chaotic but follow
+       quantifiable rules."                                 [corpus:soundonsound]
+
+     THE ONE THAT NEEDED NEW ENGINE, and the reason this genre could not have
+     been written before today: POLYMETRE. "Using polymetres in electronic music
+     can be as simple as changing the pattern length for only some parts while
+     leaving most at the default bar-long 16 sixteenths." Autechre are that
+     page's worked example -- a shorter pattern length on the MC-202 in
+     `Windwind`. [corpus:notebook.zoeblade.com] `kit.poly` below is three
+     independent sequencers of 7, 5 and 11 steps running against a 16-step bar;
+     all three are coprime with 16, so nothing lines up until the loop comes
+     round. See buildDrums.
+
+     AND THE ONE THIS TABLE DELIBERATELY DOES NOT DO: it does not wobble. The
+     obvious way to write "Autechre" into a groove table is a big `jitter`, and
+     that would be wrong -- they are not a loose band, they are a precisely
+     sequenced one that puts hits in odd PLACES. Random displacement is a
+     drummer's feel; this music's displacement is programmed and repeats
+     exactly. So the jitter here is machine-tight, at the same 1.2 ms as
+     Plastikman's, and every bit of the strangeness comes from where the notes
+     are written rather than from smearing them afterwards.
+     ═══════════════════════════════════════════════════════════════════════════ */
+  autechre: {
+    label: "IDM (Autechre)",
+    /* below techno on purpose. The complexity is in the subdivision, not the
+       pulse -- a fast pulse leaves no room for a 7 against a 16 to be heard. */
+    tempo: [92, 118],
+    /* PHRYGIAN FIRST. The harmony here is not functional -- "building a bridge
+       from metal girders", predefined frequencies rather than a key doing
+       work [corpus:soundonsound] -- and the flat second is the interval that
+       most refuses to resolve. */
+    modes: [["phrygian", 5], ["minor", 4], ["dorian", 2]],
+    rig: [["ae", 1]],
+    keysChar: [["waveseq", 1]],
+    tape: { wow: [0, 0], crackle: [0, 0] },      // no patina; this is not a warm record
+
+    form: {
+      /* SHORTER SECTIONS THAN ANY OTHER GENRE HERE. "We don't tend to build up
+         tracks in the traditional way" [corpus:soundonsound] -- so instead of
+         long statements that accrete, this changes function often and the
+         change is the event. 16 bars at 105 bpm is about 36 seconds. */
+      lengths:  { intro: 8, verse: 16, chorus: 16, bridge: 8, instrumental: 16, outro: 8 },
+      /* no hook, so no chorus material -- chorus maps to A like Plastikman's
+         does. Avar carries the mutation, which is where this music lives. */
+      material: { intro: "A", verse: "A", chorus: "A", bridge: "C",
+                  instrumental: "Avar", outro: "Avar" },
+      roles: {
+        /* THE OSTINATO IS THE BAND. It is the one builder in this file that
+           ignores the changes -- a fixed cell over whatever is underneath --
+           and that is exactly "using the sound at different pitches to create a
+           feel". It is present in every section including the intro, because
+           this music does not wait to introduce itself. */
+        intro:        ["drums", "ostinato"],
+        verse:        ["drums", "ostinato", "bass"],
+        chorus:       ["drums", "ostinato", "bass", "keys"],
+        /* the breakdown takes the KIT away and leaves the polymetre, which is
+           the only moment the listener gets to hear what the grid was doing */
+        bridge:       ["ostinato", "keys"],
+        instrumental: ["drums", "ostinato", "bass", "keys"],
+        outro:        ["drums", "ostinato"],
+      },
+      build: {
+        /* ALMOST NO ACCRETION, and that is the difference from Plastikman.
+           Hawtin's philosophy is "how much you can do with the least amount...
+           starting small and building up"; Autechre's records tend to be
+           already going and then to MUTATE. So everything enters early and the
+           interest comes from Avar rather than from parts arriving. */
+        enter: { drums: [0, 0.04], ostinato: [0, 0.04], bass: [0.05, 0.06],
+                 keys: [0.10, 0.10] },
+        /* and it is genuinely not always the kit that starts */
+        openWith: [["ostinato", 5], ["drums", 4], ["bass", 2]],
+      },
+      coldOpen:  0.9,
+      openVerse: 1.0,
+      /* long records, in 16-bar units because that is this genre's section */
+      target:    [128, 6, 16],
+      payoff:    "instrumental",
+      transitions: {
+        verse:        [["instrumental", 8], ["bridge", 3], ["verse", 3]],
+        instrumental: [["verse", 7], ["bridge", 3], ["instrumental", 3]],
+        bridge:       [["instrumental", 6], ["verse", 4]],
+      },
+      bridgeAfterChorus: { verse: 2, instrumental: 2 },
+      energy: { intro: 0.82, outro: 0.74, bridge: 0.62, instrumental: 0.9,
+                chorus: 0.9, chorusPeak: 0.94, verse: 0.86 },
+      arc: { apexAt: [0.5, 0.8], floor: [0.1, 0.2], tail: [0.25, 0.5],
+             bend: [1.4, 2.4], dip: [0.12, 0.26], preHighs: [1, 3],
+             thin: { drums: 0.4, bass: 0.6, keys: 0.66, lead: 0.7 } },
+    },
+
+    /* THE KICK PATTERN, AND IT IS NOT FOUR ON THE FLOOR. Three of these four
+       pockets refuse the backbeat grid entirely; the one that keeps 0-4-8-12 is
+       there so the music can occasionally agree with itself, which is what
+       makes the rest of it read as displacement rather than as noise. */
+    pocket: [[[0, 6, 10], 5], [[0, 3, 8, 14], 4], [[0, 7, 11], 3], [[0, 4, 8, 12], 2]],
+
+    kit: {
+      /* the snare is DISPLACED -- never on 4 and 12. "They properly fuck with
+         the listener's sense of rhythmic anticipation, with non-linear grooves
+         that hinge around displacements of typical snares." [corpus:boomkat] */
+      snare: [5, 13],
+      hatEvery: 4, hatVel: 0.4,
+      ghostChance: 0.5, ghostSpots: [2, 6, 9, 14],
+      openSpot: [[-1, 5], [11, 3], [3, 2]],
+      openBars: [1, 3],
+      toms: { use: 0.2, loop: 0.18, loopSpots: [6, 13, 15], loopLanes: ["tom1", "tom3"],
+              shapes: [[[[13, "tom1"], [15, "tom3"]], 1]] },
+      kickKeep: 4,
+      rim: [], clap: [],
+      rideEvery: 0,
+      crashChance: 0.05, crashStep: 0,
+      flourishBar: -1, flourish: [[[], 1]],
+      /* ── THE THREE SEQUENCERS THAT ARE NOT SIXTEEN STEPS LONG ───────────────
+         This is the genre. 7, 5 and 11 against a 16-step bar, all coprime with
+         16, counted in ABSOLUTE steps so they carry across the bar line and
+         come home only when the four-bar loop does. Nothing here is random --
+         "results that appear chaotic but follow quantifiable rules". */
+      poly: [
+        { lane: "hat",  len: 7,  on: [0, 3],  vel: 0.44 },
+        { lane: "rim",  len: 5,  on: [0],     vel: 0.52 },
+        { lane: "clap", len: 11, on: [0, 7],  vel: 0.4 },
+      ],
+      variants: {
+        main:   {},
+        /* the lift TIGHTENS rather than adds: a 3-step hat is faster and more
+           insistent, and moving the clap to 13 changes where everything lands */
+        lift:   { hatEvery: 2, hatVel: 0.46,
+                  poly: [{ lane: "hat",  len: 3,  on: [0],    vel: 0.42 },
+                         { lane: "rim",  len: 5,  on: [0, 2], vel: 0.5 },
+                         { lane: "clap", len: 13, on: [0],    vel: 0.44 }] },
+        /* the departure drops to two sequencers and a longer one, so the bridge
+           is genuinely a different metre and not a quieter version of this one */
+        depart: { snare: [], hatEvery: 8, openBars: [], kickKeep: 2,
+                  poly: [{ lane: "rim", len: 9,  on: [0],    vel: 0.46 },
+                         { lane: "hat", len: 14, on: [0, 5], vel: 0.38 }] },
+      },
+    },
+
+    counter: null,                 // no counter-line: there is no tune to counter
+    sevenths: false,               // triads; the colour comes from the mode, not the stack
+
+    /* A HANDFUL OF NOTES. "A note is just a sound played for a different length
+       at a different pitch" -- so the theme is nearly nothing, and the onset
+       pool avoids 0, 4, 8 and 12 almost entirely. The tune, where there is one,
+       lands between the beats. */
+    theme: {
+      count: { hooky: [1, 1], breath: [1, 1], normal: [1, 2] },
+      /* ODD STEPS WEIGHTED, and for two reasons at once: they are the ones the
+         ear does not expect, and they are the ones the eighth-note ostinato
+         never occupies -- so the displacement and the collision-avoidance are
+         the same decision rather than two. */
+      onsetPool: [[3, 5], [11, 5], [9, 3], [7, 3], [6, 2], [14, 2]],
+    },
+
+    /* ONE CHORD, MOSTLY. The harmony is a surface for the cell to sit on, and
+       when it does move it moves to the flat second, which is phrygian's own
+       and resolves nowhere. */
+    progressions: {
+      phrygian: [[[0, 0, 0, 0], 7], [[0, 0, 1, 0], 3], [[0, 1, 0, 1], 1]],
+      minor:    [[[0, 0, 0, 0], 7], [[0, 0, 5, 0], 2], [[0, 0, 0, 6], 1]],
+      dorian:   [[[0, 0, 0, 0], 8], [[0, 0, 3, 0], 2]],
+    },
+    bridgeProgressions: {
+      phrygian: [[[1, 1, 0, 0], 1]],
+      minor:    [[[5, 5, 0, 0], 1]],
+      dorian:   [[[3, 3, 0, 0], 1]],
+    },
+
+    /* the ostinato sits HIGH and the bass sits LOW, with a deliberate hole in
+       the middle where a comp would be in any other genre -- there is no comp
+       here, there is a bed.
+
+       KEYS AND OSTINATO DO NOT OVERLAP AT ALL, and that is measured rather than
+       tidy. At [50,71] against [69,91] they shared three semitones, and because
+       BOTH parts land on even steps -- the bed on the pocket, the cell on
+       eighths -- those three semitones produced a real collision on 3 of 120
+       seeds, always in Avar, always at pitch 69 or 70. The theme is allowed to
+       overlap the ostinato because it is sparse and lands on ODD steps, so the
+       two can share a register without ever sharing a seat. */
+    registers: {
+      bass: [28, 45], keys: [48, 67], counter: [60, 79], bassWalk: [28, 45],
+      ostinato: [70, 91], themeA: [64, 84], themeB: [64, 84], themeC: [64, 84],
+    },
+
+    /* MACHINE-TIGHT, ON PURPOSE. See the header: the displacement in this music
+       is written, not smeared. 1.2 ms is the same figure Plastikman carries and
+       it is here for the same reason -- a sequencer's clock, not a hand. */
+    groove: {
+      styles: [["even", 10]], swing: [1, 0], swingUnit: 1,
+      snareEarly: [0, 0], kickLate: [0, 0], hatMul: 1,
+      jitter: { even: 0.0012, dilla: 0.0012 },
+      push: 0,
+      laneLean: { kick: 0, hat: 0, openhat: 0, ghost: 0, snare: 0 },
+    },
+    touch: { bassArtic: [[2, 5], [1, 4], [4, 2]], strum: [0, 0] },
+
+    /* THE ACCENT MAP IS DISPLACED TOO, and this is the quietest of the three
+       displacements but not the least important: every other genre in this file
+       peaks on 0, 4, 8 and 12, which is where the ear expects weight. These
+       peak on 3, 6, 11 and 14. Nothing is louder; the loudness is elsewhere. */
+    accent: {
+      kick:    [1, .9, .9, .96, .9, .9, .98, .9, .9, .9, .9, 1, .9, .9, .96, .9],
+      snare:   [.92, .9, .9, 1, .9, .96, .9, .9, .9, .9, .9, .98, .9, .9, 1, .9],
+      ghost:   [.92, .9, .9, 1, .9, .96, .9, .9, .9, .9, .9, .98, .9, .9, 1, .9],
+      hat:     [.94, .9, .9, 1, .9, .9, .98, .9, .9, .96, .9, 1, .9, .9, .96, .9],
+      tom1:    [.94, .9, .9, 1, .9, .9, .98, .9, .9, .96, .9, 1, .9, .9, .96, .9],
+      tom2:    [.94, .9, .9, 1, .9, .9, .98, .9, .9, .96, .9, 1, .9, .9, .96, .9],
+      tom3:    [.94, .9, .9, 1, .9, .9, .98, .9, .9, .96, .9, 1, .9, .9, .96, .9],
+      openhat: [.94, .9, .9, 1, .9, .9, .98, .9, .9, .96, .9, 1, .9, .9, .96, .9],
+    },
+
+    /* a big, dark, metallic room -- Confield is described as "cold, metallic,
+       percussive" [corpus:igloomag] -- with the delay on the drums, which is
+       where this music's space actually lives */
+    space: { wet: 0.3, irSec: 2.4, tailPow: 2.2, tailDark: 0.2, sendHp: 260,
+             feeds: ["drums", "keys"], echoFeeds: ["drums", "ostinato"] },
+    kick: { tune: 44, decay: 0.34, click: 0.75, drive: 0.62, body: 0.9, gain: 1.12 },
+    drumDrive: 1.35,
+    gate: null,
+    ribbon:   { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
+    pressure: { depth: 0, amount: [0, 0], at: [0, 0], rise: [0, 0] },
+
+    /* "A NOTE IS JUST A SOUND PLAYED FOR A DIFFERENT LENGTH AT A DIFFERENT
+       PITCH" is, read literally, a description of a pulse bass: the root,
+       repeated on a division, with holes in it. `restChance` is what makes it
+       this band's rather than synthwave's -- a third of the pulses are not
+       there, so the bass is a rhythm part that happens to have a pitch. */
+    bassStyle: "pulse",
+    /* UNIT 2, AND IT HAS TO DIVIDE 16. At unit 3 the builder wrote six notes a
+       bar (steps 0,3,6,9,12,15) while the density prediction reads 16/unit =
+       5.33, and the seam battery caught the gap immediately: this genre and
+       Plastikman both came out at ~18 notes from different builders whose
+       tables asked for 15 and 18. A unit that does not divide the bar is a
+       table lying about its own density. Eighths with a lot of holes is the
+       same sound and an honest number. */
+    bassPulse: { unit: 2, rootBias: 0.85, octaveJump: 0.12, restChance: 0.45 },
+    bassAccent: { accent: 0.3, slide: 0.06 },
+    roleGain: { bass: 0.7, ostinato: 0.8, keys: 0.6 },
+
+    /* ── THE CELL, AND IT RUNS ──────────────────────────────────────────────
+       Prime-length cells -- 7, 5 and 11 -- with `run` ON, which is the switch
+       that makes the cell index carry ACROSS the bar line instead of restarting
+       at every downbeat. That is polymetre in the pitched voice to match the
+       three in the kit: an 11-note cell in eighths against a 4-bar loop never
+       states the same bar twice.
+
+       The engine already had `run`, built for Berlin School sequencing -- "two
+       individual sequencer parts play at odd lengths, usually one or two steps
+       apart ... this causes variations in the overall sequence as the parts
+       loop back around" [corpus:modwiggler] -- which is the same technique
+       Autechre describe as cascading sequencers. It had no user until now.
+
+       `unit: 2` AND NOT 1, AND THAT IS A MEASUREMENT. At unit 1 the ostinato
+       occupies all sixteen steps of every bar, which leaves the theme nowhere
+       to land: blends collided 8 times in 672 against a 3-in-504 baseline, all
+       of them this genre at 0.75 weight. Eighths halve the surface, the odd
+       steps of the theme's onset pool can no longer collide with it at all, and
+       nothing about the polymetre is lost -- `run` is what carries that, not
+       the subdivision. `vary` on, because Avar carries this record. */
+    ostinato: {
+      unit: 2, vel: 0.6, vary: true, run: true,
+      cells: [[[1, 4, 2, 6, 3, 1, 5], 5],
+              [[6, 1, 3, 1, 2], 4],
+              [[1, 2, 5, 2, 4, 6, 2, 3, 5, 1, 4], 3],
+              [[3, 1, 6, 4], 2]],
+    },
+
+    machines: {
+      drums: [["tr1000", 1]],
+      drumKit: [["analog", 6], ["eight", 4]],
+      bass:  [["auto", 6], ["reese", 3], ["tb303", 1]],
+      keys:  [["auto", 6], ["waveseq", 3], ["wash", 1]],
+      lead:  [["auto", 8], ["waveseq", 2]],
+      keys2: [["auto", 7], ["waveseq", 2], ["wash", 1]],
+    },
+
+    params: {
+      tr1000: { tune: 44, decay: 0.34, tone: 0.7, snappy: 0.5, sdtone: 0.62,
+                chdecay: 0.026, ohdecay: 0.3, bus: 1.35, gate: 0, hold: 0.15,
+                kCut: 11000, kEcho: 0.1, kVerb: 0.1,
+                sCut: 8200, sEcho: 0.4, sVerb: 0.24,
+                hCut: 12000, hEcho: 0.28, hVerb: 0.14,
+                oCut: 9000, oEcho: 0.34, oVerb: 0.22,
+                tCut: 5200, tEcho: 0.26, tVerb: 0.3 },
+      waveseq: { rate: 0.42, depth: 0.7, attack: 0.06 },
+      reese:   { detune: 26, sub: 0.5, cut: 620, res: 3.2, sweep: 0.22 },   // detune is in CENTS (2..60)
+      wash:    { cut: 780 },
+      echo:    { div: 5, fb: 0.42, tone: 3400, hp: 320, send: 0.3, verb: 0.3 },
+      desk:    { low: 0, mid: -1, high: 1.5, lowF: 150, midF: 800, highF: 5200 },
+    },
+
+    /* THE KNOBS MOVE THE WAY THE SEQUENCERS DO: on cycles that do not agree.
+       Every `bars` figure below is odd or prime where the other genres use 8,
+       16 and 32, so no two lanes come round together and nothing in this record
+       has a period you can count. `freePhase` on all of them for the same
+       reason -- they do not start together either. */
+    motion: {
+      desk: { high: [{ kind: "lfo", bars: [[7, 3], [13, 2]], depth: [0.6, 2.2],
+                       shape: "tri", freePhase: true }] },
+      waveseq: {
+        rate:  [{ kind: "lfo", bars: [[5, 3], [11, 2]], depth: [0.1, 0.34],
+                  shape: "tri", freePhase: true },
+                { kind: "section", by: { bridge: [-0.16, -0.05], instrumental: [0.04, 0.16] } }],
+        depth: [{ kind: "arc", from: [-0.24, -0.08], to: [0.06, 0.2], curve: "sCurve" },
+                { kind: "lfo", bars: [[13, 2], [7, 1]], depth: [0.05, 0.18],
+                  shape: "sin", freePhase: true }],
+      },
+      reese: {
+        cut:   [{ kind: "lfo", bars: [[11, 3], [5, 2]], depth: [120, 420],
+                  shape: "tri", freePhase: true },
+                { kind: "section", by: { bridge: [-260, -80], instrumental: [80, 300] } }],
+        res:   [{ kind: "lfo", bars: [[7, 2], [13, 1]], depth: [0.5, 1.8],
+                  shape: "sin", freePhase: true }],
+        detune:[{ kind: "arc", from: [-0.12, -0.04], to: [0.05, 0.18], curve: "linear" }],
+        sweep: [{ kind: "lfo", bars: [[13, 3], [9, 1]], depth: [0.05, 0.2],
+                  shape: "sin", freePhase: true }],
+        sub:   [{ kind: "section", by: { bridge: [0.08, 0.2], instrumental: [-0.06, 0.05] } }],
+      },
+      wash: { cut: [{ kind: "lfo", bars: [[9, 3], [17, 2]], depth: [140, 460],
+                      shape: "sin", freePhase: true },
+                    { kind: "section", by: { bridge: [180, 520] } }] },
+      tr1000: {
+        hCut:  [{ kind: "lfo", bars: [[5, 3], [7, 2]], depth: [1200, 4200],
+                  shape: "tri", freePhase: true }],
+        sCut:  [{ kind: "lfo", bars: [[11, 2], [13, 1]], depth: [900, 3200],
+                  shape: "sin", freePhase: true }],
+        sEcho: [{ kind: "section", by: { bridge: [0.1, 0.3], instrumental: [-0.08, 0.08] } }],
+        bus:   [{ kind: "arc", from: [-0.2, -0.06], to: [0.04, 0.16], curve: "sCurve" }],
+      },
+      echo: {
+        /* THE FEEDBACK AND THE TONE ARE THE TWO THE KAOSS PAD RIDES, so this
+           genre declares both -- an axis nobody rides is a dead axis. */
+        fb:   [{ kind: "lfo", bars: [[13, 3], [7, 2]], depth: [0.08, 0.26],
+                 shape: "sin", freePhase: true },
+               { kind: "section", by: { bridge: [0.1, 0.24] } }],
+        tone: [{ kind: "lfo", bars: [[9, 3], [5, 2]], depth: [500, 2200],
+                 shape: "tri", freePhase: true }],
+        send: [{ kind: "arc", from: [-0.12, -0.04], to: [0.04, 0.16], curve: "linear" }],
+      },
+    },
+  },
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -10067,18 +10464,42 @@ const isWeightedTable = v => Array.isArray(v) && v.length &&
   Array.isArray(v[0]) && v[0].length === 2 && typeof v[0][1] === "number" &&
   !(typeof v[0][0] === "number" && v.length === 2 && typeof v[1][1] === "number" && v.length < 3);
 
-function blendField(vals, ws, path, owner){
+function blendField(vals, ws, path, owner, src){
   const first = vals[0];
   /* a drawn field: one genre owns it, and a group picks its owner once */
   if(BLEND_DRAW.has(path)){
     const grp = BLEND_GROUP[path];
     if(grp != null && owner.group[grp] != null){
-      const i = owner.group[grp];
-      return vals[i] !== undefined ? vals[i] : first;
+      /* ── A GROUP OWNER IS A GENRE, NOT A POSITION ───────────────────────────
+         MEASURED: blending all eight at once threw "Cannot read properties of
+         null (reading 'restChance')" on 2 seeds in 20, and 4 in 20 with
+         Plastikman removed.
+
+         `vals` is built by SKIPPING genres that do not declare the field, so
+         its indices are positions in a FILTERED list and they mean a different
+         genre for every path. The group stored one of those positions: chosen
+         against `bassStyle`, which all eight genres declare, and then used
+         against `bassPulse`, which DKC does not. Every genre after DKC shifted
+         by one, an index ran off the end, and the fallback handed back vals[0]
+         -- lofi's `bassPulse: null` -- under a `bassStyle` of "pulse" drawn
+         from somewhere else entirely. The exact failure the grouping exists to
+         prevent, reintroduced by the bookkeeping underneath it.
+
+         `src` carries each value's ORIGINAL genre index, so the owner is
+         recorded and looked up as a genre. A group owner that does not declare
+         this field still falls back to `first`, and that is correct rather than
+         lucky: the field is inert in that case, because the field that CHOSE
+         the owner is the one that decides whether it is read at all.
+
+         This was reachable before today -- synthwave is "pulse" and DKC has no
+         bassPulse -- and was never hit only because of where the two sat in the
+         list. Adding a second "pulse" genre moved one past DKC and it fired. */
+      const k = src ? src.indexOf(owner.group[grp]) : owner.group[grp];
+      return (k >= 0 && vals[k] !== undefined) ? vals[k] : first;
     }
     let x = owner.rng() * ws.reduce((a, b) => a + b, 0), k = 0;
     for(let i = 0; i < vals.length; i++){ x -= ws[i]; if(x <= 0){ k = i; break; } k = i; }
-    if(grp != null) owner.group[grp] = k;
+    if(grp != null) owner.group[grp] = src ? src[k] : k;
     return vals[k];
   }
   if(typeof first === "number"){
@@ -10145,12 +10566,15 @@ function blendGenres(blend, seed){
   const out = {}, keys = new Set();
   for(const n of B.names) for(const k in GENRE[n]) keys.add(k);
   for(const k of keys){
-    const vals = [], ws = [];
+    /* `src` remembers which genre each surviving value came from, because this
+       list is filtered and a group owner has to be a GENRE rather than a
+       position in it -- see blendField */
+    const vals = [], ws = [], src = [];
     for(let i = 0; i < B.names.length; i++){
       const v = GENRE[B.names[i]][k];
-      if(v !== undefined){ vals.push(v); ws.push(B.ws[i]); }
+      if(v !== undefined){ vals.push(v); ws.push(B.ws[i]); src.push(i); }
     }
-    out[k] = blendField(vals, ws, k, owner);
+    out[k] = blendField(vals, ws, k, owner, src);
   }
   out.label = B.names.map((n, i) => GENRE[n].label + " " + Math.round(B.ws[i] * 100) + "%").join(" + ");
   out.blendOf = B.names.map((n, i) => [n, B.ws[i]]);
@@ -10670,6 +11094,40 @@ function makeMaterials(chart){
         for(let st = (K.rideFrom || 0); st < 16; st += rideEvery)
           notes.push({ bar: b, step: st, dur: 1, lane: "ride",
                        vel: (K.rideVel || 0.5) * (st % 4 === 0 ? 1 : 0.8), role: "drums" });
+
+      /* ── A SEQUENCER THAT IS NOT SIXTEEN STEPS LONG ─────────────────────────
+         Every lane above is written against the BAR: a step list inside sixteen,
+         or a division of sixteen. That is one metre, and everything in it agrees
+         with everything else by construction -- which is correct for a house
+         record and is exactly what an Autechre record is not.
+
+         "Using polymetres in electronic music can be as simple as changing the
+         pattern length for only SOME parts while leaving most at the default
+         bar-long 16 sixteenths, and independent step sequencers with arbitrary
+         pattern lengths make this especially easy to do without having to think
+         about the maths involved." Autechre are the worked example: polymetre
+         in `Windwind` by running a shorter pattern length on the MC-202.
+         [corpus:notebook.zoeblade.com/Polymetre_and_polyrhythm]
+
+         Sean Booth describes the hardware version as cascading sequencers with
+         different timings, "creating complex polyrhythmic results that appear
+         chaotic but follow quantifiable rules" [corpus:soundonsound].
+
+         So: a lane with its own LENGTH, counted in absolute steps across the
+         material rather than reset at every bar line. A 7-step pattern against
+         a 4-bar loop lands somewhere different in every bar and comes back
+         where it started when the loop does, which is what the box does.
+
+         A table entry, not a rule [Law 4] -- `poly` defaults to nothing, so no
+         genre that does not declare one moves by a sample. And no draws, so it
+         cannot displace any later draw on this stream either [Law 7]. */
+      for(const P of (K.poly || [])){
+        const len = P.len > 0 ? P.len : 16;
+        for(let st = 0; st < 16; st++)
+          if((P.on || [0]).includes(((b * 16 + st) % len + len) % len))
+            notes.push({ bar: b, step: st, dur: P.dur || 1, lane: P.lane,
+                         vel: P.vel != null ? P.vel : 0.5, role: "drums" });
+      }
 
       /* THE CRASH marks an arrival, so it belongs on the FIRST bar of the loop
          and nowhere else -- a crash on every bar is a cymbal wash, which is a
