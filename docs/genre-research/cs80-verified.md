@@ -161,7 +161,93 @@ list:
 
 ---
 
-## 6. Method
+## 6. ADDENDUM — the Syntorial recipe, fetched and applied
+
+*Added after the user supplied it. Fetched from
+`syntorial.com/preset-recipe/vangelis-blade-runner-brass/` and checked against their
+transcription line by line: identical. The page adds that the patch "combines pulse
+width modulation with dynamic filter modulation" and that the sound is at 1:01 in the
+End Titles.*
+
+**This is the first document in the project to state Blade Runner synthesis parameters
+as numbers rather than adjectives.** The earlier pass listed it as second-hand and
+warned it was a different synth. That warning still holds for its percentages — and it
+turns out not to matter, because the parts that decide the sound are in absolute units.
+
+**What travels (ms, cents, octaves, structure):**
+
+| | value | effect on the build |
+|---|---|---|
+| Osc 2 pitch | **+1 octave, −6 cents** | We had it 7.26 cents sharp *in the same octave*. Wrong architecture — **fixed**. |
+| Both oscillators | **Pulse, PW 50%** | Channel I was a sawtooth — **fixed**. Confirms the 50% floor a third time. |
+| LFO | **→ pulse width, triangle, 80%** | We had **no PWM at all** — **built**. |
+| Voice mode | Mono | The lead line is monophonic. Not yet acted on. |
+| Amp env | A 250 / D 1900 / S 40% / R 750 ms | Not yet applied. |
+| Filter env | A 650 ms, D 10 s, S 0%, R 10 s | Not applied — see below. |
+
+**What does not travel:** cutoff 75%, resonance 15%, LFO amount 80%, osc volumes 60/40.
+Percentages of Syntorial's synth. Only the 3:2 balance ratio was kept, `[EAR]`.
+
+**It refutes two more of the original document's claims:**
+
+- **Attack 0–150 ms** — dead at both ends. Amp attack is **250 ms**, filter attack
+  **650 ms**. The ceiling is as wrong as the floor.
+- **Release 2–8 s** — the *amp* release is **750 ms**. It is the *filter* release that
+  is 10 s. The document collapsed two stages into one, exactly as the manual research
+  predicted it had.
+
+**And it confirms two:** detune **6 cents** (inside 2–8 — but riding on an octave, not a
+unison), resonance **15%** (inside 5–20%, weakly, being a different synth).
+
+**It settles one thing nothing had supported.** "Footage 16' and 8'" was marked
+unattributed. An independent recipe putting oscillator 2 exactly one octave above
+oscillator 1 *is* a 16' against an 8'. Two sources, arrived at separately.
+
+**Two sources converge on the PWM depth.** The recipe says 80%; Old Crow's panel tour
+says sine PWM "does not sound 'overmodulated' until past 80% of depth". Different
+people, decades apart, same number. That is the strongest single corroboration in this
+whole file.
+
+### A correction to §3, and it changes what is worth building
+
+§3 said a 2–8 s release is un-hearable because `V.cs80` stops every node at
+`durSec + 1.2`. The truncation is real, but the conclusion was wrong: **the CS-80's own
+tail is short.** Amp release 750 ms with sustain 40% means the amplifier closes long
+before the 10 s filter release matters — on the real instrument too. The recipe's own
+prose says so plainly: the CS-80 is *"otherwise dry-sounding"*, and the huge tail is the
+**Lexicon 224**, in use from 1980 onward.
+
+So the long tail belongs to the **room**, which this program already has, and lengthening
+the voice would have been building the wrong thing. What is worth revisiting instead is
+`space.wet`: this genre sets **0.55**, the recipe says **10% wet**, and the earlier
+research doc had already flagged 0.55 as "pure [EAR] … could easily be far too hot".
+Three-and-a-half times too hot, if the recipe is any guide. **Not changed** — it is a
+percentage of an unknown reverb and an ears question, so it is recorded, not acted on.
+
+### Applied, and measured
+
+`probe_controls.js cs80`, every knob driven end to end:
+
+| control | Δ peak | Δ level | Δ brightness |
+|---|---|---|---|
+| `pw` | 24.6% | 6.75 dB | 64.3% |
+| `pwm` | 13.1% | 0.87 dB | **227.3%** |
+| `pwmHz` | 17.6% | 0.17 dB | 36.4% |
+
+**0 dead controls on the machine.** PWM moves brightness more than anything else on it
+while barely moving level — which is what a phasing timbre measures like, as opposed to
+a tremolo. `probe_voices`: 0 threw, 0 silent, cs80 peak 0.378. Snapshot IDENTICAL.
+
+### Still open here
+
+- amp envelope 250 / 1900 / 40% / 750 ms — portable, not yet applied
+- mono voice mode for the lead line
+- `space.wet` 0.55 vs the recipe's 10%
+- `noisegate.com.au`, hosting Schilling's patch, still returns an empty body
+
+---
+
+## 7. Method
 
 Sixteen agents: six researching distinct angles (signal path, envelopes and vibrato,
 touch response, ribbon, the Blade Runner reconstructions, the Arturia manual), nine
