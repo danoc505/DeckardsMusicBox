@@ -1233,6 +1233,42 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
                    : `${over} of ${n} out by up to ${worst} st — worst ${worstAt}`);
 }
 {
+  /* ── A WIND LINE BREATHES IN PHRASES ────────────────────────────────────────
+     Reported: "the sax sounds bad." MEASURED before the fix: 0% of lead notes
+     were slurred, because there was no articulation model at all -- every note
+     got the scoop, the breath transient and the full attack that belong to the
+     FIRST note of a phrase. A player tonguing every note that hard does not
+     exist, and it is audible long before the timbre is.
+
+     Listeners confuse legato with portato about 25% of the time and staccato
+     with either <1% of the time [corpus:PMC4097958], which says the ear reads a
+     wind instrument through its GAPS. So this is not a cosmetic check: the slur
+     share is the property that makes the lane sound like it is being played.
+
+     Two floors, both deliberately loose. Below 20% slurred the line is being
+     struck note by note again; above 90% it never articulates at all and the
+     tongue has gone missing. The real regression this catches is the pass being
+     dropped or silently not reaching the events -- either way it goes to 0. */
+  let n = 0, art = { breath: 0, legato: 0, portato: 0, staccato: 0 }, orphan = 0, wide = 0;
+  for(const g of M.genres()) for(let s = 1; s <= 12; s++){
+    const song = M.composeSong(s, "band", g, { lead: "sax" });
+    for(const e of song.perf.events){
+      if(e.role !== "lead" || e.pitch == null) continue;
+      n++; art[e.art || "breath"]++;
+      /* a glide that is not a slur, or a slur that leaps, would mean the pass
+         and the voice disagree about what `from` means */
+      if(e.from != null && e.art !== "legato") orphan++;
+      if(e.from != null && Math.abs(e.pitch - e.from) > 2) wide++;
+    }
+  }
+  const slur = n ? art.legato / n : 0;
+  check("the horn slurs, tongues and detaches instead of striking every note",
+        n > 0 && slur >= 0.20 && slur <= 0.90 && orphan === 0 && wide === 0,
+        `${(100 * slur).toFixed(1)}% slurred · ${(100 * art.portato / n).toFixed(1)}% tongued · ` +
+        `${(100 * art.staccato / n).toFixed(1)}% detached · ${(100 * art.breath / n).toFixed(1)}% phrase starts` +
+        (orphan || wide ? ` — ${orphan} orphan glides, ${wide} non-stepwise slurs` : ""));
+}
+{
   /* THE LOW INTERVAL LIMIT. Two notes closer than a major third below C3 stop
      reading as two notes and start reading as mud. Measured before the fix,
      stacks narrower than a major third below MIDI 48: jungle 29, lofi 15,

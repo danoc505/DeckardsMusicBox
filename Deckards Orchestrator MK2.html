@@ -1652,6 +1652,11 @@ const INSTRUMENTS = {
       /* the two that make a line read as saxophone before the growl does */
       { k:"scoop",   label:"scoop into note", cap:"SCOOP",  min:0, max:1, step:0.01, def:0.50, kind:"voicing" },
       { k:"fall",    label:"fall off the end",cap:"FALL",   min:0, max:1, step:0.01, def:0,    kind:"voicing" },
+      /* JAW VIBRATO, and it arrives late and swings downward -- see the voice.
+         A horn line with no vibrato at all was the other half of why this
+         instrument read as a patch. [corpus:dansr, tamingthesaxophone] */
+      { k:"vib",     label:"vibrato depth",   cap:"VIB",    min:0, max:1, step:0.01, def:0.45, kind:"voicing" },
+      { k:"vibHz",   label:"vibrato rate",    cap:"VIB RATE", min:0, max:1, step:0.01, def:0.50, kind:"voicing" },
       /* and the one no sample library has, so it is modelled: AM + FM together
          at a hummed-note rate. [EAR] throughout -- see sax-sources.md */
       { k:"growl",   label:"growl depth",     cap:"GROWL",  min:0, max:1, step:0.01, def:0,    kind:"voicing" },
@@ -1660,6 +1665,7 @@ const INSTRUMENTS = {
     panel: { skin: "sax", maker: "", title: "saxophone",
              groups: [{ label: "REED",       keys: ["bright", "reed", "air"] },
                       { label: "EXPRESSION", keys: ["scoop", "fall"] },
+                      { label: "VIBRATO",    keys: ["vib", "vibHz"] },
                       { label: "GROWL",      keys: ["growl", "growlHz"] }] },
   },
 };
@@ -4890,6 +4896,20 @@ const Sound = (function(){
        them so it can stop them and prune itself when they end */
     const made = [];
 
+    /* ── WHAT KIND OF NOTE THIS IS. Written by `articulate` in stage 3 off the
+       melodic contour and carried here untouched. Everything below branches on
+       it, because the difference between a saxophone and a sawtooth with a
+       formant filter is almost entirely in these four cases.
+       `breath` is the default so a lead line from a genre that never ran the
+       articulation pass still speaks -- it just speaks every note as a phrase
+       start, which is what this voice used to do to all of them. */
+    const art = ev.art || "breath";
+    const slurred = art === "legato";
+    /* THE TONGUE STOPS THE REED FOR 25.5 ms AND THE FIGURE DOES NOT MOVE WITH
+       TEMPO -- it is a gesture, not a proportion, so it is a constant here and
+       the staccato fraction is not. [corpus:PMC4097958] */
+    const t0 = art === "portato" ? t + 0.0255 : t;
+
     /* the reed. A sawtooth for the conical bore [theory]; `reed` adds a second
        one slightly sharp so the tone has the beating a real one has. */
     const reed = P(g, ev, "sax", "reed", 0.35);
@@ -4899,16 +4919,30 @@ const Sound = (function(){
 
     /* ── SCOOP: the note arrives from under the pitch and settles onto it. The
        depth is in CENTS and scales with how hard the note is played, which is
-       what a player's embouchure actually does. [EAR] */
-    const scoop = P(g, ev, "sax", "scoop", 0.5);
+       what a player's embouchure actually does. [EAR]
+
+       ONLY AT THE START OF A PHRASE. A scoop is the embouchure finding the
+       pitch, which is something that happens when the note is the first one out
+       of the horn -- a player does not re-scoop into the middle of a run, and a
+       voice that did was the loudest thing wrong with this instrument. */
+    const scoop = art === "breath" ? P(g, ev, "sax", "scoop", 0.5) : 0;
     const scoopSec = 0.055 + 0.045 * scoop;
-    const from = f * Math.pow(2, -(scoop * 0.9 * vel) / 12);
+    /* ── AND A SLUR ARRIVES FROM THE NOTE BEFORE IT. Not from below, not from
+       nowhere: from wherever the line just was, under one unbroken breath. This
+       is the whole of legato and it is why `from` is carried on the event.
+       45 ms is the fastest a jaw and a set of fingers get across a second
+       without it reading as a portamento. [EAR] */
+    const glide = slurred && ev.from != null && ev.from !== ev.pitch;
+    const from = glide ? F(ev.from)
+               : scoop > 0 ? f * Math.pow(2, -(scoop * 0.9 * vel) / 12)
+               : f;
+    const rise = glide ? 0.045 : scoopSec;
     /* ── FALL: and it leaves downward. Only on notes long enough to have an end
        worth falling off -- a sixteenth does not fall. [EAR] */
     const fall = P(g, ev, "sax", "fall", 0);
     const setPitch = o => {
-      o.frequency.setValueAtTime(scoop > 0 ? from : f, t);
-      if(scoop > 0) o.frequency.exponentialRampToValueAtTime(f, t + scoopSec);
+      o.frequency.setValueAtTime(from, t0);
+      if(from !== f) o.frequency.exponentialRampToValueAtTime(f, t0 + rise);
       if(fall > 0.01 && dur > 0.35){
         o.frequency.setValueAtTime(f, t + dur * 0.82);
         o.frequency.exponentialRampToValueAtTime(f * Math.pow(2, -(fall * 5) / 12), t + dur + 0.12);
@@ -4916,6 +4950,50 @@ const Sound = (function(){
     };
     setPitch(o1); setPitch(o2);
     o2.detune.value = 6;                                  // the second reed, 6 cents sharp [EAR]
+
+    /* ── VIBRATO, LATE, AND ONLY DOWNWARD ──────────────────────────────────
+       Two findings, and the second is the one a synthesiser always gets wrong.
+
+       LATE, because jazz vibrato is TERMINAL: "the note starts without vibrato
+       and then it's added in", against the classical player's, which "should
+       begin immediately and continue for the duration of the note".
+       [corpus:dansr, tamingthesaxophone]
+
+       DOWNWARD, because of how the gesture is physically made. Sax vibrato is
+       the JAW: "the jaw is lowered and raised similar to chewing, which reduces
+       embouchure pressure allowing the tone to go slightly FLAT, and when the
+       jaw returns to normal position, the pitch returns in tune."
+       [corpus:tamingthesaxophone] So the pitch swings between the note and
+       something under it -- it does not swing symmetrically about it, which is
+       what an LFO on `detune` gives you and why that always sounds like an
+       organ. The oscillator is biased UP by half the depth and the LFO swings a
+       full depth about that, so the top of the swing is the written pitch and
+       the bottom is flat of it.
+
+       `vib` is written by stage 3 on notes long enough to have a second half. */
+    const vibDepth = P(g, ev, "sax", "vib", 0.45);
+    if(ev.vib && vibDepth > 0.01 && dur > 0.30){
+      const cents = 34 * vibDepth;                        // [EAR] within the 20-50 cent range players describe
+      const lfo = c.createOscillator(); lfo.type = "sine";
+      lfo.frequency.value = 4.6 + 2.8 * P(g, ev, "sax", "vibHz", 0.5);   // 4.6-7.4 Hz [corpus: 5-7 Hz is the described band]
+      const depth = c.createGain();
+      /* it grows in rather than switching on: silent until 55% of the way
+         through the note, then up to full over the next 25% */
+      const at = t + dur * 0.55, full = t + dur * 0.80;
+      depth.gain.setValueAtTime(0, t);
+      depth.gain.setValueAtTime(0, at);
+      depth.gain.linearRampToValueAtTime(cents, full);
+      lfo.connect(depth); depth.connect(o1.detune); depth.connect(o2.detune);
+      lfo.start(t); lfo.stop(end); made.push(lfo);
+      /* the upward bias, so the swing hangs BELOW the note instead of straddling
+         it. o2 keeps its 6 cents of reed detune on top of the same bias. */
+      o1.detune.setValueAtTime(0, t);
+      o1.detune.setValueAtTime(0, at);
+      o1.detune.linearRampToValueAtTime(cents / 2, full);
+      o2.detune.setValueAtTime(6, t);
+      o2.detune.setValueAtTime(6, at);
+      o2.detune.linearRampToValueAtTime(6 + cents / 2, full);
+    }
 
     /* ── THE GROWL. The player hums against the reed, so it is AM and FM at the
        same rate plus noise -- not a tremolo, which is why a plain LFO on the
@@ -4937,12 +5015,26 @@ const Sound = (function(){
     f2.frequency.value = 1550; f2.Q.value = 2.0; f2.gain.value = 6.0;     // [EAR]
 
     /* ── THE REED BUZZ: velocity opens the filter, which is the dynamic. At the
-       bottom it is nearly a sine with air; at the top the reed is buzzing. */
+       bottom it is nearly a sine with air; at the top the reed is buzzing.
+
+       AND THE REGISTER IS PART OF THE DYNAMIC TOO. A saxophone is not one
+       timbre transposed: the bottom of the horn is fat and slow to speak and
+       the top is thin and bright, which is why the low notes are the ones
+       players call SUBTONE and the high ones cut through a band. The two fixed
+       formants above already stop the body moving with the pitch; this is the
+       other half -- the SOURCE getting brighter as the player goes up. Scaled
+       off the middle of the alto's range (MIDI 65, F4), a semitone at a time.
+       [theory: register and spectral centroid in conical reeds] */
     const bright = P(g, ev, "sax", "bright", 0.5);
+    const reg = Math.max(0.72, Math.min(1.34, 1 + (ev.pitch - 65) * 0.019));   // [EAR]
     const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = 0.9;
-    const openTo = Math.min(11000, (700 + 5200 * bright) * (0.42 + 0.95 * vel));
-    lp.frequency.setValueAtTime(Math.max(240, openTo * 0.45), t);
-    lp.frequency.linearRampToValueAtTime(openTo, t + scoopSec + 0.05);
+    const openTo = Math.min(11000, (700 + 5200 * bright) * (0.42 + 0.95 * vel) * reg);
+    /* A SLUR DOES NOT RE-OPEN THE FILTER. The breath is continuous, so the reed
+       is already buzzing when the pitch moves -- sweeping the cutoff up from
+       nothing again would put an attack back on a note that is not supposed to
+       have one, which is the whole thing this articulation model is undoing. */
+    lp.frequency.setValueAtTime(slurred ? openTo : Math.max(240, openTo * 0.45), t0);
+    if(!slurred) lp.frequency.linearRampToValueAtTime(openTo, t0 + rise + 0.05);
     lp.frequency.exponentialRampToValueAtTime(Math.max(240, openTo * 0.62), t + Math.max(0.2, dur));
 
     const tone = c.createGain(); tone.gain.value = 1;
@@ -4959,24 +5051,56 @@ const Sound = (function(){
     body.connect(out);
 
     /* ── BREATH: a reed instrument is air first. Loudest at the attack, never
-       fully gone while the note sounds. */
-    const air = P(g, ev, "sax", "air", 0.35);
+       fully gone while the note sounds.
+
+       AND A PLAYER BREATHES ONCE PER PHRASE, NOT ONCE PER NOTE. "Good
+       articulation consists of 90 per cent air attack and 10 per cent tongue"
+       -- but the air attack is the START of the air, and inside a phrase the
+       air is already going. Putting a fresh breath transient on every note is
+       the same mistake as re-striking every note, heard in the noise band
+       instead of the harmonic one, and it is why runs sounded like a machine
+       gun of little chiffs. A slur gets NONE; a tongued note inside a phrase
+       gets a third of one, because the tongue does disturb the column.
+       [corpus:tamingthesaxophone, getyoursaxtogether]
+
+       LOW NOTES ARE AIRIER. Subtone is the bottom of the horn, and the bottom
+       of the horn is where the breath is audible in the sound rather than
+       behind it -- `reg` runs the other way here for exactly that reason. */
+    const air = P(g, ev, "sax", "air", 0.35) *
+                (art === "breath" ? 1 : slurred ? 0 : 0.33) / reg;
     if(air > 0.01){
       const nb = c.createBufferSource(); nb.buffer = g.noise; nb.loop = true;
       const nf = c.createBiquadFilter(); nf.type = "bandpass";
       nf.frequency.value = 2200; nf.Q.value = 0.8;
       const ng = c.createGain();
-      ng.gain.setValueAtTime(0.0001, t);
-      ng.gain.exponentialRampToValueAtTime(Math.max(0.0002, 0.055 * air * (0.5 + vel)), t + 0.02);
-      ng.gain.exponentialRampToValueAtTime(Math.max(0.0001, 0.014 * air), t + 0.22);
+      ng.gain.setValueAtTime(0.0001, t0);
+      ng.gain.exponentialRampToValueAtTime(Math.max(0.0002, 0.055 * air * (0.5 + vel)), t0 + 0.02);
+      ng.gain.exponentialRampToValueAtTime(Math.max(0.0001, 0.014 * air), t0 + 0.22);
       nb.connect(nf); nf.connect(ng); ng.connect(out);
-      nb.start(t); nb.stop(end); made.push(nb);
+      nb.start(t0); nb.stop(end); made.push(nb);
     }
 
-    o1.start(t); o2.start(t); o1.stop(end); o2.stop(end);
+    o1.start(t0); o2.start(t0); o1.stop(end); o2.stop(end);
     made.push(o1, o2);
-    /* a reed speaks quickly but not instantly, and it stops when the air does */
-    adsr(c, out, t, LEVEL.lead * 1.05 * ev.gain, 0.028, 0.18, 0.86, t + dur, 0.14);
+    /* ── AND THE ENVELOPE IS THE ARTICULATION, FINALLY ──────────────────────
+       A reed speaks quickly but not instantly, and it stops when the air does.
+       How quickly, and how it stops, is the whole difference between the four:
+
+         breath    the phrase begins. The attack this voice always had.
+         portato   the tongue has already taken 25.5 ms out of the front of the
+                   note (see `t0`), so what follows it is fast and clean.
+         legato    NO ATTACK AT ALL. The airstream never stopped, so the note
+                   swells in under the tail of the one before it -- 70 ms is
+                   long enough that there is no transient to hear and short
+                   enough that the pitch move still lands on the beat.
+         staccato  released early. Stage 5 has already shortened the note to
+                   73% of its inter-onset interval; this makes the end of it
+                   sound like a decision rather than like the note running out.
+       [corpus:PMC4097958 for the 25.5 ms and the 25-29%; the attack times are
+        [EAR], constrained by them] */
+    const A = slurred ? 0.070 : art === "portato" ? 0.010 : art === "staccato" ? 0.012 : 0.028;
+    const REL = art === "staccato" ? 0.055 : 0.14;
+    adsr(c, out, t0, LEVEL.lead * 1.05 * ev.gain, A, 0.18, 0.86, t + dur, REL);
     return made;
   };
 
@@ -11299,7 +11423,113 @@ function makeMaterials(chart){
       const qDir = notes.length >= 2 && notes[notes.length - 1].pitch >= notes[0].pitch ? 1 : -1;
       phrase(2, -qDir, true, null);                     // the answer: contrary, resolving
     }
-    return { notes, dna };
+    return { notes: articulate(notes, streamName), dna };
+  }
+
+  /* ── HOW A WIND PLAYER GETS FROM ONE NOTE TO THE NEXT ══════════════════════
+     Reported: "the sax sounds bad." It did, and the reason was not the timbre.
+
+     THE MEASUREMENT THAT DECIDES THIS. Listeners asked to name the articulation
+     of a recorded saxophone confuse LEGATO with PORTATO about 25% of the time
+     -- saxophonists themselves 18% -- and confuse STACCATO with either of them
+     less than 1% of the time. [corpus:Li/Palmer/Dalla Bella, "Production and
+     perception of legato, portato and staccato articulation in saxophone
+     playing", PMC4097958]
+
+     Read that the right way round and it is a specification. The ear is not
+     listening to the spectrum of a single note, it is listening to WHAT
+     HAPPENS BETWEEN NOTES -- and the one distinction it never misses is
+     whether there is a GAP. So an engine that gives every note an identical
+     fresh attack has already lost the instrument before the first oscillator
+     is chosen, however good that oscillator is. That was this file: V.sax
+     scooped into, breathed at and re-struck every note in the line, which is a
+     player tonguing every note as hard as the first. Nobody plays like that.
+
+     WHAT THE SAME PAPER GIVES US AS NUMBERS:
+       PORTATO  the tongue touches the reed for 25.5 ms (SD 4.1) and -- the
+                useful part -- that duration DOES NOT CHANGE WITH TEMPO. It is
+                a physical gesture, not a musical proportion. A dip, not a stop.
+       STACCATO the silence is 25-29% of the inter-onset interval (0.29 slow,
+                0.27 medium, 0.25 fast). This one IS a proportion: the faster
+                the line, the shorter the gap in milliseconds but the same
+                fraction of the beat. So it belongs on `artic`, next to the
+                bass's, where duration is already scaled by the step.
+       LEGATO   no tongue contact at all. "With legato tonguing your airstream
+                should never stop completely." The pitch moves and the air does
+                not. [corpus:tamingthesaxophone, getyoursaxtogether]
+
+     AND WHICH ONE GOES WHERE is not a coin toss -- it is the oldest rule in
+     wind pedagogy: SLUR STEPWISE MOTION, TONGUE AFTER A LEAP. A player has to
+     re-seat the embouchure across an interval and does not across a second, so
+     the articulation follows the melodic contour. That makes this pass read the
+     line it is given rather than sprinkle a distribution over it.
+
+     "Good articulation consists of 90 per cent air attack and 10 per cent
+     tongue" [corpus:tamingthesaxophone] -- which is the sentence the old voice
+     violated, and the one every branch below is trying to obey.
+
+     THIS IS CONSTRUCTION, NOT A CORRECTING PASS, and it sits here for exactly
+     the reason `acidize` sits inside the bass builder: an articulation is a
+     relation between a note and the one before it, so it cannot be decided
+     until the line exists. Nothing outside this function has seen these notes.
+
+     EVERY THEME GETS IT, not just the ones a saxophone will play, for the same
+     reason every bass carries accent and slide and only the 303 acts on them
+     [Law 4]. A voice that does not model articulation ignores the field. */
+  function articulate(notes, streamName){
+    /* in time order, which is not the order the phrase builder emits them in --
+       the hook copies bars 0-1 to 2-3 after the fact, and the answering phrase
+       is appended whole. Sorting a COPY leaves the caller's array alone. */
+    const seq = notes.slice().sort((a, z) => (a.bar * 16 + a.step) - (z.bar * 16 + z.step));
+    for(let i = 0; i < seq.length; i++){
+      const n = seq[i], prev = i > 0 ? seq[i - 1] : null, next = seq[i + 1] || null;
+      const at = n.bar * 16 + n.step;
+      /* every note draws whatever it ends up being [Law 7] */
+      const r = stream(chart.seed, "art:" + streamName + ":" + n.bar + ":" + n.step + ":" + n.pitch)();
+      /* IS THERE AIR BETWEEN THIS NOTE AND THE LAST? `dur` is in steps, so the
+         previous note's end is its onset plus its length; anything at or before
+         that is a continuation of one breath. */
+      const flowing = prev && (prev.bar * 16 + prev.step + prev.dur) >= at;
+      /* and how long until the next one starts -- the inter-onset interval the
+         staccato fraction is measured against */
+      const ioi = next ? (next.bar * 16 + next.step) - at : 99;
+
+      if(!flowing){
+        /* THE START OF A PHRASE. This is the one note that gets everything the
+           old voice gave every note: the breath, the scoop, the full attack. */
+        n.art = "breath";
+      } else if(Math.abs(n.pitch - prev.pitch) > 2){
+        /* A LEAP. The embouchure has to move, so the tongue helps. */
+        n.art = "portato";
+      } else {
+        /* STEPWISE. Slurred -- and the voice needs to know where to glide FROM,
+           because a slur is a pitch move under one continuous breath and not a
+           new note at all. Same shape as the 303's slide, which is the only
+           other place in this file where a note knows its predecessor. */
+        n.art = "legato";
+        n.from = prev.pitch;
+      }
+      /* STACCATO IS A SEPARATE QUESTION FROM WHERE THE TONGUE GOES: it is about
+         whether the note is released early, and it only makes sense on a note
+         that has room after it. A note followed immediately by another cannot
+         be detached from it -- there is nothing to detach into. 0.35 is [EAR];
+         the paper measures how big the gap is, never how often players choose
+         one. Marked as such rather than borrowing the corpus tag next to it. */
+      if(n.art !== "legato" && ioi > n.dur && n.dur <= 4 && r < 0.35) n.art = "staccato";
+      /* ── VIBRATO, AND WHY IT IS LATE ────────────────────────────────────────
+         "The traditional jazz vibrato is what's called TERMINAL VIBRATO,
+         meaning the note starts without vibrato and then it's added in", where
+         a classical player's "should begin immediately and continue for the
+         duration of the note". [corpus:dansr, tamingthesaxophone]
+
+         That is the opposite of an LFO wired to an oscillator at t=0, which is
+         what a synthesiser does and why a synthesiser playing a horn line
+         sounds like a synthesiser. Only notes long enough to have a second half
+         get one, because that is the only kind of note a player has time to add
+         it to. */
+      if(n.dur >= 6) n.vib = true;
+    }
+    return notes;
   }
   /* THE OSTINATO -- the one material that IGNORES THE CHORDS, and the single
      most-cited hole in the whole research pass ("THE BIG ONE: there is no
@@ -12319,7 +12549,14 @@ function makePerformance(chart, form, materials, sections){
             const need = th * (1 - arcE) * (1 - w);
             if(keepR < need) continue;
           }
-          const artic = role === "bass" ? bassArtic : 1;
+          /* THE BASS'S ARTICULATION IS THE GENRE'S; THE TUNE'S IS THE LINE'S.
+             Staccato is the one articulation measured as a PROPORTION of the
+             inter-onset interval rather than a fixed gesture -- 25-29% silent,
+             the same fraction at every tempo -- so it belongs here, in the one
+             place a note's duration is turned into seconds, and not in the
+             voice. 0.73 is the middle of that range as a duty cycle.
+             [corpus:PMC4097958 -- see `articulate`] */
+          const artic = role === "bass" ? bassArtic : (n.art === "staccato" ? 0.73 : 1);
           /* `lane` is WHAT the note is; `voice` is WHO plays it. The rig table is
              the only thing between them, and it is consulted here, in the one
              place stage 5 writes the field. */
@@ -12436,6 +12673,14 @@ function makePerformance(chart, form, materials, sections){
              is why every bass carries them and only the 303 acts on them. */
           if(n.accent) ev.accent = true;
           if(n.slide)  ev.slide  = n.slide;
+          /* ARTICULATION RIDES ALONG THE SAME WAY. Stage 3 decided where the
+             tongue goes and which notes are slurred; this stage carries the
+             decision without touching it, exactly as it does for pitch. `from`
+             is the pitch a slur glides out of -- the note has to know its
+             predecessor because a slur is a move, not an onset. */
+          if(n.art)        ev.art  = n.art;
+          if(n.from != null) ev.from = n.from;
+          if(n.vib)        ev.vib  = true;
           /* THE CHOP rides along the same way. Which slice, and whether it is
              backwards, were decided in stage 3; the RATE is stage 5's, because
              it is the ratio between the tempo the break was played at and the
