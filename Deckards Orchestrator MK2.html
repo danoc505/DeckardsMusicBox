@@ -18,6 +18,24 @@
   select{ background:var(--panel); color:var(--ink); border:1px solid #33302a;
           padding:.45rem .6rem; font:inherit; cursor:pointer; }
   select:hover{ border-color:var(--hot); }
+  /* ═══ THE RACK ROW ════════════════════════════════════════════════════════
+     One box per rack the user has on screen, each a dropdown with a × to take
+     the rack out, and a + at the end that puts one back. `align-items:start`
+     rather than centre so the + menu can drop underneath its button without
+     pushing the row of dropdowns down with it. ══════════════════════════════ */
+  #rack{ align-items:flex-start; }
+  .rackbox{ display:flex; align-items:stretch; }
+  .rackbox select{ border-right:none; }
+  /* the × is deliberately quiet: it is next to a control people use constantly
+     and it removes something, so it should not compete for the eye */
+  .rackoff{ padding:.45rem .5rem; color:var(--dim); border-left:1px solid #33302a; line-height:1; }
+  .rackoff:hover{ color:var(--hot); }
+  .rackadd{ position:relative; display:flex; flex-direction:column; align-items:flex-start; }
+  .rackplus{ padding:.45rem .8rem; color:var(--hot); }
+  /* the menu sits UNDER the +, in flow, so it needs no positioning maths and
+     cannot end up off the edge of a phone screen */
+  .rackmenu{ display:flex; gap:.35rem; margin-top:.35rem; flex-wrap:wrap; }
+  .rackmenu button{ padding:.35rem .7rem; font-size:12px; letter-spacing:.06em; }
   #info{ color:var(--dim); white-space:pre-wrap; }
   #story{ color:var(--ink); white-space:pre-wrap; margin-top:.4rem; }
   .law{ color:var(--dim); font-size:12px; border-left:2px solid #33302a; padding-left:.8rem; margin-top:2rem; }
@@ -479,20 +497,12 @@
 </div>
 <div id="midinote"></div>
 <div id="blend"></div>
-<div class="row" id="rack">
-  <select id="mDrums" title="which drum machine plays the kit part"></select>
-  <select id="mBass"  title="which bass instrument plays the bass part"></select>
-  <select id="mKeys"  title="which keyboard plays the comp"></select>
-  <!-- THE FOURTH RACK. `lead` was the one pitched lane with no picker, so the
-       machine loaded for the comp answered for the tune as well: choose a Rhodes
-       and the melody was a Rhodes too. Now the tune is its own box. -->
-  <select id="mLead"  title="which instrument plays the tune"></select>
-  <!-- LOAD A SECOND KEYBOARD AND IT PLAYS. It takes a register the allocator
-       derives from the ones this genre already declares, and lays pads there.
-       Leave it on "as the rig" and there is no second keyboard at all -- not a
-       silent one, none: no role, no notes, no draw. -->
-  <select id="mKeys2" title="a second keyboard, in its own register"></select>
-</div>
+<!-- THE RACK IS A LIST, NOT A ROW OF FIXED BOXES. It used to be five hardcoded
+     <select>s, which meant the set of racks was decided here, in markup, and
+     "add a rack" meant editing the file. Now this is empty and drawRack() fills
+     it from RACK_DEFAULT plus whatever the + button has added, so the racks on
+     screen are the user's list and every one of them can also be emptied. -->
+<div class="row" id="rack"></div>
 <div id="panels"></div>
 <div id="info">press "new song".</div>
 <div id="story"></div>
@@ -1124,7 +1134,11 @@ const INSTRUMENTS = {
      ridden on the mixer to create evolving dub mixes"
      [corpus:attackmagazine Basic-Channel-style]. ──────────────────────────── */
   echo: {
-    slot: "space", label: "echo + room", fixed: true,
+    /* SLOT "fx", AND NO LONGER `fixed`. It is a rack you can empty -- see
+       RACK_SLOTS. Nothing else about it moved: the controls are still keyed
+       `echo.*`, so every genre's `params` and every motion lane that rides one
+       still names the same thing it always did. */
+    slot: "fx", label: "echo + room",
     lanes: {},
     controls: [
       /* DIVISION is in sixteenths, and it is a switch rather than a dial: a
@@ -2082,7 +2096,7 @@ function loadParams(machine, over){
    PARAMS; from that moment the panel is the owner and this reads it. A caller
    that passes no drum machine gets the genre's own numbers unchanged, which is
    why every existing harness call still measures exactly what it measured. */
-function soundOf(genre, drumMachine){
+function soundOf(genre, drumMachine, picks){
   /* a name, or a resolved table straight off a chart -- a blended song has no
      name to look up and its sound is in the table like everything else */
   const G = (genre && typeof genre === "object") ? genre : (GENRE[genre] || GENRE.lofi);
@@ -2106,8 +2120,18 @@ function soundOf(genre, drumMachine){
     fall:     G.gate.fall,
     tomDecay: G.gate.tomDecay,
   };
+  /* ── AN EMPTY FX RACK IS A DRY MIX ──────────────────────────────────────────
+     The other racks empty by refusing to name a voice, which stops the note at
+     stage 5. The space cannot work that way: it is not on any lane, it is a
+     pair of NODES the whole mix passes through, so emptying it means turning
+     both sends off rather than dropping an event. Same wet-zero the genre would
+     declare if it wanted no space at all -- `echoFeeds: []` cuts the delay and
+     `wet: 0` cuts the room, and every control downstream reads those two. */
+  const space = (picks && ((picks.mute && picks.mute.fx) || picks.fx === "none"))
+    ? Object.assign({}, G.space, { wet: 0, echoFeeds: [] })
+    : G.space;
   return {
-    space: G.space, kick, gate,
+    space, kick, gate,
     drumDrive: has("bus") ? panelValue(m, "bus") : G.drumDrive,
   };
 }
@@ -2476,8 +2500,34 @@ const SLOT_ACCEPTS = { keys2: "keys" };
 /* THE RACK, IN ONE PLACE. Four literals used to say how many slots there are --
    resolvePicks, drawPanels, the picker builder and a harness check -- and each
    one was a hand-copied subset of this list. Adding the lead slot needed three
-   of them changed and the fourth went red. One owner. */
-const RACK_SLOTS = ["drums", "bass", "keys", "lead", "keys2"];
+   of them changed and the fourth went red. One owner.
+
+   `fx` is a rack now rather than a fixture. The echo-and-room unit always had a
+   panel and always had motion lanes -- in dub techno and in Plastikman the
+   movement of those six controls IS the music -- but it had no picker, on the
+   reasoning that "every genre has exactly one space, so this slot has no
+   choice". That reasoning skipped the choice that matters: NONE. Being able to
+   take the space away is the difference between a treatment you are stuck with
+   and one you are using. */
+const RACK_SLOTS = ["drums", "bass", "keys", "lead", "keys2", "fx"];
+/* ── WHICH RACKS ARE ON SCREEN, which is a different question from which slots
+   the engine has. Asked for directly: "i wanted 4 racks and each rack has a
+   drop down to change the sound character. None could be an option and the
+   other racks. So the default is drums bass lead fx. And at the bottom a plus
+   sign for the user to add new racks."
+
+   So the rack row is a USER-MANAGED LIST, not a fixed row of boxes. These four
+   are what a machine gets when it is switched on; everything else in
+   RACK_SLOTS is available from the + and starts absent. Absent is not the same
+   as silent: a rack that is not on screen leaves its slot on "auto", which is
+   what it has always been, so adding this changed no song. */
+const RACK_DEFAULT = ["drums", "bass", "lead", "fx"];
+/* what each rack is called on its own dropdown, and what "auto" means there --
+   for most slots the rig names a machine, for the second keyboard there is
+   nothing to fall back to, and for the space the fixture is the fallback */
+const SLOT_LABEL = { drums:"drums", bass:"bass", keys:"keys", lead:"lead", keys2:"keys 2", fx:"fx" };
+const SLOT_AUTO  = { drums:"as the rig", bass:"as the rig", keys:"as the rig",
+                     lead:"as the rig", keys2:"none", fx:"the genre's space" };
 
 /* THE RIG TABLE — which instrument plays which part. Stage 5 still writes the
    `voice` field in exactly one place; this is the lookup it writes through, and
@@ -2596,6 +2646,18 @@ const RIG_LABEL = {
    were all decided before anyone asked who was holding the instrument. */
 function voiceFor(chart, lane){
   const m = chart.picks && chart.picks[SLOT_OF[lane]];
+  /* ── AN EMPTY RACK PLAYS NOTHING ────────────────────────────────────────────
+     "None could be an option." This is where that option becomes true, and it
+     is deliberately the ONE place: `null` here means the lane has no voice, and
+     stage 5 drops the note rather than writing an event nothing can dispatch.
+     Not a silent voice and not a zero gain -- no event at all, so an emptied
+     rack costs nothing to render and shows up honestly in every measurement
+     that counts events.
+
+     It reads the MUTE and not the pick, because the pick underneath is still
+     the machine the genre drew -- see resolvePicks for why muting had to stop
+     being a pick before it stopped recomposing the record around itself. */
+  if(chart.picks && chart.picks.mute && chart.picks.mute[SLOT_OF[lane]]) return null;
   const M = m && m !== "auto" && INSTRUMENTS[m];
   if(M){
     /* THE KIT FIRST, then the machine's own lanes. A machine with a `kits` table
@@ -2610,8 +2672,36 @@ function voiceFor(chart, lane){
        have, which is the one the slot accepts. */
     const kind = SLOT_ACCEPTS[SLOT_OF[lane]];
     if(kind && M.lanes[kind]) return M.lanes[kind];
+    /* ── A PITCHED BOX CAN PLAY A PITCHED PART ──────────────────────────────
+       "None could be an option and the other racks." Every machine in this file
+       declares exactly one lane named after its own slot, so before this a
+       keyboard loaded into the LEAD rack resolved nothing and fell through to
+       the rig -- the dropdown moved and the sound did not, which is the one
+       defect this file has a standing rule about.
+
+       There is no musical reason a Rhodes cannot play the tune or a 303 cannot
+       carry it; those are records people have made. What a machine can play is
+       what its LANES say, and a single-lane pitched box can play any pitched
+       lane. Drums are excluded because a kit's lanes are named parts of a kit,
+       not a pitch -- asking an 808 for "lead" is not a sound, it is a mistake. */
+    const one = Object.keys(M.lanes);
+    if(PITCHED_SLOT[SLOT_OF[lane]] && PITCHED_SLOT[M.slot] && one.length === 1)
+      return M.lanes[one[0]];
   }
   return RIG[chart.rig][lane];
+}
+/* which racks hold something that plays PITCHES, and can therefore stand in for
+   each other. Drums and fx are not here on purpose -- see voiceFor. */
+const PITCHED_SLOT = { bass:1, keys:1, keys2:1, lead:1 };
+/* CAN THIS BOX GO IN THIS RACK? One answer, used by the picker to decide what
+   to offer and by resolvePicks to decide what to accept, so the list you can
+   see and the list that works are the same list by construction. */
+function canFill(slot, k){
+  const M = INSTRUMENTS[k];
+  if(!M || M.legacy || M.fixed) return false;
+  const kind = SLOT_ACCEPTS[slot] || slot;
+  if(M.slot === kind) return true;
+  return !!(PITCHED_SLOT[kind] && PITCHED_SLOT[M.slot] && Object.keys(M.lanes).length === 1);
 }
 
 /* WHICH BOX IS ACTUALLY IN A SLOT, with "auto" resolved.
@@ -2629,9 +2719,25 @@ function voiceFor(chart, lane){
    the one place `voice` is written, and this only asks it a question. */
 function machineIn(chart, slot){
   const m = chart.picks && chart.picks[slot];
+  /* an emptied rack has no box in it -- so no panel either. The pick underneath
+     is still a real machine (see resolvePicks); the mute is what the eye and
+     the ear should both agree about. */
+  if(chart.picks && chart.picks.mute && chart.picks.mute[slot]) return "none";
   if(m && m !== "auto" && INSTRUMENTS[m]) return m;
   const voice = RIG[chart.rig][slot];
-  if(!voice) return m;
+  if(!voice){
+    /* ── A SLOT THE RIG HAS NEVER HEARD OF ──────────────────────────────────
+       A rig is a BAND: it names who plays each LANE, and `fx` is not a lane --
+       nobody in a band is the delay. So "auto" cannot resolve through the rig
+       there, and before this it resolved to nothing and the panel vanished.
+       When exactly one machine in the file declares a slot, that machine IS
+       the fallback for it; there is no choice to make and no draw to run. This
+       is stated generally rather than as `if (slot === "fx")` because the next
+       single-machine rack should not need this function edited again. */
+    const own = Object.keys(INSTRUMENTS)
+      .filter(k => INSTRUMENTS[k].slot === slot && !INSTRUMENTS[k].legacy);
+    return own.length === 1 ? own[0] : m;
+  }
   for(const k in INSTRUMENTS){
     const M = INSTRUMENTS[k];
     if(M.slot === slot && M.lanes && M.lanes[slot] === voice) return k;
@@ -2660,14 +2766,36 @@ function machineIn(chart, slot){
 function resolvePicks(genre, picks, seed){
   const M = (GENRE[genre] && GENRE[genre].machines) || {};
   const rng = stream(seed, "rack");
-  const out = {};
+  const out = {}, mute = {};
   for(const slot of RACK_SLOTS){
     const drawn = M[slot] ? wpick(rng, M[slot]) : "auto";
     const want = (picks && picks[slot]) || "auto";
     /* a slot accepts its own machines, or -- for the second keyboard -- the
-       same ones the first accepts */
-    const kind = SLOT_ACCEPTS[slot] || slot;
-    const fits = m => m !== "auto" && INSTRUMENTS[m] && INSTRUMENTS[m].slot === kind;
+       same ones the first accepts, or any other pitched box: canFill is the one
+       owner of that question and the picker offers exactly what it accepts */
+    const fits = m => m !== "auto" && canFill(slot, m);
+    /* ── "NONE" IS A MUTE, AND A MUTE IS NOT A PICK ─────────────────────────
+       MEASURED, and it is the reason this is two fields rather than one. When
+       "none" was simply written into `picks`, emptying bladerunner's lead rack
+       CHANGED THE COUNTER-LINE: the sax declares a range, stage 3 narrows the
+       tune's register into it, and with no machine there was no range, so the
+       tune moved and the counter -- which is built against the tune -- moved
+       with it. Taking a box out of the rack had recomposed the record around
+       the hole.
+
+       That is the wrong shape for a rack. A rack is a PERFORMANCE control: it
+       decides what you hear, not what is written. So the draw still runs and
+       the pick underneath is still resolved -- the genre gets the machine it
+       would have had, stage 3 sees the range it would have seen, and every
+       other part is composed exactly as it was -- and the hand's "none" is
+       recorded separately as a MUTE that stage 5 obeys.
+
+       A/B-ing a rack now compares like with like, which is the whole point of
+       being able to switch one off.
+
+       Only a hand can mute. No genre can draw "none": a table that could would
+       be a genre that sometimes silently drops its own bass. */
+    if(want === "none") mute[slot] = true;
     out[slot] = fits(want) ? want : (fits(drawn) ? drawn : "auto");
   }
   /* WHICH KIT IS LOADED, drawn on the same stream and in the same breath as the
@@ -2678,6 +2806,10 @@ function resolvePicks(genre, picks, seed){
   const kitDraw = M.drumKit ? wpick(rng, M.drumKit) : (rng(), null);
   const wantKit = picks && picks.drumKit;
   out.drumKit = wantKit || kitDraw;
+  /* the mute set rides on `picks` beside `drumKit`, which is the other key here
+     that is not a slot. Frozen with the rest: nothing downstream may decide to
+     un-mute a rack the hand switched off. */
+  out.mute = Object.freeze(mute);
   return Object.freeze(out);
 }
 
@@ -12560,10 +12692,16 @@ function makePerformance(chart, form, materials, sections){
           /* `lane` is WHAT the note is; `voice` is WHO plays it. The rig table is
              the only thing between them, and it is consulted here, in the one
              place stage 5 writes the field. */
+          /* AN EMPTY RACK STOPS THE NOTE HERE. voiceFor returns null when the
+             slot is set to "none", and a note with nobody to play it is not an
+             event -- see voiceFor. The material still exists and the roll still
+             shows it; what changes is that nothing sounds it. */
+          const voice = voiceFor(chart, n.lane || role);
+          if(voice == null) continue;
           const ev = {
             tSec: (bar * 16 + n.step + micro) * spb,
             durSec: Math.max(spb * 0.9, n.dur * spb * artic),
-            voice: voiceFor(chart, n.lane || role),
+            voice,
             role, lane: n.lane || role, gain,
           };
           if(role === "keys"){ ev.timbre = chart.keysChar; ev.wow = chart.tape.wow; }
@@ -13349,7 +13487,7 @@ function newSong(forcedSeed){
 /* the sound the CURRENT panel settings ask for -- what play and render both use,
    so what you hear is what you rendered. */
 function soundNow(){
-  const S = soundOf(SONG.chart.genre, SONG.chart.picks.drums);
+  const S = soundOf(SONG.chart.genre, SONG.chart.picks.drums, SONG.chart.picks);
   S.motion = SONG.motion;                 // the movement is the song's, not the panel's
   return S;
 }
@@ -13897,6 +14035,107 @@ function bassGridEl(m, M){
   return wrap;
 }
 
+/* ═══ THE RACK ROW ═════════════════════════════════════════════════════════
+   Asked for directly: "i wanted 4 racks and each rack has a drop down to change
+   the sound character. None could be an option and the other racks. So the
+   default is drums bass lead fx. And at the bottom a plus sign for the user to
+   add new racks."
+
+   Before this the rack was five <select> elements written into the markup, so
+   the set of racks was a fact about the HTML and "add a rack" meant editing the
+   file. This draws the row from a LIST instead, and the + puts anything not in
+   it back. Three consequences worth naming:
+
+     - the default is four boxes, not five. `keys` and `keys2` still exist and
+       still play; they are simply not on screen until asked for, and a rack
+       that is not on screen sits at "auto", which is what it has always been.
+       So this changed the interface and not one note of any song.
+     - every rack can be EMPTIED. See voiceFor: "none" means no voice, which
+       means stage 5 writes no event at all.
+     - every rack offers the other racks' boxes, where that means anything. A
+       Rhodes on the tune and a 303 on the tune are both records people have
+       made; an 808 on the tune is not a sound, so canFill does not offer it. */
+const RACK_ON = RACK_DEFAULT.slice();
+
+function drawRack(){
+  const host = $("rack");
+  if(!host) return;
+  host.innerHTML = "";
+  for(const slot of RACK_ON){
+    const wrap = el("div", "rackbox");
+    const sel = document.createElement("select");
+    /* a stable id per rack, derived from the slot rather than written down --
+       the measurement harness drives these by name, and a hand-kept list of
+       five ids is exactly what went stale when the fourth and fifth arrived */
+    sel.id = "m_" + slot;
+    sel.title = "which machine fills the " + (SLOT_LABEL[slot] || slot) + " rack";
+    const name = SLOT_LABEL[slot] || slot;
+    sel.innerHTML =
+      `<option value="auto">${name}: ${SLOT_AUTO[slot] || "as the rig"}</option>` +
+      /* NONE, SECOND, because it is the option that was missing and it should
+         not be buried at the bottom of a list of eight keyboards. */
+      `<option value="none">${name}: none</option>` +
+      /* NOT the legacy entries. The acoustic kit, the Sega kit and the chopper
+         are KITS of the TR-1000 now -- one box with different voices loaded,
+         which is what its front panel's KIT key means. They remain in the table
+         because machineIn() resolves a rig-named voice back to the machine that
+         owns it, and deleting them would leave a rig-resolved acoustic kit with
+         no panel at all; they are simply not offered as boxes to choose. */
+      Object.keys(INSTRUMENTS).filter(k => canFill(slot, k))
+        .map(k => `<option value="${k}">${name}: ${INSTRUMENTS[k].label}</option>`).join("");
+    sel.value = PICK[slot] || "auto";
+    /* ── CHANGING A BOX DOES NOT STOP THE MUSIC ────────────────────────────
+       Reported: loading a Mellotron while synthwave was playing made the
+       program die, and changing the genre did not bring it back. MEASURED,
+       level at the master: -22 dB, then -69, then -131, then silence, and it
+       never recovered. It was doing exactly what it was told -- every handler
+       called stopPlayback() and then newSong(), and nothing started it again.
+       `recompose()` rebuilds around the edit and carries on from the same song
+       second, which is what the step grid has always done. The whole point of
+       a rack is that a hand can change something while it runs. */
+    sel.addEventListener("change", () => { PICK[slot] = sel.value; recompose(); });
+    wrap.appendChild(sel);
+    /* ── AND A RACK CAN BE TAKEN OUT AGAIN ──────────────────────────────────
+       A + with no matching × is a one-way door. Removing a rack RESETS ITS PICK
+       to "auto" on the way out, because a control that is off the screen and
+       still acting on the song is worse than no control -- that is the same
+       rule that says a knob must reach the sound, read from the other end. */
+    const kill = el("button", "rackoff", "×");
+    kill.title = "take this rack out of the row";
+    kill.addEventListener("click", () => {
+      const i = RACK_ON.indexOf(slot);
+      if(i >= 0) RACK_ON.splice(i, 1);
+      PICK[slot] = "auto";
+      drawRack(); recompose();
+    });
+    wrap.appendChild(kill);
+    host.appendChild(wrap);
+  }
+  /* ── THE PLUS ───────────────────────────────────────────────────────────────
+     One button, and it offers only the racks that are not already on screen. It
+     disappears when they all are, rather than opening onto an empty menu. */
+  const rest = RACK_SLOTS.filter(s => !RACK_ON.includes(s));
+  if(!rest.length) return;
+  const add = el("div", "rackadd");
+  const plus = el("button", "rackplus", "+");
+  plus.title = "add a rack";
+  const menu = el("div", "rackmenu");
+  menu.style.display = "none";
+  for(const slot of rest){
+    const b = el("button", "", SLOT_LABEL[slot] || slot);
+    b.addEventListener("click", () => {
+      RACK_ON.push(slot);
+      drawRack();
+    });
+    menu.appendChild(b);
+  }
+  plus.addEventListener("click", () => {
+    menu.style.display = menu.style.display === "none" ? "flex" : "none";
+  });
+  add.appendChild(plus); add.appendChild(menu);
+  host.appendChild(add);
+}
+
 function drawPanels(){
   const host = $("panels");
   host.innerHTML = "";
@@ -14370,44 +14609,7 @@ function boot(){
       Object.keys(RIG).map(k =>
         `<option value="${k}">rig: ${RIG_LABEL[k] || k}</option>`).join("");
   }
-  {                                  /* the slot pickers, built FROM the rack */
-    const ids = { drums:"mDrums", bass:"mBass", keys:"mKeys", lead:"mLead", keys2:"mKeys2" };
-    const auto = { drums:"drums: as the rig", bass:"bass: as the rig", keys:"keys: as the rig",
-                   lead:"lead: as the rig", keys2:"keys 2: none" };
-    for(const slot in ids){
-      const sel = $(ids[slot]);
-      sel.innerHTML = `<option value="auto">${auto[slot]}</option>` +
-        /* NOT the legacy entries. The acoustic kit, the Sega kit and the
-           chopper are KITS of the TR-1000 now -- one box with different voices
-           loaded, which is what its front panel's KIT key means. They remain in
-           the table because machineIn() resolves a rig-named voice back to the
-           machine that owns it, and deleting them would leave a rig-resolved
-           acoustic kit with no panel at all; they are simply not offered as
-           separate boxes to choose between. */
-        Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].slot === (SLOT_ACCEPTS[slot] || slot)
-                                             && !INSTRUMENTS[k].legacy)
-          .map(k => `<option value="${k}">${slot}: ${INSTRUMENTS[k].label}</option>`).join("");
-      /* ── CHANGING A BOX DOES NOT STOP THE MUSIC ────────────────────────────
-         Reported: loading a Mellotron while synthwave was playing made the
-         program die, and changing the genre did not bring it back. MEASURED,
-         level at the master: -22 dB, then -69, then -131, then silence, and it
-         never recovered.
-
-         It was doing exactly what it was told. Every one of these handlers
-         called stopPlayback() and then newSong(), and nothing started it again
-         -- so swapping a machine STOPPED the song and left the transport dead.
-
-         `recompose()` has been in this file the whole time doing the right
-         thing for the step grid: rebuild the song around the edit and carry on
-         from the same song second. Editing a step keeps playing; swapping a box
-         did not. That is backwards -- the whole point of the rack is that a
-         hand can change something while it runs. */
-      sel.addEventListener("change", () => {
-        PICK[slot] = sel.value;
-        recompose();
-      });
-    }
-  }
+  drawRack();
   /* the dropdown is a PRESET now: it solos one genre and the sliders follow */
   /* the genre and the rig keep playing too, for the same reason -- a genre
      change mid-song is a DJ move, not a reason to stop the record */
@@ -14458,6 +14660,13 @@ window.MK2 = {
      So adding a fourth and fifth rack turned a green check red, which is the
      check being stale rather than the program being wrong. One owner. */
   rackSlots: () => RACK_SLOTS.slice(),
+  /* WHICH RACKS ARE ON SCREEN, and the same door the + button goes through. A
+     harness that wants to drive a rack the user has not added yet should add it
+     the way a user does, rather than reaching past the interface -- otherwise it
+     is measuring a program nobody can operate. */
+  rackOn: () => RACK_ON.slice(),
+  showRack: slot => { if(RACK_SLOTS.includes(slot) && !RACK_ON.includes(slot)) RACK_ON.push(slot); drawRack(); },
+  canFill,
   refreshBus: () => Sound.refreshBus(),
   liveLevel: () => Sound.liveLevel(),
   /* the song the panels are currently showing -- a read handle for a probe

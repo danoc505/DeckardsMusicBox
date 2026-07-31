@@ -1334,6 +1334,72 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         bad.length ? "composed and silent: " + bad.join(", ")
                    : `${ok}/${tot} composed parts reach the performance`);
 }
+{
+  /* ── AN EMPTY RACK PLAYS NOTHING, AND TAKES NOTHING ELSE WITH IT ────────────
+     "None could be an option." Two halves, and the second is the one that would
+     break quietly: emptying the bass must silence the bass and must not move a
+     single hat. voiceFor returns null for a rack set to "none" and stage 5 drops
+     the note, so the failure mode if that ever regresses is either a rack that
+     will not empty or an event with no voice reaching dispatch and throwing. */
+  const roles = ["drums", "bass", "keys", "lead"];
+  const bad = [];
+  for(const g of M.genres()) for(const slot of roles){
+    for(let s = 1; s <= 4; s++){
+      const on  = M.composeSong(s, "band", g);
+      const off = M.composeSong(s, "band", g, { [slot]: "none" });
+      const mine = e => e.role === slot;
+      if(off.perf.events.some(mine)) bad.push(`${g}/${slot}: still sounds`);
+      /* everything that is NOT this rack must be byte-identical -- emptying one
+         box is not licence to recompose the record around it */
+      const rest = x => JSON.stringify(x.perf.events.filter(e => !mine(e)));
+      if(rest(on) !== rest(off)) bad.push(`${g}/${slot}: moved other roles`);
+      if(off.perf.events.some(e => e.voice == null)) bad.push(`${g}/${slot}: voiceless event`);
+    }
+  }
+  check("a rack set to none plays nothing, and moves nothing else", bad.length === 0,
+        bad.length ? bad.slice(0, 4).join(" | ")
+                   : `${roles.length * M.genres().length} rack/genre pairs empty cleanly`);
+}
+{
+  /* ── EVERY BOX THE PICKER OFFERS ACTUALLY PLAYS WHERE IT IS OFFERED ─────────
+     The rack row now offers the other racks' machines wherever that means
+     something -- a Rhodes or a 303 on the tune. That is only true if voiceFor
+     can resolve a machine into a lane its own `lanes` table does not name, and
+     before this it could not: the dropdown moved and the sound did not.
+
+     canFill is the one owner of "can this box go in this rack", and it answers
+     for the picker AND for resolvePicks. So this walks what canFill offers and
+     requires the pick to survive into the chart and reach the events with the
+     machine's own voice -- which is the whole claim, checked rather than
+     asserted. */
+  const bad = [];
+  let pairs = 0, heard = 0;
+  for(const slot of M.rackSlots()){
+    if(slot === "fx") continue;                 // the space is not on a lane; checked above by wet=0
+    for(const k of Object.keys(M.INSTRUMENTS)){
+      if(!M.canFill(slot, k)) continue;
+      pairs++;
+      /* a genre that actually plays this role, so "silent" means the pick
+         failed rather than that the arrangement never asked for the part */
+      let sounded = false;
+      for(const g of M.genres()){
+        for(let s = 1; s <= 3 && !sounded; s++){
+          const song = M.composeSong(s, "band", g, { [slot]: k });
+          if(song.chart.picks[slot] !== k){ bad.push(`${slot}/${k}: pick dropped`); sounded = true; break; }
+          const want = M.INSTRUMENTS[k].lanes[Object.keys(M.INSTRUMENTS[k].lanes)[0]];
+          if(song.perf.events.some(e => e.role === slot && (e.voice === want ||
+              e.voice === M.INSTRUMENTS[k].lanes[e.lane]))) sounded = true;
+        }
+        if(sounded) break;
+      }
+      if(sounded) heard++; else bad.push(`${slot}/${k}: offered but never sounds`);
+    }
+  }
+  check("every box the picker offers into a rack actually plays there",
+        bad.length === 0,
+        bad.length ? bad.slice(0, 5).join(" | ")
+                   : `${heard}/${pairs} rack/machine pairs reach the performance`);
+}
 
 console.log("\n" + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);

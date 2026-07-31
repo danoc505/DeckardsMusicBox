@@ -56,13 +56,23 @@ const check = (label, ok, detail) => {
   check("the file loads and composes without throwing",
         await pg.evaluate(() => !!(window.MK2 && window.MK2.currentSong())), "seed 1");
 
+  /* ── THE RACK ROW IS A LIST NOW, AND THE DEFAULT IS FOUR OF IT ──────────────
+     The row used to be five <select>s written into the markup with fixed ids,
+     which is what this file drove. It is drawn from RACK_ON now and starts at
+     drums/bass/lead/fx, so the ids exist only for the racks currently on
+     screen. Ask the program to put them all up -- through the same door the +
+     button uses, so this cannot go green against a rack a user could not reach
+     -- and then drive them by their derived ids. */
+  await pg.evaluate(() => MK2.rackSlots().forEach(s => MK2.showRack(s)));
+  await pg.waitForTimeout(300);
+  const RACK = s => "#m_" + s;
   /* put a panelled machine in every slot the rack HAS -- asked of the program,
      not listed here, because listing them here is what went stale last time */
-  await pg.selectOption("#mDrums", "tr1000");
-  await pg.selectOption("#mBass", "tb303");
-  await pg.selectOption("#mKeys", "mellotron");
-  await pg.selectOption("#mLead", "sax");
-  await pg.selectOption("#mKeys2", "wurly");
+  await pg.selectOption(RACK("drums"), "tr1000");
+  await pg.selectOption(RACK("bass"), "tb303");
+  await pg.selectOption(RACK("keys"), "mellotron");
+  await pg.selectOption(RACK("lead"), "sax");
+  await pg.selectOption(RACK("keys2"), "wurly");
   await pg.waitForTimeout(500);
 
   const shape = await pg.evaluate(() => [...document.querySelectorAll(".machine")].map(m => ({
@@ -114,10 +124,11 @@ const check = (label, ok, detail) => {
       .filter(k => !MK2.INSTRUMENTS[k].fixed && !MK2.INSTRUMENTS[k].legacy)
       .map(k => [k, MK2.INSTRUMENTS[k].slot]));
     const broken = [];
-    const selOf = { drums: "#mDrums", bass: "#mBass", keys: "#mKeys" };
     for(const [m, slot] of machines){
-      const sel = selOf[slot];
-      if(!sel) continue;
+      /* every rack is on screen by now, so a machine's own slot always has a
+         box -- no hand-kept map of three, which is what stopped this check
+         reaching the lead and the second keyboard */
+      const sel = RACK(slot);
       const before = errs.length;
       try { await pg.selectOption(sel, m); } catch(e){ broken.push(m + " (not offered)"); continue; }
       await pg.waitForTimeout(160);
@@ -134,9 +145,9 @@ const check = (label, ok, detail) => {
           broken.length ? broken.join(" | ") : machines.length + " machines, all drew");
   }
   /* put the three the rest of this file expects back */
-  await pg.selectOption("#mDrums", "tr1000");
-  await pg.selectOption("#mBass", "tb303");
-  await pg.selectOption("#mKeys", "mellotron");
+  await pg.selectOption(RACK("drums"), "tr1000");
+  await pg.selectOption(RACK("bass"), "tb303");
+  await pg.selectOption(RACK("keys"), "mellotron");
   await pg.waitForTimeout(400);
 
   check("both step grids are sixteen steps",
