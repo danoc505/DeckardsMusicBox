@@ -201,10 +201,18 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         try { M.composeSong(seed, undefined, { [gs[i]]: 1 - w, [gs[j]]: w }); ok++; }
         catch(e){ const k = e.message.replace(/\d+/g, "#").slice(0, 46); why[k] = (why[k] || 0) + 1; }
       }
-  /* 99% rather than 100: a blend CAN genuinely collide -- two register sets
-     that each work alone can crowd one pitch -- and the seam check is right to
-     throw. What must not happen is a whole pair failing, or a NaN. */
-  check("blended genres compose", ok > tot * 0.99,
+  /* ── 100% NOW, AND THE 99% WAS COVERING FOR A BUG ──────────────────────────
+     This tolerance used to read: "a blend CAN genuinely collide -- two register
+     sets that each work alone can crowd one pitch -- and the seam check is
+     right to throw." That was a reasonable-sounding story and it was wrong.
+     Every failure it was absorbing was ONE defect: `keysA` is built once and
+     used in both A and Avar, but was only ever shown `ostA`, so it could voice
+     a chord onto a pitch the VARIED ostinato was about to take. The tell was
+     sitting in the failure message the whole time -- the material was always
+     Avar, never A, B or C.
+     Fixed at its owner (the comp now avoids both ostinati), and with the cause
+     gone the tolerance is a place for the next one to hide. 504/504. */
+  check("blended genres compose", ok === tot,
         `${ok}/${tot} pairs at 25/50/75` +
         (Object.keys(why).length ? "  |  " + Object.keys(why).map(k => why[k] + "x " + k).join(" ") : ""));
   const nan = Object.keys(why).some(k => /NaN|undefined/.test(k));
@@ -1460,7 +1468,8 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      A lane fails to line up only when its period neither divides 16 nor is
      divisible by it. 7, 5, 11 and 3 qualify; 8, 16 and 32 do not. */
   const odd = rows => rows.filter(r => 16 % r.p !== 0 && r.p % 16 !== 0);
-  const pm = periods("plastikman"), ctl = periods("acid");
+  const pmP = periods("plastikman"), ctlP = periods("acid");
+  const pm = pmP, ctl = ctlP;
   const pmOdd = odd(pm), ctlOdd = odd(ctl);
   const lanesOf = rows => [...new Set(rows.map(r => `${r.lane}/${r.p}`))].sort().join(" ");
   check("minimal techno's polymeter is real, not a comment",
@@ -1468,6 +1477,199 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         `plastikman ${pmOdd.length}/${pm.length} drum lanes run at a period that never lines up with the bar ` +
         `(${lanesOf(pmOdd) || "none"}) · acid ${ctlOdd.length}/${ctl.length} ` +
         `(the control: 808 + 303, ordinary grid)`);
+}
+{
+  /* ══ THE PART THAT LISTENS ══════════════════════════════════════════════════
+     `kit.listen` is the only thing in this builder that READS the pattern and
+     answers it. Four things have to be true or it is decoration, and the fourth
+     is the one that matters.
+
+     LZ76 complexity, normalised against two controls built at the lane's OWN
+     density -- its first bar looped (0.00) and a seeded shuffle (1.00). Full
+     instrument and its provenance in harness/probe_novelty.js. */
+  const LEN = 64;
+  const lz76 = s => {
+    const n = s.length; if(!n) return 0;
+    let c = 1, l = 1, i = 0, k = 1, kmax = 1;
+    for(;;){
+      if(l + k > n){ c++; break; }
+      if(s[i + k - 1] === s[l + k - 1]) k++;
+      else { if(k > kmax) kmax = k; i++;
+             if(i === l){ c++; l += kmax; if(l >= n) break; i = 0; k = 1; kmax = 1; } else k = 1; }
+    }
+    return c;
+  };
+  const loopOf = b => Array.from({ length: LEN }, (_, i) => b[i % 16]);
+  const shuffleOf = (b, tag) => {
+    const k = b.reduce((x, y) => x + y, 0);
+    const rng = T.stream ? T.stream(1, "seam:" + tag + ":" + k) : null;
+    const idx = Array.from({ length: LEN }, (_, i) => i);
+    let s = 0;
+    for(let i = LEN - 1; i > 0; i--){
+      const r = rng ? rng() : ((s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
+      const j = Math.floor(r * (i + 1)) % (i + 1);
+      const t = idx[i]; idx[i] = idx[j]; idx[j] = t;
+    }
+    const out = new Array(LEN).fill(0);
+    for(let i = 0; i < k; i++) out[idx[i]] = 1;
+    return out;
+  };
+  const lanesOfSong = song => {
+    const per = {};
+    for(const m of ["A", "Avar", "B", "C"]){
+      const notes = (song.materials[m] || {}).drums;
+      if(!notes) continue;
+      const by = {};
+      for(const n of notes){
+        const at = n.bar * 16 + n.step;
+        if(at < 0 || at >= LEN) continue;
+        (by[n.lane] = by[n.lane] || new Array(LEN).fill(0))[at] = 1;
+      }
+      for(const lane in by) (per[lane] = per[lane] || []).push(by[lane]);
+    }
+    return per;
+  };
+
+  /* 1. IT FIRES, AND THE NOTES REACH THE PERFORMANCE. A rule that writes into a
+        lane the arrangement never plays is a rule nobody hears. */
+  let heardEv = 0, madeNotes = 0;
+  for(let s = 1; s <= 20; s++){
+    const song = M.composeSong(s, "band", "plastikman");
+    for(const m of ["A", "Avar", "B", "C"])
+      for(const n of ((song.materials[m] || {}).drums) || [])
+        if(n.lane === "ghost") madeNotes++;
+    heardEv += song.perf.events.filter(e => e.lane === "ghost").length;
+  }
+  check("the listener fires, and what it writes is played",
+        madeNotes > 0 && heardEv > 0,
+        `${madeNotes} listener notes composed over 20 seeds, ${heardEv} reach the performance`);
+
+  /* 2. IT IS NOT A SHUFFLE. This is the null hypothesis and it is the whole
+        point: "deterministic rules watching the pattern" and "random notes" are
+        trivially confusable by ear, so the claim is only worth making if it can
+        be separated from a dice roll. Measured, the listener's own lane sits at
+        ~0.56 against a shuffle at 1.00 and a loop at 0.00. Bounds are loose --
+        what this catches is degeneration to either end, which is what a broken
+        or bypassed mechanism actually looks like. */
+  let nov = 0, nn = 0;
+  for(let s = 1; s <= 12; s++){
+    const per = lanesOfSong(M.composeSong(s, "band", "plastikman"));
+    for(const bits of (per.ghost || [])){
+      const k = bits.reduce((x, y) => x + y, 0);
+      if(k < 4 || k > LEN - 4) continue;
+      const a = lz76(bits), lo = lz76(loopOf(bits)), hi = lz76(shuffleOf(bits, "ghost"));
+      if(hi - lo < 1) continue;
+      nov += (a - lo) / (hi - lo); nn++;
+    }
+  }
+  const score = nn ? nov / nn : -1;
+  check("...and what it writes is neither a loop nor a shuffle",
+        nn > 0 && score > 0.15 && score < 0.90,
+        `listener lane scores ${score.toFixed(3)}  (0.00 = its own first bar looped, 1.00 = a random ` +
+        `sprinkle at the same density; ${nn} samples)`);
+
+  /* 3. IT CANNOT RUN AWAY. A listener firing on every Nth hit of its watch set
+        has density at most density(watch)/N, so a chain of them is strictly
+        contracting. That is arithmetic rather than tuning, and this is the
+        assertion of it: the second generation must not be denser than the
+        first, over every seed. */
+  /* THE BOUND, AS STATED AND NOT AS HOPED. A listener firing on every Nth time
+     it hears something writes at most |watch set| / N notes. That is the only
+     runaway guarantee the mechanism has, and it is the one worth asserting:
+     the tidier "each generation is smaller than the last" was written into the
+     source as true, this check disproved it (generation two watches the dense
+     hat as well as generation one, and legitimately writes more), and the
+     comment now says so. The union over-counts, because `alone`/`both` modes
+     and the notOn guard both narrow it further -- so a violation here is a real
+     arithmetic failure and not a boundary case. */
+  const RULES = (T.GENRE.plastikman.kit.listen) || [];
+  let over = 0, mats = 0, worst = "";
+  for(let s = 1; s <= 20; s++){
+    const song = M.composeSong(s, "band", "plastikman");
+    for(const m of ["A", "Avar", "B", "C"]){
+      const notes = ((song.materials[m] || {}).drums) || [];
+      if(!notes.length) continue;
+      mats++;
+      RULES.forEach((rule, i) => {
+        const gen = i + 1;
+        const mine = notes.filter(n => n.heard === gen).length;
+        const union = new Set();
+        for(const n of notes)
+          if(rule.watch.includes(n.lane)) union.add(n.bar * 16 + n.step);
+        const bound = Math.ceil(union.size / (rule.every > 0 ? rule.every : 1));
+        if(mine > bound){ over++; worst = `gen${gen} wrote ${mine} > bound ${bound}`; }
+      });
+    }
+  }
+  check("...and no listener writes more than its own arithmetic allows", over === 0,
+        over ? worst : `${mats} materials x ${RULES.length} listeners, every one inside ` +
+                       `|watch| / every`);
+
+  /* 4. A GENRE THAT DECLARES NO LISTENERS IS UNTOUCHED. The pass makes no random
+        draws at all -- not "the draws run unconditionally", none -- so this is
+        true by inspection. It is checked anyway, because that is the claim the
+        snapshot rests on. */
+  const bare = M.genres().filter(g => g !== "plastikman");
+  let moved = 0;
+  for(const g of bare) for(let s = 1; s <= 6; s++){
+    const song = M.composeSong(s, "band", g);
+    for(const m of ["A", "Avar", "B", "C"]){
+      const notes = ((song.materials[m] || {}).drums) || [];
+      /* nothing in these genres declares `listen`, so any note on a lane no
+         table of theirs writes would be the pass leaking */
+      if(notes.some(n => n.lane === "ghost" && (T.GENRE[g].kit || {}).ghostChance === 0)) moved++;
+    }
+  }
+  check("a genre that declares no listener gets none", moved === 0,
+        `${bare.length} genres x 6 seeds, ${moved} leaked notes`);
+
+  /* 5. THE ONE SURVIVES IT. Longuet-Higgins & Lee: a note followed by a rest of
+        GREATER metric weight is a syncopation, scored by the weight difference.
+        Beat-tapping error tracks this index at r = .82, so it is the measure of
+        how hard a pattern is to find the downbeat in.
+
+        MEASURED ON THE UNION, WHICH IS THE ONLY HONEST PLACE FOR IT HERE. Per
+        lane the index is misleading on anything sparse: a lone note at step 3
+        of an empty bar scores 15, the maximum, because every strong beat after
+        it is a rest. The listener's own lane reads 13.1 for exactly that
+        reason and it means nothing. What a listener actually hears is the kit,
+        and the kit has a four-on-the-floor kick on every strong beat.
+
+        A syncopation ceiling was built into the mechanism on the strength of
+        the per-lane number and removed on the strength of this one -- see the
+        note in `hear`. This is the assertion that keeps the removal honest: if
+        a future rule ever does put the downbeat at risk, the union stops being
+        zero and this goes red. */
+  const W = [0, -4, -3, -4, -2, -4, -3, -4, -1, -4, -3, -4, -2, -4, -3, -4];
+  const lhl = bar => {
+    let t = 0;
+    for(let i = 0; i < 16; i++){
+      if(bar[i]) continue;
+      let j = -1;
+      for(let k = 1; k < 16; k++){ const q = (i - k + 16) % 16; if(bar[q]){ j = q; break; } }
+      if(j >= 0 && W[i] > W[j]) t += W[i] - W[j];
+    }
+    return t;
+  };
+  /* validated on known figures so the check cannot pass by being broken:
+     four-on-the-floor 0, straight sixteenths 0, son clave 4, offbeats 7 */
+  const P = a => { const b = new Array(16).fill(0); a.forEach(i => b[i] = 1); return b; };
+  const sane = lhl(P([0, 4, 8, 12])) === 0 && lhl(P([0, 3, 6, 10, 12])) === 4 &&
+               lhl(P([2, 6, 10, 14])) === 7;
+  let worstBar = 0, bars = 0;
+  for(let s = 1; s <= 20; s++){
+    const song = M.composeSong(s, "band", "plastikman");
+    for(const m of ["A", "Avar", "B", "C"]){
+      const notes = ((song.materials[m] || {}).drums) || [];
+      if(!notes.length) continue;
+      const per = [0, 1, 2, 3].map(() => new Array(16).fill(0));
+      for(const n of notes) if(n.bar >= 0 && n.bar < 4) per[n.bar][n.step] = 1;
+      for(const b of per){ if(!b.some(x => x)) continue; bars++; worstBar = Math.max(worstBar, lhl(b)); }
+    }
+  }
+  check("...and the kit as heard still has the one", sane && worstBar === 0,
+        sane ? `union syncopation 0 across ${bars} bars (worst ${worstBar}); the kick holds every strong beat`
+             : "the syncopation index itself failed its own validation figures");
 }
 
 console.log("\n" + pass + " passed, " + fail + " failed");

@@ -472,7 +472,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31m · minimal techno gets the space its sources describe</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31n · something listens to the sequencers and answers</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -9160,6 +9160,60 @@ const GENRE = {
         { lane: "rim",  len: 7, on: [3], vel: 0.5 },
         { lane: "clap", len: 5, on: [2], vel: 0.62 },
       ],
+      /* ══ AND SOMETHING LISTENS TO THEM ═══════════════════════════════════
+         "One fader determines how often a snare does a little roll or skip,
+          and another thing listens and says 'if that snare plays that roll
+          three times, then I'll do this.'"          [corpus:soundonsound]
+
+         Two listeners, which is this genre's number: "how much you can do with
+         the least amount". They add no draws and no randomness -- see `hear`.
+
+         WHY THE GHOST LANE. This table already says, of the per-bar random
+         ghost: "a per-bar random extra hit is precisely the bar-to-bar
+         variation this music refuses. Zero." That is still true and the zero
+         stays. What arrives here is not random variation -- it is the same
+         figure every time for a given seed, derived by counting. The genre
+         refuses a dice roll and accepts arithmetic, which is the distinction
+         the whole mechanism exists to make. In the plastik rig the ghost lane
+         is a rimshot voice, and "I was always into really small rimshots"
+         [corpus:hawtin] is the sound this puts on it.
+
+         THE FIRST hears the two polymetric sequencers -- 7 and 5 -- and answers
+         every third time either of them speaks away from the kick. Measured at
+         novelty 0.500, density 0.078: generated, and not a shuffle.
+
+         THE SECOND is generation two: it hears the FIRST -- the part that did
+         not exist until a moment ago -- against the HAT, and answers every
+         fourth time exactly one of them is speaking.
+
+         AND THE HAT IS IN THERE BECAUSE OF A MEASUREMENT, not because a hat
+         seemed nice. Generation two was first written watching the ghost and
+         the rim, which are both irregular, and it scored 0.921 -- a shuffle.
+         Every combination was then measured, 24 of them, and the pattern in the
+         results is the same lesson as the kick guard one paragraph up:
+
+           watch          mode   every   novelty   density
+           ghost + rim    alone    2      0.921     0.132   <- two irregular
+           ghost + clap   alone    2      0.889     0.129      lanes compound
+           rim   + clap   any      3      1.751     0.148      into noise
+           ghost + hat    alone    4      0.687     0.122   <- an irregular lane
+           ghost + hat    alone    2      0.530     0.205      against a regular
+           ghost + hat    any      4      0.248     0.139      one stays musical
+
+         A second generation that listens only to irregular things amplifies
+         irregularity until it is indistinguishable from a dice roll. Give it
+         one metronomic reference and it produces structure instead. The
+         constraint is the generator, again, and this time it was the grid.
+
+         A THIRD generation was tried and scored 1.000 -- a shuffle. So there
+         are two, and Booth's "three or four generations down the line" is
+         reported rather than obeyed: that is a studio pipeline with two people
+         listening at every step, not four rounds of one rule. */
+      listen: [
+        { lane: "ghost",   watch: ["rim", "clap"],  every: 3, notOn: ["kick"], vel: 0.38 },
+        { lane: "openhat", watch: ["ghost", "hat"], every: 4, notOn: ["kick"],
+          mode: "alone", vel: 0.32 },
+      ],
       /* ── THE LINE THIS GENRE IS ABOUT ── */
       flourishBar: -1,
       flourish: [[[], 1]],
@@ -10911,6 +10965,184 @@ function makeMaterials(chart){
         notes.push({ bar: b, step: (K.crashStep == null ? 0 : K.crashStep),
                      dur: 1, lane: "crash", vel: 0.85, role: "drums" });
     }
+    return hear(notes, K);
+  }
+
+  /* ══ THE PART THAT LISTENS ═════════════════════════════════════════════════
+     Sean Booth, describing their setup:
+
+       "A sequencer is spitting out stuff and we're using our ears and the
+        faders to make the music... one fader determines how often a snare does
+        a little roll or skip, and ANOTHER THING LISTENS AND SAYS 'if that snare
+        plays that roll three times, then I'll do this.'"   [corpus:soundonsound]
+
+     Everything else in this builder DECLARES: a step list, a division, a
+     sequencer length. Nothing has ever READ what the pattern turned out to be
+     and answered it. This does. A listener watches a set of lanes, counts what
+     it hears, and writes on every Nth -- no draws, no probability, no new
+     randomness at all. The brief it was built to:
+
+       "constraints allow for novelty to emerge and music is novelty
+        arithmetically derived."
+
+     ── WHY IT IS BUILT LIKE THIS, WHICH IS ALL MEASUREMENT ────────────────────
+     `probe_novelty.js` scores a 64-step lane against two controls at its own
+     density: its first bar looped (0.00) and a seeded shuffle (1.00). Candidate
+     mechanisms were scored BEFORE this one was chosen:
+
+       every 2nd hit of one period-7 lane ......... 0.000   nothing
+       Euclidean E(5,16), looped or running ....... 0.000   nothing
+       a period-7 or period-5 pulse alone ......... -0.20   LESS than a loop
+       every 3rd hit of (rim OR clap), not on kick   0.500   <- the mechanism
+       rim XOR clap, not on kick .................. 0.800
+       three-lane XOR / CA from a dense seed ...... >1.0    past noise
+
+     THE FINDING THAT DECIDED THE SHAPE: a listener on ONE lane produces
+     nothing. Counting a periodic thing gives a periodic thing -- "every 3rd hit
+     of a period-7 pulse" is a period-21 pulse, and LZ cannot tell it from the
+     pulse it came from. Novelty only appears when the listener watches TWO
+     SEQUENCERS INTERACTING. That is why `watch` is a set and not a lane, and it
+     is also why kit.poly had to exist first: two coprime lengths are the thing
+     there is something to hear between.
+
+     AND THE GUARD IS A GENERATOR. `notOn` exists to keep the listener off the
+     kick so the downbeat survives -- and on its own that constraint takes the
+     same figure from 0.00 to 0.500. The rule that protects the one is the rule
+     that makes the part interesting. That is the brief, arithmetically.
+
+     ── IT CANNOT RUN AWAY, AND THAT IS A PROOF RATHER THAN A SETTING ──────────
+     A listener firing on every Nth time it hears something writes AT MOST
+     |watch set| / N notes. That is the whole bound, it holds for every rule
+     regardless of what it watches, and it is what makes the mechanism safe
+     without a damping term, a note cap or a refractory period.
+
+     AND THE STRONGER VERSION OF THAT CLAIM IS FALSE, which the seam battery
+     caught after it was written down here as true. "Every generation is
+     strictly smaller than the one before" holds only while each generation
+     watches ONLY earlier generations -- measured over a three-deep chain of
+     those, 0.313 -> 0.078 -> 0.094 -> 0.094, contracting throughout. The rule
+     this genre actually ships has generation two watching the first listener
+     AND THE HAT, and the hat is a dense declarative lane, so generation two
+     legitimately writes more notes than generation one did (382 against 360).
+     Nothing is running away -- both are far under their own bounds -- but the
+     tidier sentence was wrong and the check is written against the true bound
+     rather than the one that sounded better.
+
+     ── HOW MANY GENERATIONS ───────────────────────────────────────────────────
+     Booth: "things can be three or four generations down the line before they
+     are used." Measured on this scale, generation 1 scores 0.333, generation 2
+     0.667 and generation 3 1.000 -- generation 3 is indistinguishable from a
+     shuffle. So the depth here is TWO, and the quote is reported rather than
+     obeyed: their generations are a studio pipeline with two people listening
+     at every step, not four rounds of one rule. Taking the number over the
+     sentence is the whole point of having the number.
+
+     ── LAW 7 IS FREE HERE ─────────────────────────────────────────────────────
+     There are no draws. Not "the draws run unconditionally" -- there are none
+     at all, so nothing downstream on `rng` can be displaced, and a genre that
+     declares no listeners is byte-identical by inspection rather than by test.
+     (It is tested anyway.)
+
+     ── AND IT IS CONSTRUCTION, NOT CORRECTION ─────────────────────────────────
+     Same standing as `acidize` on the bass and `articulate` on the tune: it
+     runs INSIDE the builder that owns these notes, before anything downstream
+     has seen them, and it decides something that cannot be known until the
+     pattern exists. Nothing is being repaired.
+     ═══════════════════════════════════════════════════════════════════════ */
+  function hear(notes, K){
+    const L = K.listen;
+    if(!L || !L.length) return notes;
+    const SPAN = BARS * 16;
+    /* what is ON, per lane, as a step set -- built once and then UPDATED as each
+       listener writes, which is what lets a later listener hear an earlier one */
+    const on = {};
+    const mark = n => {
+      const at = n.bar * 16 + n.step;
+      if(at < 0 || at >= SPAN) return;
+      (on[n.lane] || (on[n.lane] = new Set())).add(at);
+    };
+    for(const n of notes) mark(n);
+    const hit = (lane, at) => !!(on[lane] && on[lane].has(at));
+
+    let gen = 0;
+    for(const rule of L){
+      gen++;
+      const watch = rule.watch || [];
+      const notOn = rule.notOn || [];
+      const every = rule.every > 0 ? rule.every : 1;
+      if(!watch.length || !rule.lane) continue;
+      /* how many times the watch set spoke at all, so the contraction claim --
+         a listener's output is at most its input over `every` -- is a number
+         this pass reports rather than a property somebody has to trust */
+      let count = 0, watched = 0;
+      const made = [];
+      for(let at = 0; at < SPAN; at++){
+        /* THE GUARD COMES FIRST, AND IT SUPPRESSES THE COUNT AS WELL AS THE
+           NOTE. That is the version that was measured at 0.500; a guard that
+           only blocks the write leaves the counter running on a clean period
+           and gives back a decimated pulse with holes in it. The kick has to be
+           able to change WHERE the listener is in its count, or the two parts
+           are not interacting at all -- they are just overlaid. */
+        let blocked = false;
+        for(const l of notOn) if(hit(l, at)){ blocked = true; break; }
+        if(blocked) continue;
+        /* WHAT COUNTS AS HEARING IT. `any` is one or more of the watched lanes
+           speaking; `alone` is exactly one, which is the XOR that scored
+           highest and is also the more musical reading -- it answers the moment
+           two machines DISAGREE; `both` is all of them at once, which is rare
+           by construction and makes a sparse accent. */
+        let n = 0;
+        for(const l of watch) if(hit(l, at)) n++;
+        const heard = rule.mode === "alone" ? n === 1
+                    : rule.mode === "both"  ? n === watch.length && n > 0
+                    : n > 0;
+        if(!heard) continue;
+        watched++;
+        count++;
+        if(count % every !== 0) continue;
+        /* it does not double a note already on its own lane -- a listener is a
+           part, not a layer of copies */
+        if(hit(rule.lane, at)) continue;
+        /* ── A SYNCOPATION CEILING WAS BUILT HERE AND MEASURED AWAY ────────
+           The Longuet-Higgins & Lee index is the standard measure of how hard a
+           pattern is to find the one in -- beat-tapping error tracks it at
+           r = .82 -- and this listener's lane scores a mean of 13.1 on it,
+           against a groove optimum near 4. That looks damning, so a `maxSync`
+           ceiling was added, and then measured properly, and removed.
+
+           TWO MEASUREMENTS KILLED IT. First, LHL assumes a COMPLETE rhythmic
+           surface: a lone note at step 3 of an otherwise empty bar scores 15 --
+           the maximum -- because every strong beat after it is a rest. On a
+           sparse ornament lane the index is therefore near-maximal by
+           construction and says nothing about the music. It showed up as a
+           cliff rather than a gradient: ceilings of 8 through 13 all produced
+           byte-identical material.
+
+           Second, and decisively: the kit AS HEARD has a four-on-the-floor kick
+           on every strong beat, so its union syncopation is 0.000 over 320 bars
+           with the listeners and 0.000 without, worst bar 0. There is no `one`
+           to lose. The ceiling was defending against a danger that the kick
+           already forecloses, using an instrument pointed at the wrong lane.
+
+           The index is a real measure and it is kept -- in the seam battery,
+           where it asserts that the union stays at zero. It is not a decision
+           this builder should be making. */
+        /* TAGGED WITH THE GENERATION THAT MADE IT. A listener usually writes
+           into a lane that already has declarative notes on it -- generation
+           two shares `openhat` with `openSpot` -- so lane totals cannot tell
+           you what the mechanism produced. Without this the contraction claim
+           is unmeasurable, and an unmeasurable claim does not ship here. Inert
+           downstream: stage 5 reads named fields and ignores the rest, exactly
+           as it does for the bass's `accent`. */
+        made.push({ bar: Math.floor(at / 16), step: at % 16, dur: rule.dur || 1,
+                    lane: rule.lane, vel: rule.vel != null ? rule.vel : 0.5,
+                    role: "drums", heard: gen });
+      }
+      /* written AFTER this listener has finished reading, so a rule cannot hear
+         its own output inside its own pass -- that is the one feedback path
+         that would not be a generation, it would be a loop with no clock */
+      for(const n of made){ notes.push(n); mark(n); }
+    }
     return notes;
   }
   /* ── ACCENT AND SLIDE: the two things that make a bass line a 303 line ──────
@@ -12281,7 +12513,25 @@ function makeMaterials(chart){
   const drumsB = pin(buildDrums("drumsB", "lift"), "drums", "B");     // the chorus opens up
   const drumsC = pin(buildDrums("drumsC", "depart"), "drums", "C");   // the bridge thins out
   const bassA  = pin(buildBass(chords, "bass", false), "bass", "A");
-  const placed = reserve(ostA.concat(bassA));
+  /* ── THE COMP HAS TO BE LEGAL IN BOTH MATERIALS IT APPEARS IN ──────────────
+     `keysA` is built once and used TWICE: in A against `ostA`, and in Avar
+     against `ostAvar`, which is a different cell in its second half. It was
+     only ever shown `ostA`, so nothing stopped it voicing a chord onto a pitch
+     the varied ostinato was about to occupy -- and the seam check has been
+     catching exactly that, forever, always in Avar and nowhere else.
+
+     Every "collision in Avar" this project has ever reported is this line.
+     It reads as a blend problem because a blend redraws register bands and
+     changes how often two parts land on one pitch, but plain genres hit it too;
+     it is simply rarer when the bands are the ones they were tuned with. The
+     tell was that the material name was ALWAYS Avar and never A, B or C -- the
+     three materials whose comp and ostinato were built against each other.
+
+     `ostAvar` already exists by this line, so the fix is to show it to the
+     voicer: the comp now finds a seat that is free in BOTH materials. That is
+     the owner making its material valid, which is the rule -- not a later pass
+     moving a note that had already been written wrong. */
+  const placed = reserve(ostA.concat(ostAvar, bassA));
   const keysA  = buildKeys(chords, "keys", { dense: false, avoid: placed });
   /* the ostinato goes into every reservation set BEFORE the tunes are drawn.
      It is the fixed thing in this music -- the cell that does not move -- so
