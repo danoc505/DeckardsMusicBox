@@ -348,6 +348,53 @@ const check = (label, ok, detail) => {
   check("...and none of them comes out silent",
         voices.quiet.length === 0, voices.quiet.join(", "));
 
+  /* ══ PRESSING PLAY MAKES SOUND ═════════════════════════════════════════════
+     Reported twice from an iPhone, and the second time it was a REGRESSION I
+     caused: the silent media element added to escape the ringer switch calls
+     HTMLMediaElement.play(), which CONSUMES the user activation on iOS, so the
+     ctx.resume() that ran after it was no longer inside the tap and the context
+     stayed suspended.
+
+     Nothing in this battery had ever asserted the simplest thing the program
+     does. Every check here drove knobs, grids and panels; the transport was
+     measured for its POSITION readout and never for its output. So a change to
+     the audio start-up path could take all the sound away and 24 checks stayed
+     green.
+
+     It measures the master bus after the button is pressed, and it does it with
+     the mute-switch bypass BOTH OFF AND ON, because the regression was that
+     turning that on cost the sound. */
+  {
+    const peakOf = async () => {
+      let m = 0;
+      for(let i = 0; i < 18; i++){
+        const l = await pg.evaluate(() => window.MK2 && MK2.liveLevel ? MK2.liveLevel() : null);
+        if(l && l.rms > m) m = l.rms;
+        await pg.waitForTimeout(110);
+      }
+      return m;
+    };
+    /* stop first if the earlier checks left it running */
+    if(await pg.evaluate(() => document.getElementById("play").textContent.indexOf("stop") >= 0)){
+      await pg.click("#play"); await pg.waitForTimeout(300);
+    }
+    await pg.click("#play");
+    await pg.waitForTimeout(1800);
+    const plain = await peakOf();
+    const st = await pg.evaluate(() => MK2.soundState());
+    check("pressing play actually makes sound", plain > 0.01 && st.state === "running",
+          `master rms ${plain.toFixed(4)}, context ${st.state} @ ${st.rate} Hz`);
+
+    await pg.click("#ringer"); await pg.waitForTimeout(1200);
+    const withFix = await peakOf();
+    const st2 = await pg.evaluate(() => MK2.soundState());
+    check("...and the mute-switch bypass does not take it away",
+          withFix > 0.01 && st2.state === "running" && st2.bypass === true,
+          `master rms ${withFix.toFixed(4)} with the bypass on, context ${st2.state}`);
+    await pg.click("#ringer"); await pg.waitForTimeout(400);
+    await pg.click("#play"); await pg.waitForTimeout(300);
+  }
+
   check("no uncaught page errors at any point", errs.length === 0, errs.slice(0, 3).join(" | "));
   await b.close();
   console.log("\n" + pass + " passed, " + fail + " failed");

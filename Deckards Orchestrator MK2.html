@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31r · the arc peaks with the form, and the kick belongs to the genre</span>
+  <span id="buildStamp" title="which build this page is">build 2026-07-31s · resume the audio before anything can spend the tap</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -501,6 +501,12 @@
 <!-- what the audio is actually doing. Empty until the first press; a phone with
      no console has to be able to read this off the page. -->
 <div id="snd"></div>
+<!-- THE RINGER SWITCH. On iOS a silent looping media element promotes the page
+     out of the ambient audio session, which is the session the hardware mute
+     switch silences. It is opt-in because playing one also CONSUMES the user
+     tap, and doing it automatically cost somebody their sound. -->
+<div class="row" id="sndfix"><button id="ringer" aria-pressed="false"
+  title="iPhone: try this if the mute switch is silencing playback">iPhone: ignore mute switch</button></div>
 <div id="midinote"></div>
 <div id="blend"></div>
 <!-- THE RACK IS A LIST, NOT A ROW OF FIXED BOXES. It used to be five hardcoded
@@ -6142,7 +6148,7 @@ const Sound = (function(){
      AND IT REPORTS ITSELF. A phone cannot be asked to open a console, so
      `soundState()` returns what actually happened and the transport prints it.
      A program that is silent must be able to say WHY it is silent. */
-  let keeper = null, unlocked = false, unlockErr = "";
+  let keeper = null, keeperOn = false, unlocked = false, unlockErr = "";
   function silentWav(){
     /* 50 ms of 8-bit silence, built here rather than base64'd in: it is 444
        bytes of header and 0x80, and generating it costs nothing */
@@ -6156,33 +6162,58 @@ const Sound = (function(){
     for(let i = 0; i < n; i++) v.setUint8(44 + i, 128);      // 8-bit silence is 0x80
     return URL.createObjectURL(new Blob([buf], { type: "audio/wav" }));
   }
-  function unlock(c){
-    if(unlocked) return;
-    unlocked = true;
-    try{
-      keeper = new Audio(silentWav());
-      keeper.loop = true;
-      keeper.playsInline = true;
-      keeper.setAttribute("playsinline", "");     // the attribute too: iOS reads it off the tag
-      /* NOT zero. A muted element does not always promote the session, because
-         from the platform's point of view a muted page is not playing anything.
-         The DATA is silent, so 1% of nothing is still nothing. */
-      keeper.volume = 0.01;
-      const p = keeper.play();
-      if(p && p.catch) p.catch(e => { unlockErr = "media: " + (e && e.name || e); });
-    }catch(e){ unlockErr = "media: " + (e && e.message || e); }
+  /* ── AND THE ORDER OF THESE TWO IS THE WHOLE THING ─────────────────────────
+     REPORTED, and it is a regression I caused: "it worked before when I
+     mentioned this earlier but now it's not making sound." The silent element
+     was added to escape the ringer switch and it took the sound away instead.
+
+     WHY. `HTMLMediaElement.play()` CONSUMES the user activation on iOS. It was
+     being called first, inside the tap, and by the time `ctx.resume()` ran the
+     tap was spent -- so the context stayed suspended and the program was silent
+     for a reason introduced by the fix for the previous silence.
+
+     So resume() is CALLED FIRST, synchronously, while the activation is
+     certainly still there, and everything else happens after. `resume()` starts
+     the moment it is called; awaiting it later does not move when it started.
+
+     AND THE ELEMENT IS OPT-IN NOW. It answers a real failure -- the ringer
+     switch silences the ambient audio session at any volume, with no error --
+     but it is not the failure everybody has, and a fix for somebody else's
+     problem that costs you your sound is not a fix. There is a button. */
+  function unlockBuffer(c){
+    /* one sample of nothing. Older iOS will not start a context until it has
+       been handed something to play. This does NOT consume the activation. */
     try{
       const b = c.createBuffer(1, 1, c.sampleRate);
       const s = c.createBufferSource();
       s.buffer = b; s.connect(c.destination); s.start(0);
-    }catch(e){ unlockErr += " buffer: " + (e && e.message || e); }
+    }catch(e){ unlockErr = "buffer: " + (e && e.message || e); }
+  }
+  function ringerBypass(on){
+    if(!on){
+      if(keeper){ try{ keeper.pause(); }catch(e){} }
+      keeperOn = false;
+      return false;
+    }
+    try{
+      if(!keeper){
+        keeper = new Audio(silentWav());
+        keeper.loop = true;
+        keeper.playsInline = true;
+        keeper.setAttribute("playsinline", "");   // iOS reads it off the tag too
+      }
+      const p = keeper.play();
+      if(p && p.catch) p.catch(e => { unlockErr = "media: " + (e && e.name || e); });
+      keeperOn = true;
+    }catch(e){ unlockErr = "media: " + (e && e.message || e); keeperOn = false; }
+    return keeperOn;
   }
   /* what the transport prints, so a silent phone can say why it is silent */
   function soundState(){
     return {
       state: ctx ? ctx.state : "none",
       rate: ctx ? Math.round(ctx.sampleRate) : 0,
-      keeper: keeper ? (keeper.paused ? "paused" : "playing") : "none",
+      bypass: keeperOn && keeper && !keeper.paused,
       err: unlockErr,
     };
   }
@@ -6192,12 +6223,16 @@ const Sound = (function(){
       ctx = new (window.AudioContext || window.webkitAudioContext)();
       liveGraph = buildGraph(ctx);
     }
-    unlock(ctx);
-    /* resume() is called whatever the state says. On iOS the state can read
-       "running" on a context that is not, and calling resume on a running
-       context is defined to be a no-op -- so asking costs nothing and not
-       asking is the failure mode. */
-    try{ await ctx.resume(); }catch(e){ unlockErr = "resume: " + (e && e.message || e); }
+    /* RESUME FIRST, SYNCHRONOUSLY. Called whatever the state claims -- on iOS a
+       context can report "running" while it is not, and resuming a running
+       context is defined to be a no-op, so asking costs nothing and not asking
+       is the failure mode. Started here, before anything else can spend the
+       tap; the await below only waits for what has already begun. */
+    let resuming = null;
+    try{ resuming = ctx.resume(); }catch(e){ unlockErr = "resume: " + (e && e.message || e); }
+    unlockBuffer(ctx);
+    unlocked = true;
+    try{ await resuming; }catch(e){ unlockErr = "resume: " + (e && e.name || e); }
     return ctx;
   }
   /* IOS SUSPENDS THE CONTEXT WHEN THE PAGE GOES AWAY and does not always bring
@@ -6403,7 +6438,7 @@ const Sound = (function(){
      stale the moment the rack could name a voice the rig never does. */
   return { playLive, stopLive, renderWav, toPerfTime,
            /* so a phone with no console can say why it is silent */
-           soundState,
+           soundState, ringerBypass,
            now: () => (ctx ? ctx.currentTime : 0), LEVEL,
            voiceNames: () => Object.keys(V),
            /* rewrite the bus automation from a hand's move, mid-song */
@@ -15319,10 +15354,12 @@ function sayAudio(){
   const s = Sound.soundState();
   if(s.state === "none"){ el.textContent = ""; return; }
   let t = "audio: " + s.state + " · " + s.rate + " Hz";
-  if(s.keeper !== "playing") t += " · silent-loop " + s.keeper;
+  if(s.bypass) t += " · mute-switch bypass on";
   if(s.err) t += " · " + s.err;
-  if(s.state === "running" && s.keeper === "playing")
-    t += " — if you still hear nothing, check the mute switch on the side of the phone";
+  if(s.state !== "running")
+    t += " — the audio engine did not start; press play again";
+  else if(!s.bypass)
+    t += " — no sound? check the mute switch on the side of the phone, or tap the button below";
   el.textContent = t;
 }
 async function togglePlay(){
@@ -15363,6 +15400,17 @@ function boot(){
   $("new").addEventListener("click", () => { stopPlayback();
     newSong(Math.floor((Date.now() % 100000)) ); });   // the button draws a fresh seed; the FIELD pins one
   $("play").addEventListener("click", togglePlay);
+  {
+    const r = $("ringer");
+    if(r) r.addEventListener("click", () => {
+      const on = r.getAttribute("aria-pressed") !== "true";
+      const got = Sound.ringerBypass(on);
+      r.setAttribute("aria-pressed", got ? "true" : "false");
+      r.style.borderColor = got ? "var(--hot)" : "";
+      r.style.color = got ? "var(--hot)" : "";
+      sayAudio();
+    });
+  }
   $("wav").addEventListener("click", downloadWav);
   $("mid").addEventListener("click", downloadMidi);
   $("seed").addEventListener("change", () => newSong());

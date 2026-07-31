@@ -218,13 +218,24 @@ for it in man["items"]:
     # The determinism law lives at the NOTE seam, where it is exact and separately
     # proven (mk2_test.js compares full event JSON). What belongs here is the
     # audible bound: two renders must null to below -90 dBFS and never differ by
-    # more than 4 LSB. A real determinism break -- an unseeded RNG, a wall-clock
+    # more than 8 LSB. A real determinism break -- an unseeded RNG, a wall-clock
     # dependency, a Date.now() -- moves whole notes and nulls at -20 dBFS or worse,
     # which this still catches by three orders of magnitude.
+    #
+    # 4 LSB WAS TOO TIGHT AND IT FLAPPED. Measured over eight renders of the same
+    # seed: the full-mix excerpt alternated between 1 and 7 LSB, roughly half and
+    # half, while the reference bar stayed at 1 every time. Located in the file,
+    # the 7 is ONE 0.9-second window at 25% in; every other eighth of the same
+    # excerpt is at 1 LSB, and the null is -107 dBFS. That is one node's start
+    # boundary landing differently under Chrome's scheduler, not the program
+    # changing its mind -- the NOTES are byte-identical across 300 seeds and
+    # mk2_test proves it by comparing full event JSON.
+    # 8 sits just above the observed 7 and remains four orders of magnitude below
+    # anything audible; the null bound at -90 dBFS is the one doing the work.
     nulldb = 20 * math.log10(max(nrms, 1e-20))
-    check(f"two renders of {items[a].get('name', a)} null out", nulldb < -90.0 and lsb <= 4.0,
+    check(f"two renders of {items[a].get('name', a)} null out", nulldb < -90.0 and lsb <= 8.0,
           f"null {nulldb:.1f} dBFS, max {lsb:.0f} LSB, {frac:.4f}% of samples "
-          f"(Chrome's own render noise is 1-3 LSB)")
+          f"(Chrome's own render noise is 1-7 LSB on a full mix)")
 
 # ── the per-mix battery, run on the reference bar and every section excerpt ───
 def mix_battery(fn, label, kit, RIG="band", WET=0.16, GATED=False, MACHINE="kit",
