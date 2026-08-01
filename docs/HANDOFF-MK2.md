@@ -1,9 +1,25 @@
 # HANDOFF — Deckard's Orchestrator MK2
 
 *Written 2026-07-29 on branch `claude/code-review-6jd9cz` at `02906b7`; revised
-at `077e08b` when the rack reached the conductor; revised again **2026-07-30 at
-`4728512`**, after the control sweep and the non-chord-tone law. For whoever
-picks this up next. Read this whole file before you touch the HTML.*
+at `077e08b` when the rack reached the conductor; revised again 2026-07-30 at
+`4728512`, after the control sweep and the non-chord-tone law. **Revised again
+2026-07-31 at `7c7644b`** — the sax learned to phrase, the rack became a list,
+minimal techno got its polymeter and something that listens, and eight
+rendered-audio failures that had been dismissed as "pre-existing" turned out to
+contain two real defects in the music. For whoever picks this up next. Read this
+whole file before you touch the HTML.*
+
+**State at `7c7644b`, all green:**
+
+| battery | command | result |
+|---|---|---|
+| seam checks | `node harness/mk2_test.js` | **110 passed, 0 failed** |
+| UI, in a browser | `node harness/mk2_ui.js` | **26 passed, 0 failed** |
+| blend sliders | `node harness/mk2_blend.js` | **10 passed, 0 failed** |
+| MIDI port | `node harness/mk2_midi.js` | **20 passed, 0 failed** |
+| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** |
+| every voice | `node harness/probe_voices.js` | **0 silent** |
+| rendered audio | `node harness/render_audio.js <dir> 1,2` then `python3 harness/test_audio.py <dir>` | **355 passed, 0 failed** |
 
 > **The container has rolled this clone back to an old commit three times in one
 > session.** Twice mid-task. Nothing was lost because everything was pushed, but
@@ -40,6 +56,90 @@ Corollaries that have already bitten, twice each:
   bridge with an identical drum kit, metronome hats, a bass that ignored its
   genre, 1520 notes silently missing from the `.mid`.
 
+### READING THE NOTES — what it actually means, because it is the whole method
+
+Every single real defect found on 2026-07-31 was found by **reading the output
+and comparing it to what the table claimed**, and every one of them was invisible
+to a battery that was green at the time. This is not a slogan, it is the
+procedure, and it has four steps:
+
+1. **Ask what the table CLAIMS.** Comments in this file make claims. The
+   Plastikman entry has said *"now all you've got is this polymeter"* since the
+   day it was written.
+2. **Measure whether the notes DO that.** Not "does it render", not "does a
+   check pass" — reconstruct the property from the note array. Measured: 0.0% of
+   that genre's drum lanes differed from one bar to the next. Every lane landed
+   on the same sixteenth in every bar of the record, forever. **The engine could
+   not produce a polymeter at all.** The quote was decoration and had been for
+   the life of the file.
+3. **When they disagree, the comment is not the bug — the silence is.** Nobody
+   had lied; nobody had checked.
+4. **Then write the check that would have caught it**, and make it compare the
+   thing to *another thing*, not to a number. See below — this is the failure
+   mode that let four separate defects sit green.
+
+Found this way in one session, all with green batteries:
+
+- **The polymeter that did not exist** (above).
+- **The song peaked in the wrong place.** The arrangement flags a section
+  `peak`; a separate energy arc rises and falls across the record. Nothing made
+  them agree. Measured over 40 seeds × 7 genres: the arc peaked **before** the
+  peak section in **256 of 280 songs**, 40/40 in lofi and Plastikman. The final
+  chorus was the *quietest* statement of its own function — 14.8 gain/bar
+  against 22.3 for an ordinary one.
+- **Every genre had the same kick.** `V.kick` resolved through `panelValue`,
+  which takes the global `PARAMS` as its base — so the kick played was whichever
+  genre was loaded on screen. lofi, synthwave and DKC rendered **byte-identical**
+  kicks (rms 0.07070, peak 0.5998, all three) while synthwave asks for tune 49 /
+  decay 0.34 / gain 1.25 against lofi's 60 / 0.18 / 0.90.
+- **Every "collision in Avar" this project has ever reported was one line.**
+  `keysA` is built once and used in both A and Avar, but was only ever shown
+  `ostA` — so the comp could voice a chord onto a pitch the *varied* ostinato was
+  about to take. The tell was in the failure message the whole time: the material
+  was **always `Avar`**, never A, B or C. Fixed at its owner; blends went
+  501/504 → **504/504**.
+- **Four drum lanes were falling out of the `.mid`.** `rim`, `clap`, `crash`,
+  `ride` had no `GM_DRUM` entry, so every note on them was silently dropped —
+  and the polymeter lives on the rim and the clap, so a Plastikman `.mid` was a
+  kick and a hat with the identifying part deleted.
+- **0% of lead notes were slurred**, because there was no articulation model at
+  all: every note got the scoop, the breath and the full attack that belong to
+  the *first* note of a phrase.
+
+### A CHECK THAT COMPARES A THING TO A NUMBER CANNOT SEE THAT TWO THINGS ARE THE SAME THING
+
+This is the single most valuable lesson of the session and it explains four of
+the defects above.
+
+The audio battery probes the kick **once per genre**, precisely so one genre's
+drum cannot stand in for the palette. Three probes. All three passed. All three
+rendered **the same audio**, because each was compared to *its own baseline
+number* and never to *each other*.
+
+Same shape, four times:
+
+| the check | what it compared | what it could not see |
+|---|---|---|
+| `solo kick_lofi/synthwave/dkc: sits at its baseline` | each probe vs a number | three probes measuring one sound |
+| `the .mid carries every note of every genre` | events vs a **hand-copied lane list** | four lanes missing from *both* the list and the exporter |
+| `the kit is audible in its own band` | `MACHINE == "tr808"` | the machine was renamed `tr1000`; every 808 kit measured against the **acoustic** kit's floor |
+| `minimal techno's polymeter is real` *(before it existed)* | nothing | there was no check |
+
+**So: derive, don't copy, and compare things to each other.** The `.mid` check
+now derives its lane list from `GM_DRUM` itself. The kit-band floor asks which
+**kit is loaded** rather than matching a machine name. And there is a new check
+that compares the per-genre kick probes to *one another* — 5.4 dB apart now.
+
+### And check the simplest thing the program does
+
+`mk2_ui.js` had 24 checks that drove knobs, step grids, pins and panels. **Not
+one of them asserted that pressing play makes a sound.** The transport was
+measured for its position readout and never for its output — so a change to the
+audio start-up path took *all* the sound away on iOS and every check stayed
+green. Two new checks measure the master bus after the button is pressed. If you
+touch anything near `ensureLive`, `playLive` or `startPlayback`, those are what
+cover you.
+
 ---
 
 ## 1. What this is
@@ -55,7 +155,7 @@ no host). What we *can* use is open-source **work**: permissively-licensed data
 filter teardown). GPL-3 code — JS80P, mda-lv2 — cannot be vendored without
 relicensing the whole file. See `docs/LICENSING.md`.
 
-The file is ~1.4 MB: roughly 2,900 readable lines plus one 1.1 MB base64 line
+The file is ~2.2 MB: roughly 3,400 readable lines plus one 1.07 MB base64 line
 (the ePiano sample bank). Editors that try to soft-wrap that line will hang;
 use `sed -n 'A,Bp'` / `Read` with offsets rather than opening it whole.
 
@@ -279,31 +379,55 @@ WAV hash can never be the determinism test. The determinism test is the
 Run all of these before you claim anything.
 
 ```bash
-node harness/mk2_test.js                              # 93 seam checks
-node harness/mk2_roll.js 1 --genre bladerunner           # any of the seven genres
-node harness/mk2_snapshot.js check harness/mk2_baseline.snap
+node harness/mk2_test.js                              # 110 seam checks
 node harness/mk2_roll.js 1                            # THE test that matters
 node harness/mk2_roll.js 1 --song                     # full arrangement
+node harness/mk2_roll.js 1 --genre plastikman         # any of the seven genres
+node harness/mk2_roll.js 1 --picks lead=sax           # load a machine and read what it plays
 node harness/mk2_roll.js 1 --mid out.mid              # .mid round-trip check
-node harness/mk2_ui.js                                # 24 checks, in a browser
-node harness/mk2_blend.js                             # 10 checks, the blend sliders
 node harness/mk2_roll.js 1 --blend lofi:50,jungle:50  # read a blended song
+node harness/mk2_snapshot.js check harness/mk2_baseline.snap
+node harness/mk2_ui.js                                # 26 checks, in a browser
+node harness/mk2_blend.js                             # 10 checks, the blend sliders
+node harness/mk2_midi.js                              # 20 checks, MIDI port, stub device
+node harness/mk2_stamp.js check                       # is the published build this build?
 node harness/probe_voices.js                          # fire every voice
 node harness/probe_theory.js                          # the music laws, off the notes
 node harness/probe_controls.js [machine]              # every knob reaches the sound
-node harness/mk2_stamp.js check                      # is the published build this build?
-node harness/mk2_midi.js                             # 20 checks, the MIDI port, stub device
-node harness/probe_comp.js                           # how the comp is voiced
-node harness/probe_harmony_neo.js                    # chromaticism and voice leading
-node harness/probe_pull.js                           # does the genre outweigh the seed?
-node harness/probe_cymbals.js                        # the harsh band, absolute and as a share
+
+# ── the four that read the OUTPUT and ask whether it is what was claimed ──
+node harness/probe_novelty.js                         # loop? noise? or generated?
+node harness/probe_poly.js                            # each lane's real period
+node harness/probe_sax.js                             # what the horn actually articulates
+node harness/probe_pull.js                            # does the genre outweigh the seed?
+
+node harness/probe_comp.js                            # how the comp is voiced
+node harness/probe_harmony_neo.js                     # chromaticism and voice leading
+node harness/probe_cymbals.js                         # the harsh band, absolute and as a share
 python3 harness/make_sample.py <file> --name x --pitched   # WAV/AIFF -> embeddable payload
+
+# ── the rendered-audio battery: half one makes the audio, half two asserts on it ──
+node harness/render_audio.js /tmp/aud 1,2             # ~35 s, 54 renders
+python3 harness/test_audio.py /tmp/aud                # 355 assertions on the SAMPLES
 ```
 
 **The five-minute battery, before any claim:** `mk2_test.js`, `mk2_ui.js`,
-`mk2_blend.js`, `mk2_snapshot.js check`, `probe_voices.js`, and now
-`mk2_midi.js`. State at `e172eea`: **96 / 24 / 10 / IDENTICAL / 0 threw, 0
-silent / 20 MIDI.** (93 at `4728512`; +2 rig checks, +1 stamp check.)
+`mk2_blend.js`, `mk2_midi.js`, `mk2_snapshot.js check`, `probe_voices.js`.
+State at `7c7644b`: **110 / 26 / 10 / 20 / IDENTICAL / 0 silent.**
+
+**Run the rendered-audio battery too when you touch the SOUND** — the graph, a
+voice, a genre's `space` or `kick`, the master chain. It takes about a minute
+including the render and it is the only thing in the repo that asserts on actual
+samples. It is at **355 passed, 0 failed**; it was at 346/8 for a long time and
+those eight were being reported as "pre-existing" and skipped over. **Two of them
+were real defects in the music.** Do not inherit that habit — if it is red, it is
+red about this program.
+
+### `numpy` is needed for the audio battery
+
+`python3 harness/test_audio.py` imports numpy. If it is missing:
+`pip install numpy --quiet`. It is not in any manifest because there is no build
+step; that is the trade for the file being self-contained.
 
 ### The build the user hears is not automatically the build you measured
 
@@ -331,7 +455,7 @@ what you have. It catches the *cause* and hands you evidence for the *symptom*.
 **So: bump the stamp in the commit that changes the program, re-record, and
 republish.** Same discipline as the baseline, and for the same reason.
 
-- **`mk2_test.js`** — 93 assertions over composition seams: per-genre loops,
+- **`mk2_test.js`** — 110 assertions over composition seams: per-genre loops,
   "the counter is a line not a harmoniser", "the bridge is a departure", "the
   bass styles differ", "the .mid carries every note", plus the rack, the motion
   and the pins. Currently **93 passed, 0 failed**.
@@ -389,6 +513,67 @@ republish.** Same discipline as the baseline, and for the same reason.
   and "the voice makes a noise". If you add a voice, this is what covers you.
 - **`probe_voices.js`** — the same sweep with the full report: every voice, its
   lane, and its peak. Run it when a voice or a routing change lands.
+
+### The four output probes — READ THE NOTES, with numbers
+
+These exist because "read the roll" is right and does not scale to a claim like
+*"this generates novelty"*. Each one reconstructs a property **from the note
+array** and prints it per genre, so a table's claim can be checked against what
+the notes do.
+
+- **`probe_novelty.js`** — *is the pattern a loop, noise, or generated?* A drum
+  lane over a four-bar material is a 64-step binary string, and three very
+  different things can produce one. It scores each lane by **LZ76 complexity**
+  against two controls built at that lane's **own density**: its first bar
+  looped (**0.00**) and a seeded shuffle (**1.00**).
+
+  **The shuffle control is the point.** "Deterministic rules watching the
+  pattern" and "random notes" are trivially confusable by ear, so any
+  rule-based claim that cannot be separated from a dice roll has not earned its
+  place. The null hypothesis was written down *before* the mechanism existed so
+  it could not be chosen to flatter it.
+
+  Two findings from the baseline alone, worth knowing:
+  - **Polymetre is phase, not information.** A period-5 pulse compresses
+    *better* than a bar-locked loop (LZ 4 vs 6), so moving a simple pulse out of
+    phase with the bar scores **negative**. Plastikman read −0.080.
+  - **The break chopper is nearly a shuffle.** Jungle reads **0.914**. Not
+    necessarily wrong — it is sampling a real break — but it is the other
+    failure mode and it is already in the file.
+
+- **`probe_poly.js`** — reconstructs each drum lane's **real period**: the
+  smallest `p` that explains every onset across the whole 64-step material. A
+  lane lines up with the bar when its period divides 16 *or* is a multiple of it;
+  it is polymetric only when it is **neither**. The first version of that
+  predicate was `16 % p !== 0` and it failed the control genre on an `openhat`
+  at period 32 — a two-bar pattern, which lines up perfectly well.
+
+- **`probe_sax.js`** — what the horn actually articulates: the share of lead
+  notes that start a phrase, are slurred, are tongued, are detached, carry
+  vibrato, and glide from a named predecessor. It also asserts that every glide
+  belongs to a slur and every slur is stepwise.
+
+- **`probe_pull.js`** — does the genre outweigh the seed, per musical feature.
+
+### The seam checks added on 2026-07-31, and what each one is guarding
+
+Twelve of the 110 are new. They are listed here because each one exists because
+something was wrong, and the reason is the useful part:
+
+| check | guards against |
+|---|---|
+| the horn slurs, tongues and detaches instead of striking every note | the articulation pass being dropped — it goes to 0% slurred |
+| a rack set to none plays nothing, and moves nothing else | "none" recomposing the record instead of muting it |
+| every box the picker offers into a rack actually plays there | a dropdown that moves and changes nothing (57/57 pairs) |
+| minimal techno's polymeter is real, not a comment | the polymeter becoming decoration again |
+| the listener fires, and what it writes is played | a rule writing into a lane the arrangement never plays |
+| …and what it writes is neither a loop nor a shuffle | the mechanism degenerating to either end |
+| …and no listener writes more than its own arithmetic allows | runaway; the bound is `|watch| / every` |
+| …and it does not write the same figure into every song | a deterministic rule watching only seed-fixed inputs |
+| …and it can answer with a roll, not only a hit | the roll vocabulary going missing |
+| …and the kit as heard still has the one | the downbeat being lost (union syncopation must stay 0) |
+| a genre that declares no listener gets none | the pass leaking into genres that never asked |
+| pressing play actually makes sound *(UI)* | the audio start-up path silently breaking |
 - **`probe_theory.js`** — the music laws read off the notes, per genre, over N
   seeds: out of key, non-chord tones unresolved, non-chord tones that end a
   phrase, chords under the bass, lead under the chords, unisons. Reports
@@ -449,11 +634,88 @@ measure, not to deliver.
 
 ## 4. What has been done
 
+### 2026-07-31 — the session that ended at `7c7644b`
+
+Read this first; the rest of §4 is older and still true.
+
+**The saxophone learned to phrase.** It was reported as sounding bad, and the
+cause was not the oscillator: every note got the scoop, the breath transient and
+the full attack that belong to the *first* note of a phrase. The measurement that
+set the priority — listeners confuse *legato* with *portato* ~25% of the time and
+*staccato* with either **<1%** of the time
+([PMC4097958](https://pmc.ncbi.nlm.nih.gov/articles/PMC4097958/)) — says the ear
+reads a wind instrument through its **gaps**, not the spectrum of one note.
+`articulate()` now runs on every theme the way `acidize()` runs on every bass:
+slur stepwise, tongue after a leap, detach a short note with room after it. The
+25.5 ms tongue contact is a **gesture** (constant, in the voice); the 25–29%
+staccato gap is a **proportion** (scales with tempo, so it rides on `artic` in
+stage 5). Plus delayed *downward* jaw vibrato and register-dependent brightness.
+**0% → 46.9% slurred.** Full write-up: `docs/genre-research/sax-playing.md`.
+
+**The rack became a user-managed list.** Four by default — drums, bass, lead,
+**fx** — drawn from `RACK_ON`, not from markup. Every rack has **none**, a **×**,
+and a **+** that adds any rack not shown. The echo/room unit stopped being a
+fixture and became the fx rack. Any pitched box can fill any pitched rack (a
+Rhodes or a 303 on the tune). **"None" is a MUTE, not a pick** — written as a
+pick it changed bladerunner's counter-line, because the sax declares a range and
+the tune narrows into it, so emptying a rack *recomposed the record around the
+hole*. The draw still runs; the mute rides beside `drumKit` in `picks`.
+
+**Minimal techno got the polymeter its own table had claimed for months.**
+`kit.poly` gives a drum lane its own **length**, counted in absolute steps so it
+crosses the bar line — rim at 7, clap at 5, both coprime with 16. See §0 for how
+that was found. Plus `poly[].phase`, drawn per song from a **named substream**
+(never from the shared `rng` — the ostinato ratchet took one draw from that and
+moved 882 of 2100 snapshot seeds).
+
+**And something listens.** `kit.listen` — a rule watches a set of lanes, counts
+what it hears, and writes on every Nth, with **zero random draws**. Booth's
+sentence, finished: a rule that turns two sequencers disagreeing into a
+two-stroke rimshot, and a second that **counts those rolls** and grows every
+third into a three. Every design decision came from `probe_novelty.js` *before*
+the shape was chosen — a listener on ONE lane scores 0.000 (counting a periodic
+thing gives a periodic thing), and the `notOn: ["kick"]` guard that protects the
+downbeat is itself worth 0.500. **The constraint is the generator.** Full
+write-up: `docs/genre-research/the-part-that-listens.md`.
+
+**Autechre research, and a correction I got wrong twice.** They are not IDM —
+Booth calls the term *"silly"* and *"a purely American invention"* — and I had
+used it as a genre label without checking. They came out of Manchester electro
+and were, on signing to Warp, *"not far removed from acid house and Detroit
+techno"*, which is where Hawtin comes from too. The work belongs **in**
+Plastikman, not beside it. Also deepened that genre's space, which measured
+mid-table against its own sources (*"an album of feedback"*, *"kick drums bathed
+in suffocating reverb"*): reverb return **+61%**, tail **+64%**, RMS flat, zero
+clipping. `docs/genre-research/autechre.md`.
+
+**Eight rendered-audio failures fixed** — see §0. Two were real defects in the
+music (the arc peaking before the record did; every genre sharing one kick), two
+were stale strings in checks, and the rest were checks that could not see what
+they were looking at.
+
+**iPhone audio, twice.** Web Audio needs `ctx.resume()` awaited *and* the
+context resumed inside the tap. Then a fix for the **ringer switch** — which
+silences the ambient audio session at any volume with no error — broke it,
+because `HTMLMediaElement.play()` **consumes the user activation on iOS** and it
+was being called before `resume()`. Now `resume()` is called first and
+synchronously, the silent element is opt-in behind a button, and the transport
+prints the context state so a phone with no console can say why it is silent.
+
+**Two things measured and removed**, because an effect nobody can measure is not
+a feature:
+- a **tuned reverb** (a comb at the period of the root — Booth tunes delay lines
+  to a track's harmonic content). At a usable level it moved the tonic band
+  ×1.01; at an audible level it flooded the limiter and dragged the tonic *down*.
+- a **syncopation ceiling** (Longuet-Higgins & Lee). LHL assumes a complete
+  rhythmic surface — a lone note in an empty bar scores **15, the maximum** — so
+  it is the wrong instrument for a sparse ornament lane. The index survives, in
+  the battery, asserting that the *union* stays at 0.
+
 ### The composition side
 
 - **Six-stage pipeline complete**, seam-checked, deterministic per
   `(seed, genre, rig, picks)`.
-- **Six genres in the `GENRE` table:** `lofi`, `synthwave`, `dkc`, `bladerunner`,
+- **Seven genres in the `GENRE` table:** `lofi`, `synthwave`, `dkc`, `bladerunner`,
   `acid`, `plastikman`. Each carries ~30 fields — tempo bands, modes, rig
   weights, form grammar, progressions, registers, groove (swing, dilla
   displacement, jitter, push, lane lean), kit (ghost placement, open-hat spots,
@@ -481,7 +743,7 @@ measure, not to deliver.
 
 ### The instrument rack — this session's work
 
-- **`INSTRUMENTS`** — 11 machines across three slots, each declaring its own
+- **`INSTRUMENTS`** — 17 machines across the rack's slots, each declaring its own
   controls with range, default, unit, and *what the number means*:
   - drums: `kit`, `tr808`, `segakit`
   - bass: `subbass`, `tb303`, `chipbass`
@@ -568,12 +830,21 @@ one that changed (93,288 events, all machine swaps), everything else zero.
 
 ## 5. What needs to be done — in priority order
 
-> **START HERE.** Rewritten **2026-07-30 at `e172eea`**, after a session that
-> moved the comp, the harmony, the ride, the drums and the measurement of what
-> the genres actually control. This is the order:
+> ⚠ **THIS LIST IS FROM `e172eea` (2026-07-30) AND ITEM 1 IS DONE.** §9 is the
+> current next job; read that first, then come back here. The rest of this list
+> is still live and still in the right order. Kept because the *reasoning* under
+> each item is what makes them worth doing, and none of that has changed.
 >
-> 1. **BUILD THE SAX, AND THE BAND AROUND IT.** The user has asked three times.
->    It is unblocked and specified — §9. This is the top item.
+> Rewritten 2026-07-30 at `e172eea`, after a session that moved the comp, the
+> harmony, the ride, the drums and the measurement of what the genres actually
+> control. This is the order:
+>
+> 1. ~~**BUILD THE SAX, AND THE BAND AROUND IT.**~~ **DONE** at `7c7644b`. The
+>    instrument exists, it has a range that stage 3 respects, and — the part that
+>    made it sound like a saxophone rather than a patch — it phrases: 46.9% of
+>    lead notes are slurred where 0% were before. See §4 and
+>    `docs/genre-research/sax-playing.md`. What is NOT done is samples; §9.5 has
+>    the payload arithmetic and the recommendation.
 > 2. **NOBODY OWNS THE FORM.** Measured with `probe_pull.js`: 15 of 16 features
 >    are genre-owned at a **median pull of 19.5x**, so the seed is NOT
 >    overpowering the genre — except `sections`, which scores **0.06**. Every
@@ -1089,125 +1360,121 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
 | `docs/CODE_REVIEW.md` | ⚠ **MK1** — reviews `conduct`/`improvise`/the ghost pass. History |
 | `harness/README.md` | what every tool measures, and which are slow |
 | `harness/mk2_roll.js` | the test that matters |
-| `harness/mk2_test.js` | the 93 seam checks |
+| `harness/mk2_test.js` | the 110 seam checks |
 | `harness/mk2_snapshot.js` | proof that a refactor is a refactor |
 | `harness/mk2_ui.js` | the panels, driven in a real browser |
 | `harness/probe_controls.js` | every knob on every machine reaches the sound |
 | `harness/probe_theory.js` | the music laws, read off the notes |
 | `harness/probe_voices.js` | every voice fires and none is silent |
+| `harness/probe_novelty.js` | **is a lane a loop, noise, or generated?** the LZ76 instrument |
+| `harness/probe_poly.js` | each drum lane's real period, reconstructed from the notes |
+| `harness/probe_sax.js` | what the horn actually articulates |
+| `harness/test_audio.py` | 355 assertions on the rendered SAMPLES (needs numpy) |
+| `docs/genre-research/sax-playing.md` | how a saxophone is played, and what was built from it |
+| `docs/genre-research/autechre.md` | Autechre and Plastikman: one root, and the space |
+| `docs/genre-research/the-part-that-listens.md` | the reactive layer, and what it rejected |
 | `docs/genre-research/NOTES-FROM-THE-USER.md` | **the running log of what was measured, what was wrong, and why.** Read it with this file. |
 
 ---
 
-## 9. THE NEXT JOB — the sax, and the band it belongs to
+## 9. THE NEXT JOB
 
-*Written at `e172eea`. Everything here is verified unless marked otherwise.*
+*Written at `7c7644b`. Everything here is verified unless marked otherwise.*
 
-### It is not a list of instruments, it is a band
+### Before you start: the two-minute orientation
 
-Asked for: "a two string bass played with a glass slide, what about a Sax, or
-the 2 string asian instrument, horns, strings?" The first two are **Morphine's
-front line** — Mark Sandman's two-string slide bass and Dana Colley's baritone
-sax, which the band called *low rock*. That is a coherent thing to build toward
-rather than four unrelated patches.
-
-**The bass, specified:** two strings tuned **D–A** (his second-most-used was
-C–G), played with a **pick and a slide**, tone deliberately bright and cutting
-so it sat apart from the baritone sax. [corpus:eastwoodguitars, corpus:mmone]
-There are no frets, so every move between notes is a GLIDE — the 303's existing
-slide machinery is the right mechanism, not a new one. **It is not a diddley
-bow.** That was my error and it wasted a turn.
-
-### The sax is unblocked
-
-`harness/make_sample.py` reads **WAV and AIFF**, trims, downsamples, preserves
-the original peak as `pk`, and optionally detects the root note.
-
-The source is the **University of Iowa Musical Instrument Samples** — note by
-note, three dynamics, recorded in an anechoic chamber, online since 1997 and
-free *"without any restrictions on their use"*. Verified reachable:
-
-```
-https://theremin.music.uiowa.edu/MISaltosaxophone.html      ranges, all 6 combos
-https://theremin.music.uiowa.edu/MIS-Pitches-2012/MISEbAltoSaxophone2012.html
-   -> ../sound files/MIS Pitches - 2014/Woodwinds/Eb Alto Saxophone/
-      AltoSax.vib.ff.Db3.stereo.aif        (downloaded, 1.1 MB, valid AIFF)
+```bash
+node harness/mk2_test.js            # expect 110 / 0
+node harness/mk2_roll.js 1 --genre plastikman   # READ IT. This is the method.
+node harness/probe_novelty.js       # what each genre's drums actually are
+node harness/probe_poly.js          # each lane's real period
 ```
 
-**THE PITCH IS IN THE FILENAME**, which is what unblocked this. The Korg M1
-rompler samples in `open-samples` carry no declared root, and the detector read
-`Solo_Sax` as MIDI 36 at confidence 1.00 — plausible for a tenor, but an octave
-error is autocorrelation's signature failure and there was nothing to check it
-against. Iowa's filenames are the ground truth, and they also **validated the
-detector**: on `AltoSax.vib.ff.Db3` it returned MIDI 49 at 0.96, and Db3 IS
-MIDI 49. Use the detector on sources that have no filename to read; never trust
-it alone where one exists.
+The roll is the test that matters. Everything below was found by reading it or
+by writing a probe that reads what it reads.
 
-### What Iowa has, and the one thing it does not
+### 9.1 The listener can add a note; it cannot MOVE one
 
-**Six combinations: `Vib` / `NoVib` x `pp` / `mf` / `ff`.**
+**This is the strongest single finding not yet acted on.** The research measured
+that **moving an onset produces roughly three times the groove effect of adding
+one** — and displacement is *onset-conserving*, so it would make density
+conservation exact rather than merely bounded.
 
-The dynamics matter more than they look. A sax's dynamic is **timbral**: at `ff`
-the reed buzzes and the spectrum is full of upper harmonics, at `pp` it is close
-to a sine with breath around it. Sampling one layer and scaling its gain gives a
-loud quiet sax, which is the fake-horn giveaway. Three real velocity layers plus
-a vibrato switch is an expressive instrument.
+`kit.listen` currently has `roll` (n adjacent sixteenths) and `figure: "run"`
+(count a roll rather than a hit). Booth's sentence is *"a little roll **or
+skip**"* and the skip is missing.
 
-**There are NO GROWLS.** No flutter-tongue, no subtone, no altissimo, no doits
-or falls. The whole index was checked. So the growl is one of:
+**Do not build it blind.** One judge in the research pass measured a
+one-sixteenth nudge on a period-7 lane as **audibly null** — 232 → 232 adjacent
+sixteenth events, −0.5% drum events — on the argument that a lane already sliding
+against the bar has no metrical reference for the ear to detect a nudge against.
+That is a claim, not a fact; it was measured on a build that no longer exists.
+**Re-measure it with `probe_novelty.js` before writing the feature**, and if it
+is null, say so and stop.
 
-1. **Synthesised over the sample** — physically it is amplitude *and* frequency
-   modulation at roughly 25–40 Hz plus added noise. Reproducible, and it would
-   be `[EAR]`, never `[corpus]`.
-2. **Found elsewhere.** Not searched for specifically. Given the last three
-   assumptions about sample availability were all wrong, look before assuming.
-3. **Shipped without, and said so.**
+### 9.2 The genre plays exactly ONE drum material
 
-Two more expressions are nearly free once the sampler exists, and are as
-characteristic of a sax line as the growl: a **scoop** into a note and a **fall**
-off the end, both a `playbackRate` ramp — the same machinery the 303 slide uses.
+MEASURED over 30 seeds, Plastikman spends **4432 bars on A, 3488 on Avar, 128 on
+C and ZERO on B**. Nothing maps to B — the genre has no chorus — and C is the
+bridge, whose role list is `["ostinato"]` with no drums at all. `A.drums` and
+`Avar.drums` are the **same object** (no chop).
 
-### The design, in this architecture
+So anything declared in `kit.variants.lift` or `.depart` for this genre is a
+comment with syntax. Two poly blocks were deleted for exactly this. **There is
+no seam check for it** — a check that says "every kit variant a genre declares
+is a variant it plays" would catch this class for all seven genres, and it is
+worth writing. It will go red on Plastikman immediately, which is correct.
 
-- A pitched sampler is a **voice**, so it lives in stage 6 and touches no note.
-- Velocity layers pick on `ev.gain`; crossfade rather than switch, or the seams
-  are audible on a swell.
-- `playbackRate = 2^((ev.pitch - root)/12)`. Never guess `root`.
-- Register it as a **machine in the `keys` or `bass` slot** with a `kind` on
-  every control — and remember the seam check: **a gesture or bus control that
-  no genre rides FAILS the battery.** That is the point; it stops panels growing
-  knobs nobody uses.
-- Embedding cost is small. The whole Gretsch kit is ~240 KB of base64 against
-  the 1.1 MB the ePiano bank already costs; one sax note at 32 kHz is ~166 KB,
-  so a playable range wants trimming and a sensible note spacing.
+### 9.3 Eleven of 210 composed parts are still silent
 
-### The sample sources, and what may be done with them
+From the earlier rack work: a machine loaded into a slot composes material that
+never reaches the performance in ~5% of songs. The check
+`a machine you load into a slot is heard` tolerates 10% per genre/slot so it
+passes. The cause is believed to be the register allocator declining when a
+genre's bands are genuinely full — a graceful decline, not a bug — **but that
+has not been verified**. Read the roll for one of the silent cases.
 
-| source | licence | use |
-|---|---|---|
-| `danoc505/open-samples` (14 GB, cloned at `/workspace/open-samples`) | Open Samples Permissive Use v1 | free for "any ... application that involves ... sound playback"; clause 2 forbids repackaging the samples **for sale as samples** — this program is not that |
-| University of Iowa MIS | free without restrictions since 1997 | anything |
-| Versilian VSCO-2 Community | CC0 | anything |
+### 9.4 The pad adds no colour tones
 
-**Never commit the corpora.** `make_sample.py` reads a file wherever it lives
-and prints a payload; only the payload lands in the HTML. Nothing from the 14 GB
-clone is in this repo.
+MEASURED: **0 of 4,876** pad bars contain a 9th, 11th or 13th (0%), against the
+comp's 6.56%. The pad's harmony is 100% chord tones. That may be correct for a
+block-chord pad and it may be why it sounds flat. Marked `[EAR]` — it needs
+`render_audio.js` and a listener, not another note-level probe.
 
-### What is in `open-samples`, since the folder names hide it
+### 9.5 Samples, honestly
 
-The instruments are inside the **rompler packs**, not under folders named for
-them: sax (`M1/Solo_Sax`, `Tenor Sax`; `X5DR/Phantom_Sax`, `The_Sax_Man`), horns
-(`M1/Soft Horns`, `Brass_1`, `Trumpet`; `K1R/French Horn`; `X5DR/Muted_Horn`,
-`Brass_Swell`), strings (`M1/Strings`, `StringRise`; `X5DR/Full_String`;
-`K1R/Cellos`, `Bowed String`, `Orchestra`), and `M1/Koto_Trem` for the Asian
-string — **koto, not erhu; there is no erhu in the pack**. Also a multi-mic
-Gretsch kit, `Bohemian Upright Bass`, `Bansuri`, `Musical Saw`, `CymbalSwells`.
+The user has said: *"this is a personal program, no distribution."* That answers
+the commercial half of a licence and the licence objection in
+`docs/genre-research/sax-sources.md` is therefore **not the blocker**.
+Permissively-licensed sax samples exist: **University of Iowa MIS** (free, three
+real dynamic layers, filenames carry the pitch), **VCSL/FreePats** (CC0),
+**Weresax** (free).
 
-Their roots are undeclared, so prefer Iowa where a real acoustic instrument is
-wanted and use these for the 90s-rompler character they actually have.
+The blocker is **payload**, and it is a real number: the HTML is 2.14 MB of which
+1.07 MB is already base64 audio. A pitched multisample — 33 semitones × 3
+dynamics, even at 22 kHz mono — is roughly **8 MB more**, on a single file that
+has to load over mobile data on a phone. That is the trade. If it is worth it,
+**Iowa is the one to take**, because three genuine dynamic layers is the thing a
+model approximates least well — a saxophone's dynamic is *timbral*, not a fader.
 
+And note what the articulation work proved: a sampled sax with no phrasing model
+would have had the **same defect** with a more expensive waveform. The phrasing
+had to exist either way. It does now, and samples would inherit it.
 
----
+### 9.6 Things NOT to do
+
+- **Do not report a red battery as "pre-existing".** Eight audio failures were
+  dismissed that way for most of a session and two of them were real defects in
+  the music. If it is red, it is red about this program.
+- **Do not widen a threshold to make a check pass.** Measure why it moved
+  first. The one threshold that *was* widened this session (render determinism,
+  4 → 8 LSB) came with eight runs of measurement, the difference located to a
+  single 0.9-second window, and the null at −107 dBFS stated.
+- **Do not add a table entry to a variant without checking the variant plays.**
+  See 9.2.
+- **Do not trust a comment in the HTML.** They are claims. Several were true when
+  written and became false. The polymeter one was decoration for months.
+
 
 ## 10. What was deleted at `fcc3c50`, and why
 
