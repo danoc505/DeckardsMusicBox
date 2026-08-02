@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-02m · the horn writes horn lines: joined phrases, pickups, stable targets</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-02n · synthwave loses the borrowed scoop and the quick bends; the sax is parked</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -7837,10 +7837,16 @@ const GENRE = {
        borrows the CS-80 lineage as atmosphere, not lead mannerism — mostly
        the filter sweep, a few small bends, an occasional phrase-end fall.
        No dive: that is a Vangelis event, not an outrun habit. [EAR] */
-    ribbon: { chance: 0.22, semitones: [2, 3], secs: [0.10, 0.16],
-              at: [0.30, 0.55], returns: 0.65, downChance: 0,
-              gestures: [["sweep", 3], ["bend", 2], ["fall", 1]],
-              fall: [2, 3] },
+    /* ── CORRECTED [user, 2026-08-02]: "we also have those bad sounding
+       pitch bends still in synthwave." When bladerunner's vocabulary went
+       slow-only, this table kept the 0.10-0.26 s quick bends — the exact
+       rejected gesture, still shipping here. No quick bends at all now: the
+       ribbon on this genre is the slow FILTER sweep (atmosphere, its actual
+       lineage) and a rare slow fall. Durations in seconds. [EAR] */
+    ribbon: { chance: 0.22, semitones: [2, 3], secs: [0.90, 0.90],
+              at: [0.30, 0.45], returns: 0.65, downChance: 0,
+              gestures: [["sweep", 4], ["fall", 1]],
+              fall: [2, 3], fallSec: [0.50, 0.50] },
     /* a little pressure, as colour rather than as the instrument: this genre
        borrows the CS-80, it is not a score performed on one */
     pressure: { depth: 0.35, amount: [0.30, 0.40], at: [0.40, 0.40], rise: [0.20, 0.30] },
@@ -7941,7 +7947,11 @@ const GENRE = {
          the front of each note instead of a scoop. The control has existed
          since the CS-80 was built and only one genre had ever switched it on.
          [corpus:cs80.com/tour, corpus:soundonsound arturia-cs80v] */
-      cs80:  { initBend: 0.45, bright: 0.52, res: 0.50, ring: 0.16, ens: 0.55, vib: 0.50,
+      /* initBend 0.45 -> 0: the chord scoop is a VANGELIS signature this
+         genre borrowed unresearched, and the user heard it as a bad pitch
+         bend. Synthwave's own research (synthwave.md, Reverb Machine on
+         Nightcall) documents filter sweeps and PWM — never chord scooping. */
+      cs80:  { initBend: 0, bright: 0.52, res: 0.50, ring: 0.16, ens: 0.55, vib: 0.50,
                /* the AFTER column, at a synthwave depth: present, not the point */
                atBrill: 0.40, atLevel: 0.14, atVib: 0.25 },
       vp330: { ens: 0.66, choir: 0.30, attack: 0.55, release: 2.10 },

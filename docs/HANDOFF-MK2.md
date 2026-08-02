@@ -943,6 +943,26 @@ player would choose (breath-length phrases, pickups, runs, held peaks).
 That is stage-3 work, a sax-aware theme style, and it is the next thing
 that would move "sounds like a keyboard" further. The user's ears judge.
 
+> ⚠ **THE SAX IS PARKED — the user's verdict, 2026-08-02, after all of the
+> below: "It's bad, really really bad, nothing at all like a sax. Let's
+> just drop it for now."** Read that against the numbers underneath it:
+> every target was hit, every battery green, one attack per phrase proven
+> on samples, stability past the corpus figures — and the EAR failed it
+> anyway. That is the project's own §0 law working in the hard direction:
+> the numbers only ever said the gestures exist and reach the samples,
+> never that it sounds like a saxophone, and it does not. DO NOT claim the
+> sax works. Do not spend more sessions polishing it incrementally either
+> — three rounds of that preceded the engine and two followed it. If it is
+> ever picked up again, the honest options are real multisamples at real
+> payload cost (§9.5 arithmetic) or a true waveguide model, both weighed
+> against the user's ears early, on a single exposed note, before any
+> system is built around the tone. The research (sax-engine.md,
+> sax-material.md, sax-playing.md) and the corpus pipelines remain sound
+> and measured; the phrase/lines architecture remains in place and
+> harmless (only sax-voiced events use it). The horn stays hand-pickable;
+> lofi and bladerunner still draw it — if the sound offends before it is
+> fixed, zero their `machines.lead` sax weights, two one-line edits.
+
 **THE HORN LINES landed at `2026-08-02m`** — with a correction the user
 made before the build: the corpora are SOLO-biased (WJazzD is literally
 solos; the Omnibook mixes themes into solos with no markers), and *"a sax
