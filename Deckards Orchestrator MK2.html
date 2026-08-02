@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-02k · the player: the breath has an arc, and the horn is off by default</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-02l · the player leans only into stable notes, per 272 real solos</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -5490,7 +5490,8 @@ const Sound = (function(){
   V.sax = function(g, ev, t){
     const c = g.ctx;
     const mem = ev.phrase || [{ dt: 0, durSec: ev.durSec, pitch: ev.pitch, gain: ev.gain,
-                                art: ev.art || "breath", from: ev.from, vib: !!ev.vib, tail: ev.tail }];
+                                art: ev.art || "breath", from: ev.from, vib: !!ev.vib, tail: ev.tail,
+                                ct: 1 }];
     const last = mem[mem.length - 1];
     const tailKind = last.tail || null;
     const REL = tailKind === "taper" ? Math.min(0.75, 0.30 + last.durSec * 0.12)
@@ -5553,10 +5554,20 @@ const Sound = (function(){
        breathes the same way [principle 4: the arithmetic half].
        Magnitudes [EAR]. The peak of the line is its longest note, ties to
        the highest -- the note a player would lean into. */
-    let peakI = 0;
-    for(let i = 1; i < mem.length; i++)
-      if(mem[i].durSec > mem[peakI].durSec + 1e-9 ||
-         (Math.abs(mem[i].durSec - mem[peakI].durSec) < 1e-9 && mem[i].pitch > mem[peakI].pitch)) peakI = i;
+    /* the peak a player builds to is a STABLE note [corpus:wjazzd -- 86% of
+       held notes are chord tones or tensions]: the longest stable member,
+       ties to the highest; only a phrase with no stable note at all falls
+       back to its longest. */
+    const better = (i, j) =>
+      mem[i].durSec > mem[j].durSec + 1e-9 ||
+      (Math.abs(mem[i].durSec - mem[j].durSec) < 1e-9 && mem[i].pitch > mem[j].pitch);
+    let peakI = -1, anyI = 0;
+    for(let i = 0; i < mem.length; i++){
+      if(i > 0 && better(i, anyI)) anyI = i;
+      if((mem[i].ct == null || mem[i].ct >= 1) &&
+         (peakI < 0 || better(i, peakI))) peakI = i;
+    }
+    if(peakI < 0) peakI = anyI;
     const arcAt = i => mem.length < 2 ? 0 :
       i <= peakI ? -0.45 + 1.00 * (peakI ? i / peakI : 1)
                  : 0.55 - 0.90 * ((i - peakI) / Math.max(1, mem.length - 1 - peakI));
@@ -5569,7 +5580,7 @@ const Sound = (function(){
       - 0.9 * Math.max(0, 1 - m.gain) * Math.max(0, Math.min(1, (62 - m.pitch) / 10))));
     /* the breath's loudness follows its own position: ff is louder than pp
        beyond the spectral trims, so the arc is heard as level too */
-    const breathLvl = pos => 0.78 + 0.22 * (pos / 2);
+    const breathLvl = pos => 0.72 + 0.30 * (pos / 2);
     const mix = pos => ({ pp: Math.max(0, 1 - pos) * trim.pp,
                           mf: Math.max(0, 1 - Math.abs(pos - 1)) * trim.mf,
                           ff: Math.max(0, pos - 1) * trim.ff });
@@ -5627,9 +5638,14 @@ const Sound = (function(){
     for(let i = 0; i < mem.length; i++){
       const m = mem[i];
       if(m.durSec < 1.1) continue;
+      /* ONLY A STABLE NOTE GETS LEANED INTO [corpus:wjazzd]. Swelling a
+         foreign note plays a dissonance like an arrival -- the user heard
+         exactly that. A long foreign note rides flat and lets the line
+         resolve it. */
+      if(m.ct != null && m.ct < 1) continue;
       const tm = t + m.dt, pos = posOf(m, i);
       mixTo(Math.min(2, pos + 0.5), tm + m.durSec * 0.50, m.durSec * 0.28);
-      pre.gain.linearRampToValueAtTime(lvl(m, i) * 1.22, tm + m.durSec * 0.62);
+      pre.gain.linearRampToValueAtTime(lvl(m, i) * 1.30, tm + m.durSec * 0.62);
       mixTo(pos, tm + m.durSec * 0.78, m.durSec * 0.14);
       pre.gain.linearRampToValueAtTime(lvl(m, i), tm + m.durSec * 0.95);
     }
@@ -14357,7 +14373,29 @@ function makePerformance(chart, form, materials, sections){
   {
     /* the events are already frozen one by one, which is correct -- so the
        grouping REPLACES them with augmented frozen copies rather than asking
-       the freeze to make an exception. Still this stage, still one owner. */
+       the freeze to make an exception. Still this stage, still one owner.
+
+       AND EVERY MEMBER CARRIES ITS STABILITY: 2 = chord tone, 1 = a named
+       tension (9/11/13 of the sounding chord), 0 = foreign. MEASURED on 272
+       transcribed sax solos (corpus/analyze_sax_lines.py, Weimar Jazz
+       Database): of notes held >= 2 beats, 56.3% are chord tones and 29.5%
+       tensions -- 86% stable -- so what a player LEANS INTO is a stable
+       note, and the engine may only swell what a player would lean into.
+       Found because the user heard it: 18 long foreign notes in lofi seed 6
+       were being swelled like arrivals, which is what "notes out of key"
+       sounds like when every pitch is technically in the key. */
+    const spb16 = (60 / chart.tempo) / 4 * 16;
+    const stabOf = e => {
+      const bar = Math.max(0, Math.floor((e.tSec + 0.05) / spb16));
+      const sec = sections.find(s => bar >= s.startBar && bar < s.endBar);
+      const chSet = (sec && sec.material === "C") ? materials.bridgeChords : materials.chords;
+      const ch = chSet && chSet[bar % chSet.length];
+      if(!ch) return 1;
+      const p = ((e.pitch % 12) + 12) % 12;
+      if(ch.tones.some(t => ((t % 12) + 12) % 12 === p)) return 2;
+      const r = ((ch.rootMidi % 12) + 12) % 12;
+      return (p === (r + 2) % 12 || p === (r + 5) % 12 || p === (r + 9) % 12) ? 1 : 0;
+    };
     let headIdx = -1, phrase = null;
     for(let i = 0; i < events.length; i++){
       const e = events[i];
@@ -14369,7 +14407,8 @@ function makePerformance(chart, form, materials, sections){
       } else events[i] = Object.freeze(Object.assign({}, e, { inPhrase: true }));
       phrase.push(Object.freeze({ dt: e.tSec - events[headIdx].tSec, durSec: e.durSec,
                                   pitch: e.pitch, gain: e.gain, art: e.art, from: e.from,
-                                  vib: !!e.vib, tail: e.tail, accent: !!e.accent }));
+                                  vib: !!e.vib, tail: e.tail, accent: !!e.accent,
+                                  ct: stabOf(e) }));
     }
     if(headIdx >= 0)
       events[headIdx] = Object.freeze(Object.assign({}, events[headIdx], { phrase: Object.freeze(phrase) }));

@@ -109,3 +109,37 @@ Iowa-only sampler plan (§9.5 of the handoff) was better but still a
 keyboard: per-note triggers of frozen recordings. The user rejected both,
 correctly, and the second rejection named the architecture: the engine
 must play the sax like a sax. This document is that engine's design.
+
+---
+
+## ADDENDUM 2026-08-02 — what sax players PLAY, measured from 272 solos
+
+The user, after hearing the engine: *"notes out of key and weak playing...
+study the sheet music of sax songs."* Measured from the Weimar Jazz
+Database's own transcriptions and phrase segmentation
+(`corpus/analyze_sax_lines.py`, 272 saxophone solos, chords from the
+database's beat-level annotations):
+
+- **Duration-weighted, of notes held ≥2 beats: 56.3% chord tones, 29.5%
+  named tensions (9/11/13), 14.3% foreign.** A player leans into STABLE
+  notes. The engine was swelling every long note — lofi seed 6 had 18 long
+  in-key-but-foreign notes being played like arrivals, which is what "out
+  of key" sounds like when nothing is literally out of key.
+- **Phrases: median 14 notes over 2.66 s (q25 8, q75 24); breath gaps
+  0.43–0.97 s.** Our lofi phrases average under 5 notes — the material is
+  ~3× too short-breathed, which is the largest remaining reason it does
+  not play like a horn.
+- Intervals: 57.4% stepwise, 15.5% leaps ≥ a fourth — our lines are close
+  (47% slurred-stepwise), this part holds.
+
+**Built from it (2026-08-02l):** every phrase member carries `ct`
+(2 chord tone / 1 tension / 0 foreign, stamped in stage 5 from the
+sounding chord); the messa di voce and the phrase-peak choice now go only
+to stable notes; foreign long notes ride flat and let the line resolve
+them. Breath loudness range widened (0.72–1.02) and the swell deepened
+(×1.30) for "weak playing" [EAR, the user's ear].
+
+**NOT built, the measured material gap:** phrases of 8–24 notes over
+~1.5–4.3 s with 0.4–1.0 s breaths, and long notes CHOSEN to be stable at
+composition time (not merely leaned-into selectively). That is the
+stage-3 sax-aware theme work, and these are its target numbers.
