@@ -65,6 +65,25 @@ node harness/mk2_roll.js 1                                  # THE test that matt
 `harness/README.md` lists the rest — the probes for the comp, the harmony, the
 cymbals, every knob on every machine, and whether the genre outweighs the seed.
 
+## The four principles
+
+The design in one breath — when a decision is not covered by a written law,
+decide it the way these point:
+
+1. **Constraints, not baked-in values.** A genre or stage declares a
+   constraint and the program works inside it. A literal value wired into
+   stage logic is a defect even when it sounds right.
+2. **Soft laws and hard laws.** A hard law is definitional and holds for every
+   genre — an intro can only be at the start of a song, an outro only at the
+   end. A soft law is a habit with weights, and lives in the genre tables
+   where a genre can lean on it or not.
+3. **Music theory is the physics engine.** Scales, chord tones, resolution,
+   registers: collision rules, not style choices. Genres move inside them, and
+   a violation throws — the program does not negotiate with physics.
+4. **Music is novelty, constrained — driven by arithmetic and randomness.**
+   Pure rule is a loop; pure dice is a shuffle. The music lives between,
+   and the constraint is the generator.
+
 ## Design laws (the short version)
 
 - **Honesty above all.** If you have not measured it, say so. If a test passed,

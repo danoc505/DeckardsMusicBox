@@ -171,6 +171,51 @@ program and none of it is checked in.
 
 ## 2. The architecture, and the laws it is under
 
+### THE FOUR PRINCIPLES — the user's own statement of the design (2026-08-02)
+
+Everything below in this section is the machinery; these four are what the
+machinery is FOR. When a decision is not covered by a written law, decide it
+the way these four point.
+
+1. **The rule of thumb is CONSTRAINTS, not baked-in values.** A stage or a
+   genre declares a constraint and the program works inside it; a literal
+   value wired into stage logic is a defect even when it sounds right. This is
+   the shape of every good mechanism in the file: stage 2's laws zero weights
+   rather than pick sections, the non-chord-tone law narrows the next draw
+   rather than moving a written note, `avoidKick` empties steps rather than
+   placing bass notes. And it is the shape of every worst bug: the compulsory
+   chorus was the word "chorus" baked into four places where a constraint
+   (`payoff`) belonged.
+
+2. **There are SOFT laws and HARD laws.** A HARD law is definitional — break
+   it and the thing is no longer itself. An intro can only ever be at the
+   start of a song and an outro only at the end, in every genre (enforced by
+   construction in `makeForm`: no transition table can reach either); a
+   pre-chorus that never reaches a chorus is not a pre-chorus (H1–H4). Hard
+   laws live in stage code, zero the weights, and hold for all genres. A SOFT
+   law is a habit with weights — bridge after the second chorus, build→drop —
+   and lives in the genre tables where a genre can lean on it or not. The
+   research discipline in stage 2's comments is exactly the sorting of claims
+   into these two bins, and refusing HARD status to a habit matters as much as
+   granting it: a law nobody can break is worth having; a habit dressed as a
+   law just removes seeds.
+
+3. **Music theory is the PHYSICS ENGINE.** Scales, chord tones, resolution by
+   step, the low-interval limit, register bands: these are the collision rules
+   of the world, not style choices. Genres are free agents moving inside that
+   physics the way objects move inside gravity — which is why the theory block
+   is pure functions with no genre in them, and why a violation THROWS instead
+   of warning: the program does not negotiate with physics.
+
+4. **Music is NOVELTY, constrained — driven by arithmetic and randomness.**
+   Neither alone is music: pure rule is a loop (LZ 0.00, the first bar
+   forever) and pure dice is a shuffle (LZ 1.00, noise at the same density).
+   Everything interesting in this program is arithmetic working against a
+   seeded stream inside a constraint — the listener that counts with zero
+   draws, the polymeter whose phase is drawn once, `probe_novelty`'s two
+   controls written down before the mechanism existed so the null could not be
+   chosen to flatter it. The constraint is the generator.
+
 Six stages. Each one `Object.freeze`s its output. **There are no correcting
 passes** — MK1 had a "ghost pass" that fixed up violations after the fact, and
 removing that idea is the central reason MK2 exists.
