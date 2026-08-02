@@ -847,6 +847,25 @@ coincidental dkc<->bladerunner twin (1 word+length match between two
 PLANLESS genres) — expected to vanish when they get plans. Remaining
 planless: dkc, acid, plastikman.
 
+**THE SAX DRAWS WERE ZEROED at `2026-08-02p`** — the user, plainly: *"Can
+you pull the sax out for now."* The two one-line edits the parked warning
+(§ below) had already named: lofi's `machines.lead` [auto 7, sax 3] and
+bladerunner's [sax 5, auto 5] both became [auto 1], with the old weights
+kept in comments beside them. The `lead` key stays DECLARED in both
+genres so the rack stream's draw count does not shift under the other
+machines, and the horn stays hand-pickable everywhere (`canFill` — the
+seam check now enforces drawn-by-NOBODY while parked). Isolation
+measured: bladerunner 153 + lofi 84 of 300 seeds moved (their former sax
+songs; matches the old 5-in-10 and 3-in-10 weights), the other five
+genres identical seed-for-seed. Baseline `a687db612285f96d`. KNOWN,
+PRE-EXISTING, unrelated (proven identical at the prior commit in a
+worktree A/B): the no-argument `render_audio.js` run (3 songs, 551
+assertions) fails 8 audio checks — sub-runaway over the 25% tr1000
+ceiling in five sections, one kit-free prechorus with kit energy, seed 2
+kit in/out contrast, seed 3 loudness-vs-energy r 0.627. The handoff's
+documented 2-song run was the green one; these 8 belong to whoever next
+touches the mix, with this measured starting point.
+
 **THE RIBBON CORRECTION at `2026-08-02g` — read this as method, not as a
 changelog.** The user rejected the gesture vocabulary the same day it
 shipped: *"no one was using pitch bends and these quick things... it
@@ -976,6 +995,9 @@ that would move "sounds like a keyboard" further. The user's ears judge.
 > harmless (only sax-voiced events use it). The horn stays hand-pickable;
 > lofi and bladerunner still draw it — if the sound offends before it is
 > fixed, zero their `machines.lead` sax weights, two one-line edits.
+> **DONE at `2026-08-02p`, on the user's word ("pull the sax out for
+> now"): both weights zeroed, drawn nowhere, hand-pick intact. Restoring
+> any draw weight is un-parking — it goes through the ear-gate above.**
 
 **THE HORN LINES landed at `2026-08-02m`** — with a correction the user
 made before the build: the corpora are SOLO-biased (WJazzD is literally

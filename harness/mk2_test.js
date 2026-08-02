@@ -1819,16 +1819,16 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         saxN > 0 && headN + memberN === saxN, headN + " heads + " + memberN + " members = " + saxN);
   check("...and each phrase's members match the events, note for note",
         covered === saxN && mismatch === 0, covered + "/" + saxN + " matched, " + mismatch + " mismatches");
-  /* CORRECTED per the user, same day: "I didn't mean I wanted it on by
-     default. If it's going to be on something it needs to be there for a
-     reason." So the LAW is availability-by-hand everywhere (the rack), and
-     conductor draws only where a documented reason stands -- bladerunner
-     (the Love Theme is a sax) and lofi (its own lineage), both pre-existing. */
+  /* PARKED per the user, 2026-08-02: "Can you pull the sax out for now."
+     The LAW while parked: the horn stays pickable by hand everywhere (the
+     rack), and NO genre draws it from the conductor. The handoff's parked
+     entry names the terms for un-parking; restoring any draw weight before
+     the ear passes the sound is a violation of this check. */
   const drawn = Object.keys(T.GENRE).filter(g =>
     (((T.GENRE[g].machines || {}).lead) || []).some(p => p[0] === "sax"));
-  check("the horn is pickable by hand on every genre, drawn only with a reason",
-        M.canFill("lead", "sax") && drawn.sort().join(",") === "bladerunner,lofi",
-        "canFill true · drawn by: " + drawn.join(",") + " (want bladerunner,lofi)");
+  check("the horn is pickable by hand, drawn nowhere while parked",
+        M.canFill("lead", "sax") && drawn.length === 0,
+        "canFill true · drawn by: " + (drawn.join(",") || "nobody") + " (want nobody)");
 }
 
 console.log("\n" + pass + " passed, " + fail + " failed");
