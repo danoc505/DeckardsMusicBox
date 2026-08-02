@@ -833,6 +833,20 @@ inside a section, which no mechanism here can express; groove jitter is
 not it. Three genres now have plans: lofi, synthwave, bladerunner.
 Remaining: dkc, acid, plastikman, jungle (still wearing acid's tables).
 
+**JUNGLE GOT ITS OWN ARCHITECTURE at `2026-08-02o`** —
+`docs/genre-research/jungle-form.md` (KAN Samples bar-by-bar + EDMProd +
+drumtrip for the dubplate-culture WHY). The two-drop DJ architecture:
+buildup -> 48-64-bar drop (two 32-bar chorus halves) -> mid -> 16-bar
+breakdown (bridge; the drums leave) -> rebuild -> second drop ending on
+the peak (harder by construction: chorusPeak energy + arc apex) -> outro.
+MEASURED: 11 distinct shapes in 25 seeds with real repeats (4x/4x/3x),
+256-336 bars = 5-7 minutes, the sources' own band. **The acid<->jungle
+twin defect is DEAD: nine identical whole-song records -> zero.** 300/300
+jungle seeds moved, nothing else; baseline `4913a52acdb891e2`. One new
+coincidental dkc<->bladerunner twin (1 word+length match between two
+PLANLESS genres) — expected to vanish when they get plans. Remaining
+planless: dkc, acid, plastikman.
+
 **THE RIBBON CORRECTION at `2026-08-02g` — read this as method, not as a
 changelog.** The user rejected the gesture vocabulary the same day it
 shipped: *"no one was using pitch bends and these quick things... it

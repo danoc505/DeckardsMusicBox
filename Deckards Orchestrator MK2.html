@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-02n · synthwave loses the borrowed scoop and the quick bends; the sax is parked</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-02o · jungle gets its own architecture: two drops, a breakdown, a DJ way in</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -10598,6 +10598,26 @@ const GENRE = {
                               // also a way in [EAR]
       openVerse: 0.90,
       target:    [128, 5, 32],
+      /* ── THE PLAN. Researched 2026-08-02, docs/genre-research/jungle-form.md.
+         This genre NEVER had its own architecture -- its form table was a near
+         copy of acid's, and probe_form caught nine whole-song records
+         identical between the two. The real shape is a TWO-DROP architecture
+         born of DJ culture: "drums and atmosphere, stripped-down,
+         DJ-friendly" in, build, a 64-bar first drop "split into two 32-bar
+         halves", the breakdown where "drums often drop out entirely", a
+         second build, and a second drop that "should hit harder than the
+         first" -- which it does here by construction, because the last payoff
+         carries chorusPeak energy and the arc's apex. [corpus:kansamples,
+         quotes; corpus:edmprod for the DJ intro/outro; drop = chorus,
+         breakdown = bridge in this vocabulary. Budget steps EAR.] */
+      plan: [
+        { name: "buildup",   pool: ["verse", "instrumental"], bars: [16, 3, 16] },
+        { name: "drop",      pool: ["chorus"],                bars: [48, 2, 16], endOn: "chorus" },
+        { name: "mid",       pool: ["verse", "instrumental"], bars: [16, 3, 16] },
+        { name: "breakdown", pool: ["bridge"],                bars: [16, 1, 16] },
+        { name: "build2",    pool: ["verse", "instrumental"], bars: [16, 2, 16] },
+        { name: "drop2",     pool: ["chorus"],                bars: [48, 2, 16], endOn: "chorus" },
+      ],
       transitions: {
         verse:        [["verse", 5], ["instrumental", 4], ["chorus", 4], ["bridge", 3]],
         chorus:       [["verse", 5], ["instrumental", 3], ["bridge", 4], ["chorus", 2]],
