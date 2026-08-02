@@ -1736,5 +1736,60 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
              : "the syncopation index itself failed its own validation figures");
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE PLAN — a genre may own its architecture (form.plan, stage 2).
+
+   No shipped genre declares a plan yet, so the battery is what draws the
+   mechanism [the coltraneCycle rule: built-and-drawn-by-nobody is not
+   "works"]. A synthetic genre is registered, composed, and removed; the
+   checks hold the OUTPUT to the plan's own claims, phase by phase, because a
+   plan that is not realised in the section sequence is a comment with syntax.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  const clone = JSON.parse(JSON.stringify(T.GENRE.lofi));
+  clone.label = "plan test";
+  clone.form.coldOpen = 0;            // deterministic frame: always intro...outro
+  clone.form.plan = [
+    { name: "open",  pool: ["verse"],                 bars: [16, 1, 8] },
+    { name: "build", pool: ["verse", "instrumental"], bars: [16, 2, 8], endOn: "instrumental" },
+    { name: "pay",   pool: ["verse", "chorus"],       bars: [16, 2, 8], endOn: "chorus" },
+  ];
+  T.GENRE.__plantest = clone;
+  let composed = 0, threw = 0, frame = 0, realised = 0, endsOnPay = 0, shapes = new Set();
+  const SEEDS = 30;
+  for(let s = 1; s <= SEEDS; s++){
+    let song;
+    try { song = M.composeSong(s, "band", "__plantest"); composed++; }
+    catch(e){ threw++; continue; }
+    const seq = song.form.map(x => x.fn);
+    shapes.add(seq.join(" "));
+    if(seq[0] === "intro" && seq[seq.length - 1] === "outro") frame++;
+    /* the middle must decompose into the three phases IN ORDER: the sequence
+       walks each pool left to right and may never step backwards */
+    const mid = seq.slice(1, -1);
+    let phase = 0, ok = mid.length > 0;
+    for(const f of mid){
+      while(phase < clone.form.plan.length && !clone.form.plan[phase].pool.includes(f)) phase++;
+      if(phase >= clone.form.plan.length){ ok = false; break; }
+    }
+    if(ok) realised++;
+    if(mid[mid.length - 1] === "chorus") endsOnPay++;
+  }
+  delete T.GENRE.__plantest;
+  check("a declared plan composes, and its seam checks still hold",
+        composed === SEEDS && threw === 0, composed + "/" + SEEDS + " composed, " + threw + " threw");
+  /* `composed > 0 &&` because 0 === 0: on the battery's first run these two
+     passed while every seed THREW. A check over a set must refuse the empty set. */
+  check("...and the sequence realises the phases in the plan's order",
+        composed > 0 && realised === composed, realised + "/" + composed + " decompose into open->build->pay");
+  check("...and the record ends on the last phase's declared exit",
+        composed > 0 && endsOnPay === composed, endsOnPay + "/" + composed + " end their middle on the payoff");
+  check("...and the plan still leaves the seed room to vary the shape",
+        shapes.size > 1, shapes.size + " distinct shapes in " + SEEDS + " seeds");
+  check("...and a planless genre was untouched by the mechanism existing",
+        (() => { try { return M.composeSong(1, "band", "lofi").form.length > 0; } catch(e){ return false; } })(),
+        "lofi still composes (the snapshot is the real proof: 2100 seeds IDENTICAL)");
+}
+
 console.log("\n" + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);

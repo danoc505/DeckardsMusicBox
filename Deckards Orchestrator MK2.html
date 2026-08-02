@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-07-31s · resume the audio before anything can spend the tap</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-02a · the form learns phases; no shipped genre draws one yet</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -10754,65 +10754,159 @@ function makeForm(chart){
                     : (rng() < F.openVerse ? "verse" : PAY);
   const target = F.target[0] + Math.floor(rng() * F.target[1]) * F.target[2];
   let bars = coldOpen ? 0 : 4, bridgeUsed = false, chorusSeen = 0;
-  for(let guard = 0; guard < 10; guard++){
+  /* ══ THE HARD LAWS OF SUCCESSION ══════════════════════════════════════════
+     The genre supplies WEIGHTS; stage 2 supplies LAWS. Every law below zeroes
+     a weight rather than picking a section, so a genre can lean however it
+     likes inside them and none of them is a baked value.
+
+     WHAT MAKES A LAW HARD HERE IS NOT THAT IT IS COMMON -- it is that the
+     section's IDENTITY depends on its neighbour. A pre-chorus that never
+     reaches a chorus is not a pre-chorus; it is a verse. That is a definition,
+     not a tendency, and definitions are the only successions that earn HARD.
+     Researched rather than assumed, and the research also refused two laws
+     that looked hard and are not (see SOFT, below).
+
+       H1  RULE OF THREE. A function cannot follow itself twice. Two hearings
+           establish an idea; the third identical one is where attention goes.
+           [corpus:omnionsound, music-chips, songtown]
+       H2  A BRIDGE MUST HAVE SOMETHING TO DEPART FROM. "If the bridge lands
+           too early the listener never gets to build a pattern, so the bridge
+           has nothing to disrupt." How many choruses is the genre's call; that
+           it needs SOME is not. [corpus:lordreverb, careersinmusic]
+       H3  A POST-CHORUS MAY ONLY FOLLOW A CHORUS. Definitional: "a section
+           that appears after the chorus... postchoruses follow a chorus and
+           precede the next verse." [corpus:wikipedia/Post-chorus, mtosmt 28.2]
+       H4  A PRE-CHORUS MUST REACH A CHORUS. Definitional: pre-choruses
+           "always lead into the chorus"; the pattern is verse -> pre-chorus ->
+           chorus. Its whole function is to make the arrival land, so a
+           pre-chorus followed by anything else has not done its job -- it has
+           become a different section. [corpus:izotope, yousician, producerhive]
+
+     AND WHAT THE RESEARCH REFUSED, which matters as much: build -> drop reads
+     like a law and the sources say plainly it is not -- "there are no hard
+     rules around this, just a general structure" [corpus:cymatics, edmprod].
+     Nor is "the bridge goes after the second chorus": that is framed
+     everywhere as a guideline from listener psychology, with non-traditional
+     placement "showing up more often" [corpus:lordreverb]. Both stay SOFT, as
+     weights. A law nobody can break is worth having; a habit dressed as a law
+     just removes seeds.
+
+     ONE OWNER: both walks below -- the grammar walk and the phase walk -- read
+     the laws through this one helper, so the laws cannot drift into two
+     hand-copied versions that disagree. */
+  const lawTable = cur => {
+    const consec = fns.length >= 2 && fns[fns.length - 1] === fns[fns.length - 2];
+    const need = F.bridgeAfterChorus[cur];
+    let table = F.transitions[cur].map(([to, w]) => [to, w]);
+    table = table.map(([to, w]) => [to, (to === cur && consec) ? 0 : w]);          // H1
+    table = table.map(([to, w]) => [to, to === "bridge"                            // H2
+      ? ((!bridgeUsed && need != null && chorusSeen >= need) ? w : 0) : w]);
+    table = table.map(([to, w]) => [to, (to === "postchorus" && cur !== "chorus")  // H3
+      ? 0 : w]);
+    if(cur === "prechorus")                                                        // H4
+      table = table.map(([to, w]) => [to, to === "chorus" ? Math.max(w, 1) : 0]);
+    return table;
+  };
+  const admit = () => {
     fns.push(fn); bars += LEN[fn];
     if(fn === PAY) chorusSeen++;
     if(fn === "bridge") bridgeUsed = true;
-    if(bars >= target && fn === PAY) break;             // a song ends off its payoff
-    /* ══ THE HARD LAWS OF SUCCESSION ══════════════════════════════════════════
-       The genre supplies WEIGHTS; stage 2 supplies LAWS. Every law below zeroes
-       a weight rather than picking a section, so a genre can lean however it
-       likes inside them and none of them is a baked value.
+  };
+  /* would pushing f break H1? Used by the phase walk's fallback paths, which do
+     not go through lawTable -- composeSong THROWS on a triple, so every road
+     that can pick a section has to refuse one. */
+  const wouldTriple = f =>
+    fns.length >= 2 && fns[fns.length - 1] === f && fns[fns.length - 2] === f;
 
-       WHAT MAKES A LAW HARD HERE IS NOT THAT IT IS COMMON -- it is that the
-       section's IDENTITY depends on its neighbour. A pre-chorus that never
-       reaches a chorus is not a pre-chorus; it is a verse. That is a definition,
-       not a tendency, and definitions are the only successions that earn HARD.
-       Researched rather than assumed, and the research also refused two laws
-       that looked hard and are not (see SOFT, below).
+  /* ═══ THE PLAN — a genre may own its ARCHITECTURE, not only its tendencies ══
+     MEASURED (probe_form.js, 25 seeds x 7 genres): within one genre, 24-25 of
+     25 seeds produced DISTINCT section sequences -- no genre ever repeats a
+     shape, because the walk below is a Markov chain and a Markov chain is
+     memoryless BY CONSTRUCTION. No table weight can say "we are two thirds in,
+     head for the payoff"; position is unsayable in that language. That is why
+     `sections` scores 0.06-0.11 on probe_pull while sixteen other features are
+     genre-owned: ordering was one hundred percent dice.
 
-         H1  RULE OF THREE. A function cannot follow itself twice. Two hearings
-             establish an idea; the third identical one is where attention goes.
-             [corpus:omnionsound, music-chips, songtown]
-         H2  A BRIDGE MUST HAVE SOMETHING TO DEPART FROM. "If the bridge lands
-             too early the listener never gets to build a pattern, so the bridge
-             has nothing to disrupt." How many choruses is the genre's call; that
-             it needs SOME is not. [corpus:lordreverb, careersinmusic]
-         H3  A POST-CHORUS MAY ONLY FOLLOW A CHORUS. Definitional: "a section
-             that appears after the chorus... postchoruses follow a chorus and
-             precede the next verse." [corpus:wikipedia/Post-chorus, mtosmt 28.2]
-         H4  A PRE-CHORUS MUST REACH A CHORUS. Definitional: pre-choruses
-             "always lead into the chorus"; the pattern is verse -> pre-chorus ->
-             chorus. Its whole function is to make the arrival land, so a
-             pre-chorus followed by anything else has not done its job -- it has
-             become a different section. [corpus:izotope, yousician, producerhive]
+     `form.plan` is the constraint that closes it [principle 1: a constraint,
+     not baked values -- the dice still fill every phase]. A plan is an ordered
+     spine of PHASES; the same grammar walk runs INSIDE each phase, under the
+     same laws, reading the same transition weights, but the phase says what the
+     walk is walking toward and when it hands over:
 
-       AND WHAT THE RESEARCH REFUSED, which matters as much: build -> drop reads
-       like a law and the sources say plainly it is not -- "there are no hard
-       rules around this, just a general structure" [corpus:cymatics, edmprod].
-       Nor is "the bridge goes after the second chorus": that is framed
-       everywhere as a guideline from listener psychology, with non-traditional
-       placement "showing up more often" [corpus:lordreverb]. Both stay SOFT, as
-       weights. A law nobody can break is worth having; a habit dressed as a law
-       just removes seeds. ═══════════════════════════════════════════════════ */
-    const consec = fns.length >= 2 && fns[fns.length - 1] === fns[fns.length - 2];
-    const need = F.bridgeAfterChorus[fn];
-    let table = F.transitions[fn].map(([to, w]) => [to, w]);
-    table = table.map(([to, w]) => [to, (to === fn && consec) ? 0 : w]);          // H1
-    table = table.map(([to, w]) => [to, to === "bridge"                            // H2
-      ? ((!bridgeUsed && need != null && chorusSeen >= need) ? w : 0) : w]);
-    table = table.map(([to, w]) => [to, (to === "postchorus" && fn !== "chorus")   // H3
-      ? 0 : w]);
-    if(fn === "prechorus")                                                         // H4
-      table = table.map(([to, w]) => [to, to === "chorus" ? Math.max(w, 1) : 0]);
-    /* A LAW MAY LEAVE NOTHING LEGAL, and then the song still has to continue.
-       Falling through to the genre's own most-weighted destination keeps this a
-       constraint rather than a crash -- the laws narrow the draw, they do not
-       get to end the record. */
-    if(table.reduce((s, p) => s + p[1], 0) <= 0)
-      table = F.transitions[fn].map(([to, w]) => [to, to === fn ? 0 : w]);
-    if(table.reduce((s, p) => s + p[1], 0) <= 0) table = [["chorus", 1]];
-    fn = wpick(rng, table);
+       plan: [ { name: "build", pool: ["verse", "instrumental"],
+                 bars: [32, 3, 16], endOn: "instrumental" }, ... ]
+
+       name   for the probes and the seam checks -- a claim to hold output to
+       pool   which functions may be DRAWN here (the genre's vocabulary narrows
+              per phase; H1-H4 still apply on top)
+       bars   the phase's length budget [base, steps, stepSize], drawn once per
+              song on the form stream -- the same shape as form.target
+       endOn  the function the phase must be standing on to hand over
+              (optional; a phase without one hands over when its budget is spent)
+
+     A planless genre runs the original grammar walk below with a DRAW SEQUENCE
+     IDENTICAL to before this mechanism existed -- proven by the 2100-seed
+     snapshot in the commit that added it. The header draws above (coldOpen,
+     opening function, target) execute unconditionally in both modes [Law 3];
+     a plan genre may ignore the target value, but the draw is never skipped.
+     Intro and outro stay OUTSIDE the plan: an intro can only be first and an
+     outro only last -- that is a hard law of the whole program, not a phase.
+
+     NO SHIPPED GENRE DECLARES A PLAN YET. The mechanism is exercised by the
+     battery through a synthetic plan (mk2_test.js) until the researched,
+     per-genre plans land -- stated per the coltraneCycle rule: do not claim a
+     thing works until something draws it. */
+  const PLAN = F.plan || null;
+  if(!PLAN){
+    for(let guard = 0; guard < 10; guard++){
+      admit();
+      if(bars >= target && fn === PAY) break;           // a song ends off its payoff
+      let table = lawTable(fn);
+      /* A LAW MAY LEAVE NOTHING LEGAL, and then the song still has to continue.
+         Falling through to the genre's own most-weighted destination keeps this
+         a constraint rather than a crash -- the laws narrow the draw, they do
+         not get to end the record. */
+      if(table.reduce((s, p) => s + p[1], 0) <= 0)
+        table = F.transitions[fn].map(([to, w]) => [to, to === fn ? 0 : w]);
+      if(table.reduce((s, p) => s + p[1], 0) <= 0) table = [["chorus", 1]];
+      fn = wpick(rng, table);
+    }
+  } else {
+    /* ONE PIECE OF STATE CARRIES THE HANDOVER: `pending` is true only while a
+       drawn function has not yet been admitted. The header's opening draw
+       starts pending; after that, every function is drawn fresh, inside the
+       current phase's vocabulary, lawful from the LAST ADMITTED one. The first
+       version of this walk skipped the entry draw whenever the previous
+       phase's final function happened to sit in the new pool -- and admitted
+       it twice, verse x3, caught by composeSong's own rule-of-three throw on
+       the battery's first run. The seam checks exist for exactly this. */
+    let pending = true;
+    for(const ph of PLAN){
+      const budget = ph.bars[0] + Math.floor(rng() * ph.bars[1]) * ph.bars[2];
+      const start = bars;
+      const inPool = f => ph.pool.includes(f);
+      for(let guard = 0; guard < 12; guard++){
+        if(!pending || !inPool(fn)){
+          const spent = bars - start >= budget;
+          let table = lawTable(fn).map(([to, w]) => [to, inPool(to) ? w : 0]);
+          /* past its budget, a phase SEEKS ITS EXIT: this is the law the
+             planless walk is missing (its 63-bar post-peak wanders are exactly
+             this hole), expressed as zeroing weights, never as picking */
+          if(spent && ph.endOn && !wouldTriple(ph.endOn)){
+            const seek = table.map(([to, w]) => [to, to === ph.endOn ? Math.max(w, 1) : 0]);
+            if(seek.reduce((s, p) => s + p[1], 0) > 0) table = seek;
+          }
+          if(table.reduce((s, p) => s + p[1], 0) <= 0)
+            table = ph.pool.filter(f => !wouldTriple(f)).map(f => [f, 1]);
+          if(table.length === 0 ||
+             table.reduce((s, p) => s + p[1], 0) <= 0) break;   // nothing legal: hand over
+          fn = wpick(rng, table);
+        }
+        admit(); pending = false;
+        const spent = bars - start >= budget;
+        if(spent && (!ph.endOn || fn === ph.endOn)) break;
+      }
+    }
   }
   fns.push("outro");
 
