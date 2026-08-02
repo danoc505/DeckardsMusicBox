@@ -786,7 +786,31 @@ chord-wide vs melody-over-chord modes. The current initBend-on-every-note
 scoop and symmetric ev.ribbon bend match none of these. The gesture
 vocabulary to build is in the doc: dive, scoop, trill, fall, filter-sweep,
 whole-chord dive — riding over the aftertouch brightness that is already
-there. **NOT IMPLEMENTED YET — next sound-side job.**
+there.
+
+**IMPLEMENTED at `2026-08-02e`.** The hand draws a gesture KIND per bar from
+the genre's `ribbon.gestures`: bend (the old move), fall (phrase-end
+descending slide, late-bar anchored), dive (down most of an octave or more,
+riding out), trill (instant taps with the snap-back that makes them
+possible), sweep (the same hand on the FILTER — `targ:"filter"`, realised as
+a 0..1 ConstantSource summed onto each layer's cutoff, the aftertouch
+pattern). One realiser (`ribbonFreq`) serves the CS-80 and the plain lead so
+the vocabulary cannot fork. The every-note initBend scoop is now
+phrase-gated on the lead (`ev.art === "breath"` only — the sax articulation
+model read by a second instrument); keys keep the documented chord twang.
+MEASURED: bladerunner 17.7% of lead+keys notes carry a gesture over 30
+seeds (bend 845 / fall 985 / sweep 523 / trill 319 / dive 362 — the chord
+notes of a dive bar all carry it together, which is the polyphonic
+glissando); synthwave 10.3%, sweep-dominant, no dive by design. The sweep
+A/B (probe in scratchpad, worth promoting): cs80 >2 kHz share 3.9% → 2.1%
+with rms flat; the plain lead 1.3% → 1.0% — present, weak, its voice is
+already dark [EAR whether that is enough]. 300 bladerunner + 300 synthwave
+seeds moved, no other genre; re-baselined `b42098859fd1aecf`. The A/B probe
+also caught a real crash before it shipped: the sweep's ConstantSource
+joined V.lead's `nodes` BEFORE the vibrato loop, which connects to every
+node's `.frequency` — a ConstantSource has none. **What is NOT measured:
+whether it sounds good. The user's ears judge; the numbers only say the
+gestures exist, differ, and reach the samples.**
 
 ### 2026-07-31 — the session that ended at `7c7644b`
 

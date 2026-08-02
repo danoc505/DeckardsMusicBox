@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-02d · synthwave builds twice and explodes: the Perturbator architecture</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-02e · the ribbon learns to dive, fall, trill and sweep the filter</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -3485,6 +3485,29 @@ const Sound = (function(){
   }
   const F = m => 440 * Math.pow(2, (m - 69) / 12);
 
+  /* THE RIBBON'S PITCH GESTURES — one realiser, every voice that lets the hand
+     reach its oscillators calls this, so the vocabulary cannot fork per voice.
+     Trills are STEPS, not ramps: a tap lands at a spot (instant, the reference
+     is the first touch) and release "reverts immediately to the unaffected
+     pitch" [corpus:soundonsound CS-80] -- the snap IS the trill mechanism.
+     Everything else is a finger sliding: exponential, like the hand it is.
+     Filter-targeted gestures are not pitch and are realised by the voice. */
+  function ribbonFreq(o, base, R, t){
+    if(!R || R.targ === "filter") return;
+    if(R.kind === "trill"){
+      const up = base * Math.pow(2, R.by / 12);
+      for(let i = 0; i < R.taps; i++){
+        const t0 = t + R.at + i * 2 * R.rate;
+        o.frequency.setValueAtTime(up, t0);
+        o.frequency.setValueAtTime(base, t0 + R.rate);
+      }
+      return;
+    }
+    o.frequency.setValueAtTime(base, t + R.at);
+    o.frequency.exponentialRampToValueAtTime(base * Math.pow(2, R.by / 12), t + R.at + R.sec);
+    if(R.back) o.frequency.exponentialRampToValueAtTime(base, t + R.at + R.sec + R.backSec);
+  }
+
   /* keys — a REAL electric piano mechanism: two FM pairs summed, the DX7/STK
      Rhodey lineage [docs/SYNTH-RESEARCH.md §2]:
        BODY pair: carrier at the note, modulator ~1:1, index scales with velocity
@@ -3684,10 +3707,35 @@ const Sound = (function(){
        is ALREADY SOUNDING and bends it away, mid-flight, and maybe back.
        [corpus:cs80.com Old Crow front panel tour] ────────────────────────────── */
     const initBend = P(g, ev, "cs80", "initBend", 0);
+    /* ── THE SCOOP IS A PHRASE GESTURE, NOT A TIC ─────────────────────────────
+       Reported by the user: the bend-on-every-note read as a mannerism and
+       sounded bad. The phrasing research built for the sax says why: the
+       scoop, the breath and the full attack belong to the FIRST note of a
+       phrase, and every theme already carries its articulation. So a lead
+       note scoops only when it opens a phrase (ev.art === "breath"); slurred
+       and tongued notes inside the line do not. Keys keep the setting as-is:
+       a chord entry is its own event and the "twang" on chords is documented
+       [corpus:soundonsound, Blade Runner Blues]. */
+    const scoopHere = !(ev.role === "lead" && ev.art && ev.art !== "breath");
     /* velocity scales it, which is the control's whole mechanism */
-    const bendFrom = initBend > 0 ? Math.pow(2, -(initBend * touch) / 12) : 1;
+    const bendFrom = (initBend > 0 && scoopHere) ? Math.pow(2, -(initBend * touch) / 12) : 1;
     const bendSec  = 0.045;                     // "a few tens of milliseconds"
     const R = ev.ribbon || null;
+    /* THE SWEEP: the ribbon switched onto the FILTER [corpus:reverbmachine —
+       "the ribbon can be set to control either the pitch or the filter"].
+       One 0..1 curve of the hand, built once, summed onto every layer's
+       cutoff below at that layer's own scale — the same additive pattern the
+       aftertouch uses, because it is the same kind of thing: a signal, not a
+       setting. */
+    let ribSweep = null;
+    if(R && R.targ === "filter"){
+      ribSweep = c.createConstantSource(); ribSweep.offset.value = 0;
+      const rt = t + R.at;
+      ribSweep.offset.setValueAtTime(0, rt);
+      ribSweep.offset.linearRampToValueAtTime(1, rt + R.sec);
+      if(R.back) ribSweep.offset.linearRampToValueAtTime(0, rt + R.sec + R.backSec);
+      ribSweep.start(t); ribSweep.stop(end); nodes.push(ribSweep);
+    }
 
     /* the two global performance controls, offsetting every filter at once */
     const bright = 0.45 + 1.10 * P(g, ev, "cs80", "bright", 0.5);   // 0.5 -> 1.0x
@@ -3778,11 +3826,7 @@ const Sound = (function(){
         o.frequency.exponentialRampToValueAtTime(base, t + bendSec);
       } else o.frequency.value = base;
       /* and the ribbon, ON TOP, after the note is already sounding */
-      if(R){
-        o.frequency.setValueAtTime(base, t + R.at);
-        o.frequency.exponentialRampToValueAtTime(base * Math.pow(2, R.by / 12), t + R.at + R.sec);
-        if(R.back) o.frequency.exponentialRampToValueAtTime(base, t + R.at + R.sec + R.backSec);
-      }
+      ribbonFreq(o, base, R, t);
       o.start(t); o.stop(end);
 
       /* THE PULSE SHAPER. saw(t) - saw(t - d) is a pulse whose width is d*base,
@@ -3828,6 +3872,14 @@ const Sound = (function(){
         const toBrill = c.createGain();
         toBrill.gain.value = atBrill * L.al * 1.35;
         press.connect(toBrill); toBrill.connect(lp.frequency);
+      }
+      /* the filter-sweep: the hand CLOSES this layer's cutoff by depth,
+         scaled to the layer's own sustain level so the darkest it reaches is
+         a dark note, never digital silence [EAR on the 0.9] */
+      if(ribSweep){
+        const toCut = c.createGain();
+        toCut.gain.value = -R.depth * L.fs * bright * 0.9;
+        ribSweep.connect(toCut); toCut.connect(lp.frequency);
       }
       const vca = c.createGain(); vca.gain.value = L.mix;
       src.connect(hp); hp.connect(lp); lp.connect(vca); vca.connect(out);
@@ -4003,18 +4055,31 @@ const Sound = (function(){
     const R = ev.ribbon || null;
     const mk = (type, mul, gain) => {
       const o = osc(c, type, f * mul, t, end), og = c.createGain();
-      if(R){
-        o.frequency.setValueAtTime(f * mul, t + R.at);
-        o.frequency.exponentialRampToValueAtTime(f * mul * Math.pow(2, R.by / 12), t + R.at + R.sec);
-        if(R.back) o.frequency.exponentialRampToValueAtTime(f * mul, t + R.at + R.sec + R.backSec);
-      }
+      ribbonFreq(o, f * mul, R, t);
       og.gain.value = gain; o.connect(og); og.connect(out); return o;
     };
     const nodes = [ mk("triangle", 1, 1.0), mk("square", 1.0, 0.34), mk("sawtooth", 2.0, 0.34) ];
+    /* the filter-targeted gesture closes this voice's one lowpass, same
+       additive pattern as the CS-80's layers */
+    let ribNode = null;
+    if(R && R.targ === "filter"){
+      const rs = c.createConstantSource(); rs.offset.value = 0;
+      const rt = t + R.at;
+      rs.offset.setValueAtTime(0, rt);
+      rs.offset.linearRampToValueAtTime(1, rt + R.sec);
+      if(R.back) rs.offset.linearRampToValueAtTime(0, rt + R.sec + R.backSec);
+      rs.start(t); rs.stop(end);
+      const toCut = c.createGain();
+      toCut.gain.value = -R.depth * (1400 + 1200 * ev.gain);
+      rs.connect(toCut); toCut.connect(flt.frequency);
+      ribNode = rs;      // joins `nodes` AFTER the vibrato loop below: a
+                         // ConstantSource has no .frequency to vibrate
+    }
     const vib = osc(c, "sine", 5.1, t, end), vg = c.createGain();
     vg.gain.setValueAtTime(0, t); vg.gain.linearRampToValueAtTime(f * 0.005, t + 0.35);
     vib.connect(vg); for(const n of nodes) vg.connect(n.frequency);
     nodes.push(vib);
+    if(ribNode) nodes.push(ribNode);
     const lvl = (ev.role === "counter" ? LEVEL.counter : LEVEL.lead);
     adsr(c, out, t, lvl * ev.gain / 1.68, 0.010, 0.12, 0.62, t + ev.durSec, 0.24);
     return nodes;
@@ -7455,8 +7520,14 @@ const GENRE = {
     /* `chance` is per BAR since the ribbon became one hand rather than a draw
        per note -- 0.17 of notes was roughly one long note in six, and 0.22 of
        bars lands in the same place for a genre whose lead is sparse. */
+    /* restrained vocabulary [docs/genre-research/cs80-ribbon.md]: synthwave
+       borrows the CS-80 lineage as atmosphere, not lead mannerism — mostly
+       the filter sweep, a few small bends, an occasional phrase-end fall.
+       No dive: that is a Vangelis event, not an outrun habit. [EAR] */
     ribbon: { chance: 0.22, semitones: [2, 3], secs: [0.10, 0.16],
-              at: [0.30, 0.55], returns: 0.65, downChance: 0 },
+              at: [0.30, 0.55], returns: 0.65, downChance: 0,
+              gestures: [["sweep", 3], ["bend", 2], ["fall", 1]],
+              fall: [2, 3] },
     /* a little pressure, as colour rather than as the instrument: this genre
        borrows the CS-80, it is not a score performed on one */
     pressure: { depth: 0.35, amount: [0.30, 0.40], at: [0.40, 0.40], rise: [0.20, 0.30] },
@@ -8507,8 +8578,16 @@ const GENRE = {
        0.10 of notes before: a ribbon you hear three or four times a minute is
        the instrument being played; one you hear on every third note is a
        vibrato arm. [corpus:CS-80 sheet, corpus:reverbmachine, corpus:soundonsound] */
+    /* ── THE VOCABULARY [docs/genre-research/cs80-ribbon.md]. Falls carry the
+       documented Tears-in-Rain habit (descending slides at ends); the dive is
+       the Main Titles "spine-tingling downward glissando", rare because it is
+       an event; sweeps are the ribbon on the FILTER — the "other sounds" that
+       were never just pitch; trills exist because release snaps. Weights and
+       kind-ranges [EAR] inside the sourced shapes. */
     ribbon: { chance: 0.30, semitones: [2, 4], secs: [0.35, 0.30],
-              at: [0.10, 0.75], returns: 0.55, downChance: 0.45 },
+              at: [0.10, 0.75], returns: 0.55, downChance: 0.45,
+              gestures: [["bend", 3], ["fall", 3], ["sweep", 2], ["trill", 1], ["dive", 1]],
+              fall: [2, 5], dive: [7, 12] },
     /* ── AND THE OTHER HALF. "Polyphonic aftertouch: Extremely high." Depth 1.0
        because on this instrument, in this score, it is not a colour: the sheet
        puts filter opening at 80% and brightness at 70%, and Reverb Machine hears
@@ -13788,19 +13867,73 @@ function makePerformance(chart, form, materials, sections){
             /* every draw runs whatever the outcome [Law 7] */
             const hit = rr() < RIB.chance, dist = rr(), when = rr(), dur = rr(),
                   ret = rr(), dir = rr();
-            /* where in the BAR the hand lands, in seconds from the song's zero */
-            const at = (bar * 16 + 16 * (RIB.at[0] + when * RIB.at[1])) * spb;
+            /* ── THE HAND HAS A VOCABULARY, NOT ONE MOVE ───────────────────────
+               Reported by the user and confirmed by research
+               (docs/genre-research/cs80-ribbon.md): the ribbon "did not sound
+               just like a pitch bend". Five sourced facts the one-move version
+               ignored: the range is ASYMMETRIC (+1 octave up, down to
+               sub-audio -- the signature dive); release SNAPS back instantly
+               (which is how players trill); it can drive the FILTER instead of
+               pitch; and Vangelis's documented habits are the downward
+               glissando and the phrase-end descending slide. So the gesture
+               KIND is drawn per bar from the genre's own list, and each kind
+               carries its documented shape:
+
+                 bend   the old move: away mid-flight, sometimes back
+                 fall   descending slide late in the bar -- "descending pitch
+                        slides towards the end of songs" [reverbmachine]
+                 dive   the big downward glissando, most of an octave or more,
+                        riding out [vinylfactory: "spine-tingling downward
+                        glissando"; SOS: "down... all the way to zero"]
+                 trill  tap away, SNAP home, again -- possible only because
+                        "the pitch reverts immediately" on release [SOS]
+                 sweep  the same hand on the FILTER -- "the ribbon can be set
+                        to control either the pitch or the filter"
+                        [reverbmachine]. targ marks it; depth is 0..1 of how
+                        far the brightness closes.
+
+               A genre with no `gestures` list keeps the old single move
+               unchanged. Kind-specific numbers are [EAR] within the sourced
+               shapes. The kind draw runs AFTER the six draws above so a
+               gestures list appearing in a table cannot move them. */
+            const kind = RIB.gestures ? wpick(rr, RIB.gestures) : "bend";
             const sec = RIB.secs[0] + dur * RIB.secs[1];
-            /* a bend needs a note that is still sounding when the hand arrives,
+            /* where in the BAR the hand lands: falls and dives anchor LATE,
+               because they are phrase-exit gestures */
+            const win = kind === "fall" ? [0.68, 0.22] : kind === "dive" ? [0.55, 0.25] : RIB.at;
+            const at = (bar * 16 + 16 * (win[0] + when * win[1])) * spb;
+            /* a gesture needs a note still sounding when the hand arrives,
                with enough of it left to hear the move */
-            if(hit && at >= noteStart && at < noteStart + noteSec - 0.12) ev.ribbon = {
-              at:  at - noteStart,
-              by:  (RIB.semitones[0] + dist * RIB.semitones[1]) *
-                   (dir < (RIB.downChance || 0) ? -1 : 1),
-              sec,
-              back: ret < RIB.returns,
-              backSec: sec * 1.4,
-            };
+            if(hit && at >= noteStart && at < noteStart + noteSec - 0.12){
+              if(kind === "fall") ev.ribbon = {
+                kind, at: at - noteStart,
+                by: -((RIB.fall ? RIB.fall[0] : 2) + dist * (RIB.fall ? RIB.fall[1] : 4)),
+                sec: 0.12 + dur * 0.22, back: false,
+              };
+              else if(kind === "dive") ev.ribbon = {
+                kind, at: at - noteStart,
+                by: -((RIB.dive ? RIB.dive[0] : 7) + dist * (RIB.dive ? RIB.dive[1] : 12)),
+                sec: 0.45 + dur * 0.75, back: false,
+              };
+              else if(kind === "trill") ev.ribbon = {
+                kind, at: at - noteStart,
+                by: 1 + Math.round(dist * 2),
+                taps: 3 + Math.floor(ret * 4), rate: 0.065 + dur * 0.05,
+              };
+              else if(kind === "sweep") ev.ribbon = {
+                kind, targ: "filter", at: at - noteStart,
+                depth: 0.35 + dist * 0.40, sec,
+                back: ret < 0.75, backSec: sec * 1.4,
+              };
+              else ev.ribbon = {
+                kind: "bend", at: at - noteStart,
+                by: (RIB.semitones[0] + dist * RIB.semitones[1]) *
+                    (dir < (RIB.downChance || 0) ? -1 : 1),
+                sec,
+                back: ret < RIB.returns,
+                backSec: sec * 1.4,
+              };
+            }
           }
           /* ── POLYPHONIC AFTERTOUCH, which is the other 60% ─────────────────
              "The static patch is only about 40% of the sound", and the two
