@@ -730,10 +730,27 @@ research rule in §0 are theirs, written in before any code moved. Then:
   Fixing it moves songs, so it goes in its own measured commit, not as a
   rider on this one.
 
-**Next in this line of work:** research minimal techno's actual record
-architecture (primary sources; Consumed is "a year of subtraction"), write
-`docs/genre-research/plastikman-form.md`, then the first real `form.plan` —
-then jungle, which currently wears acid's floor plan.
+**The user's directive, 2026-08-02, binding:** EVERY genre gets the full
+research treatment — internet sources, named, written to
+`docs/genre-research/<genre>-form.md` BEFORE its plan lands. Order: lofi
+first (user's call), then the remaining six; jungle needs it most (it wears
+acid's floor plan), plastikman has the strongest primary sources waiting.
+
+**Lofi's plan landed at `2026-08-02c`** — `docs/genre-research/lofi-form.md`
+has the sources. The shape the research gave: establish the loop → the
+two-part alternation ("the same loop in different dress" — richardpryn) →
+a sometimes-breakdown and the return, ending on the fullest statement.
+MEASURED after: 19/25 distinct shapes (a family with repeats, was 24/25
+pure dice), 6-9 sections, 44-64 bars ≈ 1:55-3:27 across the tempo band
+(the long edge of the sources, [EAR], the user's ears decide), 297/300
+lofi seeds moved and NOT ONE seed of any other genre — the draw discipline
+held. probe_form's twin metric now keys on word AND length, which
+dissolved lofi's coincidental twins and kept the real defect: acid<->jungle
+still share 9 identical records because jungle's form table is acid's.
+The audio battery reads 331/52 (was 355/54): it derives its excerpts from
+the songs, and lofi's songs changed. The "planless genre untouched" seam
+check now names dkc — lofi stopped being the planless control the moment
+its plan landed.
 
 ### 2026-07-31 — the session that ended at `7c7644b`
 

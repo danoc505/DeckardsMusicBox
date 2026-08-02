@@ -1786,9 +1786,11 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         composed > 0 && endsOnPay === composed, endsOnPay + "/" + composed + " end their middle on the payoff");
   check("...and the plan still leaves the seed room to vary the shape",
         shapes.size > 1, shapes.size + " distinct shapes in " + SEEDS + " seeds");
+  /* dkc, not lofi: lofi got the first real plan at 2026-08-02c, so it stopped
+     being the planless control the moment this label was written */
   check("...and a planless genre was untouched by the mechanism existing",
-        (() => { try { return M.composeSong(1, "band", "lofi").form.length > 0; } catch(e){ return false; } })(),
-        "lofi still composes (the snapshot is the real proof: 2100 seeds IDENTICAL)");
+        (() => { try { return M.composeSong(1, "band", "dkc").form.length > 0; } catch(e){ return false; } })(),
+        "dkc still composes (the snapshot is the real proof for every planless genre)");
 }
 
 console.log("\n" + pass + " passed, " + fail + " failed");

@@ -87,14 +87,20 @@ console.log("  " + wander + "/" + total + " songs wander after their own peak" +
             (wander ? " · mean " + (wanderBars / wander).toFixed(1) + " bars · worst " +
                       worst.tb + " bars (" + worst.g + " seed " + worst.s + ")" : ""));
 
-console.log("\n== cross-genre identity (same whole-song word, any seed, peak mark stripped) ==");
-const strip = w => w.replace(/\^/g, "");
+console.log("\n== cross-genre identity (same whole-song word AND length, any seed) ==");
+/* the length is part of the key: two genres landing on "I V C V C^ O" at 48
+   and at 72 bars are convergent pop shapes, not copies. What this metric
+   exists to catch is a COPIED TABLE -- same lengths, same walk, same seed,
+   same record (acid<->jungle, 9 of these at baseline) -- and a copied table
+   matches on the length too. Word-only twinning went noisy the moment lofi's
+   plan made its shapes short and common. */
+const strip = r => r.word.replace(/\^/g, "") + " @" + r.bars;
 for(const a of GENRES){
-  const setA = new Set(shapes[a].map(r => strip(r.word)));
+  const setA = new Set(shapes[a].map(strip));
   const twins = [];
   for(const b of GENRES){
     if(b === a) continue;
-    const setB = new Set(shapes[b].map(r => strip(r.word)));
+    const setB = new Set(shapes[b].map(strip));
     const both = [...setA].filter(w => setB.has(w));
     if(both.length) twins.push(b + ":" + both.length);
   }
