@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-02c · lofi owns its architecture: the loop, its two dressings, the return</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-02d · synthwave builds twice and explodes: the Perturbator architecture</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -7269,6 +7269,31 @@ const GENRE = {
       coldOpen:   0.08,        // [tut:orpheus] Nightcall opens on a filtered arp; a cold open is rare
       openVerse:  0.72,        // [EAR]
       target:     [48, 4, 8],  // 48-72 bars [tut:edmprod, The Midnight "Souvenir" template]
+      /* ── THE PLAN. Researched 2026-08-02, docs/genre-research/synthwave-form.md,
+         Perturbator-forward per the user. Orpheus names two synthwave forms and
+         this is the EDM one: "two main builds where tension increases over
+         time before being released in the hooks, typically broken up by a
+         bridge section in the middle" [corpus:orpheus]. Perturbator "averts
+         typical verse-chorus-verse structures", builds by "building up and
+         stripping down of elements", and the mid-track strip is documented:
+         "The drums drop out... The track explodes into life once again"
+         [corpus:absynth.space, Lustful Sacraments]. Sections turn over "every
+         16 bars or so" [corpus:dreamtonics]. Dangerous Days runs 13 tracks in
+         68 minutes -- a ~5:14 mean, the long pole [corpus:bandcamp].
+
+         THE PRE-CHORUS IS EACH BUILD'S EXIT, NOT IN ITS POOL: H4 makes a
+         mid-build pre-chorus illegal by definition (it must reach a chorus,
+         and the build has none), and the phase seek can reach an exit the
+         pool does not contain -- so the ramp appears exactly once per build,
+         at its top, and the hook opens on the chorus it promised. Budget
+         steps [EAR]. */
+      plan: [
+        { name: "rise",   pool: ["verse", "instrumental"],          bars: [16, 2, 8], endOn: "prechorus" },
+        { name: "hook",   pool: ["chorus", "postchorus"],           bars: [8, 2, 4] },
+        { name: "strip",  pool: ["bridge", "instrumental", "verse"], bars: [8, 2, 8] },
+        { name: "rise2",  pool: ["verse", "instrumental"],          bars: [16, 2, 8], endOn: "prechorus" },
+        { name: "climax", pool: ["chorus", "postchorus"],           bars: [16, 2, 8], endOn: "chorus" },
+      ],
       /* the weights are the measured ones where a measurement exists:
          verse->prechorus 18%, prechorus->chorus 88%, postchorus->verse 53%.
          [corpus:harvest_structure, Harmonix 428 sections] */
@@ -10494,10 +10519,25 @@ const BLEND_DRAW = new Set([
      consulted inside the drawn branch. A field has to be DRAWN before it can be
      GROUPED. Same lesson as the ostinato and the registers, arriving through a
      different door. */
+  /* THE PLAN NAMES SECTIONS AND POOLS, so like the arrows and the heights it
+     arrives with the form it belongs to -- synthwave's plan walking lofi's
+     transitions read F.transitions["prechorus"] off a table that has no such
+     row. 39 of 504 pairs threw the day the second plan landed, which is this
+     comment's own prophecy ("stating the principle rather than patching the
+     instance") collecting its debt from the person who did not read it. */
+  "form.plan",
   "form.transitions", "form.energy", "form.payoff",
   "form.bridgeAfterChorus", "kit.variants", "kit.snare", "kit.ghostSpots",
   "kit.openBars", "kit.hatEvery", "kit.kickKeep", "kit.flourishBar",
   "kit.toms.loopSpots", "kit.toms.loopLanes",
+  /* INTEGER DOMAINS AND STRUCTURES, third pass through the same door: an
+     all-seven blend averaged rideEvery to 0.8 and wrote a ride onto step
+     15.2 -- a fractional grid position, the swingUnit-1.5 failure with a new
+     face. rim and clap are STEP LISTS (one-element numeric arrays average!),
+     crashStep is a step, and poly and listen are STRUCTURES a key-by-key
+     merge would splice across two genres' kits. All drawn, all with the kit. */
+  "kit.rideEvery", "kit.crashStep", "kit.rim", "kit.clap",
+  "kit.poly", "kit.listen",
   "counter.style", "counter.intervals", "groove.swingUnit", "theme.count",
   "bassPulse", "acidLine", "space.feeds", "space.echoFeeds",
 ]);
@@ -10522,10 +10562,13 @@ const BLEND_GROUP = {
      no height to sit at. Exactly the ostinato/registers lesson below, arriving
      a second time through a different door -- which is the argument for stating
      the principle rather than patching the instance. */
+  "form.plan": "form",
   "form.transitions": "form", "form.energy": "form", "form.payoff": "form",
   "kit.snare": "kit", "kit.ghostSpots": "kit", "kit.openBars": "kit",
   "kit.hatEvery": "kit", "kit.kickKeep": "kit", "kit.flourishBar": "kit",
   "kit.variants": "kit", "chop": "kit",
+  "kit.rideEvery": "kit", "kit.crashStep": "kit", "kit.rim": "kit",
+  "kit.clap": "kit", "kit.poly": "kit", "kit.listen": "kit",
   /* THE OSTINATO AND THE REGISTERS ARE ONE DECISION. Measured before this
      grouping existed: 172 of 1890 blended songs threw "Cannot read properties
      of undefined", every one of them a blend involving DKC or Plastikman -- the
@@ -10573,7 +10616,17 @@ function blendField(vals, ws, path, owner, src){
          bassPulse -- and was never hit only because of where the two sat in the
          list. Adding a second "pulse" genre moved one past DKC and it fired. */
       const k = src ? src.indexOf(owner.group[grp]) : owner.group[grp];
-      return (k >= 0 && vals[k] !== undefined) ? vals[k] : first;
+      /* ── THE GROUP ARRIVES WHOLE, INCLUDING ITS ABSENCES ────────────────────
+         This used to fall back to `first` when the group's owner does not
+         declare the field, on the argument that such a field is inert -- true
+         for bassPulse, whose reader (bassStyle) chose the owner. FALSIFIED by
+         form.plan the day the second plan landed: a plan's mere PRESENCE
+         changes which walk runs, so plastikman owning the form while
+         synthwave's plan rode the fallback gave a phase walk over transitions
+         with no prechorus row -- 36 of 504 pairs threw. If the owner does not
+         declare it, the blend does not have it. That is what owning the group
+         MEANS. */
+      return k >= 0 ? vals[k] : undefined;
     }
     let x = owner.rng() * ws.reduce((a, b) => a + b, 0), k = 0;
     for(let i = 0; i < vals.length; i++){ x -= ws[i]; if(x <= 0){ k = i; break; } k = i; }
@@ -10611,14 +10664,23 @@ function blendField(vals, ws, path, owner, src){
     for(let i = 0; i < vals.length; i++){ x -= ws[i]; if(x <= 0) return vals[i]; }
     return first;
   }
-  /* an object: blend key by key */
+  /* an object: blend key by key. THE SOURCE INDICES GO DOWN WITH THE VALUES:
+     this recursion used to drop `src`, so every nested field fell back to
+     using the stored GENRE index as a position in its own FILTERED list --
+     the exact confusion the group-owner comment above describes, surviving
+     one level down. It was masked for fields every genre declares (filtered
+     list == full list) and for single-declarer fields by the old
+     fall-back-to-first, which handed form.payoff back by coincidence. The
+     day the group absence rule became real, the coincidence stopped. */
   const out = {}, keys = new Set();
   for(const v of vals) if(v && typeof v === "object") for(const k in v) keys.add(k);
   for(const k of keys){
-    const sub = [], sw = [];
+    const sub = [], sw = [], ss = [];
     for(let i = 0; i < vals.length; i++)
-      if(vals[i] && typeof vals[i] === "object" && vals[i][k] !== undefined){ sub.push(vals[i][k]); sw.push(ws[i]); }
-    if(sub.length) out[k] = blendField(sub, sw, path ? path + "." + k : k, owner);
+      if(vals[i] && typeof vals[i] === "object" && vals[i][k] !== undefined){
+        sub.push(vals[i][k]); sw.push(ws[i]); ss.push(src ? src[i] : i);
+      }
+    if(sub.length) out[k] = blendField(sub, sw, path ? path + "." + k : k, owner, ss);
   }
   return out;
 }
@@ -10841,6 +10903,15 @@ function makeForm(chart){
      that can pick a section has to refuse one. */
   const wouldTriple = f =>
     fns.length >= 2 && fns[fns.length - 1] === f && fns[fns.length - 2] === f;
+  /* may f LEGALLY follow cur at all? The definitional laws, for roads that do
+     not pass through lawTable. FOUND BY READING THE ROLL: the phase walk's
+     uniform-pool fallback drew "postchorus after postchorus" -- H3 exists in
+     lawTable and the fallback went around it. A fallback that can break a
+     definition is not a fallback, it is a second lawless walk. */
+  const lawful = (f, cur) =>
+    !wouldTriple(f) &&
+    !(f === "postchorus" && cur !== "chorus") &&        // H3
+    !(cur === "prechorus" && f !== "chorus");           // H4
 
   /* ═══ THE PLAN — a genre may own its ARCHITECTURE, not only its tendencies ══
      MEASURED (probe_form.js, 25 seeds x 7 genres): within one genre, 24-25 of
@@ -10951,7 +11022,7 @@ function makeForm(chart){
             if(seek.reduce((s, p) => s + p[1], 0) > 0) table = seek;
           }
           if(table.reduce((s, p) => s + p[1], 0) <= 0)
-            table = ph.pool.filter(f => !wouldTriple(f)).map(f => [f, 1]);
+            table = ph.pool.filter(f => lawful(f, fn)).map(f => [f, 1]);
           if(table.length === 0 ||
              table.reduce((s, p) => s + p[1], 0) <= 0) break;   // nothing legal: hand over
           fn = wpick(rng, table);

@@ -752,6 +752,42 @@ the songs, and lofi's songs changed. The "planless genre untouched" seam
 check now names dkc — lofi stopped being the planless control the moment
 its plan landed.
 
+**Synthwave's plan landed at `2026-08-02d`** — Perturbator-forward per the
+user; `docs/genre-research/synthwave-form.md`. The EDM/build form: two
+builds each exiting on a prechorus ramp, two hooks, the drums-drop strip in
+the middle, a climax ending on the chorus ("The drums drop out... The track
+explodes into life once again" — absynth.space on Lustful Sacraments).
+MEASURED: 96-136 bars ≈ 2:54-5:44 across 92-132 bpm, between The Midnight's
+pop pole and Perturbator's 5:14 mean; 300/300 synthwave seeds moved, no
+other genre. Reading the roll caught the phase walk's uniform-pool fallback
+BYPASSING H3 (postchorus after postchorus) — `lawful()` now guards every
+road that can pick a section.
+
+**And the second plan detonated three latent blend defects**, all fixed and
+all now guarded by the restored 504/504 + 20/20 blend checks: (1)
+`form.plan` had to join BLEND_DRAW and the form group; (2) the group-owner
+fallback-to-`first` was FALSIFIED — a plan's mere presence changes which
+walk runs, so a group's absences must arrive with it (if the owner has no
+plan, the blend has none); (3) `blendField`'s object recursion DROPPED
+`src`, so nested single-declarer fields (form.payoff) resolved by
+coincidence — the source indices now go down with the values. Plus the
+third pass of the integer-domain lesson: an all-seven blend averaged
+`rideEvery` to 0.8 and wrote a ride onto step 15.2 — rideEvery, crashStep,
+rim, clap, poly and listen are all drawn with the kit now.
+
+**The CS-80 ribbon research is done and the redesign is written** —
+`docs/genre-research/cs80-ribbon.md`, from the user's report that
+bladerunner "only does pitch bends and this is wrong". The research
+confirms it in five facts: the ribbon is relative with no centre; range +1
+octave up but down to SUB-AUDIO (the signature dive is asymmetric); it
+SNAPS BACK instantly on release (trills); it can drive the FILTER instead
+of pitch ("other sounds that did not sound just like a pitch bend"); and
+chord-wide vs melody-over-chord modes. The current initBend-on-every-note
+scoop and symmetric ev.ribbon bend match none of these. The gesture
+vocabulary to build is in the doc: dive, scoop, trill, fall, filter-sweep,
+whole-chord dive — riding over the aftertouch brightness that is already
+there. **NOT IMPLEMENTED YET — next sound-side job.**
+
 ### 2026-07-31 — the session that ended at `7c7644b`
 
 Read this first; the rest of §4 is older and still true.
