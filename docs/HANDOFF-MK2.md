@@ -812,6 +812,21 @@ node's `.frequency` — a ConstantSource has none. **What is NOT measured:
 whether it sounds good. The user's ears judge; the numbers only say the
 gestures exist, differ, and reach the samples.**
 
+**Bladerunner's plan landed at `2026-08-02f`** —
+`docs/genre-research/bladerunner-form.md`, from the Nemo Studios archive
+and Jamieson's cue analysis. The method IS the form: improvised to picture,
+first takes, "not on paper but on tape" — so the plan is one arc: drift
+(the rubato bed, biggest budget) → statement (the theme "picks up around
+2:23" of a 3:42 cue, so the arrival is late by construction) → away (the
+Blush Response reharmonised departure) → return, ends on chorus
+("apprehensive and doubtful to confident"). 300/300 bladerunner seeds
+moved, nothing else; baseline `c7eaa86bd6caf213`. TWO REAL GAPS written in
+that doc, deliberately not acted on: two-chord harmonic stasis (Blade
+Runner Blues — belongs to the harmony work), and RUBATO — free tempo
+inside a section, which no mechanism here can express; groove jitter is
+not it. Three genres now have plans: lofi, synthwave, bladerunner.
+Remaining: dkc, acid, plastikman, jungle (still wearing acid's tables).
+
 ### 2026-07-31 — the session that ended at `7c7644b`
 
 Read this first; the rest of §4 is older and still true.

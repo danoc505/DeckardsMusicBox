@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-02e · the ribbon learns to dive, fall, trill and sweep the filter</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-02f · the cue drifts, states, departs and returns: Vangelis on tape</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -8431,6 +8431,22 @@ const GENRE = {
       /* 32-72 bars. At 60 bpm one bar is 4 s, so that is 2:08-4:48 -- Main Titles
          is 3:42, Tears in Rain 3:00. [corpus:wikipedia track listing] */
       target:    [32, 5, 8],
+      /* ── THE PLAN. Researched 2026-08-02, docs/genre-research/bladerunner-form.md.
+         These cues are through-composed performances -- improvised to picture,
+         first takes, "not on paper but on tape" [corpus:nemostudios] -- and
+         their documented shape is ONE ARC: a long rubato bed, then the theme
+         "picks up around 2:23" of a 3:42 cue [corpus:alijamieson, Main
+         Titles], a departure that is the same idea reharmonised [Blush
+         Response], and a final statement -- "from being apprehensive and
+         doubtful to confident" [corpus:nemostudios, the love theme]. So the
+         arrival sits LATE by construction: drift gets the biggest budget and
+         the statement is not permitted before it is earned. Budgets [EAR]. */
+      plan: [
+        { name: "drift",     pool: ["verse", "instrumental"], bars: [16, 2, 8] },
+        { name: "statement", pool: ["chorus", "verse"],       bars: [8, 2, 8], endOn: "chorus" },
+        { name: "away",      pool: ["bridge", "instrumental", "verse"], bars: [8, 2, 8] },
+        { name: "return",    pool: ["chorus", "verse"],       bars: [8, 2, 8], endOn: "chorus" },
+      ],
       /* these cues state and restate; they rarely go anywhere, so the table is
          weighted toward return and the bridge is weak. No corpus of Vangelis cue
          forms exists that the researcher could find. Every weight here is [EAR]
