@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-02l · the player leans only into stable notes, per 272 real solos</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-02m · the horn writes horn lines: joined phrases, pickups, stable targets</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1885,6 +1885,11 @@ const INSTRUMENTS = {
   sax: {
     slot: "lead", label: "saxophone",
     lanes: { lead:"sax" },
+    /* THE MELODY ROLE'S DISCIPLINE [docs/genre-research/sax-material.md,
+       cross-validated: Omnibook 50 scores + WJazzD 272 solos + pedagogy].
+       Read by buildTheme through the same door as `range`. `pickup` is the
+       Omnibook's 26.3%. */
+    lines: { pickup: 0.26 },
     /* ── WHAT THIS INSTRUMENT CAN ACTUALLY PLAY ──────────────────────────────
        MEASURED before this existed, 40 seeds x 7 genres: the sax topped out at
        G#6 (92) on bladerunner, G6 (91) on synthwave, E6 (88) on DKC and C6 (84)
@@ -1913,6 +1918,8 @@ const INSTRUMENTS = {
          mid-song is a different instrument, not a gesture. [user, 2026-08-02:
          "why would we leave it up to just one version"] */
       { k:"character", label:"horn", cap:"HORN", min:0, max:1, step:1, def:0, kind:"switch" },
+      /* not a control: the instrument's LINE DISCIPLINE, read by stage 3 the
+         way `range` is [docs/genre-research/sax-material.md]. */
       { k:"reed",    label:"second reed",     cap:"REED",   min:0, max:1, step:0.01, def:0.35, kind:"voicing" },
       { k:"air",     label:"breath",          cap:"AIR",    min:0, max:1, step:0.01, def:0.35, kind:"voicing" },
       /* the two that make a line read as saxophone before the growl does */
@@ -12759,6 +12766,15 @@ function makeMaterials(chart){
        nothing moved -- the snapshot says so. [corpus:theconversation for why] */
     const TH = G.theme;
     const onsetPool = TH.onsetPool;
+    /* THE LINE DISCIPLINE of whatever is holding the lane -- the same door as
+       the range above. Null for every instrument that does not declare one,
+       and every draw below that exists only for LINES is gated on it, so a
+       song whose lead is not a horn draws exactly what it always drew. */
+    const LINES = (() => {
+      const m = chart.picks && chart.picks.lead;
+      const M = m && m !== "auto" && INSTRUMENTS[m];
+      return (M && M.lines) || null;
+    })();
     /* A seat is only free if the note can ALSO sit in its restatement. The hook
        states bars 0-1 and then repeats them at 2-3 exactly, so a pitch that
        collides two bars later is not a usable pitch NOW -- checking it only at
@@ -12837,6 +12853,10 @@ function makeMaterials(chart){
                            : !chordSet[b % BARS].tones.some(t => pc(t) === pc(p));
     };
     function phrase(startBar, dir, endOnTone, moveBias){
+      const ph0 = notes.length;
+      /* the pickup roll runs before anything else in the phrase so its place
+         in the stream is fixed; only a lines instrument spends it */
+      const puRoll = LINES ? rng() : -1;
       let m = intoBand(degMidi(root, mode, 7 + Math.floor(rng() * 3)), LO + 4, HI - 4);
       /* `hang` is the dissonance waiting to be answered, `hangDir` the
          direction it came in on. Both live for the whole phrase, because a
@@ -12870,6 +12890,15 @@ function makeMaterials(chart){
             move = move !== 0 ? (move > 0 ? 1 : -1) : (hangDir || dir);
           }
           let cand = intoBand(scaleStep(root, mode, m, move), LO, HI);
+          const plannedDur = i + 1 < steps.length ? Math.max(1, steps[i + 1] - steps[i]) : (isBreath ? 4 : 3);
+          /* ── MELODY TARGETS [corpus:sax-material.md: strong beats 84.1%
+             stable, held notes 85.8% stable, in two corpora]. A horn line puts
+             chord tones on the strong beats and under the long notes; the
+             snap happens at the CHOICE, never after, and a hanging dissonance's
+             stepwise resolution always outranks it. ── */
+          if(LINES && !hang && (steps[i] === 0 || steps[i] === 8 || plannedDur >= 4) &&
+             isNCT(b, steps[i], cand))
+            cand = intoBand(nearestTone(cand, chordSet[b % BARS].tones), LO, HI);
           let tries = 0;
           while(!fits(b, steps[i], cand) && tries < 3){
             cand = intoBand(scaleStep(root, mode, cand, 1), LO, HI); tries++;
@@ -12879,7 +12908,7 @@ function makeMaterials(chart){
              A resolution that leaps is not a resolution, so the note is not
              played and the dissonance stays hanging for the next onset. */
           if(hang && Math.abs(cand - m) > 2) continue;
-          const dur = i + 1 < steps.length ? Math.max(1, steps[i + 1] - steps[i]) : (isBreath ? 4 : 3);
+          const dur = plannedDur;
           if(cand !== m) hangDir = cand > m ? 1 : -1;
           hang = isNCT(b, steps[i], cand);
           m = cand;
@@ -12934,6 +12963,38 @@ function makeMaterials(chart){
         last.pitch = free != null ? free : last.pitch;         // nothing free: keep its own seat
         last.dur = Math.max(last.dur, 4);
         reserved.add(key(bar, last.step, last.pitch));
+      }
+      if(LINES){
+        /* ── THE BREATH JOINS THE PHRASE [corpus:sax-material.md: real phrases
+           run ~6-16 beats with 1-2 beat breaths BETWEEN them; ours split into
+           per-bar puffs because notes died before the next one]. A horn holds
+           through its line: each note sustains to the next onset (up to two
+           beats), so articulate() hears one flowing breath across the two bars
+           instead of a row of gaps. No draws; the owner finishing its own
+           durations. ── */
+        for(let j = ph0; j < notes.length - 1; j++){
+          const n = notes[j], nx = notes[j + 1];
+          const gap = (nx.bar * 16 + nx.step) - (n.bar * 16 + n.step);
+          /* 12 sixteenths = a dotted half at the grid: long enough to carry
+             the line across the bar boundary (where the old cap of 8 split
+             every phrase in two and the join measured as having done
+             nothing), short enough that an empty second bar still breathes */
+          if(gap > n.dur && gap <= 12) n.dur = gap;
+        }
+        /* ── THE PICKUP [corpus:omnibook: 26.3% of phrases open before their
+           barline, landing the first strong note ON it]. A step below the
+           phrase's first note, two sixteenths early, soft -- the classic
+           approach [corpus:jazzguitar.be approach tones]. Only a phrase with a
+           bar before it can have one, so the hook's bars 0-1 stay exact. ── */
+        if(puRoll >= 0 && puRoll < (LINES.pickup || 0) && startBar >= 1 && notes.length > ph0){
+          const first = notes[ph0];
+          const pb = startBar - 1;
+          const cand = intoBand(scaleStep(root, mode, first.pitch, -1), LO, HI);
+          if(fits(pb, 14, cand) && cand !== first.pitch){
+            notes.splice(ph0, 0, { bar: pb, step: 14, dur: 2, pitch: cand, vel: 0.62, role: "lead" });
+            reserved.add(key(pb % BARS, 14, cand));
+          }
+        }
       }
     }
     if(opts.hooky){

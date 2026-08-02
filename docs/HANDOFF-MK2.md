@@ -943,6 +943,28 @@ player would choose (breath-length phrases, pickups, runs, held peaks).
 That is stage-3 work, a sax-aware theme style, and it is the next thing
 that would move "sounds like a keyboard" further. The user's ears judge.
 
+**THE HORN LINES landed at `2026-08-02m`** — with a correction the user
+made before the build: the corpora are SOLO-biased (WJazzD is literally
+solos; the Omnibook mixes themes into solos with no markers), and *"a sax
+solos while important is only part of the whole of a sax playing."* Our
+lead role is a MELODY. The role split is in sax-material.md: phrase
+ARCHITECTURE transfers from the solo data (and gets stronger for
+melodies), bebop DENSITY does not — density stays the genre's.
+`INSTRUMENTS.sax.lines` is read by buildTheme through the same door as
+`range`; every LINES-only draw is gated so non-horn songs draw exactly
+what they always drew (proven: only bladerunner 153 + lofi 84 moved).
+Built: notes sustain to the next onset (≤12 sixteenths) so articulate
+hears one breath per phrase; ~26% pickup rolls (2 sixteenths early, a
+step below, hook bars exempt so restatement stays exact); strong-beat
+and long-note candidates snap to chord tones at the CHOICE (hang
+resolutions outrank). MEASURED on lofi over 30 seeds: phrases 287→244,
+median 4.4→6.1 beats (target 6-16), strong-beat stable 95.2%, long
+96.7%, phrase-final 96.7% (targets 84/85/90); pickups realise 8.2%
+(fits() blocks some; a taste dial, [EAR]). Hook exactness 300/300.
+Baseline `777822852856afc1`. STILL OPEN: fills-between-phrases and
+background-pad roles (arrangement-level, in sax-material.md); Weresax mf
+derived; flutter/overblow unsourced.
+
 **AND THE SNAPSHOT WAS BLIND, third time, now closed for the class.** The
 tail work shipped BYTE-IDENTICAL through mk2_snapshot because the hash
 read a hand-listed field subset — extended once for ribbon/press, still

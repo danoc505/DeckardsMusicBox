@@ -75,3 +75,42 @@ sax — it reads the instrument's declaration, exactly like the range.
 - The Omnibook's actual lines — statistics only, nothing reproduced.
 - SaxTranscriptionPipeline's 32 aligned scores (aim-qmul) — noted as a
   third source for a future pass; access is research-gated.
+
+---
+
+## CORRECTION 2026-08-02, before building — the user's question answered
+
+*"When you say studied sax solos do you mean the part of a song that the
+sax solos on or just the sax part? Because a sax solos while important is
+only part of the whole of a sax playing."*
+
+Honest answer: **the data is solo-biased.** WJazzD is literally 272
+improvised solo choruses. The Omnibook files contain themes AND solos but
+carry no structural markers to split them, and solos dominate by length.
+And the roles literature confirms the user's framing: a saxophone's part
+is *"melodic leads, counter melodies, fills that add motion without
+dominating, backgrounds"* — *"a more active role during an entire song,
+as opposed to just waiting around for their solo"*
+[supremetracks.com/how-to-arrange-horns; tamingthesaxophone.com/jazz-backings;
+brainvoyage.blog/horn-section-instruments].
+
+**Our lead role is a MELODY, not a solo.** So the targets split:
+
+TRANSFERS to melody playing (and mostly gets STRONGER there):
+- phrase-final stability ≥90% — a composed melody ends phrases stable
+  even more reliably than a solo does
+- strong-beat stability ≥84%
+- long notes chosen stable
+- pickups ~1 in 4 — a classic melody gesture
+- breaths of 1-2 beats between phrases
+- phrase ARCHITECTURE of ~6-16 beats
+
+DOES NOT TRANSFER (solo behavior, refused for the melody role):
+- 19-31 notes per phrase — that is bebop solo density. A ballad melody
+  phrase runs sparser; the genre's own `theme.count` keeps owning density.
+  The fix for our sub-5-note puffs is JOINING cells into longer musical
+  sentences, not multiplying notes.
+
+FUTURE, separate roles (noted, not built): fills in the windows between
+melody phrases (solo vocabulary in one-bar doses), and background pads —
+both are arrangement-level roles, not theme-builder changes.
