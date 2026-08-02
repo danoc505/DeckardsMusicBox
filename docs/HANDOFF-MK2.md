@@ -861,6 +861,23 @@ MEASURED (probe_tail, scratchpad): note-end to −30 dB — plain 130 ms,
 taper 310 ms, fall 210 ms; 49.2% of bladerunner lead notes are
 phrase-final and carry an ending.
 
+**THE SAX ENGINE BUILD BEGAN — step 1 of 5 done** (see
+`docs/genre-research/sax-engine.md` for the design and the build order).
+`corpus/analyze_sax.py` downloads nothing to the repo (AIFFs stay in
+`corpus/sax/iowa/`, gitignored) and derives `corpus/sax/saxwt.js`: 24 KB
+of per-pitch, per-dynamic harmonic tables from the Iowa alto NoVib set —
+32 pitches × 3 dynamics, every slice pitch-verified within 60 cents,
+one extra slice in pp.C5Ab5 caught by the count check and harmless.
+THE COUPLING IS IN THE NUMBERS: harmonic centroid 1.90 → 2.29 → 2.61
+across pp/mf/ff (the breath brightens the spectrum), attack 0.33 s at pp
+vs 0.075 s at ff (soft notes speak slower — the bloom is the horn's own),
+rms 0.032/0.094/0.152 (real loudness relations). Caveat marked in the
+table header: `noise` is residual-beyond-24-harmonics, an upper bound on
+breathiness, not pure breath. NEXT: step 2 (ev.phrase attachment in stage
+5), step 3 (the phrase-engine voice over these tables), step 4
+(ornaments), step 5 (the horn to all seven genres). Weresax (CC0) is the
+second source to analyze when the pipeline meets the voice.
+
 **AND THE SNAPSHOT WAS BLIND, third time, now closed for the class.** The
 tail work shipped BYTE-IDENTICAL through mk2_snapshot because the hash
 read a hand-listed field subset — extended once for ribbon/press, still
