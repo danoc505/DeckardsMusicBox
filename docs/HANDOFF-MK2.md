@@ -908,11 +908,34 @@ L1-distant 0.51 near C4, A/B renders differ in brightness at equal level.
 Snapshot IDENTICAL — the switch is panel-only, alto is the default, and
 the regenerated alto tables are bit-identical.
 
+**THE PLAYER landed at `2026-08-02k`, and the default-on was reverted.**
+The user, after listening: not on by default ("if it's going to be on
+something it needs to be there for a reason"), and "you didn't create a
+sax player — it still sounds like a keyboard." Both correct. MEASURED:
+composed gains cluster 0.56-0.85, so the morph position sat at 0.44-0.79
+— the engine carried real pp and ff spectra and the performance NEVER
+WENT THERE. The player is pure arithmetic on the phrase, zero draws:
+quiet into the line, crescendo to its peak note (the longest, ties to
+highest), easing out; any note over 1.1 s carries a messa di voce
+[corpus:wikipedia/Messa_di_voce] — swell, brighten, ease, all inside the
+note; and the breath's loudness follows its position so the arc is heard
+as level too. Morph travel after: 0.00-1.82, quartiles 0.13-1.31. A held
+2.6 s note renders rising +1.9 dB through its middle and dying to
+nothing through the taper. The five default draws were REMOVED: the
+horn is hand-pickable on every genre through the rack, and the conductor
+draws it only where a documented reason stands (bladerunner: the Love
+Theme IS a sax; lofi: its own lineage — both pre-existing). The seam
+check now enforces exactly that.
+
 STILL OPEN, honest: step 4's flutter/overblow are NOT built (no sourced
 per-genre behavior yet — adding unridden gesture knobs would fail the
 battery's own contract); the per-phrase single wavetable region is an
-approximation marked in the voice; Weresax's mf is derived, not recorded.
-The user's ears judge the horn now — both of them.
+approximation marked in the voice; Weresax's mf is derived, not recorded;
+and the deepest remaining gap is the MATERIAL — the notes the composer
+writes for the lead are instrument-agnostic theme notes, not lines a horn
+player would choose (breath-length phrases, pickups, runs, held peaks).
+That is stage-3 work, a sax-aware theme style, and it is the next thing
+that would move "sounds like a keyboard" further. The user's ears judge.
 
 **AND THE SNAPSHOT WAS BLIND, third time, now closed for the class.** The
 tail work shipped BYTE-IDENTICAL through mk2_snapshot because the hash

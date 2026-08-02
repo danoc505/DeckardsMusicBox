@@ -1819,13 +1819,16 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         saxN > 0 && headN + memberN === saxN, headN + " heads + " + memberN + " members = " + saxN);
   check("...and each phrase's members match the events, note for note",
         covered === saxN && mismatch === 0, covered + "/" + saxN + " matched, " + mismatch + " mismatches");
-  const noSax = [];
-  for(const g of Object.keys(T.GENRE)){
-    const L = (T.GENRE[g].machines || {}).lead || [];
-    if(!L.some(p => p[0] === "sax")) noSax.push(g);
-  }
-  check("every genre can draw the horn [user directive 2026-08-02]",
-        noSax.length === 0, noSax.length ? "missing: " + noSax.join(",") : "all " + Object.keys(T.GENRE).length + " genres offer sax");
+  /* CORRECTED per the user, same day: "I didn't mean I wanted it on by
+     default. If it's going to be on something it needs to be there for a
+     reason." So the LAW is availability-by-hand everywhere (the rack), and
+     conductor draws only where a documented reason stands -- bladerunner
+     (the Love Theme is a sax) and lofi (its own lineage), both pre-existing. */
+  const drawn = Object.keys(T.GENRE).filter(g =>
+    (((T.GENRE[g].machines || {}).lead) || []).some(p => p[0] === "sax"));
+  check("the horn is pickable by hand on every genre, drawn only with a reason",
+        M.canFill("lead", "sax") && drawn.sort().join(",") === "bladerunner,lofi",
+        "canFill true · drawn by: " + drawn.join(",") + " (want bladerunner,lofi)");
 }
 
 console.log("\n" + pass + " passed, " + fail + " failed");

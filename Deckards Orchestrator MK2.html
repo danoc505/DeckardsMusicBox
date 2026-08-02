@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-02j · the second horn: two real altos on the sax engine, switchable</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-02k · the player: the breath has an arc, and the horn is off by default</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -5536,12 +5536,40 @@ const Sound = (function(){
     const oscs = [layer.pp.o, layer.mf.o, layer.ff.o, o2];
 
     const bright = P(g, ev, "sax", "bright", 0.5);
-    /* where on the pp..ff line a note sits: its gain, the panel's brightness
-       bias, and the SUBTONE pull -- a low note played softly leans harder
-       toward the pp spectrum, which IS the recorded subtone [research] */
-    const posOf = m => Math.max(0, Math.min(2,
-      (Math.min(1.2, m.gain) - 0.45) * 3.2 + (bright - 0.5) * 1.2
+    /* ── THE PLAYER [user: "you didn't create a sax player"] ─────────────────
+       MEASURED before this existed (bladerunner seed 1): composed gains
+       cluster 0.56-0.85, so the morph position sat between 0.44 and 0.79 --
+       the engine carried real pp and real ff spectra and the performance
+       never went there. Half the instrument was never heard, which is what
+       "still sounds like a keyboard" is.
+
+       A player SHAPES the breath across the line: into the phrase quietly,
+       crescendo to its peak note, easing out after -- and on a long note the
+       swell-and-fade that has its own name, messa di voce ("a single
+       sustained note that swells in volume, reaching a peak, and then
+       decrescendos") [corpus:wikipedia/Messa_di_voce; corpus:creatone --
+       dynamics "greatly influence the impression", ballads especially].
+       Pure arithmetic on the phrase, zero draws: the same phrase always
+       breathes the same way [principle 4: the arithmetic half].
+       Magnitudes [EAR]. The peak of the line is its longest note, ties to
+       the highest -- the note a player would lean into. */
+    let peakI = 0;
+    for(let i = 1; i < mem.length; i++)
+      if(mem[i].durSec > mem[peakI].durSec + 1e-9 ||
+         (Math.abs(mem[i].durSec - mem[peakI].durSec) < 1e-9 && mem[i].pitch > mem[peakI].pitch)) peakI = i;
+    const arcAt = i => mem.length < 2 ? 0 :
+      i <= peakI ? -0.45 + 1.00 * (peakI ? i / peakI : 1)
+                 : 0.55 - 0.90 * ((i - peakI) / Math.max(1, mem.length - 1 - peakI));
+    /* where on the pp..ff line a note sits: its gain, the phrase arc, the
+       panel's brightness bias, and the SUBTONE pull -- a low note played
+       softly leans harder toward the pp spectrum, which IS the recorded
+       subtone [research] */
+    const posOf = (m, i) => Math.max(0, Math.min(2,
+      (Math.min(1.2, m.gain) - 0.45) * 3.2 + arcAt(i) + (bright - 0.5) * 1.2
       - 0.9 * Math.max(0, 1 - m.gain) * Math.max(0, Math.min(1, (62 - m.pitch) / 10))));
+    /* the breath's loudness follows its own position: ff is louder than pp
+       beyond the spectral trims, so the arc is heard as level too */
+    const breathLvl = pos => 0.78 + 0.22 * (pos / 2);
     const mix = pos => ({ pp: Math.max(0, 1 - pos) * trim.pp,
                           mf: Math.max(0, 1 - Math.abs(pos - 1)) * trim.mf,
                           ff: Math.max(0, pos - 1) * trim.ff });
@@ -5560,11 +5588,11 @@ const Sound = (function(){
 
     /* ── THE BREATH ENVELOPE, one for the whole phrase ── */
     const vel0 = Math.min(1.2, mem[0].gain);
-    const pos0 = posOf(mem[0]);
+    const pos0 = posOf(mem[0], 0);
     const atk = (pos0 < 0.7 ? W.pp.e.atk : pos0 > 1.3 ? W.ff.e.atk : W.mf.e.atk) || 0.08;
-    const lvl = m => LEVEL.lead * 1.18 * Math.min(1.2, m.gain);
+    const lvl = (m, i) => LEVEL.lead * 1.18 * Math.min(1.2, m.gain) * breathLvl(posOf(m, i));
     pre.gain.setValueAtTime(0.0001, t);
-    pre.gain.linearRampToValueAtTime(lvl(mem[0]), t + Math.max(0.02, atk));
+    pre.gain.linearRampToValueAtTime(lvl(mem[0], 0), t + Math.max(0.02, atk));
 
     /* head: anchor the mix, and the scoop if the phrase opens with one */
     {
@@ -5582,21 +5610,35 @@ const Sound = (function(){
       const m = mem[i], tm = t + m.dt, f = F_(m.pitch);
       if(m.art === "legato"){
         setFreq(f, tm, 0.045);                       // the slur: no attack, a glide
-        pre.gain.linearRampToValueAtTime(lvl(m), tm + 0.08);
+        pre.gain.linearRampToValueAtTime(lvl(m, i), tm + 0.08);
       } else {
         /* the tongue: a 25 ms interruption of the SAME airstream, then on */
-        pre.gain.linearRampToValueAtTime(lvl(mem[i - 1]) * 0.22, tm);
+        pre.gain.linearRampToValueAtTime(lvl(mem[i - 1], i - 1) * 0.22, tm);
         setFreq(f, tm, 0);
-        pre.gain.linearRampToValueAtTime(lvl(m), tm + 0.05);
+        pre.gain.linearRampToValueAtTime(lvl(m, i), tm + 0.05);
       }
-      mixTo(posOf(m), tm, 0.12);
+      mixTo(posOf(m, i), tm, 0.12);
+    }
+
+    /* ── MESSA DI VOCE: any note long enough to carry one swells and eases,
+       morphing brighter as it leans in -- the ballad move by name
+       [corpus:wikipedia/Messa_di_voce]. Ends inside the note, so the next
+       fingering's own dynamics stand. ── */
+    for(let i = 0; i < mem.length; i++){
+      const m = mem[i];
+      if(m.durSec < 1.1) continue;
+      const tm = t + m.dt, pos = posOf(m, i);
+      mixTo(Math.min(2, pos + 0.5), tm + m.durSec * 0.50, m.durSec * 0.28);
+      pre.gain.linearRampToValueAtTime(lvl(m, i) * 1.22, tm + m.durSec * 0.62);
+      mixTo(pos, tm + m.durSec * 0.78, m.durSec * 0.14);
+      pre.gain.linearRampToValueAtTime(lvl(m, i), tm + m.durSec * 0.95);
     }
 
     /* ── HOW IT ENDS [sax-playing.md addendum]: the breath, not a key ── */
-    pre.gain.setValueAtTime(lvl(last), tEnd);
+    pre.gain.setValueAtTime(lvl(last, mem.length - 1), tEnd);
     pre.gain.exponentialRampToValueAtTime(0.0001, tEnd + REL);
     if(tailKind === "taper")
-      mixTo(Math.max(0, posOf(last) - 0.9), tEnd + REL * 0.8, 0);   // darkens as the breath softens
+      mixTo(Math.max(0, posOf(last, mem.length - 1) - 0.9), tEnd + REL * 0.8, 0);   // darkens as the breath softens
     const fallAmt = tailKind === "fall" ? Math.max(P(g, ev, "sax", "fall", 0), 0.55)
                                         : P(g, ev, "sax", "fall", 0);
     if(fallAmt > 0.01 && last.durSec > 0.35){
@@ -7836,9 +7878,6 @@ const GENRE = {
          difference between a genre that CITES Blade Runner and one that can
          sound like it. `auto` still wins most songs, and auto is the CS-80. */
       keys:  [["auto", 6], ["vp330", 3], ["mellotron", 1]],
-      /* the horn, on every genre by the user's directive (2026-08-02) --
-         synthwave's own lineage has the night-drive sax. Weight [EAR]. */
-      lead:  [["auto", 8], ["sax", 2]],
     },
     /* the 808 as the 80s used it and lofi does not: BD decay long enough to be a
        note rather than a thump, tone bright, snappy up, open hat wide, hard into
@@ -8406,9 +8445,6 @@ const GENRE = {
                    "we can still use our TR-1000 but load up SEGA drum sounds" */
                 drumKit: [["sega", 8], ["analog", 2]],
                 bass:  [["auto", 1]],
-                /* sax on all genres [user, 2026-08-02]; rare here -- Wise's
-                   atmosphere seldom hands the tune to a horn. [EAR] */
-                lead:  [["auto", 9], ["sax", 1]],
                 keys:  [["waveseq", 5], ["auto", 3], ["mellotron", 3]] },
     /* the choir strip, clean: this is a 1994 sample chip pretending to be a
        tape machine, not a 1968 tape machine. Wow and hiss well down from lofi's
@@ -9306,9 +9342,6 @@ const GENRE = {
                    -- but as "auto", which the panel loop skipped, so the box that
                    defines this genre had no front panel to put a hand on. */
                 bass:  [["tb303", 1]],
-                /* sax on all genres [user, 2026-08-02]; a horn over acid is
-                   rave heritage, kept rare. [EAR] */
-                lead:  [["auto", 9], ["sax", 1]],
                 keys:  [["auto", 1]] },
     params: {
       tb303: { cutoff: 420, res: 13.0, envmod: 0.70, decay: 0.42,
@@ -10131,9 +10164,6 @@ const GENRE = {
                    anything else... an architecture of sound", and a string
                    machine is the one instrument in this rack that is mostly
                    architecture. [corpus:hawtin] */
-                /* sax on all genres [user, 2026-08-02]; rarest here -- a
-                   minimal record hands the tune to almost nothing. [EAR] */
-                lead:  [["auto", 9], ["sax", 1]],
                 keys:  [["auto", 7], ["vp330", 3]] },
     params: {
       tb303: { cutoff: 380, res: 14.0, envmod: 0.66, decay: 0.28,
@@ -10666,9 +10696,6 @@ const GENRE = {
        treated the same. */
     machines: { drums: [["tr1000", 1]], drumKit: [["brk", 1]],
                 bass: [["auto", 1]],
-                /* sax on all genres [user, 2026-08-02]; jungle's horn stabs
-                   are real lineage, so it takes a real minority. [EAR] */
-                lead: [["auto", 8], ["sax", 2]],
                 keys: [["auto", 6], ["vp330", 4]] },
     params: {
       vp330: { ens: 0.80, choir: 0.62, attack: 1.40, release: 3.60 },
