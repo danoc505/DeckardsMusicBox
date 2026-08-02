@@ -14,3 +14,4 @@ run.cache
 # Lakh Clean MIDI subset (~234 MB), fetched by harvest_bass.py on first run.
 .lakh/
 sax/iowa/
+sax/weresax/

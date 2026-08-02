@@ -99,9 +99,13 @@ def main():
     ap.add_argument("dir")
     ap.add_argument("--out", default=None)
     ap.add_argument("--nh", type=int, default=24)
+    ap.add_argument("--weresax", default=None,
+                    help="Karoryfer Weresax Samples/alto dir (CC0); becomes character 'were'")
     args = ap.parse_args()
 
-    table = {}   # dyn -> midi -> dict
+    chars = {}   # character -> dyn -> midi -> dict
+    table = {}   # dyn -> midi -> dict (the Iowa alto)
+    chars["alto"] = table
     report = []
     for fn in sorted(os.listdir(args.dir)):
         m = re.match(r"AltoSax\.NoVib\.(pp|mf|ff)\.(\w+)\.aiff?$", fn)
@@ -134,6 +138,49 @@ def main():
                 "cents": round(cents, 1),
             }
 
+    # ── THE SECOND HORN: Weresax [CC0]. One note per file, named an octave
+    #    BELOW its sounding pitch -- verified by measurement, not the name: the
+    #    a2 file carries a full harmonic series on 220 Hz (A3), nothing at 110
+    #    or 330, and 64/64 rr1/cnd files pass the 60-cent gate as name+12.
+    #    Two dynamics only (p, f) -> pp and ff; mf is the per-pitch MEAN of the
+    #    two normalised spectra, marked derived, because the engine morphs
+    #    through three layers and a hole in the middle would snap.
+    if args.weresax:
+        wt = {}
+        chars["were"] = wt
+        for fn in sorted(os.listdir(args.weresax)):
+            m = re.match(r"([a-g]b?)(\d)_([pf])_rr1_cnd\.wav$", fn)
+            if not m: continue
+            p = NOTE[m.group(1).capitalize() if False else {"c":"C","db":"Db","d":"D","eb":"Eb","e":"E","f":"F","gb":"Gb","g":"G","ab":"Ab","a":"A","bb":"Bb","b":"B"}[m.group(1)]]                 + 12 * (int(m.group(2)) + 1) + 12
+            dyn = {"p": "pp", "f": "ff"}[m.group(3)]
+            sig, sr = read_wav(os.path.join(args.weresax, fn))
+            sig = np.array(sig)
+            f_expect = 440.0 * 2 ** ((p - 69) / 12)
+            s0, s1 = int(sr * 0.4), int(sr * 0.4) + int(sr * 1.2)
+            if s1 > len(sig) - int(sr * 0.1): s1 = len(sig) - int(sr * 0.1)
+            seg = sig[s0:s1]
+            f0 = f0_of(seg, sr, f_expect)
+            cents = 1200 * math.log2(f0 / f_expect)
+            if abs(cents) > 60:
+                report.append(f"  DROPPED were midi {p} ({dyn}): {cents:+.0f} cents")
+                continue
+            amps, rms, noise = analyze(seg, sr, f0, args.nh)
+            wt.setdefault(dyn, {})[p] = {
+                "h": [round(float(x), 4) for x in amps],
+                "rms": round(rms, 5), "noise": round(noise, 4),
+                "atk": round(attack_time(sig, sr), 3), "cents": round(cents, 1),
+            }
+        mf = wt["mf"] = {}
+        for p in sorted(set(wt.get("pp", {})) & set(wt.get("ff", {}))):
+            a, b = wt["pp"][p], wt["ff"][p]
+            h = [(x + y) / 2 for x, y in zip(a["h"], b["h"])]
+            pk = max(h) or 1
+            mf[p] = { "h": [round(x / pk, 4) for x in h],
+                      "rms": round(math.sqrt(a["rms"] * b["rms"]), 5),
+                      "noise": round((a["noise"] + b["noise"]) / 2, 4),
+                      "atk": round((a["atk"] + b["atk"]) / 2, 3), "cents": 0.0 }
+        report.append(f"weresax: pp {len(wt.get('pp',{}))} · ff {len(wt.get('ff',{}))} · mf(derived) {len(mf)}")
+
     print("\n".join(report))
     for dyn in ("pp", "mf", "ff"):
         d = table.get(dyn, {})
@@ -149,6 +196,8 @@ def main():
 
     if args.out:
         js = ["/* derived by corpus/analyze_sax.py from University of Iowa MIS",
+              "   (character 'alto') and Karoryfer Weresax, CC0 (character 'were' --",
+              "   two recorded dynamics; its mf is the per-pitch mean, marked).",
               "   alto sax NoVib pp/mf/ff — 'freely available... without restrictions'.",
               "   [corpus:uiowa-mis] Format: per dynamic, per MIDI pitch:",
               "   h: 24 harmonic amps (peak-normalised), rms, residual share, attack s.",
@@ -157,13 +206,16 @@ def main():
               "   upper harmonics, not only breath. Treat it as an upper bound on",
               "   breathiness until the analyzer separates the two. [measured, impure] */",
               "const SAX_WT = {"]
-        for dyn in ("pp", "mf", "ff"):
-            js.append(f"  {dyn}: {{")
-            for p in sorted(table.get(dyn, {})):
-                e = table[dyn][p]
-                js.append(f"    {p}: {{ h: {e['h']}, rms: {e['rms']}, "
-                          f"noise: {e['noise']}, atk: {e['atk']} }},")
-            js.append("  },")
+        for ch in chars:
+            js.append(f" {ch}: {{")
+            for dyn in ("pp", "mf", "ff"):
+                js.append(f"  {dyn}: {{")
+                for p in sorted(chars[ch].get(dyn, {})):
+                    e = chars[ch][dyn][p]
+                    js.append(f"    {p}: {{ h: {e['h']}, rms: {e['rms']}, "
+                              f"noise: {e['noise']}, atk: {e['atk']} }},")
+                js.append("  },")
+            js.append(" },")
         js.append("};")
         with open(args.out, "w") as f:
             f.write("\n".join(js) + "\n")

@@ -895,11 +895,24 @@ ALL SEVEN GENRES offer the horn (three new seam checks, incl. the
 member-for-member phrase partition: 1012/1012 over 10 forced-sax seeds).
 605 songs re-drew across all genres (new lead draws shift the rack
 stream; sax songs gained phrase fields) — re-baselined `2292860b0a5f9325`.
+**THE SECOND HORN landed at `2026-08-02j`** — the user: "why would we
+leave it up to just one version." Weresax (Karoryfer, CC0, 384 MB cloned
+locally, never committed) analyzed through the same pipeline: its
+filenames are an OCTAVE BELOW sounding pitch, proven by measurement (the
+a2 file carries a full series on 220 Hz, nothing at 110/330; 64/64 files
+pass the 60-cent gate as name+12). Two recorded dynamics (p, f) → pp/ff;
+mf is the per-pitch mean, MARKED derived. SAX_WT is two characters now
+(47 KB total); the sax panel has a HORN switch (switch by contract — a
+different horn mid-song is a different instrument). Measured: spectra
+L1-distant 0.51 near C4, A/B renders differ in brightness at equal level.
+Snapshot IDENTICAL — the switch is panel-only, alto is the default, and
+the regenerated alto tables are bit-identical.
+
 STILL OPEN, honest: step 4's flutter/overblow are NOT built (no sourced
 per-genre behavior yet — adding unridden gesture knobs would fail the
-battery's own contract); Weresax (CC0) is analyzed-ready as the second
-character; the per-phrase single wavetable region is an approximation
-marked in the voice. The user's ears judge the horn now.
+battery's own contract); the per-phrase single wavetable region is an
+approximation marked in the voice; Weresax's mf is derived, not recorded.
+The user's ears judge the horn now — both of them.
 
 **AND THE SNAPSHOT WAS BLIND, third time, now closed for the class.** The
 tail work shipped BYTE-IDENTICAL through mk2_snapshot because the hash
