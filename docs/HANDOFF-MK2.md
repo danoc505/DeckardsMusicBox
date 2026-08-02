@@ -42,6 +42,22 @@ Corollaries that have already bitten, twice each:
 
 - **You do not have ears.** Audio renders prove nothing to you. The test that
   matters is `harness/mk2_roll.js` — the printed note grid — and the `.mid`.
+- **FULL RESEARCH FOR EVERY GENRE YOU TOUCH.** Stated by the user 2026-08-02:
+  *"The internet is full of data that you have not seen and you have no ears —
+  this data is the only way for you to improve the program."* Never write a
+  genre table from what you already believe about a genre; what you already
+  believe is training-data residue, not research. The order is fixed: research
+  → write it down in `docs/genre-research/` with named sources → then the
+  table. Grounding, strongest first: measured structure (the repo already
+  holds `corpus/.harmonix/` section annotations of real records), primary
+  sources (the artist saying what they did), named secondary analyses. When
+  sources conflict, write both down and defend the choice — the Dilla kick is
+  the model. A guess marked `[GUESS]` is honest; a guess dressed as research
+  is the most expensive thing this project produces. The history proves the
+  point in both directions: every genre mechanism that works (the sax
+  phrasing, the Reese, avoidKick, the Amen construction) came from a source,
+  and every research error (Plastikman's bass on the wrong lane, "IDM") came
+  from imagining the mechanism between two true facts.
 - **When a measurement says something surprising, the first suspect is the
   measurement.** `harness/probe_controls.js` took **twelve** setup corrections
   before its output could be trusted — nine before it found a single real bug

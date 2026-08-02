@@ -96,5 +96,9 @@ decide it the way these point:
   `[GUESS]`. A provenance that does not match its constant is *worse* than none,
   because it stops anyone checking.
 - **When a measurement surprises you, suspect the measurement first.**
+- **Full research for every genre you touch.** You have no ears; published
+  data — measured structures, artist interviews, named analyses — is the only
+  signal that can improve this music. Research lands in `docs/genre-research/`
+  with named sources *before* the table changes. Never from imagination.
 - **The user's ears are the final judge.** Ship the file; do not render songs at
   them.
