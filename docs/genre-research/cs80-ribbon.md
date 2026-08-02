@@ -95,3 +95,32 @@ The reimplementation this research supports, each item traceable above:
 Genre split [EAR until measured]: bladerunner gets dives, falls and filter
 sweeps prominently; synthwave gets restrained scoops and occasional filter
 sweeps — Perturbator's CS-80 lineage is atmosphere, not lead mannerism.
+
+## THE CORRECTION — 2026-08-02, same day, after the user listened
+
+The first implementation of the vocabulary was rejected: *"it's not the
+pitch bends that is the inspiration and no one was using pitch bends and
+these quick things... it doesn't sound different from before."* Two
+failures, named:
+
+1. **The trill was never sourced on this score.** SOS documents that the
+   *instrument* can trill; nothing documents Vangelis trilling on Blade
+   Runner. Two true facts, an imagined mechanism between them — the exact
+   error class in HANDOFF §5.4a. Removed from bladerunner's table (the
+   engine keeps the capability).
+
+2. **The expression is not in the events at all — it is in the ENVELOPE.**
+   The voice's amp attack was hardcoded 0.10-0.20 s under a comment
+   claiming "the slow swell the instrument is known for." A tenth of a
+   second is not a swell. The record's fabric is the BLOOM: *"slow attack
+   and long release"* [Jamieson], brightness and intensity moving
+   *note-to-note, "almost orchestral"* [Reverb Machine] — continuous
+   breathing, not ornament. Ornaments added on top of an unchanged fabric
+   are inaudible as change, which is precisely what the user reported.
+
+What changed: cs80 gained `atk`/`rel` voicing controls (defaults reproduce
+the old constants exactly — only a genre that asks blooms); bladerunner
+asks (atk 1.10 s, rel 1.60 s), raises `atLevel` 0.20 → 0.55 so the swell
+is loudness as much as brightness, and its gesture list drops to
+slow-only: sweep (1.4-2.8 s), dive (1.2-2.5 s), fall (0.5-1.2 s). No
+trill, no quick bend. All magnitudes [EAR]; the shapes are sourced.

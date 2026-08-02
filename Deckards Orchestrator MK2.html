@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-02f · the cue drifts, states, departs and returns: Vangelis on tape</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-02g · the chord blooms: the swell is the fabric, the ornaments were never it</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1589,6 +1589,19 @@ const INSTRUMENTS = {
           corpus:soundonsound Yamaha CS80 review, which names Vangelis on
           "Blade Runner Blues" as the demonstration of it] */
       { k:"initBend", label:"initial pitch bend", cap:"INIT BEND", min:0, max:1, step:0.01, def:0 , kind:"voicing" },
+      /* ── THE SWELL IS THE INSTRUMENT, and it was a comment, not a control ────
+         The amp attack was hardcoded 0.10-0.20 s under a comment claiming "the
+         slow swell the instrument is known for". A tenth of a second is not a
+         swell: the Blade Runner brass BLOOMS, over seconds -- "slow attack and
+         long release" [corpus:alijamieson], the brightness "changing from note
+         to note... almost orchestral" [corpus:reverbmachine]. Reported by the
+         user as "it doesn't sound different from before", and they were right:
+         the fabric of every chord never changed while ornaments were added on
+         top. Both defaults reproduce the old constants exactly, so only a
+         genre that ASKS blooms -- and bladerunner asks. Voicing: an envelope
+         is what the instrument is; the conductor may not ride it. */
+      { k:"atk", label:"attack",  cap:"ATTACK",  min:0.02, max:2.5, step:0.01, def:0.10, kind:"voicing" },
+      { k:"rel", label:"release", cap:"RELEASE", min:0.10, max:3.0, step:0.01, def:0.55, kind:"voicing" },
       /* ── PULSE WIDTH, AND ITS MODULATION ────────────────────────────────────
          All three are kind:"voicing" on purpose. The contract in the handoff is
          that a voicing is "what the instrument IS" and the conductor may not
@@ -3971,9 +3984,14 @@ const Sound = (function(){
     out.connect(bus); wet.connect(bus);
 
     const lvl = ev.role === "keys" ? LEVEL.keys * 2.0 : LEVEL.lead;
-    /* the slow swell the instrument is known for, opened further by touch */
-    adsr(c, out, t, lvl * ev.gain / 1.55, 0.10 + 0.10 * (1 - touch), 0.25, 0.75,
-         t + ev.durSec, 0.55);
+    /* THE BLOOM. Attack and release are the genre's now (atk/rel, panel):
+       at the defaults this line renders exactly what it always did
+       (0.10 + 0.10*(1-touch)); a genre that sets atk in seconds gets the
+       real swell -- soft touches bloom slower, as before, scaled to the
+       base rather than to a constant. */
+    const atk = P(g, ev, "cs80", "atk", 0.10);
+    adsr(c, out, t, lvl * ev.gain / 1.55, atk * (1 + (1 - touch)), 0.25, 0.75,
+         t + ev.durSec, P(g, ev, "cs80", "rel", 0.55));
     /* AFTER LEVEL, and it goes on LAST for a reason: adsr has just written the
        amplitude envelope onto out.gain, and a connected signal SUMS with that
        automation rather than overwriting it. The sheet puts this at 20% against
@@ -8594,16 +8612,20 @@ const GENRE = {
        0.10 of notes before: a ribbon you hear three or four times a minute is
        the instrument being played; one you hear on every third note is a
        vibrato arm. [corpus:CS-80 sheet, corpus:reverbmachine, corpus:soundonsound] */
-    /* ── THE VOCABULARY [docs/genre-research/cs80-ribbon.md]. Falls carry the
-       documented Tears-in-Rain habit (descending slides at ends); the dive is
-       the Main Titles "spine-tingling downward glissando", rare because it is
-       an event; sweeps are the ribbon on the FILTER — the "other sounds" that
-       were never just pitch; trills exist because release snaps. Weights and
-       kind-ranges [EAR] inside the sourced shapes. */
-    ribbon: { chance: 0.30, semitones: [2, 4], secs: [0.35, 0.30],
-              at: [0.10, 0.75], returns: 0.55, downChance: 0.45,
-              gestures: [["bend", 3], ["fall", 3], ["sweep", 2], ["trill", 1], ["dive", 1]],
-              fall: [2, 5], dive: [7, 12] },
+    /* ── THE VOCABULARY, CORRECTED [user, 2026-08-02]: "no one was using pitch
+       bends and these quick things." The first version of this list was quick
+       ornaments — and the trill was never sourced on THIS score at all, only
+       on the instrument: two true facts with an imagined mechanism between
+       them, the exact research error the handoff names. What the record
+       actually does is SLOW: filter sweeps over seconds, the rare long dive
+       [vinylfactory: Main Titles], the phrase-end fall [reverbmachine: Tears
+       in Rain]. So: no trill, no quick bend, and every duration in seconds
+       not tenths. Weights and durations [EAR] inside the sourced shapes. */
+    ribbon: { chance: 0.30, semitones: [2, 4], secs: [1.40, 1.40],
+              at: [0.10, 0.55], returns: 0.55, downChance: 0.45,
+              gestures: [["sweep", 4], ["dive", 2], ["fall", 2]],
+              fall: [2, 5], dive: [7, 12],
+              fallSec: [0.50, 0.70], diveSec: [1.20, 1.30] },
     /* ── AND THE OTHER HALF. "Polyphonic aftertouch: Extremely high." Depth 1.0
        because on this instrument, in this score, it is not a colour: the sheet
        puts filter opening at 80% and brightness at 70%, and Reverb Machine hears
@@ -8707,7 +8729,16 @@ const GENRE = {
 
                   These three numbers are therefore taste, and they are marked as
                   taste. They sound right and they are not measured. [EAR] */
-               atBrill: 0.80, atLevel: 0.20, atVib: 0.40 },
+               atBrill: 0.80, atLevel: 0.55, atVib: 0.40,
+               /* ── THE BLOOM [user, 2026-08-02: "it doesn't sound different
+                  from before" — and the fabric had not changed]. Attack in
+                  SECONDS: a chord takes over a second to arrive, soft touches
+                  longer — the brass swell that IS this score, per "slow attack
+                  and long release" [corpus:alijamieson] and the note-to-note
+                  brightness/intensity movement [corpus:reverbmachine].
+                  atLevel rises with it (0.20 -> 0.55): the swell is loudness
+                  as much as brightness. Magnitudes [EAR]. */
+               atk: 1.10, rel: 1.60 },
       /* a quarter note, barely fed back, mostly into the room */
       echo:  { div: 4, fb: 0.18, tone: 3200, hp: 120, send: 0.16, verb: 0.85 },
       vp330: { ens: 0.72, choir: 0.55, attack: 1.10, release: 3.20 },
@@ -13924,12 +13955,16 @@ function makePerformance(chart, form, materials, sections){
               if(kind === "fall") ev.ribbon = {
                 kind, at: at - noteStart,
                 by: -((RIB.fall ? RIB.fall[0] : 2) + dist * (RIB.fall ? RIB.fall[1] : 4)),
-                sec: 0.12 + dur * 0.22, back: false,
+                /* duration is the GENRE's, in seconds — the first version
+                   hardcoded tenths and shipped "quick things" [user] */
+                sec: (RIB.fallSec ? RIB.fallSec[0] + dur * RIB.fallSec[1] : 0.12 + dur * 0.22),
+                back: false,
               };
               else if(kind === "dive") ev.ribbon = {
                 kind, at: at - noteStart,
                 by: -((RIB.dive ? RIB.dive[0] : 7) + dist * (RIB.dive ? RIB.dive[1] : 12)),
-                sec: 0.45 + dur * 0.75, back: false,
+                sec: (RIB.diveSec ? RIB.diveSec[0] + dur * RIB.diveSec[1] : 0.45 + dur * 0.75),
+                back: false,
               };
               else if(kind === "trill") ev.ribbon = {
                 kind, at: at - noteStart,

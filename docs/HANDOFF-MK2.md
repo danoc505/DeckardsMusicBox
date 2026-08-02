@@ -827,6 +827,26 @@ inside a section, which no mechanism here can express; groove jitter is
 not it. Three genres now have plans: lofi, synthwave, bladerunner.
 Remaining: dkc, acid, plastikman, jungle (still wearing acid's tables).
 
+**THE RIBBON CORRECTION at `2026-08-02g` — read this as method, not as a
+changelog.** The user rejected the gesture vocabulary the same day it
+shipped: *"no one was using pitch bends and these quick things... it
+doesn't sound different from before."* They were right twice. The trill
+was never sourced on this score (instrument capability + Vangelis's hands
+= an imagined mechanism, HANDOFF §5.4a's exact error class). And the real
+expression was never in the events at all — the amp attack was hardcoded
+0.10-0.20 s under a comment CLAIMING "the slow swell the instrument is
+known for." Ornaments on an unchanged fabric are inaudible as change. The
+fix: cs80 gained atk/rel voicing controls (defaults reproduce the old
+constants bit-for-bit; only a genre that asks blooms), bladerunner asks
+(atk 1.10 s / rel 1.60 s, atLevel 0.20 → 0.55 — the swell is loudness as
+much as brightness), and its gesture list is slow-only (sweep 1.4-2.8 s,
+dive 1.2-2.5 s, fall 0.5-1.2 s; no trill, no quick bend). MEASURED across
+builds (worktree A/B, probe_bloom in scratchpad): a keys chord reaches 90%
+level in **1.38 s where it took 0.22 s** — the bloom is real. 300/300
+bladerunner seeds moved (ribbon events), nothing else; baseline
+`f95f55acfa205b8d`. The user's ears remain the judge of whether the bloom
+is enough.
+
 ### 2026-07-31 — the session that ended at `7c7644b`
 
 Read this first; the rest of §4 is older and still true.
