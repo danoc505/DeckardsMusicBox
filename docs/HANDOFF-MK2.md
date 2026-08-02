@@ -42,6 +42,12 @@ Corollaries that have already bitten, twice each:
 
 - **You do not have ears.** Audio renders prove nothing to you. The test that
   matters is `harness/mk2_roll.js` — the printed note grid — and the `.mid`.
+- **USE WHAT WE HAVE, AND FIND MORE — ALWAYS.** The user, 2026-08-02, on
+  the sax material work: internet research on the topic AND on finding the
+  scores, every time — existing corpora do not exhaust a question. The
+  Weimar measurements were right and still missed what the Omnibook scores
+  gave in an hour (phrase-final stability 90.9%, pickups 26.3%). One
+  source is a claim; two agreeing is a target.
 - **FULL RESEARCH FOR EVERY GENRE YOU TOUCH.** Stated by the user 2026-08-02:
   *"The internet is full of data that you have not seen and you have no ears —
   this data is the only way for you to improve the program."* Never write a
