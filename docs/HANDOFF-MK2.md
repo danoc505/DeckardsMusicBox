@@ -847,6 +847,31 @@ bladerunner seeds moved (ribbon events), nothing else; baseline
 `f95f55acfa205b8d`. The user's ears remain the judge of whether the bloom
 is enough.
 
+**THE SAX ENDS ITS NOTES at `2026-08-02h`** — user: *"it plays notes that
+just stop"*, and they did: a flat 0.14 s release on every non-staccato
+note, with nothing marking phrase ends. Researched (sax-playing.md
+addendum): the breath ends the note ("a tail off rather than an abrupt
+stop"), the vibrato outlives the tone ("carries on with just the breath"),
+jazz has the falloff release (a soft downward glissando on release), and
+subtone is register AND volume. Built: `articulate()` marks the note
+before a rest — `tail: "taper"` or 28% `"fall"`; the voice tapers over
+0.30-0.75 s with brightness closing and vibrato deepening, or falls with
+the per-note falloff; low notes played softly get ×1.6 air and 28% darker.
+MEASURED (probe_tail, scratchpad): note-end to −30 dB — plain 130 ms,
+taper 310 ms, fall 210 ms; 49.2% of bladerunner lead notes are
+phrase-final and carry an ending.
+
+**AND THE SNAPSHOT WAS BLIND, third time, now closed for the class.** The
+tail work shipped BYTE-IDENTICAL through mk2_snapshot because the hash
+read a hand-listed field subset — extended once for ribbon/press, still
+missing art/from/vib/tail. The whole articulation model was never in the
+snapshot. The serializer now DERIVES the field list from the event itself
+(every field, recursive, keys sorted): a field added tomorrow is hashed
+tomorrow by construction. Re-baselined `364945a3ad127a4b` — an instrument
+change, not a music change: the old subset read IDENTICAL across the sax
+work, which proves pitch/timing/gain/ribbon/press did not move while the
+new fields landed.
+
 ### 2026-07-31 — the session that ended at `7c7644b`
 
 Read this first; the rest of §4 is older and still true.

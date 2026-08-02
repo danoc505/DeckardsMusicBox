@@ -125,3 +125,44 @@ be built either way; it is built now, and if the samples go in later they inheri
 **If the payload is acceptable, Iowa is the one to take** — three genuine dynamic layers
 is the thing a model approximates least well, since a saxophone's dynamic is timbral
 rather than a fader.
+
+---
+
+## ADDENDUM 2026-08-02 — how a note ENDS, researched after the user heard the gap
+
+The report: *"It plays notes that just stop."* Correct — the release was a
+flat 0.14 s for every non-staccato note and nothing marked phrase endings.
+Fresh sources on endings specifically:
+
+- **The breath ends the note, not the tongue.** "Stopping the note by
+  stopping your breath allows for varying degrees of fade or tail off for
+  different expression"; ending without the tongue "can give the note a very
+  slight tail off rather than an abrupt stop... particularly effective when
+  playing a slow tune or ballad."
+  [https://cafesaxophone.com/threads/how-to-end-a-note.31471/ via search;
+  https://www.saxontheweb.net/threads/how-to-end-a-note.341616/]
+- **The vibrato outlives the tone.** "It's quite an effect to let the note
+  subside slightly before the breath, so the vibrato carries on with just
+  the breath"; "many jazz saxophonists end a note with a few pulsations of
+  vibrato, particularly on notes that are held and emphasized." [ibid.]
+- **The falloff release.** "A characteristic gesture consists of executing a
+  kind of soft downward lip or finger glissando on release of certain notes.
+  We call this a 'falloff release'." [US patent 6316710, "Musical
+  synthesizer capable of expressive phrasing" — a synthesis source, and an
+  unusually precise one]
+- **Subtone is register AND volume.** "A soft, breathy timbre usually
+  produced in the lowest range of the instrument with low volume... fatter,
+  warmer and less edgy" [https://en.wikipedia.org/wiki/Subtone;
+  tamingthesaxophone.com]; "the slow songs are the ones where you can hear
+  subtones the best" [jupiter.info].
+
+**Built from it:** `articulate()` marks the note before a rest (or the last
+of the line) with `tail: "taper"` or, 28% of the time, `"fall"` — staccato
+keeps its clip, an early release is already a decision. The voice realises:
+taper = release 0.30-0.75 s scaling with the note, brightness closing to
+30% as the breath softens, vibrato deepening ×1.35 into the fade; fall =
+0.30 s release with the documented soft downward glissando (reusing the
+`fall` mechanic per-note). Subtone: low notes played SOFTLY get ×1.6 the
+air and 28% darker; a loud low note honks. Measured (probe_tail,
+scratchpad): note-end to −30 dB — plain 130 ms, taper 310 ms, fall 210 ms.
+All magnitudes [EAR] inside the sourced shapes.

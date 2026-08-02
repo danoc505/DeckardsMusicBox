@@ -68,14 +68,22 @@ for(let s = 1; s <= N; s++) for(const g of GENRES){
 
      A field a voice reads is a field this file has to see, or "not one note
      moved" is a claim about the subset somebody remembered to list. */
-  const x = o => o == null ? "" :
-    Object.keys(o).sort().map(k => k + ":" +
-      (typeof o[k] === "number" ? o[k].toFixed(6) : String(o[k]))).join(",");
-  const ev = song.perf.events.map(e =>
-    [e.tSec.toFixed(9), e.durSec.toFixed(9), e.voice, e.role, e.lane || "", e.gain.toFixed(9),
-     e.pitch == null ? "" : e.pitch,
-     e.accent ? "A" : "", e.slide == null ? "" : e.slide,
-     x(e.ribbon), x(e.press), x(e.chop)].join("|")).join("\n");
+  /* ── DERIVE, DON'T COPY — third time this lesson, so it lands for good ─────
+     The list above was extended by hand when ribbon and press were found
+     missing, and the comment called that "the subset somebody remembered to
+     list". Then the articulation fields (art, from, vib) were never added,
+     and the sax's phrase-end tails shipped BYTE-IDENTICAL through this check
+     — a new expression field on thousands of events, invisible, found only
+     because the isolation sweep printed nothing when it should have printed
+     two genres. So the field list is no longer a list: every field the event
+     carries is hashed, recursively, keys sorted. A field added tomorrow is in
+     the hash tomorrow, by construction. */
+  const canon = v => v == null ? "" :
+    Array.isArray(v) ? "[" + v.map(canon).join(",") + "]" :
+    typeof v === "object" ? "{" + Object.keys(v).sort().map(k => k + ":" + canon(v[k])).join(",") + "}" :
+    typeof v === "number" ? (Number.isInteger(v) ? String(v) : v.toFixed(9)) :
+    String(v);
+  const ev = song.perf.events.map(canon).join("\n");
   const form = song.sections.map(x => `${x.fn}:${x.startBar}-${x.endBar}:${x.material}`).join(",");
   /* the ARRANGEMENT too, because a build plan changes who plays without
      necessarily changing how many events exist -- a part that has not arrived

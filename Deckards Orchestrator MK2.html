@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-02g · the chord blooms: the swell is the fabric, the ornaments were never it</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-02h · the sax ends its notes: taper, fall and subtone, and the snapshot sees every field</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -5271,6 +5271,7 @@ const Sound = (function(){
        is the whole of legato and it is why `from` is carried on the event.
        45 ms is the fastest a jaw and a set of fingers get across a second
        without it reading as a portamento. [EAR] */
+    const tail = ev.tail || null;
     const glide = slurred && ev.from != null && ev.from !== ev.pitch;
     const from = glide ? F(ev.from)
                : scoop > 0 ? f * Math.pow(2, -(scoop * 0.9 * vel) / 12)
@@ -5278,7 +5279,11 @@ const Sound = (function(){
     const rise = glide ? 0.045 : scoopSec;
     /* ── FALL: and it leaves downward. Only on notes long enough to have an end
        worth falling off -- a sixteenth does not fall. [EAR] */
-    const fall = P(g, ev, "sax", "fall", 0);
+    /* the falloff release is per NOTE now (articulation), not only a panel
+       setting: a phrase-end marked "fall" leaves downward whatever the panel
+       says, at a documented soft depth [corpus:US6316710] */
+    const fall = tail === "fall" ? Math.max(P(g, ev, "sax", "fall", 0), 0.55)
+                                 : P(g, ev, "sax", "fall", 0);
     const setPitch = o => {
       o.frequency.setValueAtTime(from, t0);
       if(from !== f) o.frequency.exponentialRampToValueAtTime(f, t0 + rise);
@@ -5322,6 +5327,11 @@ const Sound = (function(){
       depth.gain.setValueAtTime(0, t);
       depth.gain.setValueAtTime(0, at);
       depth.gain.linearRampToValueAtTime(cents, full);
+      /* on a tapered ending the vibrato DEEPENS as the level subsides -- "let
+         the note subside slightly before the breath, so the vibrato carries on
+         with just the breath" [corpus:saxontheweb]; "add just a little vibrato
+         when tapering off at the end" [corpus:US6316710]. Depth x1.35 [EAR]. */
+      if(tail === "taper") depth.gain.linearRampToValueAtTime(cents * 1.35, t + dur + 0.30);
       lfo.connect(depth); depth.connect(o1.detune); depth.connect(o2.detune);
       lfo.start(t); lfo.stop(end); made.push(lfo);
       /* the upward bias, so the swing hangs BELOW the note instead of straddling
@@ -5367,7 +5377,9 @@ const Sound = (function(){
     const bright = P(g, ev, "sax", "bright", 0.5);
     const reg = Math.max(0.72, Math.min(1.34, 1 + (ev.pitch - 65) * 0.019));   // [EAR]
     const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = 0.9;
-    const openTo = Math.min(11000, (700 + 5200 * bright) * (0.42 + 0.95 * vel) * reg);
+    const openTo = Math.min(11000, (700 + 5200 * bright) * (0.42 + 0.95 * vel) * reg)
+                   * (1 - 0.28 * Math.max(0, 1 - vel) * Math.max(0, Math.min(1, (62 - ev.pitch) / 10)));
+                   /* the subtone darkening -- see the air comment below */
     /* A SLUR DOES NOT RE-OPEN THE FILTER. The breath is continuous, so the reed
        is already buzzing when the pitch moves -- sweeping the cutoff up from
        nothing again would put an attack back on a note that is not supposed to
@@ -5375,6 +5387,9 @@ const Sound = (function(){
     lp.frequency.setValueAtTime(slurred ? openTo : Math.max(240, openTo * 0.45), t0);
     if(!slurred) lp.frequency.linearRampToValueAtTime(openTo, t0 + rise + 0.05);
     lp.frequency.exponentialRampToValueAtTime(Math.max(240, openTo * 0.62), t + Math.max(0.2, dur));
+    /* a tapered end DARKENS as the breath softens: the reed stops buzzing
+       before the air stops moving. Closes toward the body, never to zero. */
+    if(tail) lp.frequency.exponentialRampToValueAtTime(Math.max(180, openTo * 0.30), t + dur + 0.55);
 
     const tone = c.createGain(); tone.gain.value = 1;
     o1.connect(tone); o2.connect(mix2); mix2.connect(tone);
@@ -5405,8 +5420,17 @@ const Sound = (function(){
        LOW NOTES ARE AIRIER. Subtone is the bottom of the horn, and the bottom
        of the horn is where the breath is audible in the sound rather than
        behind it -- `reg` runs the other way here for exactly that reason. */
+    /* SUBTONE IS REGISTER *AND* VOLUME: "a soft, breathy timbre usually
+       produced in the lowest range of the instrument with low volume...
+       fatter, warmer and less edgy" [corpus:wikipedia/Subtone,
+       tamingthesaxophone] -- and "the slow songs are the ones where you can
+       hear subtones the best" [corpus:jupiter.info]. So a low note played
+       SOFTLY gets breathier and darker than either alone would make it;
+       a loud low note honks instead. Magnitudes [EAR]. */
+    const subtone = Math.max(0, 1 - vel) * Math.max(0, Math.min(1, (62 - ev.pitch) / 10));
     const air = P(g, ev, "sax", "air", 0.35) *
-                (art === "breath" ? 1 : slurred ? 0 : 0.33) / reg;
+                (art === "breath" ? 1 : slurred ? 0 : 0.33) / reg *
+                (1 + 1.6 * subtone);
     if(air > 0.01){
       const nb = c.createBufferSource(); nb.buffer = g.noise; nb.loop = true;
       const nf = c.createBiquadFilter(); nf.type = "bandpass";
@@ -5438,7 +5462,16 @@ const Sound = (function(){
        [corpus:PMC4097958 for the 25.5 ms and the 25-29%; the attack times are
         [EAR], constrained by them] */
     const A = slurred ? 0.070 : art === "portato" ? 0.010 : art === "staccato" ? 0.012 : 0.028;
-    const REL = art === "staccato" ? 0.055 : 0.14;
+    /* ── AND HOW IT ENDS IS PLAYED TOO [user: "notes that just stop"] ────────
+       A phrase-final note ends by the breath stopping, not the key: the taper
+       runs a good part of a second and scales with the note ("varying degrees
+       of fade or tail off" [corpus:cafesaxophone]); a falloff release keeps a
+       shorter fade because the pitch is already leaving. Mid-phrase notes keep
+       the old 0.14 -- the next note is coming; staccato keeps its clip. */
+    const REL = art === "staccato" ? 0.055
+              : tail === "taper" ? Math.min(0.75, 0.30 + dur * 0.12)
+              : tail === "fall"  ? 0.30
+              : 0.14;
     adsr(c, out, t0, LEVEL.lead * 1.05 * ev.gain, A, 0.18, 0.86, t + dur, REL);
     return made;
   };
@@ -12805,6 +12838,22 @@ function makeMaterials(chart){
          get one, because that is the only kind of note a player has time to add
          it to. */
       if(n.dur >= 6) n.vib = true;
+      /* ── THE END OF A PHRASE IS PLAYED, NOT TRUNCATED ───────────────────────
+         Reported by the user: "it plays notes that just stop" — and an
+         unmarked ending is exactly a stop. The research (2026-08-02,
+         sax-playing.md addendum): a note ends by stopping the BREATH, "a tail
+         off rather than an abrupt stop... particularly effective when playing
+         a slow tune or ballad" [corpus:cafesaxophone]; "it's quite an effect
+         to let the note subside slightly before the breath, so the vibrato
+         carries on with just the breath" [corpus:saxontheweb]; and jazz horns
+         have the falloff release, "a kind of soft downward lip glissando on
+         release of certain notes" [corpus:US6316710]. So the note before a
+         rest — or the last of the line — carries HOW it ends. Staccato keeps
+         its clip: an early release is already a decision. The draw runs on
+         its own substream so it cannot shift any other [Law 3/7]. */
+      const rTail = stream(chart.seed, "tail:" + streamName + ":" + n.bar + ":" + n.step + ":" + n.pitch)();
+      if(n.art !== "staccato" && n.dur >= 3 && (!next || ioi > n.dur + 1))
+        n.tail = rTail < 0.28 ? "fall" : "taper";
     }
     return notes;
   }
@@ -14040,6 +14089,7 @@ function makePerformance(chart, form, materials, sections){
           if(n.art)        ev.art  = n.art;
           if(n.from != null) ev.from = n.from;
           if(n.vib)        ev.vib  = true;
+          if(n.tail)       ev.tail = n.tail;
           /* THE CHOP rides along the same way. Which slice, and whether it is
              backwards, were decided in stage 3; the RATE is stage 5's, because
              it is the ratio between the tempo the break was played at and the
