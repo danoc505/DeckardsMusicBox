@@ -873,10 +873,33 @@ across pp/mf/ff (the breath brightens the spectrum), attack 0.33 s at pp
 vs 0.075 s at ff (soft notes speak slower — the bloom is the horn's own),
 rms 0.032/0.094/0.152 (real loudness relations). Caveat marked in the
 table header: `noise` is residual-beyond-24-harmonics, an upper bound on
-breathiness, not pure breath. NEXT: step 2 (ev.phrase attachment in stage
-5), step 3 (the phrase-engine voice over these tables), step 4
-(ornaments), step 5 (the horn to all seven genres). Weresax (CC0) is the
-second source to analyze when the pipeline meets the voice.
+breathiness, not pure breath. **STEPS 2, 3 AND 5 LANDED at `2026-08-02i` — THE ENGINE IS LIVE.**
+SAX_WT (24 KB) is embedded; stage 5 attaches each phrase to its opening
+event (frozen events are REPLACED with augmented frozen copies — the
+freeze makes no exceptions); dispatch renders each breath once (member
+events are skipped for voices with `.phrases`); and V.sax is the phrase
+engine: three phase-locked oscillators carrying the real pp/mf/ff spectra
+of the phrase's median pitch, crossfaded along a dynamics stream (the
+morph is phase-coherent because same-frequency WebAudio oscillators hold
+phase), real loudness trims (sqrt-compressed [EAR]), the pp attack times
+from the horn itself, slurs as glides on one envelope, tongue strokes as
+25 ms dips in the same airstream, tapers that darken by morphing toward
+pp, subtone as a pull toward the pp spectrum, the reed beat as a 5-cent
+mf copy, growl/air/vib/scoop/fall all rewired and alive. The formant
+biquads are gone — the tables were recorded through the horn's body.
+MEASURED: a slurred 3-note phrase renders ONE attack (the claim, on
+samples); loudness follows gain 0.068→0.42 rms; brightness rises toward
+ff (weak pp→mf at pitch 60, honest); bare events (probe_voices, UI sweep)
+render as one-note phrases so every harness still fires the voice.
+ALL SEVEN GENRES offer the horn (three new seam checks, incl. the
+member-for-member phrase partition: 1012/1012 over 10 forced-sax seeds).
+605 songs re-drew across all genres (new lead draws shift the rack
+stream; sax songs gained phrase fields) — re-baselined `2292860b0a5f9325`.
+STILL OPEN, honest: step 4's flutter/overblow are NOT built (no sourced
+per-genre behavior yet — adding unridden gesture knobs would fail the
+battery's own contract); Weresax (CC0) is analyzed-ready as the second
+character; the per-phrase single wavetable region is an approximation
+marked in the voice. The user's ears judge the horn now.
 
 **AND THE SNAPSHOT WAS BLIND, third time, now closed for the class.** The
 tail work shipped BYTE-IDENTICAL through mk2_snapshot because the hash

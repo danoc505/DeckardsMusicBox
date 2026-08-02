@@ -1793,5 +1793,40 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         "dkc still composes (the snapshot is the real proof for every planless genre)");
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE SAX ENGINE — the breath is the unit (docs/genre-research/sax-engine.md).
+   Stage 5 attaches each phrase to its opening event; members are marked and
+   the dispatcher renders each breath once. These checks hold the OUTPUT to
+   that claim: the partition must be exact, the members must match their
+   events one for one, and every genre must be able to draw the horn.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  let saxN = 0, headN = 0, memberN = 0, covered = 0, mismatch = 0;
+  for(let s = 1; s <= 10; s++){
+    const song = M.composeSong(s, "band", "bladerunner", { lead: "sax" });
+    const sax = song.perf.events.filter(e => e.role === "lead" && e.voice === "sax");
+    saxN += sax.length;
+    let k = 0, head = null;
+    for(const e of sax){
+      if(e.phrase){ headN++; head = e; k = 0; }
+      else if(e.inPhrase) memberN++;
+      const m = head && head.phrase[k];
+      if(!m || m.pitch !== e.pitch || Math.abs((head.tSec + m.dt) - e.tSec) > 1e-9) mismatch++;
+      covered++; k++;
+    }
+  }
+  check("every sax event is a phrase head or a marked member",
+        saxN > 0 && headN + memberN === saxN, headN + " heads + " + memberN + " members = " + saxN);
+  check("...and each phrase's members match the events, note for note",
+        covered === saxN && mismatch === 0, covered + "/" + saxN + " matched, " + mismatch + " mismatches");
+  const noSax = [];
+  for(const g of Object.keys(T.GENRE)){
+    const L = (T.GENRE[g].machines || {}).lead || [];
+    if(!L.some(p => p[0] === "sax")) noSax.push(g);
+  }
+  check("every genre can draw the horn [user directive 2026-08-02]",
+        noSax.length === 0, noSax.length ? "missing: " + noSax.join(",") : "all " + Object.keys(T.GENRE).length + " genres offer sax");
+}
+
 console.log("\n" + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);

@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-02h · the sax ends its notes: taper, fall and subtone, and the snapshot sees every field</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-02i · the sax engine: one breath per phrase, three real spectra, every genre</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -779,6 +779,119 @@ const EPIANO = (() => {
 
    The sum is CLAMPED to the control's declared range.  A section move plus an
    LFO plus a p-lock can add up past the end of the dial; a real dial stops. */
+/* derived by corpus/analyze_sax.py from University of Iowa MIS
+   alto sax NoVib pp/mf/ff — 'freely available... without restrictions'.
+   [corpus:uiowa-mis] Format: per dynamic, per MIDI pitch:
+   h: 24 harmonic amps (peak-normalised), rms, residual share, attack s.
+   HONEST CAVEAT on `noise`: it is the share of the note's energy NOT
+   captured by the first 24 harmonics — on low notes that includes real
+   upper harmonics, not only breath. Treat it as an upper bound on
+   breathiness until the analyzer separates the two. [measured, impure] */
+const SAX_WT = {
+  pp: {
+    49: { h: [0.6507, 1.0, 0.5908, 0.4346, 0.3253, 0.0697, 0.0225, 0.0027, 0.0022, 0.0025, 0.0034, 0.0021, 0.0028, 0.0018, 0.0027, 0.002, 0.0007, 0.0005, 0.0012, 0.0022, 0.0025, 0.0023, 0.0014, 0.0006], rms: 0.05313, noise: 0.2305, atk: 0.404 },
+    50: { h: [0.7286, 0.2819, 1.0, 0.5172, 0.2783, 0.0744, 0.1259, 0.0076, 0.0136, 0.0145, 0.0085, 0.0065, 0.004, 0.0008, 0.0012, 0.0017, 0.0027, 0.0043, 0.0042, 0.003, 0.0019, 0.0026, 0.0016, 0.0006], rms: 0.0532, noise: 0.5227, atk: 0.131 },
+    51: { h: [0.3898, 1.0, 0.9378, 0.0144, 0.1669, 0.0537, 0.0088, 0.0074, 0.0074, 0.006, 0.0042, 0.0013, 0.0016, 0.003, 0.002, 0.0045, 0.0016, 0.0039, 0.0015, 0.0008, 0.0016, 0.0014, 0.0011, 0.0004], rms: 0.04745, noise: 0.4769, atk: 0.168 },
+    52: { h: [0.7366, 1.0, 0.4728, 0.0441, 0.0478, 0.0012, 0.0062, 0.0077, 0.0079, 0.004, 0.0019, 0.0028, 0.0024, 0.0035, 0.0046, 0.0042, 0.0058, 0.003, 0.0027, 0.0016, 0.0019, 0.0011, 0.0004, 0.0005], rms: 0.04378, noise: 0.2421, atk: 0.165 },
+    53: { h: [0.4007, 1.0, 0.6109, 0.0617, 0.0267, 0.0134, 0.013, 0.0049, 0.0021, 0.0009, 0.0022, 0.0013, 0.0032, 0.0033, 0.002, 0.0028, 0.0021, 0.0014, 0.0017, 0.0011, 0.0007, 0.0005, 0.0002, 0.0004], rms: 0.03328, noise: 0.3109, atk: 0.737 },
+    54: { h: [1.0, 0.6128, 0.4023, 0.026, 0.0058, 0.0045, 0.0023, 0.0039, 0.0037, 0.0043, 0.0043, 0.0029, 0.0008, 0.0028, 0.0034, 0.0019, 0.0008, 0.0005, 0.0013, 0.001, 0.0004, 0.0004, 0.0004, 0.0005], rms: 0.03456, noise: 0.4329, atk: 0.207 },
+    55: { h: [1.0, 0.9786, 0.4657, 0.0553, 0.0332, 0.0006, 0.0052, 0.0065, 0.0034, 0.0005, 0.0014, 0.0016, 0.0032, 0.0024, 0.0023, 0.0007, 0.0009, 0.0006, 0.0006, 0.0007, 0.0005, 0.0004, 0.0003, 0.0007], rms: 0.02604, noise: 0.0885, atk: 0.21 },
+    56: { h: [1.0, 0.1727, 0.0406, 0.0064, 0.0014, 0.0026, 0.0005, 0.0025, 0.0007, 0.0002, 0.0001, 0.0005, 0.0003, 0.0003, 0.0001, 0.0001, 0.0002, 0.0001, 0.0001, 0.0001, 0.0002, 0.0, 0.0001, 0.0], rms: 0.02153, noise: 0.513, atk: 0.25 },
+    57: { h: [1.0, 0.7903, 0.007, 0.029, 0.0057, 0.0011, 0.0026, 0.0012, 0.0009, 0.0007, 0.0002, 0.0008, 0.0006, 0.0003, 0.0001, 0.0001, 0.0001, 0.0, 0.0, 0.0, 0.0001, 0.0, 0.0, 0.0001], rms: 0.02082, noise: 0.0362, atk: 0.237 },
+    58: { h: [1.0, 0.1196, 0.001, 0.0011, 0.0002, 0.0006, 0.0008, 0.0005, 0.0003, 0.0003, 0.0004, 0.0004, 0.0001, 0.0002, 0.0002, 0.0, 0.0001, 0.0001, 0.0001, 0.0001, 0.0, 0.0001, 0.0001, 0.0001], rms: 0.0203, noise: 0.531, atk: 0.368 },
+    59: { h: [1.0, 0.2789, 0.0114, 0.0033, 0.0016, 0.0022, 0.0021, 0.0007, 0.0005, 0.0007, 0.0014, 0.0014, 0.0011, 0.0008, 0.0002, 0.0003, 0.0002, 0.0001, 0.0002, 0.0, 0.0002, 0.0001, 0.0001, 0.0002], rms: 0.02127, noise: 0.4685, atk: 0.525 },
+    60: { h: [1.0, 0.2686, 0.0074, 0.007, 0.0012, 0.0013, 0.0002, 0.0007, 0.0007, 0.0007, 0.0002, 0.0003, 0.0001, 0.0003, 0.0002, 0.0001, 0.0001, 0.0001, 0.0, 0.0, 0.0, 0.0001, 0.0002, 0.0001], rms: 0.01346, noise: 0.0765, atk: 1.119 },
+    61: { h: [1.0, 0.0319, 0.014, 0.0076, 0.0132, 0.0132, 0.0016, 0.001, 0.0028, 0.0047, 0.0016, 0.0022, 0.0011, 0.0002, 0.0003, 0.0003, 0.0001, 0.0002, 0.0001, 0.0002, 0.0004, 0.0003, 0.0001, 0.0001], rms: 0.02055, noise: 0.0801, atk: 0.087 },
+    62: { h: [1.0, 0.1058, 0.0058, 0.002, 0.0029, 0.0037, 0.0024, 0.001, 0.0003, 0.0004, 0.0003, 0.0005, 0.0001, 0.0001, 0.0001, 0.0001, 0.0, 0.0, 0.0, 0.0001, 0.0, 0.0001, 0.0001, 0.0], rms: 0.01843, noise: 0.1791, atk: 1.117 },
+    63: { h: [1.0, 0.0144, 0.0176, 0.0094, 0.0095, 0.0016, 0.0025, 0.0062, 0.0019, 0.0013, 0.0034, 0.001, 0.0003, 0.001, 0.001, 0.0002, 0.0003, 0.0005, 0.0018, 0.0009, 0.0007, 0.0002, 0.0002, 0.0003], rms: 0.02339, noise: 0.6773, atk: 0.144 },
+    64: { h: [1.0, 0.1559, 0.0461, 0.0268, 0.0273, 0.0066, 0.0032, 0.0047, 0.0049, 0.0027, 0.0004, 0.0006, 0.0004, 0.0002, 0.0006, 0.0007, 0.0002, 0.0002, 0.0005, 0.0009, 0.0004, 0.0001, 0.0005, 0.0], rms: 0.0216, noise: 0.4008, atk: 0.073 },
+    65: { h: [1.0, 0.1943, 0.1332, 0.0234, 0.0125, 0.0066, 0.0156, 0.003, 0.0036, 0.0051, 0.0031, 0.0008, 0.0028, 0.0021, 0.0014, 0.0026, 0.0009, 0.0048, 0.0016, 0.0012, 0.0028, 0.0012, 0.001, 0.001], rms: 0.04152, noise: 0.9527, atk: 0.189 },
+    66: { h: [1.0, 0.0746, 0.0031, 0.0054, 0.0076, 0.0046, 0.0055, 0.0042, 0.001, 0.0011, 0.0004, 0.0002, 0.0004, 0.0006, 0.0008, 0.0008, 0.0015, 0.0003, 0.0005, 0.0001, 0.0003, 0.0001, 0.0001, 0.0002], rms: 0.0434, noise: 0.9277, atk: 0.124 },
+    67: { h: [1.0, 0.1673, 0.0072, 0.0331, 0.025, 0.0045, 0.0056, 0.0024, 0.0128, 0.003, 0.0017, 0.0026, 0.0065, 0.0042, 0.0041, 0.0083, 0.0035, 0.0034, 0.001, 0.0011, 0.0013, 0.0015, 0.0012, 0.0022], rms: 0.05122, noise: 0.9857, atk: 0.148 },
+    68: { h: [1.0, 0.0038, 0.0167, 0.0042, 0.0007, 0.0008, 0.0016, 0.0006, 0.0003, 0.0004, 0.0001, 0.0002, 0.0004, 0.0001, 0.0003, 0.0002, 0.0, 0.0001, 0.0, 0.0001, 0.0001, 0.0003, 0.0001, 0.0001], rms: 0.05608, noise: 0.6344, atk: 0.79 },
+    69: { h: [1.0, 0.1482, 0.0247, 0.0097, 0.012, 0.0036, 0.0027, 0.0022, 0.0005, 0.0012, 0.0006, 0.0005, 0.0007, 0.0002, 0.0002, 0.0002, 0.0008, 0.0001, 0.0002, 0.0001, 0.0, 0.0001, 0.0001, 0.0], rms: 0.07596, noise: 0.0, atk: 0.218 },
+    70: { h: [1.0, 0.0519, 0.0378, 0.0018, 0.002, 0.0007, 0.0006, 0.0004, 0.0005, 0.0008, 0.0005, 0.0004, 0.0002, 0.0004, 0.0002, 0.0001, 0.0001, 0.0001, 0.0, 0.0001, 0.0, 0.0001, 0.0, 0.0], rms: 0.08271, noise: 0.4905, atk: 0.066 },
+    71: { h: [1.0, 0.0309, 0.014, 0.0048, 0.0034, 0.0028, 0.0001, 0.0003, 0.0, 0.0003, 0.0004, 0.0004, 0.0005, 0.0003, 0.0002, 0.0001, 0.0002, 0.0001, 0.0002, 0.0, 0.0001, 0.0002, 0.0001, 0.0001], rms: 0.06158, noise: 0.4267, atk: 0.078 },
+    72: { h: [1.0, 0.0999, 0.1706, 0.0522, 0.0134, 0.0069, 0.0021, 0.0028, 0.0013, 0.0017, 0.0034, 0.0026, 0.0031, 0.0018, 0.0009, 0.0005, 0.0003, 0.0008, 0.0002, 0.0003, 0.0003, 0.0, 0.0001, 0.0], rms: 0.02566, noise: 0.0, atk: 0.634 },
+    73: { h: [0.2518, 0.1304, 1.0, 0.5206, 0.071, 0.0212, 0.031, 0.0147, 0.011, 0.0183, 0.0263, 0.0208, 0.0361, 0.0073, 0.0209, 0.0091, 0.0082, 0.0039, 0.0035, 0.0011, 0.0009, 0.0013, 0.0019, 0.0003], rms: 0.01067, noise: 0.9351, atk: 0.215 },
+    74: { h: [1.0, 0.2018, 0.1777, 0.0279, 0.0404, 0.0117, 0.0071, 0.0092, 0.0014, 0.0244, 0.0101, 0.0054, 0.0018, 0.0014, 0.0012, 0.0007, 0.002, 0.0008, 0.0002, 0.0005, 0.0002, 0.0006, 0.0001, 0.0005], rms: 0.01676, noise: 0.9375, atk: 0.674 },
+    75: { h: [1.0, 0.2001, 0.3658, 0.0663, 0.0374, 0.0481, 0.0118, 0.0136, 0.0115, 0.0775, 0.0151, 0.0115, 0.0071, 0.003, 0.0078, 0.0049, 0.0114, 0.0058, 0.0058, 0.0005, 0.0014, 0.0058, 0.0088, 0.0003], rms: 0.00794, noise: 0.9925, atk: 0.094 },
+    76: { h: [1.0, 0.063, 0.0113, 0.0159, 0.003, 0.0017, 0.0066, 0.0016, 0.0012, 0.0014, 0.0006, 0.0007, 0.0, 0.0001, 0.0004, 0.0003, 0.0002, 0.0001, 0.0003, 0.0001, 0.0002, 0.0002, 0.0001, 0.0001], rms: 0.01073, noise: 0.7637, atk: 0.136 },
+    77: { h: [0.7122, 0.6601, 1.0, 0.2491, 0.1583, 0.0995, 0.0623, 0.1352, 0.2973, 0.0995, 0.055, 0.1028, 0.0182, 0.0229, 0.0236, 0.0199, 0.0221, 0.0416, 0.0434, 0.0468, 0.0067, 0.0547, 0.0494, 0.0507], rms: 0.0136, noise: 0.9987, atk: 0.23 },
+    78: { h: [1.0, 0.0695, 0.0247, 0.003, 0.0039, 0.0068, 0.0007, 0.0048, 0.0023, 0.0023, 0.0001, 0.0004, 0.0008, 0.0002, 0.0004, 0.0001, 0.0001, 0.0001, 0.0002, 0.0001, 0.0001, 0.0, 0.0001, 0.0002], rms: 0.01371, noise: 0.8033, atk: 0.235 },
+    79: { h: [1.0, 0.0374, 0.0102, 0.0091, 0.0063, 0.0046, 0.0021, 0.0055, 0.0022, 0.0018, 0.0017, 0.001, 0.0005, 0.001, 0.0003, 0.0002, 0.0003, 0.0006, 0.0004, 0.0001, 0.0004, 0.0003, 0.0003, 0.0006], rms: 0.02531, noise: 0.9689, atk: 0.209 },
+    80: { h: [1.0, 0.0344, 0.0281, 0.0084, 0.0036, 0.0044, 0.0116, 0.0057, 0.0039, 0.0037, 0.0038, 0.0022, 0.0017, 0.0021, 0.0015, 0.0014, 0.0016, 0.0008, 0.002, 0.0014, 0.001, 0.0022, 0.0016, 0.0], rms: 0.02509, noise: 0.9928, atk: 0.518 },
+  },
+  mf: {
+    49: { h: [0.8055, 1.0, 0.4351, 0.2895, 0.2464, 0.1371, 0.0959, 0.0187, 0.0322, 0.0449, 0.0336, 0.0359, 0.0307, 0.0153, 0.0158, 0.0089, 0.0113, 0.0139, 0.0086, 0.0112, 0.0136, 0.0104, 0.0089, 0.0074], rms: 0.08745, noise: 0.436, atk: 0.096 },
+    50: { h: [0.5785, 1.0, 0.5711, 0.4146, 0.4239, 0.1232, 0.0629, 0.0107, 0.0277, 0.0383, 0.0266, 0.0389, 0.0186, 0.0224, 0.0085, 0.0095, 0.0073, 0.0032, 0.0038, 0.0049, 0.0034, 0.0054, 0.0027, 0.0036], rms: 0.09228, noise: 0.3326, atk: 0.077 },
+    51: { h: [0.7684, 1.0, 0.8282, 0.5388, 0.6124, 0.1312, 0.0201, 0.0726, 0.0734, 0.0533, 0.034, 0.0101, 0.0141, 0.0134, 0.0309, 0.0397, 0.0308, 0.0285, 0.0191, 0.0204, 0.0198, 0.0106, 0.0055, 0.0047], rms: 0.10489, noise: 0.1122, atk: 0.059 },
+    52: { h: [0.9096, 1.0, 0.845, 0.2025, 0.262, 0.0535, 0.0236, 0.0583, 0.0401, 0.0226, 0.0225, 0.0154, 0.0245, 0.025, 0.0352, 0.0261, 0.0245, 0.018, 0.0136, 0.0083, 0.0043, 0.0041, 0.0037, 0.0026], rms: 0.09591, noise: 0.1884, atk: 0.098 },
+    53: { h: [1.0, 0.9754, 0.7895, 0.1787, 0.0602, 0.1123, 0.107, 0.072, 0.0345, 0.008, 0.0118, 0.0131, 0.0093, 0.0118, 0.0105, 0.0093, 0.0076, 0.0049, 0.0028, 0.0017, 0.0027, 0.0028, 0.0031, 0.002], rms: 0.10077, noise: 0.3587, atk: 0.168 },
+    54: { h: [1.0, 0.9016, 0.5805, 0.0441, 0.0043, 0.0099, 0.0052, 0.0058, 0.0014, 0.0022, 0.0021, 0.0032, 0.0056, 0.0045, 0.004, 0.0012, 0.0004, 0.0004, 0.0001, 0.0002, 0.0001, 0.0002, 0.0002, 0.0002], rms: 0.12434, noise: 0.3623, atk: 0.079 },
+    55: { h: [0.8491, 1.0, 0.4985, 0.0559, 0.0208, 0.0174, 0.009, 0.0068, 0.0032, 0.0099, 0.0113, 0.0126, 0.0073, 0.0084, 0.0064, 0.0046, 0.0036, 0.0021, 0.0012, 0.0004, 0.0004, 0.0009, 0.001, 0.0011], rms: 0.09947, noise: 0.1633, atk: 0.043 },
+    56: { h: [0.8032, 1.0, 0.3269, 0.0614, 0.0727, 0.1069, 0.0586, 0.0303, 0.0286, 0.0374, 0.0211, 0.0247, 0.0243, 0.0178, 0.0098, 0.0113, 0.0079, 0.0018, 0.0027, 0.0017, 0.0045, 0.0027, 0.0026, 0.0008], rms: 0.10027, noise: 0.0, atk: 0.077 },
+    57: { h: [0.865, 1.0, 0.0488, 0.0669, 0.0657, 0.023, 0.0036, 0.007, 0.0031, 0.0014, 0.0009, 0.0011, 0.0021, 0.0013, 0.0007, 0.0003, 0.0005, 0.0004, 0.0002, 0.0004, 0.0009, 0.0004, 0.0002, 0.0002], rms: 0.09672, noise: 0.1466, atk: 0.044 },
+    58: { h: [0.9503, 1.0, 0.0393, 0.0955, 0.041, 0.0596, 0.0511, 0.0159, 0.0163, 0.0095, 0.0135, 0.0146, 0.0057, 0.0031, 0.003, 0.002, 0.0011, 0.0003, 0.0002, 0.0017, 0.0009, 0.0007, 0.001, 0.0019], rms: 0.09051, noise: 0.0903, atk: 0.058 },
+    59: { h: [1.0, 0.2874, 0.0074, 0.0102, 0.0025, 0.0046, 0.0073, 0.0015, 0.0027, 0.0012, 0.0022, 0.0019, 0.0015, 0.0026, 0.0008, 0.0005, 0.0003, 0.0006, 0.0012, 0.0002, 0.0005, 0.0004, 0.0008, 0.0013], rms: 0.08115, noise: 0.6521, atk: 0.04 },
+    60: { h: [1.0, 0.2709, 0.019, 0.058, 0.0483, 0.0111, 0.0098, 0.0151, 0.0048, 0.0056, 0.0052, 0.004, 0.0017, 0.0025, 0.0005, 0.0008, 0.0012, 0.0017, 0.0008, 0.0011, 0.0009, 0.0018, 0.0022, 0.0013], rms: 0.05895, noise: 0.5177, atk: 0.039 },
+    61: { h: [1.0, 0.1099, 0.0106, 0.0268, 0.0426, 0.0539, 0.0288, 0.0165, 0.0181, 0.0243, 0.0132, 0.0067, 0.0047, 0.0024, 0.0019, 0.0031, 0.0038, 0.0015, 0.0022, 0.0015, 0.0033, 0.0035, 0.0007, 0.0002], rms: 0.05331, noise: 0.0416, atk: 0.061 },
+    62: { h: [1.0, 0.134, 0.0054, 0.0228, 0.0364, 0.0037, 0.0073, 0.0022, 0.0013, 0.0018, 0.0059, 0.0033, 0.001, 0.0004, 0.0008, 0.002, 0.0018, 0.0018, 0.0006, 0.0016, 0.0006, 0.0007, 0.0009, 0.0006], rms: 0.04978, noise: 0.7314, atk: 0.809 },
+    63: { h: [1.0, 0.1621, 0.2361, 0.0757, 0.0654, 0.0158, 0.0229, 0.0314, 0.0136, 0.0075, 0.0049, 0.0017, 0.0021, 0.0045, 0.0033, 0.0017, 0.0015, 0.0012, 0.0026, 0.0022, 0.0004, 0.0005, 0.0005, 0.0004], rms: 0.06582, noise: 0.3629, atk: 0.047 },
+    64: { h: [1.0, 0.1441, 0.0204, 0.0093, 0.0148, 0.008, 0.0165, 0.0043, 0.0043, 0.0042, 0.0027, 0.0007, 0.0014, 0.0011, 0.0004, 0.0011, 0.0004, 0.0005, 0.0007, 0.0002, 0.0007, 0.0011, 0.0004, 0.0004], rms: 0.05519, noise: 0.7711, atk: 0.031 },
+    65: { h: [1.0, 0.2435, 0.4916, 0.0845, 0.0379, 0.0402, 0.0241, 0.0276, 0.0091, 0.0047, 0.0041, 0.0008, 0.0011, 0.0001, 0.0004, 0.0002, 0.0003, 0.001, 0.0004, 0.0003, 0.0007, 0.001, 0.0011, 0.0001], rms: 0.11927, noise: 0.0, atk: 0.07 },
+    66: { h: [1.0, 0.0087, 0.0286, 0.0103, 0.0018, 0.0017, 0.0009, 0.0013, 0.0008, 0.0004, 0.0004, 0.0002, 0.0001, 0.0001, 0.0001, 0.0002, 0.0004, 0.0001, 0.0001, 0.0001, 0.0001, 0.0, 0.0001, 0.0], rms: 0.15132, noise: 0.5806, atk: 0.038 },
+    67: { h: [1.0, 0.2357, 0.0993, 0.1722, 0.0503, 0.05, 0.0474, 0.0235, 0.0085, 0.0027, 0.0021, 0.0011, 0.0004, 0.0004, 0.0017, 0.0005, 0.0007, 0.0007, 0.0006, 0.0008, 0.0001, 0.0008, 0.001, 0.0003], rms: 0.13104, noise: 0.0033, atk: 0.039 },
+    68: { h: [1.0, 0.0446, 0.0352, 0.0138, 0.007, 0.0045, 0.0044, 0.0009, 0.0006, 0.0, 0.0004, 0.0002, 0.0003, 0.0, 0.0002, 0.0002, 0.0001, 0.0001, 0.0, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001], rms: 0.14498, noise: 0.2607, atk: 0.037 },
+    69: { h: [1.0, 0.1128, 0.0209, 0.0037, 0.0087, 0.0048, 0.0037, 0.0021, 0.0012, 0.0002, 0.0001, 0.0002, 0.0003, 0.0002, 0.0003, 0.0006, 0.0003, 0.0001, 0.0004, 0.0001, 0.0001, 0.0002, 0.0001, 0.0001], rms: 0.16961, noise: 0.5956, atk: 0.037 },
+    70: { h: [1.0, 0.0763, 0.0798, 0.0103, 0.0044, 0.0041, 0.0068, 0.0029, 0.0021, 0.0028, 0.0009, 0.0005, 0.001, 0.0001, 0.0001, 0.0004, 0.0001, 0.0004, 0.0003, 0.0003, 0.0001, 0.0001, 0.0, 0.0], rms: 0.16405, noise: 0.103, atk: 0.036 },
+    71: { h: [1.0, 0.0486, 0.0263, 0.0136, 0.0049, 0.038, 0.0173, 0.0013, 0.0042, 0.0013, 0.0002, 0.0024, 0.0007, 0.0002, 0.0009, 0.0005, 0.0003, 0.0002, 0.0006, 0.0001, 0.0003, 0.0002, 0.0001, 0.0001], rms: 0.14923, noise: 0.8769, atk: 0.043 },
+    72: { h: [1.0, 0.4202, 0.215, 0.0559, 0.051, 0.0663, 0.0216, 0.0046, 0.0052, 0.001, 0.0008, 0.0005, 0.0019, 0.0033, 0.0009, 0.0003, 0.0002, 0.0014, 0.0005, 0.0005, 0.0006, 0.0005, 0.0005, 0.0007], rms: 0.08638, noise: 0.2311, atk: 0.034 },
+    73: { h: [0.1142, 0.3329, 1.0, 0.0966, 0.2572, 0.0206, 0.0361, 0.0158, 0.0163, 0.0034, 0.0045, 0.007, 0.0117, 0.0167, 0.0169, 0.0077, 0.0132, 0.0015, 0.0012, 0.0029, 0.0065, 0.0052, 0.0019, 0.0091], rms: 0.04296, noise: 0.9926, atk: 0.042 },
+    74: { h: [1.0, 0.0214, 0.2602, 0.2315, 0.056, 0.0242, 0.0219, 0.0149, 0.0022, 0.0065, 0.0028, 0.0019, 0.0006, 0.0013, 0.0011, 0.0021, 0.0005, 0.0014, 0.0018, 0.0005, 0.0007, 0.0011, 0.0001, 0.0003], rms: 0.04647, noise: 0.944, atk: 0.029 },
+    75: { h: [1.0, 0.0759, 0.045, 0.0892, 0.0228, 0.0022, 0.0077, 0.0019, 0.0003, 0.0016, 0.001, 0.0011, 0.0002, 0.0005, 0.0005, 0.0002, 0.0007, 0.0013, 0.0008, 0.0001, 0.0005, 0.0002, 0.0003, 0.0004], rms: 0.05057, noise: 0.8171, atk: 0.039 },
+    76: { h: [1.0, 0.3753, 0.2098, 0.0987, 0.0559, 0.0095, 0.0253, 0.0231, 0.0211, 0.0054, 0.0103, 0.0171, 0.0067, 0.0122, 0.0038, 0.006, 0.004, 0.0045, 0.0038, 0.0035, 0.0028, 0.0029, 0.0024, 0.0038], rms: 0.06277, noise: 0.9932, atk: 0.044 },
+    77: { h: [1.0, 0.211, 0.221, 0.0533, 0.022, 0.0118, 0.0082, 0.0019, 0.0072, 0.001, 0.0034, 0.0035, 0.0037, 0.002, 0.0023, 0.0024, 0.0009, 0.0024, 0.0011, 0.0004, 0.0005, 0.0004, 0.0004, 0.0004], rms: 0.06715, noise: 0.6442, atk: 0.065 },
+    78: { h: [1.0, 0.8347, 0.9615, 0.3214, 0.1192, 0.0658, 0.0348, 0.0607, 0.029, 0.0435, 0.0061, 0.0708, 0.073, 0.0207, 0.0467, 0.0081, 0.0111, 0.0054, 0.0122, 0.0073, 0.0082, 0.0026, 0.0057, 0.0023], rms: 0.07435, noise: 0.998, atk: 0.033 },
+    79: { h: [1.0, 0.059, 0.0932, 0.0383, 0.0153, 0.0294, 0.0037, 0.0077, 0.0042, 0.0047, 0.005, 0.0019, 0.0042, 0.0009, 0.0022, 0.0014, 0.0034, 0.0007, 0.0008, 0.0013, 0.0004, 0.0007, 0.001, 0.0013], rms: 0.09138, noise: 0.9895, atk: 0.045 },
+    80: { h: [1.0, 0.0122, 0.1411, 0.0508, 0.0042, 0.0056, 0.0108, 0.002, 0.0019, 0.0013, 0.0028, 0.0034, 0.0022, 0.0002, 0.0007, 0.0015, 0.0002, 0.0003, 0.0002, 0.0001, 0.0002, 0.0002, 0.0001, 0.0], rms: 0.09312, noise: 0.7432, atk: 0.231 },
+  },
+  ff: {
+    49: { h: [0.7193, 1.0, 0.3909, 0.8622, 0.88, 0.3019, 0.0818, 0.0221, 0.063, 0.061, 0.0353, 0.0165, 0.0128, 0.0086, 0.0191, 0.024, 0.0433, 0.0547, 0.0344, 0.0387, 0.0389, 0.0298, 0.0287, 0.0236], rms: 0.18077, noise: 0.1793, atk: 0.045 },
+    50: { h: [0.9112, 1.0, 0.4207, 0.2102, 0.228, 0.216, 0.1643, 0.0345, 0.0224, 0.0502, 0.0505, 0.0531, 0.0252, 0.0249, 0.0071, 0.0029, 0.0235, 0.0215, 0.0284, 0.021, 0.0124, 0.0102, 0.0075, 0.0101], rms: 0.16564, noise: 0.5596, atk: 0.076 },
+    51: { h: [0.7158, 1.0, 0.7753, 0.6831, 0.8667, 0.1669, 0.0872, 0.2309, 0.1604, 0.1284, 0.0498, 0.0577, 0.0935, 0.0923, 0.1662, 0.1599, 0.0865, 0.0771, 0.0483, 0.0491, 0.0591, 0.037, 0.0118, 0.0149], rms: 0.16782, noise: 0.0088, atk: 0.045 },
+    52: { h: [0.7318, 1.0, 0.6122, 0.408, 0.2008, 0.0337, 0.0595, 0.106, 0.0916, 0.0581, 0.0434, 0.0312, 0.03, 0.0433, 0.0333, 0.02, 0.0253, 0.0146, 0.0191, 0.0172, 0.0072, 0.0055, 0.0046, 0.003], rms: 0.14554, noise: 0.3194, atk: 0.043 },
+    53: { h: [0.8283, 1.0, 0.8657, 0.4745, 0.0499, 0.3981, 0.2738, 0.1282, 0.0546, 0.0626, 0.0529, 0.0401, 0.025, 0.0376, 0.0319, 0.0289, 0.0148, 0.0197, 0.0154, 0.0099, 0.0032, 0.0044, 0.005, 0.0026], rms: 0.15343, noise: 0.0602, atk: 0.303 },
+    54: { h: [0.9946, 1.0, 0.9262, 0.2148, 0.0662, 0.0976, 0.0295, 0.0202, 0.0238, 0.0181, 0.0185, 0.0118, 0.0134, 0.0107, 0.0094, 0.0044, 0.0054, 0.004, 0.004, 0.0016, 0.0026, 0.0037, 0.0023, 0.0047], rms: 0.18644, noise: 0.3421, atk: 0.023 },
+    55: { h: [0.7827, 1.0, 0.5473, 0.1429, 0.1578, 0.0622, 0.0565, 0.056, 0.0575, 0.0524, 0.0295, 0.0264, 0.0222, 0.0274, 0.0229, 0.0161, 0.0115, 0.0172, 0.0037, 0.0048, 0.0029, 0.0017, 0.0017, 0.0033], rms: 0.15326, noise: 0.0357, atk: 0.031 },
+    56: { h: [0.7629, 1.0, 0.3732, 0.077, 0.1689, 0.109, 0.0784, 0.0804, 0.0495, 0.0418, 0.0306, 0.0571, 0.0468, 0.0508, 0.0192, 0.0149, 0.0154, 0.0121, 0.0095, 0.0046, 0.0031, 0.0033, 0.003, 0.0029], rms: 0.17321, noise: 0.0038, atk: 0.026 },
+    57: { h: [1.0, 0.745, 0.0552, 0.0389, 0.0377, 0.0187, 0.0137, 0.0221, 0.0057, 0.0084, 0.0094, 0.0123, 0.0193, 0.0041, 0.0016, 0.0011, 0.0013, 0.001, 0.0001, 0.0002, 0.001, 0.0004, 0.0005, 0.0012], rms: 0.16182, noise: 0.3702, atk: 0.028 },
+    58: { h: [0.7788, 1.0, 0.0872, 0.1018, 0.1121, 0.1101, 0.0349, 0.0124, 0.0159, 0.007, 0.0007, 0.0032, 0.0064, 0.0103, 0.0016, 0.0012, 0.0029, 0.003, 0.0071, 0.0013, 0.0008, 0.0004, 0.0027, 0.0034], rms: 0.14289, noise: 0.0461, atk: 0.025 },
+    59: { h: [1.0, 0.297, 0.01, 0.0237, 0.011, 0.0144, 0.0012, 0.0057, 0.0083, 0.0043, 0.0033, 0.0116, 0.0087, 0.0007, 0.0004, 0.0011, 0.0014, 0.0011, 0.0001, 0.0003, 0.0005, 0.0009, 0.001, 0.0001], rms: 0.1203, noise: 0.5387, atk: 0.023 },
+    60: { h: [1.0, 0.4141, 0.0391, 0.1625, 0.0115, 0.0184, 0.0133, 0.0222, 0.0294, 0.0249, 0.0179, 0.0154, 0.006, 0.0076, 0.0004, 0.0045, 0.0036, 0.0003, 0.0006, 0.0028, 0.0018, 0.0011, 0.0016, 0.0042], rms: 0.10992, noise: 0.1521, atk: 0.025 },
+    61: { h: [1.0, 0.0585, 0.007, 0.0389, 0.0044, 0.0222, 0.0046, 0.0047, 0.0045, 0.0033, 0.0044, 0.0013, 0.0052, 0.0003, 0.0005, 0.0012, 0.0004, 0.0001, 0.0005, 0.0013, 0.0006, 0.0004, 0.0013, 0.0005], rms: 0.10422, noise: 0.4932, atk: 0.022 },
+    62: { h: [1.0, 0.1589, 0.0198, 0.0141, 0.0211, 0.0053, 0.0076, 0.008, 0.0033, 0.0082, 0.0077, 0.0017, 0.0016, 0.0019, 0.0013, 0.0003, 0.0003, 0.0002, 0.0005, 0.0004, 0.0004, 0.0005, 0.0004, 0.0003], rms: 0.09404, noise: 0.1905, atk: 0.2 },
+    63: { h: [1.0, 0.352, 0.124, 0.0344, 0.0259, 0.0019, 0.0423, 0.0436, 0.0315, 0.0236, 0.0077, 0.0036, 0.0026, 0.0015, 0.0048, 0.0018, 0.002, 0.0007, 0.0023, 0.0011, 0.0021, 0.0009, 0.0004, 0.002], rms: 0.09184, noise: 0.7387, atk: 0.021 },
+    64: { h: [1.0, 0.0366, 0.0656, 0.025, 0.0602, 0.0209, 0.024, 0.0101, 0.018, 0.009, 0.0046, 0.0029, 0.0022, 0.0041, 0.0023, 0.0017, 0.0016, 0.0005, 0.0005, 0.001, 0.001, 0.0003, 0.0023, 0.0009], rms: 0.08292, noise: 0.7514, atk: 0.036 },
+    65: { h: [1.0, 0.3109, 0.3193, 0.0249, 0.0413, 0.0202, 0.0278, 0.0223, 0.0159, 0.0099, 0.0034, 0.0031, 0.006, 0.0011, 0.002, 0.0021, 0.0017, 0.0015, 0.0005, 0.0006, 0.0009, 0.0006, 0.0002, 0.0002], rms: 0.18694, noise: 0.3467, atk: 0.044 },
+    66: { h: [1.0, 0.1607, 0.0914, 0.0735, 0.0201, 0.0144, 0.0064, 0.0036, 0.0019, 0.0015, 0.0005, 0.0008, 0.0003, 0.0005, 0.0005, 0.0004, 0.0003, 0.0002, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 0.0], rms: 0.19306, noise: 0.6245, atk: 0.027 },
+    67: { h: [1.0, 0.0704, 0.0387, 0.0526, 0.0241, 0.0279, 0.0236, 0.0218, 0.0183, 0.0056, 0.0061, 0.0038, 0.0034, 0.0035, 0.0046, 0.0051, 0.0004, 0.003, 0.0017, 0.0015, 0.0002, 0.0009, 0.0007, 0.0007], rms: 0.2019, noise: 0.767, atk: 0.034 },
+    68: { h: [1.0, 0.0765, 0.0424, 0.0139, 0.0167, 0.0057, 0.016, 0.0123, 0.0004, 0.0004, 0.0006, 0.0007, 0.0012, 0.0001, 0.0001, 0.0004, 0.0001, 0.0006, 0.0002, 0.0001, 0.0003, 0.0004, 0.0002, 0.0001], rms: 0.24157, noise: 0.8612, atk: 0.029 },
+    69: { h: [1.0, 0.1306, 0.2191, 0.0814, 0.1132, 0.0477, 0.0369, 0.0254, 0.0112, 0.0102, 0.0017, 0.005, 0.0046, 0.0129, 0.0044, 0.0044, 0.007, 0.0025, 0.0019, 0.0023, 0.002, 0.004, 0.0005, 0.0006], rms: 0.25575, noise: 0.9349, atk: 0.06 },
+    70: { h: [1.0, 0.2831, 0.3383, 0.041, 0.119, 0.1153, 0.0483, 0.0283, 0.0035, 0.0174, 0.0021, 0.0072, 0.0087, 0.0027, 0.0032, 0.0091, 0.0003, 0.0027, 0.0032, 0.0043, 0.0039, 0.0015, 0.002, 0.0013], rms: 0.23202, noise: 0.8473, atk: 0.027 },
+    71: { h: [1.0, 0.0962, 0.1481, 0.0052, 0.0103, 0.0063, 0.0028, 0.0019, 0.0011, 0.0006, 0.0021, 0.0003, 0.0001, 0.0023, 0.0012, 0.0028, 0.0025, 0.0011, 0.001, 0.0008, 0.0011, 0.0009, 0.0006, 0.0007], rms: 0.17963, noise: 0.9547, atk: 0.025 },
+    72: { h: [1.0, 0.159, 0.3909, 0.0813, 0.0219, 0.0146, 0.0092, 0.0019, 0.0011, 0.0019, 0.0025, 0.0019, 0.0017, 0.001, 0.0013, 0.0003, 0.001, 0.0003, 0.0016, 0.0009, 0.0021, 0.0009, 0.0011, 0.0002], rms: 0.14891, noise: 0.9368, atk: 0.017 },
+    73: { h: [1.0, 0.1004, 0.3891, 0.1998, 0.0312, 0.0703, 0.0222, 0.0332, 0.0039, 0.0026, 0.012, 0.0046, 0.0053, 0.0045, 0.0015, 0.0026, 0.0016, 0.0021, 0.0007, 0.001, 0.0007, 0.0006, 0.0001, 0.0023], rms: 0.08799, noise: 0.9481, atk: 0.345 },
+    74: { h: [1.0, 0.1651, 0.4731, 0.3752, 0.1279, 0.0387, 0.0131, 0.0042, 0.0018, 0.001, 0.0006, 0.0026, 0.0068, 0.0055, 0.0025, 0.0071, 0.0046, 0.0024, 0.0041, 0.0027, 0.003, 0.0021, 0.002, 0.0007], rms: 0.11114, noise: 0.4862, atk: 0.185 },
+    75: { h: [1.0, 0.1861, 0.1541, 0.2468, 0.1516, 0.0724, 0.0427, 0.0111, 0.0087, 0.0106, 0.0051, 0.0096, 0.0039, 0.002, 0.0139, 0.0061, 0.0017, 0.0075, 0.0019, 0.0016, 0.0028, 0.0015, 0.0005, 0.0009], rms: 0.09956, noise: 0.9729, atk: 0.238 },
+    76: { h: [1.0, 0.0702, 0.1322, 0.0419, 0.0356, 0.0037, 0.013, 0.0066, 0.0029, 0.0024, 0.0059, 0.0027, 0.004, 0.0025, 0.0007, 0.0013, 0.0009, 0.0007, 0.0013, 0.0014, 0.001, 0.0002, 0.0005, 0.0001], rms: 0.09741, noise: 0.9164, atk: 0.021 },
+    77: { h: [1.0, 0.2573, 0.1426, 0.0299, 0.0257, 0.0062, 0.0012, 0.0043, 0.0012, 0.001, 0.0025, 0.0005, 0.0042, 0.0014, 0.0015, 0.0013, 0.0015, 0.0016, 0.0012, 0.0004, 0.0002, 0.0003, 0.0003, 0.0007], rms: 0.12414, noise: 0.9643, atk: 0.078 },
+    78: { h: [1.0, 0.0781, 0.0141, 0.0531, 0.0106, 0.0201, 0.0025, 0.0092, 0.0088, 0.0035, 0.0018, 0.0046, 0.0031, 0.003, 0.003, 0.0071, 0.0013, 0.0056, 0.0039, 0.0015, 0.0024, 0.0017, 0.0004, 0.0013], rms: 0.13184, noise: 0.982, atk: 0.22 },
+    79: { h: [1.0, 0.1736, 0.0719, 0.0403, 0.0035, 0.0057, 0.0053, 0.0115, 0.0133, 0.0012, 0.0097, 0.0022, 0.0026, 0.0003, 0.001, 0.0043, 0.0016, 0.0009, 0.0008, 0.0002, 0.0003, 0.0004, 0.0001, 0.0011], rms: 0.17015, noise: 0.5517, atk: 0.046 },
+    80: { h: [1.0, 0.1717, 0.166, 0.106, 0.0113, 0.0053, 0.0014, 0.0094, 0.0158, 0.0035, 0.0023, 0.001, 0.0019, 0.0018, 0.0023, 0.0012, 0.0004, 0.0003, 0.0014, 0.0016, 0.0011, 0.0011, 0.0011, 0.0], rms: 0.16738, noise: 0.0801, atk: 0.038 },
+  },
+};
+
 const PARAMS = {};                 // the base, per "<machine>.<control>"
 const TRIM   = {};                 // the user's signed offset, same keys
 const CONTROL = {};                // the declaration, same keys -- filled below
@@ -5225,256 +5338,219 @@ const Sound = (function(){
               modulation at roughly 25-40 Hz, plus noise. Every number in it is
               [EAR] and marked so; no measurement of a real growl backs them.
      ═════════════════════════════════════════════════════════════════════════ */
+  /* ═══ THE SAX ENGINE — THE BREATH IS THE UNIT, NOT THE NOTE ════════════════
+     [docs/genre-research/sax-engine.md; tables: corpus/analyze_sax.py over the
+     Iowa MIS alto NoVib set, embedded above as SAX_WT]
+
+     The old voice was two sawtooths through formants, articulated per note --
+     a keyboard, as the user finally named it. This one renders a PHRASE: one
+     excitation, one continuous dynamics stream, one pitch line through the
+     fingerings. The timbre is three real spectra of the same horn -- pp, mf,
+     ff, per pitch, measured -- on three phase-locked oscillators (same
+     frequency, started together, WebAudio holds their phase), so crossfading
+     them is phase-coherent morphing: a crescendo changes the SPECTRUM the way
+     a breath does, because the endpoints are real breaths. Measured in the
+     source: centroid 1.90 -> 2.29 -> 2.61 across pp/mf/ff; attack 0.33 s at
+     pp vs 0.075 at ff. The formant biquads are gone -- the tables were
+     recorded through the horn's own body.
+
+     Stage 5 attaches the phrase to its opening event; members arrive marked
+     `inPhrase` and dispatch skips them (V.sax.phrases below). A bare event
+     with no phrase (probe_voices, the UI sweep) renders as a one-note phrase,
+     so every harness that fires voices still fires this one. */
+  function saxWave(c, g, p, dyn){
+    if(!g.saxWaves) g.saxWaves = {};
+    const key = p + ":" + dyn;
+    if(!g.saxWaves[key]){
+      const T = SAX_WT[dyn];
+      let q = Math.max(49, Math.min(80, p));
+      while(!T[q] && q < 80) q++;
+      while(!T[q] && q > 49) q--;
+      const h = T[q].h;
+      const re = new Float32Array(h.length + 1), im = new Float32Array(h.length + 1);
+      for(let i = 0; i < h.length; i++) im[i + 1] = h[i];
+      g.saxWaves[key] = { wave: c.createPeriodicWave(re, im), e: T[q] };
+    }
+    return g.saxWaves[key];
+  }
   V.sax = function(g, ev, t){
-    const c = g.ctx, f = F(ev.pitch);
-    const dur = ev.durSec, end = t + dur + 1.1;
-    /* the lead bus, because that is the lane this machine sits in */
-    const out = c.createGain(); out.connect(g.bus.lead);
-    const vel = Math.min(1.2, ev.gain);
-    /* a voice returns its SOURCE nodes, not its output -- the scheduler holds
-       them so it can stop them and prune itself when they end */
+    const c = g.ctx;
+    const mem = ev.phrase || [{ dt: 0, durSec: ev.durSec, pitch: ev.pitch, gain: ev.gain,
+                                art: ev.art || "breath", from: ev.from, vib: !!ev.vib, tail: ev.tail }];
+    const last = mem[mem.length - 1];
+    const tailKind = last.tail || null;
+    const REL = tailKind === "taper" ? Math.min(0.75, 0.30 + last.durSec * 0.12)
+              : tailKind === "fall"  ? 0.30 : 0.14;
+    const tEnd = t + last.dt + last.durSec;
+    const end = tEnd + REL + 0.6;
     const made = [];
+    const out = c.createGain(); out.connect(g.bus.lead);
+    const pre = c.createGain(); pre.connect(out);
 
-    /* ── WHAT KIND OF NOTE THIS IS. Written by `articulate` in stage 3 off the
-       melodic contour and carried here untouched. Everything below branches on
-       it, because the difference between a saxophone and a sawtooth with a
-       formant filter is almost entirely in these four cases.
-       `breath` is the default so a lead line from a genre that never ran the
-       articulation pass still speaks -- it just speaks every note as a phrase
-       start, which is what this voice used to do to all of them. */
-    const art = ev.art || "breath";
-    const slurred = art === "legato";
-    /* THE TONGUE STOPS THE REED FOR 25.5 ms AND THE FIGURE DOES NOT MOVE WITH
-       TEMPO -- it is a gesture, not a proportion, so it is a constant here and
-       the staccato fraction is not. [corpus:PMC4097958] */
-    const t0 = art === "portato" ? t + 0.0255 : t;
+    /* one wavetable region per phrase, at the phrase's median pitch. A line
+       that roams far from its median borrows a neighbour's spectrum for its
+       extremes -- audibly acceptable because adjacent-pitch spectra are near
+       [approx, EAR]; per-note wavetable swaps would break the phase lock. */
+    const ps = mem.map(m => m.pitch).sort((a, b) => a - b);
+    const tp = Math.max(49, Math.min(80, ps[ps.length >> 1]));
+    const W = { pp: saxWave(c, g, tp, "pp"), mf: saxWave(c, g, tp, "mf"), ff: saxWave(c, g, tp, "ff") };
+    /* the REAL loudness relations between the layers, perceptually halved so a
+       pp phrase is quieter, not gone [EAR on the sqrt] */
+    const ref = W.mf.e.rms || 0.09;
+    const trim = { pp: Math.sqrt((W.pp.e.rms || ref) / ref), mf: 1,
+                   ff: Math.sqrt((W.ff.e.rms || ref) / ref) };
 
-    /* the reed. A sawtooth for the conical bore [theory]; `reed` adds a second
-       one slightly sharp so the tone has the beating a real one has. */
-    const reed = P(g, ev, "sax", "reed", 0.35);
-    const o1 = c.createOscillator(); o1.type = "sawtooth";
-    const o2 = c.createOscillator(); o2.type = "sawtooth";
-    const mix2 = c.createGain(); mix2.gain.value = 0.30 * reed;
+    const DYNS = ["pp", "mf", "ff"];
+    const layer = {};
+    for(const d of DYNS){
+      const o = c.createOscillator(); o.setPeriodicWave(W[d].wave);
+      const lg = c.createGain(); lg.gain.value = 0;
+      o.connect(lg); lg.connect(pre);
+      o.start(t); o.stop(end);
+      layer[d] = { o, lg }; made.push(o);
+    }
+    /* the second reed: a 5-cent copy of the mf spectrum. The beat between the
+       two is the thickness the old voice faked with a detuned sawtooth. */
+    const reedAmt = P(g, ev, "sax", "reed", 0.35);
+    const o2 = c.createOscillator(); o2.setPeriodicWave(W.mf.wave); o2.detune.value = 5;
+    const rg = c.createGain(); rg.gain.value = 0.22 * reedAmt;
+    o2.connect(rg); rg.connect(pre); o2.start(t); o2.stop(end); made.push(o2);
+    const oscs = [layer.pp.o, layer.mf.o, layer.ff.o, o2];
 
-    /* ── SCOOP: the note arrives from under the pitch and settles onto it. The
-       depth is in CENTS and scales with how hard the note is played, which is
-       what a player's embouchure actually does. [EAR]
+    const bright = P(g, ev, "sax", "bright", 0.5);
+    /* where on the pp..ff line a note sits: its gain, the panel's brightness
+       bias, and the SUBTONE pull -- a low note played softly leans harder
+       toward the pp spectrum, which IS the recorded subtone [research] */
+    const posOf = m => Math.max(0, Math.min(2,
+      (Math.min(1.2, m.gain) - 0.45) * 3.2 + (bright - 0.5) * 1.2
+      - 0.9 * Math.max(0, 1 - m.gain) * Math.max(0, Math.min(1, (62 - m.pitch) / 10))));
+    const mix = pos => ({ pp: Math.max(0, 1 - pos) * trim.pp,
+                          mf: Math.max(0, 1 - Math.abs(pos - 1)) * trim.mf,
+                          ff: Math.max(0, pos - 1) * trim.ff });
+    const mixTo = (pos, when, ramp) => {
+      const m = mix(pos);
+      for(const d of DYNS) layer[d].lg.gain.linearRampToValueAtTime(m[d], when + ramp);
+    };
 
-       ONLY AT THE START OF A PHRASE. A scoop is the embouchure finding the
-       pitch, which is something that happens when the note is the first one out
-       of the horn -- a player does not re-scoop into the middle of a run, and a
-       voice that did was the loudest thing wrong with this instrument. */
-    const scoop = art === "breath" ? P(g, ev, "sax", "scoop", 0.5) : 0;
-    const scoopSec = 0.055 + 0.045 * scoop;
-    /* ── AND A SLUR ARRIVES FROM THE NOTE BEFORE IT. Not from below, not from
-       nowhere: from wherever the line just was, under one unbroken breath. This
-       is the whole of legato and it is why `from` is carried on the event.
-       45 ms is the fastest a jaw and a set of fingers get across a second
-       without it reading as a portamento. [EAR] */
-    const tail = ev.tail || null;
-    const glide = slurred && ev.from != null && ev.from !== ev.pitch;
-    const from = glide ? F(ev.from)
-               : scoop > 0 ? f * Math.pow(2, -(scoop * 0.9 * vel) / 12)
-               : f;
-    const rise = glide ? 0.045 : scoopSec;
-    /* ── FALL: and it leaves downward. Only on notes long enough to have an end
-       worth falling off -- a sixteenth does not fall. [EAR] */
-    /* the falloff release is per NOTE now (articulation), not only a panel
-       setting: a phrase-end marked "fall" leaves downward whatever the panel
-       says, at a documented soft depth [corpus:US6316710] */
-    const fall = tail === "fall" ? Math.max(P(g, ev, "sax", "fall", 0), 0.55)
-                                 : P(g, ev, "sax", "fall", 0);
-    const setPitch = o => {
-      o.frequency.setValueAtTime(from, t0);
-      if(from !== f) o.frequency.exponentialRampToValueAtTime(f, t0 + rise);
-      if(fall > 0.01 && dur > 0.35){
-        o.frequency.setValueAtTime(f, t + dur * 0.82);
-        o.frequency.exponentialRampToValueAtTime(f * Math.pow(2, -(fall * 5) / 12), t + dur + 0.12);
+    const F_ = m => 440 * Math.pow(2, (m - 69) / 12);
+    const setFreq = (hz, when, glide) => {
+      for(const o of oscs){
+        if(glide > 0) o.frequency.exponentialRampToValueAtTime(hz, when + glide);
+        else o.frequency.setValueAtTime(hz, when);
       }
     };
-    setPitch(o1); setPitch(o2);
-    o2.detune.value = 6;                                  // the second reed, 6 cents sharp [EAR]
 
-    /* ── VIBRATO, LATE, AND ONLY DOWNWARD ──────────────────────────────────
-       Two findings, and the second is the one a synthesiser always gets wrong.
+    /* ── THE BREATH ENVELOPE, one for the whole phrase ── */
+    const vel0 = Math.min(1.2, mem[0].gain);
+    const pos0 = posOf(mem[0]);
+    const atk = (pos0 < 0.7 ? W.pp.e.atk : pos0 > 1.3 ? W.ff.e.atk : W.mf.e.atk) || 0.08;
+    const lvl = m => LEVEL.lead * 1.18 * Math.min(1.2, m.gain);
+    pre.gain.setValueAtTime(0.0001, t);
+    pre.gain.linearRampToValueAtTime(lvl(mem[0]), t + Math.max(0.02, atk));
 
-       LATE, because jazz vibrato is TERMINAL: "the note starts without vibrato
-       and then it's added in", against the classical player's, which "should
-       begin immediately and continue for the duration of the note".
-       [corpus:dansr, tamingthesaxophone]
+    /* head: anchor the mix, and the scoop if the phrase opens with one */
+    {
+      const m0 = mix(pos0);
+      for(const d of DYNS) layer[d].lg.gain.setValueAtTime(m0[d], t);
+      const f0 = F_(mem[0].pitch);
+      const scoop = mem[0].art === "breath" ? P(g, ev, "sax", "scoop", 0.5) : 0;
+      const from = scoop > 0 ? f0 * Math.pow(2, -(scoop * 0.9 * vel0) / 12) : f0;
+      setFreq(from, t, 0);
+      if(from !== f0) setFreq(f0, t, 0.055 + 0.045 * scoop);
+    }
 
-       DOWNWARD, because of how the gesture is physically made. Sax vibrato is
-       the JAW: "the jaw is lowered and raised similar to chewing, which reduces
-       embouchure pressure allowing the tone to go slightly FLAT, and when the
-       jaw returns to normal position, the pitch returns in tune."
-       [corpus:tamingthesaxophone] So the pitch swings between the note and
-       something under it -- it does not swing symmetrically about it, which is
-       what an LFO on `detune` gives you and why that always sounds like an
-       organ. The oscillator is biased UP by half the depth and the LFO swings a
-       full depth about that, so the top of the swing is the written pitch and
-       the bottom is flat of it.
+    /* ── THE FINGERS: every later note is a move on the same breath ── */
+    for(let i = 1; i < mem.length; i++){
+      const m = mem[i], tm = t + m.dt, f = F_(m.pitch);
+      if(m.art === "legato"){
+        setFreq(f, tm, 0.045);                       // the slur: no attack, a glide
+        pre.gain.linearRampToValueAtTime(lvl(m), tm + 0.08);
+      } else {
+        /* the tongue: a 25 ms interruption of the SAME airstream, then on */
+        pre.gain.linearRampToValueAtTime(lvl(mem[i - 1]) * 0.22, tm);
+        setFreq(f, tm, 0);
+        pre.gain.linearRampToValueAtTime(lvl(m), tm + 0.05);
+      }
+      mixTo(posOf(m), tm, 0.12);
+    }
 
-       `vib` is written by stage 3 on notes long enough to have a second half. */
+    /* ── HOW IT ENDS [sax-playing.md addendum]: the breath, not a key ── */
+    pre.gain.setValueAtTime(lvl(last), tEnd);
+    pre.gain.exponentialRampToValueAtTime(0.0001, tEnd + REL);
+    if(tailKind === "taper")
+      mixTo(Math.max(0, posOf(last) - 0.9), tEnd + REL * 0.8, 0);   // darkens as the breath softens
+    const fallAmt = tailKind === "fall" ? Math.max(P(g, ev, "sax", "fall", 0), 0.55)
+                                        : P(g, ev, "sax", "fall", 0);
+    if(fallAmt > 0.01 && last.durSec > 0.35){
+      const fL = F_(last.pitch);
+      setFreq(fL, tEnd - Math.min(0.25, last.durSec * 0.18), 0);
+      setFreq(fL * Math.pow(2, -(fallAmt * 5) / 12), tEnd - 0.001, 0.12 + REL * 0.5);
+    }
+
+    /* ── VIBRATO: late, downward-biased, deepening into a taper ── */
     const vibDepth = P(g, ev, "sax", "vib", 0.45);
-    if(ev.vib && vibDepth > 0.01 && dur > 0.30){
-      const cents = 34 * vibDepth;                        // [EAR] within the 20-50 cent range players describe
+    if(vibDepth > 0.01 && mem.some(m => m.vib)){
+      const cents = 34 * vibDepth;
       const lfo = c.createOscillator(); lfo.type = "sine";
-      lfo.frequency.value = 4.6 + 2.8 * P(g, ev, "sax", "vibHz", 0.5);   // 4.6-7.4 Hz [corpus: 5-7 Hz is the described band]
-      const depth = c.createGain();
-      /* it grows in rather than switching on: silent until 55% of the way
-         through the note, then up to full over the next 25% */
-      const at = t + dur * 0.55, full = t + dur * 0.80;
-      depth.gain.setValueAtTime(0, t);
-      depth.gain.setValueAtTime(0, at);
-      depth.gain.linearRampToValueAtTime(cents, full);
-      /* on a tapered ending the vibrato DEEPENS as the level subsides -- "let
-         the note subside slightly before the breath, so the vibrato carries on
-         with just the breath" [corpus:saxontheweb]; "add just a little vibrato
-         when tapering off at the end" [corpus:US6316710]. Depth x1.35 [EAR]. */
-      if(tail === "taper") depth.gain.linearRampToValueAtTime(cents * 1.35, t + dur + 0.30);
-      lfo.connect(depth); depth.connect(o1.detune); depth.connect(o2.detune);
+      lfo.frequency.value = 4.6 + 2.8 * P(g, ev, "sax", "vibHz", 0.5);
+      const vg = c.createGain(); vg.gain.setValueAtTime(0, t);
+      for(let i = 0; i < mem.length; i++){
+        const m = mem[i];
+        if(!m.vib || m.durSec < 0.30) continue;
+        const s = t + m.dt;
+        vg.gain.setValueAtTime(0, s + m.durSec * 0.50);
+        vg.gain.linearRampToValueAtTime(cents, s + m.durSec * 0.80);
+        const nx = mem[i + 1];
+        if(nx && !nx.vib) vg.gain.linearRampToValueAtTime(0, t + nx.dt + 0.05);
+      }
+      if(tailKind === "taper") vg.gain.linearRampToValueAtTime(cents * 1.35, tEnd + 0.30);
+      lfo.connect(vg);
+      for(const o of oscs) vg.connect(o.detune);
       lfo.start(t); lfo.stop(end); made.push(lfo);
-      /* the upward bias, so the swing hangs BELOW the note instead of straddling
-         it. o2 keeps its 6 cents of reed detune on top of the same bias. */
-      o1.detune.setValueAtTime(0, t);
-      o1.detune.setValueAtTime(0, at);
-      o1.detune.linearRampToValueAtTime(cents / 2, full);
-      o2.detune.setValueAtTime(6, t);
-      o2.detune.setValueAtTime(6, at);
-      o2.detune.linearRampToValueAtTime(6 + cents / 2, full);
     }
 
-    /* ── THE GROWL. The player hums against the reed, so it is AM and FM at the
-       same rate plus noise -- not a tremolo, which is why a plain LFO on the
-       gain never sounds like one. 25-40 Hz is the hummed-note range. [EAR] */
+    /* ── THE GROWL: hummed AM+FM, unchanged in kind from the old voice ── */
     const growl = P(g, ev, "sax", "growl", 0);
-    let growlLfo = null;
     if(growl > 0.01){
-      growlLfo = c.createOscillator(); growlLfo.type = "sine";
-      growlLfo.frequency.value = 25 + 15 * P(g, ev, "sax", "growlHz", 0.5);
-      const toFm = c.createGain(); toFm.gain.value = f * 0.012 * growl;   // FM, in Hz
-      growlLfo.connect(toFm); toFm.connect(o1.frequency); toFm.connect(o2.frequency);
-      growlLfo.start(t); growlLfo.stop(end); made.push(growlLfo);
+      const gl = c.createOscillator(); gl.type = "sine";
+      gl.frequency.value = 25 + 15 * P(g, ev, "sax", "growlHz", 0.5);
+      const toFm = c.createGain(); toFm.gain.value = F_(tp) * 0.012 * growl;
+      for(const o of oscs) toFm.connect(o.frequency);
+      gl.connect(toFm);
+      const toAm = c.createGain(); toAm.gain.value = 0.34 * growl;
+      gl.connect(toAm); toAm.connect(out.gain);
+      gl.start(t); gl.stop(end); made.push(gl);
     }
 
-    /* ── THE BODY: two fixed formants. They do NOT track the note. */
-    const f1 = c.createBiquadFilter(); f1.type = "peaking";
-    f1.frequency.value = 620; f1.Q.value = 1.4; f1.gain.value = 7.5;      // [EAR]
-    const f2 = c.createBiquadFilter(); f2.type = "peaking";
-    f2.frequency.value = 1550; f2.Q.value = 2.0; f2.gain.value = 6.0;     // [EAR]
-
-    /* ── THE REED BUZZ: velocity opens the filter, which is the dynamic. At the
-       bottom it is nearly a sine with air; at the top the reed is buzzing.
-
-       AND THE REGISTER IS PART OF THE DYNAMIC TOO. A saxophone is not one
-       timbre transposed: the bottom of the horn is fat and slow to speak and
-       the top is thin and bright, which is why the low notes are the ones
-       players call SUBTONE and the high ones cut through a band. The two fixed
-       formants above already stop the body moving with the pitch; this is the
-       other half -- the SOURCE getting brighter as the player goes up. Scaled
-       off the middle of the alto's range (MIDI 65, F4), a semitone at a time.
-       [theory: register and spectral centroid in conical reeds] */
-    const bright = P(g, ev, "sax", "bright", 0.5);
-    const reg = Math.max(0.72, Math.min(1.34, 1 + (ev.pitch - 65) * 0.019));   // [EAR]
-    const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = 0.9;
-    const openTo = Math.min(11000, (700 + 5200 * bright) * (0.42 + 0.95 * vel) * reg)
-                   * (1 - 0.28 * Math.max(0, 1 - vel) * Math.max(0, Math.min(1, (62 - ev.pitch) / 10)));
-                   /* the subtone darkening -- see the air comment below */
-    /* A SLUR DOES NOT RE-OPEN THE FILTER. The breath is continuous, so the reed
-       is already buzzing when the pitch moves -- sweeping the cutoff up from
-       nothing again would put an attack back on a note that is not supposed to
-       have one, which is the whole thing this articulation model is undoing. */
-    lp.frequency.setValueAtTime(slurred ? openTo : Math.max(240, openTo * 0.45), t0);
-    if(!slurred) lp.frequency.linearRampToValueAtTime(openTo, t0 + rise + 0.05);
-    lp.frequency.exponentialRampToValueAtTime(Math.max(240, openTo * 0.62), t + Math.max(0.2, dur));
-    /* a tapered end DARKENS as the breath softens: the reed stops buzzing
-       before the air stops moving. Closes toward the body, never to zero. */
-    if(tail) lp.frequency.exponentialRampToValueAtTime(Math.max(180, openTo * 0.30), t + dur + 0.55);
-
-    const tone = c.createGain(); tone.gain.value = 1;
-    o1.connect(tone); o2.connect(mix2); mix2.connect(tone);
-    tone.connect(f1); f1.connect(f2); f2.connect(lp);
-
-    /* the growl's AMPLITUDE half, on the post-filter path */
-    const body = c.createGain(); body.gain.value = 1;
-    lp.connect(body);
-    if(growlLfo){
-      const toAm = c.createGain(); toAm.gain.value = 0.34 * growl;        // [EAR]
-      growlLfo.connect(toAm); toAm.connect(body.gain);
-    }
-    body.connect(out);
-
-    /* ── BREATH: a reed instrument is air first. Loudest at the attack, never
-       fully gone while the note sounds.
-
-       AND A PLAYER BREATHES ONCE PER PHRASE, NOT ONCE PER NOTE. "Good
-       articulation consists of 90 per cent air attack and 10 per cent tongue"
-       -- but the air attack is the START of the air, and inside a phrase the
-       air is already going. Putting a fresh breath transient on every note is
-       the same mistake as re-striking every note, heard in the noise band
-       instead of the harmonic one, and it is why runs sounded like a machine
-       gun of little chiffs. A slur gets NONE; a tongued note inside a phrase
-       gets a third of one, because the tongue does disturb the column.
-       [corpus:tamingthesaxophone, getyoursaxtogether]
-
-       LOW NOTES ARE AIRIER. Subtone is the bottom of the horn, and the bottom
-       of the horn is where the breath is audible in the sound rather than
-       behind it -- `reg` runs the other way here for exactly that reason. */
-    /* SUBTONE IS REGISTER *AND* VOLUME: "a soft, breathy timbre usually
-       produced in the lowest range of the instrument with low volume...
-       fatter, warmer and less edgy" [corpus:wikipedia/Subtone,
-       tamingthesaxophone] -- and "the slow songs are the ones where you can
-       hear subtones the best" [corpus:jupiter.info]. So a low note played
-       SOFTLY gets breathier and darker than either alone would make it;
-       a loud low note honks instead. Magnitudes [EAR]. */
-    const subtone = Math.max(0, 1 - vel) * Math.max(0, Math.min(1, (62 - ev.pitch) / 10));
-    const air = P(g, ev, "sax", "air", 0.35) *
-                (art === "breath" ? 1 : slurred ? 0 : 0.33) / reg *
-                (1 + 1.6 * subtone);
+    /* ── THE AIR: a chiff where the breath starts, a bed while it flows.
+       The bed leans on the pp table's own residual share, so soft low
+       phrases carry more breath in the tone -- subtone again. ── */
+    const air = P(g, ev, "sax", "air", 0.35);
     if(air > 0.01){
       const nb = c.createBufferSource(); nb.buffer = g.noise; nb.loop = true;
       const nf = c.createBiquadFilter(); nf.type = "bandpass";
-      nf.frequency.value = 2200; nf.Q.value = 0.8;
+      nf.frequency.value = 2300; nf.Q.value = 0.8;
       const ng = c.createGain();
-      ng.gain.setValueAtTime(0.0001, t0);
-      ng.gain.exponentialRampToValueAtTime(Math.max(0.0002, 0.055 * air * (0.5 + vel)), t0 + 0.02);
-      ng.gain.exponentialRampToValueAtTime(Math.max(0.0001, 0.014 * air), t0 + 0.22);
+      const bed = 0.011 * air * (0.6 + 0.9 * Math.max(0, 1 - pos0 / 2));
+      ng.gain.setValueAtTime(0.0001, t);
+      ng.gain.exponentialRampToValueAtTime(Math.max(0.0002, 0.055 * air * (0.5 + vel0)), t + 0.02);
+      ng.gain.exponentialRampToValueAtTime(Math.max(0.0001, bed), t + 0.22);
+      for(let i = 1; i < mem.length; i++)
+        if(mem[i].art !== "legato"){
+          const tm = t + mem[i].dt;
+          ng.gain.setValueAtTime(Math.max(0.0002, 0.018 * air), tm + 0.005);
+          ng.gain.exponentialRampToValueAtTime(Math.max(0.0001, bed), tm + 0.15);
+        }
+      ng.gain.setValueAtTime(bed, tEnd);
+      ng.gain.exponentialRampToValueAtTime(0.0001, tEnd + Math.max(0.10, REL * 0.8));
       nb.connect(nf); nf.connect(ng); ng.connect(out);
-      nb.start(t0); nb.stop(end); made.push(nb);
+      nb.start(t); nb.stop(end); made.push(nb);
     }
 
-    o1.start(t0); o2.start(t0); o1.stop(end); o2.stop(end);
-    made.push(o1, o2);
-    /* ── AND THE ENVELOPE IS THE ARTICULATION, FINALLY ──────────────────────
-       A reed speaks quickly but not instantly, and it stops when the air does.
-       How quickly, and how it stops, is the whole difference between the four:
-
-         breath    the phrase begins. The attack this voice always had.
-         portato   the tongue has already taken 25.5 ms out of the front of the
-                   note (see `t0`), so what follows it is fast and clean.
-         legato    NO ATTACK AT ALL. The airstream never stopped, so the note
-                   swells in under the tail of the one before it -- 70 ms is
-                   long enough that there is no transient to hear and short
-                   enough that the pitch move still lands on the beat.
-         staccato  released early. Stage 5 has already shortened the note to
-                   73% of its inter-onset interval; this makes the end of it
-                   sound like a decision rather than like the note running out.
-       [corpus:PMC4097958 for the 25.5 ms and the 25-29%; the attack times are
-        [EAR], constrained by them] */
-    const A = slurred ? 0.070 : art === "portato" ? 0.010 : art === "staccato" ? 0.012 : 0.028;
-    /* ── AND HOW IT ENDS IS PLAYED TOO [user: "notes that just stop"] ────────
-       A phrase-final note ends by the breath stopping, not the key: the taper
-       runs a good part of a second and scales with the note ("varying degrees
-       of fade or tail off" [corpus:cafesaxophone]); a falloff release keeps a
-       shorter fade because the pitch is already leaving. Mid-phrase notes keep
-       the old 0.14 -- the next note is coming; staccato keeps its clip. */
-    const REL = art === "staccato" ? 0.055
-              : tail === "taper" ? Math.min(0.75, 0.30 + dur * 0.12)
-              : tail === "fall"  ? 0.30
-              : 0.14;
-    adsr(c, out, t0, LEVEL.lead * 1.05 * ev.gain, A, 0.18, 0.86, t + dur, REL);
     return made;
   };
+  /* dispatch skips phrase MEMBERS for this voice: the head rendered them */
+  V.sax.phrases = true;
 
   /* ══ THE CLAP ═════════════════════════════════════════════════════════════
      Acid house's backbeat is a CLAP, not a snare, and the difference is not
@@ -5930,6 +6006,9 @@ const Sound = (function(){
   function dispatch(graph, ev, at, alive){
     const voice = V[ev.voice];
     if(!voice) throw new Error("unknown voice: " + ev.voice);   // fail loud, never substitute
+    /* a phrase-rendering voice renders the whole breath at its opening event;
+       the members are already inside that render and dispatch only once */
+    if(ev.inPhrase && voice.phrases) return [];
     const made = voice(graph, ev, at);
     for(const h of made){
       if(alive) alive.add(h);
@@ -7639,6 +7718,9 @@ const GENRE = {
          difference between a genre that CITES Blade Runner and one that can
          sound like it. `auto` still wins most songs, and auto is the CS-80. */
       keys:  [["auto", 6], ["vp330", 3], ["mellotron", 1]],
+      /* the horn, on every genre by the user's directive (2026-08-02) --
+         synthwave's own lineage has the night-drive sax. Weight [EAR]. */
+      lead:  [["auto", 8], ["sax", 2]],
     },
     /* the 808 as the 80s used it and lofi does not: BD decay long enough to be a
        note rather than a thump, tone bright, snappy up, open hat wide, hard into
@@ -8206,6 +8288,9 @@ const GENRE = {
                    "we can still use our TR-1000 but load up SEGA drum sounds" */
                 drumKit: [["sega", 8], ["analog", 2]],
                 bass:  [["auto", 1]],
+                /* sax on all genres [user, 2026-08-02]; rare here -- Wise's
+                   atmosphere seldom hands the tune to a horn. [EAR] */
+                lead:  [["auto", 9], ["sax", 1]],
                 keys:  [["waveseq", 5], ["auto", 3], ["mellotron", 3]] },
     /* the choir strip, clean: this is a 1994 sample chip pretending to be a
        tape machine, not a 1968 tape machine. Wow and hiss well down from lofi's
@@ -9103,6 +9188,9 @@ const GENRE = {
                    -- but as "auto", which the panel loop skipped, so the box that
                    defines this genre had no front panel to put a hand on. */
                 bass:  [["tb303", 1]],
+                /* sax on all genres [user, 2026-08-02]; a horn over acid is
+                   rave heritage, kept rare. [EAR] */
+                lead:  [["auto", 9], ["sax", 1]],
                 keys:  [["auto", 1]] },
     params: {
       tb303: { cutoff: 420, res: 13.0, envmod: 0.70, decay: 0.42,
@@ -9925,6 +10013,9 @@ const GENRE = {
                    anything else... an architecture of sound", and a string
                    machine is the one instrument in this rack that is mostly
                    architecture. [corpus:hawtin] */
+                /* sax on all genres [user, 2026-08-02]; rarest here -- a
+                   minimal record hands the tune to almost nothing. [EAR] */
+                lead:  [["auto", 9], ["sax", 1]],
                 keys:  [["auto", 7], ["vp330", 3]] },
     params: {
       tb303: { cutoff: 380, res: 14.0, envmod: 0.66, decay: 0.28,
@@ -10457,6 +10548,9 @@ const GENRE = {
        treated the same. */
     machines: { drums: [["tr1000", 1]], drumKit: [["brk", 1]],
                 bass: [["auto", 1]],
+                /* sax on all genres [user, 2026-08-02]; jungle's horn stabs
+                   are real lineage, so it takes a real minority. [EAR] */
+                lead: [["auto", 8], ["sax", 2]],
                 keys: [["auto", 6], ["vp330", 4]] },
     params: {
       vp330: { ens: 0.80, choir: 0.62, attack: 1.40, release: 3.60 },
@@ -14107,6 +14201,34 @@ function makePerformance(chart, form, materials, sections){
     }
   }
   events.sort((a, z) => a.tSec - z.tSec);
+
+  /* ═══ THE PHRASE, ATTACHED [docs/genre-research/sax-engine.md] ══════════════
+     A phrase-rendering voice needs the whole breath at its opening note --
+     one excitation, one dynamics stream, the notes as fingerings on it. The
+     grouping is DERIVED from fields the events already carry (articulate's
+     art: "breath" opens a phrase), so no draw runs, and it is attached only
+     to sax-voiced lead events so no other voice's song moves. Members are
+     marked and the dispatcher renders each breath exactly once. */
+  {
+    /* the events are already frozen one by one, which is correct -- so the
+       grouping REPLACES them with augmented frozen copies rather than asking
+       the freeze to make an exception. Still this stage, still one owner. */
+    let headIdx = -1, phrase = null;
+    for(let i = 0; i < events.length; i++){
+      const e = events[i];
+      if(e.role !== "lead" || e.voice !== "sax") continue;
+      if(headIdx < 0 || e.art === "breath"){
+        if(headIdx >= 0)
+          events[headIdx] = Object.freeze(Object.assign({}, events[headIdx], { phrase: Object.freeze(phrase) }));
+        headIdx = i; phrase = [];
+      } else events[i] = Object.freeze(Object.assign({}, e, { inPhrase: true }));
+      phrase.push(Object.freeze({ dt: e.tSec - events[headIdx].tSec, durSec: e.durSec,
+                                  pitch: e.pitch, gain: e.gain, art: e.art, from: e.from,
+                                  vib: !!e.vib, tail: e.tail, accent: !!e.accent }));
+    }
+    if(headIdx >= 0)
+      events[headIdx] = Object.freeze(Object.assign({}, events[headIdx], { phrase: Object.freeze(phrase) }));
+  }
 
   /* ═══ THE CHIP HAS SIX VOICES AND WE WERE ASKING FOR EIGHT ═════════════════
      The Mega Drive's YM2612 has six four-operator FM channels, and "the sixth
