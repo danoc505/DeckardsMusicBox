@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-02a · the form learns phases; no shipped genre draws one yet</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-02b · a record past its length seeks its payoff and ends on it</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -10858,10 +10858,40 @@ function makeForm(chart){
      thing works until something draws it. */
   const PLAN = F.plan || null;
   if(!PLAN){
-    for(let guard = 0; guard < 10; guard++){
+    /* THE GUARD IS A BACKSTOP, NOT A SONG-ENDER. At 10 it was both: three of
+       the thirteen wanders H5 did not fix were records the guard had cut mid-
+       sentence -- synthwave seed 2 ended prechorus -> outro, a section H4 says
+       must reach a chorus, because the brake fired before the law could finish.
+       With H5 the loop terminates on its own: bars grows every iteration by at
+       least the genre's shortest section, and past the target the seek narrows
+       to the payoff within two more. The worst shipped table needs ~20
+       iterations (synthwave: 72 bars of 4-bar sections, then the seek); 24 sits
+       above every real path and exists only against a pathological table. */
+    for(let guard = 0; guard < 24; guard++){
       admit();
       if(bars >= target && fn === PAY) break;           // a song ends off its payoff
       let table = lawTable(fn);
+      /* H5  A RECORD PAST ITS LENGTH SEEKS ITS PAYOFF. The break above always
+         CLAIMED "a song ends off its payoff", but nothing enforced it: past the
+         target the walk kept rolling ordinary weights, hoping to land on the
+         payoff before the guard killed the loop. MEASURED before this law
+         existed (probe_form.js): 13 of 175 songs kept going after their own
+         flagged peak -- mean 63 wandering bars, worst 160, five minutes of
+         verses after the climax on acid seed 11.
+
+         That is not a dice failure, it is a MISSING LAW -- "the sections should
+         be informed by one another; section Y plays when it is correct to be
+         played, only after section X" [user, 2026-08-02]. What makes it HARD is
+         identity, same as H1-H4: the payoff is the section the record exists to
+         reach, and a record that peaks and then wanders has quietly made
+         something else its ending. Like every law here it zeroes weights and
+         never picks: if the genre's own table cannot reach the payoff from
+         here, the seek is empty and the ordinary weights stand -- the law
+         narrows the road home, it does not teleport. */
+      if(bars >= target && !wouldTriple(PAY)){
+        const seek = table.map(([to, w]) => [to, to === PAY ? Math.max(w, 1) : 0]);
+        if(seek.reduce((s, p) => s + p[1], 0) > 0) table = seek;
+      }
       /* A LAW MAY LEAVE NOTHING LEGAL, and then the song still has to continue.
          Falling through to the genre's own most-weighted destination keeps this
          a constraint rather than a crash -- the laws narrow the draw, they do

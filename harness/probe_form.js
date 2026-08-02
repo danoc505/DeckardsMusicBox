@@ -13,11 +13,14 @@
                         pull of 0.06-0.11 is this fact as a variance ratio.)
 
      after-peak wander  songs that keep going after their own flagged peak.
-                        (Baseline: 13/175, mean 63 wandering bars, worst 160
-                        -- five minutes of verses after the climax. Cause:
-                        past its target the walk has nothing steering it
-                        toward the payoff; the guard kills it instead. The
-                        phase walk's seek-its-exit law is the fix, per plan.)
+                        (Was 13/175, mean 63 wandering bars, worst 160 -- five
+                        minutes of verses after the climax. Two causes, both
+                        fixed 2026-08-02: no law steered a past-target walk
+                        toward the payoff (H5 now does, by zeroing weights),
+                        and the 10-section guard was ending records mid-
+                        sentence -- 605/2100 songs were being cut short of
+                        their genre's own declared length. NOW 0/175; if this
+                        reads nonzero again, one of those two regressed.)
 
      cross-genre twins  identical whole-song shapes across two genres.
                         (Baseline: acid<->jungle share NINE of ~23 -- jungle's

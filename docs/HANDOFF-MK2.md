@@ -695,6 +695,46 @@ measure, not to deliver.
 
 ## 4. What has been done
 
+### 2026-08-02 — the form work begins: phases, H5, and the guard
+
+The user set the frame first — the four principles at the top of §2 and the
+research rule in §0 are theirs, written in before any code moved. Then:
+
+- **`harness/probe_form.js`** — prints every genre's section sequences as
+  words, plus after-peak wander and cross-genre twins. Its header carries the
+  2026-08-02 baselines: 24-25/25 DISTINCT shapes per genre (ordering was 100%
+  dice — the walk is a Markov chain and cannot express position), 13/175 songs
+  wandering after their own peak (mean 63 bars, worst 160), and acid<->jungle
+  sharing NINE whole-song shapes because jungle's form table is a near copy of
+  acid's. Jungle's real architecture has never been researched (§5.4).
+- **`form.plan`** — a genre may declare an ordered spine of phases (pool,
+  bars budget, endOn); the grammar walk runs inside each phase under the same
+  laws, now in one `lawTable` owner for both walks. Landed with the snapshot
+  IDENTICAL over 2100 seeds — the mechanism provably changed nothing. **NO
+  SHIPPED GENRE DECLARES A PLAN YET**; the battery draws it through a
+  synthetic genre (five seam checks). Plans are written only after the
+  genre's form research lands in `docs/genre-research/`, per the rule in §0.
+- **H5 — a record past its length seeks its payoff.** The walk's break had
+  claimed "a song ends off its payoff" forever; nothing enforced it. Stated
+  by the user as the law it is: sections inform one another — Y plays when it
+  is correct, only after X. Zeroes weights, never picks. And the 10-section
+  guard was a baked value ending records mid-sentence (synthwave seed 2 ended
+  prechorus -> outro); raised to a true backstop at 24. Together: wander
+  13/175 -> **0/175**, and **605/2100 songs moved — most were being cut short
+  of their genre's own declared length** (acid 120, jungle 116, dkc 107,
+  lofi 34). 280/280 now end on their payoff. Re-baselined deliberately:
+  `bf85a47a59a6fb4e`. Battery after: 115/26/10/20/355, 0 silent.
+- **Known and left open on purpose:** `makeForm`'s `bars = coldOpen ? 0 : 4`
+  counts every intro as 4 bars against the target, while six genres declare
+  8- or 16-bar intros — a baked value undercounting the length arithmetic.
+  Fixing it moves songs, so it goes in its own measured commit, not as a
+  rider on this one.
+
+**Next in this line of work:** research minimal techno's actual record
+architecture (primary sources; Consumed is "a year of subtraction"), write
+`docs/genre-research/plastikman-form.md`, then the first real `form.plan` —
+then jungle, which currently wears acid's floor plan.
+
 ### 2026-07-31 — the session that ended at `7c7644b`
 
 Read this first; the rest of §4 is older and still true.
