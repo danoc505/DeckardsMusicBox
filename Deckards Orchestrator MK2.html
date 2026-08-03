@@ -552,7 +552,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03b · the matrix mixer, drawn as a grid and declared once: six inputs, three outputs</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03c · the renderer is repeatable again: the one crossing that closed a cycle is gone</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1208,7 +1208,46 @@ const MATRIX = {
      The panel draws a blind plate there and the title attribute says why. */
   alias: { echoEcho: "echo.fb", echoRoom: "echo.verb" },
   none:  { roomRoom: "a room feeding itself is just a longer tail, and the " +
-                     "impulse response already owns that" },
+                     "impulse response already owns that",
+           /* ── THE CROSSING THAT WAS BUILT, MEASURED, AND TAKEN BACK OUT ────
+              room -> echo is the half of Hawtin's "delays on the reverbs"
+              sentence this program never had, and it worked -- the ceiling
+              was swept, the tail measured, the sound was there. It is gone
+              anyway, because it cost REPEATABILITY, and in this program that
+              is not a trade that can be made.
+
+              WHAT IT DID: the echo already feeds the room (the WASH dial), so
+              a room->echo crossing CLOSES A CYCLE. With that cycle present,
+              Chromium renders the same song differently each time. Measured
+              on the reference bar: this build's own genre space went from
+              -115 dB between repeat renders (inaudible, ~19 bits down, what
+              it had always been) to -35 dB, which is a difference you can
+              hear. Reproduced in forty lines of plain WebAudio with no
+              program code involved, and it fires EVEN WITH THE CROSSING'S
+              GAIN AT ZERO -- the connection alone does it.
+
+              FIVE TOPOLOGIES were tried and all five behaved the same way
+              (worst of five renders, vs -159 dB with no crossing at all):
+              straight off the convolver -23.3, through an extra delay -21.5,
+              tapped BEFORE the convolver -21.3, through a second dedicated
+              convolver -23.3, and through a plain biquad with no convolver
+              anywhere in the loop -21.3. So it is not the reverb: it is the
+              CYCLE. A bare delay-and-gain feedback loop is perfectly
+              repeatable (-325 dB), so the engine can do feedback -- it
+              cannot do a cycle that spans the echo's filter chain and the
+              room bus and still land on the same samples twice.
+
+              WHY THAT ENDS THE ARGUMENT: Law 7 is "same seed, same samples".
+              Every measurement in this project -- every A/B, every audio
+              assertion, every claim that a change did what it says -- is
+              built on rendering being repeatable. A feature that makes the
+              renderer unrepeatable does not cost one feature, it costs the
+              ability to measure anything, including itself. Kept as a blind
+              plate with the numbers, not as a knob.
+              See probe_render_determinism.js, which now guards this. */
+           roomEcho: "it closes a cycle (the echo already feeds the room), and " +
+                     "a cycle makes the renderer non-repeatable -- measured, " +
+                     "five topologies, -21 dB vs -159 dB. Law 7 outranks it" },
 };
 /* every crossing that is a matrix control of its own, in grid order */
 function matrixCells(){
@@ -1224,17 +1263,10 @@ function matrixControls(){
   return matrixCells().map(c => ({
     k: c.k, label: c.in.label + " → " + c.out.label.toLowerCase(),
     cap: c.in.label.toUpperCase(),
-    min: 0,
-    /* THE ONE MEASURED CEILING IN THIS TABLE. Feeding the room back into the
-       delay closes a loop through two effects, and the eurorack sources that
-       recommend it also warn that feedback "can quickly spiral exponentially
-       into chaos". probe_matrix pins every dial in that loop and pings it:
-       0.04 decays to silence, 0.08 decays monotonically, 0.12 falls then
-       CLIMBS BACK, 0.16 runs away. So this dial stops at the largest swept
-       value that never turns around. Every other crossing is a plain 0..1
-       level and cannot run away, because nothing downstream returns to it. */
-    max:  c.k === "roomEcho" ? 0.08 : 1,
-    step: c.k === "roomEcho" ? 0.005 : 0.01,
+    /* every crossing is a plain 0..1 level and none of them can run away,
+       because no destination returns to a source -- the one crossing that
+       would have (room -> echo) is a blind plate, and MATRIX.none says why */
+    min: 0, max: 1, step: 0.01,
     /* the DRY column starts open and the sends start shut, which is bit-exactly
        the wiring each of these replaced. The room's own return keeps the level
        the graph was constructed with; setSpace overwrites it per song from
@@ -2716,7 +2748,6 @@ function applyRack(chart, force){
       PARAMS["matrix." + cell.k] =
         dest === "Mix"  ? (b === "room" ? (SP.wet != null ? SP.wet : 0.16) : 1) :
         dest === "Room" ? (b === "keys" || b === "lead" || rf.indexOf(b) >= 0 ? 1 : 0) :
-        b === "room"    ? (SP.roomEcho || 0) :
                           (ef.indexOf(b) >= 0 ? 1 : 0);
     }
   }
@@ -3811,10 +3842,12 @@ const Sound = (function(){
 
        WHY THE RETURNS ARE ROWS: "the effects can be sent to each other, and
        even back into themselves, expanding the depth of the effects"
-       [corpus:signalsounds]. The room feeding the delay is the crossing the
-       echo's own build comment refused for want of stability work -- that
-       work is now probe_matrix and the ceiling it measured lives on the
-       control. See docs/genre-research/matrix-mixer.md. */
+       [corpus:signalsounds]. Here that is the echo into the room (WASH) and
+       each return's own level. The remaining direction -- room into echo --
+       would close a cycle and cost the renderer its repeatability; it is a
+       blind plate and MATRIX.none carries the measurement. Nothing in this
+       loop can therefore feed back, which is also why no crossing needs a
+       ceiling. See docs/genre-research/matrix-mixer.md. */
     const matrixSource = k =>
       k === "echo" ? g.echoOut :          // the delay's return, post its own loop
       k === "room" ? g.verb :             // the reverb's return, pre its level
@@ -6810,10 +6843,8 @@ const Sound = (function(){
           dest === "Mix"  ? (b === "room" ? (space.wet != null ? space.wet : 0.16) : 1) :
           dest === "Room" ? (b === "keys" || b === "lead" ||
                              (space.feeds || []).indexOf(b) >= 0 ? 1 : 0) :
-          /* ...and the ECHO column. The two RETURN rows carry an amount rather
-             than a membership, because "how much" is the whole question for a
-             path that comes back on itself and a list can only say yes or no. */
-          b === "room" ? (space.roomEcho || 0) :
+          /* ...and the ECHO column, which only instrument rows reach: the
+             room's way in here is a blind plate (see MATRIX.none). */
                          ((space.echoFeeds || []).indexOf(b) >= 0 ? 1 : 0);
         const cc = CONTROL["matrix." + cell.k] || { min: 0, max: 1 };
         return Math.max(cc.min, Math.min(cc.max, on + (TRIM["matrix." + cell.k] || 0)));
@@ -10481,14 +10512,10 @@ const GENRE = {
                 that is the genre, not a workaround. [corpus:attackmagazine
                 Basic-Channel-style] */
              feeds: ["bass", "drums"], echoFeeds: ["drums", "bass", "keys"],
-             /* the feedback crossing, small: the wash folding back into the
-                delay is the other half of the "delays on the reverbs"
-                sentence this echo was built from, and this is the genre that
-                sentence describes. The dial's ceiling is the measured
-                governor in INSTRUMENTS.matrix (0.08, swept); this base sits
-                well inside it, because a colour is what is wanted here and a
-                drone is not. Amount mine. [EAR] */
-             roomEcho: 0.04 },
+             /* this genre asked for the room folding back into the delay --
+                the other half of the "delays on the reverbs" sentence -- and
+                it was built, swept and then removed: the cycle costs the
+                renderer its repeatability. MATRIX.none carries the numbers. */ },
     kick: { tune: 46, decay: 0.60, click: 0.55, drive: 0.50, body: 1.10, gain: 1.22 },
     drumDrive: 1.30,
     gate: null,
@@ -10989,15 +11016,6 @@ const GENRE = {
         roomMix:   [{ kind: "section", by: { bridge: [0.06, 0.16], instrumental: [0.02, 0.07] } },
                     { kind: "arc", from: [-0.04, -0.01], to: [0.04, 0.11], curve: "sCurve" },
                     { kind: "lfo", bars: [[64, 2], [40, 1]], depth: [0.02, 0.05],
-                      shape: "sin", freePhase: true }],
-        /* the feedback crossing rises where the record empties: the bridge
-           already opens echo.send and echo.verb above, and the room folding
-           back into the delay is the same breath one stage deeper. Sized to
-           live INSIDE the governor rather than be clamped by it -- base 0.04,
-           ceiling 0.08, so the bridge's lift lands at ~0.07 and the lane
-           spends none of its life pinned against the stop. [EAR] */
-        roomEcho:  [{ kind: "section", by: { bridge: [0.015, 0.030], outro: [0.010, 0.022] } },
-                    { kind: "lfo", bars: [[56, 2], [88, 1]], depth: [0.004, 0.010],
                       shape: "sin", freePhase: true }],
       },
     },

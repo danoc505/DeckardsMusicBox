@@ -988,31 +988,64 @@ guides, EMS VCS3 pin matrix, King Tubby, eurorack feedback patching).
      after), grid renders 6 rows / 3 columns / 17 knobs / 1 blind, no
      page errors.
 
-8. **⚠ A FINDING THAT OUTLIVES THIS FEATURE: THE RENDERED AUDIO IS NOT
-   REPRODUCIBLE, AND EVERY RENDER A/B IN THIS PROJECT INHERITS IT.**
-   Trying to prove "neutral is the old wire" by rendering before/after, I
-   ran the control every A/B needs and had never seen run here: the SAME
-   BUILD against ITSELF. It differed by up to **-20.8 dB** (bladerunner),
-   -34.7 (dkc), -41.2 (jungle) — the same magnitudes I was about to
-   report as my change's effect. Narrowed further: rendering the
-   IDENTICAL events three times in ONE page, `motion: null`, gave
-   A-vs-B **-92 dB** and A-vs-C **-31.6 dB**. First differing sample is
-   index 5626, differing in the fifth decimal and growing — a rounding
-   difference being amplified downstream. There is no `Math.random` in
-   the file, so the source is inside WebAudio's own nodes (the convolver
-   and the limiter are the candidates; both carry state and Chromium's
-   convolver is multi-threaded).
-   CONSEQUENCES, and they are not small: **no render-based claim in this
-   file below roughly -30 dB is safe without a same-build control**, and
-   several past entries were argued from exactly such A/Bs (the tuned
-   space, the CS-80 bloom). It also means my own "neutral is bit-exact"
-   claim is NOT proven by rendering — it rests on the snapshot, the seam
-   battery, and the structure (a gain of 1.0 in series). The audio
-   battery already renders `dup_*` pairs; whoever picks this up should
-   start by asking what tolerance `test_audio.py` compares them at, and
-   whether these genres are near it. NOT investigated further here — it
-   deserves its own session and it is a bigger finding than the feature
-   that turned it up.
+8. **⚠ CORRECTED, AND THE CORRECTION MATTERS MORE THAN THE ENTRY IT
+   REPLACES. The previous version of this item claimed the rendered audio
+   had ALWAYS been unrepeatable — a pre-existing, project-wide defect.
+   THAT WAS WRONG. I caused it, in this session, with the room→echo
+   crossing.** What misled me: a comparison worktree I had labelled
+   `268ba5d` but had already checked out to `f16454c`, so every "before"
+   render came from a build that already had the cycle in it. The label
+   was wrong and I read the result as history instead of as my own change.
+   Chased to the end at `2026-08-03c` (the user: "chase it all the way and
+   fix it"):
+
+   - **The cause is a CYCLE, not a node.** The echo already feeds the room
+     (the WASH dial), so a room→echo crossing closes a loop. With that loop
+     present, Chromium renders the same song differently every time. It
+     fires **even with the crossing's gain at ZERO** — the connection alone
+     does it. Reproduced in ~40 lines of plain WebAudio with no program
+     code involved.
+   - **Five topologies, all equally bad** (worst of five renders, against
+     -159 dB with no crossing at all): straight off the convolver -23.3,
+     through an extra delay -21.5, tapped BEFORE the convolver -21.3,
+     through a second dedicated convolver -23.3, and through a plain
+     biquad with no convolver in the loop at all -21.3. So it is not the
+     reverb. A bare delay-and-gain feedback loop is perfectly repeatable
+     (-325 dB), so the engine can do feedback — it cannot do a cycle
+     spanning the echo's filter chain and the room bus and land on the
+     same samples twice.
+   - **The true baseline**: `268ba5d`, actually checked out, renders
+     repeat-to-repeat at **-115 dB** — inaudible, ~19 bits down. The
+     build with the cycle: **-35 dB**, which is audible. Now, with the
+     crossing removed, the seven genres sit between **-92 and -106 dB**.
+   - **THE FIX: the crossing is gone**, a blind plate in `MATRIX.none`
+     carrying the measurement. Law 7 is "same seed, same samples", and
+     every A/B, every audio assertion and every claim that a change did
+     what it says rests on rendering being repeatable. A feature that
+     makes the renderer unrepeatable does not cost one feature, it costs
+     the ability to measure anything — including itself. plastikman's
+     `space.roomEcho` and its motion lane went with it.
+   - **THE GUARD: `harness/probe_render_determinism.js`**, new. Renders
+     the same events three times per genre and demands they match within
+     -80 dB (measured floor -92..-106, a cycle -35, so the threshold sits
+     in a 45 dB gap near neither end). This is the check whose absence let
+     the regression in, and it is cheap. **Run it after any change to the
+     audio graph.**
+   - `harness/probe_matrix.js` was repurposed: the governor it used to
+     measure no longer exists, so it now proves every crossing of the grid
+     changes the sound. It decides which buses are even sounding in its
+     excerpt BY MEASUREMENT (if closing a bus's MIX fader changes nothing,
+     that bus had nothing to close) rather than by matching event `role`
+     tags against bus names — the first version did the latter and
+     reported live crossings as dead, because roles like `ostinato` and
+     `pad` share the keys bus. Verified: all 15 crossings audible across
+     plastikman + bladerunner (-3.5 to -31 dB).
+   - **The methodology lesson, which is the durable part:** an A/B without
+     a same-build control measures its own noise. Two separate mistakes in
+     this session were caught only by running that control (the UI-driven
+     genre switch racing its own recompose, and the mislabelled worktree).
+     Past entries in this file argued from render A/Bs with no control —
+     they are not thereby wrong, but they are unverified in this respect.
 
 9. **STILL OPEN:** the 8 pre-existing `render_audio.js` failures
    (documented in the `2026-08-02p` entry) have not been re-checked

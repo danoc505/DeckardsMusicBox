@@ -1,0 +1,2524 @@
+{
+ "sr": 44100,
+ "songs": [
+  {
+   "seed": 1,
+   "genre": "lofi",
+   "rig": "band"
+  },
+  {
+   "seed": 2,
+   "genre": "synthwave",
+   "rig": "neon"
+  },
+  {
+   "seed": 3,
+   "genre": "dkc",
+   "rig": "sega"
+  }
+ ],
+ "tail": 1.7,
+ "items": [
+  {
+   "file": "ref_a.wav",
+   "seconds": 7.214285714285714,
+   "sha256": "2a649484773bb69013d0bae3728cf263cc515be5e1d86127c65270af1a68223e",
+   "renderMs": 700,
+   "kind": "ref",
+   "name": "reference_bar",
+   "automated": false
+  },
+  {
+   "file": "ref_b.wav",
+   "seconds": 7.214285714285714,
+   "sha256": "987ef80c6ec11075ebef0ef7db2b87ac9dda63efc5f4f9340bde13820c2c2c75",
+   "renderMs": 711,
+   "kind": "dup",
+   "name": "reference_bar",
+   "pairOf": "ref_a.wav",
+   "automated": false
+  },
+  {
+   "file": "solo_kick.wav",
+   "seconds": 4.18,
+   "sha256": "65d45e959c9ec16939e237998fab8265be2d56f916983d1c3b1ea1d29e330ef0",
+   "renderMs": 374,
+   "kind": "solo",
+   "name": "kick",
+   "voice": "kick",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.95,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_snare.wav",
+   "seconds": 4.18,
+   "sha256": "52b7df381cd369ae12df781359677ba89e5db254a046943f92978ba4a795c350",
+   "renderMs": 378,
+   "kind": "solo",
+   "name": "snare",
+   "voice": "snare",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.95,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_kick_soft.wav",
+   "seconds": 4.18,
+   "sha256": "cbc3c2f239204d70828b51d3c1b98d4e4453fb20c9cbbbe7517e800c36979930",
+   "renderMs": 369,
+   "kind": "solo",
+   "name": "kick_soft",
+   "voice": "kick",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.25,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_kick_lofi.wav",
+   "seconds": 4.18,
+   "sha256": "b4c7dae7215ac7204555055b42be86d657d4acf9952fc5ed6524a15da06fb046",
+   "renderMs": 321,
+   "kind": "solo",
+   "name": "kick_lofi",
+   "voice": "kick",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.95,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_kick_synthwave.wav",
+   "seconds": 4.18,
+   "sha256": "249f68cc8b122bdb79442361ba4bf25517f0d2ccafd00ac034ac314a52f7cebd",
+   "renderMs": 372,
+   "kind": "solo",
+   "name": "kick_synthwave",
+   "voice": "kick",
+   "role": "drums",
+   "genre": "synthwave",
+   "pitch": null,
+   "gain": 0.95,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_kick_dkc.wav",
+   "seconds": 4.18,
+   "sha256": "fe4a8a3a398c05f19f25414e344d94bdecbe7e7595eecf8be73fafda69b9872d",
+   "renderMs": 380,
+   "kind": "solo",
+   "name": "kick_dkc",
+   "voice": "kick",
+   "role": "drums",
+   "genre": "dkc",
+   "pitch": null,
+   "gain": 0.95,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_snare_soft.wav",
+   "seconds": 4.18,
+   "sha256": "549f0261b858d6d18de1360c0c7b3a534f56b4f4b8c42e53138b3fe69ce96b4f",
+   "renderMs": 456,
+   "kind": "solo",
+   "name": "snare_soft",
+   "voice": "snare",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.25,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_ghost.wav",
+   "seconds": 4.18,
+   "sha256": "4f649d02a571ee05ec3774ebeddacf1319b586ec053e085c4bcd9a7be86754be",
+   "renderMs": 363,
+   "kind": "solo",
+   "name": "ghost",
+   "voice": "ghost",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.95,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_tom1.wav",
+   "seconds": 4.18,
+   "sha256": "77722fd143f13fe90dd9bf5d1fd800a87fd500cb4061b088706e5fd636ba211a",
+   "renderMs": 316,
+   "kind": "solo",
+   "name": "tom1",
+   "voice": "tom1",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.95,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_tom2.wav",
+   "seconds": 4.18,
+   "sha256": "b3ac81b02573763e90a44b6b72783278b769ac9d7750dd733e44f4d7199290c9",
+   "renderMs": 307,
+   "kind": "solo",
+   "name": "tom2",
+   "voice": "tom2",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.95,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_tom3.wav",
+   "seconds": 4.18,
+   "sha256": "949aca32bd0374bac35199b61edfb7c966b0ef2c0fb55b4e994240b6edc49db4",
+   "renderMs": 311,
+   "kind": "solo",
+   "name": "tom3",
+   "voice": "tom3",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.95,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_tom3_gated.wav",
+   "seconds": 4.18,
+   "sha256": "0ab78dae5ae259d0814c86326ff2ace0e1cdda9507c2c5910006851756613300",
+   "renderMs": 358,
+   "kind": "solo",
+   "name": "tom3_gated",
+   "voice": "tom3",
+   "role": "drums",
+   "genre": "synthwave",
+   "pitch": null,
+   "gain": 0.95,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_snare_gated.wav",
+   "seconds": 4.18,
+   "sha256": "d0e3f4745f38590a1930908137ac838116155a1bbda7744da3010c0dc71c82f4",
+   "renderMs": 537,
+   "kind": "solo",
+   "name": "snare_gated",
+   "voice": "snare",
+   "role": "drums",
+   "genre": "synthwave",
+   "pitch": null,
+   "gain": 0.95,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_hat.wav",
+   "seconds": 4.12,
+   "sha256": "4d9dd3ccc9e781db05f27e1902c88a8865bd20220623848ef3bb2d0a994231ba",
+   "renderMs": 522,
+   "kind": "solo",
+   "name": "hat",
+   "voice": "hat",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.9,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_openhat.wav",
+   "seconds": 4.12,
+   "sha256": "b5462eb9e41d63b801f122a7bdad4684447c4b47ac2ea9af1abcbddb9c67108a",
+   "renderMs": 385,
+   "kind": "solo",
+   "name": "openhat",
+   "voice": "openhat",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.9,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_bass.wav",
+   "seconds": 4.75,
+   "sha256": "07a48d971120e34a68ddaac5b301698dd3c983494910fd8c9cc247a97391aee7",
+   "renderMs": 361,
+   "kind": "solo",
+   "name": "bass",
+   "voice": "bass",
+   "role": "bass",
+   "genre": "lofi",
+   "pitch": 45,
+   "gain": 0.9,
+   "percussive": false,
+   "hits": 2,
+   "onsetT": [
+    0.05,
+    1.85
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_keys_rhodes.wav",
+   "seconds": 4.75,
+   "sha256": "0ca0627c3984a37ac0dd9d4120ffb84a064f64920b1e09a80c288f9d0f2010f5",
+   "renderMs": 365,
+   "kind": "solo",
+   "name": "keys_rhodes",
+   "voice": "keys",
+   "role": "keys",
+   "genre": "lofi",
+   "pitch": 60,
+   "gain": 0.8,
+   "percussive": false,
+   "hits": 2,
+   "onsetT": [
+    0.05,
+    1.85
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_keys_wurly.wav",
+   "seconds": 4.75,
+   "sha256": "eba3a077aaa70b7655a8bc06d6608254461da625efef5c5476240c3f3b631ce1",
+   "renderMs": 368,
+   "kind": "solo",
+   "name": "keys_wurly",
+   "voice": "keys",
+   "role": "keys",
+   "genre": "lofi",
+   "pitch": 60,
+   "gain": 0.8,
+   "percussive": false,
+   "hits": 2,
+   "onsetT": [
+    0.05,
+    1.85
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_lead.wav",
+   "seconds": 4.75,
+   "sha256": "2f8b2be1cb643ed610cd440322aa1692922be12f04a8f30f6733de61217a6d62",
+   "renderMs": 437,
+   "kind": "solo",
+   "name": "lead",
+   "voice": "lead",
+   "role": "lead",
+   "genre": "lofi",
+   "pitch": 72,
+   "gain": 0.85,
+   "percussive": false,
+   "hits": 2,
+   "onsetT": [
+    0.05,
+    1.85
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_counter.wav",
+   "seconds": 4.75,
+   "sha256": "8b9ac9c940f9e52799dbb25ffa2bfb18288cc91b9bc584de0a6910742306a88a",
+   "renderMs": 348,
+   "kind": "solo",
+   "name": "counter",
+   "voice": "counter",
+   "role": "counter",
+   "genre": "lofi",
+   "pitch": 72,
+   "gain": 0.85,
+   "percussive": false,
+   "hits": 2,
+   "onsetT": [
+    0.05,
+    1.85
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_cs80.wav",
+   "seconds": 4.75,
+   "sha256": "8ce9051fc8c54968d57a4b8f516a508bb88cdb5ce0cb7d87abaf0d1ac2c50256",
+   "renderMs": 570,
+   "kind": "solo",
+   "name": "cs80",
+   "voice": "cs80",
+   "role": "lead",
+   "genre": "lofi",
+   "pitch": 64,
+   "gain": 0.85,
+   "percussive": false,
+   "hits": 2,
+   "onsetT": [
+    0.05,
+    1.85
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_cs80_ribbon.wav",
+   "seconds": 4.75,
+   "sha256": "3cefcf5b6f83a57cc662a48c40e4a5470be53a93af87a098edc89e9a8ec65d27",
+   "renderMs": 419,
+   "kind": "solo",
+   "name": "cs80_ribbon",
+   "voice": "cs80",
+   "role": "lead",
+   "genre": "lofi",
+   "pitch": 64,
+   "gain": 0.85,
+   "percussive": false,
+   "hits": 2,
+   "onsetT": [
+    0.05,
+    1.85
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_tape.wav",
+   "seconds": 4.75,
+   "sha256": "7e01271aad9ee1b4f5566086cd5a54daaacddb41d76a5554b3eb81c4822da6ed",
+   "renderMs": 339,
+   "kind": "solo",
+   "name": "tape",
+   "voice": "tape",
+   "role": "tape",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.01,
+   "percussive": false,
+   "hits": 1,
+   "onsetT": [
+    0.05
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_chipBass.wav",
+   "seconds": 4.75,
+   "sha256": "14737c1fa12e9d2577f6c1a7a5f8c3bd721e39cb940fd51094d7046b07bfd630",
+   "renderMs": 362,
+   "kind": "solo",
+   "name": "chipBass",
+   "voice": "chipBass",
+   "role": "bass",
+   "genre": "lofi",
+   "pitch": 45,
+   "gain": 0.9,
+   "percussive": false,
+   "hits": 2,
+   "onsetT": [
+    0.05,
+    1.85
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_chipKeys.wav",
+   "seconds": 4.75,
+   "sha256": "d8912182f25dad299ab3412b31989a76b4348da783c6b260da190f8a9129223a",
+   "renderMs": 356,
+   "kind": "solo",
+   "name": "chipKeys",
+   "voice": "chipKeys",
+   "role": "keys",
+   "genre": "lofi",
+   "pitch": 60,
+   "gain": 0.8,
+   "percussive": false,
+   "hits": 2,
+   "onsetT": [
+    0.05,
+    1.85
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_chipLead.wav",
+   "seconds": 4.75,
+   "sha256": "cb62f9d8f2bbd8caf9f1b672db5008a60887ecb1528679ec1eb985805608c4ee",
+   "renderMs": 348,
+   "kind": "solo",
+   "name": "chipLead",
+   "voice": "chipLead",
+   "role": "lead",
+   "genre": "lofi",
+   "pitch": 72,
+   "gain": 0.85,
+   "percussive": false,
+   "hits": 2,
+   "onsetT": [
+    0.05,
+    1.85
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_chipCounter.wav",
+   "seconds": 4.75,
+   "sha256": "bfcb528b9755fcee67e9d2a40ba545fe7593cce97a44229c68e6c9b5bd8bf769",
+   "renderMs": 348,
+   "kind": "solo",
+   "name": "chipCounter",
+   "voice": "chipCounter",
+   "role": "counter",
+   "genre": "lofi",
+   "pitch": 72,
+   "gain": 0.85,
+   "percussive": false,
+   "hits": 2,
+   "onsetT": [
+    0.05,
+    1.85
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_dacKick.wav",
+   "seconds": 4.18,
+   "sha256": "8bd7c50f315834aad13047196bcc9a18c7491f09ae7a5fac85349ede400814d5",
+   "renderMs": 306,
+   "kind": "solo",
+   "name": "dacKick",
+   "voice": "dacKick",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.95,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_dacSnare.wav",
+   "seconds": 4.18,
+   "sha256": "d2938bb47a86b2db7d32d47957e656505cb6d766df20c59812f02b0f7c6ba40a",
+   "renderMs": 387,
+   "kind": "solo",
+   "name": "dacSnare",
+   "voice": "dacSnare",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.95,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_dacGhost.wav",
+   "seconds": 4.18,
+   "sha256": "d2938bb47a86b2db7d32d47957e656505cb6d766df20c59812f02b0f7c6ba40a",
+   "renderMs": 307,
+   "kind": "solo",
+   "name": "dacGhost",
+   "voice": "dacGhost",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.95,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_psgHat.wav",
+   "seconds": 4.12,
+   "sha256": "033b3f3d0ea367373a8bb111a325c2eb92e0a51ee0248e1d1da592466b4761bb",
+   "renderMs": 292,
+   "kind": "solo",
+   "name": "psgHat",
+   "voice": "psgHat",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.9,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "solo_psgOpenhat.wav",
+   "seconds": 4.12,
+   "sha256": "f768fe2ffa8c65bda86568ebde165e6c884c23d4898c14c4150afa5e9b84af9d",
+   "renderMs": 291,
+   "kind": "solo",
+   "name": "psgOpenhat",
+   "voice": "psgOpenhat",
+   "role": "drums",
+   "genre": "lofi",
+   "pitch": null,
+   "gain": 0.9,
+   "percussive": true,
+   "hits": 4,
+   "onsetT": [
+    0.05,
+    0.8,
+    1.55,
+    2.3
+   ],
+   "automated": false
+  },
+  {
+   "file": "mix_s1_00_verse.wav",
+   "seconds": 7.414285714285714,
+   "sha256": "97ac5aaed16ff9243e00494eeb0d9497a02f5a804a56e994c5298f6f335d5b54",
+   "renderMs": 1090,
+   "kind": "mix",
+   "seed": 1,
+   "genre": "lofi",
+   "idx": 0,
+   "fn": "verse",
+   "occurrence": 1,
+   "energy": 0.74,
+   "peak": false,
+   "material": "A",
+   "stripHalf": false,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "lead",
+    "keys2"
+   ],
+   "hasDrums": true,
+   "bars": [
+    4,
+    6
+   ],
+   "nEvents": 65,
+   "automated": true
+  },
+  {
+   "file": "dup_s1_00.wav",
+   "seconds": 7.414285714285714,
+   "sha256": "c20a5142587b96dac4106537c7b619b29ad416d7149e16bce60bb77108d8bf42",
+   "renderMs": 1019,
+   "kind": "dup",
+   "seed": 1,
+   "genre": "lofi",
+   "name": "mix_s1_00_verse",
+   "pairOf": "mix_s1_00_verse.wav",
+   "automated": true
+  },
+  {
+   "file": "xit_s1_00.wav",
+   "seconds": 7.4142857142857155,
+   "sha256": "54553f4cfafe357358dfc3d6d2915e6e254cb7efba0d145c9ef415dcb363badc",
+   "renderMs": 1039,
+   "kind": "transition",
+   "seed": 1,
+   "genre": "lofi",
+   "idx": 0,
+   "fromFn": "verse",
+   "toFn": "chorus",
+   "toPeak": false,
+   "tempo": 84,
+   "bars": [
+    7,
+    9
+   ],
+   "automated": true
+  },
+  {
+   "file": "mix_s1_01_chorus.wav",
+   "seconds": 7.4142857142857155,
+   "sha256": "d9caa7c300374715ea2670dae0306979c17484965038f93ff5c88a1199e30604",
+   "renderMs": 1088,
+   "kind": "mix",
+   "seed": 1,
+   "genre": "lofi",
+   "idx": 1,
+   "fn": "chorus",
+   "occurrence": 1,
+   "energy": 0.92,
+   "peak": false,
+   "material": "B",
+   "stripHalf": false,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "lead",
+    "counter",
+    "keys2"
+   ],
+   "hasDrums": true,
+   "bars": [
+    12,
+    14
+   ],
+   "nEvents": 74,
+   "automated": true
+  },
+  {
+   "file": "mix_s1_02_chorus.wav",
+   "seconds": 7.4142857142857155,
+   "sha256": "4609ef9f3e0b04aeba33dc89f2b556d49b1fd979a08f8d0b8d7be3edea92b0cc",
+   "renderMs": 1140,
+   "kind": "mix",
+   "seed": 1,
+   "genre": "lofi",
+   "idx": 2,
+   "fn": "chorus",
+   "occurrence": 2,
+   "energy": 0.92,
+   "peak": false,
+   "material": "B",
+   "stripHalf": false,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "lead",
+    "counter",
+    "keys2"
+   ],
+   "hasDrums": true,
+   "bars": [
+    20,
+    22
+   ],
+   "nEvents": 73,
+   "automated": true
+  },
+  {
+   "file": "mix_s1_03_verse.wav",
+   "seconds": 7.414285714285723,
+   "sha256": "4326be19b678dce32d72bae015592b1662ffca4edc41cd2c8d0ebab267f8af2e",
+   "renderMs": 1037,
+   "kind": "mix",
+   "seed": 1,
+   "genre": "lofi",
+   "idx": 3,
+   "fn": "verse",
+   "occurrence": 2,
+   "energy": 0.74,
+   "peak": false,
+   "material": "A",
+   "stripHalf": false,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "lead",
+    "keys2"
+   ],
+   "hasDrums": true,
+   "bars": [
+    28,
+    30
+   ],
+   "nEvents": 67,
+   "automated": true
+  },
+  {
+   "file": "mix_s1_04_chorus.wav",
+   "seconds": 7.414285714285708,
+   "sha256": "43c3b147053b4d3c4630bd1883aad39d60c40256f1e58bdde565ce3d79068e75",
+   "renderMs": 1146,
+   "kind": "mix",
+   "seed": 1,
+   "genre": "lofi",
+   "idx": 4,
+   "fn": "chorus",
+   "occurrence": 3,
+   "energy": 1,
+   "peak": true,
+   "material": "B",
+   "stripHalf": true,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "lead",
+    "counter",
+    "keys2"
+   ],
+   "hasDrums": true,
+   "bars": [
+    36,
+    38
+   ],
+   "nEvents": 76,
+   "automated": true
+  },
+  {
+   "file": "mix_s1_05_outro.wav",
+   "seconds": 7.414285714285723,
+   "sha256": "acdee797d99c531326314281d0ed104c98b7e3cf68828f2cf54cf4f80d212aef",
+   "renderMs": 803,
+   "kind": "mix",
+   "seed": 1,
+   "genre": "lofi",
+   "idx": 5,
+   "fn": "outro",
+   "occurrence": 1,
+   "energy": 0.5,
+   "peak": false,
+   "material": "A",
+   "stripHalf": false,
+   "active": [
+    "keys",
+    "bass",
+    "keys2"
+   ],
+   "hasDrums": false,
+   "bars": [
+    41,
+    43
+   ],
+   "nEvents": 36,
+   "automated": true
+  },
+  {
+   "file": "mix_s2_00_intro.wav",
+   "seconds": 6.315384615384615,
+   "sha256": "4e5650e2994595be2f8a91a11ea0a368f32c646a228bfcfb76d206ca571b885e",
+   "renderMs": 3018,
+   "kind": "mix",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 0,
+   "fn": "intro",
+   "occurrence": 1,
+   "energy": 0.42,
+   "peak": false,
+   "material": "A",
+   "stripHalf": false,
+   "active": [
+    "keys",
+    "bass",
+    "ostinato"
+   ],
+   "hasDrums": false,
+   "bars": [
+    4,
+    6
+   ],
+   "nEvents": 69,
+   "automated": true
+  },
+  {
+   "file": "mix_s2_01_verse.wav",
+   "seconds": 6.315384615384617,
+   "sha256": "a87b52841972b87ed19588df7fe1ae0e09aeafaf687fb9d80e8af2f1a1440154",
+   "renderMs": 2492,
+   "kind": "mix",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 1,
+   "fn": "verse",
+   "occurrence": 1,
+   "energy": 0.7,
+   "peak": false,
+   "material": "A",
+   "stripHalf": false,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "lead",
+    "ostinato"
+   ],
+   "hasDrums": true,
+   "bars": [
+    12,
+    14
+   ],
+   "nEvents": 105,
+   "automated": true
+  },
+  {
+   "file": "dup_s2_01.wav",
+   "seconds": 6.315384615384617,
+   "sha256": "959cda4dd1d05e7e89a80d23642070e0f45e9eb57dd82601738ddc9dec57750f",
+   "renderMs": 2695,
+   "kind": "dup",
+   "seed": 2,
+   "genre": "synthwave",
+   "name": "mix_s2_01_verse",
+   "pairOf": "mix_s2_01_verse.wav",
+   "automated": true
+  },
+  {
+   "file": "mix_s2_02_verse.wav",
+   "seconds": 6.3153846153846205,
+   "sha256": "6f1b6cdef4c6d548ff2ecefcef3edec786b8bd4d7be0d9ed1af7fd8f22cc61d9",
+   "renderMs": 2285,
+   "kind": "mix",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 2,
+   "fn": "verse",
+   "occurrence": 2,
+   "energy": 0.7,
+   "peak": false,
+   "material": "A",
+   "stripHalf": false,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "lead",
+    "ostinato"
+   ],
+   "hasDrums": true,
+   "bars": [
+    20,
+    22
+   ],
+   "nEvents": 106,
+   "automated": true
+  },
+  {
+   "file": "mix_s2_03_prechorus.wav",
+   "seconds": 6.3153846153846205,
+   "sha256": "80e69ef5633a39bbfff08f0b9cc96e8dea32c479f5708cc707931158dde42d74",
+   "renderMs": 2458,
+   "kind": "mix",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 3,
+   "fn": "prechorus",
+   "occurrence": 1,
+   "energy": 0.62,
+   "peak": false,
+   "material": "B",
+   "stripHalf": false,
+   "active": [
+    "bass",
+    "keys",
+    "lead",
+    "ostinato"
+   ],
+   "hasDrums": false,
+   "bars": [
+    26,
+    28
+   ],
+   "nEvents": 83,
+   "automated": true
+  },
+  {
+   "file": "mix_s2_04_chorus.wav",
+   "seconds": 6.315384615384613,
+   "sha256": "d3b412062e391cf8481e97a48bcdbdec1c16283b9306071e775fe83197740076",
+   "renderMs": 2636,
+   "kind": "mix",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 4,
+   "fn": "chorus",
+   "occurrence": 1,
+   "energy": 0.95,
+   "peak": false,
+   "material": "B",
+   "stripHalf": false,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "lead",
+    "counter",
+    "ostinato"
+   ],
+   "hasDrums": true,
+   "bars": [
+    32,
+    34
+   ],
+   "nEvents": 142,
+   "automated": true
+  },
+  {
+   "file": "mix_s2_05_verse.wav",
+   "seconds": 6.315384615384628,
+   "sha256": "0bbe792523bf421db0381b560968b57aeb97f49605ecfe58e48acee5b16b8353",
+   "renderMs": 2826,
+   "kind": "mix",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 5,
+   "fn": "verse",
+   "occurrence": 3,
+   "energy": 0.7,
+   "peak": false,
+   "material": "Avar",
+   "stripHalf": false,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "lead",
+    "ostinato"
+   ],
+   "hasDrums": true,
+   "bars": [
+    40,
+    42
+   ],
+   "nEvents": 117,
+   "automated": true
+  },
+  {
+   "file": "mix_s2_06_verse.wav",
+   "seconds": 6.315384615384613,
+   "sha256": "e286df1d93fe6b230b599adc5f0736b7ce67e73cdb866f01b7e40f29c47e4385",
+   "renderMs": 2667,
+   "kind": "mix",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 6,
+   "fn": "verse",
+   "occurrence": 4,
+   "energy": 0.7,
+   "peak": false,
+   "material": "Avar",
+   "stripHalf": false,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "lead",
+    "ostinato"
+   ],
+   "hasDrums": true,
+   "bars": [
+    48,
+    50
+   ],
+   "nEvents": 115,
+   "automated": true
+  },
+  {
+   "file": "mix_s2_07_instrumental.wav",
+   "seconds": 6.315384615384613,
+   "sha256": "503595145d4a1b45bff756c0722dc308db36ef62d59a03888591d3eb3aa75fbc",
+   "renderMs": 2714,
+   "kind": "mix",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 7,
+   "fn": "instrumental",
+   "occurrence": 1,
+   "energy": 0.88,
+   "peak": false,
+   "material": "B",
+   "stripHalf": false,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "lead",
+    "ostinato"
+   ],
+   "hasDrums": true,
+   "bars": [
+    56,
+    58
+   ],
+   "nEvents": 136,
+   "automated": true
+  },
+  {
+   "file": "mix_s2_08_verse.wav",
+   "seconds": 6.315384615384613,
+   "sha256": "32428d59847ad0d47e409bf98c637f2f9e7b9c576a90baa6014e225d35eca270",
+   "renderMs": 2638,
+   "kind": "mix",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 8,
+   "fn": "verse",
+   "occurrence": 5,
+   "energy": 0.7,
+   "peak": false,
+   "material": "Avar",
+   "stripHalf": false,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "lead",
+    "ostinato"
+   ],
+   "hasDrums": true,
+   "bars": [
+    64,
+    66
+   ],
+   "nEvents": 116,
+   "automated": true
+  },
+  {
+   "file": "mix_s2_09_prechorus.wav",
+   "seconds": 6.315384615384613,
+   "sha256": "a25ce9d707c5b7d8c7c0b7699604f413593ff5a53378d5e9ae88a1cb67f3050f",
+   "renderMs": 2640,
+   "kind": "mix",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 9,
+   "fn": "prechorus",
+   "occurrence": 2,
+   "energy": 0.62,
+   "peak": false,
+   "material": "B",
+   "stripHalf": false,
+   "active": [
+    "bass",
+    "keys",
+    "lead",
+    "ostinato"
+   ],
+   "hasDrums": false,
+   "bars": [
+    70,
+    72
+   ],
+   "nEvents": 87,
+   "automated": true
+  },
+  {
+   "file": "mix_s2_10_chorus.wav",
+   "seconds": 6.315384615384613,
+   "sha256": "e3c62aacff7d480c3123bacf7cb2c72c8bd8e8bd315f12f8ef776c1a4da8f849",
+   "renderMs": 2967,
+   "kind": "mix",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 10,
+   "fn": "chorus",
+   "occurrence": 2,
+   "energy": 0.95,
+   "peak": false,
+   "material": "B",
+   "stripHalf": false,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "lead",
+    "counter",
+    "ostinato"
+   ],
+   "hasDrums": true,
+   "bars": [
+    76,
+    78
+   ],
+   "nEvents": 150,
+   "automated": true
+  },
+  {
+   "file": "mix_s2_11_postchorus.wav",
+   "seconds": 6.315384615384613,
+   "sha256": "cfa0da6302f5c21f33465bdc33d8cc873465f1e3c0787da1bc1c3652a1ab693b",
+   "renderMs": 2660,
+   "kind": "mix",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 11,
+   "fn": "postchorus",
+   "occurrence": 1,
+   "energy": 0.9,
+   "peak": false,
+   "material": "B",
+   "stripHalf": false,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "counter",
+    "ostinato"
+   ],
+   "hasDrums": true,
+   "bars": [
+    81,
+    83
+   ],
+   "nEvents": 131,
+   "automated": true
+  },
+  {
+   "file": "xit_s2_11.wav",
+   "seconds": 6.315384615384613,
+   "sha256": "1551a132d293f163aae09c6b6ed20d051f1ba4bcc0b1467cf204f680dcb1c01d",
+   "renderMs": 2313,
+   "kind": "transition",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 11,
+   "fromFn": "postchorus",
+   "toFn": "chorus",
+   "toPeak": true,
+   "tempo": 104,
+   "bars": [
+    83,
+    85
+   ],
+   "automated": true
+  },
+  {
+   "file": "mix_s2_12_chorus.wav",
+   "seconds": 6.315384615384613,
+   "sha256": "3b0062a548d8c0f578d7d041339e16954a2dee51eb34b4d9929ff84db820ce4f",
+   "renderMs": 2911,
+   "kind": "mix",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 12,
+   "fn": "chorus",
+   "occurrence": 3,
+   "energy": 1,
+   "peak": true,
+   "material": "B",
+   "stripHalf": true,
+   "active": [
+    "drums",
+    "bass",
+    "keys",
+    "lead",
+    "counter",
+    "ostinato"
+   ],
+   "hasDrums": true,
+   "bars": [
+    88,
+    90
+   ],
+   "nEvents": 149,
+   "automated": true
+  },
+  {
+   "file": "mix_s2_13_outro.wav",
+   "seconds": 6.315384615384613,
+   "sha256": "1b6fc8c359a0dd5cc0a9e8d986f2db2ad38ce15b1741a68ff2afa92cfab83eb0",
+   "renderMs": 2209,
+   "kind": "mix",
+   "seed": 2,
+   "genre": "synthwave",
+   "idx": 13,
+   "fn": "outro",
+   "occurrence": 1,
+   "energy": 0.38,
+   "peak": false,
+   "material": "A",
+   "stripHalf": false,
+   "active": [
+    "keys",
+    "bass",
+    "ostinato"
+   ],
+   "hasDrums": false,
+   "bars": [
+    93,
+    95
+   ],
+   "nEvents": 69,
+   "automated": true
+  },
+  {
+   "file": "mix_s3_00_intro.wav",
+   "seconds": 7.933766233766236,
+   "sha256": "84e412873726c2b9faf5c47856206b9dda0bdfcd0b436b57cd7d89c21bf7f777",
+   "renderMs": 842,
+   "kind": "mix",
+   "seed": 3,
+   "genre": "dkc",
+   "idx": 0,
+   "fn": "intro",
+   "occurrence": 1,
+   "energy": 0.5,
+   "peak": false,
+   "material": "A",
+   "stripHalf": false,
+   "active": [
+    "ostinato",
+    "bass"
+   ],
+   "hasDrums": false,
+   "bars": [
+    4,
+    6
+   ],
+   "nEvents": 39,
+   "automated": true
+  },
+  {
+   "file": "mix_s3_01_verse.wav",
+   "seconds": 7.9337662337662325,
+   "sha256": "c9738829d9c9890f87c6d22b2cbb11cc60b7da66c2fa798b6daf5ce8473f720f",
+   "renderMs": 962,
+   "kind": "mix",
+   "seed": 3,
+   "genre": "dkc",
+   "idx": 1,
+   "fn": "verse",
+   "occurrence": 1,
+   "energy": 0.7,
+   "peak": false,
+   "material": "A",
+   "stripHalf": false,
+   "active": [
+    "ostinato",
+    "bass",
+    "keys",
+    "lead",
+    "counter"
+   ],
+   "hasDrums": false,
+   "bars": [
+    12,
+    14
+   ],
+   "nEvents": 31,
+   "automated": true
+  },
+  {
+   "file": "dup_s3_01.wav",
+   "seconds": 7.9337662337662325,
+   "sha256": "f62912375c07f2bd365320050f630c4ff17a2f0a53dfcb5d5d6ab72a45a786e2",
+   "renderMs": 970,
+   "kind": "dup",
+   "seed": 3,
+   "genre": "dkc",
+   "name": "mix_s3_01_verse",
+   "pairOf": "mix_s3_01_verse.wav",
+   "automated": true
+  },
+  {
+   "file": "mix_s3_02_verse.wav",
+   "seconds": 7.9337662337662325,
+   "sha256": "62c232cf3d81a9c491ad524198aa3faf4a8851e02bdf9a8fd863da0af2aa8ef4",
+   "renderMs": 915,
+   "kind": "mix",
+   "seed": 3,
+   "genre": "dkc",
+   "idx": 2,
+   "fn": "verse",
+   "occurrence": 2,
+   "energy": 0.7,
+   "peak": false,
+   "material": "A",
+   "stripHalf": false,
+   "active": [
+    "ostinato",
+    "bass",
+    "keys",
+    "lead",
+    "counter"
+   ],
+   "hasDrums": false,
+   "bars": [
+    20,
+    22
+   ],
+   "nEvents": 27,
+   "automated": true
+  },
+  {
+   "file": "mix_s3_03_instrumental.wav",
+   "seconds": 7.9337662337662325,
+   "sha256": "8ff1fee1d690fb2b93d7be69ca35eb2884509b4402f288199329186f2a3fe63a",
+   "renderMs": 984,
+   "kind": "mix",
+   "seed": 3,
+   "genre": "dkc",
+   "idx": 3,
+   "fn": "instrumental",
+   "occurrence": 1,
+   "energy": 0.8,
+   "peak": false,
+   "material": "A",
+   "stripHalf": false,
+   "active": [
+    "ostinato",
+    "bass",
+    "keys",
+    "drums"
+   ],
+   "hasDrums": true,
+   "bars": [
+    28,
+    30
+   ],
+   "nEvents": 65,
+   "automated": true
+  },
+  {
+   "file": "mix_s3_04_verse.wav",
+   "seconds": 7.9337662337662325,
+   "sha256": "635b003c09a936f02ddaf9c344adb5efaaedc29dcda4f2d31bff7f130ebd83b5",
+   "renderMs": 931,
+   "kind": "mix",
+   "seed": 3,
+   "genre": "dkc",
+   "idx": 4,
+   "fn": "verse",
+   "occurrence": 3,
+   "energy": 0.7,
+   "peak": false,
+   "material": "Avar",
+   "stripHalf": false,
+   "active": [
+    "ostinato",
+    "bass",
+    "keys",
+    "lead",
+    "counter"
+   ],
+   "hasDrums": false,
+   "bars": [
+    36,
+    38
+   ],
+   "nEvents": 35,
+   "automated": true
+  },
+  {
+   "file": "mix_s3_05_verse.wav",
+   "seconds": 7.9337662337662325,
+   "sha256": "6c897c5c155bdd04b47a4d6727f675ba1195bc7d067d56c8104edbb62fba4e99",
+   "renderMs": 937,
+   "kind": "mix",
+   "seed": 3,
+   "genre": "dkc",
+   "idx": 5,
+   "fn": "verse",
+   "occurrence": 4,
+   "energy": 0.7,
+   "peak": false,
+   "material": "Avar",
+   "stripHalf": false,
+   "active": [
+    "ostinato",
+    "bass",
+    "keys",
+    "lead",
+    "counter"
+   ],
+   "hasDrums": false,
+   "bars": [
+    44,
+    46
+   ],
+   "nEvents": 27,
+   "automated": true
+  },
+  {
+   "file": "mix_s3_06_chorus.wav",
+   "seconds": 7.9337662337662325,
+   "sha256": "3a45a2dfe9062c36a70a8ae4ee57dd1958e76a978bb2f38ada2a47c508e38dd4",
+   "renderMs": 1070,
+   "kind": "mix",
+   "seed": 3,
+   "genre": "dkc",
+   "idx": 6,
+   "fn": "chorus",
+   "occurrence": 1,
+   "energy": 0.92,
+   "peak": false,
+   "material": "B",
+   "stripHalf": false,
+   "active": [
+    "ostinato",
+    "bass",
+    "keys",
+    "lead",
+    "counter",
+    "drums"
+   ],
+   "hasDrums": true,
+   "bars": [
+    52,
+    54
+   ],
+   "nEvents": 66,
+   "automated": true
+  },
+  {
+   "file": "xit_s3_06.wav",
+   "seconds": 7.9337662337662325,
+   "sha256": "502b23722d726353cedf5ae870acd8e6cbc5e97958bed1f2a4d3067013c4b7ca",
+   "renderMs": 1046,
+   "kind": "transition",
+   "seed": 3,
+   "genre": "dkc",
+   "idx": 6,
+   "fromFn": "chorus",
+   "toFn": "bridge",
+   "toPeak": false,
+   "tempo": 77,
+   "bars": [
+    55,
+    57
+   ],
+   "automated": true
+  },
+  {
+   "file": "mix_s3_07_bridge.wav",
+   "seconds": 7.9337662337662325,
+   "sha256": "be216c84db978ebfb30e3f83b787540a6cdabee0201c89a69f3a880927188e99",
+   "renderMs": 882,
+   "kind": "mix",
+   "seed": 3,
+   "genre": "dkc",
+   "idx": 7,
+   "fn": "bridge",
+   "occurrence": 1,
+   "energy": 0.62,
+   "peak": false,
+   "material": "C",
+   "stripHalf": false,
+   "active": [
+    "ostinato",
+    "bass",
+    "keys"
+   ],
+   "hasDrums": false,
+   "bars": [
+    60,
+    62
+   ],
+   "nEvents": 35,
+   "automated": true
+  },
+  {
+   "file": "mix_s3_08_verse.wav",
+   "seconds": 7.9337662337662325,
+   "sha256": "6677a516a21acc4d1bac882fbce596935386f1974a5fb833622ddc6935709337",
+   "renderMs": 969,
+   "kind": "mix",
+   "seed": 3,
+   "genre": "dkc",
+   "idx": 8,
+   "fn": "verse",
+   "occurrence": 5,
+   "energy": 0.7,
+   "peak": false,
+   "material": "Avar",
+   "stripHalf": false,
+   "active": [
+    "ostinato",
+    "bass",
+    "keys",
+    "lead",
+    "counter"
+   ],
+   "hasDrums": false,
+   "bars": [
+    68,
+    70
+   ],
+   "nEvents": 36,
+   "automated": true
+  },
+  {
+   "file": "mix_s3_09_verse.wav",
+   "seconds": 7.9337662337662325,
+   "sha256": "4c79b6c244beef8e0f77c5995ee4479fa1d36f8a51d787bc940f65613e095681",
+   "renderMs": 1025,
+   "kind": "mix",
+   "seed": 3,
+   "genre": "dkc",
+   "idx": 9,
+   "fn": "verse",
+   "occurrence": 6,
+   "energy": 0.7,
+   "peak": false,
+   "material": "Avar",
+   "stripHalf": false,
+   "active": [
+    "ostinato",
+    "bass",
+    "keys",
+    "lead",
+    "counter"
+   ],
+   "hasDrums": false,
+   "bars": [
+    76,
+    78
+   ],
+   "nEvents": 33,
+   "automated": true
+  },
+  {
+   "file": "mix_s3_10_chorus.wav",
+   "seconds": 7.9337662337662325,
+   "sha256": "182345fa345724f9cdb947a40c74fcdcc4bb92f89d071c0efbcb26ed19e4e50a",
+   "renderMs": 1018,
+   "kind": "mix",
+   "seed": 3,
+   "genre": "dkc",
+   "idx": 10,
+   "fn": "chorus",
+   "occurrence": 2,
+   "energy": 1,
+   "peak": true,
+   "material": "B",
+   "stripHalf": false,
+   "active": [
+    "ostinato",
+    "bass",
+    "keys",
+    "lead",
+    "counter",
+    "drums"
+   ],
+   "hasDrums": true,
+   "bars": [
+    84,
+    86
+   ],
+   "nEvents": 68,
+   "automated": true
+  },
+  {
+   "file": "mix_s3_11_outro.wav",
+   "seconds": 7.9337662337662325,
+   "sha256": "f7be1aa05112f750903e6a233386cd7d08889123d2ab6ff1e449bf2962761f39",
+   "renderMs": 804,
+   "kind": "mix",
+   "seed": 3,
+   "genre": "dkc",
+   "idx": 11,
+   "fn": "outro",
+   "occurrence": 1,
+   "energy": 0.45,
+   "peak": false,
+   "material": "A",
+   "stripHalf": false,
+   "active": [
+    "ostinato",
+    "bass"
+   ],
+   "hasDrums": false,
+   "bars": [
+    92,
+    94
+   ],
+   "nEvents": 38,
+   "automated": true
+  }
+ ],
+ "pageErrors": [],
+ "song_1": {
+  "seed": 1,
+  "rig": "band",
+  "genre": "lofi",
+  "wet": 0.16,
+  "picks": {
+   "drums": "tr1000",
+   "bass": "auto",
+   "keys": "auto",
+   "lead": "auto",
+   "keys2": "wurly",
+   "fx": "auto",
+   "drumKit": "analog",
+   "mute": {}
+  },
+  "drumMachine": "tr1000",
+  "gated": false,
+  "drumDrive": 1.05,
+  "tempo": 84,
+  "mode": "minor",
+  "keysChar": "rhodes",
+  "groove": "dilla",
+  "nBars": 44,
+  "nEvents": 1337,
+  "voices": [
+   "crash",
+   "k808",
+   "keys",
+   "tape",
+   "bass",
+   "lead",
+   "h808",
+   "wurly",
+   "s808",
+   "rim",
+   "oh808",
+   "t808hi",
+   "t808mid",
+   "t808lo",
+   "counter"
+  ],
+  "sections": [
+   {
+    "fn": "verse",
+    "startBar": 0,
+    "endBar": 8,
+    "energy": 0.74,
+    "peak": false,
+    "occurrence": 1,
+    "material": "A",
+    "stripHalf": false,
+    "fillInto": true,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "lead",
+     "keys2"
+    ]
+   },
+   {
+    "fn": "chorus",
+    "startBar": 8,
+    "endBar": 16,
+    "energy": 0.92,
+    "peak": false,
+    "occurrence": 1,
+    "material": "B",
+    "stripHalf": false,
+    "fillInto": true,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "lead",
+     "counter",
+     "keys2"
+    ]
+   },
+   {
+    "fn": "chorus",
+    "startBar": 16,
+    "endBar": 24,
+    "energy": 0.92,
+    "peak": false,
+    "occurrence": 2,
+    "material": "B",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "lead",
+     "counter",
+     "keys2"
+    ]
+   },
+   {
+    "fn": "verse",
+    "startBar": 24,
+    "endBar": 32,
+    "energy": 0.74,
+    "peak": false,
+    "occurrence": 2,
+    "material": "A",
+    "stripHalf": false,
+    "fillInto": true,
+    "emptyLastBar": true,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "lead",
+     "keys2"
+    ]
+   },
+   {
+    "fn": "chorus",
+    "startBar": 32,
+    "endBar": 40,
+    "energy": 1,
+    "peak": true,
+    "occurrence": 3,
+    "material": "B",
+    "stripHalf": true,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "lead",
+     "counter",
+     "keys2"
+    ]
+   },
+   {
+    "fn": "outro",
+    "startBar": 40,
+    "endBar": 44,
+    "energy": 0.5,
+    "peak": false,
+    "occurrence": 1,
+    "material": "A",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": true,
+    "active": [
+     "keys",
+     "bass",
+     "keys2"
+    ]
+   }
+  ]
+ },
+ "song_2": {
+  "seed": 2,
+  "rig": "neon",
+  "genre": "synthwave",
+  "wet": 0.3,
+  "picks": {
+   "drums": "tr1000",
+   "bass": "auto",
+   "keys": "mellotron",
+   "lead": "auto",
+   "keys2": "auto",
+   "fx": "auto",
+   "drumKit": "analog",
+   "mute": {}
+  },
+  "drumMachine": "tr1000",
+  "gated": true,
+  "drumDrive": 1.05,
+  "tempo": 104,
+  "mode": "minor",
+  "keysChar": "rhodes",
+  "groove": "even",
+  "nBars": 96,
+  "nEvents": 5190,
+  "voices": [
+   "bass",
+   "counter",
+   "mellotron",
+   "tape",
+   "crash",
+   "h808",
+   "lead",
+   "k808",
+   "ride",
+   "clap",
+   "s808",
+   "t808lo",
+   "oh808",
+   "t808mid"
+  ],
+  "sections": [
+   {
+    "fn": "intro",
+    "startBar": 0,
+    "endBar": 8,
+    "energy": 0.42,
+    "peak": false,
+    "occurrence": 1,
+    "material": "A",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "keys",
+     "bass",
+     "ostinato"
+    ]
+   },
+   {
+    "fn": "verse",
+    "startBar": 8,
+    "endBar": 16,
+    "energy": 0.7,
+    "peak": false,
+    "occurrence": 1,
+    "material": "A",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "lead",
+     "ostinato"
+    ]
+   },
+   {
+    "fn": "verse",
+    "startBar": 16,
+    "endBar": 24,
+    "energy": 0.7,
+    "peak": false,
+    "occurrence": 2,
+    "material": "A",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "lead",
+     "ostinato"
+    ]
+   },
+   {
+    "fn": "prechorus",
+    "startBar": 24,
+    "endBar": 28,
+    "energy": 0.62,
+    "peak": false,
+    "occurrence": 1,
+    "material": "B",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "bass",
+     "keys",
+     "lead",
+     "ostinato"
+    ]
+   },
+   {
+    "fn": "chorus",
+    "startBar": 28,
+    "endBar": 36,
+    "energy": 0.95,
+    "peak": false,
+    "occurrence": 1,
+    "material": "B",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "lead",
+     "counter",
+     "ostinato"
+    ]
+   },
+   {
+    "fn": "verse",
+    "startBar": 36,
+    "endBar": 44,
+    "energy": 0.7,
+    "peak": false,
+    "occurrence": 3,
+    "material": "Avar",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "lead",
+     "ostinato"
+    ]
+   },
+   {
+    "fn": "verse",
+    "startBar": 44,
+    "endBar": 52,
+    "energy": 0.7,
+    "peak": false,
+    "occurrence": 4,
+    "material": "Avar",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "lead",
+     "ostinato"
+    ]
+   },
+   {
+    "fn": "instrumental",
+    "startBar": 52,
+    "endBar": 60,
+    "energy": 0.88,
+    "peak": false,
+    "occurrence": 1,
+    "material": "B",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "lead",
+     "ostinato"
+    ]
+   },
+   {
+    "fn": "verse",
+    "startBar": 60,
+    "endBar": 68,
+    "energy": 0.7,
+    "peak": false,
+    "occurrence": 5,
+    "material": "Avar",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "lead",
+     "ostinato"
+    ]
+   },
+   {
+    "fn": "prechorus",
+    "startBar": 68,
+    "endBar": 72,
+    "energy": 0.62,
+    "peak": false,
+    "occurrence": 2,
+    "material": "B",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "bass",
+     "keys",
+     "lead",
+     "ostinato"
+    ]
+   },
+   {
+    "fn": "chorus",
+    "startBar": 72,
+    "endBar": 80,
+    "energy": 0.95,
+    "peak": false,
+    "occurrence": 2,
+    "material": "B",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "lead",
+     "counter",
+     "ostinato"
+    ]
+   },
+   {
+    "fn": "postchorus",
+    "startBar": 80,
+    "endBar": 84,
+    "energy": 0.9,
+    "peak": false,
+    "occurrence": 1,
+    "material": "B",
+    "stripHalf": false,
+    "fillInto": true,
+    "emptyLastBar": true,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "counter",
+     "ostinato"
+    ]
+   },
+   {
+    "fn": "chorus",
+    "startBar": 84,
+    "endBar": 92,
+    "energy": 1,
+    "peak": true,
+    "occurrence": 3,
+    "material": "B",
+    "stripHalf": true,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "drums",
+     "bass",
+     "keys",
+     "lead",
+     "counter",
+     "ostinato"
+    ]
+   },
+   {
+    "fn": "outro",
+    "startBar": 92,
+    "endBar": 96,
+    "energy": 0.38,
+    "peak": false,
+    "occurrence": 1,
+    "material": "A",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": true,
+    "active": [
+     "keys",
+     "bass",
+     "ostinato"
+    ]
+   }
+  ]
+ },
+ "song_3": {
+  "seed": 3,
+  "rig": "sega",
+  "genre": "dkc",
+  "wet": 0.34,
+  "picks": {
+   "drums": "tr1000",
+   "bass": "auto",
+   "keys": "auto",
+   "lead": "auto",
+   "keys2": "auto",
+   "fx": "auto",
+   "drumKit": "sega",
+   "mute": {}
+  },
+  "drumMachine": "tr1000",
+  "gated": false,
+  "drumDrive": 1.05,
+  "tempo": 77,
+  "mode": "minor",
+  "keysChar": "rhodes",
+  "groove": "even",
+  "nBars": 96,
+  "nEvents": 1885,
+  "voices": [
+   "chipBass",
+   "chipCounter",
+   "tape",
+   "chipKeys",
+   "chipLead",
+   "psgHat",
+   "dacKick",
+   "dacSnare",
+   "tom1",
+   "psgOpenhat"
+  ],
+  "sections": [
+   {
+    "fn": "intro",
+    "startBar": 0,
+    "endBar": 8,
+    "energy": 0.5,
+    "peak": false,
+    "occurrence": 1,
+    "material": "A",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "ostinato",
+     "bass"
+    ]
+   },
+   {
+    "fn": "verse",
+    "startBar": 8,
+    "endBar": 16,
+    "energy": 0.7,
+    "peak": false,
+    "occurrence": 1,
+    "material": "A",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "ostinato",
+     "bass",
+     "keys",
+     "lead",
+     "counter"
+    ]
+   },
+   {
+    "fn": "verse",
+    "startBar": 16,
+    "endBar": 24,
+    "energy": 0.7,
+    "peak": false,
+    "occurrence": 2,
+    "material": "A",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "ostinato",
+     "bass",
+     "keys",
+     "lead",
+     "counter"
+    ]
+   },
+   {
+    "fn": "instrumental",
+    "startBar": 24,
+    "endBar": 32,
+    "energy": 0.8,
+    "peak": false,
+    "occurrence": 1,
+    "material": "A",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "ostinato",
+     "bass",
+     "keys",
+     "drums"
+    ]
+   },
+   {
+    "fn": "verse",
+    "startBar": 32,
+    "endBar": 40,
+    "energy": 0.7,
+    "peak": false,
+    "occurrence": 3,
+    "material": "Avar",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "ostinato",
+     "bass",
+     "keys",
+     "lead",
+     "counter"
+    ]
+   },
+   {
+    "fn": "verse",
+    "startBar": 40,
+    "endBar": 48,
+    "energy": 0.7,
+    "peak": false,
+    "occurrence": 4,
+    "material": "Avar",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "ostinato",
+     "bass",
+     "keys",
+     "lead",
+     "counter"
+    ]
+   },
+   {
+    "fn": "chorus",
+    "startBar": 48,
+    "endBar": 56,
+    "energy": 0.92,
+    "peak": false,
+    "occurrence": 1,
+    "material": "B",
+    "stripHalf": false,
+    "fillInto": true,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "ostinato",
+     "bass",
+     "keys",
+     "lead",
+     "counter",
+     "drums"
+    ]
+   },
+   {
+    "fn": "bridge",
+    "startBar": 56,
+    "endBar": 64,
+    "energy": 0.62,
+    "peak": false,
+    "occurrence": 1,
+    "material": "C",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "ostinato",
+     "bass",
+     "keys"
+    ]
+   },
+   {
+    "fn": "verse",
+    "startBar": 64,
+    "endBar": 72,
+    "energy": 0.7,
+    "peak": false,
+    "occurrence": 5,
+    "material": "Avar",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "ostinato",
+     "bass",
+     "keys",
+     "lead",
+     "counter"
+    ]
+   },
+   {
+    "fn": "verse",
+    "startBar": 72,
+    "endBar": 80,
+    "energy": 0.7,
+    "peak": false,
+    "occurrence": 6,
+    "material": "Avar",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": true,
+    "endingLastBar": false,
+    "active": [
+     "ostinato",
+     "bass",
+     "keys",
+     "lead",
+     "counter"
+    ]
+   },
+   {
+    "fn": "chorus",
+    "startBar": 80,
+    "endBar": 88,
+    "energy": 1,
+    "peak": true,
+    "occurrence": 2,
+    "material": "B",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": false,
+    "active": [
+     "ostinato",
+     "bass",
+     "keys",
+     "lead",
+     "counter",
+     "drums"
+    ]
+   },
+   {
+    "fn": "outro",
+    "startBar": 88,
+    "endBar": 96,
+    "energy": 0.45,
+    "peak": false,
+    "occurrence": 1,
+    "material": "A",
+    "stripHalf": false,
+    "fillInto": false,
+    "emptyLastBar": false,
+    "endingLastBar": true,
+    "active": [
+     "ostinato",
+     "bass"
+    ]
+   }
+  ]
+ },
+ "wallSec": 78.843
+}

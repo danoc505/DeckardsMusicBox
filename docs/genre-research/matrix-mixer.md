@@ -59,13 +59,28 @@ mixer actually IS, and it is more than sends.*
    back into the delay, is NOT built: it is a feedback path between two
    effects that would need its own stability work." The eurorack sources
    supply the missing justification AND the missing warning.
+   **POSTSCRIPT, after building it: that old comment was right for a
+   reason it did not know.** The crossing is stable and it is still gone —
+   not for runaway, which the ceiling handled, but because the CYCLE makes
+   Chromium render the same song differently every time. So of the four
+   effect-to-effect crossings the sources call for, this program can hold
+   three: echo→echo, echo→room, and each return's own level. The fourth is
+   a blind plate with its numbers.
 
-3. **Feedback needs a governor.** "Feedback loops can quickly spiral
-   exponentially into chaos", "start the gain very low and raise slowly,
-   and keep your main output volume low" [perfectcircuit, via search]. So
-   the room→echo crossing ships with a HARD CAP dial-max chosen by
-   measurement (worst-case loop maxed, impulse in, decay measured), not by
-   hope. That is the "stability work" the old comment demanded.
+3. **Feedback needs a governor — and in this engine it needs more than
+   that.** "Feedback loops can quickly spiral exponentially into chaos",
+   "start the gain very low and raise slowly" [perfectcircuit, via search].
+   The room→echo crossing was therefore built with a measured ceiling
+   (worst-case loop maxed, impulse in, decay swept: 0.04 fine, 0.08 fine,
+   0.12 turns around, 0.16 runs away → cap 0.08). **That was necessary and
+   not sufficient, and the crossing was later REMOVED.** A stable loop is
+   still a loop, and in WebAudio a loop spanning these nodes costs the
+   renderer its repeatability — measured below, and fatal here, because
+   Law 7 (same seed, same samples) is what every other measurement in this
+   project stands on. See "The design as built" and `MATRIX.none`.
+   *The sources are about hardware, where an unrepeatable render is not a
+   concept. This is the one place their advice does not transfer, and it
+   took building the thing to find out.*
 
 4. **CV over the crossings is standard practice** — the 4ms VCA Matrix is
    a whole module of it, and signalsounds lists "CV control over
@@ -129,9 +144,9 @@ grid is for.*
     keys      level          send           send
     lead      level          send           send
     echo rtn  return level   FDBK (alias)   WASH (alias)
-    room rtn  wet level      feedback       — blind
+    room rtn  wet level      — blind        — blind
 
-Eighteen positions: fifteen matrix controls, two ALIASES, one blind.
+Eighteen positions: fourteen matrix controls, two ALIASES, two blind.
 
 - **The MIX column** is new and is the reason the drop was impossible. Its
   instrument rows sum into the mix ahead of the master shaper; the two
@@ -146,6 +161,17 @@ Eighteen positions: fifteen matrix controls, two ALIASES, one blind.
   putting the returns in the input list buys.
 - **room → room** is left blind on purpose; a room feeding itself is a
   longer tail and the impulse response already owns that.
+- **room → echo** was BUILT, measured, and then removed. It is the half of
+  Hawtin's "delays on the reverbs" sentence this program never had, and it
+  worked — but because the echo already feeds the room, it closes a CYCLE,
+  and with a cycle present Chromium renders the same song differently every
+  time (repeat renders fell from -115 dB apart to -35 dB; it fires even at
+  gain zero, and five different topologies all behaved the same, including
+  one with no convolver in the loop at all). Law 7 — same seed, same
+  samples — is what every measurement in this project stands on, so the
+  crossing loses. The numbers are in `MATRIX.none` and the guard is
+  `harness/probe_render_determinism.js`. **A matrix mixer in WebAudio can
+  route anything to anything except back to where it came from.**
 
 **IT IS A DECLARATION, NOT A HARDCODED GRID.** `const MATRIX = { ins,
 outs, alias, none }` is walked by the controls, the audio graph, the
