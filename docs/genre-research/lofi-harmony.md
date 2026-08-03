@@ -292,6 +292,51 @@ Stated as constraints, per Principle 1, not as values:
 
 ---
 
+## 8. VERIFIED AGAINST THE OUTPUT — what the program actually writes now
+
+*Added after the build, because researching before building and then never
+checking the result against the research is only half the discipline. Measured
+100 lofi seeds, 400 chords, on build `2026-08-03q`.*
+
+```
+  m7      20.3%     9        10.0%     m11      6.5%
+  m9      18.0%     triad     9.5%     11       1.3%
+  m       10.3%     7         9.3%     maj11    0.3%
+                    maj9      7.8%
+                    maj7      7.0%
+```
+
+**The five most-named qualities in §2 are all being produced**, and they are
+the bulk of the output: m7, m9, maj9, maj7 and m11 together are 59.6%. That
+half of the research is delivered.
+
+**What is NOT produced, and why — this is the honest column:**
+
+| sourced chord | status |
+|---|---|
+| `maj13` | **not reachable.** lofi's `extensions` stops at 6 (the eleventh). A deliberate cap: the thirteenth appears once in the sources and is the extension most likely to collide with the tune. |
+| `G7#5`, `G7b5`, `G7b9aug5` | **structurally impossible.** Altered dominants need a chromatic note; `chordTones` stacks diatonic thirds and cannot alter one. |
+| `Bdim7` | **structurally impossible**, same reason. |
+| `F7` in a minor key (the borrowed dominant IV) | **structurally impossible.** This is the one Pryn names explicitly as "a borrowed chord from another key", and §4 identifies it as *the* discriminator between the genre's two minor modes. It needs the chromaticism BACKLOG §6.4 describes, which lofi does not have. |
+
+So four of the sourced chord types remain out of reach, all for the same
+reason, and that reason is already the top of BACKLOG §6.4. The extension work
+raised the ceiling; it did not open the key.
+
+**The one place the build deliberately departs from a source, stated plainly:**
+19.8% of chords are plain triads (`m` + `triad`), against a source list in which
+NOT ONE of thirteen progressions is a triad. That is the `extensions` weight of
+2 on size 3, and it is `[EAR]` — my judgement that a record made entirely of
+colour has no plain statement to lean against.
+
+**It is defensible for a reason worth keeping, and it is a methodological
+point, not a taste one:** Pryn's thirteen are a *curated teaching list of
+nice-sounding examples*, not a measurement of the repertoire. Reading "0% of
+lofi chords are triads" out of them would be over-reading a menu as a
+distribution — which §6 of this sheet already warns against in general. The
+honest position is that the triad share is unmeasured in both directions, and
+the Jazz Harmony Treebank (§0) is what would settle it.
+
 ## Sources
 
 - [Lo-fi chord progressions: 5 jazzy patterns — Flat](https://blog.flat.io/lofi-chord-progressions/)
