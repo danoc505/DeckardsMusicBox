@@ -389,6 +389,91 @@
                    padding:.4rem 1rem; border-radius:4px 4px 0 0; }
   .sk-desk .brand .model{ color:#7fb2d9; }
 
+
+  /* ── THE FIELD, and it is the one panel in this program that is not a
+     photograph of a machine ─────────────────────────────────────────────────
+     Every other box here is a real object drawn as it looks, because the
+     control it carries has a real-world twin. This one has no twin: nothing
+     in a rack shows you WHERE THINGS ARE and lets you move them there. The
+     nearest ancestors are the broadcast goniometer and the radar PPI, so it
+     is a phosphor tube -- amber, curved, scanlined, with the graticule etched
+     on the glass and the beam drawn over it. Retro-futuristic is the honest
+     idiom here rather than a costume: this is 1979's idea of what a mixing
+     display would be, which is exactly the shelf the rest of the rack sits on.
+
+     WHAT THE AXES ARE, and both are real controls, not a metaphor:
+       X = the instrument's PAN            (<machine>.pan, a gesture control)
+       Y = how far into the ROOM it sits   (matrix.<bus>Room, a matrix crossing)
+     So the display is a STAGE seen from above: left to right, near to far.
+     Dragging a blip writes TRIM on those two, exactly as a knob does, and a
+     double-click hands it back to the song. Blips on one bus share their Y,
+     because the room send IS per bus -- they move together and the panel shows
+     that rather than hiding it. ── */
+  .sk-field{ color:#ffb454; border:1px solid #241a10;
+             background:linear-gradient(#16110c, #0b0908); }
+  .sk-field .brand{ background:#0b0908; color:#ffb454; margin:-.85rem -1rem .7rem;
+                    padding:.4rem 1rem; border-radius:4px 4px 0 0;
+                    border-bottom:1px solid #3a2a18; }
+  .sk-field .brand .model{ color:#ffd9a0; letter-spacing:.22em; font-weight:600; }
+  .sk-field .brand .maker{ color:#8a6a3a; letter-spacing:.16em; }
+  .fldwrap{ position:relative; }
+  .fldtube{ position:relative; height:230px; border-radius:14px/18px;
+            background:
+              radial-gradient(120% 100% at 50% 45%, #1d1409 0%, #120d08 60%, #090706 100%);
+            border:1px solid #3a2a18;
+            box-shadow:inset 0 0 40px rgba(0,0,0,.9), inset 0 0 12px rgba(255,180,84,.06);
+            overflow:hidden; cursor:crosshair; }
+  /* the graticule: centre line, thirds, and the near/far arcs */
+  .fldtube::before{ content:""; position:absolute; inset:0; pointer-events:none;
+    background:
+      linear-gradient(90deg, transparent 49.7%, rgba(255,180,84,.34) 49.7% 50.3%, transparent 50.3%),
+      linear-gradient(90deg, transparent 24.8%, rgba(255,180,84,.13) 24.8% 25.2%, transparent 25.2%),
+      linear-gradient(90deg, transparent 74.8%, rgba(255,180,84,.13) 74.8% 75.2%, transparent 75.2%),
+      repeating-linear-gradient(0deg, rgba(255,180,84,.055) 0 1px, transparent 1px 3px); }
+  /* the scanline sweep, slow enough to read as a tube and not as a strobe */
+  .fldtube::after{ content:""; position:absolute; left:0; right:0; height:34px;
+    pointer-events:none; opacity:.5;
+    background:linear-gradient(180deg, transparent, rgba(255,190,110,.10), transparent);
+    animation:fldsweep 5.2s linear infinite; }
+  @keyframes fldsweep{ from{ top:-34px } to{ top:240px } }
+  .fldlab{ position:absolute; font-size:.56rem; letter-spacing:.18em;
+           color:#8a6a3a; pointer-events:none; }
+  /* an instrument on the stage. The bright ring is your hand; the dim dot
+     inside is where the song has it right now -- the same two marks every
+     knob and the XY pad already show. */
+  .blip{ position:absolute; transform:translate(-50%, -50%); cursor:grab;
+         text-align:center; pointer-events:auto; }
+  .blip .ring{ width:16px; height:16px; margin:0 auto; border-radius:50%;
+    border:1.5px solid #ffb454; background:radial-gradient(circle, rgba(255,180,84,.42), transparent 70%);
+    box-shadow:0 0 10px rgba(255,180,84,.55), 0 0 22px rgba(255,140,40,.25); }
+  .blip.touched .ring{ border-color:#ffe6bf;
+    box-shadow:0 0 12px rgba(255,230,190,.8), 0 0 26px rgba(255,170,60,.4); }
+  .blip .nm{ font-size:.54rem; letter-spacing:.1em; color:#ffcf94; margin-top:.16rem;
+             text-shadow:0 0 6px rgba(255,150,60,.6); white-space:nowrap; }
+  /* where the conductor has it, and the trail its auto-pan is sweeping */
+  .blip.anchored .ring{ width:22px; height:7px; border-radius:2px;
+    background:linear-gradient(#ffb454, #c07a28); border-color:#ffd9a0; }
+  .blip.anchored{ cursor:ns-resize; }
+  .blip .ghost{ position:absolute; left:50%; top:0; width:5px; height:5px;
+    margin:5.5px 0 0 -2.5px; border-radius:50%; background:#7a5a2e; }
+  .blip .trail{ position:absolute; top:7px; height:2px; border-radius:1px;
+    background:linear-gradient(90deg, transparent, rgba(255,180,84,.45), transparent); }
+  /* the mono check, which is the one number a sound-system record lives by */
+  .fldfoot{ display:flex; align-items:center; gap:.7rem; margin-top:.55rem; }
+  .fldcorr{ position:relative; flex:1 1 auto; height:10px; border-radius:5px;
+            background:#120d08; border:1px solid #3a2a18; overflow:hidden; }
+  .fldcorr b{ position:absolute; top:0; bottom:0; width:2px; background:#ffb454;
+              box-shadow:0 0 8px rgba(255,180,84,.8); }
+  .fldlamp{ font-size:.55rem; letter-spacing:.14em; padding:.16rem .5rem;
+            border-radius:3px; border:1px solid #3a2a18; color:#8a6a3a; }
+  .fldlamp.ok{ color:#0b0908; background:#8fd46a; border-color:#8fd46a; }
+  .fldlamp.warn{ color:#0b0908; background:#e0663c; border-color:#e0663c; }
+  .fldpre{ display:flex; flex-wrap:wrap; gap:.34rem; margin-top:.5rem; }
+  .fldpre button{ font:inherit; font-size:.56rem; letter-spacing:.14em;
+    padding:.26rem .55rem; border-radius:3px; cursor:pointer;
+    background:#1d1409; color:#ffcf94; border:1px solid #3a2a18; }
+  .fldpre button:hover{ background:#2a1d0d; border-color:#6a4a24; }
+
   /* ── THE A-138m, as the machine looks ─────────────────────────────────────
      A raw brushed-aluminium eurorack panel: silver, faint vertical grain,
      black legending, gold-ringed jack sockets down the left and along the
@@ -552,7 +637,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03g · stereo everywhere it belongs: ensembles spread, the echo ping-pongs, the kit has an image</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03h · THE FIELD: a phosphor stage that builds itself from whatever the song loaded</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1728,6 +1813,27 @@ const INSTRUMENTS = {
        the first build's mistake and it is why the panel looked nothing like
        the machine it is named after. */
     panel: { skin: "a138", maker: "DOEPFER", title: "A-138m", grid: "matrix" },
+  },
+
+  /* ── THE FIELD ────────────────────────────────────────────────────────────
+     A VIEW, not an owner. It declares no controls of its own and adds nothing
+     to the sound: every blip on it drives `<machine>.pan` and
+     `matrix.<bus>Room`, which already exist, are already automated and are
+     already drawn as knobs on their own panels. That is deliberate and it is
+     the same rule the KAOSS pad follows -- "nothing new is owned: it writes
+     the same TRIM offsets the knobs write".
+
+     WHY IT ADAPTS. Its rows are not a list: they are whatever this song has
+     LOADED, read from the chart's picks through machineIn() plus the fixed
+     machines, filtered to the ones that can be placed. Change the rig, change
+     the genre, mute a rack -- the stage repopulates, because a stereo display
+     that shows instruments nobody is playing is the same lie as a knob that
+     does nothing. */
+  field: {
+    slot: "field", label: "the field", fixed: true,
+    lanes: {},
+    controls: [],
+    panel: { skin: "field", maker: "DECKARD", title: "STEREO FIELD", grid: "field" },
   },
 
   /* ── BASSES ────────────────────────────────────────────────────────────── */
@@ -16429,6 +16535,185 @@ function matrixGridEl(m, M){
   return wrap;
 }
 
+/* ── THE FIELD, DRAWN ───────────────────────────────────────────────────────
+   One blip per loaded instrument on a stage seen from above. X is that
+   machine's pan; Y is how far its BUS sits into the room. Dragging writes the
+   same TRIM a knob writes, so the three-owner model is unchanged: the bright
+   ring is the hand, the dim dot is where the song has it this instant, and a
+   double-click gives the instrument back to the conductor.
+
+   THE PRESETS are hand positions, not settings. They write TRIM and nothing
+   else, so the genre underneath is untouched and "as written" is a delete
+   rather than a restore -- which is also the answer to "a few default FX
+   racks": a rack state IS a set of offsets, and the eurorack literature says
+   the same ("storing patch variations for performance verse/chorus
+   structures" [corpus:soundonsound, Erica Matrix Mixer]). MONO CHECK is the
+   one every sound-system record needs and no panel here had: it flattens the
+   image so you can hear what the club hears. */
+function fieldRows(){
+  if(!SONG) return [];
+  const out = [];
+  const seen = {};
+  /* ONLY SOURCES STAND ON A STAGE. The first version swept in the fixed
+     machines too and drew the echo, the desk, the matrix and this display
+     itself as if they were players -- they are the room, not the band. A
+     processor has no position because everything passes through it. */
+  const PLACES = { drums: "drums", bass: "bass", keys: "keys", keys2: "keys", lead: "lead" };
+  const slots = RACK_SLOTS.filter(sl => PLACES[sl]).map(sl => [sl, machineIn(SONG.chart, sl)]);
+  for(const [slot, m] of slots){
+    if(!m || m === "auto" || m === "none" || !INSTRUMENTS[m] || seen[m]) continue;
+    /* EVERY loaded machine gets a place on the stage, including the ones that
+       cannot move sideways. Showing only the pannable ones drew a band with no
+       floor -- and worse, it hid the DECISION: the kit and the basses are
+       centred because "keep drums, bass and lead centered... below 60-100 Hz
+       should be mono" [corpus:waves; adsr], which is a rule this program obeys
+       on purpose and should therefore be able to see. They are drawn as bars
+       rather than rings, they carry the reason in their tooltip, and they still
+       move in Y because how far a kit sits into the room is a real choice. */
+    seen[m] = 1;
+    const canPan = !!CONTROL[m + ".pan"];
+    const bus = PLACES[slot];
+    out.push({ m, bus, canPan,
+               label: INSTRUMENTS[m].panel ? INSTRUMENTS[m].panel.title : m });
+  }
+  return out;
+}
+function fieldEl(){
+  const wrap = el("div", "fldwrap");
+  const tube = el("div", "fldtube");
+  for(const [txt, css] of [["L", "left:.5rem;top:.4rem"], ["C", "left:50%;top:.4rem;margin-left:-.3rem"],
+                           ["R", "right:.5rem;top:.4rem"], ["NEAR", "left:.5rem;bottom:.35rem"],
+                           ["FAR", "right:.5rem;bottom:.35rem"]]){
+    const l = el("div", "fldlab", txt); l.style.cssText += ";" + css; tube.appendChild(l);
+  }
+  const blips = [];
+  for(const row of fieldRows()){
+    const b = el("div", "blip" + (row.canPan ? "" : " anchored"));
+    b.appendChild(el("div", "trail"));
+    b.appendChild(el("div", "ring"));
+    b.appendChild(el("div", "ghost"));
+    const nm = el("div", "nm", row.label);
+    /* stacked instruments are the NORMAL case at defaults -- everything sits
+       at centre until a genre places it -- so labels alternate above and below
+       the mark rather than piling into one another */
+    if(blips.length % 2) nm.style.cssText = "margin-top:-2.1rem";
+    b.appendChild(nm);
+    b.title = row.canPan
+      ? row.label + " — drag to place it (across = pan, up/down = how far into " +
+        "the room). Double-click hands it back to the song. Up and down moves " +
+        "the whole " + row.bus + " bus, because the room send is per bus."
+      : row.label + " — CENTRED BY DESIGN. Drums and bass stay in the middle so " +
+        "a mono rig loses nothing; only its distance into the room can move.";
+    tube.appendChild(b);
+    blips.push({ row, el: b });
+  }
+  wrap.appendChild(tube);
+
+  /* the mono check */
+  const foot = el("div", "fldfoot");
+  const corr = el("div", "fldcorr"); const bar = el("b"); corr.appendChild(bar);
+  const lamp = el("div", "fldlamp", "MONO");
+  foot.appendChild(el("div", "fldlab", "WIDTH")); foot.appendChild(corr); foot.appendChild(lamp);
+  wrap.appendChild(foot);
+
+  const panKey = r => r.m + ".pan";
+  const roomKey = r => "matrix." + r.bus + "Room";
+  const setFrom = (row, fx, fy) => {
+    const pk = panKey(row), rk = roomKey(row);
+    const cp = CONTROL[pk], cr = CONTROL[rk];
+    if(cp){
+      const want = Math.max(-1, Math.min(1, fx * 2 - 1));
+      TRIM[pk] = want - (PARAMS[pk] == null ? cp.def : PARAMS[pk]);
+    }
+    if(cr){
+      const want = Math.max(cr.min, Math.min(cr.max, fy));
+      TRIM[rk] = want - (PARAMS[rk] == null ? cr.def : PARAMS[rk]);
+      busTouched(rk);
+    }
+  };
+  /* presets: hand positions, written as TRIM and nothing else */
+  const PRESETS = {
+    "AS WRITTEN": () => { for(const { row } of blips){ delete TRIM[panKey(row)]; delete TRIM[roomKey(row)]; busTouched(roomKey(row)); } delete TRIM["echo.width"]; busTouched("echo.width"); },
+    "WIDE SCREEN": () => { const mov = blips.filter(x => x.row.canPan);
+        mov.forEach(({ row }, i) => {
+          const n = Math.max(1, mov.length - 1);
+          setFrom(row, i / n * 0.86 + 0.07, Math.min(1, panelValue("matrix", row.bus + "Room") + 0.12)); }); },
+    "DUB PLATE": () => { blips.filter(x => x.row.canPan)
+          .forEach(({ row }, i) => setFrom(row, i % 2 ? 0.72 : 0.28, panelValue("matrix", row.bus + "Room")));
+        const c = CONTROL["echo.width"]; if(c) TRIM["echo.width"] = 0.75 - (PARAMS["echo.width"] || 0); busTouched("echo.width"); },
+    "MONO CHECK": () => { for(const { row } of blips)
+          if(row.canPan) setFrom(row, 0.5, panelValue("matrix", row.bus + "Room"));
+        const c = CONTROL["echo.width"]; if(c) TRIM["echo.width"] = -(PARAMS["echo.width"] || 0); busTouched("echo.width"); },
+  };
+  const pre = el("div", "fldpre");
+  for(const name in PRESETS){
+    const b = document.createElement("button"); b.textContent = name;
+    b.title = name === "MONO CHECK"
+      ? "flatten the image and kill the ping-pong: what a club rig hears"
+      : "a hand position, written as offsets — the genre underneath is untouched";
+    b.addEventListener("click", () => { PRESETS[name](); wrap.refresh(); });
+    pre.appendChild(b);
+  }
+  wrap.appendChild(pre);
+
+  wrap.refresh = () => {
+    const t = songTime();
+    let spread = 0, n = 0;
+    for(const { row, el: b } of blips){
+      const pk = panKey(row), rk = roomKey(row);
+      const cr = CONTROL[rk] || { min: 0, max: 1 };
+      const pan = row.canPan ? panelValue(row.m, "pan") : 0;
+      const room = panelValue("matrix", row.bus + "Room");
+      b.style.left = ((pan + 1) / 2 * 100) + "%";
+      b.style.top = (20 + (1 - (room - cr.min) / Math.max(1e-6, cr.max - cr.min)) * 60) + "%";
+      b.classList.toggle("touched", !!(TRIM[pk] || TRIM[rk]));
+      /* where the song has it right now, and how wide its sweep is */
+      const mo = SONG && SONG.motion;
+      const live = (row.canPan && mo && mo.lanes[pk] && t != null)
+        ? motionAt(mo, pk, { tSec: t }) : 0;
+      const gh = b.querySelector(".ghost");
+      gh.style.display = live ? "block" : "none";
+      gh.style.marginLeft = (-2.5 + live * 40) + "px";
+      const dep = (row.canPan && CONTROL[row.m + ".panDep"]) ? panelValue(row.m, "panDep") : 0;
+      const tr = b.querySelector(".trail");
+      tr.style.display = dep > 0.01 ? "block" : "none";
+      tr.style.left = (-dep * 34) + "px"; tr.style.width = (dep * 68) + "px";
+      spread += Math.abs(pan + live); n++;
+    }
+    /* WIDTH is the mean distance from centre; the lamp is the honest reading
+       of it, because amplitude panning cannot go out of phase */
+    const w = n ? spread / n : 0;
+    bar.style.left = Math.min(98, w * 96) + "%";
+    lamp.textContent = w < 0.02 ? "MONO" : "MONO SAFE";
+    lamp.className = "fldlamp " + (w < 0.02 ? "" : "ok");
+  };
+
+  /* dragging, with the same grammar as every other control here */
+  let drag = null;
+  const at = e => {
+    const r = tube.getBoundingClientRect(), p = e.touches ? e.touches[0] : e;
+    return [Math.max(0, Math.min(1, (p.clientX - r.left) / r.width)),
+            Math.max(0, Math.min(1, 1 - ((p.clientY - r.top) / r.height - 0.20) / 0.60))];
+  };
+  for(const { row, el: b } of blips){
+    b.addEventListener("pointerdown", e => {
+      drag = row; b.setPointerCapture(e.pointerId); e.preventDefault(); e.stopPropagation();
+    });
+    b.addEventListener("pointermove", e => {
+      if(drag !== row) return;
+      const [fx, fy] = at(e);
+      setFrom(row, row.canPan ? fx : 0.5, fy); wrap.refresh(); e.preventDefault();
+    });
+    b.addEventListener("pointerup", () => { drag = null; });
+    b.addEventListener("dblclick", e => {
+      delete TRIM[panKey(row)]; delete TRIM[roomKey(row)];
+      busTouched(roomKey(row)); wrap.refresh(); e.stopPropagation();
+    });
+  }
+  wrap.refresh(); KNOBS.push(wrap);
+  return wrap;
+}
+
 /* ── THE XY PAD ─────────────────────────────────────────────────────────────
    A Kaoss pad is not a knob with two dimensions bolted on -- it is one gesture
    that moves TWO controls at once, which is the only way to reach a filter and
@@ -17133,6 +17418,7 @@ function drawPanels(){
       }
       if(P.grid === "drums") { const gr = drumGridEl(m, M); box.appendChild(gr); GRIDS.push(["drums", gr]); }
       if(P.grid === "bass")  { const gr = bassGridEl(m, M);  box.appendChild(gr); GRIDS.push(["bass", gr]); }
+      if(P.grid === "field") box.appendChild(fieldEl());
       if(P.grid === "matrix"){
         box.appendChild(matrixGridEl(m, M));
         const plate = el("div", "mxplate");

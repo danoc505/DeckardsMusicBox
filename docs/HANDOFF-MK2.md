@@ -2286,3 +2286,52 @@ all [EAR] first guesses; dkc/lofi read low because seed 11's draws — a
 roll across seeds would say more; the mellotron's own ensemble (it is a
 tape machine, no chorus — correct) and the segakit's chains carry no
 kitPan for bladerunner (barely a kit).
+
+**THE FIELD at `2026-08-03h`** — the user: *"Why wouldn't we have a
+dynamic stereo rack that adapts to what has been loaded and then can be
+automated by the program? ... we should use some interesting visual UI ...
+novel and exciting retro futuristic."* All three, in one panel.
+
+**WHY IT WAS RIGHT.** Stereo had landed as PAN/RATE/DEPTH knob triples on
+eight separate machine panels. Every knob worked; you could not SEE the
+image, only read numbers off boxes in different parts of the rack — the
+same defect the matrix panel had when it was three labelled clusters
+instead of a grid. A stereo display's layout IS its information.
+
+**WHAT IT IS.** `INSTRUMENTS.field` — a fixed machine that DECLARES NO
+CONTROLS and adds nothing to the sound. Every blip drives
+`<machine>.pan` and `matrix.<bus>Room`, which already exist, are already
+ridden by genres, and are already drawn as knobs elsewhere. Same rule as
+the KAOSS pad: "nothing new is owned". X = pan, Y = how far into the room
+— a stage seen from above, and both axes are real automatable controls.
+
+**IT ADAPTS BECAUSE ITS ROWS ARE NOT A LIST**: `fieldRows()` reads the
+chart's picks through `machineIn()` for the five SOURCE slots. Change rig,
+genre or a mute and the stage repopulates. Two corrections were needed
+while building: the first version drew only pannable machines (a band with
+no floor, and it hid the DECISION that drums/bass are centred), and the
+second swept in the fixed machines so the echo, the desk, the matrix and
+the display ITSELF appeared as players — a processor has no position
+because everything passes through it. Now: sources only; pannable ones are
+rings, centred-by-design ones are BARS that still move in Y and carry the
+mono rule in their tooltip.
+
+**THE LOOK** is the one panel here with no real-world twin, so it is a
+phosphor tube — amber, curved, scanlined, graticule etched on the glass,
+slow sweep. Broadcast goniometer and radar PPI as ancestors. Retro-futurism
+as the honest idiom rather than a costume: 1979's idea of a mixing display,
+which is the shelf the rest of this rack sits on.
+
+**THE FX RACKS the user asked for are PRESETS, and they are hand
+positions**: AS WRITTEN (delete every stereo TRIM — back to the genre),
+WIDE SCREEN, DUB PLATE (alternate sides + echo ping-pong up), MONO CHECK
+(flatten the image and kill the width — what a club rig hears). They write
+TRIM and only TRIM, so the genre underneath is untouched. This is exactly
+the round-two research finding built: "storing patch variations for
+performance verse/chorus structures" [corpus:soundonsound, Erica].
+
+Battery 118/118, ui 26, snapshot IDENTICAL. STILL OPEN: the ear has heard
+none of it; blips carry a ghost for the live automation and a trail for
+auto-pan depth, both untested by eye in motion; presets are first guesses
+[EAR]; and a genre cannot yet declare a whole field state per SECTION,
+which is the obvious next step now that a state is a thing you can see.
