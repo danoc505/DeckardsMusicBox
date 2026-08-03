@@ -847,6 +847,86 @@ coincidental dkc<->bladerunner twin (1 word+length match between two
 PLANLESS genres) — expected to vanish when they get plans. Remaining
 planless: dkc, acid, plastikman.
 
+**⚠ IN FLIGHT, UNCOMMITTED, 2026-08-03 — THE MATRIX MIXER, AND A REAL
+RUNAWAY FOUND UNDER IT.** Everything in this entry sits in the WORKING
+TREE on `claude/code-review-6jd9cz` on top of `268ba5d`; nothing below is
+committed, stamped, or fully re-batteried yet. Read this before touching
+anything, because one finding is a defect fix half-verified.
+
+1. **The KAOSS pad was tested** (user: "I've been unable to notice its
+   work"), with a new probe, `harness/probe_kaoss.js`. VERDICT: the pad
+   WORKS end to end — a real pointer drag on the pad writes the TRIMs and
+   audibly stretches the live stop-tail (4.2 s -> 5.8 s at -50 dB) — but
+   the thing it modulates is nearly inaudible at the genres' own send
+   levels. Measured as a DIFFERENCE SIGNAL (corner render minus neutral
+   render, level relative to the mix): the pad's loudest possible move is
+   -8 dB (plastikman) down to -28 dB (synthwave, FAINT). Total-RMS deltas
+   lie here (<= 0.7 dB); the difference signal is the honest measure.
+
+2. **The MATRIX MIXER was built and hooked up** (user: "hook the matrix
+   mixer up to everything it should be hooked up to... study euroracks").
+   Research first, per the rules: `docs/genre-research/matrix-mixer.md`
+   (EMS pin matrix, eurorack matrix mixers, King Tubby, feedback
+   patching). Built, all in the working tree:
+   - `INSTRUMENTS.matrix` — fixed machine, desk skin: 4 buses x 2
+     destinations (8 route knobs) + the FEEDBACK crossing `roomEcho`
+     (room -> echo, the half of Hawtin's sentence the echo's build
+     comment refused "until the stability work" existed).
+   - Graph: `g.route` gains replace the old binary connect/disconnect of
+     `feeds`/`echoFeeds`; `g.roomEcho` wires verb -> echo. Route bases
+     derive from the SONG's space object + hand TRIM in setSpace (the
+     kick precedent — PARAMS holds the last genre loaded and batch
+     renders must not wear it); applyRack mirrors the same bases into
+     PARAMS so the panel reads true. `soundOf` mute-fx now sets
+     `echoKill` (routes + roomEcho to 0 past any TRIM).
+   - With a hand on the matrix the pad becomes an instrument, measured:
+     lofi, drums->echo open + send 0.5 = -15.6 dB of new audio; pad
+     corners then swing -9.9/-12.6 dB (probe_kaoss part 3).
+   - The seam law "every knob the conductor can move is one some genre
+     moves" correctly failed the 8 new routes, so genres now ride them
+     (motion.matrix blocks): plastikman all five of its declared routes
+     as CUTS (underdog "cut to create space", Hawtin push-and-pull) +
+     roomEcho rises in the bridge (base `space.roomEcho: 0.14`); lofi
+     leadEcho (tape-slap dips, its own echo.send shapes); bladerunner
+     keysRoom/leadRoom (the wash breathes; lead dries for the statement).
+     Amounts mine, all marked [EAR]. Motion lanes are per-key named
+     streams, so compositions cannot shift; snapshot stayed IDENTICAL.
+
+3. **THE RUNAWAY: WebAudio lowpass/highpass Q IS IN dB.** Found by
+   `harness/probe_matrix.js` while measuring the roomEcho governor: the
+   worst-case tail GREW with the crossing severed, on the PRE-matrix
+   build too (worktree A/B on 268ba5d). Isolated to the echo loop itself:
+   `echoLp` Q "0.6" / `echoHp` Q "0.5" were written as textbook
+   quality-factors, but for these filter types WebAudio reads Q as
+   DECIBELS OF CORNER RESONANCE — measured with getFrequencyResponse,
+   each filter peaked x1.21 and the cascade x1.344 (worst at repeat-cut
+   600 Hz), so FDBK 0.85 gave loop gain 1.14: a single kick rang UP +18
+   to +36 dB over 30 s. This is almost certainly the old "it starts to
+   build and stutter" report. FIX APPLIED in the working tree: both loop
+   filters at Q = -3 dB, where the measured peak is exactly 1.0000
+   (passive knee) — loop gain can then never exceed the FDBK dial. Every
+   other Q in the file is a COLOR on a one-way path and was deliberately
+   left alone. **HALF-VERIFIED: the isolated-loop and worst-case re-runs
+   after the Q fix had NOT yet been executed when work stopped.**
+
+4. **STILL TO DO, in order:** (a) re-run the isolated-loop and worst-case
+   sweeps with the Q fix (scratchpad scripts bisect2/find_cap2 or
+   probe_matrix); (b) re-sweep the roomEcho ceiling with the passive loop
+   and set the measured governor in BOTH `INSTRUMENTS.matrix` (max,
+   currently a provisional 0.5) and the setSpace clamp (also 0.5) — 0.5
+   was UNSTABLE before the Q fix, decide from measurement after it;
+   (c) finalize probe_matrix's pass criteria (net decay from post-source
+   peak + no late regrowth — the -60 dBFS-in-30s criterion was
+   unreachable even with the crossing severed, fb 0.85 alone rings
+   longer); (d) full battery — mk2_test had 2 fails when stopped: the
+   stamp (expected, not yet bumped) and matrix-knobs-unridden (fixed by
+   the motion blocks, unverified since one mk2_test run died exit 137
+   under memory pressure — rerun it); snapshot was IDENTICAL after the
+   matrix graph work; (e) render isolation diff vs 268ba5d — the Q fix
+   audibly changes every echo tail, OWN that in the entry; the 8
+   pre-existing audio-check failures may move; (f) stamp `2026-08-03a`,
+   `mk2_stamp.js write`, commit, push, republish the artifact.
+
 **THE SAX DRAWS WERE ZEROED at `2026-08-02p`** — the user, plainly: *"Can
 you pull the sax out for now."* The two one-line edits the parked warning
 (§ below) had already named: lofi's `machines.lead` [auto 7, sax 3] and

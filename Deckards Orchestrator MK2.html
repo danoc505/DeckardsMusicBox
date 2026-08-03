@@ -1454,6 +1454,54 @@ const INSTRUMENTS = {
                       { label: "", keys: ["lowF", "midF", "highF"] }] },
   },
 
+  /* ── THE MATRIX MIXER ─────────────────────────────────────────────────────
+     Who goes into the echo and who goes into the room, as a grid of sends a
+     hand can ride -- four sources (the buses) by two destinations. This is the
+     half of the dub sentence the program had not built: "filters and delay
+     feedback are modulated live, WITH SENDS RIDDEN ON THE MIXER to create
+     evolving dub mixes" [corpus:attackmagazine Basic-Channel-style]. The KAOSS
+     pad got the filters-and-feedback half and it was measured nearly inaudible
+     (probe_kaoss: its loudest possible move shifts the mix <= 0.7 dB on every
+     genre) -- because the routing underneath it was a fixed list the genre
+     declared and no hand could reach. These eight knobs are that list, opened.
+
+     CONSTRAINTS, NOT BAKED VALUES: the genre still owns the routing. Its
+     `space.feeds` / `space.echoFeeds` declarations become these knobs' BASES
+     (applyRack translates list membership to 0 or 1), and the hand writes TRIM
+     offsets on top like every other panel. The defs below are only the
+     pre-genre neutral wire: keys and lead into the room -- the two connections
+     every graph has had since the first build -- and nothing into the echo.
+
+     THE GRAPH READS THE SONG, NOT THIS PANEL. setSpace derives each route's
+     base from the song's own `space` object plus the hand's TRIM -- the same
+     rule soundOf() states for the kick, and for the same measured reason:
+     PARAMS holds whatever genre was loaded LAST, and a batch that renders
+     three genres from one page must not wear one genre's routing thrice. */
+  matrix: {
+    slot: "matrix", label: "matrix mixer", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"drumsEcho", label:"drums → echo", cap:"DRUMS", min:0, max:1, step:0.01, def:0, kind:"bus" },
+      { k:"bassEcho",  label:"bass → echo",  cap:"BASS",  min:0, max:1, step:0.01, def:0, kind:"bus" },
+      { k:"keysEcho",  label:"keys → echo",  cap:"KEYS",  min:0, max:1, step:0.01, def:0, kind:"bus" },
+      { k:"leadEcho",  label:"lead → echo",  cap:"LEAD",  min:0, max:1, step:0.01, def:0, kind:"bus" },
+      { k:"drumsRoom", label:"drums → room", cap:"DRUMS", min:0, max:1, step:0.01, def:0, kind:"bus" },
+      { k:"bassRoom",  label:"bass → room",  cap:"BASS",  min:0, max:1, step:0.01, def:0, kind:"bus" },
+      { k:"keysRoom",  label:"keys → room",  cap:"KEYS",  min:0, max:1, step:0.01, def:1, kind:"bus" },
+      { k:"leadRoom",  label:"lead → room",  cap:"LEAD",  min:0, max:1, step:0.01, def:1, kind:"bus" },
+      /* THE FEEDBACK CROSSING (room → echo), per the eurorack study: the
+         grid's defining move is an effect fed back through another. The MAX
+         here is a measured governor, not taste -- probe_matrix runs the
+         whole loop at every ceiling (fb 0.85, WASH 1.0, this dial at max)
+         and the tail must die on its own. See matrix-mixer.md. */
+      { k:"roomEcho", label:"room → echo", cap:"ROOM", min:0, max:0.5, step:0.01, def:0, kind:"bus" },
+    ],
+    panel: { skin: "desk", maker: "", title: "matrix",
+             groups: [{ label: "→ ECHO", keys: ["drumsEcho", "bassEcho", "keysEcho", "leadEcho"] },
+                      { label: "→ ROOM", keys: ["drumsRoom", "bassRoom", "keysRoom", "leadRoom"] },
+                      { label: "FEEDBACK", keys: ["roomEcho"] }] },
+  },
+
   /* ── BASSES ────────────────────────────────────────────────────────────── */
   drone: {
     slot: "bass", label: "low drone (Prophet)",
@@ -2413,8 +2461,12 @@ function soundOf(genre, drumMachine, picks){
      both sends off rather than dropping an event. Same wet-zero the genre would
      declare if it wanted no space at all -- `echoFeeds: []` cuts the delay and
      `wet: 0` cuts the room, and every control downstream reads those two. */
+  /* `echoKill` says it outright now that the echo's inputs are matrix routes
+     with a hand on them: an emptied rack silences the echo-side bases
+     themselves, not merely the list they used to be derived from -- otherwise
+     a TRIM the user left on a route would keep a "muted" echo audible. */
   const space = (picks && ((picks.mute && picks.mute.fx) || picks.fx === "none"))
-    ? Object.assign({}, G.space, { wet: 0, echoFeeds: [] })
+    ? Object.assign({}, G.space, { wet: 0, echoFeeds: [], echoKill: true })
     : G.space;
   return {
     space, kick, gate,
@@ -2479,6 +2531,21 @@ function applyRack(chart, force){
     if(G.drumDrive != null) PARAMS["kit.bus"] = G.drumDrive;
     PARAMS["kit.gate"] = GT ? GT.send : 0;
     if(GT) PARAMS["kit.hold"] = GT.hold;
+  }
+  /* the MATRIX panel reads the genre, same rule as the kit block above: the
+     routing lists are the genre's own numbers, so the knobs must SHOW them --
+     a panel displaying factory defaults while the song routes differently is
+     the knob-that-lies defect. The graph itself derives these bases from the
+     song's space object (see setSpace); this copy is for the panel and for
+     the hand's TRIM to be an offset from the truth. */
+  {
+    const SP = G.space || {};
+    const ef = SP.echoFeeds || [], rf = SP.feeds || [];
+    for(const b of ["drums", "bass", "keys", "lead"]){
+      PARAMS["matrix." + b + "Echo"] = ef.indexOf(b) >= 0 ? 1 : 0;
+      PARAMS["matrix." + b + "Room"] = (b === "keys" || b === "lead" || rf.indexOf(b) >= 0) ? 1 : 0;
+    }
+    PARAMS["matrix.roomEcho"] = SP.roomEcho || 0;
   }
 }
 
@@ -3382,11 +3449,27 @@ const Sound = (function(){
     g.echo = c.createDelay(2.0);  g.echo.delayTime.value = 0.25;
     g.echoFb = c.createGain();    g.echoFb.gain.value = 0.25;
     /* the two filters in the loop: the lowpass is the dub, the highpass keeps
-       the repeats from piling mud under the kick */
+       the repeats from piling mud under the kick.
+
+       ── Q IS IN dB HERE, AND THAT FACT WAS A RUNAWAY ────────────────────────
+       These shipped as Q 0.6 and 0.5 -- textbook quality-factor numbers, "no
+       resonance below 0.707". But WebAudio's lowpass/highpass Q is DECIBELS
+       OF CORNER RESONANCE, so each filter was PEAKING x1.21 at its corner and
+       the cascade hit x1.344 (measured with getFrequencyResponse, worst at
+       repeat-cut 600 Hz). Inside a feedback loop that multiplies the FDBK
+       dial: 0.85 x 1.344 = 1.14 -- gain over unity, and a single kick rang
+       UP, +18 dB over 30 s on plastikman's settings, +36 dB with the HPF at
+       600. That is the "it starts to build and the program starts to glitch
+       out" report, found by probe_matrix while governing the room->echo
+       crossing. At Q = -3 dB the measured peak is exactly 1.0000 -- a passive
+       knee, no bump -- so the loop gain can never exceed the FDBK dial and
+       the dial's whole travel is safe. The other Q values in this file are
+       COLORS on one-way paths and stay untouched; only a filter inside a
+       loop has a stability duty. */
     g.echoLp = c.createBiquadFilter(); g.echoLp.type = "lowpass";
-    g.echoLp.frequency.value = 2600; g.echoLp.Q.value = 0.6;
+    g.echoLp.frequency.value = 2600; g.echoLp.Q.value = -3;
     g.echoHp = c.createBiquadFilter(); g.echoHp.type = "highpass";
-    g.echoHp.frequency.value = 180; g.echoHp.Q.value = 0.5;
+    g.echoHp.frequency.value = 180; g.echoHp.Q.value = -3;
     g.echoOut = c.createGain(); g.echoOut.gain.value = 1;
     g.echoSend.connect(g.echo);
     g.echo.connect(g.echoLp); g.echoLp.connect(g.echoHp);
@@ -3516,9 +3599,38 @@ const Sound = (function(){
     g.kitFilter.connect(g.bus.drums);
 
 
-    /* who feeds the space: keys and lead breathe; the rhythm section stays dry */
-    g.bus.keys.connect(g.send);
-    g.bus.lead.connect(g.send);
+    /* ── WHO FEEDS THE SPACE IS A MATRIX ────────────────────────────────────
+       This used to be two fixed wires (keys and lead into the room) plus two
+       connect/disconnect lists setSpace walked per song. Now every bus meets
+       both destinations through its own gain -- eight routes, ridden by
+       setSpace from the song's declarations plus the hand's TRIM on the
+       MATRIX panel. A route at 1 is the old wire (gain 1.0 is bit-exact); a
+       route at 0 is the old missing wire; the values BETWEEN are the point.
+       The old code's cost argument ("connect/disconnect rather than a gain,
+       so a genre that does not ask pays nothing") bought eight idle gain
+       nodes' worth of savings and priced every hand out of the routing. */
+    g.route = {};
+    for(const b of ["drums", "bass", "keys", "lead"]){
+      const rE = c.createGain(); rE.gain.value = 0;
+      const rR = c.createGain(); rR.gain.value = (b === "keys" || b === "lead") ? 1 : 0;
+      g.bus[b].connect(rE); rE.connect(g.echoSend);
+      g.bus[b].connect(rR); rR.connect(g.send);
+      g.route[b + "Echo"] = rE; g.route[b + "Room"] = rR;
+    }
+    /* ── THE FEEDBACK CROSSING: room → echo ─────────────────────────────────
+       The half of Hawtin's sentence the echo's own comment refused until the
+       stability work existed. The eurorack literature supplies both the
+       reason and the warning: "run fx back into themselves ... create
+       drones" [AI008], and feedback loops "can quickly spiral exponentially
+       into chaos -- start the gain very low" [perfectcircuit]. So: the
+       room's output into the echo's delay line, POST the master send gain
+       (so this crossing owns its own amount and echo.send stays the buses'
+       fader), through a gain whose dial TOPS OUT well under the measured
+       runaway point. The control's max in INSTRUMENTS.matrix is that
+       governor; probe_matrix drives the whole loop maxed and proves the
+       tail dies. docs/genre-research/matrix-mixer.md is the study. */
+    g.roomEcho = c.createGain(); g.roomEcho.gain.value = 0;
+    g.verb.connect(g.roomEcho); g.roomEcho.connect(g.echo);
 
     /* the Rhodes bank: one AudioBuffer per graph at the samples' own 32 kHz clock;
        WebAudio's resampler does the rest. Synchronous by design — raw PCM needs no
@@ -6461,14 +6573,37 @@ const Sound = (function(){
        of the wash, which is right for every genre built so far and wrong for a
        score in which nothing is dry. */
     if(g.sendHp) g.sendHp.frequency.value = space.sendHp != null ? space.sendHp : 200;
-    /* WHO feeds it. keys and lead always do; bass and drums only where the genre
-       says the room swallows the whole band. Connect/disconnect rather than a
-       gain, so a genre that does not ask for it pays nothing. */
-    if(g.sendExtra){
-      for(const b of g.sendExtra) try { g.bus[b].disconnect(g.send); } catch(e){}
+    /* WHO feeds it: the MATRIX. Each route's base is the song's own
+       declaration -- keys and lead always breathe, `space.feeds` adds the
+       rhythm section, `space.echoFeeds` picks the echo's sources -- read off
+       the space OBJECT and not off PARAMS, for the reason soundOf() states
+       about the kick: PARAMS holds whatever genre loaded last, and this
+       function is asked about a SONG. The hand's TRIM rides on top, clamped
+       to the control, so the matrix panel plays these eight wires live. */
+    if(g.route){
+      const routeBase = (b, dest) => {
+        /* an emptied fx rack kills the echo routes OUTRIGHT -- past the TRIM,
+           or a hand the user left on a route would keep a "muted" echo alive */
+        if(dest === "Echo" && space.echoKill) return 0;
+        const on = dest === "Room"
+          ? (b === "keys" || b === "lead" || (space.feeds || []).indexOf(b) >= 0)
+          : (space.echoFeeds || []).indexOf(b) >= 0;
+        return Math.max(0, Math.min(1, (on ? 1 : 0) + (TRIM["matrix." + b + dest] || 0)));
+      };
+      for(const b of ["drums", "bass", "keys", "lead"]){
+        rideBus(g, g.route[b + "Room"].gain, "matrix." + b + "Room", routeBase(b, "Room"), t0);
+        rideBus(g, g.route[b + "Echo"].gain, "matrix." + b + "Echo", routeBase(b, "Echo"), t0);
+      }
+      /* the feedback crossing: the genre's own declared amount (`space.roomEcho`,
+         absent = 0) plus the hand, clamped to the measured governor. An emptied
+         fx rack kills it outright with the other echo inputs -- a "muted" echo
+         being rung by the room would be the same leak the routes close. */
+      if(g.roomEcho){
+        const fbBase = space.echoKill ? 0
+          : Math.max(0, Math.min(0.5, (space.roomEcho || 0) + (TRIM["matrix.roomEcho"] || 0)));
+        rideBus(g, g.roomEcho.gain, "matrix.roomEcho", fbBase, t0);
+      }
     }
-    g.sendExtra = (space.feeds || []).filter(b => b !== "keys" && b !== "lead" && g.bus[b]);
-    for(const b of g.sendExtra) g.bus[b].connect(g.send);
 
     /* ── THE ECHO, set per song and then RIDDEN. The division is tempo-synced,
        so the delay time is a musical fact rather than a number of milliseconds:
@@ -6484,15 +6619,11 @@ const Sound = (function(){
       rideBus(g, g.echoHp.frequency,   "echo.hp",   panelValue("echo", "hp"),   t0);
       rideBus(g, g.echoToVerb.gain,    "echo.verb", panelValue("echo", "verb"), t0);
       rideBus(g, g.echoSend.gain,      "echo.send", panelValue("echo", "send"), t0);
-      /* WHO GOES INTO IT. Everything a genre names, and nothing otherwise --
-         `echoFeeds` rather than reusing the reverb's list, because the two want
-         different sources: a room takes the whole band, an echo takes the parts
-         whose tails are supposed to be heard between the notes. */
-      if(g.echoExtra){
-        for(const b of g.echoExtra) try { g.bus[b].disconnect(g.echoSend); } catch(e){}
-      }
-      g.echoExtra = (space.echoFeeds || []).filter(b => g.bus[b]);
-      for(const b of g.echoExtra) g.bus[b].connect(g.echoSend);
+      /* WHO GOES INTO IT moved to the matrix block above: `echoFeeds` is still
+         the genre's declaration -- an echo takes the parts whose tails are
+         supposed to be heard between the notes, a room takes the band -- but
+         the wires it used to make and break are now the echo-side route gains,
+         so a hand can open a source the genre left out. */
     }
 
   }
@@ -7223,6 +7354,17 @@ const GENRE = {
                  shape: "sin", freePhase: true }],
         fb:   [{ kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.03, 0.09],
                  shape: "sin", freePhase: true }],
+      },
+      /* the MATRIX: lofi's echo feed is the lead and nothing else, so the one
+         route this genre owns breathes with the same arrangement its send
+         already follows -- pulled back for the outro and the cold open, a slow
+         shimmer elsewhere. A route's base is 1, so every move here is a DIP:
+         the tape slap ducking out, which is what a beat tape's delay does.
+         Amounts mine, shapes the echo.send's own. [EAR] */
+      matrix: {
+        leadEcho: [{ kind: "section", by: { intro: [-0.35, -0.12], outro: [-0.55, -0.25] } },
+                   { kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.04, 0.10],
+                     shape: "sin", freePhase: true }],
       },
       /* ── THE KIT HAS TEN VOICES AND THIS GENRE MOVED TWO KNOBS ─────────────
          MEASURED: lofi drew a TR-1000 -- ten voices, sixty per-voice controls --
@@ -9101,6 +9243,21 @@ const GENRE = {
         tone: [{ kind: "lfo", bars: [[64, 2], [48, 1]], depth: [400, 1400],
                  shape: "sin", freePhase: true }],
       },
+      /* the MATRIX: this score IS its wash, so the two room routes every genre
+         keeps at 1 are the ones this genre plays. Both moves are DIPS off the
+         full wire (a route tops out at the wire): the room recedes a little on
+         a slow breath, and the lead dries slightly for the statement so the
+         theme speaks in front of the wash it lives in -- then sinks back. The
+         per-hearing deepening stays on echo.send above; these are the same
+         idea spent on WHO is in the room. Shapes from this genre's own lanes;
+         amounts mine. [EAR] */
+      matrix: {
+        keysRoom: [{ kind: "lfo", bars: [[96, 2], [64, 1]], depth: [0.05, 0.14],
+                     shape: "sin", freePhase: true }],
+        leadRoom: [{ kind: "section", by: { chorus: [-0.26, -0.10] } },
+                   { kind: "lfo", bars: [[64, 2], [48, 1]], depth: [0.04, 0.10],
+                     shape: "sin", freePhase: true }],
+      },
       cs80: {
         bright: [{ kind: "section", by: { intro: [-0.14, -0.06], chorus: [0.05, 0.12],
                                           bridge: [-0.10, -0.03], outro: [-0.18, -0.10] } },
@@ -10095,7 +10252,14 @@ const GENRE = {
                 In dub techno the DRUMS are what goes into the delay anyway --
                 that is the genre, not a workaround. [corpus:attackmagazine
                 Basic-Channel-style] */
-             feeds: ["bass", "drums"], echoFeeds: ["drums", "bass", "keys"] },
+             feeds: ["bass", "drums"], echoFeeds: ["drums", "bass", "keys"],
+             /* the feedback crossing, small: the wash folding back into the
+                delay is the other half of the "delays on the reverbs"
+                sentence this echo was built from, and this is the genre that
+                sentence describes. The dial's ceiling (0.5) is the measured
+                governor in INSTRUMENTS.matrix; this base is a colour, not a
+                drone. Amount mine. [EAR] */
+             roomEcho: 0.14 },
     kick: { tune: 46, decay: 0.60, click: 0.55, drive: 0.50, body: 1.10, gain: 1.22 },
     drumDrive: 1.30,
     gate: null,
@@ -10537,6 +10701,38 @@ const GENRE = {
                { kind: "lfo", bars: [[22, 3], [16, 2]], depth: [0.06, 0.16],
                  shape: "tri", freePhase: true },
                { kind: "arc", from: [-0.08, -0.02], to: [0.06, 0.16], curve: "sCurve" }],
+      },
+      /* the MATRIX: this is the genre the whole grid exists for -- "filters
+         and delay feedback are modulated live, with SENDS RIDDEN ON THE MIXER
+         to create evolving dub mixes" [corpus:attackmagazine], and Hawtin does
+         "most of the construction and arrangement live by moving faders and
+         muting or turning things on the machines". Every route this genre
+         declares (drums, bass and keys into the echo; drums and bass into the
+         room) gets a hand. A route's ceiling is the wire, so all of these are
+         CUTS -- and cutting is this record's own sourced move: "cut that to
+         create space between elements so that the purity of each element
+         becomes clearer" [corpus:underdog]. The kit's wash leaves for the
+         breakdown so the bridge opens as SPACE, not as more reverb -- the
+         subtraction spent on the room. Shapes from this genre's own lanes;
+         amounts mine. [EAR] */
+      matrix: {
+        drumsEcho: [{ kind: "lfo", bars: [[32, 3], [16, 2]], depth: [0.10, 0.24],
+                      shape: "sin", freePhase: true }],
+        bassEcho:  [{ kind: "section", by: { bridge: [-0.55, -0.25], intro: [-0.30, -0.10] } },
+                    { kind: "lfo", bars: [[48, 2], [24, 1]], depth: [0.06, 0.15],
+                      shape: "sin", freePhase: true }],
+        keysEcho:  [{ kind: "lfo", bars: [[24, 2], [40, 1]], depth: [0.08, 0.20],
+                      shape: "tri", freePhase: true }],
+        drumsRoom: [{ kind: "section", by: { bridge: [-0.60, -0.30], intro: [-0.35, -0.12] } }],
+        bassRoom:  [{ kind: "lfo", bars: [[40, 2], [64, 1]], depth: [0.06, 0.15],
+                      shape: "sin", freePhase: true }],
+        /* the feedback crossing rises where the record empties: the bridge
+           already opens echo.send and echo.verb above, and the room folding
+           back into the delay is the same breath one stage deeper. Headroom
+           exists (base 0.14, governor 0.5); still small on purpose. [EAR] */
+        roomEcho:  [{ kind: "section", by: { bridge: [0.08, 0.20], outro: [0.05, 0.14] } },
+                    { kind: "lfo", bars: [[56, 2], [88, 1]], depth: [0.02, 0.06],
+                      shape: "sin", freePhase: true }],
       },
     },
   },
