@@ -2560,3 +2560,59 @@ STILL OPEN: only plastikman snaps — jungle's drops and synthwave's
 prechorus are the obvious next candidates, and both are sourced genres
 where a hard cut is idiomatic. Three of Hawtin's five units remain
 (PCM90, SRV-330, ART Multiverb). And the ear has heard none of it.
+
+**⚠ THE ROOM WAS SILENTLY FALLING BACK TO THE CONVOLVER — found at
+`2026-08-03m`, and this is the important part of this entry.**
+
+Building the PCM90's parameters, `spread` measured **-92 dB** — inaudible,
+when an allpass coefficient swung 0 → 0.9 should be unmistakable. So did
+`random`. The cause: `addRoomModule` built its data: URL with
+**`btoa(ROOM_FDN)`, and btoa throws on any character above U+00FF.** The
+worklet source is a commented block of code inside a file whose house style
+draws rules with U+2500 (`─`). The first time a comment inside ROOM_FDN
+used one — a comment *I* added in this session — addModule threw, the catch
+swallowed it, `fdnReady` came back false, and **every render quietly used
+the ConvolverNode instead of the FDN.** Every room parameter then did
+nothing at all.
+
+**FIXED STRUCTURALLY**, not by deleting the character:
+`encodeURIComponent` has no Latin-1 limit, so an ordinary comment can never
+re-arm the trap. **Anyone touching ROOM_FDN should know this was possible
+and is now not.**
+
+How long was it broken? Only within this session's last commit — the
+character was introduced with the PCM90 comment block. `2026-08-03e`
+through `l` were fine. But note what hid it: `probe_render_determinism`
+still passed (a convolver is repeatable), the RT60 probe still passed (a
+convolver's IR length IS its decay), and the battery went 118/118. **No
+existing check could tell which room was running.** `soundState().room`
+reports it for the LIVE graph only; there is no equivalent for a render,
+and that gap is still open.
+
+**THE PCM90 ITSELF, honestly split.**
+- **SPREAD lands.** "The Size, Spread and Shape controls allow adjustment of
+  the buildup and decay of the initial part of the reverberation envelope"
+  [corpus:lexiconpro; recordproduction PCM90] — here the diffusers'
+  coefficient. Measured **-4.3 dB** of real change; plastikman 0.72,
+  bladerunner 0.78.
+- **RANDOM HALL DOES NOT, AND SHIPS OFF.** Lexicon's claim is that the
+  reverberators "change over time in controlled, random ways to avoid the
+  buildup of tinny, grainy, metallic colorations". The wander is built,
+  seeded (Law 7 holds), and slower than its own smoother after a first
+  attempt drew targets 6× too fast and averaged to nothing. But the metric
+  written for it — peak-to-median of a **time-averaged** tail spectrum,
+  which is the only thing that distinguishes a smeared comb from a moved
+  one — says it makes ringing **WORSE: 25.3 → 31.3 dB**. Diagnosis on
+  record: the per-line decay gain is computed for the NOMINAL length, so a
+  wandering tap detunes the decay balance and turns a line into a
+  resonance. An attempt to recompute the gain from the actual delay changed
+  the measurement by exactly nothing, which means that edit did not take
+  and the diagnosis is unverified.
+  **`space.random` defaults to 0 on every genre. That is a verdict, not a
+  default** — the sax precedent: a claim the measurement refuses does not
+  ship. Whoever picks it up needs either a better implementation or a
+  better metric, and should distrust the one above until it disagrees with
+  a fixed network in the direction Lexicon promises.
+
+Battery 118/118, snapshot IDENTICAL, ui 26, renders repeatable on all
+seven — with the FDN genuinely running again.

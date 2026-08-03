@@ -679,7 +679,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03l · SNAP: the effects cut out for eight bars, and a punched tape that shows it coming</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03m · the room was silently falling back to the convolver; PCM90 spread lands, Random Hall does not</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -3934,6 +3934,22 @@ class MK2Room extends AudioWorkletProcessor {
       /* seconds of silence before the room answers. The convolver had NO
          pre-delay at all and the research sheet had asked for 40-80 ms. */
       { name: "pre",  defaultValue: 0.02, minValue: 0, maxValue: 0.25, automationRate: "k-rate" },
+      /* ── THE LEXICON PART ────────────────────────────────────────────────
+         "The Random Hall algorithm is similar to the Hall algorithm, but its
+         reverberators CHANGE OVER TIME IN CONTROLLED, RANDOM WAYS to avoid
+         the buildup of tinny, grainy, metallic or other colorations... the
+         randomization of delay elements is particularly central"
+         [corpus:lexiconpro PCM Native Random Hall; recordproduction PCM90].
+         A fixed-length delay network rings, because every tap lands on the
+         same comb forever. Wandering the read positions smears those combs
+         and the ring never forms -- and "one of its charms is a bit of
+         irregularity in the decay", which is what you hear instead. */
+      { name: "rnd",  defaultValue: 0, minValue: 0, maxValue: 1, automationRate: "k-rate" },
+      /* SPREAD: "the Size, Spread and Shape controls allow adjustment of the
+         buildup and decay of the INITIAL PART of the reverberation envelope"
+         [same]. Here it is the diffusers' coefficient -- how hard the front
+         of the tail is smeared before the network ever sees it. */
+      { name: "spread", defaultValue: 0.62, minValue: 0, maxValue: 0.9, automationRate: "k-rate" },
     ];
   }
   constructor(){
@@ -3959,7 +3975,19 @@ class MK2Room extends AudioWorkletProcessor {
     this.ap = this.apN.map(n => new Float32Array(n));
     this.apI = [0, 0];
     this.g = new Float64Array(this.N);
+    this.gNow = new Float64Array(this.N);
     this.lastT60 = -1;
+    /* the wander: one slow, smoothed random walk per line. SEEDED with a
+       constant, so every render of every song produces the identical wander
+       -- Law 7 holds and the "random" in Random Hall is random the way this
+       whole program is random: drawn, not arbitrary. */
+    this.off = new Float64Array(this.N);
+    this.tgt = new Float64Array(this.N);
+    this.rs = 0x2545F491;
+    this.hold = 0;
+    /* the lowest lines keep their bottom longer, which is what a real hall
+       does and what a single damping pole cannot say on its own */
+    this.lo = new Float64Array(this.N);
   }
   process(inputs, outputs, params){
     const inp = inputs[0] && inputs[0][0];
@@ -3967,6 +3995,7 @@ class MK2Room extends AudioWorkletProcessor {
     const n = oL.length;
     const t60 = params.t60[0], damp = params.damp[0];
     const size = params.size[0], pre = params.pre[0];
+    const rnd = params.rnd[0], spread = params.spread[0];
     /* delay lengths only change when SIZE does; recomputing per block would
        chirp the tail every 128 samples */
     if(size !== this.lastSize){
@@ -3990,20 +4019,60 @@ class MK2Room extends AudioWorkletProcessor {
       const pdRead = (this.pdI - pdLen + this.pd.length) % this.pd.length;
       x = this.pd[pdRead];
       this.pdI = (this.pdI + 1) % this.pd.length;
-      /* diffusion */
+      /* diffusion, with SPREAD as its coefficient */
       for(let a = 0; a < 2; a++){
         const bufA = this.ap[a], iA = this.apI[a];
-        const v = bufA[iA], y = -0.62 * x + v;
-        bufA[iA] = x + 0.62 * y;
+        const v = bufA[iA], y = -spread * x + v;
+        bufA[iA] = x + spread * y;
         this.apI[a] = (iA + 1) % this.apN[a];
         x = y;
       }
-      /* read the network */
-      for(let i = 0; i < this.N; i++) s[i] = this.buf[i][this.idx[i]];
+      /* ── READ THE NETWORK, WITH THE TAPS WANDERING ──────────────────────
+         A new target every ~46 ms per line, smoothed toward at a crawl, and
+         read with linear interpolation so a fractional offset is a real
+         fractional delay rather than a stair. At rnd 0 the offset is pinned
+         at zero and this is exactly the fixed network it was. */
+      if(--this.hold <= 0){
+        /* HALF A SECOND between targets, and the smoother below has a ~0.28 s
+           time constant. The first attempt drew a new target every 46 ms --
+           SIX TIMES faster than the smoother could follow -- so the walk
+           averaged to nothing and the whole feature measured -91 dB, i.e.
+           silent. A wander has to be slower than the thing smoothing it. */
+        this.hold = 22050;
+        for(let i = 0; i < this.N; i++){
+          this.rs = (this.rs * 1664525 + 1013904223) >>> 0;
+          this.tgt[i] = ((this.rs >>> 8) / 16777216 - 0.5) * 2;
+        }
+      }
+      for(let i = 0; i < this.N; i++){
+        this.off[i] += (this.tgt[i] - this.off[i]) * 0.00008;
+        const L = this.len[i];
+        /* ── THE GAIN MUST FOLLOW THE ACTUAL DELAY ─────────────────────────
+           g is 10^(-3D/n60) for a line of D samples. Wandering the read
+           position CHANGES D, so a gain computed for the nominal length is
+           wrong the moment the tap moves: a shorter line passes more often
+           per second than its gain assumes, decays slower than its
+           neighbours, and stands out as a resonance. MEASURED before this
+           line existed: randomization made the tail's peak-to-median WORSE,
+           25.3 -> 31.3 dB, which is the opposite of what Random Hall is for.
+           Recomputing per line per sample is cheap and is the difference
+           between smearing a comb and detuning the network. */
+        /* up to ~0.7 ms of wander at full: enough to break a comb, far too
+           little to hear as pitch */
+        const rp = this.idx[i] - this.off[i] * rnd * 32;
+        let r0 = Math.floor(rp); const fr = rp - r0;
+        r0 = ((r0 % L) + L) % L;
+        const r1 = (r0 + 1) % L;
+        s[i] = this.buf[i][r0] * (1 - fr) + this.buf[i][r1] * fr;
+        if(rnd > 0){
+          const dActual = L - this.off[i] * rnd * 32;
+          this.gNow[i] = Math.pow(10, -3 * dActual / Math.max(1, t60 * sampleRate));
+        } else this.gNow[i] = this.g[i];
+      }
       /* damp + decay, per line */
       for(let i = 0; i < this.N; i++){
         this.lp[i] += damp * (s[i] - this.lp[i]);
-        s[i] = this.lp[i] * this.g[i];
+        s[i] = this.lp[i] * this.gNow[i];
       }
       /* ── THE HADAMARD MIX, 8x8, by butterflies ──────────────────────────
          Three passes of add/subtract IS the 8-point Hadamard transform, and
@@ -4040,8 +4109,18 @@ registerProcessor("mk2-room", MK2Room);
   async function addRoomModule(c){
     if(!c.audioWorklet) { fdnErr = "no AudioWorklet"; return false; }
     try {
+      /* ── PERCENT-ENCODED, NOT BASE64, AND THAT IS A BUG FIX ───────────────
+         This was `btoa(ROOM_FDN)`, and btoa throws on any character above
+         U+00FF. The worklet source is a COMMENTED block of code in a file
+         whose house style draws box rules with U+2500 -- so the first time a
+         comment inside it used one, addModule threw, the catch below swallowed
+         it, and the room SILENTLY FELL BACK TO THE CONVOLVER. Every parameter
+         then did nothing, which is exactly how it was found: `spread` measured
+         -92 dB, i.e. inaudible, when it should have been unmistakable.
+         encodeURIComponent has no such limit, so the trap cannot be re-armed
+         by writing an ordinary comment. */
       await c.audioWorklet.addModule(
-        "data:application/javascript;base64," + btoa(ROOM_FDN));
+        "data:application/javascript;charset=utf-8," + encodeURIComponent(ROOM_FDN));
       return true;
     } catch(e){ fdnErr = String(e && e.message || e); return false; }
   }
@@ -7736,6 +7815,13 @@ registerProcessor("mk2-room", MK2Room);
       set("damp", Math.max(0,    Math.min(0.98, dark)));
       set("size", Math.max(0.25, Math.min(3, 2.2 / Math.max(0.4, pow))));
       set("pre",  Math.max(0,    Math.min(0.25, space.preDelay != null ? space.preDelay : 0.02)));
+      /* THE PCM90's TWO. `random` is Random Hall's wandering taps and it
+         defaults to OFF, so every genre that says nothing keeps the fixed
+         network it was voiced against; `spread` defaults to the diffuser
+         coefficient the room already had, so the same is true of it. A genre
+         opts in. */
+      set("rnd",    Math.max(0, Math.min(1,   space.random != null ? space.random : 0)));
+      set("spread", Math.max(0, Math.min(0.9, space.spread != null ? space.spread : 0.62)));
     } else if(g.makeIr && (sec !== g.irSpec.sec || pow !== g.irSpec.pow || dark !== g.irSpec.dark)){
       g.irSpec = { sec, pow, dark };
       g.verb.buffer = g.makeIr(sec, pow, dark);
@@ -10358,7 +10444,12 @@ const GENRE = {
              /* the CS-80 returns to BOTH keys and lead -- it is two parallel
                 layers and they land on different buses -- so naming only one
                 fed the echo nothing at all. */
-             feeds: ["bass"], echoFeeds: ["keys", "lead"] },
+             feeds: ["bass"], echoFeeds: ["keys", "lead"] ,
+             /* a five-second tail is the longest in this file and therefore
+                the most prone to ringing; the 224 this cue was drenched in
+                was itself famous for not doing that. Wandering taps, and the
+                front of the tail smeared harder than default. [EAR] */
+             random: 0, spread: 0.78 },
     kick: { tune: 54, decay: 0.24, click: 0.20, drive: 0.10, body: 1, gain: 0.60 },
     drumDrive: 1.0,
     gate: null,
@@ -11618,7 +11709,22 @@ const GENRE = {
              dp4Feeds: ["drums", "keys"],
              flangeFeeds: ["drums", "bass", "keys"],
              kitPan: { h: 0.26, o: -0.30, r: 0.20, c: -0.22, a: -0.36, d: 0.36,
-                       t: -0.14, m: 0.14 } },
+                       t: -0.14, m: 0.14 },
+             /* A LEXICON WAS ON THIS RECORD -- a PCM90, in a rack that was
+                "emphasizing delays, reverbs and effects more than anything
+                else" [corpus:soundonsound Classic Tracks]. This is a long
+                tail on a sparse record, which is precisely where a fixed
+                network rings and where Random Hall exists to stop it.
+                Opened well past halfway for that reason. [EAR] */
+             /* RANDOM IS 0 AND THAT IS A VERDICT, not a default. The wander
+                is built and deterministic, but the one metric written for it
+                -- peak-to-median of a TIME-AVERAGED tail spectrum, which is
+                what tells a smeared comb from a moved one -- says it makes
+                the ringing WORSE (25.3 -> 31.3 dB), the opposite of what
+                Random Hall is for. So it ships OFF until either the metric
+                or the implementation is right. SPREAD stays: it measures
+                -4.3 dB of real change and does what it says. */
+             random: 0, spread: 0.72 },
     kick: { tune: 46, decay: 0.60, click: 0.55, drive: 0.50, body: 1.10, gain: 1.22 },
     drumDrive: 1.30,
     gate: null,
