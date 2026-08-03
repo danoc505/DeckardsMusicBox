@@ -2784,3 +2784,23 @@ reading what the grid does with it.
 
 Battery **118/118**, blend **10/10 (504/504 pairs)**, ui **26/26**, renders
 repeatable on all seven, snapshot IDENTICAL against its new baseline.
+
+**AND THE RENDERED-AUDIO BATTERY, RE-MEASURED — a correction to this file's
+own state table.** It reads "355 passed, 0 failed" at the top and later
+entries have said "543 pass, 8 long-standing fails". Neither is what it does
+now: **316 passed, 15 failed**. Rendered again from the commit BEFORE the
+barberpole (`7224caf`, a separate worktree, same seeds): **the same 15, to
+the last digit**. Nothing in this build broke them.
+
+**13 of the 15 are one check that the stereo build made stale.** `"reverb
+return present, at depth"` measures side/mid and fails it above a ceiling of
+`max(0.16, wet)` plus a gate allowance — a ceiling calibrated when **the
+reverb was the only thing in this program making side energy**. The stage
+now pans the players, so side/mid runs 0.16–0.28 on lofi and a correct mix
+fails a check written before it existed. The other two are a half-dB peak
+ordering on seed 2 and L/R +1.6 dB on two choruses (a stage that leans).
+
+Recorded in `docs/BACKLOG.md` §1 with the warning attached: **do not just
+raise the number.** That check's whole value is failing when the return
+disappears, and a ceiling chosen to make today's mix pass proves nothing.
+The right fix derives it from what is actually panned.
