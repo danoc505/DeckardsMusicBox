@@ -50,10 +50,16 @@ measures and which are slow).
 
 ## How to talk to the user
 
-**Plain language. The user is not a musician and has said so repeatedly.**
-Jargon has been rejected more than once. Say "the notes of the chord start
-at slightly different times", not "arpeggiated voice-leading with temporal
-displacement". If a term is unavoidable, define it in the same sentence.
+**RULE ZERO, and it is written in full at the top of `README.md`: PLAIN
+ENGLISH, ALWAYS.** The user is not a musician and not an engineer. Jargon has
+been rejected repeatedly and it kept happening anyway, so as of 2026-08-03 it
+is a rule with a word-swap table attached — read it before you write anything,
+including commit messages and docs.
+
+Say what a thing DOES, not what it is CALLED: "the second keyboard plays in
+every bar and never stops", not "the harmonic-filler layer is doubled". Numbers
+are welcome; borrowed vocabulary is not. If they have to ask what you meant,
+the writing failed.
 
 **Report what happened, not what you hoped happened.** If a test fails, give
 the output. If you skipped something, say so. This project's most expensive

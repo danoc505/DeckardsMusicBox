@@ -1,10 +1,52 @@
 # Deckard's Orchestrator MK2
 
+> ## ⚠ RULE ZERO — WRITE IN PLAIN ENGLISH. ALWAYS.
+>
+> **The person this is built for is not a musician and not an engineer, and has
+> said so many times. Jargon has been rejected over and over. It is still
+> happening. So it is a rule now, not a preference.**
+>
+> This applies to everything you say to them and everything you write down:
+> chat replies, commit messages, docs, comments, and the words on screen.
+>
+> **How to do it:**
+>
+> - Say what a thing DOES, not what it is CALLED. "The pad plays in every bar
+>   and never stops" — not "the harmonic-filler layer is doubled".
+> - If a technical word is genuinely unavoidable, explain it in the same
+>   sentence, in ordinary words: "the second keyboard (the sustained, chord-
+>   holding one)".
+> - Short sentences. One idea each.
+> - Numbers are fine and welcome — a number is not jargon. "It played in 98 out
+>   of every 100 bars" beats "occupancy was high".
+> - No borrowed vocabulary as shorthand. Not "blast radius", "conditional
+>   rate", "rootless voicing", "drop-2", "spectral filler", "byHand" — unless
+>   you say plainly what each one means right there.
+> - Never make them ask what you meant. If they have to ask, that is a defect
+>   in the writing, not in their understanding.
+>
+> **Some words that keep appearing, and what to say instead:**
+>
+> | stop writing | write this |
+> |---|---|
+> | comp / harmonic filler | the chords, the chord part |
+> | keys2 / the pad | the second keyboard |
+> | voicing | how the notes of a chord are spread out |
+> | blast radius | which songs changed |
+> | rootless voicing | a chord with its bottom note left out |
+> | occupancy / share of bars | how many bars it plays in |
+> | the ostinato | the repeating figure |
+> | the counter | the second melody |
+> | non-chord tone | a note that clashes with the chord under it |
+>
+> This rule outranks sounding precise. If a sentence is exact but they cannot
+> read it, it has failed.
+
 A generative-music instrument that composes and plays complete songs — drums,
-bass, comp, melody, countermelody and ostinato — across **seven genres**, with a
-rack of modelled machines you can put your hands on while it plays. It ships as
-**one self-contained HTML file**: no server, no build step, no internet, no
-dependencies. Open it and press play.
+bass, chords, melody, a second melody and a repeating figure — across **seven
+genres**, with a rack of modelled machines you can put your hands on while it
+plays. It ships as **one self-contained HTML file**: no server, no build step,
+no internet, no dependencies. Open it and press play.
 
 ```
 Deckards Orchestrator MK2.html   ← the whole program. Double-click to run.

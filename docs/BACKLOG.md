@@ -212,6 +212,38 @@ production tutorials; the treebank and the chorales would make them measured.
 What closes it: port one ingester to MK2's tables and re-derive. Start with
 jazz — it is the one whose subject matter matches a shipped genre.
 
+## 6a. THE LOOP REPEATS AND ALMOST NOTHING CHANGES — reported by ear, then measured
+
+*The user, 2026-08-03, on lofi seed 1: "it feels like we are repeating the same
+loop with no changes after three passes — that violates the rule of three."
+Measured after: they are right, and the numbers are worse than the complaint.*
+
+**HOW MUCH THE SAME IT IS.** Comparing the notes of each statement of a section
+against the FIRST time you heard that section (100% = note for note identical,
+on the beat grid, 20 seeds a genre):
+
+```
+  lofi         2nd chorus 97%   3rd chorus 95%   2nd verse 97%   3rd verse 92%
+  synthwave    2nd chorus 99%   3rd chorus 98%   4th chorus 99%  2nd verse 99%
+  dkc          2nd chorus 98%   3rd chorus 96%   4th chorus 96%
+  bladerunner  2nd chorus 99%   3rd chorus 99%   2nd verse 99%
+  acid         2nd chorus 100%  3rd chorus 100%  4th chorus 100%   <- identical, always
+  plastikman   2nd verse 87%    3rd verse 79%    4th verse 77%     <- the only genre that varies
+  jungle       2nd chorus 96%   3rd chorus 96%   3rd verse 72%
+```
+
+And *inside* one section, on lofi seed 1: each bar shares an average **60%** of
+its notes with the bar one loop earlier, and through the two back-to-back
+choruses (bars 12–20) it runs **85–93%**. The chord sequence is a single
+four-chord loop for the entire song and never changes.
+
+| what | why it is open | what closes it |
+|---|---|---|
+| **The "third time" rule almost never fires** | The demand is raised on the third statement of a *section function* (`seen[f] >= 3`, and only for verse and chorus). A lofi song is 44–64 bars with 6–8 sections, so a verse usually appears **twice** and never reaches three. On seed 1 the verse never varies at all. | Count what the listener actually counts. They hear the **four-bar loop** go round, not section statements — an 8-bar chorus is two passes, and two choruses back to back is four identical passes. The rule should fire on the third pass of the same material, not the third section bearing the same name. |
+| **When it does fire on a chorus, the answer barely changes anything** | The response is `stripHalf` — take some notes out. Measured, the third chorus still plays **95%** of the first chorus's notes. Taking notes away does not make something sound new; it makes it sound like the same thing, quieter. | The verse's answer is the right shape and already exists: it swaps in `Avar`, a genuinely redrawn second half. The chorus has no equivalent. Give it one. |
+| **acid repeats note-for-note, 100%, forever** | Not a rounding artifact — every statement of every section is bit-identical. | acid may want that (it is a machine-music genre) but it has never been decided in writing, and 100.0% is the number that says nobody chose it. |
+| **Only 4 knob lanes step on a repeat in lofi seed 1** | The project's own history says the rule of three should be answered by *timbre* rather than by rewriting notes, and added `occurrence` knob lanes for it. Four lanes across a whole song is not enough to be heard as "this is the third time". | More `occurrence` lanes on the genres that repeat most, and a measurement of how far they actually travel. |
+
 ## 6b. LOFI — WHAT THE PRODUCTION RESEARCH FOUND
 
 *Added 2026-08-03. Research: `docs/genre-research/lofi-production.md` (15
