@@ -1,5 +1,9 @@
 # HANDOFF — Deckard's Orchestrator MK2
 
+> **Starting a fresh session? Read `docs/START-HERE.md` first** — the branch,
+> the rules, the current state and what to do next, in two pages. Then come
+> back and read this whole file, which is the contract.
+
 *Written 2026-07-29 on branch `claude/code-review-6jd9cz` at `02906b7`; revised
 at `077e08b` when the rack reached the conductor; revised again 2026-07-30 at
 `4728512`, after the control sweep and the non-chord-tone law. **Revised again
