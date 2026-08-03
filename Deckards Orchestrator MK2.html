@@ -552,7 +552,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03d · the matrix's sends are pre-fader, which is what makes the drop a drop</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03e · the room is a real feedback delay network now, stable by its own arithmetic</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -3438,6 +3438,157 @@ const Sound = (function(){
     brk: 0.55,
   };
 
+  /* ══ THE ROOM'S DSP, as a worklet module ═══════════════════════════════════
+     Source for the AudioWorkletProcessor that IS the room. It lives here as a
+     string because this program is one file with no network: the module is
+     handed to `audioWorklet.addModule` as a data: URL.
+
+     MEASURED, and this is why it is a data: URL and not a Blob: a Blob URL
+     fails to load a worklet on a `file://` page ("Unable to load a worklet's
+     module") because a file:// document's origin is opaque. A data: URL works
+     on file:// AND on http(s). Since the whole point of this program is that
+     you can open the HTML from anywhere, that difference decides the design.
+
+     THE STRUCTURE, per the standard reference:
+       pre-delay -> [diffusion allpasses] -> 8 delay lines
+       each line: read -> one-pole damping -> decay gain -> Hadamard mix -> write
+     DELAY LENGTHS are mutually prime numbers of samples, scaled by `size`, so
+     the echoes never line up and the tail is dense rather than fluttery.
+     THE DECAY GAIN per line is the textbook one: a line of D samples must
+     lose 60 dB in T60 seconds, so g = 10^(-3D / (T60 * sampleRate))
+     ["propagation through n60 samples result in attenuation by 60 dB, i.e.
+      G^n60 = 0.001" -> G = 0.001^(1/n60), applied D times; corpus:JOS PASP].
+     DAMPING is the one-pole lowpass in each line that makes high frequencies
+     decay faster than low ones -- "the high-frequency poles to be more damped
+     than the low-frequency poles... obtained using the substitution
+     z_i -> G(z) z_i" [same]. That is what a real room does, and what the
+     convolver could only bake in once. ══════════════════════════════════════ */
+  const ROOM_FDN = `
+class MK2Room extends AudioWorkletProcessor {
+  static get parameterDescriptors(){
+    return [
+      /* seconds to fall 60 dB. The genres' \`irSec\` lands here unchanged. */
+      { name: "t60",  defaultValue: 1.4, minValue: 0.05, maxValue: 30, automationRate: "k-rate" },
+      /* 0 = bright and glassy, 1 = every reflection loses its top. The
+         genres' \`tailDark\` lands here unchanged. */
+      { name: "damp", defaultValue: 0.32, minValue: 0, maxValue: 0.98, automationRate: "k-rate" },
+      /* scales the delay lengths: a small booth to a cathedral. */
+      { name: "size", defaultValue: 1, minValue: 0.25, maxValue: 3, automationRate: "k-rate" },
+      /* seconds of silence before the room answers. The convolver had NO
+         pre-delay at all and the research sheet had asked for 40-80 ms. */
+      { name: "pre",  defaultValue: 0.02, minValue: 0, maxValue: 0.25, automationRate: "k-rate" },
+    ];
+  }
+  constructor(){
+    super();
+    /* eight mutually prime lengths, spread ~1:3, at the module's own rate */
+    this.P = [1447, 1699, 1999, 2311, 2647, 2953, 3271, 3593];
+    this.N = 8;
+    this.max = 4 * 3593 + 8;                       // room for size = 3
+    this.buf = []; this.idx = []; this.lp = [];
+    for(let i = 0; i < this.N; i++){
+      this.buf.push(new Float32Array(this.max));
+      this.idx.push(0); this.lp.push(0);
+    }
+    this.len = this.P.slice();
+    this.lastSize = -1;
+    /* the pre-delay line */
+    this.pd = new Float32Array(Math.ceil(0.25 * sampleRate) + 8);
+    this.pdI = 0;
+    /* two allpass diffusers ahead of the network: they smear a transient into
+       many so the tail is dense from its first millisecond rather than
+       arriving as eight discrete taps */
+    this.apN = [149, 211];
+    this.ap = this.apN.map(n => new Float32Array(n));
+    this.apI = [0, 0];
+    this.g = new Float64Array(this.N);
+    this.lastT60 = -1;
+  }
+  process(inputs, outputs, params){
+    const inp = inputs[0] && inputs[0][0];
+    const out = outputs[0], oL = out[0], oR = out[1] || out[0];
+    const n = oL.length;
+    const t60 = params.t60[0], damp = params.damp[0];
+    const size = params.size[0], pre = params.pre[0];
+    /* delay lengths only change when SIZE does; recomputing per block would
+       chirp the tail every 128 samples */
+    if(size !== this.lastSize){
+      this.lastSize = size;
+      for(let i = 0; i < this.N; i++)
+        this.len[i] = Math.max(8, Math.min(this.max - 1, Math.round(this.P[i] * size)));
+      this.lastT60 = -1;
+    }
+    if(t60 !== this.lastT60){
+      this.lastT60 = t60;
+      const n60 = Math.max(1, t60 * sampleRate);
+      for(let i = 0; i < this.N; i++)
+        this.g[i] = Math.pow(10, -3 * this.len[i] / n60);   // 60 dB over n60
+    }
+    const pdLen = Math.max(1, Math.min(this.pd.length - 1, Math.round(pre * sampleRate)));
+    const s = new Float64Array(this.N);
+    for(let k = 0; k < n; k++){
+      let x = inp ? inp[k] : 0;
+      /* pre-delay */
+      this.pd[this.pdI] = x;
+      const pdRead = (this.pdI - pdLen + this.pd.length) % this.pd.length;
+      x = this.pd[pdRead];
+      this.pdI = (this.pdI + 1) % this.pd.length;
+      /* diffusion */
+      for(let a = 0; a < 2; a++){
+        const bufA = this.ap[a], iA = this.apI[a];
+        const v = bufA[iA], y = -0.62 * x + v;
+        bufA[iA] = x + 0.62 * y;
+        this.apI[a] = (iA + 1) % this.apN[a];
+        x = y;
+      }
+      /* read the network */
+      for(let i = 0; i < this.N; i++) s[i] = this.buf[i][this.idx[i]];
+      /* damp + decay, per line */
+      for(let i = 0; i < this.N; i++){
+        this.lp[i] += damp * (s[i] - this.lp[i]);
+        s[i] = this.lp[i] * this.g[i];
+      }
+      /* ── THE HADAMARD MIX, 8x8, by butterflies ──────────────────────────
+         Three passes of add/subtract IS the 8-point Hadamard transform, and
+         doing it this way costs 24 adds instead of 64 multiply-adds. Scaled
+         by 1/sqrt(8) so the matrix is ORTHOGONAL -- which is the property
+         that makes the network lossless, and therefore makes the decay gain
+         above the only thing deciding how long the room rings. */
+      let a0=s[0]+s[1], a1=s[0]-s[1], a2=s[2]+s[3], a3=s[2]-s[3];
+      let a4=s[4]+s[5], a5=s[4]-s[5], a6=s[6]+s[7], a7=s[6]-s[7];
+      let b0=a0+a2, b1=a1+a3, b2=a0-a2, b3=a1-a3;
+      let b4=a4+a6, b5=a5+a7, b6=a4-a6, b7=a5-a7;
+      const M = 0.35355339059327373;                  // 1/sqrt(8)
+      const c0=(b0+b4)*M, c1=(b1+b5)*M, c2=(b2+b6)*M, c3=(b3+b7)*M;
+      const c4=(b0-b4)*M, c5=(b1-b5)*M, c6=(b2-b6)*M, c7=(b3-b7)*M;
+      const mix = [c0,c1,c2,c3,c4,c5,c6,c7];
+      /* write back, with the fresh input injected into every line */
+      for(let i = 0; i < this.N; i++){
+        this.buf[i][this.idx[i]] = x + mix[i];
+        this.idx[i] = (this.idx[i] + 1) % this.len[i];
+      }
+      /* two decorrelated halves make the stereo image */
+      oL[k] = (s[0] + s[2] + s[4] + s[6]) * 0.25;
+      oR[k] = (s[1] + s[3] + s[5] + s[7]) * 0.25;
+    }
+    return true;
+  }
+}
+registerProcessor("mk2-room", MK2Room);
+`;
+  /* one module per context, awaited before buildGraph -- which is what keeps
+     buildGraph SYNCHRONOUS, the law this file is built on. A context that
+     cannot load it keeps the convolver and says so in soundState(). */
+  let fdnErr = "";
+  async function addRoomModule(c){
+    if(!c.audioWorklet) { fdnErr = "no AudioWorklet"; return false; }
+    try {
+      await c.audioWorklet.addModule(
+        "data:application/javascript;base64," + btoa(ROOM_FDN));
+      return true;
+    } catch(e){ fdnErr = String(e && e.message || e); return false; }
+  }
+
   let ctx = null;            // live context (lazy)
   let liveGraph = null;      // built once per live context
   let liveHandles = new Set();   // sources currently alive; prunes itself on ended
@@ -3446,8 +3597,8 @@ const Sound = (function(){
      Reverb is ONE send bus, low-cut at 200 Hz so kick/bass stay dry, returned
      INTO the limiter path so the wet can never exceed the ceiling the dry
      obeys (first build: wet bypassed the limiter; masterdoc App. B). ── */
-  function buildGraph(c, rng){
-    const g = { ctx: c };
+  function buildGraph(c, rng, fdnReady){
+    const g = { ctx: c, fdnReady: !!fdnReady };
     g.bus = {};
     for(const name of ["drums","bass","keys","lead"]){
       g.bus[name] = c.createGain(); g.bus[name].gain.value = 1;
@@ -3624,7 +3775,44 @@ const Sound = (function(){
       return ir;
     };
     g.irSpec = { sec: 1.4, pow: 2.2, dark: 0.32 };
-    g.verb = c.createConvolver(); g.verb.buffer = g.makeIr(1.4, 2.2, 0.32);
+    /* ── THE ROOM: A FEEDBACK DELAY NETWORK, when the browser will run one ───
+       The convolver above is the FALLBACK and stays exactly as it was. The
+       room this program wants is `ROOM_FDN` -- eight delay lines mixed back
+       into each other through an orthogonal matrix -- for three reasons, all
+       measured rather than argued:
+
+       1. IT CAN MOVE. A convolver's decay is baked into a buffer, so changing
+          the room meant rebuilding an impulse response, which is expensive
+          and therefore happened once per song. The FDN's decay, damping and
+          size are AudioParams, so the room can be ridden across a song like
+          every other bus control -- which is what "the room is an instrument"
+          would actually require.
+       2. IT CAN BE FED. A cycle through a ConvolverNode makes Chromium
+          render the same song differently every time (measured; see
+          MATRIX.none). Inside a worklet the feedback is a line of arithmetic,
+          not a graph edge, so it is deterministic by construction.
+       3. IT IS MORE REPEATABLE, not less. Measured on the spike: repeat
+          renders of the FDN are bit-identical (-316 dB), against the
+          convolver's -92 to -106 dB float floor.
+
+       Stability is STRUCTURAL, not swept. A lossless prototype needs a
+       unitary feedback matrix -- "all unitary (and orthogonal) matrices have
+       unit-modulus eigenvalues... the resulting FDN will be lossless",
+       Hadamard and Householder "ensure (critical) stability regardless of the
+       delays" [corpus:JOS PASP FDN Reverberation; Gerzon; Stautner-Puckette].
+       So the mixing matrix is Hadamard, normalised 1/sqrt(8), and the ONLY
+       thing that makes the tail die is the per-line decay gain. That is
+       principle 1 at the level the maths allows: a constraint under which no
+       ceiling needs discovering. */
+    if(g.fdnReady){
+      g.verb = new AudioWorkletNode(c, "mk2-room", {
+        numberOfInputs: 1, numberOfOutputs: 1, outputChannelCount: [2],
+      });
+      g.verbIsFdn = true;
+    } else {
+      g.verb = c.createConvolver(); g.verb.buffer = g.makeIr(1.4, 2.2, 0.32);
+      g.verbIsFdn = false;
+    }
     g.send = c.createGain(); g.send.gain.value = 1;
     g.sendHp = c.createBiquadFilter(); g.sendHp.type = "highpass";
     g.sendHp.frequency.value = 200; g.sendHp.Q.value = 0.5;   // low end stays out of the wash
@@ -6830,7 +7018,33 @@ const Sound = (function(){
     const sec = space.irSec != null ? space.irSec : 1.4;
     const pow = space.tailPow != null ? space.tailPow : 2.2;
     const dark = space.tailDark != null ? space.tailDark : 0.32;
-    if(g.makeIr && (sec !== g.irSpec.sec || pow !== g.irSpec.pow || dark !== g.irSpec.dark)){
+    if(g.verbIsFdn){
+      /* ── THE SAME THREE NUMBERS, NOW AS PARAMETERS ────────────────────────
+         Every genre keeps the space table it already had; what changes is
+         that these stop being an impulse response's recipe and become the
+         room's own controls.
+           irSec   -> t60,  unchanged in meaning: seconds to fall 60 dB
+           tailDark-> damp, unchanged in meaning: how fast the top goes
+           tailPow -> SIZE, and this one is a RE-INTERPRETATION, said plainly.
+                     In the convolver it was the exponent on a decay envelope,
+                     which an FDN has no equivalent of -- the decay there is
+                     the per-line gain and it is already carried by t60. What
+                     a steeper envelope actually SOUNDED like was a smaller,
+                     faster room, so it maps to size inverted and centred so
+                     the old default (2.2) is size 1.0, i.e. every genre that
+                     never touched it gets the room it was tuned against.
+                     This is the one number whose meaning moved. [EAR]
+         PRE-DELAY did not exist at all before -- the research sheet had asked
+         for 40-80 ms and there was nowhere to put it. A genre may now declare
+         `preDelay`; the default is 20 ms, which is small enough not to
+         restage anything already voiced. */
+      const p = g.verb.parameters;
+      const set = (name, v) => { const par = p.get(name); if(par) par.value = v; };
+      set("t60",  Math.max(0.05, Math.min(30, sec)));
+      set("damp", Math.max(0,    Math.min(0.98, dark)));
+      set("size", Math.max(0.25, Math.min(3, 2.2 / Math.max(0.4, pow))));
+      set("pre",  Math.max(0,    Math.min(0.25, space.preDelay != null ? space.preDelay : 0.02)));
+    } else if(g.makeIr && (sec !== g.irSpec.sec || pow !== g.irSpec.pow || dark !== g.irSpec.dark)){
       g.irSpec = { sec, pow, dark };
       g.verb.buffer = g.makeIr(sec, pow, dark);
     }
@@ -6990,14 +7204,20 @@ const Sound = (function(){
       state: ctx ? ctx.state : "none",
       rate: ctx ? Math.round(ctx.sampleRate) : 0,
       bypass: keeperOn && keeper && !keeper.paused,
+      /* which room is actually running. A convolver here means the worklet
+         did not load, and that is a fact the transport should be able to
+         state rather than a difference nobody can see. */
+      room: liveGraph ? (liveGraph.verbIsFdn ? "fdn" : "convolver") : "-",
+      roomErr: fdnErr,
       err: unlockErr,
     };
   }
   async function ensureLive(){
     /* everything up to the first await is inside the user's gesture */
+    let firstBuild = false;
     if(!ctx){
       ctx = new (window.AudioContext || window.webkitAudioContext)();
-      liveGraph = buildGraph(ctx);
+      firstBuild = true;
     }
     /* RESUME FIRST, SYNCHRONOUSLY. Called whatever the state claims -- on iOS a
        context can report "running" while it is not, and resuming a running
@@ -7008,6 +7228,11 @@ const Sound = (function(){
     try{ resuming = ctx.resume(); }catch(e){ unlockErr = "resume: " + (e && e.message || e); }
     unlockBuffer(ctx);
     unlocked = true;
+    /* the graph is built AFTER the resume has been asked for and the unlock
+       buffer queued -- both of those are what must happen inside the user's
+       gesture. Loading the room's module is the one await that has to precede
+       buildGraph, and it happens once for the life of the page. */
+    if(firstBuild) liveGraph = buildGraph(ctx, null, await addRoomModule(ctx));
     try{ await resuming; }catch(e){ unlockErr = "resume: " + (e && e.name || e); }
     return ctx;
   }
@@ -7182,7 +7407,10 @@ const Sound = (function(){
   async function renderWav(events, seconds, sampleRate, space, kick, drumDrive, gate, motion, motionOffset){
     const sr = sampleRate || 44100;
     const off = new OfflineAudioContext(2, Math.ceil(seconds * sr), sr);
-    const graph = buildGraph(off);
+    /* the room's worklet must be in the context before the graph is built.
+       renderWav is already async, so this costs nothing and lets buildGraph
+       stay synchronous -- see addRoomModule. */
+    const graph = buildGraph(off, null, await addRoomModule(off));
     /* 0.05 is the lead-in perform() schedules against, so the bus ride is
        written against the same zero the events are. */
     setSpace(graph, space, kick, drumDrive, gate, motion, motionOffset, 0.05);

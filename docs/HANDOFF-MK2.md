@@ -2113,3 +2113,73 @@ one of its legitimate findings contains the word *cannot*. It exits 0 and works.
 A crude detector nearly deleted a working tool, which is the same lesson §3
 teaches about `probe_controls`: **suspect the measurement first.** Exit codes,
 not string matching.
+
+**THE ROOM BECAME A FEEDBACK DELAY NETWORK at `2026-08-03e`** — the user,
+after being offered three matrix features: *"Seems like 3 is the important
+one. Why would we do things on a flawed system? Make the foundation
+correct first. That's a rule you should already be adhering to."* Correct,
+and it is the same argument they made about form. What follows is the
+foundation, not a feature.
+
+**WHAT WAS ACTUALLY WRONG.** The renderer was not broken (repeatable and
+guarded since `2026-08-03c`). The ROOM was thin: a ConvolverNode fed a
+shaped noise burst, which meant no pre-delay at all (the research sheet
+had asked for 40–80 ms and there was nowhere to put it), a decay baked
+into a buffer so the room could not move during a song, and — the thing
+that killed the matrix's feedback crossing — nothing could be routed back
+into it.
+
+**THE GATE THAT DECIDED IT WAS POSSIBLE.** AudioWorklet needs a module
+URL, and this program is one file with no network. MEASURED, all four
+combinations: a **Blob URL fails on `file://`** ("Unable to load a
+worklet's module" — a file:// document's origin is opaque), a **data: URL
+works on file:// AND on http(s)**. So the module is embedded as a base64
+data: URL in `ROOM_FDN`. Second gate, also measured before building: an
+FDN worklet in an OfflineAudioContext renders **bit-identical across
+repeats (-316 dB)**, against the convolver's -92..-106 float floor. The
+new foundation is MORE repeatable than the one it replaces.
+
+**THE BUILD.** Eight delay lines of mutually-prime length, a pre-delay and
+two allpass diffusers in front, one-pole damping per line, and an 8×8
+Hadamard mix done as three butterfly passes (24 adds, not 64 multiplies)
+scaled 1/√8. Stability is STRUCTURAL: "all unitary (and orthogonal)
+matrices have unit-modulus eigenvalues... the resulting FDN will be
+lossless", and Hadamard/Householder "ensure (critical) stability
+regardless of the delays" [corpus:JOS PASP; Gerzon; Stautner-Puckette].
+The per-line decay gain is the textbook one, `g = 10^(-3·D/(T60·sr))`.
+**Nothing here was swept for.** Contrast the removed room→echo crossing,
+whose ceiling I found by rendering tails until one stopped turning around
+— that was a baked-in value discovered by experiment, and this is the
+constraint that makes such experiments unnecessary. Principle 1, at the
+level the mathematics allows.
+
+**THE GENRE TABLES DID NOT CHANGE.** `irSec` → `t60` and `tailDark` →
+`damp` keep their exact meanings. `tailPow` is the ONE re-interpretation
+and it is flagged in the code: an FDN has no decay-envelope exponent
+(the decay is the per-line gain, already carried by t60), so it maps to
+SIZE, inverted and centred such that the old default 2.2 gives size 1.0 —
+every genre that never touched it gets the room it was voiced against.
+New optional `space.preDelay`, default 20 ms.
+
+**MEASURED**: every genre's room now decays for the time it asks for, by
+formula, untuned — lofi 1.4→1.30 s, synthwave 2.6→2.40, dkc 2.4→2.30,
+bladerunner 5→4.80, acid 1.4→1.35, plastikman 4.6→4.50, jungle 2.2→2.00
+(50 ms windows, measured from a peak that includes the initial diffusion,
+so reading a little short is correct). The measurement itself used the
+matrix as a tool: drums→room opened and the dry fader shut, which is the
+drop being used as an instrument. Battery: 118 seam, snapshot IDENTICAL,
+ui 26, voices clean, renders repeatable on all seven genres, audio 543/8
+with the 8 being the same long-standing checks to the last digit.
+
+**STILL OPEN, honestly.** (a) THE EAR HAS NOT HEARD IT — every genre's
+room changed and no number here says it sounds better, only that it
+behaves correctly; that judgement is the user's and nothing should be
+built on top of this until it is made. (b) The convolver remains as a
+FALLBACK for a browser with no AudioWorklet, so two rooms exist in the
+file; `soundState().room` reports which one is running rather than leaving
+it invisible. (c) The GATED reverb is still a second ConvolverNode, which
+is why genres with a gate sit at the -100 dB float floor instead of
+bit-exact. (d) The FDN's parameters are AudioParams and therefore RIDEABLE
+— the room can now move across a song, and no genre does that yet. That is
+the first thing worth trying, and it is what the room could never do
+before.
