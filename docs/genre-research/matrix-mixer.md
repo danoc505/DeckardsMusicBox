@@ -113,26 +113,59 @@ Two further reasons, both measured rather than argued:
   matrix — "one builds [the sound] up step by step" on the board. Routing
   stops being a decision taken once and becomes something performed.
 
-## The design as built
+## The design as built — SIX rows by THREE columns
 
-Sources are the four role buses; destinations are the mix and the two
-effect inputs. Twelve crossings, plus the feedback one:
+*Corrected after the first cut. That version had four rows (the instrument
+buses only) and was a send panel wearing the word "matrix". The sources
+are explicit that the returns belong in the input list: "inputs can be
+sent to multiple effects, and THE EFFECTS CAN BE SENT TO EACH OTHER, AND
+EVEN BACK INTO THEMSELVES" [signalsounds]. An effect you cannot patch back
+in is not a row, and without those rows the grid cannot do the thing the
+grid is for.*
 
-    drums/bass/keys/lead → MIX      4 routes   NEW — the fader Tubby closes
-    drums/bass/keys/lead → echo     4 routes
-    drums/bass/keys/lead → room     4 routes
-    echo → echo   the FDBK knob     (existing, on the kaoss panel)
-    echo → room   the WASH knob     (existing, on the kaoss panel)
-    room → echo   NEW               (the feedback crossing, capped + measured)
-    room → room   refused           (that is just a longer reverb; the IR
-                                     already owns the tail)
-    bus → bus     refused           (buses are not effects; nothing to feed)
+              → MIX (A)      → ECHO (B)     → ROOM (C)
+    drums     level          send           send
+    bass      level          send           send
+    keys      level          send           send
+    lead      level          send           send
+    echo rtn  return level   FDBK (alias)   WASH (alias)
+    room rtn  wet level      feedback       — blind
 
-A fourth destination column would be an invention — the program has two
-effects and one mix, and a matrix with a destination nothing is plugged
-into is decoration. The two existing effect-to-effect knobs stay on the
-echo panel; moving them would re-key every genre's params and motion for
-a cosmetic win.
+Eighteen positions: fifteen matrix controls, two ALIASES, one blind.
+
+- **The MIX column** is new and is the reason the drop was impossible. Its
+  instrument rows sum into the mix ahead of the master shaper; the two
+  return rows land past it, which is where each of them was already wired.
+- **The ALIASES** are crossings this program already had a dial for years
+  before the grid: the echo's FDBK *is* echo→echo and its WASH *is*
+  echo→room. The grid DISPLAYS those controls rather than re-keying seven
+  genres' tables. One owner, two panels — the same arrangement the KAOSS
+  pad already has with the echo's tone and feedback.
+- **room → mix** was `space.wet`, a number only the song could write. As a
+  crossing it becomes a knob and an automatable lane, which is what
+  putting the returns in the input list buys.
+- **room → room** is left blind on purpose; a room feeding itself is a
+  longer tail and the impulse response already owns that.
+
+**IT IS A DECLARATION, NOT A HARDCODED GRID.** `const MATRIX = { ins,
+outs, alias, none }` is walked by the controls, the audio graph, the
+automation and the panel. Adding an input is one entry there plus one
+line in `matrixSource()`; the panel grows a row by itself and the seam
+battery immediately demands a genre ride the new knobs. The first build
+hardcoded four sources in five places, which is exactly the "baked-in
+values" the project's first principle is against.
+
+## The panel is the machine, because on this machine the layout IS the information
+
+The first panel wore the DESK skin and rendered three labelled clusters of
+knobs. Every knob worked and it was still wrong: on a matrix mixer a
+knob's POSITION is what tells you which two things it joins, and reading
+down a column or across a row is how you know what is going where. The
+A-138m is drawn as it is built — jacks and names down the left, jacks and
+names along the bottom, a knob at every crossing, on brushed aluminium.
+The numerals 0–10 printed around each knob on the real panel are NOT
+reproduced: at this knob size they collided with the value readout, and
+the readout is the more useful of the two. The tick arc is.
 
 NEUTRAL IS THE OLD WIRE. Every dry route's base is 1.0 and a gain node at
 1.0 is transparent, so a song nobody touches renders exactly what it

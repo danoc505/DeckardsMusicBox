@@ -389,6 +389,83 @@
                    padding:.4rem 1rem; border-radius:4px 4px 0 0; }
   .sk-desk .brand .model{ color:#7fb2d9; }
 
+  /* ── THE A-138m, as the machine looks ─────────────────────────────────────
+     A raw brushed-aluminium eurorack panel: silver, faint vertical grain,
+     black legending, gold-ringed jack sockets down the left and along the
+     bottom, and grey knobs with a single black pointer line. The first build
+     of this panel wore the DESK skin and was a row of knob clusters, which is
+     the thing the machine is specifically not: on a matrix mixer the LAYOUT
+     IS THE INFORMATION -- a knob's position tells you what it connects to,
+     and reading down a column or across a row is how you know what is going
+     where. Rendered as a real grid below, from the same MATRIX declaration
+     the audio graph is built from, so a new input row cannot appear in one
+     and not the other. ── */
+  .sk-a138{ color:#1c1c1a; border:1px solid #9a9a94;
+            background:
+              repeating-linear-gradient(90deg, rgba(255,255,255,.5) 0 1px,
+                                               rgba(0,0,0,.025) 1px 3px),
+              linear-gradient(#e8e8e4, #cfcfc9); }
+  .sk-a138 .brand{ background:#f2f2ee; color:#141414; margin:-.85rem -1rem .8rem;
+                   padding:.4rem 1rem; border-radius:4px 4px 0 0;
+                   border-bottom:1px solid #b4b4ae; }
+  .sk-a138 .brand .model{ color:#141414; letter-spacing:.2em; font-weight:600; }
+  .sk-a138 .brand .maker{ color:#3a3a38; letter-spacing:.14em; }
+  /* the grid: one column of input jacks, then a knob column per output */
+  .mxwrap{ display:grid; gap:.30rem .34rem; align-items:center;
+           justify-content:start; margin:.1rem 0 .2rem; }
+  .mxcorner{ font-size:.62rem; letter-spacing:.10em; color:#4a4a46;
+             text-transform:uppercase; padding-bottom:.15rem; }
+  /* an input row's label and its socket, as the machine has them: the jack,
+     then the name, then a lead drawn to the first knob */
+  .mxin{ display:flex; align-items:center; gap:.32rem; padding-right:.1rem; }
+  .mxin .jack, .mxout .jack{ width:15px; height:15px; border-radius:50%;
+        background:radial-gradient(circle at 40% 34%, #4a4a48, #0d0d0c 62%);
+        border:2px solid #b39247; box-shadow:0 0 0 1px #8a7132, inset 0 1px 2px rgba(0,0,0,.7);
+        flex:0 0 auto; }
+  .mxin .nm{ font-size:.66rem; letter-spacing:.04em; color:#1c1c1a; min-width:2.6rem; }
+  .mxin .lead{ flex:1 1 auto; height:2px; background:#2a2a28; min-width:.5rem; }
+  /* the output legs along the bottom: a lead down into a jack, then the name */
+  .mxout{ display:flex; flex-direction:column; align-items:center; gap:.2rem;
+          padding-top:.1rem; }
+  .mxout .stem{ width:2px; height:.42rem; background:#2a2a28; }
+  .mxout .nm{ font-size:.6rem; letter-spacing:.1em; color:#1c1c1a; }
+  .mxout .cap{ font-size:.72rem; font-weight:700; letter-spacing:.06em; color:#141414; }
+  /* a crossing. The tick ring is the printed 0-10 scale around each knob. */
+  .mxcell{ display:flex; align-items:center; justify-content:center;
+           padding:.06rem .1rem; }
+  .sk-a138 .mxcell .kn{ width:auto; }
+  .sk-a138 .mxcell .kn .cap{ display:none; }        /* the row and column name it */
+  .sk-a138 .mxcell .kn .val{ font-size:.55rem; color:#57574f; margin-top:.04rem; }
+  .sk-a138 .kn .dial{ width:34px; height:34px;
+        background:
+          radial-gradient(circle at 38% 28%, #f0f0ec, #b8b8b2 58%, #9d9d97 100%);
+        border:1px solid #7e7e78;
+        box-shadow:0 1px 2px rgba(0,0,0,.28); }
+  .sk-a138 .kn .ptr{ background:#141414; width:2.5px; }
+  /* the printed scale: the tick arc screened around each knob on the real
+     panel. Drawn as a conic ring clipped to the top three quarters, which is
+     the sweep a pointer knob actually travels. The numerals 0..10 are on the
+     machine and are NOT reproduced -- at this knob size they collided with
+     the value readout, and the readout is the more useful of the two. */
+  .mxcell .ring{ position:relative; display:flex; align-items:center;
+                 justify-content:center; }
+  .mxcell .ring::before{ content:""; position:absolute; top:-6px; width:46px; height:46px;
+        border-radius:50%; pointer-events:none;
+        background:repeating-conic-gradient(from 210deg,
+                   rgba(0,0,0,.45) 0 1.2deg, transparent 1.2deg 30deg);
+        -webkit-mask:radial-gradient(circle, transparent 19px, #000 19px 22px, transparent 22px);
+        mask:radial-gradient(circle, transparent 19px, #000 19px 22px, transparent 22px); }
+  /* a crossing left deliberately empty: a blind plate, not a knob */
+  .mxnone{ width:34px; height:34px; border-radius:50%;
+           border:1px dashed rgba(0,0,0,.22); opacity:.5; }
+  /* the nameplate along the bottom edge, as it is screened on the panel */
+  .mxplate{ margin-top:.55rem; padding-top:.4rem; border-top:1px solid rgba(0,0,0,.16);
+            display:flex; align-items:center; justify-content:space-between;
+            font-size:.6rem; letter-spacing:.34em; color:#3a3a36; }
+  .mxplate .hole{ width:9px; height:9px; border-radius:50%;
+                  background:radial-gradient(circle at 40% 34%, #cfcfc9, #8e8e88);
+                  border:1px solid #7e7e78; }
+
   /* ── THE KAOSS PAD, as the machine looks: a white case, a dark bezel around a
      lit blue-green grid, and black rubber controls. ── */
   .sk-kaoss{ background:linear-gradient(#f2f2f0, #dcdcd8); color:#1e1e1e;
@@ -475,7 +552,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03a · a matrix mixer: every part's dry, echo and room level is a knob now</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03b · the matrix mixer, drawn as a grid and declared once: six inputs, three outputs</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1082,6 +1159,91 @@ function chainGroups(){
     keys: [g+"Tune", g+"Decay", g+"Mix", g+"Verb", g+"Echo", g+"Cut"] }));
 }
 
+/* ══ THE MATRIX MIXER'S GRID, DECLARED ONCE ═══════════════════════════════════
+   ROWS ARE INPUTS, COLUMNS ARE OUTPUTS, and everything else about the matrix --
+   its controls, its gain nodes, its automation, the knobs on its front panel --
+   is GENERATED from these two lists. That is the whole point of this block and
+   it is the correction to the first build, which hardcoded four sources and
+   three destinations in five different places. Adding an input is now ONE entry
+   here plus ONE line in matrixSource(); the panel grows a row by itself.
+
+   WHAT A MATRIX MIXER IS FOR, which is why the last two rows exist. The
+   sources agree on the definition: "inputs can be sent to multiple effects, and
+   THE EFFECTS CAN BE SENT TO EACH OTHER, AND EVEN BACK INTO THEMSELVES,
+   expanding the depth of the effects" [corpus:signalsounds matrix mixers];
+   "run fx back into themselves ... create drones" [corpus:aisynthesis AI008];
+   and the whole grid is "easily reconfigurable without any extra patching"
+   [corpus:modulargrid]. A send panel routes instruments TO effects and stops
+   there. A matrix puts the effect RETURNS in the input list, so the echo can
+   feed the room, the room can feed the echo, and either can feed itself. That
+   is the difference between what was built first and this.
+
+   `ret: true` marks a return -- a row whose source is an effect's output rather
+   than an instrument bus. Nothing in the code branches on it; it is there so
+   the panel can letter and letter them apart, and so this list reads as the
+   patchbay it is. */
+const MATRIX = {
+  ins: [
+    { k: "drums", label: "drums" },
+    { k: "bass",  label: "bass"  },
+    { k: "keys",  label: "keys"  },
+    { k: "lead",  label: "lead"  },
+    { k: "echo",  label: "echo",  ret: true },
+    { k: "room",  label: "room",  ret: true },
+  ],
+  outs: [
+    { k: "Mix",  label: "MIX",  cap: "A" },
+    { k: "Echo", label: "ECHO", cap: "B" },
+    { k: "Room", label: "ROOM", cap: "C" },
+  ],
+  /* ── THE CELLS THAT ARE NOT PLAIN NEW KNOBS ────────────────────────────────
+     ALIAS: a crossing this program already had a knob for, years before the
+     grid existed. The echo's FDBK dial IS echo-into-echo and its WASH dial IS
+     echo-into-room; re-keying them into `matrix.*` would rename controls that
+     seven genres' `params` and `motion` tables name by hand, for a cosmetic
+     win. So the grid DISPLAYS the existing control at that intersection -- one
+     owner, two ways to reach it, exactly like the KAOSS pad reaching the
+     echo's tone and feedback.
+     NONE: a crossing deliberately left empty, with the reason in the string.
+     The panel draws a blind plate there and the title attribute says why. */
+  alias: { echoEcho: "echo.fb", echoRoom: "echo.verb" },
+  none:  { roomRoom: "a room feeding itself is just a longer tail, and the " +
+                     "impulse response already owns that" },
+};
+/* every crossing that is a matrix control of its own, in grid order */
+function matrixCells(){
+  const out = [];
+  for(const i of MATRIX.ins) for(const o of MATRIX.outs){
+    const k = i.k + o.k;
+    if(MATRIX.alias[k] || MATRIX.none[k]) continue;
+    out.push({ k, in: i, out: o });
+  }
+  return out;
+}
+function matrixControls(){
+  return matrixCells().map(c => ({
+    k: c.k, label: c.in.label + " → " + c.out.label.toLowerCase(),
+    cap: c.in.label.toUpperCase(),
+    min: 0,
+    /* THE ONE MEASURED CEILING IN THIS TABLE. Feeding the room back into the
+       delay closes a loop through two effects, and the eurorack sources that
+       recommend it also warn that feedback "can quickly spiral exponentially
+       into chaos". probe_matrix pins every dial in that loop and pings it:
+       0.04 decays to silence, 0.08 decays monotonically, 0.12 falls then
+       CLIMBS BACK, 0.16 runs away. So this dial stops at the largest swept
+       value that never turns around. Every other crossing is a plain 0..1
+       level and cannot run away, because nothing downstream returns to it. */
+    max:  c.k === "roomEcho" ? 0.08 : 1,
+    step: c.k === "roomEcho" ? 0.005 : 0.01,
+    /* the DRY column starts open and the sends start shut, which is bit-exactly
+       the wiring each of these replaced. The room's own return keeps the level
+       the graph was constructed with; setSpace overwrites it per song from
+       `space.wet`, the way it always did. */
+    def: c.out.k === "Mix" ? (c.in.k === "room" ? 0.16 : 1) : 0,
+    kind: "bus",
+  }));
+}
+
 const INSTRUMENTS = {
   /* ── DRUM MACHINES ─────────────────────────────────────────────────────── */
   kit: { legacy: true,
@@ -1500,42 +1662,14 @@ const INSTRUMENTS = {
   matrix: {
     slot: "matrix", label: "matrix mixer", fixed: true,
     lanes: {},
-    controls: [
-      /* THE DRY COLUMN -- the fader Tubby's right hand closes. Every one of
-         these was a hardcoded `connect()` until now; at 1.00 they still are,
-         to the sample. */
-      { k:"drumsDry",  label:"drums → mix",  cap:"DRUMS", min:0, max:1, step:0.01, def:1, kind:"bus" },
-      { k:"bassDry",   label:"bass → mix",   cap:"BASS",  min:0, max:1, step:0.01, def:1, kind:"bus" },
-      { k:"keysDry",   label:"keys → mix",   cap:"KEYS",  min:0, max:1, step:0.01, def:1, kind:"bus" },
-      { k:"leadDry",   label:"lead → mix",   cap:"LEAD",  min:0, max:1, step:0.01, def:1, kind:"bus" },
-      { k:"drumsEcho", label:"drums → echo", cap:"DRUMS", min:0, max:1, step:0.01, def:0, kind:"bus" },
-      { k:"bassEcho",  label:"bass → echo",  cap:"BASS",  min:0, max:1, step:0.01, def:0, kind:"bus" },
-      { k:"keysEcho",  label:"keys → echo",  cap:"KEYS",  min:0, max:1, step:0.01, def:0, kind:"bus" },
-      { k:"leadEcho",  label:"lead → echo",  cap:"LEAD",  min:0, max:1, step:0.01, def:0, kind:"bus" },
-      { k:"drumsRoom", label:"drums → room", cap:"DRUMS", min:0, max:1, step:0.01, def:0, kind:"bus" },
-      { k:"bassRoom",  label:"bass → room",  cap:"BASS",  min:0, max:1, step:0.01, def:0, kind:"bus" },
-      { k:"keysRoom",  label:"keys → room",  cap:"KEYS",  min:0, max:1, step:0.01, def:1, kind:"bus" },
-      { k:"leadRoom",  label:"lead → room",  cap:"LEAD",  min:0, max:1, step:0.01, def:1, kind:"bus" },
-      /* THE FEEDBACK CROSSING (room → echo). The grid's defining move is an
-         effect fed back through another -- "run fx back into themselves ...
-         create drones" [corpus:aisynthesis AI008] -- and it is the half of
-         Hawtin's "delays on the reverbs" sentence the echo's build comment
-         refused until the stability work existed. The MAX here is a MEASURED
-         governor, not taste: probe_matrix pins every dial in the loop (FDBK
-         0.85, WASH 1.0, SEND 1.0, a route wide open), pings it once and
-         watches 30 s of tail. SWEPT: 0.04 decays to silence, 0.08 decays
-         monotonically, 0.12 falls then CLIMBS BACK (-46 -> -35 dB), 0.16 and
-         0.20 run away outright. So the ceiling is 0.08 -- the largest swept
-         value that never turns around, with the marginal one left outside.
-         The inner echo loop had to be fixed first; see the Q note at
-         g.echoLp, which is where the real defect was. */
-      { k:"roomEcho", label:"room → echo", cap:"ROOM", min:0, max:0.08, step:0.005, def:0, kind:"bus" },
-    ],
-    panel: { skin: "desk", maker: "", title: "matrix",
-             groups: [{ label: "→ MIX",  keys: ["drumsDry", "bassDry", "keysDry", "leadDry"] },
-                      { label: "→ ECHO", keys: ["drumsEcho", "bassEcho", "keysEcho", "leadEcho"] },
-                      { label: "→ ROOM", keys: ["drumsRoom", "bassRoom", "keysRoom", "leadRoom"] },
-                      { label: "FEEDBACK", keys: ["roomEcho"] }] },
+    /* generated from MATRIX, never listed by hand -- see that block */
+    controls: matrixControls(),
+    /* `grid: "matrix"` draws the real thing: a knob at every crossing, inputs
+       down the left with their jacks, outputs along the bottom with theirs.
+       No `groups`, because a grid is not a row of knob clusters -- that was
+       the first build's mistake and it is why the panel looked nothing like
+       the machine it is named after. */
+    panel: { skin: "a138", maker: "DOEPFER", title: "A-138m", grid: "matrix" },
   },
 
   /* ── BASSES ────────────────────────────────────────────────────────────── */
@@ -2577,12 +2711,14 @@ function applyRack(chart, force){
   {
     const SP = G.space || {};
     const ef = SP.echoFeeds || [], rf = SP.feeds || [];
-    for(const b of ["drums", "bass", "keys", "lead"]){
-      PARAMS["matrix." + b + "Dry"]  = 1;
-      PARAMS["matrix." + b + "Echo"] = ef.indexOf(b) >= 0 ? 1 : 0;
-      PARAMS["matrix." + b + "Room"] = (b === "keys" || b === "lead" || rf.indexOf(b) >= 0) ? 1 : 0;
+    for(const cell of matrixCells()){
+      const b = cell.in.k, dest = cell.out.k;
+      PARAMS["matrix." + cell.k] =
+        dest === "Mix"  ? (b === "room" ? (SP.wet != null ? SP.wet : 0.16) : 1) :
+        dest === "Room" ? (b === "keys" || b === "lead" || rf.indexOf(b) >= 0 ? 1 : 0) :
+        b === "room"    ? (SP.roomEcho || 0) :
+                          (ef.indexOf(b) >= 0 ? 1 : 0);
     }
-    PARAMS["matrix.roomEcho"] = SP.roomEcho || 0;
   }
 }
 
@@ -3286,17 +3422,15 @@ const Sound = (function(){
       g.bus[name] = c.createGain(); g.bus[name].gain.value = 1;
     }
     g.mix = c.createGain(); g.mix.gain.value = 1;
-    /* ── THE MATRIX'S CROSSINGS live in `g.route`, filled in three places:
-       the dry column here (drums joins it after the drum bus's saturation,
-       further down), and the two send columns beside the echo. Every gain
-       starts at the value that reproduces the wire it replaced -- a dry route
-       at 1.0 IS the direct connect this loop used to make. */
+    /* ── THE MATRIX'S CROSSINGS live in `g.route`, keyed input+Output. Every
+       gain starts at the value that reproduces the wire it replaced, so a
+       matrix nobody touches is the graph this program always had -- which is
+       what the 2100-seed snapshot and the render A/B check. */
     g.route = {};
-    for(const name of ["bass", "keys", "lead"]){
-      const dry = c.createGain(); dry.gain.value = 1;
-      g.bus[name].connect(dry); dry.connect(g.mix);
-      g.route[name + "Dry"] = dry;
-    }
+    /* bass, keys and lead reach the mix through their own MIX crossings, built
+       with the rest of the grid further down (everything it needs exists by
+       then). Only the drums' crossing is made by hand, because it has to sit
+       after the drum bus's saturation rather than on the raw bus. */
 
     /* ── THE DRUM BUS, WITH ITS OWN SATURATION. Carried back from the first
        build, which had it and which the user says had better-sounding drums --
@@ -3397,8 +3531,8 @@ const Sound = (function(){
        saturation is part of how the kit SOUNDS, so pulling the dry fader must
        make the kit quieter, never make it distort differently. Closing this
        is the right hand of the Tubby move; the echo send is the left. */
-    g.route.drumsDry = c.createGain(); g.route.drumsDry.gain.value = 1;
-    g.drumMakeup.connect(g.route.drumsDry); g.route.drumsDry.connect(g.mix);
+    g.route.drumsMix = c.createGain(); g.route.drumsMix.gain.value = 1;
+    g.drumMakeup.connect(g.route.drumsMix); g.route.drumsMix.connect(g.mix);
     g.gate.connect(g.mix);          // the gated room sits beside the dry kit
 
     /* soft clip: curve tanh(3.6x) over the shaper's [-1,1] input with a 0.5
@@ -3467,9 +3601,12 @@ const Sound = (function(){
        plays many songs and genres do not share a room. buildGraph fixes the
        topology; setSpace() sets the one number, before any event is scheduled.
        That keeps live and offline on one graph builder and one scheduler. */
-    g.wet = c.createGain(); g.wet.gain.value = 0.16;          // replaced per song [EAR]
-    g.send.connect(g.sendHp); g.sendHp.connect(g.verb); g.verb.connect(g.wet);
-    g.wet.connect(g.post);                                    // wet obeys the limiter too
+    /* the room's WET LEVEL is now the room->MIX crossing of the grid, built
+       with the rest of the matrix below and aliased back onto `g.wet` there,
+       so every line that used to set this gain still sets this gain. It stops
+       being a number only the song could write and becomes a knob -- which is
+       what putting the returns in the input list is FOR. */
+    g.send.connect(g.sendHp); g.sendHp.connect(g.verb);       // ...-> roomMix -> post
 
     /* ── THE ECHO, and in one genre it is where the music is ──────────────────
        There was one reverb send and no delay at all, and this file's own
@@ -3529,7 +3666,9 @@ const Sound = (function(){
     g.echo.connect(g.echoLp); g.echoLp.connect(g.echoHp);
     g.echoHp.connect(g.echoFb); g.echoFb.connect(g.echo);      // the loop
     g.echoHp.connect(g.echoOut);
-    g.echoOut.connect(g.post);                                 // dry return, past the shaper
+    /* the delay's own return level is the echo->MIX crossing, built below with
+       the rest of the grid; it still lands on `post`, past the shaper, exactly
+       where this connect() used to put it */
     /* ...and into the room, so the repeats are washed rather than dry copies */
     g.echoToVerb = c.createGain(); g.echoToVerb.gain.value = 0.5;
     g.echoOut.connect(g.echoToVerb); g.echoToVerb.connect(g.send);
@@ -3663,27 +3802,51 @@ const Sound = (function(){
        The old code's cost argument ("connect/disconnect rather than a gain,
        so a genre that does not ask pays nothing") bought eight idle gain
        nodes' worth of savings and priced every hand out of the routing. */
-    for(const b of ["drums", "bass", "keys", "lead"]){
-      const rE = c.createGain(); rE.gain.value = 0;
-      const rR = c.createGain(); rR.gain.value = (b === "keys" || b === "lead") ? 1 : 0;
-      g.bus[b].connect(rE); rE.connect(g.echoSend);
-      g.bus[b].connect(rR); rR.connect(g.send);
-      g.route[b + "Echo"] = rE; g.route[b + "Room"] = rR;
+    /* ── THE GRID, WIRED FROM ITS DECLARATION ───────────────────────────────
+       One gain per crossing, built by walking MATRIX rather than by naming
+       wires. The two lookups below are the ONLY places that know what a row
+       or a column physically is, which is what makes the grid alterable: add
+       an input to MATRIX.ins and a case to matrixSource(), and every knob,
+       node, automation lane and panel cell follows.
+
+       WHY THE RETURNS ARE ROWS: "the effects can be sent to each other, and
+       even back into themselves, expanding the depth of the effects"
+       [corpus:signalsounds]. The room feeding the delay is the crossing the
+       echo's own build comment refused for want of stability work -- that
+       work is now probe_matrix and the ceiling it measured lives on the
+       control. See docs/genre-research/matrix-mixer.md. */
+    const matrixSource = k =>
+      k === "echo" ? g.echoOut :          // the delay's return, post its own loop
+      k === "room" ? g.verb :             // the reverb's return, pre its level
+      g.bus[k];                           // ...and every role bus. ADD ROWS HERE.
+    const matrixDest = (outK, inK) =>
+      outK === "Echo" ? g.echoSend :
+      outK === "Room" ? g.send :
+      /* THE MIX COLUMN IS TWO SUMMING POINTS AND MUST STAY TWO. An instrument
+         goes into `mix`, ahead of the master shaper, so the band saturates
+         together; an effect RETURN lands on `post`, past it -- which is where
+         each of them was wired before the grid existed, and the reason the
+         echo's old comment said "dry return, past the shaper". Collapsing
+         these into one node would put the reverb through the soft clipper and
+         quietly change every genre. */
+      (inK === "echo" || inK === "room") ? g.post : g.mix;
+    for(const cell of matrixCells()){
+      /* drumsMix is already built, above the drum bus: the kit's dry level has
+         to sit after its saturation, so it cannot be made by this generic loop */
+      if(g.route[cell.k]) continue;
+      const src = matrixSource(cell.in.k), dst = matrixDest(cell.out.k, cell.in.k);
+      if(!src || !dst) continue;
+      const gain = c.createGain();
+      gain.gain.value = cell.out.k === "Mix"
+        ? (cell.in.k === "room" ? 0.16 : 1)
+        : ((cell.out.k === "Room" && (cell.in.k === "keys" || cell.in.k === "lead")) ? 1 : 0);
+      src.connect(gain); gain.connect(dst);
+      g.route[cell.k] = gain;
     }
-    /* ── THE FEEDBACK CROSSING: room → echo ─────────────────────────────────
-       The half of Hawtin's sentence the echo's own comment refused until the
-       stability work existed. The eurorack literature supplies both the
-       reason and the warning: "run fx back into themselves ... create
-       drones" [AI008], and feedback loops "can quickly spiral exponentially
-       into chaos -- start the gain very low" [perfectcircuit]. So: the
-       room's output into the echo's delay line, POST the master send gain
-       (so this crossing owns its own amount and echo.send stays the buses'
-       fader), through a gain whose dial TOPS OUT well under the measured
-       runaway point. The control's max in INSTRUMENTS.matrix is that
-       governor; probe_matrix drives the whole loop maxed and proves the
-       tail dies. docs/genre-research/matrix-mixer.md is the study. */
-    g.roomEcho = c.createGain(); g.roomEcho.gain.value = 0;
-    g.verb.connect(g.roomEcho); g.roomEcho.connect(g.echo);
+    /* the room's return level IS this crossing now, so the old `g.wet` node is
+       the same object under its grid name -- one owner, two names, and every
+       line that set `space.wet` still sets exactly this gain */
+    g.wet = g.route.roomMix;
 
     /* the Rhodes bank: one AudioBuffer per graph at the samples' own 32 kHz clock;
        WebAudio's resampler does the rest. Synchronous by design — raw PCM needs no
@@ -6611,7 +6774,6 @@ const Sound = (function(){
       rideBus(g, g.deskHigh.gain, "desk.high", panelValue("desk", "high"), t0);
     }
     if(!space) return;
-    if(space.wet != null) g.wet.gain.value = space.wet;
     /* the ROOM ITSELF, when a genre asks for a different one. Rebuilding the IR
        is expensive, so it only happens when the numbers actually differ -- a
        genre that says nothing keeps the 1.4 s room every song has had. */
@@ -6634,35 +6796,31 @@ const Sound = (function(){
        function is asked about a SONG. The hand's TRIM rides on top, clamped
        to the control, so the matrix panel plays these eight wires live. */
     if(g.route){
-      const routeBase = (b, dest) => {
-        /* an emptied fx rack kills the SEND routes OUTRIGHT -- past the TRIM,
-           or a hand the user left on a route would keep a "muted" echo alive.
-           The DRY column is never killed: an empty fx rack is a dry mix, not
-           a silent one. */
+      const routeBase = cell => {
+        const b = cell.in.k, dest = cell.out.k;
+        /* an emptied fx rack kills every input to the ECHO outright, past any
+           TRIM: a hand left on a route must not keep a "muted" delay alive.
+           The MIX column is never killed -- an empty rack is a dry mix, not a
+           silent one -- and the room's own return is cut by its `wet: 0`. */
         if(dest === "Echo" && space.echoKill) return 0;
-        const on = dest === "Dry" ? true
-          : dest === "Room"
-            ? (b === "keys" || b === "lead" || (space.feeds || []).indexOf(b) >= 0)
-            : (space.echoFeeds || []).indexOf(b) >= 0;
-        return Math.max(0, Math.min(1, (on ? 1 : 0) + (TRIM["matrix." + b + dest] || 0)));
+        const on =
+          /* THE MIX COLUMN. Every instrument row is open (that is the wire it
+             replaced); the room's row carries the genre's `wet`, which used to
+             be a number only the song could write and is now a knob. */
+          dest === "Mix"  ? (b === "room" ? (space.wet != null ? space.wet : 0.16) : 1) :
+          dest === "Room" ? (b === "keys" || b === "lead" ||
+                             (space.feeds || []).indexOf(b) >= 0 ? 1 : 0) :
+          /* ...and the ECHO column. The two RETURN rows carry an amount rather
+             than a membership, because "how much" is the whole question for a
+             path that comes back on itself and a list can only say yes or no. */
+          b === "room" ? (space.roomEcho || 0) :
+                         ((space.echoFeeds || []).indexOf(b) >= 0 ? 1 : 0);
+        const cc = CONTROL["matrix." + cell.k] || { min: 0, max: 1 };
+        return Math.max(cc.min, Math.min(cc.max, on + (TRIM["matrix." + cell.k] || 0)));
       };
-      for(const b of ["drums", "bass", "keys", "lead"]){
-        rideBus(g, g.route[b + "Dry"].gain,  "matrix." + b + "Dry",  routeBase(b, "Dry"),  t0);
-        rideBus(g, g.route[b + "Room"].gain, "matrix." + b + "Room", routeBase(b, "Room"), t0);
-        rideBus(g, g.route[b + "Echo"].gain, "matrix." + b + "Echo", routeBase(b, "Echo"), t0);
-      }
-      /* the feedback crossing: the genre's own declared amount (`space.roomEcho`,
-         absent = 0) plus the hand, clamped to the measured governor. An emptied
-         fx rack kills it outright with the other echo inputs -- a "muted" echo
-         being rung by the room would be the same leak the routes close. */
-      if(g.roomEcho){
-        /* clamped to the CONTROL's own measured ceiling rather than to a
-           number repeated here -- one owner for the governor, so re-measuring
-           it later cannot leave a second copy behind */
-        const cap = (CONTROL["matrix.roomEcho"] || { max: 0 }).max;
-        const fbBase = space.echoKill ? 0
-          : Math.max(0, Math.min(cap, (space.roomEcho || 0) + (TRIM["matrix.roomEcho"] || 0)));
-        rideBus(g, g.roomEcho.gain, "matrix.roomEcho", fbBase, t0);
+      for(const cell of matrixCells()){
+        const node = g.route[cell.k];
+        if(node) rideBus(g, node.gain, "matrix." + cell.k, routeBase(cell), t0);
       }
     }
 
@@ -7432,7 +7590,7 @@ const GENRE = {
            is that nothing lunges, and a dub drop at full depth would be a
            different record. Gesture shape [corpus:interruptor dubboard];
            amounts mine, deliberately a fraction of plastikman's. [EAR] */
-        leadDry:  [{ kind: "section", by: { outro: [-0.30, -0.14], intro: [-0.18, -0.06] } },
+        leadMix:  [{ kind: "section", by: { outro: [-0.30, -0.14], intro: [-0.18, -0.06] } },
                    { kind: "lfo", bars: [[56, 2], [40, 1]], depth: [0.03, 0.08],
                      shape: "sin", freePhase: true }],
       },
@@ -10795,9 +10953,9 @@ const GENRE = {
            two pull the bass and the keys off the mix while their sends stay
            open -- the element leaves and its space keeps ringing, which is
            the difference between an arrangement gap and a dub drop. */
-        bassDry:   [{ kind: "section", by: { bridge: [-0.55, -0.30], intro: [-0.35, -0.15] } },
+        bassMix:   [{ kind: "section", by: { bridge: [-0.55, -0.30], intro: [-0.35, -0.15] } },
                     { kind: "occurrence", step: [-0.10, -0.04], cap: 3 }],
-        keysDry:   [{ kind: "section", by: { bridge: [-0.45, -0.20] } },
+        keysMix:   [{ kind: "section", by: { bridge: [-0.45, -0.20] } },
                     { kind: "lfo", bars: [[44, 2], [28, 1]], depth: [0.05, 0.14],
                       shape: "tri", freePhase: true }],
         drumsEcho: [{ kind: "lfo", bars: [[32, 3], [16, 2]], depth: [0.10, 0.24],
@@ -10818,6 +10976,19 @@ const GENRE = {
                     { kind: "lfo", bars: [[52, 2], [36, 1]], depth: [0.05, 0.13],
                       shape: "sin", freePhase: true }],
         bassRoom:  [{ kind: "lfo", bars: [[40, 2], [64, 1]], depth: [0.06, 0.15],
+                      shape: "sin", freePhase: true }],
+        /* ── THE ROOM'S OWN RETURN, which this genre has the strongest claim
+           to ride. The sourced move: "for breakdowns specifically: reverb
+           send increases to open up space" [corpus:the automation research in
+           NOTES-FROM-THE-USER]. And the file already argues it for exactly
+           this record, four lines up at echo.fb: "what subtracts is the KIT,
+           while the space fills in behind it." That sentence describes a
+           reverb return climbing across a year of subtraction, and until the
+           returns became rows of the grid there was no knob to say it with --
+           `wet` was a number only the song could write. */
+        roomMix:   [{ kind: "section", by: { bridge: [0.06, 0.16], instrumental: [0.02, 0.07] } },
+                    { kind: "arc", from: [-0.04, -0.01], to: [0.04, 0.11], curve: "sCurve" },
+                    { kind: "lfo", bars: [[64, 2], [40, 1]], depth: [0.02, 0.05],
                       shape: "sin", freePhase: true }],
         /* the feedback crossing rises where the record empties: the bridge
            already opens echo.send and echo.verb above, and the room folding
@@ -11125,10 +11296,21 @@ const GENRE = {
          two crossings of one row. The dry route tops out at the wire, so
          every move here is a CUT. Shape sourced; amounts mine. [EAR] */
       matrix: {
-        drumsDry:  [{ kind: "section", by: { bridge: [-0.75, -0.45], intro: [-0.30, -0.10] } }],
+        drumsMix:  [{ kind: "section", by: { bridge: [-0.75, -0.45], intro: [-0.30, -0.10] } }],
         drumsEcho: [{ kind: "section", by: { bridge: [0.10, 0.24] } },
                     { kind: "throw", amt: [0.14, 0.30], every: 8, at: 0.75 }],
         keysEcho:  [{ kind: "lfo", bars: [[24, 2], [40, 1]], depth: [0.06, 0.16],
+                      shape: "sin", freePhase: true }],
+        /* ── CATCHING THE THROW. This genre's own comment says its delay is
+           "a thrown thing, not a wash", and `echo.send` already throws INTO
+           it every eighth bar. The return is the other end of that gesture --
+           the sound-system engineer's hand on the echo fader, holding it down
+           under the verse so the throws land in the drops instead of hanging
+           over everything. The crossing's base is fully open, so this lane
+           can only pull DOWN, which is the correct direction for a fader
+           being held back. Amounts mine. [EAR] */
+        echoMix:   [{ kind: "section", by: { verse: [-0.40, -0.18], intro: [-0.30, -0.12] } },
+                    { kind: "lfo", bars: [[32, 2], [20, 1]], depth: [0.05, 0.13],
                       shape: "sin", freePhase: true }],
       },
       /* jungle drew a TR-1000 and rode NOTHING on it -- the break carries the
@@ -15643,6 +15825,81 @@ function knobEl(m, c){
   return box;
 }
 
+/* ── THE MATRIX GRID, DRAWN AS THE MACHINE DRAWS IT ─────────────────────────
+   Inputs are rows with a jack and a name on the left; outputs are columns with
+   a jack and a name along the bottom; a knob sits at every crossing. That
+   geometry is not decoration -- on this machine the POSITION of a knob is what
+   tells you which two things it connects, which is why the first version of
+   this panel (three labelled clusters of knobs, in the desk skin) was wrong
+   even though every knob worked.
+
+   Built by walking MATRIX, the same declaration buildGraph wires from, so a
+   row cannot exist in the audio and be missing from the panel. Each cell is an
+   ordinary knobEl -- the drag, the double-click release, the TRIM offset and
+   the automation readout are all the shared ones, so this panel owns no
+   behaviour of its own. An ALIAS cell hands knobEl the OTHER machine's control
+   (`echo.fb` at echo x echo), which is how the grid can show a crossing this
+   program already had a dial for without becoming its second owner. */
+function matrixGridEl(m, M){
+  const wrap = el("div", "mxwrap");
+  wrap.style.gridTemplateColumns = "auto repeat(" + MATRIX.outs.length + ", auto)";
+  const cellFor = (inK, outK) => {
+    const k = inK + outK;
+    const al = MATRIX.alias[k];
+    if(al){
+      const [am, ak] = al.split(".");
+      const AM = INSTRUMENTS[am];
+      const c = AM && AM.controls.find(x => x.k === ak);
+      return c ? { machine: am, ctrl: c, alias: al } : null;
+    }
+    if(MATRIX.none[k]) return { blind: MATRIX.none[k] };
+    const c = M.controls.find(x => x.k === k);
+    return c ? { machine: m, ctrl: c } : null;
+  };
+  /* the corner, then one row per input */
+  wrap.appendChild(el("div", "mxcorner", "inputs"));
+  for(const o of MATRIX.outs) wrap.appendChild(el("div"));
+  for(const i of MATRIX.ins){
+    const lab = el("div", "mxin");
+    lab.appendChild(el("div", "jack"));
+    lab.appendChild(el("div", "nm", i.label + (i.ret ? " rtn" : "")));
+    lab.appendChild(el("div", "lead"));
+    lab.title = i.ret ? i.label + "'s RETURN — an effect as a source, which is what "
+                        + "makes this a matrix and not a send panel"
+                      : "the " + i.label + " bus";
+    wrap.appendChild(lab);
+    for(const o of MATRIX.outs){
+      const cell = el("div", "mxcell");
+      const spec = cellFor(i.k, o.k);
+      if(!spec){ wrap.appendChild(cell); continue; }
+      if(spec.blind){
+        const bl = el("div", "mxnone");
+        bl.title = "left empty on purpose: " + spec.blind;
+        cell.appendChild(bl);
+      } else {
+        const ring = el("div", "ring");
+        ring.appendChild(knobEl(spec.machine, spec.ctrl));
+        cell.title = i.label + " → " + o.label.toLowerCase() +
+                     (spec.alias ? "  (this crossing is the " + spec.alias +
+                                   " dial on the echo — one owner, two panels)" : "");
+        cell.appendChild(ring);
+      }
+      wrap.appendChild(cell);
+    }
+  }
+  /* the output legs along the bottom */
+  wrap.appendChild(el("div", "mxcorner", "outputs"));
+  for(const o of MATRIX.outs){
+    const leg = el("div", "mxout");
+    leg.appendChild(el("div", "stem"));
+    leg.appendChild(el("div", "jack"));
+    leg.appendChild(el("div", "cap", o.cap || ""));
+    leg.appendChild(el("div", "nm", o.label));
+    wrap.appendChild(leg);
+  }
+  return wrap;
+}
+
 /* ── THE XY PAD ─────────────────────────────────────────────────────────────
    A Kaoss pad is not a knob with two dimensions bolted on -- it is one gesture
    that moves TWO controls at once, which is the only way to reach a filter and
@@ -16321,8 +16578,11 @@ function drawPanels(){
         host.appendChild(box);
         continue;
       }
+      /* a panel may declare a GRID instead of groups -- the matrix mixer does,
+         because its knobs are placed by what they connect rather than gathered
+         into labelled clusters */
       const strip = el("div", "strip");
-      for(const g of P.groups){
+      for(const g of (P.groups || [])){
         const grp = el("div", "grp"), row = el("div", "row");
         for(const k of g.keys){
           const c = M.controls.find(x => x.k === k);
@@ -16333,7 +16593,7 @@ function drawPanels(){
         if(g.label) grp.appendChild(el("div", "leg", g.label));
         strip.appendChild(grp);
       }
-      box.appendChild(strip);
+      if(strip.childNodes.length) box.appendChild(strip);
       /* THE PAD, when a panel declares one. It names two controls it already
          has, so nothing new is owned and nothing new is automatable -- the pad
          is a second way to reach the same two dials, which is what the hardware
@@ -16344,6 +16604,14 @@ function drawPanels(){
       }
       if(P.grid === "drums") { const gr = drumGridEl(m, M); box.appendChild(gr); GRIDS.push(["drums", gr]); }
       if(P.grid === "bass")  { const gr = bassGridEl(m, M);  box.appendChild(gr); GRIDS.push(["bass", gr]); }
+      if(P.grid === "matrix"){
+        box.appendChild(matrixGridEl(m, M));
+        const plate = el("div", "mxplate");
+        plate.appendChild(el("div", "hole"));
+        plate.appendChild(el("div", null, "A-138m  MATRIX MIXER"));
+        plate.appendChild(el("div", "hole"));
+        box.appendChild(plate);
+      }
     } else {
       /* the machines with no panel block yet: the same generic slider list every
          machine had before, drawn by the same code so nothing regressed */

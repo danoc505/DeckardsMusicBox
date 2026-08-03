@@ -947,11 +947,77 @@ guides, EMS VCS3 pin matrix, King Tubby, eurorack feedback patching).
    `section` move keyed on bridge/intro is dead on a song with neither
    and plastikman has no form plan yet. Fixed with a slow LFO underneath.
 
-7. **STILL OPEN:** the before/after rendered A/B across the seven genres
-   was NOT completed — the Q fix changes every echo tail by design, and
-   the 8 pre-existing `render_audio.js` failures (documented in the
-   `2026-08-02p` entry) have not been re-checked against this build.
-   Anyone touching the mix should run that first.
+7. **THE GRID WAS REBUILT AS A GRID at `2026-08-03b`, after the user saw
+   it.** Three corrections, all fair: *"it looks nothing like the image,
+   we want a clone"*, *"I'm not sure you understand what the matrix mixer
+   is for"*, and *"why have you built it in a way that it can not be
+   altered... should you make it so more can be added"*.
+   - **IT IS A DECLARATION NOW.** `const MATRIX = { ins, outs, alias,
+     none }` is walked by the controls, the graph, the automation and the
+     panel. Adding an input is ONE entry plus ONE line in
+     `matrixSource()`. The first cut hardcoded four sources in five
+     places — the "baked-in values" the first principle is against.
+   - **THE RETURNS ARE ROWS**, which is the part I had wrong about what a
+     matrix mixer is FOR: "inputs can be sent to multiple effects, and
+     THE EFFECTS CAN BE SENT TO EACH OTHER, AND EVEN BACK INTO
+     THEMSELVES" [corpus:signalsounds]. So the grid is 6 x 3, not 4 x 3.
+     `echo x echo` and `echo x room` are ALIASES onto the echo's existing
+     FDBK and WASH dials (displayed in the grid, not re-keyed — seven
+     genres name those controls by hand); `room x mix` is `space.wet`,
+     which stops being a number only the song could write and becomes a
+     knob; `room x room` is a blind plate with its reason in the title.
+   - **THE PANEL IS DRAWN AS THE MACHINE IS DRAWN** — `skin: "a138"`,
+     `grid: "matrix"`, brushed aluminium, gold-ringed jacks down the left
+     and along the bottom, a knob at every crossing, nameplate below. The
+     old panel was three labelled knob clusters in the desk skin, which
+     is precisely what a matrix mixer is not: here the LAYOUT IS THE
+     INFORMATION. `matrixGridEl()` walks the same MATRIX declaration
+     buildGraph wires from, so a row cannot exist in the audio and be
+     missing from the panel. Cells are ordinary `knobEl`s, so drag,
+     double-click release, TRIM and the automation readout are the shared
+     ones and this panel owns no behaviour.
+   - New riders, both demanded by the seam law: **plastikman roomMix**
+     (the sourced "reverb send increases to open up space" for
+     breakdowns, and the file's own sentence about this record — "what
+     subtracts is the KIT, while the space fills in behind it" — which
+     describes a reverb return climbing and had no knob until now), and
+     **jungle echoMix** (holding the echo return down under the verse so
+     the throws land in the drops; its own comment already says its delay
+     is "a thrown thing, not a wash").
+   - Battery: snapshot IDENTICAL, mk2_test 117/118 (stamp only, bumped
+     after), grid renders 6 rows / 3 columns / 17 knobs / 1 blind, no
+     page errors.
+
+8. **⚠ A FINDING THAT OUTLIVES THIS FEATURE: THE RENDERED AUDIO IS NOT
+   REPRODUCIBLE, AND EVERY RENDER A/B IN THIS PROJECT INHERITS IT.**
+   Trying to prove "neutral is the old wire" by rendering before/after, I
+   ran the control every A/B needs and had never seen run here: the SAME
+   BUILD against ITSELF. It differed by up to **-20.8 dB** (bladerunner),
+   -34.7 (dkc), -41.2 (jungle) — the same magnitudes I was about to
+   report as my change's effect. Narrowed further: rendering the
+   IDENTICAL events three times in ONE page, `motion: null`, gave
+   A-vs-B **-92 dB** and A-vs-C **-31.6 dB**. First differing sample is
+   index 5626, differing in the fifth decimal and growing — a rounding
+   difference being amplified downstream. There is no `Math.random` in
+   the file, so the source is inside WebAudio's own nodes (the convolver
+   and the limiter are the candidates; both carry state and Chromium's
+   convolver is multi-threaded).
+   CONSEQUENCES, and they are not small: **no render-based claim in this
+   file below roughly -30 dB is safe without a same-build control**, and
+   several past entries were argued from exactly such A/Bs (the tuned
+   space, the CS-80 bloom). It also means my own "neutral is bit-exact"
+   claim is NOT proven by rendering — it rests on the snapshot, the seam
+   battery, and the structure (a gain of 1.0 in series). The audio
+   battery already renders `dup_*` pairs; whoever picks this up should
+   start by asking what tolerance `test_audio.py` compares them at, and
+   whether these genres are near it. NOT investigated further here — it
+   deserves its own session and it is a bigger finding than the feature
+   that turned it up.
+
+9. **STILL OPEN:** the 8 pre-existing `render_audio.js` failures
+   (documented in the `2026-08-02p` entry) have not been re-checked
+   against this build, and per item 8 they should be re-checked WITH a
+   control.
 
 **THE SAX DRAWS WERE ZEROED at `2026-08-02p`** — the user, plainly: *"Can
 you pull the sax out for now."* The two one-line edits the parked warning
