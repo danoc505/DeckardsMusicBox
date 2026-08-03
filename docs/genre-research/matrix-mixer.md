@@ -479,3 +479,98 @@ One comment and one probe, no behaviour: `matrixSource()` now states the
 pre-fader property and why it is load-bearing, and probe_matrix measures
 the drop so the property cannot rot. Everything else here is design notes
 for work that has not been started.
+
+---
+
+# ROUND FOUR — 2026-08-03: the matrix as an FX router, and should we clone the Erica instead?
+
+*The user: "let's take a step back to the matrix mixer and try and
+understand it in the context of fx and eurorack. And maybe we want to
+clone the Erica Synths matrix mixer instead of the one we have right now."
+Both questions answered with new sources; the second has a clear answer
+and it is NO — with one large piece of the Erica worth taking.*
+
+## New sources
+
+16. Erica Synths Matrix Mixer — B&H and Sweetwater product listings,
+    Synth Anatomy ("Syntrx's recallable 16x16 modulation matrix in
+    standalone"), gearnews, Perfect Circuit (via search; the maker's own
+    page 403s)
+17. Sound On Sound, "Classic Tracks: Plastikman *Consumed*" — five effects
+    units and MIDI-mute snapshot automation; see plastikman-minimal.md
+
+## THE DECISIVE SPEC, and it settles the question
+
+The Erica Matrix Mixer is **16×16 with 256 crossings**, and each crossing
+is a **3-LEVEL VCA**: off, 0.3, 0.7, 1.0. The right encoder toggles a
+connection, the left steps the level, and the LED dims to show which. It
+carries **254 pattern memories recallable over MIDI program change**.
+
+Against the Doepfer A-138m we cloned: **a knob per crossing, continuous.**
+
+**WHY CONTINUOUS WINS HERE, and it is not taste.** Every crossing in this
+program is ridden by the conductor as a CURVE — the dub drop fades a bus
+off the mix, the stage glides instruments across a section boundary, LFOs
+drift the sends. Quantising every crossing to {0, 0.3, 0.7, 1} would not
+"look more like the Erica"; it would **destroy the automation the last
+several builds exist to provide**. It also fails the definition the
+research opened with: "each electronic mixer controls the LEVEL of one
+input going to one output" [wikipedia]. The Erica is a superb *patch
+router* with a little attenuation; the A-138m is a *mixer*. We need the
+mixer.
+
+Two more reasons, smaller:
+- **16×16 would be 238 empty holes.** Our grid is 6 sources × 3
+  destinations. A panel mostly full of crossings that connect nothing is
+  the same lie as a knob that does nothing.
+- **The lineage is already ours.** Synth Anatomy describes the Erica as
+  the Syntrx's matrix in a standalone box — and the Syntrx is Erica's own
+  EMS Synthi. Both machines descend from the 1969 pin matrix this document
+  cited in round one. Cloning the Erica would not reach a different
+  ancestor; it would reach the same one through a narrower door.
+
+## WHAT TO TAKE FROM IT, AND IT IS THE BIG PIECE: 254 RECALLABLE PATTERNS
+
+The Erica's real innovation is not its grid, it is that **a whole matrix
+state is a thing with a name that a program change can recall.** And the
+Plastikman research found the same idea being used as the ARRANGEMENT
+ITSELF, on a desk, in 1998:
+
+> "I'd let all the effects play, and then **in one set instantly turn off
+> the effects, and then eight bars later turn them back on**." — Hawtin,
+> via the Allen & Heath's MIDI mute automation
+
+That is a pattern recall. Two conclusions:
+
+1. **The direction already taken is confirmed** — the field's presets and
+   `GENRE.x.stage` (a whole field state per section) are this idea, and
+   they came from the round-two Erica reading. Keep going.
+2. **The missing half is that ours all GLIDE.** Every motion kind in this
+   file interpolates. Hawtin's move is a HARD CUT, held for eight bars,
+   then restored. There is no `snap` in this program. That is the gap the
+   Erica's pattern memory and Hawtin's desk both point at, and it is
+   written up as change #1 in plastikman-minimal.md.
+
+## THE MATRIX IN THE CONTEXT OF FX — what the eurorack framing actually asks for
+
+The FX question has a sharper answer now that the Plastikman gear list is
+known: **five effects units, one of them an Ensoniq DP/4 — a four-way
+PARALLEL processor.** Against that, this program has one room and one echo,
+i.e. **two destination columns**. The eurorack sources say the same thing
+from the other side: a matrix's use as an effects send is "one or more
+inputs, and one or more EFFECT INPUTS AND OUTPUTS", with the effects
+feeding each other [signalsounds].
+
+So the honest read of "the matrix in the context of fx" is:
+
+- our ROWS are in good shape (four buses + both returns, which is what
+  makes it a matrix rather than a send panel);
+- our COLUMNS are the thin part. Destinations are a declaration in
+  `MATRIX.outs` and adding one is now cheap — what is missing is the
+  EFFECT to put at the end of it. A third destination with nothing behind
+  it is decoration; a third destination that is, say, a filter bank or a
+  second delay at a different division is the record above.
+
+**Recommendation, unbuilt:** keep the A-138m's continuous crossings, take
+the Erica's recallable states (already begun), and grow the grid by adding
+EFFECTS, not by adding holes.
