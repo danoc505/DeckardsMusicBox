@@ -722,7 +722,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03p · the chords learn ninths and elevenths, and the comp opens up</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03q · rootless voicings, and the comp reaches 18.5 of its 27 semitones</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -14613,6 +14613,38 @@ function makeMaterials(chart){
          -- that is what an inversion is. Candidates that push past the ceiling
          are not clamped, they are not offered. */
       const base = ch.tones.map(t => intoBand(t, BAND[0], BAND[1])).sort((a, z) => a - z);
+      /* ── ROOTLESS: THE VOICING THAT MAKES ROOM FOR THE EXTENSIONS ─────────
+         An extended chord voiced with every tone is not a richer chord, it is
+         a CLUSTER -- measured on the first build that could draw ninths, a
+         six-note chord folded into lofi's 22-semitone keys band came out
+         spanning ten semitones, six notes inside a minor seventh. The sources
+         are unanimous about what a player actually does instead, and it is the
+         same move twice: "remove the fifth altogether because it is not
+         essential to the harmony" [corpus:richardpryn, voicing a Cmin9 as
+         C-B-D-G], and "play the root in the left hand and the 3rd, 7th and any
+         extensions in the right hand WITH SPACE BETWEEN THEM -- the gaps
+         between notes create the open, airy quality" [corpus:orphiq].
+
+         THIS PROGRAM IS THE CASE ROOTLESS VOICINGS WERE INVENTED FOR: the
+         rationale in every source is that a separate bass holds the root
+         [corpus:pianowithjonny], and here one literally does -- `rootMidi` is
+         placed in the bass register by the same chord object.
+
+         `chordTones` returns stacked thirds in order, so a member's role IS its
+         index (CHORD_ROLE): 0 root, 2 fifth. Derived, not listed. Two shapes
+         are offered -- without the root, and without the root and the fifth --
+         and only where the chord is EXTENDED (five tones or more), because
+         dropping the root of a plain triad leaves two notes and no chord. They
+         are CANDIDATES beside the full voicing, never a replacement: every
+         filter below still applies and the cost decides, so a rootless shape
+         wins only where it genuinely voice-leads or spreads better. [BACKLOG
+         §6.2, and the isNCT union above is what makes it safe for the tune.] */
+      const drops = [];
+      if(ch.tones.length >= 5){
+        const keep = idx => ch.tones.filter((_, i) => !idx.includes(i))
+                                    .map(t => intoBand(t, BAND[0], BAND[1])).sort((a, z) => a - z);
+        drops.push(keep([0]), keep([0, 2]));
+      }
       /* ── OPEN THE VOICING ────────────────────────────────────────────────
          A second reference photograph, at pitch resolution: the frame of one
          bar is B3 / B4 / D5 / C6 / F6 — an octave from the bass to the next
@@ -14631,8 +14663,12 @@ function makeMaterials(chart){
          keyboard player voices open or close is a property of the part, not a
          per-bar coin toss — and the draw is unconditional, above the loop. */
       const cands = [];
-      for(let inv = 0; inv < base.length; inv++){
-        const close = base.map((p, i) => i < inv ? p + 12 : p).sort((a, z) => a - z);
+      /* every shape gets the same treatment -- inversions, drop-2, drop-2-and-4
+         -- so a rootless voicing is spread by exactly the machinery a full one
+         is, and there is one code path rather than two */
+      for(const shape of [base, ...drops])
+      for(let inv = 0; inv < shape.length; inv++){
+        const close = shape.map((p, i) => i < inv ? p + 12 : p).sort((a, z) => a - z);
         cands.push(close);
         if(close.length >= 3){
           const d2 = close.slice();
@@ -14786,18 +14822,42 @@ function makeMaterials(chart){
              nearest-pitch distance when they differ, which is what voice
              leading between chords of different sizes actually means.
              [BACKLOG §6.2] */
+          /* ── AND IT IS THE AVERAGE MOVE PER VOICE, NOT THE TOTAL ───────────
+             A sum over voices makes a voicing cheaper simply for having FEWER
+             of them. That could not bite while every candidate for one chord
+             held the same tones -- they are octave rearrangements of a single
+             set, so the count was constant within a decision and dividing by
+             it changes no ranking at all today. It bites the moment ROOTLESS
+             candidates are offered beside full ones: three voices would beat
+             five on arithmetic alone, and the comp would drop notes to save
+             cost rather than because the voicing is better. Averaging prices
+             the two fairly. */
+          let vl = 0, vn = 0;
           if(cand.length === prev.length){
-            for(let i = 0; i < cand.length; i++) cost += Math.abs(cand[i] - prev[i]);
+            for(let i = 0; i < cand.length; i++){ vl += Math.abs(cand[i] - prev[i]); vn++; }
           } else {
             for(const p of cand){
               let d = Infinity; for(const q of prev) d = Math.min(d, Math.abs(p - q));
-              cost += d;
+              vl += d; vn++;
             }
             for(const q of prev){
               let d = Infinity; for(const p of cand) d = Math.min(d, Math.abs(q - p));
-              cost += d;
+              vl += d; vn++;
             }
           }
+          /* Scaled by the FULL chord's voice count, which is fixed for this
+             decision, so every candidate is priced on the same scale whatever
+             its own size.
+
+             AND THE FULL-SIZE CASE TAKES THE SUM UNTOUCHED, because
+             `(sum / n) * n` IS NOT `sum` IN FLOATING POINT. Writing it as the
+             average first cost 150 of 300 synthwave songs and 2 acid ones --
+             genres that draw no extensions, have no rootless candidates, and
+             should have been bit-identical. The arithmetic was equivalent and
+             the floating point was not, and it flipped ties in a cost function
+             whose candidates are often within a hair of each other. Measured,
+             not reasoned about: the A/B caught it. */
+          cost += (cand.length === base.length) ? vl : (vn ? (vl / vn) * base.length : 0);
           const topNow = cand[cand.length - 1], topWas = prev[prev.length - 1];
           cost += 2 * Math.abs(topNow - topWas);
         }
@@ -15097,7 +15157,39 @@ function makeMaterials(chart){
         (RING[at] || (RING[at] = new Set())).add(pc(k.pitch));
       }
     }
+    /* ── A TONE THE VOICING OMITS ALL BAR IS STILL A CHORD TONE ─────────────
+       RING answers "what is sounding at this sixteenth", and asking it alone
+       was right while the comp voiced every tone of every chord: RING then
+       CONTAINED the chord. A ROOTLESS voicing breaks that on purpose -- it
+       leaves the root out because the BASS is playing it -- so asking RING
+       alone would make the melody's own root read as a dissonance needing
+       resolution, and a voicing decision would silently rewrite what the tune
+       is allowed to do.
+
+       The fix is deliberately narrow, because the two cases are different:
+
+         - a tone the voicing NEVER sounds in this bar was DROPPED, and the
+           harmony still contains it (the bass has the root; the fifth is
+           merely inessential). Consonant.
+         - a tone the voicing does play but which is not ringing at this exact
+           sixteenth is a real momentary absence, and RING's answer stands.
+
+       Union-ing the whole chord in at every step instead of just the omitted
+       tones was tried first and MEASURED: it lifted probe_theory's unresolved
+       rate in genres that draw no extensions at all -- dkc 8.0% -> 11.4%,
+       bladerunner 7.4% -> 12.2% -- by excusing dissonances the comp was
+       genuinely not sounding. Too blunt. `omitted` is empty for every genre
+       whose comp voices all its tones, so those genres are untouched here by
+       construction. */
+    const omitted = [];
+    for(let bi = 0; bi < BARS; bi++){
+      const heard = new Set();
+      for(const k of COMP) if(k.pitch != null && (k.bar % BARS) === bi) heard.add(pc(k.pitch));
+      omitted.push(new Set(chordSet[bi % chordSet.length].tones
+        .map(t => pc(t)).filter(x => !heard.has(x))));
+    }
     const isNCT = (b, st, p) => {
+      if(omitted[b % BARS].has(pc(p))) return false;
       const s = RING[((b % BARS) * 16 + st) % SPAN];
       return (s && s.size) ? !s.has(pc(p))
                            : !chordSet[b % BARS].tones.some(t => pc(t) === pc(p));
