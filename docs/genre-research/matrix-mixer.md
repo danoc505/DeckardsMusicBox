@@ -80,26 +80,98 @@ mixer actually IS, and it is more than sends.*
    filter, performed in one take. The matrix panel is both at once: a grid
    of crossings (EMS) whose levels are performed and ridden (Tubby).
 
-## The design this settles ("hooked up to everything it should be")
+## THE ANSWER TO "WHY WOULD WE WANT ONE" — the drop
 
-Sources are the four role buses plus the two effect RETURNS; destinations
-are the two effect inputs. The full grid, minus degenerate crossings:
+*The user asked it directly, so it gets its own section rather than being
+implied by a build.*
 
-    drums/bass/keys/lead → echo     4 routes   (built, first cut)
-    drums/bass/keys/lead → room     4 routes   (built, first cut)
-    echo → echo   the FDBK knob     (existing, kaoss panel — same grid, old crossing)
-    echo → room   the WASH knob     (existing, kaoss panel)
+The most famous gesture in this whole lineage is described, knob by knob,
+in the Tubby literature: he **"opens the aux send on the drum track with
+his left hand and closes the volume of the drum track with the right hand
+a split second later, resulting in the drum track being echoed and
+disappearing"** [corpus:interruptor.ch dubboard]. Two crossings of ONE
+ROW, moved in opposite directions. The instrument leaves the record and
+its echo keeps ringing in the hole it left. That is the drop, and it is
+why dub sounds like dub.
+
+**This program could not make that move, for a specific and checkable
+reason: a bus's DRY level did not exist as a control anywhere in the
+file.** All four role buses were wired to the mix at a hardcoded gain of
+1 (`for(const name in g.bus) ... connect(g.mix)`), and nothing rode them.
+Verified by search before building. So the only way to make a part leave
+was to stop writing its notes — an arrangement gap, which is a different
+musical event from a drop.
+
+Two further reasons, both measured rather than argued:
+
+- **It is what the KAOSS pad was missing.** probe_kaoss measured the pad's
+  loudest possible move at -8 dB (plastikman) to -28 dB (synthwave)
+  relative to the mix, because the echo it drives was fed by a fixed list
+  no hand could open. With one matrix route opened, the same pad swings
+  -9.9 dB on lofi. The pad was never broken; it had nothing to work on.
+- **It is how a rack becomes an instrument.** The EMS VCS3 IS its pin
+  matrix — "one builds [the sound] up step by step" on the board. Routing
+  stops being a decision taken once and becomes something performed.
+
+## The design as built
+
+Sources are the four role buses; destinations are the mix and the two
+effect inputs. Twelve crossings, plus the feedback one:
+
+    drums/bass/keys/lead → MIX      4 routes   NEW — the fader Tubby closes
+    drums/bass/keys/lead → echo     4 routes
+    drums/bass/keys/lead → room     4 routes
+    echo → echo   the FDBK knob     (existing, on the kaoss panel)
+    echo → room   the WASH knob     (existing, on the kaoss panel)
     room → echo   NEW               (the feedback crossing, capped + measured)
     room → room   refused           (that is just a longer reverb; the IR
                                      already owns the tail)
     bus → bus     refused           (buses are not effects; nothing to feed)
 
-The two existing knobs stay where they are — moving them would re-key every
-genre's params and motion for a cosmetic win; the doc records that the grid
-has two of its crossings on the neighbouring panel.
+A fourth destination column would be an invention — the program has two
+effects and one mix, and a matrix with a destination nothing is plugged
+into is decoration. The two existing effect-to-effect knobs stay on the
+echo panel; moving them would re-key every genre's params and motion for
+a cosmetic win.
+
+NEUTRAL IS THE OLD WIRE. Every dry route's base is 1.0 and a gain node at
+1.0 is transparent, so a song nobody touches renders exactly what it
+rendered before the grid existed — proven by the 2100-seed snapshot
+staying identical and by the blend and UI suites.
+
+## What the stability work found — the real defect
+
+Governing the room→echo crossing required knowing when the loop runs
+away, and the measurement exposed a pre-existing bug **on the build
+before the matrix** (worktree A/B): at FDBK 0.85 a single kick rang UP
++18 dB over 30 s, and +36 dB with the repeat-cut at 600 Hz.
+
+**Cause: WebAudio's `Q` on `lowpass`/`highpass` is DECIBELS of corner
+resonance, not a quality factor.** The echo's loop filters shipped at Q
+0.6 and 0.5 — textbook "no resonance" numbers — and were therefore
+PEAKING. Measured with `getFrequencyResponse`: x1.21 each, x1.344 for the
+cascade, so a 0.85 feedback dial became a loop gain of 1.14. Above unity
+is a howl, and this is very probably the user's long-standing "it starts
+to build and the program starts to stutter and glitch out" report.
+
+Fixed at Q = -3 dB, where the measured cascade peak is exactly 1.0000 —
+a passive knee, so loop gain can never exceed the FDBK dial. Every other
+Q in the file is a colour on a ONE-WAY path and was left alone; only a
+filter inside a loop has a stability duty.
+
+The governor itself was then swept on the fixed build (`probe_matrix`,
+worst case = FDBK 0.85 + WASH 1.0 + SEND 1.0 + a route wide open, one
+kick, 30 s): **0.04 decays to silence, 0.08 decays monotonically, 0.12
+falls then climbs back (-46 → -35 dB), 0.16 and 0.20 run away.** Ceiling
+set to 0.08 — the largest swept value that never turns around.
 
 ## Marked and refused
 
+- **The A-138m's unipolar/BIPOLAR switch**, where "the controls work as
+  polarizers" and counter-clockwise "subtracts from the output sum".
+  That is a CONTROL-VOLTAGE feature on a DC-coupled module. Every
+  crossing here carries audio, where a negative send is phase inversion
+  against the dry path — comb filtering nobody asked for. Refused.
 - **No-input mixing** (the mixer alone as a drone instrument) — real
   practice, wrong program: it requires the mixer to be unstable BY DESIGN,
   and every law here runs the other way. Noted, not built.
@@ -111,3 +183,5 @@ has two of its crossings on the neighbouring panel.
   chains already own per-voice sends; duplicating them in the matrix would
   be two owners for one wire. The matrix is bus-level, the chains are
   voice-level, and that split stands.
+- **The A-138m's DC-offset jumper** (top row generates offsets with
+  nothing patched) — a modular convenience with no meaning here.

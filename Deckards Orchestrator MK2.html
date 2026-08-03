@@ -475,7 +475,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-02p · the sax is parked: drawn nowhere, still pickable by hand</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03a · a matrix mixer: every part's dry, echo and room level is a knob now</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1455,32 +1455,59 @@ const INSTRUMENTS = {
   },
 
   /* ── THE MATRIX MIXER ─────────────────────────────────────────────────────
-     Who goes into the echo and who goes into the room, as a grid of sends a
-     hand can ride -- four sources (the buses) by two destinations. This is the
-     half of the dub sentence the program had not built: "filters and delay
-     feedback are modulated live, WITH SENDS RIDDEN ON THE MIXER to create
-     evolving dub mixes" [corpus:attackmagazine Basic-Channel-style]. The KAOSS
-     pad got the filters-and-feedback half and it was measured nearly inaudible
-     (probe_kaoss: its loudest possible move shifts the mix <= 0.7 dB on every
-     genre) -- because the routing underneath it was a fixed list the genre
-     declared and no hand could reach. These eight knobs are that list, opened.
+     A LEVEL AT EVERY CROSSING of four sources and three destinations. Not a
+     patchbay of on/off wires -- "each electronic mixer controls the level
+     (gain) of one input going to one output" [corpus:wikipedia/Matrix mixer],
+     and on the Doepfer A-138m the user put in front of me that is sixteen
+     knobs on a grid: a row per input, a column per output. Ours is 4 x 3.
+
+     WHY THIS PROGRAM WANTS ONE -- the whole argument in one sentence from the
+     man who invented the technique. King Tubby "opens the aux send on the drum
+     track with his left hand and closes the volume of the drum track with the
+     right hand a split second later, RESULTING IN THE DRUM TRACK BEING ECHOED
+     AND DISAPPEARING" [corpus:interruptor.ch dubboard, on Tubby's MCI]. That
+     is two crossings of ONE ROW moved in opposite directions, and it is how
+     dub was made. The program could not make that move at all: a bus's send
+     was a fixed list the genre declared, and a bus's DRY level did not exist
+     as a control anywhere in the file -- all four went to the mix at a
+     hardcoded gain of 1. So the drop, the oldest gesture in this music, had
+     no knob. This grid is that knob, twelve times.
+
+     THE THREE DESTINATIONS. DRY is the mix itself (the fader Tubby closes);
+     ECHO and ROOM are the two effect inputs (the sends he opens). A fourth
+     column would be an invention -- the program has two effects, and a matrix
+     with a destination nothing is plugged into is decoration.
 
      CONSTRAINTS, NOT BAKED VALUES: the genre still owns the routing. Its
-     `space.feeds` / `space.echoFeeds` declarations become these knobs' BASES
-     (applyRack translates list membership to 0 or 1), and the hand writes TRIM
-     offsets on top like every other panel. The defs below are only the
-     pre-genre neutral wire: keys and lead into the room -- the two connections
-     every graph has had since the first build -- and nothing into the echo.
+     `space.feeds` / `space.echoFeeds` declarations become the send bases
+     (applyRack translates list membership to 0 or 1), every dry base is 1 --
+     which is bit-exactly the direct wire each bus had before this existed --
+     and the hand writes TRIM offsets on top like every other panel.
 
      THE GRAPH READS THE SONG, NOT THIS PANEL. setSpace derives each route's
      base from the song's own `space` object plus the hand's TRIM -- the same
      rule soundOf() states for the kick, and for the same measured reason:
      PARAMS holds whatever genre was loaded LAST, and a batch that renders
-     three genres from one page must not wear one genre's routing thrice. */
+     three genres from one page must not wear one genre's routing thrice.
+
+     WHAT THE HARDWARE HAS AND THIS DOES NOT: the A-138m's per-column
+     unipolar/BIPOLAR switch, where "the controls work as polarizers" and a
+     counter-clockwise knob subtracts from the output sum. That is a CONTROL
+     VOLTAGE feature on a DC-coupled module; every crossing here carries
+     audio, where a negative send means phase inversion against the dry path
+     -- comb filtering nobody asked for. Refused on purpose, recorded in
+     docs/genre-research/matrix-mixer.md rather than half-built. */
   matrix: {
     slot: "matrix", label: "matrix mixer", fixed: true,
     lanes: {},
     controls: [
+      /* THE DRY COLUMN -- the fader Tubby's right hand closes. Every one of
+         these was a hardcoded `connect()` until now; at 1.00 they still are,
+         to the sample. */
+      { k:"drumsDry",  label:"drums → mix",  cap:"DRUMS", min:0, max:1, step:0.01, def:1, kind:"bus" },
+      { k:"bassDry",   label:"bass → mix",   cap:"BASS",  min:0, max:1, step:0.01, def:1, kind:"bus" },
+      { k:"keysDry",   label:"keys → mix",   cap:"KEYS",  min:0, max:1, step:0.01, def:1, kind:"bus" },
+      { k:"leadDry",   label:"lead → mix",   cap:"LEAD",  min:0, max:1, step:0.01, def:1, kind:"bus" },
       { k:"drumsEcho", label:"drums → echo", cap:"DRUMS", min:0, max:1, step:0.01, def:0, kind:"bus" },
       { k:"bassEcho",  label:"bass → echo",  cap:"BASS",  min:0, max:1, step:0.01, def:0, kind:"bus" },
       { k:"keysEcho",  label:"keys → echo",  cap:"KEYS",  min:0, max:1, step:0.01, def:0, kind:"bus" },
@@ -1489,15 +1516,24 @@ const INSTRUMENTS = {
       { k:"bassRoom",  label:"bass → room",  cap:"BASS",  min:0, max:1, step:0.01, def:0, kind:"bus" },
       { k:"keysRoom",  label:"keys → room",  cap:"KEYS",  min:0, max:1, step:0.01, def:1, kind:"bus" },
       { k:"leadRoom",  label:"lead → room",  cap:"LEAD",  min:0, max:1, step:0.01, def:1, kind:"bus" },
-      /* THE FEEDBACK CROSSING (room → echo), per the eurorack study: the
-         grid's defining move is an effect fed back through another. The MAX
-         here is a measured governor, not taste -- probe_matrix runs the
-         whole loop at every ceiling (fb 0.85, WASH 1.0, this dial at max)
-         and the tail must die on its own. See matrix-mixer.md. */
-      { k:"roomEcho", label:"room → echo", cap:"ROOM", min:0, max:0.5, step:0.01, def:0, kind:"bus" },
+      /* THE FEEDBACK CROSSING (room → echo). The grid's defining move is an
+         effect fed back through another -- "run fx back into themselves ...
+         create drones" [corpus:aisynthesis AI008] -- and it is the half of
+         Hawtin's "delays on the reverbs" sentence the echo's build comment
+         refused until the stability work existed. The MAX here is a MEASURED
+         governor, not taste: probe_matrix pins every dial in the loop (FDBK
+         0.85, WASH 1.0, SEND 1.0, a route wide open), pings it once and
+         watches 30 s of tail. SWEPT: 0.04 decays to silence, 0.08 decays
+         monotonically, 0.12 falls then CLIMBS BACK (-46 -> -35 dB), 0.16 and
+         0.20 run away outright. So the ceiling is 0.08 -- the largest swept
+         value that never turns around, with the marginal one left outside.
+         The inner echo loop had to be fixed first; see the Q note at
+         g.echoLp, which is where the real defect was. */
+      { k:"roomEcho", label:"room → echo", cap:"ROOM", min:0, max:0.08, step:0.005, def:0, kind:"bus" },
     ],
     panel: { skin: "desk", maker: "", title: "matrix",
-             groups: [{ label: "→ ECHO", keys: ["drumsEcho", "bassEcho", "keysEcho", "leadEcho"] },
+             groups: [{ label: "→ MIX",  keys: ["drumsDry", "bassDry", "keysDry", "leadDry"] },
+                      { label: "→ ECHO", keys: ["drumsEcho", "bassEcho", "keysEcho", "leadEcho"] },
                       { label: "→ ROOM", keys: ["drumsRoom", "bassRoom", "keysRoom", "leadRoom"] },
                       { label: "FEEDBACK", keys: ["roomEcho"] }] },
   },
@@ -2542,6 +2578,7 @@ function applyRack(chart, force){
     const SP = G.space || {};
     const ef = SP.echoFeeds || [], rf = SP.feeds || [];
     for(const b of ["drums", "bass", "keys", "lead"]){
+      PARAMS["matrix." + b + "Dry"]  = 1;
       PARAMS["matrix." + b + "Echo"] = ef.indexOf(b) >= 0 ? 1 : 0;
       PARAMS["matrix." + b + "Room"] = (b === "keys" || b === "lead" || rf.indexOf(b) >= 0) ? 1 : 0;
     }
@@ -3249,7 +3286,17 @@ const Sound = (function(){
       g.bus[name] = c.createGain(); g.bus[name].gain.value = 1;
     }
     g.mix = c.createGain(); g.mix.gain.value = 1;
-    for(const name in g.bus) if(name !== "drums") g.bus[name].connect(g.mix);
+    /* ── THE MATRIX'S CROSSINGS live in `g.route`, filled in three places:
+       the dry column here (drums joins it after the drum bus's saturation,
+       further down), and the two send columns beside the echo. Every gain
+       starts at the value that reproduces the wire it replaced -- a dry route
+       at 1.0 IS the direct connect this loop used to make. */
+    g.route = {};
+    for(const name of ["bass", "keys", "lead"]){
+      const dry = c.createGain(); dry.gain.value = 1;
+      g.bus[name].connect(dry); dry.connect(g.mix);
+      g.route[name + "Dry"] = dry;
+    }
 
     /* ── THE DRUM BUS, WITH ITS OWN SATURATION. Carried back from the first
        build, which had it and which the user says had better-sounding drums --
@@ -3344,7 +3391,14 @@ const Sound = (function(){
     g.drumMakeup = c.createGain(); g.drumMakeup.gain.value = 1 / 1.8;
     g.bus.drums.connect(g.drumDrive); g.drumDrive.connect(g.drumPre);
     g.drumPre.connect(g.drumSat); g.drumSat.connect(g.drumMakeup);
-    g.drumMakeup.connect(g.mix);
+    /* ── THE KIT'S DRY LEVEL, AFTER ITS SATURATION AND NOT BEFORE ───────────
+       The matrix's drum row taps `g.bus.drums` for its sends, but the DRY
+       crossing has to sit here, past drive/sat/makeup: the drum bus's
+       saturation is part of how the kit SOUNDS, so pulling the dry fader must
+       make the kit quieter, never make it distort differently. Closing this
+       is the right hand of the Tubby move; the echo send is the left. */
+    g.route.drumsDry = c.createGain(); g.route.drumsDry.gain.value = 1;
+    g.drumMakeup.connect(g.route.drumsDry); g.route.drumsDry.connect(g.mix);
     g.gate.connect(g.mix);          // the gated room sits beside the dry kit
 
     /* soft clip: curve tanh(3.6x) over the shaper's [-1,1] input with a 0.5
@@ -3609,7 +3663,6 @@ const Sound = (function(){
        The old code's cost argument ("connect/disconnect rather than a gain,
        so a genre that does not ask pays nothing") bought eight idle gain
        nodes' worth of savings and priced every hand out of the routing. */
-    g.route = {};
     for(const b of ["drums", "bass", "keys", "lead"]){
       const rE = c.createGain(); rE.gain.value = 0;
       const rR = c.createGain(); rR.gain.value = (b === "keys" || b === "lead") ? 1 : 0;
@@ -6582,15 +6635,19 @@ const Sound = (function(){
        to the control, so the matrix panel plays these eight wires live. */
     if(g.route){
       const routeBase = (b, dest) => {
-        /* an emptied fx rack kills the echo routes OUTRIGHT -- past the TRIM,
-           or a hand the user left on a route would keep a "muted" echo alive */
+        /* an emptied fx rack kills the SEND routes OUTRIGHT -- past the TRIM,
+           or a hand the user left on a route would keep a "muted" echo alive.
+           The DRY column is never killed: an empty fx rack is a dry mix, not
+           a silent one. */
         if(dest === "Echo" && space.echoKill) return 0;
-        const on = dest === "Room"
-          ? (b === "keys" || b === "lead" || (space.feeds || []).indexOf(b) >= 0)
-          : (space.echoFeeds || []).indexOf(b) >= 0;
+        const on = dest === "Dry" ? true
+          : dest === "Room"
+            ? (b === "keys" || b === "lead" || (space.feeds || []).indexOf(b) >= 0)
+            : (space.echoFeeds || []).indexOf(b) >= 0;
         return Math.max(0, Math.min(1, (on ? 1 : 0) + (TRIM["matrix." + b + dest] || 0)));
       };
       for(const b of ["drums", "bass", "keys", "lead"]){
+        rideBus(g, g.route[b + "Dry"].gain,  "matrix." + b + "Dry",  routeBase(b, "Dry"),  t0);
         rideBus(g, g.route[b + "Room"].gain, "matrix." + b + "Room", routeBase(b, "Room"), t0);
         rideBus(g, g.route[b + "Echo"].gain, "matrix." + b + "Echo", routeBase(b, "Echo"), t0);
       }
@@ -6599,8 +6656,12 @@ const Sound = (function(){
          fx rack kills it outright with the other echo inputs -- a "muted" echo
          being rung by the room would be the same leak the routes close. */
       if(g.roomEcho){
+        /* clamped to the CONTROL's own measured ceiling rather than to a
+           number repeated here -- one owner for the governor, so re-measuring
+           it later cannot leave a second copy behind */
+        const cap = (CONTROL["matrix.roomEcho"] || { max: 0 }).max;
         const fbBase = space.echoKill ? 0
-          : Math.max(0, Math.min(0.5, (space.roomEcho || 0) + (TRIM["matrix.roomEcho"] || 0)));
+          : Math.max(0, Math.min(cap, (space.roomEcho || 0) + (TRIM["matrix.roomEcho"] || 0)));
         rideBus(g, g.roomEcho.gain, "matrix.roomEcho", fbBase, t0);
       }
     }
@@ -7364,6 +7425,15 @@ const GENRE = {
       matrix: {
         leadEcho: [{ kind: "section", by: { intro: [-0.35, -0.12], outro: [-0.55, -0.25] } },
                    { kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.04, 0.10],
+                     shape: "sin", freePhase: true }],
+        /* the Tubby pair, at a beat tape's volume: as the outro's slap pulls
+           back the lead itself steps off the mix, so the record ends by
+           receding rather than by stopping. Tiny -- this genre's whole affect
+           is that nothing lunges, and a dub drop at full depth would be a
+           different record. Gesture shape [corpus:interruptor dubboard];
+           amounts mine, deliberately a fraction of plastikman's. [EAR] */
+        leadDry:  [{ kind: "section", by: { outro: [-0.30, -0.14], intro: [-0.18, -0.06] } },
+                   { kind: "lfo", bars: [[56, 2], [40, 1]], depth: [0.03, 0.08],
                      shape: "sin", freePhase: true }],
       },
       /* ── THE KIT HAS TEN VOICES AND THIS GENRE MOVED TWO KNOBS ─────────────
@@ -10256,10 +10326,11 @@ const GENRE = {
              /* the feedback crossing, small: the wash folding back into the
                 delay is the other half of the "delays on the reverbs"
                 sentence this echo was built from, and this is the genre that
-                sentence describes. The dial's ceiling (0.5) is the measured
-                governor in INSTRUMENTS.matrix; this base is a colour, not a
-                drone. Amount mine. [EAR] */
-             roomEcho: 0.14 },
+                sentence describes. The dial's ceiling is the measured
+                governor in INSTRUMENTS.matrix (0.08, swept); this base sits
+                well inside it, because a colour is what is wanted here and a
+                drone is not. Amount mine. [EAR] */
+             roomEcho: 0.04 },
     kick: { tune: 46, decay: 0.60, click: 0.55, drive: 0.50, body: 1.10, gain: 1.22 },
     drumDrive: 1.30,
     gate: null,
@@ -10716,6 +10787,19 @@ const GENRE = {
          subtraction spent on the room. Shapes from this genre's own lanes;
          amounts mine. [EAR] */
       matrix: {
+        /* THE SUBTRACTION, spent on the mix itself. Hawtin's "year of
+           subtraction" and underdog's "cut that to create space between
+           elements so that the purity of each element becomes clearer" are
+           both about TAKING THINGS OUT, and until the dry column existed the
+           only way to take a part out was to stop writing its notes. These
+           two pull the bass and the keys off the mix while their sends stay
+           open -- the element leaves and its space keeps ringing, which is
+           the difference between an arrangement gap and a dub drop. */
+        bassDry:   [{ kind: "section", by: { bridge: [-0.55, -0.30], intro: [-0.35, -0.15] } },
+                    { kind: "occurrence", step: [-0.10, -0.04], cap: 3 }],
+        keysDry:   [{ kind: "section", by: { bridge: [-0.45, -0.20] } },
+                    { kind: "lfo", bars: [[44, 2], [28, 1]], depth: [0.05, 0.14],
+                      shape: "tri", freePhase: true }],
         drumsEcho: [{ kind: "lfo", bars: [[32, 3], [16, 2]], depth: [0.10, 0.24],
                       shape: "sin", freePhase: true }],
         bassEcho:  [{ kind: "section", by: { bridge: [-0.55, -0.25], intro: [-0.30, -0.10] } },
@@ -10723,15 +10807,26 @@ const GENRE = {
                       shape: "sin", freePhase: true }],
         keysEcho:  [{ kind: "lfo", bars: [[24, 2], [40, 1]], depth: [0.08, 0.20],
                       shape: "tri", freePhase: true }],
-        drumsRoom: [{ kind: "section", by: { bridge: [-0.60, -0.30], intro: [-0.35, -0.12] } }],
+        /* the kit's wash leaves for the breakdown -- but a section move ALONE
+           is dead on a song that has no bridge and no intro, which is how the
+           swing check caught this lane doing nothing at seed 1. plastikman
+           has no form plan yet, so its section list is not guaranteed; the
+           slow breath underneath is what makes the lane honest on every
+           song, and the cut is what makes it musical on the ones with a
+           breakdown. */
+        drumsRoom: [{ kind: "section", by: { bridge: [-0.60, -0.30], intro: [-0.35, -0.12] } },
+                    { kind: "lfo", bars: [[52, 2], [36, 1]], depth: [0.05, 0.13],
+                      shape: "sin", freePhase: true }],
         bassRoom:  [{ kind: "lfo", bars: [[40, 2], [64, 1]], depth: [0.06, 0.15],
                       shape: "sin", freePhase: true }],
         /* the feedback crossing rises where the record empties: the bridge
            already opens echo.send and echo.verb above, and the room folding
-           back into the delay is the same breath one stage deeper. Headroom
-           exists (base 0.14, governor 0.5); still small on purpose. [EAR] */
-        roomEcho:  [{ kind: "section", by: { bridge: [0.08, 0.20], outro: [0.05, 0.14] } },
-                    { kind: "lfo", bars: [[56, 2], [88, 1]], depth: [0.02, 0.06],
+           back into the delay is the same breath one stage deeper. Sized to
+           live INSIDE the governor rather than be clamped by it -- base 0.04,
+           ceiling 0.08, so the bridge's lift lands at ~0.07 and the lane
+           spends none of its life pinned against the stop. [EAR] */
+        roomEcho:  [{ kind: "section", by: { bridge: [0.015, 0.030], outro: [0.010, 0.022] } },
+                    { kind: "lfo", bars: [[56, 2], [88, 1]], depth: [0.004, 0.010],
                       shape: "sin", freePhase: true }],
       },
     },
@@ -11017,6 +11112,24 @@ const GENRE = {
                { kind: "throw", amt: [0.16, 0.34], every: 8, at: 0.75 }],
         fb:   [{ kind: "lfo", bars: [[16, 2], [32, 1]], depth: [0.04, 0.12],
                  shape: "sin", freePhase: true }],
+      },
+      /* ── THE MATRIX: THE DROP, AND IT IS THIS GENRE'S OWN SOURCE ───────────
+         jungle-form.md quotes KAN on the breakdown: *"emotional reset. Drums
+         often drop out entirely."* Until the dry column existed the program
+         could only answer that by not writing notes -- the arrangement's job
+         -- and never by the ENGINEER'S move, which is the one this music
+         actually comes from: sound-system dub, where the kit is pulled off
+         the mix while its echo keeps running. So the drums' dry level falls
+         in the bridge while `drumsEcho` (already fed by this genre, the only
+         one that feeds drums into the delay) rises: Tubby's two hands, on the
+         two crossings of one row. The dry route tops out at the wire, so
+         every move here is a CUT. Shape sourced; amounts mine. [EAR] */
+      matrix: {
+        drumsDry:  [{ kind: "section", by: { bridge: [-0.75, -0.45], intro: [-0.30, -0.10] } }],
+        drumsEcho: [{ kind: "section", by: { bridge: [0.10, 0.24] } },
+                    { kind: "throw", amt: [0.14, 0.30], every: 8, at: 0.75 }],
+        keysEcho:  [{ kind: "lfo", bars: [[24, 2], [40, 1]], depth: [0.06, 0.16],
+                      shape: "sin", freePhase: true }],
       },
       /* jungle drew a TR-1000 and rode NOTHING on it -- the break carries the
          record, so the kit underneath had been left as a static layer. It is

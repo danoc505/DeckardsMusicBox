@@ -8,11 +8,14 @@
    existed. This is that work:
 
    1. WORST CASE: every gain in the loop at its ceiling -- fb 0.85, WASH 1.0,
-      send 1.0, a bus route wide open, room -> echo at the dial's max. Four
-      seconds of the reference bar go in; the render runs 30 s. The tail
-      after the source stops must DECAY -- monotonically down in 2 s windows
-      (small wobble allowed) and below -60 dBFS by the end -- or the dial's
-      max is a lie and must come down.
+      send 1.0, a bus route wide open, room -> echo at the dial's max. ONE
+      kick goes in at 0.1 s and nothing after it; the render runs 30 s. The
+      tail must be DYING at the end: at least 20 dB below its own post-source
+      peak, and still falling across the last third. A fixed floor (the first
+      version asked for -60 dBFS) is the wrong test -- FDBK 0.85 is a
+      deliberately enormous setting and its tail is still audible at 30 s
+      even with this crossing severed. What must never happen is a tail that
+      turns around and climbs, which is exactly what the pre-fix build did.
 
    2. THE CROSSING IS REAL: on plastikman (the genre that declares it,
       base 0.14) the crossing on vs off must change the rendered audio by a
@@ -39,12 +42,17 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
     s.value = 'plastikman'; s.dispatchEvent(new Event('change', { bubbles: true }));
     await new Promise(r => setTimeout(r, 60));
     const S = MK2.soundOf('plastikman');
-    const ev = MK2.referenceEvents(120).filter(e => e.tSec < 4);
+    /* ONE kick, then silence: an impulse into the loop. A four-second musical
+       excerpt keeps FEEDING the loop, so a rising tail cannot be told from a
+       source that is still playing. */
+    const ref = MK2.referenceEvents(120);
+    const kick = ref.find(e => e.voice === 'kick') || ref[0];
+    const ev = [Object.assign({}, kick, { tSec: 0.1 })];
     const SECS = 30;
+    const CAP = MK2.CONTROL['matrix.roomEcho'].max;      // the governor itself
     const T = {
-      'matrix.roomEcho': 0.5 - (S.space.roomEcho || 0),   // dial max
-      'matrix.drumsEcho': 1, 'matrix.drumsRoom': 1,       // a source wide open into both
-      'echo.fb': 0.85, 'echo.verb': 1.0, 'echo.send': 1.0,
+      'matrix.roomEcho': CAP - (S.space.roomEcho || 0),  // dial max
+      'matrix.drumsEcho': 1, 'matrix.drumsRoom': 1,      // a source wide open into both
     };
     /* absolute values for fb/verb/send: write them as TRIM from the genre base */
     T['echo.fb'] = 0.85 - MK2.panelValue('echo', 'fb');
@@ -71,14 +79,18 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
   const db = v => v > 1e-7 ? (20 * Math.log10(v)).toFixed(1) : '-inf';
   console.log('\n=== 1. worst case: fb 0.85, WASH 1.0, SEND 1.0, route open, room->echo at dial max ===\n');
   console.log('  2s window RMS: ' + worst.map(db).join('  '));
-  /* the source lives in windows 0-2 (0-4 s + its own tails); judge from window 3 on */
-  let grew = false;
-  for(let i = 4; i < worst.length; i++) if(worst[i] > worst[i - 1] * 1.12) grew = true;
+  /* window 0 holds the kick itself; the loop's own peak is from window 1 on */
+  const peak = Math.max(...worst.slice(1));
   const final = worst[worst.length - 1];
-  const stable = !grew && final < 1e-3;   // -60 dBFS
-  console.log(`\n  ${stable ? 'THE LOOP DIES ON ITS OWN -- the dial max is safe'
-                           : '<<< THE LOOP DOES NOT DECAY -- lower the roomEcho max'}` +
-              `  (final window ${db(final)} dBFS${grew ? ', tail GREW' : ''})`);
+  const third = Math.floor(worst.length * 2 / 3);
+  const fallingLate = final < worst[third] * 0.98;
+  const fellFar = final < peak * 0.1;                    // 20 dB below its own peak
+  const stable = fallingLate && fellFar;
+  console.log(`\n  post-source peak ${db(peak)} dBFS -> final ${db(final)} dBFS` +
+              ` (${(20 * Math.log10(final / peak)).toFixed(1)} dB), ` +
+              `last third ${fallingLate ? 'still falling' : 'NOT falling'}`);
+  console.log(`  ${stable ? 'THE LOOP DIES ON ITS OWN -- the dial max is safe'
+                          : '<<< THE LOOP DOES NOT DECAY -- lower the roomEcho max'}`);
 
   /* ── 2. the crossing is audible where its genre declares it ── */
   const aud = await page.evaluate(async () => {
@@ -113,7 +125,7 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
     return 10 * Math.log10((dif + 1e-20) / (ref + 1e-20));
   });
 
-  console.log('\n=== 2. the crossing on plastikman (base 0.14 + rides) vs severed ===\n');
+  console.log('\n=== 2. the crossing on plastikman (its declared base + rides) vs severed ===\n');
   console.log(`  difference signal: ${aud.toFixed(1)} dB relative to the mix` +
               `  ${aud > -40 ? '-- the crossing is real' : '<<< inaudible, the base is decoration'}`);
   if(errs.length) console.log('PAGE ERRORS: ' + errs.slice(0, 3).join(' | '));
