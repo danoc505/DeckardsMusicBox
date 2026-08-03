@@ -619,6 +619,12 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     /* the space: a delay division and five gain/filter nodes the whole mix
        passes through. setSpace reads them; rideBus rides five of them. */
     "echo.div","echo.fb","echo.tone","echo.hp","echo.send","echo.verb",
+    /* the DP/4's four ALGO switches: which effect a unit IS, read once per
+       song by setSpace and used to CONNECT the chosen algorithm, exactly as
+       `echo.div` is read to set the delay time. A switch is never automated,
+       so it can never appear in a motion lane -- but it does reach the sound,
+       and this list is where that fact is stated. */
+    "dp4.aAlgo","dp4.bAlgo","dp4.cAlgo","dp4.dAlgo",
     /* the desk: three shelf/bell gains the whole mix passes through, plus the
        three crossovers that place them */
     "desk.low","desk.mid","desk.high","desk.lowF","desk.midF","desk.highF",

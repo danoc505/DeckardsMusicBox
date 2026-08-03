@@ -2450,3 +2450,66 @@ argument for more columns), Lexicon PCM90 (our FDN room is the same job
 done differently; what a PCM90 adds is ALGORITHMS, not quality), Roland
 SRV-330 "Dimensional Space", ART Multiverb gated reverb (we already have a
 gated verb, unresearched against it). And the ear has heard none of it.
+
+**THE DP/4 at `2026-08-03k`** — second of Hawtin's units, and the one that
+is architecturally interesting rather than merely missing.
+
+**THE INSIGHT THAT SHAPED IT**: the Ensoniq DP/4 (1992) is "four
+independent effects processors, four independent inputs and outputs", 46
+algorithms, and **"a digital patch bay that allows you to route signals in
+either mono or stereo, in series or parallel"** [corpus:vintagedigital;
+barryrudolph]. **The DP/4 is a matrix with effects inside it** — and half
+of it was already built here, because our grid IS that patch bay.
+
+**WHICH CONFIGURATION, and it is one the box has**: the DP/4 runs 4-source,
+2-source, or **"1 Source Config using a single signal processed with one
+4-UNIT preset"**. This is the 1-source configuration — one matrix column
+feeds the box, four units work in parallel, each with its own amount and
+return, summed to one return row. The 4-source version would be four more
+columns and thirty-two more crossings, and a crossing no genre rides is a
+knob that does nothing.
+
+**THE FOUR ALGORITHMS were chosen for what this program CANNOT already
+do** (it has a reverb, a delay and a flanger, so none of those repeat):
+PHASE (four swept allpass stages — notches where a flanger is a comb),
+DRIVE (asymmetric saturation as a SEND, so one part can be dirtied without
+pushing the bus), ROTARY (a Leslie: level and pitch sweeping together,
+opposite across the pair), CRUSH (rate reduction; the comment says plainly
+it is a gated chop and not a true sample-and-hold). Every unit builds all
+four and the switch CONNECTS the chosen one — buildGraph runs once per
+context by law, so a switch cannot rebuild the graph.
+
+**THE BLIND RULE IS NOW GENERATED, and this is the better correction.**
+The flanger build stated it as "a return may feed the MIX and nothing
+else" — and I had already broken it in the same commit, because synthwave
+usefully flanges its ECHO return, which is perfectly acyclic. A rule you
+violate while writing it is the wrong rule. It is now an ORDER —
+`MATRIX.order = ["echo","room","flange","dp4"]` — and signal may only flow
+FORWARD along it, plus into the mix. `MATRIX.none` is FILLED FROM that
+list at load, with each reason generated, so a new effect cannot forget to
+close its own back-doors. The two exceptions stay in `MATRIX.alias`
+because both are inside one unit, not between two.
+
+**plastikman** feeds drums and keys into it, sets the four units to
+phase/drive/rotary/crush, and rides all eight amount/level controls plus
+all eight DP4 crossings — the record the box came from. MEASURED
+(probe_matrix): drumsDP4 -21.7 dB, keysDP4 -22.1, bassDP4 -25.2, echoDP4
+-26.7, roomDP4 -19.2, flangeDP4 -12.3.
+
+Battery 118/118, snapshot IDENTICAL, blends 10/10, ui 26, renders
+repeatable on all seven.
+
+**THE SAME BUG, A THIRD TIME, and it is now dead.** probe_matrix worked
+out a crossing's bus by stripping a hardcoded `/(Mix|Echo|Room)$/`; that
+went stale at FLANGE; the fix pulled column names with `/[A-Z][a-z]+/`,
+and THAT went stale at DP4 because "DP4" contains a digit. It now derives
+the ROW names instead — every source has a `<row>Mix` crossing, so the
+rows are the Mix keys with "Mix" removed, longest match wins. Nothing to
+keep in step whatever a column is called next. **Anything that lists what
+the program contains will go stale; derive it.**
+
+STILL OPEN: three of Hawtin's five (Lexicon PCM90 — our FDN room is the
+same job, what a PCM90 adds is ALGORITHMS; Roland SRV-330 "Dimensional
+Space"; ART Multiverb gated reverb, unresearched against our existing
+gate). The `snap` motion kind from plastikman-minimal.md is still the
+highest-value unbuilt thing. And the ear has heard none of it.

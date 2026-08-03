@@ -81,15 +81,18 @@ const GENRE = process.argv[2] || 'plastikman';
          a crossing that is already open is tested by CLOSING it */
       const target = (at - c.min) > (c.max - at) ? c.min : c.max;
       const moved = await render({ [key]: target - at });
-      /* the column suffix comes from the DECLARATION, not from a list spelled
-         out here: a hardcoded /(Mix|Echo|Room)$/ went stale the moment a
-         FLANGE column was added, and every lead*Flange crossing then reported
-         as a dead knob because its bus could not be identified. */
-      const cols = MK2.INSTRUMENTS.matrix.controls
-        .map(x => x.k).join(' ').match(/[A-Z][a-z]+/g) || [];
-      const suff = [...new Set(cols)];
-      let bus = c.k;
-      for(const sx of suff) if(c.k.endsWith(sx)) bus = c.k.slice(0, -sx.length);
+      /* ── THE ROW NAMES, DERIVED FROM THE GRID ITSELF ──────────────────
+         Third time this exact bug: a hardcoded /(Mix|Echo|Room)$/ went stale
+         when FLANGE arrived, and the replacement -- pulling column names out
+         with /[A-Z][a-z]+/ -- went stale when DP4 arrived, because "DP4" has
+         a digit in it. Stop guessing at the COLUMN end entirely: every source
+         row has a `<row>Mix` crossing, so the row names ARE the Mix keys with
+         "Mix" removed. Match the longest one that prefixes this key. Nothing
+         to keep in step, whatever a column is called next. */
+      const busNames = MK2.INSTRUMENTS.matrix.controls
+        .map(x => x.k).filter(k => /Mix$/.test(k)).map(k => k.slice(0, -3))
+        .sort((x, y) => y.length - x.length);
+      const bus = busNames.find(n => c.k.startsWith(n)) || c.k;
       rows.push({ k: c.k, bus, from: at, to: target, db: diff(base, moved) });
     }
     /* ── THE DROP, MEASURED ─────────────────────────────────────────────────

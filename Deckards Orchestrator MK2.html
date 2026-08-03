@@ -637,7 +637,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03j · the FX suite grows: an SPX90 flanger, and the grid gets a fourth column</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03k · the DP/4: four effects at once, and the grid learns to keep itself acyclic</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1294,12 +1294,14 @@ const MATRIX = {
     { k: "echo",   label: "echo",   ret: true },
     { k: "room",   label: "room",   ret: true },
     { k: "flange", label: "flange", ret: true },
+    { k: "dp4",    label: "DP/4",   ret: true },
   ],
   outs: [
     { k: "Mix",    label: "MIX",    cap: "A" },
     { k: "Echo",   label: "ECHO",   cap: "B" },
     { k: "Room",   label: "ROOM",   cap: "C" },
     { k: "Flange", label: "FLANGE", cap: "D" },
+    { k: "DP4",    label: "DP/4",   cap: "E" },
   ],
   /* ── THE CELLS THAT ARE NOT PLAIN NEW KNOBS ────────────────────────────────
      ALIAS: a crossing this program already had a knob for, years before the
@@ -1312,61 +1314,50 @@ const MATRIX = {
      NONE: a crossing deliberately left empty, with the reason in the string.
      The panel draws a blind plate there and the title attribute says why. */
   alias: { echoEcho: "echo.fb", echoRoom: "echo.verb" },
-  none:  { roomRoom: "a room feeding itself is just a longer tail, and the " +
-                     "impulse response already owns that",
-           /* ── THE CROSSING THAT WAS BUILT, MEASURED, AND TAKEN BACK OUT ────
-              room -> echo is the half of Hawtin's "delays on the reverbs"
-              sentence this program never had, and it worked -- the ceiling
-              was swept, the tail measured, the sound was there. It is gone
-              anyway, because it cost REPEATABILITY, and in this program that
-              is not a trade that can be made.
+  /* ── WHAT IS BLIND, AND WHY, DERIVED FROM ONE ORDERING ────────────────────
+     The grid must stay a DAG or the renderer stops being repeatable (measured:
+     a cycle takes repeat renders from -115 dB apart to -35). The first version
+     of this rule was written by hand as "a return may feed the MIX and nothing
+     else" -- and I had ALREADY broken it in the same build, because synthwave
+     usefully flanges its ECHO return, which is perfectly acyclic. A rule you
+     violate while writing it is the wrong rule.
 
-              WHAT IT DID: the echo already feeds the room (the WASH dial), so
-              a room->echo crossing CLOSES A CYCLE. With that cycle present,
-              Chromium renders the same song differently each time. Measured
-              on the reference bar: this build's own genre space went from
-              -115 dB between repeat renders (inaudible, ~19 bits down, what
-              it had always been) to -35 dB, which is a difference you can
-              hear. Reproduced in forty lines of plain WebAudio with no
-              program code involved, and it fires EVEN WITH THE CROSSING'S
-              GAIN AT ZERO -- the connection alone does it.
-
-              FIVE TOPOLOGIES were tried and all five behaved the same way
-              (worst of five renders, vs -159 dB with no crossing at all):
-              straight off the convolver -23.3, through an extra delay -21.5,
-              tapped BEFORE the convolver -21.3, through a second dedicated
-              convolver -23.3, and through a plain biquad with no convolver
-              anywhere in the loop -21.3. So it is not the reverb: it is the
-              CYCLE. A bare delay-and-gain feedback loop is perfectly
-              repeatable (-325 dB), so the engine can do feedback -- it
-              cannot do a cycle that spans the echo's filter chain and the
-              room bus and still land on the same samples twice.
-
-              WHY THAT ENDS THE ARGUMENT: Law 7 is "same seed, same samples".
-              Every measurement in this project -- every A/B, every audio
-              assertion, every claim that a change did what it says -- is
-              built on rendering being repeatable. A feature that makes the
-              renderer unrepeatable does not cost one feature, it costs the
-              ability to measure anything, including itself. Kept as a blind
-              plate with the numbers, not as a knob.
-              See probe_render_determinism.js, which now guards this. */
-           roomEcho: "it closes a cycle (the echo already feeds the room), and " +
-                     "a cycle makes the renderer non-repeatable -- measured, " +
-                     "five topologies, -21 dB vs -159 dB. Law 7 outranks it",
-           /* ── THE RULE THAT KEEPS THE GRID ACYCLIC AS IT GROWS ────────────
-              An effect RETURN may feed the MIX and nothing else. The echo's
-              two exceptions predate the grid and are its own FDBK and WASH
-              dials, which are inside one unit rather than between two. Every
-              new column obeys this by construction, so adding effects can
-              never re-introduce the cycle that cost the renderer its
-              repeatability -- the flanger can be FED by anything and returns
-              only to the mix. Its own feedback is the FDBK knob on its panel,
-              which is arithmetic inside the unit, not an edge in the graph. */
-           flangeEcho:   "a return feeds only the mix; see roomEcho for what a " +
-                         "cycle costs. The flanger's own feedback is its FDBK dial",
-           flangeRoom:   "as flangeEcho -- returns do not feed other effects",
-           flangeFlange: "its own feedback is the FDBK dial on the unit" },
+     The right one is an ORDER. Signal may only flow FORWARD along it, plus
+     into the mix. Everything else is a blind plate, and the reasons below are
+     generated from this list rather than typed, so a new effect cannot forget
+     to close its own back-doors. */
+  order: ["echo", "room", "flange", "dp4"],
+  /* the two exceptions to the order live in MATRIX.alias above: both are
+     INSIDE one unit (the echo's own feedback, and its wash into the room)
+     rather than between two, and both already have dials seven genres name. */
+  none: {},
 };
+/* fill MATRIX.none from the order: a return may feed a destination only if
+   that destination's effect comes LATER, or is the mix. */
+(function(){
+  const col = { Echo: "echo", Room: "room", Flange: "flange", DP4: "dp4" };
+  const rank = k => MATRIX.order.indexOf(k);
+  for(const i of MATRIX.ins){
+    if(!i.ret) continue;
+    for(const o of MATRIX.outs){
+      if(o.k === "Mix") continue;                       // a return may always go to the mix
+      const key = i.k + o.k;
+      if(MATRIX.alias[key]) continue;                   // the two documented exceptions
+      const to = col[o.k];
+      if(to && rank(to) > rank(i.k)) continue;          // forward: allowed
+      MATRIX.none[key] = to === i.k
+        ? "a unit feeding itself is its own feedback dial, not a crossing"
+        : "signal only flows forward along MATRIX.order — " + i.k + " sits after " +
+          to + ", so this would close a cycle, and a cycle costs the renderer " +
+          "its repeatability (measured: -35 dB vs -115 between repeat renders)";
+    }
+  }
+  /* room -> room is the one non-return case: a room feeding itself is a longer
+     tail and the impulse response already owns that. */
+  MATRIX.none.roomRoom = "a room feeding itself is just a longer tail, and the " +
+                         "impulse response already owns that";
+})();
+
 /* every crossing that is a matrix control of its own, in grid order */
 function matrixCells(){
   const out = [];
@@ -1809,6 +1800,65 @@ const INSTRUMENTS = {
              groups: [{ label: "SWEEP", keys: ["rate", "depth"] },
                       { label: "OUT", keys: ["fb", "mix"] }],
              xy: { x: "rate", y: "depth" } },
+  },
+
+  /* ── THE DP/4, four effects at once ───────────────────────────────────────
+     Hawtin's rack again, and the one that is architecturally interesting
+     rather than merely missing: an Ensoniq DP/4, 1992, "four independent
+     effects processors, four independent inputs and outputs", 46 algorithms,
+     and -- the line that matters here -- "a digital patch bay that allows you
+     to route signals in either mono or stereo, in series or parallel"
+     [corpus:vintagedigital DP/4; barryrudolph]. **The DP/4 is a matrix with
+     effects inside it.** Half of it is already built: our grid IS that patch
+     bay. What was missing is the four units.
+
+     WHICH CONFIGURATION WE CLONE, and it is one the box actually has. The
+     DP/4 runs "4 Source Config" (four independent signals), "2 Source", or
+     "1 Source Config using a single signal processed with one 4-UNIT PRESET".
+     This is the 1-source configuration: ONE matrix column feeds the box and
+     four units work on it in parallel, each with its own amount and its own
+     return level. The 4-source version would mean four more columns and
+     thirty-two more crossings, and a crossing no genre ever rides is a knob
+     that does nothing -- this file's cardinal sin. One column, four units,
+     honestly labelled.
+
+     THE ALGORITHMS were chosen for what this program CANNOT already do. It
+     has a reverb (the FDN room), a delay (the echo) and a flanger (the
+     SPX90), so those are not repeated. These four are the gaps, and each is
+     one this music actually uses:
+       PHASE   a four-stage allpass sweep -- the other modulation effect, and
+               the one techno reaches for when a flanger is too metallic
+       DRIVE   asymmetric saturation as a SEND, so a part can be dirtied
+               without the whole bus being pushed
+       ROTARY  a Leslie: amplitude and pitch sweeping in opposite directions
+               across the stereo pair, which is what a rotating horn does
+       CRUSH   sample-rate reduction -- the 1992 converter as an instrument
+     Each unit is off by default, so a genre that asks for nothing pays four
+     silent gains. */
+  dp4: {
+    slot: "dp4", label: "DP/4 (four units)", fixed: true,
+    lanes: {},
+    controls: [
+      /* ALGO is a switch: which effect a unit IS, not a gesture. Changing it
+         mid-song is a different box, exactly as the file's `kind` table says. */
+      { k:"aAlgo", label:"unit A", cap:"A", min:0, max:4, step:1, def:1, kind:"switch" },
+      { k:"aAmt",  label:"A amount", cap:"AMT", min:0, max:1, step:0.01, def:0.5, kind:"bus" },
+      { k:"aLvl",  label:"A return", cap:"LVL", min:0, max:1, step:0.01, def:0,   kind:"bus" },
+      { k:"bAlgo", label:"unit B", cap:"B", min:0, max:4, step:1, def:2, kind:"switch" },
+      { k:"bAmt",  label:"B amount", cap:"AMT", min:0, max:1, step:0.01, def:0.5, kind:"bus" },
+      { k:"bLvl",  label:"B return", cap:"LVL", min:0, max:1, step:0.01, def:0,   kind:"bus" },
+      { k:"cAlgo", label:"unit C", cap:"C", min:0, max:4, step:1, def:3, kind:"switch" },
+      { k:"cAmt",  label:"C amount", cap:"AMT", min:0, max:1, step:0.01, def:0.5, kind:"bus" },
+      { k:"cLvl",  label:"C return", cap:"LVL", min:0, max:1, step:0.01, def:0,   kind:"bus" },
+      { k:"dAlgo", label:"unit D", cap:"D", min:0, max:4, step:1, def:4, kind:"switch" },
+      { k:"dAmt",  label:"D amount", cap:"AMT", min:0, max:1, step:0.01, def:0.5, kind:"bus" },
+      { k:"dLvl",  label:"D return", cap:"LVL", min:0, max:1, step:0.01, def:0,   kind:"bus" },
+    ],
+    panel: { skin: "desk", maker: "ENSONIQ", title: "DP/4",
+             groups: [{ label: "UNIT A", keys: ["aAlgo", "aAmt", "aLvl"] },
+                      { label: "UNIT B", keys: ["bAlgo", "bAmt", "bLvl"] },
+                      { label: "UNIT C", keys: ["cAlgo", "cAmt", "cLvl"] },
+                      { label: "UNIT D", keys: ["dAlgo", "dAmt", "dLvl"] }] },
   },
 
   /* ── THE MATRIX MIXER ─────────────────────────────────────────────────────
@@ -3068,6 +3118,7 @@ function applyRack(chart, force){
       PARAMS["matrix." + cell.k] =
         dest === "Mix"  ? (b === "room" ? (SP.wet != null ? SP.wet : 0.16) : 1) :
         dest === "Flange" ? ((SP.flangeFeeds || []).indexOf(b) >= 0 ? 1 : 0) :
+        dest === "DP4"  ? ((SP.dp4Feeds || []).indexOf(b) >= 0 ? 1 : 0) :
         dest === "Room" ? (b === "keys" || b === "lead" || rf.indexOf(b) >= 0 ? 1 : 0) :
                           (ef.indexOf(b) >= 0 ? 1 : 0);
     }
@@ -4413,6 +4464,82 @@ registerProcessor("mk2-room", MK2Room);
     }
     g.flangeLfo.start(0);
 
+    /* ── THE DP/4's FOUR UNITS, IN PARALLEL ─────────────────────────────────
+       One input, four algorithms working on it at once, four return levels
+       summed to one return row. Every unit builds all four of its algorithms
+       and setSpace opens the selected one -- the alternative is rebuilding the
+       graph when a switch moves, and buildGraph runs once per context by law.
+       Four idle gains per unit is the whole cost.
+
+       ALL FOUR ARE DETERMINISTIC. The phaser's allpass chain and the rotary's
+       modulation are feed-forward; the drive is a waveshaper; the crush is a
+       sample-and-hold done with a gain the LFO drives. Nothing here closes a
+       graph cycle, which is why the box can sit in the grid at all. */
+    g.dp4In = c.createGain();
+    g.dp4Out = c.createGain();
+    g.dp4 = [];
+    for(const u of ["a", "b", "c", "d"]){
+      const inp = c.createGain(), lvl = c.createGain(); lvl.gain.value = 0;
+      g.dp4In.connect(inp); lvl.connect(g.dp4Out);
+      const algo = [];                       // index 0 is "off": nothing built
+      /* 1 PHASE — four allpass stages swept by one LFO. A phaser is notches
+         where a flanger is a comb; that is the whole difference and it is why
+         both exist. */
+      {
+        const g1 = c.createGain(), lfo = c.createOscillator(), amt = c.createGain();
+        lfo.type = "sine"; lfo.frequency.value = 0.18; amt.gain.value = 700;
+        lfo.connect(amt); let node = g1;
+        for(let i = 0; i < 4; i++){
+          const ap = c.createBiquadFilter(); ap.type = "allpass";
+          ap.frequency.value = 320 * Math.pow(2.1, i); ap.Q.value = 0.6;
+          amt.connect(ap.frequency); node.connect(ap); node = ap;
+        }
+        node.connect(lvl); lfo.start(0);
+        algo.push({ inp: g1, rate: lfo.frequency, depth: amt.gain, base: 700 });
+      }
+      /* 2 DRIVE — asymmetric saturation as a SEND, so one part can be dirtied
+         without pushing the whole bus. Asymmetric because a symmetric curve
+         makes only odd harmonics and sounds like a fuzz pedal. */
+      {
+        const pre = c.createGain(), sh = c.createWaveShaper(), out = c.createGain();
+        const N = 2049, cv = new Float32Array(N);
+        for(let i = 0; i < N; i++){
+          const x = (i / (N - 1)) * 2 - 1;
+          cv[i] = x >= 0 ? Math.tanh(2.2 * x) : Math.tanh(1.5 * x) * 0.86;
+        }
+        sh.curve = cv; sh.oversample = "2x"; out.gain.value = 0.7;
+        pre.connect(sh); sh.connect(out); out.connect(lvl);
+        algo.push({ inp: pre, depth: pre.gain, base: 3 });
+      }
+      /* 3 ROTARY — a Leslie. The horn's LEVEL and its PITCH move together and
+         the two sides move opposite, which is what a rotating source does to
+         two microphones. */
+      {
+        const g3 = c.createGain(), lfo = c.createOscillator();
+        lfo.type = "sine"; lfo.frequency.value = 5.2;
+        const dl = c.createDelay(0.02); dl.delayTime.value = 0.004;
+        const dep = c.createGain(); dep.gain.value = 0.0016;
+        lfo.connect(dep); dep.connect(dl.delayTime);
+        const pan = c.createStereoPanner(); const pd = c.createGain(); pd.gain.value = 0.7;
+        lfo.connect(pd); pd.connect(pan.pan);
+        g3.connect(dl); dl.connect(pan); pan.connect(lvl); lfo.start(0);
+        algo.push({ inp: g3, rate: lfo.frequency, depth: pd.gain, base: 0.7 });
+      }
+      /* 4 CRUSH — sample-rate reduction, the 1992 converter as an instrument.
+         Done as a hard-gated multiply at audio rate: a square LFO chopping the
+         signal is not a true sample-and-hold, and the comment says so rather
+         than the name implying otherwise. It aliases, which is the point. */
+      {
+        const g4 = c.createGain(), chop = c.createGain(), lfo = c.createOscillator();
+        lfo.type = "square"; lfo.frequency.value = 4200;
+        const dep = c.createGain(); dep.gain.value = 0.5;
+        chop.gain.value = 0.5; lfo.connect(dep); dep.connect(chop.gain);
+        g4.connect(chop); chop.connect(lvl); lfo.start(0);
+        algo.push({ inp: g4, rate: lfo.frequency, depth: dep.gain, base: 0.5 });
+      }
+      g.dp4.push({ inp, lvl, algo });
+    }
+
     /* ── THE GRID, WIRED FROM ITS DECLARATION ───────────────────────────────
        One gain per crossing, built by walking MATRIX rather than by naming
        wires. The two lookups below are the ONLY places that know what a row
@@ -4449,11 +4576,13 @@ registerProcessor("mk2-room", MK2Room);
       k === "echo" ? g.echoPan :          // the delay's return, post its ping-pong
       k === "room" ? g.verb :             // the reverb's return, pre its level
       k === "flange" ? g.flangeOut :      // the flanger's return
+      k === "dp4" ? g.dp4Out :            // the DP/4's four units, summed
       g.bus[k];                           // ...and every role bus. ADD ROWS HERE.
     const matrixDest = (outK, inK) =>
       outK === "Echo" ? g.echoSend :
       outK === "Room" ? g.send :
       outK === "Flange" ? g.flangeIn :
+      outK === "DP4" ? g.dp4In :
       /* THE MIX COLUMN IS TWO SUMMING POINTS AND MUST STAY TWO. An instrument
          goes into `mix`, ahead of the master shaper, so the band saturates
          together; an effect RETURN lands on `post`, past it -- which is where
@@ -4461,7 +4590,8 @@ registerProcessor("mk2-room", MK2Room);
          echo's old comment said "dry return, past the shaper". Collapsing
          these into one node would put the reverb through the soft clipper and
          quietly change every genre. */
-      (inK === "echo" || inK === "room" || inK === "flange") ? g.post : g.mix;
+      (inK === "echo" || inK === "room" || inK === "flange" || inK === "dp4")
+        ? g.post : g.mix;
     for(const cell of matrixCells()){
       /* drumsMix is already built, above the drum bus: the kit's dry level has
          to sit after its saturation, so it cannot be made by this generic loop */
@@ -4473,7 +4603,7 @@ registerProcessor("mk2-room", MK2Room);
         ? (cell.in.k === "room" ? 0.16 : 1)
         : ((cell.out.k === "Room" && (cell.in.k === "keys" || cell.in.k === "lead")) ? 1 : 0);
       /* nothing is flanged until a genre asks */
-      if(cell.out.k === "Flange") gain.gain.value = 0;
+      if(cell.out.k === "Flange" || cell.out.k === "DP4") gain.gain.value = 0;
       src.connect(gain); gain.connect(dst);
       g.route[cell.k] = gain;
     }
@@ -7550,6 +7680,7 @@ registerProcessor("mk2-room", MK2Room);
              be a number only the song could write and is now a knob. */
           dest === "Mix"  ? (b === "room" ? (space.wet != null ? space.wet : 0.16) : 1) :
           dest === "Flange" ? ((space.flangeFeeds || []).indexOf(b) >= 0 ? 1 : 0) :
+          dest === "DP4"  ? ((space.dp4Feeds || []).indexOf(b) >= 0 ? 1 : 0) :
           dest === "Room" ? (b === "keys" || b === "lead" ||
                              (space.feeds || []).indexOf(b) >= 0 ? 1 : 0) :
           /* ...and the ECHO column, which only instrument rows reach: the
@@ -7591,6 +7722,27 @@ registerProcessor("mk2-room", MK2Room);
       for(const f of g.flangeFb)
         rideBus(g, f.gain, "flange.fb", panelValue("flange", "fb"), t0);
       rideBus(g, g.flangeOut.gain, "flange.mix", panelValue("flange", "mix"), t0);
+    }
+    /* ── THE DP/4: which algorithm each unit IS, and how hard it works ──────
+       The switch chooses by CONNECTING, not by rebuilding: every algorithm
+       exists in the graph and the selected one is the only one wired to the
+       unit's input. `amt` means whatever "more of this" means for that
+       algorithm -- sweep depth for the phaser and the Leslie, pre-gain for the
+       drive, chop depth for the crusher -- which is exactly what one knob on
+       a DP/4 unit does when the algorithm behind it changes. */
+    if(g.dp4){
+      const U = ["a", "b", "c", "d"];
+      for(let i = 0; i < 4; i++){
+        const u = g.dp4[i], pick = Math.round(panelValue("dp4", U[i] + "Algo"));
+        try { u.inp.disconnect(); } catch(e){}
+        const A = pick > 0 ? u.algo[pick - 1] : null;
+        if(A) u.inp.connect(A.inp);
+        rideBus(g, u.lvl.gain, "dp4." + U[i] + "Lvl", panelValue("dp4", U[i] + "Lvl"), t0);
+        if(A && A.depth)
+          rideBus(g, A.depth, "dp4." + U[i] + "Amt", A.base * panelValue("dp4", U[i] + "Amt"), t0);
+      }
+    }
+    if(g.echo){
       rideBus(g, g.echoFb.gain,        "echo.fb",   panelValue("echo", "fb"),   t0);
       rideBus(g, g.echoLp.frequency,   "echo.tone", panelValue("echo", "tone"), t0);
       rideBus(g, g.echoHp.frequency,   "echo.hp",   panelValue("echo", "hp"),   t0);
@@ -11374,6 +11526,11 @@ const GENRE = {
                 the bass -- an album of feedback where "everything was
                 cross-modulating everything else", and this is the closest
                 this engine gets to that without a cycle. */
+             /* THE DP/4 WAS ON THIS RECORD TOO. Fed the kit and the keys;
+                the four units are set to phase / drive / rotary / crush in
+                the params below, which is the box doing four things at once
+                the way its own "1 Source, 4-Unit" configuration does. */
+             dp4Feeds: ["drums", "keys"],
              flangeFeeds: ["drums", "bass", "keys"],
              kitPan: { h: 0.26, o: -0.30, r: 0.20, c: -0.22, a: -0.36, d: 0.36,
                        t: -0.14, m: 0.14 } },
@@ -11486,6 +11643,13 @@ const GENRE = {
                    architecture. [corpus:hawtin] */
                 keys:  [["auto", 7], ["vp330", 3]] },
     params: {
+      /* which effect each unit IS. 1 phase, 2 drive, 3 rotary, 4 crush --
+         the four this program could not already do. Levels stay low: the DP/4
+         on this record was texture under the parts, not the parts. [EAR] */
+      dp4: { aAlgo: 1, aAmt: 0.55, aLvl: 0.22,
+             bAlgo: 2, bAmt: 0.40, bLvl: 0.14,
+             cAlgo: 3, cAmt: 0.50, cLvl: 0.18,
+             dAlgo: 4, dAmt: 0.30, dLvl: 0.10 },
       tb303: { cutoff: 380, res: 14.0, envmod: 0.66, decay: 0.28,
                accent: 0.75, drive: 2.8, wave: 1 },
       /* the voice circuits are the 808's, because on this machine they literally
@@ -11545,6 +11709,23 @@ const GENRE = {
        are long on purpose -- 32 and 64 bars is 60 to 120 seconds at this tempo,
        which is the timescale of a Hawtin record rather than of a chorus. */
     motion: {
+      /* the four units, ridden. Each one breathes on its own period so the
+         box is never in the same state twice -- which is what four parallel
+         effects are FOR. Amounts mine. [EAR] */
+      dp4: {
+        aAmt: [{ kind: "lfo", bars: [[52, 2], [34, 1]], depth: [0.06, 0.16], shape: "sin", freePhase: true }],
+        aLvl: [{ kind: "section", by: { bridge: [0.06, 0.16], instrumental: [0.02, 0.08] } },
+               { kind: "lfo", bars: [[46, 2], [62, 1]], depth: [0.03, 0.08], shape: "sin", freePhase: true }],
+        bAmt: [{ kind: "arc", from: [-0.10, -0.03], to: [0.06, 0.18], curve: "sCurve" }],
+        bLvl: [{ kind: "lfo", bars: [[58, 2], [38, 1]], depth: [0.02, 0.07], shape: "tri", freePhase: true }],
+        cAmt: [{ kind: "lfo", bars: [[40, 2], [64, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        cLvl: [{ kind: "section", by: { bridge: [0.05, 0.14] } },
+               { kind: "lfo", bars: [[54, 2], [36, 1]], depth: [0.02, 0.07], shape: "sin", freePhase: true }],
+        dAmt: [{ kind: "occurrence", step: [0.04, 0.12], cap: 3 },
+               { kind: "lfo", bars: [[66, 2], [42, 1]], depth: [0.02, 0.06], shape: "tri", freePhase: true }],
+        dLvl: [{ kind: "section", by: { bridge: [0.04, 0.12], outro: [0.02, 0.08] } },
+               { kind: "lfo", bars: [[50, 2], [70, 1]], depth: [0.02, 0.06], shape: "sin", freePhase: true }],
+      },
       /* the flanger, ridden. The sweep slows and deepens across the record
          and the feedback opens in the bridge -- the unit as an arrangement
          instrument, which is how it was used. Amounts mine. [EAR] */
@@ -11863,6 +12044,17 @@ const GENRE = {
          subtraction spent on the room. Shapes from this genre's own lanes;
          amounts mine. [EAR] */
       matrix: {
+        /* who goes into the box, and how much comes back */
+        drumsDP4: [{ kind: "lfo", bars: [[44, 2], [30, 1]], depth: [0.06, 0.16], shape: "sin", freePhase: true }],
+        keysDP4:  [{ kind: "section", by: { bridge: [0.14, 0.34] } },
+                   { kind: "lfo", bars: [[36, 2], [52, 1]], depth: [0.05, 0.13], shape: "tri", freePhase: true }],
+        bassDP4:  [{ kind: "arc", from: [-0.08, -0.02], to: [0.08, 0.20], curve: "sCurve" }],
+        leadDP4:  [{ kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        echoDP4:  [{ kind: "lfo", bars: [[60, 2], [40, 1]], depth: [0.04, 0.11], shape: "sin", freePhase: true }],
+        roomDP4:  [{ kind: "lfo", bars: [[70, 2], [46, 1]], depth: [0.03, 0.10], shape: "tri", freePhase: true }],
+        flangeDP4:[{ kind: "lfo", bars: [[38, 2], [56, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        dp4Mix:   [{ kind: "section", by: { intro: [-0.30, -0.10], bridge: [0.04, 0.12] } },
+                   { kind: "lfo", bars: [[64, 2], [44, 1]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         /* who goes into the flanger, and how much of it comes back */
         drumsFlange: [{ kind: "section", by: { bridge: [0.20, 0.45], instrumental: [0.06, 0.18] } },
                       { kind: "lfo", bars: [[40, 2], [56, 1]], depth: [0.05, 0.14],
