@@ -27,3 +27,9 @@ harness/output_renders*/
 
 # editor / tooling
 .claude/
+
+# npm dependencies. These were swept into a composition commit (4a4dbc8) by a
+# broad `git add` and stayed tracked for months -- 176 files nobody meant to
+# commit. `npm install` restores them; the browser is already on the image at
+# PLAYWRIGHT_BROWSERS_PATH, so no download is needed.
+node_modules/
