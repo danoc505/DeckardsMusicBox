@@ -637,7 +637,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03i · the conductor arranges the stage: a whole field state per section</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03j · the FX suite grows: an SPX90 flanger, and the grid gets a fourth column</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1291,13 +1291,15 @@ const MATRIX = {
     { k: "bass",  label: "bass"  },
     { k: "keys",  label: "keys"  },
     { k: "lead",  label: "lead"  },
-    { k: "echo",  label: "echo",  ret: true },
-    { k: "room",  label: "room",  ret: true },
+    { k: "echo",   label: "echo",   ret: true },
+    { k: "room",   label: "room",   ret: true },
+    { k: "flange", label: "flange", ret: true },
   ],
   outs: [
-    { k: "Mix",  label: "MIX",  cap: "A" },
-    { k: "Echo", label: "ECHO", cap: "B" },
-    { k: "Room", label: "ROOM", cap: "C" },
+    { k: "Mix",    label: "MIX",    cap: "A" },
+    { k: "Echo",   label: "ECHO",   cap: "B" },
+    { k: "Room",   label: "ROOM",   cap: "C" },
+    { k: "Flange", label: "FLANGE", cap: "D" },
   ],
   /* ── THE CELLS THAT ARE NOT PLAIN NEW KNOBS ────────────────────────────────
      ALIAS: a crossing this program already had a knob for, years before the
@@ -1350,7 +1352,20 @@ const MATRIX = {
               See probe_render_determinism.js, which now guards this. */
            roomEcho: "it closes a cycle (the echo already feeds the room), and " +
                      "a cycle makes the renderer non-repeatable -- measured, " +
-                     "five topologies, -21 dB vs -159 dB. Law 7 outranks it" },
+                     "five topologies, -21 dB vs -159 dB. Law 7 outranks it",
+           /* ── THE RULE THAT KEEPS THE GRID ACYCLIC AS IT GROWS ────────────
+              An effect RETURN may feed the MIX and nothing else. The echo's
+              two exceptions predate the grid and are its own FDBK and WASH
+              dials, which are inside one unit rather than between two. Every
+              new column obeys this by construction, so adding effects can
+              never re-introduce the cycle that cost the renderer its
+              repeatability -- the flanger can be FED by anything and returns
+              only to the mix. Its own feedback is the FDBK knob on its panel,
+              which is arithmetic inside the unit, not an edge in the graph. */
+           flangeEcho:   "a return feeds only the mix; see roomEcho for what a " +
+                         "cycle costs. The flanger's own feedback is its FDBK dial",
+           flangeRoom:   "as flangeEcho -- returns do not feed other effects",
+           flangeFlange: "its own feedback is the FDBK dial on the unit" },
 };
 /* every crossing that is a matrix control of its own, in grid order */
 function matrixCells(){
@@ -1757,6 +1772,43 @@ const INSTRUMENTS = {
     panel: { skin: "desk", maker: "", title: "desk",
              groups: [{ label: "", keys: ["low", "mid", "high"] },
                       { label: "", keys: ["lowF", "midF", "highF"] }] },
+  },
+
+  /* ── THE FLANGER, after the SPX90 ─────────────────────────────────────────
+     Hawtin's *Consumed* rack was five effects units and this program had two.
+     The one with no equivalent here at all was the Yamaha SPX90, kept on that
+     record for its "dirty, great flange" [corpus:soundonsound Classic Tracks].
+     So the FX suite grows by adding an EFFECT, which is the recommendation the
+     matrix research ended on: a new destination column with something real
+     behind it, not another hole.
+
+     WHAT IS SOURCED AND WHAT IS NOT, stated rather than blurred. The topology
+     is the standard one every flanger has ever had -- a short modulated delay
+     summed with the dry, with feedback around it. The one CHARACTERFUL number
+     that is documented is the band limit: the SPX90 converts at 31.25 kHz and
+     its processed signal runs "20 Hz-12 kHz" [corpus:vintagedigital;
+     manualslib SPX90 specs]. That ceiling IS the sound of the box -- a 1985
+     converter, not a modern flanger -- so `band` defaults to 12 kHz and is a
+     switch rather than a dial, because it is what the machine IS. Every other
+     range here is mine and marked.
+
+     STEREO BY CONSTRUCTION: two delay lines whose LFOs sit a quarter cycle
+     apart and pan opposite. That is where a flanger's width comes from, and
+     it follows the same amplitude-only rule as the rest of the stereo work --
+     a mono rig loses level and never the effect. */
+  flange: {
+    slot: "flange", label: "flanger (SPX90)", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"rate",  label:"sweep rate",  cap:"RATE",  min:0.02, max:4,  step:0.01, def:0.25, unit:"Hz", kind:"bus" },
+      { k:"depth", label:"sweep depth", cap:"DEPTH", min:0,    max:1,  step:0.01, def:0.55, kind:"bus" },
+      { k:"fb",    label:"feedback",    cap:"FDBK",  min:0,    max:0.85, step:0.01, def:0.45, kind:"bus" },
+      { k:"mix",   label:"return",      cap:"RTN",   min:0,    max:1,  step:0.01, def:0.9,  kind:"bus" },
+    ],
+    panel: { skin: "kaoss", maker: "YAMAHA", title: "SPX90",
+             groups: [{ label: "SWEEP", keys: ["rate", "depth"] },
+                      { label: "OUT", keys: ["fb", "mix"] }],
+             xy: { x: "rate", y: "depth" } },
   },
 
   /* ── THE MATRIX MIXER ─────────────────────────────────────────────────────
@@ -3015,6 +3067,7 @@ function applyRack(chart, force){
       const b = cell.in.k, dest = cell.out.k;
       PARAMS["matrix." + cell.k] =
         dest === "Mix"  ? (b === "room" ? (SP.wet != null ? SP.wet : 0.16) : 1) :
+        dest === "Flange" ? ((SP.flangeFeeds || []).indexOf(b) >= 0 ? 1 : 0) :
         dest === "Room" ? (b === "keys" || b === "lead" || rf.indexOf(b) >= 0 ? 1 : 0) :
                           (ef.indexOf(b) >= 0 ? 1 : 0);
     }
@@ -4315,6 +4368,51 @@ registerProcessor("mk2-room", MK2Room);
        The old code's cost argument ("connect/disconnect rather than a gain,
        so a genre that does not ask pays nothing") bought eight idle gain
        nodes' worth of savings and priced every hand out of the routing. */
+    /* ── THE FLANGER ITSELF ─────────────────────────────────────────────────
+       Two modulated delay lines, quarter-cycle apart and panned opposite, each
+       with its own feedback around it, into a 12 kHz band limit -- the SPX90's
+       converter ceiling, which is the character. A delay-and-gain loop is the
+       one feedback shape this engine renders repeatably (measured -325 dB), so
+       the unit is deterministic while a cycle through the GRID would not be:
+       the feedback lives inside the box, which is exactly where a hardware
+       flanger keeps it too. */
+    g.flangeIn = c.createGain();
+    g.flangeOut = c.createGain(); g.flangeOut.gain.value = 0.9;
+    g.flangeBand = c.createBiquadFilter(); g.flangeBand.type = "lowpass";
+    /* 12 kHz, FIXED and not a knob. The SPX90 converts at 31.25 kHz and its
+       processed signal runs 20 Hz-12 kHz [corpus:vintagedigital; manualslib
+       SPX90 specs] -- that ceiling is what the box IS, and it is no more
+       adjustable on the real unit than on this one. A control here would be a
+       knob no genre rides, which this file has a standing rule against. Q at
+       -3 dB because WebAudio reads Q as decibels of corner resonance on this
+       filter type, and a loop is no place for a bump (see g.echoLp). */
+    g.flangeBand.frequency.value = 12000; g.flangeBand.Q.value = -3;
+    g.flangeBand.connect(g.flangeOut);
+    g.flangeLfo = c.createOscillator(); g.flangeLfo.type = "sine";
+    g.flangeLfo.frequency.value = 0.25;
+    g.flangeDepth = [];  g.flangeFb = [];
+    for(const [phase, side] of [[0, -0.75], [1, 0.75]]){
+      const dl = c.createDelay(0.05);
+      /* 0.6 ms centre with the sweep on top: the short end of the flange
+         range, where the comb is audible as a jet rather than as a chorus.
+         Amounts mine. [EAR] */
+      dl.delayTime.value = 0.0006;
+      const dep = c.createGain(); dep.gain.value = 0.0022;
+      /* the quarter-cycle offset, done as a delay on the MODULATOR -- the same
+         trick the vp330's ensemble uses, because a plain oscillator has no
+         phase input */
+      const ph = c.createDelay(30);
+      ph.delayTime.value = phase * (1 / 0.25) / 4;
+      g.flangeLfo.connect(ph); ph.connect(dep); dep.connect(dl.delayTime);
+      const fb = c.createGain(); fb.gain.value = 0.45;
+      dl.connect(fb); fb.connect(dl);                 // the loop, inside the box
+      const pan = c.createStereoPanner(); pan.pan.value = side;
+      g.flangeIn.connect(dl); dl.connect(pan); pan.connect(g.flangeBand);
+      g.flangeDepth.push(dep); g.flangeFb.push(fb); g.flangePhase = g.flangePhase || [];
+      g.flangePhase.push(ph);
+    }
+    g.flangeLfo.start(0);
+
     /* ── THE GRID, WIRED FROM ITS DECLARATION ───────────────────────────────
        One gain per crossing, built by walking MATRIX rather than by naming
        wires. The two lookups below are the ONLY places that know what a row
@@ -4350,10 +4448,12 @@ registerProcessor("mk2-room", MK2Room);
     const matrixSource = k =>
       k === "echo" ? g.echoPan :          // the delay's return, post its ping-pong
       k === "room" ? g.verb :             // the reverb's return, pre its level
+      k === "flange" ? g.flangeOut :      // the flanger's return
       g.bus[k];                           // ...and every role bus. ADD ROWS HERE.
     const matrixDest = (outK, inK) =>
       outK === "Echo" ? g.echoSend :
       outK === "Room" ? g.send :
+      outK === "Flange" ? g.flangeIn :
       /* THE MIX COLUMN IS TWO SUMMING POINTS AND MUST STAY TWO. An instrument
          goes into `mix`, ahead of the master shaper, so the band saturates
          together; an effect RETURN lands on `post`, past it -- which is where
@@ -4361,7 +4461,7 @@ registerProcessor("mk2-room", MK2Room);
          echo's old comment said "dry return, past the shaper". Collapsing
          these into one node would put the reverb through the soft clipper and
          quietly change every genre. */
-      (inK === "echo" || inK === "room") ? g.post : g.mix;
+      (inK === "echo" || inK === "room" || inK === "flange") ? g.post : g.mix;
     for(const cell of matrixCells()){
       /* drumsMix is already built, above the drum bus: the kit's dry level has
          to sit after its saturation, so it cannot be made by this generic loop */
@@ -4372,6 +4472,8 @@ registerProcessor("mk2-room", MK2Room);
       gain.gain.value = cell.out.k === "Mix"
         ? (cell.in.k === "room" ? 0.16 : 1)
         : ((cell.out.k === "Room" && (cell.in.k === "keys" || cell.in.k === "lead")) ? 1 : 0);
+      /* nothing is flanged until a genre asks */
+      if(cell.out.k === "Flange") gain.gain.value = 0;
       src.connect(gain); gain.connect(dst);
       g.route[cell.k] = gain;
     }
@@ -7447,6 +7549,7 @@ registerProcessor("mk2-room", MK2Room);
              replaced); the room's row carries the genre's `wet`, which used to
              be a number only the song could write and is now a knob. */
           dest === "Mix"  ? (b === "room" ? (space.wet != null ? space.wet : 0.16) : 1) :
+          dest === "Flange" ? ((space.flangeFeeds || []).indexOf(b) >= 0 ? 1 : 0) :
           dest === "Room" ? (b === "keys" || b === "lead" ||
                              (space.feeds || []).indexOf(b) >= 0 ? 1 : 0) :
           /* ...and the ECHO column, which only instrument rows reach: the
@@ -7475,6 +7578,19 @@ registerProcessor("mk2-room", MK2Room);
         g.echoPanLfo.frequency.value = 1 / (2 * Math.max(0.02, g.echo.delayTime.value));
       if(g.echoWidth)
         rideBus(g, g.echoWidth.gain, "echo.width", panelValue("echo", "width"), t0);
+    }
+    /* the flanger's own four numbers, ridden like any bus */
+    if(g.flangeLfo){
+      const rate = Math.max(0.02, panelValue("flange", "rate"));
+      g.flangeLfo.frequency.value = rate;
+      /* the quarter-cycle offset follows the rate, or the two lines drift into
+         phase and the stereo collapses */
+      if(g.flangePhase) g.flangePhase[1].delayTime.value = Math.min(30, (1 / rate) / 4);
+      for(const d of g.flangeDepth)
+        rideBus(g, d.gain, "flange.depth", 0.0040 * panelValue("flange", "depth"), t0);
+      for(const f of g.flangeFb)
+        rideBus(g, f.gain, "flange.fb", panelValue("flange", "fb"), t0);
+      rideBus(g, g.flangeOut.gain, "flange.mix", panelValue("flange", "mix"), t0);
       rideBus(g, g.echoFb.gain,        "echo.fb",   panelValue("echo", "fb"),   t0);
       rideBus(g, g.echoLp.frequency,   "echo.tone", panelValue("echo", "tone"), t0);
       rideBus(g, g.echoHp.frequency,   "echo.hp",   panelValue("echo", "hp"),   t0);
@@ -9062,6 +9178,16 @@ const GENRE = {
       },
     },
     motion: {
+      /* a flanged lead and a flanged delay are this genre's own vocabulary --
+         the chrome on the record. Amounts mine. [EAR] */
+      matrix: {
+        leadFlange: [{ kind: "section", by: { chorus: [0.18, 0.42], bridge: [0.10, 0.26] } },
+                     { kind: "lfo", bars: [[32, 2], [48, 1]], depth: [0.04, 0.12],
+                       shape: "sin", freePhase: true }],
+        echoFlange: [{ kind: "section", by: { bridge: [0.12, 0.30] } },
+                     { kind: "lfo", bars: [[56, 2], [40, 1]], depth: [0.03, 0.10],
+                       shape: "sin", freePhase: true }],
+      },
       /* ── A SONG FORM'S DESK, NOT A DJ'S ────────────────────────────────────
          Synthwave is written, not mixed live, so its desk moves like a mix
          engineer's automation rather than a hand on a rotary: the low band
@@ -11243,6 +11369,12 @@ const GENRE = {
                 the other half of the "delays on the reverbs" sentence -- and
                 it was built, swept and then removed: the cycle costs the
                 renderer its repeatability. MATRIX.none carries the numbers. */
+             /* THE SPX90 WAS ON THIS RECORD, kept for its "dirty, great
+                flange" [corpus:soundonsound Classic Tracks]. Fed the kit and
+                the bass -- an album of feedback where "everything was
+                cross-modulating everything else", and this is the closest
+                this engine gets to that without a cycle. */
+             flangeFeeds: ["drums", "bass", "keys"],
              kitPan: { h: 0.26, o: -0.30, r: 0.20, c: -0.22, a: -0.36, d: 0.36,
                        t: -0.14, m: 0.14 } },
     kick: { tune: 46, decay: 0.60, click: 0.55, drive: 0.50, body: 1.10, gain: 1.22 },
@@ -11413,6 +11545,26 @@ const GENRE = {
        are long on purpose -- 32 and 64 bars is 60 to 120 seconds at this tempo,
        which is the timescale of a Hawtin record rather than of a chorus. */
     motion: {
+      /* the flanger, ridden. The sweep slows and deepens across the record
+         and the feedback opens in the bridge -- the unit as an arrangement
+         instrument, which is how it was used. Amounts mine. [EAR] */
+      flange: {
+        rate:  [{ kind: "arc", from: [-0.12, -0.04], to: [0.05, 0.18], curve: "sCurve" },
+                { kind: "lfo", bars: [[64, 2], [96, 1]], depth: [0.02, 0.07],
+                  shape: "sin", freePhase: true }],
+        depth: [{ kind: "section", by: { bridge: [0.10, 0.26], instrumental: [0.04, 0.12] } },
+                { kind: "lfo", bars: [[48, 2], [72, 1]], depth: [0.04, 0.11],
+                  shape: "tri", freePhase: true }],
+        fb:    [{ kind: "section", by: { bridge: [0.10, 0.24], outro: [0.06, 0.16] } },
+                { kind: "arc", from: [-0.10, -0.03], to: [0.06, 0.16], curve: "sCurve" }],
+        /* a section move ALONE is dead on a song with neither of those
+           sections -- plastikman has no form plan, so its section list is not
+           guaranteed and the swing check caught this. The slow breath is what
+           makes the lane honest on every song. */
+        mix:   [{ kind: "section", by: { intro: [-0.35, -0.15], bridge: [0.04, 0.10] } },
+                { kind: "lfo", bars: [[60, 2], [84, 1]], depth: [0.03, 0.09],
+                  shape: "sin", freePhase: true }],
+      },
       /* ── THE HAND ON THE DESK ─────────────────────────────────────────────
          "It means using high, mid and lows like a DJ does to shape and move the
          sounds." Everything here is one hand on three band knobs, and it is the
@@ -11711,6 +11863,17 @@ const GENRE = {
          subtraction spent on the room. Shapes from this genre's own lanes;
          amounts mine. [EAR] */
       matrix: {
+        /* who goes into the flanger, and how much of it comes back */
+        drumsFlange: [{ kind: "section", by: { bridge: [0.20, 0.45], instrumental: [0.06, 0.18] } },
+                      { kind: "lfo", bars: [[40, 2], [56, 1]], depth: [0.05, 0.14],
+                        shape: "sin", freePhase: true }],
+        bassFlange:  [{ kind: "arc", from: [-0.20, -0.06], to: [0.10, 0.26], curve: "sCurve" }],
+        keysFlange:  [{ kind: "lfo", bars: [[32, 2], [48, 1]], depth: [0.08, 0.20],
+                        shape: "tri", freePhase: true }],
+        roomFlange:  [{ kind: "section", by: { bridge: [0.10, 0.28] } },
+                      { kind: "lfo", bars: [[68, 2], [44, 1]], depth: [0.03, 0.10],
+                        shape: "tri", freePhase: true }],
+        flangeMix:   [{ kind: "section", by: { intro: [-0.30, -0.12], outro: [-0.20, -0.06] } }],
         /* THE SUBTRACTION, spent on the mix itself. Hawtin's "year of
            subtraction" and underdog's "cut that to create space between
            elements so that the purity of each element becomes clearer" are

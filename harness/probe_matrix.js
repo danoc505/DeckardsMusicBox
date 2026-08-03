@@ -81,8 +81,16 @@ const GENRE = process.argv[2] || 'plastikman';
          a crossing that is already open is tested by CLOSING it */
       const target = (at - c.min) > (c.max - at) ? c.min : c.max;
       const moved = await render({ [key]: target - at });
-      rows.push({ k: c.k, bus: c.k.replace(/(Mix|Echo|Room)$/, ''),
-                  from: at, to: target, db: diff(base, moved) });
+      /* the column suffix comes from the DECLARATION, not from a list spelled
+         out here: a hardcoded /(Mix|Echo|Room)$/ went stale the moment a
+         FLANGE column was added, and every lead*Flange crossing then reported
+         as a dead knob because its bus could not be identified. */
+      const cols = MK2.INSTRUMENTS.matrix.controls
+        .map(x => x.k).join(' ').match(/[A-Z][a-z]+/g) || [];
+      const suff = [...new Set(cols)];
+      let bus = c.k;
+      for(const sx of suff) if(c.k.endsWith(sx)) bus = c.k.slice(0, -sx.length);
+      rows.push({ k: c.k, bus, from: at, to: target, db: diff(base, moved) });
     }
     /* ── THE DROP, MEASURED ─────────────────────────────────────────────────
        The headline gesture, and the one thing that would break silently if

@@ -2391,3 +2391,62 @@ sections a stage does not name snap to centre rather than holding (that is
 than special, but it is a choice worth hearing); five genres have no stage;
 and the field display does not yet NAME the section's stage on the tube,
 which is the obvious next bit of polish.
+
+**THE FX SUITE GREW at `2026-08-03j`** — the user, after the Plastikman
+research listed Hawtin's five units against our two: *"I want to clone the
+fx racks Hawtin had that you named!"* First unit, chosen because it is the
+one we had NO equivalent of: the **Yamaha SPX90 flanger**, kept on
+*Consumed* for its "dirty, great flange" [corpus:soundonsound Classic
+Tracks].
+
+**BUILT**: `INSTRUMENTS.flange` — two modulated delay lines a quarter cycle
+apart, panned opposite, each with its own feedback, into a fixed 12 kHz
+band limit. Four ridden controls (rate/depth/fb/mix) and an XY pad on
+rate × depth.
+
+**WHAT IS SOURCED AND WHAT IS NOT, kept separate in the code.** The
+topology is the standard flanger every unit has ever had. The one
+documented characterful number is the band limit: the SPX90 converts at
+31.25 kHz and its processed signal runs 20 Hz–12 kHz [vintagedigital;
+manualslib specs]. **That ceiling is fixed and is NOT a control** — it is
+no more adjustable on the real box than here, and a knob no genre rides is
+against this file's standing rule. Every other range is mine and marked
+[EAR]. (It was first declared as a `switch` control and the battery
+correctly refused it: `kind:"switch"` is never automated and never read per
+song, so it reached the sound through nothing the checks could see. The
+right answer was to delete the knob, not to exempt it.)
+
+**THE GRID GREW A COLUMN**, which is the recommendation round four ended
+on — grow by adding EFFECTS, not holes. `MATRIX.outs` now has FLANGE (D)
+and `MATRIX.ins` a `flange` return, so the grid is 7 × 4. **A NEW RULE
+KEEPS IT ACYCLIC AS IT GROWS**, written into `MATRIX.none`: *an effect
+return may feed the MIX and nothing else.* `flangeEcho`, `flangeRoom` and
+`flangeFlange` are blind plates carrying that reason. The echo's two
+exceptions predate the grid and are inside one unit (its FDBK and WASH),
+not between two. So no future column can re-introduce the cycle that cost
+the renderer its repeatability — and the flanger's own feedback lives
+inside the unit, which is where a hardware flanger keeps it too.
+
+**GENRES**: plastikman feeds drums/bass/keys into it and rides the unit
+plus five crossings (the record it came from — "an album of feedback...
+everything was cross-modulating everything else"); synthwave flanges its
+lead and its echo return.
+
+MEASURED (probe_matrix, plastikman): drumsFlange -10.3 dB, keysFlange
+-6.4, bassFlange -14.7, echoFlange -11.2, roomFlange -8.6, flangeMix -4.0.
+Battery 118/118, snapshot IDENTICAL, blends 10/10, ui 26, renders
+repeatable on all seven.
+
+**A PROBE BUG THE COLUMN EXPOSED**: probe_matrix identified a crossing's
+bus with a hardcoded `/(Mix|Echo|Room)$/`, so every `*Flange` crossing
+reported its bus as unknown and `leadFlange` was called a dead knob when
+the lead simply was not playing. It now derives the column suffixes from
+the declaration — the same lesson as the seam scanner and the role tags:
+**anything that lists what the program contains will go stale; derive it.**
+
+**STILL OPEN — the other four units.** Ensoniq DP/4 (a four-way PARALLEL
+processor — architecturally the most interesting, and the strongest
+argument for more columns), Lexicon PCM90 (our FDN room is the same job
+done differently; what a PCM90 adds is ALGORITHMS, not quality), Roland
+SRV-330 "Dimensional Space", ART Multiverb gated reverb (we already have a
+gated verb, unresearched against it). And the ear has heard none of it.
