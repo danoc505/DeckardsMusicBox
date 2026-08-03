@@ -722,7 +722,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03o · a barberpole phaser that climbs forever, and a backlog of everything outstanding</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03p · the chords learn ninths and elevenths, and the comp opens up</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -837,12 +837,33 @@ function degMidi(root, mode, d){
   const oct = Math.floor(d / 7), step = ((d % 7) + 7) % 7;
   return root + sc[step] + 12 * oct;
 }
-/* chord tones of the triad/seventh on degree d — stacked thirds in the mode [theory] */
-function chordTones(root, mode, d, seventh){
-  const n = seventh ? 4 : 3, out = [];
+/* chord tones on degree d — stacked thirds in the mode [theory].
+
+   `size` is HOW MANY THIRDS TO STACK: 3 triad, 4 seventh, 5 ninth, 6 eleventh,
+   7 thirteenth. Every tone is a diatonic third above the one under it, so an
+   extension is in the mode by construction and the out-of-key seam check holds
+   without a special case.
+
+   IT STOPPED AT FOUR, AND THAT WAS THE CEILING ON THE WHOLE HARMONY. `n` used
+   to be `seventh ? 4 : 3` and nothing else, so ninths, elevenths and
+   thirteenths were unreachable by any code path in the program -- while the
+   researched vocabulary of the one genre that declares sevenths contains
+   maj9, maj13, min11, min9 and NOT ONE plain triad across thirteen sourced
+   progressions [docs/genre-research/lofi-harmony.md §2]. DKC's own table
+   comment asks for "add9 and sus" and got triads. See BACKLOG §6.1.
+
+   A BOOLEAN IS STILL ACCEPTED and means the old two-value question, because
+   six genre tables ask it that way and this must cost them nothing. */
+function chordTones(root, mode, d, size){
+  const n = size === true ? 4 : (size === false || size == null) ? 3 : size;
+  const out = [];
   for(let i = 0; i < n; i++) out.push(degMidi(root, mode, d + 2 * i));
   return out;
 }
+/* which stacked-third index each chord member is: 0 root, 1 third, 2 fifth,
+   3 seventh, 4 ninth, 5 eleventh, 6 thirteenth. `chordTones` returns them in
+   that order, so a member's ROLE is its index -- derived, never listed. */
+const CHORD_ROLE = ["root", "third", "fifth", "seventh", "ninth", "eleventh", "thirteenth"];
 const inKey = (root, mode, midi) => MODES[mode].includes(pc(midi - root));
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -8616,6 +8637,32 @@ const GENRE = {
     /* sevenths were hardcoded `true` at the one call site, which three genres
        flagged: synthwave and jungle want bare triads, Vangelis wants neither. */
     sevenths: true,
+    /* ── THE EXTENDED CHORDS, and this genre is where they belong ──────────
+       Researched 2026-08-03, docs/genre-research/lofi-harmony.md. Lofi is jazz
+       harmony with the motion taken out -- "a jazz standard races through its
+       changes while lo-fi takes the same lush chords and lets each one sit for
+       bars at a time" [corpus:blog.flat.io] -- and the consequence is the whole
+       argument for this field: a chord that sits for two bars has to be worth
+       sitting on. A triad held that long is a drone.
+
+       Every source says extensions rather than triads, and the strongest
+       artefact found is Richard Pryn's thirteen progressions, which name the
+       quality of every chord: maj9 (six of the thirteen OPEN on one), maj13,
+       min11, min9, maj7, min7, and NOT ONE PLAIN TRIAD [corpus:richardpryn].
+       "The sound rests on extended chords like major sevenths, minor sevenths
+       and ninths in place of plain triads" [corpus:blog.flat.io]; the ninth and
+       the minor 7th are corroborated independently [corpus:unison.audio].
+
+       THE WEIGHTS ARE MINE AND ARE [EAR]. No source gives a distribution --
+       every list above is a menu, not a weighting, and lofi-harmony.md §6 says
+       so plainly. The shape defended: the seventh is the floor this genre
+       already had, the ninth is the single most-named colour, and the eleventh
+       is present because min11 is three of Pryn's thirteen. No thirteenth --
+       it appears once and it is the extension most likely to collide with the
+       tune. The triad is kept in the pool because a record that is ALL colour
+       has no plain statement to lean against. When the Jazz Harmony Treebank
+       reaches MK2 (BACKLOG §6.7) these become measured and this comment goes. */
+    extensions: [[4, 4], [5, 4], [3, 2], [6, 1]],
     /* the density of a bar of tune, and where its notes may land. These are the
        values that were literals inside buildTheme, written out unchanged. */
     theme: { count: { hooky: [4, 2], breath: [1, 2], normal: [3, 2] },
@@ -13685,9 +13732,32 @@ function makeMaterials(chart){
   /* ── ONE progression per song (loop law) ── */
   const rngH = stream(chart.seed, "harmony");
   const degrees = wpick(rngH, G.progressions[mode]);
-  const mkChords = degs => degs.map(d => Object.freeze({
+  /* ── HOW BIG EACH CHORD IS ─────────────────────────────────────────────
+     `extensions` is a weighted list of SIZES -- how many thirds this genre is
+     willing to stack on a chord (3 triad, 4 seventh, 5 ninth, 6 eleventh,
+     7 thirteenth). A constraint, not a value: the genre says what it may reach
+     for and the draw decides, per chord, so one bar can be a ninth and the
+     next a plain triad the way real comping works [Principle 1].
+
+     THE DRAW RUNS WHETHER OR NOT THE GENRE ASKS [Law 3], on its own named
+     substream, so adding `extensions` to one table cannot move a note in any
+     other genre -- and a genre that declares nothing computes exactly the size
+     `sevenths` always gave it. Research: docs/genre-research/lofi-harmony.md;
+     the gap this closes: BACKLOG §6.1. */
+  const rngX = stream(chart.seed, "extend");
+  const extRolls = [0, 1, 2, 3].map(() => rngX());
+  const sizeAt = i => {
+    if(!G.extensions) return G.sevenths ? 4 : 3;
+    const pairs = G.extensions;
+    let total = 0; for(const p of pairs) total += p[1];
+    let x = extRolls[i % extRolls.length] * total;
+    for(const p of pairs){ x -= p[1]; if(x <= 0) return p[0]; }
+    return pairs[pairs.length - 1][0];
+  };
+  const mkChords = degs => degs.map((d, i) => Object.freeze({
     degree: d,
-    tones: chordTones(root, mode, d, G.sevenths),
+    size: sizeAt(i),
+    tones: chordTones(root, mode, d, sizeAt(i)),
     rootMidi: intoBand(degMidi(root, mode, d), R.bass[0], R.bass[1]),
   }));
   /* ── THE CHROMATIC PROGRESSIONS ────────────────────────────────────────
@@ -14569,6 +14639,30 @@ function makeMaterials(chart){
           d2[d2.length - 2] -= 12;                       // drop the 2nd from the top
           cands.push(d2.slice().sort((a, z) => a - z));
         }
+        /* ── DROP 2 AND 4: the voicing that actually reaches two octaves ─────
+           Drop-2 alone opens a voicing to a tenth or so, and MEASURED across
+           all seven genres the comp spanned 12.2-13.0 semitones -- barely more
+           than an octave, everywhere. The target is sourced twice and both
+           sources say the same thing: the user's own reference photograph
+           frames one bar as B3/B4/D5/C6/F6, which is THIRTY semitones, and
+           "close voicings (all notes within one octave) sound dense and
+           pop-like; lo-fi favors spread voicings where the notes span TWO
+           OCTAVES OR MORE" [corpus:orphiq]. Two independent sources agreeing
+           is this project's own definition of a target rather than a taste.
+
+           Drop-2-and-4 is the named mechanism: drop the second AND the fourth
+           voice from the top by an octave, which "spans nearly two octaves"
+           [corpus:piano.org; corpus:voicinglab]. It needs four voices to exist,
+           so it is only reachable at all on a seventh or an extension -- which
+           is why this and `extensions` land together. Offered as a CANDIDATE,
+           never forced: every filter below still applies and the cost decides.
+           BACKLOG §6.2. */
+        if(close.length >= 4){
+          const d24 = close.slice();
+          d24[d24.length - 2] -= 12;
+          d24[d24.length - 4] -= 12;
+          cands.push(d24.slice().sort((a, z) => a - z));
+        }
       }
       let voiced = null, bestCost = 1e9;
       const score = list => { for(const cand of list){
@@ -14638,10 +14732,72 @@ function makeMaterials(chart){
            D6 across the bars while the inner voices do their figure. Weighting
            it means an inversion that keeps the top line stepwise beats one that
            moves the inner voices slightly less and leaps the top. */
-        let cost = prev ? 0 : Math.abs(cand[0] - 60);
+        /* ── THE FIRST CHORD ANCHORS THE WHOLE CHAIN, SO ANCHOR IT RIGHT ────
+           With no previous voicing there is nothing to lead from, so bar 0 was
+           scored by how close its BOTTOM voice sits to middle C -- and that is
+           precisely the term a wide voicing cannot win, because width is bought
+           by dropping a voice DOWN. Every later bar then pays voice-leading
+           distance from whatever bar 0 chose, so one narrow first chord keeps
+           the comp narrow for the whole material. MEASURED: adding drop-2-and-4
+           and a spread bonus moved the main comp's MAXIMUM span 16 -> 20 and
+           its MEAN not at all (13.8 -> 13.8), because the candidates that were
+           now available still lost at bar 0.
+
+           So when the material wants an open voicing, bar 0 is anchored by the
+           voicing's CENTRE instead: a wide chord centred on middle C is a
+           correctly-placed wide chord, not a badly-placed low one. Close
+           voicings are unaffected -- for them the centre and the bottom differ
+           by a few semitones and the ranking is the same. [BACKLOG §6.2] */
+        const anchor = openVoicing ? (cand[0] + cand[cand.length - 1]) / 2 : cand[0];
+        let cost = prev ? 0 : Math.abs(anchor - 60);
         if(isOpen !== openVoicing) cost += 22;           // wanted, not required
+        /* ── AND WIDER IS BETTER, BY DEGREES ────────────────────────────────
+           `isOpen` is a BINARY -- `spread > 12` -- so a thirteen-semitone
+           voicing and a thirty-semitone one scored identically and the chooser
+           had no gradient to climb even where the band had room. That is why
+           raising the openness weight from 9 to 22 once moved the mean span by
+           a tenth of a semitone: the weight was never the binding thing, the
+           absence of a slope was. When the material wants an open voicing,
+           every extra semitone of spread is now worth a little, capped at two
+           octaves because past that the voicing stops being one instrument.
+           Small (0.35/semitone) against the voice-leading terms on purpose --
+           this is a preference between otherwise-equal candidates, not a
+           licence to leap the top voice around to win width. [BACKLOG §6.2] */
+        if(openVoicing) cost -= 0.35 * Math.min(24, cand[cand.length - 1] - cand[0]);
         if(prev){
-          for(let i = 0; i < Math.min(cand.length, prev.length); i++) cost += Math.abs(cand[i] - prev[i]);
+          /* ── PAIRING VOICES BY SORTED INDEX ONLY WORKS BETWEEN CHORDS OF THE
+             SAME SIZE, and `extensions` broke that assumption. ─────────────
+             `cand[i] - prev[i]` compares the i-th voice from the bottom of each
+             chord. When both chords have four notes those are the same chord
+             member and the distance is real voice leading. When a ninth (five
+             notes) follows a triad, index i is the fifth of one and the seventh
+             of the other, and the "distance" is an artefact of the pairing.
+
+             MEASURED on lofi, 30 seeds, this build: index-paired across mixed
+             sizes reads 2.02 semitones mean movement with a worst single move
+             of 10 -- while the same voicings measured order-free, by nearest
+             pitch, read 1.06 and 5. The metric was inventing more than half the
+             movement it reported, and the cost function reading it that way
+             would price every change of chord size as a leap and quietly bias
+             the comp back toward never extending.
+
+             So: index pairing when the sizes match -- which keeps every genre
+             that draws no extensions byte-for-byte identical -- and symmetric
+             nearest-pitch distance when they differ, which is what voice
+             leading between chords of different sizes actually means.
+             [BACKLOG §6.2] */
+          if(cand.length === prev.length){
+            for(let i = 0; i < cand.length; i++) cost += Math.abs(cand[i] - prev[i]);
+          } else {
+            for(const p of cand){
+              let d = Infinity; for(const q of prev) d = Math.min(d, Math.abs(p - q));
+              cost += d;
+            }
+            for(const q of prev){
+              let d = Infinity; for(const p of cand) d = Math.min(d, Math.abs(q - p));
+              cost += d;
+            }
+          }
           const topNow = cand[cand.length - 1], topWas = prev[prev.length - 1];
           cost += 2 * Math.abs(topNow - topWas);
         }
