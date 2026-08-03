@@ -2616,3 +2616,51 @@ and that gap is still open.
 
 Battery 118/118, snapshot IDENTICAL, ui 26, renders repeatable on all
 seven — with the FDN genuinely running again.
+
+**THE RESEARCH GETS ITS OWN SHELF, AND A NEW PROBE ASKS WHO USES WHAT —
+`2026-08-03n`.** The user: *"Your web searches need to be their own research
+docs for future reference. Are we making sure to connect things up properly
+and understanding how to use what we are adding?"* Two questions; the second
+was answered by measuring rather than by claiming, and the answer was NO in
+two specific places.
+
+**1. THE DOCS.** Searches behind the flanger, the DP/4, the PCM90 and the
+whole stereo build had been argued in commit messages and handoff entries —
+which is where findings go to be forgotten. Now:
+- `docs/genre-research/fx-units.md` — every unit of Hawtin's rack, one
+  section each, with what each source DOES and DOES NOT give. The two
+  unresearched units (Roland SRV-330, ART Multiverb) are in there as
+  explicitly unresearched, with a warning not to build from the guess
+  written next to them.
+- `docs/genre-research/stereo.md` — the Rhodes auto-pan, the Solina's
+  three-line/two-three-phase-LFO swirl, and the mono-compatibility rules,
+  with the before/after side-vs-mid table.
+
+**2. `harness/probe_wiring.js`, NEW, and it found real gaps.** Everything
+added recently was measured ALONE at the moment it landed; nothing ever
+asked, per genre, WHICH capabilities are actually reached. The battery
+cannot catch this — it only asks whether SOME genre uses each control.
+
+    genre        flange  dp4  pan  kitPan  width  spread  preDly  cuts
+    lofi           -      -   yes   yes     yes     -       -      -
+    synthwave      -      -   yes   yes      -      -       -      -
+    dkc            -      -   yes   yes      -      -       -      -
+    bladerunner    -      -   yes    -       -     yes     yes     -
+    acid           -      -    -    yes      -      -       -      -
+    plastikman    yes    yes  yes   yes     yes    yes     yes    yes
+    jungle         -      -    -    yes     yes     -       -      -
+
+**FOUND AND FIXED**: `preDelay` was declared by **NOBODY**. It was built at
+`2026-08-03e` because the reconstruction sheet had asked for 40–80 ms and
+the convolver had nowhere to put it — and then never connected to a genre,
+for two builds. That is the file's cardinal sin with a bigger coat on.
+bladerunner now takes 62 ms (inside the sheet's band: a late room reads as
+a BIG room, which is that cue) and plastikman 34 ms.
+
+**FOUND AND LEFT OPEN, honestly**: flange, dp4 and cuts are **one genre
+each** (plastikman). acid and jungle have **no pan at all** — their draws
+land on machines with no pan control. Neither is a bug; both are thin. The
+sourced candidates are named in the earlier entries: jungle's drops and
+synthwave's prechorus for `snap`, and a genre-by-genre pass on the FX
+columns. **Run `probe_wiring` after adding anything: a capability one genre
+uses is a capability that has not been understood yet.**
