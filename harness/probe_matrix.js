@@ -84,6 +84,32 @@ const GENRE = process.argv[2] || 'plastikman';
       rows.push({ k: c.k, bus: c.k.replace(/(Mix|Echo|Room)$/, ''),
                   from: at, to: target, db: diff(base, moved) });
     }
+    /* ── THE DROP, MEASURED ─────────────────────────────────────────────────
+       The headline gesture, and the one thing that would break silently if
+       the sends were ever chained off the dry gain: close a row's MIX
+       crossing while its ECHO crossing stays open, and the instrument must
+       LEAVE THE MIX AND STILL BE HEARD through the delay. That is only true
+       if the sends are pre-fader -- "a pre-fader Aux send is not influenced
+       by channel-fader moves" [corpus:sweetwater]. Post-fader sends would
+       take the echo down with the fader and the part would simply vanish,
+       which is a mute, not a dub drop.
+       Measured as: (dry killed, echo open) against (dry killed, echo shut).
+       Whatever is left is the echo of a part that is no longer in the mix. */
+    const drops = [];
+    for(const bus of ['drums', 'bass', 'keys', 'lead']){
+      const mixKey = 'matrix.' + bus + 'Mix', echoKey = 'matrix.' + bus + 'Echo';
+      const mixAt = MK2.panelValue('matrix', bus + 'Mix');
+      const echoAt = MK2.panelValue('matrix', bus + 'Echo');
+      const gone   = await render({ [mixKey]: -mixAt, [echoKey]: 1 - echoAt });
+      const silent = await render({ [mixKey]: -mixAt, [echoKey]: -echoAt });
+      /* how loud the surviving echo is against the FULL mix, so the number
+         means "you can still hear it in the record" */
+      let ref = 0, q = 0;
+      for(let i = 0; i < base.length; i++){ ref += base[i] * base[i];
+        q += (gone[i] - silent[i]) * (gone[i] - silent[i]); }
+      drops.push({ bus, db: 10 * Math.log10((q + 1e-30) / (ref + 1e-30)) });
+    }
+
     /* ── WHICH BUSES ARE EVEN SOUNDING HERE, decided by measurement ──────────
        Not by reading event `role` tags: those are arrangement roles
        (`ostinato`, `pad`, ...) and several of them share one bus, so matching
@@ -94,7 +120,7 @@ const GENRE = process.argv[2] || 'plastikman';
     const live = {};
     for(const r of rows) if(/Mix$/.test(r.k)) live[r.bus] = r.db > -60;
     for(const r of rows) r.testable = live[r.bus] !== false;
-    return { rows, present: Object.keys(live).filter(b => live[b]) };
+    return { rows, drops, present: Object.keys(live).filter(b => live[b]) };
   }, GENRE);
 
   console.log(`\n=== every crossing, on ${GENRE} (6 bars from the middle) ===\n`);
@@ -111,6 +137,14 @@ const GENRE = process.argv[2] || 'plastikman';
                 (!r.testable ? '(this bus is not playing here — not testable)'
                              : ok ? '' : '<<< SILENT — a knob that does nothing'));
   }
+  console.log('\n=== the drop: dry closed, send open — what is left is pure echo ===\n');
+  for(const d of out.drops){
+    const live = out.present.indexOf(d.bus) >= 0;
+    console.log(`  ${d.bus.padEnd(6)} muted on the mix, still heard at ${d.db.toFixed(1).padStart(7)} dB  ` +
+                (!live ? '(not playing here)' : d.db > -50 ? 'THE DROP WORKS — pre-fader'
+                                                          : '<<< GONE — the send is following the fader'));
+  }
+
   console.log('\n  buses with signal in this excerpt: ' + out.present.join(', '));
   if(skipped) console.log(`  ${skipped} crossing(s) untestable here; run another genre to cover them`);
   console.log(dead ? `  ${dead} crossing(s) changed nothing.`

@@ -1,5 +1,5 @@
 {
   "artifact": "https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06",
-  "stamp": "build 2026-08-03c · the renderer is repeatable again: the one crossing that closed a cycle is gone",
-  "engine": "f426a1713e949434"
+  "stamp": "build 2026-08-03d · the matrix's sends are pre-fader, which is what makes the drop a drop",
+  "engine": "caa3020e0a4aec32"
 }

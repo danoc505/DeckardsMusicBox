@@ -552,7 +552,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03c · the renderer is repeatable again: the one crossing that closed a cycle is gone</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03d · the matrix's sends are pre-fader, which is what makes the drop a drop</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -3848,6 +3848,23 @@ const Sound = (function(){
        blind plate and MATRIX.none carries the measurement. Nothing in this
        loop can therefore feed back, which is also why no crossing needs a
        ceiling. See docs/genre-research/matrix-mixer.md. */
+    /* ── EVERY SEND IS PRE-FADER, AND THAT IS THE WHOLE FEATURE ──────────────
+       A row's three crossings all tap the SAME node -- the raw bus -- so the
+       MIX crossing is a sibling of the ECHO and ROOM crossings, never their
+       parent. Closing a row's fader therefore does not touch what that row is
+       sending. On a desk this is the pre-fader/post-fader choice, and dub
+       needs pre: "a pre-fader Aux send is not influenced by channel-fader
+       moves... the processed signal level remains constant, no matter how you
+       move its corresponding channel fader", which is what "allows engineers
+       to mute the dry signal while keeping the echo at a constant level"
+       [corpus:sweetwater pre-vs-post; loopmasters]. Post-fader sends would
+       make Tubby's move IMPOSSIBLE: closing the fader would take the echo
+       down with it and the instrument would simply vanish.
+       It fell out of the topology rather than being chosen, so it is written
+       down here and MEASURED by probe_matrix's "the drop" test -- a row muted
+       on the mix must still be audible through its echo. A refactor that
+       chained the sends off the dry gain would break the headline feature
+       silently, and now cannot. */
     const matrixSource = k =>
       k === "echo" ? g.echoOut :          // the delay's return, post its own loop
       k === "room" ? g.verb :             // the reverb's return, pre its level

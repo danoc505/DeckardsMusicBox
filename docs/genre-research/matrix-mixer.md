@@ -377,3 +377,105 @@ crossings, the two return levels or the two aliases are wrong, and
 nothing here revives room→echo. Three candidates are recorded above for
 the user to choose between — stem columns, per-section snapshots, and an
 AudioWorklet FDN — and none of them is started.
+
+---
+
+# ROUND THREE — 2026-08-03, deeper: the fader question and the matrix's own mathematics
+
+*The user: "Seems like you need even more info, do a deeper research."
+Right again — round two was still a survey. This round found ONE FACT that
+the shipped feature depends on and that I had never checked, and ONE BODY
+OF MATHEMATICS that says my stability work was done the amateur way.*
+
+## New sources
+
+13. Sweetwater, "Pre Versus Post Fader" and "Pre-Fader, or Post-Fader?";
+    Loopmasters, "Understanding Pre and Post Fader" / "Using Pre Fader Aux
+    Sends Creatively"; Wikipedia "Aux-send" — the send-tap question
+14. Julius O. Smith III, *Physical Audio Signal Processing*, "FDN
+    Reverberation" (ccrma.stanford.edu/~jos/pasp) — the standard reference
+15. Gerzon's "orthogonal matrix feedback reverberation unit"; Stautner &
+    Puckette's four-channel FDN and its stability conditions; the
+    lossless-FDN literature (via search on the above)
+
+## 6. PRE-FADER — the fact the whole feature stands on, and I had not checked it
+
+A send can be tapped BEFORE the channel fader or AFTER it, and on a real
+desk that is a switch. The difference is the entire dub drop:
+
+> "A pre-fader Aux send is not influenced by channel-fader moves, because
+> the signal is sent to the processor through the Aux send before it gets
+> to the fader. Therefore the processed signal level remains constant, no
+> matter how you move its corresponding channel fader."
+> [corpus:sweetwater pre-vs-post]
+
+> "For dub reggae... running the aux sends as pre-fader will get you the
+> echo louder than the source effect... allows engineers to mute the dry
+> signal while keeping the echo at a constant level."
+> [corpus:loopmasters / gearspace dub threads]
+
+**With POST-fader sends, Tubby's move is impossible.** Closing the fader
+would pull the echo down with it and the part would simply disappear —
+that is a mute, not a drop. The entire reason the gesture exists is that
+the send is upstream of the fader.
+
+**CHECKED IN OUR CODE, and we are pre-fader — by accident.** All three
+crossings of a row tap the same node (the raw bus); the MIX crossing is a
+SIBLING of the ECHO and ROOM crossings, never their parent. Nobody chose
+that; it fell out of building the grid as a grid. It is now written down
+at `matrixSource()` and, more importantly, MEASURED: probe_matrix's new
+"the drop" test closes a row's mix fader with its echo open and requires
+the part to still be audible. Jungle, seed 11: **drums muted on the mix,
+still heard at -27.9 dB; bass at -35.9 dB.** A refactor that ever chained
+the sends off the dry gain would have broken the headline feature in
+silence. Now it fails a probe instead.
+
+*Not built, but now a known missing control: a real desk lets you CHOOSE
+per send. Our grid is pre-fader everywhere with no switch. For dub that is
+the right default; for a reverb that should duck with its source it is
+not.*
+
+## 7. The matrix's own mathematics — and my stability sweep was the amateur method
+
+The reverb connection from round two goes deeper than "a reverb contains a
+matrix". The FIELD IS ABOUT WHICH MATRIX. Gerzon's original proposal was
+an "orthogonal matrix feedback reverberation unit"; Stautner and Puckette
+gave the four-channel case and its stability conditions, using what is
+"a permutation with one row sign inversion of a Hadamard matrix"
+[corpus:JOS PASP, FDN Reverberation].
+
+The load-bearing theorem, and it is a theorem, not a taste:
+
+> All unitary (and orthogonal) matrices have unit-modulus eigenvalues and
+> linearly independent eigenvectors. As a result, when used as a feedback
+> matrix in an FDN, the resulting FDN will be **lossless**... orthogonal
+> matrices such as Hadamard or Householder ensure (critical) stability
+> **regardless of the delays**.
+
+Read that against what I actually did when I built room→echo: I picked a
+gain, rendered a 30-second tail, swept 0.04 / 0.08 / 0.12 / 0.16, watched
+which ones turned around, and set the ceiling at 0.08. That works and it
+is honest, but it is measuring a property that the right choice of matrix
+would GUARANTEE. **This is principle 1 — "constraints, not baked-in
+values" — one level deeper than the program currently applies it.** The
+value 0.08 was a baked-in number discovered by experiment; an orthogonal
+feedback matrix is a CONSTRAINT under which no experiment is needed and no
+delay length can break it.
+
+Different orthogonal matrices then buy different things — Hadamard and
+circulant for a dense tail, Householder and sparse ones for cheapness —
+so the matrix is a design surface, not a constant.
+
+**What this means for us, plainly:** if a matrix-fed room is ever built
+here, it belongs in an AudioWorklet (round two's conclusion) AND its
+feedback matrix should be orthogonal by construction (this round's). Then
+stability is structural and the ceiling I swept for stops existing as a
+concept. Recorded as the design. Still not built — it is a substantial
+piece of DSP and the program's room is a convolver today.
+
+## What round three changes in the program
+
+One comment and one probe, no behaviour: `matrixSource()` now states the
+pre-fader property and why it is load-bearing, and probe_matrix measures
+the drop so the property cannot rot. Everything else here is design notes
+for work that has not been started.
