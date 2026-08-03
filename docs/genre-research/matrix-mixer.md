@@ -244,3 +244,136 @@ set to 0.08 — the largest swept value that never turns around.
   voice-level, and that split stands.
 - **The A-138m's DC-offset jumper** (top row generates offsets with
   nothing patched) — a modular convenience with no meaning here.
+
+---
+
+# ROUND TWO — 2026-08-03, a second research pass
+
+*The user, after the grid shipped: "Do MORE web research on it and how to
+use it, what it is used for. And inform me." Per the standing rule the
+first pass does not count toward this one. Five new sources, and three of
+them change how I understand the thing we have built.*
+
+## New sources
+
+8. Wikipedia, "Matrix mixer" (fetched in full this time) — the
+   PROFESSIONAL definition and the pro-audio use, which the eurorack
+   sources never mention
+9. Sound On Sound, Erica Synths Matrix Mixer review (fetched) — a 16×16
+   with SAVED STATES, and a working musician's account of what changes
+10. The Alan R. Pearlman Foundation, "Patching with Switch Matrices"
+    (fetched) — the ARP 2500's 10×10 switch matrix, 1970, from the
+    foundation of the man who built it
+11. Feedback Delay Network literature — Artificial Audio's FDN primer,
+    "Scattering in Feedback Delay Networks" (arXiv 1912.08888), the DAFx
+    2020 FDN Toolbox paper (via search)
+12. ModWiggler / ModularGrid / AI Synthesis AI018 threads on STEREO
+    matrix mixers and mid-side (via search)
+
+## 1. The original job is not effects at all: "a mix of mixes"
+
+Every eurorack source treats the matrix as a creative routing toy. The
+professional definition is older and more sober, and this program has a
+use for it. In live sound a matrix takes SUBGROUPS and builds a separate
+tailored blend for each destination — "main arrays, center clusters,
+under-balcony speakers, overflow rooms, broadcast feeds" — so the same
+band feeds several different mixes at once [wikipedia]. In film and TV
+the director gets "a working mix of the project while the mix engineer
+puts it together" — a different blend of the same parts, simultaneously.
+Named desks: Midas XL4 (8×8), Yamaha M7CL (19×8).
+
+**What that means here:** our three columns are MIX / ECHO / ROOM, all of
+which are destinations *inside* one mix. The professional pattern is
+columns that are *separate outputs*. The program already renders stems
+(`probe_stems`); a stem is exactly a destination column. Noted as a
+possibility, not built — it would change what the grid means.
+
+## 2. The ARP 2500 (1970): the grid is older than eurorack, and it failed
+
+ARP replaced Moog's patch cords with colour-coded sliders on a 10×10
+matrix. The advantages, in the Pearlman Foundation's own words: the panel
+stays "uncluttered and accessible" however complex the patch; setup time
+drops; patches can be read and written down at a glance instead of traced
+through cable spaghetti; and **"unlimited multiples"** — any number of
+inputs can sit on one bus, which cables make awkward.
+
+That is the argument for drawing our panel as a grid, made in 1970 and
+independently of dub.
+
+**And it failed for a physical reason:** the mechanical switches leaked
+between adjacent buses. Alan Pearlman conceded the system was "a bit
+noisier" than patch cables, and ARP went back to cords (normalised) for
+the 2600. **The elegant grid had a defect that only showed up once it was
+built** — which is exactly the shape of what happened to our room→echo
+crossing, for a completely different reason. Worth keeping as a caution:
+this idea has a history of being right on paper.
+
+## 3. A REVERB IS A MATRIX MIXER — and this reframes our own failure
+
+The deepest finding of this pass. A Feedback Delay Network — the standard
+way artificial reverb is built — is "a set of delay lines connected
+through a FEEDBACK MATRIX": every delay's output is mixed back into every
+delay's input through a grid of coefficients, and it is that matrix which
+turns a handful of discrete echoes into a dense room. The literature
+tunes the matrix itself for "echo density and mixing time", and extends
+the coefficients into whole FIR filters ("filter feedback matrices") to
+emulate scattering off non-flat surfaces [arXiv 1912.08888; DAFx 2020].
+
+So the structure I tried to build and had to remove — signal fed back
+through the grid — is not an exotic flourish. **It is what a room IS.**
+That explains why every practitioner source leads with feedback, and it
+explains why it was so tempting.
+
+It also sharpens why it cannot be done here. An FDN is built INSIDE one
+processing routine, sample by sample, where the loop is a line of
+arithmetic. We were trying to build it out of WebAudio NODES, where a
+loop is a cycle in a graph the browser schedules — and that is the thing
+Chromium will not render the same way twice. **The idea is right and the
+LAYER was wrong.** If this program ever wants a matrix-fed room, the
+honest route is an AudioWorklet doing the FDN arithmetic itself, not
+nodes wired in a ring. Recorded as the design, not built.
+
+## 4. What players actually do with one (Erica, 16×16, saved states)
+
+The reviewer's list, none of which needs feedback:
+
+- one LFO into many destinations at different depths — "related but
+  different" modulation from a single source
+- several sequencers combined for transposition (CV summing)
+- the same audio through effects in PARALLEL *or* in SERIES, chosen at
+  the grid instead of by repatching
+- **saved matrix states recalled for verse/chorus structure** — the
+  routing itself becomes part of the arrangement
+
+And the workflow claim, which is the reason the module gets bought: *"The
+Matrix Mixer radically changed my approach to Eurorack. It pushed me into
+all sorts of ideas."*
+
+**What that means here:** the last one is a real idea we do not have. Our
+crossings move CONTINUOUSLY on motion lanes; a *snapshot per section* —
+the whole routing changing at a section boundary — is a blunter and more
+dub-like gesture, and the program's form already knows where the
+boundaries are. Noted as a candidate, not built.
+
+## 5. Mid/side: what the bipolar switch was actually for
+
+The A-138m's per-column unipolar/BIPOLAR switch was refused in round one
+as "a CV feature". That was half right and I now know what it buys on
+AUDIO: mid = L+R and side = L−R, so **L/R ↔ mid-side conversion is
+literally a 2×2 matrix with a negative coefficient**, and the community
+uses stereo matrix mixers for exactly that — "L/R ↔ mid/side conversion
+or wild stereo phase effects when paired with a filter"
+[modwiggler/modulargrid; AI Synthesis AI018].
+
+So a bipolar crossing is a STEREO WIDTH tool, not a mistake. Our grid is
+mono-summed per bus and has no stereo rows, so it still does not apply —
+but the refusal in round one gave the wrong reason, and the right one is
+"our rows are not a stereo pair", not "polarity is only for CV".
+
+## What this round did NOT change
+
+The build stands as it is. Nothing here says the twelve instrument
+crossings, the two return levels or the two aliases are wrong, and
+nothing here revives room→echo. Three candidates are recorded above for
+the user to choose between — stem columns, per-section snapshots, and an
+AudioWorklet FDN — and none of them is started.
