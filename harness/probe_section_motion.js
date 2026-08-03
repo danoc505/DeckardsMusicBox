@@ -92,8 +92,21 @@ const ONLY = process.argv[2];
         const seed = seedFor[fn];
         if(seed == null){ windows[fn] = { missing: true }; continue; }
         const song = songs[seed];
-        const sec = song.sections.find(x => x.fn === fn);
-        const spb = (60 / song.chart.tempo) / 4;
+        /* ── the occurrence with the most notes in it, not the first ──
+           probe_matrix's lesson, re-learned here on the first run: a
+           recurring function whose content grows across the record (a
+           plastikman instrumental at bar 0 has no drums; at bar 200 it
+           has all of them) read INERT when only its first statement was
+           measured. Measure the fullest statement; a bus silent in THAT
+           is silent in the section as this song plays it. */
+        const spbT = (60 / song.chart.tempo) / 4;
+        let sec = null, most = -1;
+        for(const x of song.sections.filter(x => x.fn === fn)){
+          const a0 = x.startBar * 16 * spbT, z0 = Math.min(x.endBar, x.startBar + 8) * 16 * spbT;
+          const n = song.perf.events.filter(e => e.voice !== 'tape' && e.tSec >= a0 && e.tSec < z0).length;
+          if(n > most){ most = n; sec = x; }
+        }
+        const spb = spbT;
         const b0 = sec.startBar, b1 = Math.min(sec.endBar, b0 + 8);
         const a = b0 * 16 * spb, z = b1 * 16 * spb, secs = (z - a) + 2;
         const ev = [];
