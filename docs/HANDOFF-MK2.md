@@ -2843,3 +2843,38 @@ Recorded in `docs/BACKLOG.md` §1 with the warning attached: **do not just
 raise the number.** That check's whole value is failing when the return
 disappears, and a ceiling chosen to make today's mix pass proves nothing.
 The right fix derives it from what is actually panned.
+
+**THE LISTENING SESSION WAS PREPARED, AND PREPARING IT FOUND A DEFECT
+CLASS — 2026-08-03, docs and harness only, no program change, the stamp
+stands at `2026-08-03o` and the published artifact IS this build (stamp
+check green).** Per BACKLOG §0 and START-HERE, this session built the
+sitting instead of stacking more work: `test/ears/LOG.md` now opens with
+six songs — seeds verified on this build, timings computed from each
+song's own sections, one or two plain questions each, every verdict wired
+to a decision. plastikman 11 (the effect-cuts at 0:59/1:58, verified off
+the compiled plan, not remembered), jungle 1 (bridge 3:02–3:24), synthwave
+1 (stage opens at 0:42; the CS-80 verified seated right this seed, +0.20
+chorus, seed 4 left −0.49), bladerunner 1 (the FDN room, 62 ms pre-delay,
+the 1.4 s bloom), lofi 1 (two keyboards opposite, Suitcase sway), dkc 1 /
+acid 1 as a quick pair, and MONO CHECK if there is budget.
+
+**The defect class: a section-keyed mix move on a bus the arrangement
+keeps silent in exactly that section.** Chasing why no lofi seed 1–8
+plays lead in its outro turned "check the guide's claims" into
+measurement: lofi's outro Tubby pair can change **−95.8 dB** of the outro
+(control: −5.6 dB where the lead plays), jungle's bridge drum-drop
+**−90.5 dB** (control −6.4). Details, the plastikman counter-example
+that proves role-tables cannot answer this, and what would close it:
+BACKLOG §1. The measuring arm is new and permanent —
+**`harness/probe_section_motion.js`**, probe_matrix's difference-signal
+method pointed at every `kind:"section"` matrix/echo move inside the very
+section it is keyed to. A table, not a pass/fail, because a half-live
+move (one live section key of three) is a judgement call.
+
+Battery at `61e607c`: seam **118/0**, blend **10/0**, snapshot
+**IDENTICAL** (2100 seeds, `3a06b1c1b32aea33`), voices **0 threw /
+0 silent**, stamp **green**. ui and midi each dropped one wall-clock
+check on a first run under load (25/1, 19/1) and read **26/0** and
+**20/0** on immediate rerun — the documented flake; the first UI
+failure's name was not captured before the rerun, said honestly. The
+rendered-audio battery was not re-run: nothing touched the sound.
