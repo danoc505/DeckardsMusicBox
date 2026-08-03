@@ -552,7 +552,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03f · the first stereo stage: mono-safe panning, and the Rhodes gets its auto-pan back</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03g · stereo everywhere it belongs: ensembles spread, the echo ping-pongs, the kit has an image</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1154,6 +1154,24 @@ function chainControls(){
   }
   return out;
 }
+/* ── THE STEREO KNOBS, shared ────────────────────────────────────────────────
+   Three controls a pitched machine spreads into its list to get a place in the
+   image: a POSITION, and the Suitcase-style auto-pan (rate/depth) for the
+   machines whose history earns it. All defaults are OFF, so declaring them
+   changes nothing until a genre or a hand asks -- the stereoOut stage does not
+   even build a panner at (0, 0, 0). Basses and drums deliberately do NOT get
+   these: "keep drums, bass and lead vocals centered... below 60-100 Hz should
+   be mono" [corpus:waves; adsr] -- three of the seven genres are sound-system
+   music and a mono rig must lose nothing but level. */
+function panControls(){
+  return [
+    { k:"pan",    label:"pan",         cap:"PAN",   min:-1, max:1, step:0.01, def:0, kind:"gesture" },
+    { k:"panHz",  label:"pan sweep",   cap:"RATE",  min:0,  max:8, step:0.01, def:0, unit:"Hz", kind:"gesture" },
+    { k:"panDep", label:"sweep depth", cap:"DEPTH", min:0,  max:1, step:0.01, def:0, kind:"gesture" },
+  ];
+}
+function panGroup(){ return { label: "STEREO", keys: ["pan", "panHz", "panDep"] }; }
+
 function chainGroups(){
   return CHAIN_GROUPS.map(([g, cap]) => ({ label: cap + " CHAIN",
     keys: [g+"Tune", g+"Decay", g+"Mix", g+"Verb", g+"Echo", g+"Cut"] }));
@@ -1587,6 +1605,14 @@ const INSTRUMENTS = {
       /* how much of the echo goes into the room. "Delays sound great when run
          through a bit of reverb." [corpus:attackmagazine] */
       { k:"verb", label:"echo → room", cap:"WASH", min:0,  max:1,    step:0.01, def:0.50, kind:"bus" },
+      /* ── PING-PONG, mono-safe. The classic dub echo alternates sides on
+         each repeat. Done here as AMPLITUDE only: a square LFO with period
+         2x the delay time drives a panner on the echo's return, so repeat N
+         sits left and repeat N+1 sits right. Summed to mono the square
+         cancels out of the maths entirely and the echo is exactly the mono
+         echo -- no phase, no Haas, nothing a sound-system rig can lose. At 0
+         the panner sits at centre and the path is the old wire. */
+      { k:"width", label:"stereo width", cap:"WIDE", min:0, max:1, step:0.01, def:0, kind:"bus" },
     ],
     /* ── THE PAD, AND WHY THIS BOX GETS ONE ────────────────────────────────
          The source this genre's echo was built from describes the technique as
@@ -1601,7 +1627,7 @@ const INSTRUMENTS = {
     panel: { skin: "kaoss", maker: "KORG", title: "KAOSS PAD",
              xy: { x: "tone", y: "fb" },
              groups: [{ label: "PROGRAM", keys: ["div", "send", "verb"] },
-                      { label: "FX", keys: ["fb", "tone", "hp"] }] },
+                      { label: "FX", keys: ["fb", "tone", "hp", "width"] }] },
   },
 
   /* ── THE DESK ─────────────────────────────────────────────────────────────
@@ -1960,7 +1986,8 @@ const INSTRUMENTS = {
       { k:"tone", label:"tone",         cap:"TONE", min:0.3, max:1,   step:0.01,   def:1.00 , kind:"gesture" },
     ],
     panel: { skin: "rhodes", maker: "Fender", title: "Rhodes Suitcase Piano",
-             groups: [{ label: "", keys: ["bark", "tone", "wow"] }] },
+             groups: [{ label: "", keys: ["bark", "tone", "wow"] },
+                      panGroup()] },
   },
   vp330: {
     slot: "keys", label: "VP-330 strings / choir",
@@ -1970,32 +1997,38 @@ const INSTRUMENTS = {
        one), the balance between the string and the choir registers, and the
        swell. All four are read by the voice. */
     controls: [
+      ...panControls(),
       { k:"ens",     label:"ensemble", cap:"ENSEMBLE", min:0, max:1,   step:0.01, def:0.60 , kind:"gesture" },
       { k:"choir",   label:"choir",    cap:"HUMAN VOICE", min:0, max:1, step:0.01, def:0.45 , kind:"gesture" },
       { k:"attack",  label:"swell",    cap:"ATTACK",   min:0.05, max:2.5, step:0.05, def:0.90, unit:"s" , kind:"voicing" },
       { k:"release", label:"release",  cap:"RELEASE",  min:0.2, max:5,  step:0.1,  def:2.40, unit:"s" , kind:"voicing" },
     ],
     panel: { skin: "vp330", maker: "Roland", title: "VP-330 Vocoder Plus",
-             groups: [{ label: "", keys: ["ens", "choir", "attack", "release"] }] },
+             groups: [{ label: "", keys: ["ens", "choir", "attack", "release"] },
+                      panGroup()] },
   },
   waveseq: {
     slot: "keys", label: "wave sequence",
     lanes: { keys:"waveseq" },
     controls: [
+      ...panControls(),
       { k:"rate",   label:"step",    cap:"RATE",   min:0.08, max:1.5, step:0.02, def:0.42, unit:"s", kind:"gesture" },
       { k:"depth",  label:"sequence",cap:"DEPTH",  min:0,    max:1,   step:0.01, def:0.75, kind:"gesture" },
       { k:"attack", label:"swell",   cap:"ATTACK", min:0.02, max:2,   step:0.02, def:0.35, unit:"s", kind:"voicing" },
     ],
     panel: { skin: "waveseq", maker: "", title: "wave sequence",
-             groups: [{ label: "", keys: ["rate", "depth", "attack"] }] },
+             groups: [{ label: "", keys: ["rate", "depth", "attack"] },
+                      panGroup()] },
   },
   wash: {
     slot: "keys", label: "wash pad",
     lanes: { keys:"wash" },
     controls: [
+      ...panControls(),
       { k:"cut", label:"filter", cap:"CUTOFF", min:200, max:3000, step:10, def:900, unit:"Hz" , kind:"gesture" },
     ],
-    panel: { skin: "wash", maker: "", title: "wash", groups: [{ label: "", keys: ["cut"] }] },
+    panel: { skin: "wash", maker: "", title: "wash", groups: [{ label: "", keys: ["cut"] },
+                      panGroup()] },
   },
   wurly: {
     slot: "keys", label: "Wurlitzer",
@@ -2017,7 +2050,8 @@ const INSTRUMENTS = {
        it is a tremolo. Keeping the machine's word on the cap and the true word
        in the label rather than picking one and being wrong somewhere. */
     panel: { skin: "wurly", maker: "Wurlitzer", title: "Electronic Piano 200A",
-             groups: [{ label: "", keys: ["bark", "trem", "tremhz"] }] },
+             groups: [{ label: "", keys: ["bark", "trem", "tremhz"] },
+                      panGroup()] },
   },
   mellotron: {
     slot: "keys", label: "Mellotron",
@@ -2043,12 +2077,14 @@ const INSTRUMENTS = {
        of strips comes under the heads. It is a three-way selector, not a knob. */
     panel: { skin: "mellotron", maker: "Mellotronics", title: "Mellotron M400",
              groups: [{ label: "TAPE FRAME", keys: ["voice", "tapeEnd"] },
-                      { label: "TRANSPORT", keys: ["wow", "flutter", "hiss"] }] },
+                      { label: "TRANSPORT", keys: ["wow", "flutter", "hiss"] },
+                      panGroup()] },
   },
   cs80: {
     slot: "keys", label: "CS-80",
     lanes: { keys:"cs80" },
     controls: [
+      ...panControls(),
       /* THE PERFORMANCE CONTROLS, which on the real CS-80 sit in a row under the
          left hand and are meant to be moved WHILE PLAYING. All five are read by
          V.cs80 now; all five were declared and dead before.
@@ -2140,7 +2176,8 @@ const INSTRUMENTS = {
              groups: [{ label: "PERFORMANCE", keys: ["bright", "res", "initBend"] },
                       { label: "VCO",         keys: ["pw", "pwm", "pwmHz"] },
                       { label: "MODULATION",  keys: ["ring", "ens", "vib"] },
-                      { label: "AFTER",       keys: ["atBrill", "atLevel", "atVib"] }] },
+                      { label: "AFTER",       keys: ["atBrill", "atLevel", "atVib"] },
+                      panGroup()] },
   },
   chipkeys: {
     slot: "keys", label: "YM2612 FM keys",
@@ -2186,6 +2223,7 @@ const INSTRUMENTS = {
        voice would be a correcting pass, and this file does not have those. */
     range: [49, 81],
     controls: [
+      ...panControls(),
       { k:"bright",  label:"reed brightness", cap:"TONE",   min:0, max:1, step:0.01, def:0.50, kind:"voicing" },
       /* WHICH HORN. Two real altos, analyzed: 0 = the Iowa MIS instrument
          (three recorded dynamics), 1 = the Karoryfer Weresax (CC0; two
@@ -2214,7 +2252,8 @@ const INSTRUMENTS = {
              groups: [{ label: "REED",       keys: ["bright", "reed", "air"] },
                       { label: "EXPRESSION", keys: ["scoop", "fall"] },
                       { label: "VIBRATO",    keys: ["vib", "vibHz"] },
-                      { label: "GROWL",      keys: ["growl", "growlHz"] }] },
+                      { label: "GROWL",      keys: ["growl", "growlHz"] },
+                      panGroup()] },
   },
 };
 
@@ -3910,6 +3949,20 @@ registerProcessor("mk2-room", MK2Room);
     g.echo.connect(g.echoLp); g.echoLp.connect(g.echoHp);
     g.echoHp.connect(g.echoFb); g.echoFb.connect(g.echo);      // the loop
     g.echoHp.connect(g.echoOut);
+    /* the ping-pong stage: echoOut -> panner -> (the grid's echo row). The
+       square LFO's frequency is set per song in setSpace (period = two
+       repeats); its AMOUNT is the WIDTH dial, ridden like any bus control.
+       In an offline render the oscillator starts at the context's zero, so
+       the pattern of sides is part of the record -- Law 7 holds. Live, the
+       phase depends on when playback began, which is what a hardware
+       ping-pong does too. */
+    g.echoPan = c.createStereoPanner();
+    g.echoPanLfo = c.createOscillator(); g.echoPanLfo.type = "square";
+    g.echoPanLfo.frequency.value = 1 / (2 * 0.25);
+    g.echoWidth = c.createGain(); g.echoWidth.gain.value = 0;
+    g.echoPanLfo.connect(g.echoWidth); g.echoWidth.connect(g.echoPan.pan);
+    g.echoPanLfo.start(0);
+    g.echoOut.connect(g.echoPan);
     /* the delay's own return level is the echo->MIX crossing, built below with
        the rest of the grid; it still lands on `post`, past the shaper, exactly
        where this connect() used to put it */
@@ -4027,11 +4080,23 @@ registerProcessor("mk2-room", MK2Room);
          Found by the control sweep: FILTER on the TR-1000's top strip moved
          the sound in no way at all, and it was the last knob on the machine
          that did not. */
-      mk.connect(g.kitFilter);
+      /* ── THE CHANNEL'S PLACE IN THE KIT ────────────────────────────────
+         A drum kit on record is not a point source: the hats sit to a side,
+         the toms walk across, the cymbals straddle -- and kick and snare
+         stay CENTRED, which is the sound-system rule ("keep drums and bass
+         centered", low end mono) applied per channel rather than per bus.
+         The POSITIONS are the genre's (`kitPan`, a table of channel letter
+         to -1..1, read in setSpace); a genre that declares nothing has
+         every channel at 0 and this panner is a wire. The SENDS tap before
+         the panner, exactly as the matrix's rows do: an echoed hat throws
+         from where the dry hat sits because the echo return has its own
+         ping-pong, not because the send carried the pan. */
+      const chPan = c.createStereoPanner();
+      mk.connect(chPan); chPan.connect(g.kitFilter);
       mk.connect(echo); echo.connect(g.dlyTrim);
       mk.connect(verb); verb.connect(g.revTrim);
       if(g.gateSend){ mk.connect(gate); gate.connect(g.gateSend); }
-      g.dchain[grp] = { inp, lp, drv, sat, mk, echo, verb, gate };
+      g.dchain[grp] = { inp, lp, drv, sat, mk, echo, verb, gate, pan: chPan };
     }
     g.kitFilter.connect(g.bus.drums);
 
@@ -4079,7 +4144,7 @@ registerProcessor("mk2-room", MK2Room);
        chained the sends off the dry gain would break the headline feature
        silently, and now cannot. */
     const matrixSource = k =>
-      k === "echo" ? g.echoOut :          // the delay's return, post its own loop
+      k === "echo" ? g.echoPan :          // the delay's return, post its ping-pong
       k === "room" ? g.verb :             // the reverb's return, pre its level
       g.bus[k];                           // ...and every role bus. ADD ROWS HERE.
     const matrixDest = (outK, inK) =>
@@ -4857,15 +4922,19 @@ registerProcessor("mk2-room", MK2Room);
        detune is not one: what makes it swim is that the delay time MOVES. Two
        taps, slightly different rates, against the dry. */
     const wet = c.createGain(); wet.gain.value = P(g, ev, "cs80", "ens", 0.42);
-    for(const [ms, rate, ph] of [[11, 0.31, 1], [17, 0.23, -1]]){
+    for(const [ms, rate, ph, side] of [[11, 0.31, 1, -0.7], [17, 0.23, -1, 0.7]]){
       const d = c.createDelay(0.06); d.delayTime.value = ms / 1000;
       const l = c.createOscillator(); l.type = "sine"; l.frequency.value = rate;
       const la = c.createGain(); la.gain.value = ph * 0.0028;
       l.connect(la); la.connect(d.delayTime);
-      out.connect(d); d.connect(wet);
+      /* each modulated tap to its own side: the dry stays centred and the two
+         swimming copies straddle it, which is what a stereo chorus IS. The
+         mono sum is the same two taps it always was. */
+      const sp = c.createStereoPanner(); sp.pan.value = side;
+      out.connect(d); d.connect(sp); sp.connect(wet);
       l.start(t); l.stop(end); nodes.push(l);
     }
-    const bus = ev.role === "keys" ? g.bus.keys : g.bus.lead;
+    const bus = stereoOut(g, ev, t, "cs80", ev.role === "keys" ? "keys" : "lead");
     out.connect(bus); wet.connect(bus);
 
     const lvl = ev.role === "keys" ? LEVEL.keys * 2.0 : LEVEL.lead;
@@ -4948,7 +5017,7 @@ registerProcessor("mk2-room", MK2Room);
     const flt = c.createBiquadFilter(); flt.type = "lowpass"; flt.Q.value = 0.7;
     flt.frequency.setValueAtTime(3000 + 3600 * ev.gain, t);
     flt.frequency.exponentialRampToValueAtTime(1800 + 1600 * ev.gain, t + 0.22);
-    out.connect(flt); flt.connect(g.bus.lead);
+    out.connect(flt); flt.connect(stereoOut(g, ev, t, "lead", "lead"));
     /* THE RIBBON REACHES THE LEAD TOO. Stage 5 offers a bend to the lead and the
        keys, but only the CS-80 knew how to realise one -- so on a rig whose lead
        is this voice (synthwave's is), the gesture was written and then silently
@@ -5855,7 +5924,7 @@ registerProcessor("mk2-room", MK2Room);
      otherwise. ═══════════════════════════════════════════════════════════════ */
   V.vp330 = function(g, ev, t){
     const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 2.6;
-    const out = c.createGain(); out.connect(g.bus.keys);
+    const out = c.createGain(); out.connect(stereoOut(g, ev, t, "vp330", "keys"));
     const made = [];
     const choir = P(g, ev, "vp330", "choir", 0.45);
     /* the divide-down source: a saw, plus its octave, which is what the organ
@@ -5884,7 +5953,18 @@ registerProcessor("mk2-room", MK2Room);
       slow.connect(ph); ph.connect(sg); sg.connect(dl.delayTime);
       fast.connect(ph2); ph2.connect(fg); fg.connect(dl.delayTime);
       const tg = c.createGain(); tg.gain.value = 1 / 3;
-      mix.connect(dl); dl.connect(tg); tg.connect(out);
+      /* ── THE TAPS GET THEIR PLACES, which is the entire stereo of a string
+         machine: the swirl was already three delay lines on two three-phase
+         LFOs (the Solina architecture), and then all three summed to ONE
+         node -- the ensemble was built and then collapsed to mono one line
+         later. On the stereo string machines each line goes to its own
+         side; that is where the width of every ensemble pad on record comes
+         from, not from panning the finished sound. L / centre / R, and the
+         mono sum is bit-for-bit the old mono chorus, because amplitude
+         panning three taps and adding them back recovers the same three
+         taps. */
+      const tp = c.createStereoPanner(); tp.pan.value = [-0.8, 0, 0.8][i];
+      mix.connect(dl); dl.connect(tg); tg.connect(tp); tp.connect(out);
     }
     mix.connect(out);
     /* the CHOIR is the same signal through two vocal formant bands; at 0 it is
@@ -5952,7 +6032,7 @@ registerProcessor("mk2-room", MK2Room);
     const c = g.ctx, f = F(ev.pitch);
     const step = P(g, ev, "waveseq", "rate", 0.42);
     const end = t + ev.durSec + 1.4;
-    const out = c.createGain(); out.connect(g.bus.keys);
+    const out = c.createGain(); out.connect(stereoOut(g, ev, t, "waveseq", "keys"));
     const made = [];
     /* four points in the sequence: hollow, reedy, bright, and a soft bell. The
        shapes are [harmonic, level] pairs -- deliberately different SPECTRA
@@ -6157,7 +6237,7 @@ registerProcessor("mk2-room", MK2Room);
     const tEnd = t + last.dt + last.durSec;
     const end = tEnd + REL + 0.6;
     const made = [];
-    const out = c.createGain(); out.connect(g.bus.lead);
+    const out = c.createGain(); out.connect(stereoOut(g, ev, t, "sax", "lead"));
     const pre = c.createGain(); pre.connect(out);
 
     /* one wavetable region per phrase, at the phrase's median pitch. A line
@@ -6465,7 +6545,7 @@ registerProcessor("mk2-room", MK2Room);
     const out = c.createGain();
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
     lp.frequency.value = P(g, ev, "wash", "cut", 900); lp.Q.value = 1.4;
-    out.connect(lp); lp.connect(g.bus.keys);
+    out.connect(lp); lp.connect(stereoOut(g, ev, t, "wash", "keys"));
     const made = [];
     for(const dt of [-9, 9]){
       const o = c.createOscillator(); o.type = "sawtooth";
@@ -7039,6 +7119,12 @@ registerProcessor("mk2-room", MK2Room);
       }
       for(const grp of CHAIN_LETTERS){
         const ch = g.dchain[grp];
+        /* the channel's place: the genre's declaration, nothing else -- no
+           knob, no ride demand, just a table like `feeds` was. Absent = 0 =
+           the wire this replaced. Clamped so a typo cannot put a drum
+           outside the speakers. */
+        if(ch.pan) ch.pan.pan.value =
+          Math.max(-1, Math.min(1, (space && space.kitPan && space.kitPan[grp]) || 0));
         rideBus(g, ch.lp.frequency, M + "." + grp + "Cut",  panelValue(M, grp + "Cut"),  t0);
         rideBus(g, ch.echo.gain,    M + "." + grp + "Echo", panelValue(M, grp + "Echo"), t0);
         rideBus(g, ch.verb.gain,    M + "." + grp + "Verb", panelValue(M, grp + "Verb"), t0);
@@ -7180,6 +7266,11 @@ registerProcessor("mk2-room", MK2Room);
     if(g.echo){
       const spb = (motion && motion.spb) || 0.125;
       g.echo.delayTime.value = Math.min(2.0, panelValue("echo", "div") * spb);
+      /* the ping-pong period is two repeats, whatever the division is */
+      if(g.echoPanLfo)
+        g.echoPanLfo.frequency.value = 1 / (2 * Math.max(0.02, g.echo.delayTime.value));
+      if(g.echoWidth)
+        rideBus(g, g.echoWidth.gain, "echo.width", panelValue("echo", "width"), t0);
       rideBus(g, g.echoFb.gain,        "echo.fb",   panelValue("echo", "fb"),   t0);
       rideBus(g, g.echoLp.frequency,   "echo.tone", panelValue("echo", "tone"), t0);
       rideBus(g, g.echoHp.frequency,   "echo.hp",   panelValue("echo", "hp"),   t0);
@@ -7795,7 +7886,11 @@ const GENRE = {
     /* even here: a quarter-note tape repeat, barely there, on the tune. Lofi's
        whole lineage is a sampler through a tape machine, and a tape machine
        echoes. Small numbers -- this is patina, not an effect. */
-    space: { wet: 0.16, echoFeeds: ["lead"] },                                                            // [EAR]
+    space: { wet: 0.16, echoFeeds: ["lead"],
+             /* the kit's image: hats to the right, rim and clap answering
+                left, cymbals straddling, kick and snare dead centre per the
+                mono rule. A dusty spread, not a drum showcase. [EAR] */
+             kitPan: { h: 0.22, o: 0.28, r: -0.20, c: -0.16, a: -0.30, d: 0.32, t: -0.12, m: 0.12 } },                                                            // [EAR]
     /* the kit's own character. Tuned HIGH, short, soft and barely driven -- a
        muffled boom-bap kick, not a club kick. [corpus: Improv Machine BETA 0.1,
        KICK_BY_GENRE.lofi] */
@@ -7883,7 +7978,8 @@ const GENRE = {
          patch's own brightness. Move them from here, with ears. */
       subbass:   { cut: 720, drive: 0.18 },
       /* a quarter note, soft, dark: a tape slap rather than a dub delay */
-      echo:      { div: 4, fb: 0.16, tone: 1800, hp: 160, send: 0.10, verb: 0.45 },
+      echo:      { div: 4, fb: 0.16, tone: 1800, hp: 160, send: 0.10, verb: 0.45,
+                   width: 0.22 },
       chipbass:  { bright: 0.60 },
       chipkeys:  { bright: 0.60 },
     },
@@ -8566,7 +8662,9 @@ const GENRE = {
        feedback, sitting in the plate. Not a dub delay -- the repeats keep their
        top, which is why the tone here is wide open against Plastikman's 2200. */
     space: { wet: 0.30, irSec: 2.6, tailPow: 1.9, tailDark: 0.30, sendHp: 170,
-             echoFeeds: ["lead"] },
+             echoFeeds: ["lead"] ,
+             /* the kit's image; kick and snare centred per the mono rule. Amounts mine. [EAR] */
+             kitPan: { h: 0.20, o: -0.24, r: -0.16, c: 0.16, a: -0.32, d: 0.32, t: -0.22, m: 0.22 } },
     /* deep, long, hard and driven: full four-on-the-floor punch, and the kit is
        pushed harder into its saturation than any other genre here.
        [corpus: Improv Machine BETA 0.1, KICK_BY_GENRE.synthwave / DRUMBUS 1.4] */
@@ -9201,7 +9299,9 @@ const GENRE = {
        a long room rather than a short one -- AND a delay, which is literally
        what the hardware is. Wise's writing leans on it. */
     space: { wet: 0.34, irSec: 2.4, tailPow: 2.0, tailDark: 0.36, sendHp: 190,
-             echoFeeds: ["lead", "keys"] },
+             echoFeeds: ["lead", "keys"] ,
+             /* the kit's image; kick and snare centred per the mono rule. Amounts mine. [EAR] */
+             kitPan: { h: 0.18, o: 0.24, r: -0.16, c: -0.14, a: -0.28, d: 0.28, t: -0.20, m: 0.20 } },
     /* the first build's `wise` entry, which is what it called this music: high,
        short, soft. A DKC kit sits under the texture, it does not drive it.
        [corpus: Improv Machine BETA 0.1, KICK_BY_GENRE.wise] */
@@ -9266,6 +9366,16 @@ const GENRE = {
        gestures -- a stepped lock or a filter dive would announce a machine, and
        this genre's whole trick is that the loop does not seem to be a loop. */
     motion: {
+      /* Wise's pads on DKC records sit wide of the melody; the wavestation
+         bed gets a placement and a slow breath. Amounts mine. [EAR] */
+      waveseq: {
+        pan:    [{ kind: "section", by: { verse: [-0.18, -0.06], chorus: [0.05, 0.16] } },
+                 { kind: "lfo", bars: [[64, 2], [48, 1]], depth: [0.04, 0.11],
+                   shape: "sin", freePhase: true }],
+        panHz:  [{ kind: "lfo", bars: [[96, 2], [64, 1]], depth: [0.01, 0.04],
+                   shape: "sin", freePhase: true }],
+        panDep: [{ kind: "arc", from: [0.02, 0.06], to: [0.08, 0.16], curve: "sCurve" }],
+      },
       /* the desk on a console game score is a gentle thing -- the chip has a
          fixed output stage and the music is meant to loop without drawing
          attention to its own mixing. A high band that opens toward the middle
@@ -9882,6 +9992,16 @@ const GENRE = {
                      shape: "sin", freePhase: true }],
       },
       cs80: {
+        /* ── THE LEAD'S PLACE IN THE IMAGE. Nemo was an early quadraphonic
+           room and this score swims; the CS-80 lead drifting slowly off
+           centre is mix practice for it, not an effect. Amplitude-only, so
+           the mono rig loses level and never the note. Amounts mine. [EAR] */
+        pan:    [{ kind: "section", by: { verse: [-0.16, -0.05], chorus: [0.04, 0.14] } },
+                 { kind: "lfo", bars: [[96, 2], [64, 1]], depth: [0.04, 0.12],
+                   shape: "sin", freePhase: true }],
+        panHz:  [{ kind: "lfo", bars: [[128, 1], [96, 1]], depth: [0.01, 0.04],
+                   shape: "sin", freePhase: true }],
+        panDep: [{ kind: "arc", from: [0.02, 0.07], to: [0.08, 0.18], curve: "sCurve" }],
         bright: [{ kind: "section", by: { intro: [-0.14, -0.06], chorus: [0.05, 0.12],
                                           bridge: [-0.10, -0.03], outro: [-0.18, -0.10] } },
                  { kind: "lfo", bars: [[32, 4], [16, 2]], depth: [0.02, 0.06], shape: "sin" }],
@@ -9915,6 +10035,14 @@ const GENRE = {
                     shape: "sin", freePhase: true }],
       },
       vp330: {
+        /* placement (amounts mine [EAR]); merged into the one existing
+           block -- the duplicate-key law caught two earlier attempts */
+        pan:    [{ kind: "section", by: { verse: [0.06, 0.18], bridge: [-0.10, 0.02] } },
+                 { kind: "lfo", bars: [[80, 2], [56, 1]], depth: [0.04, 0.10],
+                   shape: "sin", freePhase: true }],
+        panHz:  [{ kind: "lfo", bars: [[96, 2], [72, 1]], depth: [0.01, 0.04],
+                   shape: "sin", freePhase: true }],
+        panDep: [{ kind: "arc", from: [0.03, 0.08], to: [0.10, 0.20], curve: "sCurve" }],
         ens:   [{ kind: "lfo", bars: [[32, 3], [16, 2]], depth: [0.05, 0.12], shape: "sin" }],
         choir: [{ kind: "section", by: { chorus: [0.06, 0.16], bridge: [-0.12, -0.04],
                                          outro: [-0.14, -0.06] } }],
@@ -10126,7 +10254,9 @@ const GENRE = {
        genre had the reverb number and none of the delay, which is the part of
        that sentence doing the work. The echo takes the bass, because in acid
        house the delay is on the 303. [corpus:attackmagazine, corpus:musicradar] */
-    space: { wet: 0.10, echoFeeds: ["bass"] },
+    space: { wet: 0.10, echoFeeds: ["bass"] ,
+             /* the kit's image; kick and snare centred per the mono rule. Amounts mine. [EAR] */
+             kitPan: { h: 0.24, o: -0.28, r: 0.18, c: -0.18, a: -0.34, d: 0.34 } },
     kick: { tune: 47, decay: 0.55, click: 0.70, drive: 0.55, body: 1.05, gain: 1.20 },
     drumDrive: 1.35,
     gate: null,                  // acid house is not a gated-reverb genre
@@ -10879,7 +11009,9 @@ const GENRE = {
              /* this genre asked for the room folding back into the delay --
                 the other half of the "delays on the reverbs" sentence -- and
                 it was built, swept and then removed: the cycle costs the
-                renderer its repeatability. MATRIX.none carries the numbers. */ },
+                renderer its repeatability. MATRIX.none carries the numbers. */
+             kitPan: { h: 0.26, o: -0.30, r: 0.20, c: -0.22, a: -0.36, d: 0.36,
+                       t: -0.14, m: 0.14 } },
     kick: { tune: 46, decay: 0.60, click: 0.55, drive: 0.50, body: 1.10, gain: 1.22 },
     drumDrive: 1.30,
     gate: null,
@@ -11035,7 +11167,9 @@ const GENRE = {
          honestly build. The repeats darken faster (tone down), which is what
          makes it a dub delay rather than a copy machine.
          [corpus:attackmagazine dub-delays, corpus:hawtin] */
-      echo:  { div: 3, fb: 0.46, tone: 1900, hp: 200, send: 0.32, verb: 0.70 },
+      echo:  { div: 3, fb: 0.46, tone: 1900, hp: 200, send: 0.32, verb: 0.70,
+               /* the repeats alternate sides -- the sound-system echo. [EAR] */
+               width: 0.40 },
       /* THE DESK, and this is the genre it was built for. The crossovers sit
          where a DJ mixer's do; the three gains start at unity and the whole
          performance is in `motion.desk` below. */
@@ -11266,6 +11400,14 @@ const GENRE = {
                 shape: "sin", freePhase: true }],
       },
       wash: {
+        /* placement (amounts mine [EAR]); merged into the one existing
+           block -- the duplicate-key law caught two earlier attempts */
+        pan:    [{ kind: "section", by: { bridge: [-0.22, 0.22], instrumental: [-0.12, 0.12] } },
+                 { kind: "lfo", bars: [[72, 2], [96, 1]], depth: [0.06, 0.16],
+                   shape: "sin", freePhase: true }],
+        panHz:  [{ kind: "lfo", bars: [[96, 2], [128, 1]], depth: [0.01, 0.05],
+                   shape: "sin", freePhase: true }],
+        panDep: [{ kind: "arc", from: [0.03, 0.09], to: [0.10, 0.22], curve: "sCurve" }],
         cut: [{ kind: "lfo", bars: [[64, 3], [32, 2]], depth: [120, 380],
                 shape: "tri", freePhase: true },
               { kind: "section", by: { bridge: [200, 520] } }],
@@ -11579,7 +11721,10 @@ const GENRE = {
        Fed from the DRUMS as well as the keys, which no other genre does: in
        this music the echo on a snare hit IS an arrangement element. */
     space: { wet: 0.22, irSec: 2.2, tailPow: 2.0, tailDark: 0.38, sendHp: 180,
-             echoFeeds: ["drums", "keys"] },
+             echoFeeds: ["drums", "keys"],
+             /* the tr1000 layer under the break gets a small image; the break
+                itself is one recording and stays where it is. [EAR] */
+             kitPan: { h: 0.24, o: -0.26, r: -0.18, c: 0.18, a: -0.32, d: 0.32 } },
     kick: { tune: 47, decay: 0.30, click: 0.50, drive: 0.35, body: 1, gain: 1.0 },
     drumDrive: 1.15,
     gate: null,
@@ -11621,7 +11766,9 @@ const GENRE = {
                accent: 0.70, drive: 2.4, wave: 0 },
       /* a straight eighth at 30%, which is the other setting the sources name,
          and darker repeats than synthwave's -- this is dub lineage. */
-      echo:  { div: 2, fb: 0.30, tone: 1900, hp: 240, send: 0.22, verb: 0.55 },
+      echo:  { div: 2, fb: 0.30, tone: 1900, hp: 240, send: 0.22, verb: 0.55,
+               /* jungle's throws answer left then right. [EAR] */
+               width: 0.55 },
     },
     motion: {
       /* ── JUNGLE'S DESK IS THE DROP ─────────────────────────────────────────

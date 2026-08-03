@@ -2237,3 +2237,52 @@ where real width comes from and which no amount of panning substitutes
 for; (3) the ECHO is still a mono delay line and a dub echo is classically
 stereo (ping-pong); (4) the DRUM machines' per-voice pan, which is how a
 kit stops being a point source. And the ear has heard none of it.
+
+**STEREO, ALL OF IT, at `2026-08-03g`** — the user: *"I don't understand,
+I said I want stereo... Do all of them now."* All four remaining items
+from the `2026-08-03f` list landed in one pass:
+
+1. **Every melodic voice routes through `stereoOut`**: cs80, lead, vp330,
+   waveseq, sax, wash joined rhodes/wurly/mellotron. `panControls()` /
+   `panGroup()` are shared declarations (like chainControls); five more
+   machines carry PAN/RATE/DEPTH with a STEREO group on their panels.
+   Genres ride them where hosted: bladerunner (cs80 drift + vp330
+   placement), dkc (waveseq), plastikman (wash). The "lead" VOICE has no
+   INSTRUMENTS machine, so V.lead stays centred — which is also the RULE
+   ("keep... lead vocals centered"). Basses and the tape bed: centred on
+   purpose. The seam battery caught params-vs-motion misplacement TWICE
+   during this work (lanes landing in `params.vp330` — params comes first
+   in the file); its static scanner was also taught that a P() call with a
+   VARIABLE machine name reads that control on every machine declaring it.
+2. **THE ENSEMBLES WERE ALREADY THREE-LINE CHORUSES AND WERE SUMMED TO
+   MONO ONE LINE LATER.** vp330: three taps, two three-phase LFOs — the
+   Solina architecture, collapsed into one node. Now L/C/R (±0.8). cs80:
+   two modulated taps, now ±0.7 either side of the centred dry. This is
+   where record-width comes from; the mono sum recovers the identical
+   mono chorus (amplitude only).
+3. **THE ECHO PING-PONGS, mono-safely**: `echo.width` (new dial, kaoss FX
+   group, def 0 = the old wire) scales a SQUARE LFO at period 2×delayTime
+   driving a panner on the echo return — repeat N left, N+1 right. Summed
+   to mono the square cancels out of the arithmetic entirely. Offline the
+   LFO starts at context zero (Law 7 holds — probe green); live, phase
+   depends on when play was pressed, as on hardware. Bases: jungle 0.55,
+   plastikman 0.40, lofi 0.22 [EAR].
+4. **THE KIT HAS AN IMAGE**: per-chain StereoPanner (mk → pan →
+   kitFilter), positions from the genre's `space.kitPan` table (letter →
+   -1..1, absent = 0 = the old wire; no knob, no ride demand — a
+   declaration like `feeds` was). Kick/snare centred everywhere per the
+   mono rule; hats/rim/clap/cymbals straddle at ±0.14–0.36. Declared for
+   lofi, plastikman, jungle, acid, synthwave, dkc. Chain SENDS tap before
+   the panner (pre-fader again): an echoed hat throws into the ping-pong,
+   not a panned send.
+
+MEASURED (side-vs-mid, seed-11 excerpts — a blunt metric that
+underweights image because centred kick/bass dominate energy): acid
+-58.4→-44.5, jungle -48.8→-35.4, synthwave -23.5→-18.0, plastikman
+-13.4→-12.9, bladerunner -14.3, lofi -26.8, dkc -20.4. Battery: 118 seam,
+snapshot IDENTICAL, ui 26, blend 10, renders repeatable on all seven.
+STILL OPEN: the EAR has heard none of it; per-genre widths/positions are
+all [EAR] first guesses; dkc/lofi read low because seed 11's draws — a
+roll across seeds would say more; the mellotron's own ensemble (it is a
+tape machine, no chorus — correct) and the segakit's chains carry no
+kitPan for bladerunner (barely a kit).
