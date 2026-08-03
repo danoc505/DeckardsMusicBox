@@ -637,7 +637,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03h · THE FIELD: a phosphor stage that builds itself from whatever the song loaded</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03i · the conductor arranges the stage: a whole field state per section</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -2535,7 +2535,105 @@ function makeMotion(chart, form, sections){
     for(let b = s.startBar; b < s.endBar && b < nBars; b++) secOcc[b] = s.occurrence || 1;
 
   const lanes = {};
-  const MO = G.motion || {};
+  /* ══ THE STAGE: A WHOLE FIELD STATE PER SECTION ════════════════════════════
+     A genre could already move one instrument's pan per section, lane by lane.
+     What it could not say is "in the chorus the stage OPENS" -- an arrangement
+     of everything at once -- and that is the statement a hand at the field
+     makes in one gesture. `GENRE.x.stage` is that statement.
+
+     IT IS NOT A SECOND MECHANISM. It expands, right here, into ordinary
+     `kind:"section"` motion specs on controls that already exist, and then the
+     loop below treats them like any other lane. One owner, one code path; the
+     stage is a shorthand for a coherent set of lanes, the way chainControls()
+     is a shorthand for a coherent set of knobs.
+
+     IT IS CONSTRAINTS, NOT POSITIONS. A stage does not name where the Wurly
+     goes -- it names how WIDE the picture is and how DEEP, as ranges, per
+     section function. Who stands where is then drawn per song: the hosted
+     instruments are seated evenly across the available width (so two never
+     land on the same spot) and each seat is jittered from its own named
+     stream. Same seed, same seating.
+
+     AND IT ADAPTS TO WHAT WAS LOADED, which is the whole point: the seats are
+     assigned to the machines THIS CHART ACTUALLY PICKED, read through
+     machineIn() exactly as the field display reads them. A rig that draws
+     three keyboards gets three seats; one that draws one gets the centre.
+
+     WHAT IT DOES NOT OWN: a machine's own character. The Rhodes' auto-pan
+     (panHz/panDep) is the instrument, not the arrangement, and stays declared
+     on the machine. The stage places players; it does not tell them how to
+     play. ══════════════════════════════════════════════════════════════════ */
+  const MO = Object.assign({}, G.motion || {});
+  if(G.stage && G.stage.by){
+    const SP = { drums: "drums", bass: "bass", keys: "keys", keys2: "keys", lead: "lead" };
+    const seatable = [];
+    for(const slot of RACK_SLOTS){
+      if(!SP[slot]) continue;
+      const m = machineIn(chart, slot);
+      if(!m || m === "auto" || m === "none" || !INSTRUMENTS[m]) continue;
+      if(!CONTROL[m + ".pan"]) continue;                  // centred by design
+      if(!seatable.some(x => x.m === m)) seatable.push({ m, bus: SP[slot] });
+    }
+    /* the seats: evenly spread, then nudged, so a two-piece stage is not the
+       same shape as a five-piece one and neither is a straight line */
+    const nS = seatable.length;
+    seatable.forEach((x, i) => {
+      const r = stream(chart.seed, "stage:seat:" + x.m);
+      /* ── A LONE PLAYER STILL HAS A PLACE ─────────────────────────────────
+         Seating one instrument at dead centre is the symmetric answer and it
+         made the stage INERT on every song that draws a single keyboard --
+         measured on lofi, where the widest chorus moved the Wurly 0.07. A
+         solo player does not stand in the exact middle of a stage; they stand
+         somewhere, and which side is a per-song decision like every other.
+         Two or more get seated evenly across the width, which is what keeps
+         them off each other. */
+      const even = nS < 2 ? (r() * 2 - 1) * 0.75 : ((i + 0.5) / nS) * 2 - 1;
+      x.seat = Math.max(-1, Math.min(1, even + (r() * 2 - 1) * 0.18));
+    });
+    const put = (key, spec) => {
+      /* ── ONE OWNER, BY PRECEDENCE: THE NAMED LANE WINS ────────────────────
+         A hand-written `motion` lane is a specific statement about one
+         control; a stage is a general statement about the picture. Where they
+         meet, the specific one owns the number and the stage simply does not
+         seat that control -- so there is still exactly one writer, decided by
+         a stated rule rather than by whichever ran last.
+
+         The first version THREW here instead, which was right for a single
+         genre and wrong for this program: BLENDING merges two tables, so any
+         blend of a staged genre with a laned one is a collision by
+         construction. It killed 38 of 504 pairs. A feature that cannot be
+         blended is not a feature here. */
+      const [mm, kk] = key.split(".");
+      if(MO[mm] && MO[mm][kk]) return;
+      MO[mm] = Object.assign({}, MO[mm]); MO[mm][kk] = spec;
+    };
+    for(const x of seatable){
+      const by = {}, rw = stream(chart.seed, "stage:width:" + x.m);
+      for(const fn in G.stage.by){
+        const w = G.stage.by[fn].spread;
+        if(!w) continue;
+        /* the seat scaled by this section's width, as a RANGE so the draw
+           still has room to move -- a stage that lands on one number every
+           song is a baked-in value wearing a table */
+        const lo = x.seat * w[0], hi = x.seat * w[1];
+        by[fn] = lo <= hi ? [lo, hi] : [hi, lo];
+      }
+      if(Object.keys(by).length) put(x.m + ".pan", [{ kind: "section", by }]);
+      rw();
+    }
+    /* DEPTH is per BUS, because the room send is -- the field draws that as
+       blips sharing a vertical, and the arithmetic agrees */
+    const buses = {};
+    for(const x of seatable) buses[x.bus] = 1;
+    for(const bus in buses){
+      const by = {};
+      for(const fn in G.stage.by){
+        const d = G.stage.by[fn].depth;
+        if(d) by[fn] = d.slice();
+      }
+      if(Object.keys(by).length) put("matrix." + bus + "Room", [{ kind: "section", by }]);
+    }
+  }
   for(const m in MO) for(const k in MO[m]){
     const key = m + "." + k;
     const c = CONTROL[key];
@@ -8092,6 +8190,22 @@ const GENRE = {
     /* and the movement. Small everywhere: this genre's whole affect is that
        nothing lunges. The one thing lofi really does do on a dial is open up
        slightly for the chorus and go duller for the outro. */
+    /* ── THE STAGE, section by section ────────────────────────────────────
+       A beat tape does not swing its players around the room, so this is the
+       gentlest stage in the file: the picture opens a little for the chorus
+       and closes for the outro, and the verse sits narrow. WIDTH is a scale
+       on each instrument's seat and DEPTH is the room send, both as ranges,
+       so the same genre lays out a different stage every song and neither
+       number is baked. Who sits where is drawn from the seating stream over
+       whatever machines this rig actually loaded. Amounts mine. [EAR] */
+    stage: {
+      by: {
+        intro:  { spread: [0.10, 0.22], depth: [-0.06, 0.00] },
+        verse:  { spread: [0.18, 0.34], depth: [-0.02, 0.04] },
+        chorus: { spread: [0.42, 0.66], depth: [0.04, 0.12] },
+        outro:  { spread: [0.08, 0.20], depth: [-0.08, -0.02] },
+      },
+    },
     motion: {
       /* ── THE DESK AND THE ECHO, ON EVERY GENRE ─────────────────────────────
          MEASURED, and it was one of the plainer results this file has produced:
@@ -8451,8 +8565,8 @@ const GENRE = {
                  { kind: "lfo", bars: [[64, 2], [48, 1]], depth: [0.03, 0.08],
                    shape: "sin", freePhase: true }],
         panDep: [{ kind: "arc", from: [0.10, 0.20], to: [0.24, 0.40], curve: "sCurve" }],
-        pan:    [{ kind: "lfo", bars: [[56, 2], [40, 1]], depth: [0.04, 0.10],
-                   shape: "sin", freePhase: true }],
+        /* POSITION is the stage's now (see GENRE.lofi.stage); what stays here
+           is the instrument's own behaviour -- the Suitcase sweep. */
         wow:  [{ kind: "lfo", bars: [[24, 3], [16, 2]], depth: [0.0003, 0.0011],
                  shape: "sin", freePhase: true }],
         /* ONE `tone` KEY, NOT TWO. These were two separate `tone:` entries in
@@ -8475,9 +8589,7 @@ const GENRE = {
         /* the Wurly gets a PLACEMENT, not a widening: its own tremolo is real
            mono amplitude and stays exactly where it is. Off to one side of
            the Rhodes so the two keyboards stop occupying one point. [EAR] */
-        pan:    [{ kind: "section", by: { verse: [-0.20, -0.08], chorus: [0.05, 0.18] } },
-                 { kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.03, 0.08],
-                   shape: "sin", freePhase: true }],
+        /* position: the stage's. */
         panHz:  [{ kind: "lfo", bars: [[64, 2], [96, 1]], depth: [0.02, 0.05],
                    shape: "sin", freePhase: true }],
         panDep: [{ kind: "section", by: { chorus: [0.04, 0.12] } }],
@@ -8934,6 +9046,21 @@ const GENRE = {
        are here and they stack: the section says where the song is, the LFO
        breathes underneath it, the p-locks give the pattern internal detail, and
        the gesture takes the whole thing up over the fill into the chorus. */
+    /* ── THE STAGE. This genre hosts the CS-80 and the string machine at
+       once, so it is the one that shows what seating IS: two players placed
+       apart, the picture narrow through the verse and thrown open on the
+       chorus, with the room deepening as it opens. Ranges, so the seating and
+       the width are both drawn per song. Amounts mine. [EAR] */
+    stage: {
+      by: {
+        intro:     { spread: [0.20, 0.38], depth: [-0.05, 0.02] },
+        verse:     { spread: [0.28, 0.48], depth: [-0.02, 0.05] },
+        prechorus: { spread: [0.44, 0.66], depth: [0.02, 0.09] },
+        chorus:    { spread: [0.70, 0.95], depth: [0.06, 0.16] },
+        bridge:    { spread: [0.30, 0.55], depth: [0.04, 0.12] },
+        outro:     { spread: [0.16, 0.34], depth: [-0.06, 0.00] },
+      },
+    },
     motion: {
       /* ── A SONG FORM'S DESK, NOT A DJ'S ────────────────────────────────────
          Synthwave is written, not mixed live, so its desk moves like a mix

@@ -2335,3 +2335,59 @@ none of it; blips carry a ghost for the live automation and a trail for
 auto-pan depth, both untested by eye in motion; presets are first guesses
 [EAR]; and a genre cannot yet declare a whole field state per SECTION,
 which is the obvious next step now that a state is a thing you can see.
+
+**THE CONDUCTOR ARRANGES THE STAGE at `2026-08-03i`** — the step the field
+made obvious: a genre can now declare a whole FIELD STATE PER SECTION,
+`GENRE.x.stage`, instead of moving one instrument's pan at a time.
+
+**IT IS NOT A SECOND MECHANISM.** `makeMotion` expands a stage into ordinary
+`kind:"section"` specs on controls that already exist, then the normal lane
+loop handles them — one owner, one code path, the way `chainControls()` is
+a shorthand for a coherent set of knobs.
+
+**IT IS CONSTRAINTS, NOT POSITIONS.** A stage never names where an
+instrument goes. It names how WIDE the picture is and how DEEP, as RANGES,
+per section function. Seating is drawn per song from named streams: two or
+more players are spread evenly across the width (so they never share a
+spot) and each seat is jittered. **And it seats the machines THIS CHART
+ACTUALLY PICKED**, read through `machineIn()` exactly as the field display
+reads them — a rig that draws three keyboards gets three seats.
+
+**WHAT IT DOES NOT OWN**: a machine's own character. The Rhodes' auto-pan
+(`panHz`/`panDep`) is the instrument, not the arrangement, and stays
+declared on the machine. The stage places players; it does not tell them
+how to play. lofi's hand-written pan POSITION lanes were removed in favour
+of its stage; its Suitcase sweep stayed.
+
+**THREE THINGS WENT WRONG AND ALL THREE ARE RECORDED IN THE CODE:**
+1. `put()` originally THREW on a collision between a stage and a
+   hand-written lane. Right for one genre, fatal here: BLENDING merges two
+   tables, so any blend of a staged genre with a laned one collides by
+   construction — it killed 38 of 504 pairs. Now a stated PRECEDENCE: the
+   specific lane wins, the stage does not seat that control. Still exactly
+   one writer, decided by rule rather than by order.
+2. A lone player was seated at dead centre, which made the stage INERT on
+   every song drawing a single keyboard — measured, lofi's widest chorus
+   moved the Wurly 0.07. A solo player stands *somewhere*; the side is now
+   drawn per song. Two-plus still seat evenly.
+3. `mk2_test`'s gesture-ridden check sampled ONE seed for movement while
+   sampling TWELVE for hosting. That asymmetry was a latent bug: a lane
+   that exists only when a machine is DRAWN reads as idle whenever seed 1's
+   draw went the other way (`rhodes.pan`). Both halves now use the same
+   twelve seeds — what the check always meant.
+
+**DECLARED ON TWO GENRES**: lofi (the gentlest stage in the file — a beat
+tape does not swing its players; opens a little for the chorus, closes for
+the outro) and synthwave (the demonstrator: it hosts the CS-80 and the
+string machine at once, narrow through the verse, thrown open on the
+chorus, room deepening as it opens). MEASURED on synthwave: seed 1 seats
+the CS-80 right and reaches +0.20 in the chorus; seed 4 seats it left at
+-0.22 — same genre, different stage every song.
+
+Battery 118/118, blends 10/10 (504 pairs), ui 26, snapshot IDENTICAL,
+renders repeatable on all seven. STILL OPEN: the ear has heard none of it;
+sections a stage does not name snap to centre rather than holding (that is
+`kind:"section"`'s own semantics everywhere, so it is consistent rather
+than special, but it is a choice worth hearing); five genres have no stage;
+and the field display does not yet NAME the section's stage on the tube,
+which is the obvious next bit of polish.

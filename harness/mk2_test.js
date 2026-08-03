@@ -758,8 +758,18 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   {
     const moved = new Set(), hosted = {};
     for(const g of M.genres()){
+      /* ── THE SAME TWELVE SEEDS BOTH HALVES ──────────────────────────────
+         This half sampled ONE seed while the hosting half below samples
+         twelve, and that asymmetry was a latent bug: a lane that exists only
+         when a machine is DRAWN is invisible at seed 1 whenever that draw
+         went the other way. It surfaced when a genre started seating its
+         stage over the instruments a chart actually loaded (GENRE.x.stage) --
+         rhodes.pan read as idle purely because seed 1's keys draw landed on
+         the Wurly. Sampling the same twelve seeds for both halves is what the
+         check always meant. */
+      for(let sd = 1; sd <= 12; sd++)
+        for(const key in M.composeSong(sd, "band", g).motion.lanes) moved.add(key);
       const mo = M.composeSong(1, "band", g).motion;
-      for(const key in mo.lanes) moved.add(key);
       /* a machine is HOSTED by a genre if a voice of one of its lanes actually
          sounds -- measured from the events, not read off the machines table,
          because "auto" resolves through the rig and the keys lane dispatches on
