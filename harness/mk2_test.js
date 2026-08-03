@@ -574,6 +574,21 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   const READS = new Set();
   const rx = /P\(g,\s*ev,\s*"([A-Za-z0-9]+)",\s*"([A-Za-z0-9]+)"/g;
   for(let mm; (mm = rx.exec(src)); ) READS.add(mm[1] + "." + mm[2]);
+  /* ── A SHARED STAGE READS THE SAME CONTROL ON MANY MACHINES ───────────────
+     `stereoOut` is one helper that every panned voice routes through, so it
+     reads P(g, ev, m, "pan") with the MACHINE AS A VARIABLE. A scanner looking
+     for a literal machine name cannot see that, and reported nine live knobs
+     as dead. The honest generalisation, not an exemption: a P() call whose
+     machine is a variable and whose control is a literal reads that control on
+     EVERY machine that declares it -- which is exactly what such a helper
+     does. Derived from the source, so a new shared stage is picked up without
+     touching this list. */
+  const rxv = /P\(g,\s*ev,\s*[A-Za-z_$][A-Za-z0-9_$]*,\s*"([A-Za-z0-9]+)"/g;
+  const viaHelper = new Set();
+  for(let mm; (mm = rxv.exec(src)); ) viaHelper.add(mm[1]);
+  for(const m in M.INSTRUMENTS)
+    for(const c of M.INSTRUMENTS[m].controls)
+      if(viaHelper.has(c.k)) READS.add(m + "." + c.k);
   /* two reads name their key through a variable rather than a literal: the
      808's two hats share one circuit and differ only by which decay control
      they name, and the chip's brightness is looked up by the machine name its

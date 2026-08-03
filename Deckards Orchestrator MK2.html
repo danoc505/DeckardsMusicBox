@@ -552,7 +552,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03e · the room is a real feedback delay network now, stable by its own arithmetic</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03f · the first stereo stage: mono-safe panning, and the Rhodes gets its auto-pan back</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1945,6 +1945,16 @@ const INSTRUMENTS = {
        depth, tone is a preamp lowpass that ships open. There is deliberately no
        "brightness" knob pretending to be a filter that isn't there. */
     controls: [
+      /* ── STEREO. The Suitcase's "vibrato" is not vibrato -- "there is no pitch
+         modulation, just amplitude modulation which cancelled out in mono...
+         when the Suitcase amps went stereo in 1969, this pattern was
+         translated into a panning effect" [corpus:rhodesmusic v-pan;
+         fenderrhodes.com/history/effects]. So the auto-pan IS this
+         instrument, and it ships OFF (depth 0) so no existing genre changes
+         until one asks for it. */
+      { k:"pan",    label:"pan",        cap:"PAN",   min:-1, max:1,   step:0.01, def:0,  kind:"gesture" },
+      { k:"panHz",  label:"pan sweep",  cap:"RATE",  min:0,  max:8,   step:0.01, def:0, unit:"Hz", kind:"gesture" },
+      { k:"panDep", label:"sweep depth",cap:"DEPTH", min:0,  max:1,   step:0.01, def:0, kind:"gesture" },
       { k:"bark", label:"bark (layer)", cap:"BARK", min:0, max:1,     step:0.01,   def:0.50 , kind:"gesture" },
       { k:"wow",  label:"tape wow",     cap:"WOW",  min:0, max:0.006, step:0.0002, def:0.0020 , kind:"gesture" },
       { k:"tone", label:"tone",         cap:"TONE", min:0.3, max:1,   step:0.01,   def:1.00 , kind:"gesture" },
@@ -1991,6 +2001,14 @@ const INSTRUMENTS = {
     slot: "keys", label: "Wurlitzer",
     lanes: { keys:"wurly" },
     controls: [
+      /* ── STEREO. The Wurlitzer's own tremolo is genuine mono AMPLITUDE modulation
+         and stays where it is (`trem`/`tremhz` above) -- widening it would be
+         inventing an instrument. This is a PLACEMENT plus an optional sweep,
+         which is what a Wurly gets from the desk it is recorded through, not
+         from its own electronics. Off by default. */
+      { k:"pan",    label:"pan",        cap:"PAN",   min:-1, max:1,   step:0.01, def:0,  kind:"gesture" },
+      { k:"panHz",  label:"pan sweep",  cap:"RATE",  min:0,  max:8,   step:0.01, def:0, unit:"Hz", kind:"gesture" },
+      { k:"panDep", label:"sweep depth",cap:"DEPTH", min:0,  max:1,   step:0.01, def:0, kind:"gesture" },
       { k:"trem",  label:"tremolo",  cap:"VIBRATO", min:0, max:1,  step:0.01, def:0.45 , kind:"gesture" },
       { k:"tremhz",label:"trem rate",cap:"RATE",    min:3, max:8,  step:0.1,  def:5.5, unit:"Hz" , kind:"voicing" },
       { k:"bark",  label:"bark",     cap:"BARK",    min:0, max:1,  step:0.01, def:0.55 , kind:"gesture" },
@@ -2005,6 +2023,13 @@ const INSTRUMENTS = {
     slot: "keys", label: "Mellotron",
     lanes: { keys:"mellotron" },
     controls: [
+      /* ── STEREO. A real Mellotron is mono -- one output, one tape head a key. Its
+         width on record comes from what it was run through. So this is a
+         placement and a sweep, marked as production rather than instrument,
+         and off until a genre asks. */
+      { k:"pan",    label:"pan",        cap:"PAN",   min:-1, max:1,   step:0.01, def:0,  kind:"gesture" },
+      { k:"panHz",  label:"pan sweep",  cap:"RATE",  min:0,  max:8,   step:0.01, def:0, unit:"Hz", kind:"gesture" },
+      { k:"panDep", label:"sweep depth",cap:"DEPTH", min:0,  max:1,   step:0.01, def:0, kind:"gesture" },
       /* a Mellotron is a tape replay machine: every key has its OWN 8-second
          strip of tape, and the character is the tape -- wow, flutter, hiss, and
          the hard stop when the strip runs out. [theory: Mellotron M400 mechanism] */
@@ -4347,6 +4372,66 @@ registerProcessor("mk2-room", MK2Room);
      -- the keys contributed literally nothing above 2 kHz. An electric piano
      that cannot be heard past 2 kHz is not smooth, it is absent. Vestigial
      fields in a source file are not features. [corpus:mdaEPiano.cpp] */
+  /* ══ THE STEREO STAGE ═══════════════════════════════════════════════════════
+     Every voice in this program was MONO and there was not one panner in the
+     file. MEASURED before building: side-vs-mid energy across the seven genres
+     ran -58 dB (acid) to -13 dB (plastikman), and the only reason the wet
+     genres reached -13 was the ROOM leaking stereo out of its decorrelated
+     halves. Nothing was placed anywhere; the width was an accident of reverb.
+
+     WHAT THIS IS. A voice calls `stereoOut(g, ev, m, role)` instead of naming
+     a bus, and gets back a node to connect into. Behind it: a StereoPanner
+     whose position is read through P(), so a pan is an ordinary automatable
+     control -- a genre can place an instrument and the conductor can move it,
+     through the same machinery as every other knob.
+
+     AMPLITUDE PANNING ONLY, AND THAT IS A DECISION. Width can also be faked
+     with phase or with a Haas delay, and both COLLAPSE when a mix is summed:
+     "when two signals that are out of phase are summed to mono they can cancel
+     each other out, resulting in a thin or hollow sound" [corpus:sonible;
+     waves; adsr]. Three of this program's seven genres are sound-system music
+     and "sound systems in clubs and pubs are often mono". A StereoPanner is
+     pure amplitude, so mono summing costs level and never costs the note.
+     For the same reason DRUMS AND BASS ARE NOT PANNED AT ALL -- "keep drums,
+     bass and lead vocals centered", "pretty much all frequencies below 60-100
+     Hz should be mono" [same]. The low end stays where it was.
+
+     THE AUTO-PAN is the Rhodes' own signature and it is not a flourish: the
+     Suitcase's "vibrato" is not vibrato. "There is no pitch modulation, just
+     amplitude modulation which cancelled out in mono... when the Suitcase amps
+     went stereo in 1969, this pattern was translated into a panning effect"
+     [corpus:rhodesmusic v-pan; fenderrhodes.com/history/effects]. So a machine
+     that declares `panHz` gets an LFO on its pan position, phase-locked to the
+     note's own start so the same seed gives the same sweep. That is the
+     Suitcase, correctly named. ═══════════════════════════════════════════════ */
+  function stereoOut(g, ev, t, m, role){
+    const c = g.ctx, bus = g.bus[role] || g.bus.keys;
+    /* a machine with no pan control declared costs nothing and stays mono --
+       the node is not even built, so every voice that has not been given a
+       position renders exactly what it always did */
+    if(!CONTROL[m + ".pan"]) return bus;
+    const pos = P(g, ev, m, "pan", 0);
+    const hz = CONTROL[m + ".panHz"] ? P(g, ev, m, "panHz", 0) : 0;
+    const dep = CONTROL[m + ".panDep"] ? P(g, ev, m, "panDep", 0) : 0;
+    if(Math.abs(pos) < 0.001 && (hz <= 0 || dep <= 0)) return bus;
+    const pan = c.createStereoPanner();
+    pan.pan.value = Math.max(-1, Math.min(1, pos));
+    if(hz > 0 && dep > 0){
+      /* the sweep runs from the note's own start, so it is a property of the
+         performance and not of when the render happened to begin */
+      const lfo = c.createOscillator(); lfo.type = "sine"; lfo.frequency.value = hz;
+      const amt = c.createGain(); amt.gain.value = Math.max(0, Math.min(1, dep));
+      lfo.connect(amt); amt.connect(pan.pan);
+      /* started at the NOTE's time, so the sweep is a property of the
+         performance rather than of when rendering happened to begin -- and
+         stopped with it, or a held oscillator would outlive the graph */
+      lfo.start(t);
+      lfo.stop(t + Math.max(0.05, (ev.durSec || 0.5) + 4));
+    }
+    pan.connect(bus);
+    return pan;
+  }
+
   V.rhodes = function(g, ev, t){
     const c = g.ctx, midi = ev.pitch;
     /* BARK biases which velocity LAYER the sampler reaches for. That is the
@@ -4392,11 +4477,11 @@ registerProcessor("mk2-room", MK2Room);
        and cost 40 dB of air. This is a control the player turns. */
     const tone = P(g, ev, "rhodes", "tone", 1);
     src.connect(gn);
-    if(tone >= 0.995) gn.connect(g.bus.keys);
+    if(tone >= 0.995) gn.connect(stereoOut(g, ev, t, "rhodes", "keys"));
     else {
       const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = 0.6;
       lp.frequency.value = 700 * Math.pow(18000 / 700, tone);
-      gn.connect(lp); lp.connect(g.bus.keys);
+      gn.connect(lp); lp.connect(stereoOut(g, ev, t, "rhodes", "keys"));
     }
     src.start(t, pos / EPIANO.rate);
     src.stop(t + ev.durSec + 0.5);
@@ -4414,7 +4499,7 @@ registerProcessor("mk2-room", MK2Room);
     const flt = c.createBiquadFilter(); flt.type = "lowpass"; flt.Q.value = 0.4;
     flt.frequency.setValueAtTime(2400 + 3600 * ev.gain, t);
     flt.frequency.exponentialRampToValueAtTime(1400 + 1600 * ev.gain, t + 0.30);
-    out.connect(flt); flt.connect(g.bus.keys);
+    out.connect(flt); flt.connect(stereoOut(g, ev, t, "wurly", "keys"));
     /* body pair */
     const car = osc(c, "sine", f, t, end);
     const mod = osc(c, "sine", f * (wurly ? 3.0 : 1.0), t, end);
@@ -5661,7 +5746,7 @@ registerProcessor("mk2-room", MK2Room);
     const TAPE = 8.0;                                            // the strip runs out
     const dur = stops ? Math.min(ev.durSec, TAPE) : ev.durSec;
     const end = t + dur + 0.35;
-    const out = c.createGain(); out.connect(g.bus.keys);
+    const out = c.createGain(); out.connect(stereoOut(g, ev, t, "mellotron", "keys"));
     const made = [];
     /* the tape sets, as harmonic recipes: flute is nearly pure with a breathy
        second, strings are saw-like and detuned three ways, choir sits between */
@@ -8154,6 +8239,18 @@ const GENRE = {
                              shape: "sin", freePhase: true },
                            { kind: "section", by: { chorus: [0.04, 0.11] } }] },
       rhodes: {
+        /* ── THE SUITCASE'S OWN SIGNATURE. Its "vibrato" is an AUTO-PAN --
+           "no pitch modulation, just amplitude modulation which cancelled out
+           in mono... translated into a panning effect" [corpus:rhodesmusic
+           v-pan]. Switching it on restores the instrument rather than
+           treating it. Slow and shallow: this is a beat tape and the whole
+           affect is that nothing lunges. Rates and depths mine. [EAR] */
+        panHz:  [{ kind: "section", by: { chorus: [0.04, 0.12] } },
+                 { kind: "lfo", bars: [[64, 2], [48, 1]], depth: [0.03, 0.08],
+                   shape: "sin", freePhase: true }],
+        panDep: [{ kind: "arc", from: [0.10, 0.20], to: [0.24, 0.40], curve: "sCurve" }],
+        pan:    [{ kind: "lfo", bars: [[56, 2], [40, 1]], depth: [0.04, 0.10],
+                   shape: "sin", freePhase: true }],
         wow:  [{ kind: "lfo", bars: [[24, 3], [16, 2]], depth: [0.0003, 0.0011],
                  shape: "sin", freePhase: true }],
         /* ONE `tone` KEY, NOT TWO. These were two separate `tone:` entries in
@@ -8173,6 +8270,15 @@ const GENRE = {
         bark: [{ kind: "lfo", bars: [[8, 3], [16, 2]], depth: [0.04, 0.10], shape: "tri" }],
       },
       wurly: {
+        /* the Wurly gets a PLACEMENT, not a widening: its own tremolo is real
+           mono amplitude and stays exactly where it is. Off to one side of
+           the Rhodes so the two keyboards stop occupying one point. [EAR] */
+        pan:    [{ kind: "section", by: { verse: [-0.20, -0.08], chorus: [0.05, 0.18] } },
+                 { kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.03, 0.08],
+                   shape: "sin", freePhase: true }],
+        panHz:  [{ kind: "lfo", bars: [[64, 2], [96, 1]], depth: [0.02, 0.05],
+                   shape: "sin", freePhase: true }],
+        panDep: [{ kind: "section", by: { chorus: [0.04, 0.12] } }],
         trem: [{ kind: "section", by: { verse: [0.00, 0.05], chorus: [0.09, 0.18],
                                         bridge: [-0.10, -0.02], outro: [0.04, 0.12] } }],
         /* the reed bites harder where the player leans in */
@@ -9746,6 +9852,19 @@ const GENRE = {
                  shape: "sin", freePhase: true }],
         tone: [{ kind: "lfo", bars: [[64, 2], [48, 1]], depth: [400, 1400],
                  shape: "sin", freePhase: true }],
+      },
+      /* the MELLOTRON, placed and drifting. A real one is mono -- one tape
+         head a key -- so this is production, not instrument, and it is the
+         one this score would have had: a tape choir sitting off-centre under
+         the CS-80 and breathing across the cue. Small; a film bed does not
+         swing around the room. [EAR] */
+      mellotron: {
+        pan:    [{ kind: "section", by: { intro: [-0.30, -0.14], bridge: [0.08, 0.24] } },
+                 { kind: "lfo", bars: [[96, 2], [64, 1]], depth: [0.05, 0.14],
+                   shape: "sin", freePhase: true }],
+        panHz:  [{ kind: "lfo", bars: [[128, 2], [96, 1]], depth: [0.01, 0.04],
+                   shape: "sin", freePhase: true }],
+        panDep: [{ kind: "arc", from: [0.04, 0.10], to: [0.12, 0.24], curve: "sCurve" }],
       },
       /* the MATRIX: this score IS its wash, so the two room routes every genre
          keeps at 1 are the ones this genre plays. Both moves are DIPS off the

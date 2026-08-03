@@ -2183,3 +2183,57 @@ bit-exact. (d) The FDN's parameters are AudioParams and therefore RIDEABLE
 — the room can now move across a song, and no genre does that yet. That is
 the first thing worth trying, and it is what the room could never do
 before.
+
+**THE PROGRAM WAS MONO, AND STAGE ONE OF STEREO LANDED at `2026-08-03f`** —
+the user: *"We need this all to be stereo. Most fx is needed to be in
+stereo, the mellotron and wurly need stereo movement. Why are we not in
+stereo?"*
+
+**THE ANSWER, MEASURED FIRST: there was not one panner in the file.** No
+StereoPannerNode, no PannerNode, no splitter or merger anywhere. Every
+voice was mono and landed dead centre; the only stereo content in the
+whole program leaked out of the ROOM's decorrelated halves. Side-vs-mid
+energy, seed 11, before any change: acid **-58.5 dB**, jungle -48.8, lofi
+-29.0, synthwave -23.5, dkc -20.4, bladerunner -14.3, plastikman -13.4 —
+and the two "narrow" ones are only there because they are drenched in
+reverb. Width was an accident, never a decision.
+
+**RESEARCHED BEFORE BUILDING.** (a) The Rhodes Suitcase's "vibrato" IS AN
+AUTO-PAN — "there is no pitch modulation, just amplitude modulation which
+cancelled out in mono... when the Suitcase amps went stereo in 1969, this
+pattern was translated into a panning effect" [corpus:rhodesmusic v-pan;
+fenderrhodes.com/history/effects]. (b) The string-ensemble swirl is three
+BBD lines driven by two THREE-PHASE LFOs 120° apart [corpus:jpcima
+ensemble-chorus; Solina]. (c) MONO COMPATIBILITY is a hard constraint
+here, not a nicety: out-of-phase content "can cancel... resulting in a
+thin or hollow sound", "keep drums, bass and lead centered", "below
+60-100 Hz should be mono" [corpus:sonible; waves; adsr] — and three of
+these seven genres are sound-system music played on mono rigs.
+
+**BUILT: `stereoOut(g, ev, t, m, role)`**, a shared stage a voice routes
+through instead of naming a bus. Amplitude panning ONLY (a StereoPanner),
+so summing to mono costs level and never costs the note — no Haas, no
+phase tricks. Drums and bass are deliberately NOT panned. A machine with
+no `pan` control declared does not even build the node, so every unpanned
+voice renders exactly what it always did. `panHz`/`panDep` add the
+Suitcase LFO, started at the NOTE's time so the sweep belongs to the
+performance and not to when rendering began.
+
+**WIRED SO FAR: rhodes, wurly, mellotron** — the two the user named plus
+the one the research makes mandatory. lofi rides the Rhodes auto-pan
+(sourced) and places the Wurly opposite it; bladerunner places and drifts
+the mellotron. Battery 118/118, renders still repeatable on all seven
+genres, snapshot IDENTICAL.
+
+**⚠ STAGE ONE ONLY — THE PROGRAM IS STILL ESSENTIALLY MONO, and the
+measurement says so:** after this change seed 11 moved from -29.0 to
+-27.5 dB (lofi) and the other genres barely at all, because only three
+machines have a pan stage and only when a song happens to draw them. DO
+NOT read the entry above as "stereo is done". What remains, in order:
+(1) the other ~15 voices need routing through `stereoOut` — it is one
+line each at their `connect(g.bus.…)`; (2) the ENSEMBLE swirl (three
+delay lines, two 120°-phase LFOs) for cs80/vp330/mellotron, which is
+where real width comes from and which no amount of panning substitutes
+for; (3) the ECHO is still a mono delay line and a dub echo is classically
+stereo (ping-pong); (4) the DRUM machines' per-voice pan, which is how a
+kit stops being a point source. And the ear has heard none of it.
