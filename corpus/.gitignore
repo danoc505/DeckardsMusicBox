@@ -1,0 +1,18 @@
+# Patterns here are relative to THIS directory: one containing a slash is anchored to
+# the .gitignore's own location, so "corpus/.groove/" written here would mean
+# corpus/corpus/.groove/ and match nothing -- which is how 116 MB of downloaded corpus
+# nearly went into the repository.
+run.cache
+
+# Downloaded corpora. None of these are ours to redistribute and they total ~120 MB;
+# each harvest script fetches its own on first run.
+.harmonix/
+.hooktheory/
+.groove/
+.pop909/
+
+# Lakh Clean MIDI subset (~234 MB), fetched by harvest_bass.py on first run.
+.lakh/
+sax/iowa/
+sax/weresax/
+sax/omnibook/

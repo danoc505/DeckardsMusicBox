@@ -1,3 +1,16 @@
+> ## ⚠ THIS IS AN MK1 REVIEW — of `Improv Machine playable_BETA 0.1.html`.
+>
+> It reviews `conduct()`, `improvise()`, the HARD/SOFT law tables and the ghost
+> corrector, **none of which exist in MK2** — the ghost pass was deliberately
+> removed and that removal is why MK2 exists. The probes it names
+> (`probe_nct`, `probe_voiceleading`, `probe_hierarchy`,
+> `probe_bass_consonance`, `probe_peak_arc`) were confirmed dead and deleted;
+> `harness/probe_theory.js` asks those same laws of MK2 directly.
+>
+> Kept because the *findings* were real and several drove MK2's design — above
+> all `HARD.resolvesByStep`, a documented law that was **never once called**,
+> which became MK2's non-chord-tone constraint. Read it as history.
+
 # Code review — Deckard's Orchestrator (Improv Machine BETA 0.1)
 
 *Reviewed by reading the engine embedded in `Improv Machine playable_BETA 0.1.html`
@@ -11,11 +24,12 @@ is reproducible with `harness/` (see the bottom of this file).*
   suite against the shipped engine: **75 passed / 20 failed**, and **all 20 failures are
   environmental** — absent `node_modules`, un-checked-in sampling modules, and corpora.
   **Zero music-logic regressions.** Every physics/loop/story/theme/groove check passes.
-- **One real, measurable gap:** the documented HARD law *"non-chord tones resolve by
-  step"* is **not enforced and not tested**. Measured: **10.5% of all melodic notes** are
-  non-chord tones that leap away unresolved (across 40 seeds, 14,454 notes).
-- **Two minor baked-in violations** of the prime directive (a fixed entrance drum fill; a
-  hardcoded opening-companion order). Both are small and shovel-ready.
+- **One real, measurable gap — now FIXED:** the documented HARD law *"non-chord tones
+  resolve by step"* was **not enforced and not tested**. The unjustified case (leap-in +
+  leap-out) measured **6.79% of melodic notes**; a ghost sub-pass drops it to **0.12%**,
+  now guarded by a standing test. See finding #1.
+- **Two minor baked-in violations — now FIXED** (a fixed entrance drum fill; a hardcoded
+  opening-companion order), plus the bass/harmony register overlap. See findings #2, #4.
 - Several concerns from a code-only read **measured to zero in practice** and are *not*
   real problems (register overlap; thin intros). Reporting them as bugs would have been
   the exact "statistics that agree with themselves" mistake the project warns about.
@@ -59,33 +73,44 @@ The two sampling checks (`the band steps aside…`, `…high-passed so our bass 
 
 ## Findings
 
-### 1. Real & measured — the one to fix
+### 1. Non-chord-tone resolution — FIXED (measured) ✅
 
-**Non-chord tones do not resolve by step (unenforced HARD law).**
-`HARD.resolvesByStep` (HTML ~line 4067) is **dead code — never called anywhere.** The
-ghost only checks *out-of-key* notes, never in-key non-chord tones. The suite has **no
-test** for it. Measured across 40 seeds (`harness/probe_nct.js`):
+`HARD.resolvesByStep` (HTML ~line 4067) was **dead code — never called**, and the suite
+had **no test** for the documented law *"non-chord tones resolve by step."*
 
-- 18.2% of melodic notes are in-key non-chord tones;
-- **57.5% of those leap away unresolved (>2 semitones) → 10.5% of ALL melodic notes.**
+Grounded in music theory ([NCT types](https://en.wikipedia.org/wiki/Nonchord_tone)): a
+passing/neighbour tone steps in and out; an appoggiatura steps out; an escape tone steps
+in — each resolves BY STEP on one side and is **legal**. The only unjustified dissonance
+is one **approached by leap AND left by leap**. That is the real defect, and it measured at
+**6.79% of all melodic notes** (981/14,454 across 40 seeds).
 
-*Honest caveat:* leaving an NCT by leap is not automatically wrong (escape tones,
-arpeggiated 7ths, blue notes). This flags an **unenforced, untested law**; whether 10.5%
-is audibly a defect is a call for your ears. Fix = wire a resolve-by-step preference into
-the melody engine (SOFT weight, or HARD reject for accented NCTs) **and add a standing
-test**, then re-run the probe and confirm the number moves.
+**Fix:** a ghost sub-pass (new section 3b in `ghostPass`, the codebase's own idiom — section
+3 already snaps out-of-key non-resolvers) snaps a leap-in/leap-out in-key NCT to the nearest
+tone that is both in the sounding chord and in key (within a third, never below the voice's
+floor). Melodic voices only; harmony/bass voicings are never touched; it runs before the
+unison pass so side effects are cleaned.
 
-### 2. Prime-directive (baked-in) — two minor violations
+**Measured result:** unjustified NCTs **6.79% → 0.12%** (981 → 17 notes) — a 98% drop. The
+"loose" left-by-leap metric fell 10.4% → 4.0%, and the remainder is *legal* escape
+tones/appoggiaturas (correctly preserved). **No regressions:** suite still green on every
+music law (chords-above-bass 0/40, lead-above-chord 0/40, in-key 98.6%, ghost invariants 0).
+A **standing test** now guards it (`tests.js` §8b, threshold ≤1%): passes at 0.12% with the
+fix, would fail at 6.79% without it. Reproduce: `node harness/run/probe_nct.js`.
 
-- **Fixed 4-tom entrance fill** — `composeSong` ~6504–6509 pushes an identical descending
-  tom fill (lanes, steps 12–15, pitches `[50,48,45,41]`, flat velocity) on every
-  non-breaks entrance, consulting **no RNG** — even though the drum engine's own
-  `fillBar()` (~4887) is fully seeded. Visible directly in the roll (seed 11, bar 1).
-  Different seed → bit-identical fill. Fix: route entrance fills through `fillBar()`.
-- **Hardcoded opening-companion order** — `arrangeSections` ~6722 picks the starter's
-  companions from a fixed list `["drums","harmony","bass","lead","pad","arp","counter"]`
-  instead of a weighted draw. The *opener* stays seed-random; the companion order does
-  not. Fix: `wpick` over the resting roles.
+*Note on porting:* the change lives in the engine inside the HTML (the only source here). If
+the real numbered-module tree is restored, port section 3b into `08_ghost.js` and rebundle.
+
+### 2. Prime-directive (baked-in) — two minor violations — FIXED ✅
+
+- **Fixed 4-tom entrance fill** — the entrance fill pushed an identical descending tom fill
+  (`[50,48,45,41]`, flat velocity) on every non-breaks entrance, consulting **no RNG**.
+  **Fixed:** the fill now derives a seeded RNG (`makeRng(hashName(seed,"fill"+bar))`) and
+  rolls the toms up or down, dropping hits by chance. Measured: **20 distinct fill
+  signatures across 20 seeds** (was 1); determinism preserved.
+- **Hardcoded opening-companion order** — the opening companions were chosen from a fixed
+  priority list `["drums","harmony","bass",…]`. **Fixed:** a seeded `wpick` over the
+  arrived roles with soft weights (drums/harmony/bass likelier, but the seed decides).
+  Measured: **8 distinct opening lineups across 20 seeds** (was ~1); determinism preserved.
 
 ### 3. Solid — confirmed by measurement (no action)
 
@@ -101,10 +126,25 @@ test**, then re-run the probe and confirm the number moves.
 
 ### 4. Latent traps (cheap hygiene)
 
-- Dead `chooseContrary` with a `Math.random()` (~5320) would break seed-determinism if
-  ever wired in. Delete it.
-- Documented "nothing thin >4s" is coded as ~9s (`maxSoloBars=floor(9/secsPerBar)`,
-  ~6688). Align the constant or the doc.
+- Dead `chooseContrary` with a `Math.random()` would break seed-determinism if ever wired
+  in. **Deleted ✅** (removed, not buried).
+- **Bass/harmony register overlap FIXED ✅** — `BASS_CEIL` was `50` while harmony floor is
+  `50` (the code comment said "bass tops at 48"), so a chord could touch the bass ceiling and
+  read as an inversion. Set `BASS_CEIL=48` for a clean gap; restored `chords above bass 0/40`.
+- **Voice-leading (known weakness) — measured + tracked, rework queued.** Handoff flagged
+  ~52% stepwise vs Bach's 77.3%; measured here at **35.5%** (`harness/probe_voiceleading.js`,
+  now a standing metric in the suite §8c). A prototype that adds open/drop-2 voicings so the
+  existing preference has smoother options DID move it (→~54%), confirming the diagnosis and
+  that the Bach material is now available — but open voicings destabilise the stored-texture
+  onset-repeat invariant (drops it below the 0.9 threshold). Reverted rather than shipped;
+  the proper fix reworks the texture generator to stay voicing-structure-stable, then re-adds
+  the variants. The metric makes the number visible so that rework can be measured.
+- **loop->song / structure recombination DONE ✅** — `corpus/build_structure.py` harvests
+  real song forms (AABA/ABAC/AB…) from the standards by section-repetition detection; the
+  conductor now recombines real macro structure (repeated to song length so the story arc
+  holds: moment 34/38, drops 34/38). See docs.
+- Documented "nothing thin >4s" is coded as ~9s (`maxSoloBars=floor(9/secsPerBar)`). Align
+  the constant or the doc. *(open — measured to 0 in practice, so cosmetic.)*
 
 ---
 

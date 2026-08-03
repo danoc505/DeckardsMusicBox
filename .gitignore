@@ -1,0 +1,35 @@
+# build & run artifacts
+harness/run/
+**/__pycache__/
+*.pyc
+
+# local audio renders / scratch
+#
+# `*.wav` USED TO BE BLANKET AND IT ATE REAL SOURCE. The rule was written for
+# render artifacts, but git applies it to everything: twenty Amen sample WAVs
+# were "on main" from where the user was sitting and had never been committed at
+# all, because `git add` skips an ignored file SILENTLY -- no error, no warning,
+# nothing in `git status`. The same shape as every other bug in this repo: a
+# rule that is correct about the case it was written for and wrong about the
+# case nobody checked.
+#
+# So the ignore now names the places renders actually land, and anything under
+# `samples/` is source and is kept. If you add a new render directory, add it
+# here rather than reaching for a wildcard.
+/*.wav
+harness/**/*.wav
+!samples/**
+scratch/
+.DS_Store
+# output-test renders (harness/test_output.js): WAVs plus their manifest.json --
+# regenerated on every run, never source
+harness/output_renders*/
+
+# editor / tooling
+.claude/
+
+# npm dependencies. These were swept into a composition commit (4a4dbc8) by a
+# broad `git add` and stayed tracked for months -- 176 files nobody meant to
+# commit. `npm install` restores them; the browser is already on the image at
+# PLAYWRIGHT_BROWSERS_PATH, so no download is needed.
+node_modules/
