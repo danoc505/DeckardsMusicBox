@@ -85,6 +85,49 @@ description of the repertoire.
 
 ---
 
+## 2b. THE SAME QUESTION ASKED PROPERLY — Moore's textural layers
+
+The tutorials count *instruments*, which is a shaky unit (is a doubled pad one
+element or two?). Music theory counts **functions**, which is the better
+question and the better unit, and it is the one place in this sheet where the
+grounding rises above a blog.
+
+**Moore's four textural layers of pop music**, quoted from a peer-reviewed
+journal [corpus:mtosmt.org, Schwitzgebel, *Music Theory Online* 31.1]:
+
+| layer | what it does |
+|---|---|
+| **explicit beat** | "clearly articulates the beat pattern" |
+| **functional bass** | "connects root harmonies" |
+| **melodic** | "serves as a memorable song identifier" |
+| **harmonic filler** | "fills the middle range between bass and treble" |
+
+And the dynamics matter as much as the list: "these layers make up the most
+common parts of pop music's textural whole, though **fluctuate dynamically and
+independently over the course of a song**."
+
+**Lo-fi is described as adding a fifth**, the *spectral filler*: the continual
+vinyl noise "adds a 'spectral filler' layer that creates textural interest and
+contributes some mid-high frequency information", and "the vinyl noise, along
+with the general roll-off of high frequencies, are the main signifiers of age,
+fragility, or 'warmth'."
+
+> ⚠ **SOURCING CAVEAT, stated because it matters.** The four-layer table above
+> is from a journal article I fetched and read. The *spectral filler* extension
+> is from a search summary of an academic paper on lo-fi study beats
+> [escholarship qt19q032sh] that I **could not read**: the PDF is
+> font-subsetted, `pdftotext` is not installed here, and decompressing its
+> streams by hand yields glyph codes, not text. Schwitzgebel's article — the
+> one I could read — contains **no** mention of spectral filler, vinyl noise or
+> lo-fi at all, so it does not corroborate this. Treat the fifth layer as a
+> reported claim at one remove, not as sourced, until someone reads that paper.
+
+**Why this framing is more useful than "3 or 4 elements".** It says a lofi
+track is not simply *thin*; it has a full complement of functions and each is
+filled *sparsely*. That distinguishes two very different ways of being wrong:
+too many functions sounding at once, versus each function playing too many
+notes. §8's measurement should separate them, because the fix differs.
+
 ## 3. THE SHAPE OF A TRACK
 
 > "Think in **vignettes: 1.5–3 minute tracks** with brief intros/outros,
@@ -229,10 +272,142 @@ processing** — let the room and noise breathe" [corpus:emastered].
 
 ## 8. MEASURED AGAINST THE PROGRAM
 
-*Filled in from measurements of build `2026-08-03q`; see the entry in
-`docs/BACKLOG.md` for what is open.*
+*Build `2026-08-03q`, 30 seeds a genre, 1620 lofi bars. Numbers, not
+adjectives, and the sources' own units where possible.*
 
-To be read against §2 in particular, which is the sheet's clearest finding.
+### 8a. How many things play at once
+
+**Lofi is NOT dense in notes. It is dense in PARTS, and the parts SUSTAIN.**
+That distinction is the whole of this section, and it took three different
+measurements to see it.
+
+**By notes per bar, lofi is mid-table — fifth of seven:**
+
+```
+  genre        events/bar   events/sec   mean tempo
+  synthwave       52.4        23.97        111.0
+  dkc             30.1        12.23        103.3
+  acid            29.7        15.17        122.7
+  plastikman      29.6        15.50        125.7
+  lofi            28.6         9.80         82.5     <- 5th of 7
+  bladerunner     18.1         4.90         65.5
+  jungle          11.2         7.81        167.6
+```
+
+**By parts sounding in a bar, it is at the top.** Mean 4.62 roles per bar, and
+the distribution is the finding:
+
+```
+  roles in a bar:  1 -> 1.2%    3 -> 11.4%    5 -> 37.2%
+                   2 -> 3.9%    4 -> 22.5%    6 -> 23.7%
+```
+
+**61% of every lofi bar has FIVE OR SIX parts sounding, and the mode is five.**
+Counting only parts that carry pitch, 64.2% of bars carry four or five.
+
+```
+  role       plays in % of bars   notes/bar when it plays   mean note length
+  keys            100.0%                  9.4                  1.54 s
+  bass             90.5%                  2.5                  0.66 s
+  drums            81.2%                 13.4                  0.18 s
+  lead             79.0%                  3.1                  0.66 s
+  keys2            72.7%                  3.9                  2.53 s
+  counter          36.5%                  2.5                  0.57 s
+```
+
+**And by simultaneity — how many notes are actually ringing at any instant —
+lofi is SECOND of seven:**
+
+```
+  bladerunner 10.55   lofi 10.30   synthwave 8.66   dkc 7.77
+  plastikman 5.69     jungle 4.49   acid 2.95
+```
+
+Of lofi's 10.30, the **drums contribute only 0.68** (their mean note is 0.18 s)
+and **8.70 are sustained pitched material**. So the density is not the beat and
+it is not onsets — **it is held notes overlapping**, chiefly `keys` at 1.54 s
+and `keys2` at 2.53 s per note.
+
+**Four findings, and they are different problems with different fixes:**
+
+1. **Five or six parts in 61% of bars**, against sources that say "not more
+   than 3 or 4 elements" counting the drums among them.
+2. **The harmonic-filler layer is DOUBLED.** `keys` plays in 100% of bars and
+   `keys2` in 72.7%, both filling Moore's middle range. **And `keys2` is not
+   asked for by the arrangement at all** — it appears in NO `form.roles` entry
+   in the genre table; it is added by the code to any section that already has
+   something pitched. So the second keyboard is on three bars in four by
+   default rather than by a decision the genre made.
+3. **The density is SUSTAIN, not onsets.** Anything that thins by removing
+   notes will barely touch it; what would touch it is shorter notes or fewer
+   simultaneous holding parts.
+4. **The dropout the sources describe barely happens.** §3's sourced shape has
+   "occasional dropout sections"; the only lofi section that drops the drums is
+   the bridge, and the bridge occurs in **7 of 30 songs**. Section lengths are
+   also perfectly rigid — verse/chorus/bridge/instrumental are ALWAYS exactly
+   8 bars, intro/outro always 4, with zero variation across 229 sections.
+
+**What is NOT wrong by these numbers**, worth stating so nothing gets "fixed"
+that is already right: the form architecture (§3 reproduces what
+`lofi-form.md` built), the chord vocabulary (verified in `lofi-harmony.md` §8),
+and total note count (mid-table). One thing sits just outside its sourced
+band: **lofi's tempo is declared `[74, 92]` and measures a mean of 82.5**,
+against a four-source overlap of 70–80 (§1).
+
+### 8b. The effects, against §5
+
+| the sources ask for | in the program? |
+|---|---|
+| **vinyl crackle** | **YES** — `V.tape`, a looping vinyl buffer through a bandpass at 3.4 kHz. lofi declares `crackle [0.006, 0.008]`, the **highest of any genre** (8524). This is §2b's spectral-filler layer, and it exists. |
+| **wow (slow pitch drift)** | **YES** — lofi `wow [0.0012, 0.0018]`, again the highest of the seven. |
+| **flutter (fast wobble)** | **PARTIAL** — the Mellotron models wow *and* flutter as two separate mechanical faults, but the genre-level `tape` block carries `wow` only. §5's source says flutter is most audible on sustained pads, which is exactly what lofi's keys are. |
+| **deep low-pass, "around 2 kHz"** | needs its own measurement — see the open item in `BACKLOG.md`. |
+| **tape saturation on the drum bus, "10–20%"** | **YES in kind** — the drum bus is `drumDrive → tanh → makeup`, the glue §5 describes, with makeup gain so drive is timbre and not loudness. Whether lofi's amount matches 10–20% is unmeasured. |
+| **bit-depth / sample-rate reduction** | **NO. Zero occurrences of `bitcrush` in the file.** |
+| **sidechain / ducking** | **NO. Zero occurrences of `sidechain`.** Both sources that mention it treat it as standard, though they disagree on how hard (§7). |
+
+**Two absent capabilities, honestly: bitcrush and sidechain.** The program has
+exactly one bit-reducing algorithm (the DP/4's CRUSH) and lofi does not feed
+the DP/4 at all, so it is not in the path. `sidechain` and audio ducking do not
+exist anywhere in the file. Neither is a defect — the program is not obliged to
+own every plugin a tutorial names — but both are named by multiple sources as
+characteristic, and neither has been considered here before. Backlog
+candidates, not work.
+
+### 8c. The details that only showed up on a close read
+
+- **The vinyl crackle is one event per song**, `tSec: 0`, lasting the whole
+  record, returning to **`g.bus.keys`** — so the spectral-filler layer shares a
+  bus with the harmonic-filler layer, passes through the keys→Room route, and
+  **is reverberated**. The buffer itself is a 10-second seamless loop: clicks at
+  roughly 26 per second over a ±0.012 bed, bandpassed at 3.4 kHz. At a drawn
+  gain of ~0.0099 against a mean note gain near 0.6 it sits about **36 dB below
+  the band**. Lofi's crackle is the highest of the seven genres — about 4×
+  bladerunner's and 7× synthwave's — which is correct for the genre.
+- **`wow` reaches the `keys` role ONLY.** `ev.wow` is set for `role === "keys"`
+  and nothing else, so bass, lead, counter and the second keyboard get no pitch
+  drift at all. §5's source puts flutter and wow "on sustained sounds like pads
+  or leads" — the pad here is `keys2`, and it is one of the parts that never
+  drifts.
+- **Hiss and flutter exist only inside the Mellotron voice**, which lofi draws
+  in 5 songs of 30. There is no global tape-hiss bed.
+- **There is no master low-pass.** The sources' most specific instruction is a
+  deep low-pass "around 2 kHz". Lofi filters its DRUM channels (snare 8 kHz,
+  hat 11 kHz, open hat 9 kHz, toms 6 kHz; the kick's is wide open at 20 kHz and
+  therefore bypassed) and filters inside the echo (1.8 kHz), but **the pitched
+  instruments pass through no lofi-set filter**, `kitFilter` stays at 20 kHz,
+  and the desk shelves move only ±2.5 dB.
+- **Lofi declares no `feeds`, so drums and bass never reach the reverb**, and
+  `echoFeeds` is `["lead"]`, so the lead is the only part in the delay.
+- **`space.wet: 0.16` is numerically identical to the engine's own fallback**,
+  so the genre declares a reverb level it would have got anyway.
+- **The per-channel drum saturator is built and never connected** (`ch.sat` is
+  only ever disconnected; `const d = 1`). **This is NOT the file's usual
+  cardinal sin** — the per-voice DRIVE control was deliberately removed with a
+  written reason ("One drive per kit, not five"), and the comment above the
+  wiring explains that a near-identity curve is not an identity for a
+  full-scale transient. So it is dead weight, not a dead knob, and the decision
+  is documented. Recorded here only so the next reader does not re-diagnose it.
 
 ---
 
