@@ -97,15 +97,49 @@ const PITCHED_ROLES = (() => {
 })();
 
 const RULER = "1e+a2e+a3e+a4e+a";
+/* ── THE CHARACTER EACH DRUM LANE IS DRAWN WITH ────────────────────────────
+   A display choice, so a small table is fine -- but it MUST NOT decide which
+   lanes exist. Any lane with no character here still prints, as "*", so a lane
+   added to the program can never again be silently missing from the page.
+   See DRUM_LANES below for the list itself. */
 const DRUM_CH = { kick: "K", snare: "S", ghost: "g", hat: "x", openhat: "O",
                   tom1: "1", tom2: "2", tom3: "3",
+                  rim: "r", clap: "c", crash: "C", ride: "R",
                   /* the break lane exports too -- as whatever drum its source
                      slice actually strikes, so a chopped bar reads as the kit it
-                     is made of. Listed here because this table is what the
-                     round-trip counter uses to say which events OUGHT to be
-                     notes, and leaving it out made the check cry wolf on 2372
-                     notes that were exported perfectly well. */
+                     is made of. */
                   brk: "#" };
+const drumChar = lane => DRUM_CH[lane] || "*";
+
+/* ── WHICH LANES EXIST — ASKED OF THE PROGRAM, NEVER LISTED HERE ───────────
+   This was a hand-written list of eight lanes and it had gone stale, in the
+   file whose whole job is to show you the notes.
+
+   MISSING: rim, clap, crash, ride. FOUND 2026-08-03 by exporting a .mid and
+   reading it, which is the rule this repo has had since the day four lanes
+   turned out to be missing from the EXPORTER. That was fixed there; this copy
+   of the same list was not, so:
+
+     - the printed grid has never shown a rimshot, a clap, a crash or a ride.
+       lofi puts a rim on step 14 of every song. PLASTIKMAN'S POLYMETER LIVES
+       ON THE RIM AND THE CLAP -- the handoff says so in as many words -- so
+       the one tool this project trusts to read the notes was hiding that
+       genre's identifying feature, in every song, for the life of the file.
+     - and the .mid round-trip counter used the same table to decide which
+       events OUGHT to be notes, so it reported "*** MISMATCH ***" and exited
+       nonzero on a perfectly correct export: 1283 notes written against 1246
+       "expected" on lofi seed 1. The export was right; the ruler was short.
+
+   `MK2.gmDrum()` is the program's own map and is exported for exactly this.
+   Order is kit order, low to high, so the grid reads like a kit. */
+const DRUM_LANES = (() => {
+  const known = Object.keys(M.gmDrum ? M.gmDrum() : {}).concat(["brk"]);
+  const order = ["kick", "snare", "ghost", "rim", "clap",
+                 "tom1", "tom2", "tom3", "hat", "openhat", "crash", "ride", "brk"];
+  const seen = new Set();
+  return order.filter(l => known.includes(l) && !seen.has(l) && seen.add(l))
+              .concat(known.filter(l => !order.includes(l)));   // anything new, at the end
+})();
 
 function gridLine(notes, bars, pick){
   const out = [];
@@ -181,11 +215,11 @@ function printMaterial(key, mat, bars){
       console.log("source  " + gridLine(ns, bars, n => what(n.slice)));
     }
   }
-  const lanes = ["kick", "snare", "ghost", "tom1", "tom2", "tom3", "hat", "openhat"];
-  for(const lane of lanes){
+  for(const lane of DRUM_LANES){
+    if(lane === "brk") continue;                 // the break has its own rows above
     const ns = (mat.drums || []).filter(n => n.lane === lane);
     if(!ns.length && !(pat.drums && [0,1,2,3].some(b => pinnedAt("drums", pat.drums, b, lane)))) continue;
-    console.log(lane.padEnd(8) + gridLine(ns, bars, () => DRUM_CH[lane]));
+    console.log(lane.padEnd(8) + gridLine(ns, bars, () => drumChar(lane)));
     const pr = pinRow("drums", lane);
     if(pr) console.log("  ↑pin  " + pr);
   }
@@ -370,8 +404,13 @@ if(midFile){
      particular check is the one that caught 1520 genuinely missing notes once.
      The lane list now matches MIDI_MAP -- the same table the exporter writes
      through -- so it cannot fall behind a new lane again. */
+  /* which events OUGHT to be notes -- asked of the program's own drum map, not
+     of this file's display table. See DRUM_LANES: the two drifted apart and the
+     check cried wolf on a correct export. */
+  const GM = M.gmDrum ? M.gmDrum() : {};
   const expect = song.perf.events.filter(e => e.role !== "tape" &&
-                  (e.role === "drums" ? DRUM_CH[e.lane] != null : e.pitch != null)).length;
+                  (e.role === "drums" ? (e.lane === "brk" || GM[e.lane] != null)
+                                      : e.pitch != null)).length;
   const lastSec = maxTick / ppq * 60 / C.tempo;
   const songSec = song.form.nBars * 16 * spb;
   console.log(`\n── MIDI ${"─".repeat(70)}`);
