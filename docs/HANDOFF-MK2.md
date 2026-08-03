@@ -2513,3 +2513,50 @@ same job, what a PCM90 adds is ALGORITHMS; Roland SRV-330 "Dimensional
 Space"; ART Multiverb gated reverb, unresearched against our existing
 gate). The `snap` motion kind from plastikman-minimal.md is still the
 highest-value unbuilt thing. And the ear has heard none of it.
+
+**SNAP, AND THE PROGRAMME TAPE, at `2026-08-03l`** — the highest-value
+unbuilt thing from plastikman-minimal.md, now built.
+
+**THE GAP IT CLOSES.** Every motion kind in this file INTERPOLATES:
+`section` steps ramp, `lfo`/`arc`/`gesture` are continuous, `throw` decays.
+So the most famous move in minimal techno was structurally impossible here:
+
+> "I'd let all the effects play, and then in one set INSTANTLY turn off the
+> effects, and then EIGHT BARS LATER turn them back on." — Hawtin on
+> *Consumed*, via the desk's MIDI mute automation
+> [corpus:soundonsound Classic Tracks]
+
+**`kind: "snap"`** is a rectangle: at bar B it jumps, holds `bars`, and
+jumps back, with no ramp at either edge — because the edge IS the gesture.
+A fader ridden down over two beats is a fade; this is a mute. Windows are
+computed in BARS, so a cut lands on a bar line by construction and reads as
+a decision rather than an accident. WHERE the cuts fall is arithmetic
+(every N bars, never the first — a record does not open on a hole); HOW FAR
+it jumps is drawn once per song, so one hand makes one decision and repeats
+it.
+
+**plastikman cuts all four effect returns** (echoMix, roomMix, flangeMix,
+dp4Mix) for 8 bars every 32. MEASURED on seed 11: `................................XXXXXXXX........................XXXXXXXX`
+— and the dry band keeps playing throughout, which is the entire point:
+"the space between the sounds and beats defines the music that it's
+surrounding."
+
+**THE PROGRAMME TAPE** is the UI, and it exists because a snap is the one
+control in this program that is a SHAPE IN TIME rather than a position — a
+knob cannot draw it and a curve cannot either. So: punched paper tape,
+which is the right ancestor rather than a costume, because mute automation
+on a 1970s desk *was* a program on a strip, and a punched tape is the only
+display where "nothing here for eight bars" is a physical hole you can see
+coming. Sprocket track, cuts punched through to the dark of the machine
+with their length screened on them, an orange playhead, and a CUT lamp that
+lights while the effects are gone. Like the field it declares no controls
+and reads the motion plan, so it shows what WILL happen; a genre with no
+snap gets an honest empty strip that says so.
+
+Battery 118/118, snapshot IDENTICAL, blends 10/10, ui 26, renders
+repeatable on all seven.
+
+STILL OPEN: only plastikman snaps — jungle's drops and synthwave's
+prechorus are the obvious next candidates, and both are sourced genres
+where a hard cut is idiomatic. Three of Hawtin's five units remain
+(PCM90, SRV-330, ART Multiverb). And the ear has heard none of it.

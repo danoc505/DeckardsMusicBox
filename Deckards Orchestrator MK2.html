@@ -474,6 +474,48 @@
     background:#1d1409; color:#ffcf94; border:1px solid #3a2a18; }
   .fldpre button:hover{ background:#2a1d0d; border-color:#6a4a24; }
 
+
+  /* ── THE PROGRAMME TAPE ───────────────────────────────────────────────────
+     The snap needed somewhere to be SEEN, and it is the one control in this
+     program that is a shape in time rather than a position: a rectangle of
+     bars where the effects are gone. A knob cannot draw that and a curve
+     cannot either.
+     So: punched paper tape. It is the right ancestor rather than a costume --
+     mute automation on a 1970s desk WAS a program on a strip, and a punched
+     tape is the only display where "nothing here for eight bars" is a
+     physical hole you can see coming. Sprocket holes down the middle, the
+     cuts punched through, and the playhead crossing it. ── */
+  .sk-prog{ color:#e8dcc0; border:1px solid #1a1712;
+            background:linear-gradient(#191510, #0d0b08); }
+  .sk-prog .brand{ background:#0d0b08; color:#e8dcc0; margin:-.85rem -1rem .7rem;
+                   padding:.4rem 1rem; border-radius:4px 4px 0 0;
+                   border-bottom:1px solid #3a3126; }
+  .sk-prog .brand .model{ color:#ffcf94; letter-spacing:.24em; font-weight:600; }
+  .sk-prog .brand .maker{ color:#7a6a4a; letter-spacing:.16em; }
+  .prgwrap{ position:relative; }
+  .prgtape{ position:relative; height:78px; border-radius:3px; overflow:hidden;
+    background:
+      /* the sprocket track: small holes down the centre line */
+      repeating-linear-gradient(90deg, transparent 0 9px,
+        rgba(0,0,0,.85) 9px 13px, transparent 13px 22px),
+      linear-gradient(#cbb98d, #b6a377);
+    box-shadow:inset 0 0 18px rgba(0,0,0,.55); }
+  /* the punched region: a real hole, so you see the dark of the machine */
+  .prgcut{ position:absolute; top:0; bottom:0; border-radius:2px;
+    background:linear-gradient(#0a0806, #14100b);
+    box-shadow:inset 0 2px 6px rgba(0,0,0,.9), 0 0 0 1px rgba(0,0,0,.5);
+    display:flex; align-items:flex-end; justify-content:center; }
+  .prgcut span{ font-size:.5rem; letter-spacing:.12em; color:#8a7550; margin-bottom:2px; }
+  .prghead{ position:absolute; top:-3px; bottom:-3px; width:2px; background:#ff5a2c;
+    box-shadow:0 0 10px rgba(255,90,44,.9); display:none; }
+  .prgrow{ display:flex; align-items:center; gap:.5rem; margin-top:.5rem; }
+  .prglab{ font-size:.56rem; letter-spacing:.16em; color:#7a6a4a; }
+  .prglamp{ font-size:.55rem; letter-spacing:.16em; padding:.2rem .6rem;
+    border-radius:2px; border:1px solid #3a3126; color:#7a6a4a; background:#0d0b08; }
+  .prglamp.on{ background:#ff5a2c; border-color:#ff5a2c; color:#140d08;
+               box-shadow:0 0 14px rgba(255,90,44,.7); }
+  .prgnone{ font-size:.58rem; color:#7a6a4a; letter-spacing:.06em; padding:.5rem 0; }
+
   /* ── THE A-138m, as the machine looks ─────────────────────────────────────
      A raw brushed-aluminium eurorack panel: silver, faint vertical grain,
      black legending, gold-ringed jack sockets down the left and along the
@@ -637,7 +679,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03k · the DP/4: four effects at once, and the grid learns to keep itself acyclic</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03l · SNAP: the effects cut out for eight bars, and a punched tape that shows it coming</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1938,6 +1980,17 @@ const INSTRUMENTS = {
     panel: { skin: "field", maker: "DECKARD", title: "STEREO FIELD", grid: "field" },
   },
 
+  /* ── THE PROGRAMME ────────────────────────────────────────────────────────
+     A VIEW, like the field: no controls, no sound. It draws every `snap` lane
+     the current song carries -- the bars where the conductor takes something
+     out and the bar it comes back. Reads the motion plan, so it shows what
+     WILL happen rather than what did. */
+  programme: {
+    slot: "programme", label: "the programme", fixed: true,
+    lanes: {}, controls: [],
+    panel: { skin: "prog", maker: "DECKARD", title: "PROGRAMME", grid: "programme" },
+  },
+
   /* ── BASSES ────────────────────────────────────────────────────────────── */
   drone: {
     slot: "bass", label: "low drone (Prophet)",
@@ -2590,6 +2643,25 @@ function motionAt(plan, key, ev, offset){
        "Delay functions as a compositional tool that creates rhythm and melody
        from single notes or short phrases" [corpus:attackmagazine dub techno].
        A steady send cannot do this; it just makes everything wet. */
+    /* ── SNAP: THE ONE GESTURE THIS PROGRAM COULD NOT MAKE ─────────────────
+       Every other kind here INTERPOLATES -- section steps ramp, lfo/arc/
+       gesture are continuous, throw decays. So the single most famous move in
+       minimal techno was structurally impossible:
+
+         "I'd let all the effects play, and then in one set INSTANTLY turn off
+          the effects, and then EIGHT BARS LATER turn them back on."
+          -- Hawtin on Consumed, done with the desk's MIDI mute automation
+          [corpus:soundonsound Classic Tracks]
+
+       A snap is a rectangle: at bar B it jumps, holds for `bars`, and jumps
+       back. No ramp at either edge, because the edge IS the gesture -- a
+       fader ridden down over two beats is a fade, and this is a mute.
+       It lands on a BAR LINE by construction (the window is computed in bars),
+       which is what makes it read as an arrangement decision rather than an
+       accident. */
+    else if(mv.kind === "snap"){
+      for(const w of mv.win) if(bar >= w.a && bar < w.b){ d += mv.to; break; }
+    }
     else if(mv.kind === "throw"){
       const inPhrase = bar % mv.every;
       if(inPhrase === mv.every - 1){
@@ -2814,6 +2886,19 @@ function makeMotion(chart, form, sections){
            function eight times from walking a filter off its dial */
         const step = drawIn(sp.step, rng);
         out.push(Object.freeze({ kind: "occurrence", step, cap: sp.cap == null ? 3 : sp.cap }));
+      }
+      else if(sp.kind === "snap"){
+        /* WHERE the cuts land is arithmetic, not a draw: every `every` bars,
+           starting after the first one so a record never opens on a hole.
+           HOW FAR it jumps is drawn once, so the same song cuts by the same
+           amount each time it cuts -- one hand, one decision, repeated. */
+        const to = drawIn(sp.to, rng);
+        const every = Math.max(2, sp.every || 32);
+        const hold = Math.max(1, sp.bars || 8);
+        const win = [];
+        for(let b = every; b < nBars; b += every)
+          win.push({ a: b, b: Math.min(nBars, b + hold) });
+        out.push(Object.freeze({ kind: "snap", to, win: Object.freeze(win) }));
       }
       else if(sp.kind === "throw"){
         const amt = drawIn(sp.amt, rng);
@@ -12044,6 +12129,15 @@ const GENRE = {
          subtraction spent on the room. Shapes from this genre's own lanes;
          amounts mine. [EAR] */
       matrix: {
+        /* ── THE CUT. This is the Hawtin move, on the four crossings that
+           carry every effect back into the mix: every 32 bars the returns
+           drop out for 8 bars and then come back, hard at both edges. He did
+           it with mute automation on the desk; here it is one motion kind on
+           four returns, which is the same statement. The record does not stop
+           -- the DRY band keeps playing and the effects vanish, which is the
+           whole point: "the space between the sounds and beats defines the
+           music that it's surrounding". [corpus:soundonsound; Hawtin] */
+        echoMix:   [{ kind: "snap", to: [-1, -1], every: 32, bars: 8 }],
         /* who goes into the box, and how much comes back */
         drumsDP4: [{ kind: "lfo", bars: [[44, 2], [30, 1]], depth: [0.06, 0.16], shape: "sin", freePhase: true }],
         keysDP4:  [{ kind: "section", by: { bridge: [0.14, 0.34] } },
@@ -12053,7 +12147,8 @@ const GENRE = {
         echoDP4:  [{ kind: "lfo", bars: [[60, 2], [40, 1]], depth: [0.04, 0.11], shape: "sin", freePhase: true }],
         roomDP4:  [{ kind: "lfo", bars: [[70, 2], [46, 1]], depth: [0.03, 0.10], shape: "tri", freePhase: true }],
         flangeDP4:[{ kind: "lfo", bars: [[38, 2], [56, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
-        dp4Mix:   [{ kind: "section", by: { intro: [-0.30, -0.10], bridge: [0.04, 0.12] } },
+        dp4Mix:   [{ kind: "snap", to: [-1, -1], every: 32, bars: 8 },
+                   { kind: "section", by: { intro: [-0.30, -0.10], bridge: [0.04, 0.12] } },
                    { kind: "lfo", bars: [[64, 2], [44, 1]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         /* who goes into the flanger, and how much of it comes back */
         drumsFlange: [{ kind: "section", by: { bridge: [0.20, 0.45], instrumental: [0.06, 0.18] } },
@@ -12065,7 +12160,8 @@ const GENRE = {
         roomFlange:  [{ kind: "section", by: { bridge: [0.10, 0.28] } },
                       { kind: "lfo", bars: [[68, 2], [44, 1]], depth: [0.03, 0.10],
                         shape: "tri", freePhase: true }],
-        flangeMix:   [{ kind: "section", by: { intro: [-0.30, -0.12], outro: [-0.20, -0.06] } }],
+        flangeMix:   [{ kind: "snap", to: [-1, -1], every: 32, bars: 8 },
+                     { kind: "section", by: { intro: [-0.30, -0.12], outro: [-0.20, -0.06] } }],
         /* THE SUBTRACTION, spent on the mix itself. Hawtin's "year of
            subtraction" and underdog's "cut that to create space between
            elements so that the purity of each element becomes clearer" are
@@ -12107,7 +12203,8 @@ const GENRE = {
            reverb return climbing across a year of subtraction, and until the
            returns became rows of the grid there was no knob to say it with --
            `wet` was a number only the song could write. */
-        roomMix:   [{ kind: "section", by: { bridge: [0.06, 0.16], instrumental: [0.02, 0.07] } },
+        roomMix:   [{ kind: "snap", to: [-1, -1], every: 32, bars: 8 },
+                    { kind: "section", by: { bridge: [0.06, 0.16], instrumental: [0.02, 0.07] } },
                     { kind: "arc", from: [-0.04, -0.01], to: [0.04, 0.11], curve: "sCurve" },
                     { kind: "lfo", bars: [[64, 2], [40, 1]], depth: [0.02, 0.05],
                       shape: "sin", freePhase: true }],
@@ -17196,6 +17293,56 @@ function fieldEl(){
   return wrap;
 }
 
+/* ── THE PROGRAMME, DRAWN ───────────────────────────────────────────────────
+   Every `snap` window in the song, as holes punched in a tape. The lanes are
+   read from the motion plan rather than from a genre table, so the display is
+   of THIS song -- and a genre with no snap gets an honest empty strip saying
+   so rather than a blank box. */
+function programmeEl(){
+  const wrap = el("div", "prgwrap");
+  const tape = el("div", "prgtape");
+  const head = el("div", "prghead");
+  const cuts = [];
+  const mo = SONG && SONG.motion;
+  let nBars = (mo && mo.nBars) || 0, any = 0;
+  if(mo) for(const key in mo.lanes){
+    for(const mv of mo.lanes[key]){
+      if(mv.kind !== "snap") continue;
+      any++;
+      for(const w of mv.win){
+        const c = el("div", "prgcut");
+        c.style.left = (w.a / nBars * 100) + "%";
+        c.style.width = ((w.b - w.a) / nBars * 100) + "%";
+        c.title = key.replace("matrix.", "") + " out from bar " + w.a + " to " + w.b;
+        c.appendChild(el("span", null, (w.b - w.a) + " BARS"));
+        tape.appendChild(c); cuts.push({ el: c, w });
+      }
+    }
+  }
+  tape.appendChild(head);
+  wrap.appendChild(tape);
+  if(!any) wrap.appendChild(el("div", "prgnone",
+    "no cuts in this programme — this genre never takes the effects out"));
+  const row = el("div", "prgrow");
+  const lamp = el("div", "prglamp", "CUT");
+  row.appendChild(el("div", "prglab", "TRANSPORT"));
+  row.appendChild(lamp);
+  row.appendChild(el("div", "prglab", nBars ? nBars + " BARS" : ""));
+  wrap.appendChild(row);
+
+  wrap.refresh = () => {
+    const t = songTime();
+    if(t == null || !nBars){ head.style.display = "none"; lamp.className = "prglamp"; return; }
+    const bar = t / (mo.spb * 16);
+    head.style.display = "block";
+    head.style.left = Math.max(0, Math.min(100, bar / nBars * 100)) + "%";
+    const inCut = cuts.some(c => bar >= c.w.a && bar < c.w.b);
+    lamp.className = "prglamp" + (inCut ? " on" : "");
+  };
+  wrap.refresh(); KNOBS.push(wrap);
+  return wrap;
+}
+
 /* ── THE XY PAD ─────────────────────────────────────────────────────────────
    A Kaoss pad is not a knob with two dimensions bolted on -- it is one gesture
    that moves TWO controls at once, which is the only way to reach a filter and
@@ -17901,6 +18048,7 @@ function drawPanels(){
       if(P.grid === "drums") { const gr = drumGridEl(m, M); box.appendChild(gr); GRIDS.push(["drums", gr]); }
       if(P.grid === "bass")  { const gr = bassGridEl(m, M);  box.appendChild(gr); GRIDS.push(["bass", gr]); }
       if(P.grid === "field") box.appendChild(fieldEl());
+      if(P.grid === "programme") box.appendChild(programmeEl());
       if(P.grid === "matrix"){
         box.appendChild(matrixGridEl(m, M));
         const plate = el("div", "mxplate");
