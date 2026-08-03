@@ -16,15 +16,22 @@ rather than running.*
 ## The five-minute battery — run this before any claim
 
 ```sh
-node harness/mk2_test.js                              # 96 seam checks
-node harness/mk2_ui.js                                # 24 checks, real browser
-node harness/mk2_blend.js                             # 10 checks, blend sliders
+node harness/mk2_test.js                              # the seam checks
+node harness/mk2_ui.js                                # the panels, real browser
+node harness/mk2_blend.js                             # the blend sliders
 node harness/mk2_snapshot.js check harness/mk2_baseline.snap
 node harness/probe_voices.js                          # every voice fires, none silent
-node harness/mk2_midi.js                              # 20 checks, MIDI via a stub port
+node harness/mk2_midi.js                              # MIDI via a stub port
 ```
 
-State at `fcc3c50`: **96 / 24 / 10 / IDENTICAL / 0 threw, 0 silent / 20.**
+State at `af17de6` (build `2026-08-03o`): **118 / 26 / 10 / IDENTICAL /
+0 threw, 0 silent / 20.**
+
+**The counts in that line date the moment they were measured and nothing
+keeps them true.** A check count that disagrees with this file is this file
+being old, not the battery being broken — the batteries themselves say what
+they ran. `docs/HANDOFF-MK2.md` carries the same table and is kept current
+with it.
 
 `mk2_midi.js` flakes about one run in five — its checks are wall-clock ("did 40
 clock ticks arrive in 2.5 s"). One red run is not a regression; it is also not
@@ -71,7 +78,11 @@ published and where.
 | `probe_controls.js [machine]` | every knob on a machine reaches the sound. **Slow — the TR-1000 is ~40 min.** Name one machine |
 | `probe_cymbals.js` | the harsh band (2–6 kHz) in absolute terms **and** as a share |
 | `probe_chains.js`, `probe_desk.js`, `probe_faders_down.js`, `probe_303.js` | routing, the desk, the faders, the 303 |
-| `render_audio.js` + `test_audio.py` | output assertions on rendered excerpts |
+| `probe_matrix.js [genre]` | **every crossing of the grid moves air** — each one rendered twice and measured as a DIFFERENCE SIGNAL, plus the dub drop (dry closed, send open). **Slow — ~20 min a genre** |
+| `probe_render_determinism.js` | the same events rendered three times null out. Written after a feedback cycle in the graph cost the renderer its repeatability at gain 0 |
+| `probe_wiring.js` | **which genre actually reaches what was added.** A table, not a pass/fail. Found `preDelay` connected to NOBODY for two builds |
+| `probe_kaoss.js` | the pad reaches live sound, and by how much, per genre |
+| `render_audio.js` + `test_audio.py` | output assertions on rendered excerpts. **15 of them fail today and 13 are one stale check** — `docs/BACKLOG.md` §1 before you "fix" anything here |
 
 ## Samples
 
@@ -94,3 +105,17 @@ into the HTML — **nothing from any sample library is committed to this repo.**
    in one of its legitimate findings.
 2. **Check the ruler fits the thing.** A 30 ms attack averaged over 4 seconds is
    nothing, and a share can rise while the absolute level falls. Report both.
+3. **Anything that LISTS what the program contains will go stale.** Four times
+   now, three of them in one session: the seam scanner's read-detection;
+   `probe_matrix`'s column names, twice (a hardcoded `(Mix|Echo|Room)` died at
+   FLANGE, and its replacement — pulling names out with `[A-Z][a-z]+` — died at
+   DP4, because "DP4" has a digit in it); and `probe_wiring`, which had no
+   barberpole column the build after one existed. **Derive it from the
+   declaration.** `MK2.MATRIX`, `MK2.racks()` and `MK2.INSTRUMENTS` are exported
+   for exactly this, and a list written out by hand here is a bug with a
+   commit date on it.
+4. **Ask the question of the thing, not of the declaration.** The first derived
+   version of `probe_wiring`'s FX columns read each genre's `space.feeds` and
+   reported the ROOM as used by two genres, when all seven use it — keys and
+   lead arrive open there whatever a genre declares. A declaration says what
+   was asked for; the crossings say what happened.

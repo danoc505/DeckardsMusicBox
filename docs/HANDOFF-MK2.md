@@ -9,17 +9,26 @@ rendered-audio failures that had been dismissed as "pre-existing" turned out to
 contain two real defects in the music. For whoever picks this up next. Read this
 whole file before you touch the HTML.*
 
-**State at `7c7644b`, all green:**
+**State at `af17de6` (build `2026-08-03o`), every number below measured on that
+commit — not remembered from an earlier one.** The row that is not green is
+not green, and says why.
 
 | battery | command | result |
 |---|---|---|
-| seam checks | `node harness/mk2_test.js` | **110 passed, 0 failed** |
+| seam checks | `node harness/mk2_test.js` | **118 passed, 0 failed** |
 | UI, in a browser | `node harness/mk2_ui.js` | **26 passed, 0 failed** |
-| blend sliders | `node harness/mk2_blend.js` | **10 passed, 0 failed** |
+| blend sliders | `node harness/mk2_blend.js` | **10 passed, 0 failed** (504/504 pairs) |
 | MIDI port | `node harness/mk2_midi.js` | **20 passed, 0 failed** |
-| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** |
-| every voice | `node harness/probe_voices.js` | **0 silent** |
-| rendered audio | `node harness/render_audio.js <dir> 1,2` then `python3 harness/test_audio.py <dir>` | **355 passed, 0 failed** |
+| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** (baseline `3a06b1c1b32aea33`) |
+| every voice | `node harness/probe_voices.js` | **0 threw, 0 silent** |
+| every crossing of the grid | `node harness/probe_matrix.js <genre>` | **every testable crossing changes the sound**; ~20 min a genre |
+| renders repeat | `node harness/probe_render_determinism.js` | **all seven repeatable**, worst −92 dB |
+| who uses what | `node harness/probe_wiring.js` | a table, not a pass/fail — see §3 of `docs/BACKLOG.md` |
+| rendered audio | `node harness/render_audio.js <dir> 1,2` then `python3 harness/test_audio.py <dir>` | **316 passed, 15 failed** — and the same 15 to the last digit on the commit before. **13 are one stale check**: `docs/BACKLOG.md` §1 |
+
+**THE HEADLINE THAT IS NOT A BATTERY:** almost none of the last two weeks of
+work has been LISTENED TO. `docs/BACKLOG.md` §0. Measurements prove a thing
+exists; the sax proved they never prove it sounds good.
 
 > **The container has rolled this clone back to an old commit three times in one
 > session.** Twice mid-task. Nothing was lost because everything was pushed, but
@@ -446,7 +455,7 @@ WAV hash can never be the determinism test. The determinism test is the
 Run all of these before you claim anything.
 
 ```bash
-node harness/mk2_test.js                              # 110 seam checks
+node harness/mk2_test.js                              # the seam checks (118 at af17de6)
 node harness/mk2_roll.js 1                            # THE test that matters
 node harness/mk2_roll.js 1 --song                     # full arrangement
 node harness/mk2_roll.js 1 --genre plastikman         # any of the seven genres
@@ -473,22 +482,37 @@ node harness/probe_harmony_neo.js                     # chromaticism and voice l
 node harness/probe_cymbals.js                         # the harsh band, absolute and as a share
 python3 harness/make_sample.py <file> --name x --pitched   # WAV/AIFF -> embeddable payload
 
+# ── the grid, the renderer, and who reaches what ──
+node harness/probe_matrix.js synthwave                # every crossing moves air. ~20 min A GENRE
+node harness/probe_render_determinism.js              # same events x3 null out
+node harness/probe_wiring.js                          # which genre uses what was added
+node harness/probe_kaoss.js                           # the pad reaches live sound
+
 # ── the rendered-audio battery: half one makes the audio, half two asserts on it ──
-node harness/render_audio.js /tmp/aud 1,2             # ~35 s, 54 renders
-python3 harness/test_audio.py /tmp/aud                # 355 assertions on the SAMPLES
+node harness/render_audio.js /tmp/aud 1,2             # ~55 s, 52 renders
+python3 harness/test_audio.py /tmp/aud                # assertions on the SAMPLES
 ```
 
 **The five-minute battery, before any claim:** `mk2_test.js`, `mk2_ui.js`,
 `mk2_blend.js`, `mk2_midi.js`, `mk2_snapshot.js check`, `probe_voices.js`.
-State at `7c7644b`: **110 / 26 / 10 / 20 / IDENTICAL / 0 silent.**
+State at `af17de6`: **118 / 26 / 10 / 20 / IDENTICAL / 0 silent.**
 
 **Run the rendered-audio battery too when you touch the SOUND** — the graph, a
-voice, a genre's `space` or `kick`, the master chain. It takes about a minute
+voice, a genre's `space` or `kick`, the master chain. It takes about two minutes
 including the render and it is the only thing in the repo that asserts on actual
-samples. It is at **355 passed, 0 failed**; it was at 346/8 for a long time and
-those eight were being reported as "pre-existing" and skipped over. **Two of them
-were real defects in the music.** Do not inherit that habit — if it is red, it is
-red about this program.
+samples.
+
+**It is at 316 passed, 15 failed at `af17de6`, and the way to read that is in
+`docs/BACKLOG.md` §1.** Thirteen of the fifteen are ONE check whose ceiling was
+calibrated before the program had a stereo stage. The history here matters:
+this battery once sat at 346/8 with the eight reported as "pre-existing" and
+skipped over, and **two of them turned out to be real defects in the music.**
+So the rule is not "13 are known, ignore them" — the rule is that a red check
+gets diagnosed, its diagnosis gets written down with its numbers, and the
+diagnosis gets checked against the commit before. That is what was done here:
+rendered from `7224caf` in a separate worktree, the same 15 appeared to the
+last digit. **If it is red, it is red about this program until you have shown
+otherwise.**
 
 ### `numpy` is needed for the audio battery
 
@@ -1955,24 +1979,29 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
 | `Deckards Orchestrator MK2.html` | the program. Everything. |
 | `Improv Machine playable_BETA 0.1.html` | **MK1.** Its synthwave synth and drums sounded good — worth reading before redoing either. |
 | `docs/MASTERDOC-REBUILD.md` | the constitution |
-| `docs/ROADMAP-MK2.md` | the schedule |
+| `docs/BACKLOG.md` | **everything outstanding, in one place, each item with why it is open and what would close it.** Written because intentions were being lost inside session entries in this file. Its §0 outranks every task in it |
+| `docs/ROADMAP-MK2.md` | the schedule — the ORIGINAL milestone plan. The live list is `BACKLOG.md` |
 | `docs/LICENSING.md` | what may and may not be vendored |
 | `docs/SYNTH-RESEARCH.md` | CS-80, filter topologies |
-| `docs/genre-research/*.md` | seven genres, **all unverified** |
+| `docs/genre-research/*.md` | seven genres, **all unverified** — plus the units and the illusions: `fx-units.md`, `barberpole.md`, `stereo.md`, `matrix-mixer.md`, `plastikman-minimal.md`. **Every web search goes in here.** A finding argued only in a commit message is a finding that will be re-searched |
 | `docs/UI_10X.md` | ⚠ **MK1** — its line numbers point at a frozen file. Marked, kept for the research only |
 | `docs/CODE_REVIEW.md` | ⚠ **MK1** — reviews `conduct`/`improvise`/the ghost pass. History |
 | `harness/README.md` | what every tool measures, and which are slow |
 | `harness/mk2_roll.js` | the test that matters |
-| `harness/mk2_test.js` | the 110 seam checks |
+| `harness/mk2_test.js` | the seam checks — the note-level battery (118 at `af17de6`) |
 | `harness/mk2_snapshot.js` | proof that a refactor is a refactor |
 | `harness/mk2_ui.js` | the panels, driven in a real browser |
 | `harness/probe_controls.js` | every knob on every machine reaches the sound |
+| `harness/probe_matrix.js` | **every crossing of the grid moves air**, and the dub drop, measured |
+| `harness/probe_render_determinism.js` | the same events rendered three times null out — the guard a feedback cycle broke |
+| `harness/probe_wiring.js` | **which genre uses what was added.** Run it after adding anything |
+| `harness/probe_kaoss.js` | the pad reaches live sound, and by how much, per genre |
 | `harness/probe_theory.js` | the music laws, read off the notes |
 | `harness/probe_voices.js` | every voice fires and none is silent |
 | `harness/probe_novelty.js` | **is a lane a loop, noise, or generated?** the LZ76 instrument |
 | `harness/probe_poly.js` | each drum lane's real period, reconstructed from the notes |
 | `harness/probe_sax.js` | what the horn actually articulates |
-| `harness/test_audio.py` | 355 assertions on the rendered SAMPLES (needs numpy) |
+| `harness/test_audio.py` | assertions on the rendered SAMPLES (needs numpy). 331 at `af17de6`, of which 15 fail — see the state table |
 | `docs/genre-research/sax-playing.md` | how a saxophone is played, and what was built from it |
 | `docs/genre-research/autechre.md` | Autechre and Plastikman: one root, and the space |
 | `docs/genre-research/the-part-that-listens.md` | the reactive layer, and what it rejected |
@@ -1987,11 +2016,17 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
 ### Before you start: the two-minute orientation
 
 ```bash
-node harness/mk2_test.js            # expect 110 / 0
+node harness/mk2_test.js            # expect 118 / 0 at af17de6
 node harness/mk2_roll.js 1 --genre plastikman   # READ IT. This is the method.
 node harness/probe_novelty.js       # what each genre's drums actually are
 node harness/probe_poly.js          # each lane's real period
+node harness/probe_wiring.js        # which genre reaches what was added
 ```
+
+**And read `docs/BACKLOG.md` before picking anything from §9 below.** This
+section was written at `7c7644b` and names jobs that were right then; the
+backlog is the list that is kept current, and its §0 — *the ear has heard
+almost none of this* — outranks everything in either file.
 
 The roll is the test that matters. Everything below was found by reading it or
 by writing a probe that reads what it reads.

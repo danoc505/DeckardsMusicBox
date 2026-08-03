@@ -105,3 +105,22 @@ On the record it supplied **"gated reverb" on claps**. This program already
 has a gated verb (`g.gateSend`/`gateVerb`), built long before and never
 compared against this unit. Whoever picks it up should research the ART
 first and then ask whether ours needs changing at all.
+
+---
+
+## 6. Bode Barberpole Phaser (1981) — BUILT at `2026-08-03o`
+
+**Not from Hawtin's rack** — it arrived by a different door, at the user's
+request — but it belongs in this list because it is now one of the units in
+the FX suite, and column F of the matrix.
+
+Its research is **its own file**: `barberpole.md`. That file has the
+sources (Bode's last completed instrument; the DAFx-15 paper's three
+methods and why we built the first; the Shepard bell over the logarithmic
+frequency axis), a table of what the sources gave against what we did, and
+**three things the sources describe that we did NOT build**, each with the
+reason.
+
+The one worth doing next is Sinevibes Whirl's **stereo phase offset between
+channels** — ours offsets between NOTCHES, not between the two ears, and
+the program is stereo now. It is in `docs/BACKLOG.md` §5.

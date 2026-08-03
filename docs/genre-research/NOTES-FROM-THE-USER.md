@@ -1571,3 +1571,31 @@ Worth recording because the pattern is the expensive one:
 
 The through-line: **measure before asserting an impossibility**, and answer the
 question that was asked rather than the nearest one that is easy to measure.
+
+---
+
+## Two instructions about METHOD, 2026-08-03
+
+Both from the user, both about how work is kept rather than what to build,
+and both were corrections of a real habit.
+
+**1. "Your web searches need to be their own research docs for future
+reference."** The searches behind the flanger, the DP/4, the PCM90 and the
+whole stereo build had been argued in commit messages and handoff entries —
+which is where findings go to be forgotten, and where the next person
+re-runs the same searches to get the same answers. Every search now lands in
+`docs/genre-research/`: `fx-units.md`, `stereo.md`, `barberpole.md`,
+`matrix-mixer.md`, `plastikman-minimal.md`. **A finding argued only in a
+commit message is a finding that will be re-searched.**
+
+**2. "Let's build a doc that collects everything we are saying needs to be
+done."** Same failure at a different scale: every session named work it was
+not doing, in prose, inside an entry that the next session would not read.
+`docs/BACKLOG.md` collects all of it — each item with why it is open and
+what would close it.
+
+And its §0 is the one the user has effectively been saying all along:
+**almost none of the recent work has been LISTENED TO.** The sax is the
+precedent and it is not a small one — every metric on it was green and the
+ear refused it. Measurements prove a thing exists. They have never once
+proved it sounds good.

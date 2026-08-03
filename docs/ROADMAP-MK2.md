@@ -1,5 +1,10 @@
 # MK2 ROADMAP — rev 2
 
+> **This is the ORIGINAL milestone plan and it is kept for its reasoning, not
+> as a to-do list.** The list that is kept current is **`docs/BACKLOG.md`** —
+> everything outstanding, each item with why it is open and what would close
+> it. Start there; come back here for why the form was put before the sound.
+
 *Rewritten after the form research (FORM-RESEARCH.md). The first revision treated
 "more sections" as a later nicety; that was wrong. A song IS its form — the section
 pool, the grammar that sequences it, and the rule of three that forces motion are the
