@@ -625,6 +625,9 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
        so it can never appear in a motion lane -- but it does reach the sound,
        and this list is where that fact is stated. */
     "dp4.aAlgo","dp4.bAlgo","dp4.cAlgo","dp4.dAlgo",
+    /* which way the pole's stripes climb: read once per song and applied as
+       the SIGN of the sweep ramp, same shape as the DP/4's algo switches */
+    "barber.dir",
     /* the desk: three shelf/bell gains the whole mix passes through, plus the
        three crossovers that place them */
     "desk.low","desk.mid","desk.high","desk.lowF","desk.midF","desk.highF",

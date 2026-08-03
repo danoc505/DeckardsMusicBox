@@ -516,6 +516,49 @@
                box-shadow:0 0 14px rgba(255,90,44,.7); }
   .prgnone{ font-size:.58rem; color:#7a6a4a; letter-spacing:.06em; padding:.5rem 0; }
 
+
+  /* ── THE POLE ─────────────────────────────────────────────────────────────
+     The one effect in this rack whose NAME is a picture, so the panel is that
+     picture: a glass cylinder with helical stripes climbing it forever and
+     arriving nowhere, which is exactly what the notches are doing. The stripes
+     move at the sweep rate and reverse with the direction switch, so the
+     display is not an illustration of the effect -- it is the same number.
+     Chrome caps, a lit tube, and the six notches shown climbing beside it. */
+  .sk-pole{ color:#dfe6f2; border:1px solid #10141c;
+            background:linear-gradient(#161b26, #0b0e14); }
+  .sk-pole .brand{ background:#0b0e14; color:#dfe6f2; margin:-.85rem -1rem .7rem;
+                   padding:.4rem 1rem; border-radius:4px 4px 0 0;
+                   border-bottom:1px solid #2a3444; }
+  .sk-pole .brand .model{ color:#7fe3ff; letter-spacing:.24em; font-weight:600; }
+  .sk-pole .brand .maker{ color:#5a6c86; letter-spacing:.16em; }
+  .polewrap{ display:flex; gap:.9rem; align-items:stretch; }
+  .poletube{ position:relative; width:54px; border-radius:27px/10px; overflow:hidden;
+    border:1px solid #2a3444;
+    background:repeating-linear-gradient(115deg,
+      #f2f5fa 0 10px, #d8dee8 10px 20px, #e0463c 20px 30px, #c8362c 30px 40px);
+    background-size:100% 56px;
+    box-shadow:inset -10px 0 18px rgba(0,0,0,.45), inset 10px 0 14px rgba(255,255,255,.35),
+               0 0 22px rgba(127,227,255,.10);
+    animation:poleclimb 11s linear infinite; }
+  @keyframes poleclimb{ from{ background-position:0 0 } to{ background-position:0 -56px } }
+  .poletube.down{ animation-direction:reverse; }
+  /* the glass: a highlight down the left, a shadow down the right */
+  .poletube::after{ content:""; position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(90deg, rgba(255,255,255,.45), transparent 42%,
+      rgba(0,0,0,.30) 88%); }
+  .polecap{ height:9px; border-radius:3px; margin:0 -2px;
+    background:linear-gradient(#e8eef7, #8fa0b8 55%, #5a6c86);
+    box-shadow:0 1px 2px rgba(0,0,0,.6); }
+  /* the notches, climbing the scale beside the pole */
+  .polescale{ position:relative; flex:1 1 auto; min-height:150px;
+    border-left:1px solid #2a3444; }
+  .polenotch{ position:absolute; left:0; right:0; height:2px;
+    background:linear-gradient(90deg, #7fe3ff, rgba(127,227,255,0));
+    box-shadow:0 0 8px rgba(127,227,255,.7); }
+  .polenotch b{ position:absolute; left:.4rem; top:-.46rem; font-size:.5rem;
+    font-weight:400; letter-spacing:.08em; color:#5a6c86; }
+  .polefoot{ font-size:.55rem; letter-spacing:.14em; color:#5a6c86; margin-top:.4rem; }
+
   /* ── THE A-138m, as the machine looks ─────────────────────────────────────
      A raw brushed-aluminium eurorack panel: silver, faint vertical grain,
      black legending, gold-ringed jack sockets down the left and along the
@@ -679,7 +722,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03n · the research gets its own shelf, and probe_wiring asks who actually uses what</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03o · a barberpole phaser that climbs forever, and a backlog of everything outstanding</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1337,13 +1380,20 @@ const MATRIX = {
     { k: "room",   label: "room",   ret: true },
     { k: "flange", label: "flange", ret: true },
     { k: "dp4",    label: "DP/4",   ret: true },
+    { k: "barber", label: "pole",   ret: true },
   ],
+  /* `feeds` names the genre field that decides which rows arrive open in this
+     column. It is here so nothing has to KNOW that the room's list is called
+     `feeds` while every later column's is `<name>Feeds` -- probe_wiring wrote
+     those names out by hand and had no barberpole column the build after one
+     existed. The MIX column has none: every row arrives open there. */
   outs: [
     { k: "Mix",    label: "MIX",    cap: "A" },
-    { k: "Echo",   label: "ECHO",   cap: "B" },
-    { k: "Room",   label: "ROOM",   cap: "C" },
-    { k: "Flange", label: "FLANGE", cap: "D" },
-    { k: "DP4",    label: "DP/4",   cap: "E" },
+    { k: "Echo",   label: "ECHO",   cap: "B", feeds: "echoFeeds"   },
+    { k: "Room",   label: "ROOM",   cap: "C", feeds: "feeds"       },
+    { k: "Flange", label: "FLANGE", cap: "D", feeds: "flangeFeeds" },
+    { k: "DP4",    label: "DP/4",   cap: "E", feeds: "dp4Feeds"    },
+    { k: "Barber", label: "POLE",   cap: "F", feeds: "barberFeeds" },
   ],
   /* ── THE CELLS THAT ARE NOT PLAIN NEW KNOBS ────────────────────────────────
      ALIAS: a crossing this program already had a knob for, years before the
@@ -1368,7 +1418,7 @@ const MATRIX = {
      into the mix. Everything else is a blind plate, and the reasons below are
      generated from this list rather than typed, so a new effect cannot forget
      to close its own back-doors. */
-  order: ["echo", "room", "flange", "dp4"],
+  order: ["echo", "room", "flange", "dp4", "barber"],
   /* the two exceptions to the order live in MATRIX.alias above: both are
      INSIDE one unit (the echo's own feedback, and its wash into the room)
      rather than between two, and both already have dials seven genres name. */
@@ -1377,7 +1427,7 @@ const MATRIX = {
 /* fill MATRIX.none from the order: a return may feed a destination only if
    that destination's effect comes LATER, or is the mix. */
 (function(){
-  const col = { Echo: "echo", Room: "room", Flange: "flange", DP4: "dp4" };
+  const col = { Echo: "echo", Room: "room", Flange: "flange", DP4: "dp4", Barber: "barber" };
   const rank = k => MATRIX.order.indexOf(k);
   for(const i of MATRIX.ins){
     if(!i.ret) continue;
@@ -1901,6 +1951,51 @@ const INSTRUMENTS = {
                       { label: "UNIT B", keys: ["bAlgo", "bAmt", "bLvl"] },
                       { label: "UNIT C", keys: ["cAlgo", "cAmt", "cLvl"] },
                       { label: "UNIT D", keys: ["dAlgo", "dAmt", "dLvl"] }] },
+  },
+
+  /* ── THE BARBERPOLE ───────────────────────────────────────────────────────
+     A phaser whose notches rise (or fall) FOREVER, never arriving anywhere.
+     Named for the shop pole: stripes climbing a cylinder that is only
+     turning. "Bode developed a barberpole phaser in which the spectral
+     notches move endlessly in one direction in frequency... producing a
+     filtering effect reminiscent of Risset's endless glissando"
+     [corpus:Esqueda, Valimaki & Parker, "Barberpole Phasing and Flanging
+     Illusions", DAFx-15].
+
+     WHICH OF THE THREE METHODS, and why. The paper gives three: a
+     Shepard-Risset cascade, spectral delay filters, and single-sideband
+     frequency shifting. The third needs a Hilbert transform and the second
+     needs a long allpass chain with designed dispersion; **the first is
+     "based on a series of several cascaded notch filters moving in frequency
+     ONE OCTAVE APART from each other"** and it is exact in WebAudio for one
+     specific reason: a BiquadFilter's `detune` is in CENTS, so driving every
+     notch's detune with one sawtooth from 0 to 1200 sweeps them all up
+     EXACTLY one octave, exponentially. When the saw wraps, each notch lands
+     precisely where its neighbour began. That is the whole illusion, and it
+     is seamless by arithmetic rather than by tuning.
+
+     THE ENDS ARE WINDOWED, which is the other half of Shepard: without it
+     the bottom notch would audibly jump an octave every cycle. Each notch's
+     DEPTH (its Q) is raised and lowered by a bell one cycle long, offset per
+     notch, so a notch fades in at the bottom of the range and out at the top
+     and nothing is ever heard to wrap.
+
+     DIRECTION is a switch, not a dial: up or down is what the effect IS. */
+  barber: {
+    slot: "barber", label: "barberpole phaser", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"rate",  label:"climb rate",  cap:"CLIMB", min:0.01, max:1.2, step:0.005, def:0.09, unit:"Hz", kind:"bus" },
+      { k:"depth", label:"notch depth", cap:"DEPTH", min:0,    max:1,   step:0.01,  def:0.6,  kind:"bus" },
+      { k:"mix",   label:"return",      cap:"RTN",   min:0,    max:1,   step:0.01,  def:0.85, kind:"bus" },
+      /* which way the stripes go. A switch: a barberpole that changes
+         direction is two effects, not one knob. */
+      { k:"dir",   label:"direction",   cap:"DIR",   min:-1,   max:1,   step:2,     def:1,    kind:"switch" },
+    ],
+    panel: { skin: "pole", maker: "BODE", title: "BARBERPOLE",
+             grid: "barber",
+             groups: [{ label: "SWEEP", keys: ["rate", "dir"] },
+                      { label: "OUT", keys: ["depth", "mix"] }] },
   },
 
   /* ── THE MATRIX MIXER ─────────────────────────────────────────────────────
@@ -3204,6 +3299,7 @@ function applyRack(chart, force){
         dest === "Mix"  ? (b === "room" ? (SP.wet != null ? SP.wet : 0.16) : 1) :
         dest === "Flange" ? ((SP.flangeFeeds || []).indexOf(b) >= 0 ? 1 : 0) :
         dest === "DP4"  ? ((SP.dp4Feeds || []).indexOf(b) >= 0 ? 1 : 0) :
+        dest === "Barber" ? ((SP.barberFeeds || []).indexOf(b) >= 0 ? 1 : 0) :
         dest === "Room" ? (b === "keys" || b === "lead" || rf.indexOf(b) >= 0 ? 1 : 0) :
                           (ef.indexOf(b) >= 0 ? 1 : 0);
     }
@@ -4704,6 +4800,52 @@ registerProcessor("mk2-room", MK2Room);
       g.dp4.push({ inp, lvl, algo });
     }
 
+    /* ── THE BARBERPOLE, BUILT ──────────────────────────────────────────────
+       Six notches an octave apart, every one's DETUNE driven by a single
+       sawtooth scaled to 1200 cents. Detune is exponential, so one saw ramp
+       raises all six by exactly one octave and the wrap is seamless: notch i
+       arrives exactly where notch i+1 began.
+
+       THE WINDOW is a bell per notch, one cycle long, offset by i/N -- so a
+       notch is deepest in the middle of the range and has no depth at all at
+       either end, which is what makes the wrap inaudible. The bell is built
+       from a sine (-1..1) lifted to 0..1 by a shared ConstantSource, because
+       an AudioParam SUMS its inputs: Q sits at 0 and the modulators add.
+
+       Phase offsets are done as DELAYS ON THE MODULATOR -- a plain oscillator
+       has no phase input -- which is the same trick the vp330's ensemble and
+       the flanger already use. */
+    g.barberIn = c.createGain();
+    g.barberOut = c.createGain(); g.barberOut.gain.value = 0.85;
+    {
+      const N = 6, BASE = 110;
+      const saw = c.createOscillator(); saw.type = "sawtooth"; saw.frequency.value = 0.09;
+      const cents = c.createGain(); cents.gain.value = 600;      // +/-600 = one octave
+      saw.connect(cents);
+      const bell = c.createOscillator(); bell.type = "sine"; bell.frequency.value = 0.09;
+      const lift = c.createConstantSource(); lift.offset.value = 0.5;
+      g.barberSaw = saw; g.barberBell = bell; g.barberCents = cents;
+      g.barberQ = []; g.barberPh = [];
+      let node = g.barberIn;
+      for(let i = 0; i < N; i++){
+        const nf = c.createBiquadFilter(); nf.type = "notch";
+        nf.frequency.value = BASE * Math.pow(2, i);
+        nf.Q.value = 0;                                  // the window supplies it
+        cents.connect(nf.detune);
+        /* the bell for this notch: a sine a fraction of a cycle behind */
+        const ph = c.createDelay(120);
+        ph.delayTime.value = (i / N) / 0.09;
+        const qg = c.createGain(); qg.gain.value = 3;
+        bell.connect(ph); ph.connect(qg); qg.connect(nf.Q);
+        const lg = c.createGain(); lg.gain.value = 6;
+        lift.connect(lg); lg.connect(nf.Q);
+        node.connect(nf); node = nf;
+        g.barberQ.push({ qg, lg }); g.barberPh.push(ph);
+      }
+      node.connect(g.barberOut);
+      saw.start(0); bell.start(0); lift.start(0);
+    }
+
     /* ── THE GRID, WIRED FROM ITS DECLARATION ───────────────────────────────
        One gain per crossing, built by walking MATRIX rather than by naming
        wires. The two lookups below are the ONLY places that know what a row
@@ -4741,12 +4883,14 @@ registerProcessor("mk2-room", MK2Room);
       k === "room" ? g.verb :             // the reverb's return, pre its level
       k === "flange" ? g.flangeOut :      // the flanger's return
       k === "dp4" ? g.dp4Out :            // the DP/4's four units, summed
+      k === "barber" ? g.barberOut :      // the pole's return
       g.bus[k];                           // ...and every role bus. ADD ROWS HERE.
     const matrixDest = (outK, inK) =>
       outK === "Echo" ? g.echoSend :
       outK === "Room" ? g.send :
       outK === "Flange" ? g.flangeIn :
       outK === "DP4" ? g.dp4In :
+      outK === "Barber" ? g.barberIn :
       /* THE MIX COLUMN IS TWO SUMMING POINTS AND MUST STAY TWO. An instrument
          goes into `mix`, ahead of the master shaper, so the band saturates
          together; an effect RETURN lands on `post`, past it -- which is where
@@ -4754,8 +4898,8 @@ registerProcessor("mk2-room", MK2Room);
          echo's old comment said "dry return, past the shaper". Collapsing
          these into one node would put the reverb through the soft clipper and
          quietly change every genre. */
-      (inK === "echo" || inK === "room" || inK === "flange" || inK === "dp4")
-        ? g.post : g.mix;
+      (inK === "echo" || inK === "room" || inK === "flange" || inK === "dp4"
+        || inK === "barber") ? g.post : g.mix;
     for(const cell of matrixCells()){
       /* drumsMix is already built, above the drum bus: the kit's dry level has
          to sit after its saturation, so it cannot be made by this generic loop */
@@ -4767,7 +4911,8 @@ registerProcessor("mk2-room", MK2Room);
         ? (cell.in.k === "room" ? 0.16 : 1)
         : ((cell.out.k === "Room" && (cell.in.k === "keys" || cell.in.k === "lead")) ? 1 : 0);
       /* nothing is flanged until a genre asks */
-      if(cell.out.k === "Flange" || cell.out.k === "DP4") gain.gain.value = 0;
+      if(cell.out.k === "Flange" || cell.out.k === "DP4" || cell.out.k === "Barber")
+        gain.gain.value = 0;
       src.connect(gain); gain.connect(dst);
       g.route[cell.k] = gain;
     }
@@ -7852,6 +7997,7 @@ registerProcessor("mk2-room", MK2Room);
           dest === "Mix"  ? (b === "room" ? (space.wet != null ? space.wet : 0.16) : 1) :
           dest === "Flange" ? ((space.flangeFeeds || []).indexOf(b) >= 0 ? 1 : 0) :
           dest === "DP4"  ? ((space.dp4Feeds || []).indexOf(b) >= 0 ? 1 : 0) :
+          dest === "Barber" ? ((space.barberFeeds || []).indexOf(b) >= 0 ? 1 : 0) :
           dest === "Room" ? (b === "keys" || b === "lead" ||
                              (space.feeds || []).indexOf(b) >= 0 ? 1 : 0) :
           /* ...and the ECHO column, which only instrument rows reach: the
@@ -7894,6 +8040,28 @@ registerProcessor("mk2-room", MK2Room);
         rideBus(g, f.gain, "flange.fb", panelValue("flange", "fb"), t0);
       rideBus(g, g.flangeOut.gain, "flange.mix", panelValue("flange", "mix"), t0);
     }
+    /* the pole: one rate drives the climb AND the window, or the bell drifts
+       out of step with the sweep and notches fade at the wrong height */
+    if(g.barberSaw){
+      const rate = Math.max(0.01, panelValue("barber", "rate"));
+      const dir = panelValue("barber", "dir") < 0 ? -1 : 1;
+      g.barberSaw.frequency.value = rate;
+      g.barberBell.frequency.value = rate;
+      /* DIRECTION is the sign of the cents ramp: a rising saw sweeps the
+         notches up, a falling one sweeps them down. */
+      /* a switch is SET, not ridden -- riding it would make direction a
+         gesture, and a barberpole that changes direction mid-sweep is two
+         effects rather than one knob */
+      g.barberCents.gain.value = 600 * dir;
+      for(let i = 0; i < g.barberPh.length; i++)
+        g.barberPh[i].delayTime.value = Math.min(120, (i / g.barberPh.length) / rate);
+      for(const q of g.barberQ){
+        rideBus(g, q.qg.gain, "barber.depth", 5 * panelValue("barber", "depth"), t0);
+        rideBus(g, q.lg.gain, "barber.depth", 5 * panelValue("barber", "depth"), t0);
+      }
+      rideBus(g, g.barberOut.gain, "barber.mix", panelValue("barber", "mix"), t0);
+    }
+
     /* ── THE DP/4: which algorithm each unit IS, and how hard it works ──────
        The switch chooses by CONNECTING, not by rebuilding: every algorithm
        exists in the graph and the selected one is the only one wired to the
@@ -9321,7 +9489,11 @@ const GENRE = {
     space: { wet: 0.30, irSec: 2.6, tailPow: 1.9, tailDark: 0.30, sendHp: 170,
              echoFeeds: ["lead"] ,
              /* the kit's image; kick and snare centred per the mono rule. Amounts mine. [EAR] */
-             kitPan: { h: 0.20, o: -0.24, r: -0.16, c: 0.16, a: -0.32, d: 0.32, t: -0.22, m: 0.22 } },
+             kitPan: { h: 0.20, o: -0.24, r: -0.16, c: 0.16, a: -0.32, d: 0.32, t: -0.22, m: 0.22 } ,
+             /* THE ENDLESS RISER, and it is this genre's own device: a build
+                that never arrives. Fed the lead and the keys so the climb
+                sits on the parts that carry a chorus. [EAR] */
+             barberFeeds: ["lead", "keys"] },
     /* deep, long, hard and driven: full four-on-the-floor punch, and the kit is
        pushed harder into its saturation than any other genre here.
        [corpus: Improv Machine BETA 0.1, KICK_BY_GENRE.synthwave / DRUMBUS 1.4] */
@@ -9501,9 +9673,25 @@ const GENRE = {
       },
     },
     motion: {
+      /* the pole. It climbs faster into a chorus and the notches deepen --
+         the illusion made to feel like it is accelerating when only its rate
+         changed. Amounts mine. [EAR] */
+      barber: {
+        rate:  [{ kind: "section", by: { prechorus: [0.03, 0.09], chorus: [0.05, 0.14] } },
+                { kind: "arc", from: [-0.02, 0.00], to: [0.02, 0.06], curve: "sCurve" }],
+        depth: [{ kind: "section", by: { chorus: [0.10, 0.26], bridge: [0.06, 0.16] } },
+                { kind: "lfo", bars: [[48, 2], [32, 1]], depth: [0.04, 0.10], shape: "sin", freePhase: true }],
+        mix:   [{ kind: "section", by: { intro: [-0.35, -0.15], outro: [-0.30, -0.10] } },
+                { kind: "lfo", bars: [[56, 2], [40, 1]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
+      },
       /* a flanged lead and a flanged delay are this genre's own vocabulary --
          the chrome on the record. Amounts mine. [EAR] */
       matrix: {
+        leadBarber: [{ kind: "section", by: { prechorus: [0.20, 0.44], chorus: [0.10, 0.28] } },
+                     { kind: "lfo", bars: [[40, 2], [56, 1]], depth: [0.05, 0.13], shape: "sin", freePhase: true }],
+        keysBarber: [{ kind: "lfo", bars: [[36, 2], [52, 1]], depth: [0.06, 0.16], shape: "tri", freePhase: true }],
+        barberMix:  [{ kind: "section", by: { intro: [-0.30, -0.12] } },
+                     { kind: "lfo", bars: [[60, 2], [44, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         leadFlange: [{ kind: "section", by: { chorus: [0.18, 0.42], bridge: [0.10, 0.26] } },
                      { kind: "lfo", bars: [[32, 2], [48, 1]], depth: [0.04, 0.12],
                        shape: "sin", freePhase: true }],
@@ -11714,6 +11902,7 @@ const GENRE = {
                 the params below, which is the box doing four things at once
                 the way its own "1 Source, 4-Unit" configuration does. */
              dp4Feeds: ["drums", "keys"],
+             barberFeeds: ["keys"],
              flangeFeeds: ["drums", "bass", "keys"],
              kitPan: { h: 0.26, o: -0.30, r: 0.20, c: -0.22, a: -0.36, d: 0.36,
                        t: -0.14, m: 0.14 },
@@ -12245,6 +12434,12 @@ const GENRE = {
          subtraction spent on the room. Shapes from this genre's own lanes;
          amounts mine. [EAR] */
       matrix: {
+        drumsBarber: [{ kind: "lfo", bars: [[54, 2], [38, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        bassBarber:  [{ kind: "lfo", bars: [[62, 2], [42, 1]], depth: [0.04, 0.12], shape: "tri", freePhase: true }],
+        echoBarber:  [{ kind: "lfo", bars: [[46, 2], [66, 1]], depth: [0.04, 0.11], shape: "sin", freePhase: true }],
+        roomBarber:  [{ kind: "lfo", bars: [[58, 2], [40, 1]], depth: [0.03, 0.10], shape: "tri", freePhase: true }],
+        flangeBarber:[{ kind: "lfo", bars: [[50, 2], [70, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
+        dp4Barber:   [{ kind: "lfo", bars: [[44, 2], [60, 1]], depth: [0.04, 0.11], shape: "sin", freePhase: true }],
         /* ── THE CUT. This is the Hawtin move, on the four crossings that
            carry every effect back into the mix: every 32 bars the returns
            drop out for 8 bars and then come back, hard at both edges. He did
@@ -12818,6 +13013,15 @@ const BLEND_DRAW = new Set([
   "kit.poly", "kit.listen",
   "counter.style", "counter.intervals", "groove.swingUnit", "theme.count",
   "bassPulse", "acidLine", "space.feeds", "space.echoFeeds",
+  /* ── EVERY ROUTING LIST, OR A BLEND SHIFTS ITS OWN DRAWS ──────────────────
+     `feeds` and `echoFeeds` were registered here from the start; the three
+     lists added with the new effects were not, and the blend suite caught it
+     immediately -- 503/504 pairs, the one failure a VOICING error nowhere near
+     the effects. That is the signature: an unregistered list changes how many
+     draws the blend takes, so every draw after it lands somewhere else and the
+     damage surfaces wherever the next draw happened to matter.
+     A new effect column means a new line here. */
+  "space.flangeFeeds", "space.dp4Feeds", "space.barberFeeds",
 ]);
 /* fields that must come from the SAME genre or the builder runs on another
    instrument's numbers */
@@ -14367,7 +14571,7 @@ function makeMaterials(chart){
         }
       }
       let voiced = null, bestCost = 1e9;
-      for(const cand of cands){
+      const score = list => { for(const cand of list){
         /* OPENNESS IS A PREFERENCE, NOT A REQUIREMENT. The first version made it
            a hard filter -- skip any candidate whose spread does not match what
            the material drew -- and synthwave threw "no keys voicing fits" on bar
@@ -14442,6 +14646,39 @@ function makeMaterials(chart){
           cost += 2 * Math.abs(topNow - topWas);
         }
         if(cost < bestCost){ bestCost = cost; voiced = cand; }
+      } };
+      score(cands);
+      /* ── THE SAME CHORD, HIGHER UP, WHEN NOTHING ELSE IS LEFT ──────────────
+         MEASURED: one blended song in 504 (synthwave/bladerunner, 75/25, seed
+         4) had NO voicing at all on bar 3 and threw. Counting the rejections
+         says exactly what happened: of twelve candidates, the four close ones
+         were all rejected for landing on a pitch another part strikes, and all
+         eight opened ones fell below the floor -- a dropped voice would have
+         been playing under the bass. Both filters were doing their job; the
+         chooser had simply run out of chords to look at.
+
+         Because the tones are folded into the BOTTOM of the keys band and the
+         inversions only climb one voice at a time, the shape never gets offered
+         a whole octave up: base 48/51/56 yields 48/51/56, 51/56/60, 56/60/63,
+         and stops -- while 60/63/68 sits inside the same band, untouched, and
+         collides with nothing. The band had room the candidate list never used.
+
+         So the fallback is not a relaxed law, it is the SAME laws applied to
+         more of the register the genre already granted: every candidate shifted
+         by whole octaves, kept only where it still fits between the floor and
+         the band's ceiling, scored by the same cost. Every filter stays hard.
+
+         WHY IT RUNS ONLY WHEN THE FIRST PASS FOUND NOTHING. An octave-up
+         placement is often CHEAPER on bar 0, where the cost is distance from
+         middle C -- so offering it always would re-voice comps across all seven
+         genres, a change to what the record plays hidden inside a change to
+         what the effects do. This way the note stream of every song that
+         composes today is untouched, and the songs that threw now play. */
+      if(!voiced){
+        const wider = [];
+        for(const cand of cands) for(const oct of [12, 24, -12])
+          wider.push(cand.map(p => p + oct));
+        score(wider);
       }
       if(!voiced) throw new Error("no keys voicing fits [" + BAND + "] clear of the bass and " +
                                  "ostinato on bar " + b);
@@ -17459,6 +17696,57 @@ function programmeEl(){
   return wrap;
 }
 
+/* ── THE POLE, DRAWN ────────────────────────────────────────────────────────
+   The stripes climb at the sweep rate and reverse with the direction switch --
+   the display is driven by the same numbers the filters are, so it cannot show
+   something the sound is not doing. The six notches are placed on a log scale
+   beside it and climb with the sweep; each carries the frequency it is
+   currently sitting on. */
+function barberEl(m, M){
+  const wrap = el("div", "polewrap");
+  const col = el("div"); col.style.cssText = "display:flex;flex-direction:column;";
+  const cap1 = el("div", "polecap"), cap2 = el("div", "polecap");
+  const tube = el("div", "poletube");
+  col.appendChild(cap1); col.appendChild(tube); col.appendChild(cap2);
+  col.style.flex = "0 0 auto";
+  const scale = el("div", "polescale");
+  const marks = [];
+  for(let i = 0; i < 6; i++){
+    const n = el("div", "polenotch"); n.appendChild(el("b"));
+    scale.appendChild(n); marks.push(n);
+  }
+  wrap.appendChild(col); wrap.appendChild(scale);
+  const foot = el("div", "polefoot", "");
+  const outer = el("div"); outer.appendChild(wrap); outer.appendChild(foot);
+
+  outer.refresh = () => {
+    const rate = panelValue(m, "rate"), dir = panelValue(m, "dir") < 0 ? -1 : 1;
+    const dep = panelValue(m, "depth");
+    /* one stripe cycle per sweep cycle: the picture and the filters share a
+       number rather than merely agreeing */
+    tube.style.animationDuration = (1 / Math.max(0.01, rate)).toFixed(2) + "s";
+    tube.classList.toggle("down", dir < 0);
+    tube.style.opacity = String(0.45 + 0.55 * dep);
+    /* where the notches are NOW: base * 2^(i + phase), phase from song time */
+    const t = songTime();
+    const ph = t == null ? 0 : ((t * rate * dir) % 1 + 1) % 1;
+    for(let i = 0; i < marks.length; i++){
+      const oct = i + ph;                       // octaves above the base
+      const f = 110 * Math.pow(2, oct);
+      /* the window: deepest in the middle of the range, nothing at the ends */
+      const w = 0.5 - 0.5 * Math.cos(2 * Math.PI * (oct / marks.length));
+      marks[i].style.bottom = (oct / marks.length * 100) + "%";
+      marks[i].style.opacity = String(0.15 + 0.85 * w * dep);
+      marks[i].firstChild.textContent = f >= 1000
+        ? (f / 1000).toFixed(1) + "k" : Math.round(f) + "";
+    }
+    foot.textContent = "SIX NOTCHES, ONE OCTAVE APART, CLIMBING " +
+      (dir < 0 ? "DOWN" : "UP") + " FOREVER · " + rate.toFixed(2) + " Hz";
+  };
+  outer.refresh(); KNOBS.push(outer);
+  return outer;
+}
+
 /* ── THE XY PAD ─────────────────────────────────────────────────────────────
    A Kaoss pad is not a knob with two dimensions bolted on -- it is one gesture
    that moves TWO controls at once, which is the only way to reach a filter and
@@ -18165,6 +18453,7 @@ function drawPanels(){
       if(P.grid === "bass")  { const gr = bassGridEl(m, M);  box.appendChild(gr); GRIDS.push(["bass", gr]); }
       if(P.grid === "field") box.appendChild(fieldEl());
       if(P.grid === "programme") box.appendChild(programmeEl());
+      if(P.grid === "barber") box.appendChild(barberEl(m, M));
       if(P.grid === "matrix"){
         box.appendChild(matrixGridEl(m, M));
         const plate = el("div", "mxplate");
@@ -18522,6 +18811,10 @@ window.MK2 = {
     Sound.renderWav(events, seconds, sr, space, kick, drumDrive, gate, motion, motionOffset),
   soundOf,
   INSTRUMENTS, PARAMS, TRIM, CONTROL, PICK, PINS, PIN_PATTERNS, loadParams, panelValue,
+  /* THE GRID'S DECLARATION, for the same reason as `racks` below: probes that
+     wrote out the effect columns by hand went stale twice, and probe_wiring
+     had no barberpole column the build after one existed. */
+  MATRIX,
   makeMotion, motionAt,
   voiceNames: () => Sound.voiceNames(),
   soundState: () => Sound.soundState(),

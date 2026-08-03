@@ -23,7 +23,7 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
   await page.goto('file://' + HTML, { waitUntil: 'load', timeout: 60000 });
   await page.waitForFunction(() => window.MK2, { timeout: 20000 });
 
-  const rows = await page.evaluate(() => {
+  const res = await page.evaluate(() => {
     const out = [];
     for(const g of MK2.genres()){
       const song = MK2.composeSong(11, undefined, g);
@@ -34,11 +34,24 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
       let snap = false;
       for(const k in song.motion.lanes)
         for(const mv of song.motion.lanes[k]) if(mv.kind === "snap") snap = true;
-      out.push({
-        genre: g,
-        flange: (sp.flangeFeeds || []).length > 0,
-        dp4:    (sp.dp4Feeds || []).length > 0,
-        pan:    has(/\.pan$/),
+      /* ── THE FX COLUMNS COME FROM THE GRID, NOT FROM A LIST HERE ──────────
+         `flange` and `dp4` were written out by hand, and the barberpole
+         landed a build later without a column in this table -- the exact
+         staleness this file exists to catch, in this file. Every return
+         column declares `<name>Feeds`, so ask MATRIX which columns exist
+         and read the matching list. A new effect needs no edit here. */
+      /* ── AND WHETHER A COLUMN IS REACHED IS ASKED OF THE CROSSINGS ────────
+         Reading the genre's `<name>Feeds` list looks like the answer and is
+         not: the ROOM column arrives open for keys and lead whatever the
+         genre declares, so counting `space.feeds` reported the room as used
+         by two genres when all seven use it. A column is reached when some
+         crossing into it has a non-zero base, which is true by construction
+         for the defaults and for the declared lists alike. */
+      const row = { genre: g, pan: has(/\.pan$/) };
+      for(const o of MK2.MATRIX.outs) if(o.feeds)
+        row[o.k] = Object.keys(MK2.PARAMS).some(k =>
+          k.indexOf("matrix.") === 0 && k.slice(-o.k.length) === o.k && MK2.PARAMS[k] > 0);
+      out.push(Object.assign(row, {
         stage:  !!(MK2.INSTRUMENTS && song.chart.table ? song.chart.table.stage : null) ||
                 has(/^(?!matrix)[a-z0-9]+\.pan$/) && !!(song.chart.table && song.chart.table.stage),
         kitPan: !!sp.kitPan,
@@ -46,12 +59,13 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
         spread: sp.spread != null,
         preDly: sp.preDelay != null,
         cuts:   snap,
-      });
+      }));
     }
-    return out;
+    return { rows: out, fx: MK2.MATRIX.outs.filter(o => o.feeds).map(o => o.k) };
   });
 
-  const cols = ["flange", "dp4", "pan", "kitPan", "width", "spread", "preDly", "cuts"];
+  const cols = res.fx.concat(["pan", "kitPan", "width", "spread", "preDly", "cuts"]);
+  const rows = res.rows;
   console.log("\n=== which genre uses what was added ===\n");
   console.log("  genre        " + cols.map(c => c.padEnd(8)).join(""));
   const tally = {};

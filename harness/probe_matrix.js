@@ -130,7 +130,23 @@ const GENRE = process.argv[2] || 'plastikman';
        that could drift out of date. */
     const live = {};
     for(const r of rows) if(/Mix$/.test(r.k)) live[r.bus] = r.db > -60;
-    for(const r of rows) r.testable = live[r.bus] !== false;
+    /* ── AND THE SAME QUESTION AT THE OTHER END OF THE CROSSING ─────────────
+       A send needs a live SOURCE and a live DESTINATION, and this only ever
+       checked the source. Synthwave seats no DP/4, so leadDP4, echoDP4,
+       roomDP4 and flangeDP4 all read -98 dB and got the file's harshest
+       label -- "a knob that does nothing" -- for the entirely correct
+       behaviour of feeding a unit this genre never loaded. Four false
+       accusations, and the sort that trains a reader to skim the warnings.
+       The destination's own Mix crossing already answers it, exactly as the
+       source's does: if a column's return is silent, the column is not here.
+       Column name = whatever follows the row name, lowercased, which lands
+       on the return row's own bus name and needs no table. */
+    for(const r of rows){
+      const dest = r.k.slice(r.bus.length).toLowerCase();
+      r.testable = live[r.bus] !== false && live[dest] !== false;
+      r.why = live[r.bus] === false ? 'this bus is not playing here'
+                                    : 'this genre seats no ' + dest;
+    }
     return { rows, drops, present: Object.keys(live).filter(b => live[b]) };
   }, GENRE);
 
@@ -145,7 +161,7 @@ const GENRE = process.argv[2] || 'plastikman';
     else if(!ok) dead++;
     console.log(`  ${r.k.padEnd(14)} ${r.from.toFixed(2).padStart(5)}  ${r.to.toFixed(2).padStart(5)}   ` +
                 `${r.db.toFixed(1).padStart(7)} dB  ` +
-                (!r.testable ? '(this bus is not playing here — not testable)'
+                (!r.testable ? '(' + r.why + ' — not testable)'
                              : ok ? '' : '<<< SILENT — a knob that does nothing'));
   }
   console.log('\n=== the drop: dry closed, send open — what is left is pure echo ===\n');

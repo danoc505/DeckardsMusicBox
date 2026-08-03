@@ -2664,3 +2664,123 @@ sourced candidates are named in the earlier entries: jungle's drops and
 synthwave's prechorus for `snap`, and a genre-by-genre pass on the FX
 columns. **Run `probe_wiring` after adding anything: a capability one genre
 uses is a capability that has not been understood yet.**
+
+**A PHASER THAT CLIMBS FOREVER, AND A BACKLOG OF EVERYTHING OUTSTANDING —
+`2026-08-03o`.** The user: *"Before we do that lets build a doc that
+collects everything we are saying needs to be done or should be done. Then
+lets build a barberpole phaser will need an interesting retro futurism ui
+also. Makes sure you do your research."*
+
+**1. `docs/BACKLOG.md`.** Everything this project has said needs doing,
+collected out of the session entries where intentions go to be lost. Six
+sections, each item saying WHY it is open and WHAT would close it. **§0
+outranks the rest and is not a task**: the FDN room, the whole stereo build,
+the matrix, the field, the stage, the flanger, the DP/4, the snap and now
+the barberpole have all been MEASURED and none of them LISTENED TO. The
+sax is the precedent — every metric green, the ear refused it.
+
+**2. THE BARBERPOLE.** `docs/genre-research/barberpole.md` is the research,
+written before the build and kept after it, with a table of what the sources
+gave against what we did — including three things they describe that we did
+NOT build, each with its reason.
+
+- **It is Bode's**, and the panel says so. He made the effect from
+  comb-filter peaks in **1981**, and it was **his last completed
+  instrument**; Synth-Werk and ZKM are reconstructing it now from his
+  archive [perfectcircuit, synthtopia].
+- **Method 1 of three**, from Esqueda/Välimäki/Parker, DAFx-15: "a series of
+  several cascaded notch filters moving in frequency **one octave apart from
+  each other**". Chosen because it is EXACT here and the others are not: a
+  `BiquadFilter`'s `detune` is in **cents**, so one sawtooth running 0→1200
+  into every notch sweeps them all up exactly an octave, exponentially, and
+  at the wrap each notch lands precisely where its neighbour began. Seamless
+  by arithmetic rather than by tuning. Six notches at `110 * 2^i` — above the
+  four a builder calls the minimum, inside Sinevibes Whirl's 4–8.
+- **The envelope is half the illusion and is the part that is easy to skip.**
+  Shepard's components sit under "a fixed bell-shaped spectral envelope over
+  the LOGARITHMIC frequency axis"; DAFx-15 rides its notch gains with a
+  raised cosine. Here the bell rides each notch's **Q**: no depth at the
+  bottom of the range, deepest in the middle, none again at the top, offset
+  per notch. Without it the bottom notch jumps an octave once a cycle and
+  the illusion is just a sweep with a click in it. Built as a sine plus a
+  shared `ConstantSource` lift, because an `AudioParam` SUMS its inputs.
+- **Direction is a `switch`, not a dial** — a pole that changes direction
+  mid-sweep is two effects — and it is in the PER_SONG list, so the battery
+  can see it is actually read.
+- **Column F of the grid**, wired from `MATRIX` like every other column, with
+  a `barber` return row. synthwave feeds it lead+keys, plastikman feeds it
+  keys. `probe_matrix` on synthwave: `barberMix -33.7 dB`, `leadBarber
+  -45.2`, `roomBarber -36.1`, `flangeBarber -50.4` — the column moves air.
+- **The UI** (`sk-pole`): a chrome-capped glass cylinder whose stripes climb
+  at `1/rate` and reverse with DIR, with six notch markers climbing beside
+  it labelled with the frequency each one is currently sitting on.
+
+**3. A REAL DEFECT THE BLEND SUITE FOUND, AND WHAT FIXING IT COST.**
+Registering the three new routing lists in `BLEND_DRAW` was necessary and
+was not sufficient: the suite still read **503/504**, the one failure a
+voicing error nowhere near the effects — synthwave/bladerunner at 75/25,
+seed 4, bar 3. Counting the rejections said exactly what happened: of twelve
+candidate voicings, **the four close ones all landed on a pitch another part
+strikes, and all eight opened ones fell below the floor** — a dropped voice
+would have been playing under the bass. Both filters were right. The chooser
+had simply run out of chords to look at, because the tones are folded into
+the BOTTOM of the keys band and the inversions climb one voice at a time:
+base 48/51/56 yields 48/51/56, 51/56/60, 56/60/63 and stops, while 60/63/68
+sits inside the same band, untouched, colliding with nothing. **The band had
+room the candidate list never used.**
+
+So: when the first pass finds nothing, the same candidates are offered again
+shifted by whole octaves, filtered by the SAME floor and the SAME ceiling
+and scored by the SAME cost. Not a relaxed law — more of the register the
+genre already granted. **504/504.**
+
+**AND THE HONEST PART.** It runs only as a fallback because an octave-up
+placement is often CHEAPER on bar 0 (where cost is distance from middle C),
+so offering it always would re-voice comps across all seven genres — a
+change to what the record plays, hidden inside a change to what the effects
+do. Even as a fallback it is not free, because `tryPad` SWALLOWS this
+exception for the second keyboard: a pad that used to degrade to its
+second-choice band now fits in its first. Measured both ways:
+
+- `mk2_snapshot`: **91 of 2100 seeds changed** — the baseline is re-recorded
+  at `3a06b1c1b32aea33` (was `a687db612285f96d`).
+- Final performance events, HEAD against this build, 7 genres × 300 seeds:
+  **7 songs of 2100 differ**, every one of them a song with a second
+  keyboard loaded, and the differing events are **1129 `keys2` notes and 4
+  `counter` notes**. No main comp, no bass, no drums, no lead moved.
+
+**4. `probe_matrix` WAS ACCUSING FOUR INNOCENT KNOBS.** It checked whether a
+crossing's SOURCE row was playing and never whether its DESTINATION column
+existed, so synthwave — which seats no DP/4 — reported `leadDP4`, `echoDP4`,
+`roomDP4` and `flangeDP4` at −98 dB under the file's harshest label, "a knob
+that does nothing", for correctly feeding a unit this genre never loaded.
+The destination's own Mix crossing already answers it, exactly as the
+source's does. Fixed, derived, no table.
+
+**5. AND `probe_wiring` HAD NO BARBERPOLE COLUMN THE BUILD AFTER ONE
+EXISTED** — the staleness this probe was written to catch, inside this
+probe, one build later. Its effect columns were the literal strings
+`"flange", "dp4"`. Now the FX columns come from `MATRIX.outs`, which
+`MK2.MATRIX` exports for the purpose, and each column names the genre field
+that fills it (`feeds:`) so nothing has to know that the room's list is
+called `feeds` while every later column's is `<name>Feeds`.
+
+**And the first derived version was WRONG in an instructive way.** Reading
+`space.feeds` reported the ROOM as used by two genres, when the room column
+arrives open for keys and lead whatever a genre declares — all seven use it.
+So the question is asked of the CROSSINGS instead: a column is reached when
+some crossing into it has a non-zero base, which covers the defaults and the
+declared lists alike. Reading a genre's declaration is not the same as
+reading what the grid does with it.
+
+    genre        Echo Room Flange DP4 Barber pan kitPan width spread preDly cuts
+    lofi          yes  yes   -     -    -    yes  yes    yes    -      -     -
+    synthwave     yes  yes   -     -   yes   yes  yes     -     -      -     -
+    dkc           yes  yes   -     -    -    yes  yes     -     -      -     -
+    bladerunner   yes  yes   -     -    -    yes   -      -    yes    yes    -
+    acid          yes  yes   -     -    -     -   yes     -     -      -     -
+    plastikman    yes  yes  yes   yes  yes   yes  yes    yes   yes    yes   yes
+    jungle        yes  yes   -     -    -     -   yes    yes    -      -     -
+
+Battery **118/118**, blend **10/10 (504/504 pairs)**, ui **26/26**, renders
+repeatable on all seven, snapshot IDENTICAL against its new baseline.
