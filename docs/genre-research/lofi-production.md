@@ -332,12 +332,28 @@ and `keys2` at 2.53 s per note.
 
 1. **Five or six parts in 61% of bars**, against sources that say "not more
    than 3 or 4 elements" counting the drums among them.
-2. **The harmonic-filler layer is DOUBLED.** `keys` plays in 100% of bars and
-   `keys2` in 72.7%, both filling Moore's middle range. **And `keys2` is not
-   asked for by the arrangement at all** — it appears in NO `form.roles` entry
-   in the genre table; it is added by the code to any section that already has
-   something pitched. So the second keyboard is on three bars in four by
-   default rather than by a decision the genre made.
+2. **The harmonic-filler layer was DOUBLED, and nobody had chosen that.**
+   `keys` plays in 100% of bars. `keys2` was in **58.3% of all bars** — and the
+   number that matters is the conditional one: **of the songs that draw a second
+   keyboard, it played in 98.2% of every bar.** It never sat out once, not the
+   intro, not the outro. And it appeared in NO `form.roles` entry in any genre
+   table; the arrangement added it to every section that had anything pitched,
+   because it could not tell a machine the COMPOSER drew from one the USER
+   loaded into a rack.
+   **FIXED at `2026-08-03r`** — `picks.byHand` now records whose choice each
+   slot was, the auto-add fires only for a hand-loaded machine, and a genre says
+   where it wants a second keyboard like every other role. lofi puts it on the
+   chorus alone, which is its own researched shape ("the same loop in different
+   dress"): **98.2% → 39.6%** of bars in the songs that have it, and lofi's
+   parts-per-bar **4.62 → 4.07**.
+
+   > ⚠ **A CORRECTION TO THIS SHEET'S OWN FIRST NUMBER.** It first read "72.7%
+   > of bars", measured over 30 seeds, and that figure was wrong — a keys2
+   > machine is only drawn in ~60% of songs, so it cannot occupy 72.7% of all
+   > bars. Re-measured over 100 seeds it is 58.3% unconditional / 98.2%
+   > conditional. The error was small-sample noise and it was reproduced
+   > independently by a second measurement, which is exactly why agreeing
+   > numbers are not proof.
 3. **The density is SUSTAIN, not onsets.** Anything that thins by removing
    notes will barely touch it; what would touch it is shorter notes or fewer
    simultaneous holding parts.

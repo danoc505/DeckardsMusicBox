@@ -722,7 +722,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03q · rootless voicings, and the comp reaches 18.5 of its 27 semitones</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03r · the second keyboard stops playing every bar of every song</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -3930,7 +3930,7 @@ function machineIn(chart, slot){
 function resolvePicks(genre, picks, seed){
   const M = (GENRE[genre] && GENRE[genre].machines) || {};
   const rng = stream(seed, "rack");
-  const out = {}, mute = {};
+  const out = {}, mute = {}, byHand = {};
   for(const slot of RACK_SLOTS){
     const drawn = M[slot] ? wpick(rng, M[slot]) : "auto";
     const want = (picks && picks[slot]) || "auto";
@@ -3961,6 +3961,33 @@ function resolvePicks(genre, picks, seed){
        be a genre that sometimes silently drops its own bass. */
     if(want === "none") mute[slot] = true;
     out[slot] = fits(want) ? want : (fits(drawn) ? drawn : "auto");
+    /* ── AND WHOSE CHOICE IT WAS, RECORDED SEPARATELY ──────────────────────
+       Same shape as the mute above, and for the same class of reason: two
+       facts were being carried in one field and only one of them could be
+       read back.
+
+       Downstream, `arrangeSong` adds a loaded keys2 or lead to any section
+       that already has something pitched, on the stated ground that "a genre
+       not listing a role is a statement about what it does BY DEFAULT. It is
+       not a veto over a machine the user has deliberately loaded." That
+       argument is right, and it was being applied to a case it does not
+       cover: it tested `picks[slot] !== "auto"`, which is ALSO true when the
+       COMPOSER drew the machine from the genre's own `machines` table. So a
+       genre drawing its own second keyboard was treated as the user
+       overriding the arrangement, and the pad joined every section there was.
+
+       MEASURED on lofi, 100 seeds: a keys2 machine is drawn in 60% of songs,
+       and in those songs the pad plays in 98.2% OF EVERY BAR. It never sits
+       out -- not the intro, not the outro, not once. Moore's harmonic-filler
+       layer ends up doubled for the whole record, against sources that put
+       lofi at "not more than 3 or 4 elements" and describe layers that
+       "fluctuate dynamically and independently over the course of a song".
+
+       So the hand keeps its override, and the genre keeps its arrangement:
+       `byHand` is true only where the HAND's pick is what landed. A genre
+       that wants a second keyboard now says so in `form.roles`, like every
+       other role, which is also what Law 4 asks for. */
+    if(fits(want)) byHand[slot] = true;
   }
   /* WHICH KIT IS LOADED, drawn on the same stream and in the same breath as the
      machines -- because on this instrument the kit IS the choice of sounds and
@@ -3974,6 +4001,9 @@ function resolvePicks(genre, picks, seed){
      that is not a slot. Frozen with the rest: nothing downstream may decide to
      un-mute a rack the hand switched off. */
   out.mute = Object.freeze(mute);
+  /* whose choice each slot was -- see the note above. Rides beside `mute` for
+     the same reason: it is a fact about the HAND, not about the music. */
+  out.byHand = Object.freeze(byHand);
   return Object.freeze(out);
 }
 
@@ -8534,7 +8564,23 @@ const GENRE = {
       roles: {
         intro:        ["keys", "bass"],                    // the bed before the tune
         verse:        ["drums", "bass", "keys", "lead"],
-        chorus:       ["drums", "bass", "keys", "lead", "counter"],
+        /* ── THE SECOND KEYBOARD IS THE CHORUS'S DRESS, NOT THE RECORD'S BED ──
+           It used to arrive by itself in every section that had anything
+           pitched in it, because the arrangement could not tell a machine the
+           COMPOSER drew from one the USER loaded (resolvePicks, `byHand`).
+           MEASURED before: drawn in 60% of songs, and in those songs playing in
+           98.2% of every bar -- it never sat out once, so Moore's harmonic
+           filler was doubled for the whole record while the sources put this
+           genre at "not more than 3 or 4 elements" [corpus:modeaudio] and
+           describe layers that "fluctuate ... over the course of a song"
+           [corpus:mtosmt Schwitzgebel].
+
+           Where it goes instead is this genre's own researched shape: the form
+           is a two-part alternation, "the same loop in DIFFERENT DRESS"
+           [corpus:richardpryn, lofi-form.md]. A and B are that pair. So the
+           second keyboard is one of the things that makes B different from A --
+           it arrives with the chorus and leaves with it. */
+        chorus:       ["drums", "bass", "keys", "keys2", "lead", "counter"],
         bridge:       ["bass", "keys", "lead"],            // the kit sits out the departure
         instrumental: ["drums", "bass", "keys"],
         outro:        ["keys", "bass"],
@@ -10526,11 +10572,23 @@ const GENRE = {
          are colour, not a kit -- and colour with no lane to live in is better
          left out than faked. [corpus:wikipedia BR soundtrack instrument list] */
       roles: {
+        /* ── THE STRING MACHINE, NOW NAMED RATHER THAN ASSUMED ────────────────
+           `keys2` on this genre is the VP-330 -- the choir/strings that IS this
+           score's bed, so unlike lofi it belongs across the body of the cue
+           rather than on one section. It is written out here because the
+           arrangement stopped adding a composer-drawn machine to every section
+           by itself (resolvePicks, `byHand`); without these three entries the
+           string machine would simply vanish from the genre, which would be a
+           far worse change than the one being fixed.
+           It stays OUT of the intro, the bridge and the outro so the wash has
+           somewhere to arrive from and somewhere to go -- the drift → statement
+           → away → return shape this genre's form research already declares
+           [docs/genre-research/bladerunner-form.md]. [EAR] which three. */
         intro:        ["keys", "ostinato"],
-        verse:        ["keys", "bass", "lead", "ostinato"],
-        chorus:       ["keys", "bass", "lead", "counter", "ostinato"],
+        verse:        ["keys", "keys2", "bass", "lead", "ostinato"],
+        chorus:       ["keys", "keys2", "bass", "lead", "counter", "ostinato"],
         bridge:       ["keys", "bass", "ostinato"],
-        instrumental: ["keys", "bass", "lead", "ostinato"],
+        instrumental: ["keys", "keys2", "bass", "lead", "ostinato"],
         outro:        ["keys", "bass"],
       },
       coldOpen:  0.08,        // [EAR] a cue fades up out of atmosphere first
@@ -16253,7 +16311,11 @@ function makeArrangement(chart, form, materials){
        Derived here rather than written into seven role tables, for the same
        reason as before: a genre added later cannot forget to. */
     const PITCHED = ["keys", "keys2", "bass", "lead", "counter", "ostinato"];
-    const loaded = sl => chart.picks && chart.picks[sl] && chart.picks[sl] !== "auto";
+    /* BY HAND, not merely non-"auto" -- see the note in resolvePicks. A machine
+       the COMPOSER drew from the genre's own table is the genre's business and
+       the genre's `form.roles` decides where it plays; a machine the USER put
+       in a rack must sound wherever there is music, or the picker is a lie. */
+    const loaded = sl => !!(chart.picks && chart.picks.byHand && chart.picks.byHand[sl]);
     let allowed = ROLES[sec.fn];
     if(allowed.some(r => PITCHED.includes(r))){
       const add = [];
