@@ -517,6 +517,95 @@
   .prgnone{ font-size:.58rem; color:#7a6a4a; letter-spacing:.06em; padding:.5rem 0; }
 
 
+  /* ── THE ROLL ─────────────────────────────────────────────────────────────
+     Every other display in this program shows what the MACHINES are doing --
+     where an instrument stands, what the filter is sweeping, which bars have
+     the effects cut. Not one of them shows THE NOTES. The program writes a
+     whole song and the only way to see it was to export a .mid and open it in
+     something else.
+
+     THE ANCESTOR IS THE FAIRLIGHT CMI PAGE R, 1979: a sequencer grid on a
+     green phosphor screen, pitch up the side, time across, the notes drawn as
+     lit bars over an etched grid. That is the same shelf THE FIELD sits on and
+     for the same reason -- it is not a costume, it is what a machine that did
+     this job actually looked like when it first existed.
+
+     ONE LIBERTY, AND IT IS NAMED: the Page R was monochrome. This draws each
+     part in its own hue, because six parts sharing one pitch axis in a single
+     colour is a smear, and the whole point of the display is telling the bass
+     from the comp from the tune. The hues are derived from the MIDI track
+     table's own order, so a role added there gets a colour without anyone
+     choosing one.
+
+     AND IT DRAWS WHAT THE .MID DRAWS, note for note, through `midiKeyFor` --
+     the same function the export and the live port use. That is deliberate and
+     it is a seam, not a convenience: when the ostinato had no MIDI track, 1520
+     of DKC's 3009 notes vanished from the export in silence, and it took a
+     round-trip parser in the harness to notice. A display fed from the same
+     function shows that hole on screen the moment it opens. ── */
+  #roll{ background:#0a0f0b; border:1px solid #1b2a1e; padding:.55rem .7rem; margin:.9rem 0; }
+  #roll h2{ font-size:10px; letter-spacing:.16em; color:#6fe38f; font-weight:normal;
+            margin:0 0 .45rem; text-transform:uppercase; }
+  #roll h2 span{ color:#3f7a53; letter-spacing:0; text-transform:none; float:right; }
+  .rollscope{ position:relative; overflow:hidden; border-radius:10px/16px;
+    background:radial-gradient(120% 100% at 50% 40%, #0e1a11 0%, #091008 62%, #050805 100%);
+    border:1px solid #1b2a1e;
+    box-shadow:inset 0 0 34px rgba(0,0,0,.92), inset 0 0 10px rgba(110,230,150,.05); }
+  /* the scanlines: the same tube trick THE FIELD uses, and the slow sweep with it */
+  .rollscope::before{ content:""; position:absolute; inset:0; pointer-events:none; z-index:4;
+    background:repeating-linear-gradient(0deg, rgba(110,230,150,.05) 0 1px, transparent 1px 3px); }
+  .rollscope::after{ content:""; position:absolute; left:0; right:0; height:40px; z-index:4;
+    pointer-events:none; opacity:.45;
+    background:linear-gradient(180deg, transparent, rgba(150,255,190,.09), transparent);
+    animation:rollsweep 6.4s linear infinite; }
+  @keyframes rollsweep{ from{ top:-40px } to{ top:100% } }
+  /* the keyboard down the left edge -- what makes this a PIANO roll and not a
+     scatter plot. White keys lit, black keys sunk, a brighter rule on every C. */
+  .rollkeys{ position:absolute; left:0; top:0; bottom:0; width:26px; z-index:3;
+    background:#070c08; border-right:1px solid #2c5136; }
+  .rollkeys i{ position:absolute; left:0; right:0; background:#1b2f21; }
+  .rollkeys i.blk{ background:#050805; right:9px; }
+  .rollkeys i.oct{ box-shadow:inset 0 1px 0 rgba(110,230,150,.4); }
+  .rollkeys b{ position:absolute; left:1px; font-size:.5rem; font-weight:normal;
+               color:#68b884; letter-spacing:0; line-height:1;
+               text-shadow:0 0 4px rgba(0,0,0,.9); }
+  /* the graticule: a rule on every bar, a bright one every four */
+  .rollgrid{ position:absolute; top:0; bottom:0; left:26px; right:0; pointer-events:none; z-index:1; }
+  .rollgrid u{ position:absolute; top:0; bottom:0; width:1px; background:rgba(110,230,150,.09); }
+  .rollgrid u.four{ background:rgba(110,230,150,.22); }
+  /* the divider between the pitched parts and the kit */
+  .rollsplit{ position:absolute; left:26px; right:0; height:1px; z-index:1;
+              background:rgba(110,230,150,.28); }
+  /* where the sections are, written on the glass */
+  /* the section tags and the playhead live in the same box the notes do, so a
+     percentage means the same thing to all three. Mixing units here -- a
+     keyboard-width offset plus a percentage of the remainder -- needs a calc
+     that multiplies two percentages, which is not a thing CSS can do. */
+  .rolllay{ position:absolute; top:0; bottom:0; left:26px; right:0; z-index:3;
+            pointer-events:none; }
+  .rollsec{ position:absolute; top:1px; font-size:.46rem; letter-spacing:.14em; z-index:3;
+            color:#4f9a68; padding-left:2px; border-left:1px solid rgba(110,230,150,.30);
+            white-space:nowrap; pointer-events:none; }
+  .rollsec.here{ color:#c9ffdc; border-left-color:#c9ffdc; }
+  /* a note. The glow is the phosphor and it is what makes a 3px bar readable. */
+  .rollnotes{ position:absolute; top:0; bottom:0; left:26px; right:0; z-index:2; }
+  .rn{ position:absolute; border-radius:1px; }
+  .rollhead{ position:absolute; top:0; bottom:0; width:1px; z-index:3; display:none;
+    background:#e8fff0; box-shadow:0 0 8px rgba(200,255,220,.9), 0 0 20px rgba(110,230,150,.5); }
+  .rollfoot{ display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin-top:.5rem; }
+  /* A DISPLAY WITH SEVEN PARTS ON ONE PITCH AXIS NEEDS A WAY TO LOOK AT ONE.
+     Clicking a part's tag dims the rest. It changes nothing about the song --
+     this is a pair of spectacles, not a solo button, and the tooltip says so. */
+  .rolltag{ font-size:.55rem; letter-spacing:.12em; color:#3f7a53; display:flex;
+            align-items:center; gap:.28rem; cursor:pointer; user-select:none;
+            padding:.1rem .3rem; border-radius:3px; border:1px solid transparent; }
+  .rolltag:hover{ border-color:#2c5136; }
+  .rolltag.only{ color:#c9ffdc; border-color:#4f9a68; }
+  .rolltag s{ width:9px; height:9px; border-radius:2px; display:inline-block; }
+  .rn.dim{ opacity:.10; box-shadow:none !important; }
+  .rollnone{ font-size:.58rem; color:#3f7a53; letter-spacing:.06em; padding:1.4rem 0; text-align:center; }
+
+
   /* ── THE POLE ─────────────────────────────────────────────────────────────
      The one effect in this rack whose NAME is a picture, so the panel is that
      picture: a glass cylinder with helical stripes climbing it forever and
@@ -722,7 +811,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04g · jungle gets the jazz chords its own research asked for</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04h · the roll: the notes, on the glass</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -755,6 +844,10 @@
 <div class="row" id="sndfix"><button id="ringer" aria-pressed="false"
   title="iPhone: try this if the mute switch is silencing playback">iPhone: ignore mute switch</button></div>
 <div id="midinote"></div>
+<!-- THE ROLL. Near the top on purpose: it is the only thing on this page that
+     shows what the program actually WROTE, and everything below it is about
+     how that gets played. Filled by drawRoll(). -->
+<div id="roll"></div>
 <div id="blend"></div>
 <!-- THE RACK IS A LIST, NOT A ROW OF FIXED BOXES. It used to be five hardcoded
      <select>s, which meant the set of racks was decided here, in markup, and
@@ -18439,6 +18532,7 @@ function newSong(forcedSeed){
     `it was written in a different key and this song is in ` +
     `${NOTE_NAMES[SONG.chart.root]} ${SONG.chart.mode}.`;
   drawPanels();
+  drawRoll();
   return SONG;
 }
 
@@ -19449,6 +19543,218 @@ function drawRack(){
   host.appendChild(add);
 }
 
+/* ── THE ROLL, DRAWN ────────────────────────────────────────────────────────
+   The song's own notes, on a phosphor grid. See the CSS block for why it looks
+   like a Fairlight and why the colour is the one liberty taken.
+
+   THREE THINGS THAT ARE DERIVED RATHER THAN LISTED, because everything in this
+   file that wrote out what the program contains has gone stale:
+
+     the PARTS      from `MIDI_TRACK`, in the table's own order. A role added
+                    there appears here with no edit.
+     the COLOURS    from that same order, one hue step apart. Nobody picks a
+                    colour for a new part.
+     the RANGE      from the notes in THIS song. A genre whose bass lives at
+                    MIDI 33 and a genre whose lead tops out at 90 both fill the
+                    glass, and neither is clipped by a constant.
+
+   AND THE NOTES COME THROUGH `midiKeyFor`, the one function the .mid export and
+   the live port already share. That is the point: the roll shows the file you
+   would export, so a role with no track shows as a hole in the display rather
+   than as silence in somebody's DAW three weeks later.
+
+   IT IS NOT THE SAME PICTURE `mk2_roll.js` PRINTS, and the difference is the
+   reason to have it. That prints the MATERIAL -- the four-bar loop as stage 3
+   wrote it. This draws the PERFORMANCE, so it carries two things the material
+   grid cannot show: where the groove actually put each note (lofi seed 1's comp
+   lands at 1.22, 2.46, 3.22 of a bar, not on 1, 2, 3), and which notes survived
+   the arc thinner. Checked against the printout on lofi seed 1: the bass and
+   the lead match bar for bar, and the comp's second pass through material A is
+   deliberately not its first -- 41 written, 38 played, a different 38 each time,
+   which is `form.arc.thin` doing exactly what it says. */
+const ROLL_SEMI = 4;                    // pixels per semitone in the pitched band
+const ROLL_DRUM = 4;                    // pixels per kit lane
+const ROLL_GAP  = 7;                    // the rule between the two
+const ROLL_BLACK = { 1:1, 3:1, 6:1, 8:1, 10:1 };
+let ROLL = null;
+/* ONE HUE PER PART, stepped along the table.
+
+   THE FIRST VERSION SPANNED 70 TO 200 -- olive through green to cyan, so that
+   the whole display stayed one phosphor colour. It was drawn and looked at, and
+   it does not work: green is the band the eye discriminates WORST inside, so
+   the bass and the comp came out the same colour and the display's whole job is
+   telling them apart. Widened to 20..250, which is orange through green to
+   violet. That is a colour vector display rather than a Fairlight, and it is
+   the honest trade -- the ancestor is kept in the glass, the scanlines and the
+   graticule; the notes are legible.
+
+   Drawn again at 15..280 after looking a second time: the comp and the tune
+   sat 38 degrees apart and read as two greens. They are the two parts this
+   display exists to separate. */
+function rollHues(){
+  const keys = Object.keys(MIDI_TRACK), out = {};
+  const span = Math.max(1, keys.length - 1);
+  keys.forEach((k, i) => { out[k] = 15 + Math.round(265 * i / span); });
+  return out;
+}
+function drawRoll(){
+  const host = $("roll");
+  if(!host) return;
+  host.innerHTML = "";
+  ROLL = null;
+  const h2 = el("h2", null, "the roll");
+  host.appendChild(h2);
+  if(!SONG){
+    h2.appendChild(el("span", null, "no song"));
+    host.appendChild(el("div", "rollnone", "press “new song”"));
+    return;
+  }
+  const HUE = rollHues();
+  const secs = SONG.perf.seconds || 1;
+  const spb  = SONG.motion.spb, nBars = SONG.form.nBars;
+  const xOf  = t => Math.max(0, Math.min(100, 100 * t / secs));
+
+  /* WHAT IS ON THE GLASS. Split by whether the part has a pitch axis at all:
+     a kit lane's MIDI key is a GM drum number and putting 36 on a pitch scale
+     beside a bass note at 36 would draw the kick inside the bass line. */
+  const pitched = [], drums = [];
+  const count = {};
+  for(const ev of SONG.perf.events){
+    const key = midiKeyFor(ev);
+    if(key == null) continue;
+    count[ev.role] = (count[ev.role] || 0) + 1;
+    (ev.role === "drums" ? drums : pitched).push({ ev, key });
+  }
+  let lo = Infinity, hi = -Infinity;
+  for(const n of pitched){ if(n.key < lo) lo = n.key; if(n.key > hi) hi = n.key; }
+  if(!isFinite(lo)){ lo = 48; hi = 72; }
+  lo -= 1; hi += 1;
+  const nSemis = hi - lo + 1;
+  const pitchH = nSemis * ROLL_SEMI;
+  const lanes = [...new Set(drums.map(d => d.key))].sort((a, z) => z - a);
+  const drumH = lanes.length ? ROLL_GAP + lanes.length * ROLL_DRUM : 0;
+  const H = pitchH + drumH;
+
+  const scope = el("div", "rollscope");
+  scope.style.height = (H + 12) + "px";       // a little headroom for the section tags
+  const yOf = k => (hi - k) * ROLL_SEMI + 12;
+  const yDrum = k => pitchH + ROLL_GAP + lanes.indexOf(k) * ROLL_DRUM + 12;
+
+  /* the keyboard, one strip per semitone of the range this song uses */
+  const keys = el("div", "rollkeys");
+  for(let k = lo; k <= hi; k++){
+    const i = el("i", ROLL_BLACK[((k % 12) + 12) % 12] ? "blk" : null);
+    if(((k % 12) + 12) % 12 === 0) i.className = (i.className ? i.className + " " : "") + "oct";
+    i.style.top = yOf(k) + "px"; i.style.height = ROLL_SEMI + "px";
+    keys.appendChild(i);
+    /* name the Cs, and only the Cs -- a label every semitone is a wall of text
+       at four pixels a row */
+    if(((k % 12) + 12) % 12 === 0 && nSemis <= 64){
+      const b = el("b", null, "C" + (Math.floor(k / 12) - 1));
+      b.style.top = (yOf(k) - 1) + "px"; keys.appendChild(b);
+    }
+  }
+  scope.appendChild(keys);
+
+  /* the graticule, one rule a bar */
+  const grid = el("div", "rollgrid");
+  for(let b = 0; b <= nBars; b++){
+    const u = el("u", b % 4 === 0 ? "four" : null);
+    u.style.left = xOf(b * 16 * spb) + "%";
+    grid.appendChild(u);
+  }
+  scope.appendChild(grid);
+  if(lanes.length){
+    const sp = el("div", "rollsplit");
+    sp.style.top = (pitchH + Math.floor(ROLL_GAP / 2) + 12) + "px";
+    scope.appendChild(sp);
+  }
+
+  /* THE NOTES, BUILT AS ONE STRING AND PARSED ONCE.
+
+     The obvious way -- createElement, set cssText, set title, appendChild, per
+     note -- was written first and MEASURED, because "obviously fine" is how
+     this file has been wrong before. On plastikman -- the densest genre -- it
+     cost 139 ms of a 182 ms `new song` for 8925 notes: three quarters of the
+     button press, spent in the display. One innerHTML instead measured 24 ms
+     for 10183 notes. (The counts differ because each press draws a new song;
+     both figures are as measured, and the second is the larger workload.)
+
+     Nothing interpolated here comes from outside the program -- role names and
+     lane names are this file's own constants, the rest are numbers -- so there
+     is no string here that a user could have written.
+
+     A kit hit has no length worth drawing, so it is a tick; a pitched note is
+     as long as it actually rings. */
+  const notes = el("div", "rollnotes");
+  const html = [];
+  for(const { ev, key } of pitched){
+    const hue = HUE[ev.role] || 120;
+    html.push(`<div class="rn" data-role="${ev.role}" title="${ev.role} · ` +
+      `${NOTE_NAMES[((key % 12) + 12) % 12]}${Math.floor(key / 12) - 1} · ` +
+      `bar ${Math.floor(ev.tSec / (16 * spb)) + 1}" style="left:${xOf(ev.tSec).toFixed(3)}%;` +
+      `width:${Math.max(0.12, 100 * ev.durSec / secs).toFixed(3)}%;top:${yOf(key)}px;` +
+      `height:${ROLL_SEMI - 1}px;background:hsl(${hue} 85% ${(34 + 30 * Math.min(1, ev.gain)).toFixed(0)}%);` +
+      `box-shadow:0 0 5px hsl(${hue} 90% 55% / .55)"></div>`);
+  }
+  for(const { ev, key } of drums){
+    html.push(`<div class="rn" data-role="drums" title="${ev.lane} · ` +
+      `bar ${Math.floor(ev.tSec / (16 * spb)) + 1}" style="left:${xOf(ev.tSec).toFixed(3)}%;` +
+      `width:.16%;top:${yDrum(key)}px;height:${ROLL_DRUM - 1}px;` +
+      `background:hsl(${HUE.drums || 70} 70% ${(30 + 34 * Math.min(1, ev.gain)).toFixed(0)}%)"></div>`);
+  }
+  notes.innerHTML = html.join("");
+  scope.appendChild(notes);
+
+  /* the sections, written on the glass where they start */
+  const lay = el("div", "rolllay");
+  const tags = [];
+  for(const sec of SONG.sections){
+    const t = el("div", "rollsec", sec.fn + " " + sec.material);
+    t.style.left = xOf(sec.startBar * 16 * spb) + "%";
+    lay.appendChild(t); tags.push({ el: t, sec });
+  }
+  const head = el("div", "rollhead");
+  head.style.left = "0%";
+  lay.appendChild(head);
+  scope.appendChild(lay);
+  host.appendChild(scope);
+
+  /* the legend, which is also the count -- the number of notes each track will
+     export. A part reading 0 here is a part the .mid does not contain. */
+  const foot = el("div", "rollfoot");
+  const tagEls = [];
+  let only = null;
+  const focus = role => {
+    only = (only === role) ? null : role;
+    for(const t of tagEls) t.el.classList.toggle("only", t.role === only);
+    for(const n of notes.children)
+      n.classList.toggle("dim", only != null && n.dataset.role !== only);
+  };
+  for(const role of Object.keys(MIDI_TRACK)){
+    if(!count[role]) continue;
+    const tag = el("div", "rolltag");
+    tag.title = "look at this part on its own — the song is untouched";
+    const sw = el("s"); sw.style.background = `hsl(${HUE[role]} 85% 52%)`;
+    tag.appendChild(sw); tag.appendChild(el("span", null, MIDI_TRACK[role].name + " " + count[role]));
+    tag.addEventListener("click", () => focus(role));
+    foot.appendChild(tag); tagEls.push({ el: tag, role });
+  }
+  host.appendChild(foot);
+  h2.appendChild(el("span", null, `${nBars} bars · ${pitched.length + drums.length} notes · ` +
+    `${NOTE_NAMES[SONG.chart.root]} ${SONG.chart.mode} · ${SONG.chart.tempo.toFixed(1)} bpm`));
+
+  ROLL = { refresh(){
+    const t = songTime();
+    if(t == null){ head.style.display = "none"; for(const g of tags) g.el.classList.remove("here"); return; }
+    head.style.display = "block";
+    head.style.left = xOf(t) + "%";
+    const bar = t / (16 * spb);
+    for(const g of tags) g.el.classList.toggle("here", bar >= g.sec.startBar && bar < g.sec.endBar);
+  } };
+  ROLL.refresh();
+}
+
 function drawPanels(){
   const host = $("panels");
   host.innerHTML = "";
@@ -19710,6 +20016,7 @@ const TRIGS = [];
 const LCD = [];
 function refreshLive(){
   for(const k of KNOBS) k.refresh();
+  if(ROLL) ROLL.refresh();
   for(const [role, gr] of GRIDS){
     const p = playingPattern(role);
     const showing = role === "drums"
@@ -19979,6 +20286,7 @@ function boot(){
         `<option value="${k}">rig: ${RIG_LABEL[k] || k}</option>`).join("");
   }
   drawRack();
+  drawRoll();                    // an empty tube that says so, rather than a gap
   /* the dropdown is a PRESET now: it solos one genre and the sliders follow */
   /* the genre and the rig keep playing too, for the same reason -- a genre
      change mid-song is a DJ move, not a reason to stop the record */

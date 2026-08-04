@@ -13,19 +13,20 @@ rendered-audio failures that had been dismissed as "pre-existing" turned out to
 contain two real defects in the music. For whoever picks this up next. Read this
 whole file before you touch the HTML.*
 
-**State at `12e3c40` (build `2026-08-04g`), every number below measured on that
+**State at `1ac0256` (build `2026-08-04h`), every number below measured on that
 commit — not remembered from an earlier one.** The row that is not green is
 not green, and says why.
 
 | battery | command | result |
 |---|---|---|
 | seam checks | `node harness/mk2_test.js` | **118 passed, 0 failed** |
-| UI, in a browser | `node harness/mk2_ui.js` | **26 passed, 0 failed** — but see the FLAKE note below |
+| UI, in a browser | `node harness/mk2_ui.js` | **33 passed, 0 failed** — but see the FLAKE note below |
 | blend sliders | `node harness/mk2_blend.js` | **10 passed, 0 failed** |
 | MIDI port | `node harness/mk2_midi.js` | **20 passed, 0 failed** |
 | snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** (baseline `0c1d7a9c402bbec4`) |
 | every voice | `node harness/probe_voices.js` | **0 threw, 0 silent** |
 | the notes | `node harness/mk2_roll.js 1 --genre <g>` | **all seven print; this is RULE ONE and is not optional** |
+| how busy it is | `node harness/probe_density.js 30` | voices ringing, chord onsets, parts a bar, notes a bar — new at `04h` |
 
 > **`mk2_ui.js` IS FLAKY.** About one run in five reports 25/26 and every
 > re-run is clean; seen twice on 2026-08-04 on unrelated commits. It is browser
@@ -36,7 +37,8 @@ not green, and says why.
 Wurlitzer, `04c` the record surface and the kick duck, `04d` chord quality from
 1170 jazz tunes, `04e` the bass leaving the root, `04f` the widened out-of-key
 law, `04g` jungle's chords. Two genres changed; five are byte-identical
-throughout. The brief for listening to them is `test/ears/LOG.md`, and §0 of
+throughout. (`04h`, THE ROLL, is a display and moves no note — 2100 seeds
+byte-identical — so it does not join that list. It does make the six visible.) The brief for listening to them is `test/ears/LOG.md`, and §0 of
 the backlog — *nothing should be built on top of this stack until it has been
 played* — applies to all six of them.
 

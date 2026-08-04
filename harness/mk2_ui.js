@@ -395,6 +395,74 @@ const check = (label, ok, detail) => {
     await pg.click("#play"); await pg.waitForTimeout(300);
   }
 
+  /* ── THE ROLL SHOWS THE SONG, AND IT SHOWS THE FILE ───────────────────────
+     Two claims and they are different claims.
+
+     The first is that the display is of THIS song: a note on the glass for
+     every note the program wrote. The second is the one worth a check -- the
+     roll draws through `midiKeyFor`, the same function the .mid export uses,
+     so the count on screen IS the count in the exported file. When the
+     ostinato had no MIDI track, 1520 of DKC's 3009 notes vanished from the
+     export in silence and only a round-trip parser in mk2_roll.js noticed. A
+     display fed from that function shows the hole; a check on the display's
+     own arithmetic proves the display is still fed from it.
+
+     Run on a genre with an ostinato and a second keyboard, because those are
+     the two roles this project has actually lost on export. */
+  {
+    await pg.selectOption("#genre", "dkc");
+    await pg.waitForTimeout(250);
+    await pg.click("#new");
+    await pg.waitForTimeout(400);
+    const r = await pg.evaluate(() => {
+      const song = MK2.currentSong();
+      const want = song.perf.events.filter(e => MK2.midiKeyFor(e) != null).length;
+      const roll = document.getElementById("roll");
+      const notes = roll.querySelectorAll(".rn");
+      const roles = {};
+      for(const n of notes) roles[n.dataset.role] = (roles[n.dataset.role] || 0) + 1;
+      const wantRoles = {};
+      for(const e of song.perf.events)
+        if(MK2.midiKeyFor(e) != null) wantRoles[e.role] = (wantRoles[e.role] || 0) + 1;
+      return { want, got: notes.length, roles, wantRoles,
+               bars: roll.querySelectorAll(".rollgrid u").length,
+               nBars: song.form.nBars,
+               sections: roll.querySelectorAll(".rollsec").length,
+               nSections: song.sections.length,
+               tags: roll.querySelectorAll(".rolltag").length,
+               keys: roll.querySelectorAll(".rollkeys i").length };
+    });
+    check("the roll draws one note for every note the .mid would carry",
+          r.got === r.want, `${r.got} on the glass, ${r.want} through midiKeyFor`);
+    check("...and every ROLE's count matches, not just the total",
+          Object.keys(r.wantRoles).every(k => r.roles[k] === r.wantRoles[k]),
+          Object.keys(r.wantRoles).map(k => `${k} ${r.roles[k] || 0}/${r.wantRoles[k]}`).join(", "));
+    check("the roll's graticule is this song's bars",
+          r.bars === r.nBars + 1, `${r.bars} rules for ${r.nBars} bars`);
+    check("the roll names every section of this song",
+          r.sections === r.nSections, `${r.sections} tags for ${r.nSections} sections`);
+    check("the roll's keyboard covers a real range", r.keys > 12, `${r.keys} semitones`);
+
+    /* the legend is a pair of spectacles: clicking one part dims the rest and
+       must not touch a note of the song */
+    const before = await pg.evaluate(() => JSON.stringify(MK2.currentSong().perf.events.length));
+    await pg.evaluate(() => document.querySelectorAll("#roll .rolltag")[1].click());
+    await pg.waitForTimeout(120);
+    const focused = await pg.evaluate(() => {
+      const only = document.querySelector("#roll .rolltag.only");
+      const dim = document.querySelectorAll("#roll .rn.dim").length;
+      const all = document.querySelectorAll("#roll .rn").length;
+      return { only: !!only, dim, all };
+    });
+    const after = await pg.evaluate(() => JSON.stringify(MK2.currentSong().perf.events.length));
+    check("clicking a part in the legend looks at it alone",
+          focused.only && focused.dim > 0 && focused.dim < focused.all,
+          `${focused.dim} of ${focused.all} dimmed`);
+    check("...and changes nothing about the song", before === after,
+          `${before} events before, ${after} after`);
+    await pg.evaluate(() => document.querySelectorAll("#roll .rolltag")[1].click());
+  }
+
   check("no uncaught page errors at any point", errs.length === 0, errs.slice(0, 3).join(" | "));
   await b.close();
   console.log("\n" + pass + " passed, " + fail + " failed");
