@@ -433,6 +433,14 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       } else if(G2.bassStyle === "pulse"){
         const P2 = G2.bassPulse;
         want = (16 / P2.unit) * 4 * (1 - P2.restChance * 0.9);
+      } else if(G2.bassStyle === "riff"){
+        /* the riff is a CELL of `notes` notes spanning `bars` bars, restated
+           until the material runs out -- so a 4-bar material plays it 4/bars
+           times. Predicting it is the point of this check: a style with no
+           prediction cannot be told apart from a broken one, which is what the
+           `pred` fallback below says in its own comment. */
+        const F2 = G2.bassRiff;
+        want = ((F2.notes[0] + F2.notes[1]) / 2) * (4 / F2.bars);
       }
       if(want != null && Math.abs(got - want) > Math.max(2, want * 0.18))
         bad.push(`${g} writes ${got.toFixed(1)}, its table asks for ~${want.toFixed(1)}`);
@@ -467,6 +475,8 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         const G3 = T.GENRE[gg];
         if(G3.bassStyle === "acid") return ((G3.acidLine.density[0] + G3.acidLine.density[1]) / 2) * 4;
         if(G3.bassStyle === "pulse") return (16 / G3.bassPulse.unit) * 4 * (1 - G3.bassPulse.restChance * 0.9);
+        if(G3.bassStyle === "riff")
+          return ((G3.bassRiff.notes[0] + G3.bassRiff.notes[1]) / 2) * (4 / G3.bassRiff.bars);
         return null;
       };
       const pa = pred(a), pb = pred(b2);

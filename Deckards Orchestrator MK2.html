@@ -811,7 +811,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04k · the comp may play its left hand's octave</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04l · jungle's bass plays a riff instead of holding one note</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -13618,9 +13618,36 @@ const GENRE = {
     gate: null,
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
     pressure: { depth: 0, amount: [0, 0], at: [0, 0], rise: [0, 0] },
-    bassStyle: "drone",
-    bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },   // unused by "drone"
-    bassAccent: { accent: 0, slide: 0 },
+    /* ── THE BASS IS DUB'S, AND IT WAS A DRONE ────────────────────────────────
+       Measured before this changed, 30 seeds: 100% the root, one note a bar,
+       in every bar of every song -- because this genre wore `drone`, which
+       restrikes only when the chord changes, under a harmony that mostly does
+       not. dkc's pedal and bladerunner's drone are declared, sourced styles;
+       this was a default nobody chose, and it was also the reason the chords
+       and the bass ran 19.2% parallel fifths (BACKLOG §6.8): a bass that only
+       ever plays the root moves by exactly the interval the chord moved, so
+       every interval between them survives the change.
+       `docs/genre-research/jungle-bass.md` is the research; the builder's own
+       comment carries the quotations. */
+    bassStyle: "riff",
+    /* `bars: 2` is the dub two-bar motif [corpus:KVR]. `anchor` is the sourced
+       root/3rd/5th for strong positions and `spice` the 2nd/4th, both weighted
+       toward the tonic because "the rhythm was the most important thing"; the
+       pools together are the MINOR PENTATONIC the sources name (scale steps
+       0/2/3/4/6). `strong` is beat one and the one-drop's beat three
+       [corpus:wikipedia one-drop-rhythm]. The three COUNTS are [EAR] and no
+       source gives them: five to seven notes across two bars on an eighth-note
+       grid, held up to a beat -- slower than the break above it, with real
+       gaps. */
+    bassRiff: { bars: 2, notes: [5, 7], grid: 2, hold: 4, strong: [0, 8],
+                anchor: [[0, 6], [4, 3], [2, 2]],
+                spice:  [[3, 3], [6, 2], [1, 1]] },
+    bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },   // unused by "riff"
+    /* the glide is idiomatic and it is not written by this genre: `acidize`
+       owns slide for every bass style. "Most basslines will have gentle glides
+       from one note to another, especially in reggae and dub"
+       [corpus:soundfingers]. The amount is [EAR]. */
+    bassAccent: { accent: 0, slide: 0.18 },
     ostinato: null,
 
     /* the string machine, because the pad IS the atmosphere in this music and a
@@ -13867,7 +13894,11 @@ const GENRE = {
 
 /* paths whose subtree is drawn whole rather than blended */
 const BLEND_DRAW = new Set([
-  "label", "sevenths", "bassStyle", "gate", "chop", "ostinato",
+  /* `bassRiff.strong` and the two degree pools are STEP POSITIONS and SCALE
+     STEPS -- integer domains, the failure class this list exists for. Averaging
+     a strong-step 8 with a strong-step 6 gives 7, which is neither genre's
+     downbeat, and averaging scale steps indexes MODES at a fraction. */
+  "label", "sevenths", "bassStyle", "bassRiff", "gate", "chop", "ostinato",
   "registers", "form.lengths", "form.material", "form.roles", "form.target",
   /* the build arrives whole or not at all: averaging one genre's entry points
      with another's -- or with a genre that has none -- gives a record that
@@ -13923,7 +13954,12 @@ const BLEND_DRAW = new Set([
 /* fields that must come from the SAME genre or the builder runs on another
    instrument's numbers */
 const BLEND_GROUP = {
+  /* `bassRiff` joins the bass group for the reason the group exists: its
+     `strong` steps and its degree pools only mean anything beside the
+     `bassStyle` that reads them, and a riff table blended onto a genre whose
+     style is "acid" is a table nothing looks at */
   "bassStyle": "bass", "bassPulse": "bass", "acidLine": "bass", "bassAccent": "bass",
+  "bassRiff": "bass",
   "form.lengths": "form", "form.material": "form", "form.roles": "form",
   /* the build names ROLES, so it has to come from whichever genre supplied the
      role lists -- an entry point for a part that section never plays is inert,
@@ -14101,6 +14137,26 @@ function blendGenres(blend, seed){
 }
 
 function makeChart(seed, rigChoice, genreChoice, picks, pins){
+  /* ── THE ARGUMENT ORDER IS (seed, RIG, GENRE) AND ONE NAME IS BOTH ─────────
+     `composeSong(1, "jungle")` reads as "compose jungle" and composes LOFI on
+     the jungle rig, silently, because "jungle" is a genre AND a rig and the
+     rig slot comes first. That is not hypothetical: it produced a measured
+     before/after that was byte-identical on two genuinely different builds
+     (2026-08-04), and the only reason it was caught is that identical numbers
+     across a change the roll had plainly made are impossible -- suspect the
+     measurement first.
+
+     It is the same defect `mk2_roll.js` already guards at its own front door,
+     one argument over, and it gets the same answer: THROW. A tool that quietly
+     answers a different question than the one asked is worse than one that
+     fails. Only the AMBIGUOUS form throws -- naming the genre as well
+     (`composeSong(1, "jungle", "lofi")`) is explicit and still allowed, which
+     is how you actually ask for lofi on the jungle rig. */
+  if(genreChoice == null && typeof rigChoice === "string" && GENRE[rigChoice])
+    throw new Error('composeSong(seed, RIG, GENRE): "' + rigChoice + '" is a genre and it is ' +
+                    'in the RIG slot. Say composeSong(seed, undefined, "' + rigChoice + '") for ' +
+                    'the genre' + (RIG[rigChoice] ? ', or composeSong(seed, "' + rigChoice +
+                    '", "<genre>") for the rig.' : '.'));
   const rng = stream(seed, "chart");
   /* THE RIG -- which band plays this song. Drawn on its OWN named substream, so
      adding it moved no existing song by a single sample: every draw in "chart"
@@ -15403,6 +15459,102 @@ function makeMaterials(chart){
           const p = intoBand(base + c.oct, R.bass[0] - 12, R.bass[1] + 12);
           notes.push({ bar: b, step: c.step, dur: c.dur, pitch: p,
                        vel: c.step === 0 ? 0.95 : 0.78, role: "bass" });
+        }
+      }
+      return notes;
+    }
+    /* ── THE RIFF. A dub bassline is a REPEATING MOTIF, and that is the whole
+       difference from every other builder here. ──────────────────────────────
+       The pedal holds, the drone waits for the chord, the pulse repeats the
+       ROOT on a division, the acid line is a one-bar sequence -- and none of
+       them is a tune you could hum, which is what dub's bass is. The sources
+       are unanimous that this genre's low end is dub's:
+
+         - "Dub breaks feature the vocal disappearing and the bass plays a
+           TWO BAR MOTIF" [corpus:KVR dub-basslines]
+         - in reggae and dub "the bass is a LEAD INSTRUMENT that creates the
+           rhythm and vibe of the track", and it "is not just root, fifth,
+           root, fifth -- great reggae basslines SING"
+           [corpus:interruptor.ch dubboard]
+         - "a lot of the original jungle had bass lines based around reggae and
+           rocksteady, with lots of ROOTS AND FIFTHS -- the rhythm was the most
+           important thing"; "play root or 3rd or 5th ON DOWNBEATS for
+           steadiness and then spice it up with 2nds or 4ths"; "PENTATONIC
+           scales would be your best bet for jungle" [corpus:dogsonacid,
+           writing-90s-jungle-basslines]
+         - "the notes you don't play are as important as the ones you do...
+           employ PAUSES in your bassline" [corpus:soundfingers reggae-dub-bass]
+         - jungle is "speeded-up breakbeats with a SLOWER BASSLINE"
+           [corpus:culture-wiki drum-and-bass] -- the break chops at 170 and the
+           bass moves at dub tempo underneath it, which is why the grid here is
+           the genre's to declare and is not the drum grid.
+       Full sheet, with what the sources do NOT give: docs/genre-research/
+       jungle-bass.md.
+
+       SO THE CELL IS DRAWN ONCE AND REPEATS, exactly as the comp's inner figure
+       and the acid sequence are -- a motif redrawn every bar is not a motif.
+       It spans `bars` bars, so a two-bar riff over a four-bar material states
+       itself twice, which is the thing a listener recognises.
+
+       THE POSITION DECIDES THE POOL, and that is the sourced mechanism rather
+       than a weighting: a note on a STRONG position takes an anchor tone
+       (root/3rd/5th), a note anywhere else takes a spice tone (2nd/4th/7th).
+       Strong positions are the genre's to name -- beat one and the one-drop's
+       beat three by default -- because "on downbeats" means different
+       sixteenths at different tempos and in different feels.
+
+       WHAT IS SOURCED AND WHAT IS NOT, kept apart: the two-bar length, the
+       anchor/spice split, the pentatonic pool and the fact of rests are all
+       sourced above. The COUNTS are not -- no source gives notes per bar, rest
+       share or note length for this music, so `notes`, `grid` and `hold` are
+       [EAR] and marked so in the table. Slide is not written here: `acidize`
+       owns it for every style, so the genre asks through `bassAccent.slide`
+       and one owner keeps writing it. */
+    if(G.bassStyle === "riff"){
+      const F = G.bassRiff;
+      const LEN = F.bars * 16;
+      /* every draw below runs a fixed number of times whatever it yields, and
+         all of them run before a single note is placed [Law 3] */
+      const want = F.notes[0] + Math.floor(rng() * (F.notes[1] - F.notes[0] + 1));
+      const slots = [];
+      for(let st = 0; st < LEN; st += F.grid) slots.push(st);
+      /* WHICH SLOTS SOUND: one draw per slot, and the quietest `want` of them
+         win. Rank selection rather than a per-slot coin, for the reason the
+         acid builder gives -- a coin gives the density it averages to, and the
+         rests here are the point rather than a leftover. The first beat always
+         sounds: a riff a listener can recognise has to start somewhere fixed. */
+      const roll = slots.map(st => [st, st === 0 ? -1 : rng()]);
+      const on = roll.slice().sort((a, z) => a[1] - z[1])
+                     .slice(0, Math.min(want, slots.length))
+                     .map(x => x[0]).sort((a, z) => a - z);
+      const cell = [];
+      for(const st of on){
+        const strong = F.strong.includes(st % 16);
+        /* one draw per note from each pool, always, so which pool was used
+           cannot shift the stream for the notes after it [Law 3] */
+        const a = wpick(rng, F.anchor), s = wpick(rng, F.spice);
+        cell.push({ step: st, deg: strong ? a : s });
+      }
+      for(let ci = 0; ci < cell.length; ci++){
+        const next = ci + 1 < cell.length ? cell[ci + 1].step : LEN;
+        cell[ci].dur = Math.min(F.hold, next - cell[ci].step);
+      }
+      for(let b = 0; b < BARS; b++){
+        const ch = chordSet[b];
+        /* THE RIFF TRANSPOSES WITH THE CHORD, which is what a dub band does
+           over a vamp and what this file's own acid builder already does: the
+           degrees are relative to the chord under them, so the SHAPE repeats
+           while the pitches follow the harmony. The sources do not settle this
+           (dub is mostly one- or two-chord music and says nothing about what
+           happens at a change) -- so it follows the precedent already in the
+           file rather than inventing a second convention. */
+        for(const c of cell){
+          if(Math.floor(c.step / 16) !== b % F.bars) continue;
+          const st = c.step % 16;
+          notes.push({ bar: b, step: st, dur: c.dur,
+                       pitch: intoBand(degMidi(root, mode, ch.degree + c.deg),
+                                       R.bass[0], R.bass[1]),
+                       vel: F.strong.includes(st) ? 0.92 : 0.76, role: "bass" });
         }
       }
       return notes;
