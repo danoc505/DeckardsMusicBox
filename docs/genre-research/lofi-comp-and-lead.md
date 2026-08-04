@@ -332,6 +332,55 @@ range" [corpus:mysticalankar] by any reasonable reading of the phrase.
 
 ---
 
+## 6b. WHAT WAS BUILT FROM ALL OF THIS — `2026-08-04i` and `04j`
+
+**§0 and §5, the instrument.** `leadChar`, beside `keysChar`: lofi's tune is on
+a Rhodes or a Wurlitzer, drawn separately from its comp, in 210 of 300 songs —
+the other 90 draw the `sega` rig, where the lane never reaches the house lead at
+all. Six genres declare `"synth"` and are byte-identical.
+`docs/genre-research/the-rhodes.md` researches the instrument and measures the
+level, which the arithmetic had backwards.
+
+**§4 and §6, the space.** Two table numbers, both against the two sources that
+agree on two-to-four notes a bar:
+
+- `theme.breathLast: 7` — the second bar of a phrase may no longer put a note in
+  its back half, so the tune goes quiet before the phrase comes round again.
+- `theme.count.hooky: [4,2] → [3,2]` — the hook was the one part of this genre's
+  tune outside the sourced range, at 4.1 notes a bar.
+
+```
+                             before    after
+  notes a bar (performed)      2.98      2.63
+  SILENT TIME                 38.3%     41.0%
+  rests of a beat or longer   39.2%     47.9%   of 1612 rests
+  material A                   2.23      2.23   notes a bar  (unchanged)
+  material B, the hook         4.06      3.25   inside 2-4 for the first time
+  material C, the bridge       1.70      1.77
+```
+
+**AND THE FIRST MEASUREMENT OF THIS WAS THE WRONG ONE, which is worth keeping.**
+The obvious metric — bars with no lead note at all — read **5.3% → 6.2%** and I
+nearly reported the change as doing almost nothing. It measures the wrong thing:
+a rest that takes the back half of a bar leaves a note at the front, so the bar
+still counts as occupied. What the sources ask for is space, and space is
+measured in TIME. `probe_density.js` now reports silent time and the longest
+rest beside the bar count.
+
+**Read off the notes**, lofi seed 1, material A's tune:
+
+```
+  before   2---1-2--.......  ..1---..........  3---4---5---5--.  ......5---......
+  after    2---1-2--.......  1---............  3---4---5---5--.  ..5---..........
+```
+
+Bars 2 and 4 are the breath bars. Their note moves to the front and the phrase
+ends in silence — ten and twelve sixteenths of it, against six and ten.
+
+**Blast radius: 300 of 2100 songs, and every one of them is lofi.**
+
+---
+
 ## 7. WHAT THE SOURCES DO NOT SETTLE
 
 - **How long the rests are, and how often.** This is the gap that matters,

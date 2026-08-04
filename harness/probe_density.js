@@ -81,6 +81,7 @@ for(const g of genres){
   const strikesPerBar = [], sixteenthHist = new Array(16).fill(0);
   const partsPerBar = [], notesPerBar = [];
   const leadPerBar = []; let leadSilentBars = 0, leadBars = 0;
+  let leadQuiet = 0, leadSteps = 0; const leadGaps = [];
   const bySection = {};                       /* fn -> { parts:[], notes:[] } */
 
   for(let s = 1; s <= SEEDS; s++){
@@ -110,6 +111,34 @@ for(const g of genres){
       }
     }
     if(counted !== evs.length) arithmeticOK = false;
+
+    /* ── HOW MUCH OF THE TIME THE TUNE IS SILENT ─────────────────────────────
+       "BARS WITH NO NOTE AT ALL" IS THE WRONG QUESTION AND IT GAVE THE WRONG
+       ANSWER. A rest that occupies the back half of a bar leaves a note at the
+       front of it, so the bar counts as occupied and a real change of shape
+       measures as 5.3% -> 6.2%: almost nothing. What the sources are asking for
+       is space, and space is measured in TIME.
+
+       So: over the bars the tune is rostered for, the share of sixteenths where
+       no lead note is sounding, and the length of the longest unbroken gap. A
+       phrase that ends and waits shows up in both; a phrase that never stops
+       shows up in neither. */
+    const leadEvs = evs.filter(e => e.role === 'lead' && e.pitch != null);
+    {
+      let run = 0;
+      for(let st = 0; st < song.form.nBars * 16; st++){
+        const bar = Math.floor(st / 16);
+        const sec = song.sections.find(x => bar >= x.startBar && bar < x.endBar);
+        if(!sec || !sec.active || !sec.active.includes('lead')){ run = 0; continue; }
+        const t = st * spb;
+        let on = false;
+        for(const e of leadEvs) if(e.tSec <= t + 1e-6 && t < e.tSec + e.durSec - 1e-6){ on = true; break; }
+        leadSteps++;
+        if(on){ if(run) leadGaps.push(run); run = 0; }
+        else { leadQuiet++; run++; }
+      }
+      if(run) leadGaps.push(run);
+    }
 
     /* ── WHAT IS SOUNDING, sixteenth by sixteenth ────────────────────────────
        The voicing as an ear gets it: every keys note whose duration covers this
@@ -178,6 +207,7 @@ for(const g of genres){
   perGenre.push({ g, soundSize, soundSpan, soundLowest, soundMoments,
                   voicSize, voicSpan, voicLow, rootLowest, voicings, strikesPerBar,
                   partsPerBar, notesPerBar, leadPerBar, leadSilentBars, leadBars,
+                  leadQuiet, leadSteps, leadGaps,
                   sixteenthHist, bySection });
 }
 
@@ -233,11 +263,16 @@ for(const p of perGenre){
 }
 
 console.log('\n  ── THE TUNE: notes a bar, and how often it shuts up\n');
-console.log('  genre         lead notes/bar   bars rostered but silent');
+console.log('  genre         notes/bar   empty bars   SILENT TIME   longest rest   rests >= a beat');
 for(const p of perGenre){
   if(!p.leadBars){ console.log(`  ${p.g.padEnd(12)}  — no lead —`); continue; }
-  console.log(`  ${p.g.padEnd(12)} ${mean(p.leadPerBar).toFixed(2).padStart(12)} ` +
-    `${(pct(p.leadSilentBars, p.leadBars) + '%').padStart(22)}`);
+  const gaps = p.leadGaps.slice().sort((a, z) => z - a);
+  const long = gaps.filter(x => x >= 4).length;
+  console.log(`  ${p.g.padEnd(12)} ${mean(p.leadPerBar).toFixed(2).padStart(8)} ` +
+    `${(pct(p.leadSilentBars, p.leadBars) + '%').padStart(12)} ` +
+    `${(pct(p.leadQuiet, p.leadSteps) + '%').padStart(13)} ` +
+    `${((gaps[0] || 0) + ' 16ths').padStart(14)} ` +
+    `${(pct(long, gaps.length) + '% of ' + gaps.length).padStart(17)}`);
 }
 
 console.log('\n  ── THE ARITHMETIC CONTROL: ' +

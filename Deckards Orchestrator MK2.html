@@ -811,7 +811,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04i · the tune is played on a Rhodes</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04j · the tune is played on a Rhodes, and it stops to breathe</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -9289,8 +9289,31 @@ const GENRE = {
     qualities: 0.75,
     /* the density of a bar of tune, and where its notes may land. These are the
        values that were literals inside buildTheme, written out unchanged. */
-    theme: { count: { hooky: [4, 2], breath: [1, 2], normal: [3, 2] },
-             onsetPool: [[0,5],[2,3],[4,4],[6,3],[8,4],[10,3],[12,4],[14,3]] },
+    /* ── THE HOOK WAS THE PART OVER THE CEILING ─────────────────────────────
+       A hooky phrase draws `hooky` in BOTH its bars -- it has no breath bar,
+       which is right, a hook is the phrase that comes back verbatim. At [4, 2]
+       that was 4-5 notes in every bar of it, and MEASURED across 30 seeds
+       lofi's material B carried 16.3 notes over its four bars: 4.1 a bar.
+
+       Two sources put a lofi tune at two to four notes a bar and they arrive at
+       it independently -- "a two-bar phrase that repeats" [corpus:songer] and
+       "short, 4 to 8-note motifs" [corpus:mysticalankar]. 4.1 is outside that
+       and it is the only part of this genre's tune that was.
+       docs/genre-research/lofi-comp-and-lead.md §4.
+
+       [3, 2] is 3-4, which lands inside it. It makes a hook the same DENSITY as
+       a normal phrase, and that is fine: what makes a hook a hook here is that
+       it repeats exactly and does not breathe, not that it plays more notes. */
+    theme: { count: { hooky: [3, 2], breath: [1, 2], normal: [3, 2] },
+             onsetPool: [[0,5],[2,3],[4,4],[6,3],[8,4],[10,3],[12,4],[14,3]],
+             /* THE PHRASE STOPS HALFWAY THROUGH ITS SECOND BAR. The breath bar
+                keeps its 1-2 notes; they may no longer land in the back half,
+                so the tune goes quiet before the phrase comes round again.
+                Three sources want the space and not one of them measures it,
+                so the number itself is [EAR] -- half a bar is the smallest
+                rest that reads as a rest at 74-92 bpm.
+                docs/genre-research/lofi-comp-and-lead.md §4, §6 */
+             breathLast: 7 },
     progressions: {
       minor:  [[[0,5,2,6], 4], [[0,3,5,6], 3], [[0,3,0,4], 2], [[5,3,0,6], 2]],
       dorian: [[[0,3,0,3], 4], [[0,3,4,3], 3], [[0,5,3,4], 2]],
@@ -16200,7 +16223,39 @@ function makeMaterials(chart){
         const cnt = opts.hooky ? TH.count.hooky : isBreath ? TH.count.breath : TH.count.normal;
         const count = cnt[0] + Math.floor(rng() * cnt[1]);
         const steps = [];
-        const poolCopy = onsetPool.slice();
+        /* ── AND THE PHRASE ENDS IN SILENCE, WHERE A GENRE ASKS FOR IT ───────
+           A phrase here is TWO bars and the second is already the "breath" --
+           it draws 1-2 notes where the first draws 3-4. But those notes could
+           land anywhere in the bar, including the last sixteenth, so the tune
+           never actually stopped. MEASURED, lofi, 30 seeds: it rests in 5.3% of
+           the bars it is rostered for -- one bar in nineteen.
+
+           Three sources, and their whole subject is the space rather than the
+           notes: "insert rests between phrases to give the listener a moment of
+           reflection" [corpus:mysticalankar]; "leave space between phrases...
+           silence matters more in lo-fi than in almost any other genre"
+           [corpus:songer]; "negative space" [corpus:melodigging]. What they
+           describe is not a RATE, it is a SHAPE -- phrase, rest, phrase -- and
+           a tune at a defensible note count that never stops is still
+           relentless. docs/genre-research/lofi-comp-and-lead.md §6.
+
+           `breathLast` is the last sixteenth a breath bar may put an onset on.
+           The pool is FILTERED from the one the genre already declares rather
+           than being a second list, so a genre that changes its onsets changes
+           both together and there is nothing to go stale. Absent means the
+           whole bar, which is what every genre had, so six of them are
+           byte-identical.
+
+           IT SPENDS THE SAME DRAWS EITHER WAY [Law 3]: the loop calls `wpick`
+           exactly `count` times as long as the pool cannot run out, and 1-2
+           notes into a four-seat pool cannot. The stream position after this
+           bar is identical; only which seats are taken changes.
+
+           NO SOURCE GIVES A LENGTH FOR THE REST. Every one of them says it
+           exists and not one measures it, so the number is [EAR] and is
+           labelled so in the table. */
+        const last = isBreath && TH.breathLast != null ? TH.breathLast : 15;
+        const poolCopy = onsetPool.filter(x => x[0] <= last);
         while(steps.length < count && poolCopy.length){
           const st = wpick(rng, poolCopy);
           poolCopy.splice(poolCopy.findIndex(x => x[0] === st), 1);
