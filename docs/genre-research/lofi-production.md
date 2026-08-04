@@ -270,6 +270,92 @@ processing** — let the room and noise breathe" [corpus:emastered].
 
 ---
 
+## 7b. "IS IT RELAXING?" — asked by the user, measured, and acted on
+
+*Added 2026-08-04 (build `2026-08-04o`). The user: "Isn't there data on how many
+elements are likely in lofi hip hop? Lofi hip hop is relaxing and easy
+listening, are we following that?" There was data — §2 of this sheet — and the
+answer was no in two specific, measurable places.*
+
+### The second half of the question needed its own sources
+
+§2 covers element COUNT. "Relaxing and easy listening" is a different claim, so
+it got its own search, and the sources are unusually concrete about mechanism:
+
+> "Tempo typically sits between **60 and 90 BPM**, close to the human **resting
+> heart rate** — and that's precisely what creates the effect: your nervous
+> system synchronises with the rhythm, slipping into a relaxed yet alert state.
+> This process is called **entrainment**." [corpus:studyclock]
+
+> "Music in the **60–70 BPM** range promotes the production of **alpha waves**,
+> associated with relaxed attention." [corpus:mihata]
+
+> "Slow beats (**60–90 BPM**) with jazz and soul samples and **no lyrics**."
+> [corpus:oxsci, the science behind lo-fi beats]
+
+> "Because lofi relies on **looping**, it repeats itself periodically, which
+> keeps the music **semi-predictable**, further minimising distraction."
+> [corpus:studyclock]
+
+> "Lo-fi occupies a sweet spot: enough melodic interest to feel pleasant, yet
+> **repetitive and lyric-free enough to stay out of cognitive focus**."
+> [corpus:studyclock]
+
+### What was wrong, measured
+
+**1. The chorus doubled two of Moore's four layers at once.** Measured, 30
+seeds: 5.38 parts a bar in the chorus against 3.64 in the verse, and the whole
+genre at 4.06 — the top of §2's sourced 3–4 band, with the chorus outside it.
+The count was the symptom. The structure was the fault: `keys2` is a second
+**harmonic filler** and `counter` a second **melodic** line, so the section
+meant to be this genre's most restrained statement carried two of everything.
+
+**2. The tempo sat above every source that gives one.** Declared `[74, 92]`,
+measured mean **82.5** — over the 70–80 common ground of §1's four sources and
+over the 60–90 the relaxation sources give, with a ceiling outside the genre.
+
+### What was done
+
+| | before | after |
+|---|---|---|
+| parts a bar, whole genre | 4.06 | **3.71** |
+| parts a bar, chorus | 5.38 | **4.50** |
+| mean tempo | 82.5 | **77.1** |
+
+- **`counter: null`.** The same declaration acid, plastikman and jungle already
+  carry, for the same stated reason — *"two pitched parts was never a shortfall,
+  it is the genre"*. The sources name three pitched parts for lofi: chords,
+  bass, one melodic voice. **Moving it to the instrumental was tried first and
+  the battery refused it**, correctly: instrumentals are rarer than choruses
+  here, so the part was composed in every song and heard in 13 of 60 — the
+  "composed and never played" defect at 78% rather than 100%.
+- **The harmonic doubling STAYS.** `keys2` is sourced for this genre
+  specifically: the chorus is "the same loop in **different dress**"
+  [corpus:richardpryn, `lofi-form.md`] and the second keyboard is the dress.
+  One doubling, never two.
+- **`tempo: [70, 84]`**, putting the mean inside the common ground.
+
+Blast radius: 300 of 300 lofi seeds moved, no other genre by a single note.
+
+### The tension this exposes, written down rather than resolved quietly
+
+**The sources say repetition and predictability are the POINT of this genre** —
+"semi-predictable, further minimising distraction", "repetitive enough to stay
+out of cognitive focus". This project has spent real effort in the opposite
+direction: `BACKLOG.md` §6a exists because the user said *"it feels like we are
+repeating the same loop with no changes after three passes — that violates the
+rule of three"*, and `Bvar`, the occurrence lanes and the pass-counting rule of
+three were all built to answer it.
+
+Both are true and they are in genuine tension. The reconciliation the sources
+themselves offer is the "sweet spot": **enough melodic interest to feel
+pleasant, repetitive enough to stay out of focus** — which argues that variation
+in lofi should be TIMBRAL (a filter opening, a layer swapping dress) rather than
+melodic, and that is exactly what the `occurrence` motion kind was added for.
+**Nothing here has been changed on the strength of that reading** — it is
+recorded so the next person does not "fix" the repetition without knowing the
+genre's own literature calls it a feature.
+
 ## 8. MEASURED AGAINST THE PROGRAM
 
 *Build `2026-08-03q`, 30 seeds a genre, 1620 lofi bars. Numbers, not

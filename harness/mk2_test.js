@@ -317,6 +317,19 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   let contrary = 0, parallel = 0, oblique = 0, sounded = 0, total = 0;
   let bridgeSame = 0, chorusSame = 0, songs = 0, flourish = 0;
   const sig = ns => ns.map(n => n.bar + ":" + n.step + ":" + n.lane).sort().join(",");
+  /* ── ASK THE GENRES THAT HAVE A COUNTER, NOT WHICHEVER IS FIRST ───────────
+     This composed `composeSong(s, "band")` -- no genre argument, so the DEFAULT
+     genre -- and measured its counter. That silently made the whole check a
+     statement about lofi, and the day lofi declared `counter: null` it reported
+     `contrary NaN% vs parallel NaN%`: a green check turned into a nonsense one
+     because the subject walked away. The property is about any genre with a
+     LINE counter (a "double" is deliberate parallel octaves and would fail by
+     design), so the genres are derived from the tables. The drum half of this
+     loop still wants one genre with a full kit, and keeps the default. */
+  const LINE = M.genres().filter(g => {
+    const c = T.GENRE[g] && T.GENRE[g].counter;
+    return c && c.style === "line";
+  });
   for(let s = 1; s <= 120; s++){
     const m = M.composeSong(s, "band").materials;
     songs++;
@@ -325,8 +338,14 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     /* the fourth bar must answer the first three, at least in the hats */
     const hb = b => m.A.drums.filter(n => n.lane === "hat" && n.bar === b).map(n => n.step).join(",");
     if(hb(3) !== hb(0)) flourish++;
-    for(const [lead, ctr] of [[m.A.lead, m.A.counter], [m.B.lead, m.B.counter]]){
-      if(!ctr.length) continue;
+    /* the counter half reads the genres that HAVE one, at the same seed */
+    const pairs = [];
+    for(const g of LINE){
+      const mg = M.composeSong(s, undefined, g).materials;
+      pairs.push([mg.A.lead, mg.A.counter], [mg.B.lead, mg.B.counter]);
+    }
+    for(const [lead, ctr] of pairs){
+      if(!ctr || !ctr.length) continue;
       total += lead.length; sounded += ctr.length;
       const at = new Map(); for(const n of ctr) at.set(n.bar + ":" + n.step, n.pitch);
       const L = lead.slice().sort((a, z) => a.bar - z.bar || a.step - z.step);

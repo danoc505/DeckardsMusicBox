@@ -890,7 +890,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04n · the machine gets its 909 circuits, and the clap stops washing</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04o · lofi stops doubling its texture, and slows to its own sources</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -9361,7 +9361,22 @@ const GENRE = {
   lofi: {
     label: "lofi hip hop",
     /* ── stage 1: identity ── */
-    tempo:    [74, 92],                                  // [corpus:conduct history]
+    /* ── THE TEMPO IS THE OTHER HALF OF "RELAXING", AND IT SAT ABOVE THE BAND ─
+       Declared [74, 92], MEASURED mean 82.5 -- above the consensus of every
+       source that gives one, and the ceiling was outside the genre entirely.
+       The sources agree on a window and on WHY it is that window:
+         "tempo typically sits between 60 and 90 BPM, close to the human
+          RESTING HEART RATE -- and that's precisely what creates the effect:
+          your nervous system synchronises with the rhythm" [corpus:studyclock]
+         "slow beats (60-90 BPM)" [corpus:oxsci, the science behind lo-fi]
+         "music in the 60-70 BPM range promotes the production of alpha waves,
+          associated with relaxed attention" [corpus:mihata]
+       Four earlier sources in lofi-production.md give four bands whose only
+       COMMON ground is 70-80, and the backlog has carried that as an open ears
+       call since 2026-08-03. [70, 84] puts the mean at about 77 -- inside the
+       common ground, still a beat tape rather than a ballad, and the top of the
+       band no longer leaves the genre. One line, and reversible. */
+    tempo:    [70, 84],                                  // [corpus:studyclock; oxsci; mihata; lofi-production.md §1]
     modes:    [["minor", 5], ["dorian", 4], ["major", 2]],
     rig:      [["band", 7], ["sega", 3]],                // [EAR]
     keysChar: [["rhodes", 6], ["wurly", 4]],             // the soulful pick [EAR]
@@ -9414,7 +9429,29 @@ const GENRE = {
            [corpus:richardpryn, lofi-form.md]. A and B are that pair. So the
            second keyboard is one of the things that makes B different from A --
            it arrives with the chorus and leaves with it. */
-        chorus:       ["drums", "bass", "keys", "keys2", "lead", "counter"],
+        /* ── AND THE CHORUS DOUBLED TWO OF MOORE'S FOUR LAYERS AT ONCE ────────
+           It named SIX roles and measured 5.38 parts a bar against a verse's
+           3.64 -- the one section of this genre outside the range its own
+           sources give. The count is not the interesting part; WHICH parts is.
+           Moore's four textural layers are beat, functional bass, melodic, and
+           harmonic filler [corpus:mtosmt Schwitzgebel 31.1]. `keys2` is a
+           SECOND harmonic filler and `counter` is a SECOND melodic line, so a
+           chorus carrying both doubled half the texture at once -- which is the
+           pop move this genre is defined against: "not more than 3 or 4
+           elements picking out a minimal number of notes" [corpus:modeaudio],
+           "lofi hip hop thrives on RESTRAINT... minimal element count to create
+           breathing room rather than filling every frequency and space"
+           [corpus:emastered].
+
+           The genre's own form research says what a chorus here IS, and it is
+           not "more": "the same loop in DIFFERENT DRESS" [corpus:richardpryn,
+           lofi-form.md]. So one layer may be doubled, never two -- the second
+           keyboard stays, because it is the dress, and the counter moves to the
+           INSTRUMENTAL, where the tune sits out and a second melodic line has
+           somewhere to be instead of somewhere to pile. That keeps the counter
+           heard (a part composed and never played is this file's own documented
+           defect) and it keeps every section inside one doubling. */
+        chorus:       ["drums", "bass", "keys", "keys2", "lead"],
         bridge:       ["bass", "keys", "lead"],            // the kit sits out the departure
         instrumental: ["drums", "bass", "keys"],
         outro:        ["keys", "bass"],
@@ -9510,10 +9547,35 @@ const GENRE = {
        a doubling, and it is what "everything at once and nothing together"
        sounds like. A counter-line needs its own rhythm (it does not sound on
        every note) and CONTRARY motion (when the tune rises it falls). */
-    counter: { style: "line", density: 0.62, intervals: [-2, -3, -4, -5],
-               /* a beat tape's second line is a lazy answer behind the tune,
-                  not a harmony under it -- most of it lands in the gaps */
-               answer: 0.65 },
+    /* ── AND THIS GENRE DOES NOT HAVE ONE. The user, 2026-08-04: "Lofi hip hop
+       is relaxing and easy listening, are we following that?" ────────────────
+       Measured against its own sources, not quite: the chorus ran 5.38 parts a
+       bar where every source describes "not more than 3 or 4 elements picking
+       out a minimal number of notes" [corpus:modeaudio], "simple and
+       minimalistic... focusing more on the atmosphere than anything else"
+       [corpus:emastered], melodies "sparse and repeating to maintain focus and
+       calm" [corpus:melodigging].
+
+       The count was the symptom; the structure was the fault. Moore's four
+       textural layers are beat, functional bass, MELODIC, and harmonic filler
+       [corpus:mtosmt Schwitzgebel 31.1] -- one melodic layer. This genre had
+       two, the tune and this, on top of two harmonic fillers (keys and keys2).
+       Half the texture was doubled in the one section that is meant to be the
+       genre's most restrained statement.
+
+       Moving it to the instrumental was tried first and the battery refused it,
+       correctly: instrumentals are rarer than choruses here, so the part was
+       composed in every song and heard in 13 of 60 -- the "composed and never
+       played" defect at 78% instead of 100%. Either a genre wants a part or it
+       does not, and the sources are clear that this one does not: three pitched
+       parts (chords, bass, one melodic voice), a three-element kit, texture.
+
+       So: null, for exactly the reason acid, plastikman and jungle declare null
+       -- "two pitched parts was never a shortfall, it is the genre". The
+       harmonic doubling STAYS, because that one is sourced for this genre
+       specifically: the chorus is "the same loop in DIFFERENT DRESS"
+       [corpus:richardpryn] and keys2 is the dress. One doubling, never two. */
+    counter: null,
     /* sevenths were hardcoded `true` at the one call site, which three genres
        flagged: synthwave and jungle want bare triads, Vangelis wants neither. */
     sevenths: true,
