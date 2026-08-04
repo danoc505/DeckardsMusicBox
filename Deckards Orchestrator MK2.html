@@ -835,6 +835,18 @@
            display:flex; flex-direction:column; align-items:center; gap:.4rem; }
   .xylab{ display:flex; justify-content:space-between; width:min(300px,100%);
           font-size:8px; letter-spacing:.16em; text-transform:uppercase; opacity:.6; }
+  /* ── THE PAD BAY: the two pads side by side, one unit ────────────────────
+     Each pad used to be drawn at the full width of its own machine's panel,
+     which put the echo's and the flanger's one above the other with a rack box
+     between them, each twice as wide as a hand needs. Side by side they are a
+     two-handed instrument. `flex:1 1 0` splits the box evenly and the pad's own
+     `width:min(300px,100%)` keeps either from growing past a hand's reach; on a
+     phone they wrap and stack, which is the same two pads, one below the other,
+     rather than a squeeze. */
+  .padbay{ display:flex; gap:.9rem; flex-wrap:wrap; align-items:flex-start; }
+  .padcell{ flex:1 1 0; min-width:210px; display:flex; flex-direction:column; gap:.3rem; }
+  .padname{ font-size:8.5px; letter-spacing:.20em; text-transform:uppercase;
+            opacity:.66; text-align:center; }
   .xypad{ position:relative; width:min(300px,100%); aspect-ratio:1/1; cursor:crosshair;
           border-radius:3px; padding:6px; touch-action:none;
           background:#14181a; border:5px solid #2a2a28;
@@ -902,7 +914,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04q · jungle gets the flanger, the multi-FX box and the drop</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04r · the two pads become one unit, side by side</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -2277,8 +2289,11 @@ const INSTRUMENTS = {
          actually name, so the pad is the described gesture rather than a
          decoration. Nothing new is owned: it writes the same TRIM offsets the
          knobs write, and both dials remain on the panel. */
+    /* the PAD itself is drawn in the pad bay, beside the flanger's, so the two
+       can be played with two hands -- see INSTRUMENTS.pads. This panel keeps
+       every dial it had; only the pad moved, and it still writes this
+       machine's TRIMs. */
     panel: { skin: "kaoss", maker: "KORG", title: "KAOSS PAD",
-             xy: { x: "tone", y: "fb" },
              groups: [{ label: "PROGRAM", keys: ["div", "send", "verb"] },
                       { label: "FX", keys: ["fb", "tone", "hp", "width"] }] },
   },
@@ -2358,10 +2373,10 @@ const INSTRUMENTS = {
       { k:"fb",    label:"feedback",    cap:"FDBK",  min:0,    max:0.85, step:0.01, def:0.45, kind:"bus" },
       { k:"mix",   label:"return",      cap:"RTN",   min:0,    max:1,  step:0.01, def:0.9,  kind:"bus" },
     ],
+    /* its pad is in the pad bay beside the echo's -- see INSTRUMENTS.pads */
     panel: { skin: "kaoss", maker: "YAMAHA", title: "SPX90",
              groups: [{ label: "SWEEP", keys: ["rate", "depth"] },
-                      { label: "OUT", keys: ["fb", "mix"] }],
-             xy: { x: "rate", y: "depth" } },
+                      { label: "OUT", keys: ["fb", "mix"] }] },
   },
 
   /* ── THE DP/4, four effects at once ───────────────────────────────────────
@@ -2543,6 +2558,36 @@ const INSTRUMENTS = {
     lanes: {},
     controls: [],
     panel: { skin: "field", maker: "DECKARD", title: "STEREO FIELD", grid: "field" },
+  },
+
+  /* ── THE PAD BAY: TWO HANDS, ONE UNIT ─────────────────────────────────────
+     The user: "I want to combine the two kaoss pads next to one another, there
+     is enough room for them to be next to one another in one single unit."
+     There is: a pad was drawn at the full width of its own machine's panel, so
+     the echo's and the flanger's sat one above the other with a whole rack box
+     between them, and each was twice as wide as a hand needs.
+
+     WHY ONE UNIT IS BETTER THAN TWO, and it is not only space. Both pads are
+     the same gesture -- a hand on two controls at once -- and the interesting
+     thing is playing them TOGETHER: the echo's tone against its feedback while
+     the flanger's sweep opens underneath. Side by side that is a two-handed
+     move; stacked in separate boxes it is two visits.
+
+     IT OWNS NOTHING, exactly as the field and the programme own nothing. The
+     pads write the same TRIM offsets the knobs write, on `echo` and on
+     `flange`; both machines keep every dial they had. What moved is where the
+     pad is drawn, not what it does -- so the panels below still carry the
+     KAOSS's own dials and the SPX90's own dials, and a genre's automation
+     still runs underneath both marks.
+
+     `pads` is a declaration, not a special case: each entry names a machine and
+     the two controls that machine already has, so a third pad is one line. */
+  pads: {
+    slot: "pads", label: "the pad bay", fixed: true,
+    lanes: {}, controls: [],
+    panel: { skin: "kaoss", maker: "DECKARD", title: "PAD BAY", grid: "pads",
+             pads: [{ m: "echo",   label: "KORG · KAOSS",  x: "tone", y: "fb" },
+                    { m: "flange", label: "YAMAHA · SPX90", x: "rate", y: "depth" }] },
   },
 
   /* ── THE PROGRAMME ────────────────────────────────────────────────────────
@@ -20934,6 +20979,22 @@ function drawPanels(){
       }
       if(P.grid === "drums") { const gr = drumGridEl(m, M); box.appendChild(gr); GRIDS.push(["drums", gr]); }
       if(P.grid === "bass")  { const gr = bassGridEl(m, M);  box.appendChild(gr); GRIDS.push(["bass", gr]); }
+      /* THE PAD BAY: every pad the panel declares, side by side. Each names a
+         MACHINE and two of its controls, so this draws the same xyPadEl the
+         machines used to draw themselves -- one owner, moved house. */
+      if(P.grid === "pads" && P.pads){
+        const bay = el("div", "padbay");
+        for(const p of P.pads){
+          const PM = INSTRUMENTS[p.m]; if(!PM) continue;
+          const cx = PM.controls.find(c => c.k === p.x), cy = PM.controls.find(c => c.k === p.y);
+          if(!cx || !cy) continue;
+          const cell = el("div", "padcell");
+          cell.appendChild(el("div", "padname", p.label));
+          cell.appendChild(xyPadEl(p.m, cx, cy));
+          bay.appendChild(cell);
+        }
+        box.appendChild(bay);
+      }
       if(P.grid === "field") box.appendChild(fieldEl());
       if(P.grid === "programme") box.appendChild(programmeEl());
       if(P.grid === "barber") box.appendChild(barberEl(m, M));
@@ -20967,12 +21028,28 @@ function drawPanels(){
        control on every panel reaches the sound, and a seam check fails the
        build if a new one is declared that does not. */
 
-    const rst = el("button", "reset", "reset to " + GENRE[SONG.chart.genre].label);
-    rst.addEventListener("click", () => {
-      for(const c of M.controls) delete TRIM[m + "." + c.k];
-      applyRack(SONG.chart, true); drawPanels();
-    });
-    box.appendChild(rst);
+    /* ── ONLY A PANEL WITH CONTROLS GETS A RESET ────────────────────────────
+       This was drawn on every panel, including the three that DECLARE NO
+       CONTROLS -- the field, the programme and now the pad bay. On those it
+       loops over an empty list and resets nothing, while its label promises to
+       put the machine back to the genre: a button that does nothing, which is
+       the defect this file has a standing rule and a seam check about,
+       wearing the rack's own styling. Derived from the declaration, so a new
+       view-only panel is right the day it is written.
+
+       THE PAD BAY IS THE INTERESTING CASE and it is why this is not simply
+       hidden there: the bay owns nothing, but the pads on it write TRIM on
+       `echo` and `flange`, and those two panels have their own reset buttons
+       which already clear exactly those trims. So the hand still has a way
+       back on both -- one that says truthfully which machine it is resetting. */
+    if(M.controls && M.controls.length){
+      const rst = el("button", "reset", "reset to " + GENRE[SONG.chart.genre].label);
+      rst.addEventListener("click", () => {
+        for(const c of M.controls) delete TRIM[m + "." + c.k];
+        applyRack(SONG.chart, true); drawPanels();
+      });
+      box.appendChild(rst);
+    }
     host.appendChild(box);
   }
   refreshLive();
