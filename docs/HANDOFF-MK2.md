@@ -13,13 +13,13 @@ rendered-audio failures that had been dismissed as "pre-existing" turned out to
 contain two real defects in the music. For whoever picks this up next. Read this
 whole file before you touch the HTML.*
 
-**State at `1ac0256` (build `2026-08-04h`), every number below measured on that
+**State at `f8ae533` (build `2026-08-04j`), every number below measured on that
 commit — not remembered from an earlier one.** The row that is not green is
 not green, and says why.
 
 | battery | command | result |
 |---|---|---|
-| seam checks | `node harness/mk2_test.js` | **118 passed, 0 failed** |
+| seam checks | `node harness/mk2_test.js` | **120 passed, 0 failed** |
 | UI, in a browser | `node harness/mk2_ui.js` | **33 passed, 0 failed** — but see the FLAKE note below |
 | blend sliders | `node harness/mk2_blend.js` | **10 passed, 0 failed** |
 | MIDI port | `node harness/mk2_midi.js` | **20 passed, 0 failed** |
@@ -38,7 +38,14 @@ Wurlitzer, `04c` the record surface and the kick duck, `04d` chord quality from
 1170 jazz tunes, `04e` the bass leaving the root, `04f` the widened out-of-key
 law, `04g` jungle's chords. Two genres changed; five are byte-identical
 throughout. (`04h`, THE ROLL, is a display and moves no note — 2100 seeds
-byte-identical — so it does not join that list. It does make the six visible.) The brief for listening to them is `test/ears/LOG.md`, and §0 of
+byte-identical — so it does not join that list. It does make the six visible.)
+
+**AND `04i`/`04j` MAKE IT EIGHT, both on lofi and both audible.** `04i` gives
+the tune an electric piano instead of the house sawtooth — the single loudest
+change to this genre in weeks, and it moves no note. `04j` makes the tune stop
+between phrases and brings the hook inside the sourced note count; 300 songs
+moved, all of them lofi. **The listening brief in `test/ears/LOG.md` should be
+started from `04j` rather than from `04b`** — every earlier build is inside it. The brief for listening to them is `test/ears/LOG.md`, and §0 of
 the backlog — *nothing should be built on top of this stack until it has been
 played* — applies to all six of them.
 
