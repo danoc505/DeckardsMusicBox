@@ -54,7 +54,10 @@ and specifically:
   Seed 1 is the Wurlitzer, **seed 2 is the Rhodes** — play both.
 - **Should the tune be a DIFFERENT instrument from the comp?** One source says a
   lead should sit "without competing with the chords". Right now they can be the
-  same one. Seed 3 draws Rhodes for both.
+  same one. **Seed 10 draws Rhodes for both.** (An earlier draft said seed 3 —
+  wrong: seed 3 draws the sega rig, where the tune is the chip lead and never
+  reaches an electric piano at all. Verified against the composed chart and the
+  performed events on this build.)
 
 **2. lofi, seed 1 again — THE TUNE NOW STOPS.** A phrase is two bars; its second
 bar may no longer put a note in its back half, and the hook lost a note a bar.
