@@ -26,12 +26,33 @@ regression.
 
 ## OPEN — sent, awaiting verdict
 
+### 2026-08-04 · `04k` — THE COMP MAY PLAY ITS LEFT HAND'S OCTAVE (small; judge with the 04j sitting)
+
+The register decision this project parked twice is made
+(`docs/genre-research/comp-register.md`). The audible change is deliberately
+small: on lofi only, an open comp voicing may now double its lowest voice an
+octave below and occasionally top a little above its old ceiling. Measured:
+sounding span 14.0 → 15.4 semitones, comp top over the tune 14.6% → 17.1%,
+195 of 300 lofi songs moved, six genres byte-identical.
+
+- **lofi, seed 1, the chorus** — the chord bed gained a low doubled voice in
+  places. Warmer, or muddier? (The low-interval limit says it cannot be mud
+  by physics; the ear outranks the limit.)
+- **The question that actually matters:** the sources' "two octaves or more"
+  is already true of bass+chords TOGETHER (26.5 semitones typical). Two
+  louder roads were measured and parked for your ears: a TALL comp that takes
+  the top half the time the tune plays (refused for now — it sang over the
+  tune in 49.8% of shared moments), and richer five-note chords (the
+  `extensions` dial). **If the chords still feel narrow after this, say
+  which: taller, or richer.**
+
 ### 2026-08-04 · EIGHT BUILDS IN A DAY, NONE HEARD — start here, on `2026-08-04j`
 
 **Start from `04j` and not from `04b`.** Every earlier build of the eight is
-inside it, so one sitting settles all of them. The published artifact IS this
-build (`node harness/mk2_stamp.js check` is green). Open it, type the seed in
-the box, pick the genre, press **new song**, press **play**.
+inside it, so one sitting settles all of them. **The published artifact is now
+`04k`** (stamp checked green), which contains all of these plus the small comp
+change in the entry above — one sitting still settles everything. Open it,
+type the seed in the box, pick the genre, press **new song**, press **play**.
 
 **Two of the eight are the loud ones. Judge these first.**
 

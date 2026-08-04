@@ -13,17 +13,17 @@ rendered-audio failures that had been dismissed as "pre-existing" turned out to
 contain two real defects in the music. For whoever picks this up next. Read this
 whole file before you touch the HTML.*
 
-**State at `f8ae533` (build `2026-08-04j`), every number below measured on that
-commit — not remembered from an earlier one.** The row that is not green is
-not green, and says why.
+**State at build `2026-08-04k` (the comp-register commit), every number below
+measured on that commit — not remembered from an earlier one.** The row that
+is not green is not green, and says why.
 
 | battery | command | result |
 |---|---|---|
 | seam checks | `node harness/mk2_test.js` | **120 passed, 0 failed** |
-| UI, in a browser | `node harness/mk2_ui.js` | **33 passed, 0 failed** — but see the FLAKE note below |
+| UI, in a browser | `node harness/mk2_ui.js` | **33 passed, 0 failed** — one 32/1 flake earlier the same day, clean on three reruns; see the FLAKE note below |
 | blend sliders | `node harness/mk2_blend.js` | **10 passed, 0 failed** |
 | MIDI port | `node harness/mk2_midi.js` | **20 passed, 0 failed** |
-| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** (baseline `0c1d7a9c402bbec4`) |
+| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** (baseline `bcd4e05a9f76a4f5`, re-recorded at 04k: 195 lofi lines moved, deliberately) |
 | every voice | `node harness/probe_voices.js` | **0 threw, 0 silent** |
 | the notes | `node harness/mk2_roll.js 1 --genre <g>` | **all seven print; this is RULE ONE and is not optional** |
 | how busy it is | `node harness/probe_density.js 30` | voices ringing, chord onsets, parts a bar, notes a bar — new at `04h` |
@@ -2108,32 +2108,46 @@ jobs; the backlog is the list that is kept current, and its §0 outranks both.
 
 ---
 
-### 9.1 THE COMP IS AN OCTAVE AND A FIFTH WIDE; THE TARGET IS TWO OCTAVES
+### 9.1 ✔ DECIDED at `2026-08-04k` — and the premise was half wrong
 
-**The oldest measured gap in the program with a number on both sides.**
+**The decision was made and is written down with its sources and its numbers:
+`docs/genre-research/comp-register.md`.** In one paragraph: downward the walls
+stand (the bass owns the bottom — the lowest voice owns the inversion — plus
+the low interval limit); upward the band becomes the comp's HOME rather than
+its wall, via a declared `registers.keysUp` reach that only an open voicing may
+use; and the tune keeps its prominence by reservation and by ear, not by
+acreage. lofi declares 12; six genres declare nothing and are byte-identical
+(195/2100 snapshot lines moved, all lofi; re-baselined `bcd4e05a9f76a4f5`).
 
-```
-  what is SOUNDING at each sixteenth (probe_density.js, 30 seeds):
-  lofi 14.0 semitones · bladerunner 12.2 · jungle 12.2 · synthwave 11.7
-  dkc 11.6 · plastikman 11.2 · acid 7.7
+**What building it measured, and this corrects the paragraph that used to be
+here:** the band's ceiling was NOT the binder. With the reach granted, the
+generator offered zero candidates above the old ceiling (the fold puts every
+tone in the band's bottom octave) — and once lifted shapes were offered, an
+A/B against the prior commit showed open-material voicings had ALREADY reached
+19.3 mean / 23 max under the old ceiling. **The real wall is interval
+arithmetic: a four-voice chord's octave rearrangements cannot pass 23
+semitones.** Three roads to "two octaves or more", each measured:
 
-  the sources: "spread voicings where the notes span TWO OCTAVES OR MORE"
-  [corpus:orphiq], and the user's own reference photograph frames one bar as
-  B3/B4/D5/C6/F6 — thirty semitones.
-```
+1. **Relocate the comp upward** (anchor at the granted room's centre): spans
+   24+ in 24% of open voicings — and the comp's top sat above the tune in
+   **49.8%** of co-sounding moments against 14.6% before, a tripling of the
+   one relationship every comping source warns about. REFUSED as the default;
+   it is the ear's dial if lofi wants the tall comp.
+2. **Extension rate**: five-tone chords make 26-span voicings reachable under
+   the tune. A harmony number, not a register one — parked until the
+   04-stack is heard.
+3. **The ensemble reading — recommended and true today**: every source's
+   two-octave spread includes the ROOT, which this program's bass plays.
+   Measured, bass + comp sounding together: **26.5 mean, p50 28, ≥24 in 73%
+   of moments.** The sourced texture already exists across this program's two
+   hands; the old 14.0 was measuring one hand of it.
 
-Drop-2, drop-2-and-4, rootless candidates, a spread bonus and an open-voicing
-anchor have all shipped, and together they bought about a semitone and a half.
-**They cannot buy more, and the reason is structural, not a weight.**
-`buildKeys` folds every chord tone into the genre's `keys` band first, so the
-band IS the ceiling: lofi's `[52, 74]` is 22 semitones and cannot contain a
-two-octave voicing plus its own inner movement.
-
-**What is actually being asked is a decision this project has parked twice:**
-*a comp spread across three octaves is one instrument covering the whole range,
-and it would overlap the bands the bass and the lead are guaranteed.* That is a
-decision about what this program is. Make it, write it down, and then the code
-is easy. `BACKLOG.md` §6.2.
+What shipped beside the law: the octave-lifted candidate shapes, the LEFT
+HAND'S OCTAVE (each shape offered with its lowest voice doubled an octave
+below — the reference photo's own B3+B4 bottom), and a duplicate-pitch guard.
+Net on lofi: sounding span 14.0 → 15.4, above-tune 14.6% → 17.1%, bottoms to
+47, one more voice in some voicings. Modest by design — the loud options are
+listed above with their numbers, for the ear to choose.
 
 ### 9.2 THE COMP NEVER BARKS — and it is an accident, not a choice
 

@@ -811,7 +811,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04j · the tune is played on a Rhodes, and it stops to breathe</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04k · the comp may play its left hand's octave</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -9334,6 +9334,15 @@ const GENRE = {
                     above the root band -- declared, rather than the bare "+2"
                     that used to sit at the call site [theory] */
                  bassWalk: [33, 47],
+                 /* how far an OPEN voicing's top may rise above the keys band.
+                    The band stays the comp's home; this is the reach the two-
+                    octave spread needs — 22 semitones of band cannot hold a
+                    24-semitone voicing plus its own inner movement. The floor
+                    law (bass[1] + 2) is untouched: the reach is upward only.
+                    docs/genre-research/comp-register.md is the decision.
+                    [corpus:orphiq "two octaves or more"; the reference
+                    photograph B3..F6] — the number 12 itself is [EAR] */
+                 keysUp: 12,
                  themeA: [64, 80], themeB: [67, 84], themeC: [62, 78] },
 
     /* ── stage 5: performance ── */
@@ -15598,6 +15607,21 @@ function makeMaterials(chart){
     /* open or close, once for the material — see the voicing block below.
        Sustained pads stay close: an open pad is a hole, not a bed. */
     const openVoicing = !opts.sustain && rng() < 0.72;
+    /* ── HOW HIGH AN OPEN VOICING MAY REACH ─────────────────────────────────
+       The band is the comp's HOME, not its wall. A genre that declares
+       `registers.keysUp` grants an OPEN voicing that many semitones of reach
+       above the band's ceiling — the decision this project parked twice, made
+       and reasoned in docs/genre-research/comp-register.md: downward the walls
+       stand (the bass owns the bottom, the lowest voice owns the inversion),
+       upward the ceiling is a declared allowance, and the tune keeps its
+       prominence by reservation and by ear, not by acreage.
+
+       Three scopes, each deliberate: only the genre's own keys register (a
+       caller-allocated band is somebody else's territory and keeps its own
+       walls); only an open voicing (the program's own law that pads stay
+       close already gates the pads and the second keyboard out); and no new
+       draw, so a genre declaring nothing is byte-identical. */
+    const CEIL = (!opts.band && openVoicing && R.keysUp) ? BAND[1] + R.keysUp : BAND[1];
     for(let b = 0; b < BARS; b++){
       const ch = chordSet[b];
       let strikes;
@@ -15679,8 +15703,45 @@ function makeMaterials(chart){
       const cands = [];
       /* every shape gets the same treatment -- inversions, drop-2, drop-2-and-4
          -- so a rootless voicing is spread by exactly the machinery a full one
-         is, and there is one code path rather than two */
-      for(const shape of [base, ...drops])
+         is, and there is one code path rather than two.
+
+         AND THE REACH IS ROOM THE FOLD NEVER OFFERS, so when the genre grants
+         it, each shape is ALSO offered an octave up, through the same
+         inversions, the same drops, the same filters and the same cost.
+         MEASURED before this line existed: with the ceiling raised to 86 the
+         generator produced ZERO candidates above 74 across a whole song --
+         the fold puts every tone in the band's bottom octave, so the highest
+         top an inversion can reach is that octave plus twelve. The fallback
+         block below already learned this once ("the band had room the
+         candidate list never used"); this is the same lesson applied at the
+         front door instead of the fire escape. A lifted shape's drop-2-and-4
+         is the photograph's own texture: low voices in the home octave, top
+         voices an octave up, and the gap in the middle where the inner line
+         lives. Gated on the reach, so a genre declaring nothing composes
+         from a byte-identical candidate list. */
+      const shapes = [base, ...drops];
+      if(CEIL > BAND[1]){
+        for(const s of shapes.slice()) shapes.push(s.map(p => p + 12));
+        /* ── AND THE LEFT HAND MAY PLAY ITS OCTAVE ──────────────────────────
+           MEASURED, and it corrects this file's own §9.1 premise: with the
+           reach granted and the lifted shapes offered, open-material voicings
+           spanned 19.6 mean / 23 max -- and an A/B against the commit before
+           showed 19.3 / 23, so the ceiling had NOT been what held the span.
+           The arithmetic is the binder: a four-voice chord's close span is
+           about ten semitones and every drop or lift displaces by exactly
+           twelve, so no octave rearrangement of four distinct tones passes 23.
+           "Two octaves OR MORE" [corpus:orphiq] needs a fifth voice, and the
+           reference photograph says which one: its bottom is B3 AND B4 -- the
+           same voice DOUBLED at the octave, the left hand's octave, "the left
+           hand usually covers a 5th, octave and sometimes a 10th"
+           [corpus:practical-chords-and-harmony]. So each shape is also
+           offered with its lowest voice doubled an octave below. The floor
+           and the low-interval limit already police the bottom; the doubled
+           note is the shape's own pitch class, so no new tone enters the
+           chord. */
+        for(const s of shapes.slice()) shapes.push([s[0] - 12, ...s]);
+      }
+      for(const shape of shapes)
       for(let inv = 0; inv < shape.length; inv++){
         const close = shape.map((p, i) => i < inv ? p + 12 : p).sort((a, z) => a - z);
         cands.push(close);
@@ -15716,6 +15777,14 @@ function makeMaterials(chart){
       }
       let voiced = null, bestCost = 1e9;
       const score = list => { for(const cand of list){
+        /* a doubled-bottom shape re-inverted can land its double ON the voice
+           it doubles -- two voices, one pitch, the stacked-voicing defect the
+           collision seam check exists to refuse. Undoubled shapes cannot
+           produce one (distinct pitch classes folded into one octave), so
+           this rejects nothing that was offered before the doubling existed */
+        let dup = false;
+        for(let v = 1; v < cand.length; v++) if(cand[v] === cand[v - 1]){ dup = true; break; }
+        if(dup) continue;
         /* OPENNESS IS A PREFERENCE, NOT A REQUIREMENT. The first version made it
            a hard filter -- skip any candidate whose spread does not match what
            the material drew -- and synthwave threw "no keys voicing fits" on bar
@@ -15771,7 +15840,7 @@ function makeMaterials(chart){
         for(let v = 1; v < cand.length; v++)
           if(cand[v - 1] < 48 && cand[v] - cand[v - 1] < 4){ muddy = true; break; }
         if(muddy) continue;
-        if(cand[cand.length - 1] > BAND[1]) continue;   // this inversion does not fit
+        if(cand[cand.length - 1] > CEIL) continue;      // this inversion does not fit
         /* ...and it must not land on a pitch somebody else already owns, at a
            step this voicing actually strikes. Onsets are what collide. */
         if(strikes.some(st => cand.some(pch => taken.has(key(b, st, pch))))) continue;
@@ -15797,7 +15866,23 @@ function makeMaterials(chart){
            voicing's CENTRE instead: a wide chord centred on middle C is a
            correctly-placed wide chord, not a badly-placed low one. Close
            voicings are unaffected -- for them the centre and the bottom differ
-           by a few semitones and the ranking is the same. [BACKLOG §6.2] */
+           by a few semitones and the ranking is the same. [BACKLOG §6.2]
+
+           AND THE ANCHOR STAYS AT THE REGISTER'S HOME WHEN THE REACH IS
+           GRANTED -- this was tried the other way and the measurement refused
+           it. Anchoring bar 0 at the centre of the whole granted room
+           (47..86, centre 66.5) let the octave-LIFTED shapes win, and the
+           comp bodily moved up a fifth: its top sat ABOVE the tune in 49.8%
+           of the moments both sounded, against 14.6% before -- a tripling of
+           the one relationship every comping source states ("stay out of the
+           range of the soloist... pull down into the middle" [corpus:
+           jazz-library]). And the width never needed the height: a
+           two-octave voicing centred at 60 runs 48..72, inside the room the
+           floor already grants. So the reach is HEADROOM for a top voice
+           that earns it, not a relocation of the comp, and the widening
+           mechanism is the doubled bottom below, which centres near home by
+           construction. docs/genre-research/comp-register.md carries the
+           numbers. */
         const anchor = openVoicing ? (cand[0] + cand[cand.length - 1]) / 2 : cand[0];
         let cost = prev ? 0 : Math.abs(anchor - 60);
         if(isOpen !== openVoicing) cost += 22;           // wanted, not required
