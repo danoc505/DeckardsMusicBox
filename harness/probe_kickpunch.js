@@ -141,6 +141,18 @@ const GENRES = process.argv.slice(2).length ? process.argv.slice(2) : null;
     for(const genre of genres){
       const k = await hit(genre, 'kick', 0.95);
       const s = await hit(genre, 'snare', 0.85);
+      /* THE CLAP IS MEASURED ON EVERY GENRE THAT HAS ONE. The user named the
+         snare in one genre and the kick in another as EXAMPLES of an engine
+         they think is bad overall -- so the probe asks every genre, and the
+         clap joins because they later named it as the worst of the three. */
+      const cl = await hit(genre, 'clap', 0.85);
+      if(cl){
+        const on = a => { const p2 = Math.max(...Array.from(a, Math.abs)), th = p2 * 0.02;
+                          for(let i = 0; i < a.length; i++) if(Math.abs(a[i]) > th) return i / SR; return 0; };
+        const c0 = on(cl);
+        rows.push({ clapOf: genre, peak: peak(cl), rms: rms(slice(cl, c0, c0 + 0.60)),
+                    len: decayTo(cl, 30), mid: bandShare(slice(cl, c0, c0 + 0.60), 700, 1600) });
+      }
       if(!k || !s){ rows.push({ genre, none: true }); continue; }
       const kp = peak(k), sp = peak(s);
       /* ── FIND THE ONSET, NEVER ASSUME IT ────────────────────────────────────
@@ -173,16 +185,25 @@ const GENRES = process.argv.slice(2).length ? process.argv.slice(2) : null;
   }, GENRES);
 
   const dB = v => (v >= 0 ? '+' : '') + v.toFixed(1);
+  const claps = out.filter(r => r.clapOf);
+  if(claps.length){
+    console.log('\n=== THE HAND CLAP, on every genre that has one ===\n');
+    console.log('  genre         peak     rms      to -30dB    700-1600Hz share');
+    for(const r of claps)
+      console.log(`  ${r.clapOf.padEnd(12)} ${r.peak.toFixed(3).padStart(6)} ${r.rms.toFixed(4).padStart(8)} ` +
+                  `${(r.len * 1000).toFixed(0).padStart(9)} ms ${(100 * r.mid).toFixed(1).padStart(15)}%`);
+  }
   console.log('\n=== THE KICK\'S WEIGHT, AND THE SNARE ON TOP OF IT ===\n');
   console.log('  genre         kick pk   snare pk   SNARE-KICK   kick rms   snare rms');
   for(const r of out){
+    if(r.clapOf) continue;
     if(r.none){ console.log(`  ${r.genre.padEnd(12)}  — no kick or snare lane —`); continue; }
     console.log(`  ${r.genre.padEnd(12)} ${r.kickPeak.toFixed(3).padStart(7)} ${r.snarePeak.toFixed(3).padStart(10)} ` +
                 `${(dB(r.ratio) + ' dB').padStart(12)} ${r.kickRms.toFixed(4).padStart(10)} ${r.snareRms.toFixed(4).padStart(11)}`); }
   console.log('\n  a POSITIVE snare-kick figure means the snare is louder than the kick.\n');
   console.log('  genre         SUB<100Hz   BODY 100-250Hz   PUNCH(atk vs body)   kick to -30dB   snare to -30dB');
   for(const r of out){
-    if(r.none) continue;
+    if(r.none || r.clapOf) continue;
     console.log(`  ${r.genre.padEnd(12)} ${(100 * r.sub).toFixed(1).padStart(8)}% ${(100 * r.body).toFixed(1).padStart(13)}% ${(dB(r.punch) + ' dB').padStart(20)} ` +
                 `${(r.len * 1000).toFixed(0).padStart(14)} ms ${(r.snareLen * 1000).toFixed(0).padStart(13)} ms`); }
   console.log('');

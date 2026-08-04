@@ -202,6 +202,94 @@ gone. *Anything that lists what the program contains will go stale; derive it.*
 
 ---
 
+## 6. "WHY ARE WE TALKING ABOUT AN 808?" — the correction that reframes §2
+
+*Added the same day. The user, on reading §2: "The hand clap might be the thing
+i hate. I hope your not just changing the drums for the genre I mentioned as an
+example. Why are we talking about an 808 when we stopped using that many moons
+ago?" Three hits, and the third is the one that matters.*
+
+### 6a. The machine has TWO analogue circuits and this engine only built one
+
+The panel says TR-1000. The voices were called `k808` and `s808`, every genre
+played an 808, and §2 above went looking for punch by bolting a harmonic onto
+one. The machine is not an 808:
+
+> "**16 analog voice circuits lifted straight from the previous TR-808 and 909
+> designs** and rebuilt with modern components."
+> [corpus:musicradar TR-1000 announcement; corpus:musictech; corpus:djtechtools]
+
+**And the 909 is the answer to the kick complaint, which makes this a defect
+and not a naming tidy-up.** An 808 kick is a long sub boom with no punch *by
+design*; the 909's is the punchy one:
+
+> "On the 909, the introduction of pitch modulation means you can get a super
+> punchy kick because you're effectively raising the pitch of that attack
+> envelope, and the difference between that initial attack and the lower,
+> fundamental sustain **is where the punch lies**… the 808 sustain is huge and
+> you also just don't really have a punchy envelope to play with."
+> [corpus:LANDR what-is-a-909]
+
+Asking an 808 for oomph is asking the wrong circuit. §2's body layer was a
+workaround for playing the wrong machine.
+
+**BUILT:** `tr1000.circuit`, a **switch** (two circuits are two instruments, so
+the conductor never rides it). The 909 branch drops further and faster — 7× over
+12 ms against the 808's 4.2× over 30 ms — rings about half as long, and its
+beater is the ATTACK the 909 has and the 808 does not.
+
+**MEASURED, punch (attack against body):**
+
+| genre | circuit | before all this work | after |
+|---|---|---|---|
+| acid | **909** | +5.3 dB | **+8.1 dB** |
+| synthwave | **909** | +2.0 dB | **+4.7 dB** |
+| lofi | 808 | +3.0 dB | +2.3 dB *(unchanged by design)* |
+| dkc | 808 (chip kit) | +6.4 dB | +6.4 dB *(untouched)* |
+
+Kick length tightened with it: acid 231 → 126 ms, synthwave 270 → 151 ms.
+
+### 6b. Which genre plays which circuit, and why — all seven, not two
+
+The user's other hit: synthwave and acid were named as **examples** of an engine
+they think is bad overall, and §2 changed a gate on one genre. This repo has
+made that mistake before and wrote it down: *"Taking an example as the request…
+it went on a roadmap as a feature while the general point went unanswered."*
+
+| genre | circuit | reason |
+|---|---|---|
+| **lofi** | 808 | the long sub boom IS the boom-bap kick; this genre's lineage is the sampler and the 808 |
+| **synthwave** | 909 | the 1983–89 record, which is the 909's own window; and the circuit whose kick survives a gated snare on top of it |
+| **acid** | 909 | "a steady four-on-the-floor kick drum usually from TR-808/TR-909 style sound sources… delivering a propulsive pulse" [corpus:grokipedia acid-house] — both named, one punches |
+| **plastikman** | 909 | photographed: the live rig is "a TR-909 above two TB-303s, next to a TR-808" [corpus:gearnews] |
+| **dkc** | 808 | plays the chip kit; declared so the table has one shape |
+| **bladerunner, jungle** | default 808 | barely a kit / the break carries the record |
+
+**The snare fix in §2a stayed on synthwave alone, and that is correct rather
+than lazy: synthwave is the only genre that declares a gate at all** (every
+other `gate:` is null or ~0.1). The clap and kick fixes are engine-wide.
+
+### 6c. The clap — the user's actual worst offender
+
+Measured across every genre that has one (only three do), and two real faults:
+
+- **The tail was more than twice the circuit's.** "The reverb-like effect is
+  actually an envelope with a smooth, relatively long (**100 ms**) decay"
+  [corpus:KVR emulating-the-909-808-clap]. Ours ran **240 ms** — every clap
+  trailed a quarter-second of band-passed noise, which under a gate is a wash
+  rather than a clap. Now 100 ms on the 909, 130 on the softer 808.
+- **The bands were one machine's.** 808 is "tuned to 1,000 Hz"; 909 is "around
+  1140 Hz with a Q of 1.95" [corpus:KVR]. Both are built now, and the sources
+  are explicit that this is where the two differ: "the 'clap' part is pretty
+  much identical between the two machines, while the 'reverb' is somewhat
+  different."
+- The three retriggers also decay across the burst now — a burst of applause
+  falls away, it does not repeat at one level.
+
+**MEASURED, clap to −30 dB: acid 64 → 20 ms, plastikman 96 → 20 ms.**
+Synthwave's stays ~139 ms because that genre gates its drums, which is its
+declared signature and not the clap's doing.
+
 ## 5. WHAT IS NOT DONE, honestly
 
 - **The ear has heard none of it.** Every number here says the kick has more

@@ -890,7 +890,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04m · the TR-1000 is a clone, the kick has a body, the snare stops shouting</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04n · the machine gets its 909 circuits, and the clap stops washing</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1991,6 +1991,34 @@ const INSTRUMENTS = {
          A voicing control: it says what the drum IS, so the conductor does not
          ride it and the battery does not ask it to. */
       { k:"punch",  label:"BD punch",   cap:"PUNCH",  min:0,   max:1,   step:0.01, def:0.55 , kind:"voicing" },
+      /* ── THE CIRCUIT: 808 OR 909, BECAUSE THE MACHINE HAS BOTH ──────────────
+         The user, 2026-08-04: "Why are we talking about an 808 when we stopped
+         using that many moons ago?" Fair, and it was a real hole rather than
+         loose talk. The panel says TR-1000 and this engine only ever built the
+         808 half of it -- the voices are literally named `k808`, `s808` -- while
+         the machine on the front of this rack is:
+
+           "16 analog voice circuits lifted straight from the previous TR-808 AND
+            909 designs and rebuilt with modern components"
+           [corpus:musicradar TR-1000 announcement; corpus:musictech; corroborated
+            by soundonsound's review and Roland's own release]
+
+         AND IT IS THE ANSWER TO THE KICK COMPLAINT, not a naming tidy-up. An
+         808 kick is a long sub boom with no punch BY DESIGN; the 909's is the
+         punchy one, and the sources say exactly why: "on the 909, the
+         introduction of pitch modulation means you can get a super punchy kick
+         because you're effectively raising the pitch of that attack envelope,
+         and the difference between that initial attack and the lower,
+         fundamental sustain is where the punch lies... the 808 sustain is huge
+         and you also just don't really have a punchy envelope to play with"
+         [corpus:LANDR what-is-a-909]. Asking an 808 kick for oomph is asking the
+         wrong circuit.
+
+         A SWITCH, by this file's own contract: two circuits are two
+         instruments, not two ends of a dial, so the conductor never rides it
+         and a genre declares which machine it is playing.
+         0 = 808, 1 = 909. docs/genre-research/drum-engine.md §6. */
+      { k:"circuit",label:"analog circuit", cap:"808 / 909", min:0, max:1, step:1, def:0, kind:"switch" },
       { k:"snappy", label:"SD snappy",  cap:"SNAPPY", min:0,   max:1,   step:0.01, def:0.55 , kind:"gesture" },
       { k:"sdtone", label:"SD tone",    cap:"TONE",   min:0,   max:1,   step:0.01, def:0.50 , kind:"voicing" },
       { k:"chdecay",label:"CH decay",   cap:"CH",     min:0.01,max:0.14,step:0.005,def:0.045,unit:"s" , kind:"gesture" },
@@ -6632,15 +6660,29 @@ registerProcessor("mk2-room", MK2Room);
     const tune = P(g, ev, DM(g), "tune", 47) * chTune(g, ev);
     const dec  = P(g, ev, DM(g), "decay", 0.85) * chDecay(g, ev);
     const tone = P(g, ev, DM(g), "tone", 0.45);
-    /* the ring: one sine at the tuned pitch with a long exponential fall, and a
-       small drop at the front that is the trigger bleeding into the resonator */
+    /* ── WHICH CIRCUIT. See the `circuit` control for the sources; the short of
+       it is that this machine's analogue engine is the 808 AND the 909, the two
+       kicks are different instruments, and the 909's is the one with the punch.
+
+         808   sweeps 4.2x down to the fundamental over 30 ms and rings for the
+               whole of `decay` -- a long sub boom, which is what it is for.
+         909   drops FURTHER and FASTER (7x, 12 ms) and rings about half as
+               long: "the difference between that initial attack and the lower,
+               fundamental sustain is where the punch lies" [corpus:LANDR].
+               That difference IS the depth and the speed of this sweep, so
+               they are the two numbers that change.
+       Both keep the same tune and decay controls, so a genre's table means the
+       same thing on either circuit and switching does not rescale the panel. */
+    const nine = P(g, ev, DM(g), "circuit", 0) >= 0.5;
+    const swp  = nine ? 7.0 : 4.2, swpT = nine ? 0.012 : 0.030;
+    const ring = nine ? dec * 0.55 : dec;
     const o = c.createOscillator(); o.type = "sine";
-    o.frequency.setValueAtTime(tune * 4.2, t);
-    o.frequency.exponentialRampToValueAtTime(tune, t + 0.030);
+    o.frequency.setValueAtTime(tune * swp, t);
+    o.frequency.exponentialRampToValueAtTime(tune, t + swpT);
     const og = c.createGain();
     og.gain.setValueAtTime(LEVEL.kick * ev.gain * 1.15, t);
-    og.gain.exponentialRampToValueAtTime(0.0002, t + dec);
-    o.connect(og); og.connect(drumOut(g, ev.lane)); o.start(t); o.stop(t + dec + 0.05);
+    og.gain.exponentialRampToValueAtTime(0.0002, t + ring);
+    o.connect(og); og.connect(drumOut(g, ev.lane)); o.start(t); o.stop(t + ring + 0.05);
     const made = [o];
     /* ── THE BODY: the OOMPH, and what makes this audible at all on a speaker
        that has no bottom. See the PUNCH control's declaration for the sources.
@@ -6665,13 +6707,13 @@ registerProcessor("mk2-room", MK2Room);
     const punch = P(g, ev, DM(g), "punch", 0.55);
     if(punch > 0){
       const o2 = c.createOscillator(); o2.type = "sine";
-      o2.frequency.setValueAtTime(tune * 4.2 * 3, t);
-      o2.frequency.exponentialRampToValueAtTime(tune * 3, t + 0.030);
+      o2.frequency.setValueAtTime(tune * swp * 3, t);
+      o2.frequency.exponentialRampToValueAtTime(tune * 3, t + swpT);
       const g2 = c.createGain();
       g2.gain.setValueAtTime(LEVEL.kick * ev.gain * 0.85 * punch, t);
-      g2.gain.exponentialRampToValueAtTime(0.0008, t + dec * 0.55);
+      g2.gain.exponentialRampToValueAtTime(0.0008, t + ring * 0.55);
       o2.connect(g2); g2.connect(drumOut(g, ev.lane));
-      o2.start(t); o2.stop(t + dec * 0.55 + 0.05); made.push(o2);
+      o2.start(t); o2.stop(t + ring * 0.55 + 0.05); made.push(o2);
     }
     /* TONE opens a short noise click on the front -- the 808's only transient.
        Its band was a bare highpass at 1200 Hz; the sources put the layer that
@@ -6679,13 +6721,16 @@ registerProcessor("mk2-room", MK2Room);
        click is tilted there rather than carrying everything above 1.2 kHz. Still
        an 808 click: 10 ms, tight, and TONE is still the only thing that sets its
        level. */
-    const n = burst(g, t, 0.010, ev.tSec.toFixed(5) + ":808bd");
+    const n = burst(g, t, nine ? 0.016 : 0.010, ev.tSec.toFixed(5) + ":808bd");
     const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 2400; hp.Q.value = 0.7;
     const pk = c.createBiquadFilter(); pk.type = "peaking";
     pk.frequency.value = 6000; pk.Q.value = 0.9; pk.gain.value = 6;
     const ng = c.createGain();
-    ng.gain.setValueAtTime(LEVEL.kick * ev.gain * 0.5 * tone, t);
-    ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.012);
+    /* the 909 has an ATTACK control the 808 does not, and it is the click that
+       lets a 909 kick cut through a loud room -- so its beater is louder and a
+       touch longer than the 808's tick [corpus:LANDR; corpus:musicradar 909] */
+    ng.gain.setValueAtTime(LEVEL.kick * ev.gain * (nine ? 1.15 : 0.5) * tone, t);
+    ng.gain.exponentialRampToValueAtTime(0.0002, t + (nine ? 0.018 : 0.012));
     n.connect(hp); hp.connect(pk); pk.connect(ng); ng.connect(drumOut(g, ev.lane));
     made.push(n);
     return made;
@@ -7884,23 +7929,53 @@ registerProcessor("mk2-room", MK2Room);
        and a slider that no machine declares would be a control that reads
        nothing. [theory: the 808's clap retrigger interval] */
     const spread = 0.010;
+    /* ── WHICH CIRCUIT, AND THE TWO MACHINES REALLY DIFFER HERE ──────────────
+       The user named this voice as the one they hate. Both machines build a
+       clap the same way -- "noise is fed into a kind of trigger relay to
+       generate a short series of very quick bursts, with a longer tail at the
+       end to give it 'space'" -- and the difference is in the numbers:
+
+         808   band-pass "tuned to 1,000 Hz"
+         909   band-pass "calculated to be around 1140 Hz with a Q of 1.95",
+               and the sources are explicit that "the 'clap' part is pretty
+               much identical between the two machines, while the 'REVERB' is
+               somewhat different"
+       [corpus:KVR emulating-the-909-808-clap-in-detail; corpus:baratatronix
+        808-clap-synthesis]
+
+       AND OURS HAD THREE HANDS WHERE THE CIRCUIT HAS FOUR PARTS. "What makes
+       the classic TR-808/909 hand clap so distinctive is the FOUR part volume
+       envelope, which simulates multiple people clapping at not quite exactly
+       the same moment" -- three retriggers plus the tail. The third burst is
+       the one that turns two ticks into a clap, so a hand is added rather than
+       the level raised. */
+    const nine = P(g, ev, DM(g), "circuit", 0) >= 0.5;
     const bp = c.createBiquadFilter(); bp.type = "bandpass";
-    bp.frequency.value = 1050 * chT; bp.Q.value = 1.6;
+    bp.frequency.value = (nine ? 1140 : 1000) * chT; bp.Q.value = nine ? 1.95 : 1.6;
     bp.connect(drumOut(g, ev.lane));
-    /* the hands */
+    /* the hands: three retriggers ~10 ms apart, each quieter than the last --
+       a burst of applause decays, it does not repeat at one level */
     for(let i = 0; i < 3; i++){
       const at = t + i * spread;
       const n = burst(g, at, 0.012, ev.tSec.toFixed(5) + ":clap" + i);
       const ng = c.createGain();
-      ng.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.72, at);
+      ng.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.72 * (1 - i * 0.14), at);
       ng.gain.exponentialRampToValueAtTime(0.0002, at + 0.011 * chD);
       n.connect(ng); ng.connect(bp); out.push(n);
     }
-    /* and the room behind them, which is what makes it a clap and not a tick */
-    const tail = burst(g, t, 0.26, ev.tSec.toFixed(5) + ":claptail");
+    /* ── AND THE TAIL WAS MORE THAN TWICE AS LONG AS THE CIRCUIT'S ───────────
+       "The reverb-like effect is actually an envelope with a smooth, relatively
+       long (100 ms) decay, intended to create a fake reverb-like effect
+       simulating the way a real hand clap rings out after the initial snap"
+       [corpus:KVR]. Ours ran 240 ms -- so every clap trailed a quarter-second
+       of band-passed noise behind it, which on a genre that also gates its
+       drums is a wash rather than a clap. 100 ms on the 909, a little longer on
+       the 808 whose tail is the softer of the two. */
+    const tailLen = nine ? 0.10 : 0.13;
+    const tail = burst(g, t, tailLen + 0.02, ev.tSec.toFixed(5) + ":claptail");
     const tg = c.createGain();
     tg.gain.setValueAtTime(LEVEL.snare * ev.gain * 0.34, t + 0.012);
-    tg.gain.exponentialRampToValueAtTime(0.0002, t + 0.24 * chD);
+    tg.gain.exponentialRampToValueAtTime(0.0002, t + tailLen * chD);
     tail.connect(tg); tg.connect(bp); out.push(tail);
     /* THE SAME GUARD EVERY OTHER VOICE HAS. This one was unconditional, so the
        clap connected to the gated-verb send and OPENED THE GATE on every hit
@@ -9722,7 +9797,11 @@ const GENRE = {
                    hCut: 11000, hEcho: 0.06, hVerb: 0.14,
                    oCut: 9000, oEcho: 0.12, oVerb: 0.22,
                    tCut: 6000, tEcho: 0.08, tVerb: 0.30 },
+      /* THE 808, and this is the one genre where that is the right answer: the
+         long sub boom IS the boom-bap kick, and this genre's lineage is the
+         sampler and the 808, not the club. circuit 0. */
       tr1000:    { tune: 45, decay: 0.42, tone: 0.28, snappy: 0.38, sdtone: 0.34,
+                   circuit: 0,
                    chdecay: 0.032, ohdecay: 0.26, bus: 1.05, gate: 0, hold: 0.15 },
       rhodes:    { bark: 0.42, wow: 0.0024, tone: 0.84 },
       /* ── THE TREMOLO DEPTH, now measured against a threshold rather than
@@ -10638,7 +10717,12 @@ const GENRE = {
       /* THE CHAINS. Synthwave's gated snare is the genre's signature and it is
          exactly a per-voice send: the snare goes to a big room and the kick and
          hats stay dry, which a shared bus cannot express at all. */
-      tr1000: { sCut: 9000, sEcho: 0.14, sVerb: 0.34,
+      /* THE 909: this genre is the 1983-1989 record and the 909 is the machine
+         of exactly that window, where the 808 belongs to the years before it.
+         It is also the circuit whose kick survives a gated snare sitting on top
+         of it, which is this genre's own signature. circuit 1. */
+      tr1000: { circuit: 1,
+                sCut: 9000, sEcho: 0.14, sVerb: 0.34,
                 kCut: 20000, kEcho: 0.00, kVerb: 0.06,
                 hCut: 12000, hEcho: 0.08, hVerb: 0.16,
                 oCut: 10000, oEcho: 0.18, oVerb: 0.30,
@@ -11240,7 +11324,11 @@ const GENRE = {
       mellotron: { voice: 2, wow: 0.0022, flutter: 0.18, hiss: 0.12, tapeEnd: 1 },
       rhodes:    { bark: 0.38, wow: 0.0012, tone: 0.90 },
       wurly:     { trem: 0.30, tremhz: 5.8, bark: 0.45 },
+      /* this genre plays the chip kit, so the analogue circuit rarely sounds --
+         declared anyway so every genre's table has one shape and a hand that
+         loads the TR-1000 here gets a considered machine rather than a default */
       tr1000:    { tune: 52, decay: 0.35, tone: 0.35, snappy: 0.45, sdtone: 0.40,
+                   circuit: 0,
                    chdecay: 0.038, ohdecay: 0.30, bus: 1.05, gate: 0, hold: 0.15 },
       tb303:     { cutoff: 480, res: 7.0, envmod: 0.45, decay: 0.40,
                    accent: 0.50, drive: 2.0, wave: 0 },
@@ -12246,7 +12334,15 @@ const GENRE = {
          chains give the one thing an acid track needs that a shared bus cannot:
          the clap and the open hat living in different rooms while the kick stays
          dead dry. The 303 is not the only thing moving in this music. */
+      /* THE 909. The user: the kick "might be the most important instrument on
+         the track" here, and they are right -- acid house is "a steady
+         four-on-the-floor kick drum usually from TR-808/TR-909 style sound
+         sources... delivering a propulsive pulse" [corpus:grokipedia acid-house;
+         corpus:wikipedia]. Both machines are named by the sources and only one
+         of them punches, so the genre whose kick has to drive a floor takes the
+         909. circuit 1. */
       tr1000: { tune: 47, decay: 0.52, tone: 0.62, snappy: 0.70, sdtone: 0.55,
+                circuit: 1,
                 chdecay: 0.042, ohdecay: 0.48, bus: 1.35, gate: 0.10, hold: 0.150,
                 kCut: 12000, kEcho: 0.00, kVerb: 0.02,
                 /* the clap is the sound of this genre's snare position and it is
@@ -13128,7 +13224,12 @@ const GENRE = {
                accent: 0.75, drive: 2.8, wave: 1 },
       /* the voice circuits are the 808's, because on this machine they literally
          are; what follows them is the new part */
+      /* THE 909, and this genre has a photograph for it: the Plastikman live
+         rig shows "a TR-909 above two TB-303s, next to a TR-808"
+         [corpus:gearnews, already in NOTES-FROM-THE-USER §6]. Both are on the
+         table and the 909 is the one on top. circuit 1. */
       tr1000: { tune: 46, decay: 0.60, tone: 0.55, snappy: 0.62, sdtone: 0.48,
+                circuit: 1,
                 chdecay: 0.038, ohdecay: 0.40, bus: 1.30, gate: 0, hold: 0.150,
                 /* THE KICK stays dry and stays wide open. It is carrying the
                    bottom of this music and anything sent to a delay at 46 Hz
