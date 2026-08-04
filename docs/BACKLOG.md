@@ -39,8 +39,18 @@ a source. Items are grouped by what they cost, not by when they appeared.
 > tune stop between phrases and brings the hook inside the sourced note count;
 > 300 songs moved, all lofi.
 >
-> **The listening brief now starts from `04j`**, because every earlier build is
-> inside it. One sitting settles all eight. `test/ears/LOG.md`.
+> **The open taste questions are listed in `test/ears/LOG.md`**, newest first,
+> and every earlier build is inside the latest one — so playing the current
+> artifact covers all of them at once.
+>
+> **⚠ AND THIS SECTION IS NOT A GATE. Corrected by the user, 2026-08-04:**
+> *"What is a listening session? You can't hear. I can always open the artifact
+> and press play, there's nothing needed for that to be done."* This section
+> had been read as a stop sign — a researched, ready mechanism (jungle's bass)
+> was written up and deliberately NOT built, waiting for a ceremony that does
+> not exist. **§0 means don't stack unverified taste guesses on each other. It
+> does not mean stop building what the research and the measurements already
+> justify.** If the research is there and the mechanism is buildable, build it.
 
 **THE EAR HAS NOT HEARD ALMOST ANY OF THE RECENT WORK.** The FDN room, the
 whole stereo build, the matrix, the field, the stage, the flanger, the
@@ -72,6 +82,14 @@ should be built on top of this stack until it has been played.**
 - **Anything that LISTS what the program contains will go stale.** Three
   times in one session: the seam scanner's read-detection, the probe's
   column names (twice). Derive it from the declaration instead.
+- **TWO IDENTICAL NUMBERS ACROSS A REAL CHANGE ARE NOT A NULL RESULT, THEY
+  ARE A BROKEN MEASUREMENT.** `2026-08-04l`: a before/after on jungle's bass
+  read byte-identical on two builds whose ROLL had plainly changed. The cause
+  was the argument order — `composeSong(seed, RIG, genre)`, and "jungle" is
+  both a genre and a rig, so `composeSong(s,"jungle")` composed **lofi** on
+  the jungle rig, twice. The roll already guarded this at its own front door;
+  `makeChart` now throws on the ambiguous form too. **A null result that is
+  too clean to be true is the measurement confessing.**
 - **Run `probe_wiring` after adding anything.** A capability one genre uses
   is a capability that has not been understood yet.
 
@@ -287,7 +305,7 @@ a lockstep the bass is enforcing.*
 | **It is the cause of §6.3's parallel fifths, and the chord side cannot fix it** | If the bass always plays the root, then when the chord changes the bass moves by exactly the interval the chord moved, so any gap between them survives — a parallel by construction. Proved by failing: a cost on the chords' top line against the bass was built, and raising its weight FOUR TIMES moved nothing. `counterpoint-measured.md` §5b. | Give the bass somewhere else to be: approach notes, passing notes, a walk into the next chord, the third or the fifth under a chord it does not need to spell. |
 | **`harvest_bass.py` measures 17,256 real arrangements and MK2 has never seen a number from it** | Written for MK1, like the chorales and the ensemble data. §6.7 is the same story one instrument over. | Port it, the way `ingest_chord_quality.py` was ported — and check its parsing against the source first, because the last MK1 ingester that was trusted had three bugs. |
 | **jungle's HARMONY is fixed; its BASS is not** — `2026-08-04g` | Its harmony had never been researched, and that turned out to be half wrong: `jungle.md` researched it in July and the table never received it. The sheet says the genre has "two harmonic worlds", the drone and "THE JAZZ-MINOR VAMP… airy pads, jazz-inflected chords", and the table said `sevenths: false`. Confirmed independently — "lush minor chords, jazz extensions (9ths/11ths/13ths)" [corpus:melodigging]. Fixed: **dissonant intervals 0.0% → 13.5%**, pitched moments 374 → 801, and seed 1 went from three identical triads to a i–iv vamp with sevenths. | STILL OPEN: the bass. Parallel fifths only fell 21.7% → 19.2% because the bass is still 100% root, one note a bar, so it and the chords still move together at every change. `jungle-harmony.md` §5: the sources give "roots, octaves, fourths/fifths" and pentatonic and nothing more, which is not enough to write a bassline from. **Do not guess it.** |
-| **jungle plays the root, one note a bar, 100% of the time, and nothing defends it** — *researched `2026-08-04k`, build deliberately parked* | dkc's pedal and bladerunner's drone are both declared styles with sources behind them. Jungle's was not. **`docs/genre-research/jungle-bass.md` now answers what the sources support**: a two-bar melodic RIFF (dub's "two bar motif"), minor pentatonic with root/3rd/5th anchors and 2nd/4th spice, real rests ("the notes you don't play"), occasional slides — a repeating cell, which is the ostinato machinery's kin, NOT lofi's per-bar walking-tone table. | Build the riff — after the 04-stack is heard (§0). The sheet's own cautions: no source gives counts (all sizes will be [EAR]), and the measurement that validates it is repetition-detectability plus whether the 19.2% parallel-fifths rate falls. |
+| ~~**jungle plays the root, one note a bar, 100% of the time, and nothing defends it**~~ **DONE `2026-08-04l`** | Researched (`docs/genre-research/jungle-bass.md`) and built in consecutive commits. The cause was that jungle wore `bassStyle: "drone"` — restrikes only on a chord change, under a harmony that mostly does not: 99.8% of bars held ONE pitch. Now `bassStyle: "riff"`, a cell drawn once and repeated over the declared two bars, position deciding the pool (anchor root/3rd/5th on strong sixteenths, spice 2nd/4th/7th elsewhere), rank-selected rests, slide through `acidize` as every style gets it. | CLOSED. **Matched A/B, `probe_counterpoint` 20 seeds, jungle's row only: parallel perfect keys/bass 19.2% → 0.8% against a 1.1% chance floor; contrary motion 30.2% → 40.7%. Bars holding one pitch 99.8% → 14.4%, distinct pitches a bar 1.00 → 2.35.** Every other genre identical to the digit; snapshot 300/300 jungle and nothing else. **This is §6.8's "the chord side cannot fix it" row answered from the bass side.** STILL OPEN: every count in `bassRiff` is `[EAR]` (no source gives one), and whether the riff should transpose with the chord is undecided by the sources — it follows the acid builder's precedent, recorded not proven. |
 
 ## 6a. THE LOOP REPEATS AND ALMOST NOTHING CHANGES — ~~open~~ **LARGELY FIXED `2026-08-04a`**
 

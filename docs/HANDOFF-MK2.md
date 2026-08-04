@@ -13,7 +13,7 @@ rendered-audio failures that had been dismissed as "pre-existing" turned out to
 contain two real defects in the music. For whoever picks this up next. Read this
 whole file before you touch the HTML.*
 
-**State at build `2026-08-04k` (the comp-register commit), every number below
+**State at build `2026-08-04l` (jungle's bass riff), every number below
 measured on that commit — not remembered from an earlier one.** The row that
 is not green is not green, and says why.
 
@@ -23,7 +23,7 @@ is not green is not green, and says why.
 | UI, in a browser | `node harness/mk2_ui.js` | **33 passed, 0 failed** — one 32/1 flake earlier the same day, clean on three reruns; see the FLAKE note below |
 | blend sliders | `node harness/mk2_blend.js` | **10 passed, 0 failed** |
 | MIDI port | `node harness/mk2_midi.js` | **20 passed, 0 failed** |
-| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** (baseline `bcd4e05a9f76a4f5`, re-recorded at 04k: 195 lofi lines moved, deliberately) |
+| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** (baseline `e197864d18a5c0f6`, re-recorded at 04l: 300 jungle lines moved, deliberately) |
 | every voice | `node harness/probe_voices.js` | **0 threw, 0 silent** |
 | the notes | `node harness/mk2_roll.js 1 --genre <g>` | **all seven print; this is RULE ONE and is not optional** |
 | how busy it is | `node harness/probe_density.js 30` | voices ringing, chord onsets, parts a bar, notes a bar — new at `04h` |
@@ -2067,7 +2067,28 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
 replaces was written at `7c7644b` a week earlier and its items are folded into
 §9.7 below rather than deleted — they were right then and most are still open.*
 
-### 9.0 THE ONE THAT OUTRANKS THIS WHOLE SECTION
+### 9.0 THE OPEN TASTE QUESTIONS — a list, NOT a gate
+
+> **⚠ CORRECTED BY THE USER, 2026-08-04:** *"What is a listening session? You
+> can't hear. I can always open the artifact and press play, there's nothing
+> needed for that to be done."*
+>
+> This section had grown into a stop sign, and it cost real work: a fully
+> researched, ready-to-build mechanism (jungle's bass, §9.4) was written up
+> and deliberately NOT built, on the grounds that nothing should be built
+> until the stack had been "heard". There is no sitting to wait for. The user
+> opens the page and presses play, whenever they press play.
+>
+> **What §0 of the backlog actually means: do not stack unverified TASTE
+> GUESSES on top of each other. It does not mean stop building what the
+> research and the measurements already justify.** When the research is in the
+> repo and the mechanism is buildable, WIRE THEM TOGETHER — that is the
+> standing instruction, and asking permission instead is the documented
+> mistake of this session.
+>
+> `test/ears/LOG.md` is the list of open taste questions, newest first. Every
+> earlier build is inside the newest one, so playing the current artifact
+> covers all of them at once. Nothing waits on it.
 
 **Eight builds shipped on 2026-08-04. Nobody has heard any of them.**
 `04b` the Wurlitzer, `04c` the record surface and the kick duck, `04d` chord
@@ -2191,7 +2212,35 @@ while the kick is on a triplet one, measured off waveforms
 [corpus:pocketchops]. This program gives every lane one groove.
 `lofi-comp-and-lead.md` §3, and note the stated limit there before quoting it.
 
-### 9.4 JUNGLE'S BASS — 100% root, one note a bar, and no research supports a change
+### 9.4 ✔ DONE at `2026-08-04l` — jungle's bass plays a dub riff
+
+**Researched and built in consecutive commits.** The cause: jungle wore
+`bassStyle: "drone"`, which restrikes only on a chord change, under a harmony
+that mostly does not — 99.8% of bars held one pitch. Now `bassStyle: "riff"`:
+a cell drawn once and repeated across the declared two bars (dub's "two bar
+motif"), with the POSITION deciding the POOL — anchor tones root/3rd/5th on
+strong sixteenths, spice 2nd/4th/7th elsewhere, which is the sourced mechanism
+rather than a weighting. Rests are rank-selected so they are the number the
+table asked for. Slide comes through `acidize`, which already owns it for
+every style. `docs/genre-research/jungle-bass.md`.
+
+**MEASURED, matched A/B on `probe_counterpoint`, 20 seeds, jungle's row only:
+parallel perfect keys/bass 19.2% → 0.8%** (chance floor 1.1), contrary motion
+30.2% → 40.7%. Over 30 seeds: bars holding one pitch 99.8% → 14.4%, distinct
+pitches a bar 1.00 → 2.35. Every other genre's row identical to the digit;
+snapshot 300/300 jungle and no other genre. **This is the row §6.8 said the
+chord side could not fix, answered from the bass side.**
+
+**A MEASUREMENT LIED FIRST AND THE TELL WAS THAT IT WAS TOO CLEAN.** The A/B
+read byte-identical on two builds the roll had plainly changed — impossible,
+so the measurement was the suspect. `composeSong` is `(seed, RIG, genre)` and
+**"jungle" is both a genre and a rig**, so `composeSong(s,"jungle")` composed
+LOFI on the jungle rig. `makeChart` throws on the ambiguous form now, the same
+answer `mk2_roll.js` already gives one argument over. Every count in
+`bassRiff` remains `[EAR]`; whether the riff should transpose with the chord
+is undecided by the sources and follows the acid builder's precedent.
+
+### 9.4a THE OLD ENTRY, kept for its reasoning — 100% root, one note a bar
 
 `04g` gave jungle the jazz chords its own July sheet had asked for and never
 received: dissonant intervals 0.0% → 13.5%, pitched moments 374 → 801.

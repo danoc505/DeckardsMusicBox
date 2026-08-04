@@ -24,9 +24,46 @@ regression.
 
 ---
 
+> ## ⚠ THIS FILE IS A LIST, NOT A GATE — corrected by the user, 2026-08-04
+>
+> **"What is a listening session? You can't hear. I can always open the
+> artifact and press play, there's nothing needed for that to be done."**
+>
+> Correct, and the habit this file had grown was the problem. It had started
+> calling a page-and-a-play a "sitting" and a "session", writing briefs FOR
+> it, and — the actual damage — **work was being parked behind it.** A whole
+> researched, ready mechanism (jungle's bass) was written up and deliberately
+> not built, on the grounds that nothing should be built until the stack had
+> been "heard". That is not what BACKLOG §0 is for.
+>
+> **What §0 actually means:** don't pile more *unverified taste guesses* on
+> top of each other. It does not mean stop building things the research and
+> the measurements already justify. If the research is there and the
+> mechanism is buildable, **build it** — the standing instruction is to wire
+> them together rather than ask permission.
+>
+> **So what this file is:** a list of open taste questions, so nobody
+> silently re-decides one later. Nothing waits on it. Nothing is prepared for
+> it. The user presses play whenever they press play, and answers whichever
+> of these they feel like — or none.
+
 ## OPEN — sent, awaiting verdict
 
-### 2026-08-04 · `04k` — THE COMP MAY PLAY ITS LEFT HAND'S OCTAVE (small; judge with the 04j sitting)
+### 2026-08-04 · `04l` — JUNGLE'S BASS PLAYS A RIFF NOW
+
+It used to hold one note for a whole bar, every bar — measured, 99.8% of
+bars had a single pitch in them. It now plays a repeating two-bar figure
+with gaps in it, which is what a dub bassline is. **jungle, seed 1.**
+
+- **Is it too busy?** It went from about 1 note a bar to about 2.5. The
+  sources say the bass should be slower than the drums and full of space;
+  whether this hits that is the only [EAR] question here — every count in
+  it is a guess of mine inside a sourced shape.
+- **Does it still sit underneath, or does it draw attention?** The whole
+  point of this genre's low end is that it occupies a band the breakbeat
+  has nothing in.
+
+### 2026-08-04 · `04k` — THE COMP MAY PLAY ITS LEFT HAND'S OCTAVE (small)
 
 The register decision this project parked twice is made
 (`docs/genre-research/comp-register.md`). The audible change is deliberately
