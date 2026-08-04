@@ -393,20 +393,39 @@ candidates, not work.
 ### 8c. The details that only showed up on a close read
 
 - **The vinyl crackle is one event per song**, `tSec: 0`, lasting the whole
-  record, returning to **`g.bus.keys`** — so the spectral-filler layer shares a
-  bus with the harmonic-filler layer, passes through the keys→Room route, and
-  **is reverberated**. The buffer itself is a 10-second seamless loop: clicks at
-  roughly 26 per second over a ±0.012 bed, bandpassed at 3.4 kHz. At a drawn
-  gain of ~0.0099 against a mean note gain near 0.6 it sits about **36 dB below
-  the band**. Lofi's crackle is the highest of the seven genres — about 4×
-  bladerunner's and 7× synthwave's — which is correct for the genre.
-- **`wow` reaches the `keys` role ONLY.** `ev.wow` is set for `role === "keys"`
-  and nothing else, so bass, lead, counter and the second keyboard get no pitch
-  drift at all. §5's source puts flutter and wow "on sustained sounds like pads
-  or leads" — the pad here is `keys2`, and it is one of the parts that never
-  drifts.
-- **Hiss and flutter exist only inside the Mellotron voice**, which lofi draws
-  in 5 songs of 30. There is no global tape-hiss bed.
+  record. The buffer itself is a 10-second seamless loop: clicks at roughly 26
+  per second over a ±0.012 bed, bandpassed at 3.4 kHz. Lofi's crackle is the
+  highest of the seven genres — about 4× bladerunner's and 7× synthwave's —
+  which is correct for the genre.
+
+  **~~At a drawn gain of ~0.0099 against a mean note gain near 0.6 it sits
+  about 36 dB below the band.~~ THAT NUMBER WAS WRONG.** It was arithmetic on
+  the event's `gain` field against a mean note gain — two numbers that never
+  meet in the signal path — rather than a render. Measured properly on
+  `2026-08-04b`, lofi seed 1: **79 dB below the record's loudest moment**, or
+  66.5 dB below the music. A real record's noise sits 55–60 dB below its own
+  peak, so the crackle was 20 dB too quiet to be the "fills in empty space"
+  layer §5 describes. Corrected at `2026-08-04c`. See `lofi-noise.md` §6a.
+
+  It also returned to **`g.bus.keys`**, so it passed through the keys→Room
+  route and **was reverberated** — worth a measured **0.00 dB**, as it turns
+  out. The fault on that bus was ownership, not sound: closing the keyboard
+  channel silenced the record surface. It has its own channel now
+  (`MATRIX.ins`), and `lofi-noise.md` §6b has the measurements.
+- ~~**`wow` reaches the `keys` role ONLY.**~~ **FIXED `2026-08-04c`.** `ev.wow`
+  was set for `role === "keys"` and nothing else, so bass, lead, counter and the
+  second keyboard got no pitch drift at all. §5's source puts flutter and wow
+  "on sustained sounds like pads or leads" — the pad here is `keys2`, and it was
+  one of the parts that never drifted. It drifts now, and it wobbles: 1894
+  second-keyboard notes over 30 lofi songs carry the tape's instability where
+  none did before. Bass, lead and the repeating figure still do not, because
+  widening it further moves six other genres — recorded in §6b.
+- ~~**Hiss and flutter exist only inside the Mellotron voice**, which lofi draws
+  in 5 songs of 30. There is no global tape-hiss bed.~~ **FIXED `2026-08-04c`.**
+  Both are genre-table entries now (`tape.flutter`, `tape.hiss`), drawn per song
+  like `wow` and `crackle` and declared by all seven genres so the shape is one
+  shape. Only lofi turns them on; the other six declare `[0, 0]`, which is why
+  nothing else moved.
 - **There is no master low-pass.** The sources' most specific instruction is a
   deep low-pass "around 2 kHz". Lofi filters its DRUM channels (snare 8 kHz,
   hat 11 kHz, open hat 9 kHz, toms 6 kHz; the kick's is wide open at 20 kHz and

@@ -188,6 +188,8 @@ and it is why crusher plugins sound like something. But it is a *distortion*
 effect, not a noise-floor effect, and it needs saying that way rather than as
 "12-bit adds noise".
 
+**So it was measured rather than calculated** — §6c.
+
 ---
 
 ## 6. MEASURED AGAINST THE PROGRAM
@@ -227,6 +229,35 @@ record's loudest moment**, which is 20–24 dB below the whole band in §1.
 - Every source in §1 and §5 also says a little goes a long way, which is the
   argument for the quiet end rather than the middle.
 
+**AFTER, measured the same way** — `crackle [0.006, 0.008]` → `[0.040, 0.055]`,
+plus a tape hiss deliberately set under it, plus the section move that pulls
+the surface back when the band is thick:
+
+```
+  lofi seed 1 draws  crackle 0.0541  hiss 0.00067
+
+                     under full scale    under the loudest moment    under the music
+  crackle               -68.0 dB              -65.5 dB                 -53.0 dB
+  hiss                  -70.1 dB              -67.6 dB                 -55.1 dB
+  both together         -65.9 dB              -63.3 dB                 -50.8 dB
+```
+
+Against −79.0 dB before: **the record surface is 15.7 dB louder.** It sits
+63.3 dB under the loudest moment in a chorus and about 2.5 dB higher than that
+in the intro, the bridge and the outro, so roughly **61–63 dB down** across the
+record. §1's band is 55–60. **It is deliberately just under the band**, for the
+two reasons in the derivation: this is the fizzy part of the noise and not the
+rumble that dominates the real measurement, and every source says a little goes
+a long way. If it wants to be louder it is one number.
+
+**Blast radius, checked on the notes rather than on the audio.** The shipped
+snapshot hashes every field an event carries, so it reported all 2100 songs
+changed — the tape event gained a `hiss` field and every keyboard note gained a
+`flutter` field. Re-hashed on the fields a PLAYER plays (when, how long, how
+loud, what pitch, who, on what), across 300 seeds × 7 genres: **six genres
+byte-identical, and in lofi exactly one line differs per song — the crackle's
+loudness.** Not one note moved anywhere.
+
 ### 6b. Where the crackle goes — the reverb is a red herring, the fader is not
 
 `BACKLOG.md` §6b says the crackle "rides the KEYS bus… and **is reverberated**".
@@ -263,8 +294,102 @@ lane and panel cell follows."
 both — background textures can take reverb "for a washed-out, dreamy sound",
 and a dry separate bus "gives you more control and definition"
 [corpus:waves/abbeyroad; corpus:landr]. Since the measurement says it is worth
-0.00 dB either way, the physical argument decides it and the row arrives with
-its room send shut, where any genre can open it.
+0.00 dB either way, the physical argument decides it.
+
+**WHAT WAS BUILT:** a `vinyl` row on the matrix, with a fader and **five blind
+plates**. Not six crossings — five of them would have been knobs that move
+nothing, which this file treats as a defect, and the reason is generated into
+`MATRIX.none` beside the existing ones. The one live crossing is the fader,
+and lofi rides it: the surface pulls back about 2.5 dB when the band is thick
+and sits at full in the intro, the bridge and the outro. That is the one
+concrete instruction any source gives about a noise layer [corpus:musicradar],
+written the only way a control whose top is its default can express it.
+
+---
+
+### 6c. The wobble, after
+
+`ev.wow` used to be set for `role === "keys"` and nothing else. It now reaches
+the second keyboard as well, and `ev.flutter` goes with it. Over 30 lofi songs:
+
+```
+  which parts carry the tape drift now:
+     keys     15249 notes
+     keys2     1894 notes        (was zero)
+```
+
+And it is not decoration — a subtract-one-render-from-the-other test on eight
+bars of the second keyboard, seed 1:
+
+```
+  turn the fast wobble off and the sound changes by         -31.4 dB
+  turn BOTH the drift and the wobble off and it changes by   -4.5 dB
+```
+
+−4.5 dB against the part's own level is a plainly different sound; −31.4 dB is
+small and present, which is what a setting sitting at the audibility floor
+(§3) should measure.
+
+### 6d. The duck, after
+
+lofi declares 2.5 dB, 4 ms on, 65 ms off, triggered by the kick, on the bass,
+the chords and the record surface. Measured over 24 bars of seed 1, with the
+kick itself removed from the render so it cannot fill in its own hole — and
+with two genres that declare no duck as the control:
+
+```
+                 kicks   measurable   typical drop   deepest   back within half a dB
+  lofi            46         46        -2.37 dB    -2.75 dB   80 ms
+  synthwave       37         37        -0.00 dB    -0.00 dB      --
+  acid            90         57        -0.00 dB    -0.00 dB      --
+```
+
+Every kick, 2.37 dB, recovered in 80 ms. The sources asked for 2–3 dB, on in
+2–5 ms, off again in 40–80 ms. Nothing moved in any genre that did not ask.
+
+**AND A MEASUREMENT THAT WAS WRONG, ON THE RECORD.** The first version of that
+table said the duck fired on 4 kicks out of 46, alternating and then dying out.
+It was convincing enough that the mechanism was rewritten before the cause was
+found. **The fault was the measuring script**: `renderWav` returns a STEREO
+file, and the script read the interleaved samples as if they were mono, so its
+clock ran at half speed and its search window landed in the gap between kicks
+every other time. Three wrong theories were written down before the repo's own
+law — *when a measurement surprises you, suspect the measurement first* — was
+applied. The rewrite was kept anyway, because straight ramps hit the declared
+depth exactly where chained exponentials reach about 95% of it, but it was kept
+for that reason and not the one it was made for.
+
+### 6e. Bit reduction: measured, and NOT built
+
+§5 says the arithmetic makes a 12-bit machine's own noise inaudible. Rather
+than ship that as arithmetic, the real render was quantised and the error
+signal measured — undithered truncation, which is the harsher case.
+
+```
+  lofi seed 1, eight bars.
+  the record's loudest moment      0.73633
+  the noise it already has         0.000507   (-63.2 dB under that)
+
+  bits    the noise a crusher adds   under full scale   against the record's own noise
+    16          0.0000108              -99.3 dB          -33.5 dB   buried
+    12          0.000141               -77.0 dB          -11.1 dB   buried
+    10          0.000563               -65.0 dB           +0.9 dB   about level with it
+     8          0.00223                -53.0 dB          +12.9 dB   above it, audible
+     6          0.00882                -41.1 dB          +24.8 dB   above it, audible
+```
+
+**At the setting the sources give — 12-bit — a crusher would sit 11 dB under
+the noise this record already makes.** It would be a control that does nothing,
+which is the same verdict the deep low-pass got, reached the same way. **Not
+built.**
+
+Two things worth keeping from it. First, 12-bit is buried *partly because the
+crackle went up 17 dB*; against the old crackle it would have been about 6 dB
+under, still inaudible but less comfortably. Second, **8-bit is 12.9 dB above
+the noise floor and would be plainly audible** — so if anyone ever wants that
+sound, the number to reach for is 8, not 12, and it is a distortion decision
+rather than a fidelity one. The tutorials quote the specification of the
+machines; the specification is not the part you hear.
 
 ---
 

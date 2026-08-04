@@ -722,7 +722,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04b · the Wurlitzer settles down, and the roll shows every material</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04c · the record gets its own channel, its surface noise, and a kick you can feel</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1397,6 +1397,21 @@ const MATRIX = {
     { k: "bass",  label: "bass"  },
     { k: "keys",  label: "keys"  },
     { k: "lead",  label: "lead"  },
+    /* ── THE RECORD SURFACE IS NOT PART OF THE BAND ──────────────────────────
+       The vinyl crackle used to be plugged into the KEYS channel, which meant
+       closing the keyboard fader silenced the record itself. MEASURED, lofi
+       seed 1: crackle alone 0.000083 with that channel open, 0.000000 with it
+       shut. Nothing about the medium should depend on how loud somebody set
+       the chords.
+
+       The room send is the other half of that wiring and it turned out to be
+       worth NOTHING: at the level lofi declares, the reverb adds 0.00 dB to
+       the crackle (0.06 dB even at a reverb level 5.6x the genre's). So the
+       shared bus was not a sound problem, it was an ownership problem, and
+       this row fixes the ownership. It gets a fader and five blind plates --
+       the reason is generated into MATRIX.none below.
+       See docs/genre-research/lofi-noise.md §6b. */
+    { k: "vinyl", label: "vinyl" },
     { k: "echo",   label: "echo",   ret: true },
     { k: "room",   label: "room",   ret: true },
     { k: "flange", label: "flange", ret: true },
@@ -1469,6 +1484,29 @@ const MATRIX = {
      tail and the impulse response already owns that. */
   MATRIX.none.roomRoom = "a room feeding itself is just a longer tail, and the " +
                          "impulse response already owns that";
+  /* ── AND THE RECORD SURFACE GETS A FADER AND NOTHING ELSE ─────────────────
+     The vinyl row has a MIX crossing and five blind plates, for two reasons
+     that agree.
+
+     The physical one: the crackle happens at the stylus. It is the last thing
+     that touches the sound and it never met the band, so sending it to the
+     room the band played in, or to the delay the lead is going through, is
+     backwards. Every other row is an instrument and belongs in front of the
+     effects; this one is behind them.
+
+     The measured one, which is why this is a refusal and not a preference: at
+     the level lofi declares, feeding the crackle to the room was worth 0.00 dB
+     -- 0.06 dB even at a reverb level 5.6x the genre's. Five knobs that move
+     nothing is exactly the defect this file spends its comments on. So they
+     are blind plates with a reason, the way the A-138m's bipolar switch is.
+     docs/genre-research/lofi-noise.md §6b */
+  for(const o of MATRIX.outs){
+    if(o.k === "Mix") continue;
+    MATRIX.none["vinyl" + o.k] =
+      "the crackle happens at the stylus, after everything -- it never met the " +
+      "band, so it has no business in the band's effects. And measured: feeding " +
+      "it the room moved it 0.00 dB at the level a genre actually declares";
+  }
 })();
 
 /* every crossing that is a matrix control of its own, in grid order */
@@ -4031,6 +4069,19 @@ const Sound = (function(){
      at -2.3 dBFS peak with a 12.9 dB crest and zero samples at the wall -- but
      it IS a choice, and g.pre is the knob: 0.5 is the shipped value, 0.35 would
      put p99 at about -5 dB. [EAR: A/B the pre-gain on a peak chorus] ── */
+  /* ── THE TWO SPEEDS OF A TAPE TRANSPORT, in one place ────────────────────
+     Standards split them by rate and nothing else: wow is the slow drift,
+     0.5-6 Hz, from uneven capstan rotation and reel tension; flutter is the
+     fast wobble, 6-100 Hz, from tape scraping across the heads
+     [corpus:reflectiveobserver; corpus:wikipedia Wow and flutter measurement].
+     0.7 and 7.4 Hz are the two rates the Mellotron voice already used for the
+     same two faults, so the three machines that run on TAPE -- the Mellotron,
+     the Rhodes and the Wurlitzer -- now wobble at the same speeds instead of
+     each carrying its own literal. The wave-sequence voice keeps its own
+     0.5 Hz: that one is standing in for a games console's clock, not a
+     transport, and it is a different fault with the same shape.
+     docs/genre-research/lofi-noise.md §3 */
+  const TAPE_WOW_HZ = 0.7, TAPE_FLUTTER_HZ = 7.4;
   const LEVEL = {
     kick: 0.72, snare: 0.62, hat: 0.44, openhat: 0.34, ghost: 0.62, // ghost is a snare; quiet comes from velocity
     bass: 0.26, keys: 0.15, lead: 0.28, counter: 0.16,
@@ -4283,8 +4334,26 @@ registerProcessor("mk2-room", MK2Room);
   function buildGraph(c, rng, fdnReady){
     const g = { ctx: c, fdnReady: !!fdnReady };
     g.bus = {};
-    for(const name of ["drums","bass","keys","lead"]){
-      g.bus[name] = c.createGain(); g.bus[name].gain.value = 1;
+    /* DERIVED FROM THE GRID, not listed. This was the four names typed out,
+       and the list and MATRIX.ins had to agree by hand -- a row added to one
+       and not the other is a crossing wired to nothing. Every input that is
+       not an effect return IS a bus, which is the definition, so read it. */
+    /* ── AND EACH BUS GETS A DUCKER, BUILT WHETHER OR NOT ANYONE USES IT ─────
+       One gain per bus, sitting between the bus and everything downstream of
+       it -- so it is a CHANNEL INSERT, in front of the fader and in front of
+       the sends, which is where a compressor goes on a desk. At gain 1 it is
+       not there: the render A/B says byte-identical.
+
+       Built unconditionally because buildGraph fixes the TOPOLOGY and setSpace
+       sets the NUMBERS, which is the rule the kick and the drum bus already
+       follow. A genre that declares no `space.duck` gets a row of gains at 1
+       and the record it always had. */
+    g.duckOf = {};
+    for(const i of MATRIX.ins){
+      if(i.ret) continue;
+      g.bus[i.k] = c.createGain(); g.bus[i.k].gain.value = 1;
+      g.duckOf[i.k] = c.createGain(); g.duckOf[i.k].gain.value = 1;
+      g.bus[i.k].connect(g.duckOf[i.k]);
     }
     g.mix = c.createGain(); g.mix.gain.value = 1;
     /* ── THE MATRIX'S CROSSINGS live in `g.route`, keyed input+Output. Every
@@ -4935,7 +5004,11 @@ registerProcessor("mk2-room", MK2Room);
       k === "flange" ? g.flangeOut :      // the flanger's return
       k === "dp4" ? g.dp4Out :            // the DP/4's four units, summed
       k === "barber" ? g.barberOut :      // the pole's return
-      g.bus[k];                           // ...and every role bus. ADD ROWS HERE.
+      /* ...and every role bus, TAPPED PAST ITS DUCKER. The insert is ahead of
+         the fader and ahead of the sends, so what a row sends is what the row
+         sounds like -- a ducked bass has to arrive at the reverb ducked, or
+         the reverb fills back in the hole the kick just made. */
+      (g.duckOf && g.duckOf[k]) || g.bus[k];        // ADD ROWS HERE.
     const matrixDest = (outK, inK) =>
       outK === "Echo" ? g.echoSend :
       outK === "Room" ? g.send :
@@ -5316,11 +5389,22 @@ registerProcessor("mk2-room", MK2Room);
     src.loopEnd = zend / EPIANO.rate;
     /* the wow rides playbackRate here. The chart draws a per-song depth; the
        knob scales it, so a genre that wants none still gets none. */
-    const wowAmt = (ev.wow || 0) * (P(g, ev, "rhodes", "wow", 0.0020) / 0.0020);
+    const wowKnob = P(g, ev, "rhodes", "wow", 0.0020) / 0.0020;
+    const wowAmt = (ev.wow || 0) * wowKnob;
     if(wowAmt > 0){
-      const lfo = osc(c, "sine", 0.7, t, t + ev.durSec + 1.5), wg = c.createGain();
+      const lfo = osc(c, "sine", TAPE_WOW_HZ, t, t + ev.durSec + 1.5), wg = c.createGain();
       wg.gain.value = src.playbackRate.value * wowAmt;
       lfo.connect(wg); wg.connect(src.playbackRate);
+    }
+    /* and the FAST one, from the same transport and under the same knob: wow is
+       0.5-6 Hz and flutter is 6-100 Hz, two different mechanical faults
+       [corpus:reflectiveobserver]. 7.4 Hz is the rate the Mellotron already
+       uses for the same fault, so the file has one answer and not two. */
+    const flutAmt = (ev.flutter || 0) * wowKnob;
+    if(flutAmt > 0){
+      const lfo = osc(c, "sine", TAPE_FLUTTER_HZ, t, t + ev.durSec + 1.5), fg = c.createGain();
+      fg.gain.value = src.playbackRate.value * flutAmt;
+      lfo.connect(fg); fg.connect(src.playbackRate);
     }
     const gn = c.createGain();
     const hi = midi > 60 ? Math.exp(0.01 * (60 - midi)) : 1;   // high notes quieter
@@ -5381,14 +5465,21 @@ registerProcessor("mk2-room", MK2Room);
     const tGain = c.createGain(); car2.connect(tGain); tGain.connect(out);
     tGain.gain.setValueAtTime(0.34 * (0.3 + 0.7 * ev.gain), t);
     tGain.gain.exponentialRampToValueAtTime(0.0002, t + 0.22);
-    /* the tape wow: a slow drift (~0.7 Hz) on the body carrier, depth drawn per
-       song by the chart -- pitch instability is half the lofi patina [EAR] */
+    /* the tape wow: a slow drift on the body carrier, depth drawn per song by
+       the chart -- pitch instability is half the lofi patina [EAR] */
     const nodes = [car, mod, car2, mod2];
     if(ev.wow){
-      const wowLfo = osc(c, "sine", 0.7, t, end), wg = c.createGain();
+      const wowLfo = osc(c, "sine", TAPE_WOW_HZ, t, end), wg = c.createGain();
       wg.gain.value = f * ev.wow;
       wowLfo.connect(wg); wg.connect(car.frequency); wg.connect(car2.frequency);
       nodes.push(wowLfo);
+    }
+    /* ...and the fast one, the other half of the same transport's fault */
+    if(ev.flutter){
+      const flLfo = osc(c, "sine", TAPE_FLUTTER_HZ, t, end), fg = c.createGain();
+      fg.gain.value = f * ev.flutter;
+      flLfo.connect(fg); fg.connect(car.frequency); fg.connect(car2.frequency);
+      nodes.push(flLfo);
     }
     /* ── WURLITZER TREMOLO — A TREMOLO SCALES THE NOTE, IT DOES NOT ADD TO IT ──
        Reported by ear: "the pulsing sound is very heavy." It was, and the cause
@@ -6668,9 +6759,9 @@ registerProcessor("mk2-room", MK2Room);
     }
     /* WOW is slow and FLUTTER is fast -- two different mechanical faults, and a
        Mellotron has both. They ride the playback pitch of every partial. */
-    const w = c.createOscillator(); w.type = "sine"; w.frequency.value = 0.7;
+    const w = c.createOscillator(); w.type = "sine"; w.frequency.value = TAPE_WOW_HZ;
     const wg = c.createGain(); wg.gain.value = f * wow;
-    const fl = c.createOscillator(); fl.type = "sine"; fl.frequency.value = 7.4;
+    const fl = c.createOscillator(); fl.type = "sine"; fl.frequency.value = TAPE_FLUTTER_HZ;
     const fg = c.createGain(); fg.gain.value = f * 0.0016 * flut;
     w.connect(wg); fl.connect(fg);
     for(const o of made){ wg.connect(o.frequency); fg.connect(o.frequency); }
@@ -7443,18 +7534,53 @@ registerProcessor("mk2-room", MK2Room);
     shine.connect(sb); sb.connect(sg); sg.connect(drumOut(g, ev.lane));
     return [body, shine];
   };
-  /* tape — the vinyl bed. Sparse seeded impulses through a bandpass, sitting far
-     under the band (the event's gain arrives ~0.006-0.014). It is an EVENT like any
-     note, so live and render carry the identical patina [EAR: depth, or off]. */
+  /* ── THE MEDIUM: the record's crackle and the tape's hiss ─────────────────
+     Two textures, one event, because they are the same thing structurally --
+     the noise the music arrives WRAPPED IN, present from the first sample to
+     the last whether anyone is playing or not. It is an EVENT like any note,
+     so live and render carry the identical patina.
+
+     WHERE IT GOES: `g.bus.vinyl`, its own channel. It used to ride the KEYS
+     bus, which meant closing the keyboard fader silenced the record itself
+     (measured: 0.000083 open, 0.000000 shut). See MATRIX.ins.
+
+     HOW LOUD THE CRACKLE IS, and why it went up 17 dB at `2026-08-04c`:
+     a vinyl disc's noise sits 55-60 dB under the loudest thing it can play
+     [corpus:hifiauditions], and quality pressings give 55-70 dB of usable
+     range [corpus:headphonesty]. This record peaks at -2.5 dBFS, so that band
+     is -57.5 to -62.5 dBFS. The one real measurement of an actual groove puts
+     it at -48 dB with everything below 100 Hz dominating [corpus:diamondcut],
+     and THIS crackle is the fizzy part only -- bandpassed at 3.4 kHz, per
+     "low-cut to remove frequencies up to 2 kHz, leaving only the fizzy pops"
+     [corpus:musicradar]. So it belongs just under that band, near -65 dBFS.
+     It was measured at -81.6. Every source also says a little goes a long way,
+     which is the argument for the quiet end. docs/genre-research/lofi-noise.md
+
+     THE HISS is the other medium and arrives quieter still: a cheap ferric
+     cassette without Dolby runs somewhere around 50-55 dB down [derived in
+     that sheet from corpus:handwiki and corpus:soundonsound], but a record and
+     a tape stacked would double-count, and the crackle is the genre's
+     signature rather than the hiss. It sits UNDER the crackle on purpose.
+     Highpassed at 2 kHz because hiss is the top of the noise, not the bottom
+     -- the rumble belongs to the groove. [EAR: the balance between the two] */
   V.tape = function(g, ev, t){
     const c = g.ctx;
+    const made = [];
     const src = c.createBufferSource(); src.buffer = g.vinyl;
     src.loop = true; src.loopStart = 0; src.loopEnd = g.vinylLoop;
     const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 3400; bp.Q.value = 0.35;
     const gn = c.createGain(); gn.gain.value = ev.gain;
-    src.connect(bp); bp.connect(gn); gn.connect(g.bus.keys);   // rides the keys bus into the space
-    src.start(t); src.stop(t + ev.durSec);
-    return [src];
+    src.connect(bp); bp.connect(gn); gn.connect(g.bus.vinyl);
+    src.start(t); src.stop(t + ev.durSec); made.push(src);
+    if(ev.hiss > 0){
+      const hs = c.createBufferSource(); hs.buffer = g.noise; hs.loop = true;
+      const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 2000;
+      const lp = c.createBiquadFilter(); lp.type = "lowpass";  lp.frequency.value = 9000;
+      const hg = c.createGain(); hg.gain.value = ev.hiss;
+      hs.connect(hp); hp.connect(lp); lp.connect(hg); hg.connect(g.bus.vinyl);
+      hs.start(t); hs.stop(t + ev.durSec); made.push(hs);
+    }
+    return made;
   };
 
   V.openhat = function(g, ev, t){
@@ -7752,9 +7878,65 @@ registerProcessor("mk2-room", MK2Room);
      not care). Live feeds the same dispatch through a rolling window, because a
      WebAudio graph pays for every node it holds on every render quantum -- creating
      a whole song's five thousand nodes up front is a dropped-frame machine. ── */
+  /* ── WHAT THE KICK DOES TO EVERYTHING ELSE ────────────────────────────────
+     A compressor listening to the kick, written as the envelope that listening
+     would produce. It has to be an envelope rather than a real detector for
+     the reason every other decision in this file goes the same way: the render
+     has to be repeatable to the sample, and a level detector reading its own
+     output is not.
+
+     ── STRAIGHT RAMPS, SO THE DECLARED DEPTH IS THE DEPTH ───────────────────
+     Anchor the value, ramp down, ramp back. The alternative -- two chained
+     `setTargetAtTime` calls, which is the truer model of a compressor -- was
+     built and tested first and works fine, but an exponential approach only
+     gets ~95% of the way in three time constants, so asking for 6 dB gave
+     5.6 dB. Straight ramps land on 0.5001 when the table says 0.5. A number in
+     a genre table should mean what it says.
+
+     The anchor is the one catch, and the reason `last` exists. Anchoring at 1
+     is right when the previous duck has finished and a STEP -- an audible
+     click -- when it has not. Since the envelope is two straight lines, where
+     it had got to is exact arithmetic, so a kick arriving early starts from
+     the value the last one left rather than from unity.
+
+     ── AND A NOTE ABOUT HOW THIS WAS NEARLY GOT WRONG ────────────────────────
+     The first measurement of this said the duck fired on every OTHER kick and
+     then died out -- 4 working ducks out of 46 -- and the shape of that result
+     was convincing enough to rewrite the mechanism over. It was the MEASURING
+     SCRIPT: `renderWav` returns a STEREO wav, and the script read the
+     interleaved samples as if they were mono, so its clock ran at half speed
+     and its search window landed in the gap between kicks every other time.
+     The program was correct throughout. Written down because "when a
+     measurement surprises you, suspect the measurement first" is a law in this
+     repo and it took three wrong theories to remember it. */
+  function duckHit(g, t){
+    const d = g.duck;
+    /* kick events reach dispatch in time order, offline and live alike. The
+       guard is here because the cancel below would otherwise delete a duck
+       already written for a LATER kick, and a silent partial duck is worse
+       than none. */
+    if(d.last != null && t < d.last) return;
+    let v0 = 1;
+    if(d.last != null){
+      const dt = t - d.last;
+      v0 = dt < d.attack
+        ? 1 - d.depth * (dt / d.attack)                               // still falling
+        : Math.min(1, (1 - d.depth) + d.depth * ((dt - d.attack) / d.release));
+    }
+    d.last = t;
+    for(const n of d.nodes){
+      n.gain.cancelScheduledValues(t);
+      n.gain.setValueAtTime(v0, t);
+      n.gain.linearRampToValueAtTime(1 - d.depth, t + d.attack);
+      n.gain.linearRampToValueAtTime(1, t + d.attack + d.release);
+    }
+  }
   function dispatch(graph, ev, at, alive){
     const voice = V[ev.voice];
     if(!voice) throw new Error("unknown voice: " + ev.voice);   // fail loud, never substitute
+    /* THE TRIGGER LIVES HERE, in the one scheduler, so live and offline duck
+       identically (Law 10) and no voice has to know a ducker exists. */
+    if(graph.duck && ev.lane === graph.duck.lane) duckHit(graph, at);
     /* a phrase-rendering voice renders the whole breath at its opening event;
        the members are already inside that render and dispatch only once */
     if(ev.inPhrase && voice.phrases) return [];
@@ -8065,6 +8247,46 @@ registerProcessor("mk2-room", MK2Room);
        of the wash, which is right for every genre built so far and wrong for a
        score in which nothing is dry. */
     if(g.sendHp) g.sendHp.frequency.value = space.sendHp != null ? space.sendHp : 200;
+    /* ── THE KICK DUCK, set per song ─────────────────────────────────────────
+       Every source that mentions it treats ducking as standard for this genre,
+       and they disagree about how hard: "a more brutal form of sidechain
+       compression, as it's part of the aesthetic" [corpus:edmprod] against
+       "gentle compression and sidechain to glue drums and samples WITHOUT
+       PUMPING" [corpus:melodigging]. The hip-hop-specific source breaks the
+       tie and it breaks it toward gentle: "heavy-handed pumping is generally
+       undesirable in hip-hop... a fast attack of 2-5 ms and a short release of
+       40-80 ms on the bass, triggered by the kick, creates a BARELY AUDIBLE
+       duck that improves perceived punch and separation"
+       [corpus:musicproductionwiki], and 2-3 dB of gain reduction is where two
+       further sources say to start [corpus:mastering.com; corpus:edmprod].
+       So the amount is small by decision, not by timidity.
+       docs/genre-research/lofi-noise.md §4
+
+       EVERY BUS IS RESET FIRST, unconditionally, because one graph plays every
+       genre in turn: a duck left on from the last song is the same class of bug
+       as a panel wearing the previous genre's numbers. */
+    if(g.duckOf){
+      for(const k in g.duckOf){
+        const p = g.duckOf[k].gain;
+        try { p.cancelScheduledValues(t0); } catch(e){}
+        p.value = 1;
+      }
+      const dk = space.duck;
+      g.duck = (dk && dk.depth > 0) ? {
+        lane:    dk.on != null ? dk.on : "kick",
+        depth:   Math.max(0, Math.min(0.95, dk.depth)),
+        attack:  Math.max(0.001, dk.attack  != null ? dk.attack  : 0.004),
+        release: Math.max(0.005, dk.release != null ? dk.release : 0.065),
+        /* an unknown row name is a typo, and a typo that silently ducks
+           nothing is the knob-that-does-nothing defect wearing a table */
+        nodes: (dk.rows || []).map(k => {
+          if(!g.duckOf[k]) throw new Error("space.duck names no such bus: " + k);
+          return g.duckOf[k];
+        }),
+        last: null,                          // where the envelope had got to; see duckHit
+      } : null;
+      if(g.duck && !g.duck.nodes.length) g.duck = null;
+    }
     /* WHO feeds it: the MATRIX. Each route's base is the song's own
        declaration -- keys and lead always breathe, `space.feeds` adds the
        rhythm section, `space.echoFeeds` picks the echo's sources -- read off
@@ -8590,7 +8812,15 @@ const GENRE = {
     modes:    [["minor", 5], ["dorian", 4], ["major", 2]],
     rig:      [["band", 7], ["sega", 3]],                // [EAR]
     keysChar: [["rhodes", 6], ["wurly", 4]],             // the soulful pick [EAR]
-    tape:     { wow: [0.0012, 0.0018], crackle: [0.006, 0.008] },   // the patina [EAR]
+    /* THE MEDIUM. crackle went 0.006->0.040 at `2026-08-04c` (+16.7 dB) because
+       it measured 81.6 dB below full scale where a real record's noise sits
+       55-60 dB below its own peak; the derivation is in V.tape and the sheet.
+       flutter is the fast wobble to go with the slow drift, kept at the
+       audibility floor -- 0.0006-0.0016 is 0.06-0.16% of the pitch, and the
+       best cassette decks manage 0.08% weighted, "still audible under some
+       conditions" [corpus:lindos]. hiss sits under the crackle on purpose. */
+    tape:     { wow: [0.0012, 0.0018], crackle: [0.040, 0.055],
+                flutter: [0.0006, 0.0010], hiss: [0.00045, 0.00040] },  // [EAR]
 
     /* ── stage 2: form. Weights are measured; the rule of three is enforced by
        stage 2 itself and is not a genre choice. [corpus:harvest_structure] ── */
@@ -8833,7 +9063,24 @@ const GENRE = {
              /* the kit's image: hats to the right, rim and clap answering
                 left, cymbals straddling, kick and snare dead centre per the
                 mono rule. A dusty spread, not a drum showcase. [EAR] */
-             kitPan: { h: 0.22, o: 0.28, r: -0.20, c: -0.16, a: -0.30, d: 0.32, t: -0.12, m: 0.12 } },                                                            // [EAR]
+             kitPan: { h: 0.22, o: 0.28, r: -0.20, c: -0.16, a: -0.30, d: 0.32, t: -0.12, m: 0.12 },  // [EAR]
+             /* ── EVERYTHING SUSTAINED STEPS ASIDE FOR THE KICK ──────────────
+                0.25 is 2.5 dB, the middle of the 2-3 dB two sources give as
+                the place to start; 4 ms and 65 ms are the middles of the
+                2-5 ms and 40-80 ms the hip-hop source gives. Nothing here is
+                mine except the choice of which parts duck.
+
+                WHICH PARTS: the bass, because that is the pairing every source
+                names; the chords, because in this genre they are the thing
+                actually in the kick's way (the density here is SUSTAIN, not
+                onsets -- 8.7 of the 10.3 notes ringing at any instant are held
+                pitched material); and the record surface, because ducking the
+                noise bed against the drums is a named move in its own right
+                [corpus:musicradar on layering noise] and the crackle just got
+                17 dB louder. The drums are not in the list -- a kick that
+                ducked itself would be a compressor, not a sidechain. */
+             duck: { on: "kick", depth: 0.25, attack: 0.004, release: 0.065,
+                     rows: ["bass", "keys", "vinyl"] } },
     /* the kit's own character. Tuned HIGH, short, soft and barely driven -- a
        muffled boom-bap kick, not a club kick. [corpus: Improv Machine BETA 0.1,
        KICK_BY_GENRE.lofi] */
@@ -9043,6 +9290,22 @@ const GENRE = {
            amounts mine, deliberately a fraction of plastikman's. [EAR] */
         leadMix:  [{ kind: "section", by: { outro: [-0.30, -0.14], intro: [-0.18, -0.06] } },
                    { kind: "lfo", bars: [[56, 2], [40, 1]], depth: [0.03, 0.08],
+                     shape: "sin", freePhase: true }],
+        /* ── THE RECORD SURFACE, PULLED BACK WHEN THE BAND IS THICK ──────────
+           The one concrete instruction anybody gives about a noise layer is to
+           "use volume automation to push up the level of noise layers during
+           sparser breakdown and edit sections for more impact"
+           [corpus:musicradar]. This is that gesture written the only way the
+           control can express it: the fader's top IS its default, so instead
+           of lifting the crackle in the thin sections it steps DOWN in the
+           thick ones. Same result -- the surface is most present in the intro,
+           the bridge and the outro, and recedes once everyone is playing --
+           and it is roughly what masking does anyway.
+           Small on purpose: this is the medium, not an instrument, and it
+           should never sound like somebody riding a fader. [EAR] */
+        vinylMix: [{ kind: "section", by: { verse: [-0.20, -0.09], chorus: [-0.32, -0.15],
+                                            instrumental: [-0.16, -0.07] } },
+                   { kind: "lfo", bars: [[64, 2], [44, 1]], depth: [0.02, 0.05],
                      shape: "sin", freePhase: true }],
       },
       /* ── THE KIT HAS TEN VOICES AND THIS GENRE MOVED TWO KNOBS ─────────────
@@ -9442,7 +9705,12 @@ const GENRE = {
     modes:    [["minor", 7], ["major", 3], ["dorian", 1]],          // [EAR]
     rig:      [["neon", 1]],                              // its own band, always
     keysChar: [["rhodes", 1]],                            // unused: the neon rig sends keys to cs80
-    tape:     { wow: [0.0006, 0.0010], crackle: [0.0008, 0.0015] }, // VHS warble, not vinyl [EAR]
+    /* VHS warble, not vinyl [EAR]. flutter and hiss are declared and OFF: a
+       videotape has both, and turning them on would move every synthwave song,
+       which is a decision for whoever is listening to this genre rather than a
+       side effect of a lofi task. Named in BACKLOG §6b as a candidate. */
+    tape:     { wow: [0.0006, 0.0010], crackle: [0.0008, 0.0015],
+                flutter: [0, 0], hiss: [0, 0] },
 
     form: {
       /* ── THIS GENRE HAS A PRE-CHORUS AND A POST-CHORUS, AND THAT IS THE POINT ──
@@ -10172,7 +10440,8 @@ const GENRE = {
        A/B: the notes are identical either way and the seam battery proves it. */
     rig:      [["sega", 7], ["band", 3]],
     keysChar: [["rhodes", 1]],
-    tape:     { wow: [0, 0], crackle: [0, 0] },       // a cartridge has no tape
+    tape:     { wow: [0, 0], crackle: [0, 0],         // a cartridge has no tape
+                flutter: [0, 0], hiss: [0, 0] },      // ...and no tape has no wobble
 
     form: {
       lengths:  { intro: 8, verse: 8, chorus: 8, bridge: 8, instrumental: 8, outro: 8 },
@@ -10634,7 +10903,8 @@ const GENRE = {
     keysChar: [["rhodes", 1]],               // dead draw: the nemo rig sends keys to the VP-330
     /* not vinyl -- a Lyrec 24-track hand-synced to VHS. Slow drift, faint room,
        no surface noise. [corpus:nemostudios br03] */
-    tape: { wow: [0.0010, 0.0014], crackle: [0.0030, 0.0020] },
+    tape: { wow: [0.0010, 0.0014], crackle: [0.0030, 0.0020],
+            flutter: [0, 0], hiss: [0, 0] },   // a 24-track runs true; the drift is all it has
 
     form: {
       lengths:  { intro: 8, verse: 8, chorus: 8, bridge: 8, instrumental: 8, outro: 8 },
@@ -11156,7 +11426,8 @@ const GENRE = {
     modes: [["minor", 6], ["phrygian", 3], ["dorian", 1], ["major", 0]],
     rig: [["box", 1]],
     keysChar: [["rhodes", 1]],               // dead draw; there is no e-piano here
-    tape: { wow: [0.0002, 0.0003], crackle: [0.0015, 0.0015] },  // Trax pressings [EAR]
+    tape: { wow: [0.0002, 0.0003], crackle: [0.0015, 0.0015],    // Trax pressings [EAR]
+            flutter: [0, 0], hiss: [0, 0] },
 
     form: {
       /* ── THIS GENRE DOES NOT VARY ITS NOTES, AND THAT IS THE DECISION ──────
@@ -11604,7 +11875,8 @@ const GENRE = {
        so this widens the record without touching the composition. */
     rig: [["plastik", 7], ["ae", 3]],
     keysChar: [["rhodes", 1]],               // dead draw; the plastik rig sends keys to the wash
-    tape: { wow: [0, 0], crackle: [0, 0] },  // no tape patina [EAR]
+    tape: { wow: [0, 0], crackle: [0, 0],    // no tape patina [EAR]
+            flutter: [0, 0], hiss: [0, 0] },
 
     form: {
       /* ── THIS GENRE DOES NOT VARY ITS NOTES, AND THAT IS THE DECISION ──────
@@ -12785,7 +13057,8 @@ const GENRE = {
     modes: [["minor", 6], ["phrygian", 3], ["dorian", 1]],
     rig: [["jungle", 1]],
     keysChar: [["rhodes", 1]],               // dead draw; the rig sends keys to the wash
-    tape: { wow: [0.0004, 0.0006], crackle: [0.0020, 0.0018] },
+    tape: { wow: [0.0004, 0.0006], crackle: [0.0020, 0.0018],
+            flutter: [0, 0], hiss: [0, 0] },
 
     form: {
       lengths:  { intro: 16, verse: 32, chorus: 32, bridge: 16, instrumental: 32, outro: 16 },
@@ -13243,6 +13516,11 @@ const BLEND_DRAW = new Set([
      damage surfaces wherever the next draw happened to matter.
      A new effect column means a new line here. */
   "space.flangeFeeds", "space.dp4Feeds", "space.barberFeeds",
+  /* the duck arrives whole or not at all: it holds a LIST OF BUS NAMES beside
+     its numbers, and averaging one genre's depth onto another genre's row list
+     makes a setting neither genre asked for -- the same reason `registers` and
+     the roles map are drawn rather than mixed. */
+  "space.duck",
 ]);
 /* fields that must come from the SAME genre or the builder runs on another
    instrument's numbers */
@@ -13503,9 +13781,19 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins){
        exactly the same footing as picks, never an override applied later */
     pins: freezePins(pins),
     keysChar: wpick(rng, G.keysChar),
+    /* THE MEDIUM, drawn per song. Four draws, and all four fire for every
+       genre whether or not that genre wants the effect (Law 3) -- a cartridge
+       declares [0,0] and still spends its two numbers, which is what keeps
+       adding `flutter` and `hiss` here from moving a single note anywhere
+       else. WOW is the slow drift (0.5-6 Hz) and FLUTTER is the fast wobble
+       (6-100 Hz); they are two different mechanical faults and the sources
+       separate them by rate [corpus:reflectiveobserver; corpus:wikipedia wow
+       and flutter measurement]. docs/genre-research/lofi-noise.md §3 */
     tape: Object.freeze({
       wow:     G.tape.wow[0]     + rng() * G.tape.wow[1],
       crackle: G.tape.crackle[0] + rng() * G.tape.crackle[1],
+      flutter: G.tape.flutter[0] + rng() * G.tape.flutter[1],
+      hiss:    G.tape.hiss[0]    + rng() * G.tape.hiss[1],
     }),
   };
   return Object.freeze(chart);
@@ -16717,7 +17005,8 @@ function makePerformance(chart, form, materials, sections){
      song go through the same scheduler on the same graph (Law 10) */
   const totalSec = form.nBars * 16 * spb;
   events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "tape",
-                              role: "tape", gain: chart.tape.crackle }));
+                              role: "tape", gain: chart.tape.crackle,
+                              hiss: chart.tape.hiss }));
 
   for(const sec of sections){
     const mat = materials[sec.material];
@@ -16871,7 +17160,22 @@ function makePerformance(chart, form, materials, sections){
             voice,
             role, lane: n.lane || role, gain,
           };
-          if(role === "keys"){ ev.timbre = chart.keysChar; ev.wow = chart.tape.wow; }
+          if(role === "keys"){ ev.timbre = chart.keysChar; }
+          /* ── THE TAPE WOBBLE REACHES BOTH KEYBOARDS ─────────────────────────
+             This used to be `role === "keys"` only, so the SECOND keyboard --
+             the one that holds chords underneath everything -- never drifted.
+             It is the part the sources single out: wow and flutter are "much
+             more noticeable on sustained sounds like pads or leads. Even
+             subtle settings with slow modulation can give these sources just
+             enough shimmering motion" [corpus:landr]. And it holds the longest
+             notes in lofi by a distance, 2.53 seconds against 1.54.
+             The drift belongs to the TAPE, not to one player, so anything that
+             sustains should have it. Bass, lead and the repeating figure are
+             left out for now and named in BACKLOG §6b, because widening it
+             further moves six other genres. */
+          if(role === "keys" || role === "keys2"){
+            ev.wow = chart.tape.wow; ev.flutter = chart.tape.flutter;
+          }
           /* THE RIBBON, if this genre plays one -- and it is a HAND, which is
              why it lives in the performance stage rather than on a panel.
 
