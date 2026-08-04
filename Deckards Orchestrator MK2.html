@@ -811,7 +811,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04h · the roll: the notes, on the glass</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04i · the tune is played on a Rhodes</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -5571,6 +5571,49 @@ registerProcessor("mk2-room", MK2Room);
     return pan;
   }
 
+  /* ── WHICH CHANNEL A KEYBOARD NOTE BELONGS ON ─────────────────────────────
+     The two electric pianos were hard-wired to the `keys` bus and `LEVEL.keys`,
+     which was true for as long as only the keys lane pointed at them. The
+     moment a genre can hand its TUNE to a Rhodes that stops being true, and a
+     mixer that lies is worse than no mixer: the fader marked "lead" would move
+     nothing and the fader marked "keys" would move the melody.
+
+     There is no `counter` bus -- the second melody has always ridden the lead
+     channel, which is what `V.lead` itself does -- so the bus is lead or keys
+     and the LEVEL is the role's own. Derived from the note, so no voice needs
+     to know which lane it was hired for. */
+  const kbdBus = ev => (ev.role === "lead" || ev.role === "counter") ? "lead" : "keys";
+  const kbdLevel = ev => (LEVEL[ev.role] != null ? LEVEL[ev.role] : LEVEL.keys);
+  /* AND THE TWO PATHS ARE NOT THE SAME LOUDNESS PER UNIT OF `LEVEL`, so the
+     tune would change volume when it changed instrument. MEASURED rather than
+     reasoned about, and the experiment is the point: instead of stashing the
+     change and rendering two FILES, the same build renders the same events
+     twice with `ev.timbre` forced to "synth" on one pass. That compares two
+     INSTRUMENTS rather than two commits, which is the actual question.
+
+     lofi, band-rig seeds, lead and counter events only, against the house
+     lead they replace:
+
+       seed  1  wurly    rms 0.595x   peak 0.745x
+       seed  2  rhodes   rms 0.996x   peak 0.960x
+       seed  5  wurly    rms 0.847x   peak 0.840x
+       seed  7  rhodes   rms 0.728x   peak 0.714x
+
+     Mean 0.79x on RMS and 0.82x on peak -- the tune arrives about 2 dB QUIETER
+     on an electric piano, which is the opposite of what the arithmetic
+     suggested and the reason this is measured. 1.25 puts it back.
+
+     ONE NUMBER FOR BOTH INSTRUMENTS. The Rhodes reads -1.4 dB and the
+     Wurlitzer -2.4 dB, and with two seeds each that difference is not
+     something this data can separate; two constants would be a precision the
+     measurement does not have. If a later pass with more seeds separates
+     them, split it then.
+
+     It applies ONLY where a keyboard is standing in for the house lead, so
+     every comp in every genre is untouched and every render that exists today
+     is identical. */
+  const LEAD_KBD_TRIM = 1.25;
+
   V.rhodes = function(g, ev, t){
     const c = g.ctx, midi = ev.pitch;
     /* BARK biases which velocity LAYER the sampler reaches for. That is the
@@ -5613,7 +5656,9 @@ registerProcessor("mk2-room", MK2Room);
     }
     const gn = c.createGain();
     const hi = midi > 60 ? Math.exp(0.01 * (60 - midi)) : 1;   // high notes quieter
-    const peak = LEVEL.keys * 2.4 * ev.gain * hi;              // 2.4: bank peak is 0.74, calibrated vs old voice
+    const BUS = kbdBus(ev);
+    const peak = kbdLevel(ev) * 2.4 * ev.gain * hi                 // 2.4: bank peak is 0.74, calibrated vs old voice
+               * (BUS === "lead" ? LEAD_KBD_TRIM : 1);
     /* dec = exp(-iFs * exp(-1 + 0.03*note - 2*param[0])) at the default patch,
        which is a per-sample multiplier for tau = e^(2 - 0.03*note) seconds. The
        source clamps note to >= 44 first, expressly "to limit max decay length". */
@@ -5627,11 +5672,11 @@ registerProcessor("mk2-room", MK2Room);
        and cost 40 dB of air. This is a control the player turns. */
     const tone = P(g, ev, "rhodes", "tone", 1);
     src.connect(gn);
-    if(tone >= 0.995) gn.connect(stereoOut(g, ev, t, "rhodes", "keys"));
+    if(tone >= 0.995) gn.connect(stereoOut(g, ev, t, "rhodes", BUS));
     else {
       const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = 0.6;
       lp.frequency.value = 700 * Math.pow(18000 / 700, tone);
-      gn.connect(lp); lp.connect(stereoOut(g, ev, t, "rhodes", "keys"));
+      gn.connect(lp); lp.connect(stereoOut(g, ev, t, "rhodes", BUS));
     }
     src.start(t, pos / EPIANO.rate);
     src.stop(t + ev.durSec + 0.5);
@@ -5649,7 +5694,8 @@ registerProcessor("mk2-room", MK2Room);
     const flt = c.createBiquadFilter(); flt.type = "lowpass"; flt.Q.value = 0.4;
     flt.frequency.setValueAtTime(2400 + 3600 * ev.gain, t);
     flt.frequency.exponentialRampToValueAtTime(1400 + 1600 * ev.gain, t + 0.30);
-    out.connect(flt); flt.connect(stereoOut(g, ev, t, "wurly", "keys"));
+    const BUS = kbdBus(ev);                       // the tune's Wurlitzer is on the lead channel
+    out.connect(flt); flt.connect(stereoOut(g, ev, t, "wurly", BUS));
     /* body pair */
     const car = osc(c, "sine", f, t, end);
     const mod = osc(c, "sine", f * (wurly ? 3.0 : 1.0), t, end);
@@ -5734,7 +5780,9 @@ registerProcessor("mk2-room", MK2Room);
       out.disconnect(); out.connect(tr); tr.connect(flt);
       nodes.push(lfo);
     }
-    adsr(c, out, t, LEVEL.keys * ev.gain / 1.34, 0.003, 0.15, 0.55, t + ev.durSec, 0.30);
+    adsr(c, out, t, kbdLevel(ev) * ev.gain / 1.34
+                    * (BUS === "lead" ? LEAD_KBD_TRIM : 1),
+         0.003, 0.15, 0.55, t + ev.durSec, 0.30);
     return nodes;
   };
 
@@ -6143,6 +6191,25 @@ registerProcessor("mk2-room", MK2Room);
   /* lead — triangle core, square color, saw air; slow vibrato so held notes
      live. Sum 1.46. */
   V.lead = function(g, ev, t){
+    /* ── THE GENRE'S OWN LEAD, WHEN IT NAMES ONE ────────────────────────────
+       Everything below this line is the house lead: three oscillators through
+       one filter with a vibrato fixed at 5.1 Hz. It played 72% of lofi's tune
+       and 100% of synthwave's and it is also `V.counter`. Three sources name
+       the lofi lead and not one names a synth; this program has owned a
+       sampled Rhodes with three velocity layers the whole time.
+       docs/genre-research/the-rhodes.md
+
+       THE RIG STILL DECIDES WHO IS IN THE ROOM. This dispatch is inside the
+       voice the `band` rig points at, so a lofi song drawn on the `sega` rig
+       never arrives here at all and still plays its chip lead. A rig is a
+       band; `leadChar` is what that band's lead player is holding.
+
+       `synth` means this body, which is what six of the seven genres declare,
+       so they are note-for-note and sample-for-sample what they were. The
+       identity guard is not paranoia: `V.counter === V.lead`, so a timbre of
+       "lead" or "counter" would call straight back into here forever. */
+    const T = ev.timbre;
+    if(T && T !== "synth" && V[T] && V[T] !== V.lead) return V[T](g, ev, t);
     const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 0.30;
     const out = c.createGain();
     const flt = c.createBiquadFilter(); flt.type = "lowpass"; flt.Q.value = 0.7;
@@ -9017,6 +9084,18 @@ const GENRE = {
     modes:    [["minor", 5], ["dorian", 4], ["major", 2]],
     rig:      [["band", 7], ["sega", 3]],                // [EAR]
     keysChar: [["rhodes", 6], ["wurly", 4]],             // the soulful pick [EAR]
+    /* ── AND THE TUNE IS PLAYED ON ONE TOO ────────────────────────────────
+       The same pair, drawn separately, so the melody may be on the Wurlitzer
+       while the comp is on the Rhodes -- two hands or two players, both real.
+       Three sources name this genre's lead and all three name a struck or
+       plucked instrument: "Rhodes piano is the standard choice"
+       [corpus:songer]; electric piano is "one of the most iconic instruments
+       in lo-fi" while synthesisers are listed for "soft pads, warm chords and
+       gentle arpeggios" [corpus:clarkaudio]; and where a synth appears it is
+       LAYERED UNDER a real instrument [corpus:nativeinstruments]. Not one of
+       them describes a sawtooth, which is what this genre's tune was.
+       docs/genre-research/the-rhodes.md */
+    leadChar: [["rhodes", 6], ["wurly", 4]],             // [three sources]
     /* THE MEDIUM. crackle went 0.006->0.040 at `2026-08-04c` (+16.7 dB) because
        it measured 81.6 dB below full scale where a real record's noise sits
        55-60 dB below its own peak; the derivation is in V.tape and the sheet.
@@ -9954,6 +10033,7 @@ const GENRE = {
     modes:    [["minor", 7], ["major", 3], ["dorian", 1]],          // [EAR]
     rig:      [["neon", 1]],                              // its own band, always
     keysChar: [["rhodes", 1]],                            // unused: the neon rig sends keys to cs80
+    leadChar: [["synth", 1]],                // the neon rig's lead IS the synth; unchanged
     /* VHS warble, not vinyl [EAR]. flutter and hiss are declared and OFF: a
        videotape has both, and turning them on would move every synthwave song,
        which is a decision for whoever is listening to this genre rather than a
@@ -10689,6 +10769,8 @@ const GENRE = {
        A/B: the notes are identical either way and the seam battery proves it. */
     rig:      [["sega", 7], ["band", 3]],
     keysChar: [["rhodes", 1]],
+    leadChar: [["synth", 1]],                // unchanged: DKC's tune is chipLead 68% / V.lead 32%
+
     tape:     { wow: [0, 0], crackle: [0, 0],         // a cartridge has no tape
                 flutter: [0, 0], hiss: [0, 0] },      // ...and no tape has no wobble
 
@@ -11150,6 +11232,7 @@ const GENRE = {
             ["lydian", 1]],                  // [EAR]
     rig: [["nemo", 1]],
     keysChar: [["rhodes", 1]],               // dead draw: the nemo rig sends keys to the VP-330
+    leadChar: [["synth", 1]],                // dead draw: the nemo rig sends the tune to the CS-80
     /* not vinyl -- a Lyrec 24-track hand-synced to VHS. Slow drift, faint room,
        no surface noise. [corpus:nemostudios br03] */
     tape: { wow: [0.0010, 0.0014], crackle: [0.0030, 0.0020],
@@ -11675,6 +11758,7 @@ const GENRE = {
     modes: [["minor", 6], ["phrygian", 3], ["dorian", 1], ["major", 0]],
     rig: [["box", 1]],
     keysChar: [["rhodes", 1]],               // dead draw; there is no e-piano here
+    leadChar: [["synth", 1]],                // dead draw; the box rig sends the tune to the 303
     tape: { wow: [0.0002, 0.0003], crackle: [0.0015, 0.0015],    // Trax pressings [EAR]
             flutter: [0, 0], hiss: [0, 0] },
 
@@ -12124,6 +12208,7 @@ const GENRE = {
        so this widens the record without touching the composition. */
     rig: [["plastik", 7], ["ae", 3]],
     keysChar: [["rhodes", 1]],               // dead draw; the plastik rig sends keys to the wash
+    leadChar: [["synth", 1]],                // dead draw; this genre writes no lead at all
     tape: { wow: [0, 0], crackle: [0, 0],    // no tape patina [EAR]
             flutter: [0, 0], hiss: [0, 0] },
 
@@ -13306,6 +13391,7 @@ const GENRE = {
     modes: [["minor", 6], ["phrygian", 3], ["dorian", 1]],
     rig: [["jungle", 1]],
     keysChar: [["rhodes", 1]],               // dead draw; the rig sends keys to the wash
+    leadChar: [["synth", 1]],                // dead draw; this genre writes no lead at all
     tape: { wow: [0.0004, 0.0006], crackle: [0.0020, 0.0018],
             flutter: [0, 0], hiss: [0, 0] },
 
@@ -14061,6 +14147,20 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins){
        exactly the same footing as picks, never an override applied later */
     pins: freezePins(pins),
     keysChar: wpick(rng, G.keysChar),
+    /* ── WHAT THE LEAD PLAYER IS HOLDING ──────────────────────────────────
+       Beside `keysChar`, and for the same reason: a genre says what CHARACTER
+       its parts have, and the rig says who is in the room. The tune was the
+       one pitched part with no say in this -- the `band` rig pointed its lead
+       lane at `V.lead` and that was the end of it, so 72% of lofi's melody and
+       100% of synthwave's came out of the same three oscillators. Three
+       sources name the lofi lead and not one of them names a synth
+       (docs/genre-research/the-rhodes.md §5).
+
+       ON ITS OWN SUBSTREAM, NOT ON `rng`. Another `rng()` here would shift
+       every draw after it in makeChart and move every note in all seven
+       genres -- a change to the record hidden inside a change to the band.
+       Law 3 has named substreams for exactly this. */
+    leadChar: wpick(stream(seed, "leadchar"), G.leadChar),
     /* THE MEDIUM, drawn per song. Four draws, and all four fire for every
        genre whether or not that genre wants the effect (Law 3) -- a cartridge
        declares [0,0] and still spends its two numbers, which is what keeps
@@ -17556,6 +17656,10 @@ function makePerformance(chart, form, materials, sections){
             role, lane: n.lane || role, gain,
           };
           if(role === "keys"){ ev.timbre = chart.keysChar; }
+          /* ...and the tune carries its own, so `V.lead` can hand the note to
+             the instrument the genre named. The counter is the same player's
+             other line and gets the same instrument. */
+          if(role === "lead" || role === "counter"){ ev.timbre = chart.leadChar; }
           /* ── THE TAPE WOBBLE REACHES BOTH KEYBOARDS ─────────────────────────
              This used to be `role === "keys"` only, so the SECOND keyboard --
              the one that holds chords underneath everything -- never drifted.

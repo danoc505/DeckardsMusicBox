@@ -262,6 +262,52 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         rows.join("  "));
 }
 
+/* ── `leadChar` NAMES A VOICE THAT EXISTS, IN EVERY GENRE ──────────────────
+   `V.lead` dispatches on `ev.timbre`: a name that resolves to a voice hands the
+   note over, and anything else falls through to the house lead's own body. That
+   fall-through is deliberate -- it is what `"synth"` means, and it is what
+   keeps six genres byte-identical -- but it also means A TYPO IS SILENT. Write
+   `"rhodez"` and lofi goes back to the sawtooth for good, with no error, no red
+   check, and nothing on screen to say so. That is the exact shape of defect
+   this file keeps finding: a lookup that misses and degrades politely.
+
+   So: every genre must declare `leadChar`, and every value it can draw must be
+   either the literal `"synth"` or the name of a real voice. Derived from the
+   tables and from `voiceNames()`, so a voice renamed tomorrow fails here
+   tomorrow. */
+{
+  const bad = [], rows = [];
+  const voices = new Set(M.voiceNames());
+  for(const g of M.genres()){
+    const tbl = M.composeSong(1, "draw", g).chart.table;
+    const lc = tbl.leadChar;
+    if(!Array.isArray(lc) || !lc.length){ bad.push(`${g}: no leadChar`); continue; }
+    const names = lc.map(p => p[0]);
+    for(const n of names)
+      if(n !== "synth" && !voices.has(n)) bad.push(`${g}: leadChar "${n}" is not a voice`);
+    rows.push(`${g}[${names.join("/")}]`);
+  }
+  check("every genre says what its lead player is holding, and it exists",
+        bad.length === 0, bad.length ? bad.join(" | ") : rows.join(" "));
+}
+
+/* ...AND THE CHART ACTUALLY CARRIES IT. The draw is on its own substream
+   (`stream(seed, "leadchar")`) precisely so that adding it moved no note; the
+   cost of that is that nothing downstream would notice if the draw were
+   dropped, because every genre but one declares the value it already had. */
+{
+  const missing = [];
+  for(const g of M.genres()) for(const s of [1, 2, 3]){
+    const song = M.composeSong(s, "draw", g);
+    if(!song.chart.leadChar) missing.push(`${g}/${s}`);
+    const lead = song.perf.events.find(e => e.role === "lead" || e.role === "counter");
+    if(lead && lead.timbre !== song.chart.leadChar)
+      missing.push(`${g}/${s}: event says "${lead.timbre}", chart says "${song.chart.leadChar}"`);
+  }
+  check("...and every lead note carries it out of stage 5",
+        missing.length === 0, missing.slice(0, 3).join(" | "));
+}
+
 /* The three things reading the ROLL exposed that no audio measurement could.
    A second line that moves in parallel with the tune on every note is a
    harmoniser; a bridge with the verse's exact kit is not a departure; and
