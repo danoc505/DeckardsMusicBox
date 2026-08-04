@@ -203,6 +203,92 @@ first.
 
 ---
 
+## 7. WHAT WAS BUILT, AND WHAT IT MEASURES — `2026-08-04e`
+
+Item 1 and item 3 are done. Item 2, the chromatic approach note, is **not** —
+see §8.
+
+**The mechanism.** The bass's choices off the downbeat were `root`, `fifth` or
+`rest` and nothing else — that list *was* the whole vocabulary, which is why
+root and fifth were not a habit but a ceiling. It is now a genre table,
+`bassTones`, and it can also name the **third**, the **seventh**, and a
+**passing step**: one scale step from wherever the bass just was, toward the
+next chord's root. The direction is derived rather than drawn, so a genre that
+declares nothing takes no extra draw and keeps its bass note for note.
+
+**The tones come from the CHORD, not the scale**, so a chord that was given a
+quality at `2026-08-04d` is spelled correctly by the bass too — and whatever is
+in the chord is legal under it by construction, which is the same reasoning the
+old code used when it took the diatonic fifth instead of a blind +7 semitones.
+
+**Measured, 30 seeds a genre, before and after:**
+
+```
+                    the root   the third   the fifth   else    repeats itself
+  lofi   before       74.7%       2.7%       16.9%     5.6%        30.9%
+  lofi   after        57.0%      10.3%       18.3%    14.3%        14.2%
+
+                    moves by step      bars holding ONE pitch
+  lofi   before          28.8%                61%
+  lofi   after           38.6%                42%
+  Bach (§3)              64.6%                 —
+```
+
+Every other genre identical on every column.
+
+**AND THE CLAIM IN §6.4 HELD, which is the point of having made it.** This
+sheet predicted that the parallel fifths in `counterpoint-measured.md` are made
+by a bass that never leaves the root. Giving it somewhere else to be:
+
+```
+  lofi keys/bass parallels    8.97%  ->  5.56%     (39 of 435  ->  32 of 576)
+  lofi lead/bass parallels    2.04%  ->  1.30%
+```
+
+**A 38% cut, from the bass side, after the chord side produced nothing** — a
+cost on the chords' top line against the bass, with its weight raised four
+times over, moved lofi 8.97% → 8.28% and bladerunner not at all
+(`counterpoint-measured.md` §5b). The lockstep was the bass's to break.
+
+**Read off the notes**, seed 1, the bass row of material A:
+
+```
+  before   1-------..1-.... 4-------..1-..7- 1-------..1-..6- 5-------..5-..7-
+  after    1-------..5-.... 4-------..?-..7- 1-------..5-..6- 5-------..2-..7-
+```
+
+It restated the root in three of four bars and now moves in all four. The `?`
+in bar 2 is a note outside the key — A♯ under an F♯7, which is that chord's
+third. **That is the chord-quality work and this work composing**: the bass is
+spelling a borrowed dominant that did not exist in this program a day ago.
+
+**No law moved against us.** Notes outside the key 2.1% → 2.5% (the bass
+spelling those chords, which is the intent), dissonances that leap away instead
+of resolving 10.5% → 10.6%, a chord sounding below the bass 0.0% → 0.0%.
+
+---
+
+## 8. WHAT IS STILL NOT BUILT, AND ONE OF THEM IS BLOCKED
+
+- **The chromatic approach note is BLOCKED BY A SEAM CHECK**, and it is worth
+  knowing why before anybody tries. §2's most characteristic move is a
+  half-step above or below the NEXT chord's root, played on the last beat of
+  the current bar. That note belongs to the next chord and not to the one
+  sounding — and the seam check requires a note outside the key to be in *the
+  chord under it*, so it throws. The existing walk into the next chord takes a
+  SCALE step for exactly this reason. Making the chromatic version legal means
+  widening that law to know about the chord that is arriving, which is a real
+  decision about the law and not a tweak.
+- **Step motion is 38.6% against Bach's 64.6%.** Better, not solved. lofi's
+  bass has only two or three events in a bar (the pocket is shared with the
+  drums and the chords), so there is a ceiling here that is not in this
+  function.
+- **Five genres still have no bass research at all** — jungle, acid and
+  plastikman entirely; synthwave has tutorial sources only. dkc and bladerunner
+  are done and correct.
+
+---
+
 ## Sources
 
 - [How to Make Lofi Bass — Transmission Samples](https://www.transmissionsamples.com/how-to-make-lofi-bass)

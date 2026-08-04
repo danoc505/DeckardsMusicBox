@@ -722,7 +722,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04d · the chords learn what kind of chord they are, from 1170 real tunes</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04e · the bass stops sitting on the root, and the parallel fifths fall</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -9229,6 +9229,20 @@ const GENRE = {
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
     pressure: { depth: 0, amount: [0, 0], at: [0, 0], rise: [0, 0] },
     bassStyle: "follow",
+    /* ── AND WHAT IT MAY PLAY OFF THE DOWNBEAT ──────────────────────────────
+       The root is already forced on beat one, where it marks the chord change,
+       so the question here is only what happens AFTER it -- and repeating the
+       root there is the one thing no source asks for. MEASURED before this:
+       61% of lofi bars held a single pitch and 71.2% of the bass's moves were
+       leaps, against 35.4% for the one real bass line available to measure
+       (Bach, 382 chorales). Root and fifth stay the biggest share because
+       "sticking to the root and fifth" is a sourced habit of the genre
+       [corpus:transmissionsamples]; the third and the passing step are added
+       because three sources put a chord tone and a passing tone in exactly
+       these places [corpus:learnjazzstandards; corpus:jazzguitar.be;
+       corpus:yamaha]. The weights are [EAR] -- no source gives a distribution,
+       and docs/genre-research/bass.md §5 says so. */
+    bassTones: [["fifth", 3], ["root", 2], ["third", 2], ["step", 2], ["rest", 2]],
     bassPulse: null,
     /* a fingered boom-bap bass does accent the pocket and does occasionally
        slide into a chord tone, but it is not a sequencer and this is not an
@@ -15178,14 +15192,52 @@ function makeMaterials(chart){
       const ch = chordSet[b], next = chordSet[(b + 1) % BARS];
       notes.push({ bar: b, step: 0, dur: Math.min(8, pocket[1] || 8), pitch: ch.rootMidi, vel: 0.9, role: "bass" });
       if(rootsOnly) continue;                       // the bridge's bass just holds home-away roots
+      /* ── WHAT THE BASS MAY PLAY WHEN IT IS NOT ON THE DOWNBEAT ────────────
+         MEASURED, 30 seeds a genre: **61% of lofi bars contain ONE PITCH**, the
+         bass is 74.7% root and 16.9% fifth, and 71.2% of its moves are LEAPS
+         against Bach's 35.4%. The note CHOICE is defensible -- "many vintage
+         lofi tracks keep the bassline simple, often sticking to the root and
+         fifth" [corpus:transmissionsamples] -- but the list below was the whole
+         vocabulary, so root and fifth were not a habit, they were a ceiling.
+
+         Three sources agree on the shape a bass line has: the root on the
+         downbeat because it marks the chord change, a CHORD TONE on beat three,
+         an approach note into the next chord, and PASSING TONES on the weak
+         beats [corpus:learnjazzstandards; corpus:jazzguitar.be; corpus:yamaha].
+         The downbeat root is already forced above. This widens the rest.
+
+         `step` is the one that produces MOTION rather than more jumping: one
+         scale step from wherever the bass just was, toward the next chord's
+         root. It takes no draw of its own -- the direction is derived, not
+         diced -- which is what lets a genre that declares nothing here keep its
+         bass note for note.
+
+         THE TONES COME FROM THE CHORD, not from the scale, so a chord that has
+         been given a quality (`2026-08-04d`) is spelled correctly by the bass
+         too. The old code took the DIATONIC fifth rather than +7 semitones for
+         exactly this reason -- on dorian's diminished sixth a blind +7 leaves
+         the key, and the seam check caught it at seed 103. Reading `ch.tones`
+         is the same fix, generalised: whatever is in the chord is legal under
+         it by construction.
+         Research: docs/genre-research/bass.md */
+      const BT = G.bassTones || [["root", 5], ["fifth", 3], ["rest", 2]];
+      let prevPitch = ch.rootMidi;
       for(let i = 1; i < pocket.length; i++){
-        const choice = wpick(rng, [["root", 5], ["fifth", 3], ["rest", 2]]);
+        const choice = wpick(rng, BT);
         if(choice === "rest") continue;
-        // the DIATONIC fifth, not +7 semitones: on a diminished degree (dorian's vi)
-        // a blind +7 leaves the key -- the seam check caught it at seed 103
-        const pch = choice === "root" ? ch.rootMidi
-                  : intoBand(degMidi(root, mode, ch.degree + 4), R.bassWalk[0], R.bassWalk[1]);
+        const band = t => intoBand(t, R.bassWalk[0], R.bassWalk[1]);
+        let pch;
+        if(choice === "root") pch = ch.rootMidi;
+        else if(choice === "step"){
+          const dir = next.rootMidi === prevPitch ? -1 : (next.rootMidi > prevPitch ? 1 : -1);
+          pch = band(scaleStep(root, mode, prevPitch, dir));
+        } else {
+          const idx = choice === "third" ? 1 : choice === "seventh" ? 3 : 2;
+          const t = ch.tones[idx] != null ? ch.tones[idx] : ch.tones[2];
+          pch = band(t);
+        }
         notes.push({ bar: b, step: pocket[i], dur: 2, pitch: pch, vel: 0.72, role: "bass" });
+        prevPitch = pch;
       }
       /* w was hoisted for stream stability but the SECOND draw stayed inside the
          guard, so the hoist bought nothing: pinning the pocket to [0,10,14]
