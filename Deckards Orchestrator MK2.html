@@ -722,7 +722,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04e · the bass stops sitting on the root, and the parallel fifths fall</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04f · a note off the scale may now earn its place by where it goes next</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -9243,6 +9243,11 @@ const GENRE = {
        corpus:yamaha]. The weights are [EAR] -- no source gives a distribution,
        and docs/genre-research/bass.md §5 says so. */
     bassTones: [["fifth", 3], ["root", 2], ["third", 2], ["step", 2], ["rest", 2]],
+    /* and the walk into the next chord is a SEMITONE, not a scale step -- the
+       most characteristic move in a walking bass, and the reason the law had to
+       be widened to admit it. Three sources in bass.md §2 put it on the last
+       beat of the bar, which is where this program already walks. */
+    bassApproach: "chromatic",
     bassPulse: null,
     /* a fingered boom-bap bass does accent the pocket and does occasionally
        slide into a chord tone, but it is not a sequencer and this is not an
@@ -15247,8 +15252,41 @@ function makeMaterials(chart){
       if(w < 0.5 && !pocket.includes(14)){          // the walk INTO the next chord [corpus:harvest_bass]
         // ...and never onto a step this bass already owns: a pocket that ends on 14
         // put two bass notes on one instant, which the seam check rightly threw on
-        const from = scaleStep(root, mode, next.rootMidi, walkStep);
-        notes.push({ bar: b, step: 14, dur: 2, pitch: intoBand(from, R.bassWalk[0], R.bassWalk[1]), vel: 0.6, role: "bass" });
+        /* ── A SEMITONE, WHEN THE GENRE ASKS ──────────────────────────────
+           "A chromatic approach note is a note one half step below or above
+           your target, played immediately before landing on the target"
+           [corpus:learn2playjazz; corpus:jazzlessonvideos;
+           corpus:jazzpianoschool] -- three sources, and it is the single most
+           characteristic move in a walking bass.
+
+           IT WAS A SCALE STEP BECAUSE THE LAW FORBADE THE OTHER, and that was
+           the law shaping the music, which is the right way round -- it was
+           just the wrong law. A note outside the key is now legal when it
+           RESOLVES by a step or less into a tone of the chord that follows,
+           which is what this note does by construction: it is a semitone from
+           the next chord's root and the next thing this bass plays IS that
+           root, on the downbeat. docs/genre-research/the-note-that-does-not-belong.md
+
+           No new draw -- `walkStep` is already drawn above, for every genre,
+           and this only changes what its +1 or -1 MEANS. A genre that does not
+           ask keeps its scale step note for note. */
+        const chromatic = G.bassApproach === "chromatic";
+        const from = chromatic ? next.rootMidi + walkStep
+                               : scaleStep(root, mode, next.rootMidi, walkStep);
+        const put = intoBand(from, R.bassWalk[0], R.bassWalk[1]);
+        /* ── AND IF THE BAND MOVED IT, IT IS NOT AN APPROACH NOTE ──────────
+           `intoBand` folds a pitch back inside the register by octaves. A
+           semitone below the next root can fall under the walk band's floor,
+           and it comes back an OCTAVE AND A SEMITONE away from its target --
+           which is not approaching anything, and the law rightly threw on it
+           (seeds 17, 18 and 40 of lofi, all of them a root at the bottom of
+           the band). The note is DROPPED rather than moved: an approach note
+           that has been relocated is a wrong note wearing its name, and this
+           file repairs nothing after the fact.
+           Only the chromatic path is guarded, so the scale walk every other
+           genre takes is untouched note for note. */
+        if(!chromatic || Math.abs(put - next.rootMidi) <= 2)
+          notes.push({ bar: b, step: 14, dur: 2, pitch: put, vel: 0.6, role: "bass" });
       }
     }
     return notes;
@@ -17753,7 +17791,15 @@ function composeSong(seed, rig, genre, picks, pins){
     const seen = new Set();
     /* WHICH CHANGES THIS MATERIAL IS ON. C is the bridge and has its own. */
     const chSet = m === "C" ? materials.bridgeChords : materials.chords;
-    for(const role in materials[m]) for(const n of materials[m][role]){
+    for(const role in materials[m]){
+      /* the part IN ORDER, and as a LOOP -- the note after the last one is the
+         first one, because a material is four bars that repeat. Needed by the
+         law below, which asks what a note does NEXT. */
+      const line = materials[m][role].filter(x => x && x.pitch != null)
+        .slice().sort((a, z) => a.bar - z.bar || a.step - z.step);
+      const after = new Map();
+      for(let i = 0; i < line.length; i++) after.set(line[i], line[(i + 1) % line.length]);
+    for(const n of materials[m][role]){
       if(n.pitch != null){
         /* ── THE LAW IS NOT "EVERYTHING IS DIATONIC" ──────────────────────
            It used to be, and it threw on any pitch outside the mode. That is
@@ -17763,14 +17809,60 @@ function composeSong(seed, rig, genre, picks, pins){
            neo-Riemannian move -- on the same grounds as a wrong note.
 
            The real law is that NO NOTE IS ARBITRARY. A pitch outside the key
-           is legal exactly when the chord sounding under it contains it: that
-           is what a chromatic chord IS, and a note belonging to it is spelled,
-           not stray. Anything else still throws, so the check has not been
-           loosened into a warning -- it has been asked the right question. */
+           is legal exactly when it is SPELLED BY THE HARMONY -- and that is
+           what a chromatic chord is, a note belonging to it is spelled, not
+           stray. Anything else still throws, so the check has not been
+           loosened into a warning -- it has been asked the right question.
+
+           ── AND IT WAS ASKING ABOUT ONE HARMONY WHEN THERE ARE TWO ──────────
+           The clause below used to be the whole law, and it judged a note only
+           by the chord UNDERNEATH it. That forbids an entire class of notes --
+           the most characteristic gestures in this idiom -- because they are
+           spelled by the harmony they are GOING TO.
+
+           Every non-chord tone in the classical taxonomy is defined by MOTION
+           and not by what it sits over. A passing tone is approached by step
+           and left by step the same way; a neighbour returns; an appoggiatura
+           is approached by leap and resolved by step the other way; an
+           anticipation IS the next chord's note, arriving early. Four sources,
+           and not one of them defines any of these by the chord underneath
+           [corpus:openmusictheory; corpus:pressbooks; corpus:wmich;
+           corpus:milne]. And the jazz figure the bass wants, stated exactly:
+           "before a chromatic approach note, either stepwise or leapwise
+           motion is acceptable, but AFTERWARD it should resolve with a
+           half-step motion to the target note" [corpus:learn2playjazz;
+           corpus:jazzlessonvideos]. Defined by its departure. Nothing else.
+
+           So the law asks TWO questions now, and both are strict:
+
+             (a) does the chord under it contain it, or
+             (b) does it resolve by a step or less into a tone of the chord
+                 that FOLLOWS it?
+
+           (b) IS AN OBLIGATION, NOT A LOOPHOLE. It does not say a stray note
+           is fine if something near it is legal -- it requires that the very
+           next note in this same part is itself a chord tone and within a
+           step. A wrong note has no such obligation and cannot acquire one: to
+           pass, it has to be followed by its own resolution, which is the
+           definition of every figure named above. A note that satisfies
+           neither clause still throws exactly as before.
+
+           THE LAST BAR IS NOT EXEMPT. A material is four bars that LOOP, so
+           the note after the last one is the first one and is judged that way
+           -- otherwise the law would forbid at bar 3 what it allows at bar 0.
+           docs/genre-research/the-note-that-does-not-belong.md */
         if(!inKey(chart.root, chart.mode, n.pitch)){
           const ch = chSet && chSet[n.bar % chSet.length];
-          const ok = ch && ch.tones.some(t => pc(t) === pc(n.pitch));
-          if(!ok) throw new Error("out of key and not in the chord, in " + m +
+          let ok = !!(ch && ch.tones.some(t => pc(t) === pc(n.pitch)));
+          if(!ok){
+            const nx = after.get(n);
+            if(nx && nx !== n && Math.abs(nx.pitch - n.pitch) <= 2){
+              const nch = chSet && chSet[nx.bar % chSet.length];
+              ok = !!(nch && nch.tones.some(t => pc(t) === pc(nx.pitch)));
+            }
+          }
+          if(!ok) throw new Error("out of key, not in the chord, and does not " +
+                                  "resolve into the next one, in " + m +
                                   ": " + role + " " + n.pitch + " bar " + n.bar);
         }
         const k = n.bar + ":" + n.step + ":" + n.pitch;
@@ -17778,6 +17870,7 @@ function composeSong(seed, rig, genre, picks, pins){
         seen.add(k);
       }
       if(n.step < 0 || n.step > 15 || n.dur < 1) throw new Error("bad grid: " + m + "/" + role);
+    }
     }
   }
   /* form sanity: contiguous, capped, rule of three at the section level */
