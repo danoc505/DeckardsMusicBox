@@ -293,25 +293,104 @@
   .sk-tr1000 .brand{ background:#1b1d20; color:#e6e8ea; margin:-.85rem -1rem .7rem;
                      padding:.4rem 1rem; border-radius:4px 4px 0 0; }
   .sk-tr1000 .brand .model{ color:#e9ecef; letter-spacing:.14em; }
-  .sk-tr1000 .toprow{ display:flex; gap:1.1rem; flex-wrap:wrap; align-items:flex-end;
+  /* ── THE TOP STRIP, AND ITS KNOBS SIT ON ONE LINE ────────────────────────
+     User, 2026-08-04: "The top row knobs are not in line with each other."
+     They were not: the row was `align-items:flex-end` with each section's
+     legend UNDERNEATH its knobs, so a section whose cap wrapped to two lines
+     pushed its own knobs up and every group settled at a different height.
+     On the machine the section names sit ABOVE the knobs with a rule under the
+     name, and every knob in the strip is on one line -- so the legend moves to
+     the top, the groups align to the TOP, and one shared cap height keeps the
+     dials level whatever their labels do. ── */
+  .sk-tr1000 .toprow{ display:flex; gap:1.05rem; flex-wrap:wrap; align-items:flex-start;
                       padding:.2rem 0 .6rem; border-bottom:1px solid rgba(0,0,0,.22);
                       margin-bottom:.6rem; }
-  .sk-tr1000 .cols{ display:flex; gap:.5rem; align-items:stretch; overflow-x:auto;
+  .sk-tr1000 .toprow .grp{ display:flex; flex-direction:column; gap:.25rem; }
+  .sk-tr1000 .toprow .grp .row{ align-items:flex-start; }
+  .sk-tr1000 .toprow .grp .leg{ order:-1; border-top:none; border-bottom:1px solid currentColor;
+                                padding:0 0 .18rem; margin:0 0 .1rem; opacity:.72; }
+  .sk-tr1000 .toprow .cap{ min-height:1.25em; }
+  .sk-tr1000 .toprow .grp .leg{ white-space:nowrap; }
+  /* ── ONE ROW HEIGHT, SO THE KNOBS ACTUALLY LINE UP ───────────────────────
+     The dials were staggering down every column because a knob is as tall as
+     its own label and value: "45 Hz" is one line, "0.00 st" wrapped to two, and
+     "20000 Hz" to two more -- so the fourth knob in one column sat a centimetre
+     below the fourth in the next. That is the same complaint the top row got
+     ("the top row knobs are not in line with each other") repeated ten times
+     down the panel, and no amount of aligning the CONTAINERS fixes it while the
+     CONTENTS are free to grow. So every knob on this machine occupies one fixed
+     height, its cap is one line and its value is one line: the grid is the
+     grid, whatever the text says. ── */
+  /* ── AND THE WHOLE MACHINE FITS ON THE PAGE ──────────────────────────────
+     Ten channels of six knobs at the rack's standard dial size come to about
+     1030 px against an 880 px page, so three channels lived off the right edge
+     behind a scrollbar -- and a drum machine you have to scroll is not the
+     object in the photograph, where all ten strips are in front of you at once.
+     The dials on this one panel are smaller than the rack's default for that
+     reason, which is also true of the real thing: the TR-1000's per-voice knobs
+     are visibly smaller than the big rotaries on a 303 or a Mellotron. ── */
+  .sk-tr1000 .kn{ height:3.55rem; width:2.55rem; justify-content:flex-start; gap:.08rem; }
+  .sk-tr1000 .kn .dial{ width:1.95rem; height:1.95rem; }
+  .sk-tr1000 .kn .cap{ min-height:0; height:1.05em; line-height:1.05em; font-size:7px;
+                       white-space:nowrap; overflow:hidden; }
+  .sk-tr1000 .kn .val{ white-space:nowrap; overflow:hidden; max-width:100%; font-size:7px;
+                       height:1em; line-height:1em; }
+  .sk-tr1000 .col.wide .kn{ width:2.7rem; }
+  .sk-tr1000 .colhead{ white-space:nowrap; overflow:hidden; text-overflow:clip; }
+  /* the six narrow strips carry the machine's own long names -- CLOSED HIHAT,
+     OPEN HIHAT -- in a strip half the width, so their nameplate is set smaller
+     rather than clipped: the silkscreen is the machine's, the point size is not */
+  .sk-tr1000 .col:not(.wide) .colhead{ font-size:6.4px; letter-spacing:.02em; padding:.18rem .05rem; }
+  .sk-tr1000 .col:not(.wide) .kn .val{ font-size:6.4px; }
+  /* a section's knobs sit SIDE BY SIDE, as they do on the silkscreen: REVERB is
+     LEVEL and TIME across, DELAY is LEVEL, TIME and FEEDBACK across. Left to
+     wrap, the second knob of each dropped onto a second line and put the top
+     strip back on two heights -- the very thing the alignment fix above is for */
+  .sk-tr1000 .toprow .grp .row{ flex-wrap:nowrap; gap:.5rem; }
+  /* the kit select is a control, not a banner: it was taking a quarter of the
+     top strip on a machine where KIT is one key beside INST */
+  .sk-tr1000 .kitwrap select{ font-size:10px; max-width:11rem; }
+  /* the three small CTRLs on a narrow strip print no number -- there is no room
+     for one and the machine does not print one either; the screen top right is
+     where a value is read, which is what the screen is for */
+  .sk-tr1000 .kctrl.narrow .kn{ height:2.9rem; }
+  .sk-tr1000 .kctrl.narrow .val{ display:none; }
+  .sk-tr1000 .cols{ display:flex; gap:.3rem; align-items:stretch; overflow-x:auto;
                     padding-bottom:.3rem; }
   .sk-tr1000 .toprow{ flex-wrap:nowrap; overflow-x:auto; }
   /* KNOBS TWO ABREAST, as the machine has them -- a voice column on the real
      panel is a 2-wide grid of knobs with the fader down the front, not a single
      stack. Stacked single-file the five columns ran nine knobs deep and the
      panel was taller than the rest of the rack put together. */
-  .sk-tr1000 .col{ flex:1 1 0; min-width:7.4rem; display:grid;
-                   grid-template-columns:1fr 1fr; gap:.3rem .2rem;
-                   align-content:start; justify-items:center;
-                   padding:.35rem .3rem .45rem;
+  /* ── THE STRIP. Ten of them, and FOUR ARE DOUBLE WIDTH -- see the `columns`
+     declaration for the sources. Flex rather than a grid so "twice as wide"
+     is one number (flex-grow 2) instead of a column-span sum that has to be
+     kept in step with the count. ── */
+  .sk-tr1000 .col{ flex:1 1 0; min-width:3.3rem; display:flex; flex-direction:column;
+                   align-items:center; gap:.28rem;
+                   padding:.35rem .18rem .45rem;
                    background:rgba(255,255,255,.16); border:1px solid rgba(0,0,0,.14);
                    border-radius:3px; }
+  .sk-tr1000 .col.wide{ flex:2 1 0; min-width:5.9rem; }
+  .sk-tr1000 .knobs{ display:flex; gap:.1rem .25rem; width:100%;
+                     justify-content:center; align-items:flex-start; }
+  /* a wide channel is two columns side by side: mains left, CTRLs right */
+  .sk-tr1000 .col.wide .kmain,
+  .sk-tr1000 .col.wide .kctrl{ display:flex; flex-direction:column; gap:.2rem; }
+  /* a narrow channel stacks its mains and lays the three CTRLs in one row, so
+     it keeps the machine's three-row height and hides nothing */
+  .sk-tr1000 .col:not(.wide) .knobs{ flex-direction:column; align-items:center; gap:.2rem; }
+  .sk-tr1000 .col:not(.wide) .kmain{ display:flex; flex-direction:column; gap:.2rem; }
+  .sk-tr1000 .kctrl.narrow{ display:flex; gap:.1rem; justify-content:center;
+                            border-top:1px solid rgba(0,0,0,.16); padding-top:.22rem;
+                            width:100%; }
+  .sk-tr1000 .kctrl.narrow .kn{ width:1.42rem; }
+  .sk-tr1000 .kctrl.narrow .kn .dial{ width:1.16rem; height:1.16rem; }
+  .sk-tr1000 .kctrl.narrow .cap{ font-size:5.5px; letter-spacing:0; min-height:0; height:1.1em; }
+  .sk-tr1000 .kctrl.narrow .val{ font-size:7.5px; }
   .sk-tr1000 .col > .colhead,
   .sk-tr1000 .col > .trig,
-  .sk-tr1000 .col > .kn.fader{ grid-column:1 / -1; }
+  .sk-tr1000 .col > .fad{ width:100%; }
   .sk-tr1000 .colhead{ font-size:8.5px; letter-spacing:.10em; text-transform:uppercase;
                        background:#1b1d20; color:#e6e8ea; width:100%; text-align:center;
                        padding:.18rem .1rem; border-radius:2px; margin-bottom:.15rem;
@@ -811,7 +890,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04l · jungle's bass plays a riff instead of holding one note</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04m · the TR-1000 is a clone, the kick has a body, the snare stops shouting</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1544,9 +1623,23 @@ function chainControls(){
     out.push({ k:g+"Tune", label:cap+" tune",   cap:"TUNE",  min:-12, max:12,  step:0.5,  def:0, unit:"st", kind:"bus" });
     out.push({ k:g+"Decay",label:cap+" decay",  cap:"DECAY", min:0.2, max:3,   step:0.01, def:1, kind:"bus" });
     out.push({ k:g+"Mix",  label:cap+" level",  cap:"MIX",   min:0,   max:1.6, step:0.01, def:1, kind:"bus" });
-    out.push({ k:g+"Verb", label:cap+" reverb", cap:"CTRL 1",min:0,   max:1,   step:0.01, def:0, kind:"bus" });
-    out.push({ k:g+"Echo", label:cap+" delay",  cap:"CTRL 2",min:0,   max:1,   step:0.01, def:0, kind:"bus" });
-    out.push({ k:g+"Cut",  label:cap+" filter", cap:"CTRL 3",min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" });
+    /* ── THE CTRLs SAY WHAT THEY DO, and that is the faithful choice, not a
+       departure from it ────────────────────────────────────────────────────
+       These were capped "CTRL 1", "CTRL 2", "CTRL 3" because that is the
+       silkscreen on the real machine. But on the real machine those knobs are
+       ASSIGNABLE -- there is a KNOB ASSGN key beside the screen, and the screen
+       is what tells you which parameter the knob is currently on. Ours are
+       permanently wired to the reverb send, the delay send and the filter, so
+       printing "CTRL 1" copies the ink and throws away the information the
+       machine itself gives you. The user, 2026-08-04: "instead of CTR on the
+       knobs we should have them labeled."
+       So the cap is the ASSIGNMENT, which is what a TR-1000 displays, and the
+       CTRL number rides along in the tooltip for anyone matching the panel to a
+       photograph. Same rule as everywhere else in this file: a label that does
+       not say what the control does is a lie the panel tells. */
+    out.push({ k:g+"Verb", label:cap+" reverb  (CTRL 1)", cap:"REVERB",min:0,   max:1,   step:0.01, def:0, kind:"bus" });
+    out.push({ k:g+"Echo", label:cap+" delay  (CTRL 2)",  cap:"DELAY", min:0,   max:1,   step:0.01, def:0, kind:"bus" });
+    out.push({ k:g+"Cut",  label:cap+" filter  (CTRL 3)", cap:"FILTER",min:120, max:20000, step:20, def:20000, unit:"Hz", kind:"bus" });
   }
   return out;
 }
@@ -1951,6 +2044,13 @@ const INSTRUMENTS = {
          defect this file has a check for; a button that does nothing and looks
          like a Roland one is worse. */
       /* the top strip, in the machine's own section order */
+      /* the machine's own section order and its own names: KIT is not a section
+         on the real panel (it is a key beside INST, over on the right), but it
+         is the one control here that decides what the whole box IS, so it keeps
+         the first slot and is drawn as the select it has to be. The rest carry
+         the silkscreen: ACCENT, REVERB, DELAY, ANALOG FX -- and the two knobs
+         under ANALOG FX are FILTER and DRIVE on the machine, which is exactly
+         what `fxFilter` and the kit's DRIVE are here. */
       top: [
         { label: "KIT", keys: ["kit"] },
         { label: "ACCENT", keys: ["bus"] },
@@ -1958,33 +2058,76 @@ const INSTRUMENTS = {
         { label: "DELAY", keys: ["dlySend", "hold"] },
         { label: "ANALOG FX", keys: ["fxFilter"] },
       ],
-      /* ── TEN CHANNELS, in the machine's own order ─────────────────────────
-         BD SD LT HT | RS HC | CH OH | CC RC. On the panel the first four are
-         wide single sections and the last six are paired into three doubles;
-         here they are ten equal strips, because a browser column that narrows
-         to a pair's width has nowhere to put six knobs and a fader. The ORDER
-         and the CONTENT are the machine's; the section rules are not. */
+      /* ── TEN CHANNELS, AND FOUR OF THEM ARE DOUBLE WIDTH ──────────────────
+         BD SD LT HT are wide; RS HC CH OH CC RC are narrow. That is not a
+         guess from the photograph, it is what the machine is: "the instrument
+         editing controls feature ten faders, one less than on the TR-8S, each
+         accompanied by a selection knob... notice channels 1-4 are DOUBLE WIDTH
+         WITH SIX KNOBS", and "above the faders are three rows of rotary knobs
+         for editing (Tune, Decay, Mix...), TWO COLUMNS OF WHICH ARE RESERVED
+         FOR THE FIRST FOUR INSTRUMENTS" [corpus:soundonsound TR-1000 review;
+         corroborated by the user's own panel photograph].
+
+         The previous version drew ten identical strips and said so in a comment
+         -- "here they are ten equal strips, because a browser column that
+         narrows to a pair's width has nowhere to put six knobs and a fader."
+         That reasoning was the wrong way round: the machine gives the wide
+         channels MORE knobs and the narrow ones FEWER, so nothing has to be
+         squeezed. The user's note, 2026-08-04: "It is not a clone of the
+         actual."
+
+           WIDE   TUNE | REVERB      NARROW   TUNE
+                  DECAY| DELAY                DECAY
+                  FILTER                      REVERB DELAY FILTER  (one row)
+                  [fader]  [trig]              [fader]  [trig]
+
+         ONE DEPARTURE, NAMED. The machine's third left-hand row is MIX and it
+         also has a fader; in this engine the channel's level IS the fader, one
+         control, so drawing a MIX knob as well would be the same number twice
+         on one strip. The wide channels therefore carry five knobs where the
+         machine carries six. Every control stays reachable on every channel --
+         the narrow strips keep all three CTRLs as one compact row rather than
+         hiding two behind an assign key, because a control a panel declares and
+         never draws is this file's own cardinal sin. */
       columns: [
-        { label: "BASS DRUM",    trig: "BD", lane: "kick",    tone: "red",
-          keys: ["kTune", "kDecay", "kMix", "kVerb", "kEcho", "kCut"], fader: "kMix" },
-        { label: "SNARE DRUM",   trig: "SD", lane: "snare",   tone: "red",
-          keys: ["sTune", "sDecay", "sMix", "sVerb", "sEcho", "sCut"], fader: "sMix" },
-        { label: "LOW TOM",      trig: "LT", lane: "tom3",    tone: "red",
-          keys: ["tTune", "tDecay", "tMix", "tVerb", "tEcho", "tCut"], fader: "tMix" },
-        { label: "HIGH TOM",     trig: "HT", lane: "tom1",    tone: "red",
-          keys: ["mTune", "mDecay", "mMix", "mVerb", "mEcho", "mCut"], fader: "mMix" },
+        /* ── AND THE VOICE CIRCUITS ARE DRAWN NOW, ON THE VOICE THEY BELONG TO
+           ────────────────────────────────────────────────────────────────────
+           MEASURED against the shipped declaration: SEVEN controls -- `tune`,
+           `decay`, `tone`, `snappy`, `sdtone`, `chdecay`, `ohdecay` -- were
+           declared, loaded from every genre's table and ridden by the
+           conductor, and NEVER DRAWN ON ANY PANEL. 68 of 75 reached the glass.
+           They are not obscure: they are the bass drum's tune, decay and tone
+           and the snare's snappy -- the four knobs anyone reaches for first on
+           this machine.
+           That is the exact defect this file already recorded for the amen
+           panel ("declared and automated and never drawn... the exact mirror of
+           a knob that does nothing, and just as much a lie"), and it is half of
+           what the user meant by "the whole thing can be 10x better".
+           They go on the strip of the drum they belong to, which is where the
+           machine's own INST EDIT puts them. The channel's TUNE and DECAY are
+           OFFSETS on top and stay in the right-hand column with the sends. */
+        { label: "BASS DRUM",    trig: "BD", lane: "kick",    tone: "red",  wide: true,
+          keys: ["tune", "decay", "tone", "punch"],
+          ctrl: ["kTune", "kDecay", "kVerb", "kEcho", "kCut"], fader: "kMix" },
+        { label: "SNARE DRUM",   trig: "SD", lane: "snare",   tone: "red",  wide: true,
+          keys: ["snappy", "sdtone"],
+          ctrl: ["sTune", "sDecay", "sVerb", "sEcho", "sCut"], fader: "sMix" },
+        { label: "LOW TOM",      trig: "LT", lane: "tom3",    tone: "red",  wide: true,
+          keys: ["tTune", "tDecay"], ctrl: ["tVerb", "tEcho", "tCut"], fader: "tMix" },
+        { label: "HIGH TOM",     trig: "HT", lane: "tom1",    tone: "red",  wide: true,
+          keys: ["mTune", "mDecay"], ctrl: ["mVerb", "mEcho", "mCut"], fader: "mMix" },
         { label: "RIM SHOT",     trig: "RS", lane: "rim",     tone: "amber",
-          keys: ["rTune", "rDecay", "rMix", "rVerb", "rEcho", "rCut"], fader: "rMix" },
+          keys: ["rTune", "rDecay"], ctrl: ["rVerb", "rEcho", "rCut"], fader: "rMix" },
         { label: "HAND CLAP",    trig: "HC", lane: "clap",    tone: "amber",
-          keys: ["cTune", "cDecay", "cMix", "cVerb", "cEcho", "cCut"], fader: "cMix" },
+          keys: ["cTune", "cDecay"], ctrl: ["cVerb", "cEcho", "cCut"], fader: "cMix" },
         { label: "CLOSED HIHAT", trig: "CH", lane: "hat",     tone: "amber",
-          keys: ["hTune", "hDecay", "hMix", "hVerb", "hEcho", "hCut"], fader: "hMix" },
+          keys: ["chdecay", "hTune", "hDecay"], ctrl: ["hVerb", "hEcho", "hCut"], fader: "hMix" },
         { label: "OPEN HIHAT",   trig: "OH", lane: "openhat", tone: "amber",
-          keys: ["oTune", "oDecay", "oMix", "oVerb", "oEcho", "oCut"], fader: "oMix" },
+          keys: ["ohdecay", "oTune", "oDecay"], ctrl: ["oVerb", "oEcho", "oCut"], fader: "oMix" },
         { label: "CRASH CYM",    trig: "CC", lane: "crash",   tone: "pale",
-          keys: ["aTune", "aDecay", "aMix", "aVerb", "aEcho", "aCut"], fader: "aMix" },
+          keys: ["aTune", "aDecay"], ctrl: ["aVerb", "aEcho", "aCut"], fader: "aMix" },
         { label: "RIDE CYM",     trig: "RC", lane: "ride",    tone: "pale",
-          keys: ["dTune", "dDecay", "dMix", "dVerb", "dEcho", "dCut"], fader: "dMix" },
+          keys: ["dTune", "dDecay"], ctrl: ["dVerb", "dEcho", "dCut"], fader: "dMix" },
       ],
       grid: "drums",
       voices: [["kick","BD"], ["snare","SD"], ["tom3","LT"], ["tom1","HT"],
@@ -20327,13 +20470,32 @@ function drawPanels(){
         }
         const cols = el("div", "cols");
         for(const col of P.columns){
-          const cEl = el("div", "col");
+          const cEl = el("div", "col" + (col.wide ? " wide" : ""));
           cEl.appendChild(el("div", "colhead", col.label));
+          /* ── THE KNOB BLOCK ──────────────────────────────────────────────
+             A wide channel puts its main knobs in the LEFT column and its
+             CTRLs in the RIGHT one, which is the machine's "two columns of
+             which are reserved for the first four instruments". A narrow
+             channel stacks its two main knobs and then carries all three CTRLs
+             as ONE compact row, so it keeps the machine's three-row height
+             without hiding a control the panel has declared. */
+          const kb = el("div", "knobs");
+          const mk = c => (c.step >= 1 && c.max - c.min <= 2) ? switchEl(m, c) : knobEl(m, c);
+          const main = el("div", "kmain");
           for(const k of col.keys){
             const c = M.controls.find(x => x.k === k);
-            if(!c) continue;
-            cEl.appendChild((c.step >= 1 && c.max - c.min <= 2) ? switchEl(m, c) : knobEl(m, c));
+            if(c) main.appendChild(mk(c));
           }
+          kb.appendChild(main);
+          if(col.ctrl && col.ctrl.length){
+            const cr = el("div", col.wide ? "kctrl" : "kctrl narrow");
+            for(const k of col.ctrl){
+              const c = M.controls.find(x => x.k === k);
+              if(c) cr.appendChild(mk(c));
+            }
+            kb.appendChild(cr);
+          }
+          cEl.appendChild(kb);
           if(col.fader){
             const fc = M.controls.find(x => x.k === col.fader);
             if(fc) cEl.appendChild(faderEl(m, fc));
