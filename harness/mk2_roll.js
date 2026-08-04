@@ -39,6 +39,30 @@ const M = global.window.MK2, T = global.__T;
 const argv = process.argv.slice(2);
 const seed = parseInt(argv[0], 10) || 1;
 const rig = ["band","sega","neon"].includes(argv[1]) ? argv[1] : undefined;
+/* ── A BARE GENRE NAME IS THE MOST EXPENSIVE TYPO THIS TOOL ALLOWS ──────────
+   `mk2_roll.js 1 acid` used to compose LOFI. The genre is a named flag and a
+   positional argument that is not a rig was simply ignored, so the tool
+   answered a different question than the one asked and said so only in a
+   header line nobody re-reads.
+
+   That produced a false "all seven genres print identical" claim on
+   2026-08-04, from seven runs of the same genre. The conclusion happened to be
+   right and the evidence was worth nothing.
+
+   So it throws now. Only for names that are actually GENRES -- a rig this
+   list has not heard of still passes through, because refusing something
+   valid would be a worse tool than the one being fixed. */
+for(const a of argv.slice(1)){
+  if(a.startsWith("--")) break;
+  if(M.genres().includes(a)){
+    console.error(`\n  mk2_roll: "${a}" is a GENRE and it has to be passed as a flag.\n` +
+                  `            Without it this composes ${M.genres()[0]} and tells you so\n` +
+                  `            only in the header line.\n\n` +
+                  `     you wrote:  node harness/mk2_roll.js ${argv.join(" ")}\n` +
+                  `     you meant:  node harness/mk2_roll.js ${argv[0]} --genre ${a}\n`);
+    process.exit(2);
+  }
+}
 const gAt = argv.indexOf("--genre");
 /* --blend lofi:50,jungle:50  -- the roll has to be able to read a blended song
    or the test that matters cannot see the feature at all. Percentages, because

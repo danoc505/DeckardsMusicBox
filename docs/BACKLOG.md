@@ -171,6 +171,7 @@ function chordTones(root, mode, d, seventh){
 | what | why it is open | what closes it |
 |---|---|---|
 | **Only ONE genre in the file declares a `harmony` block** | `bladerunner`, line 10446: `harmony: { style: "plr", chance: 0.30 }`. Everything else is 100% diatonic by construction. Measured (`probe_harmony_neo`, 60 seeds): bladerunner 10.4% chromatic chords, **every other genre exactly 0.0%**. | Genre-by-genre research before any table entry — `lofi-harmony.md` §4 already supplies lofi's case (the borrowed dominant IV, "a borrowed chord from another key" [corpus:richardpryn]) and it is the natural second genre. |
+| **The measured chord table covers major and minor only; five of this program's seven modes have none** | `CHORD_QUALITY` is keyed by major and minor because the corpus is. Dorian, phrygian, lydian, mixolydian and harmonic minor get no quality drawn at all — deliberately, since sending dorian to the minor table would delete its signature chord (`chord-quality.md` §5, §7). But it means lofi's dorian songs get none of the `2026-08-04d` work. | A corpus in those modes, or a genre-declared table written from that genre's own research. Not a guess: the dorian case is exactly where a guess would do damage. |
 | **`coltraneCycle` is correct, wired, and unreachable** | Defined 887, called at 13715 under `H.style === "coltrane"`. **No genre declares that style** — `grep "coltrane"` finds only the branch itself. Still true after being flagged in HANDOFF §5.5 for several sessions. | Draw it somewhere with a documented reason, or delete it. The file's own rule, quoted at 13434: do not claim a thing works until something draws it. |
 | **The neo path collapses a mode to one bit** | 13718: `min: MODES[mode][2] === 3`. A mode entering the P/L/R path becomes major-or-minor and its character is gone. | Fine for triads; revisit with §6.1. |
 
@@ -193,6 +194,9 @@ function chordTones(root, mode, d, seventh){
 | **`probe_theory` hand-copies a MODES table that has drifted from the engine's** | Its table (line 40) is MISSING `harmMinor` and ADDS `locrian` and `aeolian`, neither of which the engine has. A `harmMinor` song would fall through `MODES[mode] \|\| MODES.minor` and be silently measured against natural minor. **Latent — no genre draws harmMinor, so nothing is misreported today.** But this is the "anything that LISTS what the program contains will go stale" defect for the fifth time. | Export `MK2.MODES` and derive. |
 | **`probe_comp` measures texture, not harmony** | Six numbers: simultaneity, onsets/bar, voices/onset, inner movement, bar repeat, span. **No chord identity, no inversion distribution, no voice-leading distance between successive voicings, no check that the voicing is even the chord.** It is a texture probe wearing a voicing name. | Add the harmonic half — it is the natural place to verify §6.1 and §6.2 once they land. |
 | **`probe_harmony_neo` reads the abstract chart, never the played pitches** | It reads `song.materials.chords`, so it says nothing about what is actually voiced and heard. Its voice-leading number is a SET distance (line 35), order-free, and therefore cannot detect voice crossing or parallel motion by construction. | Point a version of it at `materials.*.keys`. |
+| **`mk2_roll.js` SILENTLY COMPOSES THE WRONG GENRE if you pass a bare name** | `node harness/mk2_roll.js 1 acid` composes **lofi**. The genre is a named flag, `--genre`, and a positional argument that is not a rig name is simply ignored. This produced a false "all seven genres are identical" claim on 2026-08-04 from seven runs of the same genre; the conclusion happened to be right and the evidence was worthless. Now a rule in README and HANDOFF §0. | Make it THROW on an unrecognised bare argument rather than ignore it. A tool that quietly answers a different question than the one asked is worse than one that fails. |
+| **`probe_counterpoint` reports one number per genre and that average hides the finding** | Its headline is parallel-perfects averaged over every pair of parts. Broken out by pair, lofi's keys/bass is 8.97% while its lead/counter is 2.03% — the average reads 1.0% and points at neither. **I built a fix for the wrong pair because of this.** | Report per pair, ranked. The one-off script that found it is the shape: reduce each role to its top note, enumerate pairs, count where both moved. |
+| **`probe_theory` hand-copies a MODES table** — *`MK2.MODES` is exported as of `2026-08-04d`, so this is now a one-line fix* | (see the row below; the blocker is gone) | Derive from `MK2.MODES`. |
 | **`probe_counterpoint`'s floor control is generous, and its top-voice reduction hides inner voices** | Both stated in the file's own header. The shuffle floor breaks the chord relationship (see §6.3), and reducing each role to its top note means a parallel fifth buried inside a comp voicing is invisible. | A better floor would shuffle whole chord-aligned bars rather than individual pitches. Inner voices need the pair enumeration to run over voicing members, not roles. |
 
 ### 6.7 THE GROUNDING GAP — measured harmony exists in this repo and MK2 cannot see it
@@ -224,6 +228,33 @@ counterpoint rate this section proposes is currently `[EAR]` or sourced from
 production tutorials; the treebank and the chorales would make them measured.
 What closes it: port one ingester to MK2's tables and re-derive. Start with
 jazz — it is the one whose subject matter matches a shipped genre.
+
+### 6.8 THE BASS PLAYS THE ROOT AND ALMOST NOTHING ELSE — and it has never been researched
+
+*Measured 2026-08-04, 30 seeds a genre. Found while failing to fix §6.3's
+parallel fifths from the other end: no amount of re-voicing the chords can undo
+a lockstep the bass is enforcing.*
+
+```
+  genre         notes    the root   the fifth   anything else   repeats its own note
+  lofi            744      74.7%       16.9%            5.6%             30.9%
+  synthwave      2767      90.7%        9.3%            0.0%             42.3%
+  dkc             664     100.0%        0.0%            0.0%              0.0%
+  bladerunner     290     100.0%        0.0%            0.0%              0.0%
+  acid           3988      61.7%        7.3%           24.7%             44.9%
+  plastikman     1608      79.1%        1.0%           19.9%             62.8%
+  jungle          128     100.0%        0.0%            0.0%              0.0%
+
+  distinct notes in a bar:  lofi 1 note in 61% of bars · dkc, bladerunner and
+  jungle 1 note in 100% of bars
+```
+
+| what | why it is open | what closes it |
+|---|---|---|
+| **THE BASS HAS NEVER BEEN RESEARCHED FOR ANY GENRE** | `lofi-production.md` §9 says it outright — "nothing on how the bass is written beyond 'smooth and simple'". Every bass number in the program is a guess or an inference from the drums. **This is the same shape of hole the chords had before `2026-08-04d`**, and the chords turned out to be 20 dB — figuratively — off once measured. | Research per genre, named sources, before any table moves. Start with lofi: it is jazz-descended, where a bass genuinely walks, and it is the genre being listened to. |
+| **It is the cause of §6.3's parallel fifths, and the chord side cannot fix it** | If the bass always plays the root, then when the chord changes the bass moves by exactly the interval the chord moved, so any gap between them survives — a parallel by construction. Proved by failing: a cost on the chords' top line against the bass was built, and raising its weight FOUR TIMES moved nothing. `counterpoint-measured.md` §5b. | Give the bass somewhere else to be: approach notes, passing notes, a walk into the next chord, the third or the fifth under a chord it does not need to spell. |
+| **`harvest_bass.py` measures 17,256 real arrangements and MK2 has never seen a number from it** | Written for MK1, like the chorales and the ensemble data. §6.7 is the same story one instrument over. | Port it, the way `ingest_chord_quality.py` was ported — and check its parsing against the source first, because the last MK1 ingester that was trusted had three bugs. |
+| **jungle plays the root, one note a bar, 100% of the time, and nothing defends it** | dkc's pedal and bladerunner's drone are both declared styles with sources behind them. Jungle's is not: it has `bassStyle` set and no research sheet, and §6.5 already notes its whole harmony is two lines mostly a fifth or an octave apart. | Jungle's harmony has never been researched at all — only its form has. One sheet would answer this row and that one. |
 
 ## 6a. THE LOOP REPEATS AND ALMOST NOTHING CHANGES — ~~open~~ **LARGELY FIXED `2026-08-04a`**
 
