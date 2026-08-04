@@ -65,6 +65,14 @@
 >   when a decorative field is added and no note moved; the seam checks prove
 >   the laws hold, not that the music is any good. Neither one shows you a
 >   chord changing from minor to dominant. The printout does.
+>
+> **And there is now a second way to look, in the program itself: THE ROLL**, at
+> the top of the page. It draws the same notes through the same function the
+> .mid export uses, so it shows the file you would export — the whole song at
+> once, one colour a part, click a part to see it alone. Use it to read the
+> ARRANGEMENT (what the groove and the arc thinner actually did) and the
+> printout to read the MATERIAL (what stage 3 wrote). They are different
+> pictures on purpose and the difference is worth knowing.
 
 A generative-music instrument that composes and plays complete songs — drums,
 bass, chords, melody, a second melody and a repeating figure — across **seven

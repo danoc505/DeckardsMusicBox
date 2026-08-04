@@ -506,7 +506,7 @@ WAV hash can never be the determinism test. The determinism test is the
 Run all of these before you claim anything.
 
 ```bash
-node harness/mk2_test.js                              # the seam checks (118 at af17de6)
+node harness/mk2_test.js                              # the seam checks (120 at f8ae533)
 node harness/mk2_roll.js 1                            # THE test that matters
 node harness/mk2_roll.js 1 --song                     # full arrangement
 node harness/mk2_roll.js 1 --genre plastikman         # any of the seven genres
@@ -514,7 +514,7 @@ node harness/mk2_roll.js 1 --picks lead=sax           # load a machine and read 
 node harness/mk2_roll.js 1 --mid out.mid              # .mid round-trip check
 node harness/mk2_roll.js 1 --blend lofi:50,jungle:50  # read a blended song
 node harness/mk2_snapshot.js check harness/mk2_baseline.snap
-node harness/mk2_ui.js                                # 26 checks, in a browser
+node harness/mk2_ui.js                                # 33 checks, in a browser (FLAKY ~1 in 5)
 node harness/mk2_blend.js                             # 10 checks, the blend sliders
 node harness/mk2_midi.js                              # 20 checks, MIDI port, stub device
 node harness/mk2_stamp.js check                       # is the published build this build?
@@ -529,6 +529,7 @@ node harness/probe_sax.js                             # what the horn actually a
 node harness/probe_pull.js                            # does the genre outweigh the seed?
 
 node harness/probe_comp.js                            # how the comp is voiced
+node harness/probe_density.js 30                      # HOW MANY notes sound, and when nothing does
 node harness/probe_harmony_neo.js                     # chromaticism and voice leading
 node harness/probe_cymbals.js                         # the harsh band, absolute and as a share
 python3 harness/make_sample.py <file> --name x --pitched   # WAV/AIFF -> embeddable payload
@@ -546,7 +547,7 @@ python3 harness/test_audio.py /tmp/aud                # assertions on the SAMPLE
 
 **The five-minute battery, before any claim:** `mk2_test.js`, `mk2_ui.js`,
 `mk2_blend.js`, `mk2_midi.js`, `mk2_snapshot.js check`, `probe_voices.js`.
-State at `af17de6`: **118 / 26 / 10 / 20 / IDENTICAL / 0 silent.**
+State at `f8ae533`: **120 / 33 / 10 / 20 / IDENTICAL / 0 silent.**
 
 **Run the rendered-audio battery too when you touch the SOUND** — the graph, a
 voice, a genre's `space` or `kick`, the master chain. It takes about two minutes
@@ -2062,108 +2063,202 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
 
 ## 9. THE NEXT JOB
 
-*Written at `7c7644b`. Everything here is verified unless marked otherwise.*
+*Rewritten 2026-08-04 at `f8ae533` (build `2026-08-04j`). The version this
+replaces was written at `7c7644b` a week earlier and its items are folded into
+§9.7 below rather than deleted — they were right then and most are still open.*
+
+### 9.0 THE ONE THAT OUTRANKS THIS WHOLE SECTION
+
+**Eight builds shipped on 2026-08-04. Nobody has heard any of them.**
+`04b` the Wurlitzer, `04c` the record surface and the kick duck, `04d` chord
+quality from 1170 jazz tunes, `04e` the bass leaving the root, `04f` the widened
+out-of-key law, `04g` jungle's chords, `04h` the roll, `04i` the Rhodes lead,
+`04j` the tune's rests.
+
+**Start the listening from `04j`** — every earlier build is inside it, and the
+published artifact IS `04j` (stamp checked). The brief is `test/ears/LOG.md`.
+`docs/BACKLOG.md` §0 says it plainly and it has been true for weeks: *nothing
+should be built on top of this stack until it has been played.* The sax is the
+precedent — every metric green, and the ear refused it.
+
+**Two of the eight are the loudest and should be judged first:**
+`04i`, because lofi's tune changed instrument — sawtooth to electric piano — and
+that is the biggest single change to this genre in weeks; and `04j`, because the
+tune now stops between phrases, which is a change to the *shape* rather than the
+sound.
 
 ### Before you start: the two-minute orientation
 
 ```bash
-node harness/mk2_test.js            # expect 118 / 0 at af17de6
-node harness/mk2_roll.js 1 --genre plastikman   # READ IT. This is the method.
-node harness/probe_novelty.js       # what each genre's drums actually are
-node harness/probe_poly.js          # each lane's real period
-node harness/probe_wiring.js        # which genre reaches what was added
+node harness/mk2_test.js                        # expect 120 / 0 at f8ae533
+node harness/mk2_roll.js 1 --genre lofi         # READ IT. This is RULE ONE.
+node harness/probe_density.js 30                # how many notes sound, and when none do
+node harness/probe_counterpoint.js 20           # what two lines do relative to each other
+node harness/probe_novelty.js                   # what each genre's drums actually are
 ```
 
-**And read `docs/BACKLOG.md` before picking anything from §9 below.** This
-section was written at `7c7644b` and names jobs that were right then; the
-backlog is the list that is kept current, and its §0 — *the ear has heard
-almost none of this* — outranks everything in either file.
+Then open the published artifact and **look at THE ROLL**, at the top of the
+page. It draws the performance through `midiKeyFor` — the same function the .mid
+export uses — so it shows the file you would export. It is the fastest way to
+see what a genre *is*: DKC's ostinato is two unbroken blue lines, jungle's is
+almost nothing, lofi's comp is a green cloud with the tune above it.
 
-The roll is the test that matters. Everything below was found by reading it or
-by writing a probe that reads what it reads.
+**Read `docs/BACKLOG.md` before picking anything below.** This section names the
+jobs; the backlog is the list that is kept current, and its §0 outranks both.
 
-### 9.1 The listener can add a note; it cannot MOVE one
+---
 
-**This is the strongest single finding not yet acted on.** The research measured
-that **moving an onset produces roughly three times the groove effect of adding
-one** — and displacement is *onset-conserving*, so it would make density
-conservation exact rather than merely bounded.
+### 9.1 THE COMP IS AN OCTAVE AND A FIFTH WIDE; THE TARGET IS TWO OCTAVES
 
-`kit.listen` currently has `roll` (n adjacent sixteenths) and `figure: "run"`
-(count a roll rather than a hit). Booth's sentence is *"a little roll **or
-skip**"* and the skip is missing.
+**The oldest measured gap in the program with a number on both sides.**
 
-**Do not build it blind.** One judge in the research pass measured a
-one-sixteenth nudge on a period-7 lane as **audibly null** — 232 → 232 adjacent
-sixteenth events, −0.5% drum events — on the argument that a lane already sliding
-against the bar has no metrical reference for the ear to detect a nudge against.
-That is a claim, not a fact; it was measured on a build that no longer exists.
-**Re-measure it with `probe_novelty.js` before writing the feature**, and if it
-is null, say so and stop.
+```
+  what is SOUNDING at each sixteenth (probe_density.js, 30 seeds):
+  lofi 14.0 semitones · bladerunner 12.2 · jungle 12.2 · synthwave 11.7
+  dkc 11.6 · plastikman 11.2 · acid 7.7
 
-### 9.2 The genre plays exactly ONE drum material
+  the sources: "spread voicings where the notes span TWO OCTAVES OR MORE"
+  [corpus:orphiq], and the user's own reference photograph frames one bar as
+  B3/B4/D5/C6/F6 — thirty semitones.
+```
 
-MEASURED over 30 seeds, Plastikman spends **4432 bars on A, 3488 on Avar, 128 on
-C and ZERO on B**. Nothing maps to B — the genre has no chorus — and C is the
-bridge, whose role list is `["ostinato"]` with no drums at all. `A.drums` and
-`Avar.drums` are the **same object** (no chop).
+Drop-2, drop-2-and-4, rootless candidates, a spread bonus and an open-voicing
+anchor have all shipped, and together they bought about a semitone and a half.
+**They cannot buy more, and the reason is structural, not a weight.**
+`buildKeys` folds every chord tone into the genre's `keys` band first, so the
+band IS the ceiling: lofi's `[52, 74]` is 22 semitones and cannot contain a
+two-octave voicing plus its own inner movement.
 
-So anything declared in `kit.variants.lift` or `.depart` for this genre is a
-comment with syntax. Two poly blocks were deleted for exactly this. **There is
-no seam check for it** — a check that says "every kit variant a genre declares
-is a variant it plays" would catch this class for all seven genres, and it is
-worth writing. It will go red on Plastikman immediately, which is correct.
+**What is actually being asked is a decision this project has parked twice:**
+*a comp spread across three octaves is one instrument covering the whole range,
+and it would overlap the bands the bass and the lead are guaranteed.* That is a
+decision about what this program is. Make it, write it down, and then the code
+is easy. `BACKLOG.md` §6.2.
 
-### 9.3 Eleven of 210 composed parts are still silent
+### 9.2 THE COMP NEVER BARKS — and it is an accident, not a choice
 
-From the earlier rack work: a machine loaded into a slot composes material that
-never reaches the performance in ~5% of songs. The check
-`a machine you load into a slot is heard` tolerates 10% per genre/slot so it
-passes. The cause is believed to be the register allocator declining when a
-genre's bands are genuinely full — a graceful decline, not a bug — **but that
-has not been verified**. Read the roll for one of the silent cases.
+```
+  which velocity layer of the Rhodes bank each note reaches, lofi, 60 seeds:
+  the comp   soft 32.3%   mid 67.7%   hard 0.0%    (34 969 notes)
+  the tune   soft  0.1%   mid 94.9%   hard 5.0%    (11 554 notes)
+```
 
-### 9.4 The pad adds no colour tones
+Zero of 34 969. The bank has three velocity layers and the part that plays three
+quarters of the Rhodes notes reaches two of them. The bark is the instrument's
+signature and it is a DYNAMIC — *"the player can bring out more or less bark with
+more or less forte in their playing"* [corpus:chicagoelectricpiano].
 
-MEASURED: **0 of 4,876** pad bars contain a 9th, 11th or 13th (0%), against the
-comp's 6.56%. The pad's harmony is 100% chord tones. That may be correct for a
-block-chord pad and it may be why it sounds flat. Marked `[EAR]` — it needs
-`render_audio.js` and a listener, not another note-level probe.
+**The cause is arithmetic.** The layer switches at velocity 80;
+`vel = gain × 100 × (0.72 + 0.56 × bark)`; lofi declares `bark: 0.42` and its
+comp gains top out at 0.79, so the hardest chord arrives at **75**. Five short,
+every time, out of two numbers set independently of each other.
 
-### 9.5 Samples, honestly
+**This is an EARS job, not a code job.** A comping left hand genuinely is played
+softer than a melody. Render lofi seed 1 at `bark: 0.42` and at `bark: 0.60`
+(which reaches the layer) and let the user choose. Do not raise it because the
+measurement is tidy. `docs/genre-research/the-rhodes.md` §4a.
 
-The user has said: *"this is a personal program, no distribution."* That answers
-the commercial half of a licence and the licence objection in
-`docs/genre-research/sax-sources.md` is therefore **not the blocker**.
-Permissively-licensed sax samples exist: **University of Iowa MIS** (free, three
-real dynamic layers, filenames carry the pitch), **VCSL/FreePats** (CC0),
-**Weresax** (free).
+### 9.3 THE CHORDS DO NOT DRAG, AND THE SOURCES GIVE A NUMBER
 
-The blocker is **payload**, and it is a real number: the HTML is 2.14 MB of which
-1.07 MB is already base64 audio. A pitched multisample — 33 semitones × 3
-dynamics, even at 22 kHz mono — is roughly **8 MB more**, on a single file that
-has to load over mobile data on a phone. That is the trade. If it is worth it,
-**Iowa is the one to take**, because three genuine dynamic layers is the thing a
-model approximates least well — a saxophone's dynamic is *timbral*, not a fader.
+The one hard figure in the lofi production research that is **not implemented**:
 
-And note what the articulation work proved: a sampled sax with no phrasing model
-would have had the **same defect** with a more expensive waveform. The phrasing
-had to exist either way. It does now, and samples would inherit it.
+> "Quantized chords sound sterile… **nudge the entire chord 10–30 milliseconds
+> late.** That drag creates the laid-back feel." [corpus:orphiq]
 
-### 9.6 Things NOT to do
+Stage 5 has a groove, a dilla lean and a per-lane push, and none of them is this.
+**Before building it, answer the question the sheet flags:** [corpus:orphiq]
+says "nudge the entire chord", but our comp is ROLLED — the voices already enter
+across several sixteenths — so it is not obvious what "the entire chord" means
+here. Decide it, write the reasoning down, then build.
+
+And the finding beside it, which is more interesting and less safe: the layers of
+a Dilla record **do not agree with each other** — hi-hat on a quintuplet feel
+while the kick is on a triplet one, measured off waveforms
+[corpus:pocketchops]. This program gives every lane one groove.
+`lofi-comp-and-lead.md` §3, and note the stated limit there before quoting it.
+
+### 9.4 JUNGLE'S BASS — 100% root, one note a bar, and no research supports a change
+
+`04g` gave jungle the jazz chords its own July sheet had asked for and never
+received: dissonant intervals 0.0% → 13.5%, pitched moments 374 → 801.
+**It did not fix the parallel fifths — 21.7% → 19.2%, still 150× Bach.** The
+cause is the one this project already found and fixed for lofi: the bass is
+100% root, one note a bar, so bass and chords move together at every change and
+any interval between them survives.
+
+**Do not guess it.** `jungle-harmony.md` §5: the sources give "roots, octaves,
+fourths/fifths" and "pentatonic" and nothing more. The lofi fix worked because
+`bass.md` researched it first. Do the same for jungle — or say the sources do
+not support a change and leave the row open, which is also a result.
+
+Acid, plastikman and synthwave's basses have never been researched either.
+
+### 9.5 THE ARRIVAL RULE — the law this repo measured and did not write
+
+`counterpoint-measured.md` §3, on Bach's 382 chorales: a clash is approached by
+step **96.8%** of the time and left by step **91.3%** — fractionally *stricter
+arriving than departing*. This program has a departure rule for the tune (a
+dissonance must resolve by step) and **nothing anywhere about arrival**.
+
+`04f` widened the out-of-key law to ask about the chord that FOLLOWS as well as
+the one underneath, and that widening moved nothing across 2100 seeds — which is
+the right shape for a law. An arrival rule is the same shape and the same size.
+
+### 9.6 TWO THINGS THE ROLL CANNOT DO YET
+
+Small, and both were found by using it:
+
+- **It shows one song and cannot compare two.** The interesting question about
+  eight unheard builds is what CHANGED; the display answers "what is there". A
+  ghost layer of another seed or another build would answer it.
+- **No zoom, no scroll.** A 304-bar jungle song is squeezed into the same width
+  as a 44-bar lofi one, so a bar is three pixels and only the shape survives.
+
+### 9.7 STILL OPEN FROM THE PREVIOUS §9 (`7c7644b`), unchanged
+
+- **The listener can add a note; it cannot MOVE one.** Research measured
+  displacement at ~3× the groove effect of addition, and it is onset-conserving.
+  `kit.listen` has `roll` and `figure: "run"`; Booth's sentence is *"a little
+  roll **or skip**"* and the skip is missing. **Re-measure before building** —
+  one judge measured a one-sixteenth nudge on a period-7 lane as audibly null,
+  on a build that no longer exists. If it is null, say so and stop.
+- **plastikman plays exactly ONE drum material** — 4432 bars on A, 3488 on Avar,
+  128 on C, **zero on B**. Anything in its `kit.variants` is a comment with
+  syntax. A seam check saying "every kit variant a genre declares is one it
+  plays" would catch the class for all seven genres and will go red on
+  plastikman immediately, which is correct.
+- **Eleven of 210 composed parts are silent.** A machine loaded into a slot
+  composes material that never reaches the performance in ~5% of songs. Believed
+  to be the register allocator declining gracefully; **not verified.** Read the
+  roll for one of the silent cases.
+- **The pad adds no colour tones** — 0 of 4876 pad bars contain a 9th, 11th or
+  13th, against the comp's 6.56%. May be correct for a block-chord pad and may be
+  why it sounds flat. `[EAR]`.
+- **Samples, honestly.** "No distribution" answers the licence half; the blocker
+  is payload. The HTML is 2.2 MB of which 1.07 MB is already base64 audio, and a
+  33-semitone × 3-dynamic sax multisample is roughly **8 MB more** on a file that
+  loads over mobile data. If it is worth it, **University of Iowa MIS** is the
+  one to take — three genuine dynamic layers is what a model approximates least
+  well. And note what the articulation work proved: a sampled sax with no
+  phrasing model would have had the same defect with a more expensive waveform.
+
+### 9.8 THINGS NOT TO DO
 
 - **Do not report a red battery as "pre-existing".** Eight audio failures were
   dismissed that way for most of a session and two of them were real defects in
-  the music. If it is red, it is red about this program.
-- **Do not widen a threshold to make a check pass.** Measure why it moved
-  first. The one threshold that *was* widened this session (render determinism,
-  4 → 8 LSB) came with eight runs of measurement, the difference located to a
-  single 0.9-second window, and the null at −107 dBFS stated.
+  the music.
+- **Do not widen a threshold to make a check pass.** Measure why it moved.
 - **Do not add a table entry to a variant without checking the variant plays.**
-  See 9.2.
 - **Do not trust a comment in the HTML.** They are claims. Several were true when
-  written and became false. The polymeter one was decoration for months.
-
+  written and became false.
+- **Do not report a snapshot diff as "notes moved" without checking.** It hashes
+  every field an event carries, on purpose. `04i` added `ev.timbre` and 1500 of
+  2100 seeds "changed" while not one note did — proved by re-hashing with the
+  field stripped. Do that before you re-baseline, and say which you did.
+- **Do not measure space in bars.** `04j` made the tune rest and the obvious
+  metric — bars with no note at all — read 5.3% → 6.2% and nearly got a real
+  change reported as doing nothing. A rest in the back half of a bar leaves a
+  note at the front. Space is measured in TIME.
 
 ## 10. What was deleted at `fcc3c50`, and why
 

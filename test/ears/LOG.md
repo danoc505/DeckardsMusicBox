@@ -26,6 +26,74 @@ regression.
 
 ## OPEN — sent, awaiting verdict
 
+### 2026-08-04 · EIGHT BUILDS IN A DAY, NONE HEARD — start here, on `2026-08-04j`
+
+**Start from `04j` and not from `04b`.** Every earlier build of the eight is
+inside it, so one sitting settles all of them. The published artifact IS this
+build (`node harness/mk2_stamp.js check` is green). Open it, type the seed in
+the box, pick the genre, press **new song**, press **play**.
+
+**Two of the eight are the loud ones. Judge these first.**
+
+---
+
+**1. lofi, seed 1 — WHAT IS PLAYING THE TUNE.** The single biggest change to
+this genre in weeks. Until today lofi's melody came out of `V.lead`: three
+oscillators, a triangle, a square and a sawtooth an octave up, through one
+filter with a vibrato fixed at 5.1 Hz. It is now a **Rhodes or a Wurlitzer** —
+seed 1 draws the Wurlitzer for the tune and the Rhodes for the chords.
+
+Three sources name this genre's lead and not one of them names a synth. The
+question is not whether that is correct — it is whether it SOUNDS right here,
+and specifically:
+
+- **Does the tune still cut through the comp?** They are now the same family of
+  instrument, in overlapping registers. It was measured arriving 2 dB quiet and
+  trimmed back up by 1.25×; that number is arithmetic, not taste.
+- **Rhodes or Wurlitzer for the tune?** The draw is 6/4 in the Rhodes' favour.
+  Seed 1 is the Wurlitzer, **seed 2 is the Rhodes** — play both.
+- **Should the tune be a DIFFERENT instrument from the comp?** One source says a
+  lead should sit "without competing with the chords". Right now they can be the
+  same one. Seed 3 draws Rhodes for both.
+
+**2. lofi, seed 1 again — THE TUNE NOW STOPS.** A phrase is two bars; its second
+bar may no longer put a note in its back half, and the hook lost a note a bar.
+Measured: silent time 38.3% → 41.0%, rests of a beat or longer 39.2% → 47.9%.
+
+- **Is it enough silence, or too much?** No source gives a length for the rest.
+  This is the definition of an `[EAR]` number.
+- **Does the hook still sound like a hook** at 3.25 notes a bar instead of 4.06?
+
+---
+
+**The other six, in one pass each.** All measured, all unheard:
+
+- **`04c` the record surface** — the crackle went up 15.7 dB and got its own
+  channel. **lofi, any seed, listen to the intro before the drums.** Too much?
+- **`04c` the kick duck** — 2.4 dB on the bass, chords and crackle, 4 ms on,
+  65 ms off. Sourced as "barely audible". **Is it?**
+- **`04d` chord quality** — lofi draws an explicit major/minor/dominant quality
+  75% of the time now, from 1170 jazz tunes. **This is the biggest musical
+  change of the six and it is one number, `qualities: 0.75`.** Does the harmony
+  sound like this genre or like a jazz exercise?
+- **`04e` the bass** — it leaves the root: bars holding one pitch 61% → 42%,
+  step motion 28.8% → 38.6%. **Does it still sit under everything, or does it
+  wander?**
+- **`04f` the chromatic approach note** — the bass now walks into the next chord
+  by a semitone rather than a scale step. **Colour, or a wrong note?**
+- **`04g` jungle's chords** — sevenths and ninths where there were triads.
+  **jungle, seed 1.** Its own July research asked for this and the table never
+  received it. Does it still sound like jungle?
+
+---
+
+**And one thing to LOOK at rather than listen to.** THE ROLL, at the top of the
+page: the song's own notes on a phosphor grid. Click a part in the legend to see
+it on its own. It is the fastest way to check whether a complaint is about the
+sound or about the notes — and it drew a finding on its first day, that the comp
+plays a different 38 of its 41 written notes on each pass through a material.
+
+
 ### 2026-08-03 · THE UNHEARD STACK — one sitting, six songs, on build `2026-08-03o`
 
 Everything recent — the new reverb, stereo, the matrix mixer, the stage, the

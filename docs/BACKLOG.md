@@ -32,6 +32,15 @@ a source. Items are grouped by what they cost, not by when they appeared.
 > ear** — the roll is a display and moves no note; 2100 seeds byte-identical.
 > It does, however, make the six unheard builds *visible* for the first time,
 > which is worth something to whoever finally sits down with them.
+>
+> **AND THEN `04i` AND `04j` MADE IT EIGHT, both on lofi and both loud.** `04i`
+> gives the tune an electric piano instead of the house sawtooth — the biggest
+> single change to this genre in weeks, and it moves no note. `04j` makes the
+> tune stop between phrases and brings the hook inside the sourced note count;
+> 300 songs moved, all lofi.
+>
+> **The listening brief now starts from `04j`**, because every earlier build is
+> inside it. One sitting settles all eight. `test/ears/LOG.md`.
 
 **THE EAR HAS NOT HEARD ALMOST ANY OF THE RECENT WORK.** The FDN room, the
 whole stereo build, the matrix, the field, the stage, the flanger, the
