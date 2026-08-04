@@ -165,6 +165,59 @@ not happened.
 
 ---
 
+## 5b. AND THE FIX WAS BUILT TOO, AND ALSO REVERTED — the useful part is WHY
+
+§6.1 below said this was one cost term in `buildKeys`. It was built exactly
+that way: the bass line passed in, one pitch per bar, and a cost on the comp's
+top line making two fifths or two octaves in a row against it. The test is
+character for character the Bach one.
+
+**It runs. It fires. It is not enough.**
+
+```
+  keys/bass parallels, 30 seeds a genre       before    after
+     lofi                                      8.97%    8.28%
+     synthwave                                19.06%   15.23%
+     dkc                                      18.18%   13.04%
+     bladerunner                              11.02%   11.02%
+     acid                                      7.97%    8.61%
+```
+
+Real on synthwave and dkc — about a fifth and a quarter off. Nothing on lofi,
+nothing at all on bladerunner, and acid slightly worse.
+
+**Then the diagnostic that matters. The weight was raised from 30 to 120 —
+four times — and the numbers did not move**: lofi 8.28% → 8.28%, bladerunner
+11.02% → 11.02%, dkc 13.04% → 13.20%. And the term is not dead: instrumented,
+it is evaluated 1652 times over 10 lofi songs and flags 113 candidates.
+
+**So the cost is not what is binding.** On the bars that produce a parallel,
+the chooser has no non-parallel candidate that survives the filters it already
+has — the band ceiling, the muddiness rule, and the pitches other parts have
+already taken. Every candidate for one chord is a rearrangement of one set of
+tones, and which tone ends up on top is decided as much by those filters as by
+the cost.
+
+**This is the same lesson the openness weight already taught in this file** —
+"raising the openness cost from 9 to 22 moved the mean span by a tenth of a
+semitone, which is what a weight does when it is not the binding constraint."
+It was recorded there and I still had to rediscover it here.
+
+**Reverted, and the deciding fact was lofi.** A partial win on two genres is
+worth having, but this moves the chord voicings of *every* genre, and on the
+one genre currently being listened to it does nothing measurable. Changing what
+lofi plays for no benefit to lofi is not a trade worth making silently.
+
+**What the next attempt should do differently:** stop tuning the cost and widen
+the CANDIDATES. The chooser can only pick from the shapes it is offered, and on
+these bars none of them is clean. Two directions, neither tried:
+offer voicings that deliberately put a different chord tone on top when the
+bass repeats an interval, or let the bass not play the root — the parallel is
+made by the bass moving in lockstep with the chord's root, and it is the bass's
+freedom that is missing as much as the comp's.
+
+---
+
 ## 6. WHAT TO BUILD, now that it is located
 
 1. **The chords against the bass.** Every genre's worst pair, 8–19% against

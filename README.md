@@ -42,6 +42,30 @@
 > This rule outranks sounding precise. If a sentence is exact but they cannot
 > read it, it has failed.
 
+> ## ⚠ RULE ONE — PRINT THE NOTES AND READ THEM. EVERY TIME.
+>
+> **You have no ears. The printed notes are the test.** Not one test among
+> several — the one that tells you what the music actually did. Every change,
+> every time, on top of whatever else you ran:
+>
+> ```sh
+> node harness/mk2_roll.js 1 --genre lofi        # and all six others
+> ```
+>
+> Print it **before** the change and **after**, and put the two side by side.
+> If you think nothing moved, this is how you find out you were wrong. If
+> something did move, this is the only place you can see what.
+>
+> **Two traps, both of which have already caught someone:**
+>
+> - **`--genre` is a flag, and a bare genre name is silently ignored.**
+>   `mk2_roll.js 1 acid` composes **lofi**. Read the header line of every
+>   printout and check it names the genre you asked for.
+> - **Passing the test battery is not a substitute.** The snapshot goes red
+>   when a decorative field is added and no note moved; the seam checks prove
+>   the laws hold, not that the music is any good. Neither one shows you a
+>   chord changing from minor to dominant. The printout does.
+
 A generative-music instrument that composes and plays complete songs — drums,
 bass, chords, melody, a second melody and a repeating figure — across **seven
 genres**, with a rack of modelled machines you can put your hands on while it

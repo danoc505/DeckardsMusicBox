@@ -55,6 +55,34 @@ Corollaries that have already bitten, twice each:
 
 - **You do not have ears.** Audio renders prove nothing to you. The test that
   matters is `harness/mk2_roll.js` — the printed note grid — and the `.mid`.
+
+  > ### ⚠ AND THAT TEST IS NEVER OPTIONAL
+  >
+  > **Stated by the user, 2026-08-04: reading the printed notes is ALWAYS a
+  > test, on top of whatever else you ran.** Not instead of the battery, not
+  > only when notes were expected to move, not only for the genre you were
+  > working on. Every change, every time:
+  >
+  > ```sh
+  > node harness/mk2_roll.js 1 --genre <genre>     # for ALL SEVEN
+  > ```
+  >
+  > Print it before and print it after, and put the two side by side. If you
+  > believe nothing moved, the printout is how you find out you were wrong; if
+  > something did move, the printout is the only place you can see WHAT.
+  >
+  > **`--genre` is a named flag and the roll silently ignores a bare genre
+  > name.** `mk2_roll.js 1 acid` composes LOFI and says so in its header, which
+  > is exactly how a "all seven genres identical" claim got made on 2026-08-04
+  > from seven runs of the same genre. The conclusion happened to be right and
+  > the evidence was worthless. **Read the header line of every printout and
+  > check it says the genre you asked for.**
+  >
+  > Passing a battery is not a substitute. The snapshot hashes every field an
+  > event carries, so it goes red when a decorative field is added and nothing
+  > musical moved; the seam checks prove laws hold, not that the music is good.
+  > Neither of them shows you a chord turning from minor to dominant. The
+  > printout does.
 - **USE WHAT WE HAVE, AND FIND MORE — ALWAYS.** The user, 2026-08-02, on
   the sax material work: internet research on the topic AND on finding the
   scores, every time — existing corpora do not exhaust a question. The
