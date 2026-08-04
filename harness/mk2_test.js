@@ -639,7 +639,14 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      EVERY machine that declares it -- which is exactly what such a helper
      does. Derived from the source, so a new shared stage is picked up without
      touching this list. */
-  const rxv = /P\(g,\s*ev,\s*[A-Za-z_$][A-Za-z0-9_$]*,\s*"([A-Za-z0-9]+)"/g;
+  /* ...and the machine may be a CALL, not just a name. `DM(g)` -- "whichever
+     drum panel this graph is on" -- is the same idea as a bare variable and the
+     pattern could not see it, so every control the 808-circuit voices read had
+     to be hand-listed below. That list went stale the first time a control was
+     added to those voices (`punch`), which is this repo's fifth instance of
+     "anything that LISTS what the program contains will go stale". Widened to
+     allow one call, so the reads are DERIVED and the list is gone. */
+  const rxv = /P\(g,\s*ev,\s*[A-Za-z_$][A-Za-z0-9_$]*(?:\([^()]*\))?,\s*"([A-Za-z0-9]+)"/g;
   const viaHelper = new Set();
   for(let mm; (mm = rxv.exec(src)); ) viaHelper.add(mm[1]);
   for(const m in M.INSTRUMENTS)
@@ -650,21 +657,26 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      they name, and the chip's brightness is looked up by the machine name its
      factory was handed. Named here so the scan is honest about what it cannot
      see rather than silently missing them. */
-  READS.add("tr808.chdecay"); READS.add("tr808.ohdecay");
+  /* the two hat decays name their KEY through a variable -- the closed and open
+     hat are one circuit at two decays and the voice is handed which one to read
+     -- so no scanner can see them whatever it does about the machine. Which
+     MACHINES have them is still derived, from the declarations, so a third
+     machine with a hat circuit is covered the day it is declared. */
+  for(const m in M.INSTRUMENTS)
+    for(const k of ["chdecay", "ohdecay"])
+      if((M.INSTRUMENTS[m].controls || []).some(c => c.k === k)) READS.add(m + "." + k);
   READS.add("chipbass.bright"); READS.add("chipkeys.bright");
   /* the whole acoustic kick reads through one helper keyed by a variable, and
      every gate's hold is looked up on whichever drum panel the plan names */
   for(const k of ["tune","decay","click","drive","body","gain"]) READS.add("kit." + k);
   READS.add("kit.hold"); READS.add("tr808.hold"); READS.add("tr1000.hold");
-  /* THE 808-CIRCUIT VOICES NAME THEIR PANEL THROUGH A VARIABLE NOW. They read
+  /* THE 808-CIRCUIT VOICES NAME THEIR PANEL THROUGH A VARIABLE -- they read
      P(g, ev, DM(g), ...) rather than a literal, because the TR-1000's analogue
-     engine IS the 808 and 909 rebuilt and shares every one of those voices. The
-     regex above can only see literals, so the pair is named here -- and named
-     for BOTH machines, so a value declared on either panel is proven to reach a
-     voice rather than assumed to. */
-  for(const k of ["tune","decay","tone","snappy","sdtone","chdecay","ohdecay"]){
-    READS.add("tr808." + k); READS.add("tr1000." + k);
-  }
+     engine IS the 808 and 909 rebuilt and shares every one of those voices.
+     There used to be a hand-written list of those seven control keys here. It
+     is gone: `rxv` above now reads a call as well as a name, so every control
+     any such voice reads is derived from the shipped source and a new one is
+     picked up the day it is written instead of the day someone remembers. */
   /* THE BUS GAINS are the only controls no voice reads at a note, because they
      are gain NODES the whole kit passes through rather than anything a note can
      ask about. They are not frozen -- setSpace writes an automation curve on

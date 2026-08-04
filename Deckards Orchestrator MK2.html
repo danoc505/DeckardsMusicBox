@@ -1875,6 +1875,29 @@ const INSTRUMENTS = {
       { k:"tune",   label:"BD tune",    cap:"TUNE",   min:35,  max:70,  step:1,    def:47,  unit:"Hz" , kind:"voicing" },
       { k:"decay",  label:"BD decay",   cap:"DECAY",  min:0.15,max:1.60,step:0.01, def:0.85,unit:"s" , kind:"gesture" },
       { k:"tone",   label:"BD tone",    cap:"TONE",   min:0,   max:1,   step:0.01, def:0.45 , kind:"gesture" },
+      /* ── PUNCH: the layer this voice was missing, and the acoustic kick has
+         had it all along ──────────────────────────────────────────────────────
+         `V.kick` carries a saturated harmonic an octave over its fundamental and
+         its own comment says why: "it is what lets the note survive a speaker
+         with no bottom." `V.k808` never had one -- one sine and an 8 ms click --
+         and k808 is what lofi, synthwave and acid all play.
+
+         MEASURED before this existed: 46-52% of the 808 kick's energy sits under
+         100 Hz and its fundamental settles at 45-60 Hz, which a laptop speaker, a
+         phone and most headphones do not reproduce at all. The kick was not
+         quiet; it was UNDER THE SPEAKER. That is the user's "barely there".
+
+         The sources put the weight exactly one octave up from this machine's
+         tuning range: the "body/thump layer gives the kick its weight... think of
+         the OOMPH of the kick", with "content around 110-140 Hz"
+         [corpus:unison.audio layering-drums; corpus:transmissionsamples kick-drum
+         -production]. At tune 45-60 the octave IS 90-120 Hz, so this is the
+         fundamental's own second harmonic rather than a frequency invented beside
+         it -- and the ear reconstructs the missing fundamental from it, which is
+         why the note survives a small speaker.
+         A voicing control: it says what the drum IS, so the conductor does not
+         ride it and the battery does not ask it to. */
+      { k:"punch",  label:"BD punch",   cap:"PUNCH",  min:0,   max:1,   step:0.01, def:0.55 , kind:"voicing" },
       { k:"snappy", label:"SD snappy",  cap:"SNAPPY", min:0,   max:1,   step:0.01, def:0.55 , kind:"gesture" },
       { k:"sdtone", label:"SD tone",    cap:"TONE",   min:0,   max:1,   step:0.01, def:0.50 , kind:"voicing" },
       { k:"chdecay",label:"CH decay",   cap:"CH",     min:0.01,max:0.14,step:0.005,def:0.045,unit:"s" , kind:"gesture" },
@@ -6475,14 +6498,54 @@ registerProcessor("mk2-room", MK2Room);
     og.gain.setValueAtTime(LEVEL.kick * ev.gain * 1.15, t);
     og.gain.exponentialRampToValueAtTime(0.0002, t + dec);
     o.connect(og); og.connect(drumOut(g, ev.lane)); o.start(t); o.stop(t + dec + 0.05);
-    /* TONE opens a short noise click on the front -- the 808's only transient */
-    const n = burst(g, t, 0.008, ev.tSec.toFixed(5) + ":808bd");
-    const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 1200; hp.Q.value = 0.7;
+    const made = [o];
+    /* ── THE BODY: the OOMPH, and what makes this audible at all on a speaker
+       that has no bottom. See the PUNCH control's declaration for the sources.
+       It rides the SAME pitch envelope because it is the same drum -- a fixed
+       tone beside a swept one is two instruments -- and it decays faster than
+       the sub, so it reads as weight at the front of the note rather than as a
+       second kick ringing behind it. Deliberately well under the sub's level,
+       for the reason V.kick already records: two stacked sines at similar level
+       is how an earlier build put 81% of its mix below 250 Hz.
+
+       IT IS THE THIRD HARMONIC, AND THE FIRST VERSION USED THE SECOND, WHICH
+       MEASURED AS DOING NOTHING AT ALL. The octave of a kick tuned 45-52 Hz is
+       90-104 Hz -- still under the 100 Hz corner, still under the speaker. The
+       100-250 Hz share read 14.2 / 13.8 / 13.9% before the layer existed and
+       14.2 / 13.8 / 13.9% after it: identical to the decimal, a layer added to
+       fill a band that landed underneath it. The third harmonic puts the same
+       tuning range at 135-156 Hz, inside the sourced 110-140 band and plainly
+       above what a laptop can move. It is also the harmonic this circuit really
+       makes: a bridged-T resonator driven through a clipping transistor stage
+       produces predominantly ODD harmonics, so the 3rd is what the hardware
+       leans on rather than a frequency chosen to satisfy a metric. */
+    const punch = P(g, ev, DM(g), "punch", 0.55);
+    if(punch > 0){
+      const o2 = c.createOscillator(); o2.type = "sine";
+      o2.frequency.setValueAtTime(tune * 4.2 * 3, t);
+      o2.frequency.exponentialRampToValueAtTime(tune * 3, t + 0.030);
+      const g2 = c.createGain();
+      g2.gain.setValueAtTime(LEVEL.kick * ev.gain * 0.85 * punch, t);
+      g2.gain.exponentialRampToValueAtTime(0.0008, t + dec * 0.55);
+      o2.connect(g2); g2.connect(drumOut(g, ev.lane));
+      o2.start(t); o2.stop(t + dec * 0.55 + 0.05); made.push(o2);
+    }
+    /* TONE opens a short noise click on the front -- the 808's only transient.
+       Its band was a bare highpass at 1200 Hz; the sources put the layer that
+       cuts through a mix "up top around 5kHz-8kHz" [corpus:unison], so the
+       click is tilted there rather than carrying everything above 1.2 kHz. Still
+       an 808 click: 10 ms, tight, and TONE is still the only thing that sets its
+       level. */
+    const n = burst(g, t, 0.010, ev.tSec.toFixed(5) + ":808bd");
+    const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 2400; hp.Q.value = 0.7;
+    const pk = c.createBiquadFilter(); pk.type = "peaking";
+    pk.frequency.value = 6000; pk.Q.value = 0.9; pk.gain.value = 6;
     const ng = c.createGain();
     ng.gain.setValueAtTime(LEVEL.kick * ev.gain * 0.5 * tone, t);
-    ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.010);
-    n.connect(hp); hp.connect(ng); ng.connect(drumOut(g, ev.lane));
-    return [o, n];
+    ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.012);
+    n.connect(hp); hp.connect(pk); pk.connect(ng); ng.connect(drumOut(g, ev.lane));
+    made.push(n);
+    return made;
   };
 
   V.s808 = function(g, ev, t){
@@ -10302,7 +10365,26 @@ const GENRE = {
        in 15, which is the desk setting the effect was found on.
        [corpus: SoundOnSound "How do I set up a gated reverb"; MusicRadar on
        Padgham, Gabriel and Collins -- hold ~150 ms, release ~148 ms] */
-    gate: { send: 0.95, hold: 0.150, fall: 0.015, tomDecay: 0.40 },
+    /* ── AND THE RETURN IS BALANCED AGAINST THE DRY, WHICH IT WAS NOT ─────────
+       User report, 2026-08-04: "the snare used in Synthwave is horrible, it
+       overrides the bass drum". MEASURED, this genre's own kick and snare
+       rendered one at a time through their real chains: the snare peaked
+       +0.3 dB ABOVE the kick, its RMS was 0.0858 against 0.0163-0.0193 for
+       every other genre's snare -- five times -- and it rang for 130 ms where
+       lofi's and acid's stop in 53-57. It was not a snare with a room on it; it
+       was a room with a snare in it.
+
+       The cause is a send at 0.95 with nothing balancing the wet against the
+       dry. The technique sheets are explicit that this is the step: "use the
+       volume fader on an auxiliary bus to balance the volume of the effect with
+       the original track", and "to preserve the volume balance, adjust the
+       snare's volume using a bus that controls both the original snare and the
+       gated reverb together" [corpus:ledgernote gated-reverb; corpus:emastered
+       gated-reverb]. The HOLD and FALL are untouched -- 150 ms then off in 15 is
+       the desk setting the effect was found on and it is what makes it a gate
+       rather than a reverb, so the character stays and only the amount moves.
+       The amount itself is [EAR]: the sources give the method, never a number. */
+    gate: { send: 0.55, hold: 0.150, fall: 0.015, tomDecay: 0.40 },
     /* SYNTHWAVE PLAYS THE RIBBON, and this is the first genre in the program to
        switch it on. The lead in this music bends -- it is a hand on a wheel or a
        strip, not a sampled instrument, and a lead line that never leaves its
@@ -10413,13 +10495,13 @@ const GENRE = {
       /* THE CHAINS. Synthwave's gated snare is the genre's signature and it is
          exactly a per-voice send: the snare goes to a big room and the kick and
          hats stay dry, which a shared bus cannot express at all. */
-      tr1000: { sCut: 9000, sEcho: 0.14, sVerb: 0.52,
+      tr1000: { sCut: 9000, sEcho: 0.14, sVerb: 0.34,
                 kCut: 20000, kEcho: 0.00, kVerb: 0.06,
                 hCut: 12000, hEcho: 0.08, hVerb: 0.16,
                 oCut: 10000, oEcho: 0.18, oVerb: 0.30,
                 tCut: 6500, tEcho: 0.16, tVerb: 0.44,
                 tune: 50, decay: 0.55, tone: 0.68, snappy: 0.72, sdtone: 0.62,
-               chdecay: 0.055, ohdecay: 0.58, bus: 1.40, gate: 0.95, hold: 0.150 },
+               chdecay: 0.055, ohdecay: 0.58, bus: 1.40, gate: 0.55, hold: 0.150 },
       tb303: { cutoff: 620, res: 11.0, envmod: 0.58, decay: 0.30,
                accent: 0.70, drive: 3.0, wave: 0 },
       /* THE INITIAL PITCH BEND, at a synthwave depth rather than a Vangelis
