@@ -13,22 +13,32 @@ rendered-audio failures that had been dismissed as "pre-existing" turned out to
 contain two real defects in the music. For whoever picks this up next. Read this
 whole file before you touch the HTML.*
 
-**State at `af17de6` (build `2026-08-03o`), every number below measured on that
+**State at `12e3c40` (build `2026-08-04g`), every number below measured on that
 commit — not remembered from an earlier one.** The row that is not green is
 not green, and says why.
 
 | battery | command | result |
 |---|---|---|
 | seam checks | `node harness/mk2_test.js` | **118 passed, 0 failed** |
-| UI, in a browser | `node harness/mk2_ui.js` | **26 passed, 0 failed** |
-| blend sliders | `node harness/mk2_blend.js` | **10 passed, 0 failed** (504/504 pairs) |
+| UI, in a browser | `node harness/mk2_ui.js` | **26 passed, 0 failed** — but see the FLAKE note below |
+| blend sliders | `node harness/mk2_blend.js` | **10 passed, 0 failed** |
 | MIDI port | `node harness/mk2_midi.js` | **20 passed, 0 failed** |
-| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** (baseline `3a06b1c1b32aea33`) |
+| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** (baseline `0c1d7a9c402bbec4`) |
 | every voice | `node harness/probe_voices.js` | **0 threw, 0 silent** |
-| every crossing of the grid | `node harness/probe_matrix.js <genre>` | **every testable crossing changes the sound**; ~20 min a genre |
-| renders repeat | `node harness/probe_render_determinism.js` | **all seven repeatable**, worst −92 dB |
-| who uses what | `node harness/probe_wiring.js` | a table, not a pass/fail — see §3 of `docs/BACKLOG.md` |
-| rendered audio | `node harness/render_audio.js <dir> 1,2` then `python3 harness/test_audio.py <dir>` | **316 passed, 15 failed** — and the same 15 to the last digit on the commit before. **13 are one stale check**: `docs/BACKLOG.md` §1 |
+| the notes | `node harness/mk2_roll.js 1 --genre <g>` | **all seven print; this is RULE ONE and is not optional** |
+
+> **`mk2_ui.js` IS FLAKY.** About one run in five reports 25/26 and every
+> re-run is clean; seen twice on 2026-08-04 on unrelated commits. It is browser
+> timing, not the program. **A red run must be re-run and BOTH results
+> reported**, never just the green one. `BACKLOG.md` §6.6.
+
+**SIX BUILDS SHIPPED ON 2026-08-04 AND NOT ONE HAS BEEN HEARD.** `04b` the
+Wurlitzer, `04c` the record surface and the kick duck, `04d` chord quality from
+1170 jazz tunes, `04e` the bass leaving the root, `04f` the widened out-of-key
+law, `04g` jungle's chords. Two genres changed; five are byte-identical
+throughout. The brief for listening to them is `test/ears/LOG.md`, and §0 of
+the backlog — *nothing should be built on top of this stack until it has been
+played* — applies to all six of them.
 
 **THE HEADLINE THAT IS NOT A BATTERY:** almost none of the last two weeks of
 work has been LISTENED TO. `docs/BACKLOG.md` §0. Measurements prove a thing

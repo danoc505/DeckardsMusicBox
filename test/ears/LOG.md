@@ -140,3 +140,47 @@ at the FM version this replaced, so this is the first listen to the real one.
 ## SETTLED
 
 *(nothing yet — the user has not returned a verdict on any of the above)*
+
+---
+
+# THE LISTENING PASS FOR `2026-08-04g` — six builds, none of them heard
+
+*Written 2026-08-04. `BACKLOG.md` §0 says nothing should be built on top of
+this stack until it has been played, and then six builds were shipped in one
+day on top of it. This is the brief for hearing them. Everything below was
+measured; **none of it was listened to**, and measurement has never once proved
+that something sounds good on this project.*
+
+**Two genres changed. Nothing else moved — the other five are byte-identical.**
+
+## LOFI — five separate changes, and they stack
+
+Load lofi and press play. **Seed 1** shows every one of them.
+
+| what to listen for | where it is | what changed |
+|---|---|---|
+| **the record surface** — a fizzy hiss under everything, loudest in the intro and the quiet parts | all the time | it was 79 dB under the music, which is inaudible. It is now about 61 dB under, where a real record sits. **If it is too loud this is the first thing to say** — it is one number. |
+| **the kick pushing everything aside** | every kick | the bass, the chords and the record noise now dip about 2.5 dB when the kick lands and come back in 80 ms. It should be felt rather than heard. **If you can HEAR it pumping, it is too much.** |
+| **the second keyboard drifting in pitch** | the long held chords | the tape drift used to reach only one keyboard. Now both, plus a faster wobble on top. |
+| **richer chords, and some that step outside the key** | the chord part | about half of lofi's chords now take their kind from 1170 real jazz tunes — dominant sevenths, minor sevenths, major sevenths. Seed 1's second chord is now an F#7 where it was an F#m7. **This is the biggest musical change of the day.** |
+| **the bass moving inside the bar** | under everything | it used to state the root and sit there for 61% of bars. Now it walks — the third, the fifth, a passing step, and a semitone slide into the next chord. |
+
+**The one question I most want an answer to:** the chords. 0.75 is how much
+appetite lofi has for the jazz table, and it is a single number. Too jazzy, or
+not enough?
+
+## JUNGLE — one change
+
+Load jungle, **seed 1**. Its chords were three identical minor triads and one
+change. They are now a i–iv vamp with sevenths in it. The genre could not play
+a jazz-inflected chord before today and its own research had asked for one
+since July.
+
+## WHAT I AM NOT ASKING
+
+Nothing about whether the numbers are right — they are measured and they are in
+the research sheets. The only thing worth your time is whether it SOUNDS like
+the genre. If something is wrong, "too loud", "too busy", "too jazzy" is a
+complete and useful answer; I can find the number.
+
+---

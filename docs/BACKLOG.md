@@ -13,6 +13,21 @@ a source. Items are grouped by what they cost, not by when they appeared.
 
 ## 0. THE ONE THAT OUTRANKS EVERYTHING
 
+> ### AND IT NOW INCLUDES SIX BUILDS FROM ONE DAY
+>
+> `2026-08-04` shipped **`04b` through `04g`** — the Wurlitzer's depth, the
+> record surface and the kick duck, chord quality from 1170 jazz tunes, the
+> bass leaving the root, the widened out-of-key law, and jungle's chords.
+> Every one measured. **Not one heard.** Two genres moved (lofi and jungle);
+> the other five are byte-identical throughout.
+>
+> That is this section's own warning happening again, in a single day, and the
+> person who did it should say so rather than let the next reader discover it.
+> **The brief for listening to them is `test/ears/LOG.md`.** The single
+> question with the most riding on it is lofi's `qualities: 0.75` — how much
+> jazz harmony the genre takes — because it is the biggest musical change of
+> the six and it is one number.
+
 **THE EAR HAS NOT HEARD ALMOST ANY OF THE RECENT WORK.** The FDN room, the
 whole stereo build, the matrix, the field, the stage, the flanger, the
 DP/4, the snap — all measured, none listened to. This project's own
