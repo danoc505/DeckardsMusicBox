@@ -348,7 +348,7 @@ from a peer-reviewed journal). Measured on build `2026-08-03q`, 30 seeds,
 
 | what | why it is open | what closes it |
 |---|---|---|
-| **Five or six parts sound together in 61% of lofi bars** | The mode is FIVE. Sources say "not more than 3 or 4 elements picking out a minimal number of notes or chords" [corpus:modeaudio] with the drums counted among them, and "just 3 elements of drums, and not uncommonly just 2" for the kit, corroborated independently [corpus:transmissionsamples]. **Lofi is NOT dense in notes** — 28.6 events/bar is 5th of 7, below dkc, acid and plastikman — **it is dense in PARTS**, 4.62 roles/bar. | A decision about how many parts lofi runs at once, expressed as a constraint in `form.roles` rather than a hardcoded cap. **It changes what every lofi record plays, so it is an ears decision** — the measurement only says the program sits outside the sourced range. |
+| ~~**Five or six parts sound together in 61% of lofi bars**~~ **DONE `2026-08-04o`** | The mode was FIVE against a sourced "not more than 3 or 4 elements" [corpus:modeaudio]. **The count was the symptom; the structure was the fault** — Moore's four layers are beat, bass, MELODIC, harmonic filler, and lofi carried two melodic (lead + counter) and two harmonic (keys + keys2), so the chorus doubled half the texture. | CLOSED: `counter: null`, the declaration acid/plastikman/jungle already carry for the same reason. The harmonic doubling STAYS — `keys2` is the sourced "different dress" of the chorus. **Measured: parts/bar 4.06 → 3.71, chorus 5.38 → 4.50.** Moving the counter to the instrumental was tried first and the battery refused it (composed every song, heard in 13 of 60). `lofi-production.md` §7b. |
 | ~~**`keys2` plays in most bars and NO `form.roles` entry asks for it**~~ **DONE `2026-08-03r`** | The arrangement added a second keyboard to every section that had anything pitched, because it tested `picks[slot] !== "auto"` — true both when the USER loads a machine into a rack AND when the COMPOSER draws one from the genre's own table. The stated justification ("not a veto over a machine the user has deliberately loaded") is right and did not cover the second case. MEASURED, 100 seeds: drawn in 60% of lofi songs, and in those songs playing in **98.2% of every bar** — it never sat out. **(An earlier row here said 72.7% of all bars. That was wrong — small-sample noise over 30 seeds, and reproduced independently by a second measurement, which is why two agreeing numbers are not proof.)** | CLOSED: `picks.byHand` records whose choice each slot was; the auto-add fires only for a hand-loaded machine; genres name `keys2` in `form.roles` where they want it — lofi on the chorus alone ("the same loop in different dress"), bladerunner across the body of the cue since the VP-330 IS that score's bed. Result: lofi 98.2% → **39.6%** of bars in songs that have it, parts-per-bar 4.62 → **4.07**. Blast radius: only the `keys2` role moved, only in those two genres (lofi 144/300, bladerunner 150/300); every other role and genre byte-identical. |
 | **The density is SUSTAIN, not onsets** | Measured simultaneity (notes ringing at any instant): lofi **10.30**, second of seven behind bladerunner's 10.55 and well above synthwave's 8.66. The drums contribute only **0.68** of that; **8.70 is sustained pitched material** — `keys` at 1.54 s per note and `keys2` at 2.53 s. So anything that thins by deleting notes will barely move it. | Know this before acting on the row above: the lever is note LENGTH and how many parts hold at once, not note count. The existing `arc.thin` mechanism removes notes and would therefore be the wrong tool. |
 | **The sourced dropout barely happens, and sections never vary in length** | §3's sourced shape has "occasional dropout sections". The only lofi section that drops the drums is the bridge, which occurs in **7 of 30 songs**. And across 229 sections, verse/chorus/bridge/instrumental were **always exactly 8 bars** and intro/outro always 4 — zero variation. | Both are `form` table questions (`lengths`, the transition weights, `bridgeAfterChorus`). Cheap, and it is the one place the production research and the form research agree the program is short of the sources. |
@@ -365,7 +365,54 @@ from a peer-reviewed journal). Measured on build `2026-08-03q`, 30 seeds,
 | **`space.wet: 0.16` is identical to the engine's fallback** | The genre declares a reverb level it would have received by default anyway, so the declaration carries no information and nobody can tell whether 0.16 was chosen or inherited. | Either change it deliberately or mark it as agreeing with the default on purpose. |
 | **Flutter and hiss are declared and OFF in the other six genres** | Both fields now exist in every genre's `tape` block, and six of them read `[0, 0]`. Two of those are wrong on the face of it: **synthwave is a videotape**, which has both, and bladerunner is a 24-track machine. Turning either on would move every song in that genre. | Not a defect — a decision for whoever is listening to those genres, with the mechanism already there and one line to change. It was left alone on purpose so a lofi task did not quietly re-voice synthwave. |
 | **The crackle's fader is the only crossing on its row** | The `vinyl` row has five blind plates. The reasons are physical (the crackle happens at the stylus, after everything) and measured (feeding it the room moved it 0.00 dB). | Recorded so nobody re-opens them by accident. If a genre ever genuinely wants washed-out surface noise, the plate has to be removed deliberately and the reason in `MATRIX.none` rewritten. |
-| **Lofi's tempo sits above the sourced consensus** | Declared `[74, 92]`, measured mean **82.5**. Four sources give four bands (60–80, 60–90, 70–100, "around 80") whose only common ground is **70–80**. | A one-line table change if wanted, but it moves every lofi song, so it is an ears call. |
+| ~~**Lofi's tempo sits above the sourced consensus**~~ **DONE `2026-08-04o`** | Declared `[74, 92]`, measured mean **82.5** against a 70–80 common ground — and the relaxation literature says why that window exists: "close to the human resting heart rate… your nervous system synchronises with the rhythm" [corpus:studyclock], "60–70 BPM promotes alpha waves" [corpus:mihata]. | CLOSED: `[70, 84]`, **mean 77.1**, inside the common ground. Moved every lofi song (300/300 snapshot lines, no other genre); re-baselined deliberately. |
+
+## 6c. THE DRUM ENGINE AND THE TR-1000 PANEL — `2026-08-04m` … `04o`
+
+*From the user's reports: the TR-1000 panel "is not a clone of the actual",
+the synthwave snare "over rides the bass drum", the kick "has [no] oomph, it is
+bearly there", "the hand clap might be the thing i hate", and "why are we
+talking about an 808 when we stopped using that many moons ago?" Research:
+`docs/genre-research/drum-engine.md`. Measuring arm:
+`harness/probe_kickpunch.js`.*
+
+**CLOSED**
+
+| what | what closed it |
+|---|---|
+| ~~the panel drew ten identical strips~~ | channels 1–4 are double-width with two knob columns, 5–10 single, as the machine is [corpus:soundonsound] |
+| ~~knobs capped `CTRL 1/2/3`~~ | they read REVERB / DELAY / FILTER — on the real machine those knobs are *assignable* and the screen names the assignment |
+| ~~top-row knobs at three different heights~~ | legends above with a rule, groups top-aligned, one fixed row height; measured, all top dials on one line |
+| ~~**seven controls declared, ridden, and drawn on no panel**~~ | BD tune/decay/tone, SD snappy/tone, both hat decays — 68 of 75 reached the glass. Now 75 of 75, checked by deriving the count from the declaration |
+| ~~the synthwave snare peaked ABOVE its kick~~ | gate send 0.95 → 0.55, snare reverb 0.52 → 0.34, hold and fall untouched. **+0.3 dB → −2.8 dB under the kick** |
+| ~~the engine only ever built 808 circuits~~ | `tr1000.circuit` — the machine is "16 analog voice circuits lifted straight from the previous TR-808 **and 909** designs". **Punch: acid +5.3 → +8.1 dB, synthwave +2.0 → +4.7 dB** |
+| ~~the clap's tail was 240 ms~~ | the circuit's is ~100 ms [corpus:KVR]. Per-circuit bands (808 1000 Hz, 909 1140 Hz/Q1.95), decaying retriggers. **acid 64 → 20 ms, plastikman 96 → 20 ms** |
+
+**STILL OPEN**
+
+| what | why it is open | what would close it |
+|---|---|---|
+| **The kick is still sub-dominant** | 57–64% of its energy under 100 Hz, ~10% in the 100–250 band a laptop reproduces. The 909 circuit and the body layer add ATTACK weight; neither rebalances the spectrum, because the sub's long decay dominates the ratio and the drum bus saturator already fills that band. | Attenuating the sub or raising the tunings — both change what the genres ARE, so both are ear calls. Measured either way by `probe_kickpunch`. |
+| **`punch` is `[EAR]` on every genre** | It ships at the control default 0.55 and no genre declares its own. | A pass once the ear has ruled on the kick. |
+| **The narrow strips' three CTRL knobs are small** | 1.16 rem dials. Secondary controls and the screen reads their values, but fiddly on a phone. | Either accept in writing or give the panel a second row at narrow widths. |
+| **The right-hand side of the real panel is undrawn** | C1–C6 macros, MORPH, LAYER A/B, transport, pattern keys. | Nothing — deliberate, and the panel declaration says why: they are sequencer controls and this program composes. |
+| **Only synthwave declares a gate at all** | So the gated-snare balance work applies to one genre by construction. Not a defect; worth knowing before anyone reads §6c as engine-wide. | A decision per genre on whether a gate belongs. |
+
+## 6d. THE TENSION LOFI'S SOURCES EXPOSE — recorded, not resolved
+
+**The genre's own literature calls repetition a feature**: "semi-predictable,
+further minimising distraction", "repetitive and lyric-free enough to stay out
+of cognitive focus" [corpus:studyclock]. **§6a of this file exists because the
+user found the loop too repetitive** and `Bvar`, the occurrence lanes and the
+pass-counting rule of three were built to answer that.
+
+Both are true. The sources' own reconciliation is the "sweet spot": enough
+melodic interest to be pleasant, repetitive enough to stay out of focus — which
+argues lofi's variation should be **timbral** (a filter opening, a layer
+changing dress) rather than **melodic**, and that is exactly what the
+`occurrence` motion kind was added for. **Nothing has been changed on the
+strength of that reading.** It is here so nobody "fixes" the repetition without
+knowing the genre's literature calls it the point. `lofi-production.md` §7b.
 
 ## 7. UI
 
