@@ -97,9 +97,20 @@ should be built on top of this stack until it has been played.**
 
 Measured by `probe_wiring`, 2026-08-03:
 
-- **flanger, DP/4, snap — one genre each** (plastikman). Sourced candidates
-  named already: jungle's drops and synthwave's prechorus both want a hard
-  cut; the FX columns want a genre-by-genre pass.
+- ~~**flanger, DP/4, snap — one genre each**~~ **DONE `2026-08-04q`** — and
+  **the "one genre each" figure was partly a probe artifact.** `probe_wiring`
+  decided a column was reached by checking its declared BASE, so synthwave's
+  flanger — `leadFlange`/`echoFlange` ridden from a zero base, shut in the
+  verse and opened through the chorus — was invisible to it for two builds.
+  The probe counts motion-reached columns now and marks them `rid`, so the two
+  ways of arriving stay distinguishable. **Flange 1 → 3, DP/4 1 → 2, cuts
+  1 → 2.** Jungle took all three on its own sources: "flanger and phaser
+  effects were used on Amen breaks" and a rack of Alesis/Zoom/Boss multi-FX
+  [corpus:dogsonacid], and its form research is a DJ architecture whose drop is
+  a rectangle, which is what `snap` is. **`probe_matrix` caught a
+  knob-that-does-nothing on the way**: the DP/4's four unit RETURNS default to
+  0, so feeding it is not enough — jungle opens PHASE and CRUSH, both named by
+  its sources, and leaves DRIVE and ROTARY shut.
 - **The barberpole is on two** (synthwave, plastikman) — better than one and
   still thin. `barberpole.md` §6 gives the test for a third: the DAFx paper
   only claims the illusion works "at slow modulation speeds and for input

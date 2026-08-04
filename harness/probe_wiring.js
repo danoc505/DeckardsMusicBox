@@ -48,9 +48,23 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
          crossing into it has a non-zero base, which is true by construction
          for the defaults and for the declared lists alike. */
       const row = { genre: g, pan: has(/\.pan$/) };
-      for(const o of MK2.MATRIX.outs) if(o.feeds)
-        row[o.k] = Object.keys(MK2.PARAMS).some(k =>
+      /* ── A BASE OF ZERO IS NOT A COLUMN NOBODY REACHES ────────────────────
+         This asked only whether some crossing into the column had a non-zero
+         BASE, and reported "flanger: one genre only" for two builds running.
+         It is wrong: synthwave declares `leadFlange` and `echoFlange` as MOTION
+         lanes over a zero base, so its flanger is shut in the verse and opened
+         through the chorus -- reached, ridden, and invisible to a probe reading
+         bases. That is the same shape as every other staleness this file was
+         written to catch, one level in: the question is "does this genre reach
+         the effect", and a genre can reach it with its hand as well as with its
+         table. Both are counted now, and a motion-only column is MARKED so the
+         two ways of arriving stay distinguishable. */
+      for(const o of MK2.MATRIX.outs) if(o.feeds){
+        const base = Object.keys(MK2.PARAMS).some(k =>
           k.indexOf("matrix.") === 0 && k.slice(-o.k.length) === o.k && MK2.PARAMS[k] > 0);
+        const rid = lanes.some(k => k.indexOf("matrix.") === 0 && k.slice(-o.k.length) === o.k);
+        row[o.k] = base ? true : (rid ? "rid" : false);
+      }
       out.push(Object.assign(row, {
         stage:  !!(MK2.INSTRUMENTS && song.chart.table ? song.chart.table.stage : null) ||
                 has(/^(?!matrix)[a-z0-9]+\.pan$/) && !!(song.chart.table && song.chart.table.stage),
@@ -71,7 +85,7 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
   const tally = {};
   for(const r of rows){
     console.log("  " + r.genre.padEnd(12) +
-      cols.map(c => (r[c] ? "yes" : "-").padEnd(8)).join(""));
+      cols.map(c => (r[c] === "rid" ? "rid" : r[c] ? "yes" : "-").padEnd(8)).join(""));
     for(const c of cols) tally[c] = (tally[c] || 0) + (r[c] ? 1 : 0);
   }
   console.log("\n  genres using each, of 7:");

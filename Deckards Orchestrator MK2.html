@@ -902,7 +902,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04p · the roll compares two songs, on the glass and in the printout</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04q · jungle gets the flanger, the multi-FX box and the drop</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -14010,6 +14010,32 @@ const GENRE = {
        this music the echo on a snare hit IS an arrangement element. */
     space: { wet: 0.22, irSec: 2.2, tailPow: 2.0, tailDark: 0.38, sendHp: 180,
              echoFeeds: ["drums", "keys"],
+             /* ── THE FLANGER, AND THIS GENRE HAS ITS OWN SOURCE FOR IT ───────
+                The flanger, the DP/4 and the hard cut were on ONE genre each --
+                plastikman -- which is a capability that has not been understood
+                yet rather than a capability that belongs to one record. Jungle
+                is the genre whose own literature names these boxes:
+
+                  "flanger and phaser effects were used on Amen breaks", on an
+                  Alesis Midiverb II, a Zoom 1201, a Boss SE70 or an Akai EB16
+                  [corpus:dogsonacid 90s-jungle-hardcore-hardware-fx]
+                  producers would "pitch up snares and add a bit of FLANGER on
+                  PART OF THE BREAK to create variations"
+                  [corpus:dogsonacid jungle-amen-break-programming]
+                  and the basslines are "subjected to many and varied sound
+                  effects... dynamic compression, FLANGER, chorus, over-drive"
+                  [corpus:jungledrumnbass definition]
+
+                So it is fed the break and the bass, which is exactly what those
+                two sources name, and nothing else. */
+             flangeFeeds: ["drums", "bass"],
+             /* ── AND THE MULTI-FX BOX. The DP/4 here models a 1990s four-way
+                parallel processor, and a rack of exactly those is what the
+                sources put in a jungle studio: "the Akai EB16 fx expansion
+                board, Alesis Midiverb II, Zoom 1201, and Boss SE70"
+                [corpus:dogsonacid]. Fed the break, because that is the thing
+                this genre processes. */
+             dp4Feeds: ["drums"],
              /* the tr1000 layer under the break gets a small image; the break
                 itself is one recording and stays where it is. [EAR] */
              kitPan: { h: 0.24, o: -0.26, r: -0.18, c: 0.18, a: -0.32, d: 0.32 } },
@@ -14077,6 +14103,27 @@ const GENRE = {
       reese: { detune: 26, sub: 0.52, cut: 620, res: 5.5, sweep: 0.40 },
       drone: { cut: 210, res: 2.0, detune: 0.30 },
       wash:  { cut: 700 },
+      /* ── THE MULTI-FX BOX, AND ITS RETURNS HAVE TO BE OPENED ────────────────
+         Feeding a bus into the DP/4 is not enough: every unit's RETURN
+         (`aLvl`..`dLvl`) defaults to 0, so the box would have been fed, ridden,
+         and silent. `probe_matrix` caught it -- "dp4Mix: this bus is not
+         playing here" -- which is the knob-that-does-nothing defect one step
+         before it shipped.
+
+         WHICH UNITS, and both are named by this genre's own sources rather
+         than picked for variety:
+           PHASE  "flanger and PHASER effects were used on Amen breaks"
+                  [corpus:dogsonacid 90s-jungle-hardcore-hardware-fx]
+           CRUSH  the Akai S950's time-stretch is what gave this music its
+                  "metallic-sounding timbres" [corpus:reverb.com, the samplers
+                  behind 90s jungle] -- a 12-bit sampler used past its range,
+                  which is what rate reduction is.
+         DRIVE and ROTARY are left shut: a Leslie is not in any jungle source I
+         found, and the break is already driven at the bus. Amounts [EAR]. */
+      dp4: { aAlgo: 1, aAmt: 0.45, aLvl: 0.16,
+             bAlgo: 2, bAmt: 0.30, bLvl: 0,
+             cAlgo: 3, cAmt: 0.30, cLvl: 0,
+             dAlgo: 4, dAmt: 0.35, dLvl: 0.10 },
       tb303: { cutoff: 400, res: 12.0, envmod: 0.60, decay: 0.26,
                accent: 0.70, drive: 2.4, wave: 0 },
       /* a straight eighth at 30%, which is the other setting the sources name,
@@ -14156,6 +14203,30 @@ const GENRE = {
         echoMix:   [{ kind: "section", by: { verse: [-0.40, -0.18], intro: [-0.30, -0.12] } },
                     { kind: "lfo", bars: [[32, 2], [20, 1]], depth: [0.05, 0.13],
                       shape: "sin", freePhase: true }],
+        /* ── THE HARD CUT, ON THE GENRE WHOSE FORM IS BUILT ROUND ONE ────────
+           `snap` was on plastikman alone. This genre's own form research is a
+           DJ architecture -- "buildup -> 48-64-bar drop -> mid -> 16-bar
+           breakdown (the drums leave) -> rebuild -> second drop"
+           (jungle-form.md, from KAN Samples' bar-by-bar) -- and a drop is a
+           rectangle: the thing is there, then it is not, then it is back, with
+           no ramp at either edge. That is what this motion kind IS, and it is
+           the difference between a mute and a fade.
+           Every 16 bars for 2, which is a bar-line cut a sound system would
+           recognise rather than the 8-in-32 plastikman uses to subtract for
+           half a minute. The DRY band keeps playing throughout -- only the
+           returns go -- so the break does not stop, its space does. [EAR] on
+           the sizes; the shape is the genre's own sheet. */
+        echoFlange:[{ kind: "snap", to: [-1, -1], every: 16, bars: 2 }],
+        drumsDP4:  [{ kind: "lfo", bars: [[28, 2], [44, 1]], depth: [0.06, 0.18],
+                      shape: "sin", freePhase: true }],
+        /* the flanger on the break, held back under the verse and opened
+           through the drop -- "a bit of flanger on PART of the break to create
+           variations" [corpus:dogsonacid], which is a hand, not a setting */
+        drumsFlange:[{ kind: "section", by: { chorus: [0.10, 0.26], bridge: [0.06, 0.18] } },
+                     { kind: "occurrence", step: [0.03, 0.09], cap: 3 }],
+        flangeMix: [{ kind: "snap", to: [-1, -1], every: 16, bars: 2 },
+                    { kind: "lfo", bars: [[36, 2], [24, 1]], depth: [0.05, 0.14],
+                      shape: "tri", freePhase: true }],
       },
       /* jungle drew a TR-1000 and rode NOTHING on it -- the break carries the
          record, so the kit underneath had been left as a static layer. It is
