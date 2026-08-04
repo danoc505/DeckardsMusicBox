@@ -722,7 +722,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03r · the second keyboard stops playing every bar of every song</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-03s · the Wurlitzer stops pulsing 25 dB and inverting itself</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -5390,13 +5390,52 @@ registerProcessor("mk2-room", MK2Room);
       wowLfo.connect(wg); wg.connect(car.frequency); wg.connect(car2.frequency);
       nodes.push(wowLfo);
     }
-    /* wurly tremolo: the amp wobble is the instrument's signature, and on the
-       real thing it is a knob you turn -- rate AND depth. */
+    /* ── WURLITZER TREMOLO — A TREMOLO SCALES THE NOTE, IT DOES NOT ADD TO IT ──
+       Reported by ear: "the pulsing sound is very heavy." It was, and the cause
+       is arithmetic rather than taste.
+
+       The wobble used to be summed straight into `out.gain` as a FIXED amount,
+       `LEVEL.keys * 0.62 * trem`, while the note's own level is
+       `LEVEL.keys * ev.gain / 1.34`. The two have nothing to do with each other,
+       so the depth of the tremolo depended on how loud the note happened to be.
+       Worked through at lofi's trem = 0.55:
+
+         note at 0.85 loud  ->  level swings 0.293 .. 0.975   = 10.4 dB of pulse
+         note at 0.58 loud  ->  level swings 0.092 .. 0.774   = 18.5 dB of pulse
+         note at 0.40 loud  ->  level swings -0.042 .. 0.640  = GOES NEGATIVE
+         note at 0.30 loud  ->  level swings -0.117 .. 0.565  = GOES NEGATIVE
+
+       Eighteen decibels five times a second is not an electric piano, it is a
+       helicopter. And below about half loudness the sum goes NEGATIVE, which in
+       WebAudio does not clamp -- it flips the waveform upside down on every
+       cycle, which is ring modulation, not tremolo. lofi's mean keyboard
+       loudness is 0.58, so the middle two rows are the normal case.
+
+       A tremolo is a MULTIPLIER. The gain now rides its own node in series:
+       centre `1 - d/2`, swing `d/2`, so the level travels between (1-d) and 1
+       and can never reach zero from above or pass through it. At lofi's 0.55
+       that is 6.9 dB; at the panel default 0.45, 5.2 dB; at full depth 1.0 the
+       trough reaches silence, which is what "full" should mean.
+
+       THE RATE WAS ALREADY RIGHT and is left alone: the real 200A's vibrato
+       circuit "oscillates at approximately 6 Hz" with a fixed speed and an
+       adjustable depth pot (R-17) [corpus:home.earthlink.net/~monsanto
+       Wurlitzer 200A/206A service notes]. We run 5.2-5.5 Hz. That source also
+       notes the real depth control "could easily distort if up too high", so a
+       deep setting being ugly is true of the instrument -- but the instrument
+       does not invert its own signal, and this did. NO SOURCE GIVES A DEPTH IN
+       dB OR PERCENT, so the shape above is standard tremolo and the amount
+       stays [EAR]. */
     const trem = P(g, ev, "wurly", "trem", 0.45);
     if(trem > 0){
+      const d = Math.max(0, Math.min(1, trem));
+      const tr = c.createGain();
+      tr.gain.value = 1 - d / 2;
       const lfo = osc(c, "sine", P(g, ev, "wurly", "tremhz", 5.5), t, end), lg = c.createGain();
-      lg.gain.value = LEVEL.keys * 0.62 * trem;
-      lfo.connect(lg); lg.connect(out.gain);
+      lg.gain.value = d / 2;
+      lfo.connect(lg); lg.connect(tr.gain);
+      /* spliced between the voice and its filter, so the whole note is scaled */
+      out.disconnect(); out.connect(tr); tr.connect(flt);
       nodes.push(lfo);
     }
     adsr(c, out, t, LEVEL.keys * ev.gain / 1.34, 0.003, 0.15, 0.55, t + ev.durSec, 0.30);
