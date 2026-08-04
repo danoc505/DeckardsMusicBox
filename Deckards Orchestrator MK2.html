@@ -722,7 +722,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-03s · the Wurlitzer stops pulsing 25 dB and inverting itself</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04a · the third time you hear it, it is not the same</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -11122,6 +11122,26 @@ const GENRE = {
     tape: { wow: [0.0002, 0.0003], crackle: [0.0015, 0.0015] },  // Trax pressings [EAR]
 
     form: {
+      /* ── THIS GENRE DOES NOT VARY ITS NOTES, AND THAT IS THE DECISION ──────
+         The rule of three is real here too, but it is answered by the SOUND
+         moving rather than by the notes changing: "techno's hypnotic quality
+         comes from automation and modulation rather than constant arrangement
+         changes, with filter sweeps, delay throws and reverb sends replacing
+         chord changes and new melodic ideas -- this is how a four-bar loop
+         stays interesting for eight minutes" [corpus:attackmagazine]. This
+         genre carries by far the most knob movement in the file, which is
+         where its third-time change lives.
+
+         THIS IS A DEFERRAL, NOT A DESIGN. The user, asked whether the rule of
+         three should apply to hypnotic genres: "honestly I can't answer that,
+         let's just leave those out for the moment." So this genre keeps
+         EXACTLY the behaviour it had -- change on the third statement, and the
+         old strip-half answer -- and is byte-identical to the build before the
+         rule was corrected. Their own instinct, worth recording for whoever
+         settles it: "the rule still exists but it's expressed in the myriad of
+         different ways you can alter the SOUND of a song", which is what this
+         genre's motion lanes already do. variation.md §6. */
+      varyAsBefore: true,
       /* 16s and 32s, not 4s and 8s: with lofi's section lengths you cannot build
          a nine-minute record inside stage 2's ten-section guard. Acperience is
          ~9:00, Spastik ~9:00, Acid Tracks 12:16. [corpus:fazemag, corpus:wikipedia] */
@@ -11550,6 +11570,26 @@ const GENRE = {
     tape: { wow: [0, 0], crackle: [0, 0] },  // no tape patina [EAR]
 
     form: {
+      /* ── THIS GENRE DOES NOT VARY ITS NOTES, AND THAT IS THE DECISION ──────
+         The rule of three is real here too, but it is answered by the SOUND
+         moving rather than by the notes changing: "techno's hypnotic quality
+         comes from automation and modulation rather than constant arrangement
+         changes, with filter sweeps, delay throws and reverb sends replacing
+         chord changes and new melodic ideas -- this is how a four-bar loop
+         stays interesting for eight minutes" [corpus:attackmagazine]. This
+         genre carries by far the most knob movement in the file, which is
+         where its third-time change lives.
+
+         THIS IS A DEFERRAL, NOT A DESIGN. The user, asked whether the rule of
+         three should apply to hypnotic genres: "honestly I can't answer that,
+         let's just leave those out for the moment." So this genre keeps
+         EXACTLY the behaviour it had -- change on the third statement, and the
+         old strip-half answer -- and is byte-identical to the build before the
+         rule was corrected. Their own instinct, worth recording for whoever
+         settles it: "the rule still exists but it's expressed in the myriad of
+         different ways you can alter the SOUND of a song", which is what this
+         genre's motion lanes already do. variation.md §6. */
+      varyAsBefore: true,
       /* THE INTRO IS 16 BARS, NOT 32, AND THAT IS A CONSEQUENCE OF THE BUILD.
          A part can only arrive at a SECTION boundary -- that is what stage 4
          selects on -- so the earliest the 303 can possibly enter is the start of
@@ -13674,7 +13714,41 @@ function makeForm(chart){
     const o = {
       fn: f, startBar: bar, endBar: bar + LEN[f],
       occurrence: seen[f],
-      demand: (seen[f] >= 3 && (f === "verse" || f === "chorus")) ? "vary" : null,
+      /* ── THE RULE OF THREE COUNTS WHAT A LISTENER COUNTS ───────────────────
+         Reported by ear: "it feels like we are repeating the same loop with no
+         changes after three passes -- that violates the rule of three." Right,
+         and the program was counting the wrong unit.
+
+         The rule is about hearing an idea a third time: "when you present a
+         musical idea once, it intrigues the listener. The second repetition
+         reinforces it. However, by the third repetition the brain tends to
+         tune out" [corpus:makebestmusic]. What gets heard here is the FOUR-BAR
+         MATERIAL. A section is eight bars, so ONE SECTION IS TWO PASSES of it:
+
+             section 1  =  passes 1 and 2      state it, confirm it
+             section 2  =  passes 3 and 4      <- the change is due HERE
+
+         This asked for the third SECTION bearing the same name instead. A lofi
+         song has six sections, so a verse normally appears twice and the rule
+         NEVER FIRED AT ALL -- on seed 1 the verse never varied once. Measured
+         across 20 seeds a genre, the third chorus played 95% of the first
+         chorus's notes and the third verse 92%.
+
+         So the threshold is 2, not 3, and that is not a loosening: it is the
+         same rule counted in the unit the ear uses. The genres left OUT of this
+         are handled below. docs/genre-research/variation.md §1, §4.
+
+         A GENRE MAY OPT OUT, and says so in its own table rather than being
+         named here [Law 4]: `form.vary: false`. That is for music built on
+         hypnotic repetition, where the rule is real but is answered by the
+         SOUND moving rather than the notes -- "techno's hypnotic quality comes
+         from automation and modulation rather than constant arrangement
+         changes ... this is how a four-bar loop stays interesting for eight
+         minutes" [corpus:attackmagazine, quoted in NOTES-FROM-THE-USER.md].
+         Absent means the notes vary, which is what every song-shaped genre
+         wants. */
+      demand: (seen[f] >= (F.varyAsBefore ? 3 : 2)
+               && (f === "verse" || f === "chorus")) ? "vary" : null,
       energy: f === PAY ? (i === lastChorus ? F.energy.chorusPeak : F.energy[PAY])
                               : F.energy[f],
       peak: i === lastChorus,
@@ -16084,6 +16158,52 @@ function makeMaterials(chart){
     { lo: playable(R.themeB)[0], hi: playable(R.themeB)[1], comp: keysB, dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
   const counterB = deriveCounter(themeB.notes, resB, "counterB", chords, keysB);
 
+  /* ── Bvar = vary(B): THE CHORUS FINALLY GETS THE ANSWER THE VERSE HAS ───────
+     The rule of three demanded a change on a repeated chorus and the only
+     answer available was `stripHalf` -- TAKE NOTES OUT. That is the one move
+     the whole literature of motivic development never makes. Of the seven
+     classical ways to develop a motif (sequence, augmentation, diminution,
+     inversion, retrograde, fragmentation, interval expansion) SIX CHANGE NO
+     NOTES AT ALL: they change when, where or which direction. The motive must
+     be "retained, yet transformed" [corpus:mtosmt Boss, MTO 21.3]. Deleting
+     half of it retains nothing, and measured it did not even change much --
+     the third chorus still played 95% of the first chorus's notes, so it
+     neither kept the hook cleanly nor altered it audibly.
+
+     The verse has had the right mechanism all along: Avar keeps the first two
+     bars and redraws the last two. That IS the shape the sources name --
+     "begin with a familiar musical idea, then diverge from it halfway through"
+     [corpus:makebestmusic] -- so the listener recognises the hook before it
+     turns. This is that, for B.
+
+     Built exactly as Avar is, against the SAME reservations B was built
+     against, so the redrawn tail cannot collide with what else is sounding
+     (the bug that made 16 of 120 Plastikman seeds throw on Avar). It keeps B's
+     drums, bass, chords and pad -- only the tune's second half is new -- so
+     everything the ear uses to identify the chorus is untouched.
+     docs/genre-research/variation.md has the whole case. */
+  /* ITS OWN RESERVATION SET, exactly as Avar builds one. buildTheme and
+     deriveCounter ADD their notes to the set they are handed, so passing `resB`
+     itself would leave B's reservations polluted for everything built after it.
+     MEASURED when it was written that way: acid changed on 162 of 300 seeds and
+     plastikman on 277 -- two genres that had opted out of varying entirely and
+     could not possibly be affected by a chorus variant. Draws being unconditional
+     [Law 3] is not enough on its own; SHARED MUTABLE STATE is the same bug wearing
+     different clothes. */
+  const resBv = reserve(ostA.concat(bassA, keysB, keys2B, themeB.notes.filter(n => n.bar < 2)));
+  const varTailB = buildTheme(chords, "themeB:var", resBv,
+    { lo: playable(R.themeB)[0], hi: playable(R.themeB)[1], comp: keysB, dir: -1, hooky: true });
+  const leadBvar = themeB.notes.filter(n => n.bar < 2)
+    .concat(varTailB.notes.filter(n => n.bar >= 2));
+  /* AND ITS OWN SECOND MELODY. Avar carries none, and that is right for a
+     VERSE -- no genre activates the second melody there. A CHORUS DOES (lofi's
+     chorus lists it), so handing Bvar an empty one would make a repeated
+     chorus quietly lose a whole part, which is the very "taking things out"
+     this change exists to stop. Avar's own comment says what to do instead:
+     a section that wants one "derives it from leadAvar, it does not borrow
+     A's." So this derives from the REDRAWN tune, on its own named stream. */
+  const counterBvar = deriveCounter(leadBvar, resBv, "counterB:var", chords, keysB);
+
   /* ── C = depart(A): new changes, sustained keys, roots-only bass,
      A's rhythm augmented ── */
   const bassC  = pin(buildBass(bridgeChords, "bassC", true), "bass", "C");
@@ -16194,6 +16314,10 @@ function makeMaterials(chart){
     // wants one, it derives it from leadAvar, it does not borrow A's.
     Avar: { drums: drumsAvar, bass: bassA, keys: keysA, keys2: keys2Avar, lead: leadAvar, counter: [], ostinato: ostAvar },
     B:    { drums: drumsB, bass: bassA, keys: keysB, keys2: keys2B, lead: themeB.notes, counter: counterB, ostinato: ostA },
+    /* Bvar = vary(B) -- the chorus's rule-of-three answer. Same drums, bass,
+       chords and pad as B; only the tune's second half is redrawn, so the hook
+       is recognised and then turns. See its construction above. */
+    Bvar: { drums: drumsB, bass: bassA, keys: keysB, keys2: keys2B, lead: leadBvar, counter: counterBvar, ostinato: ostA },
     /* C KEEPS THE OSTINATO. It ignores the chords by construction, so it needs no
        new version for the bridge's new changes -- and letting it run straight
        through IS the departure: a constant cell with the harmony moving under it
@@ -16318,8 +16442,35 @@ function makeArrangement(chart, form, materials){
     let material = MAT[sec.fn];
     let stripHalf = false;
     if(sec.demand === "vary"){
-      if(sec.fn === "verse") material = "Avar";
-      else stripHalf = true;                              // the 3rd chorus: arrangement answers
+      /* THE ANSWER IS A RE-PRESENTATION, NEVER A DELETION. `stripHalf` used to
+         answer for the chorus -- take notes out -- which is the one move
+         motivic development never makes, and measured it left the third chorus
+         playing 95% of the first chorus's notes anyway. Both materials now
+         have a proper variant: same opening two bars so the hook is
+         recognised, redrawn tail so it turns. variation.md §3. */
+      if(F.varyAsBefore){
+        /* a deferred genre keeps exactly what it had: the verse swaps material,
+           the chorus thins. Byte-identical to the build before this. */
+        if(sec.fn === "verse") material = "Avar"; else stripHalf = true;
+      } else {
+        /* SECOND time: the tune's tail is redrawn, the hook's opening intact.
+           THIRD time and after: THAT, AND the arrangement thins as well -- so
+           each statement is FURTHER ALONG than the one before rather than
+           merely different. That is the difference between ornamental and
+           developing variation, which is the whole point: "the changes proceed
+           more or less directly toward the goal", building "cumulatively to
+           structure the entire piece rather than occurring arbitrarily"
+           [corpus:Schoenberg via en.wikipedia/Developing_variation;
+           corpus:mtosmt Salley].
+
+           Keeping the thin is also what stops this being a REGRESSION for a
+           genre with no melody to redraw. Measured when the variant replaced
+           the thin outright: jungle -- which has no lead at all -- lost its
+           only variation and gained nothing, on 300 of 300 songs. A better
+           mechanism that silently removes a working one is not an improvement. */
+        material = sec.fn === "verse" ? "Avar" : "Bvar";
+        if(sec.occurrence >= 3) stripHalf = true;
+      }
     }
     /* ── THE SECOND KEYBOARD PLAYS WHERE THE FIRST ONE DOES ──────────────────
        Derived, not declared, and that is what stops this feature from being
