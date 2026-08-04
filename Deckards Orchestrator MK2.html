@@ -722,7 +722,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04c · the record gets its own channel, its surface noise, and a kick you can feel</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04d · the chords learn what kind of chord they are, from 1170 real tunes</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -829,6 +829,100 @@ const MODES = {
   mixolydian:[0,2,4,5,7,9,10],
   harmMinor:[0,2,3,5,7,8,11],
 };
+/* ═══════════════════════════════════════════════════════════════════════════
+   WHAT KIND OF CHORD SITS ON EACH STEP — MEASURED, NOT ASSERTED.
+
+   Until now this program could say WHICH step of the scale a chord was built
+   on and nothing about WHAT KIND of chord it was: the kind fell out of the
+   scale, so a table could not ask for one and the word "dominant seventh" did
+   not appear anywhere in the file.
+
+   These rows are the answer, counted from 1170 real jazz tunes -- the Jazz
+   Harmony Treebank (Digital and Cognitive Musicology Lab, EPFL + McGill,
+   ISMIR 2020), of which 150 also carry that paper's expert analysis. `n` is
+   how many chords each row rests on, so a reader can see which rows are worth
+   trusting; the percentages are what kind they were.
+
+   THE KEY IS SEMITONES ABOVE THE TONIC, NOT A SCALE STEP, and that is the
+   whole point. MK1's version of this walked the scale and filed each chord
+   under whichever step was NEAREST, so a chord built outside the key was
+   recorded as a diatonic chord that never happened -- and the diatonic rows
+   were inflated with chords that contradicted them. Two further faults in the
+   same script: it read a flat key a semitone sharp (this dataset writes a flat
+   in the key field as "-", and the parser only knew "#" and "b" -- 445 of 1170
+   tunes), and it could not see a half-diminished chord at all (written "%"
+   here), recording every one as a dominant seventh instead. All three are
+   fixed in corpus/ingest_chord_quality.py, which generates the block below.
+
+   GENERATED. Do not hand-edit: python3 corpus/ingest_chord_quality.py
+   Research: docs/genre-research/chord-quality.md
+   ═══════════════════════════════════════════════════════════════════════════ */
+const CHORD_QUALITY = Object.freeze({
+  major: Object.freeze({
+     0: { n:  8851, q: [["maj7",52], ["maj",26], ["dom7",22]] },   // I
+     1: { n:  1035, q: [["dom7",39], ["dim7",24], ["maj7",22], ["min7",14]] },   // bII
+     2: { n:  7686, q: [["min7",76], ["dom7",24]] },   // II
+     3: { n:  1458, q: [["dim7",33], ["dom7",32], ["min7",20], ["maj7",15]] },   // bIII
+     4: { n:  3966, q: [["min7",56], ["dom7",33], ["m7b5",11]] },   // III
+     5: { n:  3699, q: [["maj7",39], ["dom7",29], ["min7",25], ["maj",7]] },   // IV
+     6: { n:  1342, q: [["m7b5",30], ["dom7",28], ["min7",25], ["dim7",17]] },   // bV
+     7: { n:  7736, q: [["dom7",88], ["min7",12]] },   // V
+     8: { n:  1224, q: [["dom7",62], ["maj7",29], ["min7",10]] },   // bVI
+     9: { n:  5062, q: [["dom7",59], ["min7",41]] },   // VI
+    10: { n:  1729, q: [["dom7",76], ["maj7",13], ["min7",12]] },   // bVII
+    11: { n:  1557, q: [["dom7",58], ["m7b5",26], ["min7",15]] },   // VII
+  }),
+  minor: Object.freeze({
+     0: { n:  1789, q: [["min7",60], ["min",27], ["dom7",13]] },   // I
+     1: { n:   320, q: [["dom7",59], ["maj7",31], ["min7",11]] },   // bII
+     2: { n:   879, q: [["m7b5",56], ["dom7",27], ["min7",17]] },   // II
+     3: { n:   506, q: [["maj7",40], ["dom7",39], ["min7",12], ["maj",9]] },   // bIII
+     4: { n:   154, q: [["min7",36], ["dom7",30], ["maj7",22], ["m7b5",11]] },   // III
+     5: { n:   789, q: [["min7",58], ["dom7",33], ["maj7",9]] },   // IV
+     7: { n:  1198, q: [["dom7",90], ["min7",10]] },   // V
+     8: { n:   567, q: [["dom7",47], ["maj7",40], ["min7",13]] },   // bVI
+     9: { n:   308, q: [["m7b5",41], ["dom7",33], ["min7",12], ["maj7",7], ["dim7",6]] },   // VI
+    10: { n:   533, q: [["dom7",53], ["min7",32], ["maj7",15]] },   // bVII
+    11: { n:   150, q: [["dom7",52], ["maj7",26], ["min7",12], ["m7b5",10]] },   // VII
+  }),
+});
+
+/* the notes each kind of chord is made of, in semitones above its root
+   [theory]. Only the first four matter here -- root, third, fifth, seventh --
+   because anything above a seventh still comes from the MODE (see chordTones),
+   which is what keeps an extension diatonic and keeps a modal genre sounding
+   like its mode rather than like a jazz standard. */
+const QUALITY = Object.freeze({
+  maj:  [0, 4, 7],
+  min:  [0, 3, 7],
+  sus4: [0, 5, 7],
+  dom7: [0, 4, 7, 10],
+  maj7: [0, 4, 7, 11],
+  min7: [0, 3, 7, 10],
+  m7b5: [0, 3, 6, 10],
+  dim7: [0, 3, 6, 9],
+});
+/* ── WHICH MODES MAY READ THE MEASURED TABLE, AND WHY ONLY TWO ─────────────
+   The corpus is 1170 tunes in major or minor keys. This program has seven
+   modes. The obvious move -- send every mode to whichever table shares its
+   third -- was built first and is WRONG, and wrong in the one case that
+   matters most.
+
+   Dorian and natural minor differ by a single note, the sixth, and that note
+   is what makes the chord on the FOURTH step major in dorian and minor in
+   natural minor. The lofi research calls that chord "the one clean
+   discriminator" between the two: "the IV major chord is the Dorian
+   signature... while Aeolian uses a iv minor" [corpus:premierguitar]. The
+   corpus's minor table says that step is a minor seventh 58% of the time --
+   correct for a minor key, and it would ERASE DORIAN, turning the one thing
+   that identifies the mode into the thing that identifies the other one.
+
+   So a mode reads the table only when it IS that key. Everything else gets no
+   quality drawn and keeps the chords its own scale gives it. That is not
+   caution, it is the honest reading: there is no measurement for dorian here,
+   and a guess would delete the mode's signature.
+   docs/genre-research/chord-quality.md §5 */
+const QUALITY_TABLE = mode => (mode === "major" || mode === "minor") ? mode : null;
 const NOTE_NAMES = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 const pc = m => ((m % 12) + 12) % 12;
 /* midi of scale degree d (any integer) in a mode rooted at `root` (pitch class) */
@@ -854,10 +948,28 @@ function degMidi(root, mode, d){
 
    A BOOLEAN IS STILL ACCEPTED and means the old two-value question, because
    six genre tables ask it that way and this must cost them nothing. */
-function chordTones(root, mode, d, size){
+/* ── AND A CHORD CAN NOW BE ASKED WHAT KIND IT IS ─────────────────────────
+   `quality` names the chord outright -- dom7, min7, maj7, m7b5, dim7 -- and
+   when it is given it decides the chord's first four notes: root, third,
+   fifth, seventh. Everything ABOVE a seventh still comes from the mode, so a
+   ninth or a thirteenth stays diatonic by construction and a modal genre goes
+   on sounding like its mode instead of like a jazz standard.
+
+   THIS IS THE ONE PLACE A CHORD CAN LEAVE THE KEY, and that is the point.
+   Stacking thirds inside the scale can never produce a dominant seventh on
+   the fifth step of a minor key -- it produces a minor seventh -- which is
+   why this program had no secondary dominants and measured 0.0% outside the
+   key in six of seven genres. The seam check was already written for this: a
+   note outside the key is legal exactly when the chord under it contains it.
+
+   `quality` absent = the old behaviour, note for note. */
+function chordTones(root, mode, d, size, quality){
   const n = size === true ? 4 : (size === false || size == null) ? 3 : size;
+  const q = quality && QUALITY[quality];
+  const base = q ? degMidi(root, mode, d) : 0;
   const out = [];
-  for(let i = 0; i < n; i++) out.push(degMidi(root, mode, d + 2 * i));
+  for(let i = 0; i < n; i++)
+    out.push(q && i < q.length ? base + q[i] : degMidi(root, mode, d + 2 * i));
   return out;
 }
 /* which stacked-third index each chord member is: 0 root, 1 third, 2 fifth,
@@ -8978,6 +9090,31 @@ const GENRE = {
        has no plain statement to lean against. When the Jazz Harmony Treebank
        reaches MK2 (BACKLOG §6.7) these become measured and this comment goes. */
     extensions: [[4, 4], [5, 4], [3, 2], [6, 1]],
+    /* ── AND WHAT KIND EACH CHORD IS, FROM THE MEASUREMENT ──────────────────
+       How often a chord takes its kind from CHORD_QUALITY instead of from
+       plain stacked thirds. The sources are as emphatic here as anywhere in
+       this repo -- "not one plain triad in thirteen progressions", and every
+       source names extended chords as the sound of the genre
+       [docs/genre-research/lofi-harmony.md §2] -- and lofi hip hop is jazz
+       harmony slowed down, which is why the jazz measurement is the right one
+       to point at this genre and not at the other six.
+
+       AND THE MEASUREMENT AGREES WITH THE GENRE RESEARCH, from a completely
+       separate direction, which is the reason to believe both. The lofi sheet
+       found the chord on the FOURTH step to be the one clean discriminator
+       between the genre's two minor modes, and named a sourced example of it
+       arriving as a DOMINANT -- "the culprit for this is the dominant IV
+       chord, the F7. This is a borrowed chord from another key"
+       [corpus:richardpryn]. The corpus, which has never heard of lofi, puts
+       that same step at min7 58% / dom7 33% / maj7 9%. The ambiguity the genre
+       research described is sitting in the numbers.
+
+       0.75 rather than 1.0 is [EAR]: high, because the sources do not hedge,
+       and short of everything because the mode's own colour should still get a
+       say. It only reaches songs in minor or major -- 7 draws in 11 for this
+       genre -- since dorian has no measured table and would lose its signature
+       to one (see QUALITY_TABLE). */
+    qualities: 0.75,
     /* the density of a bar of tune, and where its notes may land. These are the
        values that were literals inside buildTheme, written out unchanged. */
     theme: { count: { hooky: [4, 2], breath: [1, 2], normal: [3, 2] },
@@ -14250,12 +14387,56 @@ function makeMaterials(chart){
     for(const p of pairs){ x -= p[1]; if(x <= 0) return p[0]; }
     return pairs[pairs.length - 1][0];
   };
-  const mkChords = degs => degs.map((d, i) => Object.freeze({
-    degree: d,
-    size: sizeAt(i),
-    tones: chordTones(root, mode, d, sizeAt(i)),
-    rootMidi: intoBand(degMidi(root, mode, d), R.bass[0], R.bass[1]),
-  }));
+  /* ── WHAT KIND OF CHORD EACH ONE IS ────────────────────────────────────
+     `qualities` is a genre's appetite for the measured table: the chance that
+     a chord takes its KIND from CHORD_QUALITY rather than from plain stacked
+     thirds. A constraint, not a value -- the genre says how far it will go and
+     the corpus says what is likely, per step, so the fifth of a minor key
+     comes out a dominant seventh about as often as it does in the repertoire
+     rather than never, which is what stacking thirds inside a scale can only
+     ever give.
+
+     BOTH DRAWS RUN WHETHER OR NOT THE GENRE ASKS [Law 3], on their own named
+     substream, so adding `qualities` to one table cannot move a note in any
+     other genre. A genre that declares nothing gets exactly the chords it had.
+
+     THE LOOKUP IS IN SEMITONES, not scale steps. `MODES[mode][step]` converts
+     this program's degree into the distance above the tonic that the corpus is
+     keyed by -- the conversion MK1's ingest did backwards, folding chromatic
+     chords onto whichever step was nearest. docs/genre-research/chord-quality.md */
+  const rngQ = stream(chart.seed, "quality");
+  const qRolls = [0, 1, 2, 3].map(() => [rngQ(), rngQ()]);
+  const pickQuality = (d, i) => {
+    const strength = G.qualities || 0;
+    const [gate, pick] = qRolls[i % qRolls.length];
+    if(gate >= strength) return null;                      // this chord stays as it was
+    const tbl = QUALITY_TABLE(mode);
+    const rows = tbl && CHORD_QUALITY[tbl];
+    const row = rows && rows[MODES[mode][((d % 7) + 7) % 7]];
+    if(!row || !row.q.length) return null;
+    let total = 0; for(const p of row.q) total += p[1];
+    let x = pick * total;
+    for(const p of row.q){ x -= p[1]; if(x <= 0) return p[0]; }
+    return row.q[row.q.length - 1][0];
+  };
+  /* THE KIND SETS A FLOOR ON THE SIZE. If the draw asks for a minor seventh
+     and the size draw asks for three notes, truncating would sound a plain
+     minor triad while the chord went on calling itself a seventh -- a field
+     that lies about the notes beside it. The kind is the chord's identity and
+     the size is how much colour goes on top, so the size rises to fit and
+     `size` below is what actually sounds. */
+  const mkChords = degs => degs.map((d, i) => {
+    const quality = pickQuality(d, i);
+    const q = quality && QUALITY[quality];
+    const size = Math.max(sizeAt(i), q ? q.length : 0);
+    return Object.freeze({
+      degree: d,
+      size,
+      quality,
+      tones: chordTones(root, mode, d, size, quality),
+      rootMidi: intoBand(degMidi(root, mode, d), R.bass[0], R.bass[1]),
+    });
+  });
   /* ── THE CHROMATIC PROGRESSIONS ────────────────────────────────────────
      A genre that declares `harmony` can have its changes generated by chord
      TRANSFORMATION rather than by scale degree. Both draws run unconditionally,
@@ -19664,6 +19845,12 @@ window.MK2 = {
      wrote out the effect columns by hand went stale twice, and probe_wiring
      had no barberpole column the build after one existed. */
   MATRIX,
+  /* the scales and the measured chord table, exported for the same reason as
+     the grid: probe_theory hand-copied a MODES table that had already drifted
+     from this one -- it was missing harmMinor and carried two modes the engine
+     has never had. A probe that lists what the program contains goes stale;
+     one that reads it cannot. */
+  MODES, CHORD_QUALITY,
   makeMotion, motionAt,
   voiceNames: () => Sound.voiceNames(),
   soundState: () => Sound.soundState(),

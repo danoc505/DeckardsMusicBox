@@ -27,7 +27,18 @@ these scripts regenerate those literals in place.
       python3 corpus/ingest_bach.py         # inject into the HTML
       # then: python3 harness/build_engine.py && (cd harness/run && node tests.js)
 
-- **`ingest_jazz.py`** — Jazz Harmony Treebank (1170 standards; EPFL DCMLab). Windows each
+- **`ingest_jazz.py`** — **DO NOT USE FOR MK2. THREE BUGS, FOUND 2026-08-04 by
+  reading its output back against the source.** It reads a flat key a semitone
+  sharp (this dataset writes a flat in the KEY field as `-`, and the parser only
+  knows `#` and `b` — 445 of 1170 tunes); it cannot see a half-diminished chord
+  (written `%` here) and records every one as a dominant seventh instead; and it
+  folds every chromatic chord onto the nearest scale step, so a tritone
+  substitution is recorded as a chord that never happened. Effect: it reports
+  the tonic as a plain major chord 47% of the time where the truth is a major
+  seventh 49%, and 69.8% four-note chords where the truth is 90.3%. It still
+  feeds MK1, which is frozen, so it is left as it is. **`ingest_chord_quality.py`
+  is the corrected one** — see `docs/genre-research/chord-quality.md`.
+  Jazz Harmony Treebank (1170 standards; EPFL DCMLab). Windows each
   tune's real changes into short progressions, converts to relative `{m,c:[{d,q}],n,ch}`,
   frequency-weights by recurrence, and expands `JAZZ_CORPUS` (600->1361 progressions). Only
   chord PROGRESSIONS are taken (not copyrightable; melodies are protected and were not

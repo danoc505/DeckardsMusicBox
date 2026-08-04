@@ -79,7 +79,7 @@ make the shipped table untrustworthy.
 
 **(a) It reads flat keys a semitone sharp.** In this dataset the key field
 writes a flat as `-`, so E-flat major is `E-`. The parser only understands `#`
-and `b`, so it takes `E-` as plain E. **436 of 1170 tunes are in a flat key
+and `b`, so it takes `E-` as plain E. **445 of 1170 tunes are in a flat key
 written that way** — over a third of the corpus, every chord in them filed
 under the wrong step.
 
@@ -268,6 +268,85 @@ table and no genre draws it.** Here is the evidence for drawing it.
 
 Nothing in step 3 or 4 touches a genre other than lofi without that genre's own
 research first.
+
+---
+
+## 7. WHAT WAS BUILT, AND WHAT IT MEASURES — `2026-08-04d`
+
+Steps 1 and 2 above are done. Steps 3 and 4 are not.
+
+**The mechanism.** A chord can be asked what kind it is. When it is told, that
+decides its first four notes — root, third, fifth, seventh — and anything above
+a seventh still comes from the mode, so a ninth stays diatonic and a modal
+genre goes on sounding like its mode. A genre declares `qualities`, a number
+from 0 to 1: how often a chord takes its kind from the measurement rather than
+from stacked thirds. Absent means unchanged, and the draw runs either way, so
+adding it to one table cannot move a note in another.
+
+**Only major and minor songs read the table, and that is a correction to §5.**
+The first version sent every mode to whichever table shared its third. That is
+wrong in the one case that matters most: dorian and natural minor differ by one
+note, and that note is what makes the chord on the fourth step major in dorian
+and minor in natural minor — the chord `lofi-harmony.md` §4 calls "the one
+clean discriminator" between the genre's two minor modes. The corpus's minor
+table would have made that step a minor seventh 58% of the time and **deleted
+dorian**. So a mode reads the table only when it IS that key; everything else
+keeps the chords its own scale gives it, and the reason is that there is no
+measurement for dorian rather than that caution seemed wise.
+
+**Measured, 40 seeds a genre, against the build before it:**
+
+```
+  genre         asks for   chords   named    four notes   outside the key   lead clash
+  lofi   before     0        320     0.0%        81.3%              0.0%        16.2%
+  lofi   after      0.75     320    51.9%        89.4%             20.9%        18.7%
+  every other genre, both builds: 0.0% named, 0.0% outside the key, unchanged
+```
+
+**And what it writes, held against the corpus it learned from:**
+
+```
+     kind      we write    the corpus
+     dom7        41.0%         44.1%
+     min7        41.0%         29.6%
+     maj7        16.3%         14.9%
+     maj          1.2%          5.0%
+     min          0.6%          0.9%
+```
+
+Four-note chords 89.4% against the corpus's 91.3%.
+
+**The convergence worth naming.** Seed 1's progression was `C#m7 F#m7 C#m7
+G#m7` and is now `C#m7 **F#7** C#m7 G#m7`. That second chord is a dominant on
+the fourth step — the exact chord `lofi-harmony.md` §4 identified from
+completely separate sources as the genre's signature, and which Richard Pryn
+named outright: "the culprit for this is the dominant IV chord, the F7. This is
+a borrowed chord from another key." A jazz corpus that has never heard of lofi
+produced the chord the lofi research said to look for.
+
+**Blast radius, on the notes rather than the audio:** 176 of 300 lofi songs
+changed; **six genres byte-identical**, all 300 songs each. 176 is what 0.75
+strength over the 7-in-11 of lofi songs that draw minor or major should give.
+
+**THE ONE THING THAT GOT WORSE, and it is small.** A melody drawn from the
+scale can now sound a semitone against a chord note that is not in the scale.
+Measured: lofi's rate of that went **16.2% → 18.7%**. For scale, the six
+genres with no chromatic chords at all sit between 13.6% and 19.9%, so lofi is
+inside the band it was already in and below synthwave and acid — but it did go
+up 2.5 points and it went up for this reason. The proper fix is for the melody
+to know the chord's chromatic notes are available to it, which is a change to
+how the tune is drawn and not to how the chord is built. Recorded in
+`BACKLOG.md` §6.1.
+
+The other laws barely moved: notes outside the key 0.0% → 2.1% (the point of
+the exercise), dissonances that leap away instead of resolving 9.7% → 10.5%,
+melody below the chord 6.7% → 7.5%.
+
+**Also honest: the mechanism removes dominants as well as adding them.** The
+same seed's bridge went `F#m7 B7 E7 G#m7` → `F#m7 Bm7 E7 G#m7`, because the
+corpus puts a minor seventh on that step 32% of the time. That is a real draw
+from real tunes, and it is a darker chord than what was there. Whether that
+trade is wanted is an ears question, and the dial is one number.
 
 ---
 
