@@ -461,3 +461,89 @@ if(midFile){
   console.log(`  last note at ${lastSec.toFixed(1)}s of a ${songSec.toFixed(1)}s song`);
   if(onCount !== expect) process.exitCode = 1;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   --dump / --vs : WHAT CHANGED BETWEEN TWO BUILDS
+
+       node harness/mk2_roll.js 1 --genre lofi --dump /tmp/before.json
+       ...change the program...
+       node harness/mk2_roll.js 1 --genre lofi --vs   /tmp/before.json
+
+   WHY. BACKLOG §7 and HANDOFF §9.6: "the roll shows one song and cannot
+   compare two. The interesting question about [eleven] unheard builds is what
+   CHANGED, and the display answers 'what is there'." The glass got a GHOST for
+   that; this is the same question asked of the PRINTOUT, where the answer can
+   be counted instead of looked at.
+
+   It compares the PERFORMED events -- what a listener would hear -- keyed by
+   (role, bar, step, pitch/lane). So it reports notes that appeared, notes that
+   vanished, and the bars they are in, per part. A change that moves no note
+   says so in one line, which is the answer this session needed eleven times.
+
+   IT DELIBERATELY IGNORES tSec. Two builds at different tempo place every note
+   at a different second while playing the identical part -- exactly what lofi's
+   84 -> 78 bpm change did -- so a time-keyed diff would report every note as
+   moved and drown the one that really was. Bar and step are the musical
+   position; seconds are a consequence of the tempo. The tempo change is
+   reported separately, on its own line, where it can be read rather than
+   mistaken for a thousand moved notes.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  const dumpAt = argv.indexOf("--dump"), vsAt = argv.indexOf("--vs");
+  const keyOf = e => [e.role, Math.floor(e.tSec / (16 * spb)),
+                      Math.round((e.tSec / spb) % 16),
+                      e.role === "drums" ? e.lane : e.pitch].join(":");
+  const shape = () => ({
+    genre: C.genre, seed: C.seed, tempo: C.tempo, bars: song.form.nBars,
+    notes: song.perf.events.filter(e => e.role !== "tape").map(keyOf),
+  });
+  if(dumpAt >= 0){
+    fs.writeFileSync(argv[dumpAt + 1], JSON.stringify(shape()));
+    console.log(`\n── DUMP ${"─".repeat(70)}`);
+    console.log(`  wrote ${argv[dumpAt + 1]}  (${shape().notes.length} performed notes, ` +
+                `${C.genre} seed ${C.seed} at ${Math.round(C.tempo)} bpm)`);
+  }
+  if(vsAt >= 0){
+    const ref = JSON.parse(fs.readFileSync(argv[vsAt + 1], "utf8"));
+    const now = shape();
+    console.log(`\n── VS ${argv[vsAt + 1]} ${"─".repeat(58)}`);
+    if(ref.genre !== now.genre || ref.seed !== now.seed)
+      console.log(`  ⚠ DIFFERENT SONG: reference is ${ref.genre} seed ${ref.seed}, ` +
+                  `this is ${now.genre} seed ${now.seed}. Comparing anyway.`);
+    if(Math.round(ref.tempo) !== Math.round(now.tempo))
+      console.log(`  tempo ${Math.round(ref.tempo)} -> ${Math.round(now.tempo)} bpm ` +
+                  `(every note lands at a different SECOND; the diff below is by BAR)`);
+    if(ref.bars !== now.bars) console.log(`  length ${ref.bars} -> ${now.bars} bars`);
+    const A = new Map(), B = new Map();
+    for(const k of ref.notes) A.set(k, (A.get(k) || 0) + 1);
+    for(const k of now.notes) B.set(k, (B.get(k) || 0) + 1);
+    const roles = [...new Set([...ref.notes, ...now.notes].map(k => k.split(":")[0]))].sort();
+    const gone = {}, came = {}, same = {};
+    for(const r of roles){ gone[r] = 0; came[r] = 0; same[r] = 0; }
+    for(const [k, n] of A){ const r = k.split(":")[0], b = B.get(k) || 0;
+                            same[r] += Math.min(n, b); gone[r] += Math.max(0, n - b); }
+    for(const [k, n] of B){ const r = k.split(":")[0], a = A.get(k) || 0;
+                            came[r] += Math.max(0, n - a); }
+    const tg = roles.reduce((s, r) => s + gone[r], 0), tc = roles.reduce((s, r) => s + came[r], 0);
+    if(tg === 0 && tc === 0){
+      console.log(`  NOT ONE NOTE MOVED  (${now.notes.length} performed notes, identical by bar and step)`);
+    } else {
+      console.log(`  part        gone   came   unchanged`);
+      for(const r of roles){
+        if(!gone[r] && !came[r] && !same[r]) continue;
+        const mark = (gone[r] || came[r]) ? "  <--" : "";
+        console.log(`  ${r.padEnd(10)} ${String(gone[r]).padStart(5)} ${String(came[r]).padStart(6)} ` +
+                    `${String(same[r]).padStart(11)}${mark}`);
+      }
+      console.log(`  ${"total".padEnd(10)} ${String(tg).padStart(5)} ${String(tc).padStart(6)} ` +
+                  `${String(roles.reduce((s, r) => s + same[r], 0)).padStart(11)}`);
+      /* WHICH BARS, because "43 notes moved" does not tell you where to look */
+      const bars = new Set();
+      for(const [k, n] of A) if((B.get(k) || 0) < n) bars.add(+k.split(":")[1]);
+      for(const [k, n] of B) if((A.get(k) || 0) < n) bars.add(+k.split(":")[1]);
+      const list = [...bars].sort((a, z) => a - z);
+      console.log(`  bars touched: ${list.length} of ${now.bars}` +
+                  (list.length && list.length <= 24 ? "  [" + list.map(b => b + 1).join(" ") + "]" : ""));
+    }
+  }
+}
