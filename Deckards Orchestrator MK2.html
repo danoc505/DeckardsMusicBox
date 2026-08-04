@@ -722,7 +722,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04f · a note off the scale may now earn its place by where it goes next</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04g · jungle gets the jazz chords its own research asked for</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -13309,12 +13309,43 @@ const GENRE = {
        so one was composed and discarded every song. Said out loud instead. */
     counter: null,
     sevenths: false,
+    /* ── THE JAZZ HALF OF THIS GENRE HAD NO WORDS ───────────────────────────
+       `sevenths: false` and nothing else meant plain three-note chords, and
+       jungle then MEASURED WORST OF THE SEVEN on every relationship between
+       parts: 21.7% parallel fifths and octaves (Bach: 0.127%, every other
+       genre here 0.5-6.0%) and **0.0% dissonant intervals** across 20 songs.
+       Not low -- none. A static triad under a root-only bass can only make
+       fifths and octaves; there is no seventh available to be anything else.
+
+       And this repo had already researched it. `jungle.md`, July: the genre
+       has "two harmonic worlds and no third" -- the DRONE, and "THE JAZZ-MINOR
+       VAMP... 'Airy pads, JAZZ-INFLECTED CHORDS', Bukem trained classical then
+       jazz fusion" [corpus:tracksandtales]. It names Rhodes as the instrument.
+       The table never received that research. Confirmed independently: melodic
+       layering in jungle uses "lush minor chords, JAZZ EXTENSIONS
+       (9ths/11ths/13ths), or ominous drones" [corpus:melodigging].
+
+       So the chords may now be four and five notes -- and the triad keeps the
+       largest single share, because the drone half of the genre is real and
+       most of this music is one root held. Extensions rather than the measured
+       CHORD_QUALITY table on purpose: that table knows major and minor only,
+       and this genre draws phrygian and dorian too, so it would make the
+       harmony depend on which mode a song happened to draw.
+       docs/genre-research/jungle-harmony.md */
+    extensions: [[3, 5], [4, 4], [5, 2]],
     theme: { count: { hooky: [2, 1], breath: [1, 1], normal: [1, 2] },
              onsetPool: [[0, 4], [8, 3], [4, 2], [12, 2]] },
+    /* ── AND THE VAMPS THE JULY SHEET ASKED FOR ─────────────────────────────
+       It recommended the drone at 6 of 13 with three real vamps beside it, and
+       for dorian it called i-IV "THE Bukem vamp" and gave it a weight of 4.
+       What shipped was the drone at 8 of 11 and no i-IV at all. The drone is
+       still the heaviest single draw here -- that is not in dispute and every
+       source agrees most of this genre is one root held -- but the atmospheric
+       strand now has somewhere to go. Weights are the July sheet's. */
     progressions: {
-      minor:    [[[0,0,0,0], 8], [[0,0,0,5], 2], [[0,0,5,5], 1]],
-      phrygian: [[[0,0,0,0], 8], [[0,0,1,1], 2]],
-      dorian:   [[[0,0,0,0], 8], [[0,0,3,3], 2]],
+      minor:    [[[0,0,0,0], 6], [[0,0,5,0], 3], [[0,3,0,3], 2], [[0,5,3,0], 2]],
+      phrygian: [[[0,0,0,0], 6], [[0,0,1,1], 3], [[0,1,0,1], 2]],
+      dorian:   [[[0,0,0,0], 5], [[0,3,0,3], 4], [[0,3,4,3], 2]],
     },
     bridgeProgressions: {
       minor:    [[[0,0,5,5], 3], [[0,0,0,0], 2]],
