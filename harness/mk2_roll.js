@@ -298,7 +298,23 @@ console.log(`POCKET  [${song.materials.pocket.join(", ")}]  (kick placements, 16
 console.log(`FORM    ${song.sections.map(s => s.fn + (s.peak ? "^" : "") + "[" + s.material +
             (s.stripHalf ? "*" : "") + "]").join(" → ")}`);
 
-for(const k of ["A", "B", "C", "Avar"]) printMaterial(k, song.materials[k], song.materials.bars);
+/* ── WHICH MATERIALS TO PRINT — ASKED OF THE SONG, NEVER LISTED HERE ────────
+   This was the literal ["A","B","C","Avar"], and the moment a Bvar existed the
+   roll printed every other material and left the new one out entirely -- the
+   same defect as the drum-lane list above, created fresh, in the same file,
+   one commit later. A material the roll cannot show is a material nobody has
+   read the notes of.
+   Ordered so a variant follows the thing it varies; anything the song has and
+   this order does not is appended rather than dropped. */
+const MAT_ORDER = ["A", "Avar", "B", "Bvar", "C", "Cvar"];
+const MATS = (() => {
+  const have = Object.keys(song.materials)
+    .filter(k => song.materials[k] && typeof song.materials[k] === "object"
+                 && !Array.isArray(song.materials[k]) && song.materials[k].drums !== undefined);
+  return MAT_ORDER.filter(k => have.includes(k))
+         .concat(have.filter(k => !MAT_ORDER.includes(k)));
+})();
+for(const k of MATS) printMaterial(k, song.materials[k], song.materials.bars);
 printMaterial("fill", { drums: song.materials.fill }, 1);
 printMaterial("ending", { bass: song.materials.ending.filter(n => n.role === "bass"),
                           keys: song.materials.ending.filter(n => n.role === "keys") }, 1);

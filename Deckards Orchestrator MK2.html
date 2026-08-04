@@ -722,7 +722,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04a · the third time you hear it, it is not the same</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04b · the Wurlitzer settles down, and the roll shows every material</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -8912,7 +8912,42 @@ const GENRE = {
       tr1000:    { tune: 45, decay: 0.42, tone: 0.28, snappy: 0.38, sdtone: 0.34,
                    chdecay: 0.032, ohdecay: 0.26, bus: 1.05, gate: 0, hold: 0.15 },
       rhodes:    { bark: 0.42, wow: 0.0024, tone: 0.84 },
-      wurly:     { trem: 0.55, tremhz: 5.2, bark: 0.50 },
+      /* ── THE TREMOLO DEPTH, now measured against a threshold rather than
+         guessed. The pulse the user reported was mostly an arithmetic bug (the
+         wobble ignored how loud the note was; see V.wurly), and fixing that
+         took it from ~25 dB to ~6.9 dB at this base value. But the base is not
+         what plays: this genre AUTOMATES the depth upward for the chorus, and
+         measured over 38,852 note reads across 300 seeds the EFFECTIVE depth
+         runs median 0.64, p90 0.72 -- 7.6-7.9 dB on the part and 10-11 dB on
+         the PAD, which is a Wurlitzer in 77% of pad note-seconds and holds the
+         longest notes in the genre. Reading the base alone under-priced the
+         worst case by about 4 dB.
+
+         THE THRESHOLD IS SOURCED. Loudness-fluctuation annoyance penalties
+         "varied from 4 to 12 dB, when Dm ranged from 4 to 14 dB" [corpus:
+         Virjonen, Hongisto & Radun, JASA Dec 2019] -- so about 4 dB
+         peak-to-trough is where a measurable annoyance cost begins. Detection
+         is far below that (~1 dB [corpus:Viemeister 1979 TMTF]), and the rate
+         makes it worse rather than better: fluctuation strength peaks at 4 Hz
+         and 5.2 Hz sits at 0.967 of that maximum [corpus:Fastl], i.e. almost
+         exactly where the ear is most sensitive to a wobble. Production
+         practice for sustained keyboard parts is 20-25% depth [corpus:Unison].
+
+         So the base is set to land the EFFECTIVE median near the 4 dB onset
+         rather than at twice it, and the chorus lift is cut to match. This is
+         still plainly a Wurlitzer -- the tremolo is the instrument's signature
+         and is meant to be heard -- it is no longer at the top of the ear's
+         sensitivity curve for the whole record.
+
+         AND THE RATE IS CORRECTED UPWARD to the documented one: "the original
+         Wurlitzer Piano has a mono tremolo with a fixed modulation rate of
+         5.5 Hz" [corpus:Apple, Logic Pro User Guide, Tremolo effect controls],
+         corroborated at ~5.6 Hz by component-level circuit analysis
+         [corpus:openwurli]. 5.2 was below the whole 5.35-5.6 cluster. The rate
+         is NOT what made it heavy -- sweeping it across its entire 3-8 Hz
+         travel moves the measured swing by 0.13 dB against ~5 dB for depth, so
+         depth is the lever by roughly 40 to 1 -- this is simply accuracy. */
+      wurly:     { trem: 0.32, tremhz: 5.5, bark: 0.50 },
       mellotron: { voice: 0, wow: 0.0058, flutter: 0.46, hiss: 0.44, tapeEnd: 1 },
       /* the three machines whose panels were declared and read by nothing until
          they were wired. This is the first time any genre has SET them, which is
@@ -9332,8 +9367,10 @@ const GENRE = {
         panHz:  [{ kind: "lfo", bars: [[64, 2], [96, 1]], depth: [0.02, 0.05],
                    shape: "sin", freePhase: true }],
         panDep: [{ kind: "section", by: { chorus: [0.04, 0.12] } }],
-        trem: [{ kind: "section", by: { verse: [0.00, 0.05], chorus: [0.09, 0.18],
-                                        bridge: [-0.10, -0.02], outro: [0.04, 0.12] } }],
+        /* the lift is cut with the base: chorus used to reach 0.73 effective
+           (11 dB on the pad). Shape kept, amount roughly halved. */
+        trem: [{ kind: "section", by: { verse: [0.00, 0.03], chorus: [0.04, 0.09],
+                                        bridge: [-0.08, -0.02], outro: [0.02, 0.06] } }],
         /* the reed bites harder where the player leans in */
         bark: [{ kind: "section", by: { chorus: [0.06, 0.15], bridge: [-0.12, -0.05] } }],
       },
@@ -16202,7 +16239,15 @@ function makeMaterials(chart){
      this change exists to stop. Avar's own comment says what to do instead:
      a section that wants one "derives it from leadAvar, it does not borrow
      A's." So this derives from the REDRAWN tune, on its own named stream. */
-  const counterBvar = deriveCounter(leadBvar, resBv, "counterB:var", chords, keysB);
+  /* AND IT FOLLOWS THE SAME HALFWAY RULE AS THE TUNE. Read off the roll: the
+     derived line differed from BAR ONE, because it draws on its own stream and
+     so diverges even where the tune it answers is identical. The whole point of
+     the variant is that the opening is recognised before it turns, so the
+     second line keeps B's first half and takes the redrawn one only where the
+     tune actually changed. */
+  const counterBv = deriveCounter(leadBvar, resBv, "counterB:var", chords, keysB);
+  const counterBvar = counterB.filter(n => n.bar < 2)
+    .concat(counterBv.filter(n => n.bar >= 2));
 
   /* ── C = depart(A): new changes, sustained keys, roots-only bass,
      A's rhythm augmented ── */
