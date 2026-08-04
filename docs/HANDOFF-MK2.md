@@ -2205,6 +2205,13 @@ fourths/fifths" and "pentatonic" and nothing more. The lofi fix worked because
 `bass.md` researched it first. Do the same for jungle — or say the sources do
 not support a change and leave the row open, which is also a result.
 
+**RESEARCHED at `2026-08-04k` — `docs/genre-research/jungle-bass.md`. The
+sources DO support a change and name its shape**: a two-bar dub RIFF on minor
+pentatonic with root/3rd/5th anchors, real rests, slides — a repeating cell
+(the ostinato's kin), not lofi's walking-tone table. The build is parked
+behind §9.0's listening on purpose: it moves every jungle song and would land
+on `04g`, which nobody has heard.
+
 Acid, plastikman and synthwave's basses have never been researched either.
 
 ### 9.5 THE ARRIVAL RULE — the law this repo measured and did not write
