@@ -2061,6 +2061,153 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
 
 ---
 
+## 8a. WHAT THE SESSION OF 2026-08-05 DID — a record, not a brief
+
+*Builds `2026-08-05a` … `05d`, branch `claude/code-review-6jd9cz`. Written at
+the user's instruction to record what was done and not what should be done
+next. Every number here was measured; where a claim of mine turned out to be
+wrong it is left in with the correction, because the retraction is the useful
+half.*
+
+### The law the user set, and what it cost to honour
+
+> *"If I turn a knob it should always work for me no matter what the genre is.
+> **The user is the end of the line.**"* — 2026-08-05
+
+**Measured against it: fifteen genre/unit pairs failed.** A genre declares
+which parts it sends to each effect, and a return unit no row feeds has no
+input — so every knob on the flanger, the DP/4 and the barberpole was
+inaudible on five genres each. Turn the pad on lofi: the cross moves, the
+number changes, no sound.
+
+I had written that up as *correct behaviour presented as a working control*
+and proposed greying the panel out. The user rejected that outright. The
+rule now: **a hand on any control of a return unit opens that unit's inputs**
+on a song that was not already feeding it. Hand-only, reversible, and derived
+from the grid rather than from a list of units.
+
+  | | before | after |
+  |---|---|---|
+  | genre/unit pairs with no input | **15** | **0** |
+  | the flanger pad's travel, lofi / dkc / bladerunner / acid | −81 / −99 / −92 / −100 dB | audible on all seven |
+  | an **untouched** song, previous build vs this one | — | −81.6 dB worst, against a −82.1 dB same-build noise floor |
+
+That last row is the load-bearing one: untouched songs are unchanged, proven
+at the standard the renderer actually holds (it is not bit-exact — the room
+sits at the float floor), by rendering the same build twice to establish the
+noise and showing the change sits inside it.
+
+`routeBaseFor` was hoisted out of `setSpace` to make this possible, and the
+matrix panel's own hand-kept transcription of the routing rules — eleven lines
+that had to agree with it and now cannot disagree — was deleted in favour of
+calling it.
+
+### Two defects in the bus scheduler
+
+- **The barberpole was silent from 6.5 s into every playback**, on both genres
+  that feed it, and had been. Its window rode each notch's Q; `setSpace` rode
+  the window's two legs with one number so Q swung symmetrically about zero;
+  Chrome installs all-zero filter coefficients at Q = 0. Re-researched rather
+  than patched — DAFx-15 windows the notches' *cut gain* under a raised cosine
+  over *log frequency*, and the panel had been drawing exactly that curve since
+  the day it was written while the filters ran something else. Six `peaking`
+  filters and a WaveShaper reading the bell off the sweep. −97.7 dB → −25.0 dB
+  on synthwave; −95.4 → −23.3 on plastikman. `barberpole.md` §7.
+- **0 of 1227 hard steps in the motion plan reached the mixer.** The bus grid
+  was one point per beat, four times coarser than the plan's own sixteenth, so
+  a `throw` placed at 0.8 of a bar was never sampled; and the "is this a step"
+  test read the fader-law factor where its comment said "the lane's own
+  depth", giving a flat 0.35 threshold against declared throws of 0.10–0.34.
+  **1227 of 1227** now, 0 ms rise, on the line. plastikman's minute-long mute
+  had been firing 57.7 ms early — exactly half a sixteenth, because the old
+  bisection was finding `motionAt`'s rounding boundary and calling it the bar.
+- And `rideBus` clamped three callers' bases in the wrong units. **One real
+  casualty** (`barber.depth` written as exactly 1.000 all song on synthwave);
+  the flanger and DP/4 cases cancelled algebraically and were unchanged to the
+  last digit. **I claimed all three were broken in a pushed commit message and
+  corrected it in the next one.**
+
+### The TR-1000, tested as a rack
+
+`harness/probe_rack.js` — five questions of one machine: is every knob drawn,
+does every knob reach the sound, does a channel's knob stay on its own
+channel, do the switches switch, and what does the program do with it while a
+song plays. Four defects, none of which any existing check could see:
+
+- the **808/909 switch** was declared, loaded from five genres, read by three
+  voices, and **on no panel**;
+- **switches carried no identifying key**, so no probe could find one on the
+  glass — this probe still reported the switch missing after it was added;
+- the **KIT control declared four positions for five kits** (the sampled
+  Gretsch arrived later and nothing joined them up) — a seam check now holds
+  every `pick` switch to the number of things it picks;
+- and `V.brk` read `ev.slice` with no default, so a malformed event took the
+  whole render down from that note on — how `dacHit` was lost once before.
+
+**Automation, measured:** 71 of 76 controls ridden by at least one genre over
+121 lanes; the 5 never ridden are exactly the 3 voicings and 2 switches, which
+by contract must never move. No lane rides a switch. **Two p-locks were
+written in the units of a different knob** — lofi's hat and dkc's kick set a
+decay *multiplier* (neutral 1) with the numbers for a decay in *seconds*, so
+the drum landed about 1% shorter on the locked steps. lofi proves the mistake
+itself: four lines away it p-locks the seconds-based control with nearly
+identical numbers, and there it is a 27–49% change.
+
+**Twenty controls per drum machine were declared `bus` and are read at every
+note.** Correcting the label turned two seam checks red — correctly: those
+twenty had been passing "every knob reaches the sound" *only* by being
+mislabelled into the bus list, two errors cancelling into a green tick. The
+scanner now reads a built key (`grp + "Tune"`) as well as a written one.
+
+### The pad bay
+
+`harness/probe_pads.js`. Both pads drawn and wired to the controls they name;
+a real pointer drag lands within 6% at all four corners and the centre on both
+pads (the only test that catches an inverted axis); neither pad touches the
+other's controls; HOLD does all three things the word implies.
+
+### And a two-hour test made to take nine minutes
+
+The user: *"Why is there a task running for over 2 hours right now? That needs
+a better way to be done."* Measured rather than guessed: a render costs ~0.43 s
+per second of audio and **does not degrade** (twenty identical renders: 484 ms
+then 431 ms, so no leak). The cost was the file length — `probe_controls` was
+rendering the whole kit, ~65 s of audio, twice per control, to test one drum's
+knob. Scoped to the lane the panel says the knob lives on: **2 h → 8 m 46 s**,
+and the answers improved, because the old full-kit comparison had been scoring
+the bass drum's TUNE and PUNCH on the *snare's* window.
+
+### Probe errors that nearly became findings
+
+Kept because the pattern is the point — five of the seven measurements below
+were wrong before they were right, and every one failed in the direction of
+reporting a defect that was not there:
+
+- `probe_rack` reported **all ten TR-1000 faders dead** — it passed no motion
+  plan, so `setSpace` fell back to a different machine's controls;
+- then **five channels leaking into each other** — decay tails running into
+  the next drum's window. Fixed by rendering both firing orders: a tail cannot
+  run backwards;
+- `probe_pads` reported **both pads dead**, ten corners wrong — the pad bay
+  sits ~5000 px down a page with a 720 px viewport, so every gesture landed on
+  empty page and every control read its default;
+- the pad audibility test reported the flanger **silent on synthwave at
+  −59.3 dB** from a single mid-song excerpt; synthwave opens its flanger
+  *through the chorus*, and three windows across the record read **−14.2 dB**;
+- and a hand-written script reported the **ROOM unfed on five genres** by
+  reading `space.feeds` and missing the two rows the grid opens by default —
+  which is why `routeBaseFor` is now exported instead.
+
+### Battery at `2026-08-05d`
+
+seam 121/0 · ui 33/0 · blend 10/0 · midi 20/0 · voices 0 threw / 0 silent ·
+snapshot IDENTICAL over 2100 seeds · renders repeatable on all seven (worst
+−91.9 dB) · `probe_controls tr1000` 0 dead, 1 not judgeable · RULE ONE rolls
+printed for all seven before and after every build in the session — **not one
+note moved**, which is correct: all of it was stage 6.
+
+---
+
 ## 9. THE NEXT JOB
 
 *Rewritten 2026-08-04 at `f8ae533` (build `2026-08-04j`). The version this

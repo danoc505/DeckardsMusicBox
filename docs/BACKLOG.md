@@ -482,8 +482,19 @@ nobody builds on them:
 
 ## 7. UI
 
-- **A PAD CAN BE PERFECTLY WIRED AND STILL DO NOTHING, AND THE PANEL DOES NOT
-  SAY SO.** Measured `2026-08-05` with `harness/probe_pads.js`, the pad's whole
+- ~~**A PAD CAN BE PERFECTLY WIRED AND STILL DO NOTHING**~~ **CLOSED
+  `2026-08-05d` — THE HAND IS THE END OF THE LINE.** The user ruled on it in
+  one sentence: *"If I turn a knob it should always work for me no matter what
+  the genre is. The user is the end of the line."* Fifteen genre/unit pairs
+  had no input at all, so every knob on those units was inaudible — the
+  flanger, the DP/4 and the barberpole, five genres each. A hand on any
+  control of a return unit now OPENS that unit's inputs on a song that was not
+  already feeding it: hand-only (a song nobody touched is unchanged to the
+  sample, measured below), reversible (release the trim and it goes back), and
+  derived (nothing names a unit or a genre). **15 → 0.** The measurement that
+  found it is kept below.
+
+  Measured `2026-08-05` with `harness/probe_pads.js`, the pad's whole
   travel as a difference against the mix, best of three windows across the
   record:
 
@@ -500,17 +511,19 @@ nobody builds on them:
   that does nothing is a lie" rule one level up: the knob works, its unit is
   not connected on this song.
 
-  **Not fixed, because the fix is a design decision.** The honest options are to
-  grey the pad when the current genre feeds nothing into its machine, or to
-  print what it is fed by. Either changes what the panel claims, so it wants a
-  deliberate choice rather than a quiet edit. The same argument applies to any
-  return-fed unit, not just this one — the matrix already knows which rows are
-  open.
+  After the rule, re-measured with the same probe: **7 of 7 on both pads.**
 
-  **And the dim dot on the SPX90 can only ever appear on plastikman**: that is
-  the only genre whose song moves `flange.rate`/`flange.depth`. On the other
-  six the second pad shows one mark where the machine shows two, which is a
-  smaller version of the same gap.
+  I had written this row up as "correct behaviour presented as a working
+  control" and proposed greying the pad out. The user rejected that reading
+  outright, and was right to: a control that is drawn and turnable and does
+  nothing is the defect this file already has a rule about, and which side of
+  the signal path the reason sits on does not change that.
+
+  **Still open, and smaller: the dim dot on the SPX90 can only ever appear on
+  plastikman** — the only genre whose song moves `flange.rate`/`flange.depth`.
+  On the other six that pad shows one mark where the machine shows two. The
+  hand rule does not touch this; it is about what the SONG moves, not what the
+  hand can reach.
 
 - ~~**Nothing on this page shows the NOTES**~~ **DONE `2026-08-04h` — THE ROLL.**
   Every display in the program showed what the machines were doing; none showed

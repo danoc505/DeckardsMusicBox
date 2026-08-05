@@ -914,7 +914,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-05c · the TR-1000 automation, tested</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-05d · the hand is the end of the line</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1780,6 +1780,19 @@ const MATRIX = {
      NONE: a crossing deliberately left empty, with the reason in the string.
      The panel draws a blind plate there and the title attribute says why. */
   alias: { echoEcho: "echo.fb", echoRoom: "echo.verb" },
+  /* WHICH RACK MACHINE EACH RETURN COLUMN IS. The panel and the graph both
+     already knew this in their own private lookups; it is declared here
+     because `routeBaseFor` needs it to answer "is a hand on the unit this
+     column returns", and a third private copy is how the last two columns
+     went stale in two probes.
+
+     MIX has no entry because it is not a unit. Neither does ROOM, and that is
+     the honest gap rather than an oversight: the room is the SPACE, not a box
+     in the rack -- there is no `INSTRUMENTS.room` whose knobs a hand could
+     turn. It also needs none, because the room is the one return the grid
+     opens by default (keys and lead, on every genre), so it is never the
+     unfed-unit case this map exists for. */
+  retOf: { Echo: "echo", Flange: "flange", DP4: "dp4", Barber: "barber" },
   /* ── WHAT IS BLIND, AND WHY, DERIVED FROM ONE ORDERING ────────────────────
      The grid must stay a DAG or the renderer stops being repeatable (measured:
      a cycle takes repeat renders from -115 dB apart to -35). The first version
@@ -1848,6 +1861,100 @@ const MATRIX = {
 })();
 
 /* every crossing that is a matrix control of its own, in grid order */
+/* ══ WHAT EACH CROSSING OF THE GRID ARRIVES AT ═══════════════════════════════
+   Which rows are open into which column, for one genre's `space`. It lived
+   inside setSpace, which meant nothing could ask the question without either
+   rendering a song or keeping a copy of these rules -- and a probe that kept a
+   copy reported the ROOM as fed by two genres when all seven feed it, because
+   the copy read `space.feeds` and missed the two rows this opens by default.
+   One owner, and now it can be asked.
+
+   ── AND A HAND ON A UNIT OPENS IT. THE USER IS THE END OF THE LINE. ─────────
+   The user, 2026-08-05: "If I turn a knob it should always work for me no
+   matter what the genre is. The user is the end of the line."
+
+   That is a law, and the program broke it in TWENTY places. A genre declares
+   which parts it sends to each effect; a unit no row feeds has no input, so
+   NOTHING on its panel can be heard -- and MEASURED, four of the five return
+   units are unfed on five genres each. Turn the flanger's rate on lofi and the
+   cross moves, the number changes, and there is no sound, because the flanger
+   is not in that record's signal path. Every knob on it works perfectly and
+   none of them does anything.
+
+   The old answer would have been to grey the panel out. The user has ruled
+   that out in as many words: the knob should WORK.
+
+   So a hand on any control of a return unit OPENS that unit's inputs, for the
+   instrument rows, on any song that was not already feeding it. Three
+   properties make this safe rather than a special case:
+
+     - it is HAND-ONLY. `TRIM` is the hand's own layer; a song nobody has
+       touched is unchanged to the sample, which the snapshot and the render
+       checks both hold it to.
+     - it is REVERSIBLE. Release the trim -- double-click, or the panel's
+       RESET -- and the unit goes back to being unfed, exactly as the genre
+       declared.
+     - it is DERIVED. Nothing here names a unit or a genre: the column knows
+       which machine it returns (`MATRIX.retOf`), and a unit counts as touched
+       when any control of that machine carries a TRIM.
+
+   It deliberately does NOT open a unit the genre already feeds -- there the
+   genre's own routing is the better statement and the hand still has the
+   matrix panel to change it. ═══════════════════════════════════════════════ */
+function handOnMachine(m){
+  const p = m + ".";
+  for(const k in TRIM) if(k.indexOf(p) === 0 && TRIM[k]) return true;
+  return false;
+}
+/* `bare` = the GENRE's routing with no hand in it, which is what the matrix
+   panel's PARAMS must hold: a hand's TRIM is an offset FROM that number, so
+   folding the hand back in would make every drag move its own origin. */
+function routeBaseFor(space, cell, bare){
+  const b = cell.in.k, dest = cell.out.k;
+  /* an emptied fx rack kills every input to the ECHO outright, past any
+     TRIM: a hand left on a route must not keep a "muted" delay alive.
+     The MIX column is never killed -- an empty rack is a dry mix, not a
+     silent one -- and the room's own return is cut by its `wet: 0`. */
+  if(dest === "Echo" && space.echoKill) return 0;
+  const feedsOf = out => {
+    const o = MATRIX.outs.find(x => x.k === out);
+    return (o && o.feeds) ? (space[o.feeds] || []) : [];
+  };
+  const on =
+    /* THE MIX COLUMN. Every instrument row is open (that is the wire it
+       replaced); the room's row carries the genre's `wet`, which used to
+       be a number only the song could write and is now a knob. */
+    dest === "Mix"  ? (b === "room" ? (space.wet != null ? space.wet : 0.16) : 1) :
+    dest === "Flange" ? (feedsOf("Flange").indexOf(b) >= 0 ? 1 : 0) :
+    dest === "DP4"  ? (feedsOf("DP4").indexOf(b) >= 0 ? 1 : 0) :
+    dest === "Barber" ? (feedsOf("Barber").indexOf(b) >= 0 ? 1 : 0) :
+    dest === "Room" ? (b === "keys" || b === "lead" ||
+                       feedsOf("Room").indexOf(b) >= 0 ? 1 : 0) :
+    /* ...and the ECHO column, which only instrument rows reach: the
+       room's way in here is a blind plate (see MATRIX.none). */
+                   (feedsOf("Echo").indexOf(b) >= 0 ? 1 : 0);
+  /* the hand's override: an untouched unit nobody feeds stays unfed */
+  let base = on;
+  if(!bare && !base && !cell.in.ret){
+    const mach = MATRIX.retOf[dest];
+    if(mach && handOnMachine(mach) &&
+       !MATRIX.ins.some(i => !i.ret && routeOpen(space, dest, i.k)))
+      base = 1;
+  }
+  const cc = CONTROL["matrix." + cell.k] || { min: 0, max: 1 };
+  if(bare) return Math.max(cc.min, Math.min(cc.max, base));
+  return Math.max(cc.min, Math.min(cc.max, base + (TRIM["matrix." + cell.k] || 0)));
+}
+/* whether the GENRE (not the hand) opens this row into this column -- the
+   question "is this unit already fed", asked without recursing */
+function routeOpen(space, dest, row){
+  const o = MATRIX.outs.find(x => x.k === dest);
+  if(dest === "Room") return row === "keys" || row === "lead" ||
+                             ((space.feeds || []).indexOf(row) >= 0);
+  if(!o || !o.feeds) return true;
+  return (space[o.feeds] || []).indexOf(row) >= 0;
+}
+
 function matrixCells(){
   const out = [];
   for(const i of MATRIX.ins) for(const o of MATRIX.outs){
@@ -3846,19 +3953,20 @@ function applyRack(chart, force){
      the knob-that-lies defect. The graph itself derives these bases from the
      song's space object (see setSpace); this copy is for the panel and for
      the hand's TRIM to be an offset from the truth. */
+  /* ── AND IT IS THE SAME FUNCTION THE GRAPH USES, not a copy of it ──────────
+     These eleven lines were a second, hand-kept transcription of setSpace's
+     routing rules, and two copies of one rule is how this file has already
+     lost a column twice. It matters more now than it did: a hand on an unfed
+     unit OPENS that unit (see `routeBaseFor`), and a panel still reading the
+     old rules would draw the crossing shut while the graph had it open --
+     the knob-that-lies defect, pointed at the grid itself.
+
+     The base here must be the GENRE's, with no hand in it: PARAMS is what the
+     hand's TRIM is an offset FROM, so folding TRIM in would make every drag
+     move the thing it is measured against. `bare` asks for exactly that. */
   {
     const SP = G.space || {};
-    const ef = SP.echoFeeds || [], rf = SP.feeds || [];
-    for(const cell of matrixCells()){
-      const b = cell.in.k, dest = cell.out.k;
-      PARAMS["matrix." + cell.k] =
-        dest === "Mix"  ? (b === "room" ? (SP.wet != null ? SP.wet : 0.16) : 1) :
-        dest === "Flange" ? ((SP.flangeFeeds || []).indexOf(b) >= 0 ? 1 : 0) :
-        dest === "DP4"  ? ((SP.dp4Feeds || []).indexOf(b) >= 0 ? 1 : 0) :
-        dest === "Barber" ? ((SP.barberFeeds || []).indexOf(b) >= 0 ? 1 : 0) :
-        dest === "Room" ? (b === "keys" || b === "lead" || rf.indexOf(b) >= 0 ? 1 : 0) :
-                          (ef.indexOf(b) >= 0 ? 1 : 0);
-    }
+    for(const cell of matrixCells()) PARAMS["matrix." + cell.k] = routeBaseFor(SP, cell, true);
   }
 }
 
@@ -9137,29 +9245,7 @@ registerProcessor("mk2-room", MK2Room);
        function is asked about a SONG. The hand's TRIM rides on top, clamped
        to the control, so the matrix panel plays these eight wires live. */
     if(g.route){
-      const routeBase = cell => {
-        const b = cell.in.k, dest = cell.out.k;
-        /* an emptied fx rack kills every input to the ECHO outright, past any
-           TRIM: a hand left on a route must not keep a "muted" delay alive.
-           The MIX column is never killed -- an empty rack is a dry mix, not a
-           silent one -- and the room's own return is cut by its `wet: 0`. */
-        if(dest === "Echo" && space.echoKill) return 0;
-        const on =
-          /* THE MIX COLUMN. Every instrument row is open (that is the wire it
-             replaced); the room's row carries the genre's `wet`, which used to
-             be a number only the song could write and is now a knob. */
-          dest === "Mix"  ? (b === "room" ? (space.wet != null ? space.wet : 0.16) : 1) :
-          dest === "Flange" ? ((space.flangeFeeds || []).indexOf(b) >= 0 ? 1 : 0) :
-          dest === "DP4"  ? ((space.dp4Feeds || []).indexOf(b) >= 0 ? 1 : 0) :
-          dest === "Barber" ? ((space.barberFeeds || []).indexOf(b) >= 0 ? 1 : 0) :
-          dest === "Room" ? (b === "keys" || b === "lead" ||
-                             (space.feeds || []).indexOf(b) >= 0 ? 1 : 0) :
-          /* ...and the ECHO column, which only instrument rows reach: the
-             room's way in here is a blind plate (see MATRIX.none). */
-                         ((space.echoFeeds || []).indexOf(b) >= 0 ? 1 : 0);
-        const cc = CONTROL["matrix." + cell.k] || { min: 0, max: 1 };
-        return Math.max(cc.min, Math.min(cc.max, on + (TRIM["matrix." + cell.k] || 0)));
-      };
+      const routeBase = cell => routeBaseFor(space, cell);
       for(const cell of matrixCells()){
         const node = g.route[cell.k];
         if(node) rideBus(g, node.gain, "matrix." + cell.k, routeBase(cell), t0);
@@ -21664,6 +21750,11 @@ window.MK2 = {
      one that reads it cannot. */
   MODES, CHORD_QUALITY,
   makeMotion, motionAt,
+  /* WHAT EACH CROSSING ARRIVES AT, for one genre's space -- so "is this unit
+     fed on this song" can be asked without rendering one, and without a probe
+     keeping a copy of the rules that goes stale (it did, and reported the room
+     as fed by two genres when all seven feed it). */
+  routeBaseFor: (space, cell) => routeBaseFor(space, cell), matrixCells,
   /* THE TWO WAYS A CONTROL IS AUTOMATED, both exported for the same reason
      MODES and MATRIX are: a probe that copies out what the program does proves
      its copy is current and nothing else.
