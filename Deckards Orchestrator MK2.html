@@ -914,7 +914,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04r · the two pads become one unit, side by side</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-04s · the hard cut is hard again</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -3508,11 +3508,16 @@ function makeMotion(chart, form, sections){
         const win = [];
         for(let b = every; b < nBars; b += every)
           win.push({ a: b, b: Math.min(nBars, b + hold) });
-        out.push(Object.freeze({ kind: "snap", to, win: Object.freeze(win) }));
+        /* `edge: true` MARKS A KIND THAT IS DEFINED BY ITS DISCONTINUITY, so
+           rideBus knows to keep the step instead of ramping through it. The
+           marker is set HERE, by the compiler that knows the shape, rather than
+           rideBus keeping a list of kind names -- a list in stage 5 of what
+           stage 5 does not own is the staleness this file keeps catching. */
+        out.push(Object.freeze({ kind: "snap", edge: true, to, win: Object.freeze(win) }));
       }
       else if(sp.kind === "throw"){
         const amt = drawIn(sp.amt, rng);
-        out.push(Object.freeze({ kind: "throw", amt,
+        out.push(Object.freeze({ kind: "throw", edge: true, amt,
                                  every: sp.every || 8,
                                  at: sp.at == null ? 0.75 : sp.at }));
       }
@@ -8668,10 +8673,59 @@ registerProcessor("mk2-room", MK2Room);
        Clamping is the honest reading rather than a patch: the curve began before
        we were listening, so it begins now, at the value it should already hold. */
     param.setValueAtTime(v, Math.max(0, t0));
-    for(let i = 1; i <= n; i++){
-      const tSec = i * step;
+    /* ── AN EDGE IN THE PLAN HAS TO SURVIVE THE GRID ─────────────────────────
+       The grid is one point a beat and the points are joined by linear ramps,
+       which is right for the section steps and the slow LFOs it was built for
+       and WRONG for the two kinds that are defined by a discontinuity.
+
+       MEASURED before this existed, on the two genres that declare a `snap`:
+       the plan is a perfect rectangle and the parameter was not. jungle's cut
+       took 312 ms and BEGAN 285 ms BEFORE the bar line; plastikman's took
+       415 ms and began 379 ms early. `linearRampToValueAtTime(x, t)` arrives at
+       x AT t, so the transition occupies the whole beat before the grid point --
+       a mute rendered as a third-of-a-second fade that starts early. That is
+       the one property `snap` exists for: "at bar B it jumps, holds, and jumps
+       back, with no ramp at either edge -- because the edge IS the gesture."
+       `throw` has the same fault at its jump.
+
+       So the grid keeps its spacing and gains the edges. Between each pair of
+       beat points the plan is asked whether it is discontinuous in there; if it
+       is, the edge is found by bisection and written as a HOLD at the old value
+       up to the edge and a `setValueAtTime` at it. Everything continuous is
+       untouched -- a section step, an arc, an LFO all still ride the same beat
+       grid to the same values, which is why the snapshot does not move.
+
+       Derived, not special-cased: nothing here names `snap` or `throw`. Any
+       kind that steps, now or later, gets its edge. The threshold is a
+       fraction of the lane's own depth, so a slow LFO's per-beat change is
+       never mistaken for an edge. */
+    const val = tSec => {
       let x = base + depth * motionAt(plan, key, { tSec }, g.motionOffset);
-      if(c) x = Math.max(c.min, Math.min(c.max, x));
+      return c ? Math.max(c.min, Math.min(c.max, x)) : x;
+    };
+    /* ...and ONLY on a lane that carries a kind defined by its edge. A section
+       step is discontinuous in the plan too, and the grid's smoothing of it is
+       DELIBERATE -- rideBus's own comment says a beat "is smooth for the section
+       steps and the slowest LFOs any genre declares". Making those instant as
+       well would change how every genre's mix moves between sections, which is
+       a different decision from fixing a mute, and not one to make silently
+       inside it. The compiler marks the kinds that need the edge. */
+    const wantEdge = (plan.lanes[key] || []).some(mv => mv && mv.edge);
+    const EDGE = Math.max(1e-4, Math.abs(depth) * 0.35);   // "a step, not a slope"
+    for(let i = 1; i <= n; i++){
+      const tPrev = (i - 1) * step, tSec = i * step;
+      const xPrev = val(tPrev), x = val(tSec);
+      if(wantEdge && Math.abs(x - xPrev) > EDGE){
+        /* find WHERE inside this beat the plan actually steps, to ~1 ms */
+        let lo = tPrev, hi = tSec;
+        for(let k = 0; k < 12 && hi - lo > 0.001; k++){
+          const mid = (lo + hi) / 2;
+          if(Math.abs(val(mid) - xPrev) > EDGE) hi = mid; else lo = mid;
+        }
+        /* hold the old value right up to the edge, then step */
+        param.linearRampToValueAtTime(xPrev, Math.max(0, t0 + lo));
+        param.setValueAtTime(val(hi), Math.max(0, t0 + hi));
+      }
       param.linearRampToValueAtTime(x, Math.max(0, t0 + tSec));
     }
   }
