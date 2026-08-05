@@ -49,6 +49,43 @@ regression.
 
 ## OPEN — sent, awaiting verdict
 
+### 2026-08-05 · `05a` — TWO THINGS THAT WERE NOT PLAYING NOW PLAY
+
+Both of these are **repairs, not taste** — nothing here is a number I chose
+and want ruled on. They are in this file because they change what two
+genres sound like, and you should know what to expect before you press play.
+
+**The endless riser was switched off for the whole song and nobody knew.**
+The barberpole — the "jet engine" wash under synthwave's choruses and
+plastikman's keys — went completely silent 6.5 seconds into every playback
+and stayed silent. Not quiet: gone, at the renderer's floor, on every seed.
+A filter in it was being driven to a value at which Chrome's audio engine
+stops passing sound altogether, and it hit that value once per sweep.
+
+Rebuilt from the sources rather than nudged. **synthwave, seed 11** and
+**plastikman, seed 11**:
+- *synthwave* — the rise under the run into each chorus. It was also 12 dB
+  quieter than it should have been even in the six seconds before it died,
+  so this is the biggest audible change in the build.
+- *plastikman* — a slow swirl over the whole record that should never
+  arrive anywhere. It starts about 3.6 dB gentler than before, deliberately:
+  the sweep now fades properly in and out at the ends instead of lurching.
+
+  **If either one now draws attention to itself, say so** — the depth is
+  one number (`BARBER_CUT_DB`, currently 24 dB).
+
+**And the sharp moves in the mix were being rounded off or dropped.** The
+mutes, the delay throws, the effect-cuts: 0 of 1227 of them reached the
+mixer as written. plastikman's minute-long mute fired 58 ms before the bar
+instead of on it; jungle's echo throws never fired at all. All 1227 land now,
+instantly, on the line.
+- **plastikman, seed 11** — the once-a-minute cut should now feel like a
+  hand on a fader, not a fade.
+- **jungle, seed 1** — the delay throws at the end of each phrase are new to
+  your ears; they have never actually been played before.
+- *Are the throws too frequent?* They are every 8 bars. That IS a taste
+  question, and it is the only one in this entry.
+
 ### 2026-08-04 · `04l` — JUNGLE'S BASS PLAYS A RIFF NOW
 
 It used to hold one note for a whole bar, every bar — measured, 99.8% of

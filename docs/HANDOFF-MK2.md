@@ -2274,15 +2274,40 @@ dissonance must resolve by step) and **nothing anywhere about arrival**.
 the one underneath, and that widening moved nothing across 2100 seeds — which is
 the right shape for a law. An arrival rule is the same shape and the same size.
 
-### 9.6 TWO THINGS THE ROLL CANNOT DO YET
+### 9.6 ONE THING THE ROLL CANNOT DO YET
 
-Small, and both were found by using it:
-
-- **It shows one song and cannot compare two.** The interesting question about
-  eight unheard builds is what CHANGED; the display answers "what is there". A
-  ghost layer of another seed or another build would answer it.
+- ~~**It shows one song and cannot compare two.**~~ **DONE `2026-08-04q`** —
+  `--dump` / `--vs` and the on-screen ghost. It keys notes by bar and step and
+  deliberately ignores wall-clock time, so a tempo change does not read as a
+  thousand moved notes.
 - **No zoom, no scroll.** A 304-bar jungle song is squeezed into the same width
   as a 44-bar lofi one, so a bar is three pixels and only the shape survives.
+
+### 9.6a THE AUTOMATION AUDIT — what it found and what it left
+
+*`2026-08-05a`, answering "test the automation and FX of each unit". Full
+write-up in `BACKLOG.md` §6e; the barberpole's own research is
+`barberpole.md` §7.*
+
+**Fixed** (all three were in the scheduler or in one unit's construction, not
+in any genre's table — which is exactly why every genre-level probe passed):
+the barberpole's permanent silence; 1227 of 1227 hard steps that never
+reached the mixer; `rideBus` reading three callers' bases in the wrong units.
+
+**THE ONE DECISION LEFT ON THE TABLE — apex lanes deliver 40–88% of their
+declared swing.** `motionAt`'s own comment says *"depth is the swing from arc
+0 to arc 1"*, and `form.arc` never reaches 0, so every genre that declares an
+apex lane moves less than it says it does: dkc 40%, lofi 50%, jungle 63%,
+acid 67%, synthwave 71%, bladerunner 77%, plastikman 88%. Verified
+independently. **It is a decision, not a bug** — either make the comment true
+(document that depth is the swing across the arc's *actual* range) or
+normalise the move so the declared swing is delivered. The second is the
+honest one and it changes every genre with an apex lane, so it wants a
+deliberate re-baseline, not a quiet edit.
+
+**Five leads whose verifying agents never ran** are listed in `BACKLOG.md`
+§6e and marked unverified. Two of the four LFO shapes reportedly used by
+nobody is the cheapest to check and the most likely to be real.
 
 ### 9.7 STILL OPEN FROM THE PREVIOUS §9 (`7c7644b`), unchanged
 

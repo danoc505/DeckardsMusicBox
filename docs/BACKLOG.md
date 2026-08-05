@@ -439,7 +439,22 @@ table** — which is why no genre-level probe had ever seen either.
 |---|---|---|
 | **The barberpole went permanently silent** partway into every playback. Its window rode each notch's **Q**, and `setSpace` rode the window's sine leg and its DC-lift leg with the *same* number, so Q swung symmetrically about zero. Chrome installs **all-zero filter coefficients at Q = 0**, so a notch that merely touches zero mutes the cascade — and six notches offset by a sixth of a cycle tile the cycle with no gap. Rebuilt as six `peaking` filters whose **cut gain in dB** is windowed by a raised cosine read off the sweep, which is what the sources say and what the panel had been drawing all along. `barberpole.md` §7 | the return collapses and never recovers — see `test/ears/LOG.md` | holds for the whole render |
 | **The hard steps in the motion plan mostly never reached the parameter.** `rideBus` wrote its curve one point per **beat**, four times coarser than the plan's own sixteenth, so a `throw` placed at `at: 0.8` or `0.875` lived entirely between two grid points; and the test for "is this a step" read the *fader-law factor* (1 on nearly every lane) instead of the lane's depth, giving a flat threshold of 0.35 against declared throws of 0.10–0.34. Edge lanes are now written on the plan's own grid, and "does it jump" is asked of the plan directly instead of by size. | **0 of 1227** planned steps arrived, across 5 genres and 14 lanes; snaps landed **57.7 ms early** (exactly half a sixteenth — the bisection was finding `motionAt`'s rounding boundary, not the bar line) | **1227 of 1227**, 0 ms rise, 0 ms early, on the line |
-| **`rideBus` read three callers' bases in the wrong units.** It clamps to `CONTROL[key]` and normalises the motion against the control's default, and three callers hand it the knob value already multiplied: the flanger's depth in seconds (0.0040×), the DP/4's amounts per algorithm, the pole's window in dB (5×). `barber.depth` was therefore pinned at the control's max of 1 on every genre that automates it; `flange.depth` delivered 0.8 % of its declared motion. The multiplier is now passed separately and applied last. | pinned / 0.8 % | full travel, in the knob's own units |
+| **`rideBus` read three callers' bases in the wrong units.** It clamps to `CONTROL[key]` and normalises the motion against the control's default, and three callers hand it the knob value already multiplied: the flanger's depth in seconds (0.0040×), the DP/4's amounts per algorithm, the pole's window (5×). The multiplier is now passed separately and applied last. **One real casualty and two near-misses** — see the correction below the table. | `barber.depth` written as **exactly 1.000 for the whole song**, both legs, on synthwave | swings **−19.5 … −12.7 dB**; flanger and DP/4 unchanged to the last digit |
+
+**CORRECTION, same build, made after the commit that claimed otherwise.** The
+first write-up of the third row said the flanger "delivered 0.8 % of its
+declared motion". **It did not, and neither did the DP/4.** Measured on both
+builds: `flange.depth` on plastikman writes 0.001907 … 0.002660 s before the
+change and 0.001907 … 0.002660 s after — identical, and identical for a
+reason. The fader-law factor is `base/def`; when the base is `scale × knob`
+that factor is `scale × knob / def`, so `scale·knob + (scale·knob/def)·m` and
+`scale·(knob + (knob/def)·m)` are the same number. The multiply distributes
+straight through the one place it looked dangerous. What was genuinely broken
+is only the **clamp**, which was being applied in seconds and in decibels to a
+range written in knob units — never binding on the flanger (0.002 s is nowhere
+near the control's max of 1) and binding on every sample of the pole, whose
+scale is greater than one. The fix is right; the scope of it was overstated by
+two of three, and that overstatement was in a pushed commit message.
 
 ### STILL OPEN, from the same audit — **verified, not yet decided**
 

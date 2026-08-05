@@ -8664,17 +8664,32 @@ registerProcessor("mk2-room", MK2Room);
      base sits above the control's minimum -- so a base in any other units was
      clamped to the knob's travel and normalised against the knob's default.
 
-     MEASURED. `barber.depth` arrived at 5x and the control's max is 1, so on
-     any genre that declares a motion lane for it every value written was
-     exactly 1.0 -- a window pinned flat. `flange.depth` arrived at 0.0040x and
-     normalised to 0.008 of its declared motion: a lane that moved by less than
-     one percent of what it said. Neither could be seen from inside, because
-     both look like a genre that simply declared a small number.
+     MEASURED, and the answer is one bad case and two that were saved by
+     arithmetic -- both worth writing down, because the near-misses are the
+     reason this was hard to see.
+
+       `barber.depth` arrived at 5x. The control's max is 1, so on synthwave --
+       the one genre that declares a motion lane for it -- EVERY value written
+       for the whole song was exactly 1.000, both legs, a window pinned flat.
+
+       `flange.depth` (0.0040x) and the DP/4's amounts (`A.base` x) came out
+       IDENTICAL either way, and not by luck exactly: the fader-law factor is
+       `base/def`, and when the base is `scale * knob` that factor is
+       `scale * knob / def`, so `scale*knob + (scale*knob/def)*m` and
+       `scale*(knob + (knob/def)*m)` are the same number. The multiply
+       distributes straight through the one place it looked dangerous.
+
+     What did NOT survive either way is the CLAMP, and that is the real fault:
+     it was being applied in seconds and in decibels to a range written in
+     knob units. On the flanger it never bound (0.002 s is nowhere near 1) so
+     nothing showed; on the pole, where the scale is greater than one, it bound
+     on every sample.
 
      So the multiplier is passed SEPARATELY and applied LAST. Every decision in
      here is made in the control's own units, where the control's own numbers
      mean something, and what reaches the parameter is that decision times the
-     scale. A caller that passes no scale is unchanged to the sample. */
+     scale. Measured after: the flanger and the DP/4 are unchanged to the last
+     digit, and the pole's window swings 6.8 dB where it used to sit still. */
   function rideBus(g, param, key, base, t0, scale){
     if(!param) return;
     const K = scale == null ? 1 : scale;
