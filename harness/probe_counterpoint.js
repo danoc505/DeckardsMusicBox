@@ -148,6 +148,15 @@ const rows = [];
 for(const g of genres){
   const tot = {}; let pairCount = 0;
   const floorTot = {};
+  /* ── AND THE SAME NUMBERS PER PAIR, because the average hides the finding ──
+     The row this probe prints is every pair of parts averaged together, and
+     that average has already cost this project a build: a parallel-perfect
+     cost was written for the lead<->counter pair and reverted as useless,
+     because the pair actually at fault was keys<->bass and nothing here could
+     say so (counterpoint-measured.md §4, §5). A number that cannot point at
+     the part it is complaining about is a number you cannot act on.
+     `BACKLOG.md` §6.6 asks for exactly this, ranked. ── */
+  const byPair = {}, byPairFloor = {};
   for(let s = 1; s <= SEEDS; s++){
     const song = M.composeSong(s, 'draw', g);
     const spb = (60 / song.chart.tempo) / 4;
@@ -165,15 +174,46 @@ for(const g of genres){
       if(!m.steps) continue;
       pairCount++;
       add(tot, m);
+      const key = roles[i] + '<->' + roles[j];
+      add(byPair[key] = byPair[key] || {}, m);
       /* FLOOR: the same rhythm, the pitches shuffled inside each part */
-      add(floorTot, pairMotions(shuffled(A, s * 7919 + i), shuffled(B, s * 104729 + j)));
+      const fl = pairMotions(shuffled(A, s * 7919 + i), shuffled(B, s * 104729 + j));
+      add(floorTot, fl);
+      add(byPairFloor[key] = byPairFloor[key] || {}, fl);
     }
   }
-  rows.push({ g, tot, floorTot, pairCount });
+  rows.push({ g, tot, floorTot, pairCount, byPair, byPairFloor });
   const t = tot, st = t.steps || 0;
   console.log(`  ${g.padEnd(12)} ${String(pairCount).padStart(5)} ${String(st).padStart(7)}   ` +
     `${pctOf(t.contrary, st)}%  ${pctOf(t.oblique, st)}%  ${pctOf(t.similar, st)}%  ${pctOf(t.parallel, st)}%   ` +
     `${pctOf(t.parPerf, st)}%    ${pctOf(floorTot.parPerf, floorTot.steps)}%`);
+}
+
+/* ── WHICH PAIR, RANKED. Only pairs with enough steps to mean anything, and
+      each against ITS OWN shuffle floor rather than the genre's -- a pair of
+      slow parts and a pair of busy ones do not have the same chance rate. The
+      deliberate octave double is marked rather than filtered: it belongs at
+      the top of its genre's list and it is not a defect, and hiding it would
+      leave the reader wondering where it went. ── */
+console.log('\n  WHICH PAIR — parallel perfects per pair of parts, worst first');
+console.log('  (pairs with at least 100 shared steps; each against its own shuffle floor)\n');
+for(const r of rows){
+  const dbl = (() => { const t = M.composeSong(1, 'draw', r.g).chart.table;
+                       return t && t.counter && t.counter.style === 'double'; })();
+  const list = Object.keys(r.byPair)
+    .filter(k => (r.byPair[k].steps || 0) >= 100)
+    .map(k => ({ k, st: r.byPair[k].steps, pp: 100 * (r.byPair[k].parPerf || 0) / r.byPair[k].steps,
+                 fl: r.byPairFloor[k] && r.byPairFloor[k].steps
+                     ? 100 * (r.byPairFloor[k].parPerf || 0) / r.byPairFloor[k].steps : 0 }))
+    .sort((a, z) => z.pp - a.pp);
+  if(!list.length){ console.log(`  ${r.g.padEnd(12)} — no pair reaches 100 shared steps`); continue; }
+  console.log(`  ${r.g}`);
+  for(const p of list.slice(0, 4)){
+    const isDouble = dbl && p.k === 'counter<->lead';
+    console.log(`      ${p.k.padEnd(22)} ${p.pp.toFixed(1).padStart(5)}%  of ${String(p.st).padStart(6)} steps` +
+                `   (chance ${p.fl.toFixed(1)}%)   ${p.pp > 3 * p.fl && p.pp > 3
+                  ? (isDouble ? '<- the DELIBERATE octave double, not a defect' : '<- WELL above chance') : ''}`);
+  }
 }
 
 console.log('\n  the harmonic interval census, over every instant two parts sound together:\n');
