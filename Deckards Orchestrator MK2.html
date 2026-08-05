@@ -914,7 +914,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-05b · the TR-1000, tested as a rack</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-05c · the TR-1000 automation, tested</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1644,8 +1644,24 @@ function chainControls(){
        channel have them without rewriting the sound tables of seven genres --
        the 808's own TUNE and DECAY still set what a kick IS, and these say what
        this channel is doing to it. */
-    out.push({ k:g+"Tune", label:cap+" tune",   cap:"TUNE",  min:-12, max:12,  step:0.5,  def:0, unit:"st", kind:"bus" });
-    out.push({ k:g+"Decay",label:cap+" decay",  cap:"DECAY", min:0.2, max:3,   step:0.01, def:1, kind:"bus" });
+    /* ── AND THESE TWO ARE GESTURES, WHICH IS NOT WHAT THEY SAID ────────────
+       All six were declared `bus`. Four of them are: MIX, REVERB, DELAY and
+       FILTER are gain and frequency nodes that `setSpace` writes a curve onto
+       before the song starts. TUNE and DECAY are not -- `chTune` and `chDecay`
+       read them through `P()` at every note, which is the definition of a
+       gesture, and the tooltip a hand reads off this knob was telling it the
+       opposite ("set once before the song starts" against "the program rides
+       this one").
+
+       It is a label, and it cost a measurement: `probe_rack` chooses which of
+       the program's two automation readers to ask by this word, so it asked
+       the bus scheduler about a control the bus scheduler never touches, and
+       reported lofi's hat p-lock as three-quarters dropped on a beat grid it
+       does not ride. The engine branches on the control's NAME, never on this,
+       so nothing in the sound changes -- but a kind that lies is a comment
+       that lies, and this file's whole method is that you can trust them. */
+    out.push({ k:g+"Tune", label:cap+" tune",   cap:"TUNE",  min:-12, max:12,  step:0.5,  def:0, unit:"st", kind:"gesture" });
+    out.push({ k:g+"Decay",label:cap+" decay",  cap:"DECAY", min:0.2, max:3,   step:0.01, def:1, kind:"gesture" });
     out.push({ k:g+"Mix",  label:cap+" level",  cap:"MIX",   min:0,   max:1.6, step:0.01, def:1, kind:"bus" });
     /* ── THE CTRLs SAY WHAT THEY DO, and that is the faithful choice, not a
        departure from it ────────────────────────────────────────────────────
@@ -10318,7 +10334,26 @@ const GENRE = {
         hCut:  [{ kind: "occurrence", step: [-520, -240], cap: 3 },
                 { kind: "lfo", bars: [[16, 3], [32, 2]], depth: [300, 900],
                   shape: "sin", freePhase: true }],
-        hDecay:[{ kind: "plock", density: [0.10, 0.22], amt: [-0.010, 0.014] }],
+        /* ── AND THIS ONE IS A MULTIPLIER, NOT A NUMBER OF SECONDS ───────────
+           It read `amt: [-0.010, 0.014]`, which are the numbers four lines
+           below on `chdecay` -- and `chdecay` is the hat circuit's decay IN
+           SECONDS, range 0.01..0.14, where 0.014 is a fifth of the hat's whole
+           length. `hDecay` is the CH channel's decay MULTIPLIER, neutral at 1
+           and ranging to 3, where 0.014 is one and a half percent. The same
+           p-lock written twice, once in the right units and once in the units
+           of its neighbour.
+
+           MEASURED over five seeds, widest swing: 0.9902 .. 1.011 -- the hat
+           lands about one percent shorter on the locked steps, which is not a
+           p-lock, it is a rounding error with a table entry. Found by
+           `probe_rack`'s automation pass.
+
+           SIZE IS [EAR]. It is set DELIBERATELY SMALLER than its `chdecay`
+           sibling (which reaches -27%/+49% of the hat's length): the two lanes
+           land on different steps of the same bar on the same hat, and this
+           genre's own note above says "small numbers -- you notice it on the
+           third listen and not the first". test/ears/LOG.md `05c`. */
+        hDecay:[{ kind: "plock", density: [0.10, 0.22], amt: [-0.18, 0.26] }],
         sVerb: [{ kind: "occurrence", step: [0.03, 0.09], cap: 3 },
                 { kind: "section", by: { chorus: [0.03, 0.10], outro: [0.04, 0.12] } }],
         decay: [{ kind: "section", by: { chorus: [0.08, 0.20], bridge: [-0.16, -0.06],
@@ -11752,7 +11787,14 @@ const GENRE = {
         decay: [{ kind: "section", by: { chorus: [0.06, 0.15], outro: [-0.10, -0.04] } }],
         sCut:  [{ kind: "lfo", bars: [[32, 2], [16, 1]], depth: [300, 900],
                   shape: "sin", freePhase: true }],
-        kDecay:[{ kind: "plock", density: [0.08, 0.18], amt: [-0.012, 0.016] }],
+        /* the same units mistake as lofi's `hDecay`, and the same fix: this is
+           the BD channel's decay MULTIPLIER (neutral 1, up to 3), not a number
+           of seconds, so 0.016 was a change of one and a half percent in the
+           kick's length. Measured 0.9914 .. 1.016 over five seeds.
+           Calibrated against this genre's own `decay` lane one line up, which
+           moves the bass drum by +7% to +18% between sections; a p-lock that
+           is heard as a pattern has to be at least that. [EAR] */
+        kDecay:[{ kind: "plock", density: [0.08, 0.18], amt: [-0.14, 0.20] }],
         oEcho: [{ kind: "throw", amt: [0.08, 0.20], every: 8, at: 0.8 }],
       },
       segakit: {
@@ -21622,11 +21664,19 @@ window.MK2 = {
      one that reads it cannot. */
   MODES, CHORD_QUALITY,
   makeMotion, motionAt,
-  /* the real scheduler, for the same reason MODES and MATRIX are here: a probe
-     that copies out what the program does proves its copy is current and
-     nothing else */
+  /* THE TWO WAYS A CONTROL IS AUTOMATED, both exported for the same reason
+     MODES and MATRIX are: a probe that copies out what the program does proves
+     its copy is current and nothing else.
+
+     There are exactly two, and which one applies is the control's KIND. A
+     `bus` control is a curve written onto an AudioParam before the song starts
+     -- that is `rideBus`. A `gesture` control is read afresh by the voice at
+     every note -- that is `P`. A lane on a control that neither reads is a
+     lane that does nothing, and until these were exported nothing could ask
+     which of the two a given control goes through. */
   rideBus: (plan, param, key, base, t0, scale) =>
     Sound.rideBus({ motion: plan, motionOffset: 0 }, param, key, base, t0, scale),
+  noteValue: (plan, m, k, ev) => P({ motion: plan, motionOffset: 0 }, ev, m, k),
   voiceNames: () => Sound.voiceNames(),
   soundState: () => Sound.soundState(),
   /* the MIDI mapping, exported for the same reason voiceNames is: a harness

@@ -671,6 +671,44 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   for(const m in M.INSTRUMENTS)
     for(const c of M.INSTRUMENTS[m].controls)
       if(viaHelper.has(c.k)) READS.add(m + "." + c.k);
+  /* ── AND A KEY MAY BE BUILT, NOT WRITTEN ──────────────────────────────────
+     `chTune` and `chDecay` read `P(g, ev, g.drumMachine, grp + "Tune", 0)`:
+     the machine is a variable AND the key is a variable plus a literal suffix,
+     so the pattern above sees neither half. Twenty controls per drum machine
+     -- every channel's TUNE and DECAY -- were read at every note and invisible
+     to this scan.
+
+     They were passing anyway, and that is the part worth recording: they were
+     DECLARED `kind:"bus"`, which drops them into PER_SONG below, which is the
+     "ridden by setSpace" list. Nothing rides them. A wrong label on the
+     declaration was standing in for a scanner that could not see the read, and
+     the two errors cancelled to a green check. It went red the moment the
+     label was corrected to `gesture`, which is the check doing its job.
+
+     So the suffix is scanned too, and which prefixes it applies to is DERIVED
+     FROM THE MACHINE: a chain letter is a prefix for which the machine
+     declares the whole six-knob channel (Tune, Decay, Mix, Verb, Echo, Cut).
+     That is what the chain block IS, so a machine that adopts it is covered
+     the day it does, and a lone `fooDecay` on some other panel is not swept up
+     by the suffix. */
+  const CHAIN_SUFFIX = ["Tune", "Decay", "Mix", "Verb", "Echo", "Cut"];
+  const rxb = /P\(\s*g,\s*ev,\s*[^,]+,\s*[A-Za-z_$][A-Za-z0-9_$]*\s*\+\s*"([A-Za-z0-9]+)"/g;
+  const builtSuffix = new Set();
+  for(let mm; (mm = rxb.exec(src)); ) builtSuffix.add(mm[1]);
+  for(const m in M.INSTRUMENTS){
+    const keys = new Set((M.INSTRUMENTS[m].controls || []).map(c => c.k));
+    const letters = new Set();
+    for(const k of keys){
+      for(const suf of CHAIN_SUFFIX){
+        if(!k.endsWith(suf)) continue;
+        const p = k.slice(0, -suf.length);
+        if(p && CHAIN_SUFFIX.every(s => keys.has(p + s))) letters.add(p);
+      }
+    }
+    for(const p of letters) for(const suf of builtSuffix)
+      if(keys.has(p + suf)) READS.add(m + "." + p + suf);
+  }
+
   /* two reads name their key through a variable rather than a literal: the
      808's two hats share one circuit and differ only by which decay control
      they name, and the chip's brightness is looked up by the machine name its

@@ -15,6 +15,13 @@
      D. do its SWITCHES actually switch? A kit that loads the same voices as
         another kit, or a circuit switch that changes nothing, is a lie the
         panel tells.
+     E. and THE ONE THAT MATTERS MOST -- what does the PROGRAM do with it while
+        a song plays? A-D are about what a hand can do. E is the automation:
+        which controls any genre rides, whether the control's KIND allows it,
+        and how far each lane actually moves its control once the clamp and the
+        fader law have had it. A lane that moves a control by one percent of
+        its travel is a genre that believes it is automating something and is
+        not, and nothing in this program could see one.
 
      node harness/probe_rack.js [machine]        (default tr1000)
 
@@ -282,6 +289,109 @@ const MACHINE = process.argv[2] || 'tr1000';
   }
   console.log("\n     " + (sameCount ? sameCount + " pair(s) of switch positions are identical"
                                      : "every switch position sounds different from every other"));
+
+  /* ── E. IS IT AUTOMATED, AND DOES THE AUTOMATION MOVE ─────────────────────
+     The other four sections ask what a HAND can do with this machine. This one
+     asks what the PROGRAM does with it while a song plays, which is the half
+     that decides whether the record moves.
+
+     Three questions, and the first two are free -- no rendering, because the
+     program's own two automation readers are exported and can simply be asked:
+
+       1. WHICH controls does any genre ride, and does the KIND allow it? A
+          `bus` control is a curve written before the song starts (`rideBus`);
+          a `gesture` control is read by the voice at every note (`P`); a
+          `voicing` or a `switch` is set once and MUST NOT MOVE -- two circuits
+          are two instruments, not two ends of a dial. A lane on one of those
+          is a contract violation, and a lane naming a control the machine does
+          not have is a lane that does nothing at all.
+
+       2. HOW FAR does each lane actually move it? Not how far the table asks
+          for -- how far the value actually travels once the clamp and the
+          fader law have had it. This is where a lane dies silently: a swing of
+          zero is a genre that believes it is automating something and is not.
+
+     Asked through the REAL readers, so this cannot drift from the program. */
+  const auto = await page.evaluate(async m => {
+    const M = MK2.INSTRUMENTS[m];
+    const KIND = {}; for(const c of M.controls) KIND[c.k] = c;
+    const rows = [], orphan = [], illegal = [], best = {};
+    /* ── SEVERAL SEEDS, BECAUSE A DRAW CAN LAND SMALL BY LUCK ────────────────
+       Every one of these amounts is drawn per song from a range, so one seed
+       cannot tell "this lane is decoration by design" from "this lane happened
+       to draw near zero this time". Take the WIDEST swing any of these seeds
+       produces: if the widest is still nothing, the table is the problem. */
+    const SEEDS = [1, 3, 7, 11, 23];
+    for(const g of MK2.genres()) for(const seed of SEEDS){
+      MK2.PICK.drums = m;
+      const song = MK2.composeSong(seed, undefined, g);
+      /* only genres that actually play this machine can speak for it */
+      if(song.motion.drums !== m) continue;
+      MK2.loadParams(g);
+      const plan = song.motion;
+      for(const key in plan.lanes){
+        if(key.indexOf(m + ".") !== 0) continue;
+        const k = key.slice(m.length + 1), c = KIND[k];
+        if(!c){ if(!orphan.includes(g + " " + key)) orphan.push(g + " " + key); continue; }
+        if(c.kind === "switch" || c.kind === "voicing"){
+          if(!illegal.includes(g + " " + key)) illegal.push(g + " " + key + " (" + c.kind + ")"); continue; }
+        const base = MK2.panelValue(m, k);
+        let lo = Infinity, hi = -Infinity;
+        if(c.kind === "bus"){
+          /* the real scheduler, and every value it writes */
+          const seen = [];
+          const param = { value: 0, cancelScheduledValues(){},
+            setValueAtTime(v){ seen.push(v); }, linearRampToValueAtTime(v){ seen.push(v); } };
+          MK2.rideBus(plan, param, key, base, 0);
+          for(const v of seen){ if(v < lo) lo = v; if(v > hi) hi = v; }
+        } else {
+          /* the real per-note reader, on the plan's own grid */
+          for(let s = 0; s * plan.spb < plan.seconds; s++){
+            const v = MK2.noteValue(plan, m, k, { tSec: s * plan.spb });
+            if(v < lo) lo = v; if(v > hi) hi = v;
+          }
+        }
+        const travel = c.max - c.min;
+        const id = g + " " + k;
+        const row = { g, k, kind: c.kind, lo, hi, swing: hi - lo,
+                      pct: 100 * (hi - lo) / (travel || 1),
+                      kinds: plan.lanes[key].map(v => v.kind).join("/") };
+        if(!best[id] || row.swing > best[id].swing) best[id] = row;
+      }
+    }
+    for(const id in best) rows.push(best[id]);
+    const never = M.controls.filter(c => !rows.some(r => r.k === c.k))
+                            .map(c => c.k + " (" + c.kind + ")");
+    return { rows, orphan, illegal, never, total: M.controls.length, seeds: SEEDS.length };
+  }, MACHINE);
+
+  console.log("\nE. THE AUTOMATION — what the program does to this machine while a song plays\n");
+  const ridden = new Set(auto.rows.map(r => r.k));
+  console.log("     " + ridden.size + " of " + auto.total + " controls are ridden by at least one genre, over " +
+              auto.rows.length + " genre/control lanes");
+  console.log("     never ridden: " + (auto.never.length ? auto.never.join(", ") : "none"));
+  if(auto.illegal.length) for(const s of auto.illegal)
+    console.log("     <<< A LANE ON A CONTROL THAT MUST NOT MOVE: " + s);
+  if(auto.orphan.length) for(const s of auto.orphan)
+    console.log("     <<< A LANE ON A CONTROL THIS MACHINE DOES NOT HAVE: " + s);
+  if(!auto.illegal.length && !auto.orphan.length)
+    console.log("     no lane rides a switch or a voicing, and no lane names a control that is not here");
+
+  const flat = auto.rows.filter(r => r.swing <= 1e-9);
+  const thin = auto.rows.filter(r => r.swing > 1e-9 && r.pct < 1);
+  console.log("\n     how far each lane actually moves its control, once the clamp and the");
+  console.log("     fader law have had it — the WIDEST of " + auto.seeds +
+              " seeds, as a % of the control's whole travel:\n");
+  const byPct = auto.rows.slice().sort((a, b) => a.pct - b.pct);
+  for(const r of byPct.slice(0, 14))
+    console.log("       " + (r.g + " " + r.k).padEnd(26) + r.kind.padEnd(9) +
+                r.lo.toPrecision(4).padStart(10) + " .. " + r.hi.toPrecision(4).padEnd(10) +
+                r.pct.toFixed(2).padStart(7) + "%  " + r.kinds +
+                (r.swing <= 1e-9 ? "   <<< DOES NOT MOVE" : ""));
+  console.log("       ... " + Math.max(0, byPct.length - 14) + " more, all wider than the above");
+  console.log("\n     " + (flat.length ? flat.length + " lane(s) never move their control at all"
+                                       : "every lane moves its control") +
+              (thin.length ? "; " + thin.length + " move it less than 1% of its travel" : ""));
 
   if(errs.length) console.log("\nPAGE ERRORS: " + errs.slice(0, 3).join(" | "));
   await b.close();

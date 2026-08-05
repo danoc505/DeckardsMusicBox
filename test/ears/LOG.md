@@ -49,6 +49,32 @@ regression.
 
 ## OPEN — sent, awaiting verdict
 
+### 2026-08-05 · `05c` — TWO DRUM MOVES THAT WERE WRITTEN AND NEVER HEARD
+
+Testing the TR-1000 as a whole rack turned up two bits of automation that
+were in the tables, ran every song, and changed the sound by about **one
+percent** — which is to say, not at all. Both were written in the units of a
+*different* knob: they set a decay **multiplier** (where 1 means "leave it
+alone") using the numbers you would write for a decay measured in
+**seconds**.
+
+They are now sized to do what the tables plainly meant. **The size is the
+only thing here that is taste, and it is mine, so it is the thing to
+overrule.**
+
+- **lofi, seed 1 — the closed hat.** On a handful of steps of the bar the hat
+  now lands noticeably shorter or longer. lofi already does this to the same
+  hat by another route, and I deliberately made this one the *smaller* of the
+  two, because this genre's own note in the code says "small numbers — you
+  notice it on the third listen and not the first."
+  - *Can you hear the hat changing length at all? If yes: is it a pattern, or
+    does it just sound uneven?*
+- **dkc, seed 1 — the bass drum.** Same thing on the kick, on two or three
+  steps of the bar.
+  - *Too much? This one has less room to hide than a hat.*
+
+Nothing else about the drums changed, and no note in any song moved.
+
 ### 2026-08-05 · `05a` — TWO THINGS THAT WERE NOT PLAYING NOW PLAY
 
 Both of these are **repairs, not taste** — nothing here is a number I chose
