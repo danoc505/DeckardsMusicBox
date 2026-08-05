@@ -1378,6 +1378,93 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         rate.toFixed(1) + "% of " + nct + " leap away (was 30.8% unconstrained)");
 }
 
+/* ── ...AND IT HAS TO BE ARRIVED AT ─────────────────────────────────────────
+   The other half of the same law, written 2026-08-05 and guarded here for the
+   same reason the departure half is: a constraint nothing watches is one
+   refactor away from being a comment again.
+
+   The taxonomy admits eight figures and SEVEN of them are approached by step
+   or by repetition; the eighth is the appoggiatura, which leaps in on the
+   condition that it steps out [corpus:musictheory.pugetsound Table 10.1.1;
+   corpus:openmusictheory; corpus:ars-nova "No leap to dissonance"].
+   docs/genre-research/the-arrival-of-a-dissonance.md
+
+   IT ASKS THE EXACT POPULATION THE LAW GOVERNS, AND TWO EARLIER VERSIONS OF
+   THIS CHECK WERE WRONG. That is worth the lines, because both failed in the
+   way this file keeps warning about.
+
+     1. A THRESHOLD ON THE WHOLE POPULATION. The law fires only on a bar's
+        LAST onset, so across every dissonance its effect is 16.5% -> 14.3%
+        of arrivals by leap. No line can be drawn through a two-point gap
+        without measuring the seed draw instead of the constraint.
+     2. COMPARING BAR-FINAL ARRIVALS TO MID-BAR ONES. At 20 seeds this looked
+        beautiful -- the law appeared to FLIP which position was riskier,
+        9.5% vs 7.0% becoming 4.8% vs 6.8%. At the 8 seeds this check actually
+        runs, the unconstrained build reads 7.1% vs 10.3%, the other way
+        round. The direction was sample noise and the check PASSED WITH THE
+        LAW REMOVED. It was watched failing to fail, which is the only reason
+        it is not in this file.
+
+   What is left is structural rather than statistical: a bar-final onset that
+   lands on a dissonance, whose predecessor in the same bar was CONSONANT --
+   so the departure law was not the one in charge -- and which was reached by
+   more than a step. That is precisely what the arrival law forbids, and the
+   populations are the same size either way, so it is not a selection effect:
+
+     without the constraint   34 of 287   11.8%
+     with it                   7 of 277    2.5%     (the residue is the
+                                                     derivation following its
+                                                     DNA and the phrase pickup)
+
+   Read off the MATERIAL, because that is where the law operates; the
+   performance's figures are in probe_arrival.js. Cost of the constraint,
+   measured the same way: 6342 lead notes to 6315, 0.43% fewer. */
+{
+  const pcOf = p => ((p % 12) + 12) % 12;
+  let pop = 0, leaptOn = 0;
+  for(const g of M.genres()) for(let s = 1; s <= 8; s++){
+    const song = M.composeSong(s, "draw", g);
+    const mats = song.materials || {}, BARS = mats.bars || 4, SPAN = BARS * 16;
+    for(const k of ["A", "Avar", "B", "Bvar", "C"]){
+      const mat = mats[k];
+      if(!mat || !mat.lead || !mat.lead.length) continue;
+      /* the comp as it RINGS, the same map buildTheme itself lays out */
+      const ring = new Array(SPAN).fill(null);
+      for(const c of (mat.keys || [])){
+        if(c.pitch == null) continue;
+        const from = (c.bar % BARS) * 16 + c.step;
+        for(let d = 0; d < Math.max(1, c.dur || 1); d++){
+          const at = (from + d) % SPAN;
+          (ring[at] || (ring[at] = new Set())).add(pcOf(c.pitch));
+        }
+      }
+      /* is this pitch outside what the comp is SOUNDING here? null = nothing
+         sounding, so there is nothing to be outside of */
+      const nct = (bar, st, p) => {
+        const u = ring[((bar % BARS) * 16 + st) % SPAN];
+        return (u && u.size) ? !u.has(pcOf(p)) : null;
+      };
+      const line = mat.lead.filter(x => x.pitch != null)
+                           .slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step));
+      const lastOfBar = {};
+      for(const x of line) lastOfBar[x.bar] = Math.max(lastOfBar[x.bar] ?? -1, x.step);
+      for(let i = 1; i < line.length; i++){
+        const prev = line[i - 1], e = line[i];
+        if(prev.bar !== e.bar) continue;                 // needs a predecessor in its own bar
+        if(e.step !== lastOfBar[e.bar]) continue;        // the exposed slot only
+        if(nct(e.bar, e.step, e.pitch) !== true) continue;
+        if(nct(prev.bar, prev.step, prev.pitch) === true) continue;  // departure law's case
+        pop++;
+        if(Math.abs(e.pitch - prev.pitch) > 2) leaptOn++;
+      }
+    }
+  }
+  const rate = pop ? 100 * leaptOn / pop : 0;
+  check("...and a dissonance in the bar's exposed last slot is not LEAPT onto",
+        pop > 60 && rate < 6,
+        rate.toFixed(1) + "% of " + pop + " leapt onto (unconstrained: 11.8% of 287)");
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    THE NEW RACKS. Both checks below exist because reading the roll found the
    defect, and both are here rather than in a probe because every bug this file

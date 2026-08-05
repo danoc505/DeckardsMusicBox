@@ -914,7 +914,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-05d · the hand is the end of the line</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-05e · a dissonance has to be arrived at, not only left</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -17389,8 +17389,60 @@ function makeMaterials(chart){
                direction the dissonance arrived by. */
             move = move !== 0 ? (move > 0 ? 1 : -1) : (hangDir || dir);
           }
-          let cand = intoBand(scaleStep(root, mode, m, move), LO, HI);
           const plannedDur = i + 1 < steps.length ? Math.max(1, steps[i + 1] - steps[i]) : (isBreath ? 4 : 3);
+          /* ── AND A DISSONANCE MUST BE ARRIVED AT ───────────────────────────
+             The law above is the DEPARTURE half and it has been here since
+             2026-07-30. This is the other half, and until now nothing in this
+             program asked how a dissonance was REACHED.
+
+             The taxonomy sorts every figure by its approach, and that is the
+             whole argument [corpus:musictheory.pugetsound Table 10.1.1;
+             corpus:openmusictheory]: of eight figures SEVEN are approached by
+             step or by repetition -- passing, neighbour, escape, anticipation,
+             suspension, retardation, pedal -- and exactly ONE is approached by
+             a leap. That one is the appoggiatura, and every source that admits
+             it attaches the same condition: it has to step out. Species
+             counterpoint states the same rule from the other side, as "No leap
+             to dissonance" with the appoggiatura named as the exception
+             [corpus:ars-nova].
+
+             MEASURED before this existed (probe_arrival, 20 seeds a genre,
+             5386 dissonances): 83.5% arrive by step or repeat and 16.5% by
+             leap, against 3.2% on the 382 chorales this repo measured. Of the
+             leaps, 51.9% do step out and are real appoggiaturas; the rest --
+             7.9% of every dissonance in the program -- are leaps onto a clash
+             that never resolve.
+
+             WHY THE TEST IS "THE LAST ONSET OF THE BAR" and not a lookahead.
+             When an onset is not the bar's last, plannedDur IS the gap to the
+             next one, so the note runs exactly into its successor and the
+             departure law overhead then FORCES that successor to a step: the
+             leap is an appoggiatura by construction and is left alone. The
+             bar's last onset is the one with no such guarantee -- it holds for
+             three or four sixteenths and what follows it is the next bar's
+             first note, drawn in the next iteration. Reaching forward for it
+             would mean drawing that bar's steps early, which reorders the
+             stream and silently moves songs nobody touched [Law 3]. So the
+             rule is asked where the answer is already known, and that is
+             exactly the exposed position anyway: a leap onto a clash, held to
+             the end of the bar.
+
+             It NARROWS, it does not repair and it does not throw. A scale step
+             in the direction already drawn always exists in a seven-note
+             scale, so this can never be unsatisfiable -- which is the reason
+             it is a narrowing here and a COST in deriveCounter, whose
+             candidates are a short list that a filter could empty.
+
+             What it does NOT do: impose the chorales' 96.8% on genres that are
+             not chorales. The prohibition is common-practice in origin and the
+             research found NO equivalent rule in jazz or popular sources, so
+             the law removes only the arrivals no reading defends and leaves
+             the appoggiatura rate to the music.
+             docs/genre-research/the-arrival-of-a-dissonance.md ── */
+          if(!hang && Math.abs(move) > 1 && i + 1 >= steps.length &&
+             isNCT(b, steps[i], intoBand(scaleStep(root, mode, m, move), LO, HI)))
+            move = move > 0 ? 1 : -1;
+          let cand = intoBand(scaleStep(root, mode, m, move), LO, HI);
           /* ── MELODY TARGETS [corpus:sax-material.md: strong beats 84.1%
              stable, held notes 85.8% stable, in two corpora]. A horn line puts
              chord tones on the strong beats and under the long notes; the
@@ -17408,6 +17460,30 @@ function makeMaterials(chart){
              A resolution that leaps is not a resolution, so the note is not
              played and the dissonance stays hanging for the next onset. */
           if(hang && Math.abs(cand - m) > 2) continue;
+          /* ── AND THE LAW IS ASKED OF THE INTERVAL SOUNDED, NOT OF THE MOVE ──
+             Narrowing the MOVE is not sufficient, and measuring proved it:
+             with the narrowing alone this population still arrived by leap
+             7.4% of the time against 9.5% unconstrained, and I had guessed it
+             would be near zero. The residue was not drawn leaps at all.
+             `intoBand` folds a pitch back inside the register by whole
+             OCTAVES and the seat-finding walk above steps it further, so a
+             move of ONE scale step can still land eleven semitones from where
+             it left. The law has to be asked of the interval that actually
+             sounds.
+
+             So it is asked here, after every hand that can move the note has
+             moved it, and the answer is to DROP. That is the precedent the
+             chromatic approach note set when it hit this same fold
+             (the-note-that-does-not-belong.md §4b): a note that has been
+             relocated is a wrong note wearing a right one's name, and this
+             file repairs nothing after the fact.
+
+             Only when it is STILL a dissonance. If the fold happened to land
+             it on a chord tone there is no dissonance to have arrived at
+             badly, and an ordinary leap onto a chord tone is not this law's
+             business. ── */
+          if(!hang && i + 1 >= steps.length &&
+             Math.abs(cand - m) > 2 && isNCT(b, steps[i], cand)) continue;
           const dur = plannedDur;
           if(cand !== m) hangDir = cand > m ? 1 : -1;
           hang = isNCT(b, steps[i], cand);
@@ -17917,12 +17993,34 @@ function makeMaterials(chart){
         .map(iv => intoBand(scaleStep(root, mode, n.pitch, iv), LO, HI))
         .filter(pchr => pchr !== n.pitch && !reserved.has(key(n.bar, at, pchr)));
       if(!cands.length) continue;
+      /* what is sounding under this seat -- the same ring the tune reads, and
+         the same fallback to the written chord where nothing is ringing */
+      const nctAt = (bar, st, p) => {
+        const u = ring[((bar % BARS) * 16 + st) % (BARS * 16)];
+        return (u && u.size) ? !u.has(pc(p))
+                             : !chordSet[bar % BARS].tones.some(t => pc(t) === pc(p));
+      };
       const score = pchr => {
         if(prevOwn == null) return Math.abs(pchr - 64);
         const own = pchr - prevOwn;
         const contrary = (leadMove > 0 && own < 0) || (leadMove < 0 && own > 0) ||
                          (leadMove === 0 && own !== 0);
-        return (contrary ? 0 : 100) + Math.abs(own);
+        /* ── THE ARRIVAL RULE, ON THE SECOND VOICE ─────────────────────────
+           The same law the tune narrows its move for, and it has to be a COST
+           here rather than a filter: this line's candidates are the genre's
+           declared interval pool -- three to five entries, already thinned by
+           the band and by every seat another part has taken -- so a filter
+           that removed the leaps could empty it, and this file's own front
+           door says a constraint that can be unsatisfiable must be a cost.
+
+           Weighted EQUAL to the contrary-motion term rather than above it,
+           because the two are habits of the same standing: neither the
+           sources nor this repo's Bach measurement makes either one absolute.
+           So a contrary leap onto a clash and a parallel step onto a chord
+           tone cost the same, and only a parallel leap onto a clash pays
+           both. docs/genre-research/the-arrival-of-a-dissonance.md ── */
+        const leaptOnto = Math.abs(own) > 2 && nctAt(n.bar, at, pchr);
+        return (contrary ? 0 : 100) + (leaptOnto ? 100 : 0) + Math.abs(own);
       };
       cands.sort((a, z) => score(a) - score(z) || a - z);
       /* ── THE SAME LAW ON THE SECOND VOICE ────────────────────────────────
@@ -17956,10 +18054,12 @@ function makeMaterials(chart){
       out.push({ bar: n.bar, step: at, dur: dur, pitch: best, vel: n.vel * 0.8, role: "counter" });
       reserved.add(key(n.bar, at, best));
       prevOwn = best;
-      /* the same sounding-comp test the tune uses, ring and all */
-      const und = ring[((n.bar % BARS) * 16 + at) % (BARS * 16)];
-      hangOwn = (und && und.size) ? !und.has(pc(best))
-                : !chordSet[n.bar % BARS].tones.some(t => pc(t) === pc(best));
+      /* the same sounding-comp test the tune uses, ring and all -- and now the
+         SAME EXPRESSION the arrival cost above asks, rather than a second copy
+         of it. Two copies of one rule is how this file has gone stale four
+         times; the departure half and the arrival half must never be able to
+         disagree about which notes are dissonances. */
+      hangOwn = nctAt(n.bar, at, best);
     }
     return out;
   }
