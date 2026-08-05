@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-05f` (the second keyboard) unless it says otherwise. If you
+*Everything below is verified at `2026-08-05g` (the panel redraw) unless it says otherwise. If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -15,7 +15,7 @@ branch, and do not push anywhere else without asking.
 ```bash
 git fetch origin claude/code-review-6jd9cz
 git checkout claude/code-review-6jd9cz
-git log --oneline -3      # expect the second keyboard at the top
+git log --oneline -3      # expect the panel redraw at the top
 
 # AND CHECK YOU ARE ON THE BRANCH AND NOT ON main. `main` is a snapshot taken
 # 2026-08-03 and the branch is dozens of commits past it; a session handed
@@ -104,7 +104,7 @@ while both files carried an identical stamp, so three commits of work went
 unheard. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-05f`.
+Current: `build 2026-08-05g`.
 
 **THE SAX IS PARKED.** The user's verdict, after every metric on it came
 back green. Do not un-park it without the terms in the handoff's warning
@@ -115,7 +115,7 @@ because the measurement refused it.
 
 ## Where the program stands
 
-Run these before you claim anything. Numbers measured at `2026-08-05f`.
+Run these before you claim anything. Numbers measured at `2026-08-05g`.
 
 ```bash
 npm install playwright           # FIRST, on a fresh clone: node_modules is not

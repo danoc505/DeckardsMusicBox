@@ -13,7 +13,7 @@ rendered-audio failures that had been dismissed as "pre-existing" turned out to
 contain two real defects in the music. For whoever picks this up next. Read this
 whole file before you touch the HTML.*
 
-**State at build `2026-08-05f` (the second keyboard), every number below
+**State at build `2026-08-05g` (the panel redraw), every number below
 measured on that commit — not remembered from an earlier one.** The row that
 is not green is not green, and says why.
 
@@ -27,6 +27,7 @@ is not green is not green, and says why.
 | every voice | `node harness/probe_voices.js` | **0 threw, 0 silent** |
 | the notes | `node harness/mk2_roll.js 1 --genre <g>` | **all seven print; this is RULE ONE and is not optional** |
 | how busy it is | `node harness/probe_density.js 30` | voices ringing, chord onsets, parts a bar, notes a bar — new at `04h` |
+| the frame, when it stutters | `node harness/probe_mainthread.js <g> 25` then `node harness/probe_stutter.js <g>` | **the first says HOW slow, the second says WHY** — new at `05g` |
 | how a dissonance is reached | `node harness/probe_arrival.js 20` | the approach column of the taxonomy, per genre — new at `05e` |
 | what two parts do to each other | `node harness/probe_counterpoint.js 45` | **per PAIR since `05f`**, ranked, each against its own shuffle floor — the per-genre average hid the finding |
 
@@ -2005,6 +2006,22 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
   named after the instrument — had not moved at all, because since the build
   work the 303 does not enter until 31 s. I measured the intro and called it the
   genre. **Anchor the window to the thing you are measuring**, then read it.
+- **THE STUTTER WAS NOT THE NOTES, THE JAVASCRIPT, THE DOM SIZE OR THE
+  ANIMATIONS.** 2026-08-05, the third stutter report and the third time the
+  obvious theory was wrong. Four were refuted by measurement before the cause
+  turned up: the densest genre (plastikman, 6068 events) was NOT among the slow
+  ones; 86% of the main thread was native with no JS frame; jungle carries 19k
+  DOM nodes at 21 ms while lofi carries 8k at 18; and disabling every CSS
+  animation moved nothing. The cause was `knobEl` rewriting `val.textContent`
+  for all ~169 knobs every frame whether the number had changed or not — a text
+  change dirties layout, and the layout was expensive because the ROLL holds one
+  element per note. **Neither the panels nor the roll was the cost on its own;
+  hiding either fixed it.** `harness/probe_stutter.js` carries the whole route.
+- **And the obvious second fix measured nothing and was reverted.** The roll's
+  playhead is moved by writing `left` as a percentage every frame — a layout
+  property, the same shape of defect. Rewriting it as a compositor transform
+  changed the frame time by nothing and left layout running at ~60/s either
+  way. It looked right, it was not a fix, and it did not ship.
 - **The echo tail was not accumulating.** The stutter the user heard was real
   and the theory was wrong: measured, the tail *decays*. So did "the main thread
   is stuttering" — p50 frame time 17 ms. The actual causes were a note landing
