@@ -914,7 +914,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-05a · the pole stops going silent, and the hard steps arrive</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-05b · the TR-1000, tested as a rack</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -2058,7 +2058,14 @@ const INSTRUMENTS = {
          PICK.drumKit rather than PARAMS, because which voices are loaded is a
          stage-1 decision and not something a note reads. Marked `pick` so the
          batteries know not to demand that a voice read it. */
-      { k:"kit",    label:"kit",        cap:"KIT",    min:0,   max:3,   step:1,    def:0,   kind:"switch", pick: true },
+      /* ITS RANGE IS HOW MANY KITS THERE ARE. It said 0..3 and there are five
+         -- the sampled Gretsch arrived after this line was written and nothing
+         connected the two, because the SELECT that draws it enumerates
+         `Object.keys(kits)` and so looked right on the glass while the control
+         underneath was short by one. Found by `probe_rack`. A seam check now
+         holds every `pick` switch's range to the number of things it picks, so
+         the sixth kit cannot repeat this. */
+      { k:"kit",    label:"kit",        cap:"KIT",    min:0,   max:4,   step:1,    def:0,   kind:"switch", pick: true },
 
       /* ── THE TOP FX ROW, and every one of these is a real node ──────────────
          The photo's top strip is REVERB / DELAY / MASTER FX / ANALOG FX. Two of
@@ -2104,7 +2111,20 @@ const INSTRUMENTS = {
          under ANALOG FX are FILTER and DRIVE on the machine, which is exactly
          what `fxFilter` and the kit's DRIVE are here. */
       top: [
-        { label: "KIT", keys: ["kit"] },
+        /* ── AND THE CIRCUIT SITS BESIDE THE KIT, because it is the same
+           question ─────────────────────────────────────────────────────────
+           `circuit` was declared with the 909 work, loaded from five genres'
+           tables, read by the kick, the snare and the clap -- and DRAWN
+           NOWHERE. Found by `probe_rack`: 75 of this machine's 76 controls
+           reached the glass. That is the defect this panel's own comment
+           calls a lie ("a control a panel declares and never draws is this
+           file's own cardinal sin"), committed in the build that wrote the
+           comment.
+           Here rather than on the bass drum's strip because it is not the
+           bass drum's alone -- the snare and the clap change circuit with it
+           -- and because KIT and CIRCUIT are one question asked twice: which
+           voices is this box loaded with. */
+        { label: "KIT", keys: ["kit", "circuit"] },
         { label: "ACCENT", keys: ["bus"] },
         { label: "REVERB", keys: ["revSend", "gate"] },
         { label: "DELAY", keys: ["dlySend", "hold"] },
@@ -7458,9 +7478,17 @@ registerProcessor("mk2-room", MK2Room);
     /* the source tempo against this song's: the ratio IS the pitch shift */
     const fit = ev.brkRate || 1;
     n.playbackRate.value = fit * Math.pow(2, P(g, ev, "amen", "tune", 0) / 12);
+    /* WHICH SLICE, AND WHAT IF NOBODY SAID. A composed event always carries
+       one, so this never fired in a song -- but `undefined * stepSec` is NaN,
+       `Math.max(0, NaN)` is NaN, and `start()` throws a TypeError on a
+       non-finite time, which in WebAudio does not degrade: it takes the whole
+       render down from that note on. Exactly how `dacHit` was lost for several
+       commits. Found by `probe_rack` selecting the break kit. A malformed
+       event should make a wrong noise, never no noises. */
+    const slice = Number.isFinite(ev.slice) ? ev.slice : 0;
     const off = rev
-      ? Math.max(0, buf.duration - (ev.slice + 1) * g.breakStepSec)
-      : ev.slice * g.breakStepSec;
+      ? Math.max(0, buf.duration - (slice + 1) * g.breakStepSec)
+      : slice * g.breakStepSec;
     const out = c.createGain();
     /* the break's own top end, so the chopper has a tone control that is not a
        second filter on the drum bus */
@@ -20306,6 +20334,13 @@ function switchEl(m, c){
     ? c.label.split("/").map(s => s.trim().toUpperCase())
     : Array.from({ length: c.max - c.min + 1 }, (_, i) => (c.min + i ? "ON" : "OFF"));
   const box = el("div", "sw"), opts = el("div", "opts");
+  /* SAME REASON knobEl CARRIES ONE: "so a probe can ask which control this is."
+     It did not, and the consequence was not theoretical -- a switch drawn on a
+     panel was invisible to every check that walks the glass, so `probe_rack`
+     could not tell a switch that had been placed from one that never had. It
+     reported `circuit` missing after it had been added. Anything a hand can
+     touch has to say what it is. */
+  box.dataset.key = key;
   const btns = [];
   for(let i = 0; i <= c.max - c.min; i++){
     const b = el("button", null, names[i]);

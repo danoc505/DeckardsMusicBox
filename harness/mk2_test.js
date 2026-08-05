@@ -1950,6 +1950,37 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   check("the horn is pickable by hand, drawn nowhere while parked",
         M.canFill("lead", "sax") && drawn.length === 0,
         "canFill true · drawn by: " + (drawn.join(",") || "nobody") + " (want nobody)");
+
+  /* ── A SWITCH THAT PICKS A THING HAS AS MANY POSITIONS AS THERE ARE THINGS
+     ────────────────────────────────────────────────────────────────────────
+     The TR-1000's KIT control declared 0..3 while the machine carried five
+     kits: the sampled Gretsch was added later and nothing joined the two up.
+     It was invisible from the glass, because the SELECT that draws KIT
+     enumerates the kits themselves and so listed all five over a control that
+     only reached four. Found by `probe_rack`.
+
+     Derived rather than pinned to the number 5: the check asks each `pick`
+     switch how many things it picks and holds its declared travel to that, so
+     a sixth kit -- or a pick switch on some other machine -- is covered
+     without editing this. */
+  {
+    const bad = [];
+    for(const m in M.INSTRUMENTS){
+      const MM = M.INSTRUMENTS[m];
+      for(const c of (MM.controls || [])){
+        if(!c.pick) continue;
+        /* what does it pick? the one collection on the machine whose name the
+           control shares -- `kit` picks `kits`. */
+        const coll = MM[c.k + "s"] || MM[c.k];
+        if(!coll || typeof coll !== "object") continue;
+        const n = Object.keys(coll).length;
+        const declared = Math.round((c.max - c.min) / (c.step || 1)) + 1;
+        if(declared !== n) bad.push(m + "." + c.k + " declares " + declared + " for " + n);
+      }
+    }
+    check("a switch that picks a thing has one position per thing",
+          bad.length === 0, bad.length ? bad.join(" · ") : "every pick switch matches its collection");
+  }
 }
 
 console.log("\n" + pass + " passed, " + fail + " failed");
