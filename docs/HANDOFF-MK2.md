@@ -2017,6 +2017,18 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
   change dirties layout, and the layout was expensive because the ROLL holds one
   element per note. **Neither the panels nor the roll was the cost on its own;
   hiding either fixed it.** `harness/probe_stutter.js` carries the whole route.
+- **DRAINING THE EFFECTS ON STOP, THE OBVIOUS WAY, SILENCES THE PROGRAM.**
+  `stopLive()` stops the sources and leaves the delay line ringing — the user
+  hears it and is right. Ramping the sends, the feedback and every matrix
+  crossing to zero on stop looks like the fix and is not: it leaves scheduled
+  automation on those params, and `setSpace` restores them by assigning
+  `.value`, **which an AudioParam ignores once it has an automation
+  timeline**. The tail went to digital silence, which is what the probe was
+  watching, and so did the music — −inf while PLAYING, on every cycle, and it
+  never came back. Built, measured, reverted the same hour.
+  **The lesson is the check, not the bug:** a probe that watches the tail
+  after stop will call total silence a success. Whatever fixes this must be
+  measured for sound WHILE PLAYING as well. `BACKLOG.md` §1 has the numbers.
 - **And the obvious second fix measured nothing and was reverted.** The roll's
   playhead is moved by writing `left` as a percentage every frame — a layout
   property, the same shape of defect. Rewriting it as a compositor transform
