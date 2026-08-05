@@ -914,7 +914,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-04s · the hard cut is hard again</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-05a · the pole stops going silent, and the hard steps arrive</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -4788,6 +4788,14 @@ registerProcessor("mk2-room", MK2Room);
   let liveGraph = null;      // built once per live context
   let liveHandles = new Set();   // sources currently alive; prunes itself on ended
 
+  /* HOW FAR THE BARBERPOLE'S NOTCH CUTS at full DEPTH, in decibels, and how
+     wide it is. Both are [EAR]: `barberpole.md` says in as many words that
+     "what no source gave" is the notch Q, the envelope width and the wet/dry
+     ratio. The SHAPE is sourced -- an inverted raised cosine on the cut gain
+     across the log-frequency axis -- and the shape is what was wrong. */
+  const BARBER_CUT_DB = 24;      // 0 dB is a bypass; -24 dB is a deep notch
+  const BARBER_Q      = 2;       // ~half an octave wide, notches an octave apart
+
   /* ── the graph: role buses -> mix -> soft clip (real headroom) -> limiter.
      Reverb is ONE send bus, low-cut at 200 Hz so kick/bass stay dry, returned
      INTO the limiter path so the wet can never exceed the ceiling the dry
@@ -5387,15 +5395,60 @@ registerProcessor("mk2-room", MK2Room);
        raises all six by exactly one octave and the wrap is seamless: notch i
        arrives exactly where notch i+1 began.
 
-       THE WINDOW is a bell per notch, one cycle long, offset by i/N -- so a
-       notch is deepest in the middle of the range and has no depth at all at
-       either end, which is what makes the wrap inaudible. The bell is built
-       from a sine (-1..1) lifted to 0..1 by a shared ConstantSource, because
-       an AudioParam SUMS its inputs: Q sits at 0 and the modulators add.
+       THE WINDOW IS A FUNCTION OF WHERE THE NOTCH IS, NOT OF HOW LONG IT HAS
+       BEEN CLIMBING -- and that is the whole of Shepard. A Shepard tone's
+       components sit under "a FIXED bell-shaped spectral envelope over the
+       LOGARITHMIC frequency axis" [corpus:frontiersin; miniDSP]: the envelope
+       does not move, the components move THROUGH it. DAFx-15's phaser version
+       is the same sentence with holes instead of tones -- the cascade's
+       "cut-off gains respond to an INVERTED RAISED COSINE ENVELOPE ACROSS THE
+       FREQUENCY SPECTRUM to preserve the equivalence to the Shepard tone
+       spectral structure" [corpus:Esqueda, Valimaki & Parker, DAFx-15].
 
-       Phase offsets are done as DELAYS ON THE MODULATOR -- a plain oscillator
-       has no phase input -- which is the same trick the vp330's ensemble and
-       the flanger already use. */
+       WHY THAT IS THE ONLY WINDOW THAT HIDES THE WRAP, in arithmetic. Write
+       each notch's position in octaves above the bottom of the range as
+       p = i + s, where i is which notch and s is how far the saw has climbed.
+       Just before the saw wraps the six notches occupy p = 1..6; just after,
+       p = 0..5. Five of those six positions are occupied BOTH sides of the
+       wrap, by different notches -- so if depth depends only on p, every one
+       of the five is unchanged and the only difference in the whole response
+       is that a notch leaves p = 6 and another arrives at p = 0. Put the
+       envelope's zeros there and the wrap is not merely inaudible, it is not
+       a change: 0.5 - 0.5*cos(2*PI*p/N) is zero at both ends by construction.
+
+       WHAT WAS HERE BEFORE, and what it cost. The window was a bell in TIME:
+       one full cycle per notch, offset by i/N, riding each notch's Q. Three
+       things followed, all measured (see `barberpole.md` 7):
+         - depth depended on the clock rather than on the frequency, so at the
+           wrap the bottom notch was typically at HALF depth, jumping an octave
+           in plain hearing -- the exact click the window exists to remove;
+         - Q is the wrong parameter. A notch's Q is its WIDTH; a Shepard
+           envelope wants its DEPTH, and WebAudio's `notch` has no depth at
+           all. A `peaking` filter does: its `gain` is in dB, 0 dB is an exact
+           bypass, and the paper's own word for what the envelope rides is
+           "cut-off gain";
+         - and Q reaching 0 is not "no notch", it is SILENCE. Chrome's
+           `Biquad::SetNotchParams` does `q = max(0, q)` and at q == 0 installs
+           all-zero coefficients, so the filter outputs identically zero. Six
+           notches phase-offset by a sixth of a cycle each spend a third of a
+           cycle apiece at or below zero, and six such windows TILE the cycle
+           with no gap: from the first trough onward at least one notch in the
+           cascade was always muting, and the unit was permanently silent from
+           6.5 s into every playback on both genres that use it.
+
+       So the window now rides `gain` in dB, is read off the SAW rather than a
+       clock, and cannot reach a value that mutes anything: at the ends of the
+       envelope the cut is 0 dB, which is a bypass. The panel has been drawing
+       this exact curve since the day it was built -- `barberEl` computes
+       `0.5 - 0.5*cos(2*PI*(i + phase)/6)` to place its stripes -- so the
+       picture was right and the filters were running something else.
+
+       A WAVESHAPER READS THE WINDOW OFF THE SWEEP, which is what keeps the two
+       from drifting. The saw already carries s; a memoryless curve turns it
+       into this notch's slice of the bell. No second oscillator to keep in
+       step, no phase delays (those had to be clamped to the DelayNode's 120 s
+       maximum, which silently broke the offsets at slow CLIMB rates), and
+       direction reverses both at once because both are fed from `cents`. */
     g.barberIn = c.createGain();
     g.barberOut = c.createGain(); g.barberOut.gain.value = 0.85;
     {
@@ -5403,28 +5456,34 @@ registerProcessor("mk2-room", MK2Room);
       const saw = c.createOscillator(); saw.type = "sawtooth"; saw.frequency.value = 0.09;
       const cents = c.createGain(); cents.gain.value = 600;      // +/-600 = one octave
       saw.connect(cents);
-      const bell = c.createOscillator(); bell.type = "sine"; bell.frequency.value = 0.09;
-      const lift = c.createConstantSource(); lift.offset.value = 0.5;
-      g.barberSaw = saw; g.barberBell = bell; g.barberCents = cents;
-      g.barberQ = []; g.barberPh = [];
+      /* the sweep as the WINDOW reads it: cents carries 600*dir*saw, so this
+         is dir*saw -- one number, so a change of direction cannot turn the
+         stripes round and leave the envelope facing the other way */
+      const swp = c.createGain(); swp.gain.value = 1 / 600;
+      cents.connect(swp);
+      g.barberSaw = saw; g.barberCents = cents;
+      g.barberWin = [];
       let node = g.barberIn;
       for(let i = 0; i < N; i++){
-        const nf = c.createBiquadFilter(); nf.type = "notch";
+        const nf = c.createBiquadFilter(); nf.type = "peaking";
         nf.frequency.value = BASE * Math.pow(2, i);
-        nf.Q.value = 0;                                  // the window supplies it
+        nf.Q.value = BARBER_Q;                   // the WIDTH; the window is the depth
+        nf.gain.value = 0;                       // 0 dB is a bypass, and the window cuts
         cents.connect(nf.detune);
-        /* the bell for this notch: a sine a fraction of a cycle behind */
-        const ph = c.createDelay(120);
-        ph.delayTime.value = (i / N) / 0.09;
-        const qg = c.createGain(); qg.gain.value = 3;
-        bell.connect(ph); ph.connect(qg); qg.connect(nf.Q);
-        const lg = c.createGain(); lg.gain.value = 6;
-        lift.connect(lg); lg.connect(nf.Q);
+        /* this notch's slice of the bell, as a function of the sweep. The saw
+           runs -1..+1 over one cycle, so s = (x+1)/2 and p = i + s. */
+        const sh = c.createWaveShaper();
+        const CV = new Float32Array(257);
+        for(let j = 0; j < CV.length; j++)
+          CV[j] = 0.5 - 0.5 * Math.cos(2 * Math.PI * (i + j / (CV.length - 1)) / N);
+        sh.curve = CV;
+        const wg = c.createGain(); wg.gain.value = -BARBER_CUT_DB * 0.6;
+        swp.connect(sh); sh.connect(wg); wg.connect(nf.gain);
         node.connect(nf); node = nf;
-        g.barberQ.push({ qg, lg }); g.barberPh.push(ph);
+        g.barberWin.push(wg);
       }
       node.connect(g.barberOut);
-      saw.start(0); bell.start(0); lift.start(0);
+      saw.start(0);
     }
 
     /* ── THE GRID, WIRED FROM ITS DECLARATION ───────────────────────────────
@@ -8596,11 +8655,32 @@ registerProcessor("mk2-room", MK2Room);
      a different effect (that is what the gate is), and two owners writing one
      param is the bug this file exists to avoid. The note-level knobs go through
      P(); these go through here; nothing writes both. ═══════════════════════ */
-  function rideBus(g, param, key, base, t0){
+  /* ── AND THE BASE IS NOT ALWAYS IN THE KNOB'S OWN UNITS ────────────────────
+     Three callers hand this a number that is the knob's value MULTIPLIED by
+     something: the flanger's depth is in seconds (0.0040 x knob), the DP/4's
+     amounts are per-algorithm (`A.base` x knob), the barberpole's window is in
+     decibels. Everything below reads the base as if it were the knob -- it
+     CLAMPS to `CONTROL[key].min/max` and it SCALES the motion by how far the
+     base sits above the control's minimum -- so a base in any other units was
+     clamped to the knob's travel and normalised against the knob's default.
+
+     MEASURED. `barber.depth` arrived at 5x and the control's max is 1, so on
+     any genre that declares a motion lane for it every value written was
+     exactly 1.0 -- a window pinned flat. `flange.depth` arrived at 0.0040x and
+     normalised to 0.008 of its declared motion: a lane that moved by less than
+     one percent of what it said. Neither could be seen from inside, because
+     both look like a genre that simply declared a small number.
+
+     So the multiplier is passed SEPARATELY and applied LAST. Every decision in
+     here is made in the control's own units, where the control's own numbers
+     mean something, and what reaches the parameter is that decision times the
+     scale. A caller that passes no scale is unchanged to the sample. */
+  function rideBus(g, param, key, base, t0, scale){
     if(!param) return;
+    const K = scale == null ? 1 : scale;
     const plan = g.motion;
     try { param.cancelScheduledValues(t0); } catch(e){}
-    if(!plan || !plan.lanes || !plan.lanes[key]){ param.value = base; return; }
+    if(!plan || !plan.lanes || !plan.lanes[key]){ param.value = base * K; return; }
     const seconds = plan.seconds;
     const c = CONTROL[key];
     /* ── A FADER AT THE BOTTOM MEANS OFF ──────────────────────────────────────
@@ -8635,7 +8715,26 @@ registerProcessor("mk2-room", MK2Room);
       depth = (base - c.min) / (c.def - c.min);
       depth = Math.max(0, Math.min(1, depth));
     }
-    const step = plan.spb * 4;                       // one point per beat
+    /* ── HOW FINE THE GRID IS, AND WHY IT IS NOT ALWAYS A BEAT ───────────────
+       A beat is smooth for the section steps and slow LFOs this was built for.
+       It is also FOUR TIMES COARSER THAN THE PLAN, and the plan's edges do not
+       have to land on it: `motionAt` quantises every time to a SIXTEENTH, so a
+       gesture that lives between two beat points is not smoothed, it is not
+       sampled at all.
+
+       MEASURED, and this is the half the first edge fix missed. `throw` puts
+       its spike at `at` of the way through the last bar of a phrase: at 0.75
+       that is the sixteenth the beat grid happens to land on, and at 0.8 or
+       0.875 it is not. Three throws -- dkc's `tr1000.oEcho` at 0.8, jungle's
+       `tr1000.hEcho` at 0.8, plastikman's `tr1000.oEcho` at 0.875 -- rendered
+       ZERO PERCENT of their declared +0.118 / +0.170 / +0.105, erased outright
+       between two grid points on a program whose plan plainly contained them.
+
+       So a lane that carries an edge kind is written on the plan's OWN grid.
+       Four times the points on those lanes only, which is the cheapest thing
+       in this function; every other lane keeps the beat exactly as before. */
+    const wantEdge = (plan.lanes[key] || []).some(mv => mv && mv.edge);
+    const step = wantEdge ? plan.spb : plan.spb * 4;
     const n = Math.max(1, Math.ceil(seconds / step));
     /* the first point is an anchor, not a ramp: ramping from whatever the node
        happened to be left at by the previous song is how you get a swell nobody
@@ -8659,7 +8758,7 @@ registerProcessor("mk2-room", MK2Room);
        Setting `.value` as well as scheduling closes it: the parameter holds the
        right number from the moment the graph is configured, and the scheduled
        curve takes over from t0 as before. */
-    try { param.value = v; } catch(e){}
+    try { param.value = v * K; } catch(e){}
     /* AN AUTOMATION POINT BEFORE THE CONTEXT'S ZERO HAS ALREADY HAPPENED.
        `playLive` sets `t0 = currentTime + 0.15 - fromSec`, which goes NEGATIVE
        whenever the song is started further in than the audio clock has been
@@ -8672,7 +8771,7 @@ registerProcessor("mk2-room", MK2Room);
 
        Clamping is the honest reading rather than a patch: the curve began before
        we were listening, so it begins now, at the value it should already hold. */
-    param.setValueAtTime(v, Math.max(0, t0));
+    param.setValueAtTime(v * K, Math.max(0, t0));
     /* ── AN EDGE IN THE PLAN HAS TO SURVIVE THE GRID ─────────────────────────
        The grid is one point a beat and the points are joined by linear ramps,
        which is right for the section steps and the slow LFOs it was built for
@@ -8688,45 +8787,65 @@ registerProcessor("mk2-room", MK2Room);
        back, with no ramp at either edge -- because the edge IS the gesture."
        `throw` has the same fault at its jump.
 
-       So the grid keeps its spacing and gains the edges. Between each pair of
-       beat points the plan is asked whether it is discontinuous in there; if it
-       is, the edge is found by bisection and written as a HOLD at the old value
-       up to the edge and a `setValueAtTime` at it. Everything continuous is
-       untouched -- a section step, an arc, an LFO all still ride the same beat
-       grid to the same values, which is why the snapshot does not move.
+       So the grid keeps its spacing and gains the edges. Every lane that
+       carries an edge kind is written on the plan's own sixteenth (above), and
+       at each of those points the plan is asked whether it JUMPS there; if it
+       does, the point is written as a HOLD at the old value up to the step line
+       and a `setValueAtTime` on it. Everything continuous is untouched -- a
+       section step, an arc, an LFO all still ride the same beat grid to the
+       same values, which is why the snapshot does not move.
+
+       ── HOW "DOES IT JUMP" IS ASKED, and what asking it wrongly cost ────────
+       It used to be asked by SIZE: is the change across this beat bigger than
+       `Math.abs(depth) * 0.35`? Two things were wrong with that at once.
+
+       `depth` is not the lane's depth. It is the fader-law factor computed
+       thirty lines above -- how far the BASE sits above the control's minimum,
+       normalised to its default, and 1 for almost every lane in the program.
+       So the threshold was a flat 0.35 in control units on nearly everything,
+       and the biggest throw any genre declares is 0.34. MEASURED: of jungle's
+       38 hard steps exactly ONE was written; lofi 0 of 6, acid 0 of 40,
+       plastikman 0 of 42. A comment that said "a fraction of the lane's own
+       depth" over a line that read a different variable of the same name.
+
+       And a size threshold is the wrong question anyway -- a big smooth ramp
+       and a small hard step are exactly the two things it gets backwards. The
+       right question is not HOW FAR the value moved across the interval but
+       WHETHER IT MOVED ALL AT ONCE, and the plan answers that directly:
+       `motionAt` rounds every time to the nearest sixteenth, so its steps
+       happen on the rounding boundary, half a sixteenth before the line. Ask
+       for the value a tenth of a millisecond either side of that boundary and
+       what comes back is the jump itself, with every continuous kind sharing
+       the lane contributing nothing across 0.2 ms. Any size of step is caught
+       and no size of slope is mistaken for one.
 
        Derived, not special-cased: nothing here names `snap` or `throw`. Any
-       kind that steps, now or later, gets its edge. The threshold is a
-       fraction of the lane's own depth, so a slow LFO's per-beat change is
-       never mistaken for an edge. */
+       kind that steps, now or later, gets its edge, because the compiler marks
+       the kinds that are defined by one and this reads the mark.
+
+       ...and ONLY on those lanes. A section step is discontinuous in the plan
+       too, and the grid's smoothing of it is DELIBERATE -- this function's own
+       comment says a beat "is smooth for the section steps and the slowest
+       LFOs any genre declares". Making those instant as well would change how
+       every genre's mix moves between sections, which is a different decision
+       from fixing a mute and not one to make silently inside it. */
     const val = tSec => {
       let x = base + depth * motionAt(plan, key, { tSec }, g.motionOffset);
       return c ? Math.max(c.min, Math.min(c.max, x)) : x;
     };
-    /* ...and ONLY on a lane that carries a kind defined by its edge. A section
-       step is discontinuous in the plan too, and the grid's smoothing of it is
-       DELIBERATE -- rideBus's own comment says a beat "is smooth for the section
-       steps and the slowest LFOs any genre declares". Making those instant as
-       well would change how every genre's mix moves between sections, which is
-       a different decision from fixing a mute, and not one to make silently
-       inside it. The compiler marks the kinds that need the edge. */
-    const wantEdge = (plan.lanes[key] || []).some(mv => mv && mv.edge);
-    const EDGE = Math.max(1e-4, Math.abs(depth) * 0.35);   // "a step, not a slope"
+    const HALF = plan.spb / 2;             // where motionAt's rounding turns over
+    let xPrev = v;
     for(let i = 1; i <= n; i++){
-      const tPrev = (i - 1) * step, tSec = i * step;
-      const xPrev = val(tPrev), x = val(tSec);
-      if(wantEdge && Math.abs(x - xPrev) > EDGE){
-        /* find WHERE inside this beat the plan actually steps, to ~1 ms */
-        let lo = tPrev, hi = tSec;
-        for(let k = 0; k < 12 && hi - lo > 0.001; k++){
-          const mid = (lo + hi) / 2;
-          if(Math.abs(val(mid) - xPrev) > EDGE) hi = mid; else lo = mid;
-        }
-        /* hold the old value right up to the edge, then step */
-        param.linearRampToValueAtTime(xPrev, Math.max(0, t0 + lo));
-        param.setValueAtTime(val(hi), Math.max(0, t0 + hi));
+      const tSec = i * step, x = val(tSec);
+      if(wantEdge && Math.abs(val(tSec - HALF + 1e-4) - val(tSec - HALF - 1e-4)) > 1e-6){
+        /* hold the old value right up to the step line, then step ON it. Half a
+           millisecond of hold, because two events at one instant is an ordering
+           question and this is not the file to answer it in. */
+        param.linearRampToValueAtTime(xPrev * K, Math.max(0, t0 + tSec - 0.0005));
+        param.setValueAtTime(x * K, Math.max(0, t0 + tSec));
       }
-      param.linearRampToValueAtTime(x, Math.max(0, t0 + tSec));
+      else param.linearRampToValueAtTime(x * K, Math.max(0, t0 + tSec));
+      xPrev = x;
     }
   }
 
@@ -9010,31 +9129,35 @@ registerProcessor("mk2-room", MK2Room);
       /* the quarter-cycle offset follows the rate, or the two lines drift into
          phase and the stereo collapses */
       if(g.flangePhase) g.flangePhase[1].delayTime.value = Math.min(30, (1 / rate) / 4);
+      /* the sweep is in SECONDS and the knob is 0..1 -- the scale goes in
+         separately so the fader law and the clamp read the knob */
       for(const d of g.flangeDepth)
-        rideBus(g, d.gain, "flange.depth", 0.0040 * panelValue("flange", "depth"), t0);
+        rideBus(g, d.gain, "flange.depth", panelValue("flange", "depth"), t0, 0.0040);
       for(const f of g.flangeFb)
         rideBus(g, f.gain, "flange.fb", panelValue("flange", "fb"), t0);
       rideBus(g, g.flangeOut.gain, "flange.mix", panelValue("flange", "mix"), t0);
     }
-    /* the pole: one rate drives the climb AND the window, or the bell drifts
-       out of step with the sweep and notches fade at the wrong height */
+    /* the pole: ONE number for the climb and the window. They cannot drift out
+       of step now, because the window is not a clock -- it is read off the same
+       sweep that moves the notches, so a rate change moves both or neither. */
     if(g.barberSaw){
       const rate = Math.max(0.01, panelValue("barber", "rate"));
       const dir = panelValue("barber", "dir") < 0 ? -1 : 1;
       g.barberSaw.frequency.value = rate;
-      g.barberBell.frequency.value = rate;
       /* DIRECTION is the sign of the cents ramp: a rising saw sweeps the
-         notches up, a falling one sweeps them down. */
+         notches up, a falling one sweeps them down -- and the window shapers
+         are fed from the same node, so they read the bell backwards with it. */
       /* a switch is SET, not ridden -- riding it would make direction a
          gesture, and a barberpole that changes direction mid-sweep is two
          effects rather than one knob */
       g.barberCents.gain.value = 600 * dir;
-      for(let i = 0; i < g.barberPh.length; i++)
-        g.barberPh[i].delayTime.value = Math.min(120, (i / g.barberPh.length) / rate);
-      for(const q of g.barberQ){
-        rideBus(g, q.qg.gain, "barber.depth", 5 * panelValue("barber", "depth"), t0);
-        rideBus(g, q.lg.gain, "barber.depth", 5 * panelValue("barber", "depth"), t0);
-      }
+      /* DEPTH is a CUT IN DECIBELS, and the knob is 0..1: the scale is passed
+         separately so the clamp and the motion normalisation below happen in
+         the knob's own units. Handing rideBus a base already multiplied is how
+         this unit's window collapsed to a constant on every genre that
+         automates it -- CONTROL["barber.depth"].max is 1. */
+      for(const wg of g.barberWin)
+        rideBus(g, wg.gain, "barber.depth", panelValue("barber", "depth"), t0, -BARBER_CUT_DB);
       rideBus(g, g.barberOut.gain, "barber.mix", panelValue("barber", "mix"), t0);
     }
 
@@ -9053,8 +9176,12 @@ registerProcessor("mk2-room", MK2Room);
         const A = pick > 0 ? u.algo[pick - 1] : null;
         if(A) u.inp.connect(A.inp);
         rideBus(g, u.lvl.gain, "dp4." + U[i] + "Lvl", panelValue("dp4", U[i] + "Lvl"), t0);
+        /* AMT is 0..1 on the knob and whatever the algorithm's own parameter
+           happens to be underneath -- seconds of sweep, a pre-gain, a chop
+           depth. The algorithm's scale goes in separately so the fader law and
+           the clamp both read the knob rather than the algorithm. */
         if(A && A.depth)
-          rideBus(g, A.depth, "dp4." + U[i] + "Amt", A.base * panelValue("dp4", U[i] + "Amt"), t0);
+          rideBus(g, A.depth, "dp4." + U[i] + "Amt", panelValue("dp4", U[i] + "Amt"), t0, A.base);
       }
     }
     if(g.echo){
@@ -9413,6 +9540,13 @@ registerProcessor("mk2-room", MK2Room);
            /* the pump's overrun counter, so a probe can hold the scheduler to a
               number instead of to a description of it */
            lateDropped: () => lateDropped,
+           /* THE BUS RIDE ITSELF, so a probe measures the scheduler rather than
+              a copy of it. `probe_busedge` used to reimplement this function's
+              body line for line, which meant it could only ever confirm that
+              its own copy agreed with itself -- and it went stale the day the
+              threshold changed. It takes nothing from the graph but the plan,
+              so `{ motion, motionOffset }` is a whole argument. */
+           rideBus,
            liveLevel };
 })();
 
@@ -21438,6 +21572,11 @@ window.MK2 = {
      one that reads it cannot. */
   MODES, CHORD_QUALITY,
   makeMotion, motionAt,
+  /* the real scheduler, for the same reason MODES and MATRIX are here: a probe
+     that copies out what the program does proves its copy is current and
+     nothing else */
+  rideBus: (plan, param, key, base, t0, scale) =>
+    Sound.rideBus({ motion: plan, motionOffset: 0 }, param, key, base, t0, scale),
   voiceNames: () => Sound.voiceNames(),
   soundState: () => Sound.soundState(),
   /* the MIDI mapping, exported for the same reason voiceNames is: a harness

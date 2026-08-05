@@ -124,3 +124,11 @@ reason.
 The one worth doing next is Sinevibes Whirl's **stereo phase offset between
 channels** — ours offsets between NOTCHES, not between the two ears, and
 the program is stereo now. It is in `docs/BACKLOG.md` §5.
+
+**Rebuilt 2026-08-05** — `barberpole.md` §7. The window was a bell in *time*
+riding each notch's *Q*, where the sources say a raised cosine over *log
+frequency* riding the *cut gain*, and the difference was not academic: Q
+touching zero installs all-zero filter coefficients in Chrome, so the unit
+was permanently silent from 6.5 s into every playback on both genres that
+feed it. Six `peaking` filters and a WaveShaper reading the bell off the
+sweep now. If you are looking at this unit, read §7 before anything else.

@@ -425,6 +425,46 @@ changing dress) rather than **melodic**, and that is exactly what the
 strength of that reading.** It is here so nobody "fixes" the repetition without
 knowing the genre's literature calls it the point. `lofi-production.md` §7b.
 
+## 6e. THE AUTOMATION AND THE FX, UNIT BY UNIT — `2026-08-05a`
+
+*The user: "Can we test the automization and fx of each unit making sure they
+work like they should and we are automating things proper."* Two defects were
+found by measurement, confirmed independently, and fixed in this build. Both
+were **in the scheduler and in one unit's construction, not in any genre's
+table** — which is why no genre-level probe had ever seen either.
+
+### CLOSED
+
+| what was wrong | measured before | measured after |
+|---|---|---|
+| **The barberpole went permanently silent** partway into every playback. Its window rode each notch's **Q**, and `setSpace` rode the window's sine leg and its DC-lift leg with the *same* number, so Q swung symmetrically about zero. Chrome installs **all-zero filter coefficients at Q = 0**, so a notch that merely touches zero mutes the cascade — and six notches offset by a sixth of a cycle tile the cycle with no gap. Rebuilt as six `peaking` filters whose **cut gain in dB** is windowed by a raised cosine read off the sweep, which is what the sources say and what the panel had been drawing all along. `barberpole.md` §7 | the return collapses and never recovers — see `test/ears/LOG.md` | holds for the whole render |
+| **The hard steps in the motion plan mostly never reached the parameter.** `rideBus` wrote its curve one point per **beat**, four times coarser than the plan's own sixteenth, so a `throw` placed at `at: 0.8` or `0.875` lived entirely between two grid points; and the test for "is this a step" read the *fader-law factor* (1 on nearly every lane) instead of the lane's depth, giving a flat threshold of 0.35 against declared throws of 0.10–0.34. Edge lanes are now written on the plan's own grid, and "does it jump" is asked of the plan directly instead of by size. | **0 of 1227** planned steps arrived, across 5 genres and 14 lanes; snaps landed **57.7 ms early** (exactly half a sixteenth — the bisection was finding `motionAt`'s rounding boundary, not the bar line) | **1227 of 1227**, 0 ms rise, 0 ms early, on the line |
+| **`rideBus` read three callers' bases in the wrong units.** It clamps to `CONTROL[key]` and normalises the motion against the control's default, and three callers hand it the knob value already multiplied: the flanger's depth in seconds (0.0040×), the DP/4's amounts per algorithm, the pole's window in dB (5×). `barber.depth` was therefore pinned at the control's max of 1 on every genre that automates it; `flange.depth` delivered 0.8 % of its declared motion. The multiplier is now passed separately and applied last. | pinned / 0.8 % | full travel, in the knob's own units |
+
+### STILL OPEN, from the same audit — **verified, not yet decided**
+
+- **Apex lanes deliver 40–88 % of their declared swing.** `motionAt`'s comment
+  says "depth is the swing from arc 0 to arc 1", and `form.arc` never reaches
+  0 — so every genre with an apex lane moves less than it says: dkc 40 %,
+  lofi 50 %, jungle 63 %, acid 67 %, synthwave 71 %, bladerunner 77 %,
+  plastikman 88 %. **A decision, not a bug**: either make the comment true, or
+  normalise the move so the declared swing is delivered. The second changes
+  every genre that declares one and needs a deliberate re-baseline.
+
+### RAISED BY THE AUDIT AND **NOT INDEPENDENTLY VERIFIED**
+
+Their verifying agents never ran. Recorded so they are not lost and marked so
+nobody builds on them:
+
+- two of the four LFO shapes (`ramp`, `fall`) are used by no genre;
+- `occurrence` sits at step 0 for about half of every record, and lofi reaches
+  only 63 % of its declared cap;
+- throws land mid-phrase 64–72 % of the time in four genres — the phrase
+  counter is absolute rather than section-relative;
+- `gesture` entry edges are undocumented discontinuities (144 of 192 moves;
+  jungle's build reportedly opens with an instant −19.0 dB step);
+- snap windows land mid-section 22 % (plastikman) / 45 % (jungle) of the time.
+
 ## 7. UI
 
 - ~~**Nothing on this page shows the NOTES**~~ **DONE `2026-08-04h` — THE ROLL.**
