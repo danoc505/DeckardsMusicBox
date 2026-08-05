@@ -482,6 +482,36 @@ nobody builds on them:
 
 ## 7. UI
 
+- **A PAD CAN BE PERFECTLY WIRED AND STILL DO NOTHING, AND THE PANEL DOES NOT
+  SAY SO.** Measured `2026-08-05` with `harness/probe_pads.js`, the pad's whole
+  travel as a difference against the mix, best of three windows across the
+  record:
+
+  | | lofi | synthwave | dkc | bladerunner | acid | plastikman | jungle |
+  |---|---|---|---|---|---|---|---|
+  | **KORG · KAOSS** (echo) | −28.7 | −26.6 | −19.7 | −16.7 | −18.9 | −15.4 | −33.9 |
+  | **YAMAHA · SPX90** (flanger) | **−81.1** | −14.2 | **−99.3** | **−92.1** | **−99.7** | −2.1 | −10.1 |
+
+  The echo pad reaches the sound on all seven. The flanger pad reaches it on
+  the three genres that feed the flanger and is **silent to the float floor on
+  the other four** — which is correct behaviour (the unit is not in those
+  records' signal path) presented as a working control. You put a finger on it,
+  the cross moves, the value changes, and nothing happens. That is the "a knob
+  that does nothing is a lie" rule one level up: the knob works, its unit is
+  not connected on this song.
+
+  **Not fixed, because the fix is a design decision.** The honest options are to
+  grey the pad when the current genre feeds nothing into its machine, or to
+  print what it is fed by. Either changes what the panel claims, so it wants a
+  deliberate choice rather than a quiet edit. The same argument applies to any
+  return-fed unit, not just this one — the matrix already knows which rows are
+  open.
+
+  **And the dim dot on the SPX90 can only ever appear on plastikman**: that is
+  the only genre whose song moves `flange.rate`/`flange.depth`. On the other
+  six the second pad shows one mark where the machine shows two, which is a
+  smaller version of the same gap.
+
 - ~~**Nothing on this page shows the NOTES**~~ **DONE `2026-08-04h` — THE ROLL.**
   Every display in the program showed what the machines were doing; none showed
   what the song was. It draws through `midiKeyFor`, the same function the .mid
