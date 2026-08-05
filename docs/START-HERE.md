@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `d52ea25` unless it says otherwise. If you
+*Everything below is verified at `2026-08-05e` (the arrival rule) unless it says otherwise. If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -15,7 +15,11 @@ branch, and do not push anywhere else without asking.
 ```bash
 git fetch origin claude/code-review-6jd9cz
 git checkout claude/code-review-6jd9cz
-git log --oneline -3      # expect d52ea25 at the top
+git log --oneline -3      # expect the arrival rule at the top
+
+# AND CHECK YOU ARE ON THE BRANCH AND NOT ON main. `main` is a snapshot taken
+# 2026-08-03 and the branch is dozens of commits past it; a session handed
+# `main` looks clean and is simply old. This has happened.
 ```
 
 > **The container has rolled this clone back to an old commit more than once,
@@ -100,7 +104,7 @@ while both files carried an identical stamp, so three commits of work went
 unheard. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-03o`.
+Current: `build 2026-08-05e`.
 
 **THE SAX IS PARKED.** The user's verdict, after every metric on it came
 back green. Do not un-park it without the terms in the handoff's warning
@@ -111,12 +115,17 @@ because the measurement refused it.
 
 ## Where the program stands
 
-Run these before you claim anything. Numbers measured at `af17de6`; the
-commit after it touched only docs.
+Run these before you claim anything. Numbers measured at `2026-08-05e`.
 
 ```bash
-node harness/mk2_test.js         # 118 seam checks, expect 118 / 0
-node harness/mk2_ui.js           # 26, real browser
+npm install playwright           # FIRST, on a fresh clone: node_modules is not
+                                 # in the repo and the four browser probes below
+                                 # die with "Cannot find module 'playwright'",
+                                 # which reads like a broken probe and is not.
+                                 # Do NOT run `playwright install` — the browser
+                                 # is already in the image.
+node harness/mk2_test.js         # 122 seam checks, expect 122 / 0
+node harness/mk2_ui.js           # 33, real browser
 node harness/mk2_blend.js        # 10, and 504/504 blended pairs
 node harness/mk2_midi.js         # 20 (flakes on wall-clock under load)
 node harness/mk2_snapshot.js check harness/mk2_baseline.snap   # IDENTICAL
@@ -128,16 +137,20 @@ master chain) also means:
 
 ```bash
 node harness/render_audio.js /tmp/aud 1,2
-python3 harness/test_audio.py /tmp/aud        # 316 passed, 15 FAILED
+python3 harness/test_audio.py /tmp/aud        # 313 passed, 18 FAILED
 node harness/probe_render_determinism.js      # all seven repeatable
 node harness/probe_wiring.js                  # who reaches what
 node harness/probe_matrix.js <genre>          # every crossing moves air. ~20 min A GENRE
 ```
 
-**About those 15 failures.** Thirteen are one check whose ceiling was
+**About those 18 failures.** Eleven are one check whose ceiling was
 calibrated before the program had a stereo stage — it now fails a correct
-mix. Diagnosed, written up in `BACKLOG.md` §1, and confirmed identical on
-the commit before. **Do not just raise the number**: that check's value is
+mix. The other seven are four `presence above 2 kHz`, two `both channels
+carry the mix` and one `solo tape`. All 18 were confirmed identical on the
+commit before, rendered in a separate worktree with the same seeds, so none
+belongs to the newest build — but **the count grew from 15 to 18 somewhere in
+`04a`…`05d` and nobody has attributed it to a build.** That bisect is the open
+job; `BACKLOG.md` §1 has it with the numbers. **Do not just raise the number**: that check's value is
 failing when the reverb vanishes, and a ceiling chosen to make today's mix
 pass proves nothing. And do not inherit the habit that produced it — this
 battery once sat at 8 failures filed as "pre-existing", and two of them were

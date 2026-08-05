@@ -218,9 +218,117 @@ counter chooses from a *list*, and a filter on a short list can empty.
 
 ---
 
-## 6. WHAT WAS BUILT AND WHAT IT MEASURED
+## 6. WHAT WAS BUILT AND WHAT IT MEASURED — build `2026-08-05e`
 
-*(filled in after the build — see §7)*
+**Two sites, one law.** `buildTheme`'s `phrase()` narrows its move; the walk
+draws from `[[0,2],[dir,5],[dir*2,2],[-dir,2]]` and a drawn `dir*2` onto a
+dissonance becomes `dir`. `deriveCounter` takes it as a cost in the candidate
+list it already scores, weighted **equal to** the contrary-motion term because
+the two are habits of the same standing. `deriveCounter`'s own hang test now
+calls the same expression instead of keeping a second copy of it — the
+departure half and the arrival half must never be able to disagree about which
+notes are dissonances.
+
+### Asked at the bar's last onset, and that is not a compromise
+
+Every other onset already has its resolution guaranteed: `plannedDur` **is** the
+gap to the next note, so the note runs into its successor and the departure law
+forces that successor to a step. A leap onto one of those is a genuine
+appoggiatura and is left alone on purpose. The bar's last onset has no such
+guarantee. Reaching past the bar for the next one would mean drawing that bar's
+steps early, which reorders the stream and moves songs nobody touched [Law 3].
+
+### AND NARROWING THE MOVE WAS NOT ENOUGH — I guessed, and the guess was wrong
+
+I wrote "0.7%" into a code comment before measuring it. Measured, the narrowing
+alone left the constrained population at **7.4%** against 9.5% unconstrained,
+and the residue was **not drawn leaps at all**: `intoBand` folds a pitch back
+inside the register by whole octaves and the seat-finding walk steps it
+further, so a move of one scale step can land eleven semitones from where it
+left. The law is now asked of **the interval that actually sounds**, after
+every hand that can move the note has moved it, and the answer is to DROP —
+the precedent `the-note-that-does-not-belong.md` §4b set at this same fold.
+
+```
+  bar-final lead onsets landing on a dissonance, 20 seeds x 7 genres,
+  the share arrived at by LEAP:
+
+    unconstrained                   9.5%
+    narrowing the move only         7.4%     <- what I predicted would be ~0
+    asked of the interval sounded   4.8%
+```
+
+### Overall, on the performance (`probe_arrival`, 20 seeds a genre)
+
+```
+                       before   after
+  arrive by step       67.7%    70.0%
+  arrive by repeat     15.8%    15.7%
+  arrive by LEAP       16.5%    14.3%
+  leaps that never step out, as a share of all dissonances
+                        7.9%     6.7%
+```
+
+Cost: 6342 lead notes in the materials become 6315, **0.43% fewer**.
+
+### THE SEAM CHECK, AND TWO VERSIONS OF IT THAT WERE WRONG
+
+Recorded because both failed in ways this project already has rules about.
+
+1. **A threshold on the whole population cannot work here.** The law fires only
+   at bar-final onsets, so across every dissonance its effect is two points —
+   and any line drawn through a two-point gap measures the seed draw.
+2. **Comparing bar-final arrivals to mid-bar ones looked beautiful and was
+   noise.** At 20 seeds the law appeared to *flip* which slot was riskier
+   (9.5% vs 7.0% becoming 4.8% vs 6.8%). At the 8 seeds the check actually
+   runs, the unconstrained build reads 7.1% vs 10.3% — the other way round.
+   **The check passed with the law removed.** It was watched failing to fail,
+   which is the only reason it is not in the file.
+
+What shipped is structural rather than statistical: a bar-final onset landing
+on a dissonance, whose in-bar predecessor was **consonant** (so the departure
+law was not the one in charge), reached by more than a step. Driven to failure
+both ways: **0.9% of 109 with the law, 9.7% of 113 without.**
+
+### Blast radius
+
+636 of 2100 seeds moved; **form and arrangement hashes identical on every
+one**, which is the right shape for a melodic change. lofi 119, synthwave 93,
+dkc 222, bladerunner 144, acid 58, **plastikman 0, jungle 0** — the last two
+compose a lead their arrangement never plays, so their material moved and their
+record did not. Re-baselined `c3abd9c25331528c`.
+
+Per role, 30 seeds × 7 genres: 30 of 41 role/genre pairs byte-identical, and
+every mover is `lead` or `counter` **except dkc's bass, keys and ostinato**.
+That was checked rather than waved through: dkc is the only genre on the `sega`
+rig, whose YM2612 has six FM channels and **refuses** notes when the budget is
+full, so a changed lead reallocates the budget. Note *counts* move and not just
+durations, which is what refusal looks like.
+
+---
+
+## 7. STILL OPEN, HONESTLY
+
+- **THE EAR HAS NOT HEARD IT.** Every number above says the arrivals changed
+  and none says the tunes sound better. `BACKLOG.md` §0 and the sax precedent.
+- **The effect is small and the reason is structural.** Only the bar's last
+  onset lacks a guaranteed resolution, so only it is constrained. Whether the
+  genres should also leap onto clashes *less often in general* — Bach's 3.2%
+  against this program's 14.3% — is a weight in the move draw and a taste
+  question, not this law.
+- **The first note of a phrase has no arrival at all.** `hang` and the previous
+  pitch both reset per phrase, so the law cannot see across the join even
+  though the ear can. Fixing it means carrying two values across phrases, which
+  is a real change to `phrase()`'s contract and wants its own commit.
+- **The counter's octave flip is untouched and is the larger arrival defect on
+  that part** — 41 of the 155 leap-in/leap-out cases are `octaves: [-12, 12]`
+  taking whichever end fits the band. `BACKLOG.md` §6.5 owns that row.
+- **`acid` is measured as having no dissonances at all** because it declares no
+  comp, so its lead is judged against the written chord only. That is honest
+  but it means the law reaches acid through a weaker test than the other four.
+- **The residue is 0.9%, not 0**, and it has not been chased. It is believed to
+  be the derivation following its DNA and the phrase pickup, which is a belief
+  and is marked as one.
 
 ---
 

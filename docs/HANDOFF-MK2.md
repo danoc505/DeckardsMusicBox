@@ -13,20 +13,28 @@ rendered-audio failures that had been dismissed as "pre-existing" turned out to
 contain two real defects in the music. For whoever picks this up next. Read this
 whole file before you touch the HTML.*
 
-**State at build `2026-08-04l` (jungle's bass riff), every number below
+**State at build `2026-08-05e` (the arrival rule), every number below
 measured on that commit — not remembered from an earlier one.** The row that
 is not green is not green, and says why.
 
 | battery | command | result |
 |---|---|---|
-| seam checks | `node harness/mk2_test.js` | **120 passed, 0 failed** |
-| UI, in a browser | `node harness/mk2_ui.js` | **33 passed, 0 failed** — one 32/1 flake earlier the same day, clean on three reruns; see the FLAKE note below |
+| seam checks | `node harness/mk2_test.js` | **122 passed, 0 failed** |
+| UI, in a browser | `node harness/mk2_ui.js` | **33 passed, 0 failed** — see the FLAKE note below |
 | blend sliders | `node harness/mk2_blend.js` | **10 passed, 0 failed** |
 | MIDI port | `node harness/mk2_midi.js` | **20 passed, 0 failed** |
-| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** (baseline `e197864d18a5c0f6`, re-recorded at 04l: 300 jungle lines moved, deliberately) |
+| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** (baseline `c3abd9c25331528c`, re-recorded at 05e: 636 lines moved, deliberately, form and arrangement untouched on every one) |
 | every voice | `node harness/probe_voices.js` | **0 threw, 0 silent** |
 | the notes | `node harness/mk2_roll.js 1 --genre <g>` | **all seven print; this is RULE ONE and is not optional** |
 | how busy it is | `node harness/probe_density.js 30` | voices ringing, chord onsets, parts a bar, notes a bar — new at `04h` |
+| how a dissonance is reached | `node harness/probe_arrival.js 20` | the approach column of the taxonomy, per genre — new at `05e` |
+
+> **`node_modules` IS NOT IN THE REPO and four probes need it.** `mk2_ui`,
+> `mk2_blend`, `mk2_midi` and `probe_voices` drive a real browser, and on a
+> fresh clone they die with `Cannot find module 'playwright'` — which reads
+> like a broken probe and is not one. `npm install playwright` (~3 s; the
+> browser itself is already in the image at `PLAYWRIGHT_BROWSERS_PATH`, so do
+> **not** run `playwright install`).
 
 > **`mk2_ui.js` IS FLAKY.** About one run in five reports 25/26 and every
 > re-run is clean; seen twice on 2026-08-04 on unrelated commits. It is browser
@@ -528,6 +536,7 @@ node harness/probe_poly.js                            # each lane's real period
 node harness/probe_sax.js                             # what the horn actually articulates
 node harness/probe_pull.js                            # does the genre outweigh the seed?
 
+node harness/probe_arrival.js 20                      # how a dissonance is REACHED
 node harness/probe_comp.js                            # how the comp is voiced
 node harness/probe_density.js 30                      # HOW MANY notes sound, and when nothing does
 node harness/probe_harmony_neo.js                     # chromaticism and voice leading
@@ -2048,7 +2057,8 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
 | `harness/probe_render_determinism.js` | the same events rendered three times null out — the guard a feedback cycle broke |
 | `harness/probe_wiring.js` | **which genre uses what was added.** Run it after adding anything |
 | `harness/probe_kaoss.js` | the pad reaches live sound, and by how much, per genre |
-| `harness/probe_theory.js` | the music laws, read off the notes |
+| `harness/probe_theory.js` | the music laws, read off the notes — how a dissonance LEAVES |
+| `harness/probe_arrival.js` | how a dissonance is REACHED — the approach column of the taxonomy, and the two readings of the appoggiatura kept apart |
 | `harness/probe_voices.js` | every voice fires and none is silent |
 | `harness/probe_novelty.js` | **is a lane a loop, noise, or generated?** the LZ76 instrument |
 | `harness/probe_poly.js` | each drum lane's real period, reconstructed from the notes |
@@ -2057,6 +2067,7 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
 | `docs/genre-research/sax-playing.md` | how a saxophone is played, and what was built from it |
 | `docs/genre-research/autechre.md` | Autechre and Plastikman: one root, and the space |
 | `docs/genre-research/the-part-that-listens.md` | the reactive layer, and what it rejected |
+| `docs/genre-research/the-arrival-of-a-dissonance.md` | the arrival law, its sources, the source conflict it had to decide, and the two seam checks that were wrong first |
 | `docs/genre-research/NOTES-FROM-THE-USER.md` | **the running log of what was measured, what was wrong, and why.** Read it with this file. |
 
 ---
@@ -2197,6 +2208,48 @@ reporting a defect that was not there:
 - and a hand-written script reported the **ROOM unfed on five genres** by
   reading `space.feeds` and missing the two rows the grid opens by default —
   which is why `routeBaseFor` is now exported instead.
+
+### `2026-08-05e` — the arrival rule, and a session that started on the wrong branch
+
+**IT STARTED ON `main`.** The session was handed a clean checkout of `main` at
+`b112dc9` — which is a snapshot taken 2026-08-03 and was, by then, 57 commits
+behind this branch. Nothing looked wrong: the tree was clean, the battery would
+have passed, and `docs/HANDOFF-MK2.md` §9 read as a coherent next job. It was
+simply a week old. `git ls-remote --heads origin` is what found it, and
+`START-HERE.md` now says to check the branch explicitly rather than only to
+check for an unfamiliar HEAD. **A rollback that lands you on a real branch does
+not look like a rollback.**
+
+The work itself is §9.5 above and
+`docs/genre-research/the-arrival-of-a-dissonance.md`. What belongs here rather
+than there is the method, because three things went wrong and each is a rule
+this file already has:
+
+- **I guessed a number and wrote it into a code comment before measuring it**
+  ("0.7%"). Measured, it was 7.4%. The comment now carries the real figure and
+  the reason the guess was wrong, which turned out to be the interesting part:
+  `intoBand`'s octave fold, not the draw.
+- **The seam check was wrong twice**, and the second one is the one to
+  remember. It compared bar-final arrivals against mid-bar ones, looked
+  decisive at 20 seeds, and **passed with the law removed** at the 8 seeds it
+  actually runs — the direction was sample noise. It was only caught because
+  the guard was driven to failure, which this file has required since the stamp
+  landed. *A guard that has not been watched to fail is not a guard*, and that
+  now has a second scalp.
+- **A hypothesis was tested and refused.** The performance's arrival numbers
+  were worse than the law seemed to allow, and the obvious explanation was the
+  arc thinner deleting resolutions the composer was obliged to write. Measured
+  on stage 3's own material: the same rates. **The thinner is innocent** and
+  the residue is the composer's own. Recorded because the un-measured version
+  of that sentence would have been a plausible, wrong, expensive finding.
+
+**And the rendered-audio battery reads 313/18, where `BACKLOG.md` said 15.**
+The same 18 appear on `13fecdc` — rendered in a separate worktree, same seeds,
+one number different in the whole list and that one is an excerpt whose notes
+this build moved. So none of them is the arrival rule's. But the count grew
+from 15 to 18 somewhere in `04a`…`05d` and **I have not attributed it to a
+build; saying which would be a guess.** The backlog carries that as its own
+row, with `04i` named as a suspect and not as a finding.
 
 ### Battery at `2026-08-05d`
 
@@ -2410,16 +2463,44 @@ on `04g`, which nobody has heard.
 
 Acid, plastikman and synthwave's basses have never been researched either.
 
-### 9.5 THE ARRIVAL RULE — the law this repo measured and did not write
+### 9.5 ✔ DONE at `2026-08-05e` — THE ARRIVAL RULE is written
 
-`counterpoint-measured.md` §3, on Bach's 382 chorales: a clash is approached by
-step **96.8%** of the time and left by step **91.3%** — fractionally *stricter
-arriving than departing*. This program has a departure rule for the tune (a
-dissonance must resolve by step) and **nothing anywhere about arrival**.
+**`docs/genre-research/the-arrival-of-a-dissonance.md`** has the four new
+sources, the decision and every number. In one paragraph: of the eight figures
+in the classical taxonomy, **seven are approached by step or by repetition and
+exactly one — the appoggiatura — is approached by a leap**, on the condition
+that it steps out. So: a note outside the chord sounding under it may be leapt
+onto only when something follows closely enough to resolve it; otherwise the
+leap narrows to a step. A **narrowing** in the tune (a scale step always
+exists, so it can never be unsatisfiable) and a **cost** in the counter (whose
+candidate list is three to five entries and could be emptied by a filter).
 
-`04f` widened the out-of-key law to ask about the chord that FOLLOWS as well as
-the one underneath, and that widening moved nothing across 2100 seeds — which is
-the right shape for a law. An arrival rule is the same shape and the same size.
+MEASURED: arrivals by leap **16.5% → 14.3%**, by step **67.7% → 70.0%**; on the
+population the law governs, **9.5% → 4.8%**. 636 of 2100 seeds moved with form
+and arrangement hashes identical on every one; baseline `c3abd9c25331528c`.
+
+**Three things in that build are worth carrying forward as method:**
+
+1. **A source conflict was decided, not averaged.** openmusictheory says an
+   appoggiatura must resolve *opposite* its leap; musictheory.pugetsound says
+   any direction, with a Mozart example. Took the loose reading — the step out
+   is the law, the direction is a habit — because a habit dressed as a law only
+   removes seeds, and because the strict source is the same publication as the
+   table the whole argument rests on.
+2. **Narrowing the MOVE was not enough and I had guessed it would be.** The
+   residue was not drawn leaps: `intoBand` folds by whole octaves, so a
+   one-step move can land eleven semitones away. The law is asked of the
+   interval that actually sounds, and the answer there is to DROP.
+3. **The seam check was wrong twice.** A threshold on the whole population
+   cannot see a two-point effect; and a bar-final-vs-mid-bar comparison that
+   looked decisive at 20 seeds **passed with the law removed** at the 8 seeds
+   the check runs. What shipped is structural and was driven to failure both
+   ways: 0.9% of 109 with the law, 9.7% of 113 without.
+
+**STILL OPEN** (§7 of that sheet): the ear has heard none of it; the first note
+of a phrase still has no arrival, because `hang` and the previous pitch both
+reset at the phrase join; and the counter's `octaves: [-12, 12]` flip is the
+larger arrival defect on that part and belongs to `BACKLOG.md` §6.5.
 
 ### 9.6 ONE THING THE ROLL CANNOT DO YET
 
