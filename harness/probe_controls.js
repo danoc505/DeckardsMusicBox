@@ -36,6 +36,28 @@
    Anything left over is a control that is drawn, documented, automated, and
    silent. Those are listed at the end and are the point of the file.
 
+   ── WHAT THIS COSTS, AND WHY IT USED TO COST TWENTY TIMES MORE ──────────────
+   The user, 2026-08-05: "Why is there a task running for over 2 hours right
+   now? That needs a better way to be done."
+
+   Right, and the reason is worth keeping. Every check here is TWO renders --
+   the control at the bottom of its travel and at the top -- and the schedule
+   being rendered was the WHOLE KIT: twelve lanes, four kinds of note each,
+   about sixty-five seconds of audio. Rendering that twice per control, for the
+   TR-1000's seventy-six controls, is 152 renders of a sixty-five-second file.
+   Measured: 2 hours, and about nine tenths of it rendering drums that the
+   control under test cannot reach.
+
+   A render costs roughly 0.7 s per second of audio on four cores, and it does
+   NOT degrade -- twenty identical renders measured 484 ms then 431 ms, so
+   there is no leak to chase. The cost was purely the length of the file.
+
+   So a control is now rendered on the lane it belongs to, read off the panel's
+   own column declaration (see below). Measured after: 10 minutes, and the
+   answers got BETTER rather than merely faster -- the old full-kit render
+   scored the bass drum's TUNE and PUNCH on the SNARE's window, because a
+   louder drum's window won the comparison. Scoped, they land on the kick.
+
      node harness/probe_controls.js [machine]
 */
 const { chromium } = require(require('path').resolve(__dirname, '..', 'node_modules', 'playwright'));
@@ -220,8 +242,71 @@ const ONLY = process.argv[2] || null;
         return analyse(await blob.arrayBuffer(), wins);
       };
 
+      /* ── A KNOB ON THE BASS DRUM STRIP CANNOT MOVE THE RIDE CYMBAL ──────────
+         The schedule above is the whole kit: twelve lanes, four kinds of note
+         each, sixty-five seconds of audio. It was rendered TWICE FOR EVERY
+         CONTROL -- so testing the rimshot's filter rendered the kick, the
+         snare, both toms, both hats, the clap, the crash and the ride, none of
+         which it can reach. On the TR-1000 that is 152 renders of a
+         sixty-five-second file: TWO HOURS to answer 76 questions, and about
+         nine tenths of it rendering drums the control under test cannot touch.
+
+         WHICH LANE A CONTROL BELONGS TO IS DECLARED, not guessed: the panel's
+         `columns` each name a `lane` and the keys, ctrls and fader on it. A
+         control that appears on exactly one column is rendered on that lane
+         alone. Anything on the top strip -- the kit drive, the gate, the two
+         master sends, the analogue filter -- genuinely is machine-wide and
+         still gets the whole kit.
+
+         Nothing about the measurement changes: the same notes, the same
+         windows, the same thresholds, on a shorter file. And it cannot make a
+         control look alive that is not, because a control scoped to one lane is
+         being tested on strictly LESS signal than before, never more. */
+      const LANE_OF = {};
+      for(const col of ((M.panel && M.panel.columns) || [])){
+        if(!col.lane) continue;
+        for(const k of [].concat(col.keys || [], col.ctrl || [], col.fader ? [col.fader] : []))
+          LANE_OF[k] = (LANE_OF[k] === undefined || LANE_OF[k] === col.lane) ? col.lane : null;
+      }
+      /* one cached schedule per lane, built the same way as the full one */
+      const SCOPED = {};
+      const scopeFor = ln => {
+        if(SCOPED[ln]) return SCOPED[ln];
+        const sev = ev.filter(e => e.lane === ln);
+        const i = laneNames.indexOf(ln), shift = i * WIN;
+        const moved = sev.map(e => Object.assign({}, e, { tSec: e.tSec - shift }));
+        const t0 = 0.3, sw = [[0, WIN], [t0, t0 + 0.06],
+                              [t0 + LONG + 0.4, t0 + LONG + 0.46],
+                              [t0 + LONG + 1.3, t0 + LONG + 1.9]];
+        const names = [ln, ln + ' onset', ln + ' onset2', ln + ' accent run'];
+        return (SCOPED[ln] = { ev: moved, wins: sw, names, secs: WIN + 3 });
+      };
+      const renderOn = async ln => {
+        if(!ln) return { w: await render(), names: winLane };
+        const s = scopeFor(ln);
+        const blob = await MK2.renderWav(s.ev, s.secs, 44100, S.space, S.kick, S.drumDrive,
+                                         S.gate, song.motion, 0);
+        return { w: analyse(await blob.arrayBuffer(), s.wins), names: s.names };
+      };
+
       for(const c of M.controls){
+        /* ── A `pick` IS NOT TESTABLE THIS WAY, AND SAYING SO IS THE HONEST
+           ANSWER ─────────────────────────────────────────────────────────────
+           It decides WHICH VOICE a note calls -- a stage-1 decision, drawn as a
+           select that recomposes -- so sweeping its stored number through a
+           render with a fixed voice list is asking a question it cannot answer.
+           The seam battery already exempts `pick` for exactly this reason.
+
+           It was reported SILENT, which was right but sat in the list of
+           defects; and once the sweep got sharper it started reporting the KIT
+           key as ALIVE on a 1.2% zero-crossing wobble in one 60 ms window with
+           every other control open. A false pass is worse than a false fail.
+           Skipped and counted separately. */
+        if(c.pick){ rows.push({ m, k: c.k, kind: c.kind || '?', moved: null,
+                                on: '-', note: 'a pick: chooses a voice, not a sound',
+                                peak: 0, rms: 0, zc: 0, tail: 0 }); continue; }
         const key = m + '.' + c.k;
+        const scope = LANE_OF[c.k] || null;
         /* MOVE THE HAND, not the stored value. Two controls -- the kit drive and
            the gated-verb send -- take their base from the genre and add the
            user's TRIM, which is exactly what a hand on the panel writes. A probe
@@ -229,14 +314,15 @@ const ONLY = process.argv[2] || null;
         const saveP = MK2.PARAMS[key], saveT = MK2.TRIM[key];
         const setTo = v => { MK2.PARAMS[key] = v; MK2.TRIM[key] = v - (saveP == null ? c.def : saveP); };
         setTo(c.min);
-        const lo = await render();
+        const loR = await renderOn(scope);
         setTo(c.max);
-        const hi = await render();
+        const hiR = await renderOn(scope);
+        const lo = loR.w, hi = hiR.w, names = hiR.names;
         /* the biggest move over any single lane's window, and the lane it
            happened on -- which is also the most useful thing to print, because
            it says WHICH drum a control turned out to belong to */
         let d = { peak: 0, rms: 0, zc: 0, tail: 0 }, on = '-', best = -1;
-        for(let w = 0; w < nWin; w++){
+        for(let w = 0; w < lo.length; w++){
           const D = {
             peak: Math.abs(hi[w].peak - lo[w].peak) / Math.max(1e-6, lo[w].peak),
             rms:  Math.abs(20 * Math.log10(Math.max(1e-9, hi[w].rms) / Math.max(1e-9, lo[w].rms))),
@@ -244,7 +330,7 @@ const ONLY = process.argv[2] || null;
             tail: Math.abs(hi[w].tail - lo[w].tail),
           };
           const score = D.peak / 0.01 + D.rms / 0.1 + D.zc / 0.01 + D.tail / 0.01;
-          if(score > best){ best = score; d = D; on = winLane[w]; }
+          if(score > best){ best = score; d = D; on = names[w]; }
         }
         let moved = d.peak > 0.01 || d.rms > 0.1 || d.zc > 0.01 || d.tail > 0.01;
         let note = '';
@@ -268,14 +354,15 @@ const ONLY = process.argv[2] || null;
             MK2.PARAMS[m + '.' + o.k] = o.max;
             MK2.TRIM[m + '.' + o.k] = o.max - (saved[o.k][0] == null ? o.def : saved[o.k][0]);
           }
-          setTo(c.min); const lo2 = await render();
-          setTo(c.max); const hi2 = await render();
+          setTo(c.min); const lo2R = await renderOn(scope);
+          setTo(c.max); const hi2R = await renderOn(scope);
+          const lo2 = lo2R.w, hi2 = hi2R.w, n2 = hi2R.names;
           for(const o of M.controls) if(o.k !== c.k){
             const [pv, tv] = saved[o.k];
             MK2.PARAMS[m + '.' + o.k] = pv;
             if(tv === undefined) delete MK2.TRIM[m + '.' + o.k]; else MK2.TRIM[m + '.' + o.k] = tv;
           }
-          for(let w = 0; w < nWin; w++){
+          for(let w = 0; w < lo2.length; w++){
             const D = {
               peak: Math.abs(hi2[w].peak - lo2[w].peak) / Math.max(1e-6, lo2[w].peak),
               rms:  Math.abs(20 * Math.log10(Math.max(1e-9, hi2[w].rms) / Math.max(1e-9, lo2[w].rms))),
@@ -283,7 +370,7 @@ const ONLY = process.argv[2] || null;
               tail: Math.abs(hi2[w].tail - lo2[w].tail),
             };
             if(D.peak > 0.01 || D.rms > 0.1 || D.zc > 0.01 || D.tail > 0.01){
-              moved = true; d = D; on = winLane[w]; note = 'only with the machine open';
+              moved = true; d = D; on = n2[w]; note = 'only with the machine open';
               break;
             }
           }
@@ -299,7 +386,7 @@ const ONLY = process.argv[2] || null;
 
   const byM = {};
   for(const r of out) (byM[r.m] || (byM[r.m] = [])).push(r);
-  const dead = [];
+  const dead = [], skipped = [];
   for(const m of Object.keys(byM)){
     console.log(`\n=== ${m} ===`);
     console.log('  control          kind      d peak   d level   d bright   d tail  on');
@@ -307,11 +394,15 @@ const ONLY = process.argv[2] || null;
       console.log(`  ${r.k.padEnd(15)} ${r.kind.padEnd(9)} ${(100*r.peak).toFixed(1).padStart(6)}%  ` +
                   `${r.rms.toFixed(2).padStart(6)}dB  ${(100*r.zc).toFixed(1).padStart(7)}%  ` +
                   `${r.tail.toFixed(3).padStart(6)}s  ${(r.moved ? r.on : '').padEnd(14)}` +
-                  `${r.moved ? r.note : '<<< SILENT'}`);
-      if(!r.moved) dead.push(`${r.m}.${r.k} (${r.kind})`);
+                  `${r.moved === null ? r.note : r.moved ? r.note : '<<< SILENT'}`);
+      /* `null` is "this sweep cannot judge it", which is not the same claim as
+         "it does nothing" and must not be counted as one */
+      if(r.moved === null) skipped.push(`${r.m}.${r.k}`);
+      else if(!r.moved) dead.push(`${r.m}.${r.k} (${r.kind})`);
     }
   }
   console.log(`\n=== ${dead.length} controls move the sound in no way at all ===`);
+  if(skipped.length) console.log(`    (${skipped.length} not judged here, they choose a voice rather than shape one: ${skipped.join(', ')})`);
   for(const d of dead) console.log('  ' + d);
   console.log('\n  A `switch` or `pick` here is usually fine -- it chooses a voice or a kit,');
   console.log('  which one note with a fixed voice cannot show. A `gesture` or a `bus` is not.');
