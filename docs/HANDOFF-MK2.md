@@ -604,6 +604,21 @@ were each driven to failure before it was believed.
 It does not inspect the live artifact — it records what was published and hashes
 what you have. It catches the *cause* and hands you evidence for the *symptom*.
 
+> **BUT THE LIVE PAGE CAN BE READ, AND FROM `2026-08-05e` IT IS.** `WebFetch` on
+> the artifact URL returns the whole published document. Two things fall out of
+> that, and both were done before republishing at 05e:
+>
+> - **Check what is up there before overwriting it.** The fetched page was
+>   diffed against the previous commit's HTML and was byte-identical apart from
+>   the hosting frame's own closing tags — so there was no hand edit in the page
+>   to destroy. That is the check the 2026-07-29 artifact incident says to make
+>   BEFORE republishing, and it can now actually be made.
+> - **Check the stamp afterwards, on the page itself.** `mk2_stamp.js check`
+>   compares the build to a RECORD of what was published; fetching the page and
+>   reading `#buildStamp` out of it closes the loop the stamp alone cannot.
+>   Do both. The record agreeing with the build is not the same claim as the
+>   page agreeing with either.
+
 **So: bump the stamp in the commit that changes the program, re-record, and
 republish.** Same discipline as the baseline, and for the same reason.
 
