@@ -13,21 +13,22 @@ rendered-audio failures that had been dismissed as "pre-existing" turned out to
 contain two real defects in the music. For whoever picks this up next. Read this
 whole file before you touch the HTML.*
 
-**State at build `2026-08-05e` (the arrival rule), every number below
+**State at build `2026-08-05f` (the second keyboard), every number below
 measured on that commit — not remembered from an earlier one.** The row that
 is not green is not green, and says why.
 
 | battery | command | result |
 |---|---|---|
-| seam checks | `node harness/mk2_test.js` | **122 passed, 0 failed** |
+| seam checks | `node harness/mk2_test.js` | **123 passed, 0 failed** |
 | UI, in a browser | `node harness/mk2_ui.js` | **33 passed, 0 failed** — see the FLAKE note below |
 | blend sliders | `node harness/mk2_blend.js` | **10 passed, 0 failed** |
 | MIDI port | `node harness/mk2_midi.js` | **20 passed, 0 failed** |
-| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** (baseline `c3abd9c25331528c`, re-recorded at 05e: 636 lines moved, deliberately, form and arrangement untouched on every one) |
+| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** (baseline `c98cf33cd7844c7f`, re-recorded at 05f: 19 lines moved, deliberately, form and arrangement untouched on every one) |
 | every voice | `node harness/probe_voices.js` | **0 threw, 0 silent** |
 | the notes | `node harness/mk2_roll.js 1 --genre <g>` | **all seven print; this is RULE ONE and is not optional** |
 | how busy it is | `node harness/probe_density.js 30` | voices ringing, chord onsets, parts a bar, notes a bar — new at `04h` |
 | how a dissonance is reached | `node harness/probe_arrival.js 20` | the approach column of the taxonomy, per genre — new at `05e` |
+| what two parts do to each other | `node harness/probe_counterpoint.js 45` | **per PAIR since `05f`**, ranked, each against its own shuffle floor — the per-genre average hid the finding |
 
 > **`node_modules` IS NOT IN THE REPO and four probes need it.** `mk2_ui`,
 > `mk2_blend`, `mk2_midi` and `probe_voices` drive a real browser, and on a
@@ -2083,6 +2084,7 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
 | `docs/genre-research/autechre.md` | Autechre and Plastikman: one root, and the space |
 | `docs/genre-research/the-part-that-listens.md` | the reactive layer, and what it rejected |
 | `docs/genre-research/the-arrival-of-a-dissonance.md` | the arrival law, its sources, the source conflict it had to decide, and the two seam checks that were wrong first |
+| `docs/genre-research/the-second-keyboard.md` | why the pad shadowed the comp, the fix, and the honest gap between the material and the performance |
 | `docs/genre-research/NOTES-FROM-THE-USER.md` | **the running log of what was measured, what was wrong, and why.** Read it with this file. |
 
 ---

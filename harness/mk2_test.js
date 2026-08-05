@@ -1465,6 +1465,66 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         rate.toFixed(1) + "% of " + pop + " leapt onto (unconstrained: 11.8% of 287)");
 }
 
+/* ── THE SECOND KEYBOARD DOES NOT SHADOW THE FIRST ──────────────────────────
+   Found 2026-08-05 by teaching probe_counterpoint to report per PAIR: the two
+   keyboards moved in parallel perfect intervals 8.9% of the time on
+   bladerunner against a 0.9% shuffle floor and 4.2% against 1.1% on lofi --
+   the worst ratio in the file, on both of the only two genres that have a
+   second keyboard. Parallel perfects "reduce the texture from N to N-1 voices
+   perceptually" [corpus:schoolofcomposition], so a pad doing that is not a
+   layer, it is a chorus on the comp.
+   docs/genre-research/the-second-keyboard.md
+
+   MEASURED ON THE MATERIAL, bar to bar, between the two parts' top voices --
+   which is the granularity the cost in buildKeys actually governs, and is
+   therefore the honest thing to guard. The performance figure moved much less
+   and that gap is recorded as open in §6 of that sheet rather than papered
+   over here.
+
+   THE THRESHOLD WAS DRIVEN BOTH WAYS BEFORE IT WAS BELIEVED, at the seed
+   count this check runs and one above it -- because twice already this
+   session a threshold looked decisive at 45 seeds and could not separate the
+   builds at 8:
+
+     with the cost      8 seeds 3.4%    12 seeds 2.9%
+     without it         8 seeds 8.0%    12 seeds 6.4%
+
+   5% sits in the gap at both. A THRESHOLD, not a zero: two parts sharing a
+   chord will sometimes move alike and a pad forbidden ever to do so would be
+   contorted rather than independent. */
+{
+  const pcOf = p => ((p % 12) + 12) % 12;
+  const topPerBar = arr => {
+    const o = {};
+    for(const n of arr){ if(n.pitch == null) continue;
+      if(o[n.bar] == null || n.pitch > o[n.bar]) o[n.bar] = n.pitch; }
+    return o;
+  };
+  let steps = 0, par = 0;
+  for(const g of M.genres()) for(let s = 1; s <= 12; s++){
+    const mats = M.composeSong(s, "draw", g).materials || {};
+    for(const k of ["A", "Avar", "B", "Bvar", "C"]){
+      const m = mats[k];
+      if(!m || !m.keys || !m.keys2 || !m.keys2.length) continue;
+      const A = topPerBar(m.keys), B = topPerBar(m.keys2);
+      const bars = Object.keys(A).map(Number).filter(b => B[b] != null).sort((x, y) => x - y);
+      for(let i = 1; i < bars.length; i++){
+        const p = bars[i - 1], q = bars[i];
+        if(q !== p + 1) continue;                       // not consecutive: not a step
+        const da = A[q] - A[p], db = B[q] - B[p];
+        if(da === 0 && db === 0) continue;              // nobody moved
+        steps++;
+        const iv = pcOf(A[p] - B[p]);
+        if(da !== 0 && da === db && (iv === 0 || iv === 7)) par++;
+      }
+    }
+  }
+  const kr = steps ? 100 * par / steps : 0;
+  check("the second keyboard does not shadow the first in parallel perfects",
+        steps > 100 && kr < 5,
+        kr.toFixed(1) + "% of " + steps + " bar-to-bar steps (unconstrained: 6.4%)");
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    THE NEW RACKS. Both checks below exist because reading the roll found the
    defect, and both are here rather than in a probe because every bug this file
