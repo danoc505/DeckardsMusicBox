@@ -924,7 +924,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-06j · the drums march, and the record goes somewhere</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-06k · parts come and go, and the record ends by thinning out</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1034,6 +1034,29 @@ const MODES = {
   lydian:   [0,2,4,6,7,9,11],
   mixolydian:[0,2,4,5,7,9,10],
   harmMinor:[0,2,3,5,7,8,11],
+  /* ── TWO MODES READ OFF A DUNGEON SYNTH SCORE ────────────────────────────
+     Erich Grunewald writes his key signatures out at the top of the staff in
+     the sketches for "dungeon synth hdk mag" and names them: "F Gb Ab Bb C D
+     Eb — f carpathian" and "G A Bb C Db Eb F — g andean". Spelled as
+     semitones from the tonic those are exactly the two rows below, and neither
+     was in this file.
+
+       carpathian  1 b2 b3 4 5 6 b7   -- Dorian with a flattened second: the
+                                         Phrygian half-step over the tonic, but
+                                         with a MAJOR sixth, which is what makes
+                                         its IV chord major. That is why "i IV"
+                                         is written under nearly every bar of
+                                         his sketch.
+       andean      1 2 b3 4 b5 b6 b7  -- Locrian with a natural second, so the
+                                         fifth is diminished and the tonic
+                                         triad will not settle. A scale that
+                                         cannot come to rest is a useful thing
+                                         for music that is not going anywhere.
+
+     [corpus:erichgrunewald, "How I Make Dungeon Synth" -- the score itself,
+     supplied by the user, not the prose.] */
+  carpathian:[0,1,3,5,7,9,10],
+  andean:   [0,2,3,5,6,8,10],
 };
 /* ═══════════════════════════════════════════════════════════════════════════
    WHAT KIND OF CHORD SITS ON EACH STEP — MEASURED, NOT ASSERTED.
@@ -15357,7 +15380,20 @@ const GENRE = {
        corroborated: "modal scales (such as Dorian or Phrygian)" to "create a
        mysterious medieval feel" [corpus:topfhelm]. No major anywhere in the
        sources, and none here. */
-    modes: [["minor", 6], ["dorian", 3], ["phrygian", 2]],
+    /* ── A SCORE IS AN EXAMPLE, NOT A SPECIFICATION ─────────────────────────
+       One practitioner's score arrived and carpathian was immediately weighted
+       HEAVIEST because that is what he writes in. That is the same error as
+       reading "one timpani hit per bar" as a law: a single piece is ONE POINT
+       in the space this genre occupies, and building the table around it makes
+       every song a copy of that piece.
+
+       What the score legitimately does is WIDEN the palette -- it proves
+       carpathian and andean are used in this music, which no other source told
+       us. What it cannot do is say how often. So they join the draw at weights
+       that make them real and not default, and the modes three independent
+       sources name [corpus:melodigging, corpus:topfhelm] stay in front. */
+    modes: [["minor", 5], ["dorian", 4], ["carpathian", 3],
+            ["phrygian", 3], ["andean", 1]],
     /* the band rig, because this genre needs a drum kit to swap the procession
        into -- `machines.drums` below is what actually puts the timpani in */
     rig: [["band", 1]],
@@ -15491,6 +15527,30 @@ const GENRE = {
         [[0, 0, 5, 5], 3],        // two held
         [[0, 0, 0, 0], 1],
       ],
+      /* ── READ OFF THE SKETCH PAGE ────────────────────────────────────────
+         Grunewald writes the analysis under his own staves, and in carpathian
+         the line is almost entirely "i IV i ... i vii i ... i III7". The IV is
+         MAJOR here because the mode has a natural sixth, and i-IV is a fourth
+         apart so it holds ONE note; i-III is a third apart and holds TWO. The
+         vii is a step below the tonic and holds nothing, which is why it is the
+         colour rather than the default. */
+      carpathian: [
+        [[0, 0, 3, 3], 6],        // i-IV, the line he writes most often
+        [[0, 3, 0, 3], 4],        // the same pair rocking
+        [[0, 0, 2, 2], 3],        // i-III, two notes held
+        [[0, 0, 6, 6], 2],        // i-vii, holds nothing: the colour
+        [[0, 0, 0, 0], 1],
+      ],
+      /* the andean system on the sketch runs i-iii, i-V, i-V+, i-v, i-II. Its
+         fifth is diminished, so the tonic triad will not settle -- which is the
+         point of using it and the reason the V and the II do so much work. */
+      andean: [
+        [[0, 0, 4, 4], 5],        // i-V
+        [[0, 0, 2, 2], 4],        // i-iii, two notes held
+        [[0, 0, 1, 1], 3],        // i-II
+        [[0, 4, 0, 4], 2],
+        [[0, 0, 0, 0], 1],
+      ],
       phrygian: [
         [[0, 0, 5, 5], 5],        // two held
         [[0, 0, 1, 1], 4],        // the PHRYGIAN bII: holds nothing, and is the mode's signature
@@ -15500,6 +15560,8 @@ const GENRE = {
       ],
     },
     bridgeProgressions: {
+      carpathian: [[[3, 3, 0, 0], 3], [[2, 2, 0, 0], 2], [[6, 6, 3, 3], 2]],
+      andean:     [[[4, 4, 0, 0], 3], [[2, 2, 4, 4], 2], [[1, 1, 0, 0], 2]],
       minor:    [[[5, 5, 3, 3], 3], [[3, 3, 0, 0], 2], [[6, 6, 5, 5], 2]],
       dorian:   [[[3, 3, 0, 0], 3], [[6, 6, 3, 3], 2]],
       phrygian: [[[1, 1, 6, 6], 3], [[6, 6, 1, 1], 2]],
@@ -15581,8 +15643,31 @@ const GENRE = {
        readings stay in the draw, because "sparse or absent" is real
        [corpus:melodigging] and a record that tolls once a bar is a record this
        genre also makes. They are no longer the default. */
-    pocket: [[[0, 4, 8, 12], 6], [[0, 4, 8, 12, 14], 3],
-             [[0, 8], 2], [[0], 1]],
+    /* ── AND THIS IS THE ACTUAL FIGURE, off the actual score ────────────────
+       The introduction of "dungeon synth hdk mag" has the timpani alone with
+       the low strings for seven bars, and its part is the same bar repeated:
+
+            𝅗𝅥.   ♪♪        a dotted half, then two eighths
+            beat 1        beats 4 and 4-and
+
+       On a sixteenth grid that is [0, 12, 14] -- ONE strike on the downbeat,
+       held, then TWO QUICK ONES at the end of the bar pushing into the next
+       downbeat. It is not four even beats, which is what I guessed last time,
+       and it is much better: the pair at the end is a pickup, so every bar
+       leans into the one after it. That is what makes a march feel like it is
+       going somewhere rather than standing still and stamping.
+
+       [corpus:erichgrunewald, the score.]
+
+       AND IT IS ONE FIGURE AMONG SEVERAL, not the figure. It was written in at
+       weight 6 the moment the score arrived, which would have made every
+       record march the same way -- one page of one piece deciding the rhythm
+       of a whole genre. It is a strong option now and not the default. The
+       even four-beat walk, the two-beat toll and the single strike are all
+       marches this music makes, and a genre that only knows one of them has a
+       transcription where its table should be. */
+    pocket: [[[0, 12, 14], 4], [[0, 4, 8, 12], 4], [[0, 8], 3],
+             [[0, 12, 14, 15], 2], [[0], 2], [[0, 6, 12], 2]],
     /* the kit is nearly empty by design. No hats to speak of, no ghosts; the
        toms ARE the timpani and they answer phrases rather than keeping time.
        "when used, it tends toward martial snare patterns or timpani rolls
@@ -16016,7 +16101,17 @@ const GENRE = {
          thing this music does. It is not what most of it does, and it was not
          what we were doing either -- we held one THIN part, which is neither.
          docs/genre-research/dungeon-synth-arrangement.md ss P1 */
-      roles: { intro:        ["ostinato", "keys"],
+      /* THE SCORE'S OWN INTRODUCTION: seven bars in which the bass flute, the
+         bass oboe, the tenor, the upper strings and the harpsichord all have
+         whole-bar rests, and the only things sounding are THE TIMPANI and the
+         low strings holding one chord tied across the bars. So the way in is a
+         drum and a held chord -- which is also a "moving figure" opening in
+         the sense the ten measured records describe, because the timpani
+         figure is the movement. [corpus:erichgrunewald, the score.] */
+      /* and the intro's own instrumentation is `openWith` below, which DRAWS
+         which of the three earliest parts opens alone -- so the score's
+         drum-and-held-chord is one way in and not the only one. */
+      roles: { intro:        ["drums", "keys", "ostinato"],
                verse:        ["keys", "bass", "ostinato", "drums"],
                /* THE COUNTER IS THE ORNAMENT and it appears in ONE function.
                   "A colour lands because it is NEW IN CONTEXT, not because it
@@ -16033,7 +16128,18 @@ const GENRE = {
                chorus:       ["keys", "keys2", "bass", "lead", "counter", "ostinato", "drums"],
                bridge:       ["keys", "bass"],
                instrumental: ["keys", "keys2", "bass", "ostinato", "drums"],
-               outro:        ["keys", "bass", "drums"] },
+               /* ── AND THE RECORD ENDS BY TAKING THINGS AWAY ──────────────
+                  "That was just an idea I had for an ending. Switching just to
+                  that pad again" [Francis Roberts, Astral Cauldron walkthrough]
+                  -- the whole arrangement drops and one held part is left.
+
+                  This was three parts, which is not an ending, it is the record
+                  stopping. A build that accretes for nine minutes and then cuts
+                  off has no shape; a build that accretes and then strips back
+                  to the thing it started from does. It also costs nothing --
+                  the outro is one section and the parts are simply not listed
+                  in it. */
+               outro:        ["keys"] },
       /* the record opens on ONE KEYBOARD ALONE nearly every time -- that is
          the primary source's method ("i would come up with parts... then
          another part on top") made audible from bar one. `coldOpen` is the
@@ -16067,11 +16173,28 @@ const GENRE = {
            minutes in has heard three things arrive that were not there at the
            start, and that is the accretion the primary source describes --
            "on and on for layers and layers" [Mortiis]. */
-        enter: { ostinato: [0, 0], keys: [0.012, 0.010], drums: [0.030, 0.020],
-                 bass: [0.055, 0.030], lead: [0.26, 0.10],
+        /* THE DRUM AND THE CHORD ARE THERE FROM BAR ONE, because that is what
+           the score does: seven bars of timpani and held low strings with
+           every other stave resting. The figure joins after them, the bass
+           under it, and then the colours across the record. Ordered off the
+           page rather than guessed. */
+        enter: { drums: [0.010, 0.015], keys: [0.010, 0.015], ostinato: [0.030, 0.030],
+                 bass: [0.075, 0.030], lead: [0.26, 0.10],
                  keys2: [0.48, 0.14], counter: [0.66, 0.12] },
-        openWith: [["ostinato", 6], ["keys", 3], ["bass", 1]],
+        openWith: [["drums", 4], ["keys", 4], ["ostinato", 3]],
       },
+      /* ── HOW OFTEN EACH PART SITS A SECTION OUT ──────────────────────────
+         The colours come and go most; the things holding the record together
+         come and go least. keys2 and the ornament rest nearly half the time --
+         they are the "comes in for a short piece", and a colour heard in every
+         section is a colour nobody notices. The tune rests a third, because a
+         melody that never stops is wallpaper. The chord and the drum rest
+         rarely, since they are what the record IS -- but they DO rest, and the
+         march dropping out for a section and coming back is the loudest event
+         a record this static has. The bass rests least: it holds the key.
+         [EAR on every number; the shape is off the user's own session.] */
+      rest: { keys2: 0.38, counter: 0.34, lead: 0.26, ostinato: 0.22,
+              drums: 0.13, keys: 0.09, bass: 0.05 },
       coldOpen: 0.05, openVerse: 0.9,
       /* ── AND IT OVERSHOT THE LENGTH IT WAS ASKED FOR ─────────────────────
          The user's answer when asked was "long -- 8 to 12 minutes", and this
@@ -20231,6 +20354,38 @@ function makeArrangement(chart, form, materials){
     /* who plays ANYWHERE in this section -- so a part arriving at bar 8 of a
        32-bar section is active here, and stage 5 gates the bars before it */
     let active = allowed.filter(r => hasArrived(r, sec.endBar));
+    /* ── AND A PART THAT HAS ARRIVED MAY STILL SIT THIS ONE OUT ──────────────
+       Arrival was the only thing a part's life had: it turned up once and then
+       played in EVERY section that allowed it for the rest of the record. That
+       is why the music kept coming back as "just a boring drone of the same
+       thing" however many parts were added -- adding a part to a genre that
+       never rests only makes the wall thicker.
+
+       A dungeon synth session the user showed settles it: eight tracks, and
+       THE CLIPS START AND STOP. One swell plays near the beginning and never
+       returns; two synths enter thirty and sixty seconds in; both percussion
+       tracks are full of holes. Parts have a life -- present, absent, back --
+       and this program could only say "present".
+
+       `form.rest` is the chance a role sits out a section it is otherwise
+       allowed in. Section granularity, which is where entrances and exits
+       belong [Belkin] and the only place a rest cannot cut a held note in two.
+
+       EVERY ROLE DRAWS, IN A FIXED ORDER, ALLOWED OR NOT [Law 3]. Drawing only
+       for the allowed roles would make the drums' coin depend on whether this
+       section happens to have a counter in it -- coupling two owners through
+       one stream, which this file has shipped three times. */
+    {
+      const restRng = stream(chart.seed, "rest:" + i);
+      const REST = F.rest || {};
+      const resting = {};
+      for(const r of ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"])
+        resting[r] = restRng() < (REST[r] || 0);
+      const kept = active.filter(r => !resting[r]);
+      /* never rest the last thing standing: a section with nobody in it is not
+         a rest, it is a hole in the record */
+      if(kept.length) active = kept;
+    }
     const enterBar = {};
     for(const r of allowed)
       if(arrivesAt[r] != null && arrivesAt[r] >= sec.startBar && arrivesAt[r] < sec.endBar)
