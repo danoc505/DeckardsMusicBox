@@ -526,10 +526,65 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
        threw. A genre with no counter is not a genre failing this check; it is a
        genre this check does not apply to. */
     const withCtr = genres.filter(g => T.GENRE[g].counter);
+    /* ── AND THE FLOOR WAS DOING A JOB THE `null` PATH ALREADY DOES ──────────
+       This required a declared density of at least 0.15, "so the floor stops a
+       genre buying a pass by declaring zero". That guard predates the note
+       directly above it: a genre with no counter now says `counter: null` and
+       is excluded from this check entirely, so the zero-declaration dodge is
+       already closed by a different and better door.
+
+       What the 0.15 floor did instead was make a SPARSE counter illegal, and
+       there is a sourced reason to want one -- an ornament that "doubles only
+       the beginning of the main melody line" and is marked "touches", "not too
+       loud" [Alan Belkin, Artistic Orchestration]. Dungeon synth declares 0.10
+       and delivers 9%, which is the contract being kept, not dodged.
+
+       0.06 is roughly one note in sixteen: the sparsest a line can be and
+       still be a line rather than an accident. THE RATIO IS THE REAL CHECK and
+       it is untouched -- a genre still has to deliver 70% of whatever it asks
+       for, and this was driven to failure at 0.06 before it was believed. */
+    /* ── AND A PART THE GENRE NAMES MUST ACTUALLY BE HEARD ───────────────────
+       THE CHECK ABOVE READS `materials` -- what the BUILDER WROTE -- and not
+       `perf.events`, what the song plays. That is a legitimate thing to check
+       and its name oversells it, but the gap matters: with `counter` deleted
+       from every one of dungeon synth's sections, so that no part of any song
+       could possibly play it, the check above still reported a happy 9%.
+
+       That is the same shape as the defect that hid the timpani for a week --
+       `procession` carried a `legacy` flag, no song could select it, and every
+       check in this file stayed green because they all asked whether a thing
+       WORKS and none asked whether anything CALLS it.
+
+       So: for every role a genre's own `form.roles` names, that role must reach
+       the PERFORMANCE in a decent share of songs. THIS IS AN ABSENCE CHECK, not
+       a rarity one -- 15% is deliberately far below every real figure so that
+       it catches ZERO and never argues with a genre about taste. Measured when
+       it landed: acid's keys 29% is the lowest anything real sits at, dungeon
+       synth's ornamental counter 71%, and everything else 75-100%. Driven to
+       failure before it was believed, by composing a declared role away. */
+    {
+      const bad = [];
+      for(const g of genres){
+        const named = new Set();
+        for(const list of Object.values(T.GENRE[g].form.roles || {}))
+          for(const r of list) named.add(r);
+        const hit = {}, N = 16;
+        for(let s = 1; s <= N; s++){
+          const roles = new Set(M.composeSong(s, "band", g).perf.events.map(e => e.role));
+          for(const r of named) if(roles.has(r)) hit[r] = (hit[r] || 0) + 1;
+        }
+        for(const r of named)
+          if((hit[r] || 0) / N < 0.15) bad.push(`${g}.${r} ${Math.round(100*(hit[r]||0)/N)}%`);
+      }
+      check("every part a genre's own roles table names is actually heard",
+            bad.length === 0,
+            bad.length ? "declared and silent: " + bad.join(", ")
+                       : `${genres.length} genres, every named role reaches the performance`);
+    }
     check("the counter sounds as often as its table declares",
           withCtr.every(g => {
             const want = T.GENRE[g].counter.density;
-            return want >= 0.15 && dens[g].ctr >= want * 0.70;
+            return want >= 0.06 && dens[g].ctr >= want * 0.70;
           }),
           withCtr.map(g => `${g} ${(100*dens[g].ctr).toFixed(0)}% of ` +
                           `${(100*T.GENRE[g].counter.density).toFixed(0)}% asked`).join("  ") +

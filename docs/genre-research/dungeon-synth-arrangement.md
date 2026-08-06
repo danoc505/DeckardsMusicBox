@@ -248,3 +248,68 @@ Ranked by evidence, strongest first.
    percussion passes stacked. `[primary, practitioners]`
 7. **Empty the midrange when the low end is dense**, and keep the bass
    registrally isolated — no doubling into the parts above it. `[primary, 1912]`
+
+---
+
+## WHAT WAS BUILT — `2026-08-06g`
+
+Everything in the build list above, plus two findings that only appeared once
+it was built.
+
+| # | built | measured result |
+|---|---|---|
+| 1 | **the figure opens, not the chord** — intro is `ostinato` + `keys`, and a `build.enter` table puts everything structural inside the first 6% of the record | one part for ~58 s → four parts inside the first 10 bars |
+| 2 | **progressions chosen by common-tone count** | chord changes sharing NO notes 14 → **0**; sharing TWO 0 → **10** |
+| 3 | **pedal by mode, on degree 1 or 5, plus a double pedal a fifth above**, and the harmony is allowed to clash with it | bass 53 → 88 notes, two held lines instead of one |
+| 4 | **the ornament** — counter in ONE function, arriving at 42%, thinned at 0.88 so it surfaces near the climax, gain 0.48 | sounds in **71% of songs**, 0.5% of the notes |
+| 5 | **FX variation sized to hearing** — `occurrence` steps on room, echo, feedback and tone, 0.04–0.16 a step, capped at 3 | above the 1 dB / 0.25 dB audibility floors |
+| 6 | **registers separated** per Rimsky-Korsakov | bass 28-43 alone, keys 48-67, counter 62-79, ostinato 67-88, tune 69-90 |
+
+### ⚠ TWO THINGS THE BUILD ITSELF DISPROVED
+
+**A common-tone bonus in the voicing chooser does nothing, and was removed.**
+It was built first, because that is where "chords that share notes" looks like
+it belongs. A/B at weights 0, 0.35, 0.6 and 1 over 12 seeds returned
+**byte-identical output at every weight**, and instrumenting showed the block
+running 516 times without once changing which candidate won. The reason: the
+chooser already minimises how far every voice moves, and **a held note is the
+zero-movement case** — the bonus was a second name for a term already there.
+The real fix was the progressions, which is also where the sourced arithmetic
+actually lives, since common tones are a fact about ROOT MOTION.
+
+**The organum appetite and the shared notes cannot both be had, and the organum
+lost.** Parallel fifths mean two voices moving by the *same* amount; a common
+tone means one voice *not moving*. Once the progressions were rebuilt around
+root motion by thirds — which is what buys the shared notes — parallel perfect
+motion between the two keyboards stopped happening at all: **0.0% of 50
+bar-to-bar steps, identical with the dial on and off.** `parallels` is 0 now,
+because a declaration that does nothing is the stale-table-entry failure this
+file has had four times. The A/B seam check is what caught it.
+
+**What is lost:** melodigging calls parallel fifths the genre's identifying
+harmonic colour and the record no longer has that motion. **What would get it
+back without giving up the shared notes:** the two live at different moments — a
+chord change by a THIRD holds notes, a change by a STEP cannot, and step motion
+is exactly where parallel fifths belong. A genre that drew both kinds of move
+and applied the organum appetite only to the stepwise ones would have both.
+**Not done, and it is the top of the next list.**
+
+### And a new seam check, because the old one could not see this class of bug
+
+`the counter sounds as often as its table declares` reads `materials` — what the
+builder WROTE — not what the song PLAYS. With `counter` deleted from every one
+of dungeon synth's sections, so that no part of any song could possibly play it,
+that check still reported a happy 9%. Same shape as the `legacy` flag that hid
+the timpani for a week: every check asked whether a thing WORKS and none asked
+whether anything CALLS it. **`every part a genre's own roles table names is
+actually heard`** now asks the second question, over every genre and every role,
+and was driven to failure before it was believed.
+
+### Still not built from this sheet
+
+- **Drum layering** — "three separate percussion passes" stacked into one hit.
+  The procession layers a war drum and a kettle already; a third pass is not
+  expressible.
+- **Melody rule**: highest and lowest note each struck exactly once.
+- **A moving drone** of two notes a whole tone apart.
+- **An inverted pedal** — a pedal held in a voice other than the bass.
