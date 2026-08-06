@@ -924,7 +924,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-06e · the chords hold, the bass pedals, the drum marches</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-06f · the timpani play for the first time</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -2492,7 +2492,24 @@ const INSTRUMENTS = {
      acoustic kit's. The sources ask for a "martial snare", and the acoustic
      snare played sparsely at 50-odd beats a minute IS one -- inventing a
      second snare to sit beside it would be a voice with no source behind it. */
-  procession: { legacy: true,
+  /* ── NOT `legacy`, AND IT WAS, AND THAT MEANT IT NEVER PLAYED ────────────
+     `legacy` marks a machine the rack does not offer -- `kit`, `amen` and
+     `segakit` are all reached as VARIANTS inside the TR-1000's `kits` table
+     rather than as boxes of their own, so the picker hides them and `canFill`
+     refuses them. This was written with that flag copied in beside them, and
+     the consequence is the worst kind: `canFill` refused it, resolvePicks fell
+     through to "auto", and dungeon synth's `machines.drums` entry asking for
+     it at weight 6 did NOTHING. Every song played the band rig's acoustic kit.
+
+     MEASURED over 60 songs before this was found: `wardrum`, `timpHi`,
+     `timpMid` and `timpLo` appear ZERO times. The voices exist, they render,
+     probe_voices gives them healthy peaks, the seam battery is green, the
+     timpani's mode ratios were measured at 1 : 1.496 : 1.998 -- and not one
+     note of any of it had ever been in a song. Nothing in the battery could
+     see it, because every check asked whether a voice WORKS and none asked
+     whether anything ever CALLS it.
+     The user asked "are you using the instruments" and the answer was no. */
+  procession: {
     slot: "drums", label: "TIMPANI + WAR DRUMS",
     lanes: { kick:"wardrum", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
              rim:"rim", clap:"clap", crash:"crash", ride:"ride",
@@ -15415,11 +15432,26 @@ const GENRE = {
        rather than driving drum kits" [corpus:melodigging] */
     kit: { snare: [8], hatEvery: 16, hatVel: 0.1, ghostChance: 0,
            ghostSpots: [8], openSpot: [[-1, 10]], openBars: [],
-           toms: { use: 0.55, loop: 0.4, loopSpots: [12, 14],
+           /* ── THE KETTLES ANSWER, AND THEY HAD ALMOST STOPPED ────────────
+              The three tom lanes ARE the timpani in this machine, and measured
+              over 60 songs they fired 253 times against the war drum's 4312 --
+              about four hits a record, on the instrument the user named first.
+              `use` is a per-material coin and it was under a half, so most
+              materials had no kettle in them at all.
+
+              The sources want them present and want them SPARSE, which are not
+              in conflict: "timpani rolls" rather than a beat [corpus:melodigging],
+              and a hit that answers the bar rather than keeps time. So the coin
+              is 0.9 and the shapes are longer -- a two- and three-note descent
+              through the kettles at the end of a bar, which is what a
+              timpanist's phrase-ending actually is -- while the war drum keeps
+              the march on beat one. */
+           toms: { use: 0.9, loop: 0.9, loopSpots: [8, 12, 14],
                    loopLanes: ["tom3", "tom2", "tom1"],
                    shapes: [[[[12, "tom3"], [14, "tom2"]], 4],
-                            [[[12, "tom3"], [13, "tom2"], [14, "tom1"]], 3],
-                            [[[14, "tom3"]], 3]] },
+                            [[[8, "tom3"], [12, "tom2"], [14, "tom1"]], 3],
+                            [[[12, "tom2"], [13, "tom3"], [14, "tom1"]], 2],
+                            [[[14, "tom3"]], 2]] },
            /* no hat flourish, ever: `flourish` is a list of extra HAT steps
               (see the builder), and the first draft wrote toms.shapes pairs
               into it -- [14,"tom3"] landed as a hat STEP, an array, and every
@@ -15762,7 +15794,12 @@ const GENRE = {
          primary source's "on and on for layers and layers".] */
       arc: { apexAt: [0.62, 0.74], floor: [0.20, 0.34], tail: [0.36, 0.52],
              bend: [1.6, 2.2], dip: [0.06, 0.14], preHighs: [1, 1],
-             thin: { drums: 0.5, bass: 0.3, keys: 0.34, lead: 0.44 } },
+             /* drums thin LEAST of anything here. `thin` is the fraction of a
+                part the arc is willing to lose at its floor, and at 0.5 half
+                the kettles' phrase-answers were being taken out before they
+                sounded -- on the instrument the user named first and in a
+                genre where the drum is meant to walk the whole way. */
+             thin: { drums: 0.22, bass: 0.3, keys: 0.34, lead: 0.44 } },
     },
   },
 
