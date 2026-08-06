@@ -914,7 +914,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-06b · the eighth genre: dungeon synth, timpani and war drums</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-06c · dungeon synth stops rolling its chords</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -15064,7 +15064,18 @@ const GENRE = {
     groove: { styles: [["even", 10]], swing: [1, 0], swingUnit: 2,
               snareEarly: [0, 0], kickLate: [0, 0], hatMul: 1,
               jitter: { dilla: 0.03, even: 0.03 }, push: 0.008 },
-    touch: { bassArtic: [[4, 3], [5, 4], [6, 2]], strum: [0.05, 0.07] },
+    /* NO ROLL AND NO STRUM. Both of those are a hand on a keyboard with
+       hammers or tines in it, and this genre plays a tape-replay machine and a
+       string ensemble -- press three keys and three tapes start together.
+       MEASURED before this: the chord's notes arrived 102 ms apart typically
+       and 216 ms apart at worst, which at 66 bpm is most of a sixteenth, while
+       this genre's OWN second keyboard was already blocked at 0 ms.
+       19 sources describe no rolled chord in this music at all; one says "use
+       long, sustained notes". docs/genre-research/dungeon-synth-technique.md
+       The roll is not deleted -- it is waiting for the instrument it belongs
+       to, which is the harp melodigging names and the harpsichord Grunewald
+       names, and which this program does not have yet. ss0 of that sheet. */
+    touch: { bassArtic: [[4, 3], [5, 4], [6, 2]], strum: [0, 0], roll: 0 },
     accent: { kick:    [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
               snare:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
               ghost:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
@@ -17236,6 +17247,32 @@ function makeMaterials(chart){
        reads BAND; nothing reads R.keys directly any more, or a second unit
        would have voiced itself straight on top of the first. */
     const BAND = opts.band || R.keys;
+    /* ── HOW WIDE THE CHORD IS ROLLED, AND WHOSE CHOICE THAT IS ──────────────
+       The voicing below is spread from the bottom up, one voice per sixteenth,
+       because a HAND comping on an electric piano does not put four fingers
+       down in the same instant. That is true of a hand. It is not true of a
+       machine, and this was a fixed law applied to every genre regardless of
+       what instrument was loaded.
+
+       Press three keys on a Mellotron and three tape heads start together;
+       there is no roll on that instrument to make. MEASURED before this dial
+       existed, the gap between the first and last note of one chord: lofi 8 ms
+       (a hand, and right), bladerunner 68 ms, dungeon synth 102 ms and up to
+       216 ms -- a harp, on a tape choir, at a tempo where a sixteenth is only
+       227 ms. And its OWN second keyboard was already blocked at 0 ms, so one
+       instrument was playing its chords two contradictory ways in one song.
+
+       Researched: docs/genre-research/dungeon-synth-technique.md ss0. Not one
+       source in 19 describes a rolled or spread chord in this music; two
+       describe long sustained notes and a re-struck pulse. So this is now the
+       genre's declaration, 1 = the hand (every genre that shipped before this
+       and every genre that says nothing), 0 = the machine.
+
+       Number.isFinite rather than `!= null`: a blend of a genre that declares
+       this with one that does not can hand back NaN, and a NaN width writes a
+       note onto step NaN -- the swingUnit-1.5 failure, third time through that
+       door. */
+    const ROLL = Number.isFinite(G.touch && G.touch.roll) ? G.touch.roll : 1;
     /* ── THE OTHER KEYBOARD'S TOP VOICE, PER BAR ──────────────────────────
        `opts.against` is the keyboard this one is playing ALONGSIDE, and it is
        here because of a defect nothing had ever been able to see: measured per
@@ -17818,7 +17855,8 @@ function makeMaterials(chart){
       {
         const st = strikes[0], nxt = strikes.length > 1 ? strikes[1] : 16;
         const room = Math.max(0, (nxt - 1) - st);
-        const want = opts.sustain ? 0 : (spread < 0.42 ? 1 : spread < 0.8 ? 1 : 2);
+        const want = opts.sustain ? 0
+                   : Math.round(ROLL * (spread < 0.42 ? 1 : spread < 0.8 ? 1 : 2));
         const width = voiced.length > 1
           ? Math.max(0, Math.min(want, Math.floor(room / (voiced.length - 1)))) : 0;
         for(let v = 0; v < voiced.length; v++){
@@ -17857,7 +17895,7 @@ function makeMaterials(chart){
         if(emit.some(n => n.step === st)) continue;
         const top = voiced.slice(Math.max(0, voiced.length - 2));
         for(let v = 0; v < top.length; v++){
-          const at = st + (spread < 0.5 ? 0 : v);
+          const at = st + (ROLL > 0 && spread >= 0.5 ? v : 0);
           if(at > 15) continue;
           emit.push({ bar: b, step: at, dur: Math.max(2, 16 - at - 1), pitch: top[v],
                       vel: 0.5, role: "keys" });

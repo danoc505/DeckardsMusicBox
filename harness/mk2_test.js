@@ -1508,13 +1508,23 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      it is declared: a dungeon-synth build whose two keyboards stopped moving
      in fifths would have lost the genre's identifying feature and nothing
      else would notice. MEASURED at 8 and at 12 seeds before the thresholds
-     were believed: constrained 3.4% / 2.9%, declared 40.0% / 32.7% -- 5 and
-     15 sit outside both readings on both sides.
-     docs/genre-research/dungeon-synth.md ss4. */
-  let steps = 0, par = 0, dSteps = 0, dPar = 0;
-  for(const g of M.genres()){
-    const wants = ((T.GENRE[g] || {}).parallels || 0) >= 0.5;
-    for(let s = 1; s <= 12; s++){
+     were believed: constrained 3.4% / 2.9%, declared 40.0% / 32.7%.
+
+     ── AND THE INTERVAL WAS MEASURED WRONG HERE FOR A DAY. ──────────────────
+     This read `pcOf(A - B)`. The COST it guards reads `Math.abs(A - B) % 12`.
+     Those disagree whenever the first keyboard is the LOWER of the two: two
+     parts a fifth apart are 7 to the cost and 5 to this check, so every
+     parallel fifth with the comp underneath the pad was invisible. Dungeon
+     synth's pad sits ABOVE its comp, which is to say this check was blind to
+     precisely the case it was written for -- and reported 32.7% while the
+     honest figure under the same build was 29.1%.
+
+     A CHECK MUST ASK ITS QUESTION THE WAY THE CODE ANSWERS IT. Same class as
+     the lane list copied out of the table it was checking. Fixed here. */
+  const ivOf = (a, b) => Math.abs(a - b) % 12;
+  const rateFor = (g, seeds) => {
+    let steps = 0, par = 0;
+    for(let s = 1; s <= seeds; s++){
       const mats = M.composeSong(s, "draw", g).materials || {};
       for(const k of ["A", "Avar", "B", "Bvar", "C"]){
         const m = mats[k];
@@ -1526,23 +1536,62 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
           if(q !== p + 1) continue;                     // not consecutive: not a step
           const da = A[q] - A[p], db = B[q] - B[p];
           if(da === 0 && db === 0) continue;            // nobody moved
-          const iv = pcOf(A[p] - B[p]);
-          const hit = da !== 0 && da === db && (iv === 0 || iv === 7);
-          if(wants){ dSteps++; if(hit) dPar++; }
-          else     { steps++;  if(hit) par++;  }
+          steps++;
+          const iv = ivOf(A[p], B[p]);
+          if(da !== 0 && da === db && (iv === 0 || iv === 7)) par++;
         }
       }
     }
+    return { steps, par };
+  };
+  let steps = 0, par = 0;
+  const declaring = [];
+  for(const g of M.genres()){
+    if((((T.GENRE[g] || {}).parallels) || 0) >= 0.5){ declaring.push(g); continue; }
+    const r = rateFor(g, 12); steps += r.steps; par += r.par;
   }
   const kr = steps ? 100 * par / steps : 0;
   check("the second keyboard does not shadow the first in parallel perfects",
         steps > 100 && kr < 5,
         kr.toFixed(1) + "% of " + steps + " bar-to-bar steps (unconstrained: 6.4%)");
-  const dr = dSteps ? 100 * dPar / dSteps : 0;
-  check("...and a genre that declares the parallels actually sounds them",
-        dSteps === 0 || dr > 15,
-        dSteps ? dr.toFixed(1) + "% of " + dSteps + " steps in declaring genres"
-               : "no genre declares the appetite");
+
+  /* ── AND THE APPETITE DIAL REACHES THE MUSIC. ─────────────────────────────
+     A/B, NOT A THRESHOLD, and the difference matters. The threshold that stood
+     here for a day wanted the declaring genre above 15%, which it cleared only
+     because the ROLLED voicing was manufacturing parallels -- blocking the
+     chords at 2026-08-06c dropped the same genre to 3.9%, and the dial's own
+     contribution is 3.9 points (0.0% with the cost on, 3.9% with it off, 12
+     seeds). Two events out of 51. There is no honest threshold to draw across
+     a gap that size, and inventing a looser one to make today's build pass is
+     the "check that cannot fail" this file has already shipped twice.
+
+     So ask the question directly instead: turn the genre's own dial off,
+     recompose, and require that THE MUSIC ACTUALLY MOVED. That is falsifiable
+     by construction -- if buildKeys ever stops reading `parallels`, the two
+     builds become identical and this goes red on the spot, whatever the rate
+     happens to be. It also costs nothing in seeds.
+     docs/genre-research/dungeon-synth.md ss4. */
+  const abBad = [];
+  for(const g of declaring){
+    const tbl = T.GENRE[g], had = tbl.parallels;
+    const sig = () => JSON.stringify([1, 2, 3, 4, 5, 6].map(s =>
+      JSON.stringify((M.composeSong(s, "draw", g).materials || {}).A || {})));
+    const on = sig();
+    tbl.parallels = 0;
+    const off = sig();
+    tbl.parallels = had;                                 // put it back, always
+    if(on === off) abBad.push(g + ": the dial changes nothing");
+    else {
+      const rOn = rateFor(g, 12);
+      tbl.parallels = 0; const rOff = rateFor(g, 12); tbl.parallels = had;
+      if(rOn.par < rOff.par) abBad.push(g + ": declaring it gave FEWER parallels");
+    }
+  }
+  check("...and a genre's declared appetite for them reaches the music",
+        abBad.length === 0,
+        abBad.length ? abBad.join(" | ")
+          : declaring.length ? declaring.join(",") + ": dial off changes the material"
+                             : "no genre declares the appetite");
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
