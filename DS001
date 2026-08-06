@@ -1,0 +1,749 @@
+hey i'm frances and today we're going to
+0:03
+make some music in bandlab which is a
+0:05
+free browser-based music production
+0:07
+software that a few people have brought
+0:09
+to my attention as a great beginner tool
+0:11
+to make music let's check it out so for
+0:13
+those of us coming from another daw this
+0:15
+is going to be a relatively familiar
+0:18
+looking workstation where we have a
+0:19
+timeline from left to right and
+0:22
+a way to add tracks from top to bottom
+0:24
+this interface reminds me a little bit
+0:26
+of garageband we're going to keep
+0:28
+everything pretty beginner friendly
+0:29
+today
+0:30
+so if this is your first time making
+0:32
+music without just dragging and dropping
+0:34
+loops this hopefully will stay at your
+0:36
+level what we're going to do is start by
+0:38
+adding a track i've added two already
+0:41
+and i'll probably end up using three or
+0:42
+four
+0:43
+and i'm just going to use instruments
+0:44
+for today
+0:47
+once we click on the track
+0:49
+our active track has some features down
+0:51
+here
+0:52
+our default is a grand piano and i'm not
+0:54
+going to use that one i want a uh
+0:58
+heart
+0:59
+so i'm going to find that here in the
+1:00
+string section
+1:02
+and
+1:03
+once i have selected that i'm going to
+1:05
+name this track heart
+1:08
+just for my own reference
+1:10
+[Music]
+1:14
+let's
+1:15
+go down here to the bottom left corner
+1:17
+and choose midi editor and that's going
+1:19
+to let us draw notes of whether or not
+1:20
+we have a keyboard like i did i won't
+1:22
+use my keyboard today
+1:26
+i think the midi editor is a little bit
+1:28
+small by default so i'm going to make it
+1:30
+pick up more of the screen
+1:33
+and i'm zooming in and i'm just doing
+1:35
+that on my browser
+1:37
+you could zoom in up here
+1:38
+on band lap's interface but
+1:42
+this is going to be easier to see for
+1:43
+the video i think
+1:46
+the double click is going to bring a
+1:47
+note in and if we move the cursor to the
+1:50
+edge we can change the length of the
+1:51
+note
+1:52
+it's going to try to snap to these grid
+1:54
+lines
+1:55
+that's generally going to be a good
+1:57
+thing it's going to keep our notes in
+1:58
+time
+2:00
+the next note you'll see comes in at the
+2:02
+same length as the previous note so to
+2:04
+make this one short
+2:06
+the next one's going to be short like
+2:07
+that
+2:10
+i'm going to start with a few long notes
+2:12
+though
+2:12
+[Music]
+2:15
+and then spacebar is going to play that
+2:17
+[Music]
+2:20
+and
+2:21
+that sounds nice and all but
+2:24
+i want a little bit more
+2:27
+before my pattern repeats so i'm going
+2:30
+to drag this edge out i'm going from the
+2:32
+bottom right corner because the top
+2:33
+right corner is going to create a loop
+2:35
+where it's going to repeat the notes
+2:38
+ctrl z or command z is going to undo
+2:40
+just like most other programs
+2:43
+and you'll see that that changes the
+2:45
+highlighted region down here in our midi
+2:47
+editor
+2:49
+[Music]
+2:51
+i'm going to add a few more notes here
+2:54
+and feel free to pause the video and
+2:55
+look at which notes i'm playing if you
+2:57
+want to follow along exactly
+2:59
+um if you
+3:01
+are here to write music i assume you'll
+3:03
+want to pick your own notes i'm starting
+3:04
+here on this d right above c4 as often
+3:08
+as you need to
+3:10
+come back and listen to your notes
+3:14
+[Music]
+3:18
+at this point we're going to use a
+3:19
+different note value
+3:24
+and let's hear what that sounds like
+3:26
+before moving on
+3:29
+[Music]
+3:37
+all right and this last one is going to
+3:40
+be twice the note length
+3:41
+once we have our sequence in here let's
+3:43
+listen back to it and make sure we like
+3:44
+it
+3:46
+[Music]
+3:54
+i think it sounds pretty good if we want
+3:56
+that to continue we're going to find
+3:58
+this
+3:59
+looping cursor
+4:02
+and extend it as long as we want
+4:04
+i
+4:06
+like to make a point of stopping at the
+4:08
+end of one of these loops until i'm done
+4:10
+with the song
+4:12
+this is a really helpful tool for
+4:14
+beginners especially to make sure you
+4:16
+are creating a song
+4:18
+that sounds relatively normal and
+4:22
+eventually we want to get to a point
+4:23
+where we can make abnormal sounding
+4:25
+stuff but
+4:26
+when we're learning it's good to
+4:28
+do stuff that's basic
+4:31
+once we're happy with the notes
+4:34
+we can add our own effects or processing
+4:37
+down here in the effects section
+4:40
+so let's click there
+4:41
+and then click add effect
+4:44
+we have a ton of options here but for my
+4:47
+dungeon synth track
+4:48
+i think i want to add reverb
+4:51
+so i'm going to choose space maker
+4:55
+i'm going to change from basic
+4:56
+to church
+4:59
+and adjust wet slash dry
+5:01
+wet is the term we use to describe how
+5:03
+much
+5:04
+of the effect we are applying to the
+5:05
+track i recommend pulling this up and
+5:08
+down while the track is playing so you
+5:10
+can hear in real time what the change
+5:12
+sounds like
+5:12
+[Music]
+5:17
+and you'll notice as you turn this up
+5:19
+that it's going to get a little bit
+5:20
+distorted and that's because our track
+5:22
+is overloading a bit so over here on
+5:25
+volume we're going to turn this down
+5:27
+i'm going to turn it down to around -6
+5:32
+i think -6 is a good starting point and
+5:35
+in my other workstations i use that as
+5:38
+my default for new tracks
+5:42
+[Music]
+5:48
+let's hear what these other controls do
+5:55
+[Music]
+6:00
+all right so i ended up with room size
+6:02
+8.7 spread 7.9 and 47
+6:06
+wet dry
+6:08
+and these are things that you'll want to
+6:09
+do to taste
+6:11
+um
+6:12
+different songs require different
+6:13
+amounts and you'll never know exactly
+6:15
+how much you want until you hear it
+6:19
+for now we're going to be done with the
+6:21
+harp track and move on once we click on
+6:23
+instrument 2 we're going to have to move
+6:25
+back to the instrument section to choose
+6:26
+what our sound is going to be
+6:29
+again we'll choose from the instrument
+6:31
+menu
+6:32
+and this time i think we're going to use
+6:35
+acquire
+6:37
+let's see what that sounds like we can
+6:39
+always audition the sound by clicking
+6:40
+over here
+6:42
+[Music]
+6:44
+or if you have a midi device connected
+6:47
+as i do
+6:51
+we can use our keyboard to control that
+6:53
+i'm not going to use my keyboard for
+6:56
+this tutorial series
+6:57
+because if you're a beginner i assume
+6:59
+you don't have one yet
+7:01
+and if you do you probably know how to
+7:03
+use it
+7:05
+again for our own reference we're going
+7:07
+to name the track
+7:09
+this one will be called choir and if
+7:11
+we're writing a song we want to make
+7:12
+sure the notes that we choose for the
+7:14
+choir
+7:15
+sound nice with the notes we use for the
+7:17
+heart
+7:19
+to do this it's going to require a
+7:21
+little bit of composition skill and this
+7:23
+tutorial series isn't going to go into
+7:25
+that i have some other videos on
+7:27
+composing
+7:28
+and it's a very delicate subject and
+7:31
+there's lots of
+7:33
+rules that you can learn to follow or
+7:35
+break
+7:36
+and there's a lot of different mindsets
+7:39
+so i recommend following a ton of
+7:41
+different creators or listening to music
+7:44
+that you like and trying to identify how
+7:46
+those creators choose the notes that
+7:48
+they choose for me
+7:51
+i want to look at what i put into the
+7:53
+harp track
+7:54
+and i want to choose
+7:56
+the same starting note for my choir so
+7:59
+i'm choosing this d right above c4
+8:02
+[Music]
+8:06
+and for a choir sound it's going to
+8:08
+sound nice if
+8:10
+that sound sustains for a long time
+8:12
+so just as a starting point we're going
+8:14
+to hear what that choir sounds like if i
+8:16
+hold the note out
+8:17
+for the first measure
+8:21
+[Music]
+8:24
+and i think that sounds pretty good
+8:26
+but the choir is quite loud and i want
+8:28
+it to sit behind the heart
+8:29
+so because the harp is at minus six the
+8:31
+choir will go to minus nine
+8:33
+i like to work in groups of three
+8:36
+decimals at a time
+8:38
+i'm having trouble getting there so
+8:39
+we'll do minus 9.3
+8:45
+and i think that sounds pretty good so
+8:47
+this isn't enough notes for me
+8:50
+i want
+8:52
+the notes to change
+8:54
+[Music]
+8:56
+periodically about halfway through the
+8:59
+heart part we're going to change to a
+9:00
+new note
+9:03
+and hear what that sounds like
+9:13
+and
+9:14
+because of the nature of this slow
+9:16
+moving part
+9:17
+i think that this loop needs to last
+9:19
+longer than this loop
+9:21
+so
+9:22
+we're going to make the choir part twice
+9:24
+as long as the heart part
+9:28
+[Music]
+9:34
+and
+9:35
+i'm going to choose these notes it's a b
+9:36
+flat and an f
+9:40
+and now we're going to loop this part
+9:42
+out
+9:45
+to the length of the rest of the song
+9:49
+in order to stay true to uh the
+9:52
+ambiance we've created with the harp
+9:56
+i want to add a reverb to the heart
+9:57
+track as well
+9:58
+but before i do that i'm going to add a
+10:00
+delay
+10:02
+and delay is just an echo
+10:04
+and it's going to give us more of a
+10:06
+sense of space and the reason
+10:08
+i'm choosing to do this is because this
+10:10
+choir sound
+10:12
+has a slow attack which means that it
+10:13
+takes a long time to get to full volume
+10:15
+so i want this to bleed over and have
+10:19
+sort of a natural bleed over like it's
+10:21
+echoing in a big room
+10:22
+so we're going to choose d delay which
+10:25
+probably stands for digital delay first
+10:28
+and after that
+10:30
+we're going to choose
+10:32
+space maker again
+10:34
+and
+10:35
+i want
+10:36
+that church sound again
+10:40
+and i want the choir to sound further
+10:43
+away so i'm going to make the room size
+10:44
+a little bit bigger
+10:48
+let's pull up to 9.5 9.6
+10:51
+and i'm going to pull the wet dry up
+10:52
+pretty far
+10:53
+so that it sounds like it's further away
+10:56
+let's hear what that sounds like
+11:04
+do
+11:15
+and as you can hear it's repeating
+11:19
+here at bar nine
+11:29
+and i think that sounds pretty good so
+11:31
+far but i'd like to fill in the low
+11:33
+frequency range some more
+11:35
+so what we're going to do is add a base
+11:37
+instrument here
+11:38
+so i'll rename this base
+11:41
+and change it from a piano
+11:43
+to some kind of a bass instrument
+11:46
+i think i want to use a synth bass
+11:48
+and
+11:50
+i'll choose mug bass just because i like
+11:54
+my mugs i've got one over here and we'll
+11:56
+see what it sounds like
+11:59
+it's pretty beefy so we might need to do
+12:00
+some more processing to make it fit in
+12:03
+but
+12:05
+let's give it a shot and go to our midi
+12:08
+editor for a base i want to start on a
+12:11
+lower note so because i started on a d4
+12:14
+before we're going to start on a d2
+12:18
+or maybe a d1
+12:23
+let's hear what that sounds like
+12:27
+again pretty distorted
+12:29
+let's turn the volume down this will be
+12:31
+the quietest instrument and we'll go
+12:32
+down to -12 or so
+12:41
+i think it sounds pretty good
+12:43
+but um maybe it shouldn't start right at
+12:45
+the beginning
+12:47
+so we'll drag it over here
+12:50
+extend the part out
+12:52
+[Music]
+12:54
+and for now we're just going to track
+12:55
+the notes that we used in the previous
+12:58
+section
+13:13
+and notice that this isn't sounding
+13:15
+which means it's too low for this sample
+13:17
+so we'll pull it up
+13:19
+to the b flat and octave up
+13:25
+and now we're going down to this f
+13:29
+so let's hear what that sounds like once
+13:31
+the bass comes in
+13:38
+[Music]
+13:48
+i think it sounds pretty good but these
+13:50
+first two notes are really low so
+13:54
+i think what we're going to do is bring
+13:56
+them up
+13:58
+one octave and see what that sounds like
+14:00
+as a point of comparison
+14:11
+[Music]
+14:21
+i like that but the sound's still
+14:23
+extreme so we're going to go down to our
+14:25
+effects
+14:26
+and we're going to choose to add some
+14:27
+kind of a filter
+14:29
+filters are tone shaping effects
+14:32
+so we're finding that in the tone
+14:34
+category we'll choose multi-filter
+14:36
+and we want low pass low pass allows low
+14:39
+frequencies to come through and it
+14:41
+removes high frequencies
+14:43
+so
+14:44
+let's hear what this sounds like if we
+14:46
+adjust it while the song plays back
+14:54
+[Music]
+14:59
+i pulled it back pretty far to around
+15:01
+650 hertz
+15:06
+and i think it sounds a lot better
+15:11
+let's make that part repeat again
+15:17
+on all the instruments
+15:21
+and then
+15:23
+let's have the heart play by itself for
+15:24
+a little bit
+15:25
+and see what that feels like
+15:28
+[Music]
+15:36
+[Music]
+15:53
+all right i think that sounds pretty
+15:55
+good as a starting point and at this
+15:57
+point in the song i'm starting to feel
+15:59
+like we'd benefit from adding a fourth
+16:00
+instrument so we'll take a look at that
+16:02
+next time thanks for coming by
