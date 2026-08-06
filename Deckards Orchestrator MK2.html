@@ -924,7 +924,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-06i · instruments come and go, section by section</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-06j · the drums march, and the record goes somewhere</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -7386,9 +7386,35 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     ng.gain.setValueAtTime(0.3 * ev.gain, t);
     ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.05);
     n.connect(lp); lp.connect(ng); ng.connect(drumOut(g, ev.lane));
-    { const tp = gateTap(g, ev.lane); if(tp){ og.connect(tp); ng.connect(tp); } }
+    /* ── AND A SECOND DRUM UNDER IT, WHICH IS HOW THE SOURCE SAYS TO DO IT ──
+       "I want the percussion to be HEAVY to evoke images of stomping dinosaur.
+       So I will add a couple more percussion samples to BEEF THE DRUM SOUND UP"
+       [dino synth tutorial, transcript on `main`]. That is one sentence and it
+       is the whole difference between a drum and a big drum, and it had not
+       been built -- this voice was one sine, a shell and a puff, which is a
+       drum, and the user's "a war drum is big, its bearly audable" is what one
+       drum sounds like next to a chord.
+
+       So: a SECOND head an octave down, slower and longer, arriving 18 ms late.
+       The delay is the point rather than a detail -- two drums struck by two
+       people are never simultaneous, and a few milliseconds of spread is what
+       makes two hits read as one BIG hit instead of as a flam. The lower one
+       carries no attack of its own; it is the weight under the first.
+       Practitioners do this as two recorded passes; here it is two oscillators,
+       and it is the same idea. */
+    const d2 = c.createOscillator(); d2.type = "sine";
+    const t2 = t + 0.018;
+    d2.frequency.setValueAtTime(f0 * 1.25, t2);
+    d2.frequency.exponentialRampToValueAtTime(f0 * 0.5, t2 + 0.16);
+    const d2g = c.createGain();
+    d2g.gain.setValueAtTime(0.0001, t2);
+    d2g.gain.exponentialRampToValueAtTime(0.72 * ev.gain, t2 + 0.022);
+    d2g.gain.exponentialRampToValueAtTime(0.0002, t2 + decay * 1.35);
+    d2.connect(d2g); d2g.connect(drumOut(g, ev.lane));
+    d2.start(t2); d2.stop(t2 + decay * 1.35 + 0.05);
+    { const tp = gateTap(g, ev.lane); if(tp){ og.connect(tp); ng.connect(tp); d2g.connect(tp); } }
     openGate(g, ev, t);
-    return [o, s, n];
+    return [o, s, n, d2];
   };
 
 
@@ -15541,7 +15567,22 @@ const GENRE = {
        absent" [corpus:melodigging]. The beatless end is the single downbeat;
        a record with NO percussion at all is not expressible without a new
        mechanism and is written down as open in the research sheet. */
-    pocket: [[[0], 5], [[0, 8], 4], [[0, 4, 8, 12], 2]],
+    /* ── A MARCH PUTS A FOOT DOWN ON EVERY BEAT ─────────────────────────────
+       This was [0] weighted highest -- ONE strike a bar -- taken literally
+       from "just one timpani hit on the first beat of each bar" [dino synth
+       tutorial]. Taking it literally was the mistake, because that sentence
+       has a tempo behind it and this genre runs at 52-78. AT 53 BPM ONE HIT A
+       BAR IS ONE HIT EVERY 4.5 SECONDS. That is a passing bell. Nobody marches
+       to it, and the user's "we DO NOT have that at all" is simply correct.
+
+       Four strikes a bar at this tempo is a step about every 1.1 seconds,
+       which is a slow deliberate walk -- the thing the same source is actually
+       describing when it says "dinosaurs steadily marching on". The sparse
+       readings stay in the draw, because "sparse or absent" is real
+       [corpus:melodigging] and a record that tolls once a bar is a record this
+       genre also makes. They are no longer the default. */
+    pocket: [[[0, 4, 8, 12], 6], [[0, 4, 8, 12, 14], 3],
+             [[0, 8], 2], [[0], 1]],
     /* the kit is nearly empty by design. No hats to speak of, no ghosts; the
        toms ARE the timpani and they answer phrases rather than keeping time.
        "when used, it tends toward martial snare patterns or timpani rolls
@@ -15573,7 +15614,16 @@ const GENRE = {
               into it -- [14,"tom3"] landed as a hat STEP, an array, and every
               flourish bar carried one hat with NaN timing. The tom answer this
               wanted already lives in toms.shapes where it belongs. */
-           kickKeep: 1, flourishBar: 3, flourish: [[[], 1]],
+           /* ── kickKeep IS HOW MANY OF THE POCKET'S STRIKES ACTUALLY PLAY,
+              AND IT WAS 1 ─────────────────────────────────────────────────
+              Which meant the pocket could say whatever it liked and the drum
+              played the downbeat and nothing else. Changing the pocket to a
+              four-beat march changed NOTHING AUDIBLE, because this line threw
+              three of the four strikes away before they were written. Caught by
+              printing the material: four kicks in a four-bar pattern, all on
+              step 0, whatever the pocket said. 5 keeps every strike of the
+              longest pocket in the draw. */
+           kickKeep: 5, flourishBar: 3, flourish: [[[], 1]],
            variants: { main: {}, lift: { toms: { use: 0.8 } },
                        depart: { kickKeep: 0, hatVel: 0.05 } } },
     /* a second line, sparse and slow -- the layering the primary source
@@ -15666,8 +15716,8 @@ const GENRE = {
        7 dB, the drum goes up 4, the figure up 8, the tune up 3. The gain
        formula clamps at 1.25, so the loud things come DOWN rather than the
        quiet things going impossibly UP. */
-    roleGain: { keys: 0.30, keys2: 0.26, ostinato: 1.15,
-                bass: 0.30, lead: 2.00, counter: 1.10, drums: 1.80 },
+    roleGain: { keys: 0.46, keys2: 0.40, ostinato: 1.70,
+                bass: 0.46, lead: 2.00, counter: 1.30, drums: 1.05 },
     /* THE PROCESSION, and the palette. The keys are a tape choir or a string
        ensemble, which is what the sources name: "choirs, strings, pipe/chapel
        organs, flutes/recorders, horns, harps" [corpus:melodigging], and a
@@ -16000,9 +16050,26 @@ const GENRE = {
          earliest gets the zero, so the record does not open the same way twice.
          [the fractions are EAR; the timescale they are fitted to is measured] */
       build: {
-        enter: { ostinato: [0, 0], keys: [0.012, 0.010], bass: [0.030, 0.020],
-                 drums: [0.055, 0.030], lead: [0.14, 0.07],
-                 keys2: [0.30, 0.12], counter: [0.42, 0.14] },
+        /* ── AND THEN IT HAS TO GO SOMEWHERE ─────────────────────────────
+           The first version of this put EVERY part inside the first 6% of the
+           record, because the measurement of ten records says the texture is
+           assembled by about 18 seconds. That is true of the OPENING and it is
+           not a statement about the other nine minutes -- and reading it as
+           one produced a record that is complete after twenty seconds and then
+           does not develop, which the user heard exactly: "no story to the
+           song, we are not moving towards something".
+
+           So the two are separated. The SKELETON -- the figure, the chord, the
+           drum, the bass -- is in place inside the first 30 seconds, which is
+           what the measurement actually supports. The COLOURS arrive across
+           the whole record: the tune a quarter in, the second keyboard at the
+           halfway mark, the ornament at two thirds. A listener who is nine
+           minutes in has heard three things arrive that were not there at the
+           start, and that is the accretion the primary source describes --
+           "on and on for layers and layers" [Mortiis]. */
+        enter: { ostinato: [0, 0], keys: [0.012, 0.010], drums: [0.030, 0.020],
+                 bass: [0.055, 0.030], lead: [0.26, 0.10],
+                 keys2: [0.48, 0.14], counter: [0.66, 0.12] },
         openWith: [["ostinato", 6], ["keys", 3], ["bass", 1]],
       },
       coldOpen: 0.05, openVerse: 0.9,
