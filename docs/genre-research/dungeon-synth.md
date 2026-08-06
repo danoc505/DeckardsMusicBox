@@ -6,13 +6,16 @@ large marching drums, music to explore the dungeon." Nothing has been built
 yet. This sheet is the whole of what the sources say, what they do not say, and
 the one place where the genre contradicts a law this program already enforces.*
 
-**On the WAV files.** The user believed there were dungeon synth sounds on the
-`main` branch. There are not: `git ls-tree -r origin/main` returns twenty audio
-files and every one of them is `cw_amen*.wav`, the Amen break material for
-jungle. `samples/` holds only a README. **No dungeon synth audio exists in this
-repository on any branch.** Everything below is therefore aimed at
-SYNTHESIS — which is also what the genre itself is, and §3 says why that is a
-help rather than a compromise.
+**On the WAV files.** When this sheet was first written the samples were not
+in the repository — `.gitignore` had eaten them silently once before, for the
+Amen pack. **They are there now**: the user landed the *Erang — Dungeon Synth
+Free Samples Pack*, 65 WAVs at the root of `main` (10 each of strings, keys,
+percussion, pads, leads; 5 plucked; 5 atmosphere effects; 5 loopable noise
+beds; every pitched one at C). They total **91 MB against the program's
+2.5 MB**, so they are not embedded — the same decision the Amen path recorded:
+this program ships no recordings, it synthesises. What the pack is instead is
+**measurement data**, and §3a below is what it measured. The genre remains
+built by SYNTHESIS, which is also what the genre itself is.
 
 ---
 
@@ -123,6 +126,32 @@ fandom]. So the band is real and slow, and its exact edges are `[EAR]`. Taken
 together they support roughly **52–78**, which would make this the slowest
 genre in the file by a wide margin — lofi, the current slowest, sits at 70–84.
 
+### 3a. What the Erang pack measured — 2026-08-06, after the user landed it
+
+All 65 files, 44.1 kHz, measured with a 10 ms RMS envelope, an
+autocorrelation pitch reader (shortest-lag-within-90% octave guard) and an
+FFT peak reader for the drums. The numbers that changed the build:
+
+- **The percussion is LOW and DARK.** The ten percussion samples put
+  **63–97% of their energy below 200 Hz**; strongest spectral peaks 58–90 Hz,
+  most clustered at **~64 Hz**; decays **0.5–1.1 s** to −40 dB; attacks
+  10–130 ms with no click; spectral centroids 260–650 Hz. The war drum's
+  `kick.tune` moved 46 → **62 Hz** on this measurement, and its soft click
+  and ~0.55 s decay match the cluster.
+- **One sample corroborates the kettle ratios.** percussion_01's peaks at
+  64 / 98 Hz sit at 1 : 1.53 — the struck-membrane 1.5 mode the timpani
+  voice is built on.
+- **The pack is tuned SHARP — the tape is worn.** The pitched samples,
+  all nominally C, sit **15–47 cents sharp** almost throughout. That is the
+  drifted-tape sound the secondary sources describe, shipped in the genre's
+  own reference audio — so the Mellotron here runs wow 0.006 / hiss 0.45,
+  lofi's levels, the heaviest in the file.
+- **The swell is the instrument.** Strings and pads take **0.35–11 s to
+  reach full** (many above 3 s) and ring 2–12 s after; the VP-330's attack
+  is set near its 2.5 s ceiling and release at 4.6 s on this.
+- **Durations**: sustained samples run 7–12 s (the pack's render length);
+  the atmosphere beds 12–30 s. The plucked family decays in 2–3.7 s.
+
 ### Melody, from the community guide
 
 > "pick a low note and a high note **no more than about 12 notes apart**", with
@@ -210,7 +239,57 @@ bar. Every one of those is contradicted by name.
 
 ## 7. WHAT WAS BUILT AND WHAT IT MEASURED
 
-*(nothing yet — filled in when it is)*
+Built at `2026-08-06b`, commit `b76b576`. Everything in §6's list landed:
+
+1. **The timpani** — `V.timpHi/timpMid/timpLo`, a struck membrane with mode
+   ratios 1 : 1.5 : 2 : 2.44 : 2.9, tuned from the song's own tonic
+   (`chart.root` rides to the sound stage with the space). Measured by
+   autocorrelation on rendered hits: partials at 1 : 1.496 : 1.998 of the
+   nominal, and the pitch tracks the key at 1.334 for +5 semitones (expected
+   1.335). The Erang pack corroborates the 1.5 mode (§3a). **The war drum** —
+   `V.wardrum`, tune 62 Hz per §3a, decay 0.55 s, click 0.05.
+2. **The `procession` machine** — kick lane on the war drum, tom1/2/3 on the
+   three kettles, the rest acoustic; every lane with tune/decay/mix/verb/echo/
+   cut the conductor rides, plus `bus`, `gate` and `ring`. All 62 controls
+   verified reachable by the every-knob-reaches-the-sound seam check.
+3. **The genre table** — tempo 52–78; minor 6 / dorian 3 / phrygian 2; no
+   sevenths; two-bar pedal progressions with the all-tonic drone as a draw;
+   drone bass; ostinato with `run` and `follow` on; 8.5 s room (longest in
+   the file, vs bladerunner's 5) with 75 ms pre-delay; tape wow/hiss at
+   lofi's levels per §3a; mellotron choir / VP-330 for the two keyboards;
+   `machines.drums: procession 8 / kit 2` — **the "two modes, drawn per
+   song" the user chose**; `target: [112,5,16]` — **the "long, 8 to 12
+   minutes" the user chose** (measured: seeds 1/7 run 11.6/15.7 min; the
+   all-tonic 53 bpm draw is the long tail).
+4. **The organum dial** — `parallels: 1`, read by `buildKeys`: the 05f
+   parallel-perfect shadow cost is scaled by `(1 - appetite)`. MEASURED, 12
+   seeds: dungeonsynth's two keyboards move in parallel perfects **32.7% of
+   bar-to-bar steps** (29.4% before the dial — most of the genre's parallels
+   come from its own static-pedal progressions, and the dial's own
+   contribution is honestly small); the seven constrained genres sit at 2.9%
+   against the same 5% threshold as before, bit-identical by snapshot. The
+   seam check now guards BOTH populations (thresholds driven at 8 and 12
+   seeds: constrained 3.4/2.9%, declared 40.0/32.7%).
+
+**What the first draft got wrong, caught by the harness and the roll:**
+- `flourish` written in `toms.shapes` format handed `[14,"tom3"]` to the
+  builder as a hat STEP — 11 events per song with NaN timing and gain. Three
+  different seam checks tripped over it (rack-none, MIDI round-trip, blend).
+- `coldOpen: 0.9` — backwards: it is the chance of SKIPPING the intro, so
+  the one-keyboard opening this genre exists for was thrown away 9 songs in
+  10. The roll caught it; it is 0.05 now and seeds 1 and 7 both open alone.
+- Named two controls that do not exist (`mellotron.tone`, `vp330.tone`) and
+  set `wow` 40× out of its range — the blend battery caught all of it.
+- Nine motion lanes rode only the bridge, and a form draw can skip the
+  bridge entirely — flat lanes at seed 1. Every section lane now carries a
+  slow LFO beside its section move.
+
+**Open, honestly:** the percussion cannot be fully absent (§5's beatless end)
+— the sparsest draw is still one war-drum downbeat per bar where the
+arrangement plays drums at all, though the roles table keeps drums out of
+every section except chorus/instrumental. And the tail of the length
+distribution (15.7 min at 53 bpm) overshoots the user's 12-minute ask;
+in-genre records run that long, so it ships, noted.
 
 ---
 
