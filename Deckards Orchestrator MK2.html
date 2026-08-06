@@ -914,7 +914,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-05g · the panel stops redrawing what has not changed</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-06a · a note takes its own scaffolding away when it ends</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -5899,6 +5899,7 @@ registerProcessor("mk2-room", MK2Room);
         lfsr = (lfsr >>> 1) | (fb << 15);
       }
     }
+    markGraphNodes(g);          // one owner: every graph knows its own nodes
     return g;
   }
 
@@ -8757,6 +8758,72 @@ registerProcessor("mk2-room", MK2Room);
       n.gain.linearRampToValueAtTime(1, t + d.attack + d.release);
     }
   }
+  /* ── EVERY NODE A NOTE BUILDS, SO THE NOTE CAN TAKE THEM AWAY AGAIN ───────
+     The user, 2026-08-05: "Synthwave seed 10855 it happened. Then i stopped hit
+     new song and audio stopped working."
+
+     MEASURED on exactly that seed (harness/probe_nodes.js): the number of
+     connected audio nodes climbed to 30 543 over 150 seconds of playing, about
+     two hundred a second in a straight line -- and STOP took it to 30 387 and
+     NEW SONG left it there. The graph never resets, so every song adds to the
+     last one until the audio thread cannot render in real time and the sound
+     stops. Not a feedback loop: the same records play at a flat level
+     throughout. The graph itself was the runaway.
+
+     The cause is one word in the contract. `V` is documented as returning "an
+     array of SOURCE nodes (for live stop)", and `dispatch` hangs its cleanup
+     off exactly those. An oscillator ends and disconnects itself; the gain,
+     the filter and the panner it was feeding stay wired to the bus with nothing
+     to end them -- 6127 nodes made and 2164 freed in one lofi minute.
+
+     So the recorder below catches every node created WHILE A VOICE IS BUILDING,
+     and the note disconnects all of them once every one of its sources has
+     ended. Two things make that safe:
+
+       - it records only during the `voice()` call, so the graph's own permanent
+         nodes -- built once in buildGraph, long before any note -- are never in
+         the list. `graph.__own` is a second belt: anything reachable from the
+         graph object is skipped even if a voice touches it.
+       - it waits for ALL of a note's sources, not the first. Several voices
+         return more than one (the CS-80's two layers, the 303 and its sub), and
+         tearing down on the first would cut the others off mid-note.
+
+     A voice that CACHES a node between notes would be broken by this, which is
+     why it is verified by probe_voices (every voice, every lane) and by the
+     rendered-audio battery rather than by the node count alone -- the node
+     count is exactly what a teardown that silences the program would satisfy.
+     ── */
+  let bornInto = null;
+  function recordNodes(c){
+    if(!c || c.__recorded) return c;
+    const names = new Set();
+    for(let p = Object.getPrototypeOf(c); p; p = Object.getPrototypeOf(p))
+      for(const n of Object.getOwnPropertyNames(p)) names.add(n);
+    for(const f of names){
+      if(!/^create/.test(f)) continue;
+      const orig = c[f];
+      if(typeof orig !== "function") continue;
+      c[f] = function(...a){
+        const n = orig.apply(this, a);
+        if(bornInto && n && typeof n.disconnect === "function") bornInto.push(n);
+        return n;
+      };
+    }
+    try { Object.defineProperty(c, "__recorded", { value: true }); } catch(e){}
+    return c;
+  }
+  /* the set of nodes the GRAPH owns, so a teardown can never take one out */
+  function markGraphNodes(g){
+    const own = new Set(), seen = new Set();
+    (function walk(o, d){
+      if(!o || d > 4 || seen.has(o)) return;
+      if(typeof o !== "object") return;
+      seen.add(o);
+      if(typeof o.disconnect === "function"){ own.add(o); return; }
+      for(const k in o){ try { walk(o[k], d + 1); } catch(e){} }
+    })(g, 0);
+    try { Object.defineProperty(g, "__own", { value: own }); } catch(e){ g.__own = own; }
+  }
   function dispatch(graph, ev, at, alive){
     const voice = V[ev.voice];
     if(!voice) throw new Error("unknown voice: " + ev.voice);   // fail loud, never substitute
@@ -8766,11 +8833,32 @@ registerProcessor("mk2-room", MK2Room);
     /* a phrase-rendering voice renders the whole breath at its opening event;
        the members are already inside that render and dispatch only once */
     if(ev.inPhrase && voice.phrases) return [];
-    const made = voice(graph, ev, at);
+    const born = [], outer = bornInto;
+    bornInto = born;
+    let made;
+    try { made = voice(graph, ev, at); }
+    finally { bornInto = outer; }
+    /* the note's own scaffolding, minus anything the graph owns */
+    let left = made.length;
+    const sweep = () => {
+      const own = graph && graph.__own;
+      for(const n of born){
+        if(own && own.has(n)) continue;
+        try { n.disconnect(); } catch(e){}
+      }
+      born.length = 0;
+    };
     for(const h of made){
       if(alive) alive.add(h);
-      h.onended = () => { try{ h.disconnect(); }catch(e){} if(alive) alive.delete(h); };
+      h.onended = () => {
+        try{ h.disconnect(); }catch(e){}
+        if(alive) alive.delete(h);
+        if(--left <= 0) sweep();          // every source of this note has ended
+      };
     }
+    /* a voice that returns no source has nothing to hang the sweep on, and
+       leaving its scaffolding connected is the defect this exists to remove */
+    if(!made.length) sweep();
     return made;
   }
   function perform(graph, events, t0){
@@ -9451,7 +9539,7 @@ registerProcessor("mk2-room", MK2Room);
     /* everything up to the first await is inside the user's gesture */
     let firstBuild = false;
     if(!ctx){
-      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      ctx = recordNodes(new (window.AudioContext || window.webkitAudioContext)());
       firstBuild = true;
     }
     /* RESUME FIRST, SYNCHRONOUSLY. Called whatever the state claims -- on iOS a
@@ -9641,7 +9729,7 @@ registerProcessor("mk2-room", MK2Room);
   }
   async function renderWav(events, seconds, sampleRate, space, kick, drumDrive, gate, motion, motionOffset){
     const sr = sampleRate || 44100;
-    const off = new OfflineAudioContext(2, Math.ceil(seconds * sr), sr);
+    const off = recordNodes(new OfflineAudioContext(2, Math.ceil(seconds * sr), sr));
     /* the room's worklet must be in the context before the graph is built.
        renderWav is already async, so this costs nothing and lets buildGraph
        stay synchronous -- see addRoomModule. */

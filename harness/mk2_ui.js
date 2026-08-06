@@ -463,6 +463,73 @@ const check = (label, ok, detail) => {
     await pg.evaluate(() => document.querySelectorAll("#roll .rolltag")[1].click());
   }
 
+  /* ── THE GRAPH MUST NOT GROW FOR EVER ─────────────────────────────────────
+     The user, 2026-08-05: "Synthwave seed 10855 it happened. Then i stopped hit
+     new song and audio stopped working." Measured on that seed: the number of
+     connected audio nodes climbed to 30 543 over 150 seconds and STOP took it
+     to 30 387 -- the graph never reset, so every song piled onto the last until
+     the audio thread could not render in real time and the sound went away.
+
+     `V` returns a voice's SOURCE nodes and dispatch hung its cleanup off those,
+     so every gain, filter and panner behind them stayed wired to the bus with
+     nothing to end it. dispatch sweeps the whole note now.
+
+     THIS CHECK IS HERE AND NOT IN mk2_test BECAUSE IT NEEDS A REAL CONTEXT --
+     the seam battery never builds a graph, which is exactly why nothing caught
+     this. It asks the ratio rather than a count, because the count depends on
+     how long the run is and on the genre's density: before the fix 87% of every
+     node ever created was still connected; after it, about 3%. 25% sits in a
+     gap that wide with room on both sides.
+
+     AND IT IS A RATIO OF *CREATED*, so it cannot be satisfied by a program that
+     has stopped making sound -- a silent build creates nothing and the guard
+     below refuses a run that built too few nodes to judge. */
+  {
+    /* the recorder has to be installed before the page makes its context, so
+       this runs in its own page rather than reaching into the live one */
+    const pg2 = await b.newPage({ viewport: { width: 980, height: 900 } });
+    await pg2.addInitScript(() => {
+      const A = window.AudioContext || window.webkitAudioContext;
+      window.__n = { made: 0, conn: 0 };
+      const wrap = c => {
+        const names = new Set();
+        for(let p = Object.getPrototypeOf(c); p; p = Object.getPrototypeOf(p))
+          for(const n of Object.getOwnPropertyNames(p)) names.add(n);
+        for(const f of names){
+          if(!/^create/.test(f)) continue;
+          const o = c[f]; if(typeof o !== "function") continue;
+          c[f] = function(...a){
+            const n = o.apply(this, a);
+            try {
+              window.__n.made++;
+              const oc = n.connect, od = n.disconnect; let live = false;
+              n.connect = function(...b){ if(!live){ live = true; window.__n.conn++; } return oc.apply(this, b); };
+              n.disconnect = function(...b){ if(live){ live = false; window.__n.conn--; } return od.apply(this, b); };
+            } catch(e){}
+            return n;
+          };
+        }
+        return c;
+      };
+      function W(...a){ return wrap(new A(...a)); }
+      W.prototype = A.prototype; window.AudioContext = W; window.webkitAudioContext = W;
+    });
+    await pg2.goto(FILE, { waitUntil: "load", timeout: 60000 });
+    await pg2.waitForFunction(() => window.MK2, { timeout: 20000 });
+    await pg2.evaluate(() => { const s = document.getElementById("genre");
+      s.value = "synthwave"; s.dispatchEvent(new Event("change", { bubbles: true })); });
+    await pg2.waitForTimeout(400);
+    await pg2.evaluate(() => document.getElementById("play").click());
+    await pg2.waitForTimeout(25000);
+    const n = await pg2.evaluate(() => ({ ...window.__n }));
+    await pg2.close();
+    const share = n.made ? 100 * n.conn / n.made : 100;
+    check("the audio graph does not grow for ever while it plays",
+          n.made > 3000 && share < 25,
+          n.conn + " of " + n.made + " nodes still connected after 25 s = " +
+          share.toFixed(1) + "% (before the fix: 87%)");
+  }
+
   check("no uncaught page errors at any point", errs.length === 0, errs.slice(0, 3).join(" | "));
   await b.close();
   console.log("\n" + pass + " passed, " + fail + " failed");

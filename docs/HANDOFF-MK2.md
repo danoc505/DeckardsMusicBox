@@ -13,20 +13,21 @@ rendered-audio failures that had been dismissed as "pre-existing" turned out to
 contain two real defects in the music. For whoever picks this up next. Read this
 whole file before you touch the HTML.*
 
-**State at build `2026-08-05g` (the panel redraw), every number below
+**State at build `2026-08-06a` (the note's scaffolding), every number below
 measured on that commit — not remembered from an earlier one.** The row that
 is not green is not green, and says why.
 
 | battery | command | result |
 |---|---|---|
 | seam checks | `node harness/mk2_test.js` | **123 passed, 0 failed** |
-| UI, in a browser | `node harness/mk2_ui.js` | **33 passed, 0 failed** — see the FLAKE note below |
+| UI, in a browser | `node harness/mk2_ui.js` | **34 passed, 0 failed** — see the FLAKE note below |
 | blend sliders | `node harness/mk2_blend.js` | **10 passed, 0 failed** |
 | MIDI port | `node harness/mk2_midi.js` | **20 passed, 0 failed** |
 | snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** (baseline `c98cf33cd7844c7f`, re-recorded at 05f: 19 lines moved, deliberately, form and arrangement untouched on every one) |
 | every voice | `node harness/probe_voices.js` | **0 threw, 0 silent** |
 | the notes | `node harness/mk2_roll.js 1 --genre <g>` | **all seven print; this is RULE ONE and is not optional** |
 | how busy it is | `node harness/probe_density.js 30` | voices ringing, chord onsets, parts a bar, notes a bar — new at `04h` |
+| the graph, while it plays | `node harness/probe_nodes.js <g> 3` | **does the audio graph grow?** It did, unboundedly, and nothing else here could see it — new at `06a` |
 | the frame, when it stutters | `node harness/probe_mainthread.js <g> 25` then `node harness/probe_stutter.js <g>` | **the first says HOW slow, the second says WHY** — new at `05g` |
 | how a dissonance is reached | `node harness/probe_arrival.js 20` | the approach column of the taxonomy, per genre — new at `05e` |
 | what two parts do to each other | `node harness/probe_counterpoint.js 45` | **per PAIR since `05f`**, ranked, each against its own shuffle floor — the per-genre average hid the finding |
