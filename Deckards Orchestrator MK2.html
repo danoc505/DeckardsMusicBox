@@ -924,7 +924,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-06h · measured in the audio: the drum is in front now</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-06i · instruments come and go, section by section</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -4687,8 +4687,12 @@ const RIG_LABEL = {
    put a specific machine in a slot, that machine answers for the lanes it
    covers. Either way it is a stage-6 question -- the note, its time and its gain
    were all decided before anyone asked who was holding the instrument. */
-function voiceFor(chart, lane){
-  const m = chart.picks && chart.picks[SLOT_OF[lane]];
+/* `over` is the ARRANGEMENT's machine for this section, if it named one --
+   see `sec.machines`. It is the only way `voice` varies within a song, and it
+   still resolves through exactly the same rules the song-wide pick does, so a
+   swapped machine that cannot play a lane falls back identically. */
+function voiceFor(chart, lane, over){
+  const m = (over || (chart.picks && chart.picks[SLOT_OF[lane]]));
   /* ── AN EMPTY RACK PLAYS NOTHING ────────────────────────────────────────────
      "None could be an option." This is where that option becomes true, and it
      is deliberately the ONE place: `null` here means the lane has no voice, and
@@ -15680,13 +15684,31 @@ const GENRE = {
        sometimes on the program's own instruments, and neither is the default.
        `erangHarp` is the struck half of the pack -- see `touch.roll` above for
        why that is a different instrument from the held half. */
+    /* ── HOW OFTEN EACH PART CHANGES INSTRUMENT, SECTION TO SECTION ─────────
+       "An instrument doesnt have to be going all the time... you can bring
+       things in as flairs." This is the chance a given section is played on a
+       DIFFERENT machine from the song's own. The genre owns thirty-five
+       instruments through the racks below and a record used to touch four of
+       them; these numbers are what make the other thirty-one reachable inside
+       one song.
+
+       The two keyboards move most, because that is where the pack's variety
+       is -- twenty sustained patches and fifteen struck ones, and a section on
+       the harp after three on the strings is the "flair" being asked for. The
+       BASS moves least: it is the pedal holding the key, and changing the
+       thing the whole record is anchored to is not a colour, it is a
+       different song. Drums sit between: a war drum becoming the Erang
+       percussion is a real change of weight and it should not happen every
+       eight bars. [EAR -- no source gives a swap rate, and the sourced part is
+       only that timbre changes belong at section boundaries.] */
+    swap: { keys: 0.45, keys2: 0.45, lead: 0.40, drums: 0.22, bass: 0.06 },
     machines: { drums: [["procession", 6], ["erangDrums", 3], ["kit", 1]],
                 bass:  [["auto", 1]],
-                keys:  [["mellotron", 4], ["erangStrings", 4], ["vp330", 2],
-                        ["erangHarp", 1], ["auto", 1]],
+                keys:  [["mellotron", 4], ["erangStrings", 4], ["erangHarp", 3],
+                        ["vp330", 2], ["auto", 1]],
                 lead:  [["erangLead", 5], ["auto", 5]],
                 keys2: [["erangStrings", 4], ["vp330", 3], ["mellotron", 3],
-                        ["auto", 1]] },
+                        ["erangHarp", 2], ["auto", 1]] },
     params: {
       procession: { bus: 0.95, gate: 0, ring: 1.25,
                     kTune: 0.94, kDecay: 1.3, kMix: 0.9, kVerb: 0.5, kEcho: 0.05, kCut: 9000,
@@ -20181,6 +20203,52 @@ function makeArrangement(chart, form, materials){
                    && active.includes("drums")),
       emptyLastBar: !!(next && next.peak),
       endingLastBar: sec.fn === "outro",
+      /* ── WHICH INSTRUMENT PLAYS THIS SECTION ────────────────────────────
+         "An instrument doesnt have to be going all the time... we can bring
+         things in as flairs."
+
+         Until this, a rack was decided ONCE for the whole record: the genre
+         drew a keyboard in stage 1 and that keyboard played all ten minutes of
+         it. So a genre could own thirty-five instruments and a song would use
+         four -- which is what the user heard as "we are not using the other
+         instruments to add flair and changes".
+
+         The colour is a SECTION's property, so it is decided here, in the
+         stage that already decides who plays and what they play from. Stage 5
+         still writes `voice` in exactly one place; this only hands it a
+         different machine to ask.
+
+         WHY IT IS SOUND rather than a novelty: "a colour lands because it is
+         NEW IN CONTEXT, not because it is exotic -- the variable is time since
+         last heard", and timbre changes belong at section boundaries, which is
+         exactly the granularity of this map [Alan Belkin, Artistic
+         Orchestration]. A section is also the smallest unit where a swap
+         cannot cut a held note in half.
+
+         BOTH DRAWS RUN FOR EVERY SLOT, ALWAYS [Law 3] -- a draw inside the
+         `if` would make the keyboard's colour depend on whether the drums
+         swapped, which is the coupling this file has been bitten by three
+         times. And `swap` defaults to nothing, so every genre that does not
+         declare it is byte-identical. */
+      machines: (() => {
+        const SW = chart.table.swap;
+        if(!SW) return null;
+        const MA = chart.table.machines || {};
+        const rs = stream(chart.seed, "swap:" + i);
+        const out = {};
+        for(const slot of ["drums", "bass", "keys", "keys2", "lead"]){
+          const pool = MA[slot];
+          const alt  = pool ? wpick(rs, pool) : "auto";     // unconditional
+          const take = rs() < (SW[slot] || 0);              // unconditional
+          /* a hand on the rack outranks the arrangement: if the user loaded a
+             machine deliberately, the song does not swap it out underneath
+             them. `byHand` is the field resolvePicks keeps for exactly this. */
+          const pinned = chart.picks && chart.picks.byHand && chart.picks.byHand[slot];
+          if(take && !pinned && alt && alt !== "auto" && alt !== chart.picks[slot])
+            out[slot] = alt;
+        }
+        return Object.keys(out).length ? Object.freeze(out) : null;
+      })(),
     });
   }));
 }
@@ -20445,7 +20513,9 @@ function makePerformance(chart, form, materials, sections){
              slot is set to "none", and a note with nobody to play it is not an
              event -- see voiceFor. The material still exists and the roll still
              shows it; what changes is that nothing sounds it. */
-          const voice = voiceFor(chart, n.lane || role);
+          const lane0 = n.lane || role;
+          const voice = voiceFor(chart, lane0,
+            sec.machines ? sec.machines[SLOT_OF[lane0]] : null);
           if(voice == null) continue;
           const ev = {
             tSec: (bar * 16 + n.step + micro) * spb,
