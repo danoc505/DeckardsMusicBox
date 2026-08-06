@@ -1500,22 +1500,37 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       if(o[n.bar] == null || n.pitch > o[n.bar]) o[n.bar] = n.pitch; }
     return o;
   };
-  let steps = 0, par = 0;
-  for(const g of M.genres()) for(let s = 1; s <= 12; s++){
-    const mats = M.composeSong(s, "draw", g).materials || {};
-    for(const k of ["A", "Avar", "B", "Bvar", "C"]){
-      const m = mats[k];
-      if(!m || !m.keys || !m.keys2 || !m.keys2.length) continue;
-      const A = topPerBar(m.keys), B = topPerBar(m.keys2);
-      const bars = Object.keys(A).map(Number).filter(b => B[b] != null).sort((x, y) => x - y);
-      for(let i = 1; i < bars.length; i++){
-        const p = bars[i - 1], q = bars[i];
-        if(q !== p + 1) continue;                       // not consecutive: not a step
-        const da = A[q] - A[p], db = B[q] - B[p];
-        if(da === 0 && db === 0) continue;              // nobody moved
-        steps++;
-        const iv = pcOf(A[p] - B[p]);
-        if(da !== 0 && da === db && (iv === 0 || iv === 7)) par++;
+  /* TWO POPULATIONS, split by the genre's own declaration. `parallels: 1` in a
+     genre table says parallel perfects are the sound it came for -- organum,
+     "parallel fifths and open fifth/octave intervals for medieval color"
+     [corpus:melodigging] -- and buildKeys scales the shadow cost away for it.
+     So the law is guarded where it APPLIES, and the appetite is guarded where
+     it is declared: a dungeon-synth build whose two keyboards stopped moving
+     in fifths would have lost the genre's identifying feature and nothing
+     else would notice. MEASURED at 8 and at 12 seeds before the thresholds
+     were believed: constrained 3.4% / 2.9%, declared 40.0% / 32.7% -- 5 and
+     15 sit outside both readings on both sides.
+     docs/genre-research/dungeon-synth.md ss4. */
+  let steps = 0, par = 0, dSteps = 0, dPar = 0;
+  for(const g of M.genres()){
+    const wants = ((T.GENRE[g] || {}).parallels || 0) >= 0.5;
+    for(let s = 1; s <= 12; s++){
+      const mats = M.composeSong(s, "draw", g).materials || {};
+      for(const k of ["A", "Avar", "B", "Bvar", "C"]){
+        const m = mats[k];
+        if(!m || !m.keys || !m.keys2 || !m.keys2.length) continue;
+        const A = topPerBar(m.keys), B = topPerBar(m.keys2);
+        const bars = Object.keys(A).map(Number).filter(b => B[b] != null).sort((x, y) => x - y);
+        for(let i = 1; i < bars.length; i++){
+          const p = bars[i - 1], q = bars[i];
+          if(q !== p + 1) continue;                     // not consecutive: not a step
+          const da = A[q] - A[p], db = B[q] - B[p];
+          if(da === 0 && db === 0) continue;            // nobody moved
+          const iv = pcOf(A[p] - B[p]);
+          const hit = da !== 0 && da === db && (iv === 0 || iv === 7);
+          if(wants){ dSteps++; if(hit) dPar++; }
+          else     { steps++;  if(hit) par++;  }
+        }
       }
     }
   }
@@ -1523,6 +1538,11 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   check("the second keyboard does not shadow the first in parallel perfects",
         steps > 100 && kr < 5,
         kr.toFixed(1) + "% of " + steps + " bar-to-bar steps (unconstrained: 6.4%)");
+  const dr = dSteps ? 100 * dPar / dSteps : 0;
+  check("...and a genre that declares the parallels actually sounds them",
+        dSteps === 0 || dr > 15,
+        dSteps ? dr.toFixed(1) + "% of " + dSteps + " steps in declaring genres"
+               : "no genre declares the appetite");
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

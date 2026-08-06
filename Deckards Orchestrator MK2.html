@@ -914,7 +914,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-06a · a note takes its own scaffolding away when it ends</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-06b · the eighth genre: dungeon synth, timpani and war drums</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -2365,6 +2365,44 @@ const INSTRUMENTS = {
                          that does nothing, and just as much a lie. */
                       ...chainGroups()] },
   },
+  /* ══ THE PROCESSION — timpani and war drums ═══════════════════════════════
+     The percussion dungeon synth actually asks for. Every source on the genre
+     says the same thing about drums: "sparse or absent; when used, it tends
+     toward martial snare patterns or timpani rolls rather than driving drum
+     kits" [corpus:melodigging], and "deep bass and subtle percussion (e.g.
+     timpani, war drums)" which "should be used sparingly" [corpus:topfhelm].
+     docs/genre-research/dungeon-synth.md
+
+     IT IS A KIT, NOT A NEW SET OF LANES, and that is deliberate. The three
+     TOM lanes become the three kettles -- toms are already the pitched-ish
+     lanes of this program, they already export to `.mid` through GM_DRUM, and
+     every rig already names them, so a procession needs no change to any rig
+     and no new row anywhere. The KICK lane becomes the war drum for the same
+     reason. Adding lanes would have meant touching all seven rigs and the
+     export table to gain nothing the tom lanes do not already give.
+
+     What is NOT replaced: the snare, the hats and the cymbals stay the
+     acoustic kit's. The sources ask for a "martial snare", and the acoustic
+     snare played sparsely at 50-odd beats a minute IS one -- inventing a
+     second snare to sit beside it would be a voice with no source behind it. */
+  procession: { legacy: true,
+    slot: "drums", label: "TIMPANI + WAR DRUMS",
+    lanes: { kick:"wardrum", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
+             rim:"rim", clap:"clap", crash:"crash", ride:"ride",
+             tom1:"timpHi", tom2:"timpMid", tom3:"timpLo" },
+    controls: [
+      { k:"bus",  label:"kit drive",  cap:"DRIVE", min:0.6, max:2, step:0.01, def:0.95, kind:"bus" },
+      { k:"gate", label:"gated verb", cap:"SEND",  min:0, max:1, step:0.01, def:0, kind:"bus" },
+      /* how long a kettle rings. A timpano's ring is the identifying half of
+         the instrument and a hall is what it rings into, so this is the one
+         control this machine adds over the shared set. `voicing` by contract:
+         it is what the drum IS, not a hand on it mid-song. */
+      { k:"ring", label:"kettle ring", cap:"RING", min:0.4, max:2.2, step:0.01,
+        def:1, unit:"x", kind:"voicing" },
+      ...chainControls(),
+    ],
+  },
+
   segakit: { legacy: true,
     slot: "drums", label: "SEGA DAC + PSG",
     lanes: { kick:"dacKick", snare:"dacSnare", ghost:"dacGhost", hat:"psgHat", openhat:"psgOpenhat",
@@ -3818,7 +3856,7 @@ function loadParams(machine, over){
    PARAMS; from that moment the panel is the owner and this reads it. A caller
    that passes no drum machine gets the genre's own numbers unchanged, which is
    why every existing harness call still measures exactly what it measured. */
-function soundOf(genre, drumMachine, picks){
+function soundOf(genre, drumMachine, picks, chart){
   /* a name, or a resolved table straight off a chart -- a blended song has no
      name to look up and its sound is in the table like everything else */
   const G = (genre && typeof genre === "object") ? genre : (GENRE[genre] || GENRE.lofi);
@@ -3884,7 +3922,11 @@ function soundOf(genre, drumMachine, picks){
     ? Object.assign({}, G.space, { wet: 0, echoFeeds: [], echoKill: true })
     : G.space;
   return {
-    space, kick, gate,
+    /* the chart's root rides with the space when the caller has a chart to give
+       -- the timpani is tuned from it. Asked about a bare GENRE the answer has
+       no root to carry, which is why setSpace defaults rather than throws. */
+    space: (chart && chart.root != null) ? Object.assign({}, space, { tonic: chart.root }) : space,
+    kick, gate,
     drumDrive: has("bus") ? panelValue(m, "bus") : G.drumDrive,
   };
 }
@@ -6900,6 +6942,137 @@ registerProcessor("mk2-room", MK2Room);
   V.tom2 = tomVoice(180, 112, 0.52, 0.66);
   V.tom3 = tomVoice(120,  76, 0.68, 0.70);
 
+  /* ══ THE TIMPANI ═══════════════════════════════════════════════════════════
+     Asked for by the user for dungeon synth, and named by a practitioner of
+     that genre unprompted -- "bass flutes, bass oboes, tenor voices, strings,
+     harpsichord and timpani" [corpus:erichgrunewald] -- while the genre survey
+     says its percussion "tends toward martial snare patterns or TIMPANI ROLLS
+     rather than driving drum kits" [corpus:melodigging].
+     docs/genre-research/dungeon-synth.md
+
+     A TIMPANO IS NOT A TOM, and the difference is the whole voice. A tom is a
+     drum you hear as a thud at a pitch; a timpano is a drum you hear as a NOTE,
+     and the reason is the kettle. An ideal circular membrane's modes are
+     inharmonic and it has no definite pitch -- the kettle's air load pulls the
+     principal modes down onto near-whole-number ratios of about
+     **1 : 1.5 : 2 : 2.44 : 2.9**, and it is that near-harmonic series which
+     makes the instrument sing a pitch [theory: kettledrum mode ratios; the
+     tom voice above is the inharmonic case for contrast].
+
+     So this is built as those partials over a struck fundamental, with the
+     higher modes dying first (a real timpano's tone settles onto its
+     fundamental as it rings), a felt MALLET rather than a stick -- lowpassed
+     noise, no transient click, because the sources ask for "gentle" dynamics
+     and "avoid overly bright transients" -- and a long ring measured in
+     seconds rather than the tenths a tom gets.
+
+     IT IS TUNED TO THE SONG. Real timpani are tuned to the tonic and the
+     dominant of the piece and retuned between movements; a fixed-frequency
+     kettle under a modal genre would be a wrong note on every song whose root
+     moved. `g.tonic` carries the chart's root into the graph -- see setSpace,
+     where it arrives on the space object exactly as the motion plan arrives on
+     the sound object, and defaults to A when nobody says. */
+  function timpVoice(semis){
+    /* the kettle's near-harmonic modes, and how fast each one lets go */
+    const MODES = [[1, 1, 1], [1.5, 0.5, 0.62], [2, 0.28, 0.42],
+                   [2.44, 0.14, 0.3], [2.9, 0.08, 0.22]];
+    return function(g, ev, t){
+      const c = g.ctx;
+      const chT = chTune(g, ev), chD = chDecay(g, ev);
+      /* midi -> Hz, from the song's own tonic. A timpano lives roughly D2..A3;
+         the offsets the machine passes keep all three inside that. */
+      const midi = (g.tonic == null ? 45 : g.tonic) + semis;
+      const f0 = 440 * Math.pow(2, (midi - 69) / 12) * chT;
+      /* the kettle's own ring control, read off whichever drum panel the plan
+         names -- the same door `openGate` uses to find its hold, so a machine
+         that does not declare RING simply gets 1 and rings as designed */
+      const ring = 2.6 * P(g, ev, "procession", "ring", 1) * chD;
+      const made = [];
+      for(const [ratio, lvl, dk] of MODES){
+        const o = c.createOscillator(); o.type = "sine";
+        /* the struck head is TIGHT for an instant and settles -- a small
+           downward bend, which is what gives a kettle its "boom" rather than
+           a beep. Only on the fundamental; the modes above it do not bend. */
+        if(ratio === 1){
+          o.frequency.setValueAtTime(f0 * 1.06, t);
+          o.frequency.exponentialRampToValueAtTime(f0, t + 0.09);
+        } else o.frequency.setValueAtTime(f0 * ratio, t);
+        const og = c.createGain();
+        og.gain.setValueAtTime(0.0001, t);
+        og.gain.exponentialRampToValueAtTime(lvl * 0.5 * ev.gain, t + 0.006);
+        og.gain.exponentialRampToValueAtTime(0.0002, t + ring * dk);
+        o.connect(og); og.connect(drumOut(g, ev.lane));
+        o.start(t); o.stop(t + ring * dk + 0.05);
+        made.push(o);
+      }
+      /* the felt mallet: a soft low thump, not a stick. No bandpass at 1.9 kHz
+         the way the tom has one -- that is the click this genre asks not to
+         hear. */
+      const n = burst(g, t, 0.05, ev.tSec.toFixed(5) + ":timp" + semis);
+      const lp = c.createBiquadFilter(); lp.type = "lowpass";
+      lp.frequency.value = Math.max(180, f0 * 3); lp.Q.value = -3;
+      const ng = c.createGain();
+      ng.gain.setValueAtTime(0.22 * ev.gain, t);
+      ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.05);
+      n.connect(lp); lp.connect(ng); ng.connect(drumOut(g, ev.lane));
+      made.push(n);
+      { const tp = gateTap(g, ev.lane); if(tp) ng.connect(tp); }
+      openGate(g, ev, t);
+      return made;
+    };
+  }
+  /* three kettles, tuned as a set is: the tonic, the fifth above it, and the
+     octave. [theory: timpani are tuned to the tonic and dominant of the piece] */
+  V.timpHi  = timpVoice(12);
+  V.timpMid = timpVoice(7);
+  V.timpLo  = timpVoice(0);
+
+  /* ══ THE WAR DRUM ══════════════════════════════════════════════════════════
+     The other half of what the user asked for -- "large marching drums" -- and
+     the sources' own words are "war drums" [corpus:topfhelm] and "martial
+     snare patterns" [corpus:melodigging]. Neither names a size or a pitch, so
+     everything here except the shape is [EAR] and is marked so in the sheet.
+
+     What separates it from the kick this program already has: a kick is a
+     beater on a pedal, short and with a click that cuts through a mix. This is
+     a big shallow drum struck with a soft-headed mallet -- no click at all, a
+     slower attack, a longer and rounder decay, and a shell tone a fifth above
+     the fundamental that a bass drum does not have. It is the sound of a thing
+     being carried, not of a thing being played fast. */
+  V.wardrum = function(g, ev, t){
+    const c = g.ctx;
+    const chT = chTune(g, ev), chD = chDecay(g, ev);
+    const f0 = 52 * chT, decay = 0.95 * chD;
+    const o = c.createOscillator(); o.type = "sine";
+    o.frequency.setValueAtTime(f0 * 2.1, t);
+    o.frequency.exponentialRampToValueAtTime(f0, t + 0.11);   // slow, no snap
+    const og = c.createGain();
+    og.gain.setValueAtTime(0.0001, t);
+    og.gain.exponentialRampToValueAtTime(1.05 * ev.gain, t + 0.012);  // mallet, not beater
+    og.gain.exponentialRampToValueAtTime(0.0002, t + decay);
+    o.connect(og); og.connect(drumOut(g, ev.lane));
+    o.start(t); o.stop(t + decay + 0.05);
+    /* the shell: a big drum rings a fifth over its head note, quietly */
+    const s = c.createOscillator(); s.type = "triangle";
+    s.frequency.setValueAtTime(f0 * 1.5, t);
+    const sg = c.createGain();
+    sg.gain.setValueAtTime(0.18 * ev.gain, t);
+    sg.gain.exponentialRampToValueAtTime(0.0002, t + decay * 0.45);
+    s.connect(sg); sg.connect(drumOut(g, ev.lane));
+    s.start(t); s.stop(t + decay * 0.45 + 0.05);
+    /* the head, felt-headed: a short lowpassed puff with no top on it */
+    const n = burst(g, t, 0.04, ev.tSec.toFixed(5) + ":war");
+    const lp = c.createBiquadFilter(); lp.type = "lowpass";
+    lp.frequency.value = 320; lp.Q.value = -3;
+    const ng = c.createGain();
+    ng.gain.setValueAtTime(0.3 * ev.gain, t);
+    ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.05);
+    n.connect(lp); lp.connect(ng); ng.connect(drumOut(g, ev.lane));
+    { const tp = gateTap(g, ev.lane); if(tp){ og.connect(tp); ng.connect(tp); } }
+    openGate(g, ev, t);
+    return [o, s, n];
+  };
+
 
   /* ══ THE TR-808 ═══════════════════════════════════════════════════════════
      Not a sample set -- the 808 is entirely analogue and every voice on it is a
@@ -9110,6 +9283,15 @@ registerProcessor("mk2-room", MK2Room);
        read each other's automation. Same reason the room is set per-graph. */
     g.motion = motion || null;
     g.motionOffset = motionOffset || 0;      // where in the song this render starts
+    /* THE SONG'S KEY, on the graph for the same reason the motion plan is: a
+       TIMPANO is tuned to the tonic of the piece and retuned between movements,
+       so a kettle at a fixed frequency would be a wrong note on every song
+       whose root moved. It arrives on the space object because that is the one
+       thing already handed to setSpace per song. A default of A (MIDI 45) when
+       nobody says, so every existing caller -- the probes, the render harness,
+       anything that asks soundOf for a genre rather than for a song -- keeps
+       working and simply gets a kettle in A. */
+    g.tonic = (space && space.tonic != null) ? space.tonic : 45;
     g.kick = Object.assign({}, KICK_DEFAULT, kick || {});
     g.tomDecay = gate ? (gate.tomDecay != null ? gate.tomDecay : 0.45) : 1;
     /* which panel the drums are on, so openGate can find its hold and rideBus
@@ -14805,6 +14987,379 @@ const GENRE = {
                       shape: "sin", freePhase: true }] },
     },
   },
+
+  /* ══ DUNGEON SYNTH ════════════════════════════════════════════════════════
+     Asked for by the user: "much more orchestral than other genres, we will
+     need timpani, large marching drums, music to explore the dungeon."
+     Every number here is answerable to docs/genre-research/dungeon-synth.md,
+     and the ones that are mine are marked.
+
+     THE GENRE'S ENGINE IS LAYERING OVER DURATION, not a chord progression.
+     Mortiis, on writing the first records with one keyboard: "i would come up
+     with parts... then another part that i thought would work on top of the
+     first part... on and on for layers and layers for 20-25 minutes"
+     [corpus:dungeonsynth.blogspot]. So the form is a long walk with parts
+     ARRIVING rather than sections answering each other, and the harmony holds
+     still underneath while they do. */
+  dungeonsynth: {
+    label: "dungeon synth",
+    /* 40-80 BPM where the sources give a band [corpus:melodigging]; the one
+       independent measurement found is an Erang track at 83 [corpus:songbpm]
+       and the neighbouring dungeon rap sits at 50-65. The edges are [EAR]
+       inside that. This is the slowest genre in the file by a distance --
+       lofi, the previous slowest, starts at 70. */
+    tempo: [52, 78],
+    /* "minor/modal scales (Aeolian, Dorian, Phrygian)" [corpus:melodigging],
+       corroborated: "modal scales (such as Dorian or Phrygian)" to "create a
+       mysterious medieval feel" [corpus:topfhelm]. No major anywhere in the
+       sources, and none here. */
+    modes: [["minor", 6], ["dorian", 3], ["phrygian", 2]],
+    /* the band rig, because this genre needs a drum kit to swap the procession
+       into -- `machines.drums` below is what actually puts the timpani in */
+    rig: [["band", 1]],
+    keysChar: [["rhodes", 1]],
+    leadChar: [["synth", 1]],
+    /* "tape-like hiss", "tape wow/flutter... to achieve a worn, archival feel"
+       [corpus:melodigging]; "cassette tape emulation" [corpus:topfhelm]. The
+       only genre besides lofi that turns hiss on, and for a different reason:
+       lofi's is a record, this is a dubbed cassette. */
+    tape: { wow: [0.0016, 0.0022], crackle: [0.004, 0.003],
+            flutter: [0.0008, 0.0012], hiss: [0.012, 0.008] },
+    /* NO SEVENTHS. "simple stepwise resolutions rather than dense extended
+       chords" [corpus:melodigging] -- the vertical vocabulary is triads and
+       open fifths, which is what makes it read as medieval rather than as
+       film music. */
+    sevenths: false,
+    /* THE PARALLEL FIFTHS ARE THE POINT, and this is the dial the research
+       sheet said would be needed. "Parallel fifths and open fifth/octave
+       intervals for medieval color" [corpus:melodigging] -- which is organum,
+       and which is the exact motion `buildKeys` was taught to avoid at
+       2026-08-05f on the sourced grounds that parallel perfects fuse two
+       voices into one. Both are true about different music: fusion is a fact
+       about hearing either way, and what changes is whether it is a defect or
+       the sound you came for. 1 = the genre wants them and the cost is off.
+       docs/genre-research/dungeon-synth.md ss4 */
+    parallels: 1,
+    /* long pedals: the chord holds for two bars at a time and the record moves
+       by ADDING PARTS over it. "long pedal notes and drones" [corpus:melodigging] */
+    progressions: {
+      minor:    [[[0, 0, 5, 5], 6], [[0, 0, 0, 0], 4], [[0, 0, 6, 6], 3], [[0, 0, 3, 3], 2]],
+      dorian:   [[[0, 0, 3, 3], 5], [[0, 0, 0, 0], 4], [[0, 0, 6, 6], 2]],
+      phrygian: [[[0, 0, 1, 1], 6], [[0, 0, 0, 0], 3], [[0, 1, 0, 1], 2]],
+    },
+    bridgeProgressions: {
+      minor:    [[[5, 5, 3, 3], 3], [[3, 3, 0, 0], 2], [[6, 6, 5, 5], 2]],
+      dorian:   [[[3, 3, 0, 0], 3], [[6, 6, 3, 3], 2]],
+      phrygian: [[[1, 1, 6, 6], 3], [[6, 6, 1, 1], 2]],
+    },
+    /* orchestral spacing: the bass low and the choir/strings wide above it.
+       The tune sits in a singing register rather than a shrill one -- "avoid
+       overly bright transients" is about the top end generally. */
+    registers: { bass: [28, 45], keys: [45, 72], counter: [52, 74],
+                 bassWalk: [28, 45], ostinato: [64, 84],
+                 themeA: [64, 84], themeB: [67, 86], themeC: [60, 79] },
+    /* no swing, almost no push: a procession keeps time. The jitter is a
+       hand-played feel rather than a grid, which is what a one-keyboard
+       recording is. */
+    groove: { styles: [["even", 10]], swing: [1, 0], swingUnit: 2,
+              snareEarly: [0, 0], kickLate: [0, 0], hatMul: 1,
+              jitter: { dilla: 0.03, even: 0.03 }, push: 0.008 },
+    touch: { bassArtic: [[4, 3], [5, 4], [6, 2]], strum: [0.05, 0.07] },
+    accent: { kick:    [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
+              snare:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
+              ghost:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
+              hat:     [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
+              tom1:    [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
+              tom2:    [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
+              tom3:    [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
+              openhat: [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1] },
+    /* THE TWO CHARACTERS, DRAWN PER SONG, which is what the user chose when
+       asked. `pocket` is a weighted draw, so one song walks on the war drum
+       every other bar and the next barely strikes it at all -- "sparse or
+       absent" [corpus:melodigging]. The beatless end is the single downbeat;
+       a record with NO percussion at all is not expressible without a new
+       mechanism and is written down as open in the research sheet. */
+    pocket: [[[0], 5], [[0, 8], 4], [[0, 4, 8, 12], 2]],
+    /* the kit is nearly empty by design. No hats to speak of, no ghosts; the
+       toms ARE the timpani and they answer phrases rather than keeping time.
+       "when used, it tends toward martial snare patterns or timpani rolls
+       rather than driving drum kits" [corpus:melodigging] */
+    kit: { snare: [8], hatEvery: 16, hatVel: 0.1, ghostChance: 0,
+           ghostSpots: [8], openSpot: [[-1, 10]], openBars: [],
+           toms: { use: 0.55, loop: 0.4, loopSpots: [12, 14],
+                   loopLanes: ["tom3", "tom2", "tom1"],
+                   shapes: [[[[12, "tom3"], [14, "tom2"]], 4],
+                            [[[12, "tom3"], [13, "tom2"], [14, "tom1"]], 3],
+                            [[[14, "tom3"]], 3]] },
+           /* no hat flourish, ever: `flourish` is a list of extra HAT steps
+              (see the builder), and the first draft wrote toms.shapes pairs
+              into it -- [14,"tom3"] landed as a hat STEP, an array, and every
+              flourish bar carried one hat with NaN timing. The tom answer this
+              wanted already lives in toms.shapes where it belongs. */
+           kickKeep: 1, flourishBar: 3, flourish: [[[], 1]],
+           variants: { main: {}, lift: { toms: { use: 0.8 } },
+                       depart: { kickKeep: 0, hatVel: 0.05 } } },
+    /* a second line, sparse and slow -- the layering the primary source
+       describes is parts entering, not a busy countermelody */
+    counter: { style: "line", density: 0.22, intervals: [-2, -4, -5, -7],
+               octaves: [-12, 12], answer: 0.7 },
+    theme: { count: { hooky: [2, 2], breath: [1, 1], normal: [1, 2] },
+             onsetPool: [[0, 8], [8, 5], [4, 2], [12, 2], [6, 1]] },
+    /* NO BENDS AND NO PRESSURE. Not an omission -- the two keyboards this
+       genre plays are a tape replay machine and a string ensemble, and neither
+       has a strip under your left hand or a key that responds to how hard you
+       lean on it. The pitch instability this music has comes from the TAPE
+       (`tape.wow`/`flutter` above), which is the honest source of it: "tape
+       wow/flutter... to achieve a worn, archival feel" [corpus:melodigging].
+       A bend drawn on top of that would be a player's gesture on an instrument
+       that has none. Same reading as lofi and dkc, for the same reason. */
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
+    pressure: { depth: 0, amount: [0, 0], at: [0, 0], rise: [0, 0] },
+    /* "long pedal notes and drones" [corpus:melodigging] -- the bass is the
+       drone under everything, restruck when the harmony moves */
+    bassStyle: "drone",
+    bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },
+    bassAccent: { accent: 0, slide: 0 },
+    /* a slow repeating figure -- the thing a listener walks beside. `run` and
+       `follow` on, so it does not restart at the bar and it reads the chord:
+       this is the Berlin-School sequencer door, used here for the layered
+       ostinato the genre is built from. */
+    ostinato: { unit: 4, vel: 0.34, run: true, follow: true, ratchet: 0,
+                cells: [[[0, 4, 7, 4, 2, 4], 5], [[0, 2, 4, 7, 4, 2], 3],
+                        [[0, 4, 2, 7], 2]] },
+    /* THE HALL. "long reverbs and modest delay to suggest halls and caverns;
+       avoid overly bright transients" [corpus:melodigging], and a practitioner
+       puts "a single reverb... in a bus channel with sends from all
+       instruments" to simulate an orchestral hall [corpus:erichgrunewald].
+       This is the longest room in the file: 8.5 s against bladerunner's 5. */
+    space: { wet: 0.5, irSec: 8.5, tailPow: 1.5, tailDark: 0.62, sendHp: 70,
+             feeds: ["bass", "drums"], echoFeeds: ["keys", "lead"],
+             random: 0, spread: 0.8, preDelay: 0.075,
+             kitPan: { tom1: -0.22, tom2: 0.1, tom3: 0.24, snare: 0, kick: 0 } },
+    /* the war drum's own voicing, TUNED TO THE ERANG PACK: the ten percussion
+       samples the user landed on `main` put 63-97% of their energy below
+       200 Hz, fundamentals 58-90 Hz clustered at ~64, decays 0.5-1.1 s to
+       -40 dB, attacks 10-130 ms with no click to speak of. Softer and longer
+       than any kick here, which is what a mallet on a big shallow drum is.
+       [corpus:erang-sample-pack, measured 2026-08-06] */
+    kick: { tune: 62, decay: 0.55, click: 0.05, drive: 0.05, body: 1, gain: 0.85 },
+    drumDrive: 0.95,
+    gate: null,
+    /* THE PROCESSION, and the palette. The keys are a tape choir or a string
+       ensemble, which is what the sources name: "choirs, strings, pipe/chapel
+       organs, flutes/recorders, horns, harps" [corpus:melodigging], and a
+       practitioner's own list is "bass flutes, bass oboes, tenor voices,
+       strings, harpsichord and timpani" [corpus:erichgrunewald]. The Mellotron
+       IS a tape choir and flute machine and the VP-330 IS a string/choir
+       ensemble, so this genre needs no new pitched voice -- only the drums it
+       did not have. */
+    machines: { drums: [["procession", 8], ["kit", 2]],
+                bass:  [["auto", 1]],
+                keys:  [["mellotron", 6], ["vp330", 3], ["auto", 1]],
+                lead:  [["auto", 1]],
+                keys2: [["vp330", 5], ["mellotron", 4], ["auto", 1]] },
+    params: {
+      procession: { bus: 0.95, gate: 0, ring: 1.25,
+                    kTune: 0.94, kDecay: 1.3, kMix: 0.9, kVerb: 0.5, kEcho: 0.05, kCut: 9000,
+                    sTune: 1, sDecay: 1, sMix: 0.62, sVerb: 0.55, sEcho: 0.08, sCut: 9500,
+                    tTune: 1, tDecay: 1.4, tMix: 0.85, tVerb: 0.7, tEcho: 0.1, tCut: 8000,
+                    mTune: 1, mDecay: 1.4, mMix: 0.8, mVerb: 0.7, mEcho: 0.1, mCut: 8000,
+                    rTune: 1, rDecay: 1, rMix: 0.3, rVerb: 0.4, rEcho: 0.05, rCut: 9000,
+                    cTune: 1, cDecay: 1, cMix: 0.3, cVerb: 0.4, cEcho: 0.05, cCut: 9000,
+                    hTune: 1, hDecay: 0.8, hMix: 0.28, hVerb: 0.35, hEcho: 0.04, hCut: 9000,
+                    oTune: 1, oDecay: 0.9, oMix: 0.3, oVerb: 0.4, oEcho: 0.05, oCut: 9000,
+                    aTune: 1, aDecay: 1, aMix: 0.3, aVerb: 0.5, aEcho: 0.05, aCut: 8500,
+                    dTune: 1, dDecay: 1, dMix: 0.3, dVerb: 0.5, dEcho: 0.05, dCut: 8500 },
+      /* STATION 2 IS THE CHOIR, and the tape is worn: the Erang pack's pitched
+         samples sit 15-47 cents SHARP of the C they are named for -- the pack
+         itself ships the drifted-tape sound the sources describe, so the wow
+         and hiss here run at lofi's levels (0.0058/0.44), the heaviest in the
+         file. [corpus:erang-sample-pack, measured 2026-08-06] */
+      mellotron: { voice: 2, wow: 0.006, flutter: 0.40, hiss: 0.45, tapeEnd: 1 },
+      /* the swell IS the instrument: the Erang strings/pads take 1-11 s to
+         reach full (median ~4 s of the sustained files) and ring 2-12 s after.
+         attack tops out at 2.5 on this machine, so it sits near the ceiling. */
+      vp330:     { ens: 0.72, choir: 0.55, attack: 1.8, release: 4.6,
+                   pan: 0.15, panHz: 0.04, panDep: 0.18 },
+      echo:      { div: 3, send: 0.14, fb: 0.3, tone: 2600, hp: 180, verb: 0.5, width: 0.25 },
+    },
+    /* the movement is slow and it is the only movement there is: the harmony
+       barely changes, so a filter opening across a section is the arrival.
+       Every lane here is either the record going somewhere (`apex`) or weather
+       (`lfo`), which is what a genre with no drops has instead of gestures. */
+    motion: {
+      procession: {
+        /* the kettles open into the arrival and the room deepens with them --
+           the conductor riding the procession, which is the seam law's
+           requirement that a bus somebody can move is a bus somebody moves */
+        bus:   [{ kind: "apex", from: [-0.06, 0.0], to: [0.04, 0.12] }],
+        gate:  [{ kind: "section", by: { chorus: [0.0, 0.06] } }],
+        tVerb: [{ kind: "apex", from: [-0.05, 0.02], to: [0.05, 0.16] },
+                { kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.02, 0.06], shape: "sin", freePhase: true }],
+        mVerb: [{ kind: "apex", from: [-0.05, 0.02], to: [0.05, 0.16] }],
+        tCut:  [{ kind: "apex", from: [-900, -200], to: [200, 1400] }],
+        mCut:  [{ kind: "apex", from: [-900, -200], to: [200, 1400] }],
+        kMix:  [{ kind: "section", by: { bridge: [-0.3, -0.12], outro: [-0.25, -0.1] } }],
+        /* every lane below carries an LFO beside its section move: a form is a
+           draw and a draw can skip the bridge, and a lane that moves only in a
+           section the song never plays is flat -- the "actually swings" seam
+           check caught exactly that at seed 1, nine lanes at once */
+        sMix:  [{ kind: "section", by: { bridge: [-0.25, -0.1] } },
+                { kind: "lfo", bars: [[56, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        tMix:  [{ kind: "occurrence", step: [0.03, 0.08], cap: 3 }],
+        mMix:  [{ kind: "occurrence", step: [0.03, 0.08], cap: 3 }],
+        kDecay:[{ kind: "lfo", bars: [[64, 1]], depth: [0.02, 0.06], shape: "sin", freePhase: true }],
+        kVerb: [{ kind: "apex", from: [-0.04, 0.02], to: [0.04, 0.12] }],
+        kEcho: [{ kind: "section", by: { outro: [0.04, 0.12] } }],
+        kTune: [{ kind: "lfo", bars: [[96, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        kCut:  [{ kind: "apex", from: [-600, -100], to: [100, 900] }],
+        sTune: [{ kind: "lfo", bars: [[80, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        sDecay:[{ kind: "section", by: { chorus: [0.02, 0.1] } }],
+        sVerb: [{ kind: "apex", from: [-0.04, 0.02], to: [0.04, 0.14] }],
+        sEcho: [{ kind: "section", by: { outro: [0.03, 0.1] } }],
+        sCut:  [{ kind: "apex", from: [-600, -100], to: [100, 900] }],
+        tTune: [{ kind: "lfo", bars: [[72, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        tDecay:[{ kind: "section", by: { chorus: [0.05, 0.2] } }],
+        tEcho: [{ kind: "section", by: { bridge: [0.03, 0.1] } },
+                { kind: "lfo", bars: [[60, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        mTune: [{ kind: "lfo", bars: [[88, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        mDecay:[{ kind: "section", by: { chorus: [0.05, 0.2] } }],
+        mEcho: [{ kind: "section", by: { bridge: [0.03, 0.1] } },
+                { kind: "lfo", bars: [[68, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        rTune: [{ kind: "lfo", bars: [[70, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        rDecay:[{ kind: "lfo", bars: [[60, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        rMix:  [{ kind: "section", by: { bridge: [-0.12, -0.04] } },
+                { kind: "lfo", bars: [[52, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        rVerb: [{ kind: "apex", from: [-0.03, 0.01], to: [0.03, 0.1] }],
+        rEcho: [{ kind: "section", by: { outro: [0.02, 0.08] } }],
+        rCut:  [{ kind: "apex", from: [-400, -80], to: [80, 700] }],
+        cTune: [{ kind: "lfo", bars: [[76, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        cDecay:[{ kind: "lfo", bars: [[66, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        cMix:  [{ kind: "section", by: { bridge: [-0.12, -0.04] } },
+                { kind: "lfo", bars: [[58, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        cVerb: [{ kind: "apex", from: [-0.03, 0.01], to: [0.03, 0.1] }],
+        cEcho: [{ kind: "section", by: { outro: [0.02, 0.08] } }],
+        cCut:  [{ kind: "apex", from: [-400, -80], to: [80, 700] }],
+        hTune: [{ kind: "lfo", bars: [[58, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        hDecay:[{ kind: "lfo", bars: [[54, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        hMix:  [{ kind: "section", by: { bridge: [-0.1, -0.03] } },
+                { kind: "lfo", bars: [[46, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        hVerb: [{ kind: "apex", from: [-0.03, 0.01], to: [0.02, 0.08] }],
+        hEcho: [{ kind: "section", by: { outro: [0.02, 0.07] } }],
+        hCut:  [{ kind: "apex", from: [-400, -80], to: [80, 600] }],
+        oTune: [{ kind: "lfo", bars: [[62, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        oDecay:[{ kind: "lfo", bars: [[56, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        oMix:  [{ kind: "section", by: { bridge: [-0.1, -0.03] } },
+                { kind: "lfo", bars: [[50, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        oVerb: [{ kind: "apex", from: [-0.03, 0.01], to: [0.02, 0.08] }],
+        oEcho: [{ kind: "section", by: { outro: [0.02, 0.07] } }],
+        oCut:  [{ kind: "apex", from: [-400, -80], to: [80, 600] }],
+        aTune: [{ kind: "lfo", bars: [[84, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        aDecay:[{ kind: "lfo", bars: [[74, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        aMix:  [{ kind: "section", by: { bridge: [-0.12, -0.04] } },
+                { kind: "lfo", bars: [[62, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        aVerb: [{ kind: "apex", from: [-0.03, 0.01], to: [0.03, 0.1] }],
+        aEcho: [{ kind: "section", by: { outro: [0.02, 0.08] } }],
+        aCut:  [{ kind: "apex", from: [-400, -80], to: [80, 700] }],
+        dTune: [{ kind: "lfo", bars: [[90, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        dDecay:[{ kind: "lfo", bars: [[78, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        dMix:  [{ kind: "section", by: { bridge: [-0.12, -0.04] } },
+                { kind: "lfo", bars: [[66, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        dVerb: [{ kind: "apex", from: [-0.03, 0.01], to: [0.03, 0.1] }],
+        dEcho: [{ kind: "section", by: { outro: [0.02, 0.08] } }],
+        dCut:  [{ kind: "apex", from: [-400, -80], to: [80, 700] }],
+      },
+      mellotron: {
+        /* wow is in absolute pitch-drift units, range 0..0.012 -- the weather
+           here is a slow deepening and easing of the drift, not a vibrato */
+        wow:    [{ kind: "lfo", bars: [[40, 2], [56, 1]], depth: [0.0008, 0.002], shape: "sin", freePhase: true }],
+        flutter:[{ kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.04, 0.10], shape: "sin", freePhase: true }],
+        /* the hiss rises as the record closes -- the dub wearing out */
+        hiss:   [{ kind: "section", by: { outro: [0.06, 0.16] } }],
+      },
+      vp330: {
+        ens:  [{ kind: "lfo", bars: [[52, 2], [68, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }],
+        /* the voices join for the arrival: the choir share swells into the apex */
+        choir:[{ kind: "apex", from: [-0.10, -0.02], to: [0.05, 0.16] }],
+        pan:  [{ kind: "lfo", bars: [[64, 1]], depth: [0.06, 0.16], shape: "sin", freePhase: true }],
+      },
+      echo: {
+        send: [{ kind: "section", by: { bridge: [0.05, 0.14], outro: [0.04, 0.12] } }],
+        verb: [{ kind: "apex", from: [-0.04, 0.02], to: [0.05, 0.16] }],
+      },
+      desk: {
+        high: [{ kind: "apex", from: [-0.12, -0.03], to: [0.02, 0.1] }],
+        low:  [{ kind: "section", by: { outro: [-0.14, -0.04] } }],
+      },
+      matrix: {
+        keysRoom: [{ kind: "apex", from: [-0.06, 0.0], to: [0.05, 0.16] }],
+        drumsRoom:[{ kind: "apex", from: [-0.05, 0.0], to: [0.05, 0.15] }],
+      },
+    },
+    /* THE WALK. Not a song shape -- a descent. The sources describe duration
+       and repetition rather than build-and-drop, and the primary source
+       describes parts arriving on top of one another over twenty minutes. So
+       the plan is four stretches with the roles thickening through them, and
+       the "chorus" is simply the fullest thing the record reaches.
+       112-176 bars at 52-78 bpm is roughly 6 to 13 minutes, centred near 9. */
+    form: {
+      lengths: { intro: 16, verse: 16, chorus: 16, bridge: 16, instrumental: 16, outro: 16 },
+      material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
+                  instrumental: "A", outro: "A" },
+      /* THE LAYERS ARRIVE. The intro is one keyboard alone; the bass and the
+         figure join; the drums are absent from half the record, which is the
+         sources' "sparse or absent" written as an arrangement rather than as a
+         density number. */
+      roles: { intro:        ["keys"],
+               verse:        ["keys", "bass", "ostinato"],
+               chorus:       ["keys", "keys2", "bass", "lead", "counter", "ostinato", "drums"],
+               bridge:       ["keys", "bass"],
+               instrumental: ["keys", "keys2", "bass", "counter", "ostinato", "drums"],
+               outro:        ["keys", "bass"] },
+      /* the record opens on ONE KEYBOARD ALONE nearly every time -- that is
+         the primary source's method ("i would come up with parts... then
+         another part on top") made audible from bar one. `coldOpen` is the
+         chance of SKIPPING the intro; the first draft had it at 0.9, which
+         threw away the genre's own thesis 9 songs in 10, and the roll caught
+         it: seed 1 opened on a full verse. */
+      coldOpen: 0.05, openVerse: 0.9,
+      target: [112, 5, 16],
+      plan: [
+        { name: "descend",  pool: ["intro", "verse"],                  bars: [24, 2, 16] },
+        { name: "halls",    pool: ["verse", "instrumental"],           bars: [32, 2, 16] },
+        { name: "deeper",   pool: ["chorus", "instrumental", "verse"], bars: [32, 2, 16], endOn: "chorus" },
+        { name: "return",   pool: ["bridge", "verse", "chorus"],       bars: [24, 2, 16], endOn: "chorus" },
+      ],
+      transitions: {
+        intro:        [["verse", 8], ["instrumental", 2]],
+        verse:        [["verse", 4], ["instrumental", 4], ["chorus", 3], ["bridge", 1]],
+        chorus:       [["verse", 4], ["instrumental", 3], ["chorus", 2], ["bridge", 1]],
+        bridge:       [["verse", 6], ["chorus", 3]],
+        instrumental: [["verse", 4], ["chorus", 4], ["instrumental", 2], ["bridge", 1]],
+        outro:        [],
+      },
+      bridgeAfterChorus: { verse: 2, instrumental: 2 },
+      /* THE NARROWEST ENERGY COLUMN IN THE FILE, on purpose. "dynamics gentle",
+         "atmosphere over loudness" [corpus:melodigging] -- a record that gets
+         LOUDER to arrive is doing the thing this genre is described as not
+         doing. The arrival is parts joining and the room opening, both of
+         which happen elsewhere: `roles` above adds three players at the
+         chorus and `motion` opens the kettles and the hall. So the whole
+         column lives inside a 0.62-0.92 band and the arc does the rest. */
+      energy: { intro: 0.62, outro: 0.66, bridge: 0.68, instrumental: 0.84,
+                chorus: 0.90, chorusPeak: 0.92, verse: 0.76 },
+      /* the deepest floor after jungle, and the slowest bend: the record starts
+         at about a quarter of its density and takes two thirds of its length to
+         reach full. `preHighs: [1,1]` rather than a range because a genre with
+         one arrival should have exactly one false one -- the layering is
+         monotone, parts join and do not leave. [EAR, and answerable to the
+         primary source's "on and on for layers and layers".] */
+      arc: { apexAt: [0.62, 0.74], floor: [0.20, 0.34], tail: [0.36, 0.52],
+             bend: [1.6, 2.2], dip: [0.06, 0.14], preHighs: [1, 1],
+             thin: { drums: 0.5, bass: 0.3, keys: 0.34, lead: 0.44 } },
+    },
+  },
+
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -17132,7 +17687,18 @@ function makeMaterials(chart){
           if(OTHER && otherTop[b] != null && otherTop[b - 1] != null){
             const da = topNow - topWas, db = otherTop[b] - otherTop[b - 1];
             const iv = Math.abs(topWas - otherTop[b - 1]) % 12;
-            if(da !== 0 && da === db && (iv === 0 || iv === 7)) cost += 12;
+            /* THE GENRE DECIDES WHETHER FUSION IS A DEFECT. Parallel perfects
+               fuse two voices into one perceptually [corpus:schoolof
+               composition] -- and in organum, and in the medieval-color genre
+               built on it, that fusion IS the sound: "parallel fifths and open
+               fifth/octave intervals for medieval color" [corpus:melodigging].
+               So the penalty is scaled by a declared appetite, 0 (common
+               practice, the default) to 1 (organum, cost off) -- the same door
+               `counter.style: "double"` already opened for synthwave's octave
+               double. A soft law stays soft; only its weight is the genre's.
+               docs/genre-research/dungeon-synth.md ss4. */
+            const want = Math.max(0, Math.min(1, G.parallels || 0));
+            if(da !== 0 && da === db && (iv === 0 || iv === 7)) cost += 12 * (1 - want);
           }
         }
         if(cost < bestCost){ bestCost = cost; voiced = cand; }
@@ -20058,7 +20624,7 @@ function newSong(forcedSeed){
 /* the sound the CURRENT panel settings ask for -- what play and render both use,
    so what you hear is what you rendered. */
 function soundNow(){
-  const S = soundOf(SONG.chart.genre, SONG.chart.picks.drums, SONG.chart.picks);
+  const S = soundOf(SONG.chart.genre, SONG.chart.picks.drums, SONG.chart.picks, SONG.chart);
   S.motion = SONG.motion;                 // the movement is the song's, not the panel's
   return S;
 }

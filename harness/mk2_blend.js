@@ -19,13 +19,20 @@ const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")
   await pg.goto('file://' + require('path').resolve(__dirname, '..', 'Deckards Orchestrator MK2.html'),{waitUntil:'load',timeout:60000});
   await pg.waitForFunction(()=>window.MK2,{timeout:20000});
 
-  const W = () => pg.evaluate(()=>{ const o={}; for(const k in window.__B) o[k]=+window.__B[k].toFixed(4); return o; });
+  /* FULL PRECISION, rounded only when printed. This rounded to 4 digits on the
+     way out, which was invisible while the shared-out remainder divided evenly
+     -- 0.6 over six genres is 0.1 exactly. The eighth genre made it 0.6/7, the
+     rounded copies summed to 0.9999, and the "exactly 1" check failed on the
+     harness's own rounding while the program's total was exactly 1. Ask the
+     thing, not a copy of the thing. */
+  const W = () => pg.evaluate(()=>{ const o={}; for(const k in window.__B) o[k]=window.__B[k]; return o; });
+  const show = w => JSON.stringify(Object.fromEntries(Object.entries(w).map(([k,v])=>[k,+v.toFixed(4)])));
   await pg.evaluate(()=>{ window.__B = BLEND; window.__L = BLEND_LOCK; window.__set = setBlend; window.__solo = soloBlend; });
 
   const sum = w => Object.values(w).reduce((a,b)=>a+b,0);
   let w = await W();
   check("starts as one genre at 100%", Math.abs(sum(w)-1)<1e-6 && Object.values(w).filter(x=>x>0.999).length===1,
-        JSON.stringify(w));
+        show(w));
 
   /* the exact scenario from the brief: 100 on X, add 25 of Y, then 25 of Z */
   await pg.evaluate(()=>{ __solo("lofi"); __set("jungle",0.25); });
@@ -55,7 +62,7 @@ const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")
   await pg.evaluate(()=>{ __L.clear(); __solo("lofi"); __set("lofi",0.4); });
   w = await W();
   check("dropping the only genre shares the remainder out", Math.abs(sum(w)-1)<1e-9 && w.lofi>0.399 && w.lofi<0.401,
-        JSON.stringify(w));
+        show(w));
 
   /* and it actually composes a blended song */
   await pg.evaluate(()=>{ __L.clear(); __solo("lofi"); __set("jungle",0.5); });
