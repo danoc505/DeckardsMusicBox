@@ -1,0 +1,74 @@
+  strings_01_C                3.59s  root   66.42 Hz (+27 c)  loop 35721..79213
+  Key_01_C                    1.80s  root  262.50 Hz (+6 c)  one-shot
+  percussion_01_C             1.74s  unpitched  one-shot
+  Pad_01_C                    4.19s  root   66.02 Hz (+16 c)  loop 41674..92442
+  05 Plucked_01_C.wav        reading was +112 cents off a C -- snapped
+  Plucked_01_C                3.55s  root  261.63 Hz (+112 c)  one-shot
+  Lead_01_C                   3.59s  root  137.81 Hz (+90 c)  loop 35721..79241
+  sfx_wind                    8.00s  unpitched  loop 79380..176399
+  strings_02_C                3.60s  root   65.82 Hz (+11 c)  loop 35721..79271
+  Key_02_C                    3.60s  root  134.45 Hz (+47 c)  one-shot
+  percussion_02_C             2.04s  unpitched  one-shot
+  Pad_02_C                    4.20s  root  262.50 Hz (+6 c)  loop 41674..92578
+  Plucked_02_C                4.00s  root  268.90 Hz (+47 c)  one-shot
+  Lead_02_C                   3.60s  root  268.90 Hz (+47 c)  loop 35721..79345
+  sfx_catacomb                6.87s  unpitched  one-shot
+  strings_03_C                3.60s  root  265.66 Hz (+27 c)  loop 35721..79379
+  strings_04_C                3.60s  root  265.66 Hz (+27 c)  loop 35721..79379
+  strings_05_C                3.60s  root  132.83 Hz (+27 c)  loop 35721..79379
+  strings_06_C                3.60s  root   65.82 Hz (+11 c)  loop 35721..79271
+  strings_07_C                3.59s  root  135.28 Hz (+58 c)  loop 35721..79241
+  strings_08_C                3.60s  root  262.50 Hz (+6 c)  loop 35721..79317
+  strings_09_C                3.59s  root  131.25 Hz (+6 c)  loop 35721..79233
+  strings_10_C                3.59s  root   65.62 Hz (+6 c)  loop 35721..79065
+  Key_03_C                    2.92s  root  268.90 Hz (+47 c)  one-shot
+  Key_04_C                    3.60s  root  132.83 Hz (+27 c)  one-shot
+  Key_05_C                    3.60s  root  268.90 Hz (+47 c)  one-shot
+  Key_06_C                    2.91s  root   65.62 Hz (+6 c)  one-shot
+  Key_07_C                    1.49s  root  275.62 Hz (+90 c)  one-shot
+  28 Key_08_C.wav            reading was +134 cents off a C -- snapped
+  Key_08_C                    1.48s  root  261.63 Hz (+134 c)  one-shot
+  Key_09_C                    0.46s  root  131.25 Hz (+6 c)  one-shot
+  Key_10_C                    2.00s  root  551.25 Hz (+90 c)  one-shot
+  percussion_03_C             2.21s  unpitched  one-shot
+  percussion_04_C             2.21s  unpitched  one-shot
+  percussion_05_C             1.48s  unpitched  one-shot
+  percussion_06_C             1.66s  unpitched  one-shot
+  percussion_07_C             1.89s  unpitched  one-shot
+  percussion_08_C             0.89s  unpitched  one-shot
+  percussion_09_C             1.59s  unpitched  one-shot
+  percussion_10_C             1.32s  unpitched  one-shot
+  Lead_03_C                   3.59s  root   66.02 Hz (+16 c)  loop 35721..79141
+  Lead_04_C                   3.60s  root  132.83 Hz (+27 c)  loop 35721..79379
+  Lead_05_C                   3.60s  root   64.66 Hz (-20 c)  loop 35721..79369
+  42 Lead_06_C.wav           reading was +525 cents off a C -- snapped
+  Lead_06_C                   3.60s  root   65.41 Hz (+525 c)  loop 35721..79296
+  Lead_07_C                   3.57s  root   32.81 Hz (+6 c)  loop 35721..78729
+  Lead_08_C                   3.60s  root  265.66 Hz (+27 c)  loop 35721..79379
+  Lead_09_C                   3.60s  root  265.66 Hz (+27 c)  loop 35721..79379
+  Lead_10_C                   3.60s  root  132.83 Hz (+27 c)  loop 35721..79379
+  47 Pad_03_C.wav            reading was +270 cents off a C -- snapped
+  Pad_03_C                    4.19s  root   32.70 Hz (+270 c)  loop 41674..92450
+  Pad_04_C                    4.19s  root   67.43 Hz (+53 c)  loop 41674..92358
+  Pad_05_C                    4.20s  root  265.66 Hz (+27 c)  loop 41674..92553
+  Pad_06_C                    4.20s  root  272.22 Hz (+69 c)  one-shot
+  Pad_07_C                    4.20s  root  132.83 Hz (+27 c)  one-shot
+  Pad_08_C                    4.20s  root  134.45 Hz (+47 c)  loop 41674..92514
+  Pad_09_C                    4.20s  root  136.11 Hz (+69 c)  loop 41674..92542
+  Pad_10_C                    4.20s  root  136.96 Hz (+79 c)  loop 41674..92550
+  Plucked_03_C                2.28s  root  537.80 Hz (+47 c)  one-shot
+  Plucked_04_C                2.64s  root  537.80 Hz (+47 c)  one-shot
+  Plucked_05_C                3.74s  root  275.62 Hz (+90 c)  one-shot
+  sfx_drone                   7.44s  unpitched  loop 73823..164051
+  sfx_emptiness               8.00s  unpitched  loop 79380..176399
+  sfx_thunder_impact          4.87s  unpitched  one-shot
+  Noise_loopable_01           5.00s  unpitched  loop 49612..110249
+  Noise_loopable_02           4.90s  unpitched  loop 48580..107956
+  Noise_loopable_03           4.44s  unpitched  loop 44086..97969
+  Noise_loopable_04           5.00s  unpitched  loop 49612..110249
+  Noise_loopable_05           5.00s  unpitched  loop 49612..110249
+
+65 samples
+  source WAV         94.44 MB
+  ADPCM               2.54 MB   (37.2x smaller)
+  as base64 text      3.39 MB   <- what the HTML actually carries
