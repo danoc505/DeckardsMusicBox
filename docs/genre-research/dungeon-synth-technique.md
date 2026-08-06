@@ -396,3 +396,76 @@ best harmony source if obtainable), Album of the Year's subgenre taxonomy
 (403), RateYourMusic genre pages (403), and two YouTube tutorial playlists whose
 transcripts could not be fetched — **that is where the articulation question
 would most likely be answered**, and it remains the biggest hole in this sheet.
+
+---
+
+## 8. THE ERANG PACK BECAME AN INSTRUMENT — `2026-08-06d`
+
+The user: *"We should have access to all the instruments in the Errang files
+that is a must. The Errang sound pack is literally a dungeon synth sound pack
+meant for making dungeon synth music, it is all the instruments one might need
+to start."*
+
+All 65 patches now play. The obstacle was arithmetic, not principle: the pack
+is stereo 16-bit 44.1 kHz, 535 seconds, **94.4 MB**, against a program that is
+one self-contained file. `harness/erang_bank.py` reduces it to **2.54 MB**
+(3.39 MB as embedded text, a 37× reduction) — mono, halved to 22.05 kHz,
+trimmed to an attack plus a crossfaded loop, IMA ADPCM at 4 bits a sample.
+Round-trip **median 34.6 dB SNR**, worst 9.8 dB on a noise bed, which is a
+predictive codec meeting unpredictable material.
+
+**Four panels, because the pack measured as four things**, not because four
+seemed tidy: every `strings`, `Pad` and `Lead` patch sustains and every `Key`
+and `Plucked` patch decays to nothing. That is the held/struck division §0
+argued for on entirely separate evidence, arriving from the audio itself —
+`erangStrings`, `erangHarp`, `erangLead`, `erangPercussion`.
+
+### ⚠ FIVE PATCHES OF FORTY-FIVE ARE STILL MISTUNED, and it is written down
+
+`harness/probe_erang.js` renders every pitched patch at three notes and reads
+the pitch back out of the audio, because **nothing else in this repository
+could see this**: the note list is identical whether a sampler is in tune or an
+octave out, the seam battery reads notes, the snapshot hashes notes, and
+`probe_voices` only asks whether a sound happened.
+
+It reports **7 bad readings across 5 patches** (`erangHarp` 0/6/8,
+`erangStrings` 12/18), almost all exactly an octave. The count came down 36 →
+21 → 15 → 13 → 7 through four separate defects, each measured rather than
+guessed:
+
+1. **Integer lag quantisation.** At 22.05 kHz one sample of lag is 12 cents at
+   C4 and 24 at C5, so the root simply could not be expressed. Parabolic
+   interpolation of the autocorrelation peak fixed the whole ±80-cent class.
+2. **The `_C` prior used as a constraint instead of a check.** Refining within
+   ±150 cents of the nearest C means a patch that is *not* a C can never be
+   found — `Lead_06` and `Pad_03` both read ~88 Hz, which is an F, and were
+   being forced 545 and 1719 cents wrong. Two independent measurements of the
+   raw WAVs agreed on 88 and only this code disagreed.
+3. **A fixed analysis window 25% into the sample.** Right for a held string,
+   wrong for a struck one — a quarter of the way into a decaying `Key` patch
+   there is more room tone than note. Reading the loudest second instead took
+   13 bad readings to 7 with one rule and no per-family branching.
+4. **My own probe had an octave bias too**, in the *opposite* direction to the
+   encoder's, so for a while neither could referee the other. Tightened to
+   require a genuine local maximum at 92%.
+
+**A spectral octave decision was tried and REFUSED**: scoring harmonic combs
+made it worse both times (15 → 21, then → 29), because a comb pitched an octave
+low matches every even harmonic of the true root. It is recorded here so the
+next person does not spend the same hour on it.
+
+**What is left needs an ear, not another algorithm.** Five patches, all in the
+struck families where pitch tracking is hardest. They are named above, the
+probe names them on every run, and choosing a different patch avoids them
+entirely. Fixing them by hand-writing five roots would work and would also be
+the "derive, never list" rule broken for convenience — so it has not been done.
+
+### Still open after this
+
+- **Atmosphere is embedded but not yet playable.** All ten `sfx` and `Noise`
+  beds are in the bank and none has a machine — the program has no role that
+  holds one sound for a whole record, which is the shape they need. The
+  `tape` role is the nearest existing mechanism.
+- **The roll is a genre dial, and the harp wants it on while the strings want
+  it off.** Both are in the same genre now, so one of them is wrong on any
+  given song. The dial belongs on the MACHINE, not the genre.

@@ -122,6 +122,29 @@ def trim_head(x, sr):
     return x[max(0, idx[0] - int(0.005 * sr)):]
 
 
+def loudest(x, sr, secs=1.0):
+    """The stretch of this sample with the most signal in it — which is where a
+    pitch reading is worth taking.
+
+    A FIXED WINDOW 25% IN IS WRONG FOR HALF THIS PACK. It suits a held string,
+    but every `Key` and `Plucked` patch is struck and decaying, so a quarter of
+    the way through a 3.6 s window there is far more room tone than note left,
+    and four of them read an octave out because of it. Sliding to the loudest
+    second handles both populations with one rule instead of branching on a
+    family, which the pack has already shown does not divide the way the
+    filenames suggest."""
+    n = min(len(x), int(secs * sr))
+    if n < 2048 or len(x) <= n:
+        return x
+    hop = max(1, n // 8)
+    best, at = -1.0, 0
+    for a in range(0, len(x) - n + 1, hop):
+        e = float((x[a:a + n] ** 2).sum())
+        if e > best:
+            best, at = e, a
+    return x[at:at + n]
+
+
 def f0_of(x, sr, lo_hz=30.0, hi_hz=1100.0):
     """Root frequency by autocorrelation, with the octave guard this project
     already learned the hard way on the timpani: take the SHORTEST lag within
@@ -135,10 +158,7 @@ def f0_of(x, sr, lo_hz=30.0, hi_hz=1100.0):
     that pad more than an octave and a half flat. Every pitched file in this
     pack is named `_C` and the pack's real roots measure C1..C5, so the band
     below is the instrument's range and not a generic pitch-tracker's."""
-    a = int(len(x) * 0.25)
-    seg = x[a:a + min(int(sr * 1.5), len(x) - a)]
-    if len(seg) < 2048:
-        seg = x
+    seg = loudest(x, sr)
     seg = seg - seg.mean()
     ac = np.correlate(seg, seg, "full")[len(seg) - 1:]
     if ac[0] <= 0:
@@ -152,22 +172,67 @@ def f0_of(x, sr, lo_hz=30.0, hi_hz=1100.0):
     return sr / float(lo + cand[0])
 
 
-def snap_to_C(f):
-    """Every pitched file in this pack is named `_C`. That is a strong prior and
-    it is used ONLY as a sanity check on the measurement, never as the tuning:
-    if the reading lands within 100 cents of some C we keep the READING (the
-    pack really is up to 49 cents sharp and the program should play it in tune);
-    if it lands further away the reading is not trusted and the nearest C is
-    used instead, and the file is reported so a human can look."""
-    if f <= 0:
+def root_of(x, sr):
+    """The sample's true root, in Hz. Returns (hz, how, cents_off_a_C).
+
+    THREE THINGS HAVE TO BE RIGHT AND THEY ARE THREE DIFFERENT PROBLEMS:
+
+    1. THE OCTAVE. Autocorrelation locks onto 2/f0 whenever the second harmonic
+       is loud. Guarded by taking the shortest lag within 90% of the best peak,
+       the same guard the timpani needed.
+    2. WHICH NOTE. Every pitched file in this pack is named `_C`, so once the
+       octave is right the answer must BE a C. The coarse reading only has to
+       be good enough to pick which one.
+    3. HOW FAR OFF THAT C IT ACTUALLY SITS -- and this is the part the first
+       version got wrong. At 22050 Hz a C4 is 84 samples of lag and a C5 is 41,
+       so ONE SAMPLE of lag is 12 cents at C4 and 24 cents at C5. An integer
+       lag simply cannot express this pack's tuning, and the rendered pitch
+       came out up to 80 cents off as a result -- measured by probe_erang, on
+       the audio, which is why that probe exists. So the peak is interpolated
+       to sub-sample resolution by fitting a parabola through it and its two
+       neighbours, which is the standard reading and costs three multiplies.
+
+    The pack really is up to ~50 cents sharp, and that is kept: the program
+    tunes from this number, so keeping it is what makes the bank play in tune
+    with the program's own bass and drums. What is NOT kept is a reading more
+    than 120 cents from a C, because at that distance it is a broken
+    measurement rather than a tuned instrument, and the file is reported."""
+    C0 = 16.351597831287414
+    coarse = f0_of(x, sr, 30.0, 600.0)
+    if coarse <= 0:
         return 0.0, "dead", 0.0
-    c0 = 16.351597831287414
-    k = round(12 * math.log2(f / c0) / 12.0)
-    nearest = c0 * (2.0 ** k)
-    cents = 1200 * math.log2(f / nearest)
-    if abs(cents) <= 100:
-        return f, "measured", cents
-    return nearest, "SNAPPED", cents
+
+    k = round(math.log2(coarse / C0))
+    target = C0 * (2.0 ** k)
+    # ── REFINE AROUND THE READING, NOT AROUND THE C ─────────────────────────
+    # The `_C` in the filename is a SANITY CHECK, not a constraint -- this
+    # function's own docstring says so and the first version did the opposite.
+    # Searching +/-150 cents around the nearest C means a sample that is not
+    # actually a C can never be found: Lead_06 and Pad_03 both read ~88 Hz,
+    # which is an F, and snapping them to C2 put them 545 and 1719 cents wrong.
+    # Two independent measurements of the raw WAVs agreed with 88 and only this
+    # function disagreed. So refine around what was HEARD, and let the C prior
+    # judge the result afterwards rather than dictate it.
+    seg = loudest(x, sr)
+    seg = seg - seg.mean()
+    ac = np.correlate(seg, seg, "full")[len(seg) - 1:]
+    lo = max(1, int(sr / (coarse * 2 ** (150 / 1200.0))))
+    hi = min(len(ac) - 2, int(sr / (coarse * 2 ** (-150 / 1200.0))) + 1)
+    if hi <= lo:
+        return target, "SNAPPED", 1200 * math.log2(coarse / target)
+    lag = lo + int(np.argmax(ac[lo:hi + 1]))
+    # parabolic interpolation through (lag-1, lag, lag+1)
+    if 1 <= lag < len(ac) - 1:
+        y0, y1, y2 = ac[lag - 1], ac[lag], ac[lag + 1]
+        den = y0 - 2 * y1 + y2
+        lag = lag + (0.5 * (y0 - y2) / den if den != 0 else 0.0)
+    f = sr / lag
+    cents = 1200 * math.log2(f / target)
+    # KEEP WHAT WAS MEASURED, and only report how far off a C it landed. A
+    # reading far from a C is either a patch that is not one (the pack has two)
+    # or a broken measurement, and the two are told apart by whether an
+    # independent reading agrees -- not by this function overruling itself.
+    return f, ("measured" if abs(cents) <= 120 else "off-C"), cents
 
 
 def sustains(x, sr, keep):
@@ -303,7 +368,7 @@ def main():
                 x[-fade:] *= np.linspace(1.0, 0.0, fade)
         root, how, cents = (0.0, "-", 0.0)
         if cfg["pitched"]:
-            root, how, cents = snap_to_C(f0_of(x, SR_OUT, 30.0, 600.0))
+            root, how, cents = root_of(x, SR_OUT)
             if how == "SNAPPED":
                 notes.append("  %-26s reading was %+.0f cents off a C -- snapped" % (fn, cents))
         data = adpcm_encode(x)
@@ -319,10 +384,27 @@ def main():
             notes.append("  %-26s %5.2fs  unpitched  %s" %
                          (key, len(x) / SR_OUT,
                           "loop %d..%d" % (ls, le) if ls >= 0 else "one-shot"))
-    out = dict(sr=SR_OUT, codec="ima-adpcm-4bit-mono", samples=bank)
+    # ── EMIT THE TWO CONSTANTS THE HTML CARRIES ─────────────────────────────
+    # Same shape as the mda ePiano bank already in that file: ONE base64 blob
+    # plus a compact index, rather than 65 separately-encoded strings. Base64
+    # pads to a 3-byte boundary per string, so concatenating first is both
+    # smaller and simpler to decode.
+    blob, index = bytearray(), []
+    for key in sorted(bank):
+        v = bank[key]
+        index.append("%s,%s,%d,%d,%s,%d,%d" %
+                     (key, v["f"], len(blob), v["n"],
+                      ("%.3f" % v["r"]) if v["r"] else "0", v["ls"], v["le"]))
+        blob += base64.b64decode(v["d"])
+    b64 = base64.b64encode(bytes(blob)).decode("ascii")
     with open(dst, "w") as fh:
-        json.dump(out, fh, separators=(",", ":"))
-    b64 = sum(len(v["d"]) for v in bank.values())
+        fh.write("/* GENERATED by harness/erang_bank.py -- do not hand-edit.\n"
+                 "   %d samples, %d Hz, IMA ADPCM 4-bit mono.\n"
+                 "   name,family,byteOffset,sampleCount,rootHz,loopStart,loopEnd */\n"
+                 % (len(bank), SR_OUT))
+        fh.write("const ERANG_INDEX = \"" + ";".join(index) + "\";\n")
+        fh.write("const ERANG_B64 = \"" + b64 + "\";\n")
+    b64 = len(b64)
     print("\n".join(notes))
     print("\n%d samples" % len(bank))
     print("  source WAV      %8.2f MB" % (raw_total / 1e6))
