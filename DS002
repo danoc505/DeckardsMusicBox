@@ -1,0 +1,571 @@
+I'm Francis Roberts and today I'm going to start a new dungeon synth
+0:06
+project and walk you through the whole process. So, I've used a name generator to come
+0:11
+up with the name Astral Cauldron. And I don't have a theme yet, but I'm thinking
+0:16
+that based on that name, I want to have something sort of mysterious
+0:21
+and astral sounding, whatever that means. Um, I'm thinking maybe mysterious
+0:27
+pads and harps and things like that. And the word cauldron makes me think of old school dungeon crawl games. So maybe
+0:34
+I'll add some sort of like low bit sounding synthesizers to it and see what
+0:40
+happens when I combine those things. So let's get started. All right. So
+0:47
+I've got my project called Astral Cauldron here and I've already got some
+0:52
+tracks in there. Let me just explain real quick what's going on. I have a voice over track that I'm feeding into
+0:58
+OBS to make this video and I have a music bus in which I have four blank
+1:04
+tracks. And in this music bus, I just have side chain compression and I'm
+1:11
+feeding it my voice so that everything that I make in here gets turned down automatically
+1:16
+when I talk, which is going to make my life a lot easier when I'm editing this video. So, if you start with a blank
+1:24
+project or just these four tracks, you'll be in pretty much the same place I am right now.
+1:30
+All right. So, like I said, Astral Cauldron kind of makes me think that we
+1:35
+need some kind of a um mysterious sound, some type of like astral projection kind
+1:41
+of a thing. And then something like old school Dungeons Crawl, like we're making a potion or something like that. So, I'm
+1:47
+going to make um a harp, a pad, a um low
+1:52
+bit oscillator kind of a sound, and uh maybe a second one. You know what?
+2:00
+Let's do two square wave synths. Or maybe a square and a triangle. Yeah,
+2:09
+we'll do two squares. Square Waves are really common in old
+2:15
+Nintendo games. So, that's what I'm thinking there. All right. Um,
+2:21
+I'm going to use Expand for the harp since this is a pretty inexpensive program that has a lot of good uh sort
+2:28
+of sketch sounds. Let's just pick one of these. I don't
+2:34
+think it really matters right now. I'm just starting out and u because I
+2:39
+haven't made any decisions yet. Um, the actual sounds that I use aren't going to be very important. I'll dial those in
+2:46
+later. Um, I'm going to use the same thing again here and choose a pad. Um,
+2:57
+I don't know. I'm just going to guess. I haven't listened to these before. I'm just going to pick one I'll change later if I need to. Um, for the square wave,
+3:05
+I'll choose just the default reaper synth. I think
+3:10
+this one's pretty cool. And I'm going to use square mix. Yeah, you know, I'll do pulse waves.
+3:17
+And I'll just use two of those. All right. Next, I'm going to just turn all these tracks down quite a bit.
+3:24
+Usually, I'll do this sort of premixing in my templates, but I figure since this
+3:29
+is a new project, I don't have a template for it yet. All right. And now uh for our first
+3:36
+song, I uh I'm going to leave some blank space at the beginning in case I want some kind of a sound effect or ambiance.
+3:43
+And I'll start on measure three. Um
+3:50
+and I'm just going to start with a harp part. Make a simple loop here.
+3:56
+[Music] And really any note is as good as any
+4:02
+other note. So, I guess I'll just start here. [Music]
+4:19
+Cool. I like it. [Music]
+4:31
+Whoops. Okay.
+4:36
+[Music]
+4:43
+Okay. That's going to be my first loop here. And in Dungeon Synth, we can really get away with looping the same
+4:49
+section over and over again. And it's just very slowly built it up. So, I'm going to um
+4:58
+yeah, you know, I'll just do that eight times for now, and I'll see how I'm feeling about that later. Um and go
+5:03
+straight ahead and um make a some kind of a loop for the pad
+5:09
+here. I forgot what key I was in already. Um
+5:14
+looks like sort of an E flat minor kind of a thing. Okay. And let's just see
+5:20
+what happens if I play an E flat minor here. That's kind of a cool sound actually. I might just deal with it in, you know,
+5:28
+one take this thing. And what I'm doing here, this is a power
+5:33
+chord. Um, if you come from a like a rock guitar school of thought, you're
+5:39
+going to um you're going to be familiar with this shape. Just a one and five. And this is like every everything from
+5:46
+AC/DC to uh black metal uh is going to be using this as far as rock and heavy
+5:51
+metal guitar. Um it sounds really different when you put it on something like a choir pad obviously, but um it's
+5:58
+basically just a chord that leaves out the third scale degree. One, two, three,
+6:04
+four, five. So just one and five.
+6:11
+Yeah, that's pretty cool, actually. Um, and I think that for a pad sound, I'm going to let that um sort of happen over
+6:18
+and over again. Maybe I'll change chords, though. Um, [Music]
+6:40
+Yeah. Um I could live with that. All right. Um I think that I'll go ahead and
+6:45
+sort of continue this trend. Uh and I'm imagining this going down further.
+6:58
+Something like that could be really cool. Um, this chord here, I'm already imagining that the the harp part might
+7:05
+need to ch might need to change. So, I might have every fourth instance of this harp loop uh do something else. Let's
+7:13
+just listen to this right now and see if it sounds good.
+7:22
+[Music]
+7:38
+Okay. So, I'm hearing something clashing in here that I'm not I'm not really into. Let's see what this is. This is an
+7:44
+E chord. So, that's probably what's going on. Um
+7:50
+[Music] maybe if I What if I just go up a half step? Would that sound weird? Maybe
+7:55
+that'll be horrible. I think it needs to be major.
+8:01
+[Music]
+8:31
+How's that? [Music]
+8:38
+Kind of an E major 7. Um, I like that a lot. That sounds cool.
+8:46
+Um, and then I'll just loop this. And I think that's a good start.
+8:52
+[Music]
+9:38
+Oh, yeah. Um, I'm very happy with that and um,
+9:43
+it's starting to to draw me in. I think that good dungeon synth um which to be
+9:51
+perfectly honest I don't think um I make a whole lot of um the stuff that I have
+9:57
+on my personal band camp page is similar to dungeon synth in a lot of
+10:03
+ways but it doesn't really do the um the
+10:09
+hook you into a trance kind of a thing that a lot of good dungeon synth does and that's what I'm aiming for here with
+10:15
+this uh astral cauldron project that I'm making for these videos. Um, so I think
+10:21
+that having something that repeats really nicely in this way and makes you
+10:26
+want to keep listening to it over and over again like you're like you're in a, you know, a mysterious dungeon in a
+10:31
+video game or something like that. Really has a really is an important part of the
+10:37
+aesthetic. So, I'm going to run with this and loop this part um a couple of
+10:43
+times. And you know what? Maybe I'll try to make this go for a few minutes and um
+10:49
+bring in other melodies as we go. So, you know what? I'm gonna put all that
+10:56
+together. I'm using the glue function in Reaper to put that together. By the way, uh you can find that in here. I'm doing
+11:02
+glue items within type selection. Control shiftG, excuse me.
+11:09
+And that's going to make it easier to keep track of where these loops happen visually. Uh, and I also like doing
+11:15
+this. Um, I should have done this to prepare, but set tracks to random colors. Let's do
+11:21
+that. So, that'll make all these stand out against each other. So, I think that
+11:27
+right here at the end of this um second loop, I'm going to bring in um our
+11:33
+square waves. And this is probably going to sound bad. I think I want it to be sort of a um
+11:41
+a long drawing kind of a sound. And let's just see what I can do with that.
+11:49
+Yeah, that's already quite loud. Um
+11:59
+what does this sound like? Even longer attack, I think. So, if
+12:06
+you're not sure what I'm doing here, I've got a bunch of videos on it in the dungeon synthesis series. Um,
+12:13
+I recommend just looking there. I'm essentially doing some sound design here. And the attack is how long it
+12:19
+takes for this sound to get to full volume. And sustain is how loud it is when it,
+12:25
+you know, after it dies out over this uh 500 milliseconds of decay time here.
+12:35
+And that's sounding okay actually. Um I'm going to filter it a little bit as
+12:40
+well.
+12:48
+[Music] Yeah, for now this is probably just actually fine.
+12:57
+Okay, let's see how this feels. Um, [Music]
+13:04
+and we're in E flat again. So, um,
+13:10
+maybe starting on a the fifth scale degree.
+13:16
+[Music] Yeah. Um, it clashes a little bit, but
+13:22
+kind of in a fun way. We need to make the project sound a bit unique. So, um, here we go. Let's see what we can do.
+13:30
+[Music]
+13:37
+um kind of imagining. So these need to be
+13:44
+eighth not
+13:50
+[Music]
+14:00
+Something like that maybe. [Music]
+14:09
+Um, I like it. Uh, it's a bit harsh. I'm going to turn the square waves down. They seem quite a bit louder than the,
+14:16
+uh, instances of expand up here.
+14:24
+[Music] This um also might want some kind of a
+14:30
+um a breath. And I'm also kind of imagining VA or something like that could be cool,
+14:36
+but I'll come back for that later.
+14:42
+And release as well.
+14:49
+[Music]
+14:57
+Yeah, maybe not. Reverb is what I want, I think. So, you
+15:03
+know what I'm going to do is I'm going to um make a uh reverb bus.
+15:10
+And I'll just use this one. Actually, you know what?
+15:16
+I'll use this one because if you're not using Reaper, um this is something you can download for free. It's pretty good.
+15:23
+And I'm going to pick some kind of a I don't know
+15:32
+hall or something. Maybe a church. Are there any churches
+15:39
+in here? Concert hall. Good enough for me. And I'm going to put the mix to 100% because
+15:44
+I'm going to be sending stuff to this. So, um, if you don't know about sends and returns, um, maybe I've got a video
+15:51
+on it, maybe I don't. I don't remember. Um there's great videos on it uh online. Basically, what you're doing is you have
+15:57
+a channel for just the effects and you are sending a certain amount of the signal to that channel. So, I'm going to
+16:04
+send some of it. See what it sounds like.
+16:10
+[Music] That's pretty cool. Um I don't like it that much. I think it's the pre-delay.
+16:17
+Is there a pre-delay in here? I don't even There's zero pre- delay.
+16:22
+That's weird. Uh, I'm just going to adjust the bits.
+16:36
+Whatever. It sounds fine. I I um I don't want to dwell on that because I won't get anything done. Um, I'm just going to
+16:43
+make this breath a bit longer and copy this over. And I'm I'm hearing it
+16:49
+go higher. I think I think that sort of feels good.
+16:59
+[Music] This melody needs to change.
+17:07
+[Music]
+17:22
+[Music] Maybe even this line will work here. Let's see how that feels.
+17:33
+[Music]
+17:45
+Ba. Or maybe
+17:52
+[Music]
+18:18
+[Music] That's kind of cool. Not really where I expected it to go, but let's see what
+18:26
+happens if we loop that.
+18:32
+[Music]
+18:52
+It's kind of a cool idea, but um I'm not really into it. It's It's bothering me
+18:58
+in the context of a of a loop. And I might keep it at over here at the
+19:04
+end of this section and go back to just the first part. But this first time it happens, I want to go to a different I
+19:09
+want to go to a different note. Boom.
+19:15
+[Music]
+19:21
+Maybe like uh same kind of a pattern but lower.
+19:31
+[Music]
+19:38
+Um, something about this note repeating
+19:45
+because that's the first note we have is is bothering me. So, I want to do something about that and make it loop a
+19:52
+little bit cleaner. [Music]
+19:58
+That's good. Um, I think I'm enjoying that quite a bit now. Um, okay. And
+20:03
+this, um, for some reason in my ears, it wants to be panned. Um, and I want something quite similar to it panned on
+20:10
+the other side. So, let's just do that. I already know these are going to need
+20:16
+to be turned down even more once there's a second one.
+20:22
+Okay. And this one also wants reverb. I'm sending about 10 dB
+20:27
+um or negative 10 dB rather.
+20:33
+Okay. So, I'll do that too. -10.
+20:40
+[Music] And then I guess I didn't do any sound design on this side either. You know
+20:45
+what I'm going to do is um I'm going to use the same patch that I just made for now.
+20:55
+[Music] Great. Okay. And then these are going to have uh different notes.
+21:06
+[Music]
+21:45
+So, what I'm doing here is harmonizing the melody in thirds. sort of like the same thing that um Iron Maiden or Judas
+21:53
+Priest would do with their guitars. Um I assume that if you're watching this for Dungeon Synth, you
+22:00
+know more about metal than you do about classical music, but maybe I'm wrong. This also is very common in uh classic
+22:06
+video game soundtracks. Um due to the limitations of the hardware, u it was
+22:11
+sort of like a good way to get melody and harmony without having like a a pad instrument like I have the luxury of
+22:17
+here. Um, so if you listen to old um Castlevania or Mario Zelda soundtracks,
+22:23
+you'll hear this type of um harmonization in your in your pulse waves. So, uh, that's what I'm trying to
+22:29
+copy here. [Music]
+22:43
+Okay. Um, and having those go to unison there actually
+22:48
+felt cool. Maybe I'll do something else with it here. [Music]
+22:55
+It does make them feel like they become panned centered though because the two stereo channels like sort of um are
+23:03
+doing exactly the same thing, the same waveform. So, it's creating a sort of a
+23:08
+like a a mind trick with the phase. So, um, maybe I'll use a different pulse
+23:13
+width on this one. See if that does anything. [Music]
+23:29
+I could also do different FB on both of them with an LFO, but um
+23:37
+[Music]
+24:15
+So these are no longer in thirds which um is again doing the trick. I'm
+24:20
+essentially trying to find different ways of making this third one stand out or be different because uh that thing I
+24:27
+did by accident of just not changing it. Uh I kind of liked the way it felt different, but I wanted to still have
+24:33
+that stereo field. So, um I think I'm in fourths now or something, right? U E
+24:38
+flat against Yeah, against a flat. Cool.
+24:46
+Let's hear what happens. Um, oh, actually, I'll do this one as well. Um,
+24:52
+[Music]
+25:08
+excuse me. [Music]
+25:20
+Let's see how that feels.
+25:25
+[Music] Okay, that's pretty cool.
+25:33
+And I like the idea of having them start Oh, that doesn't work at all. start in
+25:39
+uh harmony and become in unison or the other way around. Um
+25:47
+let's see what happens if I do this. Let's just listen to it.
+25:53
+[Music] [Applause]
+26:08
+Let's [Music]
+26:14
+see that.
+26:20
+[Music] Okay. Um I kind of like that. And um
+26:28
+now I want the same um sort of wobble warble wobble on both
+26:35
+those tracks. So, I'm going to call this um wobble. And I'm going to give it sort of a
+26:41
+wobbling effect. Um I guess I just do it with a pitch
+26:46
+control and shift sense. Um I can modulate this
+26:53
+within LFO.
+26:58
+We'll do a triangle wave. That's pretty good for VBR. And set it to default in
+27:04
+the middle. And this is going to be just way too strong. So I'll do
+27:18
+Let's see what this feels like.
+27:23
+[Music]
+27:41
+[Music]
+27:58
+[Applause] I like that
+28:05
+still quite a bit too loud. Um,
+28:10
+not very mysterious if it's way in front of everything.
+28:26
+Heat. Heat.
+28:32
+[Music]
+28:59
+I'm pretty happy with that. Uh, so I think that what I want to do next is
+29:09
+make that happen again over here. I think I want some kind of a percussion sound, though. So, I'm going to make a
+29:15
+track for that. and um call it a big drum.
+29:24
+And how do I make a big drum sound?
+29:30
+Let's just make one. Um
+29:40
+yeah. Okay. I'm just going to record
+29:47
+Did I record? I think. Yeah. Okay. This is ridiculous. Um,
+29:55
+there's that drum. Cool. It's really quiet, isn't it?
+30:01
+Okay. And I think what I'm going to do is
+30:07
+just turn this into like a sample. I think this is going to be potentially cool.
+30:17
+Okay. Um,
+30:27
+I am going to turn this into a really cool sample
+30:33
+and I'm going to do I don't know what plugins do I have? Um,
+30:45
+send this to the reverb.
+30:52
+I'll uh pitch shift it down likeus
+30:57
+like six semmit tones or something.
+31:04
+Okay. And um
+31:10
+let's see here. What else could I do to it?
+31:16
+Distorted or something. I'm just looking at these plugins. What do I even have in here?
+31:31
+That's kind of cool. actually just the default setting. Yeah. Okay, whatever.
+31:36
+Um, that's a good starting point. Um, I think what I'm going to do is just render that out.
+31:44
+Um, I guess I should render it to the right
+31:49
+spot. YouTube
+31:57
+Astro Cauldron samples.
+32:03
+Okay. And this will be a wave file,
+32:10
+just this piece right here. And
+32:16
+render that time selection. And I can just do it from the master mix.
+32:21
+And um I'll just delete that.
+32:27
+And now the big drum. I'm going to put a sample a sampler. And um
+32:37
+grab that sample. It was on um
+32:43
+desktop or something. YouTube. I don't even remember where I put it.
+32:49
+Oh god. desktop YouTube.
+33:00
+Oh, oops. I forgot to name it. I forgot the name of something cool. Okay. And now I'm going to adjust the envelope of
+33:05
+the sound a little bit and see if I can make this sound really good.
+33:14
+And I'm going to allow it to change in pitch so I can have more than one pitch of drum.
+33:20
+And I'm going to give it maximum two voices. Like it's two drums. And uh
+33:29
+maybe do some stuff to it.
+33:38
+Give it a little bit of release time and give it a really really beefy attack. U let's just see what this sounds like
+33:44
+now.
+33:51
+That's cool. I'm into it.
+33:58
+[Music] Um
+34:10
+[Music] Heat.
+34:16
+[Music]
+34:31
+Hey, Heat.
+34:38
+[Music]
+34:44
+[Music]
+34:50
+[Music] Okay, I'm pretty happy with that. I'm going to send this u back over to the
+34:56
+reverb and turn it down quite a bit. I want to live in this track with way
+35:01
+too much reverb in the traditional dungeon synth style.
+35:08
+[Music]
+35:14
+Okay. And that's going to be my pattern. Um, let's just see what happens if I
+35:20
+just leave that going actually. Um, and give it I I kind of want to give it even more reverb actually. Just a ton of it.
+35:27
+Um,
+35:34
+I kind of want to like lowfi it up too. I don't know. Um,
+35:51
+[Music]
+36:02
+Um, too busy. [Music]
+36:15
+Maybe something like that. [Music]
+36:26
+[Music]
+36:33
+Yeah.
+36:39
+Glue that together. And let's just use that as the pattern. We'll see how it sounds with these other
+36:45
+parts coming in. Heat.
+36:51
+[Music]
+37:03
+Heat.
+37:10
+[Applause] [Music]
+37:37
+[Music] and And that was just an idea I had for an ending. Switching just to that pad
+37:43
+again. [Music]
+37:57
+[Music]
+38:07
+It's kind of cool. Maybe that's too short of a song, but um I'm kind of enjoying it at this length.
+38:16
+Why don't I leave it for now? Yeah, I think I'm going to leave it where it is for now. Anyway, thanks a
+38:22
+lot for watching and let me know if you have any questions in the comment section of the video. Uh please like and
+38:28
+subscribe for more stuff like this and let me know if there's anything you'd like to see me make a video on.
