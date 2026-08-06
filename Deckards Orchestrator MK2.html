@@ -924,7 +924,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-06g · the research, built: opening, shared notes, pedal, ornament</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-06h · measured in the audio: the drum is in front now</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -7308,7 +7308,12 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
         } else o.frequency.setValueAtTime(f0 * ratio, t);
         const og = c.createGain();
         og.gain.setValueAtTime(0.0001, t);
-        og.gain.exponentialRampToValueAtTime(lvl * 0.5 * ev.gain, t + 0.006);
+        /* 1.15, not 0.5. MEASURED with probe_stems: the kettles rendered at
+           -19.8 and -22.1 dB against the mix -- present in the note list and
+           inaudible in the room, on the instrument this genre was asked for by
+           name. The modes' own `lvl` still sets their balance against each
+           other; this is the drum's level against everything else. */
+        og.gain.exponentialRampToValueAtTime(lvl * 1.15 * ev.gain, t + 0.006);
         og.gain.exponentialRampToValueAtTime(0.0002, t + ring * dk);
         o.connect(og); og.connect(drumOut(g, ev.lane));
         o.start(t); o.stop(t + ring * dk + 0.05);
@@ -15615,7 +15620,7 @@ const GENRE = {
        -40 dB, attacks 10-130 ms with no click to speak of. Softer and longer
        than any kick here, which is what a mallet on a big shallow drum is.
        [corpus:erang-sample-pack, measured 2026-08-06] */
-    kick: { tune: 62, decay: 0.55, click: 0.05, drive: 0.05, body: 1, gain: 0.85 },
+    kick: { tune: 62, decay: 0.62, click: 0.05, drive: 0.05, body: 1.15, gain: 1.30 },
     drumDrive: 1.10,
     gate: null,
     /* ── THE BALANCE, AND IT IS THE ONE THING HERE WITH REAL NUMBERS BEHIND IT.
@@ -15634,8 +15639,31 @@ const GENRE = {
        thing from the listener in every description of this music. The drums go
        UP, because the user asked for them and because the sources put a struck
        drum in front rather than behind. */
-    roleGain: { keys: 0.68, keys2: 0.55, ostinato: 0.60,
-                bass: 0.50, lead: 1.0, counter: 0.48, drums: 1.15 },
+    /* ── MEASURED IN THE AUDIO, which is the only place the complaint lives.
+       `harness/probe_stems.js` renders each part ALONE through the real graph.
+       Seed 7, a full section, each part against the whole mix:
+
+         keys      -5.4 dB      keys2  -5.0        <- the two chords, loudest
+         drums     -7.0         wardrum -7.4       <- UNDER the chords
+         bass      -8.2
+         lead     -13.1                            <- the tune, inaudible
+         ostinato -15.9                            <- the figure, inaudible
+         timpani  -19.8 / -22.1                    <- silent in practice
+
+       The user: "the chords is too loud i cant hear the drums, a war drum is
+       big, its bearly audable". Both true and both measurable, and every
+       previous attempt at this counted NOTES instead -- which is why the note
+       count came down and the loudness did not. A part can write a tenth of the
+       notes and be twice as loud.
+
+       These are set to invert that ordering: the struck drum in front, the tune
+       above the chords, the chords holding the middle at a level a listener can
+       hear past. Sized in dB, not in taste -- keys and keys2 come down about
+       7 dB, the drum goes up 4, the figure up 8, the tune up 3. The gain
+       formula clamps at 1.25, so the loud things come DOWN rather than the
+       quiet things going impossibly UP. */
+    roleGain: { keys: 0.30, keys2: 0.26, ostinato: 1.15,
+                bass: 0.30, lead: 2.00, counter: 1.10, drums: 1.80 },
     /* THE PROCESSION, and the palette. The keys are a tape choir or a string
        ensemble, which is what the sources name: "choirs, strings, pipe/chapel
        organs, flutes/recorders, horns, harps" [corpus:melodigging], and a
@@ -15861,7 +15889,18 @@ const GENRE = {
        the "chorus" is simply the fullest thing the record reaches.
        112-176 bars at 52-78 bpm is roughly 6 to 13 minutes, centred near 9. */
     form: {
-      lengths: { intro: 16, verse: 16, chorus: 16, bridge: 16, instrumental: 16, outro: 16 },
+      /* ── AND THE INTRO WAS OVER A MINUTE OF TWO PARTS ─────────────────────
+         Sixteen bars looks modest until it is counted in seconds: this genre
+         runs 52-78 bpm, and at seed 7's 53 bpm a 16-bar intro is SEVENTY-THREE
+         SECONDS. Measured on that seed, the first 70 seconds contained 110
+         events, no drums, no bass, and a chord track sitting 0.4 dB below the
+         entire mix -- which is to say the chord track WAS the mix, for over a
+         minute. That is the user's "boring drone of the same thing", exactly.
+
+         Four bars is 18 seconds at this tempo, which is where the measurement
+         of ten real records puts the whole texture being assembled (median
+         17.6 s). The intro is a way in, not a movement. */
+      lengths: { intro: 4, verse: 16, chorus: 16, bridge: 16, instrumental: 16, outro: 16 },
       material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
                   instrumental: "A", outro: "A" },
       /* THE LAYERS ARRIVE. The intro is one keyboard alone; the bass and the
