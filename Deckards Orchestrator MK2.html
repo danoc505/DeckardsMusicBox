@@ -623,6 +623,16 @@
      round-trip parser in the harness to notice. A display fed from the same
      function shows that hole on screen the moment it opens. ── */
   #roll{ background:#0a0f0b; border:1px solid #1b2a1e; padding:.55rem .7rem; margin:.9rem 0; }
+  /* THE ROLL SCROLLS WHEN THE SONG IS LONGER THAN THE GLASS. Everything was
+     drawn at 100% of the panel whatever the song, which is fine at lofi's 44
+     bars (19 px a bar) and unreadable at dungeon synth's 192 (4.4 px a bar) --
+     reported as "smushed, the notes are no longer shown across the whole
+     window". A bar has to be wide enough to see a sixteenth in. */
+  .rollpan{ overflow-x:auto; overflow-y:hidden; }
+  .rollpan::-webkit-scrollbar{ height:9px; }
+  .rollpan::-webkit-scrollbar-track{ background:#0a0f0b; }
+  .rollpan::-webkit-scrollbar-thumb{ background:#1e3a26; border-radius:5px; }
+  .rollpan::-webkit-scrollbar-thumb:hover{ background:#2b5236; }
   #roll h2{ font-size:10px; letter-spacing:.16em; color:#6fe38f; font-weight:normal;
             margin:0 0 .45rem; text-transform:uppercase; }
   #roll h2 span{ color:#3f7a53; letter-spacing:0; text-transform:none; float:right; }
@@ -914,7 +924,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-06d · all 65 Erang instruments, playable</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-06e · the chords hold, the bass pedals, the drum marches</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -15305,8 +15315,17 @@ const GENRE = {
        [corpus:melodigging]; "cassette tape emulation" [corpus:topfhelm]. The
        only genre besides lofi that turns hiss on, and for a different reason:
        lofi's is a record, this is a dubbed cassette. */
-    tape: { wow: [0.0016, 0.0022], crackle: [0.004, 0.003],
-            flutter: [0.0008, 0.0012], hiss: [0.012, 0.008] },
+    /* ── AND IT IS QUIET. Reported: "the static sound is too loud." It was
+       the loudest tape in the file by a factor of three -- hiss 0.012-0.020
+       against lofi's 0.0035, on the argument that a dubbed cassette is noisier
+       than a record. True, and it was set by that argument rather than by any
+       measurement, which is how a defensible reason ships an indefensible
+       number. The genre's own practitioners put the noise UNDER the music:
+       a noise layer "underneath the song to give it a bit of a lo-fi feel",
+       and of the heavy setting, "it's definitely too much" [dino synth
+       tutorial, transcript on `main`]. A third of what it was. */
+    tape: { wow: [0.0016, 0.0022], crackle: [0.0015, 0.0010],
+            flutter: [0.0008, 0.0012], hiss: [0.004, 0.003] },
     /* NO SEVENTHS. "simple stepwise resolutions rather than dense extended
        chords" [corpus:melodigging] -- the vertical vocabulary is triads and
        open fifths, which is what makes it read as medieval rather than as
@@ -15322,6 +15341,23 @@ const GENRE = {
        the sound you came for. 1 = the genre wants them and the cost is off.
        docs/genre-research/dungeon-synth.md ss4 */
     parallels: 1,
+    /* THE FIRST KEYBOARD HOLDS ITS CHORD instead of comping a figure over it.
+       See makeMaterials for the measurement that forced this: 1492 of 2812
+       notes were this one part. Both primary sources describe a held chord --
+       a pad on "just a one and five", a choir holding one note a whole
+       measure. docs/genre-research/dungeon-synth-technique.md */
+    keysStyle: "hold",
+    /* CHORDS THAT SHARE NOTES, asked for by the user and built on by every
+       source here: the voicing chooser now pays a bonus for each voice that
+       lands on a pitch the previous chord already had, so the harmony moves
+       underneath a note that does not. 1 is the full appetite. */
+    commonTone: 1,
+    /* AND ROUGHLY HALF OF ALL SONGS SIT ON A PEDAL -- one held tonic under
+       everything, rather than a root that follows the chords. "Long pedal
+       notes AND drones" [corpus:melodigging] names two things and this program
+       only had the second. Drawn per song, so a record is one or the other and
+       never both. [EAR for the 0.5; no source gives a proportion.] */
+    bassPedal: 0.5,
     /* long pedals: the chord holds for two bars at a time and the record moves
        by ADDING PARTS over it. "long pedal notes and drones" [corpus:melodigging] */
     progressions: {
@@ -15436,8 +15472,26 @@ const GENRE = {
        than any kick here, which is what a mallet on a big shallow drum is.
        [corpus:erang-sample-pack, measured 2026-08-06] */
     kick: { tune: 62, decay: 0.55, click: 0.05, drive: 0.05, body: 1, gain: 0.85 },
-    drumDrive: 0.95,
+    drumDrive: 1.10,
     gate: null,
+    /* ── THE BALANCE, AND IT IS THE ONE THING HERE WITH REAL NUMBERS BEHIND IT.
+       A practitioner setting up a dungeon synth track from scratch, saying the
+       levels out loud as he goes: the melody instrument at -6 dB ("a good
+       starting point... my default for new tracks"), the choir/pad at -9.3
+       ("the choir is quite loud and I want it to sit behind the harp"), and
+       the bass at -12 ("this will be the quietest instrument")
+       [Frances, BandLab dungeon synth tutorial, transcript on `main`]. The
+       other walkthrough says the same thing three separate times about its own
+       parts -- "still quite a bit too loud... not very mysterious if it's way
+       in front of everything" [Francis Roberts, Astral Cauldron].
+
+       So: chords 3.3 dB under the melody (x0.68), bass 6 dB under it (x0.50),
+       and the second keyboard further back again because it is the furthest
+       thing from the listener in every description of this music. The drums go
+       UP, because the user asked for them and because the sources put a struck
+       drum in front rather than behind. */
+    roleGain: { keys: 0.68, keys2: 0.55, ostinato: 0.60,
+                bass: 0.50, lead: 1.0, counter: 0.72, drums: 1.15 },
     /* THE PROCESSION, and the palette. The keys are a tape choir or a string
        ensemble, which is what the sources name: "choirs, strings, pipe/chapel
        organs, flutes/recorders, horns, harps" [corpus:melodigging], and a
@@ -15634,12 +15688,28 @@ const GENRE = {
          figure join; the drums are absent from half the record, which is the
          sources' "sparse or absent" written as an arrangement rather than as a
          density number. */
+      /* ── THE DRUM WALKS THROUGH THE WHOLE RECORD ──────────────────────────
+         Reported: "I want the drums to have more of a part." MEASURED on the
+         roll before this: 216 drum notes across 192 bars, and they arrived in
+         FOUR CLUMPS because only two of the six sections named `drums` at all.
+         A procession that stops for two thirds of the walk is not a procession.
+
+         The genre's own tutorial is unambiguous about what the part should be:
+         "just one timpani hit on the first beat of each bar", kept "extremely
+         simple", layered with more percussion "to beef the drum sound up",
+         because "simple repetitive percussion brings to mind dinosaurs
+         steadily marching on" [dino synth tutorial, transcript on `main`].
+         That is exactly what `pocket: [[0], 5]` already writes -- it was just
+         being switched off for most of the record. It plays in the verse now,
+         and the bridge is the one place it drops out, which is what a break
+         is for. `arc.thin` still takes hits out as the record opens, so the
+         entrance is a thickening rather than a switch. */
       roles: { intro:        ["keys"],
-               verse:        ["keys", "bass", "ostinato"],
+               verse:        ["keys", "bass", "ostinato", "drums"],
                chorus:       ["keys", "keys2", "bass", "lead", "counter", "ostinato", "drums"],
                bridge:       ["keys", "bass"],
                instrumental: ["keys", "keys2", "bass", "counter", "ostinato", "drums"],
-               outro:        ["keys", "bass"] },
+               outro:        ["keys", "bass", "drums"] },
       /* the record opens on ONE KEYBOARD ALONE nearly every time -- that is
          the primary source's method ("i would come up with parts... then
          another part on top") made audible from bar one. `coldOpen` is the
@@ -15647,12 +15717,24 @@ const GENRE = {
          threw away the genre's own thesis 9 songs in 10, and the roll caught
          it: seed 1 opened on a full verse. */
       coldOpen: 0.05, openVerse: 0.9,
-      target: [112, 5, 16],
+      /* ── AND IT OVERSHOT THE LENGTH IT WAS ASKED FOR ─────────────────────
+         The user's answer when asked was "long -- 8 to 12 minutes", and this
+         said 112-176 bars, which reads like 6-13 at this tempo band. MEASURED
+         over six seeds it produced 216 bars and 14.1 minutes: `target` is a
+         FLOOR, not a length, because makeForm keeps going until it has passed
+         it AND landed on the payoff, and a genre whose sections are all 16 bars
+         overshoots by more than one whose lengths vary. 96-160 measures back
+         inside the ask. The number to trust is the measurement, not the table. */
+      target: [96, 5, 16],
       plan: [
-        { name: "descend",  pool: ["intro", "verse"],                  bars: [24, 2, 16] },
-        { name: "halls",    pool: ["verse", "instrumental"],           bars: [32, 2, 16] },
-        { name: "deeper",   pool: ["chorus", "instrumental", "verse"], bars: [32, 2, 16], endOn: "chorus" },
-        { name: "return",   pool: ["bridge", "verse", "chorus"],       bars: [24, 2, 16], endOn: "chorus" },
+        /* the PLAN, not `target`, is what actually sets the length here: these
+           four minimums are summed and then rounded up to a whole section, so
+           `target` never binds. Measured at the old numbers the record ran 216
+           bars and 14.1 minutes against an ask of 8-12. */
+        { name: "descend",  pool: ["intro", "verse"],                  bars: [16, 2, 16] },
+        { name: "halls",    pool: ["verse", "instrumental"],           bars: [24, 2, 16] },
+        { name: "deeper",   pool: ["chorus", "instrumental", "verse"], bars: [24, 2, 16], endOn: "chorus" },
+        { name: "return",   pool: ["bridge", "verse", "chorus"],       bars: [16, 2, 16], endOn: "chorus" },
       ],
       transitions: {
         intro:        [["verse", 8], ["instrumental", 2]],
@@ -17185,8 +17267,35 @@ function makeMaterials(chart){
        in stage 5 -- so a genre that wants two bars of one note asks for it
        there, in the stage that owns duration, instead of here. */
     if(G.bassStyle === "drone"){
+      /* ── A DRONE FOLLOWS THE CHORDS; A PEDAL DOES NOT ────────────────────
+         The two are different things and this only did the first. A drone
+         re-strikes on the root of whatever chord is current -- so it MOVES,
+         just rarely. A PEDAL POINT holds ONE note, the key's own tonic, while
+         the harmony changes over the top of it, and the friction between the
+         held note and the moving chords is the whole device. It is the oldest
+         thing in this music: "long pedal notes and drones" [corpus:melodigging]
+         names both, and the genre's practitioners describe "a droning root and
+         perfect fifth pulse under it" with the notes above free to move
+         [ranseur, dungeonsynth.proboards.com/thread/351].
+
+         `bassPedal` is the genre's declaration of how much of the record sits
+         on the tonic rather than on the chord. 0 = always follow (every genre
+         that shipped before this and every genre that says nothing). 1 = never
+         follow. The draw runs UNCONDITIONALLY on its own substream [Law 3], so
+         adding this to one table cannot move a note in any other genre. */
+      const pedRng = stream(chart.seed, "pedal");
+      const PEDAL = Math.max(0, Math.min(1, G.bassPedal || 0));
+      const pedalOn = pedRng() < PEDAL;
+      const tonicMidi = intoBand(degMidi(root, mode, 0), R.bass[0], R.bass[1]);
       for(let b = 0; b < BARS; b++){
         const ch = chordSet[b], deep = rng() < 0.45;         // unconditional [Law 7]
+        if(pedalOn){
+          /* the pedal is struck once and held: no restrike at all, because the
+             thing it is holding under never changes */
+          if(b === 0) notes.push({ bar: 0, step: 0, dur: 16, pitch: tonicMidi,
+                                   vel: 0.70, role: "bass" });
+          continue;
+        }
         if(b > 0 && chordSet[b - 1].degree === ch.degree) continue;
         notes.push({ bar: b, step: 0, dur: 16, pitch: ch.rootMidi, vel: 0.70, role: "bass" });
         /* ── AND THE SUB HAS A FLOOR, BECAUSE HEARING DOES ────────────────────
@@ -18015,6 +18124,28 @@ function makeMaterials(chart){
              whose candidates are often within a hair of each other. Measured,
              not reasoned about: the A/B caught it. */
           cost += (cand.length === base.length) ? vl : (vn ? (vl / vn) * base.length : 0);
+          /* ── AND A NOTE THAT DOES NOT MOVE AT ALL IS WORTH MORE THAN ONE
+                THAT MOVES A LITTLE ─────────────────────────────────────────
+             Voice-leading distance already prefers small movement, but it
+             cannot tell a semitone from a stayed note except by one point of
+             cost -- so it has no particular appetite for a note held in COMMON
+             between two chords, which is a different and much stronger effect.
+             A shared note is the hinge the ear hangs the change on: the chord
+             underneath moves and one voice proves it is the same music.
+
+             The user asked for exactly this -- "altering chords to have shared
+             notes" -- and the genre's own sources are built on it: a pad
+             holding a fifth while the root moves, a choir starting on the same
+             note the melody starts on and holding it [Frances, BandLab
+             tutorial]. `commonTone` is the genre's appetite, a bonus per voice
+             that lands on a pitch the previous voicing already had. 0 for every
+             genre that says nothing, so nothing that shipped moves. */
+          const CT = Math.max(0, Math.min(1, G.commonTone || 0));
+          if(CT > 0 && prev.length){
+            let held = 0;
+            for(const pch of cand) if(prev.indexOf(pch) >= 0) held++;
+            cost -= CT * 14 * held;
+          }
           const topNow = cand[cand.length - 1], topWas = prev[prev.length - 1];
           cost += 2 * Math.abs(topNow - topWas);
           /* ── AND IT MUST NOT SHADOW THE OTHER KEYBOARD ────────────────────
@@ -19244,7 +19375,29 @@ function makeMaterials(chart){
      the owner making its material valid, which is the rule -- not a later pass
      moving a note that had already been written wrong. */
   const placed = reserve(ostA.concat(ostAvar, bassA));
-  const keysA  = buildKeys(chords, "keys", { dense: false, avoid: placed });
+  /* ── DOES THE FIRST KEYBOARD COMP, OR DOES IT HOLD? ──────────────────────
+     `buildKeys` has always been able to do both -- the bridge pad already asks
+     for `sustain` -- but WHICH one the main keyboard does was a fixed law, and
+     the law was "comp": strike the voicing, run an inner-voice figure over it,
+     restate the top on the pocket. That is a pair of hands on an electric
+     piano, and it is right for lofi.
+
+     MEASURED on the roll, dungeon synth seed 1: the first keyboard played
+     1492 of the song's 2812 notes -- a busy figure in every bar of a 192-bar
+     record, including the intro that the roles table says is one keyboard
+     ALONE. The user heard it as "the chord track is too loud" and "I can't
+     really hear the other instruments", and the picture agrees: a wall of
+     green with everything else behind it.
+
+     Both primary sources for this genre describe the opposite. A pad playing
+     "just a one and five... a chord that leaves out the third scale degree",
+     held [Francis Roberts, Astral Cauldron walkthrough]; a choir holding ONE
+     NOTE for a whole measure and changing "about halfway through the harp
+     part" [Frances, BandLab tutorial]. So it is a genre's declaration now,
+     and every genre that says nothing still comps exactly as it did. */
+  const HOLD = chart.table.keysStyle === "hold";
+  const keysA  = buildKeys(chords, "keys", { dense: false, avoid: placed,
+                                             sustain: HOLD, at: HOLD ? 0 : undefined });
   /* the ostinato goes into every reservation set BEFORE the tunes are drawn.
      It is the fixed thing in this music -- the cell that does not move -- so
      the melody and the counter are the parts that must find room, not it. */
@@ -19302,7 +19455,8 @@ function makeMaterials(chart){
   /* ── B = hook(A): same bed family, new tune FROM A's DNA, denser comp,
      a half-octave up [corpus: verse->chorus register lift ~ +1.5 st; the hook
      sits above the verse, not an octave above it] ── */
-  const keysB  = buildKeys(chords, "keysB", { dense: true, avoid: placed });
+  const keysB  = buildKeys(chords, "keysB", { dense: true, avoid: placed,
+                                             sustain: HOLD, at: HOLD ? 0 : undefined });
   const keys2B = tryPad(band => buildKeys(chords, "keys2B", { sustain: true, at: 2, band,
                             against: keysB, avoid: reserve(ostA.concat(bassA, keysB)) }));
   const resB   = reserve(ostA.concat(bassA, keysB, keys2B));
@@ -22038,6 +22192,9 @@ function drawRack(){
    the lead match bar for bar, and the comp's second pass through material A is
    deliberately not its first -- 41 written, 38 played, a different 38 each time,
    which is `form.arc.thin` doing exactly what it says. */
+/* the narrowest a bar may be drawn. 14 px is just under a pixel a sixteenth,
+   which is the point where a sixteenth-note figure stops being a smear. */
+const ROLL_BAR_MIN = 14;
 const ROLL_SEMI = 4;                    // pixels per semitone in the pitched band
 const ROLL_DRUM = 4;                    // pixels per kit lane
 const ROLL_GAP  = 7;                    // the rule between the two
@@ -22158,6 +22315,21 @@ function drawRoll(){
 
   const scope = el("div", "rollscope");
   scope.style.height = (H + 12) + "px";       // a little headroom for the section tags
+  /* ── A BAR HAS TO BE WIDE ENOUGH TO SEE A SIXTEENTH IN ─────────────────────
+     Everything below positions in PERCENT of the scope, and the scope used to
+     be exactly the width of the panel whatever the song was. MEASURED at 854 px
+     of glass: lofi's 44 bars get 19.4 px a bar and dungeon synth's 192 get 4.4,
+     which is one pixel per sixteenth -- the whole song is there and none of it
+     can be read. Reported as "smushed".
+
+     So the scope keeps a floor of 14 px a bar and the panel scrolls when that
+     is wider than the glass. Percentages are unchanged; only what they are a
+     percentage OF moves, so every note, rule, tag and the playhead all follow
+     without touching one of them. A short song still fits exactly as before. */
+  const pan = el("div", "rollpan");
+  const glass = Math.max(320, host.clientWidth - 24);
+  const wantW = Math.max(glass, nBars * ROLL_BAR_MIN);
+  scope.style.width = wantW + "px";
   const yOf = k => (hi - k) * ROLL_SEMI + 12;
   const yDrum = k => pitchH + ROLL_GAP + lanes.indexOf(k) * ROLL_DRUM + 12;
 
@@ -22262,7 +22434,7 @@ function drawRoll(){
   head.style.left = "0%";
   lay.appendChild(head);
   scope.appendChild(lay);
-  host.appendChild(scope);
+  pan.appendChild(scope); host.appendChild(pan);
 
   /* the legend, which is also the count -- the number of notes each track will
      export. A part reading 0 here is a part the .mid does not contain. */
