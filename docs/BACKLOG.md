@@ -61,6 +61,73 @@ should be built on top of this stack until it has been played.**
 
 ---
 
+## 0b. OPEN AFTER 2026-08-07 — the session that added the mixer and the phrase
+
+Everything here was found or left open on `2026-08-07` (`07a`…`07f`). Each says
+why it is open and what would close it.
+
+### 0b.1 The mixer's sends on the drum kit are pre-fader — STATED, NOT FIXED
+The channel strips sit in front of each role's bus, so the dry path and every
+matrix send follow the fader. The drum machine's OWN per-drum echo/reverb sends
+tap inside the kit (`mk`), which is ahead of the strip — so pulling the drums
+down leaves their internal sends where they were. That is how a desk with a
+sub-mixer on one channel behaves and it is written into the code, but it is a
+knob that does not do the whole of what it looks like it does. **Closing it**
+means re-pointing the dchain sends past the strip.
+
+### 0b.2 Five Erang patches read one octave out — PROBE, NOT BANK
+`probe_erang.js` flags `erangStrings#18` and `erangHarp#0/#6/#8` failing ONE
+note each by exactly an octave. Measuring the decoded PCM directly says the
+stored roots are right, so this is the probe's pitch reader picking a
+neighbouring autocorrelation peak. Written down so nobody "fixes" four correct
+numbers. **Closing it** means an octave-safe reader in `probe_erang.js`.
+(Pad_03_C was genuinely 645 cents wrong and IS corrected in the bank, with both
+measurements recorded at the head of `ERANG_INDEX`.)
+
+### 0b.3 The rendered-audio battery still sits at 18 failures
+Unchanged and unattributed. See §1. **Do not raise the ceiling.**
+
+### 0b.4 Parallel fifths are declared and inert in dungeon synth
+`parallels: 0`, and the table says why at length: the organum appetite and the
+user's request for shared notes pull in opposite directions, and once the
+progressions moved to third-motion the parallel case stopped occurring at all —
+0.0% of 50 bar-to-bar steps, dial on or off. **Closing it** means drawing BOTH
+kinds of root motion and applying the appetite only to the stepwise ones.
+
+### 0b.5 The A-weighting filter is 0.7 dB out at 8 kHz
+`probe_stems.js` builds the IEC 61672 curve from the standard's poles and checks
+itself against five published points. Everything at and below 4 kHz is inside
+0.1 dB; 8 kHz reads -1.8 against -1.1, which is the known cost of a plain
+bilinear transform near Nyquist. Prewarping each section individually was tried
+and made it worse. Charged where it does not matter (a bass question) and the
+check's tolerance says so out loud. **Closing it** means transforming the
+sixth-order function as a whole rather than as six first-order sections.
+
+### 0b.6 The mixer has no master strip and no solo
+Seven channels and no master fader, no mute, no solo. The roll's legend already
+does a visual solo; the audio does not. **Closing it** is a small amount of UI
+against the same `MIXTRIM` contract.
+
+### 0b.7 THE HARNESS ITSELF — what 2026-08-07 says about it
+Not a defect in the program; a defect in how it is checked.
+
+- **`mk2_test.js` cannot be run in parts.** One flat script, 131 checks, no
+  function boundaries per group. At 1m45s that is affordable and it is why it
+  was NOT worth restructuring — but if it ever grows past ~4 minutes, name
+  filtering is the first thing to add.
+- **The snapshot baseline is regenerated on every commit**, so it can only ever
+  catch change you did not intend, and only if you diff before overwriting.
+  Diffing per genre before rewriting it is a discipline, not a tool. **Closing
+  it** means keeping a per-genre hash line in the repo that must be edited by
+  hand to change.
+- **Sixty probe files, most written for one bug that is long fixed.** They are
+  documentation now and are useful as that. They should not be mistaken for a
+  suite that gets run.
+- **Nothing in the battery listens.** The user is the only end-to-end test.
+  This is §0's warning wearing different clothes.
+
+---
+
 ## 1. DEFECTS AND GAPS FOUND BY MEASUREMENT
 
 | what | why it is open | what closes it |

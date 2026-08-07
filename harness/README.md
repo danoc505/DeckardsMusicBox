@@ -13,19 +13,75 @@ and deleted, along with `build_engine.py` and `tests/`. MK1 itself is still
 here as `../Improv Machine playable_BETA 0.1.html`, frozen — for reading
 rather than running.*
 
-## The five-minute battery — run this before any claim
+## What to run, and when — CORRECTED 2026-08-07
 
-```sh
-node harness/mk2_test.js                              # the seam checks
-node harness/mk2_ui.js                                # the panels, real browser
-node harness/mk2_blend.js                             # the blend sliders
-node harness/mk2_snapshot.js check harness/mk2_baseline.snap
-node harness/probe_voices.js                          # every voice fires, none silent
-node harness/mk2_midi.js                              # MIDI via a stub port
-```
+This section used to be headed "the five-minute battery — run this before any
+claim" and listed six tools. That instruction is why one session ran the whole
+chain eight times in a day. It is replaced by measured costs.
 
-State at `af17de6` (build `2026-08-03o`): **118 / 26 / 10 / IDENTICAL /
-0 threw, 0 silent / 20.**
+**MEASURED 2026-08-07, and it contradicted what I had been saying:**
+
+| tool | cost | when |
+|---|---|---|
+| `mk2_roll.js <seed> --genre <g>` | instant | constantly — it prints the notes |
+| `mk2_test.js` | **1m45s** | freely, after any change to composition |
+| `probe_stems.js <genre> <seed> [secs] [from]` | ~1.5m | any question about balance |
+| `probe_static.js <genre> [songs]` | ~40s | how much a record actually changes |
+| `probe_palette.js <genre> [songs]` | ~40s | which of a genre's sounds get used |
+| `mk2_ui.js` | ~2m, flaky ~1 in 5 | once before publishing — and ALWAYS for anything with a knob |
+| `mk2_blend.js` | ~2m | once before publishing |
+| `mk2_midi.js` | ~1m | once before publishing |
+| `probe_mixer.js` | ~1m | once before publishing, if the graph moved |
+| `mk2_snapshot.js check <baseline>` | ~6m | once before publishing |
+| `probe_matrix.js <genre>` | ~20m A GENRE | only when the matrix itself changed |
+
+`mk2_test.js`'s seed argument barely moves it: 20 seeds took 1m54, 300 took
+1m44. Do not bother lowering it.
+
+**Run browser probes ONE AT A TIME.** Four cores; four Chromium renders at once
+finish slower than four in a row, and a combined run has been killed for memory
+(exit 137).
+
+## The three lessons that cost the most, 2026-08-07
+
+1. **A probe that reaches past the interface only proves what is behind the
+   interface.** `probe_mixer.js` passed 4/4 while every control on the mixer
+   panel was dead — it called `MK2.setMixer` directly, and the panel's own call
+   went through `window.Sound`, which is `undefined` because `Sound` is declared
+   with `const` and const never lands on `window`. **For anything with a knob,
+   the check that counts is the one in `mk2_ui.js` that drives the real element
+   with real pointer events.**
+
+2. **A probe can measure a different program than the one that plays.**
+   `probe_stems.js` called `renderWav(list, secs, rate)` and stopped: no space,
+   no kick voicing, no drum drive, no motion. `chTune` returns 1 flat on a graph
+   with no drum machine on it, so the war drum's tuning was switched off in every
+   reading it had ever printed, and a round of drum changes came back "identical
+   to the decimal". **Before believing a finding:** was the machine in the slot,
+   was the sound object passed, was the motion plan passed, was the window long
+   enough, is the baseline the values that were there or the ones that were
+   declared.
+
+3. **RMS is not loudness.** The drums measured -13.6 dB and **-39.9 dB
+   A-weighted** — the biggest thing in the record by power, and inaudible.
+   `probe_stems.js` now carries A-weighting (IEC 61672, built from the standard's
+   pole definitions and self-checked against its published curve before it is
+   allowed to report), CREST (peak minus average: how much of a part is a hit
+   rather than a hum), GAP (share of the window 30 dB under its own peak: the
+   silence between hits) and MISSED (how much quieter the whole mix gets without
+   this part, which is the only column that answers "is it actually there").
+
+## When a check goes red, decide honestly which is wrong
+
+Three times on 2026-08-07 the CHECK'S PREMISE was stale, not the program.
+Each was rewritten to measure the thing it was actually about — reading a
+genre's own `kit.poly` declaration instead of inferring a period; exempting
+phrase-ending bars **by name** from `materials.drumPhrase` — and never by moving
+a threshold. A check you rewrite whenever it is inconvenient is not a check.
+Say in the commit message which one you changed and why.
+
+State at build `2026-08-07f`: seam **131 / 0**, ui **36 / 0**, blend **10 / 0**,
+midi **20 / 0**, mixer **4 / 0**, snapshot `b9c88d17b7e7c54e`.
 
 **The counts in that line date the moment they were measured and nothing
 keeps them true.** A check count that disagrees with this file is this file

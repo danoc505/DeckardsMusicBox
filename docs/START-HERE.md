@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-06a` (the note's scaffolding) unless it says otherwise. If you
+*Everything below is verified at `2026-08-07f` unless it says otherwise. If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -115,52 +115,125 @@ because the measurement refused it.
 
 ## Where the program stands
 
-Run these before you claim anything. Numbers measured at `2026-08-06a`.
+Build `2026-08-07f`. Verified at that build:
 
-```bash
-npm install playwright           # FIRST, on a fresh clone: node_modules is not
-                                 # in the repo and the four browser probes below
-                                 # die with "Cannot find module 'playwright'",
-                                 # which reads like a broken probe and is not.
-                                 # Do NOT run `playwright install` — the browser
-                                 # is already in the image.
-node harness/mk2_test.js         # 123 seam checks, expect 123 / 0
-node harness/mk2_ui.js           # 34, real browser
-node harness/mk2_blend.js        # 10, and 504/504 blended pairs
-node harness/mk2_midi.js         # 20 (flakes on wall-clock under load)
-node harness/mk2_snapshot.js check harness/mk2_baseline.snap   # IDENTICAL
-node harness/probe_voices.js     # 0 threw, 0 silent
+```
+seam checks   131 / 0     node harness/mk2_test.js          1m45s
+ui             36 / 0     node harness/mk2_ui.js            ~2m, real browser, flaky ~1 in 5
+blend          10 / 0     node harness/mk2_blend.js         ~2m
+midi           20 / 0     node harness/mk2_midi.js          ~1m
+mixer           4 / 0     node harness/probe_mixer.js       ~1m
+snapshot   b9c88d17b7e7c54e  node harness/mk2_snapshot.js check harness/mk2_baseline.snap   ~6m
 ```
 
-Touching the SOUND (the graph, a voice, a genre's `space` or `kick`, the
-master chain) also means:
+On a fresh clone, FIRST: `npm install playwright`. `node_modules` is not in
+the repo and every browser probe dies with "Cannot find module 'playwright'",
+which reads like a broken probe and is not. Do **not** run
+`playwright install` — the browser is already in the image.
+
+## THE TESTING RULE, CORRECTED 2026-08-07
+
+The previous version of this section said "run these before you claim
+anything" and listed the whole chain. That instruction is why one session
+ran the full chain eight times for a day's work, and the user paid for it.
+It is replaced by the rule below, which is written from **measured** costs
+rather than from an impression of them.
+
+### What is actually cheap, and what is not
+
+MEASURED 2026-08-07. `mk2_test.js` takes **1 minute 45 seconds**, and its
+seed-count argument barely moves it — 20 seeds took 1m54, 300 took 1m44,
+which is noise. I had been telling the user the seam battery cost ten
+minutes and recommending it be made filterable. Both were wrong, and the
+wrongness is instructive: **the expensive things are the SNAPSHOT and the
+BROWSER probes, not the seam checks.** The ten minutes was me running the
+whole chain, one browser at a time, after every edit.
+
+So:
+
+- **While working:** `mk2_roll.js` (instant) and `mk2_test.js` (under two
+  minutes). Run those as often as you like. Add a targeted probe if the
+  question needs measuring — `probe_stems.js` for balance, `probe_static.js`
+  for how much a record changes, `probe_palette.js` for which sounds a genre
+  reaches.
+- **Once, before publishing:** the snapshot, `mk2_ui.js`, `mk2_blend.js`,
+  `mk2_midi.js`, and any probe the change touches.
+- **Never** the whole chain after every edit.
+
+**Run browser probes one at a time.** Four cores; four Chromium renders at
+once finish slower than four in a row, and a combined run has been killed for
+memory (exit 137).
+
+### What these checks CANNOT see, and it is most of what matters
+
+Every complaint the user made on 2026-08-07 — the drums inaudible, then
+smeared, the chords buried, the roll unreadable, **the mixer with every
+control dead** — was invisible to a green battery. Two specific lessons, both
+paid for:
+
+1. **A probe that reaches past the interface only proves what is behind the
+   interface.** `probe_mixer.js` passed 4 of 4 while every fader and knob on
+   the panel did nothing, because it called `MK2.setMixer` directly and the
+   panel's own call went through `window.Sound` — which is `undefined`, since
+   `Sound` is a `const` and const never lands on `window`. **For anything with
+   a knob on it, the check that counts is the one in `mk2_ui.js` that drives
+   the real element with real pointer events.**
+
+2. **A probe can be measuring a different program than the one that plays.**
+   `probe_stems.js` called `renderWav(list, secs, rate)` and stopped there —
+   no space, no kick voicing, no drum drive, no motion. `chTune` returns 1 flat
+   on a graph with no drum machine, so the war drum's tuning was switched OFF
+   in every reading it had ever printed, and a whole round of drum changes came
+   back "identical to the decimal". Before believing any measurement: was the
+   machine in the slot, was the sound passed, was the motion plan passed, was
+   the window long enough.
+
+3. **RMS is not loudness.** The drums measured -13.6 dB and **-39.9 dB
+   A-weighted** — the biggest thing in the record by power and inaudible.
+   Anything about balance goes through the A-weighted and leave-one-out columns
+   of `probe_stems.js`, not the plain RMS.
+
+### When a check goes red, decide honestly which is wrong
+
+Three times on 2026-08-07 a check went red because the check's PREMISE was
+stale, not the program: the polymetre check inferred a period per lane and
+phrasing destroyed that inference; the syncopation check held every bar to a
+downbeat kick including the one bar whose job is to remove it; a new check
+asserted repetition genres have identical bars, which they never did. Each was
+rewritten to measure the thing it was actually about — reading the genre's own
+`kit.poly` declaration, exempting D bars **by name** from
+`materials.drumPhrase` — and **not** by moving a threshold. A check you rewrite
+whenever it is inconvenient is not a check. Say in the commit message which you
+changed and why.
+
+### If you change the music on purpose
+
+Rewrite the snapshot baseline in the same commit, say so in the message, and
+say how many songs moved and which parts. Diff the old and new snapshot per
+genre before overwriting — the baseline is regenerated on every commit, so it
+only ever catches change you did not intend, and only if you look.
+
+### Touching the SOUND
+
+The graph, a voice, a genre's `space` or `kick`, the master chain:
 
 ```bash
+node harness/probe_render_determinism.js      # every genre repeatable
+node harness/probe_stems.js <genre> <seed>    # levels, A-weighted, leave-one-out
 node harness/render_audio.js /tmp/aud 1,2
 python3 harness/test_audio.py /tmp/aud        # 313 passed, 18 FAILED
-node harness/probe_render_determinism.js      # all seven repeatable
-node harness/probe_wiring.js                  # who reaches what
-node harness/probe_matrix.js <genre>          # every crossing moves air. ~20 min A GENRE
 ```
 
-**About those 18 failures.** Eleven are one check whose ceiling was
-calibrated before the program had a stereo stage — it now fails a correct
-mix. The other seven are four `presence above 2 kHz`, two `both channels
-carry the mix` and one `solo tape`. All 18 were confirmed identical on the
-commit before, rendered in a separate worktree with the same seeds, so none
+**About those 18 failures.** Eleven are one check whose ceiling was calibrated
+before the program had a stereo stage — it now fails a correct mix. The other
+seven are four `presence above 2 kHz`, two `both channels carry the mix` and
+one `solo tape`. All 18 were confirmed identical on the commit before, so none
 belongs to the newest build — but **the count grew from 15 to 18 somewhere in
-`04a`…`05d` and nobody has attributed it to a build.** That bisect is the open
-job; `BACKLOG.md` §1 has it with the numbers. **Do not just raise the number**: that check's value is
-failing when the reverb vanishes, and a ceiling chosen to make today's mix
-pass proves nothing. And do not inherit the habit that produced it — this
-battery once sat at 8 failures filed as "pre-existing", and two of them were
-real defects in the music.
-
-**If you change the music on purpose**, rewrite the snapshot baseline in the
-same commit, say so in the message, and say how many songs moved and which
-parts of them. The last change to move notes was measured both ways: 91 of
-2100 seeds by hash, 7 of 2100 songs by actual played events, all of them the
-second keyboard's pad.
+`04a`…`05d` and nobody has attributed it to a build.** `BACKLOG.md` §1 has the
+numbers. **Do not just raise the number**: that check's value is failing when
+the reverb vanishes, and a ceiling chosen to make today's mix pass proves
+nothing. And do not inherit the habit that produced it — this battery once sat
+at 8 failures filed as "pre-existing", and two were real defects in the music.
 
 ## What to do next
 

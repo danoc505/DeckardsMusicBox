@@ -13,24 +13,114 @@ rendered-audio failures that had been dismissed as "pre-existing" turned out to
 contain two real defects in the music. For whoever picks this up next. Read this
 whole file before you touch the HTML.*
 
-**State at build `2026-08-06a` (the note's scaffolding), every number below
-measured on that commit — not remembered from an earlier one.** The row that
-is not green is not green, and says why.
+**State at build `2026-08-07f`, every number below measured on that commit —
+not remembered from an earlier one.**
 
-| battery | command | result |
-|---|---|---|
-| seam checks | `node harness/mk2_test.js` | **123 passed, 0 failed** |
-| UI, in a browser | `node harness/mk2_ui.js` | **34 passed, 0 failed** — see the FLAKE note below |
-| blend sliders | `node harness/mk2_blend.js` | **10 passed, 0 failed** |
-| MIDI port | `node harness/mk2_midi.js` | **20 passed, 0 failed** |
-| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | **IDENTICAL — 2100 seeds** (baseline `c98cf33cd7844c7f`, re-recorded at 05f: 19 lines moved, deliberately, form and arrangement untouched on every one) |
-| every voice | `node harness/probe_voices.js` | **0 threw, 0 silent** |
-| the notes | `node harness/mk2_roll.js 1 --genre <g>` | **all seven print; this is RULE ONE and is not optional** |
-| how busy it is | `node harness/probe_density.js 30` | voices ringing, chord onsets, parts a bar, notes a bar — new at `04h` |
-| the graph, while it plays | `node harness/probe_nodes.js <g> 3` | **does the audio graph grow?** It did, unboundedly, and nothing else here could see it — new at `06a` |
-| the frame, when it stutters | `node harness/probe_mainthread.js <g> 25` then `node harness/probe_stutter.js <g>` | **the first says HOW slow, the second says WHY** — new at `05g` |
-| how a dissonance is reached | `node harness/probe_arrival.js 20` | the approach column of the taxonomy, per genre — new at `05e` |
-| what two parts do to each other | `node harness/probe_counterpoint.js 45` | **per PAIR since `05f`**, ranked, each against its own shuffle floor — the per-genre average hid the finding |
+| battery | command | cost | result |
+|---|---|---|---|
+| seam checks | `node harness/mk2_test.js` | 1m45s | **131 passed, 0 failed** |
+| UI, in a browser | `node harness/mk2_ui.js` | ~2m | **36 passed, 0 failed** — flaky ~1 in 5, see below |
+| blend sliders | `node harness/mk2_blend.js` | ~2m | **10 passed, 0 failed** |
+| MIDI port | `node harness/mk2_midi.js` | ~1m | **20 passed, 0 failed** |
+| the mixer | `node harness/probe_mixer.js` | ~1m | **4 passed, 0 failed** |
+| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | ~6m | baseline `b9c88d17b7e7c54e` |
+| the notes | `node harness/mk2_roll.js 1 --genre <g>` | instant | **RULE ONE, not optional** |
+| balance, in the audio | `node harness/probe_stems.js <g> <seed> [secs] [from]` | ~1.5m | levels, A-weighted, crest, gap, leave-one-out |
+| how static a record is | `node harness/probe_static.js <g> [songs]` | ~40s | parts sounding at once, distinct bars — new at `07d` |
+| which sounds get used | `node harness/probe_palette.js <g> [songs]` | ~40s | switch positions and machines per slot — new at `07a` |
+
+### THE TESTING RULE, CORRECTED 2026-08-07 — READ THIS BEFORE THE TABLE ABOVE
+
+The instruction used to be "run all of these before you claim anything". That
+is why one session ran the whole chain **eight times** for a day's work and the
+user paid for it and told me to stop. It is replaced by measured costs:
+
+- **While working:** `mk2_roll.js` and `mk2_test.js` only. The seam battery is
+  under two minutes and its seed argument barely moves it (20 seeds 1m54, 300
+  seeds 1m44). Add one targeted probe when a question needs a number.
+- **Once, before publishing:** snapshot, ui, blend, midi, and any probe the
+  change touches. One browser at a time — a combined run has been killed for
+  memory (exit 137).
+- **Never** the whole chain after every edit.
+
+### AND THE BATTERY CANNOT SEE MOST OF WHAT MATTERS
+
+Every complaint the user made on 2026-08-07 — drums inaudible, then smeared,
+chords buried, roll unreadable, **the mixer with every control dead** — was
+invisible to a green battery. Three lessons, each paid for:
+
+1. **A probe that reaches past the interface only proves what is behind the
+   interface.** `probe_mixer.js` passed 4/4 while every fader and knob on the
+   panel did nothing: it called `MK2.setMixer` directly, and the panel's own
+   push went through `window.Sound`, which is `undefined` because `Sound` is a
+   `const` and const never lands on `window`. **For anything with a knob, the
+   check that counts is the one in `mk2_ui.js` driving the real element with
+   real pointer events.**
+2. **A probe can be measuring a different program than the one that plays.**
+   `probe_stems.js` rendered with no space, no kick voicing, no drum drive and
+   no motion, and `chTune` returns 1 flat on a graph with no drum machine — so
+   the war drum's tuning was OFF in every reading it had ever printed, and a
+   round of drum changes came back "identical to the decimal".
+3. **RMS is not loudness.** The drums measured -13.6 dB and **-39.9 dB
+   A-weighted** — the largest thing in the record by power and inaudible.
+   Balance questions go through the A-weighted and MISSED columns, never plain
+   RMS.
+
+### WHEN A CHECK GOES RED, DECIDE HONESTLY WHICH IS WRONG
+
+Three times on 2026-08-07 the check's PREMISE was stale rather than the
+program: the polymetre check inferred a period per lane and phrasing destroyed
+that inference; the syncopation check held every bar to a downbeat kick
+including the one bar whose job is to remove it; a new check asserted
+repetition genres have identical bars, which they never did. Each was rewritten
+to measure the thing it was about — reading `kit.poly`, exempting D bars **by
+name** from `materials.drumPhrase` — and never by moving a threshold. Say in the
+commit message which you changed and why.
+
+### WHAT 2026-08-07 BUILT — `07a` … `07f`
+
+- **`07a`** A genre may write `"any"` or a weighted table where it used to
+  write a knob's number, and the value is drawn per song from the control's own
+  declared range. The Erang pack was 55 samples with four reachable; 53 of 55
+  now, measured over 40 songs. Pad_03_C's stored root corrected by hand — 645
+  cents, agreed by two independent measurements.
+- **`07b`…`07c`** The drums. The war drum's `kTune` is in SEMITONES and had
+  been treated as a multiplier for two rounds. Its GAP — the share of a window
+  more than 30 dB under its own peak — was **0%**: a decay of 1.6 s against
+  strikes 909 ms apart, plus a 28% send into an 8.5-second hall, which no
+  amount of clean decay survives. Then the opposite report, and A-weighting
+  found why: **-13.6 dB RMS, -39.9 dB A-weighted**, the biggest thing in the
+  record by power and inaudible. `g.tonic` was being handed a PITCH CLASS while
+  the timpani voice read it as a MIDI note, so the kettles had been playing
+  between 8 and 31 Hz. Both voices now carry a mid body and a contact
+  transient.
+- **`07d`** The mixer rack. A gain and three biquads per ROLE in front of its
+  bus, a fader opening at the genre's own balance for that part, and a meter.
+  Provably transparent untouched (-105.2 dB against a -104.9 dB renderer floor).
+- **`07e`** The mixer's controls were dead — `window.Sound` is undefined for a
+  `const`. The roll's floor was 0.875 px a sixteenth, which is the definition of
+  a smear rather than the cure for one; it is 3 px a sixteenth now. And the
+  drums got the eight-bar phrase.
+- **`07f`** The phrase applies to EVERY genre. `kit.phraseBy` says which medium
+  carries it — the hits, or a knob through the new `phrase` motion kind.
+  Sources in `docs/genre-research/rhythm-phrasing.md` §8.
+
+### THE ERROR THIS SESSION KEPT MAKING, NAMED
+
+**Writing a list where I should have read what is there.** It happened five
+times in one day and the user named it each time:
+
+- a genre's patch numbers hand-picked, so four of 55 samples were reachable
+- `openWith` a shortlist of three roles, so four parts could never open a song
+- `outro: ["keys"]` — one video deciding how every record ends
+- the drum phrase adding lanes from a fixed list, so genres wanting no toms got
+  132 a song
+- three genres EXEMPTED from the phrase on an argument the source contradicted
+
+The cure is the same every time: **derive it from the declaration.** `vocab` is
+the lanes bar zero plays. `"any"` is the control's own range. `openWith`
+defaults to every role with an entry point. `kit.poly` is what the polymetre
+check reads.
 
 > **`node_modules` IS NOT IN THE REPO and four probes need it.** `mk2_ui`,
 > `mk2_blend`, `mk2_midi` and `probe_voices` drive a real browser, and on a
