@@ -963,13 +963,18 @@ const check = (label, ok, detail) => {
         document.getElementById("new").click();
         await new Promise(r => setTimeout(r, 250));
         const sel = document.querySelector('[data-key="tr1000.kit"]');
-        return { drawn: sel ? sel.options[0].textContent : "(no selector)",
-                 loaded: MK2.currentSong().chart.picks.drumKit };
+        const kit = MK2.currentSong().chart.picks.drumKit;
+        return { drawn: sel ? sel.options[0].textContent : "(no selector)", loaded: kit,
+                 /* what that kit is CALLED — the selector says the name, never
+                    the key, so the check has to compare against the name too.
+                    This asserted `drawn.includes(loaded)` and went red the hour
+                    the names landed: the check was stale, not the program. */
+                 name: (MK2.INSTRUMENTS.tr1000.kitNames || {})[kit] };
       }, g);
     }
     check("the KIT selector names the kit that is actually in the machine",
-          Object.values(kitTxt).every(r => r.loaded && r.drawn.includes(r.loaded)),
-          Object.entries(kitTxt).map(([g, r]) => `${g}: "${r.drawn}" · loaded ${r.loaded}`).join(" · "));
+          Object.values(kitTxt).every(r => r.name && r.drawn.includes(r.name)),
+          Object.entries(kitTxt).map(([g, r]) => `${g}: "${r.drawn}" · loaded ${r.name}`).join(" · "));
     await pg.evaluate(async () => {
       const s = document.getElementById("genre");
       s.value = "lofi"; s.dispatchEvent(new Event("change", { bubbles: true }));
@@ -1004,6 +1009,149 @@ const check = (label, ok, detail) => {
     check("...and clearing it puts the kit's own sound back",
           !drove.err && drove.back.join(",") === drove.was.join(","),
           drove.err || `back to ${(drove.back||[]).join(",")} (was ${(drove.was||[]).join(",")})`);
+  }
+
+  /* ═══ NO VARIABLE NAME IS EVER VISIBLE ON THE PAGE ════════════════════════
+     Reported: "You can not use the words erang in front of a drum name thats
+     horrible practice." It was not one name — deriving the drum rack's
+     loadable list from the voice table put THIRTY-FOUR identifiers on a front
+     panel (`erangDrum`, `psgOpenhat`, `dacGhost`, `oh808`, `brk`) — and the
+     sweep written to confirm the fix immediately found an OLDER one nobody had
+     looked for: the song header said `rig sega` while `RIG_LABEL`, which
+     exists for precisely that and was written for the picker, had "SEGA —
+     YM2612" sitting in it.
+
+     THE LIST OF FORBIDDEN WORDS IS DERIVED: **a key its own display name does
+     not contain is a key that must never be seen.** That test took three
+     tries and the two rejected ones are worth recording, because both were
+     checks that reported defects where there were none:
+
+       · "every key" — flags `kick`, `clap`, `ride`, `snare`, which are keys
+         AND English words and appear on the panel legitimately;
+       · "every key whose name differs from it" — flags `analog` inside
+         "analog drum machine" and `acoustic` inside "acoustic drum kit",
+         where the name deliberately KEPT the word.
+
+     Containment is the honest form: it asks whether the display kept the word,
+     which is exactly the property that makes a key safe to show. `gretsch` is
+     not in "recorded drum kit", `brk` is not in "chopped breakbeat" and
+     `erangDrum` is not in "hand percussion", so all three are guarded. Name a
+     new sound and this check starts guarding it in the same edit.
+
+     AND IT IS SCOPED, deliberately, to the surfaces that PRINT a name the
+     program chose: the machine racks and the song header. The first version
+     swept the whole page and immediately cried wolf — `dungeon` is a kit key
+     AND an ordinary word in "dungeon synth" on the genre picker, and no amount
+     of pattern-matching separates those two without knowing what the words
+     mean. A check that reports a defect where there is none is worse than no
+     check; this file already has the false-CHANGED snapshot in its history to
+     prove it. Scoping loses nothing real — these are the only places a raw key
+     has ever reached the glass, and both of today's bugs are inside it.
+
+     It reads every genre, because a name only appears once something loads it. */
+  {
+    const forbidden = await pg.evaluate(() => {
+      const out = new Set();
+      const guard = (key, name) => { if(name && !name.includes(key)) out.add(key); };
+      const D = MK2.drumLoad();
+      for(const v of D.voices) guard(v, MK2.drumSoundName(v));
+      for(const m in MK2.INSTRUMENTS){
+        const M = MK2.INSTRUMENTS[m];
+        for(const c of (M.controls || [])){
+          if(!c.pick) continue;
+          const names = M[c.k + "Names"] || {};
+          for(const k in names) guard(k, names[k]);
+        }
+      }
+      /* ── AND A WORD THE PROGRAM USES AS ENGLISH IS NOT EVIDENCE ──────────
+         `dungeon` is a kit key AND half the name of a genre. Seeing "dungeon
+         synth" in the song header is not a leaked key, it is a genre being
+         named, and no rule about identifiers can tell those apart.
+
+         So every string the program declares as a DISPLAY name — genre
+         labels, machine labels, rig labels, kit names, sound names — is
+         collected, and any key that appears inside one is dropped from the
+         set. Derived on both sides, so nothing here is a hand-written
+         exception.
+
+         WHAT THAT COSTS, stated rather than hidden: a literal `dungeon` on
+         the drum machine would no longer be caught, because the word is in
+         use elsewhere as English. That is a handful of keys out of 34, and
+         the alternative is a check that reports a defect where there is none
+         — which this file's history says is the worse of the two. */
+      const legit = [
+        ...[...document.getElementById("genre").options].map(o => o.textContent),
+        ...Object.keys(MK2.INSTRUMENTS).map(k => MK2.INSTRUMENTS[k].label || ""),
+        ...Object.values(MK2.rigLabels()),
+        ...D.voices.map(v => MK2.drumSoundName(v)),
+      ].join("   ");
+      return [...out].filter(k => !legit.includes(k));
+    });
+    const hits = [];
+    for(const g of await pg.evaluate(() => MK2.genres())){
+      await pg.evaluate(async (g) => {
+        const s = document.getElementById("genre");
+        s.value = g; s.dispatchEvent(new Event("change", { bubbles: true }));
+        document.getElementById("new").click();
+        await new Promise(r => setTimeout(r, 300));
+      }, g);
+      const found = await pg.evaluate((words) => {
+        const rx = new RegExp("\\b(" + words.join("|") + ")\\b");
+        const out = new Set();
+        /* every machine rack, and the song header — the two surfaces that
+           print a name the program picked */
+        /* NOT the genre picker: it renders GENRE names, its own vocabulary,
+           and "dungeon synth" is a genre whose words collide with a kit key
+           for no reason connected to either. It has its own check two blocks
+           below, which asks the right question of it. */
+        const scope = [...document.querySelectorAll(".machine"),
+                       document.getElementById("info")].filter(Boolean);
+        const skip = document.getElementById("genre");
+        for(const root of scope){
+          for(const n of root.querySelectorAll("select")){
+            if(n === skip) continue;
+            for(const o of n.options)
+              if(rx.test(o.textContent)) out.add("option “" + o.textContent.trim().slice(0, 50) + "”");
+          }
+          const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n =>
+            /^(SCRIPT|STYLE|OPTION)$/.test(n.parentNode.nodeName)
+              ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+          let t; while((t = w.nextNode()))
+            if(rx.test(t.nodeValue)) out.add("text “" + t.nodeValue.trim().slice(0, 60) + "”");
+        }
+        return [...out];
+      }, forbidden);
+      for(const f of found) hits.push(g + ": " + f);
+    }
+    check("no variable name is visible on a rack or in the song header, on any genre",
+          hits.length === 0,
+          hits.length ? hits.slice(0, 4).join(" | ")
+                      : `${forbidden.length} internal keys guarded across ` +
+                        `${(await pg.evaluate(() => MK2.genres())).length} genres`);
+
+    /* AND THE ONE THE SWEEP CANNOT COVER, ASKED DIRECTLY. A rig key like
+       `sega` is guarded out of the set above by containment — "SEGA — YM2612"
+       holds the word, just in capitals — and `jungle` is a rig key that is
+       also a genre name. So the header is asked the positive question instead:
+       does it print the rig's LABEL? It printed `rig sega` for as long as
+       this line has existed. */
+    const rigBad = [];
+    for(const g of await pg.evaluate(() => MK2.genres())){
+      const r = await pg.evaluate(async (g) => {
+        const s = document.getElementById("genre");
+        s.value = g; s.dispatchEvent(new Event("change", { bubbles: true }));
+        document.getElementById("new").click();
+        await new Promise(r => setTimeout(r, 250));
+        const rig = MK2.currentSong().chart.rig;
+        return { rig, want: MK2.rigLabels()[rig],
+                 txt: document.getElementById("info").textContent };
+      }, g);
+      if(!r.want) rigBad.push(g + ": rig " + r.rig + " has no label at all");
+      else if(!r.txt.includes("rig " + r.want)) rigBad.push(g + ": header says rig " + r.rig);
+    }
+    check("...and the song header names the rig rather than its table key",
+          rigBad.length === 0,
+          rigBad.length ? rigBad.join(" · ") : "all genres name their rig");
   }
 
   /* ═══ EVERY GENRE THE PROGRAM DECLARES IS ON THE PICKER, AND PLAYS ═════════

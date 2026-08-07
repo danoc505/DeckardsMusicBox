@@ -106,6 +106,16 @@ has to keep a copy. And **ask the question of the thing, not of the
 declaration**: reading a genre's stated sends list once reported the reverb
 as used by two genres when all seven use it.
 
+**BUT DERIVE THE SET, NEVER THE WORDS.** 2026-08-07: the drum rack's loadable
+channels take their list from the voice table, which is right — and that put
+**thirty-four variable names on a front panel**. `erangDrum`. `psgOpenhat`.
+`dacGhost`. `oh808`. `brk`. Reported immediately, and correctly, as horrible
+practice. A key is how the program refers to itself; the person using it is
+not a programmer. So the SET is always derived and the WORDS are always a
+table — with a seam check walking the derived set and failing on anything
+unnamed, which is what stops the table going stale. Every list this rule
+touches that reaches the glass needs the same pair.
+
 **THE STAMP AND THE ARTIFACT MOVE TOGETHER.** The program the user listens
 to is the published artifact, not the repo. Once it was three commits behind
 while both files carried an identical stamp, so three commits of work went

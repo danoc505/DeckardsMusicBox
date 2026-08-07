@@ -84,10 +84,16 @@ rack. Three concrete faults, all of which fall out of the model:
   the same function the `.mid` export and the live port use.
 - **The pad bay's pads carry their own two knobs**, because an XY pad IS two
   controls and they were on other panels.
-- **EVERY DRUM CHANNEL IS A LOADABLE SLOT.** This is Kong's pads, and it is the
-  point at which a kit stops being a fixed map and becomes what the user called
-  "a starting point you edit". Each of the TR-1000's ten strips carries a tape
-  strip naming the sound in it and a list of every sound the program has —
+- **EVERY DRUM CHANNEL IS A LOADABLE SLOT — and this is not an invention.**
+  The user, stressing the point: *"the real TR-1000 is made with the ability to
+  do what we are doing, i just want to stress that fact we are not doing
+  something special here."* That is the correct framing and the entry below
+  used to get it wrong by reaching for Kong. Assigning a sound to a channel is
+  what a drum machine with ten channels **does**; the hardware this panel is
+  drawn from has always allowed it, and a program that draws that panel and
+  then refuses is the one behaving strangely. A kit stops being a fixed map and
+  becomes "a starting point you edit". Each of the TR-1000's ten strips carries
+  a tape strip naming the sound in it and a list of every sound the program has —
   **derived**, the union of every voice named by any drum machine or any of its
   kits, so a kit added tomorrow brings its sounds to every strip with nothing
   edited. The hand's choice rides in `picks.lane`, validated at one gate in
@@ -101,6 +107,18 @@ rack. Three concrete faults, all of which fall out of the model:
 - **The KIT selector names the kit that is in the machine.** It said "(genre
   draws)" — true about who chose, silent about what is loaded — while the
   machine's own screen said `TR1000 · dungeon` and the strips said WAR DRUM.
+- **AND EVERYTHING ON THE GLASS IS IN ENGLISH.** Reported: *"You can not use
+  the words erang in front of a drum name thats horrible practice."* It was not
+  one name. Deriving the loadable list from the voice table put **thirty-four
+  variable names on a front panel** — `erangDrum`, `psgOpenhat`, `dacGhost`,
+  `smpKick`, `oh808`, `brk` — and the KIT selector listed `gretsch`, `sega`,
+  `brk`. **This is the cost of deriving a DISPLAY from an internal table**, and
+  it is worth writing down because "derive, never list" is otherwise this
+  project's most reliable rule: **derive the SET, always; never derive the
+  WORDS.** The words are now two tables (`DRUM_SOUND_NAME`, and
+  `<control>Names` beside any `pick` collection) and two seam checks walk the
+  DERIVED sets and fail on anything unnamed or still reading as code — so a
+  sound added tomorrow cannot reach a panel without a name.
 
 **NOT BUILT, and named rather than implied**
 

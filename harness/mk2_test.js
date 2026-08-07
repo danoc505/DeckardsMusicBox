@@ -2603,6 +2603,60 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   check("a hand can load a sound into a drum channel, and it is heard",
         bad.length === 0, bad.length ? bad.join(" · ") : seen.join(" · "));
 
+  /* ── AND EVERY ONE OF THEM HAS A NAME IN ENGLISH ────────────────────────
+     Reported: "You can not use the words erang in front of a drum name thats
+     horrible practice." It was not one name. Deriving the loadable list from
+     the voice table put THIRTY-FOUR variable names on a front panel --
+     `erangDrum`, `psgOpenhat`, `dacGhost`, `smpKick`, `oh808`, `brk`.
+
+     That is the cost of deriving a DISPLAY from an internal table, and it is
+     worth stating because "derive, never list" is otherwise this project's
+     most reliable rule: derive the SET, always; never derive the WORDS.
+
+     So the words are a table, and this is what stops that table going stale.
+     It walks the derived list -- not a copy -- and demands a name that is not
+     the key, contains no camelCase hump and no project slang. Add a sound
+     without naming it and the battery goes red before a user sees it. */
+  {
+    const nameless = [], codey = [];
+    /* how an identifier looks and a name does not: a capital inside a word, or
+       no space in a name longer than a short word */
+    for(const v of D.voices){
+      const n = M.drumSoundName(v);
+      if(!n || n === v) nameless.push(v);
+      else if(/[a-z][A-Z]/.test(n) || /erang|808|psg|dac|smp|brk/i.test(n) && !/\s/.test(n))
+        codey.push(v + " -> " + n);
+    }
+    check("every drum sound a channel can hold has a name in English",
+          nameless.length === 0 && codey.length === 0,
+          nameless.length ? "no name: " + nameless.join(" ")
+          : codey.length ? "still reads as code: " + codey.join(" · ")
+          : D.voices.length + " sounds, all named");
+  }
+
+  /* ── AND SO DOES EVERY POSITION OF EVERY `pick` SWITCH ──────────────────
+     Same defect one layer up: the KIT selector listed `gretsch`, `sega`,
+     `brk`, `analog` -- the table's own keys. `brk` is not a word. Asked of
+     EVERY pick control on EVERY machine, so the bass rack and whatever comes
+     after it inherit the requirement rather than being remembered. */
+  {
+    const bad = [], seen = [];
+    for(const m in M.INSTRUMENTS){
+      const MM = M.INSTRUMENTS[m];
+      for(const c of (MM.controls || [])){
+        if(!c.pick) continue;
+        const coll = MM[(c.pickFrom || (c.k + "s"))];
+        if(!coll || typeof coll !== "object") continue;
+        const names = MM[c.k + "Names"] || {};
+        const missing = Object.keys(coll).filter(k => !names[k]);
+        if(missing.length) bad.push(m + "." + c.k + " unnamed: " + missing.join(" "));
+        else seen.push(m + "." + c.k + " " + Object.keys(coll).length + " named");
+      }
+    }
+    check("...and every position of a switch that picks a thing is named in English",
+          bad.length === 0, bad.length ? bad.join(" · ") : seen.join(" · "));
+  }
+
   /* the two refusals, and the no-op */
   {
     const junk = M.composeSong(3, undefined, "lofi",

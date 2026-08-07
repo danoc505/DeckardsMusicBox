@@ -609,6 +609,10 @@
                     padding:.14rem .1rem; border-radius:2px; cursor:pointer;
                     background:#1b1d20; color:#8b9095; border:1px solid #0a0c0e; }
   .sk-tr1000 .load.held select{ color:#ff8a4a; border-color:#5a2c10; background:#221610; }
+  /* the six narrow strips get a smaller face so more of the name survives --
+     the machine is ten channels wide and that is not negotiable, so the words
+     shrink rather than the words getting shorter */
+  .sk-tr1000 .col:not(.wide) .load select{ font-size:6.2px; letter-spacing:0; padding:.14rem .04rem; }
   .sk-tr1000 .trig.red.lit{   background:#2a1113; color:#ff5a4e; box-shadow:0 0 8px rgba(255,60,45,.5) inset; }
   .sk-tr1000 .trig.amber.lit{ background:#2a2410; color:#ffd34a; box-shadow:0 0 8px rgba(255,200,60,.45) inset; }
   .sk-tr1000 .trig.pale.lit{  background:#26282b; color:#eef1f4; box-shadow:0 0 8px rgba(235,240,245,.4) inset; }
@@ -1108,7 +1112,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-07k · every drum channel is a slot you can load a sound into</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-07l · the drums are named in English, not in code</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -2434,6 +2438,25 @@ const INSTRUMENTS = {
        WAS the sound set -- and it does not, because the chain block, the panel
        and twenty motion lanes were being duplicated four ways to say one thing.
        One box, four kits, one panel to learn. */
+    /* ── AND WHAT EACH KIT IS CALLED IN ENGLISH ────────────────────────────
+       The KIT selector was showing the table's own keys -- `gretsch`, `sega`,
+       `brk`, `analog` -- which are how the file refers to itself, not what the
+       drums are. `brk` in particular is not a word.
+
+       `<control>Names` beside `<control>s` is the general form: any `pick`
+       control takes its OPTIONS from the collection it picks and its LABELS
+       from this, so the bass rack gets the same behaviour with no second
+       mechanism. A seam check requires an entry per member, so a kit added
+       without a name fails the battery rather than putting a variable name on
+       the front of the machine. */
+    kitNames: {
+      analog:   "analog drum machine",
+      acoustic: "acoustic drum kit",
+      sega:     "console chip kit",
+      gretsch:  "recorded drum kit",
+      dungeon:  "war drums and kettles",
+      brk:      "chopped breakbeat",
+    },
     kits: {
       analog:   { kick:"k808", snare:"s808", ghost:"s808", hat:"h808", openhat:"oh808",
                   tom1:"t808hi", tom2:"t808mid", tom3:"t808lo",
@@ -5345,6 +5368,54 @@ function voiceFor(chart, lane, over){
   }
   return RIG[chart.rig][lane];
 }
+/* ── WHAT EACH DRUM SOUND IS CALLED IN ENGLISH ──────────────────────────────
+   Reported: "You can not use the words erang in front of a drum name thats
+   horrible practice." Correct, and it was not one name -- the loadable-channel
+   list put THIRTY-FOUR raw code identifiers on the glass: `erangDrum`,
+   `psgOpenhat`, `dacGhost`, `smpKick`, `oh808`, `t808hi`, `brk`. Those are
+   variable names. They are how the program refers to itself, and the person
+   using it is not a programmer.
+
+   The rule this breaks is the oldest one on this project: plain English,
+   always. A key that is fine inside the file is not fine on a control, and the
+   moment a list became DERIVED from those keys it carried them straight onto
+   the panel -- which is the cost of deriving a display from an internal table
+   and the reason this table exists rather than a `.replace(/([A-Z])/g, ...)`.
+
+   NO PRODUCT NAMES AND NO PROJECT SLANG. `erangDrum` is a set of sampled
+   percussion; what a listener needs to know is "hand percussion". `smpKick` is
+   a recorded kick. `psgHat` is a console's chip hi-hat. The sound, said plainly.
+
+   THE TABLE CANNOT GO STALE SILENTLY: a seam check walks `drumLoad().voices`
+   -- the derived list -- and fails if any sound has no name here. Add a voice
+   without naming it and the battery goes red before anyone sees a variable
+   name on a front panel. */
+const DRUM_SOUND_NAME = {
+  /* the synthesised acoustic kit */
+  kick: "acoustic kick",      snare: "acoustic snare",  ghost: "acoustic ghost snare",
+  hat: "acoustic hi-hat",     openhat: "acoustic open hat",
+  tom1: "tom, high",          tom2: "tom, middle",      tom3: "tom, low",
+  rim: "rim shot",            clap: "hand clap",
+  crash: "crash cymbal",      ride: "ride cymbal",
+  /* the analogue drum machine's own circuits */
+  k808: "analog kick",        s808: "analog snare",
+  h808: "analog hi-hat",      oh808: "analog open hat",
+  t808hi: "analog tom, high", t808mid: "analog tom, middle", t808lo: "analog tom, low",
+  /* the games console: a sampled channel and a square-wave chip */
+  dacKick: "console kick",    dacSnare: "console snare",  dacGhost: "console ghost snare",
+  psgHat: "console hi-hat",   psgOpenhat: "console open hat",
+  /* the recorded kit */
+  smpKick: "recorded kick",   smpSnare: "recorded snare",
+  smpHat: "recorded hi-hat",  smpRide: "recorded ride",
+  /* the sampled break, sliced and replayed */
+  brk: "chopped breakbeat",
+  /* the old drums */
+  wardrum: "war drum",
+  timpHi: "kettle drum, high", timpMid: "kettle drum, middle", timpLo: "kettle drum, low",
+  erangDrum: "hand percussion",
+};
+const drumSoundName = v => DRUM_SOUND_NAME[v] || v;
+
 /* ── WHAT A DRUM CHANNEL CAN HOLD, AND WHICH CHANNELS THERE ARE ─────────────
    The user, on the drum rack: "Dynamic means adjusts to what is needed", and a
    kit is "a starting point you edit" -- an unused channel is not a blank, it is
@@ -23494,7 +23565,14 @@ function describeText(song){
     return NOTE_NAMES[r] + q + (ch.tones.length > 3 ? "7" : "");
   };
   return (
-    `${c.table.label} · ${NOTE_NAMES[c.root]} ${c.mode} · ${c.tempo} bpm · rig ${c.rig} · ` +
+    /* the RIG's own name, not its table key: this line read "rig sega" on
+       Donkey Kong Country while `RIG_LABEL` -- which exists for exactly this
+       and was written for the picker -- had "SEGA — YM2612" sitting in it.
+       Found by sweeping the whole page for identifiers after the drum-loader
+       list put thirty-four of them on the glass; this one had been there
+       longer and nobody had looked. */
+    `${c.table.label} · ${NOTE_NAMES[c.root]} ${c.mode} · ${c.tempo} bpm · ` +
+    `rig ${RIG_LABEL[c.rig] || c.rig} · ` +
     `${song.form.nBars} bars · seed ${c.seed}\n` +
     `progression: ${song.materials.chords.map(name).join("  ")}` +
     (song.materials.chorusChords !== song.materials.chords
@@ -25642,9 +25720,19 @@ function drawPanels(){
                    difference between drawn and pinned is real and the orange
                    marking is what tells you the hand has been on it. */
                 const nowIs = SONG && SONG.chart.picks && SONG.chart.picks[pickKey];
+                /* the collection's keys are how the FILE names these; the
+                   `<control>Names` table beside it is how a person does */
+                const nm = M[(c.pickFrom || (c.k + "s")).replace(/s$/, "") + "Names"] ||
+                           M[c.k + "Names"] || {};
+                const say = n => nm[n] || n;
+                /* no `kit:` prefix -- the section above the control is already
+                   captioned KIT in the machine's own silkscreen, and five
+                   characters of prefix is five characters of the NAME lost to
+                   truncation on a control this narrow ("kit: war drums and
+                   kettl") */
                 sel.innerHTML =
-                  `<option value="">${c.k}: ${nowIs ? nowIs + " (drawn)" : "(genre draws)"}</option>` +
-                  names.map(n => `<option value="${n}">${c.k}: ${n}</option>`).join("");
+                  `<option value="">${nowIs ? say(nowIs) + " (drawn)" : "(the genre draws it)"}</option>` +
+                  names.map(n => `<option value="${n}">${say(n)}</option>`).join("");
                 sel.value = PICK[pickKey] || "";
                 sel.addEventListener("change", () => {
                   PICK[pickKey] = sel.value || null;
@@ -25731,9 +25819,18 @@ function drawPanels(){
             TRIGS.push(t);
           }
           /* ── AND THE CHANNEL IS LOADABLE ────────────────────────────────
-             The user's own framing of the drum rack: a kit is "a starting
-             point you edit", and an unused strip is "an empty slot you can
-             drop a sound into", not a blank and not a dimmed thing.
+             A kit is "a starting point you edit", and an unused strip is "an
+             empty slot you can drop a sound into", not a blank and not a
+             dimmed thing.
+
+             AND THIS IS NOT CLEVER. The user, stressing the point: "the real
+             TR-1000 is made with the ability to do what we are doing, i just
+             want to stress that fact we are not doing something special here."
+             Right. Assigning a sound to a channel is what a drum machine with
+             ten channels DOES -- the hardware this panel is drawn from has
+             always let you do it, and a program that draws that panel and then
+             refuses is the one doing something strange. This is the machine
+             behaving normally. It was missing, and now it is not.
 
              THE LIST IS DERIVED -- `drumLoad()` unions every voice named by
              any drum machine or any of its kits, so a kit added tomorrow
@@ -25760,12 +25857,30 @@ function drawPanels(){
             const ld = el("div", "load" + (held ? " held" : ""));
             const sel = document.createElement("select");
             sel.dataset.load = col.lane;
-            sel.title = "which sound is loaded in the " + col.label + " channel.\n" +
+            /* THE TOOLTIP CARRIES THE FULL NAME, because six of the ten strips
+               are too narrow to show one -- "hand percussion" reads as "hand p"
+               on the SHAKER channel. That is the machine's real shape and not
+               something to solve by shortening the words back towards code. */
+            sel.title = col.label + " is playing: " + drumSoundName(held || base) + "\n" +
+              "Pick another sound to load it into this channel.\n" +
               "The strip does not move: this channel's tune, decay and sends " +
               "still belong to " + col.label + ", whatever you put in it.";
-            sel.innerHTML = `<option value="">${base}</option>` +
+            /* IN ENGLISH, NOT IN CODE. The list is derived from the voice
+               keys, so without this it read `erangDrum`, `psgOpenhat`,
+               `oh808` -- variable names, on a control, to somebody who is not
+               a programmer. drumSoundName owns the translation and a seam
+               check makes sure every derived sound has one. */
+            /* IN THE ORDER A PERSON READS THEM, TOO. `drumLoad` sorts by the
+               voice KEY, which is the right order for a derived set and the
+               wrong one for a menu: it came out "war drum, chopped breakbeat,
+               hand clap, crash cymbal, console ghost snare" -- scrambled,
+               because the keys behind those are wardrum/brk/clap/crash/dacGhost.
+               Sorted by the words instead, which also groups the families
+               together: every acoustic drum, then every analog one, and so on. */
+            sel.innerHTML = `<option value="">${drumSoundName(base)}</option>` +
               D.voices.filter(v => v !== base)
-                      .map(v => `<option value="${v}">${v}</option>`).join("");
+                      .sort((a, b) => drumSoundName(a).localeCompare(drumSoundName(b)))
+                      .map(v => `<option value="${v}">${drumSoundName(v)}</option>`).join("");
             sel.value = held;
             sel.addEventListener("change", () => {
               if(!PICK.lane) PICK.lane = {};
@@ -26077,8 +26192,14 @@ function refreshLive(){
   }
   /* ── AND THE SCREEN ── */
   for(const [mName, M2, scr] of LCD){
-    const kit = (SONG && SONG.chart.picks.drumKit) || "analog";
-    scr.querySelector(".lcdkit").textContent = mName.toUpperCase() + " · " + kit;
+    /* the screen says what is LOADED, in English -- it read the table's own
+       key (`TR1000 · gretsch`) and fell back to the literal "analog", which is
+       the right answer for this machine by luck and wrong for any other box
+       with kits. Both fixed: the name comes from the machine's own `kitNames`,
+       and with no song there is nothing loaded to name. */
+    const kit = SONG && SONG.chart.picks.drumKit;
+    scr.querySelector(".lcdkit").textContent = mName.toUpperCase() + " · " +
+      (kit ? ((M2.kitNames && M2.kitNames[kit]) || kit) : "--");
     scr.querySelector(".lcdbar").textContent = SONG ? (SONG.chart.tempo.toFixed(2)) : "--";
     /* three readouts, the way the machine shows three knob values */
     const show = ["tune", "decay", "bus"].filter(k => CONTROL[mName + "." + k]);
@@ -26363,6 +26484,12 @@ window.MK2 = {
      copy, which is how "every lane is covered" stayed green while three
      instruments were unreachable. Same table, asked twice, never copied. */
   drumLoad: () => { const D = drumLoad(); return { lanes: D.lanes.slice(), voices: D.voices.slice() }; },
+  /* and what each of those is CALLED, so a check can hold the two together --
+     a derived list is only as good as the words it puts on the glass */
+  drumSoundName,
+  /* and what each RIG is called, for the same reason: the song header printed
+     `rig sega` for a year while this table held "SEGA — YM2612" */
+  rigLabels: () => Object.assign({}, RIG_LABEL),
   /* THE MIXER, so a probe can prove the two things a fader has to be: that it
      reaches the sound, and that it is not there until someone moves it. Both
      are claims about the RENDER, so the door is the same one renderWav uses. */

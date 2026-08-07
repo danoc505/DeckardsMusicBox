@@ -65,6 +65,13 @@ caution: a hand-written list of controls, of chain letters, of effect columns,
 of kit names, of genres. If a probe or a check needs to know what the program
 contains, it asks the program.
 
+**Derive the set, never the words.** The other half, learned the hard way:
+deriving the drum rack's loadable list from the voice table put thirty-four
+variable names on a front panel — `erangDrum`, `psgOpenhat`, `oh808`, `brk`.
+A key is how the program refers to itself and the user is not a programmer.
+Derive the SET; keep the WORDS in a table; put a seam check on the derived set
+so an unnamed one fails the battery instead of reaching the glass.
+
 **The stamp and the artifact move together.** Bump the stamp in the HTML, run
 `node harness/mk2_stamp.js write`, republish the artifact. A page and a repo
 carrying one stamp between two different programs is a defect the battery
