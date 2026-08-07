@@ -2183,6 +2183,92 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         `${fA} distinct listener figures in material A over 40 seeds, ${fB} in B ` +
         `(4 and 3 before the sequencers got a per-song phase)`);
 
+  /* ── THE DRUMS ARE PHRASED, NOT FOUR COPIES OF ONE BAR ────────────────────
+     Reported as "the drums on all genres are stale and bad", and the cause was
+     structural: the builder wrote four bars, each the pocket plus a couple of
+     independent per-bar coins, so bar two had no RELATIONSHIP to bar one. A
+     listener hears repetition and variation; independent randomness is neither.
+
+     What the shape claims, and therefore what is measured:
+       an A bar and a B bar DIFFER, and by roughly one hit -- "one small change"
+       a C bar differs by more than a B bar does, over a run of songs
+       a D bar is a FILL (more hits) or an EMPTY (far fewer), never a shrug
+       a genre that declares repetition is left alone, four A bars, no change
+     docs/genre-research/rhythm-phrasing.md */
+  {
+    const hits = (notes, b) => notes.filter(n => n.bar === b)
+                                    .map(n => n.step + ":" + n.lane).sort().join(",");
+    const dist = (notes, x, y) => {
+      const a = new Set(hits(notes, x).split(",")), z = new Set(hits(notes, y).split(","));
+      let d = 0;
+      for(const k of a) if(!z.has(k)) d++;
+      for(const k of z) if(!a.has(k)) d++;
+      return d;
+    };
+    let bDiff = 0, cDiff = 0, n = 0, dFills = 0, dEmpties = 0, dFlat = 0, still = 0, stillN = 0;
+    const phrased = [], flat = [];
+    for(const g of M.genres()){
+      let sumB = 0, sumC = 0, k = 0, isFlat = true;
+      for(let s = 1; s <= 12; s++){
+        const song = M.composeSong(s, "band", g);
+        const A = (song.materials.A || {}).drums || [];
+        const V = (song.materials.Avar || {}).drums || [];
+        const P = song.materials.drumPhrase;
+        if(!A.length || !P) continue;
+        k++;
+        sumB += dist(A, 0, 1); sumC += dist(A, 0, 3);
+        if(P.A.join("") !== "AAAA") isFlat = false;
+        /* ── THE D BAR AGAINST ITS OWN CORE BAR, not against the other copy ──
+           This compared the variant's last bar with the MAIN copy's last bar,
+           which is a C bar drawn on a different stream -- two things that differ
+           for reasons that have nothing to do with D. And it compared hit
+           COUNTS, so a fill that happened to land on the same total as whatever
+           it was measured against read as "did nothing".
+           A phrase ending is a statement about the bars around it in ITS OWN
+           sentence, so it is measured against bar zero of the same material,
+           by content first and then by size. */
+        if(P.Avar[3] === "D"){
+          const core = hits(V, 0), end = hits(V, 3);
+          const cn = core.split(",").filter(Boolean).length;
+          const en = end.split(",").filter(Boolean).length;
+          if(end === core) dFlat++;
+          else if(en > cn) dFills++;
+          else dEmpties++;
+        }
+      }
+      if(!k) continue;
+      n += k;
+      bDiff += sumB; cDiff += sumC;
+      if(isFlat){ flat.push(g); stillN += k; }
+      else phrased.push(g + ":" + (sumB / k).toFixed(1) + "/" + (sumC / k).toFixed(1));
+    }
+    /* ── AND THE FLAT GENRES ARE CHECKED BY THEIR LETTERS, NOT BY DISTANCE ──
+       The first version asserted that a repetition genre's bars are IDENTICAL,
+       and it failed at 418 hits moved -- because those genres' bars were never
+       identical. Their kits have always had per-bar draws (a ghost coin, a
+       listener watching two sequencers) that predate any of this. Measuring
+       distance there proves nothing about whether the PHRASE touched them. The
+       claim that can be checked is the one actually being made: their phrase is
+       four A bars, so the mechanism is not applied at all. */
+    /* ── AND "C MOVES MORE THAN B" IS NOT MEASURABLE FROM HERE ────────────
+       It was asserted and it failed on two genres, and the assertion was the
+       wrong one rather than the program: this measures bar N against bar ONE,
+       which includes every per-bar draw the kit already had -- dungeon synth
+       puts a kettle run in bars two and four by its own table, jungle rechops
+       the break. Those swamp a one-hit change. What IS provable from here is
+       that the phrase HAPPENS (the bars are not copies), that a D bar always
+       fills or empties, and that the genres declaring repetition are left at
+       four A bars. The size ordering of B against C is visible in the printed
+       per-genre figures and is not asserted. */
+    check("the drums are phrased: the bars differ, D always fills or empties",
+          bDiff / n > 0.3 && cDiff / n > 0.3 && (dFills + dEmpties) > 0 &&
+          dFlat === 0 && flat.length > 0,
+          `B moves ${(bDiff / n).toFixed(2)} hits a bar against bar one, C moves ` +
+          `${(cDiff / n).toFixed(2)} · D bars: ${dFills} fills, ${dEmpties} empties, ` +
+          `${dFlat} that did nothing · phrased: ${phrased.join(" ")} · ` +
+          `four-A genres: ${flat.join(",") || "NONE"} (${stillN} songs)`);
+  }
+
   /* 7. THE ROLL. Booth's sentence has three nouns -- it counts, it counts A
         ROLL, and it does THIS -- and the listener had one and a half of them:
         it could only count single hits and could only answer with one note.

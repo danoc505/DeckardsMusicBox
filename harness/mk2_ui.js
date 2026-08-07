@@ -137,6 +137,46 @@ const check = (label, ok, detail) => {
                       `${mix.meters} meters, ${mix.faders} faders, 3 bands each`
                     : "no mixer rack drawn");
   }
+  /* ── AND A FADER ON THE PANEL MUST REACH THE AUDIO ────────────────────────
+     `probe_mixer` proves the ENGINE responds to `MK2.setMixer`. It cannot prove
+     the PANEL calls it, and the first build of this rack did not: the push went
+     through `window.Sound`, which is undefined for a const, so every control was
+     dead while that probe stayed green. A test that reaches past the interface
+     only ever proves the thing behind the interface.
+
+     So this drags the fader the way a hand does -- pointerdown, move, up -- and
+     then asks the ENGINE what it is holding. */
+  {
+    const mixMoved = await pg.evaluate(async () => {
+      const strip = document.querySelector(".machine.mixer .mixch");
+      if(!strip) return { err: "no strip" };
+      const role = strip.dataset.role;
+      const f = strip.querySelector(".mixfader");
+      const r = f.getBoundingClientRect();
+      const ev = (type, y) => f.dispatchEvent(new PointerEvent(type, {
+        bubbles: true, clientX: r.left + r.width / 2, clientY: y, pointerId: 1 }));
+      f.setPointerCapture = () => {};
+      ev("pointerdown", r.top + r.height / 2);
+      ev("pointermove", r.top + r.height / 2 + 40);          // downward = quieter
+      ev("pointerup",   r.top + r.height / 2 + 40);
+      const shown = strip.querySelector(".mixdb").textContent;
+      /* and a band knob, the same way */
+      const kn = strip.querySelector(".mixeq .kn");
+      const kr = kn.getBoundingClientRect();
+      kn.setPointerCapture = () => {};
+      const kev = (type, y) => kn.dispatchEvent(new PointerEvent(type, {
+        bubbles: true, clientX: kr.left + kr.width / 2, clientY: y, pointerId: 2 }));
+      kev("pointerdown", kr.top + kr.height / 2);
+      kev("pointermove", kr.top + kr.height / 2 - 30);       // upward = boost
+      kev("pointerup",   kr.top + kr.height / 2 - 30);
+      return { role, shown, trim: JSON.parse(JSON.stringify(MIXER_TRIM)) };
+    });
+    const t = (mixMoved.trim || {})[mixMoved.role] || {};
+    check("dragging a fader on the panel reaches the engine",
+          !mixMoved.err && t.vol < 0 && t.low > 0,
+          mixMoved.err ? mixMoved.err
+            : `${mixMoved.role}: fader ${t.vol} dB, low ${t.low} dB, strip reads ${mixMoved.shown}`);
+  }
   /* ── EVERY MACHINE'S PANEL MUST DRAW, not just the three this file names ──
      The check above selects tr808, tb303 and mellotron BY NAME, so it can only
      ever prove that those three draw. The TR-1000 shipped with a `grid:"drums"`
