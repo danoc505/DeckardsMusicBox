@@ -75,7 +75,13 @@ const check = (label, ok, detail) => {
   await pg.selectOption(RACK("keys2"), "wurly");
   await pg.waitForTimeout(500);
 
-  const shape = await pg.evaluate(() => [...document.querySelectorAll(".machine")].map(m => ({
+  /* ── AND THE MIXER IS NOT A MACHINE ────────────────────────────────────────
+     It wears the `.machine` class because it is drawn as a rack box, and it has
+     no INSTRUMENTS entry, no slot and nothing to pick -- it is about the SONG.
+     Counting it here would make this check assert "slots + fixed + 1", which is
+     the fourth time this number would have gone stale. It is excluded by name
+     and checked on its own terms below. */
+  const shape = await pg.evaluate(() => [...document.querySelectorAll(".machine:not(.mixer)")].map(m => ({
     skin: (m.className.match(/sk-(\w+)/) || [])[1],
     knobs: m.querySelectorAll(".kn").length,
     steps: m.querySelectorAll(".steps .st").length + m.querySelectorAll(".acid .col").length,
@@ -103,6 +109,34 @@ const check = (label, ok, detail) => {
         fixed.every(f => shape.some(s => s.skin === f)),
         `${shape.length} panels (3 slots + ${fixed.length} fixed: ${fixed.join(",")}) · ` +
         shape.map(s => `${s.skin}:${s.knobs}kn/${s.steps}st`).join(" "));
+  /* ── THE MIXER HAS A STRIP FOR EVERY PART THE SONG PLAYS ──────────────────
+     Not a fixed list: the strips are read off the performance, so a song that
+     grows a part grows a channel. The check asks the program which roles sound
+     and compares, rather than naming them -- otherwise it proves its own copy
+     is current and nothing else. And it proves the meters are WIRED: a fader
+     with a dead meter beside it is the knob-that-lies defect pointed at the one
+     box whose whole job is to report. */
+  {
+    const mix = await pg.evaluate(() => {
+      const box = document.querySelector(".machine.mixer");
+      if(!box) return { there: false };
+      const strips = [...box.querySelectorAll(".mixch")].map(c => c.dataset.role);
+      const roles = [...new Set(MK2.composeSong(1, undefined, undefined) &&
+                                window.SONG ? window.SONG.perf.events.map(e => e.role) : [])];
+      return { there: true, strips,
+               eq: [...box.querySelectorAll(".mixch")].map(c => c.querySelectorAll(".kn").length),
+               meters: box.querySelectorAll(".mixmeter").length,
+               faders: box.querySelectorAll(".mixfader").length,
+               roles: roles };
+    });
+    check("the mixer draws a strip for every part the song plays",
+          mix.there && mix.strips.length > 0 &&
+          mix.meters === mix.strips.length && mix.faders === mix.strips.length &&
+          mix.eq.every(n => n === 3),
+          mix.there ? `${mix.strips.length} strips (${mix.strips.join(", ")}), ` +
+                      `${mix.meters} meters, ${mix.faders} faders, 3 bands each`
+                    : "no mixer rack drawn");
+  }
   /* ── EVERY MACHINE'S PANEL MUST DRAW, not just the three this file names ──
      The check above selects tr808, tb303 and mellotron BY NAME, so it can only
      ever prove that those three draw. The TR-1000 shipped with a `grid:"drums"`

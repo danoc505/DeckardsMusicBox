@@ -112,6 +112,62 @@
   .kn.touched .val{ opacity:1; font-weight:600; }
   .kn.touched .cap::after{ content:" •"; }         /* your hand is on this one */
 
+  /* ══ THE MIXER ═══════════════════════════════════════════════════════════
+     One strip per part in THIS song, above every other rack, because that is
+     where the master section of a desk is and because it is the box you reach
+     for first when something is too loud. A strip is: three EQ knobs, a meter,
+     a fader, and the level in dB under it.
+
+     THE METER IS THE POINT of drawing it this way rather than as another row of
+     knobs. A fader tells you what you asked for; a meter tells you what is
+     actually happening, and the whole reason this rack exists is that the
+     numbers a listener cares about were only visible to a probe. Green up to
+     -6 dBFS, amber to -1, red above -- the standard reading, so the colour
+     means the same thing here as on any other meter anyone has used. */
+  .mixer .mixstrips{ display:flex; gap:.55rem; align-items:flex-end; flex-wrap:wrap; }
+  .mixch{ display:flex; flex-direction:column; align-items:center; gap:.3rem;
+          padding:.4rem .3rem .35rem; border-radius:3px;
+          background:rgba(0,0,0,.16); box-shadow:inset 0 1px 0 rgba(255,255,255,.06); }
+  .mixch .mixname{ font-size:8.5px; letter-spacing:.16em; text-transform:uppercase;
+                   opacity:.8; min-height:1.1em; }
+  .mixch .mixeq{ display:flex; gap:.1rem; }
+  .mixch .mixeq .kn{ width:2.1rem; }
+  .mixch .mixeq .kn .dial{ width:1.5rem; height:1.5rem; }
+  .mixch .mixeq .cap{ min-height:1.2em; font-size:7px; }
+  .mixch .mixeq .val{ font-size:7.5px; }
+  .mixbody{ display:flex; gap:.34rem; align-items:stretch; height:6.4rem; }
+  /* the meter: a column of segments, lit from the bottom */
+  .mixmeter{ width:.55rem; border-radius:2px; position:relative; overflow:hidden;
+             background:linear-gradient(#0a0c0a, #060706);
+             box-shadow:inset 0 0 0 1px rgba(255,255,255,.08); }
+  .mixmeter i{ position:absolute; left:0; right:0; bottom:0; height:0;
+               background:linear-gradient(to top, #2fbf5a 0%, #2fbf5a 62%,
+                                                 #d6c24a 62%, #d6c24a 86%,
+                                                 #e0503c 86%, #e0503c 100%);
+               background-size:100% 6.4rem; background-position:bottom;
+               transition:height .04s linear; }
+  /* and the loudest thing it has done lately stays visible for a moment, which
+     is what a peak-hold is for: a transient that clips is over before an eye
+     can find it */
+  .mixmeter u{ position:absolute; left:0; right:0; height:1px; bottom:0;
+               background:rgba(255,255,255,.55); }
+  .mixmeter.hot u{ background:#ff5b43; box-shadow:0 0 4px #ff5b43; }
+  /* the fader: a slot with a cap in it, dragged like the knobs are */
+  .mixfader{ width:1.5rem; position:relative; cursor:ns-resize; touch-action:none;
+             user-select:none; -webkit-user-select:none; }
+  .mixfader::before{ content:""; position:absolute; left:50%; top:.35rem; bottom:.35rem;
+                     width:3px; margin-left:-1.5px; border-radius:2px;
+                     background:linear-gradient(#0a0a0a, #171717);
+                     box-shadow:inset 0 0 0 1px rgba(0,0,0,.6); }
+  .mixfader b{ position:absolute; left:0; right:0; height:.85rem; border-radius:2px;
+               background:linear-gradient(#6a6a6a, #232323 55%, #101010);
+               box-shadow:0 2px 4px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.28); }
+  .mixfader b::after{ content:""; position:absolute; left:8%; right:8%; top:50%;
+                      height:1px; margin-top:-.5px; background:var(--hot); opacity:.75; }
+  .mixch .mixdb{ font-size:8.5px; opacity:.6; font-variant-numeric:tabular-nums; }
+  .mixch.touched .mixdb{ opacity:1; font-weight:600; }
+  .mixch.touched .mixname::after{ content:" •"; }
+
   /* a two- or three-position selector is a switch on the real machines, not a
      knob, so it is drawn as one */
   .sw{ display:flex; flex-direction:column; align-items:center; gap:.16rem;
@@ -924,7 +980,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-07c · the drums are in the band an ear can hear</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-07d · a mixer at the top of the rack: a fader, three bands and a meter per part</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -5315,6 +5371,54 @@ registerProcessor("mk2-room", MK2Room);
       g.duckOf[i.k] = c.createGain(); g.duckOf[i.k].gain.value = 1;
       g.bus[i.k].connect(g.duckOf[i.k]);
     }
+    /* ══ THE MIXER'S CHANNELS ══════════════════════════════════════════════
+       One strip per ROLE -- fader, three bands, and a meter tap -- sitting in
+       FRONT of the bus that role plays into.
+
+       In front, and that is the whole reason it is here rather than after the
+       bus. There are five buses and seven parts: the second keyboard, the
+       ornament and the figure share the keys and lead buses with the parts
+       they sit beside, so a fader on a BUS could never separate them, and
+       "the second keyboard is too loud" would have no answer. A strip per role
+       does, and because it is upstream of the bus every send that bus feeds --
+       room, echo, everything the matrix routes -- follows the fader without
+       another wire being drawn.
+
+       AT DEFAULTS IT IS NOT THERE. A gain of 1 is a wire, and a shelving or
+       peaking biquad at 0 dB has numerator coefficients identical to its
+       denominator, so its transfer function is exactly 1 -- not approximately.
+       The snapshot and the render A/B are what hold that claim.
+
+       ONE CAVEAT, STATED RATHER THAN DISCOVERED LATER: the drum machine's
+       per-channel echo/reverb sends tap each drum's own strip (`mk`) inside the
+       kit, which is ahead of this. So the kit's INTERNAL sends are pre-fader
+       while its dry path and its matrix sends are post. That is how a desk with
+       a sub-mixer on one channel behaves, and it is written down here so the
+       next reader does not have to find it. */
+    const MIX_ROLE_BUS = { drums: "drums", bass: "bass",
+                           keys: "keys", keys2: "keys", ostinato: "keys",
+                           lead: "lead", counter: "lead", tape: "vinyl" };
+    g.chanBus = MIX_ROLE_BUS;
+    g.chan = {};
+    for(const role in MIX_ROLE_BUS){
+      const dest = g.bus[MIX_ROLE_BUS[role]];
+      if(!dest) continue;
+      const inp  = c.createGain(); inp.gain.value = 1;
+      const low  = c.createBiquadFilter(); low.type  = "lowshelf";
+      low.frequency.value  = 200;  low.gain.value = 0;
+      const mid  = c.createBiquadFilter(); mid.type  = "peaking";
+      mid.frequency.value  = 1000; mid.Q.value = 0.9; mid.gain.value = 0;
+      const high = c.createBiquadFilter(); high.type = "highshelf";
+      high.frequency.value = 4000; high.gain.value = 0;
+      /* the meter is a TAP, not a link in the chain: an analyser passes audio
+         through but nothing reads its output, and hanging it off the end means
+         the signal path is identical whether or not anyone is looking at it */
+      const meter = c.createAnalyser();
+      meter.fftSize = 512; meter.smoothingTimeConstant = 0;
+      inp.connect(low); low.connect(mid); mid.connect(high);
+      high.connect(dest); high.connect(meter);
+      g.chan[role] = { inp, low, mid, high, meter, bus: MIX_ROLE_BUS[role] };
+    }
     g.mix = c.createGain(); g.mix.gain.value = 1;
     /* ── THE MATRIX'S CROSSINGS live in `g.route`, keyed input+Output. Every
        gain starts at the value that reproduces the wire it replaced, so a
@@ -5746,7 +5850,7 @@ registerProcessor("mk2-room", MK2Room);
       if(g.gateSend){ mk.connect(gate); gate.connect(g.gateSend); }
       g.dchain[grp] = { inp, lp, drv, sat, mk, echo, verb, gate, pan: chPan };
     }
-    g.kitFilter.connect(g.bus.drums);
+    g.kitFilter.connect(chanIn(g, "drums"));
 
 
     /* ── WHO FEEDS THE SPACE IS A MATRIX ────────────────────────────────────
@@ -6351,7 +6455,11 @@ registerProcessor("mk2-room", MK2Room);
      note's own start so the same seed gives the same sweep. That is the
      Suitcase, correctly named. ═══════════════════════════════════════════════ */
   function stereoOut(g, ev, t, m, role){
-    const c = g.ctx, bus = g.bus[role] || g.bus.keys;
+    /* `role` here is the BUS this voice plays into, which is not the same thing
+       as the part playing it -- the ornament goes to the lead bus and the figure
+       to the keys bus. The FADER is the part's, so the channel is looked up by
+       `ev.role` and the bus name stays the fallback. */
+    const c = g.ctx, bus = chanIn(g, ev && ev.role, role);
     /* a machine with no pan control declared costs nothing and stays mono --
        the node is not even built, so every voice that has not been given a
        position renders exactly what it always did */
@@ -7093,7 +7201,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       flt.frequency.exponentialRampToValueAtTime(Math.max(60, cut),
         t + Math.min(2.0, Math.max(0.06, ev.durSec * P(g, ev, "subbass", "fall", 0.8))));
     }
-    out.connect(flt); flt.connect(g.bus.bass);
+    out.connect(flt); flt.connect(chanIn(g, "bass"));
     const o1 = osc(c, "sine", f, t, end);
     /* DRIVE is the saw against the sine: at 0 it is a pure sub, at 1 it has
        teeth. 0.20 reproduces the 0.38 saw gain this voice shipped with. */
@@ -7106,7 +7214,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     const pg = c.createGain();
     pg.gain.setValueAtTime(LEVEL.bass * ev.gain * 0.30, t);
     pg.gain.exponentialRampToValueAtTime(0.0002, t + 0.028);
-    pk.connect(pg); pg.connect(g.bus.bass); pk.start(t); pk.stop(t + 0.05);
+    pk.connect(pg); pg.connect(chanIn(g, "bass")); pk.start(t); pk.stop(t + 0.05);
     return [o1, o2, pk];
   };
 
@@ -8230,7 +8338,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       const fm = c.createGain(); fm.gain.value = fFM * base * 2.2;
       outNode.connect(dly); dly.connect(fm); fm.connect(lp1.frequency);
     }
-    outNode.connect(g.bus.bass);
+    outNode.connect(chanIn(g, "bass"));
     return nodes;
   };
 
@@ -8438,7 +8546,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     const out = c.createGain();
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
     lp.frequency.value = P(g, ev, "drone", "cut", 420); lp.Q.value = P(g, ev, "drone", "res", 3.2);
-    out.connect(lp); lp.connect(g.bus.bass);
+    out.connect(lp); lp.connect(chanIn(g, "bass"));
     const made = [], det = P(g, ev, "drone", "detune", 0.55);
     for(const cents of [-7 * det, 0, 7 * det]){
       const o = c.createOscillator(); o.type = "sawtooth";
@@ -8560,7 +8668,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     const cut0 = P(g, ev, "reese", "cut", 900);
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
     lp.frequency.value = cut0; lp.Q.value = P(g, ev, "reese", "res", 4.0);
-    out.connect(lp); lp.connect(g.bus.bass);
+    out.connect(lp); lp.connect(chanIn(g, "bass"));
     const made = [], subAmt = P(g, ev, "reese", "sub", 0.45);
     /* THE GROWL: three saws, detuned in CENTS and wide. At 22 cents a pair at
        55 Hz beat about 0.7 times a second, and the partials higher up beat
@@ -9119,14 +9227,14 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     src.loop = true; src.loopStart = 0; src.loopEnd = g.vinylLoop;
     const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 3400; bp.Q.value = 0.35;
     const gn = c.createGain(); gn.gain.value = ev.gain;
-    src.connect(bp); bp.connect(gn); gn.connect(g.bus.vinyl);
+    src.connect(bp); bp.connect(gn); gn.connect(chanIn(g, "tape", "vinyl"));
     src.start(t); src.stop(t + ev.durSec); made.push(src);
     if(ev.hiss > 0){
       const hs = c.createBufferSource(); hs.buffer = g.noise; hs.loop = true;
       const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 2000;
       const lp = c.createBiquadFilter(); lp.type = "lowpass";  lp.frequency.value = 9000;
       const hg = c.createGain(); hg.gain.value = ev.hiss;
-      hs.connect(hp); hp.connect(lp); lp.connect(hg); hg.connect(g.bus.vinyl);
+      hs.connect(hp); hp.connect(lp); lp.connect(hg); hg.connect(chanIn(g, "tape", "vinyl"));
       hs.start(t); hs.stop(t + ev.durSec); made.push(hs);
     }
     return made;
@@ -9247,7 +9355,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
          headroom back. [theory: MD hardware] */
       const dcb = c.createBiquadFilter(); dcb.type = "highpass";
       dcb.frequency.value = 20; dcb.Q.value = 0.7;
-      out.connect(dcb); dcb.connect(g.bus[busName]);
+      out.connect(dcb); dcb.connect(chanIn(g, ev.role, busName));
       let end = keyOff;
       /* modulators: ONE envelope each, in Hz of peak deviation, fanned out to
          every operator that modulator drives. Brightness tracks velocity through
@@ -9416,8 +9524,19 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     if(grp && g.dchain && g.dchain[grp] && g.dchain[grp].gate) return null;
     return g.gateSend;
   }
+  /* ── WHERE A ROLE'S AUDIO GOES IN ───────────────────────────────────────
+     Its mixer channel if the graph has one, its bus if not. Every voice asks
+     here rather than naming `g.bus.<x>` directly, so there is ONE place that
+     knows a part can have a fader on it. A graph built before the channels
+     existed -- or any future one that skips them -- still answers with the bus
+     and plays exactly as it did. */
+  function chanIn(g, role, fallbackBus){
+    const ch = g.chan && g.chan[role];
+    if(ch) return ch.inp;
+    return g.bus[fallbackBus || role] || g.bus.keys;
+  }
   function drumOut(g, lane){
-    if(!g.dchainOn) return g.bus.drums;
+    if(!g.dchainOn) return chanIn(g, "drums");
     const grp = DCHAIN_OF[lane];
     return (grp && g.dchain && g.dchain[grp]) ? g.dchain[grp].inp : g.bus.drums;
   }
@@ -9826,7 +9945,50 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     }
   }
 
+  /* ── THE HAND ON THE MIXER, and it is a TRIM like every other hand ─────────
+     Held in dB, keyed by role, zero everywhere until someone moves something.
+     Zero means "whatever the song already does", so a mixer nobody has touched
+     is provably the record the program made -- the same contract PARAMS/TRIM
+     have, for the same reason.
+
+     WHY dB AND NOT A MULTIPLIER: this is the number a fader shows and a fader
+     shows dB, and the audibility thresholds this file already works to are in
+     dB -- 1 dB for an isolated change, about a quarter of one for a balance
+     [Hugh Robjohns, Sound On Sound]. A control whose units are not the units of
+     the judgement being made is a control you have to do arithmetic to use. */
+  let MIXTRIM = {};
+  function applyMixer(g){
+    if(!g || !g.chan) return;
+    for(const role in g.chan){
+      const t = MIXTRIM[role] || {}, ch = g.chan[role];
+      ch.inp.gain.value  = Math.pow(10, (t.vol || 0) / 20);
+      ch.low.gain.value  = t.low  || 0;
+      ch.mid.gain.value  = t.mid  || 0;
+      ch.high.gain.value = t.high || 0;
+    }
+  }
+  /* the loudest thing each channel has done since the last look, which is what
+     a meter shows. Peak rather than average: a meter is there to say when
+     something is about to be too much, and the thing that is too much is a
+     peak. The analyser's own buffer is the window, so this costs one read per
+     channel per frame and holds no state of its own. */
+  function meterLevels(){
+    if(!liveGraph || !liveGraph.chan) return null;
+    const out = {}, buf = new Float32Array(256);
+    for(const role in liveGraph.chan){
+      const a = liveGraph.chan[role].meter;
+      if(!a) continue;
+      a.getFloatTimeDomainData(buf);
+      let pk = 0;
+      for(let i = 0; i < buf.length; i++){ const v = Math.abs(buf[i]); if(v > pk) pk = v; }
+      out[role] = pk;
+    }
+    return out;
+  }
   function setSpace(g, space, kick, drumDrive, gate, motion, motionOffset, busT0){
+    /* the mixer's hand, re-applied whenever the song's sound is set -- so a
+       fader survives a new song, a genre change and an offline render alike */
+    applyMixer(g);
     /* the song's motion plan rides on the GRAPH, not on a module variable, so a
        live playback and an offline render running at the same moment cannot
        read each other's automation. Same reason the room is set per-graph. */
@@ -10511,6 +10673,11 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
               threshold changed. It takes nothing from the graph but the plan,
               so `{ motion, motionOffset }` is a whole argument. */
            rideBus,
+           /* THE MIXER: the hand goes in, the meters come out. Both live on the
+              graph, so the panel never reaches into the audio itself. */
+           setMixer: t => { MIXTRIM = t || {}; applyMixer(liveGraph); },
+           mixerRoles: () => (liveGraph && liveGraph.chan) ? Object.keys(liveGraph.chan) : [],
+           meterLevels,
            liveLevel };
 })();
 
@@ -23008,6 +23175,198 @@ function readoutEl(m, it){
 /* the indicator lamps, lit from the playhead by refreshLive */
 const LEDS = [];
 
+/* ══ THE MIXER RACK ═════════════════════════════════════════════════════════
+   A channel per part in THIS song, with a fader, three bands and a meter.
+
+   WHY IT EXISTS. Every balance question this project has had -- "the chord
+   track is too loud", "I can't hear the drums", "it's not even there
+   practically" -- was answerable only by editing a genre table and re-rendering,
+   and only measurable by a probe. That is a slow loop for a judgement an ear
+   makes in one second. A fader closes it.
+
+   WHAT THE NUMBERS MEAN. `MIXER_TRIM` is the HAND, in dB, and it is empty until
+   someone moves something -- the same contract PARAMS/TRIM have, so a mixer
+   nobody has touched is provably the record the program made. The number the
+   fader SHOWS is the genre's own balance for that part plus the hand, which is
+   what "set at what the rack is at" asks for: the strip opens where the song
+   already has that part, and moving it is a change from there.
+
+   WHICH CHANNELS. Whichever parts this song actually plays, taken from the
+   performance -- so a song with no ornament has no ornament strip, and one that
+   grows a second keyboard grows a strip for it. Nothing is listed. */
+const MIXER_TRIM = {};
+const MIXER_CH = [];                     // the strips on screen, for refreshLive
+/* the order a desk would put them in: the floor, then the middle, then the top.
+   Any part not named here still gets a strip, after these. */
+const MIX_ORDER = ["drums", "bass", "keys", "keys2", "ostinato", "counter", "lead", "tape"];
+const MIX_LABEL = { drums: "drums", bass: "bass", keys: "chords", keys2: "chords 2",
+                    ostinato: "figure", counter: "answer", lead: "tune", tape: "tape" };
+const MIX_BAND = [
+  { k: "low",  cap: "LOW",  label: "low shelf, 200 Hz" },
+  { k: "mid",  cap: "MID",  label: "mid bell, 1 kHz" },
+  { k: "high", cap: "HIGH", label: "high shelf, 4 kHz" },
+];
+/* the genre's own level for a part, in dB -- what the fader opens at. The gain
+   formula clamps at 1.25, so a part whose roleGain is above that is displayed
+   at the clamp: the fader has to show where the part IS, not what the table
+   wishes for. */
+function mixBaseDb(role){
+  const G = SONG && SONG.chart.table.roleGain;
+  const v = Math.min(1.25, (G && G[role] != null) ? G[role] : 1);
+  return 20 * Math.log10(Math.max(0.0001, v));
+}
+function mixPush(){ if(window.Sound) Sound.setMixer(MIXER_TRIM); }
+/* one EQ knob, drawn like every other knob on the page but reading the mixer's
+   own state rather than a machine's PARAMS */
+function mixKnob(role, band){
+  const MIN = -12, MAX = 12, STEP = 0.5;
+  const box = el("div", "kn");
+  box.dataset.key = "mixer." + role + "." + band.k;
+  box.title = band.label + "  — your hand only; the program never rides these";
+  const dial = el("div", "dial"), ptr = el("div", "ptr");
+  dial.appendChild(ptr);
+  const cap = el("div", "cap", band.cap), val = el("div", "val");
+  box.appendChild(dial); box.appendChild(cap); box.appendChild(val);
+  const get = () => (MIXER_TRIM[role] && MIXER_TRIM[role][band.k]) || 0;
+  const ang = v => -135 + 270 * (v - MIN) / (MAX - MIN);
+  let wasP = null, wasV = null;
+  box.refresh = () => {
+    const v = get(), a = "rotate(" + ang(v) + "deg)";
+    if(a !== wasP){ ptr.style.transform = a; wasP = a; }
+    const s = (v > 0 ? "+" : "") + v.toFixed(1);
+    if(s !== wasV){ val.textContent = s; wasV = s; }
+    box.classList.toggle("touched", Math.abs(v) > 0.001);
+  };
+  let v0 = 0, y0 = 0, on = false;
+  const yOf = e => (e.touches ? e.touches[0] : e).clientY;
+  box.addEventListener("pointerdown", e => {
+    on = true; y0 = yOf(e); v0 = get(); box.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  box.addEventListener("pointermove", e => {
+    if(!on) return;
+    let v = v0 + (y0 - yOf(e)) / 160 * (MAX - MIN);
+    v = Math.max(MIN, Math.min(MAX, Math.round(v / STEP) * STEP));
+    (MIXER_TRIM[role] || (MIXER_TRIM[role] = {}))[band.k] = v;
+    box.refresh(); mixPush(); e.preventDefault();
+  });
+  box.addEventListener("pointerup", () => { on = false; });
+  box.addEventListener("dblclick", () => {
+    if(MIXER_TRIM[role]) delete MIXER_TRIM[role][band.k];
+    box.refresh(); mixPush();
+  });
+  box.refresh(); KNOBS.push(box);
+  return box;
+}
+function mixStrip(role){
+  /* the fader's travel. -40 is "gone" and +12 is as far as anything here should
+     ever need; the scale is linear in dB, which is what makes equal moves of the
+     hand equal changes to the ear. */
+  const FLO = -40, FHI = 12;
+  const wrap = el("div", "mixch");
+  wrap.dataset.role = role;
+  wrap.appendChild(el("div", "mixname", MIX_LABEL[role] || role));
+  const eq = el("div", "mixeq");
+  for(const b of MIX_BAND) eq.appendChild(mixKnob(role, b));
+  wrap.appendChild(eq);
+
+  const body = el("div", "mixbody");
+  const meter = el("div", "mixmeter");
+  const fill = document.createElement("i"), hold = document.createElement("u");
+  meter.appendChild(fill); meter.appendChild(hold);
+  const fader = el("div", "mixfader");
+  const capEl = document.createElement("b");
+  fader.appendChild(capEl);
+  body.appendChild(meter); body.appendChild(fader);
+  wrap.appendChild(body);
+  const dbEl = el("div", "mixdb");
+  wrap.appendChild(dbEl);
+
+  const trimOf = () => (MIXER_TRIM[role] && MIXER_TRIM[role].vol) || 0;
+  const shown = () => mixBaseDb(role) + trimOf();
+  let wasTop = null, wasDb = null;
+  const refresh = () => {
+    const v = Math.max(FLO, Math.min(FHI, shown()));
+    const frac = (v - FLO) / (FHI - FLO);              // 0 at the bottom
+    const top = ((1 - frac) * 100).toFixed(2) + "%";
+    if(top !== wasTop){ capEl.style.top = `calc(${top} - .42rem)`; wasTop = top; }
+    const s = (v > 0 ? "+" : "") + v.toFixed(1) + " dB";
+    if(s !== wasDb){ dbEl.textContent = s; wasDb = s; }
+    wrap.classList.toggle("touched", Math.abs(trimOf()) > 0.001);
+  };
+  let v0 = 0, y0 = 0, on = false;
+  const yOf = e => (e.touches ? e.touches[0] : e).clientY;
+  fader.addEventListener("pointerdown", e => {
+    on = true; y0 = yOf(e); v0 = trimOf(); fader.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  fader.addEventListener("pointermove", e => {
+    if(!on) return;
+    /* the slot is about 100 px tall and spans 52 dB, so the hand moves the same
+       distance per dB as it does on the knobs */
+    const base = mixBaseDb(role);
+    let v = v0 + (y0 - yOf(e)) / 100 * (FHI - FLO);
+    /* clamp the RESULT to the fader's travel, not the trim, or the cap sticks
+       to an end while the number keeps going */
+    v = Math.max(FLO - base, Math.min(FHI - base, v));
+    (MIXER_TRIM[role] || (MIXER_TRIM[role] = {})).vol = Math.round(v * 10) / 10;
+    refresh(); mixPush(); e.preventDefault();
+  });
+  fader.addEventListener("pointerup", () => { on = false; });
+  fader.addEventListener("dblclick", () => {
+    if(MIXER_TRIM[role]) delete MIXER_TRIM[role].vol;
+    refresh(); mixPush();
+  });
+  refresh();
+  MIXER_CH.push({ role, fill, hold, meter, refresh, peak: 0, held: 0, heldAt: 0 });
+  return wrap;
+}
+/* ── AND IT IS DRAWN FROM THE SONG, NOT FROM A LIST ────────────────────────
+   Which parts sound is a fact about the performance, so it is read off the
+   performance. A genre that grows an eighth part gets an eighth strip without
+   anyone remembering to add one -- the rule this file has broken four times. */
+function drawMixer(host){
+  MIXER_CH.length = 0;
+  if(!SONG) return;
+  const present = new Set(SONG.perf.events.map(e => e.role));
+  const roles = MIX_ORDER.filter(r => present.has(r))
+    .concat([...present].filter(r => MIX_ORDER.indexOf(r) < 0).sort());
+  if(!roles.length) return;
+  const box = el("div", "machine sk-desk mixer");
+  const brand = el("div", "brand");
+  brand.appendChild(el("span", "maker", "MK2"));
+  brand.appendChild(el("span", "model", "mixer"));
+  brand.appendChild(el("span", "slotTag", roles.length + " tracks"));
+  box.appendChild(brand);
+  const strips = el("div", "mixstrips");
+  for(const r of roles) strips.appendChild(mixStrip(r));
+  box.appendChild(strips);
+  host.appendChild(box);
+}
+/* the meters, per frame. Peak with a hold that falls: the fast bar says what is
+   happening and the line says what just happened, because a transient that goes
+   into the red is over before an eye can find it. */
+function refreshMeters(){
+  if(!MIXER_CH.length) return;
+  const lv = (window.Sound && Sound.meterLevels) ? Sound.meterLevels() : null;
+  const now = performance.now();
+  for(const ch of MIXER_CH){
+    const pk = (lv && lv[ch.role] != null) ? lv[ch.role] : 0;
+    /* dBFS to a 0..1 bar over the meter's own 48 dB window */
+    const db = pk > 0.0001 ? 20 * Math.log10(pk) : -96;
+    const frac = Math.max(0, Math.min(1, (db + 48) / 48));
+    /* ONLY WHAT CHANGED, for the reason the knobs give at length: a style write
+       invalidates layout, and this runs sixty times a second beside a roll that
+       may hold five thousand elements. A meter that is not moving must cost
+       nothing. */
+    const h = (frac * 100).toFixed(1) + "%";
+    if(h !== ch.wasH){ ch.fill.style.height = h; ch.wasH = h; }
+    if(db >= ch.held || now - ch.heldAt > 1200){ ch.held = db; ch.heldAt = now; }
+    const hf = Math.max(0, Math.min(1, (ch.held + 48) / 48));
+    const hb = (hf * 100).toFixed(1) + "%";
+    if(hb !== ch.wasB){ ch.hold.style.bottom = hb; ch.wasB = hb; }
+    ch.meter.classList.toggle("hot", ch.held > -1);
+  }
+}
+
 /* a two- or three-position control is a SWITCH on the real machines */
 function switchEl(m, c){
   const key = m + "." + c.k;
@@ -23696,6 +24055,12 @@ function drawPanels(){
   KNOBS.length = 0; GRIDS.length = 0; TRIGS.length = 0; LCD.length = 0;
   READOUTS.length = 0; LEDS.length = 0;
   if(!SONG) return;
+  /* THE MIXER FIRST, above every rack. A desk's master section is at the top of
+     the rack for the same reason: it is the thing you reach for when something
+     is wrong, and hunting for it past five instrument panels is the wrong
+     order. It is also the only box here that is about the SONG rather than
+     about a machine, which is the other reason it does not sit among them. */
+  drawMixer(host);
   /* the three picked slots, and then the SPACE -- which is not picked because
      there is nothing to choose: every genre has exactly one, and its panel is
      always drawn. In the genres where the movement of these six controls is
@@ -24002,6 +24367,7 @@ const TRIGS = [];
 const LCD = [];
 function refreshLive(){
   for(const k of KNOBS) k.refresh();
+  refreshMeters();
   if(ROLL) ROLL.refresh();
   for(const [role, gr] of GRIDS){
     const p = playingPattern(role);
@@ -24352,6 +24718,11 @@ window.MK2 = {
      So adding a fourth and fifth rack turned a green check red, which is the
      check being stale rather than the program being wrong. One owner. */
   rackSlots: () => RACK_SLOTS.slice(),
+  /* THE MIXER, so a probe can prove the two things a fader has to be: that it
+     reaches the sound, and that it is not there until someone moves it. Both
+     are claims about the RENDER, so the door is the same one renderWav uses. */
+  setMixer: t => Sound.setMixer(t),
+  meterLevels: () => Sound.meterLevels(),
   /* WHICH RACKS ARE ON SCREEN, and the same door the + button goes through. A
      harness that wants to drive a rack the user has not added yet should add it
      the way a user does, rather than reaching past the interface -- otherwise it
