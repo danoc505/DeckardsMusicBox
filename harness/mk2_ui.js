@@ -914,6 +914,98 @@ const check = (label, ok, detail) => {
           bad.length ? bad.join(" | ") : checked + " machine/rack pairs, every declared control on the glass");
   }
 
+  /* ═══ EVERY DRUM CHANNEL IS A SLOT YOU CAN LOAD A SOUND INTO ══════════════
+     The seam battery proves the ENGINE honours a loaded channel. This is the
+     other half and it is the half that has failed before: `2026-08-07h` wrote
+     a kit choice into a key nothing read, and the way that shipped was that
+     the glass and the sound were never asked the same question in the same
+     run. So this drives the actual `<select>` on the actual panel and then
+     reads what the program composed.
+
+     THE COUNT IS DERIVED — one loader per column the machine declares with a
+     lane, not a number typed here. The TR-1000 has ten channels for twelve
+     lanes on purpose (ghost rides with the snare, tom2 with the low tom), so
+     any literal would be wrong the day a column moves. */
+  {
+    await pg.evaluate(() => { const s = document.getElementById("genre");
+      s.value = "lofi"; s.dispatchEvent(new Event("change", { bubbles: true }));
+      document.getElementById("new").click(); });
+    await pg.waitForTimeout(250);
+    const r = await pg.evaluate(() => {
+      const box = document.querySelector('.machine[data-machine="tr1000"]');
+      if(!box) return { err: "no TR-1000 panel" };
+      const sels = [...box.querySelectorAll("[data-load]")];
+      const want = (MK2.INSTRUMENTS.tr1000.panel.columns || []).filter(c => c.lane).length;
+      const voices = MK2.drumLoad().voices;
+      return { drawn: sels.length, want,
+               /* every loader offers every loadable sound, plus the kit's own */
+               opts: sels.map(s => s.options.length),
+               nVoices: voices.length,
+               lanes: sels.map(s => s.dataset.load) };
+    });
+    check("every drum channel carries a slot you can load a sound into",
+          !r.err && r.drawn === r.want && r.drawn > 0,
+          r.err || `${r.drawn} loaders for ${r.want} channels with lanes: ${(r.lanes||[]).join(" ")}`);
+    check("...and each one offers every sound the program has, plus the kit's own",
+          !r.err && r.opts.every(n => n === r.nVoices),
+          r.err || `${r.nVoices} derived voices · options per loader ${[...new Set(r.opts||[])].join(",")}`);
+
+    /* AND THE KIT SELECTOR NAMES THE KIT THAT IS IN THE MACHINE. It said
+       "(genre draws)" — true about WHO chose, silent about WHAT is loaded —
+       while the machine's own screen said `TR1000 · dungeon` and the strips
+       said WAR DRUM. Every other reading on the panel agreed and that one did
+       not. Asked on two genres so a single hard-coded default cannot pass. */
+    const kitTxt = {};
+    for(const g of ["dungeonsynth", "lofi"]){
+      kitTxt[g] = await pg.evaluate(async (g) => {
+        const s = document.getElementById("genre");
+        s.value = g; s.dispatchEvent(new Event("change", { bubbles: true }));
+        document.getElementById("new").click();
+        await new Promise(r => setTimeout(r, 250));
+        const sel = document.querySelector('[data-key="tr1000.kit"]');
+        return { drawn: sel ? sel.options[0].textContent : "(no selector)",
+                 loaded: MK2.currentSong().chart.picks.drumKit };
+      }, g);
+    }
+    check("the KIT selector names the kit that is actually in the machine",
+          Object.values(kitTxt).every(r => r.loaded && r.drawn.includes(r.loaded)),
+          Object.entries(kitTxt).map(([g, r]) => `${g}: "${r.drawn}" · loaded ${r.loaded}`).join(" · "));
+    await pg.evaluate(async () => {
+      const s = document.getElementById("genre");
+      s.value = "lofi"; s.dispatchEvent(new Event("change", { bubbles: true }));
+      document.getElementById("new").click();
+      await new Promise(r => setTimeout(r, 250));
+    });
+
+    /* AND DRIVING IT CHANGES WHAT THE PROGRAM COMPOSES. Same shape as the
+       "clicking a step writes a pin" chain: touch the glass, read the song. */
+    const drove = await pg.evaluate(async () => {
+      const sel = document.querySelector('.machine[data-machine="tr1000"] [data-load="kick"]');
+      if(!sel) return { err: "no kick loader" };
+      const was = [...new Set(MK2.currentSong().perf.events
+        .filter(e => e.lane === "kick").map(e => e.voice))];
+      sel.value = "wardrum";
+      sel.dispatchEvent(new Event("change", { bubbles: true }));
+      await new Promise(r => setTimeout(r, 250));
+      const now = [...new Set(MK2.currentSong().perf.events
+        .filter(e => e.lane === "kick").map(e => e.voice))];
+      /* and back to the kit's own, because a load you cannot undo is a trap */
+      sel.value = "";
+      sel.dispatchEvent(new Event("change", { bubbles: true }));
+      await new Promise(r => setTimeout(r, 250));
+      const back = [...new Set(MK2.currentSong().perf.events
+        .filter(e => e.lane === "kick").map(e => e.voice))];
+      return { was, now, back };
+    });
+    check("...and loading one changes what the program composes",
+          !drove.err && drove.now.length === 1 && drove.now[0] === "wardrum" &&
+          !drove.was.includes("wardrum"),
+          drove.err || `${drove.was.join(",")} -> ${drove.now.join(",")}`);
+    check("...and clearing it puts the kit's own sound back",
+          !drove.err && drove.back.join(",") === drove.was.join(","),
+          drove.err || `back to ${(drove.back||[]).join(",")} (was ${(drove.was||[]).join(",")})`);
+  }
+
   /* ═══ EVERY GENRE THE PROGRAM DECLARES IS ON THE PICKER, AND PLAYS ═════════
      NOTHING CHECKED THIS, and the cost was quiet. An eighth genre --
      `dungeonsynth` -- shipped, reached the published artifact, and composed

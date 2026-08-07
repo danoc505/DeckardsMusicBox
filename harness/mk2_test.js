@@ -2550,6 +2550,75 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   }
 }
 
+/* ═══ A HAND CAN LOAD A SOUND INTO A DRUM CHANNEL ═════════════════════════
+   The user's framing of the drum rack: a kit is "a starting point you edit",
+   and an unused strip is "an empty slot you can drop a sound into". This is
+   the check on that, and it is written the way the LAST drum defect taught:
+   `2026-08-07h` shipped a kit choice written into a key NOTHING READ, the
+   battery stayed green because every check asked whether the switch was drawn
+   and none asked whether turning it changed the sound, and dungeon synth
+   played an 808 on the published artifact.
+
+   So this asks the only question that matters -- DOES THE SOUND CHANGE -- on
+   every genre, and it asks the three questions around it that would let a
+   silent version pass:
+
+     · the loaded voice is what is heard on that lane, and ONLY that voice;
+     · a lane nobody declares and a voice nothing can play are REFUSED, so a
+       stale pick cannot write a `voice` dispatch is unable to fire;
+     · an empty load leaves the song byte-identical, so the feature costs
+       nothing to anyone who never touches it.
+
+   The lists come from `MK2.drumLoad()`, the same derivation the panel draws
+   from. A check that built its own list of drum voices would be asserting
+   against its own copy. */
+{
+  const D = M.drumLoad();
+  const bad = [], seen = [];
+  /* a voice no genre reaches by default, so "it changed" cannot be luck */
+  const LOAD = "wardrum";
+  if(!D.voices.includes(LOAD)) bad.push("the derived voice list has no " + LOAD);
+  for(const g of M.genres()){
+    /* which drum lane does this genre actually play? asked, not assumed --
+       bladerunner has no kit at all and jungle plays one chopped break */
+    const plain = M.composeSong(3, undefined, g);
+    const lanes = [...new Set(plain.perf.events.filter(e => e.role === "drums").map(e => e.lane))];
+    const lane = lanes.find(l => D.lanes.includes(l));
+    if(!lane){ seen.push(g + ": no drum lane"); continue; }
+    const was = [...new Set(plain.perf.events.filter(e => e.lane === lane).map(e => e.voice))];
+    const after = M.composeSong(3, undefined, g, { lane: { [lane]: LOAD } });
+    const now = [...new Set(after.perf.events.filter(e => e.lane === lane).map(e => e.voice))];
+    if(now.length !== 1 || now[0] !== LOAD)
+      bad.push(`${g}.${lane} loaded ${LOAD} and plays ${now.join(",") || "nothing"}`);
+    else if(was.length === 1 && was[0] === LOAD)
+      seen.push(`${g}.${lane} already ${LOAD}`);   /* dungeon synth: true, not a pass by luck */
+    else seen.push(`${g}.${lane} ${was.join(",")}→${LOAD}`);
+    /* and every OTHER lane is untouched -- loading one channel is loading one
+       channel, not swapping the kit */
+    const others = after.perf.events.filter(e => e.role === "drums" && e.lane !== lane);
+    const before = plain.perf.events.filter(e => e.role === "drums" && e.lane !== lane);
+    if(others.map(e => e.voice).join(",") !== before.map(e => e.voice).join(","))
+      bad.push(g + ": loading " + lane + " moved another lane's voice");
+  }
+  check("a hand can load a sound into a drum channel, and it is heard",
+        bad.length === 0, bad.length ? bad.join(" · ") : seen.join(" · "));
+
+  /* the two refusals, and the no-op */
+  {
+    const junk = M.composeSong(3, undefined, "lofi",
+      { lane: { notalane: "k808", kick: "notavoice" } });
+    const kept = Object.keys(junk.chart.picks.lane || {});
+    check("...and a lane or a voice that does not exist is refused at the gate",
+          kept.length === 0, kept.length ? "kept " + kept.join(",") : "both dropped");
+
+    const a = M.composeSong(7, undefined, "lofi");
+    const b = M.composeSong(7, undefined, "lofi", { lane: {} });
+    const ev = s => s.perf.events.map(e => e.lane + ":" + e.voice + ":" + e.t).join("|");
+    check("...and loading nothing changes nothing",
+          ev(a) === ev(b), a.perf.events.length + " events, identical");
+  }
+}
+
 if(FILTER && pass + fail === 0){
   console.log("\nno check's name contains \"" + FILTER + "\" — " + skipped + " were skipped, none run");
   process.exit(2);

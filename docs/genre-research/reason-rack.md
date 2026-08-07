@@ -84,6 +84,23 @@ rack. Three concrete faults, all of which fall out of the model:
   the same function the `.mid` export and the live port use.
 - **The pad bay's pads carry their own two knobs**, because an XY pad IS two
   controls and they were on other panels.
+- **EVERY DRUM CHANNEL IS A LOADABLE SLOT.** This is Kong's pads, and it is the
+  point at which a kit stops being a fixed map and becomes what the user called
+  "a starting point you edit". Each of the TR-1000's ten strips carries a tape
+  strip naming the sound in it and a list of every sound the program has —
+  **derived**, the union of every voice named by any drum machine or any of its
+  kits, so a kit added tomorrow brings its sounds to every strip with nothing
+  edited. The hand's choice rides in `picks.lane`, validated at one gate in
+  `resolvePicks` and frozen into the chart beside `mute`, and it is answered by
+  the single line in `voiceFor` that owns which voice plays a lane — so it
+  inherits determinism, blending, the snapshot and the `.mid` export for free.
+  **What it deliberately does NOT do is move the channel:** `DCHAIN_OF` still
+  decides which strip a lane runs through, so a war drum dropped on the hat
+  channel is tuned, decayed and sent by the HAT's knobs. That is stated on the
+  control rather than left to be discovered.
+- **The KIT selector names the kit that is in the machine.** It said "(genre
+  draws)" — true about who chose, silent about what is loaded — while the
+  machine's own screen said `TR1000 · dungeon` and the strips said WAR DRUM.
 
 **NOT BUILT, and named rather than implied**
 

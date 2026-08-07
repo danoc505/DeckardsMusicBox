@@ -597,6 +597,18 @@
                     padding:.34rem .1rem; border-radius:2px; font-weight:600;
                     background:#17191c; color:#6d7176; border:1px solid #0a0c0e;
                     transition:none; }
+  /* ── THE CHANNEL'S LOAD SLOT ────────────────────────────────────────────
+     A strip a kit does not name is not a blank, it is an empty slot -- so it
+     carries a small tape strip naming what is in it, the way a Reason device
+     names its patch. It reads as part of the silkscreen until a hand has been
+     on it, and then it is MARKED, the same orange the touched fader and the
+     touched knob use, because "whose choice was this" is a question the eye
+     should be able to answer anywhere on this panel. ── */
+  .sk-tr1000 .load{ grid-column:1 / -1; width:100%; margin-top:.22rem; }
+  .sk-tr1000 .load select{ width:100%; font:inherit; font-size:7.5px; letter-spacing:.04em;
+                    padding:.14rem .1rem; border-radius:2px; cursor:pointer;
+                    background:#1b1d20; color:#8b9095; border:1px solid #0a0c0e; }
+  .sk-tr1000 .load.held select{ color:#ff8a4a; border-color:#5a2c10; background:#221610; }
   .sk-tr1000 .trig.red.lit{   background:#2a1113; color:#ff5a4e; box-shadow:0 0 8px rgba(255,60,45,.5) inset; }
   .sk-tr1000 .trig.amber.lit{ background:#2a2410; color:#ffd34a; box-shadow:0 0 8px rgba(255,200,60,.45) inset; }
   .sk-tr1000 .trig.pale.lit{  background:#26282b; color:#eef1f4; box-shadow:0 0 8px rgba(235,240,245,.4) inset; }
@@ -1096,7 +1108,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-07j · the drum machine wears the kit it is holding, and two dead machines are gone</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-07k · every drum channel is a slot you can load a sound into</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -4497,7 +4509,11 @@ function freezePins(pins){
 /* `drumKit` sits beside the three slots because it is the same KIND of decision:
    an input the conductor may pin, which stage 1 resolves against the genre's own
    draw. The TR-1000's KIT key writes it. null means "let the genre draw". */
-const PICK = { drums: "auto", bass: "auto", keys: "auto", drumKit: null };
+/* `lane` sits here too, and is the same kind of thing one level down: which
+   SOUND the hand has put in each drum channel. Empty means every channel plays
+   what the kit says. resolvePicks validates it against the derived sets and
+   freezes it into the chart beside `mute`. */
+const PICK = { drums: "auto", bass: "auto", keys: "auto", drumKit: null, lane: {} };
 /* and what the user has programmed on their grids, same shape as chart.pins */
 const PINS = {};
 
@@ -5278,6 +5294,24 @@ function voiceFor(chart, lane, over){
      the machine the genre drew -- see resolvePicks for why muting had to stop
      being a pick before it stopped recomposing the record around itself. */
   if(chart.picks && chart.picks.mute && chart.picks.mute[SLOT_OF[lane]]) return null;
+  /* ── AND A HAND CAN LOAD ONE CHANNEL ──────────────────────────────────────
+     A kit is a starting point, not a fixed map: an unused strip on the drum
+     machine is a slot you can drop a sound into. This is that, and it is
+     deliberately ONE line in the ONE function that owns `voice` -- the same
+     place the mute and the kit are answered, asked in the same order a hand
+     would expect. A muted rack still plays nothing; you cannot load a sound
+     into a box you have taken out of the rack.
+
+     It is stage-1 input like every other pick, frozen into the chart in
+     resolvePicks, so it inherits determinism, blending, the snapshot and the
+     .mid export for free. Nothing else in the file learns a new concept.
+
+     WHAT IT DOES NOT MOVE: the channel strip. `DCHAIN_OF` still decides which
+     of the machine's ten channels a lane runs through, so a war drum loaded
+     onto the hat lane gets the HAT's tune, decay and sends. That is a real
+     surprise and the panel says so rather than letting you find out. */
+  const byHandLane = chart.picks && chart.picks.lane && chart.picks.lane[lane];
+  if(byHandLane) return byHandLane;
   const M = m && m !== "auto" && INSTRUMENTS[m];
   if(M){
     /* THE KIT FIRST, then the machine's own lanes. A machine with a `kits` table
@@ -5310,6 +5344,39 @@ function voiceFor(chart, lane, over){
       return M.lanes[one[0]];
   }
   return RIG[chart.rig][lane];
+}
+/* ── WHAT A DRUM CHANNEL CAN HOLD, AND WHICH CHANNELS THERE ARE ─────────────
+   The user, on the drum rack: "Dynamic means adjusts to what is needed", and a
+   kit is "a starting point you edit" -- an unused channel is not a blank, it is
+   an empty slot you can drop a sound into, the way Kong's pads work.
+
+   BOTH SETS ARE DERIVED, and that is the whole of why this is safe to add. A
+   hand-written list of drum voices is precisely the defect this repo has hit
+   five times (the modes table in probe_theory, the KIT switch's `max: 4`, the
+   rig labels, the "seven genres" in every document, the snapshot's field list).
+   So: every LANE any drum machine or any of its kits names, and every VOICE
+   they name, unioned across the file. A kit added tomorrow brings its sounds
+   with it and nothing here is edited.
+
+   The legacy boxes are included ON PURPOSE. They are not offered as machines
+   any more -- the acoustic kit, the chopper and the Sega kit are KITS of the
+   TR-1000 now -- but the sounds inside them are real sounds, and this is a list
+   of SOUNDS, not of boxes.
+
+   Computed once. It reads a frozen declaration, so a second answer could not
+   differ, and resolvePicks runs on every song. */
+let DRUM_LOAD = null;
+function drumLoad(){
+  if(DRUM_LOAD) return DRUM_LOAD;
+  const lanes = new Set(), voices = new Set();
+  for(const k in INSTRUMENTS){
+    const M = INSTRUMENTS[k];
+    if(M.slot !== "drums") continue;
+    const add = L => { for(const l in (L || {})){ lanes.add(l); voices.add(L[l]); } };
+    add(M.lanes);
+    for(const kit in (M.kits || {})) add(kitLanes(M.kits[kit]));
+  }
+  return (DRUM_LOAD = { lanes: [...lanes].sort(), voices: [...voices].sort() });
 }
 /* which racks hold something that plays PITCHES, and can therefore stand in for
    each other. Drums and fx are not here on purpose -- see voiceFor. */
@@ -5493,6 +5560,26 @@ function resolvePicks(genre, picks, seed){
      that is not a slot. Frozen with the rest: nothing downstream may decide to
      un-mute a rack the hand switched off. */
   out.mute = Object.freeze(mute);
+  /* ── AND WHICH SOUND THE HAND PUT IN EACH DRUM CHANNEL ────────────────────
+     Same shape as the mute above and for the same reason: a fact about the
+     HAND, carried beside the picks rather than inside them, frozen so nothing
+     downstream can decide to unload a channel the user filled.
+
+     BOTH SIDES ARE VALIDATED AGAINST THE DERIVED SETS, not against a list. A
+     lane nobody declares and a voice nothing can play are dropped here, at the
+     one gate, so `voiceFor` can return what it finds without asking again --
+     and so a stale saved pick after a kit is renamed degrades to the kit's own
+     sound instead of writing a `voice` that dispatch cannot fire. Only a hand
+     can load a channel; no genre table may, for the same reason no genre may
+     mute itself. */
+  const laneWant = picks && picks.lane, laneOut = {};
+  if(laneWant){
+    const D = drumLoad();
+    for(const l in laneWant)
+      if(laneWant[l] && D.lanes.includes(l) && D.voices.includes(laneWant[l]))
+        laneOut[l] = laneWant[l];
+  }
+  out.lane = Object.freeze(laneOut);
   /* whose choice each slot was -- see the note above. Rides beside `mute` for
      the same reason: it is a fact about the HAND, not about the music. */
   out.byHand = Object.freeze(byHand);
@@ -25541,9 +25628,23 @@ function drawPanels(){
                    switches: "anything a hand can touch has to say what it is." */
                 sel.dataset.key = m + "." + c.k;
                 sel.title = c.label + " — which " + (c.k) + " is loaded in this machine";
-                sel.innerHTML = '<option value="">' + c.k + ': (genre draws)</option>' +
-                  names.map(n => `<option value="${n}">${c.k}: ${n}</option>`).join("");
                 const pickKey = c.k === "kit" ? "drumKit" : c.k;
+                /* ── AND THE UNPINNED OPTION NAMES WHAT IS ACTUALLY IN THERE ──
+                   It read "(genre draws)", which is a statement about WHO chose
+                   and not about WHAT is loaded — so with the dungeon kit in the
+                   machine, the war drums on the glass and `TR1000 · dungeon` on
+                   its own screen, the KIT selector still said "(genre draws)".
+                   Every other reading on this panel agreed and this one did not.
+
+                   That is the same defect this whole session has been chasing
+                   one layer along: a control whose label does not describe its
+                   state. It still says who chose, in brackets, because the
+                   difference between drawn and pinned is real and the orange
+                   marking is what tells you the hand has been on it. */
+                const nowIs = SONG && SONG.chart.picks && SONG.chart.picks[pickKey];
+                sel.innerHTML =
+                  `<option value="">${c.k}: ${nowIs ? nowIs + " (drawn)" : "(genre draws)"}</option>` +
+                  names.map(n => `<option value="${n}">${c.k}: ${n}</option>`).join("");
                 sel.value = PICK[pickKey] || "";
                 sel.addEventListener("change", () => {
                   PICK[pickKey] = sel.value || null;
@@ -25628,6 +25729,52 @@ function drawPanels(){
             t.dataset.lane = col.lane || "";
             cEl.appendChild(t);
             TRIGS.push(t);
+          }
+          /* ── AND THE CHANNEL IS LOADABLE ────────────────────────────────
+             The user's own framing of the drum rack: a kit is "a starting
+             point you edit", and an unused strip is "an empty slot you can
+             drop a sound into", not a blank and not a dimmed thing.
+
+             THE LIST IS DERIVED -- `drumLoad()` unions every voice named by
+             any drum machine or any of its kits, so a kit added tomorrow
+             brings its sounds to every strip with nothing edited here. The
+             default option names the sound the KIT puts on this channel,
+             because "(genre draws)" tells you the wrong thing: you want to
+             know what is in the slot, not who chose it.
+
+             IT SAYS THE SURPRISE OUT LOUD. Loading a sound does not move the
+             channel -- `DCHAIN_OF` still runs this lane through this strip --
+             so a war drum dropped on the hat channel is tuned, decayed and
+             sent by the HAT's knobs. That is the honest behaviour and it is
+             in the tooltip rather than left to be discovered.
+
+             `recompose()`, not stop-and-new-song: this is the third widget on
+             this panel to get that right and the reason is the same one the
+             file has recorded twice -- a rack exists so a hand can change
+             something WHILE IT RUNS. */
+          if(col.lane){
+            const D = drumLoad();
+            const kitL = kitNow && M.kits && kitLanes(M.kits[kitNow]);
+            const base = (kitL && kitL[col.lane]) || (M.lanes && M.lanes[col.lane]) || "—";
+            const held = (PICK.lane && PICK.lane[col.lane]) || "";
+            const ld = el("div", "load" + (held ? " held" : ""));
+            const sel = document.createElement("select");
+            sel.dataset.load = col.lane;
+            sel.title = "which sound is loaded in the " + col.label + " channel.\n" +
+              "The strip does not move: this channel's tune, decay and sends " +
+              "still belong to " + col.label + ", whatever you put in it.";
+            sel.innerHTML = `<option value="">${base}</option>` +
+              D.voices.filter(v => v !== base)
+                      .map(v => `<option value="${v}">${v}</option>`).join("");
+            sel.value = held;
+            sel.addEventListener("change", () => {
+              if(!PICK.lane) PICK.lane = {};
+              if(sel.value) PICK.lane[col.lane] = sel.value;
+              else delete PICK.lane[col.lane];
+              recompose();
+            });
+            ld.appendChild(sel);
+            cEl.appendChild(ld);
           }
           cols.appendChild(cEl);
         }
@@ -26211,6 +26358,11 @@ window.MK2 = {
      So adding a fourth and fifth rack turned a green check red, which is the
      check being stale rather than the program being wrong. One owner. */
   rackSlots: () => RACK_SLOTS.slice(),
+  /* WHAT A DRUM CHANNEL CAN HOLD, from the one place that derives it. A check
+     that built its own list of drum voices would be asserting against its own
+     copy, which is how "every lane is covered" stayed green while three
+     instruments were unreachable. Same table, asked twice, never copied. */
+  drumLoad: () => { const D = drumLoad(); return { lanes: D.lanes.slice(), voices: D.voices.slice() }; },
   /* THE MIXER, so a probe can prove the two things a fader has to be: that it
      reaches the sound, and that it is not there until someone moves it. Both
      are claims about the RENDER, so the door is the same one renderWav uses. */
