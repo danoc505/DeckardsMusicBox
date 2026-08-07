@@ -2444,6 +2444,68 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     check("a switch that picks a thing has one position per thing",
           bad.length === 0, bad.length ? bad.join(" · ") : "every pick switch matches its collection");
   }
+
+  /* ══ ...AND TURNING IT CHANGES WHAT PLAYS ═══════════════════════════════════
+     THIS CHECK EXISTS BECAUSE OF A DEFECT THAT SHIPPED. `2026-08-07h` folded
+     the dungeon synth drums into the TR-1000 as kits and wrote the genre's
+     choice into `params.tr1000.kit` — the machine's own KIT switch — which
+     NOTHING READ. The kit came only from `machines.drumKit`, so the genre fell
+     through to the machine's default lanes and played an 808. Measured over 12
+     seeds: k808 4554, s808 1566, h808 1361, and the war drum, the timpani and
+     the Erang percussion heard ZERO times, on the one genre whose identity is
+     those drums. It was live on the published artifact for a day.
+
+     THE BATTERY WAS GREEN THE WHOLE TIME. The check above asks that the switch
+     has the right number of positions; another asks that a drawn value lands on
+     its dial. Both were true. Neither asks the only question that matters about
+     a switch: does turning it do anything.
+
+     So: drive every `pick` switch to every position and demand the set of
+     voices heard is not the same set. This is the "compare a thing to another
+     thing" rule — a check that compares a switch to a number cannot see that
+     two positions are the same sound. */
+  {
+    const bad = [], seen = [];
+    for(const m in M.INSTRUMENTS){
+      const MM = M.INSTRUMENTS[m];
+      for(const c of (MM.controls || [])){
+        if(!c.pick) continue;
+        const coll = MM[c.k + "s"] || MM[c.k];
+        if(!coll || typeof coll !== "object") continue;
+        const names = Object.keys(coll);
+        if(names.length < 2) continue;
+        /* a genre that hosts this machine, found by asking rather than named */
+        const genre = M.genres().find(g => {
+          for(let s = 1; s <= 4; s++){
+            const song = M.composeSong(s, undefined, g);
+            if(song.chart.picks && song.chart.picks[MM.slot] === m) return true;
+          }
+          return false;
+        });
+        if(!genre){ seen.push(m + "." + c.k + ": no genre hosts it"); continue; }
+        const voicesFor = name => {
+          const set = new Set();
+          for(let s = 1; s <= 3; s++){
+            const song = M.composeSong(s, undefined, genre, { [c.k === "kit" ? "drumKit" : c.k]: name });
+            for(const e of song.perf.events) if(e.role === MM.slot) set.add(e.voice);
+          }
+          return [...set].sort().join(",");
+        };
+        const heard = {};
+        for(const n of names) heard[n] = voicesFor(n);
+        /* every position must differ from at least one other; two positions
+           producing an identical voice set means one of them is not reachable */
+        const same = [];
+        for(let i = 0; i < names.length; i++)
+          for(let j = i + 1; j < names.length; j++)
+            if(heard[names[i]] === heard[names[j]]) same.push(names[i] + "=" + names[j]);
+        if(same.length) bad.push(m + "." + c.k + " positions play the same thing: " + same.join(" "));
+        else seen.push(m + "." + c.k + " " + names.length + " positions, all distinct (on " + genre + ")");
+      }
+    }
+    check("...and turning it changes what plays",
+          bad.length === 0, bad.length ? bad.join(" · ") : seen.join(" · "));
+  }
 }
 
 console.log("\n" + pass + " passed, " + fail + " failed");

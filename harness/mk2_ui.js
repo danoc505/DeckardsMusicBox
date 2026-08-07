@@ -106,19 +106,42 @@ const check = (label, ok, detail) => {
      right until the desk arrived. Twice is enough: the expected count is now
      DERIVED from the rack, so the next fixed machine is covered without anybody
      remembering to come back here. */
-  const fixed = await pg.evaluate(() =>
-    Object.keys(MK2.INSTRUMENTS).filter(k => MK2.INSTRUMENTS[k].fixed)
-      .map(k => (MK2.INSTRUMENTS[k].panel || {}).skin || k));
+  /* ── EXCEPT A MACHINE THAT IS DRAWN INSIDE ANOTHER RACK ────────────────────
+     The pad bay IS the echo and the flanger — their nameplates, their knobs and
+     their pads in one box — so neither draws a rack of its own any more, on
+     purpose: the same knob on the page twice is the defect the bay exists to
+     fix. This check assumed every fixed machine draws its own panel and went red
+     for that change.
+     Derived exactly as the program derives it: a machine named by some panel's
+     `pads` block is drawn by that panel, so it is not expected on its own. No
+     list, so a third pad is covered without editing this. */
+  const insideAnother = await pg.evaluate(() => {
+    const s = [];
+    for(const k in MK2.INSTRUMENTS){
+      const pp = MK2.INSTRUMENTS[k].panel && MK2.INSTRUMENTS[k].panel.pads;
+      if(pp) for(const p of pp) s.push(p.m);
+    }
+    return s;
+  });
+  const fixed = await pg.evaluate((inside) =>
+    Object.keys(MK2.INSTRUMENTS).filter(k => MK2.INSTRUMENTS[k].fixed && !inside.includes(k))
+      .map(k => (MK2.INSTRUMENTS[k].panel || {}).skin || k), insideAnother);
   /* HOW MANY SLOTS THERE ARE IS THE PROGRAM'S TO SAY. The comment above claims
      this count is derived from the rack; only the FIXED half ever was, and the
      picked half stayed the literal 3 -- so a fourth and a fifth rack turned
      this green check red without anything being wrong with the program. Third
      time this number has gone stale, and the last. */
-  const slots = await pg.evaluate(() => MK2.rackSlots().length);
+  const slots = await pg.evaluate((inside) =>
+    MK2.rackSlots().filter(s => {
+      const m = MK2.INSTRUMENTS;
+      /* a slot whose machine is drawn inside another rack does not draw here */
+      return !inside.some(k => m[k] && m[k].slot === s);
+    }).length, insideAnother);
   check("each slot draws its own machine's panel, and every fixed machine is always there",
         shape.length === slots + fixed.length && shape.every(s => s.skin) &&
         fixed.every(f => shape.some(s => s.skin === f)),
-        `${shape.length} panels (3 slots + ${fixed.length} fixed: ${fixed.join(",")}) · ` +
+        `${shape.length} panels (${slots} slots + ${fixed.length} fixed: ${fixed.join(",")}` +
+        (insideAnother.length ? `; drawn inside another rack: ${insideAnother.join(",")}` : "") + ") · " +
         shape.map(s => `${s.skin}:${s.knobs}kn/${s.steps}st`).join(" "));
   /* ── THE MIXER HAS A STRIP FOR EVERY PART THE SONG PLAYS ──────────────────
      Not a fixed list: the strips are read off the performance, so a song that
@@ -778,6 +801,62 @@ const check = (label, ok, detail) => {
         await pg.evaluate(() => { delete MIXER_TRIM.drums; mixPush(); mixRefreshAll(); });
       }
     }
+  }
+
+  /* ═══ EVERY CONTROL A MACHINE DECLARES IS ON ITS GLASS ════════════════════
+     THE CHECK THAT WAS MISSING, and it cost three instruments entirely.
+     `erangPanel()` returned a skin, a maker and a title and NO `groups`, so
+     `drawPanels` walked an empty list and appended nothing — and because a
+     panel EXISTED, the plain-slider fallback never fired either. All three Erang
+     instruments drew a nameplate, a picker and a reset button with **zero
+     controls**. Six declared knobs each, unreachable by hand, on the machines
+     that carry a whole genre's sound.
+
+     Nothing saw it because every existing check asks whether a control REACHES
+     THE SOUND — and all of these did. None asked whether it is DRAWN. Found the
+     same way: three more were declared and undrawn (`cs80.atk`/`rel`, the swell
+     that bladerunner's whole bloom rests on; `sax.character`, the second horn;
+     `tb303.sweep`, how far an accent opens the filter).
+
+     This loads every machine into every rack that accepts it and compares the
+     declaration against the glass. It is the other half of "a knob that does
+     nothing is a lie": a knob that does something and cannot be reached. */
+  {
+    const plan = await pg.evaluate(() => {
+      const out = [];
+      for(const s of MK2.rackSlots())
+        for(const k in MK2.INSTRUMENTS) if(MK2.canFill(s, k)) out.push([s, k]);
+      return out;
+    });
+    /* a machine drawn inside another rack is drawn by that rack, not its own */
+    const inside = await pg.evaluate(() => {
+      const s = [];
+      for(const k in MK2.INSTRUMENTS){
+        const pp = MK2.INSTRUMENTS[k].panel && MK2.INSTRUMENTS[k].panel.pads;
+        if(pp) for(const p of pp) s.push(p.m);
+      }
+      return s;
+    });
+    const bad = [];
+    let checked = 0;
+    for(const [slot, mach] of plan){
+      if(inside.includes(mach)) continue;
+      try { await pg.selectOption("#m_" + slot, mach); } catch(e){ continue; }
+      await pg.waitForTimeout(140);
+      const r = await pg.evaluate((mach) => {
+        const box = document.querySelector(`.machine[data-machine="${mach}"]`);
+        if(!box) return { missing: ["(no panel drawn at all)"], n: 0 };
+        const drawn = new Set([...box.querySelectorAll("[data-key]")]
+          .map(e => e.dataset.key.split(".").slice(1).join(".")));
+        const decl = (MK2.INSTRUMENTS[mach].controls || []).map(c => c.k);
+        return { missing: decl.filter(k => !drawn.has(k)), n: decl.length };
+      }, mach);
+      checked++;
+      if(r.missing.length) bad.push(`${mach} in ${slot}: ${r.missing.length} of ${r.n} — ${r.missing.slice(0, 8).join(" ")}`);
+    }
+    check("every control a machine declares is drawn on its panel",
+          bad.length === 0,
+          bad.length ? bad.join(" | ") : checked + " machine/rack pairs, every declared control on the glass");
   }
 
   /* ═══ EVERY GENRE THE PROGRAM DECLARES IS ON THE PICKER, AND PLAYS ═════════

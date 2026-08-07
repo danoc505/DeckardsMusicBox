@@ -56,6 +56,23 @@
   .machine.rackempty .brand{ margin-bottom:.35rem; }
   .machine.rackempty .model{ color:var(--ink); opacity:.75; }
   .emptynote{ font-size:10px; opacity:.55; }
+  /* ── THE ERANG SHELF ──────────────────────────────────────────────────────
+     Three machines shared `skin: "erang"` and there was no `.sk-erang` rule in
+     the file, so they fell through to the bare `.machine` box with no case at
+     all — which is half of why nobody noticed they were drawing no knobs.
+     Aged paper and oak rather than a livery off a photograph: this is a sample
+     pack, not a boxed instrument, and pretending it has a fascia would be a
+     costume. The `sub` line the declaration has always carried is drawn now. */
+  .sk-erang{ color:#e8dcc0; border:1px solid #3a2d1c;
+    background:linear-gradient(103deg, rgba(255,255,255,.035) 0 2px, transparent 2px 12px),
+               linear-gradient(#3d3323, #2b2418); }
+  .sk-erang .brand{ background:rgba(0,0,0,.26); color:#f0e4c8; margin:-.85rem -1rem .8rem;
+                    padding:.4rem 1rem; border-radius:4px 4px 0 0; }
+  .sk-erang .brand .model{ color:#d9b877; }
+  .sk-erang .kn .dial{ background:radial-gradient(circle at 38% 30%, #57493a, #17130d 66%); }
+  .sk-erang .kn .cap, .sk-erang .grp .leg{ color:#cdbb92; }
+  .sk-erang .kn .val{ color:#a8926a; }
+  .panelsub{ font-size:10px; opacity:.5; margin:-.35rem 0 .6rem; }
   /* ── THE SONG RACK AND THE NOTE RACK ──────────────────────────────────────
      Everything on this page is a rack now, which is the point of the Reason
      model: the thing that chooses the song and the thing that shows the notes
@@ -997,11 +1014,18 @@
      `width:min(300px,100%)` keeps either from growing past a hand's reach; on a
      phone they wrap and stack, which is the same two pads, one below the other,
      rather than a squeeze. */
-  /* the pad's own two knobs, directly under the pad they are the axes of --
-     an XY pad IS two controls and they belong beside it, not on another panel */
-  .padknobs{ display:flex; gap:.5rem; justify-content:center; padding-top:.15rem;
-             border-top:1px solid rgba(0,0,0,.16); margin-top:.1rem; }
-  .padbay{ display:flex; gap:.9rem; flex-wrap:wrap; align-items:flex-start; }
+  /* ── THE PAD BAY IS TWO MACHINES ─────────────────────────────────────────
+     Each column is a whole device: its nameplate, then its own knobs, then its
+     pad under them. Knobs above the pad, which is where they were asked for and
+     where they sit on the real boxes. */
+  .padbrand{ display:flex; align-items:baseline; gap:.5rem; margin-bottom:.45rem;
+             padding-bottom:.3rem; border-bottom:1px solid rgba(0,0,0,.18); }
+  .padbrand .maker{ font-size:9px; letter-spacing:.26em; text-transform:uppercase; opacity:.6; }
+  .padbrand .model{ font-size:11.5px; letter-spacing:.09em; }
+  .padbrand .rackbox{ margin-left:auto; }
+  .padknobs{ display:flex; gap:.55rem .95rem; flex-wrap:wrap; align-items:flex-start;
+             margin-bottom:.55rem; }
+  .padbay{ display:flex; gap:1.1rem; flex-wrap:wrap; align-items:flex-start; }
   .padcell{ flex:1 1 0; min-width:210px; display:flex; flex-direction:column; gap:.3rem; }
   .padname{ font-size:8.5px; letter-spacing:.20em; text-transform:uppercase;
             opacity:.66; text-align:center; }
@@ -1072,7 +1096,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-07h · every rack carries its own picker, all the drums are one machine, and the pads have their knobs</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-07i · the dungeon synth drums play again, and every declared knob is on the glass</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -2447,16 +2471,22 @@ const INSTRUMENTS = {
          [corpus:reasontalk; corpus:soundonsound "Drum Instruments"] -- and the
          Gretsch entry above already argued this case in full for the sampled
          kit. These two just never got the same treatment. */
-      procession: { kick:"wardrum", snare:"snare", ghost:"ghost", hat:"hat",
-                  openhat:"openhat", tom1:"timpHi", tom2:"timpMid", tom3:"timpLo",
-                  rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
-      /* one sampled percussion voice on every lane, the way the break kit is one
-         recording on every lane -- the SET switch inside the voice decides which
-         Erang sample a lane reaches, so the kit map is deliberately uniform */
-      erang:    { kick:"erangDrum", snare:"erangDrum", ghost:"erangDrum",
-                  hat:"erangDrum", openhat:"erangDrum",
-                  tom1:"erangDrum", tom2:"erangDrum", tom3:"erangDrum",
-                  rim:"erangDrum", clap:"erangDrum", crash:"erangDrum", ride:"erangDrum" },
+      /* ── ONE DUNGEON KIT, not two ─────────────────────────────────────────
+         The user: "Why is there an errang kit and war drum kit? They should be
+         one and the same." Right, and there was no argument for two -- a player
+         with a war drum, three kettles and a rack of hand percussion has ONE
+         kit, not a choice between the drums and the percussion.
+
+         So the low end is the synthesised drums that two rounds of measurement
+         were spent on (the war drum at kTune -3 with its 0.76 s decay, the
+         kettles at 0.85 with the 0.30 room that took their GAP to 80%), and
+         everything a hand would strike is the sampled Erang percussion. The
+         SET switch inside that voice decides which sample a lane reaches, so
+         the eight lanes are not eight copies of one hit. */
+      dungeon:  { kick:"wardrum", tom1:"timpHi", tom2:"timpMid", tom3:"timpLo",
+                  snare:"erangDrum", ghost:"erangDrum", hat:"erangDrum",
+                  openhat:"erangDrum", rim:"erangDrum", clap:"erangDrum",
+                  crash:"erangDrum", ride:"erangDrum" },
       brk:      { brk:"brk", kick:"brk", snare:"brk", ghost:"brk", hat:"brk",
                   openhat:"brk", tom1:"brk", tom2:"brk", tom3:"brk",
                   rim:"brk", clap:"brk", crash:"brk", ride:"brk" },
@@ -2754,7 +2784,20 @@ const INSTRUMENTS = {
      see it, because every check asked whether a voice WORKS and none asked
      whether anything ever CALLS it.
      The user asked "are you using the instruments" and the answer was no. */
-  procession: {
+  /* ── LEGACY, exactly as `kit`, `segakit` and `amen` are ────────────────────
+     These two ARE the `dungeon` kit of the TR-1000 now. The user: "Why is there
+     an errang kit and war drum kit? They should be one and the same." They are
+     one kit; what remains here is the pair of CONTROL SURFACES the voices read
+     -- V.timpVoice's `ring`, and V.erangDrum's set/tune/attack/release/tone --
+     which is why they are marked legacy rather than deleted. `canFill` drops a
+     legacy machine from every picker, so neither is offered as a box any more;
+     they are the paperwork behind a kit.
+     STILL OPEN, and named rather than hidden: those voices read their controls
+     from a machine name that is no longer the machine playing, so those knobs
+     cannot appear on the TR-1000's own glass. Repointing them to
+     `g.drumMachine` is the next step, and it is the same class of defect as the
+     one this commit fixes. */
+  procession: { legacy: true,
     slot: "drums", label: "TIMPANI + WAR DRUMS",
     lanes: { kick:"wardrum", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
              rim:"rim", clap:"clap", crash:"crash", ride:"ride",
@@ -3363,6 +3406,10 @@ const INSTRUMENTS = {
         { t:"led",  k:"gate",    cap:"GATE" },
         { t:"knob", k:"slideTime" },
         { t:"sw",   k:"sweepSpeed" },
+        /* the DEPTH the ACCENT SWEEP switch selects between. Declared,
+           automated by genres, and drawn nowhere -- so the one knob that
+           sets how far an accent opens the filter could not be reached. */
+        { k:"sweep" },
         { t:"sw",   k:"accSweep" },
         { t:"knob", k:"filterFM" },
         { t:"big",  k:"volume" },
@@ -3595,6 +3642,12 @@ const INSTRUMENTS = {
     ],
     panel: { skin: "cs80", maker: "Yamaha", title: "CS-80",
              groups: [{ label: "PERFORMANCE", keys: ["bright", "res", "initBend"] },
+        /* THE SWELL, and it was declared and undrawn. `atk`/`rel` are what
+           make this instrument bloom -- bladerunner asks for a 1.10 s attack
+           and a 1.60 s release and the measurement that earned them (a chord
+           reaching 90% level in 1.38 s where it took 0.22) is in the handoff.
+           A hand could never reach either. */
+        { label: "ENVELOPE", keys: ["atk", "rel"] },
                       { label: "VCO",         keys: ["pw", "pwm", "pwmHz"] },
                       { label: "MODULATION",  keys: ["ring", "ens", "vib"] },
                       { label: "AFTER",       keys: ["atBrill", "atLevel", "atVib"] },
@@ -3670,7 +3723,10 @@ const INSTRUMENTS = {
       { k:"growlHz", label:"growl rate",      cap:"GROWL RATE", min:0, max:1, step:0.01, def:0.50, kind:"voicing" },
     ],
     panel: { skin: "sax", maker: "", title: "saxophone",
-             groups: [{ label: "REED",       keys: ["bright", "reed", "air"] },
+             groups: [/* WHICH HORN, and it was declared and drawn nowhere: the
+                         second sampled horn was unreachable by hand. */
+                      { label: "HORN",       keys: ["character"] },
+                      { label: "REED",       keys: ["bright", "reed", "air"] },
                       { label: "EXPRESSION", keys: ["scoop", "fall"] },
                       { label: "VIBRATO",    keys: ["vib", "vibHz"] },
                       { label: "GROWL",      keys: ["growl", "growlHz"] },
@@ -3696,7 +3752,31 @@ const INSTRUMENTS = {
 const erangPatches = (...f) => Math.max(0, ERANG.family(...f).length - 1);
 const ERANG_KIT_LANES = ["kick", "tom3", "tom2", "tom1", "snare", "ghost",
                          "rim", "clap", "hat", "openhat", "ride", "crash"];
-const erangPanel = (title, sub) => ({ skin: "erang", maker: "Erang", title: title, sub: sub });
+/* ── AND THE PANEL HAS TO DECLARE ITS GROUPS, OR IT DRAWS NO KNOBS AT ALL ───
+   FOUND 2026-08-07, and it had been true since these machines landed: this
+   returned a skin, a maker and a title and NO `groups`. `drawPanels` takes the
+   `if(P)` branch for any machine with a panel and then walks `P.groups || []`
+   — an empty list — so it appended nothing, and because a panel EXISTS the
+   plain range-slider fallback never fired either.
+
+   So all three Erang instruments drew a nameplate, a picker and a reset button
+   with **zero controls on them**. Not ugly: invisible. Six declared knobs each
+   — patch, tune, attack, release, tone, pan — none of which could be reached by
+   hand on any song that loaded one, on a genre whose sound is that sample pack.
+
+   Nothing caught it because every check asks whether a control REACHES THE
+   SOUND, and these all do; none asked whether a declared control is DRAWN.
+   `probe_rack` asks exactly that and is not in the battery. The grouping below
+   is the machine's own four questions in the order the comment above states
+   them: which patch, how it speaks, how bright, and where it sits. */
+const erangPanel = (title, sub) => ({
+  skin: "erang", maker: "Erang", title: title, sub: sub,
+  groups: [{ label: "PATCH",    keys: ["patch"] },
+           { label: "PITCH",    keys: ["tune"] },
+           { label: "ENVELOPE", keys: ["attack", "release"] },
+           { label: "TONE",     keys: ["tone"] },
+           { label: "STEREO",   keys: ["pan"] }],
+});
 /* every panel carries the same four: WHICH patch, how it speaks, how bright.
    `tone` is the only one the conductor can ride -- the rest are voicing and
    switch, which this file never automates, and that is deliberate: a sampler
@@ -3728,7 +3808,7 @@ INSTRUMENTS.erangLead = {
   controls: erangControls(erangPatches("Lead"), "leads"),
   panel: erangPanel("Erang — Leads", "the voice that carries the tune"),
 };
-INSTRUMENTS.erangDrums = {
+INSTRUMENTS.erangDrums = { legacy: true,
   slot: "drums", label: "Erang Percussion",
   /* every lane the kit can strike, so this machine can stand in for a kit
      anywhere without a lane falling through to silence */
@@ -4378,6 +4458,30 @@ function loadParams(machine, over){
    because a knob that lies about what the song is doing is the defect this
    file has chased hardest. */
 function drawParam(chart, mach, key, v){
+  /* ── A `pick` SWITCH MAY BE SET BY NAME, not only drawn by name ────────────
+     A weighted table can name a kit (`[["dungeon", 9], ["acoustic", 1]]`) and
+     the draw resolves it below. A genre that simply HAS one kit should be able
+     to say so the same way — `kit: "dungeon"` — rather than writing the switch's
+     index, which is a position in a list nobody wrote down on purpose and which
+     moves the day a kit is inserted above it.
+
+     It matters that this is not a draw: the seam check "a knob a genre draws is
+     a different knob on a different song" correctly refuses a weighted table
+     that never varies, and dungeon synth genuinely has ONE kit — the user's
+     words are "if we load up dungeon synth the whole kit gets loaded". Saying
+     that plainly is honest; a 9-to-1 table that reads as frozen on twelve seeds
+     is a draw pretending to be a decision. */
+  if(typeof v === "string" && v !== "any"){
+    const c0 = CONTROL[mach + "." + key];
+    if(c0 && c0.pick){
+      const coll = INSTRUMENTS[mach] && INSTRUMENTS[mach][c0.pickFrom || (c0.k + "s")];
+      const names = coll ? Object.keys(coll) : null;
+      const i = names ? names.indexOf(v) : -1;
+      if(i < 0) throw new Error("params: " + mach + "." + key + ' is set to "' + v +
+        '", which is not one of: ' + (names ? names.join(", ") : "(this control picks nothing)"));
+      return c0.min + i * (c0.step || 1);
+    }
+  }
   if(v !== "any" && !Array.isArray(v)) return v;
   const rng = stream((chart && chart.seed) || 0, "param:" + mach + "." + key);
   const c = CONTROL[mach + "." + key];
@@ -5266,7 +5370,42 @@ function resolvePicks(genre, picks, seed){
      `lanes`, which is the analog kit. */
   const kitDraw = M.drumKit ? wpick(rng, M.drumKit) : (rng(), null);
   const wantKit = picks && picks.drumKit;
-  out.drumKit = wantKit || kitDraw;
+  /* ── AND THE MACHINE'S OWN KIT SWITCH IS A THIRD WAY TO SAY IT ─────────────
+     THIS EXISTS BECAUSE OF A DEFECT I SHIPPED. `2026-08-07h` folded the dungeon
+     synth drums into the TR-1000 as kits and wrote the genre's choice into
+     `params.tr1000.kit` -- which is the machine's KIT switch, and which NOTHING
+     READ. The kit came only from `machines.drumKit`, so the genre fell through
+     to the machine's own lanes and played an 808. Measured over 12 seeds:
+     k808 4554, s808 1566, h808 1361, and the war drum, the timpani and the
+     Erang percussion heard ZERO times, on a genre whose whole identity is those
+     drums. It was live on the published artifact.
+
+     The battery was green throughout, because the checks ask that a `pick`
+     switch has one position per thing and that a drawn value lands on its dial
+     -- both true -- and never ask whether turning it does anything. A new seam
+     check covers that now: "a switch that picks a thing changes what plays".
+
+     THE FIX IS NOT TO DELETE THE PARAMS FORM, it is to make it true. A switch
+     on the front of a machine that says KIT should choose the kit; that is what
+     its label promises and what the user asked for ("it is the tr multi kit").
+     So the order is: the hand, then the genre's `machines.drumKit`, then the
+     genre's own KIT switch setting, then the machine's lanes. `drawParam` has
+     already resolved a name like "dungeon" to the switch's index by here, so
+     this maps it back through the same collection the switch takes its travel
+     from -- one list, asked twice, never copied. */
+  let panelKit = null;
+  if(!wantKit && !kitDraw){
+    const dm = out.drums;
+    const MI = dm && dm !== "auto" && INSTRUMENTS[dm];
+    const kitsOf = MI && MI.kits;
+    if(kitsOf){
+      const declared = ((GENRE[genre].params || {})[dm] || {}).kit;
+      const idx = drawParam({ seed }, dm, "kit", declared);
+      const names = Object.keys(kitsOf);
+      if(Number.isFinite(idx) && names[idx]) panelKit = names[idx];
+    }
+  }
+  out.drumKit = wantKit || kitDraw || panelKit;
   /* the mute set rides on `picks` beside `drumKit`, which is the other key here
      that is not a slot. Frozen with the rest: nothing downstream may decide to
      un-mute a rack the hand switched off. */
@@ -16882,7 +17021,10 @@ const GENRE = {
          and always has. A kit is a lane-to-voice map; the voice keeps its own
          knobs. */
       procession: { ring: 1.05 },
-      tr1000: { kit: [["procession", 6], ["erang", 3], ["acoustic", 1]],
+      /* ONE KIT, said plainly. "If we load up dungeon synth the whole kit gets
+         loaded into the tr rack" -- so this genre IS the dungeon kit, and the
+         KIT switch on the machine is how a hand reaches the others. */
+      tr1000: { kit: "dungeon",
                     bus: 1.00, gate: 0,
                     kTune: 4, kDecay: 0.8, kMix: 1.15, kVerb: 0.05, kEcho: 0.03, kCut: 9000,
                     sTune: 1, sDecay: 1, sMix: 0.62, sVerb: 0.55, sEcho: 0.08, sCut: 9500,
@@ -25103,7 +25245,19 @@ function drawPanels(){
   const boxes = RACK_SLOTS.slice()
     .map(slot => [slot, machineIn(SONG.chart, slot)])
     .concat(Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].fixed).map(k => [INSTRUMENTS[k].slot, k]));
+  /* ── A MACHINE THAT IS DRAWN INSIDE ANOTHER RACK DOES NOT DRAW TWICE ──────
+     The pad bay IS the echo and the flanger — their nameplates, their knobs and
+     their pads, in one box. So neither may also draw a rack of its own, or the
+     same knob is on the page twice and the user is back to hunting for which
+     copy they moved. DERIVED from the pad declaration, never listed: a machine
+     named by some panel's `pads` block is drawn by that panel. */
+  const drawnElsewhere = new Set();
+  for(const k in INSTRUMENTS){
+    const pp = INSTRUMENTS[k].panel && INSTRUMENTS[k].panel.pads;
+    if(pp) for(const p of pp) drawnElsewhere.add(p.m);
+  }
   for(const [slot, m] of boxes){
+    if(drawnElsewhere.has(m)) continue;
     /* ── AN EMPTY RACK IS STILL A RACK, AND IT SHOWS ───────────────────────
        This used to `continue` when a slot resolved to nothing, which was fine
        while the pickers lived in a row at the top of the page: you could load a
@@ -25174,6 +25328,11 @@ function drawPanels(){
     if(!M.fixed && RACK_SLOTS.includes(slot)) brand.appendChild(rackPickerEl(slot));
     brand.appendChild(el("span", "slotTag", slot));
     box.appendChild(brand);
+    /* a panel may carry one line saying what the machine IS. The Erang shelves
+       have declared one since the day they were written ("the held half of the
+       pack") and nothing had ever drawn it. A declared field nothing reads is
+       this file's cardinal sin; drawing it is cheaper than deleting it. */
+    if(P && P.sub) box.appendChild(el("div", "panelsub", P.sub));
 
     if(P){
       /* ── CHANNEL STRIPS, when a panel declares them ────────────────────────
@@ -25208,23 +25367,41 @@ function drawPanels(){
                  PICK and recomposes, exactly as the machine dropdown does --
                  anything else would be a knob that moves and changes nothing,
                  which is the defect this file has a check for. */
-              if(m === "tr1000" && c.k === "kit"){
-                const names = Object.keys(M.kits || {});
+              /* ── ANY `pick` SWITCH IS A SELECT, not just the TR-1000's ────
+                 This read `if(m === "tr1000" && c.k === "kit")` and was the ONLY
+                 place in `drawPanels` that knew a machine by name. The bass rack
+                 wants exactly the same widget, so writing it twice by name is how
+                 the third one goes stale -- the defect this file has hit five
+                 times. It asks the control instead: anything marked `pick: true`
+                 takes its options from the collection it picks, which is the same
+                 collection its travel comes from. */
+              if(c.pick && (M[c.pickFrom || (c.k + "s")])){
+                const coll = M[c.pickFrom || (c.k + "s")];
+                const names = Object.keys(coll);
                 const sel = document.createElement("select");
                 sel.className = "kitpick";
-                sel.innerHTML = '<option value="">kit: (genre draws)</option>' +
-                  names.map(n => `<option value="${n}">kit: ${n}</option>`).join("");
-                sel.value = PICK.drumKit || "";
+                /* ── AND IT SAYS WHAT IT IS ──────────────────────────────────
+                   It carried no `data-key`, so to anything walking the glass the
+                   KIT control was simply not drawn -- the same blind spot the
+                   fallback sliders had, on the one control that decides which
+                   drums you hear. This file's own rule, written beside the
+                   switches: "anything a hand can touch has to say what it is." */
+                sel.dataset.key = m + "." + c.k;
+                sel.title = c.label + " — which " + (c.k) + " is loaded in this machine";
+                sel.innerHTML = '<option value="">' + c.k + ': (genre draws)</option>' +
+                  names.map(n => `<option value="${n}">${c.k}: ${n}</option>`).join("");
+                const pickKey = c.k === "kit" ? "drumKit" : c.k;
+                sel.value = PICK[pickKey] || "";
                 sel.addEventListener("change", () => {
-                  PICK.drumKit = sel.value || null;
-                  stopPlayback();
-                  newSong(SONG ? SONG.chart.seed : 1);
+                  PICK[pickKey] = sel.value || null;
+                  /* ── AND CHANGING IT DOES NOT STOP THE MUSIC ────────────────
+                     This called stopPlayback() then newSong(), while every other
+                     picker on the page calls recompose() and carries on from the
+                     same song second. The file already records why that matters:
+                     "The whole point of a rack is that a hand can change
+                     something while it runs." Loading a kit is loading a box. */
+                  recompose();
                 });
-                /* its own class, NOT `kn`. It is a select, not a knob -- it has
-                   no pointer and no automation dot, and borrowing the knob class
-                   put it in front of every query that looks for one. The UI
-                   battery found it immediately: reading `.ptr` off the first
-                   non-still `.kn` returned null. */
                 const wrap = el("div", "kitwrap");
                 wrap.appendChild(sel);
                 row.appendChild(wrap);
@@ -25381,37 +25558,59 @@ function drawPanels(){
          MACHINE and two of its controls, so this draws the same xyPadEl the
          machines used to draw themselves -- one owner, moved house. */
       if(P.grid === "pads" && P.pads){
+        /* ══ THE PAD BAY IS THE TWO MACHINES ══════════════════════════════════
+           The user, three times, and the last one was blunt: "Put the pads and
+           the knobs together two pads next to each other with their associated
+           knobs above them do not dissconect them."
+
+           WHAT WAS WRONG, and it took me two goes to hear it. There were THREE
+           boxes on the page for TWO machines: the KAOSS PAD rack holding the
+           echo's seven knobs, the SPX90 rack holding the flanger's four, and
+           the PAD BAY holding their two pads -- with the knobs drawn ABOVE the
+           pads on the page but in different racks entirely. My first fix made
+           the pad and the knob AGREE ABOUT A NUMBER, which was a real defect
+           and was not the one being pointed at. My second bolted two knobs
+           under each pad, which made it worse: the same knob in two places.
+
+           So the bay IS those machines now. Per column: the machine's own
+           nameplate, ITS OWN KNOB GROUPS, and its pad underneath them -- knobs
+           above the pad, as asked. `echo` and `flange` no longer draw as racks
+           of their own, so nothing is duplicated and nothing is disconnected.
+           The outer nameplate stays PAD BAY because the two are meant to be
+           played together with two hands, which is why they were combined in
+           the first place. ══════════════════════════════════════════════════ */
         const bay = el("div", "padbay");
         for(const p of P.pads){
           const PM = INSTRUMENTS[p.m]; if(!PM) continue;
           const cx = PM.controls.find(c => c.k === p.x), cy = PM.controls.find(c => c.k === p.y);
           if(!cx || !cy) continue;
           const cell = el("div", "padcell");
-          cell.appendChild(el("div", "padname", p.label));
-          cell.appendChild(xyPadEl(p.m, cx, cy));
-          /* ── AND THE PAD'S OWN TWO KNOBS SIT UNDER IT ──────────────────────
-             The user, twice: "the KAOSS pads are disconnected from their
-             controls", and then -- when I had fixed the wrong thing -- "why
-             would the knobs for the two pads not be connected to the pads they
-             are associated with this is bad UI".
-
-             The first reading I took was that the pad and the knob disagreed
-             about the NUMBER, which was also true and is fixed. This is the
-             thing actually being pointed at: the pad lives in the PAD BAY and
-             the two knobs it drives were drawn on the echo's panel and the
-             flanger's panel, somewhere else down a very long page. A hand on
-             the pad moved a dial you could not see, and to type an exact value
-             you had to go and find it. An XY pad IS two controls; the two
-             controls belong beside it.
-
-             They are the ordinary `knobEl`s for the same keys -- not copies --
-             so the drag, the double-click release, the TRIM contract and the
-             automation dot are the shared ones, and `handMoved` keeps these,
-             the pad, and the machine's own panel all showing one number. */
+          /* the machine's own brand bar, the same one its rack used to carry */
+          const pb = el("div", "padbrand");
+          pb.appendChild(el("span", "maker", (PM.panel && PM.panel.maker) || ""));
+          pb.appendChild(el("span", "model", (PM.panel && PM.panel.title) || PM.label));
+          /* and its picker, if it has a rack -- the echo lives in the `fx` slot
+             and `none` there is how the space gets switched off entirely. That
+             option has to travel with the machine or it is lost. */
+          if(!PM.fixed && RACK_SLOTS.includes(PM.slot)) pb.appendChild(rackPickerEl(PM.slot));
+          cell.appendChild(pb);
+          /* ITS KNOBS, ABOVE THE PAD, in the machine's own declared groups --
+             read from `panel.groups`, so the bay owns no layout of its own and
+             a control added to either machine appears here by itself */
           const kn = el("div", "padknobs");
-          kn.appendChild(knobEl(p.m, cx));
-          kn.appendChild(knobEl(p.m, cy));
-          cell.appendChild(kn);
+          for(const g of ((PM.panel && PM.panel.groups) || [])){
+            const grp = el("div", "grp"), row = el("div", "row");
+            for(const k of g.keys){
+              const c = PM.controls.find(x => x.k === k);
+              if(c) row.appendChild((c.step >= 1 && c.max - c.min <= 2) ? switchEl(p.m, c) : knobEl(p.m, c));
+            }
+            if(!row.childNodes.length) continue;
+            grp.appendChild(row);
+            if(g.label) grp.appendChild(el("div", "leg", g.label));
+            kn.appendChild(grp);
+          }
+          if(kn.childNodes.length) cell.appendChild(kn);
+          cell.appendChild(xyPadEl(p.m, cx, cy));
           bay.appendChild(cell);
         }
         box.appendChild(bay);
@@ -25434,6 +25633,12 @@ function drawPanels(){
         const key = m + "." + c.k;
         if(PARAMS[key] == null) PARAMS[key] = c.def;
         const row = el("div", "knob");
+        /* SAME REASON EVERY KNOB CARRIES ONE: a probe walking the glass looks
+           for `data-key`, and these fallback sliders carried none — so a machine
+           with no panel read as "declares six controls, draws none" to anything
+           asking. That is a measurement blind spot on precisely the machines
+           least likely to be looked at. */
+        row.dataset.key = m + "." + c.k;
         row.appendChild(el("label", null, c.label));
         const sl = document.createElement("input");
         sl.type = "range"; sl.min = c.min; sl.max = c.max; sl.step = c.step; sl.value = panelValue(m, c.k);
