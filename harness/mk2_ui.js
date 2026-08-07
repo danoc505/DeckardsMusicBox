@@ -216,7 +216,13 @@ const check = (label, ok, detail) => {
       const roles = [...new Set(song ? song.perf.events.map(e => e.role) : [])];
       return { there: true,
                strips: chans.map(c => c.dataset.role),
+               /* DERIVED, not the literal 3. This counted the EQ's three bands
+                  and went red the hour every strip grew a REVERB and a DELAY --
+                  the check was stale, not the program. It asks the desk how
+                  many knobs a strip is supposed to have. */
                eq: chans.map(c => c.querySelectorAll(".mixeq .kn").length),
+               wantKn: (MK2.mixKnobsPerStrip ? MK2.mixKnobsPerStrip() : 3),
+               aux: chans.map(c => c.querySelectorAll(".mixaux .kn").length),
                meters: chans.filter(c => c.querySelector(".mixmeter")).length,
                faders: chans.filter(c => c.querySelector(".mixfader")).length,
                mutes:  chans.filter(c => c.querySelector(".mixmute")).length,
@@ -231,9 +237,10 @@ const check = (label, ok, detail) => {
     check("the mixer draws a channel for every part the song plays, and no others",
           mix.there && mix.strips.length > 0 && missing.length === 0 && extra.length === 0 &&
           mix.meters === mix.strips.length && mix.faders === mix.strips.length &&
-          mix.eq.every(n => n === 3),
+          mix.eq.every(n => n === mix.wantKn) && mix.aux.every(n => n === 2),
           mix.there ? `${mix.strips.length} channels (${mix.strips.join(", ")}), ` +
-                      `${mix.meters} meters, ${mix.faders} faders, 3 bands each` +
+                      `${mix.meters} meters, ${mix.faders} faders, ` +
+                      `${mix.wantKn} knobs a strip of which 2 are the sends` +
                       (missing.length ? "  MISSING: " + missing.join(" ") : "") +
                       (extra.length   ? "  EXTRA: "   + extra.join(" ")   : "")
                     : "no mixer rack drawn");
@@ -1023,6 +1030,54 @@ const check = (label, ok, detail) => {
     check("...and clearing it puts the kit's own sound back",
           !drove.err && drove.back.join(",") === drove.was.join(","),
           drove.err || `back to ${(drove.back||[]).join(",")} (was ${(drove.was||[]).join(",")})`);
+  }
+
+  /* ═══ A PART'S SEND MOVES THAT PART, AND ONLY THAT PART ═══════════════════
+     The whole reason the sends moved off the bus. Three strips share the keys
+     bus and two share the lead bus, so before this an echo knob on `chords 2`
+     wet `chords` and `figure` with it -- the user: "give every part its own
+     send". A knob that moves three parts is not the control its label promises.
+
+     WHAT THIS PROVES AND WHAT IT DOES NOT, because I checked: it reads the
+     gain each part's send node HOLDS, so it proves the levels are per part and
+     that one knob does not move its neighbours. **It does not prove the node is
+     WIRED**: rebuilding with the sends fed from the bus again leaves these
+     numbers identical and this check still green. Driven to failure, and it did
+     not fail, which is the only reason that limit is known.
+
+     THE WIRING IS PROVED BY THE RENDER A/B (`ab.js`, run by hand against the
+     previous build): same seed, same genre, samples compared. That is what
+     caught the real defect this change found -- see the jungle break. */
+  {
+    const graph = () => pg.evaluate(() => MK2.soundState().send);
+    await pg.evaluate(() => document.getElementById("play").click());
+    await pg.waitForTimeout(1200);
+    const before = await graph();
+    const parts = before ? Object.keys(before) : [];
+    /* a part that SHARES its bus, so "only that part" is a real claim */
+    const shared = await pg.evaluate(() => {
+      const b = {}; for(const r in MK2.soundState().send) b[r] = 0;
+      return "keys2";
+    });
+    await pg.evaluate(r => MK2.setMixer({ [r]: { room: -0.7, echo: -0.4 } }), shared);
+    await pg.waitForTimeout(200);
+    const after = await graph();
+    const moved = parts.filter(r => JSON.stringify(after[r]) !== JSON.stringify(before[r]));
+    check("each part carries its own reverb and delay level, not its bus's",
+          parts.length > 0 && moved.length === 1 && moved[0] === shared,
+          parts.length
+            ? `${parts.length} parts have their own sends; turning ${shared} moved ${moved.join(",") || "nothing"}` +
+              `  (${shared} room ${before[shared] ? before[shared].room : "?"} -> ${after[shared] ? after[shared].room.toFixed(2) : "?"})`
+            : "no send levels reported");
+    /* and the parts sharing that bus did NOT move -- stated separately because
+       it is the specific thing that was wrong */
+    const sameBus = ["keys", "ostinato"].filter(r => parts.includes(r));
+    check("...so the parts sharing its bus are untouched",
+          sameBus.length > 0 && sameBus.every(r => after[r] && after[r].room === 1),
+          sameBus.map(r => r + " room " + (after[r] ? after[r].room : "?")).join(" · "));
+    await pg.evaluate(() => MK2.setMixer({}));
+    await pg.evaluate(() => document.getElementById("stop").click());
+    await pg.waitForTimeout(150);
   }
 
   /* ═══ A BOX WITH A LOAD SWITCH SHOWS THE FACE OF WHAT IS LOADED ═══════════

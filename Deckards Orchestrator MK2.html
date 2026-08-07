@@ -1117,7 +1117,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-07m · one bass unit, five engines — the same box the TR-1000 is</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-07n · every part has its own reverb and delay send, on the desk</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -2276,6 +2276,13 @@ function handOnMachine(m){
 /* `bare` = the GENRE's routing with no hand in it, which is what the matrix
    panel's PARAMS must hold: a hand's TRIM is an offset FROM that number, so
    folding the hand back in would make every drag move its own origin. */
+/* WHICH BUS EACH PART PLAYS INTO. At module scope rather than inside
+   buildGraph because the graph is not the only thing that needs it: the send
+   masters are per BUS and the sends themselves are per PART, so more than one
+   place has to agree on which parts are on which bus. One map. */
+const MIX_ROLE_BUS = { drums: "drums", bass: "bass",
+                       keys: "keys", keys2: "keys", ostinato: "keys",
+                       lead: "lead", counter: "lead", tape: "vinyl" };
 function routeBaseFor(space, cell, bare){
   const b = cell.in.k, dest = cell.out.k;
   /* an emptied fx rack kills every input to the ECHO outright, past any
@@ -6141,12 +6148,13 @@ registerProcessor("mk2-room", MK2Room);
        sets the NUMBERS, which is the rule the kick and the drum bus already
        follow. A genre that declares no `space.duck` gets a row of gains at 1
        and the record it always had. */
-    g.duckOf = {};
+    /* ── NO BUS DUCKER ANY MORE ─────────────────────────────────────────────
+       The duck is a per-CHANNEL insert now -- see the mixer's channels below,
+       which explains why. A genre's `space.duck.rows` still names BUSES, and
+       the automation expands each to the channels on it. */
     for(const i of MATRIX.ins){
       if(i.ret) continue;
       g.bus[i.k] = c.createGain(); g.bus[i.k].gain.value = 1;
-      g.duckOf[i.k] = c.createGain(); g.duckOf[i.k].gain.value = 1;
-      g.bus[i.k].connect(g.duckOf[i.k]);
     }
     /* ══ THE MIXER'S CHANNELS ══════════════════════════════════════════════
        One strip per ROLE -- fader, three bands, and a meter tap -- sitting in
@@ -6172,9 +6180,6 @@ registerProcessor("mk2-room", MK2Room);
        while its dry path and its matrix sends are post. That is how a desk with
        a sub-mixer on one channel behaves, and it is written down here so the
        next reader does not have to find it. */
-    const MIX_ROLE_BUS = { drums: "drums", bass: "bass",
-                           keys: "keys", keys2: "keys", ostinato: "keys",
-                           lead: "lead", counter: "lead", tape: "vinyl" };
     g.chanBus = MIX_ROLE_BUS;
     g.chan = {};
     for(const role in MIX_ROLE_BUS){
@@ -6192,10 +6197,46 @@ registerProcessor("mk2-room", MK2Room);
          the signal path is identical whether or not anyone is looking at it */
       const meter = c.createAnalyser();
       meter.fftSize = 512; meter.smoothingTimeConstant = 0;
+      /* ── THE DUCK IS A CHANNEL INSERT NOW, NOT A BUS ONE ──────────────────
+         It was one gain per BUS, and that was fine while the sends tapped the
+         bus too. It stops being fine the moment each PART has its own send:
+         the keys bus carries three parts and lofi ducks it, so a per-part send
+         tapped ahead of a bus ducker would arrive at the reverb UNDUCKED --
+         "the reverb fills back in the hole the kick just made", which is the
+         exact failure the old comment warned about, one layer along.
+
+         Moving it here costs nothing and changes nothing: gain is linear, so
+         ducking each part and then summing is identical to summing and then
+         ducking. The bus is inherently ducked from here on, which is why
+         the matrix can tap the bus directly. */
+      const duck = c.createGain(); duck.gain.value = 1;
+      /* ── AND THE PART'S OWN TWO SENDS ─────────────────────────────────────
+         REVERB and DELAY, one pair per PART. The research is plain that these
+         are the two a channel strip sends to -- "reverb, digital delay" —
+         while "compressors and other dynamic processors would normally be on
+         an insert, instead" [corpus:wikipedia Aux-send]. See
+         docs/genre-research/channel-sends.md.
+
+         POST-FADER, and measured rather than argued: they hang off `duck`,
+         which is downstream of `inp` -- the fader. The sources contradict each
+         other on pre vs post (the doc records both), but this repo has its own
+         finding: the drum kit's sends were pre-fader and pulling the kit down
+         made it WETTER relative to itself. BACKLOG §0b.1.
+
+         THEY OPEN AT UNITY, which is the wire they replaced. The amount the
+         SONG sends is still the matrix crossing -- now a SEND MASTER fed by
+         these rather than by the bus -- so the sum of the parts is the bus and
+         not one decibel moves until a hand is on a strip. */
+      const sendRoom = c.createGain(); sendRoom.gain.value = 1;
+      const sendEcho = c.createGain(); sendEcho.gain.value = 1;
       inp.connect(low); low.connect(mid); mid.connect(high);
-      high.connect(dest); high.connect(meter);
-      g.chan[role] = { inp, low, mid, high, meter, bus: MIX_ROLE_BUS[role] };
+      high.connect(duck); duck.connect(dest); high.connect(meter);
+      duck.connect(sendRoom); duck.connect(sendEcho);
+      g.chan[role] = { inp, low, mid, high, duck, sendRoom, sendEcho,
+                       bus: MIX_ROLE_BUS[role], meter };
     }
+    /* the room and the delay do not exist yet -- they are built further down --
+       so the sends are connected to them there, in one loop, once. */
     g.mix = c.createGain(); g.mix.gain.value = 1;
     /* ── THE MATRIX'S CROSSINGS live in `g.route`, keyed input+Output. Every
        gain starts at the value that reproduces the wire it replaced, so a
@@ -6966,11 +7007,12 @@ registerProcessor("mk2-room", MK2Room);
       k === "flange" ? g.flangeOut :      // the flanger's return
       k === "dp4" ? g.dp4Out :            // the DP/4's four units, summed
       k === "barber" ? g.barberOut :      // the pole's return
-      /* ...and every role bus, TAPPED PAST ITS DUCKER. The insert is ahead of
-         the fader and ahead of the sends, so what a row sends is what the row
-         sounds like -- a ducked bass has to arrive at the reverb ducked, or
-         the reverb fills back in the hole the kick just made. */
-      (g.duckOf && g.duckOf[k]) || g.bus[k];        // ADD ROWS HERE.
+      /* ...and every role bus. It used to tap `duckOf[k]`, a gain sitting just
+         after the bus, so that "a ducked bass arrives at the reverb ducked".
+         That requirement has not changed -- the DUCK has, from a bus insert to
+         a channel one, so the bus is already ducked by everything feeding it
+         and the extra node would duck it twice. */
+      g.bus[k];                                     // ADD ROWS HERE.
     const matrixDest = (outK, inK) =>
       outK === "Echo" ? g.echoSend :
       outK === "Room" ? g.send :
@@ -6986,11 +7028,48 @@ registerProcessor("mk2-room", MK2Room);
          quietly change every genre. */
       (inK === "echo" || inK === "room" || inK === "flange" || inK === "dp4"
         || inK === "barber") ? g.post : g.mix;
+    /* ── A BAND ROW REACHES THE ROOM AND THE DELAY THROUGH ITS PARTS ────────
+       "Give every part its own send." The keys bus carries three parts and the
+       lead bus two, so a crossing fed by the BUS could never be the control its
+       label promises for `chords 2`.
+
+       IN SERIES, which is what a desk is: a CHANNEL send per part (the knob on
+       its strip) into a SEND MASTER per bus (this crossing, which the genres
+       already ride by name as `matrix.leadEcho` and friends). Two controls with
+       two different jobs, not two owners of one value.
+
+       THE DEFAULT IS A WIRE. Each part's send opens at 1, so the sum of the
+       parts is the bus and this crossing sees exactly what it saw before. Not
+       one decibel moves until a hand is on a strip.
+
+       WHAT IT CANNOT DO, said rather than discovered: a part's knob cannot open
+       a send its bus master has shut, because nothing downstream of a closed
+       gain can be opened from upstream. That is how a desk behaves too, and the
+       master is on the matrix panel where you can reach it. */
+    const partsOf = bus => Object.keys(g.chan || {}).filter(r => g.chan[r].bus === bus);
     for(const cell of matrixCells()){
       /* drumsMix is already built, above the drum bus: the kit's dry level has
          to sit after its saturation, so it cannot be made by this generic loop */
       if(g.route[cell.k]) continue;
-      const src = matrixSource(cell.in.k), dst = matrixDest(cell.out.k, cell.in.k);
+      const wet = (cell.out.k === "Room" || cell.out.k === "Echo") && !cell.in.ret;
+      const parts = wet ? partsOf(cell.in.k) : [];
+      const src = parts.length ? null : matrixSource(cell.in.k);
+      const dst = matrixDest(cell.out.k, cell.in.k);
+      if(parts.length){
+        const gain = c.createGain();
+        /* THE SAME OPENING VALUE THE BUS CROSSING HAD. It is not cosmetic: the
+           song's own level arrives as an automation curve scheduled from t0, so
+           whatever the gain holds BEFORE that curve is what the first moments of
+           a render hear. Starting these at 0 where the old wire started at 1
+           changed jungle by -48.6 dB rms across a third of its samples. */
+        gain.gain.value = (cell.out.k === "Room" &&
+                           (cell.in.k === "keys" || cell.in.k === "lead")) ? 1 : 0;
+        for(const r of parts)
+          g.chan[r][cell.out.k === "Room" ? "sendRoom" : "sendEcho"].connect(gain);
+        gain.connect(dst);
+        g.route[cell.k] = gain;
+        continue;
+      }
       if(!src || !dst) continue;
       const gain = c.createGain();
       gain.gain.value = cell.out.k === "Mix"
@@ -10429,7 +10508,19 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
   function drumOut(g, lane){
     if(!g.dchainOn) return chanIn(g, "drums");
     const grp = DCHAIN_OF[lane];
-    return (grp && g.dchain && g.dchain[grp]) ? g.dchain[grp].inp : g.bus.drums;
+    /* ── A LANE WITH NO CHAIN STILL GOES THROUGH THE DRUMS CHANNEL ───────────
+       This fell through to `g.bus.drums`, straight past the mixer strip. The
+       one lane `DCHAIN_OF` does not name is `brk` -- the jungle break -- so ON
+       JUNGLE, THE BREAK HAS NEVER OBEYED THE DRUMS FADER, and the record is
+       almost entirely break. Pre-existing, and found only because the per-part
+       sends tap the channel: with the send on the bus the break still reached
+       the delay, and moving the tap made a genre quieter by 48 dB rms across a
+       third of its samples. The A/B render is what caught it.
+
+       `chanIn` is the one door that knows a part can have a fader on it, which
+       is what its own comment says it is for. Nothing should be reaching a bus
+       around it. */
+    return (grp && g.dchain && g.dchain[grp]) ? g.dchain[grp].inp : chanIn(g, "drums");
   }
 
   /* ── THE ONE SCHEDULER (Law 10): every event, live or offline, goes through
@@ -10880,6 +10971,23 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       ch.low.gain.value  = t.low  || 0;
       ch.mid.gain.value  = t.mid  || 0;
       ch.high.gain.value = t.high || 0;
+      /* ── THE PART'S REVERB AND DELAY SENDS ────────────────────────────────
+         The song's base plus the hand, clamped -- the same three-owner model
+         every knob on this program has, and the reason the hand can open a
+         send the genre left shut. "If I turn a knob it should always work for
+         me no matter what the genre is. The user is the end of the line."
+
+         NOT gated on `off`: the fader already is. `inp` is upstream of the
+         tap, so muting or un-soloing a part takes its sends with it -- which is
+         the whole point of hanging them there, and is the defect this program
+         found on the drum kit ("muting a part and still hearing its reverb"). */
+      if(ch.sendRoom){
+        /* the part's SHARE of its bus's send: unity until a hand moves it, so
+           the sum of the parts is the bus and the master sees what it always
+           saw. `MIXER_TRIM` stays the hand alone, like every other trim here. */
+        ch.sendRoom.gain.value = Math.max(0, Math.min(1, 1 + (t.room || 0)));
+        ch.sendEcho.gain.value = Math.max(0, Math.min(1, 1 + (t.echo || 0)));
+      }
     }
     /* the master, past the limiter: the one gain every path has reached */
     if(g.master){
@@ -11134,9 +11242,15 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
        EVERY BUS IS RESET FIRST, unconditionally, because one graph plays every
        genre in turn: a duck left on from the last song is the same class of bug
        as a panel wearing the previous genre's numbers. */
-    if(g.duckOf){
-      for(const k in g.duckOf){
-        const p = g.duckOf[k].gain;
+    /* ── THE DUCK DRIVES CHANNELS, AND A ROW NAMES A BUS ────────────────────
+       `space.duck.rows` names BUSES, which is the right vocabulary for a genre:
+       "duck the keys" is one statement whether that bus carries one part or
+       three. The nodes it drives are per-CHANNEL now, so a named bus expands to
+       the channels on it -- one line here, nothing to change in eight tables. */
+    if(g.chan){
+      const chansOfBus = b => Object.keys(g.chan).filter(r => g.chan[r].bus === b);
+      for(const r in g.chan){
+        const p = g.chan[r].duck.gain;
         try { p.cancelScheduledValues(t0); } catch(e){}
         p.value = 1;
       }
@@ -11148,9 +11262,13 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
         release: Math.max(0.005, dk.release != null ? dk.release : 0.065),
         /* an unknown row name is a typo, and a typo that silently ducks
            nothing is the knob-that-does-nothing defect wearing a table */
-        nodes: (dk.rows || []).map(k => {
-          if(!g.duckOf[k]) throw new Error("space.duck names no such bus: " + k);
-          return g.duckOf[k];
+        /* an unknown row name is still a typo and still throws; the check is
+           against the BUSES the channels declare, which is the same set the
+           matrix rows come from. */
+        nodes: (dk.rows || []).flatMap(k => {
+          const cs = chansOfBus(k);
+          if(!cs.length) throw new Error("space.duck names no such bus: " + k);
+          return cs.map(r => g.chan[r].duck);
         }),
         last: null,                          // where the envelope had got to; see duckHit
       } : null;
@@ -11385,6 +11503,19 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       chan: liveGraph && liveGraph.chan
         ? Object.fromEntries(Object.keys(liveGraph.chan)
             .map(r => [r, liveGraph.chan[r].inp.gain.value])) : null,
+      /* ── EACH PART'S SHARE OF ITS TWO SENDS, and its duck ─────────────────
+         Reported through the same door the fader is, and for the same reason
+         the fader is: a probe that reads the panel proves the panel and a probe
+         that reads the graph proves the sound, and this program has been caught
+         by that gap before -- "a test that reaches past the interface only ever
+         proves the thing behind the interface". These are the numbers the ear
+         hears; the check drives the real knob and reads these. */
+      send: liveGraph && liveGraph.chan
+        ? Object.fromEntries(Object.keys(liveGraph.chan).map(r => [r, {
+            room: liveGraph.chan[r].sendRoom.gain.value,
+            echo: liveGraph.chan[r].sendEcho.gain.value,
+            duck: liveGraph.chan[r].duck.gain.value,
+          }])) : null,
     };
   }
   async function ensureLive(){
@@ -24741,24 +24872,48 @@ function mixPush(){ Sound.setMixer(MIXER_TRIM); }
 function mixRefreshAll(){ for(const ch of MIXER_CH) if(ch.refresh) ch.refresh(); }
 /* one EQ knob, drawn like every other knob on the page but reading the mixer's
    own state rather than a machine's PARAMS */
+/* the two a channel strip sends to, and only those two: "reverb, digital
+   delay", while dynamics "would normally be on an insert, instead"
+   [corpus:wikipedia Aux-send]. Flange, DP/4 and the pole stay on the matrix.
+   docs/genre-research/channel-sends.md */
+const MIX_SEND = [
+  { k: "room", cap: "REVERB", dest: "Room",
+    label: "how much of this part goes to the reverb" },
+  { k: "echo", cap: "DELAY",  dest: "Echo",
+    label: "how much of this part goes to the delay" },
+];
 function mixKnob(role, band){
-  const MIN = -12, MAX = 12, STEP = 0.5;
+  /* a send is a 0..1 level and the EQ is +/-12 dB, so the travel comes off the
+     band rather than being written here twice */
+  const send = !!band.dest;
+  const MIN = send ? 0 : -12, MAX = send ? 1 : 12, STEP = send ? 0.02 : 0.5;
+  /* THE NUMBER SHOWN IS THE SONG'S PLUS THE HAND, the way the fader does it --
+     `MIXER_TRIM` stays the hand alone, so a desk nobody has touched is still
+     provably the record the program made. */
+  /* a part's send opens at UNITY -- its full share of whatever its bus master
+     is set to. That is the wire it replaced, so a desk nobody has touched is
+     still the record the program made. */
+  const base = () => send ? 1 : 0;
   const box = el("div", "kn");
   box.dataset.key = "mixer." + role + "." + band.k;
-  box.title = band.label + "  — your hand only; the program never rides these";
+  box.title = band.label + (send
+    ? " — this part's share of the send. It opens at full and turns down. " +
+      "The amount the SONG sends this bus is the master, on the matrix panel."
+    : "  — your hand only; the program never rides these");
   const dial = el("div", "dial"), ptr = el("div", "ptr");
   dial.appendChild(ptr);
   const cap = el("div", "cap", band.cap), val = el("div", "val");
   box.appendChild(dial); box.appendChild(cap); box.appendChild(val);
-  const get = () => (MIXER_TRIM[role] && MIXER_TRIM[role][band.k]) || 0;
+  const trim = () => (MIXER_TRIM[role] && MIXER_TRIM[role][band.k]) || 0;
+  const get = () => Math.max(MIN, Math.min(MAX, base() + trim()));
   const ang = v => -135 + 270 * (v - MIN) / (MAX - MIN);
   let wasP = null, wasV = null;
   box.refresh = () => {
     const v = get(), a = "rotate(" + ang(v) + "deg)";
     if(a !== wasP){ ptr.style.transform = a; wasP = a; }
-    const s = (v > 0 ? "+" : "") + v.toFixed(1);
+    const s = send ? v.toFixed(2) : (v > 0 ? "+" : "") + v.toFixed(1);
     if(s !== wasV){ val.textContent = s; wasV = s; }
-    box.classList.toggle("touched", Math.abs(v) > 0.001);
+    box.classList.toggle("touched", Math.abs(trim()) > 0.001);
   };
   let v0 = 0, y0 = 0, on = false;
   const yOf = e => (e.touches ? e.touches[0] : e).clientY;
@@ -24769,7 +24924,9 @@ function mixKnob(role, band){
     if(!on) return;
     let v = v0 + (y0 - yOf(e)) / 160 * (MAX - MIN);
     v = Math.max(MIN, Math.min(MAX, Math.round(v / STEP) * STEP));
-    (MIXER_TRIM[role] || (MIXER_TRIM[role] = {}))[band.k] = v;
+    /* the hand is stored as the OFFSET from the song, so a new song moves the
+       knob to where that song has the part and keeps your hand on top of it */
+    (MIXER_TRIM[role] || (MIXER_TRIM[role] = {}))[band.k] = +(v - base()).toFixed(4);
     box.refresh(); mixPush(); e.preventDefault();
   });
   box.addEventListener("pointerup", () => { on = false; });
@@ -24807,6 +24964,12 @@ function mixStrip(role){
   const eq = el("div", "mixeq");
   for(const b of MIX_BAND) eq.appendChild(mixKnob(role, b));
   wrap.appendChild(eq);
+  /* ── THE TWO SENDS, in their own row under the EQ, where a desk's AUX
+     section sits: "boards typically have between two and six effect sends,
+     often arranged in their own AUX section" [corpus:cmtext]. ── */
+  const aux = el("div", "mixeq mixaux");
+  for(const b of MIX_SEND) aux.appendChild(mixKnob(role, b));
+  wrap.appendChild(aux);
 
   const body = el("div", "mixbody");
   const meter = el("div", "mixmeter");
@@ -26714,6 +26877,9 @@ window.MK2 = {
      So adding a fourth and fifth rack turned a green check red, which is the
      check being stale rather than the program being wrong. One owner. */
   rackSlots: () => RACK_SLOTS.slice(),
+  /* how many knobs a mixer strip carries: the EQ's bands plus the sends. A
+     check that counted the literal 3 went red the hour the sends landed. */
+  mixKnobsPerStrip: () => MIX_BAND.length + MIX_SEND.length,
   /* WHAT A DRUM CHANNEL CAN HOLD, from the one place that derives it. A check
      that built its own list of drum voices would be asserting against its own
      copy, which is how "every lane is covered" stayed green while three
