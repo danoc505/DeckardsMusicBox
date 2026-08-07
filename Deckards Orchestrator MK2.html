@@ -22959,6 +22959,62 @@ function songTime(){
    dead one. Dragging writes TRIM, an OFFSET, so grabbing a moving filter does
    not stop it moving -- it moves around where you put it. ── */
 const KNOBS = [];
+/* ── TWO DISPLAYS OF ONE NUMBER MUST NEVER DISAGREE ─────────────────────────
+   The user: "The KAOSS pads are disconnected from their controls this is
+   wrong." They are, and the mechanism is this.
+
+   A control can be drawn in more than one place. `echo.tone` is an axis of the
+   KAOSS pad in the PAD BAY *and* a knob on the echo's own panel; `flange.rate`
+   is an axis of the SPX90 pad *and* a knob on the flanger. Every one of these
+   elements has a `.refresh()` that reads `panelValue()` -- but a hand on any of
+   them called `refresh()` on ITSELF ONLY. So the pad moved and the machine's
+   knob sat still, showing the old number, and neither was wrong about the
+   value: they were two windows onto one variable and only one of them had been
+   told.
+
+   MEASURED before the fix, dragging the real pad with real pointer events:
+
+     STOPPED   echo.tone   value 1800 -> 7950   pad cross followed
+                           the echo panel's own knob: pointer UNMOVED,
+                           text still reading "1800 Hz"
+     PLAYING   the same drag, and everything tracks
+
+   The playing case works by accident: `refreshLive()` runs on every animation
+   frame while the transport is running and refreshes ALL of KNOBS, so it papers
+   over the hole about sixty times a second. Stop the transport and the hole is
+   the whole behaviour. That is also why no probe caught it -- the pad probe
+   drove the pad and then asked the AUDIO, which was always right.
+
+   `handMoved(key)` is the fix: after any hand-write, refresh every element that
+   displays that key, not just the one that was touched. Indexed by key so a
+   drag costs the elements that show the control and not all ~169 knobs on the
+   page -- the per-frame full sweep is exactly what `probe_stutter` blamed for
+   the 41 ms frames, and a pointer drag fires as often as a frame does. */
+const KNOB_BY_KEY = new Map();
+/* A control usually shows ONE key and can say so with `dataset.key`. Two things
+   here show several: an XY pad is two controls, and the stereo field is a pan
+   and a room depth for every player on the stage. So `keys` is an optional
+   second argument rather than a second mechanism -- pass what you display and
+   you will be told when it changes. Getting this wrong is silent, so the UI
+   battery asserts both directions of it. */
+function registerKnob(box, keys){
+  KNOBS.push(box);
+  const list = keys && keys.length ? keys
+             : (box.dataset && box.dataset.key ? [box.dataset.key] : []);
+  for(const k of list){
+    if(!k) continue;
+    let a = KNOB_BY_KEY.get(k);
+    if(!a){ a = []; KNOB_BY_KEY.set(k, a); }
+    if(!a.includes(box)) a.push(box);
+  }
+}
+function handMoved(...keys){
+  for(const k of keys){
+    const a = KNOB_BY_KEY.get(k);
+    if(a) for(const box of a){ try { box.refresh(); } catch(e){} }
+    busTouched(k);
+  }
+}
 /* ── A REAL FADER ────────────────────────────────────────────────────────────
    The last pass drew the per-voice level as a knob with a `fader` class on it,
    which is not a fader -- the machine's whole front half is ten vertical throws
@@ -23081,12 +23137,12 @@ function knobEl(m, c){
     let v = v0 + (y0 - yOf(e)) / 160 * (c.max - c.min);
     v = Math.max(c.min, Math.min(c.max, Math.round(v / c.step) * c.step));
     TRIM[key] = v - (PARAMS[key] == null ? c.def : PARAMS[key]);   // an OFFSET, never a replacement
-    box.refresh(); busTouched(key); e.preventDefault();
+    handMoved(key); e.preventDefault();
   });
   box.addEventListener("pointerup", () => { on = false; });
   /* double-click releases this one knob back to the genre and its automation */
-  box.addEventListener("dblclick", () => { delete TRIM[key]; box.refresh(); busTouched(key); });
-  box.refresh(); KNOBS.push(box);
+  box.addEventListener("dblclick", () => { delete TRIM[key]; handMoved(key); });
+  box.refresh(); registerKnob(box);
   return box;
 }
 
@@ -23332,15 +23388,23 @@ function fieldEl(){
     b.addEventListener("pointermove", e => {
       if(drag !== row) return;
       const [fx, fy] = at(e);
-      setFrom(row, row.canPan ? fx : 0.5, fy); wrap.refresh(); e.preventDefault();
+      /* the FIELD shows the same pan/room controls the machines' own panels
+         draw as knobs -- so a blip drag has to tell them, exactly as the pad
+         does. Same defect, same cure. */
+      setFrom(row, row.canPan ? fx : 0.5, fy);
+      wrap.refresh(); handMoved(panKey(row), roomKey(row)); e.preventDefault();
     });
     b.addEventListener("pointerup", () => { drag = null; });
     b.addEventListener("dblclick", e => {
       delete TRIM[panKey(row)]; delete TRIM[roomKey(row)];
-      busTouched(roomKey(row)); wrap.refresh(); e.stopPropagation();
+      wrap.refresh(); handMoved(panKey(row), roomKey(row)); e.stopPropagation();
     });
   }
-  wrap.refresh(); KNOBS.push(wrap);
+  /* the field shows a pan and a room depth for EVERY player on the stage, and
+     every one of those is also a knob on some machine's own panel. Register
+     under all of them or the tube goes stale the moment a knob is turned. */
+  wrap.refresh();
+  registerKnob(wrap, blips.flatMap(({row}) => [panKey(row), roomKey(row)]));
   return wrap;
 }
 
@@ -23390,7 +23454,7 @@ function programmeEl(){
     const inCut = cuts.some(c => bar >= c.w.a && bar < c.w.b);
     lamp.className = "prglamp" + (inCut ? " on" : "");
   };
-  wrap.refresh(); KNOBS.push(wrap);
+  wrap.refresh(); registerKnob(wrap);
   return wrap;
 }
 
@@ -23441,7 +23505,7 @@ function barberEl(m, M){
     foot.textContent = "SIX NOTCHES, ONE OCTAVE APART, CLIMBING " +
       (dir < 0 ? "DOWN" : "UP") + " FOREVER · " + rate.toFixed(2) + " Hz";
   };
-  outer.refresh(); KNOBS.push(outer);
+  outer.refresh(); registerKnob(outer);
   return outer;
 }
 
@@ -23480,7 +23544,7 @@ function xyPadEl(m, cx, cy){
   let latched = true;
   hold.addEventListener("click", () => {
     latched = !latched; hold.setAttribute("aria-pressed", latched ? "true" : "false");
-    if(!latched){ delete TRIM[kx]; delete TRIM[ky]; wrap.refresh(); busTouched(kx); busTouched(ky); }
+    if(!latched){ delete TRIM[kx]; delete TRIM[ky]; handMoved(kx, ky); }
   });
   const frac = (c, v) => (v - c.min) / (c.max - c.min);
   wrap.refresh = () => {
@@ -23509,7 +23573,11 @@ function xyPadEl(m, cx, cy){
       Math.round((c.min + f * (c.max - c.min)) / c.step) * c.step));
     TRIM[kx] = snap(cx, fx) - (PARAMS[kx] == null ? cx.def : PARAMS[kx]);
     TRIM[ky] = snap(cy, fy) - (PARAMS[ky] == null ? cy.def : PARAMS[ky]);
-    wrap.refresh(); busTouched(kx); busTouched(ky);
+    /* `handMoved`, not `wrap.refresh()`: this pad is not the only thing on the
+       page showing these two controls -- the machine's own panel has a knob for
+       each -- and refreshing only itself is what made the pad look disconnected
+       from its controls while the transport was stopped. */
+    handMoved(kx, ky);
   };
   pad.addEventListener("pointerdown", e => {
     on = true; pad.setPointerCapture(e.pointerId); put(e); e.preventDefault();
@@ -23517,10 +23585,10 @@ function xyPadEl(m, cx, cy){
   pad.addEventListener("pointermove", e => { if(on){ put(e); e.preventDefault(); } });
   pad.addEventListener("pointerup", () => {
     on = false;
-    if(!latched){ delete TRIM[kx]; delete TRIM[ky]; wrap.refresh(); busTouched(kx); busTouched(ky); }
+    if(!latched){ delete TRIM[kx]; delete TRIM[ky]; handMoved(kx, ky); }
   });
   wrap.appendChild(lab); wrap.appendChild(pad); wrap.appendChild(hold);
-  wrap.refresh(); KNOBS.push(wrap);
+  wrap.refresh(); registerKnob(wrap, [kx, ky]);   // a pad IS two controls
   return wrap;
 }
 
@@ -23548,7 +23616,7 @@ function buttonEl(m, c, cap){
     box.refresh();
   });
   box.addEventListener("dblclick", () => { delete TRIM[key]; box.refresh(); });
-  box.refresh(); KNOBS.push(box);
+  box.refresh(); registerKnob(box);
   return box;
 }
 
@@ -23671,7 +23739,7 @@ function mixKnob(role, band){
     if(MIXER_TRIM[role]) delete MIXER_TRIM[role][band.k];
     box.refresh(); mixPush();
   });
-  box.refresh(); KNOBS.push(box);
+  box.refresh(); registerKnob(box);
   return box;
 }
 function mixStrip(role){
@@ -23810,7 +23878,7 @@ function switchEl(m, c){
     const v = Math.round(panelValue(m, c.k));
     btns.forEach((b, i) => b.setAttribute("aria-pressed", String(c.min + i === v)));
   };
-  box.refresh(); KNOBS.push(box);
+  box.refresh(); registerKnob(box);
   return box;
 }
 
@@ -24485,7 +24553,8 @@ function drawRoll(){
 function drawPanels(){
   const host = $("panels");
   host.innerHTML = "";
-  KNOBS.length = 0; GRIDS.length = 0; TRIGS.length = 0; LCD.length = 0;
+  KNOBS.length = 0; KNOB_BY_KEY.clear();
+  GRIDS.length = 0; TRIGS.length = 0; LCD.length = 0;
   READOUTS.length = 0; LEDS.length = 0;
   if(!SONG) return;
   /* THE MIXER FIRST, above every rack. A desk's master section is at the top of
