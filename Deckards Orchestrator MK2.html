@@ -26,6 +26,54 @@
   #rack{ align-items:flex-start; }
   .rackbox{ display:flex; align-items:stretch; }
   .rackbox select{ border-right:none; }
+  /* ── THE PICKER ON THE MACHINE'S OWN NAMEPLATE ────────────────────────────
+     Reason's devices carry a "tape strip" showing the loaded patch, on the
+     device [corpus:docs.reasonstudios.com]. This is that: the rack's dropdown
+     lives in its brand bar rather than in a row above the whole rack. It is
+     styled to sit ON the panel -- inheriting the machine's own ink, quiet until
+     you go near it -- because a browser-grey select stapled to a brushed
+     aluminium fascia reads as a thing stuck on top of the machine rather than
+     part of it. */
+  .machine .brand .rackbox{ margin-left:auto; }
+  .machine .brand .rackbox select{
+    font:inherit; font-size:9.5px; letter-spacing:.08em; padding:.16rem .4rem;
+    border:1px solid currentColor; border-radius:2px; background:rgba(0,0,0,.22);
+    color:inherit; opacity:.72; max-width:15rem; cursor:pointer; }
+  .machine .brand .rackbox select:hover{ opacity:1; }
+  /* the light skins need the opposite ground, or a dark-on-dark select vanishes
+     into a cream 808 */
+  .sk-tr808 .brand .rackbox select, .sk-tr1000 .brand .rackbox select,
+  .sk-tb303 .brand .rackbox select, .sk-td3mo .brand .rackbox select,
+  .sk-wurly .brand .rackbox select, .sk-kaoss .brand .rackbox select{
+    background:rgba(255,255,255,.14); }
+  /* the slot tag stops being the thing pushed to the right, because the picker
+     is there now; it becomes a quiet label after it */
+  .machine .brand .rackbox + .slotTag{ margin-left:.55rem; }
+  /* an empty bay: a rack with nothing loaded still shows, because the picker
+     that loads it lives on it. Quiet, short, and it says why it is empty. */
+  .machine.rackempty{ background:linear-gradient(#211e1a, #1a1815); color:var(--dim);
+                      border:1px dashed #3a352c; box-shadow:none; padding-bottom:.7rem; }
+  .machine.rackempty .brand{ margin-bottom:.35rem; }
+  .machine.rackempty .model{ color:var(--ink); opacity:.75; }
+  .emptynote{ font-size:10px; opacity:.55; }
+  /* ── THE SONG RACK AND THE NOTE RACK ──────────────────────────────────────
+     Everything on this page is a rack now, which is the point of the Reason
+     model: the thing that chooses the song and the thing that shows the notes
+     are devices, not loose controls floating above the instrument. They share
+     the desk skin because neither is a piece of hardware anybody has ever built
+     -- inventing a fascia for them would be a costume. */
+  .machine.rackhead{ margin:.9rem 0; }
+  .machine.rackhead .row{ margin:.35rem 0; }
+  .machine.rackhead .row:first-of-type{ margin-top:0; }
+  /* inside a case the controls should read as part of it rather than as page
+     furniture: same ink, quieter ground */
+  .machine.rackhead input, .machine.rackhead select, .machine.rackhead button{
+    background:rgba(0,0,0,.24); border-color:#3a3f45; color:inherit; }
+  .machine.rackhead button:hover, .machine.rackhead select:hover{
+    border-color:var(--hot); color:var(--hot); }
+  /* the roll brings its own dark glass, so the case is only a frame for it */
+  .machine.rollrack{ padding-bottom:.85rem; }
+  .machine.rollrack #roll{ margin:0; }
   /* the × is deliberately quiet: it is next to a control people use constantly
      and it removes something, so it should not compete for the eye */
   .rackoff{ padding:.45rem .5rem; color:var(--dim); border-left:1px solid #33302a; line-height:1; }
@@ -949,6 +997,10 @@
      `width:min(300px,100%)` keeps either from growing past a hand's reach; on a
      phone they wrap and stack, which is the same two pads, one below the other,
      rather than a squeeze. */
+  /* the pad's own two knobs, directly under the pad they are the axes of --
+     an XY pad IS two controls and they belong beside it, not on another panel */
+  .padknobs{ display:flex; gap:.5rem; justify-content:center; padding-top:.15rem;
+             border-top:1px solid rgba(0,0,0,.16); margin-top:.1rem; }
   .padbay{ display:flex; gap:.9rem; flex-wrap:wrap; align-items:flex-start; }
   .padcell{ flex:1 1 0; min-width:210px; display:flex; flex-direction:column; gap:.3rem; }
   .padname{ font-size:8.5px; letter-spacing:.20em; text-transform:uppercase;
@@ -1020,7 +1072,19 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-07g · the desk is the master, it wears the roll's colours, and the pads tell their knobs</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-07h · every rack carries its own picker, all the drums are one machine, and the pads have their knobs</span>
+<!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
+     The user: "we need a top rack for the genre selection and a midi display
+     rack ect."  Right, and it is the same argument as moving the machine
+     pickers onto their machines: in Reason everything you touch is a device in
+     the rack, so a row of loose controls floating above the rack is the one
+     thing on the page that is not part of the instrument. The transport, the
+     seed and the genre are a device -- they are what decides WHICH SONG -- so
+     they get a case, a nameplate and a slot tag like every other box.
+     Nothing here is rewired: same ids, same handlers, a case around them. -->
+<div class="machine sk-desk rackhead">
+<div class="brand"><span class="maker">MK2</span><span class="model">song</span>
+  <span class="slotTag">transport</span></div>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -1053,10 +1117,19 @@
 <div class="row" id="sndfix"><button id="ringer" aria-pressed="false"
   title="iPhone: try this if the mute switch is silencing playback">iPhone: ignore mute switch</button></div>
 <div id="midinote"></div>
-<!-- THE ROLL. Near the top on purpose: it is the only thing on this page that
-     shows what the program actually WROTE, and everything below it is about
-     how that gets played. Filled by drawRoll(). -->
+</div><!-- /the song rack -->
+<!-- ══ THE NOTE RACK ═══════════════════════════════════════════════════════
+     The roll, in a case of its own. It was already the most important display
+     on the page and it looked like a stray panel; as a rack it reads as the
+     device it is -- the one box that shows what was WRITTEN rather than how it
+     is played. It draws through midiKeyFor, the same function the .mid export
+     and the live MIDI port use, so what is on the glass is what would leave
+     the program: this IS the MIDI display. Filled by drawRoll(). -->
+<div class="machine sk-desk rackhead rollrack">
+<div class="brand"><span class="maker">MK2</span><span class="model">the notes</span>
+  <span class="slotTag">midi</span></div>
 <div id="roll"></div>
+</div>
 <div id="blend"></div>
 <!-- THE RACK IS A LIST, NOT A ROW OF FIXED BOXES. It used to be five hardcoded
      <select>s, which meant the set of racks was decided here, in markup, and
@@ -2354,6 +2427,36 @@ const INSTRUMENTS = {
          decides which slice. It is the one kit whose lanes are not separate
          instruments, so its chains process slice TYPES rather than voices --
          a real jungle move, and a different claim from the other three. */
+      /* ── THE TWO DUNGEON-SYNTH KITS, FOLDED IN ─────────────────────────────
+         The user: "ALL the drums go into TR-1000 and it dynamically works with
+         whatever drum kit you want. Right now the Dungeon Synth kit is its own
+         thing we dont want that."
+
+         Correct, and it was the odd one out for no reason anyone had defended.
+         `procession` (timpani and war drums) and `erangDrums` (the sampled
+         Erang percussion) were declared as SEPARATE MACHINES while the acoustic
+         kit, the Sega kit, the Gretsch and the break had already been folded in
+         here as KITS -- so five kinds of drum lived in one box and two lived
+         outside it, and the box's own KIT key could not reach them.
+
+         A kit is a lane-to-voice map and nothing else, which is exactly what
+         both of these were: `procession`'s machine block was twelve lanes and a
+         pile of controls the TR-1000 already has (tune, decay, filter, sends, a
+         fader per voice). Reason's answer is the same one -- Kong is one device
+         that loads any kit rather than a device per kit
+         [corpus:reasontalk; corpus:soundonsound "Drum Instruments"] -- and the
+         Gretsch entry above already argued this case in full for the sampled
+         kit. These two just never got the same treatment. */
+      procession: { kick:"wardrum", snare:"snare", ghost:"ghost", hat:"hat",
+                  openhat:"openhat", tom1:"timpHi", tom2:"timpMid", tom3:"timpLo",
+                  rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
+      /* one sampled percussion voice on every lane, the way the break kit is one
+         recording on every lane -- the SET switch inside the voice decides which
+         Erang sample a lane reaches, so the kit map is deliberately uniform */
+      erang:    { kick:"erangDrum", snare:"erangDrum", ghost:"erangDrum",
+                  hat:"erangDrum", openhat:"erangDrum",
+                  tom1:"erangDrum", tom2:"erangDrum", tom3:"erangDrum",
+                  rim:"erangDrum", clap:"erangDrum", crash:"erangDrum", ride:"erangDrum" },
       brk:      { brk:"brk", kick:"brk", snare:"brk", ghost:"brk", hat:"brk",
                   openhat:"brk", tom1:"brk", tom2:"brk", tom3:"brk",
                   rim:"brk", clap:"brk", crash:"brk", ride:"brk" },
@@ -3647,6 +3750,30 @@ INSTRUMENTS.erangDrums = {
    in INSTRUMENTS, played correctly when asked directly, and were invisible to
    CONTROL -- so the moment a genre's motion named one, the blend battery threw
    "motion names a control that does not exist" on 168 of 672 pairs. */
+/* ── AND A `pick` SWITCH'S TRAVEL COMES FROM THE THING IT PICKS ─────────────
+   The TR-1000's KIT switch was declared `max: 4` by hand for four kits, then a
+   fifth (the sampled Gretsch) arrived and nothing joined them up -- a switch
+   with four positions for five kits, found by `probe_rack` and guarded since by
+   the seam check "a switch that picks a thing has one position per thing".
+
+   That check catches the mismatch; it does not stop it happening, and it just
+   would have happened again -- two more kits went in above and the literal 4 was
+   still sitting there. So the literal is gone: any control marked `pick: true`
+   takes its travel from the collection it picks, and adding a kit is one entry
+   in `kits` and nothing else. Derive, never list, applied to the number as well
+   as to the list.
+
+   `pickFrom` names which collection, defaulting to the plural of the control's
+   own key, so `kit` reads `kits` with nothing written down. */
+for(const m in INSTRUMENTS){
+  for(const c of INSTRUMENTS[m].controls){
+    if(!c.pick) continue;
+    const coll = INSTRUMENTS[m][c.pickFrom || (c.k + "s")];
+    if(!coll) continue;
+    const n = Object.keys(coll).length;
+    if(n > 0) c.max = c.min + n - 1;
+  }
+}
 for(const m in INSTRUMENTS) for(const c of INSTRUMENTS[m].controls) CONTROL[m + "." + c.k] = c;
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -4258,7 +4385,31 @@ function drawParam(chart, mach, key, v){
      on a control that does not exist is the stale-table defect wearing a new
      hat, and it throws here rather than silently becoming NaN at the note */
   if(!c) throw new Error("params: a draw names a control that does not exist: " + mach + "." + key);
-  if(Array.isArray(v)) return wpick(rng, v);
+  if(Array.isArray(v)){
+    const got = wpick(rng, v);
+    /* ── A `pick` SWITCH MAY BE DRAWN BY NAME ────────────────────────────────
+       A weighted table on an ordinary knob holds numbers, because the knob IS a
+       number. A switch that picks a thing is different: its positions are a
+       COLLECTION, and the position number is an index into a list nobody wrote
+       down on purpose. `[["procession", 6], ["erang", 3]]` says what a genre
+       means; `[[4, 6], [5, 3]]` says the same thing today and something else the
+       moment a kit is inserted above them.
+
+       So a name is resolved against the collection the switch picks from, which
+       is the same place the switch got its travel. Derive, never list -- and the
+       throw matters as much as the resolution: a name that is not in the
+       collection is a stale table, and stale tables in this file have always
+       been found by something failing loudly rather than by reading. */
+    if(typeof got === "string"){
+      const coll = INSTRUMENTS[mach] && INSTRUMENTS[mach][c.pickFrom || (c.k + "s")];
+      const names = coll ? Object.keys(coll) : null;
+      const i = names ? names.indexOf(got) : -1;
+      if(i < 0) throw new Error("params: " + mach + "." + key + " draws \"" + got +
+        "\", which is not one of: " + (names ? names.join(", ") : "(this control picks nothing)"));
+      return c.min + i * (c.step || 1);
+    }
+    return got;
+  }
   const st = c.step || 1;
   const n = Math.max(1, Math.floor((c.max - c.min) / st + 1e-9) + 1);
   return c.min + st * Math.min(n - 1, Math.floor(rng() * n));
@@ -16632,7 +16783,13 @@ const GENRE = {
        eight bars. [EAR -- no source gives a swap rate, and the sourced part is
        only that timbre changes belong at section boundaries.] */
     swap: { keys: 0.45, keys2: 0.45, lead: 0.40, drums: 0.22, bass: 0.06 },
-    machines: { drums: [["procession", 6], ["erangDrums", 3], ["kit", 1]],
+    /* ── THE DRUMS ARE THE TR-1000 WITH A KIT IN IT, like every other genre ──
+       This read [["procession", 6], ["erangDrums", 3], ["kit", 1]] -- three
+       separate MACHINES for what are three KITS. The user: "Right now the
+       Dungeon Synth kit is its own thing we dont want that." One box, and the
+       kit is chosen by `params.tr1000.kit` below, which is a switch like any
+       other and is drawn on the machine's own KIT key. */
+    machines: { drums: [["tr1000", 1]],
                 bass:  [["auto", 1]],
                 keys:  [["mellotron", 4], ["erangStrings", 4], ["erangHarp", 3],
                         ["vp330", 2], ["auto", 1]],
@@ -16706,7 +16863,27 @@ const GENRE = {
          headroom to bring the direct hit FORWARD instead of louder-and-blurrier:
          kMix 1.30. Final, seed 1, a full section: war drum crest 15.7 dB, gap
          65%, -5.1 dB against the whole mix; kettles 89% gap at -7 to -8. */
-      procession: { bus: 1.00, gate: 0, ring: 1.05,
+      /* ── THE DRUM VOICING MOVED HERE WITH THE DRUMS ───────────────────────
+         Every one of these was declared under `procession:` when that was a
+         machine of its own. It is a KIT of the TR-1000 now, and the panel a
+         voice reads its tune and decay from is the panel of the machine that is
+         PLAYING -- so leaving them on `procession` would have left this genre's
+         war drum reading the TR-1000's defaults instead of the values two
+         rounds of measurement arrived at (the -3 kTune, the 0.76 decay, the
+         0.05 kVerb that took the GAP from 3% to usable). Nothing here is
+         re-tuned; the whole block is the same numbers on the box that now
+         reads them.
+
+         `ring` is the exception and stays on `procession` below: it is a
+         control of the war-drum VOICE, read as P(g, ev, "procession", "ring"),
+         not a channel strip setting. */
+      /* the war drum's own voice control, on the machine that owns the VOICE
+         rather than the channel: V.wardrum reads P(g, ev, "procession", "ring")
+         and always has. A kit is a lane-to-voice map; the voice keeps its own
+         knobs. */
+      procession: { ring: 1.05 },
+      tr1000: { kit: [["procession", 6], ["erang", 3], ["acoustic", 1]],
+                    bus: 1.00, gate: 0,
                     kTune: 4, kDecay: 0.8, kMix: 1.15, kVerb: 0.05, kEcho: 0.03, kCut: 9000,
                     sTune: 1, sDecay: 1, sMix: 0.62, sVerb: 0.55, sEcho: 0.08, sCut: 9500,
                     /* the kettles were 10.8 dB under the mix -- present in the
@@ -24506,11 +24683,12 @@ function bassGridEl(m, M){
        made; an 808 on the tune is not a sound, so canFill does not offer it. */
 const RACK_ON = RACK_DEFAULT.slice();
 
-function drawRack(){
-  const host = $("rack");
-  if(!host) return;
-  host.innerHTML = "";
-  for(const slot of RACK_ON){
+/* ── ONE PICKER, BUILT ONCE, DRAWN ON THE RACK IT LOADS ─────────────────────
+   Lifted out of `drawRack` so the box itself can carry it. Everything about it
+   is what it always was -- the id, the option list derived from `canFill`, the
+   recompose-rather-than-stop behaviour -- and the only change is where it
+   hangs. See the note at the nameplate for why that is the whole point. */
+function rackPickerEl(slot){
     const wrap = el("div", "rackbox");
     const sel = document.createElement("select");
     /* a stable id per rack, derived from the slot rather than written down --
@@ -24544,45 +24722,33 @@ function drawRack(){
        a rack is that a hand can change something while it runs. */
     sel.addEventListener("change", () => { PICK[slot] = sel.value; recompose(); });
     wrap.appendChild(sel);
-    /* ── AND A RACK CAN BE TAKEN OUT AGAIN ──────────────────────────────────
-       A + with no matching × is a one-way door. Removing a rack RESETS ITS PICK
-       to "auto" on the way out, because a control that is off the screen and
-       still acting on the song is worse than no control -- that is the same
-       rule that says a knob must reach the sound, read from the other end. */
-    const kill = el("button", "rackoff", "×");
-    kill.title = "take this rack out of the row";
-    kill.addEventListener("click", () => {
-      const i = RACK_ON.indexOf(slot);
-      if(i >= 0) RACK_ON.splice(i, 1);
-      PICK[slot] = "auto";
-      drawRack(); recompose();
-    });
-    wrap.appendChild(kill);
-    host.appendChild(wrap);
-  }
-  /* ── THE PLUS ───────────────────────────────────────────────────────────────
-     One button, and it offers only the racks that are not already on screen. It
-     disappears when they all are, rather than opening onto an empty menu. */
-  const rest = RACK_SLOTS.filter(s => !RACK_ON.includes(s));
-  if(!rest.length) return;
-  const add = el("div", "rackadd");
-  const plus = el("button", "rackplus", "+");
-  plus.title = "add a rack";
-  const menu = el("div", "rackmenu");
-  menu.style.display = "none";
-  for(const slot of rest){
-    const b = el("button", "", SLOT_LABEL[slot] || slot);
-    b.addEventListener("click", () => {
-      RACK_ON.push(slot);
-      drawRack();
-    });
-    menu.appendChild(b);
-  }
-  plus.addEventListener("click", () => {
-    menu.style.display = menu.style.display === "none" ? "flex" : "none";
-  });
-  add.appendChild(plus); add.appendChild(menu);
-  host.appendChild(add);
+    return wrap;
+}
+/* ── AND THE ROW AT THE TOP IS GONE ─────────────────────────────────────────
+   It held a dropdown per rack, an × per rack and a + that added one. All three
+   are answered better now:
+
+   - the DROPDOWN is on the box it loads, which is the whole change;
+   - the × was "take this rack out of the row", and every dropdown already
+     carries `none` as its SECOND option -- which is a MUTE, the documented
+     behaviour, and a better one than removing a picker while leaving the panel
+     on screen (which is what the × actually did: the panels were drawn from
+     RACK_SLOTS and never from RACK_ON, so an × hid the control and left the
+     machine playing). Two ways to do one thing, and the one that stayed is the
+     one whose meaning is written down;
+   - the + added a rack to a row that no longer exists. Every rack that resolves
+     to a machine now draws, with its own picker on it, so there is nothing to
+     add back.
+
+   `RACK_ON` and `RACK_DEFAULT` survive only as the boot-time default set and
+   are no longer consulted for drawing. Left rather than deleted because
+   `MK2.rackOn()` is exported and the harness reads it; deleting an export in
+   the same commit as a layout change is how a regression gets attributed to
+   the wrong thing. */
+function drawRack(){
+  const host = $("rack");
+  if(!host) return;
+  host.innerHTML = "";
 }
 
 /* ── THE ROLL, DRAWN ────────────────────────────────────────────────────────
@@ -24938,13 +25104,74 @@ function drawPanels(){
     .map(slot => [slot, machineIn(SONG.chart, slot)])
     .concat(Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].fixed).map(k => [INSTRUMENTS[k].slot, k]));
   for(const [slot, m] of boxes){
-    if(m === "auto" || !INSTRUMENTS[m]) continue;
+    /* ── AN EMPTY RACK IS STILL A RACK, AND IT SHOWS ───────────────────────
+       This used to `continue` when a slot resolved to nothing, which was fine
+       while the pickers lived in a row at the top of the page: you could load a
+       machine into a rack that was not on screen, because the control was not
+       on the rack.
+
+       Now that the picker is ON the box, skipping the box hides the only way to
+       fill it -- and that is a one-way door, which is the thing the old `+`
+       existed to avoid. MEASURED as a real regression before it was fixed: on
+       lofi seed 1 the `keys` and `lead` slots resolve to nothing, so those two
+       racks vanished from the page along with any means of loading them, and
+       the UI battery went from 45 green to a hard timeout waiting for `#m_keys`.
+
+       So an empty bay is drawn: the nameplate, the picker, and a line saying
+       what is in it and why. This is also what the rack being cloned does -- a
+       Reason rack shows its devices and you load into the rack, so a rack you
+       cannot see is a rack you cannot fill. */
+    if(m === "auto" || !INSTRUMENTS[m]){
+      if(!RACK_SLOTS.includes(slot)) continue;
+      const bay = el("div", "machine plain rackempty");
+      const bb = el("div", "brand");
+      bb.appendChild(el("span", "maker", "MK2"));
+      bb.appendChild(el("span", "model", SLOT_LABEL[slot] || slot));
+      bb.appendChild(rackPickerEl(slot));
+      bb.appendChild(el("span", "slotTag", slot));
+      bay.appendChild(bb);
+      bay.appendChild(el("div", "emptynote",
+        PICK[slot] === "none"
+          ? "muted — this rack plays nothing on this song"
+          : "as the rig — " + (SLOT_AUTO[slot] || "whatever the rig names") +
+            ", so there is no front panel of its own to draw"));
+      host.appendChild(bay);
+      continue;
+    }
     const M = INSTRUMENTS[m], P = M.panel;
     const box = el("div", "machine " + (P ? "sk-" + P.skin : "plain"));
+    /* ── A PANEL SAYS WHICH MACHINE IT IS ──────────────────────────────────
+       Same reason every knob carries `data-key` and every switch had to learn
+       to: a probe that identifies panels by counting `.machine` elements is
+       counting boxes, not machines. That went stale the moment the song and the
+       note display got cases of their own -- the count jumped and a check went
+       red for a change that added no machine at all. A panel that states its
+       own identity cannot be miscounted. */
+    box.dataset.machine = m;
+    box.dataset.slot = slot;
 
     const brand = el("div", "brand");
     brand.appendChild(el("span", "maker", P ? P.maker : ""));
     brand.appendChild(el("span", "model", P ? P.title : M.label));
+    /* ── THE RACK CARRIES ITS OWN PICKER ───────────────────────────────────
+       The user: "At the top of the program is rack choices I do not like this.
+       Those choices should be in the Racks themselves."
+
+       REASON'S RACK IS THE MODEL and this is how it works: a device carries its
+       own identity on its face. Every Reason device has a "tape strip" showing
+       the name of the loaded patch, edited on the device itself
+       [corpus:docs.reasonstudios.com/reason12/working-with-the-rack], and the
+       rack is "where you build your sound, by placing instrument and/or effect
+       devices" -- the placing happens IN the rack, not in a separate row of
+       dropdowns above it. A detached row of pickers is a control panel ABOUT a
+       rack rather than a rack.
+
+       So the select that used to sit at the top of the page is on the box it
+       loads, in the nameplate, where a patch name is on a real device. It is
+       the SAME element, moved: the id is still `m_<slot>`, so the harness that
+       drives these by name is unchanged, and it still calls recompose() rather
+       than stopping the music. */
+    if(!M.fixed && RACK_SLOTS.includes(slot)) brand.appendChild(rackPickerEl(slot));
     brand.appendChild(el("span", "slotTag", slot));
     box.appendChild(brand);
 
@@ -25162,6 +25389,29 @@ function drawPanels(){
           const cell = el("div", "padcell");
           cell.appendChild(el("div", "padname", p.label));
           cell.appendChild(xyPadEl(p.m, cx, cy));
+          /* ── AND THE PAD'S OWN TWO KNOBS SIT UNDER IT ──────────────────────
+             The user, twice: "the KAOSS pads are disconnected from their
+             controls", and then -- when I had fixed the wrong thing -- "why
+             would the knobs for the two pads not be connected to the pads they
+             are associated with this is bad UI".
+
+             The first reading I took was that the pad and the knob disagreed
+             about the NUMBER, which was also true and is fixed. This is the
+             thing actually being pointed at: the pad lives in the PAD BAY and
+             the two knobs it drives were drawn on the echo's panel and the
+             flanger's panel, somewhere else down a very long page. A hand on
+             the pad moved a dial you could not see, and to type an exact value
+             you had to go and find it. An XY pad IS two controls; the two
+             controls belong beside it.
+
+             They are the ordinary `knobEl`s for the same keys -- not copies --
+             so the drag, the double-click release, the TRIM contract and the
+             automation dot are the shared ones, and `handMoved` keeps these,
+             the pad, and the machine's own panel all showing one number. */
+          const kn = el("div", "padknobs");
+          kn.appendChild(knobEl(p.m, cx));
+          kn.appendChild(knobEl(p.m, cy));
+          cell.appendChild(kn);
           bay.appendChild(cell);
         }
         box.appendChild(bay);

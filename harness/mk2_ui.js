@@ -81,8 +81,19 @@ const check = (label, ok, detail) => {
      Counting it here would make this check assert "slots + fixed + 1", which is
      the fourth time this number would have gone stale. It is excluded by name
      and checked on its own terms below. */
-  const shape = await pg.evaluate(() => [...document.querySelectorAll(".machine:not(.mixer)")].map(m => ({
+  /* ── AND IT ASKS FOR MACHINE PANELS, NOT FOR BOXES ─────────────────────────
+     `.machine:not(.mixer)` counted every box wearing the rack styling, and the
+     exclusion list grew by hand each time a box that is not a machine arrived:
+     first the mixer, and then -- the moment the song controls and the note
+     display got cases of their own -- two more, and this went red for a change
+     that added no machine at all. FOURTH time this count has gone stale.
+
+     A panel that IS a machine now says so with `data-machine`, so the question
+     is asked of the panel instead of inferred from its class list. Nothing has
+     to be excluded, because nothing else claims to be a machine. */
+  const shape = await pg.evaluate(() => [...document.querySelectorAll(".machine[data-machine]")].map(m => ({
     skin: (m.className.match(/sk-(\w+)/) || [])[1],
+    machine: m.dataset.machine,
     knobs: m.querySelectorAll(".kn").length,
     steps: m.querySelectorAll(".steps .st").length + m.querySelectorAll(".acid .col").length,
   })));
