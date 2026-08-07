@@ -34,38 +34,60 @@ const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")
   check("starts as one genre at 100%", Math.abs(sum(w)-1)<1e-6 && Object.values(w).filter(x=>x>0.999).length===1,
         show(w));
 
+  /* ── THE THREE SLIDERS ARE DRAWN FROM THE PROGRAM, NOT NAMED ───────────────
+     This file used to say "lofi", "jungle" and "acid" in fourteen places. The
+     simplex arithmetic does not care WHICH three sliders it moves -- it is
+     about a sum staying at 1 while weights give way in proportion -- so naming
+     them bought nothing and cost the usual thing: a second copy of the genre
+     list, which goes stale. It nearly did. An eighth genre shipped without any
+     document noticing (`dungeonsynth`, 2026-08-07), and the only reason this
+     suite survived it was that its ROUNDING happened to be tested; had these
+     three names been the ones that changed, the suite would have failed on the
+     program being correct.
+
+     X, Y and Z are now the first three the program declares. Same arithmetic,
+     no list. And the count check below is the one that would have caught the
+     eighth genre being missing from the panel -- which nothing did. */
+  const GS = await pg.evaluate(()=>MK2.genres());
+  const [X, Y, Z] = GS;
+  check("the blend panel draws one slider per genre the program declares",
+        Object.keys(w).length === GS.length &&
+        GS.every(g => Object.prototype.hasOwnProperty.call(w, g)),
+        `panel ${Object.keys(w).length} · program ${GS.length} (${GS.join(" ")})` +
+        (GS.filter(g=>!(g in w)).length ? "  MISSING: " + GS.filter(g=>!(g in w)).join(" ") : ""));
+
   /* the exact scenario from the brief: 100 on X, add 25 of Y, then 25 of Z */
-  await pg.evaluate(()=>{ __solo("lofi"); __set("jungle",0.25); });
+  await pg.evaluate(([X,Y])=>{ __solo(X); __set(Y,0.25); },[X,Y]);
   w = await W();
-  check("100 on X, add 25% Y -> X falls to 75", Math.abs(w.lofi-0.75)<1e-6 && Math.abs(w.jungle-0.25)<1e-6,
-        `lofi ${w.lofi} jungle ${w.jungle}`);
-  await pg.evaluate(()=>{ __set("acid",0.25); });
+  check("100 on X, add 25% Y -> X falls to 75", Math.abs(w[X]-0.75)<1e-6 && Math.abs(w[Y]-0.25)<1e-6,
+        `${X} ${w[X]} ${Y} ${w[Y]}`);
+  await pg.evaluate((Z)=>{ __set(Z,0.25); },Z);
   w = await W();
   check("...then add 25% Z -> the other two give way in proportion",
-        Math.abs(w.acid-0.25)<1e-6 && Math.abs(w.lofi-0.5625)<1e-6 && Math.abs(w.jungle-0.1875)<1e-6,
-        `lofi ${w.lofi} jungle ${w.jungle} acid ${w.acid}`);
+        Math.abs(w[Z]-0.25)<1e-6 && Math.abs(w[X]-0.5625)<1e-6 && Math.abs(w[Y]-0.1875)<1e-6,
+        `${X} ${w[X]} ${Y} ${w[Y]} ${Z} ${w[Z]}`);
   check("...and the total is still exactly 1", Math.abs(sum(w)-1)<1e-9, sum(w).toFixed(12));
 
   /* locks: the brief's second scenario */
-  await pg.evaluate(()=>{ __solo("lofi"); __set("jungle",0.5); __L.add("lofi"); __L.add("jungle"); __set("acid",0.25); });
+  await pg.evaluate(([X,Y,Z])=>{ __solo(X); __set(Y,0.5); __L.add(X); __L.add(Y); __set(Z,0.25); },[X,Y,Z]);
   w = await W();
   check("with X and Y locked, Z can only take what is free",
-        Math.abs(w.acid)<1e-9 && Math.abs(w.lofi-0.5)<1e-6 && Math.abs(w.jungle-0.5)<1e-6,
-        `acid clamped to ${w.acid} because lofi+jungle are locked at 1.0`);
-  await pg.evaluate(()=>{ __L.clear(); __solo("lofi"); __set("jungle",0.4); __L.add("jungle"); __set("acid",0.3); });
+        Math.abs(w[Z])<1e-9 && Math.abs(w[X]-0.5)<1e-6 && Math.abs(w[Y]-0.5)<1e-6,
+        `${Z} clamped to ${w[Z]} because ${X}+${Y} are locked at 1.0`);
+  await pg.evaluate(([X,Y,Z])=>{ __L.clear(); __solo(X); __set(Y,0.4); __L.add(Y); __set(Z,0.3); },[X,Y,Z]);
   w = await W();
   check("one lock: the locked share holds, the rest gives way",
-        Math.abs(w.jungle-0.4)<1e-6 && Math.abs(w.acid-0.3)<1e-6 && Math.abs(w.lofi-0.3)<1e-6,
-        `lofi ${w.lofi} jungle ${w.jungle}(locked) acid ${w.acid}`);
+        Math.abs(w[Y]-0.4)<1e-6 && Math.abs(w[Z]-0.3)<1e-6 && Math.abs(w[X]-0.3)<1e-6,
+        `${X} ${w[X]} ${Y} ${w[Y]}(locked) ${Z} ${w[Z]}`);
 
   /* the edge case: everything else at zero */
-  await pg.evaluate(()=>{ __L.clear(); __solo("lofi"); __set("lofi",0.4); });
+  await pg.evaluate((X)=>{ __L.clear(); __solo(X); __set(X,0.4); },X);
   w = await W();
-  check("dropping the only genre shares the remainder out", Math.abs(sum(w)-1)<1e-9 && w.lofi>0.399 && w.lofi<0.401,
+  check("dropping the only genre shares the remainder out", Math.abs(sum(w)-1)<1e-9 && w[X]>0.399 && w[X]<0.401,
         show(w));
 
   /* and it actually composes a blended song */
-  await pg.evaluate(()=>{ __L.clear(); __solo("lofi"); __set("jungle",0.5); });
+  await pg.evaluate(([X,Y])=>{ __L.clear(); __solo(X); __set(Y,0.5); },[X,Y]);
   await pg.evaluate(()=>newSong(1));
   const info = await pg.evaluate(()=>({ label: MK2.currentSong().chart.table.label,
                                         blend: MK2.currentSong().chart.blend,
@@ -75,7 +97,7 @@ const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")
         `${info.label} · ${info.tempo} bpm · ${info.ev} events`);
 
   /* soloing back gives the untouched genre */
-  await pg.evaluate(()=>{ __solo("lofi"); newSong(1); });
+  await pg.evaluate((X)=>{ __solo(X); newSong(1); },X);
   const solo = await pg.evaluate(()=>({ label: MK2.currentSong().chart.table.label,
                                         blend: MK2.currentSong().chart.blend,
                                         ev: MK2.currentSong().perf.events.length }));
@@ -88,11 +110,34 @@ const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")
      The claim is "soloing gives the PLAIN GENRE back", so ask the plain genre.
      A number typed into a test is a second copy of the program that nobody
      updates. */
-  const plain = await pg.evaluate(() =>
-    MK2.composeSong(1, MK2.currentSong().chart.rig, "lofi").perf.events.length);
+  const plain = await pg.evaluate((X) =>
+    MK2.composeSong(1, MK2.currentSong().chart.rig, X).perf.events.length, X);
   check("soloing gives the plain genre back, not a blend of one",
         solo.blend===null && solo.ev===plain,
         `${solo.label} · ${solo.ev} events (genre composes ${plain}) · blend ${solo.blend}`);
+
+  /* ── AND EVERY GENRE CAN ACTUALLY BE CHOSEN, not just the three above ──────
+     The panel having the right NUMBER of sliders does not prove each one
+     reaches a genre that composes. This solos each in turn through the real
+     handler and asks for a song. It is the check that would have told anyone
+     that `dungeonsynth` existed. */
+  const reach = [];
+  for(const g of GS){
+    const r = await pg.evaluate(async (g)=>{
+      try{
+        __L.clear(); __solo(g); newSong(1);
+        const s = MK2.currentSong();
+        return { g, ok: s.perf.events.length > 0, ev: s.perf.events.length,
+                 named: s.chart.table.label, blend: s.chart.blend };
+      }catch(e){ return { g, ok:false, err:String(e.message).slice(0,60) }; }
+    }, g);
+    reach.push(r);
+  }
+  const dead = reach.filter(r=>!r.ok);
+  check("every genre the program declares composes from its own slider",
+        dead.length===0,
+        dead.length ? dead.map(r=>`${r.g}: ${r.err||"0 events"}`).join(" | ")
+                    : reach.map(r=>`${r.g} ${r.ev}`).join(" · "));
 
   check("no uncaught page errors", errs.length===0, errs.join(" | "));
   console.log(`\n${pass} passed, ${fail} failed`);

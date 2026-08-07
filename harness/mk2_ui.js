@@ -604,6 +604,50 @@ const check = (label, ok, detail) => {
           share.toFixed(1) + "% (before the fix: 87%)");
   }
 
+  /* ═══ EVERY GENRE THE PROGRAM DECLARES IS ON THE PICKER, AND PLAYS ═════════
+     NOTHING CHECKED THIS, and the cost was quiet. An eighth genre --
+     `dungeonsynth` -- shipped, reached the published artifact, and composed
+     songs, while every document in the repo went on saying "seven genres" and
+     no probe, check or table noticed. The count is not the point; the point is
+     that the picker is a LIST OF WHAT THE PROGRAM CONTAINS, and this file has
+     a standing law about those.
+
+     So the picker is asked against `MK2.genres()`, in both directions: no genre
+     missing from the glass, and no option on the glass that the program does
+     not have. Then each one is actually selected and composed, because an
+     option that is drawn and throws is the same defect one layer along. ═════ */
+  {
+    const gs = await pg.evaluate(() => MK2.genres());
+    const opts = await pg.evaluate(() =>
+      [...document.getElementById("genre").options].map(o => o.value));
+    const missing = gs.filter(g => !opts.includes(g));
+    const extra   = opts.filter(o => !gs.includes(o));
+    check("the genre picker offers exactly the genres the program declares",
+          missing.length === 0 && extra.length === 0,
+          `picker ${opts.length} · program ${gs.length}` +
+          (missing.length ? "  MISSING FROM THE GLASS: " + missing.join(" ") : "") +
+          (extra.length   ? "  ON THE GLASS ONLY: "      + extra.join(" ")   : ""));
+
+    const bad = [];
+    for(const g of gs){
+      const r = await pg.evaluate(async (g) => {
+        try{
+          const sel = document.getElementById("genre");
+          sel.value = g; sel.dispatchEvent(new Event("change", { bubbles:true }));
+          document.getElementById("new").click();
+          await new Promise(r => setTimeout(r, 120));
+          const s = MK2.currentSong();
+          return { ok: s.perf.events.length > 0 && s.chart.table.label != null,
+                   ev: s.perf.events.length, label: s.chart.table.label };
+        }catch(e){ return { ok:false, err:String(e.message).slice(0,70) }; }
+      }, g);
+      if(!r.ok) bad.push(g + ": " + (r.err || "0 events"));
+    }
+    check("...and every one of them composes when it is picked",
+          bad.length === 0,
+          bad.length ? bad.join(" | ") : gs.length + " genres, all compose from the picker");
+  }
+
   check("no uncaught page errors at any point", errs.length === 0, errs.slice(0, 3).join(" | "));
   await b.close();
   console.log("\n" + pass + " passed, " + fail + " failed");
