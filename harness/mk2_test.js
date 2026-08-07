@@ -880,10 +880,20 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       const song = M.composeSong(1, undefined, g);
       const P = (T.GENRE[g].params || {});
       for(const m in P) for(const k in P[m]){
-        const key = m + "." + k;
-        if(!M.CONTROL[key]){ unknown.push(g + ":" + key); continue; }
-        if(Math.abs(P[m][k] - M.panelValue(m, k)) > 1e-9)
-          unapplied.push(`${g}:${key} wants ${P[m][k]} reads ${M.panelValue(m, k)}`);
+        const key = m + "." + k, want = P[m][k], c = M.CONTROL[key];
+        if(!c){ unknown.push(g + ":" + key); continue; }
+        /* a DRAWN knob ("any", or a weighted table) has no single right answer.
+           What it must still do is land on the dial: inside the ends and on a
+           real step, because a patch switch handed 2.5 is a patch nobody has. */
+        if(want === "any" || Array.isArray(want)){
+          const v = M.panelValue(m, k), st = c.step || 1;
+          const onStep = Math.abs((v - c.min) / st - Math.round((v - c.min) / st)) < 1e-6;
+          if(!(v >= c.min - 1e-9 && v <= c.max + 1e-9 && onStep))
+            unapplied.push(`${g}:${key} drew ${v}, off the dial [${c.min}..${c.max}/${st}]`);
+          continue;
+        }
+        if(Math.abs(want - M.panelValue(m, k)) > 1e-9)
+          unapplied.push(`${g}:${key} wants ${want} reads ${M.panelValue(m, k)}`);
       }
     }
     check("a genre's params name controls that exist", unknown.length === 0,
@@ -923,6 +933,47 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
           unapplied.length ? unapplied.slice(0, 6).join(" | ") +
             (unapplied.length > 6 ? ` (+${unapplied.length - 6} more)` : "")
           : "all genre parameters loaded");
+
+    /* ── ...AND A KNOB THE GENRE DREW IS ACTUALLY DIFFERENT ON A DIFFERENT SONG.
+       This is the check the whole mechanism needs, because the failure mode is
+       silent and familiar: `applyRack` skips a reload when the tag has not
+       changed, so a draw made on the first song of a genre would have been
+       frozen into every song after it -- a table pretending to be a draw,
+       which is exactly the defect the draw was added to remove. It also pins
+       the other half: THE SAME SEED IS THE SAME SONG, so a re-compose of one
+       seed must return the identical knob. [Law 3] */
+    {
+      const drawn = [], stuck = [], unstable = [];
+      for(const g of M.genres()){
+        const P = (T.GENRE[g].params || {});
+        for(const m in P) for(const k in P[m]){
+          const want = P[m][k];
+          if(want !== "any" && !Array.isArray(want)) continue;
+          const c = M.CONTROL[m + "." + k];
+          const seen = new Set();
+          let first = null;
+          for(const s of [1, 2, 3, 4, 5, 6, 7, 8, 11, 17, 23, 41]){
+            M.composeSong(s, undefined, g);
+            const v = M.panelValue(m, k);
+            seen.add(v);
+            if(s === 1) first = v;
+          }
+          M.composeSong(1, undefined, g);
+          if(M.panelValue(m, k) !== first) unstable.push(g + ":" + m + "." + k);
+          /* a dial with one position cannot vary and must not be reported as
+             stuck -- the claim is about the draw, not about the machine */
+          const positions = Math.floor((c.max - c.min) / (c.step || 1) + 1e-9) + 1;
+          drawn.push(`${m}.${k} ${seen.size}/${Math.min(positions, 12)}`);
+          if(positions > 1 && seen.size < 2) stuck.push(g + ":" + m + "." + k);
+        }
+      }
+      check("a knob a genre draws is a different knob on a different song",
+            stuck.length === 0 && unstable.length === 0,
+            stuck.length ? "frozen: " + stuck.join(" | ")
+            : unstable.length ? "not deterministic: " + unstable.join(" | ")
+            : drawn.length ? drawn.join(" · ") + "  (distinct values in 12 seeds / positions on the dial)"
+            : "no genre draws a knob");
+    }
   }
 
   /* ── 1c. THE CONDUCTOR'S CONTRACT, and the answer to "how should the program

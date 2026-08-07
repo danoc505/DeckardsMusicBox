@@ -3,6 +3,17 @@
 
     python3 harness/erang_bank.py <dir-of-wavs> <out.json>
 
+READ THIS BEFORE RE-ENCODING. `root_of()` below takes the strongest
+autocorrelation peak, and on exactly one file in this pack -- Pad_03_C -- it
+takes the SECOND strongest: it emits 37.956 Hz where the true fundamental is
+26.12, which is 645 cents, and 645 cents is audibly out of tune rather than a
+register choice. That number is CORRECTED BY HAND in the HTML, with both
+measurements written beside it at the head of ERANG_INDEX. A re-encode will
+put 37.956 back. Either re-apply the correction, or fix the peak ranking here
+and check the other 44 pitched patches with `harness/probe_erang.js` before
+trusting it -- an earlier attempt to decide octaves spectrally made the error
+count WORSE twice (15 -> 21 -> 29) and is recorded as a dead end.
+
 WHY THIS EXISTS. The user landed the *Erang - Dungeon Synth Free Samples Pack*
 on `main`: 65 WAVs, stereo, 16-bit, 44.1 kHz, 535 seconds, **94 MB**. The
 program is ONE self-contained HTML file with no external requests, so a sample

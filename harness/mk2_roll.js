@@ -317,6 +317,8 @@ const chName = ch => {
   return T.NOTE_NAMES[r] + q + (ch.tones && ch.tones.length > 3 ? "7" : "") + (outside ? "*" : "");
 };
 console.log(`CHORDS  ${song.materials.chords.map(chName).join("  ")}` +
+            (song.materials.chorusChords && song.materials.chorusChords !== song.materials.chords
+              ? `      chorus: ${song.materials.chorusChords.map(chName).join("  ")}` : "") +
             `      bridge: ${song.materials.bridgeChords.map(chName).join("  ")}`);
 console.log(`POCKET  [${song.materials.pocket.join(", ")}]  (kick placements, 16ths)`);
 console.log(`FORM    ${song.sections.map(s => s.fn + (s.peak ? "^" : "") + "[" + s.material +

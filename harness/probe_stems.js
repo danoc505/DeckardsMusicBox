@@ -44,9 +44,21 @@ const FROM  = parseInt(process.argv[5], 10) || 0;
        full section and averaging the two hides both */
     const ev = song.perf.events.filter(e => e.tSec >= FROM && e.tSec < FROM + SECS && e.role !== 'tape')
                    .map(e => Object.assign({}, e, { tSec: e.tSec - FROM }));
+    /* ── AND IT MUST BE RENDERED WITH THE SONG'S OWN SOUND ────────────────
+       This called `renderWav(list, SECS, 44100)` and stopped there, so every
+       measurement it has ever printed was made on a graph with NO space, NO
+       kick voicing, NO drum drive and NO motion -- the factory defaults, not
+       the song. It mattered most for exactly the part the probe exists to
+       answer questions about: `chTune` returns 1 flat when the graph has no
+       drum machine on it, so the war drum's tuning and decay were switched off
+       in every reading. A whole round of drum-voicing changes came back
+       "identical to the decimal" because of this line, which is the tool
+       lying rather than the change failing. */
+    const S = MK2.soundOf(song.chart.table, song.chart.picks.drums, song.chart.picks, song.chart);
     const meas = async (list, label) => {
       if (!list.length) return null;
-      const blob = await MK2.renderWav(list, SECS, 44100);
+      const blob = await MK2.renderWav(list, SECS, 44100, S.space, S.kick,
+                                       S.drumDrive, S.gate, song.motion, FROM);
       const ab = await blob.arrayBuffer(), dv = new DataView(ab);
       const n = (ab.byteLength - 44) / 4;
       let sum = 0, peak = 0;
