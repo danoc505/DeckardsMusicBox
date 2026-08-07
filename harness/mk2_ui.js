@@ -843,16 +843,39 @@ const check = (label, ok, detail) => {
       if(inside.includes(mach)) continue;
       try { await pg.selectOption("#m_" + slot, mach); } catch(e){ continue; }
       await pg.waitForTimeout(140);
-      const r = await pg.evaluate((mach) => {
-        const box = document.querySelector(`.machine[data-machine="${mach}"]`);
-        if(!box) return { missing: ["(no panel drawn at all)"], n: 0 };
-        const drawn = new Set([...box.querySelectorAll("[data-key]")]
-          .map(e => e.dataset.key.split(".").slice(1).join(".")));
-        const decl = (MK2.INSTRUMENTS[mach].controls || []).map(c => c.k);
-        return { missing: decl.filter(k => !drawn.has(k)), n: decl.length };
-      }, mach);
+      /* ── A MACHINE WITH KITS IS ASKED ACROSS ALL OF THEM ───────────────────
+         The declaration has to stay the UNION of every kit's controls — three
+         seam checks walk it unconditionally — while the panel draws the kit that
+         is loaded. So no single kit draws everything, and asking one kit reports
+         the others' knobs as missing. It did: the dungeon kit's six read as
+         undrawn because the battery had an 808 in the machine.
+         The claim is "nothing is declared that cannot be reached", so the honest
+         question is whether the union ACROSS kits covers the declaration. Kits
+         are walked through the machine's own KIT select, with real events, so
+         this also proves that switch reaches the panel. */
+      const kits = await pg.evaluate((mach) => Object.keys(MK2.INSTRUMENTS[mach].kits || {}), mach);
+      const drawnAll = new Set();
+      for(const k of (kits.length ? kits : [null])){
+        if(k){
+          try { await pg.selectOption(`[data-key="${mach}.kit"]`, k); } catch(e){ /* no select */ }
+          await pg.waitForTimeout(140);
+        }
+        const got = await pg.evaluate((mach) => {
+          const box = document.querySelector(`.machine[data-machine="${mach}"]`);
+          if(!box) return null;
+          return [...box.querySelectorAll("[data-key]")]
+            .map(e => e.dataset.key.split(".").slice(1).join("."));
+        }, mach);
+        if(got === null){ drawnAll.add("(no panel drawn at all)"); break; }
+        for(const g of got) drawnAll.add(g);
+      }
+      const r = await pg.evaluate((mach) => ({
+        decl: (MK2.INSTRUMENTS[mach].controls || []).map(c => c.k) }), mach);
+      const missing = drawnAll.has("(no panel drawn at all)")
+        ? ["(no panel drawn at all)"] : r.decl.filter(k => !drawnAll.has(k));
       checked++;
-      if(r.missing.length) bad.push(`${mach} in ${slot}: ${r.missing.length} of ${r.n} — ${r.missing.slice(0, 8).join(" ")}`);
+      if(missing.length) bad.push(`${mach} in ${slot}${kits.length ? " (across " + kits.length + " kits)" : ""}: ` +
+        `${missing.length} of ${r.decl.length} — ${missing.slice(0, 8).join(" ")}`);
     }
     check("every control a machine declares is drawn on its panel",
           bad.length === 0,

@@ -1096,7 +1096,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-07i · the dungeon synth drums play again, and every declared knob is on the glass</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-07j · the drum machine wears the kit it is holding, and two dead machines are gone</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -2483,10 +2483,57 @@ const INSTRUMENTS = {
          everything a hand would strike is the sampled Erang percussion. The
          SET switch inside that voice decides which sample a lane reaches, so
          the eight lanes are not eight copies of one hit. */
-      dungeon:  { kick:"wardrum", tom1:"timpHi", tom2:"timpMid", tom3:"timpLo",
-                  snare:"erangDrum", ghost:"erangDrum", hat:"erangDrum",
-                  openhat:"erangDrum", rim:"erangDrum", clap:"erangDrum",
-                  crash:"erangDrum", ride:"erangDrum" },
+      dungeon:  {
+        label: "TR-1000 · DUNGEON",
+        lanes: { kick:"wardrum", tom1:"timpHi", tom2:"timpMid", tom3:"timpLo",
+                 snare:"erangDrum", ghost:"erangDrum", hat:"erangDrum",
+                 openhat:"erangDrum", rim:"erangDrum", clap:"erangDrum",
+                 crash:"erangDrum", ride:"erangDrum" },
+        /* ── THE KNOBS THIS KIT BRINGS WITH IT ───────────────────────────────
+           These were on two OTHER machines -- `procession.ring` and five on
+           `erangDrums` -- and a voice reads its controls from the panel of the
+           machine that is PLAYING. Once these drums became a kit of the TR-1000,
+           those knobs could never appear on the glass in front of you: declared,
+           alive, and unreachable. Exactly the defect that silenced this genre
+           one build ago, one layer along, and it was written down as open.
+
+           THE NAMES ARE PREFIXED BECAUSE THE MACHINE ALREADY OWNS `tune` AND
+           `tone` -- they are the bass drum's. A sampler's tune is not a bass
+           drum's tune, and letting them share a key would have quietly wired
+           the Erang playback rate to the 808 kick's dial. Ranges and defaults
+           are copied from the machines they came from, unchanged. */
+        controls: [
+          { k:"ring",   label:"war drum ring", cap:"RING", min:0, max:2, step:0.01, def:1, kind:"voicing" },
+          /* max is filled from the SAMPLE BANK below, not typed here -- the
+             pack decides how many percussion patches there are, and a number
+             written at this point goes stale the day one is added. It cannot be
+             computed inline because ERANG is declared 1300 lines further down. */
+          { k:"pSet",   label:"which drums",   cap:"SET",  min:0, max:0, step:1, def:0, kind:"switch" },
+          { k:"pTune",  label:"sample tune",   cap:"TUNE", min:0.5, max:2, step:0.001, def:1, kind:"voicing" },
+          { k:"pAtk",   label:"sample attack", cap:"ATTACK",  min:0.002, max:0.2, step:0.001, def:0.003, unit:"s", kind:"voicing" },
+          { k:"pRel",   label:"sample release",cap:"RELEASE", min:0.02, max:4, step:0.01, def:1.2, unit:"s", kind:"voicing" },
+          { k:"pTone",  label:"sample tone",   cap:"TONE", min:0.15, max:1, step:0.01, def:0.72, kind:"gesture" },
+        ],
+        /* the silkscreen this kit wears. Same ten strips -- the machine keeps
+           its shape -- with the names of the drums that are actually in it, and
+           the sampler's own knobs on the channels it plays. */
+        columns: {
+          kick:    { label: "WAR DRUM",  trig: "WD", keys: ["tune", "decay", "tone", "punch", "ring"] },
+          /* only tom3 and tom1 have strips of their own: the machine has ten
+             channels for twelve lanes and tom2 shares the LOW TOM one, which is
+             what DCHAIN_OF says. No entry for tom2, because an override nothing
+             reads is the thing this file calls a lie. */
+          tom1:    { label: "KETTLE HI", trig: "K1" },
+          tom3:    { label: "KETTLE LO", trig: "K3" },
+          snare:   { label: "PERCUSSION",trig: "PC", keys: ["pSet", "pTune", "pAtk", "pRel", "pTone"] },
+          hat:     { label: "SHAKER",    trig: "SH" },
+          openhat: { label: "RATTLE",    trig: "RT" },
+          rim:     { label: "BLOCK",     trig: "BL" },
+          clap:    { label: "SLAP",      trig: "SL" },
+          crash:   { label: "BELL",      trig: "BE" },
+          ride:    { label: "CHIME",     trig: "CH" },
+        },
+      },
       brk:      { brk:"brk", kick:"brk", snare:"brk", ghost:"brk", hat:"brk",
                   openhat:"brk", tom1:"brk", tom2:"brk", tom3:"brk",
                   rim:"brk", clap:"brk", crash:"brk", ride:"brk" },
@@ -2797,23 +2844,18 @@ const INSTRUMENTS = {
      cannot appear on the TR-1000's own glass. Repointing them to
      `g.drumMachine` is the next step, and it is the same class of defect as the
      one this commit fixes. */
-  procession: { legacy: true,
-    slot: "drums", label: "TIMPANI + WAR DRUMS",
-    lanes: { kick:"wardrum", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
-             rim:"rim", clap:"clap", crash:"crash", ride:"ride",
-             tom1:"timpHi", tom2:"timpMid", tom3:"timpLo" },
-    controls: [
-      { k:"bus",  label:"kit drive",  cap:"DRIVE", min:0.6, max:2, step:0.01, def:0.95, kind:"bus" },
-      { k:"gate", label:"gated verb", cap:"SEND",  min:0, max:1, step:0.01, def:0, kind:"bus" },
-      /* how long a kettle rings. A timpano's ring is the identifying half of
-         the instrument and a hall is what it rings into, so this is the one
-         control this machine adds over the shared set. `voicing` by contract:
-         it is what the drum IS, not a hand on it mid-song. */
-      { k:"ring", label:"kettle ring", cap:"RING", min:0.4, max:2.2, step:0.01,
-        def:1, unit:"x", kind:"voicing" },
-      ...chainControls(),
-    ],
-  },
+  /* ── `procession` WAS DELETED HERE, and it was verified dead first ────
+     It was a 63-control machine whose drums are the `dungeon` kit of the
+     TR-1000 now. Before removing it: no genre named it in `params`,
+     `motion` or `machines`; no rig named `wardrum` or any timpano, so
+     `machineIn` could never resolve to it; and no voice read a single one
+     of its controls -- the war drum's RING and the whole channel strip
+     moved onto the machine that plays. Its VOICES are untouched: they
+     live in `V` and the `dungeon` kit names them.
+     Removed rather than left as paperwork, because 63 declared controls
+     nothing can reach is the thing this file calls a lie -- and the
+     "every knob the conductor can move is one some genre moves" check
+     was correctly red about every one of them. */
 
   segakit: { legacy: true,
     slot: "drums", label: "SEGA DAC + PSG",
@@ -3750,6 +3792,14 @@ const INSTRUMENTS = {
    below is what fills `max` on every patch switch, so a sample added to the
    pack reaches the panel by itself. */
 const erangPatches = (...f) => Math.max(0, ERANG.family(...f).length - 1);
+/* the dungeon kit's SET switch takes its travel from the pack, the same way
+   every Erang patch switch does -- asked of the bank, never written down. */
+{ /* it still lives on the KIT at this point -- the fold that copies kit
+     controls onto the machine runs further down -- and it is the same object
+     either way, so patching it here reaches both. */
+  const K = INSTRUMENTS.tr1000.kits.dungeon;
+  const c = (K && K.controls || []).find(x => x.k === "pSet");
+  if(c) c.max = erangPatches("percussion"); }
 const ERANG_KIT_LANES = ["kick", "tom3", "tom2", "tom1", "snare", "ghost",
                          "rim", "clap", "hat", "openhat", "ride", "crash"];
 /* ── AND THE PANEL HAS TO DECLARE ITS GROUPS, OR IT DRAWS NO KNOBS AT ALL ───
@@ -3808,21 +3858,13 @@ INSTRUMENTS.erangLead = {
   controls: erangControls(erangPatches("Lead"), "leads"),
   panel: erangPanel("Erang — Leads", "the voice that carries the tune"),
 };
-INSTRUMENTS.erangDrums = { legacy: true,
-  slot: "drums", label: "Erang Percussion",
-  /* every lane the kit can strike, so this machine can stand in for a kit
-     anywhere without a lane falling through to silence */
-  lanes: ERANG_KIT_LANES.reduce((o, l) => { o[l] = "erangDrum"; return o; }, {}),
-  controls: [
-    { k:"set", label:"which drums", cap:"SET", min:0, max:erangPatches("percussion"),
-      step:1, def:0, kind:"switch" },
-    { k:"tune",  label:"tune",    cap:"TUNE",  min:0.5, max:2, step:0.001, def:1, kind:"voicing" },
-    { k:"attack",label:"attack",  cap:"ATTACK",min:0.002, max:0.2, step:0.001, def:0.003, unit:"s", kind:"voicing" },
-    { k:"release",label:"release",cap:"RELEASE",min:0.02, max:4, step:0.01, def:1.2, unit:"s", kind:"voicing" },
-    { k:"tone",  label:"tone",    cap:"TONE",  min:0.15, max:1, step:0.01, def:0.72, kind:"gesture" },
-  ],
-  panel: erangPanel("Erang — Percussion", "ten struck drums, rotated by SET"),
-};
+/* ── `erangDrums` WAS DELETED HERE, verified dead the same way ──────────
+   Its ten percussion patches are the top half of the `dungeon` kit, and its
+   five knobs moved onto the TR-1000 with them (prefixed `p*`, because that
+   machine already owns `tune` and `tone` for its bass drum). Before
+   removing: no genre named it, no rig named its voice, `canFill` already
+   refused it in every rack, and `V.erangDrum` reads the playing machine.
+   The VOICE stays, built by `erangVoice` over the same sample family. */
 
 /* CONTROL is derived from INSTRUMENTS HERE, so every panel above this line
    and none below it reaches the knob table. The Erang panels were declared
@@ -3830,6 +3872,46 @@ INSTRUMENTS.erangDrums = { legacy: true,
    in INSTRUMENTS, played correctly when asked directly, and were invisible to
    CONTROL -- so the moment a genre's motion named one, the blend battery threw
    "motion names a control that does not exist" on 168 of 672 pairs. */
+/* ── A KIT MAY BE A LANE MAP, OR A LANE MAP WITH A FACE ────────────────────
+   The user: "if we load up dungeon synth the whole kit gets loaded into the tr
+   rack it is not using the default tr sounds it is using the genres default kit
+   so all the knobs might need to change depending on the kit", and "dynamic
+   means adjusts to what is needed".
+
+   A kit was a flat map of lane -> voice, and for the four kits that are the same
+   circuits with different tunings that is the whole truth. It is not the whole
+   truth for a kit whose drums are DIFFERENT INSTRUMENTS: a war drum has a RING,
+   a sampled percussion rack has a patch to choose and an envelope to shape, and
+   an 808 has neither. Those knobs cannot live on the machine unconditionally --
+   they would be dead on five kits out of six.
+
+   So a kit may also be `{ lanes, controls, columns, label }`:
+
+     lanes     what it always was, and the only required part
+     controls  knobs that exist only while this kit is loaded
+     columns   per-channel overrides -- silkscreen, trigger legend, which knobs
+     label     what the machine calls itself with this kit in it
+
+   THE DECLARATION STAYS THE UNION. `INSTRUMENTS[m].controls` must list every
+   kit's controls, because three seam checks walk it unconditionally and CONTROL
+   is built from it once. `kitControls()` below folds them in at load, so a kit
+   adds its knobs by declaring them and nothing has to be kept in step by hand.
+   What varies per kit is what gets DRAWN, never what is DECLARED. */
+const kitLanes = k => (k && k.lanes) ? k.lanes : k;
+const kitFace  = k => (k && k.lanes) ? k : null;
+for(const m in INSTRUMENTS){
+  const M = INSTRUMENTS[m];
+  if(!M.kits) continue;
+  const have = new Set((M.controls || []).map(c => c.k));
+  for(const n in M.kits){
+    const f = kitFace(M.kits[n]);
+    if(!f || !f.controls) continue;
+    for(const c of f.controls){
+      if(have.has(c.k)) continue;      // a kit may reuse a control the machine has
+      M.controls.push(c); have.add(c.k);
+    }
+  }
+}
 /* ── AND A `pick` SWITCH'S TRAVEL COMES FROM THE THING IT PICKS ─────────────
    The TR-1000's KIT switch was declared `max: 4` by hand for four kits, then a
    fifth (the sampled Gretsch) arrived and nothing joined them up -- a switch
@@ -5203,7 +5285,8 @@ function voiceFor(chart, lane, over){
        which, in stage 1, on the rack's own stream. Stage 5 still writes `voice`
        in exactly one place -- this is that place, asking one more question. */
     const kit = chart.picks.drumKit;
-    if(kit && M.kits && M.kits[kit] && M.kits[kit][lane]) return M.kits[kit][lane];
+    const KL = kit && M.kits && kitLanes(M.kits[kit]);
+    if(KL && KL[lane]) return KL[lane];
     if(M.lanes[lane]) return M.lanes[lane];
     /* the second keyboard plays a KEYS machine, and a keys machine declares a
        `keys` lane -- it has never heard of "keys2". Ask it for the lane it does
@@ -7055,7 +7138,34 @@ function erangBuffer(g, name){
 
    PITCHED patches are tuned from the MEASURED root, so `playbackRate` is the
    ratio of two frequencies and never a semitone count off a filename. */
+/* ── AND WHEN IT IS A KIT, IT READS OFF THE MACHINE THAT IS PLAYING ────────
+   `mach` is the name this sampler was declared under -- "erangDrums" for the
+   percussion, "erangStrings" and the rest for the pitched shelves. For a PITCHED
+   machine that is still correct: the box in the rack IS that machine.
+
+   For the DRUM one it stopped being correct the moment those drums became a kit
+   of the TR-1000. A voice reads its controls from the panel of the machine that
+   is playing, and that is now `g.drumMachine` -- so five knobs were alive on a
+   panel belonging to a box no longer in the rack. The kit declares its own
+   prefixed keys (`pSet`/`pTune`/`pAtk`/`pRel`/`pTone`) because `tune` and `tone`
+   on the TR-1000 are the BASS DRUM's, and a sampler's tune is not a bass drum's.
+   Falls back to the declared name, so nothing that still loads this machine
+   directly changes. */
 function erangVoice(mach, fams, lanes){
+  /* ── WHICH PANEL THIS SAMPLER READS ────────────────────────────────────
+     Two names per control, because the kit's key and the standalone machine's
+     key are deliberately different: the kit prefixes (`pTune`) so it cannot
+     collide with the TR-1000's own BASS DRUM `tune`, while the pitched shelves
+     keep the plain names they have always had.
+
+     `kitted` decides which; every read below is then written as TWO PLAIN P()
+     CALLS rather than one clever one. That is not style: the seam check "every
+     knob on every panel reaches the sound" is a STATIC READER of this source,
+     and it finds controls by matching the shape of a P() call. A spread
+     argument is invisible to it, so the first version of this made fifteen live
+     controls read as unwired. Code a checker cannot read is code that is not
+     checked. */
+  const kitted = g => !!(lanes && g.drumMachine && CONTROL[g.drumMachine + ".pTune"]);
   let list = null;                       // built once, from the bank, on first use
   return function(g, ev, t){
     if(!list) list = ERANG.family(...fams);
@@ -7069,7 +7179,8 @@ function erangVoice(mach, fams, lanes){
     let pick;
     if(lanes){
       const li = lanes.indexOf(ev.lane);
-      pick = ((li < 0 ? 0 : li) + Math.round(P(g, ev, mach, "set", 0))) % list.length;
+      const setN = kitted(g) ? P(g, ev, g.drumMachine, "pSet", 0) : P(g, ev, mach, "set", 0);
+      pick = ((li < 0 ? 0 : li) + Math.round(setN)) % list.length;
     } else {
       pick = Math.max(0, Math.min(list.length - 1,
         Math.round(P(g, ev, mach, "patch", 0))));
@@ -7082,7 +7193,7 @@ function erangVoice(mach, fams, lanes){
     /* the note, as a ratio of frequencies. An unpitched patch (percussion,
        atmosphere) has no root and plays at its own speed, shifted only by the
        tune knob — a war drum does not transpose with the key. */
-    const tune = P(g, ev, mach, "tune", 1);
+    const tune = kitted(g) ? P(g, ev, g.drumMachine, "pTune", 1) : P(g, ev, mach, "tune", 1);
     src.playbackRate.value = (s.root > 0 && ev.pitch != null)
       ? (F(ev.pitch) / s.root) * tune : tune;
     if(s.ls >= 0){
@@ -7111,8 +7222,8 @@ function erangVoice(mach, fams, lanes){
        and letting it end on its own is right, and the release only catches it
        if the note stops first. A looped patch has no ending of its own and
        needs one. */
-    const atk = Math.max(0.002, P(g, ev, mach, "attack", 0.02));
-    const rel = Math.max(0.02, P(g, ev, mach, "release", 0.4));
+    const atk = Math.max(0.002, kitted(g) ? P(g, ev, g.drumMachine, "pAtk", 0.02) : P(g, ev, mach, "attack", 0.02));
+    const rel = Math.max(0.02, kitted(g) ? P(g, ev, g.drumMachine, "pRel", 0.4) : P(g, ev, mach, "release", 0.4));
     const gn = c.createGain();
     const peak = ev.gain * (ev.role === "drums" ? 1 : kbdLevel(ev) * 1.6);
     gn.gain.setValueAtTime(0.0001, t);
@@ -7121,7 +7232,7 @@ function erangVoice(mach, fams, lanes){
     gn.gain.setTargetAtTime(0, off, rel / 3);
     /* TONE: one lowpass, and it is the "avoid overly bright transients" the
        genre's own sources ask for made into a knob rather than baked in. */
-    const tone = P(g, ev, mach, "tone", 0.8);
+    const tone = kitted(g) ? P(g, ev, g.drumMachine, "pTone", 0.8) : P(g, ev, mach, "tone", 0.8);
     const BUS = (ev.role === "drums") ? null : kbdBus(ev);
     const dest = (ev.role === "drums") ? drumOut(g, ev.lane)
                                        : stereoOut(g, ev, t, mach, BUS);
@@ -7966,7 +8077,13 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       /* the kettle's own ring control, read off whichever drum panel the plan
          names -- the same door `openGate` uses to find its hold, so a machine
          that does not declare RING simply gets 1 and rings as designed */
-      const ring = 2.6 * P(g, ev, "procession", "ring", 1) * chD;
+      /* ── READ OFF THE MACHINE THAT IS PLAYING, not off a name ────────────
+         This said `"procession"`, which stopped being the machine the moment
+         these drums became a kit of the TR-1000 -- so the knob was alive, on a
+         panel nobody could see, belonging to a box that is no longer in the
+         rack. `g.drumMachine` is what setSpace put there: whichever drum
+         machine this song actually loaded. */
+      const ring = 2.6 * P(g, ev, g.drumMachine, "ring", 1) * chD;
       const made = [];
       for(const [ratio, lvl, dk] of MODES){
         const o = c.createOscillator(); o.type = "sine";
@@ -17020,11 +17137,15 @@ const GENRE = {
          rather than the channel: V.wardrum reads P(g, ev, "procession", "ring")
          and always has. A kit is a lane-to-voice map; the voice keeps its own
          knobs. */
-      procession: { ring: 1.05 },
+      /* `ring` moved onto the TR-1000 too, for the same reason. */
       /* ONE KIT, said plainly. "If we load up dungeon synth the whole kit gets
          loaded into the tr rack" -- so this genre IS the dungeon kit, and the
          KIT switch on the machine is how a hand reaches the others. */
       tr1000: { kit: "dungeon",
+                    /* the kit's own knobs, at the values they were measured at
+                       when they lived on `procession` and `erangDrums` */
+                    ring: 1.05,
+                    pSet: "any", pTune: 1, pAtk: 0.003, pRel: 1.6, pTone: 0.66,
                     bus: 1.00, gate: 0,
                     kTune: 4, kDecay: 0.8, kMix: 1.15, kVerb: 0.05, kEcho: 0.03, kCut: 9000,
                     sTune: 1, sDecay: 1, sMix: 0.62, sVerb: 0.55, sEcho: 0.08, sCut: 9500,
@@ -17081,14 +17202,29 @@ const GENRE = {
       erangStrings: { patch: "any", tune: 1, attack: 1.1, release: 3.6, tone: 0.70, pan: 0 },
       erangHarp:    { patch: "any", tune: 1, attack: 0.006, release: 1.6, tone: 0.78, pan: 0.12 },
       erangLead:    { patch: "any", tune: 1, attack: 0.55, release: 2.4, tone: 0.74, pan: -0.10 },
-      erangDrums:   { set: "any", tune: 1, attack: 0.003, release: 1.6, tone: 0.66 },
+      /* the Erang percussion's five knobs moved onto the TR-1000 with the
+         drums themselves -- see `kits.dungeon.controls` for why they are
+         prefixed. Values unchanged; only the panel they live on moved. */
     },
     /* the movement is slow and it is the only movement there is: the harmony
        barely changes, so a filter opening across a section is the arrival.
        Every lane here is either the record going somewhere (`apex`) or weather
        (`lfo`), which is what a genre with no drops has instead of gestures. */
     motion: {
-      procession: {
+      /* ── AND THE AUTOMATION HAD TO MOVE WITH THE DRUMS TOO ──────────────
+         This block was keyed `procession` -- 63 lanes riding the war drum's
+         tune, the kettles' decay, every channel's sends and cut. A motion
+         lane is looked up as `<machine>.<control>` against the machine that
+         is PLAYING, so the moment those drums became a kit of the TR-1000
+         every one of these stopped matching anything. Silently: the plan
+         was compiled, the lanes existed, and nothing read them.
+
+         SAME ROOT CAUSE AS THE SILENT VOICES, second symptom, and it was
+         found by the BLEND suite rather than by anything aimed at it --
+         adding one lane to a machine this genre no longer plays threw
+         "motion names a control that does not exist" on 168 pairs, which
+         is the check earning its keep on a defect nobody was looking for. */
+      tr1000: {
         /* the kettles open into the arrival and the room deepens with them --
            the conductor riding the procession, which is the seam law's
            requirement that a bus somebody can move is a bus somebody moves */
@@ -17108,6 +17244,21 @@ const GENRE = {
                 { kind: "lfo", bars: [[56, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
         tMix:  [{ kind: "occurrence", step: [0.03, 0.08], cap: 3 }],
         mMix:  [{ kind: "occurrence", step: [0.03, 0.08], cap: 3 }],
+        /* ── THE PERCUSSION'S BRIGHTNESS, and it is ridden because it must be.
+           `pTone` came over from `erangDrums` declared `gesture` -- a knob the
+           conductor MAY move -- and no genre had ever moved it. It passed only
+           because that machine was never hosted; the moment the dungeon kit put
+           it on a machine that plays, the contract caught it: "a gesture nobody
+           rides is a knob the conductor is not using."
+
+           A slow drift is the right answer rather than an exemption. This is a
+           genre of atmosphere and long change, the hand percussion is the top of
+           its kit, and letting it darken and open over a hundred bars is what
+           the rest of this table already does to everything else. THE SIZE IS
+           [EAR] -- no source gives one -- and it is deliberately at the small
+           end, because the same table's own note says small numbers here are
+           noticed on the third listen and not the first. */
+        pTone: [{ kind: "lfo", bars: [[104, 1]], depth: [0.03, 0.07], shape: "sin", freePhase: true }],
         kDecay:[{ kind: "lfo", bars: [[64, 1]], depth: [0.02, 0.06], shape: "sin", freePhase: true }],
         kVerb: [{ kind: "apex", from: [-0.04, 0.02], to: [0.04, 0.12] }],
         kEcho: [{ kind: "section", by: { outro: [0.04, 0.12] } }],
@@ -17207,7 +17358,9 @@ const GENRE = {
                       pan:  [{ kind: "lfo", bars: [[56, 1]], depth: [0.06, 0.16], shape: "sin", freePhase: true }] },
       erangLead:    { tone: [{ kind: "apex", from: [-0.09, -0.02], to: [0.05, 0.14] }],
                       pan:  [{ kind: "lfo", bars: [[64, 1]], depth: [0.05, 0.13], shape: "sin", freePhase: true }] },
-      erangDrums:   { tone: [{ kind: "apex", from: [-0.07, -0.01], to: [0.04, 0.13] }] },
+      /* this was `erangDrums: { tone: ... }` -- an apex ride on a machine this
+         genre no longer plays. It is `tr1000.pTone` now, declared with the
+         kit's other lanes above, so the arc it describes reaches the sound. */
       mellotron: {
         /* wow is in absolute pitch-drift units, range 0..0.012 -- the weather
            here is a slow deepening and easing of the drift, not a vibrato */
@@ -25420,7 +25573,24 @@ function drawPanels(){
           box.appendChild(topRow);
         }
         const cols = el("div", "cols");
-        for(const col of P.columns){
+        /* ── THE KIT'S OWN SILKSCREEN ──────────────────────────────────────
+           "Dynamic means adjusts to what is needed." A kit may override any
+           column's name, its trigger legend and which knobs it carries, so the
+           machine holding timpani says KETTLE where it says LOW TOM with an 808
+           in it, and the war drum's RING appears on the channel that has one.
+
+           THE STRIPS THEMSELVES DO NOT MOVE. Ten channels stay ten channels --
+           the box keeps its shape and your eye keeps one layout, which is what
+           "the visual look of the kit stays" asked for. What changes is what is
+           written on them and what is on them.
+
+           Merged rather than replaced, so a kit says only what differs. */
+        const kitNow = SONG && SONG.chart.picks && SONG.chart.picks.drumKit;
+        const kitCols = (kitNow && M.kits && kitFace(M.kits[kitNow]) &&
+                         kitFace(M.kits[kitNow]).columns) || null;
+        for(const col0 of P.columns){
+          const col = kitCols && kitCols[col0.lane]
+            ? Object.assign({}, col0, kitCols[col0.lane]) : col0;
           const cEl = el("div", "col" + (col.wide ? " wide" : ""));
           cEl.appendChild(el("div", "colhead", col.label));
           /* ── THE KNOB BLOCK ──────────────────────────────────────────────

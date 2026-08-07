@@ -720,7 +720,26 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      added to those voices (`punch`), which is this repo's fifth instance of
      "anything that LISTS what the program contains will go stale". Widened to
      allow one call, so the reads are DERIVED and the list is gone. */
-  const rxv = /P\(g,\s*ev,\s*[A-Za-z_$][A-Za-z0-9_$]*(?:\([^()]*\))?,\s*"([A-Za-z0-9]+)"/g;
+  /* ...and it may be a PROPERTY, `g.drumMachine` — "whichever drum machine this
+     song loaded". Same idea again, and the pattern could not see it because it
+     allowed a bare name or a call but not a dot, while the SUFFIX pattern below
+     has allowed any expression (`[^,]+`) all along. Two scanners over the same
+     source disagreeing about what a machine expression looks like.
+
+     It went red on six live controls: the dungeon kit's `ring`, `pSet`, `pTune`,
+     `pAtk`, `pRel` and `pTone`, which a kit brings onto the TR-1000 and whose
+     voices read `P(g, ev, g.drumMachine, "ring", 1)`. VERIFIED BEFORE WIDENING,
+     rather than widened to make a red line go green — with the genre loaded the
+     way the page loads it, every one of the six reads the genre's own value off
+     the machine that is playing:
+
+       panelValue(tr1000.ring) = 1.05   declared 1.05
+       panelValue(tr1000.pTune) = 1     declared 1
+       panelValue(tr1000.pAtk) = 0.003  declared 0.003   …and so on
+
+     So the reads are real and the pattern was blind. Widened to allow a dotted
+     expression, which is what its sibling already allowed. */
+  const rxv = /P\(g,\s*ev,\s*[A-Za-z_$][A-Za-z0-9_$.]*(?:\([^()]*\))?,\s*"([A-Za-z0-9]+)"/g;
   const viaHelper = new Set();
   for(let mm; (mm = rxv.exec(src)); ) viaHelper.add(mm[1]);
   for(const m in M.INSTRUMENTS)
