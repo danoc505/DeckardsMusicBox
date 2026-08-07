@@ -604,7 +604,25 @@ WAV hash can never be the determinism test. The determinism test is the
 
 ## 3. The test harness — what to run, and what each one proves
 
-Run all of these before you claim anything.
+> ### ⚠ THIS IS A CATALOGUE, NOT A CHECKLIST. DO NOT RUN IT ON PICKUP.
+>
+> **The line that used to be here said "run all of these before you claim
+> anything" and it is deleted.** It contradicted the corrected testing rule at
+> the top of this file, it sat here for a week after that correction was
+> written, and on 2026-08-07 it cost a session two runs of the seam battery
+> before a single character of the program had been touched — the second of
+> which the container killed for memory.
+>
+> **A battery is a DIFFERENCE instrument.** It compares the program against a
+> recorded baseline. If you have not changed anything, the comparison has no
+> content: the number is already written in this file and the stamp already
+> proves your file is the one it was taken on. Running it tells you nothing
+> you did not have.
+>
+> So: **nothing below runs until you have made a change to run it against.**
+> Which one you then run is decided by what you touched — see the corrected
+> testing rule at the top of this file. On pickup you read, you orient, and
+> you start work.
 
 ```bash
 node harness/mk2_test.js                              # the seam checks (120 at f8ae533)
@@ -647,9 +665,13 @@ node harness/render_audio.js /tmp/aud 1,2             # ~55 s, 52 renders
 python3 harness/test_audio.py /tmp/aud                # assertions on the SAMPLES
 ```
 
-**The five-minute battery, before any claim:** `mk2_test.js`, `mk2_ui.js`,
-`mk2_blend.js`, `mk2_midi.js`, `mk2_snapshot.js check`, `probe_voices.js`.
-State at `f8ae533`: **120 / 33 / 10 / 20 / IDENTICAL / 0 silent.**
+**There is no "five-minute battery before any claim" any more, and the line
+that said so is deleted.** It named six tools including four browser probes,
+which is the whole chain, which is the thing the corrected rule forbids. What
+replaces it: run `mk2_roll` and `mk2_test` **against a change you made**, and
+run the browser probes **once, before publishing**. A claim is earned by
+measuring the thing you changed, not by re-printing six numbers that were
+already true.
 
 **Run the rendered-audio battery too when you touch the SOUND** — the graph, a
 voice, a genre's `space` or `kick`, the master chain. It takes about two minutes
@@ -2445,15 +2467,26 @@ that is the biggest single change to this genre in weeks; and `04j`, because the
 tune now stops between phrases, which is a change to the *shape* rather than the
 sound.
 
-### Before you start: the two-minute orientation
+### Before you start: orient. Run nothing.
 
-```bash
-node harness/mk2_test.js                        # expect 120 / 0 at f8ae533
-node harness/mk2_roll.js 1 --genre lofi         # READ IT. This is RULE ONE.
-node harness/probe_density.js 30                # how many notes sound, and when none do
-node harness/probe_counterpoint.js 20           # what two lines do relative to each other
-node harness/probe_novelty.js                   # what each genre's drums actually are
-```
+**This block used to be five commands headed "the two-minute orientation", and
+it is deleted. It is the line that caught the 2026-08-07 session** — it sits
+2400 lines below the corrected testing rule, so a reader who obeys the top of
+the file arrives here and obeys the bottom of it too. The first command in it
+was the seam battery, on a program that had not been touched.
+
+Orienting means **reading**, and it is free:
+
+1. `docs/BACKLOG.md` §0 and §0b — what is open and why.
+2. `git log --oneline -5` — where the branch is.
+3. `node harness/mk2_stamp.js check` — is the published page this build. One
+   second, and it is the one thing on pickup that can actually come back
+   *false*.
+
+The probes above are diagnostic instruments for questions. **Run one when you
+have the question it answers** — `probe_density` when you are asking about
+space, `probe_counterpoint` when you are asking what two lines do. Running them
+to look busy produces five numbers that are already in this file.
 
 Then open the published artifact and **look at THE ROLL**, at the top of the
 page. It draws the performance through `midiKeyFor` — the same function the .mid

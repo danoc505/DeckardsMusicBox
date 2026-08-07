@@ -31,9 +31,17 @@ git log --oneline -3      # expect the note scaffolding at the top
 ## What this is
 
 **Deckard's Orchestrator MK2** — one self-contained HTML file
-(`Deckards Orchestrator MK2.html`, ~17k lines) that generates music in seven
-genres through a six-stage pipeline. No build step, no dependencies, no
-server. Open it in a browser and it plays.
+(`Deckards Orchestrator MK2.html`, ~6.1 MB) that generates music through a
+six-stage pipeline. No build step, no dependencies, no server. Open it in a
+browser and it plays.
+
+**How many genres it has is deliberately not written here.** Ask
+`MK2.genres()` — the command is in `docs/START-PROMPT.md`. Every document in
+this repo said "seven" until 2026-08-07, when the answer had been **eight**
+for some time: `dungeonsynth` shipped and no sentence was updated. That is the
+DERIVE, NEVER LIST rule failing on the sentence describing the program itself,
+which is the most-copied sentence in the repo and therefore the worst one to
+hand-write.
 
 It is **personal**. It is not for sale and it is not being distributed. Do
 not add analytics, telemetry, licensing, onboarding, or anything else that
@@ -131,7 +139,34 @@ the repo and every browser probe dies with "Cannot find module 'playwright'",
 which reads like a broken probe and is not. Do **not** run
 `playwright install` — the browser is already in the image.
 
-## THE TESTING RULE, CORRECTED 2026-08-07
+## THE TESTING RULE, CORRECTED 2026-08-07, AND AGAIN ON PICKUP
+
+### ⚠ FIRST, THE ONE THAT KEEPS BEING GOT WRONG: ON PICKUP, RUN NOTHING.
+
+**Starting a session is not working.** Read, orient, pick a job from the
+backlog, start it. Do not run the seam battery, do not run a probe, do not
+"establish a baseline" — the baseline is written in these files, and
+`mk2_stamp.js check` already proves your file is the one it was written from.
+
+**Because a battery is a DIFFERENCE instrument.** It compares the program to a
+recorded number. With nothing changed there is no difference to find, so the
+run cannot come back with anything you did not already have. It is a diff
+against a file you know is identical.
+
+Measured cost of getting this wrong on 2026-08-07: two runs of `mk2_test`
+before a character of the program had been touched, the second killed by the
+container for memory. The instruction that caused it was real — three copies
+of "run all of these before you claim anything" were still sitting in
+`HANDOFF-MK2.md` (§3 twice, §9 once) a week after this section replaced them.
+All three are now deleted, and this paragraph exists because a correction at
+the top of a file does not reach a reader who is 2400 lines down it.
+
+**The one exception, and it is not a battery:** `node harness/mk2_stamp.js
+check`. One second, and on pickup it is the only check that can genuinely come
+back false — the artifact drifting from the repo is the failure this project
+has actually had.
+
+### The rule for when you ARE working
 
 The previous version of this section said "run these before you claim
 anything" and listed the whole chain. That instruction is why one session

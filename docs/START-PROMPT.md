@@ -9,13 +9,21 @@ deliberately does not assign a next job.*
 
 ## THE PROGRAM
 
-**Deckard's Orchestrator MK2** — one self-contained HTML file, about 2.2 MB,
-that composes and plays complete generative songs in seven genres through a
-six-stage pipeline. No build step, no dependencies, no server: open the file
-and press play. Personal. Not for sale, not distributed.
+**Deckard's Orchestrator MK2** — one self-contained HTML file, about 6.1 MB,
+that composes and plays complete generative songs through a six-stage
+pipeline. No build step, no dependencies, no server: open the file and press
+play. Personal. Not for sale, not distributed.
 
-The seven genres are lofi, synthwave, dkc, bladerunner, acid, plastikman and
-jungle. Ask the program for the list rather than trusting this sentence.
+**How many genres there are is not written here on purpose. Ask the program:**
+
+```sh
+node -e 'const fs=require("fs");const s=fs.readFileSync("Deckards Orchestrator MK2.html","utf8").split("<script>")[1].split("</script>")[0];global.window={addEventListener(){},MK2:null};global.document={getElementById:()=>({addEventListener(){},textContent:"",value:"1",innerHTML:""}),createElement:()=>({click(){}})};eval(s);console.log(window.MK2.genres().join(" "))'
+```
+
+The previous version of this paragraph named seven and listed them. It was
+wrong on 2026-08-07 — there are **eight**; `dungeonsynth` had shipped and no
+document said so. That is the DERIVE, NEVER LIST rule failing inside the
+sentence that states the rule, which is exactly how it always fails.
 
 **The artifact** lives at
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`
@@ -26,6 +34,20 @@ and is the same file. It is how the user listens.
 ## THE RULES
 
 These are binding. Several were written after being broken.
+
+**RULE ZERO — ON PICKUP, RUN NOTHING.** Starting a session is not working.
+Read, orient, take a job from `docs/BACKLOG.md`, start it. **Do not run the
+seam battery or any probe to "establish a baseline."** The baseline is written
+in these files, and a battery is a *difference* instrument — with nothing
+changed there is no difference to find, so it cannot return anything you did
+not already have. It is a diff against a file you know is identical. This cost
+a session two `mk2_test` runs on an untouched program on 2026-08-07, the second
+killed by the container for memory, and the instruction that caused it was
+real: three copies of "run all of these before you claim anything" had survived
+in `HANDOFF-MK2.md` for a week after the rule replaced them. **The one thing
+worth running on pickup is `node harness/mk2_stamp.js check`** — one second, and
+it is the only check that can genuinely come back false before you have done
+anything.
 
 **RULE ONE — print the notes and read them, every time.**
 `node harness/mk2_roll.js 1 --genre <g>`, before and after any change, side by
@@ -127,12 +149,16 @@ that were there or the ones that were declared.
 
 ## WHERE IT STANDS
 
-Build `2026-08-05d`. Battery: seam 121/0, ui 33/0, blend 10/0, midi 20/0,
-voices 0 threw / 0 silent, snapshot identical over 2100 seeds, renders
-repeatable on all seven genres.
+Build `2026-08-07f`. Battery as recorded at that build: seam 131/0, ui 36/0,
+blend 10/0, midi 20/0, mixer 4/0, snapshot `b9c88d17b7e7c54e`.
 
-What the session of 2026-08-05 did is recorded in `docs/HANDOFF-MK2.md` §8a —
-that is a record of work, with its retractions kept.
+**Those numbers are a RECORD, not a task.** Do not re-run them to confirm them
+on arrival — see RULE ZERO. `mk2_stamp.js check` is what tells you the file in
+front of you is the one they were taken on, and it takes a second.
+
+What the sessions of 2026-08-05 and 2026-08-07 did is recorded in
+`docs/HANDOFF-MK2.md` §8a and the `07a`…`07f` block — a record of work, with
+its retractions kept.
 
 The open work is in `docs/BACKLOG.md`. Read §0 first: it means *do not stack
 unverified taste guesses*, and it does **not** mean stop building what the

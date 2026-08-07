@@ -108,6 +108,49 @@ Seven channels and no master fader, no mute, no solo. The roll's legend already
 does a visual solo; the audio does not. **Closing it** is a small amount of UI
 against the same `MIXTRIM` contract.
 
+### 0b.8 THE INSTRUCTIONS TOLD A SESSION TO TEST AN UNTOUCHED PROGRAM — FIXED
+*Found 2026-08-07 by the user, on a session that had done exactly that.*
+
+A fresh session ran `mk2_test` **twice** before changing a single character —
+once in the background, then again in the foreground when the first run's
+output had been swallowed by a pipe, and the container killed the second for
+memory. Nothing was learned: the seam count was already written in three
+documents, and `mk2_stamp.js check` had already proven the file was the one
+those numbers came off.
+
+**The instruction was real, and it was in this repo.** The corrected testing
+rule was written at the top of `HANDOFF-MK2.md` on 2026-08-07 — and **three
+copies of the instruction it replaced were left in place below it**: §3's "Run
+all of these before you claim anything", §3's "The five-minute battery, before
+any claim", and §9's "Before you start: the two-minute orientation", whose
+first command was the seam battery. A reader who obeys the top of a 3,500-line
+file arrives 2,400 lines later and obeys the bottom of it too.
+
+**CLOSED.** All three deleted and replaced with the reasoning rather than the
+verdict: *a battery is a DIFFERENCE instrument, so with nothing changed there
+is no difference to find.* A new RULE ZERO — **on pickup, run nothing** — is at
+the top of `START-PROMPT.md` (the pasted prompt) and `START-HERE.md`, with the
+single exception named: `mk2_stamp.js check`, one second, and the only check
+that can come back false before any work is done.
+
+**The durable lesson, which is not about testing:** a correction placed at the
+top of a document does not repeal the copies of the old rule further down it.
+This repo has now made that mistake with the testing rule, and it is the same
+shape as DERIVE-NEVER-LIST — **when you correct an instruction, grep for its
+other copies and delete them in the same commit.**
+
+### 0b.9 EVERY DOCUMENT SAID SEVEN GENRES; THERE ARE EIGHT
+`MK2.genres()` returns **eight** — `dungeonsynth` is in the declaration, in the
+published artifact, and composes (seed 1: 164 bars, 2033 events, C# minor at 66
+bpm, its own chorus progression). Every document said seven, including the
+sentences in `START-PROMPT.md` and `START-HERE.md` that describe the program.
+**The DERIVE, NEVER LIST rule failing inside the sentence that states the
+rule.** Fixed in both by replacing the count with the command that asks the
+program. **Closing it fully** means a sweep for the remaining "seven genres" /
+"all seven" phrasings in `HANDOFF-MK2.md` and the research docs, several of
+which are load-bearing (a probe that iterates seven names would silently skip
+dungeonsynth — not checked yet, and that is the thing worth checking next).
+
 ### 0b.7 THE HARNESS ITSELF — what 2026-08-07 says about it
 Not a defect in the program; a defect in how it is checked.
 
