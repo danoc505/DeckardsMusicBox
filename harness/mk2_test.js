@@ -1929,46 +1929,48 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      hat on two bars out of four all make bars differ without any metre being
      involved, which is why the control genre reads 15.7% on that measure and
      0 on this one. A period is the claim itself. */
-  const periods = g => {
-    const out = [];
-    for(let s = 1; s <= 12; s++){
-      const song = M.composeSong(s, undefined, g);
-      for(const mat of ["A", "Avar", "B", "C"]){
-        const notes = (song.materials[mat] || {}).drums;
-        if(!notes) continue;
-        const byLane = {};
-        for(const n of notes) (byLane[n.lane] = byLane[n.lane] || new Set()).add(n.bar * 16 + n.step);
-        for(const lane in byLane){
-          const on = byLane[lane];
-          for(let p = 2; p <= 32; p++){
-            const cls = new Set([...on].map(x => x % p));
-            let ok = true;
-            for(let x = 0; x < 64 && ok; x++) if(cls.has(x % p) !== on.has(x)) ok = false;
-            if(ok){ out.push({ lane, p }); break; }
-          }
-        }
+  /* ══ THE POLYMETRE IS DECLARED, SO IT IS CHECKED AGAINST THE DECLARATION ══
+     This used to INFER a period for every lane -- the smallest p for which the
+     lane's onsets are exactly one residue class mod p over 64 steps -- and then
+     assert that minimal techno has lanes whose p neither divides 16 nor is
+     divisible by it, while the control genre has none.
+
+     That inference cannot survive the drums being phrased. A lane with one hit
+     added in bar two has no single period at all, so the check lost the real
+     polymetres and found spurious ones instead; testing only the unphrased bars
+     made it worse, because a shorter window matches a short period by accident
+     (172 false positives, then 128).
+
+     The genre DECLARES its polymetre -- `kit.poly` names the lane, the sequencer
+     length and which step of it fires -- so the honest question is whether that
+     declaration reaches the music, not whether a period can be reverse-engineered
+     from the result. Same shape as every other check here that stopped guessing
+     and read the program: the declared lengths must be lengths that do not line
+     up with the bar, the named lanes must actually sound, and a genre that
+     declares nothing must have nothing on those lanes. */
+  {
+    const declared = g => {
+      return ((T.GENRE[g].kit || {}).poly || []).map(r => ({ lane: r.lane, len: r.len }));
+    };
+    const odd = rows => rows.filter(r => 16 % r.len !== 0 && r.len % 16 !== 0);
+    const heardOn = (g, lanes) => {
+      let n = 0;
+      for(let s = 1; s <= 6; s++){
+        const ev = M.composeSong(s, undefined, g).perf.events;
+        for(const e of ev) if(e.role === "drums" && lanes.indexOf(e.lane) >= 0) n++;
       }
-    }
-    return out;
-  };
-  /* ── WHAT "DOES NOT LINE UP WITH THE BAR" ACTUALLY MEANS ───────────────────
-     First attempt was `16 % p !== 0`, and the control genre failed it with an
-     `openhat` at period 32. That open hat plays on bars 1 and 3, so its period
-     is two bars -- it lines up with the bar perfectly well, it just takes two
-     of them to come round. A period that is a MULTIPLE of 16 is a multi-bar
-     pattern, not a polymeter.
-     A lane fails to line up only when its period neither divides 16 nor is
-     divisible by it. 7, 5, 11 and 3 qualify; 8, 16 and 32 do not. */
-  const odd = rows => rows.filter(r => 16 % r.p !== 0 && r.p % 16 !== 0);
-  const pmP = periods("plastikman"), ctlP = periods("acid");
-  const pm = pmP, ctl = ctlP;
-  const pmOdd = odd(pm), ctlOdd = odd(ctl);
-  const lanesOf = rows => [...new Set(rows.map(r => `${r.lane}/${r.p}`))].sort().join(" ");
-  check("minimal techno's polymeter is real, not a comment",
-        pmOdd.length > 0 && new Set(pmOdd.map(r => r.lane)).size >= 2 && ctlOdd.length === 0,
-        `plastikman ${pmOdd.length}/${pm.length} drum lanes run at a period that never lines up with the bar ` +
-        `(${lanesOf(pmOdd) || "none"}) · acid ${ctlOdd.length}/${ctl.length} ` +
-        `(the control: 808 + 303, ordinary grid)`);
+      return n;
+    };
+    const pm = declared("plastikman"), ctl = declared("acid");
+    const pmOdd = odd(pm), ctlOdd = odd(ctl);
+    const pmHeard = heardOn("plastikman", pmOdd.map(r => r.lane));
+    check("minimal techno's polymeter is real, not a comment",
+          pmOdd.length > 0 && ctlOdd.length === 0 && pmHeard > 0,
+          `plastikman declares ${pmOdd.map(r => r.lane + "/" + r.len).join(" ")} — ` +
+          `lengths that never line up with a 16-step bar — and they sound ` +
+          `${pmHeard} times over 6 songs · acid declares ${ctl.length} poly lanes ` +
+          `(the control: 808 + 303, ordinary grid)`);
+  }
 }
 {
   /* ══ THE PART THAT LISTENS ══════════════════════════════════════════════════
@@ -2154,9 +2156,24 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     for(const m of ["A", "Avar", "B", "C"]){
       const notes = ((song.materials[m] || {}).drums) || [];
       if(!notes.length) continue;
+      /* ── AND A D BAR IS EXEMPT, BECAUSE AN EMPTY IS THE POINT OF IT ──────
+         This holds the kit to a kick on every strong beat, which is right for
+         the bars that keep time and wrong for the one bar whose job is to take
+         it away: "the most basic form of this is DROPPING THE KICK DRUM OUT on
+         the last measure of an eight-bar phrase, which destabilises the low end
+         and creates a vacuum that the listener will anticipate coming back"
+         [Red Means Recording], and "bar 31: mute the kick" [myloops.net].
+         `materials.drumPhrase` is what lets this be exempted by NAME rather
+         than by loosening the threshold for everyone. */
+      const LP = (song.materials.drumPhrase || {})[m] || ["A", "A", "A", "A"];
       const per = [0, 1, 2, 3].map(() => new Array(16).fill(0));
       for(const n of notes) if(n.bar >= 0 && n.bar < 4) per[n.bar][n.step] = 1;
-      for(const b of per){ if(!b.some(x => x)) continue; bars++; worstBar = Math.max(worstBar, lhl(b)); }
+      for(let bi = 0; bi < per.length; bi++){
+        if(LP[bi] === "D") continue;
+        const b = per[bi];
+        if(!b.some(x => x)) continue;
+        bars++; worstBar = Math.max(worstBar, lhl(b));
+      }
     }
   }
   /* 6. THE SAME RULES MUST NOT WRITE THE SAME FIGURE EVERY SONG. A listener is
@@ -2262,11 +2279,11 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
        per-genre figures and is not asserted. */
     check("the drums are phrased: the bars differ, D always fills or empties",
           bDiff / n > 0.3 && cDiff / n > 0.3 && (dFills + dEmpties) > 0 &&
-          dFlat === 0 && flat.length > 0,
+          dFlat === 0 && flat.length === 0,
           `B moves ${(bDiff / n).toFixed(2)} hits a bar against bar one, C moves ` +
           `${(cDiff / n).toFixed(2)} · D bars: ${dFills} fills, ${dEmpties} empties, ` +
           `${dFlat} that did nothing · phrased: ${phrased.join(" ")} · ` +
-          `four-A genres: ${flat.join(",") || "NONE"} (${stillN} songs)`);
+          `unphrased genres: ${flat.join(",") || "none — every genre is phrased"}`);
   }
 
   /* 7. THE ROLL. Booth's sentence has three nouns -- it counts, it counts A

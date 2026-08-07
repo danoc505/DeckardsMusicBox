@@ -980,7 +980,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-07e · the mixer is wired, the roll is readable, and the drums are phrased</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-07f · every genre is phrased; where the hits do not change, a knob does</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -3724,6 +3724,28 @@ function motionAt(plan, key, ev, offset){
       const occ = (plan.secOcc ? plan.secOcc[bar] : 1) - 1;
       d += mv.step * Math.min(occ, mv.cap);
     }
+    /* ── PHRASE: THE OTHER WAY AN EIGHT-BAR SENTENCE CAN BE HEARD ───────────
+       The drums are phrased A B A C A B A D. This moves a KNOB on the same
+       letters, which is what the research says the hypnotic genres do instead
+       of writing hits:
+
+         "Every 4 to 8 bars, one thing is moved: opening the hi-hat filter,
+          dropping the clap for a bar, or automating decay on the shaker"
+          [beatkey.app, How to Make Minimal Techno]
+         "Filter cutoffs, pan positions and volume automated by tiny amounts
+          (1-3 dB, 100-300 Hz) every 4-8 bars" [samplesound / studiotronnic]
+         "Bars 15-16: mute the offbeat hat and drop a short reverb throw"
+          [myloops.net]
+
+       It is the SAME sentence, not a second one: the letters come off the
+       materials, so a genre carrying its phrase in the FX arrives at its C bar
+       and its D bar at the moment the drums would have, and a genre doing both
+       has them land together. `occurrence` counts statements of a section and
+       `section` reads which function is playing; neither can see a phrase. */
+    else if(mv.kind === "phrase"){
+      const L = plan.phrase;
+      if(L && L.length) d += mv.by[L[bar % L.length]] || 0;
+    }
     /* ── THROW: the send that spikes and is gone ────────────────────────────
        A delay throw is not a send level, it is a MOMENT -- the send jumps for a
        beat at the end of a phrase and the tail carries into the next one.
@@ -3770,7 +3792,7 @@ function motionAt(plan, key, ev, offset){
 /* THE PLAN. Built once per song, after the arrangement exists (a gesture needs
    to know where the fills are), frozen, and hung on the song. It is not a
    pipeline stage: it writes no note and no stage reads it. */
-function makeMotion(chart, form, sections){
+function makeMotion(chart, form, sections, materials){
   const G = chart.table || GENRE[chart.genre] || {};
   const spb = (60 / chart.tempo) / 4;
   const nBars = form.nBars;
@@ -3922,6 +3944,11 @@ function makeMotion(chart, form, sections){
         for(const fn in sp.by) by[fn] = drawIn(sp.by[fn], rng);
         out.push(Object.freeze({ kind: "section", by: Object.freeze(by) }));
       }
+      else if(sp.kind === "phrase"){
+        const by = {};
+        for(const L in sp.by) by[L] = drawIn(sp.by[L], rng);
+        out.push(Object.freeze({ kind: "phrase", by: Object.freeze(by) }));
+      }
       else if(sp.kind === "lfo"){
         out.push(Object.freeze({
           kind: "lfo",
@@ -4056,7 +4083,13 @@ function makeMotion(chart, form, sections){
      the song runs. Both are things setSpace would otherwise have to be told
      twice through an already-long positional signature -- and the plan is the
      right owner, because "what moves, where, and on whose panel" is one fact. */
-  return Object.freeze({ spb, nBars, secFn: Object.freeze(secFn),
+  /* THE EIGHT-BAR SENTENCE, so a `phrase` lane moves on the same letters the
+     drums are written in rather than on a second clock of its own. Main copy
+     then variant, which is exactly the order `form.longLoop` plays them in. */
+  const PH = materials && materials.drumPhrase
+           ? materials.drumPhrase.A.concat(materials.drumPhrase.Avar) : null;
+  return Object.freeze({ spb, nBars, phrase: PH ? Object.freeze(PH) : null,
+                         secFn: Object.freeze(secFn),
                          secOcc: Object.freeze(secOcc),
                          drums: (chart.picks && chart.picks.drums) || "kit",
                          seconds: nBars * 16 * spb,
@@ -13641,6 +13674,26 @@ const GENRE = {
        = 0-indexed 0,4,8,12 [corpus:attackmagazine + corpus:wikipedia] */
     pocket: [[[0, 4, 8, 12], 9], [[0, 4, 8, 12, 14], 1]],
     kit: {
+      /* ── THIS GENRE CARRIES ITS PHRASE IN THE FX, NOT IN THE HITS ─────────
+         The eight-bar sentence is universal -- see DRUM_PHRASE in makeMaterials
+         for the sources -- and what a genre chooses is the MEDIUM. Here it is a
+         knob, and that is the whole documented method of this music:
+
+           "Techno is built on repetition, not variation... minimal evolves
+            through micro-variation (filtering, panning, tiny automation), not
+            through adding new parts. Every 4 to 8 bars, ONE THING IS MOVED."
+            [beatkey.app, How to Make Minimal Techno]
+           "Lock the kick, sub and one static percussion element. Let everything
+            else drift." [myloops.net]
+
+         So B and C move a filter and a send instead of writing a hit. The D bar
+         still touches the notes, because every one of those sources puts a MUTE
+         at the phrase end in exactly this music -- "bar 31: mute the kick"
+         [myloops.net], and "taking the kick out and putting it back in is
+         almost everything the genre does for song structure" [Red Means
+         Recording]. An exemption from the phrase was my guess and it was wrong;
+         this is the same sentence spoken in this genre's own voice. */
+      phraseBy: "fx",
       /* THE CLAP, on 2 and 4: "the claps sit on the 2nd and 4th beat of every
          bar ... program it to play on steps 5 and 13" [corpus:attackmagazine].
          The box rig sends this lane to V.clap, not V.snare, and the difference
@@ -13917,6 +13970,28 @@ const GENRE = {
                    { kind: "arc", from: [0, 0], to: [0.04, 0.16], curve: "sCurve" }],
       },
       tr1000: {
+      /* ══ THE EIGHT-BAR SENTENCE, SPOKEN AS A KNOB ═════════════════════════
+         `kit.phraseBy: "fx"` above says this genre's B and C bars move a
+         control instead of writing a hit. These are those controls, and the
+         sizes come from the sources rather than from me:
+
+           "Filter cutoffs, pan positions and volume automated by TINY AMOUNTS
+            (1-3 dB, 100-300 Hz) every 4-8 bars"
+            [samplesound.com and studiotronnic.com, minimal deep tech guides]
+           "Every 4 to 8 bars, one thing is moved: OPENING THE HI-HAT FILTER,
+            dropping the clap for a bar, or automating decay on the shaker"
+            [beatkey.app, How to Make Minimal Techno]
+
+         So the hat's filter opens on the B bar and further on the C bar, and
+         the clap's level dips where a note-phrased genre would have dropped a
+         hit. B is small, C is bigger, D is the largest -- the same shape the
+         letters mean everywhere else in this program, in a different medium.
+
+         AND ON THE SAME CLOCK AS THE DRUMS: `motionAt` reads the letters off
+         the materials, so this lands where the phrase lands rather than on a
+         second cycle drifting against it. */
+      hCut: [{ kind: "phrase", by: { B: [120, 180], C: [260, 380], D: [-220, -90] } }],
+      cMix: [{ kind: "phrase", by: { B: [-0.03, -0.02], C: [-0.08, -0.05], D: [0.04, 0.09] } }],
         /* the acid house version of the same idea: each statement the hats get
            darker and the open hat wetter, so the fourth verse is a different
            room from the first without one drum moving */
@@ -14189,6 +14264,26 @@ const GENRE = {
 
     pocket: [[[0, 4, 8, 12], 9], [[0, 4, 8, 12, 15], 1]],
     kit: {
+      /* ── THIS GENRE CARRIES ITS PHRASE IN THE FX, NOT IN THE HITS ─────────
+         The eight-bar sentence is universal -- see DRUM_PHRASE in makeMaterials
+         for the sources -- and what a genre chooses is the MEDIUM. Here it is a
+         knob, and that is the whole documented method of this music:
+
+           "Techno is built on repetition, not variation... minimal evolves
+            through micro-variation (filtering, panning, tiny automation), not
+            through adding new parts. Every 4 to 8 bars, ONE THING IS MOVED."
+            [beatkey.app, How to Make Minimal Techno]
+           "Lock the kick, sub and one static percussion element. Let everything
+            else drift." [myloops.net]
+
+         So B and C move a filter and a send instead of writing a hit. The D bar
+         still touches the notes, because every one of those sources puts a MUTE
+         at the phrase end in exactly this music -- "bar 31: mute the kick"
+         [myloops.net], and "taking the kick out and putting it back in is
+         almost everything the genre does for song structure" [Red Means
+         Recording]. An exemption from the phrase was my guess and it was wrong;
+         this is the same sentence spoken in this genre's own voice. */
+      phraseBy: "fx",
       /* NO BACKBEAT SNARE. "I always liked to have two different types of claps,
          and I was always into really small rimshots" -- and Spastik's snare is a
          32nd-note roll, not a backbeat. An empty array is the honest encoding;
@@ -14920,6 +15015,28 @@ const GENRE = {
          [corpus:underdog] -- but they are no longer zero on the only thing in
          the room. */
       tr1000: {
+      /* ══ THE EIGHT-BAR SENTENCE, SPOKEN AS A KNOB ═════════════════════════
+         `kit.phraseBy: "fx"` above says this genre's B and C bars move a
+         control instead of writing a hit. These are those controls, and the
+         sizes come from the sources rather than from me:
+
+           "Filter cutoffs, pan positions and volume automated by TINY AMOUNTS
+            (1-3 dB, 100-300 Hz) every 4-8 bars"
+            [samplesound.com and studiotronnic.com, minimal deep tech guides]
+           "Every 4 to 8 bars, one thing is moved: OPENING THE HI-HAT FILTER,
+            dropping the clap for a bar, or automating decay on the shaker"
+            [beatkey.app, How to Make Minimal Techno]
+
+         So the hat's filter opens on the B bar and further on the C bar, and
+         the clap's level dips where a note-phrased genre would have dropped a
+         hit. B is small, C is bigger, D is the largest -- the same shape the
+         letters mean everywhere else in this program, in a different medium.
+
+         AND ON THE SAME CLOCK AS THE DRUMS: `motionAt` reads the letters off
+         the materials, so this lands where the phrase lands rather than on a
+         second cycle drifting against it. */
+      hCut: [{ kind: "phrase", by: { B: [120, 180], C: [260, 380], D: [-220, -90] } }],
+      cMix: [{ kind: "phrase", by: { B: [-0.03, -0.02], C: [-0.08, -0.05], D: [0.04, 0.09] } }],
         /* ── THE THIRD TIME, ON THE GENRE THAT REPEATS MOST ──────────────────
            This music states one figure for nine minutes, so the rule of three
            lands here harder than anywhere: by the third statement of a section
@@ -18006,7 +18123,7 @@ function makeMaterials(chart){
   const STRONG16 = st => st % 4 === 0;              // the quarters
   const OFF8     = st => st % 4 === 2;              // the "ands"
   const HEAVY    = { kick: 1, snare: 1, tom3: 1, tom2: 1, tom1: 1 };
-  function phraseBar(notes, b, letter, rng, K, vocab){
+  function phraseBar(notes, b, letter, rng, K, vocab, byNotes){
     if(letter === "A") return;
     /* ── A VARIATION USES THE KIT THE BEAT IS MADE OF ──────────────────────
        The first build of this drew a lane from a fixed list -- hat, rim, ghost,
@@ -18024,8 +18141,24 @@ function makeMaterials(chart){
        varies within two lanes. Nothing is invented. */
     const heard = () => notes.filter(n => n.bar === b);
     const has = (st, lane) => notes.some(n => n.bar === b && n.step === st && n.lane === lane);
-    const put = (st, lane, vel) => { if(lane && !has(st, lane))
-      notes.push({ bar: b, step: st, dur: 1, lane, vel, role: "drums" }); };
+    /* ── AN ADDED HIT IS A COPY OF AN EXISTING ONE, ALWAYS ──────────────────
+       A drum note is not always {bar, step, lane, vel}: a chopped break carries
+       a `slice` saying which sixteenth of the source record it plays, and a
+       hand-built note without one is a note with no sound behind it. The MIDI
+       export found it first and threw outright -- "Cannot read properties of
+       undefined (reading 'snare')" -- because a break note with no slice has no
+       row to look its drum up in.
+       So this copies the nearest hit of the same lane and overrides only the
+       three fields it means to change. Every field this builder does not know
+       about comes along, which is the same rule as everywhere else here: read
+       what is there rather than writing down what you think is there. */
+    const put = (st, lane, vel) => {
+      if(!lane || has(st, lane)) return;
+      const src = notes.filter(n => n.bar === b && n.lane === lane)[0]
+               || notes.filter(n => n.lane === lane)[0];
+      notes.push(src ? Object.assign({}, src, { bar: b, step: st, vel })
+                     : { bar: b, step: st, dur: 1, lane, vel, role: "drums" });
+    };
     /* ── AND A SUBTRACTION MAY NOT TAKE A STRONG BEAT'S KICK ────────────────
        "Putting hits on these beats will create a very rooted steady pulse that
        we can use to ground our beat." The battery says the same thing from the
@@ -18047,7 +18180,7 @@ function makeMaterials(chart){
       /* an offbeat EIGHTH may take the kick -- the one placement the source
          names for a heavy drum off the quarters. Anything weaker takes a light
          drum of this kit, and if this kit has none, nothing is added at all. */
-      const lane = eighth ? "kick" : pick1(LIGHT);
+      const lane = eighth ? (vocab.indexOf("kick") >= 0 ? "kick" : pick1(vocab)) : pick1(LIGHT);
       /* ── AND NOT NEXT DOOR TO ITS OWN LANE ──────────────────────────────
          Two hits of one drum on adjacent sixteenths is a ROLL, not an
          addition, and the battery reads it as one: it counts adjacent rim
@@ -18055,7 +18188,8 @@ function makeMaterials(chart){
          holds every other genre to zero. A stray grace note beside an
          existing hit made two control genres fail that -- correctly, because
          a flam is a different gesture from "one more hit". */
-      if(lane && !has(st - 1, lane) && !has(st + 1, lane)) put(st, lane, eighth ? 0.72 : 0.34);
+      if(lane && !has(st - 1, lane) && !has(st + 1, lane))
+        put(st, lane, eighth ? 0.72 : 0.34);
     };
     const SUB = () => {
       const pool = droppable();
@@ -18073,8 +18207,12 @@ function makeMaterials(chart){
       n.lane = to;
     };
     const MOVES = [ADD, SUB, SWAP];
-    if(letter === "B"){ MOVES[Math.floor(rng() * 3)](); return; }
-    if(letter === "C"){ MOVES[Math.floor(rng() * 3)](); MOVES[Math.floor(rng() * 3)](); return; }
+    /* the draws run whatever the medium [Law 7]; what changes is whether the
+       result is used, because a genre carrying its phrase in the FX still has
+       to consume the same numbers or every later draw shifts under it */
+    const m1 = Math.floor(rng() * 3), m2 = Math.floor(rng() * 3);
+    if(letter === "B"){ if(byNotes) MOVES[m1](); return; }
+    if(letter === "C"){ if(byNotes){ MOVES[m1](); MOVES[m2](); } return; }
     if(letter === "D"){
       /* both draws run whatever the outcome [Law 7] */
       const wantEmpty = rng() < (K.emptyChance == null ? 0.35 : K.emptyChance);
@@ -18121,29 +18259,79 @@ function makeMaterials(chart){
     }
   }
 
-  /* ── WHICH SHAPE THIS SONG'S DRUMS ARE PHRASED IN, decided once ───────────
-     In the open rather than inside the builder, so the materials can CARRY it:
-     a bar that is a D is an empty or a fill, and the seam battery has to be
-     able to tell one from a beat that has lost its downbeat.
+  /* ══ WHICH SHAPE THIS SONG'S DRUMS ARE PHRASED IN ═════════════════════════
+     Decided in the open rather than inside the builder, so the materials can
+     CARRY it: a bar that is a D is an empty or a fill on purpose, and the seam
+     battery has to be able to tell one from a beat that has lost its downbeat.
 
-     AND A GENRE BUILT ON REPETITION KEEPS ITS REPETITION. `form.varyAsBefore`
-     is the existing, sourced declaration for exactly that -- the genres whose
-     hypnotic quality "comes from automation and modulation rather than constant
-     arrangement changes", where a four-bar loop is supposed to stay a four-bar
-     loop for eight minutes [corpus:attackmagazine]. Phrasing those was my
-     error and the battery named it in two places at once: minimal techno's
-     declared polymetre stopped being measurable and the acid control stopped
-     being a control, because a lane with one hit added in bar two has no period
-     at all. They get four A bars, which is the record they always had. */
-  const DRUM_PHRASE = G.chop ? ["A", "A", "A", "A"]
-                    : G.kit && G.kit.phrase ? wpick(stream(chart.seed, "phrase"), G.kit.phrase)
-                    : (G.form && G.form.varyAsBefore) ? ["A", "A", "A", "A"]
+     ── AND IT APPLIES TO EVERY GENRE. I EXEMPTED THREE AND WAS WRONG. ─────────
+     The first build let a genre opt out through `form.varyAsBefore`, on the
+     argument that hypnotic music's interest "comes from automation and
+     modulation rather than constant arrangement changes". The user's correction
+     was exact -- "the drum rules apply to every genre, it is a rule of music;
+     if the drum hits don't change, the FX does" -- and the research says the
+     same thing in every source, including the one I was already implementing:
+
+       "Listening to a lot of techno, especially the harder genres like schranz
+        or banging techno, TAKING THE KICK OUT AND PUTTING IT BACK IN is almost
+        everything the genre does for song structure."
+        [Jeremy, Red Means Recording -- the same transcript the letters come
+         from. The exemption contradicted its own source.]
+
+       "Every 4 to 8 bars, one thing is moved: opening the hi-hat filter,
+        DROPPING THE CLAP FOR A BAR, or automating decay on the shaker."
+        [beatkey.app, How to Make Minimal Techno]
+
+       Its arrangement template, bar by bar: "Bars 15-16: mute the offbeat hat
+       and drop a short reverb throw... BAR 31: MUTE THE KICK."
+       [myloops.net, How to Build a Techno Groove That Doesn't Sound Repetitive]
+
+     Two of those three moves are note SUBTRACTIONS, in the genres I had
+     declared incapable of them. What the sources actually distinguish is not
+     WHETHER the eight-bar sentence exists but WHICH MEDIUM carries it, and the
+     eight bars themselves are older than any of it -- "the most common phrase
+     length in Western tonal music is some multiple of four measures"
+     [Carnegie Mellon, Hypermeter], "electronic music's structure is built on
+     8-bar phrases" [mastrng.com], "a drum fill is a short phrase dropped into
+     the main groove every eight or 16 bars" [Computer Music].
+     docs/genre-research/rhythm-phrasing.md §8.
+
+     So the letters are universal and `kit.phraseBy` says how they SOUND:
+       "notes"  the hits change            (the default)
+       "fx"     a knob moves instead       (see the `phrase` motion kind)
+       "both"   both, which is most music
+     A genre that wants no phrase writes ["A","A","A","A"] and says so. */
+  const DRUM_PHRASE = (G.kit && G.kit.phrase)
+                    ? wpick(stream(chart.seed, "phrase"), G.kit.phrase)
                     : ["A", "B", "A", "C"];
   const DRUM_PHRASE_END = DRUM_PHRASE[DRUM_PHRASE.length - 1] === "A"
                         ? DRUM_PHRASE : DRUM_PHRASE.slice(0, -1).concat("D");
+  /* how a letter is expressed here. "fx" still gets its D -- every source above
+     describes a mute or a kick drop at the phrase end, in exactly the music
+     that is supposed not to change its notes -- but its B and C are left to the
+     `phrase` motion lane, which moves a knob instead of writing a hit. */
+  const PHRASE_BY = (G.kit && G.kit.phraseBy) || "notes";
   function buildDrums(streamName, variant, phrase){
     /* a genre whose kit IS a break builds one instead of programming lanes */
-    if(G.chop) return buildBreak(streamName, variant);
+    /* ── AND A CHOPPED BREAK IS PHRASED TOO ────────────────────────────────
+       This returned here and the phrase never reached jungle at all, while
+       `materials.drumPhrase` went on claiming a D for it -- a table that lied
+       about the music, which is the exact defect this file checks for
+       everywhere else. A break is still a drum part and an eight-bar sentence
+       is not a property of how the drums were made. The letters are applied to
+       the chopped bars the same way, and `ADD` clones an existing hit rather
+       than fabricating one, so a break note keeps the SLICE that says which
+       part of the record it is. */
+    if(G.chop){
+      const brk = buildBreak(streamName, variant);
+      const V = [];
+      for(const n of brk) if(n.bar === 0 && V.indexOf(n.lane) < 0) V.push(n.lane);
+      const r2 = stream(chart.seed, streamName + ":phrase");
+      const P2 = phrase || DRUM_PHRASE;
+      for(let b = 0; b < BARS; b++)
+        phraseBar(brk, b, P2[b % P2.length], r2, G.kit, V, PHRASE_BY !== "fx");
+      return brk;
+    }
     const rng = stream(chart.seed, streamName);
     const notes = [];
     /* the letters this copy plays. Drawn from the genre if it has an opinion,
@@ -18323,7 +18511,7 @@ function makeMaterials(chart){
          building its own material and not a later stage correcting it: stage 3
          writes the drums, and this is stage 3 finishing the sentence. */
       if(b === 0) for(const n of notes) if(VOCAB.indexOf(n.lane) < 0) VOCAB.push(n.lane);
-      phraseBar(notes, b, PHRASE[b % PHRASE.length], rng, K, VOCAB);
+      phraseBar(notes, b, PHRASE[b % PHRASE.length], rng, K, VOCAB, PHRASE_BY !== "fx");
     }
     return hear(notes, K);
   }
@@ -22196,7 +22384,7 @@ function composeSong(seed, rig, genre, picks, pins){
   /* and the movement those knobs will make. Also stage 6, also after the fact:
      it needs the arrangement to know where the fills are, and it can be built
      last precisely because nothing upstream is allowed to read it. */
-  const motion = makeMotion(chart, form, sections);
+  const motion = makeMotion(chart, form, sections, materials);
   return { chart, form, materials, sections, perf, motion };
 }
 

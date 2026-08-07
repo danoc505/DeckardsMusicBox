@@ -139,3 +139,106 @@ Accent maps from a corpus of 1,150 human performances.
 - Any rule keeping heavy drums off the weakest sixteenths (§3). `pocket` is free
   to put a kick on the last sixteenth, and several genre tables do.
 - The **empty** anywhere except a section's final bar.
+
+---
+
+# §8 The correction: this applies to EVERY genre
+
+The first implementation let a genre opt out through `form.varyAsBefore`,
+exempting acid, minimal techno and jungle on the argument that hypnotic music's
+interest comes from modulation rather than arrangement. **That was a guess, and
+it was wrong.** The user's correction: *"the drum rules apply to every genre, it
+is a rule of music. If the drum hits don't change, the FX does."*
+
+Web research, August 2026. Every source agrees, including the one already quoted
+above.
+
+## The eight-bar phrase is not a producer's habit, it is hypermeter
+
+> "The great majority of symmetrical periods have phrases of either four or
+> eight measures, and indeed **the most common phrase length in Western tonal
+> music is some multiple of four measures**: 4, 8, 12, etc. Many listeners hear
+> hypermeter, a metrical organization that is larger than the notated measure."
+> — [Carnegie Mellon University, *Hypermeter*](https://www.andrew.cmu.edu/user/johnito/music_theory/Form/Form1PhrPer/Hypermeter.pdf)
+
+> "The square phrases are the easiest to grasp as they're the most practiced,
+> especially those of four, eight, and sixteen measures."
+> — [*Phrases, Period, and Form*, Old Music Theory](https://oldmusictheory.com/harmony-2/harmony/8-phrases-period-and-form/)
+
+And in dance music specifically:
+
+> "Electronic music's structure is built on 8-bar phrases… Professional
+> producers typically structure their arrangements using 8, 16, and 32-bar
+> sections."
+> — [mastrng.com, *Techno Song Structure*](https://www.mastrng.com/song-structure-arrangement/)
+
+> "A drum fill is a short phrase dropped into the main groove of a drum track
+> **every eight or 16 bars** in order to energise the transition between
+> sections of a song."
+> — [*Drum Fills*, Computer Music](https://www.pressreader.com/australia/computer-music/20160518/281526520271381)
+
+> "In bar 8 we're going to add a small fill or crash. But this fill has to be
+> different from bar 16… 16 bars before you hear a pattern repeat gives your
+> mind more space to breathe."
+> — [*8 Bars and a Fill*, The Pro Audio Files](https://theproaudiofiles.com/phrasing/)
+
+## The hypnotic genres change every 4–8 bars too — the MEDIUM differs
+
+> "Minimal evolves through micro-variation (filtering, panning, tiny
+> automation), not through adding new parts. **Every 4 to 8 bars, one thing is
+> moved**: opening the hi-hat filter, **dropping the clap for a bar**, or
+> automating decay on the shaker."
+> — [beatkey.app, *How to Make Minimal Techno*](https://beatkey.app/how-to-make-minimal-techno-music)
+
+> "Filter cutoffs, pan positions and volume can be automated by tiny amounts
+> (1–3 dB, 100–300 Hz) **every 4–8 bars**."
+> — [samplesound.com, *Minimal Deep Tech*](https://www.samplesoundmusic.com/blogs/news/minimal-deep-tech-the-ultimate-guide-to-producing-stripped-back-grooves)
+> and [studiotronnic.com, *Minimal Tech House*](https://studiotronnic.com/blogs/news/minimal-tech-house-what-it-is-how-to-produce)
+
+> "Lock the kick, sub and one static percussion element. Let everything else
+> drift… **Bars 15–16: mute the offbeat hat** and drop a short reverb throw…
+> Bars 17–24: hat returns… **Bar 31: mute the kick.**"
+> — [myloops.net, *How to Build a Techno Groove That Doesn't Sound Repetitive*](https://www.myloops.net/how-to-build-a-techno-groove-that-does-not-sound-repetitive)
+
+> "Minimal techno arrangements avoid static loops by constantly introducing
+> small sonic changes every 8–16 bars."
+> — [stealifysounds.com](https://stealifysounds.com/blogs/news/8-best-tips-how-to-produce-minimal-techno)
+
+**Note what two of those moves are.** "Dropping the clap for a bar" is a
+SUBTRACTION. "Mute the kick" is an EMPTY. Both are note changes, in the genres
+I had declared incapable of them.
+
+## And the original source said it outright
+
+> "Listening to a lot of techno, especially the harder genres like schranz or
+> banging techno, **taking the kick out and putting it back in is almost
+> everything the genre does for song structure**."
+> — Red Means Recording, the same transcript §1–§2 came from
+
+The exemption contradicted its own source.
+
+## What the engine does now
+
+The letters are **universal**. `kit.phraseBy` says which medium carries them:
+
+| value | B and C | D |
+|-------|---------|---|
+| `"notes"` (default) | the hits change | fill or empty |
+| `"fx"` | a knob moves — the `phrase` motion kind | fill or empty, still |
+
+`"fx"` still gets its D, because every source above puts a mute or a kick drop
+at the phrase end in exactly the music that is supposed not to change its notes.
+Acid and minimal techno declare `"fx"`; their hat filter opens on the B bar and
+further on the C bar, and their clap dips where a note-phrased genre would drop
+a hit — sized at the 100–300 Hz and 1–3 dB the sources give.
+
+## Two seam checks had to be rewritten, not loosened
+
+- **The polymetre check** inferred a period per lane and asserted minimal techno
+  has odd ones and acid has none. Phrasing destroys that inference — a lane with
+  one added hit has no single period. It now reads `kit.poly`, the genre's own
+  declaration, and checks that those lengths do not line up with the bar and
+  that the lanes sound.
+- **The union-syncopation check** holds the kit to a kick on every strong beat.
+  A D bar is exempt BY NAME, from `materials.drumPhrase`, because dropping that
+  kick is the documented device rather than a fault.
