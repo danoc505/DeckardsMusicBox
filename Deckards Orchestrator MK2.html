@@ -924,7 +924,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-07b · the war drum stops ringing between strikes</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-07c · the drums are in the band an ear can hear</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -7399,9 +7399,28 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     return function(g, ev, t){
       const c = g.ctx;
       const chT = chTune(g, ev), chD = chDecay(g, ev);
-      /* midi -> Hz, from the song's own tonic. A timpano lives roughly D2..A3;
-         the offsets the machine passes keep all three inside that. */
-      const midi = (g.tonic == null ? 45 : g.tonic) + semis;
+      /* ── AND THE TONIC IS A PITCH CLASS, NOT A MIDI NOTE ────────────────────
+         This read `(g.tonic == null ? 45 : g.tonic) + semis`, whose default is
+         a MIDI note and whose actual argument never is: `soundOf` passes
+         `chart.root`, and the chart draws it as `Math.floor(rng() * 12)` -- a
+         PITCH CLASS, 0 to 11. So `midi` ran 0..23 and the three kettles played
+         between 8 AND 31 HERTZ. Not quiet: INAUDIBLE, and worse than inaudible,
+         because subsonic energy still drives the limiter that everything else
+         has to share.
+
+         MEASURED, and only visible once the probe learned to A-weight: the
+         kettles read -21 dB RMS and -57 dB A-WEIGHTED, a 35 dB gap that no
+         instrument in a real register can have. The round before this raised
+         their level from 0.5 to 1.15 on a measurement that was really this bug
+         wearing a level's clothes, which is what happens when a number in the
+         wrong units is treated as a balance problem.
+
+         A timpano lives roughly D2..A3 and the comment above always said so.
+         The pitch class is placed in that octave and the machine's offsets
+         stack on top: 36 + root is C2..B2, plus 0/7/12 for the three kettles,
+         which lands the set in 65..245 Hz where a kettle belongs. */
+      const TIMP_OCTAVE = 36;                        // C2, the bottom of the set
+      const midi = TIMP_OCTAVE + (((g.tonic == null ? 0 : g.tonic) % 12) + 12) % 12 + semis;
       const f0 = 440 * Math.pow(2, (midi - 69) / 12) * chT;
       /* the kettle's own ring control, read off whichever drum panel the plan
          names -- the same door `openGate` uses to find its hold, so a machine
@@ -7430,9 +7449,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
         o.start(t); o.stop(t + ring * dk + 0.05);
         made.push(o);
       }
-      /* the felt mallet: a soft low thump, not a stick. No bandpass at 1.9 kHz
-         the way the tom has one -- that is the click this genre asks not to
-         hear. */
+      /* the felt mallet: a soft low thump, not a stick. */
       const n = burst(g, t, 0.05, ev.tSec.toFixed(5) + ":timp" + semis);
       const lp = c.createBiquadFilter(); lp.type = "lowpass";
       lp.frequency.value = Math.max(180, f0 * 3); lp.Q.value = -3;
@@ -7441,6 +7458,28 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.05);
       n.connect(lp); lp.connect(ng); ng.connect(drumOut(g, ev.lane));
       made.push(n);
+      /* ── AND THE FELT STILL MAKES A SOUND WHEN IT LANDS ─────────────────────
+         There was no band above f0*3 here at all, on the reasoning that a
+         bandpass at 1.9 kHz is "the click this genre asks not to hear" --
+         reading "avoid overly bright transients" [corpus:melodigging] as
+         "remove the attack". Those are different instructions. A felt mallet on
+         a stretched head is not bright and it is not silent either: the
+         contact noise is what lets a kettle be heard from the back of a hall,
+         and A-weighting is positive from 1 to 5 kHz, which is exactly the band
+         that had nothing in it.
+
+         So: a short soft knock at 1.1 kHz with a wide skirt -- felt, not stick.
+         12 ms, low level, gone before the head's own tone establishes. It costs
+         the darkness nothing and it is the difference between a kettle that is
+         in the room and one that is only in the event list. */
+      const k = burst(g, t, 0.02, ev.tSec.toFixed(5) + ":timpk" + semis);
+      const bp = c.createBiquadFilter(); bp.type = "bandpass";
+      bp.frequency.value = 1100; bp.Q.value = 0.7;
+      const kg = c.createGain();
+      kg.gain.setValueAtTime(0.30 * ev.gain, t);
+      kg.gain.exponentialRampToValueAtTime(0.0002, t + 0.012);
+      k.connect(bp); bp.connect(kg); kg.connect(drumOut(g, ev.lane));
+      made.push(k);
       { const tp = gateTap(g, ev.lane); if(tp) ng.connect(tp); }
       openGate(g, ev, t);
       return made;
@@ -7473,7 +7512,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     o.frequency.exponentialRampToValueAtTime(f0, t + 0.11);   // slow, no snap
     const og = c.createGain();
     og.gain.setValueAtTime(0.0001, t);
-    og.gain.exponentialRampToValueAtTime(1.05 * ev.gain, t + 0.012);  // mallet, not beater
+    og.gain.exponentialRampToValueAtTime(0.80 * ev.gain, t + 0.012);  // mallet, not beater
     og.gain.exponentialRampToValueAtTime(0.0002, t + decay);
     o.connect(og); og.connect(drumOut(g, ev.lane));
     o.start(t); o.stop(t + decay + 0.05);
@@ -7488,9 +7527,9 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     /* the head, felt-headed: a short lowpassed puff with no top on it */
     const n = burst(g, t, 0.04, ev.tSec.toFixed(5) + ":war");
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
-    lp.frequency.value = 320; lp.Q.value = -3;
+    lp.frequency.value = 520; lp.Q.value = -3;
     const ng = c.createGain();
-    ng.gain.setValueAtTime(0.3 * ev.gain, t);
+    ng.gain.setValueAtTime(0.55 * ev.gain, t);
     ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.05);
     n.connect(lp); lp.connect(ng); ng.connect(drumOut(g, ev.lane));
     /* ── AND A SECOND DRUM UNDER IT, WHICH IS HOW THE SOURCE SAYS TO DO IT ──
@@ -7511,17 +7550,76 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
        and it is the same idea. */
     const d2 = c.createOscillator(); d2.type = "sine";
     const t2 = t + 0.018;
+    /* ── AND IT USED TO END AN OCTAVE DOWN, WHICH IS BELOW HEARING ───────────
+       This landed at f0 * 0.5. With the head at 44 Hz that is TWENTY-TWO HERTZ,
+       where A-weighting is about -55 dB: the layer that was added to make the
+       drum bigger was in fact the layer that made it invisible, because it
+       carried real amplitude -- driving the limiter the whole record shares --
+       and no loudness at all. 0.75 keeps the "second drum, lower" idea and
+       keeps it in a band an ear has an opinion about. */
     d2.frequency.setValueAtTime(f0 * 1.25, t2);
-    d2.frequency.exponentialRampToValueAtTime(f0 * 0.5, t2 + 0.16);
+    d2.frequency.exponentialRampToValueAtTime(f0 * 0.75, t2 + 0.16);
     const d2g = c.createGain();
     d2g.gain.setValueAtTime(0.0001, t2);
-    d2g.gain.exponentialRampToValueAtTime(0.72 * ev.gain, t2 + 0.022);
+    d2g.gain.exponentialRampToValueAtTime(0.42 * ev.gain, t2 + 0.022);
     d2g.gain.exponentialRampToValueAtTime(0.0002, t2 + decay * 1.35);
     d2.connect(d2g); d2g.connect(drumOut(g, ev.lane));
     d2.start(t2); d2.stop(t2 + decay * 1.35 + 0.05);
-    { const tp = gateTap(g, ev.lane); if(tp){ og.connect(tp); ng.connect(tp); d2g.connect(tp); } }
+    /* ── AND NOW THE PART YOU CAN ACTUALLY HEAR ─────────────────────────────
+       Reported, twice, in opposite words: "worse than ever" and then "it's so
+       far under everything else it's not even there practically". Both were
+       true at once, and it took A-weighting the probe to see how:
+
+         drums   RMS -13.6 dB    A-WEIGHTED -39.9 dB    MISSED(A) -0.38 dB
+
+       Twenty-six dB between what it WEIGHED and what it SOUNDED, and removing
+       it made the record very slightly LOUDER. It was the biggest thing in the
+       mix by energy and contributed nothing audible, because everything in it
+       lived at or below 66 Hz: a 44 Hz head, a 33 Hz shell, a 22 Hz second
+       drum, and a mallet noise lowpassed at 320 Hz. Nothing above 320 Hz
+       existed. An ear needs about 45 dB more level at 40 Hz than at 1 kHz to
+       hear the same loudness, so a drum built entirely down there can only ever
+       eat headroom.
+
+       A real big drum is not quiet up top -- a taiko or a bass drum is heard
+       across a field because of its 150-500 Hz BODY and its 1-3 kHz CONTACT,
+       not because of its fundamental, which most speakers cannot even
+       reproduce. Both were missing and both are here now:
+
+         BODY     a partial around f0*4, 170-260 Hz, gone in a fifth of a
+                  second. This is the "thump" -- the shell moving, not the air.
+         CONTACT  a 15 ms bandpassed knock at 2 kHz. Not a click: it is a
+                  mallet the size of a fist landing on a hide, and it is what
+                  puts the strike at a definite instant instead of a swell.
+
+       "Avoid overly bright transients" [corpus:melodigging] is about not
+       building a trap kit, and it was read here as "have no attack", which is
+       what left this drum with no way into a listener's ear. The knock is
+       under the head by 10 dB and dead in 15 ms; the genre's `kCut` can still
+       shut it if a song wants that. */
+    const body = c.createOscillator(); body.type = "triangle";
+    body.frequency.setValueAtTime(f0 * 4.6, t);
+    body.frequency.exponentialRampToValueAtTime(f0 * 3.6, t + 0.05);
+    const bodyG = c.createGain();
+    bodyG.gain.setValueAtTime(0.0001, t);
+    const bodyDk = Math.min(0.38, decay * 0.5);
+    bodyG.gain.exponentialRampToValueAtTime(1.15 * ev.gain, t + 0.006);
+    bodyG.gain.exponentialRampToValueAtTime(0.0002, t + bodyDk);
+    body.connect(bodyG); bodyG.connect(drumOut(g, ev.lane));
+    body.start(t); body.stop(t + bodyDk + 0.05);
+
+    const knock = burst(g, t, 0.025, ev.tSec.toFixed(5) + ":warknock");
+    const kbp = c.createBiquadFilter(); kbp.type = "bandpass";
+    kbp.frequency.value = 2000; kbp.Q.value = 0.6;
+    const knockG = c.createGain();
+    knockG.gain.setValueAtTime(0.95 * ev.gain, t);
+    knockG.gain.exponentialRampToValueAtTime(0.0002, t + 0.015);
+    knock.connect(kbp); kbp.connect(knockG); knockG.connect(drumOut(g, ev.lane));
+
+    { const tp = gateTap(g, ev.lane); if(tp){ og.connect(tp); ng.connect(tp); d2g.connect(tp);
+                                              bodyG.connect(tp); knockG.connect(tp); } }
     openGate(g, ev, t);
-    return [o, s, n, d2];
+    return [o, s, n, d2, body, knock];
   };
 
 
@@ -16001,8 +16099,43 @@ const GENRE = {
        the bass 6 under [Frances, BandLab tutorial]; +5.3 dB here lands the
        chord about 4 under the tune, which is that, with the struck drum in
        front of both because that is what was asked for. */
-    roleGain: { keys: 0.85, keys2: 0.40, ostinato: 1.70,
-                bass: 0.46, lead: 2.00, counter: 1.30, drums: 1.05 },
+    /* ── AND THE RECORD IS LIMITER-LOCKED, WHICH CHANGES WHAT A FADER MEANS ──
+       Three rounds were spent making the drum louder and the A-weighted level
+       of the WHOLE MIX did not move: -17.8, -17.7, -17.6, -17.5. The master
+       chain ends in a soft clip and a 12:1 limiter at -6 dB, and this record
+       sits on it, so every dB added to one part is a dB taken off every other
+       part. The proof is the leave-one-out column going NEGATIVE: removing the
+       drums made the mix LOUDER, because what they were mostly doing was
+       holding the limiter down.
+
+       So a part cannot be brought forward by raising it. The others have to
+       come down, and the drum's own gain formula caps at 1.25 anyway, which
+       means `drums: 1.40` and `drums: 2.00` are the same number for a kick
+       written at velocity 1.0.
+
+       THE SAME TRAP SITS ONE STAGE EARLIER, on the kit's own bus. Raising
+       `kMix` to 1.60 bought level and paid for it in smear -- the drum bus has
+       a tanh saturator on it, so pushing the channel into it compresses the
+       strike and lifts the tail, and the GAP fell from 22% back to 1%. Level
+       taken there is level taken out of the transient. kMix is back at 1.15,
+       inside the clean part of that curve, and the balance is made with the
+       FADERS of the parts that do not go through it.
+
+       Everything else is about 9 dB down against the kit. The ORDER is
+       unchanged and is still the practitioner's -- the tune in front, the chord
+       under it, the bass under that -- with the struck drum moved above all of
+       them, which is what was asked for and what the sources describe a
+       procession sounding like.
+
+       WHERE IT LANDED, A-weighted, two seeds, full sections:
+         seed 7   drums -27.0 against a mix of -24.2; taking them out drops the
+                  record 2.69 dB, the largest of any part (the tune: 1.37)
+         seed 1   drums -30.5 against -27.5, out = -2.39 dB, war drum crest
+                  16.8 dB with 56% silence between strikes
+       Before this round the same column read MINUS 0.38 dB: removing the drums
+       made the record LOUDER. */
+    roleGain: { keys: 0.32, keys2: 0.17, ostinato: 0.50,
+                bass: 0.22, lead: 0.57, counter: 0.43, drums: 1.40 },
     /* THE PROCESSION, and the palette. The keys are a tape choir or a string
        ensemble, which is what the sources name: "choirs, strings, pipe/chapel
        organs, flutes/recorders, horns, harps" [corpus:melodigging], and a
@@ -16111,8 +16244,8 @@ const GENRE = {
          headroom to bring the direct hit FORWARD instead of louder-and-blurrier:
          kMix 1.30. Final, seed 1, a full section: war drum crest 15.7 dB, gap
          65%, -5.1 dB against the whole mix; kettles 89% gap at -7 to -8. */
-      procession: { bus: 1.05, gate: 0, ring: 1.05,
-                    kTune: -3, kDecay: 0.8, kMix: 1.30, kVerb: 0.05, kEcho: 0.03, kCut: 9000,
+      procession: { bus: 1.00, gate: 0, ring: 1.05,
+                    kTune: 4, kDecay: 0.8, kMix: 1.15, kVerb: 0.05, kEcho: 0.03, kCut: 9000,
                     sTune: 1, sDecay: 1, sMix: 0.62, sVerb: 0.55, sEcho: 0.08, sCut: 9500,
                     /* the kettles were 10.8 dB under the mix -- present in the
                        event list and not in the record. They are the run now,
@@ -16121,8 +16254,8 @@ const GENRE = {
                        landed and the run read as one smear, and at 0.45 room
                        the gaps between runs filled in. 0.85 and 0.30 leave
                        each one able to speak. */
-                    tTune: -2, tDecay: 0.85, tMix: 1.30, tVerb: 0.30, tEcho: 0.08, tCut: 8000,
-                    mTune: -2, mDecay: 0.85, mMix: 1.26, mVerb: 0.30, mEcho: 0.08, mCut: 8000,
+                    tTune: -2, tDecay: 0.85, tMix: 1.20, tVerb: 0.30, tEcho: 0.08, tCut: 8000,
+                    mTune: -2, mDecay: 0.85, mMix: 1.15, mVerb: 0.30, mEcho: 0.08, mCut: 8000,
                     rTune: 1, rDecay: 1, rMix: 0.3, rVerb: 0.4, rEcho: 0.05, rCut: 9000,
                     cTune: 1, cDecay: 1, cMix: 0.3, cVerb: 0.4, cEcho: 0.05, cCut: 9000,
                     hTune: 1, hDecay: 0.8, hMix: 0.28, hVerb: 0.35, hEcho: 0.04, hCut: 9000,
