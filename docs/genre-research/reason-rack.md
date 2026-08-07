@@ -104,6 +104,33 @@ rack. Three concrete faults, all of which fall out of the model:
   decides which strip a lane runs through, so a war drum dropped on the hat
   channel is tuned, decayed and sent by the HAT's knobs. That is stated on the
   control rather than left to be discovered.
+- **THE BASS UNIT IS ONE BOX WITH FIVE ENGINES**, and it is *the same
+  mechanism as the drum machine*, not a second one. The user, after I started
+  building a second: *"We are doing the SAME thing we did with the TR1000!"* and
+  then *"A bass unit that loads different bass engines just like how the tr1000
+  loads different drum kits."* Both were right. `drone`, `subbass`, `reese` and
+  `chipbass` were separate INSTRUMENTS — three of them with **no panel at all**,
+  rendering as grey HTML sliders — and are entries in `tb303.engines` now,
+  exactly as `procession` and `erangDrums` became kits of the TR-1000. One
+  collection, one `pick: true` control whose travel, options and English names
+  all derive from it, one per-entry override of what gets DRAWN (never of what
+  is DECLARED — `controls` stays the union or three seam checks break), and
+  `voiceFor` as the one place `voice` is written.
+
+  **What made it one mechanism rather than two** was generalising the single
+  `picks.drumKit` — a literal written when the drums were the only box with a
+  load switch — into `picks.kit[slot]`, one answer per rack. That literal is
+  precisely why the bass unit *looked* like it needed a mechanism of its own.
+  Nothing in `voiceFor`, `resolvePicks`, `loadSelectEl` or `machineIn` now names
+  a machine, a collection or a slot: they ask `pickCollOf(M)`, so a third box
+  with a load switch is a declaration and no code at all.
+
+  **The keys are prefixed** (`sCut`, `dRes`, `rDetune`, `cBright`) because three
+  engines declare `cut` and two declare `detune` with different ranges — the
+  collision the Erang fold already names in its own comment.
+
+  **Not one note moved**, and that was the constraint: it is a rename plus a
+  repoint, so the snapshot must say IDENTICAL, and it does.
 - **The KIT selector names the kit that is in the machine.** It said "(genre
   draws)" — true about who chose, silent about what is loaded — while the
   machine's own screen said `TR1000 · dungeon` and the strips said WAR DRUM.

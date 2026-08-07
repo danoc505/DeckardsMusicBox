@@ -40,6 +40,13 @@ The instruction used to be "run all of these before you claim anything". That
 is why one session ran the whole chain **eight times** for a day's work and the
 user paid for it and told me to stop. It is replaced by:
 
+- **FIRST, ASK WHAT CAN SEE THE CHANGE.** Most checks cannot see most changes.
+  `mk2_snapshot` hashes the NOTES, so a label, a colour, a panel layout or a
+  select cannot move it — running it on a UI change is a diff against a file
+  you already know is identical, and reporting "not one note moved" afterwards
+  is a sentence that was true before you started. The table in
+  `START-HERE.md` maps what you touched to what can see it. **Say which check
+  you skipped and why**; that is worth more than a green line.
 - **While working:** `mk2_roll.js` and `mk2_test.js` only, and prefer the
   targeted form — a name filter on the battery, or a five-line query against
   the composer, when the question is about one seam.

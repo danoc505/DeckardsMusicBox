@@ -194,6 +194,34 @@ ran the full chain eight times for a day's work, and the user paid for it.
 It is replaced by the rule below, which is written from **measured** costs
 rather than from an impression of them.
 
+### ⚠ WHICH CHECK CAN SEE YOUR CHANGE? Most of them cannot.
+
+*The user, 2026-08-07, on a run of UI-only builds: "It feels like your doing
+tons and tons of seriously unneeded work! Of course NO no changed how could the
+notes change when you working with the UI? Im just not understanding this."*
+
+**There is nothing to understand — it was waste.** A battery is a DIFFERENCE
+instrument, and that is not only true on pickup: it is true of every check
+against every change. `mk2_snapshot` hashes the notes. Drawing a panel, naming
+a knob, moving a select, changing a colour — none of those can move a note, so
+the snapshot is a diff against a file you already know is identical. Running it
+and then reporting "not one note moved" is not evidence. It is a sentence that
+was true before the work started.
+
+**So the rule is: run what can see what you touched.**
+
+| what you touched | what can see it |
+|---|---|
+| labels, CSS, panel layout, what is DRAWN | `mk2_ui` only |
+| a machine's declaration (controls, kits, panel fields) | `mk2_ui` + `mk2_test` |
+| a genre table, a stage, a voice's notes, `voiceFor`, `resolvePicks` | + `mk2_roll`, **and the snapshot — this is what it is for** |
+| the audio graph, a voice's SOUND | + the rendered-audio battery, `probe_render_determinism` |
+| the blend sliders / the MIDI export | `mk2_blend` / `mk2_midi` — and only then |
+
+**And say which one you skipped and why.** "The snapshot cannot see a label" is
+a better sentence than a green IDENTICAL, because it says you knew what you
+were changing.
+
 ### The tools default to the cheap form. Let them.
 
 **No run times are written in these documents any more, and that is

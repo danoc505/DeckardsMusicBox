@@ -885,11 +885,25 @@ const check = (label, ok, detail) => {
          question is whether the union ACROSS kits covers the declaration. Kits
          are walked through the machine's own KIT select, with real events, so
          this also proves that switch reaches the panel. */
-      const kits = await pg.evaluate((mach) => Object.keys(MK2.INSTRUMENTS[mach].kits || {}), mach);
+      /* ── ASKED THROUGH WHATEVER CONTROL LOADS THE BOX, NOT THROUGH `kit` ──
+         This read `INSTRUMENTS[mach].kits` and drove `[data-key="mach.kit"]` --
+         the drum machine's own two names, from when it was the only box with a
+         load switch. The bass unit's collection is `engines` and its control is
+         `engine`, so this walked none of them and reported fourteen of the
+         thirty-six declared controls as undrawn: a red that was true about what
+         it measured and wrong about the program. Derived now, so the third box
+         with a load switch is covered without this being edited again. */
+      const load = await pg.evaluate((mach) => {
+        const M = MK2.INSTRUMENTS[mach];
+        const c = (M.controls || []).find(x => x.pick);
+        const coll = c && M[c.pickFrom || (c.k + "s")];
+        return coll ? { ctrl: c.k, names: Object.keys(coll) } : { ctrl: null, names: [] };
+      }, mach);
+      const kits = load.names;
       const drawnAll = new Set();
       for(const k of (kits.length ? kits : [null])){
         if(k){
-          try { await pg.selectOption(`[data-key="${mach}.kit"]`, k); } catch(e){ /* no select */ }
+          try { await pg.selectOption(`[data-key="${mach}.${load.ctrl}"]`, k); } catch(e){ /* no select */ }
           await pg.waitForTimeout(140);
         }
         const got = await pg.evaluate((mach) => {
@@ -963,13 +977,13 @@ const check = (label, ok, detail) => {
         document.getElementById("new").click();
         await new Promise(r => setTimeout(r, 250));
         const sel = document.querySelector('[data-key="tr1000.kit"]');
-        const kit = MK2.currentSong().chart.picks.drumKit;
+        const kit = MK2.currentSong().chart.picks.kit.drums;
         return { drawn: sel ? sel.options[0].textContent : "(no selector)", loaded: kit,
                  /* what that kit is CALLED — the selector says the name, never
                     the key, so the check has to compare against the name too.
                     This asserted `drawn.includes(loaded)` and went red the hour
                     the names landed: the check was stale, not the program. */
-                 name: (MK2.INSTRUMENTS.tr1000.kitNames || {})[kit] };
+                 name: (MK2.INSTRUMENTS.tr1000.kitNames || {})[kit] };  /* picks.kit is keyed by slot now */
       }, g);
     }
     check("the KIT selector names the kit that is actually in the machine",
@@ -1010,6 +1024,81 @@ const check = (label, ok, detail) => {
           !drove.err && drove.back.join(",") === drove.was.join(","),
           drove.err || `back to ${(drove.back||[]).join(",")} (was ${(drove.was||[]).join(",")})`);
   }
+
+  /* ═══ A BOX WITH A LOAD SWITCH SHOWS THE FACE OF WHAT IS LOADED ═══════════
+     "A bass unit that loads different bass engines just like how the tr1000
+     loads different drum kits." This is the check on that sentence, and it is
+     written to cover BOTH boxes and whatever comes third: it finds every
+     machine with a `pick: true` control, drives that control to every position,
+     and asks three things that each have a way of going quietly wrong.
+
+       · THE PANEL NAMES WHAT IS LOADED. The plate said DEVIL FISH over a Reese
+         and the selector said "sub bass" over a song playing the 303 -- a lie
+         told by the one surface whose job is to describe the machine.
+       · EVERY CONTROL THE LOAD DECLARES IS ON THE GLASS. `controls` has to stay
+         the UNION across loads, so no single load draws everything and it is
+         easy to draw nothing: three Erang instruments once drew zero knobs.
+       · NOTHING ELSE IS. The 303's twenty-one knobs are read only as
+         `P(g, ev, "tb303", …)`, so a SLIDE knob over a sub bass would reach
+         nothing at all -- the defect this whole rack exists to remove. */
+  {
+    const boxes = await pg.evaluate(() => {
+      const out = [];
+      for(const k in MK2.INSTRUMENTS){
+        const M = MK2.INSTRUMENTS[k];
+        const c = (M.controls || []).find(x => x.pick);
+        const coll = c && M[c.pickFrom || (c.k + "s")];
+        if(coll) out.push([k, M.slot, c.k, Object.keys(coll)]);
+      }
+      return out;
+    });
+    const bad = [], seen = [];
+    for(const [mach, slot, ctrl, loads] of boxes){
+      const skins = new Set();
+      for(const load of loads){
+        const r = await pg.evaluate(async (a) => {
+          const [mach, slot, ctrl, load] = a;
+          const s = document.getElementById("m_" + slot);
+          if(s){ s.value = mach; s.dispatchEvent(new Event("change", { bubbles: true }));
+                 await new Promise(r => setTimeout(r, 250)); }
+          const sw = document.querySelector(`[data-key="${mach}.${ctrl}"]`);
+          if(!sw) return { err: "no " + ctrl + " switch on the glass" };
+          sw.value = load; sw.dispatchEvent(new Event("change", { bubbles: true }));
+          await new Promise(r => setTimeout(r, 300));
+          const box = document.querySelector(`.machine[data-machine="${mach}"]`);
+          if(!box) return { err: "no panel" };
+          const M = MK2.INSTRUMENTS[mach];
+          const coll = M[ctrl + "s"] || M[ctrl] || {};
+          const entry = coll[load] || {};
+          /* what this load says it wants drawn; a load with no override wears
+             the machine's own panel, which is the union's own layout */
+          const wants = entry.krow || null;
+          const drawn = [...box.querySelectorAll(".krow [data-key], .deck [data-key]")]
+            .map(e => e.dataset.key.split(".").slice(1).join("."));
+          return { skin: (box.className.match(/sk-[\w-]+/) || [""])[0],
+                   plate: box.querySelector(".model").textContent,
+                   says: document.querySelector(`[data-key="${mach}.${ctrl}"]`).options[0].textContent,
+                   missing: wants ? wants.filter(k => !drawn.includes(k)) : [],
+                   extra: wants ? drawn.filter(k => !wants.includes(k) && k !== ctrl) : [] };
+        }, [mach, slot, ctrl, load]);
+        if(r.err){ bad.push(`${mach}/${load}: ${r.err}`); continue; }
+        skins.add(r.skin);
+        if(r.missing.length) bad.push(`${mach} with ${load} loaded does not draw: ${r.missing.join(" ")}`);
+        if(r.extra.length)   bad.push(`${mach} with ${load} loaded draws another load's knobs: ${r.extra.join(" ")}`);
+        if(!r.says.startsWith(load) && !r.says.toLowerCase().includes(load.toLowerCase())){
+          /* the switch shows the ENGLISH name, so compare against that */
+          const eng = await pg.evaluate(a => (MK2.INSTRUMENTS[a[0]][a[1] + "Names"] || {})[a[2]], [mach, ctrl, load]);
+          if(!eng || !r.says.startsWith(eng)) bad.push(`${mach} with ${load} loaded says "${r.says}"`);
+        }
+      }
+      if(skins.size > 1) bad.push(`${mach} wears ${skins.size} different faces`);
+      else seen.push(`${mach}.${ctrl}: ${loads.length} loads, one face, each drawing its own`);
+    }
+    check("a box with a load switch shows the face of what is loaded, and only that",
+          bad.length === 0 && boxes.length > 0,
+          bad.length ? bad.slice(0, 4).join(" · ") : seen.join(" · "));
+  }
+
 
   /* ═══ NO VARIABLE NAME IS EVER VISIBLE ON THE PAGE ════════════════════════
      Reported: "You can not use the words erang in front of a drum name thats

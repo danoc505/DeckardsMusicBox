@@ -365,6 +365,11 @@
   .sk-td3mo .jacklab{ font-size:7px; letter-spacing:.14em; color:#6b5410;
                       align-self:center; margin-left:.2rem; text-transform:uppercase; }
   /* the main knob row and the lower deck */
+  /* the load switch sits above the knob row, where the machine's own name
+     plate ends -- it is the first thing you touch and the thing that decides
+     what every knob under it means */
+  .sk-td3mo .loadbar{ display:flex; margin:.1rem 0 .45rem 0; }
+  .sk-td3mo .loadbar .kitpick{ min-width:14rem; }
   .sk-td3mo .krow{ display:flex; gap:.5rem; flex-wrap:wrap; align-items:flex-start;
                    padding-bottom:.6rem; }
   .sk-td3mo .deck{ display:flex; gap:.7rem; flex-wrap:wrap; align-items:flex-end;
@@ -1112,7 +1117,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-07l · the drums are named in English, not in code</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-07m · one bass unit, five engines — the same box the TR-1000 is</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -2642,7 +2647,7 @@ const INSTRUMENTS = {
          2 sega, 3 break. A switch, because a machine sliding between two sound
          sets is not a thing that exists. */
       /* declared so the panel can place it; it is drawn as a SELECT and writes
-         PICK.drumKit rather than PARAMS, because which voices are loaded is a
+         PICK.kit[slot] rather than PARAMS, because which voices are loaded is a
          stage-1 decision and not something a note reads. Marked `pick` so the
          batteries know not to demand that a voice read it. */
       /* ITS RANGE IS HOW MANY KITS THERE ARE. It said 0..3 and there are five
@@ -3272,53 +3277,83 @@ const INSTRUMENTS = {
   },
 
   /* ── BASSES ────────────────────────────────────────────────────────────── */
-  drone: {
-    slot: "bass", label: "low drone (Prophet)",
-    lanes: { bass:"drone" },
-    /* every one of these is read by V.drone. A drone has no pick attack, so
-       there is no attack control -- that absence is the instrument. */
-    controls: [
-      { k:"cut",    label:"filter",  cap:"CUTOFF", min:120, max:1400, step:10,   def:420, unit:"Hz" , kind:"gesture" },
-      { k:"res",    label:"reso",    cap:"RESONANCE", min:0.5, max:12, step:0.1, def:3.2 , kind:"gesture" },
-      { k:"detune", label:"detune",  cap:"DETUNE", min:0,   max:1,    step:0.01, def:0.55 , kind:"voicing" },
-    ],
-  },
-  reese: {
-    slot: "bass", label: "Reese",
-    lanes: { bass:"reese" },
-    controls: [
-      /* DETUNE is the instrument. Everything else is dressing. */
-      { k:"detune", label:"detune", cap:"DETUNE", min:2,   max:60,   step:1,    def:22,   unit:"c",  kind:"gesture" },
-      { k:"sub",    label:"sub",    cap:"SUB",    min:0,   max:1,    step:0.01, def:0.45, kind:"gesture" },
-      { k:"cut",    label:"filter", cap:"CUTOFF", min:150, max:4000, step:10,   def:900,  unit:"Hz", kind:"gesture" },
-      { k:"res",    label:"reso",   cap:"RESO",   min:0.5, max:14,   step:0.1,  def:4.0,  kind:"gesture" },
-      { k:"sweep",  label:"sweep",  cap:"SWEEP",  min:0,   max:1,    step:0.01, def:0.35, kind:"gesture" },
-    ],
-    panel: { skin: "reese", maker: "", title: "Reese bass",
-             groups: [{ label: "", keys: ["detune", "sub", "cut", "res", "sweep"] }] },
-  },
-  subbass: {
-    slot: "bass", label: "sub bass",
-    lanes: { bass:"bass" },
-    controls: [
-      /* These two carried `dead:true` for as long as the rack existed: declared,
-         drawn on the panel, greyed out, and read by nothing. They are wired now
-         -- cut is the voice's lowpass, drive is the saw against the sine -- with
-         the constants V.bass shipped with as their defaults, so the sound did
-         not move when they were connected. The def was 1200 Hz against a filter
-         actually fixed at 800; 800 is the honest default. */
-      { k:"cut",  label:"tone",  cap:"TONE",  min:200, max:4000, step:10,  def:800,  unit:"Hz", kind:"gesture" },
-      { k:"drive",label:"drive", cap:"DRIVE", min:0,   max:1,    step:0.01,def:0.20, kind:"gesture" },
-      /* the three that make it a sweep rather than a tone */
-      { k:"env",  label:"sweep", cap:"ENV",   min:0,   max:1,    step:0.01,def:0,    kind:"gesture" },
-      { k:"res",  label:"reso",  cap:"RESO",  min:0.4, max:12,   step:0.1, def:0.6,  kind:"gesture" },
-      { k:"fall", label:"decay", cap:"DECAY", min:0.1, max:1.5,  step:0.05,def:0.8,  kind:"gesture" },
-    ],
-  },
+  /* ── THERE IS ONE BASS MACHINE, AND IT HOLDS FIVE ENGINES ─────────────────
+     `drone`, `reese` and `subbass` were declared here as separate INSTRUMENTS.
+     They are entries in `tb303.engines` now, the way the acoustic kit, the
+     Sega kit, the Gretsch, the break and the dungeon drums are entries in
+     `tr1000.kits` -- one box, many sounds, one panel to learn. The user's
+     words: "A bass unit that loads different bass engines just like how the
+     tr1000 loads different drum kits."
+
+     Their VOICES are untouched and still live in `V` under their own names;
+     what disappears is four boxes in a picker where there should have been one
+     box with a switch on it. Three of them had NO PANEL AT ALL and rendered as
+     grey HTML sliders, which is what a machine gets when nobody is looking at
+     it -- and is the strongest argument that they were never really machines. */
   tb303: {
-    slot: "bass", label: "TB-303 acid",
+    /* ── THE BOX IS NAMED FOR THE BOX, NOT FOR ONE ENGINE ──────────────────
+       It was "TB-303 acid", which was true while it was a 303 and became a
+       false claim about the maker the moment a Reese was loaded into it -- the
+       plate read DEVIL FISH over a voice Devil Fish never built. The TR-1000
+       does not rename itself when you load the Gretsch, and neither does this:
+       THE PLATE NAMES THE BOX AND THE SWITCH NAMES WHAT IS IN IT. The chassis
+       is still drawn from the TD-3-MO, and the acid line keeps its identity
+       where identity belongs -- on the engine, in the switch. */
+    slot: "bass", label: "bass line",
     lanes: { bass:"acid303" },
+    /* ── ONE BASS UNIT, MANY ENGINES ────────────────────────────────────────
+       The user: "The 303 is the multi bass rack just like the tr multi", and
+       then, when I built something else: "A bass unit that loads different bass
+       engines just like how the tr1000 loads different drum kits."
+
+       So this is the TR-1000's mechanism, not a second one. Identical in every
+       part: a collection on the machine, a `pick: true` control whose travel,
+       options and English names all derive from that collection, an entry that
+       may override what gets DRAWN, and `voiceFor` as the one place `voice` is
+       written. `drone`, `subbass`, `reese` and `chipbass` were separate
+       INSTRUMENTS and are now entries here -- exactly what happened to
+       `procession` and `erangDrums`, for exactly the same reason.
+
+       AN ENTRY IS A LANE MAP, like a kit. It may also carry the panel it wants:
+       `krow` / `deck` / `jacks` override what is drawn, never what is declared,
+       because `controls` has to stay the UNION or three seam checks break. Same
+       constraint the drum kits work under, same solution.
+
+       THE KEYS ARE PREFIXED and that is not cosmetic. Three of these engines
+       declare `cut` and `res`, two declare `detune`, with DIFFERENT RANGES --
+       drone's detune is 0..1 and the Reese's is 2..60 cents. Sharing a key
+       would have quietly wired one engine's filter to another's dial, which is
+       the mistake the Erang fold names in its own comment. Ranges, defaults,
+       captions and kinds below are copied from the machines they came from,
+       unchanged, so no sound moves. */
+    engines: {
+      acid:  { lanes: { bass:"acid303" },
+               /* the only engine that reads these note flags -- see bassGridEl */
+               reads: ["accent", "slide"] },
+      sub:   { lanes: { bass:"bass" },
+               krow: ["sCut", "sDrive", "sEnv", "sRes", "sFall"], deck: [], jacks: null },
+      drone: { lanes: { bass:"drone" },
+               krow: ["dCut", "dRes", "dDetune"], deck: [], jacks: null },
+      reese: { lanes: { bass:"reese" },
+               krow: ["rDetune", "rSub", "rCut", "rRes", "rSweep"], deck: [], jacks: null },
+      chip:  { lanes: { bass:"chipBass" },
+               krow: ["cBright"], deck: [], jacks: null },
+    },
+    /* what each engine is called, in English. Same `<control>Names` form the
+       KIT switch uses, so one widget draws both and neither can put a table key
+       on the glass. */
+    engineNames: {
+      acid:  "TB-303 acid line",
+      sub:   "sub bass",
+      drone: "low drone (Prophet)",
+      reese: "Reese",
+      chip:  "FM chip bass",
+    },
     controls: [
+      /* THE ENGINE SWITCH. Travel derived from `engines` by the loop below the
+         instrument table, so adding an engine is one entry and nothing else. */
+      { k:"engine", label:"bass engine", cap:"ENGINE", min:0, max:0, step:1, def:0,
+        kind:"switch", pick: true },
       /* the six that are on the box, in the order they are on the box.
          The filter is a FOUR-pole 24 dB/oct diode ladder -- Roland's "18 dB"
          is marketing, and Stinchcombe measured -23.9 dB/oct four independent
@@ -3423,6 +3458,35 @@ const INSTRUMENTS = {
          existed -- so the default changes nothing and turning it down is what
          gives the short, plucked notes a 303 makes when the gate is brief. */
       { k:"vcaDecay", label:"normal decay",   cap:"NORMAL DECAY", min:0.016, max:3.0, step:0.01, def:3.0, unit:"s", kind:"gesture" },
+
+      /* ── THE OTHER ENGINES' OWN CONTROLS ────────────────────────────────
+         Declared here because `controls` must be the UNION -- three seam
+         checks walk it unconditionally and CONTROL is built from it once --
+         while `engines.<name>.krow` decides which of them a given engine
+         DRAWS. Exactly the arrangement the drum kits work under.
+
+         PREFIXED, because `cut` and `res` are claimed by three of these and
+         `detune` by two, with different ranges each time. Everything else --
+         range, default, caption, unit, kind -- is copied verbatim from the
+         machine it came from, so folding these in moves no sound. */
+      /* the sub bass */
+      { k:"sCut",   label:"sub tone",   cap:"TONE",   min:200, max:4000, step:10,  def:800,  unit:"Hz", kind:"gesture" },
+      { k:"sDrive", label:"sub drive",  cap:"DRIVE",  min:0,   max:1,    step:0.01,def:0.20, kind:"gesture" },
+      { k:"sEnv",   label:"sub sweep",  cap:"ENV",    min:0,   max:1,    step:0.01,def:0,    kind:"gesture" },
+      { k:"sRes",   label:"sub reso",   cap:"RESO",   min:0.4, max:12,   step:0.1, def:0.6,  kind:"gesture" },
+      { k:"sFall",  label:"sub decay",  cap:"DECAY",  min:0.1, max:1.5,  step:0.05,def:0.8,  kind:"gesture" },
+      /* the drone */
+      { k:"dCut",    label:"drone filter", cap:"CUTOFF",    min:120, max:1400, step:10,  def:420, unit:"Hz", kind:"gesture" },
+      { k:"dRes",    label:"drone reso",   cap:"RESONANCE", min:0.5, max:12,   step:0.1, def:3.2, kind:"gesture" },
+      { k:"dDetune", label:"drone detune", cap:"DETUNE",    min:0,   max:1,    step:0.01,def:0.55, kind:"voicing" },
+      /* the Reese */
+      { k:"rDetune", label:"reese detune", cap:"DETUNE", min:2,   max:60,   step:1,    def:22,   unit:"c",  kind:"gesture" },
+      { k:"rSub",    label:"reese sub",    cap:"SUB",    min:0,   max:1,    step:0.01, def:0.45, kind:"gesture" },
+      { k:"rCut",    label:"reese filter", cap:"CUTOFF", min:150, max:4000, step:10,   def:900,  unit:"Hz", kind:"gesture" },
+      { k:"rRes",    label:"reese reso",   cap:"RESO",   min:0.5, max:14,   step:0.1,  def:4.0,  kind:"gesture" },
+      { k:"rSweep",  label:"reese sweep",  cap:"SWEEP",  min:0,   max:1,    step:0.01, def:0.35, kind:"gesture" },
+      /* the chip */
+      { k:"cBright", label:"chip brightness", cap:"TL", min:0, max:1, step:0.01, def:0.60, kind:"gesture" },
     ],
     /* THE 303'S PANEL. The knob row is the box's own, in the box's own order and
        with its own legends. The STEP GRID is not: a real 303 is programmed
@@ -3457,7 +3521,7 @@ const INSTRUMENTS = {
        because leaving them out is what made this panel stop looking like the
        machine in the first place. */
     panel: {
-      skin: "td3mo", maker: "Devil Fish", title: "Modded Out Bass Line",
+      skin: "td3mo", maker: "DECKARD", title: "Bass Line",
       jacks: [["FILTER", "IN"], ["FILTER FM", "IN"], ["FILTER CV", "IN"], ["", ""],
               ["ACCENT", "IN"], ["SLIDE", "IN"], ["GATE", "IN"], ["CV", "IN"], ["SYNC", "IN"],
               ["ACCENT", "OUT"], ["GATE", "OUT"], ["CV", "OUT"], ["FILTER", "OUT"], ["PHONES", ""]],
@@ -3496,16 +3560,8 @@ const INSTRUMENTS = {
       grid: "bass",
     },
   },
-  chipbass: {
-    slot: "bass", label: "YM2612 FM bass",
-    lanes: { bass:"chipBass" },
-    controls: [
-      /* on this chip brightness IS total level on the modulator: a lower TL
-         drives the carrier harder and puts more partials in. Wired as a TL
-         offset, zero at the default. [theory: YM2612 TL] */
-      { k:"bright", label:"brightness", cap:"TL", min:0, max:1, step:0.01, def:0.60, kind:"gesture" },
-    ],
-  },
+  /* the FM chip bass is `tb303.engines.chip` -- see the note above the basses.
+     Its control is `cBright` there; the voice is still `V.chipBass`. */
 
   /* ── KEYBOARDS ─────────────────────────────────────────────────────────── */
   rhodes: {
@@ -3934,6 +3990,17 @@ INSTRUMENTS.erangLead = {
    What varies per kit is what gets DRAWN, never what is DECLARED. */
 const kitLanes = k => (k && k.lanes) ? k.lanes : k;
 const kitFace  = k => (k && k.lanes) ? k : null;
+/* ── WHICH CONTROL LOADS THIS BOX, AND WHAT DOES IT LOAD FROM? ──────────────
+   The TR-1000 has `kit` picking `kits`; the bass unit has `engine` picking
+   `engines`. Everything downstream -- voiceFor, resolvePicks, the panel, the
+   select on the glass -- asks THIS rather than naming either, so a third box
+   with a collection is a declaration and no code at all. That is the whole
+   point: the last time this question came up I answered it by writing a second
+   mechanism, and the user's reply was that it is the same thing we did with the
+   TR-1000. It is. */
+const pickCtrlOf = M => M && (M.controls || []).find(c => c.pick);
+const pickCollOf = M => { const c = pickCtrlOf(M); return c && M[c.pickFrom || (c.k + "s")]; };
+const pickNamesOf = M => { const c = pickCtrlOf(M); return (c && M[c.k + "Names"]) || {}; };
 for(const m in INSTRUMENTS){
   const M = INSTRUMENTS[m];
   if(!M.kits) continue;
@@ -4529,14 +4596,18 @@ function freezePins(pins){
 }
 
 /* the machine a slot is currently using; "auto" means the genre's rig decides */
-/* `drumKit` sits beside the three slots because it is the same KIND of decision:
-   an input the conductor may pin, which stage 1 resolves against the genre's own
-   draw. The TR-1000's KIT key writes it. null means "let the genre draw". */
-/* `lane` sits here too, and is the same kind of thing one level down: which
-   SOUND the hand has put in each drum channel. Empty means every channel plays
-   what the kit says. resolvePicks validates it against the derived sets and
-   freezes it into the chart beside `mute`. */
-const PICK = { drums: "auto", bass: "auto", keys: "auto", drumKit: null, lane: {} };
+/* `kit` sits beside the three slots because it is the same KIND of decision one
+   level down: WHAT IS LOADED in the box a slot holds -- a drum kit in the
+   TR-1000, an engine in the bass unit. Keyed by SLOT, one answer per rack,
+   because that is the shape of the question; it used to be a single `drumKit`
+   written for the drums alone, which is precisely why the bass unit looked like
+   it needed a mechanism of its own. It did not. Empty means "let the genre
+   draw". */
+/* `lane` is the same kind of thing one level down again: which SOUND the hand
+   has put in each drum channel. Empty means every channel plays what the kit
+   says. resolvePicks validates both against the derived sets and freezes them
+   into the chart beside `mute`. */
+const PICK = { drums: "auto", bass: "auto", keys: "auto", kit: {}, lane: {} };
 /* and what the user has programmed on their grids, same shape as chart.pins */
 const PINS = {};
 
@@ -5337,12 +5408,21 @@ function voiceFor(chart, lane, over){
   if(byHandLane) return byHandLane;
   const M = m && m !== "auto" && INSTRUMENTS[m];
   if(M){
-    /* THE KIT FIRST, then the machine's own lanes. A machine with a `kits` table
-       is one box that can have different voices loaded into it; the chart said
-       which, in stage 1, on the rack's own stream. Stage 5 still writes `voice`
-       in exactly one place -- this is that place, asking one more question. */
-    const kit = chart.picks.drumKit;
-    const KL = kit && M.kits && kitLanes(M.kits[kit]);
+    /* WHAT IS LOADED IN THE BOX, then the box's own lanes. A machine with a
+       pick collection -- the TR-1000's `kits`, the bass unit's `engines` -- is
+       ONE box that can have different voices in it; the chart said which, in
+       stage 1, on the rack's own stream. Stage 5 still writes `voice` in
+       exactly one place: this is that place, asking one more question.
+
+       ASKED BY SLOT, not by the name `drumKit`. That literal was the drums'
+       alone, so a second machine with a collection -- the bass unit -- had no
+       way to be asked at all, which is how I nearly built it a second
+       mechanism. `picks.kit[slot]` is one question with one answer per rack;
+       `pickCollOf` finds the collection by asking the machine which control it
+       marked `pick`, so no machine and no collection name appears here. */
+    const load = chart.picks.kit && chart.picks.kit[SLOT_OF[lane]];
+    const coll = pickCollOf(M);
+    const KL = load && coll && kitLanes(coll[load]);
     if(KL && KL[lane]) return KL[lane];
     if(M.lanes[lane]) return M.lanes[lane];
     /* the second keyboard plays a KEYS machine, and a keys machine declares a
@@ -5452,6 +5532,15 @@ function drumLoad(){
 /* which racks hold something that plays PITCHES, and can therefore stand in for
    each other. Drums and fx are not here on purpose -- see voiceFor. */
 const PITCHED_SLOT = { bass:1, keys:1, keys2:1, lead:1 };
+/* WHICH RACKS COULD EVER HOLD A BOX WITH A LOAD SWITCH. Derived from the
+   instrument table, so it is the same for every song -- which is the whole
+   point: resolvePicks draws a load per rack and a draw whose PRESENCE varies
+   per song starves every later draw on the stream. Declared after canFill
+   because it asks canFill. */
+let LOADABLE_SLOTS = null;
+const loadableSlots = () => LOADABLE_SLOTS || (LOADABLE_SLOTS = RACK_SLOTS.filter(s =>
+  Object.keys(INSTRUMENTS).some(k => canFill(s, k) && pickCollOf(INSTRUMENTS[k]))));
+
 /* CAN THIS BOX GO IN THIS RACK? One answer, used by the picker to decide what
    to offer and by resolvePicks to decide what to accept, so the list you can
    see and the list that works are the same list by construction. */
@@ -5501,7 +5590,48 @@ function machineIn(chart, slot){
     const M = INSTRUMENTS[k];
     if(M.slot === slot && M.lanes && M.lanes[slot] === voice) return k;
   }
+  /* ── AND A BOX THAT HOLDS THE VOICE IN ONE OF ITS LOADS ──────────────────
+     This asked only a machine's OWN `lanes`, which was true while every sound
+     was its own box. It is not any more: the sub bass, the drone, the Reese and
+     the chip bass are engines of the one bass unit, so a rig naming `drone`
+     matched nothing and the whole bass rack vanished from the page -- the
+     dropdown gone with it, so there was no way to load anything back.
+
+     Exactly the regression the drum fold had to fix one layer along, which is
+     why it is written generally: ask every machine's pick collection, not the
+     bass unit's. */
+  for(const k in INSTRUMENTS){
+    const M = INSTRUMENTS[k], coll = M.slot === slot && pickCollOf(M);
+    if(!coll) continue;
+    for(const name in coll){ const L = kitLanes(coll[name]); if(L && L[slot] === voice) return k; }
+  }
   return m;
+}
+/* WHICH LOAD IN THAT BOX IS PLAYING THIS SLOT. The panel has to say what is
+   actually sounding: with the nemo rig the bass unit plays the drone, and a
+   face showing the acid line's eleven knobs would be a lie told by the one
+   surface whose whole job is to describe the machine. Returns null when the
+   box's own `lanes` already answer -- there is nothing loaded over the top. */
+function loadIn(chart, slot){
+  const named = chart.picks && chart.picks.kit && chart.picks.kit[slot];
+  if(named) return named;
+  const M = INSTRUMENTS[machineIn(chart, slot)], coll = pickCollOf(M);
+  if(!coll) return null;
+  /* ── ASK THE ONE FUNCTION THAT OWNS THE ANSWER ─────────────────────────
+     This read `RIG[chart.rig][slot]`, which is only the LAST of the four things
+     that decide a voice. MEASURED: on synthwave seeds where the genre draws the
+     303 explicitly, the rig still says "bass", so the panel said "sub bass" over
+     a song playing the acid line. The rig is the fallback, not the answer.
+
+     `voiceFor` is the single owner of which voice plays a lane -- mute, then the
+     hand, then the load, then the machine, then the rig -- so asking it means
+     the panel cannot disagree with the ear by construction. It works here
+     because for every pitched rack the SLOT IS the lane; the drums answer
+     through `picks.kit` above and never reach this. */
+  const voice = voiceFor(chart, slot);
+  if(!voice) return null;
+  for(const name in coll){ const L = kitLanes(coll[name]); if(L && L[slot] === voice) return name; }
+  return null;
 }
 
 /* A SLOT'S MACHINE: what the user asked for if it exists and fits the slot, else
@@ -5584,13 +5714,49 @@ function resolvePicks(genre, picks, seed){
        other role, which is also what Law 4 asks for. */
     if(fits(want)) byHand[slot] = true;
   }
-  /* WHICH KIT IS LOADED, drawn on the same stream and in the same breath as the
-     machines -- because on this instrument the kit IS the choice of sounds and
-     the machine is the choice of architecture. The draw runs whether or not the
-     genre names kits [Law 7]. A genre that says nothing gets the machine's own
-     `lanes`, which is the analog kit. */
-  const kitDraw = M.drumKit ? wpick(rng, M.drumKit) : (rng(), null);
-  const wantKit = picks && picks.drumKit;
+  /* WHAT IS LOADED IN EACH BOX, drawn on the same stream and in the same breath
+     as the machines -- because on a box like this the LOAD is the choice of
+     sounds and the machine is the choice of architecture. The draw runs whether
+     or not the genre names one [Law 7]. A genre that says nothing gets the
+     machine's own `lanes`.
+
+     ── ONE LOOP, EVERY RACK ────────────────────────────────────────────────
+     This was written for the drums alone: a single `out.drumKit`, fed by a
+     single `machines.drumKit`. So when the bass unit arrived -- one box holding
+     five engines, which is the same sentence -- there was nowhere to put its
+     answer, and I started building it a second mechanism. The user stopped me:
+     "We are doing the SAME thing we did with the TR1000!" Right. It is one
+     question per rack, so it is one loop over the racks, and the genre names
+     its choice under the slot: `machines.kit.drums`, `machines.kit.bass`.
+
+     Nothing below names a machine, a collection or a slot. `pickCollOf` asks
+     the machine which of its controls it marked `pick` and which collection
+     that control draws from, so a third box with a load switch is a
+     declaration and no code at all. */
+  const kitOf = {};
+  const kitTable = (GENRE[genre] && GENRE[genre].machines && GENRE[genre].machines.kit) || {};
+  /* ── WHICH RACKS DRAW, AND WHY IT IS THIS LIST AND NOT `RACK_SLOTS` ───────
+     The draw has to run whether or not a genre names a load [Law 7] -- a draw
+     inside a per-song condition starves every later draw on the stream. But
+     "does the machine that landed in this slot have a load switch?" IS a
+     per-song condition, so it cannot be the gate either.
+
+     `LOADABLE_SLOTS` is the gate: the racks that could EVER hold a box with a
+     load switch, derived from the instrument table and therefore the same for
+     every song. Two draws today, drums then bass, in RACK_SLOTS order.
+
+     MEASURED, and this is why the list is not simply RACK_SLOTS: looping all
+     six burned four extra numbers on this stream ahead of the drums' draw, and
+     the snapshot went CHANGED on 46 of 200 songs with event counts moving. The
+     old code drew ONCE here, for the drums, and it was the LAST use of this
+     stream -- so drums keeps its exact position and bass's draw lands after
+     everything that existed before. Not one note moves. */
+  for(const slot of loadableSlots()){
+    const MI = INSTRUMENTS[out[slot]];
+    const coll = pickCollOf(MI);
+    const drew = kitTable[slot] ? wpick(rng, kitTable[slot]) : (rng(), null);
+    if(!coll) continue;
+    const want = picks && picks.kit && picks.kit[slot];
   /* ── AND THE MACHINE'S OWN KIT SWITCH IS A THIRD WAY TO SAY IT ─────────────
      THIS EXISTS BECAUSE OF A DEFECT I SHIPPED. `2026-08-07h` folded the dungeon
      synth drums into the TR-1000 as kits and wrote the genre's choice into
@@ -5609,24 +5775,31 @@ function resolvePicks(genre, picks, seed){
      THE FIX IS NOT TO DELETE THE PARAMS FORM, it is to make it true. A switch
      on the front of a machine that says KIT should choose the kit; that is what
      its label promises and what the user asked for ("it is the tr multi kit").
-     So the order is: the hand, then the genre's `machines.drumKit`, then the
-     genre's own KIT switch setting, then the machine's lanes. `drawParam` has
+     So the order is: the hand, then the genre's `machines.kit.<slot>`, then the
+     genre's own switch setting, then the machine's lanes. `drawParam` has
      already resolved a name like "dungeon" to the switch's index by here, so
      this maps it back through the same collection the switch takes its travel
      from -- one list, asked twice, never copied. */
-  let panelKit = null;
-  if(!wantKit && !kitDraw){
-    const dm = out.drums;
-    const MI = dm && dm !== "auto" && INSTRUMENTS[dm];
-    const kitsOf = MI && MI.kits;
-    if(kitsOf){
-      const declared = ((GENRE[genre].params || {})[dm] || {}).kit;
-      const idx = drawParam({ seed }, dm, "kit", declared);
-      const names = Object.keys(kitsOf);
-      if(Number.isFinite(idx) && names[idx]) panelKit = names[idx];
+    /* ── AND ONLY IF THE GENRE ACTUALLY SAID SOMETHING ────────────────────
+       This branch reads the machine's own load switch as a third way to name a
+       load, and it must not INVENT one. MEASURED, with it ungated: synthwave
+       declares nothing about the bass unit, `drawParam` returned an index
+       anyway, and the panel said "sub bass" over a song playing the 303 -- a
+       lie told by the one surface whose job is to describe the machine, which
+       is the defect this whole rack exists to remove. A genre that has not
+       named a load has not named one. */
+    let panelPick = null;
+    const c = pickCtrlOf(MI);
+    const declared = ((GENRE[genre].params || {})[out[slot]] || {})[c.k];
+    if(!want && !drew && declared !== undefined){
+      const idx = drawParam({ seed }, out[slot], c.k, declared);
+      const names = Object.keys(coll);
+      if(Number.isFinite(idx) && names[idx]) panelPick = names[idx];
     }
+    const landed = want || drew || panelPick;
+    if(landed && coll[landed]) kitOf[slot] = landed;
   }
-  out.drumKit = wantKit || kitDraw || panelKit;
+  out.kit = Object.freeze(kitOf);
   /* the mute set rides on `picks` beside `drumKit`, which is the other key here
      that is not a slot. Frozen with the rest: nothing downstream may decide to
      un-mute a rack the hand switched off. */
@@ -7882,8 +8055,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
        Both were already the right shape for a knob; they were simply not
        connected to one. Wired here, with the old constants as the defaults, so
        nothing about the shipped sound moved. */
-    const cut = P(g, ev, "subbass", "cut", 800);
-    const drive = P(g, ev, "subbass", "drive", 0.20);
+    const cut = P(g, ev, "tb303", "sCut", 800);
+    const drive = P(g, ev, "tb303", "sDrive", 0.20);
     const flt = c.createBiquadFilter(); flt.type = "lowpass";
     flt.frequency.value = cut;
     /* ── THE RESONANT SWEEP, which this voice did not have and synthwave is
@@ -7895,13 +8068,13 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
        the 303 half the time and got a sweep; the other half it got a sub with
        no movement in it at all. env 0 is off, which is what every other genre
        here wants. [corpus:reverbmachine/nightcall] ── */
-    const env = P(g, ev, "subbass", "env", 0);
-    flt.Q.value = P(g, ev, "subbass", "res", 0.6);
+    const env = P(g, ev, "tb303", "sEnv", 0);
+    flt.Q.value = P(g, ev, "tb303", "sRes", 0.6);
     if(env > 0.01){
       const top = Math.min(9000, cut * (1 + 7 * env));
       flt.frequency.setValueAtTime(top, t);
       flt.frequency.exponentialRampToValueAtTime(Math.max(60, cut),
-        t + Math.min(2.0, Math.max(0.06, ev.durSec * P(g, ev, "subbass", "fall", 0.8))));
+        t + Math.min(2.0, Math.max(0.06, ev.durSec * P(g, ev, "tb303", "sFall", 0.8))));
     }
     out.connect(flt); flt.connect(chanIn(g, "bass"));
     const o1 = osc(c, "sine", f, t, end);
@@ -9253,9 +9426,9 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 1.8;
     const out = c.createGain();
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
-    lp.frequency.value = P(g, ev, "drone", "cut", 420); lp.Q.value = P(g, ev, "drone", "res", 3.2);
+    lp.frequency.value = P(g, ev, "tb303", "dCut", 420); lp.Q.value = P(g, ev, "tb303", "dRes", 3.2);
     out.connect(lp); lp.connect(chanIn(g, "bass"));
-    const made = [], det = P(g, ev, "drone", "detune", 0.55);
+    const made = [], det = P(g, ev, "tb303", "dDetune", 0.55);
     for(const cents of [-7 * det, 0, 7 * det]){
       const o = c.createOscillator(); o.type = "sawtooth";
       o.frequency.value = f; o.detune.value = cents;
@@ -9263,8 +9436,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       o.connect(og); og.connect(out); o.start(t); o.stop(end); made.push(o);
     }
     /* the filter opens slowly across the note -- a slow VCF, not an envelope */
-    lp.frequency.setValueAtTime(P(g, ev, "drone", "cut", 420) * 0.55, t);
-    lp.frequency.linearRampToValueAtTime(P(g, ev, "drone", "cut", 420), t + Math.min(3.0, ev.durSec));
+    lp.frequency.setValueAtTime(P(g, ev, "tb303", "dCut", 420) * 0.55, t);
+    lp.frequency.linearRampToValueAtTime(P(g, ev, "tb303", "dCut", 420), t + Math.min(3.0, ev.durSec));
     adsr(c, out, t, LEVEL.bass * 1.30 * ev.gain, 0.35, 0.80, 0.90, t + ev.durSec, 1.20);
     return made;
   };
@@ -9373,15 +9546,15 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
   V.reese = function(g, ev, t){
     const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 1.2;
     const out = c.createGain();
-    const cut0 = P(g, ev, "reese", "cut", 900);
+    const cut0 = P(g, ev, "tb303", "rCut", 900);
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
-    lp.frequency.value = cut0; lp.Q.value = P(g, ev, "reese", "res", 4.0);
+    lp.frequency.value = cut0; lp.Q.value = P(g, ev, "tb303", "rRes", 4.0);
     out.connect(lp); lp.connect(chanIn(g, "bass"));
-    const made = [], subAmt = P(g, ev, "reese", "sub", 0.45);
+    const made = [], subAmt = P(g, ev, "tb303", "rSub", 0.45);
     /* THE GROWL: three saws, detuned in CENTS and wide. At 22 cents a pair at
        55 Hz beat about 0.7 times a second, and the partials higher up beat
        faster -- which is the "wub", and why it is not an LFO. */
-    const det = P(g, ev, "reese", "detune", 22);
+    const det = P(g, ev, "tb303", "rDetune", 22);
     const growl = c.createGain(); growl.gain.value = 1 - 0.55 * subAmt;
     growl.connect(out);
     for(const cents of [-det, 0, det * 0.82]){
@@ -9399,7 +9572,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     sub.connect(sg); sg.connect(out); sub.start(t); sub.stop(end); made.push(sub);
     /* and the filter moves across the note, which is the other half of it --
        Saunderson's original was phase distortion plus filter modulation */
-    const sweep = P(g, ev, "reese", "sweep", 0.35);
+    const sweep = P(g, ev, "tb303", "rSweep", 0.35);
     if(sweep > 0.01){
       lp.frequency.setValueAtTime(cut0 * (1 + 2.2 * sweep), t);
       lp.frequency.exponentialRampToValueAtTime(Math.max(60, cut0),
@@ -10031,7 +10204,17 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       const c = g.ctx, PATCH = YM_PATCH[patchName], n = ymNote(ev.pitch);
       /* +-24 TL either side of the patch. 24 is 4 of the chip's 6 dB steps, i.e.
          about 18 dB of modulator level, which is a wide but not silly range. */
-      const brightTL = machine ? (0.60 - P(g, ev, machine, "bright", 0.60)) * 48 : 0;
+      /* ── READ WITH A LITERAL KEY, ONE BRANCH PER MACHINE ─────────────────
+         This was `P(g, ev, machine, brightKey, 0.60)` -- correct, wired, and
+         INVISIBLE TO THE STATIC SCANNER, which reads `P(g, ev, "<machine>",
+         "<key>")` as literals and reported `tb303.cBright` as a knob that
+         reaches nothing. Third time my own code shape has defeated that scanner
+         (spread args, then a dotted machine expression, now a variable key), so
+         the rule is worth stating: A CONTROL READ THE BATTERY CANNOT SEE IS A
+         CONTROL NOBODY CAN PROVE IS WIRED. Two plain calls instead. */
+      const brightTL = !machine ? 0
+        : machine === "tb303" ? (0.60 - P(g, ev, "tb303", "cBright", 0.60)) * 48
+        : (0.60 - P(g, ev, machine, "bright", 0.60)) * 48;
       const ksv = op => n.kcode >> (op.rs ^ 3);         // KSR: high notes decay faster
       const car = YM.CARRIERS[PATCH.alg];
       /* normalise by the algorithm's carrier sum so the peak is LEVEL * gain
@@ -10108,7 +10291,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
   }
   /* the two that have a rack panel get its name, so their BRIGHTNESS slider is
      wired; lead and counter have no panel and pass none. */
-  V.chipBass    = chipVoice("chipBass",    "bass", LEVEL.bass, "chipbass");
+  V.chipBass    = chipVoice("chipBass",    "bass", LEVEL.bass, "tb303");
   V.chipKeys    = chipVoice("chipKeys",    "keys", LEVEL.keys, "chipkeys");
   V.chipLead    = chipVoice("chipLead",    "lead", LEVEL.lead);
   V.chipCounter = chipVoice("chipCounter", "lead", LEVEL.counter);
@@ -11978,7 +12161,7 @@ const GENRE = {
          7/3 acoustic/analog becomes 4/3/3. Its open hat, toms, crash and rim
          still fall back to the synthesised voices -- that is the half of it
          that is not populated, and it is written down rather than hidden. */
-      drumKit: [["acoustic", 4], ["gretsch", 3], ["analog", 3]],
+      kit: { drums: [["acoustic", 4], ["gretsch", 3], ["analog", 3]] },
       bass:  [["auto", 1]],
       keys:  [["auto", 8], ["mellotron", 2]],
       /* THE HORN, AND THE SECOND PAIR OF HANDS. Both slots existed and no genre
@@ -12060,11 +12243,11 @@ const GENRE = {
          why the numbers here are the shipped constants rather than a taste
          call: darker than the panel default on the sub, and the chip left at the
          patch's own brightness. Move them from here, with ears. */
-      subbass:   { cut: 720, drive: 0.18 },
+      /* was `subbass` + `chipbass`; engines `sub` and `chip` of the bass unit */
+      tb303:     { sCut: 720, sDrive: 0.18, cBright: 0.60 },
       /* a quarter note, soft, dark: a tape slap rather than a dub delay */
       echo:      { div: 4, fb: 0.16, tone: 1800, hp: 160, send: 0.10, verb: 0.45,
                    width: 0.22 },
-      chipbass:  { bright: 0.60 },
       chipkeys:  { bright: 0.60 },
     },
     /* and the movement. Small everywhere: this genre's whole affect is that
@@ -12444,28 +12627,8 @@ const GENRE = {
          this is the first time any genre has been able to reach them. The tone
          opens where the song opens and closes for the bridge; the drive puts
          teeth on it at the peak and takes them off underneath. */
-      subbass: {
-        cut:   [{ kind: "section", by: { intro: [-260, -140], chorus: [180, 520],
-                                         bridge: [-300, -160], outro: [-320, -180] } },
-                { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [60, 180], shape: "tri" }],
-        drive: [{ kind: "section", by: { chorus: [0.05, 0.16], bridge: [-0.10, -0.04] } }],
-        /* lofi's sub does not sweep -- env stays at 0 here and the movement is
-           small -- but the controls exist on this panel now, so this genre
-           still says what it wants of them rather than leaving them to drift
-           with whatever the last genre set. */
-        env:   [{ kind: "section", by: { chorus: [0.02, 0.06] } }],
-        res:   [{ kind: "lfo", bars: [[16, 2], [8, 1]], depth: [0.05, 0.20], shape: "sin" }],
-        /* a section-only move on a section this genre often does not have is a
-           lane that sometimes does nothing -- seed 1's form is
-           chorus,verse,chorus,verse,chorus,outro and the battery caught it as a
-           dead lane. An LFO underneath means it always breathes. */
-        fall:  [{ kind: "section", by: { bridge: [0.05, 0.15] } },
-                { kind: "lfo", bars: [[16, 2], [8, 1]], depth: [0.03, 0.10],
-                  shape: "sin", freePhase: true }],
-      },
       /* the tape drifts more when the tape has been running longer -- a slow
          free-phase wander rather than anything tied to the form. */
-      chipbass: { bright: [{ kind: "section", by: { chorus: [0.05, 0.14], bridge: [-0.12, -0.05] } }] },
       chipkeys: { bright: [{ kind: "lfo", bars: [[16, 3], [32, 2]], depth: [0.03, 0.09],
                              shape: "sin", freePhase: true },
                            { kind: "section", by: { chorus: [0.04, 0.11] } }] },
@@ -12559,6 +12722,27 @@ const GENRE = {
                                           outro: [-200, -110] } },
                  { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [90, 240], shape: "tri" }],
         decay:  [{ kind: "plock", density: [0.08, 0.16], amt: [-0.06, 0.10] }],
+      
+        /* was the `subbass` machine; engine `sub` of the bass unit */
+        sCut:   [{ kind: "section", by: { intro: [-260, -140], chorus: [180, 520],
+                                         bridge: [-300, -160], outro: [-320, -180] } },
+                { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [60, 180], shape: "tri" }],
+        sDrive: [{ kind: "section", by: { chorus: [0.05, 0.16], bridge: [-0.10, -0.04] } }],
+        /* lofi's sub does not sweep -- env stays at 0 here and the movement is
+           small -- but the controls exist on this panel now, so this genre
+           still says what it wants of them rather than leaving them to drift
+           with whatever the last genre set. */
+        sEnv:   [{ kind: "section", by: { chorus: [0.02, 0.06] } }],
+        sRes:   [{ kind: "lfo", bars: [[16, 2], [8, 1]], depth: [0.05, 0.20], shape: "sin" }],
+        /* a section-only move on a section this genre often does not have is a
+           lane that sometimes does nothing -- seed 1's form is
+           chorus,verse,chorus,verse,chorus,outro and the battery caught it as a
+           dead lane. An LFO underneath means it always breathes. */
+        sFall:  [{ kind: "section", by: { bridge: [0.05, 0.15] } },
+                { kind: "lfo", bars: [[16, 2], [8, 1]], depth: [0.03, 0.10],
+                  shape: "sin", freePhase: true }],
+        /* was the `chipbass` machine; engine `chip` of the bass unit */
+        cBright: [{ kind: "section", by: { chorus: [0.05, 0.14], bridge: [-0.12, -0.05] } }],
       },
     },
   },
@@ -12916,7 +13100,7 @@ const GENRE = {
        claim -- machine drums, sequenced bass -- is the genre's definition] */
     machines: {
       drums:   [["tr1000", 1]],
-      drumKit: [["analog", 6], ["acoustic", 3], ["sega", 1]],
+      kit: { drums: [["analog", 6], ["acoustic", 3], ["sega", 1]] },
       bass:  [["auto", 5], ["tb303", 5]],
       /* THE SCI-FI PALETTE, reached rather than admired. This genre's own
          research describes it as influenced by "dark new wave, Blade Runner,
@@ -12963,7 +13147,9 @@ const GENRE = {
                 tune: 50, decay: 0.55, tone: 0.68, snappy: 0.72, sdtone: 0.62,
                chdecay: 0.055, ohdecay: 0.58, bus: 1.40, gate: 0.55, hold: 0.150 },
       tb303: { cutoff: 620, res: 11.0, envmod: 0.58, decay: 0.30,
-               accent: 0.70, drive: 3.0, wave: 0 },
+               accent: 0.70, drive: 3.0, wave: 0,
+               /* was the `subbass` machine; engine `sub` of the bass unit */
+               sCut: 620, sDrive: 0.32, sEnv: 0.62, sRes: 6.5, sFall: 0.85 },
       /* THE INITIAL PITCH BEND, at a synthwave depth rather than a Vangelis
          one. Vangelis runs it at 1.00 -- every note arriving a full semitone
          flat and swooping up -- which IS that score. At 0.45 you get the same
@@ -12989,7 +13175,6 @@ const GENRE = {
       /* the Nightcall verse bass: resonance high, a long decay sweeping the
          filter down. Unreachable before this voice had an envelope.
          [corpus:reverbmachine/nightcall] */
-      subbass:   { cut: 620, drive: 0.32, env: 0.62, res: 6.5, fall: 0.85 },
     },
     /* THE MOVEMENT, and this genre gets the most of it, because the thing that
        makes an eight-bar synth loop into a four-minute record is a filter that
@@ -13111,19 +13296,19 @@ const GENRE = {
                    { kind: "lfo", bars: [[28, 2], [40, 1]], depth: [0.002, 0.008], shape: "sin", freePhase: true }],
         subOsc:   [{ kind: "section", by: { chorus: [0.08, 0.26], bridge: [-0.06, -0.02] } },
                    { kind: "arc", from: [0, 0.05], to: [0.06, 0.20], curve: "sCurve" }],
+      
+        /* was the `subbass` machine; engine `sub` of the bass unit */
+        sEnv:  [{ kind: "section", by: { chorus: [0.08, 0.22], bridge: [-0.18, -0.06],
+                                        instrumental: [0.04, 0.14] } },
+               { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [0.03, 0.10], shape: "tri" }],
+        sRes:  [{ kind: "section", by: { chorus: [0.8, 2.4], bridge: [-1.5, -0.5] } }],
+        sFall: [{ kind: "lfo", bars: [[16, 2], [32, 1]], depth: [0.05, 0.18],
+                 shape: "sin", freePhase: true }],
+        sCut:  [{ kind: "section", by: { chorus: [120, 380], bridge: [-160, -60] } }],
       },
       /* THE SWEEP IS THIS GENRE'S BASS GESTURE. Nightcall's verse bass is a
          filter falling through the note; riding how FAR it falls and how fast
          is the same move a hand makes on that patch. */
-      subbass: {
-        env:  [{ kind: "section", by: { chorus: [0.08, 0.22], bridge: [-0.18, -0.06],
-                                        instrumental: [0.04, 0.14] } },
-               { kind: "lfo", bars: [[16, 3], [8, 2]], depth: [0.03, 0.10], shape: "tri" }],
-        res:  [{ kind: "section", by: { chorus: [0.8, 2.4], bridge: [-1.5, -0.5] } }],
-        fall: [{ kind: "lfo", bars: [[16, 2], [32, 1]], depth: [0.05, 0.18],
-                 shape: "sin", freePhase: true }],
-        cut:  [{ kind: "section", by: { chorus: [120, 380], bridge: [-160, -60] } }],
-      },
       /* THE GATE IS THE GESTURE IN THIS GENRE, and until the bus gains could be
          ridden it was a switch: on for the whole song at one depth. What a desk
          actually does is pull the gated room back under a breakdown and let it
@@ -13546,7 +13731,7 @@ const GENRE = {
                 drums:   [["tr1000", 1]],
                 /* the Mega Drive's DAC and PSG, loaded into the same box --
                    "we can still use our TR-1000 but load up SEGA drum sounds" */
-                drumKit: [["sega", 8], ["analog", 2]],
+                kit: { drums: [["sega", 8], ["analog", 2]] },
                 bass:  [["auto", 1]],
                 keys:  [["waveseq", 5], ["auto", 3], ["mellotron", 3]] },
     /* the choir strip, clean: this is a 1994 sample chip pretending to be a
@@ -13568,14 +13753,14 @@ const GENRE = {
       /* the chip is this genre's own band, so its brightness is the one of these
          three that really matters here -- a shade brighter than the patch,
          because Wise's writing sits up in the air. */
-      subbass:   { cut: 860, drive: 0.16 },
+      /* was `subbass` + `chipbass`; engines `sub` and `chip` of the bass unit */
+      tb303:     { sCut: 860, sDrive: 0.16, cBright: 0.66 },
       /* the Wavestation experiment, slow: on the record the timbre travels, it
          does not click. [corpus:vgmonline David Wise interview] */
       waveseq:   { rate: 0.55, depth: 0.80, attack: 0.45 },
       /* the SNES echo: an eighth, fed back further than anything else here,
          because on that hardware it is the reverb as well as the delay */
       echo:      { div: 2, fb: 0.34, tone: 2400, hp: 200, send: 0.20, verb: 0.60 },
-      chipbass:  { bright: 0.66 },
       chipkeys:  { bright: 0.68 },
     },
     /* MOVEMENT AS WEATHER. Everything here is slow, free-phase and small: the
@@ -14165,7 +14350,8 @@ const GENRE = {
       /* a quarter note, barely fed back, mostly into the room */
       echo:  { div: 4, fb: 0.18, tone: 3200, hp: 120, send: 0.16, verb: 0.85 },
       vp330: { ens: 0.72, choir: 0.55, attack: 1.10, release: 3.20 },
-      drone: { cut: 340, res: 3.6, detune: 0.62 },
+      /* was the `drone` machine; engine `drone` of the bass unit */
+      tb303: { dCut: 340, dRes: 3.6, dDetune: 0.62 },
       rhodes:{ bark: 0.38, wow: 0.0018, tone: 0.88 },
       mellotron: { voice: 2, wow: 0.0055, flutter: 0.30, hiss: 0.22, tapeEnd: 1 },
     },
@@ -14297,14 +14483,15 @@ const GENRE = {
         choir: [{ kind: "section", by: { chorus: [0.06, 0.16], bridge: [-0.12, -0.04],
                                          outro: [-0.14, -0.06] } }],
       },
-      drone: {
-        cut: [{ kind: "section", by: { intro: [-90, -40], chorus: [60, 190],
+      /* was the `drone` machine; engine `drone` of the bass unit */
+      tb303: {
+        dCut: [{ kind: "section", by: { intro: [-90, -40], chorus: [60, 190],
                                        outro: [-120, -60] } },
               { kind: "lfo", bars: [[32, 4], [16, 1]], depth: [25, 80], shape: "tri" }],
         /* the resonance leans on the drone's own filter peak as the cue opens.
            Free-phase and slow: this is the bottom of the picture breathing, not
            a gesture anyone would notice being made. */
-        res: [{ kind: "lfo", bars: [[32, 3], [64, 2]], depth: [0.3, 1.1],
+        dRes: [{ kind: "lfo", bars: [[32, 3], [64, 2]], depth: [0.3, 1.1],
                 shape: "sin", freePhase: true },
               { kind: "section", by: { chorus: [0.3, 1.0], outro: [-0.8, -0.3] } }],
       },
@@ -14578,7 +14765,7 @@ const GENRE = {
     ostinato: null,
 
     machines: { drums:   [["tr1000", 1]],
-                drumKit: [["analog", 1]],
+                kit: { drums: [["analog", 1]] },
                 /* THE 303, PINNED. It resolved to the 303 through the rig anyway
                    -- but as "auto", which the panel loop skipped, so the box that
                    defines this genre had no front panel to put a hand on. */
@@ -15507,7 +15694,7 @@ const GENRE = {
        and a genre that gets them only 40% of the time would be a genre whose
        identity is a coin toss. Pinned, not weighted. */
     machines: { drums:   [["tr1000", 1]],
-                drumKit: [["analog", 1]],
+                kit: { drums: [["analog", 1]] },
                 bass:  [["auto", 1]],
                 /* Consumed was "delays and reverbs, and effects more than
                    anything else... an architecture of sound", and a string
@@ -15523,7 +15710,10 @@ const GENRE = {
              cAlgo: 3, cAmt: 0.50, cLvl: 0.18,
              dAlgo: 4, dAmt: 0.30, dLvl: 0.10 },
       tb303: { cutoff: 380, res: 14.0, envmod: 0.66, decay: 0.28,
-               accent: 0.75, drive: 2.8, wave: 1 },
+               accent: 0.75, drive: 2.8, wave: 1,
+        /* was the `drone` machine; engine `drone` of the bass unit */
+        dCut: 240, dRes: 2.4, dDetune: 0.35,
+      },
       /* the voice circuits are the 808's, because on this machine they literally
          are; what follows them is the new part */
       /* THE 909, and this genre has a photograph for it: the Plastikman live
@@ -15550,7 +15740,6 @@ const GENRE = {
                 /* THE TOM is rare here and gets the deepest room of the five, so
                    the one bar it appears in opens the whole picture up. */
                 tCut: 4200, tEcho: 0.30, tVerb: 0.52 },
-      drone: { cut: 240, res: 2.4, detune: 0.35 },
       wash:  { cut: 620 },
       vp330: { ens: 0.55, choir: 0.20, attack: 1.60, release: 4.20 },
       /* a dotted eighth at 20% is the setting every source names first, and it
@@ -15737,6 +15926,10 @@ const GENRE = {
         vcaDecay: [{ kind: "arc", from: [0, 0.20], to: [-1.40, -0.60], curve: "sCurve" },
                    { kind: "lfo", bars: [[48, 2], [32, 1]], depth: [0.10, 0.35], shape: "sin", freePhase: true }],
         track:    [{ kind: "lfo", bars: [[64, 2], [44, 1]], depth: [0.04, 0.14], shape: "sin", freePhase: true }],
+      
+        /* was the `drone` machine; engine `drone` of the bass unit */
+        dCut: [{ kind: "lfo", bars: [[64, 4], [32, 1]], depth: [30, 90],
+                shape: "sin", freePhase: true }],
       },
       /* ── THE DRUMS HAVE TO CARRY THE OPENING ─────────────────────────────
          "It's all slow swells of changing effects -- this is how you can get
@@ -15859,10 +16052,6 @@ const GENRE = {
                   shape: "sin", freePhase: true }],
         tVerb: [{ kind: "lfo", bars: [[34, 2], [26, 1]], depth: [0.05, 0.14],
                   shape: "sin", freePhase: true }],
-      },
-      drone: {
-        cut: [{ kind: "lfo", bars: [[64, 4], [32, 1]], depth: [30, 90],
-                shape: "sin", freePhase: true }],
       },
       wash: {
         /* placement (amounts mine [EAR]); merged into the one existing
@@ -16333,7 +16522,7 @@ const GENRE = {
        TYPES rather than voices -- a real jungle move and a different claim from
        the other three kits, which is why it is named as one rather than quietly
        treated the same. */
-    machines: { drums: [["tr1000", 1]], drumKit: [["brk", 1]],
+    machines: { drums: [["tr1000", 1]], kit: { drums: [["brk", 1]] },
                 bass: [["auto", 1]],
                 keys: [["auto", 6], ["vp330", 4]] },
     params: {
@@ -16350,8 +16539,6 @@ const GENRE = {
          this register, the sub carrying nearly half the level because the break
          has no bottom at all, and the filter low so what you hear is growl
          rather than saw. [corpus:emastered, corpus:reasonstudios] */
-      reese: { detune: 26, sub: 0.52, cut: 620, res: 5.5, sweep: 0.40 },
-      drone: { cut: 210, res: 2.0, detune: 0.30 },
       wash:  { cut: 700 },
       /* ── THE MULTI-FX BOX, AND ITS RETURNS HAVE TO BE OPENED ────────────────
          Feeding a bus into the DP/4 is not enough: every unit's RETURN
@@ -16375,7 +16562,12 @@ const GENRE = {
              cAlgo: 3, cAmt: 0.30, cLvl: 0,
              dAlgo: 4, dAmt: 0.35, dLvl: 0.10 },
       tb303: { cutoff: 400, res: 12.0, envmod: 0.60, decay: 0.26,
-               accent: 0.70, drive: 2.4, wave: 0 },
+               accent: 0.70, drive: 2.4, wave: 0,
+        /* was the `reese` machine; engine `reese` of the bass unit */
+        rDetune: 26, rSub: 0.52, rCut: 620, rRes: 5.5, rSweep: 0.40,
+        /* was the `drone` machine; engine `drone` of the bass unit */
+        dCut: 210, dRes: 2.0, dDetune: 0.30,
+      },
       /* a straight eighth at 30%, which is the other setting the sources name,
          and darker repeats than synthwave's -- this is dub lineage. */
       echo:  { div: 2, fb: 0.30, tone: 1900, hp: 240, send: 0.22, verb: 0.55,
@@ -16532,31 +16724,31 @@ const GENRE = {
         tEcho: [{ kind: "lfo", bars: [[32, 2], [24, 1]], depth: [0.03, 0.10], shape: "sin", freePhase: true }],
         tVerb: [{ kind: "lfo", bars: [[28, 2], [36, 1]], depth: [0.04, 0.12], shape: "sin", freePhase: true }],
       },
-      /* THE REESE IS RIDDEN, and the detune most of all -- widening it is how a
-         junglist makes the bass turn over harder into a drop, and it is the one
-         control on this voice whose movement is unmistakably the sound rather
-         than a treatment of it. */
-      reese: {
-        detune: [{ kind: "section", by: { chorus: [6, 16], bridge: [-8, -3],
+      /* was the `drone` machine; engine `drone` of the bass unit */
+      tb303: {
+        dCut: [{ kind: "section", by: { chorus: [80, 240], bridge: [-60, -20] } },
+              { kind: "lfo", bars: [[32, 3], [16, 2]], depth: [20, 70], shape: "sin", freePhase: true }],
+        dRes: [{ kind: "lfo", bars: [[32, 2], [64, 1]], depth: [0.4, 1.2],
+                shape: "sin", freePhase: true }],
+        /* was the `reese` machine; engine `reese` of the bass unit.
+           THE REESE IS RIDDEN, and the detune most of all -- widening it is how
+           a junglist makes the bass turn over harder into a drop, and it is the
+           one control on this voice whose movement is unmistakably the sound
+           rather than a treatment of it. */
+        rDetune: [{ kind: "section", by: { chorus: [6, 16], bridge: [-8, -3],
                                           instrumental: [3, 10], intro: [-10, -4] } },
                  { kind: "lfo", bars: [[16, 3], [32, 2]], depth: [2, 7],
                    shape: "tri", freePhase: true },
                  { kind: "arc", from: [-6, -2], to: [4, 12], curve: "sCurve" }],
-        cut:   [{ kind: "section", by: { chorus: [180, 520], bridge: [-200, -80],
+        rCut:   [{ kind: "section", by: { chorus: [180, 520], bridge: [-200, -80],
                                           outro: [-260, -120] } },
                 { kind: "lfo", bars: [[16, 4], [8, 1]], depth: [60, 200], shape: "tri" },
                 { kind: "gesture", on: "fill", bars: 2, from: [0, 0], to: [400, 1100],
                   curve: "exp" }],
-        res:   [{ kind: "section", by: { chorus: [1.0, 3.0], bridge: [-1.5, -0.5] } }],
-        sub:   [{ kind: "section", by: { bridge: [0.10, 0.24], chorus: [-0.06, 0.04] } }],
-        sweep: [{ kind: "lfo", bars: [[32, 2], [16, 1]], depth: [0.05, 0.16],
+        rRes:   [{ kind: "section", by: { chorus: [1.0, 3.0], bridge: [-1.5, -0.5] } }],
+        rSub:   [{ kind: "section", by: { bridge: [0.10, 0.24], chorus: [-0.06, 0.04] } }],
+        rSweep: [{ kind: "lfo", bars: [[32, 2], [16, 1]], depth: [0.05, 0.16],
                   shape: "sin", freePhase: true }],
-      },
-      drone: {
-        cut: [{ kind: "section", by: { chorus: [80, 240], bridge: [-60, -20] } },
-              { kind: "lfo", bars: [[32, 3], [16, 2]], depth: [20, 70], shape: "sin", freePhase: true }],
-        res: [{ kind: "lfo", bars: [[32, 2], [64, 1]], depth: [0.4, 1.2],
-                shape: "sin", freePhase: true }],
       },
       wash: { cut: [{ kind: "section", by: { bridge: [200, 560], chorus: [-100, -30] } },
                     { kind: "lfo", bars: [[32, 3], [16, 2]], depth: [150, 420],
@@ -25106,7 +25298,27 @@ function bassGridEl(m, M){
       note.addEventListener("pointerup", () => { on = false; });
     }
     col.appendChild(note);
+    /* ── ONLY THE FLAGS THE LOADED ENGINE ACTUALLY READS ──────────────────
+       The step editor is on every bass now, and that is right: `commit` writes
+       PINS keyed by ROLE, so a line typed with the sub bass loaded has always
+       worked and there was simply never a grid on screen to type it on.
+
+       ACCENT AND SLIDE ARE NOT LIKE THAT. MEASURED: `ev.accent` (one read) and
+       `ev.slide` (one read) are consumed inside `V.acid303` and NOWHERE ELSE in
+       this file. So with the sub bass loaded these two rows would be thirty-two
+       buttons that reach nothing -- the "control that does nothing" defect,
+       thirty-two at a time.
+
+       So an ENGINE declares the note flags its voice reads, and the grid draws
+       those. A declaration and not a scan, because a scan cannot see an event
+       field; and it is the honest record of the next job -- teaching accent and
+       slide to the other engines is real audio work, one voice at a time and
+       measured, and each one that lands adds itself here. */
+    const load = SONG && loadIn(SONG.chart, M && M.slot);
+    const face = load && kitFace((pickCollOf(M) || {})[load]);
+    const reads = (face && face.reads) || (load ? [] : (M && M.reads) || ["accent", "slide"]);
     for(const [flag, legend] of [["accent", "ACC"], ["slide", "SLD"]]){
+      if(!reads.includes(flag)) continue;
       const f = el("div", "flag" + (n && (flag === "accent" ? n.accent : n.slide != null) ? " on" : ""), legend);
       f.addEventListener("click", () => {
         if(!at[i]) return;                       // a rest has nothing to accent
@@ -25542,6 +25754,68 @@ function drawRoll(){
   ROLL.refresh();
 }
 
+/* ── THE LOAD SWITCH, DRAWN ONCE ────────────────────────────────────────────
+   A control marked `pick: true` is not a parameter. Every other control on a
+   panel is read while a note sounds; this one decides WHICH VOICE the note
+   calls, which is a stage-1 decision. So it is a SELECT, it writes `PICK.kit`
+   and it recomposes -- anything else would be a knob that moves and changes
+   nothing, the defect this file has a check for.
+
+   IT LIVES IN A FUNCTION BECAUSE TWO PANEL SHAPES NEED IT. The TR-1000 draws
+   groups; the bass unit draws a knob row and a deck. Writing the widget into
+   one of those branches is how the other one goes stale -- and this control has
+   already gone stale twice, once as a hardcoded `max: 4` for five kits and once
+   as `if(m === "tr1000" && c.k === "kit")`, the only place in this file that
+   ever knew a machine by name. Returns null when the control is not a pick, so
+   a caller can simply ask.
+
+   Everything it needs it asks for: the collection from `pickCollOf`, the
+   English names from `pickNamesOf`. No machine, collection or slot is named. */
+function loadSelectEl(m, M, c, slot){
+  const coll = c && c.pick && pickCollOf(M);
+  if(!coll) return null;
+  const nm = pickNamesOf(M), say = n => nm[n] || n;
+  const sel = document.createElement("select");
+  sel.className = "kitpick";
+  /* ── AND IT SAYS WHAT IT IS ────────────────────────────────────────────
+     It carried no `data-key`, so to anything walking the glass this control was
+     simply not drawn -- the same blind spot the fallback sliders had, on the
+     one control that decides which sounds you hear. This file's own rule,
+     written beside the switches: "anything a hand can touch has to say what it
+     is." */
+  sel.dataset.key = m + "." + c.k;
+  sel.title = c.label + " — what is loaded in this machine";
+  /* ── THE UNPINNED OPTION NAMES WHAT IS ACTUALLY IN THERE ────────────────
+     It read "(genre draws)", which is a statement about WHO chose and not about
+     WHAT is loaded -- so with the dungeon kit in the machine, the war drums on
+     the glass and the machine's own screen saying so, this still said "(genre
+     draws)". Every other reading on the panel agreed and this one did not. It
+     still says who chose, in brackets, because drawn and pinned are genuinely
+     different and the orange marking is what tells you a hand has been on it.
+
+     AND IN ENGLISH: the collection's keys are how the FILE names these
+     (`gretsch`, `brk`, `chip`); `<control>Names` is how a person does. */
+  const nowIs = SONG && loadIn(SONG.chart, slot);
+  sel.innerHTML =
+    `<option value="">${nowIs ? say(nowIs) + " (drawn)" : "(the genre draws it)"}</option>` +
+    Object.keys(coll).map(n => `<option value="${n}">${say(n)}</option>`).join("");
+  sel.value = (PICK.kit && PICK.kit[slot]) || "";
+  sel.addEventListener("change", () => {
+    if(!PICK.kit) PICK.kit = {};
+    if(sel.value) PICK.kit[slot] = sel.value; else delete PICK.kit[slot];
+    /* ── AND CHANGING IT DOES NOT STOP THE MUSIC ──────────────────────────
+       This called stopPlayback() then newSong(), while every other picker on
+       the page calls recompose() and carries on from the same song second. The
+       file already records why that matters: "The whole point of a rack is that
+       a hand can change something while it runs." Loading a kit is loading a
+       box. */
+    recompose();
+  });
+  const wrap = el("div", "kitwrap");
+  wrap.appendChild(sel);
+  return wrap;
+}
+
 function drawPanels(){
   const host = $("panels");
   host.innerHTML = "";
@@ -25610,7 +25884,8 @@ function drawPanels(){
       host.appendChild(bay);
       continue;
     }
-    const M = INSTRUMENTS[m], P = M.panel;
+    const M = INSTRUMENTS[m];
+    let P = M.panel;
     const box = el("div", "machine " + (P ? "sk-" + P.skin : "plain"));
     /* ── A PANEL SAYS WHICH MACHINE IT IS ──────────────────────────────────
        Same reason every knob carries `data-key` and every switch had to learn
@@ -25679,76 +25954,8 @@ function drawPanels(){
             for(const k of g.keys){
               const c = M.controls.find(x => x.k === k);
               if(!c) continue;
-              /* THE KIT KEY IS A PICK, NOT A PARAMETER. Every other control on
-                 this panel is read while a note sounds; this one decides WHICH
-                 VOICE that note calls, which is a stage-1 decision. So it writes
-                 PICK and recomposes, exactly as the machine dropdown does --
-                 anything else would be a knob that moves and changes nothing,
-                 which is the defect this file has a check for. */
-              /* ── ANY `pick` SWITCH IS A SELECT, not just the TR-1000's ────
-                 This read `if(m === "tr1000" && c.k === "kit")` and was the ONLY
-                 place in `drawPanels` that knew a machine by name. The bass rack
-                 wants exactly the same widget, so writing it twice by name is how
-                 the third one goes stale -- the defect this file has hit five
-                 times. It asks the control instead: anything marked `pick: true`
-                 takes its options from the collection it picks, which is the same
-                 collection its travel comes from. */
-              if(c.pick && (M[c.pickFrom || (c.k + "s")])){
-                const coll = M[c.pickFrom || (c.k + "s")];
-                const names = Object.keys(coll);
-                const sel = document.createElement("select");
-                sel.className = "kitpick";
-                /* ── AND IT SAYS WHAT IT IS ──────────────────────────────────
-                   It carried no `data-key`, so to anything walking the glass the
-                   KIT control was simply not drawn -- the same blind spot the
-                   fallback sliders had, on the one control that decides which
-                   drums you hear. This file's own rule, written beside the
-                   switches: "anything a hand can touch has to say what it is." */
-                sel.dataset.key = m + "." + c.k;
-                sel.title = c.label + " — which " + (c.k) + " is loaded in this machine";
-                const pickKey = c.k === "kit" ? "drumKit" : c.k;
-                /* ── AND THE UNPINNED OPTION NAMES WHAT IS ACTUALLY IN THERE ──
-                   It read "(genre draws)", which is a statement about WHO chose
-                   and not about WHAT is loaded — so with the dungeon kit in the
-                   machine, the war drums on the glass and `TR1000 · dungeon` on
-                   its own screen, the KIT selector still said "(genre draws)".
-                   Every other reading on this panel agreed and this one did not.
-
-                   That is the same defect this whole session has been chasing
-                   one layer along: a control whose label does not describe its
-                   state. It still says who chose, in brackets, because the
-                   difference between drawn and pinned is real and the orange
-                   marking is what tells you the hand has been on it. */
-                const nowIs = SONG && SONG.chart.picks && SONG.chart.picks[pickKey];
-                /* the collection's keys are how the FILE names these; the
-                   `<control>Names` table beside it is how a person does */
-                const nm = M[(c.pickFrom || (c.k + "s")).replace(/s$/, "") + "Names"] ||
-                           M[c.k + "Names"] || {};
-                const say = n => nm[n] || n;
-                /* no `kit:` prefix -- the section above the control is already
-                   captioned KIT in the machine's own silkscreen, and five
-                   characters of prefix is five characters of the NAME lost to
-                   truncation on a control this narrow ("kit: war drums and
-                   kettl") */
-                sel.innerHTML =
-                  `<option value="">${nowIs ? say(nowIs) + " (drawn)" : "(the genre draws it)"}</option>` +
-                  names.map(n => `<option value="${n}">${say(n)}</option>`).join("");
-                sel.value = PICK[pickKey] || "";
-                sel.addEventListener("change", () => {
-                  PICK[pickKey] = sel.value || null;
-                  /* ── AND CHANGING IT DOES NOT STOP THE MUSIC ────────────────
-                     This called stopPlayback() then newSong(), while every other
-                     picker on the page calls recompose() and carries on from the
-                     same song second. The file already records why that matters:
-                     "The whole point of a rack is that a hand can change
-                     something while it runs." Loading a kit is loading a box. */
-                  recompose();
-                });
-                const wrap = el("div", "kitwrap");
-                wrap.appendChild(sel);
-                row.appendChild(wrap);
-                continue;
-              }
+              const ld = loadSelectEl(m, M, c, slot);
+              if(ld){ row.appendChild(ld); continue; }
               row.appendChild((c.step >= 1 && c.max - c.min <= 2) ? switchEl(m, c) : knobEl(m, c));
             }
             grp.appendChild(row);
@@ -25774,7 +25981,7 @@ function drawPanels(){
            written on them and what is on them.
 
            Merged rather than replaced, so a kit says only what differs. */
-        const kitNow = SONG && SONG.chart.picks && SONG.chart.picks.drumKit;
+        const kitNow = SONG && loadIn(SONG.chart, slot);
         const kitCols = (kitNow && M.kits && kitFace(M.kits[kitNow]) &&
                          kitFace(M.kits[kitNow]).columns) || null;
         for(const col0 of P.columns){
@@ -25914,6 +26121,34 @@ function drawPanels(){
            led       an indicator that lights with the music
            ro        a READOUT: shaped like a knob, reports the song, sets nothing */
       if(P.krow || P.deck){
+        /* ── THE LOADED ENGINE'S OWN FACE ──────────────────────────────────
+           Exactly what a kit does to the drum machine's strips, one shape
+           along: an entry in the pick collection may override `krow`, `deck`
+           and `jacks`, so the bass unit shows the acid line's eleven knobs and
+           its patch bay with the 303 in it, and the sub bass's five knobs and
+           no patch bay with the sub in it.
+
+           WHAT IT NEVER OVERRIDES IS `controls` -- that stays the union, or
+           three seam checks break. Drawn, not declared. Same rule, same reason.
+
+           AND THE JACKS BELONG TO THE ENGINE THAT HAS THEM. ACCENT IN, SLIDE
+           IN and FILTER FM IN are the acid line's back panel; printing them
+           over a sub bass would be a control that does nothing, written as
+           silkscreen instead of as a knob. Same lie, quieter font. */
+        const loadNow = SONG && loadIn(SONG.chart, slot);
+        const face = loadNow && kitFace((pickCollOf(M) || {})[loadNow]);
+        if(face){
+          if(face.krow !== undefined)  P = Object.assign({}, P, { krow: face.krow });
+          if(face.deck !== undefined)  P = Object.assign({}, P, { deck: face.deck });
+          if(face.jacks !== undefined) P = Object.assign({}, P, { jacks: face.jacks });
+        }
+        /* the load switch goes on the face of the machine, wherever the machine
+           is a krow/deck shape -- the groups shape draws it inside its own
+           group. One widget, asked for by the control rather than by name. */
+        {
+          const pc = pickCtrlOf(M), ld = pc && loadSelectEl(m, M, pc, slot);
+          if(ld){ const bar = el("div", "loadbar"); bar.appendChild(ld); box.appendChild(bar); }
+        }
         if(P.jacks){
           const jr = el("div", "jacks");
           for(const [a, b2] of P.jacks){
@@ -26197,9 +26432,9 @@ function refreshLive(){
        the right answer for this machine by luck and wrong for any other box
        with kits. Both fixed: the name comes from the machine's own `kitNames`,
        and with no song there is nothing loaded to name. */
-    const kit = SONG && SONG.chart.picks.drumKit;
+    const kit = SONG && loadIn(SONG.chart, M2.slot);
     scr.querySelector(".lcdkit").textContent = mName.toUpperCase() + " · " +
-      (kit ? ((M2.kitNames && M2.kitNames[kit]) || kit) : "--");
+      (kit ? (pickNamesOf(M2)[kit] || kit) : "--");
     scr.querySelector(".lcdbar").textContent = SONG ? (SONG.chart.tempo.toFixed(2)) : "--";
     /* three readouts, the way the machine shows three knob values */
     const show = ["tune", "decay", "bus"].filter(k => CONTROL[mName + "." + k]);

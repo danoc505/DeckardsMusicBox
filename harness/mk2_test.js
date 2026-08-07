@@ -2525,10 +2525,18 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
           return false;
         });
         if(!genre){ seen.push(m + "." + c.k + ": no genre hosts it"); continue; }
+        /* ── DRIVEN THROUGH `picks.kit[slot]`, WHICH IS THE ONE ANSWER ──────
+           This passed `{ drumKit: name }` — the drums' own literal, from when
+           the drum machine was the only box with a load switch. The bass unit
+           made that a list of one that had already gone stale: driving
+           `tb303.engine` wrote a key nothing read, every position composed the
+           same song, and the check reported that the switch does nothing. It
+           was right about what it measured and wrong about the program, which
+           is the worst kind of red. One key per rack now, asked by slot. */
         const voicesFor = name => {
           const set = new Set();
           for(let s = 1; s <= 3; s++){
-            const song = M.composeSong(s, undefined, genre, { [c.k === "kit" ? "drumKit" : c.k]: name });
+            const song = M.composeSong(s, undefined, genre, { kit: { [MM.slot]: name } });
             for(const e of song.perf.events) if(e.role === MM.slot) set.add(e.voice);
           }
           return [...set].sort().join(",");
