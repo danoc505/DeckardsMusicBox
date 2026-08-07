@@ -903,24 +903,55 @@
                    border-bottom:1px solid #2a3444; }
   .sk-pole .brand .model{ color:#7fe3ff; letter-spacing:.24em; font-weight:600; }
   .sk-pole .brand .maker{ color:#5a6c86; letter-spacing:.16em; }
-  .polewrap{ display:flex; gap:.9rem; align-items:stretch; }
-  .poletube{ position:relative; width:54px; border-radius:27px/10px; overflow:hidden;
-    border:1px solid #2a3444;
-    background:repeating-linear-gradient(115deg,
-      #f2f5fa 0 10px, #d8dee8 10px 20px, #e0463c 20px 30px, #c8362c 30px 40px);
-    background-size:100% 56px;
-    box-shadow:inset -10px 0 18px rgba(0,0,0,.45), inset 10px 0 14px rgba(255,255,255,.35),
-               0 0 22px rgba(127,227,255,.10);
+  /* ── AN ACTUAL BARBER POLE ────────────────────────────────────────────────
+     Asked for directly: "id like the turn the barberpole visualizer into an
+     actual barberpole." It was not one, and not only for want of styling —
+     THE TUBE HAD NO HEIGHT. `.polewrap` stretches its children, but inside the
+     column the tube had no `flex`, so it collapsed to nothing and the panel
+     drew the two end caps touching: a pair of small pale bars in the corner.
+     A visualiser that renders as two 9-pixel rectangles is not a subtle
+     styling problem, and a screenshot is what found it — no check looks at
+     shapes. `flex:1 1 auto` is the fix; everything below is what makes the
+     shape read as a CYLINDER rather than a striped rectangle.
+
+     WHAT MAKES A BARBER POLE READ, and each of these is doing a job:
+       · the stripes must run STEEPLY, near 60 degrees — a shallow angle reads
+         as bunting, not as a helix;
+       · the shading across the width must be a CYLINDER: dark at both edges,
+         a bright narrow specular about a third in, and a second weaker
+         highlight near the far edge where the glass turns away. A single
+         left-to-right wash (what this had) reads flat;
+       · the stripes must COMPRESS towards both edges, because a helix seen
+         side-on does. That is the `polebend` layer: a repeating gradient
+         ACROSS the tube, multiplied over the stripes, which darkens and
+         narrows them at the edges and leaves them open in the middle;
+       · the housing is GLASS over the helix, so it gets its own thin highlight
+         and a hard rim, and the caps are turned metal that overhangs it. */
+  .polewrap{ display:flex; gap:.9rem; align-items:stretch; min-height:184px; }
+  .poletube{ position:relative; flex:1 1 auto; width:46px; overflow:hidden;
+    border-left:1px solid #10161f; border-right:1px solid #10161f;
+    background:repeating-linear-gradient(58deg,
+      #fbfdff 0 9px, #e3e9f2 9px 17px, #e0463c 17px 26px, #b62c23 26px 34px);
+    background-size:100% 68px;
     animation:poleclimb 11s linear infinite; }
-  @keyframes poleclimb{ from{ background-position:0 0 } to{ background-position:0 -56px } }
+  @keyframes poleclimb{ from{ background-position:0 0 } to{ background-position:0 -68px } }
   .poletube.down{ animation-direction:reverse; }
-  /* the glass: a highlight down the left, a shadow down the right */
+  /* the CURVE of the cylinder: the stripes narrow and darken towards each edge */
+  .poletube::before{ content:""; position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(90deg,
+      rgba(0,0,0,.72) 0%, rgba(0,0,0,.34) 9%, rgba(0,0,0,0) 26%,
+      rgba(255,255,255,.30) 33%, rgba(0,0,0,0) 44%,
+      rgba(0,0,0,.20) 72%, rgba(0,0,0,.52) 90%, rgba(0,0,0,.78) 100%); }
+  /* the GLASS over it: one narrow specular and a cold rim light down the right */
   .poletube::after{ content:""; position:absolute; inset:0; pointer-events:none;
-    background:linear-gradient(90deg, rgba(255,255,255,.45), transparent 42%,
-      rgba(0,0,0,.30) 88%); }
-  .polecap{ height:9px; border-radius:3px; margin:0 -2px;
-    background:linear-gradient(#e8eef7, #8fa0b8 55%, #5a6c86);
-    box-shadow:0 1px 2px rgba(0,0,0,.6); }
+    background:linear-gradient(90deg,
+      rgba(255,255,255,0) 20%, rgba(255,255,255,.42) 28%, rgba(255,255,255,0) 34%,
+      rgba(127,227,255,0) 78%, rgba(127,227,255,.16) 93%, rgba(127,227,255,0) 100%); }
+  /* turned metal, overhanging the glass at both ends */
+  .polecap{ height:11px; width:56px; margin:0 -5px; border-radius:3px/2px;
+    background:linear-gradient(90deg, #4a5568 0%, #cfd9e6 18%, #f4f8ff 30%,
+                                      #9aa8bc 52%, #6b7a91 78%, #3a4453 100%);
+    box-shadow:0 1px 2px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.5); }
   /* the notches, climbing the scale beside the pole */
   .polescale{ position:relative; flex:1 1 auto; min-height:150px;
     border-left:1px solid #2a3444; }
@@ -1117,7 +1148,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-07n · every part has its own reverb and delay send, on the desk</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-07o · the barberpole is a barber pole, and a picture that draws nothing is now caught</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -2800,7 +2831,17 @@ const INSTRUMENTS = {
         { label: "RIDE CYM",     trig: "RC", lane: "ride",    tone: "pale",
           keys: ["dTune", "dDecay"], ctrl: ["dVerb", "dEcho", "dCut"], fader: "dMix" },
       ],
-      grid: "drums",
+      /* ── THE ELEMENT THAT IS THE PICTURE ──────────────────────────────
+         Named so a check can ask whether it actually got DRAWN. The
+         barberpole's tube had no height for as long as that panel
+         existed: it collapsed to its two end caps and animated an
+         invisible strip. Nothing noticed, because every check in the
+         suite asks whether a control exists, carries a `data-key` or
+         reaches the sound -- and a box with the right class and zero
+         area passes all three. A screenshot found it. This is the
+         smallest declaration that lets a check see SHAPE, and a seam
+         check requires one from every panel that draws. */
+      grid: "drums", picture: "cols",
       voices: [["kick","BD"], ["snare","SD"], ["tom3","LT"], ["tom1","HT"],
                ["rim","RS"], ["clap","HC"], ["hat","CH"], ["openhat","OH"],
                ["crash","CC"], ["ride","RC"], ["ghost","SD·g"], ["tom2","MT"]],
@@ -3160,7 +3201,7 @@ const INSTRUMENTS = {
       { k:"dir",   label:"direction",   cap:"DIR",   min:-1,   max:1,   step:2,     def:1,    kind:"switch" },
     ],
     panel: { skin: "pole", maker: "BODE", title: "BARBERPOLE",
-             grid: "barber",
+             grid: "barber", picture: "poletube",
              groups: [{ label: "SWEEP", keys: ["rate", "dir"] },
                       { label: "OUT", keys: ["depth", "mix"] }] },
   },
@@ -3218,7 +3259,8 @@ const INSTRUMENTS = {
        No `groups`, because a grid is not a row of knob clusters -- that was
        the first build's mistake and it is why the panel looked nothing like
        the machine it is named after. */
-    panel: { skin: "a138", maker: "DOEPFER", title: "A-138m", grid: "matrix" },
+    panel: { skin: "a138", maker: "DOEPFER", title: "A-138m", grid: "matrix",
+             picture: "mxwrap" },
   },
 
   /* ── THE FIELD ────────────────────────────────────────────────────────────
@@ -3239,7 +3281,8 @@ const INSTRUMENTS = {
     slot: "field", label: "the field", fixed: true,
     lanes: {},
     controls: [],
-    panel: { skin: "field", maker: "DECKARD", title: "STEREO FIELD", grid: "field" },
+    panel: { skin: "field", maker: "DECKARD", title: "STEREO FIELD", grid: "field",
+             picture: "fldtube" },
   },
 
   /* ── THE PAD BAY: TWO HANDS, ONE UNIT ─────────────────────────────────────
@@ -3268,6 +3311,7 @@ const INSTRUMENTS = {
     slot: "pads", label: "the pad bay", fixed: true,
     lanes: {}, controls: [],
     panel: { skin: "kaoss", maker: "DECKARD", title: "PAD BAY", grid: "pads",
+             picture: "padcell",
              pads: [{ m: "echo",   label: "KORG · KAOSS",  x: "tone", y: "fb" },
                     { m: "flange", label: "YAMAHA · SPX90", x: "rate", y: "depth" }] },
   },
@@ -3280,7 +3324,8 @@ const INSTRUMENTS = {
   programme: {
     slot: "programme", label: "the programme", fixed: true,
     lanes: {}, controls: [],
-    panel: { skin: "prog", maker: "DECKARD", title: "PROGRAMME", grid: "programme" },
+    panel: { skin: "prog", maker: "DECKARD", title: "PROGRAMME", grid: "programme",
+             picture: "prgtape" },
   },
 
   /* ── BASSES ────────────────────────────────────────────────────────────── */
@@ -3564,7 +3609,7 @@ const INSTRUMENTS = {
         { t:"sw",   k:"muffler" },
         { t:"btn",  k:"accent",  cap:"ACCENT" },
       ],
-      grid: "bass",
+      grid: "bass", picture: "acid",
     },
   },
   /* the FM chip bass is `tb303.engines.chip` -- see the note above the basses.
@@ -24608,7 +24653,10 @@ function barberEl(m, M){
   const cap1 = el("div", "polecap"), cap2 = el("div", "polecap");
   const tube = el("div", "poletube");
   col.appendChild(cap1); col.appendChild(tube); col.appendChild(cap2);
+  /* the column does not grow ACROSS the panel; the tube inside it grows DOWN.
+     Without the second line the tube had no height at all — see the CSS. */
   col.style.flex = "0 0 auto";
+  col.style.alignItems = "center";
   const scale = el("div", "polescale");
   const marks = [];
   for(let i = 0; i < 6; i++){

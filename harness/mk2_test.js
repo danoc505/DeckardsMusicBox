@@ -2681,6 +2681,29 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   }
 }
 
+/* ═══ A PANEL THAT DRAWS A PICTURE MUST NAME IT ═══════════════════════════
+   The barberpole's tube rendered at zero height for as long as that panel has
+   existed, and nothing saw it: every check in this repo asks whether a control
+   exists, is declared, carries a `data-key` or reaches the sound, and a box
+   with the right class and no area passes all of them. A screenshot found it.
+
+   `panel.picture` names the element that IS the drawing, so the browser suite
+   can measure that one box. This makes the declaration compulsory — otherwise
+   the next visualiser arrives, forgets it, and is silently exempt from the only
+   check that can see shape. Same shape of guard as the English-name checks. */
+{
+  const missing = [];
+  for(const m in M.INSTRUMENTS){
+    const P = M.INSTRUMENTS[m].panel;
+    if(P && P.grid && !P.picture) missing.push(m + " draws " + P.grid);
+  }
+  const n = Object.keys(M.INSTRUMENTS).filter(m => {
+    const P = M.INSTRUMENTS[m].panel; return P && P.grid; }).length;
+  check("every panel that draws a picture names the element it draws it in",
+        missing.length === 0 && n > 0,
+        missing.length ? missing.join(" · ") : n + " picture panels, all named");
+}
+
 if(FILTER && pass + fail === 0){
   console.log("\nno check's name contains \"" + FILTER + "\" — " + skipped + " were skipped, none run");
   process.exit(2);

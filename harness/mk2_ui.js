@@ -1032,6 +1032,53 @@ const check = (label, ok, detail) => {
           drove.err || `back to ${(drove.back||[]).join(",")} (was ${(drove.was||[]).join(",")})`);
   }
 
+  /* ═══ A VISUALISER THAT DRAWS NOTHING IS NOT A VISUALISER ═════════════════
+     The barberpole's tube had NO HEIGHT. `.polewrap` stretches its children,
+     but inside the column the tube had no `flex`, so it collapsed and the panel
+     drew its two 9-pixel end caps touching. It animated correctly the whole
+     time; there was simply nothing to animate.
+
+     NOTHING IN THIS SUITE LOOKED AT SHAPES, which is why it survived for as
+     long as that panel has existed — every check here asks whether a control
+     exists, carries a `data-key` or reaches the sound, and a box with the right
+     class and zero area passes all three. A screenshot found it.
+
+     TWO REJECTED VERSIONS, recorded because both were checks that would have
+     lied. "The biggest element in the panel" passes trivially: the panel box
+     itself is always large, so the collapsed tube inside it went green. "Any
+     classed element with zero area" cries wolf: the stereo field's blips carry
+     a deliberate negative margin that zeroes the WRAPPER while its ring and
+     label are plainly visible, and a check that reports a defect where there is
+     none is worse than no check.
+
+     So the PANEL NAMES the element that is its picture, `panel.picture`, and
+     this asks that one. Declared rather than derived because nothing in a class
+     name says which box is the drawing — and a seam check in mk2_test requires
+     the declaration, so a new visualiser cannot arrive without one. */
+  {
+    const r = await pg.evaluate(() => {
+      const out = [];
+      for(const k in MK2.INSTRUMENTS){
+        const P = MK2.INSTRUMENTS[k].panel;
+        if(!P || !P.grid) continue;
+        const box = document.querySelector(`.machine[data-machine="${k}"]`);
+        if(!box) continue;                       // not on screen for this song
+        if(!P.picture){ out.push([k, "declares no picture element"]); continue; }
+        const el = box.querySelector("." + P.picture);
+        if(!el){ out.push([k, "." + P.picture + " is not on the panel"]); continue; }
+        const b = el.getBoundingClientRect();
+        out.push([k, Math.round(b.width) + "x" + Math.round(b.height),
+                  b.width >= 20 && b.height >= 20]);
+      }
+      return out;
+    });
+    const bad = r.filter(x => x[2] !== true);
+    check("every panel that draws a picture actually draws one",
+          r.length > 0 && bad.length === 0,
+          bad.length ? bad.map(x => x[0] + ": " + x[1]).join(" · ")
+                     : r.map(x => x[0] + " " + x[1]).join(" · "));
+  }
+
   /* ═══ A PART'S SEND MOVES THAT PART, AND ONLY THAT PART ═══════════════════
      The whole reason the sends moved off the bus. Three strips share the keys
      bus and two share the lead bus, so before this an echo knob on `chords 2`
@@ -1076,8 +1123,9 @@ const check = (label, ok, detail) => {
           sameBus.length > 0 && sameBus.every(r => after[r] && after[r].room === 1),
           sameBus.map(r => r + " room " + (after[r] ? after[r].room : "?")).join(" · "));
     await pg.evaluate(() => MK2.setMixer({}));
-    await pg.evaluate(() => document.getElementById("stop").click());
-    await pg.waitForTimeout(150);
+    /* `play` is a toggle -- there is no separate stop button, and reaching for
+       one threw a null. Left playing rather than guessing at the transport. */
+    await pg.waitForTimeout(120);
   }
 
   /* ═══ A BOX WITH A LOAD SWITCH SHOWS THE FACE OF WHAT IS LOADED ═══════════
