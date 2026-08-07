@@ -69,7 +69,29 @@ const FROM  = parseInt(process.argv[5], 10) || 0;
         sum += m * m;
         const a = Math.abs(m); if (a > peak) peak = a;
       }
-      return { label, rms: Math.sqrt(sum / n), peak, n: list.length };
+      /* ── AND HOW MUCH OF IT IS A HIT RATHER THAN A HUM ─────────────────────
+         Level answers "can I hear it" and says nothing about "does it punch".
+         Two numbers do:
+           CREST  peak minus RMS. A struck drum is mostly silence with a spike
+                  in it, so its crest is high; a drum whose decay runs into the
+                  next strike averages up and its crest COLLAPSES. This is the
+                  standard measure of transient life and it is the one that
+                  goes the wrong way when a drum is made "bigger" by lengthening
+                  it.
+           GAP    the share of the window sitting more than 30 dB under the
+                  peak -- literally, how much silence there is between the
+                  hits. A march has gaps. A drone does not. */
+      let quiet = 0;
+      const floorAmp = peak * 0.0316;             // -30 dB from this part's peak
+      let env = 0;
+      for (let i = 0; i < n; i++) {
+        const l = dv.getInt16(44 + (i * 2) * 2, true) / 32768;
+        const r = dv.getInt16(44 + (i * 2 + 1) * 2, true) / 32768;
+        const a = Math.abs((l + r) / 2);
+        env = a > env ? a : env * 0.9995;          // ~45 ms fall, an ear's window
+        if (env < floorAmp) quiet++;
+      }
+      return { label, rms: Math.sqrt(sum / n), peak, n: list.length, gap: quiet / n };
     };
     const rows = [await meas(ev, 'ALL')];
     for (const r of [...new Set(ev.map(e => e.role))])
@@ -86,13 +108,17 @@ const FROM  = parseInt(process.argv[5], 10) || 0;
   const all = out.rows.find(r => r.label === 'ALL');
   console.log(`\n  ${GENRE} seed ${SEED} — ${out.bars} bars / ${out.secs}s, ${FROM}-${FROM+SECS}s, each part rendered ALONE`);
   console.log(`  drums:${out.picks.drums}  keys:${out.picks.keys}  keys2:${out.picks.keys2}  lead:${out.picks.lead}\n`);
-  console.log('  part               notes    RMS dB    peak dB   vs whole mix');
+  console.log('  part               notes    RMS dB    peak dB   vs whole mix   crest    gap');
   for (const r of out.rows) {
     const rel = 20 * Math.log10(r.rms / all.rms);
     console.log('  ' + r.label.padEnd(18) + String(r.n).padStart(5) +
       db(r.rms).padStart(10) + db(r.peak).padStart(11) +
-      (r.label === 'ALL' ? '' : (rel > 0 ? '+' : '') + rel.toFixed(1) + ' dB').padStart(14));
+      (r.label === 'ALL' ? '' : (rel > 0 ? '+' : '') + rel.toFixed(1) + ' dB').padStart(14) +
+      (20 * Math.log10(r.peak / r.rms)).toFixed(1).padStart(8) +
+      (r.gap * 100).toFixed(0).padStart(6) + '%');
   }
+  console.log('\n  crest = peak minus average, in dB: how much of this part is a HIT rather than a hum.');
+  console.log('  gap   = share of the window more than 30 dB under its own peak: the silence between hits.');
   if (errs.length) console.log('\n  page errors: ' + errs.join(' | '));
   await b.close();
 })();

@@ -924,7 +924,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-07a · the chorus goes somewhere, the kettles run, and the whole pack is in the draw</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-07b · the war drum stops ringing between strikes</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -15912,7 +15912,30 @@ const GENRE = {
        instruments" to simulate an orchestral hall [corpus:erichgrunewald].
        This is the longest room in the file: 8.5 s against bladerunner's 5. */
     space: { wet: 0.5, irSec: 8.5, tailPow: 1.5, tailDark: 0.62, sendHp: 70,
-             feeds: ["bass", "drums"], echoFeeds: ["keys", "lead"],
+             /* ── AND THE DRUMS ARE NOT IN THE CATHEDRAL ──────────────────────
+                This read ["bass", "drums"], so the one part that strikes four
+                times a bar was the part sent into an 8.5-SECOND HALL, while
+                the held chords that would actually ring in one were not.
+
+                MEASURED, and it is the second half of why the drum stopped
+                being a drum: with the decay shortened to 0.76 s the war drum's
+                CREST recovered from 9.9 to 12.7 dB and its GAP stayed at ZERO
+                -- no silence between strikes at all. The direct sound was
+                ending on time and the ROOM was filling in behind it; a hit
+                every 909 ms into a hall that takes eight and a half seconds to
+                die is a continuous wash by arithmetic, and the timpani, which
+                plays in two bars of four, kept its 80% gap through the same
+                room for exactly that reason.
+
+                The hall now wraps the sustained parts, which is what the
+                sources describe it doing -- "long reverbs and modest delay to
+                suggest halls and caverns" is written about the pads and the
+                choirs. The drums keep their OWN room, per channel, through
+                `kVerb`/`tVerb` in `params.procession`, which is a send this
+                genre can size against the drum instead of against the record.
+                Rows can only be drums/bass/keys/lead/vinyl, so `keys` here is
+                the whole keyboard side. */
+             feeds: ["keys", "lead", "bass"], echoFeeds: ["keys", "lead"],
              random: 0, spread: 0.8, preDelay: 0.075,
              kitPan: { tom1: -0.22, tom2: 0.1, tom3: 0.24, snare: 0, kick: 0 } },
     /* the war drum's own voicing, TUNED TO THE ERANG PACK: the ten percussion
@@ -16037,24 +16060,69 @@ const GENRE = {
          change did nothing. Measured, and that is how it was caught: the war
          drum came back at the same RMS to the decimal.
 
-         "I want to feel like they are going to punch me in the balls... low
-         bellowing boom." kTune -5 puts the head at 39 Hz with its octave-down
-         layer at 19, and kDecay 1.3 -> 1.7 lets it ring for two full seconds.
-         Those two alone would make it QUIETER on most speakers,
-         not bigger -- a 41 Hz sine is below what a laptop or a phone can
-         reproduce at all, and what a listener actually hears of a big drum is
-         its HARMONICS. That is what `bus` is: the kit's drive, 0.95 -> 1.45,
-         which folds the fundamental up into the range every speaker has. Depth
-         from the tuning, audibility from the drive. Raising the fader alone was
-         the thing the user ruled out ("I'm not just saying the volume should be
-         higher") and it is also the thing that would not have worked. */
-      procession: { bus: 1.45, gate: 0, ring: 1.35,
-                    kTune: -5, kDecay: 1.7, kMix: 1.0, kVerb: 0.5, kEcho: 0.05, kCut: 9000,
+         ── AND THEN IT WAS MADE WORSE, AND HERE IS THE NUMBER THAT SAYS SO ──
+         "The drums are worse now than ever." Correct, and measurable. kTune
+         went to -5 and kDecay to 1.7 and the drive to 1.45, on the reasoning
+         that deeper plus longer plus harder equals bigger. The probe grew two
+         columns to answer it -- CREST (peak minus average) and GAP (how much
+         of the window sits 30 dB under the part's own peak) -- and they are
+         brutal:
+
+           wardrum   crest 9.9 dB    GAP 0%
+           snare     crest 35.1      gap 90%
+           timpani   crest 13.5-14.7 gap 70-75%
+
+         ZERO PER CENT. Over forty seconds the war drum never once fell quiet.
+         The arithmetic is not subtle: at 66 bpm a four-strike bar puts the hits
+         909 ms apart and the decay was 1.6 SECONDS, with a second head under it
+         at 2.2 -- so every strike was still near full level when the next one
+         landed, and a drum whose tail never ends is not a drum, it is a drone
+         with bumps in it. The 1.45 drive then removed what was left: that stage
+         is tanh(3.6x) after a 0.5 pre-gain, so at 1.45 the peaks are pinned and
+         the transient -- which IS the punch -- gets flattened into the tail.
+
+         A hit needs SILENCE AFTER IT. That is the whole of it, and it is why
+         "make it bigger" and "make it longer" are opposite instructions here.
+         So: the decay is 0.76 s, comfortably inside the gap between strikes;
+         the drive is back near unity where the shaper warms rather than
+         squashes; and the depth stays, because depth was never the problem.
+         kTune -3 is a 44 Hz head with its layer at 22 -- still the lowest drum
+         in this file by a distance.
+
+         ── AND `kVerb` WAS THE WHOLE OF THE REST OF IT ────────────────────────
+         Those three changes took the crest from 9.9 to 12.7 dB and left the
+         GAP AT THREE PER CENT. The direct sound was ending on time and
+         something else was holding the level up, so the next step was to take
+         one thing away and look, which is the only way this kind of question
+         has ever been settled here: kVerb to 0, everything else untouched.
+
+           kVerb 0.28   gap  3%          <- what shipped and was reported worse
+           kVerb 0.09   gap 23%
+           kVerb 0      gap 41%
+
+         A 28% send from a drum striking four times a bar into an 8.5-SECOND
+         HALL is a continuous wash by arithmetic, and it does not matter how
+         cleanly the drum itself stops. The timpani kept its 80% gap through
+         the same room only because it plays in two bars of four and has whole
+         bars to die in.
+
+         0.05 is a hint of stone rather than a cathedral, and it holds the gap
+         at 22% while the strikes stay in a room. With the wash gone there is
+         headroom to bring the direct hit FORWARD instead of louder-and-blurrier:
+         kMix 1.30. Final, seed 1, a full section: war drum crest 15.7 dB, gap
+         65%, -5.1 dB against the whole mix; kettles 89% gap at -7 to -8. */
+      procession: { bus: 1.05, gate: 0, ring: 1.05,
+                    kTune: -3, kDecay: 0.8, kMix: 1.30, kVerb: 0.05, kEcho: 0.03, kCut: 9000,
                     sTune: 1, sDecay: 1, sMix: 0.62, sVerb: 0.55, sEcho: 0.08, sCut: 9500,
                     /* the kettles were 10.8 dB under the mix -- present in the
-                       event list and not in the record. They are the run now. */
-                    tTune: -2, tDecay: 1.6, tMix: 1.0, tVerb: 0.7, tEcho: 0.1, tCut: 8000,
-                    mTune: -2, mDecay: 1.6, mMix: 0.98, mVerb: 0.7, mEcho: 0.1, mCut: 8000,
+                       event list and not in the record. They are the run now,
+                       and they are the same lesson twice: at decay 1.6 the
+                       first of six notes was still at full when the sixth
+                       landed and the run read as one smear, and at 0.45 room
+                       the gaps between runs filled in. 0.85 and 0.30 leave
+                       each one able to speak. */
+                    tTune: -2, tDecay: 0.85, tMix: 1.30, tVerb: 0.30, tEcho: 0.08, tCut: 8000,
+                    mTune: -2, mDecay: 0.85, mMix: 1.26, mVerb: 0.30, mEcho: 0.08, mCut: 8000,
                     rTune: 1, rDecay: 1, rMix: 0.3, rVerb: 0.4, rEcho: 0.05, rCut: 9000,
                     cTune: 1, cDecay: 1, cMix: 0.3, cVerb: 0.4, cEcho: 0.05, cCut: 9000,
                     hTune: 1, hDecay: 0.8, hMix: 0.28, hVerb: 0.35, hEcho: 0.04, hCut: 9000,
