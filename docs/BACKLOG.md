@@ -210,10 +210,22 @@ dungeonsynth — not checked yet, and that is the thing worth checking next).
 ### 0b.7 THE HARNESS ITSELF — what 2026-08-07 says about it
 Not a defect in the program; a defect in how it is checked.
 
-- **`mk2_test.js` cannot be run in parts.** One flat script, 131 checks, no
-  function boundaries per group. At 1m45s that is affordable and it is why it
-  was NOT worth restructuring — but if it ever grows past ~4 minutes, name
-  filtering is the first thing to add.
+- ~~**`mk2_test.js` cannot be run in parts.**~~ **DONE 2026-08-07.** A trailing
+  non-numeric argument is now a name filter: `mk2_test.js kit` prints only the
+  checks whose names contain it, and the summary names how many were skipped so
+  a filtered run can never read as the whole battery. **It filters the answer,
+  not the work** — the composition loops are shared and still run — so this is
+  a legibility tool, not a speed one.
+- **The two long browser checks are opt-in.** `mk2_ui.js` runs a fast core by
+  default; `--full` adds the graph-growth check (which has to play for a fixed
+  stretch) and the declared-vs-drawn sweep (every machine into every rack, then
+  every kit). Both are named in the summary when skipped.
+- **`mk2_snapshot check` samples.** It compares 25 seeds a genre against those
+  same seeds' recorded lines, matched by (seed, genre) rather than by position;
+  `--full` does the whole baseline, and `write` is unchanged because a baseline
+  that is not complete is not a baseline. What a sample cannot see is the rare
+  interaction — this repo has "7 of 2100" and "19 of 2100" in its history — so
+  a change that could be that shape gets `--full`.
 - **The snapshot baseline is regenerated on every commit**, so it can only ever
   catch change you did not intend, and only if you diff before overwriting.
   Diffing per genre before rewriting it is a discipline, not a tool. **Closing
@@ -423,7 +435,7 @@ function chordTones(root, mode, d, seventh){
 | **`probe_theory` hand-copies a MODES table that has drifted from the engine's** | Its table (line 40) is MISSING `harmMinor` and ADDS `locrian` and `aeolian`, neither of which the engine has. A `harmMinor` song would fall through `MODES[mode] \|\| MODES.minor` and be silently measured against natural minor. **Latent — no genre draws harmMinor, so nothing is misreported today.** But this is the "anything that LISTS what the program contains will go stale" defect for the fifth time. | Export `MK2.MODES` and derive. |
 | **`probe_comp` measures texture, not harmony** | Six numbers: simultaneity, onsets/bar, voices/onset, inner movement, bar repeat, span. **No chord identity, no inversion distribution, no voice-leading distance between successive voicings, no check that the voicing is even the chord.** It is a texture probe wearing a voicing name. | Add the harmonic half — it is the natural place to verify §6.1 and §6.2 once they land. |
 | **`probe_harmony_neo` reads the abstract chart, never the played pitches** | It reads `song.materials.chords`, so it says nothing about what is actually voiced and heard. Its voice-leading number is a SET distance (line 35), order-free, and therefore cannot detect voice crossing or parallel motion by construction. | Point a version of it at `materials.*.keys`. |
-| **`mk2_ui.js` IS FLAKY — about one run in five reports 25/26 and the next run is clean** | Seen twice on 2026-08-04, on two unrelated commits, and on both occasions every re-run passed (3 clean runs each time). The failing check does not identify itself in the summary line, so which one it is has not been established. **It is a browser-timing flake, not a defect in the program — but it is exactly the kind of thing that gets waved through as "just flaky" until the day it is real.** | Capture the failing check's name on failure and print it. Until then, a red 25/26 from this probe must be re-run and BOTH results reported, never just the green one. |
+| **`mk2_ui.js` IS FLAKY — about one run in five reports one failure and the next run is clean** | Seen twice on 2026-08-04 on two unrelated commits, and again on 2026-08-07 (one run 43/1, the next four clean). Every re-run has always passed. **It is a browser-timing flake, not a defect in the program — but it is exactly the kind of thing that gets waved through as "just flaky" until the day it is real.** *Half closed 2026-08-07:* the summary now REPRINTS the name and detail of every failed check at the bottom, so the next occurrence identifies itself instead of scrolling away — which is what has kept this row open for three days. | Catch one with its name and fix the timing assumption behind it. Until then, a red run must be re-run and BOTH results reported, never just the green one. |
 | **`mk2_roll.js` SILENTLY COMPOSES THE WRONG GENRE if you pass a bare name** | `node harness/mk2_roll.js 1 acid` composes **lofi**. The genre is a named flag, `--genre`, and a positional argument that is not a rig name is simply ignored. This produced a false "all seven genres are identical" claim on 2026-08-04 from seven runs of the same genre; the conclusion happened to be right and the evidence was worthless. Now a rule in README and HANDOFF §0. | Make it THROW on an unrecognised bare argument rather than ignore it. A tool that quietly answers a different question than the one asked is worse than one that fails. |
 | ~~**`probe_counterpoint` reports one number per genre and that average hides the finding**~~ **DONE `2026-08-05`** | Its headline was parallel-perfects averaged over every pair of parts, and **a fix was built for the wrong pair because of it.** | CLOSED: every pair with ≥100 shared steps, ranked worst first, each against ITS OWN shuffle floor (a slow pair and a busy pair do not have the same chance rate). The deliberate octave double is MARKED rather than filtered. It immediately falsified §6.3's headline claim — see the row there. Remaining limit, unchanged and stated in the probe's header: each role is reduced to its top note, so a parallel fifth buried among a comp's inner voices is still invisible. |
 | **`probe_theory` hand-copies a MODES table** — *`MK2.MODES` is exported as of `2026-08-04d`, so this is now a one-line fix* | (see the row below; the blocker is gone) | Derive from `MK2.MODES`. |

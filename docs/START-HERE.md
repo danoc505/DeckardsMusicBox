@@ -123,16 +123,26 @@ because the measurement refused it.
 
 ## Where the program stands
 
-Build `2026-08-07f`. Verified at that build:
+Build `2026-08-07j`. The commands, each in the DEFAULT form, which is the form
+to use. `mk2_stamp.js check` tells you whether the file in front of you is the
+build these documents describe — that, not a battery, is the pickup check.
 
 ```
-seam checks   131 / 0     node harness/mk2_test.js          1m45s
-ui             36 / 0     node harness/mk2_ui.js            ~2m, real browser, flaky ~1 in 5
-blend          10 / 0     node harness/mk2_blend.js         ~2m
-midi           20 / 0     node harness/mk2_midi.js          ~1m
-mixer           4 / 0     node harness/probe_mixer.js       ~1m
-snapshot   b9c88d17b7e7c54e  node harness/mk2_snapshot.js check harness/mk2_baseline.snap   ~6m
+node harness/mk2_roll.js 1 --genre <g>      the notes. RULE ONE
+node harness/mk2_test.js                    the seam checks
+node harness/mk2_test.js kit                ...only the ones whose names contain "kit"
+node harness/mk2_snapshot.js check harness/mk2_baseline.snap    did the music move?
+node harness/mk2_ui.js                      the front panel, real browser (flaky ~1 in 5)
+node harness/mk2_blend.js                   the blend sliders
+node harness/mk2_midi.js                    the MIDI port and the .mid export
+node harness/probe_mixer.js                 the desk reaches the graph
 ```
+
+**Three of those have a `--full` form and DEFAULT TO THE CHEAP ONE ON PURPOSE.**
+`mk2_snapshot check` samples seeds; `--full` sweeps the whole baseline.
+`mk2_ui` runs a fast core; `--full` adds the graph-growth check and the
+declared-vs-drawn sweep. Use `--full` when you can say what it would see that
+the default cannot, and say that out loud before you run it.
 
 On a fresh clone, FIRST: `npm install playwright`. `node_modules` is not in
 the repo and every browser probe dies with "Cannot find module 'playwright'",
@@ -174,26 +184,32 @@ ran the full chain eight times for a day's work, and the user paid for it.
 It is replaced by the rule below, which is written from **measured** costs
 rather than from an impression of them.
 
-### What is actually cheap, and what is not
+### The tools default to the cheap form. Let them.
 
-MEASURED 2026-08-07. `mk2_test.js` takes **1 minute 45 seconds**, and its
-seed-count argument barely moves it — 20 seeds took 1m54, 300 took 1m44,
-which is noise. I had been telling the user the seam battery cost ten
-minutes and recommending it be made filterable. Both were wrong, and the
-wrongness is instructive: **the expensive things are the SNAPSHOT and the
-BROWSER probes, not the seam checks.** The ten minutes was me running the
-whole chain, one browser at a time, after every edit.
+**No run times are written in these documents any more, and that is
+deliberate.** They were measured once, went stale, understated the worst case
+badly — the full snapshot has been killed for memory on this machine — and
+reading a price is what talks you into paying it. The user, 2026-08-07, after
+watching the full sweep run three times in one session: *"Dont put the cost in
+the docs that will just get you to do it again."* He is right, and the fix was
+structural rather than written: **the expensive form is now behind a flag, so
+it cannot be reached by habit.**
 
-So:
-
-- **While working:** `mk2_roll.js` (instant) and `mk2_test.js` (under two
-  minutes). Run those as often as you like. Add a targeted probe if the
-  question needs measuring — `probe_stems.js` for balance, `probe_static.js`
-  for how much a record changes, `probe_palette.js` for which sounds a genre
-  reaches.
+- **While working:** `mk2_roll.js` and `mk2_test.js`, and prefer the targeted
+  form — a name filter on the battery, or a short query against the composer,
+  when the question is about one seam. Add a probe if the question needs
+  measuring: `probe_stems.js` for balance, `probe_static.js` for how much a
+  record changes, `probe_palette.js` for which sounds a genre reaches.
 - **Once, before publishing:** the snapshot, `mk2_ui.js`, `mk2_blend.js`,
   `mk2_midi.js`, and any probe the change touches.
-- **Never** the whole chain after every edit.
+- **Never** the whole chain after every edit, and **never a `--full` sweep by
+  reflex.**
+
+**AND THE REAL REASON THE RULE KEEPS BREAKING.** It is not forgetfulness — the
+session that wrote this section broke it within the hour. It is that a large
+edit leaves you not knowing what you broke, so you reach for a battery to find
+out. **The fix is smaller edits, finished one at a time.** An unfinished change
+is the thing you keep re-verifying.
 
 **Run browser probes one at a time.** Four cores; four Chromium renders at
 once finish slower than four in a row, and a combined run has been killed for

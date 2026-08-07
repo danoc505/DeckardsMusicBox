@@ -2,7 +2,7 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    THE UI, DRIVEN — in a real browser, on the real shipped file.
 
-       node harness/mk2_ui.js [--shot <dir>]
+       node harness/mk2_ui.js [--shot <dir>] [--full]
 
    WHY THIS EXISTS. Every other harness in here reconstructs the engine by
    eval'ing the <script> out of the HTML, which is exactly right for testing
@@ -38,10 +38,42 @@ const FILE = "file://" + path.resolve(__dirname, "..", "Deckards Orchestrator MK
 const shotAt = process.argv.indexOf("--shot");
 const shotDir = shotAt >= 0 ? process.argv[shotAt + 1] : null;
 
+/* ── THE TWO LONG ONES ARE OPT-IN ───────────────────────────────────────────
+   Two checks in here dominate the clock and neither is a per-change question:
+
+     · the audio graph does not grow for ever  — plays for a fixed 25 seconds,
+       because it is measuring a leak that only shows over time;
+     · every control a machine declares is drawn — loads EVERY machine into
+       EVERY rack that accepts it and then walks every kit of each, which is
+       a few hundred page round-trips.
+
+   They are the right checks and they stay. They are simply not what you want
+   after moving a label, and a suite whose cheap form is the only form is a
+   suite that gets skipped entirely — which is how the defects they were
+   written for got in.
+
+   So the default run is the fast core and `--full` adds these two. Every
+   skipped check is NAMED in the summary, not silently dropped: a "0 failed"
+   that quietly stands for less than it did last time is the exact shape of
+   mistake this repo keeps finding. */
+const FULL = process.argv.includes("--full");
+const skippedNames = [];
+const onlyFull = name => { if(!FULL) skippedNames.push(name); return FULL; };
+
+/* ── A FAILURE NAMES ITSELF IN THE SUMMARY ──────────────────────────────────
+   This suite is flaky about one run in five, and the backlog has carried the
+   same entry since 2026-08-04: "The failing check does not identify itself in
+   the summary line, so which one it is has not been established." It cost
+   another session today — a run came back 43/1 and the next four were clean,
+   and the ✗ had already scrolled off. So the names are collected and reprinted
+   at the bottom. Knowing WHICH check flakes is the whole of telling a timing
+   flake from a real defect, and until then every red run has to be re-run and
+   BOTH results reported. */
 let pass = 0, fail = 0;
+const failedNames = [];
 const check = (label, ok, detail) => {
   console.log(`  ${ok ? "✓" : "✗ FAIL:"} ${label}${detail ? "  (" + detail + ")" : ""}`);
-  ok ? pass++ : fail++;
+  if(ok) pass++; else { fail++; failedNames.push(label + (detail ? "  (" + detail + ")" : "")); }
 };
 
 (async () => {
@@ -634,7 +666,7 @@ const check = (label, ok, detail) => {
      AND IT IS A RATIO OF *CREATED*, so it cannot be satisfied by a program that
      has stopped making sound -- a silent build creates nothing and the guard
      below refuses a run that built too few nodes to judge. */
-  {
+  if(onlyFull("the audio graph does not grow for ever while it plays")){
     /* the recorder has to be installed before the page makes its context, so
        this runs in its own page rather than reaching into the live one */
     const pg2 = await b.newPage({ viewport: { width: 980, height: 900 } });
@@ -821,7 +853,7 @@ const check = (label, ok, detail) => {
      This loads every machine into every rack that accepts it and compares the
      declaration against the glass. It is the other half of "a knob that does
      nothing is a lie": a knob that does something and cannot be reached. */
-  {
+  if(onlyFull("every control a machine declares is drawn on its panel")){
     const plan = await pg.evaluate(() => {
       const out = [];
       for(const s of MK2.rackSlots())
@@ -928,6 +960,9 @@ const check = (label, ok, detail) => {
 
   check("no uncaught page errors at any point", errs.length === 0, errs.slice(0, 3).join(" | "));
   await b.close();
-  console.log("\n" + pass + " passed, " + fail + " failed");
+  console.log("\n" + pass + " passed, " + fail + " failed" +
+    (skippedNames.length ? "  — the long ones were not run (--full adds them): " +
+                           skippedNames.map(n => "“" + n + "”").join(", ") : ""));
+  for(const n of failedNames) console.log("  FAILED: " + n);
   process.exit(fail ? 1 : 0);
 })().catch(e => { console.error(e); process.exit(1); });

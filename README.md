@@ -126,15 +126,20 @@ one table before a note exists.
 No build step — every tool reads the shipped HTML directly.
 
 ```sh
-node harness/mk2_test.js                                    # 96 seam checks
-node harness/mk2_ui.js                                      # 24 checks, real browser
-node harness/mk2_blend.js                                   # 10 checks, blend sliders
+node harness/mk2_test.js                                    # the seam checks
+node harness/mk2_test.js kit                                # ...only the ones named "kit"
+node harness/mk2_ui.js                                      # the front panel, real browser
+node harness/mk2_blend.js                                   # the blend sliders
 node harness/mk2_snapshot.js check harness/mk2_baseline.snap
 node harness/probe_voices.js                                # every voice fires, none silent
-node harness/mk2_midi.js                                    # 20 checks, MIDI port
+node harness/mk2_midi.js                                    # the MIDI port
 
 node harness/mk2_roll.js 1                                  # THE test that matters: read the notes
 ```
+
+`mk2_snapshot check` and `mk2_ui` each default to a cheap form and take
+`--full` for the exhaustive one. That is deliberate: the exhaustive form should
+be a decision, not a habit.
 
 `harness/README.md` lists the rest — the probes for the comp, the harmony, the
 cymbals, every knob on every machine, and whether the genre outweighs the seed.

@@ -3,7 +3,7 @@
    The output battery (rendered WAV assertions) is mk2_render.js + analysis; THIS
    file guards the composition contract on every change:
 
-     node harness/mk2_test.js [nSeeds]
+     node harness/mk2_test.js [nSeeds] [name-filter]
 
    Exits non-zero on any failure. The checks are the LAWS, not taste:
    valid by construction, deterministic, rule of three, hook exactness,
@@ -22,8 +22,31 @@ const M = global.window.MK2;
 const T = global.__T;
 
 const N = parseInt(process.argv[2], 10) || 300;
-let pass = 0, fail = 0;
+
+/* ── AN OPTIONAL NAME FILTER ────────────────────────────────────────────────
+     node harness/mk2_test.js kit
+     node harness/mk2_test.js 40 "picks a thing"
+
+   Any argument that is not a number is a case-insensitive substring matched
+   against the check's NAME. This exists because the battery is 130-odd checks
+   and after a change to one seam I want the answer about that seam, not a wall
+   I have to read carefully enough to spot one ✗ in.
+
+   BE HONEST ABOUT WHAT IT DOES: it filters the ANSWER, not the WORK. The
+   composition loops that feed the checks are shared and still run, so a
+   filtered run costs what a full one costs. It buys legibility, not seconds.
+
+   AND A FILTERED RUN IS NOT THE BATTERY. The summary says so and names the
+   filter, because "0 failed" printed after a filtered run is exactly the kind
+   of true-but-narrow sentence this repo has been burned by before (the
+   snapshot that said IDENTICAL about one seventh of the program). Skipped
+   checks are counted and reported so the number can never read as a total. */
+const FILTER = process.argv.slice(2).find(a => a && !/^\d+$/.test(a) && !a.startsWith("--"));
+const matches = name => !FILTER || name.toLowerCase().includes(FILTER.toLowerCase());
+
+let pass = 0, fail = 0, skipped = 0;
 const check = (name, ok, detail) => {
+  if(!matches(name)){ skipped++; return; }
   console.log((ok ? "  ✓ " : "  ✗ FAIL: ") + name + (detail ? "  (" + detail + ")" : ""));
   ok ? pass++ : fail++;
 };
@@ -2527,5 +2550,11 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   }
 }
 
-console.log("\n" + pass + " passed, " + fail + " failed");
+if(FILTER && pass + fail === 0){
+  console.log("\nno check's name contains \"" + FILTER + "\" — " + skipped + " were skipped, none run");
+  process.exit(2);
+}
+console.log("\n" + pass + " passed, " + fail + " failed" +
+  (FILTER ? "  — FILTERED to names containing \"" + FILTER + "\"; " + skipped +
+            " other checks were skipped, so this is not the battery" : ""));
 process.exit(fail ? 1 : 0);

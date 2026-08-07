@@ -13,35 +13,49 @@ rendered-audio failures that had been dismissed as "pre-existing" turned out to
 contain two real defects in the music. For whoever picks this up next. Read this
 whole file before you touch the HTML.*
 
-**State at build `2026-08-07f`, every number below measured on that commit —
-not remembered from an earlier one.**
+**THE COMMANDS. Each one in its DEFAULT form, which is the form to use.** Where
+a tool has a `--full` sweep it is named here so you know it exists — reach for
+it when the question needs it, not by habit.
 
-| battery | command | cost | result |
-|---|---|---|---|
-| seam checks | `node harness/mk2_test.js` | 1m45s | **131 passed, 0 failed** |
-| UI, in a browser | `node harness/mk2_ui.js` | ~2m | **36 passed, 0 failed** — flaky ~1 in 5, see below |
-| blend sliders | `node harness/mk2_blend.js` | ~2m | **10 passed, 0 failed** |
-| MIDI port | `node harness/mk2_midi.js` | ~1m | **20 passed, 0 failed** |
-| the mixer | `node harness/probe_mixer.js` | ~1m | **4 passed, 0 failed** |
-| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | ~6m | baseline `b9c88d17b7e7c54e` |
-| the notes | `node harness/mk2_roll.js 1 --genre <g>` | instant | **RULE ONE, not optional** |
-| balance, in the audio | `node harness/probe_stems.js <g> <seed> [secs] [from]` | ~1.5m | levels, A-weighted, crest, gap, leave-one-out |
-| how static a record is | `node harness/probe_static.js <g> [songs]` | ~40s | parts sounding at once, distinct bars — new at `07d` |
-| which sounds get used | `node harness/probe_palette.js <g> [songs]` | ~40s | switch positions and machines per slot — new at `07a` |
+| battery | command | what it answers |
+|---|---|---|
+| the notes | `node harness/mk2_roll.js 1 --genre <g>` | **RULE ONE, not optional** — the notes, before and after |
+| seam checks | `node harness/mk2_test.js` | the laws. A trailing word is a NAME FILTER: `mk2_test.js kit` runs the checks whose names contain it and says how many it skipped |
+| snapshot | `node harness/mk2_snapshot.js check harness/mk2_baseline.snap` | did the music move? Samples seeds by default, matched per (seed, genre); `--full` sweeps the whole baseline |
+| UI, in a browser | `node harness/mk2_ui.js` | the front panel, driven for real. `--full` adds the two long ones (graph growth, declared-vs-drawn). Flaky ~1 in 5 — see below |
+| blend sliders | `node harness/mk2_blend.js` | the X/Y/Z blend |
+| MIDI port | `node harness/mk2_midi.js` | the `.mid` export and the live port |
+| the mixer | `node harness/probe_mixer.js` | the desk reaches the graph |
+| balance, in the audio | `node harness/probe_stems.js <g> <seed> [secs] [from]` | levels, A-weighted, crest, gap, leave-one-out |
+| how static a record is | `node harness/probe_static.js <g> [songs]` | parts sounding at once, distinct bars |
+| which sounds get used | `node harness/probe_palette.js <g> [songs]` | switch positions and machines per slot |
+
+*The run times that used to be in this table are gone on purpose. They were
+measured once, went stale, understated the worst case badly, and reading them
+is what talked me into paying them. Ask the tool, not the table.*
 
 ### THE TESTING RULE, CORRECTED 2026-08-07 — READ THIS BEFORE THE TABLE ABOVE
 
 The instruction used to be "run all of these before you claim anything". That
 is why one session ran the whole chain **eight times** for a day's work and the
-user paid for it and told me to stop. It is replaced by measured costs:
+user paid for it and told me to stop. It is replaced by:
 
-- **While working:** `mk2_roll.js` and `mk2_test.js` only. The seam battery is
-  under two minutes and its seed argument barely moves it (20 seeds 1m54, 300
-  seeds 1m44). Add one targeted probe when a question needs a number.
+- **While working:** `mk2_roll.js` and `mk2_test.js` only, and prefer the
+  targeted form — a name filter on the battery, or a five-line query against
+  the composer, when the question is about one seam.
 - **Once, before publishing:** snapshot, ui, blend, midi, and any probe the
   change touches. One browser at a time — a combined run has been killed for
   memory (exit 137).
 - **Never** the whole chain after every edit.
+- **Never a `--full` sweep by reflex.** Every tool that has one defaults to the
+  cheap form deliberately. Reach for `--full` when you can say what it would
+  see that the default cannot — a rare interaction across many seeds, a leak
+  that only shows over time — and say that out loud before running it.
+
+**AND THE REASON THIS RULE KEEPS GETTING BROKEN, WRITTEN DOWN.** It is not
+forgetfulness. It is that a large edit leaves you not knowing what you broke,
+so you reach for a battery to find out. **The fix is smaller edits**, finished
+one at a time. The session that wrote this rule broke it within the hour.
 
 ### AND THE BATTERY CANNOT SEE MOST OF WHAT MATTERS
 
@@ -129,10 +143,12 @@ check reads.
 > browser itself is already in the image at `PLAYWRIGHT_BROWSERS_PATH`, so do
 > **not** run `playwright install`).
 
-> **`mk2_ui.js` IS FLAKY.** About one run in five reports 25/26 and every
-> re-run is clean; seen twice on 2026-08-04 on unrelated commits. It is browser
-> timing, not the program. **A red run must be re-run and BOTH results
-> reported**, never just the green one. `BACKLOG.md` §6.6.
+> **`mk2_ui.js` IS FLAKY.** About one run in five reports a single failure and
+> every re-run is clean; seen twice on 2026-08-04 on unrelated commits and
+> again on 2026-08-07. It is browser timing, not the program. **A red run must
+> be re-run and BOTH results reported**, never just the green one. The summary
+> now reprints the name of every failed check at the bottom, so the next one
+> can be identified instead of scrolling away. `BACKLOG.md` §6.6.
 
 **SIX BUILDS SHIPPED ON 2026-08-04 AND NOT ONE HAS BEEN HEARD.** `04b` the
 Wurlitzer, `04c` the record surface and the kick duck, `04d` chord quality from
@@ -625,10 +641,11 @@ WAV hash can never be the determinism test. The determinism test is the
 > you start work.
 
 ```bash
-node harness/mk2_test.js                              # the seam checks (120 at f8ae533)
+node harness/mk2_test.js                              # the seam checks
+node harness/mk2_test.js kit                          # ...only the ones named "kit"
 node harness/mk2_roll.js 1                            # THE test that matters
 node harness/mk2_roll.js 1 --song                     # full arrangement
-node harness/mk2_roll.js 1 --genre plastikman         # any of the seven genres
+node harness/mk2_roll.js 1 --genre plastikman         # any genre MK2.genres() names
 node harness/mk2_roll.js 1 --picks lead=sax           # load a machine and read what it plays
 node harness/mk2_roll.js 1 --mid out.mid              # .mid round-trip check
 node harness/mk2_roll.js 1 --blend lofi:50,jungle:50  # read a blended song
@@ -674,9 +691,8 @@ measuring the thing you changed, not by re-printing six numbers that were
 already true.
 
 **Run the rendered-audio battery too when you touch the SOUND** — the graph, a
-voice, a genre's `space` or `kick`, the master chain. It takes about two minutes
-including the render and it is the only thing in the repo that asserts on actual
-samples.
+voice, a genre's `space` or `kick`, the master chain. It is the only thing in
+the repo that asserts on actual samples.
 
 **It is at 316 passed, 15 failed at `af17de6`, and the way to read that is in
 `docs/BACKLOG.md` §1.** Thirteen of the fifteen are ONE check whose ceiling was
