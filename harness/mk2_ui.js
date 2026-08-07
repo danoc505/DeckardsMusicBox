@@ -116,26 +116,68 @@ const check = (label, ok, detail) => {
      is current and nothing else. And it proves the meters are WIRED: a fader
      with a dead meter beside it is the knob-that-lies defect pointed at the one
      box whose whole job is to report. */
+  /* ── AND THE PREMISE OF THIS CHECK WENT STALE THE DAY THE MASTER LANDED ───
+     It counted EVERY `.mixch` as a part and held every one of them to three EQ
+     knobs. A master strip is a strip and is not a part: it has no EQ, no role
+     in the performance, and its whole job is to act on the others. So the check
+     went red for a change that was correct and asked for.
+
+     Rewritten to measure the thing it was always about -- *the CHANNELS match
+     the parts the song plays* -- by asking which strips are channels rather
+     than by assuming all of them are. The master is then checked for what a
+     master actually has. NOT fixed by relaxing the EQ count, which would have
+     made it green and blind. */
   {
     const mix = await pg.evaluate(() => {
       const box = document.querySelector(".machine.mixer");
       if(!box) return { there: false };
-      const strips = [...box.querySelectorAll(".mixch")].map(c => c.dataset.role);
-      const roles = [...new Set(MK2.composeSong(1, undefined, undefined) &&
-                                window.SONG ? window.SONG.perf.events.map(e => e.role) : [])];
-      return { there: true, strips,
-               eq: [...box.querySelectorAll(".mixch")].map(c => c.querySelectorAll(".kn").length),
-               meters: box.querySelectorAll(".mixmeter").length,
-               faders: box.querySelectorAll(".mixfader").length,
-               roles: roles };
+      const all = [...box.querySelectorAll(".mixch")];
+      const chans = all.filter(c => c.dataset.role !== "__master");
+      const master = all.find(c => c.dataset.role === "__master") || null;
+      /* ── AND IT IS `MK2.currentSong()`, NOT `window.SONG` ──────────────────
+         The version of this check that stood before today read `window.SONG`,
+         which is ALWAYS UNDEFINED: `SONG` is a module-level `let`, and let and
+         const never become properties of window. So `roles` was an empty array
+         every time it ran, and the comment above -- "asks the program which
+         roles sound and compares" -- described something the check did not do.
+         It counted strips and never compared them to anything.
+
+         This is the THIRD time this exact mistake has been found in this repo
+         (`window.Sound` killed every mixer control; `window.MK2` is the one
+         that works because it is an explicit export). Anything the page does
+         not deliberately export is not reachable from a probe. */
+      const song = MK2.currentSong();
+      const roles = [...new Set(song ? song.perf.events.map(e => e.role) : [])];
+      return { there: true,
+               strips: chans.map(c => c.dataset.role),
+               eq: chans.map(c => c.querySelectorAll(".mixeq .kn").length),
+               meters: chans.filter(c => c.querySelector(".mixmeter")).length,
+               faders: chans.filter(c => c.querySelector(".mixfader")).length,
+               mutes:  chans.filter(c => c.querySelector(".mixmute")).length,
+               solos:  chans.filter(c => c.querySelector(".mixsolo")).length,
+               roles,
+               master: master ? { fader: !!master.querySelector(".mixfader"),
+                                  meter: !!master.querySelector(".mixmeter"),
+                                  marks: master.querySelectorAll(".mixmark").length } : null };
     });
-    check("the mixer draws a strip for every part the song plays",
-          mix.there && mix.strips.length > 0 &&
+    const missing = mix.there ? mix.roles.filter(r => !mix.strips.includes(r)) : [];
+    const extra   = mix.there ? mix.strips.filter(r => !mix.roles.includes(r)) : [];
+    check("the mixer draws a channel for every part the song plays, and no others",
+          mix.there && mix.strips.length > 0 && missing.length === 0 && extra.length === 0 &&
           mix.meters === mix.strips.length && mix.faders === mix.strips.length &&
           mix.eq.every(n => n === 3),
-          mix.there ? `${mix.strips.length} strips (${mix.strips.join(", ")}), ` +
-                      `${mix.meters} meters, ${mix.faders} faders, 3 bands each`
+          mix.there ? `${mix.strips.length} channels (${mix.strips.join(", ")}), ` +
+                      `${mix.meters} meters, ${mix.faders} faders, 3 bands each` +
+                      (missing.length ? "  MISSING: " + missing.join(" ") : "") +
+                      (extra.length   ? "  EXTRA: "   + extra.join(" ")   : "")
                     : "no mixer rack drawn");
+    check("...and every channel has a mute and a solo",
+          mix.there && mix.mutes === mix.strips.length && mix.solos === mix.strips.length,
+          mix.there ? `${mix.mutes} mutes, ${mix.solos} solos, ${mix.strips.length} channels` : "");
+    check("...and the master has a fader, a meter and the gain-staging marks on it",
+          !!(mix.master && mix.master.fader && mix.master.meter && mix.master.marks >= 2),
+          mix.master ? `fader ${mix.master.fader} · meter ${mix.master.meter} · ${mix.master.marks} marks`
+                     : "no master strip");
   }
   /* ── AND A FADER ON THE PANEL MUST REACH THE AUDIO ────────────────────────
      `probe_mixer` proves the ENGINE responds to `MK2.setMixer`. It cannot prove
@@ -602,6 +644,129 @@ const check = (label, ok, detail) => {
           n.made > 3000 && share < 25,
           n.conn + " of " + n.made + " nodes still connected after 25 s = " +
           share.toFixed(1) + "% (before the fix: 87%)");
+  }
+
+  /* ═══ TWO DISPLAYS OF ONE CONTROL MUST AGREE ══════════════════════════════
+     The user: "The KAOSS pads are disconnected from their controls this is
+     wrong." They were: `echo.tone` is an axis of the KAOSS pad AND a knob on
+     the echo's own panel, and a hand on either refreshed only the copy it was
+     touching. The pad read 7950 Hz while the machine's knob read 1800 Hz about
+     the same number.
+
+     IT ONLY SHOWED WHILE STOPPED, which is why it lived here so long:
+     `refreshLive()` sweeps every knob on every animation frame while the
+     transport runs, so during playback the hole is papered over sixty times a
+     second. This check therefore runs with the transport STOPPED on purpose.
+     Driven with real pointer events, because the pad is a knob. */
+  {
+    const decl = await pg.evaluate(() =>
+      MK2.INSTRUMENTS.pads.panel.pads.map(p => ({ m: p.m, x: p.x, y: p.y, label: p.label })));
+    const bad = [];
+    for(const p of decl){
+      const kx = p.m + "." + p.x;
+      const before = await pg.evaluate((kx) => {
+        const k = document.querySelector(`.kn[data-key="${kx}"] .val`);
+        return k ? k.textContent : null;
+      }, kx);
+      const box = await pg.evaluate((kx) => {
+        const el2 = document.querySelector(`.xypad[data-key="${kx}"]`);
+        if(!el2) return null;
+        el2.scrollIntoView({ block: "center" });
+        const r = el2.getBoundingClientRect();
+        return { x: r.x, y: r.y, w: r.width, h: r.height };
+      }, kx);
+      if(!box){ bad.push(p.label + ": no pad on the glass"); continue; }
+      await pg.mouse.move(box.x + box.w * 0.5, box.y + box.h * 0.5);
+      await pg.mouse.down();
+      await pg.mouse.move(box.x + box.w * 0.87, box.y + box.h * 0.13, { steps: 8 });
+      await pg.mouse.up();
+      await pg.waitForTimeout(140);
+      const after = await pg.evaluate((kx) => {
+        const k = document.querySelector(`.kn[data-key="${kx}"] .val`);
+        const c = document.querySelector(`.xypad[data-key="${kx}"] .xycross`);
+        return { knob: k ? k.textContent : null, cross: c ? c.style.left : null };
+      }, kx);
+      if(after.knob === before) bad.push(`${p.label}: pad moved, the machine's own knob still reads ${before}`);
+      if(!after.cross) bad.push(`${p.label}: the pad's own cross did not move`);
+    }
+    check("a pad and the machine's own knob show the same number, with the transport STOPPED",
+          bad.length === 0,
+          bad.length ? bad.join(" | ") : decl.length + " pads, knob and cross both follow");
+  }
+
+  /* ═══ THE DESK ════════════════════════════════════════════════════════════
+     The mixer is the master for all volume, and its colours are the roll's.
+     Both were asked for by the user; the fuller battery is
+     `harness/probe_desk.js` and `harness/probe_deskgraph.js`. What is here is
+     the part that must never regress silently. */
+  {
+    const col = await pg.evaluate(() => {
+      const hues = rollHues(), out = [];
+      for(const st of document.querySelectorAll(".mixch")){
+        const role = st.dataset.role;
+        if(role === "__master") continue;
+        const ink = getComputedStyle(st).getPropertyValue("--ink").trim();
+        const m = ink.match(/hsl\(\s*([\d.]+)/);
+        out.push({ role, strip: m ? +m[1] : null, roll: hues[role] == null ? null : hues[role] });
+      }
+      return out;
+    });
+    const off = col.filter(c => c.roll != null && c.strip !== c.roll);
+    check("every mixer strip is the colour that part has on the roll",
+          col.length > 0 && off.length === 0,
+          off.length ? off.map(c => `${c.role} strip ${c.strip} vs roll ${c.roll}`).join(" | ")
+                     : col.map(c => `${c.role} ${c.strip}`).join(" · "));
+
+    const hasMaster = await pg.evaluate(() => !!document.querySelector('.mixch[data-role="__master"] .mixfader'));
+    check("the desk has a master strip", hasMaster, hasMaster ? "" : "no master fader on the glass");
+
+    /* drive the master DOWN on the glass and ask the GRAPH what it is holding.
+       `soundState()` reports it for the same reason it reports which room is
+       running: a graph no check can see can be wrong for a whole build. */
+    const mbox = await pg.evaluate(() => {
+      const f = document.querySelector('.mixmaster .mixfader');
+      if(!f) return null;
+      f.scrollIntoView({ block: "center" });
+      const r = f.getBoundingClientRect();
+      return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+    });
+    if(mbox){
+      await pg.mouse.move(mbox.x, mbox.y);
+      await pg.mouse.down();
+      await pg.mouse.move(mbox.x, mbox.y + 60, { steps: 8 });
+      await pg.mouse.up();
+      await pg.waitForTimeout(350);
+      const st = await pg.evaluate(() => ({ s: MK2.soundState(), t: (MIXER_TRIM.__master || {}).vol }));
+      check("the master fader on the glass moves the master gain past the limiter",
+            st.s.master != null && st.s.master < 0.999 &&
+            Math.abs(20 * Math.log10(st.s.master) - st.t) < 0.05,
+            `fader ${st.t} dB -> gain ${st.s.master && st.s.master.toFixed(4)}`);
+      /* and the kit's own sends follow the kit's fader, which BACKLOG §0b.1
+         said they did not: they tapped inside the kit, ahead of the strip, so
+         pulling the drums down left their reverb where it was */
+      await pg.evaluate(() => { delete MIXER_TRIM.__master; mixPush(); mixRefreshAll(); });
+      const dbox = await pg.evaluate(() => {
+        const f = document.querySelector('.mixch[data-role="drums"] .mixfader');
+        if(!f) return null;
+        f.scrollIntoView({ block: "center" });
+        const r = f.getBoundingClientRect();
+        return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+      });
+      if(dbox){
+        await pg.mouse.move(dbox.x, dbox.y);
+        await pg.mouse.down();
+        await pg.mouse.move(dbox.x, dbox.y + 70, { steps: 8 });
+        await pg.mouse.up();
+        await pg.waitForTimeout(350);
+        const d = await pg.evaluate(() => MK2.soundState());
+        check("...and the kit's own echo/reverb/gate sends follow the DRUMS fader",
+              d.dSend && d.chan && Math.abs(d.dSend.echo - d.chan.drums) < 1e-9 &&
+              Math.abs(d.dSend.verb - d.chan.drums) < 1e-9,
+              d.dSend ? `channel ${d.chan.drums.toFixed(4)} · echo ${d.dSend.echo.toFixed(4)} · verb ${d.dSend.verb.toFixed(4)}`
+                      : "no send mirrors on the graph");
+        await pg.evaluate(() => { delete MIXER_TRIM.drums; mixPush(); mixRefreshAll(); });
+      }
+    }
   }
 
   /* ═══ EVERY GENRE THE PROGRAM DECLARES IS ON THE PICKER, AND PLAYS ═════════

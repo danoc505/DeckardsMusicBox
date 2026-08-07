@@ -66,14 +66,70 @@ should be built on top of this stack until it has been played.**
 Everything here was found or left open on `2026-08-07` (`07a`…`07f`). Each says
 why it is open and what would close it.
 
-### 0b.1 The mixer's sends on the drum kit are pre-fader — STATED, NOT FIXED
-The channel strips sit in front of each role's bus, so the dry path and every
-matrix send follow the fader. The drum machine's OWN per-drum echo/reverb sends
-tap inside the kit (`mk`), which is ahead of the strip — so pulling the drums
-down leaves their internal sends where they were. That is how a desk with a
-sub-mixer on one channel behaves and it is written into the code, but it is a
-knob that does not do the whole of what it looks like it does. **Closing it**
-means re-pointing the dchain sends past the strip.
+### 0b.1 ~~The mixer's sends on the drum kit are pre-fader~~ **FIXED `2026-08-07g`**
+*Was: stated, not fixed. The user brought it back as part of "the mixer needs to
+be the master for all volume".*
+
+The per-drum echo/reverb/gate sends tapped `mk`, inside the kit and ahead of the
+channel strip, so pulling the drums fader took the dry drums down and left their
+echo and reverb where they were — a kit that got **wetter relative to itself**
+the further you pulled it down. The old note called that "how a desk with a
+sub-mixer on one channel behaves", which is true of a sub-mixer whose OUTPUT is
+all the parent fader sees; here the sends leave for the master effects directly,
+which is not that topology.
+
+**CLOSED**, keeping the per-drum amounts (the reason the sends are inside the
+kit at all): each drum still has its own `echo`/`verb`/`gate` gain, and all of
+them pass through one mirror per destination whose gain follows the DRUMS
+channel — fader, mute and solo alike. Per-drum amount × channel level, which is
+what post-fader means. Measured on the glass: channel `0.0151`, echo `0.0151`,
+verb `0.0151`, gate `0.0151`; muted, all four `0`. At rest every mirror is
+`1.0`, so an untouched program is the graph it always was, and all eight genres
+still render repeatably (worst −90.0 dB against a −80 dB threshold).
+
+### 0b.6 ~~The mixer has no master strip and no solo~~ **FIXED `2026-08-07g`**
+Master fader, master meter, and mute + solo on every channel. Research and
+sources: `docs/genre-research/mixing-desk.md`. Three things worth carrying:
+
+- **The master is past the LIMITER**, not in front of it, because the effect
+  returns land on `g.post` and had no downstream control a hand could reach —
+  so no fader position could take them away. A fader in front of a limiter does
+  not answer a question about volume; the limiter absorbs it.
+- **Solo is solo-in-place, not PFL**, stated as a departure: PFL needs a
+  separate monitor bus and this program has one output.
+- **The meter carries the gain-staging marks** (−12 dBFS working, −3 dBFS
+  ceiling) because §1 of that research is the actual answer to "things are too
+  loud": eight strips at unity sum about **9 dB** hotter than one, and the
+  number of parts playing changes section by section, so a chorus is louder
+  than the faders say for reasons that are arithmetic rather than musical
+  [corpus:prosoundweb]. **STILL OPEN, and it is the interesting half: nothing
+  yet COMPENSATES for that.** A master meter lets you see it; it does not fix
+  it. Whether the program should normalise for part-count is a real question
+  and has not been researched.
+
+### 0b.10 THE MIXER AND THE ROLL NOW SHARE ONE COLOUR TABLE — `2026-08-07g`
+The user asked for the desk to be colour-coded to match the note display. It
+calls `rollHues()` rather than copying its numbers, so the two cannot drift; the
+precedent is the SSL 4000 E, where the EQ knob colours identify which circuit is
+fitted rather than decorating the panel [corpus:solidstatelogic; corpus:uaudio].
+**One honest edge:** `rollHues()` is keyed on `MIDI_TRACK`, which has seven
+entries against the mixer's eight — `tape` is the record surface, not notes, so
+it has no line on the roll and gets a neutral rather than an invented hue.
+**Closing that fully** would mean deciding whether the record surface belongs on
+the roll at all, which is a display question nobody has asked yet.
+
+### 0b.11 A CONTROL DRAWN TWICE ONLY REFRESHED THE COPY YOU TOUCHED — FIXED `2026-08-07g`
+The user: *"The KAOSS pads are disconnected from their controls this is wrong."*
+The pad always reached the SOUND; what was broken is that `echo.tone` is an axis
+of the pad **and** a knob on the echo's panel, and a hand on either refreshed
+only itself — so the pad read 7950 Hz while the machine's knob read 1800 Hz
+about one number. **It only showed while STOPPED**, because `refreshLive()`
+sweeps every knob per animation frame during playback and papered over the hole
+sixty times a second; and no probe saw it because `probe_pads` drives the pad
+and then asks the audio, which was never wrong. `handMoved(...keys)` refreshes
+every element that displays a key. **The stereo field had the same defect** and
+was found while fixing this one. Guarded in `mk2_ui.js` with the transport
+deliberately stopped.
 
 ### 0b.2 Five Erang patches read one octave out — PROBE, NOT BANK
 `probe_erang.js` flags `erangStrings#18` and `erangHarp#0/#6/#8` failing ONE

@@ -167,6 +167,46 @@
   .mixch .mixdb{ font-size:8.5px; opacity:.6; font-variant-numeric:tabular-nums; }
   .mixch.touched .mixdb{ opacity:1; font-weight:600; }
   .mixch.touched .mixname::after{ content:" •"; }
+  /* ── THE PART'S COLOUR, set as --ink from the ROLL's own hue function ──────
+     The nameplate carries it, the fader cap carries it as its centre line, and
+     the strip lights up along its top edge. It is the same colour the note
+     display uses for that part, because both call rollHues(). */
+  .mixch{ --ink:hsl(0 0% 62%); border-top:2px solid var(--ink); }
+  .mixch .mixname{ color:var(--ink); }
+  .mixch .mixfader b::after{ background:var(--ink); opacity:.95; }
+  /* the unity mark: 0 dB on the fader's travel, so "where the genre put it" and
+     "where a desk calls zero" are distinguishable at a glance */
+  .mixfader .mixunity{ position:absolute; left:12%; right:12%; height:1px;
+                       background:rgba(255,255,255,.34); pointer-events:none; }
+  .mixfader .mixunity::after{ content:"0"; position:absolute; right:-.62rem; top:-.42rem;
+                              font-size:6px; opacity:.5; }
+  /* the master meter's two marks, from the gain-staging sources */
+  .mixmeter .mixmark{ position:absolute; left:0; right:0; height:1px; pointer-events:none; }
+  .mixmeter .mixmark.work{ background:rgba(120,200,255,.55); }
+  .mixmeter .mixmark.ceil{ background:rgba(255,120,80,.75); }
+  /* ── MUTE AND SOLO ─── mute at the foot of the strip, solo beside it, which is
+     where a desk puts them. Small, because they are switches and not the thing
+     you reach for first. */
+  .mixbtns{ display:flex; gap:.18rem; }
+  .mixbtn{ font:inherit; font-size:8px; letter-spacing:.06em; line-height:1;
+           padding:.2rem .3rem; min-width:1.15rem; cursor:pointer; border-radius:2px;
+           border:1px solid rgba(255,255,255,.16); background:rgba(0,0,0,.28);
+           color:var(--dim); }
+  .mixbtn:hover{ border-color:var(--ink); color:var(--ink); }
+  .mixmute[aria-pressed=true]{ background:#7a2118; border-color:#c8492f; color:#ffd9cf; }
+  .mixsolo[aria-pressed=true]{ background:#8a6a10; border-color:#e0b23c; color:#fff3d0; }
+  .mixclear.lit{ border-color:#e0b23c; color:#e0b23c; }
+  /* a channel that is silenced -- by its own mute or because something ELSE is
+     soloed -- reads as silenced, or the panel shows a part at -4 dB that you
+     cannot hear */
+  .mixch.silenced{ opacity:.42; }
+  .mixch.silenced .mixmeter{ filter:grayscale(1); }
+  /* the master is the same strip doing the same job to everything at once, so
+     it is set apart by a rule rather than by being a different shape */
+  .mixch.mixmaster{ --ink:#e8e2d4; margin-left:.5rem; padding-left:.65rem;
+                    border-left:1px solid rgba(255,255,255,.18); }
+  .mixch.mixmaster .mixname{ letter-spacing:.2em; }
+  .mixmetermaster{ width:.8rem; }
 
   /* a two- or three-position selector is a switch on the real machines, not a
      knob, so it is drawn as one */
@@ -980,7 +1020,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-07f · every genre is phrased; where the hits do not change, a knob does</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-07g · the desk is the master, it wears the roll's colours, and the pads tell their knobs</span>
 <div class="row">
   <input id="seed" value="1" inputmode="numeric" title="seed">
   <select id="genre" title="a preset: sets that genre to 100% and the rest to zero"></select>
@@ -5594,9 +5634,44 @@ registerProcessor("mk2-room", MK2Room);
     g.deskHigh = c.createBiquadFilter(); g.deskHigh.type = "highshelf";
     g.deskHigh.frequency.value = 4000; g.deskHigh.gain.value = 0;
 
+    /* ── THE MASTER, AND WHY IT IS THE LAST NODE ──────────────────────────
+       The user: "the mixer needs to be the master for all volume."  It was not,
+       and the reason is a real hole rather than a missing knob: the effect
+       RETURNS land on `g.post`, deliberately and documented at `matrixDest`, so
+       the echo, the room, the flanger, the DP/4 and the barberpole never pass
+       through the shaper -- and there was no node downstream of everything that
+       a hand could reach. Pulling every channel fader to the floor still left
+       the returns ringing.
+
+       So `g.master` sits AFTER the limiter, immediately before the destination:
+       the one point in this graph that every path has already reached. Dry,
+       wet, returns, the record surface, all of it.
+
+       WHY NOT BEFORE THE LIMITER, which is where a console's master fader
+       actually sits (it feeds the bus compressor)? Because a fader in front of
+       a limiter does not answer the question that was asked. Turn it down and
+       the limiter simply stops working as hard; turn it up and the limiter eats
+       it. The user's sentence is about VOLUME, and the only place a control is
+       unarguably about volume is past the last thing that can change it. The
+       desk's own master-fader job -- driving the bus compressor -- is what the
+       CHANNEL faders already do here, because they are in front of everything.
+
+       AT 1.0 IT IS A WIRE, so a program nobody has touched renders exactly what
+       it rendered before this node existed.
+
+       AND IT IS METERED at the same point, because the research this was built
+       from says the master meter is the instrument you diagnose "too loud"
+       with: keep the sum under about -10 to -12 dBFS while building a balance,
+       and peaks -6 to -3 [prosoundweb; modernmixing; output.com]. That number
+       had nowhere to be read off. See docs/genre-research/mixing-desk.md §1. */
+    g.master = c.createGain(); g.master.gain.value = 1;
+    g.masterMeter = c.createAnalyser();
+    g.masterMeter.fftSize = 512; g.masterMeter.smoothingTimeConstant = 0;
+
     g.mix.connect(g.pre); g.pre.connect(g.shaper); g.shaper.connect(g.post);
     g.post.connect(g.deskLow); g.deskLow.connect(g.deskMid); g.deskMid.connect(g.deskHigh);
-    g.deskHigh.connect(g.limit); g.limit.connect(c.destination);
+    g.deskHigh.connect(g.limit); g.limit.connect(g.master);
+    g.master.connect(c.destination); g.master.connect(g.masterMeter);
 
     /* reverb: one synthetic room, deterministic (seeded noise IR — Law 7:
        same seed, same samples, reverb included). */
@@ -5804,6 +5879,17 @@ registerProcessor("mk2-room", MK2Room);
     g.dlyTrim = c.createGain(); g.dlyTrim.gain.value = 1;
     g.revTrim.connect(g.send);
     if(g.echoSend) g.dlyTrim.connect(g.echoSend);
+    /* ── THE KIT'S SENDS, MADE POST-FADER ──────────────────────────────────
+       One mirror per destination, each following the DRUMS channel's own level
+       so a per-drum send amount is multiplied by the channel it belongs to.
+       See the long note at the sends themselves. All three start at 1.0, which
+       is the wire they replace. */
+    g.dSendEcho = c.createGain(); g.dSendEcho.gain.value = 1;
+    g.dSendVerb = c.createGain(); g.dSendVerb.gain.value = 1;
+    g.dSendGate = c.createGain(); g.dSendGate.gain.value = 1;
+    g.dSendEcho.connect(g.dlyTrim);
+    g.dSendVerb.connect(g.revTrim);
+    if(g.gateSend) g.dSendGate.connect(g.gateSend);
     g.kitFilter = c.createBiquadFilter(); g.kitFilter.type = "lowpass";
     g.kitFilter.frequency.value = 20000; g.kitFilter.Q.value = 0.707;
 
@@ -5878,9 +5964,33 @@ registerProcessor("mk2-room", MK2Room);
          ping-pong, not because the send carried the pan. */
       const chPan = c.createStereoPanner();
       mk.connect(chPan); chPan.connect(g.kitFilter);
-      mk.connect(echo); echo.connect(g.dlyTrim);
-      mk.connect(verb); verb.connect(g.revTrim);
-      if(g.gateSend){ mk.connect(gate); gate.connect(g.gateSend); }
+      /* ── AND THE KIT'S OWN SENDS FOLLOW THE KIT'S FADER ──────────────────
+         BACKLOG §0b.1, stated but never fixed: these three sends tap `mk`,
+         which is INSIDE the kit and upstream of the drums channel strip -- so
+         pulling the drums fader took the dry drums down and left their echo
+         and their reverb exactly where they were. Turn the kit down and what
+         you got was a quieter kit in the same-sized room, getting wetter
+         relative to itself the further you pulled. That is a fader that does
+         part of what it looks like it does, which is this file's own
+         definition of a lie.
+
+         It was described as "how a desk with a sub-mixer on one channel
+         behaves", and that is true of a sub-mixer whose OUTPUT is the only
+         thing the parent fader sees -- but here the sends leave the sub-mixer
+         directly for the master effects, which is not that topology at all.
+
+         THE FIX KEEPS THE PER-DRUM AMOUNTS, which is the reason the sends are
+         inside the kit in the first place: each drum still has its own `echo`,
+         `verb` and `gate` gain, and all of them now pass through one mirror per
+         destination whose gain follows the DRUMS channel -- fader, mute and
+         solo alike (see applyMixer). Per-drum amount times channel level, which
+         is what post-fader means.
+
+         AT DEFAULT EVERY MIRROR IS 1.0, so a program nobody has touched is the
+         graph it always was. */
+      mk.connect(echo); echo.connect(g.dSendEcho);
+      mk.connect(verb); verb.connect(g.dSendVerb);
+      if(g.gateSend){ mk.connect(gate); gate.connect(g.dSendGate); }
       g.dchain[grp] = { inp, lp, drv, sat, mk, echo, verb, gate, pan: chPan };
     }
     g.kitFilter.connect(chanIn(g, "drums"));
@@ -9990,14 +10100,55 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
      [Hugh Robjohns, Sound On Sound]. A control whose units are not the units of
      the judgement being made is a control you have to do arithmetic to use. */
   let MIXTRIM = {};
+  /* ── MUTE, SOLO AND THE MASTER ────────────────────────────────────────────
+     The user's complaint was "things being too loud drowning out others", and
+     a desk answers that with three controls, not one. A fader sets a balance; a
+     MUTE takes a part out of the way so you can hear what is under it; a SOLO
+     takes everything else out so you can hear the part itself. Two of the three
+     did not exist here (BACKLOG §0b.6).
+
+     SOLO IS SOLO-IN-PLACE, not the PFL a console gives you, and that is a
+     stated departure rather than an oversight: PFL is a separate monitor bus
+     feeding separate outputs, and this program has one output
+     [corpus:soundonsound "What do Solo, PFL and AFL do?"]. So soloing mutes the
+     others, which means you hear the part WITH its fader, its EQ and its share
+     of the room -- which is the question being asked anyway.
+
+     `__master` is a reserved role key. Nothing composes a part called
+     `__master`, and the seam check that compares the mixer's roles against the
+     roles the program plays skips keys beginning `__` for that reason. */
+  const MIX_SOLO_ANY = t => Object.keys(t).some(r => r[0] !== "_" && t[r] && t[r].solo);
   function applyMixer(g){
     if(!g || !g.chan) return;
+    const soloing = MIX_SOLO_ANY(MIXTRIM);
     for(const role in g.chan){
       const t = MIXTRIM[role] || {}, ch = g.chan[role];
-      ch.inp.gain.value  = Math.pow(10, (t.vol || 0) / 20);
+      /* a muted channel, and a channel that is not the soloed one, are OFF --
+         at the channel input, so everything downstream of it (its sends, its
+         share of the room) goes with it. Muting a part and still hearing its
+         reverb is the defect this project already found on the drum kit. */
+      const off = t.mute || (soloing && !t.solo);
+      ch.inp.gain.value  = off ? 0 : Math.pow(10, (t.vol || 0) / 20);
       ch.low.gain.value  = t.low  || 0;
       ch.mid.gain.value  = t.mid  || 0;
       ch.high.gain.value = t.high || 0;
+    }
+    /* the master, past the limiter: the one gain every path has reached */
+    if(g.master){
+      const mv = (MIXTRIM.__master && MIXTRIM.__master.vol) || 0;
+      g.master.gain.value = Math.pow(10, mv / 20);
+    }
+    /* THE KIT'S OWN SENDS FOLLOW THE KIT'S FADER. Without this the drums fader
+       was post-fader for the dry path and pre-fader for the kit's echo, reverb
+       and gate sends -- so pulling the kit down made it WETTER relative to
+       itself. BACKLOG §0b.1, stated for a build and not fixed until now. */
+    if(g.dSendEcho){
+      const t = MIXTRIM.drums || {};
+      const off = t.mute || (soloing && !t.solo);
+      const lvl = off ? 0 : Math.pow(10, (t.vol || 0) / 20);
+      g.dSendEcho.gain.value = lvl;
+      g.dSendVerb.gain.value = lvl;
+      if(g.dSendGate) g.dSendGate.gain.value = lvl;
     }
   }
   /* the loudest thing each channel has done since the last look, which is what
@@ -10008,14 +10159,20 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
   function meterLevels(){
     if(!liveGraph || !liveGraph.chan) return null;
     const out = {}, buf = new Float32Array(256);
-    for(const role in liveGraph.chan){
-      const a = liveGraph.chan[role].meter;
-      if(!a) continue;
+    const peak = a => {
       a.getFloatTimeDomainData(buf);
       let pk = 0;
       for(let i = 0; i < buf.length; i++){ const v = Math.abs(buf[i]); if(v > pk) pk = v; }
-      out[role] = pk;
+      return pk;
+    };
+    for(const role in liveGraph.chan){
+      const a = liveGraph.chan[role].meter;
+      if(!a) continue;
+      out[role] = peak(a);
     }
+    /* the master reads the SUM, past the limiter -- the number the gain-staging
+       sources say you watch. Same reserved `__` key the trims use. */
+    if(liveGraph.masterMeter) out.__master = peak(liveGraph.masterMeter);
     return out;
   }
   function setSpace(g, space, kick, drumDrive, gate, motion, motionOffset, busT0){
@@ -10459,6 +10616,27 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       room: liveGraph ? (liveGraph.verbIsFdn ? "fdn" : "convolver") : "-",
       roomErr: fdnErr,
       err: unlockErr,
+      /* ── THE LEVELS THE DESK IS ACTUALLY HOLDING ────────────────────────
+         Reported for the same reason `room` is: a graph the checks cannot see
+         is a graph that can be wrong for a whole build without anyone noticing
+         (the FDN fell back to the convolver for exactly that reason, and every
+         probe stayed green). These four are the ones a fader claim rests on --
+         the master past the limiter, and the three mirrors that carry the kit's
+         own sends behind the drums fader.
+
+         A LEVEL IS NOT A SUBSTITUTE FOR LISTENING and this is not a way to
+         prove the mixer works: it is a way to check that the number the panel
+         wrote is the number the graph holds. Whether the balance is right is
+         still the user's ear. */
+      master: liveGraph && liveGraph.master ? liveGraph.master.gain.value : null,
+      dSend: liveGraph && liveGraph.dSendEcho ? {
+        echo: liveGraph.dSendEcho.gain.value,
+        verb: liveGraph.dSendVerb.gain.value,
+        gate: liveGraph.dSendGate ? liveGraph.dSendGate.gain.value : null,
+      } : null,
+      chan: liveGraph && liveGraph.chan
+        ? Object.fromEntries(Object.keys(liveGraph.chan)
+            .map(r => [r, liveGraph.chan[r].inp.gain.value])) : null,
     };
   }
   async function ensureLive(){
@@ -23684,6 +23862,34 @@ const MIX_BAND = [
    formula clamps at 1.25, so a part whose roleGain is above that is displayed
    at the clamp: the fader has to show where the part IS, not what the table
    wishes for. */
+/* ── THE COLOUR IS THE ROLL'S COLOUR, BECAUSE IT IS THE SAME FUNCTION ───────
+   The user: "We need the mixer to be color coded matching with the midi
+   visualizer so the instruments are matching what they are in the visualizer."
+
+   THE PRECEDENT IS THE DESK THIS ONE IS CLONED FROM. On an SSL 4000 E the EQ
+   bands are colour-coded -- HF red, HMF green, LMF blue, LF brown or black --
+   and the LF colour is not decoration: it identifies WHICH low-frequency
+   circuit the console is fitted with, and the knob colour changes when the type
+   button changes it [corpus:solidstatelogic 4K E user guide; corpus:uaudio SSL
+   4000 E manual]. Colour on that desk carries a fact.
+
+   So this must not be eight nice colours chosen to look like the roll's. It
+   CALLS `rollHues()`. One function, two displays; they cannot drift apart,
+   which is the whole point and is this file's oldest law.
+
+   ONE HONEST EDGE. `rollHues()` is keyed on MIDI_TRACK, which has seven entries,
+   and the mixer has eight strips. `tape` -- the record surface -- is not notes,
+   has no MIDI track and therefore has no colour on the roll. It gets a NEUTRAL
+   here rather than an invented hue, because a ninth colour on the desk that
+   corresponds to nothing on the roll would be exactly the lie this is fixing. */
+function mixHue(role){
+  const h = rollHues()[role];
+  return h == null ? null : h;
+}
+function mixInk(role, s, l){
+  const h = mixHue(role);
+  return h == null ? "hsl(0 0% 62%)" : `hsl(${h} ${s}% ${l}%)`;
+}
 function mixBaseDb(role){
   const G = SONG && SONG.chart.table.roleGain;
   const v = Math.min(1.25, (G && G[role] != null) ? G[role] : 1);
@@ -23701,6 +23907,9 @@ function mixBaseDb(role){
    interface only ever proves the thing behind the interface. The UI battery now
    drags a real fader and listens. */
 function mixPush(){ Sound.setMixer(MIXER_TRIM); }
+/* SOLOING ONE STRIP CHANGES EVERY OTHER STRIP, so a solo button cannot refresh
+   only itself -- the same lesson `handMoved` exists for, one panel along. */
+function mixRefreshAll(){ for(const ch of MIXER_CH) if(ch.refresh) ch.refresh(); }
 /* one EQ knob, drawn like every other knob on the page but reading the mixer's
    own state rather than a machine's PARAMS */
 function mixKnob(role, band){
@@ -23749,7 +23958,23 @@ function mixStrip(role){
   const FLO = -40, FHI = 12;
   const wrap = el("div", "mixch");
   wrap.dataset.role = role;
-  wrap.appendChild(el("div", "mixname", MIX_LABEL[role] || role));
+  /* THE PART'S COLOUR, taken from the roll rather than chosen. `--ink` is read
+     by the name plate, the strip's top edge, the fader cap's line and the two
+     buttons, so one custom property colours the strip and a part is the same
+     colour here as it is in the note display above.
+
+     THE METER IS DELIBERATELY NOT TINTED. Green to -6, amber to -1, red above
+     is a reading that means the same thing on every meter anyone has ever used,
+     and recolouring it per part would destroy the one piece of information on
+     this panel that needs no legend. Colour identifies the PART; the meter's
+     colour identifies the LEVEL. Two different facts, two different scales. */
+  const ink = mixInk(role, 62, 62);
+  wrap.style.setProperty("--ink", ink);
+  const nameEl = el("div", "mixname", MIX_LABEL[role] || role);
+  nameEl.title = mixHue(role) == null
+    ? (MIX_LABEL[role] || role) + " — no colour: this is the record surface, not notes, so it has no line on the roll"
+    : (MIX_LABEL[role] || role) + " — the same colour as this part has on the roll";
+  wrap.appendChild(nameEl);
   const eq = el("div", "mixeq");
   for(const b of MIX_BAND) eq.appendChild(mixKnob(role, b));
   wrap.appendChild(eq);
@@ -23759,6 +23984,16 @@ function mixStrip(role){
   const fill = document.createElement("i"), hold = document.createElement("u");
   meter.appendChild(fill); meter.appendChild(hold);
   const fader = el("div", "mixfader");
+  /* THE UNITY MARK. The sources are plain that a fader wants a reference: "keep
+     channel faders near unity gain [for] maximum control and resolution"
+     [corpus:prosoundweb]. Ours open at the GENRE's level for the part, which is
+     the right default and is not necessarily unity -- so without a mark you
+     cannot see whether the genre has already pushed a part up. The line is 0 dB
+     on the strip's own travel. */
+  const unity = el("i", "mixunity");
+  unity.style.bottom = ((0 - FLO) / (FHI - FLO) * 100).toFixed(2) + "%";
+  unity.title = "0 dB";
+  fader.appendChild(unity);
   const capEl = document.createElement("b");
   fader.appendChild(capEl);
   body.appendChild(meter); body.appendChild(fader);
@@ -23766,9 +24001,32 @@ function mixStrip(role){
   const dbEl = el("div", "mixdb");
   wrap.appendChild(dbEl);
 
+  /* ── MUTE AND SOLO. Placement is the desk's: mute at the FOOT of the strip
+     ("more commonly at the bottom"), solo beside the fader
+     [corpus:soundonsound; corpus:cmtext.indiana.edu]. These are the two
+     controls that answer "things are drowning each other" -- a fader sets a
+     balance, but only a solo tells you what a part actually sounds like and
+     only a mute tells you what is underneath it. */
+  const btns = el("div", "mixbtns");
+  const mkBtn = (kind, label, tip) => {
+    const b = el("button", "mixbtn mix" + kind, label);
+    b.title = tip;
+    b.addEventListener("click", () => {
+      const t = (MIXER_TRIM[role] || (MIXER_TRIM[role] = {}));
+      t[kind] = !t[kind];
+      if(!t[kind]) delete t[kind];
+      mixPush(); mixRefreshAll();
+    });
+    return b;
+  };
+  const muteB = mkBtn("mute", "M", "mute this part — it and everything it feeds goes silent");
+  const soloB = mkBtn("solo", "S", "solo this part — everything else goes silent (solo-in-place: there is one output, so this is not a console's PFL)");
+  btns.appendChild(muteB); btns.appendChild(soloB);
+  wrap.appendChild(btns);
+
   const trimOf = () => (MIXER_TRIM[role] && MIXER_TRIM[role].vol) || 0;
   const shown = () => mixBaseDb(role) + trimOf();
-  let wasTop = null, wasDb = null;
+  let wasTop = null, wasDb = null, wasState = null;
   const refresh = () => {
     const v = Math.max(FLO, Math.min(FHI, shown()));
     const frac = (v - FLO) / (FHI - FLO);              // 0 at the bottom
@@ -23777,6 +24035,19 @@ function mixStrip(role){
     const s = (v > 0 ? "+" : "") + v.toFixed(1) + " dB";
     if(s !== wasDb){ dbEl.textContent = s; wasDb = s; }
     wrap.classList.toggle("touched", Math.abs(trimOf()) > 0.001);
+    /* the strip says what it IS, not only what its buttons are set to: a
+       channel silenced because ANOTHER channel is soloed is shown as silenced,
+       because otherwise the panel shows a part at -4 dB that you cannot hear */
+    const t = MIXER_TRIM[role] || {};
+    const soloing = Object.keys(MIXER_TRIM).some(r => r[0] !== "_" && MIXER_TRIM[r].solo);
+    const st = (t.mute ? "m" : "") + (t.solo ? "s" : "") + (soloing ? "S" : "");
+    if(st !== wasState){
+      muteB.setAttribute("aria-pressed", t.mute ? "true" : "false");
+      soloB.setAttribute("aria-pressed", t.solo ? "true" : "false");
+      wrap.classList.toggle("muted", !!t.mute);
+      wrap.classList.toggle("silenced", !!(t.mute || (soloing && !t.solo)));
+      wasState = st;
+    }
   };
   let v0 = 0, y0 = 0, on = false;
   const yOf = e => (e.touches ? e.touches[0] : e).clientY;
@@ -23808,6 +24079,97 @@ function mixStrip(role){
    Which parts sound is a fact about the performance, so it is read off the
    performance. A genre that grows an eighth part gets an eighth strip without
    anyone remembering to add one -- the rule this file has broken four times. */
+/* ── THE MASTER STRIP ───────────────────────────────────────────────────────
+   Built because the user said "the mixer needs to be the master for all volume"
+   and it was not one. `g.master` is past the limiter, so this fader is the last
+   thing every path passes through -- including the effect returns, which land
+   on `g.post` and had no downstream control a hand could reach.
+
+   AND THE METER IS THE POINT, more than the fader. The gain-staging sources all
+   diagnose "too loud" the same way, by watching the SUM: keep it under about
+   -10 to -12 dBFS while you build a balance and pull the CHANNELS down, not the
+   master [corpus:modernmixing]; peaks -6 to -3 [corpus:output.com]. Those two
+   are drawn on the meter as a working band and a ceiling, because a number you
+   have to remember is a number nobody uses.
+
+   WHY THIS ANSWERS "THINGS ARE TOO LOUD": eight strips summing at unity is
+   about 9 dB hotter than one, and the number of parts playing changes section
+   by section, so a chorus is louder than the faders say for reasons that are
+   arithmetic rather than musical [corpus:prosoundweb, doubling the number of
+   unity faders adds 3 dB]. Nothing on this page showed that. Now the sum has
+   a meter. docs/genre-research/mixing-desk.md §1. */
+function mixMaster(){
+  const FLO = -40, FHI = 12;
+  const wrap = el("div", "mixch mixmaster");
+  wrap.dataset.role = "__master";
+  wrap.appendChild(el("div", "mixname", "MASTER"));
+  const body = el("div", "mixbody");
+  const meter = el("div", "mixmeter mixmetermaster");
+  const fill = document.createElement("i"), hold = document.createElement("u");
+  /* the two marks the sources give, on the meter's own 48 dB scale */
+  const mark = (db, cls, tip) => {
+    const m = el("i", "mixmark " + cls);
+    m.style.bottom = (Math.max(0, Math.min(1, (db + 48) / 48)) * 100).toFixed(2) + "%";
+    m.title = tip; return m;
+  };
+  meter.appendChild(fill); meter.appendChild(hold);
+  meter.appendChild(mark(-12, "work", "-12 dBFS — build the balance under here, and pull the CHANNELS down rather than the master"));
+  meter.appendChild(mark(-3,  "ceil", "-3 dBFS — peaks above this are into the limiter"));
+  const fader = el("div", "mixfader");
+  const unity = el("i", "mixunity");
+  unity.style.bottom = ((0 - FLO) / (FHI - FLO) * 100).toFixed(2) + "%";
+  unity.title = "0 dB — the master leaves the program exactly as it was built";
+  fader.appendChild(unity);
+  const capEl = document.createElement("b");
+  fader.appendChild(capEl);
+  body.appendChild(meter); body.appendChild(fader);
+  wrap.appendChild(body);
+  const dbEl = el("div", "mixdb");
+  wrap.appendChild(dbEl);
+  const btns = el("div", "mixbtns");
+  const clr = el("button", "mixbtn mixclear", "○");
+  clr.title = "clear every mute and solo on the desk";
+  clr.addEventListener("click", () => {
+    for(const r in MIXER_TRIM){ delete MIXER_TRIM[r].mute; delete MIXER_TRIM[r].solo; }
+    mixPush(); mixRefreshAll();
+  });
+  btns.appendChild(clr);
+  wrap.appendChild(btns);
+
+  const trimOf = () => (MIXER_TRIM.__master && MIXER_TRIM.__master.vol) || 0;
+  let wasTop = null, wasDb = null;
+  const refresh = () => {
+    const v = Math.max(FLO, Math.min(FHI, trimOf()));
+    const top = ((1 - (v - FLO) / (FHI - FLO)) * 100).toFixed(2) + "%";
+    if(top !== wasTop){ capEl.style.top = `calc(${top} - .42rem)`; wasTop = top; }
+    const s = (v > 0 ? "+" : "") + v.toFixed(1) + " dB";
+    if(s !== wasDb){ dbEl.textContent = s; wasDb = s; }
+    wrap.classList.toggle("touched", Math.abs(trimOf()) > 0.001);
+    const anyOff = Object.keys(MIXER_TRIM).some(r => r[0] !== "_" &&
+                     (MIXER_TRIM[r].mute || MIXER_TRIM[r].solo));
+    clr.classList.toggle("lit", anyOff);
+  };
+  let v0 = 0, y0 = 0, on = false;
+  const yOf = e => (e.touches ? e.touches[0] : e).clientY;
+  fader.addEventListener("pointerdown", e => {
+    on = true; y0 = yOf(e); v0 = trimOf(); fader.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  fader.addEventListener("pointermove", e => {
+    if(!on) return;
+    let v = v0 + (y0 - yOf(e)) / 100 * (FHI - FLO);
+    v = Math.max(FLO, Math.min(FHI, v));
+    (MIXER_TRIM.__master || (MIXER_TRIM.__master = {})).vol = Math.round(v * 10) / 10;
+    refresh(); mixPush(); e.preventDefault();
+  });
+  fader.addEventListener("pointerup", () => { on = false; });
+  fader.addEventListener("dblclick", () => {
+    if(MIXER_TRIM.__master) delete MIXER_TRIM.__master.vol;
+    refresh(); mixPush();
+  });
+  refresh();
+  MIXER_CH.push({ role: "__master", fill, hold, meter, refresh, peak: 0, held: 0, heldAt: 0 });
+  return wrap;
+}
 function drawMixer(host){
   MIXER_CH.length = 0;
   if(!SONG) return;
@@ -23819,10 +24181,14 @@ function drawMixer(host){
   const brand = el("div", "brand");
   brand.appendChild(el("span", "maker", "MK2"));
   brand.appendChild(el("span", "model", "mixer"));
-  brand.appendChild(el("span", "slotTag", roles.length + " tracks"));
+  brand.appendChild(el("span", "slotTag", roles.length + " tracks + master"));
   box.appendChild(brand);
   const strips = el("div", "mixstrips");
   for(const r of roles) strips.appendChild(mixStrip(r));
+  /* the master sits at the RIGHT-HAND END, where a desk puts it, and is set
+     apart by a rule rather than by being a different shape -- it is the same
+     strip doing the same job to everything at once */
+  strips.appendChild(mixMaster());
   box.appendChild(strips);
   host.appendChild(box);
 }
