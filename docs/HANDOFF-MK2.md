@@ -98,7 +98,24 @@ to measure the thing it was about — reading `kit.poly`, exempting D bars **by
 name** from `materials.drumPhrase` — and never by moving a threshold. Say in the
 commit message which you changed and why.
 
-### WHAT 2026-08-08 BUILT — `08a` … `08f`
+### WHAT 2026-08-08 BUILT — `08a` … `08g`
+
+- **`08g`** THE SPRING TANK — "a different kind of room from the one we have,
+  not more of the same — the boingy one. Springs that shake, and a tank you
+  can kick." A new matrix column and return row (after the room in the order,
+  so echo→spring — the dub wiring — is open and the DAG holds; 7 backward
+  paths auto-blinded with reasons). The IR is SYNTHESISED and seeded like the
+  room's: an echo train at the tank's round-trip time, each bounce a rising
+  chirp ("higher frequencies travel slower" [corpus:spinsemi]), each later one
+  longer, duller, noisier ("progressively blurred" [corpus:valimaki]), −60 dB
+  by DWELL. Its crossings are `voicing`+`live` — THE HAND'S, deliberately: no
+  genre here is dub, so no genre rides them until one earns it by listening
+  (docs/genre-research/spring-reverb.md §4 states this as the honest reading
+  of the must-be-ridden rule, not an exemption). KICK THE TANK injects a real
+  transient into the springs on the live graph — the documented dub move —
+  and the panel's three coils read the PICKUP through an analyser: still /
+  ringing / kicked, never the knobs. Unfed, the unit is render-transparent
+  (A/B in the commit).
 
 - **`08f`** Two user directions. (1) **THE BASS UNIT KEEPS ONE FACE** — "no
   matter the kit its always the tr" — and the two halves of that are one fix:

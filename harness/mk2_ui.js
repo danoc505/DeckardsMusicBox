@@ -1233,6 +1233,62 @@ const check = (label, ok, detail) => {
     await pg.waitForTimeout(120);
   }
 
+  /* ═══ THE SPRING TANK: KICKED BY HAND, FED BY A CROSSING ═════════════════
+     Two proofs, both read off the GRAPH (an analyser on the tank's pickup),
+     never off the picture [docs/genre-research/spring-reverb.md]:
+       1. KICK THE TANK — the button injects a transient and the pickup
+          reads level: the boing is real audio, not a CSS class;
+       2. a HAND on a crossing feeds it — open drums→spring on the matrix
+          and the tank rings while the record plays. Its crossings are
+          voicing+live, so this also proves the live re-apply path. */
+  {
+    const r = await pg.evaluate(async () => {
+      const out = {};
+      /* PINNED to acid seed 1, and the pin is the lesson again: this check
+         first ran on whatever genre the previous block left (dkc), whose
+         SEGA drums do not ride the `drums` bus the crossing taps — so it
+         read 0 and the 0 was true about the setup, not about the wiring. */
+      document.getElementById("seed").value = "1";
+      const gs = document.getElementById("genre");
+      gs.value = "acid"; gs.dispatchEvent(new Event("change", { bubbles: true }));
+      await new Promise(r => setTimeout(r, 400));
+      out.still = Sound.springLevel ? Sound.springLevel() : -1;
+      const kickBtn = document.querySelector(".sprkick");
+      if(!kickBtn) return { err: "no KICK button on the tank" };
+      kickBtn.click();
+      await new Promise(r => setTimeout(r, 450));
+      let peak = 0;
+      for(let i = 0; i < 8; i++){
+        peak = Math.max(peak, Sound.springLevel());
+        await new Promise(r => setTimeout(r, 90));
+      }
+      out.kicked = peak;
+      out.caption = document.querySelector(".sprfoot").textContent;
+      /* now the crossing: play, open drums→spring, listen at the pickup */
+      if(!playing) document.getElementById("play").click();
+      await new Promise(r => setTimeout(r, 1200));
+      TRIM["matrix.drumsSpring"] = 1;
+      handMoved("matrix.drumsSpring");
+      await new Promise(r => setTimeout(r, 900));
+      let fed = 0;
+      for(let i = 0; i < 10; i++){
+        fed = Math.max(fed, Sound.springLevel());
+        await new Promise(r => setTimeout(r, 120));
+      }
+      out.fed = fed;
+      delete TRIM["matrix.drumsSpring"];
+      handMoved("matrix.drumsSpring");
+      if(playing) document.getElementById("play").click();
+      return out;
+    });
+    check("kicking the tank puts a real boing on the pickup",
+          !r.err && r.kicked > 0.0004 && r.kicked > r.still * 4,
+          r.err || `pickup rms: still ${r.still && r.still.toFixed(5)} -> kicked ${r.kicked && r.kicked.toFixed(5)}`);
+    check("...and a hand on drums→spring feeds the tank while the record plays",
+          !r.err && r.fed > 0.0004,
+          r.err || `pickup rms with the crossing open: ${r.fed && r.fed.toFixed(5)}`);
+  }
+
   /* ═══ THE BUS COMPRESSOR: A NEEDLE THAT SHOWS THE SQUEEZE ════════════════
      "A proper one, on the master, with a needle that shows how hard it's
      squeezing." Three facts, each read off the GRAPH and never off the

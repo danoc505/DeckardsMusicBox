@@ -429,6 +429,24 @@ open from those two builds, honestly:
   territory). A genre pumping its release per section is a real technique and
   a real future, and it would need the kinds revisited.
 
+### 5.1c THE SPRING TANK — shipped `2026-08-08g`, and what it waits for
+
+`docs/genre-research/spring-reverb.md`. The unit, the matrix column, the kick
+and the shaking springs are in. Open, honestly:
+
+- **No genre feeds it.** Its ten crossings are voicing+live — the hand's —
+  because no genre here is dub and a spring send with no source is taste. The
+  sourced route (echo→spring, King Tubby's wiring) is OPEN and waiting. If a
+  genre ever earns a spring — jungle is the nearest cousin — its cells flip
+  to `bus`, it declares `springFeeds`, and the must-be-ridden check starts
+  guarding them. One listen decides.
+- **The IR's numbers are half sourced.** The round-trip time (52 ms), chirp
+  span and blur rate are [EAR] within the sourced SHAPE (echo train, rising
+  chirps, progressive blur). A listen against a real tank recording would
+  pin them.
+- **The tank is mono on purpose** — one pickup. If it ever goes stereo it
+  should be TWO TANKS, not one tank panned.
+
 ### 5.2 THE GENRE'S HANDS ON THE PART STRIPS — asked for, decided, not built
 
 The user, `2026-08-08`: "We have a bunch of new controls wouldnt it make sense

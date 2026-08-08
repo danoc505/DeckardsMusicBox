@@ -866,6 +866,10 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
        the NODE's own reduction, so "reaches the sound" is also measured live
        by the UI battery, which drags THRESHOLD and watches `reduction` move. */
     "comp.power","comp.thresh","comp.ratio","comp.attack","comp.release","comp.makeup",
+    /* the spring tank: DWELL and TENSION are the impulse response itself
+       (setSpace rebuilds the buffer when either settles), TONE is the tank's
+       lowpass. The kick is a button, not a control. */
+    "spring.dwell","spring.tension","spring.tone",
     ]);
   /* ── THE PER-VOICE CHAINS, DERIVED, NOT LISTED ──────────────────────────────
      These were twenty names typed in for tr1000 alone. Then the acoustic kit and
@@ -887,6 +891,12 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   for(const m in M.INSTRUMENTS)
     for(const c of M.INSTRUMENTS[m].controls)
       if(c.kind === "bus") PER_SONG.add(m + "." + c.k);
+  /* EVERY matrix crossing is applied per song by setSpace's one cell loop —
+     the bus-kind cells as ridden curves, the spring's voicing+live cells as
+     a base plus the hand through the same rideBus call. Derive from the same
+     list the loop walks, not from `kind`, or the first non-bus column reads
+     as ten dead knobs — which is exactly how this line got here. */
+  for(const cell of M.matrixCells()) PER_SONG.add("matrix." + cell.k);
 
 
   const dead = [];
@@ -2875,6 +2885,34 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         missing.length === 0,
         missing.length ? "nothing to hold on: " + missing.join(", ")
                        : Object.keys(reach).sort().map(r => r + " " + reach[r]).join(" · "));
+}
+
+/* ═══ THE SPRING TANK'S SEAMS ════════════════════════════════════════════════
+   [docs/genre-research/spring-reverb.md §4] Three facts the declarations must
+   hold, each a quiet way the unit could rot:
+     · its crossings are voicing+live — the HAND's, never automated in vain —
+       and stay that way until a genre earns one by listening;
+     · the DAG still holds: every backward path into the tank is a blind
+       plate with a reason, or the renderer loses its repeatability;
+     · the dub wiring is OPEN: echo→spring and room→spring are real cells,
+       because "the effects can be sent to each other" is the whole point of
+       the matrix and King Tubby's echo-into-spring is the sourced route. */
+{
+  const cells = M.matrixCells();
+  const spr = cells.filter(c => c.out.k === "Spring" || c.in.k === "spring");
+  const bad = [];
+  for(const c of M.INSTRUMENTS.matrix.controls)
+    if(/Spring$/.test(c.k) || /^spring/.test(c.k)){
+      if(c.kind !== "voicing" || !c.live)
+        bad.push(c.k + " is " + c.kind + (c.live ? "+live" : "") + ", want voicing+live");
+    }
+  for(const k of ["springEcho", "springRoom", "springSpring", "flangeSpring", "dp4Spring", "barberSpring", "vinylSpring"])
+    if(!M.MATRIX.none[k]) bad.push(k + " is not a blind plate — a cycle or a stylus in the band");
+  for(const k of ["echoSpring", "roomSpring", "drumsSpring", "springMix"])
+    if(!spr.some(c => c.k === k)) bad.push(k + " is missing — the dub wiring or the return is gone");
+  check("the spring tank's crossings are the hand's, the cycles are blind, the dub route is open",
+        bad.length === 0 && spr.length >= 8,
+        bad.length ? bad.slice(0, 4).join(" · ") : spr.length + " live crossings, 7 blind plates, echo→spring open");
 }
 
 /* ═══ THE BUS COMPRESSOR'S GENRE DOOR ════════════════════════════════════════
