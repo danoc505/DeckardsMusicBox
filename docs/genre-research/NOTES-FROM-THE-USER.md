@@ -1630,3 +1630,26 @@ between notes). Half right, and the useful half was which half.
 
 The habit to keep: **when the user describes a mechanism, check whether they
 have just specified it exactly**, before explaining why it is difficult.
+
+---
+
+## "Wouldnt it make sense that genres get access to this?" — 2026-08-08
+
+Three corrections in one message, after the legato switch shipped hand-only:
+
+1. **A control the genres cannot reach only half exists.** The switch answered
+   "can a hand do it" and left "some songs should already be using legato"
+   unanswered — the genre door is the other half of the same request, and it
+   was the user who noticed the build stopped halfway.
+2. **"Over the sections and the whole of the song."** The standing gap: genre
+   declarations here are whole-song; only the motion system varies by section,
+   and it only reaches bus controls. Written into BACKLOG §5.1 rather than
+   half-built.
+3. **"The low mid and high rack should be part of the master mixer."** Right on
+   the desk's own terms: every part strip carries its EQ and the master strip
+   carried none, while the master EQ wore its own case two racks away. The user
+   reads the racks as a desk; the desk should be assembled like one.
+
+The habit to keep: **when a new control ships, ask in the same breath which of
+its three owners can reach it** — the genre, the motion, the hand. A control
+with only a hand is a demo.

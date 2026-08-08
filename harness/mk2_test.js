@@ -2871,6 +2871,58 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
                        : Object.keys(reach).sort().map(r => r + " " + reach[r]).join(" · "));
 }
 
+/* ═══ THE GENRE'S OWN LEGATO — the door, and what walks through it ═══════════
+   "Wouldnt it make sense that genres get access to this?" A genre may declare
+   `legato: { part: 1 }` and that part plays with the key held, no hand on the
+   desk. Three seams, each a way it goes quietly wrong:
+
+     · A DECLARED PART MUST EXIST. `legato: { melody: 1 }` would sit inert for
+       ever — the same phantom-parameter defect the params check guards, on a
+       different table key. Held against the parts the genre's songs actually
+       play, derived, never listed.
+     · IT MUST REACH THE SOUND DOOR. The table is stage 1 and the decision is
+       read in stage 6 off the graph; `soundOf` is the one channel between
+       them, so its answer is the seam. It must also answer for a BLEND through
+       chart.table, not just for a plain name — the blend's name is only its
+       loudest ingredient.
+     · A GENRE THAT DECLARES NOTHING SENDS NOTHING, so seven genres' sound
+       arrives exactly as it did before the key existed. */
+{
+  const declared = [], bad = [];
+  for(const g of M.genres()){
+    const tbl = M.composeSong(1, "band", g).chart.table;
+    if(!tbl.legato) continue;
+    const roles = new Set();
+    for(const seed of [1, 2, 3])
+      for(const e of M.composeSong(seed, "band", g).perf.events) roles.add(e.role);
+    for(const r in tbl.legato){
+      declared.push(g + "." + r);
+      if(!roles.has(r)) bad.push(g + " declares legato on \"" + r + "\", which its songs never play");
+    }
+  }
+  check("a genre's legato names parts its songs actually play",
+        bad.length === 0 && declared.length > 0,
+        bad.length ? bad.join(" · ") : declared.join(" · "));
+  const gets = g => {
+    const chart = M.composeSong(5, "band", g).chart;
+    const S = M.soundOf(chart.genre, null, chart.picks, chart);
+    return S.space.legato || null;
+  };
+  const br = gets("bladerunner"), lo = gets("lofi");
+  /* and through a BLEND: bladerunner is the only declarer, so its legato must
+     survive the blended table under a chart whose NAME may be the other genre */
+  const blended = (() => {
+    const chart = M.composeSong(5, "band", { bladerunner: 0.4, lofi: 0.6 }).chart;
+    const S = M.soundOf(chart.genre, null, chart.picks, chart);
+    return S.space.legato || null;
+  })();
+  check("...and the declaration reaches the sound door, blends included, silence included",
+        !!(br && br.lead >= 0.5 && br.counter >= 0.5) && lo == null &&
+        !!(blended && blended.lead >= 0.5),
+        `bladerunner ${JSON.stringify(br)} · lofi ${JSON.stringify(lo)} · ` +
+        `40% bladerunner blend ${JSON.stringify(blended)}`);
+}
+
 if(FILTER && pass + fail === 0){
   console.log("\nno check's name contains \"" + FILTER + "\" — " + skipped + " were skipped, none run");
   process.exit(2);

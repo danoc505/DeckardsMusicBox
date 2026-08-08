@@ -261,8 +261,14 @@
   .mixmute[aria-pressed=true]{ background:#7a2118; border-color:#c8492f; color:#ffd9cf; }
   .mixsolo[aria-pressed=true]{ background:#8a6a10; border-color:#e0b23c; color:#fff3d0; }
   /* LEGATO is not a mute and not a solo -- it does not silence anything -- so
-     it is lit in the third colour rather than in either of theirs */
-  .mixlegato[aria-pressed=true]{ background:#1d5a4c; border-color:#3fb497; color:#d6fff2; }
+     it is lit in the third colour rather than in either of theirs. THREE
+     positions: full green is the hand forcing it ON, a green ring is the GENRE
+     holding this part (the hand following), struck-through is the hand
+     refusing it. A strip says what it IS, not only what its buttons are set
+     to -- the rule the solo dimming already follows. */
+  .mixlegato[data-state=on]{ background:#1d5a4c; border-color:#3fb497; color:#d6fff2; }
+  .mixlegato[data-state=genre]{ border-color:#3fb497; color:#3fb497; }
+  .mixlegato[data-state=off]{ border-color:#b45050; color:#e0a0a0; text-decoration:line-through; }
   .mixclear.lit{ border-color:#e0b23c; color:#e0b23c; }
   /* a channel that is silenced -- by its own mute or because something ELSE is
      soloed -- reads as silenced, or the panel shows a part at -4 dB that you
@@ -274,6 +280,10 @@
   .mixch.mixmaster{ --ink:#e8e2d4; margin-left:.5rem; padding-left:.65rem;
                     border-left:1px solid rgba(255,255,255,.18); }
   .mixch.mixmaster .mixname{ letter-spacing:.2em; }
+  /* the desk's knobs print real units ("0.0 dB", "1000 Hz") where the part
+     strips print bare numbers, so the master's minis are a shade wider or
+     every value wraps to two lines */
+  .mixch.mixmaster .mixeq .kn{ width:2.7rem; }
   .mixmetermaster{ width:.8rem; }
 
   /* a two- or three-position selector is a switch on the real machines, not a
@@ -1241,7 +1251,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08d · LEGATO: a key stays down until the next one, on the parts that have gaps</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08e · the genres play legato too, and the desk sits on the master strip</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3161,7 +3171,16 @@ const INSTRUMENTS = {
       { k:"midF",  label:"mid centre",cap:"MID Hz",min:400, max:3000, step:50, def:1000, unit:"Hz", kind:"switch", live:true },
       { k:"highF", label:"high knee", cap:"HI Hz", min:2000,max:9000, step:100,def:4000, unit:"Hz", kind:"switch", live:true },
     ],
-    panel: { skin: "desk", maker: "", title: "desk",
+    /* ── DRAWN ON THE MIXER'S MASTER STRIP, NOT IN A BOX OF ITS OWN ──────────
+       "The low mid and high rack should be part of the master mixer." Right:
+       every part's strip carries its EQ and the master strip carried none,
+       while the master EQ sat two racks away wearing its own case. `host`
+       says which panel draws this machine -- the same one-owner rule as the
+       pad bay's `pads`, so drawPanels skips it by derivation, never by name.
+       THE CONTROLS DO NOT MOVE HOUSE: they keep their keys, their kinds, their
+       genre automation and the hand's TRIM -- only where they are drawn
+       changed, which is exactly the tape-rack lesson in reverse. */
+    panel: { skin: "desk", maker: "", title: "desk", host: "mixer",
              groups: [{ label: "", keys: ["low", "mid", "high"] },
                       { label: "", keys: ["lowF", "midF", "highF"] }] },
   },
@@ -5044,9 +5063,21 @@ function soundOf(genre, drumMachine, picks, chart){
        has the largest wow in the file and the A/B render read -111 dB — no
        change at all. The picture and the sound disagreeing is the defect this
        whole session keeps finding; here the render caught it. */
-    space: (chart && chart.root != null)
-      ? Object.assign({}, space, { tonic: chart.root, tape: chart.tape })
-      : (chart && chart.tape ? Object.assign({}, space, { tape: chart.tape }) : space),
+    space: (() => {
+      /* ── AND THE GENRE'S LEGATO RIDES THE SAME WAY ──────────────────────────
+         One more per-song fact the graph needs before a note plays, so it takes
+         the one channel setSpace already receives -- the same reason the root
+         and the tape do, stated above. READ OFF THE CHART'S TABLE first, not
+         off G: this function is handed a genre NAME, and a blended song's name
+         is only its loudest ingredient -- the blend's own answer is in
+         chart.table. G answers for the probes that ask about a bare genre. */
+      const leg = (chart && chart.table && chart.table.legato) || G.legato || null;
+      const extra = {};
+      if(chart && chart.root != null) extra.tonic = chart.root;
+      if(chart && chart.tape) extra.tape = chart.tape;
+      if(leg) extra.legato = leg;
+      return Object.keys(extra).length ? Object.assign({}, space, extra) : space;
+    })(),
     kick, gate,
     drumDrive: has("bus") ? panelValue(m, "bus") : G.drumDrive,
   };
@@ -10967,8 +10998,17 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
        A PHRASE VOICE IS LEFT ALONE. The sax renders a whole breath from its
        opening event and its members' durations live inside `ev.phrase`, which
        this does not reach. Stated rather than half-done: the sax is parked. */
-    const lg = MIXTRIM[ev.role];
-    if(lg && lg.legato && ev.holdSec && !voice.phrases && ev.durSec < ev.holdSec){
+    /* ── THREE-WAY, THE TAPE POWER'S OWN RULE ────────────────────────────────
+       The GENRE may play a part legato (`g.legato`, from its table via
+       setSpace) and the HAND may force it either way: MIXTRIM legato is 1 for
+       ON, -1 for OFF, absent to let the genre answer. The hand outranks the
+       genre because "if I turn a knob it should always work for me no matter
+       what the genre is" -- the same sentence that gave the tape its OFF.
+       The genre's value is a blend-weighted number, so ≥ 0.5 is on. */
+    const lgHand = MIXTRIM[ev.role] ? MIXTRIM[ev.role].legato : null;
+    const lgOn = lgHand != null ? lgHand > 0
+               : !!(graph.legato && graph.legato[ev.role] >= 0.5);
+    if(lgOn && ev.holdSec && !voice.phrases && ev.durSec < ev.holdSec){
       /* counted, per part, so a check can prove the NOTE got longer rather than
          prove the button lit up. "A test that reaches past the interface only
          ever proves the thing behind the interface" -- and the reverse of that
@@ -11450,6 +11490,12 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
        anything that asks soundOf for a genre rather than for a song -- keeps
        working and simply gets a kettle in A. */
     g.tonic = (space && space.tonic != null) ? space.tonic : 45;
+    /* WHICH PARTS THIS GENRE PLAYS WITH THE KEY HELD. Consumed at dispatch, the
+       same place the hand's L button is read, so the two arbitrate in exactly
+       one line -- see the three-way rule there. On the graph and not on the
+       note, because it is the GENRE'S standing instruction to a player, not a
+       property of any one note. */
+    g.legato = (space && space.legato) || null;
     g.kick = Object.assign({}, KICK_DEFAULT, kick || {});
     g.tomDecay = gate ? (gate.tomDecay != null ? gate.tomDecay : 0.45) : 1;
     /* which panel the drums are on, so openGate can find its hold and rideBus
@@ -13319,6 +13365,15 @@ const GENRE = {
     tape:     { wow: [0.0006, 0.0010], crackle: [0.0008, 0.0015],
                 flutter: [0, 0], hiss: [0, 0] },
 
+    /* ── THE TUNE IS PLAYED WITH THE KEY HELD ─────────────────────────────────
+       "Mono legato mode is frequently used on synth basslines and synth leads,
+       especially in solo sections of a song" [corpus:attackmagazine Legato
+       Synths]. The lead, not the bass: this genre's bass is a PULSE by its own
+       research and holding it would delete the pulse. Read at dispatch, not
+       composed -- the notes are identical and the hand's L can still refuse it
+       (docs/genre-research/legato.md §7). */
+    legato: { lead: 1 },
+
     form: {
       /* ── THIS GENRE HAS A PRE-CHORUS AND A POST-CHORUS, AND THAT IS THE POINT ──
          Every genre in this file drew from the same four functions -- verse,
@@ -14551,6 +14606,16 @@ const GENRE = {
        no surface noise. [corpus:nemostudios br03] */
     tape: { wow: [0.0010, 0.0014], crackle: [0.0030, 0.0020],
             flutter: [0, 0], hiss: [0, 0] },   // a 24-track runs true; the drift is all it has
+
+    /* ── BOTH OF THE PLAYER'S LINES ARE HELD ──────────────────────────────────
+       The Blade Runner lead is "two detuned sawtooths ... shaped by an envelope
+       with slow attack and long release", played for its aftertouch and its
+       held expression [corpus:reverbmachine Blade Runner Synth Sounds]. A
+       slow-attack patch played detached never finishes opening -- the note IS
+       the hold. The answer line is the same player's other hand and gets the
+       same touch; its 19.6-second rests stay rests because the hold is capped
+       at a bar (docs/genre-research/legato.md §3, §7). */
+    legato: { lead: 1, counter: 1 },
 
     form: {
       lengths:  { intro: 8, verse: 8, chorus: 8, bridge: 8, instrumental: 8, outro: 8 },
@@ -25692,18 +25757,32 @@ function mixStrip(role){
      it applies to -- whichever keyboard is loaded in the rack, and however
      many times the arrangement swaps that keyboard mid-song.
 
+     THREE POSITIONS, NOT TWO, because the GENRE can now play a part legato on
+     its own (chart.table.legato -- bladerunner holds both of the player's
+     lines, synthwave its tune). So the button is the tape POWER's rule worn as
+     one key: follow the genre / force ON / force OFF, and the hand always
+     outranks the table. In follow it shows what the genre chose -- a ring when
+     the genre is holding this part -- because a strip must say what it IS.
+
      ASKED OF THE SONG, NOT OF A LIST. A part gets the button when the record
      shows it playing PITCHES; a drum has no next note to reach and a legato
      hi-hat is not a thing. So the eighth part this program grows gets the
      button, or does not, without anyone remembering it exists -- the rule the
      strips themselves already follow two functions down. */
-  const legB = mixPitched(role)
-    ? mkBtn("legato", "L", "legato — hold each note of this part until the next one starts, " +
-            "up to a bar. It only ever LENGTHENS: a part whose notes already run into each " +
-            "other is already legato and does not move. Takes effect about a second later, " +
-            "while it plays.")
-    : null;
-  if(legB) btns.appendChild(legB);
+  const genreLeg = () => !!(SONG && SONG.chart.table.legato &&
+                            SONG.chart.table.legato[role] >= 0.5);
+  let legB = null;
+  if(mixPitched(role)){
+    legB = el("button", "mixbtn mixlegato", "L");
+    legB.addEventListener("click", () => {
+      const t = (MIXER_TRIM[role] || (MIXER_TRIM[role] = {}));
+      /* the cycle: follow the genre -> ON -> OFF -> follow */
+      t.legato = t.legato == null ? 1 : t.legato > 0 ? -1 : null;
+      if(t.legato == null) delete t.legato;
+      mixPush(); mixRefreshAll();
+    });
+    btns.appendChild(legB);
+  }
   wrap.appendChild(btns);
 
   const trimOf = () => (MIXER_TRIM[role] && MIXER_TRIM[role].vol) || 0;
@@ -25722,12 +25801,19 @@ function mixStrip(role){
        because otherwise the panel shows a part at -4 dB that you cannot hear */
     const t = MIXER_TRIM[role] || {};
     const soloing = Object.keys(MIXER_TRIM).some(r => r[0] !== "_" && MIXER_TRIM[r].solo);
-    const st = (t.mute ? "m" : "") + (t.solo ? "s" : "") + (soloing ? "S" : "")
-             + (t.legato ? "l" : "");
+    const lState = t.legato == null ? (genreLeg() ? "genre" : "") : t.legato > 0 ? "on" : "off";
+    const st = (t.mute ? "m" : "") + (t.solo ? "s" : "") + (soloing ? "S" : "") + lState;
     if(st !== wasState){
       muteB.setAttribute("aria-pressed", t.mute ? "true" : "false");
       soloB.setAttribute("aria-pressed", t.solo ? "true" : "false");
-      if(legB) legB.setAttribute("aria-pressed", t.legato ? "true" : "false");
+      if(legB){
+        legB.dataset.state = lState;
+        legB.setAttribute("aria-pressed", lState === "on" ? "true" : "false");
+        legB.title = lState === "on"  ? "legato FORCED ON — every note of this part holds until its next one, up to a bar. Click for forced off."
+                   : lState === "off" ? "legato FORCED OFF — the part plays as composed even if the genre holds it. Click to follow the genre."
+                   : (genreLeg() ? "legato — THE GENRE is holding this part's notes. Click to force it on regardless of genre."
+                                 : "legato — hold each note until the next one starts, up to a bar. It only ever lengthens. Following the genre (off here). Click to force on.");
+      }
       wrap.classList.toggle("muted", !!t.mute);
       wrap.classList.toggle("silenced", !!(t.mute || (soloing && !t.solo)));
       wasState = st;
@@ -25787,6 +25873,25 @@ function mixMaster(){
   const wrap = el("div", "mixch mixmaster");
   wrap.dataset.role = "__master";
   wrap.appendChild(el("div", "mixname", "MASTER"));
+  /* ── THE DESK'S EQ, ON THE STRIP THAT MEANS THE WHOLE RECORD ──────────────
+     "The low mid and high rack should be part of the master mixer." Every part
+     strip opens with its three bands; the master now opens with the record's
+     three, plus the crossover switches under them. These are the desk's OWN
+     controls -- knobEl over the same keys, so the genre's automation dot, the
+     hand's TRIM, the double-click release and the live re-apply all arrive
+     with them rather than being rebuilt. Drawn from the desk's declared
+     groups, never from a list written here. */
+  {
+    const D = INSTRUMENTS.desk;
+    for(const gr of ((D.panel && D.panel.host === "mixer" && D.panel.groups) || [])){
+      const row = el("div", "mixeq");
+      for(const key of gr.keys){
+        const c = D.controls.find(x => x.k === key);
+        if(c) row.appendChild(knobEl("desk", c));
+      }
+      if(row.childNodes.length) wrap.appendChild(row);
+    }
+  }
   const body = el("div", "mixbody");
   const meter = el("div", "mixmeter mixmetermaster");
   const fill = document.createElement("i"), hold = document.createElement("u");
@@ -26724,6 +26829,9 @@ function drawPanels(){
   for(const k in INSTRUMENTS){
     const pp = INSTRUMENTS[k].panel && INSTRUMENTS[k].panel.pads;
     if(pp) for(const p of pp) drawnElsewhere.add(p.m);
+    /* a panel that names a HOST is drawn by that host -- the desk lives on the
+       mixer's master strip. Same derivation as the pad rule above. */
+    if(INSTRUMENTS[k].panel && INSTRUMENTS[k].panel.host) drawnElsewhere.add(k);
   }
   for(const [slot, m] of boxes){
     if(drawnElsewhere.has(m)) continue;

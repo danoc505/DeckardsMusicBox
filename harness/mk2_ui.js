@@ -152,6 +152,9 @@ const check = (label, ok, detail) => {
     for(const k in MK2.INSTRUMENTS){
       const pp = MK2.INSTRUMENTS[k].panel && MK2.INSTRUMENTS[k].panel.pads;
       if(pp) for(const p of pp) s.push(p.m);
+      /* a panel that names a HOST is drawn by that host -- the desk lives on
+         the mixer's master strip. Same derivation the program itself uses. */
+      if(MK2.INSTRUMENTS[k].panel && MK2.INSTRUMENTS[k].panel.host) s.push(k);
     }
     return s;
   });
@@ -230,7 +233,12 @@ const check = (label, ok, detail) => {
                roles,
                master: master ? { fader: !!master.querySelector(".mixfader"),
                                   meter: !!master.querySelector(".mixmeter"),
-                                  marks: master.querySelectorAll(".mixmark").length } : null };
+                                  marks: master.querySelectorAll(".mixmark").length,
+                                  /* the desk lives here now: its declared keys,
+                                     against what the strip actually draws */
+                                  deskDecl: (MK2.INSTRUMENTS.desk.controls || []).map(c => "desk." + c.k),
+                                  deskDrawn: [...master.querySelectorAll("[data-key^='desk.']")]
+                                    .map(e => e.dataset.key) } : null };
     });
     const missing = mix.there ? mix.roles.filter(r => !mix.strips.includes(r)) : [];
     const extra   = mix.there ? mix.strips.filter(r => !mix.roles.includes(r)) : [];
@@ -250,6 +258,15 @@ const check = (label, ok, detail) => {
     check("...and the master has a fader, a meter and the gain-staging marks on it",
           !!(mix.master && mix.master.fader && mix.master.meter && mix.master.marks >= 2),
           mix.master ? `fader ${mix.master.fader} · meter ${mix.master.meter} · ${mix.master.marks} marks`
+                     : "no master strip");
+    /* the desk was its own rack and the user said where it belongs: "the low
+       mid and high rack should be part of the master mixer". Every control the
+       desk DECLARES must be on the master strip -- a control that lost its
+       glass in the move is the thirteen-dead-controls defect made by hand. */
+    check("...and the desk's whole EQ sits on the master strip",
+          !!(mix.master && mix.master.deskDecl.length > 0 &&
+             mix.master.deskDecl.every(k => mix.master.deskDrawn.includes(k))),
+          mix.master ? `declared ${mix.master.deskDecl.length}, drawn ${mix.master.deskDrawn.join(" ")}`
                      : "no master strip");
   }
   /* ── AND A FADER ON THE PANEL MUST REACH THE AUDIO ────────────────────────
@@ -1232,42 +1249,62 @@ const check = (label, ok, detail) => {
      nothing, which is the defect this program has a standing rule about. */
   {
     const r = await pg.evaluate(async () => {
-      /* SYNTHWAVE, and the genre is not arbitrary. MEASURED across all eight
-         with the buttons on and six seconds of playback: synthwave 55 notes
-         held, dkc 27, bladerunner 14, lofi 10, plastikman 4, dungeon synth 2,
-         jungle 1 — and ACID 0, because its bass has not come in yet six
-         seconds into the record. A window that lands in an intro reads as a
-         broken switch, and this check would have been re-run as a flake for
-         the rest of its life. Every pitched strip is pressed, for the same
-         reason: the parts differ in density by an order of magnitude. */
+      /* SYNTHWAVE, and the genre is not arbitrary: it DECLARES legato on its
+         tune (the genre door), it composes densely enough to hold notes inside
+         a six-second window — MEASURED, acid holds 0 in that window because
+         its bass has not come in yet, and that true result reads as a broken
+         switch — and its other parts are undeclared, so all three positions
+         of the button have something real to prove on one genre.
+
+         THE MATRIX, one restart each:
+           1. untouched -> the GENRE's own legato holds the tune, nothing else;
+           2. tune forced OFF, figure forced ON -> the tune stops holding and
+              the figure starts. The hand outranks the table both ways, which
+              is the sentence the tape's OFF was built on. */
+      /* the SEED FIELD PINS -- genre change recomposes with whatever is in it,
+         and an earlier check may have left anything there. Held-note counts
+         are a fact about ONE song, so this pins the song it counts. The probe
+         that clicked "new song" and measured a different record every time is
+         this file's own cautionary tale. */
+      document.getElementById("seed").value = "1";
       const s = document.getElementById("genre");
       s.value = "synthwave"; s.dispatchEvent(new Event("change", { bubbles: true }));
       await new Promise(r => setTimeout(r, 400));
       const has = {};
       for(const st of document.querySelectorAll(".mixch"))
         has[st.dataset.role] = !!st.querySelector(".mixlegato");
-      const btns = [...document.querySelectorAll(".mixch .mixlegato")];
-      if(!btns.length) return { err: "no LEGATO button on any strip", has };
-      for(const b of btns) b.click();
+      const btn = role => document.querySelector(`.mixch[data-role="${role}"] .mixlegato`);
+      if(!btn("lead") || !btn("ostinato")) return { err: "no LEGATO button on lead/ostinato", has };
       /* the transport is a toggle and there is no stop button. Stopped and
-         restarted deliberately: the held-note count is reset when a play
-         begins, so this measures THIS play and not whatever ran before it. */
+         restarted so the held-note count measures THIS play. */
+      const restart = async () => {
+        if(playing) document.getElementById("play").click();
+        await new Promise(r => setTimeout(r, 250));
+        document.getElementById("play").click();
+        await new Promise(r => setTimeout(r, 6000));
+        return MK2.soundState().legato;
+      };
+      const followed = await restart();                     // 1. nobody touched anything
+      const genreState = btn("lead").dataset.state;
+      btn("lead").click(); btn("lead").click();             // follow -> on -> OFF
+      btn("ostinato").click();                              // follow -> ON
+      const forced = await restart();                       // 2. the hand's overrides
+      const offState = btn("lead").dataset.state, onState = btn("ostinato").dataset.state;
+      btn("lead").click();                                  // off -> follow
+      btn("ostinato").click(); btn("ostinato").click();     // on -> off -> follow
       if(playing) document.getElementById("play").click();
-      await new Promise(r => setTimeout(r, 200));
-      const before = JSON.stringify(MK2.soundState().legato);
-      document.getElementById("play").click();
-      await new Promise(r => setTimeout(r, 6000));
-      const after = MK2.soundState().legato;
-      const lit = btns.every(b => b.getAttribute("aria-pressed") === "true");
-      for(const b of btns) b.click();
-      const held = Object.keys(after).reduce((n, k) => n + after[k], 0);
-      return { has, before, after: JSON.stringify(after), held, lit, n: btns.length,
-               parts: Object.keys(after).length };
+      return { has, followed: JSON.stringify(followed), forced: JSON.stringify(forced),
+               fLead: followed.lead || 0, fOst: followed.ostinato || 0,
+               oLead: forced.lead || 0, oOst: forced.ostinato || 0,
+               genreState, offState, onState };
     });
-    check("pressing LEGATO on a part holds its notes over to the next one",
-          !r.err && r.held > 0 && r.lit,
-          r.err || `synthwave, ${r.n} strips: ${r.held} notes held over ` +
-                   `${r.parts} parts (${r.after})`);
+    check("the genre plays its declared part legato, with no hand on the desk",
+          !r.err && r.fLead > 0 && r.fOst === 0 && r.genreState === "genre",
+          r.err || `synthwave untouched: tune held ${r.fLead}, figure ${r.fOst}, ` +
+                   `button shows "${r.genreState}" (${r.followed})`);
+    check("...and the hand outranks it both ways: OFF stops it, ON starts an undeclared part",
+          !r.err && r.oLead === 0 && r.oOst > 0 && r.offState === "off" && r.onState === "on",
+          r.err || `tune forced off: ${r.oLead} held · figure forced on: ${r.oOst} held (${r.forced})`);
     check("...and only the parts that play notes are offered it",
           !r.err && r.has && r.has.bass === true && r.has.drums === false &&
           (r.has.tape === undefined || r.has.tape === false),

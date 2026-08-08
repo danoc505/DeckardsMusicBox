@@ -388,19 +388,41 @@ and it is in the melodic parts.
 
 Open, and each is a real limitation rather than a to-do written for the sake of it:
 
-- **It is OFF everywhere by default and no genre declares it.** Whether any of
-  these eight genres should ship legato on a part is an EARS question and has
-  not been asked. That is the honest state: the control exists, the taste
-  decision does not.
+- ~~**It is OFF everywhere by default and no genre declares it.**~~ **CLOSED
+  `2026-08-08e`**, on the user's direction ("wouldnt it make sense that genres
+  get access to this"). A genre may declare `legato: { part: 1 }`; bladerunner
+  holds both of the player's lines and synthwave its tune, each with a source
+  (legato.md §7). The button became THREE-WAY — follow the genre / forced on /
+  forced off — so the hand still outranks the table both directions.
+- **A genre cannot vary it BY SECTION.** The user asked ("on on certain
+  sections or for the whole song"); today the genre's declaration is
+  whole-song and only a live hand covers sections. The mechanism it wants: the
+  declaration reaching dispatch with a time span, the way motion already
+  reaches bus controls per section. legato.md §7.
 - **The roll does not show it.** The visualiser draws `perf.events`, which is
   what was composed; legato is what the player does with it. Defensible, and
   the first person to press the button and look at the roll will disagree.
+  Now that two genres hold notes by default, this will be met sooner.
 - **A phrase voice is untouched.** The sax renders a whole breath from its
   opening event and its members' durations live inside `ev.phrase`, which the
   dispatcher does not reach into. The sax is parked, so this cost nothing —
   it will cost something the day it is un-parked.
 - **The bar cap is [EAR], not sourced.** Nothing in the sources gives a number;
   it is the shortest cap that cannot shorten a real phrase. legato.md §3.
+
+### 5.2 THE GENRE'S HANDS ON THE PART STRIPS — asked for, decided, not built
+
+The user, `2026-08-08`: "We have a bunch of new controls wouldnt it make sense
+that genres get access to this in order to effect change over the sections and
+the whole of the song?" The audit of what a genre can and cannot reach:
+
+| the strip's control | can a genre reach the same outcome? | verdict |
+|---|---|---|
+| fader | YES — `roleGain` is the genre's own level for the part | **no second door.** Two owners of one fader. |
+| LOW/MID/HIGH (per part) | YES — through the loaded machine's own tone controls | **no second door**, same reason |
+| REVERB/DELAY send (per part) | **NO — only the bus master.** Three strips share the keys bus, so a genre wanting the pad wet and the figure dry cannot say it | **OPEN, and worth building.** The sourced case is already in this repo: "automating sends creating movement and tension" [corpus:trackscore]. Needs its own research pass and per-genre taste decisions — not to be wired in a hurry. |
+| LEGATO | **was NO** | **CLOSED `08e`** — see §5.1 |
+| master EQ (the desk) | YES — `desk.*` are `bus` controls genres already ride | already true; the knobs just moved onto the master strip |
 
 ## 6. MUSIC THEORY — the engine, what it has and what it lacks
 

@@ -98,7 +98,29 @@ to measure the thing it was about — reading `kit.poly`, exempting D bars **by
 name** from `materials.drumPhrase` — and never by moving a threshold. Say in the
 commit message which you changed and why.
 
-### WHAT 2026-08-08 BUILT — `08a` … `08d`
+### WHAT 2026-08-08 BUILT — `08a` … `08e`
+
+- **`08e`** The GENRE's legato, and the desk moved onto the master strip. Two
+  user directions in one message. (1) `legato: { part: 1 }` is a genre table
+  key now — bladerunner holds both of the player's lines (a slow-attack patch
+  played detached never finishes opening [corpus:reverbmachine]), synthwave its
+  tune ("mono legato mode is frequently used on synth ... leads"
+  [corpus:attackmagazine]). It rides `space` to the graph like the tape does
+  and is read at dispatch beside the hand's button, which became THREE-WAY:
+  follow the genre / forced ON / forced OFF — the tape POWER's rule worn as one
+  key. Notes unchanged, snapshot byte-identical; the A/B render is the
+  instrument that sees it, AND ITS FIRST RUN MEASURED ITS OWN SETUP AGAIN,
+  fifth time on this project: bladerunner seed 5 read INAUDIBLE because the
+  declared parts play NOTHING inside the probe's compare window — the acid-zero
+  lesson from `08d` §6, met the very next build. Counted before rerunning:
+  seed 5's first held-able note is at 30.9 s; seed 1's is at 1.8 s. The real
+  A/B numbers are in legato.md §7. (2) The desk's six EQ controls are drawn on
+  the mixer's MASTER
+  strip via `panel.host: "mixer"` — same keys, same kinds, same genre
+  automation, same TRIM; only where they are drawn changed. `drawnElsewhere`
+  derives it, the same rule as the pad bay's `pads`. What is NOT built, named
+  in BACKLOG §5.1/§5.2: per-SECTION genre legato, and genre access to the
+  per-part sends.
 
 - **`08a`** The tape machine as an END-OF-LINE unit on the whole record, not a
   send — "the whole record goes through it or none of it does",

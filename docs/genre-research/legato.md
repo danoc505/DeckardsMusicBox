@@ -131,3 +131,76 @@ bass notes carry a hold — the densest part in the program — and none of them
 in the first six seconds, because the bass has not come in yet. A control that
 does something real can still do nothing at the moment you happen to look, and a
 check that measured only acid would have called this switch broken.
+
+---
+
+## 7. THE GENRE'S OWN LEGATO — added 2026-08-08, on the user's direction
+
+*"Naturally some songs should already be using legato but we dont have it"* was
+half of the original request, and the switch alone did not answer it: a hand
+control that no genre reaches leaves every genre exactly as unslurred as
+before. The user, closing the gap: "we have a bunch of new controls wouldnt it
+make sense that genres get access to this in order to effect change over the
+sections and the whole of the song?"
+
+### The sources for WHERE
+
+> "**Mono legato mode is frequently used on synth basslines and synth leads**,
+> especially in solo sections of a song."
+> [[Attack Magazine, *Legato Synths: Glide, Slide & Portamento*](https://www.attackmagazine.com/technique/passing-notes/legato-synths-glide-slide-portamento/)]
+
+> The Blade Runner lead is "two detuned sawtooths ... shaped by an envelope
+> with **slow attack and long release**", played for its aftertouch and its held
+> expression.
+> [[Reverb Machine, *Vangelis' Blade Runner Synth Sounds*](https://reverbmachine.com/blog/vangelis-blade-runner-synth-sounds/)]
+
+A slow-attack patch played detached never finishes opening — the note IS the
+hold. That is the argument for bladerunner specifically, and it is a physical
+one rather than a taste one.
+
+### What is declared, and what deliberately is not
+
+| genre | declares | why |
+|---|---|---|
+| **bladerunner** | `lead`, `counter` | the Vangelis patch above; the answer is the same player's other hand |
+| **synthwave** | `lead` | Attack Magazine's sentence, verbatim |
+| synthwave bass | — | its bass is a PULSE by its own research; holding it deletes the pulse |
+| everything else | — | no source in hand. The door is open; walking through it is an ears question per genre |
+
+### The three-way rule
+
+The genre's declaration is read at DISPATCH beside the hand's button, and the
+hand outranks the table in both directions — the L button cycles **follow the
+genre → forced ON → forced OFF**. This is the tape POWER's rule worn as one
+key, and it exists for the same sentence: "If I turn a knob it should always
+work for me no matter what the genre is."
+
+Composed notes do not change — the snapshot is byte-identical, and the A/B
+render is the instrument that can see the difference (bladerunner and
+synthwave move; the six undeclared genres must not).
+
+### Per-SECTION legato — asked for, not yet built
+
+The user: legato "can be on on certain sections or for the whole song. Right?"
+Today: the genre's declaration is whole-song, and the hand can ride the button
+live while it plays — which covers sections by a human. A genre varying it BY
+SECTION needs the declaration to reach dispatch with a time span attached, the
+way the motion system already reaches bus controls per section. Named in
+BACKLOG §5.1 rather than half-built here.
+
+### The A/B numbers — and one more probe that measured its own setup
+
+Rendered audio, this build against the one before the genre door existed:
+
+| song | rms of the difference | verdict |
+|---|---|---|
+| bladerunner seed 1 | **−26.2 dB, 48.2% of samples moved** | the held lines are audibly in the record |
+| lofi seed 1 (declares nothing) | **−111.2 dB, 0 samples** | an undeclared genre is untouched |
+
+**The first run of this A/B read INAUDIBLE on bladerunner and it was the
+probe's window, not the wiring** — seed 5's first held-able note lands at
+30.9 seconds and the probe compares the record's opening seconds. The §6
+lesson ("a control that does something real can still do nothing at the moment
+you happen to look") caught on the very next build, so the sequence is now
+part of the method: COUNT when the declared parts first hold (seed 1: 1.8 s),
+then point the A/B there.
