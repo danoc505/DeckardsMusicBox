@@ -1679,3 +1679,69 @@ face follows.
 **A box's identity outranks its convenience.** The TR-1000 is always the TR;
 the bass box is always the yellow 303 chassis. What varies is what is IN it —
 said by the switch, never by the furniture.
+
+---
+
+## "Moving the knob does nothing at all" — 2026-08-08
+
+Two instructions in one message, and a fence around a third:
+
+> *"Firsts goal: the Master Mixer- should have the compressor located under it
+> or on it. All the instrument switches FX reverb and the other at the highest
+> setting on all songs at all times, moving the knob does nothing at all. We
+> are not automating any of the low mid highs on the instruments switches"*
+
+### The complaint was exact, and the second half was worse than it sounds
+
+Both halves were literally true and both were measured before anything moved:
+
+- **"at the highest setting on all songs at all times"** — every send knob on
+  every strip of every genre read **1.00**, verified on the glass. It was a
+  SHARE of a per-bus send master, and a share opens at full, so the knob could
+  never say anything about the record it was sitting on.
+- **"moving the knob does nothing at all"** — the master is 0 on any bus the
+  genre does not feed, and a share multiplying into a zero cannot change the
+  sound in either direction. **56 of the 82 part/send knobs across the eight
+  genres.** Two more, on the record surface, were connected to nothing at all.
+
+### The habit to keep: ask the sources what the RESTING POSITION should be
+
+I had thought of this as "the master is shut, that is correct behaviour". The
+research said the knob was wrong before the master was: every console manual
+read defines a channel send as *"off when turned fully down"* [Mackie
+1642VLZ4 §35; Allen & Heath MixWizard WZ3], and none anywhere describes one
+resting at maximum. The failure mode is documented as the classic novice error
+in the same literature — *"Novice users often forget to turn up the aux send
+masters and consequently no signal is sent to the aux device"* [cmtext,
+Indiana University]. A knob pinned at the top of its travel on every song had
+been read as a generous default when it was a control with nothing to say.
+
+**When a control looks wrong, ask what the resting position of the real thing
+is, before deciding the behaviour behind it is correct.**
+`docs/genre-research/channel-sends.md` §7.
+
+### And the fence was as useful as the instructions
+
+*"We are not automating any of the low mid highs on the instruments
+[strips]"* — a scope limit, given unprompted, against exactly the row
+`BACKLOG` §5.2 had left ambiguous. That row is now closed by decision rather
+than left open, which is worth more than another audit. **A user who fences
+the work is doing design; write the fence down where the task list lives.**
+
+### The compressor: the placement was the better-sourced half
+
+*"under it or on it"* turned out to have a primary source behind it. SSL's own
+SL 4000 G manual has a section titled **The Centre Section**, and the Quad
+Compressor is in it — not beside the master fader but *"using the same VCAs
+that are used by the main output fader"*. On that desk the bus compressor **is**
+the master fader's gain stage. Surveyed honestly against four other consoles
+(API yes, Neve/Amek/Trident no), so it is an SSL/API idiom rather than a law —
+and still the right answer here, because the needle exists to be watched while
+a hand is on the threshold and it had been two racks away from it.
+
+### What none of this establishes
+
+Every number in that build says a control exists, reads the truth, and reaches
+the graph. **Not one says the record sounds better.** No note moved, and an
+untouched record renders identically (−118.5 dB against a −118.6 dB same-build
+floor) — so what changed is what the desk SAYS and whether it answers a hand.

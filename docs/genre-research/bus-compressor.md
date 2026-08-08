@@ -131,3 +131,140 @@ claimed all along. The corrected A/B is in the build's commit.
 The lesson, third time in this repo: **a stage whose job is dynamics must be
 proven level-neutral by measurement, because the defect is precisely the one
 your ear will mistake for "better".**
+
+---
+
+## 7. WHERE IT LIVES ON THE DESK — the centre section
+
+*Researched 2026-08-08, on the user's instruction: "the Master Mixer should
+have the compressor located under it or on it." The unit already existed; this
+sheet's earlier sections argued what it DOES. This section is about WHERE it
+goes, which turned out to be the better-sourced question of the two.*
+
+### 7.1 On the desk this program clones, the compressor IS the master fader
+
+The primary source is SSL's own manual for the console the whole idea comes
+from, and it is more specific than "a compressor on the mix bus". Its Section
+4 is titled **"The Centre Section"**, and the compressor is inside it:
+
+> **"Quad Compressor** — This compressor uses the same VCAs that are used by
+> the main output fader and the Autofade circuit on the Quad bus. Hence
+> switching the compressor IN introduces no additional audio circuitry to the
+> Quad Outputs."
+> — [SSL, *SL 4000 G Series Console Operator's Manual*, p.4-11](https://archive.org/stream/SSL_4000G_Series_owners_manual/SSL_4000G_Series_owners_manual_djvu.txt)
+
+So on a 4000 G the bus compressor is not *near* the master fader — **it is the
+master fader's own gain stage.** The same page gives the meter:
+
+> "The gain MAKE-UP simply acts as a level control to compensate for the
+> lowered level which is a consequence of compressing the signal… **The meter
+> reads Gain Reduction.**" — [ibid]
+
+And the warning, which is the best evidence of how close to hand it sits:
+
+> "Note of warning: Be careful when mixing with the compressor switched in, as
+> you may end up pushing the faders up too far if you forget that it is in
+> circuit." — [ibid]
+
+SSL say the same about the whole lineage in their own marketing voice, which is
+worth quoting because it is a claim about *placement* rather than about sound:
+
+> "From the very first commercially released SSL 4000B console in 1976 and
+> through many generations of SSL consoles that have followed, **the Bus
+> Compressor has always been the stalwart of the console centre section.**"
+> — [Solid State Logic, *THE BUS+*](https://solidstatelogic.com/products/the-bus-plus)
+
+> "**The centre section compressor** from SSL's 1980's G Series analogue console
+> is an audio production legend."
+> — [Solid State Logic, *SSL Native Bus Compressor 2*](https://store.solidstatelogic.com/plug-ins/ssl-native-bus-compressor-2)
+
+> "a high-quality stereo mix compressor derived from that first seen in **the
+> centre section of the G-series consoles**"
+> — [Sound On Sound, *SSL XLogic G-Series Compressor*](https://www.soundonsound.com/reviews/ssl-xlogic-g-series-compressor)
+
+> "The SL4000 console was the first mixing desk to incorporate dynamics
+> processing into every channel, as well as **a master bus compressor in the
+> console's center section.**"
+> — [Waves, *SSL G-Master Bus Compressor* user manual PDF](https://assets.wavescdn.com/pdf/plugins/ssl-g-master-buss-compressor.pdf)
+
+### 7.2 What a centre section contains
+
+SSL's own current manual enumerates it, and the list is the argument for
+putting our master strip and our compressor in one place:
+
+> "Bus Trim Masters and Routing · Talkback and Listen Mic · **Bus Compressor** ·
+> Oscillator · Misc Section · Solo Master Section · Meters Section · CUE and AUX
+> Masters · Stereo Returns · Monitor Level Controls · Monitor Source Selector"
+> — [SSL, *ORIGIN User Guide V1.1*, p.20](https://www.solidstatelogic.com/assets/uploads/downloads/origin/SSL_Origin_User_Guide_V1-1_screen.pdf)
+
+and orders the mix bus as **"MIX BUS Fader / MIX BUS Insert / MIX BUS
+COMPRESSOR / MIX Bus Meter"** [ibid]. Wikipedia gives the generic shape:
+
+> "Subgroup and main output fader controls are often found together on the
+> right-hand side of the mixer or, on larger consoles, **in a center section
+> flanked by banks of input channels.**"
+> — [Wikipedia, *Mixing console*](https://en.wikipedia.org/wiki/Mixing_console)
+
+### 7.3 It is post-summing, which is where ours already was
+
+> "The signal passes on via the VCA monitor fader and out of the module onto the
+> Quad bus. **The Quad bus is fed into summing amps in the centre section (SL
+> 651G) and then passes via the main Quad VCAs** out to the monitor amps and
+> ATRs." — [SSL 4000 G manual, *Basic Routing and Signal Flow*]
+
+> "ORIGIN's Mix Bus has a dedicated, fully balanced Insert Send and Return…
+> switched into the Mix Bus circuit using the INSERT switch **located next to
+> the Mix Bus fader**." — [SSL ORIGIN User Guide]
+
+Ours is an insert between the desk and the tape, which is the same position in
+the flow. **§1 of this sheet is unchanged by any of the above** — nothing here
+moves a wire.
+
+### 7.4 IS IT ONLY SSL? — surveyed, and the answer is "mostly"
+
+Worth writing down because it would have been easy to overstate:
+
+| desk | a bus compressor in the centre section? |
+|---|---|
+| **SSL 4000 G / ORIGIN** | **YES**, and hard-wired into the master fader's VCAs |
+| **API The Box 2** | **YES** — "Like the original console, The Box 2 features **two API 527 compressors in the centre section**… primarily intended for mix-bus compression" [[Sound On Sound](https://www.soundonsound.com/reviews/api-box-2)] |
+| **AMS Neve 8424** | **NO dedicated one.** The centre carries "Two VPR alliance specification 500 series slots… can be added as **mix bus inserts**" and "built-in master bus EQ and stereo width enhancement" [[AMS Neve](https://www.ams-neve.com/consoles/small-format-consoles/neve-8424/)] — you fit one and route it there |
+| **Amek 9098i** | **NO** — the centre has "the usual selection of master control facilities" and "Dynamics are available on all 6 master buses", but explicitly "**there's no 5- or 6-channel master compressor**" [[Mix](https://www.mixonline.com/recording/amek-9098i-large-format-line-mixing-console-373370)] |
+| **Trident 88** | **NO** — nothing in the master spec; you strap outboard across the 2 main inserts [[Trident](https://tridentaudiodevelopments.com/product/trident-88-console/)] |
+
+So "the bus compressor lives in the centre section" is **an SSL/API habit that
+became the idiom**, not a law of consoles. It is still the right answer here for
+a reason that is ours rather than borrowed: this program has exactly one output
+and one master fader, the compressor is an insert on that one path, and the
+needle exists to be watched *while a hand is on the threshold*. Putting them
+two racks apart made the needle harder to use than it needed to be.
+
+### 7.5 WHAT WAS BUILT
+
+`panel.host: "mixer"` — the desk EQ's own key, carried one machine further. The
+compressor is drawn **in the mixer's strip row, immediately after the master
+fader**, in a case of its own with its own nameplate and its VU. Its controls
+keep their keys, their kinds, the genre door (`comp: 1` on four genres), the
+hand's TRIM and the double-click release; **only where they are drawn changed.**
+
+Two things were derived rather than named, because a list of one pretending to
+be a rule is this repo's most repeated defect:
+
+- `mixMaster` read `INSTRUMENTS.desk` by hand. It asks now: a hosted machine
+  with **no** picture is a strip's worth of knobs and goes on the MASTER STRIP;
+  one that **draws a picture** is a unit and gets the centre section.
+- `mk2_ui`'s picture check queried `.machine[data-machine="…"]`. A hosted
+  machine wears no outer rack class, so that selector found nothing and the
+  loop's `continue` would have **silently retired the only check that can see
+  whether the VU draws.** It asks `[data-machine]` now.
+
+**MEASURED after the move:** one compressor element on the page and no second
+copy of any knob; all six declared controls drawn; the VU 278×138 and found by
+the picture check; forced ON over lofi with the threshold at −26, the node's own
+reduction reads **−11.3 dB** and the needle sits at −26.5°, so the unit still
+works from its new house. `mk2_ui` 66/0, `probe_desk` 10/0, `probe_deskgraph`
+7/0, `probe_mixer` 4/0, snapshot IDENTICAL.
+
+**STILL OPEN, and unchanged by this:** everything in §5 above, plus the two
+rows in `BACKLOG` §5.1b — the four genre declarations are a sourced idiom that
+nobody has listened to, and no genre rides the compressor's knobs.

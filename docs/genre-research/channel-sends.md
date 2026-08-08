@@ -119,3 +119,153 @@ So the tape is an **insert on the master path**, after the desk and before the
 limiter, with a three-way POWER switch (the genre decides / off / on) rather
 than a wet-dry blend. A pitch effect at 50% wet is two copies of the record a
 few cents apart, which is a chorus, not a tape.
+
+---
+
+## 7. THE SEND MASTER, AND THE KNOB THAT SAT AT THE TOP OF ITS TRAVEL
+
+*Researched 2026-08-08, from the user's report: "All the instrument [strips']
+FX reverb and the other at the highest setting on all songs at all times,
+moving the knob does nothing at all." Both halves were true. This section is
+the sources on why, and it is the section that says the resting position was
+wrong.*
+
+### 7.1 WHAT WE HAD, MEASURED FIRST
+
+A part's send knob was its **share** of a per-bus send master, and a share
+opens at full — so:
+
+- every send knob on every strip of every genre read **1.00**, on the glass,
+  which means the knob could never say anything about the record;
+- and the master is **0** on any bus the genre does not feed. A share
+  multiplying into a zero cannot change the sound in either direction.
+  **MEASURED: 56 of the 82 part/send knobs across the eight genres**, including
+  every drum and bass REVERB on most of them;
+- worse, the record surface's row into both effect columns is a pair of BLIND
+  PLATES, so its two knobs were connected to **nothing whatsoever**.
+
+### 7.2 A CHANNEL SEND RESTS AT MINIMUM. EVERY MANUAL SAYS SO.
+
+This is the finding that decided the fix, and it is unanimous across every
+console manual read:
+
+> "These four knobs tap a portion of each channel's signal… **They are off when
+> turned fully down**, deliver unity gain at the center detent, and can provide
+> up to 15 dB of gain turned fully up."
+> — [Mackie, *1642VLZ4 Owner's Manual* §35](https://mackie.com/img/file_resources/1642VLZ4_OM.pdf)
+
+> "**Zero the controls.** Fully turn down all the knobs and faders to minimum,
+> except for the channel EQ and pan controls, which should be centered."
+> — [ibid, *Getting Started*] — the carve-out is EQ and pan; sends are not in it.
+
+> "**AUX SENDS** These rotary controls adjust how much channel signal is mixed
+> to the aux outputs… **They adjust from fully off to +6dB boost. Unity gain
+> 0dB is marked at 3 o'clock position.**"
+> — [Allen & Heath, *MixWizard WZ3 14:4:2 User Guide*](https://allen-heath.com/content/uploads/2023/07/W3UG_1442_AP5332_3.pdf)
+
+> "Turn the TRIM, **AUX send** and fader controls **fully down**."
+> — [Mackie, *CR1604-VLZ Owner's Manual*, Level-Setting Procedure](https://www.evl.uic.edu/xevious/av/manual/MACKIE_CR1604VLZmanual.pdf)
+
+**No source anywhere describes a channel send whose resting position is
+maximum.** A knob pinned at the top of its travel on every song was a departure
+from the idiom, and nobody had noticed because it looked like a full-open
+default rather than like a control with nothing to say.
+
+### 7.3 THE SEND MASTER, AND THE CLASSIC GOTCHA — which is exactly our bug
+
+> "The aux send master section controls the total amount of signal being sent
+> out to each of six aux devices, **combining all the channel aux send amounts**
+> mentioned above for each individual aux send bus… The process begins with the
+> input channel strip aux send pots, which next go through the aux send master
+> pot and into the effects box."
+> — [cmtext, *Studio Gear: Mixing Consoles 5*, Jeffrey Hass, Indiana University](https://cmtext.com/studio/chapter2_mixers5.php)
+
+and, on the same page, the failure mode in one sentence:
+
+> "**Novice users often forget to turn up the aux send masters and consequently
+> no signal is sent to the aux device.**" — [ibid]
+
+That is our defect, stated by a source that has never seen this program: two
+level controls in series, and the downstream one at zero. Confirmed
+structurally by the manuals:
+
+> "Aux sends 1 and 2 levels are controlled **not only by the channel's aux
+> knobs, but also by the aux send master knobs**." — [Mackie 1642VLZ4 §35]
+
+> "The AUX out is taken from **after** the AUX MIX master level control…
+> Adjusts the level **from off (fully attenuated)** to +6dB gain."
+> — [Allen & Heath, *ZED-10 User Guide*](https://www.allen-heath.com/content/uploads/2023/06/AP7880_1ZED10_UserGuide_A5.pdf)
+
+### 7.4 AND WHY PER-PART AMOUNTS ARE THE POINT
+
+> "It's important to realize that the channels on a mixer share aux sends…
+> **Even though all the channels share the bus, you use the aux send knobs to
+> independently control the amount of effect for each individual channel.**"
+> — [Yamaha, *Aux Sends and Returns*, Steve La Cerra](https://hub.yamaha.com/proaudio/livesound/aux-sends-and-returns/)
+
+> "**You've got 20 audio tracks, and they all need reverb in differing
+> amounts.**"
+> — [Sound On Sound, *Using Aux Sends & Returns*, Robin Bigwood](https://www.soundonsound.com/techniques/using-aux-sends-returns)
+
+> "**Use the aux sends on the input channels to send as much or as little
+> signal as desired from each to the reverb master. Then use the reverb master
+> channel level to control the overall level of reverb.**" — [cmtext, ibid]
+
+That last line is the division of labour this program now has, and it is the
+one §4 of this sheet already argued for from the user's side.
+
+### 7.5 WHAT WAS BUILT
+
+**The knob is the send itself, not a share of an invisible master.** It opens
+at what this song sends that part's bus — 0 where the genre sends nothing,
+which is an honest reading of "nothing happens here" — and it can be turned up.
+
+**Turning it up opens the bus master exactly as far as that one part asks**
+(`mixSendLift`), and every other part on that bus is then held precisely where
+it was by its own share (`applyMixer` divides). The arithmetic:
+
+```
+    mb        what the SONG sends this part's bus (the knob's base)
+    want_p    clamp(0..1, mb + this part's hand)
+    M         clamp(0..1, mb + the largest UPWARD hand on any part of the bus)
+    share_p   M > 0 ? want_p / M : 1
+```
+
+Nobody's hand on anything → `want = mb = M` → every share is exactly **1**,
+which is the wire it replaced, bit for bit.
+
+This is the user's standing ruling one layer down from where `routeBaseFor`
+already carried it: *"If I turn a knob it should always work for me no matter
+what the genre is. The user is the end of the line."*
+
+**And a strip draws NO knob where the desk has no wire** — derived from
+`MATRIX` rather than listed, with the blind plate's own written reason as the
+tooltip on the blank.
+
+### 7.6 MEASURED, on the glass, lofi, playing
+
+| | |
+|---|---|
+| untouched, every part's share | **exactly 1.00** — the old wire |
+| an untouched record, this build vs `4605df3` | **−118.5 dB**, against this build's own same-build floor of **−118.6 dB** |
+| drums REVERB dragged up | the `drumsRoom` crossing **0 → 0.44**; every other part's effective send unchanged to three decimals |
+| keys2 DELAY dragged up | the pad reaches the delay at **0.620** while `keys` and `ostinato` — on the same bus — sit at **0.000** |
+
+That last row is `BACKLOG` §5.2's open item — *"three strips share the keys bus,
+so a genre wanting the pad wet and the figure dry cannot say it"* — answered
+**from the hand's side**. The GENRE still cannot say it; that row stays open.
+
+### 7.7 WHAT THIS DOES NOT DO, said plainly
+
+- **The genre still has no per-part send.** Only the hand does. `BACKLOG` §5.2
+  is narrowed, not closed, and its research pass has not been done.
+- **There is no headroom above the song's own send.** The matrix crossing's max
+  is 1, so a part the genre already sends at full can only be turned DOWN. The
+  sources give real boost above unity (Mackie +15 dB, A&H +6 dB); we do not.
+  `[EAR]` whether that is ever wanted.
+- **The matrix panel's own knob does not show the lift.** A hand on a strip
+  opens the crossing without moving that crossing's knob, exactly as the
+  existing hand-on-a-return-unit rule already does. Consistent, and still a
+  place where two displays of one path disagree by a hand's worth.
+- **Nobody has listened to any of it.** Every number above says the control
+  exists and reaches the graph. None says the record sounds better.

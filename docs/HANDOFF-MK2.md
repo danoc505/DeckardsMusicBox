@@ -103,7 +103,43 @@ to measure the thing it was about — reading `kit.poly`, exempting D bars **by
 name** from `materials.drumPhrase` — and never by moving a threshold. Say in the
 commit message which you changed and why.
 
-### WHAT 2026-08-08 BUILT — `08a` … `08g`
+### WHAT 2026-08-08 BUILT — `08a` … `08h`
+
+- **`08h`** THE DESK, on two user reports in one message. (1) **THE PART
+  STRIPS' FX SENDS WERE PINNED AT FULL AND MOSTLY WIRED INTO A ZERO** — *"All
+  the instrument [strips'] FX reverb and the other at the highest setting on
+  all songs at all times, moving the knob does nothing at all."* Both halves
+  exactly true, and the second is the worse one: MEASURED before touching
+  anything, **56 of the 82 part/send knobs across the eight genres multiplied
+  into a bus master of 0**, and the record surface's two were connected to
+  nothing at all (its row into both effect columns is a pair of blind plates).
+  It read 1.00 because the knob was a SHARE of a send master and a share opens
+  at full. The sources say that resting position was wrong on its own terms —
+  every console manual defines a channel send as *"off when turned fully
+  down"* [Mackie 1642VLZ4 §35; Allen & Heath WZ3], and the failure mode is
+  documented verbatim: *"Novice users often forget to turn up the aux send
+  masters and consequently no signal is sent to the aux device"* [cmtext,
+  Indiana University]. So the knob is the SEND ITSELF now: it opens at what
+  this song sends that part's bus (0 where the genre sends nothing), and
+  turning it UP opens the master exactly as far as that one part asks while
+  every other part on the bus is held where it was by its own share. Untouched,
+  every share is exactly 1 — the old wire, and an untouched lofi record renders
+  at **−118.5 dB against a −118.6 dB same-build floor**. A strip draws no knob
+  where the desk has no wire, derived from `MATRIX`. `channel-sends.md` §7.
+  (2) **THE COMPRESSOR IS ON THE DESK** — *"the Master Mixer should have the
+  compressor located under it or on it."* `panel.host: "mixer"`, the desk EQ's
+  own key carried one machine further, drawn in the strip row immediately after
+  the master fader. The source is emphatic and is SSL's own manual: its Section
+  4 is titled *The Centre Section* and the Quad Compressor inside it *"uses the
+  same VCAs that are used by the main output fader"* — on that desk the bus
+  compressor **is** the master fader's gain stage. `bus-compressor.md` §7, which
+  also surveys four other consoles and says honestly that this is an SSL/API
+  idiom rather than a law. Two things were derived on the way: `mixMaster`
+  stopped naming `INSTRUMENTS.desk` by hand, and `mk2_ui`'s picture check
+  stopped querying `.machine[data-machine]` — a hosted machine wears no outer
+  rack class, so that selector found nothing and the loop's `continue` would
+  have **silently retired the only check that can see whether the VU draws**.
+  RULE ONE: all eight rolls byte-identical, before and after, both halves.
 
 - **`08g`** THE SPRING TANK — "a different kind of room from the one we have,
   not more of the same — the boingy one. Springs that shake, and a tank you

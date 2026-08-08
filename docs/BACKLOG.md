@@ -424,7 +424,10 @@ open from those two builds, honestly:
 - **The compressor's four declarations are a sourced idiom, not a listen.**
   One session with ears decides whether acid/plastikman/jungle/synthwave keep
   their glue and whether the thresholds sit right. The needle makes that
-  session possible — that was the point of the needle.
+  session possible — that was the point of the needle. **`08h` moved the unit
+  onto the desk's centre section, beside the master fader** (`panel.host:
+  "mixer"`, `bus-compressor.md` §7), which makes that session easier and
+  changes nothing about this row.
 - **No genre rides the compressor's knobs** (all voicing+live, hand's
   territory). A genre pumping its release per section is a real technique and
   a real future, and it would need the kinds revisited.
@@ -456,8 +459,8 @@ the whole of the song?" The audit of what a genre can and cannot reach:
 | the strip's control | can a genre reach the same outcome? | verdict |
 |---|---|---|
 | fader | YES — `roleGain` is the genre's own level for the part | **no second door.** Two owners of one fader. |
-| LOW/MID/HIGH (per part) | YES — through the loaded machine's own tone controls | **no second door**, same reason |
-| REVERB/DELAY send (per part) | **NO — only the bus master.** Three strips share the keys bus, so a genre wanting the pad wet and the figure dry cannot say it | **OPEN, and worth building.** The sourced case is already in this repo: "automating sends creating movement and tension" [corpus:trackscore]. Needs its own research pass and per-genre taste decisions — not to be wired in a hurry. |
+| LOW/MID/HIGH (per part) | YES — through the loaded machine's own tone controls | **no second door**, same reason. **AND THE USER RULED ON IT DIRECTLY, `2026-08-08`: "We are not automating any of the low mid highs on the instruments [strips]."** So this row is CLOSED by decision, not left open. |
+| REVERB/DELAY send (per part) | **NO — only the bus master.** Three strips share the keys bus, so a genre wanting the pad wet and the figure dry cannot say it | **STILL OPEN, and NARROWED at `08h` — the HAND can do it now, the GENRE still cannot.** A part's send knob is the send itself rather than a share of an invisible master, and turning one up opens that bus's master far enough for that one part while holding its bus-mates where they were: measured on lofi, the pad reaches the delay at 0.620 while `keys` and `ostinato` sit at 0.000 on the same bus. So the CAPABILITY exists in the graph and is proven; what is missing is a genre table key that reaches it. The sourced case is unchanged: "automating sends creating movement and tension" [corpus:trackscore]. Needs its own research pass and per-genre taste decisions — not to be wired in a hurry. `docs/genre-research/channel-sends.md` §7. |
 | LEGATO | **was NO** | **CLOSED `08e`** — see §5.1 |
 | master EQ (the desk) | YES — `desk.*` are `bus` controls genres already ride | already true; the knobs just moved onto the master strip |
 

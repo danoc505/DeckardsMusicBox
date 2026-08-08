@@ -222,7 +222,8 @@ const check = (label, ok, detail) => {
                /* DERIVED, not the literal 3. This counted the EQ's three bands
                   and went red the hour every strip grew a REVERB and a DELAY --
                   the check was stale, not the program. It asks the desk how
-                  many knobs a strip is supposed to have. */
+                  many knobs a strip is supposed to have.
+
                   AND IT WENT STALE A SECOND TIME, the hour a strip stopped
                   drawing a knob for a crossing that does not exist: the record
                   surface's row into both effect columns is a pair of BLIND
@@ -1087,7 +1088,15 @@ const check = (label, ok, detail) => {
       for(const k in MK2.INSTRUMENTS){
         const P = MK2.INSTRUMENTS[k].panel;
         if(!P || !P.grid) continue;
-        const box = document.querySelector(`.machine[data-machine="${k}"]`);
+        /* ── ASKED OF `data-machine`, NOT OF `.machine[data-machine]` ────
+           A machine drawn inside another rack does not wear the outer rack
+           class: the bus compressor lives in the desk's CENTRE SECTION now
+           (`panel.host: "mixer"`), in a `.mixunit` case of its own. The old
+           selector found nothing for it and the loop's `continue` then SKIPPED
+           it silently -- so moving a panel would have quietly retired the only
+           check that can see whether its picture draws. A panel says which
+           machine it is; that is the question to ask. */
+        const box = document.querySelector(`[data-machine="${k}"]`);
         if(!box) continue;                       // not on screen for this song
         if(!P.picture){ out.push([k, "declares no picture element"]); continue; }
         const el = box.querySelector("." + P.picture);

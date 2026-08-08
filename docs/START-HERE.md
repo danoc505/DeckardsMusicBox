@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-08g` unless it says otherwise. If you
+*Everything below is verified at `2026-08-08h` unless it says otherwise. If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -122,7 +122,9 @@ while both files carried an identical stamp, so three commits of work went
 unheard. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-08g`.
+Current: `build 2026-08-08h`. **And read the stamp back off the LIVE PAGE
+afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
+published, which is not the same claim as the page agreeing with either.
 
 **THE SAX IS PARKED.** The user's verdict, after every metric on it came
 back green. Do not un-park it without the terms in the handoff's warning
@@ -133,7 +135,7 @@ because the measurement refused it.
 
 ## Where the program stands
 
-Build `2026-08-08g`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-08h`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 
@@ -342,7 +344,10 @@ the barberpole, and now the whole `2026-08-08` run: the tape machine, the
 legato (which audibly changes bladerunner and synthwave), the bass unit's
 accent and slide wiring (audibly changes five genres' bass), the bus
 compressor (squeezes four genres by design), and the spring tank. All
-measured. None heard. The sax is the standing proof that green metrics never
+measured. None heard. **`08h` does NOT join that pile** — it moves no note and
+changes no untouched record (proved by A/B at −118.5 dB against a −118.6 dB
+same-build floor); what it changes is what the desk's knobs SAY and whether
+they work when a hand is on them. The sax is the standing proof that green metrics never
 establish that something sounds good.
 
 So unless the user directs otherwise: **do not stack more onto that pile.**

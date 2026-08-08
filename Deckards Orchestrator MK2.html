@@ -205,6 +205,34 @@
   .mixch .mixnosend{ font-size:7px; letter-spacing:.1em; text-transform:uppercase;
                      opacity:.35; min-height:3.1rem; display:flex; align-items:center;
                      justify-content:center; cursor:help; }
+  /* ── THE CENTRE SECTION, under the strips ────────────────────────────────
+     A hosted unit keeps its own case and its own skin inside the desk's, the
+     way the pad bay holds the echo and the flanger: you can see which box you
+     are turning. It is inset rather than floated, because it is part of this
+     desk and not a rack that happens to be next to it. */
+  .mixcentre{ display:flex; flex-wrap:wrap; gap:.7rem; align-items:flex-end; }
+  .mixunit{ border-radius:5px; padding:.6rem .8rem .7rem;
+            box-shadow:inset 0 0 0 1px rgba(0,0,0,.45), 0 4px 14px rgba(0,0,0,.4); }
+  .mixunit .brand{ display:flex; align-items:baseline; gap:.6rem; margin-bottom:.5rem; }
+  .mixunit .maker{ font-size:9px; letter-spacing:.30em; text-transform:uppercase; opacity:.62; }
+  .mixunit .model{ font-size:12px; letter-spacing:.09em; }
+  .mixunit .slotTag{ margin-left:auto; font-size:8.5px; letter-spacing:.20em; opacity:.45;
+                     text-transform:uppercase; }
+  /* the meter and its controls side by side — the desk's own arrangement, the
+     gain-reduction meter where you can watch it while your hand is on the
+     THRESHOLD, which is the whole reason the needle was built */
+  .mixunitface{ display:flex; gap:1rem; align-items:flex-start; flex-wrap:wrap; }
+  /* the knobs are held to about the meter's own width so the unit stays narrow
+     enough to sit BESIDE the master fader rather than being pushed onto a line
+     of its own -- which is the entire point of a centre section. `align-content`
+     keeps the wrapped rows together at the top instead of spreading them down
+     the meter's height. */
+  .mixunitknobs{ display:flex; gap:.55rem .7rem; flex-wrap:wrap;
+                 align-items:flex-start; align-content:flex-start; max-width:19rem; }
+  /* the VU keeps its own size deliberately: the scale's tick angles and the
+     needle's length are arithmetic in `compVuEl`, in rem, and a face resized
+     in CSS alone would leave the numbers off the dial. One owner. */
+  .mixunit .compvu{ padding:.2rem 0; }
   .mixbody{ display:flex; gap:.34rem; align-items:stretch; height:6.4rem; }
   /* the meter: a column of segments, lit from the bottom */
   .mixmeter{ width:.55rem; border-radius:2px; position:relative; overflow:hidden;
@@ -1350,7 +1378,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08g · the spring tank: the room that boings, and you can kick it</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08h · the strips' sends mean something, and the compressor is on the desk</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3721,8 +3749,28 @@ const INSTRUMENTS = {
       { k:"release", label:"release",    cap:"RELEASE",   min:0.05,max:1.2, step:0.01, def:0.25,  unit:"s", kind:"voicing", live:true },
       { k:"makeup",  label:"makeup gain",cap:"MAKEUP",    min:0,   max:12,  step:0.5,  def:0,   unit:"dB", kind:"voicing", live:true },
     ],
+    /* ── DRAWN ON THE MIXER, IN THE DESK'S CENTRE SECTION ───────────────────
+       "The Master Mixer should have the compressor located under it or on it."
+
+       That is where a bus compressor has always physically been, and the
+       primary source is emphatic. SSL's own SL 4000 G Series Operator's Manual
+       puts the "Quad Compressor" inside the chapter titled THE CENTRE SECTION,
+       and it is not merely nearby — it is part of the master fader itself:
+       *"This compressor uses the same VCAs that are used by the main output
+       fader and the Autofade circuit on the Quad bus. Hence switching the
+       compressor IN introduces no additional audio circuitry to the Quad
+       Outputs."* SSL say the same in their own words about the line as a
+       whole: *"the Bus Compressor has always been the stalwart of the console
+       centre section"* [solidstatelogic.com, THE BUS+].
+       docs/genre-research/bus-compressor.md §5.
+
+       So `host: "mixer"` — the desk EQ's own key, and the same one-owner rule:
+       the controls keep their keys, their kinds, their genre door and the
+       hand's TRIM, and only where they are drawn changes. The VU goes with
+       them, because the meter reading gain reduction is centre-section
+       furniture too: *"The meter reads Gain Reduction"* [SSL 4000 G manual]. */
     panel: { skin: "comp", maker: "DECKARD", title: "BUS COMPRESSOR", grid: "compvu",
-             picture: "compvu",
+             picture: "compvu", host: "mixer",
              groups: [{ label: "", keys: ["power"] },
                       { label: "THE SQUEEZE", keys: ["thresh", "ratio"] },
                       { label: "THE CLOCK", keys: ["attack", "release", "makeup"] }] },
@@ -26653,13 +26701,22 @@ function mixMaster(){
      hand's TRIM, the double-click release and the live re-apply all arrive
      with them rather than being rebuilt. Drawn from the desk's declared
      groups, never from a list written here. */
-  {
-    const D = INSTRUMENTS.desk;
-    for(const gr of ((D.panel && D.panel.host === "mixer" && D.panel.groups) || [])){
+  /* ── AND WHICH MACHINE THAT IS, IS ASKED RATHER THAN NAMED ────────────────
+     This read `INSTRUMENTS.desk` by hand. The moment a SECOND machine named
+     the mixer as its host — the bus compressor — that literal was a list of
+     one pretending to be a rule. It is derived now, and the split is a fact
+     about the machine: a hosted machine with NO picture is a strip's worth of
+     knobs and belongs on the master strip beside the parts' own EQ; one that
+     draws a picture is a unit and gets the centre section under the strips
+     (see `drawMixer`). Nothing here names the desk. */
+  for(const m in INSTRUMENTS){
+    const M = INSTRUMENTS[m], P = M.panel;
+    if(!P || P.host !== "mixer" || P.grid) continue;
+    for(const gr of (P.groups || [])){
       const row = el("div", "mixeq");
       for(const key of gr.keys){
-        const c = D.controls.find(x => x.k === key);
-        if(c) row.appendChild(knobEl("desk", c));
+        const c = M.controls.find(x => x.k === key);
+        if(c) row.appendChild(knobEl(m, c));
       }
       if(row.childNodes.length) wrap.appendChild(row);
     }
@@ -26750,6 +26807,71 @@ function drawMixer(host){
      apart by a rule rather than by being a different shape -- it is the same
      strip doing the same job to everything at once */
   strips.appendChild(mixMaster());
+  /* ── THE CENTRE SECTION, BESIDE THE MASTER FADER ──────────────────────────
+     "The Master Mixer should have the compressor located under it or on it."
+
+     A console's centre section is not a place things were put to save space —
+     it is a named part of the desk, and on SSL's own 4000 G the chapter called
+     THE CENTRE SECTION contains the master facilities module, the master
+     faders, the monitoring, the meters and the "Quad Compressor", which
+     *"uses the same VCAs that are used by the main output fader"* [SSL, SL
+     4000 G Series Operator's Manual]. So the compressor is not beside the
+     master fader by convention; on that desk it IS the master fader's own gain
+     stage. Ours is an insert on the master path, which is the same position in
+     the signal flow. docs/genre-research/bus-compressor.md §5.
+
+     SO IT IS DRAWN IN THE STRIP ROW, immediately after the master, and not in
+     a band underneath: the gain-reduction meter and the master fader are one
+     working position, and that is the whole reason the needle exists. It wraps
+     to its own line when there is no room, which is what a flex row does and
+     is the only honest behaviour on a phone.
+
+     DERIVED, NOT LISTED: every machine whose panel names `host: "mixer"` and
+     declares a `grid` is drawn here, in declaration order. The desk's three
+     bands name a host too and have no grid — they belong on the MASTER STRIP,
+     beside the part strips' own EQ, and `mixMaster` already draws them there.
+     So the split is a fact about the machine (does it draw a picture?) rather
+     than a pair of names written down twice. */
+  {
+    const sec = el("div", "mixcentre");
+    for(const m in INSTRUMENTS){
+      const M = INSTRUMENTS[m], P = M.panel;
+      if(!P || P.host !== "mixer" || !P.grid) continue;
+      /* the machine's own case, inside the desk's — the pad bay's shape, and
+         for the pad bay's reason: it carries its own nameplate so you can see
+         WHICH box you are turning, and `data-machine` so a probe identifies it
+         by what it is rather than by where it happens to be drawn */
+      const cell = el("div", "mixunit sk-" + P.skin);
+      cell.dataset.machine = m;
+      const cb = el("div", "brand");
+      cb.appendChild(el("span", "maker", P.maker || ""));
+      cb.appendChild(el("span", "model", P.title || M.label));
+      cb.appendChild(el("span", "slotTag", "centre section"));
+      cell.appendChild(cb);
+      const face = el("div", "mixunitface");
+      /* THE PICTURE, through the same builder its own rack used — one owner */
+      if(P.grid === "compvu") face.appendChild(compVuEl(m, M));
+      /* and its knobs, in the machine's own declared groups, drawn by the same
+         knobEl/switchEl every panel uses, so the automation dot, the TRIM, the
+         double-click release and the live re-apply all arrive with them */
+      const kn = el("div", "mixunitknobs");
+      for(const g of (P.groups || [])){
+        const grp = el("div", "grp"), row = el("div", "row");
+        for(const k of g.keys){
+          const c = M.controls.find(x => x.k === k);
+          if(c) row.appendChild((c.step >= 1 && c.max - c.min <= 2) ? switchEl(m, c) : knobEl(m, c));
+        }
+        if(!row.childNodes.length) continue;
+        grp.appendChild(row);
+        if(g.label) grp.appendChild(el("div", "leg", g.label));
+        kn.appendChild(grp);
+      }
+      if(kn.childNodes.length) face.appendChild(kn);
+      cell.appendChild(face);
+      sec.appendChild(cell);
+    }
+    if(sec.childNodes.length) strips.appendChild(sec);
+  }
   box.appendChild(strips);
   host.appendChild(box);
 }
