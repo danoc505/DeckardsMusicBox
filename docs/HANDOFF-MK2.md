@@ -103,7 +103,42 @@ to measure the thing it was about — reading `kit.poly`, exempting D bars **by
 name** from `materials.drumPhrase` — and never by moving a threshold. Say in the
 commit message which you changed and why.
 
-### WHAT 2026-08-08 BUILT — `08a` … `08p`
+### WHAT 2026-08-08 BUILT — `08a` … `08q`
+
+- **`08q`** THE BASS THAT HAD ONE JOB — AND THE TWO NUMBERS THAT WERE THE REAL
+  FAULT. Fourth of the five, and **it opens with a citation I had not checked.**
+  Item 4's whole case rested on a quote about bassists being free to "pedal a
+  single note, play ostinatos, or engage in melodic conversation", which I
+  attributed to The Sound Atlas and called "the whole diagnosis in one quote".
+  **Fetched, that page does not contain it.** The claim is real and corroborates;
+  the page does not hold it. The source that IS fetched and is sharper:
+  Audiofanzine, "Pedal and ostinato in the modal system" -- a pedal is "one or
+  two notes throughout several continuous chords", an ostinato "a motif or
+  phrase … made up of several short notes", and "you can usually use both at the
+  same time". Corrected in `static-harmony-and-evolution.md` over my name.
+  **THE GAP WAS REAL AND IT WAS NOT THE FAULT.** `bassRoles` (a weighted list
+  drawn per MATERIAL, so A/B/C each ask what the bass is doing) is built and
+  guarded. Then measured: minimal techno as `[["acid",5],["drone",3]]` got
+  **WORSE** on the exact axis complained about -- root 79.2% → 80.8%, distinct
+  pitches a bar 1.70 → 1.51 -- because the drone role is 100% root by
+  construction. A second way to pedal is not a cure for a bass that pedals
+  because it cannot do anything else. Removed.
+  **THE TRASH BASSLINE WAS THREE NUMBERS IN ONE TABLE**: `distinctPitches [2,2]`
+  against acid house's `[3,2]`, `rootShare 0.62` against 0.45, and a degreePool
+  58% root against 43%. **Two of them I set myself and marked `[EAR]`** -- which
+  in this project means MY ear, and I do not have one; the owner does, and his
+  verdict was "the bassline is trash". Density stays [3,6] and tieChance stays
+  high (both the user's own asks). **Result: root 79.2% → 62.2%, repeats own
+  note 62.5% → 40.2%, distinct a bar 1.70 → 2.27** -- no longer the most static
+  bass in the file, still sparser than acid house.
+  **AND `bassRoles` HAS NO USER, WHICH IS STATED RATHER THAN HIDDEN.** Dungeon
+  synth crashed on it (`riff` reads a `bassRiff` table it has never had -- the
+  guard now filters a role a genre cannot play, derived from the genre); lofi
+  was not taken because its bass is already the second healthiest in the file
+  and a pedal role would repeat the §2 mistake. Which genre should get a second
+  role is an ear question. plastikman 20 lines on seed 1, every other genre 0.
+  One MIDI battery run failed and passed 20/20 on re-run -- a flake, named.
+  **Unheard.** `docs/genre-research/bass-roles.md`.
 
 - **`08p`** TWO COPIES OF ONE MOVEMENT, ONE SLIGHTLY SLOWER. Third of the five,
   and **the claim I opened it with was substantially wrong.** I wrote that

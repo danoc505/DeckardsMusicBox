@@ -518,9 +518,18 @@ diatonic.**
 >    a tenth of its beat and stops. Kept on minimal techno (sourced), acid and
 >    jungle (**judgement calls on a staleness measurement, not a source —
 >    the user's to overrule**). **Unheard.** `docs/genre-research/phasing.md`.
-> 4. **`bassStyle` is one string per genre, forever** — open. Modal jazz gives
->    the bass three roles under static harmony; ours does the first
->    degenerately (74.9% root, 1.51 distinct pitches a bar).
+> 4. **`bassStyle` is one string per genre, forever** — **DONE `2026-08-08q`,
+>    and the gap was NOT the fault.** `bassRoles` is now a weighted list drawn
+>    per material, guarded so a genre cannot be handed a role whose table it
+>    lacks. Declaring minimal techno `[["acid",5],["drone",3]]` made it WORSE
+>    (root 79.2% → 80.8%) — a second way to pedal is not a cure for a bass that
+>    pedals because it cannot do anything else. **The trash bassline was three
+>    numbers in one table**, two of them marked `[EAR]` and set by me:
+>    `distinctPitches [2,2]→[3,2]`, `rootShare 0.62→0.45`, degreePool root
+>    58%→43%. Result: **root 79.2% → 62.2%, repeats 62.5% → 40.2%, distinct a
+>    bar 1.70 → 2.27**, still sparser than acid house. `bassRoles` currently has
+>    **no user** and that is stated rather than hidden. **Unheard.**
+>    `docs/genre-research/bass-roles.md`.
 > 5. **The older §6 rows below** — open, and unchanged by any of the above.
 
 ### 6.1 THE CHORD VOCABULARY STOPS AT FOUR NOTES — the root cause

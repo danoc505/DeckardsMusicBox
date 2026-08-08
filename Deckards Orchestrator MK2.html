@@ -1378,7 +1378,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08p · two copies of one movement, one slightly slower</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08q · the bass moves again</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -17117,6 +17117,35 @@ const GENRE = {
        deep, rumbling basslines". Minimal's bass is "simple and repetitive,
        locking in with the kick drum ... often only playing a few notes per bar"
        [corpus:stealifysounds, corpus:beatkey] -- a few per BAR, not per four. */
+    /* ── AND IT DOES NOT DO THE SAME JOB ALL RECORD ────────────────────────
+       The user: "our min techno is a failure, the bassline is trash". Measured
+       at 40 seeds, this genre's bass is 79.2% root, repeats the note it just
+       played 62.5% of the time, and puts 1.70 distinct pitches in a bar -- and
+       it is running the ACID generator, so it is worse on every column than the
+       acid house genre it borrows from (60.6% / 43.9% / 3.10). It has never had
+       a bass of its own.
+
+       BOTH ROLES ARE THIS GENRE'S OWN RESEARCH, not an import. The 303 line is
+       sourced outright -- "one of the core fundamental sounds of Plastikman has
+       always been Roland TB-303 basslines" -- and so is the other one: Consumed
+       is "driven largely by deep, rumbling basslines", which is a pedal and not
+       a sequence. The modal source says the two belong together in exactly this
+       way: "you can usually use both pedal and ostinato at the same time", and
+       commonly "an ostinato developing on top of a pedal" [Audiofanzine, "Pedal
+       and ostinato in the modal system"]. Drawn per material, so the 303
+       sequence and the deep held root take turns as the sections change instead
+       of one of them being the whole record.
+
+       AND THEN THE MEASUREMENT REFUSED IT. Declared as [["acid",5],["drone",3]]
+       and measured, this genre got WORSE on the exact axis the user complained
+       about: root 79.2% -> 80.8%, distinct pitches a bar 1.70 -> 1.51. Obvious
+       in hindsight -- the drone role is 100% root by construction, so handing a
+       third of the record to it makes the most static bass in the file more
+       static. The three roles in the source are a menu for a bass that is FREE;
+       this bass was not pedalling by choice, it was pedalling because it could
+       not do anything else, and giving it a second way to pedal is not a cure.
+       So no `bassRoles` here: the fault was never the role, and the next block
+       is where it actually lives. */
     bassStyle: "acid",
     acidLine: {
       grid: 1,
@@ -17129,17 +17158,38 @@ const GENRE = {
          silence between the notes is the material here, not the gaps left over
          after the material. */
       density: [3, 6],
-      /* TWO pitches, not acid house's three or four. This is the genre that
-         reduces. [EAR, on the same axis as everything else here] */
-      distinctPitches: [2, 2],
-      degreePool: [[0, 14], [6, 4], [3, 3], [1, 2], [4, 1]],
+      /* ── AND HERE IS THE TRASH BASSLINE, IN TWO NUMBERS ────────────────────
+         The user: "our min techno is a failure, the bassline is trash". Measured
+         at 40 seeds this genre's bass was 79.2% root, repeating the note it just
+         played 62.5% of the time, 1.70 distinct pitches a bar -- worse on every
+         column than the acid house genre whose generator it borrows (60.6% /
+         43.9% / 3.10). The style was never the problem. THE TABLE ASKED FOR IT:
+
+           distinctPitches   acid [3,2] = 3 or 4      this was [2,2] = 2 or 3
+           rootShare         acid 0.45                this was 0.62
+           degreePool root   acid 12 of 28 = 43%      this was 14 of 24 = 58%
+
+         Three settings all pushing the same way, and I set two of them myself
+         and marked them [EAR] -- which in this project means MY ear, and I do
+         not have one. The owner does, and his verdict on the result is that it
+         is a failure. That outranks an [EAR] tag every time.
+
+         WHAT IS KEPT is everything the user actually asked for: `density`
+         stays [3,6] ("minimal is slow building, less notes" -- their words),
+         `tieChance` stays high, `avoidKick` stays. What changes is only how
+         much the line MOVES, which is the thing that was called trash. The
+         count goes to the sourced 303 figure -- "THREE OR FOUR"
+         [corpus:techno-music.com / musictech] -- and the root's share of the
+         pool comes down to acid's. Sparser than acid house, no longer stuck. */
+      distinctPitches: [3, 2],
+      degreePool: [[0, 9], [6, 4], [3, 3], [1, 2], [4, 1]],
       /* MORE ties than acid house, not fewer. With three to six notes in a bar
          the question is not how many hits there are but how LONG they are --
          a held note across the gap is the difference between a sparse line and
          a line with holes in it, and holding is how this music fills a space
          it has deliberately emptied. [EAR, on the instrument's own tie] */
       tieChance: 0.45,
-      rootShare: 0.62,
+      rootShare: 0.45,                    // was 0.62 [EAR]; acid house's sourced figure
       octaveUp: 0.06, octaveDown: 0.04,
       /* and the mechanism: off the kick, always. [corpus:attackmagazine] */
       avoidKick: true,
@@ -18819,6 +18869,25 @@ const GENRE = {
     pressure: { depth: 0, amount: [0, 0], at: [0, 0], rise: [0, 0] },
     /* "long pedal notes and drones" [corpus:melodigging] -- the bass is the
        drone under everything, restruck when the harmony moves */
+    /* ── AND THE DRONE IS A DECISION, WHICH MEANS THERE HAS TO BE A CHOICE ──
+       This genre is the modal system with a synthesiser, which is precisely
+       what the pedal/ostinato source is about: a pedal is "one or two notes
+       throughout several continuous chords ... based on the repetition of long
+       notes", an ostinato is "a motif or phrase repeated as long as you like",
+       "made up of several short notes", and the two are normally used together
+       [Audiofanzine, "Pedal and ostinato in the modal system"]. This genre had
+       the first and not the second, on every record it has ever made -- 69.0%
+       root, 1.22 distinct pitches a bar.
+
+       AND THEN IT TURNED OUT THIS GENRE CANNOT PLAY THE SECOND ROLE. Declared
+       as [["drone",7],["riff",2]] it crashed on the first bar -- "Cannot read
+       properties of undefined (reading 'bars')" -- because `riff` reads a
+       `bassRiff` table this genre has never had. The guard in `buildBassLine`
+       now filters a role a genre cannot play, so the crash cannot recur; but a
+       filtered role is a declaration that does nothing, and a table that lies
+       about what it produces is worse than a table that says less. So this
+       genre keeps its single `drone`, and giving it a real second role means
+       writing it a riff table -- a new design with no source behind it yet. */
     bassStyle: "drone",
     bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },
     bassAccent: { accent: 0, slide: 0 },
@@ -21489,6 +21558,67 @@ function makeMaterials(chart){
   function buildBassLine(chordSet, streamName, rootsOnly){
     const rng = stream(chart.seed, streamName);
     const notes = [];
+    /* ══ WHAT JOB THE BASS IS DOING, AND IT IS DRAWN PER MATERIAL ═════════════
+       `bassStyle` is ONE STRING PER GENRE, for the life of the genre. Measured
+       over 40 seeds a genre, every genre used exactly ONE bass role in every
+       song it has ever composed. Under a harmony that does not move, the
+       sources say that is not what a bass does:
+
+         "bassists gain the freedom to PEDAL A SINGLE NOTE, play OSTINATOS
+         (short repeated figures), or engage in MELODIC CONVERSATION with the
+         soloists. A walking bass line becomes less necessary when the harmony
+         isn't moving."
+
+       ⚠ AND THE ATTRIBUTION FOR THAT QUOTE IN THIS REPO WAS WRONG. I cited it
+       to The Sound Atlas's modal jazz page in `static-harmony-and-evolution.md`
+       and called it "the whole diagnosis in one quote". Fetched, that page does
+       not contain it -- it names Ron Carter and lists the upright bass and says
+       nothing of the kind. The CLAIM is real and corroborates across sources;
+       the page I hung it on does not hold it. Corrected there, over my name.
+
+       The source that IS fetched and does hold the distinction is Audiofanzine's
+       "Pedal and ostinato in the modal system", and it is more precise than the
+       quote above: a PEDAL is "one or two notes throughout several continuous
+       chords", "based on the repetition of long notes", and "always harmonic";
+       an OSTINATO is "a motif or phrase that's repeated as long as you like",
+       "doesn't rely on only one or two notes", is "made up of several short
+       notes", and "can be melodic, harmonic and/or rhythmic". This program has
+       both as bass styles already -- `drone` is the first and `acid`/`riff` are
+       the second. What it did not have was a genre able to use more than one.
+
+       SO `bassRoles` IS A WEIGHTED LIST OF JOBS AND THE DRAW IS PER MATERIAL:
+       A, B and C each ask, so the bass changes what it is doing when the section
+       changes, which is the whole point -- a part that pedals for nine minutes
+       is pedalling by default rather than by decision, and a pedal is supposed
+       to be a decision AGAINST the other two.
+
+       `bassStyle` STAYS A STRING and stays the genre's answer when it declares
+       no list -- the blend engine's draw groups and the battery both read it as
+       a scalar, and making it polymorphic to save one line would have put a
+       silent fault in two places that nothing here would have caught.
+
+       THE DRAW RUNS EITHER WAY [Law 3], on its own named substream keyed by the
+       MATERIAL, so a genre that declares nothing computes the same single style
+       it always did and no other genre can move.
+       docs/genre-research/bass-roles.md ═════════════════════════════════════ */
+    /* ── AND A ROLE IS ONLY OFFERED IF THIS GENRE CAN ACTUALLY PLAY IT ───────
+       Each style reads its own table -- `acid` reads `acidLine`, `riff` reads
+       `bassRiff`, `pulse` reads `bassPulse` -- and a genre handed a role whose
+       table it does not have crashes on the first bar. Dungeon synth did
+       exactly that the moment it was offered `riff`: "Cannot read properties of
+       undefined (reading 'bars')". This file's own blend notes warned about it
+       in as many words -- "a riff table blended onto a genre whose bassStyle
+       does not read them" -- so the guard is here rather than in a comment.
+
+       THE LEGAL SET IS DERIVED FROM THE GENRE, never listed: a role is offered
+       when the table it reads is present. `drone`, `pedal` and `follow` need
+       nothing and are always legal. A genre whose whole list is unplayable
+       falls back to its own `bassStyle`, which is the answer it had before. */
+    const BASS_TABLE = { acid: "acidLine", riff: "bassRiff", pulse: "bassPulse" };
+    const legal = (G.bassRoles || [[G.bassStyle, 1]])
+                    .filter(r => !BASS_TABLE[r[0]] || G[BASS_TABLE[r[0]]]);
+    const STYLE = wpick(stream(chart.seed, "bassrole:" + streamName),
+                        legal.length ? legal : [[G.bassStyle, 1]]);
     /* THE PEDAL. Not every genre's bass follows the chord by walking it -- Wise's
        bass is a held, OCTAVE-DOUBLED pedal: one note, both octaves struck
        together, ringing a whole bar or longer. Measured: Aquatic Ambience holds
@@ -21511,7 +21641,7 @@ function makeMaterials(chart){
        drones)"] The length comes from touch.bassArtic, which multiplies duration
        in stage 5 -- so a genre that wants two bars of one note asks for it
        there, in the stage that owns duration, instead of here. */
-    if(G.bassStyle === "drone"){
+    if(STYLE === "drone"){
       /* ── A DRONE FOLLOWS THE CHORDS; A PEDAL DOES NOT ────────────────────
          The two are different things and this only did the first. A drone
          re-strikes on the root of whatever chord is current -- so it MOVES,
@@ -21619,7 +21749,7 @@ function makeMaterials(chart){
        Accent and slide are deliberately NOT written here. acidize() owns them
        for every style and already knows the machine's two rules -- a slide is
        written on the first of the two notes, and a slide cannot cross a rest. */
-    if(G.bassStyle === "acid"){
+    if(STYLE === "acid"){
       const A = G.acidLine;
       /* the palette. The tonic is always in it; the rest are drawn, and the
          draws run a fixed number of times whatever they yield [Law 7]. */
@@ -21763,7 +21893,7 @@ function makeMaterials(chart){
        [EAR] and marked so in the table. Slide is not written here: `acidize`
        owns it for every style, so the genre asks through `bassAccent.slide`
        and one owner keeps writing it. */
-    if(G.bassStyle === "riff"){
+    if(STYLE === "riff"){
       const F = G.bassRiff;
       const LEN = F.bars * 16;
       /* every draw below runs a fixed number of times whatever it yields, and
@@ -21812,7 +21942,7 @@ function makeMaterials(chart){
       }
       return notes;
     }
-    if(G.bassStyle === "pulse"){
+    if(STYLE === "pulse"){
       const P = G.bassPulse;
       for(let b = 0; b < BARS; b++){
         const ch = chordSet[b];
@@ -21831,7 +21961,7 @@ function makeMaterials(chart){
       }
       return notes;
     }
-    if(G.bassStyle === "pedal"){
+    if(STYLE === "pedal"){
       for(let b = 0; b < BARS; b++){
         const root0 = chordSet[b].rootMidi;
         /* THE UPPER OCTAVE CARRIES THE PITCH, the lower one carries the weight --

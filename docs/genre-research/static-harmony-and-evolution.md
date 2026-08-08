@@ -57,7 +57,20 @@ drawn per SONG, so a 9-minute plastikman record is one mode for nine minutes.
 > motif** answered by Bill Evans's piano, is one of the most recognisable
 > moments in jazz precisely because it announces a new kind of rhythmic
 > relationship between instruments."
-> — [The Sound Atlas, *Modal Jazz: Origins, Lineage, and Sound*](https://thesoundatlas.org/discover/modal-jazz)
+> — ⚠ **ATTRIBUTED HERE TO [The Sound Atlas](https://thesoundatlas.org/discover/modal-jazz),
+> AND THAT ATTRIBUTION IS WRONG.** Checked on `2026-08-08q` by fetching the
+> page: it does not contain this text. It names Ron Carter and lists the
+> upright bass and says nothing about bass roles at all. **The claim itself is
+> real** — the wording turns up verbatim in search and the substance
+> corroborates — but the page I hung it on does not hold it, and I called it
+> "the whole diagnosis in one quote" below on the strength of a citation I had
+> not checked. That is this project's oldest rule broken by the person quoting
+> it. **The source that IS fetched and does hold the distinction** is
+> [Audiofanzine, *Pedal and ostinato in the modal system*](https://en.audiofanzine.com/music-theory/editorial/articles/pedal-and-ostinato-in-the-modal-system.html):
+> a pedal is "one or two notes throughout several continuous chords", "based on
+> the repetition of long notes"; an ostinato is "a motif or phrase that's
+> repeated as long as you like", "made up of several short notes"; and "you can
+> usually use both pedal and ostinato at the same time". Use that one.
 
 **That is the whole diagnosis in one quote.** Static harmony offers the bass
 three roles; ours does the first one, degenerately. It pedals — and pedalling
