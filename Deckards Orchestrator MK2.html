@@ -200,6 +200,11 @@
   .mixch .mixeq .kn .dial{ width:1.5rem; height:1.5rem; }
   .mixch .mixeq .cap{ min-height:1.2em; font-size:7px; }
   .mixch .mixeq .val{ font-size:7.5px; }
+  /* a strip whose row has no crossing into the effect columns says so, in the
+     space the two send knobs would have taken, so the strips still line up */
+  .mixch .mixnosend{ font-size:7px; letter-spacing:.1em; text-transform:uppercase;
+                     opacity:.35; min-height:3.1rem; display:flex; align-items:center;
+                     justify-content:center; cursor:help; }
   .mixbody{ display:flex; gap:.34rem; align-items:stretch; height:6.4rem; }
   /* the meter: a column of segments, lit from the bottom */
   .mixmeter{ width:.55rem; border-radius:2px; position:relative; overflow:hidden;
@@ -2516,7 +2521,51 @@ function handOnMachine(m){
 const MIX_ROLE_BUS = { drums: "drums", bass: "bass",
                        keys: "keys", keys2: "keys", ostinato: "keys",
                        lead: "lead", counter: "lead", tape: "vinyl" };
-function routeBaseFor(space, cell, bare){
+/* ── THE TWO A CHANNEL STRIP SENDS TO, DECLARED ONCE ───────────────────────
+   "reverb, digital delay", while dynamics "would normally be on an insert,
+   instead" [corpus:wikipedia Aux-send; docs/genre-research/channel-sends.md].
+   It sits beside MIX_ROLE_BUS and for the same reason: the strip draws these,
+   the graph builds a gain per part per send, and `routeBaseFor` has to know
+   which matrix column each one feeds. Three readers, one declaration. */
+const MIX_SEND = [
+  { k: "room", cap: "REVERB", dest: "Room",
+    label: "how much of this part goes to the reverb" },
+  { k: "echo", cap: "DELAY",  dest: "Echo",
+    label: "how much of this part goes to the delay" },
+];
+/* the reverse lookup, derived rather than written twice */
+const MIX_SEND_OF = {};
+for(const s of MIX_SEND) MIX_SEND_OF[s.dest] = s.k;
+/* ── THE HAND ON THE PART STRIPS, AT MODULE SCOPE ──────────────────────────
+   It lived inside `Sound` while `applyMixer` was its only reader. It has a
+   second reader now: a hand that turns a part's send UP has to be able to open
+   that part's bus master, and the master's base is `routeBaseFor`'s answer,
+   which is out here. Still exactly ONE writer -- `Sound.setMixer` -- so this
+   is a move, not a second owner. */
+let MIXTRIM = {};
+/* ── HOW FAR THE HAND HAS OPENED A BUS'S SEND, ABOVE WHAT THE SONG ASKS ────
+   The largest UPWARD hand on any part playing into this bus. Downward hands
+   are not here on purpose: turning a part down is done by that part's own
+   share and must never pull its neighbours' master with it.
+
+   THIS IS THE PART-STRIP TWIN OF THE HAND RULE `routeBaseFor` ALREADY HAS for
+   return units, and it exists for the same ruling: *"If I turn a knob it
+   should always work for me no matter what the genre is. The user is the end
+   of the line."* Without it, 56 of the 82 send knobs this desk draws multiply
+   into a master of zero -- drawn, turnable, and incapable of changing the
+   sound in either direction. Measured before it was built. */
+function mixSendLift(bus, dest){
+  const k = MIX_SEND_OF[dest];
+  if(!k) return 0;
+  let up = 0;
+  for(const role in MIX_ROLE_BUS){
+    if(MIX_ROLE_BUS[role] !== bus) continue;
+    const t = MIXTRIM[role];
+    if(t && t[k] > up) up = t[k];
+  }
+  return up;
+}
+function routeBaseFor(space, cell, bare, noLift){
   const b = cell.in.k, dest = cell.out.k;
   /* an emptied fx rack kills every input to the ECHO outright, past any
      TRIM: a hand left on a route must not keep a "muted" delay alive.
@@ -2550,8 +2599,21 @@ function routeBaseFor(space, cell, bare){
       base = 1;
   }
   const cc = CONTROL["matrix." + cell.k] || { min: 0, max: 1 };
-  if(bare) return Math.max(cc.min, Math.min(cc.max, base));
-  return Math.max(cc.min, Math.min(cc.max, base + (TRIM["matrix." + cell.k] || 0)));
+  const clamp = x => Math.max(cc.min, Math.min(cc.max, x));
+  if(bare) return clamp(base);
+  /* the master as the SONG and the MATRIX PANEL's own knob have it. This is
+     what a part's send knob on that bus opens at, which is why it is clamped
+     here rather than once at the end: the knob's origin must not move when the
+     knob moves. `noLift` is how `setSpace` asks for exactly this number. */
+  const master = clamp(base + (TRIM["matrix." + cell.k] || 0));
+  if(noLift || cell.in.ret) return master;
+  /* ── AND A HAND ON A PART'S SEND OPENS ITS BUS MASTER ────────────────────
+     Exactly as far as the loudest hand on that bus asks, and no further. The
+     other parts on the bus are then held where they were by their own share
+     (see `applyMixer`), so opening one strip's reverb never wets its
+     neighbours. Not folded into `bare`, for the reason stated at the top of
+     this function: `bare` is the GENRE's routing with no hand in it. */
+  return clamp(master + mixSendLift(b, dest));
 }
 /* whether the GENRE (not the hand) opens this row into this column -- the
    question "is this unit already fed", asked without recursing */
@@ -6702,13 +6764,17 @@ registerProcessor("mk2-room", MK2Room);
          SONG sends is still the matrix crossing -- now a SEND MASTER fed by
          these rather than by the bus -- so the sum of the parts is the bus and
          not one decibel moves until a hand is on a strip. */
-      const sendRoom = c.createGain(); sendRoom.gain.value = 1;
-      const sendEcho = c.createGain(); sendEcho.gain.value = 1;
       inp.connect(low); low.connect(mid); mid.connect(high);
       high.connect(duck); duck.connect(dest); high.connect(meter);
-      duck.connect(sendRoom); duck.connect(sendEcho);
-      g.chan[role] = { inp, low, mid, high, duck, sendRoom, sendEcho,
-                       bus: MIX_ROLE_BUS[role], meter };
+      const ch = { inp, low, mid, high, duck, bus: MIX_ROLE_BUS[role], meter };
+      /* one gain per PART per SEND, built from the declaration rather than
+         named twice -- a third send is then one entry, not four edits */
+      for(const s of MIX_SEND){
+        const n = c.createGain(); n.gain.value = 1;
+        duck.connect(n);
+        ch["send" + s.dest] = n;
+      }
+      g.chan[role] = ch;
     }
     /* the room and the delay do not exist yet -- they are built further down --
        so the sends are connected to them there, in one loop, once. */
@@ -7658,7 +7724,10 @@ registerProcessor("mk2-room", MK2Room);
       /* drumsMix is already built, above the drum bus: the kit's dry level has
          to sit after its saturation, so it cannot be made by this generic loop */
       if(g.route[cell.k]) continue;
-      const wet = (cell.out.k === "Room" || cell.out.k === "Echo") && !cell.in.ret;
+      /* a column the STRIPS send to reaches it through the parts; every other
+         column is fed from the bus. Asked of the send declaration, so a third
+         strip send wires itself. */
+      const wet = !!MIX_SEND_OF[cell.out.k] && !cell.in.ret;
       const parts = wet ? partsOf(cell.in.k) : [];
       const src = parts.length ? null : matrixSource(cell.in.k);
       const dst = matrixDest(cell.out.k, cell.in.k);
@@ -7671,8 +7740,7 @@ registerProcessor("mk2-room", MK2Room);
            changed jungle by -48.6 dB rms across a third of its samples. */
         gain.gain.value = (cell.out.k === "Room" &&
                            (cell.in.k === "keys" || cell.in.k === "lead")) ? 1 : 0;
-        for(const r of parts)
-          g.chan[r][cell.out.k === "Room" ? "sendRoom" : "sendEcho"].connect(gain);
+        for(const r of parts) g.chan[r]["send" + cell.out.k].connect(gain);
         gain.connect(dst);
         g.route[cell.k] = gain;
         continue;
@@ -11668,8 +11736,12 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
      shows dB, and the audibility thresholds this file already works to are in
      dB -- 1 dB for an isolated change, about a quarter of one for a balance
      [Hugh Robjohns, Sound On Sound]. A control whose units are not the units of
-     the judgement being made is a control you have to do arithmetic to use. */
-  let MIXTRIM = {};
+     the judgement being made is a control you have to do arithmetic to use.
+
+     `MIXTRIM` itself now lives at module scope, beside `MIX_ROLE_BUS`, because
+     a hand on a part's SEND has to be able to open that part's bus master and
+     the master's base is `routeBaseFor`'s answer. One writer still -- setMixer
+     below -- so it is a move and not a second owner. */
   /* ── MUTE, SOLO AND THE MASTER ────────────────────────────────────────────
      The user's complaint was "things being too loud drowning out others", and
      a desk answers that with three controls, not one. A fader sets a balance; a
@@ -11712,12 +11784,39 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
          tap, so muting or un-soloing a part takes its sends with it -- which is
          the whole point of hanging them there, and is the defect this program
          found on the drum kit ("muting a part and still hearing its reverb"). */
-      if(ch.sendRoom){
-        /* the part's SHARE of its bus's send: unity until a hand moves it, so
-           the sum of the parts is the bus and the master sees what it always
-           saw. `MIXER_TRIM` stays the hand alone, like every other trim here. */
-        ch.sendRoom.gain.value = Math.max(0, Math.min(1, 1 + (t.room || 0)));
-        ch.sendEcho.gain.value = Math.max(0, Math.min(1, 1 + (t.echo || 0)));
+      /* ── THE PART'S SHARE, AND WHY IT IS A DIVISION ──────────────────────
+         The knob is now the part's ACTUAL send — what this song sends this
+         part to that unit — and not a share of an invisible master that read
+         1.00 on every strip of every genre while 56 of the 82 of them
+         multiplied into a master of zero.
+
+         Two numbers make it:
+           mb   what the SONG sends this part's bus (`g.sendMB`, stashed by
+                setSpace) — the knob's base, and 0 on a bus the genre does not
+                feed, which is the honest reading of "nothing happens here";
+           M    the master as it will actually be, i.e. mb lifted by the
+                loudest UPWARD hand on any part of this bus.
+
+         The part's own gain is then `want / M`, so:
+           · nobody's hand on anything -> want = mb = M, and every share is
+             exactly 1. The old wire, provably, to the last bit.
+           · one part turned DOWN -> M is unchanged and only that part moves.
+           · one part turned UP past what the genre sends -> M opens to reach
+             it, that part's share goes to 1, and every OTHER part on the bus
+             is divided back down to exactly the level it already had. So the
+             hand can wet the pad and leave the figure dry, which is the thing
+             BACKLOG §5.2 says three strips sharing one bus could not say. */
+      for(const s of MIX_SEND){
+        const node = ch["send" + s.dest];
+        if(!node) continue;
+        const mb = g.sendMB ? g.sendMB[ch.bus + s.dest] : null;
+        /* no crossing at all on this row -- the vinyl row's blind plates -- so
+           there is nothing downstream and nothing to divide. Left as the wire
+           it is; the strip does not draw a knob for it either. */
+        if(mb == null){ node.gain.value = 1; continue; }
+        const want = Math.max(0, Math.min(1, mb + (t[s.k] || 0)));
+        const M = Math.max(0, Math.min(1, mb + mixSendLift(ch.bus, s.dest)));
+        node.gain.value = M > 0 ? Math.max(0, Math.min(1, want / M)) : 1;
       }
     }
     /* the master, past the limiter: the one gain every path has reached */
@@ -12150,9 +12249,19 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
        to the control, so the matrix panel plays these eight wires live. */
     if(g.route){
       const routeBase = cell => routeBaseFor(space, cell);
+      /* ── WHAT A PART'S SEND KNOB OPENS AT ─────────────────────────────────
+         The send master for that part's bus with the part strips' own hands
+         taken back out -- `noLift`. Stashed on the GRAPH, next to the routes
+         it comes from, because `applyMixer` has no `space` and must not keep
+         a second copy of the routing rules (the matrix panel kept one once and
+         it drifted). It is what each strip's knob reads as its base and what
+         `applyMixer` divides by to work out a part's share. */
+      g.sendMB = {};
       for(const cell of matrixCells()){
         const node = g.route[cell.k];
         if(node) rideBus(g, node.gain, "matrix." + cell.k, routeBase(cell), t0);
+        if(!cell.in.ret && MIX_SEND_OF[cell.out.k])
+          g.sendMB[cell.k] = routeBaseFor(space, cell, false, true);
       }
     }
 
@@ -12399,6 +12508,17 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
             echo: liveGraph.chan[r].sendEcho.gain.value,
             duck: liveGraph.chan[r].duck.gain.value,
           }])) : null,
+      /* ── AND WHAT EACH CROSSING OF THE GRID IS ACTUALLY HOLDING ───────────
+         A part's send is a SHARE of its bus's send master, so the share alone
+         cannot say whether that part reaches the unit -- share 1 into a master
+         of 0 is silence, which is precisely the defect the strips had. Both
+         numbers, off the graph, so a check can multiply them instead of
+         trusting either on its own. `sendMB` beside it is what the strip's
+         knob opens at, so the glass and the graph can be held together. */
+      route: liveGraph && liveGraph.route
+        ? Object.fromEntries(Object.keys(liveGraph.route)
+            .map(k => [k, liveGraph.route[k].gain.value])) : null,
+      sendMB: liveGraph && liveGraph.sendMB ? Object.assign({}, liveGraph.sendMB) : null,
       /* WHAT THE LEGATO SWITCH DID, which is a count of notes held over and not
          a copy of the button. The switch is a scheduling decision, so there is
          no node to read: this is the closest thing to one. */
@@ -26204,16 +26324,27 @@ function mixPush(){ Sound.setMixer(MIXER_TRIM); }
 function mixRefreshAll(){ for(const ch of MIXER_CH) if(ch.refresh) ch.refresh(); }
 /* one EQ knob, drawn like every other knob on the page but reading the mixer's
    own state rather than a machine's PARAMS */
-/* the two a channel strip sends to, and only those two: "reverb, digital
-   delay", while dynamics "would normally be on an insert, instead"
-   [corpus:wikipedia Aux-send]. Flange, DP/4 and the pole stay on the matrix.
+/* `MIX_SEND` — the two a channel strip sends to — is declared beside
+   MIX_ROLE_BUS, at module scope, because the graph builds a gain per part per
+   send and `routeBaseFor` has to know which matrix column each one feeds.
+   Flange, DP/4 and the pole stay on the matrix panel.
    docs/genre-research/channel-sends.md */
-const MIX_SEND = [
-  { k: "room", cap: "REVERB", dest: "Room",
-    label: "how much of this part goes to the reverb" },
-  { k: "echo", cap: "DELAY",  dest: "Echo",
-    label: "how much of this part goes to the delay" },
-];
+/* ── WHAT THIS SONG SENDS THIS PART, AND WHETHER THERE IS ANYWHERE TO SEND ──
+   The strip's send knob opens at the SEND MASTER for that part's bus, which is
+   the crossing the matrix panel already draws -- so this reads that control
+   through `panelValue` rather than re-deriving the routing rules. The matrix
+   panel kept its own transcription of those rules once and it drifted; this
+   file's answer then was to call the owner, and this is the same answer.
+
+   `null` means the row has no crossing into that column AT ALL. That is not a
+   shut send, it is a blind plate with a physical reason written on it (the
+   record surface: "the crackle happens at the stylus, after everything"), and
+   a strip draws no knob where the desk has no wire. */
+function mixSendBase(role, band){
+  const bus = MIX_ROLE_BUS[role];
+  if(!bus || !CONTROL["matrix." + bus + band.dest]) return null;
+  return panelValue("matrix", bus + band.dest);
+}
 function mixKnob(role, band){
   /* a send is a 0..1 level and the EQ is +/-12 dB, so the travel comes off the
      band rather than being written here twice */
@@ -26221,16 +26352,32 @@ function mixKnob(role, band){
   const MIN = send ? 0 : -12, MAX = send ? 1 : 12, STEP = send ? 0.02 : 0.5;
   /* THE NUMBER SHOWN IS THE SONG'S PLUS THE HAND, the way the fader does it --
      `MIXER_TRIM` stays the hand alone, so a desk nobody has touched is still
-     provably the record the program made. */
-  /* a part's send opens at UNITY -- its full share of whatever its bus master
-     is set to. That is the wire it replaced, so a desk nobody has touched is
-     still the record the program made. */
-  const base = () => send ? 1 : 0;
+     provably the record the program made.
+
+     ── AND FOR A SEND THAT MEANS THE SONG'S OWN AMOUNT, NOT A CONSTANT 1 ────
+     Reported: *"All the instrument [strips'] FX reverb and the other at the
+     highest setting on all songs at all times, moving the knob does nothing at
+     all."* Both halves were exactly true and the second is the worse one.
+
+     It opened at 1.00 because it was a SHARE of a send master, and a share
+     opens at full -- so every strip of every genre read 1.00 and the knob
+     could say nothing about the record. Underneath, that master is 0 on any
+     bus the genre does not feed, and a share multiplying into a zero cannot
+     change the sound in either direction: MEASURED, **56 of the 82 part/send
+     knobs across the eight genres**, including every drum and bass reverb on
+     most of them.
+
+     So the knob is the SEND ITSELF now: it opens at what this song sends this
+     part's bus, which is 0 where the genre sends nothing -- an honest reading
+     of "nothing happens here" -- and turning it up opens the master to reach
+     it (`mixSendLift`), leaving every other part on that bus where it was. */
+  const base = () => send ? (mixSendBase(role, band) || 0) : 0;
   const box = el("div", "kn");
   box.dataset.key = "mixer." + role + "." + band.k;
   box.title = band.label + (send
-    ? " — this part's share of the send. It opens at full and turns down. " +
-      "The amount the SONG sends this bus is the master, on the matrix panel."
+    ? " — this song sends it " + base().toFixed(2) + ". Turn it up and this part " +
+      "goes to the unit even where the genre sends nothing, and the other parts " +
+      "on its bus stay exactly where they are."
     : "  — your hand only; the program never rides these");
   const dial = el("div", "dial"), ptr = el("div", "ptr");
   dial.appendChild(ptr);
@@ -26259,13 +26406,28 @@ function mixKnob(role, band){
     /* the hand is stored as the OFFSET from the song, so a new song moves the
        knob to where that song has the part and keeps your hand on top of it */
     (MIXER_TRIM[role] || (MIXER_TRIM[role] = {}))[band.k] = +(v - base()).toFixed(4);
-    box.refresh(); mixPush(); e.preventDefault();
+    box.refresh(); pushed(); e.preventDefault();
   });
   box.addEventListener("pointerup", () => { on = false; });
   box.addEventListener("dblclick", () => {
     if(MIXER_TRIM[role]) delete MIXER_TRIM[role][band.k];
-    box.refresh(); mixPush();
+    box.refresh(); pushed();
   });
+  /* ── AND A SEND ALSO RE-RIDES ITS BUS MASTER ──────────────────────────────
+     Turning a send UP opens the master crossing for that bus, and that crossing
+     is a `bus` control: `rideBus` writes its whole automation curve onto the
+     AudioParam once, at playback start, and after that the curve owns the
+     parameter — assigning `.value` behind it is IGNORED. That is the exact trap
+     the reverted stop-drain fell into (BACKLOG §1). So the hand goes through
+     the same throttled re-ride every other bus control already uses, which
+     rewrites the curve from the current moment against the same song zero. */
+  function pushed(){
+    mixPush();
+    if(send){
+      const bus = MIX_ROLE_BUS[role];
+      if(bus) busTouched("matrix." + bus + band.dest);
+    }
+  }
   box.refresh(); registerKnob(box);
   return box;
 }
@@ -26299,9 +26461,23 @@ function mixStrip(role){
   /* ── THE TWO SENDS, in their own row under the EQ, where a desk's AUX
      section sits: "boards typically have between two and six effect sends,
      often arranged in their own AUX section" [corpus:cmtext]. ── */
+  /* ── AND A STRIP DRAWS NO KNOB WHERE THE DESK HAS NO WIRE ────────────────
+     The record surface's row into both effect columns is a BLIND PLATE, with
+     a physical reason on it: the crackle happens at the stylus, after
+     everything, so it never met the band. Its two send knobs were drawn
+     anyway, reading 1.00, connected to nothing whatsoever — not a shut send, a
+     send with no destination in the graph at all. Asked of `MATRIX` through
+     `mixSendBase`, never listed, so a column added tomorrow is covered. */
   const aux = el("div", "mixeq mixaux");
-  for(const b of MIX_SEND) aux.appendChild(mixKnob(role, b));
-  wrap.appendChild(aux);
+  for(const b of MIX_SEND)
+    if(mixSendBase(role, b) != null) aux.appendChild(mixKnob(role, b));
+  if(aux.childNodes.length) wrap.appendChild(aux);
+  else {
+    const why = el("div", "mixnosend", "no sends");
+    why.title = MATRIX.none[MIX_ROLE_BUS[role] + MIX_SEND[0].dest] ||
+                "this row has no crossing into the effect columns";
+    wrap.appendChild(why);
+  }
 
   const body = el("div", "mixbody");
   const meter = el("div", "mixmeter");
@@ -28329,9 +28505,14 @@ window.MK2 = {
      So adding a fourth and fifth rack turned a green check red, which is the
      check being stale rather than the program being wrong. One owner. */
   rackSlots: () => RACK_SLOTS.slice(),
-  /* how many knobs a mixer strip carries: the EQ's bands plus the sends. A
-     check that counted the literal 3 went red the hour the sends landed. */
-  mixKnobsPerStrip: () => MIX_BAND.length + MIX_SEND.length,
+  /* HOW MANY KNOBS A GIVEN STRIP CARRIES: the EQ's bands, plus the sends that
+     have somewhere to go. A check that counted the literal 3 went red the hour
+     the sends landed; one that counts bands + sends went red the hour a strip
+     stopped drawing a knob for a crossing that does not exist (the record
+     surface's row is blind plates). It takes the ROLE now, because the answer
+     is a fact about that row of the grid and not a constant. */
+  mixKnobsFor: role => MIX_BAND.length +
+    MIX_SEND.filter(s => mixSendBase(role, s) != null).length,
   /* WHAT A DRUM CHANNEL CAN HOLD, from the one place that derives it. A check
      that built its own list of drum voices would be asserting against its own
      copy, which is how "every lane is covered" stayed green while three

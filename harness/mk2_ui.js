@@ -223,9 +223,18 @@ const check = (label, ok, detail) => {
                   and went red the hour every strip grew a REVERB and a DELAY --
                   the check was stale, not the program. It asks the desk how
                   many knobs a strip is supposed to have. */
-               eq: chans.map(c => c.querySelectorAll(".mixeq .kn").length),
-               wantKn: (MK2.mixKnobsPerStrip ? MK2.mixKnobsPerStrip() : 3),
-               aux: chans.map(c => c.querySelectorAll(".mixaux .kn").length),
+                  AND IT WENT STALE A SECOND TIME, the hour a strip stopped
+                  drawing a knob for a crossing that does not exist: the record
+                  surface's row into both effect columns is a pair of BLIND
+                  PLATES, so `tape` has no sends to draw. The count is per ROLE
+                  now, asked of the desk, because it is a fact about that row of
+                  the grid rather than one number for every strip. */
+               eq: chans.map(c => [c.dataset.role,
+                                   c.querySelectorAll(".mixeq .kn").length,
+                                   MK2.mixKnobsFor(c.dataset.role)]),
+               aux: chans.map(c => [c.dataset.role,
+                                    c.querySelectorAll(".mixaux .kn").length,
+                                    MK2.mixKnobsFor(c.dataset.role) - 3]),
                meters: chans.filter(c => c.querySelector(".mixmeter")).length,
                faders: chans.filter(c => c.querySelector(".mixfader")).length,
                mutes:  chans.filter(c => c.querySelector(".mixmute")).length,
@@ -245,10 +254,10 @@ const check = (label, ok, detail) => {
     check("the mixer draws a channel for every part the song plays, and no others",
           mix.there && mix.strips.length > 0 && missing.length === 0 && extra.length === 0 &&
           mix.meters === mix.strips.length && mix.faders === mix.strips.length &&
-          mix.eq.every(n => n === mix.wantKn) && mix.aux.every(n => n === 2),
+          mix.eq.every(e => e[1] === e[2]) && mix.aux.every(a => a[1] === a[2]),
           mix.there ? `${mix.strips.length} channels (${mix.strips.join(", ")}), ` +
                       `${mix.meters} meters, ${mix.faders} faders, ` +
-                      `${mix.wantKn} knobs a strip of which 2 are the sends` +
+                      mix.eq.map(e => `${e[0]} ${e[1]}/${e[2]}kn`).join(" ") +
                       (missing.length ? "  MISSING: " + missing.join(" ") : "") +
                       (extra.length   ? "  EXTRA: "   + extra.join(" ")   : "")
                     : "no mixer rack drawn");
