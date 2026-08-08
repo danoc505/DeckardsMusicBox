@@ -103,7 +103,46 @@ to measure the thing it was about — reading `kit.poly`, exempting D bars **by
 name** from `materials.drumPhrase` — and never by moving a threshold. Say in the
 commit message which you changed and why.
 
-### WHAT 2026-08-08 BUILT — `08a` … `08n`
+### WHAT 2026-08-08 BUILT — `08a` … `08o`
+
+- **`08o`** ONE PART ANSWERS ANOTHER. Second of the five, and it starts with a
+  **correction of my own claim**: I said call and response was absent from the
+  whole program, and the tune has been asking and answering itself for weeks --
+  `phrase(0, dir, true)` then `phrase(2, -qDir, true)`, commented "the answer:
+  contrary, resolving", a textbook antecedent and consequent. What was absent is
+  one part answering ANOTHER, which every source treats as the primary case:
+  *"a second player answers"*, *"responses often occupy the musical gaps created
+  by the initial phrase"* [Wikipedia]. Ethan Hein on "So What": *"Each bass riff
+  is a call; each piano/horn riff is a response"* -- the unit is a riff, not a
+  note. A parallel period's consequent *"reproduces the basic idea note for note
+  before diverging"* [Open Music Theory].
+  **MOST DOORS WERE SHUT, AND THAT IS THE INTERESTING PART.** Measured, every
+  genre leaves 4-8 free sixteenths a bar, so there is room everywhere -- but
+  **four of eight have no second voice at all**, and they are exactly the four
+  in this device's own lineage (lofi, jungle, acid, plastikman; the tradition
+  *"permeates jazz, soul, gospel, blues, rhythm and blues, funk, and hip hop"*).
+  Each `counter: null` is a researched decision with the user's own report
+  behind it. Adding a voice back to make a feature audible would be the
+  measurement fitting the claim, so I did not. **And no source was found for
+  call and response in the game-music genres**, searched for specifically, so
+  vgm did not get it either.
+  **DUNGEON SYNTH IS SOURCED AND ALREADY HAS THE PART.** Antiphony is *"two
+  halves of the choir alternate singing … half lines of psalm verses"*,
+  responsorial is *"soloist alternates with choir"*, form R V1 R V2 … R
+  [Britannica; Catholic Encyclopedia]. This genre's modes came off a dungeon
+  synth score and its bass pedal is the mode's finalis and tenor out of medieval
+  performance practice -- the same body of practice, not an import.
+  **`style: "answer"` CHANGES ONE THING: WHERE THE NOTES SOUND.** Every pitch is
+  still chosen by the same machinery. A `line` puts each note on the tune's
+  note; an `answer` moves the whole bar's worth into that bar's largest silence,
+  keeping their spacing. And `density` gates the CALL, not the note -- measured
+  with the per-note gate, placement worked (silence 38% → 68%) and gave ONE NOTE
+  PER BAR, which is not a phrase. **Result: silence 38% → 68%, 1.9 notes an
+  answer instead of 1.0, 262 notes against 264 -- the same amount of second
+  voice, differently placed.** dungeon synth 220/300 seeds; every other genre
+  0/300. The battery check that reads counter density was taught the style's
+  unit rather than relaxed. **Unheard.**
+  `docs/genre-research/call-and-response.md`.
 
 - **`08n`** THE RECORD CHANGES KEY IN THE MIDDLE AND COMES HOME. First of the
   five gaps the user asked for in order: *"Work on the 5 things you mention …

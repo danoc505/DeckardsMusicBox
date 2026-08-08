@@ -492,10 +492,20 @@ diatonic.**
 >    two settings the dial has. 57% of minimal techno records move, 15.6% of
 >    all bars — 27% of the bars of a record that moves, against So What's 25%.
 >    **Unheard.** `docs/genre-research/key-shift.md`.
-> 2. **No part answers another part** — open. Call and response is absent from
->    the whole program; `deriveCounter` sits in the lead's gaps, which is
->    spacing, not conversation. Source in hand: Paul Chambers's two-note motif
->    on "So What", answered by Evans.
+> 2. **No part answers another part** — **PARTLY DONE `2026-08-08o`,** and the
+>    claim above was too strong: the TUNE already asks and answers itself
+>    (`phrase(0,…)` then `phrase(2,…)`, commented "the answer: contrary,
+>    resolving"). What was absent is one part answering ANOTHER, which every
+>    source calls the primary case. `counter: { style: "answer" }` moves the
+>    second voice's notes as a PHRASE into the tune's silence, keeping the
+>    call's shape; dungeon synth declares it, sourced to medieval antiphony.
+>    Notes in the tune's silence 38% → 68%, 1.9 notes an answer instead of 1.0,
+>    at the same total density. **Still open:** the four genres in this device's
+>    own lineage (lofi, jungle, acid, plastikman) have no second voice at all,
+>    each by a researched decision, so nothing answers there; no source was
+>    found for it in the game-music genres; the answer does not yet resolve onto
+>    a chord tone; and it fires in 7% of bars.
+>    **Unheard.** `docs/genre-research/call-and-response.md`.
 > 3. **No phase relationship between two patterns** — open. Every LFO is
 >    independent and free-running; nothing is two copies of one thing drifting
 >    apart. This is the "generative modular" answer and it is arithmetic.

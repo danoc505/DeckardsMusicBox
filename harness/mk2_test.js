@@ -443,13 +443,28 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   {
     const dens = {};
     for(const g of genres){
-      let n = 0, songs = 0, lead = 0, ctr = 0;
+      let n = 0, songs = 0, lead = 0, ctr = 0, calls = 0, answered = 0;
       for(let s = 1; s <= 60; s++){
         const m = M.composeSong(s, undefined, g).materials;
         n += m.A.bass.length; songs++;
-        for(const k of ["A", "B"]){ lead += m[k].lead.length; ctr += (m[k].counter || []).length; }
+        for(const k of ["A", "B"]){
+          lead += m[k].lead.length; ctr += (m[k].counter || []).length;
+          /* AND FOR AN `answer` COUNTER THE UNIT IS THE CALL, NOT THE NOTE.
+             `density` gates per lead note for a line and per CALL for an
+             answer -- a phrase answering a phrase is decided once and is then
+             as long as the call was -- so counting notes against notes would
+             hold that style to a statistic its table does not mean, and would
+             read a healthy part as a missing one. A call is a bar the tune
+             plays in; it is answered if the counter plays in that bar. */
+          for(let b2 = 0; b2 < 4; b2++){
+            if(!m[k].lead.some(x => x.bar === b2)) continue;
+            calls++;
+            if((m[k].counter || []).some(x => x.bar === b2)) answered++;
+          }
+        }
       }
-      dens[g] = { bass: n / songs, ctr: lead ? ctr / lead : 0 };
+      dens[g] = { bass: n / songs, ctr: lead ? ctr / lead : 0,
+                  call: calls ? answered / calls : 0 };
     }
     /* THE BUILDER MUST DO WHAT ITS OWN TABLE ASKS. Two thresholds have been
        tried here and both were wrong. The first required every GENRE's bass
@@ -607,10 +622,13 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     check("the counter sounds as often as its table declares",
           withCtr.every(g => {
             const want = T.GENRE[g].counter.density;
-            return want >= 0.06 && dens[g].ctr >= want * 0.70;
+            const got = T.GENRE[g].counter.style === "answer" ? dens[g].call : dens[g].ctr;
+            return want >= 0.06 && got >= want * 0.70;
           }),
-          withCtr.map(g => `${g} ${(100*dens[g].ctr).toFixed(0)}% of ` +
-                          `${(100*T.GENRE[g].counter.density).toFixed(0)}% asked`).join("  ") +
+          withCtr.map(g => `${g} ${(100*(T.GENRE[g].counter.style === "answer"
+                                          ? dens[g].call : dens[g].ctr)).toFixed(0)}% of ` +
+                          `${(100*T.GENRE[g].counter.density).toFixed(0)}% asked` +
+                          (T.GENRE[g].counter.style === "answer" ? " (calls answered)" : "")).join("  ") +
           `  ·  no counter: ${genres.filter(g => !T.GENRE[g].counter).join(",") || "none"}`);
   }
   /* THE DRUMMER HAS TO ACTUALLY USE THE TOMS. A kit with three tom voices that

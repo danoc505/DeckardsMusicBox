@@ -1378,7 +1378,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08n · the record changes key in the middle and comes home</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08o · the second voice answers the tune instead of shadowing it</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -18677,7 +18677,23 @@ const GENRE = {
        line -- in Belkin's own score "the glockenspiel doubles only the
        beginning of the main melody line". `answer` high keeps what survives
        tied to the tune's phrase ends rather than scattered through it. */
-    counter: { style: "line", density: 0.10, intervals: [-3, -4, -5, -7, -12],
+    /* ── AND IT ANSWERS THE TUNE RATHER THAN SHADOWING IT ────────────────────
+       `answer: 0.85` already moved most of this line's notes a step or two off
+       the tune's onsets, which is imitation and reads as two players. It is
+       still one note per note of the tune, decided one note at a time. The
+       medieval practice this genre is built out of works in PHRASES: antiphonal
+       singing is "two halves of the choir alternate singing … half lines of
+       psalm verses", responsorial is "soloist alternates with choir", and the
+       form is R V1 R V2 … R [Britannica, "Antiphonal singing"; "Responsory";
+       Catholic Encyclopedia, "Plain Chant"]. This genre's modes were read off a
+       dungeon synth score and its bass pedal is the mode's finalis and tenor out
+       of medieval performance practice -- alternation between two voices is the
+       same body of practice, not an import from elsewhere.
+
+       `answer` stays declared and is now unread by this style, which is
+       deliberate: it is what this line reverts to if the style is changed back,
+       and deleting it would lose the tuned number. */
+    counter: { style: "answer", density: 0.10, intervals: [-3, -4, -5, -7, -12],
                octaves: [-12, 12], answer: 0.85 },
     theme: { count: { hooky: [2, 2], breath: [1, 1], normal: [1, 2] },
              onsetPool: [[0, 8], [8, 5], [4, 2], [12, 2], [6, 1]] },
@@ -23321,10 +23337,110 @@ function makeMaterials(chart){
         (ring[at2] || (ring[at2] = new Set())).add(pc(k.pitch));
       }
     }
+    /* ══ THE ANSWER, and it is a PHRASE answering a PHRASE ════════════════════
+       WHAT THIS PROGRAM ALREADY HAD, and it is worth saying before claiming a
+       gap: the TUNE asks and answers itself. `buildTheme` writes
+       `phrase(0, dir, true)` then `phrase(2, -qDir, true)` and calls the second
+       one "the answer: contrary, resolving" -- a textbook antecedent and
+       consequent, inside one part. What no part has ever done is answer ANOTHER
+       part, and every source describes that as the primary case: "a second
+       player answers with direct commentary", and "responses often occupy the
+       musical gaps created by the initial phrase"
+       [Wikipedia, "Call and response (music)"].
+
+       THE MODEL, from three source families that agree on the same three things:
+
+         WHERE   in the call's silence. [Wikipedia, as above]
+         WHAT    the call's own shape. A parallel period's consequent
+                 "reproduces the basic idea note for note before diverging"
+                 [Open Music Theory / Milne, "Sentences and Periods"] -- the
+                 matching opening is what throws the different ending into
+                 relief.
+         SCALE   a riff, not a note. "Each bass riff is a call; each piano/horn
+                 riff is a response" [Ethan Hein, "So What"] -- and inside the
+                 riff again, "the first four notes are a call; the second four
+                 notes are a response". A bar is that unit here.
+
+       AND FOR THIS GENRE IT IS ITS OWN TRADITION, not an import. Antiphonal
+       singing is "two halves of the choir alternate singing … half lines of
+       psalm verses" and responsorial is "soloist alternates with choir",
+       producing the form R V1 R V2 … R [Britannica, "Antiphonal singing" and
+       "Responsory"; Catholic Encyclopedia, "Plain Chant"]. This genre's modes
+       were read off a dungeon synth score and its bass pedal is the mode's
+       finalis and tenor out of medieval performance practice; alternation
+       between two voices is the same body of practice.
+
+       WHAT THE STYLE ACTUALLY CHANGES, and it is only ONE THING: WHERE the
+       notes sound. Every pitch below is chosen by the same machinery as the
+       `line` style -- the genre's interval pool, contrary motion, the
+       non-chord-tone law, every seat another part has taken. A `line` places
+       each note ON the tune's note (or a step or two behind it); an `answer`
+       moves the whole bar's worth into the tune's largest silence in that bar,
+       keeping their spacing, so the counter speaks in phrases when the tune has
+       stopped instead of shadowing it note for note. That IS the difference
+       between a harmony part and a second player.
+
+       NO NEW DRAWS. The placement is arithmetic on the tune, not a roll, so
+       adding this style cannot move a note in any genre that does not ask for
+       it -- and a genre that declares `line` or `double` computes exactly what
+       it always did. docs/genre-research/call-and-response.md ══════════════ */
+    const ANSWER = CT.style === "answer";
+    /* per bar: the tune's own onsets, and the longest silence it leaves */
+    const callOf = [];
+    for(let b = 0; b < BARS; b++){
+      const own = src.filter(x => x.bar === b);
+      const occ = new Array(16).fill(false);
+      for(const x of own)
+        for(let d = 0; d < Math.max(1, x.dur || 1); d++)
+          if(x.step + d < 16) occ[x.step + d] = true;
+      let run = 0, bestLen = 0, bestAt = 0;
+      for(let i = 0; i < 16; i++){
+        if(occ[i]){ run = 0; continue; }
+        run++;
+        if(run > bestLen){ bestLen = run; bestAt = i - run + 1; }
+      }
+      const first = own.length ? own[0].step : 0;
+      const last = own.length ? own[own.length - 1].step : 0;
+      callOf.push({ own, first, span: Math.max(1, last - first), at: bestAt, len: bestLen });
+    }
+    /* where a note derived from the tune's k-th onset in its bar goes: the same
+       relative position inside the silence that it had inside the call, so the
+       answer keeps the call's shape rather than merely its note count */
+    const answerAt = n => {
+      const C = callOf[n.bar];
+      /* a call needs a shape and an answer needs somewhere to be. Below two
+         onsets or two free steps there is neither, and the note stays where the
+         tune put it -- which is the `line` behaviour, honestly, rather than a
+         silent drop. */
+      if(!C || C.own.length < 2 || C.len < 2) return null;
+      const k = C.own.indexOf(n);
+      if(k < 0) return null;
+      const scale = (C.len - 1) / C.span;
+      const at = C.at + Math.round((n.step - C.first) * scale);
+      return Math.max(C.at, Math.min(C.at + C.len - 1, at));
+    };
+    /* ── AND `density` GATES THE CALL, NOT THE NOTE ────────────────────────
+       MEASURED with the per-note gate still in place: the answer landed in the
+       tune's silence 68% of the time instead of 38%, which is the placement
+       working -- and it was ONE NOTE PER BAR. A single note is not a phrase,
+       and a phrase answering a phrase is the entire claim. `density` decides
+       per note whether the second voice speaks at all, which is right for a
+       line that runs alongside the tune and wrong for one that answers it:
+       an answer is decided once, for the whole call, and then it is as long as
+       the call was.
+
+       So for this style the gate is read off the call's FIRST note and applied
+       to all of it. THE DRAW STILL RUNS FOR EVERY NOTE, in the same order, so
+       the stream is untouched and no other genre can move [Law 3/7] -- only
+       which draw an `answer` genre listens to changes. Fewer answers, and each
+       one is a phrase. */
+    const barGate = new Array(BARS).fill(false);
     let prevLead = null, prevOwn = null, hangOwn = false;
     for(let si = 0; si < src.length; si++){
       const n = src[si];
-      const sounds = rng() < CT.density;          // unconditional draw [Law 7]
+      const roll = rng() < CT.density;            // unconditional draw [Law 7]
+      if(si === 0 || src[si - 1].bar !== n.bar) barGate[n.bar] = roll;
+      const sounds = ANSWER ? barGate[n.bar] : roll;
       const pickAt = rng();
       /* both drawn every time, whatever the style or the outcome [Law 7] */
       const ansDraw = rng(), gapDraw = rng();
@@ -23335,7 +23451,17 @@ function makeMaterials(chart){
          silence that follows it. `at` and `dur` are decided here and used below
          in the one place the note is written. */
       let at = n.step, dur = n.dur;
-      if(CT.style !== "double" && ansDraw < (CT.answer || 0)){
+      if(ANSWER){
+        /* the whole bar's worth moves together, into that bar's silence, with
+           the call's spacing kept. Where the bar gives it nowhere to go the
+           note stays on the tune's onset, which is the `line` answer and is
+           honest about the bar rather than dropping the note. */
+        const a = answerAt(n);
+        if(a != null){
+          at = a;
+          dur = Math.max(1, Math.min(n.dur || 1, 16 - at));
+        }
+      } else if(CT.style !== "double" && ansDraw < (CT.answer || 0)){
         /* PREFER the silence, but do not REQUIRE it. Measured with the gap as a
            precondition: acid moved 5.6% of its notes and vgm 11.4%, because a
            dense tune leaves no silence to answer into -- so on exactly the
