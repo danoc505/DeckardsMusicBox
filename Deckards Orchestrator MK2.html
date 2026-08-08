@@ -1378,7 +1378,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08m · the sampled band leads; the Mega Drive chip stops playing Nintendo</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08n · the record changes key in the middle and comes home</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -16825,12 +16825,36 @@ const GENRE = {
       phrygian: [[[0,0,0,0], 9], [[0,0,1,0], 1]],
       dorian:   [[[0,0,0,0], 9], [[0,0,3,0], 1]],
     },
-    /* there is no departure. Same drone, so C cannot leave home. */
+    /* there is no departure. Same drone, so C cannot leave home
+       -- by CHANGING CHORD. It can leave by taking the drone with it: see
+       `keyShift` below, which is how this genre now moves without ever
+       playing a second chord. The table stays exactly as it is, because the
+       point is that one chord holds; what moves is the ground under it. */
     bridgeProgressions: {
       minor:    [[[0,0,0,0], 1]],
       phrygian: [[[0,0,0,0], 1]],
       dorian:   [[[0,0,0,0], 1]],
     },
+    /* ── THE BREAKDOWN CHANGES KEY. It is the only harmonic event in the genre.
+       The user: "we fail to capture the slow evolving nature of minimal techno,
+       it should be more like generative modular." Measured, the complaint was
+       structural: this genre's whole record is one chord, and its bridge table
+       above says in as many words that its departure section cannot depart.
+       Every other thing that moves here is a knob.
+
+       WHICH SETTINGS, AND WHY THESE. Both attested moves are upward and small
+       (`makeMaterials` carries the two sources). Count the notes the old scale
+       and the new one have in common and they are not the same size of event:
+
+         +2 with the mode changing   6 of 7 shared   Milestones, G Dor -> A Aeol
+         +2 with the mode held       5 of 7 shared
+         +1 with the mode held       2 of 7 shared   So What,    D Dor -> Eb Dor
+
+       A genre whose entire method is that almost nothing changes wants the top
+       of that list, so +2 carries most of the weight and the semitone is the
+       rarer, harder move. The MECHANISM and the two settings are [corpus]; how
+       often each is drawn is a judgement and nothing has heard it yet. */
+    keyShift: { chance: 0.55, by: [[2, 5], [1, 2]], change: 0.40 },
     /* "Many of the 303 lines were pitched up an octave" -- so the acid line sits
        ABOVE the pad in the ostinato register, while a separate deep sub holds the
        bottom (Consumed is "driven largely by deep, rumbling basslines").
@@ -18407,6 +18431,22 @@ const GENRE = {
       dorian:   [[[3, 3, 0, 0], 3], [[6, 6, 3, 3], 2]],
       phrygian: [[[1, 1, 6, 6], 3], [[6, 6, 1, 1], 2]],
     },
+    /* ── AND THE BRIDGE MAY TAKE THE WHOLE SCALE WITH IT ────────────────────
+       The other genre in this file whose harmony is a shuttle rather than a
+       progression, and the one whose own notes say it is "music that is not
+       going anywhere". The chorus table below moves the chords; this moves the
+       KEY, which is the larger and rarer event, and it is why the two can sit
+       side by side without doing the same job twice.
+
+       LOWER THAN MINIMAL TECHNO ON EVERY NUMBER, deliberately. This genre's
+       bridge already has real changes -- three or four rows a mode, opening off
+       the tonic -- so the shift is an occasional event rather than the section's
+       only reason to exist. And its five bridge modes include carpathian and
+       andean, both strongly flavoured, so `change` is kept small: being moved
+       from minor into andean mid-record is a much bigger event here than
+       Dorian-to-Aeolian was in Milestones, where six of seven notes held.
+       [corpus for the mechanism; the weights are a judgement, unheard.] */
+    keyShift: { chance: 0.30, by: [[2, 4], [1, 3]], change: 0.25 },
     /* ── AND THE CHORUS GOES SOMEWHERE TOO ──────────────────────────────────
        Reported: "it's too static for far too long". Read off the roll, that
        was exact and structural rather than a matter of taste -- the chorus
@@ -20342,13 +20382,19 @@ function makeMaterials(chart){
      chords onto whichever step was nearest. docs/genre-research/chord-quality.md */
   const rngQ = stream(chart.seed, "quality");
   const qRolls = [0, 1, 2, 3].map(() => [rngQ(), rngQ()]);
-  const pickQuality = (d, i) => {
+  /* `md` is the mode THIS CHORD is being built in, which is the song's mode for
+     every chord in every genre that does not move its key mid-record, and the
+     section's own mode for one that does. It is a parameter rather than a
+     closure read because a chord's quality is a fact about the scale it stands
+     in, and once a section can stand in a different scale, reading the song's
+     mode here would give the section chords named for a key it has left. */
+  const pickQuality = (d, i, md) => {
     const strength = G.qualities || 0;
     const [gate, pick] = qRolls[i % qRolls.length];
     if(gate >= strength) return null;                      // this chord stays as it was
-    const tbl = QUALITY_TABLE(mode);
+    const tbl = QUALITY_TABLE(md);
     const rows = tbl && CHORD_QUALITY[tbl];
-    const row = rows && rows[MODES[mode][((d % 7) + 7) % 7]];
+    const row = rows && rows[MODES[md][((d % 7) + 7) % 7]];
     if(!row || !row.q.length) return null;
     let total = 0; for(const p of row.q) total += p[1];
     let x = pick * total;
@@ -20361,18 +20407,39 @@ function makeMaterials(chart){
      that lies about the notes beside it. The kind is the chord's identity and
      the size is how much colour goes on top, so the size rises to fit and
      `size` below is what actually sounds. */
-  const mkChords = degs => degs.map((d, i) => {
-    const quality = pickQuality(d, i);
-    const q = quality && QUALITY[quality];
-    const size = Math.max(sizeAt(i), q ? q.length : 0);
-    return Object.freeze({
-      degree: d,
-      size,
-      quality,
-      tones: chordTones(root, mode, d, size, quality),
-      rootMidi: intoBand(degMidi(root, mode, d), R.bass[0], R.bass[1]),
+  /* ── A CHORD CARRIES THE KEY IT WAS BUILT IN ────────────────────────────────
+     `key` and `mode` are the tonic and the scale this chord's `degree` counts
+     from. For every chord in every genre they are the song's own, and nothing
+     changes. They exist because a `degree` on its own is not enough to place a
+     note: the parts that ornament a chord -- the bass walking up to it, the
+     tune reaching past it -- count scale steps, and scale steps only mean
+     something against a stated scale. Before this the counting was done
+     against the SONG's key by every part, everywhere, which was correct only
+     for as long as a song had exactly one. */
+  const mkChords = (degs, k, md) => {
+    const K = k == null ? root : k, M = md || mode;
+    return degs.map((d, i) => {
+      const quality = pickQuality(d, i, M);
+      const q = quality && QUALITY[quality];
+      const size = Math.max(sizeAt(i), q ? q.length : 0);
+      return Object.freeze({
+        degree: d,
+        size,
+        quality,
+        key: K,
+        mode: M,
+        tones: chordTones(K, M, d, size, quality),
+        rootMidi: intoBand(degMidi(K, M, d), R.bass[0], R.bass[1]),
+      });
     });
-  });
+  };
+  /* WHAT KEY A SET OF CHORDS STANDS IN, asked of the chords themselves rather
+     than of the song. A part handed a chord set counts its scale steps against
+     these two, so a part is always in the key of the material it is playing and
+     never has to be told which section it is in. For every genre that does not
+     move its key they are the song's own, which is what they were before. */
+  const keyOf  = cs => (cs && cs[0] && cs[0].key != null) ? cs[0].key : root;
+  const modeOf = cs => (cs && cs[0] && cs[0].mode) ? cs[0].mode : mode;
   /* ── THE CHROMATIC PROGRESSIONS ────────────────────────────────────────
      A genre that declares `harmony` can have its changes generated by chord
      TRANSFORMATION rather than by scale degree. Both draws run unconditionally,
@@ -20387,6 +20454,8 @@ function makeMaterials(chart){
   const useNeo = !!H && neoDraw < (H.chance != null ? H.chance : 0);
   const mkTriads = tris => tris.map((tri, i) => Object.freeze({
     degree: nearestDegree(root, mode, tri.pc),
+    key: root,
+    mode,
     tones: triadTones(tri, G.sevenths, !!tri.dom),
     rootMidi: intoBand(tri.pc, R.bass[0], R.bass[1]),
     tri,
@@ -20408,10 +20477,71 @@ function makeMaterials(chart){
   } else {
     chords = mkChords(degrees);
   }
+  /* ── AND THE BRIDGE MAY LEAVE THE KEY ALTOGETHER ────────────────────────────
+     THE HOLE THIS FILLS. A mode is drawn once, in stage 1, per SONG. A nine
+     minute record was one scale for nine minutes, and for the genres that
+     deliberately have no chord changes that meant nothing above the drums moved
+     at all. This genre's own bridge table says so in as many words -- one
+     chord, the tonic, four bars, under the comment "there is no departure. Same
+     drone, so C cannot leave home."
+
+     THE MUSIC ANSWERED THIS IN 1958 AND 1959, TWICE, AND DIFFERENTLY BOTH TIMES.
+
+       MILESTONES  "The song's modes consist of G Dorian for 16 bars, A Aeolian
+                   for another 16 bars, and then back to G Dorian for the last
+                   eight bars." [Wikipedia, "Milestones (instrumental
+                   composition)"] -- the tonic moves a WHOLE TONE and the scale
+                   changes with it. G Dorian and A Aeolian share six of their
+                   seven notes: only Bb against B natural is different, so the
+                   ground moves and almost nothing else does.
+       SO WHAT     "sixteen bars of D Dorian, eight bars of E-flat Dorian, and
+                   then back to D Dorian" [Wikipedia, "So What"; corroborated by
+                   Ethan Hein, "The A sections use the D Dorian mode ... The B
+                   section is up a half step, on E-flat Dorian"] -- the tonic
+                   moves a SEMITONE and the mode is held. Those two scales share
+                   only two notes of seven, which makes it the opposite move: the
+                   same device at the far end of its range.
+
+     So the device has two independent parts, and the same composer used each
+     setting inside two years. `keyShift` is those two parts and nothing more:
+
+       chance   how often a record does this at all
+       by       weighted semitones the tonic moves (1 is So What, 2 is Milestones)
+       change   the chance the scale changes too rather than being carried up
+
+     WHERE THE NEW MODE COMES FROM IS DERIVED, NEVER LISTED. It is drawn from
+     the modes THIS GENRE HAS ALREADY WRITTEN A BRIDGE PROGRESSION FOR, so a
+     genre can only be moved into a scale it has real changes for, and a genre
+     that writes only one bridge mode can only make the So What move. Nothing
+     here can go stale, because the list is the table.
+
+     AND IT IS THE BRIDGE because that is where both sources put it: the B
+     section of an otherwise unmoving form. Material C is this program's B
+     section, and it already carries its own bass, keys, second keys and tune
+     [23569-23575], so moving its key moves the whole section rather than
+     sliding the chords out from under the parts.
+
+     ALL FOUR DRAWS RUN WHETHER OR NOT THE GENRE ASKS [Law 3], on their own
+     named substream, so adding `keyShift` to one table cannot move a note in
+     any other genre -- and a genre that declares nothing computes the same
+     bridge it always did, in the key it always did.
+     docs/genre-research/key-shift.md */
+  const rngK = stream(chart.seed, "keyshift");
+  const KS = G.keyShift || {};
+  const ksOn = rngK() < (KS.chance || 0);
+  const ksBy = wpick(rngK, KS.by || [[1, 1]]);
+  const ksChange = rngK() < (KS.change || 0);
+  const ksPick = rngK();
+  /* the genre's own bridge modes, minus the one it is already in */
+  const ksModes = Object.keys(G.bridgeProgressions).filter(m => m !== mode);
+  const bMode = (ksOn && ksChange && ksModes.length)
+    ? ksModes[Math.floor(ksPick * ksModes.length) % ksModes.length]
+    : mode;
+  const bKey = ksOn ? pc(root + ksBy) : root;
   /* the bridge's harmony: the departure -- rotated to open OFF the tonic
      [theory: the bridge leaves home so the last chorus can arrive] */
   const rngC = stream(chart.seed, "depart");
-  const bridgeChords = mkChords(wpick(rngC, G.bridgeProgressions[mode]));
+  const bridgeChords = mkChords(wpick(rngC, G.bridgeProgressions[bMode]), bKey, bMode);
   /* ── AND THE CHORUS MAY HAVE ITS OWN CHANGES ────────────────────────────────
      Read off the roll, and it is the answer to "it's too static for far too
      long": B KEPT A'S BASS, A'S DRUMS AND A'S CHORDS -- verbatim, the roll
@@ -21300,8 +21430,11 @@ function makeMaterials(chart){
          on this stream and couple the pedal to the bass articulation. */
       const pedDegree = pedRng() < 0.72 ? 0 : 4;            // tonic, or the reciting fifth
       const pedDouble = pedRng() < (G.bassPedalDouble || 0);
-      const pedMidi = intoBand(degMidi(root, mode, pedDegree), R.bass[0], R.bass[1]);
-      const pedFifth = intoBand(degMidi(root, mode, pedDegree + 4), R.bass[0] + 5, R.bass[1] + 7);
+      /* the pedal is THIS MATERIAL'S tonic (or its reciting fifth), not the
+         song's -- a pedal under a section that has moved key is the note that
+         section is standing on, which is the whole point of a pedal */
+      const pedMidi = intoBand(degMidi(keyOf(chordSet), modeOf(chordSet), pedDegree), R.bass[0], R.bass[1]);
+      const pedFifth = intoBand(degMidi(keyOf(chordSet), modeOf(chordSet), pedDegree + 4), R.bass[0] + 5, R.bass[1] + 7);
       for(let b = 0; b < BARS; b++){
         const ch = chordSet[b], deep = rng() < 0.45;         // unconditional [Law 7]
         if(pedalOn){
@@ -21428,8 +21561,29 @@ function makeMaterials(chart){
       for(let b = 0; b < BARS; b++){
         const ch = chordSet[b];
         for(const c of cell){
-          const base = intoBand(degMidi(root, mode, ch.degree + c.deg), R.bass[0], R.bass[1]);
-          const p = intoBand(base + c.oct, R.bass[0] - 12, R.bass[1] + 12);
+          const base = intoBand(degMidi(ch.key, ch.mode, ch.degree + c.deg), R.bass[0], R.bass[1]);
+          /* AND THE SAME FLOOR HEARING PUTS UNDER THE DRONE'S OCTAVE-DOWN GOES
+             UNDER THIS ONE. `R.bass[0] - 12` is a whole octave below the band
+             the genre declared, and an octave-down cell step can spend it. The
+             key shift surfaced it -- a lifted root sat at the bottom of its band
+             and the octave-down went to MIDI 20, 26 Hz, under the 32.7 Hz floor
+             written out at the drone above.
+
+             I FIRST WROTE HERE THAT NO GENRE REACHED THIS TODAY, AND THAT WAS
+             WRONG. Measured against the previous build over 300 seeds a genre:
+
+               acid        420 notes below MIDI 24, on 21 of 300 seeds, lowest 21
+               plastikman  108 notes below MIDI 24, on  5 of 300 seeds, lowest 19
+
+             So this is not a floor added for the lifted material's sake -- it is
+             a defect that has been shipping, in the genre with the busiest bass
+             in the file, and the "below hearing" battery missed it because it
+             samples a narrow band of seeds. Fixing it MOVES ACID on 19 of 300
+             seeds, which is a real change to a genre that asked for nothing, and
+             it is here rather than in its own commit because the same line is
+             what makes the lifted bass legal. The notes it moves are notes
+             nobody could hear; they fold up an octave. */
+          const p = intoBand(base + c.oct, Math.max(24, R.bass[0] - 12), R.bass[1] + 12);
           notes.push({ bar: b, step: c.step, dur: c.dur, pitch: p,
                        vel: c.step === 0 ? 0.95 : 0.78, role: "bass" });
         }
@@ -21525,7 +21679,7 @@ function makeMaterials(chart){
           if(Math.floor(c.step / 16) !== b % F.bars) continue;
           const st = c.step % 16;
           notes.push({ bar: b, step: st, dur: c.dur,
-                       pitch: intoBand(degMidi(root, mode, ch.degree + c.deg),
+                       pitch: intoBand(degMidi(ch.key, ch.mode, ch.degree + c.deg),
                                        R.bass[0], R.bass[1]),
                        vel: F.strong.includes(st) ? 0.92 : 0.76, role: "bass" });
         }
@@ -21543,7 +21697,7 @@ function makeMaterials(chart){
           let pch = ch.rootMidi;
           if(up && st > 0) pch += 12;
           else if(alt > P.rootBias && st > 0)
-            pch = intoBand(degMidi(root, mode, ch.degree + 4), R.bass[0], R.bassWalk[1]);
+            pch = intoBand(degMidi(ch.key, ch.mode, ch.degree + 4), R.bass[0], R.bassWalk[1]);
           if(pch > R.bassWalk[1] + 12) pch -= 12;
           notes.push({ bar: b, step: st, dur: P.unit,
                        pitch: pch, vel: st === 0 ? 0.92 : 0.74, role: "bass" });
@@ -21616,7 +21770,7 @@ function makeMaterials(chart){
         if(choice === "root") pch = ch.rootMidi;
         else if(choice === "step"){
           const dir = next.rootMidi === prevPitch ? -1 : (next.rootMidi > prevPitch ? 1 : -1);
-          pch = band(scaleStep(root, mode, prevPitch, dir));
+          pch = band(scaleStep(keyOf(chordSet), modeOf(chordSet), prevPitch, dir));
         } else {
           const idx = choice === "third" ? 1 : choice === "seventh" ? 3 : 2;
           const t = ch.tones[idx] != null ? ch.tones[idx] : ch.tones[2];
@@ -21653,7 +21807,7 @@ function makeMaterials(chart){
            ask keeps its scale step note for note. */
         const chromatic = G.bassApproach === "chromatic";
         const from = chromatic ? next.rootMidi + walkStep
-                               : scaleStep(root, mode, next.rootMidi, walkStep);
+                               : scaleStep(keyOf(chordSet), modeOf(chordSet), next.rootMidi, walkStep);
         const put = intoBand(from, R.bassWalk[0], R.bassWalk[1]);
         /* ── AND IF THE BAND MOVED IT, IT IS NOT AN APPROACH NOTE ──────────
            `intoBand` folds a pitch back inside the register by octaves. A
@@ -22299,15 +22453,23 @@ function makeMaterials(chart){
          above and a step below, through `scaleStep`, so they cannot leave the
          key. A neighbour that returns to a chord tone is the oldest inner-voice
          figure there is, and it is what the reference photograph shows: small
-         steps, not leaps. */
+         steps, not leaps.
+
+         AND "THE KEY" IS THE ONE THESE CHORDS ARE IN, which is the song's for
+         every material that has not moved. It read `chart.root`/`chart.mode`,
+         and the day a section could stand in another key that sentence stopped
+         being true: the comp of a lifted material reached a step out of the
+         SONG's scale, landed a semitone from where the section's own scale put
+         it, and the seam check threw. Every scale-step reach in this file now
+         asks the chords it was handed. */
       const held = new Set(voiced);
       let others = ch.tones
         .map(t => intoBand(t, voiced[0], voiced[voiced.length - 1] + 11))
         .filter(p => !held.has(p));
       if(!others.length){
         const seed2 = voiced[Math.min(inner, voiced.length - 1)];
-        others = [scaleStep(chart.root, chart.mode, seed2, 1),
-                  scaleStep(chart.root, chart.mode, seed2, -1)].filter(p => !held.has(p));
+        others = [scaleStep(keyOf(chordSet), modeOf(chordSet), seed2, 1),
+                  scaleStep(keyOf(chordSet), modeOf(chordSet), seed2, -1)].filter(p => !held.has(p));
       }
       others = [...new Set(others)];
       /* THE ROLL, AND IT MUST FIT. The first version wrote
@@ -22544,7 +22706,7 @@ function makeMaterials(chart){
       /* the pickup roll runs before anything else in the phrase so its place
          in the stream is fixed; only a lines instrument spends it */
       const puRoll = LINES ? rng() : -1;
-      let m = intoBand(degMidi(root, mode, 7 + Math.floor(rng() * 3)), LO + 4, HI - 4);
+      let m = intoBand(degMidi(keyOf(chordSet), modeOf(chordSet), 7 + Math.floor(rng() * 3)), LO + 4, HI - 4);
       /* `hang` is the dissonance waiting to be answered, `hangDir` the
          direction it came in on. Both live for the whole phrase, because a
          note at the end of bar one is answered at the start of bar two. */
@@ -22659,9 +22821,9 @@ function makeMaterials(chart){
              the appoggiatura rate to the music.
              docs/genre-research/the-arrival-of-a-dissonance.md ── */
           if(!hang && Math.abs(move) > 1 && i + 1 >= steps.length &&
-             isNCT(b, steps[i], intoBand(scaleStep(root, mode, m, move), LO, HI)))
+             isNCT(b, steps[i], intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m, move), LO, HI)))
             move = move > 0 ? 1 : -1;
-          let cand = intoBand(scaleStep(root, mode, m, move), LO, HI);
+          let cand = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m, move), LO, HI);
           /* ── MELODY TARGETS [corpus:sax-material.md: strong beats 84.1%
              stable, held notes 85.8% stable, in two corpora]. A horn line puts
              chord tones on the strong beats and under the long notes; the
@@ -22672,7 +22834,7 @@ function makeMaterials(chart){
             cand = intoBand(nearestTone(cand, chordSet[b % BARS].tones), LO, HI);
           let tries = 0;
           while(!fits(b, steps[i], cand) && tries < 3){
-            cand = intoBand(scaleStep(root, mode, cand, 1), LO, HI); tries++;
+            cand = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), cand, 1), LO, HI); tries++;
           }
           if(!fits(b, steps[i], cand)) continue;
           /* the seat-finding walk above can step the resolution out of reach.
@@ -22742,7 +22904,7 @@ function makeMaterials(chart){
         const all = [];
         for(const t of chordSet[bar].tones)
           for(let o = -3; o <= 3; o++) all.push(intoBand(t + 12 * o, LO, HI));
-        const diatonic = all.filter(p => inKey(root, mode, p));
+        const diatonic = all.filter(p => inKey(keyOf(chordSet), modeOf(chordSet), p));
         const cands = diatonic.length ? diatonic : all;
         cands.sort((a, z) => Math.abs(a - last.pitch) - Math.abs(z - last.pitch));
         /* the landing must not undo the law. If the note BEFORE the last one is
@@ -22784,7 +22946,7 @@ function makeMaterials(chart){
         if(puRoll >= 0 && puRoll < (LINES.pickup || 0) && startBar >= 1 && notes.length > ph0){
           const first = notes[ph0];
           const pb = startBar - 1;
-          const cand = intoBand(scaleStep(root, mode, first.pitch, -1), LO, HI);
+          const cand = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), first.pitch, -1), LO, HI);
           if(fits(pb, 14, cand) && cand !== first.pitch){
             notes.splice(ph0, 0, { bar: pb, step: 14, dur: 2, pitch: cand, vel: 0.62, role: "lead" });
             reserved.add(key(pb % BARS, 14, cand));
@@ -22807,7 +22969,7 @@ function makeMaterials(chart){
       /* THE DEPARTURE'S TUNE: A's rhythm AUGMENTED -- every duration doubled, so
          half the density at the same shape [research: augmentation is a
          canonical derivation]. Pitches walk the new (bridge) changes. */
-      let m = intoBand(degMidi(root, mode, 9), LO, HI);
+      let m = intoBand(degMidi(keyOf(chordSet), modeOf(chordSet), 9), LO, HI);
       let t = 0;
       for(const src of opts.augmentOf){
         /* Augmentation is twice as long as its source, so it runs out of loop
@@ -22822,7 +22984,7 @@ function makeMaterials(chart){
         const st = at % 16, b = Math.floor(at / 16);
         t += src.dur;
         const tones = chordSet[b].tones;
-        m = intoBand(nearestTone(scaleStep(root, mode, m, wpick(rng, [[1, 2], [-1, 3], [0, 2]])), tones), LO, HI);
+        m = intoBand(nearestTone(scaleStep(keyOf(chordSet), modeOf(chordSet), m, wpick(rng, [[1, 2], [-1, 3], [0, 2]])), tones), LO, HI);
         if(reserved.has(key(b, st, m))) continue;
         notes.push({ bar: b, step: st, dur: Math.min(8, src.dur * 2), pitch: m, vel: 0.7, role: "lead" });
         reserved.add(key(b, st, m));
@@ -23045,8 +23207,14 @@ function makeMaterials(chart){
       for(let st = 0; st < 16; st += O.unit){
         const idx = O.run ? (seqI++) : (st / O.unit);
         const deg = c[((idx % c.length) + c.length) % c.length];
-        const abs = ch ? degMidi(root, mode, ch.degree + deg)
-                       : degMidi(root, mode, deg);
+        /* a cell that does NOT follow the chords still stands in a KEY, and it
+           is the key of the material it is playing in -- so a figure handed the
+           bridge's chords states itself in the bridge's key even though it is
+           ignoring the bridge's harmony. That is the difference between a
+           section changing key and a section changing key with one part left
+           behind in the old one. */
+        const abs = ch ? degMidi(ch.key, ch.mode, ch.degree + deg)
+                       : degMidi(keyOf(chords), modeOf(chords), deg);
         const pitch = intoBand(abs, R.ostinato[0], R.ostinato[1]);
         /* ── THE RATCHET DRAWS FROM ITS OWN STREAM ─────────────────────────
            Taken from `rng` this consumed a number on every step of every
@@ -23209,7 +23377,7 @@ function makeMaterials(chart){
          tune's, then the one that moves least -- contrary motion first, smooth
          voice leading second. */
       const cands = CT.intervals
-        .map(iv => intoBand(scaleStep(root, mode, n.pitch, iv), LO, HI))
+        .map(iv => intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), n.pitch, iv), LO, HI))
         .filter(pchr => pchr !== n.pitch && !reserved.has(key(n.bar, at, pchr)));
       if(!cands.length) continue;
       /* what is sounding under this seat -- the same ring the tune reads, and
@@ -23566,12 +23734,34 @@ function makeMaterials(chart){
 
   /* ── C = depart(A): new changes, sustained keys, roots-only bass,
      A's rhythm augmented ── */
+  /* ── AND THE FIGURE GOES WITH IT WHEN THE SECTION CHANGES KEY ──────────────
+     C keeps A's ostinato, and that was right for as long as C was in A's key:
+     the cell is the fixed thing in this music and a bridge that redrew it would
+     be a different record. It stops being right the moment the section moves.
+     The seam check found this before a listener could -- "out of key, not in
+     the chord, in C: ostinato" -- which is exactly the job of a check that
+     throws.
+
+     THE SAME CELL, STATED IN THE NEW KEY. The stream name is `ostinato`, not a
+     new one, so the draws are A's draws and the cell that comes out is A's
+     cell; only the key it is spelled in is the bridge's. That is the operation
+     the music performs -- in Milestones and So What the band moves the material
+     up bodily, it does not write new material -- and it is why this is a
+     re-statement rather than a redraw.
+
+     BUILT EITHER WAY AND USED ONLY WHEN THE KEY MOVED, which is the shape
+     `ostB` already uses one section earlier. When the bridge is in the song's
+     key -- every genre that declares no `keyShift`, and every record of the two
+     that do where the draw said no -- C gets `ostA` itself, the same array by
+     identity, so nothing downstream can tell this line exists. */
+  const ostCkey = buildOstinato("ostinato", false, bridgeChords);
+  const ostC = (bKey !== root || bMode !== mode) ? ostCkey : ostA;
   const bassC  = pin(buildBass(bridgeChords, "bassC", true), "bass", "C");
   const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true,
-                                                   avoid: reserve(ostA.concat(bassC)) });
+                                                   avoid: reserve(ostC.concat(bassC)) });
   const keys2C = tryPad(band => buildKeys(bridgeChords, "keys2C", { sustain: true, at: 2, band,
-                            against: keysC, avoid: reserve(ostA.concat(bassC, keysC)) }));
-  const resC   = reserve(ostA.concat(bassC, keysC, keys2C));
+                            against: keysC, avoid: reserve(ostC.concat(bassC, keysC)) }));
+  const resC   = reserve(ostC.concat(bassC, keysC, keys2C));
   const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: playable(R.themeC)[0], hi: playable(R.themeC)[1], comp: keysC, augmentOf: themeA.notes });
 
   /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
@@ -23586,6 +23776,57 @@ function makeMaterials(chart){
   const varTail = buildTheme(chords, "themeA:var", resV, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], dir: -1 });
   const leadAvar = themeA.notes.filter(n => n.bar < 2)
     .concat(varTail.notes.filter(n => n.bar >= 2));
+
+  /* ══ AND THE RECORD ITSELF MOVES, NOT ONLY ITS BRIDGE ══════════════════════
+     MEASURED, AND THE MEASUREMENT IS WHY THIS EXISTS. With the key shift living
+     only on the bridge, it fired on 171 of 300 minimal techno records and was
+     HEARD on 37 -- because that genre arranges a bridge in 21% of its forms, and
+     when it does the section is 16 bars of a 208-bar record. 0.8% of all bars.
+     Dungeon synth was worse: 100 records shifted, 0 played it, because its form
+     reaches for a bridge four times in three hundred. A harmonic event nobody
+     hears is not a harmonic event, and the user's complaint was that this music
+     does not evolve.
+
+     THE SOURCES DO NOT PUT IT IN AN OPTIONAL SECTION EITHER. "So What" is AABA
+     and Milestones is AABBA -- the moved section is a fixed part of the tune,
+     played on every chorus of a ten-minute performance, not an option the
+     arrangement may skip. Scaled to a record rather than to 32 bars, that shape
+     is: the main material, restated in the new key, for a stretch in the middle,
+     and then home.
+
+     SO THE MAIN MATERIAL IS BUILT TWICE. Same stream names, so the same draws
+     and the same decisions -- what comes out is A, restated, not a second A.
+     When the mode is carried up unchanged that is exactly a transposition; when
+     the mode changes too it is the same scale degrees read in the new scale,
+     which is the general case and the one Milestones needs. Stage 4 chooses
+     WHICH of the two a section plays, which is stage 4's whole job, and every
+     pitch in both is still final here at stage 3.
+
+     BUILT ONLY WHEN A RECORD HAS ACTUALLY MOVED. `LIFT` is false for every genre
+     that declares no `keyShift` and for every record of the two that do where
+     the draw said no, and then each of these is the A-material array ITSELF, by
+     identity -- so nothing downstream can tell this block exists. ══════════ */
+  const LIFT = bKey !== root || bMode !== mode;
+  const liftChords = LIFT ? mkChords(degrees, bKey, bMode) : chords;
+  const ostAl      = LIFT ? buildOstinato("ostinato", false, liftChords) : ostA;
+  const ostAvarl   = LIFT ? buildOstinato("ostinato", true,  liftChords) : ostAvar;
+  const bassAl     = LIFT ? pin(buildBass(liftChords, "bass", false), "bass", "A") : bassA;
+  const placedl    = LIFT ? reserve(ostAl.concat(ostAvarl, bassAl)) : placed;
+  const keysAl     = LIFT ? buildKeys(liftChords, "keys", { dense: false, avoid: placedl,
+                                               sustain: HOLD, at: HOLD ? 0 : undefined }) : keysA;
+  const keys2Al    = LIFT ? tryPad(band => buildKeys(liftChords, "keys2", { sustain: true, at: 2, band,
+                              against: keysAl, avoid: reserve(ostAl.concat(bassAl, keysAl)) })) : keys2A;
+  const keys2Avarl = LIFT ? tryPad(band => buildKeys(liftChords, "keys2:var", { sustain: true, at: 2, band,
+                              against: keysAl, avoid: reserve(ostAvarl.concat(bassAl, keysAl)) })) : keys2Avar;
+  const resAl      = reserve(ostAl.concat(bassAl, keysAl, keys2Al));
+  const themeAl    = LIFT ? buildTheme(liftChords, "themeA", resAl, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1],
+                              comp: keysAl, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 }) : themeA;
+  const counterAl  = LIFT ? deriveCounter(themeAl.notes, resAl, "counterA", liftChords, keysAl) : counterA;
+  const resVl      = reserve(ostAvarl.concat(bassAl, keysAl, keys2Avarl, themeAl.notes.filter(n => n.bar < 2)));
+  const varTaill   = LIFT ? buildTheme(liftChords, "themeA:var", resVl, { lo: playable(R.themeA)[0],
+                              hi: playable(R.themeA)[1], dir: -1 }) : varTail;
+  const leadAvarl  = LIFT ? themeAl.notes.filter(n => n.bar < 2)
+                              .concat(varTaill.notes.filter(n => n.bar >= 2)) : leadAvar;
 
   /* ── the fill: composed here, SELECTED by the arrangement ── */
   /* ── THE FILL, and it comes DOWN THE TOMS. It used to be five snare hits in a
@@ -23678,14 +23919,27 @@ function makeMaterials(chart){
        chords and pad as B; only the tune's second half is redrawn, so the hook
        is recognised and then turns. See its construction above. */
     Bvar: { drums: drumsBvar, bass: bassB, keys: keysB, keys2: keys2B, lead: leadBvar, counter: counterBvar, ostinato: ostB },
-    /* C KEEPS THE OSTINATO. It ignores the chords by construction, so it needs no
+    /* C KEEPS THE OSTINATO -- and keeps it THROUGH A KEY CHANGE by re-stating
+       it, which is `ostC` above; when the bridge has not changed key `ostC` IS
+       `ostA`, the same array. It ignores the chords by construction, so it needs no
        new version for the bridge's new changes -- and letting it run straight
        through IS the departure: a constant cell with the harmony moving under it
        is the device these tracks are built on, applied at section scale instead
        of bar scale. Dropping it made the bridge stop sounding like the genre. */
-    C:    { drums: drumsC, bass: bassC, keys: keysC, keys2: keys2C, lead: themeC.notes, counter: [], ostinato: ostA },
+    C:    { drums: drumsC, bass: bassC, keys: keysC, keys2: keys2C, lead: themeC.notes, counter: [], ostinato: ostC },
     fill, ending,
   };
+  /* THE LIFTED PAIR EXISTS ONLY ON A RECORD THAT MOVED, so a song that did not
+     has exactly the materials it always had and every tool that asks the song
+     what it contains -- the roll, the seam check, the snapshot -- sees no change
+     at all. The drums are A's own arrays: a key change is a harmonic event and
+     the kit has no pitch to move. */
+  if(LIFT){
+    materials.Alift    = { drums: drumsA, bass: bassAl, keys: keysAl, keys2: keys2Al,
+                           lead: themeAl.notes, counter: counterAl, ostinato: ostAl };
+    materials.Avarlift = { drums: drumsAvar, bass: bassAl, keys: keysAl, keys2: keys2Avarl,
+                           lead: leadAvarl, counter: [], ostinato: ostAvarl };
+  }
   /* FREEZE DEEP, not just the top. A, Avar and B deliberately SHARE drumsA and
      bassA -- one groove under three tunes is the point -- but the freeze only
      reached the individual notes, so the role arrays stayed mutable and one
@@ -23700,7 +23954,14 @@ function makeMaterials(chart){
      had reached in and pushed to them, which is why it never showed; the fix
      for the same defect in the roles above says why that is not a reason to
      leave it. */
-  for(const m of ["A", "Avar", "B", "Bvar", "C"]){
+  /* ── AND THE LIST IS THE OBJECT, NOT A COPY OF IT ──────────────────────────
+     This was written out by hand, and the comment directly above records that
+     Bvar had already been forgotten from it once. A hand-kept list of the
+     materials, standing next to the materials, is a defect waiting for the next
+     material -- so it asks the object what it holds. A material is a thing with
+     a drum lane; nothing else in here is. */
+  const MAT_KEYS = Object.keys(materials).filter(k => materials[k] && materials[k].drums);
+  for(const m of MAT_KEYS){
     for(const role in materials[m]) freezeNotes(materials[m][role]);
     Object.freeze(materials[m]);
   }
@@ -23711,6 +23972,7 @@ function makeMaterials(chart){
   materials.chords = freezeChords(chords);
   materials.bridgeChords = freezeChords(bridgeChords);
   materials.chorusChords = NEW_CHORUS ? freezeChords(chorusChords) : materials.chords;
+  materials.liftChords = LIFT ? freezeChords(liftChords) : materials.chords;
   /* ── WHICH CHANGES EACH MATERIAL IS PLAYING, ASKED HERE AND NOWHERE ELSE ────
      There were two copies of this rule -- `m === "C" ? bridgeChords : chords`,
      written out at the seam check and again at the roll -- and the moment a
@@ -23725,12 +23987,19 @@ function makeMaterials(chart){
     A: Object.freeze(DRUM_PHRASE.slice()),    Avar: Object.freeze(DRUM_PHRASE_END.slice()),
     B: Object.freeze(DRUM_PHRASE.slice()),    Bvar: Object.freeze(DRUM_PHRASE_END.slice()),
     C: Object.freeze(DRUM_PHRASE.slice()),
+    /* the lifted pair plays A's and Avar's kit unchanged -- it is the same
+       material in another key, and a kit has no key */
+    Alift: Object.freeze(DRUM_PHRASE.slice()), Avarlift: Object.freeze(DRUM_PHRASE_END.slice()),
   });
   materials.chordsOf = Object.freeze({
     A: materials.chords, Avar: materials.chords,
     B: materials.chorusChords, Bvar: materials.chorusChords,
     C: materials.bridgeChords,
+    Alift: materials.liftChords, Avarlift: materials.liftChords,
   });
+  /* WHAT THE RECORD DID WITH ITS KEY, stated once, so the arrangement, the roll
+     and the seam check all read the same fact rather than each deriving it. */
+  materials.lift = Object.freeze(LIFT ? { key: bKey, mode: bMode } : null);
   return Object.freeze(materials);
 }
 
@@ -23839,6 +24108,30 @@ function makeArrangement(chart, form, materials){
   const hasArrived = (role, byBar) =>
     !BUILD || arrivesAt[role] == null || byBar > arrivesAt[role];
 
+  /* ── WHERE THE RECORD SITS IN ITS OTHER KEY ────────────────────────────────
+     Stage 3 built the main material twice when the record moved key; this
+     decides which of the two each section plays, which is the one thing stage 4
+     is for. Nothing is drawn here -- the shape is structural, and it is AABA
+     read at the length of a record instead of at 32 bars: home, away for a
+     stretch in the middle, home again to end. Both sources are that shape
+     ("So What", "Milestones"), and both come back.
+
+     THE MIDDLE THIRD, roughly: from four tenths of the way in to two thirds. On
+     a nine-minute minimal techno record that is about two minutes in the new
+     key, arriving after the listener has had long enough to believe the first
+     one is the only one -- which is the whole gesture. It never touches the
+     intro or the outro, because both live outside that window by construction.
+
+     A SECTION IS IN OR OUT BY ITS MIDDLE, not its start, so a long section that
+     straddles the edge does not change key partway through itself -- a material
+     is chosen per section and a section has one key. */
+  const TOTAL = form.length ? form[form.length - 1].endBar : 0;
+  const LIFTED = !!(materials.lift && materials.Alift);
+  const inLift = sec => {
+    const mid = (sec.startBar + sec.endBar) / 2;
+    return mid >= 0.40 * TOTAL && mid < 0.67 * TOTAL;
+  };
+
   return Object.freeze(form.map((sec, i) => {
     let material = MAT[sec.fn];
     let stripHalf = false;
@@ -23873,6 +24166,15 @@ function makeArrangement(chart, form, materials){
         if(sec.occurrence >= 3) stripHalf = true;
       }
     }
+    /* AND THEN, IF THE RECORD MOVED KEY, THIS STRETCH PLAYS THE OTHER COPY.
+       Last, so it composes with the variant choice above rather than competing
+       with it: a section that had settled on Avar plays Avar IN THE NEW KEY,
+       and the rule-of-three variation the genre asked for still happens. Only
+       the two materials that HAVE a lifted copy can be swapped; B, Bvar and the
+       bridge are left exactly as they were, so a record whose middle is a
+       chorus simply does not move, which is honest -- the departure it already
+       has is the chorus's own changes. */
+    if(LIFTED && inLift(sec) && materials[material + "lift"]) material += "lift";
     /* ── THE SECOND KEYBOARD PLAYS WHERE THE FIRST ONE DOES ──────────────────
        Derived, not declared, and that is what stops this feature from being
        seven table edits: `roles` is a per-genre list of who is in the room for
@@ -24777,7 +25079,12 @@ function composeSong(seed, rig, genre, picks, pins){
   /* seam checks (Law: valid by construction — so PROVE it, every song).
      A material's parts sound TOGETHER, so collisions are checked inside each
      material; materials never sound simultaneously with each other. */
-  for(const m of ["A", "Avar", "B", "C"]){
+  /* ── THE LIST OF MATERIALS TO PROVE IS THE SONG'S, NOT A COPY ──────────────
+     Written out by hand this omitted Bvar from the day Bvar existed, and would
+     have omitted the lifted pair the same way -- a check that silently stops
+     covering the newest material is worse than no check, because it still
+     reports a pass. It asks the song what materials it has. */
+  for(const m of Object.keys(materials).filter(k => materials[k] && materials[k].drums)){
     const seen = new Set();
     /* WHICH CHANGES THIS MATERIAL IS ON. C is the bridge and has its own. */
     const chSet = materials.chordsOf[m] || materials.chords;
@@ -24841,7 +25148,27 @@ function composeSong(seed, rig, genre, picks, pins){
            the note after the last one is the first one and is judged that way
            -- otherwise the law would forbid at bar 3 what it allows at bar 0.
            docs/genre-research/the-note-that-does-not-belong.md */
-        if(!inKey(chart.root, chart.mode, n.pitch)){
+        /* ── AND "THE KEY" IS THIS MATERIAL'S, NOT THE SONG'S ────────────────
+           A section may now leave the key entirely, taking its chords, its
+           bass, its comp and its tune with it. Judged against the SONG's tonic
+           this law would condemn every note of a section that is behaving
+           perfectly -- and worse, it would let through a note that really is
+           wrong in the section's own scale merely because it happened to fit
+           the one the record left behind. Both directions are wrong for the
+           same reason: `inKey` needs the key the notes are actually in.
+
+           IT DOES NOT WEAKEN THE LAW. `chSet` is the material's own chord set,
+           the same object clause (a) already reads, and its chords carry the
+           key and mode they were built in. A material that has not moved gets
+           the song's key, which is exactly what it got before.
+
+           THIS IS ALSO THE CHECK THAT CATCHES A PART LEFT BEHIND. If a section
+           changes key and some part does not come with it, that part's notes
+           are now out of the section's scale and this throws, naming the
+           material and the part -- which is how the ostinato below was found. */
+        const mKey  = chSet && chSet[0] && chSet[0].key != null ? chSet[0].key : chart.root;
+        const mMode = chSet && chSet[0] && chSet[0].mode ? chSet[0].mode : chart.mode;
+        if(!inKey(mKey, mMode, n.pitch)){
           const ch = chSet && chSet[n.bar % chSet.length];
           let ok = !!(ch && ch.tones.some(t => pc(t) === pc(n.pitch)));
           if(!ok){

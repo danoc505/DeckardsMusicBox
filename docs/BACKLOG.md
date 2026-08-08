@@ -479,6 +479,31 @@ Orchestrator MK2.html`. Research: `docs/genre-research/lofi-harmony.md`,
 horizontal vocabulary does not exist, and six of seven genres are locked
 diatonic.**
 
+> ### 6.0 THE FIVE FROM `static-harmony-and-evolution.md`, and where they stand
+>
+> Opened `2026-08-08` when the user asked what modal jazz teaches about a song
+> evolving, and said minimal techno "is a failure … we fail to capture the slow
+> evolving nature". Then: *"Work on the 5 things you mention … Do all 5, start
+> with the first and work your way down."*
+>
+> 1. **The mode never changes inside a song** — **DONE `2026-08-08n`.** A genre
+>    may declare `keyShift`; minimal techno and dungeon synth do. Sourced to
+>    Milestones (+2, mode changes) and So What (+1, mode held), which are the
+>    two settings the dial has. 57% of minimal techno records move, 15.6% of
+>    all bars — 27% of the bars of a record that moves, against So What's 25%.
+>    **Unheard.** `docs/genre-research/key-shift.md`.
+> 2. **No part answers another part** — open. Call and response is absent from
+>    the whole program; `deriveCounter` sits in the lead's gaps, which is
+>    spacing, not conversation. Source in hand: Paul Chambers's two-note motif
+>    on "So What", answered by Evans.
+> 3. **No phase relationship between two patterns** — open. Every LFO is
+>    independent and free-running; nothing is two copies of one thing drifting
+>    apart. This is the "generative modular" answer and it is arithmetic.
+> 4. **`bassStyle` is one string per genre, forever** — open. Modal jazz gives
+>    the bass three roles under static harmony; ours does the first
+>    degenerately (74.9% root, 1.51 distinct pitches a bar).
+> 5. **The older §6 rows below** — open, and unchanged by any of the above.
+
 ### 6.1 THE CHORD VOCABULARY STOPS AT FOUR NOTES — the root cause
 
 `chordTones` (line 841) is the whole of chord construction:

@@ -197,7 +197,19 @@ const pinnedAt = (role, pat, bar, lane) =>
   PINS[[role, pat, bar, lane].filter(x => x != null).join(":")] != null;
 
 function printMaterial(key, mat, bars){
-  console.log(`\n── MATERIAL ${key} ${"─".repeat(62 - key.length)}`);
+  /* WHAT KEY THIS MATERIAL IS IN, ASKED OF THE SONG. `chordsOf` is the song's
+     own material-to-chords map, so nothing here can go stale when a material is
+     added; a material with no chords (the fill, the ending) is the song's key. */
+  const cs = (song.materials.chordsOf || {})[key];
+  const matKey  = cs && cs[0] && cs[0].key != null ? cs[0].key : C.root;
+  const matMode = cs && cs[0] && cs[0].mode ? cs[0].mode : C.mode;
+  console.log(`\n── MATERIAL ${key} ${"─".repeat(62 - key.length)}` +
+              /* and SAY SO when it is not the song's, because a whole section
+                 changing key is the largest thing that can happen to a roll and
+                 it must not be something the reader has to infer from pitches */
+              (matKey !== C.root || matMode !== C.mode
+                 ? `\n        in ${T.NOTE_NAMES[matKey]} ${matMode}  (the song is ` +
+                   `${T.NOTE_NAMES[C.root]} ${C.mode})` : ""));
   console.log("        " + Array.from({ length: bars }, (_, i) => RULER).join(" "));
   const pat = PIN_PAT[key] || {};
   /* A PINNED BAR IS MARKED, PER BAR, right under the ruler. A user-typed pattern
@@ -252,10 +264,14 @@ function printMaterial(key, mat, bars){
     if(!ns.length) continue;
     /* one char per note: the scale DEGREE it sits on, so a line's shape and its
        relationship to the key are both visible at a glance. "?" means out of key,
-       which should be impossible and is worth seeing instantly if it happens. */
+       which should be impossible and is worth seeing instantly if it happens.
+       AGAINST THIS MATERIAL'S OWN KEY -- a section that has changed key is not
+       out of key, it is in a different one, and printing a wall of "?" for a
+       part that is behaving perfectly is the roll crying wolf. `matKey`/`matMode`
+       come from the chords this material actually plays. */
     console.log(role.padEnd(8) + gridLine(ns, bars, n => {
-      if(!T.inKey(C.root, C.mode, n.pitch)) return "?";
-      const sc = T.MODES[C.mode], d = sc.indexOf(T.pc(n.pitch - C.root));
+      if(!T.inKey(matKey, matMode, n.pitch)) return "?";
+      const sc = T.MODES[matMode], d = sc.indexOf(T.pc(n.pitch - matKey));
       return d < 0 ? "?" : String(d + 1);
     }));
     if(role === "bass"){ const pr = pinRow("bass", null); if(pr) console.log("  ↑pin  " + pr); }
@@ -309,11 +325,19 @@ console.log(`GROOVE  ${song.perf.groove.style}` +
    printed "B B G B" for a progression that plays Bm B G#m B. The roll is the
    test that matters in this repo; a roll that misnames the harmony sends the
    next person looking for a bug in the notes. Read the tones. */
+/* AND NAME IT IN ITS OWN KEY, not the song's. The same defect one turn further
+   on: a section may now leave the key, and reading its degree against the SONG
+   printed a bridge of D# minor chords as "C#sus*" -- a wrong root, a wrong
+   quality and a spurious out-of-key star, three lies in five characters, on the
+   one line of the roll that says what the harmony is. A chord carries the key
+   and mode it was built in; ask the chord. */
+const chKey  = ch => ch.key  != null ? ch.key  : C.root;
+const chMode = ch => ch.mode || C.mode;
 const chName = ch => {
-  const r = ch.tri ? ch.tri.pc : T.pc(T.degMidi(C.root, C.mode, ch.degree));
+  const r = ch.tri ? ch.tri.pc : T.pc(T.degMidi(chKey(ch), chMode(ch), ch.degree));
   const third = ch.tones && ch.tones.length > 1 ? T.pc(ch.tones[1] - r) : 4;
   const q = third === 3 ? "m" : third === 4 ? "" : "sus";
-  const outside = (ch.tones || []).some(t => !T.MODES[C.mode].includes(T.pc(t - C.root)));
+  const outside = (ch.tones || []).some(t => !T.MODES[chMode(ch)].includes(T.pc(t - chKey(ch))));
   return T.NOTE_NAMES[r] + q + (ch.tones && ch.tones.length > 3 ? "7" : "") + (outside ? "*" : "");
 };
 console.log(`CHORDS  ${song.materials.chords.map(chName).join("  ")}` +

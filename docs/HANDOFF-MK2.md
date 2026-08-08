@@ -103,7 +103,53 @@ to measure the thing it was about — reading `kit.poly`, exempting D bars **by
 name** from `materials.drumPhrase` — and never by moving a threshold. Say in the
 commit message which you changed and why.
 
-### WHAT 2026-08-08 BUILT — `08a` … `08j`
+### WHAT 2026-08-08 BUILT — `08a` … `08n`
+
+- **`08n`** THE RECORD CHANGES KEY IN THE MIDDLE AND COMES HOME. First of the
+  five gaps the user asked for in order: *"Work on the 5 things you mention …
+  Do all 5, start with the first and work your way down."* A mode was drawn
+  once, per SONG, so a nine-minute minimal techno record was one scale for nine
+  minutes — and that genre's own bridge table said `/* there is no departure.
+  Same drone, so C cannot leave home. */`.
+  **THE DEVICE HAS TWO PARTS AND THE SOURCES DISAGREE USEFULLY ABOUT BOTH.**
+  Milestones is *"G Dorian for 16 bars, A Aeolian for another 16 bars, and then
+  back to G Dorian"* — tonic +2 AND the mode changes, and those two scales share
+  **6 of 7 notes**. So What is *"sixteen bars of D Dorian, eight bars of E-flat
+  Dorian"* — tonic +1, mode held, and those share **2 of 7**. Same composer,
+  fourteen months apart, opposite ends of one dial. `keyShift` is that dial;
+  minimal techno and dungeon synth declare it, weighted toward the gentle end.
+  Which mode a shift may move INTO is derived from the genre's own bridge table,
+  so nothing can go stale.
+  **THE FIRST BUILD DID NOT REACH AND THE MEASUREMENT SAID SO.** On the bridge
+  alone — where both sources put it — it fired on 171 of 300 records and was
+  HEARD on 37, because a bridge is optional here (21% of forms; dungeon synth,
+  4 in 300). The sources' B section is not optional. So the main material is
+  built TWICE at stage 3, same stream names, and stage 4 chooses: **rhythm
+  identical, every part a clean +2**, a restatement rather than a redraw. Now
+  **171/300 move and 171/300 play it, 15.6% of all bars — 27% of the bars of a
+  record that moves, against So What's 25%.** The other six genres: 0/300, and
+  all eight seed-1 rolls byte-identical for the refactor alone.
+  **A KEY CHANGE IS A GOOD TEST OF WHETHER A PROGRAM KNOWS WHAT KEY IT IS IN.**
+  Eleven places counted scale steps against the SONG's tonic while claiming to
+  count them against "the key" — the bass's chromatic approach and octave walk,
+  the comp's inner-voice neighbours, six reaches in the tune, the counter's
+  intervals. All correct for exactly as long as a song had one key. The seam
+  check found each by throwing, including the two that mattered: the ostinato
+  was left behind in the old key, and **the check itself was asking the wrong
+  key** — which would have condemned a section behaving perfectly and passed a
+  note genuinely wrong in the section's own scale. Two hand-written lists of
+  "the materials" (freeze pass, seam check) became questions to the song; the
+  comment beside one already recorded it had forgotten `Bvar` once.
+  **AND IT EXPOSED A SHIPPING DEFECT UNRELATED TO ANY OF IT.** The acid line's
+  octave-down could reach an octave below its declared register: measured on the
+  previous build, **acid wrote 420 notes below MIDI 24 on 21 of 300 seeds
+  (lowest 21), minimal techno 108 on 5 seeds (lowest 19)** — the floor the drone
+  has had for months was never put under the acid line. It is now, which **moves
+  acid on 19 of 300 seeds**, a genre that asked for nothing. The notes it moves
+  are notes nobody could hear (A0 → A1) and the 303's accent/slide follows
+  because both read pitch. I first wrote in the code that no genre reached below
+  the floor; that was wrong and is corrected there with the numbers.
+  **NOTHING HERE HAS BEEN HEARD.** `docs/genre-research/key-shift.md`.
 
 - **`08j`** THE DK GENRE BECAME `vgm`, AND CHRONO TRIGGER'S HARMONY ARRIVED.
   The user: *"research the music of Chrono Trigger, and Donkey Kong 64. We
