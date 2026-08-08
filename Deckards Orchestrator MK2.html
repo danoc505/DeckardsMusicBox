@@ -866,6 +866,25 @@
      round-trip parser in the harness to notice. A display fed from the same
      function shows that hole on screen the moment it opens. ── */
   #roll{ background:#0a0f0b; border:1px solid #1b2a1e; padding:.55rem .7rem; margin:.9rem 0; }
+  /* the selection: the chosen part in the chosen section, lit; everything else
+     stays legible rather than being hidden, because the point of the roll is
+     seeing this part IN ITS PLACE among the others */
+  .rollnotes .rn{ cursor:pointer; }
+  .rollnotes .rn.sel{ outline:1px solid #eaffef; outline-offset:0;
+                      box-shadow:0 0 8px #eaffef, 0 0 3px #fff inset; z-index:3; }
+  .rollbench{ display:flex; flex-wrap:wrap; gap:.3rem; align-items:center;
+              margin-top:.5rem; padding-top:.5rem; border-top:1px solid #1b2a1e; }
+  .rollbench .rollop{ font:inherit; font-size:10px; letter-spacing:.06em;
+              padding:.22rem .5rem; border:1px solid #24503a; border-radius:2px;
+              background:rgba(0,0,0,.35); color:#8fd7a6; cursor:pointer; }
+  .rollbench .rollop:hover:not(:disabled){ border-color:#6fe38f; color:#d8ffe4; }
+  .rollbench .rollop:disabled{ opacity:.35; cursor:default; }
+  .rollbench .rollundo{ margin-left:auto; }
+  .rollbenchwho{ font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+                 color:#6fe38f; margin-right:.35rem; }
+  .rollbenchnone{ font-size:10px; color:#3f7a53; }
+  .rollbenchn{ font-size:10px; color:#3f7a53; }
+  .rollbencherr{ font-size:10px; color:#e08a6a; flex-basis:100%; }
   /* THE ROLL SCROLLS WHEN THE SONG IS LONGER THAN THE GLASS. Everything was
      drawn at 100% of the panel whatever the song, which is fine at lofi's 44
      bars (19 px a bar) and unreadable at dungeon synth's 192 (4.4 px a bar) --
@@ -1378,7 +1397,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08r · the fills come back, and the bass goes back to one note</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08s · the hand on the roll — select a part, reroll it, undo it</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -1746,6 +1765,25 @@ function nearestDegree(root, mode, rootPc){
   return best;
 }
 /* smallest octave shift landing m inside [lo,hi] (band width >= 12 assumed) */
+/* ══ THE NOTE THAT DOES NOT BELONG, ASKED AS A QUESTION ════════════════════
+   The non-chord-tone law, as a function, because it now has TWO callers and a
+   law with two copies is a law that will disagree with itself. The seam check
+   asks it before throwing; the hand's edits ask it before keeping a note.
+
+   A note is legal when it is IN KEY, or IS a tone of the chord under it, or
+   RESOLVES by a step or less into a tone of the chord under the note that
+   follows it. That third clause is why this had to become shared: it makes a
+   note's legality depend on its NEIGHBOUR, so any edit that removes or reorders
+   notes can strand a perfectly good passing tone with nothing to resolve into.
+   docs/genre-research/the-note-that-does-not-belong.md ═════════════════════ */
+function noteFits(n, nx, chSet, key, mode){
+  if(inKey(key, mode, n.pitch)) return true;
+  const ch = chSet && chSet[n.bar % chSet.length];
+  if(ch && ch.tones.some(t => pc(t) === pc(n.pitch))) return true;
+  if(!nx || nx === n || Math.abs(nx.pitch - n.pitch) > 2) return false;
+  const nch = chSet && chSet[nx.bar % chSet.length];
+  return !!(nch && nch.tones.some(t => pc(t) === pc(nx.pitch)));
+}
 function intoBand(m, lo, hi){
   while(m < lo) m += 12;
   while(m > hi) m -= 12;
@@ -5226,6 +5264,36 @@ function freezePins(pins){
 const PICK = { drums: "auto", bass: "auto", keys: "auto", kit: {}, lane: {} };
 /* and what the user has programmed on their grids, same shape as chart.pins */
 const PINS = {};
+/* ── AND WHAT THE HAND HAS ASKED OF THE ROLL, IN THE ORDER IT ASKED ─────────
+   Same footing as PINS: an INPUT to the next compose, never a patch applied to
+   the song that is already playing. Ordered, so undo is `pop()`. */
+const EDITS = [];
+let SEL = null;                       // { role, sec } — what the roll has selected
+let ROLL_EDIT_ERR = "";               // why the last change was refused, if it was
+
+/* ── COMPOSE THE SONG AGAIN WITH WHATEVER EDITS NOW STAND ───────────────────
+   Returns whether it worked. It can genuinely fail: a section is a set of
+   parts drawn around each other, and a hand that empties or moves one can leave
+   the voicer with nowhere legal to put a chord. When that happens the seam
+   check throws, exactly as it does for a blend that will not compose, and the
+   honest answer is the same one this file already gives there -- say which
+   change and why, and put the song back the way it was. Never quietly loosen
+   the law so the button always works. */
+function recomposeEdited(){
+  const keep = SONG;
+  try {
+    /* the SAME door every other compose goes through -- seed, rig, genre and
+       blend all read from where they already live, so an edited song cannot
+       drift away from what the controls say it is */
+    newSong(SONG.chart.seed);
+    ROLL_EDIT_ERR = "";
+    return true;
+  } catch(err){
+    SONG = keep;
+    ROLL_EDIT_ERR = "that will not compose: " + String(err.message || err).slice(0, 88);
+    return false;
+  }
+}
 
 /* apply a machine's defaults, or a genre's override of them */
 function loadParams(machine, over){
@@ -19982,7 +20050,7 @@ function blendGenres(blend, seed){
   return out;
 }
 
-function makeChart(seed, rigChoice, genreChoice, picks, pins){
+function makeChart(seed, rigChoice, genreChoice, picks, pins, edits){
   /* ── THE ARGUMENT ORDER IS (seed, RIG, GENRE) AND ONE NAME IS BOTH ─────────
      `composeSong(1, "jungle")` reads as "compose jungle" and composes LOFI on
      the jungle rig, silently, because "jungle" is a genre AND a rig and the
@@ -20080,6 +20148,23 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins){
     /* and what the user programmed on the machines' own grids -- an input on
        exactly the same footing as picks, never an override applied later */
     pins: freezePins(pins),
+    /* ── THE HAND'S EDITS, AND THEY ARE AN INPUT LIKE THE PINS ARE ───────────
+       An ORDERED list of what the user asked for, in the order they asked it:
+       `{ sec, role, op }`. Nothing here mutates a note. Each entry changes what
+       the song is composed FROM, exactly as a pinned grid does -- "an input on
+       exactly the same footing as picks, never an override applied later" --
+       so an edited song is still a pure function of its inputs, still
+       reproducible from them, and every seam check still runs on it. Had edits
+       patched the finished notes instead, every check in this file would have
+       started reporting on a song nobody is listening to.
+
+       AND UNDO IS THE LIST BEING ONE SHORTER. That is the whole implementation:
+       drop the last entry and compose again. It cannot drift, cannot leave half
+       an edit behind, and cannot disagree with what you are hearing -- which is
+       what undo built on mutation eventually always does. */
+    edits: Object.freeze((edits || []).map(e => Object.freeze({
+      sec: e.sec | 0, role: String(e.role), op: String(e.op), n: e.n | 0,
+    }))),
     keysChar: wpick(rng, G.keysChar),
     /* ── WHAT THE LEAD PLAYER IS HOLDING ──────────────────────────────────
        Beside `keysChar`, and for the same reason: a genre says what CHARACTER
@@ -20528,7 +20613,7 @@ function makeForm(chart){
    Every note frozen on exit. Nothing downstream re-pitches anything.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-function makeMaterials(chart){
+function makeMaterials(chart, editPlan){
   const BARS = 4;
   const G = chart.table, R = G.registers;
   const { root, mode } = chart;
@@ -24312,6 +24397,161 @@ function makeMaterials(chart){
     materials.Avarlift = { drums: drumsAvar, bass: bassAl, keys: keysAl, keys2: keys2Avarl,
                            lead: leadAvarl, counter: [], ostinato: ostAvarl };
   }
+
+  /* ══ WHAT THE HAND ASKED FOR, APPLIED WHERE STAGE 3 CAN STILL PROVE IT ═════
+     One private copy per edited section: `A@5` is material A as section 5 alone
+     plays it. Every other section playing A keeps the array it already had, BY
+     IDENTITY -- so "least necessary change" is not a promise, it is arithmetic.
+
+     I WROTE HERE THAT THE MOVES WERE SAFE BY CONSTRUCTION, on the grounds that
+     none of them can invent a pitch class the material did not already have.
+     THE SEAM CHECK REFUTED IT ON THE FIRST RUN: `thinner` and `reverse` both
+     threw "out of key, not in the chord, and does not resolve into the next
+     one". The reasoning was wrong because legality here is not a property of a
+     note, it is a property of a note AND ITS NEIGHBOUR -- an out-of-key passing
+     tone is legal precisely BECAUSE of what follows it, so dropping or
+     reordering its neighbour strands it. Removing notes can make the remaining
+     ones illegal without touching them.
+
+     So the moves are safe by CHECKING, not by construction. `noteFits` is the
+     law itself, lifted out of the seam check so both callers ask the same
+     question, and every edited part is passed through it: a note the edit has
+     orphaned is dropped along with the note it depended on. Twice, because
+     dropping one can orphan the next. What survives is legal for the same
+     reason the drawn material is, and the seam checks below run on the hand's
+     work completely unrelaxed -- which is the point.
+
+       reroll   the only one that DRAWS: the part is built again from its own
+                substream with the edit's number on the end, so the same button
+                pressed twice gives two different answers and pressing it back
+                to the same count gives the same one.
+       thinner  every second note goes. The oldest arrangement move there is.
+       thicker  each note is struck again halfway to the next one, SAME PITCH --
+                a rhythmic doubling, which is how a 303 or a hat gets busier
+                without the line going anywhere new.
+       up/down  a whole octave, held inside the part's declared register so it
+                cannot walk into another instrument's seat.
+       reverse  the same pitches in the opposite order over the same rhythm.
+       delete   the part is silent here and nowhere else.
+
+     A ROLE THAT CANNOT BE REDRAWN IS LEFT ALONE RATHER THAN FAKED. `redraw`
+     knows the builders because this function owns them; a role it has no
+     builder for (the drums' chopped break, say) keeps its notes and the other
+     moves still work on it. ═══════════════════════════════════════════════ */
+  /* WHICH CHANGES A MATERIAL PLAYS, and this is the one place that decides it.
+     `chordsOf` below is built from this same function rather than from a second
+     hand-written list -- the file's own note there says why: "There were two
+     copies of this rule and the moment a third chord set existed both were
+     wrong in the same silent way." A private copy plays its parent's changes. */
+  const chordsFor = m => {
+    const base = String(m).split("@")[0];
+    return base === "C" ? bridgeChords
+         : (base === "B" || base === "Bvar") ? chorusChords
+         : (base === "Alift" || base === "Avarlift") ? liftChords
+         : chords;
+  };
+  if(editPlan && editPlan.length){
+    /* ── AN OCTAVE MOVE HAS TO BE ALLOWED TO LEAVE THE REGISTER ──────────────
+       The first version folded the moved note back into the part's declared
+       band with `intoBand`, which is what every builder does -- and it made
+       both buttons no-ops. It is arithmetic rather than a measurement, which is
+       the honest way to put it: `intoBand` subtracts an octave from anything
+       above the ceiling, and a register a genre declares an octave wide (lofi's
+       bass is 33-45) sends a +12 straight back to where it started. I first
+       wrote "measured, changed nothing at all" here on the strength of a probe
+       that was comparing songs WITHOUT LOOKING AT PITCH, so it could not have
+       told the difference either way. The arithmetic stands; that sentence did
+       not, and this is it corrected. A
+       button that says "up an octave" and moves nothing is worse than no
+       button. The hand is allowed out of the register the genre chose, because
+       that is the entire point of asking; what it is not allowed out of is
+       HEARING, so the same MIDI 24 floor the acid line got applies, and a
+       ceiling with it. A note that cannot move keeps its place rather than
+       being silently dropped. */
+    const octave = p => { const t = p + 12; return t >= 24 && t <= 108 ? t : p; };
+    const octDown = p => { const t = p - 12; return t >= 24 && t <= 108 ? t : p; };
+    const sortN = ns => ns.slice().sort((a2, z) => a2.bar - z.bar || a2.step - z.step);
+    const redraw = (role, cs, tag) => {
+      const rs = reserve([]);
+      if(role === "bass")     return pin(buildBass(cs, "bass:" + tag, false), "bass", "A");
+      if(role === "ostinato") return buildOstinato("ostinato:" + tag, false, cs);
+      if(role === "keys")     return buildKeys(cs, "keys:" + tag, { dense: false, avoid: rs,
+                                       sustain: HOLD, at: HOLD ? 0 : undefined });
+      if(role === "keys2")    return tryPad(bd => buildKeys(cs, "keys2:" + tag,
+                                       { sustain: true, at: 2, band: bd, avoid: rs }));
+      if(role === "lead")     return buildTheme(cs, "themeA:" + tag, rs,
+                                       { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1] }).notes;
+      if(role === "drums")    return pin(buildDrums("drums:" + tag, "main"), "drums", "A");
+      return null;                                     // no builder: keep what is there
+    };
+    /* the law, asked of the hand's work exactly as it is asked of the draw's */
+    const legalise = (ns, cs) => {
+      if(!cs || !cs.length) return ns;
+      const key = keyOf(cs), mode = modeOf(cs);
+      let out = ns;
+      for(let pass = 0; pass < 2; pass++){
+        const srt = sortN(out);
+        const nxt = new Map();
+        for(let i = 0; i < srt.length; i++) nxt.set(srt[i], srt[(i + 1) % srt.length]);
+        const keep = srt.filter(n => n.pitch == null || noteFits(n, nxt.get(n), cs, key, mode));
+        if(keep.length === srt.length) return keep;
+        out = keep;
+      }
+      return out;
+    };
+    const apply = (ns, role, e, cs) => {
+      const src = sortN(ns || []);
+      if(e.op === "delete")  return [];
+      if(e.op === "reroll")  return redraw(role, cs, "e" + e.n + ":" + e.sec) || src;
+      if(e.op === "thinner") return src.filter((_, i) => i % 2 === 0);
+      if(e.op === "up" || e.op === "down"){
+        const f = e.op === "up" ? octave : octDown;
+        return src.map(n => Object.assign({}, n, { pitch: n.pitch == null ? n.pitch : f(n.pitch) }));
+      }
+      if(e.op === "reverse"){
+        const ps = src.map(n => n.pitch).reverse();
+        return src.map((n, i) => Object.assign({}, n, { pitch: ps[i] }));
+      }
+      if(e.op === "thicker"){
+        const out = [];
+        for(let i = 0; i < src.length; i++){
+          const n = src[i], nx = src[i + 1];
+          out.push(n);
+          const end = n.step + Math.max(1, n.dur || 1);
+          const to = (nx && nx.bar === n.bar) ? nx.step : 16;
+          if(to - end >= 2)
+            out.push(Object.assign({}, n, { step: end + Math.floor((to - end) / 2),
+                                            dur: 1, vel: (n.vel || 0.7) * 0.8 }));
+        }
+        return out;
+      }
+      return src;
+    };
+    for(const e of editPlan){
+      const base = materials[e.mat] || materials[e.mat.split("@")[0]];
+      if(!base || !(e.role in base)) continue;
+      const key2 = e.mat + "@" + e.sec;
+      const from = materials[key2] || base;             // edits stack, in order
+      const cur = Object.assign({}, from);
+      const cs2 = chordsFor(e.mat);
+      cur[e.role] = legalise(apply(from[e.role], e.role, e, cs2), cs2);
+      materials[key2] = cur;
+      /* THE ALTERNATE GETS THE SAME EDIT. A section swaps between a material
+         and its variant every four bars, so editing only one of the pair means
+         the hand's change appears in half the bars of the section it was aimed
+         at and the listener hears the old part come back. Same op, same number,
+         so `reroll` gives the pair one answer rather than two. */
+      const ALTB = { A: "Avar", Avar: "A", B: "Bvar", Bvar: "B" }[e.mat];
+      if(ALTB && materials[ALTB] && (e.role in materials[ALTB])){
+        const ak = ALTB + "@" + e.sec;
+        const af = materials[ak] || materials[ALTB];
+        const ac = Object.assign({}, af);
+        const acs = chordsFor(ALTB);
+        ac[e.role] = legalise(apply(af[e.role], e.role, e, acs), acs);
+        materials[ak] = ac;
+      }
+    }
+  }
   /* FREEZE DEEP, not just the top. A, Avar and B deliberately SHARE drumsA and
      bassA -- one groove under three tunes is the point -- but the freeze only
      reached the individual notes, so the role arrays stayed mutable and one
@@ -24355,20 +24595,35 @@ function makeMaterials(chart){
      from a beat that has simply lost its downbeat. The battery needs exactly
      this: it holds the kit to a kick on every strong beat, and a D bar is the
      one place the source says to take it away on purpose. */
-  materials.drumPhrase = Object.freeze({
-    A: Object.freeze(DRUM_PHRASE.slice()),    Avar: Object.freeze(DRUM_PHRASE_END.slice()),
-    B: Object.freeze(DRUM_PHRASE.slice()),    Bvar: Object.freeze(DRUM_PHRASE_END.slice()),
-    C: Object.freeze(DRUM_PHRASE.slice()),
-    /* the lifted pair plays A's and Avar's kit unchanged -- it is the same
-       material in another key, and a kit has no key */
-    Alift: Object.freeze(DRUM_PHRASE.slice()), Avarlift: Object.freeze(DRUM_PHRASE_END.slice()),
-  });
-  materials.chordsOf = Object.freeze({
-    A: materials.chords, Avar: materials.chords,
-    B: materials.chorusChords, Bvar: materials.chorusChords,
-    C: materials.bridgeChords,
-    Alift: materials.liftChords, Avarlift: materials.liftChords,
-  });
+  /* ── AND EVERY MATERIAL THE SONG HAS, NOT A LIST OF THE ONES I REMEMBERED ──
+     This was a hand-written literal and it went stale the moment a private
+     copy existed: `A@0` was not in it, `drumPhrase["A@0"]` came back undefined,
+     and the kit quietly lost its phrase letters in the one section the user
+     had edited -- measured as three drum events moving in a song where only
+     the bass had been touched. The user asked for the least necessary change
+     and got a bar of drums they never asked about.
+     A material's phrase is its PARENT's: a variant ends the phrase, everything
+     else carries it, and a private copy plays whatever its parent played. */
+  const phraseFor = m => {
+    const base = String(m).split("@")[0];
+    return (base === "Avar" || base === "Bvar" || base === "Avarlift")
+      ? Object.freeze(DRUM_PHRASE_END.slice()) : Object.freeze(DRUM_PHRASE.slice());
+  };
+  const dp = {};
+  for(const m of MAT_KEYS) dp[m] = phraseFor(m);
+  materials.drumPhrase = Object.freeze(dp);
+  /* asked of `chordsFor`, and of every material the song actually has, so a
+     private copy is proved against its parent's changes like anything else */
+  const frozenFor = m => {
+    const base = String(m).split("@")[0];
+    return base === "C" ? materials.bridgeChords
+         : (base === "B" || base === "Bvar") ? materials.chorusChords
+         : (base === "Alift" || base === "Avarlift") ? materials.liftChords
+         : materials.chords;
+  };
+  const cOf = {};
+  for(const m of MAT_KEYS) cOf[m] = frozenFor(m);
+  materials.chordsOf = Object.freeze(cOf);
   /* WHAT THE RECORD DID WITH ITS KEY, stated once, so the arrangement, the roll
      and the seam check all read the same fact rather than each deriving it. */
   materials.lift = Object.freeze(LIFT ? { key: bKey, mode: bMode } : null);
@@ -24547,6 +24802,12 @@ function makeArrangement(chart, form, materials){
        chorus simply does not move, which is honest -- the departure it already
        has is the chorus's own changes. */
     if(LIFTED && inLift(sec) && materials[material + "lift"]) material += "lift";
+    /* AND LAST OF ALL, THE HAND. A section the user has edited plays its own
+       private copy of whatever it had otherwise settled on -- after the variant
+       choice and after the key lift, so an edit does not cancel either of them:
+       edit the bass in a lifted chorus variant and you get that variant, in the
+       new key, with your bass. Sections nobody touched never look this up. */
+    if(materials[material + "@" + i]) material += "@" + i;
     /* ── THE SECOND KEYBOARD PLAYS WHERE THE FIRST ONE DOES ──────────────────
        Derived, not declared, and that is what stops this feature from being
        seven table edits: `roles` is a per-genre list of who is in the room for
@@ -24895,10 +25156,26 @@ function makePerformance(chart, form, materials, sections){
      gets the shape its drums were written to have. */
   const LONG = Object.assign({ drums: 2 },
                              (chart.table.form && chart.table.form.longLoop) || {});
-  const ALT_OF = { A: "Avar", Avar: "A", B: "Bvar", Bvar: "B" };
+  /* ── AND A PRIVATE COPY ALTERNATES TOO ────────────────────────────────────
+     A section does not play one material for its whole length: `longLoop`
+     swaps A and Avar every four bars, which is the eight-bar phrase. This was
+     a plain lookup and `ALT_OF["A@0"]` is undefined, so an edited section lost
+     its alternation entirely -- measured as three drum bars moving in a song
+     where only the bass had been edited, which is exactly the collateral the
+     "least necessary change" rule exists to prevent. The alternate of an
+     edited material is its parent's alternate, edited the same way. */
+  const ALT_BASE = { A: "Avar", Avar: "A", B: "Bvar", Bvar: "B" };
+  const ALT_OF = m => {
+    const at = String(m).indexOf("@");
+    if(at < 0) return ALT_BASE[m];
+    const base = ALT_BASE[m.slice(0, at)];
+    if(!base) return undefined;
+    const priv = base + m.slice(at);
+    return materials[priv] ? priv : base;
+  };
   for(const sec of sections){
     const mat = materials[sec.material];
-    const alt = materials[ALT_OF[sec.material]];
+    const alt = materials[ALT_OF(sec.material)];
     for(let bar = sec.startBar; bar < sec.endBar; bar++){
       const loopBar = (bar - sec.startBar) % materials.bars;
       const cycle = Math.floor((bar - sec.startBar) / materials.bars);
@@ -25463,11 +25740,42 @@ function makePerformance(chart, form, materials, sections){
    THE PIPELINE — and the invariant checks at each seam. Checks THROW: a law
    violation is a build failure, not a thing to correct downstream.
    ═══════════════════════════════════════════════════════════════════════════ */
-function composeSong(seed, rig, genre, picks, pins){
-  const chart = makeChart(seed, rig, genre, picks, pins);
+function composeSong(seed, rig, genre, picks, pins, edits){
+  const chart = makeChart(seed, rig, genre, picks, pins, edits);
   const form = makeForm(chart);
-  const materials = makeMaterials(chart);
-  const sections = makeArrangement(chart, form, materials);
+  /* ══ AN EDITED SONG IS COMPOSED TWICE, AND THAT IS NOT A CORRECTING PASS ═══
+     The hand points at a SECTION ("this bass, here"), and which material a
+     section plays is stage 4's decision -- made after stage 3 has already built
+     the materials. So an edit keyed to a section cannot be honoured on the way
+     down without stage 3 guessing at stage 4's answer, which would put a second
+     owner on the one rule this file has broken and re-fixed twice already.
+
+     Instead the song is composed straight through ONCE to find out what each
+     section plays, and then composed AGAIN with that answer in hand. Both
+     passes are pure functions of the same frozen inputs, the plan between them
+     is derived rather than drawn, and no draw is repeated with a different
+     result -- so the song stays reproducible from (seed, genre, tables, pins,
+     edits) and every check still runs on the finished thing. It costs one extra
+     compose, and only for a song that has been edited at all.
+
+     WHAT THE SECOND PASS DOES DIFFERENTLY: for each edited section it mints a
+     PRIVATE COPY of that section's material -- `A@5` -- so the edit lands in
+     that one place and the other sections playing A are untouched. That is the
+     "least necessary change" rule the owner asked for, and it is the same
+     machinery the key shift already uses to give a stretch of the record its
+     own copy of the main material. ══════════════════════════════════════════ */
+  let materials = makeMaterials(chart);
+  let sections = makeArrangement(chart, form, materials);
+  if(chart.edits.length){
+    const plan = chart.edits.map(e => ({
+      sec: e.sec, role: e.role, op: e.op, n: e.n,
+      mat: (sections[e.sec] && sections[e.sec].material) || null,
+    })).filter(e => e.mat);
+    if(plan.length){
+      materials = makeMaterials(chart, plan);
+      sections = makeArrangement(chart, form, materials);
+    }
+  }
   const perf = makePerformance(chart, form, materials, sections);
 
   /* seam checks (Law: valid by construction — so PROVE it, every song).
@@ -25562,19 +25870,12 @@ function composeSong(seed, rig, genre, picks, pins){
            material and the part -- which is how the ostinato below was found. */
         const mKey  = chSet && chSet[0] && chSet[0].key != null ? chSet[0].key : chart.root;
         const mMode = chSet && chSet[0] && chSet[0].mode ? chSet[0].mode : chart.mode;
-        if(!inKey(mKey, mMode, n.pitch)){
-          const ch = chSet && chSet[n.bar % chSet.length];
-          let ok = !!(ch && ch.tones.some(t => pc(t) === pc(n.pitch)));
-          if(!ok){
-            const nx = after.get(n);
-            if(nx && nx !== n && Math.abs(nx.pitch - n.pitch) <= 2){
-              const nch = chSet && chSet[nx.bar % chSet.length];
-              ok = !!(nch && nch.tones.some(t => pc(t) === pc(nx.pitch)));
-            }
-          }
-          if(!ok) throw new Error("out of key, not in the chord, and does not " +
+        if(!noteFits(n, after.get(n), chSet, mKey, mMode)){
+          {
+            throw new Error("out of key, not in the chord, and does not " +
                                   "resolve into the next one, in " + m +
                                   ": " + role + " " + n.pitch + " bar " + n.bar);
+          }
         }
         const k = n.bar + ":" + n.step + ":" + n.pitch;
         if(seen.has(k)) throw new Error("collision in " + m + " at " + k);
@@ -26102,11 +26403,11 @@ function newSong(forcedSeed){
   let dropped = 0, blendNote = "";
   const G0 = blendArg();
   try {
-    SONG = composeSong(seed, $("rig").value, G0, PICK, PINS);
+    SONG = composeSong(seed, $("rig").value, G0, PICK, PINS, EDITS);
   } catch(err){
     for(const k in PINS) if(k.startsWith("bass:")){ delete PINS[k]; dropped++; }
     if(dropped){
-      SONG = composeSong(seed, $("rig").value, G0, PICK, PINS);
+      SONG = composeSong(seed, $("rig").value, G0, PICK, PINS, EDITS);
     } else if(typeof G0 === "object"){
       /* A BLEND CAN FAIL TO COMPOSE, and the seam check is right to say so
          rather than be loosened. Measured across 1890 blended pairs: 1 threw a
@@ -28456,10 +28757,19 @@ function drawRoll(){
     scope.appendChild(gh);
   }
   const notes = el("div", "rollnotes");
+  /* WHICH SECTION A NOTE IS IN, asked of the song's own section list rather
+     than recomputed from bars -- the roll must agree with the arrangement about
+     where a section starts or clicking a note edits the wrong one. */
+  const secAt = t => {
+    const bar = Math.floor(t / (16 * spb));
+    for(let i = 0; i < SONG.sections.length; i++)
+      if(bar >= SONG.sections[i].startBar && bar < SONG.sections[i].endBar) return i;
+    return -1;
+  };
   const html = [];
   for(const { ev, key } of pitched){
     const hue = HUE[ev.role] || 120;
-    html.push(`<div class="rn" data-role="${ev.role}" title="${ev.role} · ` +
+    html.push(`<div class="rn" data-role="${ev.role}" data-sec="${secAt(ev.tSec)}" title="${ev.role} · ` +
       `${NOTE_NAMES[((key % 12) + 12) % 12]}${Math.floor(key / 12) - 1} · ` +
       `bar ${Math.floor(ev.tSec / (16 * spb)) + 1}" style="left:${xOf(ev.tSec).toFixed(3)}%;` +
       `width:${Math.max(0.12, 100 * ev.durSec / secs).toFixed(3)}%;top:${yOf(key)}px;` +
@@ -28467,12 +28777,28 @@ function drawRoll(){
       `box-shadow:0 0 5px hsl(${hue} 90% 55% / .55)"></div>`);
   }
   for(const { ev, key } of drums){
-    html.push(`<div class="rn" data-role="drums" title="${ev.lane} · ` +
+    html.push(`<div class="rn" data-role="drums" data-sec="${secAt(ev.tSec)}" title="${ev.lane} · ` +
       `bar ${Math.floor(ev.tSec / (16 * spb)) + 1}" style="left:${xOf(ev.tSec).toFixed(3)}%;` +
       `width:.16%;top:${yDrum(key)}px;height:${ROLL_DRUM - 1}px;` +
       `background:hsl(${HUE.drums || 70} 70% ${(30 + 34 * Math.min(1, ev.gain)).toFixed(0)}%)"></div>`);
   }
   notes.innerHTML = html.join("");
+  /* ══ THE HAND ON THE ROLL ══════════════════════════════════════════════════
+     Click a note: every note that part plays IN THAT SECTION lights, and the
+     bench below offers what can be done to it. The selection is (part, section)
+     because that is the smallest thing the composer can be asked to redo -- a
+     single note is not a unit this program has; a part in a place is.
+     Clicking the same note again lets it go. ═══════════════════════════════ */
+  notes.addEventListener("click", ev2 => {
+    const n = ev2.target && ev2.target.closest && ev2.target.closest(".rn");
+    if(!n) return;
+    const role = n.dataset.role, sec = +n.dataset.sec;
+    if(sec < 0) return;
+    SEL = (SEL && SEL.role === role && SEL.sec === sec) ? null : { role, sec };
+    drawRoll();
+  });
+  if(SEL) for(const n of notes.querySelectorAll(".rn"))
+    n.classList.toggle("sel", n.dataset.role === SEL.role && +n.dataset.sec === SEL.sec);
   scope.appendChild(notes);
 
   /* the sections, written on the glass where they start */
@@ -28488,6 +28814,66 @@ function drawRoll(){
   lay.appendChild(head);
   scope.appendChild(lay);
   pan.appendChild(scope); host.appendChild(pan);
+
+  /* ══ THE BENCH ═════════════════════════════════════════════════════════════
+     What can be asked of the selected part, in this one place in the record.
+     Nothing here edits a note: each button appends one entry to EDITS and the
+     song is COMPOSED AGAIN from (seed, genre, tables, pins, edits). That is why
+     undo is `pop()` and why an edited song still goes through every seam check
+     the drawn one does.
+
+     A MOVE THAT THE LAW REFUSES IS REFUSED, NOT FORCED. The recompose is
+     wrapped: if the song will not build, the entry comes straight back off and
+     the bench says so. The alternative -- relaxing the checks so the hand
+     always wins -- would make every measurement in this repo a measurement of
+     a song nobody is listening to. ═══════════════════════════════════════════ */
+  if(SONG){
+    const bench = el("div", "rollbench");
+    const OPS = [
+      ["reroll",  "reroll",  "draw this part again — same rules, new dice"],
+      ["thinner", "thinner", "every second note goes"],
+      ["thicker", "thicker", "each note struck again halfway to the next, same pitch"],
+      ["up",      "8ve up",  "the whole part up an octave"],
+      ["down",    "8ve down","the whole part down an octave"],
+      ["reverse", "reverse", "the same pitches in the opposite order, same rhythm"],
+      ["delete",  "delete",  "this part is silent here, and nowhere else"],
+    ];
+    if(!SEL){
+      bench.appendChild(el("span", "rollbenchnone",
+        "click a note to choose a part — everything that part plays in that section lights up"));
+    } else {
+      const nm = SONG.sections[SEL.sec];
+      bench.appendChild(el("span", "rollbenchwho",
+        SEL.role + " · " + (nm ? nm.fn + " " + (SEL.sec + 1) : "section " + (SEL.sec + 1))));
+      for(const [op, label, tip] of OPS){
+        const b2 = el("button", "rollop", label);
+        b2.title = tip;
+        b2.addEventListener("click", () => {
+          const n = EDITS.filter(x => x.sec === SEL.sec && x.role === SEL.role && x.op === op).length + 1;
+          EDITS.push({ sec: SEL.sec, role: SEL.role, op, n });
+          if(!recomposeEdited()) EDITS.pop();
+          drawRoll();
+        });
+        bench.appendChild(b2);
+      }
+    }
+    const un = el("button", "rollop rollundo", "undo");
+    un.title = EDITS.length
+      ? "take back the last change (" + EDITS.length + " so far)"
+      : "nothing to take back";
+    un.disabled = !EDITS.length;
+    un.addEventListener("click", () => {
+      if(!EDITS.length) return;
+      const back = EDITS.pop();
+      if(!recomposeEdited()) EDITS.push(back);
+      drawRoll();
+    });
+    bench.appendChild(un);
+    if(EDITS.length) bench.appendChild(el("span", "rollbenchn", EDITS.length +
+      (EDITS.length === 1 ? " change" : " changes")));
+    if(ROLL_EDIT_ERR) bench.appendChild(el("span", "rollbencherr", ROLL_EDIT_ERR));
+    host.appendChild(bench);
+  }
 
   /* the legend, which is also the count -- the number of notes each track will
      export. A part reading 0 here is a part the .mid does not contain. */

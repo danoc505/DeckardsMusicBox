@@ -103,7 +103,50 @@ to measure the thing it was about — reading `kit.poly`, exempting D bars **by
 name** from `materials.drumPhrase` — and never by moving a threshold. Say in the
 commit message which you changed and why.
 
-### WHAT 2026-08-08 BUILT — `08a` … `08r`
+### WHAT 2026-08-08 BUILT — `08a` … `08s`
+
+- **`08s`** THE HAND ON THE ROLL. The user: *"a function that allows a user to
+  select a part of the piano roll and reroll or edit it and the rest of the song
+  dynamically adjusts."* Click a note; every note that part plays in that
+  section lights; a bench offers **reroll · thinner · thicker · 8ve up · 8ve
+  down · reverse · delete**, and **undo**.
+  **THE OWNER'S RULE, ASKED BOTH WAYS, WAS "THE LEAST NECESSARY CHANGE"**, and
+  everything follows from it: reroll the bass in section 5 and only section 5's
+  bass changes -- that section gets a PRIVATE COPY of its material (`A@5`), the
+  same machinery the key shift already uses.
+  **AN EDIT IS AN INPUT, NOT A PATCH.** `chart.edits` sits beside `chart.pins`,
+  which this file already calls "an input on exactly the same footing as picks,
+  never an override applied later". The song is COMPOSED AGAIN from (seed,
+  genre, tables, pins, edits) -- so it stays a pure function of its inputs, every
+  seam check still runs on it unrelaxed, and **undo is `pop()`**, which cannot
+  drift or leave half an edit behind. An edited song composes TWICE: the hand
+  points at a section, and which material a section plays is stage 4's decision,
+  so rather than let stage 3 guess at it the song runs through once to find out
+  and again with the answer.
+  **AND MY "SAFE BY CONSTRUCTION" CLAIM WAS WRONG, caught by the seam check on
+  the first run.** `thinner` and `reverse` both threw: legality is a property of
+  a note AND ITS NEIGHBOUR -- an out-of-key passing tone is legal because of what
+  FOLLOWS it, so removing or reordering its neighbour strands it. **Removing
+  notes can make the remaining ones illegal without touching them.** The law was
+  lifted out of the seam check into `noteFits`, one owner and two callers; the
+  edits ask it and drop what they have orphaned. A change that still will not
+  compose is refused and says why, rather than the law being loosened.
+  **TWO LEAKS FOUND BY MEASURING, both the same defect this file keeps catching
+  -- a hand-kept list beside the thing it lists**: `drumPhrase` had no entry for
+  `A@0` so the kit lost its phrase letters, and `ALT_OF["A@0"]` was undefined so
+  the section lost its four-bar A/Avar alternation. Three drum events were moving
+  in a song where only the bass had been edited. Both derived now, and the edit
+  applies to the alternate too.
+  **MEASURED**: delete the bass in section 0 -> two materials ADDED, none
+  changed, 22 bass events lost, 0 gained, nothing else moved. Snapshot
+  **IDENTICAL across 2400 songs** -- an unedited song is byte-for-byte what it
+  was. Driven in a real browser: 1225 notes, one click selects the 23 that part
+  plays there, every button moves the song, undo x6 returns to exactly 1225, no
+  page errors. 149 pass, UI 66 pass, blend 12 pass.
+  **NOT DONE, deliberately**: edits do not save and the exports do not carry
+  them -- *"Slice 3 not needed at this time, this is a future concern."* And the
+  edits are not recorded anywhere I can read, so they cannot yet become table
+  changes. **Unheard.** `docs/genre-research/the-hand-on-the-roll.md`.
 
 - **`08r`** THE EAR REVERSED ME ON THE BASS, AND THE FILLS WERE LOCKED BEHIND A
   CHORUS. Two ear verdicts, both of which outrank the measurements.
