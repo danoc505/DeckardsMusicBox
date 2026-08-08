@@ -103,7 +103,44 @@ to measure the thing it was about — reading `kit.poly`, exempting D bars **by
 name** from `materials.drumPhrase` — and never by moving a threshold. Say in the
 commit message which you changed and why.
 
-### WHAT 2026-08-08 BUILT — `08a` … `08o`
+### WHAT 2026-08-08 BUILT — `08a` … `08p`
+
+- **`08p`** TWO COPIES OF ONE MOVEMENT, ONE SLIGHTLY SLOWER. Third of the five,
+  and **the claim I opened it with was substantially wrong.** I wrote that
+  nothing here drifts because every lane was locked to a tidy 16/32/64-bar grid.
+  Measured over 30 songs a genre, every pair of `lfo` lanes, asking whether the
+  pair ever returns to where it started inside one record: **dungeon synth 96%
+  never do, lofi 92%, vgm 89%, synthwave 83%, Blade Runner 68%, minimal techno
+  58%, jungle 26%, acid 16%.** Six of eight genres were already aperiodic.
+  **APERIODIC IS NOT PHASING.** Reich's sentence has four conditions, not one:
+  *"Two musicians begin in unison playing the same pattern … the other gradually
+  increases his or her tempo so as to slowly move one beat ahead … until both
+  players are back in unison"* [Wikipedia, "Piano Phase"]. Same pattern, in
+  unison, nearly the same rate, and RETURNING. Seventy-seven unrelated movements
+  satisfy none of the other three. Measured: destinations anywhere in the file
+  carrying two lfo lanes inside a 1.35 ratio — **zero, in all eight genres.**
+  **THE BUILD** is a phase twin: same shape, same depth, same starting phase, a
+  few percent slower, pushed onto the same destination, where lanes already sum.
+  Both draws are the last two on that lane's own throwaway stream, so a genre
+  that declares nothing computes exactly the lane it always did.
+  **THE ARITHMETIC THEN REMOVED TWO OF MY FIVE CHOICES.** A beat completes in
+  `bars / detune`. Realised medians against the records they must fit inside:
+  minimal techno 346 bars/264 (1.3×) KEPT, jungle 184/291 KEPT, acid 195/250
+  KEPT, **dungeon synth 805/162 (5.0×) REMOVED, Blade Runner 762/80 (9.5×)
+  REMOVED** — both have movements as long as their records, so a pair traverses
+  a tenth of its beat and stops. I had written both declarations with reasons I
+  believed before the numbers arrived.
+  **OF THE THREE THAT STAYED, ONE IS SOURCED AND TWO ARE JUDGEMENT CALLS**, and
+  the tables say so in their own comments: minimal techno is Reich → minimalism
+  → the user's own "more like generative modular"; **acid and jungle are on a
+  staleness MEASUREMENT, not a source** (the two most locked genres in the file),
+  and are the user's to overrule.
+  **PROVED, against a same-build control**: `dp4.aLvl`, seed 3, base 46 bars,
+  twin 51.5 (11.9% slower), beat 385 bars in a 304-bar record. Swing per 30
+  bars runs **0.210 → 0.272 → 0.023 → 0.130 returning**, against a control that
+  sits flat at 0.15 all record. **Every note in the file is untouched** —
+  snapshot byte-identical across 2400 songs, correctly, because motion never
+  moves a note. **Unheard.** `docs/genre-research/phasing.md`.
 
 - **`08o`** ONE PART ANSWERS ANOTHER. Second of the five, and it starts with a
   **correction of my own claim**: I said call and response was absent from the

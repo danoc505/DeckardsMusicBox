@@ -506,9 +506,18 @@ diatonic.**
 >    found for it in the game-music genres; the answer does not yet resolve onto
 >    a chord tone; and it fires in 7% of bars.
 >    **Unheard.** `docs/genre-research/call-and-response.md`.
-> 3. **No phase relationship between two patterns** — open. Every LFO is
->    independent and free-running; nothing is two copies of one thing drifting
->    apart. This is the "generative modular" answer and it is arithmetic.
+> 3. **No phase relationship between two patterns** — **DONE `2026-08-08p`, and
+>    the claim above was substantially WRONG.** Measured: 58–96% of lfo pairs in
+>    six of eight genres already never re-align inside a record. What was
+>    missing was the PAIRING — zero destinations anywhere carried two lanes at
+>    nearly the same rate. A `phasing` twin (same shape, same depth, same
+>    starting phase, a few percent slower) now beats against its parent: proved
+>    at 0.27 → 0.023 → returning across one record against a flat 0.15 control.
+>    **The arithmetic then removed two of my five choices**: Blade Runner and
+>    dungeon synth have movements as long as their records, so a pair traverses
+>    a tenth of its beat and stops. Kept on minimal techno (sourced), acid and
+>    jungle (**judgement calls on a staleness measurement, not a source —
+>    the user's to overrule**). **Unheard.** `docs/genre-research/phasing.md`.
 > 4. **`bassStyle` is one string per genre, forever** — open. Modal jazz gives
 >    the bass three roles under static harmony; ours does the first
 >    degenerately (74.9% root, 1.51 distinct pitches a bar).

@@ -1378,7 +1378,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08o · the second voice answers the tune instead of shadowing it</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08p · two copies of one movement, one slightly slower</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -4942,13 +4942,68 @@ function makeMotion(chart, form, sections, materials){
         out.push(Object.freeze({ kind: "phrase", by: Object.freeze(by) }));
       }
       else if(sp.kind === "lfo"){
+        const lBars  = wpick(rng, sp.bars);     // musical lengths, weighted
+        const lDepth = drawIn(sp.depth, rng);
+        const lPhase = sp.freePhase ? rng() : 0; // 0 = the cycle starts with the song
         out.push(Object.freeze({
-          kind: "lfo",
-          bars:  wpick(rng, sp.bars),           // musical lengths, weighted
-          depth: drawIn(sp.depth, rng),
-          phase: sp.freePhase ? rng() : 0,      // 0 = the cycle starts with the song
-          shape: sp.shape,
+          kind: "lfo", bars: lBars, depth: lDepth, phase: lPhase, shape: sp.shape,
         }));
+        /* ══ THE PHASE TWIN ═══════════════════════════════════════════════════
+           A SECOND COPY OF THIS EXACT MOVEMENT, RUNNING SLIGHTLY SLOWER. Same
+           shape, same depth, same starting phase -- they begin in unison, drift
+           apart across the record, and come back. Two lanes on one destination
+           already SUM in `motionAt`, so what a listener gets is the pair
+           beating against each other: the movement swells to twice its depth
+           where they agree and cancels to nothing where they oppose, on a cycle
+           far longer than either of them.
+
+           IT IS REICH'S PROCESS, STATED EXACTLY. "Two musicians begin in unison
+           playing the same pattern over and over again, and while one of them
+           stays put, the other gradually increases his or her tempo so as to
+           slowly move one beat ahead of the other. This process is repeated
+           until both players are back in unison" [Wikipedia, "Piano Phase"].
+           The modular practice is the same arithmetic with knobs instead of
+           pianists -- two sources at slightly different rates, which is what
+           "generative" means when a patch has no sequencer driving it.
+
+           AND MY OWN CLAIM ABOUT THIS PROGRAM WAS WRONG, so the measurement is
+           written down here rather than the guess. I recorded that nothing here
+           drifts because every lane was locked to tidy 16/32/64-bar cycles.
+           Measured over 30 songs a genre, taking every pair of lfo lanes and
+           asking whether they ever return to where they started inside one
+           record: dungeon synth 96% never do, lofi 92%, vgm 89%, synthwave 83%,
+           Blade Runner 68%, minimal techno 58%, jungle 26%, acid 16%. Most of
+           this program was already aperiodic.
+
+           WHAT WAS ACTUALLY MISSING is the pairing. Aperiodic is not phasing:
+           seventy-seven unrelated movements at unrelated rates on unrelated
+           destinations produce movement that does not repeat, which is not the
+           same as two things a listener can hear beating. Measured: the number
+           of destinations anywhere in the file carrying two lfo lanes at nearly
+           the same rate was ZERO, in all eight genres. Minimal techno had nine
+           destinations with two lanes and not one pair inside a 1.35 ratio.
+
+           THE PERIOD OF THE BEAT IS `bars / detune`, which is why detune is
+           small: two 32-bar lanes 12% apart come back into unison after about
+           267 bars, which is one record. That is the number the genre tables
+           are choosing when they set it, and it is the whole point -- a beat
+           that completes in eight bars is a tremolo, and one that completes in
+           four thousand is a detune nobody will ever hear resolve.
+
+           BOTH DRAWS RUN WHATEVER THE GENRE ASKS [Law 3], and they are the LAST
+           two on this lane's own stream -- a stream created for this one spec
+           and discarded after it -- so a genre that declares no `phasing`
+           computes exactly the lane it always did, and nothing else on any
+           other lane can shift. docs/genre-research/phasing.md ═══════════════ */
+        const twinRoll = rng(), twinAmt = rng();
+        const PH = G.phasing;
+        if(PH && twinRoll < (PH.chance || 0)){
+          const det = drawIn(PH.detune, () => twinAmt);
+          out.push(Object.freeze({
+            kind: "lfo", bars: lBars * (1 + det), depth: lDepth,
+            phase: lPhase, shape: sp.shape, twin: true,
+          }));
+        }
       }
       /* ══ ARC — THE TIMESCALE THAT WAS MISSING ═════════════════════════════
          Measured before this existed: across 79 automated controls the movement
@@ -15352,6 +15407,19 @@ const GENRE = {
      ═════════════════════════════════════════════════════════════════════════ */
   bladerunner: {
     label: "Vangelis — Blade Runner",
+    /* ── AND THIS GENRE CANNOT HAVE THE PHASE TWIN, WHICH THE ARITHMETIC
+       DECIDED RATHER THAN TASTE. I declared it here first: two analogue
+       modulators never ran at the same rate, and the slow beat between them is
+       the texture people mean by this sound. Then I measured it and took it
+       out. A beating pair completes its cycle in `bars / detune`, and this
+       genre's movements are 64-96 bars inside an 80-bar record -- the lfo
+       itself barely cycles once. The realised beat period came out at a median
+       of 762 bars against an 80-bar record, so the pair traverses about a tenth
+       of its cycle before the music ends: a constant slight offset, not drift.
+       Making it fit would need a detune near 1.0, which is not a twin running
+       slightly slower, it is a second oscillator at another speed entirely, and
+       that is a different device with no source behind it.
+       docs/genre-research/phasing.md */
     /* CHROMATIC HARMONY, BY TRANSFORMATION RATHER THAN BY DEGREE. This score is
        the right first home for it: its harmony is famously non-functional -- it
        does not cadence, it SLIDES, holding common tones while one voice steps
@@ -15908,6 +15976,18 @@ const GENRE = {
      ═════════════════════════════════════════════════════════════════════════ */
   acid: {
     label: "acid house",
+    /* ── AND THIS ONE IS ON A MEASUREMENT, NOT ON A SOURCE ─────────────────
+       BE CLEAR ABOUT WHICH: nobody describes acid house in terms of phasing,
+       and I did not find a source that does. What decided it is the numbers.
+       Taking every pair of slow movements in a song and asking whether they
+       ever come back into line inside one record, acid is the MOST LOCKED
+       genre in the file -- only 16% of its pairs drift past the end, against
+       58-96% everywhere else. A genre whose movement all re-syncs on the same
+       tidy 16- and 32-bar grid is a genre that sounds the same in minute eight
+       as in minute two, and the sourced half of this device -- that a beating
+       pair is the cheapest aperiodicity there is -- applies whatever the label
+       on the record. A judgement call, and the user's to overrule. */
+    phasing: { chance: 0.30, detune: [0.08, 0.20] },
     tempo: [118, 128],
     /* No measured mode distribution exists and one will not be invented. What is
        documented is that mode barely matters here. minor dominates because every
@@ -16412,6 +16492,22 @@ const GENRE = {
      ═════════════════════════════════════════════════════════════════════════ */
   plastikman: {
     label: "minimal techno (Plastikman)",
+    /* ── TWO COPIES OF ONE MOVEMENT, ONE OF THEM SLIGHTLY SLOWER ────────────
+       The user's brief for this genre: "we fail to capture the slow evolving
+       nature of minimal techno, it should be more like generative modular."
+       This is that, and it is arithmetic rather than a sample: the same slow
+       movement runs twice on one knob at rates a tenth apart, so the pair swells
+       to double depth where they agree and cancels where they oppose, on a
+       cycle of `bars / detune` -- a 32-bar sweep at 12% comes back into unison
+       after about 267 bars, which is one record.
+
+       THE STRONGEST CASE IN THE FILE, and it is a straight line: Reich's phase
+       pieces are the founding minimalist process, this genre is minimalism with
+       a kick under it, and the practice the user named -- generative modular --
+       is that same arithmetic with oscillators instead of pianists. The genre
+       already carries more knob movement than any other here; what it did not
+       have was any two lanes RELATED to each other. */
+    phasing: { chance: 0.45, detune: [0.06, 0.18] },
     tempo: [120, 132],
     modes: [["minor", 6], ["phrygian", 3], ["dorian", 1]],
     /* TWO RACKS, NOT ONE. The 808-and-303 band is this music most of the time
@@ -17687,6 +17783,13 @@ const GENRE = {
      ═════════════════════════════════════════════════════════════════════════ */
   jungle: {
     label: "UK jungle",
+    /* ── THE SAME JUDGEMENT AS ACID'S, AND THE SAME HONESTY ────────────────
+       No source describes jungle in terms of phasing either. It is here because
+       it is the second most locked genre in the file: 26% of its slow-movement
+       pairs drift past the end of a record, against 58-96% in the six genres
+       that are not acid. Weighted lowest of the five, because this genre's
+       movement is in the break rather than on the knobs. A judgement call. */
+    phasing: { chance: 0.25, detune: [0.08, 0.20] },
     /* the canon sits either side of 170: jungle and early d&b are conventionally
        160-180, and the Amen at 136 pitched into that band is the genre's own
        arithmetic. [EAR for the exact bracket -- no corpus of measured jungle
@@ -18235,6 +18338,13 @@ const GENRE = {
      still underneath while they do. */
   dungeonsynth: {
     label: "dungeon synth",
+    /* ── AND NOR CAN THIS ONE, FOR THE SAME MEASURED REASON. Declared here
+       first on the drone argument, then measured out: a median beat period of
+       805 bars against a 162-bar record, so a pair would traverse a fifth of
+       its cycle and stop. This genre's movements are already nearly as long as
+       its records, which is the one condition under which phasing has nothing
+       to work with -- the same reason it is out of Blade Runner.
+       docs/genre-research/phasing.md */
     /* 40-80 BPM where the sources give a band [corpus:melodigging]; the one
        independent measurement found is an Erang track at 83 [corpus:songbpm]
        and the neighbouring dungeon rap sits at 50-65. The edges are [EAR]
