@@ -657,6 +657,8 @@ They ride the desk gently and arc instead.
 ### Not yet done
 
 - **`plock` is rare** — 0–3 per genre. Per-step parameter locks are a signature
+  *(PARTLY ADDRESSED `2026-08-08i`: 15 lanes now, 1.9% of the file's motion,
+  researched into `parameter-locks.md` first. Still the least-used kind.)*
   of this music and are barely used.
 - **LFO lengths are odd numbers** (22, 26, 27, 30, 34 bars). For free-running
   texture that is correct and deliberate; but nothing is *aligned* to 8/16/32
@@ -765,7 +767,8 @@ which is the best possible evidence that it works.
 
 ### Still not done
 
-- **`plock` remains rare** (0–3 a genre) on music whose signature is the
+- **`plock` remains rare** (0–3 a genre — *now 0–3 still, but 15 lanes total
+  after `2026-08-08i`; see `parameter-locks.md`*) on music whose signature is the
   per-step lock.
 - **Vangelis has no TR-1000 lanes** — correct, it barely has a kit; its
   per-hearing change lives on the echo and the CS-80's vibrato instead.
@@ -1745,3 +1748,54 @@ Every number in that build says a control exists, reads the truth, and reaches
 the graph. **Not one says the record sounds better.** No note moved, and an
 untouched record renders identically (−118.5 dB against a −118.6 dB same-build
 floor) — so what changed is what the desk SAYS and whether it answers a hand.
+
+---
+
+## "More P locks. More research." — 2026-08-08
+
+Six words, and the second three were the important ones.
+
+**The mechanism had never been researched.** `plock` has existed since the
+motion system landed; the handoff, the backlog and this file had all called it
+rare — three documents naming a gap for weeks — and **there was no research
+sheet behind it at all**. Every other mechanism in this program has one. So
+the sheet came first (`parameter-locks.md`) and the tables came after, which is
+the order this project fixed long ago and which I would have skipped if the
+user had only said "more p-locks".
+
+**The census before the build was the useful half.** Twelve lanes, 1.5% of the
+file's motion, and — this is the part I expected to go the other way — **every
+single one already fired, on a machine playing in 100% of its genre's songs.**
+Nothing was dead. So this was not a broken feature to repair, it was a working
+one nobody had leaned on, and that changes what "more" should mean: not fixing,
+just using.
+
+**And the research found the build sitting there already declared.** A chopped
+break is a per-slice instrument — every sampler gives each slice its own pitch,
+filter and envelope — and our break machine ALREADY declared exactly that trio
+while jungle locked only the pitch. Three-quarters of the sourced mechanism was
+present and unreached. That is this file's oldest defect shape and it was found
+by reading a source, not by reading the code.
+
+### The measurement lesson, for the third time
+
+Plastikman's new hat lock read **8.3 dB over the noise floor** measured
+broadband — marginal enough to report as "barely there". Measured in the band a
+closed hat actually occupies it is **33.5 dB over**. The broadband ruler was
+understating it by 25 dB because the mix is dominated by kick and bass.
+
+**Anchor the window to the thing you are measuring.** This file already
+records that lesson twice — the acid intro that did not contain the 303, and
+the cymbal's harsh band lumped into 2–20 kHz. Reporting the first number would
+have been a wrong finding in the safe direction, which is still wrong.
+
+### What was refused
+
+- **bladerunner and dungeon synth keep zero p-locks.** A per-step mechanical
+  tick is the opposite of a film cue and a slow modal drone.
+- **dkc's single lane was left alone** even though chip arpeggios are per-step
+  by nature, because **no source was found** for it and a guess dressed as
+  research is the most expensive thing this project produces.
+- **The eleven existing lanes were not made bigger.** Several move under 5% of
+  their dial and may be inaudible, but the size of a p-lock is `[EAR]` with no
+  source anywhere, so that is a verdict for ears and not for me.

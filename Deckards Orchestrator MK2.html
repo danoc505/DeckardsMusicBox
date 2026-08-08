@@ -1378,7 +1378,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08h · the strips' sends mean something, and the compressor is on the desk</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08i · the break locks its slices, the hat locks its steps</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -17247,10 +17247,29 @@ const GENRE = {
                     shape: "sin", freePhase: true },
                   { kind: "lfo", bars: [[12, 2], [16, 1]], depth: [0.03, 0.07],
                     shape: "tri", freePhase: true }],
+        /* ── AND THE HAT GETS A PER-STEP LOCK, which is this genre's own idiom
+           spelled with the smallest tool there is. Minimal techno "evolves
+           through MICRO-VARIATION (filtering, panning, tiny automation), not
+           through adding new parts" [corpus:beatkey] -- and a parameter lock is
+           the smallest unit of micro-variation that exists: one knob, one
+           sixteenth, no note moved and no part added.
+
+           THE HAT rather than anything else because it is the voice that plays
+           most often, so it is where "the same hit twice" is most audible. The
+           two LFOs above it drift the whole lane; this makes step 7 a different
+           hat from step 6 and keeps it that way, which drift by definition
+           cannot do. This genre had exactly ONE p-lock before (the 303's
+           cutoff) on the music whose signature the mechanism is named for.
+
+           Appended, never inserted: a substream is keyed by control AND index.
+           Size is [EAR] -- no source gives a depth -- and deliberately close to
+           lofi's numbers on this same control, which is a consistency argument
+           and not a measurement. docs/genre-research/parameter-locks.md §4b. */
         chdecay: [{ kind: "lfo", bars: [[16, 2], [32, 1]], depth: [0.004, 0.012],
                     shape: "tri", freePhase: true },
                   { kind: "lfo", bars: [[8, 2], [6, 1]], depth: [0.003, 0.009],
-                    shape: "sin", freePhase: true }],
+                    shape: "sin", freePhase: true },
+                  { kind: "plock", density: [0.10, 0.24], amt: [-0.015, 0.030] }],
         /* the hats' character, not just their length */
         tone:    [{ kind: "lfo", bars: [[24, 3], [16, 2]], depth: [0.05, 0.14],
                     shape: "sin", freePhase: true }],
@@ -17945,16 +17964,43 @@ const GENRE = {
       amen: {
         /* the filter is the arrangement here: the break opens for the drop and
            is cut down to a telephone under the build. */
+        /* ── A SLICED BREAK IS A PER-SLICE INSTRUMENT, AND NOW THE TABLE SAYS SO
+           ───────────────────────────────────────────────────────────────────
+           Chopping a break in any sampler gives every slice its own voice:
+           "the 'Built-in' slicing preset creates a Drum Rack with chains
+           holding a Simpler for each slice" [corpus:soundonsound, Ableton Clip
+           Slicing], so each slice carries its own pitch, filter and envelope —
+           and the jungle-specific sheets say the same, naming exactly that
+           trio [corpus:kansamples, and see parameter-locks.md §7 on which of
+           the two is verified].
+
+           THIS MACHINE ALREADY DECLARED THE WHOLE TRIO — `tune` (pitch),
+           `tone`/`hp` (filter), `tail` (envelope) — and only the PITCH was
+           locked per step. So three-quarters of the sourced mechanism was
+           sitting there unused, which is this file's oldest defect shape:
+           a capability declared and never reached.
+
+           Appended at the END of each list on purpose. A named substream is
+           keyed by control AND INDEX, so inserting one at the front would
+           re-roll every later lane on the same knob and move songs that have
+           nothing to do with this. Law 3.
+           Every amount below is [EAR]: the sources name the CONTROL, never a
+           depth. docs/genre-research/parameter-locks.md §5. */
         tone: [{ kind: "section", by: { intro: [-4000, -2000], chorus: [1200, 2600],
                                         instrumental: [400, 1600], outro: [-3000, -1500] } },
-               { kind: "lfo", bars: [[16, 3], [32, 2]], depth: [400, 1400], shape: "tri" }],
+               { kind: "lfo", bars: [[16, 3], [32, 2]], depth: [400, 1400], shape: "tri" },
+               /* the darkened slice: mostly downward, because the dial only has
+                  4 kHz of room above the default and 10 below it */
+               { kind: "plock", density: [0.10, 0.24], amt: [-5500, 1200] }],
         hp:   [{ kind: "section", by: { intro: [60, 180], outro: [40, 140] } },
                /* the low cut walks OFF across the record: the break arrives thin
                   and gains its bottom as the track goes. [EAR] */
                { kind: "arc", from: [40, 110], to: [-10, 0], curve: "sCurve" }],
         /* TAIL is how much room survives the cut: long in the chorus so the
            chops ring into each other, short under a verse so they snap. */
-        tail: [{ kind: "section", by: { chorus: [0.020, 0.060], verse: [-0.010, 0.005] } }],
+        tail: [{ kind: "section", by: { chorus: [0.020, 0.060], verse: [-0.010, 0.005] } },
+               /* the choked slice and the ringing one, step by step */
+               { kind: "plock", density: [0.10, 0.22], amt: [-0.018, 0.055] }],
         tune: [{ kind: "plock", density: [0.05, 0.12], amt: [-2.0, 2.0] }],
         bus:  [{ kind: "section", by: { intro: [-0.15, -0.06], chorus: [0.10, 0.26],
                                         instrumental: [0.04, 0.16], outro: [-0.18, -0.08] } }],

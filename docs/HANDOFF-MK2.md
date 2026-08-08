@@ -103,7 +103,38 @@ to measure the thing it was about — reading `kit.poly`, exempting D bars **by
 name** from `materials.drumPhrase` — and never by moving a threshold. Say in the
 commit message which you changed and why.
 
-### WHAT 2026-08-08 BUILT — `08a` … `08h`
+### WHAT 2026-08-08 BUILT — `08a` … `08i`
+
+- **`08i`** THE PARAMETER LOCK, researched at last and then used. The user:
+  *"More P locks. More research."* The mechanism has existed since the motion
+  system landed and three documents called it rare for weeks with **no
+  research sheet behind it at all** — so the sheet came first:
+  `docs/genre-research/parameter-locks.md`, with Elektron's own definition
+  verbatim from two manuals (*"a parameter lock is a parameter locked to a
+  certain value for a specific step"*).
+  CENSUS FIRST, off the compiled plan: **12 lanes, 1.5% of 806**, every one
+  firing, none dead. So this was a live mechanism nobody leaned on.
+  **JUNGLE was the strongest case and it is structural** — a chopped break is
+  already a per-slice instrument (*"the 'Built-in' slicing preset creates a
+  Drum Rack with chains holding a Simpler for each slice"* [corpus:soundonsound];
+  KAN say the same naming pitch/envelope/filter). Our break machine ALREADY
+  declared that whole trio and jungle locked only the PITCH, so three-quarters
+  of the sourced mechanism sat unused. `amen.tone` and `amen.tail` added.
+  **PLASTIKMAN** gets a hat lock, on its own genre's definition — minimal techno
+  *"evolves through micro-variation … not through adding new parts"*
+  [corpus:beatkey, already in the repo]. Appended, never inserted: a substream
+  is keyed by control AND index, so inserting re-rolls every later lane.
+  MEASURED, and the notes cannot see any of it (rolls byte-identical, snapshot
+  IDENTICAL — correct, motion never touches an event), so the instrument is a
+  render A/B with a same-build control: **jungle −45.5 dB against a −90.6 dB
+  floor** (45 dB above it, unmistakable); **plastikman −74.4 dB in the hat's own
+  band against −107.9 dB** (33 dB above the floor, and small — about 40 dB under
+  that band, which is what micro-variation means); **lofi, untouched, 0.2 dB —
+  inside the noise.** AND THE BROADBAND READING UNDERSTATED THE HAT BY 25 dB:
+  measured across the whole spectrum it looked marginal at 8.3 dB over the
+  floor. Anchor the window to the thing you are measuring — third time.
+  bladerunner and dungeon synth keep ZERO p-locks deliberately, and dkc's one
+  small lane is left alone because **no source was found for it**.
 
 - **`08h`** THE DESK, on two user reports in one message. (1) **THE PART
   STRIPS' FX SENDS WERE PINNED AT FULL AND MOSTLY WIRED INTO A ZERO** — *"All
@@ -2132,8 +2163,16 @@ true things.
   The proposals that were offered and never started: neo-Riemannian PLR moves,
   a voice-leading constraint on the comp, Coltrane's symmetric cycles, and
   tension tied to the arc so the harmony gets harder as the song climbs.
-- **`plock` is still rare** — 0 to 3 lanes per genre carry one. The motion
-  vocabulary has eight kinds and the tables lean on two.
+- **`plock` was still rare — 0 to 3 lanes per genre.** ⚠ **PARTLY ADDRESSED
+  `2026-08-08i`, and the number is now MEASURED rather than remembered:**
+  **15 lanes across 6 of 8 genres, 1.9% of the file's 806 motion lanes**,
+  and 8.6% of the 175 controls that are read per note (which is what a
+  p-lock needs). Every one fires and every one sits on a machine that plays
+  in 100% of its genre's songs. Jungle's break now locks the sourced
+  per-slice trio (pitch/filter/envelope) instead of pitch alone, and
+  plastikman's hat locks its steps. `docs/genre-research/parameter-locks.md`.
+  **Still true: the tables lean on `lfo` (474) and `section` (187), and the
+  vocabulary has eight kinds.**
 - **Role instances.** The user asked for "3 arps and two dueling basses" and the
   architecture has one slot per role. This needs a register allocator, not a
   table entry.
