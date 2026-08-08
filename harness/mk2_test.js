@@ -2711,6 +2711,61 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         missing.length ? missing.join(" · ") : n + " picture panels, all named");
 }
 
+/* ═══ A SWITCH SAYS WHAT IT SELECTED, NOT WHERE IT IS ═════════════════════
+   A `kind:"switch"` is drawn as named buttons only when its travel is small;
+   anything wider becomes a KNOB, and a knob printed its raw value. MEASURED:
+   the DP/4's four ALGO knobs read "0".."4" for off/phaser/drive/leslie/crusher,
+   and the three Erang patch knobs plus the TR-1000's percussion SET read
+   "0".."19" for named samples. Nine controls whose whole job is to pick a
+   named thing, showing an index.
+
+   THREE WAYS TO BE FINE, and the check accepts all three because each one
+   genuinely tells you what you selected:
+     · `positions` — an array or a function giving a name per position;
+     · a UNIT — `echo.div` is 1..8 sixteenths and prints "3 /16", which IS the
+       delay's length, and `desk.lowF` prints "400 Hz";
+     · a `/`-split LABEL matching the position count, which is what switchEl
+       already uses to draw named buttons.
+
+   Anything else is a number where a name belongs, and this is the guard that
+   stops the next one arriving. Same shape as the English-name checks. */
+{
+  const bare = [], ok = [];
+  for(const m in M.INSTRUMENTS)
+    for(const c of (M.INSTRUMENTS[m].controls || [])){
+      if(c.kind !== "switch" || c.pick) continue;
+      const step = c.step > 0 ? c.step : 1;
+      const n = Math.round((c.max - c.min) / step) + 1;
+      if(n < 3) continue;                       /* two positions read OFF/ON */
+      const named = !!c.positions || !!c.unit ||
+                    String(c.label).split("/").length === n;
+      (named ? ok : bare).push(m + "." + c.k + " (" + n + " positions)");
+    }
+  check("a switch with more than two positions says what it selected",
+        bare.length === 0,
+        bare.length ? bare.join(" · ") : ok.length + " wide switches, all named");
+}
+
+/* ═══ ...AND NO TWO POSITIONS SAY THE SAME THING ══════════════════════════
+   Found while fixing the above, twice, from opposite directions: the sample
+   shelves draw from two families, so stripping the family made `strings_10`
+   and `Pad_10` both read "10"; and `barber.dir` fell back to OFF/ON/ON. Two
+   positions of one knob reading the same word is worse than an index — an
+   index is at least unambiguous. */
+{
+  const dup = [];
+  for(const m in M.INSTRUMENTS)
+    for(const c of (M.INSTRUMENTS[m].controls || [])){
+      const pos = typeof c.positions === "function" ? c.positions() : c.positions;
+      if(!pos) continue;
+      const seen = new Set(), bad = new Set();
+      for(const p of pos){ if(seen.has(p)) bad.add(p); seen.add(p); }
+      if(bad.size) dup.push(m + "." + c.k + ": " + [...bad].join(", "));
+    }
+  check("...and no two of its positions read the same",
+        dup.length === 0, dup.length ? dup.join(" · ") : "every named position is distinct");
+}
+
 if(FILTER && pass + fail === 0){
   console.log("\nno check's name contains \"" + FILTER + "\" — " + skipped + " were skipped, none run");
   process.exit(2);

@@ -962,6 +962,35 @@
     font-weight:400; letter-spacing:.08em; color:#5a6c86; }
   .polefoot{ font-size:.55rem; letter-spacing:.14em; color:#5a6c86; margin-top:.4rem; }
 
+  /* ── THE CRUSHER'S SCREEN ─────────────────────────────────────────────────
+     A small backlit display: one sine chopped into held samples, scrolling. The
+     gap between bars is the gate closing, and it is a CSS variable the panel
+     sets from the unit's AMT — so the only per-frame work is the compositor
+     translating a row, which is the barberEl rule. ── */
+  .crushbox{ margin-top:.55rem; }
+  .crushscr{ position:relative; height:76px; overflow:hidden; border-radius:3px;
+             border:1px solid #0d1a12;
+             background:linear-gradient(#0a170f, #071009 60%, #050c07);
+             box-shadow:inset 0 0 18px rgba(0,0,0,.8); }
+  /* the scanline wash, so it reads as a screen and not a chart */
+  .crushscr::after{ content:""; position:absolute; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(0deg,
+      rgba(0,0,0,.28) 0 1px, rgba(0,0,0,0) 1px 3px); }
+  .crushrow{ position:absolute; inset:0; display:flex; align-items:center;
+             width:200%; --gap:.3;
+             animation:crushrun 2.2s linear infinite; animation-play-state:paused; }
+  .on .crushrow{ animation-play-state:running; }
+  @keyframes crushrun{ from{ transform:translateX(0) } to{ transform:translateX(-50%) } }
+  /* each bar is one held sample: it grows from the centre line, up or down */
+  .crushbar{ flex:1 1 auto; height:var(--h); align-self:center;
+             margin:0 calc(var(--gap) * 0.5%);
+             background:linear-gradient(#7dffb0, #2fbf70);
+             box-shadow:0 0 6px rgba(80,255,160,.45);
+             transform:translateY(calc(var(--up) * var(--h) * -1 + var(--h) * 0.5)); }
+  .crushbox:not(.on) .crushbar{ background:#1e3a2a; box-shadow:none; }
+  .crushlab{ font-size:.55rem; letter-spacing:.13em; color:#4f6b58; margin-top:.35rem; }
+  .crushbox.on .crushlab{ color:#7dffb0; }
+
   /* ── THE TAPE MACHINE ─────────────────────────────────────────────────────
      A deck seen from above: two reels, tape across a head block between them.
      Everything that moves is a CSS animation with a real duration on it, so the
@@ -1209,7 +1238,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08a · the tape machine — the whole record is dubbed to it</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08b · every switch says what it selected, and the crusher has a screen</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -2447,6 +2476,13 @@ function matrixControls(){
   }));
 }
 
+/* WHAT EACH POSITION OF A DP/4 ALGO KNOB IS. The four algorithms are built in
+   code — buildGraph pushes them in this order — so unlike a kit or an engine
+   there is no collection to derive from, and this is the one place the order is
+   written down. Position 0 is the unit switched OUT, which is why it is "off"
+   rather than an algorithm. The graph's four blocks are commented 1..4 to match. */
+const DP4_ALGOS = ["off", "phaser", "drive", "leslie", "crusher"];
+
 const INSTRUMENTS = {
   /* ── DRUM MACHINES ─────────────────────────────────────────────────────── */
   kit: { legacy: true,
@@ -2647,7 +2683,8 @@ const INSTRUMENTS = {
              pack decides how many percussion patches there are, and a number
              written at this point goes stale the day one is added. It cannot be
              computed inline because ERANG is declared 1300 lines further down. */
-          { k:"pSet",   label:"which drums",   cap:"SET",  min:0, max:0, step:1, def:0, kind:"switch" },
+          { k:"pSet",   label:"which drums",   cap:"SET",  min:0, max:0, step:1, def:0, kind:"switch",
+            positions: () => erangPatchNames("percussion") },
           { k:"pTune",  label:"sample tune",   cap:"TUNE", min:0.5, max:2, step:0.001, def:1, kind:"voicing" },
           { k:"pAtk",   label:"sample attack", cap:"ATTACK",  min:0.002, max:0.2, step:0.001, def:0.003, unit:"s", kind:"voicing" },
           { k:"pRel",   label:"sample release",cap:"RELEASE", min:0.02, max:4, step:0.01, def:1.2, unit:"s", kind:"voicing" },
@@ -3202,20 +3239,25 @@ const INSTRUMENTS = {
     controls: [
       /* ALGO is a switch: which effect a unit IS, not a gesture. Changing it
          mid-song is a different box, exactly as the file's `kind` table says. */
-      { k:"aAlgo", label:"unit A", cap:"A", min:0, max:4, step:1, def:1, kind:"switch" },
+      { k:"aAlgo", label:"unit A", cap:"A", min:0, max:4, step:1, def:1, kind:"switch",
+        positions: DP4_ALGOS },
       { k:"aAmt",  label:"A amount", cap:"AMT", min:0, max:1, step:0.01, def:0.5, kind:"bus" },
       { k:"aLvl",  label:"A return", cap:"LVL", min:0, max:1, step:0.01, def:0,   kind:"bus" },
-      { k:"bAlgo", label:"unit B", cap:"B", min:0, max:4, step:1, def:2, kind:"switch" },
+      { k:"bAlgo", label:"unit B", cap:"B", min:0, max:4, step:1, def:2, kind:"switch",
+        positions: DP4_ALGOS },
       { k:"bAmt",  label:"B amount", cap:"AMT", min:0, max:1, step:0.01, def:0.5, kind:"bus" },
       { k:"bLvl",  label:"B return", cap:"LVL", min:0, max:1, step:0.01, def:0,   kind:"bus" },
-      { k:"cAlgo", label:"unit C", cap:"C", min:0, max:4, step:1, def:3, kind:"switch" },
+      { k:"cAlgo", label:"unit C", cap:"C", min:0, max:4, step:1, def:3, kind:"switch",
+        positions: DP4_ALGOS },
       { k:"cAmt",  label:"C amount", cap:"AMT", min:0, max:1, step:0.01, def:0.5, kind:"bus" },
       { k:"cLvl",  label:"C return", cap:"LVL", min:0, max:1, step:0.01, def:0,   kind:"bus" },
-      { k:"dAlgo", label:"unit D", cap:"D", min:0, max:4, step:1, def:4, kind:"switch" },
+      { k:"dAlgo", label:"unit D", cap:"D", min:0, max:4, step:1, def:4, kind:"switch",
+        positions: DP4_ALGOS },
       { k:"dAmt",  label:"D amount", cap:"AMT", min:0, max:1, step:0.01, def:0.5, kind:"bus" },
       { k:"dLvl",  label:"D return", cap:"LVL", min:0, max:1, step:0.01, def:0,   kind:"bus" },
     ],
     panel: { skin: "desk", maker: "ENSONIQ", title: "DP/4",
+             grid: "crush", picture: "crushscr",
              groups: [{ label: "UNIT A", keys: ["aAlgo", "aAmt", "aLvl"] },
                       { label: "UNIT B", keys: ["bAlgo", "bAmt", "bLvl"] },
                       { label: "UNIT C", keys: ["cAlgo", "cAmt", "cLvl"] },
@@ -3259,7 +3301,12 @@ const INSTRUMENTS = {
       { k:"mix",   label:"return",      cap:"RTN",   min:0,    max:1,   step:0.01,  def:0.85, kind:"bus" },
       /* which way the stripes go. A switch: a barberpole that changes
          direction is two effects, not one knob. */
-      { k:"dir",   label:"direction",   cap:"DIR",   min:-1,   max:1,   step:2,     def:1,    kind:"switch" },
+      /* THE LABEL IS THE BUTTON NAMES. `switchEl` splits it on "/" when the
+         count matches the travel and otherwise falls back to OFF/ON/ON — so
+         this drew three buttons of which TWO BOTH READ "ON", and there was no
+         way to tell which direction you were pressing. Step 2 over -1..1 is
+         two positions, not three. */
+      { k:"dir",   label:"down / up",   cap:"DIR",   min:-1,   max:1,   step:2,     def:1,    kind:"switch" },
     ],
     panel: { skin: "pole", maker: "BODE", title: "BARBERPOLE",
              grid: "barber", picture: "poletube",
@@ -4085,8 +4132,30 @@ const erangPanel = (title, sub) => ({
    `tone` is the only one the conductor can ride -- the rest are voicing and
    switch, which this file never automates, and that is deliberate: a sampler
    whose patch changed under motion would be a different instrument mid-note. */
-const erangControls = (patchMax, patchLabel) => ([
-  { k:"patch", label:patchLabel, cap:"PATCH", min:0, max:patchMax, step:1, def:0, kind:"switch" },
+/* ── A SAMPLE'S NAME, AS A PERSON WOULD READ IT ─────────────────────────────
+   The pack ships `strings_04_C` — a family, an index and the measured root.
+   That is how the file refers to the sample; on a front panel it is a variable
+   name, which is the thing this project has now been told about twice. The
+   number is what distinguishes one patch from the next and the root is a real
+   fact about it, so both survive; the underscores and the family prefix do not,
+   because the knob is already captioned PATCH on a shelf that says what it is.
+
+   DERIVED FROM THE PACK, so a sample added to the bank names itself. */
+const erangPatchNames = (...fams) => ERANG.family(...fams).map(n => {
+  const m = /^(.+?)_(\d+)(?:_([A-G]#?))?$/.exec(n);
+  if(!m) return n;
+  /* THE FAMILY STAYS. Stripping it looked tidier and was wrong: a shelf that
+     draws from two families has `strings_10` and `Pad_10` on it, and both came
+     out as "10". Two positions of one knob reading the same thing is the defect
+     the barberpole's DIR switch had, arrived at from the other direction. */
+  return m[1].toLowerCase() + " " + m[2].replace(/^0+(?=\d)/, "") +
+         (m[3] ? " · " + m[3] : "");
+});
+const erangControls = (patchMax, patchLabel, fams) => ([
+  { k:"patch", label:patchLabel, cap:"PATCH", min:0, max:patchMax, step:1, def:0, kind:"switch",
+    /* the shelf this sampler takes patches off, so the knob prints the
+       sample it landed on rather than its index */
+    positions: () => erangPatchNames(...(fams || [])) },
   { k:"tune",  label:"tune",     cap:"TUNE",  min:0.5, max:2, step:0.001, def:1, kind:"voicing" },
   { k:"attack",label:"attack",   cap:"ATTACK",min:0.002, max:2.5, step:0.001, def:0.02, unit:"s", kind:"voicing" },
   { k:"release",label:"release", cap:"RELEASE",min:0.02, max:6, step:0.01, def:0.4, unit:"s", kind:"voicing" },
@@ -4097,19 +4166,19 @@ const erangControls = (patchMax, patchLabel) => ([
 INSTRUMENTS.erangStrings = {
   slot: "keys", label: "Erang Strings",
   lanes: { keys: "erangStrings" },
-  controls: erangControls(erangPatches("strings", "Pad"), "strings / pads"),
+  controls: erangControls(erangPatches("strings", "Pad"), "strings / pads", ["strings", "Pad"]),
   panel: erangPanel("Erang — Strings & Pads", "the held half of the pack"),
 };
 INSTRUMENTS.erangHarp = {
   slot: "keys", label: "Erang Harp",
   lanes: { keys: "erangHarp" },
-  controls: erangControls(erangPatches("Key", "Plucked"), "keys / plucked"),
+  controls: erangControls(erangPatches("Key", "Plucked"), "keys / plucked", ["Key", "Plucked"]),
   panel: erangPanel("Erang — Keys & Plucked", "the struck half; this one rolls"),
 };
 INSTRUMENTS.erangLead = {
   slot: "lead", label: "Erang Lead",
   lanes: { lead: "erangLead" },
-  controls: erangControls(erangPatches("Lead"), "leads"),
+  controls: erangControls(erangPatches("Lead"), "leads", ["Lead"]),
   panel: erangPanel("Erang — Leads", "the voice that carries the tune"),
 };
 /* ── `erangDrums` WAS DELETED HERE, verified dead the same way ──────────
@@ -24363,7 +24432,35 @@ function soundNow(){
    the machines in the three slots are drawn. A slider writes straight into
    PARAMS, which the voices read when they next fire -- so a knob moves on the
    NEXT note, live, and never on a note already scheduled. */
+/* ── A SWITCH PRINTS WHAT IT SELECTED, NOT WHERE IT IS ──────────────────────
+   `switchEl` draws named buttons, but a control is only drawn as buttons when
+   its travel is 2 or less — anything wider becomes a KNOB, and a knob printed
+   its raw value. MEASURED across the table: the DP/4's four ALGO knobs read
+   "0".."4" for off/phaser/drive/Leslie/crusher, and the three Erang patch
+   knobs and the TR-1000's percussion SET read "0".."19" for named samples.
+   Nine controls whose entire job is to pick a named thing, showing a number.
+
+   A control may declare `positions` — an array, or a function returning one,
+   because the sample shelves' names come from the PACK and a hand-written copy
+   of twenty filenames is the defect this repo has hit six times. Derive the
+   set; the words come with it.
+
+   NOT EVERY WIDE SWITCH IS BROKEN, and the exceptions are why this reads
+   `positions` rather than "is it a switch": `echo.div` is 1..8 SIXTEENTHS and
+   prints "3 /16", which is the delay's actual length; `desk.lowF` is a
+   frequency in Hz with 321 positions. A number with a unit on it is already
+   saying what it selected. */
+function positionsOf(c){
+  if(!c || !c.positions) return null;
+  try { return typeof c.positions === "function" ? c.positions() : c.positions; }
+  catch(e){ return null; }
+}
 function fmt(c, v){
+  const pos = positionsOf(c);
+  if(pos){
+    const i = Math.round(v) - c.min;
+    if(i >= 0 && i < pos.length) return String(pos[i]);
+  }
   const d = c.step >= 1 ? 0 : (c.step >= 0.01 ? 2 : 4);
   return v.toFixed(d) + (c.unit ? " " + c.unit : "");
 }
@@ -24932,6 +25029,68 @@ function tapeEl(m, M){
      errors" check doing its job. */
   outer.refresh(); registerKnob(outer);
   return outer;
+}
+
+/* ── THE CRUSHER'S SCREEN ───────────────────────────────────────────────────
+   Asked for: "What about an 8bit visualizer for the bit crusher?"
+
+   CRUSH is algorithm 4 of the DP/4 — a square LFO at 4.2 kHz hard-gating the
+   signal, so what it does is chop a wave into held steps with silence between
+   them. That is exactly what this draws: a sine sampled into bars, with the gap
+   between bars opening as the unit's AMT rises, because AMT rides the chop
+   depth and nothing else.
+
+   IT SHOWS THE TRUTH OR IT SHOWS NOTHING. The DP/4 has four units and CRUSH may
+   be in none of them; a unit set to CRUSH with its LVL at zero is not in circuit
+   either. In both cases the screen reads as off rather than animating a crush
+   that is not happening — a picture of an effect nobody can hear is the same
+   lie as a knob that does nothing, and this session has found that one four
+   times already.
+
+   THE MOTION IS A CSS ANIMATION with a duration in it, per barberEl. Nothing
+   here is written per frame; `refresh` only touches a value when it changes. */
+function crushEl(m, M){
+  const U = ["a", "b", "c", "d"];
+  const wrap = el("div", "crushbox");
+  const scr = el("div", "crushscr");
+  const row = el("div", "crushrow");
+  /* one cycle of a sine, sampled — the bars ARE the samples the gate holds */
+  const N = 32, bars = [];
+  for(let i = 0; i < N * 2; i++){                 // two cycles so it can scroll
+    const b = el("div", "crushbar");
+    const y = Math.sin((i % N) / N * Math.PI * 2);
+    b.style.setProperty("--h", (Math.abs(y) * 46).toFixed(1) + "%");
+    b.style.setProperty("--up", y >= 0 ? "0" : "1");
+    row.appendChild(b); bars.push(b);
+  }
+  scr.appendChild(row);
+  const lab = el("div", "crushlab", "");
+  wrap.appendChild(scr); wrap.appendChild(lab);
+
+  let wasOn = null, wasGap = null, wasTxt = null;
+  wrap.refresh = () => {
+    /* which unit, if any, is actually crushing — asked of the panel the graph
+       reads, so the two cannot disagree */
+    let unit = null;
+    for(const u of U){
+      if(Math.round(panelValue(m, u + "Algo")) !== 4) continue;
+      if(panelValue(m, u + "Lvl") <= 0.0001) continue;
+      unit = u; break;
+    }
+    const on = !!unit;
+    if(on !== wasOn){ wrap.classList.toggle("on", on); wasOn = on; }
+    const amt = on ? panelValue(m, unit + "Amt") : 0;
+    /* the gate closing: at AMT 0 the bars touch and the wave is whole, at the
+       top they are thin spikes with silence between them */
+    const gap = (0.10 + amt * 0.62).toFixed(3);
+    if(gap !== wasGap){ row.style.setProperty("--gap", gap); wasGap = gap; }
+    const txt = on
+      ? "UNIT " + unit.toUpperCase() + " · 4.2 kHz · depth " + amt.toFixed(2)
+      : "NO UNIT IS CRUSHING — set one to CRUSHER and open its LVL";
+    if(txt !== wasTxt){ lab.textContent = txt; wasTxt = txt; }
+  };
+  wrap.refresh(); registerKnob(wrap);
+  return wrap;
 }
 
 function programmeEl(){
@@ -25600,9 +25759,20 @@ function refreshMeters(){
 function switchEl(m, c){
   const key = m + "." + c.k;
   if(PARAMS[key] == null) PARAMS[key] = c.def;
-  const names = (c.label.split("/").length === (c.max - c.min + 1))
-    ? c.label.split("/").map(s => s.trim().toUpperCase())
-    : Array.from({ length: c.max - c.min + 1 }, (_, i) => (c.min + i ? "ON" : "OFF"));
+  /* ── HOW MANY POSITIONS THIS SWITCH HAS: STEP DECIDES, NOT RANGE ─────────
+     This read `max - min + 1` and ignored `step`, so `barber.dir` — which runs
+     -1 to 1 in steps of TWO, i.e. two positions — drew THREE buttons, one of
+     them at 0, a value that control can never hold. And because three buttons
+     did not match its two-part label, the names fell back to OFF/ON/ON: two of
+     the three read the same word and there was no way to tell which direction
+     you were pressing. Stepping is what a switch DOES; counting without it was
+     never right. */
+  const step = c.step > 0 ? c.step : 1;
+  const n = Math.round((c.max - c.min) / step) + 1;
+  const parts = c.label.split("/");
+  const names = (parts.length === n)
+    ? parts.map(s => s.trim().toUpperCase())
+    : Array.from({ length: n }, (_, i) => (c.min + i * step ? "ON" : "OFF"));
   const box = el("div", "sw"), opts = el("div", "opts");
   /* SAME REASON knobEl CARRIES ONE: "so a probe can ask which control this is."
      It did not, and the consequence was not theoretical -- a switch drawn on a
@@ -25611,16 +25781,17 @@ function switchEl(m, c){
      reported `circuit` missing after it had been added. Anything a hand can
      touch has to say what it is. */
   box.dataset.key = key;
-  const btns = [];
-  for(let i = 0; i <= c.max - c.min; i++){
+  const btns = [], vals = [];
+  for(let i = 0; i < n; i++){
+    const v = c.min + i * step;
     const b = el("button", null, names[i]);
-    b.addEventListener("click", () => { TRIM[key] = (c.min + i) - PARAMS[key]; box.refresh(); });
-    opts.appendChild(b); btns.push(b);
+    b.addEventListener("click", () => { TRIM[key] = v - PARAMS[key]; box.refresh(); });
+    opts.appendChild(b); btns.push(b); vals.push(v);
   }
   box.appendChild(opts); box.appendChild(el("div", "cap", c.cap || c.label));
   box.refresh = () => {
     const v = Math.round(panelValue(m, c.k));
-    btns.forEach((b, i) => b.setAttribute("aria-pressed", String(c.min + i === v)));
+    btns.forEach((b, i) => b.setAttribute("aria-pressed", String(vals[i] === v)));
   };
   box.refresh(); registerKnob(box);
   return box;
@@ -26834,6 +27005,7 @@ function drawPanels(){
       if(P.grid === "field") box.appendChild(fieldEl());
       if(P.grid === "programme") box.appendChild(programmeEl());
       if(P.grid === "tape") box.appendChild(tapeEl(m, M));
+      if(P.grid === "crush") box.appendChild(crushEl(m, M));
       if(P.grid === "barber") box.appendChild(barberEl(m, M));
       if(P.grid === "matrix"){
         box.appendChild(matrixGridEl(m, M));
