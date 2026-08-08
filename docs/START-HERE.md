@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-08k` unless it says otherwise. If you
+*Everything below is verified at `2026-08-08l` unless it says otherwise. If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -122,7 +122,7 @@ while both files carried an identical stamp, so three commits of work went
 unheard. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-08k`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-08l`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -135,7 +135,7 @@ because the measurement refused it.
 
 ## Where the program stands
 
-Build `2026-08-08k`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-08l`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 

@@ -3,11 +3,33 @@
 
 > **THE KEY WAS RENAMED.** Chrono Trigger joined this table on the user's
 > instruction, which made a third composer on a third franchise under a name
-> that only covered one of them. Everything measured below is unchanged and
-> still true — the rename moves no note (no substream is keyed on a genre
-> name, proved by a byte-identical roll). The Chrono Trigger half, the SNES
+> that only covered one of them. The rename moves no note (no substream is
+> keyed on a genre name, proved by a byte-identical roll).
+>
+> ⚠ **THIS BLOCK USED TO SAY "everything measured below is unchanged and still
+> true". THAT WAS MY ERROR** — it repeated this file's claim of being measured
+> while the file's own next paragraph says it never was verified. One of those
+> claims has since been refuted outright; see the block below. The Chrono
+> Trigger half, the SNES
 > hardware the scores share, and the honest case AGAINST calling a medium a
 > genre are in `chrono-trigger.md`.
+
+> # ⚠ THE FIRST OF THE TWO HEADLINE CLAIMS BELOW IS REFUTED — 2026-08-08
+>
+> **"A continuous sixteenth ostinato … that DOES NOT FOLLOW THE CHORDS … that
+> exact 4-note cell repeated four times per bar, forever" is FALSE**, measured
+> against two independent transcriptions including the very MIDI this file
+> cites by name. The figure changes every time the bass root changes — 7/7,
+> 15/15 and 15/15 across three figure tracks, 100% — and it plays in 30-50% of
+> bars, not continuously. It is far closer to an ARPEGGIO than to a fixed cell,
+> which is what the user's ear said before anything was measured.
+>
+> **`docs/genre-research/aquatic-ambience-measured.md` has the measurement.**
+> The genre table now sets `follow: true`.
+>
+> The MIDI cited as evidence was never in this repository, so no reader after
+> the author could check it. Everything else in this file remains as it was
+> written: A CLAIM, not a measurement. Read the next paragraph literally.
 
 *Web research delivered 2026-07-28. NOT independently verified — the verification pass hit the session limit before it ran. Treat every number as the researcher's claim until checked.*
 

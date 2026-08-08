@@ -1378,7 +1378,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08k · the bouncing figure stands down for the chorus and the bridge</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08l · the figure follows the chord — the old research was refuted</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -14841,7 +14841,7 @@ const GENRE = {
         verse:        ["ostinato", "bass", "keys", "lead", "counter"],
         chorus:       ["bass", "keys", "lead", "counter", "drums"],
         bridge:       ["bass", "keys"],
-        instrumental: ["ostinato", "bass", "keys", "drums"],
+        instrumental: ["bass", "keys", "drums"],
         outro:        ["ostinato", "bass"],
       },
       coldOpen:  0.30,          // these tracks often start straight on the figure
@@ -14871,8 +14871,39 @@ const GENRE = {
     ostinato: {
       unit: 1,          // straight sixteenths [corpus:vgmusic Aquatic/Stickerbush]
       vel:  0.55,
-      /* scale degrees, and note what is NOT in any of them: 0, the tonic. The
-         measured cells never play the root pitch class. */
+      /* ── IT FOLLOWS THE CHORD, AND THE OLD TABLE HAD THIS EXACTLY BACKWARDS ──
+         The user, after listening: *"I can't even find anything like it in the
+         DK64 OST … in Aquatic Ambience there was something that to me sounds
+         like an arp of some kind. Do better research."* Both halves were right.
+
+         WHAT THE OLD SHEET CLAIMED, and it is the foundation the whole part was
+         built on: "that exact 4-note cell repeated four times per bar in
+         straight 16ths, FOREVER … The ostinato does not re-voice to the chord.
+         Nothing is being voice-led." It cited a MIDI by name and the file was
+         never in this repo; the sheet's own header says the research was NEVER
+         INDEPENDENTLY VERIFIED.
+
+         SO IT WAS VERIFIED. Two independent transcriptions were fetched and
+         parsed (docs/genre-research/aquatic-ambience-measured.md), and the
+         claim is FALSE in the file it cited:
+
+           when the bass root changes, the figure changes ...  7/7, 15/15, 15/15
+                                                               = 100%, all three
+           bars repeating the opening figure ................. 22% / 29% / 27%
+           distinct bar-figures per track .................... 4, 4, 7
+           the figure's notes inside a triad on the bass root . 53-66%
+
+         The figure MOVES WITH THE HARMONY. It is much closer to an arpeggio
+         than to a fixed cell, which is what the ear said before any of this was
+         measured. `follow: true` is the flag this program already has for
+         exactly that -- "degrees read against the current chord" -- and three
+         other genres already use it. The cells stay: what they are is a shape,
+         and `follow` decides what they are a shape ON. */
+      follow: true,
+      /* scale degrees. The old comment claimed the measured cells "never play
+         the root pitch class"; that reading came from the same unverified sheet
+         and is not what the transcriptions show, so it is gone rather than
+         repeated. */
       cells: [
         [[1, 2, 6, 4], 5],                 // Aquatic Ambience: D-Eb-Bb-G in C aeolian
         [[6, 1, 2, 1], 4],                 // Stickerbush: G-B-C, inside a fifth
