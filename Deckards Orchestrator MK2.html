@@ -1238,7 +1238,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08b · every switch says what it selected, and the crusher has a screen</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08c · the tape rack answers the hand — and twelve other controls that did not</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3076,7 +3076,7 @@ const INSTRUMENTS = {
          delay that slides between musical divisions is a tape machine being
          adjusted, not a rhythm. 3 is the dotted eighth every source names
          first. [corpus:attackmagazine dub-delays] */
-      { k:"div",  label:"delay",     cap:"TIME", min:1,   max:8,    step:1,    def:3,    unit:"/16", kind:"switch" },
+      { k:"div",  label:"delay",     cap:"TIME", min:1,   max:8,    step:1,    def:3,    unit:"/16", kind:"switch", live:true },
       /* the other five are all kind:"bus" and that is not a technicality -- they
          are properties of NODES the whole mix passes through, not of a note, so
          they move the way the drum bus moves: as an automation curve across the
@@ -3154,9 +3154,9 @@ const INSTRUMENTS = {
       { k:"high", label:"high",  cap:"HIGH", min:-30, max:8, step:0.5, def:0, unit:"dB", kind:"bus" },
       /* where the bands meet. A switch, not a dial: a DJ mixer's crossovers are
          built in, and sliding them mid-performance is not a move anybody makes. */
-      { k:"lowF",  label:"low knee",  cap:"LO Hz", min:80,  max:400,  step:10, def:200,  unit:"Hz", kind:"switch" },
-      { k:"midF",  label:"mid centre",cap:"MID Hz",min:400, max:3000, step:50, def:1000, unit:"Hz", kind:"switch" },
-      { k:"highF", label:"high knee", cap:"HI Hz", min:2000,max:9000, step:100,def:4000, unit:"Hz", kind:"switch" },
+      { k:"lowF",  label:"low knee",  cap:"LO Hz", min:80,  max:400,  step:10, def:200,  unit:"Hz", kind:"switch", live:true },
+      { k:"midF",  label:"mid centre",cap:"MID Hz",min:400, max:3000, step:50, def:1000, unit:"Hz", kind:"switch", live:true },
+      { k:"highF", label:"high knee", cap:"HI Hz", min:2000,max:9000, step:100,def:4000, unit:"Hz", kind:"switch", live:true },
     ],
     panel: { skin: "desk", maker: "", title: "desk",
              groups: [{ label: "", keys: ["low", "mid", "high"] },
@@ -3239,19 +3239,19 @@ const INSTRUMENTS = {
     controls: [
       /* ALGO is a switch: which effect a unit IS, not a gesture. Changing it
          mid-song is a different box, exactly as the file's `kind` table says. */
-      { k:"aAlgo", label:"unit A", cap:"A", min:0, max:4, step:1, def:1, kind:"switch",
+      { k:"aAlgo", label:"unit A", cap:"A", min:0, max:4, step:1, def:1, kind:"switch", live:true,
         positions: DP4_ALGOS },
       { k:"aAmt",  label:"A amount", cap:"AMT", min:0, max:1, step:0.01, def:0.5, kind:"bus" },
       { k:"aLvl",  label:"A return", cap:"LVL", min:0, max:1, step:0.01, def:0,   kind:"bus" },
-      { k:"bAlgo", label:"unit B", cap:"B", min:0, max:4, step:1, def:2, kind:"switch",
+      { k:"bAlgo", label:"unit B", cap:"B", min:0, max:4, step:1, def:2, kind:"switch", live:true,
         positions: DP4_ALGOS },
       { k:"bAmt",  label:"B amount", cap:"AMT", min:0, max:1, step:0.01, def:0.5, kind:"bus" },
       { k:"bLvl",  label:"B return", cap:"LVL", min:0, max:1, step:0.01, def:0,   kind:"bus" },
-      { k:"cAlgo", label:"unit C", cap:"C", min:0, max:4, step:1, def:3, kind:"switch",
+      { k:"cAlgo", label:"unit C", cap:"C", min:0, max:4, step:1, def:3, kind:"switch", live:true,
         positions: DP4_ALGOS },
       { k:"cAmt",  label:"C amount", cap:"AMT", min:0, max:1, step:0.01, def:0.5, kind:"bus" },
       { k:"cLvl",  label:"C return", cap:"LVL", min:0, max:1, step:0.01, def:0,   kind:"bus" },
-      { k:"dAlgo", label:"unit D", cap:"D", min:0, max:4, step:1, def:4, kind:"switch",
+      { k:"dAlgo", label:"unit D", cap:"D", min:0, max:4, step:1, def:4, kind:"switch", live:true,
         positions: DP4_ALGOS },
       { k:"dAmt",  label:"D amount", cap:"AMT", min:0, max:1, step:0.01, def:0.5, kind:"bus" },
       { k:"dLvl",  label:"D return", cap:"LVL", min:0, max:1, step:0.01, def:0,   kind:"bus" },
@@ -3306,7 +3306,7 @@ const INSTRUMENTS = {
          this drew three buttons of which TWO BOTH READ "ON", and there was no
          way to tell which direction you were pressing. Step 2 over -1..1 is
          two positions, not three. */
-      { k:"dir",   label:"down / up",   cap:"DIR",   min:-1,   max:1,   step:2,     def:1,    kind:"switch" },
+      { k:"dir",   label:"down / up",   cap:"DIR",   min:-1,   max:1,   step:2,     def:1,    kind:"switch", live:true },
     ],
     panel: { skin: "pole", maker: "BODE", title: "BARBERPOLE",
              grid: "barber", picture: "poletube",
@@ -3456,13 +3456,13 @@ const INSTRUMENTS = {
     slot: "tape", label: "the tape machine", fixed: true,
     lanes: {}, 
     controls: [
-      { k:"power",   label:"genre / off / on", cap:"POWER", min:-1, max:1, step:1, def:-1, kind:"switch" },
+      { k:"power",   label:"genre / off / on", cap:"POWER", min:-1, max:1, step:1, def:-1, kind:"switch", live:true },
       /* added to the song's own drift, in the same units: a fraction of pitch.
          0.002 is roughly what lofi declares, so the top of this travel is about
          five times a heavily-worn tape. */
-      { k:"wow",     label:"extra wow",     cap:"WOW",     min:0, max:0.01, step:0.0002, def:0, kind:"voicing" },
-      { k:"flutter", label:"extra flutter", cap:"FLUTTER", min:0, max:0.01, step:0.0002, def:0, kind:"voicing" },
-      { k:"speed",   label:"reel speed",    cap:"SPEED",   min:0.25, max:2, step:0.01, def:1, kind:"voicing" },
+      { k:"wow",     label:"extra wow",     cap:"WOW",     min:0, max:0.01, step:0.0002, def:0, kind:"voicing", live:true },
+      { k:"flutter", label:"extra flutter", cap:"FLUTTER", min:0, max:0.01, step:0.0002, def:0, kind:"voicing", live:true },
+      { k:"speed",   label:"reel speed",    cap:"SPEED",   min:0.25, max:2, step:0.01, def:1, kind:"voicing", live:true },
     ],
     panel: { skin: "tape", maker: "DECKARD", title: "TAPE", grid: "tape",
              picture: "tapedeck",
@@ -11336,7 +11336,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
        it on. That is the standing rule from `2026-08-05d`: "If I turn a knob it
        should always work for me no matter what the genre is." */
     if(g.tapeDelay){
-      const T = (space && space.tape) || { wow: 0, flutter: 0 };
+      let T = (space && space.tape) || { wow: 0, flutter: 0 };
       /* ── THE DECLARED DEFAULT, NOT ZERO ────────────────────────────────
          This read `PARAMS["tape."+k] || 0`, and PARAMS is empty for a machine
          no genre has written to — so POWER came through as 0, which is OFF,
@@ -11366,6 +11366,17 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
          drift goes as 1/speed. Run it at 2 and the record steadies; run it at
          a quarter and it lurches. That is what a tape does, and it is now what
          this knob does. */
+      /* ── FORCING IT ON MUST GIVE YOU A TAPE ────────────────────────────
+         `on` and a drift of zero is the record passing through a 5 ms delay
+         with nothing modulating it: in circuit, inaudible, indistinguishable
+         from off. So a genre that declares no tape gets a PLAIN ONE when a
+         hand switches it on — near what lofi declares, which is a worn but
+         ordinary machine. A genre that declares its own keeps its own.
+
+         Without this, switching dkc's tape ON was still "doesn't do anything",
+         just one layer further in than the defect that was reported. */
+      const forced = sw === 1 && !has;
+      if(forced){ T = { wow: 0.0015, flutter: 0.0008 }; }
       const spd = Math.max(0.25, hand("speed"));
       /* ── ADDED TO THE SONG'S DRIFT, NOT MULTIPLIED BY IT ────────────────
          These were multipliers, and a multiplier on a genre that declares zero
@@ -24564,9 +24575,28 @@ function handMoved(...keys){
    second; ~60 ms is under the threshold where a hand notices lag and far above
    the rate at which the work is wasteful. */
 let busPending = null;
+/* ── A HAND ON A CONTROL THE GRAPH READS PER SONG ───────────────────────────
+   Reported: "The tape rack doesnt do anything at all." MEASURED, and it was
+   exactly true — pressing ON moved nothing in the graph and the panel said
+   RUNNING anyway.
+
+   THIS TESTED `kind === "bus"` AND NOTHING ELSE. `bus` means "ridden as a curve
+   by rideBus", and it happened to be the same set as "re-applied when a hand
+   moves it" right up until it was not. Everything `setSpace` reads ONCE PER
+   SONG and that is not a bus — the delay's division, the DP/4's four ALGO
+   switches, the barberpole's direction, the desk's three crossover frequencies
+   and all four of the tape's — was DEAD TO THE HAND until the next song. That
+   is thirteen controls, and the tape is simply the first machine whose every
+   control is in that class, so it was the first one where the deadness was
+   impossible to miss.
+
+   `live: true` says "the graph reads this per song, so re-apply when a hand
+   moves it". It is declared rather than inferred because nothing at runtime can
+   see inside setSpace, and a seam check holds the declaration against the
+   battery's own list of per-song controls so the two cannot drift. */
 function busTouched(key){
   const c = CONTROL[key];
-  if(!c || c.kind !== "bus") return;
+  if(!c || (c.kind !== "bus" && !c.live)) return;
   if(busPending) return;
   busPending = setTimeout(() => {
     busPending = null;
@@ -24986,10 +25016,15 @@ function tapeEl(m, M){
 
   let wasOn = null, wasDur = null, wasText = null;
   outer.refresh = () => {
-    const T = SONG && SONG.chart.tape;
+    let T = SONG && SONG.chart.tape;
     const sw = Math.round(panelValue(m, "power"));
     const has = !!(T && (T.wow > 0 || T.flutter > 0));
     const on = sw === 0 ? false : (sw === 1 ? true : has);
+    /* the same plain tape setSpace fits when a hand forces one onto a song that
+       has none — copied here rather than implied, because the caption reading
+       0.00% over an audibly wowing record is a mistake this panel has already
+       made once */
+    if(sw === 1 && !has) T = { wow: 0.0015, flutter: 0.0008 };
     const speed = Math.max(0.25, panelValue(m, "speed"));
     /* one reel turn every 1.6 s at speed 1 -- slow enough to read as a reel
        rather than a fan, and the number is the SPEED knob so the picture and
@@ -25785,7 +25820,17 @@ function switchEl(m, c){
   for(let i = 0; i < n; i++){
     const v = c.min + i * step;
     const b = el("button", null, names[i]);
-    b.addEventListener("click", () => { TRIM[key] = v - PARAMS[key]; box.refresh(); });
+    /* ── A SWITCH TELLS THE REST OF THE PROGRAM IT MOVED ──────────────────
+       This called `box.refresh()` and stopped: the switch redrew itself and
+       NOTHING ELSE HEARD. So pressing the tape's ON button lit the button, the
+       deck's caption said RUNNING, and the graph never learned — "The tape rack
+       doesnt do anything at all", exactly as reported.
+
+       `handMoved` is what every knob and every pad already calls: it refreshes
+       every element showing this key and then tells the graph, through
+       `busTouched`, that a per-song setting moved. A switch is a hand-write
+       like any other and had simply never said so. */
+    b.addEventListener("click", () => { TRIM[key] = v - PARAMS[key]; handMoved(key); });
     opts.appendChild(b); btns.push(b); vals.push(v);
   }
   box.appendChild(opts); box.appendChild(el("div", "cap", c.cap || c.label));

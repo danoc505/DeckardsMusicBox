@@ -1135,6 +1135,33 @@ const check = (label, ok, detail) => {
       delete TRIM["tape.power"]; recompose();
       return { off, on };
     });
+    /* ── PRESSED, NOT SET ─────────────────────────────────────────────────
+       The check below drove `TRIM` and `recompose()` directly and passed while
+       the actual BUTTON did nothing: `switchEl` redrew itself and never told
+       the graph, so "The tape rack doesnt do anything at all" was true and this
+       suite was green. A probe that reaches past the interface only ever proves
+       the thing behind the interface — the third time that sentence has been
+       written in this repo. So this presses the button. */
+    const pressed = await pg.evaluate(async () => {
+      const s = document.getElementById("genre");
+      s.value = "dkc"; s.dispatchEvent(new Event("change", { bubbles: true }));
+      await new Promise(r => setTimeout(r, 250));
+      const btns = [...document.querySelectorAll('[data-key="tape.power"] button')];
+      if(btns.length !== 3) return { err: btns.length + " POWER buttons, want 3" };
+      const out = {};
+      btns[0].click(); await new Promise(r => setTimeout(r, 350)); out.genre = MK2.soundState().tape;
+      btns[2].click(); await new Promise(r => setTimeout(r, 350)); out.on    = MK2.soundState().tape;
+      btns[1].click(); await new Promise(r => setTimeout(r, 350)); out.off   = MK2.soundState().tape;
+      btns[0].click(); await new Promise(r => setTimeout(r, 250));
+      return out;
+    });
+    check("pressing the tape's POWER button reaches the graph",
+          !pressed.err && pressed.genre && pressed.on && pressed.off &&
+          pressed.genre.on === false && pressed.on.on === true &&
+          pressed.on.wowDev > 0 && pressed.off.on === false,
+          pressed.err || `dkc — genre ${pressed.genre.on} · ON ${pressed.on.on} ` +
+            `(drift ${pressed.on.wowDev ? pressed.on.wowDev.toExponential(2) : 0}) · OFF ${pressed.off.on}`);
+
     check("...and a hand can dub a record the genre left off tape",
           !drove.err && drove.off && drove.on && drove.off.on === false && drove.on.on === true,
           drove.err || `dkc: genre says ${JSON.stringify(drove.off)} · hand says ${JSON.stringify(drove.on)}`);

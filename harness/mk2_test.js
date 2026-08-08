@@ -914,6 +914,41 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
           unread.length ? unread.join(" | ") : "all controls wired");
   }
 
+  /* ═══ A CONTROL THE GRAPH READS PER SONG MUST REACH THE HAND ══════════════
+   Reported: "The tape rack doesnt do anything at all." MEASURED and exactly
+   true — pressing its ON button moved nothing in the graph while the deck's
+   caption said RUNNING.
+
+   TWO CAUSES, ONE CLASS. `busTouched` re-applied the graph only for
+   `kind:"bus"`, which is "ridden as a curve by rideBus" and happened to be the
+   same set as "re-apply when a hand moves it" until it was not; and `switchEl`
+   never called anything at all, so a button press redrew itself and nothing
+   else heard. THIRTEEN controls were dead to the hand: the delay's division,
+   the DP/4's four algorithms, the barberpole's direction, the desk's three
+   crossovers and all four of the tape's. The tape is simply the first machine
+   whose EVERY control is in that class, so it is where the deadness became
+   impossible to miss.
+
+   `live: true` declares "the graph reads this per song". This check holds that
+   declaration against the battery's own PER_SONG list — the two are written in
+   different files for different reasons and drifting apart is what let this
+   happen, so they are now each other's guard. */
+{
+  const dead = [];
+  for(const key of PER_SONG){
+    const [m, k] = key.split(".");
+    const MM = M.INSTRUMENTS[m];
+    const c = MM && (MM.controls || []).find(x => x.k === k);
+    if(!c) continue;                       /* a derived chain key, not a panel control */
+    if(c.kind !== "bus" && !c.live) dead.push(key + " (" + c.kind + ")");
+  }
+  check("a control the graph reads per song is re-applied when a hand moves it",
+        dead.length === 0,
+        dead.length ? "dead to the hand: " + dead.join(" · ")
+                    : PER_SONG.size + " per-song controls, every one reaches the graph");
+}
+
+
   /* ── 1b-ii. WHAT THE GENRE SAYS MUST REACH THE PANEL. The check above proves
      a knob is wired to a voice; this proves the GENRE's setting for it is
      actually loaded, which is a different claim and was false for four genres.
