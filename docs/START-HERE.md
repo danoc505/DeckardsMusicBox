@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-07f` unless it says otherwise. If you
+*Everything below is verified at `2026-08-08g` unless it says otherwise. If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -31,7 +31,7 @@ git log --oneline -3      # expect the note scaffolding at the top
 ## What this is
 
 **Deckard's Orchestrator MK2** — one self-contained HTML file
-(`Deckards Orchestrator MK2.html`, ~6.1 MB) that generates music through a
+(`Deckards Orchestrator MK2.html`, ~6.3 MB) that generates music through a
 six-stage pipeline. No build step, no dependencies, no server. Open it in a
 browser and it plays.
 
@@ -122,7 +122,7 @@ while both files carried an identical stamp, so three commits of work went
 unheard. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-06a`.
+Current: `build 2026-08-08g`.
 
 **THE SAX IS PARKED.** The user's verdict, after every metric on it came
 back green. Do not un-park it without the terms in the handoff's warning
@@ -338,8 +338,12 @@ at 8 failures filed as "pre-existing", and two were real defects in the music.
 **Read `docs/BACKLOG.md` §0 first, and take it seriously.** Almost none of
 the last two weeks of work has been *listened to* — the reverb, the whole
 stereo build, the matrix mixer, the stage, the flanger, the DP/4, the snap,
-the barberpole. All measured. None heard. The sax is the standing proof that
-green metrics never establish that something sounds good.
+the barberpole, and now the whole `2026-08-08` run: the tape machine, the
+legato (which audibly changes bladerunner and synthwave), the bass unit's
+accent and slide wiring (audibly changes five genres' bass), the bus
+compressor (squeezes four genres by design), and the spring tank. All
+measured. None heard. The sax is the standing proof that green metrics never
+establish that something sounds good.
 
 So unless the user directs otherwise: **do not stack more onto that pile.**
 Ask them to play it, or help them play it — pick seeds, name what to listen

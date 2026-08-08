@@ -10,7 +10,12 @@ at `077e08b` when the rack reached the conductor; revised again 2026-07-30 at
 2026-07-31 at `7c7644b`** — the sax learned to phrase, the rack became a list,
 minimal techno got its polymeter and something that listens, and eight
 rendered-audio failures that had been dismissed as "pre-existing" turned out to
-contain two real defects in the music. For whoever picks this up next. Read this
+contain two real defects in the music. **Revised again 2026-08-08 at `08g`** —
+the tape machine, the legato (a switch, then a genre door), the desk onto the
+master strip, the bass unit's one face with all five engines answering its
+knobs, the bus compressor with its needle, and the spring tank. Six of those
+are AUDIBLE changes nobody has listened to; the "WHAT 2026-08-08 BUILT"
+section below carries the numbers. For whoever picks this up next. Read this
 whole file before you touch the HTML.*
 
 **THE COMMANDS. Each one in its DEFAULT form, which is the form to use.** Where
