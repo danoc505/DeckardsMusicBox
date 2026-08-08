@@ -133,7 +133,7 @@ because the measurement refused it.
 
 ## Where the program stands
 
-Build `2026-08-07j`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-08d`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 
@@ -217,6 +217,15 @@ was true before the work started.
 | a genre table, a stage, a voice's notes, `voiceFor`, `resolvePicks` | + `mk2_roll`, **and the snapshot — this is what it is for** |
 | the audio graph, a voice's SOUND | + the rendered-audio battery, `probe_render_determinism` |
 | the blend sliders / the MIDI export | `mk2_blend` / `mk2_midi` — and only then |
+
+**AND THE ONE THAT LOOKS LIKE A FALSE ALARM AND IS NOT.** The snapshot hashes
+*every field an event carries*, on purpose — "a field added tomorrow is in the
+hash tomorrow, by construction". So **attaching a new field to a note moves all
+2400 lines even when no note moved**, and the honest response is not to shrug at
+it and not to hide the field somewhere the hash cannot see. It is: hash the same
+songs with the new field REMOVED, show that matches the old baseline, then
+rewrite the baseline. That is what was done for `holdSec` on `2026-08-08d`, and
+the one-off is worth writing again the next time it happens.
 
 **And say which one you skipped and why.** "The snapshot cannot see a label" is
 a better sentence than a green IDENTICAL, because it says you knew what you

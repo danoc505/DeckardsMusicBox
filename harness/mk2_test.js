@@ -2801,6 +2801,76 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         dup.length === 0, dup.length ? dup.join(" · ") : "every named position is distinct");
 }
 
+/* ═══ THE LEGATO SWITCH'S FACT, AND THE FOUR THINGS IT MAY NOT DO ════════════
+   [docs/genre-research/legato.md]
+
+   A sequencer performs legato by extending "each selected note so that it
+   reaches the next note" [corpus:steinberg Cubase Legato], so the fact the
+   switch needs is the distance to this part's NEXT note. Stage 5 attaches it
+   as `holdSec` and writes nothing else -- the switch itself lives in stage 6,
+   at the one dispatcher, and is checked by the UI battery where a hand is.
+
+   FOUR PROPERTIES, and each one is a real way this could be wrong:
+     1. it only ever LENGTHENS -- a shorter hold would be a staccato switch
+        wearing a legato label, and would pull back the chords that already
+        overlap on seven of the eight genres;
+     2. it never runs past the next onset of its own part -- "collides with the
+        next note" is the specification, and holding THROUGH it is a drone;
+     3. it is never longer than a bar -- bladerunner's answer part has 19.6 s
+        between notes and a key held that long is not an articulation;
+     4. no drum carries it. A hi-hat has no next note to reach.
+
+   AND IT MUST ACTUALLY REACH SOMETHING. A field that is never set is a switch
+   that does nothing, which is this program's oldest defect: the check requires
+   the parts the measurement named -- the ones that carry a LINE -- to have it. */
+{
+  const bad = [], reach = {};
+  let notes = 0, held = 0;
+  for(const g of M.genres()) for(const seed of [1, 2, 3]){
+    const song = M.composeSong(seed, "band", g);
+    const bar = (60 / song.chart.tempo) / 4 * 16;
+    /* the next onset of each part, derived here a second way -- from the events
+       as they shipped -- so the check cannot agree with the code by sharing it */
+    const onsets = {};
+    for(const e of song.perf.events){
+      if(e.pitch == null) continue;
+      (onsets[e.role] || (onsets[e.role] = new Set())).add(+e.tSec.toFixed(6));
+    }
+    for(const r in onsets) onsets[r] = [...onsets[r]].sort((a, z) => a - z);
+    for(const e of song.perf.events){
+      if(e.pitch == null){
+        if(e.holdSec != null) bad.push(g + " seed " + seed + ": a drum carries holdSec");
+        continue;
+      }
+      notes++;
+      if(e.holdSec == null) continue;
+      held++;
+      reach[e.role] = (reach[e.role] || 0) + 1;
+      const list = onsets[e.role];
+      const nxt = list.find(t => t > e.tSec + 1e-6);
+      if(e.holdSec <= e.durSec)
+        bad.push(g + " " + e.role + ": holds " + e.holdSec.toFixed(3) + " but is already " + e.durSec.toFixed(3));
+      else if(nxt == null)
+        bad.push(g + " " + e.role + ": holds toward a note that is not there");
+      else if(e.holdSec > (nxt - e.tSec) + 1e-6)
+        bad.push(g + " " + e.role + ": holds " + e.holdSec.toFixed(3) + " past the next note at " + (nxt - e.tSec).toFixed(3));
+      else if(e.holdSec > bar + 1e-6)
+        bad.push(g + " " + e.role + ": holds " + e.holdSec.toFixed(3) + " s, longer than its bar (" + bar.toFixed(3) + ")");
+    }
+  }
+  check("a note knows how long its key could stay down, and it never overreaches",
+        bad.length === 0 && held > 0,
+        bad.length ? bad.slice(0, 4).join(" · ") + (bad.length > 4 ? " (+" + (bad.length - 4) + ")" : "")
+                   : held + " of " + notes + " notes could be held longer");
+  /* the parts the measurement said were NOT already legato: the lines */
+  const want = ["lead", "counter", "keys2"];
+  const missing = want.filter(r => !reach[r]);
+  check("...and it reaches the parts that carry a line, which is where the gaps were",
+        missing.length === 0,
+        missing.length ? "nothing to hold on: " + missing.join(", ")
+                       : Object.keys(reach).sort().map(r => r + " " + reach[r]).join(" · "));
+}
+
 if(FILTER && pass + fail === 0){
   console.log("\nno check's name contains \"" + FILTER + "\" — " + skipped + " were skipped, none run");
   process.exit(2);

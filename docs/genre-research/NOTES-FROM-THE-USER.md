@@ -1599,3 +1599,34 @@ And its §0 is the one the user has effectively been saying all along:
 precedent and it is not a small one — every metric on it was green and the
 ear refused it. Measurements prove a thing exists. They have never once
 proved it sounds good.
+
+---
+
+## "Why cant we have the notes go legato" — 2026-08-08
+
+The user asked for a legato switch. I answered as though a rack control could
+only reach the SOUND of a note and not its length, and the reply was:
+
+> *"Why cant we have the notes go legato on the instrument when the switch is
+> activated? Naturally some songs should already be using legato but we dont
+> have it, but i dont understand why there cant be a switch for a keyboard to
+> play in legato i think thst would make the legto switch off then it clolides
+> with the next note"*
+
+**The last clause is the whole specification** — the note holds until it
+collides with the next one — and it is also, word for word, what a sequencer's
+Legato command does: "extends each selected note so that it reaches the next
+note" [corpus:steinberg]. There was nothing to work out. What was in the way was
+a rule of mine, not a rule of the program: I had filed duration under "the
+notes, which a rig may not touch", when this file already carries `art`, `from`,
+`vib` and `tail` on the event and already lets the performance stage decide how
+long a note sounds. Articulation is not composition.
+
+**And the other half of the sentence was a measurement waiting to be taken.**
+"Some songs should already be using legato but we dont have it" — measured, the
+chords ALREADY overlap on seven of the eight genres, and it is the parts
+carrying a LINE that have the gaps (bladerunner's answer part: 19.6 seconds
+between notes). Half right, and the useful half was which half.
+
+The habit to keep: **when the user describes a mechanism, check whether they
+have just specified it exactly**, before explaining why it is difficult.

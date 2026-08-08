@@ -1216,6 +1216,64 @@ const check = (label, ok, detail) => {
     await pg.waitForTimeout(120);
   }
 
+  /* ═══ THE LEGATO BUTTON HOLDS REAL NOTES OVER ════════════════════════════
+     "a switch for a keyboard to play in legato ... it collides with the next
+     note." [docs/genre-research/legato.md]
+
+     PRESSED, NOT SET, for the reason written three times in this file already:
+     the tape's POWER switch redrew itself and never told the graph, and this
+     suite was green while "the tape rack doesnt do anything at all" was true.
+     So this clicks the button on the strip and then asks the SCHEDULER how
+     many notes it actually held over — a count of notes, not a copy of the
+     button's own state, which would prove only that a button toggles.
+
+     AND IT MUST BE ABSENT WHERE IT WOULD BE A LIE. A drum has no next note to
+     reach; a strip that offered the button anyway would be a control that does
+     nothing, which is the defect this program has a standing rule about. */
+  {
+    const r = await pg.evaluate(async () => {
+      /* SYNTHWAVE, and the genre is not arbitrary. MEASURED across all eight
+         with the buttons on and six seconds of playback: synthwave 55 notes
+         held, dkc 27, bladerunner 14, lofi 10, plastikman 4, dungeon synth 2,
+         jungle 1 — and ACID 0, because its bass has not come in yet six
+         seconds into the record. A window that lands in an intro reads as a
+         broken switch, and this check would have been re-run as a flake for
+         the rest of its life. Every pitched strip is pressed, for the same
+         reason: the parts differ in density by an order of magnitude. */
+      const s = document.getElementById("genre");
+      s.value = "synthwave"; s.dispatchEvent(new Event("change", { bubbles: true }));
+      await new Promise(r => setTimeout(r, 400));
+      const has = {};
+      for(const st of document.querySelectorAll(".mixch"))
+        has[st.dataset.role] = !!st.querySelector(".mixlegato");
+      const btns = [...document.querySelectorAll(".mixch .mixlegato")];
+      if(!btns.length) return { err: "no LEGATO button on any strip", has };
+      for(const b of btns) b.click();
+      /* the transport is a toggle and there is no stop button. Stopped and
+         restarted deliberately: the held-note count is reset when a play
+         begins, so this measures THIS play and not whatever ran before it. */
+      if(playing) document.getElementById("play").click();
+      await new Promise(r => setTimeout(r, 200));
+      const before = JSON.stringify(MK2.soundState().legato);
+      document.getElementById("play").click();
+      await new Promise(r => setTimeout(r, 6000));
+      const after = MK2.soundState().legato;
+      const lit = btns.every(b => b.getAttribute("aria-pressed") === "true");
+      for(const b of btns) b.click();
+      const held = Object.keys(after).reduce((n, k) => n + after[k], 0);
+      return { has, before, after: JSON.stringify(after), held, lit, n: btns.length,
+               parts: Object.keys(after).length };
+    });
+    check("pressing LEGATO on a part holds its notes over to the next one",
+          !r.err && r.held > 0 && r.lit,
+          r.err || `synthwave, ${r.n} strips: ${r.held} notes held over ` +
+                   `${r.parts} parts (${r.after})`);
+    check("...and only the parts that play notes are offered it",
+          !r.err && r.has && r.has.bass === true && r.has.drums === false &&
+          (r.has.tape === undefined || r.has.tape === false),
+          r.err || Object.keys(r.has || {}).map(k => k + (r.has[k] ? " ✓" : " —")).join(" · "));
+  }
+
   /* ═══ A BOX WITH A LOAD SWITCH SHOWS THE FACE OF WHAT IS LOADED ═══════════
      "A bass unit that loads different bass engines just like how the tr1000
      loads different drum kits." This is the check on that sentence, and it is

@@ -98,6 +98,36 @@ to measure the thing it was about — reading `kit.poly`, exempting D bars **by
 name** from `materials.drumPhrase` — and never by moving a threshold. Say in the
 commit message which you changed and why.
 
+### WHAT 2026-08-08 BUILT — `08a` … `08d`
+
+- **`08a`** The tape machine as an END-OF-LINE unit on the whole record, not a
+  send — "the whole record goes through it or none of it does",
+  `channel-sends.md` §6. A three-way POWER switch, wow, flutter and speed, with
+  a deck you can watch. Four defects found by A/B before it shipped, all of the
+  same family: a picture agreeing with a number the graph was not using.
+- **`08b`…`08c`** The barberpole made into a barber pole and an 8-bit screen for
+  the crusher, plus `panel.picture` and a check that a declared picture actually
+  draws. And **thirteen controls that were dead to the hand**: `switchEl` redrew
+  itself and never told the graph, so `live: true` now means "the graph reads
+  this per song, re-apply when a hand moves it".
+- **`08d`** **LEGATO** — a button per part on the mixer strip, holding each note
+  until the next one on that part starts. `docs/genre-research/legato.md`.
+  Three things about it are worth carrying forward:
+  - **The switch is stage 6 and the fact is stage 5.** The note carries
+    `holdSec` (how long this key COULD stay down: the distance to this part's
+    next onset, capped at a bar); `dispatch` decides whether to use it. That is
+    the one place both the live pump and the offline render hand a note to a
+    voice, so the button is LIVE — the pump schedules 1.2 s ahead, so a press
+    lands about a second later — and a bounce does exactly what the ear heard.
+  - **EXTEND, NEVER SHORTEN**, because the measurement said so: the CHORDS
+    already overlap on seven of the eight genres and only the parts carrying a
+    LINE have gaps. A switch that set durations rather than raising them would
+    have pulled the chords back and been heard as damage.
+  - **It moved the snapshot without moving a note**, and that is not a bug in
+    either. The snapshot hashes every field an event carries, on purpose. The
+    honest response is in START-HERE: hash the same songs with the new field
+    stripped, show that matches the old baseline, then rewrite the baseline.
+
 ### WHAT 2026-08-07 BUILT — `07a` … `07f`
 
 - **`07a`** A genre may write `"any"` or a weighted table where it used to

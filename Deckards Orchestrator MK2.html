@@ -260,6 +260,9 @@
   .mixbtn:hover{ border-color:var(--ink); color:var(--ink); }
   .mixmute[aria-pressed=true]{ background:#7a2118; border-color:#c8492f; color:#ffd9cf; }
   .mixsolo[aria-pressed=true]{ background:#8a6a10; border-color:#e0b23c; color:#fff3d0; }
+  /* LEGATO is not a mute and not a solo -- it does not silence anything -- so
+     it is lit in the third colour rather than in either of theirs */
+  .mixlegato[aria-pressed=true]{ background:#1d5a4c; border-color:#3fb497; color:#d6fff2; }
   .mixclear.lit{ border-color:#e0b23c; color:#e0b23c; }
   /* a channel that is silenced -- by its own mute or because something ELSE is
      soloed -- reads as silenced, or the panel shows a part at -4 dB that you
@@ -1238,7 +1241,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08c · the tape rack answers the hand — and twelve other controls that did not</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08d · LEGATO: a key stays down until the next one, on the parts that have gaps</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -10939,9 +10942,40 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     })(g, 0);
     try { Object.defineProperty(g, "__own", { value: own }); } catch(e){ g.__own = own; }
   }
+  /* how many notes the LEGATO switch actually held over, per part, since the
+     last play started. A probe reads it; nothing in the music does. */
+  let legatoHeld = {};
   function dispatch(graph, ev, at, alive){
     const voice = V[ev.voice];
     if(!voice) throw new Error("unknown voice: " + ev.voice);   // fail loud, never substitute
+    /* ── LEGATO: THE KEY STAYS DOWN UNTIL THE NEXT ONE ────────────────────────
+       "a switch for a keyboard to play in legato ... it collides with the next
+       note." The distance to the next note is on the event already
+       (`holdSec`, stage 5); this is the switch, and it is HERE for the same
+       reason the ducker is -- one scheduler, so the live pump and the offline
+       render do the same thing to the same note (Law 10) and no voice has to
+       learn what legato is.
+
+       It is also why the switch is LIVE. The pump schedules 1.2 seconds ahead,
+       so a hand on the button changes the next note about a second later
+       rather than at the next play.
+
+       EXTEND, NEVER SHORTEN. `max`, not `=`: the chords already overlap on
+       seven of the eight genres [docs/genre-research/legato.md §4] and a
+       switch that pulled them back would be doing the opposite of its name.
+
+       A PHRASE VOICE IS LEFT ALONE. The sax renders a whole breath from its
+       opening event and its members' durations live inside `ev.phrase`, which
+       this does not reach. Stated rather than half-done: the sax is parked. */
+    const lg = MIXTRIM[ev.role];
+    if(lg && lg.legato && ev.holdSec && !voice.phrases && ev.durSec < ev.holdSec){
+      /* counted, per part, so a check can prove the NOTE got longer rather than
+         prove the button lit up. "A test that reaches past the interface only
+         ever proves the thing behind the interface" -- and the reverse of that
+         is a test that reads the panel and proves nothing at all. */
+      legatoHeld[ev.role] = (legatoHeld[ev.role] || 0) + 1;
+      ev = Object.assign({}, ev, { durSec: ev.holdSec });
+    }
     /* THE TRIGGER LIVES HERE, in the one scheduler, so live and offline duck
        identically (Law 10) and no voice has to know a ducker exists. */
     if(graph.duck && ev.lane === graph.duck.lane) duckHit(graph, at);
@@ -11890,6 +11924,10 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
             echo: liveGraph.chan[r].sendEcho.gain.value,
             duck: liveGraph.chan[r].duck.gain.value,
           }])) : null,
+      /* WHAT THE LEGATO SWITCH DID, which is a count of notes held over and not
+         a copy of the button. The switch is a scheduling decision, so there is
+         no node to read: this is the closest thing to one. */
+      legato: Object.assign({}, legatoHeld),
     };
   }
   async function ensureLive(){
@@ -11988,6 +12026,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     let i = 0;
     while(i < events.length && events[i].tSec < skip) i++;
     lateDropped = 0;
+    legatoHeld = {};
     /* ── THE PUMP, AND THE ONE RULE THAT KEEPS IT FROM EXPLODING ─────────────
        This used to tick every 150 ms against a 600 ms horizon: 450 ms of slack,
        and NO handling for what happens when the main thread stalls longer than
@@ -23646,6 +23685,51 @@ function makePerformance(chart, form, materials, sections){
   }
   events.sort((a, z) => a.tSec - z.tSec);
 
+  /* ═══ HOW LONG THIS KEY COULD STAY DOWN [docs/genre-research/legato.md] ═════
+     Legato is "no intervening silence" between one note and the next
+     [corpus:wikipedia Legato], and a sequencer performs it by extending "each
+     selected note so that it reaches the next note" [corpus:steinberg Cubase
+     Legato]. So the fact a legato switch needs is not a sound and not a
+     setting -- it is WHEN THIS PART PLAYS AGAIN, which is a fact about the
+     notes and belongs in the one stage that turns steps into seconds.
+
+     WHAT IT IS NOT: it does not change a single note. Nothing here writes
+     `durSec`, `pitch` or `tSec`; it attaches a measurement beside them and
+     stage 6 decides whether to use it (see `dispatch`). The notes are the same
+     notes with the switch off, provably, because nothing was written.
+
+     BY ONSET, NOT BY EVENT. Four notes of a chord share a tSec, and the next
+     thing that part plays is the NEXT chord -- not its own third note. So the
+     walk collapses simultaneous onsets, which is also what "hold the key until
+     the next one is pressed" means when a hand is holding four of them.
+
+     CAPPED AT A BAR, and that is a decision rather than a source. The answer
+     part on bladerunner has a mean gap of 19.6 seconds and dungeon synth's is
+     17.2 -- that is a player stopping and coming back, not a slur, and a key
+     held for nineteen seconds is a drone. legato.md §3.
+
+     ONLY WHERE IT WOULD CHANGE SOMETHING. A note that already runs into the
+     next one is already legato, so it gets no field at all -- which keeps the
+     seven genres whose chords overlap provably untouched and makes "how many
+     notes would this switch move" a thing a probe can count. */
+  {
+    const BAR = spb * 16;
+    const nextOn = {}, curOn = {};
+    for(let i = events.length - 1; i >= 0; i--){
+      const e = events[i];
+      if(e.pitch == null) continue;                    // a drum has no next note to reach
+      if(curOn[e.role] == null || e.tSec < curOn[e.role] - 1e-6){
+        nextOn[e.role] = curOn[e.role];                // undefined on the part's last onset
+        curOn[e.role] = e.tSec;
+      }
+      const nxt = nextOn[e.role];
+      if(nxt == null) continue;
+      const hold = Math.min(nxt - e.tSec, BAR);
+      if(hold > e.durSec + 0.001)
+        events[i] = Object.freeze(Object.assign({}, e, { holdSec: hold }));
+    }
+  }
+
   /* ═══ THE PHRASE, ATTACHED [docs/genre-research/sax-engine.md] ══════════════
      A phrase-rendering voice needs the whole breath at its opening note --
      one excitation, one dynamics stream, the notes as fingerings on it. The
@@ -25430,6 +25514,13 @@ function mixInk(role, s, l){
   const h = mixHue(role);
   return h == null ? "hsl(0 0% 62%)" : `hsl(${h} ${s}% ${l}%)`;
 }
+/* DOES THIS PART PLAY NOTES? Asked of the record rather than answered from a
+   list, the same way the strips themselves are. A part with pitches has a next
+   note to reach and can be played legato; the drums and the tape do not and
+   cannot. */
+function mixPitched(role){
+  return !!(SONG && SONG.perf.events.some(e => e.role === role && e.pitch != null));
+}
 function mixBaseDb(role){
   const G = SONG && SONG.chart.table.roleGain;
   const v = Math.min(1.25, (G && G[role] != null) ? G[role] : 1);
@@ -25594,6 +25685,25 @@ function mixStrip(role){
   const muteB = mkBtn("mute", "M", "mute this part — it and everything it feeds goes silent");
   const soloB = mkBtn("solo", "S", "solo this part — everything else goes silent (solo-in-place: there is one output, so this is not a console's PFL)");
   btns.appendChild(muteB); btns.appendChild(soloB);
+  /* ── LEGATO, ON THE PARTS THAT HAVE NOTES ─────────────────────────────────
+     "a switch for a keyboard to play in legato ... it collides with the next
+     note." It is the third button on the strip because it is the third thing
+     a hand does to a PART rather than to a sound, and because a part is what
+     it applies to -- whichever keyboard is loaded in the rack, and however
+     many times the arrangement swaps that keyboard mid-song.
+
+     ASKED OF THE SONG, NOT OF A LIST. A part gets the button when the record
+     shows it playing PITCHES; a drum has no next note to reach and a legato
+     hi-hat is not a thing. So the eighth part this program grows gets the
+     button, or does not, without anyone remembering it exists -- the rule the
+     strips themselves already follow two functions down. */
+  const legB = mixPitched(role)
+    ? mkBtn("legato", "L", "legato — hold each note of this part until the next one starts, " +
+            "up to a bar. It only ever LENGTHENS: a part whose notes already run into each " +
+            "other is already legato and does not move. Takes effect about a second later, " +
+            "while it plays.")
+    : null;
+  if(legB) btns.appendChild(legB);
   wrap.appendChild(btns);
 
   const trimOf = () => (MIXER_TRIM[role] && MIXER_TRIM[role].vol) || 0;
@@ -25612,10 +25722,12 @@ function mixStrip(role){
        because otherwise the panel shows a part at -4 dB that you cannot hear */
     const t = MIXER_TRIM[role] || {};
     const soloing = Object.keys(MIXER_TRIM).some(r => r[0] !== "_" && MIXER_TRIM[r].solo);
-    const st = (t.mute ? "m" : "") + (t.solo ? "s" : "") + (soloing ? "S" : "");
+    const st = (t.mute ? "m" : "") + (t.solo ? "s" : "") + (soloing ? "S" : "")
+             + (t.legato ? "l" : "");
     if(st !== wasState){
       muteB.setAttribute("aria-pressed", t.mute ? "true" : "false");
       soloB.setAttribute("aria-pressed", t.solo ? "true" : "false");
+      if(legB) legB.setAttribute("aria-pressed", t.legato ? "true" : "false");
       wrap.classList.toggle("muted", !!t.mute);
       wrap.classList.toggle("silenced", !!(t.mute || (soloing && !t.solo)));
       wasState = st;

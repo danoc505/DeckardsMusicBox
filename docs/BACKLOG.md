@@ -344,6 +344,64 @@ Measured by `probe_wiring`, 2026-08-03:
   block: real multisamples or a waveguide, ear-gated on one exposed note
   BEFORE any system is built around the tone.
 
+### 5.0b THE SNAPSHOT BASELINE HAD BEEN STALE SINCE `08a`, AND NOBODY NOTICED
+
+Found on `2026-08-08d` while proving the legato field moved no note. Bisected
+by hashing old builds against the recorded file:
+
+| build | songs matching `mk2_baseline.snap` |
+|---|---|
+| `07o` — the last build before the tape | **200 / 200** |
+| `08c` — HEAD before this work | **18 / 200** |
+
+**`08a` is where it went.** That build moved the tape drift off the note and
+onto the master — "THE PER-VOICE WOW IS GONE; THE TAPE HAS IT" — which deleted
+`wow` and `flutter` from **137 772 events**, and the baseline was never
+rewritten. Proved exactly, not guessed: strip those two fields from `07o` and it
+is **200/200 identical to `08c`**. So nothing else slipped through eight builds;
+one honest change went unrecorded and left the tool crying CHANGED at everybody
+who ran it afterwards.
+
+**Rewritten at `08d`**, absorbing exactly two field changes with a receipt for
+each: `08a`'s removal of `wow`/`flutter`, and `08d`'s addition of `holdSec`
+(200/200 identical to `08c` once stripped). No note moved in pitch, time or
+duration in either.
+
+**The lesson is not "remember to re-baseline".** It is that a stale baseline is
+INDISTINGUISHABLE from a regression at the moment you meet it, and the cost is
+paid by whoever meets it — three runs of bisecting, here. A build that changes
+what an event CARRIES must rewrite the file in the same commit and say what the
+rewrite absorbs.
+
+### 5.1 LEGATO — shipped `2026-08-08d`, and four things it does not do
+
+`docs/genre-research/legato.md`. A button per part on the mixer strip: hold
+each note until the next one on that part starts, capped at a bar, extend only.
+Read at the one dispatcher, so a hand on it changes the record about a second
+later and changes a bounce identically.
+
+**The measurement that shaped it is worth keeping**: the CHORDS already overlap
+on seven of the eight genres (lofi −1.37 s, bladerunner −1.81 s), so the switch
+mostly does nothing there — and the parts that carry a LINE do not (bladerunner's
+answer sits 19.6 s apart, dungeon synth's 17.2). The gap the user heard is real
+and it is in the melodic parts.
+
+Open, and each is a real limitation rather than a to-do written for the sake of it:
+
+- **It is OFF everywhere by default and no genre declares it.** Whether any of
+  these eight genres should ship legato on a part is an EARS question and has
+  not been asked. That is the honest state: the control exists, the taste
+  decision does not.
+- **The roll does not show it.** The visualiser draws `perf.events`, which is
+  what was composed; legato is what the player does with it. Defensible, and
+  the first person to press the button and look at the roll will disagree.
+- **A phrase voice is untouched.** The sax renders a whole breath from its
+  opening event and its members' durations live inside `ev.phrase`, which the
+  dispatcher does not reach into. The sax is parked, so this cost nothing —
+  it will cost something the day it is un-parked.
+- **The bar cap is [EAR], not sourced.** Nothing in the sources gives a number;
+  it is the shortest cap that cannot shorten a real phrase. legato.md §3.
+
 ## 6. MUSIC THEORY — the engine, what it has and what it lacks
 
 *Added 2026-08-03 at the user's direction: "improving the music theory engine
