@@ -962,6 +962,67 @@
     font-weight:400; letter-spacing:.08em; color:#5a6c86; }
   .polefoot{ font-size:.55rem; letter-spacing:.14em; color:#5a6c86; margin-top:.4rem; }
 
+  /* ── THE TAPE MACHINE ─────────────────────────────────────────────────────
+     A deck seen from above: two reels, tape across a head block between them.
+     Everything that moves is a CSS animation with a real duration on it, so the
+     picture costs nothing per frame — the rule barberEl already carries. ── */
+  .sk-tape{ color:#d8d2c4; border:1px solid #2b2a26;
+            background:linear-gradient(#3a3833, #26251f 60%, #1c1b17); }
+  .sk-tape .brand .model{ color:#e8c98a; letter-spacing:.24em; font-weight:600; }
+  .sk-tape .brand .maker{ color:#7d7566; letter-spacing:.16em; }
+  .tapedeck{ display:flex; align-items:center; justify-content:center; gap:1.1rem;
+             padding:.9rem .6rem .5rem; min-height:170px; }
+  .tapereel{ position:relative; width:132px; height:132px; border-radius:50%;
+             background:radial-gradient(circle at 38% 32%, #4a4740, #211f1b 62%, #14130f);
+             box-shadow:inset 0 0 18px rgba(0,0,0,.8), 0 2px 6px rgba(0,0,0,.6); }
+  /* the tape wound on the reel: a dark pack with a faint edge */
+  .tapepack{ position:absolute; inset:14px; border-radius:50%;
+             background:repeating-radial-gradient(circle at 50% 50%,
+               #2a2724 0 2px, #211e1b 2px 4px);
+             box-shadow:inset 0 0 10px rgba(0,0,0,.7); }
+  /* the hub: three spokes, and the thing that visibly turns */
+  .tapehub{ position:absolute; inset:44px; border-radius:50%;
+            background:radial-gradient(circle at 40% 35%, #cfc6b0, #8a8272 60%, #55503f);
+            box-shadow:0 1px 3px rgba(0,0,0,.7);
+            animation:tapespin 1.6s linear infinite; animation-play-state:paused; }
+  .running .tapehub{ animation-play-state:running; }
+  .tapehub i{ position:absolute; left:50%; top:50%; width:5px; height:19px;
+              margin:-19px 0 0 -2.5px; transform-origin:50% 100%;
+              background:linear-gradient(#3a3529, #6d6653); border-radius:2px; }
+  .tapehub i:nth-child(1){ transform:rotate(0deg) }
+  .tapehub i:nth-child(2){ transform:rotate(120deg) }
+  .tapehub i:nth-child(3){ transform:rotate(240deg) }
+  @keyframes tapespin{ from{ transform:rotate(0deg) } to{ transform:rotate(360deg) } }
+  /* the run of tape between the reels, and the head block it crosses */
+  .tapepath{ position:relative; flex:1 1 auto; align-self:stretch;
+             display:flex; align-items:center; justify-content:center; }
+  .taperibbon{ position:absolute; left:0; right:0; top:50%; height:15px; margin-top:-7px;
+    background:linear-gradient(#5a5347, #37322a 40%, #241f1a 60%, #433d33);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.10), 0 1px 4px rgba(0,0,0,.6);
+    /* the gloss travelling along the tape IS the motion; the vertical wobble
+       is the WOW, at a size an eye can see (the real figure is in the caption) */
+    background-image:repeating-linear-gradient(90deg,
+      rgba(255,255,255,.055) 0 22px, rgba(255,255,255,0) 22px 44px);
+    background-size:44px 100%;
+    animation:taperun .9s linear infinite, tapewow 2.4s ease-in-out infinite;
+    animation-play-state:paused; --wob:0px; }
+  .running .taperibbon{ animation-play-state:running; }
+  @keyframes taperun{ from{ background-position:0 0 } to{ background-position:-44px 0 } }
+  @keyframes tapewow{ 0%,100%{ transform:translateY(calc(var(--wob) * -1)) }
+                      50%   { transform:translateY(var(--wob)) } }
+  .tapehead{ position:relative; z-index:2; display:flex; gap:.42rem;
+             padding:.42rem .5rem; border-radius:3px;
+             background:linear-gradient(#4c4740, #2a2722);
+             box-shadow:0 2px 5px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.12); }
+  .tapehead b{ width:9px; height:26px; border-radius:2px;
+               background:linear-gradient(#d9d2bf, #8d8672 55%, #4f4a3d); }
+  .tapelamp{ width:100%; height:2px; margin-top:.1rem; background:#241f1a; }
+  .running .tapelamp{ background:linear-gradient(90deg,
+    rgba(232,201,138,0), rgba(232,201,138,.85), rgba(232,201,138,0));
+    box-shadow:0 0 10px rgba(232,201,138,.5); }
+  .tapefoot{ font-size:.55rem; letter-spacing:.13em; color:#7d7566; margin-top:.45rem; }
+  .tapedeck.stopped{ filter:saturate(.55) brightness(.82); }
+
   /* ── THE A-138m, as the machine looks ─────────────────────────────────────
      A raw brushed-aluminium eurorack panel: silver, faint vertical grain,
      black legending, gold-ringed jack sockets down the left and along the
@@ -3316,6 +3377,56 @@ const INSTRUMENTS = {
                     { m: "flange", label: "YAMAHA · SPX90", x: "rate", y: "depth" }] },
   },
 
+  /* ── THE TAPE MACHINE ─────────────────────────────────────────────────────
+     The medium the record was dubbed to, and the last thing in the chain. The
+     graph half is in buildGraph and setSpace; this is its face.
+
+     WHY THE CONTROLS ARE THE KINDS THEY ARE, decided in writing rather than by
+     picking whichever kind keeps the battery quiet (every `gesture` and `bus`
+     control must be ridden by some genre or the check at mk2_test fails):
+
+       POWER    a `switch`. Three positions — the genre decides / off / on —
+                because "off when a genre has no tape, and switchable on by
+                hand" needs all three states and a two-way toggle cannot say
+                "whatever the song says".
+       WOW      `voicing`. It multiplies the genre's own wow, so the genre is
+                already riding the thing underneath it; a motion lane on top
+                would be a second owner of one drift.
+       FLUTTER  `voicing`, same argument.
+       SPEED    `voicing`. It is a REAL control, not a picture: drift goes as
+                1/speed, because the same mechanical irregularity produces less
+                pitch error when the tape moves faster past the head. It was
+                declared as picture-only in the first draft and the battery
+                refused it — correctly, since a knob that only moves a picture
+                is the defect this file chases hardest.
+
+     THERE ARE NO PER-PART TOGGLES, and that is not an omission. The user asked
+     for toggles in the same breath as "an end of the line FX on the whole", and
+     the two do not fit together: an insert after the mix cannot let one part
+     out of it, because by then there are no parts, only a record. Either it was
+     dubbed to tape or it was not, which is what POWER says. */
+  tape: {
+    slot: "tape", label: "the tape machine", fixed: true,
+    lanes: {}, 
+    controls: [
+      { k:"power",   label:"genre / off / on", cap:"POWER", min:-1, max:1, step:1, def:-1, kind:"switch" },
+      /* added to the song's own drift, in the same units: a fraction of pitch.
+         0.002 is roughly what lofi declares, so the top of this travel is about
+         five times a heavily-worn tape. */
+      { k:"wow",     label:"extra wow",     cap:"WOW",     min:0, max:0.01, step:0.0002, def:0, kind:"voicing" },
+      { k:"flutter", label:"extra flutter", cap:"FLUTTER", min:0, max:0.01, step:0.0002, def:0, kind:"voicing" },
+      { k:"speed",   label:"reel speed",    cap:"SPEED",   min:0.25, max:2, step:0.01, def:1, kind:"voicing" },
+    ],
+    panel: { skin: "tape", maker: "DECKARD", title: "TAPE", grid: "tape",
+             picture: "tapedeck",
+             /* the knobs go ABOVE the deck, where a transport's controls are.
+                Without a `groups` the panel drew the picture and none of its
+                four controls — which the "every control a machine declares is
+                drawn on its panel" sweep exists to catch, and did. */
+             groups: [{ label: "TRANSPORT", keys: ["power", "speed"] },
+                      { label: "THE DRIFT", keys: ["wow", "flutter"] }] },
+  },
+
   /* ── THE PROGRAMME ────────────────────────────────────────────────────────
      A VIEW, like the field: no controls, no sound. It draws every `snap` lane
      the current song carries -- the bars where the conductor takes something
@@ -4847,8 +4958,23 @@ function soundOf(genre, drumMachine, picks, chart){
   return {
     /* the chart's root rides with the space when the caller has a chart to give
        -- the timpani is tuned from it. Asked about a bare GENRE the answer has
-       no root to carry, which is why setSpace defaults rather than throws. */
-    space: (chart && chart.root != null) ? Object.assign({}, space, { tonic: chart.root }) : space,
+       no root to carry, which is why setSpace defaults rather than throws.
+
+       ── AND SO DOES THE TAPE ────────────────────────────────────────────────
+       `chart.tape` is a per-SONG draw (four numbers off the genre's ranges) and
+       the master tape machine needs it. It travels here for the same reason the
+       root does: `space` is the one object setSpace already receives, and a
+       second channel for one more number is how the two get out of step.
+
+       MEASURED, because the first version left it off: the panel drew a running
+       deck on every genre that has tape and the audio was dry, because
+       `space.tape` was undefined and the drift computed to zero. Dungeon synth
+       has the largest wow in the file and the A/B render read -111 dB — no
+       change at all. The picture and the sound disagreeing is the defect this
+       whole session keeps finding; here the render caught it. */
+    space: (chart && chart.root != null)
+      ? Object.assign({}, space, { tonic: chart.root, tape: chart.tape })
+      : (chart && chart.tape ? Object.assign({}, space, { tape: chart.tape }) : space),
     kick, gate,
     drumDrive: has("bus") ? panelValue(m, "bus") : G.drumDrive,
   };
@@ -6458,9 +6584,61 @@ registerProcessor("mk2-room", MK2Room);
     g.masterMeter = c.createAnalyser();
     g.masterMeter.fftSize = 512; g.masterMeter.smoothingTimeConstant = 0;
 
+    /* ══ THE TAPE, AT THE END OF THE LINE ═══════════════════════════════════
+       The user: "i thought the tape was an end of the line FX on the whole
+       because thats what Lofi and dungeon synth would want."
+
+       Right, and it was not what the program did. `chart.tape` has carried four
+       numbers since the beginning -- wow, flutter, hiss, crackle -- but they
+       landed in two different places: hiss and crackle end-of-line on the vinyl
+       channel, and WOW AND FLUTTER PER VOICE, on `keys` and `keys2` ONLY. So
+       lofi's chords drifted and its drums, bass and tune did not, which is not
+       what "this record was dubbed to tape" means.
+
+       WOW ON A BUS IS A MODULATED DELAY, which is how tape is emulated and
+       which this program already builds three of (the flanger, the chorus, the
+       Leslie). Two oscillators on one delay line: WOW is the slow drift and
+       FLUTTER the fast wobble, and they are two different mechanical faults
+       separated by rate -- 0.7 Hz and 7.4 Hz, the constants this file already
+       owns. [corpus:reflectiveobserver; corpus:wikipedia wow and flutter]
+
+       THE DEPTHS ARE DERIVED, NOT DIALLED. A pitch deviation of `d` at rate `f`
+       needs a delay swing of d/(2*pi*f) seconds -- so the genre's wow number,
+       which is a fraction of pitch, converts to seconds by arithmetic rather
+       than by an eared fudge factor.
+
+       WHERE IT SITS: after the desk, before the limiter. Last thing the record
+       meets. ONE HONEST ORDERING NOTE, since the file argues the point
+       elsewhere: the vinyl crackle joins at the mix and therefore passes
+       THROUGH the tape, whereas physically the crackle happens at the stylus,
+       after the tape. It is left that way deliberately -- routing the vinyl
+       channel around this would be a bigger change to the sound than the
+       feature itself, and at the depths any genre declares (0.1% to 0.3% of
+       pitch) a wow on broadband noise is not audible.
+
+       AND IT IS A SWITCH, NOT A BLEND. A pitch effect at 50% wet is two copies
+       of the record a few cents apart, which is a chorus. Either the record was
+       dubbed to tape or it was not. */
+    g.tapeIn  = c.createGain();  g.tapeIn.gain.value  = 1;
+    g.tapeDry = c.createGain();  g.tapeDry.gain.value = 1;   // the switch, OFF
+    g.tapeWet = c.createGain();  g.tapeWet.gain.value = 0;
+    g.tapeDelay = c.createDelay(0.2);
+    g.tapeDelay.delayTime.value = 0.005;                     // the head gap it wobbles about
+    g.tapeWow  = c.createOscillator(); g.tapeWow.frequency.value  = TAPE_WOW_HZ;
+    g.tapeFlut = c.createOscillator(); g.tapeFlut.frequency.value = TAPE_FLUTTER_HZ;
+    g.tapeWowD  = c.createGain(); g.tapeWowD.gain.value  = 0;
+    g.tapeFlutD = c.createGain(); g.tapeFlutD.gain.value = 0;
+    g.tapeWow.connect(g.tapeWowD);   g.tapeWowD.connect(g.tapeDelay.delayTime);
+    g.tapeFlut.connect(g.tapeFlutD); g.tapeFlutD.connect(g.tapeDelay.delayTime);
+    g.tapeWow.start(0); g.tapeFlut.start(0);
+    g.tapeIn.connect(g.tapeDry);
+    g.tapeIn.connect(g.tapeDelay); g.tapeDelay.connect(g.tapeWet);
+
     g.mix.connect(g.pre); g.pre.connect(g.shaper); g.shaper.connect(g.post);
     g.post.connect(g.deskLow); g.deskLow.connect(g.deskMid); g.deskMid.connect(g.deskHigh);
-    g.deskHigh.connect(g.limit); g.limit.connect(g.master);
+    g.deskHigh.connect(g.tapeIn);
+    g.tapeDry.connect(g.limit); g.tapeWet.connect(g.limit);
+    g.limit.connect(g.master);
     g.master.connect(c.destination); g.master.connect(g.masterMeter);
 
     /* reverb: one synthetic room, deterministic (seeded noise IR — Law 7:
@@ -11077,6 +11255,70 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     return out;
   }
   function setSpace(g, space, kick, drumDrive, gate, motion, motionOffset, busT0){
+    /* ── THE TAPE THIS RECORD WAS DUBBED TO ────────────────────────────────
+       The genre's own numbers, plus the hand on top, exactly like every other
+       control here. `space.tape` carries wow and flutter as FRACTIONS OF PITCH,
+       so the delay swing each needs is depth/(2*pi*rate) seconds -- arithmetic,
+       not an eared constant.
+
+       ON WHEN THE GENRE HAS TAPE, and switchable by hand either way. dkc and
+       plastikman declare all zeros on purpose -- a cartridge and a digital
+       record have no tape -- so their rack reads OFF and a hand can still turn
+       it on. That is the standing rule from `2026-08-05d`: "If I turn a knob it
+       should always work for me no matter what the genre is." */
+    if(g.tapeDelay){
+      const T = (space && space.tape) || { wow: 0, flutter: 0 };
+      /* ── THE DECLARED DEFAULT, NOT ZERO ────────────────────────────────
+         This read `PARAMS["tape."+k] || 0`, and PARAMS is empty for a machine
+         no genre has written to — so POWER came through as 0, which is OFF,
+         while the PANEL read the control's declared default of -1 and drew a
+         running deck. The picture said RUNNING over a dry record on every
+         genre, and the A/B render is what caught it: dungeon synth has the
+         largest wow in the file and measured -111 dB, i.e. no change at all.
+
+         A knob's value is its genre's, else its DECLARED DEFAULT — never zero,
+         which is a legal position on this control and means something else. */
+      const hand = k => {
+        const c = CONTROL["tape." + k];
+        const base = PARAMS["tape." + k] != null ? PARAMS["tape." + k] : (c ? c.def : 0);
+        return base + (TRIM["tape." + k] || 0);
+      };
+      /* the machine's own switch: -1 the genre decides, 0 off, 1 on */
+      const sw = Math.round(hand("power"));
+      const has = (T.wow > 0 || T.flutter > 0);
+      const on = sw === 0 ? false : (sw === 1 ? true : has);
+      /* ── SPEED IS A REAL CONTROL, and it has to be ─────────────────────
+         It was declared as "sets nothing in the audio: the reels turn at it",
+         and the battery was right to refuse that — a knob that only moves a
+         picture is the knob-that-does-nothing defect wearing a nicer coat.
+
+         The physics gives it a job for free: the same mechanical irregularity
+         produces LESS pitch error when the tape moves faster past the head, so
+         drift goes as 1/speed. Run it at 2 and the record steadies; run it at
+         a quarter and it lurches. That is what a tape does, and it is now what
+         this knob does. */
+      const spd = Math.max(0.25, hand("speed"));
+      /* ── ADDED TO THE SONG'S DRIFT, NOT MULTIPLIED BY IT ────────────────
+         These were multipliers, and a multiplier on a genre that declares zero
+         is a knob that does nothing: switching dkc's tape ON put the record
+         through the tape path with a drift of exactly 0 × anything. MEASURED,
+         by the check that turns POWER on for dkc and reads the graph.
+
+         Same trap the mixer sends had, same answer: the song's value is the
+         BASE and the hand is added on top. So a genre that declares no tape
+         still gets tape when a hand asks for it — "the user is the end of the
+         line" — and a genre that declares some keeps exactly what it declared
+         until someone moves the knob. */
+      const wow  = Math.max(0, T.wow     + hand("wow"))     / spd;
+      const flut = Math.max(0, T.flutter + hand("flutter")) / spd;
+      const dev = (d, hz) => d / (2 * Math.PI * hz);
+      const at = p2 => { try { p2.cancelScheduledValues(t0); } catch(e){} return p2; };
+      at(g.tapeWowD.gain).value  = on ? dev(wow,  TAPE_WOW_HZ)     : 0;
+      at(g.tapeFlutD.gain).value = on ? dev(flut, TAPE_FLUTTER_HZ) : 0;
+      at(g.tapeDry.gain).value = on ? 0 : 1;
+      at(g.tapeWet.gain).value = on ? 1 : 0;
+      g.tapeOn = on;
+    }
     /* the mixer's hand, re-applied whenever the song's sound is set -- so a
        fader survives a new song, a genre change and an offline render alike */
     applyMixer(g);
@@ -11548,6 +11790,13 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       chan: liveGraph && liveGraph.chan
         ? Object.fromEntries(Object.keys(liveGraph.chan)
             .map(r => [r, liveGraph.chan[r].inp.gain.value])) : null,
+      /* WHETHER THE RECORD IS ON TAPE, and how far it is drifting — reported
+         off the GRAPH so a check cannot ask the picture to vouch for itself. */
+      tape: liveGraph && liveGraph.tapeDelay ? {
+        on: !!liveGraph.tapeOn,
+        wet: liveGraph.tapeWet.gain.value,
+        wowDev: liveGraph.tapeWowD.gain.value,
+      } : null,
       /* ── EACH PART'S SHARE OF ITS TWO SENDS, and its duck ─────────────────
          Reported through the same door the fader is, and for the same reason
          the fader is: a probe that reads the panel proves the panel and a probe
@@ -23117,9 +23366,15 @@ function makePerformance(chart, form, materials, sections){
              sustains should have it. Bass, lead and the repeating figure are
              left out for now and named in BACKLOG §6b, because widening it
              further moves six other genres. */
-          if(role === "keys" || role === "keys2"){
-            ev.wow = chart.tape.wow; ev.flutter = chart.tape.flutter;
-          }
+          /* ── THE PER-VOICE WOW IS GONE; THE TAPE HAS IT ────────────────
+             This put `ev.wow`/`ev.flutter` on the chords and the second
+             keyboard ONLY, so on lofi the chords drifted and the drums, the
+             bass and the tune did not. The user, on what a tape is: "an end of
+             the line FX on the whole because thats what Lofi and dungeon synth
+             would want." Right — so the drift lives on the master tape now and
+             the whole record gets it, which is an AUDIBLE change on the six
+             genres that declare wow and is reported as one. BACKLOG §6b named
+             this half-measure as a half-measure; it is closed. */
           /* THE RIBBON, if this genre plays one -- and it is a HAND, which is
              why it lives in the performance stage rather than on a panel.
 
@@ -24596,6 +24851,89 @@ function fieldEl(){
    read from the motion plan rather than from a genre table, so the display is
    of THIS song -- and a genre with no snap gets an honest empty strip saying
    so rather than a blank box. */
+/* ── THE TAPE MACHINE'S FACE ────────────────────────────────────────────────
+   Two reels with tape running between them, over a head block.
+
+   THE MOTION IS A CSS ANIMATION WHOSE DURATION IS A REAL NUMBER, which is the
+   lesson `barberEl` already carries: hand the movement to the compositor and it
+   costs nothing per frame. The alternative -- writing the picture every frame --
+   is the documented cause of 41 ms frames in this file (`probe_stutter`, and
+   the wasPtr/wasVal guards in knobEl). NOTHING HERE IS WRITTEN PER FRAME.
+
+   IT SHOWS THE TRUTH OR IT SHOWS NOTHING. The reels turn only when the tape is
+   actually in circuit: a genre with no tape draws a stopped machine, because a
+   picture of tape running under a record that never met any is the same lie as
+   a knob that does nothing. `refresh` reads the same POWER switch the graph
+   reads. */
+function tapeEl(m, M){
+  const deck = el("div", "tapedeck");
+  const mk = side => {
+    const w = el("div", "tapereel " + side);
+    const hub = el("div", "tapehub");
+    for(let i = 0; i < 3; i++) hub.appendChild(el("i"));
+    w.appendChild(el("div", "tapepack"));
+    w.appendChild(hub);
+    return w;
+  };
+  const left = mk("l"), right = mk("r");
+  const path = el("div", "tapepath");
+  const ribbon = el("div", "taperibbon");
+  const head = el("div", "tapehead");
+  head.appendChild(el("b")); head.appendChild(el("b")); head.appendChild(el("b"));
+  path.appendChild(ribbon); path.appendChild(head);
+  deck.appendChild(left); deck.appendChild(path); deck.appendChild(right);
+  const lamp = el("div", "tapelamp");
+  const foot = el("div", "tapefoot", "");
+  const outer = el("div");
+  outer.appendChild(deck); outer.appendChild(lamp); outer.appendChild(foot);
+
+  let wasOn = null, wasDur = null, wasText = null;
+  outer.refresh = () => {
+    const T = SONG && SONG.chart.tape;
+    const sw = Math.round(panelValue(m, "power"));
+    const has = !!(T && (T.wow > 0 || T.flutter > 0));
+    const on = sw === 0 ? false : (sw === 1 ? true : has);
+    const speed = Math.max(0.25, panelValue(m, "speed"));
+    /* one reel turn every 1.6 s at speed 1 -- slow enough to read as a reel
+       rather than a fan, and the number is the SPEED knob so the picture and
+       the knob cannot disagree */
+    const dur = (1.6 / speed).toFixed(2) + "s";
+    if(dur !== wasDur){
+      for(const r of [left, right]) r.querySelector(".tapehub").style.animationDuration = dur;
+      ribbon.style.animationDuration = (0.9 / speed).toFixed(2) + "s";
+      wasDur = dur;
+    }
+    if(on !== wasOn){
+      outer.classList.toggle("running", on);
+      deck.classList.toggle("stopped", !on);
+      wasOn = on;
+    }
+    /* THE SAME ARITHMETIC THE GRAPH USES, and it has to be copied carefully:
+       this read `T.wow * knob` while setSpace had already been changed to
+       `T.wow + knob`, so the caption read "wow 0.00%" on dungeon synth — the
+       genre with the most drift in the file — while the tape was audibly
+       wowing. The picture disagreeing with the sound is the defect this whole
+       session keeps turning up, and it got in again between two edits. */
+    const spd = Math.max(0.25, panelValue(m, "speed"));
+    const wow = T ? Math.max(0, T.wow + panelValue(m, "wow")) / spd : 0;
+    /* the ribbon's wobble IS the wow, scaled to something an eye can see: a
+       0.2% pitch drift is a fraction of a pixel, so the picture exaggerates and
+       the caption gives the real number rather than letting the shape imply it */
+    ribbon.style.setProperty("--wob", (Math.min(6, wow * 900)).toFixed(2) + "px");
+    const txt = on
+      ? "RUNNING · wow " + (wow * 100).toFixed(2) + "% · the whole record is on tape"
+      : (has ? "STOPPED BY HAND · this song has tape and is not using it"
+             : "NO TAPE ON THIS SONG · switch POWER to ON to dub it anyway");
+    if(txt !== wasText){ foot.textContent = txt; wasText = txt; }
+  };
+  /* the same door barberEl uses: `registerKnob` puts a panel on the refresh
+     list. GRIDS is for STEP grids and its entries must carry `stepEls` — using
+     it here threw on load, which is the browser suite's "no uncaught page
+     errors" check doing its job. */
+  outer.refresh(); registerKnob(outer);
+  return outer;
+}
+
 function programmeEl(){
   const wrap = el("div", "prgwrap");
   const tape = el("div", "prgtape");
@@ -26495,6 +26833,7 @@ function drawPanels(){
       }
       if(P.grid === "field") box.appendChild(fieldEl());
       if(P.grid === "programme") box.appendChild(programmeEl());
+      if(P.grid === "tape") box.appendChild(tapeEl(m, M));
       if(P.grid === "barber") box.appendChild(barberEl(m, M));
       if(P.grid === "matrix"){
         box.appendChild(matrixGridEl(m, M));

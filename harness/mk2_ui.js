@@ -1079,6 +1079,67 @@ const check = (label, ok, detail) => {
                      : r.map(x => x[0] + " " + x[1]).join(" · "));
   }
 
+  /* ═══ THE TAPE DECK SAYS WHAT THE RECORD IS ACTUALLY DOING ════════════════
+     The tape is an end-of-line unit: either the record was dubbed to it or it
+     was not. The reels turn when it is in circuit and stop when it is not, and
+     that has to be the SAME fact the audio uses or the panel is decoration.
+
+     IT WAS NOT, on the first build of this, and the render A/B is what caught
+     it: `setSpace` read `PARAMS["tape.power"] || 0`, which is 0 — a legal
+     position meaning OFF — while the panel read the control's declared default
+     of -1 meaning "let the genre decide". So every genre with tape drew a
+     RUNNING deck over a dry record, and dungeon synth, which has the largest
+     wow in the file, measured -111 dB against the previous build: no change at
+     all. A knob's value is its genre's, else its DECLARED DEFAULT, never zero.
+
+     So this asks the two questions that defect would have failed: does the deck
+     agree with the genre, and does a hand on POWER change what the graph holds. */
+  {
+    const roll = [];
+    for(const g of await pg.evaluate(() => MK2.genres())){
+      const r = await pg.evaluate(async (g) => {
+        const s = document.getElementById("genre");
+        s.value = g; s.dispatchEvent(new Event("change", { bubbles: true }));
+        await new Promise(r => setTimeout(r, 250));
+        const box = document.querySelector('.machine[data-machine="tape"]');
+        if(!box) return { err: "no tape rack" };
+        const T = MK2.currentSong().chart.tape;
+        return { has: T.wow > 0 || T.flutter > 0,
+                 running: !box.querySelector(".tapedeck").classList.contains("stopped") };
+      }, g);
+      roll.push([g, r]);
+    }
+    const wrong = roll.filter(([g, r]) => r.err || r.has !== r.running);
+    check("the tape deck runs exactly when this song has tape",
+          roll.length > 0 && wrong.length === 0,
+          wrong.length
+            ? wrong.map(([g, r]) => g + ": " + (r.err || (r.has ? "has tape, stopped" : "no tape, running"))).join(" · ")
+            : roll.map(([g, r]) => g + (r.running ? " on" : " off")).join(" · "));
+
+    /* and a hand can dub a record that has no tape — "the user is the end of
+       the line". Read off the GRAPH, not off the deck, so the picture cannot
+       vouch for itself. */
+    const drove = await pg.evaluate(async () => {
+      const s = document.getElementById("genre");
+      s.value = "dkc"; s.dispatchEvent(new Event("change", { bubbles: true }));
+      await new Promise(r => setTimeout(r, 250));
+      document.getElementById("play").click();
+      await new Promise(r => setTimeout(r, 900));
+      const off = MK2.soundState().tape;
+      const sw = document.querySelector('[data-key="tape.power"]');
+      if(!sw) return { err: "no POWER switch" };
+      TRIM["tape.power"] = 2;                 // -1 declared + 2 = ON
+      recompose();
+      await new Promise(r => setTimeout(r, 500));
+      const on = MK2.soundState().tape;
+      delete TRIM["tape.power"]; recompose();
+      return { off, on };
+    });
+    check("...and a hand can dub a record the genre left off tape",
+          !drove.err && drove.off && drove.on && drove.off.on === false && drove.on.on === true,
+          drove.err || `dkc: genre says ${JSON.stringify(drove.off)} · hand says ${JSON.stringify(drove.on)}`);
+  }
+
   /* ═══ A PART'S SEND MOVES THAT PART, AND ONLY THAT PART ═══════════════════
      The whole reason the sends moved off the bus. Three strips share the keys
      bus and two share the lead bus, so before this an echo knob on `chords 2`

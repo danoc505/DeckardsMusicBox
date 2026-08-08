@@ -102,3 +102,20 @@ stage, no cue mix and no performer to feed.
    three strips share one send today and two more share another, so an echo
    knob on `chords 2` would wet `chords` and `figure` as well. A send that moves
    three parts is not the control its label promises.
+
+
+---
+
+## 6. POSTSCRIPT — THE TAPE IS NOT A SEND
+
+*Added 2026-08-08, when the tape machine was built.*
+
+A tape is not on an aux. **The whole record goes through it or none of it
+does** — which is the same argument §2 makes about compressors, one step
+further along: a send exists so several parts can share one unit, and there is
+nothing to share when the unit is the medium the record was cut to.
+
+So the tape is an **insert on the master path**, after the desk and before the
+limiter, with a three-way POWER switch (the genre decides / off / on) rather
+than a wet-dry blend. A pitch effect at 50% wet is two copies of the record a
+few cents apart, which is a chorus, not a tape.

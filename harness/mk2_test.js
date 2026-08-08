@@ -853,6 +853,13 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     /* the desk: three shelf/bell gains the whole mix passes through, plus the
        three crossovers that place them */
     "desk.low","desk.mid","desk.high","desk.lowF","desk.midF","desk.highF",
+    /* the tape machine: read once per song by setSpace, which sets the delay
+       swing the wow and flutter oscillators write. POWER decides whether the
+       record goes through the tape at all; SPEED divides the drift, because a
+       tape moving faster past the head turns the same mechanical irregularity
+       into less pitch error. Same shape of entry as `echo.div` above: read per
+       SONG, never per note, and therefore invisible to the P() scanner. */
+    "tape.power","tape.wow","tape.flutter","tape.speed",
     ]);
   /* ── THE PER-VOICE CHAINS, DERIVED, NOT LISTED ──────────────────────────────
      These were twenty names typed in for tr1000 alone. Then the acoustic kit and
