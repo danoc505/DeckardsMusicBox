@@ -1378,7 +1378,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08l · the figure follows the chord — the old research was refuted</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08m · the sampled band leads; the Mega Drive chip stops playing Nintendo</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -14790,7 +14790,34 @@ const GENRE = {
        and a chip DKC is closer to the thing than a Rhodes-and-drumkit DKC is.
        Weighted toward sega and not pinned to it, so the band rig stays as the
        A/B: the notes are identical either way and the seam battery proves it. */
-    rig:      [["sega", 7], ["band", 3]],
+    /* ── AND THE WEIGHTING IS THE OTHER WAY ROUND NOW, 2026-08-08m ─────────
+       The paragraph above is honest about the mismatch and then decides
+       against itself: "a chip DKC is closer to the thing than a
+       Rhodes-and-drumkit DKC is." That argument has lost both its legs.
+
+       ONE: the table is no longer only DKC. Chrono Trigger is in it, and its
+       sound is a sampled flute, sampled strings and a sampled sitar through
+       the SPC700 — there is no reading of that score on which an FM chip is
+       "closer". Kirkhope's N64 is sampled too, in his own words: "having to
+       learn to sample instruments and loop them to as small as possible to
+       save memory" [corpus:ocremix]. ALL THREE SOURCES ARE SAMPLE PLAYBACK
+       MACHINES. The YM2612 is the Mega Drive, a console none of them ran on.
+
+       TWO: the ear. "It's not like in the video game." MEASURED, this genre
+       was drawing the Sega rig on 67% of its songs and putting 37.4% of all
+       its notes through four-operator FM — the single loudest way in which it
+       is not like the video game.
+
+       So the sampled band leads and the chip follows, the same 7/3 lofi
+       carries. THE CHIP IS NOT REMOVED and that is deliberate: it is correctly
+       implemented (all eight OPN2 algorithms verified against the hardware's
+       own tables), it makes sound, and Mega Drive music IS video game music —
+       so a third of this genre's songs being a chip band is a legitimate
+       corner of the medium rather than an error. What it is NOT yet is a
+       researched one: there is no Koshiro, no Sonic, no Thunder Force in this
+       repo, so those songs are a Mega Drive band playing SNES material.
+       BACKLOG names that as the open job. */
+    rig:      [["band", 7], ["sega", 3]],
     keysChar: [["rhodes", 1]],
     leadChar: [["synth", 1]],                // unchanged: DKC's tune is chipLead 68% / V.lead 32%
 
