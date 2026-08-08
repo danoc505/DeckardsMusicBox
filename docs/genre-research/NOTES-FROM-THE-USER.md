@@ -1653,3 +1653,29 @@ Three corrections in one message, after the legato switch shipped hand-only:
 The habit to keep: **when a new control ships, ask in the same breath which of
 its three owners can reach it** — the genre, the motion, the hand. A control
 with only a hand is a demo.
+
+---
+
+## "No matter the kit its always the tr" — 2026-08-08
+
+The bass unit shipped with per-engine faces: loading the sub bass amputated
+the patch bay and the whole lower deck. The user:
+
+> *"The master bass is supposed to be like how the master drum rack works
+> which is the tr1000 no matter the kit its always the tr. this is not the
+> case with the master bass. If any other kit is loaded it completely changes
+> ui this is not the idea it is wrong. The kit should only change knobs if
+> need like the tr1000."*
+
+The mistake worth naming: I treated "which knobs would be live" as the
+constraint and REBUILT THE FACE around it, when the identity of the box was
+the constraint and the knobs were the work. The amputation existed because the
+deck's knobs would have been dead over the other engines — so the honest fix
+was never a UI arrangement, it was WIRING: give the box's universal knobs
+(tune, accent, slide time, muffler, volume) a meaning on every engine, mark
+the sixteen that are genuinely one circuit's as out-of-circuit, and the one
+face follows.
+
+**A box's identity outranks its convenience.** The TR-1000 is always the TR;
+the bass box is always the yellow 303 chassis. What varies is what is IN it —
+said by the switch, never by the furniture.

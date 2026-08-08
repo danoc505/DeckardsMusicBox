@@ -410,6 +410,25 @@ Open, and each is a real limitation rather than a to-do written for the sake of 
 - **The bar cap is [EAR], not sourced.** Nothing in the sources gives a number;
   it is the shortest cap that cannot shorten a real phrase. legato.md §3.
 
+### 5.1b THE BASS UNIT'S ONE FACE + THE COMPRESSOR — shipped `2026-08-08f`
+
+`docs/genre-research/bass-unit-face.md` and `bus-compressor.md`. What remains
+open from those two builds, honestly:
+
+- **The dimmed 303-circuit knobs are a compromise with a direction.** Sixteen
+  controls draw dimmed over non-acid engines. Each one that LEARNS a generic
+  meaning (the way accent/slide/muffler/tune/volume did) moves from dimmed to
+  live — cutoff and decay are the obvious next two, but they collide with the
+  engines' own prefixed filter knobs (two owners of one filter), so each needs
+  a real design, not a sweep.
+- **The compressor's four declarations are a sourced idiom, not a listen.**
+  One session with ears decides whether acid/plastikman/jungle/synthwave keep
+  their glue and whether the thresholds sit right. The needle makes that
+  session possible — that was the point of the needle.
+- **No genre rides the compressor's knobs** (all voicing+live, hand's
+  territory). A genre pumping its release per section is a real technique and
+  a real future, and it would need the kinds revisited.
+
 ### 5.2 THE GENRE'S HANDS ON THE PART STRIPS — asked for, decided, not built
 
 The user, `2026-08-08`: "We have a bunch of new controls wouldnt it make sense

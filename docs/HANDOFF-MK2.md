@@ -98,7 +98,26 @@ to measure the thing it was about — reading `kit.poly`, exempting D bars **by
 name** from `materials.drumPhrase` — and never by moving a threshold. Say in the
 commit message which you changed and why.
 
-### WHAT 2026-08-08 BUILT — `08a` … `08e`
+### WHAT 2026-08-08 BUILT — `08a` … `08f`
+
+- **`08f`** Two user directions. (1) **THE BASS UNIT KEEPS ONE FACE** — "no
+  matter the kit its always the tr" — and the two halves of that are one fix:
+  the engine entries stopped overriding `krow`/`deck`/`jacks` (the chassis is
+  the chassis; an engine brings only `own`, drawn in one stable row), and the
+  box's five universal knobs (`sharedReads`: tune, accent, slideTime, muffler,
+  volume) are now READ BY ALL FIVE ENGINES through `bassBox`/`bassGlide`/
+  `mufflerStage` — because the old UI amputated the deck precisely so its dead
+  knobs would not be lies. The 303-circuit-only knobs draw DIMMED over other
+  engines with a tooltip naming whose circuit they are (the patch sockets'
+  honesty). Measured: acid untouched (A/B −118.6 dB); the flags were real
+  music (plastikman 1001 accented + 331 slid sub notes in 6 seeds, jungle 720
+  slides) — audible where they play, reported as the feature it is.
+  docs/genre-research/bass-unit-face.md. (2) **THE BUS COMPRESSOR** — an
+  insert between the desk and the tape, 2:1 / slow attack / breathing release
+  (all sourced, docs/genre-research/bus-compressor.md), three-way POWER, and
+  A NEEDLE READING THE NODE'S OWN `reduction` so the picture cannot claim a
+  squeeze that is not happening. Four dance-floor genres declare `comp: 1`;
+  the score-like four stay untouched and a seam check pins exactly that split.
 
 - **`08e`** The GENRE's legato, and the desk moved onto the master strip. Two
   user directions in one message. (1) `legato: { part: 1 }` is a genre table

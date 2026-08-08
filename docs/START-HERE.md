@@ -133,7 +133,7 @@ because the measurement refused it.
 
 ## Where the program stands
 
-Build `2026-08-08e`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-08f`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 

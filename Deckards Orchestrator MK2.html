@@ -411,6 +411,21 @@
      machine's, marked so nobody turns one expecting it to do something. */
   .sk-td3mo .kn.ro .dial{ border-style:dashed; }
   .sk-td3mo .kn.ro .ptr{ background:#2a2a2a; }
+  /* ── OUT OF CIRCUIT. A knob of the acid line's circuit, drawn while another
+     engine is loaded: present because the chassis is the chassis (one face,
+     like the TR-1000), dimmed and dashed because turning it reaches nothing
+     until the acid line is back. The tooltip says exactly that. The same
+     honesty as the patch sockets, one row up. */
+  .sk-td3mo .notin{ opacity:.38; }
+  .sk-td3mo .kn.notin .dial{ border-style:dashed; border-color:#7a6420; }
+  .sk-td3mo .sw.notin .opts, .sk-td3mo .btn3.notin b{ border-style:dashed; }
+  /* the loaded engine's own knobs, in one stable row under the load switch */
+  .sk-td3mo .engrow{ display:flex; gap:.5rem; flex-wrap:wrap; align-items:flex-start;
+                     padding:.15rem 0 .5rem; margin-bottom:.45rem;
+                     border-bottom:1px solid rgba(0,0,0,.22); }
+  .sk-td3mo .engleg{ font-size:7.5px; letter-spacing:.14em; color:#6b5410;
+                     text-transform:uppercase; align-self:center;
+                     border:1px solid #6b5410; border-radius:2px; padding:.2rem .4rem; }
   .sk-td3mo .rolab{ font-size:7px; letter-spacing:.10em; color:#6b5410;
                     text-transform:uppercase; width:100%; padding-top:.35rem; }
   .sk-td3mo .led{ width:3rem; text-align:center; }
@@ -1012,6 +1027,47 @@
             background:linear-gradient(#3a3833, #26251f 60%, #1c1b17); }
   .sk-tape .brand .model{ color:#e8c98a; letter-spacing:.24em; font-weight:600; }
   .sk-tape .brand .maker{ color:#7d7566; letter-spacing:.16em; }
+  /* ── THE BUS COMPRESSOR: dark console grey, one big cream VU ─────────────
+     The needle rests at 0 on the RIGHT and swings left with the squeeze,
+     which is how a gain-reduction meter reads on the desks this copies. */
+  .sk-comp{ color:#d6d2c8; border:1px solid #23252a;
+            background:linear-gradient(#33373e, #24272c 60%, #1b1d21); }
+  .sk-comp .brand .model{ color:#9fc4e8; letter-spacing:.20em; }
+  .compvu{ display:flex; justify-content:center; padding:.5rem 0 .2rem; }
+  .cvface{ position:relative; width:15rem; height:8.2rem; border-radius:6px 6px 4px 4px;
+           background:linear-gradient(#f2ecd8, #e8dfc4 70%, #ddd2b2);
+           box-shadow:inset 0 0 0 3px #17181b, inset 0 0 18px rgba(120,90,30,.25),
+                      0 2px 6px rgba(0,0,0,.5);
+           overflow:hidden; }
+  .cvtick{ position:absolute; left:50%; bottom:.9rem; width:2px; height:6.1rem;
+           margin-left:-1px; transform-origin:50% 100%; pointer-events:none; }
+  .cvtick::before{ content:""; position:absolute; top:0; left:0; width:2px; height:9px;
+                   background:#453c28; }
+  .cvnum{ position:absolute; left:50%; bottom:.9rem; width:1.4rem; margin-left:-.7rem;
+          text-align:center; font-size:8px; color:#5a4e33; font-weight:600;
+          transform-origin:50% 100%; pointer-events:none; }
+  /* the working band the sources give — 0.5 to 2 dB of glue — printed on the
+     face as a quiet arc segment under the first ticks, so "just barely move
+     the needle" is a region you can see the needle sit in */
+  .cvface::after{ content:"GAIN REDUCTION · dB"; position:absolute; left:0; right:0;
+                  bottom:.25rem; text-align:center; font-size:7px; letter-spacing:.18em;
+                  color:#7a6a45; }
+  .cvneedle{ position:absolute; left:50%; bottom:.9rem; width:2px; height:6.4rem;
+             margin-left:-1px; transform-origin:50% 100%; border-radius:1px;
+             background:linear-gradient(#1c1c1c, #444); transform:rotate(40deg);
+             /* a real meter's ballistics, approximated by the browser: the
+                value updates per frame and this eases the needle between them */
+             transition:transform .12s ease-out;
+             box-shadow:0 0 2px rgba(0,0,0,.4); }
+  .cvhub{ position:absolute; left:50%; bottom:.55rem; width:14px; height:14px;
+          margin-left:-7px; border-radius:50%;
+          background:radial-gradient(circle at 40% 32%, #4a4a4a, #111); }
+  .cvface.engaged{ box-shadow:inset 0 0 0 3px #17181b, inset 0 0 22px rgba(200,150,40,.30),
+                   0 2px 6px rgba(0,0,0,.5); }
+  .cvlamp{ width:100%; height:2px; margin-top:.3rem; background:#1c1e22; }
+  .cvlamp.lit{ background:linear-gradient(90deg, #2a5a8a, #9fc4e8, #2a5a8a); }
+  .cvfoot{ font-size:9px; letter-spacing:.10em; opacity:.6; text-align:center;
+           margin-top:.3rem; min-height:1.1em; text-transform:uppercase; }
   .tapedeck{ display:flex; align-items:center; justify-content:center; gap:1.1rem;
              padding:.9rem .6rem .5rem; min-height:170px; }
   .tapereel{ position:relative; width:132px; height:132px; border-radius:50%;
@@ -1251,7 +1307,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08e · the genres play legato too, and the desk sits on the master strip</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08f · the bass keeps one face, every engine answers its knobs — and the squeeze has a needle</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3496,6 +3552,44 @@ const INSTRUMENTS = {
                       { label: "THE DRIFT", keys: ["wow", "flutter"] }] },
   },
 
+  /* ── THE BUS COMPRESSOR ───────────────────────────────────────────────────
+     "A proper one, on the master, with a needle that shows how hard it's
+     squeezing." An INSERT on the master path, after the desk and before the
+     tape — a bus compressor glues the balance the desk made, and the tape is
+     the medium the finished mix is cut to. Not a send: "compressors and other
+     dynamic processors would normally be on an insert, instead"
+     [docs/genre-research/bus-compressor.md §1, via channel-sends.md §2].
+
+     THE DEFAULTS ARE THE SOURCED GLUE SETTINGS — 2:1, slow attack that lets
+     the transients through, release timed to breathe back between hits,
+     0.5–2 dB of squeeze [bus-compressor.md §2]. MAKEUP ships at 0 because a
+     compressor that quietly makes the record louder is the loudness-war move.
+
+     THE NEEDLE READS THE NODE — the audio engine's own `reduction` number,
+     not the knobs — so the picture cannot lie about the squeeze. §3.
+
+     POWER is the tape's three-way: the genre decides / off / on. Four genres
+     declare it (`comp: 1` — acid, plastikman, jungle, synthwave: bus glue is
+     a dance-floor idiom and the sources are electronic-production threads
+     almost to a one); the score-like genres breathe uncompressed. §4. */
+  comp: {
+    slot: "comp", label: "the bus compressor", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"power",   label:"genre / off / on", cap:"POWER",  min:-1, max:1, step:1, def:-1, kind:"switch", live:true },
+      { k:"thresh",  label:"threshold",  cap:"THRESHOLD", min:-40, max:0,   step:0.5,  def:-14, unit:"dB", kind:"voicing", live:true },
+      { k:"ratio",   label:"ratio",      cap:"RATIO",     min:1,   max:12,  step:0.5,  def:2,   kind:"voicing", live:true },
+      { k:"attack",  label:"attack",     cap:"ATTACK",    min:0.001,max:0.3,step:0.001,def:0.030, unit:"s", kind:"voicing", live:true },
+      { k:"release", label:"release",    cap:"RELEASE",   min:0.05,max:1.2, step:0.01, def:0.25,  unit:"s", kind:"voicing", live:true },
+      { k:"makeup",  label:"makeup gain",cap:"MAKEUP",    min:0,   max:12,  step:0.5,  def:0,   unit:"dB", kind:"voicing", live:true },
+    ],
+    panel: { skin: "comp", maker: "DECKARD", title: "BUS COMPRESSOR", grid: "compvu",
+             picture: "compvu",
+             groups: [{ label: "", keys: ["power"] },
+                      { label: "THE SQUEEZE", keys: ["thresh", "ratio"] },
+                      { label: "THE CLOCK", keys: ["attack", "release", "makeup"] }] },
+  },
+
   /* ── THE PROGRAMME ────────────────────────────────────────────────────────
      A VIEW, like the field: no controls, no sound. It draws every `snap` lane
      the current song carries -- the bars where the conductor takes something
@@ -3560,17 +3654,44 @@ const INSTRUMENTS = {
        unchanged, so no sound moves. */
     engines: {
       acid:  { lanes: { bass:"acid303" },
-               /* the only engine that reads these note flags -- see bassGridEl */
-               reads: ["accent", "slide"] },
-      sub:   { lanes: { bass:"bass" },
-               krow: ["sCut", "sDrive", "sEnv", "sRes", "sFall"], deck: [], jacks: null },
-      drone: { lanes: { bass:"drone" },
-               krow: ["dCut", "dRes", "dDetune"], deck: [], jacks: null },
-      reese: { lanes: { bass:"reese" },
-               krow: ["rDetune", "rSub", "rCut", "rRes", "rSweep"], deck: [], jacks: null },
-      chip:  { lanes: { bass:"chipBass" },
-               krow: ["cBright"], deck: [], jacks: null },
+               /* the box's OWN circuit: every knob on the chassis is this
+                  engine's, so nothing is marked out of circuit when it is in */
+               reads: ["accent", "slide"], circuit: true, own: [] },
+      /* ── ONE FACE, LIKE THE TR-1000. The user, on what these entries used to
+         do: "If any other kit is loaded it completely changes ui this is not
+         the idea it is wrong. The kit should only change knobs if need like
+         the tr1000."
+
+         Right. These entries used to OVERRIDE `krow`, `deck` and `jacks` --
+         loading the sub bass amputated the patch bay and the whole lower deck,
+         which is exactly the wholesale change the TR-1000 never makes. Now the
+         chassis is the chassis: an engine brings only `own`, the few knobs
+         that are genuinely its (drawn in one stable row under the load
+         switch), and `reads`, the note flags its voice consumes.
+
+         EVERY ENGINE READS ACCENT AND SLIDE NOW -- that is the other half of
+         the same fix ("the other four have those knobs sitting there doing
+         nothing on them"), wired in the voices and measured. The grid's ACC
+         and SLD rows derive from `reads`, so they are back on every engine
+         and honest on every engine. */
+      sub:   { lanes: { bass:"bass" }, reads: ["accent", "slide"],
+               own: ["sCut", "sDrive", "sEnv", "sRes", "sFall"] },
+      drone: { lanes: { bass:"drone" }, reads: ["accent", "slide"],
+               own: ["dCut", "dRes", "dDetune"] },
+      reese: { lanes: { bass:"reese" }, reads: ["accent", "slide"],
+               own: ["rDetune", "rSub", "rCut", "rRes", "rSweep"] },
+      chip:  { lanes: { bass:"chipBass" }, reads: ["accent", "slide"],
+               own: ["cBright"] },
     },
+    /* ── THE KNOBS EVERY ENGINE READS ─────────────────────────────────────
+       The box's universal controls: a bass unit's tuning, its accent
+       response, its glide time, its output stage and its volume make sense
+       whatever is loaded, so every engine's voice reads all five. The rest of
+       the chassis -- the 303's filter, envelopes and sub oscillator -- is the
+       acid line's CIRCUIT, and under another engine those knobs are drawn
+       dimmed and say so, the same honesty the inert patch sockets already
+       have. One list, one owner; the panel dims by asking it. */
+    sharedReads: ["tune", "accent", "slideTime", "muffler", "volume"],
     /* what each engine is called, in English. Same `<control>Names` form the
        KIT switch uses, so one widget draws both and neither can put a table key
        on the glass. */
@@ -5072,10 +5193,14 @@ function soundOf(genre, drumMachine, picks, chart){
          is only its loudest ingredient -- the blend's own answer is in
          chart.table. G answers for the probes that ask about a bare genre. */
       const leg = (chart && chart.table && chart.table.legato) || G.legato || null;
+      /* the bus compressor's genre answer rides the same door -- a blended
+         table's weighted number, on ≥ 0.5 like the legato's */
+      const cmp = (chart && chart.table ? chart.table.comp : G.comp) || 0;
       const extra = {};
       if(chart && chart.root != null) extra.tonic = chart.root;
       if(chart && chart.tape) extra.tape = chart.tape;
       if(leg) extra.legato = leg;
+      if(cmp >= 0.5) extra.comp = 1;
       return Object.keys(extra).length ? Object.assign({}, space, extra) : space;
     })(),
     kick, gate,
@@ -6737,9 +6862,30 @@ registerProcessor("mk2-room", MK2Room);
     g.tapeIn.connect(g.tapeDry);
     g.tapeIn.connect(g.tapeDelay); g.tapeDelay.connect(g.tapeWet);
 
+    /* ── THE BUS COMPRESSOR: an insert between the desk and the tape ───────
+       [docs/genre-research/bus-compressor.md §1] The glue goes on the mix the
+       desk balanced; the tape is the medium the finished mix is cut to. A
+       SWITCH, not a blend, like the tape: half a master compressor is
+       parallel compression, which is a different technique with a different
+       name. OFF is two unity gains -- numerically transparent, so a genre
+       that declares nothing renders what it always rendered. The KNEE is
+       fixed at 6 dB soft: the consoles this copies have no knee knob, and a
+       knob nobody's reference has invites a setting nobody can name. */
+    g.compIn  = c.createGain(); g.compIn.gain.value  = 1;
+    g.compDry = c.createGain(); g.compDry.gain.value = 1;   // the switch, OFF
+    g.compWet = c.createGain(); g.compWet.gain.value = 0;
+    g.compNode = c.createDynamicsCompressor();
+    g.compNode.knee.value = 6;
+    g.compNode.threshold.value = -14; g.compNode.ratio.value = 2;
+    g.compNode.attack.value = 0.030;  g.compNode.release.value = 0.25;
+    g.compMakeup = c.createGain(); g.compMakeup.gain.value = 1;
+    g.compIn.connect(g.compDry);
+    g.compIn.connect(g.compNode); g.compNode.connect(g.compMakeup); g.compMakeup.connect(g.compWet);
+
     g.mix.connect(g.pre); g.pre.connect(g.shaper); g.shaper.connect(g.post);
     g.post.connect(g.deskLow); g.deskLow.connect(g.deskMid); g.deskMid.connect(g.deskHigh);
-    g.deskHigh.connect(g.tapeIn);
+    g.deskHigh.connect(g.compIn);
+    g.compDry.connect(g.tapeIn); g.compWet.connect(g.tapeIn);
     g.tapeDry.connect(g.limit); g.tapeWet.connect(g.limit);
     g.limit.connect(g.master);
     g.master.connect(c.destination); g.master.connect(g.masterMeter);
@@ -8451,7 +8597,10 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
   /* bass — a sub that is also audible on a laptop: sine body + quiet saw edge
      + a 25 ms pick transient at 1.2 kHz. Sum 1.25. */
   V.bass = function(g, ev, t){
-    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 0.20;
+    /* THE BOX'S FIVE, like every engine in this unit -- tune, accent, slide
+       time, muffler, volume. See bassBox and tb303.sharedReads. */
+    const B = bassBox(g, ev);
+    const c = g.ctx, f = F(ev.pitch) * Math.pow(2, B.tune / 12), end = t + ev.durSec + 0.20;
     const out = c.createGain();
     /* TONE and DRIVE were declared on this machine's panel and read by nothing
        for as long as the rack has existed -- two sliders that moved and did
@@ -8460,7 +8609,10 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
        Both were already the right shape for a knob; they were simply not
        connected to one. Wired here, with the old constants as the defaults, so
        nothing about the shipped sound moved. */
-    const cut = P(g, ev, "tb303", "sCut", 800);
+    /* an ACCENTED note is louder and brighter, scaled by the box's ACCENT pot
+       -- the generic half of what the 303's accent does (the 303 adds its
+       envelope tricks on top, in its own voice). Unaccented notes read 0. */
+    const cut = Math.min(9000, P(g, ev, "tb303", "sCut", 800) * (1 + 0.9 * B.acc));
     const drive = P(g, ev, "tb303", "sDrive", 0.20);
     const flt = c.createBiquadFilter(); flt.type = "lowpass";
     flt.frequency.value = cut;
@@ -8481,20 +8633,31 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       flt.frequency.exponentialRampToValueAtTime(Math.max(60, cut),
         t + Math.min(2.0, Math.max(0.06, ev.durSec * P(g, ev, "tb303", "sFall", 0.8))));
     }
-    out.connect(flt); flt.connect(chanIn(g, "bass"));
+    /* everything the voice makes lands on ONE post node, so the muffler can
+       stand between the whole engine and the bus. At muffler 0 the stage IS
+       the post node -- one unity gain, numerically transparent. */
+    const post = c.createGain();
+    out.connect(flt); flt.connect(post);
+    mufflerStage(g, B.muff, post).connect(chanIn(g, "bass"));
     const o1 = osc(c, "sine", f, t, end);
     /* DRIVE is the saw against the sine: at 0 it is a pure sub, at 1 it has
        teeth. 0.20 reproduces the 0.38 saw gain this voice shipped with. */
     const o2 = osc(c, "sawtooth", f, t, end), g2 = c.createGain();
     g2.gain.value = 0.38 * (drive / 0.20);
+    /* SLIDE: the slid-into note starts where it came from and arrives over the
+       box's SLIDE TIME -- the flag every bass note has always carried and this
+       engine ignored. osc() set the frequency; the glide reschedules it. */
+    bassGlide(o1.frequency, f, ev, t, B.slideSec);
+    bassGlide(o2.frequency, f, ev, t, B.slideSec);
     o1.connect(out); o2.connect(g2); g2.connect(out);
-    adsr(c, out, t, LEVEL.bass * ev.gain / 1.38, 0.006, 0.10, 0.72, t + ev.durSec, 0.14);
+    adsr(c, out, t, LEVEL.bass * ev.gain * B.vol * (1 + 0.5 * B.acc) / 1.38,
+         0.006, 0.10, 0.72, t + ev.durSec, 0.14);
     const pk = c.createOscillator(); pk.type = "triangle";
     pk.frequency.setValueAtTime(1200, t); pk.frequency.exponentialRampToValueAtTime(300, t + 0.02);
     const pg = c.createGain();
-    pg.gain.setValueAtTime(LEVEL.bass * ev.gain * 0.30, t);
+    pg.gain.setValueAtTime(LEVEL.bass * ev.gain * B.vol * (1 + 0.5 * B.acc) * 0.30, t);
     pg.gain.exponentialRampToValueAtTime(0.0002, t + 0.028);
-    pk.connect(pg); pg.connect(chanIn(g, "bass")); pk.start(t); pk.stop(t + 0.05);
+    pk.connect(pg); pg.connect(post); pk.start(t); pk.stop(t + 0.05);
     return [o1, o2, pk];
   };
 
@@ -9424,6 +9587,62 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
      - ACCENT does three things at once: louder, filter envelope deeper, and the
        decay forced short. That is why an accented step sounds like a different
        note rather than the same note louder.                        ═══════════ */
+  /* ── THE BOX'S UNIVERSAL KNOBS, read by every engine ──────────────────────
+     `tb303.sharedReads` names five controls that mean something whatever is
+     loaded -- a bass unit's tuning, its accent response, its glide time, its
+     output stage and its volume -- and this is the one place they are read, so
+     the five engines cannot drift apart on what a knob means. The user, on
+     the state before: "The bass unit loads five engines and only one of them
+     responds to the accent, slide and muffler knobs. The other four have
+     those knobs sitting there doing nothing on them." */
+  function bassBox(g, ev){
+    return {
+      tune: P(g, ev, "tb303", "tune", 0),
+      /* the ACCENT pot scales what an accented note does; an unaccented note
+         reads zero so the knob is silent exactly when the line is */
+      acc:  ev.accent ? P(g, ev, "tb303", "accent", 0.65) : 0,
+      slideSec: P(g, ev, "tb303", "slideTime", 0.060),
+      muff: Math.round(P(g, ev, "tb303", "muffler", 0)),
+      vol:  P(g, ev, "tb303", "volume", 1),
+    };
+  }
+  /* SLIDE, the way the acid line does it: the note starts where the slide came
+     from and arrives over SLIDE TIME. Applied to an oscillator's frequency (or
+     any AudioParam in Hz); a note with no slide is set plainly. */
+  function bassGlide(param, f, ev, t, slideSec, mult){
+    const m = mult || 1;
+    if(ev.slide){
+      param.setValueAtTime(f * m * Math.pow(2, -ev.slide / 12), t);
+      param.exponentialRampToValueAtTime(f * m, t + slideSec);
+    } else param.value = f * m;
+  }
+  /* ── THE MUFFLER, AS A STAGE ANY ENGINE CAN END ON ────────────────────────
+     Extracted verbatim from the acid line so five engines share one circuit
+     rather than five copies of it. Not a lowpass -- see the manual quote at
+     the call site in V.acid303. At 0 it returns `from` untouched, so an
+     engine with the switch off has exactly the node graph it had before this
+     function existed. */
+  function mufflerStage(g, muff, from){
+    if(muff < 1) return from;
+    const c = g.ctx;
+    const split = c.createGain();
+    from.connect(split);
+    const lowPass = c.createBiquadFilter(); lowPass.type = "lowpass";
+    lowPass.frequency.value = 160; lowPass.Q.value = 0.707;
+    const hi = c.createBiquadFilter(); hi.type = "highpass";
+    hi.frequency.value = 160; hi.Q.value = 0.707;
+    const D = muff >= 2 ? 3.4 : 1.9;
+    const mDrive = c.createGain(); mDrive.gain.value = D;
+    const mSh = c.createWaveShaper(); mSh.curve = g.chainCurve; mSh.oversample = "2x";
+    const mBack = c.createGain(); mBack.gain.value = 1 / D;
+    const mOut = c.createGain(); mOut.gain.value = 1;
+    /* the lows go round it untouched -- "allowing the bass to pass largely
+       unaffected" is the sentence this split exists to honour */
+    split.connect(lowPass); lowPass.connect(mOut);
+    split.connect(hi); hi.connect(mDrive); mDrive.connect(mSh); mSh.connect(mBack);
+    mBack.connect(mOut);
+    return mOut;
+  }
   V.acid303 = function(g, ev, t){
     const c = g.ctx;
     const cutoff = P(g, ev, "tb303", "cutoff", 520), res = P(g, ev, "tb303", "res", 9);
@@ -9574,35 +9793,18 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
        unaffected" means in a signal chain. It is level-dependent by
        construction, because a soft clipper does nothing to a small signal and
        everything to a large one. Position 1 is the gentler curve, 2 the harder.
-       At 0 the whole thing is out of the path. */
-    let outNode = post;
-    if(muff >= 1){
-      const split = c.createGain();
-      post.connect(split);
-      const lowPass = c.createBiquadFilter(); lowPass.type = "lowpass";
-      lowPass.frequency.value = 160; lowPass.Q.value = 0.707;
-      const hi = c.createBiquadFilter(); hi.type = "highpass";
-      hi.frequency.value = 160; hi.Q.value = 0.707;
-      /* THE CURVE MATTERS, AND THE FIRST ONE WAS WRONG. This used `satCurve`
-         with hand-picked makeup, and measured +2.0 dB and +27% peak: a device
-         whose entire job is to soften the loudest extremes was making the voice
-         LOUDER. That is the same defect this file has now hit three times --
-         drum bus, 303 overdrive, 808 decay -- a timbre control that moves the
-         level. `chainCurve` is tanh(kx)/k, slope exactly 1 at the origin, so
-         drive-then-undrive is transparent for a small signal and clips a large
-         one. No taste constant, and level-neutral by construction. */
-      const D = muff >= 2 ? 3.4 : 1.9;
-      const mDrive = c.createGain(); mDrive.gain.value = D;
-      const mSh = c.createWaveShaper(); mSh.curve = g.chainCurve; mSh.oversample = "2x";
-      const mBack = c.createGain(); mBack.gain.value = 1 / D;
-      const mOut = c.createGain(); mOut.gain.value = 1;
-      /* the lows go round it untouched -- "allowing the bass to pass largely
-         unaffected" is the sentence this split exists to honour */
-      split.connect(lowPass); lowPass.connect(mOut);
-      split.connect(hi); hi.connect(mDrive); mDrive.connect(mSh); mSh.connect(mBack);
-      mBack.connect(mOut);
-      outNode = mOut;
-    }
+       At 0 the whole thing is out of the path.
+
+       THE CURVE MATTERS, AND THE FIRST ONE WAS WRONG. This used `satCurve`
+       with hand-picked makeup, and measured +2.0 dB and +27% peak: a device
+       whose entire job is to soften the loudest extremes was making the voice
+       LOUDER. `chainCurve` is tanh(kx)/k, slope exactly 1 at the origin --
+       level-neutral by construction.
+
+       THE CIRCUIT LIVES IN `mufflerStage` NOW, node for node, because the
+       muffler is one of the box's five universal knobs and all five engines
+       end on the same stage rather than on five copies of it. */
+    const outNode = mufflerStage(g, muff, post);
 
     /* ── FILTER FM IS FEEDBACK, NOT AN OSCILLATOR ──────────────────────────
        This drove lp1.frequency from the raw oscillator, which is a second
@@ -9828,22 +10030,30 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
      The point of the voice is that it arrives without an edge and outlasts the
      bar. ═══════════════════════════════════════════════════════════════════ */
   V.drone = function(g, ev, t){
-    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 1.8;
+    /* the box's five universal knobs -- see bassBox and tb303.sharedReads */
+    const B = bassBox(g, ev);
+    const c = g.ctx, f = F(ev.pitch) * Math.pow(2, B.tune / 12), end = t + ev.durSec + 1.8;
     const out = c.createGain();
+    /* an accented drone note swells louder and opens brighter, scaled by the
+       box's ACCENT pot; unaccented notes read 0 and nothing here moves */
+    const dCut = Math.min(9000, P(g, ev, "tb303", "dCut", 420) * (1 + 0.9 * B.acc));
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
-    lp.frequency.value = P(g, ev, "tb303", "dCut", 420); lp.Q.value = P(g, ev, "tb303", "dRes", 3.2);
-    out.connect(lp); lp.connect(chanIn(g, "bass"));
+    lp.frequency.value = dCut; lp.Q.value = P(g, ev, "tb303", "dRes", 3.2);
+    out.connect(lp);
+    mufflerStage(g, B.muff, lp).connect(chanIn(g, "bass"));
     const made = [], det = P(g, ev, "tb303", "dDetune", 0.55);
     for(const cents of [-7 * det, 0, 7 * det]){
       const o = c.createOscillator(); o.type = "sawtooth";
-      o.frequency.value = f; o.detune.value = cents;
+      bassGlide(o.frequency, f, ev, t, B.slideSec);
+      o.detune.value = cents;
       const og = c.createGain(); og.gain.value = 1 / 3;
       o.connect(og); og.connect(out); o.start(t); o.stop(end); made.push(o);
     }
     /* the filter opens slowly across the note -- a slow VCF, not an envelope */
-    lp.frequency.setValueAtTime(P(g, ev, "tb303", "dCut", 420) * 0.55, t);
-    lp.frequency.linearRampToValueAtTime(P(g, ev, "tb303", "dCut", 420), t + Math.min(3.0, ev.durSec));
-    adsr(c, out, t, LEVEL.bass * 1.30 * ev.gain, 0.35, 0.80, 0.90, t + ev.durSec, 1.20);
+    lp.frequency.setValueAtTime(dCut * 0.55, t);
+    lp.frequency.linearRampToValueAtTime(dCut, t + Math.min(3.0, ev.durSec));
+    adsr(c, out, t, LEVEL.bass * 1.30 * ev.gain * B.vol * (1 + 0.5 * B.acc),
+         0.35, 0.80, 0.90, t + ev.durSec, 1.20);
     return made;
   };
 
@@ -9949,12 +10159,17 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
      a rig maps a lane to a voice -- and the balance is a knob.
      ═══════════════════════════════════════════════════════════════════════ */
   V.reese = function(g, ev, t){
-    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 1.2;
+    /* the box's five universal knobs -- see bassBox and tb303.sharedReads */
+    const B = bassBox(g, ev);
+    const c = g.ctx, f = F(ev.pitch) * Math.pow(2, B.tune / 12), end = t + ev.durSec + 1.2;
     const out = c.createGain();
-    const cut0 = P(g, ev, "tb303", "rCut", 900);
+    /* an accented Reese hits louder and opens brighter, the box's ACCENT pot
+       deciding how much; unaccented notes read 0 and nothing here moves */
+    const cut0 = Math.min(9000, P(g, ev, "tb303", "rCut", 900) * (1 + 0.9 * B.acc));
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
     lp.frequency.value = cut0; lp.Q.value = P(g, ev, "tb303", "rRes", 4.0);
-    out.connect(lp); lp.connect(chanIn(g, "bass"));
+    out.connect(lp);
+    mufflerStage(g, B.muff, lp).connect(chanIn(g, "bass"));
     const made = [], subAmt = P(g, ev, "tb303", "rSub", 0.45);
     /* THE GROWL: three saws, detuned in CENTS and wide. At 22 cents a pair at
        55 Hz beat about 0.7 times a second, and the partials higher up beat
@@ -9964,15 +10179,16 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     growl.connect(out);
     for(const cents of [-det, 0, det * 0.82]){
       const o = c.createOscillator(); o.type = "sawtooth";
-      o.frequency.value = f; o.detune.value = cents;
+      bassGlide(o.frequency, f, ev, t, B.slideSec);
+      o.detune.value = cents;
       const og = c.createGain(); og.gain.value = 1 / 3;
       o.connect(og); og.connect(growl); o.start(t); o.stop(end); made.push(o);
     }
     /* THE SUB: one sine an octave down -- the Akai test tone. It is the layer
        that survives a sound system; the growl is the layer you hear on
-       headphones. */
+       headphones. The glide keeps it locked an octave under the saws. */
     const sub = c.createOscillator(); sub.type = "sine";
-    sub.frequency.value = f / 2;
+    bassGlide(sub.frequency, f, ev, t, B.slideSec, 0.5);
     const sg = c.createGain(); sg.gain.value = 0.95 * subAmt;
     sub.connect(sg); sg.connect(out); sub.start(t); sub.stop(end); made.push(sub);
     /* and the filter moves across the note, which is the other half of it --
@@ -9983,7 +10199,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       lp.frequency.exponentialRampToValueAtTime(Math.max(60, cut0),
         t + Math.min(2.5, Math.max(0.05, ev.durSec * 0.7)));
     }
-    adsr(c, out, t, LEVEL.bass * 1.25 * ev.gain, 0.020, 0.35, 0.90, t + ev.durSec, 0.45);
+    adsr(c, out, t, LEVEL.bass * 1.25 * ev.gain * B.vol * (1 + 0.5 * B.acc),
+         0.020, 0.35, 0.90, t + ev.durSec, 0.45);
     return made;
   };
 
@@ -10617,8 +10834,18 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
          (spread args, then a dotted machine expression, now a variable key), so
          the rule is worth stating: A CONTROL READ THE BATTERY CANNOT SEE IS A
          CONTROL NOBODY CAN PROVE IS WIRED. Two plain calls instead. */
+      /* ── AS A BASS ENGINE, THE CHIP READS THE BOX'S FIVE ─────────────────
+         Loaded in the bass unit (machine === "tb303") this voice honours the
+         chassis like the other four engines: tune shifts every operator, an
+         accent is louder and brighter through the chip's own TL law, a slid
+         note glides every operator by one factor so the FM ratios hold, and
+         the output ends on the shared muffler stage. As a KEYBOARD (chipKeys,
+         chipLead) none of this exists and the voice is byte-for-byte what it
+         was. */
+      const B = machine === "tb303" ? bassBox(g, ev) : null;
       const brightTL = !machine ? 0
         : machine === "tb303" ? (0.60 - P(g, ev, "tb303", "cBright", 0.60)) * 48
+                                - (B ? B.acc * 10 : 0)
         : (0.60 - P(g, ev, machine, "bright", 0.60)) * 48;
       const ksv = op => n.kcode >> (op.rs ^ 3);         // KSR: high notes decay faster
       const car = YM.CARRIERS[PATCH.alg];
@@ -10626,15 +10853,17 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
          whatever the algorithm -- the mix budget is unchanged by the rig, and no
          master-chain constant moves when a song draws sega instead of band. */
       let csum = 0; for(const i of car) csum += ymAmp(PATCH.ops[i].tl);
-      const peak = level * ev.gain / csum;
+      const peak = level * ev.gain * (B ? B.vol * (1 + 0.5 * B.acc) : 1) / csum;
       const keyOff = t + ev.durSec;
+      const tuneF = B ? Math.pow(2, B.tune / 12) : 1;
       const oscs = [], envs = [], freqs = [];
       for(let i = 0; i < 4; i++){
         const op = PATCH.ops[i];
-        const f  = n.hz * (op.mul || 0.5) * ymDetune(op.dt, n);   // MUL 0 is the chip's half [theory]
+        const f  = n.hz * tuneF * (op.mul || 0.5) * ymDetune(op.dt, n);   // MUL 0 is the chip's half [theory]
         const o  = c.createOscillator();
         o.type = (i === 0) ? ymFbWave(PATCH.fb) : "sine";             // op1 carries the feedback
-        o.frequency.value = f;
+        if(B) bassGlide(o.frequency, f, ev, t, B.slideSec);
+        else o.frequency.value = f;
         const gn = c.createGain();
         o.connect(gn);
         oscs.push(o); envs.push(gn); freqs.push(f);
@@ -10651,7 +10880,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
          headroom back. [theory: MD hardware] */
       const dcb = c.createBiquadFilter(); dcb.type = "highpass";
       dcb.frequency.value = 20; dcb.Q.value = 0.7;
-      out.connect(dcb); dcb.connect(chanIn(g, ev.role, busName));
+      out.connect(dcb);
+      (B ? mufflerStage(g, B.muff, dcb) : dcb).connect(chanIn(g, ev.role, busName));
       let end = keyOff;
       /* modulators: ONE envelope each, in Hz of peak deviation, fanned out to
          every operator that modulator drives. Brightness tracks velocity through
@@ -11473,6 +11703,47 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       at(g.tapeWet.gain).value = on ? 1 : 0;
       g.tapeOn = on;
     }
+    /* ── THE BUS COMPRESSOR, the tape's own three-way pattern one unit up ───
+       The genre's answer is `space.comp` (the table's `comp: 1`, ridden here
+       the way the tape and the legato ride); the hand's POWER outranks it
+       both ways; the knobs are declared default + genre PARAMS + TRIM, never
+       a bare zero -- the tape's own hard-won read. All six controls are
+       `live`, so a hand mid-song is re-applied through busTouched. */
+    if(g.compNode){
+      const hand = k => {
+        const c2 = CONTROL["comp." + k];
+        const base = PARAMS["comp." + k] != null ? PARAMS["comp." + k] : (c2 ? c2.def : 0);
+        const v = base + (TRIM["comp." + k] || 0);
+        return c2 ? Math.max(c2.min, Math.min(c2.max, v)) : v;
+      };
+      const sw = Math.round(hand("power"));
+      const has = !!(space && space.comp);
+      const on = sw === 0 ? false : (sw === 1 ? true : has);
+      const th = hand("thresh"), ratio = hand("ratio");
+      g.compNode.threshold.value = th;
+      g.compNode.ratio.value     = ratio;
+      g.compNode.attack.value    = hand("attack");
+      g.compNode.release.value   = hand("release");
+      /* ── THE NODE'S HIDDEN MAKEUP, COMPENSATED OUT ──────────────────────
+         Web Audio's compressor applies its own automatic makeup gain — the
+         spec's (1 / compressed(1.0))^0.6 — so at MAKEUP 0 this unit was
+         quietly making the record LOUDER: MEASURED, acid seed 1, comp on vs
+         off, +2.05 dB rms with every knob at default. That is the loudness-war
+         move this unit's own research doc forbids, done by the engine
+         underneath the knob.
+
+         Above the knee (every threshold ≤ −6 dB on this travel; the knee is
+         fixed at 6) the spec's curve at full scale is the plain ratio line,
+         so the hidden gain is exactly computable and divided back out. The
+         MAKEUP knob is then the only thing that adds level, which is what its
+         cap has claimed all along. Level-neutral by construction — the
+         chainCurve lesson, third appearance. */
+      const autoDb = -(th + (0 - th) / ratio) * 0.6;
+      g.compMakeup.gain.value = Math.pow(10, (hand("makeup") - autoDb) / 20);
+      g.compDry.gain.value = on ? 0 : 1;
+      g.compWet.gain.value = on ? 1 : 0;
+      g.compOn = on;
+    }
     /* the mixer's hand, re-applied whenever the song's sound is set -- so a
        fader survives a new song, a genre change and an offline render alike */
     applyMixer(g);
@@ -11957,6 +12228,15 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
         wet: liveGraph.tapeWet.gain.value,
         wowDev: liveGraph.tapeWowD.gain.value,
       } : null,
+      /* WHETHER THE RECORD IS BEING SQUEEZED — the wet/dry switch off the
+         graph, and the node's own live reduction, so a check can prove the
+         squeeze rather than the button. */
+      comp: liveGraph && liveGraph.compNode ? {
+        on: !!liveGraph.compOn,
+        wet: liveGraph.compWet.gain.value,
+        thresh: liveGraph.compNode.threshold.value,
+        reduction: liveGraph.compNode.reduction,
+      } : null,
       /* ── EACH PART'S SHARE OF ITS TWO SENDS, and its duck ─────────────────
          Reported through the same door the fader is, and for the same reason
          the fader is: a probe that reads the panel proves the panel and a probe
@@ -12208,6 +12488,13 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
   return { playLive, stopLive, renderWav, toPerfTime,
            /* so a phone with no console can say why it is silent */
            soundState, ringerBypass,
+           /* THE NEEDLE'S NUMBER, read every frame: the compressor node's own
+              `reduction`, in dB, straight off the audio engine. A dedicated
+              getter rather than soundState because soundState builds a whole
+              report and this is one float sixty times a second. */
+           compState: () => liveGraph && liveGraph.compNode
+             ? { on: !!liveGraph.compOn, reduction: liveGraph.compNode.reduction }
+             : null,
            now: () => (ctx ? ctx.currentTime : 0), LEVEL,
            voiceNames: () => Object.keys(V),
            /* rewrite the bus automation from a hand's move, mid-song */
@@ -13373,6 +13660,7 @@ const GENRE = {
        composed -- the notes are identical and the hand's L can still refuse it
        (docs/genre-research/legato.md §7). */
     legato: { lead: 1 },
+    comp: 1,   // bus glue on the 2-bus [bus-compressor.md §4]
 
     form: {
       /* ── THIS GENRE HAS A PRE-CHORUS AND A POST-CHORUS, AND THAT IS THE POINT ──
@@ -15142,6 +15430,10 @@ const GENRE = {
     leadChar: [["synth", 1]],                // dead draw; the box rig sends the tune to the 303
     tape: { wow: [0.0002, 0.0003], crackle: [0.0015, 0.0015],    // Trax pressings [EAR]
             flutter: [0, 0], hiss: [0, 0] },
+    /* bus glue on the 2-bus -- a dance-floor idiom, sourced in
+       docs/genre-research/bus-compressor.md §4; settings are the unit's own
+       sourced defaults until a listen moves them */
+    comp: 1,
 
     form: {
       /* ── THIS GENRE DOES NOT VARY ITS NOTES, AND THAT IS THE DECISION ──────
@@ -15642,6 +15934,7 @@ const GENRE = {
     leadChar: [["synth", 1]],                // dead draw; this genre writes no lead at all
     tape: { wow: [0, 0], crackle: [0, 0],    // no tape patina [EAR]
             flutter: [0, 0], hiss: [0, 0] },
+    comp: 1,   // bus glue [bus-compressor.md §4]
 
     form: {
       /* ── THIS GENRE DOES NOT VARY ITS NOTES, AND THAT IS THE DECISION ──────
@@ -16874,6 +17167,7 @@ const GENRE = {
     leadChar: [["synth", 1]],                // dead draw; this genre writes no lead at all
     tape: { wow: [0.0004, 0.0006], crackle: [0.0020, 0.0018],
             flutter: [0, 0], hiss: [0, 0] },
+    comp: 1,   // bus glue [bus-compressor.md §4]
 
     form: {
       lengths:  { intro: 16, verse: 32, chorus: 32, bridge: 16, instrumental: 32, outro: 16 },
@@ -23719,8 +24013,10 @@ function makePerformance(chart, form, materials, sections){
           /* ACCENT AND SLIDE ride along. Stage 3 owns them -- it decided which
              steps are accented and how far each slide travels -- and stage 5
              does here what it does for pitch: carries the decision without
-             touching it. A voice that does not model them ignores them, which
-             is why every bass carries them and only the 303 acts on them. */
+             touching it. Every bass carries them, and since `2026-08-08f`
+             every engine in the bass unit ACTS on them -- through the box's
+             own ACCENT and SLIDE TIME knobs, see bassBox. A voice outside the
+             bass unit that does not model them still ignores them. */
           if(n.accent) ev.accent = true;
           if(n.slide)  ev.slide  = n.slide;
           /* ARTICULATION RIDES ALONG THE SAME WAY. Stage 3 decided where the
@@ -25141,6 +25437,69 @@ function fieldEl(){
    picture of tape running under a record that never met any is the same lie as
    a knob that does nothing. `refresh` reads the same POWER switch the graph
    reads. */
+/* ── THE COMPRESSOR'S VU — the needle that shows how hard it is squeezing ────
+   Rests at 0 on the right, swings LEFT as the unit pulls the record down,
+   which is how a gain-reduction meter reads on every console it was copied
+   from: "if it's hovering around −5 dB it'll mean the amount of compression
+   is 5 dB" [corpus:joeysturgistones]. THE NEEDLE READS THE NODE — the audio
+   engine's own `reduction`, through Sound.compState() — never the knobs, so
+   the picture cannot claim a squeeze that is not happening. Out of circuit,
+   the needle lies at rest and the lamp is dark: a true state, shown.
+
+   The needle is the one element on this program that MUST move per frame —
+   it is a meter, its motion IS the information — so it follows the meters'
+   rule (write only what changed) rather than the barberpole's (CSS animates
+   what has a constant period). A squeeze has no constant period. */
+function compVuEl(m, M){
+  const outer = el("div");
+  const face = el("div", "compvu");
+  const dial = el("div", "cvface");
+  /* the scale: 0 at rest, then 2, 5, 10, 20 dB of squeeze leftwards -- the
+     sourced working band (0.5-2 dB) sits in the first fifth of the arc, so
+     "just barely move the needle" reads literally */
+  for(const [db, lab] of [[0, "0"], [2, "2"], [5, "5"], [10, "10"], [20, "20"]]){
+    /* the SAME angle function the needle uses -- one owner, or the scale and
+       the needle drift apart, which on a meter is the whole failure */
+    const a = dbAngle(db);
+    const tick = el("i", "cvtick");
+    tick.style.transform = `rotate(${a}deg)`;
+    const num = el("b", "cvnum", lab);
+    num.style.transform = `rotate(${a}deg) translateY(-5.55rem) rotate(${-a}deg)`;
+    dial.appendChild(tick); dial.appendChild(num);
+  }
+  const needle = el("div", "cvneedle");
+  const hub = el("div", "cvhub");
+  dial.appendChild(needle); dial.appendChild(hub);
+  face.appendChild(dial);
+  const lamp = el("div", "cvlamp");
+  const foot = el("div", "cvfoot", "");
+  outer.appendChild(face); outer.appendChild(lamp); outer.appendChild(foot);
+  /* 0 dB of squeeze = needle at +40° (right of vertical); 20 dB = -40° */
+  function dbAngle(db){
+    const frac = Math.min(1, Math.log1p(Math.abs(db)) / Math.log1p(20));
+    return 40 - 80 * frac;
+  }
+  let wasA = null, wasTxt = null, wasOn = null;
+  outer.refresh = () => {
+    const st = Sound.compState ? Sound.compState() : null;
+    const red = st ? Math.max(0, -st.reduction) : 0;
+    const on = !!(st && st.on);
+    const a = "rotate(" + dbAngle(on ? red : 0).toFixed(2) + "deg)";
+    if(a !== wasA){ needle.style.transform = a; wasA = a; }
+    if(on !== wasOn){
+      face.classList.toggle("engaged", on);
+      lamp.classList.toggle("lit", on);
+      wasOn = on;
+    }
+    const txt = !st ? "no record playing"
+      : !on ? "OUT OF CIRCUIT · the record passes untouched"
+      : red > 0.05 ? "squeezing " + red.toFixed(1) + " dB right now"
+      : "IN CIRCUIT · under the threshold — nothing to squeeze";
+    if(txt !== wasTxt){ foot.textContent = txt; wasTxt = txt; }
+  };
+  outer.refresh(); registerKnob(outer);
+  return outer;
+}
 function tapeEl(m, M){
   const deck = el("div", "tapedeck");
   const mk = side => {
@@ -26285,17 +26644,14 @@ function bassGridEl(m, M){
        PINS keyed by ROLE, so a line typed with the sub bass loaded has always
        worked and there was simply never a grid on screen to type it on.
 
-       ACCENT AND SLIDE ARE NOT LIKE THAT. MEASURED: `ev.accent` (one read) and
-       `ev.slide` (one read) are consumed inside `V.acid303` and NOWHERE ELSE in
-       this file. So with the sub bass loaded these two rows would be thirty-two
-       buttons that reach nothing -- the "control that does nothing" defect,
-       thirty-two at a time.
-
-       So an ENGINE declares the note flags its voice reads, and the grid draws
+       An ENGINE declares the note flags its voice reads, and the grid draws
        those. A declaration and not a scan, because a scan cannot see an event
-       field; and it is the honest record of the next job -- teaching accent and
-       slide to the other engines is real audio work, one voice at a time and
-       measured, and each one that lands adds itself here. */
+       field. When this was written the honest record was that only V.acid303
+       consumed `ev.accent` and `ev.slide`, so the other engines drew neither
+       row. `2026-08-08f` closed that: every engine reads both, through the
+       box's ACCENT and SLIDE TIME knobs (see bassBox), so every engine
+       declares both and the two rows are back on every load -- honest on
+       every one of them now, which is what the derivation was FOR. */
     const load = SONG && loadIn(SONG.chart, M && M.slot);
     const face = load && kitFace((pickCollOf(M) || {})[load]);
     const reads = (face && face.reads) || (load ? [] : (M && M.reads) || ["accent", "slide"]);
@@ -27106,33 +27462,65 @@ function drawPanels(){
            led       an indicator that lights with the music
            ro        a READOUT: shaped like a knob, reports the song, sets nothing */
       if(P.krow || P.deck){
-        /* ── THE LOADED ENGINE'S OWN FACE ──────────────────────────────────
-           Exactly what a kit does to the drum machine's strips, one shape
-           along: an entry in the pick collection may override `krow`, `deck`
-           and `jacks`, so the bass unit shows the acid line's eleven knobs and
-           its patch bay with the 303 in it, and the sub bass's five knobs and
-           no patch bay with the sub in it.
+        /* ── ONE FACE, WHATEVER IS LOADED ──────────────────────────────────
+           This used to let the loaded engine OVERRIDE `krow`, `deck` and
+           `jacks` -- so the sub bass amputated the patch bay and the whole
+           lower deck, and the user called it: "If any other kit is loaded it
+           completely changes ui this is not the idea it is wrong. The kit
+           should only change knobs if need like the tr1000."
 
-           WHAT IT NEVER OVERRIDES IS `controls` -- that stays the union, or
-           three seam checks break. Drawn, not declared. Same rule, same reason.
+           So the chassis is the chassis now, the way the TR-1000's ten strips
+           are the TR-1000's whatever kit is in it. What the load changes:
 
-           AND THE JACKS BELONG TO THE ENGINE THAT HAS THEM. ACCENT IN, SLIDE
-           IN and FILTER FM IN are the acid line's back panel; printing them
-           over a sub bass would be a control that does nothing, written as
-           silkscreen instead of as a knob. Same lie, quieter font. */
+             · its OWN knobs appear in one stable row under the load switch --
+               the only place knobs come and go, "only change knobs if need";
+             · the box knobs its voice does not read are drawn DIMMED and say
+               which circuit they belong to -- the same honesty as the inert
+               patch sockets one row up, and the reason the no-dead-knob rule
+               is kept rather than broken: a knob that says it is out of
+               circuit is not lying;
+             · `sharedReads` -- tune, accent, slide time, muffler, volume --
+               stay live on every engine because every engine's voice reads
+               them.
+
+           WHAT NOTHING OVERRIDES IS `controls` -- the union, or three seam
+           checks break. Drawn, not declared. Same rule as ever. */
         const loadNow = SONG && loadIn(SONG.chart, slot);
-        const face = loadNow && kitFace((pickCollOf(M) || {})[loadNow]);
-        if(face){
-          if(face.krow !== undefined)  P = Object.assign({}, P, { krow: face.krow });
-          if(face.deck !== undefined)  P = Object.assign({}, P, { deck: face.deck });
-          if(face.jacks !== undefined) P = Object.assign({}, P, { jacks: face.jacks });
-        }
+        const eng = loadNow ? kitFace((pickCollOf(M) || {})[loadNow]) : null;
+        const liveKeys = (() => {
+          if(!eng || eng.circuit) return null;             // the box's own engine: all live
+          const s = new Set(M.sharedReads || []);
+          for(const k of (eng.own || [])) s.add(k);
+          return s;
+        })();
+        const engName = loadNow && (pickNamesOf(M)[loadNow] || loadNow);
+        /* marks a drawn control as out of the loaded engine's circuit */
+        const dimIf = (elx, k) => {
+          if(!liveKeys || liveKeys.has(k)) return elx;
+          elx.classList.add("notin");
+          elx.title = (elx.title ? elx.title + "  — " : "") +
+                      "part of the acid line's circuit; the " + engName + " does not have one";
+          return elx;
+        };
         /* the load switch goes on the face of the machine, wherever the machine
            is a krow/deck shape -- the groups shape draws it inside its own
            group. One widget, asked for by the control rather than by name. */
         {
           const pc = pickCtrlOf(M), ld = pc && loadSelectEl(m, M, pc, slot);
           if(ld){ const bar = el("div", "loadbar"); bar.appendChild(ld); box.appendChild(bar); }
+        }
+        /* ── THE LOADED ENGINE'S OWN KNOBS, in one stable row ──────────────
+           The sub's five, the drone's three, the Reese's five, the chip's one.
+           The acid line brings none because its knobs ARE the chassis. */
+        if(eng && eng.own && eng.own.length){
+          const er = el("div", "engrow");
+          er.appendChild(el("div", "engleg", (engName || "engine").toUpperCase()));
+          for(const k of eng.own){
+            const c = M.controls.find(x => x.k === k);
+            if(!c) continue;
+            er.appendChild((c.step >= 1 && c.max - c.min <= 2) ? switchEl(m, c) : knobEl(m, c));
+          }
+          box.appendChild(er);
         }
         if(P.jacks){
           const jr = el("div", "jacks");
@@ -27152,13 +27540,14 @@ function drawPanels(){
             if(k === "%smiley"){ const s = el("div", "smiley"); s.appendChild(el("i")); kr.appendChild(s); continue; }
             const c = M.controls.find(x => x.k === k);
             if(!c) continue;
-            kr.appendChild((c.step >= 1 && c.max - c.min <= 2) ? switchEl(m, c) : knobEl(m, c));
+            kr.appendChild(dimIf((c.step >= 1 && c.max - c.min <= 2) ? switchEl(m, c) : knobEl(m, c), k));
           }
           box.appendChild(kr);
         }
         if(P.deck){
           const dk = el("div", "deck");
           for(const it of P.deck){
+            /* readouts and LEDs read the SONG, not the engine: live always */
             if(it.t === "ro"){ dk.appendChild(readoutEl(m, it)); continue; }
             if(it.t === "led"){
               const L = el("div", "led"); L.appendChild(el("i"));
@@ -27167,11 +27556,11 @@ function drawPanels(){
             }
             const c = M.controls.find(x => x.k === it.k);
             if(!c) continue;
-            if(it.t === "btn"){ dk.appendChild(buttonEl(m, c, it.cap)); continue; }
+            if(it.t === "btn"){ dk.appendChild(dimIf(buttonEl(m, c, it.cap), it.k)); continue; }
             const e2 = (it.t === "sw" || (c.step >= 1 && c.max - c.min <= 2))
               ? switchEl(m, c) : knobEl(m, c);
             if(it.t === "big") e2.classList.add("big");
-            dk.appendChild(e2);
+            dk.appendChild(dimIf(e2, it.k));
           }
           box.appendChild(dk);
         }
@@ -27270,6 +27659,7 @@ function drawPanels(){
       if(P.grid === "field") box.appendChild(fieldEl());
       if(P.grid === "programme") box.appendChild(programmeEl());
       if(P.grid === "tape") box.appendChild(tapeEl(m, M));
+      if(P.grid === "compvu") box.appendChild(compVuEl(m, M));
       if(P.grid === "crush") box.appendChild(crushEl(m, M));
       if(P.grid === "barber") box.appendChild(barberEl(m, M));
       if(P.grid === "matrix"){

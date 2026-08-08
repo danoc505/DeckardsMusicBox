@@ -1233,6 +1233,77 @@ const check = (label, ok, detail) => {
     await pg.waitForTimeout(120);
   }
 
+  /* ═══ THE BUS COMPRESSOR: A NEEDLE THAT SHOWS THE SQUEEZE ════════════════
+     "A proper one, on the master, with a needle that shows how hard it's
+     squeezing." Three facts, each read off the GRAPH and never off the
+     picture [docs/genre-research/bus-compressor.md]:
+       1. the genre door: acid (declares) engages it, lofi (does not) leaves
+          the record dry;
+       2. PRESSED, NOT SET — the tape POWER's own lesson: the buttons on the
+          glass must reach the graph both ways;
+       3. the SQUEEZE IS REAL: forced on with the threshold dragged down, the
+          node's own `reduction` reads decibels of gain reduction while the
+          record plays, and the needle is off its rest. */
+  {
+    const r = await pg.evaluate(async () => {
+      const out = {};
+      const setGenre = async g => {
+        const s = document.getElementById("genre");
+        s.value = g; s.dispatchEvent(new Event("change", { bubbles: true }));
+        await new Promise(r => setTimeout(r, 350));
+      };
+      document.getElementById("seed").value = "1";
+      await setGenre("acid");
+      if(!playing) document.getElementById("play").click();
+      await new Promise(r => setTimeout(r, 900));
+      out.acid = MK2.soundState().comp;
+      await setGenre("lofi");
+      await new Promise(r => setTimeout(r, 500));
+      out.lofi = MK2.soundState().comp;
+      /* the buttons, pressed */
+      const btns = [...document.querySelectorAll('[data-key="comp.power"] button')];
+      if(btns.length !== 3) return { err: btns.length + " POWER buttons, want 3", out };
+      btns[2].click(); await new Promise(r => setTimeout(r, 300));
+      out.forcedOn = MK2.soundState().comp;
+      /* drag the THRESHOLD down so a quiet record still gets squeezed, and
+         watch the node's own number move */
+      const kn = document.querySelector('[data-key="comp.thresh"]');
+      if(!kn) return { err: "no THRESHOLD knob", out };
+      TRIM["comp.thresh"] = -26 - (PARAMS["comp.thresh"] == null ? -14 : PARAMS["comp.thresh"]);
+      handMoved("comp.thresh");
+      await new Promise(r => setTimeout(r, 700));
+      let worst = 0;
+      for(let i = 0; i < 10; i++){
+        const st = MK2.soundState().comp;
+        if(st && st.reduction < worst) worst = st.reduction;
+        await new Promise(r => setTimeout(r, 120));
+      }
+      out.worst = worst;
+      out.needle = (() => {
+        const n = document.querySelector(".cvneedle");
+        return n ? n.style.transform : null;
+      })();
+      delete TRIM["comp.thresh"];
+      btns[1].click(); await new Promise(r => setTimeout(r, 300));
+      out.forcedOff = MK2.soundState().comp;
+      btns[0].click(); await new Promise(r => setTimeout(r, 200));
+      if(playing) document.getElementById("play").click();
+      return out;
+    });
+    check("the compressor follows its genre: on for acid, out of circuit for lofi",
+          !r.err && r.acid && r.acid.on === true && r.acid.wet === 1 &&
+          r.lofi && r.lofi.on === false && r.lofi.wet === 0,
+          r.err || `acid on=${r.acid && r.acid.on} wet=${r.acid && r.acid.wet} · ` +
+                   `lofi on=${r.lofi && r.lofi.on} wet=${r.lofi && r.lofi.wet}`);
+    check("...and the needle shows a real squeeze, read off the node itself",
+          !r.err && r.forcedOn && r.forcedOn.on === true && r.worst < -1 &&
+          r.needle && r.needle !== "rotate(40deg)" &&
+          r.forcedOff && r.forcedOff.on === false,
+          r.err || `forced on over lofi, threshold at -26: worst reduction ` +
+                   `${r.worst && r.worst.toFixed(1)} dB · needle at ${r.needle} · ` +
+                   `forced off again: on=${r.forcedOff && r.forcedOff.on}`);
+  }
+
   /* ═══ THE LEGATO BUTTON HOLDS REAL NOTES OVER ════════════════════════════
      "a switch for a keyboard to play in legato ... it collides with the next
      note." [docs/genre-research/legato.md]
@@ -1340,7 +1411,7 @@ const check = (label, ok, detail) => {
     });
     const bad = [], seen = [];
     for(const [mach, slot, ctrl, loads] of boxes){
-      const skins = new Set();
+      const skins = new Set(), chasses = new Set();
       for(const load of loads){
         const r = await pg.evaluate(async (a) => {
           const [mach, slot, ctrl, load] = a;
@@ -1356,21 +1427,50 @@ const check = (label, ok, detail) => {
           const M = MK2.INSTRUMENTS[mach];
           const coll = M[ctrl + "s"] || M[ctrl] || {};
           const entry = coll[load] || {};
-          /* what this load says it wants drawn; a load with no override wears
-             the machine's own panel, which is the union's own layout */
-          const wants = entry.krow || null;
-          const drawn = [...box.querySelectorAll(".krow [data-key], .deck [data-key]")]
+          /* ── ONE FACE. The user: "If any other kit is loaded it completely
+             changes ui this is not the idea it is wrong. The kit should only
+             change knobs if need like the tr1000." So the contract this
+             check holds is the NEW one:
+               · the CHASSIS is constant across loads -- jacks, knob row,
+                 deck, grid, counted and compared;
+               · the load's OWN knobs are drawn, in the engine row;
+               · no other load's own knobs are anywhere;
+               · every chassis knob is either LIVE for this load (sharedReads,
+                 its own, or the load that IS the circuit) or visibly marked
+                 out of circuit -- drawn-but-dead with no mark is the lie this
+                 file has a standing rule about, and marked-but-live is the
+                 same lie mirrored. */
+          const wants = entry.own || null;
+          const engRow = [...box.querySelectorAll(".engrow [data-key]")]
             .map(e => e.dataset.key.split(".").slice(1).join("."));
+          const chassis = JSON.stringify({
+            jacks: box.querySelectorAll(".jacks .jack").length,
+            krow:  box.querySelectorAll(".krow > *").length,
+            deck:  box.querySelectorAll(".deck > *").length,
+            grid:  !!box.querySelector(".acid"),
+          });
+          const shared = M.sharedReads || [], own = entry.own || [];
+          const liveBad = [];
+          for(const e of box.querySelectorAll(".krow [data-key], .deck [data-key]")){
+            const k = e.dataset.key.split(".").slice(1).join(".");
+            const isLive = !!entry.circuit || shared.includes(k) || own.includes(k);
+            const marked = e.classList.contains("notin");
+            if(isLive && marked)  liveBad.push(k + " marked dead but wired");
+            if(!isLive && !marked) liveBad.push(k + " drawn live but reaches nothing");
+          }
           return { skin: (box.className.match(/sk-[\w-]+/) || [""])[0],
                    plate: box.querySelector(".model").textContent,
                    says: document.querySelector(`[data-key="${mach}.${ctrl}"]`).options[0].textContent,
-                   missing: wants ? wants.filter(k => !drawn.includes(k)) : [],
-                   extra: wants ? drawn.filter(k => !wants.includes(k) && k !== ctrl) : [] };
+                   chassis, liveBad,
+                   missing: wants ? wants.filter(k => !engRow.includes(k)) : [],
+                   extra: wants ? engRow.filter(k => !wants.includes(k)) : [] };
         }, [mach, slot, ctrl, load]);
         if(r.err){ bad.push(`${mach}/${load}: ${r.err}`); continue; }
         skins.add(r.skin);
-        if(r.missing.length) bad.push(`${mach} with ${load} loaded does not draw: ${r.missing.join(" ")}`);
+        chasses.add(r.chassis);
+        if(r.missing.length) bad.push(`${mach} with ${load} loaded does not draw its own: ${r.missing.join(" ")}`);
         if(r.extra.length)   bad.push(`${mach} with ${load} loaded draws another load's knobs: ${r.extra.join(" ")}`);
+        if(r.liveBad.length) bad.push(`${mach}/${load}: ${r.liveBad.slice(0, 3).join(" · ")}`);
         if(!r.says.startsWith(load) && !r.says.toLowerCase().includes(load.toLowerCase())){
           /* the switch shows the ENGLISH name, so compare against that */
           const eng = await pg.evaluate(a => (MK2.INSTRUMENTS[a[0]][a[1] + "Names"] || {})[a[2]], [mach, ctrl, load]);
@@ -1378,9 +1478,10 @@ const check = (label, ok, detail) => {
         }
       }
       if(skins.size > 1) bad.push(`${mach} wears ${skins.size} different faces`);
-      else seen.push(`${mach}.${ctrl}: ${loads.length} loads, one face, each drawing its own`);
+      else if(chasses.size > 1) bad.push(`${mach}'s chassis changes with the load — ${chasses.size} different shapes`);
+      else seen.push(`${mach}.${ctrl}: ${loads.length} loads, one face, one chassis, every knob live or marked`);
     }
-    check("a box with a load switch shows the face of what is loaded, and only that",
+    check("a box with a load switch keeps ONE face, and every knob is live or says it is not",
           bad.length === 0 && boxes.length > 0,
           bad.length ? bad.slice(0, 4).join(" · ") : seen.join(" · "));
   }

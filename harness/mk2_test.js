@@ -860,6 +860,12 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
        into less pitch error. Same shape of entry as `echo.div` above: read per
        SONG, never per note, and therefore invisible to the P() scanner. */
     "tape.power","tape.wow","tape.flutter","tape.speed",
+    /* the bus compressor: the same shape one unit up the chain -- six controls
+       setSpace reads once per song (and re-applies on a hand through `live`),
+       written onto the compressor node and its makeup gain. The needle reads
+       the NODE's own reduction, so "reaches the sound" is also measured live
+       by the UI battery, which drags THRESHOLD and watches `reduction` move. */
+    "comp.power","comp.thresh","comp.ratio","comp.attack","comp.release","comp.makeup",
     ]);
   /* ── THE PER-VOICE CHAINS, DERIVED, NOT LISTED ──────────────────────────────
      These were twenty names typed in for tr1000 alone. Then the acoustic kit and
@@ -2869,6 +2875,58 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         missing.length === 0,
         missing.length ? "nothing to hold on: " + missing.join(", ")
                        : Object.keys(reach).sort().map(r => r + " " + reach[r]).join(" · "));
+}
+
+/* ═══ THE BUS COMPRESSOR'S GENRE DOOR ════════════════════════════════════════
+   The legato's own pattern one unit along: `comp: 1` in a genre's table rides
+   soundOf's space to the graph. Four dance-floor genres declare it and the
+   four score-like ones must NOT -- an undeclared genre acquiring a compressor
+   is an audible change to a record nobody asked to move.
+   [docs/genre-research/bus-compressor.md §4] */
+{
+  const want = { acid: 1, plastikman: 1, jungle: 1, synthwave: 1,
+                 lofi: 0, bladerunner: 0, dkc: 0, dungeonsynth: 0 };
+  const bad = [];
+  for(const g of M.genres()){
+    const S = M.soundOf(g);
+    const has = S.space.comp ? 1 : 0;
+    if(want[g] == null) continue;              // a ninth genre decides for itself
+    if(has !== want[g]) bad.push(g + (has ? " acquired a compressor" : " lost its compressor"));
+  }
+  check("the bus compressor reaches exactly the genres that declare it",
+        bad.length === 0,
+        bad.length ? bad.join(" · ") : "acid, plastikman, jungle, synthwave on · the four score-like genres untouched");
+}
+
+/* ═══ THE BASS UNIT'S ONE FACE — the declarations that make it possible ══════
+   "The kit should only change knobs if need like the tr1000." Three seams:
+     · `sharedReads` -- the knobs every engine's voice reads -- must name
+       controls the box declares, or the dimming logic lies about liveness;
+     · every engine's `own` list must name declared controls, or the engine
+       row silently drops a knob (the old drew-nothing Erang defect);
+     · every engine declares the accent and slide note flags now -- the grid's
+       ACC/SLD rows derive from `reads`, and an engine missing one would
+       silently lose two rows of a step editor that works everywhere else. */
+{
+  const M3 = M.INSTRUMENTS.tb303, have = new Set((M3.controls || []).map(c => c.k));
+  const bad = [];
+  for(const k of (M3.sharedReads || []))
+    if(!have.has(k)) bad.push("sharedReads names \"" + k + "\", which the box does not declare");
+  if(!(M3.sharedReads || []).length) bad.push("no sharedReads at all");
+  let engines = 0;
+  for(const e in (M3.engines || {})){
+    engines++;
+    const E = M3.engines[e];
+    for(const k of (E.own || []))
+      if(!have.has(k)) bad.push(e + ".own names \"" + k + "\", which the box does not declare");
+    for(const flag of ["accent", "slide"])
+      if(!(E.reads || []).includes(flag)) bad.push(e + " does not read " + flag);
+  }
+  check("the bass unit's shared knobs and every engine's own are declared controls",
+        bad.length === 0 && engines >= 5,
+        bad.length ? bad.slice(0, 4).join(" · ")
+                   : engines + " engines, " + (M3.sharedReads || []).length +
+                     " shared knobs (" + M3.sharedReads.join(" ") + "), every flag read everywhere");
 }
 
 /* ═══ THE GENRE'S OWN LEGATO — the door, and what walks through it ═══════════
