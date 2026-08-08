@@ -1378,7 +1378,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08j · the DK genre becomes VGM, and Mitsuda's harmony arrives</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08k · the bouncing figure stands down for the chorus and the bridge</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -14802,8 +14802,35 @@ const GENRE = {
       material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
                   instrumental: "A", outro: "A" },
       roles: {
-        /* the ostinato is the constant: it is in every section, and in the intro
-           it is nearly the whole texture -- which is how these tracks open */
+        /* ── THE FIGURE USED TO BE IN ALL SIX SECTIONS AND THE EAR REFUSED IT ──
+           Reported, 2026-08-08: *"That bouncing … it's too much to always be
+           there, it doesn't fit with the rest, it's not like in the video
+           game."*
+
+           MEASURED, and the complaint is exact: the ostinato was sounding in
+           **99% of all bars** across 30 songs — more constantly than the drums
+           (44%), the tune (58%) or the chords (81%). The most relentless thing
+           in the record was a four-note cell in sixteenths that by design does
+           not follow the chords. The comment that used to sit here called it
+           "the constant: it is in every section", so this was a decision
+           somebody wrote down, not a bug — and the decision was wrong.
+
+           AND THE HARDWARE SAYS PARTS ARE SUPPOSED TO LEAVE. The SPC700
+           "supports 8 channels of sampled sound, meaning a maximum of 8 sounds
+           can play at once", and "game composers frequently reserve a channel
+           or two exclusively for sound effects so that no musical parts will
+           be interrupted" [corpus:samplemance SNES guide] — so a real score is
+           written for six or seven voices, and the arrangement idiom that
+           follows is parts DROPPING OUT to make room. A figure that never
+           stops is the one thing that console could least afford.
+           docs/genre-research/vgm-restrictions.md.
+
+           So the figure OPENS the record and RETURNS, rather than never
+           leaving: it holds the intro (nearly the whole texture, which is how
+           these tracks open), the verse and the instrumental, and it stands
+           down for the CHORUS — already the fullest section at six parts —
+           and for the BRIDGE, which is the departure. How far to take it is
+           [EAR] and this is the first answer, not the settled one. */
         intro:        ["ostinato", "bass"],
         /* THE COUNTER WAS BEING COMPOSED AND THROWN AWAY. This genre declares a
            counter table -- density 0.45, its own interval pool -- and the role
@@ -14812,8 +14839,8 @@ const GENRE = {
            the genre with the strongest case for one. Activated where the tune
            is: the verse and the chorus. */
         verse:        ["ostinato", "bass", "keys", "lead", "counter"],
-        chorus:       ["ostinato", "bass", "keys", "lead", "counter", "drums"],
-        bridge:       ["ostinato", "bass", "keys"],
+        chorus:       ["bass", "keys", "lead", "counter", "drums"],
+        bridge:       ["bass", "keys"],
         instrumental: ["ostinato", "bass", "keys", "drums"],
         outro:        ["ostinato", "bass"],
       },
