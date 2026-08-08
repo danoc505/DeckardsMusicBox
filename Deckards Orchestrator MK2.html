@@ -1378,7 +1378,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08i · the break locks its slices, the hat locks its steps</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-08j · the DK genre becomes VGM, and Mitsuda's harmony arrives</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -11650,7 +11650,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
        MEASURED, and this is the half the first edge fix missed. `throw` puts
        its spike at `at` of the way through the last bar of a phrase: at 0.75
        that is the sixteenth the beat grid happens to land on, and at 0.8 or
-       0.875 it is not. Three throws -- dkc's `tr1000.oEcho` at 0.8, jungle's
+       0.875 it is not. Three throws -- vgm's `tr1000.oEcho` at 0.8, jungle's
        `tr1000.hEcho` at 0.8, plastikman's `tr1000.oEcho` at 0.875 -- rendered
        ZERO PERCENT of their declared +0.118 / +0.170 / +0.105, erased outright
        between two grid points on a program whose plan plainly contained them.
@@ -11916,7 +11916,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
        so the delay swing each needs is depth/(2*pi*rate) seconds -- arithmetic,
        not an eared constant.
 
-       ON WHEN THE GENRE HAS TAPE, and switchable by hand either way. dkc and
+       ON WHEN THE GENRE HAS TAPE, and switchable by hand either way. vgm and
        plastikman declare all zeros on purpose -- a cartridge and a digital
        record have no tape -- so their rack reads OFF and a hand can still turn
        it on. That is the standing rule from `2026-08-05d`: "If I turn a knob it
@@ -11959,16 +11959,16 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
          hand switches it on — near what lofi declares, which is a worn but
          ordinary machine. A genre that declares its own keeps its own.
 
-         Without this, switching dkc's tape ON was still "doesn't do anything",
+         Without this, switching vgm's tape ON was still "doesn't do anything",
          just one layer further in than the defect that was reported. */
       const forced = sw === 1 && !has;
       if(forced){ T = { wow: 0.0015, flutter: 0.0008 }; }
       const spd = Math.max(0.25, hand("speed"));
       /* ── ADDED TO THE SONG'S DRIFT, NOT MULTIPLIED BY IT ────────────────
          These were multipliers, and a multiplier on a genre that declares zero
-         is a knob that does nothing: switching dkc's tape ON put the record
+         is a knob that does nothing: switching vgm's tape ON put the record
          through the tape path with a drift of exactly 0 × anything. MEASURED,
-         by the check that turns POWER on for dkc and reads the graph.
+         by the check that turns POWER on for vgm and reads the graph.
 
          Same trap the mixer sends had, same answer: the song's value is the
          BASE and the hand is added on top. So a genre that declares no tape
@@ -13936,7 +13936,7 @@ const GENRE = {
          SECOND `tr1000:` key in this same object -- and a duplicate key in an
          object literal does not merge, it REPLACES. Adding the chain block above
          therefore deleted nothing and was itself deleted: the probe measured
-         zero designed lanes in lofi and dkc and was right.
+         zero designed lanes in lofi and vgm and was right.
 
          This is the third time a duplicate key has silently eaten a table in
          this file. It is now checked: `no motion table declares a machine
@@ -14747,8 +14747,31 @@ const GENRE = {
      is a different instrument from anything in this palette. The pan-flute lead
      and the tuned-percussion bed are missing for the same reason.
      ═════════════════════════════════════════════════════════════════════════ */
-  dkc: {
-    label: "Donkey Kong Country",
+  /* ── THE KEY WAS `vgm` UNTIL 2026-08-08j, AND THE OLD NAME HAD BECOME A LIE
+     ABOUT ITS OWN CONTENTS ──────────────────────────────────────────────────
+     The table already spanned TWO composers, TWO consoles and five years —
+     David Wise's SNES Donkey Kong Country (1994-96) and Grant Kirkhope's N64
+     Donkey Kong 64 (1999) — while calling itself after one of them. The user
+     asked for Chrono Trigger to join it, which is a third composer on a third
+     franchise, so the name had to go.
+
+     `vgm` IS A MEDIUM AND NOT A STYLE, and that is the honest objection to
+     this rename rather than an argument for it. It is only defensible because
+     the three scores share MEASURABLE traits and not merely a shipping format:
+     non-functional harmony (Wise's fixed cell over a moving pedal, MEASURED
+     off MIDI; Mitsuda's minor tonic with a major-key body), a held
+     octave-doubled bass pedal, a tuned-percussion layer, and a short hardware
+     echo standing in for a room. Three of those four rows are measured.
+     docs/genre-research/chrono-trigger.md §5 carries the table and the case
+     AGAINST. If a fourth composer ever arrives sharing none of it, the answer
+     is a second key and not a wider one.
+
+     AND THE RENAME MOVES NO NOTE, provably: no substream in this file is
+     keyed on a genre name — `stream(seed, …)` takes fixed strings ("chart",
+     "rig", "rack", "motion:<control>:<i>") — so the key is a label the draws
+     never see. The rolls are byte-identical across it. */
+  vgm: {
+    label: "video game music — Wise · Kirkhope · Mitsuda",
     /* trimodal, and a flat draw over [72,146] would spend most of its time where
        the music never is. Each band is >=2 independent transcriptions:
        ambient/cave 72-82 (Aquatic Ambience 74/75/75/80, Life in the Mines 72/75),
@@ -14876,6 +14899,35 @@ const GENRE = {
                   the Rare scores answer the tune constantly */
                answer: 0.70 },
     sevenths: false,      // Wise's harmony is add9 and sus, not stacked sevenths
+    /* ── MITSUDA'S DEVICE, THROUGH THE TRANSFORM THAT ALREADY IMPLEMENTED IT ──
+       Chrono Trigger's identifying cue is harmonically unmoored on purpose: a
+       melancholic MINOR-key melody whose body sits in the MAJOR key a third
+       away — "a melancholic minor key melody courtesy of the sitar in the Gb
+       tonality" [corpus:videogamemusicshrine], described everywhere else as
+       F# minor against D major, and by Mitsuda himself as wanting "music that
+       wouldn't fit into any established genre … music of an imaginary world"
+       [corpus:wikipedia].
+
+       THE PROGRAM COULD ALREADY WRITE IT AND NOBODY DREW IT. `plr()`'s L
+       (leading-tone) transform maps a major triad to the minor triad a major
+       third up and back — D major <-> F# minor, exactly the relationship the
+       sources name — and it has sat in this file reached by one genre. A
+       capability declared and never drawn is this file's oldest defect shape.
+
+       AND IT BELONGS HERE FOR A REASON THIS GENRE ALREADY HAD: `dkc.md`'s
+       measured headline is that Wise's harmony is NOT FUNCTIONAL either — a
+       fixed cell over a moving pedal, where the clash "is not an error being
+       corrected, it is the sound". Two composers refusing functional harmony
+       by two different mechanisms; this adds the second mechanism to a genre
+       that was already built on the first.
+
+       0.22 rather than bladerunner's 0.30: this genre's own non-functional
+       writing is carried by the ostinato and the pedal, so the chromatic road
+       is the seasoning and not the dish. [EAR] — no source gives a rate.
+       THIS MOVES THE MUSIC on about a fifth of the genre's songs, deliberately,
+       and is re-baselined in the same commit.
+       docs/genre-research/chrono-trigger.md §4, §6. */
+    harmony: { style: "plr", chance: 0.22 },
     /* the density of a bar of tune, and where its notes may land. These are the
        values that were literals inside buildTheme, written out unchanged. */
     theme: { count: { hooky: [4, 2], breath: [1, 2], normal: [3, 2] },
@@ -16776,7 +16828,7 @@ const GENRE = {
          bladerunner  0.42  5.0     0.18      0.16
          plastikman   0.34  3.2     0.28      0.20      <- mid-table
          jungle       0.22  2.2     0.30      0.22
-         dkc          0.34  2.4     0.34      0.20
+         vgm          0.34  2.4     0.34      0.20
 
        The genre whose reference record is described as "kick drums bathed in
        SUFFOCATING reverb", with "dubby splashes... unfurling through billowing
@@ -17763,7 +17815,7 @@ const GENRE = {
        Measured before this changed, 30 seeds: 100% the root, one note a bar,
        in every bar of every song -- because this genre wore `drone`, which
        restrikes only when the chord changes, under a harmony that mostly does
-       not. dkc's pedal and bladerunner's drone are declared, sourced styles;
+       not. vgm's pedal and bladerunner's drone are declared, sourced styles;
        this was a default nobody chose, and it was also the reason the chords
        and the bass ran 19.2% parallel fifths (BACKLOG §6.8): a bass that only
        ever plays the root moves by exactly the interval the chord moved, so
@@ -18511,7 +18563,7 @@ const GENRE = {
        (`tape.wow`/`flutter` above), which is the honest source of it: "tape
        wow/flutter... to achieve a worn, archival feel" [corpus:melodigging].
        A bend drawn on top of that would be a player's gesture on an instrument
-       that has none. Same reading as lofi and dkc, for the same reason. */
+       that has none. Same reading as lofi and vgm, for the same reason. */
     ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
     pressure: { depth: 0, amount: [0, 0], at: [0, 0], rise: [0, 0] },
     /* "long pedal notes and drones" [corpus:melodigging] -- the bass is the
@@ -22384,7 +22436,7 @@ function makeMaterials(chart){
 
        Union-ing the whole chord in at every step instead of just the omitted
        tones was tried first and MEASURED: it lifted probe_theory's unresolved
-       rate in genres that draw no extensions at all -- dkc 8.0% -> 11.4%,
+       rate in genres that draw no extensions at all -- vgm 8.0% -> 11.4%,
        bladerunner 7.4% -> 12.2% -- by excusing dissonances the comp was
        genuinely not sounding. Too blunt. `omitted` is empty for every genre
        whose comp voices all its tones, so those genres are untouched here by
@@ -23032,7 +23084,7 @@ function makeMaterials(chart){
       let at = n.step, dur = n.dur;
       if(CT.style !== "double" && ansDraw < (CT.answer || 0)){
         /* PREFER the silence, but do not REQUIRE it. Measured with the gap as a
-           precondition: acid moved 5.6% of its notes and dkc 11.4%, because a
+           precondition: acid moved 5.6% of its notes and vgm 11.4%, because a
            dense tune leaves no silence to answer into -- so on exactly the
            genres whose leads are busiest, the counter stayed welded to them.
 
@@ -24131,7 +24183,7 @@ function makePerformance(chart, form, materials, sections){
              double turned into a flam.
 
              MEASURED, same lane, smallest gap between consecutive notes:
-               dkc      0.0 ms, 754 pairs under 30 ms  (37 -> 49, an octave up)
+               vgm      0.0 ms, 754 pairs under 30 ms  (37 -> 49, an octave up)
                jungle   0.0 ms, 356 pairs              (25 -> 13, an octave down)
                bladerunner 0.3 ms, 121 pairs              (25 -> 37, up to 23 ms apart)
              Two notes 1-25 ms apart do not read as two notes. They read as one
@@ -24550,7 +24602,7 @@ function makePerformance(chart, form, materials, sections){
      square-wave tone channels and one noise.
      [corpus:wikipedia YM2612, corpus:consolemods Genesis audio chip notes]
 
-     MEASURED before this existed, dkc on the sega rig: peak 8 simultaneous FM
+     MEASURED before this existed, vgm on the sega rig: peak 8 simultaneous FM
      voices, 7 on another seed. On a chip with six. And with a drum playing, the
      DAC has taken channel 6, so the real budget is FIVE.
 

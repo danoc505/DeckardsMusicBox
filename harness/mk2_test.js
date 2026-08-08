@@ -439,7 +439,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      numbers in a table. A pedal, a pocket-follower and an eighth-note sequencer
      are three instruments; if they converge, a table entry is doing nothing.
      Measured when this landed: lofi 10.6 notes per 4 bars, synthwave 30.8,
-     dkc 7.3 -- and the counter sounding on 63% / 90% / 45% of the tune. */
+     vgm 7.3 -- and the counter sounding on 63% / 90% / 45% of the tune. */
   {
     const dens = {};
     for(const g of genres){
@@ -616,7 +616,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   /* THE DRUMMER HAS TO ACTUALLY USE THE TOMS. A kit with three tom voices that
      nothing ever strikes is three dead voices and a fill that is a snare roll.
      Measured when this landed: synthwave 12.9 hits a song in 111/120 songs,
-     lofi 3.7 in 49/120, dkc 3.8 in 81/120 -- a genre may want few, but a genre
+     lofi 3.7 in 49/120, vgm 3.8 in 81/120 -- a genre may want few, but a genre
      that declares toms must play them. */
   {
     const rows = [];
@@ -1204,7 +1204,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      second `tr1000:` in one genre's motion block silently deletes the first,
      and the table that was deleted goes on looking perfectly correct in the
      source. It has happened three times in this file. The most recent: a whole
-     block of per-voice chain automation was added to lofi and dkc, both genres
+     block of per-voice chain automation was added to lofi and vgm, both genres
      already had a second tr1000 key further down, and the new work was gone
      before it ever ran. A probe measured zero and was right.
 
@@ -1287,7 +1287,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   }
 
   /* ── A PART THAT IS BUILT MUST BE ABLE TO PLAY ────────────────────────────
-     MEASURED: dkc, acid, plastikman and jungle each declared a `counter` table
+     MEASURED: vgm, acid, plastikman and jungle each declared a `counter` table
      -- density, interval pool, the lot -- and the role appeared in NO section's
      active list. So the second line was composed every song and thrown away
      before it reached the performance. Reading the roll cannot catch this: the
@@ -1325,7 +1325,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     const DAC = new Set(["dacKick", "dacSnare", "dacGhost"]);
     let worstFM = 0, worstPSG = 0, at = "";
     for(let s = 1; s <= 20; s++){
-      const song = M.composeSong(s, "sega", "dkc"), spb = song.motion.spb;
+      const song = M.composeSong(s, "sega", "vgm"), spb = song.motion.spb;
       for(let t = 0; t < Math.min(song.perf.seconds, 90); t += spb){
         let f = 0, p = 0, d = 0;
         for(const e of song.perf.events){
@@ -2470,11 +2470,11 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         composed > 0 && endsOnPay === composed, endsOnPay + "/" + composed + " end their middle on the payoff");
   check("...and the plan still leaves the seed room to vary the shape",
         shapes.size > 1, shapes.size + " distinct shapes in " + SEEDS + " seeds");
-  /* dkc, not lofi: lofi got the first real plan at 2026-08-02c, so it stopped
+  /* vgm, not lofi: lofi got the first real plan at 2026-08-02c, so it stopped
      being the planless control the moment this label was written */
   check("...and a planless genre was untouched by the mechanism existing",
-        (() => { try { return M.composeSong(1, "band", "dkc").form.length > 0; } catch(e){ return false; } })(),
-        "dkc still composes (the snapshot is the real proof for every planless genre)");
+        (() => { try { return M.composeSong(1, "band", "vgm").form.length > 0; } catch(e){ return false; } })(),
+        "vgm still composes (the snapshot is the real proof for every planless genre)");
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -2923,7 +2923,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
    [docs/genre-research/bus-compressor.md §4] */
 {
   const want = { acid: 1, plastikman: 1, jungle: 1, synthwave: 1,
-                 lofi: 0, bladerunner: 0, dkc: 0, dungeonsynth: 0 };
+                 lofi: 0, bladerunner: 0, vgm: 0, dungeonsynth: 0 };
   const bad = [];
   for(const g of M.genres()){
     const S = M.soundOf(g);

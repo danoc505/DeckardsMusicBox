@@ -626,7 +626,7 @@ const check = (label, ok, detail) => {
      Run on a genre with an ostinato and a second keyboard, because those are
      the two roles this project has actually lost on export. */
   {
-    await pg.selectOption("#genre", "dkc");
+    await pg.selectOption("#genre", "vgm");
     await pg.waitForTimeout(250);
     await pg.click("#new");
     await pg.waitForTimeout(400);
@@ -1156,7 +1156,7 @@ const check = (label, ok, detail) => {
        vouch for itself. */
     const drove = await pg.evaluate(async () => {
       const s = document.getElementById("genre");
-      s.value = "dkc"; s.dispatchEvent(new Event("change", { bubbles: true }));
+      s.value = "vgm"; s.dispatchEvent(new Event("change", { bubbles: true }));
       await new Promise(r => setTimeout(r, 250));
       document.getElementById("play").click();
       await new Promise(r => setTimeout(r, 900));
@@ -1179,7 +1179,7 @@ const check = (label, ok, detail) => {
        written in this repo. So this presses the button. */
     const pressed = await pg.evaluate(async () => {
       const s = document.getElementById("genre");
-      s.value = "dkc"; s.dispatchEvent(new Event("change", { bubbles: true }));
+      s.value = "vgm"; s.dispatchEvent(new Event("change", { bubbles: true }));
       await new Promise(r => setTimeout(r, 250));
       const btns = [...document.querySelectorAll('[data-key="tape.power"] button')];
       if(btns.length !== 3) return { err: btns.length + " POWER buttons, want 3" };
@@ -1194,12 +1194,12 @@ const check = (label, ok, detail) => {
           !pressed.err && pressed.genre && pressed.on && pressed.off &&
           pressed.genre.on === false && pressed.on.on === true &&
           pressed.on.wowDev > 0 && pressed.off.on === false,
-          pressed.err || `dkc — genre ${pressed.genre.on} · ON ${pressed.on.on} ` +
+          pressed.err || `vgm — genre ${pressed.genre.on} · ON ${pressed.on.on} ` +
             `(drift ${pressed.on.wowDev ? pressed.on.wowDev.toExponential(2) : 0}) · OFF ${pressed.off.on}`);
 
     check("...and a hand can dub a record the genre left off tape",
           !drove.err && drove.off && drove.on && drove.off.on === false && drove.on.on === true,
-          drove.err || `dkc: genre says ${JSON.stringify(drove.off)} · hand says ${JSON.stringify(drove.on)}`);
+          drove.err || `vgm: genre says ${JSON.stringify(drove.off)} · hand says ${JSON.stringify(drove.on)}`);
   }
 
   /* ═══ A PART'S SEND MOVES THAT PART, AND ONLY THAT PART ═══════════════════
@@ -1263,7 +1263,7 @@ const check = (label, ok, detail) => {
     const r = await pg.evaluate(async () => {
       const out = {};
       /* PINNED to acid seed 1, and the pin is the lesson again: this check
-         first ran on whatever genre the previous block left (dkc), whose
+         first ran on whatever genre the previous block left (vgm), whose
          SEGA drums do not ride the `drums` bus the crossing taps — so it
          read 0 and the 0 was true about the setup, not about the wiring. */
       document.getElementById("seed").value = "1";

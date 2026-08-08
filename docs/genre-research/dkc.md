@@ -1,4 +1,13 @@
-# Donkey Kong Country / DK64 — David Wise (DKC1/2/3) and Grant Kirkhope (DK64). Key: `dkc`.
+# Donkey Kong Country / DK64 — David Wise (DKC1/2/3) and Grant Kirkhope (DK64).
+# Key: `vgm` (was `dkc` until 2026-08-08j).
+
+> **THE KEY WAS RENAMED.** Chrono Trigger joined this table on the user's
+> instruction, which made a third composer on a third franchise under a name
+> that only covered one of them. Everything measured below is unchanged and
+> still true — the rename moves no note (no substream is keyed on a genre
+> name, proved by a byte-identical roll). The Chrono Trigger half, the SNES
+> hardware the scores share, and the honest case AGAINST calling a medium a
+> genre are in `chrono-trigger.md`.
 
 *Web research delivered 2026-07-28. NOT independently verified — the verification pass hit the session limit before it ran. Treat every number as the researcher's claim until checked.*
 

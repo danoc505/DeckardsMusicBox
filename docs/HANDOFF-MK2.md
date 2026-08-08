@@ -103,7 +103,40 @@ to measure the thing it was about — reading `kit.poly`, exempting D bars **by
 name** from `materials.drumPhrase` — and never by moving a threshold. Say in the
 commit message which you changed and why.
 
-### WHAT 2026-08-08 BUILT — `08a` … `08i`
+### WHAT 2026-08-08 BUILT — `08a` … `08j`
+
+- **`08j`** THE DK GENRE BECAME `vgm`, AND CHRONO TRIGGER'S HARMONY ARRIVED.
+  The user: *"research the music of Chrono Trigger, and Donkey Kong 64. We
+  want to take in this data and update the DK genre change it to VGM."*
+  DK64 was already researched — `dkc.md` covers Kirkhope beside Wise with
+  numbers MEASURED off MIDI — so the new work is Chrono Trigger and the
+  framing: `docs/genre-research/chrono-trigger.md`.
+  **THE RENAME MOVES NO NOTE AND THAT IS PROVED, NOT HOPED**: no substream in
+  the file is keyed on a genre name, so the key is a label the draws never
+  see. Driven: the roll with the rename alone differs from the old `dkc` roll
+  by **exactly one line — the header's label**; same key, tempo, rig, bars and
+  event count, every note identical.
+  **WHAT DOES MOVE THE MUSIC is one sourced line.** Mitsuda's identifying cue
+  is harmonically unmoored on purpose — *"a melancholic minor key melody
+  courtesy of the sitar in the Gb tonality"* [corpus:videogamemusicshrine],
+  described elsewhere as F# minor against D major — and **the program could
+  already write it and nobody drew it**: `plr()`'s L transform maps a major
+  triad to the minor a major third up, which IS D major ↔ F# minor. So `vgm`
+  declares `harmony: { style: "plr", chance: 0.22 }`. It belongs on THIS
+  genre because `dkc.md`'s measured headline is that Wise's harmony is not
+  functional either — two composers refusing functional harmony by two
+  mechanisms, and this adds the second to a table built on the first.
+  MEASURED: **62 of 300 songs move (20.7% against a declared 22%)**, and the
+  re-baseline was checked line by line rather than overwritten — **62 of 2400
+  baseline lines moved, every one of them this genre, ZERO other genres**.
+  Read on the roll, seed 12: `G#m E B G#m` → `B G#m B Bm*`, a B major against
+  a G# minor a major third away — the sourced relationship, in the output.
+  RULE ONE: the other seven genres byte-identical.
+  **NOT built, and said so in §7 of that sheet**: the sitar, the kenong and
+  the kethuk (no such voices, and inventing them from a one-line description
+  is the error `dkc.md`'s own header warns about); the SNES echo's sourced
+  240 ms ceiling as a law (it would re-voice every song in the genre and wants
+  its own measured commit); and the eight-voice SPC700 budget.
 
 - **`08i`** THE PARAMETER LOCK, researched at last and then used. The user:
   *"More P locks. More research."* The mechanism has existed since the motion

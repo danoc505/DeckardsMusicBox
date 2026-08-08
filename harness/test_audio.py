@@ -522,7 +522,7 @@ for name, want in SOFT_DBFS.items():
 # that compares each probe to a number cannot notice that three probes are the same
 # probe; only comparing them TO EACH OTHER can. So: two genres that ask for
 # different kicks must not render the same kick.
-_kg = [(n, MEAS[n]["rms"]) for n in ("kick_lofi", "kick_synthwave", "kick_dkc") if n in MEAS]
+_kg = [(n, MEAS[n]["rms"]) for n in ("kick_lofi", "kick_synthwave", "kick_vgm") if n in MEAS]
 if len(_kg) >= 2:
     _lo = dict(_kg).get("kick_lofi"); _sw = dict(_kg).get("kick_synthwave")
     if _lo and _sw:
