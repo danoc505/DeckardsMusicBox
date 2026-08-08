@@ -103,7 +103,41 @@ to measure the thing it was about — reading `kit.poly`, exempting D bars **by
 name** from `materials.drumPhrase` — and never by moving a threshold. Say in the
 commit message which you changed and why.
 
-### WHAT 2026-08-08 BUILT — `08a` … `08q`
+### WHAT 2026-08-08 BUILT — `08a` … `08r`
+
+- **`08r`** THE EAR REVERSED ME ON THE BASS, AND THE FILLS WERE LOCKED BEHIND A
+  CHORUS. Two ear verdicts, both of which outrank the measurements.
+  **(1) THE BASS.** *"The plastikman bass is wrong … I feel like he uses echo to
+  get more notes. We have too much bass and not enough fx."* `08q` had read that
+  bass as too root-bound and opened it up; the numbers moved as intended and the
+  RESULT is wrong, because I answered a question about TEXTURE with a change to
+  PITCH. **The answer was already in the repo in the user's own words** — "we can
+  start with ONE BASS NOTE and fill in the silence with reverb, delay etc. and
+  build up around that. It's maximising the minimal." I had that sentence and
+  built its opposite. Every number reverted (`distinctPitches` [2,2],
+  `rootShare` 0.62, pool 58% root — measured back to 79.2% / 62.5% / 1.70).
+  `roleGain.bass` 0.62 → 0.50, which is the half of the verdict I can move
+  without hearing. The echo's own feedback and mix are NOT touched: the bass is
+  already fully sent to the delay, so that half is a wet/dry judgement and needs
+  an ear.
+  **(2) THE FILLS, AND IT WAS ONE CONDITION.** *"We never have fills or solos or
+  drum rolls! It's often just one single drum loop the whole song."* Measured: a
+  fill fired only when the NEXT section happened to be a chorus or a bridge --
+  **plastikman 0.3 fills a song, one every 933 bars; synthwave one every 66;
+  acid one every 97; Blade Runner never.** This repo's own `rhythm-phrasing.md`
+  §2 says a fill belongs at the end of a PHRASE, to "increase the energy in
+  anticipation of the next phrase's downbeat", and says nothing about choruses.
+  Unlocked to any section that has drums and is followed by another: **fills a
+  song 0.3 → 7.6 (plastikman), 1.8 → 12.8 (synthwave), 2.6 → 7.6 (acid), and
+  every genre with a kit now gets one every 9-35 bars.** Blade Runner stays at
+  zero, correctly -- it has no drums.
+  **NOT DONE, and it is the larger half of the drum report**: sections that add,
+  take away and alter, with the LAST carrying the most change. The phrase letters
+  (A/B/C/D) exist per material; what does not exist is a section-scale arc of
+  subtraction and addition. Researched next.
+  Notes byte-identical in seven genres (only the arrangement moved, which is
+  where a fill belongs); plastikman moved on the bass revert. 149 pass.
+  **Unheard.**
 
 - **`08q`** THE BASS THAT HAD ONE JOB — AND THE TWO NUMBERS THAT WERE THE REAL
   FAULT. Fourth of the five, and **it opens with a citation I had not checked.**

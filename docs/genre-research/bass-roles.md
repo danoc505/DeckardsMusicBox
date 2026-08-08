@@ -135,3 +135,39 @@ I can reach by measurement alone either got worse or had nothing to switch to.
   nobody has researched what a dungeon synth bass figure is.
 - **The `[EAR]` tags across this file are worth an audit.** Two of them were the
   fault here, and they were both mine.
+
+---
+
+## 6. AND THE OWNER'S EAR REVERSED §3 THE DAY AFTER IT SHIPPED
+
+> "The plastikman bass is wrong, it's not how minimal techno and plastikman do
+> bass. **I feel like he uses echo to get more notes. We have too much bass and
+> not enough fx.** We got it right with the drums but not the bass."
+
+§3 diagnosed the bass as too root-bound and opened it up. The numbers moved
+exactly as intended. **The result is wrong**, and the reason is that I answered
+a question about TEXTURE with a change to PITCH.
+
+**And the answer was already in this repo, in the user's own words**, about this
+exact genre — I quoted it in `rhythm-phrasing`'s neighbourhood and built the
+opposite of it:
+
+> "We can start with **one bass note** and fill in the silence with **reverb,
+> delay etc.** and build up around that. **It's maximising the minimal.**"
+
+A 303 in this music states a small figure; the DELAY makes the note count. The
+extra events a listener hears are repeats of the ones played, not new pitches.
+
+**Reverted**: `distinctPitches` back to [2,2], `rootShare` back to 0.62, the
+degree pool back to 58% root — every number as it was.
+
+**Acted on**: `roleGain.bass` 0.62 → 0.50. That is the half of "too much bass
+and not enough fx" I can move without hearing, and it also raises everything the
+bass feeds — this genre already sends it to the echo, the flanger and the room —
+relative to the bass itself.
+
+**NOT acted on, deliberately**: the echo's own feedback and wet/dry. The bass is
+already fully sent to the delay (`echoFeeds` membership is a send base of 1), so
+"not enough fx" is about the unit's settings, and tuning a wet/dry balance by
+arithmetic is precisely what this project says I cannot do. **That one needs an
+ear, and it is the next thing to try on this genre.**
