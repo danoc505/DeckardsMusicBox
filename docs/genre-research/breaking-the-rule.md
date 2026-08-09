@@ -395,7 +395,48 @@ This is not a bug in the arithmetic — it is what independent per-field draws d
 With ~130 disagreeing fields, most of which are structural and drawn
 winner-takes-all, the *proportion* converges and the *song* does not.
 
-## "Negating": one drawn switch discards fifteen other drawn fields
+## ⚠ "Negating" — THE FIRST VERSION OF THIS SECTION WAS WRONG, corrected 2026-08-09
+
+**It claimed that `chop` is one drawn boolean which discards fifteen other drawn
+kit fields. That is false, and `BLEND_GROUP` is the reason.** `chop` is grouped
+WITH the kit — `"kit.variants": "kit", "chop": "kit"` — so when chop lands on
+jungle the whole kit group lands on jungle too. The other genre's kit fields were
+never drawn separately and thrown away; they lost the group draw. The grouping
+was already doing exactly the job the claim said was missing.
+
+Measured, lofi + jungle 50/50, 40 seeds, the 20 songs where chop won:
+
+```
+    kit GROUP came wholly from jungle ........... 20/20
+    kit GROUP was split between the two genres ... 0/20
+```
+
+**The owner's sentence still stands; the mechanism is different.** When the kit
+group goes to jungle, the other genre's entire drum identity is gone — that is
+"bakes in certain aspect negating others". But it is the *group draw* being
+winner-takes-all, which is the same "blind" problem measured above, not a
+separate bug. One complaint, one cause.
+
+### And the residue IS a real defect — two paths, not fifteen
+
+`kit.toms.loopSpots` and `kit.toms.loopLanes` are in `BLEND_DRAW` and **not** in
+`BLEND_GROUP`. So they draw independently of the kit they belong to:
+
+```
+    the two ungrouped tom paths came from lofi ... 14/20 songs
+```
+
+— in songs whose kit is jungle's chopped break, **which reads no tom lane at
+all**. Two paths drawn, decided, and never read. The fix is one line: they join
+the `kit` group, like every other `kit.*` path already does.
+
+*The original section is kept below, struck through, because a research sheet
+that quietly edits away its own wrong claim is worse than one that carries the
+correction. The number that misled me was real — chop does win 18–20 of 40 — and
+the error was inferring from it, without checking, that the fields it overrides
+had been drawn.*
+
+## ~~"Negating": one drawn switch discards fifteen other drawn fields~~ (WRONG — see above)
 
 `chop` is a single drawn boolean. When it lands on jungle, `buildDrums` returns a
 chopped break immediately and never reads the kit at all — so `snare`,
