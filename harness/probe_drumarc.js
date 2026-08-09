@@ -78,8 +78,19 @@ for(const g of M.genres()){
     const idx = []; for(let i = 0; i < nS; i++) if(lanes[i].size) idx.push(i);
     if(idx.length < 2) continue;
     songs++; sec += idx.length;
-    /* which material each drum-bearing section plays, asked of the arrangement */
-    const used = idx.map(i => S[i].material);
+    /* WHICH DRUM PART EACH SECTION PLAYS, ASKED BY CONTENT AND NOT BY NAME.
+       This read `S[i].material` and that stopped being the right question the
+       moment the sectional arc existed: the arc gives a section its own private
+       copy, so every section carries a distinct material NAME (`A@2`, `A@5`)
+       whether or not the drums inside them differ by a single hit. Counting
+       names reported "6.5 sections, 6.5 drum parts, most-played 1.0" on a
+       record where half the sections were byte-identical -- a probe measuring
+       its own bookkeeping. The drum part itself is what a listener hears. */
+    const drumKey = m => {
+      const d = (song.materials[m] && song.materials[m].drums) || [];
+      return d.map(n => n.bar + ":" + n.step + ":" + n.lane + ":" + (n.vel || 0)).join(",");
+    };
+    const used = idx.map(i => drumKey(S[i].material));
     const c = {}; for(const m of used) c[m] = (c[m] || 0) + 1;
     mats += Object.keys(c).length;
     rep  += Math.max.apply(null, Object.values(c));

@@ -13224,6 +13224,41 @@ const GENRE = {
       flourishBar: 3,
       flourish:    [[[14, 15], 4], [[7, 15], 3], [[10, 11, 15], 2], [[], 3]],
       /* the variants. A material asks for one; it never edits the result. */
+      /* ── WHAT THIS SECTION'S PLACE IN THE RECORD DOES TO THE KIT ────────────
+         docs/genre-research/drum-sectional-arc.md. `span` is how many of these
+         a section stacks between the start of the record and the end; the
+         arrangement counts, this table decides what a move IS. `takes` marks a
+         move that REMOVES something, which is the pool the closing section
+         draws from when it empties out rather than filling up. */
+      arc: {
+        span: [0, 3],
+        moves: [
+          /* SUBSTITUTION, and it is the most-sourced sectional move there is:
+             "as simple as switching a hi-hat pattern for a ride pattern while
+             leaving all the other elements largely the same" [Sound On Sound].
+             This kit declares no ride, so the swap has to bring one -- which is
+             exactly what a drummer moving to the ride does. */
+          [{ hatEvery: 0, rideEvery: 2, rideVel: 0.34 }, 4],
+          /* SUBTRACTION. "Bars 15-16: mute the offbeat hat" [myloops]. The
+             ghosts thinning with it is what makes the section read as plainer
+             rather than merely quieter. */
+          [{ hatEvery: 4, ghostChance: 0.15 }, 4, { takes: true }],
+          [{ rim: [], crashChance: 0 }, 2, { takes: true }],
+          [{ kickKeep: 6 }, 3, { takes: true }],
+          /* ADDITION, and the toms are the owner's own ask. The sources put
+             them exactly here: tom hits inside the groove rather than in the
+             fills are "saved for points where energy changes are needed, such
+             as middle eights or choruses" [Production Expert]. */
+          [{ toms: { loop: 0.55, loopBars: [1, 3] } }, 4],
+          [{ clap: [4, 12] }, 2],
+          [{ ghostChance: 0.85, openBars: [0, 1, 2, 3] }, 3],
+          /* THE FEEL, and it is deliberately the rarest: one big backbeat on
+             beat three instead of two. "The last chorus of the song for four
+             bars before slamming back into the normal groove" [Authentic
+             Drummer]. */
+          [{ snare: [8], kickKeep: 4, hatEvery: 4 }, 1],
+        ],
+      },
       variants: {
         main:   {},
         lift:   { ghostChance: 0.75, openBars: [1, 3], hatVel: 0.68 },   // the chorus opens up
@@ -14275,6 +14310,30 @@ const GENRE = {
       crashChance: 0.55, crashStep: 0,
       flourishBar: 3,
       flourish:    [[[14, 15], 4], [[7, 15], 2], [[10, 11, 14, 15], 2], [[], 2]],
+      /* the arc — see lofi's block for what these are. This kit already OWNS a
+         ride (rideEvery 4) and a clap, so its swap runs the other way: the ride
+         is what it takes away, and the hats are what it doubles.
+         docs/genre-research/drum-sectional-arc.md */
+      arc: {
+        span: [0, 3],
+        moves: [
+          [{ rideEvery: 0, crashChance: 0 }, 4, { takes: true }],
+          [{ clap: [], ghostChance: 0 }, 4, { takes: true }],
+          [{ hatEvery: 4 }, 3, { takes: true }],
+          [{ kickKeep: 5 }, 2, { takes: true }],
+          /* the machine's own build: hats to sixteenths, the ride opening up.
+             The genre's `lift` already does the first of these for a chorus;
+             the arc is what makes the seventh section carry it and the second
+             not. */
+          [{ hatEvery: 1, hatVel: 0.62 }, 4],
+          [{ rideEvery: 2, rideVel: 0.40 }, 3],
+          /* this kit's toms are the second-highest in the file (use 0.85) and
+             they were reachable only through a fill */
+          [{ toms: { loop: 0.70, loopBars: [1, 3] } }, 4],
+          [{ openBars: [0, 1, 2, 3], crashChance: 0.9 }, 3],
+          [{ snare: [8], kickKeep: 4, hatEvery: 4 }, 1],
+        ],
+      },
       variants: {
         main:   {},
         lift:   { hatEvery: 1, hatVel: 0.62, ghostChance: 0.15 },   // the chorus goes to sixteenths
@@ -15095,6 +15154,29 @@ const GENRE = {
          because on this hardware a cymbal eats the channel the hats are on. */
       rim: [], clap: [], rideEvery: 0, crashChance: 0.20, crashStep: 0,
       flourish: [[[14], 3], [[], 5]],
+      /* ── THE ARC, AND THIS ONE IS THE LEAST-SOURCED IN THE FILE ─────────────
+         Say so rather than let it read like the others. The sectional research
+         behind these moves is pop, rock and dance writing; NOTHING was found
+         for chip-music drum arrangement, and `dkc.md` has not been re-searched
+         for it. What IS defensible is that this genre's own hardware is the
+         constraint and the moves stay inside what its kit already declares --
+         no ride, no clap, no rim, because the table declares none and inventing
+         a voice for a chip kit on no source is the expensive mistake this file
+         logs. Kept deliberately small for the same reason: `span` tops out one
+         move below the pop genres. Everything here is [EAR] and the owner's to
+         overrule. docs/genre-research/drum-sectional-arc.md §5 */
+      arc: {
+        span: [0, 2],
+        moves: [
+          [{ hatEvery: 4, ghostChance: 0 }, 4, { takes: true }],
+          [{ kickKeep: 6 }, 3, { takes: true }],
+          [{ snare: [] }, 2, { takes: true }],
+          [{ hatEvery: 1 }, 3],
+          [{ toms: { loop: 0.55, loopBars: [1, 3] } }, 4],
+          [{ ghostChance: 0.55, crashChance: 0.6 }, 3],
+          [{ snare: [8], kickKeep: 5, hatEvery: 4 }, 1],
+        ],
+      },
       variants: {
         main:   {},
         lift:   { hatEvery: 2, ghostChance: 0.3 },
@@ -16195,6 +16277,47 @@ const GENRE = {
          bar" = bar index 2, step 15 [corpus:attackmagazine] */
       flourishBar: 2,
       flourish: [[[15], 5], [[14, 15], 3], [[], 2]],
+      /* ── THE ARC, ON A GENRE THAT DECLARES `phraseBy: "fx"` ─────────────────
+         And that is not a contradiction, it is the distinction the sources
+         already forced once. `phraseBy` governs the EIGHT-BAR sentence: inside
+         a four-bar loop this genre moves a knob rather than a hit, which the
+         owner ratified. The SECTION is a different scale, and at that scale the
+         subtraction is sourced in notes for exactly this music: "bars 15-16:
+         mute the offbeat hat", "bar 31: mute the kick" [myloops], "dropping the
+         clap for a bar" [beatkey]. The same correction the owner made once
+         before -- "the drum rules apply to every genre, it is a rule of music"
+         -- and the exemption then contradicted its own source too.
+
+         SMALL, THOUGH. "Every 4 to 8 bars, ONE THING is moved" [beatkey], so
+         `span` tops out at two moves where the song-shaped genres take three.
+         docs/genre-research/drum-sectional-arc.md, rhythm-phrasing.md §8 */
+      arc: {
+        span: [0, 2],
+        moves: [
+          [{ hatEvery: 4 }, 5, { takes: true }],            // mute the offbeat hat
+          [{ clap: [] }, 5, { takes: true }],               // drop the clap
+          [{ kickKeep: 0 }, 2, { takes: true }],            // bar 31: mute the kick
+          [{ rim: [], ghostChance: 0.10 }, 3, { takes: true }],
+          [{ hatEvery: 1, hatVel: 0.64 }, 4],
+          [{ openBars: [0, 1, 2, 3], openSpot: [[2, 4], [6, 3], [10, 2], [14, 3]] }, 3],
+          /* ── NO TOM MOVE HERE, AND IT WAS BUILT AND THEN TAKEN OUT ──────────
+             The owner asked for heavy toms and I gave this genre one:
+             `toms: { loop: 0.35, loopBars: [3] }`. The seam battery caught it.
+             Acid declares `toms.use: 0.12` and the check that holds a genre to
+             its own tom declaration IN BOTH DIRECTIONS went red -- toms went
+             from 16 of 60 songs to 28 of 60, through a 35% ceiling that exists
+             so a near-tomless genre cannot quietly grow a drummer.
+
+             The check was right and the table was mine. This genre's fill is
+             documented as a FILTER rather than a drum, no source anywhere puts
+             tom rolls in acid house, and "heavy toms" is an instruction about
+             what a section may do, not a reason to overrule a genre's own
+             sourced declaration. The toms went up where the kits declare them:
+             lofi, synthwave, vgm and dungeon synth. Reported rather than
+             quietly dropped, because the owner may well want it back by ear. */
+          [{ ghostChance: 0.75, rim: [3, 7, 11, 15] }, 3],
+        ],
+      },
       variants: {
         main:   {},
         lift:   { hatEvery: 1, ghostChance: 0.70, hatVel: 0.64 },
@@ -16936,6 +17059,49 @@ const GENRE = {
       /* ── THE LINE THIS GENRE IS ABOUT ── */
       flourishBar: -1,
       flourish: [[[], 1]],
+      /* ── THE ARC, AND THIS GENRE NEEDED IT MOST ────────────────────────────
+         MEASURED at 2026-08-08s: 8.3 sections with drums, 2.9 drum parts, one
+         of them played 4.1 times, 99% of section pairs carrying the identical
+         set of drums, and the closing section a rerun in 100% of songs. The
+         owner: "it's often just one single drum loop the whole song."
+
+         THE MOVES ARE NOTE MOVES AND THE SOURCES ARE THIS GENRE'S OWN. The
+         template quoted in `rhythm-phrasing.md` is bar-by-bar minimal techno:
+         "Bars 15-16: mute the offbeat hat... Bars 17-24: hat returns... BAR 31:
+         MUTE THE KICK" [myloops]. Two subtractions and an empty, in the genre
+         this file had declared incapable of them. `phraseBy: "fx"` still holds
+         inside the four-bar loop; this is the scale above it.
+
+         AND IT IS SMALL BY DESIGN: "every 4 to 8 bars, ONE thing is moved"
+         [beatkey]. Two moves at the top of the record, not three.
+
+         Note this genre plays A and Avar and nothing else -- B is played in 0
+         bars of a record and C in 128, measured over 30 seeds and written up
+         directly below. The arc is per SECTION and does not care which variant
+         a section is on, which is why it reaches this genre at all where the
+         `variants` block cannot. docs/genre-research/drum-sectional-arc.md */
+      arc: {
+        span: [0, 2],
+        moves: [
+          [{ hatEvery: 4 }, 5, { takes: true }],            // mute the offbeat hat
+          [{ kickKeep: 0 }, 2, { takes: true }],            // bar 31: mute the kick
+          [{ openBars: [] }, 4, { takes: true }],
+          [{ hatEvery: 1, hatVel: 0.62 }, 4],
+          [{ openSpot: [[2, 4], [6, 3], [10, 2], [14, 3]], openBars: [0, 1, 2, 3] }, 3],
+          /* ── NO TOM MOVE HERE EITHER, AND THIS ONE THE FILE ALREADY REFUSED ─
+             I gave this genre `toms: { loop: 0.30, loopBars: [3] }` on the
+             owner's "heavy toms" and it doubled the songs containing a tom from
+             6 of 60 to 15 of 60. It squeaked under the tom check's ceiling and
+             it should not have been written at all: the refusal is already in
+             this file, sourced, a few hundred lines up -- "a Plastikman bar
+             that answers itself with a tom roll is the exact gesture that music
+             refuses" [corpus:hawtin]. Adding one back because a general
+             instruction mentioned toms is exactly the move this project's notes
+             call a guess dressed as research. The percussion arc here is the
+             hat, the open hat and the rim, which is what the genre owns. */
+          [{ rim: [3, 11], clap: [4, 12] }, 3],
+        ],
+      },
       variants: {
         main:   {},
         /* the lift is ONE added hit and nothing else changes. [corpus:hawtin] */
@@ -18001,6 +18167,34 @@ const GENRE = {
       jump:    0.28,   // read from somewhere else entirely
       stutter: 0.14,   // hold and retrigger -- the move that reads as "chopped"
       reverse: 0.05,   // backwards
+      /* ── THE ARC, ON A GENRE WHOSE KIT IS A RECORDING ──────────────────────
+         MEASURED at 2026-08-08s, and this genre was the worst in the file:
+         100% of section pairs carried the IDENTICAL set of drums, in every song
+         of every seed. Not 99% -- 100%. A break has no hat to mute and no clap
+         to drop, so nothing the other genres do could reach it, and the honest
+         reading is that the arc had to be built in the medium this genre has.
+
+         So the moves are made on the CHOPPER. More space, harder chopping,
+         jumping further into the record, playing it straighter. Those are the
+         same three kinds -- take away, add, alter -- said in the only
+         vocabulary a sampled break owns, and they are the genre's own declared
+         parameters rather than anything new.
+
+         THIS IS NOT THE BREAKBEATS ITEM. The owner asked for breakbeats as a
+         move OTHER genres could make and then held it back to hear this first;
+         nothing here gives the break machine to any genre that did not already
+         have it. docs/genre-research/drum-sectional-arc.md */
+      arc: {
+        span: [0, 2],
+        moves: [
+          [{ thin: 0.42, stutter: 0.06 }, 5, { takes: true }],   // let the space in
+          [{ jump: 0.10, reverse: 0.01 }, 3, { takes: true }],   // play it straighter
+          [{ stutter: 0.30, thin: 0.12 }, 5],                    // chop it harder
+          [{ jump: 0.45 }, 4],                                   // further into the record
+          [{ reverse: 0.16, stutter: 0.24 }, 3],
+          [{ sourceBars: [[3, 5], [2, 3], [1, 1], [0, 1]] }, 3], // lean on the break's tail
+        ],
+      },
       variants: {
         main:   {},
         lift:   { thin: 0.10, jump: 0.38, stutter: 0.22, reverse: 0.07 },
@@ -18902,6 +19096,33 @@ const GENRE = {
               step 0, whatever the pocket said. 5 keeps every strike of the
               longest pocket in the draw. */
            kickKeep: 5, flourishBar: 3, flourish: [[[], 1]],
+           /* ── THE ARC ─────────────────────────────────────────────────────
+              This genre's percussion is a marching drum and kettles, not a kit,
+              so the moves are the ones a procession has: the drum walking
+              alone, the kettles joining, the whole thing falling away. The toms
+              ARE the instrument here (use 0.9, loop 0.9 -- the highest in the
+              file), so they are what an addition adds and a subtraction takes.
+
+              No source was found for section-scale drum arrangement in this
+              music specifically -- `dungeon-synth-arrangement.md` is about
+              parts entering and leaving, which is a different mechanism and is
+              already built. So these are [EAR] and shaped by the genre's own
+              table rather than by a house tutorial. What IS sourced is that the
+              parts start and stop: the owner's own dungeon synth session had
+              "both percussion tracks full of holes", which is a subtraction
+              arc in the medium this genre actually uses.
+              docs/genre-research/drum-sectional-arc.md §5 */
+           arc: {
+             span: [0, 3],
+             moves: [
+               [{ toms: { loop: 0.25 } }, 4, { takes: true }],
+               [{ kickKeep: 2 }, 4, { takes: true }],
+               [{ hatVel: 0.06 }, 3, { takes: true }],
+               [{ toms: { loop: 1.0, loopBars: [0, 1, 2, 3] } }, 5],
+               [{ kickKeep: 5, hatVel: 0.22 }, 3],
+               [{ toms: { loopLanes: ["tom3"], loop: 0.85 } }, 2],
+             ],
+           },
            variants: { main: {}, lift: { toms: { use: 0.8 } },
                        depart: { kickKeep: 0, hatVel: 0.05 } } },
     /* a second line, sparse and slow -- the layering the primary source
@@ -21281,7 +21502,13 @@ function makeMaterials(chart, editPlan, arcPlan){
       for(const s of K.snare)
         notes.push({ bar: b, step: s, dur: 1, lane: "snare", vel: 1.0, role: "drums" });
       const hatSteps = [];
-      for(let s = 0; s < 16; s += K.hatEvery) hatSteps.push(s);
+      /* `hatEvery: 0` means NO HAT AT ALL, and it has to be said explicitly
+         because the loop below would otherwise never advance. Taking the hat
+         away is the most-sourced sectional subtraction there is -- "bars 15-16:
+         mute the offbeat hat" [myloops] -- so the kit needs a way to say it,
+         and a hat lane silenced by a velocity of zero is still a lane full of
+         events that the roll would draw and the mixer would meter. */
+      if(K.hatEvery > 0) for(let s = 0; s < 16; s += K.hatEvery) hatSteps.push(s);
       if(b === K.flourishBar) for(const s of flourish) if(!hatSteps.includes(s)) hatSteps.push(s);
       for(const s of hatSteps)
         notes.push({ bar: b, step: s, dur: 1, lane: "hat",
@@ -24839,7 +25066,120 @@ function makeArrangement(chart, form, materials){
     return mid >= 0.40 * TOTAL && mid < 0.67 * TOTAL;
   };
 
-  return Object.freeze(form.map((sec, i) => {
+  /* ══ THE DRUM SECTIONAL ARC — THE LADDER, DRAWN ONCE FOR THE WHOLE RECORD ══
+     Reported: "there is meant to be a sections type pattern with the last
+     section having the most change, and other sections taking away something or
+     adding or altering. But that is only one section -- it's often just one
+     single drum loop the whole song."
+
+     MEASURED before anything was built (`harness/probe_drumarc.js`, 20 seeds a
+     genre, build 2026-08-08s): a record has 6 to 14 sections with drums in them
+     and THREE OR FOUR drum parts. Synthwave played one of its four in 6.5
+     sections of the same song. Jungle never gained or lost a drum in any
+     section of any record -- 100%, not 99% -- and plastikman 99%, acid 96%. And
+     synthwave, acid, plastikman and jungle CLOSED on a drum part already heard
+     in 100% of songs, so "the last section has the most change" was not weak
+     there, it was impossible.
+
+     The cause was structural. Five drum parts are built per song from three kit
+     settings, and which one a section plays is decided by WHAT KIND of section
+     it is and whether it is the second or third time round. Where it sits in
+     the record was not an input to the drums anywhere, so verse seven got verse
+     two's drums by construction.
+
+     THE RULE, stated before any code existed:
+
+       A section's drums are the genre's kit plus a handful of MOVES, and how
+       many moves it gets is decided by how far into the record it sits.
+
+     A move is a KIT OVERRIDE and nothing else -- the same shape as a variant --
+     so the drums are BUILT with it rather than built and then corrected, and
+     the genre owns every move in `kit.arc.moves`. This stage only counts. [Law 4]
+
+     ── AND IT IS A LADDER, WHICH IS THE PART I GOT WRONG FIRST ────────────────
+     The first build drew each section's moves on its own stream. It measured
+     beautifully and it was the wrong shape: with 6 to 14 sections and no two
+     drawing the same pair, EVERY SECTION BECAME UNIQUE -- 6.5 sections and 6.5
+     drum parts, most-played material 1.0. That is "each section just differs
+     from the one before it", which is one of the three shapes the owner was
+     offered and the one they turned down. A record with no repetition in its
+     drums is not an arc; it is noise with a section list.
+
+     So the ladder is drawn ONCE per record and every section reads a rung off
+     it. Level 2 is level 1's move PLUS one more, which is what "pile up" means
+     literally, and two sections on the same rung get byte-identical drums --
+     the repetition that makes a record a record survives, and the only thing
+     that moves is the thing that is meant to.
+
+     THE SHAPE IS "PILE UP, WITH DIPS", the owner's choice over a plain ramp.
+     Two thirds of the rung comes from position, so the record accretes, and one
+     third from the section's own energy, so a bridge or a breakdown drops back
+     down the ladder before climbing again. The dip is not a special case; it
+     falls out of the section already knowing how big it is meant to be.
+
+     AND THE CLOSING SECTION HAS ITS OWN RUNG, at the top of the ladder and
+     drawn from a re-weighted pool. The owner asked for "the biggest change,
+     either direction", and the sources genuinely split: a song's final chorus is
+     the fullest thing in it ("keep it at full blast for that last chorus"
+     [Hyperbits]) and a club record's last stretch is deliberately stripped so
+     the next one can be mixed over it ("an Outro gradually loses parts to fade
+     the energy" [Mixed In Key]). So a draw decides which way it points and the
+     `takes` tag says which moves belong to each. Same principle as `thinTo`
+     below: the table says how much, the draw says which.
+     docs/genre-research/drum-sectional-arc.md ══════════════════════════════ */
+  const ARC = (() => {
+    const KIT = chart.table.kit || {}, CHOP = chart.table.chop || null;
+    /* a break genre carries its arc on the CHOPPER, because a recording has no
+       hat to take away -- see buildBreak */
+    const A = (CHOP && CHOP.arc) || KIT.arc || null;
+    if(!A || !A.moves || !A.moves.length) return null;
+    const lo = A.span[0], hi = (A.span[1] == null ? A.span[0] : A.span[1]);
+    if(hi <= 0) return null;
+    const ar = stream(chart.seed, "drumArc");
+    /* one override out of several, merged the way the kit merges: a block
+       adjusts its parent, a scalar replaces it */
+    const merge = list => {
+      const out = {};
+      for(const mv of list) for(const k in mv){
+        const v = mv[k], b = out[k];
+        out[k] = (v && b && typeof v === "object" && typeof b === "object"
+                  && !Array.isArray(v) && !Array.isArray(b))
+               ? Object.assign({}, b, v) : v;
+      }
+      return Object.freeze(out);
+    };
+    /* draw `n` DISTINCT moves, so a rung cannot hold the same override twice
+       and call it two changes */
+    const drawFrom = (pool, n) => {
+      const left = pool.slice(), got = [];
+      for(let k = 0; k < n && left.length; k++){
+        let tot = 0; for(const [, w] of left) tot += w;
+        if(tot <= 0) break;
+        let x = ar() * tot, at = left.length - 1;
+        for(let j = 0; j < left.length; j++){ if(x < left[j][1]){ at = j; break; } x -= left[j][1]; }
+        got.push(left.splice(at, 1)[0][0]);
+      }
+      return got;
+    };
+    const plain = A.moves.map(m => [m[0], m[1]]);
+    const ladder = drawFrom(plain, hi);
+    /* rung[n] is the first n moves of the ladder, merged. rung[0] is the kit
+       as the genre wrote it, which is why it is null rather than an empty
+       override -- a section on rung 0 wants no private copy at all. */
+    const rung = [null];
+    for(let n = 1; n <= hi; n++) rung.push(n <= ladder.length ? merge(ladder.slice(0, n)) : rung[n - 1]);
+    /* EVERY DRAW RUNS WHATEVER THE OUTCOME [Law 7]: the direction is drawn on
+       every record, including the ones whose closing pool comes back empty. */
+    const wantAdd = ar() < 0.5;
+    const weighted = A.moves.map(m => {
+      const takes = !!(m[2] && m[2].takes);
+      return [m[0], m[1] * (wantAdd ? (takes ? 0.25 : 3) : (takes ? 3 : 0.25))];
+    });
+    const closingSet = drawFrom(weighted, hi);
+    return { lo, hi, rung, closing: closingSet.length ? merge(closingSet) : rung[hi] };
+  })();
+
+  const laid = form.map((sec, i) => {
     let material = MAT[sec.fn];
     let stripHalf = false;
     if(sec.demand === "vary"){
@@ -25046,61 +25386,21 @@ function makeArrangement(chart, form, materials){
        goes to the top and a DRAW decides which way it points. Same principle as
        `thinTo` right above: the table says how much, the draw says which.
        docs/genre-research/drum-sectional-arc.md ══════════════════════════════ */
+    /* WHICH RUNG OF THE LADDER THIS SECTION IS ON. Position two thirds, the
+       section's own energy one third -- so the record accretes and a bridge
+       still drops back down it. The CLOSING rung is not decided here: which
+       section is the last one with drums in it depends on who is playing, and
+       that is settled below the map. */
     let drumArc = null, drumLevel = 0;
-    {
-      const KIT = chart.table.kit || {}, CHOP = chart.table.chop || null;
-      /* a break genre carries its arc on the chopper, because a recording has
-         no hat to take away -- see buildBreak */
-      const A = (CHOP && CHOP.arc) || KIT.arc || null;
-      if(A && A.moves && A.moves.length){
-        const ar = stream(chart.seed, "drumArc:" + i);
-        const lo = A.span[0], hi = (A.span[1] == null ? A.span[0] : A.span[1]);
-        const last = i === form.length - 1;
-        /* how far through the record, and how much lift this section asked for */
-        const t = form.length > 1 ? i / (form.length - 1) : 1;
-        const e = Math.max(0, Math.min(1, sec.energy == null ? 0.5 : sec.energy));
-        /* EVERY DRAW RUNS WHATEVER THE OUTCOME [Law 7] -- the direction is
-           drawn on every section and used only by the last one, so a record
-           whose last section happens to fall differently cannot shift the moves
-           chosen for any earlier section. */
-        const wantAdd = ar() < 0.5;
-        const want = lo + (hi - lo) * (0.65 * t + 0.35 * e);
-        drumLevel = last ? hi : Math.max(lo, Math.min(hi, Math.round(want)));
-        /* the pool, re-weighted for the closing section only: a move that TAKES
-           something away is what an emptying ending is made of, and a move that
-           does not is what a full one is made of. A genre that tags nothing is
-           unaffected and simply draws from its whole list. */
-        const pool = A.moves.map(m => {
-          const takes = !!(m[2] && m[2].takes);
-          const w = (!last) ? m[1]
-                  : m[1] * (wantAdd ? (takes ? 0.25 : 3) : (takes ? 3 : 0.25));
-          return [m[0], w];
-        });
-        /* distinct moves, so a section cannot draw the same override twice and
-           call it two changes */
-        const picked = [], left = pool.slice();
-        for(let k = 0; k < drumLevel && left.length; k++){
-          let tot = 0; for(const [, w] of left) tot += w;
-          let x = ar() * tot, at = left.length - 1;
-          for(let j = 0; j < left.length; j++){ if(x < left[j][1]){ at = j; break; } x -= left[j][1]; }
-          picked.push(left.splice(at, 1)[0][0]);
-        }
-        /* one override out of several, merged the way the kit merges: a block
-           adjusts its parent, a scalar replaces it */
-        if(picked.length){
-          const out = {};
-          for(const mv of picked) for(const k in mv){
-            const v = mv[k], b = out[k];
-            out[k] = (v && b && typeof v === "object" && typeof b === "object"
-                      && !Array.isArray(v) && !Array.isArray(b))
-                   ? Object.assign({}, b, v) : v;
-          }
-          drumArc = Object.freeze(out);
-        }
-      }
+    if(ARC){
+      const t = form.length > 1 ? i / (form.length - 1) : 1;
+      const e = Math.max(0, Math.min(1, sec.energy == null ? 0.5 : sec.energy));
+      const want = ARC.lo + (ARC.hi - ARC.lo) * (0.65 * t + 0.35 * e);
+      drumLevel = Math.max(ARC.lo, Math.min(ARC.hi, Math.round(want)));
+      drumArc = ARC.rung[drumLevel] || null;
     }
     const next = form[i + 1];
-    return Object.freeze({
+    return ({
       fn: sec.fn, startBar: sec.startBar, endBar: sec.endBar,
       energy: sec.energy, peak: sec.peak, occurrence: sec.occurrence,
       material, stripHalf,
@@ -25201,7 +25501,37 @@ function makeArrangement(chart, form, materials){
         return Object.keys(out).length ? Object.freeze(out) : null;
       })(),
     });
-  }));
+  });
+
+  /* ── AND "THE LAST SECTION" MEANS THE LAST ONE WITH DRUMS IN IT ────────────
+     MEASURED, and it is why this exists: with the closing rung pinned to the
+     last section of the FORM, synthwave still ended on a drum part already
+     heard in 85% of songs. The closing change was landing where nobody could
+     hear it -- `thinTo` strips the final section to one or two parts, and the
+     drums are one of the parts it is free to take away, so the biggest drum
+     change in the record was repeatedly being written onto a section with no
+     drums. A record's last DRUMS and a record's last SECTION are not the same
+     bar, and the owner asked about the drums.
+
+     Only reachable here: who is actually playing is decided inside the map
+     above, by arrival, by `rest` and by `thinTo`, so this cannot be known
+     before it. It moves the closing rung; it never adds drums to a section that
+     had none, and a record whose drums stop early simply gets its biggest
+     change at the point they stop. */
+  if(ARC){
+    let lastDrum = -1;
+    for(let i = 0; i < laid.length; i++)
+      if(laid[i].active.includes("drums")) lastDrum = i;
+    if(lastDrum >= 0){
+      for(let i = 0; i < laid.length; i++){
+        if(!laid[i].active.includes("drums")) continue;
+        const closing = i === lastDrum;
+        laid[i].drumLevel = closing ? ARC.hi : laid[i].drumLevel;
+        laid[i].drumArc = closing ? ARC.closing : laid[i].drumArc;
+      }
+    }
+  }
+  return Object.freeze(laid.map(Object.freeze));
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

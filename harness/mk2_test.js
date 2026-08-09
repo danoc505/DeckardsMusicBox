@@ -637,14 +637,46 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      lofi 3.7 in 49/120, vgm 3.8 in 81/120 -- a genre may want few, but a genre
      that declares toms must play them. */
   {
+    /* ── MEASURED PER DRUM PART, NOT PER SONG, AND THE OLD WAY WAS SCALE-BOUND ─
+       This asked "does a tom appear ANYWHERE in this song" and held that to the
+       genre's declaration. That is a length-dependent question and it broke the
+       moment the drum sectional arc landed: a record went from 5 drum parts to
+       around 13, so the chance that at least ONE of them contains a tom rose on
+       arithmetic alone. Acid crossed the 35% ceiling that way.
+
+       IT WAS NOT GETTING TOMMIER, AND THAT IS THE POINT. Measured across the
+       same change: acid 0.0130 -> 0.0124 toms A BAR, and the share of its drum
+       parts containing a tom flat at 6%. The music the check is about had not
+       moved; the denominator had.
+
+       So it asks the scale-free question instead -- WHAT SHARE OF THIS GENRE'S
+       DRUM PARTS REACH FOR A TOM -- which is what `toms.use` and `toms.loop`
+       actually parameterise. NOT a threshold moved to make today's build pass:
+       the 10% line separates the declared-high genres from the declared-low
+       ones with a wide margin in BOTH states, before the arc and after it.
+
+         declares >= 0.25   before 14.7 / 32.3 / 26.3 / 96.5%
+                            after  22.8 / 40.9 / 29.8 / 90.4%
+         declares <  0.25   before  0 / 6.0 / 3.7 / 0%
+                            after   0 / 5.5 / 2.2 / 0%
+
+       The rate is still held in BOTH directions, which is the property that
+       stops a genre buying a pass by declaring nothing. */
     const rows = [];
     let anyGenreUses = 0;
     for(const g of genres){
-      let hits = 0, songs = 0, withToms = 0;
+      let hits = 0, songs = 0, withToms = 0, parts = 0, partsWithToms = 0;
       for(let s = 1; s <= 60; s++){
-        const ev = M.composeSong(s, undefined, g).perf.events;
+        const song = M.composeSong(s, undefined, g);
+        const ev = song.perf.events;
         const n = ev.filter(e => /^tom/.test(e.lane || "")).length;
         hits += n; songs++; if(n > 0) withToms++;
+        for(const k of Object.keys(song.materials)){
+          const mt = song.materials[k];
+          if(!mt || !mt.drums) continue;
+          parts++;
+          if(mt.drums.some(x => /^tom/.test(x.lane || ""))) partsWithToms++;
+        }
       }
       /* A GENRE THAT DECLARES TOMS MUST PLAY THEM -- AND ONE THAT DOES NOT MUST
          NOT. The first version of this asserted every genre reaches for the
@@ -656,9 +688,9 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
          `kit.toms.use` and holds it to it in BOTH directions -- which is what
          stops a genre buying a pass by simply declaring nothing. */
       const want = T.GENRE[g].kit.toms.use;
-      const rate = withToms / songs;
-      rows.push(`${g} wants ${want} -> ${(hits/songs).toFixed(1)}/song in ${withToms}/${songs}`);
-      if(want >= 0.25 ? rate > 0.25 : rate < 0.35) anyGenreUses++;
+      const share = parts ? partsWithToms / parts : 0;
+      rows.push(`${g} wants ${want} -> ${(100*share).toFixed(1)}% of parts, ${(hits/songs).toFixed(1)}/song`);
+      if(want >= 0.25 ? share > 0.10 : share < 0.10) anyGenreUses++;
     }
     check("the toms are played exactly as much as each genre asks",
           anyGenreUses === genres.length, rows.join("  |  "));
