@@ -24,6 +24,44 @@ regression.
 
 ---
 
+## 2026-08-09e — YOU SET HOW LONG THE RECORD IS
+
+**OPEN — not heard.** This one you asked for in a sentence, so it is the first
+thing to try.
+
+There is a length dial on the transport now, next to the genre and the rig.
+1:00 to 20:00. The song is BUILT to that length — it still gets its opening, its
+build, its biggest moment and its ending — rather than being cut off at it. The
+header line says what you asked for next to what came out.
+
+### What to listen for
+
+1. **Take a genre you know and play it short, then long.** Dungeon synth is the
+   extreme: it naturally runs about ten minutes and it will now do two. **Does a
+   two-minute dungeon synth record still sound like dungeon synth**, or does it
+   sound rushed? That is the whole question, and it is the one I cannot answer.
+2. **Then the same genre at fifteen minutes.** The opposite failure: does it have
+   enough ideas to fill the time, or does it just repeat?
+3. **The thing most likely to be wrong.** To make a record much shorter than a
+   genre's natural length, the SECTIONS get shorter too — a sixteen-bar verse
+   becomes eight, or four. Everything shrinks together so the proportions hold,
+   but four bars is not much time to state an idea. **Listen for whether short
+   sections feel like sections or like fragments.** If they feel wrong, the fix
+   is one number and I would rather change it than have you work around it.
+4. **And your first example is now live**: dungeon synth harmony at lofi length.
+   Pick dungeon synth, set the dial to about 2:20.
+
+### What I got wrong here, in case it colours what you hear
+
+I first built this and reported that dungeon synth could not go below about
+seven minutes, as though that were a property of the genre. It was a hardcoded
+number — every dungeon synth verse was exactly sixteen bars, forever, which the
+program's own first principle forbids. You called it and you were right. So the
+short lengths are NEW behaviour that nothing has ever produced before, and they
+are the part most worth your ear.
+
+---
+
 ## 2026-08-09d — AND NOW YOU CAN AIM EVERY PART OF THE MIX
 
 **OPEN — not heard.** Read this with the `09c` entry below it; they publish

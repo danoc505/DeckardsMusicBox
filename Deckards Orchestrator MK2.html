@@ -21028,10 +21028,13 @@ function makeForm(chart){
      Intro and outro stay OUTSIDE the plan: an intro can only be first and an
      outro only last -- that is a hard law of the whole program, not a phase.
 
-     NO SHIPPED GENRE DECLARES A PLAN YET. The mechanism is exercised by the
-     battery through a synthetic plan (mk2_test.js) until the researched,
-     per-genre plans land -- stated per the coltraneCycle rule: do not claim a
-     thing works until something draws it. */
+     ── THIS SAID "NO SHIPPED GENRE DECLARES A PLAN YET" AND FIVE OF EIGHT DO ──
+     lofi, synthwave, bladerunner, jungle and dungeon synth all declare one. The
+     sentence was true when it was written and nothing brought it forward, which
+     is DERIVE-NEVER-LIST failing on prose rather than on a list. It mattered:
+     working on the length dial I reasoned about the planless walk as the path
+     that counts, and it is the minority path -- ask `chart.table.form.plan`,
+     never this comment. */
   const PLAN = F.plan || null;
   if(!PLAN){
     /* THE GUARD IS A BACKSTOP, NOT A SONG-ENDER. At 10 it was both: three of
@@ -21108,9 +21111,8 @@ function makeForm(chart){
        The factor is worked out from what the plan says about itself — the
        middle of each phase's declared budget — so no extra draw happens and the
        per-phase draws below keep their places [Law 3].
-       NOTHING SHIPPED DECLARES A PLAN YET, so this is exercised only by the
-       battery's synthetic plan. Said out loud per the coltraneCycle rule rather
-       than left to read as a working feature. */
+       FIVE OF THE EIGHT GENRES DECLARE A PLAN, so this is the majority path
+       rather than a mechanism waiting for its first user. */
     let stretch = 1;
     if(aim != null){
       const mid = PLAN.reduce((s, ph) => s + ph.bars[0] + (ph.bars[1] - 1) / 2 * ph.bars[2], 0);

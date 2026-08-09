@@ -649,6 +649,32 @@ diatonic.**
 > --deal 2` prints an aimed blend, because a feature the roll cannot print is one
 > nobody has read the notes of.
 >
+> **⚠ AND SONG LENGTH IS NOW A DIAL, NOT A BLEND ELEMENT — `2026-08-09e`.**
+> Step 4 asked for `form` to be split so length could be blended. It is answered
+> better than that: length is a **control on the transport**, 1:00 to 20:00, on
+> every genre. The owner: *"i cant make music this app is meant to do the stuff i
+> cant do. But i want to be able to do things and set things."* A thing you set
+> beats a thing you blend toward.
+>
+> **The first example on the list is therefore live:** dungeon synth harmony at
+> lofi length is `--genre dungeonsynth --len 2:20`, with its intro, verses,
+> chorus, peak and outro intact.
+>
+> **AND IT EXPOSED A PRINCIPLE-1 VIOLATION THAT HAD BEEN THERE ALL ALONG.**
+> `form.lengths` is one hardcoded number per function — `verse: 16` — so the
+> shortest dungeon synth record was about seven minutes, and the first version of
+> this work **wrote that down as a floor** as though it were a fact about the
+> music. *"Bullshit! A song can be any length if weve coded it to be so ridged
+> its fixed to one length weve done something very wrong!"* Section length is a
+> constraint now. Shortest record per genre: dungeon synth 6:45 → **1:42**,
+> jungle 4:48 → **1:08**, bladerunner 3:32 → **1:26**, acid 3:09 → **0:47**. A
+> seam check fails if any genre's floor climbs back over two minutes.
+>
+> **What is still open of step 4:** whether length should ALSO be a blend element
+> — "70% of dungeon synth's length" — is now a genuinely open design question
+> rather than the only way to get at it, and it is not obviously worth building.
+> Ask before doing it.
+>
 > Left to do: ~~3 pin an element to a genre~~ **done**,
 > 4 split `form` so song length is its own element, 5 per-genre switches under
 > each fader, 6 `drums2` on the `keys2` pattern — the only new machinery.

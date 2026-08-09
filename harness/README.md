@@ -24,6 +24,8 @@ chain eight times in a day. It is replaced by measured costs.
 | tool | cost | when |
 |---|---|---|
 | `mk2_roll.js <seed> --genre <g>` | instant | constantly — it prints the notes |
+| `mk2_roll.js … --len 2:00` | instant | the notes at a length you asked for |
+| `mk2_roll.js … --blend a:50,b:50 --trait kit=b --deal 2` | instant | the notes of an aimed blend |
 | `mk2_test.js` | **1m45s** | freely, after any change to composition |
 | `probe_stems.js <genre> <seed> [secs] [from]` | ~1.5m | any question about balance |
 | `probe_static.js <genre> [songs]` | ~40s | how much a record actually changes |

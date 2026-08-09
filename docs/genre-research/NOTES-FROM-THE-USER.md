@@ -1931,3 +1931,63 @@ against it — "heavy use of TOMS" became one weighted line per genre; "we never
 have fills" became a fill counter. Sometimes that is right. When the sentence is
 an EXAMPLE, it is a way of building the illustration instead of the thing.
 Ask which kind it is, and if it is not obvious, ask them.
+
+
+### "i want to be able to do things and set things" — what this program is FOR
+
+> *"If timing is a thing we can solve that be making a duration dial to let the
+> user set how long they want the song. Look i cant make music this app is meant
+> to do the stuff i cant do. But i want to be able to do things and set things."*
+
+**This is the clearest statement of the program's purpose anybody has written
+down, and it should be read before designing any control.** It is two halves and
+both matter:
+
+- **the app does the music.** Voicing, counterpoint, groove, arrangement — the
+  craft. Nobody is going to be asked to make those decisions.
+- **the person sets the terms.** How long. What comes from where. Which parts.
+  Things that need judgement and no training.
+
+The test for a proposed control is which half it falls in. A knob that asks
+"how much jazz harmony?" is asking the owner to do the app's job. A dial that
+asks "how long?" is the app doing its job under terms the owner set. The genre
+faders, the element pins and the length dial are all the second kind, and that
+is why they were the right three things to build in a row.
+
+### "Bullshit! A song can be any length"
+
+> *"Bullshit! A song can be any length if weve coded it to be so ridged its
+> fixed to one length weve done something very wrong!"*
+
+I had built the length dial, measured that dungeon synth would not go below
+about seven minutes, and **written that down as a floor** — four plan phases,
+sixteen-bar sections, 66 bpm, therefore seven minutes, therefore a property of
+the genre. I even put it in a code comment as though it were a finding.
+
+**It was `verse: 16`.** `form.lengths` gives one fixed number per function, and
+principle 1 — the first of the four this program is built on — says in as many
+words: *"a genre is a table of ranges and weights, never a hardcoded number in
+the builder."* The violation had been invisible for as long as nothing ever
+asked a section to be a different size. The dial asked, the constant answered,
+and I reported the constant's answer as music theory.
+
+**The lesson is not "check for hardcoded numbers".** It is that *when the
+program cannot do something, the first suspect is the program.* I had the
+principle in front of me — it is in START-HERE, four lines long — and I still
+treated a limitation as a law, because the arithmetic behind it was correct.
+Correct arithmetic on a baked-in value gives a confident wrong answer, and it
+sounds exactly like an explanation.
+
+Shortest record each genre can now build: dungeon synth 6:45 → **1:42**, jungle
+4:48 → **1:08**, bladerunner 3:32 → **1:26**, acid 3:09 → **0:47**. A seam check
+now fails if any genre's floor climbs back over two minutes, because the
+forgiving check beside it — the one that measures against what is reachable — is
+the exact shape of the excuse I made.
+
+### And a stale claim it turned up
+
+`makeForm` says twice that **no shipped genre declares a plan**. Five of the
+eight do: lofi, synthwave, bladerunner, jungle and dungeon synth. The comment
+was written when it was true and nothing brought it forward. It mattered — I
+reasoned about the planless walk as the path that counts, and it is the minority
+one. DERIVE, NEVER LIST, failing again on a sentence rather than on a list.

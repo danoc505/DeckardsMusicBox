@@ -4,7 +4,25 @@
 > the rules, the current state and what to do next, in two pages. Then come
 > back and read this whole file, which is the contract.
 
-*⚠ **CURRENT AT `2026-08-09d` — and every part of a blend can be AIMED at a
+*⚠ **CURRENT AT `2026-08-09e` — YOU SET HOW LONG THE RECORD IS.** A dial on the
+transport, 1:00 to 20:00, on every genre; the song is BUILT to that length,
+keeping its intro, its build, its peak and its outro, rather than cut to it.
+Worst miss over 8 genres x 5 lengths x 4 seeds: 31 seconds. **And it exposed a
+principle-1 violation that had been in the program the whole time:**
+`form.lengths` is ONE HARDCODED NUMBER per function, so the shortest dungeon
+synth record was about seven minutes — and the first version of this work wrote
+that down as a FLOOR, as though a baked-in 16 were a fact about music. The
+owner: *"Bullshit! A song can be any length if weve coded it to be so ridged its
+fixed to one length weve done something very wrong!"* Section length is a
+constraint now: dungeon synth's shortest went 6:45 → **1:42**, jungle 4:48 →
+1:08, bladerunner 3:32 → 1:26, acid 3:09 → 0:47, and a seam check fails if any
+genre's floor climbs back over two minutes. **THE FULL 2400-SONG SNAPSHOT IS
+IDENTICAL** — this restructured `makeForm`, which is the one job the full sweep
+exists for. `docs/genre-research/NOTES-FROM-THE-USER.md` has the correction and
+the principle behind it: *"i cant make music this app is meant to do the stuff i
+cant do. But i want to be able to do things and set things."* **NOT HEARD.***
+
+*⚠ **`2026-08-09d` — and every part of a blend can be AIMED at a
 genre.** §H step 3. Each element the blend decides carries a control — *whichever*
 or *always <genre>* — and **594 element-and-genre combinations across all 28
 pairs are honoured**. A pin is settled before the dealing, like an element only
@@ -53,7 +71,7 @@ two things that were built and then removed by measurement.*
 
 *⚠ **AND THE UNHEARD PILE IS NOW TWENTY-ONE.** The 2026-08-08 run was nineteen
 builds, `08a` through `08s`, ending with the roll becoming editable; `2026-08-09b`
-made twenty, and `2026-08-09c` and `09d` make twenty-two. **Not one has been listened to.** That is not a
+made twenty, and `2026-08-09c`, `09d` and `09e` make twenty-three. **Not one has been listened to.** That is not a
 footnote: this program's own first rule is that measurement can prove a thing
 exists and only the owner's ear can say whether it is good. `2026-08-09b` is the
 one build in that stack aimed at a complaint the owner made in their own words,
