@@ -239,6 +239,49 @@ Not a defect in the program; a defect in how it is checked.
 
 ---
 
+## 0c. MINIMAL TECHNO IS WRONG EVERYWHERE EXCEPT THE DRUMS — opened 2026-08-09
+
+The owner: *"I think weve got the fx for the drums right but everything else is
+wrong."* Researched fresh and measured against `2026-08-09e`:
+`docs/genre-research/techno-and-minimal-2026-08-09.md`.
+
+**They are right, and the drums are right for a reason worth keeping.** The rim
+and clap are declared polymetric — 7 steps and 5 steps against a 16-step bar —
+which is exactly *"set its clip length to 3 bars, 5 bars, or 7 beats"*
+[corpus:myloops] and Hood's own *"rhythms inside of rhythms inside of rhythms"*
+[corpus:rbma]. Tempo, section lengths (only 16s and 32s), parts-at-once (3.02)
+and the bass's pitch content (2.7 distinct pitches a song) all match the sources
+too. **Do not touch any of those.**
+
+**What is wrong, each with the number and the source:**
+
+- **The record never repeats itself.** Longest unchanging run **1.0 bars**, 100.7
+  distinct bars in 293. The sources say *"every 4 to 8 bars, move one thing"* and
+  *"each 32 bar block adds or subtracts one element"* [corpus:tracksensei] — this
+  is eight to thirty times too much change, in the one genre whose identity is
+  patience. **The big one.**
+- **The chord keyboard plays a different part in every bar** — 835 events a song,
+  49–64 distinct bar-patterns, longest identical run **1 bar**. Harmony here
+  should be *"one or two tonal centers or a single pedal tone"* [corpus:
+  melodigging]. That is a comping pianist, not a pad.
+- **The kick moves** — 21 different kick patterns in one record, against *"kick
+  and sub remain static (boringly consistent on purpose)"* [corpus:myloops].
+- **Change is composed where it should be modulated.** *"Changes happen through
+  modulation, not composition"* [corpus:tracksensei]: a free-running unsynced
+  LFO at 0.05–0.08 Hz on a lowpass, sends and drive automated over 32–64 bars.
+  The program has the motion system and this genre barely uses it.
+
+**AND THE FILE HAS NO `techno`**, only acid house and minimal techno. Club techno
+is 128–135 with a rolling 16th sub and it owns a mechanism nothing here has —
+**the kick drop**, *"the single most powerful move in the genre"*, pulling the
+kick for 8–16 bars before the peak [corpus:tracksensei]. Whether that becomes a
+ninth genre is the owner's call and the sheet does not assume it.
+
+**What would close it:** the owner's decision on items 1–3, which change what the
+genre sounds like, then the build. **Nothing is built yet.**
+
+---
+
 ## 1. DEFECTS AND GAPS FOUND BY MEASUREMENT
 
 | what | why it is open | what closes it |
