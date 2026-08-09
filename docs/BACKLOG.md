@@ -587,7 +587,18 @@ diatonic.**
 > fields was WRONG and is struck through in the research sheet: `chop` is grouped
 > WITH the kit. The real residue was two ungrouped tom paths, fixed at `b7950cf`.)*
 >
-> **THREE THINGS THE OWNER ASKED FOR, and where each stands:**
+> **⚠ THE THREE SENTENCES BELOW ARE EXAMPLES, NOT A CHECKLIST. Corrected by the
+> owner, 2026-08-09:** *"My EXAMPLES were meant to convey the idea NOT exact
+> things to do."* This section used to say "what would close it: the owner's own
+> three sentences" — three acceptance tests built out of three illustrations,
+> with the remaining steps organised around delivering each one literally.
+> **THE IDEA is the thing to build to:** the faders are *"our chief rule breaking
+> tool"*, and a rule-breaking tool lets you take a named part of one genre and
+> put it with a named part of another, on purpose — any part, any genre, because
+> you asked for it. The rows below are useful as a picture of what that feels
+> like from outside. Delivering exactly those three would not close this.
+>
+> **THREE THINGS THE OWNER USED AS EXAMPLES, and where each stands:**
 >
 > | | today |
 > |---|---|
@@ -631,9 +642,10 @@ diatonic.**
 > 4 split `form` so song length is its own element, 5 per-genre switches under
 > each fader, 6 `drums2` on the `keys2` pattern — the only new machinery.
 >
-> **What would close it:** the owner's own three sentences, by hand in the
-> artifact. DS at lofi length; the amen combination on **every** seed rather than
-> 7%; two kits audible and neither flamming.
+> **What would close it:** a fader that can be ASKED, not just relied on — any
+> element of any genre in the blend put where the hand wants it, and the shares
+> holding around whatever is pinned. The three examples above are a good way to
+> check the result by hand; they are not the definition of done.
 
 > ### G. THE PROGRAM HAS NO WAY TO BREAK ITS OWN RULES — opened 2026-08-09
 >

@@ -184,6 +184,46 @@ const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")
           `split ${share.join("/")} on a 50/50 fader`);
   }
 
+  /* ── AND THE HAND CAN AIM ONE ELEMENT, THROUGH THE REAL CONTROL ────────────
+     Driven by selecting on the actual element and firing a real change event,
+     for the probe_mixer reason: the maths behind a control can be perfect while
+     the control on the glass does nothing. */
+  const traitRow = await pg.evaluate(()=>{
+    const rows = [...document.querySelectorAll("#blend .bltrait")];
+    if(!rows.length) return null;
+    const r = rows.find(x => x.querySelector("select").options.length > 1) || rows[0];
+    const sel = r.querySelector("select");
+    return { label: r.querySelector("label").textContent,
+             options: [...sel.options].map(o=>o.value) };
+  });
+  check("every element the record is made of has a control to aim it",
+        traitRow && traitRow.options.length > 1,
+        traitRow ? `${traitRow.label}: ${traitRow.options.join(" / ")}` : "no element rows drawn");
+  if(traitRow && traitRow.options.length > 1){
+    const want = traitRow.options.find(o=>o!=="auto");
+    const got = await pg.evaluate((want)=>{
+      const rows = [...document.querySelectorAll("#blend .bltrait")];
+      const r = rows.find(x => [...x.querySelector("select").options].some(o=>o.value===want));
+      const sel = r.querySelector("select");
+      sel.value = want;
+      sel.dispatchEvent(new Event("change", { bubbles:true }));
+      const label = r.querySelector("label").textContent;
+      const t = SONG.chart.table.blendTraits.find(x => (x.name||x.key) === label);
+      return { label, genre: t && t.genre, asked: t && t.asked, stored: JSON.parse(JSON.stringify(TRAITS)) };
+    }, want);
+    check("...and choosing a genre on it makes that element come from that genre",
+          got.genre === want && got.asked === true && got.stored[Object.keys(got.stored)[0]] === want,
+          `${got.label} -> asked for ${want}, got ${got.genre}`);
+    /* it must SURVIVE a reroll: a pin the deal can overwrite is not a pin */
+    const held = await pg.evaluate((want)=>{
+      TRAIT_ROLL += 3; newSong(SONG.chart.seed); drawBlend();
+      const t = SONG.chart.table.blendTraits.find(x => x.asked);
+      return t && t.genre === want;
+    }, want);
+    check("...and the reroll cannot take it back off them", held === true, held ? "held" : "the deal overwrote a pin");
+    await pg.evaluate(()=>{ for(const k in TRAITS) delete TRAITS[k]; TRAIT_ROLL = 0; newSong(SONG.chart.seed); drawBlend(); });
+  }
+
   check("no uncaught page errors", errs.length===0, errs.join(" | "));
   console.log(`\n${pass} passed, ${fail} failed`);
   await b.close();

@@ -358,6 +358,75 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      name over the top, so dealing it spends a genre's share on a value thrown
      away a moment later. It did, and it put a seventh element on one side of a
      twelve-element hand in fourteen songs of thirty. */
+  /* ═════════════════════════════════════════════════════════════════════════
+     AND A HAND CAN ASK FOR A NAMED PART OF A NAMED GENRE
+
+     The quota made the share reliable. This makes it askable, which is what
+     "our chief rule breaking tool" actually needs: the drum kit from jungle,
+     the chords from lofi, because you said so and not because the deal went
+     that way. Every element the blend decides, pinned to every genre that
+     could supply it — if one combination is quietly ignored, the control lies.
+     ═════════════════════════════════════════════════════════════════════════ */
+  {
+    const missed = [], refused = [];
+    let tried = 0;
+    for(let i = 0; i < gs.length; i++) for(let j = i + 1; j < gs.length; j++){
+      const A = gs[i], B = gs[j], mix = { [A]: 0.5, [B]: 0.5 };
+      for(const e of M.blendPlan(mix)) for(const g of e.genres){
+        tried++;
+        let T;
+        try { T = M.composeSong(3, undefined, mix, null, null, null, 0, { [e.key]: g }).chart.table; }
+        catch(err){ missed.push(`${A}+${B} ${e.key}->${g} threw`); continue; }
+        const got = T.blendTraits.find(t => t.key === e.key);
+        if(!got || got.genre !== g) missed.push(`${A}+${B} ${e.key}->${g} got ${got ? got.genre : "nothing"}`);
+        if((T.blendRefused || []).length) refused.push(`${A}+${B} ${e.key}->${g}`);
+      }
+    }
+    check("a hand can ask for any element from any genre that has one",
+          missed.length === 0 && refused.length === 0,
+          missed.length || refused.length
+            ? [...missed.slice(0, 4), ...refused.slice(0, 2).map(r => r + " refused a legal pin")].join(" · ")
+            : `${tried} element-and-genre pairs over ${gs.length * (gs.length - 1) / 2} pairs, every one honoured`);
+  }
+
+  /* A PIN THAT CANNOT BE HONOURED IS REFUSED IN WORDS. Silence would be worse
+     than refusing: a control that looks obeyed and is not is how the mixer's
+     dead faders survived a green probe. */
+  {
+    const mix = { lofi: 0.5, jungle: 0.5 };
+    const notHere  = M.composeSong(1, undefined, mix, null, null, null, 0, { kit: "acid" }).chart.table;
+    const notTheirs = M.composeSong(1, undefined, mix, null, null, null, 0, { counter: "lofi" }).chart.table;
+    const noSuch   = M.composeSong(1, undefined, mix, null, null, null, 0, { nonsense: "lofi" }).chart.table;
+    const said = t => (t.blendRefused || []).map(r => r.why).join("");
+    check("...and a pin it cannot honour is refused in words, not ignored",
+          notHere.blendRefused.length === 1 && /not in this blend/.test(said(notHere)) &&
+          notTheirs.blendRefused.length === 1 && notTheirs.blendTraits.every(t => t.key !== "counter") &&
+          noSuch.blendRefused.length === 1,
+          `off the sliders: "${said(notHere)}" · genre has none: "${said(notTheirs)}" · no such element: "${said(noSuch)}"`);
+  }
+
+  /* THE SLIDERS STILL DECIDE EVERYTHING THAT WAS NOT PINNED. A pin outranks the
+     fader — that is the point — so this asserts the quota absorbs ONE pin
+     rather than giving up on the rest of the record. */
+  {
+    let worst = 0, n = 0;
+    for(let i = 0; i < gs.length; i++) for(let j = i + 1; j < gs.length; j++){
+      const A = gs[i], B = gs[j], mix = { [A]: 0.5, [B]: 0.5 };
+      const pinnable = M.blendPlan(mix).filter(e => e.genres.length > 1)[0];
+      if(!pinnable) continue;
+      for(let seed = 1; seed <= 3; seed++){
+        let T;
+        try { T = M.composeSong(seed, undefined, mix, null, null, null, 0, { [pinnable.key]: A }).chart.table; }
+        catch(e){ continue; }
+        n++;
+        worst = Math.max(worst, Math.abs(T.blendTraits.filter(t => t.genre === A).length - T.blendTraits.length / 2));
+      }
+    }
+    check("...and the fader still decides everything the hand did not pin",
+          worst <= 1.0001,
+          `${n} songs with one element pinned, worst share off half by ${worst} of an element`);
+  }
+
   /* ── AND EVERY ELEMENT THAT CAN BE DEALT NEEDS WORDS, NOT JUST A NAME SLOT ─
      The check above this block accepts `null` — "deliberately not shown" — and
      that was right while nothing printed the list. The blend panel now prints

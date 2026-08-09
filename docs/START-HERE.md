@@ -213,13 +213,22 @@ IDENTICAL, structurally: a solo genre returns before the allocator exists).
 `docs/genre-research/breaking-the-rule.md` §8 has the method and the three
 defects the new tool found on its first day.
 
-**What is open on the faders is steps 3–6 of `BACKLOG.md` §H**, and the quota
-settles none of the owner's three sentences by itself. They can now RELY on the
-share; they still cannot ASK for a particular element. In their words the open
-ones are: dungeon synth harmony at lofi length (step 4 — length is bundled with
-form), the amen break with minimal techno's sends over a lofi track (step 3 — pin
-an element to a genre), and lofi drums on the dungeon synth kit (step 6 —
-`drums2` does not exist). Step 3 is the one that unlocks the most.
+**What is open on the faders is steps 3–6 of `BACKLOG.md` §H.** The quota made
+the share RELIABLE; you still cannot ASK for a particular element, and that is
+the gap. The owner's words for what the faders are for: *"our chief rule breaking
+tool"* — which means taking a named part of one genre and putting it with a named
+part of another, on purpose.
+
+**⚠ AND DO NOT READ THE OWNER'S THREE SENTENCES AS A CHECKLIST.** *"My EXAMPLES
+were meant to convey the idea NOT exact things to do."* §H used to list them as
+the close condition and that was wrong; it is corrected there now. Build the
+idea, use the examples to sanity-check the result by hand.
+
+**⚠ AND THE UNHEARD PILE IS NOT A STOP SIGN. Corrected twice now**, most recently
+2026-08-09: *"YOU CANT LISTEN YOUR NOT A HUMAN! You can print midi notes and read
+them!"* Saying a build has not been heard is honest. Proposing "wait for the ear"
+as the next job is asking the owner to authorise your idleness — and `BACKLOG.md`
+§0 has said so since 2026-08-04. RULE ONE is the instrument you actually have.
 
 **⚠ AND THE STAMP IS RED ON PICKUP, EXPECTED — but read WHICH red it is.** The
 program changed and the stamp MOVED with it (`2026-08-09c`); what has not

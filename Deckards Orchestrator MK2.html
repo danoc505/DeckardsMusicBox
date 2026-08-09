@@ -134,8 +134,13 @@
                   border:1px solid #33302a; background:none; color:var(--dim); cursor:pointer;
                   text-transform:none; }
   .blmade h2 .lk:hover{ color:var(--hot); border-color:var(--hot); }
-  .blmade .bl{ grid-template-columns:8.5rem 1fr; align-items:baseline; }
+  .blmade .bl{ grid-template-columns:10.5rem 1fr; align-items:baseline; }
   .blmade .bl span{ color:var(--ink); font-size:11px; line-height:1.35; }
+  .blsum{ color:var(--hot); font-size:11px; margin:0 0 .4rem; letter-spacing:.02em; }
+  .bltrait select{ background:none; border:1px solid #33302a; color:var(--dim);
+                   font:inherit; font-size:11px; padding:.05rem .2rem; width:100%; }
+  .bltrait.asked select{ color:var(--hot); border-color:var(--hot); }
+  .blrefused label, .blrefused span{ color:#c86a4a; font-size:11px; }
   .machine{ border-radius:5px; padding:.85rem 1rem 1rem; position:relative;
             box-shadow:0 10px 26px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14); }
   .machine .brand{ display:flex; align-items:baseline; gap:.6rem; margin-bottom:.7rem; }
@@ -1406,7 +1411,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-09c · the genre sliders mean what they say in every song, not just on average</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-09d · the genre sliders mean what they say, and every part of the mix can be aimed at a genre</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20436,7 +20441,42 @@ function normaliseBlend(blend){
    `roll` is a NONCE, not a seed: same song, same fader, a different hand of
    the same size. It names its own substream so it cannot move anything else.
    ═══════════════════════════════════════════════════════════════════════════ */
-function dealElements(found, ws, rng){
+/* ── A HAND CAN ASK FOR A NAMED PART OF A NAMED GENRE ───────────────────────
+   The quota made the share RELIABLE. It did not make it ASKABLE: you got half a
+   record from each genre and no say in which half. The owner calls the faders
+   "our chief rule breaking tool", and a tool you cannot aim is not one.
+
+   A pin says "the drum kit comes from jungle" and it is honoured before any
+   dealing happens, exactly like an element only one genre declares -- because
+   that is what it now is. The quota then works around it: pin the kit to jungle
+   and jungle is one ahead, so lofi is owed one more of what is left.
+
+   A PIN OUTRANKS THE FADER, and that is the point rather than a wrinkle. Pin
+   nine elements to one genre on a 50/50 and you get nine elements of that genre;
+   the sliders cannot hold a share against an explicit instruction and should not
+   try. What they still do is decide everything you did not pin.
+
+   A PIN THAT CANNOT BE HONOURED IS REFUSED OUT LOUD, never quietly ignored --
+   the same rule the rack's picks follow. Three ways it can fail: the genre is
+   not in the blend, the genre is in the blend but has no such element, or this
+   pair has no such element at all. Each says which. */
+function resolveTraits(B, found, traits){
+  const pins = {}, dropped = [];
+  for(const k in (traits || {})){
+    const want = traits[k];
+    if(want == null || want === "auto") continue;
+    const f = found.find(x => x.key === k);
+    const label = g => (GENRE[g] && GENRE[g].label) || g;
+    if(!f){ dropped.push([k, "these genres do not decide that"]); continue; }
+    const i = B.names.indexOf(want);
+    if(i < 0){ dropped.push([k, label(want) + " is not in this blend"]); continue; }
+    if(!f.cands.includes(i)){ dropped.push([k, label(want) + " does not have one"]); continue; }
+    pins[k] = i;
+  }
+  return { pins, dropped };
+}
+
+function dealElements(found, ws, rng, pins){
   /* ── THE ONES NOBODY CHOSE GO ON THE TABLE FIRST ───────────────────────────
      An element only one genre declares is not a decision, it is a fact, and it
      has to be counted before the real dealing starts or there is nothing left
@@ -20444,9 +20484,15 @@ function dealElements(found, ws, rng){
      rest: lofi+jungle came out 42/58 on twelve elements -- jungle's two
      one-runner sends landed last, when the nine real choices had already been
      split evenly, and both went on top. Five-seven instead of six-six, from a
-     rule that had already spent its room. Facts first, then the hand. */
-  const order = found.map((_, i) => i).filter(i => found[i].cands.length < 2);
-  const rest  = found.map((_, i) => i).filter(i => found[i].cands.length > 1);
+     rule that had already spent its room. Facts first, then the hand.
+     A PINNED ELEMENT IS A FACT TOO -- the hand has already decided it -- so it
+     goes on the table in the same pass, for the same reason: the quota has to
+     see it before it starts balancing, or it balances against a total it does
+     not yet know. */
+  pins = pins || {};
+  const settled = i => pins[found[i].key] != null || found[i].cands.length < 2;
+  const order = found.map((_, i) => i).filter(settled);
+  const rest  = found.map((_, i) => i).filter(i => !settled(i));
   for(let i = rest.length - 1; i > 0; i--){
     const j = Math.floor(rng() * (i + 1));
     const t = rest[i]; rest[i] = rest[j]; rest[j] = t;
@@ -20457,6 +20503,7 @@ function dealElements(found, ws, rng){
   for(const i of order){
     const f = found[i];
     n++;
+    if(pins[f.key] != null){ out[f.key] = pins[f.key]; paid[pins[f.key]]++; continue; }
     /* FURTHEST BEHIND WINS. `ws[c] * n` is the share this genre should hold by
        now; `paid[c]` is what it holds. Ties -- which is every other element of
        a two-genre 50/50 -- break at random, by reservoir, so a tie among three
@@ -20522,7 +20569,7 @@ function blendPlan(blend){
 }
 
 /* the blended table, built once per song and frozen like any other stage-1 input */
-function blendGenres(blend, seed, roll){
+function blendGenres(blend, seed, roll, traits){
   const B = normaliseBlend(blend);
   if(!B) return null;
   /* ── A BLEND OF ONE NEVER REACHES THE ALLOCATOR ────────────────────────────
@@ -20534,8 +20581,9 @@ function blendGenres(blend, seed, roll){
   if(B.names.length === 1) return GENRE[B.names[0]];
   const found = [];
   blendWalk(B, { rng: () => 0, group: {}, won: {}, find: found });
+  const asked = resolveTraits(B, found, traits);
   const owner = { rng: stream(seed, "blend"), group: {}, won: {},
-                  deal: dealElements(found, B.ws, stream(seed, "trait" + (roll || 0))) };
+                  deal: dealElements(found, B.ws, stream(seed, "trait" + (roll || 0)), asked.pins) };
   const out = blendWalk(B, owner);
   out.label = B.names.map((n, i) => GENRE[n].label + " " + Math.round(B.ws[i] * 100) + "%").join(" + ");
   out.blendOf = B.names.map((n, i) => [n, B.ws[i]]);
@@ -20551,13 +20599,21 @@ function blendGenres(blend, seed, roll){
   {
     const words = {}; for(const e of blendElements()) words[e.key] = e.name;
     out.blendTraits = Object.keys(owner.won).sort().map(key => ({
-      key, name: words[key], genre: B.names[owner.won[key]]
+      key, name: words[key], genre: B.names[owner.won[key]],
+      /* which genres could have supplied it, so the panel offers the real
+         choices rather than every genre on the sliders -- and whether the hand
+         asked for this one or the deal chose it */
+      from: (found.find(f => f.key === key) || { cands: [] }).cands.map(i => B.names[i]),
+      asked: asked.pins[key] != null
     }));
+    /* pins that could not be honoured, each with the reason in words. A refusal
+       nobody can see is the same as a silent failure. */
+    out.blendRefused = asked.dropped.map(([key, why]) => ({ key, name: words[key] || key, why }));
   }
   return out;
 }
 
-function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll){
+function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll, traits){
   /* ── THE ARGUMENT ORDER IS (seed, RIG, GENRE) AND ONE NAME IS BOTH ─────────
      `composeSong(1, "jungle")` reads as "compose jungle" and composes LOFI on
      the jungle rig, silently, because "jungle" is a genre AND a rig and the
@@ -20598,7 +20654,7 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll){
      different half from each. It is a NONCE and not a second seed: it names its
      own substream, so a blend nobody rerolls is the blend roll 0 gives, and no
      other draw in the program can feel it. */
-  const blended = asBlend ? blendGenres(asBlend, seed, traitRoll) : null;
+  const blended = asBlend ? blendGenres(asBlend, seed, traitRoll, traits) : null;
   /* A BLEND OF ONE IS THAT GENRE, byte for byte -- blendGenres returns the
      plain table for a single name and never touches the blend substream, so
      moving a slider to 100% gives back exactly the song the dropdown gave. That
@@ -26554,8 +26610,8 @@ function makePerformance(chart, form, materials, sections){
    THE PIPELINE — and the invariant checks at each seam. Checks THROW: a law
    violation is a build failure, not a thing to correct downstream.
    ═══════════════════════════════════════════════════════════════════════════ */
-function composeSong(seed, rig, genre, picks, pins, edits, traitRoll){
-  const chart = makeChart(seed, rig, genre, picks, pins, edits, traitRoll);
+function composeSong(seed, rig, genre, picks, pins, edits, traitRoll, traits){
+  const chart = makeChart(seed, rig, genre, picks, pins, edits, traitRoll, traits);
   const form = makeForm(chart);
   /* ══ AN EDITED SONG IS COMPOSED TWICE, AND THAT IS NOT A CORRECTING PASS ═══
      The hand points at a SECTION ("this bass, here"), and which material a
@@ -27153,6 +27209,10 @@ const BLEND_LOCK = new Set();
    and recomposing is the whole mechanism. 0 until somebody presses the button,
    so a program nobody touches composes exactly what it always did. */
 let TRAIT_ROLL = 0;
+/* AND WHICH ELEMENTS THE HAND HAS ASKED FOR BY NAME: element -> genre. Same
+   footing as PICK and PINS -- an input to stage 1, never a patch on the song
+   already playing. Empty means the deal decides everything. */
+const TRAITS = {};
 
 function setBlend(name, v){
   const names = Object.keys(BLEND);
@@ -27242,14 +27302,49 @@ function drawBlend(){
     again.addEventListener("click", () => { TRAIT_ROLL++; newSong(SONG ? SONG.chart.seed : 1); drawBlend(); });
     h2.appendChild(again);
     made.appendChild(h2);
+    /* the share each genre actually supplied, which is the answer to "the
+       faders are blind" -- the sliders say what was asked for, this says what
+       came out */
     const by = {};
-    for(const t of traits) (by[t.genre] = by[t.genre] || []).push(t.name || t.key);
-    for(const g of Object.keys(BLEND)){
-      if(!by[g]) continue;
-      const share = Math.round(by[g].length / traits.length * 100);
-      const r = el("div", "bl");
-      r.appendChild(el("label", null, GENRE[g].label));
-      r.appendChild(el("span", null, share + "% — " + by[g].sort().join(", ")));
+    for(const t of traits) by[t.genre] = (by[t.genre] || 0) + 1;
+    const sum = el("div", "blsum");
+    sum.textContent = Object.keys(BLEND).filter(g => by[g])
+      .map(g => GENRE[g].label + " " + Math.round(by[g] / traits.length * 100) + "%").join("  ·  ");
+    made.appendChild(sum);
+    /* ── AND EVERY PART OF IT CAN BE AIMED ────────────────────────────────────
+       One row per element: what it is, in words, and which genre it may come
+       from. "whichever" leaves it to the deal. Choosing a genre is an
+       instruction and outranks the sliders — pin the kit to jungle and the kit
+       is jungle's, at any fader position above zero.
+       The choices offered are the ones the blend says are possible (`from`),
+       not every genre on the sliders: offering "the second voice: lofi" when
+       lofi has no second voice is a control that lies. */
+    for(const t of traits.slice().sort((a, b) => (a.name || a.key).localeCompare(b.name || b.key))){
+      const r = el("div", "bl bltrait");
+      r.appendChild(el("label", null, t.name || t.key));
+      const sel = document.createElement("select");
+      const auto = document.createElement("option");
+      auto.value = "auto"; auto.textContent = "whichever — " + GENRE[t.genre].label;
+      sel.appendChild(auto);
+      for(const g of t.from){
+        const o = document.createElement("option");
+        o.value = g; o.textContent = "always " + GENRE[g].label;
+        sel.appendChild(o);
+      }
+      sel.value = TRAITS[t.key] || "auto";
+      if(t.asked) r.classList.add("asked");
+      sel.addEventListener("change", () => {
+        if(sel.value === "auto") delete TRAITS[t.key]; else TRAITS[t.key] = sel.value;
+        newSong(SONG ? SONG.chart.seed : 1); drawBlend();
+      });
+      r.appendChild(sel);
+      made.appendChild(r);
+    }
+    /* a pin that could not be honoured says so, rather than looking obeyed */
+    for(const d of (SONG.chart.table.blendRefused || [])){
+      const r = el("div", "bl blrefused");
+      r.appendChild(el("label", null, d.name));
+      r.appendChild(el("span", null, "not applied — " + d.why));
       made.appendChild(r);
     }
     host.appendChild(made);
@@ -27269,11 +27364,11 @@ function newSong(forcedSeed){
   let dropped = 0, blendNote = "";
   const G0 = blendArg();
   try {
-    SONG = composeSong(seed, $("rig").value, G0, PICK, PINS, EDITS, TRAIT_ROLL);
+    SONG = composeSong(seed, $("rig").value, G0, PICK, PINS, EDITS, TRAIT_ROLL, TRAITS);
   } catch(err){
     for(const k in PINS) if(k.startsWith("bass:")){ delete PINS[k]; dropped++; }
     if(dropped){
-      SONG = composeSong(seed, $("rig").value, G0, PICK, PINS, EDITS, TRAIT_ROLL);
+      SONG = composeSong(seed, $("rig").value, G0, PICK, PINS, EDITS, TRAIT_ROLL, TRAITS);
     } else if(typeof G0 === "object"){
       /* A BLEND CAN FAIL TO COMPOSE, and the seam check is right to say so
          rather than be loosened. Measured across 1890 blended pairs: 1 threw a

@@ -96,7 +96,37 @@ const pkAt = argv.indexOf("--picks");
 const picks = pkAt >= 0 ? Object.fromEntries(argv[pkAt + 1].split(",")
                             .map(x => x.split("=").map(y => y.trim()))) : null;
 
-const song = M.composeSong(seed, rig, genre, picks, pinsIn);
+/* --trait kit=jungle,bass=lofi -- WHICH GENRE EACH PART OF A BLEND COMES FROM.
+   The faders can be aimed now, and RULE ONE is that the notes are the test, so
+   the roll has to be able to print an aimed blend. Without this the one
+   instrument this project trusts cannot see the feature at all -- the same
+   reason --picks and --pins exist.
+   --deal <n> is the reroll: same song, same sliders, a different hand. */
+const trAt = argv.indexOf("--trait");
+const traits = trAt >= 0 ? Object.fromEntries(argv[trAt + 1].split(",").map(x => {
+  const [k, v] = x.split("="); return [k.trim(), (v || "").trim()];
+})) : null;
+const dealAt = argv.indexOf("--deal");
+const deal = dealAt >= 0 ? parseInt(argv[dealAt + 1], 10) || 0 : 0;
+if((traits || deal) && !blend){
+  console.error("\n  --trait and --deal describe a BLEND and there is no blend here.\n" +
+                "  Add --blend a:50,b:50 -- one genre has nothing to aim.\n");
+  process.exit(2);
+}
+
+const song = M.composeSong(seed, rig, genre, picks, pinsIn, null, deal, traits);
+/* say what was asked for and what was refused, right above the notes, because a
+   pin that was silently dropped would otherwise look like a pin that did
+   nothing to the music */
+if(blend && song.chart.table.blendTraits){
+  const t = song.chart.table.blendTraits;
+  const by = {};
+  for(const x of t) by[x.genre] = (by[x.genre] || 0) + 1;
+  console.log("MADE OF  " + Object.keys(by).map(g => g + " " + Math.round(by[g] / t.length * 100) + "%").join(" · ") +
+              "   (deal " + (song.chart.traitRoll || 0) + ")");
+  for(const x of t) if(x.asked) console.log("  asked   " + (x.name || x.key) + " → " + x.genre);
+  for(const r of (song.chart.table.blendRefused || [])) console.log("  REFUSED " + r.name + " — " + r.why);
+}
 const C = song.chart;
 const nm = p => T.NOTE_NAMES[T.pc(p)] + (Math.floor(p / 12) - 1);   // midi 60 -> C4
 
