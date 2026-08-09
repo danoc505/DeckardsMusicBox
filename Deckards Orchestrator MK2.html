@@ -20613,7 +20613,7 @@ function makeForm(chart){
    Every note frozen on exit. Nothing downstream re-pitches anything.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-function makeMaterials(chart, editPlan){
+function makeMaterials(chart, editPlan, arcPlan){
   const BARS = 4;
   const G = chart.table, R = G.registers;
   const { root, mode } = chart;
@@ -20876,9 +20876,13 @@ function makeMaterials(chart, editPlan){
                   reverse  play the slice backwards
      [corpus:ethanhein for the source grid; the edit vocabulary is [EAR] and the
       weights say so] ═══════════════════════════════════════════════════════ */
-  function buildBreak(streamName, variant){
+  /* `arcChop` is the section's place in the record, for a genre whose kit is a
+     recording rather than a set of lanes. A break has no hat to take away, so
+     the same three moves are made on the CHOPPER: chopping harder, leaving more
+     space, jumping further into the record. Same third layer, same order. */
+  function buildBreak(streamName, variant, arcChop){
     const rng = stream(chart.seed, streamName);
-    const CH = Object.assign({}, G.chop, (G.chop.variants || {})[variant] || {});
+    const CH = Object.assign({}, G.chop, (G.chop.variants || {})[variant] || {}, arcChop || {});
     const notes = [];
     const srcOnsets = AMEN_ONSETS;
     for(let b = 0; b < BARS; b++){
@@ -21167,7 +21171,12 @@ function makeMaterials(chart, editPlan){
      that is supposed not to change its notes -- but its B and C are left to the
      `phrase` motion lane, which moves a knob instead of writing a hit. */
   const PHRASE_BY = (G.kit && G.kit.phraseBy) || "notes";
-  function buildDrums(streamName, variant, phrase){
+  /* `arcKit` is the section's place in the record expressed as a kit override —
+     one or more of the genre's own `kit.arc.moves`, chosen by the arrangement
+     and stacked by how far into the song the section sits. It is the THIRD
+     layer on the kit and it works exactly like the second one: the drums are
+     BUILT this way, never built and then corrected. */
+  function buildDrums(streamName, variant, phrase, arcKit){
     /* a genre whose kit IS a break builds one instead of programming lanes */
     /* ── AND A CHOPPED BREAK IS PHRASED TOO ────────────────────────────────
        This returned here and the phrase never reached jungle at all, while
@@ -21179,7 +21188,7 @@ function makeMaterials(chart, editPlan){
        than fabricating one, so a break note keeps the SLICE that says which
        part of the record it is. */
     if(G.chop){
-      const brk = buildBreak(streamName, variant);
+      const brk = buildBreak(streamName, variant, arcKit);
       const V = [];
       for(const n of brk) if(n.bar === 0 && V.indexOf(n.lane) < 0) V.push(n.lane);
       const r2 = stream(chart.seed, streamName + ":phrase");
@@ -21199,7 +21208,38 @@ function makeMaterials(chart, editPlan){
     /* the variant OVERRIDES the base kit; it never edits notes afterwards. A
        material asks for a treatment and gets a kit built that way from the
        start, which is the difference between this and a correcting pass. */
-    const K = Object.assign({}, G.kit, G.kit.variants[variant] || {});
+    /* ── AND AN OVERRIDE OF A BLOCK ADJUSTS IT, IT DOES NOT AMPUTATE IT ───────
+       `Object.assign` is one level deep, so a variant that says
+       `toms: { use: 0.8 }` -- meaning "this section leans on the toms slightly
+       less" -- REPLACED the whole tom block, and `loop`, `loopSpots`,
+       `loopLanes`, `loopShapes` and `loopBars` all vanished with it. `loop`
+       then read undefined, the per-bar draw compared against 0, and the toms
+       stopped entirely.
+
+       MEASURED, dungeon synth, 60 seeds: verse 7.65 tom hits, bridge 7.52,
+       CHORUS 0.00 -- in 60 songs out of 60 -- on the genre carrying the
+       highest tom settings in the file (`loop: 0.9`). The one variant in the
+       file that adjusts a block was the one variant that silenced it, and it
+       read as a deliberately tom-free chorus for as long as it has existed.
+
+       So a nested block MERGES onto its parent and a scalar still replaces.
+       Derived from the values themselves rather than from a list of which keys
+       are blocks, so the next block-valued kit setting cannot forget to join
+       -- which is the failure this file logs four times over. */
+    const overlay = (base, over) => {
+      const out = Object.assign({}, base);
+      for(const k in over){
+        const v = over[k], b = base[k];
+        out[k] = (v && b && typeof v === "object" && typeof b === "object"
+                  && !Array.isArray(v) && !Array.isArray(b))
+               ? Object.assign({}, b, v) : v;
+      }
+      return out;
+    };
+    /* base kit, then the section KIND's treatment, then the section's place in
+       the record. Three layers, applied in that order, and the last one is the
+       arc: see `kit.arc` and `makeArrangement`. */
+    const K = overlay(overlay(G.kit, G.kit.variants[variant] || {}), arcKit || {});
     const ghostSpots = K.ghostSpots;
     const openSpot = wpick(rng, K.openSpot);
     const flourish = wpick(rng, K.flourish);
@@ -24450,6 +24490,47 @@ function makeMaterials(chart, editPlan){
          : (base === "Alift" || base === "Avarlift") ? liftChords
          : chords;
   };
+  /* ── WHICH KIT SETTING AND WHICH LETTERS A MATERIAL'S DRUMS WERE BUILT WITH ─
+     ONE OWNER. Stage 3 used exactly this mapping when it built the five drum
+     parts above, `phraseFor` below now reads it instead of restating it, and
+     the arc reads it to rebuild a section's copy the same way. The file has
+     twice shipped a rule written out in two places and been wrong in both the
+     moment a third case appeared; this is that rule, once.
+     A lifted copy SHARES its parent's drums outright -- a key change is a
+     harmonic event and a kit has no pitch to move -- so the `lift` suffix is
+     stripped before asking. */
+  const drumBaseOf    = m => String(m).split("@")[0].replace(/lift$/, "");
+  const drumVariantOf = m => { const b = drumBaseOf(m);
+    return (b === "B" || b === "Bvar") ? "lift" : b === "C" ? "depart" : "main"; };
+  const drumPhraseOf  = m => { const b = drumBaseOf(m);
+    return (b === "Avar" || b === "Bvar") ? DRUM_PHRASE_END : DRUM_PHRASE; };
+
+  /* ── THE SECTIONAL ARC MINTS ITS COPIES, AND IT GOES FIRST ─────────────────
+     Before the hand's edits, so an edit made in a section that has an arc lands
+     on the drums that section actually plays. The edit block below already
+     stacks onto an existing private copy (`materials[key2] || base`), so it
+     needs no cooperation from this and did not have to change.
+
+     THE STREAM IS KEYED BY THE TREATMENT, NOT BY THE SECTION, and that is the
+     whole difference between an arc and noise. Keyed by section index, every
+     section would redraw its own ghost coins and tom coins and come out
+     different for reasons that are not the arc -- which is "each section just
+     differs from the one before it", the shape the owner was offered and
+     rejected. Keyed by the override, two sections carrying the same treatment
+     get BYTE-IDENTICAL drums, the record keeps the repetition that makes it a
+     record, and the only thing that moves is the thing that is supposed to. */
+  if(arcPlan && arcPlan.length){
+    for(const a of arcPlan){
+      const base = materials[a.mat];
+      if(!base || !base.drums) continue;
+      const key = a.mat + "@" + a.sec;
+      const cur = Object.assign({}, materials[key] || base);
+      const tag = drumBaseOf(a.mat) + ":" + JSON.stringify(a.arc);
+      cur.drums = pin(buildDrums("drums:arc:" + tag, drumVariantOf(a.mat),
+                                 drumPhraseOf(a.mat), a.arc), "drums", drumBaseOf(a.mat));
+      materials[key] = cur;
+    }
+  }
   if(editPlan && editPlan.length){
     /* ── AN OCTAVE MOVE HAS TO BE ALLOWED TO LEAVE THE REGISTER ──────────────
        The first version folded the moved note back into the part's declared
@@ -24604,11 +24685,10 @@ function makeMaterials(chart, editPlan){
      and got a bar of drums they never asked about.
      A material's phrase is its PARENT's: a variant ends the phrase, everything
      else carries it, and a private copy plays whatever its parent played. */
-  const phraseFor = m => {
-    const base = String(m).split("@")[0];
-    return (base === "Avar" || base === "Bvar" || base === "Avarlift")
-      ? Object.freeze(DRUM_PHRASE_END.slice()) : Object.freeze(DRUM_PHRASE.slice());
-  };
+  /* asked of `drumPhraseOf`, which is the same answer stage 3 gave the builder,
+     rather than a second copy of the rule written out here -- that copy is what
+     this comment's own history is about */
+  const phraseFor = m => Object.freeze(drumPhraseOf(m).slice());
   const dp = {};
   for(const m of MAT_KEYS) dp[m] = phraseFor(m);
   materials.drumPhrase = Object.freeze(dp);
@@ -24916,11 +24996,119 @@ function makeArrangement(chart, form, materials){
           first = r;
       active = [first];
     }
+    /* ══ THE DRUM SECTIONAL ARC ═══════════════════════════════════════════════
+       Reported: "there is meant to be a sections type pattern with the last
+       section having the most change, and other sections taking away something
+       or adding or altering. But that is only one section -- it's often just
+       one single drum loop the whole song."
+
+       MEASURED before anything was built (`harness/probe_drumarc.js`, 20 seeds
+       a genre, build 2026-08-08s): a record has 6 to 14 sections with drums in
+       them and THREE OR FOUR drum parts. Synthwave played one of its four in
+       6.5 sections of the same song. Jungle never gained or lost a drum in any
+       section of any record (100%); plastikman 99%, acid 96%. And synthwave,
+       acid, plastikman and jungle CLOSED on a drum part already heard, in 100%
+       of songs -- so "the last section has the most change" was not weak there,
+       it was impossible.
+
+       The cause was structural rather than a bad number. Five drum parts are
+       built per song from three kit settings, and which one a section plays is
+       decided by WHAT KIND of section it is and whether it is the second or
+       third time round. WHERE IT SITS IN THE RECORD was not an input to the
+       drums anywhere. So verse seven got verse two's drums by construction.
+
+       THE RULE, stated before any code existed, which is what the owner asked
+       for and what made the roll editor work:
+
+         A section's drums are the genre's kit plus a handful of MOVES, and how
+         many moves it gets is decided by how far into the record it sits.
+
+       A move is a KIT OVERRIDE and nothing else -- the same shape as a variant.
+       That matters: the drums are BUILT with the move in them, never built and
+       then corrected, which is the distinction this file draws everywhere else.
+       And the genre owns the moves, so nothing here is a hardcoded musical
+       decision: `kit.arc.moves` is a weighted list of overrides and this stage
+       only counts how many of them to stack. [Law 4]
+
+       THE SHAPE IS "PILE UP, WITH DIPS", chosen by the owner over a plain ramp
+       and over "just differ from the neighbour". Two thirds of the level comes
+       from position -- so the record accretes -- and one third from the
+       section's own energy, so a bridge or a breakdown drops back before it
+       climbs again. The dip is not a special case; it falls out of the section
+       already knowing how big it is meant to be.
+
+       AND THE LAST SECTION TAKES THE BIGGEST CHANGE IN EITHER DIRECTION, also
+       the owner's choice. The sources genuinely split on this and neither is
+       wrong: a song's final chorus is the fullest thing in it ("keep it at full
+       blast for that last chorus" [Hyperbits]) and a club record's last stretch
+       is deliberately stripped so the next one can be mixed over it ("an Outro
+       gradually loses parts to fade the energy" [Mixed In Key]). So the level
+       goes to the top and a DRAW decides which way it points. Same principle as
+       `thinTo` right above: the table says how much, the draw says which.
+       docs/genre-research/drum-sectional-arc.md ══════════════════════════════ */
+    let drumArc = null, drumLevel = 0;
+    {
+      const KIT = chart.table.kit || {}, CHOP = chart.table.chop || null;
+      /* a break genre carries its arc on the chopper, because a recording has
+         no hat to take away -- see buildBreak */
+      const A = (CHOP && CHOP.arc) || KIT.arc || null;
+      if(A && A.moves && A.moves.length){
+        const ar = stream(chart.seed, "drumArc:" + i);
+        const lo = A.span[0], hi = (A.span[1] == null ? A.span[0] : A.span[1]);
+        const last = i === form.length - 1;
+        /* how far through the record, and how much lift this section asked for */
+        const t = form.length > 1 ? i / (form.length - 1) : 1;
+        const e = Math.max(0, Math.min(1, sec.energy == null ? 0.5 : sec.energy));
+        /* EVERY DRAW RUNS WHATEVER THE OUTCOME [Law 7] -- the direction is
+           drawn on every section and used only by the last one, so a record
+           whose last section happens to fall differently cannot shift the moves
+           chosen for any earlier section. */
+        const wantAdd = ar() < 0.5;
+        const want = lo + (hi - lo) * (0.65 * t + 0.35 * e);
+        drumLevel = last ? hi : Math.max(lo, Math.min(hi, Math.round(want)));
+        /* the pool, re-weighted for the closing section only: a move that TAKES
+           something away is what an emptying ending is made of, and a move that
+           does not is what a full one is made of. A genre that tags nothing is
+           unaffected and simply draws from its whole list. */
+        const pool = A.moves.map(m => {
+          const takes = !!(m[2] && m[2].takes);
+          const w = (!last) ? m[1]
+                  : m[1] * (wantAdd ? (takes ? 0.25 : 3) : (takes ? 3 : 0.25));
+          return [m[0], w];
+        });
+        /* distinct moves, so a section cannot draw the same override twice and
+           call it two changes */
+        const picked = [], left = pool.slice();
+        for(let k = 0; k < drumLevel && left.length; k++){
+          let tot = 0; for(const [, w] of left) tot += w;
+          let x = ar() * tot, at = left.length - 1;
+          for(let j = 0; j < left.length; j++){ if(x < left[j][1]){ at = j; break; } x -= left[j][1]; }
+          picked.push(left.splice(at, 1)[0][0]);
+        }
+        /* one override out of several, merged the way the kit merges: a block
+           adjusts its parent, a scalar replaces it */
+        if(picked.length){
+          const out = {};
+          for(const mv of picked) for(const k in mv){
+            const v = mv[k], b = out[k];
+            out[k] = (v && b && typeof v === "object" && typeof b === "object"
+                      && !Array.isArray(v) && !Array.isArray(b))
+                   ? Object.assign({}, b, v) : v;
+          }
+          drumArc = Object.freeze(out);
+        }
+      }
+    }
     const next = form[i + 1];
     return Object.freeze({
       fn: sec.fn, startBar: sec.startBar, endBar: sec.endBar,
       energy: sec.energy, peak: sec.peak, occurrence: sec.occurrence,
       material, stripHalf,
+      /* WHAT THIS SECTION'S PLACE IN THE RECORD DOES TO THE DRUMS. `drumArc` is
+         the kit override; `drumLevel` is how many moves are in it, kept so the
+         probe and the roll can say WHY a section sounds different rather than
+         only that it does. Null on a genre that declares no arc. */
+      drumArc, drumLevel,
       active: Object.freeze(active),
       /* the bar each arriving role starts on, for the roles that arrive INSIDE
          this section. Stage 5 reads it; nothing else does. */
@@ -25766,15 +25954,32 @@ function composeSong(seed, rig, genre, picks, pins, edits){
      own copy of the main material. ══════════════════════════════════════════ */
   let materials = makeMaterials(chart);
   let sections = makeArrangement(chart, form, materials);
-  if(chart.edits.length){
-    const plan = chart.edits.map(e => ({
-      sec: e.sec, role: e.role, op: e.op, n: e.n,
-      mat: (sections[e.sec] && sections[e.sec].material) || null,
-    })).filter(e => e.mat);
-    if(plan.length){
-      materials = makeMaterials(chart, plan);
-      sections = makeArrangement(chart, form, materials);
-    }
+  /* ── AND THE DRUM ARC RIDES THE SAME TWO PASSES, FOR THE SAME REASON ───────
+     A section's place in the record decides what its drums do, and which
+     MATERIAL a section plays is stage 4's answer -- so the arc is keyed to a
+     section in exactly the way an edit is, and it cannot be honoured on the way
+     down without stage 3 guessing at stage 4. It reuses the machinery above
+     rather than growing a second one: pass 1 says what each section plays, then
+     stage 3 mints that section its own copy with the drums BUILT under its
+     override. `A@5` is already a real material -- the seam checks walk it, it
+     gets its phrase letters and its chord set, and the roll can draw it -- so
+     the arc is proved by everything that already proves a song.
+
+     MEASURED before it was chosen: a second pass costs nothing readable. Over
+     10 songs a genre the difference between one pass and two sat inside the
+     measurement noise on seven of eight genres, and at +14% on the eighth.
+     The clean path was also the cheap one. */
+  const arcPlan = [];
+  for(let i = 0; i < sections.length; i++)
+    if(sections[i].drumArc && sections[i].active.includes("drums"))
+      arcPlan.push({ sec: i, mat: sections[i].material, arc: sections[i].drumArc });
+  const editPlan = chart.edits.map(e => ({
+    sec: e.sec, role: e.role, op: e.op, n: e.n,
+    mat: (sections[e.sec] && sections[e.sec].material) || null,
+  })).filter(e => e.mat);
+  if(editPlan.length || arcPlan.length){
+    materials = makeMaterials(chart, editPlan, arcPlan);
+    sections = makeArrangement(chart, form, materials);
   }
   const perf = makePerformance(chart, form, materials, sections);
 
