@@ -60,15 +60,18 @@ const say = k => WORDS[k] || k;
    takes it every time. That is not the fader being blind; there was never a
    second candidate. Reporting the two together says "lofi won 30 of 30" about
    a draw with one runner in it, which reads as bias and is not.
-   So: FORCED means one genre in this pair declares it, CONTESTED means both
-   do. The lottery is the contested half. The forced half still counts towards
-   what the record IS — it is just not something a draw could have changed. */
-const declares = {};
-for(const g of GS){
-  const T = M.composeSong(1, undefined, g).chart.table;
-  const get = p => { let v = T; for(const k of p.split(".")){ if(v == null || typeof v !== "object") return undefined; v = v[k]; } return v; };
-  declares[g] = new Set(M.blendElements().filter(e => e.paths.some(p => get(p) !== undefined)).map(e => e.key));
-}
+
+   ── AND THIS IS ASKED OF THE BLEND, NOT WORKED OUT FROM THE GENRE TABLES ────
+   It was worked out here at first: read both genres' tables, and call an
+   element contested if either genre declares any path under it. That agrees
+   with the program most of the time and it is not the same question, so it
+   disagreed on real pairs — the drum kit's owner is settled by whichever of
+   its dozen paths the walk reaches FIRST, so two genres can both "have a kit"
+   and the blend still have no choice to make about it. The counts came out
+   fractional, which is impossible, which is what gave it away.
+   `blendPlan` is the blend answering for itself. */
+const planOf = (A, B) => M.blendPlan({ [A]: 0.5, [B]: 0.5 })
+                          .filter(e => COUNTED.has(e.key));
 
 const pct = x => (x * 100).toFixed(0);
 const bar = x => "#".repeat(Math.round(x * 20)).padEnd(20, ".");
@@ -78,8 +81,11 @@ console.log(`${SONGS} songs a pair, fader at 50/50, over the ${COUNTED.size} ele
 
 const rows = [];
 for(const [A, B] of pairs){
-  const forced = [...COUNTED].filter(k => declares[A].has(k) !== declares[B].has(k));
-  const both   = [...COUNTED].filter(k => declares[A].has(k) && declares[B].has(k));
+  const plan   = planOf(A, B);
+  const cands  = {}; for(const e of plan) cands[e.key] = e.genres;
+  const forced = plan.filter(e => e.genres.length < 2).map(e => e.key);
+  const both   = plan.filter(e => e.genres.length > 1).map(e => e.key);
+  const only   = g => forced.filter(k => cands[k][0] === g);
   const shares = [], conShares = [], perElement = {};
   let threw = 0;
   for(let seed = 1; seed <= SONGS; seed++){
@@ -91,7 +97,7 @@ for(const [A, B] of pairs){
     let a = 0, ca = 0, cn = 0;
     for(const t of traits){
       if(t.genre === A) a++;
-      if(declares[A].has(t.key) && declares[B].has(t.key)){ cn++; if(t.genre === A) ca++; }
+      if(both.includes(t.key)){ cn++; if(t.genre === A) ca++; }
       (perElement[t.key] = perElement[t.key] || { [A]: 0, [B]: 0 })[t.genre]++;
     }
     shares.push(a / traits.length);
@@ -109,23 +115,34 @@ for(const [A, B] of pairs){
   const all = stat(shares), con = conShares.length ? stat(conShares) : null;
   rows.push({ A, B, all, con, n: shares.length, threw, perElement, forced, both });
   console.log(`${A} + ${B}   ${both.length} elements both declare, ${forced.length} only one of them does`);
+  /* THE HEADLINE. This is the fader's promise: what fraction of the record
+     each genre supplied, in the record you are about to play. */
   console.log(`  EVERY element   across songs ${pct(all.avg)}/${pct(1 - all.avg)} ${bar(all.avg)}` +
               `   one song ranged ${pct(all.lo)}/${pct(1 - all.lo)} .. ${pct(all.hi)}/${pct(1 - all.hi)}` +
               `, off half by up to ${pct(all.worst)}`);
-  if(con)
-    console.log(`  THE LOTTERY     across songs ${pct(con.avg)}/${pct(1 - con.avg)} ${bar(con.avg)}` +
-                `   one song ranged ${pct(con.lo)}/${pct(1 - con.lo)} .. ${pct(con.hi)}/${pct(1 - con.hi)}` +
-                `, off half by up to ${pct(con.worst)}`);
+  /* ── AND THIS ONE IS SUPPOSED TO BE OFF HALF ───────────────────────────────
+     The contested elements alone will NOT read 50/50 whenever the forced ones
+     are lopsided, and that is the mechanism working rather than failing. If
+     one genre is handed two sends nobody else declares, it is two ahead before
+     any choice is made, so the other genre has to win more of the choices to
+     finish level. Reading this line as the score is how the fix would get
+     "corrected" back into the bug. The number to expect is printed beside it. */
+  if(con){
+    /* half the elements each, minus what each was handed for free, over the
+       ones actually up for grabs */
+    const owed = (plan.length / 2 - only(A).length) / both.length;
+    console.log(`  the contested   across songs ${pct(con.avg)}/${pct(1 - con.avg)} ${bar(con.avg)}` +
+                `   should sit near ${pct(Math.min(1, Math.max(0, owed)))}, to pay back the forced ones`);
+  }
   if(threw) console.log(`  ${threw} of ${SONGS} threw`);
   if(forced.length)
-    console.log(`  always ${A}: ${forced.filter(k => declares[A].has(k)).map(say).join(", ") || "none"}` +
-                `  |  always ${B}: ${forced.filter(k => declares[B].has(k)).map(say).join(", ") || "none"}`);
+    console.log(`  always ${A}: ${only(A).map(say).join(", ") || "none"}` +
+                `  |  always ${B}: ${only(B).map(say).join(", ") || "none"}`);
   if(pairs.length <= 3){
-    const uneven = Object.entries(perElement).filter(([k]) => both.includes(k))
-      .map(([k, c]) => ({ k, a: c[A], b: c[B], skew: Math.abs(c[A] - c[B]) / (c[A] + c[B]) }))
-      .sort((x, y) => y.skew - x.skew).slice(0, 5);
-    console.log(`  the five most one-sided of the contested elements:`);
-    for(const u of uneven)
+    const rows2 = Object.entries(perElement).filter(([k]) => both.includes(k))
+      .map(([k, c]) => ({ k, a: c[A], b: c[B] })).sort((x, y) => y.a - x.a);
+    console.log(`  where each contested element came from, over the ${shares.length} songs:`);
+    for(const u of rows2)
       console.log(`    ${say(u.k).padEnd(34)} ${A} ${String(u.a).padStart(3)}  ${B} ${String(u.b).padStart(3)}`);
   }
   console.log("");
@@ -139,7 +156,8 @@ if(rows.length > 1){
   console.log(`─────────────────────────────────────────────────────────────`);
   console.log(`${rows.length} pairs.  Worst single record anywhere: ` +
               `${byWorst.A} + ${byWorst.B} at ${pct(byWorst.all.lo)}/${pct(1 - byWorst.all.lo)}.`);
-  console.log(`Each pair's worst record is off half by ${pct(avgAll)} points counting every element,` +
-              ` ${pct(avgCon)} counting only the lottery.`);
-  console.log(`A fader that meant what it says would put both of those near 0.\n`);
+  console.log(`Each pair's worst record is off half by ${pct(avgAll)} points.`);
+  console.log(`A fader that means what it says puts that at 0, or at the one point an odd`);
+  console.log(`number of elements forces. (${pct(avgCon)} over the contested ones alone is not a`);
+  console.log(`fault -- see the note beside that line.)\n`);
 }

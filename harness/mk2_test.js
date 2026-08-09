@@ -256,6 +256,138 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   }
   check("a blend of one genre IS that genre", same === gs.length * 5,
         same + "/" + (gs.length * 5) + " identical");
+
+  /* ═════════════════════════════════════════════════════════════════════════
+     THE FADER MEANS WHAT IT SAYS, IN EVERY SONG AND NOT ONLY ON AVERAGE
+
+     The owner: the faders are "quite blind and limited". They were: a 50/50
+     pair averaged near half across thirty songs and any ONE record ran from
+     8/92 to 92/8, because every element tossed its own coin. The elements are
+     dealt now instead of drawn.
+
+     WHAT THIS ASSERTS, and why it is not "within a tolerance": a hand of N
+     elements split two ways lands exactly on N/2 when N is even and one either
+     side when it is odd. So the allowance is ONE ELEMENT, which is arithmetic
+     rather than a threshold somebody chose — and a threshold nobody chose is a
+     threshold nobody can quietly widen later.
+     ═════════════════════════════════════════════════════════════════════════ */
+  {
+    const bad = [];
+    let worstOff = 0, songs = 0;
+    for(let i = 0; i < gs.length; i++) for(let j = i + 1; j < gs.length; j++){
+      const A = gs[i], B = gs[j];
+      const n = M.blendPlan({ [A]: 0.5, [B]: 0.5 }).length;
+      for(let seed = 1; seed <= 6; seed++){
+        let T;
+        try { T = M.composeSong(seed, undefined, { [A]: 0.5, [B]: 0.5 }).chart.table; }
+        catch(e){ continue; }
+        songs++;
+        const won = T.blendTraits.filter(t => t.genre === A).length;
+        const off = Math.abs(won - T.blendTraits.length / 2);
+        if(off > worstOff) worstOff = off;
+        if(off > 0.5) bad.push(`${A}+${B} seed ${seed}: ${won}/${T.blendTraits.length - won} of ${n}`);
+      }
+    }
+    check("a 50/50 fader gives each genre half of EVERY record, not half on average",
+          bad.length === 0,
+          bad.length ? bad.slice(0, 6).join(" · ") + (bad.length > 6 ? ` (+${bad.length - 6})` : "")
+                     : `${songs} songs over ${gs.length * (gs.length - 1) / 2} pairs, worst off by ` +
+                       `${worstOff} of an element (one is the most an odd count allows)`);
+  }
+
+  /* AND A LOPSIDED FADER IS LOPSIDED BY THE AMOUNT IT SAYS. Half is the easy
+     case: it is the one split that a coin gets right on average anyway. 75/25
+     is where a quota and a lottery visibly part company. */
+  {
+    const bad = [];
+    for(let i = 0; i < gs.length; i++) for(let j = i + 1; j < gs.length; j++){
+      const A = gs[i], B = gs[j];
+      for(const w of [0.25, 0.75]) for(let seed = 1; seed <= 3; seed++){
+        let T;
+        try { T = M.composeSong(seed, undefined, { [A]: w, [B]: 1 - w }).chart.table; }
+        catch(e){ continue; }
+        const n = T.blendTraits.length, won = T.blendTraits.filter(t => t.genre === A).length;
+        /* the nearest whole number of elements to the share asked for, give or
+           take one — the same arithmetic allowance as above */
+        if(Math.abs(won - w * n) > 1.0001) bad.push(`${A}+${B} @${w} seed ${seed}: ${won}/${n}, asked ${(w * n).toFixed(1)}`);
+      }
+    }
+    check("...and a 75/25 fader gives three quarters of every record",
+          bad.length === 0,
+          bad.length ? bad.slice(0, 6).join(" · ") + (bad.length > 6 ? ` (+${bad.length - 6})` : "")
+                     : "every pair at 25% and at 75%, within the one element the arithmetic allows");
+  }
+
+  /* THE REROLL IS A DIFFERENT HAND OF THE SAME SIZE — same song, same fader,
+     the shares kept and the halves swapped around. If it changed the shares it
+     would be a second seed; if it changed nothing it would be a dead button.
+
+     ── THIS FIRST DEMANDED THE SPLIT BE IDENTICAL, AND WENT RED: 54 of 84 ─────
+     The check was wrong, not the allocator. Thirteen elements do not divide in
+     two, so one roll gives 7/6 and another 6/7, and WHICH side holds the spare
+     is part of the hand. Demanding it never move would have been demanding the
+     reroll not reroll — and the fix would have been to make the deal ignore its
+     own nonce, which is the button dying to satisfy its test.
+     So the allowance here is the same ONE ELEMENT the two checks above use, for
+     the same arithmetic reason, rather than a number picked to go green. */
+  {
+    let moved = 0, kept = 0, tried = 0;
+    for(let i = 0; i < gs.length; i++) for(let j = i + 1; j < gs.length; j++){
+      const A = gs[i], B = gs[j], mix = { [A]: 0.5, [B]: 0.5 };
+      for(let seed = 1; seed <= 3; seed++){
+        let a, b;
+        try {
+          a = M.composeSong(seed, undefined, mix, null, null, null, 0).chart.table;
+          b = M.composeSong(seed, undefined, mix, null, null, null, 1).chart.table;
+        } catch(e){ continue; }
+        tried++;
+        const sig = T => T.blendTraits.map(t => t.key + "=" + t.genre).join(",");
+        const cnt = T => T.blendTraits.filter(t => t.genre === A).length;
+        if(sig(a) !== sig(b)) moved++;
+        if(Math.abs(cnt(a) - cnt(b)) <= 1) kept++;
+      }
+    }
+    check("rerolling the hand keeps each genre's share and changes which half it is",
+          tried > 0 && kept === tried && moved >= tried * 0.8,
+          `${moved}/${tried} came out a different record, ${kept}/${tried} held their share ` +
+          `(to within the one element an odd hand cannot split)`);
+  }
+
+  /* EVERY DEALT ELEMENT IS ONE THE FINISHED RECORD ACTUALLY USES. `label` is
+     the case this exists for: it is a drawn field, and the blend writes its own
+     name over the top, so dealing it spends a genre's share on a value thrown
+     away a moment later. It did, and it put a seventh element on one side of a
+     twelve-element hand in fourteen songs of thirty. */
+  /* ── AND EVERY ELEMENT THAT CAN BE DEALT NEEDS WORDS, NOT JUST A NAME SLOT ─
+     The check above this block accepts `null` — "deliberately not shown" — and
+     that was right while nothing printed the list. The blend panel now prints
+     what each genre supplied, by element, so a null falls through to the KEY,
+     and the key is `space.dp4Feeds`. That is the erangDrum failure exactly:
+     a derived set reaching a front panel wearing variable names.
+     `label` is the one element allowed to stay null, because it is not dealt.
+     Four send lists were null when this was written and are named now — their
+     old note claimed all five were one decision, which the blend has never
+     agreed with. */
+  {
+    const dealt = new Set();
+    for(let i = 0; i < gs.length; i++) for(let j = i + 1; j < gs.length; j++)
+      for(const e of M.blendPlan({ [gs[i]]: 0.5, [gs[j]]: 0.5 })) dealt.add(e.key);
+    const words = {}; for(const e of M.blendElements()) words[e.key] = e.name;
+    const mute = [...dealt].filter(k => typeof words[k] !== "string");
+    check("every element that can reach the panel says what it is in English",
+          mute.length === 0,
+          mute.length ? "no words for: " + mute.join(", ")
+                      : `${dealt.size} elements can be dealt, all named`);
+  }
+
+  {
+    const dealt = M.blendPlan({ lofi: 0.5, jungle: 0.5 }).map(e => e.key);
+    const heard = M.composeSong(1, undefined, { lofi: 0.5, jungle: 0.5 }).chart.table.blendTraits.map(t => t.key);
+    check("the hand holds no element the record throws away",
+          !dealt.includes("label") && !heard.includes("label") &&
+          dealt.slice().sort().join() === heard.slice().sort().join(),
+          `${dealt.length} dealt, ${heard.length} recorded, the genre's own name in neither`);
+  }
 }
 
 /* VARY(A) MUST VARY SOMETHING THE GENRE ACTUALLY PLAYS. Avar is the material

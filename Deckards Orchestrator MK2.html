@@ -127,6 +127,15 @@
            color:var(--dim); cursor:pointer; line-height:1.1; }
   .bl .lk.on{ color:var(--hot); border-color:var(--hot); }
   .bl.zero label, .bl.zero output{ opacity:.4; }
+  /* what the record actually came out as, under the sliders that asked for it */
+  .blmade{ margin-top:.6rem; padding-top:.5rem; border-top:1px solid #33302a; }
+  .blmade h2{ margin-bottom:.35rem; }
+  .blmade h2 .lk{ float:right; font-size:9.5px; letter-spacing:.06em; padding:.05rem .35rem;
+                  border:1px solid #33302a; background:none; color:var(--dim); cursor:pointer;
+                  text-transform:none; }
+  .blmade h2 .lk:hover{ color:var(--hot); border-color:var(--hot); }
+  .blmade .bl{ grid-template-columns:8.5rem 1fr; align-items:baseline; }
+  .blmade .bl span{ color:var(--ink); font-size:11px; line-height:1.35; }
   .machine{ border-radius:5px; padding:.85rem 1rem 1rem; position:relative;
             box-shadow:0 10px 26px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14); }
   .machine .brand{ display:flex; align-items:baseline; gap:.6rem; margin-bottom:.7rem; }
@@ -1397,7 +1406,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-09b · the drums change from section to section, and the last one changes most</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-09c · the genre sliders mean what they say in every song, not just on average</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20152,6 +20161,21 @@ const BLEND_GROUP = {
      other bands it was tuned against, and an ostinato only means something next
      to the band it was given. */
   "registers": "ost", "ostinato": "ost",
+  /* ── THE SECOND VOICE AND THE STEPS IT MOVES BY ARE ONE DECISION ───────────
+     `counter.intervals` is the set of scale steps the second voice is allowed
+     to sit at, and `counter.style` is what reads them. Split between two
+     genres, the style runs on another instrument's numbers -- which is the
+     whole reason this block exists.
+     It was NOT grouped, and BLEND_NAME said it was: the words beside
+     `counter.intervals` read "travels with the second voice above" while the
+     code drew it on its own. MEASURED across the four genres that have a
+     second voice, 120 songs: the style and its steps came from DIFFERENT
+     genres in 73 of them. The words were not a description, they were a wish.
+     Third time this exact shape has been found -- the ostinato and its
+     registers, the two tom paths, now this. Found the same way the tom paths
+     were: by a new tool printing what the blend actually decides, next to what
+     a document claimed it decided. */
+  "counter.style": "counter", "counter.intervals": "counter",
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -20183,9 +20207,10 @@ const BLEND_NAME = {
   form:  "how the song is built",
   kit:   "the drum kit",
   ost:   "the repeating figure",
+  /* the second voice and the steps it is allowed to move by, one decision --
+     it says so here and now the blend agrees, which it did not before */
+  counter: "the second voice",
   /* the lone paths */
-  "counter.style":     "the second voice",
-  "counter.intervals": null,           // travels with the second voice above
   "groove.swingUnit":  "the swing",
   "sevenths":          "how rich the chords are",
   "theme.count":       "how many notes the tune has",
@@ -20193,11 +20218,21 @@ const BLEND_NAME = {
   /* the words the owner has already read for this one, in test/ears/LOG.md:
      "the kick pushing everything aside" */
   "space.duck":        "the kick pushing everything aside",
-  "space.feeds":       "where the parts are sent",
-  "space.echoFeeds":   null,           // all five send lists are one decision
-  "space.flangeFeeds": null,
-  "space.dp4Feeds":    null,
-  "space.barberFeeds": null,
+  /* ── FIVE SEND LISTS, AND THEY ARE FIVE DECISIONS ─────────────────────────
+     These four used to be null with the note "all five send lists are one
+     decision". They are not, and never were: none of them is in BLEND_GROUP,
+     so the blend draws each one separately, and a song can take its reverb
+     sends from one genre and its flanger sends from another. That is fine --
+     unlike the second voice and its steps, no one of these reads another's
+     numbers -- so the CODE was right and the WORDS were wrong.
+     Corrected rather than grouped, and named rather than hidden: they are five
+     things a listener could reasonably want from one genre and not the other.
+     Found the day the blend was first asked to print what it decides. */
+  "space.feeds":       "which parts go to the big room",
+  "space.echoFeeds":   "which parts go to the echo",
+  "space.flangeFeeds": "which parts go to the swirl",
+  "space.dp4Feeds":    "which parts go to the effects box",
+  "space.barberFeeds": "which parts go to the endless rise",
   "label":             null,           // the genre's name, not a musical choice
 };
 
@@ -20262,8 +20297,36 @@ function blendField(vals, ws, path, owner, src){
          MEANS. */
       return k >= 0 ? vals[k] : undefined;
     }
-    let x = owner.rng() * ws.reduce((a, b) => a + b, 0), k = 0;
-    for(let i = 0; i < vals.length; i++){ x -= ws[i]; if(x <= 0){ k = i; break; } k = i; }
+    /* ── THE ELEMENT: the group where there is one, the path where there is not.
+       This is the unit the blend hands to a single genre, so it is the unit the
+       hand is dealt in and the unit `blendElements()` shows the listener. One
+       name for it, used by all three. */
+    const el = grp != null ? grp : path;
+    /* ── THE GENRE'S OWN NAME IS NOT DEALT, BECAUSE NOTHING READS IT ──────────
+       `label` is a drawn field like any other and then blendGenres writes its
+       own over the top -- "Lofi 50% + Jungle 50%". So dealing it hands somebody
+       a point of their share for a value that is discarded a moment later.
+       MEASURED before this line existed: lofi+jungle deals thirteen elements
+       counting the label, and the twelve a listener can actually hear came out
+       7/5 or 5/7 in fourteen songs of thirty, purely from who got the label.
+       A quota is only honest if everything in it is something. */
+    if(path === "label") return vals[0];
+    /* ── THE FIND PASS: say what has to be decided and who is in the running ──
+       `src` is this element's candidate list already -- the genres that declare
+       it, and no others. An element only one genre declares arrives here with
+       one candidate and is dealt to it, which is the honest version of what the
+       old draw did with a one-runner race: the same answer, now counted. */
+    if(owner.find){
+      owner.find.push({ key: el, cands: src ? src.slice() : vals.map((_, i) => i) });
+      if(grp != null) owner.group[grp] = src ? src[0] : 0;
+      return vals[0];
+    }
+    /* ── THE BUILD PASS: the hand was dealt before the walk started ───────────
+       No coin is tossed here any more. The old line drew this element's owner
+       on the "blend" stream, independently of every other element, and that
+       independence IS the 8/92 record. */
+    let k = src ? src.indexOf(owner.deal[el]) : owner.deal[el];
+    if(!(k >= 0)) k = 0;
     if(grp != null) owner.group[grp] = src ? src[k] : k;
     /* ── WRITE DOWN WHO WON, so the split can be counted instead of guessed ───
        The complaint this serves is "the faders are quite blind". Nobody could
@@ -20274,7 +20337,7 @@ function blendField(vals, ws, path, owner, src){
        unit `blendElements()` hands the listener.
        This writes down a choice that has already been made. It draws nothing
        and it changes nothing. */
-    owner.won[grp != null ? grp : path] = src ? src[k] : k;
+    owner.won[el] = src ? src[k] : k;
     return vals[k];
   }
   if(typeof first === "number"){
@@ -20341,14 +20404,91 @@ function normaliseBlend(blend){
   return { names, ws: ws.map(w => w / tot) };
 }
 
-/* the blended table, built once per song and frozen like any other stage-1 input */
-function blendGenres(blend, seed){
-  const B = normaliseBlend(blend);
-  if(!B) return null;
-  if(B.names.length === 1) return GENRE[B.names[0]];
-  const owner = { rng: stream(seed, "blend"), group: {}, won: {} };
-  const out = {}, keys = new Set();
+/* ═══════════════════════════════════════════════════════════════════════════
+   DEAL THE ELEMENTS INSTEAD OF DRAWING THEM ONE AT A TIME
+
+   The owner: the faders are "quite blind and limited". Measured, 28 pairs x 30
+   songs at 50/50: the average across songs was near half for most pairs and
+   ANY SINGLE RECORD ran from 8/92 to 92/8. Each pair's worst record was off
+   half by 31 points. A control that is honest over thirty songs and a lottery
+   inside one is describing a distribution to somebody who hears one draw.
+
+   The old rule was: every element tosses its own coin. Thirty independent
+   tosses average out and no single song has to. So the coins are replaced by
+   DEALING A HAND: the elements go into a random order, and each one goes to
+   whichever genre is furthest behind the share its fader asks for.
+
+   WHERE THE VARIETY COMES FROM, because a fair split could easily mean every
+   50/50 record takes the same things from the same genres, and the owner has
+   already said "we can't always have no changes". It is the ORDER. The order
+   is shuffled per song; the quota only decides how MANY each genre gets, never
+   WHICH. Two 50/50 songs both come out half and half and are made of different
+   halves.
+
+   FORCED ELEMENTS COUNT AGAINST THE QUOTA, and this is the part that answers
+   "negating". Only lofi declares a duck, so any lofi blend hands lofi the duck
+   with no draw involved. That used to be a free point. Now it is a point off
+   lofi's allowance, so the other genre is owed one of the contested elements
+   in exchange. A genre that loses a whole domain to one switch is guaranteed
+   something audible elsewhere, which is the second of the two changes the
+   research sheet asked for.
+
+   `roll` is a NONCE, not a seed: same song, same fader, a different hand of
+   the same size. It names its own substream so it cannot move anything else.
+   ═══════════════════════════════════════════════════════════════════════════ */
+function dealElements(found, ws, rng){
+  /* ── THE ONES NOBODY CHOSE GO ON THE TABLE FIRST ───────────────────────────
+     An element only one genre declares is not a decision, it is a fact, and it
+     has to be counted before the real dealing starts or there is nothing left
+     to balance it with. MEASURED, with these dealt in shuffled order like the
+     rest: lofi+jungle came out 42/58 on twelve elements -- jungle's two
+     one-runner sends landed last, when the nine real choices had already been
+     split evenly, and both went on top. Five-seven instead of six-six, from a
+     rule that had already spent its room. Facts first, then the hand. */
+  const order = found.map((_, i) => i).filter(i => found[i].cands.length < 2);
+  const rest  = found.map((_, i) => i).filter(i => found[i].cands.length > 1);
+  for(let i = rest.length - 1; i > 0; i--){
+    const j = Math.floor(rng() * (i + 1));
+    const t = rest[i]; rest[i] = rest[j]; rest[j] = t;
+  }
+  order.push(...rest);
+  const paid = ws.map(() => 0), out = {};
+  let n = 0;
+  for(const i of order){
+    const f = found[i];
+    n++;
+    /* FURTHEST BEHIND WINS. `ws[c] * n` is the share this genre should hold by
+       now; `paid[c]` is what it holds. Ties -- which is every other element of
+       a two-genre 50/50 -- break at random, by reservoir, so a tie among three
+       is a fair third each and not always the first one listed. */
+    let best = f.cands[0], bestDebt = -Infinity, ties = 0;
+    for(const c of f.cands){
+      const debt = ws[c] * n - paid[c];
+      if(debt > bestDebt + 1e-9){ bestDebt = debt; best = c; ties = 1; }
+      else if(debt >= bestDebt - 1e-9){ ties++; if(rng() * ties < 1) best = c; }
+    }
+    out[f.key] = best;
+    paid[best]++;
+  }
+  return out;
+}
+
+/* ── THE SAME WALK, RUN TWICE, RATHER THAN A SECOND COPY OF IT ───────────────
+   Dealing a hand means knowing what is in it, and which elements a blend has to
+   decide -- and which genres are even in the running for each -- is only
+   discovered by walking the tables. Writing that list out by hand would be the
+   mistake this file makes over and over: a copy that agrees with the original
+   until the day somebody adds a path.
+   So the walk is one function, run once to FIND and once to BUILD. It is safe
+   to run twice because which paths get visited depends on which genres DECLARE
+   what, and never on who won: a drawn path returns without recursing, and an
+   object recurses over the keys of every value present regardless of the choice
+   made. The find pass therefore sees exactly the elements the build pass will
+   decide, in the same order. */
+function blendWalk(B, owner){
+  const keys = new Set();
   for(const n of B.names) for(const k in GENRE[n]) keys.add(k);
+  const o = {};
   for(const k of keys){
     /* `src` remembers which genre each surviving value came from, because this
        list is filtered and a group owner has to be a GENRE rather than a
@@ -20358,8 +20498,45 @@ function blendGenres(blend, seed){
       const v = GENRE[B.names[i]][k];
       if(v !== undefined){ vals.push(v); ws.push(B.ws[i]); src.push(i); }
     }
-    out[k] = blendField(vals, ws, k, owner, src);
+    o[k] = blendField(vals, ws, k, owner, src);
   }
+  return o;
+}
+
+/* ── WHAT IS ACTUALLY UP FOR GRABS IN THIS BLEND ─────────────────────────────
+   The find pass on its own: every element this combination of genres has to
+   decide, in the order it decides them, each with the genres in the running for
+   it. Drawing nothing -- the `rng` is a stub, so the "blend" stream is untouched
+   until the real pass.
+
+   Exported because it answers a question nothing could answer before, and the
+   first time it was asked it corrected a wrong reading of the program. It is
+   also the honest way to ask "which genre could this element come from",
+   instead of reading the genre tables and assuming the blend agrees. */
+function blendPlan(blend){
+  const B = blend && blend.names ? blend : normaliseBlend(blend);
+  if(!B) return [];
+  const find = [];
+  blendWalk(B, { rng: () => 0, group: {}, won: {}, find });
+  return find.map(f => ({ key: f.key, genres: f.cands.map(i => B.names[i]) }));
+}
+
+/* the blended table, built once per song and frozen like any other stage-1 input */
+function blendGenres(blend, seed, roll){
+  const B = normaliseBlend(blend);
+  if(!B) return null;
+  /* ── A BLEND OF ONE NEVER REACHES THE ALLOCATOR ────────────────────────────
+     This return is the gate on the whole change. One genre is its own table,
+     handed back untouched, drawing nothing on any stream -- so moving a slider
+     to 100% still gives back exactly the song the dropdown gave, and the
+     300-seed-per-genre snapshot cannot move by a byte. If it ever does, the
+     allocator is wrong; the baseline is not the thing to rewrite. */
+  if(B.names.length === 1) return GENRE[B.names[0]];
+  const found = [];
+  blendWalk(B, { rng: () => 0, group: {}, won: {}, find: found });
+  const owner = { rng: stream(seed, "blend"), group: {}, won: {},
+                  deal: dealElements(found, B.ws, stream(seed, "trait" + (roll || 0))) };
+  const out = blendWalk(B, owner);
   out.label = B.names.map((n, i) => GENRE[n].label + " " + Math.round(B.ws[i] * 100) + "%").join(" + ");
   out.blendOf = B.names.map((n, i) => [n, B.ws[i]]);
   /* ── WHICH GENRE THIS SONG TOOK EACH ELEMENT FROM ──────────────────────────
@@ -20380,7 +20557,7 @@ function blendGenres(blend, seed){
   return out;
 }
 
-function makeChart(seed, rigChoice, genreChoice, picks, pins, edits){
+function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll){
   /* ── THE ARGUMENT ORDER IS (seed, RIG, GENRE) AND ONE NAME IS BOTH ─────────
      `composeSong(1, "jungle")` reads as "compose jungle" and composes LOFI on
      the jungle rig, silently, because "jungle" is a genre AND a rig and the
@@ -20414,7 +20591,14 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins, edits){
      no stage learns a genre name, it reads a table, and whether that table was
      written by hand or blended from four is stage 1's business alone. */
   const asBlend = (genreChoice && typeof genreChoice === "object") ? genreChoice : null;
-  const blended = asBlend ? blendGenres(asBlend, seed) : null;
+  /* ── THE HAND CAN BE DEALT AGAIN WITHOUT CHANGING THE SONG ────────────────
+     `traitRoll` is an input to stage 1 exactly like the seed, the rig and the
+     picks -- never a patch applied afterwards. Bumping it deals the same-sized
+     hand differently: same seed, same fader, same share to each genre, a
+     different half from each. It is a NONCE and not a second seed: it names its
+     own substream, so a blend nobody rerolls is the blend roll 0 gives, and no
+     other draw in the program can feel it. */
+  const blended = asBlend ? blendGenres(asBlend, seed, traitRoll) : null;
   /* A BLEND OF ONE IS THAT GENRE, byte for byte -- blendGenres returns the
      plain table for a single name and never touches the blend substream, so
      moving a slider to 100% gives back exactly the song the dropdown gave. That
@@ -20467,6 +20651,9 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins, edits){
     })()),
     /* the resolved table: what every stage below actually reads. */
     table: G,
+    /* which deal of the elements this song is, frozen beside the seed that
+       chose everything else -- 0 unless a hand asked for another one */
+    traitRoll: traitRoll || 0,
     /* the blend that produced it, or null -- carried so the UI and the harness
        can say what a song IS without re-deriving it. */
     blend: (blended && blended.blendOf)
@@ -26367,8 +26554,8 @@ function makePerformance(chart, form, materials, sections){
    THE PIPELINE — and the invariant checks at each seam. Checks THROW: a law
    violation is a build failure, not a thing to correct downstream.
    ═══════════════════════════════════════════════════════════════════════════ */
-function composeSong(seed, rig, genre, picks, pins, edits){
-  const chart = makeChart(seed, rig, genre, picks, pins, edits);
+function composeSong(seed, rig, genre, picks, pins, edits, traitRoll){
+  const chart = makeChart(seed, rig, genre, picks, pins, edits, traitRoll);
   const form = makeForm(chart);
   /* ══ AN EDITED SONG IS COMPOSED TWICE, AND THAT IS NOT A CORRECTING PASS ═══
      The hand points at a SECTION ("this bass, here"), and which material a
@@ -26961,6 +27148,11 @@ function describeStory(song){
    ═══════════════════════════════════════════════════════════════════════════ */
 const BLEND = {};                 // genre -> weight, always summing to 1
 const BLEND_LOCK = new Set();
+/* WHICH DEAL OF THE ELEMENTS THE HAND HAS ASKED FOR. An input to stage 1 like
+   the seed and the picks, never a patch on the song already playing: bumping it
+   and recomposing is the whole mechanism. 0 until somebody presses the button,
+   so a program nobody touches composes exactly what it always did. */
+let TRAIT_ROLL = 0;
 
 function setBlend(name, v){
   const names = Object.keys(BLEND);
@@ -27032,6 +27224,36 @@ function drawBlend(){
     row.appendChild(sl); row.appendChild(out);
     host.appendChild(row);
   }
+  /* ── WHAT THIS PARTICULAR RECORD TOOK FROM EACH GENRE, AND A WAY TO REDEAL ──
+     The owner's complaint about the faders was that they are "quite blind":
+     you set a number and the record you get is not that number and there is
+     nothing on screen that says so. The sliders say what you ASKED FOR; this
+     says what you GOT, and now the two agree.
+     Only shown when more than one genre is up, because one genre supplies all
+     of it and a panel saying "lofi 100%" under a slider reading 100% is noise.
+     The words come from the program (`blendTraits` carries them), so an
+     element added later appears here without anyone remembering to come back. */
+  const traits = SONG && SONG.chart.table && SONG.chart.table.blendTraits;
+  if(traits && traits.length){
+    const made = el("div", "blmade");
+    const h2 = el("h2", null, "what this record is made of");
+    const again = el("button", "lk", "deal again");
+    again.title = "same song, same sliders — a different half from each genre";
+    again.addEventListener("click", () => { TRAIT_ROLL++; newSong(SONG ? SONG.chart.seed : 1); drawBlend(); });
+    h2.appendChild(again);
+    made.appendChild(h2);
+    const by = {};
+    for(const t of traits) (by[t.genre] = by[t.genre] || []).push(t.name || t.key);
+    for(const g of Object.keys(BLEND)){
+      if(!by[g]) continue;
+      const share = Math.round(by[g].length / traits.length * 100);
+      const r = el("div", "bl");
+      r.appendChild(el("label", null, GENRE[g].label));
+      r.appendChild(el("span", null, share + "% — " + by[g].sort().join(", ")));
+      made.appendChild(r);
+    }
+    host.appendChild(made);
+  }
 }
 
 function newSong(forcedSeed){
@@ -27047,11 +27269,11 @@ function newSong(forcedSeed){
   let dropped = 0, blendNote = "";
   const G0 = blendArg();
   try {
-    SONG = composeSong(seed, $("rig").value, G0, PICK, PINS, EDITS);
+    SONG = composeSong(seed, $("rig").value, G0, PICK, PINS, EDITS, TRAIT_ROLL);
   } catch(err){
     for(const k in PINS) if(k.startsWith("bass:")){ delete PINS[k]; dropped++; }
     if(dropped){
-      SONG = composeSong(seed, $("rig").value, G0, PICK, PINS, EDITS);
+      SONG = composeSong(seed, $("rig").value, G0, PICK, PINS, EDITS, TRAIT_ROLL);
     } else if(typeof G0 === "object"){
       /* A BLEND CAN FAIL TO COMPOSE, and the seam check is right to say so
          rather than be loosened. Measured across 1890 blended pairs: 1 threw a
@@ -30639,6 +30861,13 @@ window.MK2 = {
      The pair — derived set, hand-written words — is what stops the names going
      stale the next time a path is added. */
   blendElements,
+  /* WHICH ELEMENTS A PARTICULAR BLEND HAS TO DECIDE, AND WHO IS IN THE RUNNING
+     FOR EACH. `blendElements()` says what a genre is made of in general; this
+     says what THESE genres are actually arguing over, which is a different
+     question and the one the fader's honesty depends on. Ask it rather than
+     reading the genre tables: the tables say both genres have a drum kit, and
+     the blend may still have no choice to make about it. */
+  blendPlan,
   toMidi,
   /* measurement handles: the chip's tuning grid and its patch table, so a probe
      can sweep TL/feedback and PROVE the FM depth behaves the way the arithmetic

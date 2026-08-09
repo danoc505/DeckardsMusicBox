@@ -139,6 +139,51 @@ const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")
         dead.length ? dead.map(r=>`${r.g}: ${r.err||"0 events"}`).join(" | ")
                     : reach.map(r=>`${r.g} ${r.ev}`).join(" · "));
 
+  /* ── THE PANEL SAYS WHAT THE RECORD CAME OUT AS, AND THE BUTTON REDEALS IT ──
+     Driven through the real element with a real click, because this file's own
+     history says a probe that calls the function behind a control passes while
+     every control on the glass is dead: probe_mixer scored 4 of 4 with every
+     fader inert. So: read the panel's text, press the button the way a hand
+     does, read it again. */
+  await pg.evaluate(([X,Y])=>{ __solo(X); __set(Y,0.5); },[X,Y]);
+  await pg.evaluate(()=>{ newSong(1); drawBlend(); });
+  const madeText = () => pg.evaluate(()=>{
+    const m = document.querySelector("#blend .blmade");
+    return m ? m.innerText.replace(/\s+/g," ").trim() : "";
+  });
+  const before = await madeText();
+  check("the blend panel says what this record was actually made of",
+        /%/.test(before) && before.length > 40, before.slice(0,120));
+  /* and it must not put a variable name on the glass -- the erangDrum rule */
+  const keys = await pg.evaluate(()=>{
+    const t = (SONG.chart.table.blendTraits||[]);
+    return t.filter(x=>typeof x.name !== "string").map(x=>x.key);
+  });
+  check("...in words, with no variable name among them", keys.length===0, keys.join(", ") || "every element named");
+
+  const btn = await pg.$("#blend .blmade .lk");
+  check("the panel has a 'deal again' button", !!btn, btn ? "found" : "MISSING");
+  if(btn){
+    const seedBefore = await pg.evaluate(()=>SONG.chart.seed);
+    await btn.click();
+    const after = await madeText();
+    const seedAfter = await pg.evaluate(()=>SONG.chart.seed);
+    const rollAfter = await pg.evaluate(()=>SONG.chart.traitRoll);
+    /* THE SHARE IS KEPT AND THE HALVES MOVE. A button that changed the share
+       would be a second seed field; one that changed nothing would be dead. */
+    const share = await pg.evaluate(()=>{
+      const t = SONG.chart.table.blendTraits, by = {};
+      for(const x of t) by[x.genre] = (by[x.genre]||0)+1;
+      return Object.values(by).sort((a,b)=>b-a);
+    });
+    check("...and pressing it deals the same song a different hand",
+          after !== before && seedAfter === seedBefore && rollAfter === 1,
+          `seed ${seedBefore}->${seedAfter}, deal ${rollAfter}, split ${share.join("/")}`);
+    check("...without moving what the sliders asked for",
+          Math.abs(share[0] - share[share.length-1]) <= 1,
+          `split ${share.join("/")} on a 50/50 fader`);
+  }
+
   check("no uncaught page errors", errs.length===0, errs.join(" | "));
   console.log(`\n${pass} passed, ${fail} failed`);
   await b.close();
