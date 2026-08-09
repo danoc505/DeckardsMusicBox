@@ -570,6 +570,34 @@ diatonic.**
 > **What would close it:** the owner's ear, or a source. It is one weighted line
 > per genre to put back.
 >
+> ### G. THE PROGRAM HAS NO WAY TO BREAK ITS OWN RULES — opened 2026-08-09
+>
+> The owner: *"Art breaks rules thats how new things are made… otherwise no new
+> genre would ever be invented."* Measured: acid house is **0.0% in every column**
+> of `probe_theory` — not one note outside the key, not one dissonance left
+> hanging, in twenty songs. Synthwave and jungle never leave the key either. One
+> genre of eight can reach a chromatic chord; one can reach a chromatic bass;
+> `coltraneCycle` is written, correct and **unreachable by any genre**.
+>
+> **And the structural finding: there is no mechanism anywhere that breaks a law
+> on purpose.** Every out-of-key note is one the rulebook already permits. Two
+> research sheets exist on the subject and both make the rulebook BIGGER, not
+> breakable. The program has hard laws and soft laws and no third thing.
+>
+> Researched, with every page fetched, in
+> `docs/genre-research/breaking-the-rule.md`. The four design questions were put
+> to the owner and they answered all four with "Research" — so that sheet decides
+> them rather than handing them back. In short: a break lands **after the rule
+> has been taught** (expectations are learned by repetition, so a violation the
+> listener cannot measure is not a violation); it **stays broken and the record
+> adopts it, once** (both the TB-303 and jungle's timestretch are a documented
+> FAULT kept and repeated until it was the genre); the laws it may break are **the
+> genre's own habits first**, the key second, dissonance third, and **the rule of
+> three not at all** — that is the law that teaches the expectation everything
+> else depends on. **What would close it:** the owner's answer to the one question
+> the research could not settle (see the sheet §5), then a mechanism where the law
+> becomes a cost paid on purpose — which principle 2 already requires.
+>
 > **A4. A DRUM MACHINE LOADED INTO BLADE RUNNER MAY PLAY SILENCE — NOT
 > MEASURED, FLAGGED.** Blade Runner composes 7.9 drum notes a song into its
 > material and emits **0.0 drum events**, because `drums` is active in **0 of 594
