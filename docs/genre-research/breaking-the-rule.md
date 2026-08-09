@@ -344,3 +344,102 @@ by what already exists:
 
 **Nothing here has been built.** This section is a finding and a ranking, not a
 claim about the program's behaviour.
+
+---
+
+# §7 THE FADERS — measured, 2026-08-09
+
+The owner:
+
+> *"I think the genre faders are our chief rule breaking tool. But they are quite
+> blind and limited. It seems to bake in certain aspect negating others."*
+
+Both halves are true and both are now measured.
+
+## First, a probe that lied, recorded because it nearly became a finding
+
+The first version of this measurement passed the blend as an array of pairs —
+`[["lofi",0.5],["jungle",0.5]]`. `makeChart` tests `typeof genreChoice ===
+"object"`, and an array passes that test, so nothing threw: the keys were `"0"`
+and `"1"`, no genre matched, and it **silently fell back to lofi**. The table it
+produced compared lofi against itself and reported "lofi + jungle → 100% lofi,
+identical on every seed", which reads like a spectacular finding and was an
+artefact of the ruler. Caught only because the numbers were identical for every
+seed, which no real draw would be. **The blend is a MAP, `{lofi: 0.5, jungle:
+0.5}`.** This is the third probe in one day to measure a different program than
+the one that plays.
+
+## "Blind": the average is honest, and any single song is a lottery
+
+A 50/50 fader, 30 seeds a pair, counting the resolved table's fields against each
+parent's — only fields where the two parents actually differ:
+
+```
+  pair                     fields that   to the    to the    most and least
+                           differ        first     second    even song
+  lofi + jungle               132          47%       53%     11/89 .. 46/54
+  synthwave + plastikman      210          51%       49%     16/84 .. 49/51
+  dungeonsynth + acid         155          56%       44%     14/86 .. 47/53
+  lofi + dungeonsynth         138          48%       52%     15/85 .. 50/50
+  vgm + jungle                125          49%       52%     10/90 .. 50/50
+```
+
+**Across many songs the fader is honest — near 50/50 on every pair. Inside any
+ONE song it is not.** A fader set to half and half produces individual records
+ranging from about **10/90 to 50/50**. That is the "blind": the control describes
+a distribution, and a listener hears one draw from it. Set the fader to the
+middle and press play, and the odds of getting a record that is actually in the
+middle are low.
+
+This is not a bug in the arithmetic — it is what independent per-field draws do.
+With ~130 disagreeing fields, most of which are structural and drawn
+winner-takes-all, the *proportion* converges and the *song* does not.
+
+## "Negating": one drawn switch discards fifteen other drawn fields
+
+`chop` is a single drawn boolean. When it lands on jungle, `buildDrums` returns a
+chopped break immediately and never reads the kit at all — so `snare`,
+`hatEvery`, `kickKeep`, `rim`, `clap`, `rideEvery`, `crashChance`,
+`ghostChance`, `openBars`, `flourishBar`, `toms`, `poly`, `variants`,
+`openSpot` and `flourish` were every one of them drawn, decided, and then
+thrown away.
+
+```
+  50/50 with jungle, 40 seeds       chop won      what it discards
+  lofi + jungle                     20/40 songs   15 drawn kit fields
+  synthwave + jungle                20/40 songs   15 drawn kit fields
+  acid + jungle                     19/40 songs   15 drawn kit fields
+  dungeonsynth + jungle             18/40 songs   15 drawn kit fields
+```
+
+**About half of every jungle blend is a song in which the other genre's entire
+drum identity was chosen and then silently negated by one coin flip.** That is
+the owner's sentence, measured.
+
+## What the design gets right, and where the argument stops
+
+The file's defence of drawing is correct as far as it goes: *"Averaging
+flourishBar between -1 and 3 gives 1, which is neither genre and is musically
+nothing at all… A chopped break under a Rhodes, not a half-chopped half-Rhodes."*
+Half a switch IS nothing, and coherence within one song is worth having.
+
+But that argument justifies **drawing each field**; it does not justify **drawing
+every field independently**, and those are different claims. Independence is what
+produces the 10/90 song and what lets one switch negate fifteen others. The
+coherence the comment defends would survive a blend that still drew each field
+but guaranteed each parent a share of the ones that matter.
+
+## Two changes this points at, neither built
+
+1. **A quota instead of a lottery.** Allocate the drawn fields so each parent
+   wins about its fader share *in every song*, rather than in expectation. A
+   fader at 50/50 would then produce a record that is actually half and half, and
+   the fader would mean the same thing to a listener as it does to the
+   arithmetic.
+2. **A switch that negates should not silently spend the draws it kills** — and,
+   more importantly, when a parent loses a whole domain to one switch, it should
+   be guaranteed something audible elsewhere, or a 50/50 blend is not a fusion of
+   two genres, it is one genre with the other's tempo.
+
+Both are `[EAR]` in size and neither is researched yet. This section is a
+measurement and a diagnosis, not a design.
