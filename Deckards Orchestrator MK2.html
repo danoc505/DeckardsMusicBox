@@ -1411,7 +1411,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-09d · the genre sliders mean what they say, and every part of the mix can be aimed at a genre</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-09e · you set how long the record is, and every part of the mix can be aimed at a genre</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -1431,6 +1431,15 @@
        list band and sega by hand while RIG held seven, so five rigs were
        unreachable from here AND unpinnable in makeChart. -->
   <select id="rig" title="which band plays it — same notes either way"></select>
+  <!-- HOW LONG THE RECORD SHOULD BE. "let the genre decide" is the default and
+       is what every song was before this existed, so an untouched program
+       composes what it always did. Anything else is a TARGET the form is built
+       to reach, not a cut applied afterwards: the record still ends on its
+       payoff and still gets its outro, so what comes out lands near the number
+       rather than on it. The readout says what actually came out. -->
+  <select id="songlen" title="how long you want the record — the song is BUILT to this, not cut to it">
+    <option value="">length: let the genre decide</option>
+  </select>
   <button id="new">new song</button>
   <button id="play">&#9654; play</button>
   <button id="wav">render .wav</button>
@@ -20613,7 +20622,7 @@ function blendGenres(blend, seed, roll, traits){
   return out;
 }
 
-function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll, traits){
+function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll, traits, wantSec){
   /* ── THE ARGUMENT ORDER IS (seed, RIG, GENRE) AND ONE NAME IS BOTH ─────────
      `composeSong(1, "jungle")` reads as "compose jungle" and composes LOFI on
      the jungle rig, silently, because "jungle" is a genre AND a rig and the
@@ -20710,6 +20719,18 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll, 
     /* which deal of the elements this song is, frozen beside the seed that
        chose everything else -- 0 unless a hand asked for another one */
     traitRoll: traitRoll || 0,
+    /* ── HOW LONG THE HAND ASKED FOR, IN SECONDS AND IN BARS ─────────────────
+       Frozen onto the chart like every other stage-1 input. Null means the
+       genre decides, which is what every record was before the dial existed.
+       Four minutes is a different number of bars at 78 bpm than at 170, so the
+       bar count needs this song's TEMPO -- which is drawn a few properties up,
+       inside this same literal, and a literal cannot read itself while it is
+       still being written. So `wantBars` is filled in immediately below.
+       NOT by moving the tempo draw above this literal: that would put it ahead
+       of `root` and `mode` on the chart stream and move every song in the
+       program. */
+    wantSec:  wantSec || null,
+    wantBars: null,
     /* the blend that produced it, or null -- carried so the UI and the harness
        can say what a song IS without re-deriving it. */
     blend: (blended && blended.blendOf)
@@ -20768,6 +20789,10 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll, 
       hiss:    G.tape.hiss[0]    + rng() * G.tape.hiss[1],
     }),
   };
+  /* the requested length in bars, now that the tempo it depends on exists.
+     Written before the freeze and drawing nothing -- it is arithmetic on an
+     input the hand supplied, not a decision the program makes. */
+  chart.wantBars = wantSec ? barsForSec(wantSec, chart.tempo) : null;
   return Object.freeze(chart);
 }
 
@@ -20780,8 +20805,78 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll, 
    third OCCURRENCE of a function emits a `vary` demand that a later stage must
    satisfy with the property it owns. Form demands; it never edits notes.
    ═══════════════════════════════════════════════════════════════════════════ */
+/* ── HOW MANY BARS IS THAT MANY SECONDS ──────────────────────────────────────
+   One bar is four beats, so a bar lasts 240/tempo seconds. The conversion lives
+   here rather than at each call site because the length dial, the readout and
+   the seam check all need the same answer and a second copy would drift. */
+const barsForSec = (sec, tempo) => Math.max(1, Math.round(sec * tempo / 240));
+const secForBars = (bars, tempo) => bars * 240 / tempo;
+/* seconds as a time on a clock face. One owner: the transport readout, the
+   length dial and the "asked for / came out" line all print times, and three
+   hand-written copies of the same padStart is how they end up disagreeing. */
+const clock = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}`;
+
 function makeForm(chart){
   const F = chart.table.form, LEN = F.lengths;
+  const PAY0 = F.payoff || "chorus";
+  /* ═══════════════════════════════════════════════════════════════════════════
+     THE SPINE IS BUILT AS A FUNCTION SO IT CAN BE BUILT MORE THAN ONCE
+
+     `aim` is a length in bars to build toward, or null for "whatever the genre
+     draws" — and null reproduces the old walk draw for draw, which is what the
+     snapshot holds it to.
+
+     WHY IT HAS TO BE RE-RUNNABLE. A length dial cannot be answered open-loop.
+     Five of the eight genres declare a PLAN — an ordered spine of phases — and
+     a phase runs until its budget is spent AND it is standing on the function
+     it must hand over on, so it overshoots by up to a whole section, and the
+     overshoots stack across four to six phases. Scaling the declared budgets by
+     a ratio therefore misses, and misses worse the more phases there are:
+     measured that way, jungle asked for ten minutes and produced six and a half.
+     So the spine is built, measured, and built again with a different aim until
+     the closest one is found.
+
+     IT IS DETERMINISTIC BECAUSE EACH ATTEMPT STARTS ITS OWN STREAM. `stream(seed,
+     "form")` is a pure function of the pair, so every attempt sees the identical
+     sequence of draws and only `aim` differs. The attempt that is kept is
+     therefore exactly the song a single run with that aim would have produced —
+     no state survives a discarded attempt, and no other stream is touched. */
+  /* ── AND HOW LONG A SECTION IS, WHICH WAS A BAKED NUMBER AND SHOULD NOT BE ─
+     `form.lengths` gives one fixed number per function — dungeon synth's verse
+     is 16 bars, always, forever. That is exactly what principle 1 forbids: "a
+     genre is a table of ranges and weights, never a hardcoded number in the
+     builder." It went unnoticed because nothing ever asked a section to be a
+     different size.
+
+     THE LENGTH DIAL ASKED, AND THE CONSTANT ANSWERED FOR THE WHOLE PROGRAM. With
+     sections nailed to 16 bars, four plan phases and an intro and an outro, the
+     shortest dungeon synth record arithmetic allows is about seven minutes — and
+     I wrote that down as a FLOOR, as though it were a property of the music
+     rather than of one hardcoded integer. The owner: "A song can be any length
+     if weve coded it to be so ridged its fixed to one length weve done something
+     very wrong!" Correct, and the rigidity was mine to remove.
+
+     So a scale multiplies every section length TOGETHER, keeping the genre's own
+     proportions — an intro that is a quarter of a verse stays a quarter of a
+     verse — and snapping to FOUR BARS, because four bars is one pass of the
+     material this program builds sections out of, and half a pass states
+     nothing. Scale 1 is the genre's own table, so an untouched program is the
+     program it always was.
+
+     THE LADDER OF SCALES IS CHOSEN, NOT SOURCED [EAR]. Eight- and sixteen-bar
+     verses are both ordinary in real music, which is the argument for allowing
+     the move at all; how far it should be allowed to go is taste and belongs to
+     the owner's ear. It is ordered by distance from 1 and the search keeps the
+     genre's own lengths unless another rung genuinely lands closer, so a genre's
+     character only bends when the dial cannot be honoured without it. */
+  const UNIT = 4;
+  const scaled = k => {
+    const o = {};
+    for(const f in LEN) o[f] = Math.max(UNIT, Math.round(LEN[f] * k / UNIT) * UNIT);
+    return o;
+  };
+  const spine = (aim, lenScale) => {
+  const LEN = (lenScale == null || lenScale === 1) ? chart.table.form.lengths : scaled(lenScale);
   const rng = stream(chart.seed, "form");
   const fns = [];
   const coldOpen = rng() < F.coldOpen;                  // a cold open is a choice, not an absence
@@ -20798,10 +20893,33 @@ function makeForm(chart){
      for those genres it is the instrumental. So the payoff is declared, defaults
      to "chorus" so nothing that already worked moves, and stage 2 stops knowing
      what a chorus is -- it knows a song has a PAYOFF and returns to it. [Law 4] */
-  const PAY = F.payoff || "chorus";
+  const PAY = PAY0;
   let fn = coldOpen ? (rng() < 0.5 ? PAY : "verse")
                     : (rng() < F.openVerse ? "verse" : PAY);
-  const target = F.target[0] + Math.floor(rng() * F.target[1]) * F.target[2];
+  /* ── THE DRAW RUNS UNCONDITIONALLY, THEN THE HAND MAY OVERRIDE IT [Law 3] ──
+     The owner: *"i cant make music this app is meant to do the stuff i cant do.
+     But i want to be able to do things and set things."* Song length is the
+     clearest case of that — deciding how long a record should be needs no
+     musical skill at all, and until now it was the one thing the genre decided
+     for you and you could not touch. It was also what made "dungeon synth
+     harmony at lofi length" impossible: dungeon synth runs 9.9 minutes and lofi
+     2.3, and length arrived bundled with the whole shape of the song.
+
+     `target` is a length in BARS that the walk builds toward. The genre's own
+     draw happens either way, so a program nobody touches keeps every draw in
+     the place it was — that is Law 3 and it is why the snapshot does not move.
+
+     IT IS A TARGET AND NOT A CUT. The walk still has to finish its sentence:
+     H5 says a record past its length seeks its payoff, and the outro is added
+     after. So the record lands NEAR the number, and the outro's own bars are
+     taken off the target so the total aims at what was asked rather than
+     overshooting by an outro every time. What actually came out is on the
+     readout — a dial that lies about what it did is worse than no dial. */
+  let target = F.target[0] + Math.floor(rng() * F.target[1]) * F.target[2];
+  if(aim != null){
+    const tail = (LEN.outro || 0) + (coldOpen ? 0 : (LEN.intro || 4));
+    target = Math.max(LEN[PAY] || 4, aim - tail);
+  }
   let bars = coldOpen ? 0 : 4, bridgeUsed = false, chorusSeen = 0;
   /* ══ THE HARD LAWS OF SUCCESSION ══════════════════════════════════════════
      The genre supplies WEIGHTS; stage 2 supplies LAWS. Every law below zeroes
@@ -20925,7 +21043,20 @@ function makeForm(chart){
        to the payoff within two more. The worst shipped table needs ~20
        iterations (synthwave: 72 bars of 4-bar sections, then the seek); 24 sits
        above every real path and exists only against a pathological table. */
-    for(let guard = 0; guard < 24; guard++){
+    /* ── AND THE BACKSTOP HAS TO KNOW HOW LONG THE RECORD WAS ASKED TO BE ────
+       24 was measured against the genres' own targets: "the worst shipped table
+       needs ~20 iterations, 24 sits above every real path". A hand asking for
+       fifteen minutes makes a real path far longer than any of those — lofi at
+       78 bpm wants ~290 bars, which is ~73 four-bar sections — and a fixed 24
+       would silently hand back a two-minute record and no explanation. That is
+       the dial appearing not to work.
+       So the backstop is derived from the job: how many of the genre's SHORTEST
+       sections could the target need, plus the same slack the 24 represented.
+       It is still a backstop against a pathological table and it is no longer
+       also a length limit. */
+    const shortest = Math.max(1, Math.min(...Object.values(LEN).filter(n => n > 0)));
+    const guardMax = Math.max(24, Math.ceil(target / shortest) + 4);
+    for(let guard = 0; guard < guardMax; guard++){
       admit();
       if(bars >= target && fn === PAY) break;           // a song ends off its payoff
       let table = lawTable(fn);
@@ -20968,12 +21099,35 @@ function makeForm(chart){
        phase's final function happened to sit in the new pool -- and admitted
        it twice, verse x3, caught by composeSong's own rule-of-three throw on
        the battery's first run. The seam checks exist for exactly this. */
+    /* ── A PLAN STRETCHES IN PROPORTION, IT DOES NOT GET A PHASE BOLTED ON ────
+       A plan is an ordered spine — open, build, pay — and its shape is the
+       genre's architecture. Making a planned record longer therefore means
+       every phase growing by the same factor, not one phase absorbing the extra
+       or a fourth phase appearing: either of those would change the
+       architecture the plan exists to state.
+       The factor is worked out from what the plan says about itself — the
+       middle of each phase's declared budget — so no extra draw happens and the
+       per-phase draws below keep their places [Law 3].
+       NOTHING SHIPPED DECLARES A PLAN YET, so this is exercised only by the
+       battery's synthetic plan. Said out loud per the coltraneCycle rule rather
+       than left to read as a working feature. */
+    let stretch = 1;
+    if(aim != null){
+      const mid = PLAN.reduce((s, ph) => s + ph.bars[0] + (ph.bars[1] - 1) / 2 * ph.bars[2], 0);
+      const tail = (LEN.outro || 0) + (coldOpen ? 0 : (LEN.intro || 4));
+      if(mid > 0) stretch = Math.max(0.05, (aim - tail) / mid);
+    }
     let pending = true;
     for(const ph of PLAN){
-      const budget = ph.bars[0] + Math.floor(rng() * ph.bars[1]) * ph.bars[2];
+      const budget = Math.max(1, Math.round(
+        (ph.bars[0] + Math.floor(rng() * ph.bars[1]) * ph.bars[2]) * stretch));
       const start = bars;
       const inPool = f => ph.pool.includes(f);
-      for(let guard = 0; guard < 12; guard++){
+      /* same reasoning as the planless backstop: 12 was sized against declared
+         budgets, and a stretched phase legitimately needs more sections */
+      const phGuard = Math.max(12, Math.ceil(budget / Math.max(1,
+        Math.min(...ph.pool.map(f => LEN[f] || 4)))) + 4);
+      for(let guard = 0; guard < phGuard; guard++){
         if(!pending || !inPool(fn)){
           const spent = bars - start >= budget;
           let table = lawTable(fn).map(([to, w]) => [to, inPool(to) ? w : 0]);
@@ -20997,6 +21151,63 @@ function makeForm(chart){
     }
   }
   fns.push("outro");
+  return { fns, len: LEN, bars: fns.reduce((t, f) => t + LEN[f], 0) };
+  };
+
+  /* ── BUILD IT, AND IF A LENGTH WAS ASKED FOR, FIND THE AIM THAT LANDS ──────
+     Bisection on the aim, keeping whichever attempt came out closest to what
+     was asked. Sixteen attempts is far more than the search needs and a form
+     walk is a few dozen array operations, so this is not a cost worth writing
+     down anywhere.
+
+     IT FINDS THE CLOSEST ACHIEVABLE, WHICH IS NOT ALWAYS THE ONE ASKED FOR, and
+     that is a real limit rather than a bug to hide. Dungeon synth is built from
+     sixteen-bar sections at 66 bpm and a record needs an intro, at least two
+     sections and an outro, so its shortest possible record is about three
+     minutes: ask for ninety seconds and three minutes is the honest answer.
+     `form.wantBars` and `form.nBars` are both carried out of here so the panel
+     can say what was asked and what came out, side by side. A dial that quietly
+     misses is worse than one that says it missed. */
+  let built = spine(null, 1);
+  if(chart.wantBars){
+    const want = chart.wantBars;
+    /* TWO DIALS, AND THEY DO DIFFERENT JOBS: how many sections the record has,
+       and how long a section is. The first alone cannot make a short record out
+       of a genre whose sections are long -- there is a whole-section quantum
+       under it -- and the second alone would rewrite the genre's shape to buy
+       length it could have got by adding a section. Together they reach
+       essentially any length.
+       ORDERED BY DISTANCE FROM 1, and a rung only wins if it beats the genre's
+       own lengths by a real margin rather than a rounding, so the genre's table
+       stands unless bending it genuinely helps. */
+    const LADDER = [1, 0.75, 1.5, 0.5, 2, 0.25, 3, 4];
+    let best = null, bestErr = Infinity;
+    for(const k of LADDER){
+      const keep = (r) => {
+        const e = Math.abs(r.bars - want);
+        /* strictly better by more than a bar, or the search would swap the
+           genre's own section lengths for a different rung to gain nothing */
+        if(e < bestErr - 1){ bestErr = e; best = r; }
+        return r;
+      };
+      keep(spine(1, k));
+      let lo = 1, hi = Math.max(want * 3, 64);
+      keep(spine(hi, k));
+      for(let i = 0; i < 16 && hi - lo > 1; i++){
+        const mid = Math.floor((lo + hi) / 2);
+        if(keep(spine(mid, k)).bars < want) lo = mid; else hi = mid;
+      }
+      /* close enough that no other rung could beat it by a whole bar */
+      if(bestErr <= 1) break;
+    }
+    built = best;
+  }
+  const fns = built.fns;
+  /* the section lengths this record was actually built from -- the genre's own
+     table unless the dial had to bend them, and everything below measures bars
+     with THESE rather than with the declaration */
+  const SLEN = built.len;
+  const PAY = PAY0;
 
   /* occurrence counters -> the vary demand (3rd time a function is HEARD, the
      hearing must differ -- research: state, repeat, change on the third) */
@@ -21009,7 +21220,7 @@ function makeForm(chart){
   const out = fns.map((f, i) => {
     seen[f] = (seen[f] || 0) + 1;
     const o = {
-      fn: f, startBar: bar, endBar: bar + LEN[f],
+      fn: f, startBar: bar, endBar: bar + SLEN[f],
       occurrence: seen[f],
       /* ── THE RULE OF THREE COUNTS WHAT A LISTENER COUNTS ───────────────────
          Reported by ear: "it feels like we are repeating the same loop with no
@@ -21050,7 +21261,7 @@ function makeForm(chart){
                               : F.energy[f],
       peak: i === lastChorus,
     };
-    bar += LEN[f];
+    bar += SLEN[f];
     return Object.freeze(o);
   });
   out.nBars = bar;
@@ -21161,6 +21372,18 @@ function makeForm(chart){
   }
   out.arc = Object.freeze(arc);
   out.apexBar = Math.round(apexAt * (nB - 1));
+  /* ── WHAT WAS ASKED FOR, WHAT CAME OUT, AND THE SHORTEST THIS GENRE CAN DO ──
+     Carried so the panel can print all three. The floor is not a guess: it is
+     the spine built with the smallest aim there is, which is the shortest
+     record this genre's own architecture permits — four phases of sixteen-bar
+     sections at 66 bpm cannot make a ninety-second dungeon synth record, and
+     the honest thing is to say so on the dial rather than miss by five minutes
+     and let it look broken. */
+  out.wantBars = chart.wantBars || null;
+  /* the shortest this genre can go now that section length is a constraint
+     rather than a constant -- the bottom rung of the ladder at the smallest aim */
+  out.minBars  = spine(1, 0.25).bars;
+  out.lengths  = Object.freeze({ ...SLEN });
   return Object.freeze(out);
 }
 
@@ -26610,8 +26833,8 @@ function makePerformance(chart, form, materials, sections){
    THE PIPELINE — and the invariant checks at each seam. Checks THROW: a law
    violation is a build failure, not a thing to correct downstream.
    ═══════════════════════════════════════════════════════════════════════════ */
-function composeSong(seed, rig, genre, picks, pins, edits, traitRoll, traits){
-  const chart = makeChart(seed, rig, genre, picks, pins, edits, traitRoll, traits);
+function composeSong(seed, rig, genre, picks, pins, edits, traitRoll, traits, wantSec){
+  const chart = makeChart(seed, rig, genre, picks, pins, edits, traitRoll, traits, wantSec);
   const form = makeForm(chart);
   /* ══ AN EDITED SONG IS COMPOSED TWICE, AND THAT IS NOT A CORRECTING PASS ═══
      The hand points at a SECTION ("this bass, here"), and which material a
@@ -27167,7 +27390,14 @@ function describeText(song){
        longer and nobody had looked. */
     `${c.table.label} · ${NOTE_NAMES[c.root]} ${c.mode} · ${c.tempo} bpm · ` +
     `rig ${RIG_LABEL[c.rig] || c.rig} · ` +
-    `${song.form.nBars} bars · seed ${c.seed}\n` +
+    /* ── HOW LONG IT ACTUALLY IS, AND WHAT WAS ASKED FOR IF ANYTHING WAS ─────
+       The bar count was the only length on screen, and nobody thinks about a
+       record in bars. When the dial has been used this says both numbers, so a
+       miss is visible instead of being something you notice later and mistrust
+       the control for. */
+    `${clock(secForBars(song.form.nBars, c.tempo))}` +
+    (c.wantSec ? ` (asked for ${clock(c.wantSec)})` : "") +
+    ` · ${song.form.nBars} bars · seed ${c.seed}\n` +
     `progression: ${song.materials.chords.map(name).join("  ")}` +
     (song.materials.chorusChords !== song.materials.chords
       ? `   ·   chorus goes: ${song.materials.chorusChords.map(name).join("  ")}` : "") +
@@ -27209,6 +27439,10 @@ const BLEND_LOCK = new Set();
    and recomposing is the whole mechanism. 0 until somebody presses the button,
    so a program nobody touches composes exactly what it always did. */
 let TRAIT_ROLL = 0;
+/* HOW LONG THE HAND WANTS THE RECORD, in seconds. null = let the genre decide,
+   which is what every song was before the dial existed. An input to stage 1
+   like the seed; nothing is ever cut to length afterwards. */
+let WANT_SEC = null;
 /* AND WHICH ELEMENTS THE HAND HAS ASKED FOR BY NAME: element -> genre. Same
    footing as PICK and PINS -- an input to stage 1, never a patch on the song
    already playing. Empty means the deal decides everything. */
@@ -27364,11 +27598,11 @@ function newSong(forcedSeed){
   let dropped = 0, blendNote = "";
   const G0 = blendArg();
   try {
-    SONG = composeSong(seed, $("rig").value, G0, PICK, PINS, EDITS, TRAIT_ROLL, TRAITS);
+    SONG = composeSong(seed, $("rig").value, G0, PICK, PINS, EDITS, TRAIT_ROLL, TRAITS, WANT_SEC);
   } catch(err){
     for(const k in PINS) if(k.startsWith("bass:")){ delete PINS[k]; dropped++; }
     if(dropped){
-      SONG = composeSong(seed, $("rig").value, G0, PICK, PINS, EDITS, TRAIT_ROLL, TRAITS);
+      SONG = composeSong(seed, $("rig").value, G0, PICK, PINS, EDITS, TRAIT_ROLL, TRAITS, WANT_SEC);
     } else if(typeof G0 === "object"){
       /* A BLEND CAN FAIL TO COMPOSE, and the seam check is right to say so
          rather than be loosened. Measured across 1890 blended pairs: 1 threw a
@@ -30643,8 +30877,7 @@ function refreshLive(){
   }
   const t = songTime();
   $("pos").textContent = t == null ? ""
-    : `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}` +
-      ` · bar ${Math.floor(t / (16 * SONG.motion.spb)) + 1}/${SONG.form.nBars}`;
+    : clock(t) + ` · bar ${Math.floor(t / (16 * SONG.motion.spb)) + 1}/${SONG.form.nBars}`;
 }
 let RAF = null;
 function pumpLive(){
@@ -30823,6 +31056,24 @@ function boot(){
     $("rig").innerHTML = `<option value="draw">rig: drawn</option>` +
       Object.keys(RIG).map(k =>
         `<option value="${k}">rig: ${RIG_LABEL[k] || k}</option>`).join("");
+  }
+  {                               /* ── THE LENGTH DIAL ──────────────────────
+       A list of times rather than a free number box, for the reason the rig
+       picker is a list: every position on it is one the program can actually
+       try, and typing "0.2" into a box would be a request nothing can honour.
+       The genre's own answer stays first and stays the default, so a program
+       nobody touches composes exactly what it always did.
+       DERIVED, not written out: the steps are generated, so adding one is a
+       change to the numbers below and not to a hand-typed list of labels. */
+    const STEPS = [60, 90, 120, 150, 180, 240, 300, 360, 420, 480, 600, 720, 900, 1200];
+    $("songlen").innerHTML = `<option value="">length: let the genre decide</option>` +
+      STEPS.map(s => `<option value="${s}">length: about ${clock(s)}</option>`).join("");
+    $("songlen").addEventListener("change", async () => {
+      const at = songTime();
+      WANT_SEC = $("songlen").value ? +$("songlen").value : null;
+      newSong(SONG ? SONG.chart.seed : 1);
+      if(playing) await startPlayback(at || 0);
+    });
   }
   drawRack();
   drawRoll();                    // an empty tube that says so, rather than a gap

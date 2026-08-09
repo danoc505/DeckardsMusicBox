@@ -459,6 +459,126 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE LENGTH DIAL. The owner: "i cant make music this app is meant to do the
+   stuff i cant do. But i want to be able to do things and set things." Deciding
+   how long a record should be takes no musical skill, and it was the one thing
+   the genre decided for you with no way to touch it.
+
+   AND THE FIRST VERSION OF THIS WAS BUILT ON A LIE I TOLD MYSELF. Section
+   lengths are one fixed number per genre -- dungeon synth's verse is 16 bars,
+   always -- so with four plan phases plus an intro and an outro the shortest
+   dungeon synth record was about seven minutes, and I wrote that down as a
+   FLOOR. The owner: "A song can be any length if weve coded it to be so ridged
+   its fixed to one length weve done something very wrong!" Right: a hardcoded
+   integer is not a property of music, and principle 1 forbids it outright. The
+   section length is a constraint now, so these checks hold the dial to the
+   whole range rather than to the range one constant allowed.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  const WANT = [90, 180, 300, 600, 900];
+  const bad = [], rows = [];
+  let worst = 0;
+  for(const g of M.genres()){
+    let gWorst = 0;
+    for(const want of WANT) for(let seed = 1; seed <= 4; seed++){
+      let song;
+      try { song = M.composeSong(seed, undefined, g, null, null, null, 0, null, want); }
+      catch(e){ bad.push(`${g} @${want}s seed ${seed} threw: ${e.message.slice(0, 40)}`); continue; }
+      const got   = song.form.nBars * 240 / song.chart.tempo;
+      const floor = song.form.minBars * 240 / song.chart.tempo;
+      /* ── MEASURED AGAINST WHAT IS REACHABLE, AND THE FLOOR IS CHECKED TOO ───
+         Asking for something shorter than a genre can build is a real request
+         with a real answer -- the shortest it can build -- and holding the dial
+         to the impossible would just teach the next person to widen the number
+         until it passes. So this compares against the target OR the floor,
+         whichever is bigger, AND the check below holds the floor itself down.
+         Those two together are what stop "it cannot go shorter" from becoming
+         an excuse again: it went in as one, and it was a hardcoded 16. */
+      const aimAt = Math.max(want, floor);
+      const off = Math.abs(got - aimAt);
+      gWorst = Math.max(gWorst, off);
+      /* ONE EIGHTH, and it is not a number picked to go green: a record is built
+         from whole sections, so the smallest step the dial can take is one
+         section, and an eighth is roughly that at these lengths. */
+      if(off > Math.max(20, aimAt / 8))
+        bad.push(`${g} @${want}s seed ${seed}: got ${Math.round(got)}s, reachable ${Math.round(aimAt)}s`);
+    }
+    worst = Math.max(worst, gWorst);
+    rows.push(`${g} ±${Math.round(gWorst)}s`);
+  }
+  check("the length dial lands near the length that was asked for",
+        bad.length === 0,
+        bad.length ? bad.slice(0, 6).join(" · ") + (bad.length > 6 ? ` (+${bad.length - 6})` : "")
+                   : `${M.genres().length} genres x ${WANT.length} lengths x 4 seeds, worst miss ` +
+                     `${Math.round(worst)}s  |  ${rows.join(" · ")}`);
+}
+
+/* ── AND NO GENRE IS ALLOWED A HIGH FLOOR. THIS IS THE ONE THAT MATTERS ──────
+   The check above forgives a genre for not reaching a length it cannot build.
+   That forgiveness is exactly how the bug got in: dungeon synth "could not" go
+   under seven minutes, I called it a floor, and the cause was `verse: 16` --
+   one integer, not a fact about music. The owner: "A song can be any length if
+   weve coded it to be so ridged its fixed to one length weve done something
+   very wrong!"
+   So the floor is held DOWN, by name. Two minutes is not sourced [EAR]; what is
+   not taste is that a genre whose floor climbs back toward its natural length
+   has had a constant baked into it again, and this fails the moment that
+   happens. Measured before section length became a constraint, these floors
+   were: dungeon synth 6:45, jungle 4:48, bladerunner 3:32. */
+{
+  const high = [], rows = [];
+  for(const g of M.genres()){
+    const song = M.composeSong(1, undefined, g, null, null, null, 0, null, 60);
+    const floor = song.form.minBars * 240 / song.chart.tempo;
+    rows.push(`${g} ${Math.floor(floor / 60)}:${String(Math.round(floor % 60)).padStart(2, "0")}`);
+    if(floor > 120) high.push(`${g} cannot go under ${Math.round(floor)}s`);
+  }
+  check("...and no genre is stuck at a length, however long its sections are",
+        high.length === 0,
+        high.length ? high.join(" · ") : "shortest each genre can build:  " + rows.join(" · "));
+}
+
+/* AND A RECORD BUILT TO A LENGTH IS STILL A RECORD: it keeps its payoff, its
+   outro and the rule of three. A dial that hits the number by handing back a
+   truncated song would pass the check above and be worthless. */
+{
+  const bad = [];
+  for(const g of M.genres()) for(const want of [90, 300, 900]){
+    const song = M.composeSong(1, undefined, g, null, null, null, 0, null, want);
+    const fns = song.sections.map(s => s.fn);
+    const PAY = song.chart.table.form.payoff || "chorus";
+    if(fns[fns.length - 1] !== "outro") bad.push(`${g} @${want}s does not end on its outro`);
+    if(!fns.includes(PAY)) bad.push(`${g} @${want}s never reaches its payoff (${PAY})`);
+    for(let i = 2; i < fns.length; i++)
+      if(fns[i] === fns[i - 1] && fns[i] === fns[i - 2]) bad.push(`${g} @${want}s plays ${fns[i]} three times running`);
+    if(song.sections.some(s => s.endBar <= s.startBar)) bad.push(`${g} @${want}s has an empty section`);
+  }
+  check("...and a record built to a length is still a whole record",
+        bad.length === 0,
+        bad.length ? bad.slice(0, 6).join(" · ") : "every genre at 1:30, 5:00 and 15:00 keeps its payoff, its outro and the rule of three");
+}
+
+/* AND THE GENRE'S OWN SECTION LENGTHS STAND UNLESS BENDING THEM IS NEEDED.
+   The scale ladder exists to reach lengths the genre's own table cannot; if it
+   fired when the table would have done, every record would quietly drift off
+   the shape the genre declares. */
+{
+  const bent = [];
+  for(const g of M.genres()){
+    const own = M.composeSong(1, undefined, g).chart.table.form.lengths;
+    const nat = M.composeSong(1, undefined, g).form;
+    const natSec = Math.round(nat.nBars * 240 / M.composeSong(1, undefined, g).chart.tempo);
+    /* ask for very close to what the genre does anyway: the table should stand */
+    const song = M.composeSong(1, undefined, g, null, null, null, 0, null, natSec);
+    for(const f in own) if(song.form.lengths[f] !== own[f])
+      bent.push(`${g}.${f} ${own[f]}->${song.form.lengths[f]}`);
+  }
+  check("...and asking for the length a genre already does leaves its sections alone",
+        bent.length === 0,
+        bent.length ? bent.slice(0, 8).join(" · ") : "every genre keeps its own section lengths at its own natural length");
+}
+
 /* VARY(A) MUST VARY SOMETHING THE GENRE ACTUALLY PLAYS. Avar is the material
    the rule of three is answered with -- "start the same, go somewhere different
    halfway" -- and it redrew the LEAD and the counter, full stop. That is fine

@@ -114,7 +114,24 @@ if((traits || deal) && !blend){
   process.exit(2);
 }
 
-const song = M.composeSong(seed, rig, genre, picks, pinsIn, null, deal, traits);
+/* --len 210  or  --len 3:30 -- HOW LONG THE RECORD SHOULD BE. The dial is a
+   stage-1 input like the seed, so the roll has to be able to ask for one or the
+   notes cannot be read at the length the user actually plays. */
+const lenAt = argv.indexOf("--len");
+const wantSec = lenAt >= 0 ? (() => {
+  const v = argv[lenAt + 1] || "";
+  if(v.includes(":")){ const [m, s2] = v.split(":"); return (+m) * 60 + (+s2 || 0); }
+  return parseFloat(v) || null;
+})() : null;
+
+const song = M.composeSong(seed, rig, genre, picks, pinsIn, null, deal, traits, wantSec);
+if(wantSec){
+  const mmss = t => Math.floor(t / 60) + ":" + String(Math.round(t % 60)).padStart(2, "0");
+  const got = song.form.nBars * 240 / song.chart.tempo;
+  console.log("LENGTH   asked " + mmss(wantSec) + "  ->  got " + mmss(got) +
+              "  (" + song.form.nBars + " bars, " + song.sections.length + " sections" +
+              ", shortest this genre can do " + mmss(song.form.minBars * 240 / song.chart.tempo) + ")");
+}
 /* say what was asked for and what was refused, right above the notes, because a
    pin that was silently dropped would otherwise look like a pin that did
    nothing to the music */

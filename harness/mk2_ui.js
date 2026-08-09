@@ -1748,6 +1748,45 @@ const check = (label, ok, detail) => {
           bad.length ? bad.join(" | ") : gs.length + " genres, all compose from the picker");
   }
 
+  /* ═════ THE LENGTH DIAL, DRIVEN ON THE GLASS ════════════════════════════════
+     Every position it offers has to be one the program can actually try, and
+     the record that comes out has to land near it. Driven through the real
+     select with a real change event: this file exists because probe_mixer
+     scored 4 of 4 while every fader on the panel was dead. ═══════════════════ */
+  {
+    const opts = await pg.evaluate(() =>
+      [...document.getElementById("songlen").options].map(o => o.value));
+    check("the transport has a dial for how long the record should be",
+          opts.length > 4 && opts[0] === "",
+          `${opts.length} positions, first is "let the genre decide"`);
+
+    const bad = [], rows = [];
+    for(const g of ["lofi", "dungeonsynth"]) for(const want of ["90", "300", "900"]){
+      const r = await pg.evaluate(async ([g, want]) => {
+        const gsel = document.getElementById("genre");
+        gsel.value = g; gsel.dispatchEvent(new Event("change", { bubbles:true }));
+        const lsel = document.getElementById("songlen");
+        lsel.value = want; lsel.dispatchEvent(new Event("change", { bubbles:true }));
+        await new Promise(r => setTimeout(r, 150));
+        const s = MK2.currentSong();
+        return { got: s.form.nBars * 240 / s.chart.tempo, asked: s.chart.wantSec,
+                 info: document.getElementById("info").textContent.split("\n")[0] };
+      }, [g, want]);
+      rows.push(`${g}@${want}s→${Math.round(r.got)}s`);
+      if(r.asked !== +want) bad.push(`${g} @${want}s: the dial did not reach the chart (${r.asked})`);
+      if(Math.abs(r.got - +want) > Math.max(45, +want / 5)) bad.push(`${g} @${want}s: got ${Math.round(r.got)}s`);
+      /* and the header has to SAY what came out, or a miss is invisible */
+      if(!/asked for/.test(r.info)) bad.push(`${g} @${want}s: the header does not say what was asked for`);
+    }
+    check("...and setting it on the glass changes the record and says what came out",
+          bad.length === 0,
+          bad.length ? bad.slice(0, 5).join(" · ") : rows.join(" · "));
+    await pg.evaluate(() => {
+      const l = document.getElementById("songlen");
+      l.value = ""; l.dispatchEvent(new Event("change", { bubbles:true }));
+    });
+  }
+
   check("no uncaught page errors at any point", errs.length === 0, errs.slice(0, 3).join(" | "));
   await b.close();
   console.log("\n" + pass + " passed, " + fail + " failed" +
