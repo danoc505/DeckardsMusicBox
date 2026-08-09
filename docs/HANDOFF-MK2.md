@@ -4,6 +4,14 @@
 > the rules, the current state and what to do next, in two pages. Then come
 > back and read this whole file, which is the contract.
 
+*⚠ **CURRENT AT `2026-08-08s`.** The 2026-08-08 run is the longest in this
+project's history — nineteen builds, `08a` through `08s` — and it ends with the
+roll becoming editable. **Not one of those builds has been listened to.** That
+is not a footnote: this program's own first rule is that measurement can prove a
+thing exists and only the owner's ear can say whether it is good, and there are
+now nineteen builds' worth of unheard changes stacked up. Whoever picks this up
+should weigh "build the next thing" against "help him hear the last nineteen".*
+
 *Written 2026-07-29 on branch `claude/code-review-6jd9cz` at `02906b7`; revised
 at `077e08b` when the rack reached the conductor; revised again 2026-07-30 at
 `4728512`, after the control sweep and the non-chord-tone law. **Revised again

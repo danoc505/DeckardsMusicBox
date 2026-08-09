@@ -1799,3 +1799,77 @@ have been a wrong finding in the safe direction, which is still wrong.
 - **The eleven existing lanes were not made bigger.** Several move under 5% of
   their dial and may be inaudible, but the size of a p-lock is `[EAR]` with no
   source anywhere, so that is a verdict for ears and not for me.
+
+---
+
+## The 2026-08-08 run — five theory gaps, two reversals and the roll grows hands
+
+### "Why wouldn't there be changes to the music if we are changing the music theory?"
+
+> "I'm confused why wouldn't there be changes to the music if we are changing
+> the music theory and adding to it, wouldn't no change be a sign of failure?
+> **We can't always have no changes, how can we make anything better if nothing
+> ever changes?**"
+
+**They were right and the reporting was at fault.** "0 of 300 seeds moved" is a
+SAFETY check — did I break something I was not looking at — and it had been
+presented as if it were a score. It is not: it is "these genres were not aimed
+at", which is a choice that has to be justified, not a result.
+
+The pattern they spotted was real. Across two builds, six of eight genres got
+nothing, because each mechanism was applied only where the sourcing was
+tightest. **Do that ten times and the program improves in one corner and stands
+still everywhere else.** Standing correction: apply a mechanism everywhere it is
+defensible, and say plainly which are the confident calls and which are the
+stretches, so the stretches can be overruled by ear.
+
+### "The plastikman bass is wrong… he uses echo to get more notes"
+
+> "The plastikman bass is wrong, it's not how minimal techno and plastikman do
+> bass. **I feel like he uses echo to get more notes. We have too much bass and
+> not enough fx.**"
+
+This reversed `08q` the day after it shipped, and the answer was **already in
+this file** — *"we can start with one bass note and fill in the silence with
+reverb, delay etc. and build up around that. It's maximising the minimal."* I
+had that sentence and built its opposite: a question about TEXTURE answered with
+a change to PITCH. Every number reverted; `roleGain.bass` 0.62 → 0.50.
+
+**Still open, and it needs their ear:** the delay's own feedback and wet/dry.
+The bass is already fully sent to the echo, so "not enough fx" is a wet/dry
+judgement, and tuning that by arithmetic is exactly what this project says
+cannot be done.
+
+### "We never have fills or solos or drum rolls"
+
+> "Drums across all genres are poor. The movement is often barely there… there
+> is meant to be a sections type pattern with the last section having the most
+> change, and other sections taking away something or adding or altering. But
+> that is only one section — **we never have fills or solos or drum rolls! It's
+> often just one single drum loop the whole song.**"
+
+Half of this was ONE CONDITION: a fill only fired when the next section happened
+to be a chorus or a bridge. Minimal techno was getting **0.3 fills a song, one
+every 933 bars.** Unlocked to any section with drums; now one every 9–35 bars in
+every genre that has a kit.
+
+**The other half is not built**: sections that add, take away and alter, with
+the last carrying the most change. That is the largest open item in the file.
+
+### "This should be an easy thing to do" — the roll grows hands
+
+> "A function that allows a user to select a part of the piano roll and reroll or
+> edit it and the rest of the song dynamically adjusts… **do not code, stop, take
+> a step back and start planning, you must ask me questions.**"
+
+Asked what should happen to the other parts, and to the other places the same
+material plays, they answered both times: **the least necessary change.**
+Everything in `the-hand-on-the-roll.md` follows from that one rule.
+
+They also chose: named musical moves AND a reroll, plus a delete and an undo;
+and **no persistence** — *"Slice 3 not needed at this time, this is a future
+concern."*
+
+**Worth carrying forward:** they asked to be asked. Being made to state the
+governing rule before any code existed is what kept the feature from becoming a
+DAW bolted onto a generator.

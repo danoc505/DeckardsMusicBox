@@ -133,7 +133,37 @@ because the measurement refused it.
 
 **No pull request unless the user asks for one.**
 
-## Where the program stands
+## What happened last, and what to do next
+
+**Build `2026-08-08s`.** The 2026-08-08 run did five theory gaps and then grew
+the roll a pair of hands. `HANDOFF-MK2.md` has every build in detail; the short
+version, and the two things that matter most for whoever is next:
+
+- `08n` the record can change key mid-song · `08o` the second voice answers the
+  tune instead of shadowing it · `08p` two copies of one movement, one slightly
+  slower (phasing) · `08q` the bass moves again — **reversed by ear at `08r`** ·
+  `08r` the fills come back (they were locked behind a chorus and firing once
+  every 933 bars in minimal techno) · `08s` **the hand on the roll**: click a
+  note, get that part in that section, reroll / thin / thicken / octave /
+  reverse / delete it, and undo.
+
+**THE FIRST THING TO KNOW: nothing in that list has been heard.** Every entry
+ends with the same sentence in the HANDOFF. The owner is the only ear and the
+backlog of unheard changes is now the single biggest risk in this project — a
+tenth measured-but-unheard build is worth less than one listened-to one.
+
+**THE SECOND: the owner reversed me twice in this run**, and both times the
+answer was already written down. Read `docs/genre-research/NOTES-FROM-THE-USER.md`
+from the bottom before you design anything. In particular: *"we can't always
+have no changes, how can we make anything better if nothing ever changes?"* —
+"0 of 300 seeds moved" is a SAFETY check, not a score, and reporting it as an
+achievement is a habit to break.
+
+**What is open, in the owner's priority order, is `BACKLOG.md` §6.0** — the
+drum sectional arc is the largest item, and the new roll editor gives it
+somewhere to land.
+
+## The commands
 
 Build `2026-08-08s`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the

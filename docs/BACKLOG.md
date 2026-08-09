@@ -531,6 +531,45 @@ diatonic.**
 >    **no user** and that is stated rather than hidden. **Unheard.**
 >    `docs/genre-research/bass-roles.md`.
 > 5. **The older §6 rows below** — open, and unchanged by any of the above.
+>
+> ### AND WHAT THE 2026-08-08 RUN LEFT OPEN, in the owner's priority order
+>
+> **A. THE DRUM SECTIONAL ARC — the largest open item in the file.** Reported:
+> *"there is meant to be a sections type pattern with the last section having
+> the most change, and other sections taking away something or adding or
+> altering."* The fill half was one condition and is fixed (`08r`); this half is
+> not built at all. The phrase letters A/B/C/D exist INSIDE a 4-bar material;
+> what does not exist is a section-scale arc of subtraction and addition — the
+> thing that makes the seventh verse different from the second by having LOST
+> something. `rhythm-phrasing.md` §2 has the source ("the larger the change in
+> the next section, the more anticipation we can create for it"). **Note that
+> the hand-on-the-roll editor now gives this somewhere to land**: a section can
+> own a private copy of its material, which is exactly what an arc needs.
+>
+> **B. MINIMAL TECHNO'S ECHO.** *"He uses echo to get more notes. We have too
+> much bass and not enough fx."* Half acted on (`roleGain.bass` 0.62 → 0.50);
+> the other half is the delay's own feedback and wet/dry, which is a mix
+> judgement and **needs the owner's ear, not arithmetic**. The bass is already
+> fully sent to the echo, so this is not a routing fault.
+>
+> **C. THE EDITS ARE NOT RECORDED ANYWHERE READABLE.** The roll editor works,
+> but what the owner chose — rerolled six times, kept the sparsest — evaporates.
+> That was half the reason to build it: a log of their choices, in the program's
+> own vocabulary, is the only thing that would let the genre tables stop being
+> `[EAR]` guesses. Cheap to add, high value.
+>
+> **D. EDITS DO NOT SURVIVE A RELOAD** and the exports do not carry them.
+> Deliberately deferred — *"Slice 3 not needed at this time"* — but it is what
+> stands between the editor and "a song I keep".
+>
+> **E. THE `[EAR]` TAGS WANT AN AUDIT.** Two of them were the whole of the
+> "trash bassline", and both were mine. Anywhere a number is tagged `[EAR]` in
+> this file, it means MY ear, and I do not have one.
+>
+> **F. STILL OWED FROM EARLIER**: the held-back instruments (gamelan/sitar, CC0
+> sources identified, `make_sample.py` exists, nothing built); a researched Mega
+> Drive sub-style so the YM chip earns its place; DK64 still unmeasured; and the
+> saxophone stays parked.
 
 ### 6.1 THE CHORD VOCABULARY STOPS AT FOUR NOTES — the root cause
 
