@@ -256,3 +256,118 @@ Stated as fact about the program, not as a proposal:
   drum arc for those two genres should not be inferred from a house tutorial.
   `dkc.md` and `dungeon-synth-arrangement.md` are the sheets to extend, and
   neither has been re-searched for this.
+
+---
+
+# §6 WHAT WAS BUILT, `2026-08-09a`, and the two things measurement took back
+
+## The rule, stated before any code existed
+
+> A section's drums are the genre's kit plus a handful of MOVES, and how many
+> moves it gets is decided by how far into the record it sits.
+
+A move is a **kit override** and nothing else — the same shape as a `variant` —
+so the drums are BUILT with it and never built and then corrected. The genre owns
+every move in `kit.arc.moves`; the arrangement only counts how many to stack.
+`chop.arc` is the same thing for jungle, whose kit is a recording.
+
+**The owner's four decisions**, all taken before the build:
+
+| question | their answer |
+|---|---|
+| what the last section does | the biggest change, **either direction** — a draw decides |
+| which moves a section may make | take away, add, swap, change the feel, **heavy toms** |
+| the shape | **pile up, with dips** |
+| breakbeats in other genres | **held back** — hear this first |
+
+## The numbers, same probe, 20 seeds a genre
+
+```
+                       BEFORE (2026-08-08s)          AFTER (2026-08-09a)
+  genre         parts  most-played  closes on   parts  most-played  closes on
+                       one part     a rerun            one part     a rerun
+  lofi           4.0      2.3         65%        6.3      1.3          0%
+  synthwave      4.0      6.5        100%        8.6      3.0          0%
+  vgm            2.8      1.9         50%        3.3      1.5          0%
+  bladerunner        — no drums, and therefore no arc, in either build —
+  acid           3.0      4.0        100%        5.8      2.1          0%
+  plastikman     2.9      4.1        100%        4.0      3.6          0%
+  jungle         4.0      2.6        100%        5.6      1.6          0%
+  dungeonsynth   3.8      3.1         15%        4.5      2.3          0%
+```
+
+**All seven genres with drums moved, 25 of 25 seeds each.** Bladerunner is the
+one genre that did not move, and that is correct rather than a miss: it has no
+drums in any section of any song, so there is nothing for an arc to act on.
+
+## The two things built and then taken back out
+
+**1. Per-section move draws made every section unique.** The first version drew
+each section's moves on its own stream and measured 6.5 sections against 6.5
+distinct drum parts — every section different from every other. That is "each
+section just differs from the one before it", which is one of the three shapes
+the owner was offered and **the one they turned down**. The ladder is now drawn
+once per record and rung N is rung N−1 plus one more move, so two sections on
+the same rung are byte-identical and the repetition that makes a record a record
+survives.
+
+**2. The closing rung was landing where no drums played.** Pinned to the last
+section of the FORM, synthwave still closed on a rerun 85% of the time —
+`form.thinTo` strips the final section and the drums are one of the parts it may
+take away. "The last section" for this purpose means the last section that HAS
+drums, and that cannot be known until the arrangement has decided who is playing.
+
+## And a tom move refused, in two genres, against the owner's stated wish
+
+The owner asked for heavy toms. Acid house and minimal techno were given one and
+the seam battery caught acid: toms went from 16 of 60 songs to 28 of 60, through
+a ceiling that exists so a genre declaring itself near-tomless cannot quietly
+grow a drummer. The refusal for minimal techno was **already in the file, and
+sourced** — *"a Plastikman bar that answers itself with a tom roll is the exact
+gesture that music refuses"* [corpus:hawtin].
+
+Toms went up where the kits declare them and down where they do not:
+
+| | share of drum parts with a tom, before → after |
+|---|---|
+| lofi | 14.7% → 22.8% |
+| synthwave | 32.3% → 40.9% |
+| vgm | 26.3% → 29.8% |
+| dungeonsynth | 96.5% → 90.4% |
+| acid | 6.0% → 5.5% |
+| plastikman | 3.7% → 2.2% |
+
+This is `[EAR]` territory and the owner's to overrule — it is recorded here and in
+`test/ears/LOG.md` rather than quietly dropped.
+
+## The defect this work found on its way past
+
+**Dungeon synth's chorus had no toms at all.** `lift: { toms: { use: 0.8 } }` —
+meaning "the chorus leans on them slightly less" — replaced the whole tom block
+one level deep, so `loop: 0.9` (the highest in the file) became undefined and the
+per-bar draw compared against zero. Measured: verse 7.65 tom hits, bridge 7.52,
+**chorus 0.00, in 60 songs of 60**. It read as a deliberately tom-free chorus for
+as long as it existed. A nested block now merges onto its parent.
+
+## One seam check rewritten, and why that is not the same as loosening it
+
+The tom check asked whether a tom appears ANYWHERE in a song. That is
+length-dependent, and a record now carries about 13 drum parts instead of 5, so
+the odds rose on arithmetic alone. **The music had not moved**: acid measured
+0.0130 → 0.0124 toms a bar and its share of drum parts containing a tom stayed at
+6%. The check now asks the scale-free question, and the 10% line separates the
+declared-high genres from the declared-low ones with a wide margin in BOTH
+states — which is the test that a threshold was not picked to make today's build
+pass.
+
+## What this does NOT do, stated rather than left to be discovered
+
+- **The step grid on the drum machine's panel shows the PATTERN, not the
+  section.** In a section carrying arc moves, the lit step is the right step of
+  the right bar while the hits drawn under it are the pattern's own. The playhead
+  is honest about where the song is and not about what it is playing there.
+  `BACKLOG.md`.
+- **Nothing here has been heard.** Every number above says the arc exists, is
+  the shape that was asked for, and reaches the events. Not one says it sounds
+  good, and this file's own §2 records a source disagreement that only an ear can
+  settle.

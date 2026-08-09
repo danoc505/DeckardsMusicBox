@@ -534,7 +534,50 @@ diatonic.**
 >
 > ### AND WHAT THE 2026-08-08 RUN LEFT OPEN, in the owner's priority order
 >
-> **A. THE DRUM SECTIONAL ARC — the largest open item in the file.** Reported:
+> **A. THE DRUM SECTIONAL ARC — ~~the largest open item in the file~~ BUILT
+> `2026-08-09a`, AND UNHEARD.** A record had 6 to 14 sections with drums and
+> three or four drum parts; synthwave played one of its four in 6.5 sections of
+> the same song, jungle never gained or lost a drum in any section of any
+> record, and four genres closed on a drum part already heard in 100% of songs.
+> A section's drums are now the genre's kit plus a ladder of MOVES drawn once a
+> record, the rung set two thirds by position and one third by the section's own
+> energy — "pile up, with dips", the owner's choice — and the closing section
+> takes the top of the ladder with a draw deciding whether it fills up or empties
+> out. Closing drums are now new in 100% of songs in every genre with drums; all
+> seven moved, 25 of 25 seeds. `docs/genre-research/drum-sectional-arc.md`,
+> `harness/probe_drumarc.js`, brief in `test/ears/LOG.md`. **What is left of it
+> is below as A1–A3, and none of it is the mechanism.**
+>
+> **A1. THE STEP GRID SHOWS THE PATTERN, NOT THE SECTION.** The drum machine's
+> sixteen steps draw pattern A/B/C; a section carrying arc moves plays a private
+> copy of one. So the lit step is the right step of the right bar while the hits
+> under it are the pattern's own. The playhead is honest about WHERE the song is
+> and not about WHAT it is playing there. **What would close it:** the grid
+> showing the section's own copy — which means deciding what pinning a step means
+> when the thing on screen is one section's copy rather than the pattern every
+> section shares. That is a design question, not a bug fix. Found by `mk2_ui`
+> going red on "the playhead lights a step, 0 lit"; the underlying table was
+> already missing `Bvar` and the lifted pair before the arc existed, so the
+> playhead has been dark in a chorus variant for as long as one has existed. That
+> half is fixed and has a seam check.
+>
+> **A2. TOMS IN ACID HOUSE AND MINIMAL TECHNO — refused, and the owner asked for
+> them.** They said "heavy use of TOMS"; both genres were given a tom move and
+> the battery caught acid crossing a ceiling that exists so a near-tomless genre
+> cannot grow a drummer. Minimal techno's refusal was already in the file and
+> sourced. Toms rose where the kits declare them (lofi 14.7% → 22.8% of drum
+> parts, synthwave 32.3% → 40.9%, vgm 26.3% → 29.8%) and fell where they do not.
+> **What would close it:** the owner's ear, or a source. It is one weighted line
+> per genre to put back.
+>
+> **A3. BREAKBEATS IN OTHER GENRES — parked by the owner**, deliberately, to hear
+> the arc first. The break chopper is already a loadable machine with its own
+> controls; only jungle's table reaches it. Jungle's own chopping now varies by
+> section, which is the part that needed no decision.
+>
+> *The original entry, kept because it is the brief the work was done against:*
+>
+> **~~A. THE DRUM SECTIONAL ARC~~ — the largest open item in the file.** Reported:
 > *"there is meant to be a sections type pattern with the last section having
 > the most change, and other sections taking away something or adding or
 > altering."* The fill half was one condition and is fixed (`08r`); this half is

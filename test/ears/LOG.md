@@ -24,6 +24,68 @@ regression.
 
 ---
 
+## 2026-08-09a — THE DRUMS NOW CHANGE FROM SECTION TO SECTION
+
+**This is the one you asked for, and it is the only build here that is aimed at
+a complaint you made in your own words.** Everything above it in this file is
+still unheard; this entry does not ask you to work through those first.
+
+> *"There is meant to be a sections type pattern with the last section having
+> the most change, and other sections taking away something or adding or
+> altering... it's often just one single drum loop the whole song."*
+
+### What was true before, in numbers
+
+A record had six to fourteen sections with drums in them and **three or four
+drum parts**. Synthwave played one of its four in six and a half sections of the
+same song. Jungle never gained or lost a drum in any section of any record. And
+in synthwave, acid, minimal techno and jungle the **last** section played drums
+you had already heard, in 100% of songs.
+
+### What to listen for
+
+**Load any genre except Blade Runner (it has no drums at all) and play a whole
+record through.** The change is a whole-song shape, so a thirty-second listen
+cannot show it — this is the one thing here that needs the long play.
+
+| what to listen for | when | what it should do |
+|---|---|---|
+| **the record getting fuller as it goes** | across the whole song | early sections are plainer than late ones. Not louder — plainer: fewer drums, or a simpler hat |
+| **something being taken away** | a bridge, a quiet stretch | a drum that was there is gone for a whole section — no clap, or the offbeat hat muted |
+| **the hi-hat becoming a ride** | lofi especially | same beat, one sound swapped. Nothing else moves |
+| **the last section being the biggest change in the record** | the end | it may go the FULLEST or the EMPTIEST — a draw decides per song. Both are meant |
+| **toms** | lofi, synthwave, the game genre, dungeon synth | more of them, and inside the groove rather than only in fills |
+
+### The two questions I most want answered
+
+1. **Is it too much change?** A lofi record now has about six distinct drum
+   parts where it had four. If sections stop feeling like the same song, that
+   is the number to pull back and it is one number per genre (`arc.span`).
+2. **The last section going either way.** You chose "biggest change, either
+   direction". If the emptying-out ending sounds like the song running out of
+   steam rather than closing, say so and I will make it genre-by-genre.
+
+### And one thing that is NOT a taste question
+
+**Dungeon synth's chorus had no toms at all** — zero, in sixty songs out of
+sixty — because a setting meant to say "slightly fewer toms here" was wiping the
+whole tom block. That was a defect, it is fixed, and the chorus now has toms
+like the rest of the record. If dungeon synth's chorus sounds newly busy, that
+is why, and it is the genre's own declared setting finally being read.
+
+### What I deliberately did NOT do, and both are yours to overrule
+
+- **No toms in acid house or minimal techno**, though you asked for heavy toms.
+  Both genres declare themselves near-tomless, a seam check holds them to it in
+  both directions, and this file already carries a sourced refusal for tom rolls
+  in minimal techno. I built it, the battery caught it, and I took it out. Say
+  the word and it goes back.
+- **No breakbeats spread to other genres** — you parked that yourself to hear
+  this first. Jungle's own break now chops differently section to section, which
+  is the part that did not need the decision.
+
+---
+
 > ## ⚠ THIS FILE IS A LIST, NOT A GATE — corrected by the user, 2026-08-04
 >
 > **"What is a listening session? You can't hear. I can always open the

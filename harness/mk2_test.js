@@ -695,6 +695,30 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     check("the toms are played exactly as much as each genre asks",
           anyGenreUses === genres.length, rows.join("  |  "));
   }
+  /* ── EVERY MATERIAL A SONG PLAYS RESOLVES TO A PANEL PATTERN ───────────────
+     The playhead reads a table keyed by material name, and the table was
+     hand-written: `Bvar` was never in it, nor the lifted pair, so the lit step
+     went dark in a chorus variant for as long as one has existed. The drum
+     sectional arc made it total -- nearly every section now plays a private
+     copy (`A@3`) -- and the whole playhead went out.
+
+     So the SET is derived from the songs and the TABLE is proved against it,
+     which is the pairing this file requires wherever a list reaches the glass.
+     A material added tomorrow fails here on the day it is added. */
+  {
+    const bad = [], seenMat = new Set();
+    for(const g of genres)
+      for(let s = 1; s <= 12; s++)
+        for(const sec of M.composeSong(s, undefined, g).sections){
+          if(seenMat.has(g + ":" + sec.material)) continue;
+          seenMat.add(g + ":" + sec.material);
+          const p = M.patternOf(sec.material);
+          if(!p || !p.drums || !p.bass) bad.push(g + " " + sec.material);
+        }
+    check("every material a song plays resolves to a pattern the panel can light",
+          bad.length === 0,
+          bad.length ? bad.slice(0, 8).join(", ") : seenMat.size + " distinct materials across " + genres.length + " genres, all resolved");
+  }
   check("the genres are actually different music", new Set(seen.values()).size === genres.length,
         [...seen].map(([g, v]) => `${g}: ${v}`).join("  |  "));
 }

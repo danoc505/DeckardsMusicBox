@@ -4,13 +4,26 @@
 > the rules, the current state and what to do next, in two pages. Then come
 > back and read this whole file, which is the contract.
 
-*⚠ **CURRENT AT `2026-08-08s`.** The 2026-08-08 run is the longest in this
-project's history — nineteen builds, `08a` through `08s` — and it ends with the
-roll becoming editable. **Not one of those builds has been listened to.** That
-is not a footnote: this program's own first rule is that measurement can prove a
-thing exists and only the owner's ear can say whether it is good, and there are
-now nineteen builds' worth of unheard changes stacked up. Whoever picks this up
-should weigh "build the next thing" against "help him hear the last nineteen".*
+*⚠ **CURRENT AT `2026-08-09a` — the drums change from section to section.** The
+largest open item in `BACKLOG.md` is built: a section's drums are now the genre's
+kit plus a ladder of MOVES, the rung set by how far into the record the section
+sits, and the closing section takes the biggest change in a drawn direction. It
+was measured first — a record had six to fourteen sections with drums and three
+or four drum parts, and four genres closed on a drum part already heard in 100%
+of songs. All seven genres with drums moved, 25 of 25 seeds; Blade Runner did
+not, because it has no drums in any section of any song.
+`docs/genre-research/drum-sectional-arc.md` has the sources, the numbers and the
+two things that were built and then removed by measurement.*
+
+*⚠ **AND THE UNHEARD PILE IS NOW TWENTY.** The 2026-08-08 run was nineteen
+builds, `08a` through `08s`, ending with the roll becoming editable, and
+`2026-08-09a` makes twenty. **Not one has been listened to.** That is not a
+footnote: this program's own first rule is that measurement can prove a thing
+exists and only the owner's ear can say whether it is good. `2026-08-09a` is the
+one build in that stack aimed at a complaint the owner made in their own words,
+so it is the one worth playing first; the brief is in `test/ears/LOG.md`.
+Whoever picks this up should weigh "build the next thing" against "help him hear
+the last twenty".*
 
 *Written 2026-07-29 on branch `claude/code-review-6jd9cz` at `02906b7`; revised
 at `077e08b` when the rack reached the conductor; revised again 2026-07-30 at

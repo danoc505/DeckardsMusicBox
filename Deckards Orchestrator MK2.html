@@ -1397,7 +1397,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-08s · the hand on the roll — select a part, reroll it, undo it</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-09a · the drums change from section to section, and the last one changes most</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -28698,6 +28698,33 @@ function switchEl(m, c){
    same reason pins are keyed that way. ── */
 const PAT_OF = { A: { drums: "A", bass: "A" }, Avar: { drums: "A", bass: "A" },
                  B: { drums: "B", bass: "A" }, C: { drums: "C", bass: "C" } };
+/* ── ASK FOR THE PATTERN A MATERIAL DESCENDS FROM, NEVER FOR ITS OWN NAME ────
+   `PAT_OF` is a hand-written list of material names standing next to the
+   materials, and it was incomplete the day it was written: `Bvar` is not in it,
+   and neither is the lifted pair, so the playhead has been dark in a chorus
+   variant for as long as one has existed. The drum sectional arc made that
+   total -- nearly every section now plays a private copy, `A@3`, which is in no
+   list -- and `mk2_ui` caught it: "the playhead lights a step, 0 lit", on a
+   check that passed on the build before.
+
+   THIS FILE ALREADY RECORDS THE SAME FAILURE, in the composer, a few thousand
+   lines away: "`A@0` was not in it, `drumPhrase["A@0"]` came back undefined,
+   and the kit quietly lost its phrase letters". Same shape, same cause, and the
+   rule it breaks is the one written at the top of START-HERE.
+
+   So the name is REDUCED to what it descends from: a private copy plays its
+   parent's pattern, a lifted copy plays its parent's, a variant plays the
+   letter it varies.
+
+   ⚠ AND WHAT THIS DOES NOT FIX, stated rather than hidden: the panel shows the
+   PATTERN, so in a section carrying arc moves the lit step is the right step of
+   the right bar while the hits drawn under it are the pattern's own rather than
+   that section's. The playhead is honest about WHERE the song is and not about
+   WHAT it is playing there. Written up in BACKLOG. */
+const patOf = m => {
+  const base = String(m).split("@")[0].replace(/lift$/, "");
+  return PAT_OF[base] || PAT_OF[base.replace(/var$/, "")] || null;
+};
 const SEQ = { drums: { pat: "A", bar: 0, lane: "kick" }, bass: { pat: "A", bar: 0 } };
 function patternNotes(role, pat){
   const M = SONG.materials;
@@ -28713,7 +28740,7 @@ function playingPattern(role){
   const sec = SONG.sections.find(s => bar >= s.startBar && bar < s.endBar);
   if(!sec) return null;
   const isFill = role === "drums" && sec.fillInto && bar === sec.endBar - 1;
-  return { pat: isFill ? "fill" : (PAT_OF[sec.material] || {})[role],
+  return { pat: isFill ? "fill" : (patOf(sec.material) || {})[role],
            bar: isFill ? 0 : (bar - sec.startBar) % SONG.materials.bars,
            step: Math.floor(t / SONG.motion.spb) % 16 };
 }
@@ -30490,6 +30517,14 @@ window.MK2 = {
      pin reaches the material" can be measured rather than asserted */
   currentSong: () => SONG,
   genres: () => Object.keys(GENRE),
+  /* WHICH PANEL PATTERN A SECTION'S MATERIAL DESCENDS FROM. Exported so a seam
+     check can walk every material every genre actually plays and prove that
+     each one resolves, rather than a list being kept in step by hand -- the
+     hand-kept version was already missing `Bvar` and the lifted pair, and the
+     sectional arc turned that into a dark playhead. The SET is derived and the
+     TABLE is proved against it, which is the pairing this file requires
+     everywhere a list reaches the glass. */
+  patternOf: patOf,
   toMidi,
   /* measurement handles: the chip's tuning grid and its patch table, so a probe
      can sweep TL/feedback and PROVE the FM depth behaves the way the arithmetic

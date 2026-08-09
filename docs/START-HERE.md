@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-08s` unless it says otherwise. If you
+*Everything below is verified at `2026-08-09a` unless it says otherwise. If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -122,7 +122,7 @@ while both files carried an identical stamp, so three commits of work went
 unheard. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-08s`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-09a`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -135,7 +135,23 @@ because the measurement refused it.
 
 ## What happened last, and what to do next
 
-**Build `2026-08-08s`.** The 2026-08-08 run did five theory gaps and then grew
+**Build `2026-08-09a` — the drums now change from section to section.** The
+largest open item in `BACKLOG.md` (§6.0 A) is built. A record had six to fourteen
+sections with drums in it and three or four drum parts; four genres closed on a
+drum part the listener had already heard, in 100% of songs. A section's drums are
+now the genre's kit plus a ladder of moves, the rung set by how far into the
+record the section sits, and the closing section takes the biggest change in a
+drawn direction. All seven genres with drums moved. **Blade Runner did not, and
+that is correct rather than a miss — it has no drums in any section of any song.**
+
+Two things were built and then taken back out by measurement, both recorded in
+`docs/genre-research/drum-sectional-arc.md` §6: per-section move draws made every
+section unique (the shape the owner explicitly turned down), and the closing
+change was landing on a section `thinTo` had already stripped of drums. One seam
+check was rewritten rather than loosened, and the reasoning is in `mk2_test.js`
+beside it. **It has not been heard.** Brief: `test/ears/LOG.md`.
+
+**Build `2026-08-08s` and before.** The 2026-08-08 run did five theory gaps and then grew
 the roll a pair of hands. `HANDOFF-MK2.md` has every build in detail; the short
 version, and the two things that matter most for whoever is next:
 
@@ -165,7 +181,7 @@ somewhere to land.
 
 ## The commands
 
-Build `2026-08-08s`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-09a`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 
@@ -178,6 +194,7 @@ node harness/mk2_ui.js                      the front panel, real browser (flaky
 node harness/mk2_blend.js                   the blend sliders
 node harness/mk2_midi.js                    the MIDI port and the .mid export
 node harness/probe_mixer.js                 the desk reaches the graph
+node harness/probe_drumarc.js               does the drum part have a SHAPE
 ```
 
 **Three of those have a `--full` form and DEFAULT TO THE CHEAP ONE ON PURPOSE.**
