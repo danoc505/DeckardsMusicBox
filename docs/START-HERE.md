@@ -177,9 +177,22 @@ have no changes, how can we make anything better if nothing ever changes?"* —
 "0 of 300 seeds moved" is a SAFETY check, not a score, and reporting it as an
 achievement is a habit to break.
 
-**What is open, in the owner's priority order, is `BACKLOG.md` §6.0** — the
-drum sectional arc is the largest item, and the new roll editor gives it
-somewhere to land.
+**⚠ THE DRUM SECTIONAL ARC IS BUILT — `2026-08-09a`. Do not start it again.**
+`BACKLOG.md` §6.0 A is closed; A1–A5 under it are what is left of that item, and
+none of them is the mechanism.
+
+**What is open, and what the owner asked for last, is `BACKLOG.md` §H — THE
+GENRE FADERS.** They call the faders *"our chief rule breaking tool"* and say
+they are *"quite blind and limited… it seems to bake in certain aspect negating
+others."* Measured: a 50/50 fader averages ~47/53 across songs and produces
+individual records from **10/90 to 50/50**. Step 1 of six is built (`b7950cf`);
+**step 2 is the quota allocator** and its gate is that a solo genre must stay
+byte-identical. The whole brief is §H.
+
+**⚠ AND THE STAMP IS RED ON PICKUP, EXPECTED.** `b7950cf` changed the file and
+nothing has been republished since `2026-08-09b`. That is work in progress, not
+the artifact drift the check exists for. Decide early whether to publish; do not
+leave it red for a whole session.
 
 ## The commands
 

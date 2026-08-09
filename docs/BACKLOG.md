@@ -570,6 +570,52 @@ diatonic.**
 > **What would close it:** the owner's ear, or a source. It is one weighted line
 > per genre to put back.
 >
+> ### H. THE GENRE FADERS ARE BLIND, AND THEY NEGATE — opened 2026-08-09, IN PROGRESS
+>
+> The owner: *"I think the genre faders are our chief rule breaking tool. But
+> they are quite blind and limited. It seems to bake in certain aspect negating
+> others."* Both halves measured; `docs/genre-research/breaking-the-rule.md` §7.
+>
+> **BLIND.** A 50/50 fader is honest ACROSS songs and a lottery INSIDE one. Over
+> 30 seeds a pair the split averages ~47/53, and individual records run from
+> **10/90 to 50/50** (vgm+jungle worst at 10/90, lofi+jungle 11/89). The control
+> describes a distribution; a listener hears one draw from it.
+>
+> **NEGATING.** When the kit group goes to jungle the other genre's whole drum
+> identity is gone — the group draw being winner-takes-all, which is the same
+> cause as "blind". *(An earlier claim that one switch discarded fifteen drawn
+> fields was WRONG and is struck through in the research sheet: `chop` is grouped
+> WITH the kit. The real residue was two ungrouped tom paths, fixed at `b7950cf`.)*
+>
+> **THREE THINGS THE OWNER ASKED FOR, and where each stands:**
+>
+> | | today |
+> |---|---|
+> | dungeon synth harmony **at lofi length** | impossible — length is bundled with form (9.9 min vs 2.3) |
+> | **amen break + minimal techno's sends + a lofi track** | arrives **4 times in 60 songs (7%)** by chance, cannot be asked for |
+> | **a DS core with lofi drums on the DS drums** | impossible — `drums2` appears **0 times** in the file |
+>
+> **SIX STEPS, approved. Step 1 is done at `b7950cf`:** `blendElements()` derives
+> the 17 elements a genre is made of, `BLEND_NAME` gives them words, a seam check
+> walks the set (it caught `space.duck` unnamed within a minute), and the two
+> stray tom paths joined their kit.
+>
+> **Step 2 is where the next session starts: the quota allocator** — deal the
+> element GROUPS so each genre wins about its fader share in EVERY song, plus a
+> `traitRoll` nonce so the allocation can be rerolled on the same seed.
+> **⚠ THE GATE: a solo genre must stay byte-identical** — the file warns that
+> changing how many draws the blend takes moves every later draw, so the
+> allocator must consume nothing on a one-genre blend. If the snapshot moves, the
+> allocator is wrong; do not rewrite the baseline to make it pass.
+>
+> Then: 3 pin an element to a genre (`traits` beside `picks`/`pins`/`edits`),
+> 4 split `form` so song length is its own element, 5 per-genre switches under
+> each fader, 6 `drums2` on the `keys2` pattern — the only new machinery.
+>
+> **What would close it:** the owner's own three sentences, by hand in the
+> artifact. DS at lofi length; the amen combination on **every** seed rather than
+> 7%; two kits audible and neither flamming.
+
 > ### G. THE PROGRAM HAS NO WAY TO BREAK ITS OWN RULES — opened 2026-08-09
 >
 > The owner: *"Art breaks rules thats how new things are made… otherwise no new
