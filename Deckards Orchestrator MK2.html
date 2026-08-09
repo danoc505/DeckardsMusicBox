@@ -20130,6 +20130,18 @@ const BLEND_GROUP = {
   "kit.variants": "kit", "chop": "kit",
   "kit.rideEvery": "kit", "kit.crashStep": "kit", "kit.rim": "kit",
   "kit.clap": "kit", "kit.poly": "kit", "kit.listen": "kit",
+  /* ── THE TOM PATHS BELONG TO THE KIT AND WERE THE ONLY TWO THAT DID NOT ────
+     `kit.toms.loopSpots` and `kit.toms.loopLanes` are drawn, and they were the
+     only `kit.*` paths missing from this block, so they drew INDEPENDENTLY of
+     the kit they describe. Measured on lofi+jungle, 40 seeds: in the 20 songs
+     where the kit group went to jungle, these two came from lofi in 14 of them
+     -- into a chopped break, which reads no tom lane at all. Drawn, decided,
+     never read.
+     Found while checking a claim that turned out to be wrong in the other
+     direction (that `chop` discarded fifteen kit fields -- it does not, because
+     this block already holds them together). The check that disproved the big
+     claim found the small real one. */
+  "kit.toms.loopSpots": "kit", "kit.toms.loopLanes": "kit",
   /* THE OSTINATO AND THE REGISTERS ARE ONE DECISION. Measured before this
      grouping existed: 172 of 1890 blended songs threw "Cannot read properties
      of undefined", every one of them a blend involving DKC or Plastikman -- the
@@ -20141,6 +20153,67 @@ const BLEND_GROUP = {
      to the band it was given. */
   "registers": "ost", "ostinato": "ost",
 };
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   WHAT A GENRE IS MADE OF, IN WORDS A LISTENER USES
+
+   The owner: "What elements is a genre using and letting the user mix and match
+   them?" The answer has to be visible before it can be chosen, and this is the
+   half of it that reaches the glass.
+
+   ── THE SET IS DERIVED, THE WORDS ARE A TABLE ─────────────────────────────
+   The standing rule, and it exists because a derived list of variable names
+   once put `erangDrum`, `psgOpenhat` and thirty-two others on a front panel.
+   So: the SET of elements comes from `BLEND_DRAW` and `BLEND_GROUP` above —
+   nothing here decides what a genre contains — and only the WORDS live here.
+   A seam check walks the derived set and fails on anything with no entry, which
+   is what stops this table going stale the next time a path is added.
+
+   AN ELEMENT IS A GROUP where one exists, and a lone path where it does not:
+   the group is already the unit the blend hands to one genre, so it is also the
+   unit a listener can take from one genre.
+
+   `null` means DELIBERATELY NOT SHOWN — `label` is the genre's own name, a
+   string for the readout, not something anybody would choose to take from one
+   genre and not another. Written as an entry rather than an omission so the
+   seam check can tell a decision from a gap. ═══════════════════════════════ */
+const BLEND_NAME = {
+  /* the groups */
+  bass:  "the bass line",
+  form:  "how the song is built",
+  kit:   "the drum kit",
+  ost:   "the repeating figure",
+  /* the lone paths */
+  "counter.style":     "the second voice",
+  "counter.intervals": null,           // travels with the second voice above
+  "groove.swingUnit":  "the swing",
+  "sevenths":          "how rich the chords are",
+  "theme.count":       "how many notes the tune has",
+  "gate":              "the gated sound",
+  /* the words the owner has already read for this one, in test/ears/LOG.md:
+     "the kick pushing everything aside" */
+  "space.duck":        "the kick pushing everything aside",
+  "space.feeds":       "where the parts are sent",
+  "space.echoFeeds":   null,           // all five send lists are one decision
+  "space.flangeFeeds": null,
+  "space.dp4Feeds":    null,
+  "space.barberFeeds": null,
+  "label":             null,           // the genre's name, not a musical choice
+};
+
+/* THE ELEMENTS, ASKED OF THE BLEND ITSELF. Every drawn path reduced to the unit
+   the blend actually hands to one genre: its group where it has one, itself
+   where it does not. Returns [{ key, name, paths }], name null where the table
+   says "not shown". Nothing here is written by hand, which is the point. */
+function blendElements(){
+  const byKey = new Map();
+  for(const path of BLEND_DRAW){
+    const key = BLEND_GROUP[path] || path;
+    if(!byKey.has(key)) byKey.set(key, { key, name: BLEND_NAME[key], paths: [] });
+    byKey.get(key).paths.push(path);
+  }
+  return [...byKey.values()];
+}
 
 const isWeightedTable = v => Array.isArray(v) && v.length &&
   Array.isArray(v[0]) && v[0].length === 2 && typeof v[0][1] === "number" &&
@@ -30536,6 +30609,11 @@ window.MK2 = {
      TABLE is proved against it, which is the pairing this file requires
      everywhere a list reaches the glass. */
   patternOf: patOf,
+  /* WHAT A GENRE IS MADE OF, derived from the blend's own tables so a seam check
+     can walk the set and prove every element has a name a listener could read.
+     The pair — derived set, hand-written words — is what stops the names going
+     stale the next time a path is added. */
+  blendElements,
   toMidi,
   /* measurement handles: the chip's tuning grid and its patch table, so a probe
      can sweep TL/feedback and PROVE the FM depth behaves the way the arithmetic

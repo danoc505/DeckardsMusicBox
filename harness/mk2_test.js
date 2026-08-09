@@ -719,6 +719,26 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
           bad.length === 0,
           bad.length ? bad.slice(0, 8).join(", ") : seenMat.size + " distinct materials across " + genres.length + " genres, all resolved");
   }
+  /* ── EVERY ELEMENT A GENRE IS MADE OF HAS A NAME A LISTENER COULD READ ─────
+     The owner asked what elements a genre is using so they can mix and match
+     them, which means the elements have to reach the glass — and the last time
+     a derived list reached a front panel it put `erangDrum` and `psgOpenhat` on
+     it. So the SET is derived from the blend's own tables and the WORDS are a
+     table, and this walks the set to prove the words cover it.
+
+     `null` is a PASS: it means deliberately not shown, and `label` — the
+     genre's own name — is the case it exists for. A missing entry is a FAIL,
+     because that is a path added without anyone deciding what to call it. */
+  {
+    const els = M.blendElements();
+    const unnamed = els.filter(e => e.name === undefined).map(e => e.key);
+    const shown = els.filter(e => typeof e.name === "string");
+    check("every element a genre is made of has a name, or is marked not-shown",
+          unnamed.length === 0,
+          unnamed.length ? "no name for: " + unnamed.join(", ")
+                         : els.length + " elements, " + shown.length + " named, "
+                           + (els.length - shown.length) + " deliberately not shown");
+  }
   check("the genres are actually different music", new Set(seen.values()).size === genres.length,
         [...seen].map(([g, v]) => `${g}: ${v}`).join("  |  "));
 }
