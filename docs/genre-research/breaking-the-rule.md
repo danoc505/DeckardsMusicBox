@@ -248,3 +248,99 @@ ear.
   dance music. Neither `dkc.md` nor `dungeon-synth-arrangement.md` has been
   searched for this, and a chip-music rule-break should not be inferred from a
   sampler artefact.
+
+---
+
+# §6 THE OWNER'S CORRECTION — "understand the idea not the literalness"
+
+The mechanism this sheet's §3 pointed at was drafted as *a genre contradicts one
+line in its own kit table*. The owner stopped it:
+
+> *"When i say breaking the rules, you need to understand the idea not the
+> literalness. It is both isnt it? Jdilla broke the rules on how to program drums
+> no its classic and loved. The Amen loop is literally breaking of the loop
+> itself. Lofi hip hop is combining to different genres and degreading the sound
+> itself, dungeon synth is a sub genre of black metal and uses cheap old school
+> synths with intentionally degreaded sound. Jazz breaks the rules, modal jazz is
+> its own thing because it didnt fallow the rules."*
+
+**They are right and the draft was the smallest possible reading.** A kit
+override that contradicts a declaration is ONE level. Their five examples are at
+five different levels, and the important ones are above it:
+
+| the example | what rule is broken | what level that is |
+|---|---|---|
+| **J Dilla** | the grid itself | TIME |
+| **the Amen** | the loop's own continuity | MATERIAL |
+| **lofi hip hop** | the boundary between two genres, *and* fidelity | FUSION + SOUND |
+| **dungeon synth** | black metal's instruments, *and* fidelity | FUSION + SOUND |
+| **modal jazz** | functional harmony as a system | THE SYSTEM |
+
+## And here is what the program turns out to already have
+
+Checked rather than assumed, and the result reversed the expectation:
+
+- **THE DILLA FEEL IS BUILT.** `styles: [["dilla", 6], ["even", 4]]` in lofi, and
+  **every one of the eight genres declares a `jitter` block**. The file even
+  carries the correct distinction in a comment — *"dilla REPEATS, it does not
+  wander"* — which is exactly what separates a deliberate feel from
+  humanisation. It is not missing.
+- **BREAKING THE LOOP IS BUILT** — jungle's `chop`, with thin / jump / stutter /
+  reverse. Jungle only.
+- **DEGRADATION IS BUILT** — tape wow and flutter, the record surface, the noise
+  research. lofi and dungeon synth.
+- **AND FUSION IS BUILT, AND IT IS THE BIGGEST OF THEM.** The blend engine merges
+  a genre table field by field, and it is not crude: `lerp` for continuous
+  values, `merge` for weighted tables, and `draw` — *"pick ONE genre to own this
+  field"* — for the switches, with a written argument for why averaging a switch
+  is musically nothing. That is a real fusion engine.
+
+## So the gap is NOT "the program cannot break rules"
+
+It is this: **every rule-breaking device in the file is locked to the one genre
+whose research produced it.**
+
+- The Dilla feel is lofi's. **Acid house declares `["dilla", 0]`** — weight zero,
+  so that genre can never have it, by table.
+- The chopper is jungle's; no other genre can reach it (and the owner parked
+  spreading it, deliberately, earlier today).
+- Degradation belongs to the two genres whose research asked for it.
+
+**And the fusion engine has no user at all.** `composeSong(seed, rig, genre,
+picks, pins, edits)` — there is **no blend parameter**. A blended chart is
+assembled in the interface from the sliders and handed in as the genre. So the
+composer can never decide to fuse anything: **every drawn song is 100% one
+genre, and the one mechanism in this program that does what invented lofi hip
+hop and dungeon synth can only be reached by a hand on a slider.**
+
+That is this repo's oldest defect shape, and it is recorded in START-HERE in
+those words: a sourced mechanism, present, correct, and unreached. It is the
+same finding as `coltraneCycle`, at a much larger scale.
+
+## What this changes about the design
+
+The narrow mechanism drafted in §3 was written into the file and then **removed
+before it was committed** — it was inert (no genre declared the table it read)
+and an inert mechanism nobody draws is exactly what this sheet criticises
+`coltraneCycle` for being. Nothing about the four answers in §3 is withdrawn;
+they are correct about the level they describe. What the correction adds is that
+**that level is the smallest of five**, and that the top of the list — fusion —
+is already built and merely unreachable.
+
+**The next question is therefore not "how do we build rule-breaking".** It is
+which of these five levels the owner wants opened first, and the honest ranking
+by what already exists:
+
+1. **Fusion, reachable by the composer** — the engine exists and is unused. The
+   largest change available for the least new machinery, and the one with two
+   genre-invention precedents behind it.
+2. **The devices crossing genre lines** — the Dilla feel for a genre that
+   declares zero of it, the chopper outside jungle (parked), degradation outside
+   the two that own it.
+3. **The genre contradicting its own table** — §3's mechanism, the smallest.
+4. **The key and the dissonance laws** — §3's ranking stands.
+5. **The system itself** (modal jazz's move) — no research yet, and it is the
+   largest.
+
+**Nothing here has been built.** This section is a finding and a ranking, not a
+claim about the program's behaviour.
