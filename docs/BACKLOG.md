@@ -595,20 +595,39 @@ diatonic.**
 > | **amen break + minimal techno's sends + a lofi track** | arrives **4 times in 60 songs (7%)** by chance, cannot be asked for |
 > | **a DS core with lofi drums on the DS drums** | impossible — `drums2` appears **0 times** in the file |
 >
+> **⚠ STEP 2 IS BUILT — `2026-08-09c`. Do not start it again.** The elements are
+> DEALT now, not drawn one at a time: a shuffled order, each element to whichever
+> genre is furthest behind its fader's share, forced elements counted first so
+> they cost what they are worth. **Worst single record across 28 pairs went from
+> 8/92 to 45/55; each pair's worst record from 31 points off half to 2**, and the
+> two are arithmetic — an odd number of elements will not divide in two. `deal
+> again` on the blend panel rerolls the hand without moving the shares, and the
+> panel now says what the record actually came out as. The gate held: 200 songs
+> IDENTICAL, and structurally so — a solo genre returns before the allocator
+> exists. Numbers, method and the three defects the new tool found:
+> `docs/genre-research/breaking-the-rule.md` §8. **NOT HEARD.**
+>
+> **What is left of §H is steps 3–6**, below, and none of them is the quota.
+>
 > **SIX STEPS, approved. Step 1 is done at `b7950cf`:** `blendElements()` derives
 > the 17 elements a genre is made of, `BLEND_NAME` gives them words, a seam check
 > walks the set (it caught `space.duck` unnamed within a minute), and the two
 > stray tom paths joined their kit.
 >
-> **Step 2 is where the next session starts: the quota allocator** — deal the
-> element GROUPS so each genre wins about its fader share in EVERY song, plus a
-> `traitRoll` nonce so the allocation can be rerolled on the same seed.
-> **⚠ THE GATE: a solo genre must stay byte-identical** — the file warns that
-> changing how many draws the blend takes moves every later draw, so the
-> allocator must consume nothing on a one-genre blend. If the snapshot moves, the
-> allocator is wrong; do not rewrite the baseline to make it pass.
+> ~~**Step 2 is where the next session starts: the quota allocator**~~ **DONE
+> `2026-08-09c`**, with the gate held. Three things it turned up on the way, all
+> written up in the research sheet §8 and all now fixed:
+> **(a)** the second voice's style and the steps it moves by were drawn
+> separately and came from different genres in **73 of 120 songs**, while
+> `BLEND_NAME` claimed they travelled together — the ostinato/registers and
+> tom-path shape for the third time;
+> **(b)** the genre's own `label` was dealt a share and then overwritten, which
+> put a seventh element on one side of a twelve-element hand in 14 songs of 30;
+> **(c)** *"all five send lists are one decision"* was never true of the code —
+> here the code was right and the **words** were wrong, so the four are named
+> rather than hidden, which they had to be once the panel started printing them.
 >
-> Then: 3 pin an element to a genre (`traits` beside `picks`/`pins`/`edits`),
+> Left to do: 3 pin an element to a genre (`traits` beside `picks`/`pins`/`edits`),
 > 4 split `form` so song length is its own element, 5 per-genre switches under
 > each fader, 6 `drums2` on the `keys2` pattern — the only new machinery.
 >

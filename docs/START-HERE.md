@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-09b` unless it says otherwise. If you
+*Everything below is verified at `2026-08-09c` unless it says otherwise. If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -122,7 +122,7 @@ while both files carried an identical stamp, so three commits of work went
 unheard. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-09b`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-09c`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -134,6 +134,28 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Build `2026-08-09c` — the genre sliders mean what they say in every song.**
+Set two of them to 50/50 and you now get a record that is half and half. You did
+not before: every element of a genre tossed its own coin, so the average over
+thirty songs was about right and any ONE record ran from 8/92 to 92/8 — a control
+that is honest about a pile of songs and a lottery inside the one you are
+playing. The elements are dealt like a hand now, and the worst record anywhere
+across all 28 pairs is 45/55.
+
+Two other things came out of it. The blend panel says **what the record you have
+actually came out as** — which genre supplied the bass line, the drum kit, the
+swing — because the sliders only ever said what you asked for. And **`deal
+again`** gives you the same song with the same shares and a different half from
+each genre.
+
+Three faults turned up while measuring it, all fixed, all in
+`docs/genre-research/breaking-the-rule.md` §8. The one worth knowing: the second
+voice's style and the notes it is allowed to move by were being taken from
+DIFFERENT genres in 73 songs out of 120, while a comment in the file said they
+always travelled together.
+
+**It has not been heard.** Nobody has played a blend since this changed.
 
 **Build `2026-08-09b` — the drums now change from section to section.** The
 largest open item in `BACKLOG.md` (§6.0 A) is built. A record had six to fourteen
@@ -181,22 +203,39 @@ achievement is a habit to break.
 `BACKLOG.md` §6.0 A is closed; A1–A5 under it are what is left of that item, and
 none of them is the mechanism.
 
-**What is open, and what the owner asked for last, is `BACKLOG.md` §H — THE
-GENRE FADERS.** They call the faders *"our chief rule breaking tool"* and say
-they are *"quite blind and limited… it seems to bake in certain aspect negating
-others."* Measured: a 50/50 fader averages ~47/53 across songs and produces
-individual records from **10/90 to 50/50**. Step 1 of six is built (`b7950cf`);
-**step 2 is the quota allocator** and its gate is that a solo genre must stay
-byte-identical. The whole brief is §H.
+**⚠ AND THE GENRE FADERS' QUOTA IS BUILT — `2026-08-09c`. Do not start that
+again either.** §H step 2 is closed. The elements are DEALT rather than drawn one
+at a time, so a 50/50 fader gives half of EVERY record and not half on average:
+worst single record across 28 pairs went from **8/92 to 45/55**, each pair's
+worst record from **31 points off half to 2**, and the two left are arithmetic —
+an odd number of elements will not divide in two. The gate held (200 songs
+IDENTICAL, structurally: a solo genre returns before the allocator exists).
+`docs/genre-research/breaking-the-rule.md` §8 has the method and the three
+defects the new tool found on its first day.
 
-**⚠ AND THE STAMP IS RED ON PICKUP, EXPECTED.** `b7950cf` changed the file and
-nothing has been republished since `2026-08-09b`. That is work in progress, not
-the artifact drift the check exists for. Decide early whether to publish; do not
-leave it red for a whole session.
+**What is open on the faders is steps 3–6 of `BACKLOG.md` §H**, and the quota
+settles none of the owner's three sentences by itself. They can now RELY on the
+share; they still cannot ASK for a particular element. In their words the open
+ones are: dungeon synth harmony at lofi length (step 4 — length is bundled with
+form), the amen break with minimal techno's sends over a lofi track (step 3 — pin
+an element to a genre), and lofi drums on the dungeon synth kit (step 6 —
+`drums2` does not exist). Step 3 is the one that unlocks the most.
+
+**⚠ AND THE STAMP IS RED ON PICKUP, EXPECTED — but read WHICH red it is.** The
+program changed and the stamp MOVED with it (`2026-08-09c`); what has not
+happened is the republish. `mk2_stamp.js check` says so in those words. That is
+the step not yet done, not the artifact drift the check exists for. Decide early
+whether to publish; do not leave it red for a whole session.
+
+**⚠ AND ONE CONTRADICTION BETWEEN TWO FILES, LEFT ALONE ON PURPOSE.** The section
+below says no run times are written in these documents any more. `harness/
+README.md` still has a whole column of them. One of the two is wrong and it is
+the owner's call which; nobody should quietly delete a table the owner may have
+wanted, and nobody should quietly re-add costs to the other files either.
 
 ## The commands
 
-Build `2026-08-09b`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-09c`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 
@@ -210,6 +249,8 @@ node harness/mk2_blend.js                   the blend sliders
 node harness/mk2_midi.js                    the MIDI port and the .mid export
 node harness/probe_mixer.js                 the desk reaches the graph
 node harness/probe_drumarc.js               does the drum part have a SHAPE
+node harness/probe_blendshare.js 30 --all   what share of a song each genre on
+                                            the faders actually supplied
 ```
 
 **Three of those have a `--full` form and DEFAULT TO THE CHEAP ONE ON PURPOSE.**

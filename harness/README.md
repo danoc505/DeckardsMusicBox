@@ -28,6 +28,7 @@ chain eight times in a day. It is replaced by measured costs.
 | `probe_stems.js <genre> <seed> [secs] [from]` | ~1.5m | any question about balance |
 | `probe_static.js <genre> [songs]` | ~40s | how much a record actually changes |
 | `probe_palette.js <genre> [songs]` | ~40s | which of a genre's sounds get used |
+| `probe_blendshare.js [songs] [a+b ...\|--all]` | ~15s all pairs | what share of a song each genre on the faders actually supplied |
 | `mk2_ui.js` | ~2m, flaky ~1 in 5 | once before publishing — and ALWAYS for anything with a knob |
 | `mk2_blend.js` | ~2m | once before publishing |
 | `mk2_midi.js` | ~1m | once before publishing |

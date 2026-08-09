@@ -24,6 +24,62 @@ regression.
 
 ---
 
+## 2026-08-09c — THE GENRE SLIDERS NOW MEAN WHAT THEY SAY
+
+**Aimed at a complaint you made in your own words**, and the second one in a row
+that is. Status: **OPEN — nothing here has been heard.**
+
+> *"I think the genre faders are our chief rule breaking tool. But they are
+> quite blind and limited. It seems to bake in certain aspect negating others."*
+
+### What was true before, in numbers
+
+Set two sliders to 50/50 and the record you got was a coin toss, element by
+element. Over thirty songs the split averaged out to about half. **Any single
+record ran from 8/92 to 92/8.** Across all 28 pairs of genres, each pair's worst
+record was **31 points** away from the half you asked for. So the slider was
+honest about a pile of songs you will never play and a lottery about the one you
+are actually listening to.
+
+Now: worst record anywhere is **45/55**, and the pairs average **2 points** off.
+Two points is the closest arithmetic allows — an odd number of parts will not
+divide in two.
+
+### What to listen for
+
+**Pick two genres that sound nothing alike and set them to 50/50.** Dungeon synth
+and jungle. Lofi and minimal techno. Play three or four different seeds.
+
+1. **Does each record sound like a mix of the two, rather than one of them with
+   the other's tempo?** That is the whole claim. Before, roughly one record in
+   five was almost entirely one genre and you had no way to know which one you
+   had got.
+2. **Look at "what this record is made of"** under the sliders. It lists which
+   genre gave you the bass line, the drum kit, the swing, how the song is built.
+   The question for you: **are those the right things to be able to split up?**
+   Is there something in the list that should never come apart from something
+   else beside it, the way the second voice turned out to belong with the notes
+   it moves by? You are the only one who can hear that.
+3. **Press `deal again`.** Same song, same sliders, a different half from each
+   genre. It should sound like a genuinely different record and still like the
+   same mix. If it gives you something worse every time, the shuffle is too free.
+4. **Try 75/25.** It should sound three-quarters like the louder one. This is
+   where a quota and a coin toss differ most and it is the easiest one to judge.
+
+### The three sentences that are still NOT possible
+
+You asked for these and the quota does not deliver any of them. It makes the
+share reliable; it does not let you ASK for a particular thing. Worth knowing
+before you listen so you are not testing for something that is not built:
+
+- dungeon synth harmony **at lofi length** — song length still travels with the
+  whole shape of the song
+- **the amen break with minimal techno's effects over a lofi track** — you can
+  get it by luck, not by asking
+- **lofi drums on the dungeon synth kit** — a record can only have one kit
+
+---
+
 ## 2026-08-09b — THE DRUMS NOW CHANGE FROM SECTION TO SECTION
 
 **This is the one you asked for, and it is the only build here that is aimed at

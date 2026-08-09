@@ -4,7 +4,28 @@
 > the rules, the current state and what to do next, in two pages. Then come
 > back and read this whole file, which is the contract.
 
-*⚠ **CURRENT AT `2026-08-09b` — the drums change from section to section.** The
+*⚠ **CURRENT AT `2026-08-09c` — the genre sliders mean what they say in every
+song.** `BACKLOG.md` §H step 2. The owner called the faders *"our chief rule
+breaking tool"* and said they were *"quite blind and limited"*. They were: every
+element tossed its own coin, so thirty songs averaged out and no single record
+had to. **Worst single record across 28 pairs: 8/92 before, 45/55 after. Each
+pair's worst record: 31 points off half before, 2 after** — and the two are
+arithmetic, because an odd number of elements will not divide in two. The
+elements are DEALT now: a shuffled order, each to whichever genre is furthest
+behind its share, and the elements only one genre can supply dealt FIRST so they
+cost that genre what they are worth. The quota decides how many, the shuffle
+decides which, so two 50/50 records are both half and half and are different
+records. `deal again` on the blend panel rerolls the hand; the panel says what
+the record actually came out as, in words.
+**The gate held and it is structural, not sampled:** a blend of one genre returns
+its plain table before the allocator exists, so a solo genre cannot reach it —
+200 songs IDENTICAL. Numbers, method, and the three defects the new measuring
+tool found on its first day (the second voice split down the middle in 73 of 120
+songs; the genre's own name dealt a share and thrown away; four send lists whose
+words claimed a grouping the code never had) are in
+`docs/genre-research/breaking-the-rule.md` §8. **NOT HEARD.***
+
+*⚠ **`2026-08-09b` — the drums change from section to section.** The
 largest open item in `BACKLOG.md` is built: a section's drums are now the genre's
 kit plus a ladder of MOVES, the rung set by how far into the record the section
 sits, and the closing section takes the biggest change in a drawn direction. It
@@ -16,9 +37,9 @@ of 594 sections across 60 songs, so no drum event reaches the performance.
 `docs/genre-research/drum-sectional-arc.md` has the sources, the numbers and the
 two things that were built and then removed by measurement.*
 
-*⚠ **AND THE UNHEARD PILE IS NOW TWENTY.** The 2026-08-08 run was nineteen
-builds, `08a` through `08s`, ending with the roll becoming editable, and
-`2026-08-09b` makes twenty. **Not one has been listened to.** That is not a
+*⚠ **AND THE UNHEARD PILE IS NOW TWENTY-ONE.** The 2026-08-08 run was nineteen
+builds, `08a` through `08s`, ending with the roll becoming editable; `2026-08-09b`
+made twenty and `2026-08-09c` makes twenty-one. **Not one has been listened to.** That is not a
 footnote: this program's own first rule is that measurement can prove a thing
 exists and only the owner's ear can say whether it is good. `2026-08-09b` is the
 one build in that stack aimed at a complaint the owner made in their own words,

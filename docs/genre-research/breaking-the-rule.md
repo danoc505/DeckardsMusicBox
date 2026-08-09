@@ -484,3 +484,137 @@ but guaranteed each parent a share of the ones that matter.
 
 Both are `[EAR]` in size and neither is researched yet. This section is a
 measurement and a diagnosis, not a design.
+
+---
+
+# §8 BOTH OF THOSE ARE BUILT — `2026-08-09c`
+
+*Written after building them. Everything here is measured; where a number came
+from a run, the command that produced it is beside it.*
+
+## First, a tool, because the old numbers could not be asked for again
+
+The 10/90 in §7 was worked out by hand, once. Nothing could repeat it, so a
+change meant to fix it had nothing to prove itself against. Two things now exist:
+
+- **every blended song says where each element came from.** `chart.table
+  .blendTraits` — one row per element, with the words a listener reads and the
+  genre it came from. The blend writes down a decision it was already making.
+- **`harness/probe_blendshare.js`** counts that. It keeps no list of elements;
+  it asks the program, so an element added later is counted with nobody coming
+  back to this file.
+
+## And splitting one number in two changed the finding
+
+The first run said lofi wins *the kick pushing everything aside* 30 times out of
+30 and jungle never. That reads as a rigged draw. **It is a one-horse race:**
+lofi is the only genre that declares a duck. Reporting it as 30–0 would have
+sent somebody hunting a bug that does not exist.
+
+So the probe separates **FORCED** (one genre in this pair declares it) from
+**CONTESTED** (both do). The lottery is the contested half.
+
+**And that classification has to be asked of the blend, not worked out from the
+genre tables.** It was worked out here first — read both genres' tables, call an
+element contested if either declares any path under it — and it *disagreed with
+the program on real pairs*, because a group's owner is settled by whichever of
+its paths the walk reaches FIRST. Two genres can both have a drum kit and the
+blend still have no choice to make about it. The tell was fractional element
+counts, which are impossible. `MK2.blendPlan(mix)` is the blend answering for
+itself, and the probe uses it.
+
+## The before, and the after
+
+`node harness/probe_blendshare.js 30 --all` — 28 pairs, 30 songs each, faders at
+50/50, over the elements a song is made of.
+
+| | before | after |
+|---|---|---|
+| worst single record anywhere | **8/92** (vgm+bladerunner) | **45/55** (lofi+synthwave) |
+| each pair's worst record, off half by | **31 points** | **2 points** |
+
+The two remaining points are arithmetic and not slack: an odd number of elements
+does not divide in two, so one side holds the spare.
+
+**And §7's "the average is honest" is only true for some pairs.** It reports
+~47/53 across songs, which holds for lofi+jungle (45/55). It does **not** hold
+where the forced elements are lopsided: before this build, `bladerunner+acid`
+averaged **66/34** and `acid+plastikman` **37/63**, because bladerunner declares
+a second voice and acid declares neither that nor any send list. Those were never
+lotteries and no allocator would have moved them. They are the *negating* half of
+the complaint wearing a different face, and they are fixed by the paragraph below
+rather than by the quota.
+
+## What replaced the coins
+
+**A hand, dealt.** The elements go into a shuffled order and each goes to
+whichever genre is furthest behind the share its fader asks for.
+
+- **the quota decides HOW MANY, the shuffle decides WHICH.** Two 50/50 songs are
+  both half and half and are made of different halves. A fair split that produced
+  the same record every time would have earned *"we can't always have no
+  changes"* all over again.
+- **forced elements are dealt FIRST, and they cost what they are worth.** This is
+  change 2 of §7. Only lofi declares a duck; that used to be a free point and now
+  comes off lofi's allowance, so the other genre is owed a contested element back.
+  A genre that loses a domain to one switch is guaranteed something audible
+  elsewhere. **Measured with them dealt in shuffled order like the rest:**
+  lofi+jungle came out 42/58, because jungle's two one-runner sends landed last
+  when the nine real choices had already been split evenly. Facts first, then the
+  hand.
+- **the contested half is then deliberately NOT 50/50**, and reading that column
+  as the score is how this fix would get "corrected" back into the bug. lofi+
+  jungle sits at 56/44 contested because jungle is two sends ahead before any
+  choice is made. The probe prints the number to expect beside it.
+- **`traitRoll`** is a nonce on its own substream: same song, same fader, a
+  different hand of the same size. "deal again" on the blend panel.
+
+## THE GATE, and why it is structural rather than sampled
+
+A blend of one genre returns the plain table before any of this runs, so a solo
+genre cannot reach the allocator at all. The 200-song snapshot is IDENTICAL —
+not one note moved. `--full` was not run: it would re-prove what the early
+return already guarantees, and the full sweep has been killed for memory here.
+
+## Three things the tool found on its first day, two of them defects
+
+**THE SECOND VOICE WAS BEING SPLIT DOWN THE MIDDLE.** `counter.intervals` is the
+set of steps the second voice may sit at; `counter.style` is what reads them.
+They were not grouped, so the style ran on another genre's numbers. **73 of 120
+songs** across the four genres that have a second voice took the two from
+different genres. `BLEND_NAME` had said *"travels with the second voice above"*
+the whole time — the words were not a description, they were a wish. Grouped now.
+
+*Third time this shape has been found: the ostinato and its registers, the two
+tom paths, now this. All three were a document claiming a grouping the code did
+not have, and all three were found by printing what the blend actually decides
+rather than by reading it.*
+
+**THE GENRE'S OWN NAME WAS DEALT A SHARE AND THEN THROWN AWAY.** `label` is drawn
+like any element and the blend writes its own over the top, so it spent a genre's
+allowance on a value discarded a moment later — a seventh element on one side of
+a twelve-element hand in **14 songs of 30**. Not dealt now.
+
+**AND FOUR SEND LISTS CLAIMED TO BE ONE DECISION AND NEVER WERE.** *"all five
+send lists are one decision"* sat beside four `null` names; none is grouped, so
+the blend has always drawn them separately. Here the **code was right** — no one
+of them reads another's numbers, unlike the second voice and its steps — so the
+**words** were corrected and the four are named. They reach the panel now, and a
+`null` would have printed `space.dp4Feeds` on a front panel, which is the
+erangDrum rule.
+
+## What is still open on the faders
+
+Steps 3–6 of §H, unchanged: pin an element to a genre, split `form` so song
+length is its own element, per-genre switches under each fader, and `drums2`.
+
+**The owner's three sentences are still the close condition**, and the quota
+does not settle any of them by itself:
+
+| | after this build |
+|---|---|
+| dungeon synth harmony **at lofi length** | still impossible — length is bundled with form (step 4) |
+| **amen break + minimal techno's sends + a lofi track** | still cannot be *asked for* — the quota makes the share reliable, not the choice (step 3) |
+| **a DS core with lofi drums on the DS drums** | still impossible — `drums2` does not exist (step 6) |
+
+**NOT HEARD.** Nobody has played a blend since this changed.
