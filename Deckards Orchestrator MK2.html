@@ -20265,6 +20265,16 @@ function blendField(vals, ws, path, owner, src){
     let x = owner.rng() * ws.reduce((a, b) => a + b, 0), k = 0;
     for(let i = 0; i < vals.length; i++){ x -= ws[i]; if(x <= 0){ k = i; break; } k = i; }
     if(grp != null) owner.group[grp] = src ? src[k] : k;
+    /* ── WRITE DOWN WHO WON, so the split can be counted instead of guessed ───
+       The complaint this serves is "the faders are quite blind". Nobody could
+       answer "how much of THIS song came from each genre" without re-running
+       the draw by hand somewhere else, and a copy of a decision is not the
+       decision. So the draw records its own answer, keyed by ELEMENT -- the
+       group where there is one, the path where there is not, which is the same
+       unit `blendElements()` hands the listener.
+       This writes down a choice that has already been made. It draws nothing
+       and it changes nothing. */
+    owner.won[grp != null ? grp : path] = src ? src[k] : k;
     return vals[k];
   }
   if(typeof first === "number"){
@@ -20336,7 +20346,7 @@ function blendGenres(blend, seed){
   const B = normaliseBlend(blend);
   if(!B) return null;
   if(B.names.length === 1) return GENRE[B.names[0]];
-  const owner = { rng: stream(seed, "blend"), group: {} };
+  const owner = { rng: stream(seed, "blend"), group: {}, won: {} };
   const out = {}, keys = new Set();
   for(const n of B.names) for(const k in GENRE[n]) keys.add(k);
   for(const k of keys){
@@ -20352,6 +20362,21 @@ function blendGenres(blend, seed){
   }
   out.label = B.names.map((n, i) => GENRE[n].label + " " + Math.round(B.ws[i] * 100) + "%").join(" + ");
   out.blendOf = B.names.map((n, i) => [n, B.ws[i]]);
+  /* ── WHICH GENRE THIS SONG TOOK EACH ELEMENT FROM ──────────────────────────
+     One row per element that was actually decided, with the words the listener
+     reads. `name` is null for the elements deliberately not shown (the genre's
+     own name, and the four send lists that travel with the fifth) -- the same
+     table `blendElements()` reads, asked once here rather than copied.
+     This is the answer to "how much of this record is each genre", and it is
+     the thing a share can be counted from. It hangs off the table, which is a
+     stage-1 input; it is not attached to a note, so nothing the snapshot hashes
+     can see it. */
+  {
+    const words = {}; for(const e of blendElements()) words[e.key] = e.name;
+    out.blendTraits = Object.keys(owner.won).sort().map(key => ({
+      key, name: words[key], genre: B.names[owner.won[key]]
+    }));
+  }
   return out;
 }
 
