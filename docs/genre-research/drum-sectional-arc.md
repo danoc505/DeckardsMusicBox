@@ -86,10 +86,11 @@ inventing, it needs raising a level.**
 
 ### Substitution — the cheapest and the most idiomatic
 
-> "The drum patterns generally change for each part. It may be as simple as
-> switching the hi-hat for a ride when moving from verse to chorus, or it may
-> involve a completely different pattern."
-> — [Sound On Sound, *Programming Realistic Drum Parts*](https://www.soundonsound.com/techniques/programming-realistic-drum-parts)
+> "If we think in terms of a traditional song structure (verse, chorus, bridge
+> and so on), the drum patterns generally change for each part. It may be as
+> simple as switching the hi-hat for a ride when moving from verse to chorus, or
+> it may involve a completely different pattern."
+> — [Sound On Sound, *Programming Realistic Drum Parts*](https://www.soundonsound.com/techniques/programming-realistic-drum-parts) — **fetched and verified 2026-08-09**
 
 > "Often the difference between a verse and a chorus, or a chorus and a bridge,
 > can be as simple as switching a hi-hat pattern for a ride pattern **while
@@ -99,9 +100,15 @@ inventing, it needs raising a level.**
 Corroborated independently:
 
 > "The ride cymbal is traditionally used in choruses and middle eights, where the
-> energy of the track needs to increase." … "Use closed hi-hats in verses for
-> control and open hi-hats in choruses to heighten energy."
-> — [MusicRadar, *How to program MIDI drums that sound like the real thing*](https://www.musicradar.com/tutorials/music-production-tutorials/midi-drums-program-drum-week)
+> energy of the track needs to increase."
+> — [MusicRadar, *How to program MIDI drums that sound like the real thing*](https://www.musicradar.com/tutorials/music-production-tutorials/midi-drums-program-drum-week) — **fetched and verified 2026-08-09**
+
+> ⚠ **A SECOND SENTENCE WAS ATTRIBUTED TO THAT PAGE HERE AND IS NOT ON IT.** It
+> read *"Use closed hi-hats in verses for control and open hi-hats in choruses to
+> heighten energy"*, and it came from a search-result summary rather than from
+> the page. Fetched 2026-08-09: **NOT PRESENT.** It is deleted rather than
+> replaced, and see §7 for what it cost — the open-hat move it was supporting is
+> now marked `[EAR]`.
 
 **The emphasis matters as much as the device.** "Leaving all the other elements
 largely the same" is the constraint — a section is not a new beat, it is the
@@ -139,13 +146,17 @@ four of those sources reach for first.
 
 ### Addition — and it belongs late, not early
 
-> "The usual method is to start with a simple arrangement and add to it as the
-> song progresses." … "The final chorus is the culmination of the song and you
-> can add more backing vocals, more percussion and additional lead lines."
-> — [Born To Produce, *What Is Song Structure?*](https://www.borntoproduce.com/blogs/blog/what-is-song-structure-arrangement-guide)
-
 > "Some intros open with drums and gradually add layers of instruments."
-> — [Mixed In Key, *How to arrange a Dance Music track*](https://mixedinkey.com/captain-plugins/wiki/how-to-arrange-a-dance-music-track/)
+> — [Mixed In Key, *How to arrange a Dance Music track*](https://mixedinkey.com/captain-plugins/wiki/how-to-arrange-a-dance-music-track/) — **fetched and verified 2026-08-09**
+
+> ⚠ **TWO SENTENCES WERE ATTRIBUTED TO BORN TO PRODUCE HERE AND NEITHER IS ON
+> THAT PAGE.** They read *"The usual method is to start with a simple arrangement
+> and add to it as the song progresses"* and *"The final chorus is the
+> culmination of the song and you can add more backing vocals, more percussion
+> and additional lead lines"*. Both came from a search-result summary. Fetched
+> 2026-08-09: **NEITHER PRESENT.** The source is struck from this sheet. The
+> claim it was supporting survives on Hyperbits and Joey Sturgis Tones, both of
+> which were fetched — see §2 — so nothing built rests on it.
 
 The program already does the part-level version of this (`build.enter`, a role's
 arrival point). What it has never done is the **within-the-kit** version: a
@@ -238,8 +249,17 @@ Stated as fact about the program, not as a proposal:
   needs exactly that facility: a section owning a drum part that is a small
   edit of its parent. The mechanism exists and currently only a mouse can reach
   it.
-- **bladerunner has no drums at all**, so a drum arc cannot apply to it. Seven
-  genres, not eight.
+- **bladerunner never PLAYS drums**, so a drum arc cannot apply to it — seven
+  genres, not eight. Said precisely, because the loose version hides something:
+  it COMPOSES a kit (7.9 drum notes a song into material A) and the performance
+  emits **0.0 drum events**, because `drums` is active in **0 of 594 sections**
+  across 60 songs. The notes are written and never reached.
+  **And that raises a question this sheet has NOT measured:** the arrangement
+  lets a hand-loaded machine join any section for `keys2` and `lead` — read in
+  the code, `PITCHED`/`loaded` — and `drums` is not in that list. So loading a
+  drum machine into bladerunner's rack may compose a part and play silence,
+  which is the exact defect this file already logged for the saxophone. Filed in
+  BACKLOG rather than asserted: it is a code reading, not a measurement.
 
 ---
 
@@ -371,3 +391,61 @@ pass.
   the shape that was asked for, and reaches the events. Not one says it sounds
   good, and this file's own §2 records a source disagreement that only an ear can
   settle.
+
+---
+
+# §7 SOURCE AUDIT, 2026-08-09 — asked for by the owner, and it found two bad quotes
+
+The owner asked directly: *"Did you use the web to back up your work or did you
+just guess?"* Neither answer was the true one. The research was real — five
+searches, five pages fetched — but **several quotations in this sheet were taken
+from search-result SUMMARIES rather than from the page**, which is precisely what
+this project's standing rule forbids: *"Fetch the page you cite; do not trust a
+quote because it is already in the repo."*
+
+Every source in this sheet was then fetched and each quotation checked word for
+word. The result:
+
+| source | quote(s) | verdict |
+|---|---|---|
+| Sound On Sound, *Programming Realistic Drum Parts* | both | **verified**, and quote 1 was short — the fuller sentence is now in §1 |
+| Hyperbits, *Song Arrangement* | both | **verified verbatim** |
+| MusicRadar, *Anatomy of an arrangement* | drums drop out | **verified** — and it is the BREAKDOWN it describes, which this sheet had not said |
+| MusicRadar, *How to program MIDI drums* | ride in choruses | **verified** |
+| MusicRadar, *How to program MIDI drums* | closed hats in verses / open in choruses | ✗ **NOT ON THE PAGE — deleted** |
+| Born To Produce, *What Is Song Structure?* | both | ✗ **NEITHER ON THE PAGE — source struck** |
+| Mixed In Key, *How to arrange a Dance Music track* | both | **verified verbatim** (fetched during the original research) |
+| Authentic Drummer, *Half Time Groove* | both | **verified verbatim** (fetched during the original research) |
+| Joey Sturgis Tones, *Keep It Interesting* | final chorus | **verified verbatim** (fetched during the original research) |
+| Open Music Theory, *Drumbeats* | — | **403, never read.** Nothing in this sheet comes from it |
+
+## The one that proves the risk was not theoretical
+
+The search summary for Joey Sturgis Tones reported that the page contained
+material on half-time versus double-time in the final chorus. Fetched, the page
+came back: *"the article does not contain"* it. **A summary attributed to a page
+something that is not in it** — and that happened during the original research,
+which is exactly why every other unfetched quote had to be checked.
+
+## What it cost the build, honestly
+
+**One design decision loses its source and is now `[EAR]`.** The open-hat move —
+`openBars: [0,1,2,3]`, an ADDITION rung in lofi, synthwave, acid and minimal
+techno — was resting on the deleted closed-hats-in-verses sentence. What survives
+is Sound On Sound on the hi-hat becoming a ride and MusicRadar on the ride
+belonging to choruses, and **neither of those is about open hats.** The move is
+kept because it is a small, reversible addition of a voice the kit already
+declares, but it is a judgement of mine and not a sourced one, and it is the
+owner's to overrule.
+
+**Nothing else moves.** The subtraction moves rest on Hyperbits, MusicRadar's
+breakdown line, beatkey and myloops; the substitution moves on Sound On Sound and
+MusicRadar's ride line; the closing-section split on Hyperbits against Mixed In
+Key; the half-time move on Authentic Drummer. All fetched, all verified.
+
+## The rule this sheet now carries
+
+**A quotation goes in only from a page that was fetched in the same session it is
+written down, and the row says so.** A search result is a way to FIND a page, and
+it is not a source. Two of the nine sources in this sheet failed that test on the
+first pass, which is a 22% error rate on a document that reads as fully sourced.

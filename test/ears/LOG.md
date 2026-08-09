@@ -24,7 +24,7 @@ regression.
 
 ---
 
-## 2026-08-09a — THE DRUMS NOW CHANGE FROM SECTION TO SECTION
+## 2026-08-09b — THE DRUMS NOW CHANGE FROM SECTION TO SECTION
 
 **This is the one you asked for, and it is the only build here that is aimed at
 a complaint you made in your own words.** Everything above it in this file is

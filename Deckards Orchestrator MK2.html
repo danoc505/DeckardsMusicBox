@@ -1397,7 +1397,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-09a · the drums change from section to section, and the last one changes most</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-09b · the drums change from section to section, and the last one changes most</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -13251,7 +13251,18 @@ const GENRE = {
              as middle eights or choruses" [Production Expert]. */
           [{ toms: { loop: 0.55, loopBars: [1, 3] } }, 4],
           [{ clap: [4, 12] }, 2],
-          [{ ghostChance: 0.85, openBars: [0, 1, 2, 3] }, 3],
+          /* ── THE OPEN HAT ON EVERY BAR IS [EAR], AND IT USED TO BE SOURCED ──
+             This move was written against a sentence quoted in the research
+             sheet as MusicRadar's -- "use closed hi-hats in verses for control
+             and open hi-hats in choruses to heighten energy". The owner asked
+             whether the web work was real; every source was re-fetched, and that
+             sentence IS NOT ON THAT PAGE. It came from a search-result summary.
+             What survives is the hat becoming a RIDE [Sound On Sound] and the
+             ride belonging to choruses [MusicRadar], and neither is about open
+             hats. Kept because it is a small reversible addition of a voice this
+             kit already declares; marked as mine rather than sourced.
+             docs/genre-research/drum-sectional-arc.md §7 */
+          [{ ghostChance: 0.85, openBars: [0, 1, 2, 3] }, 3],   // [EAR]
           /* THE FEEL, and it is deliberately the rarest: one big backbeat on
              beat three instead of two. "The last chorus of the song for four
              bars before slamming back into the normal groove" [Authentic
@@ -14330,7 +14341,7 @@ const GENRE = {
           /* this kit's toms are the second-highest in the file (use 0.85) and
              they were reachable only through a fill */
           [{ toms: { loop: 0.70, loopBars: [1, 3] } }, 4],
-          [{ openBars: [0, 1, 2, 3], crashChance: 0.9 }, 3],
+          [{ openBars: [0, 1, 2, 3], crashChance: 0.9 }, 3],   // open hat [EAR], see lofi's note
           [{ snare: [8], kickKeep: 4, hatEvery: 4 }, 1],
         ],
       },
@@ -16299,7 +16310,7 @@ const GENRE = {
           [{ kickKeep: 0 }, 2, { takes: true }],            // bar 31: mute the kick
           [{ rim: [], ghostChance: 0.10 }, 3, { takes: true }],
           [{ hatEvery: 1, hatVel: 0.64 }, 4],
-          [{ openBars: [0, 1, 2, 3], openSpot: [[2, 4], [6, 3], [10, 2], [14, 3]] }, 3],
+          [{ openBars: [0, 1, 2, 3], openSpot: [[2, 4], [6, 3], [10, 2], [14, 3]] }, 3],  // [EAR]
           /* ── NO TOM MOVE HERE, AND IT WAS BUILT AND THEN TAKEN OUT ──────────
              The owner asked for heavy toms and I gave this genre one:
              `toms: { loop: 0.35, loopBars: [3] }`. The seam battery caught it.
@@ -17087,7 +17098,7 @@ const GENRE = {
           [{ kickKeep: 0 }, 2, { takes: true }],            // bar 31: mute the kick
           [{ openBars: [] }, 4, { takes: true }],
           [{ hatEvery: 1, hatVel: 0.62 }, 4],
-          [{ openSpot: [[2, 4], [6, 3], [10, 2], [14, 3]], openBars: [0, 1, 2, 3] }, 3],
+          [{ openSpot: [[2, 4], [6, 3], [10, 2], [14, 3]], openBars: [0, 1, 2, 3] }, 3],  // [EAR]
           /* ── NO TOM MOVE HERE EITHER, AND THIS ONE THE FILE ALREADY REFUSED ─
              I gave this genre `toms: { loop: 0.30, loopBars: [3] }` on the
              owner's "heavy toms" and it doubled the songs containing a tom from

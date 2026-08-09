@@ -570,6 +570,30 @@ diatonic.**
 > **What would close it:** the owner's ear, or a source. It is one weighted line
 > per genre to put back.
 >
+> **A4. A DRUM MACHINE LOADED INTO BLADE RUNNER MAY PLAY SILENCE — NOT
+> MEASURED, FLAGGED.** Blade Runner composes 7.9 drum notes a song into its
+> material and emits **0.0 drum events**, because `drums` is active in **0 of 594
+> sections** over 60 songs. That is correct for the genre — there is no kit in
+> that score. But the arrangement's rule that lets a HAND-LOADED machine join any
+> section covers `keys2` and `lead` only; `drums` is not in that list. So loading
+> a drum machine into this genre's rack looks like it would compose a part and
+> play nothing — **the exact defect already logged for the saxophone** ("load a
+> saxophone, hear silence"). **This is a reading of the code and NOT a
+> measurement**, which is why it is filed rather than claimed. **What would close
+> it:** compose a Blade Runner song with a drum machine loaded by hand and count
+> the drum events. If it is zero, the fix is the one the sax got.
+>
+> **A5. THE SOURCE AUDIT — two quotations in the drum research were not on the
+> pages they were credited to.** Found 2026-08-09 when the owner asked whether
+> the web work was real. Both came from search-result summaries rather than from
+> a fetched page. Every source in that sheet has now been fetched and checked
+> word for word; the audit table is `drum-sectional-arc.md` §7, the false quotes
+> are deleted, and one design decision (the open-hat rung) lost its source and is
+> now marked `[EAR]` in the genre tables. **The general risk is not closed:**
+> other research sheets in this repo were written the same way and have not been
+> audited. **What would close it:** the same fetch-and-check pass over the sheets
+> whose claims are load-bearing.
+>
 > **A3. BREAKBEATS IN OTHER GENRES — parked by the owner**, deliberately, to hear
 > the arc first. The break chopper is already a loadable machine with its own
 > controls; only jungle's table reaches it. Jungle's own chopping now varies by

@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-09a` unless it says otherwise. If you
+*Everything below is verified at `2026-08-09b` unless it says otherwise. If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -122,7 +122,7 @@ while both files carried an identical stamp, so three commits of work went
 unheard. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-09a`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-09b`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -135,14 +135,16 @@ because the measurement refused it.
 
 ## What happened last, and what to do next
 
-**Build `2026-08-09a` — the drums now change from section to section.** The
+**Build `2026-08-09b` — the drums now change from section to section.** The
 largest open item in `BACKLOG.md` (§6.0 A) is built. A record had six to fourteen
 sections with drums in it and three or four drum parts; four genres closed on a
 drum part the listener had already heard, in 100% of songs. A section's drums are
 now the genre's kit plus a ladder of moves, the rung set by how far into the
 record the section sits, and the closing section takes the biggest change in a
 drawn direction. All seven genres with drums moved. **Blade Runner did not, and
-that is correct rather than a miss — it has no drums in any section of any song.**
+that is correct rather than a miss — it never plays drums: it composes a kit and
+`drums` is active in 0 of 594 sections measured over 60 songs, so 0.0 drum events
+reach the performance.**
 
 Two things were built and then taken back out by measurement, both recorded in
 `docs/genre-research/drum-sectional-arc.md` §6: per-section move draws made every
@@ -181,7 +183,7 @@ somewhere to land.
 
 ## The commands
 
-Build `2026-08-09a`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-09b`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 
