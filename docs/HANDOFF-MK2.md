@@ -4,7 +4,21 @@
 > the rules, the current state and what to do next, in two pages. Then come
 > back and read this whole file, which is the contract.
 
-*⚠ **CURRENT AT `2026-08-09c` — the genre sliders mean what they say in every
+*⚠ **CURRENT AT `2026-08-09d` — and every part of a blend can be AIMED at a
+genre.** §H step 3. Each element the blend decides carries a control — *whichever*
+or *always <genre>* — and **594 element-and-genre combinations across all 28
+pairs are honoured**. A pin is settled before the dealing, like an element only
+one genre declares, and the quota balances the rest around it: one element pinned
+still leaves the record within half an element of the fader's share over 84
+songs. A pin OUTRANKS the fader on purpose. An impossible pin is refused in
+words. Read it in the notes with `mk2_roll --trait kit=jungle`, which is new for
+exactly that reason. **Two corrections from the owner came with it and both are
+in NOTES-FROM-THE-USER:** the unheard pile is not a stop sign (*"YOU CANT LISTEN
+YOUR NOT A HUMAN! You can print midi notes and read them!"*, and §0 has said so
+since 2026-08-04), and their three fader sentences are EXAMPLES rather than a
+checklist. `docs/genre-research/breaking-the-rule.md` §9. **NOT HEARD.***
+
+*⚠ **`2026-08-09c` — the genre sliders mean what they say in every
 song.** `BACKLOG.md` §H step 2. The owner called the faders *"our chief rule
 breaking tool"* and said they were *"quite blind and limited"*. They were: every
 element tossed its own coin, so thirty songs averaged out and no single record
@@ -39,7 +53,7 @@ two things that were built and then removed by measurement.*
 
 *⚠ **AND THE UNHEARD PILE IS NOW TWENTY-ONE.** The 2026-08-08 run was nineteen
 builds, `08a` through `08s`, ending with the roll becoming editable; `2026-08-09b`
-made twenty and `2026-08-09c` makes twenty-one. **Not one has been listened to.** That is not a
+made twenty, and `2026-08-09c` and `09d` make twenty-two. **Not one has been listened to.** That is not a
 footnote: this program's own first rule is that measurement can prove a thing
 exists and only the owner's ear can say whether it is good. `2026-08-09b` is the
 one build in that stack aimed at a complaint the owner made in their own words,

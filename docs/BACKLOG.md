@@ -638,7 +638,18 @@ diatonic.**
 > here the code was right and the **words** were wrong, so the four are named
 > rather than hidden, which they had to be once the panel started printing them.
 >
-> Left to do: 3 pin an element to a genre (`traits` beside `picks`/`pins`/`edits`),
+> **⚠ STEP 3 IS BUILT TOO — `2026-08-09d`. Do not start it again.** Every element
+> the blend decides now has a control on the panel: *whichever*, or *always
+> <genre>*. **594 element-and-genre combinations across all 28 pairs, every one
+> honoured.** A pin is settled before the dealing, like an element only one genre
+> declares, and the quota works around it — with one element pinned the rest of
+> the record is still within half an element of the fader's share, over 84 songs.
+> A pin OUTRANKS the fader on purpose; the sliders decide what was not pinned. A
+> pin that cannot be honoured is refused in words. `mk2_roll.js --trait kit=jungle
+> --deal 2` prints an aimed blend, because a feature the roll cannot print is one
+> nobody has read the notes of.
+>
+> Left to do: ~~3 pin an element to a genre~~ **done**,
 > 4 split `form` so song length is its own element, 5 per-genre switches under
 > each fader, 6 `drums2` on the `keys2` pattern — the only new machinery.
 >

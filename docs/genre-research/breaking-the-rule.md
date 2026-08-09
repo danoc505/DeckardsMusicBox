@@ -603,18 +603,79 @@ of them reads another's numbers, unlike the second voice and its steps — so th
 `null` would have printed `space.dp4Feeds` on a front panel, which is the
 erangDrum rule.
 
+---
+
+# §9 AND THE FADER CAN BE AIMED — `2026-08-09d`
+
+*Step 3. Written after building it.*
+
+## The correction that reframed it
+
+> *"My EXAMPLES were meant to convey the idea NOT exact things to do."*
+
+§7 and §8 of this sheet, and §H of the backlog, had turned the owner's three
+sentences into a three-item acceptance test. They are illustrations. **The idea
+is that the faders are "our chief rule breaking tool", and a rule-breaking tool
+lets you take a named part of one genre and put it with a named part of another,
+on purpose.** Building the three examples would not have been building that.
+
+## What was missing after §8
+
+The quota made the share **reliable**. It did not make it **askable**: you got
+half a record from each genre and no say in which half. §7's own diagnosis is
+about independence producing a bad *distribution*; it never says the listener
+should be able to *choose*. That is the gap the owner's word "blind" also covers.
+
+## What is built
+
+Every element the blend decides carries a control: **whichever**, or **always
+<genre>**. Measured: **594 element-and-genre combinations across all 28 pairs,
+every one honoured** (`mk2_test`, "a hand can ask for any element from any genre
+that has one").
+
+- **A pin is settled before the dealing**, in the same pass as an element only
+  one genre declares — because that is exactly what a pinned element now is.
+- **The quota then works around it.** With one element pinned, the rest of the
+  record is still within half an element of what the sliders ask for, over 84
+  songs. Aiming one thing does not abandon the other eleven.
+- **A pin outranks the fader**, and that is the design rather than a wrinkle.
+  Pin nine elements to one genre at 50/50 and you get nine of that genre. A
+  slider cannot hold a share against an explicit instruction and should not try.
+- **A pin that cannot be honoured is refused in words** — *"acid house is not in
+  this blend"*, *"these genres do not decide that"* — never silently dropped.
+  The precedent is the mixer whose faders were all dead under a green probe.
+
+## Read from the notes, which is the test
+
+```
+node harness/mk2_roll.js 1 --blend lofi:50,jungle:50 --trait kit=lofi
+node harness/mk2_roll.js 1 --blend lofi:50,jungle:50 --trait kit=jungle
+```
+
+Same seed, same sliders, same chords, same second keyboard. Pinned to lofi the
+drum lanes print as `kick snare rim hat openhat crash`; pinned to jungle they
+print as `break slice source` — a chopped break instead of a kit, on request.
+
+**And the compensation is visible in the same printout.** The record is 256 bars
+one way and 44 the other: taking the kit for lofi leaves jungle owed something,
+and it took *how the song is built*. That is the quota doing its job, and it will
+look like a bug to anyone who has not been told.
+
+`--trait` and `--deal` were added to `mk2_roll` for this: a feature the roll
+cannot print is a feature nobody has read the notes of.
+
 ## What is still open on the faders
 
-Steps 3–6 of §H, unchanged: pin an element to a genre, split `form` so song
-length is its own element, per-genre switches under each fader, and `drums2`.
+Steps 4, 5 and 6 of §H: split `form` so song length is its own element, per-genre
+switches under each fader, and `drums2` — the only one needing new machinery.
 
-**The owner's three sentences are still the close condition**, and the quota
-does not settle any of them by itself:
+The three examples, as a way to check the result by hand rather than as a
+definition of done:
 
 | | after this build |
 |---|---|
-| dungeon synth harmony **at lofi length** | still impossible — length is bundled with form (step 4) |
-| **amen break + minimal techno's sends + a lofi track** | still cannot be *asked for* — the quota makes the share reliable, not the choice (step 3) |
-| **a DS core with lofi drums on the DS drums** | still impossible — `drums2` does not exist (step 6) |
+| dungeon synth harmony **at lofi length** | still impossible — length travels with the whole shape of the song (step 4) |
+| **amen break + minimal techno's sends + a lofi track** | **askable now** for the break and the sends; whether the result is any good is an ear question |
+| **a DS core with lofi drums on the DS drums** | still impossible — a record can only have one kit (step 6) |
 
-**NOT HEARD.** Nobody has played a blend since this changed.
+**NOT HEARD.** Nobody has played a blend since any of this changed.

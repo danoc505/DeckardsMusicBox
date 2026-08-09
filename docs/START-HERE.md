@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-09c` unless it says otherwise. If you
+*Everything below is verified at `2026-08-09d` unless it says otherwise. If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -122,7 +122,7 @@ while both files carried an identical stamp, so three commits of work went
 unheard. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-09c`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-09d`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -134,6 +134,14 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Build `2026-08-09d` — and now every part of the mix can be AIMED.** Under the
+sliders, each part of the record — the bass line, the drum kit, the swing, how
+the song is built — has a little menu: leave it on *whichever*, or say *always
+jungle* and it comes from jungle every time. What you did not aim, the sliders
+still decide. Ask for something a genre does not have and it says so instead of
+pretending. Read it in the notes:
+`node harness/mk2_roll.js 1 --blend lofi:50,jungle:50 --trait kit=jungle`.
 
 **Build `2026-08-09c` — the genre sliders mean what they say in every song.**
 Set two of them to 50/50 and you now get a record that is half and half. You did
@@ -213,11 +221,15 @@ IDENTICAL, structurally: a solo genre returns before the allocator exists).
 `docs/genre-research/breaking-the-rule.md` §8 has the method and the three
 defects the new tool found on its first day.
 
-**What is open on the faders is steps 3–6 of `BACKLOG.md` §H.** The quota made
-the share RELIABLE; you still cannot ASK for a particular element, and that is
-the gap. The owner's words for what the faders are for: *"our chief rule breaking
-tool"* — which means taking a named part of one genre and putting it with a named
-part of another, on purpose.
+**⚠ STEP 3 IS BUILT TOO — `2026-08-09d`. Do not start it again.** Every element
+of a blend can be aimed: *whichever*, or *always <genre>*, on the blend panel and
+on `mk2_roll --trait`. 594 element-and-genre combinations honoured; a pin
+outranks the fader and the quota balances the rest around it; an impossible pin
+is refused in words.
+
+**What is open on the faders is steps 4, 5 and 6 of `BACKLOG.md` §H** — song
+length as its own element, per-genre switches under each fader, and `drums2`
+(the only one needing new machinery).
 
 **⚠ AND DO NOT READ THE OWNER'S THREE SENTENCES AS A CHECKLIST.** *"My EXAMPLES
 were meant to convey the idea NOT exact things to do."* §H used to list them as
@@ -244,7 +256,7 @@ wanted, and nobody should quietly re-add costs to the other files either.
 
 ## The commands
 
-Build `2026-08-09c`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-09d`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 

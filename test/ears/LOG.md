@@ -24,6 +24,38 @@ regression.
 
 ---
 
+## 2026-08-09d — AND NOW YOU CAN AIM EVERY PART OF THE MIX
+
+**OPEN — not heard.** Read this with the `09c` entry below it; they publish
+together.
+
+Under the sliders, every part of the record has a little menu — the bass line,
+the drum kit, the swing, how the song is built, where each part gets sent. Leave
+it on **whichever** and the sliders decide. Set it to **always jungle** and it
+comes from jungle every time, at any slider position above zero.
+
+### What to listen for
+
+1. **Aim one thing and play the same seed twice, once each way.** The drum kit is
+   the loudest one to try: lofi's kit and jungle's chopped break are not remotely
+   the same thing. Does the rest of the record still hang together around it?
+2. **Then notice what MOVED to pay for it.** Aiming the kit at one genre leaves
+   the other genre owed something, and it takes something else — on seed 1 with
+   lofi and jungle, aiming the kit at lofi handed jungle *how the song is built*
+   and the record went from 44 bars to 256. **This is the part most likely to
+   feel wrong**, and it is a real design question rather than a bug: should
+   aiming one thing be allowed to swing something big somewhere else, or should
+   the fader hold everything else steady and just accept being off its share?
+   Only you can answer that.
+3. **Aim three or four things at once** and see whether "half and half" still
+   means anything, or whether you have effectively built a third genre by hand.
+   If that is fun rather than broken, that is worth saying — it may be the actual
+   feature.
+4. **Ask for something impossible** — the second voice from a genre that has
+   none. It should tell you why in plain words rather than doing nothing.
+
+---
+
 ## 2026-08-09c — THE GENRE SLIDERS NOW MEAN WHAT THEY SAY
 
 **Aimed at a complaint you made in your own words**, and the second one in a row
