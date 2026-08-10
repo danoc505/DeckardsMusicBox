@@ -11268,6 +11268,26 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     return made;
   };
 
+  /* ── THE ATMOSPHERE BED: one of the pack's environments, under the record ──
+     The same rail as the surface above -- ONE event on the tape role, the same
+     scheduler live and offline (Law 10), joining at the vinyl channel so the
+     hand and the genre reach it through the crossing that already exists
+     (`vinylMix`). A loopable bed loops on the bank's own measured loop points;
+     a one-shot (the accent the chart may draw for the peak) plays once and
+     dies. The buffer comes from `erangBuffer`, so a bed a song already
+     decoded is never decoded twice. */
+  V.atmos = function(g, ev, t){
+    const s = ERANG.meta(ev.bed), buf = erangBuffer(g, ev.bed);
+    if(!s || !buf) return [];
+    const c = g.ctx;
+    const src = c.createBufferSource(); src.buffer = buf;
+    if(s.ls >= 0){ src.loop = true; src.loopStart = s.ls / ERANG.rate; src.loopEnd = s.le / ERANG.rate; }
+    const gn = c.createGain(); gn.gain.value = ev.gain;
+    src.connect(gn); gn.connect(chanIn(g, "tape", "vinyl"));
+    src.start(t); src.stop(t + ev.durSec);
+    return [src];
+  };
+
   V.openhat = function(g, ev, t){
     const c = g.ctx;
     const body = burst(g, t, 0.30, ev.tSec.toFixed(5) + ":openhat");
@@ -18895,6 +18915,34 @@ const GENRE = {
        tutorial, transcript on `main`]. A third of what it was. */
     tape: { wow: [0.0016, 0.0022], crackle: [0.0015, 0.0010],
             flutter: [0.0008, 0.0012], hiss: [0.004, 0.003] },
+    /* ── THE WEATHER IN THE DUNGEON ──────────────────────────────────────────
+       One of the pack's environment beds under the whole record -- Erang's own
+       wind, catacomb air and noise floors, eight loopable beds asked of the
+       bank. A practitioner adds "atmospheric sounds at various parts of the
+       track" [corpus:erichgrunewald]; dark ambient practice puts the ambience
+       as "background layer... occupying the perceptual background"
+       [corpus:bluezone]. LEVEL IS [CHOSEN] and anchored to two stakes: it must
+       clear the audibility floor in the gaps this genre's percussion leaves
+       (the march is silent 22-65% of its window), and it must sit under every
+       named part -- the record surface precedent says a medium bed lives
+       decibels under the music, not beside it. Measured where it landed in
+       dungeon-synth-fx-and-balance.md §7.
+
+       AND THE TWO ONE-SHOTS ARE AN ACCENT, NOT A BED. The catacomb crash and
+       the thunder impact cannot loop (measured: `ls -1` in the bank), and the
+       genre's forum asks for sound effects as "accents". Half of records draw
+       one and spend it ONCE, on the peak section's downbeat -- "a unique
+       orchestral colour should be saved for the one climax and used nowhere
+       else" [Belkin, dungeon-synth-arrangement.md P3]. */
+    /* level: first guess [0.012, 0.012] rendered the bed at -45 dB RMS against
+       a -16 dB mix -- surface-noise territory, and the whole-mix delta with it
+       removed was 0.004 dB, which is the "declared and absent" defect this
+       genre's own bass just demonstrated. Doubled: the bed sits near -40,
+       under the quietest named part (keys2, -36) and above the record's
+       between-strikes floor, which is what "background layer" means in
+       numbers. The accent must survive the PEAK section -- the loudest bars in
+       the record -- so it is sized against that, not against silence. */
+    atmos: { level: [0.025, 0.025], accent: 0.5, accentLevel: [0.14, 0.10] },
     /* NO SEVENTHS. "simple stepwise resolutions rather than dense extended
        chords" [corpus:melodigging] -- the vertical vocabulary is triads and
        open fifths, which is what makes it read as medieval rather than as
@@ -20026,6 +20074,12 @@ const GENRE = {
                      to: [0.10, 0.20], curve: "exp" }],
         leadRoom: [{ kind: "arc", from: [-0.62, -0.50], to: [-0.44, -0.36], curve: "sCurve" },
                    { kind: "occurrence", step: [0.09, 0.14], cap: 3 }],
+        /* the medium -- the atmosphere bed, the crackle and the hiss share the
+           vinyl channel -- pulls back for the break and breathes slowly the
+           rest of the record. Routed (base 1), so every move is a CUT, per the
+           10a law. lofi's vinylMix section lane is the precedent. */
+        vinylMix: [{ kind: "section", by: { bridge: [-0.30, -0.14] } },
+                   { kind: "lfo", bars: [[76, 1]], depth: [0.04, 0.09], shape: "sin", freePhase: true }],
       },
     },
     /* THE WALK. Not a song shape -- a descent. The sources describe duration
@@ -22028,6 +22082,40 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll, 
       flutter: G.tape.flutter[0] + rng() * G.tape.flutter[1],
       hiss:    G.tape.hiss[0]    + rng() * G.tape.hiss[1],
     }),
+    /* ── THE ATMOSPHERE, drawn per song, on its OWN substream ────────────────
+       A genre that declares `atmos` gets one of the pack's environment beds
+       under the whole record -- wind, catacomb air, a noise floor -- the way a
+       dark ambient background layer "shapes the perceived environment" while
+       the music keeps the foreground [bluezone; Grunewald adds "atmospheric
+       sounds" to his own tracks]. WHICH bed is asked of the bank and filtered
+       by what the audio measured, never listed: the loopable ones are beds,
+       and the two one-shots (a catacomb crash, a thunder impact) are ACCENTS
+       -- the genre's forum asks for sound effects as exactly that -- so a
+       record sometimes saves one for its peak: Belkin's rule, a unique colour
+       held back for the one climax and used nowhere else.
+
+       On `stream(seed, "atmos")`, not on `rng`: an unguarded draw on the
+       chart's main stream would shift every draw after it in all nine genres.
+       A named substream is what Law 3 is for; genres without `atmos` are
+       untouched by construction. */
+    atmos: (() => {
+      if(!G.atmos) return null;
+      const r = stream(seed, "atmos");
+      const all = ERANG.family("sfx", "Noise");
+      const beds = all.filter(n => { const m = ERANG.meta(n); return m && m.ls >= 0; });
+      const hits = all.filter(n => { const m = ERANG.meta(n); return m && m.ls < 0; });
+      if(!beds.length) return null;
+      const bed = beds[Math.min(beds.length - 1, Math.floor(r() * beds.length))];
+      const level = G.atmos.level[0] + r() * G.atmos.level[1];
+      /* all three draws spend their numbers whether or not the accent lands,
+         so a table tweak to `accent` cannot re-deal the bed */
+      const accRoll = r(), accPick = r();
+      const accent = (accRoll < (G.atmos.accent || 0) && hits.length)
+        ? hits[Math.min(hits.length - 1, Math.floor(accPick * hits.length))] : null;
+      const accentGain = G.atmos.accentLevel
+        ? G.atmos.accentLevel[0] + r() * G.atmos.accentLevel[1] : 0;
+      return Object.freeze({ bed, level, accent, accentGain });
+    })(),
   };
   /* the requested length in bars, now that the tempo it depends on exists.
      Written before the freeze and drawing nothing -- it is arithmetic on an
@@ -27586,6 +27674,23 @@ function makePerformance(chart, form, materials, sections){
   events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "tape",
                               role: "tape", gain: chart.tape.crackle,
                               hiss: chart.tape.hiss }));
+  /* the atmosphere bed rides the same rail: ONE event on the tape role, so
+     everything that already excludes the medium from the .mid, the roll and
+     the stem windows excludes the weather too. The accent, when the chart
+     drew one, lands on the peak section's downbeat -- the one climax. */
+  if(chart.atmos){
+    events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "atmos",
+                                role: "tape", gain: chart.atmos.level,
+                                bed: chart.atmos.bed }));
+    if(chart.atmos.accent){
+      const pk = sections.find(s => s.peak);
+      const m = ERANG.meta(chart.atmos.accent);
+      if(pk && m) events.push(Object.freeze({
+        tSec: pk.startBar * 16 * spb, durSec: m.n / ERANG.rate + 0.5,
+        voice: "atmos", role: "tape", gain: chart.atmos.accentGain,
+        bed: chart.atmos.accent }));
+    }
+  }
 
   /* ── NOT EVERY PART LOOPS AT THE SAME LENGTH ────────────────────────────────
      From the one walkthrough that says it out loud: the harp's loop is four

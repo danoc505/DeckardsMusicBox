@@ -231,6 +231,28 @@ measurement showed an on-wire LFO losing half its swing (50% kept → 73%).
 The clamp seam check is green across 36 songs; all 684 declared lanes swing;
 the roll is byte-identical (motion moves no note).
 
-**The atmosphere bed (§1): not yet built at this line.** Its entry is
-appended below by the commit that lands it, with the measurements that commit
-actually made — not before.
+**The atmosphere bed (§1), shipped.** One event on the tape role — the same
+rail as the record surface, so the `.mid`, the roll and the stem windows
+exclude the weather without a line of new filtering. Which bed is asked of
+the bank and split by what the audio measured: the eight loopable files are
+BEDS (one drawn per song, looped on the bank's own loop points, under the
+whole record), and the two one-shots (catacomb crash, thunder impact) are
+ACCENTS — half of records draw one and spend it once, on the peak section's
+downbeat, per Belkin's saved-colour rule. Levels were measured, not guessed:
+the first bed level rendered at −45 dB against a −16 dB mix with a 0.004 dB
+whole-mix delta — the "declared and absent" defect again — and was doubled to
+land at **−38.9 dB**, under the quietest named part (keys2 −36) and above the
+between-strikes floor; the accent at its first size added 0.15 dB against the
+0.25 dB balance-audibility floor and was raised to **0.22 dB at a low draw**,
+peaking −15.8 dBFS at the record's loudest bars. The medium (bed + crackle +
+hiss) is ridden by a new `vinylMix` lane — pulled back for the bridge, per
+the 10a routed-lanes-cut-only law; lofi's own vinylMix lane is the precedent.
+Verified: 20 seeds draw 7 different beds and both accents; lofi carries zero
+atmos events; the full battery is 173/1 with the one failure being the
+not-yet-bumped stamp; the snapshot moved **600 of 5400 baseline lines, every
+one dungeonsynth** (the two new events per song), with the note-only hash
+unchanged; blend 20/20; MIDI 20/20; the other genres' rolls byte-identical.
+
+With the beds and accents playable, **all 65 sounds in the Erang pack are now
+reachable** — 45 pitched patches on the four samplers, 10 percussion in the
+dungeon kit, 8 beds and 2 accents on the atmosphere rail (§6).
