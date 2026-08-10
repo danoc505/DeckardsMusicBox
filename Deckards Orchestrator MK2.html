@@ -19762,9 +19762,60 @@ const GENRE = {
          prefixed. Values unchanged; only the panel they live on moved. */
     },
     /* the movement is slow and it is the only movement there is: the harmony
-       barely changes, so a filter opening across a section is the arrival.
-       Every lane here is either the record going somewhere (`apex`) or weather
-       (`lfo`), which is what a genre with no drops has instead of gestures. */
+       barely changes, so a filter opening across a section is the arrival. */
+    /* ── AND THE SECTION SEAM IS THIS GENRE'S GESTURE ────────────────────────
+       The comment that used to sit here said a genre with no drops has weather
+       instead of gestures, which conflated two different sizes of event: a
+       DROP happens once, and a SEAM happens seven to ten times a record --
+       MEASURED, seeds 1-4: 7-10 `fillInto` sections a song against ONE peak.
+       That is the 2026-08-10a lesson (`fill` is the trigger that recurs) met
+       by this genre's own research: change belongs "at phrase or section
+       boundaries" [Belkin, dungeon-synth-arrangement.md P3]. So the hall and
+       the echo swell INTO each seam and settle on the downbeat -- slow (two
+       to three bars here is seven to fourteen seconds, Reich's audible
+       process) and sized past the audibility floors (steps of 0.06+ on a 0-1
+       send; anything under ~0.02 is a gesture nobody hears).
+       docs/genre-research/dungeon-synth-fx-and-balance.md §5 */
+    /* ── THE DESK MOVES SOMEWHERE DIFFERENT ON EVERY RECORD ──────────────────
+       This genre moved 3 of the desk's 49 crossings, the same 3 in every song
+       ever made -- the "a desk that always moves the same faders is a preset"
+       finding, unapplied here. One or two more crossings drawn per song, ONLY
+       on the units this genre's sources actually name -- "long reverbs and
+       MODEST DELAY to suggest halls and caverns" [corpus:melodigging] -- so
+       the pool is the room and the echo and nothing else: no flanger and no
+       barberpole in a crypt, because no source puts one there. Directions
+       follow the 10a law: a routed crossing (keys/lead into echo, bass into
+       room, base 1) is only ever played DOWN -- the chord leaving the delay
+       for a section and returning -- and an unrouted one (bass/drums into
+       echo, base 0) only ever climbs. */
+    matrixDraw: {
+      pick: [1, 2],
+      pool: [ ["bassEcho", 4], ["drumsEcho", 3], ["keysEcho", 3],
+              ["leadEcho", 2], ["bassRoom", 2] ],
+      shapes: {
+        /* unrouted: the drone's edge feeds the delay and grows with the record */
+        bassEcho:  [{ kind: "arc", from: [0, 0.03], to: [0.16, 0.30], curve: "log" },
+                    { kind: "occurrence", step: [0.03, 0.06], cap: 3 }],
+        /* unrouted, small: the march allowed a modest delay, seam by seam */
+        drumsEcho: [{ kind: "gesture", on: "fill", bars: 3, from: [0, 0],
+                      to: [0.10, 0.20], curve: "exp" },
+                    { kind: "section", by: { instrumental: [0.04, 0.10] } }],
+        /* routed: the chord leaves the delay for the bridge and comes back */
+        keysEcho:  [{ kind: "section", by: { bridge: [-0.55, -0.30], outro: [-0.30, -0.14] } },
+                    { kind: "lfo", bars: [[72, 1]], depth: [0.04, 0.09], shape: "sin", freePhase: true }],
+        /* routed: the tune dries out for a stretch -- imitation heard plain */
+        leadEcho:  [{ kind: "section", by: { verse: [-0.22, -0.08], bridge: [-0.45, -0.24] } }],
+        /* routed: the crypt closes in around the drone and reopens. The lane
+           starts pulled off the wire -- same reason as the hand-written
+           `keysRoom` above: a routed base is 1 and an LFO centred on the wire
+           loses its whole top half to the clamp. Measured: 50% of the written
+           swing kept before this arc, 73% with it -- the LFO's crest still
+           kisses the wire sometimes, which is what a room at full send is. */
+        bassRoom:  [{ kind: "arc", from: [-0.16, -0.10], to: [-0.04, 0], curve: "log" },
+                    { kind: "section", by: { bridge: [-0.40, -0.20] } },
+                    { kind: "lfo", bars: [[84, 1]], depth: [0.05, 0.10], shape: "sin", freePhase: true }],
+      },
+    },
     motion: {
       /* ── AND THE AUTOMATION HAD TO MOVE WITH THE DRUMS TOO ──────────────
          This block was keyed `procession` -- 63 lanes riding the war drum's
@@ -19785,9 +19836,15 @@ const GENRE = {
            requirement that a bus somebody can move is a bus somebody moves */
         bus:   [{ kind: "apex", from: [-0.06, 0.0], to: [0.04, 0.12] }],
         gate:  [{ kind: "section", by: { chorus: [0.0, 0.06] } }],
+        /* the kettles' room breathes wider into each seam -- the recurring
+           trigger, not the once-a-record apex alone */
         tVerb: [{ kind: "apex", from: [-0.05, 0.02], to: [0.05, 0.16] },
-                { kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.02, 0.06], shape: "sin", freePhase: true }],
-        mVerb: [{ kind: "apex", from: [-0.05, 0.02], to: [0.05, 0.16] }],
+                { kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.02, 0.06], shape: "sin", freePhase: true },
+                { kind: "gesture", on: "fill", bars: 2, from: [0, 0],
+                  to: [0.06, 0.14], curve: "exp" }],
+        mVerb: [{ kind: "apex", from: [-0.05, 0.02], to: [0.05, 0.16] },
+                { kind: "gesture", on: "fill", bars: 2, from: [0, 0],
+                  to: [0.06, 0.14], curve: "exp" }],
         tCut:  [{ kind: "apex", from: [-900, -200], to: [200, 1400] }],
         mCut:  [{ kind: "apex", from: [-900, -200], to: [200, 1400] }],
         kMix:  [{ kind: "section", by: { bridge: [-0.3, -0.12], outro: [-0.25, -0.1] } }],
@@ -19931,8 +19988,14 @@ const GENRE = {
         pan:  [{ kind: "lfo", bars: [[64, 1]], depth: [0.06, 0.16], shape: "sin", freePhase: true }],
       },
       echo: {
+        /* the seam swell: the delay opens across the last bars of a section
+           and settles on the next downbeat -- the window ending ON the beat IS
+           the settle. Two to three bars at this tempo is seven to fourteen
+           seconds: a swell, not a stab. */
         send: [{ kind: "section", by: { bridge: [0.05, 0.14], outro: [0.04, 0.12] } },
-               { kind: "occurrence", step: [0.05, 0.11], cap: 3 }],
+               { kind: "occurrence", step: [0.05, 0.11], cap: 3 },
+               { kind: "gesture", on: "fill", bars: 3, from: [0, 0],
+                 to: [0.08, 0.16], curve: "exp" }],
         verb: [{ kind: "apex", from: [-0.04, 0.02], to: [0.05, 0.16] }],
         fb:   [{ kind: "occurrence", step: [0.04, 0.09], cap: 2 }],
       },
@@ -19954,9 +20017,13 @@ const GENRE = {
         keysRoom: [{ kind: "apex", from: [-0.62, -0.48], to: [-0.44, -0.34] },
                    { kind: "occurrence", step: [0.09, 0.15], cap: 3 }],
         /* and this one is the mirror: the drums are NOT routed to the room, so
-           it is the one crossing here that climbs from nothing */
+           it is the one crossing here that climbs from nothing -- and the
+           march also steps INTO the hall across each seam, the recurring
+           version of the same move */
         drumsRoom:[{ kind: "apex", from: [0, 0.02], to: [0.24, 0.42] },
-                   { kind: "occurrence", step: [0.06, 0.12], cap: 3 }],
+                   { kind: "occurrence", step: [0.06, 0.12], cap: 3 },
+                   { kind: "gesture", on: "fill", bars: 3, from: [0, 0],
+                     to: [0.10, 0.20], curve: "exp" }],
         leadRoom: [{ kind: "arc", from: [-0.62, -0.50], to: [-0.44, -0.36], curve: "sCurve" },
                    { kind: "occurrence", step: [0.09, 0.14], cap: 3 }],
       },

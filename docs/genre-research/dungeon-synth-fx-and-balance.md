@@ -219,6 +219,18 @@ audible over more of the bar.
 
 **The bass fader (§4), tried and reverted.** The measurement above.
 
-**Automation (§5) and the atmosphere bed (§1): not yet built at this line.**
-Their entries are appended below by the commits that land them, with the
-measurements those commits actually made — not before.
+**Automation (§5), shipped.** Four `fill` gestures (the echo send, the two
+kettle rooms, the march stepping into the hall) and a `matrixDraw` pool of
+five crossings on the two units the sources name — the room and the echo, no
+flanger and no barberpole in a crypt — with 1–2 drawn per song, directions per
+the 10a law (routed lanes played down, unrouted climb). Measured after, max
+over seeds 1–4: `drumsRoom` 45 → 60% of dial, `echo.send` 28 → 39%,
+`tVerb` 17 → 22.5%, and the drawn crossings `keysEcho` 31%, `bassEcho` 38%,
+`bassRoom` 20% — the last starting pulled off its routed wire after the first
+measurement showed an on-wire LFO losing half its swing (50% kept → 73%).
+The clamp seam check is green across 36 songs; all 684 declared lanes swing;
+the roll is byte-identical (motion moves no note).
+
+**The atmosphere bed (§1): not yet built at this line.** Its entry is
+appended below by the commit that lands it, with the measurements that commit
+actually made — not before.
