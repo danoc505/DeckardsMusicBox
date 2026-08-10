@@ -319,6 +319,32 @@ check — *"the clamp does not eat a crossing's movement"* — measures
 `clamp(base + offset)` and fails a matrix lane that keeps under a quarter of the
 swing written on it. Floor across the file is now 36%.
 
+**AND THE ONE THE STEM PROBE FOUND AFTER THE BUILD SHIPPED.** `probe_stems`
+measures the first 70 seconds, which is the window the owner's complaint is
+about. In prog-techno's, the **ostinato — the seven-note figure that is the whole
+genre — is barely there**: MISSED(A) **0.86 dB** against plastikman's **3.57 dB**,
+on 42 notes against 105. The drums are the opposite, 6.39 dB against 1.85. So the
+opening minute is drums and almost nothing else, where the genre it is
+benchmarked against has its sequence running.
+
+The cause is not the FX and not the material — seed 1's roll has the ostinato
+playing from bar one of material A. It is the arrangement gate:
+`form.build.enter.ostinato = [0.11, 0.07]`, so the figure arrives **11–18% in,
+which on a 538-second record is 59 to 97 seconds**. *"The song takes so long to
+get into anything"* is that number. **Not changed** — it is a deliberate
+alap-shaped opening and pulling the entry forward is a taste call the owner
+should make, not a fault to fix quietly in a published build.
+
+**AND A FALSE ALARM WORTH RECORDING, because the next session will see it too.**
+The same table shows prog-techno's bass at RMS −22.8 / A-weighted −44.1, and
+removing it moves the mix 0.05 dB — which reads exactly like the probe's own
+named defect, *"eating the headroom of a record it cannot be heard in"*.
+It is not. Plastikman's bass is −25.8 / −46.0 with MISSED(A) **0.01 dB**: quieter
+on both scales and contributing a fifth as much. A-weighting discounts 50 Hz by
+about 30 dB by construction, so **every bass in this file shows a ~20 dB
+RMS-to-A gap**. The column is only meaningful compared against another genre,
+never read alone.
+
 **Still open here:**
 - **Nineteen lanes are automated but too small to hear** — dungeon synth's ten
   drum-tune lanes swing 0.24% of their dial (three cents), and five `panHz` lanes
