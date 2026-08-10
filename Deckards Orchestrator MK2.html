@@ -1411,7 +1411,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-09f · a ninth genre: prog-techno, a locked groove with a cycle that comes home and a solo that arrives</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-09g · prog-techno gets a bassline that moves, a breakdown, and seven times the automation</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20225,12 +20225,42 @@ const GENRE = {
        are `legato` and the note count, not the timbre. */
     leadChar: [["synth", 1]],
     keysChar: [["rhodes", 1]],
-    /* the bass supports the kick rather than playing a line of its own -- the
-       owner heard this in a techno mix and the production sources agree: "the
-       bass feels like an extension of the kick" */
-    bassStyle: "pulse",
-    bassPulse: { unit: 4, rootBias: 1, octaveJump: 0, restChance: 0.12 },
-    bassAccent: { accent: 0.3, slide: 0.08 },
+    /* ── THE BASS PLAYS A LINE. IT USED TO PLAY A DRONE AND THAT WAS WRONG ────
+       Reported by the owner on the first listen: "I do not like the bass. Its a
+       drone and its not what i want in this genre. Its not prog its not punk
+       its not funky... That bassline just destroys the whole thing."
+
+       They are right and the cause is plain in the table it replaces:
+       `bassStyle: "pulse"` with `rootBias: 1` and `octaveJump: 0` is the root
+       note, on every quarter, for ten minutes. I built it from the MINIMAL
+       TECHNO research -- "the bass feels like an extension of the kick",
+       "carried by the kicks" -- which is true of Plastikman and is a finding
+       about a different genre. Pasting one genre's research into another is
+       the mistake this project's own notes warn about, and I made it in the
+       one place the owner would hear first.
+
+       WHAT THE ACTUAL REFERENCES SAY. Jagatara: "the bass and bongos give songs
+       a get-up-and-dance bounce, allowing the saxophone and guitar their own
+       chaotic agendas" -- the bass IS the bounce, the thing the rest plays
+       over. Fela and Remain in Light are interlocking bass riffs. Punk bass
+       drives in eighths. None of them is a pedal.
+
+       SO IT IS A RIFF, AND ITS ANCHORS SIT ON THE KICK'S OWN POCKET. `strong`
+       is [0,6,10] -- the same syncopation `pocket` draws -- so the bass lands
+       with the kick where the kick is off the beat, and moves in the gaps. That
+       is where funk comes from in this program: not a swing setting, a bass and
+       a kick agreeing about where the beat is not.
+       Anchors are root and fifth; everything between them is the flat seventh,
+       the fourth and the octave, which is the funk and punk vocabulary. Two
+       bars so it is a figure rather than a bar that repeats, and `hold: 2`
+       keeps it short -- funk bass is played staccato, not held. [EAR on the
+       exact weights; the shape is the sources'] */
+    bassStyle: "riff",
+    bassRiff: { bars: 2, notes: [9, 13], grid: 2, hold: 2, strong: [0, 6, 10],
+                anchor: [[0, 8], [4, 3], [7, 1]],
+                spice:  [[6, 5], [3, 4], [7, 3], [4, 2], [2, 1]] },
+    bassPulse: { unit: 4, rootBias: 1, octaveJump: 0, restChance: 0.12 },  // unused by "riff"
+    bassAccent: { accent: 0.34, slide: 0.06 },
     acidLine: null,
     touch: { bassArtic: [[3, 5], [4, 3], [2, 2]], strum: [0, 0] },
     roleGain: { bass: 0.62, ostinato: 0.72, lead: 0.82 },
@@ -20306,7 +20336,30 @@ const GENRE = {
            transitions row and `lawTable` threw on the first long record the
            length dial asked for. */
         { name: "alap",  pool: ["verse"], bars: [48, 2, 16], endOn: "verse" },
+        /* ── THE BREAKDOWN LIVES HERE, AND IT WAS MISSING ─────────────────
+           `bridge` was in the transitions table and in NO plan pool, so this
+           genre never played one: 0 bridges in 20 songs. Six automation lanes
+           were keyed on `section: { bridge: ... }` -- the low kill, the swirl,
+           the barberpole -- and every one of them was dead by construction.
+           Caught by the seam check that walks declared lanes and asks whether
+           they ever move, which is exactly the check for this mistake.
+           It belongs here musically too: the middle phase is Cohen's "free
+           interlude" in Dogs, and in techno the breakdown is the biggest move
+           the genre has. */
         { name: "jod",   pool: ["verse", "instrumental"], bars: [64, 3, 32], endOn: "instrumental" },
+        /* ── THE BREAKDOWN IS A PHASE, NOT A DICE ROLL ────────────────────
+           `bridge` sat in the transitions table with a weight of 1 in 15, and
+           behind a hard law that will not allow one until the record has stated
+           its payoff twice. Result: 0 bridges in 20 songs, and six automation
+           lanes keyed on `section: { bridge: ... }` -- the low kill, the swirl,
+           the barberpole -- dead by construction. The seam check that walks
+           declared lanes and asks whether they ever move is what found it.
+           A phase of its own guarantees it, which is correct for this music
+           twice over: the breakdown is the biggest move techno has, and this is
+           the position Cohen calls the "free interlude" in the middle of Dogs.
+           It sits after `jod` so the payoff has been heard and the law is
+           satisfied by the time the phase opens. */
+        { name: "breakdown", pool: ["bridge"], bars: [16, 2, 16], endOn: "bridge" },
         { name: "jhala", pool: ["instrumental", "chorus", "verse"], bars: [80, 3, 32], endOn: "instrumental" },
       ],
       energy: { intro: 0.7, outro: 0.66, bridge: 0.68, instrumental: 0.9,
@@ -20390,13 +20443,122 @@ const GENRE = {
                { kind: "lfo", bars: [[40, 3], [24, 2]], depth: [0.05, 0.14],
                  shape: "sin", freePhase: true }],
       },
-      /* the drum machine's own filter, drifting unsynced -- "changes happen
-         through modulation, not composition" [corpus:tracksensei] */
+      /* ── THE DRUM MACHINE, PLAYED RATHER THAN SET ─────────────────────────
+         Boys Noize: "The sound is more important to me than the melody or a
+         lyric." Jeff Mills's method on the 909 is live TRANSPOSE and RELEASE
+         tweaks over sixteen bars. So the per-voice tune, decay and filter move,
+         and the PLOCKS are the per-step version of the same hand -- a value
+         bound to a sixteenth, the same every bar, which is what a step
+         sequencer's parameter locks are. */
       tr1000: {
-        hCut: [{ kind: "lfo", bars: [[22, 3], [34, 2]], depth: [1100, 3000],
-                 shape: "tri", freePhase: true }],
-        kDecay: [{ kind: "occurrence", step: [-0.02, -0.008], cap: 3 }],
-        cVerb: [{ kind: "occurrence", step: [0.05, 0.13], cap: 3 }],
+        hCut:    [{ kind: "lfo", bars: [[22, 3], [34, 2]], depth: [1100, 3000],
+                    shape: "tri", freePhase: true },
+                  { kind: "plock", density: [0.14, 0.30], amt: [-1800, 900] }],
+        hDecay:  [{ kind: "plock", density: [0.12, 0.26], amt: [-0.014, 0.026] }],
+        chdecay: [{ kind: "lfo", bars: [[28, 3], [18, 2]], depth: [0.008, 0.022],
+                    shape: "sin", freePhase: true },
+                  { kind: "occurrence", step: [0.002, 0.008], cap: 3 }],
+        ohdecay: [{ kind: "phrase", by: { B: [0.04, 0.10], C: [-0.10, -0.04], D: [0.10, 0.22] } }],
+        kTune:   [{ kind: "occurrence", step: [-0.8, -0.3], cap: 3 }],
+        kDecay:  [{ kind: "occurrence", step: [-0.02, -0.008], cap: 3 },
+                  { kind: "gesture", on: "peak", bars: 8, from: [0.05, 0.12], to: [0, 0], curve: "exp" }],
+        kCut:    [{ kind: "arc", from: [-2600, -1200], to: [400, 1400], curve: "sCurve" }],
+        cVerb:   [{ kind: "occurrence", step: [0.05, 0.13], cap: 3 }],
+        cTune:   [{ kind: "plock", density: [0.10, 0.22], amt: [-2.5, 2.5] }],
+        rTune:   [{ kind: "plock", density: [0.12, 0.28], amt: [-3.0, 3.0] }],
+        rCut:    [{ kind: "lfo", bars: [[26, 3], [40, 2]], depth: [900, 2400],
+                    shape: "tri", freePhase: true }],
+        oCut:    [{ kind: "apex", from: [-2200, -900], to: [500, 1600] }],
+        oDecay:  [{ kind: "phrase", by: { B: [0.03, 0.09], D: [0.12, 0.26] } }],
+        /* the ride is the five-step interlocking lane, so its tone moving is
+           the interlocking figure changing colour as it crosses the bar */
+        dCut:    [{ kind: "lfo", bars: [[34, 3], [21, 2]], depth: [1200, 3200],
+                    shape: "sin", freePhase: true }],
+        dEcho:   [{ kind: "throw", amt: [0.18, 0.40], every: 8, at: 0.75 }],
+        fxFilter:[{ kind: "snap", to: [-3200, -1800], every: 32, bars: 4 },
+                  { kind: "arc", from: [-1800, -700], to: [300, 1200], curve: "sCurve" }],
+        gate:    [{ kind: "phrase", by: { C: [0.10, 0.24], D: [0.14, 0.30] } }],
+        revSend: [{ kind: "apex", from: [-0.06, -0.02], to: [0.05, 0.14] }],
+        dlySend: [{ kind: "throw", amt: [0.14, 0.34], every: 16, at: 0.75 },
+                  { kind: "gesture", on: "build", bars: 16, from: [-0.05, -0.02],
+                    to: [0.08, 0.18], curve: "exp" }],
+      },
+      /* ── THE SEND MATRIX IS WHERE THE ARRANGEMENT ACTUALLY HAPPENS ─────────
+         Thirty-nine crossings and this genre was using none of them. The dub
+         lineage Jagatara sits in plays the desk: what is wet, and how wet, IS
+         the change, and it is the same idea as the band kills one block up.
+         The THROWS are the move by name -- a send pushed for a moment and
+         pulled back, which is what a dub engineer's hand does and what nothing
+         in this genre was doing. */
+      matrix: {
+        drumsEcho:   [{ kind: "throw", amt: [0.20, 0.45], every: 8, at: 0.75 },
+                      { kind: "lfo", bars: [[48, 3], [32, 2]], depth: [0.04, 0.12],
+                        shape: "sin", freePhase: true }],
+        drumsRoom:   [{ kind: "apex", from: [-0.08, -0.03], to: [0.06, 0.16] },
+                      { kind: "section", by: { bridge: [0.14, 0.30] } }],
+        drumsFlange: [{ kind: "gesture", on: "peak", bars: 8, from: [0, 0],
+                        to: [0.18, 0.38], curve: "exp" }],
+        drumsBarber: [{ kind: "section", by: { bridge: [0.12, 0.28] } }],
+        bassEcho:    [{ kind: "throw", amt: [0.10, 0.26], every: 16, at: 0.5 }],
+        bassRoom:    [{ kind: "arc", from: [-0.05, -0.02], to: [0.03, 0.10], curve: "sCurve" }],
+        bassDP4:     [{ kind: "phrase", by: { C: [0.10, 0.24], D: [0.12, 0.30] } }],
+        /* the solo is the thing that arrives, so its wetness arrives with it */
+        leadEcho:    [{ kind: "apex", from: [-0.10, -0.04], to: [0.16, 0.36] },
+                      { kind: "throw", amt: [0.22, 0.48], every: 8, at: 0.75 }],
+        leadRoom:    [{ kind: "apex", from: [-0.08, -0.03], to: [0.14, 0.32] }],
+        leadBarber:  [{ kind: "gesture", on: "peak", bars: 12, from: [0, 0],
+                        to: [0.20, 0.44], curve: "exp" }],
+        leadFlange:  [{ kind: "lfo", bars: [[40, 3], [56, 2]], depth: [0.06, 0.18],
+                        shape: "sin", freePhase: true }],
+        keysEcho:    [{ kind: "section", by: { bridge: [0.16, 0.34] } }],
+        echoMix:     [{ kind: "arc", from: [-0.06, -0.02], to: [0.05, 0.14], curve: "sCurve" }],
+        echoFlange:  [{ kind: "lfo", bars: [[64, 3], [44, 2]], depth: [0.05, 0.14],
+                        shape: "sin", freePhase: true }],
+        roomMix:     [{ kind: "apex", from: [-0.07, -0.03], to: [0.06, 0.15] }],
+        barberMix:   [{ kind: "section", by: { bridge: [0.10, 0.24] } }],
+      },
+      /* the swirl, which is the punk half of the surface: a flanger ridden hard
+         is the cheapest way a record sounds handled rather than mixed */
+      flange: {
+        rate:  [{ kind: "lfo", bars: [[52, 3], [36, 2]], depth: [0.05, 0.16],
+                  shape: "tri", freePhase: true }],
+        depth: [{ kind: "apex", from: [-0.10, -0.04], to: [0.10, 0.26] },
+                { kind: "gesture", on: "build", bars: 16, from: [0, 0],
+                  to: [0.12, 0.30], curve: "exp" }],
+        fb:    [{ kind: "snap", to: [0.16, 0.34], every: 48, bars: 4 }],
+        mix:   [{ kind: "section", by: { bridge: [0.14, 0.30], instrumental: [0.03, 0.10] } }],
+      },
+      /* the effects box: four processors, and the phrase letters are what
+         decides which of them is doing anything */
+      dp4: {
+        aAmt: [{ kind: "phrase", by: { B: [0.06, 0.16], D: [0.14, 0.32] } }],
+        aLvl: [{ kind: "apex", from: [-0.06, -0.02], to: [0.06, 0.16] }],
+        bAmt: [{ kind: "lfo", bars: [[44, 3], [30, 2]], depth: [0.05, 0.15],
+                 shape: "sin", freePhase: true }],
+        cAmt: [{ kind: "gesture", on: "peak", bars: 8, from: [0, 0], to: [0.14, 0.34], curve: "exp" }],
+        dLvl: [{ kind: "section", by: { bridge: [0.10, 0.26] } }],
+      },
+      /* the endless rise, kept for the peak: a barberpole that runs all record
+         is wallpaper, and one that arrives is a gesture */
+      barber: {
+        rate:  [{ kind: "lfo", bars: [[80, 3], [60, 2]], depth: [0.03, 0.10],
+                  shape: "sin", freePhase: true }],
+        depth: [{ kind: "gesture", on: "peak", bars: 16, from: [0, 0], to: [0.18, 0.40], curve: "exp" }],
+        mix:   [{ kind: "apex", from: [-0.05, -0.02], to: [0.08, 0.20] }],
+      },
+      /* the pad's own movement, slow enough that it reads as the room breathing
+         rather than as an effect */
+      wash: {
+        cut:    [{ kind: "lfo", bars: [[72, 3], [48, 2]], depth: [700, 2100],
+                   shape: "sin", freePhase: true },
+                 { kind: "apex", from: [-1400, -600], to: [400, 1300] }],
+        /* the pan sweep runs 0-8 Hz, so a depth of 0.02-0.07 was 2% of the dial:
+           automated on paper and static to an ear, which is exactly what
+           probe_automation's "barely moves" column exists to catch. Widened to
+           something a listener can actually hear the pad drifting across. */
+        panHz:  [{ kind: "lfo", bars: [[64, 2], [96, 1]], depth: [0.5, 1.6],
+                   shape: "sin", freePhase: true }],
+        panDep: [{ kind: "section", by: { bridge: [0.10, 0.26] } }],
       },
     },
   },
