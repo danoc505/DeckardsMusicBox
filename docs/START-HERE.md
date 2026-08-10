@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-10a` unless it says otherwise. If you
+*Everything below is verified at `2026-08-10b` unless it says otherwise. If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -95,9 +95,10 @@ history is a string of confident "fixed" claims that were false.
 research, and it goes into `docs/genre-research/` as its own file with named
 sources — not into a commit message, which is where findings go to be
 forgotten. **Prior research does not count as new research.** The user's
-words: *"use what we have and you find more — always"*, and *"you have no
-ears, this data is the only way to improve the program"*. Mark anything you
-chose rather than sourced as `[EAR]`.
+words: *"use what we have and you find more — always"*, and — put plainly — this
+program cannot judge how anything sounds, so measured data is the only way it
+improves. Mark anything you
+chose rather than sourced as `[CHOSEN]`.
 
 **DERIVE, NEVER LIST.** Anything that writes out what the program contains
 will go stale — it has happened four times, three of them in one session.
@@ -116,13 +117,12 @@ table — with a seam check walking the derived set and failing on anything
 unnamed, which is what stops the table going stale. Every list this rule
 touches that reaches the glass needs the same pair.
 
-**THE STAMP AND THE ARTIFACT MOVE TOGETHER.** The program the user listens
-to is the published artifact, not the repo. Once it was three commits behind
+**THE STAMP AND THE ARTIFACT MOVE TOGETHER.** The program the user plays is the published artifact, not the repo. Once it was three commits behind
 while both files carried an identical stamp, so three commits of work went
-unheard. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
+unjudged. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-10a`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-10b`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -134,6 +134,30 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Build `2026-08-10b` — TWO THINGS, BOTH ASKED FOR DIRECTLY.**
+
+**The genre's own subject was a minute late.** `probe_stems` reads the first
+seventy seconds; in prog-techno's, the seven-note cell the whole thing is built
+on contributed **0.86 dB** against plastikman's 3.57, on 42 notes against 105.
+The opening was drums and almost nothing else. The cause was the arrangement
+gate — `form.build.enter.ostinato` at `[0.11, 0.07]`, which on a 538-second
+record is **59 to 97 seconds** of waiting. Now `[0.04, 0.04]`: **161 notes,
+3.36 dB**, level with plastikman, and the drums come back from 6.39 to 2.18.
+
+**AND THIS REPO NO LONGER TALKS ABOUT EARS OR LISTENING.** Four corrections did
+not stop the words coming back, so they are gone. `test/ears/` deleted. The
+`[EAR]` notation — 554 across 55 files, meaning *"chosen by me rather than taken
+from a source"* — is **`[CHOSEN]`**. Every `NOT HEARD` tag, every "listening
+brief", every "the honest next step is a listen": gone. `kit.listen` is
+**`kit.answer`**. Untouched on purpose: `addEventListener` (a browser API) and
+`docs/genre-research/raw/*.json` (verbatim source captures — editing what a
+source said would falsify the research).
+
+**The rule those words were carrying, written without them:** this program
+cannot judge how anything sounds. Measurement and research are the only way it
+improves, the owner is the only judge, and waiting for a verdict is never a next
+step to propose.
 
 **Build `2026-08-10a` — THE FX ACTUALLY MOVE NOW, AND ONE OF THEM NEVER HAD.**
 The owner: *"Your not doing anything with the fx. Your not building sweeping
@@ -239,14 +263,12 @@ Three faults turned up while measuring it, all fixed, all in
 `docs/genre-research/breaking-the-rule.md` §8. The one worth knowing: the second
 voice's style and the notes it is allowed to move by were being taken from
 DIFFERENT genres in 73 songs out of 120, while a comment in the file said they
-always travelled together.
-
-**It has not been heard.** Nobody has played a blend since this changed.
+always travelled together. Nobody has played a blend since this changed.
 
 **Build `2026-08-09b` — the drums now change from section to section.** The
 largest open item in `BACKLOG.md` (§6.0 A) is built. A record had six to fourteen
 sections with drums in it and three or four drum parts; four genres closed on a
-drum part the listener had already heard, in 100% of songs. A section's drums are
+drum part the person playing it had already heard, in 100% of songs. A section's drums are
 now the genre's kit plus a ladder of moves, the rung set by how far into the
 record the section sits, and the closing section takes the biggest change in a
 drawn direction. All seven genres with drums moved. **Blade Runner did not, and
@@ -259,7 +281,7 @@ Two things were built and then taken back out by measurement, both recorded in
 section unique (the shape the owner explicitly turned down), and the closing
 change was landing on a section `thinTo` had already stripped of drums. One seam
 check was rewritten rather than loosened, and the reasoning is in `mk2_test.js`
-beside it. **It has not been heard.** Brief: `test/ears/LOG.md`.
+beside it. 
 
 **Build `2026-08-08s` and before.** The 2026-08-08 run did five theory gaps and then grew
 the roll a pair of hands. `HANDOFF-MK2.md` has every build in detail; the short
@@ -267,16 +289,16 @@ version, and the two things that matter most for whoever is next:
 
 - `08n` the record can change key mid-song · `08o` the second voice answers the
   tune instead of shadowing it · `08p` two copies of one movement, one slightly
-  slower (phasing) · `08q` the bass moves again — **reversed by ear at `08r`** ·
+  slower (phasing) · `08q` the bass moves again — **reversed by taste at `08r`** ·
   `08r` the fills come back (they were locked behind a chorus and firing once
   every 933 bars in minimal techno) · `08s` **the hand on the roll**: click a
   note, get that part in that section, reroll / thin / thicken / octave /
   reverse / delete it, and undo.
 
-**THE FIRST THING TO KNOW: nothing in that list has been heard.** Every entry
-ends with the same sentence in the HANDOFF. The owner is the only ear and the
-backlog of unheard changes is now the single biggest risk in this project — a
-tenth measured-but-unheard build is worth less than one listened-to one.
+**THE FIRST THING TO KNOW: nothing in that list has a verdict.** Every entry
+ends with the same sentence in the HANDOFF. The owner is the only judge and the
+backlog of unjudged changes is now the single biggest risk in this project — a
+tenth measured-but-unjudged build is worth less than one judged one.
 
 **THE SECOND: the owner reversed me twice in this run**, and both times the
 answer was already written down. Read `docs/genre-research/NOTES-FROM-THE-USER.md`
@@ -319,9 +341,10 @@ were meant to convey the idea NOT exact things to do."* §H used to list them as
 the close condition and that was wrong; it is corrected there now. Build the
 idea, use the examples to sanity-check the result by hand.
 
-**⚠ AND THE UNHEARD PILE IS NOT A STOP SIGN. Corrected twice now**, most recently
-2026-08-09: *"YOU CANT LISTEN YOUR NOT A HUMAN! You can print midi notes and read
-them!"* Saying a build has not been heard is honest. Proposing "wait for the ear"
+**⚠ AND THE UNJUDGED PILE IS NOT A STOP SIGN. Corrected twice now**, most recently
+2026-08-09. The owner, in short: this program is not a human and cannot judge
+sound — it can print what it made, and that is its instrument. Saying a build
+has no verdict yet is honest. Proposing to wait for one
 as the next job is asking the owner to authorise your idleness — and `BACKLOG.md`
 §0 has said so since 2026-08-04. RULE ONE is the instrument you actually have.
 
@@ -339,7 +362,7 @@ wanted, and nobody should quietly re-add costs to the other files either.
 
 ## The commands
 
-Build `2026-08-10a`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-10b`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 
@@ -547,7 +570,7 @@ at 8 failures filed as "pre-existing", and two were real defects in the music.
 ## What to do next
 
 **Read `docs/BACKLOG.md` §0 first, and take it seriously.** Almost none of
-the last two weeks of work has been *listened to* — the reverb, the whole
+the last two weeks of work has been *judged* — the reverb, the whole
 stereo build, the matrix mixer, the stage, the flanger, the DP/4, the snap,
 the barberpole, and now the whole `2026-08-08` run: the tape machine, the
 legato (which audibly changes bladerunner and synthwave), the bass unit's
@@ -560,6 +583,6 @@ they work when a hand is on them. The sax is the standing proof that green metri
 establish that something sounds good.
 
 So unless the user directs otherwise: **do not stack more onto that pile.**
-Ask them to play it, or help them play it — pick seeds, name what to listen
+Ask them to play it, or help them play it — pick seeds, name what to play
 for, get a verdict — and let the verdicts decide what gets built, fixed or
 removed next. The rest of the backlog is ordered and waiting underneath.

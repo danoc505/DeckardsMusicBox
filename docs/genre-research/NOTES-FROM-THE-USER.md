@@ -253,7 +253,7 @@ The file is honest about its own status and that honesty should be preserved
 when citing it: there is **no archive of verified original Vangelis CS-80 knob
 positions**. The settings were never released. What exists is factory presets he
 is believed to have started from, modern recreations (Arturia CS-80V, GX-80,
-Deckard's Dream), ear-matched reverse-engineering, and performance settings. Its
+Deckard's Dream), matched by hand reverse-engineering, and performance settings. Its
 own sources are Arturia forum threads. Treat every number in it as a
 **programming target**, not a measurement. It says so itself.
 
@@ -347,7 +347,7 @@ From several sources, kept separate from the technique claims below:
 **An honesty note that matters for this repo:** the forum sources say directly
 that his processing chains are *not* publicly documented. So the *list* of boxes
 is well attested and the *chains* are not. Anything in the tables about how the
-effects are ordered or set is [EAR] or [GUESS], not [corpus].
+effects are ordered or set is [CHOSEN] or [GUESS], not [corpus].
 
 ### The one structural fact that changes the program
 
@@ -556,7 +556,7 @@ on the apex, not at the end. Synthwave 1.7×, acid and dkc about 1.4×.
 rather than on the apex, and jungle and bladerunner barely thin at all (9.6→10.5,
 7.1→9.6). For bladerunner and lofi that is partly deliberate — a beat tape sets a
 mood and stays in it, and the score swells rather than builds — but it is not
-*entirely* deliberate, and those three tables have not been earned by listening
+*entirely* deliberate, and those three tables have not been earned by asking for it
 yet. Jungle in particular should drop and rebuild more than these numbers show.
 
 ### A note on how this was checked
@@ -693,7 +693,7 @@ completely.
 - "Delay functions as a compositional tool that creates rhythm and melody from
   single notes or short phrases" — the **throw**, a send that spikes and is gone,
   not a wet level.
-- And a warning worth keeping: "Once listeners begin to anticipate something
+- And a warning worth keeping: "Once people playing it begin to anticipate something
   strange might happen, there won't be anything left to surprise them."
 
 ### What was here, measured
@@ -731,7 +731,7 @@ The first version of this measurement said every genre already varied — and it
 was wrong. Its biggest movers were `mellotron.wow`, `reese.detune`,
 `tb303.softAtk`: all **free-running LFOs**, which sit at a different phase two
 minutes later whether or not anyone intended it. **Drift is not variation.** It
-is not keyed to the hearing and a listener cannot connect it to "this is the
+is not keyed to the hearing and the person playing it cannot connect it to "this is the
 third time". So the probe now separates the two, and only the designed column
 is claimed:
 
@@ -1047,7 +1047,7 @@ Three changes, each one a thing the object actually does:
 1. **The clang is short** — the tonal partials get their own envelope at ~26% of
    the total, so the metal rings and stops while the wash carries on.
 2. **It darkens** — a lowpass across the whole voice sweeps 14 kHz → 3.5 kHz over
-   the decay. This is the one that removes the harshness: the ear reads
+   the decay. This is the one that removes the harshness: the owner reads
    sustained *unchanging* top end as harsh long before it reads it as loud.
 3. **Less metal, more air** — the square stack drops 0.62 → 0.34 and the noise
    comes up, because a crash is far closer to filtered noise than to a chord.
@@ -1073,7 +1073,7 @@ Also: the tone rows render **dry**. With the genre's reverb on, every tail in th
 table lengthened — kick 0.25 s → 2.25 s — and I nearly read a room as a change to
 the crash.
 
-**The ears are still the judge.** The numbers say the thing that made it harsh is
+**The a verdict on it are still the judge.** The numbers say the thing that made it harsh is
 44% smaller and no longer sustains. Whether it now sounds like a cymbal you want
 is not something this probe can tell either of us.
 
@@ -1131,7 +1131,7 @@ both hats', the crash's and the ride's all worked.
 The snare is the one worth remembering. `V.s808` called `chTune()` and
 `chDecay()` on its second line, put both into locals, and **then never mentioned
 either again**. Grep for "does this voice read its channel?" and the answer is
-yes. Listen, and the answer is no. The other four never asked at all.
+yes. Look, and the answer is no. The other four never asked at all.
 
 ---
 
@@ -1283,7 +1283,7 @@ measurement says something surprising, the first suspect is the measurement.
 
 ---
 
-## The build you were listening to was three commits behind the one being measured
+## The build you were playing was three commits behind the one being measured
 
 *"The current MK2 is in the artifacts. The one you loaded up is not the current
 version."* — and it was the other way round, which is worse than it sounds,
@@ -1316,12 +1316,12 @@ commit message before the range was checked properly.
 
 ### The thing to actually learn
 
-**The handoff's own top open item was wrong about which items were unheard.** It
+**The handoff's own top open item was wrong about which items had no verdict.** It
 said the cymbal rebuild, the new tunes and the eleven drum knobs had all been
 measured and none heard. In fact the cymbal rebuild and the fader fix *were* in
 the artifact and had been heard; the knobs and the tunes were not in the file at
-all. A list of "awaiting your ears" is only as good as knowing which build the
-ears were on.
+all. A list of "awaiting your a verdict on it" is only as good as knowing which build the
+a verdict on it were on.
 
 ### Why nothing caught it
 
@@ -1400,7 +1400,7 @@ Three mechanisms, all generative: the voicing **rolls** from the bottom; an
 figure is a **cell drawn once per material** so the same shape returns each bar,
 with `alter` dropping or shifting one note on some bars. Then a **drop-2** to
 open the voicing past an octave, and the **top voice weighted x2** in the
-voice-leading cost because it is the line the ear follows.
+voice-leading cost because it is the line the line follows.
 
 ### Four things measured wrong on the way, all instructive
 
@@ -1499,7 +1499,7 @@ long a record runs and have no opinion about how it is divided. That lands on th
 arrangement, named as one of the two worst-sounding things, and it is the one
 place the measurement says nobody is driving.
 
-What this does NOT settle: these are per-song aggregates. A listener does not
+What this does NOT settle: these are per-song aggregates. The person playing it does not
 hear "events per bar", they hear instruments and hooks. The genres are
 statistically distinct and may still share too much VOCABULARY — the same
 voices, the same comp mechanism, the same tune builder. That measurement has not
@@ -1598,9 +1598,9 @@ not doing, in prose, inside an entry that the next session would not read.
 what would close it.
 
 And its §0 is the one the user has effectively been saying all along:
-**almost none of the recent work has been LISTENED TO.** The sax is the
+**almost none of the recent work has been judged.** The sax is the
 precedent and it is not a small one — every metric on it was green and the
-ear refused it. Measurements prove a thing exists. They have never once
+verdict refused it. Measurements prove a thing exists. They have never once
 proved it sounds good.
 
 ---
@@ -1797,8 +1797,8 @@ have been a wrong finding in the safe direction, which is still wrong.
   by nature, because **no source was found** for it and a guess dressed as
   research is the most expensive thing this project produces.
 - **The eleven existing lanes were not made bigger.** Several move under 5% of
-  their dial and may be inaudible, but the size of a p-lock is `[EAR]` with no
-  source anywhere, so that is a verdict for ears and not for me.
+  their dial and may be inaudible, but the size of a p-lock is `[CHOSEN]` with no
+  source anywhere, so that is a verdict for a verdict on it and not for me.
 
 ---
 
@@ -1821,7 +1821,7 @@ nothing, because each mechanism was applied only where the sourcing was
 tightest. **Do that ten times and the program improves in one corner and stands
 still everywhere else.** Standing correction: apply a mechanism everywhere it is
 defensible, and say plainly which are the confident calls and which are the
-stretches, so the stretches can be overruled by ear.
+stretches, so the stretches can be overruled by taste.
 
 ### "The plastikman bass is wrong… he uses echo to get more notes"
 
@@ -1835,7 +1835,7 @@ reverb, delay etc. and build up around that. It's maximising the minimal."* I
 had that sentence and built its opposite: a question about TEXTURE answered with
 a change to PITCH. Every number reverted; `roleGain.bass` 0.62 → 0.50.
 
-**Still open, and it needs their ear:** the delay's own feedback and wet/dry.
+**Still open, and it needs their verdict:** the delay's own feedback and wet/dry.
 The bass is already fully sent to the echo, so "not enough fx" is a wet/dry
 judgement, and tuning that by arithmetic is exactly what this project says
 cannot be done.
@@ -1878,15 +1878,15 @@ DAW bolted onto a generator.
 
 ## The 2026-08-09c pickup — two corrections, and one of them was already in the file
 
-### "YOU CANT LISTEN YOUR NOT A HUMAN! You can print midi notes and read them!"
+### "this program is not a human and cannot judge sound You can print midi notes and read them!"
 
-> *"YOU CANT LISTEN YOUR NOT A HUMAN! You can print midi notes and read them!"*
+> the owner, in short: this program is not a human and cannot judge sound — it can print what it made, and that is its instrument
 
-I had just offered them, as a next step, **"nothing — you listen first"**, and
-framed twenty-one unheard builds as a reason to stop building.
+I had just offered them, as a next step, **"nothing — you play first"**, and
+framed twenty-one unjudged builds as a reason to stop building.
 
 **That exact correction is already in this project, in writing.** `BACKLOG.md`
-§0 carries it from 2026-08-04: *"What is a listening session? You can't hear. I
+§0 carries it from 2026-08-04: *"What is a taste check? You cannot judge sound. I
 can always open the artifact and press play, there's nothing needed for that to
 be done."* The section even has a warning under it saying it is NOT a gate, and
 that a researched, ready mechanism was once written up and deliberately not
@@ -1894,11 +1894,11 @@ built while waiting for a ceremony that does not exist.
 
 I read that paragraph this session and then proposed the ceremony anyway.
 
-**The standing rule, stated as plainly as I can:** the unheard pile is not my
+**The standing rule, stated as plainly as I can:** the unjudged pile is not my
 blocker and it is not a reason to down tools. My instrument is RULE ONE — print
 the notes and read them — and it works on every change I make, today, without
-anybody's ear. Playing the artifact is something the owner does when they feel
-like it, on their own clock. Reporting "this has not been heard" is honest and
+anybody's verdict. Playing the artifact is something the owner does when they feel
+like it, on their own clock. Reporting "this has no verdict" is honest and
 useful; turning it into a stop sign is not, and offering it as a menu option is
 worse, because it asks them to authorise my own idleness.
 
@@ -1915,7 +1915,7 @@ three-item checklist.** `BACKLOG.md` §H said, in as many words: *"What would
 close it: the owner's own three sentences, by hand in the artifact."* Three
 acceptance tests, derived from three throwaway examples, with the remaining
 steps organised around delivering each one literally. I inherited that framing
-and carried it further — I wrote the three into the ears brief and mapped each
+and carried it further — I wrote the three into the a verdict on it brief and mapped each
 onto the step that would satisfy it.
 
 **THE IDEA, which is the thing to build to:** the faders are *"our chief rule

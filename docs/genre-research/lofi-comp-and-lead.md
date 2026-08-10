@@ -152,7 +152,7 @@ Every source that talks about arrangement says the same word, and the word is
 > [corpus:songer]
 
 > "**Avoid filling every beat with notes** — let moments of silence add
-> emotional weight." "**Insert rests between phrases** to give the listener a
+> emotional weight." "**Insert rests between phrases** to give the person playing it a
 > moment of reflection." "Use **short, 4 to 8-note motifs**." "Keep the melody
 > within a **narrow range** to maintain a focused and intimate sound."
 > [corpus:mysticalankar Crafting Lofi Melodies]
@@ -222,7 +222,7 @@ play chords. It does. `buildKeys` **rolls** its voicings deliberately — voices
 enter bottom-upward across several sixteenths, and on later strikes an inner
 voice moves while the outer ones hold. Onset-grouping measures the roll and
 calls it the harmony. The probe now counts what is **sounding** at each
-sixteenth, which is what an ear gets, and reports the onset figure separately
+sixteenth, which is what a verdict gets, and reports the onset figure separately
 as the roll.
 
 ### The voicing
@@ -388,7 +388,7 @@ ends in silence — ten and twelve sixteenths of it, against six and ten.
   space between phrases" say a phrase ends in silence and say nothing about
   whether that silence is a beat, a bar, or two bars. Every source is unanimous
   that it exists and none of them measures it. Whatever this program picks is
-  `[EAR]` and has to be labelled so.
+  `[CHOSEN]` and has to be labelled so.
 - **Whether the 4-to-8-note figure is per phrase or per bar.** Read alongside
   [corpus:songer]'s two-bar phrase it comes out at two to four notes a bar, and
   that reading is used above — but it is a reading of two sources side by side,

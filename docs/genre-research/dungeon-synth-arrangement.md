@@ -62,7 +62,7 @@ Dub is a whole genre built on the user's exact proposition: the engineer makes a
 new piece out of unchanged notes using the desk alone.
 
 - **Scientist** (Hopeton Overton Brown), *Tape Op* #136: frames it as holding a
-  listener on one pattern and separately switching the pattern up — **surprise
+  player on one pattern and separately switching the pattern up — **surprise
   is the mechanism, not new notes**. Working rate given: *"I can do about 30-some
   mixes in about 12 hours"* — roughly 24 minutes to build a whole new version of
   an already-recorded song.
@@ -79,7 +79,7 @@ Mad Professor says FX variation only works on top of properly constructed songs.
 **Two numbers that make this buildable:**
 
 - **How big a move has to be before anyone notices.** Hugh Robjohns, *Sound On
-  Sound*: an isolated level change needs **1 dB** for a trained ear, **2–3 dB**
+  Sound*: an isolated level change needs **1 dB** for a trained musician, **2–3 dB**
   for an untrained one; a change in the *balance between* two elements is
   audible at about **0.25 dB**. So an FX or level gesture smaller than a
   decibel is decoration nobody hears, and this program's motion depths should be
@@ -153,7 +153,7 @@ line by line:
 - **The pedal note is scale degree 1 or 5** — not any root. [Wikipedia, *Pedal
   point*, corroborated by Kris Shaffer et al., *Music Theory for the 21st-Century
   Classroom*.]
-- **Set it by MODE, not by ear:** the drone should be the mode's *finalis* or its
+- **Set it by MODE, not by taste:** the drone should be the mode's *finalis* or its
   *tenor* (reciting note), and in the authentic modes the tenor sits **a fifth
   above the finalis** — Dorian D and A, Phrygian E and C. [Ian Pittaway, *Early
   Music Muse*, "Performing medieval music".]
@@ -187,7 +187,7 @@ Worked instances the sources give:
   precisely because it loops endlessly instead of cadencing.
 - **Dm ×3 then C ×1**, a 3:1 cycle — a practitioner's own loop. [madrayken.]
 - **Dm–F–C**, chosen *because* of its shared tones, producing an implied tonic
-  drone the listener supplies. [Patrick Doyle, *Ethnomusicology Review*, UCLA.]
+  drone the person playing it supplies. [Patrick Doyle, *Ethnomusicology Review*, UCLA.]
 - **sus2 and sus4 keep the perfect fifth and replace only the third** —
   sus4 = 1, P4, P5; sus2 = 1, M2, P5. A sus2 can smuggle the key note into a
   chord that would otherwise not contain it (Skala's D–Fsus2–C–Am in G, where
@@ -219,11 +219,11 @@ part stays one hit a bar, and the SIZE comes from layering.
 
 - **No source anywhere gives a marching or processional drum pattern for this
   genre with bar positions.** Third pass in a row to find this. Every rhythmic
-  placement in our program is `[EAR]` and must stay marked so.
+  placement in our program is `[CHOSEN]` and must stay marked so.
 - **No reliable track-length distribution.** Still.
 - **No dB figures from inside the genre** — the only real levels we have are the
   three from the user's own transcript.
-- **Nothing on how sparse is too sparse**, or how long a listener will hold
+- **Nothing on how sparse is too sparse**, or how long the person playing it will hold
   without a change, beyond the measured medians in P1.
 
 ---

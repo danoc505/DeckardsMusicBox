@@ -6,7 +6,7 @@
 
 Two things, and they must happen simultaneously in the same bar or the genre does not read:
 
-(1) THE GATED-REVERB SNARE ON 2 AND 4. Not a snare with reverb — a snare whose reverb is enormous, bright, and then STOPS DEAD, as if someone cut the tape. A huge burst that occupies the whole space for ~0.3–0.5 s and then is gone, leaving silence before the next hit. Wikipedia's genre description lists exactly three sonic markers for synthwave and this is one of them ("electronic drums, gated reverb, and analogue synthesiser bass lines and leads"). The original is the AMS RMX16 NonLin2 program — early reflections that do not decay, ending abruptly (Wikipedia/Gated reverb; LiquidSonics). Get this wrong and you have generic 80s pop; get it right and a listener names the genre on the second snare.
+(1) THE GATED-REVERB SNARE ON 2 AND 4. Not a snare with reverb — a snare whose reverb is enormous, bright, and then STOPS DEAD, as if someone cut the tape. A huge burst that occupies the whole space for ~0.3–0.5 s and then is gone, leaving silence before the next hit. Wikipedia's genre description lists exactly three sonic markers for synthwave and this is one of them ("electronic drums, gated reverb, and analogue synthesiser bass lines and leads"). The original is the AMS RMX16 NonLin2 program — early reflections that do not decay, ending abruptly (Wikipedia/Gated reverb; LiquidSonics). Get this wrong and you have generic 80s pop; get it right and the person playing it names the genre on the second snare.
 
 (2) A CONTINUOUS 16TH-NOTE ARPEGGIO, CHORUSED, SPANNING 2–3 OCTAVES, OUTLINING THE CHORD, RUNNING THE WHOLE BAR. Not a comp, not a pad strike — an unbroken machine-gun of single notes. "Nightcall" is literally built on one: an 8-note arpeggio pattern that outlines Am | G | F | Dm, sawtooth, three-voice unison, plucked envelope (Reverb Machine). Every tutorial source independently lands on 1/16 (Attack Magazine's Com Truise build: arp rate 1/16; Native Instruments' walkthrough: 16th-note driving synth; futureproofmusicschool: "16th or 8th notes, tempo-synced"; SoundBridge: lead arp "3 octaves with 2 repetitions").
 
@@ -30,8 +30,8 @@ THE MK2 PROBLEM IN ONE SENTENCE: MK2 can build (1) as a voice in stage 6 today, 
                     aggregate as a shape, not a measurement.
      [tut:<source>] one production tutorial's stated value. This is a craft
                     convention with a URL, NOT a measured distribution. It is
-                    stronger than [EAR] and weaker than [corpus].
-     [EAR]          taste, awaiting an A/B render.
+                    stronger than [CHOSEN] and weaker than [corpus].
+     [CHOSEN]          taste, awaiting an A/B render.
      [GUESS]        I could not find this. It is a placeholder. Do not trust it.
      [theory]       music-theory fact.
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -60,9 +60,9 @@ synthwave: {
      ModeAudio identical; Roland "around 80 bpm to 150 bpm". Measured aggregate
      over the 50-song set: mean 124, median 125, mode 125/140 -- but that mean
      is inflated by ~9 obvious double-time reads. */
-  tempo: [92, 132],  // [corpus:orpheus-50 + songbpm] see note above; the SPREAD is [EAR]
+  tempo: [92, 132],  // [corpus:orpheus-50 + songbpm] see note above; the SPREAD is [CHOSEN]
 
-  /* Mode weights are [EAR], deliberately, and here is why you should not
+  /* Mode weights are [CHOSEN], deliberately, and here is why you should not
      believe anyone who gives you measured ones. The only public key survey of
      synthwave (Orpheus, 50 songs) reports 34 major / 16 minor -- but the author
      states the method: "I used Tunebat.com to find the keys." Algorithmic key
@@ -70,18 +70,18 @@ synthwave: {
      minor IS vi-IV-I-V in the relative major -- identical pitch content. So the
      major/minor split in that dataset is measuring the detector, not the music.
      What survives the ambiguity: A minor is the single most common label (5 of
-     50, incl. Nightcall). I weight minor heavily on the ear and say so. */
-  modes: [["minor", 7], ["major", 3], ["dorian", 1]],   // [EAR] -- see note; dorian is near-absent in what I read
+     50, incl. Nightcall). I weight minor heavily on the owner and say so. */
+  modes: [["minor", 7], ["major", 3], ["dorian", 1]],   // [CHOSEN] -- see note; dorian is near-absent in what I read
 
-  rig: [["neon", 10]],          // [EAR] -- REQUIRES a new RIG row, see palette + gap #9
-  keysChar: [["juno", 6], ["jupiter", 4]],  // [EAR] Juno-106/Jupiter-8 are the two named again and again (ModeAudio, Roland, Reverb Machine's TAL U-NO-LX)
-  tape: { wow: [0.0006, 0.0010],    // [EAR] VHS warble, ~half lofi's; synthwave is tape-nostalgic, not tape-damaged
-          crackle: [0.0008, 0.0015] },  // [EAR] hiss, not vinyl crackle. Near-zero on purpose.
+  rig: [["neon", 10]],          // [CHOSEN] -- REQUIRES a new RIG row, see palette + gap #9
+  keysChar: [["juno", 6], ["jupiter", 4]],  // [CHOSEN] Juno-106/Jupiter-8 are the two named again and again (ModeAudio, Roland, Reverb Machine's TAL U-NO-LX)
+  tape: { wow: [0.0006, 0.0010],    // [CHOSEN] VHS warble, ~half lofi's; synthwave is tape-nostalgic, not tape-damaged
+          crackle: [0.0008, 0.0015] },  // [CHOSEN] hiss, not vinyl crackle. Near-zero on purpose.
 
   /* ── stage 2: form ────────────────────────────────────────────────────── */
   form: {
     coldOpen: 0.08,   // [tut:orpheus-structure/edmprod] synthwave almost always has an intro; Nightcall opens on a FILTERED ARP for 8 bars. A cold open is rare.
-    openVerse: 0.72,  // [EAR] pop structure: intro -> verse
+    openVerse: 0.72,  // [CHOSEN] pop structure: intro -> verse
     /* [tut:edmprod] cites The Midnight "Souvenir" as the template: 8-bar intro,
        16-bar verses, 8-bar pre-chorus, 16-bar chorus, 4-bar post-chorus,
        bridge, chorus, outro = ~90 bars. MK2's SECTION_LEN is 8-bar verses and
@@ -94,7 +94,7 @@ synthwave: {
       bridge:       [["chorus", 9], ["verse", 1]],                       // [tut:orpheus-structure] the bridge exists to set up the final chorus
       instrumental: [["chorus", 7], ["verse", 3]],
     },
-    bridgeAfterChorus: { verse: 1, chorus: 2 },   // [EAR] carried from lofi's shape
+    bridgeAfterChorus: { verse: 1, chorus: 2 },   // [CHOSEN] carried from lofi's shape
     /* Energy: FLATTER than lofi at the bottom and HIGHER at the instrumental.
        Two genre facts drive this. (a) The intro is a filtered arp -- quiet by
        FILTER, which MK2 can only approximate with gain (gap #5). (b) In
@@ -103,7 +103,7 @@ synthwave: {
        the spotlight in a bridge or post-chorus section". Lofi puts the
        instrumental at 0.72; synthwave must not. */
     energy: { intro: 0.42, outro: 0.38, bridge: 0.55, instrumental: 0.88,
-              chorus: 0.95, chorusPeak: 1.0, verse: 0.70 },   // all [EAR], shaped by [tut:orpheus-structure] "three peaks, final chorus highest"
+              chorus: 0.95, chorusPeak: 1.0, verse: 0.70 },   // all [CHOSEN], shaped by [tut:orpheus-structure] "three peaks, final chorus highest"
   },
 
   /* ── stage 3: materials ───────────────────────────────────────────────── */
@@ -121,36 +121,36 @@ synthwave: {
      side effect I cannot prevent from the table. */
   pocket: [[[0, 8], 5],                 // [tut:orpheus-drums, tut:modeaudio] 1 and 3
            [[0, 4, 8, 12], 5],          // [tut:orpheus-drums, tut:edmprod] four-on-the-floor
-           [[0, 8, 14], 2],             // [EAR] 1, 3, and the "a" pickup into the next bar
-           [[0, 6, 8], 2],              // [EAR] 1, the "and" of 2, 3 -- the Miami Vice lean
-           [[0, 4, 8, 12, 14], 1]],     // [EAR] driving four with a pickup
+           [[0, 8, 14], 2],             // [CHOSEN] 1, 3, and the "a" pickup into the next bar
+           [[0, 6, 8], 2],              // [CHOSEN] 1, the "and" of 2, 3 -- the Miami Vice lean
+           [[0, 4, 8, 12, 14], 1]],     // [CHOSEN] driving four with a pickup
 
   kit: {
     snare: [4, 12],        // [tut:orpheus-drums, tut:modeaudio, tut:edmprod, tut:native-instruments] beats 2 and 4. Unanimous across every source I read. Also Com Truise: "huge, ubiquitous snare hits on 2 and 4".
     hatEvery: 2,           // [tut:futureproof] "8th-note or 16th-note closed hi-hat pattern"; [tut:modeaudio] "fill out the crotchets or quavers in between". 8ths is the base; the chorus variant goes to 16ths.
     hatVel: 0.58,          // [tut:native-instruments] their walkthrough programs hats at MIDI velocity 74 => 74/127 = 0.583. ONE tutorial's value, not a distribution.
     ghostChance: 0.10,     // [tut:modeaudio] "virtually no velocity deviation is used" -- this is a DRUM MACHINE. Ghosts are near-absent; 0.10 keeps the draw alive without making the kit human.
-    ghostSpots: [7, 14, 15],   // [EAR] the only ghosts that belong are pickups into the backbeat/downbeat
+    ghostSpots: [7, 14, 15],   // [CHOSEN] the only ghosts that belong are pickups into the backbeat/downbeat
     openSpot: [[14, 5], [6, 2], [-1, 3]],   // [tut:modeaudio] "Open hats featured prominently" -- so -1 (no open hat) gets a LOWER weight than lofi's
-    openBars: [1, 3],      // [EAR]
-    kickKeep: 8,           // [EAR] the machine plays the whole pattern; unlike lofi there is nothing to leave out
+    openBars: [1, 3],      // [CHOSEN]
+    kickKeep: 8,           // [CHOSEN] the machine plays the whole pattern; unlike lofi there is nothing to leave out
     flourishBar: 3,        // [tut:orpheus-structure] the "8-bar rule" -- change something every 8 bars; at 4-bar materials the 4th bar is the answer. Carried from lofi's rule-of-three, which is genre-independent.
     /* [tut:modeaudio]: "Snare hits at bar-end function as fills" and "Tom
        sounds (big, boomy) used toward bar conclusions". MK2's `flourish` can
        only add HAT steps (gap #6), so this is a pale version of the real
        thing. The real fill wants the snare and tom lanes. */
-    flourish: [[[14, 15], 4], [[7, 15], 2], [[10, 11, 14, 15], 2], [[], 3]],   // [EAR] hats only, because that is all the field can carry
+    flourish: [[[14, 15], 4], [[7, 15], 2], [[10, 11, 14, 15], 2], [[], 3]],   // [CHOSEN] hats only, because that is all the field can carry
     variants: {
       main: {},
       /* THE CHORUS LIFT. Synthwave's chorus opens up by going to 16th hats and
          opening the hat every bar -- it does NOT get more ghosty, it gets more
          MACHINE. That is the opposite direction from lofi's lift. */
-      lift:   { hatEvery: 1, hatVel: 0.62, openBars: [0, 1, 2, 3], ghostChance: 0.05 },  // [tut:futureproof] "16th-note closed hi-hat with occasional open hats"; the rest [EAR]
+      lift:   { hatEvery: 1, hatVel: 0.62, openBars: [0, 1, 2, 3], ghostChance: 0.05 },  // [tut:futureproof] "16th-note closed hi-hat with occasional open hats"; the rest [CHOSEN]
       /* THE BRIDGE. In synthwave the bridge is the DROP-OUT: drums gone or
          kick-only, pads and arp exposed. [tut:futureproof] "Bridge: stripped
          back contrast section". */
       depart: { hatEvery: 4, ghostChance: 0, snare: [12], kickKeep: 1,
-                openBars: [], flourish: [[[], 1]] },   // [tut:futureproof] shape; the exact values [EAR]
+                openBars: [], flourish: [[[], 1]] },   // [tut:futureproof] shape; the exact values [CHOSEN]
     },
   },
 
@@ -163,7 +163,7 @@ synthwave: {
      is exactly one octave [theory: degMidi uses 7 steps per octave], so this
      at least keeps the line octave-related instead of a third below. See
      gap #8: this genre needs counterStyle:"octave". */
-  counter: { density: 0.90,        // [EAR] a doubled lead sounds on nearly every note
+  counter: { density: 0.90,        // [CHOSEN] a doubled lead sounds on nearly every note
              intervals: [-7, 7] }, // [theory] +/-7 scale steps = +/-1 octave in MODES{}
 
   /* PROGRESSIONS as scale degrees, 0 = tonic.
@@ -228,10 +228,10 @@ synthwave: {
        octave-ish higher. 72 = C5, 88 = E6. */
   registers: { bass: [33, 45],      // [tut:futureproof] 60-200 Hz, clamped to the hardcode at buildBass
                keys: [57, 81],      // [tut:roland, tut:soundbridge] pads/arp above the split, ~2 octaves
-               counter: [64, 86],   // [EAR] the octave double must sit near the lead, not under the comp
+               counter: [64, 86],   // [CHOSEN] the octave double must sit near the lead, not under the comp
                themeA: [72, 88],    // [tut:modeaudio] "far above the driving rhythm"
-               themeB: [74, 91],    // [EAR] hook lifts, same +2..3 st habit as lofi
-               themeC: [69, 84] },  // [EAR] the bridge tune sits lower
+               themeB: [74, 91],    // [CHOSEN] hook lifts, same +2..3 st habit as lofi
+               themeC: [69, 84] },  // [CHOSEN] the bridge tune sits lower
 
   /* ── stage 5: performance ─────────────────────────────────────────────── */
   groove: {
@@ -248,18 +248,18 @@ synthwave: {
        the right order for that whisper. Com Truise is the one artist who
        swings harder: [tut:attack-magazine] builds his arp at 55% swing
        (ratio ~1.22) -- that is HIM, not the genre. */
-    swing: [1.0, 0.06],       // [snippet:gearnews] LinnDrum shuffle; the 0.06 magnitude is [EAR]
+    swing: [1.0, 0.06],       // [snippet:gearnews] LinnDrum shuffle; the 0.06 magnitude is [CHOSEN]
     snareEarly: [0.0, 0.0],   // [tut:modeaudio] no human lean. Values unused in "even" mode but the draws still run [Law 7]
     kickLate:   [0.0, 0.0],   // as above
     hatMul: 1.0,              // [theory] no differential swing when swing itself is ~0
-    jitter: { even: 0.0008 }, // [EAR] 0.8 ms. Lofi's even is 5 ms. A drum machine is sample-accurate; a hair prevents phase-identical stacking.
-    push: 0.0,                // [EAR] drum machines do not rush. Lofi's -0.008 must not be inherited.
+    jitter: { even: 0.0008 }, // [CHOSEN] 0.8 ms. Lofi's even is 5 ms. A drum machine is sample-accurate; a hair prevents phase-identical stacking.
+    push: 0.0,                // [CHOSEN] drum machines do not rush. Lofi's -0.008 must not be inherited.
   },
   touch: {
     /* [tut:synthwavepro] "shortened notes during verses" vs "legato style notes
        for drops"; [tut:futureproof] filter env "Attack 0ms, Decay 200-400ms,
        Sustain 30%" = a plucky, short bass. Weighted short. */
-    bassArtic: [[0.45, 5], [0.70, 3], [1.00, 2]],   // [tut:synthwavepro, tut:futureproof] shape; the exact ratios [EAR]
+    bassArtic: [[0.45, 5], [0.70, 3], [1.00, 2]],   // [tut:synthwavepro, tut:futureproof] shape; the exact ratios [CHOSEN]
     /* A JUNO IS NOT A HAND. All notes of a chord strike on the same sample.
        Lofi's strum is a human affordance and it is WRONG here. The draw still
        runs; it just yields zero. */
@@ -269,7 +269,7 @@ synthwave: {
      pre-delay". Synthwave is a WET genre -- roughly double lofi's 0.16.
      NOTE: MK2's IR is a graph constant at 1.4 s and cannot be lengthened per
      genre (gap #7); 0.30 is what the send can do without the room it wants. */
-  space: { wet: 0.30 },       // [tut:futureproof] hall/plate; the 0.30 figure is [EAR]
+  space: { wet: 0.30 },       // [tut:futureproof] hall/plate; the 0.30 figure is [CHOSEN]
 
   /* ═════════════════════════════════════════════════════════════════════════
      FIELDS BELOW ARE NOT READ BY ANY STAGE TODAY. They are the honest answer
@@ -292,10 +292,10 @@ synthwave: {
   /* bassStyle -- BLOCKED BY GAPS #3 and #11. */
   bassStyle: {
     pulse: "eighths",    // [tut:babyaudio, tut:soundbridge, tut:modeaudio] "sequenced basslines repeating root notes on eighth/quarter-note intervals"; the octave arp is synced to an EIGHTH note division
-    octaveJump: 0.55,    // [tut:babyaudio] "Arpeggiated Octave Bass", octave range setting "+1". The technique is a genre signature (also New Order "Blue Monday"). The 0.55 weight is [EAR].
+    octaveJump: 0.55,    // [tut:babyaudio] "Arpeggiated Octave Bass", octave range setting "+1". The technique is a genre signature (also New Order "Blue Monday"). The 0.55 weight is [CHOSEN].
     rootBias: 0.85,      // [tut:modeaudio] "simple, constant root notes to really give the song that classic, driving Synthwave feel". Fifths and walks are rare -- the opposite of lofi's [root 5, fifth 3, rest 2].
-    restChance: 0.05,    // [EAR] the pulse does not stop
-    glide: 0.10,         // [tut:futureproof] portamento is named for the LEAD; on bass it is occasional. [EAR]
+    restChance: 0.05,    // [CHOSEN] the pulse does not stop
+    glide: 0.10,         // [tut:futureproof] portamento is named for the LEAD; on bass it is occasional. [CHOSEN]
   },
 
   /* keysStyle -- THIS IS THE BIG ONE. BLOCKED BY GAP #1. Without an
@@ -305,9 +305,9 @@ synthwave: {
     mode: "arp",         // [corpus:reverbmachine] Nightcall is BUILT on an arp; [tut:modeaudio, tut:attack, tut:native-instruments, tut:futureproof] all independently
     rate: 1,             // sixteenths (step stride 1). [tut:attack-magazine] arp rate 1/16; [tut:native-instruments] 16th-note driving synth; [tut:futureproof] "16th or 8th notes"
     octaves: 3,          // [tut:soundbridge] "Lead Sound: 3 octaves with 2 repetitions"; [tut:modeaudio-arps] "spreading the notes over a scale of three octaves in total"
-    order: [["updown", 5], ["up", 4], ["down", 1]],  // [tut:modeaudio-arps] "I chose the back and forth, or up and down, arpeggio pattern"; up is the default everywhere. Weights [EAR].
+    order: [["updown", 5], ["up", 4], ["down", 1]],  // [tut:modeaudio-arps] "I chose the back and forth, or up and down, arpeggio pattern"; up is the default everywhere. Weights [CHOSEN].
     gate: 0.50,          // [tut:attack-magazine] "Arpeggiator gate set to 50"
-    padUnder: 0.7,       // [tut:roland, tut:modeaudio] a sustained pad sits under the arp. Probability [EAR].
+    padUnder: 0.7,       // [tut:roland, tut:modeaudio] a sustained pad sits under the arp. Probability [CHOSEN].
     skipDownbeats: 0.0,  // [tut:native-instruments] their driving synth "omits notes on downbeats to emphasise percussion" -- a real trick, but I could not corroborate it as a genre habit, so zero. [GUESS] if you turn it up.
   },
 
@@ -316,14 +316,14 @@ synthwave: {
     register: [72, 88],  // [tut:modeaudio] "far above the driving rhythm"; C5-E6
     wave: "saw",         // [tut:modeaudio] "Square and sawtooth waveforms primary"; [corpus:reverbmachine] Nightcall's arp is sawtooth
     unison: 3,           // [corpus:reverbmachine] Nightcall lead: "three-voice unison"
-    detuneCents: 8,      // [tut:attack-magazine] Osc1 fine -8 / Osc2 fine +8 on the Com Truise build. Their units, not cents -- treat as [EAR].
-    portamento: 0.30,    // [tut:futureproof] "moderate portamento (pitch glide)"; [tut:output] "slightly detuned bright saw lead with moderate portamento". The 0.30 is [EAR].
-    vibrato: 0.25,       // [tut:modeaudio] "chewy vibrato"; [tut:futureproof] "subtle vibrato applied post-attack". Depth [EAR].
+    detuneCents: 8,      // [tut:attack-magazine] Osc1 fine -8 / Osc2 fine +8 on the Com Truise build. Their units, not cents -- treat as [CHOSEN].
+    portamento: 0.30,    // [tut:futureproof] "moderate portamento (pitch glide)"; [tut:output] "slightly detuned bright saw lead with moderate portamento". The 0.30 is [CHOSEN].
+    vibrato: 0.25,       // [tut:modeaudio] "chewy vibrato"; [tut:futureproof] "subtle vibrato applied post-attack". Depth [CHOSEN].
     delay: "dotted8",    // [tut:babyaudio] "dotted-eighth note delay" on the sequenced plucks -- named as tip #1 of 9
   },
 
   /* counterStyle -- BLOCKED BY GAP #8 */
-  counterStyle: { shape: "octave-double", density: 0.9 },  // [corpus:reverbmachine] unison/octave stacking, NOT a contrary counter-line. Density [EAR].
+  counterStyle: { shape: "octave-double", density: 0.9 },  // [corpus:reverbmachine] unison/octave stacking, NOT a contrary counter-line. Density [CHOSEN].
 
   /* palette -- BLOCKED BY GAP #9 (needs a new RIG row) */
   palette: {
@@ -350,7 +350,7 @@ synthwave: {
             hit, HOLD, then a near-instant close. Wikipedia's live-room recipe:
             "Gate hold time set to approximately half a second, followed by
             fast release"; Sound on Sound: "instant attack... pretty much
-            instant release". So: hold 0.30-0.45 s [EAR within the cited band],
+            instant release". So: hold 0.30-0.45 s [CHOSEN within the cited band],
             release 0.005 s [corpus:soundonsound "instant"].
          4. pre-delay 0 [tut:musictech] "Set the reverb's pre-delay to zero"
        This voice must NOT use g.send. The shared bus is low-cut at 200 Hz,
@@ -361,7 +361,7 @@ synthwave: {
   },
   spaceExtra: {
     reverbWet: 0.30,     // duplicate of space.wet above, in the brief's naming
-    toneTilt: +2.0,      // dB tilt, BRIGHT. [tut:modeaudio] leads "bright"; [tut:futureproof] kick "punchy, emphasis on forward momentum rather than bass depth". NO HOME IN THE GRAPH -- see gap #13. The +2.0 magnitude is [EAR].
+    toneTilt: +2.0,      // dB tilt, BRIGHT. [tut:modeaudio] leads "bright"; [tut:futureproof] kick "punchy, emphasis on forward momentum rather than bass depth". NO HOME IN THE GRAPH -- see gap #13. The +2.0 magnitude is [CHOSEN].
     reverbDecaySec: 2.0, // [tut:futureproof] "large plate or hall, 1-3 seconds". NO HOME -- the IR is a graph constant (gap #7).
     preDelayMs: 45,      // [tut:futureproof] "30-80ms pre-delay". NO HOME.
   },
@@ -384,18 +384,18 @@ darksynth: {
      "Aurora Haze" 120, "Behemoth" 129, "Angel Dust" 135, "Assault" 135,
      "12th House" 147. (Alphabetical page 1 only -- a partial sample, and the
      same algorithmic-detection caveat applies.) */
-  tempo: [120, 150],            // [corpus:songbpm] Carpenter Brut + Perturbator; band edges [EAR]
-  modes: [["minor", 9], ["dorian", 1], ["major", 1]],   // [EAR] Turbo Killer is F minor [corpus:tunebat via search]; darksynth is minor by disposition
-  pocket: [[[0, 4, 8, 12], 7],  // [EAR] four-on-the-floor dominates the fast end
+  tempo: [120, 150],            // [corpus:songbpm] Carpenter Brut + Perturbator; band edges [CHOSEN]
+  modes: [["minor", 9], ["dorian", 1], ["major", 1]],   // [CHOSEN] Turbo Killer is F minor [corpus:tunebat via search]; darksynth is minor by disposition
+  pocket: [[[0, 4, 8, 12], 7],  // [CHOSEN] four-on-the-floor dominates the fast end
            [[0, 4, 8, 12, 14], 3],
            [[0, 8], 1]],
   kit: { hatEvery: 1,           // [tut:futureproof] 16ths at speed
          hatVel: 0.58,          // [tut:native-instruments] as above
-         ghostChance: 0.05 },   // [EAR] harder machine than synthwave
+         ghostChance: 0.05 },   // [CHOSEN] harder machine than synthwave
   form: { energy: { intro: 0.50, outro: 0.40, bridge: 0.50, instrumental: 0.95,
-                    chorus: 1.0, chorusPeak: 1.0, verse: 0.80 } },  // [EAR] narrower dynamic range, higher floor
-  space: { wet: 0.22 },         // [EAR] darker and drier than dreamwave; the distortion carries the size
-  spaceExtra: { toneTilt: -1.0 },  // [EAR] darksynth is bass-forward and grimy where outrun is bright. Still homeless (gap #13).
+                    chorus: 1.0, chorusPeak: 1.0, verse: 0.80 } },  // [CHOSEN] narrower dynamic range, higher floor
+  space: { wet: 0.22 },         // [CHOSEN] darker and drier than dreamwave; the distortion carries the size
+  spaceExtra: { toneTilt: -1.0 },  // [CHOSEN] darksynth is bass-forward and grimy where outrun is bright. Still homeless (gap #13).
   /* Everything else: inherit synthwave. */
 },
 ```
@@ -441,23 +441,23 @@ darksynth: {
 
 - TEMPO BAND [92,132] — the EDGES are mine, not measured. The track BPMs behind them are real but every one comes from an ALGORITHMIC detector (Tunebat / songbpm / getsongbpm derivatives), which half- and double-times synthwave constantly. Proof inside my own best dataset: Orpheus's 50-song list has Mitch Murder 'Airwolf Theme' at 199 and 'Night Train' at 179 — those are ~99.5 and ~89.5. Nine of the fifty are above 140 and most are probably half that. So the reported mean 124 / median 125 is inflated. Do not quote any single track BPM here as fact.
 
-- MODE WEIGHTS [minor 7, major 3, dorian 1] — pure [EAR]. The only public key survey (Orpheus, 50 songs) says 34 major / 16 minor, which contradicts me — but the author states the method was Tunebat lookup, and algorithmic key detection cannot separate a key from its relative. i-VI-III-VII in minor is the identical pitch set to vi-IV-I-V in the relative major. That dataset measures the detector, not the music. I have NO trustworthy major/minor split for this genre.
+- MODE WEIGHTS [minor 7, major 3, dorian 1] — pure [CHOSEN]. The only public key survey (Orpheus, 50 songs) says 34 major / 16 minor, which contradicts me — but the author states the method was Tunebat lookup, and algorithmic key detection cannot separate a key from its relative. i-VI-III-VII in minor is the identical pitch set to vi-IV-I-V in the relative major. That dataset measures the detector, not the music. I have NO trustworthy major/minor split for this genre.
 
 - hatVel 0.58 — derived from ONE tutorial (Native Instruments) that programs hats at MIDI velocity 74. That is one producer's walkthrough, not a measured distribution across records. It is the only numeric velocity I found anywhere in the genre literature.
 
-- ghostChance 0.10, ghostSpots [7,14,15] — the DIRECTION is sourced (ModeAudio: 'virtually no velocity deviation is used'), the NUMBERS are [EAR]. Nobody publishes a ghost-note density for drum-machine music because the honest answer is roughly zero.
+- ghostChance 0.10, ghostSpots [7,14,15] — the DIRECTION is sourced (ModeAudio: 'virtually no velocity deviation is used'), the NUMBERS are [CHOSEN]. Nobody publishes a ghost-note density for drum-machine music because the honest answer is roughly zero.
 
-- swing [1.0, 0.06] — base 1.0 (dead straight) is well-sourced. The 0.06 range is [EAR]. The LinnDrum shuffle claim came from a SEARCH SNIPPET attributed to gearnews.com/linndrum-software; I did not fetch that page. Treat the shuffle rationale as one step weaker than the rest.
+- swing [1.0, 0.06] — base 1.0 (dead straight) is well-sourced. The 0.06 range is [CHOSEN]. The LinnDrum shuffle claim came from a SEARCH SNIPPET attributed to gearnews.com/linndrum-software; I did not fetch that page. Treat the shuffle rationale as one step weaker than the rest.
 
-- jitter 0.0008 s and push 0.0 — both [EAR]. No source gives a timing-deviation figure for synthwave. I chose 0.8 ms because a drum machine is sample-accurate and lofi's 5 ms would destroy the genre.
+- jitter 0.0008 s and push 0.0 — both [CHOSEN]. No source gives a timing-deviation figure for synthwave. I chose 0.8 ms because a drum machine is sample-accurate and lofi's 5 ms would destroy the genre.
 
-- space.wet 0.30 — the reverb TYPE and decay band are sourced (futureproofmusicschool: 'large plate or hall, 1-3 seconds, 30-80ms pre-delay'). The 0.30 send level is [EAR]; nobody publishes a wet/dry ratio.
+- space.wet 0.30 — the reverb TYPE and decay band are sourced (futureproofmusicschool: 'large plate or hall, 1-3 seconds, 30-80ms pre-delay'). The 0.30 send level is [CHOSEN]; nobody publishes a wet/dry ratio.
 
-- toneTilt +2.0 dB (synthwave) / -1.0 dB (darksynth) — [EAR] entirely. The direction (synthwave bright, darksynth dark) is inferable from the sources; the dB figures are invented and I am saying so. They also have nowhere to go in the current graph.
+- toneTilt +2.0 dB (synthwave) / -1.0 dB (darksynth) — [CHOSEN] entirely. The direction (synthwave bright, darksynth dark) is inferable from the sources; the dB figures are invented and I am saying so. They also have nowhere to go in the current graph.
 
 - GATE HOLD 0.30-0.45 s — I could NOT find the actual settings used on 'In the Air Tonight' or any specific record. What I have: Wikipedia's live-room recipe says 'gate hold time set to approximately half a second, followed by fast release'; LiquidSonics/AMS commentary says the NonLin2 recreation is 'typically 0.3-0.6 seconds'. My 0.30-0.45 sits inside both bands but is my pick, not anyone's measurement. Sound on Sound explicitly declines to give numbers ('adjusted to taste').
 
-- ALL bassStyle weights (octaveJump 0.55, rootBias 0.85, restChance 0.05, glide 0.10) — the TECHNIQUES are sourced (octave-arp bass: babyaud.io tip #4, 'octave range +1'; constant root notes: ModeAudio). Every probability is [EAR]. No source quantifies how often a synthwave bass jumps the octave.
+- ALL bassStyle weights (octaveJump 0.55, rootBias 0.85, restChance 0.05, glide 0.10) — the TECHNIQUES are sourced (octave-arp bass: babyaud.io tip #4, 'octave range +1'; constant root notes: ModeAudio). Every probability is [CHOSEN]. No source quantifies how often a synthwave bass jumps the octave.
 
 - DORIAN PROGRESSIONS — flagged [GUESS] in the table and I want it flagged here too. I found NO synthwave source that names a dorian progression. The nearest real datum is Attack Magazine's Com Truise build, and that is in B PHRYGIAN, a mode MK2 does not have. If dorian gets drawn, those three progressions are structurally valid and stylistically unverified.
 
@@ -465,11 +465,11 @@ darksynth: {
 
 - keysStyle.skipDownbeats = 0.0 — Native Instruments' walkthrough omits driving-synth notes on downbeats 'to emphasise percussion'. Real trick, single source, could not corroborate as a genre habit. Zeroed rather than guessed.
 
-- form.energy values and form.transitions weights — [EAR] shaped by sourced STRUCTURE (Orpheus: 'Intro > Verse > Chorus > Verse > Chorus > Bridge > Chorus > Outro', three peaks, final chorus highest). The specific numbers are lofi's shape re-tuned by ear. Nobody has published measured Markov transitions for synthwave.
+- form.energy values and form.transitions weights — [CHOSEN] shaped by sourced STRUCTURE (Orpheus: 'Intro > Verse > Chorus > Verse > Chorus > Bridge > Chorus > Outro', three peaks, final chorus highest). The specific numbers are lofi's shape re-tuned by taste. Nobody has published measured Markov transitions for synthwave.
 
-- leadStyle.detuneCents 8 — Attack Magazine's Com Truise patch uses 'Fine Tune -8 / +8' in MiniFreak V's own arbitrary units, which are NOT cents. I carried the number across a unit boundary. Treat as [EAR].
+- leadStyle.detuneCents 8 — Attack Magazine's Com Truise patch uses 'Fine Tune -8 / +8' in MiniFreak V's own arbitrary units, which are NOT cents. I carried the number across a unit boundary. Treat as [CHOSEN].
 
-- REGISTERS — bass [33,45] is chosen to MATCH a hardcode already in buildBass, not because it is the right band; futureproofmusicschool's '60-200 Hz' implies MIDI ~35-55. keys, counter, themeA/B/C are [EAR] anchored to one qualitative source ('far above the driving rhythm').
+- REGISTERS — bass [33,45] is chosen to MATCH a hardcode already in buildBass, not because it is the right band; futureproofmusicschool's '60-200 Hz' implies MIDI ~35-55. keys, counter, themeA/B/C are [CHOSEN] anchored to one qualitative source ('far above the driving rhythm').
 
 
 ## Sources

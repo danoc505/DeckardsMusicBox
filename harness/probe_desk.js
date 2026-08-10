@@ -71,7 +71,7 @@ const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")
         neutral.every(c=>c.stripHue===0 || c.stripHue===null),
         neutral.length? neutral.map(c=>c.role+" -> "+c.stripHue).join(" ") : "no such part in this song");
 
-  // 3. PLAY, then drive the MASTER on the glass and listen at the destination
+  // 3. PLAY, then drive the MASTER on the glass and play at the destination
   await pg.evaluate(()=>{ window.__tap = null; });
   await pg.evaluate(()=>document.getElementById("play").click());
   await pg.waitForTimeout(2500);
@@ -130,7 +130,7 @@ const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")
     const st=document.querySelector(`.mixch[data-role="${o}"]`);
     return { soloed: lv?lv[r]:null, others: lv?lv[o]:null, otherShown: st?st.className:"" };
   }, [roleToTest, other]);
-  check(`SOLO on the glass silences everything else (solo ${roleToTest}, listen to ${other})`,
+  check(`SOLO on the glass silences everything else (solo ${roleToTest}, play to ${other})`,
         soloRes.others===0 || soloRes.others<0.0005,
         `${roleToTest} ${soloRes.soloed} · ${other} ${soloRes.others}`);
   check("...and the silenced strip SAYS it is silenced",

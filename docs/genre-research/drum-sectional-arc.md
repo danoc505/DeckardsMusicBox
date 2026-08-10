@@ -56,7 +56,7 @@ honest reading, column by column:
   Jungle is at **100%**: no section of a jungle record ever drops a drum or adds
   one. Plastikman 99%, acid 96%. Those three genres have no subtraction at all.
 - **`closing drums heard before` is the arc.** In synthwave, acid, plastikman and
-  jungle it is **100%**: the record's last section plays a drum part the listener
+  jungle it is **100%**: the record's last section plays a drum part the person playing it
   has already heard. "The last section having the most change" is not merely
   weak there, it is structurally impossible.
 
@@ -108,7 +108,7 @@ Corroborated independently:
 > heighten energy"*, and it came from a search-result summary rather than from
 > the page. Fetched 2026-08-09: **NOT PRESENT.** It is deleted rather than
 > replaced, and see §7 for what it cost — the open-hat move it was supporting is
-> now marked `[EAR]`.
+> now marked `[CHOSEN]`.
 
 **The emphasis matters as much as the device.** "Leaving all the other elements
 largely the same" is the constraint — a section is not a new beat, it is the
@@ -211,7 +211,7 @@ holds are split roughly down the same line.
 
 **This is not a question arithmetic can settle, and it is not one to settle by
 decree.** It is written up here as the open question it is, for the owner.
-`[EAR]`
+`[CHOSEN]`
 
 ---
 
@@ -266,7 +266,7 @@ Stated as fact about the program, not as a proposal:
 ## §5 What is NOT sourced, and must not be guessed
 
 - **How much change is right per section.** No source gives a number. Every
-  quantity below section-vocabulary level is `[EAR]`.
+  quantity below section-vocabulary level is `[CHOSEN]`.
 - **Whether the closing section should be fullest or thinnest**, per genre — §2.
 - **Whether an added percussion voice should be a NEW drum** (a voice the record
   has not used) **or a busier version of one already playing.** The sources
@@ -357,8 +357,8 @@ Toms went up where the kits declare them and down where they do not:
 | acid | 6.0% → 5.5% |
 | plastikman | 3.7% → 2.2% |
 
-This is `[EAR]` territory and the owner's to overrule — it is recorded here and in
-`test/ears/LOG.md` rather than quietly dropped.
+This is `[CHOSEN]` territory and the owner's to overrule — it is recorded here and in
+the backlog rather than quietly dropped.
 
 ## The defect this work found on its way past
 
@@ -387,9 +387,9 @@ pass.
   the right bar while the hits drawn under it are the pattern's own. The playhead
   is honest about where the song is and not about what it is playing there.
   `BACKLOG.md`.
-- **Nothing here has been heard.** Every number above says the arc exists, is
+- **Nothing here has a verdict.** Every number above says the arc exists, is
   the shape that was asked for, and reaches the events. Not one says it sounds
-  good, and this file's own §2 records a source disagreement that only an ear can
+  good, and this file's own §2 records a source disagreement that only a verdict can
   settle.
 
 ---
@@ -429,7 +429,7 @@ which is exactly why every other unfetched quote had to be checked.
 
 ## What it cost the build, honestly
 
-**One design decision loses its source and is now `[EAR]`.** The open-hat move —
+**One design decision loses its source and is now `[CHOSEN]`.** The open-hat move —
 `openBars: [0,1,2,3]`, an ADDITION rung in lofi, synthwave, acid and minimal
 techno — was resting on the deleted closed-hats-in-verses sentence. What survives
 is Sound On Sound on the hi-hat becoming a ride and MusicRadar on the ride

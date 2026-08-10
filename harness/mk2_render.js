@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* Render MK2 output for measurement — the reference bar (M0 gate) and songs.
-     node harness/mk2_render.js <outdir> ref            # the M0 ear-gate bar
+     node harness/mk2_render.js <outdir> ref            # the M0 verdict gate bar
      node harness/mk2_render.js <outdir> songs 1,2,3    # full songs by seed
      node harness/mk2_render.js <outdir> songs 1 sega   # ...pinned to a rig
 */
@@ -48,7 +48,7 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
         // determinism proof: compose twice, compare event JSON
         const song2 = MK2.composeSong(seed, rig, genre);
         /* the genre's OWN sound -- kit, room and gate. Rendering a song with the
-           default settings would produce a file no listener could get from the
+           default settings would produce a file no player could get from the
            program itself. */
         const S = MK2.soundOf(song.chart.genre);
         const j = s => JSON.stringify(s.perf.events);

@@ -10,7 +10,7 @@
         fader is the one control a hand reaches for first.
 
      2. IS THE CYMBAL HARSH. Harshness is not loudness; it is energy in the
-        2-6 kHz band where the ear is most sensitive, and a long tail that keeps
+        2-6 kHz band where the owner is most sensitive, and a long tail that keeps
         it there. So: the spectral balance of each cymbal, and how long it
         holds. Reported next to the hats, which nobody has complained about, so
         there is something to compare against rather than a number in a vacuum.
@@ -67,7 +67,7 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
          its own peak */
       /* ── A BAND THAT CAN SEE THE THING BEING COMPLAINED ABOUT ──────────────
          The first split was low / 140 Hz-2 kHz / everything above. Cymbal
-         harshness is specifically 2-6 kHz -- the ear's most sensitive region and
+         harshness is specifically 2-6 kHz -- the owner's most sensitive region and
          where a sustained undamped partial becomes unpleasant -- and lumping
          2 kHz to 20 kHz into one "high" bucket cannot see it. Worse, when the
          mid dropped the high PERCENTAGE rose, which reads like it got brighter
@@ -132,7 +132,7 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
     console.log(`  ${r.lane.padEnd(10)} ${r.low.toFixed(1).padStart(6)}  ${r.mid.toFixed(1).padStart(6)}  ` +
                 `${r.high.toFixed(1).padStart(6)}  ${r.air.toFixed(1).padStart(5)}   ` +
                 `${r.tail.toFixed(2).padStart(6)}   ${r.peak.toFixed(3)}   ${r.harshAbs.toFixed(4)}`);
-  console.log('\n  HARSH% is 2-6 kHz -- the band the ear finds unpleasant when it is sustained.');
+  console.log('\n  HARSH% is 2-6 kHz -- the band the owner finds unpleasant when it is sustained.');
   console.log('  harsh RMS is the same band in absolute terms, so a drop in share cannot hide a rise in level.');
   if(errs.length) console.log('PAGE ERRORS: ' + errs.slice(0, 3).join(' | '));
   await b.close();

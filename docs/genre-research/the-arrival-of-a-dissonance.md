@@ -163,7 +163,7 @@ both inflated the defect in my favour, which is why they are recorded.
 
 Of the 155 leap-in/leap-out cases in 80 songs, **41 are the counter jumping two
 octaves** — `octaves: [-12, 12]` taking whichever end fits the band, already
-recorded in `BACKLOG.md` §6.5 as its own `[EAR]` row and not this law's
+recorded in `BACKLOG.md` §6.5 as its own `[CHOSEN]` row and not this law's
 business. Another 64 are a dissonance followed by the *same pitch repeated*.
 The genuinely arrival-shaped residue is about 50 cases in 80 songs, which is
 under 1% of dissonances. **The leap-in-leap-out case is not the problem; the
@@ -209,7 +209,7 @@ counter chooses from a *list*, and a filter on a short list can empty.
   closing paragraph is honest that the prohibition is common-practice in origin
   and was not corroborated in jazz or popular sources. So the law removes the
   arrivals that *no* reading defends and leaves the appoggiatura rate to the
-  music. If the ear later wants fewer leaps than that, it is a weight in the
+  music. If the owner later wants fewer leaps than that, it is a weight in the
   move draw, not this law.
 - **It does not touch the direction of resolution** — see §3.
 - **It does not chase the counter's octave flip.** That is a different defect
@@ -309,7 +309,7 @@ durations, which is what refusal looks like.
 
 ## 7. STILL OPEN, HONESTLY
 
-- **THE EAR HAS NOT HEARD IT.** Every number above says the arrivals changed
+- **NO VERDICT ON IT YET.** Every number above says the arrivals changed
   and none says the tunes sound better. `BACKLOG.md` §0 and the sax precedent.
 - **The effect is small and the reason is structural.** Only the bar's last
   onset lacks a guaranteed resolution, so only it is constrained. Whether the
@@ -318,7 +318,7 @@ durations, which is what refusal looks like.
   question, not this law.
 - **The first note of a phrase has no arrival at all.** `hang` and the previous
   pitch both reset per phrase, so the law cannot see across the join even
-  though the ear can. Fixing it means carrying two values across phrases, which
+  though the owner can. Fixing it means carrying two values across phrases, which
   is a real change to `phrase()`'s contract and wants its own commit.
 - **The counter's octave flip is untouched and is the larger arrival defect on
   that part** — 41 of the 155 leap-in/leap-out cases are `octaves: [-12, 12]`

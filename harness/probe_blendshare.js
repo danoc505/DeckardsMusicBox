@@ -109,7 +109,7 @@ for(const [A, B] of pairs){
     /* HOW FAR FROM HALF THE WORST RECORD IS — the complaint in one number.
        0 means every song was an even split; 50 means a song was all one
        genre. The WORST single song, not the average of the misses: a
-       listener plays one record, not thirty. */
+       player plays one record, not thirty. */
     return { avg, lo: Math.min(...xs), hi: Math.max(...xs), worst: Math.max(...xs.map(s => Math.abs(s - 0.5))) };
   };
   const all = stat(shares), con = conShares.length ? stat(conShares) : null;

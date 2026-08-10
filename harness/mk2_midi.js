@@ -10,8 +10,8 @@
    driven through the real DOM handlers.
 
    That boundary is worth being honest about. This proves the message stream is
-   correct. It does not prove a synth likes it, and the user's ears remain the
-   judge of that -- but "every note-on has its note-off" is not an ear question
+   correct. It does not prove a synth likes it, and the user's a verdict on it remain the
+   judge of that -- but "every note-on has its note-off" is not a taste question
    and should never have been left to one.
 
    The checks that matter most are the two failure modes that make a MIDI

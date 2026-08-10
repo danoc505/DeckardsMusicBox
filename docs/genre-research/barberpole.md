@@ -125,7 +125,7 @@ the stated minimum of four and inside Whirl's 4–8 range.
 | negative feedback option (Whirl) | NOT built. A feedback path around the cascade closes a cycle, and this program has measured what a cycle costs the renderer's repeatability |
 
 **What no source gave**: notch Q values, envelope width relative to the
-sweep, and wet/dry ratio. Those are `[EAR]` — chosen, not sourced, and they
+sweep, and wet/dry ratio. Those are `[CHOSEN]` — chosen, not sourced, and they
 are the first things to change if it sounds wrong.
 
 ## 6. WHY IT EARNS A SLOT HERE
@@ -246,7 +246,7 @@ why that clamp was fixed too (see below).
 - Gone with it: the second oscillator, the `ConstantSource` lift, and the six
   phase `DelayNode`s — whose offsets had to be clamped to the 120 s maximum
   and so were silently wrong at slow CLIMB rates anyway.
-- `BARBER_CUT_DB = 24` and `BARBER_Q = 2` are `[EAR]`, as §5 already said the
+- `BARBER_CUT_DB = 24` and `BARBER_Q = 2` are `[CHOSEN]`, as §5 already said the
   Q and the envelope width would have to be. The **shape** is sourced; the
   shape is what was wrong.
 

@@ -18,7 +18,7 @@ through a render. The masterdoc is the constitution; this is the schedule.*
 - ✔ Live playback rolling-window fix; determinism proven per render
 - ✔ Form research done: ~30-section taxonomy by function; measured transition
   probabilities; the rule of three formalized as a cross-stage constraint
-- ◻ GATE 0 — the user's ear verdict on the palette (open; collected alongside R1,
+- ◻ GATE 0 — the user's verdict on the palette (open; collected alongside R1,
   since R1 changes composition, not sound)
 
 ## R1 — THE FORM IS THE SONG  *(in progress)*
@@ -61,7 +61,7 @@ three verifiable in the printed story line; user A/B against the pre-R1 build.
 
 ## R2 — THE PERFORMANCE DEEPENS
 Per-lane accent maps inside the one velocity formula; keys strums; articulation
-draws; lofi tape character (wow, vinyl bed, tilt) [EAR]. Exit: logged A/B.
+draws; lofi tape character (wow, vinyl bed, tilt) [CHOSEN]. Exit: logged A/B.
 
 ## R3 — THE TEST BATTERY BECOMES PERMANENT  *(✔ done 2026-07-27)*
 Three commands, ~30 s total, run on every change:
@@ -85,7 +85,7 @@ A soloed voice is just an event list containing one voice, through the same
 the shipped file to keep in sync.
 
 Also `harness/mk2_solo.js` and `harness/mk2_measure.py` for ad-hoc probing, and
-`test/ears/LOG.md`: no taste decision merges without a dated A/B entry.
+the backlog: no taste decision merges without a dated A/B entry.
 
 **One thing this proved that changes how to read any render:** Chrome's offline
 render is *not* bit-reproducible. Two renders of the identical file differ by 1–3

@@ -55,7 +55,7 @@ for(const g of M.genres()){
          that column was measuring drift and calling it variation.
 
          Drift is not an answer to a vary demand. It is not repeatable, it is
-         not keyed to the hearing, and a listener has no way to connect it to
+         not keyed to the hearing, and the person playing it has no way to connect it to
          "this is the third time". So the two are separated: DRIFT is what the
          free-running lanes happen to be doing, DESIGNED is what the lanes keyed
          to the statement are doing on purpose. Only the second column is the

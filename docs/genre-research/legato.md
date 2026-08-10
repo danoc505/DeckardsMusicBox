@@ -165,7 +165,7 @@ one rather than a taste one.
 | **bladerunner** | `lead`, `counter` | the Vangelis patch above; the answer is the same player's other hand |
 | **synthwave** | `lead` | Attack Magazine's sentence, verbatim |
 | synthwave bass | — | its bass is a PULSE by its own research; holding it deletes the pulse |
-| everything else | — | no source in hand. The door is open; walking through it is an ears question per genre |
+| everything else | — | no source in hand. The door is open; walking through it is a taste question per genre |
 
 ### The three-way rule
 

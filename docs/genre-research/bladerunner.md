@@ -4,11 +4,11 @@
 
 ## What makes it unmistakable
 
-ONE thing: **the note arrives from below.** The CS-80's "Initial Pitch Bend" starts every note roughly a semitone flat and swoops it up to pitch in a few tens of milliseconds, velocity-scaled — then a wide vibrato ARRIVES late, half a second in, on a note that is still sounding four seconds later. Old Crow's CS-80 panel tour describes it as "brief portamento of a note from about 1 semitone below the key's actual pitch to the expected pitch"; Sound On Sound's Arturia CS80V review calls it "a quick, velocity-sensitive, upward pitch swoop to the start of each note"; the Arturia manual's parameter list names it `atinit`, "velocity action setting on the glissando for the start of the note." Three independent sources, same mechanism. If your notes start dead in tune, no amount of correct harmony will make a listener say "Blade Runner."
+ONE thing: **the note arrives from below.** The CS-80's "Initial Pitch Bend" starts every note roughly a semitone flat and swoops it up to pitch in a few tens of milliseconds, velocity-scaled — then a wide vibrato ARRIVES late, half a second in, on a note that is still sounding four seconds later. Old Crow's CS-80 panel tour describes it as "brief portamento of a note from about 1 semitone below the key's actual pitch to the expected pitch"; Sound On Sound's Arturia CS80V review calls it "a quick, velocity-sensitive, upward pitch swoop to the start of each note"; the Arturia manual's parameter list names it `atinit`, "velocity action setting on the glissando for the start of the note." Three independent sources, same mechanism. If your notes start dead in tune, no amount of correct harmony will make the person playing it say "Blade Runner."
 
 SECOND thing (needed to close the identification): **the tail is longer than the note that caused it.** Everything went through a Lexicon 224, an early digital reverb famous for very long decays, and Vangelis was an early adopter of the long settings. Combined with a texture The Conversation describes as "longer drawn out notes, rather than thick instrumental combinations" — two or three events per bar, not twenty — you get one or two sounds at a time floating in a room several seconds deep.
 
-Everything else (i–VI vamp, no dominant, harmonic rhythm of 2+ bars) is *supporting evidence*. A listener will name the genre off the scoop and the room alone, in one held note, before a chord even changes.
+Everything else (i–VI vamp, no dominant, harmonic rhythm of 2+ bars) is *supporting evidence*. The person playing it will name the genre off the scoop and the room alone, in one held note, before a chord even changes.
 
 ## The tables
 
@@ -67,10 +67,10 @@ bladerunner: {
                underpinning giving this mode a pseudo-eastern flavour." I could
                NOT reach the primary (the MDPI paper 503'd), so this weight is
                deliberately small. [corpus:secondary, UNCONFIRMED]
-       lydian — taste. I found no source. Weight 1 so it is rare. [EAR] */
+       lydian — taste. I found no source. Weight 1 so it is rare. [CHOSEN] */
   modes: [["major", 5], ["minor", 5], ["dorian", 2],
           ["phrygian", 2],            // [corpus:secondary, UNCONFIRMED — see above]
-          ["lydian", 1]],             // [EAR]
+          ["lydian", 1]],             // [CHOSEN]
 
   rig: [["nemo", 10]],                                        // one rig; see RIG below
   keysChar: [["vp330", 6], ["cp80", 4]],   // string synth vs CP-80 electric grand,
@@ -83,31 +83,31 @@ bladerunner: {
   /* the tape. Not vinyl — a Lyrec TR-532 24-track hand-synced to VHS with a
      chinagraph pencil, no click [corpus:nemostudios br03]. Slow drift, faint
      room, no crackle. */
-  tape: { wow:     [0.0010, 0.0014],   // [EAR] slower/deeper than lofi's 0.0012/0.0018
-          crackle: [0.0030, 0.0020] }, // [EAR] this is room hiss, not surface noise
+  tape: { wow:     [0.0010, 0.0014],   // [CHOSEN] slower/deeper than lofi's 0.0012/0.0018
+          crackle: [0.0030, 0.0020] }, // [CHOSEN] this is room hiss, not surface noise
 
   /* ── stage 2: form ─────────────────────────────────────────────────────── */
   form: {
-    coldOpen:  0.08,        // [EAR] a Vangelis cue almost always fades up out of
+    coldOpen:  0.08,        // [CHOSEN] a Vangelis cue almost always fades up out of
                             // atmosphere first; a cold open is the exception
-    openVerse: 0.85,        // [EAR] the drone, then the theme
+    openVerse: 0.85,        // [CHOSEN] the drone, then the theme
     target:    [32, 5, 8],  // 32/40/48/56/64 bars = 2:08-4:16 at 60 bpm.
                             // Main Titles 3:42, Tears in Rain 3:00
                             // [corpus:wikipedia BR soundtrack track listing]
     /* Vangelis cues state and restate; they rarely "go somewhere". So the
        transition table is weighted heavily toward return, and the bridge is
-       weak. [EAR] — I found no corpus of Vangelis cue forms and I am not going
+       weak. [CHOSEN] — I found no corpus of Vangelis cue forms and I am not going
        to pretend otherwise. */
     transitions: {
-      verse:        [["chorus", 5], ["verse", 3], ["instrumental", 2], ["bridge", 1]],  // [EAR]
-      chorus:       [["verse", 6], ["instrumental", 3], ["chorus", 2], ["bridge", 1]],  // [EAR]
-      bridge:       [["chorus", 6], ["verse", 4]],                                      // [EAR]
-      instrumental: [["verse", 5], ["chorus", 5]],                                      // [EAR]
+      verse:        [["chorus", 5], ["verse", 3], ["instrumental", 2], ["bridge", 1]],  // [CHOSEN]
+      chorus:       [["verse", 6], ["instrumental", 3], ["chorus", 2], ["bridge", 1]],  // [CHOSEN]
+      bridge:       [["chorus", 6], ["verse", 4]],                                      // [CHOSEN]
+      instrumental: [["verse", 5], ["chorus", 5]],                                      // [CHOSEN]
     },
-    bridgeAfterChorus: { verse: 2, chorus: 2 },   // [EAR] departures are rare here
+    bridgeAfterChorus: { verse: 2, chorus: 2 },   // [CHOSEN] departures are rare here
     /* the gain formula is (0.72 + 0.28*energy), so this whole column only spans
        0.82-0.99. That is correct: the score's dynamics live in the FILTER and
-       the reverb, not in note velocity. [EAR] */
+       the reverb, not in note velocity. [CHOSEN] */
     energy: { intro: 0.35, outro: 0.30, bridge: 0.55, instrumental: 0.50,
               chorus: 0.82, chorusPeak: 0.95, verse: 0.62 },
   },
@@ -120,7 +120,7 @@ bladerunner: {
      instrumental combinations"] */
   pocket: [[[0], 6],        // one downbeat, nothing else — the default
            [[0, 8], 3],     // a half-bar answer
-           [[0, 6], 1]],    // [EAR] an off-centre second event, rare
+           [[0, 6], 1]],    // [CHOSEN] an off-centre second event, rare
 
   /* KIT. There is no drum kit in this score. What IS documented in the
      instrument list is gamelan and tubular bells [corpus:wikipedia BR
@@ -132,7 +132,7 @@ bladerunner: {
   kit: {
     snare:       [],          // [corpus:no backbeat exists anywhere in this score]
     hatEvery:    16,          // one shimmer per bar (loop runs s=0 only)
-    hatVel:      0.14,        // [EAR] barely there
+    hatVel:      0.14,        // [CHOSEN] barely there
     ghostChance: 0.0,         // [corpus:no ghosting; there is no groove to ghost]
     ghostSpots:  [8],         // draw still runs unconditionally [Law 7]
     openSpot:    [[-1, 10]],  // -1 = no open hat, always
@@ -142,14 +142,14 @@ bladerunner: {
     flourish:    [[[], 10]],  // never
     variants: {
       main:   {},
-      lift:   { hatVel: 0.20 },                  // [EAR] the restatement rings a little
-      depart: { kickKeep: 0, hatVel: 0.08 },     // [EAR] the departure loses the bell
+      lift:   { hatVel: 0.20 },                  // [CHOSEN] the restatement rings a little
+      depart: { kickKeep: 0, hatVel: 0.08 },     // [CHOSEN] the departure loses the bell
     },
   },
 
   /* COUNTER. Tears in Rain is "call-and-response between Rhodes and CS-80"
      [corpus:alijamieson]. Response, not doubling: sparse, low, contrary. */
-  counter: { density: 0.28,             // [EAR] answers on roughly 1 note in 4
+  counter: { density: 0.28,             // [CHOSEN] answers on roughly 1 note in 4
              intervals: [-2, -4, -5, -7] },   // [theory] scale steps, always below
 
   /* PROGRESSIONS — scale degrees, 0-indexed, ONE PER BAR over BARS=4.
@@ -230,11 +230,11 @@ bladerunner: {
   registers: { bass:   [33, 45],   // see gap #9 — buildBass hardcodes 33..47 for
                                    // its fifth-notes, so going lower splits the
                                    // register audibly. This is a compromise.
-               keys:   [48, 72],   // [EAR] the VP-330 bed, two octaves wide
-               counter:[55, 74],   // [EAR] the Rhodes answer, under the brass
-               themeA: [69, 89],   // [EAR] the CS-80 brass lives up here
-               themeB: [72, 92],   // [EAR] the restatement goes higher still
-               themeC: [64, 84] }, // [EAR] the departure drops
+               keys:   [48, 72],   // [CHOSEN] the VP-330 bed, two octaves wide
+               counter:[55, 74],   // [CHOSEN] the Rhodes answer, under the brass
+               themeA: [69, 89],   // [CHOSEN] the CS-80 brass lives up here
+               themeB: [72, 92],   // [CHOSEN] the restatement goes higher still
+               themeC: [64, 84] }, // [CHOSEN] the departure drops
 
   /* ── stage 5: performance ──────────────────────────────────────────────── */
   groove: {
@@ -250,8 +250,8 @@ bladerunner: {
                                    // is the wrong shape (see gap #3): real rubato
                                    // is correlated across a phrase, this is
                                    // independent per note. 38 ms is what I judged
-                                   // "hand-played, not sloppy" — untested. [EAR]
-    push:       0.014,             // struck metal sits BEHIND the beat [EAR]
+                                   // "hand-played, not sloppy" — untested. [CHOSEN]
+    push:       0.014,             // struck metal sits BEHIND the beat [CHOSEN]
   },
 
   touch: {
@@ -259,12 +259,12 @@ bladerunner: {
        dur: Math.min(8, ...) — a hard half-bar cap (gap #8). Multiplying by 3-5
        is the only route to a drone that outlives its bar. At 60 bpm, dur 8 x 4.0
        = 32 sixteenths = 2 bars = 8 seconds. [theory: this is what "drone" means] */
-    bassArtic: [[3.0, 3], [4.0, 5], [5.0, 2]],   // [EAR] — a repurposing, see gap #8
+    bassArtic: [[3.0, 3], [4.0, 5], [5.0, 2]],   // [CHOSEN] — a repurposing, see gap #8
     /* the strum: keys notes of one strike roll by this much each. Four notes at
        40 ms = 120 ms of spread. Vangelis did not stamp chords; he played them,
        once, in one take, and kept the first take even with mistakes in it
        [corpus:nemostudios br03]. 35-80 ms is a hand. */
-    strum: [0.035, 0.045],                       // [EAR]
+    strum: [0.035, 0.045],                       // [CHOSEN]
   },
 
   /* ── THE RIBBON. A PERFORMANCE-STAGE BEHAVIOUR, not a voice parameter. ────
@@ -289,7 +289,7 @@ bladerunner: {
        Arturia CS-80V manual parameter list: atinit = "Velocity action setting
           on the glissando for the start of the note" [corpus:arturia manual]
        => magnitude ~1 semitone, direction ALWAYS UP, scaled by velocity.
-          Duration: no source gives a number. "Brief" is all anyone says. [EAR]
+          Duration: no source gives a number. "Brief" is all anyone says. [CHOSEN]
 
      (B) THE RIBBON — between notes, and NOT on every note.
        SOS on the hardware: the ribbon has "no centre position"; it gives "an
@@ -328,7 +328,7 @@ bladerunner: {
                                 // [corpus:cs80.com/tour "about 1 semitone below";
                                 //  velocity scaling from corpus:arturia atinit]
     scoopSec:   [0.045, 0.030], // base + range = 45-75 ms to reach pitch.
-                                // NO SOURCE GIVES A TIME. [EAR/GUESS]
+                                // NO SOURCE GIVES A TIME. [CHOSEN/GUESS]
     scoopTau:   0.33,           // fraction of scoopSec used as the exponential
                                 // time constant — a VCO CV slew is exponential,
                                 // not linear [theory]
@@ -336,18 +336,18 @@ bladerunner: {
                                 // instead of re-attacking
                                 // [corpus:arturia manual, "in the area of 170 ms"
                                 //  and "at least 200 ms before"]
-    glideSec:   [0.090, 0.140], // time to traverse a legato interval [EAR]
+    glideSec:   [0.090, 0.140], // time to traverse a legato interval [CHOSEN]
     riseCeil:   12,             // upward bend capped at one octave
                                 // [corpus:soundonsound "one octave upwards";
                                 //  corpus:cs80.com "approximately +1 octave"]
     fallChance: 0.22,           // P(the last note of a phrase falls off the ribbon)
-                                // [EAR] — Reverb Machine documents THAT it happens
+                                // [CHOSEN] — Reverb Machine documents THAT it happens
                                 // at phrase ends, not how often
     fallSemis:  [-14, -6],      // and it does not stop there: the true target is
                                 // 0 Hz, so the voice should ramp toward silence,
                                 // not toward a pitch
                                 // [corpus:arturia "all the way down to 0 Hz"]
-    fallSec:    [0.55, 0.45],   // [EAR]
+    fallSec:    [0.55, 0.45],   // [CHOSEN]
   },
 
   /* ── the played-part styles (names for stage 3/5 to branch on; no reader
@@ -392,19 +392,19 @@ bladerunner: {
        at ~0.6 Hz (depth ~2.8 ms) and ~6.1 Hz (depth ~0.35 ms) at 120 deg phase
        -> a gentle vocal band (bandpass ~500 Hz + ~1.5 kHz, Q ~1.2) for the
        choir formant -> slow attack (~0.9 s) / very long release (~2.5 s).
-     Every number in that sketch is [EAR] — I did not find a VP-330 service
+     Every number in that sketch is [CHOSEN] — I did not find a VP-330 service
      spec. The 3-tap-with-two-LFOs topology is the standard string-ensemble
      BBD architecture [theory], not a measurement of this unit. */
 
   /* ── space ─────────────────────────────────────────────────────────────── */
   space: {
-    wet:  0.55,     // vs lofi's 0.16. [EAR] — must be A/B'd; the IR is seeded
+    wet:  0.55,     // vs lofi's 0.16. [CHOSEN] — must be A/B'd; the IR is seeded
                     // noise and this may be far too hot.
     /* THE NEXT THREE FIELDS HAVE NO READER. setSpace() (line 1059) only assigns
        space.wet; the IR is baked in buildGraph at irSec = 1.4 with a fixed
        pow(1-t, 2.2) decay and a fixed 0.32 one-pole darkening, and the send is
        fed only by bus.keys + bus.lead through a 200 Hz high-pass. See gap #7. */
-    irSec:   5.0,   // [EAR, order-of-magnitude from corpus:valhalladsp — the
+    irSec:   5.0,   // [CHOSEN, order-of-magnitude from corpus:valhalladsp — the
                     // Lexicon 224 was known for "spacey, extra long decays (up to
                     // 70 seconds)" and Vangelis was an early user of the long
                     // settings, "most famously in the Blade Runner soundtrack".
@@ -412,10 +412,10 @@ bladerunner: {
                     // pick inside that range, NOT a measurement of any cue.
                     // NOTE: I read this via a search summary of that page, not a
                     // direct fetch. Weakest citation in the table.]
-    tailPow: 1.6,   // [EAR] slower than lofi's 2.2 — a hall, not a room
-    tilt:   -3.5,   // dB of high-shelf tilt; the 224 is dark [EAR]
+    tailPow: 1.6,   // [CHOSEN] slower than lofi's 2.2 — a hall, not a room
+    tilt:   -3.5,   // dB of high-shelf tilt; the 224 is dark [CHOSEN]
     sendHp:  80,    // Hz. Must drop from 200 so the bass drone is IN the wash;
-                    // in this score nothing is dry. [EAR]
+                    // in this score nothing is dry. [CHOSEN]
     feeds: ["keys", "lead", "bass", "drums"],   // everything goes to the room
   },
 },
@@ -465,13 +465,13 @@ nemo: { kick:"bellLow",  snare:"gamelan",  ghost:"gamelan",  hat:"gamelan",
 
 - TEMPO — every BPM figure in this table is MACHINE DETECTION, not a published marking. I fetched four directly: Blade Runner Blues 65 (songbpm), Memories of Green 70 (songbpm), Main Titles 80.025 (chordu), End Titles 113 (songbpm). Search summaries also reported 107 and 123 for Blade Runner Blues and 164 for Main Titles, which I could NOT fetch to confirm (tunebat/musicstax/songdata all returned 403). I found no sheet-music tempo marking for any cue. tempo:[56,76] is my bracket, not a measurement.
 
-- scoopSec [0.045,0.030] — NO source gives a duration for the CS-80's initial pitch bend. Three sources agree it exists, is ~1 semitone, is upward, and is velocity-scaled; all three say only 'brief' or 'quick'. The 45-75 ms figure is mine. [EAR]
+- scoopSec [0.045,0.030] — NO source gives a duration for the CS-80's initial pitch bend. Three sources agree it exists, is ~1 semitone, is upward, and is velocity-scaled; all three say only 'brief' or 'quick'. The 45-75 ms figure is mine. [CHOSEN]
 
-- glideSec, fallSec, fallSemis, fallChance, scoopTau, riseCeil-as-used — the ribbon's RANGE and DIRECTIONAL ASYMMETRY are documented (up bounded at one octave, down unbounded to 0 Hz, relative to touch point, held notes only). Its SPEED and how OFTEN Vangelis reached for it are not. Reverb Machine documents that descending slides occur at the end of Tears in Rain; nothing quantifies frequency. All timing numbers are [EAR].
+- glideSec, fallSec, fallSemis, fallChance, scoopTau, riseCeil-as-used — the ribbon's RANGE and DIRECTIONAL ASYMMETRY are documented (up bounded at one octave, down unbounded to 0 Hz, relative to touch point, held notes only). Its SPEED and how OFTEN Vangelis reached for it are not. Reverb Machine documents that descending slides occur at the end of Tears in Rain; nothing quantifies frequency. All timing numbers are [CHOSEN].
 
 - space.irSec 5.0 — the Lexicon 224's decay range (2-75 s) and Vangelis's use of the long settings come from a Valhalla DSP page I read only as a SEARCH SUMMARY, not a direct fetch. And no source states the decay used on any specific cue. 5.0 s is my pick inside a documented range. This is the weakest citation in the table.
 
-- space.wet 0.55, tailPow 1.6, tilt -3.5, sendHp 80 — pure [EAR]. wet 0.55 against lofi's 0.16 is a >3x jump into a seeded-noise IR and could easily be far too hot. Must be A/B'd before anyone believes it.
+- space.wet 0.55, tailPow 1.6, tilt -3.5, sendHp 80 — pure [CHOSEN]. wet 0.55 against lofi's 0.16 is a >3x jump into a seeded-noise IR and could easily be far too hot. Must be A/B'd before anyone believes it.
 
 - SUS2 / SUS4 / ADD9 VOICINGS — the brief presupposes these. I could not find a single source documenting them in this score. Everything I could read describes plain triads plus a few sevenths (Love Theme's ii-III7-vi-vii°-bVII-V7-I). My reading is that the 'open' quality comes from the two-oscillator detune and the reverb, not from the voicing — but that is my inference, not a citation. I have deliberately NOT put sus/add9 numbers in the table.
 
@@ -479,17 +479,17 @@ nemo: { kick:"bellLow",  snare:"gamelan",  ghost:"gamelan",  hat:"gamelan",
 
 - D PHRYGIAN — the claim that the main motif is reworked from E major into D Phrygian over a drone appears in search summaries attributed to a source I could not reach; the MDPI academic paper (mdpi.com/2076-0752/13/5/154) returned 503 on fetch. phrygian is weighted 2 out of 15 for that reason. UNCONFIRMED.
 
-- LYDIAN — no source at all. Included at weight 1 purely as taste. [EAR]
+- LYDIAN — no source at all. Included at weight 1 purely as taste. [CHOSEN]
 
-- ALL form.transitions WEIGHTS — no corpus of Vangelis cue forms exists that I could find. Every number in that block is [EAR]. The lofi weights came from harvest_structure; these did not come from anything.
+- ALL form.transitions WEIGHTS — no corpus of Vangelis cue forms exists that I could find. Every number in that block is [CHOSEN]. The lofi weights came from harvest_structure; these did not come from anything.
 
 - groove.jitter.even 0.038 — a stand-in for rubato and the wrong SHAPE for it (see architecture gap #3). 38 ms is a judgement call, untested.
 
-- kit numbers — gamelan and tubular bells are documented in the Wikipedia instrument list for the score, but nothing documents WHERE they land or how loud. The downbeat placement and hatVel 0.14 are [EAR], and the whole kit block is a workaround for gap #2 rather than a description of the music.
+- kit numbers — gamelan and tubular bells are documented in the Wikipedia instrument list for the score, but nothing documents WHERE they land or how loud. The downbeat placement and hatVel 0.14 are [CHOSEN], and the whole kit block is a workaround for gap #2 rather than a description of the music.
 
-- V.vp330's internals (3 BBD taps, 0.6 Hz / 6.1 Hz LFOs, 2.8 ms / 0.35 ms depths, 500 Hz + 1.5 kHz formant bands, 0.9 s attack / 2.5 s release) — I found no VP-330 service spec. That is the standard string-ensemble BBD topology [theory] with numbers I chose. Every one is [EAR].
+- V.vp330's internals (3 BBD taps, 0.6 Hz / 6.1 Hz LFOs, 2.8 ms / 0.35 ms depths, 500 Hz + 1.5 kHz formant bands, 0.9 s attack / 2.5 s release) — I found no VP-330 service spec. That is the standard string-ensemble BBD topology [theory] with numbers I chose. Every one is [CHOSEN].
 
-- registers.* — all [EAR]. I have no register measurements for any cue.
+- registers.* — all [CHOSEN]. I have no register measurements for any cue.
 
 - touch.bassArtic 3.0-5.0 — these are not 'how long the player lets the note ring' in any documented sense; they are the only lever that defeats buildBass's hardcoded half-bar cap. The VALUES are chosen to make the drone last ~2 bars, which is reasoning about the code, not about the record.
 

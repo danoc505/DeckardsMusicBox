@@ -160,7 +160,7 @@ and index, and inserting would move every later lane's stream).
 | jungle | `amen.tail` | the ENVELOPE of the same trio — a choked slice | `[-0.018, 0.055]` s, density `[0.10, 0.22]` |
 | plastikman | `tr1000.chdecay` | the closed hat; micro-variation on the busiest voice | `[-0.015, 0.030]` s, density `[0.10, 0.24]` |
 
-**Every number in that last column is `[EAR]`.** The SHAPE is sourced — which
+**Every number in that last column is `[CHOSEN]`.** The SHAPE is sourced — which
 control, on which genre, and why — and no source anywhere gives a depth or a
 density. The densities match the band the eleven existing lanes already sit in
 (2–4 live steps of 16), which is a consistency argument and not a measurement.
@@ -203,7 +203,7 @@ Two things worth keeping from that table:
    roughly 23–68 ms against a 38 ms base, a 3× range), so this is a mix-balance
    fact rather than a wiring one: the closed hat is one quiet voice among many.
    That is what "micro-variation" is supposed to mean, and whether it is *enough*
-   is an EAR question this sheet cannot answer.
+   is an TASTE question this sheet cannot answer.
 
 ## 6. WHAT THIS DOES NOT DO, said plainly
 
@@ -213,10 +213,10 @@ Two things worth keeping from that table:
   (187).
 - **It does not touch the existing twelve.** Several move under 5% of their
   dial and may be inaudible; making them bigger is taste with no source and is
-  the obvious next thing for an EAR to rule on, not for me to guess.
+  the obvious next thing for an TASTE to rule on, not for me to guess.
 - **Nobody has heard any of it.** Motion reaches the sound and never the notes,
   so there is no roll to read for this and no snapshot to move: the only
-  instruments that can see it are a render A/B and a listener.
+  instruments that can see it are a render A/B and the person playing it.
 
 ## 7. SOURCING HONESTY — what was verified and what was not
 

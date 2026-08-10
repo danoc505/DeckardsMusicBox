@@ -22,7 +22,7 @@
 > cites by name. The figure changes every time the bass root changes — 7/7,
 > 15/15 and 15/15 across three figure tracks, 100% — and it plays in 30-50% of
 > bars, not continuously. It is far closer to an ARPEGGIO than to a fixed cell,
-> which is what the user's ear said before anything was measured.
+> which is what the user's verdict said before anything was measured.
 >
 > **`docs/genre-research/aquatic-ambience-measured.md` has the measurement.**
 > The genre table now sets `follow: true`.
@@ -49,7 +49,7 @@ TWO things, and both are measurable, and both are things MK2 currently cannot ma
   - Life in the Mines: G1+G2, Bb1+Bb2, C2+C3, G1+G2, one per bar. [ch0]
   - Fear Factory: E1 held sixteen beats; E is 52-53% of the whole track's duration weight in two independent transcriptions.
   - Hideout Helm (Kirkhope): G1 on every single eighth note, unchanged, for the entire track; G is 37-45% of duration weight.
-There is no walking bass. There is no root-following. Four bars of that pedal plus that ostinato and a listener names the game.
+There is no walking bass. There is no root-following. Four bars of that pedal plus that ostinato and the person playing it names the game.
 
 Everything else — pan flute lead, whale-song bends, long echo, tuned percussion bed — is dressing on those two.
 
@@ -70,7 +70,7 @@ Everything else — pan flute lead, whale-song bends, long echo, tuned percussio
      [corpus:shrine]     videogamemusicshrine.com written analysis
      [corpus:songbpm]    songbpm.com / tunebat BPM+key for released covers
      [corpus:loveemu]    loveemu spec of Rare's actual SNES sound engine
-     [theory] music fact.  [EAR] taste, awaiting a listen.  [GUESS] no data.
+     [theory] music fact.  [CHOSEN] taste, awaiting the owner’s verdict.  [GUESS] no data.
 
    THE ONE THING TO READ FIRST: this genre's identity lives in two keys that
    DO NOT EXIST in MK2's GENRE shape yet — `ostinato` and `bassStyle:"pedal"`.
@@ -116,9 +116,9 @@ dkc: {
      NOTE: MODES in MK2 has no mixolydian. Add mixolydian:[0,2,4,5,7,9,10]. [theory] */
   modes: [["minor", 6], ["mixolydian", 3], ["major", 1]],   // [corpus:vgmusic-23]
 
-  rig:      [["band", 10], ["sega", 0]],   // [EAR] the SEGA FM rig is the wrong console;
+  rig:      [["band", 10], ["sega", 0]],   // [CHOSEN] the SEGA FM rig is the wrong console;
                                            // a real "snes" rig is the right answer, see palette
-  keysChar: [["pad", 6], ["bell", 4]],     // [EAR] no measurement; see palette for what these are
+  keysChar: [["pad", 6], ["bell", 4]],     // [CHOSEN] no measurement; see palette for what these are
   tape:     { wow: [0.0, 0.0], crackle: [0.0, 0.0] },
                     // [corpus:loveemu] Rare's engine is tick-exact, TPQN 32. There is
                     // NO tape. No wow, no crackle, no drift. Zeroed deliberately, not
@@ -136,21 +136,21 @@ dkc: {
        verse  = A material
        chorus = B material (the contrasting strain), NOT a payoff
        bridge = the modulating strain (Forest Interlude's D-F-A-C section)
-     I have marked every number here [EAR] because I measured no form data. */
+     I have marked every number here [CHOSEN] because I measured no form data. */
   form: {
-    coldOpen:   0.05,                     // [EAR] Wise almost always states the bed first
-    openVerse:  0.85,                     // [EAR]
-    target:     [48, 4, 8],               // [EAR] 48-80 bars; these loop long
+    coldOpen:   0.05,                     // [CHOSEN] Wise almost always states the bed first
+    openVerse:  0.85,                     // [CHOSEN]
+    target:     [48, 4, 8],               // [CHOSEN] 48-80 bars; these loop long
     transitions: {
-      verse:        [["chorus", 6], ["verse", 3], ["bridge", 1]],       // [EAR]
+      verse:        [["chorus", 6], ["verse", 3], ["bridge", 1]],       // [CHOSEN]
       chorus:       [["verse", 8], ["chorus", 1], ["bridge", 2], ["instrumental", 1]],
       bridge:       [["verse", 6], ["chorus", 2]],                      // returns to A, not to B
       instrumental: [["verse", 6], ["chorus", 3]],
     },
-    bridgeAfterChorus: { verse: 1, chorus: 1 },   // [EAR]
+    bridgeAfterChorus: { verse: 1, chorus: 1 },   // [CHOSEN]
     energy: { intro: 0.62, outro: 0.5, bridge: 0.7, instrumental: 0.7,
               chorus: 0.85, chorusPeak: 0.9, verse: 0.78 },
-            // [EAR] deliberately FLAT and deliberately never 1.0. This music does
+            // [CHOSEN] deliberately FLAT and deliberately never 1.0. This music does
             // not build to a climax; it sustains a level. A lofi-style dynamic
             // arc is the single fastest way to make this not sound like DKC.
   },
@@ -181,7 +181,7 @@ dkc: {
                                    // UNIFORM across all 16 steps (min 2%, max 12%) —
                                    // continuous sixteenths, not eighths. This is the
                                    // shaker/hat bed, and it never stops.
-    hatVel:      0.42,             // [EAR] it sits well under the lofi 0.62; it is a bed
+    hatVel:      0.42,             // [CHOSEN] it sits well under the lofi 0.62; it is a bed
     ghostChance: 0.10,             // [GUESS] I found no ghost-snare evidence at all.
                                    // Ghosting is a live-drummer artefact; this is a
                                    // sequencer. Near-zero is the honest default.
@@ -195,16 +195,16 @@ dkc: {
                                    // backwards from lofi (open hat on 14) and is one
                                    // of the two or three things that reads as "SNES".
     openBars:    [0, 1, 2, 3],     // [corpus:vgmusic-13] every bar, not bars 1 and 3
-    kickKeep:    9,                // [EAR] play the whole pocket
-    flourishBar: 3,                // [EAR] carried from lofi; no measurement
+    kickKeep:    9,                // [CHOSEN] play the whole pocket
+    flourishBar: 3,                // [CHOSEN] carried from lofi; no measurement
     flourish:    [[[], 6], [[14, 15], 2], [[10, 11], 2]],
-                                   // [EAR] weighted heavily toward NO flourish: these
+                                   // [CHOSEN] weighted heavily toward NO flourish: these
                                    // loops repeat exactly, that is the point
     variants: {
       main:   {},
-      lift:   { hatVel: 0.50, openSpot: [[4, 6], [12, 4]] },   // [EAR]
+      lift:   { hatVel: 0.50, openSpot: [[4, 6], [12, 4]] },   // [CHOSEN]
       depart: { hatEvery: 2, snare: [12], kickKeep: 1, openSpot: [[-1, 1]],
-                flourish: [[[], 1]] },                          // [EAR]
+                flourish: [[[], 1]] },                          // [CHOSEN]
     },
   },
 
@@ -267,8 +267,8 @@ dkc: {
     minor:      [[[0, 2, 4, 6], 4],    // the thirds chain as the departure
                  [[3, 4, 5, 6], 3],    // the stepwise ascent
                  [[0, 0, 0, 0], 2]],   // ...or the bridge is simply a pedal
-    mixolydian: [[[2, 4, 0, 0], 3], [[5, 3, 0, 0], 2]],   // [EAR] rotations
-    major:      [[[5, 3, 0, 4], 3], [[0, 2, 4, 6], 2]],   // [EAR]
+    mixolydian: [[[2, 4, 0, 0], 3], [[5, 3, 0, 0], 2]],   // [CHOSEN] rotations
+    major:      [[[5, 3, 0, 4], 3], [[0, 2, 4, 6], 2]],   // [CHOSEN]
   },
 
   /* HARMONIC RHYTHM. Measured per track — one chord per bar is NOT the norm here:
@@ -297,15 +297,15 @@ dkc: {
                counter: [67, 88],    // [corpus:vgmusic-2]
                themeA:  [64, 84],    // [corpus:vgmusic-6] median 72-79
                themeB:  [67, 89],    // [corpus:vgmusic-2] the octave-up restatement
-               themeC:  [62, 80] },  // [EAR]
+               themeC:  [62, 80] },  // [CHOSEN]
 
   /* THE COUNTER-LINE. In DKC it is not a harmony below the tune, it is a fast
      arpeggiated filigree ABOVE it — Forest Interlude ch4 (harp) runs G#4-C5-Eb5-C6
      then a repeating Bb5-C6-F5 cell in 16ths; DK64 Crystal Caves has celesta/bells
      at F5..B7. [corpus:vgmusic-2] So: sparse, high, and moving UP. */
-  counter: { density: 0.35,                 // [EAR]
+  counter: { density: 0.35,                 // [CHOSEN]
              intervals: [3, 4, 5, 7],       // [corpus:vgmusic-2] it goes UP, not down
-             octaveUp: true },              // [EAR] needs deriveCounter support
+             octaveUp: true },              // [CHOSEN] needs deriveCounter support
 
   /* ── stage 5: performance ──────────────────────────────────────────────── */
   groove: {
@@ -316,7 +316,7 @@ dkc: {
               // section is machine-locked. Straight is the correct default and I
               // am asserting it, not measuring it. Exception the table cannot
               // hold: DK Island Swing and Bayou Boogie really are swung — see gaps.
-    swing:      [1.0, 0.0],       // [corpus:loveemu + EAR] straight. Not 1.5.
+    swing:      [1.0, 0.0],       // [corpus:loveemu + TASTE] straight. Not 1.5.
     snareEarly: [0.0, 0.0],       // [theory] no human, no push
     kickLate:   [0.0, 0.0],
     hatMul:     1.0,
@@ -338,12 +338,12 @@ dkc: {
      engine has events $16/$17 to turn it on and off per channel [corpus:loveemu].
      So the real DKC space is: pads, lead and ostinato drenched; bass and
      percussion bone dry. MK2 has one global wet, so the numbers below are the
-     best single compromise and they are [EAR]. */
-  space: { wet: 0.34,              // [EAR] roughly double lofi's 0.16
-           toneTilt: -0.35,        // [EAR] dark; the FIR lowpass on every repeat
-           preDelayMs: 90,         // [EAR] echo, not room. See uncertain.
+     best single compromise and they are [CHOSEN]. */
+  space: { wet: 0.34,              // [CHOSEN] roughly double lofi's 0.16
+           toneTilt: -0.35,        // [CHOSEN] dark; the FIR lowpass on every repeat
+           preDelayMs: 90,         // [CHOSEN] echo, not room. See uncertain.
            perRole: { keys: 0.55, lead: 0.45, ostinato: 0.5, counter: 0.5,
-                      bass: 0.0, drums: 0.05 } },   // [EAR] needs per-role sends
+                      bass: 0.0, drums: 0.05 } },   // [CHOSEN] needs per-role sends
 
 
 /* ═══ NEW KEYS — NONE OF THESE HAVE A READER IN MK2 TODAY ═══════════════════
@@ -387,7 +387,7 @@ dkc: {
                                 // 67-72, Forest 68-79. ONE OCTAVE WIDE. Never more.
     noteRepeatBias: 0.45,       // [corpus:vgmusic-1] Stickerbush's cell is
                                 // B B C C C B B B C C G G G G — mostly repeats
-    vel:         0.55,          // [EAR] it sits under the tune, it is not the tune
+    vel:         0.55,          // [CHOSEN] it sits under the tune, it is not the tune
   },
 
   /* ── BASS STYLE. MK2's buildBass always plays chordSet[b].rootMidi on pocket
@@ -464,7 +464,7 @@ dkc: {
                                 // "barely perceptible mini bass scale" are all
                                 // PITCH BENDS, not discrete notes. Rare's engine has
                                 // dedicated pitch-slide events $08/$09 [corpus:loveemu].
-                                // The cents/ms values are [EAR].
+                                // The cents/ms values are [CHOSEN].
   },
 
   /* ── PERCUSSION LANE that MK2 has no name for. Present in 19 of 26 DKC files
@@ -473,8 +473,8 @@ dkc: {
      [corpus:vgmusic-42] Life in the Mines uses GM 80/81 (mute+open triangle) and
      64 (hi bongo) heavily; Aquatic uses 82 (shaker) and 62 (mute hi conga). ── */
   tunedPerc: { present: 0.73,       // [corpus:vgmusic-42] 31 of 42 files
-               every: 2,            // [EAR] the bed's grid
-               vel: 0.28 },         // [EAR]
+               every: 2,            // [CHOSEN] the bed's grid
+               vel: 0.28 },         // [CHOSEN]
 
   /* ── NO DRUMS AT ALL is a legitimate DKC section. Ice Cave Chant has zero
      percussion in BOTH transcriptions; DK64 Gloomy Galleon and Fungi Forest
@@ -487,16 +487,16 @@ dkc: {
     bridge:       ["keys", "bass", "lead"],
     instrumental: ["keys", "ostinato", "bass", "tunedPerc"],
     outro:        ["keys", "ostinato", "bass"],
-  },   // [EAR] shaped by the measurement that percussion is often absent, but the
+  },   // [CHOSEN] shaped by the measurement that percussion is often absent, but the
        // specific per-section assignment is my taste, not a measurement.
   drumlessChance: 0.15,   // [corpus:vgmusic-5] 5 of 42 analysed files
 
   /* ── PALETTE. Which V.<name> plays what, and the ONE new voice. ── */
   palette: {
-    bass:      "dkcBass",       // [EAR] a soft sine/triangle with a slow attack, an
+    bass:      "dkcBass",       // [CHOSEN] a soft sine/triangle with a slow attack, an
                                 // octave-doubled root, no pluck. It is a pedal.
-    keys:      "dkcPad",        // [EAR] slow-attack string/choir pad, heavily wet
-    ostinato:  "dkcPluck",      // [EAR] short marimba/kalimba/plucked-string with a
+    keys:      "dkcPad",        // [CHOSEN] slow-attack string/choir pad, heavily wet
+    ostinato:  "dkcPluck",      // [CHOSEN] short marimba/kalimba/plucked-string with a
                                 // fast decay — Stickerbush's cell is transcribed as
                                 // GM 108 kalimba by one transcriber and GM 11/12
                                 // vibes/marimba by two others [corpus:vgmusic-3]
@@ -530,7 +530,7 @@ dkc: {
        ───────────────────────────────────────────────────────────────────────── */
     newVoice: { name: "wavesequence", steps: 8, cyclePeriodSec: [0.35, 0.9],
                 crossfade: 0.5 },   // steps:8 [corpus:wikipedia, Wise's own words];
-                                    // the timings are [EAR]
+                                    // the timings are [CHOSEN]
   },
 },
 ```
@@ -576,17 +576,17 @@ dkc: {
 
 - SNES echo maximum delay '240 ms' — this came from a search summary of k0b3n4irb.github.io/opensnes/snes_sound_guide.html, which I did NOT fetch directly. The 8-tap FIR figure IS directly verified from sneslab.net. Treat 240 ms as unconfirmed.
 
-- space.wet 0.34, space.toneTilt -0.35, space.preDelayMs 90, and the entire space.perRole map: [EAR]/[GUESS]. I have the hardware fact that echo is per-voice and lowpassed, and nothing else. No measurement of wet/dry balance exists in a MIDI file.
+- space.wet 0.34, space.toneTilt -0.35, space.preDelayMs 90, and the entire space.perRole map: [CHOSEN]/[GUESS]. I have the hardware fact that echo is per-voice and lowpassed, and nothing else. No measurement of wet/dry balance exists in a MIDI file.
 
-- The ENTIRE form block — coldOpen 0.05, openVerse 0.85, target [48,4,8], all transition weights, all energy values, introBars 16: [EAR]. I measured no form data. I did not count section lengths, count repeats, or measure where sections change. introBars 16 is my number attached to a qualitative source phrase ('super long intro'). The energy values being flat and never reaching 1.0 is a taste judgement I believe strongly but did not measure.
+- The ENTIRE form block — coldOpen 0.05, openVerse 0.85, target [48,4,8], all transition weights, all energy values, introBars 16: [CHOSEN]. I measured no form data. I did not count section lengths, count repeats, or measure where sections change. introBars 16 is my number attached to a qualitative source phrase ('super long intro'). The energy values being flat and never reaching 1.0 is a taste judgement I believe strongly but did not measure.
 
 - swing 1.0 / jitter 0.0 / snareEarly 0 / kickLate 0: ASSERTED, not measured. Quantised transcriptions cannot show swing. I am reasoning from the fact that Rare's engine is a tick sequencer with no groove template. If DKC does have engine-level swing anywhere I would not have seen it.
 
 - kit.ghostChance 0.10 and ghostSpots [7,11,15]: [GUESS]. I found no ghost-note evidence whatsoever. Zero would arguably be more honest than 0.10.
 
-- kit.flourish weights, all `variants` values, hatVel 0.42, tunedPerc.every 2 and vel 0.28: [EAR], no measurement.
+- kit.flourish weights, all `variants` values, hatVel 0.42, tunedPerc.every 2 and vel 0.28: [CHOSEN], no measurement.
 
-- counter.density 0.35, counter.octaveUp, leadStyle.bend cents/ms, keysStyle.cascadeEntry 0.25, ostinato.vel 0.55, palette.newVoice cyclePeriodSec and crossfade: [EAR].
+- counter.density 0.35, counter.octaveUp, leadStyle.bend cents/ms, keysStyle.cascadeEntry 0.25, ostinato.vel 0.55, palette.newVoice cyclePeriodSec and crossfade: [CHOSEN].
 
 - leadStyle.octaveRestate 0.5, fromOstinato 0.6, pickup 0.5: the BEHAVIOURS are measured (I can point at the exact bars), but the PROBABILITIES are invented. I saw octave-restatement in 2 tracks and pickup entry in 1; I have no basis for 0.5.
 

@@ -77,7 +77,7 @@ candidates, and **both declare `counter: null` as a researched decision I am not
 entitled to reverse.** lofi's table gives half a page of reasons: Moore's four
 textural layers allow one melodic voice, the genre's sources say "not more than
 3 or 4 elements" and "sparse and repeating", and the user's own report — *"Lofi
-hip hop is relaxing and easy listening, are we following that?"* — is what
+hip hop is relaxing and easy background music, are we following that?"* — is what
 removed it. Adding a second melodic voice back to get a feature heard would be
 the measurement fitting the claim.
 
@@ -131,7 +131,7 @@ Every other genre: **0 of 300 seeds moved.** Dungeon synth: 220 of 300.
 
 ## 5. WHAT THIS DOES NOT SETTLE
 
-- **Nothing has been heard.**
+- **Nothing has a verdict.**
 - **It is rare.** The second voice answers 7% of the tune's bars. That is the
   genre's own declared density (0.10) minus what collisions eat, and the genre's
   sources want sparse — but a device that fires in one bar in fourteen is a long

@@ -7,7 +7,7 @@ specification — the same rule this project has broken before. What it
 legitimately does is name a structure the engine did not have at all.
 
 Everything below is quoted or closely paraphrased from that transcript. Where a
-number is mine rather than his, it says [EAR].
+number is mine rather than his, it says [CHOSEN].
 
 ---
 
@@ -54,7 +54,7 @@ what a variation IS rather than "make it different":
 
 > "The most basic form of this is dropping the kick drum out on the last measure
 > of an eight-bar phrase on four-on-the-floor music, which destabilises the low
-> end of the track and creates a vacuum that the listener will anticipate coming
+> end of the track and creates a vacuum that the person playing it will anticipate coming
 > back."
 
 And on how much: **"the larger the change in the next section, the more
@@ -106,7 +106,7 @@ best way to go for these types of beats."**
 > its own — since this repeats the same way every beat it has no real concept of
 > phrasing. However if we were to add a second kick on the last eighth note or
 > upbeat of bar four, the phrase of the kick and subsequently the drums just
-> jumped to four bars, **because that's the point at which the listener will
+> jumped to four bars, **because that's the point at which the person playing it will
 > recognise repetition**."
 
 This is the mechanism behind §1: a phrase is however long it takes for the
@@ -157,7 +157,7 @@ above.
 
 > "The great majority of symmetrical periods have phrases of either four or
 > eight measures, and indeed **the most common phrase length in Western tonal
-> music is some multiple of four measures**: 4, 8, 12, etc. Many listeners hear
+> music is some multiple of four measures**: 4, 8, 12, etc. Many people playing it hear
 > hypermeter, a metrical organization that is larger than the notated measure."
 > — [Carnegie Mellon University, *Hypermeter*](https://www.andrew.cmu.edu/user/johnito/music_theory/Form/Form1PhrPer/Hypermeter.pdf)
 
@@ -210,7 +210,7 @@ I had declared incapable of them.
 
 ## And the original source said it outright
 
-> "Listening to a lot of techno, especially the harder genres like schranz or
+> "Playing to a lot of techno, especially the harder genres like schranz or
 > banging techno, **taking the kick out and putting it back in is almost
 > everything the genre does for song structure**."
 > — Red Means Recording, the same transcript §1–§2 came from

@@ -114,7 +114,7 @@ FALL untouched** — 150 ms then off in 15 ms is the desk setting the effect was
 discovered on [corpus:sweetwater, Padgham at the Townhouse; corpus:musicradar],
 and it is what makes it a gate rather than a reverb. So the character stays and
 only the amount moves. **Measured after: the snare sits 2.8 dB UNDER the kick,
-RMS 0.0858 → 0.0565.** The amount is `[EAR]`.
+RMS 0.0858 → 0.0565.** The amount is `[CHOSEN]`.
 
 ### 2b. The kick — it was not quiet, it was under the speaker
 
@@ -158,7 +158,7 @@ share.** The sub's long decay dominates the energy ratio, and the drum bus
 already runs a `tanh` saturator at 3.6× which fills that band with its own odd
 harmonics. The layer adds attack weight; it does not rebalance the spectrum.
 Rebalancing would mean attenuating the sub, which changes what an 808 *is* —
-that is a decision for the ear, not a fix to slip in beside this one.
+that is a decision for the owner, not a fix to slip in beside this one.
 
 ---
 
@@ -292,13 +292,13 @@ declared signature and not the clap's doing.
 
 ## 5. WHAT IS NOT DONE, honestly
 
-- **The ear has heard none of it.** Every number here says the kick has more
+- **The owner has judged none of it.** Every number here says the kick has more
   attack weight and the snare no longer sits on top of it. None of them says it
-  sounds good. `test/ears/LOG.md`.
+  sounds good. the backlog.
 - **The kick's spectrum is still sub-dominant** (60–64% under 100 Hz). Fixing
   that means attenuating the sub or raising the tunings, both of which change
-  the genres' character and both of which are ear decisions.
-- **`punch` is `[EAR]` on every genre** — it ships at the control's default 0.55
+  the genres' character and both of which are verdict decisions.
+- **`punch` is `[CHOSEN]` on every genre** — it ships at the control's default 0.55
   and no genre declares its own yet.
 - **The narrow strips' three CTRL knobs are small.** They are secondary controls
   and the screen reads their values, but at 1.16rem they are fiddly on a phone.

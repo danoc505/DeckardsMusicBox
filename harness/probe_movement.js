@@ -1,4 +1,4 @@
-/* IS ANYTHING CHANGING. "I listened to over a min of drums and no changes to the
+/* IS ANYTHING CHANGING. "I judged over a min of drums and no changes to the
    soundscape... it's all slow swells of changing effects, this is how you can get
    away with repeating something so long."
 
@@ -8,7 +8,7 @@
      1. THE DIAL. For every motion lane, how far does the knob actually travel
         inside the first N seconds, as a fraction of its own range? A lane on a
         96-bar free-phase LFO at 126 bpm has a period near three minutes -- it is
-        automated on paper and static to an ear for the whole opening.
+        automated on paper and static in the mix for the whole opening.
 
      2. THE AIR. Render the opening in windows and measure band energy and
         brightness per window. A soundscape that is changing has numbers that
@@ -88,7 +88,7 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
   console.log(`\n--- how far each knob travels in the first ${SECS}s, vs across the whole record ---`);
   console.log('  lane                first ' + SECS + 's     whole record');
   for(const l of out.lanes){
-    const flag = l.openPct < 3 ? '   <<< static to an ear' : '';
+    const flag = l.openPct < 3 ? '   <<< static in the mix' : '';
     console.log(`  ${l.key.padEnd(18)} ${l.openPct.toFixed(1).padStart(8)}%   ${l.wholePct.toFixed(1).padStart(10)}%${flag}`);
   }
   console.log(`\n--- and what the air actually does, per 10 s ---`);

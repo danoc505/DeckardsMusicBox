@@ -5,7 +5,7 @@
 and "pentatonic" and rightly said that was not enough to write a bassline
 from). This sheet answers HANDOFF §9.4 / BACKLOG §6.8's jungle rows: the
 sources DO support a change, and they say what shape it is. **No code moved
-with this sheet** — BACKLOG §0 stands, the 04-stack is unheard, and the
+with this sheet** — BACKLOG §0 stands, the 04-stack is unjudged, and the
 mechanism this points at is a decision worth making awake, not a rider.*
 
 ## 0. What the program does today, measured
@@ -83,7 +83,7 @@ Two honest cautions before anyone wires it:
 1. **This moves every jungle song** and lands on top of `04g` (jungle's
    chords), which nobody has heard. BACKLOG §0: the sitting comes first.
 2. **No source gives numbers** — notes per bar, riff length beyond "two bar
-   motif", rest share. Whatever is chosen is `[EAR]` and must be marked so.
+   motif", rest share. Whatever is chosen is `[CHOSEN]` and must be marked so.
    The right first measurement after building: does the riff read as a riff
    (repetition detectable across bars) and does the parallel-fifths rate
    (19.2%) actually fall once the bass can be somewhere other than the root

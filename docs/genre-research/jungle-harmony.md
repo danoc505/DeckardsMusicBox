@@ -77,7 +77,7 @@ Checked independently rather than taken from the repo:
 > atmospheric** intelligent drum & bass" [corpus:wikipedia Good Looking
 > Records]; Bukem "was trained as a classical pianist and discovered **jazz
 > fusion**… his fascination with **Herbie Hancock and Lonnie Liston Smith**
-> gave him an ear for **chords that glide rather than jab**"
+> gave him a verdict for **chords that glide rather than jab**"
 > [corpus:tracksandtales].
 
 **Two independent sources for extensions, and one of them says "dissonant
@@ -164,7 +164,7 @@ side by side.
 
 - **How often a jungle track extends its chords.** "Lush minor chords, jazz
   extensions" describes the atmospheric strand, and no source gives a
-  proportion for the genre as a whole. The weights are `[EAR]`.
+  proportion for the genre as a whole. The weights are `[CHOSEN]`.
 - **Whether the dissonance the source names is harmonic or textural.**
   "Dissonant intervals or horror/industrial atmospheres" reads as much like
   sound design as like chord spelling. Extensions raise measured dissonance as
@@ -181,7 +181,7 @@ side by side.
 
 - [Jungle — Melodigging](https://www.melodigging.com/genre/jungle)
 - [Good Looking Records — Wikipedia](https://en.wikipedia.org/wiki/Good_Looking_Records)
-- [Logical Progression — LTJ Bukem's Classic Drum & Bass Mix Explained — Tracks and Tales](https://www.tracksandtales.co/blogs/listening-bar-albums/logical-progression-ltj-bukem-1996)
+- [Logical Progression — LTJ Bukem's Classic Drum & Bass Mix Explained — Tracks and Tales](https://www.tracksandtales.co/blogs/playing-bar-albums/logical-progression-ltj-bukem-1996)
 - [How LTJ Bukem's 'Logical Progression' expressed his unique vision — DJ Mag](https://djmag.com/features/how-ltj-bukems-logical-progression-expressed-his-unique-vision-drum-bass)
 - [How to Make Drum and Bass: The Complete Guide — Mixed In Key](https://mixedinkey.com/captain-plugins/wiki/how-to-make-drum-and-bass-the-complete-guide/)
 - `docs/genre-research/jungle.md` — the July sheet whose harmony section this confirms

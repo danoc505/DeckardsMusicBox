@@ -1,7 +1,7 @@
 # LOFI HIP HOP — THE FORM, researched
 
 *2026-08-02. Internet research per the rule in HANDOFF-MK2 §0: the model has
-no ears; published data is the only signal. Every claim below carries its
+no a verdict on it; published data is the only signal. Every claim below carries its
 source. What is taste is marked. This document precedes the `form.plan` in
 the GENRE table and is the evidence for it.*
 
@@ -97,7 +97,7 @@ raw budget sums), median 56 bars ≈ **1:55 to 3:27 across the 74-92 bpm
 band, ~2:42 at the median** — against sources saying 1:00-2:30 (Pryn) to
 1-3 min (NI) with ~2:00 typical. The genre leans to the long edge of its
 sources. Tightening further collides with the arc's minimum room to rise
-and fall, and the budgets are already [EAR]; **the user's ears decide
+and fall, and the budgets are already [CHOSEN]; **the user's a verdict on it decide
 whether these records feel long.** Shapes: 19/25 distinct (was 24/25 —
 a family now exists, with repeats), 6-9 sections, every record ending on
 its fullest statement; the most common shape is I V C V C V C^ O, which
@@ -105,7 +105,7 @@ is Pryn's ABABB inside the intro/outro frame.
 
 ## Marked taste, and what was refused
 
-- Exact budget steps (8/4, 16/8, 8/8) are **[EAR]** — the sources give
+- Exact budget steps (8/4, 16/8, 8/8) are **[CHOSEN]** — the sources give
   ranges in seconds and bars, not steps.
 - Keeping the name `chorus` for the B-statement is a mapping choice, not a
   source claim; the sources are explicit that calm lofi has no chorus in

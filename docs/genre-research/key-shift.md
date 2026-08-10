@@ -157,13 +157,13 @@ and the numbers above are the correction.**
 
 ## 5. WHAT THIS DOES NOT SETTLE
 
-- **Nothing here has been heard.** Every number above says the device exists,
+- **Nothing here has a verdict.** Every number above says the device exists,
   fires, and is legal. Whether a minimal techno record is better for changing
   key a third of the way through is not a thing measurement can answer.
 - **The window is structural, not drawn.** Sections whose middle falls between
   0.40 and 0.67 of the record play the lifted copy. That is AABA read at the
   length of a record, and it is one departure and one return — where the sources
-  restate theirs on every chorus. Whether it should recur is an ear question.
+  restate theirs on every chorus. Whether it should recur is a taste question.
 - **A record whose middle is a chorus does not move**, because B and the bridge
   have no lifted copy. That is deliberate — a chorus already has its own changes
   — but it is why dungeon synth sits at 5.3% rather than higher.

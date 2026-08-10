@@ -1,4 +1,4 @@
-# The part that listens — 2026-07-31
+# The part that answers — 2026-07-31
 
 *Brief, verbatim: "constraints allow for novelty to emerge and music is novelty
 arithmetically derived."*
@@ -11,12 +11,12 @@ Every lane in `buildDrums` **declares**: a step list, a division, a sequencer le
 Nothing had ever **read** what the pattern turned out to be and answered it. Sean Booth,
 on Autechre's setup:
 
-> "A sequencer is spitting out stuff and we're using our ears and the faders to make the
+> "A sequencer is spitting out stuff and we're using our a verdict on it and the faders to make the
 > music… one fader determines how often a snare does a little roll or skip, and **another
-> thing listens and says 'if that snare plays that roll three times, then I'll do this.'**"
+> thing answers and says 'if that snare plays that roll three times, then I'll do this.'**"
 > — [Sound On Sound](https://www.soundonsound.com/people/autechre)
 
-`kit.listen` is that. A rule watches a set of lanes, counts what it hears, and writes on
+`kit.answer` is that. A rule watches a set of lanes, counts what it hears, and writes on
 every Nth. **Zero random draws** — not "the draws run unconditionally", *none* — so Law 7
 is unviolatable and a genre that declares nothing is byte-identical by inspection.
 
@@ -27,7 +27,7 @@ controls built at the lane's *own* density: its first bar looped (**0.00**) and 
 shuffle (**1.00**).
 
 The shuffle is the point. "Deterministic rules watching the pattern" and "random notes"
-are trivially confusable by ear, so the claim is only worth making if it can be separated
+are trivially confusable by taste, so the claim is only worth making if it can be separated
 from a dice roll. **The null hypothesis was written down before the mechanism existed**,
 so it could not be chosen to flatter it.
 
@@ -60,12 +60,12 @@ is sampling a real break — but it is the other failure mode, already in the fi
   CA rules 30 / 90 / 110 from a dense seed ... >1.000   past noise
 ```
 
-**A listener on one lane produces nothing.** "Every 3rd hit of a period-7 pulse" is a
+**The person playing it on one lane produces nothing.** "Every 3rd hit of a period-7 pulse" is a
 period-21 pulse — LZ cannot tell it from the pulse it came from. Novelty only appears when
-the listener watches **two sequencers interacting**, which is why `watch` is a set and why
+the person playing it watches **two sequencers interacting**, which is why `watch` is a set and why
 `kit.poly` had to exist first.
 
-**And the guard is a generator.** `notOn: ["kick"]` exists to keep the listener off the
+**And the guard is a generator.** `notOn: ["kick"]` exists to keep the person playing it off the
 downbeat — and on its own that constraint takes the same figure from 0.000 to 0.500. The
 rule that protects the one is the rule that makes the part interesting. That is the brief,
 arithmetically.
@@ -83,7 +83,7 @@ from a 24-configuration sweep:
 
 A third generation scored **1.000**. So there are two, and Booth's "three or four
 generations down the line" is *reported rather than obeyed* — that is a studio pipeline
-with two people listening at every step, not four rounds of one rule.
+with two people watching at every step, not four rounds of one rule.
 
 ## The half that was missing: the same figure every song
 
@@ -91,8 +91,8 @@ A 12-agent research pass (Elektron conditional trigs, Euclidean/CA/L-systems, pe
 limits, and the codebase itself) read the shipped mechanism and found the flaw measurement
 had not yet asked about:
 
-**A listener is a deterministic function of what it watches — and everything it watched was
-seed-fixed.** Over 60 seeds, material A had **4** distinct listener outputs; material C had
+**The person playing it is a deterministic function of what it watches — and everything it watched was
+seed-fixed.** Over 60 seeds, material A had **4** distinct player outputs; material C had
 **1**. Perfectly reproducible *and* perfectly identical. It derived novelty against a loop
 but not against the next record.
 
@@ -103,21 +103,21 @@ from a **named substream** — never from the shared builder `rng`, because this
 what that costs (the ostinato ratchet took one draw and moved 882 of 2100 snapshot seeds).
 
 ```
-  material A   4 -> 43 distinct listener figures over 60 seeds
+  material A   4 -> 43 distinct player figures over 60 seeds
   material B   3 -> 34
   material C   1 -> 11
 ```
 
 ## Three things measured and removed
 
-**A syncopation ceiling.** The listener's lane scores 13.1 on Longuet-Higgins & Lee against
+**A syncopation ceiling.** The person playing it's lane scores 13.1 on Longuet-Higgins & Lee against
 a groove optimum near 4, and beat-tapping error tracks that index at r = .82 — damning
 enough to build a `maxSync` ceiling. Then measured properly: LHL assumes a **complete
 rhythmic surface**, and a lone note at step 3 of an empty bar scores **15, the maximum**,
 because every strong beat after it is a rest. On a sparse ornament lane the index is
 near-maximal by construction. It showed as a cliff, not a gradient — ceilings of 8 through
 13 gave byte-identical material. And decisively: **the kit as heard has union syncopation
-0.000 over 320 bars, with the listeners and without.** The kick holds every strong beat;
+0.000 over 320 bars, with the people playing it and without.** The kick holds every strong beat;
 there is no one to lose. The index is kept — in the seam battery, asserting exactly that.
 
 **Euclidean rhythms.** 0.000 novelty, looped or running. Maximally even means maximally
@@ -146,19 +146,19 @@ prove nothing. Both fixed; the list is derived now.
 ## Where it stands
 
 ```
-  plastikman   novelty -0.080 -> 0.125   listener lane 0.674
+  plastikman   novelty -0.080 -> 0.125   player lane 0.674
                bar-repeat 0.611 -> 0.391
                IOI entropy 0.00 -> 0.50
                density 0.226 -> 0.212  (down)
 ```
 
 Six seam checks carry it: it fires and is played; what it writes is neither a loop nor a
-shuffle; no listener exceeds `|watch| / every`; a genre declaring none gets none; it does
+shuffle; no player exceeds `|watch| / every`; a genre declaring none gets none; it does
 not write the same figure into every song; and the kit as heard still has the one.
 
 ## Not claimed
 
-The listener reads lanes and counts onsets. It does not yet count **figures** — Booth's
+The person playing it reads lanes and counts onsets. It does not yet count **figures** — Booth's
 sentence counts *a roll*, not a hit — and it answers only by placing a note, where the same
 sentence offers "a little roll **or skip**". Both are additive fields on the existing rule
 shape rather than a new mechanism, and the research pass has a worked design for each. The

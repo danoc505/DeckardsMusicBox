@@ -149,7 +149,7 @@ built the form plan from, arrived at independently here, which is worth
 knowing: the form work does not need revisiting.
 
 The **1.5–3 minute** length is one source. `lofi-form.md` measured the built
-songs at 1:55–3:27 and marked the long edge `[EAR]`. This sheet's number
+songs at 1:55–3:27 and marked the long edge `[CHOSEN]`. This sheet's number
 supports the short end and gives no support to anything past 3:00.
 
 ---
@@ -274,12 +274,12 @@ processing** — let the room and noise breathe" [corpus:emastered].
 
 *Added 2026-08-04 (build `2026-08-04o`). The user: "Isn't there data on how many
 elements are likely in lofi hip hop? Lofi hip hop is relaxing and easy
-listening, are we following that?" There was data — §2 of this sheet — and the
+playing, are we following that?" There was data — §2 of this sheet — and the
 answer was no in two specific, measurable places.*
 
 ### The second half of the question needed its own sources
 
-§2 covers element COUNT. "Relaxing and easy listening" is a different claim, so
+§2 covers element COUNT. "Relaxing and easy background music" is a different claim, so
 it got its own search, and the sources are unusually concrete about mechanism:
 
 > "Tempo typically sits between **60 and 90 BPM**, close to the human **resting

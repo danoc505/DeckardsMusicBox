@@ -45,7 +45,7 @@ Four conditions in that sentence, and only one of them is "different rates":
 **the same pattern**, **beginning in unison**, **nearly the same rate**, and
 **returning**. Seventy-seven unrelated movements at unrelated rates on unrelated
 destinations satisfy none of the other three. They produce movement that does
-not repeat, which is not the same as two things a listener can hear beating
+not repeat, which is not the same as two things the person playing it can hear beating
 against each other.
 
 Measured — destinations anywhere in the file carrying two `lfo` lanes at nearly
@@ -141,7 +141,7 @@ the process in the source, on a knob.
 
 ## 6. WHAT THIS DOES NOT SETTLE
 
-- **Nothing has been heard.** Every note in the file is untouched — the snapshot
+- **Nothing has a verdict.** Every note in the file is untouched — the snapshot
   is byte-identical across 2400 songs, correctly, because motion never moves a
   note. The whole change is in how the knobs travel, which is exactly the layer
   no measurement of mine can judge.

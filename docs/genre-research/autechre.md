@@ -44,7 +44,7 @@ far removed from acid house and Detroit techno."**
 [Wikipedia](https://en.wikipedia.org/wiki/Autechre))
 
 Acid house and Detroit techno is *also* exactly where Richie Hawtin comes from. These are not
-adjacent genres that happen to share a listener — they are two branches of one root, which is
+adjacent genres that happen to share the person playing it — they are two branches of one root, which is
 why "artists like Plastikman" returns Autechre.
 
 ## The thing I skipped entirely: space
@@ -132,7 +132,7 @@ Fixing that is what made the honest measurement possible.)
 ## What is still not claimed
 
 The generative/reactive half — *"one fader determines how often a snare does a little roll or
-skip, and another thing listens and says: if that snare plays that roll three times, then I'll
+skip, and another thing answers and says: if that snare plays that roll three times, then I'll
 do this"* [[SOS](https://www.soundonsound.com/people/autechre)] — is **not built**. Plastikman
 is polymetric and it is now genuinely spacious; it is not a system with feedback rules watching
 its own output. That is a new kind of builder, not a table entry, and it is the honest next

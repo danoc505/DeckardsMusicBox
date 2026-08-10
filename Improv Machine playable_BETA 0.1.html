@@ -2357,7 +2357,7 @@ function padBank(mono, sampleRate, opts){
 }
 
 /* THE FLIP — a composed pad pattern, not the source order.
-   Keeps the downbeat recognisable (pad 0 on beat 1 is what tells the ear which
+   Keeps the downbeat recognisable (pad 0 on beat 1 is what tells the owner which
    record this is), then rearranges the rest: repeats, stutters, a held pad,
    and pads pulled from elsewhere in the bank. Seeded, so a flip is repeatable. */
 /* THE THREE FLIPS, from three documented approaches:
@@ -3038,7 +3038,7 @@ function chordSequence(mono, sampleRate, opts){
   return out;
 }
 
-/* the pitch classes a chord spans — what the listening layer wants */
+/* the pitch classes a chord spans — what the playing layer wants */
 function chordPcs(chord){
   const t=CHORD_TEMPLATES.find(x=>x.name===chord.quality) || CHORD_TEMPLATES[0];
   return t.ivs.map(i=>(chord.root+i)%12);
@@ -3808,7 +3808,7 @@ class PitchShifter {
     this.rate = 1;
     this.duration = buffer.duration;
     this.sampleRate = context.sampleRate;
-    this.listeners = [];
+    this.people playing it = [];
   }
   get formattedDuration() {
     return minsSecs(this.duration);
@@ -3846,18 +3846,18 @@ class PitchShifter {
     this._node.disconnect();
   }
   on(eventName, cb) {
-    this.listeners.push({
+    this.people playing it.push({
       name: eventName,
       cb: cb
     });
     this._node.addEventListener(eventName, event => cb(event.detail));
   }
   off(eventName = null) {
-    let listeners = this.listeners;
+    let people playing it = this.people playing it;
     if (eventName) {
-      listeners = listeners.filter(e => e.name === eventName);
+      people playing it = people playing it.filter(e => e.name === eventName);
     }
-    listeners.forEach(e => {
+    people playing it.forEach(e => {
       this._node.removeEventListener(e.name, event => e.cb(event.detail));
     });
   }
@@ -3972,7 +3972,7 @@ const Synth=(function(){
     }catch(e){ /* no worklet available: the convolver send carries the space */ }
     // a scheduling crash used to be swallowed whole, which turns a real bug into a
     // silent, partial WAV -- the worst possible failure mode for a project whose only
-    // meaningful test is listening to the output. Still render what was scheduled
+    // meaningful test is playing to the output. Still render what was scheduled
     // before the throw (a partial file beats none), but say so where it can be seen.
     try{ scheduleFn(0); }catch(e){ console.error("offline schedule FAILED mid-song:", e); }
     const buf=await off.startRendering();
@@ -4024,7 +4024,7 @@ const Synth=(function(){
   // sawtooth so the bass reads on small speakers (harmonics, not just fundamental)
   // ...and the partial has to land IN the presence band to be presence. At 2x and 3x a
   // 587 Hz lead these sat at 1.2 and 1.8 kHz -- still below the 2-6 kHz band that came
-  // back at 0.4% of total energy. The 5th and 7th harmonic put them where the ear looks
+  // back at 0.4% of total energy. The 5th and 7th harmonic put them where the owner looks
   // for definition. Quiet enough to be air, not a new instrument.
   const FMUL={sub:[1,2,1],bell:[1,2.01],marimba:[1,2.01],
               pluck:[1,5], rhodes:[1,1,7], harp:[1,5]};
@@ -4045,7 +4045,7 @@ const Synth=(function(){
   // The tine at 7x IS the Rhodes sound, and a plucked string has real upper partials.
   // These are still small numbers -- 2.6% and 4% of the voice's energy -- and this is the
   // one thing on this list that measurement can only take so far: how bright is right is
-  // a decision for the ear, so it is rendered as an A/B rather than asserted.
+  // a decision for the owner, so it is rendered as an A/B rather than asserted.
   const OGAIN={sub:[1,.42,.26], pluck:[1,.20], rhodes:[1,.45,.16], harp:[1,.14]};
   /* per-genre voice character: WARM (mellow genres — longer attacks, lower/softer
      filter, gentler sustain) vs PUNCHY (house/jungle — tight attacks, brighter and
@@ -4741,20 +4741,20 @@ const SOFT = {
 /* ===== 01_listening.js ===== */
 "use strict";
 /* ═══════════════════════════════════════════════════════════════════════════
-   THE LISTENING LAYER  —  the shared "ears" of the whole program.
+   THE JUDGE LAYER  —  the shared "verdicts" of the whole program.
    ---------------------------------------------------------------------------
    This is the keystone. Every engine reads it to decide what to play; the
    conductor reads it to decide structure; the ghost reads it to judge and
    correct. There is ONE representation of "what is currently sounding," and
    everyone perceives the music the same way: by reading the NOTES.
 
-   The model has no ears for TIMBRE (that lives in the synth/mix), but notes
+   The model has no verdicts for TIMBRE (that lives in the synth/mix), but notes
    are data, and hearing the COMPOSITION is reading that data. This module is
    that reading, made shared and explicit.
 
    Input: the "session" so far — a set of PARTS, each part being notes on a
    grid (16 steps/bar). Output: a Perception object exposing the six things a
-   musician actually listens for:
+   musician actually answers for:
      (a) harmony  — the chord/scale the sounding notes imply, per bar
      (b) rhythm   — the accent map: where onsets land, where the pulse is
      (c) register — which pitch ranges are occupied (where the SPACE is)
@@ -4890,7 +4890,7 @@ function readDensity(parts, nBars){
 }
 
 /* THE PERCEPTION — the one shared object everyone reads. */
-function listen(session){
+function play(session){
   const parts = session.parts||[];
   const nBars = session.nBars||8;
   const key   = session.key||{root:0,scale:"minor"};
@@ -4917,7 +4917,7 @@ function listen(session){
    · BASS ENGINE can START from nothing (just the chart) — walks a line from
      hard constraints (in-key, register, stepwise-ish motion) shaped by soft
      tendencies (root-motion strength, land on tonic-ish at phrase ends).
-   · HARMONY ENGINE READS the listening layer — takes the bass's implied roots
+   · HARMONY ENGINE READS the playing layer — takes the bass's implied roots
      and builds chords whose roots FOLLOW the bassline, voiced tightly (hard
      voice-spacing), keeping common tones (soft).
    This proves the core idea: an engine reading what another already played and
@@ -4940,7 +4940,7 @@ function bassEngine(chart, perception, rng){
   // The obvious fix is to lower this floor, and it is NOT taken: "bass never below C2"
   // is a documented law of this project with its own test, and the rationale given for
   // it ("below that is mud") is about OUR synth, not about records -- a sampled bass at
-  // E1 is fine, a saw-wave sub at E1 may not be. That is an ears question and it is not
+  // E1 is fine, a saw-wave sub at E1 may not be. That is an verdicts question and it is not
   // mine to answer by overriding the law silently. What IS in scope is not pushing the
   // line UP unnecessarily: the octave pops are what lift the median above the root
   // octave, and they are now the exception rather than a third of the shape.
@@ -5034,7 +5034,7 @@ function bassEngine(chart, perception, rng){
   } else if(chart._realProg && chart._realProg.length){
     // THE CONDUCTOR'S PROGRESSION is the shared ground truth. Harmony voices these
     // EXACT roots (bachRoots, @harmonyEngine); if the bass instead re-derives the
-    // cycle from listen()'s lossy chord read, the two disagree on the downbeat root
+    // cycle from play()'s lossy chord read, the two disagree on the downbeat root
     // and the bar opens a semitone/tritone apart — the residual bass dissonance.
     // Which chord we are on is written by the Conductor (Layer 1); BOTH players
     // realise it, so the bass anchors its downbeats on the same roots. Index by
@@ -5150,7 +5150,7 @@ function harmonyEngine(chart, perception, rng){
 
   // ═══ THE STORED CHORD TEXTURE (the reference image, generated not copied) ═══
   // Created ONCE per song from randomness, then REPEATED every bar with minor
-  // variation — this is the pattern the listener locks onto:
+  // variation — this is the pattern the player locks onto:
   //  · the chord is STRUCK AS A CHORD, all voices on the same sixteenth
   //  · the whole chord re-articulates on the bar's comp rhythm
   //  · each strike rings for the texture's `hold` fraction of the gap, then stops
@@ -5391,7 +5391,7 @@ function chooseVoicing(tones, prevVoicing, center, rng){
     for(let i=1;i<v.length;i++) if(v[i]-v[i-1] === 1){ cluster=true; break; }
     if(cluster) continue;
     // REQUIRE THE THIRD. A voicing of root, fifth and seventh has no quality —
-    // tonal cannot name it, and the ear cannot tell major from minor. This is
+    // tonal cannot name it, and the owner cannot tell major from minor. This is
     // what the corpus textures exposed: with a seventh in play the stack could
     // drop the one note that says what the chord IS.
     if(tones.length >= 3){
@@ -5460,7 +5460,7 @@ function closeStack(tones, lowAnchor){
      frequencies — "the best way to go."
    · PHRASING over 8 bars: A B A C  A A D  — A=core, B=one small change,
      C=bigger change, D=FILL or EMPTY. The phrase jumps to the length at which
-     the listener recognises repetition.
+     the player recognises repetition.
    · FILL (bar 8, sometimes 4): extra syncopation, snares on weak beats, extra
      kicks on 8ths, and TOMS. EMPTY: subtract most/all elements (drop the kick)
      to decouple before the next downbeat.
@@ -5468,7 +5468,7 @@ function closeStack(tones, lowAnchor){
      resequencer (schollz/amenbreak model: slices reordered & mangled by
      probability — stutter/reverse/gate/roll — placed a little "loose").
 
-   Reads the listening layer: locks kick changes near chord/bass changes, and
+   Reads the playing layer: locks kick changes near chord/bass changes, and
    fits its density to how full the band already is.
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -5829,7 +5829,7 @@ function melodyEngine(chart, perception, rng){
   // lead genuinely responds to the 1st — call & response, contrary motion).
   let working = perception ? perception.parts.slice() : [];
   for(const voice of roster){
-    const localPerception = listen({ parts:working.slice(), nBars:chart.nBars,
+    const localPerception = play({ parts:working.slice(), nBars:chart.nBars,
                                        key:chart.key, phraseUnit:chart.phraseUnit });
     // pass the shared chords; flag whether the LEAD is implying harmony (cold)
     const part = buildVoice(voice, chart, localPerception, rng, sharedChords, chords===null);
@@ -5915,7 +5915,7 @@ function songPulse(chart){
    Measured over 300 full-band arrangements (corpus/harvest_ensemble.py): when the bass
    plays, the comp is playing on the SAME SIXTEENTH 77% of the time. They are not two
    parts that happen to coexist -- they are the two hands of one rhythm section, and that
-   lock is what a listener hears as a band rather than as players.
+   lock is what a player hears as a band rather than as players.
 
    Ours drew the comp's steps from a weighted pool that had never heard of the bass and
    managed 39%. Two people in the same room on different grids is exactly what "too much
@@ -6042,7 +6042,7 @@ function genContour(rng, n){
   // returned [] -- and an empty move list means scaleStep2 is handed `undefined`, which
   // it treats as "no movement" and returns the same pitch. Every note in the bar then
   // came out identical: measured, 32.6% of ALL lead bars were one pitch struck over and
-  // over. Contour is the first thing a listener encodes about a melody (Deutsch), before
+  // over. Contour is the first thing a player encodes about a melody (Deutsch), before
   // any interval content, so a bar with no contour is a bar with nothing to remember.
   if(!out.length) out.push(dir*pick(rng,[1,2]));
   return out;
@@ -6050,7 +6050,7 @@ function genContour(rng, n){
 
 function chordToneMidis(chord, root, scale, LO, HI){
   let pcs;
-  if(chord.pcs) pcs = chord.pcs;                          // from the listening layer
+  if(chord.pcs) pcs = chord.pcs;                          // from the playing layer
   else {
     const deg = nearestDegreeLocal(chord.root!=null?chord.root:pc(root), root, scale);
     pcs = T.chordTones(scale, deg, chord.seventh?4:3, root).map(pc);
@@ -6138,7 +6138,7 @@ function buildLead(voice, chart, chords, perception, rng, implyHarmony){
     // C HAS ITS OWN MATERIAL. The letter existed and fell through to A, so the
     // advertised A-B-A-C loop was really A-rest-A-A: one figure, three times, a rest.
     // C recombines what the song already owns -- the question's rhythm carrying the
-    // answer's contour -- so it is new to the ear and still of the same family.
+    // answer's contour -- so it is new to the owner and still of the same family.
     if(!chart._cMotif) chart._cMotif = { rhythm:A.rhythm.slice(), moves:B.moves.slice(), dir:B.dir };
     let M = slot==="B" ? B : (slot==="C" ? chart._cMotif : A);
     if(mode==="depart" && lb>=loop/2 && slot!=="B") M=D;    // the back half departs
@@ -6450,7 +6450,7 @@ function impliedTargetHarmony(chart, rng){
 "use strict";
 /* ═══════════════════════════════════════════════════════════════════════════
    THE GHOST — the correcting critic. Runs after EVERY engine entry.
-   It READS THE NOTES (the same ears as everyone: the note data itself) and
+   It READS THE NOTES (the same verdicts as everyone: the note data itself) and
    CORRECTS real violations between engines, logging each correction so the
    loading screen can show the actual work, not narration:
      · register: pitched voices that sank into the bass's territory → lifted
@@ -6717,7 +6717,7 @@ function ghostPass(parts, chart){
         // register. Lifting it anyway produced exactly one note an octave clear of its
         // neighbours -- E4 G5 C4 where the rest of the loop plays E4 G4 C4 -- a
         // fifteen-semitone leap and back to clear a unison. A rest there is a rest; a
-        // note in the wrong octave is a wrong note, and it is the one the ear hears.
+        // note in the wrong octave is a wrong note, and it is the one the owner hears.
         if(!upOK && !dnOK){ tries=99; break; }
         nt.midi = upOK ? up : dn;
         tries++; k=(nt.bar*16+nt.step)+":"+nt.midi; }
@@ -6736,7 +6736,7 @@ function ghostPass(parts, chart){
    finished song (NOT inside ghostPass, which fires after every entry and would compound
    the scaling). Film/orchestral practice is "melody-dominated homophony": a single
    foreground voice leads and every other pitched part sits at a DEFINED level below it,
-   so a dense mix still reads clearly and the ear always knows what to follow — the
+   so a dense mix still reads clearly and the owner always knows what to follow — the
    user's "which track is the leader?" problem. Lift the leader a touch; pull every
    competitor to a fixed ratio beneath it (counter/lead2 just under, arp/pad well under;
    an arp above the tune is fine as background SPARKLE, not a rival). Bass and drums are
@@ -6824,7 +6824,7 @@ function makeTheme(rng){
     question: { rhythm:qRhythm, moves:qMoves, dir:qDir },
     answer:   { rhythm:aRhythm, moves:aMoves, dir:-qDir },
     // a stored ornament: the "turn" from the Theme file — up a step then back
-    // down, which delays the resolution and surprises the ear
+    // down, which delays the resolution and surprises the owner
     turn: rng()<0.6,
   };
 }
@@ -7023,7 +7023,7 @@ function applyOp(op, inBar, part, bar, scaleSemis, rng){
      late ones, and deviations on the SNARE are judged more harshly than on the
      kick. So: the kick may move more freely, the snare is treated gently, and
      pushes (early) stay smaller than drags (late).
-   · Fully-quantized performances reduce listener entrainment relative to modest
+   · Fully-quantized performances reduce player entrainment relative to modest
      deviations, but large deviations reduce quality — the sweet spot is subtle.
      Hi-hat velocity variation of roughly 10-15% is the humanising range.
 
@@ -7731,7 +7731,7 @@ function conduct(seed, overrides){
     // defined by its relationship to it (comps under it, answers in its gaps, sits
     // beneath it in the prominence hierarchy). This is the melodic foreground —
     // "melody-dominated homophony" — the lead. `focal` (below) is a softer
-    // arrangement emphasis (who tends to enter first); the LEADER is who the ear
+    // arrangement emphasis (who tends to enter first); the LEADER is who the owner
     // follows. Handing the lead between voices across sections is a future step.
     _leader: "lead",
     // THE THEME — the song's protagonist. Either invented now, or drawn from
@@ -7827,10 +7827,10 @@ function conduct(seed, overrides){
     _chart._progLen = L / gcd(L, spb);        // period of the per-bar downbeat cycle
     // A CYCLE THAT DOES NOT FIT THE PHRASE NEVER LINES UP. Pop phrases are four and
     // eight bars; a THREE-bar progression inside them wraps at a different place every
-    // time through, so what the listener gets is not a cycle they can hold -- and every
+    // time through, so what the player gets is not a cycle they can hold -- and every
     // 3-bar song failed the short-cycle law for exactly that reason. Records square this
     // the same way: SIT on the last chord for the extra bar. The harmony is unchanged
-    // and the phrase closes where the ear expects it to.
+    // and the phrase closes where the owner expects it to.
     const p2 = x=>{ let k=1; while(k<x) k*=2; return k; };
     const wantBars = p2(_chart._progLen);
     if(wantBars !== _chart._progLen){
@@ -7846,7 +7846,7 @@ function conduct(seed, overrides){
   // song that never restated ANYTHING: 83% of its bars were unique, a section restated
   // its own first half 0 times in 456, and two hearings of the same letter came back
   // identical 12 times in 987. That is not development, it is a song with no memory --
-  // and Margulis is blunt that the repeat is what lets a listener parse structure at
+  // and Margulis is blunt that the repeat is what lets a player parse structure at
   // all, while 006's rule of three cannot state-then-repeat inside a section that only
   // turns over once. Anchoring the loop to the real cycle makes an 8-bar verse two
   // turns of its own loop: stated, then confirmed.
@@ -7867,7 +7867,7 @@ function buildSpans(sections){
 /* ═══════════════════════════════════════════════════════════════════════════
    THE IMPROVISATION PIPELINE
    A random member starts; the rest enter in random order, each READING the
-   listening layer (everything already sounding) and responding. The order is
+   playing layer (everything already sounding) and responding. The order is
    the "kicker" — any engine can go first. This is the band assembling.
 
    Each engine is order-independent: it GENERATES from the chart when it leads,
@@ -7884,7 +7884,7 @@ const ENGINES = {
 };
 
 /* run one improvisation session: shuffle the engine order, run each in turn,
-   re-listening after every entry so the next engine hears the updated band.
+   re-playing after every entry so the next engine hears the updated band.
    Returns { chart, order, parts, steps:[perception-snapshots] } */
 function improvise(chart, rng, engineNames){
   engineNames = engineNames || Object.keys(ENGINES);
@@ -7919,7 +7919,7 @@ function improvise(chart, rng, engineNames){
   let entryIndex=0;
   for(const name of order){
     // the engine READS the current perception (what's already sounding)
-    const perception = listen({ parts:parts.slice(), nBars:chart.nBars, key:chart.key,
+    const perception = play({ parts:parts.slice(), nBars:chart.nBars, key:chart.key,
                                   phraseUnit:chart.phraseUnit });
     // each engine gets its OWN independent RNG sub-stream (derived from the seed +
     // its name) so one engine's random draws never starve another's. This fixes
@@ -7933,13 +7933,13 @@ function improvise(chart, rng, engineNames){
     // THE GHOST: after each entry it reads the actual notes of the whole band
     // and corrects cross-engine violations. Corrections are real and logged.
     const corrections = ghostPass(parts, chart);
-    const after = listen({ parts:parts.slice(), nBars:chart.nBars, key:chart.key,
+    const after = play({ parts:parts.slice(), nBars:chart.nBars, key:chart.key,
                              phraseUnit:chart.phraseUnit });
     steps.push({ engine:name, wasLeading: perception.partCount===0, produced:added,
                  corrections, perception:after });
   }
   return { chart, order, parts,
-           perception: listen({parts, nBars:chart.nBars, key:chart.key, phraseUnit:chart.phraseUnit}),
+           perception: play({parts, nBars:chart.nBars, key:chart.key, phraseUnit:chart.phraseUnit}),
            steps };
 }
 
@@ -8052,7 +8052,7 @@ const ALTER_OUT = ["addVoice","dropVoice","reorchestrate","lift","duck","thin","
    The conditional half. After an alteration, the next is drawn from ITS row, so a
    change is a reply to the change before it: a thinning is answered by a filling, a
    stretch by a compression, an inversion by its subject restated (which is how the
-   listener learns the inversion WAS one), a fragment by the whole.               */
+   player learns the inversion WAS one), a fragment by the whole.               */
 const ALTER_FOLLOWS = {
   restate:      [["sequence",3],["ornament",3],["fragmentation",2],["octaveUp",2],["displace",1]],
   sequence:     [["restate",4],["inversion",2],["truncation",2],["diminution",1]],
@@ -8696,7 +8696,7 @@ function planArrangement(chart, bundle, rng){
     // energies pulled different music, so an A never actually returned (measured: a
     // repeated section restated its material only 34 times in 79). The return is the
     // whole reason ABA is a form -- 007(structure) brings the A back, and Margulis
-    // shows the return is what lets a listener hear structure at all. So every section
+    // shows the return is what lets a player hear structure at all. So every section
     // starts its own cell at loop 0 and develops from there by the rule of three.
     // A DROP IS A FALL, NOT A NON-RISE. This read "build if higher, else drop", so two
     // choruses at the same level -- the double chorus, one of the commonest moves in the
@@ -8790,7 +8790,7 @@ function planArrangement(chart, bundle, rng){
   }
 
   // ── THE 2-LOOP RULE, APPLIED THROUGH THE WHOLE SONG ─────────────────────
-  // 005: "the arrangement has to change every two loops of the chords, because our ears
+  // 005: "the arrangement has to change every two loops of the chords, because our verdicts
   // naturally expect songs to change every two loops of the main instruments", and the
   // video colour-codes eight loops of chords into 2-loop blocks, putting a change at
   // every one. MusicRadar's write-up is explicit that it runs "after every two loop
@@ -8956,7 +8956,7 @@ function planArrangement(chart, bundle, rng){
   // 004: "the opposite of the fill is the empty... it must include the subtraction of
   // most if not all of the main rhythmic elements before the next downbeat. The most
   // basic form is dropping the kick out on the last measure of an eight-bar phrase,
-  // which destabilises the low end and creates a vacuum that the listener will
+  // which destabilises the low end and creates a vacuum that the player will
   // anticipate coming back." EDMProd reaches the same device from the other side:
   // "leaving one final bar silent before the drop."
   for(let i=1;i<sections.length;i++)
@@ -9264,7 +9264,7 @@ function composeSong(conductorChart, rng){
 
   // ── NO SPIKES ────────────────────────────────────────────────────────────
   // A note at the very top of the band that is LEAPT TO and LEAPT AWAY FROM is the one
-  // the ear catches -- seed 8 opened a phrase on C6 and dropped a minor 7th to D#5.
+  // the owner catches -- seed 8 opened a phrase on C6 and dropped a minor 7th to D#5.
   // Measured, 1% of our lead notes did this. It is not a register problem: our median is
   // 74 against a real 73. It is one note sticking out of an otherwise stepwise line.
   // This has to run HERE, not inside the melody engine, because the spikes do not exist

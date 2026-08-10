@@ -92,11 +92,11 @@ The reimplementation this research supports, each item traceable above:
 - Every gesture rides over the existing aftertouch brightness so it sits
   in a moving timbre, which is what the records do.
 
-Genre split [EAR until measured]: bladerunner gets dives, falls and filter
+Genre split [CHOSEN until measured]: bladerunner gets dives, falls and filter
 sweeps prominently; synthwave gets restrained scoops and occasional filter
 sweeps — Perturbator's CS-80 lineage is atmosphere, not lead mannerism.
 
-## THE CORRECTION — 2026-08-02, same day, after the user listened
+## THE CORRECTION — 2026-08-02, same day, after the user judged
 
 The first implementation of the vocabulary was rejected: *"it's not the
 pitch bends that is the inspiration and no one was using pitch bends and
@@ -123,4 +123,4 @@ the old constants exactly — only a genre that asks blooms); bladerunner
 asks (atk 1.10 s, rel 1.60 s), raises `atLevel` 0.20 → 0.55 so the swell
 is loudness as much as brightness, and its gesture list drops to
 slow-only: sweep (1.4-2.8 s), dive (1.2-2.5 s), fall (0.5-1.2 s). No
-trill, no quick bend. All magnitudes [EAR]; the shapes are sourced.
+trill, no quick bend. All magnitudes [CHOSEN]; the shapes are sourced.

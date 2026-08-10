@@ -157,5 +157,5 @@ in particular need deciding before anything is built:
   stage 1's — and stage 1 currently owns `mode`. Moving it is a stage-boundary
   change and wants its own commit.
 
-**Nothing here has been heard, and the one verdict I do have says the current
+**Nothing here has a verdict, and the one verdict I do have says the current
 state is a failure.** That verdict is the most valuable input in this sheet.

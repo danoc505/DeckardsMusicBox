@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* SOLO PROBE — render ONE voice at a time and measure it. The seam battery proves
    the notes are lawful; this proves the notes make SOUND, which is a different
-   claim and the only one the ear cares about.
+   claim and the only one the owner cares about.
 
      node harness/mk2_solo.js <outdir> [voice,voice,...]
 

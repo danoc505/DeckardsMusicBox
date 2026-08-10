@@ -3,7 +3,7 @@
 *Researched 2026-08-04 at the user's suggestion, after the parallel-fifths work
 dead-ended: "do you need research on writing bass lines for lofi hip hop and
 the other genres?" Yes, and it is the thing that was blocking. Lofi first,
-because it is the genre being listened to and the one with the richest sources.*
+because it is the genre being judged and the one with the richest sources.*
 
 **The short version.** Our bass picks roughly the right NOTES and barely MOVES.
 It plays the root or the fifth, which the sources say is authentic — and then
@@ -168,7 +168,7 @@ and it needs its own sheet before anybody changes it.
 - **How much of a lofi bass should walk.** The sources describe both "keep it
   simple, root and fifth" and "jazzy basslines with passing tones" as the
   genre. They are not in conflict — both exist on real records — but nothing
-  says the proportion. Any number this program picks is `[EAR]`.
+  says the proportion. Any number this program picks is `[CHOSEN]`.
 - **No measured lofi bass corpus** (§0). The walking rules are jazz's, and the
   step/leap number is Bach's.
 - **Nothing on the bass for five of our seven genres.** This sheet is lofi's,

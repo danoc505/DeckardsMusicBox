@@ -65,13 +65,13 @@ the hook phase opens on the chorus it promised.
 
 ## Marked taste, and what was refused
 
-- Budget steps are **[EAR]**; the sources give "every 16 bars" and
+- Budget steps are **[CHOSEN]**; the sources give "every 16 bars" and
   "16-32" for the breakdown, not exact grids.
 - Total length lands wherever the budgets sum; measured after landing (see
   the table comment for the measured range). Perturbator's 5:14 mean argues
   for the long edge; The Midnight's pop pole argues shorter. The genre's
   92-132 bpm band spreads the same bar count across a wide wall-clock
-  range. **[EAR]**, the user's ears decide.
+  range. **[CHOSEN]**, the user's a verdict on it decide.
 - **Refused:** three-peak pop form as the default (the user named
   Perturbator, and ABSYNTH documents the aversion to verse-chorus);
   mandatory vocals-oriented sections (this program's synthwave is

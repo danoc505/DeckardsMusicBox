@@ -47,7 +47,7 @@ const N     = parseInt(process.argv[3], 10) || 24;
       /* A HELD NOTE IS SOUNDING IN EVERY BAR IT CROSSES, and counting only the
          bar it STARTS in was this probe's own first answer -- which reported a
          sixteen-bar drone as one bar of bass and fifteen of silence. What is
-         being asked is what a listener hears at a given moment, so an event
+         being asked is what the person playing it hears at a given moment, so an event
          counts for every bar between its onset and its end. */
       const inBar = [];
       for (const e of song.perf.events) {

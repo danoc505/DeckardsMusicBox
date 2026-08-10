@@ -98,7 +98,7 @@ From the console literature, the parts of a master section and what each is for
 | **Main / master fader** | *"Main faders control the desk's main mix (Left and Right output)."* | **NO** |
 | **Meter bridge** | a row of meters above the strips; on a Trident 78 it is the whole top of the desk [[Funky Junk](https://shop.funky-junk.com/shop/recording/mixers/consoles/trident-audio-series-78-16-ch-analogue-console-with-vu-meter-bridge/)] | per-channel yes, **master no** |
 | **MUTE** | *"silences the channel… the switch on each channel sometimes at the top of the channel strip, but more commonly at the bottom"* | **NO** |
-| **SOLO / PFL** | *"Pre-Fade Listen… monitor the channel's signal level immediately prior to the channel fader, and will therefore include any EQ… The pre-fade listen, or solo switch is beside the main fader."* | **NO** in audio. The roll's legend does a *visual* solo only |
+| **SOLO / PFL** | *"Pre-Fade Solo… monitor the channel's signal level immediately prior to the channel fader, and will therefore include any EQ… The pre-fade play, or solo switch is beside the main fader."* | **NO** in audio. The roll's legend does a *visual* solo only |
 | **Bus compressor** | the E Series' *"classic stereo bus compressor, helping engineers create clean, punchy and cohesive mixes"* [[Vintage King](https://vintageking.com/blog/best-channel-strips/)] | there is a master soft-clipper and a limiter, which is **not** the same thing |
 
 **The important distinction the sources draw, which we should keep:** PFL is
@@ -142,7 +142,7 @@ declaration the roll reads**, so the two displays cannot disagree.
 comment above it records that the first two attempts failed *because the eye
 cannot separate greens* — 70..200 put the bass and the comp at the same colour,
 and 20..250 still left the comp and the tune 38° apart. So the hue table is
-already an ear-and-eye-tested artefact, and the mixer must **call that
+already a verdict-and-eye-tested artefact, and the mixer must **call that
 function**, never copy its numbers. Anything else is the derive-never-list
 defect with a paint job.
 
@@ -171,10 +171,10 @@ Recorded so nobody "clones" these away:
 
 - **No source gives a target balance between a lo-fi comp and its drums.** The
   -10..-12 dBFS bus guidance is about headroom, not about taste. Any per-part
-  number remains `[EAR]`.
+  number remains `[CHOSEN]`.
 - **The bus compressor's ratio/attack/release for this material** is not
   researched here. The E Series' own 2:1/4:1/10:1 with auto-release is
-  documented, but whether this program wants one at all is an ear question and
+  documented, but whether this program wants one at all is a taste question and
   building it is not part of this pass.
 - **Whether `tape` should be on the master at all** — a record-surface layer is
   arguably not "a part". Left on, marked.

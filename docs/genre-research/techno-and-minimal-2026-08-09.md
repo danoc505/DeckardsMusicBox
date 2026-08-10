@@ -139,7 +139,7 @@ This is not the polymeter. Per lane, over seed 1 (208 bars):
 | kick | 21 | 7 | **wrong** — "boringly consistent on purpose" [myloops] |
 | hat | 35 | 4 | questionable |
 | openhat | 10 | 7 | fine |
-| ghost | 15 | 1 | declared by `kit.listen`, see §5 |
+| ghost | 15 | 1 | declared by `kit.answer`, see §5 |
 
 **2. THE CHORD KEYBOARD IS PLAYING A DIFFERENT PART IN EVERY SINGLE BAR.**
 
@@ -209,14 +209,14 @@ leaked.** I read `snare: []` off a *composed chart* and treated it as the genre'
 whole declaration; a chart has a variant already applied to it.
 
 **"It declares `ghostChance: 0` and plays 219 ghosts a song."** Also true, also
-not a defect: the ghosts come from `kit.listen` —
+not a defect: the ghosts come from `kit.answer` —
 `{ lane: "ghost", watch: ["rim","clap"], every: 3, notOn: ["kick"], vel: 0.38 }`
 — the mechanism that answers the polymetric lanes. `ghostChance` is a different
 road to the same lane and it is correctly zero.
 
 **The general lesson, and this file has it three times now:** ask the thing, and
 be sure which thing you are asking. A genre has a base table, variants, an arc
-and a listen table, and any one of them read alone will contradict the record.
+and a taste table, and any one of them read alone will contradict the record.
 
 ---
 

@@ -92,7 +92,7 @@ genres whose records live on a dance floor or a club system declare it:
 score-like and lo-fi genres — bladerunner, dungeon synth, dkc, lofi — do not:
 a film cue breathing 20 dB is the point of a film cue, and lofi's glue is
 already its tape. Each declaration is a taste call on top of a sourced idiom,
-marked as such, and one listen can overturn any of them.
+marked as such, and one play can overturn any of them.
 
 **Measured after building** (offline render, 12 s, seed 1, defaults, after
 §6's compensation): acid's record comes out **−1.54 dB rms** with the unit in
@@ -130,7 +130,7 @@ claimed all along. The corrected A/B is in the build's commit.
 
 The lesson, third time in this repo: **a stage whose job is dynamics must be
 proven level-neutral by measurement, because the defect is precisely the one
-your ear will mistake for "better".**
+you will mistake for "better".**
 
 ---
 
@@ -192,7 +192,7 @@ worth quoting because it is a claim about *placement* rather than about sound:
 SSL's own current manual enumerates it, and the list is the argument for
 putting our master strip and our compressor in one place:
 
-> "Bus Trim Masters and Routing · Talkback and Listen Mic · **Bus Compressor** ·
+> "Bus Trim Masters and Routing · Talkback and Judge Mic · **Bus Compressor** ·
 > Oscillator · Misc Section · Solo Master Section · Meters Section · CUE and AUX
 > Masters · Stereo Returns · Monitor Level Controls · Monitor Source Selector"
 > — [SSL, *ORIGIN User Guide V1.1*, p.20](https://www.solidstatelogic.com/assets/uploads/downloads/origin/SSL_Origin_User_Guide_V1-1_screen.pdf)
@@ -267,4 +267,4 @@ works from its new house. `mk2_ui` 66/0, `probe_desk` 10/0, `probe_deskgraph`
 
 **STILL OPEN, and unchanged by this:** everything in §5 above, plus the two
 rows in `BACKLOG` §5.1b — the four genre declarations are a sourced idiom that
-nobody has listened to, and no genre rides the compressor's knobs.
+nobody has judged, and no genre rides the compressor's knobs.

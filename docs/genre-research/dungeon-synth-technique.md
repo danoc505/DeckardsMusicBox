@@ -26,7 +26,7 @@ An absence is not proof. But this is a community that argues in public about
 compression ratios, EQ shelves and which Casio to buy, and **the question of
 how to strike a chord never once comes up.** For a genre whose practitioners
 are that granular about everything else, a technique that mattered would have
-left a trace. The user's ear got here first and the research does not
+left a trace. The user's verdict got here first and the research does not
 contradict it.
 
 What the sources DO say about articulation, in full — this is all of it:
@@ -248,7 +248,7 @@ kettles, and nothing here plays one. Open.
 
 **NOT FOUND, by anybody, anywhere:** a specific marching or processional
 pattern — no rudiment, no dotted figure, no stated bar position. Every marching
-placement in this program is `[EAR]` and must stay marked as such.
+placement in this program is `[CHOSEN]` and must stay marked as such.
 
 ---
 
@@ -454,7 +454,7 @@ made it worse both times (15 → 21, then → 29), because a comb pitched an oct
 low matches every even harmonic of the true root. It is recorded here so the
 next person does not spend the same hour on it.
 
-**What is left needs an ear, not another algorithm.** Five patches, all in the
+**What is left needs a verdict, not another algorithm.** Five patches, all in the
 struck families where pitch tracking is hardest. They are named above, the
 probe names them on every run, and choosing a different patch avoids them
 entirely. Fixing them by hand-writing five roots would work and would also be

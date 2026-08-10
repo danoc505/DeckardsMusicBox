@@ -7,7 +7,7 @@
    WHY THIS EXISTS. Every other harness in here reconstructs the engine by
    eval'ing the <script> out of the HTML, which is exactly right for testing
    composition and exactly useless for testing a front panel: it never builds a
-   DOM, never runs a listener, and never renders a pixel. So the claims this
+   DOM, never runs the person playing it, and never renders a pixel. So the claims this
    pass makes -- "the step grid writes a pin", "the pin reaches the material",
    "the knob is an offset not a replacement", "the automation dot moves while
    the pointer stays put" -- were all unprovable by the existing battery, and an
@@ -1282,7 +1282,7 @@ const check = (label, ok, detail) => {
       }
       out.kicked = peak;
       out.caption = document.querySelector(".sprfoot").textContent;
-      /* now the crossing: play, open drums→spring, listen at the pickup */
+      /* now the crossing: play, open drums→spring, play at the pickup */
       if(!playing) document.getElementById("play").click();
       await new Promise(r => setTimeout(r, 1200));
       TRIM["matrix.drumsSpring"] = 1;

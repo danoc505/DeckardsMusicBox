@@ -4,7 +4,7 @@
 
 ## What makes it unmistakable
 
-Two things, and only two. (1) THE RATIO: 16th-note breakbeat detail running at ~165-172 bpm over a bass that moves once or twice a bar — i.e. drums at 170, bass at 85. Roni Size "Brown Paper Bag" is measured at 170 with a documented half-time of 85 (songbpm), and that 2:1 split is the whole genre in one number. Nothing else in music does it. (2) THE BREAK IS AUDIBLY EDITED, NOT LOOPED: within every two bars a slice lands where the ear did not expect it — above all the Amen's own signature move, the beat-4 snare displaced a full eighth LATE to the "+" of 4 (step 14) in bars 3 and 4, which MusicRadar calls "probably the most crucial element" of the pattern. A straight two-step at 172 reads as generic drum & bass; the displaced snare plus one stutter-repeated slice per two bars reads as jungle. If MK2 delivers only one of these two, deliver (1) — the half-time bass is cheap and it carries the ID. Everything else (ragga chops, timestretch shimmer, Reese growl, Bukem pads) is flavour that names the SUBGENRE, not the genre.
+Two things, and only two. (1) THE RATIO: 16th-note breakbeat detail running at ~165-172 bpm over a bass that moves once or twice a bar — i.e. drums at 170, bass at 85. Roni Size "Brown Paper Bag" is measured at 170 with a documented half-time of 85 (songbpm), and that 2:1 split is the whole genre in one number. Nothing else in music does it. (2) THE BREAK IS AUDIBLY EDITED, NOT LOOPED: within every two bars a slice lands where the owner did not expect it — above all the Amen's own signature move, the beat-4 snare displaced a full eighth LATE to the "+" of 4 (step 14) in bars 3 and 4, which MusicRadar calls "probably the most crucial element" of the pattern. A straight two-step at 172 reads as generic drum & bass; the displaced snare plus one stutter-repeated slice per two bars reads as jungle. If MK2 delivers only one of these two, deliver (1) — the half-time bass is cheap and it carries the ID. Everything else (ragga chops, timestretch shimmer, Reese growl, Bukem pads) is flavour that names the SUBGENRE, not the genre.
 
 ## The tables
 
@@ -12,7 +12,7 @@ Two things, and only two. (1) THE RATIO: 16th-note breakbeat detail running at ~
 /* ═══════════════════════════════════════════════════════════════════════════
    UK JUNGLE — 1992-1997 hardcore continuum.
    Every number below carries provenance. [corpus:*] = read off a cited source.
-   [theory] = arithmetic or music-theory fact. [EAR] = taste, awaiting a listen.
+   [theory] = arithmetic or music-theory fact. [CHOSEN] = taste, awaiting the owner’s verdict.
    [GUESS] = I could not find a measurement and I am telling you so.
 
    ⚠ FIELDS MARKED "NO READER" DO NOT EXIST IN MK2 TODAY. They are listed at the
@@ -54,17 +54,17 @@ jungle: {
 
   /* the SEGA rig is a category error for this genre — a Mega Drive cannot make a
      sub or a break — but wpick needs a nonzero total and the UI can pin it anyway. */
-  rig: [["band", 19], ["sega", 1]],                     // [EAR]
+  rig: [["band", 19], ["sega", 1]],                     // [CHOSEN]
 
   /* Rhodes, heavily. Bukem's and Roni Size's jazz-inflected chords are electric
      piano; the wurly's reedier odd-ratio body is the wrong instrument for a pad
      but is kept at low weight so the draw still has two outcomes. */
-  keysChar: [["rhodes", 8], ["wurly", 2]],              // [corpus:tracksandtales, EAR]
+  keysChar: [["rhodes", 8], ["wurly", 2]],              // [corpus:tracksandtales, TASTE]
 
   /* jungle IS vinyl-sourced — every break came off a record — but the finished
      12" is not a lofi artefact record. Near-zero wow (samplers do not wow),
-     crackle present but low. [EAR] */
-  tape: { wow: [0.0000, 0.0004], crackle: [0.002, 0.003] },   // [EAR]
+     crackle present but low. [CHOSEN] */
+  tape: { wow: [0.0000, 0.0004], crackle: [0.002, 0.003] },   // [CHOSEN]
 
   /* ── stage 2: form ──────────────────────────────────────────────────────
      The 12" template, from a production guide that states it in bars:
@@ -81,7 +81,7 @@ jungle: {
   form: {
     /* a jungle 12" almost never cold-opens: the DJ intro is the product.
        Splash "Babylon" famously takes 90 seconds to drop [corpus:timeout]. */
-    coldOpen:  0.06,                                    // [corpus:edmprod/dnb + timeout, EAR on the exact value]
+    coldOpen:  0.06,                                    // [corpus:edmprod/dnb + timeout, TASTE on the exact value]
     openVerse: 0.15,                                    // after the intro you go STRAIGHT to the drop [corpus:edmprod/dnb]
     /* 96..144 bars. At 170 bpm and 16-bar sections that is 2:15 to 3:23 — short
        for a 12" (real ones run 5-6 min [corpus:kansamples]) but MK2's form loop
@@ -107,7 +107,7 @@ jungle: {
        must hit harder than the first [corpus:kansamples] — MK2 gives
        chorusPeak only to the LAST chorus, which happens to be exactly right. */
     energy: { intro: 0.45, outro: 0.40, bridge: 0.30, instrumental: 0.82,
-              chorus: 0.94, chorusPeak: 1.0, verse: 0.86 },             // [corpus:kansamples, EAR on exact values]
+              chorus: 0.94, chorusPeak: 1.0, verse: 0.86 },             // [corpus:kansamples, TASTE on exact values]
   },
 
   /* ── stage 3: materials ─────────────────────────────────────────────────
@@ -180,11 +180,11 @@ jungle: {
   kit: {
     snare:       [4, 12],                               // [corpus:attackmagazine/raw-dnb — steps 5 & 13, 1-indexed]
     hatEvery:    2,                                     // eighth-note ride, exactly as Coleman plays it [corpus:drumstheword]
-    hatVel:      0.58,                                  // "a ride cymbal clattering away" — present, not dominant [corpus:mixedinkey, EAR on value]
+    hatVel:      0.58,                                  // "a ride cymbal clattering away" — present, not dominant [corpus:mixedinkey, TASTE on value]
     /* jungle is GHOST-DENSE. Coleman plays 3 pickup snares per bar; the whole
        character of a chopped break is snares where you didn't ask for them.
        ⚠ MK2's buildDrums emits AT MOST ONE ghost per bar — see widening block. */
-    ghostChance: 0.92,                                  // [corpus:drumstheword — ghosts in 4/4 bars, EAR on the probability]
+    ghostChance: 0.92,                                  // [corpus:drumstheword — ghosts in 4/4 bars, TASTE on the probability]
     ghostSpots:  [7, 9, 15, 1, 3, 11],                  // [corpus:drumstheword/elephantdrums — 'a' of 2, 'e' of 3, 'a' of 4, 'e' of 1]
     openSpot:    [[10, 6], [14, 2], [-1, 2]],           // the bar-4 early crash sits on the "+" of 3 [corpus:drumstheword]
     openBars:    [3],                                   // [corpus:drumstheword — bar 4 only]
@@ -192,11 +192,11 @@ jungle: {
     flourishBar: 3,                                     // the Amen's fourth bar IS its answering bar [corpus:drumstheword]
     /* the fourth-bar ride flourish. Coleman's bar 4 thins the ride and lands the
        crash; a chopped bar 4 usually stutters instead. */
-    flourish:    [[[15], 4], [[13, 15], 3], [[11, 13, 15], 2], [[], 2]],  // [EAR — shape from drumstheword, weights are taste]
+    flourish:    [[[15], 4], [[13, 15], 3], [[11, 13, 15], 2], [[], 2]],  // [CHOSEN — shape from drumstheword, weights are taste]
     variants: {
       main:   {},
       /* THE DROP opens up: more ghosts, ride harder, the Amen's double kick. */
-      lift:   { ghostChance: 1.0, hatVel: 0.66, openBars: [1, 3] },        // [EAR]
+      lift:   { ghostChance: 1.0, hatVel: 0.66, openBars: [1, 3] },        // [CHOSEN]
       /* THE BREAKDOWN. Half-time: "instead of the snare landing on beats two and
          four, a single snare is placed on beat 3", which "halves the perceived
          speed of the groove" [corpus:musicradar/6-grooves]. Kit thins to almost
@@ -211,7 +211,7 @@ jungle: {
      "don't really make sense" for it and that "form is defined by changes in
      textural density" [corpus:learningmusic.ableton]. Sparse, wide leaps: a
      jungle second voice is a stab or a dub echo, not a harmony part. */
-  counter: { density: 0.22, intervals: [-7, -5, -3, 4] },   // [corpus:learningmusic.ableton for the sparsity; intervals [EAR]]
+  counter: { density: 0.22, intervals: [-7, -5, -3, 4] },   // [corpus:learningmusic.ableton for the sparsity; intervals [CHOSEN]]
 
   /* HARMONY. Jungle has two harmonic worlds and no third:
        (a) THE DRONE — ragga jungle, darkside, Photek. One root, held, forever.
@@ -224,12 +224,12 @@ jungle: {
      heaviest and let the vamps be the atmospheric-jungle draw. */
   progressions: {
     minor:  [[[0,0,0,0], 6],      // the drone — the majority of the genre [corpus:timeout, learningmusic.ableton]
-             [[0,0,5,0], 3],      // one lift to bVI and home — Omni Trio's territory [corpus:timeout "euphoric piano breakdown", EAR]
-             [[0,3,0,3], 2],      // i-iv rock, the darkside two-chord [EAR]
-             [[0,5,3,0], 2]],     // i-bVI-iv-i [corpus:tracksandtales "chords that glide rather than jab", EAR]
+             [[0,0,5,0], 3],      // one lift to bVI and home — Omni Trio's territory [corpus:timeout "euphoric piano breakdown", TASTE]
+             [[0,3,0,3], 2],      // i-iv rock, the darkside two-chord [CHOSEN]
+             [[0,5,3,0], 2]],     // i-bVI-iv-i [corpus:tracksandtales "chords that glide rather than jab", TASTE]
     dorian: [[[0,0,0,0], 5],      // drone in dorian: the natural 6 lives in the pad, not the changes [theory]
-             [[0,3,0,3], 4],      // i-IV: THE Bukem vamp [corpus:tracksandtales, EAR]
-             [[0,3,4,3], 2]],     // i-IV-v-IV [EAR]
+             [[0,3,0,3], 4],      // i-IV: THE Bukem vamp [corpus:tracksandtales, TASTE]
+             [[0,3,4,3], 2]],     // i-IV-v-IV [CHOSEN]
   },
   /* the breakdown's harmony: opens OFF the tonic so the second drop arrives. */
   bridgeProgressions: {
@@ -252,8 +252,8 @@ jungle: {
      jungle fifth will land above the sub band. See the widening block. */
   registers: { bass: [26, 38],                          // [corpus:musicradar/sub-bass, edmprod/jungle]
                keys: [50, 72],                          // pads sit mid, out of the sub's way [theory: 60 Hz crossover]
-               counter: [50, 67],                       // [EAR]
-               themeA: [62, 79], themeB: [65, 82], themeC: [60, 77] },   // [EAR]
+               counter: [50, 67],                       // [CHOSEN]
+               themeA: [62, 79], themeB: [65, 82], themeC: [60, 77] },   // [CHOSEN]
 
   /* ── stage 5: performance ───────────────────────────────────────────────
      JUNGLE IS NOT SWUNG THE WAY LOFI IS. Attack Magazine's raw-D&B build
@@ -270,7 +270,7 @@ jungle: {
        snareEarly=0, kickLate=0, hatSwingMul=1, jitter=GR.jitter.even. For jungle
        that fallthrough happens to be CORRECT, so this table ships working — but
        the genre cannot ask for its own lane lean. See the widening block. */
-    styles:     [["chopped", 6], ["even", 4]],          // [EAR — both currently behave identically]
+    styles:     [["chopped", 6], ["even", 4]],          // [CHOSEN — both currently behave identically]
     swing:      [1.00, 0.14],                           // 1.00..1.14; 50-60% swing maps to 1.0-1.5 [corpus:attackmagazine/raw-dnb, theory]
     snareEarly: [0.00, 0.00],                           // no lean — a triggered slice is where you put it [corpus:woovebox, theory]
     kickLate:   [0.00, 0.00],                           // ditto
@@ -282,7 +282,7 @@ jungle: {
        onset-annotated version behind a paper I could not read. 4 ms is my guess at
        a human drummer's spread; measure it before you trust it. */
     jitter:     { chopped: 0.004, even: 0.004 },        // [GUESS — no published measurement found]
-    push:       -0.003,                                 // the kit sits fractionally ahead [EAR]
+    push:       -0.003,                                 // the kit sits fractionally ahead [CHOSEN]
   },
   /* THE BASS RINGS. This is the half-time feel made mechanical: at 170 bpm one
      bass note lasting 8 sixteenths = 0.71 s = one beat of an 85 bpm track. Roni
@@ -290,7 +290,7 @@ jungle: {
      [corpus:songbpm]. bassArtic must therefore be ~1.0 almost always — a staccato
      bass destroys the ratio that IS the genre. */
   touch: { bassArtic: [[1.0, 8], [0.85, 2]],            // [corpus:songbpm/brown-paper-bag half-time 85, theory]
-           strum: [0.0000, 0.0006] },                   // jungle pads are stabs, hit together, not strummed [EAR]
+           strum: [0.0000, 0.0006] },                   // jungle pads are stabs, hit together, not strummed [CHOSEN]
 
   /* THE SPACE. Jungle's snare lives in a big room — "stereo room, hall, plate or
      chamber, decay 1.5-4 s, 10-20 ms predelay" is the era's snare treatment
@@ -299,7 +299,7 @@ jungle: {
      ⚠ MK2's send is wired to keys+lead ONLY, with a 200 Hz high-pass, so this
      number will wet the PADS and never touch the snare. The one thing jungle
      most needs reverb on is the one thing this graph cannot send. */
-  space: { wet: 0.30 },                                 // [corpus:theproaudiofiles for the intent; value EAR]
+  space: { wet: 0.30 },                                 // [corpus:theproaudiofiles for the intent; value TASTE]
 },
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -330,19 +330,19 @@ ghostCount: [2, 4],                                     // [corpus:drumstheword 
       into "sixteen roughly evenly spaced slices"; KAN maps "the first chop from
       C1, the second from C#1..." and gives a worked reorder 1-3-2-5-4-6-2-1)
       [corpus:woovebox, kansamples/amen]. Each entry is out[i] = SLICE[perm[i]].
-      ⚠ ALL WEIGHTS BELOW ARE [EAR]. I found no corpus of measured jungle
+      ⚠ ALL WEIGHTS BELOW ARE [CHOSEN]. I found no corpus of measured jungle
       permutations — nobody has published one. The MOVES are documented (reorder,
       x3 stutter repeat, tape-stop [corpus:woovebox]); the frequencies are mine. */
 breakPerms: [
   [[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], 4],         // straight — the anchor bar [corpus:woovebox]
-  [[0,1,2,3,4,5,6,7,0,1,2,3,12,13,14,15], 3],           // restate the first half at beat 3 [EAR]
-  [[0,1,2,3,4,5,4,5,8,9,10,11,12,13,12,13], 2],         // stutter pairs [corpus:woovebox "x3 repeat", EAR on placement]
-  [[0,1,2,3,12,13,14,15,8,9,10,11,4,5,6,7], 2],         // swap beats 2 and 4 [corpus:kansamples/amen reorder concept, EAR]
-  [[0,1,2,3,4,5,6,7,8,9,10,11,15,15,15,15], 2],         // the roll into the bar line [EAR]
+  [[0,1,2,3,4,5,6,7,0,1,2,3,12,13,14,15], 3],           // restate the first half at beat 3 [CHOSEN]
+  [[0,1,2,3,4,5,4,5,8,9,10,11,12,13,12,13], 2],         // stutter pairs [corpus:woovebox "x3 repeat", TASTE on placement]
+  [[0,1,2,3,12,13,14,15,8,9,10,11,4,5,6,7], 2],         // swap beats 2 and 4 [corpus:kansamples/amen reorder concept, TASTE]
+  [[0,1,2,3,4,5,6,7,8,9,10,11,15,15,15,15], 2],         // the roll into the bar line [CHOSEN]
 ],
 /* KEEP STEP 0 FIXED. Every permutation above starts with slice 0. That is not a
    rule I found stated; it is what makes the loop still land, and it is why the
-   bass and the break stay locked. [EAR — state it, then A/B breaking it] */
+   bass and the break stay locked. [CHOSEN — state it, then A/B breaking it] */
 
 /* 5. THE ACCENT MAP — currently the global DRUM_ACCENT, measured on 1,150 HUMAN
       performances of (presumably) straight-time music. Its snare row peaks at
@@ -370,8 +370,8 @@ roles: { intro:        ["drums"],                       // [corpus:edmprod/dnb "
 /* 7. SEVENTHS — makeMaterials calls chordTones(root, mode, d, /*seventh*/ true)
       with a hardcoded true. The drone/ragga half of jungle wants root+fifth or a
       bare octave; the Bukem half wants sevenths and ninths. No genre control. */
-harmony: { sevenths: [["m7", 5], ["triad", 3], ["root5", 2]],   // [corpus:tracksandtales for the jazz half; EAR on weights]
-           extensions: ["9"],                           // [corpus:tracksandtales "chords that glide" — 9ths, EAR]
+harmony: { sevenths: [["m7", 5], ["triad", 3], ["root5", 2]],   // [corpus:tracksandtales for the jazz half; TASTE on weights]
+           extensions: ["9"],                           // [corpus:tracksandtales "chords that glide" — 9ths, TASTE]
            borrowed: [],                                // jungle does not borrow; it drones [theory]
            cadence: "none — the loop does not cadence, it rewinds" },  // [corpus:melodigging "powered by rewinds"]
 
@@ -384,7 +384,7 @@ keysStyle:    "either absent, or a two-chord Rhodes/pad vamp sustained across wh
             + "Never a comp. Stabs land on 0 and 8 if they land at all.",   // [corpus:tracksandtales, learningmusic.ableton]
 leadStyle:    "sparse and non-thematic. In real jungle this slot is a ragga vocal chop or a "
             + "timestretched fragment, not a tune. 2-4 events per 4 bars, wide leaps, long rests.",  // [corpus:12edit, nitelifeaudio]
-counterStyle: "a dub echo, not a second voice. density 0.22.",   // [corpus:melodigging "dub sirens", EAR]
+counterStyle: "a dub echo, not a second voice. density 0.22.",   // [corpus:melodigging "dub sirens", TASTE]
 
 /* 9. THE ONE NEW VOICE: V.reese
       Provenance chain, all sourced:
@@ -408,7 +408,7 @@ counterStyle: "a dub echo, not a second voice. density 0.22.",   // [corpus:melo
           -> the cutoff walked by a 0.25 Hz sine, +/- 250 Hz   (the "movement")
           sum 1.84
       18 cents is the middle of the documented 15-25 "moderate" band; 0.25 Hz is
-      one cycle per 2 bars at 170 bpm [theory]. 700 Hz is [EAR] — the documented
+      one cycle per 2 bars at 170 bpm [theory]. 700 Hz is [CHOSEN] — the documented
       1-3 kHz is a modern figure and a 1994 Reese is darker than that.
 
       ⚠ THE RUNNER-UP, AND IT IS CLOSE: V.ride. "A ride cymbal clattering away is
@@ -421,10 +421,10 @@ counterStyle: "a dub echo, not a second voice. density 0.22.",   // [corpus:melo
   10. SPACE, WIDENED. `space:{wet}` is one number feeding one send that is wired
       to keys+lead in buildGraph. Jungle needs the drums bus in that send and a
       tone tilt on the master.  */
-spaceWide: { wet: 0.30,                                 // [corpus:theproaudiofiles, EAR on value]
+spaceWide: { wet: 0.30,                                 // [corpus:theproaudiofiles, TASTE on value]
              sends: { drums: 0.35, keys: 1.0, lead: 0.8, bass: 0.0 },   // snare in the room, sub bone dry [corpus:theproaudiofiles + theory]
-             sendHpHz: 300,                             // keep the break's tail, keep the sub out [EAR]
-             toneTilt: +1.5 },                          // dB of high shelf: pitched-up breaks are BRIGHT [corpus:reverb.com/samplers, EAR on dB]
+             sendHpHz: 300,                             // keep the break's tail, keep the sub out [CHOSEN]
+             toneTilt: +1.5 },                          // dB of high shelf: pitched-up breaks are BRIGHT [corpus:reverb.com/samplers, TASTE on dB]
 
 ```
 
@@ -469,25 +469,25 @@ spaceWide: { wet: 0.30,                                 // [corpus:theproaudiofi
 
 - JITTER 0.004 s — [GUESS]. Every source says the Amen is off-grid (Ethan Hein: 'hardly any of them are exactly where they are supposed to be') but NOT ONE publishes the deviations in milliseconds. AudioLabs has onset annotations behind a 2016 IEEE paper I could not read. This number is my invention and should be measured before it is trusted.
 
-- ALL breakPerms WEIGHTS — [EAR]. The MOVES are documented (reorder, x3 stutter repeat, tape-stop at woovebox; a worked reorder 1-3-2-5-4-6-2-1 at KAN Samples) but no corpus of measured jungle permutations exists that I could find. Which permutation a junglist reaches for most often is unknown to me.
+- ALL breakPerms WEIGHTS — [CHOSEN]. The MOVES are documented (reorder, x3 stutter repeat, tape-stop at woovebox; a worked reorder 1-3-2-5-4-6-2-1 at KAN Samples) but no corpus of measured jungle permutations exists that I could find. Which permutation a junglist reaches for most often is unknown to me.
 
-- The 'keep slice 0 fixed' rule — [EAR]. Not stated anywhere I read. It is my inference from the fact that the loop has to land.
+- The 'keep slice 0 fixed' rule — [CHOSEN]. Not stated anywhere I read. It is my inference from the fact that the loop has to land.
 
-- flourish weights [[[15],4],[[13,15],3],[[11,13,15],2],[[],2]] — [EAR]. The SHAPE (bar 4 answers) is from the Amen transcription; the four options and their weights are taste.
+- flourish weights [[[15],4],[[13,15],3],[[11,13,15],2],[[],2]] — [CHOSEN]. The SHAPE (bar 4 answers) is from the Amen transcription; the four options and their weights are taste.
 
-- ghostChance 0.92 — the FACT that jungle is ghost-dense is sourced (Coleman plays three pickup snares per bar); the probability 0.92 is [EAR].
+- ghostChance 0.92 — the FACT that jungle is ghost-dense is sourced (Coleman plays three pickup snares per bar); the probability 0.92 is [CHOSEN].
 
 - The `accent` map in block 2 — derived by hand from the transcription, NOT measured off audio the way MK2's existing DRUM_ACCENT was measured off 1,150 performances. Do not present it as a measurement.
 
-- Reese lowpass cutoff 700 Hz — [EAR]. The documented figure is 1-3 kHz (thedystopiancollective) but that is a modern Serum-era Reese; a 1994 record is darker. I moved the number on taste and am telling you.
+- Reese lowpass cutoff 700 Hz — [CHOSEN]. The documented figure is 1-3 kHz (thedystopiancollective) but that is a modern Serum-era Reese; a 1994 record is darker. I moved the number on taste and am telling you.
 
 - Reese detune 18 cents — sits in the documented 15-25 'moderate' band, but the exact value is mine.
 
-- toneTilt +1.5 dB and sendHpHz 300 — [EAR]. The direction is sourced (pitched-up breaks are bright; keep the sub dry); the values are not.
+- toneTilt +1.5 dB and sendHpHz 300 — [CHOSEN]. The direction is sourced (pitched-up breaks are bright; keep the sub dry); the values are not.
 
-- space.wet 0.30 — the intent is sourced (1.5-4 s hall/plate on the snare, 10-20 ms predelay); the send level is [EAR].
+- space.wet 0.30 — the intent is sourced (1.5-4 s hall/plate on the snare, 10-20 ms predelay); the send level is [CHOSEN].
 
-- energy values (bridge 0.30 etc.) — the ORDERING is sourced (jungle breakdowns are near-silent, second drop harder than first); the exact numbers are [EAR].
+- energy values (bridge 0.30 etc.) — the ORDERING is sourced (jungle breakdowns are near-silent, second drop harder than first); the exact numbers are [CHOSEN].
 
 - Rufige Kru 'Terminator' tempo — genuinely contested: songbpm reads 150, another database reads 165 for the same title. Different masters/remasters. I report the range, not a number.
 
@@ -495,7 +495,7 @@ spaceWide: { wet: 0.30,                                 // [corpus:theproaudiofi
 
 - Amen original tempo 136 — sources give 130 (songbpm, whole track), 136 (alijamieson), 137 (MusicRadar), ~140 (AudioLabs). I chose 136 because 16 beats at 136 = 7.06 s, which matches Wikipedia's stated 'seven seconds' — an arithmetic check, not an independent measurement.
 
-- coldOpen 0.06 and openVerse 0.15 — the template is sourced; these specific probabilities are [EAR].
+- coldOpen 0.06 and openVerse 0.15 — the template is sourced; these specific probabilities are [CHOSEN].
 
 - Whether 'Brown Paper Bag' is really in B major — songbpm says so, but that track has almost no functional harmony so the key detector is probably reading a bass drone. I did not use it.
 
@@ -564,7 +564,7 @@ spaceWide: { wet: 0.30,                                 // [corpus:theproaudiofi
 
 - https://www.melodigging.com/genre/ragga-jungle
 
-- https://www.tracksandtales.co/blogs/listening-bar-albums/logical-progression-ltj-bukem-1996
+- https://www.tracksandtales.co/blogs/playing-bar-albums/logical-progression-ltj-bukem-1996
 
 - https://songbpm.com/@the-winstons/amen-brother
 

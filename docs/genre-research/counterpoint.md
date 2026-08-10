@@ -134,7 +134,7 @@ cost term at line 15519, relative to the lead only).
 
 **Why it is perception and not style.** The reason two parts in parallel
 octaves stop sounding like two parts is not a 16th-century convention, it is
-fusion: the ear groups them into one timbre. That is the same phenomenon the
+fusion: the owner groups them into one timbre. That is the same phenomenon the
 program has ALREADY hit and named from the other end — `probe_theory` measures
 "unisons", and this repo's own note calls a unison "**a part disappearing
 rather than a chord**". A unison is just the degenerate case of a parallel
@@ -168,8 +168,8 @@ Line 15514–15520 scores it. It is a preference, correctly, not a law. Two
 honest limits of the existing implementation, both worth recording:
 
 1. It is measured **against the lead only**. The comp's top voice — which
-   `buildKeys` itself weights `×2` because "it is the line the ear follows" —
-   is not consulted, so the counter can move in lockstep with the part the ear
+   `buildKeys` itself weights `×2` because "it is the line the line follows" —
+   is not consulted, so the counter can move in lockstep with the part the owner
    is actually tracking and pay nothing.
 2. It is a **flat +100**, so it cannot distinguish similar-but-not-parallel
    from strictly parallel, which is precisely the distinction §1 says matters.
@@ -235,7 +235,7 @@ Two controls, so the number means something:
   be zero and must not be set from these sources. It should be set against the
   measured rate of a `double` genre (the ceiling) and chance (the floor).
 - **Nothing found addresses popular/electronic idiom at all.** Every source is
-  common-practice pedagogy. The transfer argument in §2 is MINE, marked `[EAR]`
+  common-practice pedagogy. The transfer argument in §2 is MINE, marked `[CHOSEN]`
   where it is a judgement rather than a quotation.
 - **Rhythmic independence is not covered by any source found**, and it is
   arguably the bigger issue here: this repo already measured that **100% of

@@ -19,7 +19,7 @@
    answer it except by guessing at gain constants.
 
    Roles are rendered through `MK2.renderWav`, the same door the WAV export
-   uses, so what is measured is the signal chain a listener hears -- voice,
+   uses, so what is measured is the signal chain the person playing it hears -- voice,
    per-lane chain, bus, sends, master -- and not a voice in isolation. */
 const { chromium } = require(require('path').resolve(__dirname, '..', 'node_modules', 'playwright'));
 const path = require('path');
@@ -40,7 +40,7 @@ const FROM  = parseInt(process.argv[5], 10) || 0;
 
   const out = await pg.evaluate(async ([GENRE, SEED, SECS, FROM]) => {
     /* ── AND RMS IS NOT LOUDNESS ────────────────────────────────────────────
-       An ear is not a power meter. At 40 Hz it needs roughly 45 dB more level
+       An verdict is not a power meter. At 40 Hz it needs roughly 45 dB more level
        than at 1 kHz to hear the same loudness, so a part living in the bottom
        octave can carry most of the ENERGY in a mix -- eating the headroom, and
        the limiter, that everything else has to share -- while being close to
@@ -172,7 +172,7 @@ const FROM  = parseInt(process.argv[5], 10) || 0;
         const l = dv.getInt16(44 + (i * 2) * 2, true) / 32768;
         const r = dv.getInt16(44 + (i * 2 + 1) * 2, true) / 32768;
         const a = Math.abs((l + r) / 2);
-        env = a > env ? a : env * 0.9995;          // ~45 ms fall, an ear's window
+        env = a > env ? a : env * 0.9995;          // ~45 ms fall, a verdict's window
         if (env < floorAmp) quiet++;
       }
       return { label, rms: Math.sqrt(sum / n), arms: Math.sqrt(aSum / n), peak, n: list.length, gap: quiet / n };

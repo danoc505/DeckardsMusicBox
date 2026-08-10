@@ -14,7 +14,7 @@
 
    TRAVEL is the peak-to-peak swing of the lane across a whole song, as a
    percentage of the control's own dial. A lane that moves 0.4% of its dial is
-   automated on paper and static to an ear.
+   automated on paper and static in the mix.
 
      node harness/probe_automation.js [machine]     # default: every machine
 */

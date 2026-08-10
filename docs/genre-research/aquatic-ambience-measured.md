@@ -1,6 +1,6 @@
 # THE FIGURE, MEASURED AT LAST — and the sheet it refutes
 
-*2026-08-08. The user, after listening: "I don't know where we got the idea for
+*2026-08-08. The user, after playing it: "I don't know where we got the idea for
 that. Bouncy thing — I can't even find anything like it in the DK64 OST. I
 think we've done something wrong. Yes, in Aquatic Ambience there was something
 that to me sounds like an arp of some kind. Do better research."*
@@ -116,6 +116,6 @@ Two table changes, both of which the program already had the machinery for:
   whether Kirkhope belongs in the same table as Wise at all — which is
   `chrono-trigger.md` §5's "if a fourth composer shares none of it" test,
   pointed at the composer who was already there.
-- **The clash is down but not gone** (22.6%). Whether that is right is an ear
+- **The clash is down but not gone** (22.6%). Whether that is right is a taste call
   question, and the figure is now at least clashing *against a chord it is
   reading* rather than one it was ignoring.

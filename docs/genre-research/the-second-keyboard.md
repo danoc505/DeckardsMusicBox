@@ -146,7 +146,7 @@ filter could empty it, and an empty list is a thrown song.
 ### The TOP voice, and why that is the honest choice
 
 `buildKeys` already weights the top voice ×2 in its own voice-leading term, on
-the stated grounds that *"it is the line the ear follows"*. The same argument
+the stated grounds that *"it is the line the line follows"*. The same argument
 picks the voice this cost should watch, and it has a second virtue: it is the
 voice `probe_counterpoint` reduces each part to, so the fix is measured by the
 instrument that found the defect rather than by a friendlier one. The probe's
@@ -244,7 +244,7 @@ the performance is unproven.** It is a small, cheap, sourced change with a
 19-song blast radius, which is why it ships rather than waiting — but it does
 not close the row it came from.
 
-### And the ear has heard none of it
+### And the owner has judged none of it
 
 The pad picks a different inversion in 19 songs. No number here says that
 sounds better.

@@ -2,7 +2,7 @@
 
 *Researched 2026-08-04 after the user reported "the pulsing sound is very heavy…
 I can hear it if I load up the wurly, melo, or rhodes." The Wurlitzer was the
-one. This sheet is what the real instrument does, what the ear tolerates, and
+one. This sheet is what the real instrument does, what the owner tolerates, and
 what was changed.*
 
 ---
@@ -135,7 +135,7 @@ Named so nobody re-investigates them:
 
 ---
 
-## 6. WHAT IS STILL [EAR]
+## 6. WHAT IS STILL [CHOSEN]
 
 The depth is a judgement, and it has to be: **no source gives the real
 instrument's depth**. What is sourced is the *threshold* (§3), and the value is

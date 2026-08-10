@@ -200,7 +200,7 @@ def main():
     if a.pitched:
         root, conf = detect_root(sig, a.rate)
         sys.stderr.write("   root: MIDI %s  confidence %.2f%s\n"
-                         % (root, conf, "   <-- LOW, check by ear" if conf < 0.5 else ""))
+                         % (root, conf, "   <-- LOW, check by verdict" if conf < 0.5 else ""))
         print('  %s: { rate: %d, pk: %.4f, root: %s, d: "%s" },'
               % (a.name, a.rate, pk, root if root else "null", b64))
     else:

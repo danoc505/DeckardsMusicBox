@@ -6,11 +6,11 @@
 
 TWO things, and they are both about what is NOT there.
 
-(1) ONE MONOPHONIC 303 RIFF WHOSE NOTES NEVER CHANGE WHILE ITS FILTER DOES. A 16-step line, mostly one or two pitches with octave jumps, accents and slides, under a high-resonance lowpass whose cutoff is being MOVED BY HAND continuously. The pitch content is nearly static; the timbre is the melody. Hawtin, on Sheet One: "Many of the 303 lines were pitched up an octave" and "Sometimes my melodies are more rhythmical than musical" (MusicRadar track-by-track). If a listener hears a tune with phrases and a breath bar, it is not this genre. If they hear the same four notes for 90 seconds while the tone opens, it is.
+(1) ONE MONOPHONIC 303 RIFF WHOSE NOTES NEVER CHANGE WHILE ITS FILTER DOES. A 16-step line, mostly one or two pitches with octave jumps, accents and slides, under a high-resonance lowpass whose cutoff is being MOVED BY HAND continuously. The pitch content is nearly static; the timbre is the melody. Hawtin, on Sheet One: "Many of the 303 lines were pitched up an octave" and "Sometimes my melodies are more rhythmical than musical" (MusicRadar track-by-track). If the person playing it hears a tune with phrases and a breath bar, it is not this genre. If they hear the same four notes for 90 seconds while the tone opens, it is.
 
 (2) AN ALMOST EMPTY GRID, DRENCHED IN FEEDING-BACK DELAY. Kick on the quarters, a closed hat, one 303, and nothing else — with the reverb-and-delay wash carrying more of the bar than the notes do. Hawtin: "I never use EFX returns. I always use master channels on the console so there are always slight feedback loops. Then I like to have delays on the reverbs, and reverbs on the delays. I like it when things continue to wash and percolate in the background. It's always been a big trademark of my sound" (MusicRadar, Sheet One / "Vokx"). On Consumed he calls it "an architecture of sound... the aftereffects, the shadows of sound" and the record "a year of subtraction" (15questions).
 
-The four-bar test: if ANYTHING changes inside four bars — a fill, a flourish on the fourth bar, a new hit, a hook — the listener will not name this genre. Patience is the signature. MK2's stage 3 "flourishBar: 3 / the loop states its figure three times and answers on the fourth" is exactly the gesture this genre exists to refuse.
+The four-bar test: if ANYTHING changes inside four bars — a fill, a flourish on the fourth bar, a new hit, a hook — the person playing it will not name this genre. Patience is the signature. MK2's stage 3 "flourishBar: 3 / the loop states its figure three times and answers on the fourth" is exactly the gesture this genre exists to refuse.
 
 Secondary but strongly identifying: the kick is NOT a 909 on Sheet One. Hawtin, on "Plasticity": "I had my [Roland] 303s, a 606 and an 808 going here. I always liked to have two different types of claps, and I was always into really small rimshots. There isn't much 909 on there. So much of my work had been on 909s before, so I was happy to get away from those 909 kicks." So: long-decay 808 kick, small dry rimshots, two clap layers — no backbeat snare.
 
@@ -36,7 +36,7 @@ Secondary but strongly identifying: the kick is NOT a 909 on Sheet One. Hawtin, 
                      careful transcription of the FIGURE, not of the record.
      [corpus:roland] Roland TR-909 Owner's Manual, full text on archive.org.
      [theory]        music theory / signal fact.
-     [EAR]           taste awaiting a listen. Not measured. Say so out loud.
+     [CHOSEN]           taste awaiting the owner’s verdict. Not measured. Say so out loud.
      [GUESS]         I could not find this. It is a placeholder. Do not trust it.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -58,7 +58,7 @@ plastikman: {
   //   measured median is 106.9 — see `_musikVariant` below.
   tempo: [120, 132],
 
-  // [EAR] + a MEASUREMENT THAT SAYS "DO NOT MEASURE THIS". Essentia's key
+  // [CHOSEN] + a MEASUREMENT THAT SAYS "DO NOT MEASURE THIS". Essentia's key
   // detector cannot decide on this catalogue: over 42 tracks it split
   // minor 22 / major 20 with a median key_strength of 0.55 — i.e. there is
   // no functional harmony present to detect. These weights are therefore a
@@ -70,12 +70,12 @@ plastikman: {
   modes: [["minor", 6], ["phrygian", 3], ["dorian", 1]],
 
   // REQUIRES a new RIG entry (RIG is a global const; adding a row is a widening).
-  rig: [["plastik", 10]],                              // [EAR]
+  rig: [["plastik", 10]],                              // [CHOSEN]
 
   // lofi's `keysChar` and `tape` have no meaning here but the draws must still
   // run unconditionally [Law 7], so give them one-element tables.
-  keysChar: [["wash", 1]],                             // [EAR]
-  tape: { wow: [0.0, 0.0], crackle: [0.0, 0.0] },      // no tape patina [EAR]
+  keysChar: [["wash", 1]],                             // [CHOSEN]
+  tape: { wow: [0.0, 0.0], crackle: [0.0, 0.0] },      // no tape patina [CHOSEN]
 
   /* ── stage 2: form ────────────────────────────────────────────────────── */
   /* READ THE ARCHITECTURE NOTES. This block is written as if MK2 could honour
@@ -109,9 +109,9 @@ plastikman: {
       bridge:       [["verse", 10]],
       chorus:       [["verse", 10]],
     },
-    bridgeAfterChorus: { verse: 2, chorus: 2 },        // [EAR]
+    bridgeAfterChorus: { verse: 2, chorus: 2 },        // [CHOSEN]
 
-    // [EAR], but principled: this music's changes are TIMBRAL, not dynamic.
+    // [CHOSEN], but principled: this music's changes are TIMBRAL, not dynamic.
     // The spread here is 0.70..0.96 against lofi's 0.50..1.00 — deliberately
     // half the range, because a section that gets LOUDER is a pop gesture.
     energy: { intro: 0.80, outro: 0.72, bridge: 0.70, instrumental: 0.88,
@@ -122,7 +122,7 @@ plastikman: {
 
   // [corpus:attack] "the kick hitting on every quarter note". Four on the floor
   // is definitional. The second entry adds a 16th pickup before the downbeat —
-  // [EAR], and it is the ONLY pocket variation I would allow.
+  // [CHOSEN], and it is the ONLY pocket variation I would allow.
   pocket: [[[0, 4, 8, 12], 9], [[0, 4, 8, 12, 15], 1]],
 
   kit: {
@@ -134,7 +134,7 @@ plastikman: {
 
     hatEvery: 1,          // [corpus:attack] "a closed 909 hat plays all four
                           // 16th-notes per quarter-bar"
-    hatVel: 0.55,         // [EAR]
+    hatVel: 0.55,         // [CHOSEN]
 
     // [theory-of-the-genre] A per-bar random extra hit is precisely the
     // bar-to-bar variation this music refuses. Zero. The draw still runs.
@@ -169,7 +169,7 @@ plastikman: {
     },
   },
 
-  // [EAR] the counter-line is a second 303 or a delay tail, not a harmoniser.
+  // [CHOSEN] the counter-line is a second 303 or a delay tail, not a harmoniser.
   // Sparse and low: it should sound like an echo of the lead, not a duet.
   counter: { density: 0.22, intervals: [-7, -4, -3] },
 
@@ -177,7 +177,7 @@ plastikman: {
   // record. Justified by the measurement above (key_strength median 0.55,
   // minor/major 22/20 — nothing functional to detect) and by [corpus:hawtin]
   // "Sometimes my melodies are more rhythmical than musical."
-  // The rare non-tonic bar is [EAR]: a single drone move, never a cadence.
+  // The rare non-tonic bar is [CHOSEN]: a single drone move, never a cadence.
   progressions: {
     minor:    [[[0,0,0,0], 8], [[0,0,0,5], 2], [[0,0,5,0], 1]],   // i / i-VI [theory]
     phrygian: [[[0,0,0,0], 9], [[0,0,1,0], 1]],                   // i / bII [theory]
@@ -193,7 +193,7 @@ plastikman: {
   // [corpus:hawtin] "Many of the 303 lines were pitched up an octave" — so the
   // acid line sits in LEAD register, above the pad, while a separate deep sub
   // holds the bottom (Consumed is "driven largely by deep, rumbling basslines",
-  // Wikipedia/AllMusic). Exact numbers [EAR].
+  // Wikipedia/AllMusic). Exact numbers [CHOSEN].
   registers: { bass: [28, 43], keys: [48, 67], counter: [45, 64],
                themeA: [45, 69], themeB: [45, 69], themeC: [45, 69] },
                // themeB == themeA == themeC deliberately: no hook register lift.
@@ -205,14 +205,14 @@ plastikman: {
     // [corpus:roland] TR-909 shuffle setting 1 "gives no effect". [corpus:attack]
     // list Spastik's swing as "Manual" — individual 32nds nudged by hand, not a
     // global shuffle. So: straight, with a 0..0.06 ratio range = 0..6.9 ms of
-    // lean at 127 bpm [computed]. The range is [EAR]; the base 1.00 is not.
+    // lean at 127 bpm [computed]. The range is [CHOSEN]; the base 1.00 is not.
     swing: [1.00, 0.06],
 
     snareEarly: [0, 0],          // dilla-only, must exist so the draw runs [Law 7]
     kickLate:   [0, 0],          // same
     hatMul:     1.0,             // [theory] no hat/kit friction: same clock
 
-    // [corpus:hawtin, converted to a number by ME — the 1.5 ms is [EAR]]
+    // [corpus:hawtin, converted to a number by ME — the 1.5 ms is [CHOSEN]]
     // "In those early days I would let each machine go... Each one had its own
     // processor and interpretation of timing that somehow created the funk or
     // feeling of tracks like Gak." THIS IS THE GROOVE SOURCE FOR THIS GENRE.
@@ -225,19 +225,19 @@ plastikman: {
     // *** PROPOSED, NO READER YET. The correct model for this genre's
     // micro-timing: a fixed per-lane offset in seconds, drawn once per song,
     // applied identically every bar — generalising snareEarly/kickLate into a
-    // map. All values [EAR]; the SHAPE is [corpus:hawtin]. ***
+    // map. All values [CHOSEN]; the SHAPE is [corpus:hawtin]. ***
     laneLean: { kick: 0.000, hat: +0.0035, openhat: -0.0025,
                 ghost: +0.0060, snare: +0.0040 },
   },
 
-  // [EAR]. bassArtic multiplies note duration: 0.45 = the 303's default clipped
+  // [CHOSEN]. bassArtic multiplies note duration: 0.45 = the 303's default clipped
   // note, 1.6 = a slide/legato tie. The 3-way weighting stands in for the 303's
   // slide flag, which MK2 has no representation for.
   touch: { bassArtic: [[0.45, 5], [0.9, 3], [1.6, 2]], strum: [0, 0] },
                                   // strum MUST be zero: machines do not roll chords
 
   /* ── stage 6: space ───────────────────────────────────────────────────── */
-  // [EAR]. Against lofi's 0.16. Justified in kind (not in number) by
+  // [CHOSEN]. Against lofi's 0.16. Justified in kind (not in number) by
   // [corpus:hawtin]: Consumed was "delays and reverbs, and effects more than
   // anything else... an architecture of sound"; Sheet One had "delays on the
   // reverbs, and reverbs on the delays". MK2 has ONE reverb send and NO delay,
@@ -255,7 +255,7 @@ plastikman: {
                                // slides, REPEATED IDENTICALLY. Never phrased.
                                // [corpus:hawtin] "melodies are more rhythmical
                                // than musical"
-  counterStyle: "echo",        // sparse, low, sounds like a delay tail [EAR]
+  counterStyle: "echo",        // sparse, low, sounds like a delay tail [CHOSEN]
 
   palette: {
     voices: ["kick808", "rim909", "hat909", "openhat909",
@@ -266,21 +266,21 @@ plastikman: {
     //              bass:"subDrone", keys:"washPad",
     //              lead:"acid303", counter:"acid303" }
 
-    // *** THE ONE NEW VOICE. Without it a listener will not name this genre. ***
+    // *** THE ONE NEW VOICE. Without it the person playing it will not name this genre. ***
     // V.acid303 = (g, ev, t) => [nodes]
-    //   osc:       sawtooth (weight 6) or square (weight 4)          [EAR]
-    //   filter:    resonant lowpass, Q 12..18                        [EAR]
+    //   osc:       sawtooth (weight 6) or square (weight 4)          [CHOSEN]
+    //   filter:    resonant lowpass, Q 12..18                        [CHOSEN]
     //              (the real TB-303 filter is a 3-pole 18 dB/oct diode ladder —
     //               [UNVERIFIED this session]; MK2 would cascade two biquads,
     //               which is 24 dB/oct and audibly wrong at high Q. Say so.)
     //   cutoff:    base 260 Hz, +envMod on each note-on, exp decay 0.18..0.55 s
-    //                                                                [EAR]
+    //                                                                [CHOSEN]
     //   accent:    ev.gain > 0.9 raises BOTH level and envMod depth
     //              [corpus:roland-family — accent on the 303 "increases the
     //               volume and filter envelope depth"]
     //   slide:     when the previous note is still ringing, ramp frequency
     //              rather than retrigger                             [theory]
-    // Everything numeric in this voice is [EAR] and needs a listen.
+    // Everything numeric in this voice is [CHOSEN] and needs a play.
   },
 
   /* ── the raw measurement, so nobody has to trust my summary ───────────── */
@@ -317,7 +317,7 @@ plastikman: {
 
 ## What MK2's architecture cannot express
 
-- *** 88-BAR HARD CEILING. PROVEN, NOT SUSPECTED. *** I extracted makeForm from the shipped file, gave it target [224,4,32] (the measured interquartile range), and ran 3000 seeds. Result: 84 bars (2706 seeds) or 88 bars (294 seeds). Nothing else is reachable. At 127 bpm that is a 2:46 maximum. The measured Plastikman full track is 233 bars median (~7:20), IQR 156-332, and the SHORTEST full track in the catalogue (Lost, 156 bars) is still nearly twice what MK2 can build. Cause: stage 2's `for(let guard = 0; guard < 10; guard++)` bounds the section count at 10, and SECTION_LEN is a GLOBAL CONST (intro 4, verse 8, ...) that no genre table can reach. 4 + 10x8 + 4 = 88. This is a table hole, not an architecture hole — move SECTION_LEN and the guard bound into GENRE and it closes. But until it moves, the genre is unbuildable at any length that would let a listener recognise it.
+- *** 88-BAR HARD CEILING. PROVEN, NOT SUSPECTED. *** I extracted makeForm from the shipped file, gave it target [224,4,32] (the measured interquartile range), and ran 3000 seeds. Result: 84 bars (2706 seeds) or 88 bars (294 seeds). Nothing else is reachable. At 127 bpm that is a 2:46 maximum. The measured Plastikman full track is 233 bars median (~7:20), IQR 156-332, and the SHORTEST full track in the catalogue (Lost, 156 bars) is still nearly twice what MK2 can build. Cause: stage 2's `for(let guard = 0; guard < 10; guard++)` bounds the section count at 10, and SECTION_LEN is a GLOBAL CONST (intro 4, verse 8, ...) that no genre table can reach. 4 + 10x8 + 4 = 88. This is a table hole, not an architecture hole — move SECTION_LEN and the guard bound into GENRE and it closes. But until it moves, the genre is unbuildable at any length that would let the person playing it recognise it.
 
 - *** THE RULE OF THREE FORBIDS THE GENRE OUTRIGHT. PROVEN. *** I set transitions to a single self-repeating function — the literal minimal-techno gesture, 'state it and keep stating it' — and ran 300 seeds. 300 of 300 produce a form that trips `throw new Error("rule of three broken: " + form[i].fn + " x3")` at the composeSong seam check. Not a warning: a build failure. And makeForm emitted 7.4 `vary` demands per song, meaning the architecture actively DEMANDS variation, on average seven times per track, from a genre whose entire identity is refusing it. The rule of three is enforced twice — in stage 2's law (`to === fn && consec ? 0`) and again as a throw — and neither location is reachable from a table. THIS IS THE HOLE. The rule of three is a law about POP FORM that has been installed as a law about ALL form. It is correct for lofi, city pop, synthwave. It is exactly wrong here.
 
@@ -352,19 +352,19 @@ plastikman: {
 
 - EVERY number in `modes`. Essentia's key detector split the catalogue minor 22 / major 20 with median key_strength 0.55 across 42 tracks — that is a coin flip, and it is EVIDENCE THAT THERE IS NO KEY TO MEASURE. The weights [minor 6, phrygian 3, dorian 1] are my taste call from theory. They are not measured. Nobody should cite them as such.
 
-- EVERY number in `progressions` and `bridgeProgressions`. I did not transcribe a single Plastikman chord. The all-tonic drone is defensible from the key-strength failure plus Hawtin's 'melodies are more rhythmical than musical', but the 8/2/1 and 9/1 weights and the choice of degree 5 / 1 / 3 as the rare non-tonic bar are [EAR].
+- EVERY number in `progressions` and `bridgeProgressions`. I did not transcribe a single Plastikman chord. The all-tonic drone is defensible from the key-strength failure plus Hawtin's 'melodies are more rhythmical than musical', but the 8/2/1 and 9/1 weights and the choice of degree 5 / 1 / 3 as the rare non-tonic bar are [CHOSEN].
 
 - `swing` range 0.06 (the ratio spread above 1.00). The BASE of 1.00 is grounded — TR-909 shuffle setting 1 'gives no effect' [Roland manual], and Attack list Spastik's swing as 'Manual'. The 0.06 spread is mine.
 
-- `jitter.even: 0.0015` (1.5 ms). Hawtin's statement that each machine 'had its own processor and interpretation of timing' is documented; the MILLISECOND VALUE is not. I found no measurement of DIN-sync or MIDI drift on a 606/808/303 chain. Pure [EAR]. Worse: MK2's jitter is per-NOTE and wanders, while machine drift is a per-MACHINE constant — so even the right number would be applied wrongly.
+- `jitter.even: 0.0015` (1.5 ms). Hawtin's statement that each machine 'had its own processor and interpretation of timing' is documented; the MILLISECOND VALUE is not. I found no measurement of DIN-sync or MIDI drift on a 606/808/303 chain. Pure [CHOSEN]. Worse: MK2's jitter is per-NOTE and wanders, while machine drift is a per-MACHINE constant — so even the right number would be applied wrongly.
 
 - The whole `laneLean` map. Shape justified by Hawtin; every value invented by me.
 
 - `space.wet: 0.34` and `space.toneTilt: -1.5`. I found no reverb measurement of any kind. 0.34 is a guess that this genre wants roughly twice lofi's wash.
 
-- `hatVel: 0.55`, `counter.density: 0.22`, `counter.intervals`, `touch.bassArtic` weights, all `energy` values, all `registers` bounds, all `openSpot` weights, the `pocket` second entry, and every weight in `transitions`. All [EAR].
+- `hatVel: 0.55`, `counter.density: 0.22`, `counter.intervals`, `touch.bassArtic` weights, all `energy` values, all `registers` bounds, all `openSpot` weights, the `pocket` second entry, and every weight in `transitions`. All [CHOSEN].
 
-- The V.acid303 numbers: base cutoff 260 Hz, Q 12-18, decay 0.18-0.55 s, saw/square 6:4. All [EAR]. I did NOT verify the TB-303's filter topology (commonly given as a 3-pole 18 dB/oct diode ladder) from a primary source this session — marked [UNVERIFIED] in the table. If you cascade two biquads you get 24 dB/oct, which at Q 15 is audibly not a 303.
+- The V.acid303 numbers: base cutoff 260 Hz, Q 12-18, decay 0.18-0.55 s, saw/square 6:4. All [CHOSEN]. I did NOT verify the TB-303's filter topology (commonly given as a 3-pole 18 dB/oct diode ladder) from a primary source this session — marked [UNVERIFIED] in the table. If you cascade two biquads you get 24 dB/oct, which at Q 15 is audibly not a 303.
 
 - The proposed dub-delay parameters are so uncertain I left them OUT of the table entirely. I could not find a documented delay time, feedback amount or filter setting for any Plastikman record. Hawtin names the boxes (Ensoniq DP/4 on Sheet One; 'legacy effects... Lexicon and Eventides' later; a BEL BD80 appears in a forum, unverified) but no settings. If you want a starting point it would be 3/16 sync, feedback ~0.55, HPF 300 / LPF 3500 — that is [GUESS] and nothing more.
 

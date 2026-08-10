@@ -49,13 +49,13 @@ The handoff's option 2 is closed as far as this search can close it. That leaves
 1. **Synthesised over a clean sample.** Physically a growl is amplitude *and* frequency
    modulation at roughly 25–40 Hz with added noise — the player hums against the reed.
    That is reproducible with the machinery this program already has, and it would be
-   marked `[EAR]`, **never** `[corpus]`, because no measurement of a real growl backs
+   marked `[CHOSEN]`, **never** `[corpus]`, because no measurement of a real growl backs
    the numbers.
 2. **Ship without it and say so.** Iowa's three real dynamic layers plus a vibrato
    switch is already an expressive instrument, and a sax that cannot growl is a
    limitation, not a lie.
 
-**Recommendation: (1), marked `[EAR]`, with the scoop and the fall built first** — those
+**Recommendation: (1), marked `[CHOSEN]`, with the scoop and the fall built first** — those
 two are `playbackRate` ramps on the same machinery the 303 slide already uses, they are
 as characteristic of a sax line as the growl, and neither needs a sample nobody has.
 

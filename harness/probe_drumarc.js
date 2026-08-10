@@ -26,7 +26,7 @@
        the alter axis.
 
    And then the one the request turns on: IS THE LAST SECTION'S DRUM PART ONE
-   THE LISTENER HAS ALREADY HEARD. "The last section having the most change"
+   THE PLAYERS HAS ALREADY HEARD. "The last section having the most change"
    cannot be true of a record whose closing drums are a rerun.
 
    THE WINDOW IS THE FIRST FOUR BARS OF EACH SECTION, deliberately. Compared
@@ -85,7 +85,7 @@ for(const g of M.genres()){
        whether or not the drums inside them differ by a single hit. Counting
        names reported "6.5 sections, 6.5 drum parts, most-played 1.0" on a
        record where half the sections were byte-identical -- a probe measuring
-       its own bookkeeping. The drum part itself is what a listener hears. */
+       its own bookkeeping. The drum part itself is what the person playing it hears. */
     const drumKey = m => {
       const d = (song.materials[m] && song.materials[m].drums) || [];
       return d.map(n => n.bar + ":" + n.step + ":" + n.lane + ":" + (n.vel || 0)).join(",");
@@ -105,7 +105,7 @@ for(const g of M.genres()){
        and reported 0% for four genres that in fact end on a rerun: two sections
        playing the same material land on different bars of its four-bar loop, so
        the pictures differ while the drum part does not. The question is "is the
-       closing drum part one the listener already knows", and the material is
+       closing drum part one the person playing it already knows", and the material is
        what answers it. */
     seen += used.slice(0, -1).includes(used[used.length - 1]) ? 1 : 0;
   }

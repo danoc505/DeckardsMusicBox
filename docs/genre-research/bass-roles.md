@@ -82,9 +82,9 @@ borrows from:
 ```
 
 Three settings all pushing the same way. **I set two of them myself and marked
-them `[EAR]`** — which in this project means my ear, and I do not have one. The
+them `[CHOSEN]`** — which in this project means my verdict, and I do not have one. The
 owner does, and his verdict on the result was that it is a failure. That
-outranks an `[EAR]` tag every time.
+outranks an `[CHOSEN]` tag every time.
 
 **What was kept** is everything the user actually asked for: `density` stays
 [3,6] ("minimal is slow building, less notes" — their words), `tieChance` stays
@@ -120,12 +120,12 @@ played" defect wearing a different hat.
   healthiest in the file (52.6% root, 2.03 a bar), and a pedal role would make it
   more static, which is the mistake §2 just recorded.
 
-**Which genre should get a second role is an ear question**, and every candidate
+**Which genre should get a second role is a taste question**, and every candidate
 I can reach by measurement alone either got worse or had nothing to switch to.
 
 ## 5. WHAT THIS DOES NOT SETTLE
 
-- **Nothing has been heard**, including the fix in §3, which is the largest
+- **Nothing has a verdict**, including the fix in §3, which is the largest
   change to this genre's notes in the file's history.
 - **`bassRoles` has no user.** If the answer is that minimal techno should
   sometimes drop to a held sub under the 303 rather than instead of it, that is
@@ -133,12 +133,12 @@ I can reach by measurement alone either got worse or had nothing to switch to.
   actually describes — and this program has no way to say that yet.
 - **Dungeon synth needs a riff table** before it can have a second role, and
   nobody has researched what a dungeon synth bass figure is.
-- **The `[EAR]` tags across this file are worth an audit.** Two of them were the
+- **The `[CHOSEN]` tags across this file are worth an audit.** Two of them were the
   fault here, and they were both mine.
 
 ---
 
-## 6. AND THE OWNER'S EAR REVERSED §3 THE DAY AFTER IT SHIPPED
+## 6. AND THE OWNER'S TASTE REVERSED §3 THE DAY AFTER IT SHIPPED
 
 > "The plastikman bass is wrong, it's not how minimal techno and plastikman do
 > bass. **I feel like he uses echo to get more notes. We have too much bass and
@@ -156,7 +156,7 @@ opposite of it:
 > delay etc.** and build up around that. **It's maximising the minimal.**"
 
 A 303 in this music states a small figure; the DELAY makes the note count. The
-extra events a listener hears are repeats of the ones played, not new pitches.
+extra events the person playing it hears are repeats of the ones played, not new pitches.
 
 **Reverted**: `distinctPitches` back to [2,2], `rootShare` back to 0.62, the
 degree pool back to 58% root — every number as it was.
@@ -170,4 +170,4 @@ relative to the bass itself.
 already fully sent to the delay (`echoFeeds` membership is a send base of 1), so
 "not enough fx" is about the unit's settings, and tuning a wet/dry balance by
 arithmetic is precisely what this project says I cannot do. **That one needs an
-ear, and it is the next thing to try on this genre.**
+verdict, and it is the next thing to try on this genre.**

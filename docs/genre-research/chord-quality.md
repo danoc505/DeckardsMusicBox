@@ -346,7 +346,7 @@ melody below the chord 6.7% → 7.5%.
 same seed's bridge went `F#m7 B7 E7 G#m7` → `F#m7 Bm7 E7 G#m7`, because the
 corpus puts a minor seventh on that step 32% of the time. That is a real draw
 from real tunes, and it is a darker chord than what was there. Whether that
-trade is wanted is an ears question, and the dial is one number.
+trade is wanted is a taste question, and the dial is one number.
 
 ---
 

@@ -71,7 +71,7 @@ for(const g of M.genres()){
     /* 2. non-chord tones. The chord under a note is whatever the BASS is
        sounding at that instant plus the keys stack -- this engine does not
        hand out a chord symbol per event, so the chord is READ from what is
-       playing, which is the same thing a listener does. */
+       playing, which is the same thing the person playing it does. */
     const byRole = {};
     for(const e of ev) (byRole[e.role] || (byRole[e.role] = [])).push(e);
     const keys = byRole.keys || byRole.harmony || [];

@@ -48,7 +48,7 @@
 
    So the chord is counted by WHAT IS SOUNDING: at every sixteenth of the song,
    how many keys notes are ringing (onset <= t < onset + duration). That is the
-   number an ear gets. The onset count is still reported beside it, as the ROLL
+   number a verdict gets. The onset count is still reported beside it, as the ROLL
    -- it is a real and separate thing worth knowing -- but the voicing figures
    are the sounding ones.
 
@@ -141,7 +141,7 @@ for(const g of genres){
     }
 
     /* ── WHAT IS SOUNDING, sixteenth by sixteenth ────────────────────────────
-       The voicing as an ear gets it: every keys note whose duration covers this
+       The voicing as a verdict gets it: every keys note whose duration covers this
        instant, whether it was struck here or three sixteenths ago. Silence --
        no keys note ringing at all -- is not counted as a chord of size zero;
        it is counted separately as the part's rests, below. */
@@ -211,7 +211,7 @@ for(const g of genres){
                   sixteenthHist, bySection });
 }
 
-console.log('  ── THE VOICING as an ear gets it: what is SOUNDING, sixteenth by sixteenth\n');
+console.log('  ── THE VOICING as a verdict gets it: what is SOUNDING, sixteenth by sixteenth\n');
 console.log('  genre         voices ringing   span(semitones)   bottom note   root underneath');
 for(const p of perGenre){
   if(!p.soundMoments){ console.log(`  ${p.g.padEnd(12)}  — no chord part —`); continue; }

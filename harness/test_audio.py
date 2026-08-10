@@ -14,8 +14,8 @@
                  threshold is set 2-6x clear of the observed value, and the
                  observed value is quoted in the code so drift is visible.
      [theory]    a fact about the signal or the graph, not a taste call.
-     [EAR]       a taste decision, tagged inline. Three checks are [EAR]-owned:
-                 how big an arc a listener hears as an arc (2.0 dB), how hard a
+     [CHOSEN]       a taste decision, tagged inline. Three checks are [CHOSEN]-owned:
+                 how big an arc a player hears as an arc (2.0 dB), how hard a
                  chorus must land to have landed (0.8 dB), and how long a battery
                  may take and still run on every merge (180 s). All three are
                  deliberately loose -- a taste threshold that fails on legitimate
@@ -180,7 +180,7 @@ broken = [it for it in man["items"] if "error" in it]
 check("every planned render completed", not broken,
       "; ".join(f"{b['file']}: {b['error'][:60]}" for b in broken) or f"{len(man['items'])} renders")
 check("battery is fast enough to run on every merge", man["wallSec"] < 180,
-      f"{man['wallSec']:.0f}s wall for {len(man['items'])} renders")   # [EAR: what "every merge" tolerates]
+      f"{man['wallSec']:.0f}s wall for {len(man['items'])} renders")   # [CHOSEN: what "every merge" tolerates]
 
 print("\n── DETERMINISM: same seed, same samples (Law 7) " + "─" * 24)
 # CAUGHT: a Math.random() anywhere in the SOUND stage -- the seeded reverb IR, the
@@ -334,7 +334,7 @@ def mix_battery(fn, label, kit, RIG="band", WET=0.16, GATED=False, MACHINE="kit"
     #
     # So the 808 puts roughly FOUR TIMES the sub energy of an acoustic kit under
     # the identical performance. That is the instrument, not a bug -- but it is a
-    # big number and the user's ears own whether it is the right amount. The 808
+    # big number and the user's a verdict on it own whether it is the right amount. The 808
     # bar is 38%, ~1.15x above the highest measurement, the same kind of margin
     # the acoustic bar carries. It is NOT a relaxation of the acoustic check,
     # which is unchanged at 25% and still runs on every acoustic-kit excerpt --
@@ -388,10 +388,10 @@ def mix_battery(fn, label, kit, RIG="band", WET=0.16, GATED=False, MACHINE="kit"
         # against a kit-FREE excerpt at 0.00-0.03%. So the 808 kit is about TWENTY-
         # FIVE TIMES darker above 6 kHz than the acoustic one while still being four
         # times its own silence -- plainly playing, and simply not made of noise.
-        # WORTH A LISTEN RATHER THAN A SHRUG: a real TR-808 hi-hat is a bright,
+        # WORTH A JUDGE RATHER THAN A SHRUG: a real TR-808 hi-hat is a bright,
         # cutting sound, and 25x is a large gap. The circuit here is the right shape
         # (six inharmonic squares through a high-pass) but whether it is bright
-        # enough is an ear question this battery cannot answer. Flagged, not fixed.
+        # enough is a verdict question this battery cannot answer. Flagged, not fixed.
         # Floor 0.06, ~2x above the measurements and still 4x above silence, so the
         # check keeps the teeth it was built for -- "the kit vanished" and "the hats
         # got highpassed into inaudibility" both still fail it.
@@ -436,7 +436,7 @@ def mix_battery(fn, label, kit, RIG="band", WET=0.16, GATED=False, MACHINE="kit"
     return dict(rms=rms, db=20 * math.log10(max(rms, 1e-12)), air=air, airBody=airBody,
                 pres=pres + air, sid=sid)
 
-print("\n── THE REFERENCE BAR (M0 ear gate) " + "─" * 36)
+print("\n── THE REFERENCE BAR (M0 verdict gate) " + "─" * 36)
 # The canary that predates the composer: if this stops sounding like music through
 # the engine, nothing downstream is worth measuring.
 mix_battery("ref_a.wav", "reference bar", kit=True)
@@ -628,7 +628,7 @@ for name, it in solos.items():
     # spreads energy across f0 +/- n*fm and smears every peak as the modulator's
     # envelope decays. The estimator then locks onto a sideband cluster and reports
     # chipBass at 26 Hz when a plain FFT shows 110.4 Hz sitting at full strength.
-    # So ask the question the ear actually asks -- is the voice CENTRED on the
+    # So ask the question the owner actually asks -- is the voice CENTRED on the
     # octave it was told to play -- by comparing band energy at f0 against the
     # octaves either side. That is immune to how the energy is distributed WITHIN
     # the octave, and it still catches the faults this check exists for: a
@@ -767,7 +767,7 @@ for key in sorted(k for k in man if k.startswith("song_")):
     #  narrow window by design: MK2's section dynamic is 0.72+0.28*energy, a 1.3 dB
     #  span, and the rest of the arc comes from which roles are playing. A wider bar
     #  would be asserting music this program does not claim to make.]
-    # [EAR: 2.0 dB is a claim about what a listener hears as an arc, not a measurement.]
+    # [CHOSEN: 2.0 dB is a claim about what a player hears as an arc, not a measurement.]
     check(f"seed {seed}: the arrangement is an audible arc", span >= 2.0,
           f"loudest to quietest {span:.2f} dB")
 
@@ -819,7 +819,7 @@ for key in sorted(k for k in man if k.startswith("song_")):
         bar = int(16 * ((60 / it["tempo"]) / 4) * sr)
         a = np.sqrt((x[:bar] ** 2).mean()); b = np.sqrt((x[bar:2 * bar] ** 2).mean())
         d = 20 * math.log10(b / max(a, 1e-12))
-        # [EAR: 0.8 dB is a claim about what counts as landing.]
+        # [CHOSEN: 0.8 dB is a claim about what counts as landing.]
         check(f"seed {seed}: the chorus lands harder than the fill that set it up", d > 0.8,
               f"{d:+.2f} dB")
 

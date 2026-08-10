@@ -8,7 +8,7 @@
 > `exportMidi()` at L7318 — exist in `Deckards Orchestrator MK2.html`.
 >
 > It is kept because the *research* is still good: the user is a hardware
-> musician judging by ear, offline, and the reasoning about what would earn a
+> musician judging by taste, offline, and the reasoning about what would earn a
 > "10×" for that person is sound. The **inventory** is worthless and the
 > **plan is aimed at a program that no longer exists.**
 >
@@ -27,7 +27,7 @@
 
 
 *Grounded in the actual file (`Improv Machine playable_BETA 0.1.html`) and in who the user
-is: a hardware musician (Organelle, BeatStep Pro, Kastle) judging by ear, offline, from a
+is: a hardware musician (Organelle, BeatStep Pro, Kastle) judging by taste, offline, from a
 USB stick. Single-file/offline is **not** a blocker for any Tier 0–2 item — Web MIDI is a
 native browser API, the MIDI + time-stretch libs are already inlined, and every
 visualization draws from data the engine already holds in memory.*

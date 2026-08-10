@@ -56,7 +56,7 @@ The unit of progress is a rendered WAV that sounds better than yesterday's. Not 
 passing test, not a percentage that moved toward a corpus number, not a printed note
 grid. Those are instruments; the render is the reading. **No change merges without a
 render, and no claim of improvement is ever made without an A/B pair of renders.**
-The first build claimed "fixed" without listening dozens of times, and every one of
+The first build claimed "fixed" without playing dozens of times, and every one of
 those claims cost a week of trust.
 
 ### LAW 2 — Sound before composition.
@@ -115,7 +115,7 @@ than non-overridden runs: draw first, then override the value.
 ### LAW 8 — Provenance on every constant.
 Every number in the code is one of: (a) a physics/theory fact, (b) a corpus
 measurement with the harvester and sample size named in the comment, or (c) an
-explicit taste decision marked `EAR:` with the A/B render pair that decided it. A bare
+explicit taste decision marked `CHOSEN:` with the A/B render pair that decided it. A bare
 magic number is a bug. The first build's comments were full of eloquent justifications
 for numbers that measurement later proved false — a comment is not provenance, a named
 measurement is.
@@ -154,7 +154,7 @@ Take these; they are good and paid for:
 Do **not** carry: the ghost, any correction pass, the letter-scheme drum grammar
 bolted to a different grid than the loop, the texture/motif objects with fields
 nothing reads, the dual schedulers, the `bestSeed` judge (rebuild it later with taste
-terms decided by ear), or any code you cannot explain the owner of.
+terms decided by taste), or any code you cannot explain the owner of.
 
 ---
 
@@ -181,7 +181,7 @@ test/
   unit/            theory, rng, corpus loaders.
   notes/           per-stage invariants (each stage's contract, checked at its seam).
   output/          render-and-measure: the port of test_output.* — runs on every merge.
-  ears/            A/B render pairs + a log of which won and why. Append-only.
+  a verdict on it/            A/B render pairs + a log of which won and why. Append-only.
 ```
 
 ### 3.2 The data model — one object, staged, frozen
@@ -287,8 +287,8 @@ reverb: ONE instance, created ONCE (in-flight guarded), fed by SENDS from role b
   renders a deliberate everything-at-once bar.
 - Per-genre spaces/levels live in ONE table read by the one scheduler (Law 10).
 
-### 4.3 The Day-One ear gate
-Hand-write `test/ears/reference_bar.js`: 2 bars of a groove you love, hardcoded.
+### 4.3 The Day-One verdict gate
+Hand-write `harness/reference_bar.js`: 2 bars of a groove you love, hardcoded.
 Render it. **Do not proceed to composition until you would nod along to it.** Keep it
 forever as the canary — every synth change re-renders it, and if it stops sounding
 good, the change is wrong no matter what the numbers say.
@@ -305,9 +305,9 @@ Three layers, in order of authority (highest last):
    no DC / crest 6–26 dB / dynamics ≥ 3 dB between windows / band balance within
    genre envelope / >0.5% energy above 2 kHz / same-seed → same samples. Plus stems:
    per-role RMS within the balance table ±3 dB. Plus the kit probe per lane.
-3. **Ear tests** — a human listens to an A/B pair for every taste decision, and the
-   result is LOGGED in `test/ears/LOG.md` (date, pair, verdict, one line why). Taste
-   decisions without a logged A/B do not merge. The user's ears are the judge of
+3. **Taste checks** — a human answers to an A/B pair for every taste decision, and the
+   result is LOGGED in the backlog (date, pair, verdict, one line why). Taste
+   decisions without a logged A/B do not merge. The user's a verdict on it are the judge of
    record; yours are the daily proxy.
 
 And the meta-rule the first build broke until the end: **when a report says "fixed,"
@@ -318,7 +318,7 @@ it links the A/B renders.** No renders, no "fixed" — the word is banned otherw
 ## 6. MILESTONES — each has an EXIT that is a render, not a feature list
 
 **M0 — The instrument.** Synth + kit + buses + one scheduler + output tests + the
-reference bar. EXIT: reference bar render passes the ear gate. *(No generative code
+reference bar. EXIT: reference bar render passes the owner gate. *(No generative code
 exists yet. Resist.)*
 
 **M1 — One loop, one genre.** Stage 3 only, for your chosen genre: pocket, bass,
@@ -341,20 +341,20 @@ A genre that needs new *code* (jungle's resequencer) is a new subsystem and wait
 for its own milestone — with the rule that a resequenced break is still a LOOP.
 
 **M5 — The toys.** Slicer, exports, chip modes, library — each behind the same gate:
-one code path, output-tested, ear-logged. The slicer lessons are all in the audit:
+one code path, output-tested, verdict-logged. The slicer lessons are all in the audit:
 windowed FFT, relative (tercile) classification, lane in the index, buffer-time vs
 wall-clock in `start()`, rebuild every derived table when slices change, refit on
 every new song.
 
 At every milestone: if the render does not beat the previous milestone's render in a
-blind listen, **stop adding and fix**, no matter how green the tests are.
+blind play, **stop adding and fix**, no matter how green the tests are.
 
 ---
 
 ## 7. WORKING RULES FOR THE CODER (human or LLM — these are for you)
 
 1. **Never claim without a render.** The first build's single most expensive habit.
-2. **Read the notes AND listen.** Grids catch structure bugs; only audio catches
+2. **Read the notes AND play.** Grids catch structure bugs; only audio catches
    sound bugs; you need both, every time.
 3. **One change per commit, with its measurement.** The commit message states what
    was measured before, what after, and links the render pair when taste is involved.
@@ -373,7 +373,7 @@ blind listen, **stop adding and fix**, no matter how green the tests are.
 8. **When they say something is wrong, it is wrong.** Every single complaint —
    the lowpass, the slicer, the busy bass, the destroyed citypop pattern, "too much
    going on," "the synth sounds wrong" — was verified real, usually months after
-   first reported. The ears found every bug first. Believe the report; find the
+   first reported. The a verdict on it found every bug first. Believe the report; find the
    mechanism.
 
 ---
@@ -411,7 +411,7 @@ at steps 4/12 vs ~46 elsewhere — that ratio IS ghosting); hits/bar median 20 S
 in a band it's ~14 (30% of 48); toms 6.7% of groove hits vs 27.5% of fill hits (one
 tom in a groove bar is normal, two is a fill); microtiming lean −0.05 sixteenth,
 spread ~0.21 (pooled across performances — within one groove it is far tighter;
-treat 0.21 as an upper bound, and decide the final feel BY EAR [the first build's
+treat 0.21 as an upper bound, and decide the final feel BY TASTE [the first build's
 open question]).
 
 **Structure (Harmonix):** the form grammar and section-length distributions in

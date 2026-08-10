@@ -132,7 +132,7 @@ where attention is lost.
 1. **Subtle**: instrumentation, dynamics, or rhythm alters while the material stays.
 2. **Partial variation** — *the most useful one for a generator*: "start the concept
    the same way for the third repetition, but then take it in a different direction
-   halfway through." Same opening, different ending. The listener is rewarded for
+   halfway through." Same opening, different ending. The person playing it is rewarded for
    recognising it *and* surprised.
 3. **Full variation**: "introduce a new melody while retaining the same chords, or
    explore a different progression alongside a fresh melody."

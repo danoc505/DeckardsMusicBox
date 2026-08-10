@@ -18,14 +18,14 @@ document — it says so itself, in its own first paragraph. It is the reason to 
 | # | The claim | Verdict | What the evidence supports | Mark |
 |---|---|---|---|---|
 | 1 | PWM 40–60% | **contradicted** | On a CS-80 a percentage means **duty cycle**, and PW spans **50–90%**. 40–49% does not exist, in hardware or in Arturia. And duty cycle *d* and *100−d* are the same timbre, so a band symmetric about 50% contains every sound twice. | `[GUESS]` |
-| 2 | Filter cutoff 35–60% | **no evidence** | No source gives the CS-80's filters any Hz range or percentage scale. The sliders are marked LOW→HIGH only — and they **run in opposite senses** (HPF: LOW = open; LPF: LOW = closed), so one number cannot address both. | `[EAR]` |
-| 3 | Resonance 5–20% | unsupported, plausible | No calibrated resonance scale exists anywhere. Direction is defensible: the filters **cannot self-oscillate at any setting**. | `[EAR]` |
-| 4 | Attack 0–150 ms | **contradicted (floor)** | Yamaha specifies **1 ms minimum**, 1 s max, for both envelopes. 0 ms is unreachable — a voice that allows it makes a click the instrument cannot. | `1 ms–1 s` `[corpus]`; window `[EAR]` |
-| 5 | Release 2–8 s | unsupported, plausible | Inside the documented **10 ms – 10 s**. But the CS-80's tail is four release sliders **plus** a separate global SUSTAIN (~10 s die-away) **plus** reverb; one scalar attributes all of it to one stage. | `[EAR]` |
-| 6 | Detune 2–8 cents | unsupported, plausible | Sources conflict on the throw: Yamaha "approximately ±1 semi-tone", cs80.com "about half a semitone". No Blade Runner detune is published anywhere. | `[EAR]` |
-| 7 | Aftertouch → brilliance +20–60% | unsupported, plausible | The **sign is documented** — AFTER-BRILLIANCE is unipolar, it can only add. The magnitude is not: the lever is calibrated 0–10 and nothing converts that to Hz or percent. There are **two** of these, one per channel. | `[EAR]` |
+| 2 | Filter cutoff 35–60% | **no evidence** | No source gives the CS-80's filters any Hz range or percentage scale. The sliders are marked LOW→HIGH only — and they **run in opposite senses** (HPF: LOW = open; LPF: LOW = closed), so one number cannot address both. | `[CHOSEN]` |
+| 3 | Resonance 5–20% | unsupported, plausible | No calibrated resonance scale exists anywhere. Direction is defensible: the filters **cannot self-oscillate at any setting**. | `[CHOSEN]` |
+| 4 | Attack 0–150 ms | **contradicted (floor)** | Yamaha specifies **1 ms minimum**, 1 s max, for both envelopes. 0 ms is unreachable — a voice that allows it makes a click the instrument cannot. | `1 ms–1 s` `[corpus]`; window `[CHOSEN]` |
+| 5 | Release 2–8 s | unsupported, plausible | Inside the documented **10 ms – 10 s**. But the CS-80's tail is four release sliders **plus** a separate global SUSTAIN (~10 s die-away) **plus** reverb; one scalar attributes all of it to one stage. | `[CHOSEN]` |
+| 6 | Detune 2–8 cents | unsupported, plausible | Sources conflict on the throw: Yamaha "approximately ±1 semi-tone", cs80.com "about half a semitone". No Blade Runner detune is published anywhere. | `[CHOSEN]` |
+| 7 | Aftertouch → brilliance +20–60% | unsupported, plausible | The **sign is documented** — AFTER-BRILLIANCE is unipolar, it can only add. The magnitude is not: the lever is calibrated 0–10 and nothing converts that to Hz or percent. There are **two** of these, one per channel. | `[CHOSEN]` |
 | 8 | Ribbon ±1 octave | **contradicted** | Strongly **asymmetric and relative**. Up: ~+1 octave, and only at full travel. Down: "much greater", unbounded toward 0 Hz. Arturia says they modelled the asymmetry deliberately because it is unique to this instrument. A ±1-octave clamp destroys the famous swoop. | `[GUESS]` |
-| 9 | Vibrato only after onset | **contradicted as an instrument fact** | A pressure-gated vibrato path is real, so vibrato reached *that* way must follow key-bottom. But the panel Sub-Oscillator VCO lever gives vibrato from the first cycle. **There is no vibrato delay control on the CS-80.** Also: pressure raises vibrato **speed**, not only depth. | rule `[EAR]`, mechanism `[theory]` |
+| 9 | Vibrato only after onset | **contradicted as an instrument fact** | A pressure-gated vibrato path is real, so vibrato reached *that* way must follow key-bottom. But the panel Sub-Oscillator VCO lever gives vibrato from the first cycle. **There is no vibrato delay control on the CS-80.** Also: pressure raises vibrato **speed**, not only depth. | rule `[CHOSEN]`, mechanism `[theory]` |
 
 And the document's own premises:
 
@@ -33,8 +33,8 @@ And the document's own premises:
 |---|---|---|
 | A | No archive of verified original patch sheets exists | **confirmed**, as a negative result — every Blade Runner source fetched states zero numeric synthesis parameters |
 | B | BRASS III was the starting preset | preset exists `[corpus]`; the attribution to this score is stated by nothing `[GUESS]` |
-| C | Footage 16' + 8' | legal, but the CS-80 has **six** footages and Yamaha's own brass demo pairs 16' with 5⅓' `[EAR]` |
-| D | Static patch is ~40%, performance ~60% | mechanisms all real; the ratio is a listening judgement `[EAR]` |
+| C | Footage 16' + 8' | legal, but the CS-80 has **six** footages and Yamaha's own brass demo pairs 16' with 5⅓' `[CHOSEN]` |
+| D | Static patch is ~40%, performance ~60% | mechanisms all real; the ratio is a playing judgement `[CHOSEN]` |
 | E | Schilling's *Blade Runner Blues* patch | **exists** — but it is distributed as a preset file and publishes **no values** |
 | F | Arturia "Vangelis Tribute" bank | **unverified** — nothing was fetched about it. Do not cite. |
 
@@ -76,7 +76,7 @@ Each verified by reading the code, not inferred:
   proposed range sound identical.
 - **There is no `cs80.detune` control.** Layer II is hardcoded at ratio `1.0042` =
   **7.26 cents** — already near the top of the proposed 2–8 band, which is mild
-  independent corroboration that an earlier ear landed in the same place. The only key
+  independent corroboration that an earlier verdict landed in the same place. The only key
   named `detune` in this genre is `drone.detune: 0.62`, a 0..1 control on a *different
   voice*; writing "2–8" there would wreck the drone.
 - **IL/AL is already modelled** (`il`/`al` per layer), which is the thing that makes a
@@ -186,7 +186,7 @@ turns out not to matter, because the parts that decide the sound are in absolute
 | Filter env | A 650 ms, D 10 s, S 0%, R 10 s | Not applied — see below. |
 
 **What does not travel:** cutoff 75%, resonance 15%, LFO amount 80%, osc volumes 60/40.
-Percentages of Syntorial's synth. Only the 3:2 balance ratio was kept, `[EAR]`.
+Percentages of Syntorial's synth. Only the 3:2 balance ratio was kept, `[CHOSEN]`.
 
 **It refutes two more of the original document's claims:**
 
@@ -220,9 +220,9 @@ prose says so plainly: the CS-80 is *"otherwise dry-sounding"*, and the huge tai
 So the long tail belongs to the **room**, which this program already has, and lengthening
 the voice would have been building the wrong thing. What is worth revisiting instead is
 `space.wet`: this genre sets **0.55**, the recipe says **10% wet**, and the earlier
-research doc had already flagged 0.55 as "pure [EAR] … could easily be far too hot".
+research doc had already flagged 0.55 as "pure [CHOSEN] … could easily be far too hot".
 Three-and-a-half times too hot, if the recipe is any guide. **Not changed** — it is a
-percentage of an unknown reverb and an ears question, so it is recorded, not acted on.
+percentage of an unknown reverb and an a verdict on it question, so it is recorded, not acted on.
 
 ### Applied, and measured
 

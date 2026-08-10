@@ -54,7 +54,7 @@ const check = (name, ok, detail) => {
 /* ═══════════════════════════════════════════════════════════════════════════
    THE STAMP MUST MOVE WHEN THE PROGRAM MOVES.
 
-   The artifact the user listens to was found to be exactly commit 0f3a0a9 while
+   The artifact the user answers to was found to be exactly commit 0f3a0a9 while
    the repo was six commits on -- three of them program changes nobody had heard,
    because they were never in the file being played. What hid it was that BOTH
    FILES CARRIED THE STAMP `build 2026-07-29r`. The stamp exists to tell a stale
@@ -545,7 +545,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
    one integer, not a fact about music. The owner: "A song can be any length if
    weve coded it to be so ridged its fixed to one length weve done something
    very wrong!"
-   So the floor is held DOWN, by name. Two minutes is not sourced [EAR]; what is
+   So the floor is held DOWN, by name. Two minutes is not sourced [CHOSEN]; what is
    not taste is that a genre whose floor climbs back toward its natural length
    has had a constant baked into it again, and this fails the moment that
    happens. Measured before section length became a constraint, these floors
@@ -1073,7 +1073,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
           bad.length === 0,
           bad.length ? bad.slice(0, 8).join(", ") : seenMat.size + " distinct materials across " + genres.length + " genres, all resolved");
   }
-  /* ── EVERY ELEMENT A GENRE IS MADE OF HAS A NAME A LISTENER COULD READ ─────
+  /* ── EVERY ELEMENT A GENRE IS MADE OF HAS A NAME A PLAYERS COULD READ ─────
      The owner asked what elements a genre is using so they can mix and match
      them, which means the elements have to reach the glass — and the last time
      a derived list reached a front panel it put `erangDrum` and `psgOpenhat` on
@@ -1251,7 +1251,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      found by hand in this codebase: `cs80`, `subbass`, `chipbass` and
      `chipkeys` all DECLARE controls that no voice ever reads, so their sliders
      move and nothing happens. A panel knob that does nothing is a lie the user
-     cannot detect by listening. Automating one would be the same lie with a
+     cannot detect by asking for it. Automating one would be the same lie with a
      composer behind it. So: scan the shipped source for the knob reads the
      voices actually perform, and require every automated control to be in that
      set. The four that WERE dead -- subbass.cut, subbass.drive, chipbass.bright
@@ -1447,7 +1447,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      reach the sound somehow -- per note through P(), or per song through
      setSpace. Four of them did not for as long as the rack existed: they were
      drawn, they moved, and nothing happened. That is worse than a missing
-     feature because a listener cannot detect it by listening. */
+     feature because the person playing it cannot detect it by asking for it. */
   {
     const unread = [];
     for(const m in M.INSTRUMENTS)
@@ -2420,8 +2420,8 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      FIRST note of a phrase. A player tonguing every note that hard does not
      exist, and it is audible long before the timbre is.
 
-     Listeners confuse legato with portato about 25% of the time and staccato
-     with either <1% of the time [corpus:PMC4097958], which says the ear reads a
+     People confuse legato with portato about 25% of the time and staccato
+     with either <1% of the time [corpus:PMC4097958], which says the owner reads a
      wind instrument through its GAPS. So this is not a cosmetic check: the slur
      share is the property that makes the lane sound like it is being played.
 
@@ -2653,8 +2653,8 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   }
 }
 {
-  /* ══ THE PART THAT LISTENS ══════════════════════════════════════════════════
-     `kit.listen` is the only thing in this builder that READS the pattern and
+  /* ══ THE PART THAT ANSWERS ══════════════════════════════════════════════════
+     `kit.answer` is the only thing in this builder that READS the pattern and
      answers it. Four things have to be true or it is decoration, and the fourth
      is the one that matters.
 
@@ -2714,14 +2714,14 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         if(n.lane === "ghost") madeNotes++;
     heardEv += song.perf.events.filter(e => e.lane === "ghost").length;
   }
-  check("the listener fires, and what it writes is played",
+  check("the person playing it fires, and what it writes is played",
         madeNotes > 0 && heardEv > 0,
-        `${madeNotes} listener notes composed over 20 seeds, ${heardEv} reach the performance`);
+        `${madeNotes} player notes composed over 20 seeds, ${heardEv} reach the performance`);
 
   /* 2. IT IS NOT A SHUFFLE. This is the null hypothesis and it is the whole
         point: "deterministic rules watching the pattern" and "random notes" are
-        trivially confusable by ear, so the claim is only worth making if it can
-        be separated from a dice roll. Measured, the listener's own lane sits at
+        trivially confusable by taste, so the claim is only worth making if it can
+        be separated from a dice roll. Measured, the player's own lane sits at
         ~0.56 against a shuffle at 1.00 and a loop at 0.00. Bounds are loose --
         what this catches is degeneration to either end, which is what a broken
         or bypassed mechanism actually looks like. */
@@ -2739,15 +2739,15 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   const score = nn ? nov / nn : -1;
   check("...and what it writes is neither a loop nor a shuffle",
         nn > 0 && score > 0.15 && score < 0.90,
-        `listener lane scores ${score.toFixed(3)}  (0.00 = its own first bar looped, 1.00 = a random ` +
+        `player lane scores ${score.toFixed(3)}  (0.00 = its own first bar looped, 1.00 = a random ` +
         `sprinkle at the same density; ${nn} samples)`);
 
-  /* 3. IT CANNOT RUN AWAY. A listener firing on every Nth hit of its watch set
+  /* 3. IT CANNOT RUN AWAY. The person playing it firing on every Nth hit of its watch set
         has density at most density(watch)/N, so a chain of them is strictly
         contracting. That is arithmetic rather than tuning, and this is the
         assertion of it: the second generation must not be denser than the
         first, over every seed. */
-  /* THE BOUND, AS STATED AND NOT AS HOPED. A listener firing on every Nth time
+  /* THE BOUND, AS STATED AND NOT AS HOPED. The person playing it firing on every Nth time
      it hears something writes at most |watch set| / N notes. That is the only
      runaway guarantee the mechanism has, and it is the one worth asserting:
      the tidier "each generation is smaller than the last" was written into the
@@ -2756,7 +2756,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      comment now says so. The union over-counts, because `alone`/`both` modes
      and the notOn guard both narrow it further -- so a violation here is a real
      arithmetic failure and not a boundary case. */
-  const RULES = (T.GENRE.plastikman.kit.listen) || [];
+  const RULES = (T.GENRE.plastikman.kit.answer) || [];
   let over = 0, mats = 0, worst = "";
   for(let s = 1; s <= 20; s++){
     const song = M.composeSong(s, "band", "plastikman");
@@ -2775,11 +2775,11 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       });
     }
   }
-  check("...and no listener writes more than its own arithmetic allows", over === 0,
-        over ? worst : `${mats} materials x ${RULES.length} listeners, every one inside ` +
+  check("...and no player writes more than its own arithmetic allows", over === 0,
+        over ? worst : `${mats} materials x ${RULES.length} people playing it, every one inside ` +
                        `|watch| / every`);
 
-  /* 4. A GENRE THAT DECLARES NO LISTENERS IS UNTOUCHED. The pass makes no random
+  /* 4. A GENRE THAT DECLARES NO PLAYERS IS UNTOUCHED. The pass makes no random
         draws at all -- not "the draws run unconditionally", none -- so this is
         true by inspection. It is checked anyway, because that is the claim the
         snapshot rests on. */
@@ -2789,12 +2789,12 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     const song = M.composeSong(s, "band", g);
     for(const m of ["A", "Avar", "B", "C"]){
       const notes = ((song.materials[m] || {}).drums) || [];
-      /* nothing in these genres declares `listen`, so any note on a lane no
+      /* nothing in these genres declares `play`, so any note on a lane no
          table of theirs writes would be the pass leaking */
       if(notes.some(n => n.lane === "ghost" && (T.GENRE[g].kit || {}).ghostChance === 0)) moved++;
     }
   }
-  check("a genre that declares no listener gets none", moved === 0,
+  check("a genre that declares no player gets none", moved === 0,
         `${bare.length} genres x 6 seeds, ${moved} leaked notes`);
 
   /* 5. THE ONE SURVIVES IT. Longuet-Higgins & Lee: a note followed by a rest of
@@ -2805,8 +2805,8 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         MEASURED ON THE UNION, WHICH IS THE ONLY HONEST PLACE FOR IT HERE. Per
         lane the index is misleading on anything sparse: a lone note at step 3
         of an empty bar scores 15, the maximum, because every strong beat after
-        it is a rest. The listener's own lane reads 13.1 for exactly that
-        reason and it means nothing. What a listener actually hears is the kit,
+        it is a rest. The person playing it's own lane reads 13.1 for exactly that
+        reason and it means nothing. What the person playing it actually hears is the kit,
         and the kit has a four-on-the-floor kick on every strong beat.
 
         A syncopation ceiling was built into the mechanism on the strength of
@@ -2841,7 +2841,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
          the bars that keep time and wrong for the one bar whose job is to take
          it away: "the most basic form of this is DROPPING THE KICK DRUM OUT on
          the last measure of an eight-bar phrase, which destabilises the low end
-         and creates a vacuum that the listener will anticipate coming back"
+         and creates a vacuum that the person playing it will anticipate coming back"
          [Red Means Recording], and "bar 31: mute the kick" [myloops.net].
          `materials.drumPhrase` is what lets this be exempted by NAME rather
          than by loosening the threshold for everyone. */
@@ -2856,13 +2856,13 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       }
     }
   }
-  /* 6. THE SAME RULES MUST NOT WRITE THE SAME FIGURE EVERY SONG. A listener is
+  /* 6. THE SAME RULES MUST NOT WRITE THE SAME FIGURE EVERY SONG. The person playing it is
         a deterministic function of what it watches, so if everything it watches
         is seed-fixed it is seed-fixed too -- perfectly reproducible AND
         perfectly identical, which derives novelty against a loop but not
         against the next record.
         MEASURED before `poly.phase` existed: over 60 seeds, material A had FOUR
-        distinct listener outputs and material C had ONE. Giving each sequencer
+        distinct player outputs and material C had ONE. Giving each sequencer
         a per-song starting phase took those to 43 and 11. This is the assertion
         that the mechanism generates a RECORD rather than a fixture. */
   const forms = mat => {
@@ -2877,14 +2877,14 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   const fA = forms("A"), fB = forms("B");
   check("...and it does not write the same figure into every song",
         fA >= 10 && fB >= 5,
-        `${fA} distinct listener figures in material A over 40 seeds, ${fB} in B ` +
+        `${fA} distinct player figures in material A over 40 seeds, ${fB} in B ` +
         `(4 and 3 before the sequencers got a per-song phase)`);
 
   /* ── THE DRUMS ARE PHRASED, NOT FOUR COPIES OF ONE BAR ────────────────────
      Reported as "the drums on all genres are stale and bad", and the cause was
      structural: the builder wrote four bars, each the pocket plus a couple of
      independent per-bar coins, so bar two had no RELATIONSHIP to bar one. A
-     listener hears repetition and variation; independent randomness is neither.
+     player hears repetition and variation; independent randomness is neither.
 
      What the shape claims, and therefore what is measured:
        an A bar and a B bar DIFFER, and by roughly one hit -- "one small change"
@@ -2943,7 +2943,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
        The first version asserted that a repetition genre's bars are IDENTICAL,
        and it failed at 418 hits moved -- because those genres' bars were never
        identical. Their kits have always had per-bar draws (a ghost coin, a
-       listener watching two sequencers) that predate any of this. Measuring
+       player watching two sequencers) that predate any of this. Measuring
        distance there proves nothing about whether the PHRASE touched them. The
        claim that can be checked is the one actually being made: their phrase is
        four A bars, so the mechanism is not applied at all. */
@@ -2967,7 +2967,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   }
 
   /* 7. THE ROLL. Booth's sentence has three nouns -- it counts, it counts A
-        ROLL, and it does THIS -- and the listener had one and a half of them:
+        ROLL, and it does THIS -- and the person playing it had one and a half of them:
         it could only count single hits and could only answer with one note.
         `roll` gives it the answer and `figure:"run"` gives it the count.
 
@@ -3087,7 +3087,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      The LAW while parked: the horn stays pickable by hand everywhere (the
      rack), and NO genre draws it from the conductor. The handoff's parked
      entry names the terms for un-parking; restoring any draw weight before
-     the ear passes the sound is a violation of this check. */
+     the owner passes the sound is a violation of this check. */
   const drawn = Object.keys(T.GENRE).filter(g =>
     (((T.GENRE[g].machines || {}).lead) || []).some(p => p[0] === "sax"));
   check("the horn is pickable by hand, drawn nowhere while parked",
@@ -3471,7 +3471,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
    [docs/genre-research/spring-reverb.md §4] Three facts the declarations must
    hold, each a quiet way the unit could rot:
      · its crossings are voicing+live — the HAND's, never automated in vain —
-       and stay that way until a genre earns one by listening;
+       and stay that way until a genre earns one by asking for it;
      · the DAG still holds: every backward path into the tank is a blind
        plate with a reason, or the renderer loses its repeatability;
      · the dub wiring is OPEN: echo→spring and room→spring are real cells,

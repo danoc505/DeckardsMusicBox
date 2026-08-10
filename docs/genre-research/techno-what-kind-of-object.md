@@ -49,7 +49,7 @@ architecture is what is wrong, not the numbers in the table.**
 ### It is a TOOL, not a piece — and that decides the structure
 
 > "A techno track is functional music designed to be played inside a two-hour DJ
-> set, so the structure has to serve the blend, not just the home listen."
+> set, so the structure has to serve the blend, not just the home play."
 > [tracksensei]
 
 > "Its main purpose is to be mixed with other tracks, to enter, coexist, and exit
@@ -171,7 +171,7 @@ This is the part the first sheet missed.
 
 | stage | what it assumes | what techno says |
 |---|---|---|
-| **1 chart** | every record has a KEY, a MODE and a four-chord progression, plus bridge chords | there is no progression. One pedal tone, or no tonal centre a listener could name. Every part downstream reads a chord bed that should not exist |
+| **1 chart** | every record has a KEY, a MODE and a four-chord progression, plus bridge chords | there is no progression. One pedal tone, or no tonal centre the person playing it could name. Every part downstream reads a chord bed that should not exist |
 | **2 form** | a song is a grammar over verse / chorus / bridge / pre-chorus, with a PAYOFF the record returns to and a RULE OF THREE forcing variation on the third hearing | there are 16- and 32-bar blocks, and at each boundary one element enters or leaves. There is no payoff and no third-time change — Hood says *stick to it* |
 | **3 materials** | the music is notes, written for roles — bass, keys, keys2, lead, counter, ostinato — voiced over the chords | there are no melodic roles. Percussion, and at most one sample or stab used as texture. The pitch material comes out of the drum machine |
 | **4 arrangement** | which ROLES play in this section | which FREQUENCY BANDS and which percussion layers are present in this block |
@@ -194,7 +194,7 @@ This is the good news and it is why this is worth doing.
 |---|---|
 | pitch coming out of a drum voice | **`chTune` reads a per-event machine parameter through the p-lock system** (`<group>Tune`). A drum lane's tuning can already be sequenced step by step — `parameter-locks.md` records jungle locking the pitch of break slices. **This is "the melody comes from a drum", already buildable** |
 | polymetric percussion, "rhythms inside of rhythms" | `kit.poly` — plastikman already runs a 7-step rim and a 5-step clap against a 16-step bar |
-| a lane that answers another lane | `kit.listen` |
+| a lane that answers another lane | `kit.answer` |
 | a sample used as texture | the break machine / `chop`, currently jungle's |
 | frequency bands cut and restored as the arrangement | the matrix mixer, the sends, the filters and the whole motion system |
 | slow unsynced tonal drift | the motion system; p-locks |

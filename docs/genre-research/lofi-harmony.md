@@ -37,7 +37,7 @@ Two things follow, and both matter more than any single number below.
    `docs/BACKLOG.md` as its own item, and it outranks anything a tutorial can
    tell us.
 
-So: build from §2–§5, mark it `[EAR]` where the amount is mine, and treat the
+So: build from §2–§5, mark it `[CHOSEN]` where the amount is mine, and treat the
 whole sheet as provisional against the treebank.
 
 ---
@@ -257,7 +257,7 @@ Named so nobody re-searches for them and so nothing gets invented in the gap:
 
 - **No source gives a distribution.** Nothing says "42% of lofi chords are
   minor 7ths". Every quality list above is a menu, not a weighting. The
-  weights we choose are `[EAR]` until the treebank (§0) is wired.
+  weights we choose are `[CHOSEN]` until the treebank (§0) is wired.
 - **Native Instruments' guide gives almost nothing** despite being the most
   professional-looking source: no modes, no borrowed chords, no tritone
   substitution, no voicing, no register, no loop length. Recorded here because
@@ -326,7 +326,7 @@ raised the ceiling; it did not open the key.
 **The one place the build deliberately departs from a source, stated plainly:**
 19.8% of chords are plain triads (`m` + `triad`), against a source list in which
 NOT ONE of thirteen progressions is a triad. That is the `extensions` weight of
-2 on size 3, and it is `[EAR]` — my judgement that a record made entirely of
+2 on size 3, and it is `[CHOSEN]` — my judgement that a record made entirely of
 colour has no plain statement to lean against.
 
 **It is defensible for a reason worth keeping, and it is a methodological

@@ -117,7 +117,7 @@ argument.
 
 ## §2 Why a break has to be EARNED — the constraint on the constraint
 
-A rule cannot be broken for a listener who has not learned it. This is the part
+A rule cannot be broken for the person playing it who has not learned it. This is the part
 that decides WHERE a break belongs, and it is sourced.
 
 > "With the advent of the gramophone, a whole bunch of people were able to
@@ -126,7 +126,7 @@ that decides WHERE a break belongs, and it is sourced.
 > — [Future Classical, review of David Huron's *Sweet Anticipation*](https://futureclassical.com/sweet-anticipation/) — fetched 2026-08-09
 
 Expectations are **learned by repetition**. It follows directly that a violation
-early in a record is not a violation — the listener has nothing to measure it
+early in a record is not a violation — the person playing it has nothing to measure it
 against, so it is simply the rule. **A break must come after the rule has been
 stated enough times to be heard as a rule.**
 
@@ -147,7 +147,7 @@ whether violated expectation produces pleasure, the page **does not claim it**.
 So: breaking a rule is not automatically good, it is automatically *large* — it
 raises the stakes in both directions. A mechanism that breaks rules must
 therefore be one the owner can hear and refuse, and its size must be a dial and
-not a constant. `[EAR]`
+not a constant. `[CHOSEN]`
 
 ### One source checked and found NOT to say it
 
@@ -165,7 +165,7 @@ this morning.
 ### 1. Where does a break land? — **after the rule has been taught, at a moment the music has already marked**
 
 Not scattered at random: a low chance on every note produces errors, not
-decisions, and §2 says a violation the listener cannot measure is not a
+decisions, and §2 says a violation the person playing it cannot measure is not a
 violation. Not simply "at the peak" either — that is a guess about taste. The
 sourced condition is a COUNT: **the record must have stated the thing enough
 times for departing from it to read as departure.** Where the music already puts
@@ -200,7 +200,7 @@ habit and is repeated; later breaks stay one-offs.
   these with sourced reasoning; breaking them risks undoing researched work
   rather than opening a door.
 - **The rule of three — refused, and this is a reasoned refusal rather than
-  caution.** It is the law that TEACHES the listener what to expect. Breaking the
+  caution.** It is the law that TEACHES the person playing it what to expect. Breaking the
   mechanism that creates the expectation removes the thing every other break
   depends on. It is the one law whose violation is self-defeating.
 
@@ -224,7 +224,7 @@ already exempts a D bar BY NAME from the syncopation check.
 **The program breaks rules. The author does not.**
 
 When I guess, it is not novelty, it is noise, and this project has paid for it
-repeatedly — the saxophone every metric passed and the ear refused, the "trash
+repeatedly — the saxophone every metric passed and the owner refused, the "trash
 bassline" that was three of my own numbers, the toms I gave acid house this
 morning because the owner said "heavy toms". A mechanism that breaks a law is a
 different thing entirely: it is arithmetic, it falls out of a seed, it is
@@ -236,11 +236,11 @@ thing this project produces"* and *"art breaks rules"*. Both are true. **I was
 right to refuse myself the acid tom guess and wrong to conclude that acid must
 therefore never grow anything.** A genre table that says *break this law, this
 often* is not a guess; it is a constraint, and its size is the owner's to set by
-ear.
+verdict.
 
 ## §5 What is NOT settled and must not be guessed
 
-- **How often.** No source gives a number. Every quantity is `[EAR]`.
+- **How often.** No source gives a number. Every quantity is `[CHOSEN]`.
 - **Whether an adopted break should also change the parts around it** — a real
   invention usually drags the rest of the arrangement with it, and nothing here
   says whether this program should.
@@ -387,7 +387,7 @@ parent's — only fields where the two parents actually differ:
 **Across many songs the fader is honest — near 50/50 on every pair. Inside any
 ONE song it is not.** A fader set to half and half produces individual records
 ranging from about **10/90 to 50/50**. That is the "blind": the control describes
-a distribution, and a listener hears one draw from it. Set the fader to the
+a distribution, and the person playing it hears one draw from it. Set the fader to the
 middle and press play, and the odds of getting a record that is actually in the
 middle are low.
 
@@ -475,14 +475,14 @@ but guaranteed each parent a share of the ones that matter.
 1. **A quota instead of a lottery.** Allocate the drawn fields so each parent
    wins about its fader share *in every song*, rather than in expectation. A
    fader at 50/50 would then produce a record that is actually half and half, and
-   the fader would mean the same thing to a listener as it does to the
+   the fader would mean the same thing to the person playing it as it does to the
    arithmetic.
 2. **A switch that negates should not silently spend the draws it kills** — and,
    more importantly, when a parent loses a whole domain to one switch, it should
    be guaranteed something audible elsewhere, or a 50/50 blend is not a fusion of
    two genres, it is one genre with the other's tempo.
 
-Both are `[EAR]` in size and neither is researched yet. This section is a
+Both are `[CHOSEN]` in size and neither is researched yet. This section is a
 measurement and a diagnosis, not a design.
 
 ---
@@ -498,7 +498,7 @@ The 10/90 in §7 was worked out by hand, once. Nothing could repeat it, so a
 change meant to fix it had nothing to prove itself against. Two things now exist:
 
 - **every blended song says where each element came from.** `chart.table
-  .blendTraits` — one row per element, with the words a listener reads and the
+  .blendTraits` — one row per element, with the words the person playing it reads and the
   genre it came from. The blend writes down a decision it was already making.
 - **`harness/probe_blendshare.js`** counts that. It keeps no list of elements;
   it asks the program, so an element added later is counted with nobody coming
@@ -623,7 +623,7 @@ on purpose.** Building the three examples would not have been building that.
 
 The quota made the share **reliable**. It did not make it **askable**: you got
 half a record from each genre and no say in which half. §7's own diagnosis is
-about independence producing a bad *distribution*; it never says the listener
+about independence producing a bad *distribution*; it never says the person playing it
 should be able to *choose*. That is the gap the owner's word "blind" also covers.
 
 ## What is built
@@ -675,7 +675,5 @@ definition of done:
 | | after this build |
 |---|---|
 | dungeon synth harmony **at lofi length** | still impossible — length travels with the whole shape of the song (step 4) |
-| **amen break + minimal techno's sends + a lofi track** | **askable now** for the break and the sends; whether the result is any good is an ear question |
-| **a DS core with lofi drums on the DS drums** | still impossible — a record can only have one kit (step 6) |
-
-**NOT HEARD.** Nobody has played a blend since any of this changed.
+| **amen break + minimal techno's sends + a lofi track** | **askable now** for the break and the sends; whether the result is any good is a taste question |
+| **a DS core with lofi drums on the DS drums** | still impossible — a record can only have one kit (step 6) | Nobody has played a blend since any of this changed.

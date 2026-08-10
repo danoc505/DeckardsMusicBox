@@ -99,7 +99,7 @@ independently.
 A comping left hand genuinely is played softer than a melody, and the sources
 agree the bark is what forte does. What is wrong is that the ceiling is
 *accidental* — 5 velocity points below a threshold nobody was thinking about
-when they set `bark: 0.42`. Whether lofi's comp should bark at all is an ears
+when they set `bark: 0.42`. Whether lofi's comp should bark at all is an a verdict on it
 question. **That the tune should is not**, and the tune is not playing a Rhodes
 at all, which is §5.
 
@@ -141,7 +141,7 @@ And what it should be run through:
 > that gives the melody a vintage vibe." [corpus:mysticalankar Lead Instruments]
 
 This program already has that tremolo — on the Wurlitzer, built and calibrated
-after an ear report that it pulsed too hard.
+after a verdict report that it pulsed too hard.
 
 ---
 

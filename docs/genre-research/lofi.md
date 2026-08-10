@@ -6,7 +6,7 @@
 
 TWO things, and MK2 currently gets one of them half-right and the other wrong.
 
-(1) THE VEIL, not the notes. A jazz-extended keyboard loop — maj7 / m7 / m9, Rhodes or detuned upright piano — heard through an audible loss of fidelity: a continuous noise floor (vinyl crackle AND broadband tape hiss), high end gone, and slow pitch drift on the WHOLE program. Strip the veil and the identical notes are neo-soul or jazz. The genre is literally named for its fidelity: the Roland SP-303/SP-404 shipped "Lo-Fi" and "Vinyl Sim" as buttons, and the 303's 11.025 kHz sampling mode puts a hard Nyquist wall at 5.5 kHz (musictech.com SP-303 feature). A listener names this genre in the four bars BEFORE the drums enter — which is why nearly every track opens with chords + crackle and nothing else.
+(1) THE VEIL, not the notes. A jazz-extended keyboard loop — maj7 / m7 / m9, Rhodes or detuned upright piano — heard through an audible loss of fidelity: a continuous noise floor (vinyl crackle AND broadband tape hiss), high end gone, and slow pitch drift on the WHOLE program. Strip the veil and the identical notes are neo-soul or jazz. The genre is literally named for its fidelity: the Roland SP-303/SP-404 shipped "Lo-Fi" and "Vinyl Sim" as buttons, and the 303's 11.025 kHz sampling mode puts a hard Nyquist wall at 5.5 kHz (musictech.com SP-303 feature). The person playing it names this genre in the four bars BEFORE the drums enter — which is why nearly every track opens with chords + crackle and nothing else.
 
 (2) A soft, un-quantised boom-bap kit at 70-95 bpm whose hits DO NOT LINE UP with the loop. Muffled kick, backbeat on 2 and 4 that is often a rim click rather than a full snare, hats shuffling against everything. The friction between a stable layer and a displaced layer is the point (Peterson: kicks anticipating metric locations by a 32nd note; "10 of 13 kick notes fell outside typical metric locations" in "Keep It On"), and the deviations REPEAT IDENTICALLY every bar — the repetition is what magnifies it (Charnas, via MusicRadar).
 
@@ -20,11 +20,11 @@ If forced to ONE: the veil. Perfect Dilla drums under a clean 24-bit Rhodes is n
    Provenance key:
      [corpus:X]  measured / documented in source X
      [corpus:X?] taken from an ALGORITHMIC estimator (Spotify audio-analysis,
-                 Chordify). Directionally useful, NOT hand-measured. Verify by ear.
+                 Chordify). Directionally useful, NOT hand-measured. Verify by taste.
      [theory]    music-theory fact
-     [EAR]       taste, awaiting a listen
+     [CHOSEN]       taste, awaiting the owner’s verdict
      [GUESS]     I could not find a measurement. Named as a guess on purpose.
-   Every weight in every wpick table below is [EAR] or [GUESS] unless it says
+   Every weight in every wpick table below is [CHOSEN] or [GUESS] unless it says
    otherwise — nobody publishes weighted distributions for this music.
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -38,7 +38,7 @@ lofi: {
        "jazzhop"  — Nujabes / Dilla / Madlib ancestry, boom-bap tempo
          Nujabes "Feather" 91 · "Luv(sic)" 94 · "Aruarian Dance" 100
            [corpus:songbpm?/chordify?]
-         Nujabes "After Hanabi -Listen To My Beats-" 83 [corpus:songbpm?]
+         Nujabes "After Hanabi -Judge To My Beats-" 83 [corpus:songbpm?]
          Metaphorical Music album floor 89 bpm [corpus:getsongbpm?]
          J Dilla "Time: The Donut of the Heart" 93 [corpus:songbpm?]
          Donuts opens ~96, closes ~95 [corpus:musicstax?]
@@ -59,7 +59,7 @@ lofi: {
   tempoBands: [                                       // draw the BAND, then uniform inside it
     [[76, 88], 6],   // "study": the modal lofi tempo [corpus:masterclass/bpmcalc 70-90]
     [[88, 98], 3],   // "jazzhop": where Nujabes/Dilla actually sit [corpus:songbpm?]
-    [[70, 76], 1],   // the slow/hazy tail [EAR — Idealism/Eevee territory, unmeasured]
+    [[70, 76], 1],   // the slow/hazy tail [CHOSEN — Idealism/Eevee territory, unmeasured]
   ],
 
   /* ── MODES ────────────────────────────────────────────────────────────────
@@ -68,7 +68,7 @@ lofi: {
      MAJOR-key maj7 material (ii-V-I, I-vi-ii-V, the neo-soul vamp), and
      Nujabes "Feather" is Db MAJOR [corpus:chordify? Db-Ebm7-Ab-Bbm]. */
   modes: [
-    ["minor",  5],   // aeolian: the melancholy default [EAR]
+    ["minor",  5],   // aeolian: the melancholy default [CHOSEN]
     ["dorian", 4],   // "Aruarian Dance" is G# dorian: i-ii-IV-bVII [corpus:chordify?]
     ["major",  4],   // raised from MK2's 2: the ii-V-I canon lives here [corpus:chordoo/emastered]
   ],
@@ -93,11 +93,11 @@ lofi: {
      swing"). */
   swing: {
     style: "sixteenth",                 // [corpus:Linn/MPC — swing is a 16th operation, NOT an 8th one]
-    pct:   [[52, 2], [54, 4], [58, 5], [62, 4], [66, 1]],  // weights [EAR]; values [corpus:Linn/melodiefabriek]
+    pct:   [[52, 2], [54, 4], [58, 5], [62, 4], [66, 1]],  // weights [CHOSEN]; values [corpus:Linn/melodiefabriek]
     ratio: [1.08, 0.77],                // = [lo, range] equivalent of pct 52..66 [theory: pct/(100-pct)]
-    hatMul: 1.0,                        // hats carry the swing; they are the shuffle [EAR]
+    hatMul: 1.0,                        // hats carry the swing; they are the shuffle [CHOSEN]
     kitMul: 1.0,                        // kick/snare swing WITH the hats; the friction is the
-                                        //   displacement below, not a second swing grid [EAR]
+                                        //   displacement below, not a second swing grid [CHOSEN]
     melodyMul: [[1.0, 5], [0.0, 4]],    // THE FRICTION, drawn: either the loop swings with the
                                         //   kit, or the loop is a STRAIGHT sample and only the
                                         //   drums shuffle. Both occur; the coexistence of a
@@ -136,11 +136,11 @@ lofi: {
       [{ kick: 0,   snare: -55, hat: 0 },  3],       // Charnas's ~65 ms snare, kit otherwise anchored
       [{ kick: +22, snare: -30, hat: 0 },  2],       // MK2's current shape (kick late / snare early),
                                                      //   kept because it is one documented reading and
-                                                     //   it is what the shipped file already sounds like [EAR]
+                                                     //   it is what the shipped file already sounds like [CHOSEN]
       [{ kick: 0,   snare: +20, hat: +35 }, 2],      // the Questlove drag: hats and backbeat behind
       [{ kick: 0,   snare: 0,   hat: 0 },  3],       // "even": no displacement. Madlib/SP-303 records
                                                      //   are frequently just... not straight-quantised
-                                                     //   rather than deliberately displaced [EAR]
+                                                     //   rather than deliberately displaced [CHOSEN]
     ],
     globalRushMs: 0,        // MK2 applies micro += -0.008/spb to EVERY drum event —
                             // a flat 8 ms rush with NO provenance. That is a bare magic
@@ -153,12 +153,12 @@ lofi: {
      Peterson measured Dilla doing ("10 of 13 kick notes fell outside typical
      metric locations"). Widened below, and the "one" is allowed to be implied. */
   pocket: [
-    [[0, 10],        5],   // the boom-bap skeleton: 1 and the "&" of 3 [EAR]
-    [[0, 6, 10],     3],   // [EAR]
-    [[0, 10, 11],    2],   // the doubled kick — the flam that reads as "drunk" [EAR]
-    [[0, 7, 10],     2],   // MK2's existing [EAR]
-    [[0, 3, 10],     2],   // [EAR]
-    [[0, 8, 14],     1],   // [EAR]
+    [[0, 10],        5],   // the boom-bap skeleton: 1 and the "&" of 3 [CHOSEN]
+    [[0, 6, 10],     3],   // [CHOSEN]
+    [[0, 10, 11],    2],   // the doubled kick — the flam that reads as "drunk" [CHOSEN]
+    [[0, 7, 10],     2],   // MK2's existing [CHOSEN]
+    [[0, 3, 10],     2],   // [CHOSEN]
+    [[0, 8, 14],     1],   // [CHOSEN]
     [[3, 10],        1],   // THE ONE IS IMPLIED — no kick on the downbeat.
                            //   Impossible in MK2 today. [corpus:Peterson, off-grid kick placement]
   ],
@@ -169,22 +169,22 @@ lofi: {
      Wrong in four ways, listed inline. */
   drums: {
     backbeat: [                                       // steps 4 and 12 always, but WHICH voice:
-      [["snare",  "snare"], 4],                       // both a full snare [EAR]
+      [["snare",  "snare"], 4],                       // both a full snare [CHOSEN]
       [["rim",    "snare"], 3],                       // rim click on 2, snare on 4 — the single
                                                       //   fastest lofi tell. Lofi kits are sold as
                                                       //   "gentle snares & rimshots"
                                                       //   [corpus:loopmasters Lofi Hip Hop Drums]
-      [["rim",    "rim"],   2],                       // the whole backbeat is a cross-stick [EAR]
-      [["snare",  "rim"],   1],                       // [EAR]
+      [["rim",    "rim"],   2],                       // the whole backbeat is a cross-stick [CHOSEN]
+      [["snare",  "rim"],   1],                       // [CHOSEN]
     ],
     backbeatVel: 0.85,        // NOT 1.0. In this genre the backbeat is soft/dull, not the
-                              //   loudest thing in the bar [EAR]
+                              //   loudest thing in the bar [CHOSEN]
     hatPattern: [
-      [[0,2,4,6,8,10,12,14],                       5],  // 8ths — MK2's only option today [EAR]
-      [[0,2,3,4,6,7,8,10,11,12,14,15],             3],  // 8ths + the "a" — the shuffle carrier [EAR]
-      [[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],    2],  // straight 16ths [EAR]
+      [[0,2,4,6,8,10,12,14],                       5],  // 8ths — MK2's only option today [CHOSEN]
+      [[0,2,3,4,6,7,8,10,11,12,14,15],             3],  // 8ths + the "a" — the shuffle carrier [CHOSEN]
+      [[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],    2],  // straight 16ths [CHOSEN]
       [[0,4,8,12],                                 2],  // quarters only, or no hats at all —
-                                                        //   very common in the sparsest lofi [EAR]
+                                                        //   very common in the sparsest lofi [CHOSEN]
     ],
     hatVel: [0.30, 0.55],     // range, not MK2's flat 0.62. Hats sit UNDER everything here.
                               //   [GUESS — I found no measured hat-level data for this genre]
@@ -195,15 +195,15 @@ lofi: {
                               //   enough NOTES to show it. [GUESS on the counts — the
                               //   1150-performance median in DRUM_ACCENT is cross-genre]
     ghostSteps: [3, 5, 7, 9, 11, 13, 15],   // ghosts live on 16ths between the backbeats [theory]
-    ghostVel: 0.22,           // MK2 uses 0.35; too loud once there are 2-4 of them [EAR]
-    openhatSteps: [[14, 4], [7, 2], [-1, 5]],   // -1 = none. MK2's table, weight on "none" raised [EAR]
-    perc: [["shaker", 3], ["none", 6], ["ride", 1]],  // the layer added at loop occurrence 2 [EAR]
+    ghostVel: 0.22,           // MK2 uses 0.35; too loud once there are 2-4 of them [CHOSEN]
+    openhatSteps: [[14, 4], [7, 2], [-1, 5]],   // -1 = none. MK2's table, weight on "none" raised [CHOSEN]
+    perc: [["shaker", 3], ["none", 6], ["ride", 1]],  // the layer added at loop occurrence 2 [CHOSEN]
     fills: {
       density: 0.15,          // MK2 fires a fill into EVERY chorus/bridge. In lofi the
                               //   transition device is a DROPOUT or a filter sweep, not a fill:
                               //   "isn't about big drops or crazy transitions"
                               //   [corpus:audioplugin.deals / edmprod arrangement guides]
-      style: "snareRoll16",   // when it does fire, MK2's existing fill is fine [EAR]
+      style: "snareRoll16",   // when it does fire, MK2's existing fill is fine [CHOSEN]
     },
   },
 
@@ -322,7 +322,7 @@ lofi: {
                                    //    Variation 16 / Outro 8-16" [corpus:audioplugin.deals]
     targetBars: [48, 72],          // 48 bars @ 83 bpm = 1:59; 72 bars = 2:58.
                                    //   [corpus:richardpryn "1:00 to 2:30, ~2:00 most common"]
-    transitions: {                 // ALL WEIGHTS [EAR] — nobody publishes lofi Markov data
+    transitions: {                 // ALL WEIGHTS [CHOSEN] — nobody publishes lofi Markov data
       intro:     [["loop", 8], ["loopFull", 2]],
       loop:      [["loopFull", 7], ["breakdown", 2], ["variation", 1]],
       loopFull:  [["breakdown", 4], ["variation", 4], ["loop", 2], ["outro", 2]],
@@ -330,7 +330,7 @@ lofi: {
       variation: [["loopFull", 5], ["breakdown", 2], ["outro", 3]],
     },
     coldOpen: 0.05,                // lofi almost always states the chords alone first
-                                   //   [EAR — MK2's 0.15 is a pop figure]
+                                   //   [CHOSEN — MK2's 0.15 is a pop figure]
     intro: { roles: ["keys"], noiseOnly: true },   // chords + crackle, no kit
                                    //   [corpus:audioplugin.deals "Intro — Chords + noise"]
     outro: { style: "fade", fadeBars: 4 },
@@ -340,9 +340,9 @@ lofi: {
     energyRange: [0.72, 0.92],     // MK2 runs 0.50→1.00 with a *1.06 peak bump.
                                    //   Lofi's dynamic arc is ~2 dB across a whole track;
                                    //   the change is WHICH LAYERS PLAY, not how hard.
-                                   //   [EAR, but directly implied by "rather than building
+                                   //   [CHOSEN, but directly implied by "rather than building
                                    //   towards a dramatic climax"]
-    peakBump: 1.0,                 // no peak. There is no last chorus. [EAR]
+    peakBump: 1.0,                 // no peak. There is no last chorus. [CHOSEN]
     layerLadder: [                 // roles added by loop OCCURRENCE (form already carries it)
       [1, ["keys", "bass"]],
       [2, ["keys", "bass", "drums"]],
@@ -358,7 +358,7 @@ lofi: {
                                    //   band. An upright or a P-bass in this music has its
                                    //   roots down to E1 and its walking notes up past C3.
                                    //   [theory: instrument range]
-    onsets:   [[[0], 4], [[0, 10], 4], [[0, 6, 10], 2], [[0, 10, 14], 2]],  // [EAR]
+    onsets:   [[[0], 4], [[0, 10], 4], [[0, 6, 10], 2], [[0, 10, 14], 2]],  // [CHOSEN]
     tones:    [["root", 6], ["fifth", 3], ["third", 2], ["seventh", 1], ["rest", 4]],
                                    // MK2 can only play root and diatonic fifth. Documented
                                    //   practice: "land on root notes, or other chord tones
@@ -374,8 +374,8 @@ lofi: {
                                    //   higher during chord transitions" [corpus:mysticalankar]
                                    //   — not expressible: buildBass has no octave device
     artic: [[0.5, 4], [0.85, 4], [1.0, 2]],   // MK2's existing bassArtic table, weighted
-                                   //   shorter — upright pizz decays fast [EAR]
-    layOut: 0.25,                  // the bass sits out the first statement entirely [EAR]
+                                   //   shorter — upright pizz decays fast [CHOSEN]
+    layOut: 0.25,                  // the bass sits out the first statement entirely [CHOSEN]
   },
 
   keysStyle: {
@@ -390,11 +390,11 @@ lofi: {
                                    //   the kick pocket (justified by "bass+comp co-onset 77%"
                                    //   from a general ensemble corpus). In lofi the comp is a
                                    //   sampled loop and the kick is the producer's — they are
-                                   //   deliberately NOT co-onset. [EAR, but it is the genre's
+                                   //   deliberately NOT co-onset. [CHOSEN, but it is the genre's
                                    //   founding division of labour]
     ring: 1.15,                    // chords ring THROUGH the next strike. MK2 uses
                                    //   ring = (nxt-st)*0.6, which chokes every chord before
-                                   //   the next one lands. One number, very audible. [EAR]
+                                   //   the next one lands. One number, very audible. [CHOSEN]
     velJitter: 0.18,               // "no quantisation corrections... retain the feeling of
                                    //   being played live" [corpus:minimal.audio beat breakdown]
     strumMs: [8, 14],              // MK2 uses 4-9 ms. A lofi/neo-soul roll is wider.
@@ -410,11 +410,11 @@ lofi: {
                                    //   plenty of lofi has no lead line at all.
     motifRepeat: 0.7,              // the SAME 2-bar cell restated, not a fresh phrase.
                                    //   MK2 redraws each phrase; only the hook (B) repeats,
-                                   //   and there is no hook in this genre. [EAR]
-    scale: [["pentatonicMinor", 5], ["mode", 4], ["chordTones", 3]],   // [EAR]
+                                   //   and there is no hook in this genre. [CHOSEN]
+    scale: [["pentatonicMinor", 5], ["mode", 4], ["chordTones", 3]],   // [CHOSEN]
     register: [67, 84],            // above the comp, as MK2's themeB [theory: keyboard practice]
     callResponse: true,            // the lead answers the chord loop in its gaps, it does not
-                                   //   run over the top of it [EAR]
+                                   //   run over the top of it [CHOSEN]
   },
 
   counterStyle: {
@@ -422,8 +422,8 @@ lofi: {
                                    //   AT THE SAME RHYTHM — parallel thirds in lockstep. That
                                    //   is a doo-wop harmony vocal. Lofi's second melodic layer
                                    //   is a SAMPLE FRAGMENT or a guitar figure in the holes,
-                                   //   rhythmically independent. [EAR]
-    density: 0.3,                  // present in maybe a third of songs [EAR]
+                                   //   rhythmically independent. [CHOSEN]
+    density: 0.3,                  // present in maybe a third of songs [CHOSEN]
     interval: [[-2, 3], [-4, 2], [3, 2]],   // when it IS a harmony line [theory]
   },
 
@@ -435,7 +435,7 @@ lofi: {
                                    // MK2's kick sweeps 150→47 Hz over 55 ms into a 300 ms
                                    //   tail — an 808/trap shape. A lofi kick is a SAMPLED
                                    //   acoustic kick: shorter, mid-fundamental, and lowpassed.
-                                   //   [EAR / GUESS on the exact Hz — I found no measured
+                                   //   [CHOSEN / GUESS on the exact Hz — I found no measured
                                    //   spectrum for a lofi kick]
     NEW_VOICE: "rim",              // ═══ THE ONE NEW VOICE THIS GENRE NEEDS ═══
                                    //   V.rim — cross-stick / rim click. Tip of the stick on
@@ -448,7 +448,7 @@ lofi: {
                                    //   IS a 1850 Hz crack plus a 4400 Hz wire tail, and a
                                    //   cross-stick has neither. Suggested build:
                                    //     triangle 780 Hz → 340 Hz over 8 ms, 60 ms decay
-                                   //     + bandpass noise burst @ 2.2 kHz, 6 ms  [EAR]
+                                   //     + bandpass noise burst @ 2.2 kHz, 6 ms  [CHOSEN]
                                    //   RUNNERS-UP, named so they are not forgotten:
                                    //     V.upright — pizz double bass (MK2's V.bass is a
                                    //       sine+saw sub with a 1.2 kHz pick click: a synth)
@@ -462,9 +462,9 @@ lofi: {
      never sees the chart, and g.wet.gain.value = 0.16 is hardcoded. */
   space: {
     reverbWet: [0.12, 0.22],       // MK2's shipped 0.16 sits inside this; keep it as the
-                                   //   centre and let the genre draw around it [EAR]
+                                   //   centre and let the genre draw around it [CHOSEN]
     reverbSendLanes: ["keys", "lead"],   // rhythm section stays dry — MK2 already does this
-                                   //   and it is right for the genre [EAR]
+                                   //   and it is right for the genre [CHOSEN]
     toneTilt: -6,                  // dB of high shelf above ~4 kHz. Anchor: the SP-303's
                                    //   11.025 kHz sampling mode has a hard Nyquist wall at
                                    //   5.5 kHz, and Madvillainy / Champion Sound / parts of
@@ -479,7 +479,7 @@ lofi: {
                                    //   is sparse impulses only — crackle without hiss).
                                    //   [GUESS — a cassette noise floor is roughly -50 to
                                    //   -56 dB unweighted, but I did not verify a spec sheet]
-    crackle: [0.006, 0.014],       // MK2's existing range [EAR]. But V.tape connects into
+    crackle: [0.006, 0.014],       // MK2's existing range [CHOSEN]. But V.tape connects into
                                    //   g.bus.keys, which feeds the reverb send — so the
                                    //   vinyl noise is REVERBERATED. Vinyl noise is in front
                                    //   of the record and bone dry. One-line graph fix.
@@ -530,13 +530,13 @@ lofi: {
 
 ## Numbers the researcher flagged as UNCERTAIN
 
-- ALL BPM AND CHORD FIGURES FOR SPECIFIC RECORDS are algorithmic estimates (SongBPM/Tunebat/GetSongBPM read Spotify audio-analysis; Chordify is automatic chord recognition). Nujabes Feather 91, Luv(sic) 94, Aruarian Dance 100, After Hanabi 83; J Dilla Time: The Donut of the Heart 93; Donuts opens ~96. NONE hand-tapped by me. The same databases report Donuts 'Two Can Win' at 185 and the album range as 80-194, which are obvious double-time misreads -- proof the estimator is unreliable on this exact material. Treat these as [corpus:X?] and verify by ear before shipping.
+- ALL BPM AND CHORD FIGURES FOR SPECIFIC RECORDS are algorithmic estimates (SongBPM/Tunebat/GetSongBPM read Spotify audio-analysis; Chordify is automatic chord recognition). Nujabes Feather 91, Luv(sic) 94, Aruarian Dance 100, After Hanabi 83; J Dilla Time: The Donut of the Heart 93; Donuts opens ~96. NONE hand-tapped by me. The same databases report Donuts 'Two Can Win' at 185 and the album range as 80-194, which are obvious double-time misreads -- proof the estimator is unreliable on this exact material. Treat these as [corpus:X?] and verify by taste before shipping.
 
 - The three traced chord progressions (Luv(sic) iv-i-bVII-bIII; Aruarian Dance i-ii-IV-bVII dorian; Feather I-ii-V-vi) come from Chordify's automatic recognition, not from a transcription or a score. The Aruarian Dance dorian reading in particular hinges on one chord (A#m7 vs A#dim) that an algorithm gets wrong often.
 
-- Every wpick WEIGHT in the entire table is [EAR] or [GUESS]. No published source gives weighted distributions for lofi progressions, pockets, hat patterns, modes, or form transitions. MK2's existing form weights cite [corpus:harvest_structure], a general pop corpus -- I did not find and am not claiming a lofi-specific equivalent.
+- Every wpick WEIGHT in the entire table is [CHOSEN] or [GUESS]. No published source gives weighted distributions for lofi progressions, pockets, hat patterns, modes, or form transitions. MK2's existing form weights cite [corpus:harvest_structure], a general pop corpus -- I did not find and am not claiming a lofi-specific equivalent.
 
-- pocket: all seven kick placements are [EAR]. I found no corpus of lofi kick placements. The only measured claim I can stand behind is Peterson's, that Dilla's kicks frequently land OFF expected metric locations -- which is why I added the no-kick-on-the-one pocket, not because I measured its frequency.
+- pocket: all seven kick placements are [CHOSEN]. I found no corpus of lofi kick placements. The only measured claim I can stand behind is Peterson's, that Dilla's kicks frequently land OFF expected metric locations -- which is why I added the no-kick-on-the-one pocket, not because I measured its frequency.
 
 - drums.ghostPerBar counts 1-4: [GUESS]. I found no measurement of ghost-note density in lofi or boom-bap. MK2's current 0.55/bar is also unsourced. I believe it is too low; I cannot prove it.
 
@@ -544,17 +544,17 @@ lofi: {
 
 - micro.configs millisecond values: the MAGNITUDES are anchored (a 32nd note = 80-99 ms across 76-93 bpm, per Peterson's '32nd note anticipation'; Charnas's 'about 65 ms' via MusicRadar), but the specific per-lane numbers -70/-12/+22/-30/-55/+20/+35 and their weights are my interpolation, not measurements. The DIRECTION genuinely conflicts across sources -- Peterson measures early kicks, Questlove-lineage lore describes dragged hats and late snares, Ainsworth finds beat 4 early and little evidence of backbeat delay. I am reporting that conflict rather than resolving it.
 
-- swing.pct weights [52:2, 54:4, 58:5, 62:4, 66:1]: [EAR]. The VALUES are Roger Linn's / the MPC's real dial positions and the 1.07:1-1.8:1 bracket is Ainsworth's measurement across 14 funk tracks -- but funk is the ancestor genre, not this one, and I found no swing-ratio measurement for lofi or boom-bap specifically.
+- swing.pct weights [52:2, 54:4, 58:5, 62:4, 66:1]: [CHOSEN]. The VALUES are Roger Linn's / the MPC's real dial positions and the 1.07:1-1.8:1 bracket is Ainsworth's measurement across 14 funk tracks -- but funk is the ancestor genre, not this one, and I found no swing-ratio measurement for lofi or boom-bap specifically.
 
-- keysStyle.ring 1.15 and strumMs [8,14]: [EAR]/[GUESS]. I found no measurement of comp sustain or roll width. I am confident the DIRECTION is right (MK2's 0.6 chokes the chords) and not confident in the numbers.
+- keysStyle.ring 1.15 and strumMs [8,14]: [CHOSEN]/[GUESS]. I found no measurement of comp sustain or roll width. I am confident the DIRECTION is right (MK2's 0.6 chokes the chords) and not confident in the numbers.
 
 - palette.kick f0 95 / f1 55 / decay 180 ms / lp 1800 Hz: [GUESS]. I found no published spectrum for a canonical lofi kick. The claim I stand behind is qualitative -- MK2's 150->47 Hz over 55 ms with a 300 ms tail is a synth/808 shape, not a sampled acoustic one.
 
-- space.toneTilt -6 dB, hissDb -52, flutter hz [7,16] and depth [0.0004,0.0012], masterLpHz upper bound 12000: [GUESS]. The ONLY hard anchor in this block is the SP-303's 11.025 kHz sampling mode -> 5.5 kHz Nyquist, which is a spec, and the definitional wow<4Hz / flutter>4Hz split. The dB and depth values are invented and should be dialed by ear.
+- space.toneTilt -6 dB, hissDb -52, flutter hz [7,16] and depth [0.0004,0.0012], masterLpHz upper bound 12000: [GUESS]. The ONLY hard anchor in this block is the SP-303's 11.025 kHz sampling mode -> 5.5 kHz Nyquist, which is a spec, and the definitional wow<4Hz / flutter>4Hz split. The dB and depth values are invented and should be dialed by taste.
 
-- form.transitions, form.energyRange [0.72,0.92], form.layerLadder: [EAR]. The section NAMES, bar counts (8/16/8/16/8) and the ABAB/ABABB shape are documented (richardpryn, audioplugin.deals, with named tracks); the Markov weights and the energy floor are mine.
+- form.transitions, form.energyRange [0.72,0.92], form.layerLadder: [CHOSEN]. The section NAMES, bar counts (8/16/8/16/8) and the ABAB/ABABB shape are documented (richardpryn, audioplugin.deals, with named tracks); the Markov weights and the energy floor are mine.
 
-- leadStyle.notesPerBar weights and motifRepeat 0.7: [EAR]. 'Sparse and repeating' is documented; the numbers are not.
+- leadStyle.notesPerBar weights and motifRepeat 0.7: [CHOSEN]. 'Sparse and repeating' is documented; the numbers are not.
 
 - bassStyle register [28,50]: this is the INSTRUMENT's range [theory], not a measurement of what lofi basslines occupy. I did not find a measured register distribution.
 
@@ -587,7 +587,7 @@ lofi: {
 
 - https://www.tracklib.com/blog/nujabes-lofi-samples-originals
 
-- https://www.tracksandtales.co/blogs/listening-bar-albums/modal-soul-nujabes-2005
+- https://www.tracksandtales.co/blogs/playing-bar-albums/modal-soul-nujabes-2005
 
 - https://soundcy.com/article/how-to-sound-like-nujabes
 

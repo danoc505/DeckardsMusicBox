@@ -15,7 +15,7 @@
    The number that matters is the SLUR SHARE. A wind line that is 0% legato is
    a line where every note is struck, which is the machine-gun sound this
    existed to remove; a line that is 100% legato never articulates at all.
-   [corpus:PMC4097958 -- listeners confuse legato with portato 25% of the time
+   [corpus:PMC4097958 -- people playing it confuse legato with portato 25% of the time
     and staccato with neither <1%, so the gaps are what carry the instrument] */
 const fs = require("fs"), path = require("path");
 const html = fs.readFileSync(path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html"), "utf8");

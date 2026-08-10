@@ -20,7 +20,7 @@ one. Springs that shake, and a tank you can kick."*
 
 That dispersion is the whole difference from the room this program already
 has. A room's reflections arrive together; a spring SMEARS every impulse into
-a chirp, over and over as it bounces, and the ear reads the pile of chirps as
+a chirp, over and over as it bounces, and the owner reads the pile of chirps as
 "boing". It is a different instrument, not a longer tail — which is the
 user's own sentence.
 
@@ -71,7 +71,7 @@ determinism is untouched.
    DP/4, the pole and the mix. The renderer stays a DAG.
 2. **Its crossings are `voicing`+`live`, not `bus`** — deliberately unridden.
    No genre here is dub; giving one a spring send would be taste with no
-   source. The crossings are the HAND's until a genre earns one by listening,
+   source. The crossings are the HAND's until a genre earns one by asking for it,
    and this is the honest reading of the must-be-ridden rule rather than an
    exemption from it: nothing is automated in vain because nothing is
    automated at all.

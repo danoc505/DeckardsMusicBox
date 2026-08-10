@@ -74,7 +74,7 @@ Upward, the wall becomes a declared allowance.** In four laws:
 1. **The bass keeps the bottom, absolutely — the floor law stands unchanged.**
    The comp's lowest voice may never come within 2 semitones of the bass
    band's ceiling (`R.bass[1] + 2`, the existing `openFloor`). This is theory,
-   not territory: the lowest sounding pitch defines the inversion the ear
+   not territory: the lowest sounding pitch defines the inversion the owner
    hears, and this program's bass IS the root (the whole rationale for the
    rootless candidates). A comp voice under the bass would re-root every
    chord. The sources are unanimous downward, and the low interval limit
@@ -94,16 +94,16 @@ Upward, the wall becomes a declared allowance.** In four laws:
    the change to the main comp: `keys2` and the bridge pads are sustain
    textures by construction.
 
-4. **The tune keeps its prominence by RESERVATION and by EAR, not by acreage.**
+4. **The tune keeps its prominence by RESERVATION and by TASTE, not by acreage.**
    The tune is built after the comp and narrows into what the comp left
    (the reservation set; the same door the sax's range uses). Overlapping
    bands with collision-avoidance is this program's established practice —
    the counter's band sits INSIDE the keys band by declaration, and dkc's
    comment says its bands "OVERLAP on purpose... because buildKeys works
    around what the [other parts strike]". What reservation cannot guarantee
-   is the *topline* — the ear follows the highest moving line, and a comp
+   is the *topline* — the line follows the highest moving line, and a comp
    whose top voice sings over the tune has become the melody. **That is left
-   to the listening session, measured and flagged, not legislated** — because
+   to the taste check, measured and flagged, not legislated** — because
    the genre this is for is one where the comp often IS the topline (§1.3),
    and a law against it would forbid the very texture the sources describe.
    The measurement to watch: share of sounding moments where the comp's top
@@ -132,8 +132,8 @@ photograph B3..F6]`. With the existing floor at 47 (`bass[1]=45 + 2`), the
 open-voicing room becomes 47..86 — 39 semitones, enough for the sourced
 24–30-semitone voicings *plus their own inner movement*, which the old 27
 (47..74) could not hold. The exact number 12 is the symmetric octave and is
-`[EAR]`-adjustable; the photo's top frame (F6 = 89) would need 15, and if the
-listening session wants more air on top, 15 is the number to try.
+`[CHOSEN]`-adjustable; the photo's top frame (F6 = 89) would need 15, and if the
+taste check wants more air on top, 15 is the number to try.
 
 ## 4a. WHAT BUILDING IT MEASURED — three configurations, two refused
 
@@ -157,7 +157,7 @@ the target hit — and **the comp's top sat above the tune in 49.8% of the
 moments both sounded, against 14.6% before.** A tripling of the one
 relationship every comping source warns about (§1.2). REFUSED — the sax
 precedent: a mechanism whose own measurement contradicts its sources does not
-ship as the default. It remains the named dial if the ear wants the tall comp.
+ship as the default. It remains the named dial if the owner wants the tall comp.
 
 **Configuration B — shipped: home anchor (60), reach as headroom, and the
 LEFT HAND'S OCTAVE.** Each shape is also offered with its lowest voice doubled
@@ -170,7 +170,7 @@ re-inverted double can land on the voice it doubles. Result: spans 19.6 mean /
 tune (~26 semitones above the bass wall) admits 24+ only from five-tone
 chords, and lofi's extended-chord rate is the harmony's dial (`2026-08-04a`),
 not the register's — raising it inside a register commit would stack another
-unheard harmony change on the 04-stack, which §0 forbids.
+unjudged harmony change on the 04-stack, which §0 forbids.
 
 **And the target re-read: the ensemble already satisfies the sources.** Every
 source's two-octave spread voicing includes the ROOT at its bottom, and in
@@ -184,7 +184,7 @@ this program's two hands. §9.1's 14.0 was measuring one hand of it.
 1. **Extension rate** (harmony): five-tone chords make 26-span voicings
    reachable under the tune. One genre number, after the 04-stack is heard.
 2. **The tall comp** (Configuration A): +12 anchor relocation, 24%+ at two
-   octaves, costs 49.8% comp-over-tune. The ear's call, never the default.
+   octaves, costs 49.8% comp-over-tune. The owner's call, never the default.
 3. **Accept the ensemble reading** — the numbers above say it is already
    true. This is the reading this sheet recommends.
 
@@ -192,17 +192,17 @@ this program's two hands. §9.1's 14.0 was measuring one hand of it.
 
 - **No source says where a lofi comp sits absolutely** (`lofi-harmony.md` §6
   already records this). The reach number is taste inside a sourced span.
-- **The topline question is unlegislated by choice** (§2.4). If the ear says
+- **The topline question is unlegislated by choice** (§2.4). If the owner says
   the comp is stealing the tune, the remedy is a cost on top-voice excursions
   above the band ceiling while the tune's material is dense — a real
-  mechanism, deliberately not built ahead of the ear's verdict.
+  mechanism, deliberately not built ahead of the owner's verdict.
 - **The full per-interval low-interval-limit table is still unsourced as
   text** (image-only on both known pages); the two sourced figures are what
   the code enforces.
-- **Nothing here was listened to.** The measurement plan: comp span before and
+- **Nothing here was judged.** The measurement plan: comp span before and
   after (probe_density, 30 seeds), the voicing-top distribution (does the comp
   live pinned at its new ceiling — the roomEcho-governor failure shape), the
-  comp-above-tune share, and the rolls read side by side. The ear rules last.
+  comp-above-tune share, and the rolls read side by side. The owner rules last.
 
 ## Sources
 

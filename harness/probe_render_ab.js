@@ -15,7 +15,7 @@
    the seed and genre pinned and throws if they did not.
 
    IT REPORTS THE RMS OF THE DIFFERENCE, not the worst sample. A limiter turns a
-   single sample into a scary number; what an ear hears is the energy. Below
+   single sample into a scary number; what a verdict hears is the energy. Below
    -80 dB is inaudible; the real defect this found read -48.6 dB across 36% of
    the samples. */
 const path=require("path");
@@ -68,7 +68,7 @@ const {chromium}=require(path.resolve("/home/user/DeckardsMusicBox/node_modules/
   const db=worst>0?20*Math.log10(worst):-Infinity;
   const rmsDiff=Math.sqrt(sum/n), rdb=rmsDiff>0?20*Math.log10(rmsDiff):-Infinity;
   console.log("worst single sample :",db.toFixed(1),"dB");
-  console.log("rms of the difference:",rdb.toFixed(1),"dB   (the number an ear hears)");
+  console.log("rms of the difference:",rdb.toFixed(1),"dB   (the number a verdict hears)");
   console.log("samples differing >-60 dB:",over60,"of",n,"=",(100*over60/n).toFixed(4)+"%");
   console.log(rdb<-80?"INAUDIBLE — the difference is below any threshold"
     : rdb<-60?"a whisker: audible only as limiter dither, "+(rdb.toFixed(1))+" dB down"

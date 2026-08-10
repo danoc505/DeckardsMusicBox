@@ -262,10 +262,10 @@ so a genre wanting the pad wet and the figure dry cannot say it"* — answered
 - **There is no headroom above the song's own send.** The matrix crossing's max
   is 1, so a part the genre already sends at full can only be turned DOWN. The
   sources give real boost above unity (Mackie +15 dB, A&H +6 dB); we do not.
-  `[EAR]` whether that is ever wanted.
+  `[CHOSEN]` whether that is ever wanted.
 - **The matrix panel's own knob does not show the lift.** A hand on a strip
   opens the crossing without moving that crossing's knob, exactly as the
   existing hand-on-a-return-unit rule already does. Consistent, and still a
   place where two displays of one path disagree by a hand's worth.
-- **Nobody has listened to any of it.** Every number above says the control
+- **Nobody has judged any of it.** Every number above says the control
   exists and reaches the graph. None says the record sounds better.

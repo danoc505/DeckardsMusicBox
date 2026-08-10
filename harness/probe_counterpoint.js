@@ -68,7 +68,7 @@ const PITCHED = ev => ev.role && ev.pitch != null && ev.role !== 'tape';
    2. A CHORD IS NOT A LINE. `keys` carries more than one pitch on 12.2% of its
       instants, and the first version took whichever pitch happened to sit
       first in the event array -- an arbitrary inner voice. Each role is now
-      reduced at each step to its TOP note, which is the line the ear follows
+      reduced at each step to its TOP note, which is the line the line follows
       and the one buildKeys itself weights x2 for that reason. STATED LIMIT:
       the comp's inner voices are therefore NOT measured here, so a parallel
       fifth buried inside a voicing is invisible to this probe. It sees outer
@@ -273,7 +273,7 @@ for(const g of genres){
   for(const d of Object.keys(offs).map(Number).sort((a, z) => a - z))
     console.log(`         ${String(d).padStart(4)} semitones: ${String(offs[d]).padStart(5)}  (${(100 * offs[d] / tot2).toFixed(1)}%)`);
   console.log('       Each flip is a two-octave leap in the counter against a stepping lead.');
-  console.log('       Whether that is wanted is an EAR question; it is recorded, not judged.');
+  console.log('       Whether that is wanted is an TASTE question; it is recorded, not judged.');
 }
 if(!checked) console.log('     no genre currently declares counter.style "double" — control could not run.');
 console.log('');

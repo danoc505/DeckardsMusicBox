@@ -205,7 +205,7 @@ It was recorded there and I still had to rediscover it here.
 
 **Reverted, and the deciding fact was lofi.** A partial win on two genres is
 worth having, but this moves the chord voicings of *every* genre, and on the
-one genre currently being listened to it does nothing measurable. Changing what
+one genre currently being judged it does nothing measurable. Changing what
 lofi plays for no benefit to lofi is not a trade worth making silently.
 
 **What the next attempt should do differently:** stop tuning the cost and widen

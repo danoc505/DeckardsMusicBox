@@ -20,7 +20,7 @@ tracks:
 - **Background** — sustained pads/harmony, bass foundation, rhythmic bed.
 
 Clarity comes from **functional hierarchy, not volume equality**: "when everything is
-equally prominent, the listener does not know where to focus." A dense mix reads
+equally prominent, the person playing it does not know where to focus." A dense mix reads
 clearly only when the roles are ranked.
 
 ## Codified principles → engine rules
@@ -63,7 +63,7 @@ synthwave/citypop ~4, dungeon/neoclassical ~3.5, ambient long, lofi loop-native 
 by scaling each 8-bar phrase up on the 8-bar grid — so the state/repeat/depart/vary
 development cycle actually runs several times per section. Median duration 2:38 →
 **3:50**, nothing under 2:39. The "no exact loop 3×" law is now measured on the
-**full texture** the listener hears (all parts together: 0/40 3-peats), not the bass
+**full texture** the person playing it hears (all parts together: 0/40 3-peats), not the bass
 in isolation — a groove bass repeating under a developing arrangement is how
 long-form works, not a violation.
 
@@ -105,7 +105,7 @@ The **backward** pass strips density from the peak toward the intro/outro (the d
 each section its own thing — not one loop tiled:
 
 - **Bass — a genuine SECOND TAKE.** The first attempt at this was cosmetic and was
-  correctly rejected by ear: it re-pitched off-beats but KEPT the rhythm, so it was the
+  correctly rejected by taste: it re-pitched off-beats but KEPT the rhythm, so it was the
   same LINE (measured after the fact: 2 distinct bar-rhythms across 120 bars). A producer
   does not edit one take into a song, they *write a different part*. So the bass engine
   runs a **second time** on its own seeded sub-stream — same chart, key and progression

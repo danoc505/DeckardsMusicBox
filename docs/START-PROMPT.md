@@ -27,7 +27,7 @@ sentence that states the rule, which is exactly how it always fails.
 
 **The artifact** lives at
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`
-and is the same file. It is how the user listens.
+and is the same file. It is how the user answers.
 
 ---
 
@@ -115,7 +115,7 @@ freezing its output. No correcting passes.
 - **Determinism**: no `Math.random`; `stream(seed, "name")` substreams; draws
   execute unconditionally or later draws starve.
 - **Seam checks throw, they do not warn.** Provenance marks in comments:
-  `[corpus:…]`, `[theory]`, `[EAR]`, `[GUESS]`.
+  `[corpus:…]`, `[theory]`, `[CHOSEN]`, `[GUESS]`.
 - `composeSong(seed, RIG, genre, picks, pins)` — **genre is the third
   argument.** Passing it second composes lofi on that rig; the chart guard
   throws on the ambiguous two-argument form now, because that trap cost a
@@ -170,11 +170,11 @@ its retractions kept.
 The open work is in `docs/BACKLOG.md`. Read §0 first: it means *do not stack
 unverified taste guesses*, and it does **not** mean stop building what the
 research justifies. A previous session parked a fully researched, ready
-mechanism behind a "listening session" that does not exist, and the user's
-correction was blunt: *"What is a listening session? You can't hear. I can
+mechanism behind a "taste check" that does not exist, and the user's
+correction was blunt: *"What is a taste check? You cannot judge sound. I can
 always open the artifact and press play."*
 
-`test/ears/LOG.md` holds the taste questions actually sent, and is a list, not
+the backlog holds the taste questions actually sent, and is a list, not
 a gate.
 
 ---
@@ -185,5 +185,5 @@ a gate.
 - `docs/BACKLOG.md` — everything open, with the measurement that found it
 - `docs/genre-research/*.md` — seven genres and the units. **Every web search
   goes in here.** A finding argued only in a commit message will be re-searched
-- `test/ears/LOG.md` — taste questions and the user's verdicts
+- the backlog — taste questions and the user’s verdicts
 - `harness/README.md` — what each probe is for

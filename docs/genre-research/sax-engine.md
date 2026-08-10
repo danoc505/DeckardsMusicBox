@@ -83,7 +83,7 @@ become modulations of the one pitch stream).
 
 **5. Then the horn goes to all seven genres** — the user's ask — as a
 drawable lead with per-genre weights, once and only once the engine
-convinces their ears on one.
+convinces their a verdict on it on one.
 
 ## Build order, each step measured before the next
 
@@ -97,7 +97,7 @@ convinces their ears on one.
    probe_sax extended: ONE attack per phrase, glide counts, spectral
    distance to the source tables.
 4. Ornament parameters wired to panel + genre motion.
-5. Genre rollout with per-genre draw weights [EAR].
+5. Genre rollout with per-genre draw weights [CHOSEN].
 
 ## What was wrong with the previous approach, for the record
 
@@ -137,7 +137,7 @@ database's beat-level annotations):
 sounding chord); the messa di voce and the phrase-peak choice now go only
 to stable notes; foreign long notes ride flat and let the line resolve
 them. Breath loudness range widened (0.72–1.02) and the swell deepened
-(×1.30) for "weak playing" [EAR, the user's ear].
+(×1.30) for "weak playing" [CHOSEN, the user's verdict].
 
 **NOT built, the measured material gap:** phrases of 8–24 notes over
 ~1.5–4.3 s with 0.4–1.0 s breaths, and long notes CHOSEN to be stable at

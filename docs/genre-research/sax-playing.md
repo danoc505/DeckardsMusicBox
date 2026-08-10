@@ -15,13 +15,13 @@ ever done that.
 
 The measurement that makes this the priority rather than an opinion:
 
-> Listeners asked to name the articulation of a recorded saxophone confuse **legato with
+> People asked to name the articulation of a recorded saxophone confuse **legato with
 > portato about 25% of the time** — saxophonists themselves 18%, non-musicians 32% — and
 > confuse **staccato with either of them less than 1% of the time**.
 > — [Production and perception of legato, portato and staccato articulation in saxophone
 > playing](https://pmc.ncbi.nlm.nih.gov/articles/PMC4097958/) (PMC4097958)
 
-Read backwards, that is a specification. The ear is not identifying a saxophone from the
+Read backwards, that is a specification. Nobody is identifying a saxophone from the
 spectrum of one note — it cannot even reliably tell two of the three articulations apart
 that way. It is identifying it from **what happens between notes**, and the one thing it
 never gets wrong is whether there is a gap. So articulation outranks timbre, and an
@@ -165,4 +165,4 @@ taper = release 0.30-0.75 s scaling with the note, brightness closing to
 `fall` mechanic per-note). Subtone: low notes played SOFTLY get ×1.6 the
 air and 28% darker; a loud low note honks. Measured (probe_tail,
 scratchpad): note-end to −30 dB — plain 130 ms, taper 310 ms, fall 210 ms.
-All magnitudes [EAR] inside the sourced shapes.
+All magnitudes [CHOSEN] inside the sourced shapes.

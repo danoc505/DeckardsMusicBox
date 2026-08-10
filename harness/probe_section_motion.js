@@ -1,7 +1,7 @@
 /* A SECTION-KEYED MOVE ON A BUS THAT IS SILENT THERE IS A KNOB THAT DOES
    NOTHING, WITH A SCHEDULE.
 
-   Found 2026-08-03 while preparing a listening session: lofi's "Tubby pair"
+   Found 2026-08-03 while preparing a taste check: lofi's "Tubby pair"
    (matrix.leadMix + matrix.leadEcho, keyed to the outro -- the record was
    meant to end by receding) is keyed to a section whose role list has never
    included the lead, so the move automates an empty bus. Jungle's bridge

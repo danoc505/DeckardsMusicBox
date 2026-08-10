@@ -24,7 +24,7 @@ THREE CORRECTIONS TO THE BRIEF, because you asked me not to nod along:
    ACID HOUSE — genre table for GENRE{}.
    Provenance key: [corpus:<src>] measured / documented at a named source.
                    [theory] music-theory or machine fact.
-                   [EAR] taste, awaiting an A/B render.
+                   [CHOSEN] taste, awaiting an A/B render.
                    [GUESS] I could not find a number. It is a placeholder and
                            it is LABELLED so nobody mistakes it for a measurement.
 
@@ -64,13 +64,13 @@ acid: {
   /* No measured mode distribution for acid house exists that I could find, and I
      will not invent one. What IS documented is that mode barely matters here:
      Wikipedia describes the genre as minimalist, emphasising "texture over
-     melody." These weights are my ear, stated as such. Minor dominates because
+     melody." These weights are my verdict, stated as such. Minor dominates because
      every description of the genre reaches for "dark/menacing"; phrygian earns
      its 3 because a 303 line is written by walking semitones off a root and the
      b2 is the neighbour you hit first. */
-  modes: [["minor", 6],      // [EAR]
-          ["phrygian", 3],   // [EAR] — requires MODES.phrygian above
-          ["dorian", 1],     // [EAR]
+  modes: [["minor", 6],      // [CHOSEN]
+          ["phrygian", 3],   // [CHOSEN] — requires MODES.phrygian above
+          ["dorian", 1],     // [CHOSEN]
           ["major", 0]],     // [theory] acid in major is not a thing; the draw
                              // still RUNS, it just never wins. [Law 7]
 
@@ -82,8 +82,8 @@ acid: {
   keysChar: [["rhodes", 1]],                       // [theory] dead draw; acid has
                                                    // no e-piano. One entry so the
                                                    // draw is total-ordered.
-  tape: { wow:     [0.0002, 0.0003],   // [EAR] a 303's VCO drifts slightly; near-zero
-          crackle: [0.0015, 0.0015] }, // [EAR] acid house is a VINYL genre (Trax
+  tape: { wow:     [0.0002, 0.0003],   // [CHOSEN] a 303's VCO drifts slightly; near-zero
+          crackle: [0.0015, 0.0015] }, // [CHOSEN] acid house is a VINYL genre (Trax
                                        // pressings were famously filthy) but the
                                        // record is not the tape hiss of lofi.
 
@@ -102,7 +102,7 @@ acid: {
     coldOpen:  0.05,          // [corpus:fazemag/attackmagazine — acid records are
                               // DJ tools; they open on drums so they can be mixed
                               // in. A cold open is close to disqualifying.]
-    openVerse: 0.95,          // [EAR] after the drum intro the 303 enters; it does
+    openVerse: 0.95,          // [CHOSEN] after the drum intro the 303 enters; it does
                               // not open on the peak.
     target:    [160, 6, 32],  // [corpus: the durations above]
 
@@ -111,18 +111,18 @@ acid: {
        state four, five, six times running and the CHANGE IS IN THE KNOBS.
        Stage 2 zeroes a function's own weight after two consecutive statements
        (the rule of three). For this genre that law is wrong and it will keep
-       forcing a section change acid does not want. See the gaps. [EAR] */
+       forcing a section change acid does not want. See the gaps. [CHOSEN] */
     transitions: {
       verse:        [["verse", 5], ["chorus", 4], ["bridge", 2], ["instrumental", 2]],
       chorus:       [["verse", 4], ["chorus", 3], ["bridge", 4], ["instrumental", 2]],
       bridge:       [["chorus", 7], ["verse", 3]],   // the breakdown resolves UP
       instrumental: [["verse", 5], ["chorus", 5]],
     },
-    bridgeAfterChorus: { verse: 1, chorus: 1 },   // [EAR] the acid breakdown can
+    bridgeAfterChorus: { verse: 1, chorus: 1 },   // [CHOSEN] the acid breakdown can
                                                   // come early; it is not a bridge
                                                   // in the song sense.
     /* the acid energy curve: the breakdown is the QUIETEST thing in the record,
-       quieter than the intro, because the kick leaves. All [EAR]. */
+       quieter than the intro, because the kick leaves. All [CHOSEN]. */
     energy: { intro: 0.45, outro: 0.40, bridge: 0.42, instrumental: 0.72,
               chorus: 0.94, chorusPeak: 1.00, verse: 0.80 },
   },
@@ -133,23 +133,23 @@ acid: {
      four quarter-note beats (16th steps 1,5,9,13)" — 0-indexed 0,4,8,12.
      [corpus:wikipedia + corpus:attackmagazine] */
   pocket: [[[0, 4, 8, 12],     9],    // [corpus:attackmagazine] the law
-           [[0, 4, 8, 12, 14], 1]],   // [EAR] the pickup kick before the bar
+           [[0, 4, 8, 12, 14], 1]],   // [CHOSEN] the pickup kick before the bar
   kit: {
     snare: [4, 12],        // THE CLAP, on 2 and 4. Attack: "the claps sit on the
                            // 2nd and 4th beat of every bar ... program it to play
                            // on steps 5 and 13" (1-indexed) = 4 and 12.
                            // [corpus:attackmagazine]
-    hatEvery: 2,           // [EAR] 8ths as the base. Attack's Armando recreation
+    hatEvery: 2,           // [CHOSEN] 8ths as the base. Attack's Armando recreation
                            // says "a straightforward 16th-note pattern" for closed
                            // hats; the 707-era Chicago records more often ride
                            // 8ths. I made 16ths the `lift` variant instead of the
                            // base. This is a coin-flip I could not settle from
-                           // sources — it is [EAR], not measured.
-    hatVel: 0.58,          // [EAR]
+                           // sources — it is [CHOSEN], not measured.
+    hatVel: 0.58,          // [CHOSEN]
     ghostChance: 0.45,     // [corpus:attackmagazine for the CONCEPT — the rim shot
                            // "fills in spaces between the main kick and open hi-hat
-                           // hits, catching them only occasionally"; 0.45 is [EAR]]
-    ghostSpots: [3, 7, 11, 15, 6, 14],   // [EAR] odd 16ths + the late offbeats,
+                           // hits, catching them only occasionally"; 0.45 is [CHOSEN]]
+    ghostSpots: [3, 7, 11, 15, 6, 14],   // [CHOSEN] odd 16ths + the late offbeats,
                                          // i.e. exactly "between the kick and the
                                          // open hat"
     openSpot: [[2, 4], [6, 3], [10, 2], [14, 3]],
@@ -166,7 +166,7 @@ acid: {
     flourishBar: 2,           // Attack: "the first tambourine hit coming in on the
     flourish: [[[15], 5],     // last 16th-note of the third bar" = bar index 2,
                [[14, 15], 3], // step 15. [corpus:attackmagazine]
-               [[], 2]],      // the empty option is [EAR]
+               [[], 2]],      // the empty option is [CHOSEN]
     variants: {
       main:   {},
       lift:   { hatEvery: 1, ghostChance: 0.70, hatVel: 0.64 },
@@ -174,7 +174,7 @@ acid: {
       depart: { kickKeep: 0, snare: [], hatEvery: 2, ghostChance: 0.20,
                 openBars: [1, 3], flourish: [[[], 1]] },
               // THE BREAKDOWN: the kick LEAVES and the hats and the 303 stay.
-              // kickKeep 0 -> pocket.slice(0,0) -> no kick. [EAR for the exact
+              // kickKeep 0 -> pocket.slice(0,0) -> no kick. [CHOSEN for the exact
               // residue; the mechanism — drop the kick, keep the acid — is
               // universal in the genre.]
     },
@@ -184,7 +184,7 @@ acid: {
      "Higher State." A second acid line is not a countermelody, it is the SAME
      instrument an octave or a fifth away, sounding on some of the notes.
      [corpus:fazemag + corpus:articles.roland.com] */
-  counter: { density:   0.35,             // [EAR]
+  counter: { density:   0.35,             // [CHOSEN]
              intervals: [-7, 7, 4, -4] }, // SCALE STEPS (stage 3 feeds these to
                                           // scaleStep, not semitones): +-7 steps
                                           // = +-1 octave, +-4 = +-a fifth.
@@ -201,21 +201,21 @@ acid: {
      trait to fill a field. */
   progressions: {
     minor:    [[[0,0,0,0], 8],   // [corpus:wikipedia + corpus:tenor2019]
-               [[0,0,0,6], 2],   // [EAR] the bVII lean
-               [[0,0,5,0], 1]],  // [EAR]
+               [[0,0,0,6], 2],   // [CHOSEN] the bVII lean
+               [[0,0,5,0], 1]],  // [CHOSEN]
     phrygian: [[[0,0,0,0], 8],   // [corpus, as above]
-               [[0,0,1,0], 2]],  // [EAR] the bII — the phrygian tell
+               [[0,0,1,0], 2]],  // [CHOSEN] the bII — the phrygian tell
     dorian:   [[[0,0,0,0], 8],
-               [[0,0,3,0], 2]],  // [EAR]
+               [[0,0,3,0], 2]],  // [CHOSEN]
     major:    [[[0,0,0,0], 1]],  // dead branch; modes weight is 0
   },
   /* the breakdown's "departure." In this genre the departure is TIMBRAL, not
      harmonic — you close the filter, you do not modulate. These entries exist
      only because stage 3 demands the field; they are deliberately near-identity. */
   bridgeProgressions: {
-    minor:    [[[0,0,0,0], 6], [[5,5,0,0], 2]],   // [EAR]
-    phrygian: [[[0,0,0,0], 6], [[1,1,0,0], 2]],   // [EAR]
-    dorian:   [[[0,0,0,0], 6], [[3,3,0,0], 2]],   // [EAR]
+    minor:    [[[0,0,0,0], 6], [[5,5,0,0], 2]],   // [CHOSEN]
+    phrygian: [[[0,0,0,0], 6], [[1,1,0,0], 2]],   // [CHOSEN]
+    dorian:   [[[0,0,0,0], 6], [[3,3,0,0], 2]],   // [CHOSEN]
     major:    [[[0,0,0,0], 1]],
   },
 
@@ -223,14 +223,14 @@ acid: {
      the owner's manual claims "you can play four octaves by using the transpose
      switches," while a hardware forum measures the practical span as C(down) to
      C(up) = 3 octaves / 37 semitones. I could not reconcile those two claims, so
-     the bands below are [EAR] anchored to where acid lines actually sit: low,
+     the bands below are [CHOSEN] anchored to where acid lines actually sit: low,
      but played with the cutoff open so they read as a lead. bass [33,57] = A1..A3,
      two octaves — the 303's own working range. [corpus:archive.org TB-303 manual
-     for the mechanism; [EAR] for the MIDI numbers] */
+     for the mechanism; [CHOSEN] for the MIDI numbers] */
   registers: { bass:   [33, 57],    // the acid line itself
-               keys:   [52, 74],    // [EAR] stab/organ if the genre uses one at all
-               counter:[45, 69],    // [EAR] the second 303, an octave under
-               themeA: [57, 81], themeB: [57, 81], themeC: [57, 81] },  // [EAR]
+               keys:   [52, 74],    // [CHOSEN] stab/organ if the genre uses one at all
+               counter:[45, 69],    // [CHOSEN] the second 303, an octave under
+               themeA: [57, 81], themeB: [57, 81], themeC: [57, 81] },  // [CHOSEN]
 
   /* ── stage 5: performance ──────────────────────────────────────────────── */
   groove: {
@@ -240,7 +240,7 @@ acid: {
         // the beat. Dilla weight 0; the draw still runs. [Law 7]
     swing: [1.0, 0.12],
         // base 1.0 = dead straight [theory]; the 0.12 range reaches a light
-        // TR-909-style shuffle [EAR]. I found NO measurement of shuffle amount
+        // TR-909-style shuffle [CHOSEN]. I found NO measurement of shuffle amount
         // on any acid record.
     snareEarly: [0, 0],   // [theory] machine
     kickLate:   [0, 0],   // [theory] machine
@@ -261,7 +261,7 @@ acid: {
                                     // 0.85 currently cannot take effect. See gaps.
            strum: [0, 0] },         // [theory] the 303 is monophonic
 
-  space: { wet: 0.10 },   // [EAR] acid is a DRY genre: the 303 goes through
+  space: { wet: 0.10 },   // [CHOSEN] acid is a DRY genre: the 303 goes through
                           // DISTORTION and a dotted-8th DELAY, not a hall.
                           // MusicRadar: "classic pairing: distortion (particularly
                           // analog-style overdrive or guitar pedals like Tube
@@ -280,7 +280,7 @@ acid: {
      Acid phrases in 16s and 32s, not 4s and 8s. The sources for this are weak
      (production-blog convention, "DJ-friendly 16-32 bar phrases"); the STRONG
      evidence is arithmetic: with SECTION_LEN's 4/8 you cannot build a 9-minute
-     record inside stage 2's guard of 10 sections. [EAR + arithmetic] */
+     record inside stage 2's guard of 10 sections. [CHOSEN + arithmetic] */
   sectionLen: { intro: 16, verse: 32, chorus: 32, bridge: 16,
                 instrumental: 32, outro: 16 },
 
@@ -305,7 +305,7 @@ acid: {
                           // I found: an acid line uses THREE OR FOUR pitches.
     degreePool: [[0, 12],  // ROOT REPETITION dominates [corpus:wikipedia "simple
                  [3, 5],   // bass patterns"; every programming guide]
-                 [4, 3],   // the rest of the weights are [EAR]
+                 [4, 3],   // the rest of the weights are [CHOSEN]
                  [6, 3],
                  [2, 2],
                  [1, 2],   // the b2 — only reachable in phrygian
@@ -368,7 +368,7 @@ acid: {
   acid303: {
     wave: [["saw", 6],       // [corpus:archive.org manual — WAVEFORM switch, two
            ["square", 4]],   // waveforms; MusicRadar: "saw ... harsher, square has
-                             // a hollow quality." Weights [EAR].
+                             // a hollow quality." Weights [CHOSEN].
     poles: 4,                // FOUR POLES, 24 dB/OCTAVE. Measured four ways by
                              // Tim Stinchcombe: section count 4x6, SPICE gradient
                              // -24.1 dB/oct, transfer-function denominator s^4,
@@ -381,9 +381,9 @@ acid: {
                              // control around two-thirds clockwise at least," and
                              // the 303 gets "squelchy resonance WITHOUT pushing
                              // into self-oscillation." Mapping two-thirds of a
-                             // diode ladder to a biquad Q is [EAR]; the
+                             // diode ladder to a biquad Q is [CHOSEN]; the
                              // no-self-oscillation ceiling is [corpus:musicradar].
-    cutoffBase: [300, 900],  // [EAR] anchored to two documented figures:
+    cutoffBase: [300, 900],  // [CHOSEN] anchored to two documented figures:
     cutoffPeak: [1200, 2500],// (a) with cutoff at 0 and env mod at 0 the stock 303
                              //     spans 210 Hz - 1.7 kHz [corpus:modwiggler,
                              //     single source, treat with care];
@@ -437,7 +437,7 @@ acid: {
                              // manual + corpus:olney.ai — "extended gates span
                              // multiple steps when slides are active"].
     gateFrac: 0.85,          // [corpus:olney.ai] ~3.5 of 4 clock pulses per step.
-    drive: [1.6, 3.2],       // [EAR] magnitude. Distortion is canon:
+    drive: [1.6, 3.2],       // [CHOSEN] magnitude. Distortion is canon:
                              // MusicRadar on HSOC — "a classic example of a 303
                              // coupled with distortion"; MusicRadar on the genre —
                              // it squealed "especially when run through
@@ -450,7 +450,7 @@ acid: {
      at the peak. Wikipedia's definition of the genre is literally this move:
      sound is created "by raising the filter resonance and lowering the cutoff
      frequency of the synthesizer." Without it you have the notes of acid house
-     and none of acid house. [corpus:wikipedia/Acid_house; the numbers are [EAR]] */
+     and none of acid house. [corpus:wikipedia/Acid_house; the numbers are [CHOSEN]] */
   morph: { param: "cutoff", lo: 0.12, hi: 1.00,
            resLo: 0.35, resHi: 1.00, shape: "rampToPeak" },
 },
@@ -489,7 +489,7 @@ acid: {
 
 ## Numbers the researcher flagged as UNCERTAIN
 
-- MODE WEIGHTS (minor 6 / phrygian 3 / dorian 1) — [EAR], no measurement exists that I could find. There is no published mode distribution for acid house. Do not treat these as corpus.
+- MODE WEIGHTS (minor 6 / phrygian 3 / dorian 1) — [CHOSEN], no measurement exists that I could find. There is no published mode distribution for acid house. Do not treat these as corpus.
 
 - acidLine.density [9,13] notes per bar — [GUESS]. I found no note-count statistic anywhere. The only near-measurement in the literature is Davis (TENOR 2019) reporting that most Acid Pattern sheets are 1 bar, which constrains LENGTH but not DENSITY.
 
@@ -499,23 +499,23 @@ acid: {
 
 - acid303.accentLevel 1.45, accentCutoffMul 2.2, accentStack 1.35 — [GUESS] magnitudes. The circuit MECHANISM for all three is precisely documented by Robin Whittle (accent pot into VCA control current; Accent Sweep Circuit into filter frequency; 1 uF cap that does not fully discharge between consecutive accents), but no source gives dB or Hz figures. If accuracy matters, these want measuring against a real 303 or Open303.
 
-- acid303.cutoffBase/cutoffPeak Hz endpoints — [EAR]. Anchored to two figures I could not cross-check: '210 Hz to 1.7 kHz with cutoff at 0 and env mod at 0' (single forum source), and a ~2.5 kHz stock ceiling INFERRED from the Devil Fish claim that the mod 'doubled [the range] to 5 kHz max'. The manual's own calibration point (resonant peak ~500 Hz at cutoff 50%, resonance 100%, playing C1) is primary and is the number I would trust most.
+- acid303.cutoffBase/cutoffPeak Hz endpoints — [CHOSEN]. Anchored to two figures I could not cross-check: '210 Hz to 1.7 kHz with cutoff at 0 and env mod at 0' (single forum source), and a ~2.5 kHz stock ceiling INFERRED from the Devil Fish claim that the mod 'doubled [the range] to 5 kHz max'. The manual's own calibration point (resonant peak ~500 Hz at cutoff 50%, resonance 100%, playing C1) is primary and is the number I would trust most.
 
-- acid303.resonanceQ [8,16] — [EAR]. MusicRadar's 'two-thirds clockwise at least' is a knob position, not a Q. The one hard constraint from the source is that a stock 303 does NOT self-oscillate, so the Q ceiling must sit below that.
+- acid303.resonanceQ [8,16] — [CHOSEN]. MusicRadar's 'two-thirds clockwise at least' is a knob position, not a Q. The one hard constraint from the source is that a stock 303 does NOT self-oscillate, so the Q ceiling must sit below that.
 
 - acid303.slideSec 0.060 — single-source ([corpus:gearspace] citing Devil Fish docs). I could not get independent confirmation; the primary manual documents slide's BEHAVIOUR but gives no time. The 60 ms figure is widely repeated, which is not the same as independently verified.
 
 - groove.jitter 0.0012 s — [GUESS]. Attack Magazine's 'do not quantise the hats' is advice for a DAW recreation, not a measurement of an 808/909/707 clock. If you want real machine timing you have to measure a machine.
 
-- groove.swing [1.0, 0.12] — base is [theory] (the 303 sequencer is a rigid 16-step grid per the manual), but the 0.12 shuffle range is [EAR]. No source gives a shuffle amount for any acid record.
+- groove.swing [1.0, 0.12] — base is [theory] (the 303 sequencer is a rigid 16-step grid per the manual), but the 0.12 shuffle range is [CHOSEN]. No source gives a shuffle amount for any acid record.
 
-- kit.hatEvery 2 (8ths) as the base rather than 1 (16ths) — a coin flip I could not settle. Attack's Armando dissection specifies 16ths; the 707-era Chicago records often ride 8ths. Marked [EAR], not measured.
+- kit.hatEvery 2 (8ths) as the base rather than 1 (16ths) — a coin flip I could not settle. Attack's Armando dissection specifies 16ths; the 707-era Chicago records often ride 8ths. Marked [CHOSEN], not measured.
 
-- sectionLen 16/32 — [EAR]. My only sources for 16-32 bar phrasing were production blogs of low reliability (some clearly SEO/AI-generated). The strong argument for it is arithmetic, not evidence: 4/8-bar sections cannot reach a 9-minute record inside stage 2's 10-section guard.
+- sectionLen 16/32 — [CHOSEN]. My only sources for 16-32 bar phrasing were production blogs of low reliability (some clearly SEO/AI-generated). The strong argument for it is arithmetic, not evidence: 4/8-bar sections cannot reach a 9-minute record inside stage 2's 10-section guard.
 
-- form.energy values — all [EAR].
+- form.energy values — all [CHOSEN].
 
-- space.wet 0.10 — [EAR]. What IS sourced is the effects TOPOLOGY (distortion + dotted-8th delay, low end rolled off the reverb send), not a wet amount.
+- space.wet 0.10 — [CHOSEN]. What IS sourced is the effects TOPOLOGY (distortion + dotted-8th delay, low end rolled off the reverb send), not a wet amount.
 
 - ALL BPM figures for Voodoo Ray (118), No Way Back (125), Acperience 1 (125), HSOC (126), Spastik (126), Consumed (119-120) come from songbpm/Tunebat, which derive from Spotify audio-features — ALGORITHMIC DETECTION, not human measurement, and songbpm and Tunebat disagree with each other on Spastik (126 vs 130). The ONLY tempo in the whole table with a documentary source is Acid Tracks at 120, because Wikipedia records that Marshall Jefferson deliberately slowed the ~128-130 demo to that number. mixgraph.io states outright that it has fewer than 10 tagged tracks and its 118-128 range is 'editorial convention,' not measured.
 

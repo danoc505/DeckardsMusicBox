@@ -44,7 +44,7 @@
 
 > ## ⚠ RULE ONE — PRINT THE NOTES AND READ THEM. EVERY TIME.
 >
-> **You have no ears. The printed notes are the test.** Not one test among
+> **You have no a verdict on it. The printed notes are the test.** Not one test among
 > several — the one that tells you what the music actually did. Every change,
 > every time, on top of whatever else you ran:
 >
@@ -171,13 +171,13 @@ decide it the way these point:
 - **One owner per property.** If two places can write it, it has no owner.
 - **No correcting passes.** Constrain the next choice; never repair the last one.
 - **Seam checks throw.** `composeSong` proves its own output every song.
-- **Provenance on every constant** — `[corpus:…]`, `[theory]`, `[EAR]`,
+- **Provenance on every constant** — `[corpus:…]`, `[theory]`, `[CHOSEN]`,
   `[GUESS]`. A provenance that does not match its constant is *worse* than none,
   because it stops anyone checking.
 - **When a measurement surprises you, suspect the measurement first.**
-- **Full research for every genre you touch.** You have no ears; published
+- **Full research for every genre you touch.** You have no a verdict on it; published
   data — measured structures, artist interviews, named analyses — is the only
   signal that can improve this music. Research lands in `docs/genre-research/`
   with named sources *before* the table changes. Never from imagination.
-- **The user's ears are the final judge.** Ship the file; do not render songs at
+- **The user's a verdict on it are the final judge.** Ship the file; do not render songs at
   them.

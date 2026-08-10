@@ -4,7 +4,7 @@
 
        node harness/mk2_roll.js <seed> [rig] [--genre <name>] [--song] [--mid <file>]
 
-   WHY THIS IS THE TEST THAT MATTERS.  I do not have ears.  Every audio number I
+   WHY THIS IS THE TEST THAT MATTERS.  I do not have a verdict on it.  Every audio number I
    can produce -- band balance, crest factor, spectral centroid -- describes a
    rendering of the music, not the music.  A mix can measure beautifully and be
    nonsense: a bassline that walks off a cliff, a "hook" that is four unrelated
@@ -152,7 +152,7 @@ const nm = p => T.NOTE_NAMES[T.pc(p)] + (Math.floor(p / 12) - 1);   // midi 60 -
    This was the literal ["ostinato","bass","keys","lead","counter"], and the
    moment a second keyboard existed the roll printed every other part and left
    that one out entirely: 12 notes and 141 events, composed, scheduled, audible,
-   and INVISIBLE to the one instrument this project says is its ears. A roll
+   and INVISIBLE to the one instrument this project says is its a verdict on it. A roll
    that cannot see a part is a part nobody has read the notes of. Ordered low to
    high so the page reads like a score; anything the material has and this list
    does not is appended rather than dropped. */
@@ -543,12 +543,12 @@ if(midFile){
        node harness/mk2_roll.js 1 --genre lofi --vs   /tmp/before.json
 
    WHY. BACKLOG §7 and HANDOFF §9.6: "the roll shows one song and cannot
-   compare two. The interesting question about [eleven] unheard builds is what
+   compare two. The interesting question about [eleven] unjudged builds is what
    CHANGED, and the display answers 'what is there'." The glass got a GHOST for
    that; this is the same question asked of the PRINTOUT, where the answer can
    be counted instead of looked at.
 
-   It compares the PERFORMED events -- what a listener would hear -- keyed by
+   It compares the PERFORMED events -- what the person playing it would hear -- keyed by
    (role, bar, step, pitch/lane). So it reports notes that appeared, notes that
    vanished, and the bars they are in, per part. A change that moves no note
    says so in one line, which is the answer this session needed eleven times.

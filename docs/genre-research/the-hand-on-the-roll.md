@@ -13,7 +13,7 @@ verdicts: keep it or pull again. If eleven parts were good and the bassline was
 trash, the eleven were lost with it.
 
 Every build in this file ends with the same sentence — *nothing here has been
-heard* — because the owner is the only ear and the only thing they could say
+heard* — because the owner is the only judge and the only thing they could say
 was "this song is bad". This turns that into "**this part, here, is bad**", and
 lets them fix it without losing the rest.
 
@@ -80,7 +80,7 @@ orphaned note is dropped along with the note it depended on (twice, because
 dropping one can orphan the next). **The seam checks run on the hand's work
 completely unrelaxed**, which is the point: relaxing them so the button always
 wins would make every measurement in this repo a measurement of a song nobody
-is listening to.
+is playing.
 
 When a change genuinely will not compose, the entry comes straight back off and
 the bench says which and why — the same answer this file already gives for a
@@ -130,7 +130,7 @@ returns to exactly 1,225** — the count it started at. No page errors.
 - **Notes past the last section boundary cannot be selected** — the ending
   flourish belongs to no section, so there is nothing to key an edit to. 3 notes
   of 1,225 in the song measured.
-- **Nothing has been heard.** Every claim above is about whether the machinery
+- **Nothing has a verdict.** Every claim above is about whether the machinery
   does what it says, not about whether the results are any good.
 - **It is not yet a learning loop.** The edits are not recorded anywhere I can
   read, so they cannot yet turn into genre-table changes. That was the other

@@ -65,7 +65,7 @@ apprehensive and doubtful to confident."*
 
 Four phases expressing one documented arc. With intro and outro outside the
 plan, totals land in the 60-90 bar range at this genre's slow tempos —
-several minutes a cue, in the score's own territory. Budgets [EAR] within
+several minutes a cue, in the score's own territory. Budgets [CHOSEN] within
 the sourced shape.
 
 ## Noted for LATER, deliberately not acted on here

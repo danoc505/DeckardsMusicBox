@@ -70,7 +70,7 @@ const TAIL = 1.7;                       // release + the 1.4 s reverb IR
 
 /* ── THE PALETTE PROBES.  One entry per voice reachable through dispatch(), so a
    voice deleted from V, or renamed, or quietly re-pointed at another voice, fails
-   here instead of in someone's ears.
+   here instead of in someone's a verdict on it.
 
    The gains are the gains STAGE 5 actually emits (kit 0.9-1.0 after DRUM_ACCENT,
    keys ~0.8, tape straight off chart.tape.crackle 0.006-0.014) and the pitches are
@@ -127,7 +127,7 @@ const PROBES = [
   { name: 'tape',        voice: 'tape',    role: 'tape',    gain: 0.010, durSec: 3.00, n: 1, spacing: 0 },
   /* THE SEGA RIG. Every voice a rig can name has to be probed, or "the rig table
      points at a voice that does not exist / points at the wrong one" is a fault
-     only the user's ears would find. The chip voices sit on the same buses at the
+     only the user's a verdict on it would find. The chip voices sit on the same buses at the
      same LEVEL entries as the band voices they stand in for, so the level
      baseline compares them directly. */
   { name: 'chipBass',    voice: 'chipBass',    role: 'bass',    gain: 0.90, durSec: 1.20, n: 2, spacing: 1.80, pitch: 45 },

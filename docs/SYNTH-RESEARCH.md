@@ -1,7 +1,7 @@
 # SYNTH RESEARCH — the chip, the keys, the CS-80, and Dilla time
 
-*Web research for upgrading MK2's sound stage. Sources at the foot; [EAR] marks what
-only listening can settle.*
+*Web research for upgrading MK2's sound stage. Sources at the foot; [CHOSEN] marks what
+only playing can settle.*
 
 ## 1. The SEGA chip (YM2612 / Nuked-OPN2)
 
@@ -32,7 +32,7 @@ The classic result (DX7 "E.PIANO 1", STK's `Rhodey`) is **two FM pairs summed**:
   and its brightness scales with velocity.
 - **Wurlitzer** differs by flavor: hollower/reedier (odd-harmonic bias → lower odd
   modulator ratio ~3:1), a harder bark, and its signature **tremolo** (~5.5 Hz
-  amplitude wobble). [EAR: rhodes vs wurly per song]
+  amplitude wobble). [CHOSEN: rhodes vs wurly per song]
 
 This replaces MK2's additive keys stack — a real tine mechanism instead of a static
 "sine at 3.97f" partial.
@@ -50,7 +50,7 @@ touch, drenched in ensemble.
 own HP+LP pair, slow attack, late-onset vibrato, and a stereo ensemble detune. Not a
 CS-80 emulation — a voice *in its lineage*, honest about the distance. It becomes the
 pad/brass-lead for the synthwave/ambient genres and it earns its keep there, not in
-lofi. [EAR when its genre arrives]
+lofi. [CHOSEN when its genre arrives]
 
 **Corrected 2026-07-28, and the earlier claim here was wrong.** This section used to
 say "no usable open CS-80 core exists". One does: **JS80P** (Attila M. Magyar), a
@@ -108,7 +108,7 @@ per SONG (drawn once, then identical every bar):
   hats               : nearly straight (swing x ~0.25) — the friction layer
   jitter             : ~±2 ms only — the pattern repeats, it does not wander
 ```
-[EAR: the depth of the offsets, and dilla-vs-even weighting per song]
+[CHOSEN: the depth of the offsets, and dilla-vs-even weighting per song]
 
 ## Sources
 - [Nuked-OPN2 — nukeykt/GitHub](https://github.com/nukeykt/Nuked-OPN2/blob/master/README.md) · [libOPNMIDI (LGPL-2.1 wrapper)](https://github.com/Wohlstand/libOPNMIDI) · [Yamaha YM2612 — Wikipedia](https://en.wikipedia.org/wiki/Yamaha_YM2612)

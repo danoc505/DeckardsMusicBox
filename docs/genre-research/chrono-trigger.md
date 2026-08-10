@@ -161,7 +161,7 @@ shares none of that, the honest answer is a second key, not a wider one.
 3. **`space.echoMs` is NOT invented** — see §7. The echo ceiling is recorded
    here as a fact about the hardware; nothing in the program was changed to
    enforce it, because that would move every song in the genre for a reason no
-   listener has asked for yet.
+   player has asked for yet.
 
 ## 7. WHAT WAS DELIBERATELY NOT BUILT
 

@@ -179,8 +179,8 @@ filters and pitch-shifting. The bit depth is the specification everybody quotes
 and the least audible thing in the chain.
 
 **One qualification, so this is not overstated:** the arithmetic above is for
-noise that has been *dithered* — random noise the ear ignores. Undithered
-truncation produces **correlated** distortion instead, and "the human ear can't
+noise that has been *dithered* — random noise the owner ignores. Undithered
+truncation produces **correlated** distortion instead, and "the human verdict can't
 stand hearing structured distortion particularly on quiet parts of a mix"
 [corpus:cmuse]. A crusher that truncates rather than dithers is therefore
 audible at levels the 74 dB figure would say it is not. That is a real effect
@@ -396,7 +396,7 @@ machines; the specification is not the part you hear.
 ## 7. WHAT THE SOURCES DO NOT SETTLE
 
 - **No mix level for crackle, in dB, anywhere.** §6a's target is derived from
-  equipment specifications, not read off a source. Marked `[EAR]` in the table.
+  equipment specifications, not read off a source. Marked `[CHOSEN]` in the table.
 - **How hard to duck.** Still open from `lofi-production.md` §7 and still open
   now; the hip-hop-specific source (§4) breaks the tie toward "barely audible"
   but it is one source against one.

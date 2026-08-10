@@ -46,7 +46,7 @@ for(const g of M.genres()){
     dOpen += inWin(0, w) / w;
     dApex += inWin(Math.max(0, apex - w / 2), Math.min(nB, apex + w / 2)) / w;
 
-    /* which bar carries the most energy -- sum of gain, which is what a listener
+    /* which bar carries the most energy -- sum of gain, which is what the person playing it
        hears as "the big bit" */
     const per = new Array(nB).fill(0);
     for(const e of song.perf.events){

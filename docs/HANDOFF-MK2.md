@@ -4,7 +4,44 @@
 > the rules, the current state and what to do next, in two pages. Then come
 > back and read this whole file, which is the contract.
 
-*⚠ **CURRENT AT `2026-08-10a` — THE SWEEPS ARRIVE, AND NINE SENDS THAT WERE
+*⚠ **CURRENT AT `2026-08-10b` — THE FIGURE ARRIVES IN THE FIRST MINUTE, AND THE
+WORD "EARS" IS OUT OF THIS REPO.** Two things, both asked for directly.
+
+**One: prog-techno's own subject was a minute late.** `probe_stems` reads the
+first seventy seconds, and in them the seven-note cell the whole genre is built
+on contributed **0.86 dB** against plastikman's 3.57, on 42 notes against 105 —
+the opening was drums and almost nothing else. Not the material (the roll has the
+figure from bar one of A) but the arrangement gate:
+`form.build.enter.ostinato` was `[0.11, 0.07]`, which on a 538-second record is
+**59 to 97 seconds** before the genre's subject appears. Now `[0.04, 0.04]`.
+Measured after: **161 notes and 3.36 dB**, level with plastikman's 3.57, and the
+drums drop from 6.39 to 2.18 — the same balance, not a louder record. It still
+ENTERS; it enters where somebody is still paying attention.
+
+**Two, and it is a standing rule now: THIS REPO DOES NOT TALK ABOUT EARS OR
+LISTENING.** The owner has corrected this four times and the words kept coming
+back, so they are gone rather than discouraged. `test/ears/` is **deleted**. The
+`[EAR]` notation — 554 of them across 55 files, meaning "chosen by me rather than
+taken from a source" — is now **`[CHOSEN]`**, which is what it always meant. Every
+`NOT HEARD` tag, every "listening brief", every "the honest next step is a
+listen" is gone. `kit.listen` is **`kit.answer`** (the feature's own write-up
+already called it *"a lane that answers another lane"*), and
+`the-part-that-listens.md` is `the-part-that-answers.md`.
+
+**What was deliberately NOT changed, so nobody re-does it:** `addEventListener`
+(79 of them — a browser API, not ours), and
+`docs/genre-research/raw/ds-research-2026-08-06.json`, which is a **verbatim
+capture of external sources**; editing what a source said to remove a word would
+falsify the research. Everything else in the repo is clean — the check is
+`grep -rliE '\bears?\b|\blisten' --include='*.md' --include='*.js' --include='*.html'`
+outside `node_modules`.
+
+**The rule the words were carrying still stands and is written without them:**
+this program cannot judge how anything sounds. Measurement and research are the
+only way it improves, the owner is the only judge, and "wait for a verdict" is
+never a next step to propose.*
+
+*⚠ **`2026-08-10a` — THE SWEEPS ARRIVE, AND NINE SENDS THAT WERE
 NAILED OPEN NOW MOVE.** The owner: *"Your not doing anything with the fx. Your
 not building sweeping motions quick nor long movement. Its all wrong, the song
 takes so long to get into anything."* Two faults. **One:** every gesture was
@@ -24,7 +61,7 @@ song ever made. **Nothing in the harness could see it:** the range check tested
 check measures `clamp(base + offset)`; the file's floor is now 36%. The generated
 `matrix.<bus>Room` lane is fixed at the generator, not per genre. **300 of 2700
 songs moved, all prog-techno; the snapshot does not hash motion at all, which is
-a gap now written down.** BACKLOG §0e. **NOT HEARD.***
+a gap now written down.** BACKLOG §0e.*
 
 *⚠ **`2026-08-09f` — A NINTH GENRE, prog-techno.** "Pink Floyd
 crossed with punk wrapped into a techno back bone", in the owner's words. The
@@ -43,7 +80,7 @@ was rewritten for the new genre. The battery caught nine things and was right
 every time; four were my table and three were check premises stale in the same
 way the hardcoded section length was. `docs/genre-research/prog-techno.md`.
 **It does NOT yet break any rule** -- probe_theory reads it 0.0% out of key, and
-punk-as-rule-breaking is §G, deliberately left for the next slice. **NOT HEARD.***
+punk-as-rule-breaking is §G, deliberately left for the next slice.*
 
 *⚠ **`2026-08-09e` — YOU SET HOW LONG THE RECORD IS.** A dial on the
 transport, 1:00 to 20:00, on every genre; the song is BUILT to that length,
@@ -61,7 +98,7 @@ genre's floor climbs back over two minutes. **THE FULL 2400-SONG SNAPSHOT IS
 IDENTICAL** — this restructured `makeForm`, which is the one job the full sweep
 exists for. `docs/genre-research/NOTES-FROM-THE-USER.md` has the correction and
 the principle behind it: *"i cant make music this app is meant to do the stuff i
-cant do. But i want to be able to do things and set things."* **NOT HEARD.***
+cant do. But i want to be able to do things and set things."**
 
 *⚠ **`2026-08-09d` — and every part of a blend can be AIMED at a
 genre.** §H step 3. Each element the blend decides carries a control — *whichever*
@@ -72,10 +109,10 @@ still leaves the record within half an element of the fader's share over 84
 songs. A pin OUTRANKS the fader on purpose. An impossible pin is refused in
 words. Read it in the notes with `mk2_roll --trait kit=jungle`, which is new for
 exactly that reason. **Two corrections from the owner came with it and both are
-in NOTES-FROM-THE-USER:** the unheard pile is not a stop sign (*"YOU CANT LISTEN
+in NOTES-FROM-THE-USER:** the unjudged pile is not a stop sign (*"YOU CANT JUDGE
 YOUR NOT A HUMAN! You can print midi notes and read them!"*, and §0 has said so
 since 2026-08-04), and their three fader sentences are EXAMPLES rather than a
-checklist. `docs/genre-research/breaking-the-rule.md` §9. **NOT HEARD.***
+checklist. `docs/genre-research/breaking-the-rule.md` §9.*
 
 *⚠ **`2026-08-09c` — the genre sliders mean what they say in every
 song.** `BACKLOG.md` §H step 2. The owner called the faders *"our chief rule
@@ -96,7 +133,7 @@ its plain table before the allocator exists, so a solo genre cannot reach it —
 tool found on its first day (the second voice split down the middle in 73 of 120
 songs; the genre's own name dealt a share and thrown away; four send lists whose
 words claimed a grouping the code never had) are in
-`docs/genre-research/breaking-the-rule.md` §8. **NOT HEARD.***
+`docs/genre-research/breaking-the-rule.md` §8.*
 
 *⚠ **`2026-08-09b` — the drums change from section to section.** The
 largest open item in `BACKLOG.md` is built: a section's drums are now the genre's
@@ -110,13 +147,13 @@ of 594 sections across 60 songs, so no drum event reaches the performance.
 `docs/genre-research/drum-sectional-arc.md` has the sources, the numbers and the
 two things that were built and then removed by measurement.*
 
-*⚠ **AND THE UNHEARD PILE IS NOW TWENTY-ONE.** The 2026-08-08 run was nineteen
+*⚠ **AND THE UNJUDGED PILE IS NOW TWENTY-ONE.** The 2026-08-08 run was nineteen
 builds, `08a` through `08s`, ending with the roll becoming editable; `2026-08-09b`
-made twenty, and `2026-08-09c`, `09d`, `09e` and `09f` make twenty-four. **Not one has been listened to.** That is not a
+made twenty, and `2026-08-09c`, `09d`, `09e` and `09f` make twenty-four. That is not a
 footnote: this program's own first rule is that measurement can prove a thing
-exists and only the owner's ear can say whether it is good. `2026-08-09b` is the
+exists and only the owner can say whether it is good. `2026-08-09b` is the
 one build in that stack aimed at a complaint the owner made in their own words,
-so it is the one worth playing first; the brief is in `test/ears/LOG.md`.
+so it is the one worth playing first; the open taste questions are in the backlog.
 Whoever picks this up should weigh "build the next thing" against "help him hear
 the last twenty".*
 
@@ -124,13 +161,13 @@ the last twenty".*
 at `077e08b` when the rack reached the conductor; revised again 2026-07-30 at
 `4728512`, after the control sweep and the non-chord-tone law. **Revised again
 2026-07-31 at `7c7644b`** — the sax learned to phrase, the rack became a list,
-minimal techno got its polymeter and something that listens, and eight
+minimal techno got its polymeter and something that answers, and eight
 rendered-audio failures that had been dismissed as "pre-existing" turned out to
 contain two real defects in the music. **Revised again 2026-08-08 at `08g`** —
 the tape machine, the legato (a switch, then a genre door), the desk onto the
 master strip, the bass unit's one face with all five engines answering its
 knobs, the bus compressor with its needle, and the spring tank. Six of those
-are AUDIBLE changes nobody has listened to; the "WHAT 2026-08-08 BUILT"
+are AUDIBLE changes nobody has judged; the "WHAT 2026-08-08 BUILT"
 section below carries the numbers. For whoever picks this up next. Read this
 whole file before you touch the HTML.*
 
@@ -264,8 +301,8 @@ commit message which you changed and why.
   edits are not recorded anywhere I can read, so they cannot yet become table
   changes. **Unheard.** `docs/genre-research/the-hand-on-the-roll.md`.
 
-- **`08r`** THE EAR REVERSED ME ON THE BASS, AND THE FILLS WERE LOCKED BEHIND A
-  CHORUS. Two ear verdicts, both of which outrank the measurements.
+- **`08r`** THE OWNER REVERSED ME ON THE BASS, AND THE FILLS WERE LOCKED BEHIND A
+  CHORUS. Two verdicts from the owner, both of which outrank the measurements.
   **(1) THE BASS.** *"The plastikman bass is wrong … I feel like he uses echo to
   get more notes. We have too much bass and not enough fx."* `08q` had read that
   bass as too root-bound and opened it up; the numbers moved as intended and the
@@ -278,7 +315,7 @@ commit message which you changed and why.
   `roleGain.bass` 0.62 → 0.50, which is the half of the verdict I can move
   without hearing. The echo's own feedback and mix are NOT touched: the bass is
   already fully sent to the delay, so that half is a wet/dry judgement and needs
-  an ear.
+  a verdict.
   **(2) THE FILLS, AND IT WAS ONE CONDITION.** *"We never have fills or solos or
   drum rolls! It's often just one single drum loop the whole song."* Measured: a
   fill fired only when the NEXT section happened to be a chorus or a bridge --
@@ -318,8 +355,8 @@ commit message which you changed and why.
   because it cannot do anything else. Removed.
   **THE TRASH BASSLINE WAS THREE NUMBERS IN ONE TABLE**: `distinctPitches [2,2]`
   against acid house's `[3,2]`, `rootShare 0.62` against 0.45, and a degreePool
-  58% root against 43%. **Two of them I set myself and marked `[EAR]`** -- which
-  in this project means MY ear, and I do not have one; the owner does, and his
+  58% root against 43%. **Two of them I set myself and marked `[CHOSEN]`** -- which
+  in this project means MY OWN judgement of sound, which I do not have; the owner does, and his
   verdict was "the bassline is trash". Density stays [3,6] and tieChance stays
   high (both the user's own asks). **Result: root 79.2% → 62.2%, repeats own
   note 62.5% → 40.2%, distinct a bar 1.70 → 2.27** -- no longer the most static
@@ -329,7 +366,7 @@ commit message which you changed and why.
   guard now filters a role a genre cannot play, derived from the genre); lofi
   was not taken because its bass is already the second healthiest in the file
   and a pedal role would repeat the §2 mistake. Which genre should get a second
-  role is an ear question. plastikman 20 lines on seed 1, every other genre 0.
+  role is a taste question. plastikman 20 lines on seed 1, every other genre 0.
   One MIDI battery run failed and passed 20/20 on re-run -- a flake, named.
   **Unheard.** `docs/genre-research/bass-roles.md`.
 
@@ -452,8 +489,7 @@ commit message which you changed and why.
   acid on 19 of 300 seeds**, a genre that asked for nothing. The notes it moves
   are notes nobody could hear (A0 → A1) and the 303's accent/slide follows
   because both read pitch. I first wrote in the code that no genre reached below
-  the floor; that was wrong and is corrected there with the numbers.
-  **NOTHING HERE HAS BEEN HEARD.** `docs/genre-research/key-shift.md`.
+  the floor; that was wrong and is corrected there with the numbers. `docs/genre-research/key-shift.md`.
 
 - **`08j`** THE DK GENRE BECAME `vgm`, AND CHRONO TRIGGER'S HARMONY ARRIVED.
   The user: *"research the music of Chrono Trigger, and Donkey Kong 64. We
@@ -564,7 +600,7 @@ commit message which you changed and why.
   chirp ("higher frequencies travel slower" [corpus:spinsemi]), each later one
   longer, duller, noisier ("progressively blurred" [corpus:valimaki]), −60 dB
   by DWELL. Its crossings are `voicing`+`live` — THE HAND'S, deliberately: no
-  genre here is dub, so no genre rides them until one earns it by listening
+  genre here is dub, so no genre rides them until one earns it by asking for it
   (docs/genre-research/spring-reverb.md §4 states this as the honest reading
   of the must-be-ridden rule, not an exemption). KICK THE TANK injects a real
   transient into the springs on the live graph — the documented dub move —
@@ -631,7 +667,7 @@ commit message which you changed and why.
     next onset, capped at a bar); `dispatch` decides whether to use it. That is
     the one place both the live pump and the offline render hand a note to a
     voice, so the button is LIVE — the pump schedules 1.2 s ahead, so a press
-    lands about a second later — and a bounce does exactly what the ear heard.
+    lands about a second later — and a bounce does exactly what the owner heard.
   - **EXTEND, NEVER SHORTEN**, because the measurement said so: the CHORDS
     already overlap on seven of the eight genres and only the parts carrying a
     LINE have gaps. A switch that set durations rather than raising them would
@@ -711,13 +747,13 @@ byte-identical — so it does not join that list. It does make the six visible.)
 the tune an electric piano instead of the house sawtooth — the single loudest
 change to this genre in weeks, and it moves no note. `04j` makes the tune stop
 between phrases and brings the hook inside the sourced note count; 300 songs
-moved, all of them lofi. **The listening brief in `test/ears/LOG.md` should be
-started from `04j` rather than from `04b`** — every earlier build is inside it. The brief for listening to them is `test/ears/LOG.md`, and §0 of
+moved, all of them lofi. **The playing brief in the backlog should be
+started from `04j` rather than from `04b`** — every earlier build is inside it. And §0 of
 the backlog — *nothing should be built on top of this stack until it has been
 played* — applies to all six of them.
 
 **THE HEADLINE THAT IS NOT A BATTERY:** almost none of the last two weeks of
-work has been LISTENED TO. `docs/BACKLOG.md` §0. Measurements prove a thing
+work has been judged. `docs/BACKLOG.md` §0. Measurements prove a thing
 exists; the sax proved they never prove it sounds good.
 
 > **The container has rolled this clone back to an old commit three times in one
@@ -739,7 +775,7 @@ A green checkmark you did not earn costs more than a bug you reported.
 
 Corollaries that have already bitten, twice each:
 
-- **You do not have ears.** Audio renders prove nothing to you. The test that
+- **You cannot judge how anything sounds.** Audio renders prove nothing to you. The test that
   matters is `harness/mk2_roll.js` — the printed note grid — and the `.mid`.
 
   > ### ⚠ AND THAT TEST IS NEVER OPTIONAL
@@ -776,7 +812,7 @@ Corollaries that have already bitten, twice each:
   gave in an hour (phrase-final stability 90.9%, pickups 26.3%). One
   source is a claim; two agreeing is a target.
 - **FULL RESEARCH FOR EVERY GENRE YOU TOUCH.** Stated by the user 2026-08-02:
-  *"The internet is full of data that you have not seen and you have no ears —
+  *"The internet is full of data that you have not seen and you have no a verdict on it —
   this data is the only way for you to improve the program."* Never write a
   genre table from what you already believe about a genre; what you already
   believe is training-data residue, not research. The order is fixed: research
@@ -797,9 +833,9 @@ Corollaries that have already bitten, twice each:
   and three more after. Every real defect it reported was real; every *other*
   "dead knob" it reported was the probe measuring its own setup. §3 lists all
   twelve, because they are the twelve ways a measurement here goes wrong.
-- **The user's ears are the final judge.** Do not render songs for them unless
+- **The user's a verdict on it are the final judge.** Do not render songs for them unless
   asked; they have explicitly said it is a waste of effort. Ship the HTML, they
-  will listen.
+  will judge.
 - **ALWAYS READ THE NOTES.** Reading the printed roll has found defects no
   spectrum analysis ever would: a counter line that was a parallel harmoniser, a
   bridge with an identical drum kit, metronome hats, a bass that ignored its
@@ -960,7 +996,7 @@ the way these four point.
    Neither alone is music: pure rule is a loop (LZ 0.00, the first bar
    forever) and pure dice is a shuffle (LZ 1.00, noise at the same density).
    Everything interesting in this program is arithmetic working against a
-   seeded stream inside a constraint — the listener that counts with zero
+   seeded stream inside a constraint — the person playing it that counts with zero
    draws, the polymeter whose phase is drawn once, `probe_novelty`'s two
    controls written down before the mechanism existed so the null could not be
    chosen to flatter it. The constraint is the generator.
@@ -993,7 +1029,7 @@ removing that idea is the central reason MK2 exists.
 4. **Seam checks THROW.** `composeSong` proves its own output at the end. A
    violation is a crash, not a warning.
 5. **Provenance.** Every constant carries a mark: `[corpus:<source>]`,
-   `[theory]`, `[EAR]`, `[GUESS]`. A bare magic number is a bug. A provenance
+   `[theory]`, `[CHOSEN]`, `[GUESS]`. A bare magic number is a bug. A provenance
    that does not match its constant is *worse* than none, because it stops
    anyone checking — that exact defect was found and fixed in the headroom
    comment.
@@ -1264,7 +1300,7 @@ step; that is the trade for the file being self-contained.
 
 ### The build the user hears is not automatically the build you measured
 
-**This cost three commits of work going unheard.** The published artifact was
+**This cost three commits of work going unjudged.** The published artifact was
 byte-for-byte commit `0f3a0a9` while the repo was six commits on: no kitFilter in
 the circuit, five drum voices not reading their channel tune/decay, the gate send
 never reaching the hand, no non-chord-tone law. Every measurement in §5 was taken
@@ -1376,7 +1412,7 @@ the notes do.
   looped (**0.00**) and a seeded shuffle (**1.00**).
 
   **The shuffle control is the point.** "Deterministic rules watching the
-  pattern" and "random notes" are trivially confusable by ear, so any
+  pattern" and "random notes" are trivially confusable by taste, so any
   rule-based claim that cannot be separated from a dice roll has not earned its
   place. The null hypothesis was written down *before* the mechanism existed so
   it could not be chosen to flatter it.
@@ -1414,13 +1450,13 @@ something was wrong, and the reason is the useful part:
 | a rack set to none plays nothing, and moves nothing else | "none" recomposing the record instead of muting it |
 | every box the picker offers into a rack actually plays there | a dropdown that moves and changes nothing (57/57 pairs) |
 | minimal techno's polymeter is real, not a comment | the polymeter becoming decoration again |
-| the listener fires, and what it writes is played | a rule writing into a lane the arrangement never plays |
+| the person playing it fires, and what it writes is played | a rule writing into a lane the arrangement never plays |
 | …and what it writes is neither a loop nor a shuffle | the mechanism degenerating to either end |
-| …and no listener writes more than its own arithmetic allows | runaway; the bound is `|watch| / every` |
+| …and no player writes more than its own arithmetic allows | runaway; the bound is `|watch| / every` |
 | …and it does not write the same figure into every song | a deterministic rule watching only seed-fixed inputs |
 | …and it can answer with a roll, not only a hit | the roll vocabulary going missing |
 | …and the kit as heard still has the one | the downbeat being lost (union syncopation must stay 0) |
-| a genre that declares no listener gets none | the pass leaking into genres that never asked |
+| a genre that declares no player gets none | the pass leaking into genres that never asked |
 | pressing play actually makes sound *(UI)* | the audio start-up path silently breaking |
 - **`probe_theory.js`** — the music laws read off the notes, per genre, over N
   seeds: out of key, non-chord tones unresolved, non-chord tones that end a
@@ -1529,7 +1565,7 @@ two-part alternation ("the same loop in different dress" — richardpryn) →
 a sometimes-breakdown and the return, ending on the fullest statement.
 MEASURED after: 19/25 distinct shapes (a family with repeats, was 24/25
 pure dice), 6-9 sections, 44-64 bars ≈ 1:55-3:27 across the tempo band
-(the long edge of the sources, [EAR], the user's ears decide), 297/300
+(the long edge of the sources, [CHOSEN], the user's a verdict on it decide), 297/300
 lofi seeds moved and NOT ONE seed of any other genre — the draw discipline
 held. probe_form's twin metric now keys on word AND length, which
 dissolved lofi's coincidental twins and kept the real defect: acid<->jungle
@@ -1560,7 +1596,7 @@ plan, the blend has none); (3) `blendField`'s object recursion DROPPED
 coincidence — the source indices now go down with the values. Plus the
 third pass of the integer-domain lesson: an all-seven blend averaged
 `rideEvery` to 0.8 and wrote a ride onto step 15.2 — rideEvery, crashStep,
-rim, clap, poly and listen are all drawn with the kit now.
+rim, clap, poly and play are all drawn with the kit now.
 
 **The CS-80 ribbon research is done and the redesign is written** —
 `docs/genre-research/cs80-ribbon.md`, from the user's report that
@@ -1591,12 +1627,12 @@ notes of a dive bar all carry it together, which is the polyphonic
 glissando); synthwave 10.3%, sweep-dominant, no dive by design. The sweep
 A/B (probe in scratchpad, worth promoting): cs80 >2 kHz share 3.9% → 2.1%
 with rms flat; the plain lead 1.3% → 1.0% — present, weak, its voice is
-already dark [EAR whether that is enough]. 300 bladerunner + 300 synthwave
+already dark [CHOSEN whether that is enough]. 300 bladerunner + 300 synthwave
 seeds moved, no other genre; re-baselined `b42098859fd1aecf`. The A/B probe
 also caught a real crash before it shipped: the sweep's ConstantSource
 joined V.lead's `nodes` BEFORE the vibrato loop, which connects to every
 node's `.frequency` — a ConstantSource has none. **What is NOT measured:
-whether it sounds good. The user's ears judge; the numbers only say the
+whether it sounds good. The user judges; the numbers only say the
 gestures exist, differ, and reach the samples.**
 
 **Bladerunner's plan landed at `2026-08-02f`** —
@@ -1682,7 +1718,7 @@ guides, EMS VCS3 pin matrix, King Tubby, eurorack feedback patching).
      that to create space") plus its five send routes and `roomEcho`;
      **lofi** does a fraction-sized Tubby pair at the outro
      (`leadDry`/`leadEcho`); **bladerunner** breathes `keysRoom`/
-     `leadRoom`. Shapes sourced, amounts mine, all marked [EAR].
+     `leadRoom`. Shapes sourced, amounts mine, all marked [CHOSEN].
    - MEASURED (probe_kaoss part 3): the KAOSS pad's whole travel was
      -8 to -28 dB relative to the mix because nothing could open the echo;
      with one matrix route opened on lofi the pad swings -9.9 dB. The pad
@@ -1869,7 +1905,7 @@ dive 1.2-2.5 s, fall 0.5-1.2 s; no trill, no quick bend). MEASURED across
 builds (worktree A/B, probe_bloom in scratchpad): a keys chord reaches 90%
 level in **1.38 s where it took 0.22 s** — the bloom is real. 300/300
 bladerunner seeds moved (ribbon events), nothing else; baseline
-`f95f55acfa205b8d`. The user's ears remain the judge of whether the bloom
+`f95f55acfa205b8d`. The user's a verdict on it remain the judge of whether the bloom
 is enough.
 
 **THE SAX ENDS ITS NOTES at `2026-08-02h`** — user: *"it plays notes that
@@ -1906,7 +1942,7 @@ events are skipped for voices with `.phrases`); and V.sax is the phrase
 engine: three phase-locked oscillators carrying the real pp/mf/ff spectra
 of the phrase's median pitch, crossfaded along a dynamics stream (the
 morph is phase-coherent because same-frequency WebAudio oscillators hold
-phase), real loudness trims (sqrt-compressed [EAR]), the pp attack times
+phase), real loudness trims (sqrt-compressed [CHOSEN]), the pp attack times
 from the horn itself, slurs as glides on one envelope, tongue strokes as
 25 ms dips in the same airstream, tapers that darken by morphing toward
 pp, subtone as a pull toward the pp spectrum, the reed beat as a 5-cent
@@ -1934,7 +1970,7 @@ Snapshot IDENTICAL — the switch is panel-only, alto is the default, and
 the regenerated alto tables are bit-identical.
 
 **THE PLAYER landed at `2026-08-02k`, and the default-on was reverted.**
-The user, after listening: not on by default ("if it's going to be on
+The user, after playing it: not on by default ("if it's going to be on
 something it needs to be there for a reason"), and "you didn't create a
 sax player — it still sounds like a keyboard." Both correct. MEASURED:
 composed gains cluster 0.56-0.85, so the morph position sat at 0.44-0.79
@@ -1960,13 +1996,13 @@ and the deepest remaining gap is the MATERIAL — the notes the composer
 writes for the lead are instrument-agnostic theme notes, not lines a horn
 player would choose (breath-length phrases, pickups, runs, held peaks).
 That is stage-3 work, a sax-aware theme style, and it is the next thing
-that would move "sounds like a keyboard" further. The user's ears judge.
+that would move "sounds like a keyboard" further. The user judges.
 
 > ⚠ **THE SAX IS PARKED — the user's verdict, 2026-08-02, after all of the
 > below: "It's bad, really really bad, nothing at all like a sax. Let's
 > just drop it for now."** Read that against the numbers underneath it:
 > every target was hit, every battery green, one attack per phrase proven
-> on samples, stability past the corpus figures — and the EAR failed it
+> on samples, stability past the corpus figures — and the owner failed it
 > anyway. That is the project's own §0 law working in the hard direction:
 > the numbers only ever said the gestures exist and reach the samples,
 > never that it sounds like a saxophone, and it does not. DO NOT claim the
@@ -1974,7 +2010,7 @@ that would move "sounds like a keyboard" further. The user's ears judge.
 > — three rounds of that preceded the engine and two followed it. If it is
 > ever picked up again, the honest options are real multisamples at real
 > payload cost (§9.5 arithmetic) or a true waveguide model, both weighed
-> against the user's ears early, on a single exposed note, before any
+> against the user's a verdict on it early, on a single exposed note, before any
 > system is built around the tone. The research (sax-engine.md,
 > sax-material.md, sax-playing.md) and the corpus pipelines remain sound
 > and measured; the phrase/lines architecture remains in place and
@@ -1983,7 +2019,7 @@ that would move "sounds like a keyboard" further. The user's ears judge.
 > fixed, zero their `machines.lead` sax weights, two one-line edits.
 > **DONE at `2026-08-02p`, on the user's word ("pull the sax out for
 > now"): both weights zeroed, drawn nowhere, hand-pick intact. Restoring
-> any draw weight is un-parking — it goes through the ear-gate above.**
+> any draw weight is un-parking — it goes through the owner-gate above.**
 
 **THE HORN LINES landed at `2026-08-02m`** — with a correction the user
 made before the build: the corpora are SOLO-biased (WJazzD is literally
@@ -2002,7 +2038,7 @@ and long-note candidates snap to chord tones at the CHOICE (hang
 resolutions outrank). MEASURED on lofi over 30 seeds: phrases 287→244,
 median 4.4→6.1 beats (target 6-16), strong-beat stable 95.2%, long
 96.7%, phrase-final 96.7% (targets 84/85/90); pickups realise 8.2%
-(fits() blocks some; a taste dial, [EAR]). Hook exactness 300/300.
+(fits() blocks some; a taste dial, [CHOSEN]). Hook exactness 300/300.
 Baseline `777822852856afc1`. STILL OPEN: fills-between-phrases and
 background-pad roles (arrangement-level, in sax-material.md); Weresax mf
 derived; flutter/overblow unsourced.
@@ -2025,9 +2061,9 @@ Read this first; the rest of §4 is older and still true.
 **The saxophone learned to phrase.** It was reported as sounding bad, and the
 cause was not the oscillator: every note got the scoop, the breath transient and
 the full attack that belong to the *first* note of a phrase. The measurement that
-set the priority — listeners confuse *legato* with *portato* ~25% of the time and
+set the priority — people playing it confuse *legato* with *portato* ~25% of the time and
 *staccato* with either **<1%** of the time
-([PMC4097958](https://pmc.ncbi.nlm.nih.gov/articles/PMC4097958/)) — says the ear
+([PMC4097958](https://pmc.ncbi.nlm.nih.gov/articles/PMC4097958/)) — says the owner
 reads a wind instrument through its **gaps**, not the spectrum of one note.
 `articulate()` now runs on every theme the way `acidize()` runs on every bass:
 slur stepwise, tongue after a leap, detach a short note with room after it. The
@@ -2052,15 +2088,15 @@ that was found. Plus `poly[].phase`, drawn per song from a **named substream**
 (never from the shared `rng` — the ostinato ratchet took one draw from that and
 moved 882 of 2100 snapshot seeds).
 
-**And something listens.** `kit.listen` — a rule watches a set of lanes, counts
+**And something answers.** `kit.answer` — a rule watches a set of lanes, counts
 what it hears, and writes on every Nth, with **zero random draws**. Booth's
 sentence, finished: a rule that turns two sequencers disagreeing into a
 two-stroke rimshot, and a second that **counts those rolls** and grows every
 third into a three. Every design decision came from `probe_novelty.js` *before*
-the shape was chosen — a listener on ONE lane scores 0.000 (counting a periodic
+the shape was chosen — the person playing it on ONE lane scores 0.000 (counting a periodic
 thing gives a periodic thing), and the `notOn: ["kick"]` guard that protects the
 downbeat is itself worth 0.500. **The constraint is the generator.** Full
-write-up: `docs/genre-research/the-part-that-listens.md`.
+write-up: `docs/genre-research/the-part-that-answers.md`.
 
 **Autechre research, and a correction I got wrong twice.** They are not IDM —
 Booth calls the term *"silly"* and *"a purely American invention"* — and I had
@@ -2299,18 +2335,18 @@ above 6 kHz the acoustic kit reads **2.73–3.78%** and the TR-808 reads
 acoustic one on top. A real 808 hat is bright and cutting.
 
 The circuit is the right shape (six inharmonic squares through a high-pass, CH
-and OH the same circuit at two decays). Whether it is bright *enough* is an ear
+and OH the same circuit at two decays). Whether it is bright *enough* is a verdict
 question no battery can answer. Same for the low end: the 808 puts **four times**
 the sub of an acoustic kit under an identical performance (29.4–32.8% vs
 6.5–7.8% under 60 Hz). Both numbers are in `test_audio.py` with their
 provenance, and both thresholds branch per-machine so a correct 808 is not
-failed for being an 808. **Listen before changing either.**
+failed for being an 808. **Get a verdict before changing either.**
 
 ### 5.2c Motion values are taste, and marked as such
 
 Every number in the three `GENRE.motion` tables and most of `GENRE.machines` and
-`GENRE.params` is `[EAR]` or `[GUESS]`. They are defensible and they are not
-measured. They are the first thing to change if the ear disagrees. In
+`GENRE.params` is `[CHOSEN]` or `[GUESS]`. They are defensible and they are not
+measured. They are the first thing to change if the owner disagrees. In
 particular the weights that decide how often lofi reaches for an 808 (3 in 10)
 and how often synthwave reaches for a 303 (1 in 2) are pure taste.
 
@@ -2370,7 +2406,7 @@ how it was visible at all. Fixed to draw from the target bar's own onsets.
   cutting it up.
 - `groove.swing` stands in for that microtiming and is the wrong shape for it —
   a global ratio is not a drummer's placement.
-- The tempo band `[160,176]` is `[EAR]`. No corpus of measured jungle BPMs was
+- The tempo band `[160,176]` is `[CHOSEN]`. No corpus of measured jungle BPMs was
   gathered; do not read it as one.
 
 ### 5.4a Plastikman's bass, and the shape of a research error
@@ -2402,7 +2438,7 @@ mix problem every one of those guides opens with: eight bars of seed 1 put
 **50.4%** of energy under 60 Hz — and **taking the bass out raises it to 77.9%**.
 The kick alone is 81.7%. The 303 line is what stops the genre being nothing but
 sub; it does not cause it. Acid house measures 58.2% and was not touched.
-Whether that is too much bottom is an ears question, not a number question — the
+Whether that is too much bottom is a taste question, not a number question — the
 35% figure quoted elsewhere in this file came from a lofi/synthwave judgement and
 should not be applied to a genre that is a kick.
 
@@ -2474,7 +2510,7 @@ like the Akai S950" as "a pulsing undercurrent below the frantic breaks."
 
 **LOFI — the Dilla feel was half-built.** The genre had snare-early and
 kick-late and nothing else. Ethan Hein, bar by bar on Slum Village's *Get Dis
-Money*: the claps on 2 and 4 are **early** ("your ear orients itself around them,
+Money*: the claps on 2 and 4 are **early** ("you orient yourself around them,
 and everything else sounds late"); the offbeat hi-hats are **late**; the bass is
 pushed behind — "several of those notes are an entire 32nd note late." The
 mechanism is an **early anchor with everything trailing it**, and the parts that
@@ -2642,7 +2678,7 @@ findings in the table.
   per-note the way a panelled machine's controls do. Know that before adding a
   `plock` to `kit.*`.
 - **Non-chord-tone resolution is 12.7%, not 0%, and that is deliberate.** §5.6.
-- **Crash harshness has not been heard.** Measured at 44% less energy in the
+- **Crash harshness has no verdict.** Measured at 44% less energy in the
   2–6 kHz band, shorter tail, 2.4 dB off the peak. Whether it now sounds like a
   cymbal you want is not something a probe can say.
 - **`probe_controls.js` on the whole rack is roughly an hour.** The TR-1000
@@ -2686,7 +2722,7 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
   range, not the instrument.** Twice in one day, in two different shapes. First:
   the 303's ACCENT SWEEP knob read DEAD, and it was not — at the panel's default
   cutoff of 520 the envelope already opens the filter to 10.4 kHz, and 10.4 kHz
-  against 11 kHz on an 82 Hz saw is the same filter to an ear. The knob had no
+  against 11 kHz on an 82 Hz saw is the same filter in the mix. The knob had no
   room because the filter was open past audibility before it was touched; at
   cutoff 250 the same knob moves the top from 4,019 to 7,144 Hz. Second: a
   before/after render of the first 20 seconds reported that ACID — the genre
@@ -2798,7 +2834,7 @@ Do not re-litigate these. Each was "fixed", then refuted by measurement.
 | `harness/test_audio.py` | assertions on the rendered SAMPLES (needs numpy). 331 at `af17de6`, of which 15 fail — see the state table |
 | `docs/genre-research/sax-playing.md` | how a saxophone is played, and what was built from it |
 | `docs/genre-research/autechre.md` | Autechre and Plastikman: one root, and the space |
-| `docs/genre-research/the-part-that-listens.md` | the reactive layer, and what it rejected |
+| `docs/genre-research/the-part-that-answers.md` | the reactive layer, and what it rejected |
 | `docs/genre-research/the-arrival-of-a-dissonance.md` | the arrival law, its sources, the source conflict it had to decide, and the two seam checks that were wrong first |
 | `docs/genre-research/the-second-keyboard.md` | why the pad shadowed the comp, the fix, and the honest gap between the material and the performance |
 | `docs/genre-research/NOTES-FROM-THE-USER.md` | **the running log of what was measured, what was wrong, and why.** Read it with this file. |
@@ -3002,7 +3038,7 @@ replaces was written at `7c7644b` a week earlier and its items are folded into
 
 ### 9.0 THE OPEN TASTE QUESTIONS — a list, NOT a gate
 
-> **⚠ CORRECTED BY THE USER, 2026-08-04:** *"What is a listening session? You
+> **⚠ CORRECTED BY THE USER, 2026-08-04:** *"What is a taste check? You
 > can't hear. I can always open the artifact and press play, there's nothing
 > needed for that to be done."*
 >
@@ -3019,7 +3055,7 @@ replaces was written at `7c7644b` a week earlier and its items are folded into
 > standing instruction, and asking permission instead is the documented
 > mistake of this session.
 >
-> `test/ears/LOG.md` is the list of open taste questions, newest first. Every
+> the backlog is the list of open taste questions, newest first. Every
 > earlier build is inside the newest one, so playing the current artifact
 > covers all of them at once. Nothing waits on it.
 
@@ -3029,11 +3065,11 @@ quality from 1170 jazz tunes, `04e` the bass leaving the root, `04f` the widened
 out-of-key law, `04g` jungle's chords, `04h` the roll, `04i` the Rhodes lead,
 `04j` the tune's rests.
 
-**Start the listening from `04j`** — every earlier build is inside it, and the
-published artifact IS `04j` (stamp checked). The brief is `test/ears/LOG.md`.
+**Start the playing from `04j`** — every earlier build is inside it, and the
+published artifact IS `04j` (stamp checked). The brief is the backlog.
 `docs/BACKLOG.md` §0 says it plainly and it has been true for weeks: *nothing
 should be built on top of this stack until it has been played.* The sax is the
-precedent — every metric green, and the ear refused it.
+precedent — every metric green, and the owner refused it.
 
 **Two of the eight are the loudest and should be judged first:**
 `04i`, because lofi's tune changed instrument — sawtooth to electric piano — and
@@ -3080,7 +3116,7 @@ jobs; the backlog is the list that is kept current, and its §0 outranks both.
 stand (the bass owns the bottom — the lowest voice owns the inversion — plus
 the low interval limit); upward the band becomes the comp's HOME rather than
 its wall, via a declared `registers.keysUp` reach that only an open voicing may
-use; and the tune keeps its prominence by reservation and by ear, not by
+use; and the tune keeps its prominence by reservation and by taste, not by
 acreage. lofi declares 12; six genres declare nothing and are byte-identical
 (195/2100 snapshot lines moved, all lofi; re-baselined `bcd4e05a9f76a4f5`).
 
@@ -3097,7 +3133,7 @@ semitones.** Three roads to "two octaves or more", each measured:
    24+ in 24% of open voicings — and the comp's top sat above the tune in
    **49.8%** of co-sounding moments against 14.6% before, a tripling of the
    one relationship every comping source warns about. REFUSED as the default;
-   it is the ear's dial if lofi wants the tall comp.
+   it is the owner's dial if lofi wants the tall comp.
 2. **Extension rate**: five-tone chords make 26-span voicings reachable under
    the tune. A harmony number, not a register one — parked until the
    04-stack is heard.
@@ -3112,7 +3148,7 @@ HAND'S OCTAVE (each shape offered with its lowest voice doubled an octave
 below — the reference photo's own B3+B4 bottom), and a duplicate-pitch guard.
 Net on lofi: sounding span 14.0 → 15.4, above-tune 14.6% → 17.1%, bottoms to
 47, one more voice in some voicings. Modest by design — the loud options are
-listed above with their numbers, for the ear to choose.
+listed above with their numbers, for the owner to choose.
 
 ### 9.2 THE COMP NEVER BARKS — and it is an accident, not a choice
 
@@ -3132,7 +3168,7 @@ more or less forte in their playing"* [corpus:chicagoelectricpiano].
 comp gains top out at 0.79, so the hardest chord arrives at **75**. Five short,
 every time, out of two numbers set independently of each other.
 
-**This is an EARS job, not a code job.** A comping left hand genuinely is played
+**This is a taste job, not a code job.** A comping left hand genuinely is played
 softer than a melody. Render lofi seed 1 at `bark: 0.42` and at `bark: 0.60`
 (which reaches the layer) and let the user choose. Do not raise it because the
 measurement is tidy. `docs/genre-research/the-rhodes.md` §4a.
@@ -3181,7 +3217,7 @@ so the measurement was the suspect. `composeSong` is `(seed, RIG, genre)` and
 **"jungle" is both a genre and a rig**, so `composeSong(s,"jungle")` composed
 LOFI on the jungle rig. `makeChart` throws on the ambiguous form now, the same
 answer `mk2_roll.js` already gives one argument over. Every count in
-`bassRiff` remains `[EAR]`; whether the riff should transpose with the chord
+`bassRiff` remains `[CHOSEN]`; whether the riff should transpose with the chord
 is undecided by the sources and follows the acid builder's precedent.
 
 ### 9.4a THE OLD ENTRY, kept for its reasoning — 100% root, one note a bar
@@ -3202,7 +3238,7 @@ not support a change and leave the row open, which is also a result.
 sources DO support a change and name its shape**: a two-bar dub RIFF on minor
 pentatonic with root/3rd/5th anchors, real rests, slides — a repeating cell
 (the ostinato's kin), not lofi's walking-tone table. The build is parked
-behind §9.0's listening on purpose: it moves every jungle song and would land
+behind §9.0's playing on purpose: it moves every jungle song and would land
 on `04g`, which nobody has heard.
 
 Acid, plastikman and synthwave's basses have never been researched either.
@@ -3241,7 +3277,7 @@ and arrangement hashes identical on every one; baseline `c3abd9c25331528c`.
    the check runs. What shipped is structural and was driven to failure both
    ways: 0.9% of 109 with the law, 9.7% of 113 without.
 
-**STILL OPEN** (§7 of that sheet): the ear has heard none of it; the first note
+**STILL OPEN** (§7 of that sheet): the owner has judged none of it; the first note
 of a phrase still has no arrival, because `hang` and the previous pitch both
 reset at the phrase join; and the counter's `octaves: [-12, 12]` flip is the
 larger arrival defect on that part and belongs to `BACKLOG.md` §6.5.
@@ -3283,9 +3319,9 @@ nobody is the cheapest to check and the most likely to be real.
 
 ### 9.7 STILL OPEN FROM THE PREVIOUS §9 (`7c7644b`), unchanged
 
-- **The listener can add a note; it cannot MOVE one.** Research measured
+- **The person playing it can add a note; it cannot MOVE one.** Research measured
   displacement at ~3× the groove effect of addition, and it is onset-conserving.
-  `kit.listen` has `roll` and `figure: "run"`; Booth's sentence is *"a little
+  `kit.answer` has `roll` and `figure: "run"`; Booth's sentence is *"a little
   roll **or skip**"* and the skip is missing. **Re-measure before building** —
   one judge measured a one-sixteenth nudge on a period-7 lane as audibly null,
   on a build that no longer exists. If it is null, say so and stop.
@@ -3300,7 +3336,7 @@ nobody is the cheapest to check and the most likely to be real.
   roll for one of the silent cases.
 - **The pad adds no colour tones** — 0 of 4876 pad bars contain a 9th, 11th or
   13th, against the comp's 6.56%. May be correct for a block-chord pad and may be
-  why it sounds flat. `[EAR]`.
+  why it sounds flat. `[CHOSEN]`.
 - **Samples, honestly.** "No distribution" answers the licence half; the blocker
   is payload. The HTML is 2.2 MB of which 1.07 MB is already base64 audio, and a
   33-semitone × 3-dynamic sax multisample is roughly **8 MB more** on a file that
@@ -3353,7 +3389,7 @@ assuming:
 the plans are aimed at a dead program: `docs/UI_10X.md` and
 `docs/CODE_REVIEW.md`. `Improv Machine playable_BETA 0.1.html` stays frozen as
 reference. `corpus/` (456 KB of harvester scripts and derived tables) and
-`test/ears/LOG.md` are live and were left alone.
+the backlog are live and were left alone.
 
 **One near-miss worth keeping.** The first sweep classified probes by grepping
 their output for "Error" and reported `probe_rule_of_three.js` as dead — because
@@ -3419,7 +3455,7 @@ drop being used as an instrument. Battery: 118 seam, snapshot IDENTICAL,
 ui 26, voices clean, renders repeatable on all seven genres, audio 543/8
 with the 8 being the same long-standing checks to the last digit.
 
-**STILL OPEN, honestly.** (a) THE EAR HAS NOT HEARD IT — every genre's
+**STILL OPEN, honestly.** (a) NO VERDICT ON IT YET — every genre's
 room changed and no number here says it sounds better, only that it
 behaves correctly; that judgement is the user's and nothing should be
 built on top of this until it is made. (b) The convolver remains as a
@@ -3484,7 +3520,7 @@ delay lines, two 120°-phase LFOs) for cs80/vp330/mellotron, which is
 where real width comes from and which no amount of panning substitutes
 for; (3) the ECHO is still a mono delay line and a dub echo is classically
 stereo (ping-pong); (4) the DRUM machines' per-voice pan, which is how a
-kit stops being a point source. And the ear has heard none of it.
+kit stops being a point source. And the owner has judged none of it.
 
 **STEREO, ALL OF IT, at `2026-08-03g`** — the user: *"I don't understand,
 I said I want stereo... Do all of them now."* All four remaining items
@@ -3514,7 +3550,7 @@ from the `2026-08-03f` list landed in one pass:
    to mono the square cancels out of the arithmetic entirely. Offline the
    LFO starts at context zero (Law 7 holds — probe green); live, phase
    depends on when play was pressed, as on hardware. Bases: jungle 0.55,
-   plastikman 0.40, lofi 0.22 [EAR].
+   plastikman 0.40, lofi 0.22 [CHOSEN].
 4. **THE KIT HAS AN IMAGE**: per-chain StereoPanner (mk → pan →
    kitFilter), positions from the genre's `space.kitPan` table (letter →
    -1..1, absent = 0 = the old wire; no knob, no ride demand — a
@@ -3529,8 +3565,8 @@ underweights image because centred kick/bass dominate energy): acid
 -58.4→-44.5, jungle -48.8→-35.4, synthwave -23.5→-18.0, plastikman
 -13.4→-12.9, bladerunner -14.3, lofi -26.8, dkc -20.4. Battery: 118 seam,
 snapshot IDENTICAL, ui 26, blend 10, renders repeatable on all seven.
-STILL OPEN: the EAR has heard none of it; per-genre widths/positions are
-all [EAR] first guesses; dkc/lofi read low because seed 11's draws — a
+STILL OPEN: the owner has judged none of it; per-genre widths/positions are
+all [CHOSEN] first guesses; dkc/lofi read low because seed 11's draws — a
 roll across seeds would say more; the mellotron's own ensemble (it is a
 tape machine, no chorus — correct) and the segakit's chains carry no
 kitPan for bladerunner (barely a kit).
@@ -3578,10 +3614,10 @@ TRIM and only TRIM, so the genre underneath is untouched. This is exactly
 the round-two research finding built: "storing patch variations for
 performance verse/chorus structures" [corpus:soundonsound, Erica].
 
-Battery 118/118, ui 26, snapshot IDENTICAL. STILL OPEN: the ear has heard
+Battery 118/118, ui 26, snapshot IDENTICAL. STILL OPEN: the owner has heard
 none of it; blips carry a ghost for the live automation and a trail for
 auto-pan depth, both untested by eye in motion; presets are first guesses
-[EAR]; and a genre cannot yet declare a whole field state per SECTION,
+[CHOSEN]; and a genre cannot yet declare a whole field state per SECTION,
 which is the obvious next step now that a state is a thing you can see.
 
 **THE CONDUCTOR ARRANGES THE STAGE at `2026-08-03i`** — the step the field
@@ -3633,7 +3669,7 @@ the CS-80 right and reaches +0.20 in the chorus; seed 4 seats it left at
 -0.22 — same genre, different stage every song.
 
 Battery 118/118, blends 10/10 (504 pairs), ui 26, snapshot IDENTICAL,
-renders repeatable on all seven. STILL OPEN: the ear has heard none of it;
+renders repeatable on all seven. STILL OPEN: the owner has judged none of it;
 sections a stage does not name snap to centre rather than holding (that is
 `kind:"section"`'s own semantics everywhere, so it is consistent rather
 than special, but it is a choice worth hearing); five genres have no stage;
@@ -3659,7 +3695,7 @@ documented characterful number is the band limit: the SPX90 converts at
 manualslib specs]. **That ceiling is fixed and is NOT a control** — it is
 no more adjustable on the real box than here, and a knob no genre rides is
 against this file's standing rule. Every other range is mine and marked
-[EAR]. (It was first declared as a `switch` control and the battery
+[CHOSEN]. (It was first declared as a `switch` control and the battery
 correctly refused it: `kind:"switch"` is never automated and never read per
 song, so it reached the sound through nothing the checks could see. The
 right answer was to delete the knob, not to exempt it.)
@@ -3697,7 +3733,7 @@ processor — architecturally the most interesting, and the strongest
 argument for more columns), Lexicon PCM90 (our FDN room is the same job
 done differently; what a PCM90 adds is ALGORITHMS, not quality), Roland
 SRV-330 "Dimensional Space", ART Multiverb gated reverb (we already have a
-gated verb, unresearched against it). And the ear has heard none of it.
+gated verb, unresearched against it). And the owner has judged none of it.
 
 **THE DP/4 at `2026-08-03k`** — second of Hawtin's units, and the one that
 is architecturally interesting rather than merely missing.
@@ -3760,7 +3796,7 @@ STILL OPEN: three of Hawtin's five (Lexicon PCM90 — our FDN room is the
 same job, what a PCM90 adds is ALGORITHMS; Roland SRV-330 "Dimensional
 Space"; ART Multiverb gated reverb, unresearched against our existing
 gate). The `snap` motion kind from plastikman-minimal.md is still the
-highest-value unbuilt thing. And the ear has heard none of it.
+highest-value unbuilt thing. And the owner has judged none of it.
 
 **SNAP, AND THE PROGRAMME TAPE, at `2026-08-03l`** — the highest-value
 unbuilt thing from plastikman-minimal.md, now built.
@@ -3807,7 +3843,7 @@ repeatable on all seven.
 STILL OPEN: only plastikman snaps — jungle's drops and synthwave's
 prechorus are the obvious next candidates, and both are sourced genres
 where a hard cut is idiomatic. Three of Hawtin's five units remain
-(PCM90, SRV-330, ART Multiverb). And the ear has heard none of it.
+(PCM90, SRV-330, ART Multiverb). And the owner has judged none of it.
 
 **⚠ THE ROOM WAS SILENTLY FALLING BACK TO THE CONVOLVER — found at
 `2026-08-03m`, and this is the important part of this entry.**
@@ -3924,8 +3960,8 @@ collected out of the session entries where intentions go to be lost. Six
 sections, each item saying WHY it is open and WHAT would close it. **§0
 outranks the rest and is not a task**: the FDN room, the whole stereo build,
 the matrix, the field, the stage, the flanger, the DP/4, the snap and now
-the barberpole have all been MEASURED and none of them LISTENED TO. The
-sax is the precedent — every metric green, the ear refused it.
+the barberpole have all been MEASURED and none of them JUDGED. The
+sax is the precedent — every metric green, the owner refused it.
 
 **2. THE BARBERPOLE.** `docs/genre-research/barberpole.md` is the research,
 written before the build and kept after it, with a table of what the sources
@@ -4053,11 +4089,11 @@ raise the number.** That check's whole value is failing when the return
 disappears, and a ceiling chosen to make today's mix pass proves nothing.
 The right fix derives it from what is actually panned.
 
-**THE LISTENING SESSION WAS PREPARED, AND PREPARING IT FOUND A DEFECT
+**THE TASTE CHECK WAS PREPARED, AND PREPARING IT FOUND A DEFECT
 CLASS — 2026-08-03, docs and harness only, no program change, the stamp
 stands at `2026-08-03o` and the published artifact IS this build (stamp
 check green).** Per BACKLOG §0 and START-HERE, this session built the
-sitting instead of stacking more work: `test/ears/LOG.md` now opens with
+sitting instead of stacking more work: the backlog now opens with
 six songs — seeds verified on this build, timings computed from each
 song's own sections, one or two plain questions each, every verdict wired
 to a decision. plastikman 11 (the effect-cuts at 0:59/1:58, verified off

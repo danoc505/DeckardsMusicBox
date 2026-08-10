@@ -1,7 +1,7 @@
 /* DOES THE RECORD START SMALL AND BUILD UP. `form.build.enter` claims each part
    first arrives at a fraction of the record. That claim is only worth anything
    if the number of parts playing actually rises through the song -- a role list
-   that oscillates around a mean would satisfy a code reader and no listener.
+   that oscillates around a mean would satisfy a code reader and no player.
 
    Reports, per genre, the mean count of active roles in each fifth of the
    record, and the bar each role first sounds at.

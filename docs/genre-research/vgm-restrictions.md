@@ -58,7 +58,7 @@ performance:
 **The figure was in 99% of bars** — more constant than the drums, the tune or
 the chords, and it was there because the table said so in as many words: *"the
 ostinato is the constant: it is in every section."* A decision, written down,
-and refused by the ear:
+and refused by the owner:
 
 > *"That bouncing … it's too much to always be there, it doesn't fit with the
 > rest, it's not like in the video game."* — the user, 2026-08-08
@@ -80,8 +80,8 @@ comfortably inside the six-or-seven the hardware allows — so this is not a
 budget fix, it is an idiom fix, and the budget is recorded here as the reason
 the idiom exists rather than as a clamp.
 
-**HOW FAR to take it is `[EAR]`.** No source gives a percentage. 64% is the
-first answer and not the settled one; the honest next step is a listen, not
+**HOW FAR to take it is `[CHOSEN]`.** No source gives a percentage. 64% is the
+first answer and not the settled one; the honest next step is the owner’s verdict, not
 another table edit.
 
 ## 5. THE SECOND FAULT IN THE SAME COMPLAINT, MEASURED AND *NOT* FIXED
@@ -105,7 +105,7 @@ in the cell against a Bb bass is not an error being corrected — it is the
 sound". But 28% is a rate nobody has ever chosen or heard a verdict on, and the
 source describes a cell whose notes are all IN the mode, which is a much weaker
 claim than a semitone against a sounding chord tone. **Left alone deliberately:
-one complaint, one change, so the ear can tell which fix did what.** If the
+one complaint, one change, so the owner can tell which fix did what.** If the
 bouncing still does not fit after this, this row is the next suspect and the
 number to move is the cell's relationship to the chord, not its volume.
 

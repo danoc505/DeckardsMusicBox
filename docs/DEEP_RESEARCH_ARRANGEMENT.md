@@ -49,7 +49,7 @@ Elizabeth Margulis (*On Repeat*, OUP) opens with the question *"why is it that w
 even enjoy, degrees of repetition in music that would be repugnant in almost any other
 domain?"* The mechanisms she documents:
 
-- **Attentional shift from local to global.** Repeated listening triggers *"an
+- **Attentional shift from local to global.** Repeated playing triggers *"an
   attentional shift from more local to more global levels of musical organization"* —
   you stop hearing notes and start hearing structure. A section cannot be *heard as* a
   section until its material has repeated.
@@ -112,7 +112,7 @@ How often must something change? The sources cluster tightly:
 
 | Source | Rule |
 |---|---|
-| `005` (2-Loop Rule) | The arrangement must change **every two loops of the chords**, "because our ears naturally expect songs to change every two loops of the main instruments" |
+| `005` (2-Loop Rule) | The arrangement must change **every two loops of the chords**, "because our a verdict on it naturally expect songs to change every two loops of the main instruments" |
 | `001` | Something changes **every 8 bars** — "every eight bars of the grid is like a page in a book" |
 | eMastered / Abstrakt | "Every new 8-bar loop needs to have a change" |
 | Deviant Noise | "Change something up **every 4 bars** across the entire arrangement, even if it's subtle" |

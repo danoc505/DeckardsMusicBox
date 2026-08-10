@@ -122,7 +122,7 @@ timpani and war drums; `[one]` on the tempo band.**
 Only melodigging gives a range (40–80). The one independent datapoint found is
 a measurement of a single Erang track at **83 BPM** [corpus:songbpm], and a
 neighbouring genre (dungeon rap) is described at 50–65 [corpus:aesthetics.
-fandom]. So the band is real and slow, and its exact edges are `[EAR]`. Taken
+fandom]. So the band is real and slow, and its exact edges are `[CHOSEN]`. Taken
 together they support roughly **52–78**, which would make this the slowest
 genre in the file by a wide margin — lofi, the current slowest, sits at 70–84.
 
@@ -213,7 +213,7 @@ stage-3 code, which Law 4 forbids.
   slowly; no source says how slowly.
 - **What a "large marching drum" is, specifically.** No source names one. The
   nearest sourced terms are "martial snare patterns" [corpus:melodigging] and
-  "war drums" [corpus:topfhelm]. Anything more specific will be `[EAR]`.
+  "war drums" [corpus:topfhelm]. Anything more specific will be `[CHOSEN]`.
 
 ---
 

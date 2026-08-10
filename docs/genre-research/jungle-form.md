@@ -59,6 +59,6 @@ With jungle's 16-bar intro/outro outside the plan: totals ~192-270 bars ≈
   peak section already carries more (chorusPeak energy, arc apex, variant
   lift); a dedicated second-drop material variant is a future materials
   idea, noted, not built.
-- Budget steps [EAR] within the sourced bar counts. The 1994-specific
+- Budget steps [CHOSEN] within the sourced bar counts. The 1994-specific
   looseness (drumtrip: the era was dubplate-first, pre-formula) argues for
   the wide ranges kept here rather than the rigid template.

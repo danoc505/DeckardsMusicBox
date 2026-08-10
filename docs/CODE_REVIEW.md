@@ -168,7 +168,7 @@ in rough priority:
 2. **Real-music drum corpus** (the handoff's #1 known-unfinished). The sampling direction
    *is* the fix: harvest grooves from open drum stems (or Groove MIDI, CC-BY). Stored
    relatively (lanes + micro-timing), they slot in like every other corpus.
-3. **The sample as a full member of the listening layer.** Order-independence is the core
+3. **The sample as a full member of the playing layer.** Order-independence is the core
    idea — extend it so a dropped song is *just another engine*: its implied harmony drives
    the bass, its transients drive the groove, its phrase grid drives entrances. The
    "room rule" is a first step; go all the way.
@@ -210,4 +210,4 @@ node probe_nct.js             # the 10.5% unresolved-NCT measurement
 ```
 
 Line numbers reference the shipped `Improv Machine playable_BETA 0.1.html`. This review
-is static (no audio); the user's ears remain the final judge.
+is static (no audio); the user's a verdict on it remain the final judge.

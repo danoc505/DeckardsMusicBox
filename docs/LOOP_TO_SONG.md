@@ -149,8 +149,8 @@ The **empty** is the part we do not have, and it is cheap and powerful:
 > not all of the main rhythmic elements before the next downbeat. This creates... a
 > decoupling of the rhythmic elements between large musical sections. The most basic
 > form is dropping the kick out on the last measure of an eight-bar phrase, which
-> destabilises the low end and creates a vacuum that the listener will anticipate coming
-> back. Listening to a lot of techno... taking the kick out and putting it back in is
+> destabilises the low end and creates a vacuum that the person playing it will anticipate coming
+> back. Playing to a lot of techno... taking the kick out and putting it back in is
 > almost everything the genre does for song structure."
 
 Also useful: **ghost notes** (a quieter version of the same drum on weak 16ths), and the
@@ -165,7 +165,7 @@ content on the weak beats being best.
 `006` gives the repetition threshold precisely:
 
 - Once = intriguing, but not yet memorable
-- Twice = reinforced; the listener can now sing it back
+- Twice = reinforced; the person playing it can now sing it back
 - **Three times = the brain begins to tune it out**
 
 So on the third pass you must do one of two things:

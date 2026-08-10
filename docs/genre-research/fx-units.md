@@ -22,7 +22,7 @@ change. 31.25 kHz sampling, 16-bit linear conversion, and processed signal
 
 **What they do NOT give**: flanger parameter ranges. The manual has them;
 the searches did not surface them. So the topology is the standard one and
-every range is marked [EAR] — the honest split.
+every range is marked [CHOSEN] — the honest split.
 
 **The one characterful number is the BAND LIMIT.** 12 kHz on the processed
 path is what makes it a 1985 box rather than a modern flanger, and it is
@@ -122,7 +122,7 @@ frequency axis), a table of what the sources gave against what we did, and
 reason.
 
 The one worth doing next is Sinevibes Whirl's **stereo phase offset between
-channels** — ours offsets between NOTCHES, not between the two ears, and
+channels** — ours offsets between NOTCHES, not between the two a verdict on it, and
 the program is stereo now. It is in `docs/BACKLOG.md` §5.
 
 **Rebuilt 2026-08-05** — `barberpole.md` §7. The window was a bell in *time*

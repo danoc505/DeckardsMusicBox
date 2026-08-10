@@ -23,9 +23,9 @@ a parameter, which is this project's most expensive habit.
 | *"Mars volta is virtuosos it is long solos"* | wrote "no solos, no ornament" into a plan that names Mars Volta | the solo is the STRUCTURE, §2 |
 
 **And one more, which is the frame for all of them:** *"nothing ive said is
-authoritative upon anything."* The owner's ear says where to look. The sources
+authoritative upon anything."* The owner's verdict says where to look. The sources
 decide what is there. Anything below that was chosen rather than sourced is
-marked `[EAR]`.
+marked `[CHOSEN]`.
 
 ## §0b Sources, all fetched this session
 
@@ -216,6 +216,6 @@ Build order, and the reasoning is in the approved plan:
 **Deliberately not in the first slice:** the long-range tension; kotekan; the §G
 rule-breaking mechanism; vocal and noise sampling; sludge (parked by the owner).
 
-**Nothing here has been heard.** Whether a locked groove with a soloist across it
+**Nothing here has a verdict.** Whether a locked groove with a soloist across it
 is hypnotic or dull is a taste question and no measurement in this repo settles
 it.

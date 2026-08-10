@@ -192,7 +192,7 @@ side.
   [corpus:learn2playjazz] — but the walking-bass sources put it on the last
   beat, which is weak. Both are described; nothing reconciles them. This
   program puts it on the last beat at a lower velocity, which follows the
-  walking sources, and that is `[EAR]`.
+  walking sources, and that is `[CHOSEN]`.
 - **How often.** No source gives a rate. Left as a genre draw.
 - **Whether the same widening should reach the TUNE.** The law is one law for
   every part, so clause (b) applies to all of them — but nothing in this sheet

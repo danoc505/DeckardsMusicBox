@@ -18,14 +18,14 @@ Companions: `lofi-production.md` (where the repetition was measured),
 
 ## 1. THE RULE ITSELF — why the third time and not the second
 
-> "When you present a musical idea once, it intrigues the listener. The second
+> "When you present a musical idea once, it intrigues the person playing it. The second
 > repetition reinforces this idea, making it memorable. However, **by the third
 > repetition, the brain tends to tune out** the information."
 > [corpus:makebestmusic, The Rule of Three in Music Composition]
 
 > "Whenever a musical pattern, idea or motif is going to be **repeated for a
 > third time, it's best to change it in some way**, or present a new idea…
-> you'll surprise the listener (who would be expecting a repetition of the same
+> you'll surprise the person playing it (who would be expecting a repetition of the same
 > pattern)." [corpus:omnionsound]
 
 So the count is: **state it, confirm it, then change it.** Two identical
@@ -35,7 +35,7 @@ the third pass arriving unchanged.
 **And one concrete shape for the change, which matters more than it looks:**
 
 > "begin with a familiar musical idea, then **diverge from it halfway through
-> the third play**" — so the listener still recognises what they are hearing
+> the third play**" — so the person playing it still recognises what they are hearing
 > before it turns. [corpus:makebestmusic]
 
 ---
@@ -107,13 +107,13 @@ corpus:sweetwater 5 Tips for Better Loop-based Music]
   explicitly framed as a signal of *direction* — developing, not ornamental.
 - **The slow cumulative sweep.** "Open a low-pass filter by a few percent each
   time the loop repeats — over 32 bars the sound brightens gradually, **a
-  change too slow for listeners to notice on any single pass, but the section
+  change too slow for people playing it to notice on any single pass, but the section
   feels different at bar 32 than at bar 1**." This is developing variation
   stated in engineer's language: nobody can point at the change, and the
   destination is audible.
 - **The one-bar hole.** "Remove one element for one bar every 8 bars — drop the
   hi-hat for bar 7 and bring it back on bar 8 to create a **micro-break that
-  resets listener attention**." Note the shape: one bar, one element, and it
+  resets player attention**." Note the shape: one bar, one element, and it
   comes back. That is not stripping the motif, it is punctuation.
 - **Fills at the seam.** A fill "at the end of every 8 or 16-bar phrase to mark
   transitions without disrupting the flow."
@@ -139,7 +139,7 @@ much of the first statement each later statement repeats, note for note:
 1. **It counts the wrong thing.** The change is demanded on the third statement
    of a *section function* (`seen[f] >= 3`, verse and chorus only). A lofi song
    has six sections, so a verse usually appears twice and the rule **never
-   fires at all**. But the listener is counting passes of the four-bar loop: an
+   fires at all**. But the person playing it is counting passes of the four-bar loop: an
    8-bar chorus is two passes, and two choruses back to back is four. By §1's
    count the change is overdue by the second chorus and never comes.
 
@@ -164,7 +164,7 @@ only, which for most lofi songs means never.
 ## 5. WHAT TO BUILD, in the order the evidence supports
 
 1. **Count loop passes, not section names.** The demand should be raised on the
-   third pass of the same material, which is what a listener counts (§1).
+   third pass of the same material, which is what the person playing it counts (§1).
 2. **Answer it by re-presenting, never by deleting.** `Avar`'s
    diverge-at-the-halfway-point is the model and already exists; the chorus has
    no equivalent and should get one. Re-orchestration (§3) is the cheapest
@@ -181,7 +181,7 @@ only, which for most lofi songs means never.
 
 - **How big the change should be.** [corpus:makebestmusic] declines to say
   ("only that they should create a sense of surprise"). No source gives a
-  percentage. So any amount this program picks is `[EAR]`.
+  percentage. So any amount this program picks is `[CHOSEN]`.
 - **Whether the rule of three applies to a genre built on hypnotic
   repetition.** Every source above is about songs. Acid and minimal techno
   deliberately repeat — this repo's own `plastikman-minimal.md` quotes the

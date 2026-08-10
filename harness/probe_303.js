@@ -88,7 +88,7 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
        The first version tested everything at the panel default of cutoff 520,
        and reported ACCENT SWEEP as dead. It is not: at 520 the envelope top is
        already 10450 Hz, and 10450 against 11000 on an 82 Hz saw is the same
-       filter to an ear -- the knob had no room, because the filter was open past
+       filter in the mix -- the knob had no room, because the filter was open past
        audibility before it was touched. At a cutoff where acid actually sits the
        same knob moves the top from 4019 to 7144 Hz.
 
