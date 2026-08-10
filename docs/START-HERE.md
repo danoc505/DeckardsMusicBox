@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-09e` unless it says otherwise. If you
+*Everything below is verified at `2026-08-09f` unless it says otherwise. If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -122,7 +122,7 @@ while both files carried an identical stamp, so three commits of work went
 unheard. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-09e`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-09f`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -134,6 +134,29 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Build `2026-08-09f` — THERE IS A NINTH GENRE: prog-techno.** Pink Floyd
+crossed with punk on a techno backbone, which is how the owner put it. A locked
+groove that does not change, a repeating figure of seven notes that walks against
+the bar and lands accented when it comes home, and a solo that is silent for the
+first third of the record and then arrives. Dark, funky, about ten minutes.
+`docs/genre-research/prog-techno.md` has the sources and the four corrections
+that got there.
+
+**⚠ AND THE TWO MECHANISMS IT NEEDED ALREADY EXISTED**, which is worth knowing
+before you build anything here. The pitched cycle is `ostinato.run`, Berlin
+School sequencing that has been in the file for weeks; all it lacked was the
+homecoming, and `sam` is one condition and one multiply. The structural solo is
+`form.arc.thin` plus `form.build.enter`, both already there. **Look for the
+mechanism before you write one** — this is the fourth time in this file's history
+that the thing was already present and unreached.
+
+**⚠ AND `const BARS = 4` IS GONE THE SAME WAY `verse: 16` WENT.** A material was
+four bars for every genre, forever, and a seven-note cycle can never come home
+inside four bars. It is `materialBars` now, defaulting to 4. That flushed out
+three places assuming a material and a chord progression are the same length.
+**If you find a constant that every genre happens to share, it is a constraint
+nobody has needed yet, not a fact.**
 
 **Build `2026-08-09e` — YOU SET HOW LONG THE RECORD IS.** A dial on the
 transport, 1:00 to 20:00, on every genre. The song is BUILT to that length —
@@ -278,7 +301,7 @@ wanted, and nobody should quietly re-add costs to the other files either.
 
 ## The commands
 
-Build `2026-08-09e`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-09f`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 

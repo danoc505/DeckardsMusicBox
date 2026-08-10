@@ -24,6 +24,41 @@ regression.
 
 ---
 
+## 2026-08-09f — A NINTH GENRE: PROG-TECHNO
+
+**OPEN — not heard, and this is the one to play first**, because it is new music
+rather than a change to old music. Pick "prog-techno" from the genre list.
+
+Roughly ten minutes. Dark, 129 bpm, one chord for the whole record.
+
+### What to listen for
+
+1. **The repeating figure.** Seven notes against a bar that holds eight, so it
+   slides one step every bar and comes back to where it started after seven —
+   and the note it lands on is played harder, so you can hear it arrive. That is
+   borrowed from Indian classical music, where the beat everything returns to has
+   a name. **Can you actually hear it come round, or does it just sound like a
+   loop that will not sit still?** That is the whole question and I cannot answer
+   it.
+2. **The solo.** It plays nothing at all for the first three or four minutes and
+   then arrives. That is the Pink Floyd idea — the solo is the shape of the
+   record, not decoration on it. **Does its arrival feel like an event, or does
+   the opening just feel empty?**
+3. **The kick is deliberately not on every beat.** That is where "funky" is
+   supposed to come from. If it sounds wrong rather than funky, say so — it is
+   one line in the table.
+4. **The bass and the highs get taken away and brought back.** You asked for this
+   in the techno conversation. It is set much deeper here than in any other
+   genre. **Too much?**
+
+### What it does NOT do yet, so you are not listening for something absent
+
+It does not break any rules. Every note is in key. The punk half of the brief —
+the refusing, the rule-breaking — is not built; what is here is the dark, funky,
+long half. If it sounds well-behaved, that is why, and it is the next thing.
+
+---
+
 ## 2026-08-09e — YOU SET HOW LONG THE RECORD IS
 
 **OPEN — not heard.** This one you asked for in a sentence, so it is the first

@@ -239,6 +239,37 @@ Not a defect in the program; a defect in how it is checked.
 
 ---
 
+## 0d. PROG-TECHNO IS BUILT — `2026-08-09f`. What is left of it
+
+The ninth genre. "Pink Floyd crossed with punk wrapped into a techno back bone."
+Sources, the four corrections that shaped it, and what is deliberately missing:
+`docs/genre-research/prog-techno.md`.
+
+**Built:** a locked groove; a seven-note figure that walks against the bar and is
+accented when it comes home (`sam`); a solo silent for the first third and
+arriving with the record; a drone instead of a progression; the three desk bands
+ridden hard; movements shaped alap → jod → jhala.
+
+**⚠ IT DOES NOT BREAK ANY RULE, AND IT WAS SUPPOSED TO.** `probe_theory` reads it
+**0.0% out of key**, next to acid and jungle. A drone and one mode puts every
+note in the key by construction. Punk-as-refusal is §G — *"the program has no way
+to break its own rules"* — and this genre is the first thing in the file that has
+a reason to need it. **That is the next slice and it is the interesting one.**
+
+**Also left out on purpose:** the long-range unresolved tension (Cohen traces a
+dissonant E over D minor through the whole of "Dogs", resolving only at the end —
+we have nothing that holds an idea across a record); **kotekan**, two parts
+interlocking into one faster line; vocal and noise fragments for the Death Grips
+texture; and sludge, parked by the owner.
+
+**And two things this build turned up that are worth knowing:**
+- **`materialBars` exists now.** A material was hardcoded at four bars for every
+  genre. Any genre wanting a cycle longer than four bars needs it.
+- **Three checks and one probe assumed four-bar materials** and were corrected.
+  If you add a genre with a different material length, expect more.
+
+---
+
 ## 0c. MINIMAL TECHNO IS WRONG EVERYWHERE EXCEPT THE DRUMS — opened 2026-08-09
 
 The owner: *"I think weve got the fx for the drums right but everything else is

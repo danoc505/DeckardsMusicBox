@@ -4,7 +4,26 @@
 > the rules, the current state and what to do next, in two pages. Then come
 > back and read this whole file, which is the contract.
 
-*⚠ **CURRENT AT `2026-08-09e` — YOU SET HOW LONG THE RECORD IS.** A dial on the
+*⚠ **CURRENT AT `2026-08-09f` — A NINTH GENRE, prog-techno.** "Pink Floyd
+crossed with punk wrapped into a techno back bone", in the owner's words. The
+finding it is built on: Cohen's account of Pink Floyd's "Dogs" -- "a small amount
+of material... expanded enormously by heavy repetition and an exceptionally slow
+harmonic pace" -- is a description of a techno track written about a prog record,
+so the two are one strategy rather than two to reconcile. A locked groove, a
+seven-note figure that walks against the bar and is ACCENTED when it comes home
+(`sam`, from tala and the gamelan gong), and a solo that plays nothing for the
+first third and then arrives (0 lead notes early, 256 after -- Cohen: the solos
+"outline the contour in energy level of the song... leading it to its peak").
+**Both mechanisms already existed** -- `ostinato.run` and `form.arc.thin` -- and
+one baked-in constant had to go: `const BARS = 4`, the material length, now
+`materialBars`. **THE FULL 2700-SONG SNAPSHOT WAS IDENTICAL** before the baseline
+was rewritten for the new genre. The battery caught nine things and was right
+every time; four were my table and three were check premises stale in the same
+way the hardcoded section length was. `docs/genre-research/prog-techno.md`.
+**It does NOT yet break any rule** -- probe_theory reads it 0.0% out of key, and
+punk-as-rule-breaking is §G, deliberately left for the next slice. **NOT HEARD.***
+
+*⚠ **`2026-08-09e` — YOU SET HOW LONG THE RECORD IS.** A dial on the
 transport, 1:00 to 20:00, on every genre; the song is BUILT to that length,
 keeping its intro, its build, its peak and its outro, rather than cut to it.
 Worst miss over 8 genres x 5 lengths x 4 seeds: 31 seconds. **And it exposed a
@@ -71,7 +90,7 @@ two things that were built and then removed by measurement.*
 
 *⚠ **AND THE UNHEARD PILE IS NOW TWENTY-ONE.** The 2026-08-08 run was nineteen
 builds, `08a` through `08s`, ending with the roll becoming editable; `2026-08-09b`
-made twenty, and `2026-08-09c`, `09d` and `09e` make twenty-three. **Not one has been listened to.** That is not a
+made twenty, and `2026-08-09c`, `09d`, `09e` and `09f` make twenty-four. **Not one has been listened to.** That is not a
 footnote: this program's own first rule is that measurement can prove a thing
 exists and only the owner's ear can say whether it is good. `2026-08-09b` is the
 one build in that stack aimed at a complaint the owner made in their own words,
