@@ -462,10 +462,13 @@ the "derive, never list" rule broken for convenience — so it has not been done
 
 ### Still open after this
 
-- **Atmosphere is embedded but not yet playable.** All ten `sfx` and `Noise`
+- **Atmosphere is embedded but not yet playable.** ~~All ten `sfx` and `Noise`
   beds are in the bank and none has a machine — the program has no role that
   holds one sound for a whole record, which is the shape they need. The
-  `tape` role is the nearest existing mechanism.
+  `tape` role is the nearest existing mechanism.~~ **CLOSED `2026-08-10d`** —
+  built on exactly that mechanism: one event on the tape role, the loopable
+  eight as per-song beds and the two one-shots as a peak accent.
+  `dungeon-synth-fx-and-balance.md` §1, §7.
 - **The roll is a genre dial, and the harp wants it on while the strings want
   it off.** Both are in the same genre now, so one of them is wrong on any
   given song. The dial belongs on the MACHINE, not the genre.

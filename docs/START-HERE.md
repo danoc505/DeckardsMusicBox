@@ -1,6 +1,7 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-10b` unless it says otherwise. If you
+*Everything below is verified at `2026-08-10b` unless it says otherwise (the
+newest build is `2026-08-10d`; its entry is under "What happened last"). If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -122,7 +123,7 @@ while both files carried an identical stamp, so three commits of work went
 unjudged. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-10b`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-10d`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -134,6 +135,33 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Build `2026-08-10d` — DUNGEON SYNTH DAY: THE HELD NOTE, THE SHELF, THE SEAMS,
+AND THE WEATHER.** Four slices, each measured, each asked for directly:
+*"using legato where needed, the correct audio levels, the correct low mid,
+highs... all the instruments in the Errang set... bring in more of the FX
+sounds properly."* All in `docs/genre-research/dungeon-synth-fx-and-balance.md`.
+
+- **Legato** on the tune and the second keyboard — the tune rang 0.82 s and
+  left 1.77 s of silence on a machine with a 0.55 s attack. After: +3.5 dB of
+  ring, silence share 26% → 2%.
+- **A −3 dB low shelf** — the record had 66–75% of its energy in 60–200 Hz
+  (the pack's own patches centre at 330–656 Hz); the drum bus was paying
+  11.5 dB of headroom for 2.4 dB of loudness. After: centroid 193 → 332 Hz,
+  drum crest IMPROVED, march still the loudest part by 11 dB RMS. And the
+  bass fader was tried and REVERTED: +2.7 dB moved the drone's leave-one-out
+  from −0.01 to −0.01 dB — its inaudibility is register physics, recorded as
+  an open design question.
+- **Automation at the seams** — the genre declared ZERO gestures while fills
+  recur 7–10 a song (the 10a lesson, unapplied here). Four fill gestures and
+  a matrixDraw pool (room and echo only — no flanger in a crypt). Lanes now
+  swing 20–60% of dial; clamp check green.
+- **The weather** — the pack's ten unplayable sfx/Noise files play: eight
+  loopable BEDS (one per song, on the tape role's rail, −38.9 dB measured)
+  and two one-shot ACCENTS spent once on the peak (Belkin's saved colour).
+  **All 65 Erang sounds are now reachable.** Snapshot moved 600 lines, all
+  dungeonsynth, note-hash unchanged; battery 173+stamp, ui 68/0 (one flaky
+  first run, both reported), blend 20/20, midi 20/20.
 
 **Build `2026-08-10b` — TWO THINGS, BOTH ASKED FOR DIRECTLY.**
 

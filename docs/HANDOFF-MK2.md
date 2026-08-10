@@ -4,7 +4,27 @@
 > the rules, the current state and what to do next, in two pages. Then come
 > back and read this whole file, which is the contract.
 
-*⚠ **CURRENT AT `2026-08-10b` — THE FIGURE ARRIVES IN THE FIRST MINUTE, AND THE
+*⚠ **CURRENT AT `2026-08-10d` — DUNGEON SYNTH HOLDS ITS NOTES, MOVES ITS FX,
+AND GETS ITS WEATHER.** Four slices in one day of dungeon synth work, each
+measured, each from the owner's own list ("legato where needed, the correct
+audio levels, the correct low mid, highs... all the instruments in the Errang
+set... more of the FX sounds"): legato on the tune and second keyboard (the
+tune rang 0.82 s then left 1.77 s of silence on a 0.55 s-attack machine; +3.5 dB
+of ring after); a −3 dB desk low shelf (the record carried 66–75% of its energy
+in one octave band against the pack's own 330–656 Hz centroids — after: centroid
+193→332 Hz, drum crest improved, march still loudest by 11 dB RMS); gestures on
+the recurring `fill` trigger plus a room-and-echo `matrixDraw` pool (the genre
+declared ZERO gestures while fills recur 7–10 a song — the 10a lesson,
+unapplied); and the pack's ten unplayable sfx/Noise files now play — eight
+loopable beds drawn one per song on the tape role's rail at a measured
+−38.9 dB, two one-shots as a peak accent, **all 65 Erang sounds reachable**.
+Twice a number was tried and the measurement refused it, and both are recorded:
+the bass fader (+2.7 dB moved the drone's leave-one-out from −0.01 to −0.01 dB
+— register physics, not gain) and the first bed level (−45 dB, the "declared
+and absent" defect in audio form). Snapshot moved 600 of 5400 lines, every one
+dungeonsynth, note-hash unchanged. `docs/genre-research/dungeon-synth-fx-and-balance.md`.*
+
+*⚠ **`2026-08-10b` — THE FIGURE ARRIVES IN THE FIRST MINUTE, AND THE
 WORD "EARS" IS OUT OF THIS REPO.** Two things, both asked for directly.
 
 **One: prog-techno's own subject was a minute late.** `probe_stems` reads the

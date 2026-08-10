@@ -1411,7 +1411,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-10c · prog-techno stops droning and the desk moves</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-10d · dungeon synth holds its notes, moves its fx, and gets its weather</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -11277,7 +11277,14 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
      dies. The buffer comes from `erangBuffer`, so a bed a song already
      decoded is never decoded twice. */
   V.atmos = function(g, ev, t){
-    const s = ERANG.meta(ev.bed), buf = erangBuffer(g, ev.bed);
+    /* a caller that names no bed (the every-voice-sounds probe feeds each
+       voice a generic event) gets the pack's first loopable bed rather than
+       silence -- a voice that can render nothing from a well-formed event is
+       indistinguishable from a broken one, which is what that check exists
+       to catch */
+    const bed = ev.bed ||
+      ERANG.family("sfx", "Noise").find(n => { const m = ERANG.meta(n); return m && m.ls >= 0; });
+    const s = ERANG.meta(bed), buf = erangBuffer(g, bed);
     if(!s || !buf) return [];
     const c = g.ctx;
     const src = c.createBufferSource(); src.buffer = buf;
