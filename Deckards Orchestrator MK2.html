@@ -1411,7 +1411,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-09e · you set how long the record is, and every part of the mix can be aimed at a genre</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-09f · a ninth genre: prog-techno, a locked groove with a cycle that comes home and a solo that arrives</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20011,6 +20011,396 @@ const GENRE = {
     },
   },
 
+  /* ═══════════════════════════════════════════════════════════════════════════
+     PROG-TECHNO — Pink Floyd crossed with punk, on a techno backbone
+
+     The owner named it and named its references: Pink Floyd, Mars Volta,
+     Jagatara, Bloody Beetroots, Boys Noize, Death Grips, Indian and Asian music.
+     Full sheet with every source: docs/genre-research/prog-techno.md.
+
+     ── THE ONE FINDING THIS GENRE IS BUILT ON ──────────────────────────────────
+     Pink Floyd and techno are the same compositional strategy. Cohen, on "Dogs":
+     "Pink Floyd used a small amount of material, appropriate to a
+     standard-length song, and expanded each of its sections enormously by
+     employing heavy repetition and an exceptionally slow harmonic pace" -- one
+     vamp covering "ten out of the 17 minutes", cycling "between 37 and 55
+     seconds" [corpus:cohen-mto-21.2]. That is a techno track described in a prog
+     paper. So this is not a fusion of two opposed things; it is one strategy,
+     with punk on the surface.
+
+     Every other reference says it again: Jagatara's "restless, sax-filled
+     grooves" where "the bass and bongos give songs a get-up-and-dance bounce,
+     allowing the saxophone and guitar their own chaotic agendas"; Indian
+     classical's fixed drone with a soloist who "will always return to the
+     composition on the sam"; gamelan's colotomic cycle under elaborating layers.
+     A LOCKED GROOVE WITH VOICES IMPROVISING ACROSS IT.
+
+     ── AND THE PARTS OF IT THIS PROGRAM ALREADY HAD ────────────────────────────
+     Both mechanisms the plan called missing turned out to exist, which is this
+     project's oldest recurring finding and worth stating rather than quietly
+     benefiting from:
+
+       the pitched cycle   `ostinato.run` is Berlin School sequencing, already
+                           researched: "an 11-step cell against a 16-step bar
+                           realigns every 11 bars". What it lacked was the
+                           HOMECOMING -- Berlin School treats the realignment as
+                           drift, Indian music treats it as the point. `sam` is
+                           the only new line of engine code this genre needed.
+       the structural solo `form.arc.thin` already gates a part's NOTES by the
+                           record's energy curve, and `form.build.enter` already
+                           says when a part first arrives. A lead that is nearly
+                           absent early and fills toward the apex -- Cohen's
+                           "the guitar solos provide an overall sense of
+                           direction by outlining the contour in energy level of
+                           the song... and leading it to its peak" -- is a table
+                           declaration, not new machinery.
+     ═══════════════════════════════════════════════════════════════════════════ */
+  progtechno: {
+    label: "prog-techno",
+    /* electro-house ground, which is where all three electronic references sit.
+       Not the 128-135 of club techno: this record is long and wants to breathe */
+    tempo: [124, 134],
+    rig: [["plastik", 6], ["band", 4]],
+    /* DARK. Phrygian is the darkest mode in common use and it leads, minor
+       behind it. The owner asked for dark and heavy and this is where dark
+       actually lives in a program with no chord progression to darken. [EAR] */
+    modes: [["phrygian", 6], ["minor", 5], ["dorian", 2]],
+    /* ── A DRONE, NOT A PROGRESSION ────────────────────────────────────────────
+       "There are no chords like in Western music -- just the Drone and Raga"
+       [corpus:kennedy-center]. Every weight is on the static row, so the harmony
+       does not move for the length of the record. This is also the positive
+       answer to the problem the techno research left open: not "take the chords
+       out", but "have a drone instead". */
+    progressions: { phrygian: [[[0, 0, 0, 0], 10]],
+                    minor:    [[[0, 0, 0, 0], 10]],
+                    dorian:   [[[0, 0, 0, 0], 10]] },
+    bridgeProgressions: { phrygian: [[[0, 0, 0, 0], 10]],
+                          minor:    [[[0, 0, 0, 0], 10]],
+                          dorian:   [[[0, 0, 0, 0], 10]] },
+    /* the key does not move either -- a drone that modulates is not a drone */
+    keyShift: { chance: 0, by: [[2, 5], [1, 2]], change: 0 },
+    sevenths: false,
+    /* ── THE REFUSALS ──────────────────────────────────────────────────────────
+       Punk is not a sound, it is a refusal made by someone who could do
+       otherwise: what it rejects is "ostentatious displays of 'talent'", and
+       Steve Jones was "no doubt competent enough" to play the Beatle-type chords
+       he wasn't interested in [corpus:cook-afb]. So this genre declines the two
+       most ostentatious things this program owns -- the comping keyboard and the
+       answering second voice -- while keeping every law that makes the rest
+       coherent. */
+    comp: 0,
+    counter: null,
+    gate: null,
+    /* heavy. "The sound is more important to me than the melody" [corpus:boys-
+       noize], and Pearson: punk distortion "is functionally timbral distortion
+       rather than harmonic dissonance" -- the drive IS the instrument here. */
+    drumDrive: 1.75,
+    kick: { tune: 44, decay: 0.72, click: 0.6, drive: 0.78, body: 1.25, gain: 1.24 },
+    /* ── FUNKY: THE KICK IS NOT STRAIGHT ───────────────────────────────────────
+       This is the word that separates the genre from techno and it is a real
+       constraint, not a mood. Electro "breathes -- its syncopated patterns
+       create tension and release" against four-on-the-floor's relentlessness,
+       with "a syncopated kick drum, and usually a snare or clap accenting the
+       backbeat". Minimal techno's pocket is [0,4,8,12]; this one never is. [EAR
+       on the exact placements, sourced on the principle] */
+    pocket: [[[0, 6, 10], 5], [[0, 6, 10, 14], 4], [[0, 4, 6, 10], 2], [[0, 3, 10], 1]],
+    accent: {
+      kick:    [1, 0.9, 0.9, 0.94, 0.9, 0.9, 1, 0.9, 0.9, 0.9, 0.98, 0.9, 0.9, 0.9, 0.94, 0.9],
+      snare:   [0.92, 0.88, 0.88, 0.88, 1, 0.88, 0.88, 0.88, 0.92, 0.88, 0.88, 0.88, 1, 0.88, 0.88, 0.88],
+      ghost:   [0.9, 0.86, 0.86, 0.86, 0.94, 0.86, 0.86, 0.86, 0.9, 0.86, 0.86, 0.86, 0.94, 0.86, 0.86, 0.86],
+      hat:     [1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88, 1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88],
+      openhat: [1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88, 1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88],
+      tom1:    [1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88, 1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88],
+      tom2:    [1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88, 1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88],
+      tom3:    [1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88, 1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88],
+    },
+    kit: {
+      phraseBy: "notes",
+      /* the electro backbone: a clap on the backbeat, which is the one thing
+         every electro source names */
+      snare: [], clap: [4, 12],
+      hatEvery: 2, hatVel: 0.54,
+      ghostChance: 0.18, ghostSpots: [3, 7, 11, 15],
+      openSpot: [[14, 4], [6, 3], [10, 2]], openBars: [1, 3],
+      /* no tom rolls: this genre answers a phrase with a cycle coming home, not
+         with a fill down the kit. Same refusal Plastikman's table already makes
+         and for the same reason. */
+      toms: { use: 0.04, loop: 0, loopSpots: [], loopLanes: [], shapes: [[[[15, "tom3"]], 1]] },
+      kickKeep: 4,
+      rim: [], rideEvery: 0, crashChance: 0.06, crashStep: 0,
+      /* ── INTERLOCKING PERCUSSION, WHICH IS THE JAGATARA/GAMELAN HALF ─────────
+         Two lanes on their own lengths against a 16-step bar, so they cross the
+         bar and each other. Hood's "rhythms inside of rhythms", gamelan's layers
+         at different rates, and the "bass and bongos" bounce Jagatara is built
+         on. 7 and 5 are coprime with 16 and with each other, so the three-way
+         alignment is rare and audible when it lands. */
+      poly: [
+        { lane: "rim",  len: 7, on: [0, 3], vel: 0.48,
+          phase: [[0, 1], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1]] },
+        /* ── AND THE SECOND LANE IS NOT A TOM ─────────────────────────────
+           It was `tom2`, and the tom law caught it immediately: this genre
+           declares `toms.use: 0.04` -- near-tomless -- and then put a tom on a
+           polymetric lane 920 times a song, which is 100% of its drum parts.
+           The check is right and my table was two things at once. What this
+           lane wants is INTERLOCKING PERCUSSION, the gamelan/afrobeat layer,
+           not a fill coming down the kit, so it takes a percussion voice. */
+        { lane: "ride", len: 5, on: [2], vel: 0.42,
+          phase: [[0, 1], [1, 1], [2, 1], [3, 1], [4, 1]] },
+      ],
+      /* a lane that answers the interlocking pair, the way Plastikman's ghost
+         answers its rim and clap */
+      listen: [
+        { lane: "ghost", watch: ["rim", "ride"], every: 3, notOn: ["kick"], vel: 0.36 },
+      ],
+      flourishBar: -1, flourish: [[[], 1]],
+      arc: {
+        span: [0, 3],
+        moves: [
+          [{ hatEvery: 4 }, 5, { takes: true }],
+          [{ openBars: [] }, 4, { takes: true }],
+          [{ kickKeep: 2 }, 2, { takes: true }],
+          [{ hatEvery: 1, hatVel: 0.6 }, 4],
+          [{ ghostChance: 0.4 }, 3],
+          [{ clap: [4, 10, 12], crashChance: 0.5 }, 2],
+        ],
+      },
+      variants: { main: {}, lift: { hatEvery: 1, ghostChance: 0.3 },
+                  depart: { hatEvery: 4, ghostChance: 0, clap: [], kickKeep: 2 } },
+    },
+    /* ── THE CYCLE: A PITCHED FIGURE ON ITS OWN LENGTH, COMING HOME ────────────
+       `run` lets the cell index cross bars, so a cell whose length is coprime
+       with the eight ostinato steps in a bar walks against the bar and realigns
+       later -- 7 realigns every 7 bars, 5 every 5, 11 every 11. That much is
+       Berlin School and already existed.
+
+       `sam` is the new part and it is what the traditions add: the beat the
+       cycle comes home on is ACCENTED, so you hear it land instead of merely
+       drifting. Indian classical names it (the soloist "will always return to
+       the composition on the sam"); gamelan marks it with the gong.
+
+       Rupak tala is seven beats grouped 3+2+2, and the seven-cell below is
+       written to that grouping. The degrees are modal, mostly the drone's root,
+       with the mode's colour tones -- a raga's shape rather than a melody.
+       [corpus:kennedy-center, corpus:krishna-music-school; the exact degrees EAR] */
+    /* ── EIGHT-BAR MATERIALS, SO THE CYCLE HAS ROOM TO COME HOME ──────────────
+       Eight bars is eight ostinato steps x 8 = 64 positions, and 64 is not a
+       multiple of 7, 5 or 11 -- so the cells below walk right across the
+       material instead of resetting inside it, and the seven-cell lands home
+       at bar 7 of 8. That is the whole point of the genre and it does not work
+       at the default 4. */
+    materialBars: 8,
+    ostinato: {
+      unit: 2, vel: 0.6, vary: false, run: true, sam: 1.4,
+      cells: [
+        [[0, 0, 3, 0, 0, 7, 5], 6],           // 7 -- Rupak's 3+2+2
+        [[0, 3, 0, 0, 7], 4],                 // 5
+        [[0, 0, 5, 0, 3, 0, 7, 0, 3, 0, 10], 3],  // 11
+        [[0, 0, 7, 0, 3, 0, 5], 3],           // 7
+      ],
+    },
+    /* ── THE CYCLE SITS ABOVE THE KEYS, NOT INSIDE THEM ───────────────────────
+       It was written at [55,74] against keys of [48,70] -- fifteen semitones of
+       overlap -- and the blend suite threw on six pairs with "no keys voicing
+       fits [48,70] clear of the bass and ostinato". The voicer was right: there
+       was genuinely nowhere to put a chord. Every other genre in the file keeps
+       its ostinato above its keys and this one now does too, which is also what
+       the music wants -- the cycle is the thing you follow, so it rings on top
+       of the groove rather than in the middle of it. */
+    registers: { bass: [28, 44], keys: [48, 70], counter: [55, 74], bassWalk: [28, 44],
+                 ostinato: [67, 88], themeA: [64, 88], themeB: [64, 88], themeC: [64, 88] },
+    /* ── THE SOLO: FEW NOTES, HELD ────────────────────────────────────────────
+       Gilmour's virtuosity is not density. It is "wide, vocal-like bends",
+       "letting notes bloom and decay dramatically through sustain", "melodic
+       phrasing like a singer", "long-held, sustaining notes, using dynamics and
+       note length to create dramatic, musical tension" [corpus:louder,
+       corpus:classicrockhistory]. That is also what makes it survive punk's
+       objection: expressive, not ostentatious.
+       So the lowest note count in the file, and legato on top of it. */
+    theme: { count: { hooky: [1, 1], breath: [1, 1], normal: [1, 1] },
+             onsetPool: [[0, 6], [8, 4], [4, 2], [12, 2]] },
+    legato: { lead: 1 },
+    /* "guitar" was written here and is not a voice this program has -- the
+       seam check caught it on the first full run. The Gilmour reference is
+       about PHRASING, not about a guitar: few notes, held long, bent. Those
+       are `legato` and the note count, not the timbre. */
+    leadChar: [["synth", 1]],
+    keysChar: [["rhodes", 1]],
+    /* the bass supports the kick rather than playing a line of its own -- the
+       owner heard this in a techno mix and the production sources agree: "the
+       bass feels like an extension of the kick" */
+    bassStyle: "pulse",
+    bassPulse: { unit: 4, rootBias: 1, octaveJump: 0, restChance: 0.12 },
+    bassAccent: { accent: 0.3, slide: 0.08 },
+    acidLine: null,
+    touch: { bassArtic: [[3, 5], [4, 3], [2, 2]], strum: [0, 0] },
+    roleGain: { bass: 0.62, ostinato: 0.72, lead: 0.82 },
+    groove: {
+      /* "nudge the offbeat hats and the percussion 5 to 15 percent late"
+         [corpus:tracksensei] -- the funk is in the lean as well as the pocket */
+      styles: [["even", 10]], swing: [1, 0.09], swingUnit: 1,
+      snareEarly: [0, 0], kickLate: [0, 0], hatMul: 1,
+      jitter: { even: 0.002, dilla: 0.002 }, push: 0,
+      laneLean: { kick: 0, hat: 0.006, openhat: -0.003, ghost: 0.008, snare: 0.005,
+                  rim: 0.007, ride: 0.006 },
+    },
+    phasing: { chance: 0.3, detune: [0.08, 0.2] },
+    pressure: { depth: 0, amount: [0, 0], at: [0, 0], rise: [0, 0] },
+    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
+    tape: { wow: [0, 0], crackle: [0, 0], flutter: [0, 0], hiss: [0, 0] },
+    machines: { drums: [["tr1000", 1]], kit: { drums: [["analog", 1]] },
+                bass: [["auto", 1]], keys: [["auto", 1]] },
+    space: {
+      wet: 0.4, irSec: 4.2, tailPow: 1.5, tailDark: 0.46, sendHp: 100,
+      feeds: ["drums", "ostinato"],
+      echoFeeds: ["drums", "ostinato", "lead"],
+      dp4Feeds: ["drums", "lead"],
+      barberFeeds: ["lead"],
+      flangeFeeds: ["drums", "ostinato", "lead"],
+      kitPan: { h: 0.28, o: -0.32, r: 0.34, c: -0.24, a: -0.38, d: 0.38, t: -0.3, m: 0.16 },
+      random: 0, spread: 0.76, preDelay: 0.03,
+    },
+    form: {
+      /* the rule of three is a law of SONGS and this genre is built on a locked
+         groove. It declares the exemption in its own table, which is what
+         `varyAsBefore` is for -- the law stays hard for the eight genres that
+         are songs. */
+      varyAsBefore: true,
+      lengths: { intro: 16, verse: 32, chorus: 32, bridge: 16, instrumental: 32, outro: 16 },
+      material: { intro: "A", verse: "A", chorus: "A", bridge: "A", instrumental: "Avar", outro: "A" },
+      roles: {
+        intro:        ["drums"],
+        verse:        ["drums", "ostinato", "bass"],
+        chorus:       ["drums", "ostinato", "bass", "lead"],
+        bridge:       ["ostinato"],
+        instrumental: ["drums", "ostinato", "bass", "lead"],
+        outro:        ["drums", "ostinato"],
+      },
+      /* ── TEXTURE ACCUMULATING IS THE STRUCTURE ────────────────────────────
+         Cohen's "a series of arranging and sound-processing techniques that
+         jointly create a gradual increase in intensity and, as a result, a
+         strong sense of direction". The solo arrives nearly halfway in, which
+         is what makes it read as an event rather than a part. */
+      build: { enter: { drums: [0, 0], bass: [0.05, 0.04], ostinato: [0.13, 0.08],
+                        lead: [0.42, 0.14] },
+               openWith: [["drums", 6], ["ostinato", 3]] },
+      coldOpen: 0.6, openVerse: 1,
+      target: [192, 5, 32],
+      payoff: "instrumental",
+      transitions: {
+        verse:        [["instrumental", 8], ["verse", 6], ["bridge", 1]],
+        instrumental: [["verse", 8], ["instrumental", 3], ["chorus", 2], ["bridge", 1]],
+        chorus:       [["instrumental", 8], ["verse", 3]],
+        bridge:       [["instrumental", 7], ["verse", 3]],
+      },
+      bridgeAfterChorus: { verse: 2, instrumental: 2, chorus: 1 },
+      /* ── THE MOVEMENTS: alap -> jod -> jhala ──────────────────────────────
+         An Indian concert is three parts -- alap (slow, no pulse yet), jod/jhala
+         (rhythm enters, density grows), gat (the composed piece). Cohen finds
+         the same three in "Dogs" and calls them exposition, free interlude and
+         recapitulation. This is that spine, in the mechanism the program already
+         has for genres owning their architecture. */
+      plan: [
+        /* the pool holds only functions the WALK may draw. `intro` is not one:
+           it can only be first and the form adds it outside the plan, so
+           listing it here left the walk standing on a function with no
+           transitions row and `lawTable` threw on the first long record the
+           length dial asked for. */
+        { name: "alap",  pool: ["verse"], bars: [48, 2, 16], endOn: "verse" },
+        { name: "jod",   pool: ["verse", "instrumental"], bars: [64, 3, 32], endOn: "instrumental" },
+        { name: "jhala", pool: ["instrumental", "chorus", "verse"], bars: [80, 3, 32], endOn: "instrumental" },
+      ],
+      energy: { intro: 0.7, outro: 0.66, bridge: 0.68, instrumental: 0.9,
+                chorus: 0.94, chorusPeak: 0.98, verse: 0.82 },
+      arc: {
+        apexAt: [0.66, 0.8], floor: [0.06, 0.14], tail: [0.28, 0.44],
+        bend: [2.0, 2.8], dip: [0.12, 0.22], preHighs: [1, 2],
+        /* ── AND THIS IS THE STRUCTURAL SOLO ────────────────────────────────
+           `thin` is the fraction of a part the arc is allowed to take away at
+           the record's floor. 0.9 on the lead means the solo is almost entirely
+           absent early and arrives as the record climbs -- Cohen's solos
+           "outlining the contour in energy level of the song, articulating its
+           structure, and leading it to its peak", expressed in the mechanism
+           this program already had. The drums and the cycle hold steady
+           underneath, because the groove is the thing that does not change. */
+        thin: { drums: 0.18, bass: 0.3, ostinato: 0.22, lead: 0.9 },
+      },
+    },
+    params: {
+      desk: { low: 0, mid: 0, high: 0, lowF: 180, midF: 900, highF: 4500 },
+      echo: { div: 3, fb: 0.5, tone: 2200, hp: 180, send: 0.36, verb: 0.72, width: 0.5 },
+    },
+    /* ═══════════════════════════════════════════════════════════════════════
+       THE AUTOMATION IS THE ARRANGEMENT
+
+       This block was written empty and the battery caught it in one line: every
+       seed produced the identical motion plan, because there was no plan. That
+       is the wrong gap to leave in THIS genre of all of them.
+
+       Cohen's account of how Pink Floyd holds seventeen minutes together with
+       one vamp is "a series of arranging and sound-processing techniques that
+       jointly create a gradual increase in intensity and, as a result, a strong
+       sense of direction" -- the PROCESSING is the direction. The owner said
+       the same thing about techno from the other end: "the low mid highs being
+       cut and brought up is vital". And the DJ lineage is a named instrument:
+       Derrick May "uses his isolator to create a jagged sound sculpture with
+       abrupt moments spent on each band", as "an entirely rhythmic tool"
+       [corpus:djtechtools].
+
+       So the three bands are ridden hard here -- deeper than any genre in the
+       file, because the isolator move is a cut you notice rather than a dB or
+       two of polish -- and the free-running LFOs are the unsynced drift the
+       production sources prescribe: "a sine LFO, rate around 0.05-0.08 Hz,
+       unsynced, routed to a low-pass cutoff", so "every time you hear that
+       element, it's in a slightly different tonal state" [corpus:myloops].
+       At 129 bpm a 64-bar cycle is about 2 minutes, which is that rate.
+       ═══════════════════════════════════════════════════════════════════════ */
+    motion: {
+      desk: {
+        /* the top opens as the record fills and closes over the outro -- `apex`
+           follows the shape FORM drew rather than the clock, so it tracks the
+           solo's arrival instead of merely elapsing */
+        high: [{ kind: "apex", from: [-11, -6], to: [1.5, 4] },
+               { kind: "section", by: { bridge: [3, 6], intro: [-8, -4] } },
+               { kind: "lfo", bars: [[64, 3], [40, 2]], depth: [1.5, 3.5],
+                 shape: "tri", freePhase: true }],
+        /* THE KILL. The low leaves for the bridge and comes back, which is the
+           isolator move and the one every techno source calls the biggest
+           gesture in the genre. It does NOT arc across the record: cutting the
+           bottom for four minutes is a mix fault, not an arrangement -- the
+           note beside Plastikman's desk records that being got wrong once. */
+        low:  [{ kind: "section", by: { bridge: [-30, -20], intro: [-6, -3], outro: [-7, -4] } },
+               { kind: "gesture", on: "build", bars: 16, from: [-11, -7], to: [0, 0], curve: "exp" },
+               { kind: "lfo", bars: [[96, 3], [64, 2]], depth: [0.8, 2.2],
+                 shape: "sin", freePhase: true }],
+        /* and the middle is where the punk lives: the mid band swung about is
+           what makes a record sound handled rather than mixed */
+        mid:  [{ kind: "lfo", bars: [[48, 3], [32, 2], [20, 1]], depth: [1.8, 4.5],
+                 shape: "tri", freePhase: true },
+               { kind: "section", by: { bridge: [-8, -4], instrumental: [1, 3] } }],
+      },
+      /* the dub inheritance: the delay is played, not set. Feedback rising into
+         a section and pulling back is the oldest move in the lineage this genre
+         sits in, and it is what carries the record while nothing else changes. */
+      echo: {
+        fb: [{ kind: "lfo", bars: [[64, 4], [32, 3]], depth: [0.08, 0.24],
+               shape: "sin", freePhase: true },
+             { kind: "section", by: { bridge: [0.18, 0.34], instrumental: [0.06, 0.16] } },
+             { kind: "apex", from: [-0.1, -0.04], to: [0.05, 0.16] }],
+        send: [{ kind: "apex", from: [-0.12, -0.05], to: [0.08, 0.2] },
+               { kind: "lfo", bars: [[40, 3], [24, 2]], depth: [0.05, 0.14],
+                 shape: "sin", freePhase: true }],
+      },
+      /* the drum machine's own filter, drifting unsynced -- "changes happen
+         through modulation, not composition" [corpus:tracksensei] */
+      tr1000: {
+        hCut: [{ kind: "lfo", bars: [[22, 3], [34, 2]], depth: [1100, 3000],
+                 shape: "tri", freePhase: true }],
+        kDecay: [{ kind: "occurrence", step: [-0.02, -0.008], cap: 3 }],
+        cVerb: [{ kind: "occurrence", step: [0.05, 0.13], cap: 3 }],
+      },
+    },
+  },
+
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -20103,6 +20493,14 @@ const BLEND_DRAW = new Set([
      merge would splice across two genres' kits. All drawn, all with the kit. */
   "kit.rideEvery", "kit.crashStep", "kit.rim", "kit.clap",
   "kit.poly", "kit.listen",
+  /* ── HOW MANY BARS A MATERIAL IS, AND IT IS AN INTEGER DOMAIN ─────────────
+     Averaging a 4-bar material with an 8-bar one gives SIX, which is neither
+     genre's and which no chord set, cycle length or phrase count was written
+     against. The blend suite found it the hour the first 8-bar genre landed:
+     30 of 864 pairs threw and a three-way threw a NaN. Same failure class as
+     `swingUnit` and the ride step -- fourth entry on this list to arrive
+     through the same door. */
+  "materialBars",
   "counter.style", "counter.intervals", "groove.swingUnit", "theme.count",
   "bassPulse", "acidLine", "space.feeds", "space.echoFeeds",
   /* ── EVERY ROUTING LIST, OR A BLEND SHIFTS ITS OWN DRAWS ──────────────────
@@ -20231,6 +20629,9 @@ const BLEND_NAME = {
   "gate":              "the gated sound",
   /* the words the owner has already read for this one, in test/ears/LOG.md:
      "the kick pushing everything aside" */
+  /* how many bars the loop runs before it starts again -- the thing that gives
+     a cycle of seven room to walk and come home */
+  "materialBars":      "how long the pattern is before it repeats",
   "space.duck":        "the kick pushing everything aside",
   /* ── FIVE SEND LISTS, AND THEY ARE FIVE DECISIONS ─────────────────────────
      These four used to be null with the note "all five send lists are one
@@ -21412,7 +21813,31 @@ function makeForm(chart){
    ═══════════════════════════════════════════════════════════════════════════ */
 
 function makeMaterials(chart, editPlan, arcPlan){
-  const BARS = 4;
+  /* ── HOW LONG A MATERIAL IS, AND IT WAS A BAKED NUMBER ─────────────────────
+     Four bars for every genre, forever. That is the same class of hardcoded
+     value as `form.lengths` was before the length dial went in, and it went
+     unnoticed for the same reason: nothing ever asked for a different one.
+
+     PROG-TECHNO ASKED. Its identity is a pitched cycle whose length does not
+     divide the bar -- a seven-note cell against eight ostinato steps a bar
+     walks one position each bar and comes home after seven. In a FOUR-bar
+     material it never gets there: the material loops, the cell index restarts,
+     and what should be a cycle coming round is frozen into a four-bar pattern.
+     The walk was visible in the roll and the homecoming fired exactly once, at
+     bar zero, which is not a homecoming -- it is the top of the loop.
+
+     So it is a constraint now, declared by the genre and defaulting to 4, and
+     every genre that does not ask keeps the number it always had. */
+  const BARS = chart.table.materialBars || 4;
+  /* ── THE CHORD UNDER A BAR, AND IT USED TO ASSUME THE TWO WERE THE SAME LENGTH
+     A progression is four chords and a material was four bars, so every builder
+     read `chordSet[b]` and the two happened to line up. At eight bars that is
+     `undefined.rootMidi` on the fifth bar, which is exactly where the first
+     eight-bar genre threw.
+     One owner, wrapping, so a progression of any length sits under a material of
+     any length. Identical arithmetic whenever the two ARE equal, which is every
+     genre that does not declare `materialBars` -- b < 4 never wraps. */
+  const CH = (set, b) => set[((b % set.length) + set.length) % set.length];
   const G = chart.table, R = G.registers;
   const { root, mode } = chart;
   const key = (b, s, p) => b + ":" + s + ":" + p;
@@ -22627,7 +23052,7 @@ function makeMaterials(chart, editPlan, arcPlan){
       const pedMidi = intoBand(degMidi(keyOf(chordSet), modeOf(chordSet), pedDegree), R.bass[0], R.bass[1]);
       const pedFifth = intoBand(degMidi(keyOf(chordSet), modeOf(chordSet), pedDegree + 4), R.bass[0] + 5, R.bass[1] + 7);
       for(let b = 0; b < BARS; b++){
-        const ch = chordSet[b], deep = rng() < 0.45;         // unconditional [Law 7]
+        const ch = CH(chordSet, b), deep = rng() < 0.45;                // unconditional [Law 7]
         if(pedalOn){
           /* struck once and held: no restrike at all, because the thing it is
              holding under never changes. THE HARMONY IS ALLOWED TO CLASH WITH
@@ -22642,7 +23067,7 @@ function makeMaterials(chart, editPlan, arcPlan){
           }
           continue;
         }
-        if(b > 0 && chordSet[b - 1].degree === ch.degree) continue;
+        if(b > 0 && CH(chordSet, b - 1).degree === ch.degree) continue;
         notes.push({ bar: b, step: 0, dur: 16, pitch: ch.rootMidi, vel: 0.70, role: "bass" });
         /* ── AND THE SUB HAS A FLOOR, BECAUSE HEARING DOES ────────────────────
            `low >= R.bass[0] - 12` let the octave-down walk a full octave BELOW
@@ -22750,7 +23175,7 @@ function makeMaterials(chart, editPlan, arcPlan){
         cell[ci].dur = cell[ci].tie ? Math.max(A.grid, next - cell[ci].step) : A.grid;
       }
       for(let b = 0; b < BARS; b++){
-        const ch = chordSet[b];
+        const ch = CH(chordSet, b);
         for(const c of cell){
           const base = intoBand(degMidi(ch.key, ch.mode, ch.degree + c.deg), R.bass[0], R.bass[1]);
           /* AND THE SAME FLOOR HEARING PUTS UNDER THE DRONE'S OCTAVE-DOWN GOES
@@ -22858,7 +23283,7 @@ function makeMaterials(chart, editPlan, arcPlan){
         cell[ci].dur = Math.min(F.hold, next - cell[ci].step);
       }
       for(let b = 0; b < BARS; b++){
-        const ch = chordSet[b];
+        const ch = CH(chordSet, b);
         /* THE RIFF TRANSPOSES WITH THE CHORD, which is what a dub band does
            over a vamp and what this file's own acid builder already does: the
            degrees are relative to the chord under them, so the SHAPE repeats
@@ -22880,7 +23305,7 @@ function makeMaterials(chart, editPlan, arcPlan){
     if(STYLE === "pulse"){
       const P = G.bassPulse;
       for(let b = 0; b < BARS; b++){
-        const ch = chordSet[b];
+        const ch = CH(chordSet, b);
         for(let st = 0; st < 16; st += P.unit){
           /* every draw runs on every step, whatever the outcome [Law 7] */
           const rest = rng() < P.restChance, up = rng() < P.octaveJump, alt = rng();
@@ -22898,7 +23323,7 @@ function makeMaterials(chart, editPlan, arcPlan){
     }
     if(STYLE === "pedal"){
       for(let b = 0; b < BARS; b++){
-        const root0 = chordSet[b].rootMidi;
+        const root0 = CH(chordSet, b).rootMidi;
         /* THE UPPER OCTAVE CARRIES THE PITCH, the lower one carries the weight --
            and the weight has to be the smaller share. A pedal SUSTAINS where a
            plucked bass decays, so at midi 28-31 (the measured Fear Factory E1 and
@@ -22920,7 +23345,7 @@ function makeMaterials(chart, editPlan, arcPlan){
       return notes;
     }
     for(let b = 0; b < BARS; b++){
-      const ch = chordSet[b], next = chordSet[(b + 1) % BARS];
+      const ch = CH(chordSet, b), next = CH(chordSet, b + 1);
       notes.push({ bar: b, step: 0, dur: Math.min(8, pocket[1] || 8), pitch: ch.rootMidi, vel: 0.9, role: "bass" });
       if(rootsOnly) continue;                       // the bridge's bass just holds home-away roots
       /* ── WHAT THE BASS MAY PLAY WHEN IT IS NOT ON THE DOWNBEAT ────────────
@@ -23157,7 +23582,7 @@ function makeMaterials(chart, editPlan, arcPlan){
        draw, so a genre declaring nothing is byte-identical. */
     const CEIL = (!opts.band && openVoicing && R.keysUp) ? BAND[1] + R.keysUp : BAND[1];
     for(let b = 0; b < BARS; b++){
-      const ch = chordSet[b];
+      const ch = CH(chordSet, b);
       let strikes;
       /* A PAD MAY SWELL IN JUST AFTER THE DOWNBEAT, and for a second keyboard
          that is the whole difference between fitting and not. Measured on lofi
@@ -23890,7 +24315,7 @@ function makeMaterials(chart, editPlan, arcPlan){
       if(omitted[b % BARS].has(pc(p))) return false;
       const s = RING[((b % BARS) * 16 + st) % SPAN];
       return (s && s.size) ? !s.has(pc(p))
-                           : !chordSet[b % BARS].tones.some(t => pc(t) === pc(p));
+                           : !CH(chordSet, b).tones.some(t => pc(t) === pc(p));
     };
     function phrase(startBar, dir, endOnTone, moveBias){
       const ph0 = notes.length;
@@ -24022,7 +24447,7 @@ function makeMaterials(chart, editPlan, arcPlan){
              stepwise resolution always outranks it. ── */
           if(LINES && !hang && (steps[i] === 0 || steps[i] === 8 || plannedDur >= 4) &&
              isNCT(b, steps[i], cand))
-            cand = intoBand(nearestTone(cand, chordSet[b % BARS].tones), LO, HI);
+            cand = intoBand(nearestTone(cand, CH(chordSet, b).tones), LO, HI);
           let tries = 0;
           while(!fits(b, steps[i], cand) && tries < 3){
             cand = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), cand, 1), LO, HI); tries++;
@@ -24093,7 +24518,7 @@ function makeMaterials(chart, editPlan, arcPlan){
            going somewhere else. If a chord offers no diatonic tone at all the
            list falls back to all of them, because a phrase must still land. */
         const all = [];
-        for(const t of chordSet[bar].tones)
+        for(const t of CH(chordSet, bar).tones)
           for(let o = -3; o <= 3; o++) all.push(intoBand(t + 12 * o, LO, HI));
         const diatonic = all.filter(p => inKey(keyOf(chordSet), modeOf(chordSet), p));
         const cands = diatonic.length ? diatonic : all;
@@ -24174,7 +24599,7 @@ function makeMaterials(chart, editPlan, arcPlan){
         if(at >= BARS * 16) break;
         const st = at % 16, b = Math.floor(at / 16);
         t += src.dur;
-        const tones = chordSet[b].tones;
+        const tones = CH(chordSet, b).tones;
         m = intoBand(nearestTone(scaleStep(keyOf(chordSet), modeOf(chordSet), m, wpick(rng, [[1, 2], [-1, 3], [0, 2]])), tones), LO, HI);
         if(reserved.has(key(b, st, m))) continue;
         notes.push({ bar: b, step: st, dur: Math.min(8, src.dur * 2), pitch: m, vel: 0.7, role: "lead" });
@@ -24429,9 +24854,44 @@ function makeMaterials(chart, editPlan, arcPlan){
            genuine triplet ratchet is a grid change, and it is not this one. */
         let hits = (O.ratchet && rt < O.ratchet) ? (rt < O.ratchet / 2 ? 3 : 2) : 1;
         while(hits > 1 && (O.unit % hits !== 0 || O.unit / hits < 1)) hits--;
-        for(let h = 0; h < hits; h++)
-          notes.push({ bar: b, step: st + (h * O.unit) / hits, dur: O.unit / hits,
-                       pitch, vel: O.vel * (h ? 0.82 : 1), role: "ostinato" });
+        /* ── SAM: THE BEAT THE CYCLE COMES HOME ON ────────────────────────────
+           `run` already gives a cell its own length against the bar -- an
+           11-step cell realigns every 11 bars, which is Berlin School and is
+           researched above. What Berlin School does with that is DRIFT: the
+           parts wander "until they line up again" and the lining-up is a
+           by-product.
+
+           Indian classical does the opposite with the same arithmetic. The
+           first beat of the cycle is `sam`, and it is the point: a soloist "may
+           go off on a long improvised phrase that may last for many cycles of
+           the tala, but will always return to the composition on the sam"
+           [corpus:kennedy-center; corpus:krishna-music-school]. Gamelan says it
+           with an instrument instead of a name -- the gong ageng marks the end
+           of every colotomic cycle [corpus:kotekan].
+
+           So: when the cell's index returns to 0 AND the bar does too, the
+           figure is home, and this ACCENTS it. Nothing else changes -- same
+           notes, same places, one of them louder. That one accent is the
+           difference between a figure that wanders and a cycle you can hear
+           come round, and it costs no draw and no new part.
+
+           `sam` defaults to nothing, so every genre that does not ask for it is
+           untouched [Law 4]. */
+        /* ── AND IT TOUCHES NOTHING THAT DID NOT ASK FOR IT ───────────────────
+           The note object is built exactly as it was and the two sam fields are
+           ADDED afterwards, only when a genre declared `sam` and the cell is
+           actually home. The snapshot hashes every field an event carries -- on
+           purpose, so a field added tomorrow is in the hash tomorrow -- which
+           means writing `sam: undefined` into every ostinato note in the file
+           would move all 2400 lines to say nothing. Eight genres come out of
+           here byte-identical. */
+        const home = !!O.sam && idx % c.length === 0 && st === 0;
+        for(let h = 0; h < hits; h++){
+          const ev = { bar: b, step: st + (h * O.unit) / hits, dur: O.unit / hits,
+                       pitch, vel: O.vel * (h ? 0.82 : 1), role: "ostinato" };
+          if(home){ ev.vel = Math.min(1, ev.vel * O.sam); if(!h) ev.sam = true; }
+          notes.push(ev);
+        }
       }
     }
     return notes;
@@ -24686,7 +25146,7 @@ function makeMaterials(chart, editPlan, arcPlan){
       const nctAt = (bar, st, p) => {
         const u = ring[((bar % BARS) * 16 + st) % (BARS * 16)];
         return (u && u.size) ? !u.has(pc(p))
-                             : !chordSet[bar % BARS].tones.some(t => pc(t) === pc(p));
+                             : !CH(chordSet, bar).tones.some(t => pc(t) === pc(p));
       };
       const score = pchr => {
         if(prevOwn == null) return Math.abs(pchr - 64);

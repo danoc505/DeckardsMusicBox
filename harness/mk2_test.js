@@ -307,9 +307,33 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         try { T = M.composeSong(seed, undefined, { [A]: w, [B]: 1 - w }).chart.table; }
         catch(e){ continue; }
         const n = T.blendTraits.length, won = T.blendTraits.filter(t => t.genre === A).length;
-        /* the nearest whole number of elements to the share asked for, give or
-           take one — the same arithmetic allowance as above */
-        if(Math.abs(won - w * n) > 1.0001) bad.push(`${A}+${B} @${w} seed ${seed}: ${won}/${n}, asked ${(w * n).toFixed(1)}`);
+        /* ── AND THE TARGET IS CLAMPED TO WHAT IS REACHABLE ────────────────────
+           An element only one genre declares can only go to that genre, so a
+           fader cannot deliver a share the forced elements have already spent.
+           Measured on the ninth genre: acid+progtechno at 75/25 has FOURTEEN
+           elements of which FIVE can only come from progtechno, so acid can win
+           at most nine and the "ideal" 10.5 is arithmetically out of reach. The
+           allocator was handing over exactly nine, which is the right answer,
+           and the check was calling it a failure.
+           Second time the forced elements have exposed a premise in this file
+           and the same fix as the length dial: measure against the reachable
+           number, and hold the reachable number down elsewhere. */
+        const plan = M.blendPlan({ [A]: w, [B]: 1 - w }).filter(e => e.key !== "label");
+        const mine  = plan.filter(e => e.genres.length === 1 && e.genres[0] === A).length;
+        const yours = plan.filter(e => e.genres.length === 1 && e.genres[0] !== A).length;
+        const reachable = Math.max(mine, Math.min(n - yours, Math.round(w * n)));
+        /* ── AND IT IS THE NEAREST WHOLE ELEMENT, PLUS ONE, NOT THE FRACTION ──
+           This compared against `w * n` itself, which for 15 elements at 75%
+           is 11.25 -- so an allocator that correctly hands over 11 or 10 was
+           being asked to hand over a quarter of an element. The comment always
+           said "the nearest whole number of elements to the share asked for,
+           give or take one" and the code did something slightly stricter; the
+           ninth genre made the ideal land on a .25 and the gap showed.
+           The allowance is unchanged in spirit and is still arithmetic rather
+           than a number chosen to go green. */
+        if(Math.abs(won - reachable) > 1.0001)
+          bad.push(`${A}+${B} @${w} seed ${seed}: ${won}/${n}, reachable ${reachable}` +
+                   ` (asked ${(w * n).toFixed(1)}, ${yours} forced the other way)`);
       }
     }
     check("...and a 75/25 fader gives three quarters of every record",
@@ -807,10 +831,10 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       let want = null;
       if(G2.bassStyle === "acid"){
         const d = G2.acidLine.density;
-        want = ((d[0] + d[1]) / 2) * 4;                 // per bar x 4 bars
+        want = ((d[0] + d[1]) / 2) * (G2.materialBars || 4);   // per bar x the material
       } else if(G2.bassStyle === "pulse"){
         const P2 = G2.bassPulse;
-        want = (16 / P2.unit) * 4 * (1 - P2.restChance * 0.9);
+        want = (16 / P2.unit) * (G2.materialBars || 4) * (1 - P2.restChance * 0.9);
       } else if(G2.bassStyle === "riff"){
         /* the riff is a CELL of `notes` notes spanning `bars` bars, restated
            until the material runs out -- so a 4-bar material plays it 4/bars
@@ -818,7 +842,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
            prediction cannot be told apart from a broken one, which is what the
            `pred` fallback below says in its own comment. */
         const F2 = G2.bassRiff;
-        want = ((F2.notes[0] + F2.notes[1]) / 2) * (4 / F2.bars);
+        want = ((F2.notes[0] + F2.notes[1]) / 2) * ((G2.materialBars || 4) / F2.bars);
       }
       if(want != null && Math.abs(got - want) > Math.max(2, want * 0.18))
         bad.push(`${g} writes ${got.toFixed(1)}, its table asks for ~${want.toFixed(1)}`);
@@ -849,12 +873,21 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       /* same output from different builders is only honest if both tables asked
          for it -- predict for each, and if either has no prediction we cannot
          tell, so say so rather than pass silently */
+      /* ── THE MATERIAL'S LENGTH IS ASKED FOR, NOT ASSUMED TO BE FOUR ────────
+         Every line here multiplied by a literal 4, because a material was four
+         bars for every genre and always had been. The first genre to declare
+         `materialBars: 8` therefore "wrote 29.1 where its table asks for 14.3"
+         -- it wrote exactly what its table asks for, twice, in a material twice
+         as long, and the check was measuring against half a genre.
+         Same shape as the hardcoded section length the length dial turned up:
+         a constant that was true of every genre until one asked otherwise. */
+      const matBars = gg => T.GENRE[gg].materialBars || 4;
       const pred = gg => {
-        const G3 = T.GENRE[gg];
-        if(G3.bassStyle === "acid") return ((G3.acidLine.density[0] + G3.acidLine.density[1]) / 2) * 4;
-        if(G3.bassStyle === "pulse") return (16 / G3.bassPulse.unit) * 4 * (1 - G3.bassPulse.restChance * 0.9);
+        const G3 = T.GENRE[gg], MB = matBars(gg);
+        if(G3.bassStyle === "acid") return ((G3.acidLine.density[0] + G3.acidLine.density[1]) / 2) * MB;
+        if(G3.bassStyle === "pulse") return (16 / G3.bassPulse.unit) * MB * (1 - G3.bassPulse.restChance * 0.9);
         if(G3.bassStyle === "riff")
-          return ((G3.bassRiff.notes[0] + G3.bassRiff.notes[1]) / 2) * (4 / G3.bassRiff.bars);
+          return ((G3.bassRiff.notes[0] + G3.bassRiff.notes[1]) / 2) * (MB / G3.bassRiff.bars);
         return null;
       };
       const pa = pred(a), pb = pred(b2);
@@ -1060,6 +1093,91 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
                          : els.length + " elements, " + shown.length + " named, "
                            + (els.length - shown.length) + " deliberately not shown");
   }
+  /* ═══════════════════════════════════════════════════════════════════════
+     PROG-TECHNO: THE THREE CLAIMS THE GENRE IS BUILT ON
+
+     "Pink Floyd crossed with punk wrapped into a techno back bone." Each check
+     below holds one thing that would stop being true silently if somebody
+     tuned a number, and each is a claim a source makes rather than a
+     preference: docs/genre-research/prog-techno.md.
+     ═══════════════════════════════════════════════════════════════════════ */
+  if(M.genres().includes("progtechno")){
+    /* ── 1. THE CYCLE WALKS AND COMES HOME ─────────────────────────────────
+       A cell whose length does not divide the bar moves one position per bar
+       and returns after `len` of them -- Berlin School's realignment, given
+       Indian classical's discipline: the homecoming is ACCENTED, because
+       "the soloist... will always return to the composition on the sam". If
+       the cell length and the material length ever share a factor the walk
+       stops and the genre is a loop like any other. */
+    const bad = [];
+    for(let seed = 1; seed <= 6; seed++){
+      const song = M.composeSong(seed, undefined, "progtechno");
+      const ost = (song.materials.A.ostinato || []);
+      if(!ost.length){ bad.push("seed " + seed + ": no cycle at all"); continue; }
+      const nBars = new Set(ost.map(n => n.bar)).size;
+      /* the figure in each bar, as a pitch sequence -- if the cell were locked
+         to the bar these would all be identical */
+      const perBar = {};
+      for(const n of ost) (perBar[n.bar] = perBar[n.bar] || []).push(n.pitch);
+      const shapes = new Set(Object.values(perBar).map(a => a.join(",")));
+      if(shapes.size < 3) bad.push(`seed ${seed}: only ${shapes.size} distinct bars in ${nBars} — the cycle is not walking`);
+      if(!ost.some(n => n.sam)) bad.push(`seed ${seed}: the cycle never comes home`);
+    }
+    check("prog-techno's figure walks against the bar and comes home on sam",
+          bad.length === 0,
+          bad.length ? bad.slice(0, 4).join(" · ")
+                     : "6 seeds: the cell moves a position a bar and lands accented when it returns");
+
+    /* ── 2. THE SOLO IS THE STRUCTURE, NOT A PART THAT PLAYS ────────────────
+       Cohen on Pink Floyd: the solos "provide an overall sense of direction by
+       outlining the contour in energy level of the song, articulating its
+       structure, and leading it to its peak". So the lead must be ABSENT while
+       the record is low and present when it is high. A lead that plays all the
+       way through is a tune, and this genre does not have one. */
+    let early = 0, late = 0;
+    for(let seed = 1; seed <= 6; seed++){
+      const song = M.composeSong(seed, undefined, "progtechno");
+      const barSec = 16 * song.motion.spb, nB = song.form.nBars;
+      for(const e of song.perf.events){
+        if(e.role !== "lead") continue;
+        (Math.floor(e.tSec / barSec) < nB * 0.35 ? early++ : late++);
+      }
+    }
+    check("...and the solo arrives with the record rather than playing throughout",
+          late > 0 && early <= late * 0.1,
+          `${early} lead notes in the first third, ${late} after — the solo is an event`);
+
+    /* ── 3. FUNKY MEANS THE KICK IS NOT STRAIGHT ────────────────────────────
+       The word that separates this genre from techno. Electro "breathes -- its
+       syncopated patterns create tension and release"; minimal techno's pocket
+       is [0,4,8,12] and this one must never be. Checked against the POCKET the
+       genre actually drew, over enough seeds to catch a table entry slipping
+       back to four-on-the-floor. */
+    const straight = [];
+    for(let seed = 1; seed <= 20; seed++){
+      const p = M.composeSong(seed, undefined, "progtechno").materials.pocket;
+      if(p.length === 4 && p.every((v, i) => v === i * 4)) straight.push(seed);
+    }
+    check("...and the kick is syncopated, which is what 'funky' means here",
+          straight.length === 0,
+          straight.length ? "four-on-the-floor on seeds " + straight.join(",")
+                          : "20 seeds, not one straight four");
+
+    /* ── 4. AND THE HARMONY DOES NOT MOVE ───────────────────────────────────
+       "There are no chords like in Western music -- just the Drone and Raga."
+       A drone that modulates is not a drone, and this is the positive answer to
+       techno's missing progression rather than an absence. */
+    const moved = [];
+    for(let seed = 1; seed <= 12; seed++){
+      const song = M.composeSong(seed, undefined, "progtechno");
+      const degs = new Set(song.materials.chords.map(c => c.degree));
+      if(degs.size > 1) moved.push(`seed ${seed}: ${[...degs].join("/")}`);
+    }
+    check("...and the harmony is a drone, not a progression",
+          moved.length === 0,
+          moved.length ? moved.slice(0, 4).join(" · ") : "12 seeds, one chord throughout");
+  }
+
   check("the genres are actually different music", new Set(seen.values()).size === genres.length,
         [...seen].map(([g, v]) => `${g}: ${v}`).join("  |  "));
 }

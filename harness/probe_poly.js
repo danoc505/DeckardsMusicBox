@@ -43,8 +43,14 @@ function barsDiffer(song){
   for(const m of ["A", "Avar", "B", "C"]){
     const notes = (song.materials[m] || {}).drums;
     if(!notes) continue;
-    const byLane = {};
-    for(const n of notes) (byLane[n.lane] ||= [[], [], [], []])[n.bar].push(n.step);
+    /* ── THE MATERIAL IS AS LONG AS THE MATERIAL, NOT ALWAYS FOUR BARS ───────
+       This allocated exactly four bar-buckets, because a material was four bars
+       for every genre. The first genre to declare `materialBars: 8` pushed onto
+       `undefined` and the probe died -- reading like a broken probe, which it
+       was not. Sized from the notes now. */
+    const byLane = {}, nBars = Math.max(...notes.map(n => n.bar)) + 1;
+    for(const n of notes)
+      (byLane[n.lane] ||= Array.from({ length: nBars }, () => []))[n.bar].push(n.step);
     for(const lane in byLane){
       const bars = byLane[lane].map(a => a.slice().sort((x, y) => x - y).join(","));
       const present = bars.filter(b => b.length);
