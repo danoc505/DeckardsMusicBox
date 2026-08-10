@@ -1,7 +1,7 @@
 # START HERE — the prompt for whoever picks this up next
 
 *Everything below is verified at `2026-08-10b` unless it says otherwise (the
-newest build is `2026-08-10d`; its entry is under "What happened last"). If you
+newest build is `2026-08-10e`; its entry is under "What happened last"). If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -123,7 +123,7 @@ while both files carried an identical stamp, so three commits of work went
 unjudged. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-10d`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-10e`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -135,6 +135,24 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Build `2026-08-10e` — THE KETTLES ROLL, THE HAND DRUM LEARNS ITS FIGURES.**
+The owner asked for the orchestral element ("like the score from Lord of the
+Rings") and drum creativity. Researched first
+(`docs/genre-research/dungeon-synth-score-and-drums.md` — the orchestral claim
+is in-genre: RYM's own page, Summoning, Murgrind), then built the two
+percussion gestures the sources name and the kit could not make: **timpani
+rolls** (`art: "roll"` — literal repeated single strokes, faster on the higher
+kettle, a measured 15 dB crescendo ending on the next downbeat; half of fills)
+and **martial hand-drum figures** (`kit.snarePocket`, drawn per material,
+with voice-level **drags** — the lane played the identical `[8]` in every song
+forever and now draws from six figures including silence). Other genres
+byte-identical; snapshot moved 600 lines, all dungeonsynth. **Brass is the one
+score voice the program lacks and it is NOT invented** — the sheet's §6 is the
+path: recorded patches on `main`, the Erang encoder pipeline embeds them.
+**And §6's answer to "can the program load WAVs from main at runtime" is NO
+for the page the owner actually plays** — the artifact's platform blocks
+external requests — with the working alternative written down.
 
 **Build `2026-08-10d` — DUNGEON SYNTH DAY: THE HELD NOTE, THE SHELF, THE SEAMS,
 AND THE WEATHER.** Four slices, each measured, each asked for directly:

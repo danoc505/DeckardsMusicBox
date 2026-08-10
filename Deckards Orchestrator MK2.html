@@ -1411,7 +1411,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-10d · dungeon synth holds its notes, moves its fx, and gets its weather</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-10e · the kettles roll, the hand drum learns its figures</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -8561,7 +8561,24 @@ function erangVoice(mach, fams, lanes){
      checked. */
   const kitted = g => !!(lanes && g.drumMachine && CONTROL[g.drumMachine + ".pTune"]);
   let list = null;                       // built once, from the bank, on first use
-  return function(g, ev, t){
+  return function play(g, ev, t){
+    /* ── THE DRAG: two soft grace strokes just ahead of the main one ─────────
+       The martial embellishment by name -- "the drag adds martial character",
+       "a more open ruff... a ruff with the number of strokes specified is
+       meant to be played as singles" [benjaminwaterson; cruiseshipdrummer].
+       Two singles it is, ~28 and ~55 ms early, well under this program's
+       sixteenth (192-288 ms at this genre's tempi), which is why they live in
+       the voice and not on the grid. Quiet on purpose: a drag is heard as the
+       main note's texture, not as three notes. The clamp keeps a drag on the
+       record's first step from asking for negative time. */
+    if(ev.art === "drag"){
+      const made = [];
+      for(const [dt, gg] of [[0.055, 0.30], [0.028, 0.42]])
+        made.push(...play(g, Object.assign({}, ev, { art: null, gain: ev.gain * gg }),
+                          Math.max(t - dt, 0.002)));
+      made.push(...play(g, Object.assign({}, ev, { art: null }), t));
+      return made;
+    }
     if(!list) list = ERANG.family(...fams);
     if(!list.length) return [];
     const c = g.ctx;
@@ -9472,7 +9489,35 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
     /* the kettle's near-harmonic modes, and how fast each one lets go */
     const MODES = [[1, 1, 1], [1.5, 0.5, 0.62], [2, 0.28, 0.42],
                    [2.44, 0.14, 0.3], [2.9, 0.08, 0.22]];
-    return function(g, ev, t){
+    return function strike(g, ev, t){
+      /* ── THE ROLL: repeated strikes, because that is what a roll IS ────────
+         "Timpani rolls are traditionally single-stroke rolls... because these
+         instruments have a naturally sustaining sound, rapidly alternating
+         single strokes are quite sufficient to sustain long notes"
+         [freepercussionlessons; simplytimpani]. So a roll here is literal:
+         the same strike, N times across the event, each ring overlapping the
+         next -- the overlap IS the sustain. "Roll faster when the head is
+         tight (high end) and slower when it is loose" [gottrypercussion], so
+         the high kettle rolls at ~14 strokes a second and the low at ~8.
+
+         THE CRESCENDO IS THE POINT. The roll's home is the fill bar, ending
+         ON the next section's downbeat -- the orchestral arrival gesture --
+         so each stroke is a step louder and the summed rings swell under it.
+         Per-stroke gain starts LOW (0.16) because a dozen overlapping rings
+         add: the crescendo's top is the sum, not the last stroke alone.
+         [strokes-per-second and the gain ladder are CHOSEN inside the sourced
+         rules; the rest is the strike this voice already had.] */
+      if(ev.art === "roll" && ev.durSec > 0.2){
+        const rate = 8 + semis * 0.5;
+        const N = Math.max(3, Math.round(ev.durSec * rate));
+        const made = [];
+        for(let k = 0; k < N; k++){
+          const u = k / Math.max(1, N - 1);
+          const one = Object.assign({}, ev, { art: null, gain: ev.gain * (0.16 + 0.36 * u) });
+          made.push(...strike(g, one, t + k / rate));
+        }
+        return made;
+      }
       const c = g.ctx;
       const chT = chTune(g, ev), chD = chDecay(g, ev);
       /* ── AND THE TONIC IS A PITCH CLASS, NOT A MIDI NOTE ────────────────────
@@ -19276,6 +19321,32 @@ const GENRE = {
        "when used, it tends toward martial snare patterns or timpani rolls
        rather than driving drum kits" [corpus:melodigging] */
     kit: { snare: [8], hatEvery: 16, hatVel: 0.1, ghostChance: 0,
+           /* ── THE HAND DRUM LEARNS ITS FIGURES ────────────────────────────
+              The snare lane here is the Erang percussion sampler -- a dark
+              hand drum, not a wire snare -- and it played [8], one strike a
+              bar, every song. Two sourced gaps close at once: "martial snare
+              patterns" and "hand drum ostinati" [corpus:melodigging] are both
+              a repeating figure on this lane. The vocabulary is march
+              drumming's own -- broken 16th figures ("1 and da, 1 e da"), the
+              DRAG on the accent ("adds martial character"; historically "a
+              beating for tunes with dotted rhythms") -- and the exact steps
+              are [CHOSEN] inside it. The bare backbeat and silence stay in
+              the pool at real weight: "sparse or absent" is still true, it is
+              just not the ONLY truth any more. Drawn per material, so a
+              record commits to its figure the way it commits to its march. */
+           snarePocket: [
+             [[8], 4],                                     // the toll, as before
+             [[4, 12], 3],                                 // march backbeats
+             [[0, 3, 4, [8, "drag"], 11, 12], 3],          // broken 16ths, drag on the 3
+             [[[8, "drag"], 14, 15], 2],                   // backbeat + pickup into the bar
+             [[4, [6, "drag"], 12, 14], 2],                // the dotted beating
+             [[], 2],                                      // absent -- sparse is real
+           ],
+           /* the fill may be a kettle roll instead of a run -- "timpani rolls
+              rather than driving drum kits" [corpus:melodigging]. Half of
+              fills; the run keeps the other half, so a record has both
+              gestures. [CHOSEN: the split] */
+           tomRoll: { chance: 0.5, lanes: ["tom3", "tom2", "tom1"] },
            ghostSpots: [8], openSpot: [[-1, 10]], openBars: [],
            /* ── THE KETTLES ANSWER, AND THEY HAD ALMOST STOPPED ────────────
               The three tom lanes ARE the timpani in this machine, and measured
@@ -23432,11 +23503,27 @@ function makeMaterials(chart, editPlan, arcPlan){
        ghost, a hat). WHERE in the bar a hit is loud belongs to the performance
        stage's measured accent map [corpus:harvest_drums], so the two never
        compound the way the first build's stacked velocity passes did. */
+    /* ── THE SNARE FIGURE MAY BE A DRAW, per material ────────────────────────
+       `K.snare` was one hand-written list -- the dungeon kit's read [8], one
+       strike every bar of every song forever, which is the drum-creativity
+       complaint in one number. `snarePocket` is a weighted pool of figures
+       drawn per material, exactly the shape `pocket` already is for the kick.
+       An entry's step may be [st, "drag"] -- the martial grace-note
+       embellishment, rendered in the voice because 28 ms does not fit on a
+       sixteenth. ON ITS OWN NAMED SUBSTREAM, so a genre that declares no
+       pool -- every genre this morning -- draws nothing and moves nothing. */
+    const snarePat = K.snarePocket
+      ? wpick(stream(chart.seed, "snarePocket:" + streamName), K.snarePocket)
+      : K.snare;
     for(let b = 0; b < BARS; b++){
       for(const s of pocket.slice(0, K.kickKeep))
         notes.push({ bar: b, step: s, dur: 1, lane: "kick", vel: s === 0 ? 1.0 : 0.9, role: "drums" });
-      for(const s of K.snare)
-        notes.push({ bar: b, step: s, dur: 1, lane: "snare", vel: 1.0, role: "drums" });
+      for(const s of snarePat){
+        const st = Array.isArray(s) ? s[0] : s;
+        const n = { bar: b, step: st, dur: 1, lane: "snare", vel: 1.0, role: "drums" };
+        if(Array.isArray(s) && s[1] === "drag") n.art = "drag";
+        notes.push(n);
+      }
       const hatSteps = [];
       /* `hatEvery: 0` means NO HAT AT ALL, and it has to be said explicitly
          because the loop below would otherwise never advance. Taking the hat
@@ -26650,6 +26737,26 @@ function makeMaterials(chart, editPlan, arcPlan){
       for(const st of [10, 12, 13, 14, 15])
         if(st === 12 || rng() < 0.75)
           notes.push({ bar: 0, step: st, dur: 1, lane: "snare", vel: 0.34 + (st - 10) * 0.11, role: "drums" });
+    }
+    /* ── OR THE FILL IS A TIMPANI ROLL ──────────────────────────────────────
+       "Timpani rolls rather than driving drum kits" [corpus:melodigging] --
+       the one percussion gesture this genre's own source names that the kit
+       could not make. When the draw lands, the back half of the fill bar is
+       ONE event with `art: "roll"`: a kettle rolling single strokes in a
+       crescendo that ends exactly on the next section's downbeat, which is
+       the orchestral arrival move. It REPLACES the tom run and the snare walk
+       (a roll under a run is two answers at once); the kick and hats keep the
+       front of the bar. Both draws are APPENDED after every draw this closure
+       already makes, so a genre that declares no `tomRoll` computes exactly
+       the fill it always did [Law 7]. */
+    const rollHit = rng(), rollPick = rng();
+    const R = K.tomRoll;
+    if(R && rollHit < (R.chance || 0)){
+      const lanes2 = R.lanes || ["tom3"];
+      const lane = lanes2[Math.floor(rollPick * lanes2.length) % lanes2.length];
+      const kept = notes.filter(n => n.step < 8 || (n.lane !== "snare" && !n.lane.startsWith("tom")));
+      notes.length = 0; notes.push(...kept);
+      notes.push({ bar: 0, step: 8, dur: 8, lane, art: "roll", vel: 0.9, role: "drums" });
     }
     return pin(notes, "drums", "fill");        // the fill is a pattern too
   })();

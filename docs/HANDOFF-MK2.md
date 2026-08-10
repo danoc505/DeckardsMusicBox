@@ -4,7 +4,32 @@
 > the rules, the current state and what to do next, in two pages. Then come
 > back and read this whole file, which is the contract.
 
-*⚠ **CURRENT AT `2026-08-10d` — DUNGEON SYNTH HOLDS ITS NOTES, MOVES ITS FX,
+*⚠ **CURRENT AT `2026-08-10e` — THE KETTLES ROLL, AND THE HAND DRUM LEARNS ITS
+FIGURES.** The owner asked for the orchestral element and drum creativity, and
+both land as the two percussion gestures the genre's own sources name and the
+kit could not make. **Timpani rolls**: `art: "roll"` on the kettle voices —
+literal repeated single strokes (the sourced technique), faster on the higher
+drum, each a step louder, the overlapping rings the crescendo; half of dungeon
+synth's fills become one, ending exactly on the next section's downbeat, and a
+rendered roll measures −24 → −8 dB across 1.8 s with no clipping. **Martial
+hand-drum figures**: `kit.snarePocket`, a weighted figure pool drawn per
+material (the kick's `pocket` idea applied to the snare lane, which in this kit
+is the Erang percussion sampler — so this also closes melodigging's "hand drum
+ostinati" gap), with `art: "drag"` grace strokes rendered 28/55 ms early in the
+voice because a drag does not fit on a sixteenth. The lane used to play the
+identical `[8]` every bar of every song. The orchestral finding underneath:
+the score claim is IN-GENRE (RYM: "orchestral textures"; sword & sorcery =
+"thunderous low brass, pounding war drums, choirs"; Summoning the godparent),
+the program's own orchestra can already land in one draw, and **brass is the
+one missing voice — deliberately not invented**; the path is recorded patches
+on `main` through the Erang encoder. The same sheet answers "can the program
+load WAVs from main at runtime": NO for the published artifact (platform CSP
+blocks external hosts) and against the file's founding constraint besides.
+lofi/acid/jungle byte-identical; snapshot 600/5400 lines all dungeonsynth;
+blend 20/20; MIDI 19/1 then 20/0 (tick-drift flake, both reported); UI 68/0.
+`docs/genre-research/dungeon-synth-score-and-drums.md`.*
+
+*⚠ **`2026-08-10d` — DUNGEON SYNTH HOLDS ITS NOTES, MOVES ITS FX,
 AND GETS ITS WEATHER.** Four slices in one day of dungeon synth work, each
 measured, each from the owner's own list ("legato where needed, the correct
 audio levels, the correct low mid, highs... all the instruments in the Errang

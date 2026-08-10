@@ -128,9 +128,42 @@ that cheap: the whole 94 MB Erang pack rides in 3.4 MB of text.
 
 ---
 
-## 7. WHAT WAS BUILT — filled in by the commits that land it
+## 7. WHAT WAS BUILT — `2026-08-10e`
 
-*(appended by the build, with its measurements — not before)*
+**The timpani roll (§3).** `art: "roll"` on the kettle voices: literal
+repeated strikes — single-stroke, per the technique sources — at three rates
+(high kettle ~14/s, low ~8/s, "faster when the head is tight"), each stroke a
+step louder, the summed overlapping rings making the crescendo. Its home is
+the fill: half of dungeon synth's fills (drawn per song) become a kettle
+rolling through the back half of the bar, ending exactly on the next
+section's downbeat. MEASURED, rendered: a 1.8 s roll climbs **−24 → −8 dB in
+~15 dB of crescendo**, peaks −2.5 dBFS (no clipping), then lets go. Rolls
+landed in 12 of 20 songs, 6–9 per record where drawn.
+
+**The martial hand-drum figures (§4).** `kit.snarePocket`, a weighted figure
+pool drawn per material on its own named substream — the kick's `pocket`
+pattern applied to the snare lane. Dungeon synth's pool: the old toll, march
+backbeats, two broken-16th beatings with **drags** on the accents (rendered
+in the voice as two grace singles 28/55 ms early — under the grid on
+purpose), a pickup figure, and silence at real weight. The drag itself is
+`art: "drag"` in the Erang sampler, so any kit that plays samples can be
+given one. Measured over 20 songs: 37–43 drags a record, snare notes now
+range 108–389 per song where every record used to carry the identical [8].
+
+**Verified**: lofi, acid and jungle rolls byte-identical (the fill builder's
+new draws are appended after every existing draw, and the chop branch returns
+before them); battery 173 green + the expected stamp red; snapshot moved 600
+of 5400 lines, all dungeonsynth, baseline rewritten; blend 20/20; MIDI 19/1
+then 20/0 (a 10 ms live-clock tick-drift on the first run — browser timing,
+both runs reported); UI 68/0.
+
+**The score (§1–2), stated honestly:** with this build the orchestra the
+program owns — two choir/strings machines, the Erang strings and pads, three
+tuned kettles rolling crescendos, a war drum marching, martial hand-drum
+figures, the atmosphere beds — can all land in one draw, which is the
+"availability for a song to be like the score" asked for. The missing voice
+is **brass**, and it stays missing until recorded patches land on `main`
+(§6); no brass is invented from a description here.
 
 ## Sources — new this pass
 
