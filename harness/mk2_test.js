@@ -1163,19 +1163,46 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
           straight.length ? "four-on-the-floor on seeds " + straight.join(",")
                           : "20 seeds, not one straight four");
 
-    /* ── 4. AND THE HARMONY DOES NOT MOVE ───────────────────────────────────
-       "There are no chords like in Western music -- just the Drone and Raga."
-       A drone that modulates is not a drone, and this is the positive answer to
-       techno's missing progression rather than an absence. */
-    const moved = [];
+    /* ── 4. AND THE HARMONY MOVES ───────────────────────────────────────────
+       THIS CHECK USED TO ASSERT THE OPPOSITE, and it is worth leaving the note.
+       It was called "...and the harmony is a drone, not a progression" and it
+       passed on 12 seeds finding one chord throughout, quoting "there are no
+       chords like in Western music -- just the Drone and Raga" to justify it.
+
+       The owner, twice: "Pink Floyd is NOT drone. It is novel use of FX. It is
+       breaking the rules", and "It should not be simple and droning." Both are
+       right, and the paper this genre was built on says so plainly -- "Dogs" is
+       four chords, "a tonic with added 7th and 9th", one that "simultaneously
+       includes a third and a fourth, an uncommon clash", and a last chord that
+       "calls for a resolution that never arrives". Slow harmonic pace is not
+       no harmonic pace. A green check on a wrong premise is worse than no
+       check, so this one is inverted rather than deleted. */
+    const stuck = [];
     for(let seed = 1; seed <= 12; seed++){
       const song = M.composeSong(seed, undefined, "progtechno");
       const degs = new Set(song.materials.chords.map(c => c.degree));
-      if(degs.size > 1) moved.push(`seed ${seed}: ${[...degs].join("/")}`);
+      if(degs.size < 2) stuck.push(`seed ${seed}`);
     }
-    check("...and the harmony is a drone, not a progression",
-          moved.length === 0,
-          moved.length ? moved.slice(0, 4).join(" · ") : "12 seeds, one chord throughout");
+    check("...and the harmony MOVES -- it is not a drone", stuck.length === 0,
+          stuck.length ? "one chord throughout on " + stuck.slice(0, 4).join(", ")
+                       : "12 seeds, every one a real progression");
+
+    /* and the parts it builds are parts it PLAYS. `keys`, `keys2` and `counter`
+       were in no section list at all, so the material built them every song and
+       the arrangement threw them away: measured 0 notes each, with the lead at
+       0.5%. "Why do we only haver ostinato, bass drums for all tracks?" */
+    const silent = [];
+    {
+      const t = {};
+      for(let seed = 1; seed <= 5; seed++)
+        for(const ev of M.composeSong(seed, undefined, "progtechno").perf.events)
+          t[ev.role] = (t[ev.role] || 0) + 1;
+      const tot = Object.values(t).reduce((a, b) => a + b, 0);
+      for(const r of ["drums", "bass", "keys", "ostinato", "lead"])
+        if(!t[r] || t[r] / tot < 0.01) silent.push(`${r} ${((t[r] || 0) / tot * 100).toFixed(1)}%`);
+    }
+    check("...and every part it declares is a part you can hear", silent.length === 0,
+          silent.length ? "barely present: " + silent.join(", ") : "five parts, none under 1%");
   }
 
   check("the genres are actually different music", new Set(seen.values()).size === genres.length,
