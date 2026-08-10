@@ -133,11 +133,15 @@ Seed 7, mid-record: bass alone **–55.5 dB A-weighted**, leave-one-out
 pedal notes and drones" [corpus:melodigging] is the genre's named foundation
 and the record does not audibly have one; a pedal nobody can hear is the stale
 table entry in audio form. Part of this is register (41–98 Hz, where hearing
-is 30–45 dB down) and is genre-correct; the rest is the fader.
-`roleGain.bass` rises 0.22 → 0.30 (+2.7 dB), sized to bring the drone's
-leave-one-out above zero without disturbing the practitioner ordering (bass
-remains the quietest named part — Frances, BandLab tutorial, "this will be the
-quietest instrument"). Re-measured after the change in §7.
+is 30–45 dB down) and is genre-correct; the first guess was that the rest was
+the fader. **The fader was tried and the measurement refused it**:
+`roleGain.bass` 0.22 → 0.30 (+2.7 dB) moved the leave-one-out from −0.01 dB
+to… −0.01 dB, while the unweighted toll rose — more energy into exactly the
+band §3 exists to relieve, for nothing hearing can collect. Reverted. The
+drone's audibility is register-bound; the levers that would work are
+register-shaped (the double pedal's fifth an octave up, or the drone an octave
+up), and both are design questions for the owner, recorded as open rather than
+slipped in.
 
 ## 5. AUTOMATION — the 2026-08-10a lesson, applied here
 
@@ -194,4 +198,27 @@ the rest — the pack and the synthesised machines trading songs as designed.
 
 ## 7. WHAT WAS BUILT — filled in as the slices land
 
-*(written by the build, measured; see the commits of 2026-08-10 on this branch)*
+**Legato (§2), shipped.** `legato: { lead: 1, keys2: 1 }`. Measured after,
+seed 7 mid-record: lead RMS −31.5 → −28.0 (+3.5 dB of ring), its silent share
+26% → 2%, leave-one-out 1.49 → 2.77 dB. keys2's half-second holes closed
+(−39.1 → −38.5 A-wt). Roll byte-identical — stage 6 moves no note — and the
+legato seam check names both parts.
+
+**The desk shelf (§3), shipped at −3 dB.** Measured after (with the legato in):
+seed 7 centroid 193 → 332 Hz, low band 74.5 → 65.4%, lowmid 12.2 → 16.8%, mid
+2.1 → 3.5%; seed 1 centroid 157 → 293 Hz, low 65.9 → 57.3%, mid 3.2 → 9.0%.
+The drums' headroom toll fell 11.5 → 8.4 dB while their crest *improved*
+13.1 → 14.7 dB (the shelf leans on the wash, not the strike) and the march
+remains the loudest part in the record by 11 dB RMS. In A-weighted
+contribution the tune now leads (3.07 dB against the drums' 1.19) — which is
+the practitioner's own ordering (melody at −6, the loudest), and is also a
+change of ordering from the round the owner tuned drums-first, so it is
+stated here for judgement rather than buried: the drum is still the biggest
+thing in the record by power; what changed is that the sustained tune is now
+audible over more of the bar.
+
+**The bass fader (§4), tried and reverted.** The measurement above.
+
+**Automation (§5) and the atmosphere bed (§1): not yet built at this line.**
+Their entries are appended below by the commits that land them, with the
+measurements those commits actually made — not before.

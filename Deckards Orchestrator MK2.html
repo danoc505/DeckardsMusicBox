@@ -19524,6 +19524,20 @@ const GENRE = {
                   16.8 dB with 56% silence between strikes
        Before this round the same column read MINUS 0.38 dB: removing the drums
        made the record LOUDER. */
+    /* ── AND THE DRONE'S INAUDIBILITY IS ITS REGISTER, NOT THIS FADER ────────
+       Measured, seed 7 mid-record: the bass alone reads -55.5 dB A-weighted
+       and its leave-one-out is -0.01 dB -- removing the genre's own named
+       foundation ("long pedal notes and drones" [corpus:melodigging]) makes
+       the record NO quieter. THE FADER WAS TRIED AND THE MEASUREMENT REFUSED
+       IT: +2.7 dB here moved the leave-one-out not at all (-0.01 before and
+       after) while the unweighted toll rose -- more energy into exactly the
+       60-200 Hz band the desk shelf above exists to relieve, for nothing
+       hearing can collect. The drone lives at 41-98 Hz, where the ear is
+       30-45 dB down; no fader fixes physics. If the owner wants a drone that
+       is HEARD, the levers are register-shaped -- the double pedal's fifth an
+       octave up, or the drone an octave up -- and both are design questions
+       for a verdict, not numbers to slip in here.
+       docs/genre-research/dungeon-synth-fx-and-balance.md §4 */
     roleGain: { keys: 0.32, keys2: 0.17, ostinato: 0.50,
                 bass: 0.22, lead: 0.57, counter: 0.43, drums: 1.40 },
     /* THE PROCESSION, and the palette. The keys are a tape choir or a string
@@ -19695,6 +19709,26 @@ const GENRE = {
          breath: "choirs, strings, pipe/chapel organs, flutes/recorders"
          [corpus:melodigging]. It was pinned to the choir, which is one of the
          three, chosen by me, forever. */
+      /* ── A FEW dB OFF THE SHELF THE WHOLE RECORD SITS ON ──────────────────
+         MEASURED, mid-record windows, seeds 1 and 7: 66-75% of the record's
+         energy in the 60-200 Hz band, centroid 157-193 Hz -- while the pack's
+         own patches centre at 330-656 Hz. Rendered alone every pitched part is
+         spectrally where the pack puts it; the mass is the drum bus, -14 dB
+         RMS with 78% of its energy under 200 Hz, holding the master limiter
+         down: removing the drums gains the record 11.5 dB of level and only
+         2.4 dB of loudness. That difference is weight the record pays for and
+         cannot hear -- Belkin's "overloading the low register", named as a
+         defining symptom of bad orchestration.
+
+         The genre's own mixing thread names the tool: EQ is for CUTS, and
+         "shelves of a few dB" rather than drastic ones [myrrys,
+         dungeonsynth.proboards.com/thread/1305]. The desk's low knee sits at
+         200 Hz, which is exactly the measured band. -3 dB is the small end of
+         "a few"; the drums stay first in loudness (they own the band, so the
+         shelf leans on them least where hearing lives), and the freed
+         headroom is what lets the pitched record breathe.
+         docs/genre-research/dungeon-synth-fx-and-balance.md §3 */
+      desk: { low: -3, mid: 0, high: 0, lowF: 200, midF: 1000, highF: 4000 },
       mellotron: { voice: "any", wow: 0.006, flutter: 0.40, hiss: 0.45, tapeEnd: 1 },
       /* the swell IS the instrument: the Erang strings/pads take 1-11 s to
          reach full (median ~4 s of the sustained files) and ring 2-12 s after.
