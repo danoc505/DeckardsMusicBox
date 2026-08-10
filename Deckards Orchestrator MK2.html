@@ -6266,6 +6266,17 @@ const RIG = {
      rank of brass under the melody -- the score's heroic register, in the
      genre's own synthesised form (Summoning: "synthesised horns"). A rig
      changes who plays, never what is played; the seam battery holds that. */
+  /* ── THE SHIRE — the bard pack playing its own music ──────────────────────
+     Hobbit synth's default rack. The flute takes the tune, the plucked strings
+     take the chords, and the counter is a second flute-family voice so the
+     doubling this genre leans on lands on a different instrument from the one
+     it doubles -- which is the whole point of a doubling. */
+  shire:   { kick:"kick", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
+             brk:"brk",
+             tom1:"tom1", tom2:"tom2", tom3:"tom3",
+             bass:"bass", keys:"bardPluck", lead:"bardFlute", counter:"bardWind",
+             ostinato:"erangHarp",
+             rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
   citadel: { kick:"kick", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
              brk:"brk",
              tom1:"tom1", tom2:"tom2", tom3:"tom3",
@@ -6310,6 +6321,7 @@ const RIG_LABEL = {
   noize:   "noize — 303 + CS-80",
   volta:   "volta — live kit + Wurlitzer",
   citadel: "citadel — brass in the second chair",
+  shire:   "the shire — flute, plucked strings, frame drum",
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -21636,6 +21648,185 @@ const GENRE = {
   },
 
 };
+
+/* ═══ HOBBIT SYNTH — the tenth genre, and it INHERITS its backbone ══════════
+   The owner: "Lets make this a new genre, we will call it Hobbit Synth,
+   (Fantasy Synth, Lord of the Rings, the moody music that plays when the party
+   is adventuring above ground from dungeon to town)", and then the frame that
+   decided how it is built: "We are taking the Dungeon Synth as the backbone and
+   adding fantasy epic scoring to it. So its still dark and mody but has the
+   epic feel of the lord of the rings and an epic sized orchistra."
+
+   SO IT LITERALLY INHERITS DUNGEON SYNTH'S TABLE and overrides what differs.
+   That is not a shortcut, it is the brief written as code: a copied thousand
+   lines would drift from its parent the first time either was touched, and the
+   two genres would stop being backbone-and-variation and start being two tables
+   that happen to resemble each other. Everything not named below IS dungeon
+   synth -- the drum engine, the fx, the balance, the Erang shelves, the
+   research behind all of it -- and the diff below is the whole of what "epic
+   fantasy scoring on top" means in numbers.
+
+   ── WHAT CHANGES, AND WHY EACH ONE ──────────────────────────────────────────
+
+   TEMPO, and it is the one number with a body behind it. This genre is walking
+   music. Human walking cadence measures 97-113 BPM and the travelling band in
+   the game-music sources is 105-125 [docs/genre-research/raw/
+   overworld-and-materials.md]; the two overlap at a walking pace. Dungeon synth
+   sits at 60-72 because it is not going anywhere. 102-124 is a party on a road.
+
+   MODE. This is where "dark" stops being the right word. The owner: "Hobbit
+   Synth shouldnt be as dark and moody as the Dungeon Synth ... Maybe there are
+   better descriptors than dark." DORIAN LEADS. It is minor with a raised sixth
+   -- unsmiling but not tragic, and the one bright interval is what separates a
+   horizon from a corridor. Dungeon synth's own weights lead with aeolian and
+   keep phrygian in the pack; phrygian's flat second is the claustrophobic
+   sound and it is dropped to a trace here. Mixolydian appears because the folk
+   travelling repertoire is full of it.
+
+   PROGRESSIONS, and these are TRANSCRIBED rather than invented. i-flatVII-
+   flatVI-flatVII is Hyrule Field; i-flatVII-flatVI-V-flatVI and I-flatVI7-
+   flatVII7-I both appear in the overworld corpus, the second corroborated by
+   two independent sources. Written in EIGHT slots because harmonic rhythm in
+   the measured overworld loops is ONE CHORD PER TWO BARS (Chrono Trigger's
+   "Secret of the Forest": five sections of eight bars, 40-42 bars, ~133 s), and
+   this genre's material is eight bars long.
+
+   THE ORCHESTRA IS DOUBLING, NOT MORE PARTS. Rimsky-Korsakov: a texture that
+   "appears to comprise 5, 6, 7 and 8 parts is usually only four part harmony
+   with extra parts added", those extras being octave duplications. So the epic
+   size is not seven new lines -- it is the counter drawing `double` far more
+   often than dungeon synth does, and the stack buttons under the mixer. The
+   counter's doubling weight is the single biggest "epic" lever in this table.
+
+   THE BARD PACK IS ITS DEFAULT SOUND. Flutes and plucked strings lead here
+   where dungeon synth leads with mellotron and the keyboard patches -- the
+   pack the owner landed for this is a bard-and-troubadour set, and a party on
+   a road is the thing it is for. ═══════════════════════════════════════════ */
+GENRE.hobbitsynth = (function(){
+  /* a structural clone, so an override reaches inside a nested block without
+     dropping its siblings -- `form.roles` may change while `form.arc` does not */
+  const clone = v => Array.isArray(v) ? v.map(clone)
+    : (v && typeof v === "object") ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, clone(x)]))
+    : v;
+  const merge = (a, b) => {
+    const out = clone(a);
+    for(const k in b){
+      const x = b[k];
+      out[k] = (x && typeof x === "object" && !Array.isArray(x) &&
+                out[k] && typeof out[k] === "object" && !Array.isArray(out[k]))
+        ? merge(out[k], x) : clone(x);
+    }
+    return out;
+  };
+  return merge(GENRE.dungeonsynth, {
+    label: "hobbit synth",
+    tempo: [102, 124],
+    /* dorian first. See the mode note above -- this is the "better descriptor
+       than dark" made into weights. */
+    modes: [["dorian", 6], ["minor", 5], ["mixolydian", 3], ["phrygian", 1]],
+    materialBars: 8,
+    /* one chord per two bars, which is the measured overworld harmonic rhythm */
+    progressions: {
+      /* ── WEIGHTED TOWARD THE LEAPS, AND THE BATTERY IS WHY ────────────────
+         The first draft led with i-flatVII-flatVI-flatVII (Hyrule Field), which
+         is three whole-tone root steps in a row. Two keyboards over a bass that
+         walks by step shadow each other in fifths and octaves however well the
+         voicer behaves, and the file-wide parallel-perfects rate went to 5.8%
+         against a 5% ceiling -- a check dungeon synth passes because its
+         harmony barely moves. The stepwise rows are still here and still
+         sourced; they are no longer what most records draw. */
+      dorian:     [[[0,0,5,5,2,2,6,6], 5],   // i-flatVI-flatIII-flatVII: leaps
+                   [[0,0,3,3,0,0,6,6], 4],   // i-IV-i-flatVII: dorian's bright IV
+                   [[0,0,6,6,3,3,0,0], 3],
+                   [[0,0,6,6,5,5,6,6], 2]],  // Hyrule Field, transcribed
+      minor:      [[[0,0,5,5,2,2,6,6], 5],   // i-flatVI-flatIII-flatVII
+                   [[0,0,0,0,5,5,2,2], 4],
+                   [[0,0,2,2,5,5,3,3], 3],
+                   [[0,0,6,6,5,5,6,6], 2]],
+      mixolydian: [[[0,0,3,3,6,6,0,0], 5],   // I-IV-flatVII-I: leaps, folk road
+                   [[0,0,4,4,3,3,0,0], 3],
+                   [[0,0,6,6,3,3,0,0], 2]],  // I-flatVII-IV-I
+      phrygian:   [[[0,0,5,5,1,1,0,0], 3], [[0,0,3,3,5,5,0,0], 2]],
+    },
+    bridgeProgressions: {
+      dorian:     [[[0,0,5,5,6,6,3,3], 4], [[3,3,0,0,6,6,5,5], 2]],
+      minor:      [[[0,0,5,5,6,6,3,3], 4], [[0,0,2,2,5,5,6,6], 2]],
+      mixolydian: [[[0,0,3,3,6,6,0,0], 4], [[6,6,3,3,0,0,5,5], 2]],
+      phrygian:   [[[0,0,1,1,5,5,6,6], 3], [[0,0,5,5,6,6,1,1], 2]],
+    },
+    /* the road does move under you: a key change is a change of country */
+    keyShift: { chance: 0.38, by: [[2, 5], [5, 3], [1, 2]], change: 0.5 },
+    sevenths: true,
+    /* ── THE EPIC LEVER. Dungeon synth draws `double` 3 times in 10; here it is
+       7, because doubling the theme with another instrument is what makes a
+       statement heroic rather than merely louder -- and it is the mechanism
+       Rimsky-Korsakov says an orchestra is actually made of. */
+    counter: { style: [["double", 7], ["answer", 3]],
+               density: 0.16, intervals: [-3, -4, -5, -7, -12],
+               octaves: [-12, 12], answer: 0.80,
+               styles: { double: { density: 0.88, octaves: [-12] } } },
+    /* a tune with somewhere to go. Dungeon synth is [2,2]/[1,1]/[1,2]. */
+    theme: { count: { hooky: [3, 2], breath: [1, 2], normal: [2, 2] },
+             onsetPool: [[0, 8], [8, 5], [4, 4], [12, 4], [2, 2], [6, 2], [10, 2], [14, 2]] },
+    /* the walking figure: a stepwise cell rather than the dungeon's static one */
+    ostinato: { unit: 2, vel: 0.5, vary: true, run: true, ratchet: 0.05,
+                change: { pick: [2, 3],
+                          kinds: [["cell", 6], ["follow", 6], ["octave", 4],
+                                  ["transpose", 3], ["stride", 2], ["rest", 2]] },
+                cells: [[[0, 2, 3, 5, 3, 2], 5],
+                        [[0, 3, 5, 6, 5, 3], 4],
+                        [[0, 2, 0, 5, 3, 2, 0], 3],
+                        [[0, 5, 3, 2, 3, 5], 3]] },
+    /* its own rack, and the bard pack leads it */
+    rig: [["shire", 6], ["citadel", 4]],
+    machines: { drums: [["tr1000", 1]],
+                bass:  [["auto", 1]],
+                keys:  [["bardPluck", 5], ["erangHarp", 3], ["mellotron", 3],
+                        ["erangStrings", 2], ["vp330", 2]],
+                lead:  [["bardFlute", 5], ["bardWind", 4], ["erangLead", 3],
+                        ["auto", 2]],
+                keys2: [["erangStrings", 4], ["horns", 4], ["vp330", 3],
+                        ["bardPluck", 3], ["mellotron", 2]] },
+    form: {
+      /* the party is on the road for a while: the measured overworld loop runs
+         35 s to 2:15 and the eight-bar section is the corpus's own unit */
+      lengths: { intro: 16, verse: 32, chorus: 32, bridge: 16,
+                 instrumental: 32, outro: 16 },
+      /* every part, in every section that is not the break. The owner asked for
+         an epic-sized orchestra and this is the arrangement half of it; `rest`
+         and `thin` inherited from dungeon synth put the holes back. */
+      roles: { intro:        ["keys", "ostinato", "lead"],
+               verse:        ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+               chorus:       ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+               bridge:       ["keys", "keys2", "ostinato", "bass"],
+               instrumental: ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+               outro:        ["drums", "bass", "keys", "keys2", "lead", "ostinato"] },
+      thinTo: [2, 3],
+      arc: {
+        /* ── AND THE DOUBLING HAS TO SURVIVE THE THINNER ─────────────────────
+           Inherited straight, `thin.counter` is 0.88 -- dungeon synth removes
+           seven of eight counter notes because there the counter is an
+           ornament that answers occasionally. Here the counter IS the
+           orchestra: it draws `double` 7 times in 10, which is the theme
+           carried by a second instrument, and thinning a doubling to one note
+           in eight does not make it sparse, it makes it a glitch. Measured
+           before this: 1.3% of the record.
+           The lead comes up too. It is the tune on a road and it was arriving
+           a tenth of the way in and then losing 44% of itself. */
+        thin: { drums: 0.22, bass: 0.28, keys: 0.34, lead: 0.30,
+                counter: 0.24, keys2: 0.48 },
+      },
+      build: { enter: { drums: [0.01, 0.015], keys: [0.01, 0.015],
+                        ostinato: [0.025, 0.025], bass: [0.05, 0.025],
+                        lead: [0.06, 0.04], keys2: [0.12, 0.06],
+                        /* the second instrument on the tune arrives early
+                           enough to be part of the record rather than a late
+                           guest -- the escalation is what it does after it
+                           arrives, not when */
+                        counter: [0.14, 0.06] } },
+    },
+  });
+})();
 
 /* ═══════════════════════════════════════════════════════════════════════════
    THE BLEND — elements of any genre in any other.
