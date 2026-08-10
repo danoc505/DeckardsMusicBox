@@ -3,16 +3,19 @@
 
     python3 harness/erang_bank.py <dir-of-wavs> <out.json>
 
-READ THIS BEFORE RE-ENCODING. `root_of()` below takes the strongest
-autocorrelation peak, and on exactly one file in this pack -- Pad_03_C -- it
-takes the SECOND strongest: it emits 37.956 Hz where the true fundamental is
-26.12, which is 645 cents, and 645 cents is audibly out of tune rather than a
-register choice. That number is CORRECTED BY HAND in the HTML, with both
-measurements written beside it at the head of ERANG_INDEX. A re-encode will
-put 37.956 back. Either re-apply the correction, or fix the peak ranking here
-and check the other 44 pitched patches with `harness/probe_erang.js` before
-trusting it -- an earlier attempt to decide octaves spectrally made the error
-count WORSE twice (15 -> 21 -> 29) and is recorded as a dead end.
+TWO PACKS LIVE HERE NOW: the *Dungeon Synth Free Samples Pack* (65 files) and
+the *Bard and Troubadour Sample Pack* (45 files). Point this at a directory
+holding both and it encodes them into one bank.
+
+THE PAD_03_C CORRECTION IS IN THE SCRIPT NOW, in `CORRECT_ROOT`. It used to be
+a paragraph in the HTML warning that a re-encode would undo it, which is not a
+correction, it is a reminder -- and reminders lose. `root_of()` takes the
+strongest autocorrelation peak and on that one file it takes the second
+strongest, emitting 37.956 Hz against a true fundamental of 26.12: 645 cents,
+audibly out of tune rather than a register choice. An earlier attempt to fix
+the peak ranking spectrally made the error count WORSE twice (15 -> 21 -> 29)
+and is recorded as a dead end, so the one file is named and the reading is
+overridden. Verify pitched patches with `harness/probe_erang.js`.
 
 WHY THIS EXISTS. The user landed the *Erang - Dungeon Synth Free Samples Pack*
 on `main`: 65 WAVs, stereo, 16-bit, 44.1 kHz, 535 seconds, **94 MB**. The
@@ -69,6 +72,15 @@ SR_OUT = 22050
 # "Key loops" gives six of them a loop that wraps a decayed tail back to a loud
 # attack -- a click on every held note. Declaring "Key does not" costs the four
 # that really do sustain. Derive it, never list it.
+# `lo`/`hi` bound the PITCH SEARCH, in Hz, and they are per-family because one
+# band cannot serve both packs. The first pack is a keyboard set rooted C1..C5,
+# so 30..600 finds it. The Bard pack's flutes sit around 1050 Hz and its winds
+# reach 2165 -- measured -- and against the old 600 Hz ceiling ELEVEN of the 45
+# files returned exactly 1102.50 Hz, which is not a pitch at all: it is
+# 22050/20, the shortest lag the search would consider. A reader pinned to its
+# own ceiling reports a confident wrong answer, which is the worst kind.
+# The defaults below are the old constants, so the first pack re-encodes to the
+# same numbers it has always had.
 FAMILY = {
     "strings":    dict(keep=3.6, pitched=True),
     "Key":        dict(keep=3.6, pitched=True),
@@ -82,19 +94,123 @@ FAMILY = {
     # correctly refused one. The BODY of a slow swell is in the middle of it.
     "sfx":        dict(keep=8.0, pitched=False, start=0.38),
     "Noise":      dict(keep=5.0, pitched=False, start=0.15),
+
+    # ── THE BARD AND TROUBADOUR PACK ────────────────────────────────────────
+    # 45 files. Every `keep` and every band below is MEASURED off the audio
+    # first -- durations run 0.13 s (a cymbal tap) to 9.42 s (a held wind), and
+    # a single keep would either truncate the long ones or pad the short ones
+    # with room tone.
+    #
+    # WHICH FAMILIES ARE PITCHED IS ALSO MEASURED, by running two independent
+    # readers -- autocorrelation and a harmonic product spectrum -- over every
+    # file and asking whether they agree. On the flutes, plucked strings and
+    # winds they agree on 31 of 33. On the hand cymbals they disagree on 5 of
+    # 6, and on the percussion the autocorrelation returns NEGATIVE frequencies
+    # on 5 of 6 -- which is what an inharmonic metal or skin sound looks like to
+    # a pitch tracker. So those two families are unpitched, and that is a
+    # reading rather than an assumption about what a cymbal is.
+    "BARD_FLUTE":          dict(keep=3.3, pitched=True,  lo=300.0, hi=1600.0),
+    "BARD_PLUCKED_STRING": dict(keep=4.2, pitched=True,  lo=45.0,  hi=600.0),
+    "BARD_WIND":           dict(keep=4.4, pitched=True,  lo=90.0,  hi=2600.0),
+    "BARD_HAND_CYMBAL":    dict(keep=1.3, pitched=False),
+    "BARD_PERCUSSION":     dict(keep=0.9, pitched=False),
 }
+
+# ── THE NAMES THE PROGRAM USES ──────────────────────────────────────────────
+# The owner: "The names of the files should be corrected so that you can use
+# them and label them in the program correct."
+#
+# They ship as `Erang - Bard and Troubadour Sample Pack - 02 BARD_FLUTE_01.wav`.
+# Three things are wrong with that as a program identifier: the leading track
+# number is an ordering inside a zip and means nothing here, SHOUTING_SNAKE is
+# not this file's convention (the first pack is `strings_01_C`, `Plucked_02_C`),
+# and `PLUCKED_STRING` is four syllables for a thing the program already calls
+# `Plucked`. So the family prefix is rewritten to match the naming the bank
+# already uses, and the MEASURED note is appended -- which is more honest than
+# the first pack's `_C`, since that was the pack's own claim and measured out
+# up to 50 cents wrong.
+RENAME = {
+    "BARD_FLUTE":          "bardFlute",
+    "BARD_PLUCKED_STRING": "bardPluck",
+    "BARD_WIND":           "bardWind",
+    "BARD_HAND_CYMBAL":    "bardCymbal",
+    "BARD_PERCUSSION":     "bardPerc",
+}
+
+# ── ROOTS CORRECTED BY HAND, AND WHY THEY LIVE HERE NOW ─────────────────────
+# This table used to be a paragraph in the HTML saying "a re-encode will put the
+# wrong number back". It did, twice. A correction that has to be remembered is
+# not a correction, so it is applied by the encoder and travels with it.
+#
+# Pad_03_C: `root_of` takes the strongest autocorrelation peak and on this one
+# file it takes the SECOND strongest, emitting 37.956 Hz where three independent
+# readings of the raw WAV agree on 26.11-26.17. 645 cents is not a register
+# choice, it is out of tune. Value below is the median of those three.
+CORRECT_ROOT = {
+    "Pad_03_C": 26.120,
+}
+
+
+NOTE_NAMES = ["C", "Cs", "D", "Ds", "E", "F", "Fs", "G", "Gs", "A", "As", "B"]
+
+
+def stem_of(name):
+    """The part of a filename that actually names the sound.
+
+    ONE RULE FOR BOTH PACKS, and it has to be, because they are stored with
+    different amounts of ceremony in front of them:
+
+        Erang - Dungeon Synth Free Samples Pack - 01 strings_01_C.wav
+        Erang - Bard and Troubadour Sample Pack - 02 BARD_FLUTE_01.wav
+        01 strings_01_C.wav                       (as they arrive unzipped)
+
+    Take what follows the last ' - ', drop the extension, then drop a leading
+    track number. The old version split on the FIRST space, which on the names
+    as they sit on `main` returns '- Dungeon Synth Free Samples Pack - 01
+    strings_01_C' and matches no family at all -- it only ever worked on a
+    locally-unzipped directory, which is a dependency on how someone's folder
+    happened to look."""
+    stem = name.rsplit(" - ", 1)[-1].rsplit(".", 1)[0]
+    parts = stem.split(" ", 1)
+    if len(parts) == 2 and parts[0].isdigit():
+        stem = parts[1]
+    return stem
 
 
 def family_of(name):
     """`03 percussion_01_C.wav` -> `percussion`. Derived from the name the pack
     ships, never a hand-written list, so a file the pack adds is not silently
     dropped -- it raises instead."""
-    stem = name.split(" ", 1)[1] if " " in name else name
-    stem = stem.rsplit(".", 1)[0]
-    for f in FAMILY:
+    stem = stem_of(name)
+    # longest first, so BARD_PLUCKED_STRING is not eaten by a shorter prefix
+    for f in sorted(FAMILY, key=len, reverse=True):
         if stem.lower().startswith(f.lower()):
             return f
     raise SystemExit("no family for " + name + " -- add it to FAMILY, do not guess")
+
+
+def clean_key(stem, fam, root):
+    """The name the PROGRAM carries, from the name the pack shipped.
+
+    Untouched for the first pack -- those keys are already the file's own
+    convention and are referenced by name all over the HTML, so renaming them
+    would be a rename of the bank for no gain. For a family listed in RENAME the
+    prefix is rewritten and the MEASURED note is appended:
+
+        BARD_FLUTE_01  ->  bardFlute_01_C6
+        BARD_HAND_CYMBAL_03  ->  bardCymbal_03      (unpitched: no note)
+
+    The note is written with `s` for sharp rather than `#`, because this string
+    is an identifier in a semicolon-and-comma delimited index and a `#` in a
+    URL-ish context is a hazard for no benefit."""
+    if fam not in RENAME:
+        return stem
+    tail = stem[len(fam):].lstrip("_")
+    name = RENAME[fam] + "_" + tail
+    if root and root > 0:
+        m = int(round(69 + 12 * math.log2(root / 440.0)))
+        name += "_" + NOTE_NAMES[m % 12] + str(m // 12 - 1)
+    return name
 
 
 def read_mono(path):
@@ -183,8 +299,11 @@ def f0_of(x, sr, lo_hz=30.0, hi_hz=1100.0):
     return sr / float(lo + cand[0])
 
 
-def root_of(x, sr):
+def root_of(x, sr, lo=30.0, hi=600.0):
     """The sample's true root, in Hz. Returns (hz, how, cents_off_a_C).
+
+    `lo`/`hi` bound the coarse search and come from the family. They default to
+    the first pack's band so that pack re-encodes unchanged.
 
     THREE THINGS HAVE TO BE RIGHT AND THEY ARE THREE DIFFERENT PROBLEMS:
 
@@ -209,7 +328,7 @@ def root_of(x, sr):
     than 120 cents from a C, because at that distance it is a broken
     measurement rather than a tuned instrument, and the file is reported."""
     C0 = 16.351597831287414
-    coarse = f0_of(x, sr, 30.0, 600.0)
+    coarse = f0_of(x, sr, lo, hi)
     if coarse <= 0:
         return 0.0, "dead", 0.0
 
@@ -267,7 +386,7 @@ def sustains(x, sr, keep):
     return e.max() > 0 and e[-1] / e.max() >= 0.45
 
 
-def crossfade_loop(x, sr, keep, pitched):
+def crossfade_loop(x, sr, keep, pitched, lo=30.0, hi=1100.0):
     """Return (samples, loopStart, loopEnd).
 
     The loop sits in the back half of what we keep. On a PITCHED sample it is
@@ -289,7 +408,7 @@ def crossfade_loop(x, sr, keep, pitched):
     le = n - 1
     span = le - ls
     if pitched:
-        f0 = f0_of(x, sr)
+        f0 = f0_of(x, sr, lo, hi)
         period = sr / f0 if f0 > 20 else sr / 110.0
         per = int(span // period)                     # FLOOR: never overshoot the end
         if per >= 1:
@@ -369,8 +488,10 @@ def main():
         peak = np.abs(x).max()
         if peak > 0:
             x = x * (0.97 / peak)                    # normalise; the mix decides level
+        p_lo, p_hi = cfg.get("lo", 30.0), cfg.get("hi", 600.0)
         if sustains(x, SR_OUT, cfg["keep"]):
-            x, ls, le = crossfade_loop(x, SR_OUT, cfg["keep"], cfg["pitched"])
+            x, ls, le = crossfade_loop(x, SR_OUT, cfg["keep"], cfg["pitched"],
+                                       p_lo, cfg.get("hi", 1100.0))
         else:
             x, ls, le = x[:int(cfg["keep"] * SR_OUT)], -1, -1
             # a struck sound must end at zero or every hit ends in a click
@@ -379,13 +500,20 @@ def main():
                 x[-fade:] *= np.linspace(1.0, 0.0, fade)
         root, how, cents = (0.0, "-", 0.0)
         if cfg["pitched"]:
-            root, how, cents = root_of(x, SR_OUT)
+            root, how, cents = root_of(x, SR_OUT, p_lo, p_hi)
             if how == "SNAPPED":
                 notes.append("  %-26s reading was %+.0f cents off a C -- snapped" % (fn, cents))
         data = adpcm_encode(x)
         enc_total += len(data)
-        key = fn.split(" ", 1)[1].rsplit(".", 1)[0] if " " in fn else fn
-        bank[key] = dict(f=fam, n=len(x), r=round(root, 3), ls=ls, le=le,
+        key = clean_key(stem_of(fn), fam, root)
+        if key in CORRECT_ROOT:
+            root = CORRECT_ROOT[key]
+            notes.append("  %-26s root CORRECTED by hand to %.3f Hz" % (key, root))
+        # the index carries the CLEAN family name too, so a reader of the bank
+        # sees `bardFlute` beside `bardFlute_01_C6` rather than the pack's
+        # SHOUTING_SNAKE. `family_of` still matches on the shipped name, which
+        # is the one thing that must keep matching the files on disk.
+        bank[key] = dict(f=RENAME.get(fam, fam), n=len(x), r=round(root, 3), ls=ls, le=le,
                          d=base64.b64encode(data).decode("ascii"))
         if cfg["pitched"]:
             notes.append("  %-26s %5.2fs  root %7.2f Hz (%+.0f c)  %s" %
