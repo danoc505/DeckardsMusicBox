@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-09f` unless it says otherwise. If you
+*Everything below is verified at `2026-08-10a` unless it says otherwise. If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -122,7 +122,7 @@ while both files carried an identical stamp, so three commits of work went
 unheard. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-09f`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-10a`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -134,6 +134,44 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Build `2026-08-10a` — THE FX ACTUALLY MOVE NOW, AND ONE OF THEM NEVER HAD.**
+The owner: *"Your not doing anything with the fx. Your not building sweeping
+motions quick nor long movement. Its all wrong, the song takes so long to get
+into anything and you dont even bother to do anything with all that time."*
+
+Two separate faults, and only the first was the one I expected.
+
+**Every gesture was on a trigger that fires once.** `peak` and `build` both key
+off the single apex section, so a gesture written on either happens ONCE in an
+eleven-minute record — and every gesture in prog-techno was on one of them.
+`fill` recurs **9.8 times a song** and nothing in the genre used it. Underneath,
+free LFOs were swinging the hat filter 7000 Hz a minute: motion with no
+departure and no arrival, loud enough to bury anything directed. Fixed, and the
+record is ~9 minutes instead of 11.5 with an arc that climbs 0.30 → 0.89 rather
+than sitting at 0.13 for four minutes.
+
+**And then the one nothing could see. A CROSSING IN THE SEND MATRIX IS A SWITCH
+BEFORE IT IS A KNOB.** `applyRack` turns routing-list membership into **0 or 1**,
+and motion is an **additive offset** that gets clamped. So a routed send is
+already at the top of its dial, and:
+
+> **a routed send can only be played DOWNWARD.** It rests partly closed and
+> OPENS to full at the arrival. An unrouted one is the mirror image.
+
+Nine lanes across four genres pushed the wrong way and travelled as little as
+**0.00% of their dial in every song ever made** — including one whose own comment
+three lines above said *"a route tops out at the wire, so every move here is a
+CUT"*, with the lane beside it pushing up.
+
+**Why the harness was green on all of it, which is the part worth carrying
+forward:** the range check tested `clamp(x)` against the range the clamp
+enforces — it can never fail. The swing check measures `motionAt`, the OFFSET.
+`probe_automation`'s TRAVEL column measures the offset too. **Nothing measured
+what the voice reads**, which is `clamp(base + offset)`. The new check does, and
+fails a matrix lane keeping under a quarter of its written swing. BACKLOG §0e
+has the two things still open, including that **the snapshot does not hash the
+motion plan at all**.
 
 **Build `2026-08-09f` — THERE IS A NINTH GENRE: prog-techno.** Pink Floyd
 crossed with punk on a techno backbone, which is how the owner put it. A locked
@@ -301,7 +339,7 @@ wanted, and nobody should quietly re-add costs to the other files either.
 
 ## The commands
 
-Build `2026-08-09f`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-10a`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 

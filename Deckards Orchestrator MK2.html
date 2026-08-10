@@ -1411,7 +1411,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-09g · prog-techno gets a bassline that moves, a breakdown, and seven times the automation</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-10a · the sweeps arrive on every fill, and nine sends that were nailed open now move</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -4967,7 +4967,29 @@ function makeMotion(chart, form, sections, materials){
         const d = G.stage.by[fn].depth;
         if(d) by[fn] = d.slice();
       }
-      if(Object.keys(by).length) put("matrix." + bus + "Room", [{ kind: "section", by }]);
+      if(!Object.keys(by).length) continue;
+      /* ── AND THE DEPTHS HAVE TO FIT ON THE CROSSING THEY LAND ON ──────────
+         A crossing is a SWITCH before it is a knob: it is routed (1) or it is
+         not (0), and motion is an ADDITIVE offset. So a positive depth aimed
+         at a routed room send is nothing at all -- it is already at the top of
+         its dial and the clamp eats it. Measured on the CLAMPED value rather
+         than the offset, synthwave's keys were losing three quarters of this
+         lane and bladerunner's more than half, in every song, silently.
+
+         Depth is only ever meaningful RELATIVELY -- "the chorus is further
+         back than the verse" -- so the fix costs nothing musically: slide the
+         whole set so the extreme section lands exactly ON the wire and the
+         others are pulled back from it. Same spacing, same ordering, same
+         draws in the same order; all of it now on the dial. Which end it
+         slides to is the crossing's own base, because a send at the bottom is
+         the mirror image and can only climb. */
+      const cell = matrixCells().find(c => c.k === bus + "Room");
+      const base = cell ? routeBaseFor(G.space || {}, cell, true) : 0;
+      let lo = Infinity, hi = -Infinity;
+      for(const fn in by){ lo = Math.min(lo, by[fn][0]); hi = Math.max(hi, by[fn][1]); }
+      const shift = base >= 1 ? -hi : base <= 0 ? -lo : 0;
+      if(shift) for(const fn in by) by[fn] = [by[fn][0] + shift, by[fn][1] + shift];
+      put("matrix." + bus + "Room", [{ kind: "section", by }]);
     }
   }
   for(const m in MO) for(const k in MO[m]){
@@ -14669,7 +14691,12 @@ const GENRE = {
       /* a flanged lead and a flanged delay are this genre's own vocabulary --
          the chrome on the record. Amounts mine. [EAR] */
       matrix: {
-        leadBarber: [{ kind: "section", by: { prechorus: [0.20, 0.44], chorus: [0.10, 0.28] } },
+        /* this crossing is routed, so its base is 1 and the chrome was already
+           full on at bar one -- the lift into the chorus was 85% eaten by the
+           clamp. Written downward, which is the only direction it has: held
+           back through the verse and let all the way up for the arrival. */
+        leadBarber: [{ kind: "section", by: { verse: [-0.42, -0.26], intro: [-0.50, -0.32],
+                                              prechorus: [-0.06, 0.00], outro: [-0.40, -0.24] } },
                      { kind: "lfo", bars: [[40, 2], [56, 1]], depth: [0.05, 0.13], shape: "sin", freePhase: true }],
         keysBarber: [{ kind: "lfo", bars: [[36, 2], [52, 1]], depth: [0.06, 0.16], shape: "tri", freePhase: true }],
         barberMix:  [{ kind: "section", by: { intro: [-0.30, -0.12] } },
@@ -18016,10 +18043,16 @@ const GENRE = {
                    { kind: "section", by: { intro: [-0.30, -0.10], bridge: [0.04, 0.12] } },
                    { kind: "lfo", bars: [[64, 2], [44, 1]], depth: [0.03, 0.09], shape: "sin", freePhase: true }],
         /* who goes into the flanger, and how much of it comes back */
-        drumsFlange: [{ kind: "section", by: { bridge: [0.20, 0.45], instrumental: [0.06, 0.18] } },
+        /* both of these are routed, so both can only be played DOWNWARD -- the
+           bridge is where the flanger arrives, which means everywhere else is
+           where it is held back. Written the other way round it was 84% eaten
+           by the clamp and the "arrival" never happened. */
+        drumsFlange: [{ kind: "section", by: { bridge: [0, 0], instrumental: [-0.24, -0.12],
+                                               verse: [-0.45, -0.28], intro: [-0.50, -0.32],
+                                               chorus: [-0.34, -0.20], outro: [-0.45, -0.28] } },
                       { kind: "lfo", bars: [[40, 2], [56, 1]], depth: [0.05, 0.14],
                         shape: "sin", freePhase: true }],
-        bassFlange:  [{ kind: "arc", from: [-0.20, -0.06], to: [0.10, 0.26], curve: "sCurve" }],
+        bassFlange:  [{ kind: "arc", from: [-0.46, -0.30], to: [-0.14, -0.02], curve: "sCurve" }],
         keysFlange:  [{ kind: "lfo", bars: [[32, 2], [48, 1]], depth: [0.08, 0.20],
                         shape: "tri", freePhase: true }],
         roomFlange:  [{ kind: "section", by: { bridge: [0.10, 0.28] } },
@@ -18522,8 +18555,16 @@ const GENRE = {
          every move here is a CUT. Shape sourced; amounts mine. [EAR] */
       matrix: {
         drumsMix:  [{ kind: "section", by: { bridge: [-0.75, -0.45], intro: [-0.30, -0.10] } }],
-        drumsEcho: [{ kind: "section", by: { bridge: [0.10, 0.24] } },
-                    { kind: "throw", amt: [0.14, 0.30], every: 8, at: 0.75 }],
+        /* ── AND THIS ONE WAS WRITTEN THE WRONG WAY ROUND ──────────────────
+           The note eight lines down already says it: this crossing's base is
+           fully open, so a lane on it can only pull DOWN. These two moves both
+           pushed UP, and measured on the CLAMPED value the send travelled
+           0.00% of its dial in every jungle song ever made. Same shape, same
+           two hands, written in the direction the desk actually has. */
+        drumsEcho: [{ kind: "section", by: { bridge: [0, 0], verse: [-0.34, -0.18],
+                                             intro: [-0.40, -0.24] } },
+                    { kind: "arc", from: [-0.30, -0.18], to: [-0.14, -0.06], curve: "sCurve" },
+                    { kind: "throw", amt: [0.20, 0.42], every: 8, at: 0.75 }],
         keysEcho:  [{ kind: "lfo", bars: [[24, 2], [40, 1]], depth: [0.06, 0.16],
                       shape: "sin", freePhase: true }],
         /* ── CATCHING THE THROW. This genre's own comment says its delay is
@@ -18549,15 +18590,22 @@ const GENRE = {
            recognise rather than the 8-in-32 plastikman uses to subtract for
            half a minute. The DRY band keeps playing throughout -- only the
            returns go -- so the break does not stop, its space does. [EAR] on
-           the sizes; the shape is the genre's own sheet. */
-        echoFlange:[{ kind: "snap", to: [-1, -1], every: 16, bars: 2 }],
+           the sizes; the shape is the genre's own sheet.
+           There were THREE of these and one of them was on `echoFlange`, a
+           crossing this genre does not route: base 0, snapped to -1, clamped
+           to 0, travelling 0.00% of its dial for ever. The cut it was written
+           for is the two returns, and those two lanes carry it. A lane that
+           cannot move is not a quiet gesture, it is a comment. */
         drumsDP4:  [{ kind: "lfo", bars: [[28, 2], [44, 1]], depth: [0.06, 0.18],
                       shape: "sin", freePhase: true }],
         /* the flanger on the break, held back under the verse and opened
            through the drop -- "a bit of flanger on PART of the break to create
-           variations" [corpus:dogsonacid], which is a hand, not a setting */
-        drumsFlange:[{ kind: "section", by: { chorus: [0.10, 0.26], bridge: [0.06, 0.18] } },
-                     { kind: "occurrence", step: [0.03, 0.09], cap: 3 }],
+           variations" [corpus:dogsonacid], which is a hand, not a setting.
+           Held back IS a cut here, because held back is the only thing a
+           fully-open crossing can be. */
+        drumsFlange:[{ kind: "arc", from: [-0.62, -0.44], to: [-0.40, -0.26], curve: "sCurve" },
+                     { kind: "section", by: { chorus: [0.26, 0.44], bridge: [0.18, 0.34] } },
+                     { kind: "occurrence", step: [0.05, 0.12], cap: 3 }],
         flangeMix: [{ kind: "snap", to: [-1, -1], every: 16, bars: 2 },
                     { kind: "lfo", bars: [[36, 2], [24, 1]], depth: [0.05, 0.14],
                       shape: "tri", freePhase: true }],
@@ -19743,11 +19791,21 @@ const GENRE = {
         /* the hall opens a step further every time a section returns -- 0.08-0.16
            on a 0-1 send, three times, which is the whole record moving from a
            room to a cavern without a note changing */
-        keysRoom: [{ kind: "apex", from: [-0.06, 0.0], to: [0.05, 0.16] },
-                   { kind: "occurrence", step: [0.08, 0.16], cap: 3 }],
-        drumsRoom:[{ kind: "apex", from: [-0.05, 0.0], to: [0.05, 0.15] },
+        /* ── AND THE ROOM HAS TO START SMALL TO GET BIGGER ─────────────────
+           These three crossings are routed, so their base is 1 and they were
+           already at the cavern on bar one -- every positive step here was
+           eaten by the clamp, and `leadRoom` travelled 0.00% of its dial in
+           every song. The intent was right and the direction was wrong: the
+           room now STARTS pulled down, and the per-repeat step and the apex
+           open it. Same cavern, actually arrived at. */
+        keysRoom: [{ kind: "apex", from: [-0.62, -0.48], to: [-0.44, -0.34] },
+                   { kind: "occurrence", step: [0.09, 0.15], cap: 3 }],
+        /* and this one is the mirror: the drums are NOT routed to the room, so
+           it is the one crossing here that climbs from nothing */
+        drumsRoom:[{ kind: "apex", from: [0, 0.02], to: [0.24, 0.42] },
                    { kind: "occurrence", step: [0.06, 0.12], cap: 3 }],
-        leadRoom: [{ kind: "occurrence", step: [0.07, 0.14], cap: 3 }],
+        leadRoom: [{ kind: "arc", from: [-0.62, -0.50], to: [-0.44, -0.36], curve: "sCurve" },
+                   { kind: "occurrence", step: [0.09, 0.14], cap: 3 }],
       },
     },
     /* THE WALK. Not a song shape -- a descent. The sources describe duration
@@ -20310,11 +20368,19 @@ const GENRE = {
          jointly create a gradual increase in intensity and, as a result, a
          strong sense of direction". The solo arrives nearly halfway in, which
          is what makes it read as an event rather than a part. */
-      build: { enter: { drums: [0, 0], bass: [0.05, 0.04], ostinato: [0.13, 0.08],
-                        lead: [0.42, 0.14] },
+      /* the solo still ARRIVES rather than playing throughout -- that is the
+         Pink Floyd finding and it stands -- but it was arriving at 42-56% of a
+         record, which at this length was five minutes of waiting. A third of
+         the way in is still an entrance. */
+      build: { enter: { drums: [0, 0], bass: [0.05, 0.04], ostinato: [0.11, 0.07],
+                        lead: [0.30, 0.10] },
                openWith: [["drums", 6], ["ostinato", 3]] },
       coldOpen: 0.6, openVerse: 1,
-      target: [192, 5, 32],
+      /* the planless walk's length. THIS GENRE DECLARES A PLAN, so the number
+         below is drawn and not used -- the phase budgets are what set the
+         length here, and they are where the shortening was done. Left correct
+         rather than left looking like the control. */
+      target: [128, 4, 32],
       payoff: "instrumental",
       transitions: {
         verse:        [["instrumental", 8], ["verse", 6], ["bridge", 1]],
@@ -20335,7 +20401,16 @@ const GENRE = {
            listing it here left the walk standing on a function with no
            transitions row and `lawTable` threw on the first long record the
            length dial asked for. */
-        { name: "alap",  pool: ["verse"], bars: [48, 2, 16], endOn: "verse" },
+        /* ── AND THE PHASES ARE SHORTER, BECAUSE THE OPENING WAS THE COMPLAINT
+           "the song takes so long to get into anything and you dont even bother
+           to do anything with all that time." Measured before this: 11.5
+           minutes, of which the first FIVE were three parts and an energy curve
+           flat at 0.13. The alap is the phase that was doing the waiting, so it
+           takes the biggest cut. Progressive still means long -- this lands
+           around eight minutes and the dial goes to twenty -- but long has to
+           be earned by something happening, and the fx sweeps above are the
+           other half of that. */
+        { name: "alap",  pool: ["verse"], bars: [32, 2, 16], endOn: "verse" },
         /* ── THE BREAKDOWN LIVES HERE, AND IT WAS MISSING ─────────────────
            `bridge` was in the transitions table and in NO plan pool, so this
            genre never played one: 0 bridges in 20 songs. Six automation lanes
@@ -20346,7 +20421,7 @@ const GENRE = {
            It belongs here musically too: the middle phase is Cohen's "free
            interlude" in Dogs, and in techno the breakdown is the biggest move
            the genre has. */
-        { name: "jod",   pool: ["verse", "instrumental"], bars: [64, 3, 32], endOn: "instrumental" },
+        { name: "jod",   pool: ["verse", "instrumental"], bars: [48, 3, 32], endOn: "instrumental" },
         /* ── THE BREAKDOWN IS A PHASE, NOT A DICE ROLL ────────────────────
            `bridge` sat in the transitions table with a weight of 1 in 15, and
            behind a hard law that will not allow one until the record has stated
@@ -20360,13 +20435,21 @@ const GENRE = {
            It sits after `jod` so the payoff has been heard and the law is
            satisfied by the time the phase opens. */
         { name: "breakdown", pool: ["bridge"], bars: [16, 2, 16], endOn: "bridge" },
-        { name: "jhala", pool: ["instrumental", "chorus", "verse"], bars: [80, 3, 32], endOn: "instrumental" },
+        { name: "jhala", pool: ["instrumental", "chorus", "verse"], bars: [64, 3, 32], endOn: "instrumental" },
       ],
       energy: { intro: 0.7, outro: 0.66, bridge: 0.68, instrumental: 0.9,
                 chorus: 0.94, chorusPeak: 0.98, verse: 0.82 },
       arc: {
-        apexAt: [0.66, 0.8], floor: [0.06, 0.14], tail: [0.28, 0.44],
-        bend: [2.0, 2.8], dip: [0.12, 0.22], preHighs: [1, 2],
+        /* ── AND THE CURVE ITSELF WAS THE OTHER HALF OF THE EMPTY OPENING ────
+           `floor` 0.06 with `bend` 2.8 is a record that starts at six per cent
+           and stays there: a steep bend means the rise is slow at first, and at
+           this length "at first" was four minutes. The floor is up, the bend is
+           down so it climbs from the start, the apex is earlier, and `preHighs`
+           goes to two or three -- those are the lesser peaks BEFORE the arrival,
+           which are exactly the "something happening" the long middle was
+           missing. */
+        apexAt: [0.58, 0.72], floor: [0.20, 0.30], tail: [0.28, 0.44],
+        bend: [1.1, 1.6], dip: [0.12, 0.22], preHighs: [2, 3],
         /* ── AND THIS IS THE STRUCTURAL SOLO ────────────────────────────────
            `thin` is the fraction of a part the arc is allowed to take away at
            the record's floor. 0.9 on the lead means the solo is almost entirely
@@ -20426,8 +20509,15 @@ const GENRE = {
                { kind: "lfo", bars: [[96, 3], [64, 2]], depth: [0.8, 2.2],
                  shape: "sin", freePhase: true }],
         /* and the middle is where the punk lives: the mid band swung about is
-           what makes a record sound handled rather than mixed */
-        mid:  [{ kind: "lfo", bars: [[48, 3], [32, 2], [20, 1]], depth: [1.8, 4.5],
+           what makes a record sound handled rather than mixed.
+           The PHRASE letters are what makes it happen in the opening: the drums
+           are sentenced A B A C A B A D from bar one, and a knob on the same
+           letters lands with them. Everything else here waits for a fill (52
+           seconds in) or the arc (which has moved 6% by then). */
+        mid:  [{ kind: "gesture", on: "fill", bars: 4, from: [0, 0],
+                 to: [-14, -8], curve: "exp" },
+               { kind: "phrase", by: { B: [-3.5, -1.5], C: [2, 5], D: [-6, -3] } },
+               { kind: "lfo", bars: [[48, 3], [32, 2]], depth: [1.0, 2.6],
                  shape: "tri", freePhase: true },
                { kind: "section", by: { bridge: [-8, -4], instrumental: [1, 3] } }],
       },
@@ -20435,13 +20525,23 @@ const GENRE = {
          a section and pulling back is the oldest move in the lineage this genre
          sits in, and it is what carries the record while nothing else changes. */
       echo: {
-        fb: [{ kind: "lfo", bars: [[64, 4], [32, 3]], depth: [0.08, 0.24],
-               shape: "sin", freePhase: true },
+        /* feedback pushed toward self-oscillation into every arrival and pulled
+           back on the downbeat -- the dub move, and the one the production
+           sources name: "a delay edging toward self-oscillation, then cut to
+           dry exactly on the boundary" */
+        fb: [{ kind: "gesture", on: "fill", bars: 4,
+               from: [0, 0], to: [0.30, 0.52], curve: "exp" },
              { kind: "section", by: { bridge: [0.18, 0.34], instrumental: [0.06, 0.16] } },
              { kind: "apex", from: [-0.1, -0.04], to: [0.05, 0.16] }],
-        send: [{ kind: "apex", from: [-0.12, -0.05], to: [0.08, 0.2] },
-               { kind: "lfo", bars: [[40, 3], [24, 2]], depth: [0.05, 0.14],
-                 shape: "sin", freePhase: true }],
+        /* the default here is ZERO, so a negative offset is not a quiet send,
+           it is no send at all -- this parked the echo off for half the record */
+        send: [{ kind: "arc", from: [0.02, 0.05], to: [0.26, 0.42], curve: "log" },
+               { kind: "gesture", on: "fill", bars: 2,
+                 from: [0, 0], to: [0.24, 0.46], curve: "exp" },
+               { kind: "throw", amt: [0.20, 0.42], every: 8, at: 0.75 }],
+        tone: [{ kind: "gesture", on: "fill", bars: 8,
+                 from: [0, 0], to: [-3400, -1800], curve: "exp" },
+               { kind: "apex", from: [-2200, -1000], to: [1200, 3000] }],
       },
       /* ── THE DRUM MACHINE, PLAYED RATHER THAN SET ─────────────────────────
          Boys Noize: "The sound is more important to me than the melody or a
@@ -20451,10 +20551,46 @@ const GENRE = {
          bound to a sixteenth, the same every bar, which is what a step
          sequencer's parameter locks are. */
       tr1000: {
-        hCut:    [{ kind: "lfo", bars: [[22, 3], [34, 2]], depth: [1100, 3000],
+        /* ── THE SWEEP THAT HAPPENS EVERY TIME, NOT ONCE ────────────────────
+           This was a free LFO swinging 7000 Hz a minute, for ever. Measured,
+           and it is the fault the owner named: "not building sweeping motions
+           quick nor long movement". A free LFO is MOTION WITHOUT DIRECTION --
+           it never departs from anywhere or arrives anywhere, and it is loud
+           enough to bury anything that does.
+           `fill` is the trigger that recurs: 9.8 a song against ONE peak, so
+           every gesture written on peak or build fires once in eleven minutes.
+           That is where all of mine were. Now the hats close over eight bars
+           into every arrival and snap back on the downbeat -- the window ending
+           ON the beat IS the snap-back, no second move needed. */
+        /* ── AND THE MOVES ADD UP, WHICH IS HOW I SHUT THE MACHINE ──────────
+           First pass at these sweeps put the arc at -9000 and the fill gesture
+           at -11000 on a control whose default is 20000 -- and they STACK, so
+           the hats sat on the 120 Hz floor for 100% of the record. Measured,
+           and it is worse than the wobble it replaced: a filter pinned shut is
+           not a sweep, it is a muted machine.
+           Sized so the deepest stack lands around 6 kHz and the record still
+           opens all the way. A sweep has to have somewhere to come back to. */
+        /* ── AND AN sCURVE IS FLAT WHERE THE RECORD STARTS ─────────────────
+           `sCurve` is smoothstep: at a fifth of the way in it has travelled 8%
+           of its range. Every long move here was on one, so the first ninety
+           seconds of a nine-minute record had eighteen lanes measurably still
+           -- "the song takes so long to get into anything and you dont even
+           bother to do anything with all that time". `log` is sqrt(u): 45% of
+           the way there at the same point. So the machine starts opening from
+           bar one and the DIRECTED moves -- the ones aimed at the apex -- keep
+           the sCurve, because those are supposed to hold back. */
+        hCut:    [{ kind: "gesture", on: "fill", bars: 8,
+                    from: [0, 0], to: [-7000, -4500], curve: "exp" },
+                  { kind: "arc", from: [-7000, -4000], to: [0, 0], curve: "log" },
+                  { kind: "phrase", by: { B: [-900, -300], C: [400, 1400], D: [-2200, -1100] } },
+                  { kind: "lfo", bars: [[34, 3], [52, 2]], depth: [400, 1100],
                     shape: "tri", freePhase: true },
                   { kind: "plock", density: [0.14, 0.30], amt: [-1800, 900] }],
-        hDecay:  [{ kind: "plock", density: [0.12, 0.26], amt: [-0.014, 0.026] }],
+        /* the hat's decay is 0.2..3, so a p-lock of +-0.02 was 1% of the dial:
+           a number that exists rather than a hand on a machine. Sized to what
+           the 909 hand actually does -- some steps clipped short, some left to
+           ring past the next one. */
+        hDecay:  [{ kind: "plock", density: [0.14, 0.30], amt: [-0.45, 0.70] }],
         chdecay: [{ kind: "lfo", bars: [[28, 3], [18, 2]], depth: [0.008, 0.022],
                     shape: "sin", freePhase: true },
                   { kind: "occurrence", step: [0.002, 0.008], cap: 3 }],
@@ -20462,7 +20598,10 @@ const GENRE = {
         kTune:   [{ kind: "occurrence", step: [-0.8, -0.3], cap: 3 }],
         kDecay:  [{ kind: "occurrence", step: [-0.02, -0.008], cap: 3 },
                   { kind: "gesture", on: "peak", bars: 8, from: [0.05, 0.12], to: [0, 0], curve: "exp" }],
-        kCut:    [{ kind: "arc", from: [-2600, -1200], to: [400, 1400], curve: "sCurve" }],
+        /* the record opens on drums alone, so the kick's own filter is the
+           first thing that has anywhere to go -- `log`, not `sCurve` */
+        kCut:    [{ kind: "arc", from: [-2600, -1200], to: [400, 1400], curve: "log" },
+                  { kind: "phrase", by: { C: [300, 900], D: [-1100, -500] } }],
         cVerb:   [{ kind: "occurrence", step: [0.05, 0.13], cap: 3 }],
         cTune:   [{ kind: "plock", density: [0.10, 0.22], amt: [-2.5, 2.5] }],
         rTune:   [{ kind: "plock", density: [0.12, 0.28], amt: [-3.0, 3.0] }],
@@ -20475,8 +20614,21 @@ const GENRE = {
         dCut:    [{ kind: "lfo", bars: [[34, 3], [21, 2]], depth: [1200, 3200],
                     shape: "sin", freePhase: true }],
         dEcho:   [{ kind: "throw", amt: [0.18, 0.40], every: 8, at: 0.75 }],
-        fxFilter:[{ kind: "snap", to: [-3200, -1800], every: 32, bars: 4 },
-                  { kind: "arc", from: [-1800, -700], to: [300, 1200], curve: "sCurve" }],
+        /* ── THE LONG MOVEMENT, AND IT HAS TO BE BIG TO BE ONE ──────────────
+           The whole-record arc was 4000 Hz spread over eleven minutes, which is
+           imperceptible -- a number that exists rather than a movement. This
+           one opens the machine from nearly shut to wide over the length of the
+           record, and the `build` gesture shuts it again over the 32 bars
+           before the apex so the arrival has somewhere to come from.
+           The snap is the QUICK one: a hard cut, four bars, every sixteen. */
+        /* one big long move and one small recurring one, rather than four big
+           ones that add to more than the dial has -- see the note on hCut */
+        fxFilter:[{ kind: "arc", from: [-13000, -9000], to: [0, 0], curve: "log" },
+                  { kind: "gesture", on: "build", bars: 32,
+                    from: [0, 0], to: [-5000, -3000], curve: "exp" },
+                  { kind: "gesture", on: "fill", bars: 4,
+                    from: [0, 0], to: [-4000, -2200], curve: "exp" },
+                  { kind: "phrase", by: { C: [900, 2600], D: [-3200, -1600] } }],
         gate:    [{ kind: "phrase", by: { C: [0.10, 0.24], D: [0.14, 0.30] } }],
         revSend: [{ kind: "apex", from: [-0.06, -0.02], to: [0.05, 0.14] }],
         dlySend: [{ kind: "throw", amt: [0.14, 0.34], every: 16, at: 0.75 },
@@ -20490,32 +20642,72 @@ const GENRE = {
          The THROWS are the move by name -- a send pushed for a moment and
          pulled back, which is what a dub engineer's hand does and what nothing
          in this genre was doing. */
+      /* ── AND WHICH DIRECTION A SEND CAN BE PLAYED IN ──────────────────────
+         A crossing is a SWITCH before it is a knob: applyRack translates list
+         membership into 0 or 1, so a send this genre routes sits at 1 and one
+         it does not sits at 0. Motion is an ADDITIVE OFFSET on top of that.
+         Which means a positive move on a routed crossing is nothing at all --
+         it is already at the top of its dial and the clamp eats every bit of
+         it. I wrote nine of those. Measured on the CLAMPED value rather than
+         the offset, four of them travelled 0.00% of their dial in every song,
+         which is the owner's complaint in a number: "you're not doing anything
+         with the fx".
+
+         So the rule, and it is the dub engineer's hand anyway: A ROUTED SEND IS
+         PLAYED DOWNWARD. It rests partly closed and OPENS to full at the
+         arrival -- the throw, the fill, the apex. Full wet is the gesture, not
+         the resting state. Crossings this genre does not route are the mirror
+         image and move up from zero. */
       matrix: {
-        drumsEcho:   [{ kind: "throw", amt: [0.20, 0.45], every: 8, at: 0.75 },
-                      { kind: "lfo", bars: [[48, 3], [32, 2]], depth: [0.04, 0.12],
+        /* rests around half wet and is thrown WIDE open every eight bars --
+           the oldest move in the lineage, and the one that carries a record
+           where nothing else changes */
+        drumsEcho:   [{ kind: "arc", from: [-0.78, -0.62], to: [-0.48, -0.32], curve: "log" },
+                      { kind: "throw", amt: [0.45, 0.78], every: 8, at: 0.75 },
+                      { kind: "gesture", on: "fill", bars: 4, from: [0, 0],
+                        to: [0.34, 0.60], curve: "exp" },
+                      { kind: "lfo", bars: [[48, 3], [32, 2]], depth: [0.05, 0.14],
                         shape: "sin", freePhase: true }],
-        drumsRoom:   [{ kind: "apex", from: [-0.08, -0.03], to: [0.06, 0.16] },
-                      { kind: "section", by: { bridge: [0.14, 0.30] } }],
-        drumsFlange: [{ kind: "gesture", on: "peak", bars: 8, from: [0, 0],
-                        to: [0.18, 0.38], curve: "exp" }],
+        /* the room follows the arc: a dry machine at the bottom, a wide one at
+           the apex, and the breakdown floods */
+        drumsRoom:   [{ kind: "apex", from: [-0.62, -0.46], to: [-0.10, 0.00] },
+                      { kind: "section", by: { bridge: [0.30, 0.46], intro: [-0.16, -0.06] } }],
+        drumsFlange: [{ kind: "arc", from: [-0.92, -0.80], to: [-0.56, -0.40], curve: "sCurve" },
+                      { kind: "gesture", on: "peak", bars: 8, from: [0, 0],
+                        to: [0.56, 0.86], curve: "exp" },
+                      { kind: "gesture", on: "fill", bars: 4, from: [0, 0],
+                        to: [0.28, 0.52], curve: "exp" }],
         drumsBarber: [{ kind: "section", by: { bridge: [0.12, 0.28] } }],
         bassEcho:    [{ kind: "throw", amt: [0.10, 0.26], every: 16, at: 0.5 }],
-        bassRoom:    [{ kind: "arc", from: [-0.05, -0.02], to: [0.03, 0.10], curve: "sCurve" }],
+        bassRoom:    [{ kind: "arc", from: [0, 0.02], to: [0.10, 0.22], curve: "log" }],
         bassDP4:     [{ kind: "phrase", by: { C: [0.10, 0.24], D: [0.12, 0.30] } }],
-        /* the solo is the thing that arrives, so its wetness arrives with it */
-        leadEcho:    [{ kind: "apex", from: [-0.10, -0.04], to: [0.16, 0.36] },
-                      { kind: "throw", amt: [0.22, 0.48], every: 8, at: 0.75 }],
-        leadRoom:    [{ kind: "apex", from: [-0.08, -0.03], to: [0.14, 0.32] }],
-        leadBarber:  [{ kind: "gesture", on: "peak", bars: 12, from: [0, 0],
-                        to: [0.20, 0.44], curve: "exp" }],
-        leadFlange:  [{ kind: "lfo", bars: [[40, 3], [56, 2]], depth: [0.06, 0.18],
+        /* the solo is the thing that arrives, so its wetness arrives with it --
+           dry and close where the record starts, drowned at the peak */
+        leadEcho:    [{ kind: "apex", from: [-0.72, -0.56], to: [-0.12, 0.00] },
+                      { kind: "throw", amt: [0.40, 0.72], every: 8, at: 0.75 },
+                      { kind: "gesture", on: "fill", bars: 4, from: [0, 0],
+                        to: [0.24, 0.50], curve: "exp" }],
+        leadRoom:    [{ kind: "apex", from: [-0.66, -0.50], to: [-0.08, 0.00] },
+                      { kind: "section", by: { bridge: [0.24, 0.42] } }],
+        leadBarber:  [{ kind: "arc", from: [-0.96, -0.86], to: [-0.62, -0.46], curve: "sCurve" },
+                      { kind: "gesture", on: "peak", bars: 12, from: [0, 0],
+                        to: [0.60, 0.92], curve: "exp" }],
+        leadFlange:  [{ kind: "apex", from: [-0.62, -0.46], to: [-0.22, -0.10] },
+                      { kind: "lfo", bars: [[40, 3], [56, 2]], depth: [0.10, 0.24],
                         shape: "sin", freePhase: true }],
         keysEcho:    [{ kind: "section", by: { bridge: [0.16, 0.34] } }],
-        echoMix:     [{ kind: "arc", from: [-0.06, -0.02], to: [0.05, 0.14], curve: "sCurve" }],
-        echoFlange:  [{ kind: "lfo", bars: [[64, 3], [44, 2]], depth: [0.05, 0.14],
+        echoMix:     [{ kind: "arc", from: [-0.52, -0.36], to: [-0.14, -0.06], curve: "log" },
+                      { kind: "gesture", on: "fill", bars: 6, from: [0, 0],
+                        to: [0.06, 0.14], curve: "exp" }],
+        /* not routed, so this one is the mirror image and climbs from nothing */
+        echoFlange:  [{ kind: "arc", from: [0.08, 0.16], to: [0.24, 0.40], curve: "log" },
+                      { kind: "lfo", bars: [[64, 3], [44, 2]], depth: [0.06, 0.16],
                         shape: "sin", freePhase: true }],
-        roomMix:     [{ kind: "apex", from: [-0.07, -0.03], to: [0.06, 0.15] }],
-        barberMix:   [{ kind: "section", by: { bridge: [0.10, 0.24] } }],
+        roomMix:     [{ kind: "apex", from: [-0.24, -0.12], to: [0.20, 0.40] }],
+        barberMix:   [{ kind: "arc", from: [-0.92, -0.78], to: [-0.52, -0.36], curve: "sCurve" },
+                      { kind: "section", by: { bridge: [0.34, 0.54] } },
+                      { kind: "gesture", on: "peak", bars: 16, from: [0, 0],
+                        to: [0.40, 0.72], curve: "exp" }],
       },
       /* the swirl, which is the punk half of the surface: a flanger ridden hard
          is the cheapest way a record sounds handled rather than mixed */
@@ -20523,10 +20715,16 @@ const GENRE = {
         rate:  [{ kind: "lfo", bars: [[52, 3], [36, 2]], depth: [0.05, 0.16],
                   shape: "tri", freePhase: true }],
         depth: [{ kind: "apex", from: [-0.10, -0.04], to: [0.10, 0.26] },
+                { kind: "gesture", on: "fill", bars: 6, from: [0, 0],
+                  to: [0.30, 0.55], curve: "exp" },
                 { kind: "gesture", on: "build", bars: 16, from: [0, 0],
-                  to: [0.12, 0.30], curve: "exp" }],
+                  to: [0.20, 0.42], curve: "exp" }],
         fb:    [{ kind: "snap", to: [0.16, 0.34], every: 48, bars: 4 }],
-        mix:   [{ kind: "section", by: { bridge: [0.14, 0.30], instrumental: [0.03, 0.10] } }],
+        /* and the flanger's wetness on the eight-bar sentence, so the swirl is
+           there from bar one instead of waiting for a section that is minutes
+           away -- the phrase is the only trigger that recurs in the opening */
+        mix:   [{ kind: "section", by: { bridge: [0.14, 0.30], instrumental: [0.03, 0.10] } },
+               { kind: "phrase", by: { B: [0.04, 0.11], C: [-0.08, -0.03], D: [0.10, 0.22] } }],
       },
       /* the effects box: four processors, and the phrase letters are what
          decides which of them is doing anything */
@@ -20549,9 +20747,9 @@ const GENRE = {
       /* the pad's own movement, slow enough that it reads as the room breathing
          rather than as an effect */
       wash: {
-        cut:    [{ kind: "lfo", bars: [[72, 3], [48, 2]], depth: [700, 2100],
+        cut:    [{ kind: "lfo", bars: [[72, 3], [48, 2]], depth: [250, 650],
                    shape: "sin", freePhase: true },
-                 { kind: "apex", from: [-1400, -600], to: [400, 1300] }],
+                 { kind: "apex", from: [-480, -220], to: [900, 1700] }],
         /* the pan sweep runs 0-8 Hz, so a depth of 0.02-0.07 was 2% of the dial:
            automated on paper and static to an ear, which is exactly what
            probe_automation's "barely moves" column exists to catch. Widened to

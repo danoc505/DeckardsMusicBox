@@ -4,7 +4,29 @@
 > the rules, the current state and what to do next, in two pages. Then come
 > back and read this whole file, which is the contract.
 
-*⚠ **CURRENT AT `2026-08-09f` — A NINTH GENRE, prog-techno.** "Pink Floyd
+*⚠ **CURRENT AT `2026-08-10a` — THE SWEEPS ARRIVE, AND NINE SENDS THAT WERE
+NAILED OPEN NOW MOVE.** The owner: *"Your not doing anything with the fx. Your
+not building sweeping motions quick nor long movement. Its all wrong, the song
+takes so long to get into anything."* Two faults. **One:** every gesture was
+written on `peak` or `build`, which both key off the single apex — so each fired
+ONCE in eleven minutes, while `fill` recurs 9.8 times a song and nothing used it;
+free LFOs swung the hat filter 7000 Hz a minute, motion without direction. Now
+the arc climbs 0.30 → 0.89 instead of sitting at 0.13, the record is ~9 minutes
+rather than 11.5, and prog-techno has more deep-swinging lanes than plastikman
+(19–24 at ≥35% of dial, against 12–19) on two thirds the lane count.
+**Two, and it is the one to inherit: A SEND MATRIX CROSSING IS A SWITCH BEFORE
+IT IS A KNOB.** Routed is 1, unrouted is 0, and motion is an ADDITIVE offset —
+so **a routed send can only be played DOWNWARD.** Nine lanes across four genres
+pushed up against a rail and travelled as little as 0.00% of their dial in every
+song ever made. **Nothing in the harness could see it:** the range check tested
+`clamp(x)` against the range the clamp enforces, and both the swing check and
+`probe_automation` measure the OFFSET rather than what the voice reads. New
+check measures `clamp(base + offset)`; the file's floor is now 36%. The generated
+`matrix.<bus>Room` lane is fixed at the generator, not per genre. **300 of 2700
+songs moved, all prog-techno; the snapshot does not hash motion at all, which is
+a gap now written down.** BACKLOG §0e. **NOT HEARD.***
+
+*⚠ **`2026-08-09f` — A NINTH GENRE, prog-techno.** "Pink Floyd
 crossed with punk wrapped into a techno back bone", in the owner's words. The
 finding it is built on: Cohen's account of Pink Floyd's "Dogs" -- "a small amount
 of material... expanded enormously by heavy repetition and an exceptionally slow

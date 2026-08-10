@@ -270,6 +270,66 @@ texture; and sludge, parked by the owner.
 
 ---
 
+## 0e. A SEND CAN ONLY BE PLAYED IN ONE DIRECTION — found and fixed `2026-08-10a`
+
+The owner, on the build before this one: *"Your not doing anything with the fx.
+Your not building sweeping motions quick nor long movement."* Two separate
+faults, and the second one was invisible to the whole harness.
+
+**Fault one: every gesture was written on a trigger that fires once.** `peak` and
+`build` both key off the single apex section, so a gesture on either happens ONCE
+in an eleven-minute record. `fill` recurs **9.8 times a song** and nothing used
+it. Meanwhile free LFOs swung the hat filter 7000 Hz a minute — motion without
+direction, loud enough to bury anything directed. Fixed: `fill` gestures across
+the desk, the delay and the filters; free-LFO depths cut; the arc reshaped so it
+climbs 0.30 → 0.89 instead of sitting at 0.13 for four minutes; the plan phases
+shortened so the record is ~9 minutes rather than 11.5.
+
+**Fault two, and this is the one worth inheriting: A CROSSING IN THE SEND MATRIX
+IS A SWITCH BEFORE IT IS A KNOB.** `applyRack` translates routing-list membership
+into **0 or 1**, and motion is an **additive offset** clamped to the dial. So:
+
+> **A routed send is already at the top of its dial. Every positive move written
+> on one is nothing at all. A routed send can only be played DOWNWARD — it rests
+> partly closed and OPENS to full at the arrival. An unrouted one is the mirror.**
+
+Nine lanes across four genres were pointed the wrong way, travelling as little as
+**0.00% of their dial in every song ever made**, including one whose own comment
+three lines above said *"a route tops out at the wire, so every move here is a
+CUT"* while the lane beside it pushed up. Fixed in prog-techno (5), jungle (2),
+plastikman (2), synthwave (1) and dungeon synth (1); one jungle lane that snapped
+a crossing the genre does not route was deleted outright.
+
+**And the generated one, which is why this is a mechanism and not nine typos.**
+`makeMotion` synthesises `matrix.<bus>Room` from `G.stage.by[fn].depth` for every
+genre that declares a stage. Depth is only ever meaningful *relatively*, so the
+generator now slides the whole set onto the dial — the extreme section lands
+exactly on the wire, the rest are pulled back from it — with which end decided by
+`routeBaseFor`. Same spacing, same ordering, same draws in the same order.
+
+**THE REASON NOTHING CAUGHT THIS, and the lesson for the next check:**
+- the range check tested `clamp(x)` against the range the clamp enforces, so it
+  could never fail;
+- the swing check measured `motionAt`, which is the **offset**, not what the
+  voice reads;
+- `probe_automation`'s TRAVEL column measures the offset too.
+
+**Every one of them was green on a send nailed open for eleven minutes.** The new
+check — *"the clamp does not eat a crossing's movement"* — measures
+`clamp(base + offset)` and fails a matrix lane that keeps under a quarter of the
+swing written on it. Floor across the file is now 36%.
+
+**Still open here:**
+- **Nineteen lanes are automated but too small to hear** — dungeon synth's ten
+  drum-tune lanes swing 0.24% of their dial (three cents), and five `panHz` lanes
+  under 0.6%. Different fault from the rail: not clamped, just tiny.
+  `probe_automation` calls this OVERDRIVEN and nothing fails on it.
+- **The snapshot does not hash the motion plan.** Every FX change in this build
+  left 2400 of 2700 songs byte-identical *by construction* — the gate cannot see
+  the automation at all. The two probes above are the only coverage.
+
+---
+
 ## 0c. MINIMAL TECHNO IS WRONG EVERYWHERE EXCEPT THE DRUMS — opened 2026-08-09
 
 The owner: *"I think weve got the fx for the drums right but everything else is

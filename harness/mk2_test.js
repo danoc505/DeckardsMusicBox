@@ -1732,6 +1732,53 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   check("every declared motion lane actually swings", moved === lanes,
         moved + "/" + lanes + " lanes move at seed 1");
 
+  /* ── 5. AND THE SWING SURVIVES THE CLAMP, WHICH IS A DIFFERENT QUESTION ───
+     Check 3 above proves the clamped value stays on the dial, which it does by
+     construction -- it tests the output of a clamp against the range the clamp
+     enforces, so it can never fail. Check 4 measures `motionAt`, which is the
+     OFFSET. Neither one reads what the voice reads: clamp(base + offset).
+
+     A crossing in the send matrix is a SWITCH before it is a knob -- routed is
+     1, unrouted is 0 -- so a positive move written on a routed crossing is
+     nothing at all. Both checks above pass it with full marks and the send
+     never moves for the length of the record. That was the state of NINE lanes
+     across four genres, including one whose own comment three lines up said "a
+     route tops out at the wire, so every move here is a CUT" while the lane
+     beside it pushed up. The owner heard it as "you're not doing anything with
+     the fx", which it was.
+
+     So: measure the clamped travel against the written travel. A little loss
+     is honest -- a throw is SUPPOSED to saturate, and a free LFO on a routed
+     crossing spends half its cycle against the wire on purpose. Losing three
+     quarters of it is a lane pointed the wrong way. The floor across the file
+     is a third; the bar is a quarter. ── */
+  let eaten = [];
+  for(const g of M.genres()) for(let s = 1; s <= 4 && eaten.length < 4; s++){
+    const song = M.composeSong(s, "band", g), mo = song.motion;
+    for(const key in mo.lanes){
+      if(!key.startsWith("matrix.")) continue;
+      const [mach, k] = key.split(".");
+      const c = M.CONTROL[key]; if(!c || c.max <= c.min) continue;
+      const base = M.panelValue(mach, k);
+      let rl = Infinity, rh = -Infinity, cl = Infinity, ch = -Infinity;
+      for(let st = 0; st < mo.nBars * 16; st++){
+        const raw = base + M.motionAt(mo, key, { tSec: st * mo.spb });
+        const cv = Math.max(c.min, Math.min(c.max, raw));
+        if(raw < rl) rl = raw; if(raw > rh) rh = raw;
+        if(cv  < cl) cl = cv;  if(cv  > ch) ch = cv;
+      }
+      const want = rh - rl;
+      if(want <= 1e-9) continue;
+      const keep = (ch - cl) / want;
+      if(keep < 0.25)
+        eaten.push(g + " s" + s + " " + key + " keeps " + (100 * keep).toFixed(0) +
+                   "% (base " + base + ", wanted " + want.toFixed(2) + ")");
+    }
+  }
+  check("the clamp does not eat a crossing's movement", eaten.length === 0,
+        eaten.length ? eaten.join(" | ")
+                     : "every matrix lane in 36 songs keeps a quarter of its swing");
+
   /* ── NO MOTION TABLE NAMES A MACHINE TWICE ────────────────────────────────
      A duplicate key in an object literal does not merge, it REPLACES -- so a
      second `tr1000:` in one genre's motion block silently deletes the first,
