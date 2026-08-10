@@ -317,6 +317,20 @@
   .mixlegato[data-state=genre]{ border-color:#3fb497; color:#3fb497; }
   .mixlegato[data-state=off]{ border-color:#b45050; color:#e0a0a0; text-decoration:line-through; }
   .mixclear.lit{ border-color:#e0b23c; color:#e0b23c; }
+  /* ── ADD AN INSTRUMENT, under the strips ──────────────────────────────────
+     Deliberately quiet and deliberately below the faders: this adds PLAYERS to
+     a part rather than adding a track, so it belongs with the parts and not
+     with the racks. A stacked doubling is lit so the desk says what it is
+     carrying, and a refusal is printed in words beside the buttons. */
+  .mixstack{ display:flex; flex-wrap:wrap; gap:.3rem; align-items:center;
+             margin-top:.7rem; padding-top:.55rem;
+             border-top:1px solid rgba(255,255,255,.10); }
+  .mixstacklab{ font-size:8.5px; letter-spacing:.18em; text-transform:uppercase;
+                opacity:.55; margin-right:.35rem; }
+  .mixstackbtn{ font-size:8.5px; letter-spacing:.08em; }
+  .mixstackon{ font-size:8.5px; letter-spacing:.08em;
+               border-color:#3fb497; color:#3fb497; }
+  .mixstackno{ font-size:9px; opacity:.6; color:#c86a4a; margin-left:.3rem; }
   /* a channel that is silenced -- by its own mute or because something ELSE is
      soloed -- reads as silenced, or the panel shows a part at -4 dB that you
      cannot hear */
@@ -5422,7 +5436,7 @@ function freezePins(pins){
    has put in each drum channel. Empty means every channel plays what the kit
    says. resolvePicks validates both against the derived sets and freezes them
    into the chart beside `mute`. */
-const PICK = { drums: "auto", bass: "auto", keys: "auto", kit: {}, lane: {} };
+const PICK = { drums: "auto", bass: "auto", keys: "auto", kit: {}, lane: {}, stack: [] };
 /* and what the user has programmed on their grids, same shape as chart.pins */
 const PINS = {};
 /* ── AND WHAT THE HAND HAS ASKED OF THE ROLL, IN THE ORDER IT ASKED ─────────
@@ -6295,6 +6309,7 @@ const RIG_LABEL = {
   detroit: "detroit — Rhodes + strings",
   noize:   "noize — 303 + CS-80",
   volta:   "volta — live kit + Wurlitzer",
+  citadel: "citadel — brass in the second chair",
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -6764,6 +6779,15 @@ function resolvePicks(genre, picks, seed){
   /* whose choice each slot was -- see the note above. Rides beside `mute` for
      the same reason: it is a fact about the HAND, not about the music. */
   out.byHand = Object.freeze(byHand);
+  /* THE STACK IS THE HAND'S TOO, and it survives here for the same reason
+     `mute` and `lane` do: it is an instruction from the person playing, not a
+     draw the genre made, so `resolvePicks` carries it through rather than
+     deciding it. Stage 5 reads it and doubles the named part; `STACK_OK` there
+     decides whether the doubling is legal. Empty for every song nobody has
+     asked to thicken, which is every song the snapshot holds. */
+  out.stack = Object.freeze(((picks && picks.stack) || []).map(s => Object.freeze({
+    of: s.of, semis: s.semis == null ? 12 : s.semis,
+    voice: s.voice || null, gain: s.gain == null ? null : s.gain })));
   return Object.freeze(out);
 }
 
@@ -28483,6 +28507,88 @@ function makePerformance(chart, form, materials, sections){
       }
     }
   }
+  /* ═══ THE STACK — ADDING AN INSTRUMENT WITHOUT ADDING A PART ═══════════════
+     The owner: "can you add a button to add an instrument and the program will
+     add it properly either as a copy of something in a different octave or as
+     its own thing with a small part in the whole?"
+
+     THE FIRST OF THOSE IS HOW A SCORE ACTUALLY GETS BIG, and it is the finding
+     the orchestration research turned on. Rimsky-Korsakov, on what a big
+     orchestral texture is made of:
+
+       "Harmony which at first sight appears to comprise 5, 6, 7 and 8 parts,
+        is usually only four part harmony with extra parts added. These
+        additions are nothing more than the duplication in the adjacent upper
+        octave of one or more of the three upper parts forming the original
+        harmony, THE BASS BEING DOUBLED IN THE LOWER OCTAVE ONLY."
+        [corpus:gutenberg 33900, Principles of Orchestration, ch. III]
+
+     So an orchestra of ninety is three to five real lines and a great deal of
+     doubling -- which means this program does NOT need to compose more parts to
+     sound orchestral. It needs to double the ones it has, correctly. A stack
+     entry is one instrument playing an existing part an octave away; it writes
+     no new music and it keeps the part's own mixer strip, because a doubling is
+     not a second voice, it is the same voice with more players on it.
+
+     AND THE DIRECTION IS NOT A FREE CHOICE. Same source, stated as a rule:
+
+       "In widely-spaced harmony only the soprano and alto parts may be doubled
+        in octaves. Duplicating the tenor part is to be avoided, as close
+        writing is thereby produced, and doubling the bass part creates an
+        effect of heaviness. The bass part should never mix with the others."
+
+     `STACK_OK` below is that paragraph as a table. An upper part may be
+     doubled UP; the bass may be doubled DOWN and never up; the inner answering
+     line -- this program's tenor -- may not be doubled at all, because doing it
+     collapses the spacing the register law depends on. A request that breaks
+     the table is REFUSED IN WORDS rather than quietly obeyed, which is the same
+     contract the blend panel's impossible pins already keep. */
+  const STACK_OK = {
+    lead:     { up: true,  down: false },   // soprano: the melody, doubles up
+    keys:     { up: true,  down: false },   // the harmonic basis
+    keys2:    { up: true,  down: false },
+    ostinato: { up: true,  down: false },   // figuration sits with the upper parts
+    counter:  { up: false, down: false },   // the tenor. RK: "to be avoided"
+    bass:     { up: false, down: true  },   // "the lower octave only"
+    drums:    { up: false, down: false },   // no pitch to move
+  };
+  const stackRefused = [];
+  const STACK = (chart.picks && chart.picks.stack) || [];
+  if(STACK.length){
+    const add = [];
+    for(const s of STACK){
+      const rule = STACK_OK[s.of];
+      const semis = s.semis || 12;
+      if(!rule){ stackRefused.push(s.of + " is not a part this record plays"); continue; }
+      if(semis > 0 && !rule.up){
+        stackRefused.push(s.of + " cannot be doubled upward" +
+          (rule.down ? " -- the bass doubles in the lower octave only" : ""));
+        continue;
+      }
+      if(semis < 0 && !rule.down){
+        stackRefused.push(s.of + " cannot be doubled downward"); continue;
+      }
+      let n = 0;
+      for(const ev of events){
+        if(ev.role !== s.of || ev.pitch == null) continue;
+        const p = ev.pitch + semis;
+        /* off the keyboard is not a doubling, it is a different note missing */
+        if(p < 21 || p > 108) continue;
+        const c = Object.assign({}, ev, { pitch: p, stack: true });
+        if(s.voice) c.voice = s.voice;
+        /* QUIETER THAN WHAT IT DOUBLES. RK again, on the harmonic background:
+           it "should be of inferior dynamic power" -- and a doubling that
+           matches its parent level for level reads as a second part fighting
+           it rather than as the same part with more weight behind it. */
+        c.gain = ev.gain * (s.gain != null ? s.gain : 0.62);
+        add.push(Object.freeze(c));
+        n++;
+      }
+      if(!n) stackRefused.push(s.of + " has no notes in this record to double");
+    }
+    events.push(...add);
+  }
+
   events.sort((a, z) => a.tSec - z.tSec);
 
   /* ═══ HOW LONG THIS KEY COULD STAY DOWN [docs/genre-research/legato.md] ═════
@@ -28662,6 +28768,10 @@ function makePerformance(chart, form, materials, sections){
   }
 
   return Object.freeze({ events: Object.freeze(events), seconds: form.nBars * 16 * spb + 2.5,
+                         /* what the stack was asked for and would not do, in
+                            words, so the panel can say so rather than the
+                            request disappearing */
+                         stackRefused: Object.freeze(stackRefused),
                          groove: Object.freeze({ style: grooveStyle, snareEarly, kickLate }) });
 }
 
@@ -31109,7 +31219,63 @@ function drawMixer(host){
     if(sec.childNodes.length) strips.appendChild(sec);
   }
   box.appendChild(strips);
+  box.appendChild(stackRowEl(roles));
   host.appendChild(box);
+}
+
+/* ── ADD AN INSTRUMENT, AND THE PROGRAM PUTS IT SOMEWHERE HONEST ────────────
+   The owner: "can you add a button to add an instrument and the program will
+   add it properly either as a copy of something in a different octave or as
+   its own thing with a small part in the whole?"
+
+   THIS IS THE FIRST OF THOSE, and the research says it is the one that
+   matters. An orchestra of ninety players is three to five real lines and a
+   great deal of octave duplication [Rimsky-Korsakov, ch. III] -- so the way to
+   sound bigger is not to compose another part, it is to put another instrument
+   on a part that already exists. Every button here does that, and the
+   permission table in stage 5 decides which directions are offered: the upper
+   parts double UP, the bass doubles DOWN, and the inner answering line is not
+   offered at all because doubling it collapses the spacing.
+
+   It sits UNDER THE MIXER because that is where the parts are already listed
+   and named, and because a doubling shares its parent's fader -- it is the
+   same part with more players on it, not a new channel. */
+function stackRowEl(roles){
+  const wrap = el("div", "mixstack");
+  const lab = el("span", "mixstacklab", "add an instrument");
+  wrap.appendChild(lab);
+  const OFFER = { lead: 12, keys: 12, keys2: 12, ostinato: 12, bass: -12 };
+  let any = false;
+  for(const r of roles){
+    const semis = OFFER[r];
+    if(semis == null) continue;
+    any = true;
+    const b = el("button", "mixbtn mixstackbtn",
+                 (MIX_LABEL[r] || r) + (semis > 0 ? " +8va" : " +8vb"));
+    b.title = semis > 0
+      ? "double the " + (MIX_LABEL[r] || r) + " an octave up on another instrument"
+      : "double the " + (MIX_LABEL[r] || r) + " an octave down -- the bass doubles low only";
+    b.onclick = () => { PICK.stack.push({ of: r, semis }); recompose(); };
+    wrap.appendChild(b);
+  }
+  /* what is stacked right now, and a way to take it off again */
+  for(let i = 0; i < PICK.stack.length; i++){
+    const s = PICK.stack[i];
+    const c = el("button", "mixbtn mixstackon",
+                 "× " + (MIX_LABEL[s.of] || s.of) + (s.semis > 0 ? " +8va" : " +8vb"));
+    c.title = "remove this doubling";
+    c.onclick = () => { PICK.stack.splice(i, 1); recompose(); };
+    wrap.appendChild(c);
+  }
+  /* AND A REFUSAL IS SAID OUT LOUD. Stage 5 will not double a part the law
+     forbids or one with no notes in this record; when it declines, the reason
+     is carried back on the performance and printed here rather than the button
+     appearing to do nothing. */
+  const refused = (SONG && SONG.perf && SONG.perf.stackRefused) || [];
+  for(const msg of refused) wrap.appendChild(el("span", "mixstackno", msg));
+  if(!any && !refused.length) wrap.appendChild(el("span", "mixstackno",
+    "no part in this record can take another instrument"));
+  return wrap;
 }
 /* the meters, per frame. Peak with a hold that falls: the fast bar says what is
    happening and the line says what just happened, because a transient that goes
