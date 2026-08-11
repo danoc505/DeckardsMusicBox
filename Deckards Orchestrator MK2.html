@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-11b · the unison is a doubling you can finally ask for</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-11c · the party is above ground, and the drums step back</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -21845,6 +21845,52 @@ GENRE.hobbitsynth = (function(){
     ladder: { keys:  ["erangHarp", "bardPluck", "mellotron", "erangStrings"],
               lead:  ["bardFlute", "erangLead", "bardWind", "cs80"],
               keys2: ["vp330", "erangStrings", "horns"] },
+    /* ══ THE BALANCE IS THIS GENRE'S OWN, AND THE DRUMS WERE EATING IT ══════
+       MEASURED, 12 songs, share of the sound computed as each part's note
+       count times its mean written gain:
+
+         drums 64.6%   ostinato 17.1%   keys 9.8%   LEAD 4.4%
+         keys2 2.7%    counter 0.9%     bass 0.4%
+
+       Two thirds of a record whose whole argument is a theme re-scored, spent
+       on the drums, with the theme itself at one twenty-third of it. That is
+       the owner's "we have bad levels and not using frequences well" as a
+       number, and the treatise names the failure exactly:
+
+         "It must not be forgotten that the bass drum, cymbals, gong and a
+          tremolo on the side drum, played fortissimo, is sufficient to
+          OVERPOWER ANY ORCHESTRAL TUTTI."
+         [corpus:gutenberg 33900; docs/genre-research/score-craft.md §3]
+
+       Four percussion voices outweigh everything else combined -- so a genre
+       that wants to sound like an orchestra cannot leave the kit at the level a
+       genre built on a war-drum procession needed. Dungeon synth's 1.40 was
+       measured FOR DUNGEON SYNTH, against its own drone and its own census;
+       inheriting it here was never a decision.
+
+       The other direction comes from the same source: the harmonic basis
+       "should be of inferior dynamic power" to the melodic design, so the lead
+       now outranks the keyboards rather than sitting under them.
+
+       WHAT IS NOT ATTEMPTED: lifting the bass with this fader. The note beside
+       dungeon synth's table records that experiment and its refusal -- +2.7 dB
+       moved its leave-one-out by 0.01 dB, because the drone lives at 41-98 Hz
+       where the ear is 30-45 dB down and "no fader fixes physics". This genre's
+       bass has the same register and a different problem on top of it: it plays
+       1.5% of the notes. That is an arrangement question, not a gain one.
+
+       WHERE IT LANDED, same measurement, same 12 songs:
+
+         drums 34.3%   ostinato 22.0%   keys 21.5%   LEAD 11.9%
+         keys2 7.3%    counter 2.2%     bass 0.9%
+
+       The kit is still the floor this genre marches on -- 34.3% against a note
+       share of 28.6%, so it is still written louder per note than the average
+       part -- but the pitched group now holds two thirds of the record instead
+       of one third, and the theme is heard at nearly three times what it was.
+       The bass did not move and was never going to; see above. */
+    roleGain: { keys: 0.46, keys2: 0.30, ostinato: 0.42,
+                bass: 0.30, lead: 1.00, counter: 0.72, drums: 0.48 },
     /* its own rack, and the bard pack leads it */
     rig: [["shire", 6], ["citadel", 4]],
     machines: { drums: [["tr1000", 1]],
@@ -21857,9 +21903,55 @@ GENRE.hobbitsynth = (function(){
                         ["bardPluck", 3], ["mellotron", 2]] },
     form: {
       /* the party is on the road for a while: the measured overworld loop runs
-         35 s to 2:15 and the eight-bar section is the corpus's own unit */
-      lengths: { intro: 16, verse: 32, chorus: 32, bridge: 16,
-                 instrumental: 32, outro: 16 },
+         35 s to 2:15 and the eight-bar section is the corpus's own unit.
+         TWENTY-FOUR, not thirty-two: at 32 the four movements below came to
+         191 bars and 6.8 minutes, with the long tail of the range at 8:31 --
+         still past the 7:18 top of the measured exploration-cue band. Three
+         eight-bar units to a section keeps the corpus's unit and lands the
+         record where the measurement says it belongs. */
+      lengths: { intro: 16, verse: 24, chorus: 24, bridge: 16,
+                 instrumental: 24, outro: 16 },
+      /* ══ AND THE JOURNEY IS NOT A DESCENT ═════════════════════════════════
+         Inherited whole, this genre was walking dungeon synth's route:
+         `descend -> halls -> deeper -> return`. For the music the owner asked
+         for -- "the moody music that plays when the party is adventuring ABOVE
+         GROUND from dungeon to town" -- that is the wrong direction, and it was
+         the wrong LENGTH with it.
+
+         MEASURED before this, over 12 songs: 237 bars, 8.49 minutes. The corpus
+         is unusually clear here, because track length is the STRONGEST measured
+         discriminator between the two ends of this family and the ranges do not
+         overlap at all: the pastoral end writes short (Hole Dweller mean 2:47,
+         max 3:27; Fief 3:24; Erang 3:37) and the dark end writes long
+         (Mortiis 5:03; Thangorodrim mean 10:00, min 6:23).
+         [docs/genre-research/score-craft.md §17]
+
+         At 8:29 this genre sat PAST Mortiis and next to Thangorodrim -- the
+         darkest, longest end of the family -- while claiming to be the bright
+         one. And the use case the owner named has its own measured target:
+         Western open-world EXPLORATION cues run 3:24 to 7:18, median 4:44,
+         "roughly 3-6x the length of a JRPG overworld loop". That median is the
+         honest middle of "dungeon synth backbone with fantasy scoring on top",
+         so it is what this aims at.
+
+         Four movements, out and back, and the vista is the third -- which is
+         also where the form's own apex wants to be. `endOn` holds the last two
+         open until the payoff lands, exactly as the descent did.
+
+         WHERE IT LANDED, 60 songs: mean 6:28, median 6:37, range 4:14 to 8:27,
+         with 48 of 60 inside the measured exploration band. Not at the 4:44
+         median, and deliberately not: this genre is dungeon synth's backbone
+         with fantasy scoring on top, so the overlap of "exploration cue" and
+         "short dungeon synth record" is exactly where it belongs. Tuning to
+         somebody else's median would be reading a measurement as an
+         instruction, which is the habit this repo keeps catching. The number to
+         trust is the measurement, not the table. */
+      plan: [
+        { name: "setting out",     pool: ["intro", "verse"],                  bars: [16, 1, 16] },
+        { name: "the road",        pool: ["verse", "instrumental"],           bars: [16, 2, 16] },
+        { name: "the high country", pool: ["chorus", "instrumental"],         bars: [16, 2, 16], endOn: "chorus" },
+        { name: "town in sight",   pool: ["verse", "chorus"],                 bars: [16, 1, 16], endOn: "chorus" },
+      ],
       /* every part, in every section that is not the break. The owner asked for
          an epic-sized orchestra and this is the arrangement half of it; `rest`
          and `thin` inherited from dungeon synth put the holes back. */
