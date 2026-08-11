@@ -322,9 +322,9 @@
      a part rather than adding a track, so it belongs with the parts and not
      with the racks. A stacked doubling is lit so the desk says what it is
      carrying, and a refusal is printed in words beside the buttons. */
-  .mixstack{ display:flex; flex-wrap:wrap; gap:.3rem; align-items:center;
-             margin:-.2rem 0 .8rem; padding-bottom:.6rem;
-             border-bottom:1px solid rgba(255,255,255,.10); }
+  /* inline in the transport row, beside seed/genre/play -- no rule, no
+     margin, because it is one control among controls rather than a section */
+  .mixstack{ display:inline-flex; flex-wrap:wrap; gap:.3rem; align-items:center; }
   /* the label is the machine's accent, not a footnote -- it names a thing the
      desk can do, beside the nameplate that says what the desk is */
   .mixstacklab{ font-size:9px; letter-spacing:.18em; text-transform:uppercase;
@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-10i · the add-an-instrument row moves where it can be seen</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-10j · add-an-instrument moves into the main controls</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -1458,6 +1458,16 @@
   </select>
   <button id="new">new song</button>
   <button id="play">&#9654; play</button>
+  <!-- ADD AN INSTRUMENT. It lived inside the mixer rack, which is below the
+       roll and a long way down the page, and it was reported missing twice --
+       first at 2175 pixels down, then still unfound after being moved up
+       inside that same box. The box was the problem, not the position in it:
+       a control that adds a PLAYER to the record belongs with the controls
+       that decide what the record IS, next to seed and genre and length, not
+       inside a panel you have to scroll to. Populated by `drawStackControls`
+       once a song exists, because what it can offer depends on which parts
+       that song plays. -->
+  <span id="stackrow"></span>
   <button id="wav">render .wav</button>
   <button id="mid">export .mid</button>
   <!-- THE PORT. Populated on click, not at boot: requestMIDIAccess is a
@@ -31340,16 +31350,6 @@ function drawMixer(host){
   brand.appendChild(el("span", "model", "mixer"));
   brand.appendChild(el("span", "slotTag", roles.length + " tracks + master"));
   box.appendChild(brand);
-  /* ── AND IT GOES ABOVE THE FADERS, NOT BELOW THEM ─────────────────────────
-     It was under the strips, which is where a desk's spare controls go and
-     which put it 2175 pixels down the page -- past every fader, the master and
-     the whole centre section. Reported: "the add new instrument button where is
-     this located I did not notice it." A control nobody scrolls to is a control
-     that does not exist, and measuring its position was how that got settled
-     rather than my opinion of where it felt right. Directly under the
-     nameplate now, where the first thing the desk says is what it is and the
-     second is what you can add to it. */
-  box.appendChild(stackRowEl(roles));
   const strips = el("div", "mixstrips");
   for(const r of roles) strips.appendChild(mixStrip(r));
   /* the master sits at the RIGHT-HAND END, where a desk puts it, and is set
@@ -31442,8 +31442,17 @@ function drawMixer(host){
    It sits UNDER THE MIXER because that is where the parts are already listed
    and named, and because a doubling shares its parent's fader -- it is the
    same part with more players on it, not a new channel. */
+function drawStackControls(){
+  const host = document.getElementById("stackrow");
+  if(!host) return;
+  host.innerHTML = "";
+  if(!SONG) return;
+  const present = new Set(SONG.perf.events.map(e => e.role));
+  const roles = MIX_ORDER.filter(r => present.has(r));
+  host.appendChild(stackRowEl(roles));
+}
 function stackRowEl(roles){
-  const wrap = el("div", "mixstack");
+  const wrap = el("span", "mixstack");
   const lab = el("span", "mixstacklab", "add an instrument");
   wrap.appendChild(lab);
   const OFFER = { lead: 12, keys: 12, keys2: 12, ostinato: 12, bass: -12 };
@@ -32418,6 +32427,9 @@ function drawPanels(){
      order. It is also the only box here that is about the SONG rather than
      about a machine, which is the other reason it does not sit among them. */
   drawMixer(host);
+  /* the add-an-instrument row lives in the TRANSPORT, not in a rack --
+     redrawn here because what it can offer depends on the song */
+  drawStackControls();
   /* the three picked slots, and then the SPACE -- which is not picked because
      there is nothing to choose: every genre has exactly one, and its panel is
      always drawn. In the genres where the movement of these six controls is
