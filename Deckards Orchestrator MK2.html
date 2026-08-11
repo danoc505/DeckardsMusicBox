@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-11e · every lane on the desk actually moves</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-11f · the tune fills the bars and the bass walks</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -21891,6 +21891,29 @@ GENRE.hobbitsynth = (function(){
        The bass did not move and was never going to; see above. */
     roleGain: { keys: 0.46, keys2: 0.30, ostinato: 0.42,
                 bass: 0.30, lead: 1.00, counter: 0.72, drums: 0.48 },
+    /* ══ THE BASS WALKS, BECAUSE THE PARTY DOES ═════════════════════════════
+       Inherited, `bassPedal: 0.5` put half of this genre's records on a held
+       drone -- dungeon synth's own device, and the right one for a crypt. On
+       the road it is the wrong one, and the notes said so: TWO bass notes in an
+       eight-bar material, both at bar 1.
+
+       What the sources give instead is unusually specific, because three
+       independent transcriptions give the SAME object: a two-element cell whose
+       pitches track the chord while its shape does not change -- Concerning
+       Hobbits' written-out `DA, FA, FA DA`, The Ring Goes South's octave
+       oscillation `A2 A,2`, and Rohan's cello `C3 D3 | D3 C3` off the full
+       score. [docs/genre-research/score-craft.md §15]
+
+       So the pedal drops to a fifth of the records -- the halt still exists,
+       and the drone under a bridge is exactly where it belongs -- and the rest
+       walk. `bassStep: 4` is the fifth above, which is the interval the pedal's
+       own double already used and the one the medieval drone names as the
+       reciting tone; the Fellowship's figure is the octave and Rohan's is a
+       step, so this is one point on a range the sources cover rather than the
+       only reading of them. */
+    bassPedal: 0.20,
+    bassWalk: 0.72,
+    bassStep: 4,
     /* ══ AND THE PARTY IS NOT STANDING IN A CRYPT ═══════════════════════════
        Inherited whole, this genre was playing dungeon synth's hall: an 8.5
        SECOND tail, the longest space in the file by a margin -- the next
@@ -24921,6 +24944,15 @@ function makeMaterials(chart, editPlan, arcPlan){
       const pedRng = stream(chart.seed, "pedal");
       const PEDAL = Math.max(0, Math.min(1, G.bassPedal || 0));
       const pedalOn = pedRng() < PEDAL;
+      /* the walking figure's own coin, on its own substream, drawn ONCE per
+         material on every song of every genre whether or not one declares
+         `bassStep` [Law 3]. It sat inside the bar loop for one build, below two
+         `continue`s -- so how far along this stream the draw landed depended on
+         how many chord CHANGES the row happened to have, which is the coupling
+         this file has been bitten by three times. */
+      const walkRng = stream(chart.seed, "bass-walk");
+      const WALK = Math.max(0, Math.min(1, G.bassWalk == null ? 0 : G.bassWalk));
+      const walkOn = walkRng() < WALK;
       /* ── WHICH NOTE THE PEDAL IS, AND IT IS NOT "THE ROOT" ─────────────────
          A pedal is formally a held tone "usually on either the tonic or the
          dominant" [Wikipedia, "Pedal point", corroborated by Shaffer et al.,
@@ -24961,14 +24993,68 @@ function makeMaterials(chart, editPlan, arcPlan){
              that a drone is supposed to be dissonant part of the time; nothing
              here filters the chords to agree with it. */
           if(b === 0){
-            notes.push({ bar: 0, step: 0, dur: 16, pitch: pedMidi, vel: 0.70, role: "bass" });
+            /* ── HELD MEANS HELD, AND IT WAS HOLDING FOR ONE BAR IN EIGHT ────
+               `dur: 16` is SIXTEEN STEPS -- one bar -- and the loop then skips
+               every remaining bar, so "struck once and held" was struck once and
+               held for an eighth of the thing it is supposed to be under. The
+               notes said so and nothing else could:
+
+                 bass    5--------------- ................ ... (six more empty bars)
+
+               MEASURED on hobbit synth seed 1: TWO bass notes in an eight-bar
+               material, both at bar 1 step 0. The genre's whole foundation was
+               a note that stopped in the first bar and a silence after it, which
+               is exactly the "huge gaps of silence" that got reported.
+
+               It was invisible for as long as every genre had `materialBars: 4`
+               and a reverb long enough to paper over the gap; at eight bars with
+               a shorter room it is the loudest hole in the record. A pedal is
+               held for the material it is a pedal UNDER. */
+            const held = BARS * 16;
+            notes.push({ bar: 0, step: 0, dur: held, pitch: pedMidi, vel: 0.70, role: "bass" });
             if(pedDouble && pedFifth !== pedMidi)
-              notes.push({ bar: 0, step: 0, dur: 16, pitch: pedFifth, vel: 0.52, role: "bass" });
+              notes.push({ bar: 0, step: 0, dur: held, pitch: pedFifth, vel: 0.52, role: "bass" });
           }
           continue;
         }
         if(b > 0 && CH(chordSet, b - 1).degree === ch.degree) continue;
-        notes.push({ bar: b, step: 0, dur: 16, pitch: ch.rootMidi, vel: 0.70, role: "bass" });
+        /* ── AND A ROOT LASTS AS LONG AS ITS CHORD DOES ───────────────────────
+           `dur: 16` is one bar, but a chord here can last several -- hobbit
+           synth's rows hold each degree for two -- so this wrote a note, a bar
+           of it, and then a bar of silence before the next root. Half the
+           foundation missing, alternating, all record. The same defect as the
+           pedal above and found the same way: by printing the notes.
+           A held root is held until the harmony moves. */
+        let span = 1;
+        while(b + span < BARS && CH(chordSet, b + span).degree === ch.degree) span++;
+        notes.push({ bar: b, step: 0, dur: span * 16, pitch: ch.rootMidi, vel: 0.70, role: "bass" });
+        /* ── AND THE ROAD GENRES GET THE FIGURE THE SOURCES KEEP NAMING ───────
+           Three independent Lord of the Rings transcriptions give the SAME
+           object, and this program had nothing like it:
+
+             Concerning Hobbits, written-out bass    DA, FA, FA DA
+             The Ring Goes South, bars 17+           A2 A,2  (the octave)
+             Rohan, cello, flat.io full score        C3 D3 | D3 C3
+
+           A two-element cell whose PITCHES track the chord while its SHAPE does
+           not change -- the walking accompaniment, and the thing an overworld
+           genre most needs. [docs/genre-research/score-craft.md §15,
+           lotr-themes-measured.md §2 and §4]
+
+           `bassStep` is a genre's declaration of the second element as an
+           interval in scale degrees: 4 is the fifth above (Rohan's is a step,
+           the Fellowship's is the octave). The draw runs unconditionally on its
+           own substream so no genre that stays silent about it moves [Law 3],
+           and the alternation lands on the OFF beats between the root's own
+           strikes, so the shape is root-other-root-other under whatever the
+           chord happens to be. */
+        if(walkOn && G.bassStep != null){
+          const alt = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet),
+                                         ch.rootMidi, G.bassStep), R.bass[0], R.bass[1]);
+          if(alt !== ch.rootMidi)
+            for(let k = 0; k < span; k++)
+              notes.push({ bar: b + k, step: 8, dur: 8, pitch: alt, vel: 0.56, role: "bass" });
+        }
         /* ── AND THE SUB HAS A FLOOR, BECAUSE HEARING DOES ────────────────────
            `low >= R.bass[0] - 12` let the octave-down walk a full octave BELOW
            the register the genre declared -- which is the one guard that was
@@ -26521,6 +26607,52 @@ function makeMaterials(chart, editPlan, arcPlan){
       phrase(0, opts.dir, true, opts.moveBias);
       const qDir = notes.length >= 2 && notes[notes.length - 1].pitch >= notes[0].pitch ? 1 : -1;
       phrase(2, -qDir, true, null);                     // the answer: contrary, resolving
+    }
+    /* ══ AND THE REST OF THE MATERIAL GETS A TUNE TOO ═══════════════════════
+       REPORTED, twice, and it took printing the notes to see it: "there are
+       gaps with just silence". This is where they were.
+
+       Everything above writes bars 0-3 and stops. `phrase()` spans exactly two
+       bars, and both roads through this function call it twice -- question and
+       answer, or the hook and its copy. That was invisible while every genre
+       had `materialBars: 4`, because four bars is what gets written. Prog-techno
+       and hobbit synth ask for EIGHT, and got a tune across the first half and
+       silence across the second, on every seed, in every material:
+
+         lead    2---3--......... ........4---5--- 2-------2-2--... 1---7---........ ................ ................ ................ ................
+
+       MEASURED before this: 9 lead notes and 6 counter notes per material on
+       hobbit synth seed 1, every one of them inside bars 1-4.
+
+       The number 4 was in no table -- it is `startBar + 2`, twice -- so no genre
+       could have fixed this by declaring anything. That is why raising the
+       lead's gain moved its share of the record and changed nothing anyone
+       could hear: the part was not quiet, it was ABSENT.
+
+       A HOOK REPEATS AND AN ANSWER IS NEW, so the two roads are filled
+       differently. The hook's whole content is its own return -- "the chorus
+       repeats its own bars MORE than the verse does" -- so it restates its
+       four-bar period. The period road writes REAL new phrases against the
+       chords that are actually under bars 5-8, which is the only way the notes
+       can be right about the harmony there. Both stay inside `reserved`, so a
+       pitch already spoken for by another part is still refused. */
+    for(let at = 4; at + 2 <= BARS; at += 2){
+      if(opts.hooky){
+        /* the hook returns whole, four bars at a time */
+        if((at % 4) !== 0) continue;
+        for(const n of notes.filter(x => x.bar < 4)){
+          const cp = { ...n, bar: n.bar + at };
+          if(cp.bar >= BARS) continue;
+          if(reserved.has(key(cp.bar % BARS, cp.step, cp.pitch))) continue;
+          notes.push(cp); reserved.add(key(cp.bar % BARS, cp.step, cp.pitch));
+        }
+      } else {
+        /* a new phrase, contrary to wherever the last one left off [RK: an
+           imitation follows the register direction it answers] */
+        const last = notes.length >= 2 ? notes[notes.length - 1].pitch : 0;
+        const prev = notes.length >= 2 ? notes[notes.length - 2].pitch : 0;
+        phrase(at, last >= prev ? -1 : 1, true, null);
+      }
     }
     return { notes: articulate(notes, streamName), dna };
   }
