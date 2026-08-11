@@ -109,9 +109,30 @@ FAMILY = {
     # on 5 of 6 -- which is what an inharmonic metal or skin sound looks like to
     # a pitch tracker. So those two families are unpitched, and that is a
     # reading rather than an assumption about what a cymbal is.
-    "BARD_FLUTE":          dict(keep=3.3, pitched=True,  lo=300.0, hi=1600.0),
-    "BARD_PLUCKED_STRING": dict(keep=4.2, pitched=True,  lo=45.0,  hi=600.0),
-    "BARD_WIND":           dict(keep=4.4, pitched=True,  lo=90.0,  hi=2600.0),
+    #
+    # `keep` IS THE WHOLE FILE FOR THIS PACK. The first pass sized it to the
+    # median and truncated four recordings -- bardWind_04 from 9.42 s to 4.40,
+    # three plucked strings from 5.67 to 4.20. The owner: "i think the Erang
+    # files needed to be played as is and not cut up." Correct, and it costs
+    # about a megabyte to stop doing it. These are PERFORMANCES, not the held
+    # renders the first pack is made of; the decay IS the note.
+    #
+    # `loop` FORCES ONE WHERE THE MEASUREMENT REFUSES IT, and this is the fault
+    # that made the genre unplayable. `sustains()` asks whether a sample is
+    # still sounding at the end, and on this pack it correctly answers no: 2 of
+    # 33 pitched files loop, against 18 of 20 in the first pack's strings and
+    # pads and 10 of 10 in its leads. That measurement is right about the AUDIO
+    # and wrong about the USE. A one-shot cannot hold a note, so a lead built on
+    # these played its sample -- 0.22 s on the shortest flute -- and then went
+    # silent for the rest of the note, on every note, with the genre's full
+    # legato making the silence longer. Reported exactly: "its cut off", "the
+    # legato does not work", "there are gaps with just silence".
+    # A sampler instrument needs a loop even when the recording decays. The loop
+    # sits earlier here than the measured one (see `crossfade_loop`) so it lands
+    # in the body of the note rather than in the tail.
+    "BARD_FLUTE":          dict(keep=3.4, pitched=True,  lo=300.0, hi=1600.0, loop=True),
+    "BARD_PLUCKED_STRING": dict(keep=6.0, pitched=True,  lo=45.0,  hi=600.0,  loop=True),
+    "BARD_WIND":           dict(keep=9.6, pitched=True,  lo=90.0,  hi=2600.0, loop=True),
     "BARD_HAND_CYMBAL":    dict(keep=1.3, pitched=False),
     "BARD_PERCUSSION":     dict(keep=0.9, pitched=False),
 }
@@ -386,7 +407,7 @@ def sustains(x, sr, keep):
     return e.max() > 0 and e[-1] / e.max() >= 0.45
 
 
-def crossfade_loop(x, sr, keep, pitched, lo=30.0, hi=1100.0):
+def crossfade_loop(x, sr, keep, pitched, lo=30.0, hi=1100.0, at=0.45):
     """Return (samples, loopStart, loopEnd).
 
     The loop sits in the back half of what we keep. On a PITCHED sample it is
@@ -404,7 +425,12 @@ def crossfade_loop(x, sr, keep, pitched, lo=30.0, hi=1100.0):
     that reports success is the failure this project keeps re-learning."""
     n = min(len(x), int(keep * sr))
     x = x[:n].copy()
-    ls = int(n * 0.45)
+    # WHERE THE LOOP STARTS. 0.45 is right for a held render: the front half is
+    # the attack and the swell, the back half is steady. It is WRONG for a
+    # decaying performance, where the back half is the tail dying away and
+    # looping it gives a note that holds at a whisper. A forced loop starts at
+    # 0.22 instead, in the body of the note, where there is still sound.
+    ls = int(n * at)
     le = n - 1
     span = le - ls
     if pitched:
@@ -489,9 +515,10 @@ def main():
         if peak > 0:
             x = x * (0.97 / peak)                    # normalise; the mix decides level
         p_lo, p_hi = cfg.get("lo", 30.0), cfg.get("hi", 600.0)
-        if sustains(x, SR_OUT, cfg["keep"]):
+        if cfg.get("loop") or sustains(x, SR_OUT, cfg["keep"]):
             x, ls, le = crossfade_loop(x, SR_OUT, cfg["keep"], cfg["pitched"],
-                                       p_lo, cfg.get("hi", 1100.0))
+                                       p_lo, cfg.get("hi", 1100.0),
+                                       0.22 if cfg.get("loop") else 0.45)
         else:
             x, ls, le = x[:int(cfg["keep"] * SR_OUT)], -1, -1
             # a struck sound must end at zero or every hit ends in a click
