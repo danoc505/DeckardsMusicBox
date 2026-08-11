@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-11d · the desk moves on density and distance, not on loudness</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-11e · every lane on the desk actually moves</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -22074,7 +22074,7 @@ GENRE.hobbitsynth = (function(){
            CLOSE ONE: the chorus draws the room in rather than pushing it away,
            which is the whole correction above. The bridge and the intro are the
            far states. Never to zero [Berlioz]. */
-        roomMix:    [{ kind: "section", by: { bridge: [0.14, 0.28], intro: [0.10, 0.20],
+        roomMix:    [{ kind: "section", by: { instrumental: [0.14, 0.28], intro: [0.10, 0.20],
                                              outro: [0.08, 0.18], chorus: [-0.16, -0.08] } },
                      { kind: "lfo", bars: [[96, 1]], depth: [0.02, 0.05],
                        shape: "sin", freePhase: true }],
@@ -22095,8 +22095,12 @@ GENRE.hobbitsynth = (function(){
            gone by it -- which is the same source's third gesture. */
         leadEcho:   [{ kind: "gesture", on: "build", bars: 2, from: [0, 0],
                        to: [-0.44, -0.26], curve: "exp" },
-                     { kind: "section", by: { bridge: [-0.30, -0.16] } }],
-        keysEcho:   [{ kind: "section", by: { bridge: [0.0, 0.0], outro: [-0.26, -0.12] } },
+                     { kind: "section", by: { instrumental: [-0.30, -0.16] } }],
+        /* the bridge is NOT listed here, and that is the point: leaving a
+           section alone is saying nothing about it. A `bridge: [0, 0]` entry
+           stood here for one build -- a declared move of exactly zero, which is
+           dead config in miniature and reads as an intention it does not have. */
+        keysEcho:   [{ kind: "section", by: { outro: [-0.26, -0.12] } },
                      { kind: "gesture", on: "fill", bars: 2, from: [0, 0],
                        to: [-0.20, -0.08], curve: "exp" }],
         /* THE SECOND GROUP, entering from nothing and climbing STEEPER than
@@ -22106,20 +22110,20 @@ GENRE.hobbitsynth = (function(){
            fade: "the suppression of one of the groups". */
         keysDP4:    [{ kind: "gesture", on: "build", bars: 3, from: [0, 0],
                        to: [0.30, 0.56], curve: "exp" },
-                     { kind: "section", by: { bridge: [0.10, 0.24] } }],
+                     { kind: "section", by: { instrumental: [0.10, 0.24] } }],
         leadFlange: [{ kind: "gesture", on: "peak", bars: 4, from: [0, 0],
                        to: [0.34, 0.62], curve: "exp" }],
         leadDP4:    [{ kind: "gesture", on: "build", bars: 2, from: [0, 0],
                        to: [0.24, 0.46], curve: "exp" }],
-        keysBarber: [{ kind: "section", by: { bridge: [0.16, 0.34] } }],
+        keysBarber: [{ kind: "section", by: { intro: [0.16, 0.34], outro: [0.10, 0.22] } }],
         /* THE RETURN, PROCESSED -- the hall's own output through the flanger and
            the multi-fx, which is the closest this desk comes to Wright's joystick
            and is the one place a big move belongs: it colours the ROOM, not the
            players. Unrouted, so up from nothing. */
         roomDP4:    [{ kind: "gesture", on: "peak", bars: 6, from: [0, 0],
                        to: [0.26, 0.50], curve: "exp" },
-                     { kind: "section", by: { bridge: [0.12, 0.26] } }],
-        roomFlange: [{ kind: "section", by: { bridge: [0.14, 0.30], intro: [0.06, 0.16] } }],
+                     { kind: "section", by: { instrumental: [0.12, 0.26] } }],
+        roomFlange: [{ kind: "section", by: { outro: [0.14, 0.30], intro: [0.06, 0.16] } }],
         /* THE DRUMS STAY NEARLY OUT OF THE HALL, and that is dungeon synth's own
            measurement rather than a taste: a hit every 909 ms into a tail that
            takes eight and a half seconds to die is "a continuous wash by
@@ -22131,7 +22135,7 @@ GENRE.hobbitsynth = (function(){
         /* and the low end takes a little of the delay as the road goes on --
            the smallest lane here, because the bass is where a long tail turns
            to mud fastest */
-        bassEcho:   [{ kind: "section", by: { bridge: [0.08, 0.18] } },
+        bassEcho:   [{ kind: "section", by: { instrumental: [0.08, 0.18] } },
                      { kind: "occurrence", step: [0.02, 0.05], cap: 3 }],
       },
     },
@@ -22192,6 +22196,23 @@ GENRE.hobbitsynth = (function(){
          trust is the measurement, not the table. */
       plan: [
         { name: "setting out",     pool: ["intro", "verse"],                  bars: [16, 1, 16] },
+        /* THE BRIDGE IS THE HALT, and it lives here rather than nowhere. The
+           first version of this plan pooled only verse and instrumental, and the
+           seam battery caught what that cost: `roles.bridge` is declared, the
+           inherited `transitions` route to it, and it OCCURRED IN 0 OF 40 SONGS.
+           Every `by: { bridge: ... }` in the desk below was therefore dead
+           config, and `matrix.keysBarber` -- which had only a bridge entry --
+           was a whole lane that could never move. The same fault as the ladder's
+           unreachable bottom rung, one build later, found by the check that
+           measures rather than by me.
+           AND IT CANNOT GO ON THE ROAD, which is where I put it first and
+           measured again: still 0 of 40. `bridgeAfterChorus` gates it on how
+           many choruses have already been heard, and the road runs BEFORE the
+           high country, so no chorus exists yet to unlock it. It goes in the
+           last movement, which is also where dungeon synth's own plan keeps it:
+           the party stops in sight of the town, the drums and the tune drop out
+           (`roles.bridge` is keys, keys2, ostinato and bass -- no percussion, no
+           melody), and then the final chorus arrives. */
         { name: "the road",        pool: ["verse", "instrumental"],           bars: [16, 2, 16] },
         { name: "the high country", pool: ["chorus", "instrumental"],         bars: [16, 2, 16], endOn: "chorus" },
         { name: "town in sight",   pool: ["verse", "chorus"],                 bars: [16, 1, 16], endOn: "chorus" },
