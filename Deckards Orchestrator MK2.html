@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-10j · add-an-instrument moves into the main controls</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-10k · hobbit synth gets a mode palette, not a mode</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -21735,7 +21735,29 @@ GENRE.hobbitsynth = (function(){
     tempo: [102, 124],
     /* dorian first. See the mode note above -- this is the "better descriptor
        than dark" made into weights. */
-    modes: [["dorian", 6], ["minor", 5], ["mixolydian", 3], ["phrygian", 1]],
+    /* ── A PALETTE, NOT A SETTING ─────────────────────────────────────────────
+       The first version of this row led dorian 6 / minor 5 and gave the bright
+       end almost nowhere to go. Reading the Shire theme off its notation — plain
+       C major, not one accidental — I then proposed swapping it to Ionian, and
+       the owner stopped that in one line: "dont be that stupid to think we want
+       ONE scale. That is not only insane it goes against the programs rules.
+       Constraints NOT baked in values."
+
+       Right, and it is the same habit as the drone and the one-note solo:
+       reading a measurement as an instruction. Four transcriptions are a SAMPLE.
+       What the score actually shows is a mode palette assigned by culture — the
+       Shire in major, Rohan a jig in A major, and in the same score Adams'
+       "Rohan-esque Dorian modes", Mordor's chromatic writing, Moria's bare
+       rising fifths, Lothlorien's adapted Hijaz. A score with one scale is the
+       thing nobody wants.
+
+       So the row widens rather than moving. Six modes, none of them commanding:
+       major is REACHABLE now (it was absent, so a genre whose own source
+       material is largely diatonic-major could not draw it at all), phrygian
+       stays in as the dark end, and dungeon synth's own five-wide palette is
+       the precedent for how wide a fantasy genre's should be. */
+    modes: [["dorian", 5], ["minor", 4], ["major", 4], ["mixolydian", 3],
+            ["carpathian", 2], ["phrygian", 2]],
     materialBars: 8,
     /* one chord per two bars, which is the measured overworld harmonic rhythm */
     progressions: {
@@ -21759,12 +21781,25 @@ GENRE.hobbitsynth = (function(){
                    [[0,0,4,4,3,3,0,0], 3],
                    [[0,0,6,6,3,3,0,0], 2]],  // I-flatVII-IV-I
       phrygian:   [[[0,0,5,5,1,1,0,0], 3], [[0,0,3,3,5,5,0,0], 2]],
+      /* ── AND MAJOR HAD TO BE GIVEN CHORDS BEFORE IT COULD BE DRAWN ─────────
+         Widening `modes` alone threw on seed 13 with "pairs is not iterable":
+         the draw reached `major` and there was no row for it. The constraint
+         doing its job -- a mode is reachable only if harmony exists for it --
+         and worth the note, because "add the mode" and "add the mode's chords"
+         look like one job and are two. These lead with LEAPING roots for the
+         same reason the minor rows do: this genre's two keyboards shadow each
+         other in perfects when the bass walks by step. */
+      major:      [[[0,0,5,5,3,3,4,4], 5],   // I-vi-IV-V
+                   [[0,0,3,3,0,0,4,4], 4],   // I-IV-I-V
+                   [[0,0,4,4,5,5,3,3], 3],   // I-V-vi-IV
+                   [[0,0,5,5,1,1,4,4], 2]],  // I-vi-ii-V
     },
     bridgeProgressions: {
       dorian:     [[[0,0,5,5,6,6,3,3], 4], [[3,3,0,0,6,6,5,5], 2]],
       minor:      [[[0,0,5,5,6,6,3,3], 4], [[0,0,2,2,5,5,6,6], 2]],
       mixolydian: [[[0,0,3,3,6,6,0,0], 4], [[6,6,3,3,0,0,5,5], 2]],
       phrygian:   [[[0,0,1,1,5,5,6,6], 3], [[0,0,5,5,6,6,1,1], 2]],
+      major:      [[[0,0,5,5,1,1,4,4], 4], [[3,3,0,0,5,5,4,4], 2]],
     },
     /* the road does move under you: a key change is a change of country */
     keyShift: { chance: 0.38, by: [[2, 5], [5, 3], [1, 2]], change: 0.5 },

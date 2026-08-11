@@ -135,9 +135,30 @@ as §2, one interval wider.
 
 Written as findings, not as a plan, because the plan is the owner's call.
 
-1. **Hobbit synth is in the wrong mode.** Two of the four themes are plain major;
-   none is dorian. Minor-with-a-raised-sixth was my reading of "moody", and the
-   source material is Ionian.
+1. **~~Hobbit synth is in the wrong mode. The source material is Ionian.~~**
+   **CORRECTED BY THE OWNER, IMMEDIATELY AND RIGHTLY:** *"dont be that stupid to
+   think we want ONE scale. That is not only insane it goes against the programs
+   rules. Constraints NOT baked in values."*
+
+   Four themes is a sample, not a setting. What §1–§4 actually establish is that
+   **Shore uses a MODE PALETTE and assigns it by culture** — the Shire and Rohan
+   are diatonic-major-family, and the same score carries Adams' "Rohan-esque
+   Dorian modes", Mordor's chromatic writing, Moria's bare rising fifths and
+   Lothlórien's "adapted Maqam Hijaz". A score that had one scale would be the
+   thing nobody wants.
+
+   So the finding is about **WEIGHTS AND SPREAD, not a value**: the corpus says
+   the bright end of the palette is REAL and reachable, where hobbit synth's
+   table currently makes it nearly unreachable (dorian 6, minor 5, mixolydian 3,
+   phrygian 1 — and no ionian at all). The correction is to open the draw, not to
+   pin it somewhere else. Whether the mode should also be able to differ BY
+   SECTION, the way Shore differs it by culture, is a mechanism question this
+   program has not answered and is the more interesting half.
+
+   **AND IT IS THE SAME MISTAKE AS THE DRONE.** Cohen's "slow harmonic pace"
+   became one chord; "virtuosity is not density" became one note; now one
+   transcription in C major nearly became one scale. Three times, one habit:
+   reading a measurement as an instruction.
 2. **Two of the four are not in 4/4.** The Shire is 3/4 and Rohan is 6/8. The
    program's grid is sixteen steps to a bar — a four-beat assumption baked so
    deep that "the meter is 3" is not currently expressible.
