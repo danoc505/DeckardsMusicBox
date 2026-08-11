@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-11f · the tune fills the bars and the bass walks</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-11g · the keyboard plays a figure, not a held chord</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -21914,6 +21914,38 @@ GENRE.hobbitsynth = (function(){
     bassPedal: 0.20,
     bassWalk: 0.72,
     bassStep: 4,
+    /* ══ AND THE KEYBOARD PLAYS, RATHER THAN LEANING ON THE KEYS ════════════
+       Inherited, `keysStyle: "hold"` made this the second of only two genres in
+       the file whose first keyboard is a PAD. The notes said what that means:
+
+         keys    3--------------- 3--------------- 3--------------- 3---------------
+         keys2   ..3------------- ..3------------- ..3------------- ..3-------------
+
+       Four notes struck on the downbeat, held the bar, repeated identically for
+       the whole material -- and keys2 the same thing two steps later. The
+       pitches follow the chords, so nothing about it is WRONG; it is inert, and
+       it is the "nothing is different" half of the complaint, distinct from the
+       silence. Eight genres in this file comp instead, and the comping road in
+       `buildKeys` already rolls the voicing and runs a figure on the material's
+       own cell -- machinery this genre was declaring itself out of.
+
+       The sources want the figure, and they want it for THIS music
+       specifically. The Lord of the Rings piano scores write the accompaniment
+       out as BROKEN ARPEGGIOS, bar by bar:
+
+         m13  D3 A3 D4 A3 F#4 A3 D4 A3   (= D)
+         m14  A2 E3 A3 E3 C#4 E3 A3 E3   (= A)
+         m15  B2 F#3 B3 F#3 D4 F#3 B3 F#3 (= Bm)
+         [docs/genre-research/score-craft.md §7, §14]
+
+       And it is the answer to the owner's "why would a plucked intrument be put
+       on chords?" -- a plucked patch is a DECAY ENVELOPE and can only hold a
+       chord by re-striking it. `bardPluck` was never the wrong instrument; a
+       block chord was the wrong writing to put under it. The pad has not gone
+       away either: `keys2` is still built with `sustain: true`, so the held
+       string bed is underneath and the first keyboard moves over it, which is
+       the two-plane texture the scoring sources describe. */
+    keysStyle: null,
     /* ══ AND THE PARTY IS NOT STANDING IN A CRYPT ═══════════════════════════
        Inherited whole, this genre was playing dungeon synth's hall: an 8.5
        SECOND tail, the longest space in the file by a margin -- the next
