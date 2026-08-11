@@ -1363,3 +1363,457 @@ attribution to Erang is out of character for every primary source anyone has
 actually read.** Also excluded: several fluent, confident, unattributed lines from
 AI-generated pages asserting things like *"Reverb is essential for creating the
 cavernous and mystical feel of Dungeon Synth"* — those are not artist statements.
+
+---
+
+# PART SEVEN — LEGATO, AND WHY THIS PROGRAM ARRANGES EVERYTHING LIKE A PIANO
+
+*2026-08-11. The owner: "Youve added echo as though that is the solution to
+legato its not and its wrong, you need to do research on how to arrange these
+instruments. You arrange everything like its a piano." Both charges are correct
+and both are now sourced.*
+
+## §33 WHAT THIS PROGRAM DOES, MEASURED
+
+**The legato switch, in full** (`dispatch`, ~12042):
+
+```js
+if(lgOn && ev.holdSec && !voice.phrases && ev.durSec < ev.holdSec){
+  ev = Object.assign({}, ev, { durSec: ev.holdSec });   // extend the duration
+}
+...
+made = voice(graph, ev, at);                            // then a FRESH voice
+```
+
+It lengthens note 1 until it reaches note 2, then triggers note 2 with a brand
+new envelope and a full attack. **That is two overlapping notes with two
+attacks.** The comment above it states the decision that makes real legato
+unreachable: *"no voice has to learn what legato is."*
+
+**And the arranging, measured:** grepping `INSTRUMENTS` for `lines:` returns
+**exactly one hit** — the saxophone. All seventeen other pitched machines get an
+identical part object: a pitch, a 16-step grid position, a duration, chords as
+simultaneous block voicings.
+
+Max notes sounding at one instant, hobbitsynth seed 1:
+
+| part / instrument | notes |
+|---|---|
+| lead / bardFlute, bardWind, erangLead, cs80 | 1 |
+| counter / bardWind | 1 |
+| bass | 2 |
+| **keys / bardPluck** | **4, held a whole bar** |
+| keys / mellotron, erangStrings; keys2 / vp330 | 4 |
+
+The winds are monophonic **incidentally** — the lead and counter roles are
+single-line, and nothing checks. Four notes is playable on a harp and on a
+string section, so note COUNT is not the fault. **A plucked string held for a
+whole bar is**, because a plucked string decays and cannot hold.
+
+## §34 LEGATO IS ENVELOPE RETRIGGER SUPPRESSION
+
+Stated identically by four independent sources.
+
+> *"In synthesizers legato is a type of monophonic operation. In contrast to the
+> typical monophonic mode where every new note articulates the sound by
+> restarting the envelope generators, in legato mode the envelopes are not
+> re-triggered if the new note is played 'legato'… This causes the initial
+> transient from the attack and decay phases to sound only once for an entire
+> legato sequence of notes."* — Wikipedia, *Legato*
+
+> *"If you play in a legato style (play a new key while holding another), the
+> envelope generators are triggered only for the first note you play legato,
+> then they continue their curve until you release the last legato played key…
+> On several monophonic synthesizers, the behavior in Legato mode is referred to
+> as single trigger, while Mono mode is referred to as multi trigger."*
+> — Apple, Logic Pro ES2
+
+> *"Legato is a triggering mode that prevents the Envelope from being
+> re-triggered with each new note."* — Spectrasonics, Omnisphere
+
+Three consequences the program does not honour:
+
+1. **Legato forces MONOPHONY.** Three vendors say so independently.
+2. **Sustain level must be high** in amp and filter envelopes, or the held
+   envelope decays away and later notes are quieter than the first.
+3. **Legato, portamento and glissando are three separate switches**, not one.
+   Omnisphere ships exactly that separation.
+
+| | pitch | attack of note 2 | envelope |
+|---|---|---|---|
+| legato | steps discretely | **suppressed** | not retriggered |
+| portamento | continuous slide | suppressed | not retriggered |
+| glissando | discrete audible steps | **each step re-attacked** | retriggered per step |
+
+## §35 THE PIANO MODEL IS RIGHT FOR PIANO AND WRONG FOR EVERYTHING ELSE
+
+**This is the whole diagnosis.** On a piano every note has a fixed,
+unrepeatable hammer attack that *cannot* be suppressed — so pianists produce
+legato purely by overlapping note 1's decay with note 2's attack. Repp measured
+it as a continuous variable, Key Overlap Time:
+
+> *"KOTs for successive tones judged to be optimally or maximally legato were
+> greater for high than for low tones, and greater for long than for short
+> tones."* — Repp, JASA 1995
+
+On winds and bowed strings the opposite is true — the attack **can** be removed:
+
+> *"A woodwind or brass player will 'tongue' (make a 't' against the roof of
+> their mouth) at the beginning of a slur and then not tongue the rest."*
+
+> *"Tonguing is a technique used with wind instruments to enunciate notes…
+> A silent 'tee' is made when the tongue strikes the reed or roof of the mouth
+> causing a slight breach in the air flow."* — Wikipedia, *Tonguing*
+
+So the program implements the piano rule and applies it to a flute. **Even the
+piano rule is wrong as implemented**, because Repp shows the overlap should vary
+with pitch and duration rather than being "reach the next onset."
+
+## §36 WHAT EACH FAMILY ACTUALLY NEEDS
+
+**WINDS** — RK bounds the phrase:
+> *"Wood-wind players cannot manage extremely long sustained passages, as they
+> are compelled to take breath; care must be taken therefore to give them a
+> little rest from time to time. This is unnecessary in the case of string
+> players."*
+
+Note 1 full attack; notes 2..n attack **suppressed**; the slur group bounded by
+a breath, and at that boundary a real attack is *correct*.
+
+**BOWED STRINGS** — Forsyth, and note the second quote overturns the obvious
+assumption:
+> *"only notes on the same string or on adjacent strings can be slurred… the
+> more notes that are included in the slur the slower the bow has to travel, and
+> therefore the weaker becomes the tone. Long slurs are an absolute
+> impossibility."*
+> *"A change of bow does not necessarily mean an absence of legato."*
+
+So legato is **not** "one continuous stroke", and it **is** interval-bounded.
+
+**PLUCKED** — legato exists but is a different mechanism and note 2 is *weaker*:
+> *"the resulting sounds are not as brightly audible, precisely due to the
+> absence of the plucking of the string, the vibration of the string from an
+> earlier plucking dying off."* — Wikipedia, *Hammer-on*
+
+**AND THE HARP IS EXCLUDED OUTRIGHT.** VSL sampled legato intervals for the
+whole orchestra and deliberately skipped it:
+> *"these 'real legato' samples (played by all instruments except the harp)
+> preserve the smooth transitions between one pitch and the next."*
+
+**Harp should not be routed through legato logic at all.** Its notes ring and
+overlap freely — that is correct harp behaviour and it is not legato.
+
+**TROMBONE** — the documented case where legato genuinely fails:
+> *"There is in general no true legato on the Trombone at all… There is
+> therefore a perceptible moment between each two notes when the air-column is
+> not in vibration."*
+
+## §37 WHAT A LEGATO SAMPLE PATCH ACTUALLY CONTAINS
+
+> *"Legato in the context of a sample instrument refers to a technique of
+> capturing the sound of an instrument moving from one note to the next…
+> you need to play monophonically (one note at a time)."* — Spitfire
+
+> *"The first note of a legato melody line has a built-in initial attack, easy
+> to reproduce in a sample, but subsequent notes have little or none, appearing
+> instead to be part of an unbroken flow of sound. This presents a problem: how
+> to introduce new samples of different pitches while maintaining this smooth,
+> flowing effect."* — Sound On Sound on VSL
+
+> *"Most sample libraries, when they say 'legato' actually mean 'sustains with
+> connected notes'."* — Orchestral Tools
+
+**The implementable line, from a Kontakt/HISE developer:**
+> *"When crossfading into the final sustain sample the start position of the
+> sample is offset so as to skip the attack."*
+
+**And the transition takes TIME — which is why extending note 1 cannot work:**
+> *"If there was no delay, it would be note a, and as soon as you press note b,
+> you'd hear note b. There is no space for a legato transition in this."*
+
+Extending note 1 until it touches note 2 leaves **zero time** for the transition
+to occur in. Reported transition times, Cinematic Studio Strings: fast ~100 ms,
+medium ~250 ms, slow ~333 ms. *Forum-reported; the manual itself is paywalled.*
+
+The failure mode of naive crossfading is documented and named:
+> *"It makes the legato 'sucking' sound, where every legato sounds like the
+> volume 'dips' slightly."*
+
+## §38 AND THE ECHO, SOURCED
+
+Reverb appears in this entire literature **once**, and as a mask:
+
+> *"Most libraries recorded in a hall have separate release samples… and these
+> can still be triggered over the legato transition to mask any such issues.
+> Another method is just to use an artificial reverb."*
+
+It masks a crossfade seam. It cannot remove an attack. Since the defining
+feature of legato on winds and bowed strings is precisely that the second attack
+is *absent*, reverb addresses the one thing legato is not about — which is
+exactly what "you've added echo as though that is the solution to legato" means.
+
+## §39 THE ALGORITHM, AND WHAT IS REACHABLE HERE
+
+```
+On a legato boundary (sustain patch, monophonic, interval <= 12 semitones):
+  1. start note B's sample PAST its attack, not at offset 0
+  2. do NOT retrigger the amp or filter envelope; hold at sustain
+  3. crossfade A -> B over a short window
+  4. compensate gain across it, or you get the documented "sucking" dip
+  5. budget real time for the transition (~100-333 ms)
+  6. glide pitch over that window only if portamento is also wanted
+Otherwise: full attack. And for HARP: no legato at all.
+```
+
+**Reachable in this file today:** `src.start(t, offset)` is already used at two
+call sites, so step 1 needs no new machinery. Steps 2–4 need voices that can be
+*re-pitched while still sounding* rather than re-created per note — which is the
+architectural half, and the reason the current design note ("no voice has to
+learn what legato is") has to be reversed. **The 12-semitone bound is an
+inference** from two sourced facts — transitions are recorded "up to an octave",
+and slurs need "the same string or adjacent strings" — not a quoted rule.
+
+**NEGATIVE, worth recording:** Rimsky-Korsakov is nearly useless on legato
+mechanism — 12 occurrences, almost all orchestration references, and he declines
+outright: *"To give a list of easy three and four-note chords, or to explain the
+different methods of bowing does not come within the scope of the present
+book."* Berlioz has five mentions, all stylistic. **Forsyth is the only treatise
+of the three that gives the physical rules.** No manufacturer publishes a legato
+crossfade time in milliseconds; that number has to be tuned by ear.
+
+---
+
+# PART EIGHT — WIND WRITING, AND WHY A FLUTE IS NOT A KEYBOARD
+
+*The second of the three agents run against the owner's "you arrange everything
+like its a piano". Sources: Rimsky-Korsakov and Forsyth (public domain), Berlioz
+(Clarke translation, archive.org OCR), Thomas Goss, Andrew Hugill's* The
+Orchestra: A User's Manual*, Bertsch's tonguing study (n=121), Grey Larsen on
+Irish flute and whistle.*
+
+## §40 LEGATO IS AN ONSET PROPERTY — the sentence that retires the echo
+
+> *"Legato is played without tonguing."*
+> *"Non Legato: Each individual note is tongued and separated."*
+> *"Staccato: Short and separated notes (all tongued)."*
+> — Hugill, *Flute Articulations*; the **identical** wording appears on his
+> Clarinet page, so it is general to winds.
+
+And the mechanism it removes:
+
+> *"Tonguing is a technique used with wind instruments to enunciate notes… A
+> silent 'tee' is made when the tongue strikes the reed or roof of the mouth
+> causing a slight breach in the air flow through the instrument."*
+
+**So: reverb adds a TAIL; legato removes an ONSET.** Different axes, and no
+amount of one produces the other. Note also that **staccato is fully tongued** —
+shortness and attack are independent, which a single "legato amount" number
+cannot represent. What the program needs is a `reattack` boolean per note.
+
+## §41 BREATH IS A BUDGET THAT REFILLS, NOT A CEILING
+
+> *"Wood-wind players cannot manage extremely long sustained passages, as they
+> are compelled to take breath; care must be taken therefore to give them a
+> little rest from time to time. This is unnecessary in the case of string
+> players."* — Rimsky-Korsakov
+
+**And the best pedagogy source argues that publishing a seconds table is
+actively harmful** — which is why this sheet does not contain one:
+
+> *"Breathing for wind instruments is cyclical, not inexhaustible."*
+> *"once those values were established, their existence would pose a threat to
+> intelligent scoring… our hypothetical student orchestrator figures out what
+> that means in terms of beats per minute, and scores exceedingly long phrases
+> in their work, one immediately following another. Now the player has no time
+> to recover their breath."* — Goss
+
+Encode a reserve that decrements while sounding and refills while resting. **A
+long phrase must be followed by proportionally more rest**, which a maximum note
+length cannot express.
+
+**The capacity ranking is the opposite of intuition:**
+
+> *"Oboes possess the lengthiest natural capacity… Bassoons and clarinets are
+> somewhat less capable of extremely long tones, and flutes least of all."*
+
+> *"The Flute has no great powers of sostenuto… In its lowest notes especially
+> any idea of an extended legato has to be put aside. The length and bore of the
+> pipe are so great that the player has to breathe after every few notes."*
+> — Forsyth
+
+**oboe > bassoon ≈ clarinet > flute**, with penalties for loud dynamics, low
+register and the large auxiliaries. The oboe's limit is *fatigue*, not air — so
+it wants few long phrases with generous recovery, a different shape from the
+flute's many short ones.
+
+**Where the breath goes, mechanically:**
+
+> *"This pause is normally intended to shorten the duration of the preceding
+> note and not to alter the tempo… It is usually placed above the staff and at
+> the ends of phrases."* — Wikipedia, *Breath mark*
+
+So on a 16-step grid a breath is **one step taken off the end of the previous
+note** — never a step inserted. The grid does not move. And it must not land
+mid-figure: Rimsky-Korsakov's vocal rule is *"Breath cannot be taken in the
+middle of a word"*.
+
+**A section staggers; a soloist cannot.** *"no breath gaps can be heard in
+favour of a continuous sound effect"* — so a `solo`/`section` flag produces
+genuinely different output, which this program cannot currently express.
+
+**The one concrete figure, for accompaniment rather than melody:**
+> *"a clarinet can't keep up an unbroken Alberti-bass-type figure for 32
+> measures, but needs a 16th note rest every few bars."* — Zeke Hecker
+
+One step dropped every 32–64 steps. Cheap, and the most direct fix for a wind
+figure that currently runs like a keyboard ostinato.
+
+## §42 A WIND PLAYS ONE NOTE — so a chord is an ASSIGNMENT PROBLEM
+
+The type change: a wind voice is a function from time to **at most one pitch**.
+A chord must be *dealt out* across N voices rather than struck at one. And
+Rimsky-Korsakov's rules are exactly the dealing algorithm — already recorded in
+§4 of this sheet (close voicing max 2 timbres, open allocates in pairs, an
+enclosed timbre flanked by two others, no part-crossing).
+
+Two further rules that bear on it:
+
+> *"one tone quality should be devoted to the stationary and another to the
+> moving parts"*
+
+> *"The most usual practice is to employ chords on different groups of
+> instruments alternately."*
+
+**Alternating the chord between two groups solves breath for free** — each group
+rests while the other sounds. And splitting held tones from moving tones is a
+pure function of the chord sequence the program already has.
+
+> *"It is impossible — without trampling under foot both Art and good sense — to
+> employ such exceptional instruments as simple instruments of harmony. Among
+> them may be ranked trombones, ophicleides, double-bassoons, and — in many
+> instances — trumpets."* — Berlioz
+
+## §43 ARTICULATION SPEED, WITH ACTUAL NUMBERS
+
+> *"The rapid repetition of a single note by single tonguing is common to all
+> wind instruments; repetition of a single note by means of double tonguing is
+> only possible on the flute, a reedless instrument."* — Rimsky-Korsakov
+
+Double tonguing: **flute, piccolo, trumpet, cornet only.** Not oboe, bassoon,
+horn or trombone — the reed or the mouthpiece is in the way.
+
+Measured, Bertsch, 121 brass players:
+> *"The average value for 'single tonguing' over two seconds is about 121 bpm
+> and slows down to 103 bpm within 30 seconds of playing… With 'double-single'
+> the mean values are 173 bpm at the beginning and 136 bpm after 30 seconds."*
+
+In semiquavers: **sustainable single tongue ≈ 7 notes/sec; the crossover where
+double tonguing becomes necessary is 8/sec; the professional mean ceiling with
+double is ≈ 11.5/sec.** And the rate **decays about 15% over thirty seconds** —
+the same refilling-budget shape as breath.
+*Caveat: the study is brass-only; extending it to woodwind is the researcher's
+inference, though the paper notes experience matters more than instrument.*
+
+## §44 REGISTER IS CHARACTER, AND EXPRESSION HAS A BAND
+
+> *"Each of these instruments has four registers… when the instrument jumps from
+> one register to another the difference in power and quality of tone is very
+> striking."*
+
+|  | low register | very high register |
+|---|---|---|
+| flute | Dull, cold | Brilliant |
+| oboe | Wild | Hard, dry |
+| clarinet | Ringing, threatening | Piercing |
+| bassoon | Sinister | Tense |
+
+And Rimsky-Korsakov's own coinage, the most encodable idea in his book:
+
+> *"In each wind instrument I have defined the scope of greatest expression…
+> the register which admits of the most expressive playing… Outside this range,
+> a wind instrument is more notable for richness of colour than for expression.
+> …It does not apply to the piccolo and double bassoon."*
+
+**Expressive shaping should be permitted only inside that band.** Outside it the
+note is a colour and should be written flat-dynamic. Two negative rules he gives
+by example: no light material to flutes in the tenor register; no plaintive
+material to bassoons in the high soprano.
+
+Berlioz adds a dynamics-by-register gate: the clarinet's high register *"should
+be used only in the fortissimo of the orchestra."*
+
+## §45 THE FLUTE'S IDIOM IS INTERRUPTION — the direct answer to "like a piano"
+
+> *"It is, however, more in the character of the Flute to break up a long series
+> of notes into its component parts, to interpolate detached notes and groups of
+> notes, and generally to substitute a vivid manner of performance for its more
+> vapid legato style."* — Forsyth
+
+> *"Staccatos, repeated notes, turns, shakes, skips, arpeggios, scales diatonic
+> and scales chromatic, and all sorts of agile figures founded on such types,
+> are child's play to a good Flautist."*
+
+**A per-instrument figuration transform** applied to the same generated pitches
+is precisely the mechanism this program lacks: the flute's realisation of a line
+should FRAGMENT it, not sustain it.
+
+Two more routing rules:
+> *"distinct and penetrating staccato passages are better suited to the oboes
+> and bassoons, while the flutes and clarinets excel in well-sustained legato
+> phrases."*
+> *"Arpeggios and rapid alternation of two intervals legato sound well on flutes
+> and clarinets, but not on oboes and bassoons."*
+
+## §46 THE TIN WHISTLE — and a warning that is this project's own
+
+This matters because `bardFlute` and `bardWind` are whistle-family samples.
+
+> *"These alterations and embellishments are created mainly through the use of
+> special fingered articulations (cuts and strikes) and inflections (slides),
+> not through the addition of extra, ornamental notes."*
+
+> *"when playing two notes of the same pitch in succession, these pipers had to
+> use a fingered articulation to establish the beginning of such a repeated
+> note."*
+
+> *"Cuts and strikes cannot exist without their parent notes. You cannot play
+> just a cut or just a strike, because they are not notes."*
+> *"We hear well-played cuts and strikes as having no duration."*
+> *"In most other books, the cut and strike have been presented and notated as
+> grace notes, and this is where so much confusion arises."*
+> — Grey Larsen
+
+**On a whistle, a repeated note is re-articulated with a FINGER, not the
+tongue** — a cut (brief higher pitch) or a strike (brief lower). It has **zero
+duration and falls exactly on the beat**: in this program that is a sub-step
+transient on the parent note's own step, never its own grid step.
+
+Larsen's broader warning is the same sentence the owner wrote, from inside the
+tradition: treating these as classical grace notes *"is where so much confusion
+arises."*
+
+**And the recorder cannot do dynamics at all**, because breath pressure controls
+pitch and loudness together: *"changes in breath pressure produce not only
+changes in volume but also gross distortions in pitch"*, so *"dynamic variation
+is a means of musical expression that is largely inappropriate and unsatisfactory
+on the recorder."* Expression goes into timing and articulation instead — the
+exact opposite of a velocity curve.
+
+## §47 THE TWO RULES THAT WOULD CHANGE THE MOST FOR THE LEAST CODE
+
+The researcher's own ranking, and it matches what this program needs:
+
+1. **A `reattack` boolean per note** — retires the reverb workaround entirely.
+2. **Chords dealt out across voices instead of struck as blocks** — plus §4's
+   voicing rules to decide who gets what.
+3. **The cheapest credible breath model**: one sixteenth rest every 2–4 bars on
+   any wind figure, budgeted rather than capped.
+
+**NEGATIVE:** Vienna Symphonic Library's academy pages are JS-rendered and
+returned three characters to curl — the most likely source of per-instrument
+tonguing tables, unobtained. Open Music Theory 403'd. **No source anywhere gives
+a maximum wind phrase length in seconds, and the best source argues that
+publishing one would be harmful.** Rimsky-Korsakov's register tables are images
+in the Gutenberg text, so his pitch boundaries are not machine-readable; the
+concrete clarinet boundaries above come from McGill's Timbre and Orchestration
+Resource instead.
