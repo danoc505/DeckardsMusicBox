@@ -1,5 +1,5 @@
 {
   "artifact": "https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06",
-  "stamp": "build 2026-08-11g · the keyboard plays a figure, not a held chord",
-  "engine": "3903a5372527c031"
+  "stamp": "build 2026-08-11i · legato removes an onset, it does not add a tail",
+  "engine": "96478157c181ad49"
 }

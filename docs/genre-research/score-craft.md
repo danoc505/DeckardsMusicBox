@@ -1817,3 +1817,207 @@ publishing one would be harmful.** Rimsky-Korsakov's register tables are images
 in the Gutenberg text, so his pitch boundaries are not machine-readable; the
 concrete clarinet boundaries above come from McGill's Timbre and Orchestration
 Resource instead.
+
+---
+
+# PART NINE — BOWED AND PLUCKED, AND THE TAXONOMY THIS ENGINE NEEDS
+
+*Third of the three agents. Sources: Forsyth and Rimsky-Korsakov (public domain,
+clean text), Berlioz (archive.org OCR — textually unreliable, flagged
+throughout), Galpin's* Old English Instruments of Music *(1910), the ACTOR
+Project's* Extreme Orchestration*, Berklee, and Thomas Goss.*
+
+## §48 THE SPLIT THE ENGINE IS MISSING, AND IT IS RIMSKY-KORSAKOV'S OWN
+
+> *"When the usual orchestral string quartet … does not make use of the bow, but
+> plucks the strings with the finger, it becomes to my mind a NEW AND INDEPENDENT
+> GROUP with its own particular quality of tone. Associated with the harp, which
+> produces sound in a similar manner, I consider it separately under the heading
+> of plucked strings."*
+
+**Plucked is a top-level family, not a timbre of strings.** Harp, pizzicato
+strings, lute, gittern and psaltery all belong to it, and all of them take the
+decay-not-duration note model. That is the correct first split for this engine
+and it does not currently exist.
+
+## §49 A BOWED PLAYER HOLDS TWO NOTES — the hard number
+
+Three independent sources agree, and it is the most load-bearing rule here.
+
+> *"Not more than two notes at most can be sustained by the bow. It is usual,
+> therefore, in cases where a full chord is taken tenuto, to write the lower
+> notes in conventional crotchet-heads, and to indicate the exact length of the
+> tenuto in the upper note or notes."* — Forsyth
+
+> *"It should not be forgotten, that, of these three or four notes, two at most
+> can be sustained; the bow being compelled to quit the others, as soon as
+> struck."* — Berlioz *(OCR)*
+
+**Struck: 4. Held: 2.** So a generated 3- or 4-note chord on one player must be
+re-emitted as a short attack on the lower notes plus the written duration on the
+top two.
+
+And the attack itself is dynamic-gated:
+> *"With three-part chords… the simultaneous attack of all three notes can only
+> be made ƒ or mƒ. In the p the chord has to be slightly arpeggioed. With
+> four-part chords an arpeggio from the bottom string to the top has to be made
+> both in the p and the ƒ."*
+
+**Four-note chords are ALWAYS rolled, bottom to top, at every dynamic.**
+
+## §50 THE BOW HAS A CLOCK, AND IT IS DYNAMIC-DEPENDENT
+
+The only quantified table anyone published, violin and viola (ACTOR):
+
+| dynamic | max single bow |
+|---|---|
+| pp | 10–15+ s |
+| p | 8–12 s |
+| mp | 6–9 s |
+| mf | 4–8 s |
+| f | 2–5 s |
+| ff | 1–3 s |
+
+> *"Louder dynamics require the bow to move faster, resulting with more frequent
+> changes of direction."* Cello and bass have **shorter** bows and get fewer
+> seconds still — unquantified.
+
+Forsyth gives the same limit in bars: **~4 bars of moderate time at pp**, halved
+if the slur contains many fast notes. And the hard prohibition:
+
+> *"Long ƒ slurs are an absolute impossibility."*
+
+**A bow change takes its silence from the END of the note, never the beginning** —
+the same mechanic as the wind breath in §41.
+
+## §51 A SECTION HAS INFINITE SUSTAIN; A SOLOIST DOES NOT
+
+> *"String pads… can be the glue that gives an arrangement cohesion because
+> strings can hold notes forever. Since they have infinite sustain, string
+> sections are wonderful for presenting the harmonic content."*
+
+> *"For the smoothest possible pads, ask your string players to stagger their
+> bowing — i.e., make a point of changing bow direction at different times. With
+> this technique, you won't hear the interruption in sound."* — Rabson, Berklee
+
+So `solo` versus `section` is a real flag with real consequences: the soloist
+inherits the bow clock above, the section does not. The failure mode to avoid is
+**every player changing bow at the same instant** — that is the audible dropout
+the technique exists to prevent.
+
+**NEGATIVE, and worth recording so nobody hunts for it again:** the word
+"stagger" appears **zero times** in Rimsky-Korsakov, Berlioz and Forsyth
+combined. It is documented only in modern pedagogy.
+
+## §52 WHAT KEEPS A HELD STRING CHORD ALIVE
+
+The sourced answer is that a sustained chord is **not one event**:
+
+> *"it's useful to think about how and when you want the players to use vibrato…
+> you might begin without vibrato (using the non vib notation) and then add
+> vibrato gradually to enhance the peak."*
+> *"Small hairpin dynamic markings… can breathe life into a static line."*
+
+Plus hard voicing numbers: tensions must sit **above G3**, the third may go as
+low as **E3**; within an octave = neutral background; more than a **tenth**
+between cello and violin 1 = broad.
+
+**Forbidden: the identical, flat-velocity, zero-vibrato, simultaneously-bowed
+block chord.** Every source treats that as the thing to avoid — and it is
+precisely what this program writes.
+
+## §53 THE HARP CANNOT HOLD A CHORD, AND ROLLED IS THE DEFAULT
+
+**This is the direct answer to "why would a plucked intrument be put on chords?"**
+
+> *"The chords must always be broken (arpeggiato); should the composer wish
+> otherwise he should notify it (non arpeggiato)."* — Rimsky-Korsakov
+
+> *"The Harpist always 'spreads' his chords slightly."* — Forsyth
+
+> *"The Harp is the only instrument whose particular technique has given a
+> generic word — arpeggio — to the rest of the instrumental force."* — Forsyth
+
+> *"It is unnecessary to dwell on the point that nine-tenths of all orchestral
+> Harp-music must be 'in arpeggio.'"* — Forsyth
+
+**And the placement rule, which is the audible half:**
+
+> *"Block chords are normally rolled upwards. Most often, the last note of this
+> brisk arpeggiation will coincide with the downbeat."* — ACTOR
+
+So the roll is played **before** the beat and its **top note lands on** it. This
+program places every chord tone exactly on the step; the fix is to offset the
+lower tones *earlier*.
+
+Why it cannot hold, physically:
+> *"Once the strings have been plucked, they ring freely until they stop
+> vibrating or are actively damped. The lower strings naturally sustain longer
+> than higher ones… passages in the lower register can become quite muddy,
+> roughly analogous to playing piano with the sustain pedal depressed."*
+
+**Forbidden: a tied whole-note pad on a harp.** The sourced replacement is a
+repeating arpeggio figure over the same harmony.
+
+**And a re-strike limit** — Berlioz, on plucking a string that is still ringing:
+> *"the string has not time to vibrate, and that its sound is stifled as soon as
+> born."*
+
+Forsyth: repeated notes on **different** strings are possible "at any pace";
+repeating the **same** string is "better avoided" except slowly. There is a
+documented trick around it: spell the note two ways and alternate the strings —
+*"by using a D-sharp and an E-flat, the performer can easily alternate between
+the two strings."*
+
+**Hand limits:** 4 notes per hand, 8 total, **five is impossible** (the little
+finger is not used). Hands kept at least a **sixth** apart. Stretches to a
+**tenth** are normal — the tenth is the harpist's octave. And, inverting the
+keyboard instinct: *"the more notes and the closer they are placed in an
+arpeggio or chord the better the effect."*
+
+## §54 THE MEDIEVAL INSTRUMENTS, WHICH ARE EASIER TO MODEL THAN THE PEDAL HARP
+
+For a fantasy genre this matters, and Galpin (1910) gives the tunings:
+
+- **Medieval harp — 12 strings, diatonic, one pitch per string, no chromatic
+  alteration at all.** No pedals, so none of §55's pedal machinery applies. For
+  hobbit synth this is both more period-correct and far simpler.
+- **Psaltery** — *"strings of metal"*, plucked, **fully diatonic**, roughly a
+  **three-octave** compass, no way to alter pitch mid-piece. Damped with the flat
+  of the hand. A fixed diatonic set for the whole record; **any accidental is
+  forbidden.**
+- **Gittern** — four gut courses, `d4 a3 f3 c3` or `g4 d4 b3 f3` per Praetorius,
+  **plucked with a plectrum**, so strummed and rolled rather than contrapuntal.
+- **Lute** — six stopped courses `g4 d4 a3 f3 c3 G2`, plus **unstopped diapason
+  basses** `F E D C B♭₁ A₁ G₁` which *"were not stopped by the fingers"* — so a
+  lute bass line is restricted to that fixed open-string set.
+
+## §55 THE PEDAL HARP IS A STATE MACHINE
+
+Only if the modern harp is wanted. A 7-slot vector {C,D,E,F,G,A,B} → {♭,♮,♯},
+and every note must be legal under the current state.
+
+> *"the harp is not capable of double sharps or double flats."* — RK
+> *"Double sharps and double flats may never be written for harp."* — ACTOR
+> *"The left foot controls D, C, and B, while the right foot controls E, F, G,
+> and A… harpists can move two pedals simultaneously, but only if they are on
+> opposite sides."* — Pollauf
+
+**Max two pedal changes at once and only on opposite feet; three is impossible.**
+A chord needing two positions of one letter (G♮ + G♯) is a hard reject — which
+requires the generator to carry **spelling**, not just a MIDI number.
+
+> *"every chromatic scale…, every progression of chords proceeding chromatically,
+> or belonging to different keys… are all impracticable."* — Berlioz *(OCR)*
+
+Berlioz also gives the fallback: when a melody has a note the harp cannot take,
+*"it should be dexterously modified, by substituting for one or more of the
+altered notes, other notes comprised in the harmony"* — a snap-to-chord-tone.
+
+## §56 WHAT NOBODY PUBLISHES
+
+Recorded so no future pass burns time on it: **no source gives a harp string's
+decay in seconds**, **no source gives a roll offset in milliseconds or steps**,
+**no source gives the bow-change gap or the stagger offset in milliseconds**, and
+**no source quantifies cello or bass bow duration.** The directions and the
+orderings are sourced; those five numbers have to be chosen and marked as chosen.
