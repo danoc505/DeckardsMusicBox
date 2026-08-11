@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-11c · the party is above ground, and the drums step back</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-11d · the desk moves on density and distance, not on loudness</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -21891,6 +21891,250 @@ GENRE.hobbitsynth = (function(){
        The bass did not move and was never going to; see above. */
     roleGain: { keys: 0.46, keys2: 0.30, ostinato: 0.42,
                 bass: 0.30, lead: 1.00, counter: 0.72, drums: 0.48 },
+    /* ══ AND THE PARTY IS NOT STANDING IN A CRYPT ═══════════════════════════
+       Inherited whole, this genre was playing dungeon synth's hall: an 8.5
+       SECOND tail, the longest space in the file by a margin -- the next
+       longest is bladerunner at 5.0 -- and the one whose own note records that
+       "a hit every 909 ms into a hall that takes eight and a half seconds to
+       die is a continuous wash by arithmetic". That is the oubliette, and this
+       genre is outdoors.
+
+       The artists say it plainly, and one of them says it as a two-record
+       experiment on exactly this axis. Pale Castle, on why his second tape
+       sounds different from his first:
+
+         "On the first tape I created a COLD AND CONFINED sound to illustrate
+          the OUBLIETTE like atmosphere, in 'Sorrowful Mysteries' I wanted to
+          convey the feeling of TRAVELING AND DISCOVERY. So yes, it was a very
+          conscious decision to create a more cinematic sound. The listener
+          should feel OUTDOORS and upon a means travel."
+         [corpus:thedungeonindeepspace/pale-castle]
+
+       So space in this family is a LOCATION parameter, not a mood one -- and
+       the way to the dungeon end is to SHRINK THE ROOM, not to dry it out.
+
+       And the constraint that decides the numbers is Summoning's, who changed
+       exactly this between two records and said why:
+
+         "We did not use so much reverb this time and took more care to create a
+          sound where the listeners can DISTINGUISH BETTER BETWEEN THE DIFFERENT
+          MELODIES playing at the same time."
+         "If the same song comes hidden behind a lot of reverb it offers more a
+          feeling of FAR DISTANCE and therefore can be considered as MORE DARK."
+         [corpus:thkdblog/summoning-interview]
+
+       Reverb send trades against polyphonic legibility, and darkness is what
+       distance buys. This genre's whole argument is a theme carried by a
+       succession of named instruments, so legibility is the thing it cannot
+       spend -- and it is the bright end of the family, so the darkness is not
+       wanted either. Both point the same way.
+
+       Four numbers move, and each has a reason rather than a taste:
+         irSec   8.5 -> 4.4   a large room, not a crypt. Still the third
+                              longest in the file, because "cinematic" is not
+                              "dry" and Berlioz's floor stands: there is no
+                              such thing as music in the open air.
+         tailDark 0.62 -> 0.44  darkness IS distance [Summoning]. The bright
+                              end of the family should not sound far away.
+         wet     0.5 -> 0.36  the legibility spend, and still well above lofi's
+                              0.10 and jungle's 0.22.
+         sendHp  70 -> 120    keep the bottom out of the wash so it stays
+                              defined -- Summoning again, who fixed the same
+                              collision by putting the accompaniment "much more
+                              into the deep frequency spectrum" so it
+                              "interferes less with the high keyboard melodies".
+
+       WHAT IS NOT COPIED FROM THE SOURCES: Hole Dweller -- the actual hobbit
+       flagship -- is deliberately the GRITTIER of its author's two projects
+       ("something more weathered and humble... gritty, yet soft", four hand-
+       built voices from one synth), which inverts the obvious assumption that
+       the pastoral end is the clean one. That is a texture decision about
+       saturation and voice count, not about the room, and it is a design
+       question for the owner rather than a number to slip in here.
+
+       ══ AND THE TWO PARENTS OF THIS GENRE DISAGREE ABOUT THIS, FLATLY ═══════
+       The dungeon synth side says space is a location and should change with
+       one (Pale Castle, above). THE SCORING SIDE SAYS THE OPPOSITE, and says it
+       with three years of work behind it. John Kurlander, who recorded all
+       three films:
+
+         "On LOTR we needed to record in no fewer than four principal venues,
+          one in Wellington, New Zealand and three in London, in some cases with
+          different orchestral personnel. However, in order to allow for
+          extensive editing between performances, THE SOUND HAD TO BE 100%
+          CONSISTENT between takes from all venues and the edits had to sound
+          like A SINGLE PERFORMANCE -- actually a single performance that was
+          recorded over a time span of 3.5 years."
+         [corpus:squareenixmusic/kurlander-interview]
+
+       And the irony is exact: MORIA, the most cavernous place in the story, is
+       the one sequence recorded in a different hall, and the whole engineering
+       effort went into making that difference VANISH. What varies by culture in
+       that score is instrumentation and voice type -- Celtic band, monochord
+       and droning strings, a male chorus of rugby players -- never the room.
+
+       Two further corrections to the obvious assumption, from the same pass:
+       Watford Colosseum, where the heart of the score was recorded, "has one of
+       the LOWEST reverberation times of the British concert halls"; and the
+       sound being chased was an OPERA PIT, not a cathedral -- Kurlander "visited
+       the Metropolitan Opera in New York to see how they handled their pit
+       orchestra; that was the sound they were trying to emulate". Shore picked
+       the LPO for the same reason: "Being in a pit accompanying opera is so much
+       like what I'm trying to do with film music."
+
+       SO THE SECTION-KEYED DISTANCE STATES IN `matrixDraw` BELOW ARE DUNGEON
+       SYNTH PRACTICE, NOT SHORE PRACTICE, and they are labelled that way rather
+       than left to read as sourced from the scoring tradition. This genre is a
+       declared hybrid and the room is where the two parents pull hardest against
+       each other: 4.4 seconds is the compromise, not a finding -- long enough to
+       keep the backbone's cavern, far short of the 8.5 it inherited, and far
+       longer than the ~2 seconds the pit-and-Colosseum reading would ask for. If
+       the owner wants this genre to sit further toward either parent, THIS
+       number is the lever and the two poles are now written down. */
+    space: { wet: 0.36, irSec: 4.4, tailPow: 1.5, tailDark: 0.44, sendHp: 120,
+             feeds: ["keys", "lead", "bass"], echoFeeds: ["keys", "lead"],
+             random: 0, spread: 0.8, preDelay: 0.075,
+             kitPan: { tom1: -0.22, tom2: 0.1, tom3: 0.24, snare: 0, kick: 0 } },
+    /* ══ THE DESK IS THIS GENRE'S OWN, AND IT MOVES ON A DIFFERENT PRINCIPLE ══
+       The owner: "We should be automating the Matrix Mixer this is where we get
+       the most back for our buck."
+
+       MEASURED before this: hobbit synth moved 5-6 crossings a song, union 8
+       over 12 songs, 7 distinct sets -- numbers IDENTICAL to dungeon synth's,
+       because it declared no `matrixDraw` and no `motion` and inherited both
+       whole. Prog-techno, for scale: union 26, 22-24 a song, a different set in
+       all 12. This genre had no automation identity at all.
+
+       AND THE SHAPE OF IT IS NOT PROG-TECHNO'S. Two research passes came back
+       independently on the same point, and it contradicts what every other
+       genre in this file does:
+
+         "Actively increasing the send with the arc simulates the orchestra
+          moving AWAY as it gets louder -- which is wrong."
+
+       The physics under it is sourced: perceived distance is carried by the
+       direct-to-reverberant RATIO, which is intensity-independent -- a real hall
+       gets louder along with the orchestra and the ratio does not move. A
+       post-fader send at fixed depth already does the right thing. So a room
+       send ridden UP into a climax reads as the players retreating at the exact
+       moment they should arrive. Dungeon synth's `drumsRoom` and prog-techno's
+       `leadRoom` both do precisely that, on the apex. They are not changed here
+       -- both genres have been judged good and this is a finding, not a verdict
+       -- but this genre does not inherit the habit.
+
+       (The "therefore do not ride the send with the dynamic" step is the
+       researchers' inference from the sourced physics, not a quoted claim, and
+       is recorded as such in score-craft.md §on space.)
+
+       SO WHAT DOES DRIVE A SEND HERE. Three things, each sourced:
+
+       ONE -- SECTION, as a quantised named distance. Mahler does not write a
+       distance knob, he writes named states: "In der Ferne" / "In weiter
+       Entfernung" / "In sehr weiter Entfernung", and then "Die 3 Tromp. nehmen
+       ihren Platz im Orchester ein" -- the trumpets WALK IN from offstage, once,
+       as an event. Distance is a small ordered set traversed at a structural
+       boundary, not a continuous ride. [corpus:Mahler 1, score markings]
+
+       TWO -- DENSITY, not dynamic. "For faster tracks with more elements,
+       shorter decay times are often more effective"; the sparse end takes the
+       long tail. So the thin sections are the WET ones here and the tutti is the
+       dry one, which is the opposite of the arc-driven habit.
+
+       THREE -- THE BOUNDARY. The only verbatim automation SHAPES anybody
+       documents are anchored to a structural edge and are one or two bars long:
+       "an automation curve to ramp up the reverb send level in the two bars
+       preceding the 'stop'"; on the downbeat of the stop itself "a short (one
+       beat long) but very large dollop of reverb"; and the reverse, "starting
+       with lots of reverb and quickly returning back to almost none over the
+       course of the one bar roll." [corpus:soundonsound/spot-reverb]
+
+       AND THE CRESCENDO IS ASYMMETRIC, which is the one Rimsky-Korsakov shape
+       that does belong on a send: "While the first group effects the crescendo
+       gradually, the second group enters piano or pianissimo, and attains its
+       crescendo MORE RAPIDLY." Its converse is not a fade -- the diminuendo is
+       "the suppression of one of the groups", a removal. So a build here is two
+       ramps of different steepness crossing, and its release is a cut.
+
+       ONE FLOOR, from Berlioz, and it is why nothing below ever reaches zero
+       wet: "there is no such thing as music in the open air... An orchestra of a
+       thousand wind instruments, with a chorus of two thousand voices, placed in
+       a plain, would not have a twentieth part of the musical action that an
+       ordinary orchestra of eighty players... in the concert-room." Dry is not
+       neutral, it is dead, and scale cannot be bought by stacking parts into it. */
+    matrixDraw: {
+      pick: [4, 7],
+      pool: [ ["roomMix", 7], ["leadRoom", 6], ["keysRoom", 5], ["leadEcho", 4],
+              ["keysEcho", 4], ["keysDP4", 4], ["leadFlange", 3], ["roomDP4", 3],
+              ["drumsRoom", 3], ["bassEcho", 3], ["leadDP4", 2], ["keysBarber", 2],
+              ["roomFlange", 2], ["drumsDP4", 2] ],
+      shapes: {
+        /* THE HALL ITSELF, and the only crossing that rests off both rails --
+           base 0.5, so it is the one thing here that can be played in either
+           direction. Named states at section boundaries, and the TUTTI IS THE
+           CLOSE ONE: the chorus draws the room in rather than pushing it away,
+           which is the whole correction above. The bridge and the intro are the
+           far states. Never to zero [Berlioz]. */
+        roomMix:    [{ kind: "section", by: { bridge: [0.14, 0.28], intro: [0.10, 0.20],
+                                             outro: [0.08, 0.18], chorus: [-0.16, -0.08] } },
+                     { kind: "lfo", bars: [[96, 1]], depth: [0.02, 0.05],
+                       shape: "sin", freePhase: true }],
+        /* THE SOLO SPOTLIGHT, which is the ONE use of send automation a working
+           orchestral mixer sanctions: "raise the level of reverb ... on the spot
+           mic in solo lines to give that solo a little bit more shine". Routed,
+           so it is played down -- and it comes DRY toward the sections that
+           feature it, because a tune that arrives should arrive close.
+           [corpus:robin-hoffmann/mix-automations-in-orchestral-music] */
+        leadRoom:   [{ kind: "section", by: { chorus: [-0.34, -0.20], instrumental: [-0.26, -0.14] } },
+                     { kind: "gesture", on: "fill", bars: 2, from: [0, 0],
+                       to: [-0.22, -0.10], curve: "exp" }],
+        /* DENSITY, stated as a lane: the pad is wettest where the record is
+           thinnest and dries as the parts arrive. Routed, so down only. */
+        keysRoom:   [{ kind: "section", by: { chorus: [-0.28, -0.16], instrumental: [-0.20, -0.10] } }],
+        /* THE APPROACH RAMP, verbatim: up over the two bars before the edge.
+           Routed crossings get the REVERSE ramp -- high into the boundary and
+           gone by it -- which is the same source's third gesture. */
+        leadEcho:   [{ kind: "gesture", on: "build", bars: 2, from: [0, 0],
+                       to: [-0.44, -0.26], curve: "exp" },
+                     { kind: "section", by: { bridge: [-0.30, -0.16] } }],
+        keysEcho:   [{ kind: "section", by: { bridge: [0.0, 0.0], outro: [-0.26, -0.12] } },
+                     { kind: "gesture", on: "fill", bars: 2, from: [0, 0],
+                       to: [-0.20, -0.08], curve: "exp" }],
+        /* THE SECOND GROUP, entering from nothing and climbing STEEPER than
+           anything already moving -- Rimsky-Korsakov's crescendo, and the reason
+           a long build keeps accelerating after level has run out. Unrouted, so
+           these are the ones that climb. Their release is a section cut, not a
+           fade: "the suppression of one of the groups". */
+        keysDP4:    [{ kind: "gesture", on: "build", bars: 3, from: [0, 0],
+                       to: [0.30, 0.56], curve: "exp" },
+                     { kind: "section", by: { bridge: [0.10, 0.24] } }],
+        leadFlange: [{ kind: "gesture", on: "peak", bars: 4, from: [0, 0],
+                       to: [0.34, 0.62], curve: "exp" }],
+        leadDP4:    [{ kind: "gesture", on: "build", bars: 2, from: [0, 0],
+                       to: [0.24, 0.46], curve: "exp" }],
+        keysBarber: [{ kind: "section", by: { bridge: [0.16, 0.34] } }],
+        /* THE RETURN, PROCESSED -- the hall's own output through the flanger and
+           the multi-fx, which is the closest this desk comes to Wright's joystick
+           and is the one place a big move belongs: it colours the ROOM, not the
+           players. Unrouted, so up from nothing. */
+        roomDP4:    [{ kind: "gesture", on: "peak", bars: 6, from: [0, 0],
+                       to: [0.26, 0.50], curve: "exp" },
+                     { kind: "section", by: { bridge: [0.12, 0.26] } }],
+        roomFlange: [{ kind: "section", by: { bridge: [0.14, 0.30], intro: [0.06, 0.16] } }],
+        /* THE DRUMS STAY NEARLY OUT OF THE HALL, and that is dungeon synth's own
+           measurement rather than a taste: a hit every 909 ms into a tail that
+           takes eight and a half seconds to die is "a continuous wash by
+           arithmetic". They get a boundary throw and nothing sustained. */
+        drumsRoom:  [{ kind: "gesture", on: "fill", bars: 1, from: [0, 0],
+                       to: [0.16, 0.30], curve: "exp" }],
+        drumsDP4:   [{ kind: "gesture", on: "fill", bars: 1, from: [0, 0],
+                       to: [0.12, 0.24], curve: "exp" }],
+        /* and the low end takes a little of the delay as the road goes on --
+           the smallest lane here, because the bass is where a long tail turns
+           to mud fastest */
+        bassEcho:   [{ kind: "section", by: { bridge: [0.08, 0.18] } },
+                     { kind: "occurrence", step: [0.02, 0.05], cap: 3 }],
+      },
+    },
     /* its own rack, and the bard pack leads it */
     rig: [["shire", 6], ["citadel", 4]],
     machines: { drums: [["tr1000", 1]],

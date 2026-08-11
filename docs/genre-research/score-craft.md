@@ -1107,3 +1107,259 @@ Musicology 2022, the neo-Riemannian table); Alfred's free
 overlay: extracting the base image gives a clean scan*; and a **169-page fan
 transcription** of the complete FOTR recordings, Sibelius-engraved and fully
 vector.
+
+---
+
+# PART SIX — SPACE, AND WHAT MOVES A SEND
+
+*Added 2026-08-11 from four contained research agents, run to source hobbit
+synth's automation rather than invent it. Same rules as the rest of the sheet:
+[NOTATION] / [DOCTRINE] / [MEASURED] / [PROSE], and every inference marked.*
+
+## §27 THE FINDING THAT CONTRADICTS EVERY GENRE IN THIS PROGRAM
+
+Two agents, working independently on different questions, arrived at the same
+place: **the effect send should not be ridden with the dynamic.**
+
+The physics is sourced. Perceived distance is carried by the **direct-to-
+reverberant ratio**, and that ratio is intensity-independent:
+
+> *"In reverberant environments, there is also a systematic relation between the
+> distance to the source and the reverberation amount relative to the level of
+> the direct sound… leading to another relevant distance cue: the
+> direct-to-reverberant energy ratio (DRR)."*
+> — Frontiers in Psychology, 10.3389/fpsyg.2017.00969
+
+A real hall gets louder along with the orchestra; the ratio does not move. A
+post-fader send at fixed depth already models this correctly:
+
+> *"You can control the different 'distances' of the sections simply by how much
+> of the signal is fed into that reverb send."*
+> *"the further back you are in the room, the balance between direct sound and
+> reverberant sound is skewed towards the wet."*
+> — macprovideo, mixing an orchestra
+
+**So a room send ramped UP into a climax reads as the players retreating at the
+exact moment they should arrive.** Both agents flagged the *"therefore do not"*
+step as their inference from the sourced physics rather than a quoted claim, and
+it is recorded that way here.
+
+**MEASURED against this program:** dungeon synth's `drumsRoom` and prog-techno's
+`leadRoom` both ramp wetness on the apex. Neither is changed — both genres have
+been judged good and this is a finding, not a verdict — but hobbit synth was
+built on the other principle and its table says why.
+
+And one working orchestral mixer goes further, against the whole idea:
+
+> *"do as little volume automation as possible with such music. In recordings of
+> classical music automation should be avoided completely."* … *"raise the level
+> of reverb (or even add specific reverb) on the spot mic in solo lines to give
+> that solo a little bit more shine and 'drama'."*
+> — Robin Hoffmann
+
+Note the permission structure: automating **all mics together** to shape a tutti
+crescendo is sanctioned; automating individual channels is not; and send
+automation is sanctioned **only for solo spotlighting.**
+
+## §28 WHAT DOES MOVE A SEND — three sourced drivers
+
+**SECTION, as a quantised named distance.** Mahler does not write a distance
+knob, he writes named states — *"In der Ferne"*, *"In weiter Entfernung"*, *"In
+sehr weiter Entfernung"* — and then *"Die 3 Tromp. nehmen ihren Platz im
+Orchester ein"*: the trumpets **walk in from offstage**, once, as a structural
+event. Distance is a small ordered set traversed at a boundary, not a ride.
+
+**DENSITY, not dynamic.** *"For faster tracks with more elements, shorter decay
+times are often more effective as they prevent the mix from becoming
+cluttered"*; the sparse end takes the long tail. So the thin sections are the wet
+ones and the tutti is the dry one — the opposite of the arc-driven habit.
+
+**THE BOUNDARY.** The only verbatim automation *shapes* anyone documents are
+one or two bars long and anchored to a structural edge:
+
+> *"On the main synth part, I've drawn an automation curve to ramp up the reverb
+> send level in the two bars preceding the 'stop'."*
+> *"on the first beat of the 'stop' itself, where a kick drum hits and everything
+> else stops playing, I've used automation to apply a short (one-beat long) but
+> very large dollop of reverb to my drum track."*
+> *"I reversed the reverb send ramp trick, this time starting with lots of reverb
+> and quickly returning back to almost none over the course of the one-bar roll."*
+> — Sound On Sound, "Spot Reverb"
+
+Three gestures, all terminating **on** the boundary. Note the second is gated on
+an arrangement drop — it is audible only *because* the other parts muted.
+*Caveat: a pop/electronic mixing article; the shapes are documented, their
+applicability to an orchestral cue is the researcher's inference.*
+
+## §29 DISTANCE IS A COUPLED BUNDLE, AND PRE-DELAY IS NOT SIZE
+
+**[DOCTRINE]** Rimsky-Korsakov, flatly: *"Brass instruments, when muted, produce
+an effect of distance."* Berlioz gives the clarinet the same faculty — *"the
+precious faculty of producing distance, echo, an echo of echo, and a twilight
+sound"* — and notes the stopped horn can repeat its own passage *"like a very
+distant echo"*, which is the minimal unit of space-as-arrangement: **same notes,
+second pass further away.** A program should prefer to change space on a
+**repeat**, not on new material.
+
+Distance therefore moves four things together, not one: level down, high end
+down, send up, and the processor **blurrier** — *"choose a suitably diffuse
+reverb type (in other words, one without too much detail), and also roll off some
+high end."*
+
+**And pre-delay is the opposite of what it is usually assumed to be.** The
+researcher caught themselves about to report the inverse: the documented use of
+long pre-delay (~90–110 ms) is to keep a source **foreground**, by separating the
+direct sound from the tail. Early reflections carry room *size*; pre-delay
+carries *position*. **No source reached gives a milliseconds-to-room-size
+mapping. Do not invent one and call it sourced.**
+
+## §30 THE FLOOR — dry is not neutral, it is dead
+
+**[DOCTRINE]** Berlioz:
+
+> *"This is why there is no such thing as music in the open air. The most enormous
+> orchestra placed in the middle of an extensive garden open on all sides… would
+> produce no effect."*
+> *"An orchestra of a thousand wind instruments, with a chorus of two thousand
+> voices, placed in a plain, would not have a twentieth part of the musical
+> action that an ordinary orchestra of eighty players with a chorus of a hundred
+> voices would have if well disposed in the concert-room."*
+
+**A thousand players outdoors is worth less than eighty in a hall.** So a fully
+dry passage is a strong, deliberate, short effect and never the resting state —
+and **scale cannot be bought by stacking parts into a dead space.** If a build
+adds voices, the room must come with them or the build will not read as bigger.
+
+## §31 HOW THE LORD OF THE RINGS WAS ACTUALLY RECORDED — and the space does NOT change
+
+This is the best-sourced item of the four agents, and it contradicts the
+dungeon-synth instinct completely.
+
+**The venues.** *"There were some sessions in Abbey Road, but the real heart of
+the score was done in Watford Town Hall… most of the choral sessions were there,
+and a little bit at AIR Lyndhurst, Henry Wood Hall."* The first sessions — the
+**Moria** sequence, for Cannes 2001 — were Wellington Town Hall, and are still in
+the film.
+
+**And the room was held constant, on purpose, for three and a half years.**
+John Kurlander, who recorded all three:
+
+> *"On LOTR we needed to record in no fewer than four principal venues… in order
+> to allow for extensive editing between performances, the sound had to be 100%
+> consistent between takes from all venues and the edits had to sound like a
+> single performance — actually a single performance that was recorded over a
+> time span of 3.5 years."*
+
+> *"We recorded The Lord of the Rings in four different rooms, over a period of
+> three years, at four different locations, edited everything in-between, and it
+> all matched."*
+
+**The irony is exact: Moria, the most cavernous place in the story, is the one
+sequence recorded in a different hall — and the entire engineering effort went
+into making that difference vanish.** What varies by culture in that score is
+**instrumentation and voice type**, never the room: the Shire's Celtic band,
+Lothlórien's 50-string monochord and *"Eastern bell-like tones of droning strings
+and winds"*, Moria's male chorus of Maori rugby players, Mordor's *"piercing,
+intruding sounds"*, the Orcs' pianist *"violently strik[ing] the wires inside the
+instrument with metal chains."*
+
+**Two more corrections to the obvious assumption:**
+
+1. **Watford Colosseum is not a cathedral.** *"The low volume, especially in the
+   upper part of the room, explains why the Colosseum has one of the lowest
+   reverberation times of the British concert halls."* Its virtue is early
+   reflections off close, reflective sidewalls on a flat floor.
+2. **The target sound was an OPERA PIT.** Kurlander *"visited the Metropolitan
+   Opera in New York to see how they handled their pit orchestra; that was the
+   sound they were trying to emulate."* Shore chose the LPO for the same reason:
+   *"Being in a pit accompanying opera is so much like what I'm trying to do with
+   film music, and they understand that well."*
+
+**Therefore:** region-varying reverb in a fantasy-synth genre is **dungeon synth
+practice, not Shore practice**, and must be labelled as such. The researcher put
+it plainly: *"call it your hybrid, not a Shore technique, because the sources say
+Shore's team spent three years making sure the room never changed."*
+
+**The one architecture that IS sourced and is directly a matrix-mixer shape:**
+three capture classes into **one shared room** — orchestra in the hall, choir
+recorded in a different building and matched in, and the folk soloists dry in a
+booth. Gillian Tingay, on the Celtic harp: *"I arrived at the studio expecting to
+be playing with my usual session orchestra but instead was asked to take myself
+and my little harp into a rather compact recording box."* Kurlander's own words
+for the general case: *"we made both mixes somewhat shy of artificial reverb so
+that in post-production there was some freedom to add a common ambiance to
+both."* **Crossfading a dry intimate plane against a matched hall plane is a send
+automation the sources support; switching rooms is not.**
+
+**NEGATIVE, and worth recording:** grepping all three free Doug Adams *Annotated
+Scores* for `synth`, `electronic`, `sampler`, `processed`, `reverb` and `effects`
+returns **zero hits** for synthesizer, electronics, samplers or processing. A
+search snippet claiming the orchestration included "keyboards such as
+synthesizer" could not be verified against any primary source. **Do not use it.**
+
+## §32 WHAT THE DUNGEON-SYNTH ARTISTS SAY, IN THEIR OWN WORDS
+
+**Space is a LOCATION, and the artists design it as one.** Pale Castle, on why
+his second tape sounds different from his first — this is the two-record
+experiment on exactly this axis:
+
+> *"On the first tape I created a cold and confined sound to illustrate the
+> oubliette like atmosphere, in 'Sorrowful Mysteries' I wanted to convey the
+> feeling of traveling and discovery. So yes, it was a very conscious decision to
+> create a more cinematic sound. The listener should feel outdoors and upon a
+> means travel."*
+
+So the route to the dungeon end is to **shrink the room**, not to dry it out.
+His technique, named: *"Plenty of analog reverb and tape delay was used to get
+that tone. It was layered several times as well."*
+
+**Reverb trades against polyphonic legibility.** Protector of Summoning, who
+changed exactly this between two records and said why:
+
+> *"We did not use so much reverb this time and took more care to create a sound
+> where the listeners can distinguish better between the different melodies
+> playing at the same time."*
+
+> *"If the same song comes hidden behind a lot of reverb it offers more a feeling
+> of far distance and therefore can be considered as more dark."*
+
+**Darkness is what distance buys.** And his fix for the collision was in the
+frequency domain, not the reverb: *"we completely rearranged the sound and put
+everything much more into the deep frequency spectrum"* so the guitars
+*"interfere less with the high keyboard melodies."*
+
+**Nobody credits reverb for SCALE.** Every artist who addresses largeness
+attributes it to layer count, register separation or repetition. Mortiis stacked
+parts blind, writing each in a different coloured pen because he had no way to
+overdub — *"on and on for layers and layers for 20-25 minutes."* Pale Castle takes
+the opposite route: *"I prefer minimal arrangements… Powerful chords and melodies
+can be repeated with benefit, similarly as a steady fire can warm one's bones."*
+
+**And the assumption that the pastoral end is the clean one is FALSE.** Tim
+Rowland runs both Bellkeeper (dungeon) and **Hole Dweller (the actual hobbit
+flagship)**, and it is the hobbit project that is deliberately the dirtier:
+
+> *"Hole Dweller was my attempt to do something more weathered and humble; down
+> to earth. I wanted something gritty, yet soft. I needed to connect the sound
+> itself with how simple a hobbit's world can be. I worked within very limited
+> constraints: one synth, four crafted sounds total with added percussion."*
+
+**One synth, four voices, plus percussion** — scarcity as the aesthetic, and the
+grit is a chosen texture on a clean path, not the residue of bad gear.
+
+**"Dungeon synth = lo-fi" is false as a blanket claim.** Erang rejects polish on
+principle — *"I need amateurish, handcrafted and sincere sounds. Fuck the music
+industry."* — while Grimrik both makes and masters records for the scene, and
+Fief, the pastoral flagship, carries a commercial mastering credit. The
+defensible position for a genre between them: **compose and voice like the naive
+wing, master like the craft wing.**
+
+**NEGATIVE, and it re-confirms an earlier trap:** the Erang gear attribution
+(Roland Sound Canvas VA, tape) remains unverifiable — the likely source is behind
+a Cloudflare check that defeated four independent routes. Across four Erang
+interviews that DID load, he consistently refuses to discuss gear: *"I prefer not
+to get into technical comment about Dungeon Synth."* **A specific hardware
+attribution to Erang is out of character for every primary source anyone has
+actually read.** Also excluded: several fluent, confident, unattributed lines from
+AI-generated pages asserting things like *"Reverb is essential for creating the
+cavernous and mystical feel of Dungeon Synth"* — those are not artist statements.
