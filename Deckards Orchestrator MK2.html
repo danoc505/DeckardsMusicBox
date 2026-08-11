@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-10k · hobbit synth gets a mode palette, not a mode</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-11a · the families do not all step on the same bar</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -21824,6 +21824,27 @@ GENRE.hobbitsynth = (function(){
                         [[0, 3, 5, 6, 5, 3], 4],
                         [[0, 2, 0, 5, 3, 2, 0], 3],
                         [[0, 5, 3, 2, 3, 5], 3]] },
+    /* ── THE THEME IS RE-SCORED AS THE RECORD CLIMBS ──────────────────────
+       Ordered smallest to largest, and the section takes its rung from the
+       energy arc. A solo whistle-sized voice opens; the peak gets the brass.
+       Same notes throughout -- that is the point, and it is what this program
+       could not do until now: it drew one voice per part per song and played it
+       for nine minutes.
+       The Shire theme's own substitution ladder is the model: Shore takes it
+       from the tin whistle to the clarinet to the flute as the hobbits leave
+       home, and Adams records him refusing the whistle in Rivendell because
+       "it's too tender a scene... There are none of the hobbit folk sounds in
+       Rivendell. It's more classical." An instrument is a register of feeling
+       here, not a colour. [corpus:Doug Adams, The Annotated Score]
+
+       AND THE ORDER OF THESE THREE LINES IS THE ORDER THEY ENTER, strings
+       first, then the wood-wind carrying the tune, then the brass -- which is
+       Rimsky-Korsakov's crescendo order and the reason the slots are written
+       this way round rather than melody-first. The program derives the spacing;
+       this only says who goes before whom. */
+    ladder: { keys:  ["erangHarp", "bardPluck", "mellotron", "erangStrings"],
+              lead:  ["bardFlute", "erangLead", "bardWind", "cs80"],
+              keys2: ["vp330", "erangStrings", "horns"] },
     /* its own rack, and the bard pack leads it */
     rig: [["shire", 6], ["citadel", 4]],
     machines: { drums: [["tr1000", 1]],
@@ -27835,6 +27856,26 @@ function makeArrangement(chart, form, materials){
     return { lo, hi, rung, closing: closingSet.length ? merge(closingSet) : rung[hi] };
   })();
 
+  /* ── THIS RECORD'S OWN LOUD AND QUIET ─────────────────────────────────────
+     MEASURED, and it is why this exists: `probe_ladder` over 60 hobbit synth
+     songs found the energy arc spanning 0.62 … 0.92 and NEVER the bottom third,
+     so a four-rung ladder read on absolute energy could only ever reach rungs
+     1–3. The smallest instrument in every ladder was unreachable -- config that
+     looks like an option and is not, which is the exact fault this repo keeps
+     being caught for.
+
+     A rung is therefore taken from where a section sits inside THIS RECORD's
+     spread, not on some absolute scale. A quiet record gets its own solo voice
+     at its own quietest point and its own tutti at its own peak; so does a loud
+     one. That is also the truer reading of the source -- Shore does not score
+     from an absolute loudness meter, he scores relative to the cue he is in. */
+  const ESPAN = (() => {
+    let lo = Infinity, hi = -Infinity;
+    for(const s of form){ const e = s.energy == null ? 0.5 : s.energy;
+                          if(e < lo) lo = e; if(e > hi) hi = e; }
+    return (hi > lo) ? { lo, hi } : null;    // a flat record gets no normalising
+  })();
+
   const laid = form.map((sec, i) => {
     let material = MAT[sec.fn];
     let stripHalf = false;
@@ -28139,19 +28180,97 @@ function makeArrangement(chart, form, materials){
          declare it is byte-identical. */
       machines: (() => {
         const SW = chart.table.swap;
-        if(!SW) return null;
+        const LAD = chart.table.ladder;
+        if(!SW && !LAD) return null;
         const MA = chart.table.machines || {};
         const rs = stream(chart.seed, "swap:" + i);
         const out = {};
-        for(const slot of ["drums", "bass", "keys", "keys2", "lead"]){
+        /* ── THE LADDER: THE SAME TUNE, A BIGGER INSTRUMENT ────────────────────
+           `swap` above is a RANDOM re-draw at a section boundary -- novelty,
+           and novelty is not orchestration. A score re-scores a theme according
+           to where the drama is, and the direction is the point. Adams, on the
+           Gondor theme across one cue: "French horns carrying the melody in
+           their singing register, celli and basses entering on the consequent
+           phrase... Solo trumpet returns, now able to recall the theme". On the
+           Fellowship theme across the trilogy: "a solo horn above a string
+           pedal" early, and "religioso full chorus and orchestra" at the end.
+           And Shore counting it himself: "In earlier sections with Frodo and Sam
+           you heard one French horn playing. Now there are three."
+           [corpus:Doug Adams, The Annotated Score]
+
+           So a genre may declare an ORDERED list per slot, smallest voice
+           first, and the section takes its rung from the ENERGY ARC rather than
+           from a coin. The record's quiet openings get the solo instrument and
+           its peak gets the loudest one, and the same theme is heard through
+           both. `energy` is already computed for this section by `makeForm`.
+
+           A ladder entry never overrides a hand on the rack, for the same
+           reason `swap` does not: if you loaded a machine deliberately, the
+           arrangement does not take it off you. */
+        const onLadder = {};
+        /* ── AND THE FAMILIES DO NOT ALL STEP ON THE SAME BAR ────────────────
+           MEASURED, by `probe_ladder`, on the first version of this: over 60
+           songs and 446 section boundaries, 81% of every re-scoring away from
+           the climax moved EVERY laddered part at once. A ladder read off one
+           number, with the same thresholds for every part, is a volume knob
+           with extra steps -- and the owner's complaint was the absence of
+           orchestration, not the absence of loudness. With the stagger below
+           that figure is 23%, and 230 boundaries now move some parts and leave
+           the others where they are. (The CLIMAX still moves everything: a
+           tutti at the peak is orchestration, and the stagger is about the
+           approach to it.)
+
+           Rimsky-Korsakov is explicit that this is not how forces arrive:
+           "in a crescendo, the instruments should be introduced in the order:
+           strings, wood-wind, brass" -- a STAGGER, by family, so the texture
+           thickens in stages instead of switching. [corpus:Rimsky-Korsakov,
+           Principles of Orchestration, Gutenberg #33900]
+
+           So the genre declares the ORDER -- the slots of `ladder` are read in
+           the order it wrote them, first to enter first -- and the program
+           DERIVES the spacing from how many there are: the p-th of S slots
+           climbs (S-1-p)/S of a rung early. The doctrine supplies the order,
+           which is a musical fact; nothing supplies a magic offset, which would
+           be a baked-in value [principle 1]. */
+        const LSLOTS = LAD ? Object.keys(LAD).filter(s => Array.isArray(LAD[s]) && LAD[s].length >= 2) : [];
+        if(LAD) LSLOTS.forEach((slot, p) => {
+          const rung = LAD[slot];
+          if(chart.picks && chart.picks.byHand && chart.picks.byHand[slot]) return;
+          onLadder[slot] = true;
+          /* the section's place in THIS record's spread, not on an absolute
+             scale -- see ESPAN above for the measurement that forced it */
+          const raw = sec.energy == null ? 0.5 : sec.energy;
+          const span = ESPAN ? Math.max(0, Math.min(1, (raw - ESPAN.lo) / (ESPAN.hi - ESPAN.lo)))
+                             : Math.max(0, Math.min(1, raw));
+          const lead = (LSLOTS.length - 1 - p) / LSLOTS.length / (rung.length - 1);
+          const e = Math.max(0, Math.min(1, span + lead));
+          /* the top rung is reserved for the section the form CALLED the peak,
+             so the biggest instrument arrives once rather than whenever the
+             energy happens to be high */
+          const idx = sec.peak ? rung.length - 1
+                             : Math.min(rung.length - 2, Math.floor(e * (rung.length - 1)));
+          const want = rung[Math.max(0, idx)];
+          if(want && want !== "auto") out[slot] = want;
+        });
+        for(const slot of SW ? ["drums", "bass", "keys", "keys2", "lead"] : []){
           const pool = MA[slot];
           const alt  = pool ? wpick(rs, pool) : "auto";     // unconditional
           const take = rs() < (SW[slot] || 0);              // unconditional
           /* a hand on the rack outranks the arrangement: if the user loaded a
              machine deliberately, the song does not swap it out underneath
-             them. `byHand` is the field resolvePicks keeps for exactly this. */
+             them. `byHand` is the field resolvePicks keeps for exactly this.
+
+             AND A LADDERED SLOT OUTRANKS THE COIN, for the reason the ladder
+             exists at all. MEASURED before this line was here: hobbit synth
+             inherits dungeon synth's `swap`, so the coin re-drew after the
+             ladder had written its rung and threw the result away -- seed 1's
+             PEAK, the one section the ladder reserves for the largest voice,
+             came out on `vp330`, the smallest thing in the keys2 list. The
+             direction was being written and then overwritten by novelty.
+             The draws above still run for every slot, always [Law 3]; what
+             changes is only whether the result is allowed to land. */
           const pinned = chart.picks && chart.picks.byHand && chart.picks.byHand[slot];
-          if(take && !pinned && alt && alt !== "auto" && alt !== chart.picks[slot])
+          if(take && !pinned && !onLadder[slot] && alt && alt !== "auto" && alt !== chart.picks[slot])
             out[slot] = alt;
         }
         return Object.keys(out).length ? Object.freeze(out) : null;

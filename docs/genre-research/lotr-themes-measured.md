@@ -33,6 +33,20 @@ Sources, all fetched:
 
 ## §1 THE SHIRE THEME — and it is MAJOR, and it is in THREE
 
+> **⚠ THIS SECTION IS WRONG. 2026-08-11.** `Shire.abc` is a bad transcription,
+> and the research that found it said so in the same breath — *"I could NOT
+> reconcile this melody with the four other independent Concerning Hobbits/Shire
+> transcriptions I extracted (which all agree on 1-2-3-5-3-2-1). Treat this
+> file's accuracy as doubtful despite its Howard Shore credit line."* I read the
+> ABC and not the caveat next to it.
+>
+> Four sources agree against it, three of them official: the theme is **D major,
+> 4/4, ♩=90–105, degrees 1 2 3 3 5 5 3 3 2 1, MAJOR PENTATONIC (no 4th, no 7th),
+> over a relative-minor bass (Bm–D–G–Em)**. See `score-craft.md` §1 for the
+> table and the sources. §2–§4 below are unaffected.
+
+
+
 ```
 M:3/4   L:1/4   Q:1/4=90   K:Cmaj
 E F G | A G A | B2 B | B2 c | d2 d | c2 B | A2 A | G F E |
