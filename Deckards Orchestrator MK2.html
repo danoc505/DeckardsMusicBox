@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-11a · the families do not all step on the same bar</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-11b · the unison is a doubling you can finally ask for</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -28899,15 +28899,55 @@ function makePerformance(chart, form, materials, sections){
      line -- this program's tenor -- may not be doubled at all, because doing it
      collapses the spacing the register law depends on. A request that breaks
      the table is REFUSED IN WORDS rather than quietly obeyed, which is the same
-     contract the blend panel's impossible pins already keep. */
+     contract the blend panel's impossible pins already keep.
+
+     ══ AND THE THIRD COLUMN IS THE UNISON, WHICH IS THE ONE THE SOURCE REACHES
+        FOR FIRST ═════════════════════════════════════════════════════════════
+     This table had two columns and a bug behind them. `semis` defaulted with
+     `s.semis || 12`, so a request for a UNISON doubling -- semis 0 -- was
+     silently turned into an octave: MEASURED on hobbitsynth seed 1, semis 0
+     produced 270 notes at 87/88/90/92 over a parent of 75/76/78/80, byte for
+     byte what semis 12 produces, and `stackRefused` came back empty. The one
+     doubling Berlioz names first could not be asked for, and asking for it
+     handed back the one he warns against:
+
+       "in order to give a passage greater energy, the first violins are doubled
+        by the second violins an octave lower; but, if the passage do not lie
+        excessively high, IT IS BETTER TO DOUBLE THEM IN UNISON. The effect is
+        thus incomparably finer and more forcible."
+       ...and the octave below, when the upper part is stronger: "this weak lower
+        doubling ... produces a futile murmuring, by which the vibration of the
+        high violin notes is rather obscured than assisted."
+        [corpus:Berlioz, Treatise on Instrumentation]
+
+     WHY THE UNISON COLUMN IS NOT THE OCTAVE COLUMN. Rimsky-Korsakov bars the
+     tenor because doubling it "produces close writing" -- an argument about
+     SPACING, and a unison changes no spacing at all, so it does not reach the
+     unison. Every part that has a pitch may therefore be doubled at the unison,
+     including the counter, which cannot be doubled in either octave.
+
+     And the corpus does NOT agree with itself here, so the disagreement is
+     recorded rather than resolved. Belkin, against: "overuse of unison doubling
+     is the beginner's most common fault in orchestration ... Do not double at
+     the unison, unless there is a definite need for more volume, or unless the
+     particular color is exactly what is needed for character."
+     [corpus:Belkin, Artistic Orchestration; docs/genre-research/score-craft.md §2]
+     That exception is exactly what a hand pressing this button is -- somebody
+     asking for this part, thicker, deliberately. Which is why the unison is
+     permitted here and is not drawn anywhere automatically. */
   const STACK_OK = {
-    lead:     { up: true,  down: false },   // soprano: the melody, doubles up
-    keys:     { up: true,  down: false },   // the harmonic basis
-    keys2:    { up: true,  down: false },
-    ostinato: { up: true,  down: false },   // figuration sits with the upper parts
-    counter:  { up: false, down: false },   // the tenor. RK: "to be avoided"
-    bass:     { up: false, down: true  },   // "the lower octave only"
-    drums:    { up: false, down: false },   // no pitch to move
+    /*             an octave up   an octave down   in unison  */
+    lead:     { up: true,  down: false, uni: true  },  // soprano: the melody
+    keys:     { up: true,  down: false, uni: true  },  // the harmonic basis
+    keys2:    { up: true,  down: false, uni: true  },
+    ostinato: { up: true,  down: false, uni: true  },  // figuration sits up top
+    counter:  { up: false, down: false, uni: true  },  // the tenor. RK: "to be
+                                                       // avoided" -- in OCTAVES,
+                                                       // for spacing. A unison
+                                                       // moves no spacing.
+    bass:     { up: false, down: true,  uni: true  },  // "the lower octave only"
+    drums:    { up: false, down: false, uni: false },  // no pitch to move, and a
+                                                       // unison drum is a fader
   };
   const stackRefused = [];
   const STACK = (chart.picks && chart.picks.stack) || [];
@@ -28915,7 +28955,10 @@ function makePerformance(chart, form, materials, sections){
     const add = [];
     for(const s of STACK){
       const rule = STACK_OK[s.of];
-      const semis = s.semis || 12;
+      /* `|| 12` HERE WAS THE BUG: a unison is semis 0, and 0 is falsy, so the
+         one doubling the source names first became the octave without a word
+         about it. Absent still means an octave; a stated zero means zero. */
+      const semis = s.semis == null ? 12 : s.semis;
       if(!rule){ stackRefused.push(s.of + " is not a part this record plays"); continue; }
       if(semis > 0 && !rule.up){
         stackRefused.push(s.of + " cannot be doubled upward" +
@@ -28924,6 +28967,32 @@ function makePerformance(chart, form, materials, sections){
       }
       if(semis < 0 && !rule.down){
         stackRefused.push(s.of + " cannot be doubled downward"); continue;
+      }
+      /* and a unison falls through BOTH tests above, so before this line it was
+         allowed for every part including the drums, unchecked */
+      if(semis === 0 && !rule.uni){
+        stackRefused.push(s.of + " cannot be doubled in unison -- it has no pitch to double");
+        continue;
+      }
+      /* ── A UNISON ON THE SAME PATCH IS A FADER, NOT A DOUBLING ────────────
+         An octave doubling is a different note, so it is audibly another player
+         whatever plays it. A UNISON is the same note at the same instant, and
+         two identical events summed are one event 4 dB louder -- no thickness,
+         no colour, nothing the volume knob could not do. Rimsky-Korsakov's
+         unison writing is entirely a question of WHICH TWO TIMBRES, and he
+         spends a table on which one wins in each pairing; Berlioz's unison is
+         more PLAYERS, which is a thing a synthesiser does not have.
+
+         So a unison must name a second instrument, and if it does not, that is
+         said out loud rather than obeyed into a level change nobody asked for.
+         Same contract as the rest of this table. */
+      if(semis === 0){
+        const playing = (events.find(e => e.role === s.of && e.pitch != null) || {}).voice;
+        if(!s.voice || s.voice === playing){
+          stackRefused.push(s.of + " in unison needs a DIFFERENT instrument -- "
+            + "the same patch at the same pitch is a fader, not a doubling");
+          continue;
+        }
       }
       let n = 0;
       for(const ev of events){
@@ -31605,29 +31674,80 @@ function drawStackControls(){
   const roles = MIX_ORDER.filter(r => present.has(r));
   host.appendChild(stackRowEl(roles));
 }
+/* ── WHICH OTHER INSTRUMENT COULD PLAY THIS PART AT THE SAME PITCH ──────────
+   For the unison button. `canFill` is already the one owner of "may this box
+   fill this slot", and every pitched machine in the table is single-lane, so
+   its one lane IS the voice it would play. Asking canFill rather than keeping a
+   list means a machine added to INSTRUMENTS reaches this button without anyone
+   remembering to extend anything -- the rule this file has broken four times.
+   The voice already playing the part is excluded, because pairing a timbre with
+   itself is the thing stage 5 refuses. */
+function unisonPartners(slot, playing){
+  const out = [], seen = {};
+  for(const k in INSTRUMENTS){
+    if(!canFill(slot, k)) continue;
+    const L = INSTRUMENTS[k].lanes || {};
+    const keys = Object.keys(L);
+    if(keys.length !== 1) continue;             // a kit is not a second timbre
+    const v = L[keys[0]];
+    if(!v || v === playing || seen[v]) continue;
+    seen[v] = 1;
+    out.push({ voice: v, label: INSTRUMENTS[k].label || k });
+  }
+  return out;
+}
 function stackRowEl(roles){
   const wrap = el("span", "mixstack");
   const lab = el("span", "mixstacklab", "add an instrument");
   wrap.appendChild(lab);
   const OFFER = { lead: 12, keys: 12, keys2: 12, ostinato: 12, bass: -12 };
+  /* the slot a role's instruments come from -- keys2 picks from the keyboards,
+     the ostinato and the counter from whatever a pitched box can fill */
+  const SLOT_OF_ROLE = { lead: "lead", keys: "keys", keys2: "keys",
+                         ostinato: "keys", counter: "keys", bass: "bass" };
+  const playingOn = r => (SONG.perf.events.find(e => e.role === r && e.pitch != null) || {}).voice;
   let any = false;
   for(const r of roles){
     const semis = OFFER[r];
-    if(semis == null) continue;
+    if(semis != null){
+      any = true;
+      const b = el("button", "mixbtn mixstackbtn",
+                   (MIX_LABEL[r] || r) + (semis > 0 ? " +8va" : " +8vb"));
+      b.title = semis > 0
+        ? "double the " + (MIX_LABEL[r] || r) + " an octave up on another instrument"
+        : "double the " + (MIX_LABEL[r] || r) + " an octave down -- the bass doubles low only";
+      b.onclick = () => { PICK.stack.push({ of: r, semis }); recompose(); };
+      wrap.appendChild(b);
+    }
+    /* ── AND THE UNISON, WHICH IS THE ONE THE SOURCE REACHES FOR FIRST ──────
+       Berlioz: "if the passage do not lie excessively high, IT IS BETTER TO
+       DOUBLE THEM IN UNISON. The effect is thus incomparably finer and more
+       forcible." Until this button existed the octave was the only doubling
+       this program could be asked for, and a unison request was silently turned
+       into one. The button carries a SECOND INSTRUMENT with it, because that is
+       what makes a unison a doubling rather than a level change -- see the
+       refusal in stage 5. The COUNTER appears here and nowhere else: the tenor
+       may not be doubled in octaves, because that collapses the spacing, and a
+       unison collapses nothing. */
+    const slot = SLOT_OF_ROLE[r];
+    if(!slot) continue;
+    const partners = unisonPartners(slot, playingOn(r));
+    if(!partners.length) continue;
     any = true;
-    const b = el("button", "mixbtn mixstackbtn",
-                 (MIX_LABEL[r] || r) + (semis > 0 ? " +8va" : " +8vb"));
-    b.title = semis > 0
-      ? "double the " + (MIX_LABEL[r] || r) + " an octave up on another instrument"
-      : "double the " + (MIX_LABEL[r] || r) + " an octave down -- the bass doubles low only";
-    b.onclick = () => { PICK.stack.push({ of: r, semis }); recompose(); };
-    wrap.appendChild(b);
+    const mate = partners[0];
+    const u = el("button", "mixbtn mixstackbtn", (MIX_LABEL[r] || r) + " unis.");
+    u.title = "double the " + (MIX_LABEL[r] || r) + " at the same pitch on the "
+            + mate.label + " -- two timbres on one line, which is what a unison "
+            + "doubling is";
+    u.onclick = () => { PICK.stack.push({ of: r, semis: 0, voice: mate.voice }); recompose(); };
+    wrap.appendChild(u);
   }
   /* what is stacked right now, and a way to take it off again */
   for(let i = 0; i < PICK.stack.length; i++){
     const s = PICK.stack[i];
+    const how = s.semis > 0 ? " +8va" : s.semis < 0 ? " +8vb" : " unis.";
     const c = el("button", "mixbtn mixstackon",
-                 "× " + (MIX_LABEL[s.of] || s.of) + (s.semis > 0 ? " +8va" : " +8vb"));
+                 "× " + (MIX_LABEL[s.of] || s.of) + how);
     c.title = "remove this doubling";
     c.onclick = () => { PICK.stack.splice(i, 1); recompose(); };
     wrap.appendChild(c);
