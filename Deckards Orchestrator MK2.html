@@ -323,11 +323,13 @@
      with the racks. A stacked doubling is lit so the desk says what it is
      carrying, and a refusal is printed in words beside the buttons. */
   .mixstack{ display:flex; flex-wrap:wrap; gap:.3rem; align-items:center;
-             margin-top:.7rem; padding-top:.55rem;
-             border-top:1px solid rgba(255,255,255,.10); }
-  .mixstacklab{ font-size:8.5px; letter-spacing:.18em; text-transform:uppercase;
-                opacity:.55; margin-right:.35rem; }
-  .mixstackbtn{ font-size:8.5px; letter-spacing:.08em; }
+             margin:-.2rem 0 .8rem; padding-bottom:.6rem;
+             border-bottom:1px solid rgba(255,255,255,.10); }
+  /* the label is the machine's accent, not a footnote -- it names a thing the
+     desk can do, beside the nameplate that says what the desk is */
+  .mixstacklab{ font-size:9px; letter-spacing:.18em; text-transform:uppercase;
+                color:var(--hot); opacity:.9; margin-right:.4rem; }
+  .mixstackbtn{ font-size:9px; letter-spacing:.08em; }
   .mixstackon{ font-size:8.5px; letter-spacing:.08em;
                border-color:#3fb497; color:#3fb497; }
   .mixstackno{ font-size:9px; opacity:.6; color:#c86a4a; margin-left:.3rem; }
@@ -1425,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-10h · the bard's samples hold a note, and nothing is cut short</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-10i · the add-an-instrument row moves where it can be seen</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -31338,6 +31340,16 @@ function drawMixer(host){
   brand.appendChild(el("span", "model", "mixer"));
   brand.appendChild(el("span", "slotTag", roles.length + " tracks + master"));
   box.appendChild(brand);
+  /* ── AND IT GOES ABOVE THE FADERS, NOT BELOW THEM ─────────────────────────
+     It was under the strips, which is where a desk's spare controls go and
+     which put it 2175 pixels down the page -- past every fader, the master and
+     the whole centre section. Reported: "the add new instrument button where is
+     this located I did not notice it." A control nobody scrolls to is a control
+     that does not exist, and measuring its position was how that got settled
+     rather than my opinion of where it felt right. Directly under the
+     nameplate now, where the first thing the desk says is what it is and the
+     second is what you can add to it. */
+  box.appendChild(stackRowEl(roles));
   const strips = el("div", "mixstrips");
   for(const r of roles) strips.appendChild(mixStrip(r));
   /* the master sits at the RIGHT-HAND END, where a desk puts it, and is set
@@ -31410,7 +31422,6 @@ function drawMixer(host){
     if(sec.childNodes.length) strips.appendChild(sec);
   }
   box.appendChild(strips);
-  box.appendChild(stackRowEl(roles));
   host.appendChild(box);
 }
 
