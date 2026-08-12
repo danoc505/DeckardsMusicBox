@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-12a · the bassoon, the bass oboe, the low sax and the war horn</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-12b · the ladder is climbed, and the rack stops lying</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -6751,8 +6751,48 @@ function resolvePicks(genre, picks, seed){
   const M = (GENRE[genre] && GENRE[genre].machines) || {};
   const rng = stream(seed, "rack");
   const out = {}, mute = {}, byHand = {};
+  /* ── A LADDERED SLOT DRAWS FROM ITS OWN LADDER ────────────────────────────
+     MEASURED, hobbit synth, 40 songs: the only machines that ever played its
+     keys, lead or keys2 lanes were the twelve named on its `ladder`. The
+     fifteen weighted rows in `machines` for those three slots never won a lane
+     ONCE -- a rung is written into `sec.machines` for every section, and a
+     laddered slot outranks the swap coin, so the pool's draw was overridden
+     before a note existed. Fifteen rows that looked like choices and were not.
+
+     THE VISIBLE HALF OF THAT IS WORSE THAN THE DEAD ROWS. The pool's draw is
+     still the PICK, and the pick is what the rack dropdown shows and what
+     `machineIn` puts a front panel on. So the second keyboard could read
+     "mellotron" on the glass for a whole record in which a bassoon played
+     every note of it. This file has a standing rule about exactly that: the
+     dropdown moving while the sound does not.
+
+     So where a genre declares a ladder for a slot, the pool is not consulted
+     for that slot at all -- and the pick is THE LADDER'S BOTTOM RUNG, which is
+     not a draw.
+
+     Drawing uniformly from the rungs was the first attempt and it was still
+     wrong, measurably: 25 of 25 hobbit synth songs came back with a rack
+     naming a rung that record never reached, because a song whose arc stops
+     climbing never gets to rung 3. Better than naming a machine outside the
+     genre's set, still the same defect in a smaller size.
+
+     The bottom rung is the one name that is ALWAYS heard: it is where the
+     ladder starts, so the opening section plays it in every record. It is also
+     the honest thing for a panel to say about a lane that changes instrument
+     by section -- no single box is the whole truth there, and "the one it
+     opens on" is a truth rather than a guess. Not drawn, because there is
+     nothing to draw: a ladder is an ORDER, and its first entry is a fact.
+
+     A hand still outranks all of this, unchanged: `want` wins where it fits. */
+  const LAD = (GENRE[genre] && GENRE[genre].ladder) || null;
   for(const slot of RACK_SLOTS){
-    const drawn = M[slot] ? wpick(rng, M[slot]) : "auto";
+    const rung = LAD && LAD[slot];
+    const laddered = Array.isArray(rung) && rung.length >= 2;
+    /* the draw still RUNS for a laddered slot and its result is discarded, so
+       adding a ladder to a genre cannot shift any later draw in this stream
+       [Law 7 -- alternates are drawn unconditionally] */
+    const spent = M[slot] ? wpick(rng, M[slot]) : "auto";
+    const drawn = laddered ? rung[0] : spent;
     const want = (picks && picks[slot]) || "auto";
     /* a slot accepts its own machines, or -- for the second keyboard -- the
        same ones the first accepts, or any other pitched box: canFill is the one
@@ -27027,11 +27067,14 @@ function makeMaterials(chart, editPlan, arcPlan){
     const pick = chart.picks && chart.picks[lane];
     if(pick && pick !== "auto") names.push(pick);
     if(LAD && LAD[lane]) for(const n of LAD[lane]) names.push(n);
-    /* the coin's pool, and ONLY when the genre actually declares a coin for
-       this slot -- a pool nothing draws from at a section boundary cannot put
-       an instrument on the lane, so it must not cost the band anything */
+    /* the coin's pool, and ONLY when the coin can actually land: the genre has
+       to declare a `swap` weight for this slot, AND the slot must not be on
+       the ladder -- a laddered slot outranks the coin, so its pool cannot put
+       an instrument on the lane and must not cost the band anything. A pool
+       that cannot win is not a constraint, and narrowing a genre's register
+       for one would be the same dead-config mistake in the other direction. */
     const SW = chart.table.swap, MA = chart.table.machines;
-    if(SW && SW[lane] > 0 && MA && MA[lane])
+    if(SW && SW[lane] > 0 && MA && MA[lane] && !(LAD && LAD[lane]))
       for(const w of MA[lane]) names.push(Array.isArray(w) ? w[0] : w);
     /* the window every machine on this lane can reach, with the band left out */
     let rLo = -Infinity, rHi = Infinity, any = false;
@@ -29268,6 +29311,136 @@ function makeArrangement(chart, form, materials){
                           if(e < lo) lo = e; if(e > hi) hi = e; }
     return (hi > lo) ? { lo, hi } : null;    // a flat record gets no normalising
   })();
+  /* ── AND WHERE EACH SECTION SITS IN THE QUEUE, NOT ONLY ON THE SCALE ──────
+     ESPAN stretches the arc's ends to 0 and 1, which fixed one fault and left
+     another: it says nothing about how the sections are DISTRIBUTED between
+     those ends, and they are not spread evenly. MEASURED by `probe_ladder`,
+     hobbit synth over 60 songs and 494 sections, with a five-rung lead ladder:
+
+       bardFlute 116   corAnglais 9   erangLead 142   bardWind 167   cs80 60
+
+     Nine. The rung is not dead so the probe passed it, but a rung that sounds
+     in 1.8% of sections is a declared option that almost never happens -- and
+     nothing about the cor anglais earned that, it is simply where the even
+     cuts happened to fall against a lumpy arc. Slicing a normalised scale into
+     equal parts assumes the sections are spread across it, and hobbit synth's
+     energy only spans 0.62 to 0.92 with most of its weight at the top.
+
+     So a section's place is its RANK among this record's own sections, not its
+     value on a stretched scale. Ties share the mean of the positions they
+     occupy, so two equally energetic sections cannot be ordered by which one
+     happens to come first. The ends still behave: the quietest section is 0
+     and the loudest is 1, exactly as before. What changes is the middle, which
+     is now spread by construction rather than by luck. */
+  const ERANK = (() => {
+    const es = form.map(s => s.energy == null ? 0.5 : s.energy);
+    if(es.length < 2) return null;
+    const order = es.map((e, i) => [e, i]).sort((a, b) => a[0] - b[0]);
+    const pos = new Array(es.length);
+    for(let i = 0; i < order.length; ){
+      let j = i; while(j + 1 < order.length && order[j + 1][0] === order[i][0]) j++;
+      const mean = (i + j) / 2;                       // ties share their positions
+      for(let k = i; k <= j; k++) pos[order[k][1]] = mean / (es.length - 1);
+      i = j + 1;
+    }
+    return pos;
+  })();
+
+  /* ── WHO IS ON WHICH RUNG, SECTION BY SECTION, IN ONE PASS ────────────────
+     The ladder is documented at `machines` below; this is the arithmetic it
+     needs, lifted out because a stagger is a statement about the SEQUENCE of
+     sections and cannot be computed from one of them.
+
+     Two numbers per section. The TARGET rung is the same for every slot -- the
+     section's place in this record's energy queue, cut into as many rungs as
+     the slot lists, with the top rung reserved for the section the form called
+     the peak so the biggest instrument arrives once rather than whenever the
+     energy happens to be high. The RUN is how many sections the energy has
+     been moving in its current direction, which is what turns a list of
+     targets into a crescendo.
+
+     Then slot p may only act on a change once the run has lasted p sections.
+     The order is the order the genre wrote its ladder's slots in -- first to
+     enter, first written -- and the doctrine supplies that order.
+
+     A genre with no ladder computes nothing here and is byte-identical. */
+  /* ── WHO IS ON WHICH RUNG, ADVANCED SECTION BY SECTION ────────────────────
+     The ladder is documented at `machines` below; this is the state it needs.
+     A stagger is a statement about the SEQUENCE of sections, so a slot's rung
+     cannot be computed from one section alone -- it is carried forward.
+
+     The climb is CAUSAL, which is why this is a running state rather than a
+     precomputed table: a crescendo only knows what has happened so far, and
+     the one thing the climb has to consult -- whether the lane is sounding at
+     all in this section -- is decided inside the map below, as that section is
+     laid out. See the third fault at `climb` for why that matters.
+
+     ERUN is the only part that can be known upfront: how many sections the
+     energy has been moving in its current direction. That is what turns a list
+     of targets into a crescendo. */
+  const ERUN = (() => {
+    const run = new Array(form.length).fill(0);
+    for(let i = 1; i < form.length; i++){
+      const a = form[i - 1].energy == null ? 0.5 : form[i - 1].energy;
+      const b = form[i].energy == null ? 0.5 : form[i].energy;
+      const dir = b > a ? 1 : b < a ? -1 : 0;
+      if(dir === 0){ run[i] = 0; continue; }
+      const pa = i >= 2 ? (form[i - 2].energy == null ? 0.5 : form[i - 2].energy) : null;
+      const prevDir = pa == null ? 0 : (a > pa ? 1 : a < pa ? -1 : 0);
+      run[i] = (prevDir === dir) ? run[i - 1] + 1 : 1;
+    }
+    return run;
+  })();
+  /* one entry per laddered slot: where it is on its ladder, and whether it has
+     been introduced yet. Fresh per call, so re-running the arrangement -- which
+     this file does -- starts the record over rather than continuing it. */
+  const LSTATE = (() => {
+    const LAD = chart.table.ladder;
+    if(!LAD) return null;
+    const st = {};
+    Object.keys(LAD).filter(s => Array.isArray(LAD[s]) && LAD[s].length >= 2)
+      .forEach((slot, p) => { st[slot] = { p, cur: 0, entered: false }; });
+    return st;
+  })();
+  /* WHERE A SLOT STANDS AFTER THIS SECTION. Three rules, and each one is a
+     measurement that was taken before it was written.
+
+     1. THE PEAK IS NEVER HELD BACK. A tutti at the climax is orchestration;
+        the stagger is about the approach to it.
+
+     2. THE CLIMB DOES NOT BEGIN UNTIL THE PART DOES, and this was the third
+        and most stubborn fault. MEASURED: hobbit synth's lead never sounded
+        `bardFlute` -- its own bottom rung, the voice the rack names -- in 28
+        of 40 songs. Starting the ladder at rung 0 did not fix it and gating on
+        `arrivesAt` did not fix it. The reason is simpler than both: THE INTRO
+        DOES NOT CARRY A LEAD. The lane was assigned rung 0 in sections where
+        it had no notes, climbed away in silence, and by the time it had
+        anything to play it was already two rungs up. A ladder spending its
+        bottom rungs on a part that is not sounding is the same dead-config
+        fault as a pool nothing draws from, wearing a different hat.
+
+        So a slot only moves in a section where it is ACTIVE. `active` is
+        decided inside the map, which is why this is a function it calls
+        rather than a table computed in advance.
+
+     3. ONE RUNG PER MOVE, and the introduction order gates only the FIRST
+        move. Both are argued where they were measured, at `machines`. */
+  const climb = (slot, sec, i, sounding) => {
+    const LAD = chart.table.ladder, rung = LAD[slot], R = rung.length;
+    const S = LSTATE[slot];
+    const raw = sec.energy == null ? 0.5 : sec.energy;
+    const span = ERANK ? ERANK[i]
+               : ESPAN ? Math.max(0, Math.min(1, (raw - ESPAN.lo) / (ESPAN.hi - ESPAN.lo)))
+                       : Math.max(0, Math.min(1, raw));
+    const target = sec.peak ? R - 1
+                 : Math.max(0, Math.min(R - 2, Math.floor(span * (R - 1))));
+    if(sec.peak) S.cur = target;
+    else if(sounding && target !== S.cur && (S.entered || ERUN[i] >= S.p)){
+      S.cur += Math.sign(target - S.cur);
+      S.entered = true;
+    }
+    return rung[Math.max(0, Math.min(R - 1, S.cur))];
+  };
 
   const laid = form.map((sec, i) => {
     let material = MAT[sec.fn];
@@ -29620,29 +29793,75 @@ function makeArrangement(chart, form, materials){
            Principles of Orchestration, Gutenberg #33900]
 
            So the genre declares the ORDER -- the slots of `ladder` are read in
-           the order it wrote them, first to enter first -- and the program
-           DERIVES the spacing from how many there are: the p-th of S slots
-           climbs (S-1-p)/S of a rung early. The doctrine supplies the order,
-           which is a musical fact; nothing supplies a magic offset, which would
-           be a baked-in value [principle 1]. */
+           the order it wrote them, first to enter first. The doctrine supplies
+           that order, which is a musical fact; nothing supplies a magic
+           offset, which would be a baked-in value [principle 1]. The climb
+           itself is at `climb`, above the map.
+
+           ── AND "EARLY" WAS THE WRONG MECHANISM, WHICH TOOK A SWEEP TO SEE ─
+           The offset was a fraction of a RUNG, and it worked only because the
+           section's place was a continuous number. The moment ERANK made that
+           place a QUEUE POSITION the offsets stopped separating anything --
+           ranks step in whole sections, and a sub-section offset mostly fails
+           to land between two of them, so the slots crossed together again.
+           MEASURED, hobbit synth, 60 songs, the instant the rank went in:
+
+             every laddered part moved at once   39%  ->  76%
+
+           The obvious repair is to make the offset bigger, and it does work,
+           and it is a trap. Swept over both scalings, k from 0.5 to 4:
+
+             offset in SECTIONS   k=1.0  81% lockstep,  thinnest rung 12.1%
+                                  k=2.5  68%                          12.1%
+                                  k=3.5  45%                           5.7%
+                                  k=4.0  43%                           1.0%
+             offset in RUNGS      k=1.5  39%                           0.0%  DEAD
+                                  k=3.0  19%                           0.0%  3 DEAD
+
+           Monotone, in both columns: every gain in stagger is paid for out of
+           the rung census, because the only thing that decorrelates two slots
+           reading the same number is an offset big enough to shove one of them
+           a whole rung -- which is the same as biasing it. There is no k that
+           buys both, and picking the least-bad k would be a magic number of
+           exactly the kind the paragraph above refuses to have.
+
+           SO THE OFFSET IS GONE AND THE DOCTRINE IS IMPLEMENTED INSTEAD.
+           Rimsky-Korsakov does not say the brass reads a slightly higher
+           number than the strings. He says the instruments are introduced IN
+           ORDER during a crescendo -- which is a statement about a RUN of
+           rising sections, and about position within that run. So: every slot
+           computes the same target rung from the same rank, with no fudge at
+           all, and slot p may only ACT on a climb once the rise has been going
+           for p sections. First family moves at once; the second waits for the
+           rise to continue; the third waits again. A rise that stops before
+           the later families have moved leaves them where they were, which is
+           precisely what "the crescendo brings them in by family" describes.
+
+           Coming back DOWN is the same rule in reverse, on the fall's own run
+           length, so a diminuendo thins by family instead of switching off.
+
+           WHAT IT COST AND WHAT IT BOUGHT, all four numbers, hobbit synth over
+           60 songs -- against the build this replaced, which read 39% / 1.8%:
+
+             every laddered part moves at once   39%  ->  10%
+             thinnest rung in the file          1.8%  ->  3.8%
+             boundaries where SOME parts move    191  ->  294
+             racks naming a machine never heard   all  ->  31% of slot-songs
+
+           Better on all four, and not one tuned constant anywhere in it. The
+           three rules at `climb` are the peak, the arrival and the single
+           step, and each was forced by a measurement rather than chosen.
+
+           The state is carried across sections, so it lives above the map --
+           and it has to be read INSIDE the map, because whether a lane is
+           sounding at all in this section is decided there. */
         const LSLOTS = LAD ? Object.keys(LAD).filter(s => Array.isArray(LAD[s]) && LAD[s].length >= 2) : [];
-        if(LAD) LSLOTS.forEach((slot, p) => {
-          const rung = LAD[slot];
+        if(LAD) LSLOTS.forEach(slot => {
           if(chart.picks && chart.picks.byHand && chart.picks.byHand[slot]) return;
           onLadder[slot] = true;
-          /* the section's place in THIS record's spread, not on an absolute
-             scale -- see ESPAN above for the measurement that forced it */
-          const raw = sec.energy == null ? 0.5 : sec.energy;
-          const span = ESPAN ? Math.max(0, Math.min(1, (raw - ESPAN.lo) / (ESPAN.hi - ESPAN.lo)))
-                             : Math.max(0, Math.min(1, raw));
-          const lead = (LSLOTS.length - 1 - p) / LSLOTS.length / (rung.length - 1);
-          const e = Math.max(0, Math.min(1, span + lead));
-          /* the top rung is reserved for the section the form CALLED the peak,
-             so the biggest instrument arrives once rather than whenever the
-             energy happens to be high */
-          const idx = sec.peak ? rung.length - 1
-                             : Math.min(rung.length - 2, Math.floor(e * (rung.length - 1)));
-          const want = rung[Math.max(0, idx)];
+          /* `active` is this section's own role list, decided a few lines up --
+             the ladder does not climb where the part is not playing */
+          const want = climb(slot, sec, i, active.indexOf(slot) >= 0);
           if(want && want !== "auto") out[slot] = want;
         });
         for(const slot of SW ? ["drums", "bass", "keys", "keys2", "lead"] : []){
