@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-12c · the rack names the box you can hear</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-12d · a slur does not re-blow, and the sampler was ignoring it</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -9012,8 +9012,46 @@ function erangVoice(mach, fams, lanes){
     const rel = Math.max(0.02, kitted(g) ? P(g, ev, g.drumMachine, "pRel", 0.4) : P(g, ev, mach, "release", 0.4));
     const gn = c.createGain();
     const peak = ev.gain * (ev.role === "drums" ? 1 : kbdLevel(ev) * 1.6);
-    gn.gain.setValueAtTime(0.0001, t);
-    gn.gain.exponentialRampToValueAtTime(Math.max(0.0002, peak), t + atk);
+    /* ══ A SLUR DOES NOT RE-BLOW, AND THIS VOICE WAS THE ONE IGNORING IT ══════
+       Reported, and it is the loudest fault in the file: "Why is there an echo
+       on the first instrument of seed one on hobbit synth? If its not an echo
+       the instrument is repeating and it sounds horribly bad!"
+
+       It is not an echo. It is the SAME NOTE played three times with three full
+       breath attacks. Hobbit synth seed 1, the whistle, read straight off the
+       events: MIDI 75 at 4.214, again at 5.261, again at 5.509 -- a quarter of
+       a second apart, each one starting the flute sample from its head.
+
+       AND `ev.tied` WAS SET ON MOST OF THEM AND DID NOTHING HERE. When legato
+       was built I put it in the shared `adsr` and wrote that one helper reached
+       every instrument. It does not reach this one: the sampler has its own
+       envelope, twenty lines up from here, and has never called `adsr`. So the
+       claim "legato removes an onset" was true of the synthesised voices and
+       false of every SAMPLED voice in the program -- which in hobbit synth and
+       dungeon synth is nearly all of them. I checked the helper and not the
+       callers, and the flag has been travelling all the way to stage 6 to be
+       dropped on the floor.
+
+       A tie here has to suppress TWO onsets, not one: the amplitude attack,
+       and the sample's own recorded breath. Starting the buffer at its loop
+       point is the second half -- that is the steady part of the tone, which is
+       exactly where a slurred note continues from. A one-shot has no loop to
+       start at, so it skips its attack window instead.
+
+       IT READS `tiedNow`, NOT `ev.tied`. The flag on the event says the two
+       notes CAN be slurred; `tiedNow` is what `dispatch` decided after asking
+       whether the genre declared legato for this part at all and whether this
+       voice is allowed to slur. `erangHarp` and `bardPluck` are on the refusal
+       list -- a pluck IS an attack, and a harp with its onset removed is not
+       legato, it is a broken sample. Reading the raw flag here would have
+       reached straight past that list, which is the whole reason it is
+       `dispatch` that owns the question and not each voice. */
+    const tie = tiedNow && ev.role !== "drums";
+    if(tie) gn.gain.setValueAtTime(Math.max(0.0002, peak), t);
+    else {
+      gn.gain.setValueAtTime(0.0001, t);
+      gn.gain.exponentialRampToValueAtTime(Math.max(0.0002, peak), t + atk);
+    }
     const off = t + Math.max(ev.durSec, atk + 0.02);
     gn.gain.setTargetAtTime(0, off, rel / 3);
     /* TONE: one lowpass, and it is the "avoid overly bright transients" the
@@ -9032,7 +9070,15 @@ function erangVoice(mach, fams, lanes){
     /* a one-shot must be allowed to finish; a loop is stopped by the note */
     const life = (s.ls >= 0) ? ev.durSec + rel * 3 + 0.1
                              : Math.min(s.n / ERANG.rate, ev.durSec + rel * 3 + 0.1);
-    src.start(t);
+    /* WHERE IN THE SAMPLE A TIED NOTE PICKS UP -- see the envelope above. The
+       loop point is where the recorded attack has finished and the tone is
+       steady, which is what a slur continues from; a one-shot has no such mark
+       so it skips its own attack window, capped well short of the sample so a
+       short patch cannot be skipped past its end. */
+    const into = !tie ? 0
+               : (s.ls >= 0) ? s.ls / ERANG.rate
+                             : Math.min(atk, (s.n / ERANG.rate) * 0.25);
+    src.start(t, into);
     src.stop(t + life);
     return [src];
   };
@@ -30897,29 +30943,79 @@ function makePerformance(chart, form, materials, sections){
           exactly on the beat."
          [corpus:Grey Larsen, Irish flute and tin whistle ornamentation]
 
-       So a repeated pitch gets a CUT: a flick of the next scale degree above,
-       at the parent note's own instant, over almost immediately. It does NOT
-       take a grid step and does not displace the parent -- Larsen is explicit
-       that notating these as grace notes with duration "is where so much
-       confusion arises", which is the same complaint as arranging everything
-       like a piano, made from inside the tradition.
+       So a repeated pitch gets a CUT: a flick of the next scale degree above.
 
-       The 40 ms is CHOSEN. Larsen gives the ornament no duration at all, and a
+       ── AND THE FIRST VERSION PUT IT IN THE WRONG PLACE, WHICH IS HALF OF
+       WHAT THE OWNER HEARD ────────────────────────────────────────────────
+       I read Larsen's "no duration, falling exactly on the beat" as "sounds at
+       the same instant as its parent" and emitted the flick ALONGSIDE the
+       repeated note -- two pitches together for 40 ms -- while leaving the
+       parent to re-blow at full. Larsen means the ornament has no RHYTHMIC
+       value: it steals no grid step from the tune. He does not mean it is a
+       second voice. His other sentence says what it actually is, and I quoted
+       it above without following it: "cuts and strikes CANNOT EXIST WITHOUT
+       THEIR PARENT NOTES... they are not notes."
+
+       A cut IS the parent's articulation. It occupies the parent's own first
+       instant, in place of an onset, and the parent continues out of it
+       without re-blowing. So: the flick takes the first 30 ms OF the repeated
+       note, the note itself begins after it and is TIED, and the note before
+       is trimmed back so nothing overlaps -- a whistle has one throat and
+       cannot sound two pitches at once, which the old version had it doing.
+
+       The 30 ms is CHOSEN. Larsen gives the ornament no duration at all, and a
        sample cannot be given none. */
     const WHISTLE = { bardFlute: 1, bardWind: 1 };
-    const cuts = [];
+    const CUTSEC = 0.030;
+    const cuts = [], swap = new Map();
+    const now = e => swap.get(e) || e;
     for(const r in byRole){
       const list = byRole[r].sort((a, z) => a.tSec - z.tSec);
       for(let i = 1; i < list.length; i++){
-        const a = list[i - 1], b = list[i];
+        const a = now(list[i - 1]), b = now(list[i]);
         if(!WHISTLE[b.voice] || b.voice !== a.voice) continue;
         if(b.pitch !== a.pitch) continue;                       // only a REPEAT is cut
         if(b.tSec - a.tSec < 0.08) continue;                    // the same onset, not a repeat
+        /* a real rest between them is not a repeated note, it is two notes --
+           the breath stopped, so the next one is blown, not cut */
+        if(b.tSec - (a.tSec + a.durSec) > 0.06) continue;
         const up = b.pitch + (inKey(chart.root, chart.mode, b.pitch + 2) ? 2 : 1);
         if(up > 108) continue;
-        cuts.push(Object.freeze(Object.assign({}, b, {
-          pitch: up, durSec: 0.04, gain: b.gain * 0.55, cut: true, tied: false })));
+        if(b.durSec <= CUTSEC * 2) continue;         // no room to cut and still be a note
+        /* ── AND `holdSec` MOVES WITH THE NOTE ────────────────────────────
+           Caught by the seam check the moment this was written, which is what
+           it is for: "hobbitsynth lead: holds 0.800 past the next note at
+           0.770", four of them, every one over by exactly 0.030. `holdSec` is
+           how long this key COULD stay down -- measured to the next onset in
+           stage 5 -- so shifting an onset without shifting its own hold leaves
+           a note claiming room that is no longer there. Same edit, same place,
+           or the two facts disagree. */
+        const hold = h => h == null ? null : Math.max(0.02, h - CUTSEC);
+        /* and the flick carries NO `holdSec` at all -- not a short one, none.
+           Larsen again, and it is the same sentence that fixed where it sits:
+           "they are not notes". A key-down time is a fact about a note, and
+           giving the ornament one made the seam check say so in its own words,
+           "holds 0.030 but is already 0.030". */
+        const flick = Object.assign({}, b, { durSec: CUTSEC, pitch: up,
+                        gain: b.gain * 0.55, cut: true, tied: false });
+        delete flick.holdSec;
+        cuts.push(Object.freeze(flick));
+        /* the parent starts where the flick ends, and does not re-blow */
+        const par = { tSec: b.tSec + CUTSEC, durSec: b.durSec - CUTSEC, tied: true };
+        if(b.holdSec != null) par.holdSec = hold(b.holdSec);
+        swap.set(list[i], Object.freeze(Object.assign({}, b, par)));
+        /* and the note before gets out of the way of it -- a whistle has one
+           throat and cannot sound two pitches at once */
+        if(a.tSec + a.durSec > b.tSec){
+          const prev = { durSec: Math.max(0.02, b.tSec - a.tSec) };
+          if(a.holdSec != null) prev.holdSec = Math.min(a.holdSec, prev.durSec);
+          swap.set(list[i - 1], Object.freeze(Object.assign({}, a, prev)));
+        }
       }
+    }
+    if(swap.size) for(let i = 0; i < events.length; i++){
+      const rp = swap.get(events[i]);
+      if(rp) events[i] = rp;
     }
     if(cuts.length) events.push(...cuts);
   }
