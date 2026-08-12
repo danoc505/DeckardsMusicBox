@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-12d · a slur does not re-blow, and the sampler was ignoring it</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-12e · the bridge happens, and a declaration must now prove it fires</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -17943,16 +17943,23 @@ const GENRE = {
          0.04. The floor was the section length, not the fraction.
          16 bars is 30 seconds and is inside the 16-32 bar intro every source
          describes. [corpus:underdog, corpus:beatkey] */
-      lengths:  { intro: 16, verse: 32, chorus: 32, bridge: 16, instrumental: 32, outro: 16 },
-      /* chorus maps to A as well: this genre has no hook and B is a hook by
-         construction, so asking for one would import a gesture the music
-         refuses. The only material that ever differs is Avar. */
-      material: { intro: "A", verse: "A", chorus: "A", bridge: "C",
+      /* ── AND THE CHORUS IS GONE FROM ALL FOUR PLACES IT WAS STILL NAMED ──
+         This genre HAS no chorus: its `transitions` are verse, instrumental and
+         bridge, and the file says so twice in its own words a few hundred lines
+         down -- "there is no chorus to open on", "this genre has no chorus".
+         And it still declared a chorus LENGTH, a chorus MATERIAL, a chorus ROLE
+         LIST and a chorus automation move, because whoever removed the section
+         from the transitions removed it from one place and not from four.
+
+         Found by probe_reachable.js the day it existed. Nothing read any of it,
+         which is exactly why it survived: dead config costs nothing at run time
+         and reads as intent for ever. */
+      lengths:  { intro: 16, verse: 32, bridge: 16, instrumental: 32, outro: 16 },
+      material: { intro: "A", verse: "A", bridge: "C",
                   instrumental: "Avar", outro: "A" },
       roles: {
         intro:        ["drums"],
         verse:        ["drums", "ostinato", "bass"],
-        chorus:       ["drums", "ostinato", "bass", "keys"],
         /* THE BREAKDOWN, and it is the one place this genre subtracts to almost
            nothing. "Now all you've got is this polymeter and because it doesn't
            line up with the one people on the dance floor are going 'oh where was
@@ -19185,9 +19192,14 @@ const GENRE = {
            bridge is where the flanger arrives, which means everywhere else is
            where it is held back. Written the other way round it was 84% eaten
            by the clamp and the "arrival" never happened. */
+        /* no `chorus` key: this genre has no chorus, and the fourth place it
+           was still named was here. `bridge: [0,0]` stays and is not the same
+           thing -- every other section in this lane moves, so a declared zero
+           on the bridge says the flange deliberately holds still there, which
+           an absent key would leave the reader guessing about. */
         drumsFlange: [{ kind: "section", by: { bridge: [0, 0], instrumental: [-0.24, -0.12],
                                                verse: [-0.45, -0.28], intro: [-0.50, -0.32],
-                                               chorus: [-0.34, -0.20], outro: [-0.45, -0.28] } },
+                                               outro: [-0.45, -0.28] } },
                       { kind: "lfo", bars: [[40, 2], [56, 1]], depth: [0.05, 0.14],
                         shape: "sin", freePhase: true }],
         bassFlange:  [{ kind: "arc", from: [-0.46, -0.30], to: [-0.14, -0.02], curve: "sCurve" }],
@@ -21478,7 +21490,26 @@ const GENRE = {
         instrumental: [["verse", 4], ["chorus", 4], ["instrumental", 2], ["bridge", 1]],
         outro:        [],
       },
-      bridgeAfterChorus: { verse: 2, instrumental: 2 },
+      /* ── AND `chorus` HAD NO ENTRY HERE, WHICH KILLED THE BRIDGE OUTRIGHT ──
+         The transitions table above offers `chorus -> bridge` at weight 1, and
+         the law table reads `bridgeAfterChorus[cur]`: no entry means `need` is
+         null, and null means the weight is forced to 0. So the one route the
+         plan actually takes was refused every time, in every song, by a MISSING
+         KEY rather than by a decision.
+
+         And it is the route that matters: "deeper" ends on a chorus by its own
+         `endOn`, so the section standing before "return" -- the movement that
+         holds the bridge -- is ALWAYS a chorus. One absent table entry, and the
+         genre's third theme, its own bridge harmony and nineteen automation
+         lanes were unreachable in 40 of 40 records.
+
+         ONE, not two, and that is the doctrine's own shape: H2 says a bridge
+         must have something to depart from and that "how many choruses is the
+         genre's call; that it needs SOME is not". A movement-form record has
+         one payoff before the last movement, not two -- asking for two was
+         asking for a pop record's chorus count from a genre that does not have
+         choruses in that sense. Hobbit synth inherits this whole block. */
+      bridgeAfterChorus: { verse: 2, instrumental: 2, chorus: 1 },
       /* THE NARROWEST ENERGY COLUMN IN THE FILE, on purpose. "dynamics gentle",
          "atmosphere over loudness" [corpus:melodigging] -- a record that gets
          LOUDER to arrive is doing the thing this genre is described as not
@@ -23134,7 +23165,15 @@ GENRE.hobbitsynth = (function(){
            melody), and then the final chorus arrives. */
         { name: "the road",        pool: ["verse", "instrumental"],           bars: [16, 2, 16] },
         { name: "the high country", pool: ["chorus", "instrumental"],         bars: [16, 2, 16], endOn: "chorus" },
-        { name: "town in sight",   pool: ["verse", "chorus"],                 bars: [16, 1, 16], endOn: "chorus" },
+        /* ── AND THE PARAGRAPH ABOVE DESCRIBED A FIX THAT WAS NEVER MADE ────
+           "It goes in the last movement, which is also where dungeon synth's
+           own plan keeps it." It did not. This pool read ["verse", "chorus"]
+           and the phase walk can only emit what a pool contains, so every word
+           of that reasoning was true and none of it was in the code. Measured
+           at the time and reported as 0 of 40, and I wrote the explanation
+           instead of the line. See probe_reachable.js -- the check that now
+           makes this class of thing impossible to leave. */
+        { name: "town in sight",   pool: ["bridge", "verse", "chorus"],       bars: [16, 1, 16], endOn: "chorus" },
       ],
       /* every part, in every section that is not the break. The owner asked for
          an epic-sized orchestra and this is the arrangement half of it; `rest`

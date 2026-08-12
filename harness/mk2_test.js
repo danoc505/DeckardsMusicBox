@@ -78,6 +78,41 @@ const check = (name, ok, detail) => {
   if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
 }
 
+/* ═══ EVERY NAME THE CONFIG MENTIONS MUST HAPPEN ════════════════════════════
+   Asked: "why is that even a thing, what is wrong fundamentally that we are
+   writing things for things that do not exist and worse yet things we then
+   ignore and fail to build if they are needed?"
+
+   The answer was that nothing ever reconciled a declaration with its own
+   reachability, so writing a table entry counted as doing the thing. The
+   bridge was declared in `lengths`, offered in `transitions`, given a third
+   theme, its own harmony and nineteen automation lanes -- and could not occur,
+   for three independent reasons at once, in 40 of 40 records. Plastikman
+   declared a chorus length, a chorus material, a chorus role list and a chorus
+   automation move for a section its own transitions do not contain, and said
+   so in its own comments while doing it.
+
+   Every one of those was found late, by ear or by a probe built for something
+   else. This is the general form, and it runs in the battery for the same
+   reason the stamp does: A GUARD NOBODY RUNS GUARDS NOTHING.
+
+   `harness/probe_reachable.js` owns the logic and the reasoning. 60 songs a
+   genre here rather than its default -- enough that a weighted row expecting
+   three appearances is meaningfully absent, and quick enough to sit in a
+   battery that runs on every change. ═══════════════════════════════════════ */
+{
+  const { execFileSync } = require("child_process");
+  let out = "", ok = true;
+  try { out = execFileSync(process.execPath,
+          [path.resolve(__dirname, "probe_reachable.js"), "60"], { encoding: "utf8" }); }
+  catch(e){ ok = false; out = (e.stdout || "") + (e.stderr || ""); }
+  const dead = (out.match(/(\d+) declaration\(s\)/) || [])[1];
+  check("every section, rung and pool row the config names actually happens", ok,
+        ok ? "every name the config mentions happens (10 genres x 60 songs)"
+           : `${dead || "some"} declaration(s) the music never reaches — run: node harness/probe_reachable.js 200`);
+  if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
+}
+
 const errors = [];
 let dilla = 0, hookExact = 0, hookTotal = 0, forms = new Set(), nondet = 0, ruleOf3 = 0;
 let dillaIdentical = 0, dillaChecked = 0;
