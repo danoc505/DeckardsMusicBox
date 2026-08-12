@@ -14,11 +14,28 @@ const HTML = path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html');
 const OUT = process.argv[2];
 const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 
-const PITCHED = ["keys","rhodes","bass","lead","counter","cs80",
-                 "chipKeys","chipBass","chipLead","chipCounter"];
+/* ── WHICH VOICES TAKE A PITCH, AND WHY THIS IS NOT A LIST OF THEM ──────────
+   It WAS a list, and the list went stale the way every hand-kept list does.
+   Measured 2026-08-12, asking this probe for eight voices:
+
+     horns    THREW  setValueAtTime: the provided float value is non-finite
+     sax      THREW  Cannot read properties of undefined (reading 'h')
+     bassoon  THREW  ...and the four other new reeds with it
+
+   None of them was in `PITCHED`, so the probe sent them an event with no
+   `pitch` field, every voice computed a frequency from `undefined`, and the
+   graph refused the NaN. The voices were fine. The probe was telling the truth
+   about its own hardcoded literal and nothing else -- which is exactly the
+   defect the program keeps being caught on, in the tool built to catch it.
+
+   So PITCHED is gone. Percussion is the short, closed list; everything else
+   takes a pitch, and a voice added to the program tomorrow is measured
+   correctly by this probe without anybody remembering to come here. */
 const PERC    = ["kick","snare","ghost","hat","openhat",
                  "dacKick","dacSnare","psgHat","psgOpenhat"];
-const VOICES = (process.argv[3] || PITCHED.concat(PERC).join(",")).split(",");
+const DEFAULT = ["keys","rhodes","bass","lead","counter","cs80",
+                 "chipKeys","chipBass","chipLead","chipCounter"];
+const VOICES = (process.argv[3] || DEFAULT.concat(PERC).join(",")).split(",");
 
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });
@@ -46,7 +63,7 @@ const VOICES = (process.argv[3] || PITCHED.concat(PERC).join(",")).split(",");
         b64 = btoa(s);
       }catch(e){ err = String(e && e.message || e); }
       return { b64, err };
-    }, { voice, pitched: PITCHED.includes(voice) });
+    }, { voice, pitched: !PERC.includes(voice) });
     if(r.err){ console.log(`  ${voice}: THREW ${r.err}`); continue; }
     fs.writeFileSync(path.join(OUT, `solo_${voice}.wav`), Buffer.from(r.b64, 'base64'));
     console.log(`  wrote solo_${voice}.wav`);

@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-11j · every instrument is written like what it is</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-12a · the bassoon, the bass oboe, the low sax and the war horn</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -4276,6 +4276,125 @@ const INSTRUMENTS = {
     panel: { skin: "erang", maker: "", title: "synth horns",
              sub: "the rank of players the score's heroic register asks for",
              groups: [{ label: "", keys: ["blaze", "section", "weight", "attack"] },
+                      panGroup()] },
+  },
+  /* ── THE LOW DARK VOICES ────────────────────────────────────────────────────
+     [user: "Id rather have a basson or that old war horn that is large and
+     wraps around a person, id rather have bass oboes, and sax"]
+
+     Four reeds off one engine and one war horn. The acoustics, the measured
+     numbers, what is derived and what could not be found at all are all written
+     out at `REED_BODY` and `V.carnyx` in stage 6 -- including the negative
+     result that Synth Secrets never covers a reed instrument, so unlike every
+     other synthesised voice in this file there was no patch to lift.
+
+     THE FIVE CONTROLS ARE THE SAME FIVE ON ALL FOUR REEDS, because they are the
+     same instrument with different geometry: how hard it is blown, where the
+     body's ceiling sits, how present the body's own formants are, breath, and
+     vibrato. What makes a bassoon a bassoon is in the table, not on the panel.
+
+     RANGES ARE SOUNDING PITCH, and they are inputs to stage 3 exactly as
+     `sax.range` is -- a wind instrument is asked what it can play BEFORE the
+     tune's register is drawn, never corrected afterwards. */
+  bassoon: {
+    slot: "keys", label: "bassoon",
+    lanes: { keys:"bassoon" },
+    /* B flat 1 to F5. The measured top is B flat 5 and it is specialist
+       writing; the ordinary orchestral ceiling is around here. */
+    range: [34, 77],
+    controls: [
+      ...panControls(),
+      { k:"push", label:"blown",     cap:"PUSH", min:0, max:1, step:0.01, def:0.55, kind:"gesture" },
+      { k:"tone", label:"body cut",  cap:"TONE", min:0, max:1, step:0.01, def:0.50, kind:"voicing" },
+      { k:"body", label:"formants",  cap:"BODY", min:0, max:1, step:0.01, def:0.55, kind:"voicing" },
+      { k:"air",  label:"breath",    cap:"AIR",  min:0, max:1, step:0.01, def:0.40, kind:"voicing" },
+      { k:"vib",  label:"vibrato",   cap:"VIB",  min:0, max:1, step:0.01, def:0.18, kind:"voicing" },
+    ],
+    panel: { skin: "erang", maker: "", title: "bassoon",
+             sub: "conical double reed — ceiling 600 Hz, formants 470 and 1250",
+             groups: [{ label: "REED", keys: ["push", "air"] },
+                      { label: "BODY", keys: ["tone", "body", "vib"] },
+                      panGroup()] },
+  },
+  bariSax: {
+    slot: "keys", label: "baritone sax",
+    /* the SAMPLED alto is a `lead` machine and stays one; this is the low horn
+       in the second chair, which is a different job and a different rack. It is
+       synthesised rather than sampled because no free baritone set was found
+       that this file could read -- see REED_BODY for the geometry it uses
+       instead, and for the arithmetic that put its ceiling at 600 Hz. */
+    lanes: { keys:"bariSax" },
+    range: [37, 69],
+    controls: [
+      ...panControls(),
+      { k:"push", label:"blown",     cap:"PUSH", min:0, max:1, step:0.01, def:0.60, kind:"gesture" },
+      { k:"tone", label:"body cut",  cap:"TONE", min:0, max:1, step:0.01, def:0.55, kind:"voicing" },
+      { k:"body", label:"formants",  cap:"BODY", min:0, max:1, step:0.01, def:0.50, kind:"voicing" },
+      { k:"air",  label:"breath",    cap:"AIR",  min:0, max:1, step:0.01, def:0.50, kind:"voicing" },
+      { k:"vib",  label:"vibrato",   cap:"VIB",  min:0, max:1, step:0.01, def:0.25, kind:"voicing" },
+    ],
+    panel: { skin: "sax", maker: "", title: "baritone saxophone",
+             sub: "the wide cone — 1.5° taper, bell lift, mouthpiece dip",
+             groups: [{ label: "REED", keys: ["push", "air"] },
+                      { label: "BODY", keys: ["tone", "body", "vib"] },
+                      panGroup()] },
+  },
+  bassOboe: {
+    slot: "lead", label: "bass oboe",
+    lanes: { lead:"bassOboe" },
+    /* sounds an octave below the oboe: B flat 2 up to a practical E5. */
+    range: [46, 76],
+    controls: [
+      ...panControls(),
+      { k:"push", label:"blown",     cap:"PUSH", min:0, max:1, step:0.01, def:0.55, kind:"gesture" },
+      { k:"tone", label:"body cut",  cap:"TONE", min:0, max:1, step:0.01, def:0.50, kind:"voicing" },
+      { k:"body", label:"formants",  cap:"BODY", min:0, max:1, step:0.01, def:0.55, kind:"voicing" },
+      { k:"air",  label:"breath",    cap:"AIR",  min:0, max:1, step:0.01, def:0.40, kind:"voicing" },
+      { k:"vib",  label:"vibrato",   cap:"VIB",  min:0, max:1, step:0.01, def:0.22, kind:"voicing" },
+    ],
+    panel: { skin: "erang", maker: "", title: "bass oboe",
+             sub: "no instrument in this rack has less published acoustics",
+             groups: [{ label: "REED", keys: ["push", "air"] },
+                      { label: "BODY", keys: ["tone", "body", "vib"] },
+                      panGroup()] },
+  },
+  corAnglais: {
+    slot: "lead", label: "cor anglais",
+    lanes: { lead:"corAnglais" },
+    /* the lowest note is E3 and that is measured, not chosen. */
+    range: [52, 81],
+    controls: [
+      ...panControls(),
+      { k:"push", label:"blown",     cap:"PUSH", min:0, max:1, step:0.01, def:0.55, kind:"gesture" },
+      { k:"tone", label:"body cut",  cap:"TONE", min:0, max:1, step:0.01, def:0.50, kind:"voicing" },
+      { k:"body", label:"formants",  cap:"BODY", min:0, max:1, step:0.01, def:0.60, kind:"voicing" },
+      { k:"air",  label:"breath",    cap:"AIR",  min:0, max:1, step:0.01, def:0.35, kind:"voicing" },
+      { k:"vib",  label:"vibrato",   cap:"VIB",  min:0, max:1, step:0.01, def:0.28, kind:"voicing" },
+    ],
+    panel: { skin: "erang", maker: "", title: "cor anglais",
+             sub: "measured formants 930 and 2300 Hz, lowest note E3",
+             groups: [{ label: "REED", keys: ["push", "air"] },
+                      { label: "BODY", keys: ["tone", "body", "vib"] },
+                      panGroup()] },
+  },
+  carnyx: {
+    slot: "lead", label: "carnyx — war horn",
+    lanes: { lead:"carnyx" },
+    /* THE SEVEN MEASURED PLAYING FREQUENCIES SPAN E flat 0 TO F5, and this is
+       that span. The seven themselves are in the voice, as the body's own
+       resonances -- a note between two of them speaks thin and quiet, which is
+       what the real instrument does. Nothing snaps; see V.carnyx. */
+    range: [27, 77],
+    controls: [
+      ...panControls(),
+      { k:"blaze",  label:"blown",       cap:"BLAZE", min:0, max:1, step:0.01, def:0.50, kind:"gesture" },
+      { k:"mute",   label:"the 1500 dip",cap:"MUTE",  min:0, max:1, step:0.01, def:0.60, kind:"voicing" },
+      { k:"ring",   label:"hinged ears", cap:"RING",  min:0, max:1, step:0.01, def:0.55, kind:"voicing" },
+      { k:"attack", label:"attack",      cap:"ATTACK",min:0.02, max:0.4, step:0.01, def:0.06, unit:"s", kind:"voicing" },
+    ],
+    panel: { skin: "erang", maker: "", title: "carnyx",
+             sub: "Iron Age war horn — seven notes, and ears that ring after",
+             groups: [{ label: "", keys: ["blaze", "mute", "ring", "attack"] },
                       panGroup()] },
   },
   waveseq: {
@@ -10858,6 +10977,404 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     /* amp: fast against the filter, near-instant release, per the source */
     adsr(c, out, t, LEVEL.keys * 1.6 * ev.gain * (0.8 + 0.4 * blaze),
          atk, 0.30, 0.85, t + ev.durSec, 0.22);
+    return made;
+  };
+
+  /* ══ THE DOUBLE REEDS, AND THE BARITONE SAXOPHONE ══════════════════════════
+     [user, 2026-08-12: "Id rather have a basson or that old war horn that is
+     large and wraps around a person, id rather have bass oboes, and sax"]
+
+     ── FIRST, A NEGATIVE RESULT, because it decided how this was built ───────
+     SOUND ON SOUND'S "SYNTH SECRETS" NEVER COVERS A REED INSTRUMENT. All 63
+     parts were checked: there is no oboe, no bassoon, no cor anglais, no
+     saxophone and no double-reed article anywhere in the series, and the
+     clarinet gets one paragraph in Part 24. Every other synthesised voice in
+     this file quotes Gordon Reid at this point and follows his patch. Here
+     there is no patch to follow. The numbers below are measurements from Joe
+     Wolfe's UNSW Music Acoustics group, who put microphones and impedance
+     heads on the actual instruments. [corpus:newt.phys.unsw.edu.au/music]
+
+     ── AND THE HORN'S LAW IS WRONG FOR THESE ────────────────────────────────
+     `V.horns` above opens its filter WITH THE KEY -- `Math.pow(f/262, 0.93)`,
+     near one-for-one, which is Reid's brass rule and is right for brass, where
+     the bore is a plain tube and the player's lip decides everything. Copying
+     it here would have been the obvious move and it would have been wrong.
+
+     A WOODWIND'S BRIGHTNESS CEILING IS THE OPEN TONE-HOLE LATTICE, and that is
+     a fixed property of the BODY. Above the lattice cutoff the bore stops
+     reflecting and the sound simply leaves through the holes -- so the ceiling
+     does not move when you finger a different note. Published cutoffs:
+
+         oboe ~1500 Hz    bassoon ~600 Hz    clarinet ~1500 Hz
+         soprano sax 1300 Hz                 tenor sax 800 Hz
+
+     So the exponent here is 0.20, not 0.93. Nearly flat, with just enough give
+     that the very top of a register is not strangled.
+
+     ── WHICH MOVES "LOUDER IS BRIGHTER" INTO THE REED, WHERE IT BELONGS ─────
+     It is as true of a bassoon as of a horn that blowing harder brightens the
+     tone; it just does not happen in the body. It happens at the REED, which is
+     the nonlinearity -- a strip of cane beating against the lay, beating harder
+     AND more asymmetrically the harder it is driven. The harmonics are
+     GENERATED at the mouthpiece and then CAPPED by the bore. Two stages, in
+     that order, and that ordering is the whole design:
+
+         triangle  ->  asymmetric waveshaper (drive = the dynamic)  ->  body LP
+
+     A triangle because a real pp double reed is very nearly that pure, so the
+     spectrum has somewhere to travel. ASYMMETRIC on purpose: a symmetric
+     transfer curve makes odd harmonics only, which is a CYLINDER, which is a
+     clarinet. Every instrument in this table is a CONE and a cone sounds the
+     whole series -- and the reed only ever closes one way, so the asymmetry is
+     the physics rather than a trick to get even harmonics.
+
+     ── THE GEOMETRIES ───────────────────────────────────────────────────────
+     `cut` is the lattice ceiling, `ref` the pitch it was quoted at, `f1`/`f2`
+     the body formants as [Hz, dB, Q], `dip` the mouthpiece compliance notch,
+     `bell` the pair of bell peaks, `brk` the register break, `drive` the reed
+     from pp to ff.
+
+     MEASURED, and marked so:
+       - BASSOON. Cone half-angle 0.41 degrees. Formants 440-500 Hz and
+         1220-1280 Hz, from two independent sources, and PITCH-INVARIANT up to
+         about D4 -- which is exactly the fixed-body claim above, confirmed.
+         Range B flat 1 to B flat 5; the register break is at F3/F#3. The bell
+         "does very little", so there is NO bell shelf on the bassoon and its
+         `bell` is null. That absence is a measurement, not an omission.
+       - COR ANGLAIS. Formants 930 Hz and 2300 Hz, lowest note E3.
+       - SAXOPHONE. Half-angle 1.52-1.74 degrees against the oboe's 0.71 --
+         three times the taper, which is why it is louder, why its first
+         resonance is weaker, and why it has a real bell lift where the double
+         reeds have none. Two features nothing else in this file has: a
+         mouthpiece compliance DIP near 1 kHz, and a sweepable vocal-tract
+         formant (significant on sax, negligible on double reeds).
+
+     DERIVED, and the arithmetic is here so it can be checked or thrown out:
+       - The two measured saxophone cutoffs fix the family's scaling law. The
+         soprano is an octave above the tenor and reads 1300 against 800, a
+         ratio of 1.625 per octave -- NOT 2, so a lattice ceiling does not
+         simply track bore length. That is `length^-0.70`. The baritone is a
+         nineteenth below the soprano, 2^(19/12) = 2.997 times its length, so
+         1300 / 2.997^0.70 = 603 Hz. Rounded to 600 -- and it lands on the
+         bassoon's measured 600, which two large low cones ought to.
+       - BASS OBOE. There are NO acoustic measurements of the bass oboe or the
+         heckelphone anywhere. It sounds an octave below the oboe, so on the
+         same exponent: 1500 / 2^0.70 = 923 Hz, taken as 920. Its formants are
+         the cor anglais's measured pair moved down the fourth between them:
+         930/1.335 = 700 and 2300/1.335 = 1720. Borrowing a saxophone's
+         exponent for an oboe body is the weakest step in this table and it is
+         the only way to get the instrument at all.
+       - The baritone's bell peaks and mouthpiece dip are the alto's measured
+         1800/2600 and 1000 taken down the octave, since a bell's lift is set
+         by the bell's own size.
+     ═══════════════════════════════════════════════════════════════════════════ */
+  const REED_BODY = {
+    bassoon:   { cut: 600, ref: 110, f1: [470, 6.5, 2.2], f2: [1250, 5.0, 3.0],
+                 dip: null, bell: null, brk: 53, drive: [1.4, 5.0],
+                 atk: [0.055, 0.022], air: 0.045 },
+    corAnglais:{ cut: 1130, ref: 262, f1: [930, 6.0, 2.6], f2: [2300, 4.0, 3.2],
+                 dip: null, bell: null, brk: 64, drive: [1.7, 5.4],
+                 atk: [0.040, 0.018], air: 0.040 },
+    bassOboe:  { cut: 920, ref: 196, f1: [700, 6.0, 2.6], f2: [1720, 4.0, 3.2],
+                 dip: null, bell: null, brk: 58, drive: [1.7, 5.4],
+                 atk: [0.042, 0.018], air: 0.040 },
+    bariSax:   { cut: 600, ref: 110, f1: [520, 4.0, 1.6], f2: [1150, 3.0, 2.2],
+                 dip: 500, bell: [900, 1300], brk: 0, drive: [2.2, 7.2],
+                 atk: [0.032, 0.014], air: 0.075 },
+  };
+
+  /* the reed's transfer curve, cached per graph. `asym` is the offset that
+     makes it one-sided; without it this is a clarinet. Normalised to peak so
+     that turning the drive up brightens rather than merely louder. */
+  function reedCurve(g, c, drive, asym){
+    const key = Math.round(drive * 8) + ":" + Math.round(asym * 50);
+    g.reedCurves = g.reedCurves || {};
+    if(g.reedCurves[key]) return g.reedCurves[key];
+    const N = 1025, curve = new Float32Array(N), base = Math.tanh(drive * asym);
+    let peak = 0;
+    for(let i = 0; i < N; i++){
+      const x = (i / (N - 1)) * 2 - 1;
+      const y = Math.tanh(drive * (x + asym)) - base;
+      curve[i] = y; if(Math.abs(y) > peak) peak = Math.abs(y);
+    }
+    if(peak > 0) for(let i = 0; i < N; i++) curve[i] /= peak;
+    return (g.reedCurves[key] = curve);
+  }
+
+  function reedVoice(name){
+    return function(g, ev, t){
+      const B = REED_BODY[name];
+      const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 0.9;
+      const out = c.createGain();
+      out.connect(stereoOut(g, ev, t, name, kbdBus(ev)));
+      const made = [];
+      const push  = P(g, ev, name, "push", 0.55);   // how hard the reed is blown
+      const tone  = P(g, ev, name, "tone", 0.50);   // the body's ceiling, either side of measured
+      const bodyK = P(g, ev, name, "body", 0.55);   // how present the formants are
+      const airK  = P(g, ev, name, "air",  0.40);
+      const vibD  = P(g, ev, name, "vib",  0.22);
+
+      /* THE DYNAMIC. This is the one number the reed stage reads, and it is the
+         performance's own gain -- so a phrase the arranger wrote quiet arrives
+         at the reed quiet and comes out darker, with no separate brightness
+         automation anywhere. */
+      const dyn = Math.max(0, Math.min(1, ev.gain * (0.55 + 0.75 * push)));
+      const drive = B.drive[0] + (B.drive[1] - B.drive[0]) * dyn;
+
+      /* THE BODY. Near-fixed, per the tone-hole lattice. */
+      const cut = Math.min(9000, B.cut * (0.72 + 0.56 * tone) * Math.pow(f / B.ref, 0.20));
+      const lp = c.createBiquadFilter(); lp.type = "lowpass";
+      lp.frequency.value = cut; lp.Q.value = 0.9;
+
+      /* the shaper sits BEFORE the body, so every harmonic it makes is then
+         subject to the ceiling -- which is why a fortissimo bassoon gets fatter
+         rather than shriller */
+      const sh = c.createWaveShaper();
+      sh.curve = reedCurve(g, c, drive, 0.14 + 0.16 * dyn);
+      sh.oversample = "2x";
+      const pre = c.createGain(); pre.gain.value = 0.85;
+      pre.connect(sh); sh.connect(lp);
+
+      /* the formants, and the SECOND REGISTER weakens the lower one -- above
+         the break the tube is speaking on its second mode and the body's
+         bottom resonance is no longer being fed */
+      const over = B.brk > 0 && ev.pitch > B.brk;
+      let tail = lp;
+      const peakAt = (hz, dB, q) => {
+        const bq = c.createBiquadFilter(); bq.type = "peaking";
+        bq.frequency.value = hz; bq.Q.value = q;
+        bq.gain.value = dB * (0.35 + 1.1 * bodyK);
+        tail.connect(bq); tail = bq;
+      };
+      peakAt(B.f1[0], B.f1[1] * (over ? 0.55 : 1), B.f1[2]);
+      peakAt(B.f2[0], B.f2[1], B.f2[2]);
+      /* the saxophone's two extra features. The dip is a real hole in the
+         response, so its gain is negative and it is NOT scaled up by `body` --
+         a mouthpiece does not get more present when you ask for more body. */
+      if(B.dip){
+        const d = c.createBiquadFilter(); d.type = "peaking";
+        d.frequency.value = B.dip; d.Q.value = 1.6; d.gain.value = -4.5;
+        tail.connect(d); tail = d;
+      }
+      if(B.bell) for(const hz of B.bell) peakAt(hz, 2.5, 1.8);
+      tail.connect(out);
+
+      /* THE COLUMN. Triangle, because a soft double reed nearly is one; a
+         second copy a few cents off is the cane's own beating, not a rank. */
+      for(const cents of [0, 6]){
+        const o = c.createOscillator(); o.type = "triangle";
+        /* reeds speak from just under the pitch and settle onto it -- the
+           short scoop a wind player cannot avoid */
+        o.frequency.setValueAtTime(f * 0.992, t);
+        o.frequency.linearRampToValueAtTime(f, t + 0.035);
+        o.detune.value = cents;
+        const og = c.createGain(); og.gain.value = cents ? 0.22 : 1.0;
+        o.connect(og); og.connect(pre); o.start(t); o.stop(end); made.push(o);
+        /* vibrato arrives LATE and only on a note long enough to carry it --
+           a wind player does not vibrate a passing quaver */
+        if(cents === 0 && vibD > 0.02 && ev.durSec > 0.5){
+          const lfo = c.createOscillator(); lfo.type = "sine";
+          lfo.frequency.value = 4.8;
+          const amt = c.createGain();
+          amt.gain.setValueAtTime(0.0001, t);
+          amt.gain.setValueAtTime(0.0001, t + Math.min(0.35, ev.durSec * 0.4));
+          amt.gain.linearRampToValueAtTime(22 * vibD, t + Math.min(0.75, ev.durSec * 0.8));
+          lfo.connect(amt); amt.connect(o.detune);
+          lfo.start(t); lfo.stop(end); made.push(lfo);
+        }
+      }
+
+      /* THE AIR. A chiff where the column starts, then a bed under it,
+         bandpassed just under the body's ceiling -- above the lattice cutoff
+         nothing leaves the tube, breath included.
+
+         ── AND THE FIRST VERSION MADE A QUIET REED READ AS A BRIGHTER ONE ───
+         MEASURED, bassoon at MIDI 52 -- ONE pitch, four dynamics, so nothing
+         is confounded by register:
+
+           spectral centroid   622 -> 526 -> 466 -> 418 Hz as it got LOUDER
+
+         Against the horn rendered beside it, which went 785 -> 1135 the other
+         way. The reed itself was innocent: harmonic by harmonic the tone
+         brightens exactly as intended over those same four notes --
+
+           upper harmonics / h1    0.311  0.441  0.525  0.598
+           h2/h1                   0.232  0.349  0.449  0.546
+           h4/h1                   0.045  0.098  0.150  0.186
+
+         -- so the waveshaper is doing its job and doing it monotonically. What
+         was falling was the share of BREATH: the bed was tilted 2:1 toward pp
+         and bandpassed at 1.15x the cutoff, i.e. ABOVE the tone, so a quiet
+         note measured as a hissier one. A soft double reed is quiet AND dark.
+         It is not quiet and hissy.
+
+         Tilt gentler, band under the ceiling instead of over it, and the chiff
+         -- which is a hard attack, not a soft one -- grows with the dynamic
+         rather than being a constant.
+
+         ── AND THE CENTROID STILL DOES NOT CLIMB, WHICH IS THE POINT ────────
+         After the fix it reads 400 -> 358 -> 339 -> 330: nearly flat, with the
+         harmonic table above still climbing underneath it. That is not a
+         failure to reproduce the horn, it is the difference between a horn and
+         a bassoon stated in one number. The reed generates more harmonics and
+         the BODY WILL NOT PASS THEM -- 600 Hz is 600 Hz whether you breathe on
+         the instrument or lean on it. A brass bore has no such ceiling, which
+         is why `V.horns` climbs to 1135 and this does not.
+
+         So the metric to read here is the harmonic table, not the centroid.
+         The centroid conflates tone with breath and caps out at the lattice;
+         it was the wrong instrument to measure this with, and it is recorded
+         because it is what made the breath bug visible. */
+      if(airK > 0.01){
+        const nb = c.createBufferSource(); nb.buffer = g.noise; nb.loop = true;
+        const nf = c.createBiquadFilter(); nf.type = "bandpass";
+        nf.frequency.value = cut * 0.85; nf.Q.value = 0.9;
+        const ng = c.createGain();
+        const bed = B.air * airK * (0.42 + 0.30 * (1 - dyn));
+        ng.gain.setValueAtTime(0.0001, t);
+        ng.gain.exponentialRampToValueAtTime(
+          Math.max(0.0002, B.air * airK * (1.3 + 1.9 * dyn)), t + 0.02);
+        ng.gain.exponentialRampToValueAtTime(Math.max(0.0001, bed), t + 0.18);
+        ng.gain.setValueAtTime(Math.max(0.0001, bed), Math.max(t + 0.19, t + ev.durSec));
+        ng.gain.exponentialRampToValueAtTime(0.0001, t + ev.durSec + 0.12);
+        nb.connect(nf); nf.connect(ng); ng.connect(out);
+        nb.start(t); nb.stop(end); made.push(nb);
+      }
+
+      /* amp. A reed's attack is fast and gets faster the harder it is blown;
+         the release is short, because the tone stops when the air does. Goes
+         through the shared `adsr`, so a legato slur suppresses the onset here
+         exactly as it does on every other instrument. */
+      const atk = B.atk[0] + (B.atk[1] - B.atk[0]) * dyn;
+      adsr(c, out, t, kbdLevel(ev) * 1.5 * ev.gain * (0.75 + 0.45 * push),
+           atk, 0.16, 0.88, t + ev.durSec, 0.13);
+      return made;
+    };
+  }
+  V.bassoon    = reedVoice("bassoon");
+  V.corAnglais = reedVoice("corAnglais");
+  V.bassOboe   = reedVoice("bassOboe");
+  V.bariSax    = reedVoice("bariSax");
+
+  /* ══ THE CARNYX — the war horn that wraps around a person ═══════════════════
+     [user: "that old war horn that is large and wraps around a person"]
+
+     THE INSTRUMENT THE USER DESCRIBED IS THE ROMAN CORNU, AND THE CORNU HAS NO
+     REACHABLE ACOUSTIC DATA. Say that first because it changes what got built:
+     the one modern study is IRCAM's and it is 403/Cloudflare-blocked, the
+     Wayback copy is refused by this environment's egress policy, and the
+     second-hand figures floating around are unattributed. The lituus and the
+     buccina have no acoustic study at all. The bronze lur was measured in
+     Copenhagen in 1947-48 and that paper sits behind a broken TLS certificate.
+
+     THE CARNYX, HOWEVER, IS FULLY MEASURED, and it is the same idea -- a tall
+     Iron Age war horn carried upright, played over the heads of an army, with a
+     beast's head for a bell. So this is a carnyx and it is called one.
+
+     Everything below is from the Tintignac and Deskford reconstruction work:
+       - SEVEN real playing frequencies, and that is the whole instrument:
+         39, 77, 169.5, 266, 526, 623, 696 Hz. Not a harmonic series -- a real
+         object with the resonances it happens to have.
+       - lattice-free brass ceiling at 2500 Hz.
+       - a transfer-function MINIMUM at 1500 Hz with two peaks between 2000 and
+         3000 Hz, described in the source as sounding "like a trombone mute".
+       - brassiness B = 0.69, and the players' own report of the Tintignac
+         instrument: "mainly conical, it is very difficult to get brassy
+         sounds". So the shockwave brightening that makes a trumpet blare is
+         DELIBERATELY WEAK here, and that is measured, not taste.
+       - the beast's head has hinged EARS and a wooden tongue, and they ring:
+         a "mechanical reverberation" that OUTLASTS THE NOTE.
+
+     ── WHAT TO DO WITH SEVEN NOTES, GIVEN THIS PROGRAM'S RULES ───────────────
+     A real carnyx can play those seven pitches and nothing else. The tempting
+     move is to snap the written pitch to the nearest one -- and that is exactly
+     the correcting pass this file does not have (`INSTRUMENTS.sax`: "Clamping a
+     pitch in the voice would be a correcting pass"). So the pitch is left
+     alone and the SEVEN RESONANCES ARE BUILT INTO THE BODY instead. A note that
+     lands on one rings; a note between two speaks thin and weak, which is what
+     a real horn does when you ask it for a note its tube will not support.
+     Nothing is corrected and nothing is faked -- the instrument's own physics
+     decides how well each note comes out. ═══════════════════════════════════ */
+  const CARNYX_HZ = [39, 77, 169.5, 266, 526, 623, 696];
+  V.carnyx = function(g, ev, t){
+    const c = g.ctx, f = F(ev.pitch);
+    const ringK = P(g, ev, "carnyx", "ring", 0.55);   // the hinged ears
+    const blaze = P(g, ev, "carnyx", "blaze", 0.5);   // how hard it is blown
+    const mute  = P(g, ev, "carnyx", "mute", 0.6);    // the 1500 Hz minimum
+    const atk   = P(g, ev, "carnyx", "attack", 0.06);
+    const RING  = 0.5 + 1.6 * ringK;                  // seconds the ears go on for
+    const end = t + ev.durSec + RING + 0.4;
+    const out = c.createGain();
+    out.connect(stereoOut(g, ev, t, "carnyx", kbdBus(ev)));
+    const made = [];
+
+    /* HOW WELL THE TUBE SUPPORTS THIS NOTE. Distance in cents to the nearest of
+       the seven, on a Gaussian -- 1.0 on a resonance, near nothing a tritone
+       off it. 350 cents is [CHOSEN]: it makes the seven read as a playable set
+       rather than as seven isolated points, which is how a brass player finds
+       a note by lipping toward it. */
+    let cents = 9999;
+    for(const hz of CARNYX_HZ)
+      cents = Math.min(cents, Math.abs(1200 * Math.log2(f / hz)));
+    const sup = Math.exp(-Math.pow(cents / 350, 2));
+
+    /* the brass column, and B = 0.69 caps how brassy it is allowed to get */
+    const dyn = Math.max(0, Math.min(1, ev.gain * (0.55 + 0.8 * blaze)));
+    const sh = c.createWaveShaper();
+    sh.curve = reedCurve(g, c, 1.2 + 1.4 * dyn * 0.69, 0.10);
+    sh.oversample = "2x";
+    const pre = c.createGain(); pre.gain.value = 0.8; pre.connect(sh);
+
+    /* the tube's own resonance at the nearest of the seven -- present when the
+       note is on it, gone when it is not */
+    const res = c.createBiquadFilter(); res.type = "peaking";
+    res.frequency.value = CARNYX_HZ.reduce((a, hz) =>
+      Math.abs(1200 * Math.log2(f / hz)) < Math.abs(1200 * Math.log2(f / a)) ? hz : a, CARNYX_HZ[0]);
+    res.Q.value = 3.2; res.gain.value = 9 * sup;
+    /* "like a trombone mute": the minimum, then the two peaks above it */
+    const notch = c.createBiquadFilter(); notch.type = "peaking";
+    notch.frequency.value = 1500; notch.Q.value = 1.4; notch.gain.value = -9 * mute;
+    const p1 = c.createBiquadFilter(); p1.type = "peaking";
+    p1.frequency.value = 2200; p1.Q.value = 2.2; p1.gain.value = 5 * mute;
+    const p2 = c.createBiquadFilter(); p2.type = "peaking";
+    p2.frequency.value = 2800; p2.Q.value = 2.4; p2.gain.value = 4 * mute;
+    const lp = c.createBiquadFilter(); lp.type = "lowpass";
+    lp.frequency.value = 2500; lp.Q.value = 0.8;
+    sh.connect(res); res.connect(notch); notch.connect(p1); p1.connect(p2);
+    p2.connect(lp); lp.connect(out);
+
+    for(const cents2 of [-4, 5]){
+      const o = c.createOscillator(); o.type = "sawtooth";
+      o.frequency.setValueAtTime(f * 0.978, t);              // lipped up into
+      o.frequency.linearRampToValueAtTime(f, t + 0.06);
+      o.detune.value = cents2;
+      const og = c.createGain(); og.gain.value = 0.5;
+      o.connect(og); og.connect(pre); o.start(t); o.stop(end); made.push(o);
+    }
+
+    /* THE EARS. Two high-Q resonators, FIXED in frequency because they are
+       hinged metal and do not care what note was played, fed from the column
+       and ringing on past it. This is the "mechanical reverberation" -- it is
+       part of the instrument, not of the room, so it is inside the voice and
+       not on a send. */
+    if(ringK > 0.02){
+      const rg = c.createGain(); rg.gain.value = 0.16 * ringK * (0.5 + 0.5 * sup);
+      lp.connect(rg);
+      for(const hz of [3050, 4270]){
+        const bp = c.createBiquadFilter(); bp.type = "bandpass";
+        bp.frequency.value = hz; bp.Q.value = 22;
+        const tailG = c.createGain();
+        tailG.gain.setValueAtTime(1, t);
+        tailG.gain.setValueAtTime(1, t + ev.durSec);
+        tailG.gain.exponentialRampToValueAtTime(0.0002, t + ev.durSec + RING);
+        rg.connect(bp); bp.connect(tailG); tailG.connect(out);
+      }
+    }
+
+    /* a horn that is not being supported by its tube is also QUIETER -- the
+       same fact as the thin timbre, and it is why the seven notes matter */
+    adsr(c, out, t, kbdLevel(ev) * 1.7 * ev.gain * (0.45 + 0.55 * sup) * (0.75 + 0.5 * blaze),
+         atk, 0.22, 0.86, t + ev.durSec, 0.18);
     return made;
   };
 
@@ -20029,12 +20546,41 @@ const GENRE = {
                    beside it: the plucked strings and flutes are a brighter,
                    more human set than the keyboard patches, so they colour a
                    record rather than define one. */
+                /* ── WHICH REED GOES ON WHICH LANE IS ARITHMETIC, NOT TASTE ──
+                   This genre's three pitched bands are `keys` [48, 67],
+                   `counter` [62, 79] and the theme [69, 91], and a pooled
+                   machine narrows its lane's band for EVERY song of the genre
+                   -- see `playable`. So each instrument goes where it costs
+                   nothing, or nearly nothing:
+
+                     keys   [48,67]  bassoon [34,77]  bariSax [37,69]
+                                     bassOboe [46,76]     all three CONTAIN
+                                     the band -- zero narrowing, and [48,67]
+                                     is a baritone saxophone's home register
+                     keys2  [62,79]  bassoon, carnyx [27,77]  ->  [62,77]
+                                     two semitones off the top
+                     lead   [69,91]  corAnglais [52,81]      ->  [69,81]
+                                     the plaintive solo double reed, and the
+                                     only one of the five that can go this high
+
+                   Putting the war horn or the bass oboe on the LEAD would have
+                   cut that band to [69,76] and [69,77] in every dungeon synth
+                   record ever made, to buy two instruments an occasional turn.
+                   They are low instruments; the tune here is written high; so
+                   they play the low lanes. That is the whole reasoning. */
                 keys:  [["mellotron", 4], ["erangStrings", 4], ["erangHarp", 3],
-                        ["vp330", 2], ["bardPluck", 3], ["auto", 1]],
+                        ["vp330", 2], ["bardPluck", 3],
+                        ["bassoon", 3], ["bariSax", 2], ["bassOboe", 2],
+                        ["auto", 1]],
                 lead:  [["erangLead", 5], ["bardFlute", 2], ["bardWind", 2],
-                        ["auto", 4]],
+                        ["corAnglais", 2], ["auto", 4]],
+                /* THE WAR HORN, and it belongs to this genre before any other.
+                   Weighted low: a carnyx is a signal instrument, so a record
+                   that is led by one all the way through is not a dungeon, it
+                   is a battle. */
                 keys2: [["erangStrings", 4], ["vp330", 3], ["mellotron", 3],
                         ["erangHarp", 2], ["horns", 2], ["bardPluck", 2],
+                        ["bassoon", 3], ["carnyx", 2],
                         ["auto", 1]] },
     params: {
       /* ── THE SIZE OF THE DRUM LIVES HERE, not in `kick` above ───────────────
@@ -20284,6 +20830,57 @@ const GENRE = {
         pan:     [{ kind: "lfo", bars: [[112, 1]], depth: [0.02, 0.06], shape: "sin", freePhase: true }],
         panHz:   [{ kind: "lfo", bars: [[96, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
         panDep:  [{ kind: "arc", from: [0, 0.01], to: [0.03, 0.08], curve: "log" }],
+      },
+      /* ── AND THE REEDS ARE CONDUCTED TOO, BUT NOT LIKE THE BRASS ──────────
+         Same gesture, smaller: a wind player leans into the apex and eases at
+         the bridge exactly as the rank does, but the treatise is blunt that
+         the wood-wind cannot answer the brass in strength -- "the horns... are
+         stronger than the wood-wind in forte" -- so the reeds' travel is
+         roughly half the rank's. `push` is the one gesture on these
+         instruments because it is the one thing a player DOES: the tone, the
+         formants and the breath are the instrument, and an instrument does not
+         change shape mid-record.
+
+         Every reed rides the same plan, because they are the same instrument
+         with different geometry, and writing four different arcs would be four
+         numbers pretending to be four decisions. [principle 1] */
+      bassoon: {
+        push:   [{ kind: "apex", from: [-0.12, -0.06], to: [0.05, 0.12] },
+                 { kind: "section", by: { bridge: [-0.10, -0.04] } }],
+        pan:    [{ kind: "lfo", bars: [[128, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        panHz:  [{ kind: "lfo", bars: [[104, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        panDep: [{ kind: "arc", from: [0, 0.01], to: [0.02, 0.06], curve: "log" }],
+      },
+      bariSax: {
+        push:   [{ kind: "apex", from: [-0.12, -0.06], to: [0.06, 0.14] },
+                 { kind: "section", by: { bridge: [-0.10, -0.04] } }],
+        pan:    [{ kind: "lfo", bars: [[120, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        panHz:  [{ kind: "lfo", bars: [[100, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        panDep: [{ kind: "arc", from: [0, 0.01], to: [0.02, 0.06], curve: "log" }],
+      },
+      bassOboe: {
+        push:   [{ kind: "apex", from: [-0.12, -0.06], to: [0.05, 0.12] },
+                 { kind: "section", by: { bridge: [-0.10, -0.04] } }],
+        pan:    [{ kind: "lfo", bars: [[136, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        panHz:  [{ kind: "lfo", bars: [[108, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        panDep: [{ kind: "arc", from: [0, 0.01], to: [0.02, 0.06], curve: "log" }],
+      },
+      corAnglais: {
+        push:   [{ kind: "apex", from: [-0.12, -0.06], to: [0.05, 0.12] },
+                 { kind: "section", by: { bridge: [-0.10, -0.04] } }],
+        pan:    [{ kind: "lfo", bars: [[144, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+        panHz:  [{ kind: "lfo", bars: [[112, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        panDep: [{ kind: "arc", from: [0, 0.01], to: [0.02, 0.06], curve: "log" }],
+      },
+      /* the war horn is the exception, and it is the loudest travel in the
+         genre: a carnyx was played over an army, and the whole reason it is on
+         the top rung is the apex. It gets MORE than the brass rank, not less. */
+      carnyx: {
+        blaze:  [{ kind: "apex", from: [-0.30, -0.18], to: [0.14, 0.30] },
+                 { kind: "section", by: { bridge: [-0.22, -0.10], outro: [-0.18, -0.08] } }],
+        pan:    [{ kind: "lfo", bars: [[160, 1]], depth: [0.03, 0.08], shape: "sin", freePhase: true }],
+        panHz:  [{ kind: "lfo", bars: [[92, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+        panDep: [{ kind: "arc", from: [0, 0.02], to: [0.04, 0.10], curve: "log" }],
       },
       /* ── AND THE AUTOMATION HAD TO MOVE WITH THE DRUMS TOO ──────────────
          This block was keyed `procession` -- 63 lanes riding the war drum's
@@ -21908,10 +22505,26 @@ GENRE.hobbitsynth = (function(){
        first, then the wood-wind carrying the tune, then the brass -- which is
        Rimsky-Korsakov's crescendo order and the reason the slots are written
        this way round rather than melody-first. The program derives the spacing;
-       this only says who goes before whom. */
+       this only says who goes before whom.
+
+       ── AND THIS IS THE ONLY DOOR INTO THIS GENRE'S INSTRUMENTS ────────────
+       Measured while adding the reeds below: across 40 songs, the twelve names
+       on these three lines are the ONLY machines that ever play keys, lead or
+       keys2 here. The `machines` pool further down never wins one of these
+       lanes, because a rung is written into `sec.machines` for every section.
+       So a new instrument that is not on this ladder does not exist in hobbit
+       synth, whatever the pool says -- which is why the reeds are here.
+
+       WHERE EACH ONE GOES IS RIMSKY-KORSAKOV'S ORDER, not appended to the end.
+       The cor anglais is the plaintive solo double reed of the repertoire and
+       it stands one rung above the whistle, where the Shire theme's own
+       substitution goes whistle-to-clarinet. The bassoon is the SECOND CHAIR
+       and sits between the pad and the strings, which is where the treatise
+       puts it. And the carnyx is above the horns, because there is nothing
+       above a war horn -- it only sounds when the record is at its loudest. */
     ladder: { keys:  ["erangHarp", "bardPluck", "mellotron", "erangStrings"],
-              lead:  ["bardFlute", "erangLead", "bardWind", "cs80"],
-              keys2: ["vp330", "erangStrings", "horns"] },
+              lead:  ["bardFlute", "corAnglais", "erangLead", "bardWind", "cs80"],
+              keys2: ["vp330", "bassoon", "erangStrings", "horns", "carnyx"] },
     /* ══ THE BALANCE IS THIS GENRE'S OWN, AND THE DRUMS WERE EATING IT ══════
        MEASURED, 12 songs, share of the sound computed as each part's note
        count times its mean written gain:
@@ -22299,6 +22912,15 @@ GENRE.hobbitsynth = (function(){
     },
     /* its own rack, and the bard pack leads it */
     rig: [["shire", 6], ["citadel", 4]],
+    /* ── AND THESE THREE POOLS ARE DEAD, WHICH IS WHY THE NEW REEDS ARE NOT IN
+       THEM. MEASURED, 40 songs: the only machines that ever play this genre's
+       keys, lead and keys2 lanes are the twelve named on the `ladder` above.
+       Not one of them comes from here. The ladder answers `sec.machines` for
+       every section, so the song-wide pick these weights decide is overridden
+       before a note is written. Adding a bassoon here would have LOOKED like
+       giving the genre a bassoon and would have been three more dead rows.
+       Left exactly as they were -- this was true before these voices existed,
+       and fixing it is its own job rather than a side effect of this one. */
     machines: { drums: [["tr1000", 1]],
                 bass:  [["auto", 1]],
                 keys:  [["bardPluck", 5], ["erangHarp", 3], ["mellotron", 3],
@@ -25581,7 +26203,12 @@ function makeMaterials(chart, editPlan, arcPlan){
        possible without any genre declaring a second band. Everything below
        reads BAND; nothing reads R.keys directly any more, or a second unit
        would have voiced itself straight on top of the first. */
-    const BAND = opts.band || R.keys;
+    /* ...and it asks the instruments what they can play, exactly as the tune
+       does. A comp lane can hold a bassoon or a baritone saxophone now, and a
+       comp written above the horn is no more playable than a tune written
+       above it. `opts.band` is the second keyboard's allocated window and is
+       already narrow by construction, so only the genre's own band is asked. */
+    const BAND = opts.band || playable(R.keys, "keys");
     /* ── HOW WIDE THE CHORD IS ROLLED, AND WHOSE CHOICE THAT IS ──────────────
        The voicing below is spread from the bottom up, one voice per sixteenth,
        because a HAND comping on an electric piano does not put four fingers
@@ -26328,13 +26955,98 @@ function makeMaterials(chart, editPlan, arcPlan){
      transposing a tune somewhere it was never written for -- that would be a
      different melody, decided by a rack pick, which is worse than an honest
      out-of-range. */
-  const playable = (band) => {
-    const m = chart.picks && chart.picks.lead;
-    const M = m && m !== "auto" && INSTRUMENTS[m];
-    const r = M && M.range;
-    if(!r) return band;
-    const lo = Math.max(band[0], r[0]), hi = Math.min(band[1], r[1]);
-    return (hi - lo >= 7) ? [lo, hi] : band;     // a tune needs a fifth to move in
+  /* ── AND IT HAS TO ASK EVERY INSTRUMENT THAT WILL HOLD THE LANE, NOT ONE ──
+     MEASURED the moment the bassoon, the bass oboe, the cor anglais, the
+     baritone sax and the carnyx existed, 40 songs each:
+
+       bassOboe    declared [46, 76]   played  67-90    fourteen semitones over
+       corAnglais  declared [52, 81]   played  75-88    seven over
+       carnyx      declared [27, 77]   played  45-88    eleven over
+
+     Three brand new instruments, every one of them declaring the range this
+     function was written to honour, and every one handed notes above it -- so
+     the declaration read like a working constraint and was decoration. Two
+     separate holes, and both are the same mistake:
+
+       1. IT ASKED ONLY `picks.lead`, so the counter's instrument was never
+          asked anything at all. `keys2` is where the reeds actually sit.
+       2. IT ASKED ONLY THE SONG-WIDE PICK, and the pick is only ONE of three
+          doors onto a lane. A genre with a `ladder` has up to five instruments
+          there, swapped by section; a genre with a `swap` coin re-draws from
+          its `machines` pool at every section boundary. MEASURED: dungeon synth
+          seed 3 picked `bardWind` for the lead and then played 87 of its notes
+          on a bass oboe, because the coin swapped one in for a section. The
+          pick this function consulted was not the instrument playing.
+
+     So the band is intersected with EVERY machine that can hold the lane: the
+     pick, every rung of that lane's ladder, and -- when the genre declares a
+     `swap` coin for that slot -- every machine in its pool. If the record is
+     going to re-score a line across five instruments then the line has to live
+     where all five can play it. That is what a substitution ladder MEANS, and
+     it is why the intersection is the right operator rather than the pick's
+     range with the rest ignored.
+
+     IT ALSO MEANS A POOL ENTRY COSTS THE WHOLE GENRE SOMETHING, for ever, and
+     that is the correct price: adding a narrow instrument to a pool narrows
+     every record of that genre. See dungeon synth's `machines` for the working
+     that put each new reed on the lane where it costs nothing.
+
+     ── AND THEN THE ESCAPE HATCH HAD TO BE SPLIT IN TWO ─────────────────────
+     The rule here used to be: if the intersection leaves less than a fifth to
+     move in, the genre's band stands and the mismatch is left visible, because
+     "silently transposing a tune would be a different melody chosen by an
+     instrument". That is right about ARBITRARY transposition and wrong about
+     the octave, and the carnyx is what proved it.
+
+     MEASURED, dungeon synth seed 6, with the war horn on the lead lane:
+
+       band [69, 90] against carnyx [27, 77]  ->  [69, 77]   bound, correct
+       band [71, 91] against carnyx [27, 77]  ->  [71, 91]   six semitones of
+                                                             overlap, so the
+                                                             hatch fires and the
+                                                             tune runs to MIDI 87
+
+     Ten semitones above the highest note the instrument physically has -- and
+     for THIS instrument that is not merely wrong-sounding, it is SILENT: the
+     carnyx's support curve falls to nothing more than a few hundred cents off
+     its seven measured resonances, so the war horn was being written a part it
+     cannot make a sound with. The "visible mismatch" was inaudible.
+
+     AN OCTAVE IS NOT A DIFFERENT MELODY. Every degree, every interval and every
+     contour is identical -- it is the move a real arranger makes the moment a
+     line goes to a bassoon, and it is the only transposition with that
+     property. So before the hatch fires, the band is offered down and up in
+     WHOLE OCTAVES, keeping its width, and the first octave giving a fifth of
+     room wins. In place is tried first, so an instrument that can already play
+     where the genre writes is never moved. Arbitrary transposition is still
+     refused, and if no octave works the genre's band still stands. */
+  const playable = (band, lane) => {
+    lane = lane || "lead";
+    const LAD = chart.table.ladder;
+    const names = [];
+    const pick = chart.picks && chart.picks[lane];
+    if(pick && pick !== "auto") names.push(pick);
+    if(LAD && LAD[lane]) for(const n of LAD[lane]) names.push(n);
+    /* the coin's pool, and ONLY when the genre actually declares a coin for
+       this slot -- a pool nothing draws from at a section boundary cannot put
+       an instrument on the lane, so it must not cost the band anything */
+    const SW = chart.table.swap, MA = chart.table.machines;
+    if(SW && SW[lane] > 0 && MA && MA[lane])
+      for(const w of MA[lane]) names.push(Array.isArray(w) ? w[0] : w);
+    /* the window every machine on this lane can reach, with the band left out */
+    let rLo = -Infinity, rHi = Infinity, any = false;
+    for(const n of names){
+      const M = INSTRUMENTS[n], r = M && M.range;
+      if(!r) continue;
+      any = true;
+      rLo = Math.max(rLo, r[0]); rHi = Math.min(rHi, r[1]);
+    }
+    if(!any) return band;
+    for(const oct of [0, -12, 12, -24, 24, -36, 36]){
+      const lo = Math.max(band[0] + oct, rLo), hi = Math.min(band[1] + oct, rHi);
+      if(hi - lo >= 7) return [lo, hi];          // a tune needs a fifth to move in
+    }
+    return band;
   };
   function buildTheme(chordSet, streamName, reserved, opts){
     const rng = stream(chart.seed, streamName);
@@ -27193,7 +27905,11 @@ function makeMaterials(chart, editPlan, arcPlan){
     const SOV = (CT.styles && CT.styles[style]) || {};
     const CDEN = SOV.density != null ? SOV.density : CT.density;
     const COCT = SOV.octaves || CT.octaves;
-    const LO = R.counter[0], HI = R.counter[1];
+    /* the second line asks its own instruments what they can play, exactly as
+       the tune does -- this lane had never asked anything, which is how a
+       bassoon on `keys2` was being written notes a bassoon does not have */
+    const CB = playable(R.counter, "keys2");
+    const LO = CB[0], HI = CB[1];
     const src = themeNotes.slice().sort((a, z) => a.bar - z.bar || a.step - z.step);
     const out = [];
     /* ── WHERE THE LEAD IS NOT ─────────────────────────────────────────────
@@ -27652,7 +28368,30 @@ function makeMaterials(chart, editPlan, arcPlan){
      musical fact before it is a collision fix -- and it is also why it fits: a
      pad strikes once a bar instead of five times. ═══════════════════════════ */
   const k2m = chart.picks && chart.picks.keys2;
-  const k2band = (k2m && k2m !== "auto") ? allocKeysBand(R) : null;
+  const k2raw = (k2m && k2m !== "auto") ? allocKeysBand(R) : null;
+  /* ── AND THE ALLOCATED WINDOW IS THEN NARROWED TO WHAT CAN PLAY IT ────────
+     The allocator's job is to find a register nothing else is using; it has no
+     opinion about the instrument. MEASURED: hobbit synth's keys2 ladder tops
+     out with the carnyx, whose highest measured playing frequency is 696 Hz --
+     MIDI 77 -- and the allocator was handing the lane a band up to 79. Two
+     semitones of notes a war horn does not have, on the one part of the record
+     the ladder saves for its loudest moment.
+
+     NARROWED ONLY, never moved: `playable` may offer a band an octave to find
+     room, and moving THIS one would walk it into a register the allocator has
+     already cleared for somebody else. Shrinking a window cannot create a
+     collision; sliding one can. If the shrink leaves less than an octave the
+     allocator's window stands and the mismatch stays visible. */
+  const k2band = (() => {
+    if(!k2raw) return null;
+    /* the allocator hands back EVERY candidate window in preference order, so
+       each one is narrowed on its own and the order is kept */
+    const win = playable([-999, 999], "keys2");
+    return k2raw.map(b => {
+      const lo = Math.max(b[0], win[0]), hi = Math.min(b[1], win[1]);
+      return (hi - lo >= 12) ? [lo, hi] : b;
+    });
+  })();
   /* ── AND IF IT STILL DOES NOT FIT, THERE IS NO SECOND KEYBOARD ─────────────
      buildKeys throws when no voicing clears what is already placed, and for
      this part that is not an error -- it is the same answer the allocator gives
@@ -29799,6 +30538,11 @@ function makePerformance(chart, form, materials, sections){
          "The remarks on breathing, in the section devoted to the wood-wind,
          apply with equal force to the brass." */
       bardFlute: "wind", bardWind: "wind", horns: "wind", sax: "wind",
+      /* and the low dark voices, the moment they existed -- a family rule that
+         has to be edited by hand for each new instrument is a rule that will be
+         forgotten, so this list is the FIRST thing a new voice joins */
+      bassoon: "wind", bassOboe: "wind", corAnglais: "wind", bariSax: "wind",
+      carnyx: "wind",
     };
     /* HOW LONG A PLUCKED NOTE CAN RING, by register. Sourced in DIRECTION only:
        "The lower strings naturally sustain longer than higher ones, which are
@@ -29812,8 +30556,19 @@ function makePerformance(chart, form, materials, sections){
        their existence would pose a threat to intelligent scoring" [Goss]. What
        IS sourced is the ORDER -- "Bassoons and clarinets are somewhat less
        capable of extremely long tones, and flutes least of all" -- so the flute
-       gets the shortest budget and the reed the longest. */
-    const airFor = v => v === "bardFlute" ? 5.5 : v === "horns" ? 7.0 : 8.0;
+       gets the shortest budget and the reed the longest.
+
+       AND THE DOUBLE REEDS GO AT THE TOP OF THAT ORDER, which is the one place
+       the new voices change this table. Goss names bassoons and clarinets as
+       "somewhat less capable" and flutes as least -- the instrument he does not
+       name is the OBOE, and the oboe family's known problem is the opposite
+       one: the reed passes so little air that the player runs out of room to
+       exhale before running out of breath. So the cor anglais and the bass oboe
+       get the longest budget in the file, the bassoon sits where the horn does,
+       and the baritone saxophone -- a wide cone that eats air -- sits under it. */
+    const AIR = { bardFlute: 5.5, bariSax: 6.0, carnyx: 6.0, horns: 7.0,
+                  bassoon: 7.0, corAnglais: 10.0, bassOboe: 10.0 };
+    const airFor = v => AIR[v] == null ? 8.0 : AIR[v];
     const BREATH = 0.20;                       // the gap a breath needs, seconds
     const byRole = {};
     for(const e of events){
