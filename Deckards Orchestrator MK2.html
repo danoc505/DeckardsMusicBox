@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-12e · the bridge happens, and a declaration must now prove it fires</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-12f · the program doubles a line on purpose</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -21510,6 +21510,35 @@ const GENRE = {
          asking for a pop record's chorus count from a genre that does not have
          choruses in that sense. Hobbit synth inherits this whole block. */
       bridgeAfterChorus: { verse: 2, instrumental: 2, chorus: 1 },
+      /* ── THE ORCHESTRATION, AND IT IS DRAWN ─────────────────────────────
+         The doubling engine lives in stage 5 and is argued there; this is the
+         genre's vocabulary for it. "An epic-sized orchestra" was the brief, and
+         until now the answer was five parts on five instruments -- MEASURED at
+         the climax of a hobbit synth record, 5.2 distinct voices and not one
+         line carried by two. That is a chamber group with a big reverb on it.
+
+         `of` leads with the TUNE, because that is what an orchestra doubles
+         first and what Shore doubles across the trilogy: "In earlier sections
+         with Frodo and Sam you heard one French horn playing. Now there are
+         three." The comp and the second line follow; the bass is last and
+         doubles downward only, which is its row in STACK_OK.
+
+         `uni` at 0.70 is Berlioz's preference expressed as a weight rather than
+         as a law -- "it is better to double them in unison" -- leaving the
+         octave a real third of the time for the passages that do lie high.
+
+         `from` is where in this record's OWN energy arc a doubling is allowed
+         to sound, drawn between a third and two thirds of the way up it. So a
+         record thickens toward its climax and thins away from it, which is
+         Rimsky-Korsakov's crescendo-by-addition and is also the answer to
+         Belkin's warning from the other side -- constant unison doubling is
+         "the beginner's most common fault". Hobbit synth inherits this. */
+      double: { pick:  [0, 3],
+                of:    [["lead", 6], ["keys", 3], ["counter", 3],
+                        ["keys2", 3], ["ostinato", 2], ["bass", 2]],
+                uni:   0.70,
+                under: [0.42, 0.26],
+                from:  [0.34, 0.34] },
       /* THE NARROWEST ENERGY COLUMN IN THE FILE, on purpose. "dynamics gentle",
          "atmosphere over loudness" [corpus:melodigging] -- a record that gets
          LOUDER to arrive is doing the thing this genre is described as not
@@ -23082,23 +23111,34 @@ GENRE.hobbitsynth = (function(){
     },
     /* its own rack, and the bard pack leads it */
     rig: [["shire", 6], ["citadel", 4]],
-    /* ── AND THESE THREE POOLS ARE DEAD, WHICH IS WHY THE NEW REEDS ARE NOT IN
-       THEM. MEASURED, 40 songs: the only machines that ever play this genre's
-       keys, lead and keys2 lanes are the twelve named on the `ladder` above.
-       Not one of them comes from here. The ladder answers `sec.machines` for
-       every section, so the song-wide pick these weights decide is overridden
-       before a note is written. Adding a bassoon here would have LOOKED like
-       giving the genre a bassoon and would have been three more dead rows.
-       Left exactly as they were -- this was true before these voices existed,
-       and fixing it is its own job rather than a side effect of this one. */
+    /* ── THESE POOLS DO NOT PICK THE LANE. THEY DECLARE THE PALETTE ─────────
+       MEASURED, 40 songs: the only machines that ever PLAY this genre's keys,
+       lead and keys2 lanes are the ones named on the `ladder` above -- a rung
+       is written into `sec.machines` for every section, so the song-wide pick
+       these weights decide is overridden before a note exists. I recorded that
+       as dead config and left it alone.
+
+       It stopped being dead the moment doubling was drawn. A doubling looks for
+       a partner among the instruments THIS GENRE CAN HOLD, and a genre says
+       what it can hold in exactly these three lists plus its ladder and its
+       rig. So the pools now answer a real question -- not "who plays the lane",
+       which the ladder owns, but "who is in this orchestra at all".
+
+       Which is why the bass oboe and the baritone saxophone are here. They are
+       melodic instruments in a low register: wrong for a comp ladder, wrong for
+       a tune that lives at MIDI 69-91, and exactly right as the second chair
+       doubling a line. Before this they had no reachable home in hobbit synth
+       and read 0 notes in 60 records while being fully built. */
     machines: { drums: [["tr1000", 1]],
                 bass:  [["auto", 1]],
                 keys:  [["bardPluck", 5], ["erangHarp", 3], ["mellotron", 3],
-                        ["erangStrings", 2], ["vp330", 2]],
+                        ["erangStrings", 2], ["vp330", 2],
+                        ["bassOboe", 2], ["bariSax", 2]],
                 lead:  [["bardFlute", 5], ["bardWind", 4], ["erangLead", 3],
                         ["auto", 2]],
                 keys2: [["erangStrings", 4], ["horns", 4], ["vp330", 3],
-                        ["bardPluck", 3], ["mellotron", 2]] },
+                        ["bardPluck", 3], ["mellotron", 2],
+                        ["bassoon", 3], ["bassOboe", 2]] },
     form: {
       /* the party is on the road for a while: the measured overworld loop runs
          35 s to 2:15 and the eight-bar section is the corpus's own unit.
@@ -23109,6 +23149,15 @@ GENRE.hobbitsynth = (function(){
          record where the measurement says it belongs. */
       lengths: { intro: 16, verse: 24, chorus: 24, bridge: 16,
                  instrumental: 24, outro: 16 },
+      /* ── AND THE EPIC GENRE ALWAYS HAS AT LEAST ONE DOUBLING ─────────────
+         Dungeon synth draws 0 to 3 and a third of its records have none, which
+         is right for a genre described as "atmosphere over loudness". This one
+         was asked for an epic-sized orchestra, so its FLOOR is one: every
+         record carries at least one line on two instruments. Only the floor
+         moves -- the roles, the unison weight, the level under the parent and
+         the arrival threshold are all dungeon synth's and are inherited, which
+         is what a deep merge is for. One number is the whole difference. */
+      double: { pick: [1, 2] },
       /* ══ AND THE JOURNEY IS NOT A DESCENT ═════════════════════════════════
          Inherited whole, this genre was walking dungeon synth's route:
          `descend -> halls -> deeper -> return`. For the music the owner asked
@@ -30700,7 +30749,148 @@ function makePerformance(chart, form, materials, sections){
                                                        // unison drum is a fader
   };
   const stackRefused = [];
-  const STACK = (chart.picks && chart.picks.stack) || [];
+  /* ══ AND NOW THE PROGRAM DOUBLES A LINE ON PURPOSE ═════════════════════════
+     [user: "you also said you failed to implement orchestral nature to the
+     genre correct even though that was a main point to all the research"]
+
+     Correct, and this is the missing half. Everything above is a complete,
+     argued doubling ENGINE -- Berlioz's unison, Rimsky-Korsakov's spacing
+     rules, the inferior dynamic level, refusals in words -- and its own comment
+     admits that nothing ever asked it for anything: "the unison is permitted
+     here and is not drawn anywhere automatically". MEASURED before this: at
+     the climax of a hobbit synth record 5.2 distinct voices sound, which is one
+     instrument per part and not one line ever carried by two. A five-part
+     texture is not an orchestra; it is five soloists who happen to overlap.
+
+     So a genre may declare a doubling vocabulary and the record DRAWS from it.
+
+     THREE THINGS THE SOURCES DECIDE, and none of them is a number I chose:
+
+     1. UNISON BEFORE OCTAVE. "if the passage do not lie excessively high, IT IS
+        BETTER TO DOUBLE THEM IN UNISON. The effect is thus incomparably finer
+        and more forcible." So the genre's `uni` weight leads, and the octave is
+        the alternative rather than the default the button used to give.
+     2. THE DOUBLING ARRIVES, IT IS NOT ALWAYS THERE. "in a crescendo, the
+        instruments should be introduced in the order: strings, wood-wind,
+        brass" -- addition, over the arc. And Belkin from the other side:
+        "overuse of unison doubling is the beginner's most common fault ... Do
+        not double at the unison, unless there is a definite need for more
+        volume." A doubling switched on for nine minutes IS that fault, so each
+        one carries an ENERGY THRESHOLD and only sounds in sections at or above
+        it. The orchestra thickens toward the climax and thins away from it.
+     3. TWO TIMBRES, NOT TWO OF ONE. The engine already refuses a unison on the
+        same patch -- "a fader, not a doubling" -- so the partner is drawn from
+        the instruments that can fill the lane AND whose declared range contains
+        the line that is actually written. That last clause is what finally
+        gives the bass oboe and the baritone saxophone somewhere real to play:
+        they are melodic instruments, and doubling is what melodic instruments
+        in a second chair DO.
+
+     Every draw runs unconditionally in its own named substream [Law 3, Law 7],
+     so a genre that declares no `double` block composes byte-identically. */
+  /* declared in `form`, beside `roles` and `build` -- which parts play, which
+     parts play twice, and when each arrives are one question asked three ways */
+  const DOUBLE = (chart.table.form && chart.table.form.double) || null;
+  const drawnStacks = [];
+  {
+    const rd = stream(chart.seed, "double");
+    const SLOT_OF_ROLE = { lead: "lead", keys: "keys", keys2: "keys",
+                           ostinato: "keys", counter: "keys", bass: "bass" };
+    /* the span each part actually occupies, and who is playing it */
+    const span = {}, onIt = {};
+    for(const e of events){
+      if(e.pitch == null || !e.role) continue;
+      const s = span[e.role] = span[e.role] || [999, -1];
+      if(e.pitch < s[0]) s[0] = e.pitch;
+      if(e.pitch > s[1]) s[1] = e.pitch;
+      if(!onIt[e.role] && e.voice) onIt[e.role] = e.voice;
+    }
+    /* EVERY VOICE THIS GENRE CAN REACH, from its own three declarations */
+    const mine = new Set();
+    const lanesOf = m => { const M = INSTRUMENTS[m];
+      if(M && M.lanes) for(const k in M.lanes) mine.add(M.lanes[k]); };
+    /* `machines.kit` is an object of loaded kits, not a slot of alternatives --
+       every other key here is a weighted list, and walking it as one threw
+       "not iterable" on every genre the moment this was first run */
+    for(const slot in (chart.table.machines || {})){
+      const pool = chart.table.machines[slot];
+      if(!Array.isArray(pool)) continue;
+      for(const row of pool) lanesOf(Array.isArray(row) ? row[0] : row);
+    }
+    for(const slot in (chart.table.ladder || {})){
+      const rung = chart.table.ladder[slot];
+      if(!Array.isArray(rung)) continue;
+      for(const m of rung) lanesOf(m);
+    }
+    if(RIG[chart.rig]) for(const lane in RIG[chart.rig]) mine.add(RIG[chart.rig][lane]);
+    const HOW_MANY = DOUBLE ? DOUBLE.pick[0] + Math.floor(rd() * (DOUBLE.pick[1] + 1)) : 0;
+    for(let i = 0; i < (DOUBLE ? Math.max(1, DOUBLE.pick[0] + DOUBLE.pick[1]) : 0); i++){
+      /* every alternate is drawn whatever happens to it [Law 7] */
+      const role  = wpick(rd, DOUBLE.of);
+      const wantU = rd() < DOUBLE.uni;
+      const under = DOUBLE.under[0] + rd() * DOUBLE.under[1];
+      const from  = DOUBLE.from[0] + rd() * DOUBLE.from[1];
+      const pk    = rd();
+      if(i >= HOW_MANY) continue;
+      const rule = STACK_OK[role], sp = span[role];
+      if(!rule || !sp || sp[1] < 0) continue;
+      if(drawnStacks.some(d => d.of === role)) continue;      // one doubling a part
+      const slot = SLOT_OF_ROLE[role];
+      if(!slot) continue;
+      /* who could carry this line, at the unison and at the octave the part is
+         allowed -- asked of the DECLARED RANGE, so an instrument is never
+         offered a line it cannot play, and asked of THIS GENRE'S OWN PALETTE,
+         which was the first version's mistake. `unisonPartners` offers every
+         single-lane pitched box in the program, so dungeon synth drew a
+         Wurlitzer doubling its harp and a 303 was one weight away. A genre
+         already says what it can hold, in three places -- its machine pools,
+         its ladder rungs and its rig -- and a doubling is an orchestration
+         decision inside that palette, not a raid on the whole file. */
+      /* ── AND NOTHING IS DOUBLED BELOW HEARING ─────────────────────────
+         The emit guard below is the KEYBOARD's edge, MIDI 21, and this file
+         has a stricter musical floor: no genre writes a pitch under MIDI 24,
+         32.7 Hz, because below that it is a rumble rather than a note. The
+         first draw of a bass doubling walked straight through it and the seam
+         check said so -- "dungeonsynth midi 21 (27.5 Hz)". Decided HERE, in
+         the choice of direction, rather than clamped after the fact: a
+         direction that would go under the floor is simply not offered. */
+      const inRange = (semis) => sp[0] + semis >= 24 && sp[1] + semis <= 108;
+      const fits = (semis) => (!inRange(semis) ? [] :
+        unisonPartners(slot, onIt[role]).filter(p => mine.has(p.voice))).filter(p => {
+        const M = Object.keys(INSTRUMENTS).find(k => (INSTRUMENTS[k].lanes || {})[
+          Object.keys(INSTRUMENTS[k].lanes || {})[0]] === p.voice);
+        const r = M && INSTRUMENTS[M].range;
+        return !r || (sp[0] + semis >= r[0] && sp[1] + semis <= r[1]);
+      });
+      const oct = rule.up ? 12 : rule.down ? -12 : 0;
+      let semis = null, pool = null;
+      if(wantU && rule.uni && fits(0).length){ semis = 0; pool = fits(0); }
+      else if(oct && fits(oct).length){ semis = oct; pool = fits(oct); }
+      else if(rule.uni && fits(0).length){ semis = 0; pool = fits(0); }
+      if(semis === null) continue;
+      drawnStacks.push({ of: role, semis, voice: pool[Math.floor(pk * pool.length) % pool.length].voice,
+                         gain: under, from, drawn: true });
+    }
+  }
+  /* WHERE A DRAWN DOUBLING IS ALLOWED TO SOUND: sections at or above its own
+     energy threshold, measured against THIS record's own arc rather than an
+     absolute scale -- the same normalisation the ladder uses, and for the same
+     reason. A hand's doubling has no threshold: you asked for it, you get it. */
+  const secAt = (() => {
+    const spb = (60 / chart.tempo) / 4;
+    let lo = Infinity, hi = -Infinity;
+    for(const s of sections){ const e = s.energy == null ? 0.5 : s.energy;
+                              if(e < lo) lo = e; if(e > hi) hi = e; }
+    const band = hi > lo ? hi - lo : 1;
+    return sections.map(s => ({ a: s.startBar * 16 * spb, b: s.endBar * 16 * spb,
+      at: hi > lo ? ((s.energy == null ? 0.5 : s.energy) - lo) / band : 1 }));
+  })();
+  const loudEnough = (tSec, from) => {
+    if(from == null) return true;
+    const s = secAt.find(x => tSec >= x.a && tSec < x.b);
+    return !s || s.at >= from;
+  };
+  const STACK = ((chart.picks && chart.picks.stack) || []).concat(drawnStacks);
   if(STACK.length){
     const add = [];
     for(const s of STACK){
@@ -30747,10 +30937,26 @@ function makePerformance(chart, form, materials, sections){
       let n = 0;
       for(const ev of events){
         if(ev.role !== s.of || ev.pitch == null) continue;
+        /* a DRAWN doubling arrives with the arc and leaves with it; a hand's
+           has no threshold, because you asked for it */
+        if(!loudEnough(ev.tSec, s.from)) continue;
         const p = ev.pitch + semis;
         /* off the keyboard is not a doubling, it is a different note missing */
         if(p < 21 || p > 108) continue;
         const c = Object.assign({}, ev, { pitch: p, stack: true });
+        /* ── AND `from` HAS TO MOVE WITH THE NOTE ────────────────────────
+           `from` is the pitch a slur glides OUT OF, and a copy that keeps its
+           parent's while its own pitch moved an octave is a slur that leaps.
+           Caught the moment doubling was drawn: 129 "non-stepwise slurs" on the
+           horn, every one exactly twelve semitones -- the check reading the
+           contradiction correctly. The doubling glides from the DOUBLED
+           previous note, so the field transposes with the pitch, and off the
+           keyboard it is dropped rather than left pointing at a note that is
+           not there. */
+        if(c.from != null){
+          const f = c.from + semis;
+          if(f < 21 || f > 108) delete c.from; else c.from = f;
+        }
         if(s.voice) c.voice = s.voice;
         /* QUIETER THAN WHAT IT DOUBLES. RK again, on the harmonic background:
            it "should be of inferior dynamic power" -- and a doubling that
@@ -30760,7 +30966,9 @@ function makePerformance(chart, form, materials, sections){
         add.push(Object.freeze(c));
         n++;
       }
-      if(!n) stackRefused.push(s.of + " has no notes in this record to double");
+      /* a DRAWN doubling that found no loud-enough section is not a refusal to
+         report at the user -- it is the threshold doing its job */
+      if(!n && !s.drawn) stackRefused.push(s.of + " has no notes in this record to double");
     }
     events.push(...add);
   }
