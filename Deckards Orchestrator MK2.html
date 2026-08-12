@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-12f · the program doubles a line on purpose</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-12g · the bass is a part again, and the drums have a downbeat</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -14229,6 +14229,42 @@ function referenceEvents(tempo){
    "this section has no drums at all", or "my kit is a machine and does not
    accent like a human drummer". They are genre entries now. */
 
+/* ═══ THE METRICAL GRID, AS ONE NUMBER PER LANE ═════════════════════════════
+   Reported: "The drums are fucked! There is no dynamic in the play there is
+   nothing but the same fucking LOOP!"
+
+   PRINTED, hobbit synth seed 1, and the first half of that is wrong and the
+   second half is exactly right. The patterns are NOT a loop -- 118 of the 134
+   bars with drums are distinct. What is missing is the DYNAMICS, and it was
+   declared:
+
+     dungeon synth   accent.kick = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+     hobbit synth    accent.kick = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+     bladerunner     the same, every lane
+     jungle          the same, every lane
+
+   Sixteen ones, on every lane, in four of ten genres. That is a table shaped
+   like an accent curve holding a constant -- the same fault as a palette with
+   one colour in it -- and it says in numbers "every sixteenth of every bar is
+   equally loud". Against lofi, whose kick reads [0.98, 0.21, 1.00, 0.79, ...]
+   and whose snare spikes to 0.96 and 1.00 on the backbeat.
+
+   A drum part with no metrical emphasis reads as a machine however much the
+   pattern varies, which is why the report says LOOP about music that does not
+   repeat: without accents there is nothing to tell one bar's shape from
+   another's by ear.
+
+   SO THE CURVE IS DERIVED RATHER THAN TYPED. Metrical hierarchy is the oldest
+   fact in rhythm: in four-four the downbeat carries most weight, the half-bar
+   next, the remaining beats next, then eighths, then sixteenths. That is a
+   DEPTH per step and it is not a matter of taste; what IS the genre's taste is
+   how hard the hierarchy bites, which is one number per lane. `bite` 0 gives
+   back the flat table exactly, so nothing that wants to be flat is forced.  */
+const METRE_DEPTH = [0, 4, 3, 4, 2, 4, 3, 4, 1, 4, 3, 4, 2, 4, 3, 4];
+function METRE(bite){
+  return METRE_DEPTH.map(d => +(1 - bite * (d / 4)).toFixed(3));
+}
+
 const GENRE = {
   lofi: {
     label: "lofi hip hop",
@@ -20229,15 +20265,49 @@ const GENRE = {
        The roll is not deleted -- it is waiting for the instrument it belongs
        to, which is the harp melodigging names and the harpsichord Grunewald
        names, and which this program does not have yet. ss0 of that sheet. */
-    touch: { bassArtic: [[4, 3], [5, 4], [6, 2]], strum: [0, 0], roll: 0 },
-    accent: { kick:    [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
-              snare:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
-              ghost:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
-              hat:     [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
-              tom1:    [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
-              tom2:    [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
-              tom3:    [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1],
-              openhat: [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1] },
+    /* ── AND `bassArtic` IS TWO KNOBS WEARING ONE NAME ────────────────────
+       It is a MULTIPLIER on the bass note's length in stage 5, and the sourced
+       meaning is a STACCATO DUTY CYCLE -- "25-29% silent, the same fraction at
+       every tempo" -- which is a number BELOW ONE. Lofi draws 0.6 to 1.0 and
+       synthwave 0.45 to 1.0, which is that.
+
+       This genre drew FOUR, FIVE or SIX. At that point it is not articulation,
+       it is a sustain pedal, and it multiplies whatever stage 3 wrote. Printed,
+       after the material itself had been corrected to one-bar notes:
+
+         written    16 steps = 2.11 s
+         performed  8.42 s, every note, because it was multiplied by four
+
+       So the bass could not be fixed in stage 3 at all: any length written
+       there came out four to six times longer. "Its a mess of really long notes
+       that sounds like NOTHING" is this number.
+
+       Back under one, where the source puts it: full length, with a little
+       ring-over drawn for the pedal feel this genre does want. The LENGTH of a
+       bass note is now decided where the note is written, which is the only
+       place that knows what the harmony is doing. Hobbit synth inherits it. */
+    touch: { bassArtic: [[0.95, 3], [1.10, 5], [1.30, 2]], strum: [0, 0], roll: 0 },
+    /* ── THIS TABLE WAS SIXTEEN ONES ON EVERY LANE ────────────────────────
+       "There is no dynamic in the play there is nothing but the same fucking
+       LOOP". The patterns are not a loop -- 118 of 134 bars printed distinct --
+       and the dynamics were declared away right here, in eight rows of the
+       number one. See METRE above for the derivation; the numbers below are
+       this genre's own answer to how hard the metre bites, one per lane.
+
+       A PROCESSION IS FELT ON THE DOWNBEAT, so the war drum and the frame
+       drum lean hardest. The timpani lean least: a kettle is struck
+       deliberately and a player does not vary a roll's weight sixteenth by
+       sixteenth. The ghost lane bites most of all, because a ghost note IS the
+       quiet one and needs the contrast to read as one. Hobbit synth inherits
+       the whole block. */
+    accent: { kick:    METRE(0.40),
+              snare:   METRE(0.45),
+              ghost:   METRE(0.55),
+              hat:     METRE(0.50),
+              tom1:    METRE(0.30),
+              tom2:    METRE(0.30),
+              tom3:    METRE(0.30),
+              openhat: METRE(0.50) },
     /* THE TWO CHARACTERS, DRAWN PER SONG, which is what the user chose when
        asked. `pocket` is a weighted draw, so one song walks on the war drum
        every other bar and the next barely strikes it at all -- "sparse or
@@ -22768,8 +22838,52 @@ GENRE.hobbitsynth = (function(){
        part -- but the pitched group now holds two thirds of the record instead
        of one third, and the theme is heard at nearly three times what it was.
        The bass did not move and was never going to; see above. */
-    roleGain: { keys: 0.46, keys2: 0.30, ostinato: 0.42,
-                bass: 0.30, lead: 1.00, counter: 0.72, drums: 0.48 },
+    /* ── AND I OVERCORRECTED THE DRUMS INTO SILENCE ───────────────────────
+       These numbers came from a share-of-sound measurement that said the drums
+       were 64.6% of the record, so I cut them. MEASURED again, 12 songs, share
+       computed the same way -- gain times duration, across the whole record:
+
+         keys 57.0%   lead 13.0%   keys2 11.0%   bass 7.2%
+         ostinato 6.3%   DRUMS 3.5%   counter 1.9%
+
+       against dungeon synth, whose drums are 28.7% and whose keys are 32.1%.
+       A war drum and three timpani at three and a half per cent is not a
+       balance decision, it is the part being switched off, and "the drums are
+       fucked, there is no dynamic, there is nothing but the same LOOP" is what
+       that sounds like -- there is not enough of them to hear the pattern with.
+       Two thirds was wrong and a thirtieth is wrong; I answered a measurement
+       with its opposite instead of with a balance.
+
+       And the COMP is now the record. 57% on a sustained pad, against a tune
+       at 13%, is the harmonic background playing the lead role -- exactly what
+       Rimsky-Korsakov says the background must not do: it "should be of
+       inferior dynamic power" to the thing it is behind.
+
+       So: the drums back to a fifth of the record, the pad cut to where a
+       background belongs, and the two parts that were under two per cent --
+       the counter and the bass -- lifted to where they can be heard at all.
+
+       SWEPT, not guessed. Four candidate settings measured the same way:
+
+         keys 0.26 drums 1.15  ->  drums  9.1%  keys 34.7%  bass 15.5%
+         keys 0.22 drums 1.60  ->  drums 12.2%  keys 29.2%  bass 18.0%
+         keys 0.20 drums 1.90  ->  drums 13.7%  keys 26.6%  bass 19.2%
+         keys 0.18 drums 2.20  ->  drums 14.6%  keys 24.0%  bass 20.6%
+
+       The drums plateau near 14% however hard they are pushed, because this
+       measure is gain TIMES DURATION and a struck drum has almost none of the
+       second -- so it under-reads percussion by construction and the number to
+       read is the SHAPE of the column, not its height. The third row is where
+       the comp stops being the record and nothing else has run away.
+
+       HONEST LIMIT: this is the composed domain, not the rendered one. The
+       rendered check is `probe_stems.js`, which needs a full-length render and
+       did not finish inside this session's budget; over the first 40 seconds
+       it reads the opening only, where these parts have not entered yet. So
+       this balance is measured, and it is measured with the cheaper instrument
+       of the two. */
+    roleGain: { keys: 0.20, keys2: 0.40, ostinato: 0.50,
+                bass: 0.55, lead: 1.00, counter: 0.95, drums: 1.90 },
     /* ══ THE BASS WALKS, BECAUSE THE PARTY DOES ═════════════════════════════
        Inherited, `bassPedal: 0.5` put half of this genre's records on a held
        drone -- dungeon synth's own device, and the right one for a crypt. On
@@ -25992,12 +26106,38 @@ function makeMaterials(chart, editPlan, arcPlan){
 
                It was invisible for as long as every genre had `materialBars: 4`
                and a reverb long enough to paper over the gap; at eight bars with
-               a shorter room it is the loudest hole in the record. A pedal is
-               held for the material it is a pedal UNDER. */
-            const held = BARS * 16;
-            notes.push({ bar: 0, step: 0, dur: held, pitch: pedMidi, vel: 0.70, role: "bass" });
-            if(pedDouble && pedFifth !== pedMidi)
-              notes.push({ bar: 0, step: 0, dur: held, pitch: pedFifth, vel: 0.52, role: "bass" });
+               a shorter room it is the loudest hole in the record.
+
+               ── AND THEN I FIXED THE WRONG HALF OF IT ────────────────────────
+               Reported: "The BASS is fucked! Its a mess of really long notes
+               that sounds like NOTHING at all". Correct, and I wrote it. The
+               bug above is THE LOOP SKIPPING THE REMAINING BARS. I read it as
+               THE NOTE BEING TOO SHORT and set the duration to the whole
+               material. Printed, which is what I should have done then:
+
+                 dungeon synth   58 bass notes, EVERY ONE 58.18 seconds long
+                 bladerunner     median 28.66s, shortest 14.33s
+                 hobbit synth    shortest 4.21s, median 4.21s, longest 16.84s
+
+               Against lofi at 0.33s and acid at 0.11s. Sixteen overlapping
+               sixteen-bar notes is not a bass line, it is a chord pad in the
+               bass register, and the owner has said before that a drone is not
+               what any of this is for.
+
+               A PEDAL IS A NOTE THAT KEEPS BEING PLAYED, not one note that
+               never stops. A player re-bows, re-plucks, re-blows; the HARMONY
+               holds still, the instrument does not. So the pedal is struck once
+               a bar for as long as it lasts -- no gap, because every bar has
+               one, and no drone, because every bar starts one. The re-strikes
+               sit under the first, which is what re-articulating a held
+               harmony sounds like. */
+            for(let k = 0; k < BARS; k++){
+              notes.push({ bar: k, step: 0, dur: 16, pitch: pedMidi,
+                           vel: k === 0 ? 0.70 : 0.58, role: "bass" });
+              if(pedDouble && pedFifth !== pedMidi)
+                notes.push({ bar: k, step: 0, dur: 16, pitch: pedFifth,
+                             vel: k === 0 ? 0.52 : 0.44, role: "bass" });
+            }
           }
           continue;
         }
@@ -26008,10 +26148,16 @@ function makeMaterials(chart, editPlan, arcPlan){
            of it, and then a bar of silence before the next root. Half the
            foundation missing, alternating, all record. The same defect as the
            pedal above and found the same way: by printing the notes.
-           A held root is held until the harmony moves. */
+           A held root is played for as long as the harmony holds -- and PLAYED
+           is the word, not held. Same correction as the pedal above and the
+           same reason: `dur: span * 16` made a two-bar chord one four-second
+           note, and the printed record came back as a wall of them. The root is
+           struck on every bar its chord lasts, the re-strikes under the first. */
         let span = 1;
         while(b + span < BARS && CH(chordSet, b + span).degree === ch.degree) span++;
-        notes.push({ bar: b, step: 0, dur: span * 16, pitch: ch.rootMidi, vel: 0.70, role: "bass" });
+        for(let k = 0; k < span; k++)
+          notes.push({ bar: b + k, step: 0, dur: 16, pitch: ch.rootMidi,
+                       vel: k === 0 ? 0.70 : 0.58, role: "bass" });
         /* ── AND THE ROAD GENRES GET THE FIGURE THE SOURCES KEEP NAMING ───────
            Three independent Lord of the Rings transcriptions give the SAME
            object, and this program had nothing like it:
