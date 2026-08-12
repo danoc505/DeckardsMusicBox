@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-12b · the ladder is climbed, and the rack stops lying</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-12c · the rack names the box you can hear</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -6660,12 +6660,65 @@ function canFill(slot, k){
    This resolves the lane's voice back to the machine that owns it, so the panel
    shows the box that is really playing. It changes no note -- voiceFor is still
    the one place `voice` is written, and this only asks it a question. */
-function machineIn(chart, slot){
+/* WHICH BOX OWNS A VOICE. The inverse of `voiceFor`, asked the same three ways
+   it answers: the machine's own lane, the lane its slot accepts, and a
+   single-lane pitched box lent to another pitched lane. */
+function machineOfVoice(slot, voice){
+  if(!voice) return null;
+  const kind = SLOT_ACCEPTS[slot] || slot;
+  for(const k in INSTRUMENTS){
+    const M = INSTRUMENTS[k];
+    if(M.legacy || !M.lanes) continue;
+    if(M.lanes[slot] === voice || M.lanes[kind] === voice) return k;
+  }
+  for(const k in INSTRUMENTS){
+    const M = INSTRUMENTS[k], L = M.lanes && Object.keys(M.lanes);
+    if(M.legacy || !L || L.length !== 1) continue;
+    if(M.lanes[L[0]] === voice && PITCHED_SLOT[M.slot] && PITCHED_SLOT[kind]) return k;
+  }
+  return null;
+}
+/* ── AND WHAT WAS ACTUALLY HEARD ON THAT LANE ────────────────────────────────
+   Asked of the performance, not of the pick, and it exists because of a
+   question with no good answer: "why in the hell would you put names we dont
+   have". None. There is none.
+
+   A laddered lane has NO SINGLE MACHINE -- it is re-scored section by section,
+   which is the entire point of a ladder -- so the stage-1 pick was never going
+   to be the truth about it, and every attempt to make the pick truer was
+   fixing the wrong end. MEASURED after two such attempts: 31% of laddered
+   slot-songs still named a box that never made a sound in that record. The
+   pick had stopped naming a machine outside the genre, and was still naming
+   one you could not hear.
+
+   The rack's job is to describe what is playing. So it asks. This is only
+   asked of the three pitched lanes where "the machine on this lane" is a
+   single well-formed question -- the drums are one box with twelve lanes and
+   the bass is one box with five engines, and both already resolve correctly
+   through the loops below. */
+function heardOn(perf, slot){
+  if(!perf || !perf.events) return null;
+  const n = {};
+  for(const e of perf.events)
+    if(e.role === slot && e.pitch != null && e.voice) n[e.voice] = (n[e.voice] || 0) + 1;
+  let best = null;
+  for(const v in n) if(!best || n[v] > n[best]) best = v;
+  return machineOfVoice(slot, best);
+}
+function machineIn(chart, slot, perf){
   const m = chart.picks && chart.picks[slot];
   /* an emptied rack has no box in it -- so no panel either. The pick underneath
      is still a real machine (see resolvePicks); the mute is what the eye and
      the sound should both agree about. */
   if(chart.picks && chart.picks.mute && chart.picks.mute[slot]) return "none";
+  /* a HAND on the rack is never overruled by what came out: if you loaded a
+     box deliberately, the panel is that box even in a record where it never
+     got a note -- the empty result is the answer you asked for. */
+  const byHand = chart.picks && chart.picks.byHand && chart.picks.byHand[slot];
+  if(!byHand && perf && (slot === "keys" || slot === "lead" || slot === "keys2")){
+    const heard = heardOn(perf, slot);
+    if(heard) return heard;
+  }
   if(m && m !== "auto" && INSTRUMENTS[m]) return m;
   const voice = RIG[chart.rig][slot];
   if(!voice){
@@ -32190,7 +32243,7 @@ function fieldRows(){
      itself as if they were players -- they are the room, not the band. A
      processor has no position because everything passes through it. */
   const PLACES = { drums: "drums", bass: "bass", keys: "keys", keys2: "keys", lead: "lead" };
-  const slots = RACK_SLOTS.filter(sl => PLACES[sl]).map(sl => [sl, machineIn(SONG.chart, sl)]);
+  const slots = RACK_SLOTS.filter(sl => PLACES[sl]).map(sl => [sl, machineIn(SONG.chart, sl, SONG.perf)]);
   for(const [slot, m] of slots){
     if(!m || m === "auto" || m === "none" || !INSTRUMENTS[m] || seen[m]) continue;
     /* EVERY loaded machine gets a place on the stage, including the ones that
@@ -34519,7 +34572,7 @@ function drawPanels(){
      the music rather than a treatment of it, this is the most important box on
      the screen. */
   const boxes = RACK_SLOTS.slice()
-    .map(slot => [slot, machineIn(SONG.chart, slot)])
+    .map(slot => [slot, machineIn(SONG.chart, slot, SONG.perf)])
     .concat(Object.keys(INSTRUMENTS).filter(k => INSTRUMENTS[k].fixed).map(k => [INSTRUMENTS[k].slot, k]));
   /* ── A MACHINE THAT IS DRAWN INSIDE ANOTHER RACK DOES NOT DRAW TWICE ──────
      The pad bay IS the echo and the flanger — their nameplates, their knobs and
@@ -35414,6 +35467,12 @@ window.MK2 = {
     Sound.renderWav(events, seconds, sr, space, kick, drumDrive, gate, motion, motionOffset),
   soundOf,
   INSTRUMENTS, PARAMS, TRIM, CONTROL, PICK, PINS, PIN_PATTERNS, loadParams, panelValue,
+  /* WHAT THE RACK SAYS IS PLAYING. Exported because it stopped being a display
+     detail and became a claim a probe can falsify -- the owner's "why in the
+     hell would you put names we dont have" is a testable sentence, and
+     probe_rack.js is the test. Nothing outside the page draws a panel; this is
+     here so something outside the page can CHECK one. */
+  machineIn, heardOn,
   /* THE GRID'S DECLARATION, for the same reason as `racks` below: probes that
      wrote out the effect columns by hand went stale twice, and probe_wiring
      had no barberpole column the build after one existed. */

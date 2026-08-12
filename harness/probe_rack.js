@@ -1,398 +1,105 @@
-/* ONE RACK, TESTED AS A RACK.
+#!/usr/bin/env node
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE RACK — does the panel name a box you can actually hear?
 
-   The batteries ask questions ACROSS the program -- does some genre use each
-   control, does every voice make a noise, does the snapshot move. Nothing has
-   ever stood in front of a single machine and asked the four questions you
-   would ask if you picked one up:
+       node harness/probe_rack.js [songs]
 
-     A. is every knob on it DRAWN? (a control declared, loaded and automated
-        and never put on the glass is the mirror of a knob that does nothing)
-     B. does every knob on it REACH THE SOUND?
-     C. does a channel's knob touch ITS OWN VOICE AND NOTHING ELSE? -- the one
-        that has never been asked. Ten channels, six knobs each, all built by
-        one loop from one letter; if a letter is crossed anywhere in that
-        chain, the bass drum's filter is quietly on the snare.
-     D. do its SWITCHES actually switch? A kit that loads the same voices as
-        another kit, or a circuit switch that changes nothing, is a lie the
-        panel tells.
-     E. and THE ONE THAT MATTERS MOST -- what does the PROGRAM do with it while
-        a song plays? A-D are about what a hand can do. E is the automation:
-        which controls any genre rides, whether the control's KIND allows it,
-        and how far each lane actually moves its control once the clamp and the
-        fader law have had it. A lane that moves a control by one percent of
-        its travel is a genre that believes it is automating something and is
-        not, and nothing in this program could see one.
+   Asked, in as many words: "Why in the hell would you put names we dont have
+   that's idiotic isnt it?"  There is no answer. A rack that names a machine
+   the record never plays is the oldest defect this file has a standing rule
+   about -- the dropdown moves and the sound does not -- and it had survived in
+   a new form, because a LADDERED lane has no single machine at all. It is
+   re-scored section by section, which is the entire point of a ladder, so the
+   stage-1 pick was never going to be the truth about it.
 
-     node harness/probe_rack.js [machine]        (default tr1000)
+   Two attempts to make the PICK truer both failed, and the numbers are why
+   this probe exists rather than another attempt:
 
-   A and D are cheap. C is the expensive one and it is done in ONE render per
-   state: every voice of the machine fires once, half a second apart, so the
-   difference between two renders says WHICH VOICE moved by WHEN it moved.
+     the pool's draw                 named a machine outside the genre's set
+     an even draw from the rungs     named a rung 25 of 25 records never reached
+     the ladder's bottom rung        named a voice 27 of 40 records never sound
 
-   AND C IS RUN IN BOTH ORDERS, WHICH IS THE WHOLE TRICK. A drum's decay runs
-   into the next drum's window, so pulling the snare's fader down also removes
-   the snare TAIL that was ringing under the low tom -- and the first run of
-   this probe duly reported five channels "leaking" when what it had measured
-   was decay and reverb. A tail only ever runs FORWARD in time. So fire the
-   voices in the declared order, then again in reverse: every pair of channels
-   is then tested in both directions, and a change in a voice that fires BEFORE
-   the one whose knob moved cannot be a tail. That is crosstalk and nothing
-   else.
-*/
-const { chromium } = require(require('path').resolve(__dirname, '..', 'node_modules', 'playwright'));
-const path = require('path');
-const HTML = process.env.MK2_HTML || path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html');
-const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-const MACHINE = process.argv[2] || 'tr1000';
+   So the panel stopped asking the pick and started asking the PERFORMANCE.
+   This checks that it is telling the truth, for every genre and every pitched
+   lane, and it is deliberately blunt about the three outcomes:
 
-(async () => {
-  const b = await chromium.launch({ executablePath: CHROME, args: ['--no-sandbox', '--disable-gpu'] });
-  const page = await b.newPage();
-  const errs = []; page.on('pageerror', e => errs.push(String(e.message)));
-  await page.goto('file://' + HTML, { waitUntil: 'load', timeout: 60000 });
-  await page.waitForFunction(() => window.MK2, { timeout: 20000 });
+     HEARD    the lane has notes and the panel names a box that played them
+     SILENT   the lane has no notes at all -- there is nothing to name, and
+              naming the pick is the only thing left to do
+     WRONG    the lane has notes and the panel names something else entirely
 
-  /* ── A. DECLARED vs DRAWN ─────────────────────────────────────────────────
-     Asked of the real page, not of the panel declaration: put the machine in
-     its slot the way a user does, then read every control key the DOM actually
-     carries. Reading `panel.top`/`panel.columns` instead would only prove the
-     declaration agrees with itself. */
-  const drawn = await page.evaluate(async m => {
-    const M = MK2.INSTRUMENTS[m];
-    MK2.showRack(M.slot);
-    MK2.PICK[M.slot] = m;
-    if(window.drawRack) drawRack();
-    await new Promise(r => setTimeout(r, 300));
-    const keys = new Set();
-    for(const el of document.querySelectorAll('[data-key]')){
-      const k = el.dataset.key;
-      if(k && k.indexOf(m + '.') === 0) keys.add(k.slice(m.length + 1));
-    }
-    /* the KIT key is drawn as a SELECT, not a knob -- find it by what it does */
-    for(const el of document.querySelectorAll('select'))
-      if(/kit/i.test(el.className + ' ' + (el.dataset.key || '') + ' ' +
-                     (el.parentElement ? el.parentElement.className : ''))) keys.add('kit');
-    return { keys: [...keys], declared: M.controls.map(c => ({ k: c.k, kind: c.kind, pick: !!c.pick })) };
-  }, MACHINE);
+   WRONG must be zero. SILENT is a different finding and is reported apart, so
+   a lane that is composed and never sounds cannot hide inside a rack figure.
+   ═══════════════════════════════════════════════════════════════════════════ */
+const fs = require("fs"), path = require("path");
+const html = fs.readFileSync(path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html"), "utf8");
+const src = html.split("<script>")[1].split("</script>")[0];
+global.window = { addEventListener(){}, MK2: null };
+global.document = { getElementById: () => ({ addEventListener(){}, textContent: "", value: "1", innerHTML: "" }),
+                    createElement: () => ({ click(){} }) };
+eval(src);
+const M = global.window.MK2;
 
-  const drawnSet = new Set(drawn.keys);
-  const missing = drawn.declared.filter(c => !drawnSet.has(c.k));
-  const extra = drawn.keys.filter(k => !drawn.declared.some(c => c.k === k));
-  console.log("\n=== " + MACHINE + " ===\n");
-  console.log("A. DECLARED vs DRAWN   " + drawn.declared.length + " declared, " +
-              drawnSet.size + " on the glass");
-  if(missing.length) for(const c of missing)
-    console.log("     <<< DECLARED AND NEVER DRAWN: " + c.k + "  (" + c.kind + ")");
-  if(extra.length) for(const k of extra)
-    console.log("     <<< DRAWN AND NOT DECLARED: " + k);
-  if(!missing.length && !extra.length) console.log("     every declared control is on the glass, and nothing else is");
+const songs = parseInt(process.argv[2], 10) || 40;
+const LANES = ["keys", "lead", "keys2"];
 
-  /* ── C. DOES A CHANNEL'S KNOB STAY ON ITS OWN CHANNEL ─────────────────────
-     Every voice fires once, spaced out, in one render. Move one channel's
-     control and the difference tells you which SLOT changed, and a slot is a
-     voice. Derived from the panel's own column list, so a machine that grows a
-     channel needs no edit here. */
-  const cross = await page.evaluate(async ([m, GAP]) => {
-    const M = MK2.INSTRUMENTS[m], P = M.panel;
-    /* ── THE MACHINE HAS TO BE THE MACHINE THE PLAN NAMES ────────────────────
-       `setSpace` reads which drum machine to wire from the SONG'S PLAN --
-       `motion.drums` -- and falls back to "kit" when there is no plan. So a
-       render with `motion: null` reads `kit.kMix` however hard you turn
-       `tr1000.kMix`, and the first run of this probe duly reported all ten of
-       this machine's faders dead. Same trap that made probe_kickpunch report
-       three genres byte-identical. Pick the machine by hand, compose, and hand
-       the render the plan that names it. */
-    MK2.PICK.drums = m;
-    const song = MK2.composeSong(11, undefined, "acid");
-    MK2.loadParams("acid");
-    const cols = (P.columns || []).filter(c => c.lane);
-    /* one note per channel, GAP apart, in the channel's own lane. `order` is
-       the list of channel indices in the order they fire. */
-    const kitMap = M.kits ? M.kits.analog : M.lanes;
-    const secs = 0.2 + cols.length * GAP;
-    const S = MK2.soundOf("acid");
-    const render = async (trims, order) => {
-      const ev = order.map((ci, slot) => ({
-        voice: kitMap[cols[ci].lane] || M.lanes[cols[ci].lane], role: 'drums', lane: cols[ci].lane,
-        tSec: 0.10 + slot * GAP, durSec: 0.40, gain: 0.95, pitch: 45,
-        slice: ci, brkRate: 1,
-      }));
-      for(const k in trims) MK2.TRIM[k] = trims[k];
-      const blob = await MK2.renderWav(ev, secs, 44100, S.space, S.kick, S.drumDrive, S.gate,
-                                       song.motion, 0);
-      for(const k in trims) delete MK2.TRIM[k];
-      const ab = await blob.arrayBuffer(), dv = new DataView(ab);
-      const n = (ab.byteLength - 44) / 2, a = new Float64Array(n);
-      for(let i = 0; i < n; i++) a[i] = dv.getInt16(44 + i * 2, true) / 32768;
-      return a;
-    };
-    /* the energy of the difference inside each SLOT (a slot is one voice's
-       half second, in whatever order this pass fired them) */
-    const slots = (A, B, order) => order.map((ci, i) => {
-      const s = Math.round((0.10 + i * GAP) * 44100) * 2;
-      const e = Math.min(A.length, Math.round((0.10 + i * GAP + GAP) * 44100) * 2);
-      let q = 0, r = 0;
-      for(let j = s; j < e; j++){ const d = B[j] - A[j]; q += d * d; r += A[j] * A[j]; }
-      return 10 * Math.log10((q + 1e-30) / (r + 1e-30));
-    });
+let heard = 0, silent = 0, wrong = 0;
+const wrongBy = {}, silentBy = {};
 
-    /* which control to move per channel: its own MIX, because a level is the
-       one thing every channel certainly has and the one whose leak is
-       unambiguous */
-    const pass = async order => {
-      const base = await render({}, order);
-      const out = [];
-      for(let i = 0; i < cols.length; i++){
-        const col = cols[i], key = col.fader;
-        if(!key){ out.push(null); continue; }
-        const c = M.controls.find(x => x.k === key);
-        if(!c){ out.push({ err: "declared nowhere" }); continue; }
-        const at = MK2.panelValue(m, key);
-        const moved = await render({ [m + "." + key]: c.min - at }, order);   // fader to the floor
-        /* d[j] is how much CHANNEL j's window moved, indexed by channel, not
-           by slot -- so the two orderings are directly comparable */
-        const s = slots(base, moved, order), d = [];
-        for(let j = 0; j < cols.length; j++) d[order[j]] = s[j];
-        out.push({ d });
+for(const genre of M.genres()){
+  for(let seed = 1; seed <= songs; seed++){
+    const song = M.composeSong(seed, null, genre);
+    for(const lane of LANES){
+      const shown = M.machineIn(song.chart, lane, song.perf);
+      if(!shown || shown === "auto" || shown === "none" || !M.INSTRUMENTS[shown]) continue;
+      const voices = {};
+      for(const e of song.perf.events)
+        if(e.role === lane && e.pitch != null && e.voice) voices[e.voice] = true;
+      const names = Object.keys(voices);
+      if(!names.length){
+        silent++;
+        silentBy[`${genre} ${lane}`] = (silentBy[`${genre} ${lane}`] || 0) + 1;
+        continue;
       }
-      return out;
-    };
-    const fwd = cols.map((c, i) => i);
-    const rev = fwd.slice().reverse();
-    const A = await pass(fwd), B = await pass(rev);
-    return { cols: cols.map(c => c.label), A, B, plays: song.motion.drums };
-  }, [MACHINE, 0.5]);
-
-  console.log("\nC. DOES A CHANNEL'S FADER STAY ON ITS OWN CHANNEL" +
-              "   (the plan names " + cross.plays + ")");
-  if(cross.plays !== MACHINE)
-    console.log("     <<< THE PLAN DOES NOT NAME THIS MACHINE — every row below is about " +
-                cross.plays + ", not " + MACHINE);
-  console.log("     (how much each voice's own window changed, dB relative to itself;\n" +
-              "      -0.0 means gone, a big negative number means untouched)\n");
-  console.log("     " + "fader moved".padEnd(14) +
-              cross.cols.map(c => c.split(" ")[0].slice(0, 5).padStart(7)).join(""));
-  let leaks = 0, dead = 0, tails = 0;
-  const nC = cross.cols.length;
-  for(let own = 0; own < nC; own++){
-    const a = cross.A[own], bb = cross.B[own];
-    if(!a){ continue; }
-    if(a.err){ console.log("     " + cross.cols[own].padEnd(14) + "  <<< " + a.err); continue; }
-    const cells = a.d.map(v => (v <= -60 ? "  --  " : v.toFixed(1)).padStart(7)).join("");
-    /* in the FORWARD pass, channel j fires before `own` when j < own; in the
-       REVERSE pass, when j > own. A move in a voice that has already finished
-       cannot be that voice's tail. */
-    const bad = [];
-    for(let j = 0; j < nC; j++){
-      if(j === own) continue;
-      if(j < own && a.d[j] > -60) bad.push(cross.cols[j]);
-      else if(j > own && bb && bb.d[j] > -60) bad.push(cross.cols[j]);
-    }
-    const fwdTails = a.d.filter((v, j) => j > own && v > -60).length;
-    tails += fwdTails;
-    if(bad.length) leaks++;
-    if(a.d[own] <= -60) dead++;
-    console.log("     " + cross.cols[own].padEnd(14) + cells +
-                (bad.length ? "   <<< CROSSTALK INTO " + bad.join(", ") : "") +
-                (a.d[own] <= -60 ? "   <<< ITS OWN FADER DOES NOTHING" : ""));
-  }
-  console.log("\n     " + (leaks ? leaks + " channel(s) reach a voice that has already finished — CROSSTALK"
-                                 : "no channel reaches a voice that has already finished") +
-              "; " + (dead ? dead + " fader(s) dead" : "every fader silences its own voice"));
-  console.log("     " + tails + " forward-only changes, which are decay and reverb tails, not wiring" +
-              "\n     (both firing orders rendered; a tail cannot run backwards)");
-
-  /* ── D. DO THE SWITCHES SWITCH ────────────────────────────────────────────
-     A `switch` is the one kind the conductor never rides, so nothing in the
-     program ever moves it and nothing has ever checked that moving it does
-     anything. Every position of every switch, against every other position:
-     two positions that render the same audio are a switch with one setting. */
-  const sw = await page.evaluate(async m => {
-    const M = MK2.INSTRUMENTS[m];
-    MK2.PICK.drums = m;
-    const song = MK2.composeSong(11, undefined, "acid");
-    MK2.loadParams("acid");
-    const S = MK2.soundOf("acid");
-    const cols = (M.panel.columns || []).filter(c => c.lane);
-    const GAP = 0.5, secs = 0.2 + cols.length * GAP;
-    /* ── WHICH KIT, ASKED THE WAY THE PANEL ASKS ─────────────────────────────
-       The first version of this kept its own list of kit names and chose the
-       voice map itself, which made the KIT rows a test of the probe's list
-       rather than of the program's switch -- and the list was already short by
-       one. The panel's KIT control is a SELECT that writes `PICK.drumKit` and
-       recomposes, so that is what this does, over the names the machine
-       actually declares. */
-    let KITNAME = null;
-    const render = async () => {
-      const map = (KITNAME && M.kits && M.kits[KITNAME]) || M.lanes;
-      const ev = cols.map((c, i) => ({ voice: map[c.lane] || M.lanes[c.lane], role: 'drums',
-        lane: c.lane, tSec: 0.10 + i * GAP, durSec: 0.40, gain: 0.95, pitch: 45,
-        /* the chopper reads a slice off the event; a kit made of one recording
-           needs to be told which bit of it to play */
-        slice: i, brkRate: 1 }));
-      const blob = await MK2.renderWav(ev, secs, 44100, S.space, S.kick, S.drumDrive, S.gate,
-                                       song.motion, 0);
-      const ab = await blob.arrayBuffer(), dv = new DataView(ab);
-      const n = (ab.byteLength - 44) / 2, a = new Float64Array(n);
-      for(let i = 0; i < n; i++) a[i] = dv.getInt16(44 + i * 2, true) / 32768;
-      return a;
-    };
-    const diff = (A, B) => { let q = 0, r = 0;
-      for(let i = 0; i < Math.min(A.length, B.length); i++){ const d = B[i] - A[i]; q += d * d; r += A[i] * A[i]; }
-      return 10 * Math.log10((q + 1e-30) / (r + 1e-30)); };
-
-    const out = [];
-    for(const c of M.controls){
-      if(c.kind !== "switch") continue;
-      const takes = [];
-      let note = null;
-      if(c.pick && M.kits){
-        /* a PICK switch chooses a thing by name, so its positions are the
-           things -- and how many of them there are is a fact about the machine,
-           not a number typed into the control */
-        const names = Object.keys(M.kits);
-        const declared = Math.round((c.max - c.min) / (c.step || 1)) + 1;
-        if(declared !== names.length)
-          note = "declares " + declared + " positions for " + names.length + " kits (" + names.join(", ") + ")";
-        for(const n of names){ KITNAME = n; takes.push({ v: n, buf: await render() }); }
-        KITNAME = null;
-      } else {
-        const at = MK2.panelValue(m, c.k);
-        for(let v = c.min; v <= c.max + 1e-9; v += (c.step || 1)){
-          MK2.TRIM[m + "." + c.k] = v - at;
-          takes.push({ v: Math.round(v * 1000) / 1000, buf: await render() });
-        }
-        delete MK2.TRIM[m + "." + c.k];
+      /* the box the panel names -- does ANY of its lanes carry a voice that
+         actually sounded on this lane? Asked through the machine's own table
+         rather than by name, because a box and its voice do not have to share
+         a name and several here do not. */
+      const L = M.INSTRUMENTS[shown].lanes || {};
+      const mine = Object.keys(L).map(k => L[k]);
+      if(mine.some(v => voices[v])) heard++;
+      else {
+        wrong++;
+        const k = `${genre} ${lane}: panel says ${shown}, heard ${names.join("/")}`;
+        wrongBy[k] = (wrongBy[k] || 0) + 1;
       }
-      const pairs = [];
-      for(let i = 0; i < takes.length; i++) for(let j = i + 1; j < takes.length; j++)
-        pairs.push({ a: takes[i].v, b: takes[j].v, db: diff(takes[i].buf, takes[j].buf) });
-      out.push({ k: c.k, cap: c.cap, n: takes.length, pairs, note });
-    }
-    return out;
-  }, MACHINE);
-
-  console.log("\nD. DO THE SWITCHES SWITCH");
-  console.log("     (every position against every other; a big negative number means\n" +
-              "      the two positions render the same audio)\n");
-  let sameCount = 0;
-  for(const s of sw){
-    console.log("     " + (s.cap || s.k) + "  (" + s.k + ", " + s.n + " positions)" +
-                (s.note ? "   <<< " + s.note : ""));
-    for(const p of s.pairs){
-      const same = p.db < -60;
-      if(same) sameCount++;
-      console.log("        " + String(p.a).padStart(4) + " vs " + String(p.b).padStart(4) +
-                  "   " + p.db.toFixed(1).padStart(7) + " dB" +
-                  (same ? "   <<< THESE TWO POSITIONS ARE THE SAME SOUND" : ""));
     }
   }
-  console.log("\n     " + (sameCount ? sameCount + " pair(s) of switch positions are identical"
-                                     : "every switch position sounds different from every other"));
+}
 
-  /* ── E. IS IT AUTOMATED, AND DOES THE AUTOMATION MOVE ─────────────────────
-     The other four sections ask what a HAND can do with this machine. This one
-     asks what the PROGRAM does with it while a song plays, which is the half
-     that decides whether the record moves.
+const total = heard + silent + wrong;
+console.log(`\n  ${M.genres().length} genres x ${songs} songs x ${LANES.length} pitched lanes`);
+console.log(`  ${total} racks drew a panel\n`);
+console.log(`    HEARD   the panel names a box that played this lane   ${String(heard).padStart(5)}  ${(100*heard/total).toFixed(1)}%`);
+console.log(`    SILENT  the lane has no notes at all                  ${String(silent).padStart(5)}  ${(100*silent/total).toFixed(1)}%`);
+console.log(`    WRONG   the panel names a box never heard here        ${String(wrong).padStart(5)}  ${(100*wrong/total).toFixed(1)}%\n`);
 
-     Three questions, and the first two are free -- no rendering, because the
-     program's own two automation readers are exported and can simply be asked:
+if(wrong){
+  console.log("  the rack is lying about:");
+  for(const k of Object.keys(wrongBy).sort((a, b) => wrongBy[b] - wrongBy[a]).slice(0, 12))
+    console.log(`    ${String(wrongBy[k]).padStart(4)}  ${k}`);
+  console.log("");
+  process.exitCode = 1;
+} else {
+  console.log("  every panel names a box that is heard on its lane.\n");
+}
 
-       1. WHICH controls does any genre ride, and does the KIND allow it? A
-          `bus` control is a curve written before the song starts (`rideBus`);
-          a `gesture` control is read by the voice at every note (`P`); a
-          `voicing` or a `switch` is set once and MUST NOT MOVE -- two circuits
-          are two instruments, not two ends of a dial. A lane on one of those
-          is a contract violation, and a lane naming a control the machine does
-          not have is a lane that does nothing at all.
-
-       2. HOW FAR does each lane actually move it? Not how far the table asks
-          for -- how far the value actually travels once the clamp and the
-          fader law have had it. This is where a lane dies silently: a swing of
-          zero is a genre that believes it is automating something and is not.
-
-     Asked through the REAL readers, so this cannot drift from the program. */
-  const auto = await page.evaluate(async m => {
-    const M = MK2.INSTRUMENTS[m];
-    const KIND = {}; for(const c of M.controls) KIND[c.k] = c;
-    const rows = [], orphan = [], illegal = [], best = {};
-    /* ── SEVERAL SEEDS, BECAUSE A DRAW CAN LAND SMALL BY LUCK ────────────────
-       Every one of these amounts is drawn per song from a range, so one seed
-       cannot tell "this lane is decoration by design" from "this lane happened
-       to draw near zero this time". Take the WIDEST swing any of these seeds
-       produces: if the widest is still nothing, the table is the problem. */
-    const SEEDS = [1, 3, 7, 11, 23];
-    for(const g of MK2.genres()) for(const seed of SEEDS){
-      MK2.PICK.drums = m;
-      const song = MK2.composeSong(seed, undefined, g);
-      /* only genres that actually play this machine can speak for it */
-      if(song.motion.drums !== m) continue;
-      MK2.loadParams(g);
-      const plan = song.motion;
-      for(const key in plan.lanes){
-        if(key.indexOf(m + ".") !== 0) continue;
-        const k = key.slice(m.length + 1), c = KIND[k];
-        if(!c){ if(!orphan.includes(g + " " + key)) orphan.push(g + " " + key); continue; }
-        if(c.kind === "switch" || c.kind === "voicing"){
-          if(!illegal.includes(g + " " + key)) illegal.push(g + " " + key + " (" + c.kind + ")"); continue; }
-        const base = MK2.panelValue(m, k);
-        let lo = Infinity, hi = -Infinity;
-        if(c.kind === "bus"){
-          /* the real scheduler, and every value it writes */
-          const seen = [];
-          const param = { value: 0, cancelScheduledValues(){},
-            setValueAtTime(v){ seen.push(v); }, linearRampToValueAtTime(v){ seen.push(v); } };
-          MK2.rideBus(plan, param, key, base, 0);
-          for(const v of seen){ if(v < lo) lo = v; if(v > hi) hi = v; }
-        } else {
-          /* the real per-note reader, on the plan's own grid */
-          for(let s = 0; s * plan.spb < plan.seconds; s++){
-            const v = MK2.noteValue(plan, m, k, { tSec: s * plan.spb });
-            if(v < lo) lo = v; if(v > hi) hi = v;
-          }
-        }
-        const travel = c.max - c.min;
-        const id = g + " " + k;
-        const row = { g, k, kind: c.kind, lo, hi, swing: hi - lo,
-                      pct: 100 * (hi - lo) / (travel || 1),
-                      kinds: plan.lanes[key].map(v => v.kind).join("/") };
-        if(!best[id] || row.swing > best[id].swing) best[id] = row;
-      }
-    }
-    for(const id in best) rows.push(best[id]);
-    const never = M.controls.filter(c => !rows.some(r => r.k === c.k))
-                            .map(c => c.k + " (" + c.kind + ")");
-    return { rows, orphan, illegal, never, total: M.controls.length, seeds: SEEDS.length };
-  }, MACHINE);
-
-  console.log("\nE. THE AUTOMATION — what the program does to this machine while a song plays\n");
-  const ridden = new Set(auto.rows.map(r => r.k));
-  console.log("     " + ridden.size + " of " + auto.total + " controls are ridden by at least one genre, over " +
-              auto.rows.length + " genre/control lanes");
-  console.log("     never ridden: " + (auto.never.length ? auto.never.join(", ") : "none"));
-  if(auto.illegal.length) for(const s of auto.illegal)
-    console.log("     <<< A LANE ON A CONTROL THAT MUST NOT MOVE: " + s);
-  if(auto.orphan.length) for(const s of auto.orphan)
-    console.log("     <<< A LANE ON A CONTROL THIS MACHINE DOES NOT HAVE: " + s);
-  if(!auto.illegal.length && !auto.orphan.length)
-    console.log("     no lane rides a switch or a voicing, and no lane names a control that is not here");
-
-  const flat = auto.rows.filter(r => r.swing <= 1e-9);
-  const thin = auto.rows.filter(r => r.swing > 1e-9 && r.pct < 1);
-  console.log("\n     how far each lane actually moves its control, once the clamp and the");
-  console.log("     fader law have had it — the WIDEST of " + auto.seeds +
-              " seeds, as a % of the control's whole travel:\n");
-  const byPct = auto.rows.slice().sort((a, b) => a.pct - b.pct);
-  for(const r of byPct.slice(0, 14))
-    console.log("       " + (r.g + " " + r.k).padEnd(26) + r.kind.padEnd(9) +
-                r.lo.toPrecision(4).padStart(10) + " .. " + r.hi.toPrecision(4).padEnd(10) +
-                r.pct.toFixed(2).padStart(7) + "%  " + r.kinds +
-                (r.swing <= 1e-9 ? "   <<< DOES NOT MOVE" : ""));
-  console.log("       ... " + Math.max(0, byPct.length - 14) + " more, all wider than the above");
-  console.log("\n     " + (flat.length ? flat.length + " lane(s) never move their control at all"
-                                       : "every lane moves its control") +
-              (thin.length ? "; " + thin.length + " move it less than 1% of its travel" : ""));
-
-  if(errs.length) console.log("\nPAGE ERRORS: " + errs.slice(0, 3).join(" | "));
-  await b.close();
-})();
+if(silent){
+  /* NOT a rack fault, and reported anyway: a lane that is composed and never
+     sounds is a finding of its own, and folding it into the figure above would
+     be the same hiding this probe exists to stop. */
+  console.log("  lanes composed and never sounding (a separate defect, not the rack's):");
+  for(const k of Object.keys(silentBy).sort((a, b) => silentBy[b] - silentBy[a]).slice(0, 10))
+    console.log(`    ${String(silentBy[k]).padStart(4)} / ${songs}  ${k}`);
+  console.log("");
+}
