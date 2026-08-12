@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-11i · legato removes an onset, it does not add a tail</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-11j · every instrument is written like what it is</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -29771,6 +29771,130 @@ function makePerformance(chart, form, materials, sections){
         if(j >= 0) events[j] = Object.freeze(Object.assign({}, b, { tied: true }));
       }
     }
+  }
+  /* ══ AND EVERY INSTRUMENT IS WRITTEN LIKE WHAT IT IS ════════════════════════
+     The owner: "you need to do research on how to arrange these instruments.
+     You arrange everything like its a piano." Measured, and he was right: ONE
+     instrument in the whole file declared any playing discipline -- the
+     saxophone's `lines` -- and the other seventeen received an identical part
+     object, a pitch and a grid step and a duration, whatever they were.
+
+     THIS IS THE PLACE IT CAN BE FIXED FOR ALL OF THEM. Materials are built in
+     stage 3, before the ladder has chosen an instrument, which is why the harp's
+     roll had to be declared by the GENRE. But by here the events carry
+     `ev.voice` -- the actual instrument, after picks, machines, ladder and rig
+     -- so a family rule applied here reaches every instrument in the file
+     without the stage-3 ordering having to change at all.
+
+     Two rules, because two are what the sources actually support with numbers.
+     [docs/genre-research/score-craft.md §41, §53] */
+  {
+    const FAMILY = {
+      /* PLUCKED -- struck and then decaying. Rimsky-Korsakov files harp and
+         pizzicato together as "plucked strings", a group apart from the bowed. */
+      erangHarp: "plucked", bardPluck: "plucked",
+      /* STRUCK -- an electric piano is a hammer and a decay, same shape */
+      rhodes: "struck", wurly: "struck",
+      /* WIND -- must breathe. The horn is included on RK's own instruction:
+         "The remarks on breathing, in the section devoted to the wood-wind,
+         apply with equal force to the brass." */
+      bardFlute: "wind", bardWind: "wind", horns: "wind", sax: "wind",
+    };
+    /* HOW LONG A PLUCKED NOTE CAN RING, by register. Sourced in DIRECTION only:
+       "The lower strings naturally sustain longer than higher ones, which are
+       substantially brighter and more percussive" [corpus:ACTOR, Harp]. NO
+       SOURCE ANYWHERE GIVES A HARP DECAY IN SECONDS -- score-craft.md §56
+       records that absence -- so these two numbers are CHOSEN, and marked. */
+    const pluckRing = midi => 4.2 - 3.0 * Math.max(0, Math.min(1, (midi - 36) / 48));
+    /* HOW LONG A WIND CAN GO BEFORE IT HAS TO BREATHE. Also chosen, and
+       deliberately so: the best pedagogy source argues that publishing a
+       seconds table is HARMFUL because "once those values were established,
+       their existence would pose a threat to intelligent scoring" [Goss]. What
+       IS sourced is the ORDER -- "Bassoons and clarinets are somewhat less
+       capable of extremely long tones, and flutes least of all" -- so the flute
+       gets the shortest budget and the reed the longest. */
+    const airFor = v => v === "bardFlute" ? 5.5 : v === "horns" ? 7.0 : 8.0;
+    const BREATH = 0.20;                       // the gap a breath needs, seconds
+    const byRole = {};
+    for(const e of events){
+      if(e.pitch == null || e.role === "tape") continue;
+      (byRole[e.role] = byRole[e.role] || []).push(e);
+    }
+    for(const r in byRole){
+      const list = byRole[r].sort((a, z) => a.tSec - z.tSec);
+      let sounded = 0, prevEnd = null;
+      for(const e of list){
+        const fam = FAMILY[e.voice];
+        if(!fam) continue;
+        const i = events.indexOf(e);
+        if(i < 0) continue;
+        if(fam === "plucked" || fam === "struck"){
+          /* IT CANNOT HOLD. A plucked string was excited once and is dying; a
+             note told to last four bars is a lie the envelope cannot tell.
+             This is the owner's "why would a plucked intrument be put on
+             chords?" enforced rather than described. */
+          const ring = pluckRing(e.pitch);
+          if(e.durSec > ring)
+            events[i] = Object.freeze(Object.assign({}, e, { durSec: ring }));
+          continue;
+        }
+        /* WIND: the air runs out, and the rest comes off the END of the note
+           it interrupts -- "This pause is normally intended to shorten the
+           duration of the preceding note and not to alter the tempo"
+           [corpus:wikipedia, Breath mark]. The grid never moves. */
+        if(prevEnd != null && e.tSec - prevEnd > BREATH) sounded = 0;   // it already breathed
+        const air = airFor(e.voice);
+        let end = e.tSec + e.durSec;
+        if(sounded + e.durSec > air && e.durSec > BREATH * 2){
+          const cut = Math.max(BREATH, e.durSec * 0.18);
+          events[i] = Object.freeze(Object.assign({}, e, { durSec: e.durSec - cut }));
+          end = e.tSec + e.durSec - cut;
+          sounded = 0;                                                  // it just breathed
+        } else {
+          sounded += e.durSec;
+        }
+        prevEnd = end;
+      }
+    }
+    /* ── AND A WHISTLE DOES NOT TONGUE A REPEATED NOTE, IT CUTS IT ───────────
+       `bardFlute` and `bardWind` are whistle-family samples, and the tradition
+       they come from re-articulates with a FINGER rather than the tongue:
+
+         "when playing two notes of the same pitch in succession, these pipers
+          had to use a fingered articulation to establish the beginning of such
+          a repeated note. These fingered articulations have come down to us as
+          the cut and the strike."
+         "Cuts and strikes cannot exist without their parent notes. You cannot
+          play just a cut or just a strike, because they are not notes."
+         "We hear well-played cuts and strikes as having NO DURATION, as falling
+          exactly on the beat."
+         [corpus:Grey Larsen, Irish flute and tin whistle ornamentation]
+
+       So a repeated pitch gets a CUT: a flick of the next scale degree above,
+       at the parent note's own instant, over almost immediately. It does NOT
+       take a grid step and does not displace the parent -- Larsen is explicit
+       that notating these as grace notes with duration "is where so much
+       confusion arises", which is the same complaint as arranging everything
+       like a piano, made from inside the tradition.
+
+       The 40 ms is CHOSEN. Larsen gives the ornament no duration at all, and a
+       sample cannot be given none. */
+    const WHISTLE = { bardFlute: 1, bardWind: 1 };
+    const cuts = [];
+    for(const r in byRole){
+      const list = byRole[r].sort((a, z) => a.tSec - z.tSec);
+      for(let i = 1; i < list.length; i++){
+        const a = list[i - 1], b = list[i];
+        if(!WHISTLE[b.voice] || b.voice !== a.voice) continue;
+        if(b.pitch !== a.pitch) continue;                       // only a REPEAT is cut
+        if(b.tSec - a.tSec < 0.08) continue;                    // the same onset, not a repeat
+        const up = b.pitch + (inKey(chart.root, chart.mode, b.pitch + 2) ? 2 : 1);
+        if(up > 108) continue;
+        cuts.push(Object.freeze(Object.assign({}, b, {
+          pitch: up, durSec: 0.04, gain: b.gain * 0.55, cut: true, tied: false })));
+      }
+    }
+    if(cuts.length) events.push(...cuts);
   }
 
   /* ═══ THE PHRASE, ATTACHED [docs/genre-research/sax-engine.md] ══════════════
