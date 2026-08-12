@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-12g · the bass is a part again, and the drums have a downbeat</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-12h · a soft stroke is a different sound, not a quieter one</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -9057,14 +9057,42 @@ function erangVoice(mach, fams, lanes){
     /* TONE: one lowpass, and it is the "avoid overly bright transients" the
        genre's own sources ask for made into a knob rather than baked in. */
     const tone = kitted(g) ? P(g, ev, g.drumMachine, "pTone", 0.8) : P(g, ev, mach, "tone", 0.8);
+    /* ══ HOW HARD IT WAS STRUCK HAS TO CHANGE THE SOUND, NOT ONLY THE LEVEL ═══
+       Reported, three times, and the third time in as many words: "ALL songs
+       SOUND LIKE there is only ONE drum loop", and before that, of the flute,
+       "WE ARE USING A SAMPLE AND YOUR TRYING TO USE IT LIKE IT IS REAL BUT IT
+       HAS ZERO ELEMENTS OF A REAL INSTRUMENT THERE IS NO BREATH THERE IS NO
+       DYNAMICS NONE OF THAT".
+
+       I answered the drum report twice by measuring whether the PATTERN
+       repeated. It does not -- 1720 distinct bar patterns in 2429 bars -- and
+       that was never the claim. The claim is that it SOUNDS like one loop, and
+       the reason it does is here: this sampler has ONE recording per patch and
+       a gain node. A ghost note and an accent are the identical audio at two
+       volumes. A real kit answers a soft stroke with a different SOUND -- less
+       high end, a shorter shell tone -- because a lightly struck head radiates
+       less high frequency, and that is the difference the ear uses to tell one
+       bar from another. Without it, a hundred distinct patterns made of six
+       unchanging noises are heard as one loop, correctly.
+
+       So velocity opens the filter. It cannot invent the layers the pack does
+       not have, and it does not pretend to: this is one physical fact -- soft
+       strike, darker tone -- applied honestly, and it is the most a single
+       sample can be asked for. The drums get the full slope; the pitched
+       patches get a third of it, because the same fact is true of a flute and
+       far less pronounced. The `hit` floor keeps a ghost note dark rather than
+       gone. ══════════════════════════════════════════════════════════════════ */
+    const hit = Math.max(0.18, Math.min(1, ev.gain == null ? 1 : ev.gain));
+    const slope = ev.role === "drums" ? 1.05 : 0.20;
     const BUS = (ev.role === "drums") ? null : kbdBus(ev);
     const dest = (ev.role === "drums") ? drumOut(g, ev.lane)
                                        : stereoOut(g, ev, t, mach, BUS);
     src.connect(gn);
-    if(tone >= 0.995) gn.connect(dest);
+    if(tone >= 0.995 && hit >= 0.999) gn.connect(dest);
     else {
       const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = 0.4;
-      lp.frequency.value = 500 * Math.pow(18000 / 500, tone);
+      lp.frequency.value = Math.max(220,
+        500 * Math.pow(18000 / 500, tone) * Math.pow(hit, slope));
       gn.connect(lp); lp.connect(dest);
     }
     /* a one-shot must be allowed to finish; a loop is stopped by the note */
@@ -10073,9 +10101,22 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
   V.wardrum = function(g, ev, t){
     const c = g.ctx;
     const chT = chTune(g, ev), chD = chDecay(g, ev);
+    /* ── HOW HARD IT WAS HIT, AND IT USED TO CHANGE NOTHING BUT THE LEVEL ────
+       Every gain below scaled with `ev.gain` and nothing else did, so a soft
+       stroke on this drum was the identical sound turned down -- see the long
+       note at the sampler's tone filter for why that is most of "all songs
+       sound like one drum loop".
+
+       A struck membrane does two things harder when you hit it harder, and
+       both are ordinary physics rather than taste. It goes SHARPER at the
+       moment of impact, because the head is stretched further and its tension
+       rises -- the pitch drop afterwards is the note settling back, and a
+       hard stroke drops further because it started higher. And it radiates
+       MORE HIGH FREQUENCY through the felt, which is the puff below. */
+    const hit = Math.max(0.15, Math.min(1, ev.gain == null ? 1 : ev.gain));
     const f0 = 52 * chT, decay = 0.95 * chD;
     const o = c.createOscillator(); o.type = "sine";
-    o.frequency.setValueAtTime(f0 * 2.1, t);
+    o.frequency.setValueAtTime(f0 * (1.55 + 0.95 * hit), t);
     o.frequency.exponentialRampToValueAtTime(f0, t + 0.11);   // slow, no snap
     const og = c.createGain();
     og.gain.setValueAtTime(0.0001, t);
@@ -10091,10 +10132,13 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     sg.gain.exponentialRampToValueAtTime(0.0002, t + decay * 0.45);
     s.connect(sg); sg.connect(drumOut(g, ev.lane));
     s.start(t); s.stop(t + decay * 0.45 + 0.05);
-    /* the head, felt-headed: a short lowpassed puff with no top on it */
+    /* the head, felt-headed: a short lowpassed puff with no top on it -- and
+       the felt lets more of it through the harder the mallet lands, which is
+       the second half of the velocity fix above. A ghost stroke is a thud at
+       330 Hz; a full stroke opens to about 900. */
     const n = burst(g, t, 0.04, ev.tSec.toFixed(5) + ":war");
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
-    lp.frequency.value = 520; lp.Q.value = -3;
+    lp.frequency.value = 260 + 900 * hit * hit; lp.Q.value = -3;
     const ng = c.createGain();
     ng.gain.setValueAtTime(0.55 * ev.gain, t);
     ng.gain.exponentialRampToValueAtTime(0.0002, t + 0.05);
