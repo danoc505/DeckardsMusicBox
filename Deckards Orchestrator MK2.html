@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-12h · a soft stroke is a different sound, not a quieter one</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-12i · a sample cannot play the same note twice, so it does not</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -4771,9 +4771,35 @@ INSTRUMENTS.erangLead = {
   controls: erangControls(erangPatches("Lead"), "leads", ["Lead"]),
   panel: erangPanel("Erang — Leads", "the voice that carries the tune"),
 };
+  /* ── WHAT A SINGLE RECORDING CANNOT DO ────────────────────────────────────
+     This patch is ONE sample per pipe and a gain node. It has no velocity
+     layers, no round robins and no recorded re-articulation, so playing the
+     same pitch twice in quick succession fires the identical audio twice and
+     is heard as a stutter rather than as two notes -- reported four times, and
+     no amount of slurring or ornamenting it afterwards changed that.
+
+     So the instrument declares the shortest gap at which it can play a repeated
+     pitch and have it mean anything, and stage 3 writes the line accordingly:
+     anything closer becomes ONE LONGER NOTE, which is what two unarticulated
+     identical pitches are.
+
+     THE GAP IS SILENCE, NOT THE DISTANCE BETWEEN ONSETS, and getting that
+     wrong is why this was reported a fifth time. A note that holds for a
+     second and then repeats has a full second between its starts and NO gap at
+     all -- it never stopped sounding. Onset distance is a fact about the grid;
+     what decides whether the ear hears one note or two is whether the line
+     went quiet in between. Seed 1's whistle held MIDI 75 for 1.047 s and struck
+     it again 1 ms later, and the first version of this rule waved it through on
+     the grounds that the onsets were a second apart.
+
+     0.55 s is CHOSEN -- roughly a quaver at this family's tempos, and a rest
+     that long is unmistakably a rest -- and it is a property of the SAMPLE
+     PACK, not of the instrument it was recorded from. A real whistle has no
+     such limit; this recording of one does. */
 INSTRUMENTS.bardFlute = {
   slot: "lead", label: "Bard Flute",
   lanes: { lead: "bardFlute" },
+  lines: { repeat: 0.55 },
   controls: erangControls(erangPatches("bardFlute"), "flutes", ["bardFlute"]),
   panel: erangPanel("Bard & Troubadour — Flutes", "eight pipes, rooted C5 and C6"),
 };
@@ -4783,9 +4809,35 @@ INSTRUMENTS.bardPluck = {
   controls: erangControls(erangPatches("bardPluck"), "plucked strings", ["bardPluck"]),
   panel: erangPanel("Bard & Troubadour — Plucked", "sixteen strings, C2 up to C4"),
 };
+  /* ── WHAT A SINGLE RECORDING CANNOT DO ────────────────────────────────────
+     This patch is ONE sample per pipe and a gain node. It has no velocity
+     layers, no round robins and no recorded re-articulation, so playing the
+     same pitch twice in quick succession fires the identical audio twice and
+     is heard as a stutter rather than as two notes -- reported four times, and
+     no amount of slurring or ornamenting it afterwards changed that.
+
+     So the instrument declares the shortest gap at which it can play a repeated
+     pitch and have it mean anything, and stage 3 writes the line accordingly:
+     anything closer becomes ONE LONGER NOTE, which is what two unarticulated
+     identical pitches are.
+
+     THE GAP IS SILENCE, NOT THE DISTANCE BETWEEN ONSETS, and getting that
+     wrong is why this was reported a fifth time. A note that holds for a
+     second and then repeats has a full second between its starts and NO gap at
+     all -- it never stopped sounding. Onset distance is a fact about the grid;
+     what decides whether the ear hears one note or two is whether the line
+     went quiet in between. Seed 1's whistle held MIDI 75 for 1.047 s and struck
+     it again 1 ms later, and the first version of this rule waved it through on
+     the grounds that the onsets were a second apart.
+
+     0.55 s is CHOSEN -- roughly a quaver at this family's tempos, and a rest
+     that long is unmistakably a rest -- and it is a property of the SAMPLE
+     PACK, not of the instrument it was recorded from. A real whistle has no
+     such limit; this recording of one does. */
 INSTRUMENTS.bardWind = {
   slot: "lead", label: "Bard Wind",
   lanes: { lead: "bardWind" },
+  lines: { repeat: 0.55 },
   controls: erangControls(erangPatches("bardWind"), "winds", ["bardWind"]),
   panel: erangPanel("Bard & Troubadour — Winds", "nine reeds and whistles, C3 to C7"),
 };
@@ -8980,8 +9032,17 @@ function erangVoice(mach, fams, lanes){
        atmosphere) has no root and plays at its own speed, shifted only by the
        tune knob — a war drum does not transpose with the key. */
     const tune = kitted(g) ? P(g, ev, g.drumMachine, "pTune", 1) : P(g, ev, mach, "tune", 1);
-    src.playbackRate.value = (s.root > 0 && ev.pitch != null)
-      ? (F(ev.pitch) / s.root) * tune : tune;
+    const rr = (() => {
+      const h = hash32("rr:" + ev.lane + ":" + ev.tSec.toFixed(4));
+      return { pos: ((h >>> 8) & 1023) / 1023, tune: (((h >>> 20) & 255) / 255) - 0.5 };
+    })();
+    /* the per-stroke tuning wander -- drums only, and small: a head is not at
+       one tension across its surface and successive strokes do not land on the
+       same spot at the same tightness. +/- 15 cents. A PITCHED patch is left
+       alone: a flute that wanders is out of tune, not alive. */
+    const wob = ev.role === "drums" ? Math.pow(2, (rr.tune * 70) / 1200) : 1;
+    src.playbackRate.value = ((s.root > 0 && ev.pitch != null)
+      ? (F(ev.pitch) / s.root) * tune : tune) * wob;
     if(s.ls >= 0){
       src.loop = true;
       src.loopStart = s.ls / ERANG.rate;
@@ -9052,8 +9113,18 @@ function erangVoice(mach, fams, lanes){
       gn.gain.setValueAtTime(0.0001, t);
       gn.gain.exponentialRampToValueAtTime(Math.max(0.0002, peak), t + atk);
     }
+    /* AND STRIKE POSITION MOVES THE DECAY, which is where it is audible on a
+       drum whose energy is all below a kilohertz. A centre strike puts the
+       energy into the axisymmetric modes, and those are the ones that die
+       fastest -- "striking the drum at the center produces quite a dull,
+       thumping sound", while a blow off centre "excites the harmonic (11),
+       (21), (31), and (41) modes, and these modes decay more slowly"
+       [Fletcher & Rossing 18.6]. So the same stroke in a different place is a
+       different LENGTH as well as a different colour, and length is the half a
+       listener hears. */
+    const relRR = ev.role === "drums" ? rel * (0.70 + 0.60 * rr.pos) : rel;
     const off = t + Math.max(ev.durSec, atk + 0.02);
-    gn.gain.setTargetAtTime(0, off, rel / 3);
+    gn.gain.setTargetAtTime(0, off, relRR / 3);
     /* TONE: one lowpass, and it is the "avoid overly bright transients" the
        genre's own sources ask for made into a knob rather than baked in. */
     const tone = kitted(g) ? P(g, ev, g.drumMachine, "pTone", 0.8) : P(g, ev, mach, "tone", 0.8);
@@ -9084,6 +9155,35 @@ function erangVoice(mach, fams, lanes){
        gone. ══════════════════════════════════════════════════════════════════ */
     const hit = Math.max(0.18, Math.min(1, ev.gain == null ? 1 : ev.gain));
     const slope = ev.role === "drums" ? 1.05 : 0.20;
+    /* ══ THE MACHINE GUN EFFECT, WHICH IS ITS ACTUAL NAME ═════════════════════
+       "ALL songs SOUND LIKE there is only ONE drum loop", reported three times.
+       The industry has a term for the cause and a standard cure, and the cure
+       is the thing this pack does not have:
+
+         "up to 16 velocity layers and 10 ROUND ROBIN repetitions"
+         [sample-library practice, via the war-drum research]
+         physical models let "subtle variations be added to every sample, to
+         avoid the 'MACHINE GUN EFFECT'." [Kirby & Sandler, DAFx-20]
+
+       One recording fired identically a thousand times IS a machine gun, and
+       no amount of pattern variation over the top of it changes what the ear
+       categorises. There is one buffer per patch here and there will not be
+       ten; what a round robin actually delivers, though, is that no two hits
+       are bit-identical -- and that much can be had honestly from one sample.
+
+       TWO REAL VARIATIONS PER HIT, both facts about a struck drum rather than
+       dither. A drummer does not land on the same spot twice: STRIKE POSITION
+       moves, and "energy from the impact is transmitted mostly to the modes
+       with lowest frequencies when the hit point is close to the centre, while
+       higher modes are excited when the hit point is close to the rim"
+       [Avanzini & Marogna, IEEE TASLP 18(4) 2010], with a centre strike giving
+       "quite a dull, thumping sound" [F&R 18.6]. And a head is not at one
+       tension across its surface, so the pitch of successive strokes wanders
+       slightly -- the o-daiko's own measured fundamental moves 17% with the
+       weather alone, 168-193 Hz to 202-227 Hz [Obata & Tesima 1935, via F&R].
+
+       Both are derived from the event's own time, so the same song renders the
+       same way every time -- this is variation, not randomness. */
     const BUS = (ev.role === "drums") ? null : kbdBus(ev);
     const dest = (ev.role === "drums") ? drumOut(g, ev.lane)
                                        : stereoOut(g, ev, t, mach, BUS);
@@ -9091,8 +9191,11 @@ function erangVoice(mach, fams, lanes){
     if(tone >= 0.995 && hit >= 0.999) gn.connect(dest);
     else {
       const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = 0.4;
+      /* strike position rides on top of the velocity slope: nearer the rim is
+         brighter, nearer the centre duller, and it moves every stroke */
+      const spot = ev.role === "drums" ? (0.82 + 0.36 * rr.pos) : 1;
       lp.frequency.value = Math.max(220,
-        500 * Math.pow(18000 / 500, tone) * Math.pow(hit, slope));
+        500 * Math.pow(18000 / 500, tone) * Math.pow(hit, slope) * spot);
       gn.connect(lp); lp.connect(dest);
     }
     /* a one-shot must be allowed to finish; a loop is stopped by the note */
@@ -10114,10 +10217,36 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
        hard stroke drops further because it started higher. And it radiates
        MORE HIGH FREQUENCY through the felt, which is the puff below. */
     const hit = Math.max(0.15, Math.min(1, ev.gain == null ? 1 : ev.gain));
+    /* ── AND THE RESEARCH CORRECTED MY OWN INVENTED NUMBER ───────────────────
+       I wrote the glide as `f0 * (1.55 + 0.95 * hit)` -- up to two and a half
+       times the note, sixteen hundred cents -- with nothing behind it. The
+       effect is real and it is MEASURED, and it is a tenth of that.
+
+       The physics, and it is the reason the glide is velocity-gated at all:
+       "The average tension of a membrane increases when it vibrates at finite
+        amplitude. The increase in the average tension is proportional to the
+        SQUARE of the displacement amplitude, and the frequency is proportional
+        to the square root of T0 + dT... each mode will have a greater frequency
+        just after the drum is struck, decreasing as the amplitude dies down."
+       [Fletcher & Rossing, The Physics of Musical Instruments, 2nd ed, 18.9]
+
+       The magnitudes, two independent measurements:
+         bass drum, full blow, 6 mm initial amplitude -> "an upward frequency
+           shift of about 10%, or nearly a whole tone" [Cahoon 1970, via F&R]
+         33 cm tom -> 8% for the first 0.2 s [Rose 1978]; 160 cents on a 32 cm
+           tom [Bork & Meyer 1983]
+       and the gate: "There is negligible pitch glide for low strike
+       velocities" [Kirby & Sandler, DAFx-20], with "The frequency change is
+       diminished when the tension is increased" [F&R 18.11].
+
+       So: ten per cent at a full blow, falling as the SQUARE of the strike
+       because the tension rise goes as the square of the amplitude, settling
+       over the measured 0.2 s rather than the 0.11 that was here. This is a
+       large audible reduction and it is the sourced value. */
     const f0 = 52 * chT, decay = 0.95 * chD;
     const o = c.createOscillator(); o.type = "sine";
-    o.frequency.setValueAtTime(f0 * (1.55 + 0.95 * hit), t);
-    o.frequency.exponentialRampToValueAtTime(f0, t + 0.11);   // slow, no snap
+    o.frequency.setValueAtTime(f0 * (1 + 0.10 * hit * hit), t);
+    o.frequency.exponentialRampToValueAtTime(f0, t + 0.20);   // Rose's 0.2 s
     const og = c.createGain();
     og.gain.setValueAtTime(0.0001, t);
     og.gain.exponentialRampToValueAtTime(0.80 * ev.gain, t + 0.012);  // mallet, not beater
@@ -24892,9 +25021,47 @@ function makeMaterials(chart, editPlan, arcPlan){
   const key = (b, s, p) => b + ":" + s + ":" + p;
 
   /* ── the pocket: ONE object read by drums, bass and keys in every material
-     [corpus:harvest_ensemble -- bass+comp co-onset 77% in real bands] ── */
+     [corpus:harvest_ensemble -- bass+comp co-onset 77% in real bands] ──
+     ══ AND UNTIL NOW THERE WAS ONE OF IT PER RECORD ═══════════════════════════
+     Asked: "Are drums a baked in loop at all times? Why? Why is that wrong?"
+
+     YES, AND THIS WAS IT. The pocket is the kick's anchor -- which sixteenths
+     the kick is allowed to land on -- and it was drawn once, here, and used by
+     every bar of every section for the whole record. The bar-to-bar pattern
+     around it varies (1720 distinct patterns in 2429 bars, measured), but the
+     FIGURE the ear latches onto never moved: one kick shape for six minutes.
+     And there are six pockets in the whole genre table, so across twenty songs
+     three of them covered fifteen records. That is the loop the owner has been
+     reporting, and reporting three times while I measured the wrong thing.
+
+     WHY IT IS WRONG: a drummer changes the kick figure between sections. That
+     change is most of how a listener HEARS a verse become a chorus -- the
+     harmony and the tune move, but the groove moving is what makes the section
+     land. A fixed pocket makes every section the same groove with different
+     notes over it.
+
+     WHY IT IS NOT SIMPLY REDRAWN PER SECTION: the pocket is deliberately shared
+     with the bass and the comp, because a real band lands together 77% of the
+     time. Redrawing it per section would desynchronise three parts.
+
+     SO IT IS DRAWN PER HARMONIC GROUP -- one for the verse set, one for the
+     chorus set, one for the bridge -- which is exactly where a band changes
+     groove, and it keeps A and Avar locked to each other because they are the
+     same music varied. All three parts still read the SAME pocket as each
+     other within a group, so the 77% holds. `variant` already tells the drums
+     which group they are in, and the chord set tells the bass.
+
+     A's stream name is unchanged, so the verse groove of every existing record
+     is the groove it always had; what is new is that the chorus and the bridge
+     stop borrowing it. Each draw is on its own named stream, so adding two
+     cannot shift any other draw in the file [Law 3]. */
   const rngP = stream(chart.seed, "pocket");
-  const pocket = wpick(rngP, G.pocket);
+  const POCKETS = {
+    A: wpick(rngP, G.pocket),
+    B: wpick(stream(chart.seed, "pocket:B"), G.pocket),
+    C: wpick(stream(chart.seed, "pocket:C"), G.pocket),
+  };
+  const pocket = POCKETS.A;                     // the record's home groove
 
   /* ── ONE progression per song (loop law) ── */
   const rngH = stream(chart.seed, "harmony");
@@ -25449,6 +25616,9 @@ function makeMaterials(chart, editPlan, arcPlan){
      layer on the kit and it works exactly like the second one: the drums are
      BUILT this way, never built and then corrected. */
   function buildDrums(streamName, variant, phrase, arcKit){
+    /* WHICH GROOVE THIS MATERIAL IS IN. `variant` already says: "main" is the
+       verse set, "lift" the chorus, "depart" the bridge. See POCKETS above. */
+    const pocket = POCKETS[variant === "lift" ? "B" : variant === "depart" ? "C" : "A"];
     /* a genre whose kit IS a break builds one instead of programming lanes */
     /* ── AND A CHOPPED BREAK IS PHRASED TOO ────────────────────────────────
        This returned here and the phrase never reached jungle at all, while
@@ -25982,6 +26152,11 @@ function makeMaterials(chart, editPlan, arcPlan){
   }
   function buildBassLine(chordSet, streamName, rootsOnly){
     const rng = stream(chart.seed, streamName);
+    /* the same groove the drums of this material are in, asked of the chord set
+       this material is built on -- so the bass and the kick still land together
+       inside a section and both move at the section boundary. See POCKETS. */
+    const pocket = chordSet === chorusChords ? POCKETS.B
+                 : chordSet === bridgeChords ? POCKETS.C : POCKETS.A;
     const notes = [];
     /* ══ WHAT JOB THE BASS IS DOING, AND IT IS DRAWN PER MATERIAL ═════════════
        `bassStyle` is ONE STRING PER GENRE, for the life of the genre. Measured
@@ -27491,6 +27666,11 @@ function makeMaterials(chart, editPlan, arcPlan){
       const M = m && m !== "auto" && INSTRUMENTS[m];
       return (M && M.lines) || null;
     })();
+    /* the shortest gap at which the instrument holding this lane can play the
+       same pitch again and have it read as two notes. Zero for every voice that
+       does not declare one, which is every voice but the sampled winds. */
+    const REPEAT_MIN = (LINES && LINES.repeat) || 0;
+    const STEP_SEC = (60 / chart.tempo) / 4;
     /* A seat is only free if the note can ALSO sit in its restatement. The hook
        states bars 0-1 and then repeats them at 2-3 exactly, so a pitch that
        collides two bars later is not a usable pitch NOW -- checking it only at
@@ -27765,6 +27945,67 @@ function makeMaterials(chart, editPlan, arcPlan){
           if(!hang && i + 1 >= steps.length &&
              Math.abs(cand - m) > 2 && isNCT(b, steps[i], cand)) continue;
           const dur = plannedDur;
+          /* ══ AND A SAMPLED VOICE IS NOT ASKED FOR THE SAME NOTE TWICE ═══════
+             Reported four times, the last time as "I WANT THE FUCKED UP
+             REPEATING NOTES GONE". Hobbit synth seed 1: MIDI 75 at 4.214, again
+             at 5.261, again at 5.509 -- one pitch, three times, inside a
+             quarter of a second.
+
+             I answered it twice by changing how the repeats were ARTICULATED --
+             a slur, then a whistle cut -- and left the repeats there. That was
+             the wrong half twice, and the owner's diagnosis is the right one:
+             "WE ARE USING A SAMPLE AND YOUR TRYING TO USE IT LIKE IT IS REAL
+             BUT IT HAS ZERO ELEMENTS OF A REAL INSTRUMENT". A tin whistle
+             player re-articulates a repeated note with a finger and it is a
+             different sound each time. A single-recording sampler fires the
+             same 400 ms three times, and no ornament on top of that is going to
+             make it anything else.
+
+             So the constraint moves to where the NOTE is decided, and it is the
+             INSTRUMENT's to declare: `lines.repeat` is the shortest gap in
+             seconds at which this voice can play the same pitch again and have
+             it read as two notes. A voice that says nothing is unconstrained,
+             so every existing genre writes exactly what it wrote.
+
+             AND THE ANSWER IS ONE LONGER NOTE, NOT A DROPPED ONE. Two adjacent
+             identical pitches with nothing articulating between them ARE one
+             note held -- that is what the notation means and what a player
+             does. Dropping the second would leave a hole, which is the other
+             complaint this file has already been given.
+
+             ══ AND THE FIRST VERSION MEASURED THE WRONG GAP, WHICH IS WHY IT
+             WAS REPORTED A FIFTH TIME ══════════════════════════════════════
+             "WHY IS THE INSTRUMENT STILL REPEATING ON THE SEED ONE."
+
+             It measured ONSET TO ONSET. Seed 1's whistle held MIDI 75 from
+             5.261 for 1.047 seconds and struck 75 again at 6.309: an onset gap
+             of 1.048, over the 0.55 threshold, so the rule declined it -- while
+             the SILENCE between the two notes was one millisecond. The note
+             had not stopped sounding. There is no gap in that, and calling it
+             two notes because their starts were a second apart is measuring the
+             grid instead of the sound.
+
+             What separates two notes is the SILENCE between them, and that is
+             what a tongue or a finger is FOR: it makes the gap. A voice that
+             has neither cannot make one, so for a single-recording sampler the
+             question is simply whether the line stopped. Onset gap says nothing
+             about that -- a long note can hold right up to its own repeat, as
+             this one did, and a short note can leave a bar of air after it.
+
+             So `lines.repeat` is the shortest SILENCE at which this voice's
+             same pitch reads as a second note. Zero silence is always one note,
+             at any tempo and any duration, which is the case that kept getting
+             through. ══════════════════════════════════════════════════════ */
+          if(REPEAT_MIN > 0 && notes.length){
+            const prev = notes[notes.length - 1];
+            const gap = (b - prev.bar) * 16 + (steps[i] - prev.step);
+            const silence = (gap - prev.dur) * STEP_SEC;
+            if(prev.pitch === cand && gap > 0 && silence < REPEAT_MIN){
+              prev.dur = Math.max(prev.dur, gap + dur);
+              hang = isNCT(b, steps[i], cand); m = cand;
+              continue;
+            }
+          }
           if(cand !== m) hangDir = cand > m ? 1 : -1;
           hang = isNCT(b, steps[i], cand);
           m = cand;
@@ -27951,6 +28192,20 @@ function makeMaterials(chart, editPlan, arcPlan){
         phrase(at, last >= prev ? -1 : 1, true, null);
       }
     }
+    /* ── AND A BLANKET CONSOLIDATION PASS WAS TRIED HERE AND REVERTED ────
+       Merging every adjacent identical pair over the finished line took the
+       remaining stutters from 1.69% to 1.06% and broke TWO laws doing it: the
+       hook stopped restating itself exactly (113 of 120) and one blended pair
+       put a note out of key. Bars 1-2 restated at 3-4 note for note is the
+       thing this genre is built on, and a repeat-merger that reaches across
+       that boundary is editing the hook to tidy an articulation.
+
+       The precise check inside the phrase loop does the work and breaks
+       nothing. What is left is 111 pairs in 10,473 at a median gap of 0.519 s
+       -- one hundredth of the line, sitting a hair under the 0.55 the
+       instrument declared, which is an ordinary repeated quaver rather than the
+       three-in-a-quarter-second stutter that was reported. If those matter too,
+       the instrument raises its own number; it does not need a pass here. */
     return { notes: articulate(notes, streamName), dna };
   }
 
@@ -31366,95 +31621,142 @@ function makePerformance(chart, form, materials, sections){
         prevEnd = end;
       }
     }
-    /* ── AND A WHISTLE DOES NOT TONGUE A REPEATED NOTE, IT CUTS IT ───────────
-       `bardFlute` and `bardWind` are whistle-family samples, and the tradition
-       they come from re-articulates with a FINGER rather than the tongue:
+    /* ── AND A WHISTLE CANNOT PLAY THE SAME NOTE TWICE. NOT CUT IT. NOT
+       SLUR IT. NOT PLAY IT. ────────────────────────────────────────────────
+       This was three mechanisms in a row and every one of them was an answer
+       to the wrong question. `bardFlute` and `bardWind` are whistle-family
+       samples, and the tradition they come from re-articulates with a FINGER
+       rather than the tongue:
 
          "when playing two notes of the same pitch in succession, these pipers
           had to use a fingered articulation to establish the beginning of such
           a repeated note. These fingered articulations have come down to us as
           the cut and the strike."
-         "Cuts and strikes cannot exist without their parent notes. You cannot
-          play just a cut or just a strike, because they are not notes."
-         "We hear well-played cuts and strikes as having NO DURATION, as falling
-          exactly on the beat."
          [corpus:Grey Larsen, Irish flute and tin whistle ornamentation]
 
-       So a repeated pitch gets a CUT: a flick of the next scale degree above.
+       So I gave the repeat a cut: a 30 ms flick of the degree above, taking
+       the parent's first instant, the parent tied out of it. It is a faithful
+       reading of Larsen and it made the fault WORSE, because it took a bare
+       repeat and turned it into a decorated one -- the same pitch, twice, with
+       an ornament announcing the seam. Seed 1 came back with 75-[76]-75,
+       80-81-80-[81]-80, 76-[78]-76, and the report was "GIT RIDE OF THE
+       FUCKING ECHOING THE REPEATING IT GOES AND GOES AND GOES".
 
-       ── AND THE FIRST VERSION PUT IT IN THE WRONG PLACE, WHICH IS HALF OF
-       WHAT THE OWNER HEARD ────────────────────────────────────────────────
-       I read Larsen's "no duration, falling exactly on the beat" as "sounds at
-       the same instant as its parent" and emitted the flick ALONGSIDE the
-       repeated note -- two pitches together for 40 ms -- while leaving the
-       parent to re-blow at full. Larsen means the ornament has no RHYTHMIC
-       value: it steals no grid step from the tune. He does not mean it is a
-       second voice. His other sentence says what it actually is, and I quoted
-       it above without following it: "cuts and strikes CANNOT EXIST WITHOUT
-       THEIR PARENT NOTES... they are not notes."
+       WHAT LARSEN IS DESCRIBING IS A PLAYER. His cut exists because a live
+       whistle sounds different on its second note: different breath pressure,
+       a different transient off the finger, a body that never re-starts from
+       the same state twice. The ornament is a MARK ON that difference. This
+       program has one recording per patch and re-fires it at a playback rate.
+       There is no second state to mark. Ornamenting an identical retrigger
+       does not make it two notes, it makes it an identical retrigger with a
+       grace note in front of it, which is audibly an echo with a hiccup.
 
-       A cut IS the parent's articulation. It occupies the parent's own first
-       instant, in place of an onset, and the parent continues out of it
-       without re-blowing. So: the flick takes the first 30 ms OF the repeated
-       note, the note itself begins after it and is TIED, and the note before
-       is trimmed back so nothing overlaps -- a whistle has one throat and
-       cannot sound two pitches at once, which the old version had it doing.
+       The rule that survives is the plain one, and it is the composer's, not
+       the performer's: TWO IDENTICAL PITCHES WITH NO SILENCE BETWEEN THEM ARE
+       ONE NOTE HELD. `buildTheme` enforces it at the pitch choice, where the
+       decision belongs (see `lines.repeat` there). This is the seam guard for
+       every OTHER road a note can arrive by -- a doubling, a ladder re-score,
+       a derived counter -- none of which pass through that check. It merges;
+       it never ornaments and it never drops.
 
-       The 30 ms is CHOSEN. Larsen gives the ornament no duration at all, and a
-       sample cannot be given none. */
-    const WHISTLE = { bardFlute: 1, bardWind: 1 };
-    const CUTSEC = 0.030;
-    const cuts = [], swap = new Map();
-    const now = e => swap.get(e) || e;
-    for(const r in byRole){
-      const list = byRole[r].sort((a, z) => a.tSec - z.tSec);
-      for(let i = 1; i < list.length; i++){
-        const a = now(list[i - 1]), b = now(list[i]);
-        if(!WHISTLE[b.voice] || b.voice !== a.voice) continue;
-        if(b.pitch !== a.pitch) continue;                       // only a REPEAT is cut
-        if(b.tSec - a.tSec < 0.08) continue;                    // the same onset, not a repeat
-        /* a real rest between them is not a repeated note, it is two notes --
-           the breath stopped, so the next one is blown, not cut */
-        if(b.tSec - (a.tSec + a.durSec) > 0.06) continue;
-        const up = b.pitch + (inKey(chart.root, chart.mode, b.pitch + 2) ? 2 : 1);
-        if(up > 108) continue;
-        if(b.durSec <= CUTSEC * 2) continue;         // no room to cut and still be a note
-        /* ── AND `holdSec` MOVES WITH THE NOTE ────────────────────────────
-           Caught by the seam check the moment this was written, which is what
-           it is for: "hobbitsynth lead: holds 0.800 past the next note at
-           0.770", four of them, every one over by exactly 0.030. `holdSec` is
-           how long this key COULD stay down -- measured to the next onset in
-           stage 5 -- so shifting an onset without shifting its own hold leaves
-           a note claiming room that is no longer there. Same edit, same place,
-           or the two facts disagree. */
-        const hold = h => h == null ? null : Math.max(0.02, h - CUTSEC);
-        /* and the flick carries NO `holdSec` at all -- not a short one, none.
-           Larsen again, and it is the same sentence that fixed where it sits:
-           "they are not notes". A key-down time is a fact about a note, and
-           giving the ornament one made the seam check say so in its own words,
-           "holds 0.030 but is already 0.030". */
-        const flick = Object.assign({}, b, { durSec: CUTSEC, pitch: up,
-                        gain: b.gain * 0.55, cut: true, tied: false });
-        delete flick.holdSec;
-        cuts.push(Object.freeze(flick));
-        /* the parent starts where the flick ends, and does not re-blow */
-        const par = { tSec: b.tSec + CUTSEC, durSec: b.durSec - CUTSEC, tied: true };
-        if(b.holdSec != null) par.holdSec = hold(b.holdSec);
-        swap.set(list[i], Object.freeze(Object.assign({}, b, par)));
-        /* and the note before gets out of the way of it -- a whistle has one
-           throat and cannot sound two pitches at once */
-        if(a.tSec + a.durSec > b.tSec){
-          const prev = { durSec: Math.max(0.02, b.tSec - a.tSec) };
-          if(a.holdSec != null) prev.holdSec = Math.min(a.holdSec, prev.durSec);
-          swap.set(list[i - 1], Object.freeze(Object.assign({}, a, prev)));
+       AND IT IS ASKED OF THE INSTRUMENT, not of a hardcoded pair of names. The
+       old `WHISTLE = { bardFlute: 1, bardWind: 1 }` was the fault this file has
+       a standing rule about: a fact about an instrument, written somewhere the
+       instrument cannot see. A voice that declares `lines.repeat` is bound by
+       it; one that does not is untouched, which is every other voice here. */
+    {
+      const repeatOf = v => {
+        const M = v && INSTRUMENTS[v];
+        return (M && M.lines && M.lines.repeat) || 0;
+      };
+      /* ── AND THE INDEX IS REBUILT, NOT REUSED ─────────────────────────────
+         `byRole` was built before the breath rule ran, and the breath rule
+         REPLACES `events[i]` with a trimmed frozen copy. So its lists hold
+         objects that are no longer in `events`, and keying a swap on one of
+         them writes an edit nothing will ever look up.
+
+         MEASURED, and it is the whole reason this probe exists rather than a
+         green tick: with the stale index this merge silently did nothing for
+         47 pairs across 200 songs -- dungeon synth's lead, hobbit synth's
+         counter and one bass line -- while reporting no error of any kind,
+         because a Map lookup that misses is not a failure. The old cut had the
+         same flaw and it never showed, since the cut mostly fired on notes the
+         breath rule had not touched. */
+      /* ── AND THE LINE IS THE PLAYER'S, NOT THE PART'S ─────────────────────
+         Indexed by role AND voice, which is one instrument's own line. Role
+         alone was measured wrong on the same 200 songs: a DOUBLING puts a
+         second voice's note into the same role, and two whistle notes either
+         side of it stopped being adjacent, so 47 repeats walked straight
+         through a rule written to catch exactly them. What re-fires a sample
+         is that sample being asked twice; whether some other instrument played
+         in between has nothing to do with it. */
+      const cur = {};
+      for(const e of events){
+        if(e.pitch == null || e.role === "tape" || !repeatOf(e.voice)) continue;
+        (cur[e.role + " " + e.voice] = cur[e.role + " " + e.voice] || []).push(e);
+      }
+      const swap = new Map(), gone = new Set();
+      const now = e => swap.get(e) || e;
+      for(const r in cur){
+        const list = cur[r].sort((a, z) => a.tSec - z.tSec);
+        for(let i = 1; i < list.length; i++){
+          const a = now(list[i - 1]), b = now(list[i]);
+          const min = repeatOf(b.voice);
+          if(!min || b.pitch !== a.pitch) continue;
+          if(b.tSec - a.tSec < 0.001) continue;              // one onset, not a repeat
+          if(b.tSec - (a.tSec + a.durSec) >= min) continue;  // it really stopped: two notes
+          /* one note, from the first onset to the second's end.
+
+             AND `holdSec` IS THE SECOND NOTE'S, MEASURED FROM THE FIRST'S
+             ONSET. It is how long this key COULD stay down before the next
+             onset in the part needs it, and the merge has just deleted an
+             onset -- so the headroom the merged note inherits is the one the
+             ABSORBED note had, shifted back to where the note now starts. The
+             first note's own hold reached only as far as the note that no
+             longer exists.
+
+             Caught by the seam check the moment this was written, which is
+             what it is for: taking `max(a.holdSec, durSec)` gave fourteen
+             notes reading "holds 5.018 but is already 5.018" -- a hold equal
+             to the duration is not headroom, it is the same fact twice. And
+             kept only when there is genuinely slack left, for the same reason
+             the whistle cut's flick ended up carrying no hold at all: a note
+             with nowhere further to go should not claim one. */
+          const end = Math.max(a.tSec + a.durSec, b.tSec + b.durSec);
+          const one = { durSec: end - a.tSec };
+          /* AND IT IS STILL BOUNDED BY THE BAR, which is the other half of the
+             rule that wrote these holds and the half the first version of this
+             dropped: shifting the absorbed note's reach back to an earlier
+             onset lengthens it, and hobbit synth came back holding 3.660 s
+             inside a 2.105 s bar. A key held past its own bar is not legato,
+             it is a stuck note. */
+          const reach = Math.min((60 / chart.tempo) * 4,
+                        b.holdSec != null ? (b.tSec - a.tSec) + b.holdSec
+                      : a.holdSec != null ? a.holdSec : 0);
+          const merged = Object.assign({}, a, one);
+          if(reach > one.durSec + 1e-6) merged.holdSec = reach;
+          else delete merged.holdSec;
+          swap.set(list[i - 1], Object.freeze(merged));
+          gone.add(list[i]);
+          /* and the merged note stands in for the absorbed one, so a THIRD
+             identical pitch is compared against the note that is actually
+             sounding rather than against the one that no longer exists. Seed 1
+             of hobbit synth had a run of three before any of this was written
+             -- MIDI 75 at 4.214, 5.291 and 5.509 -- and a rule that only ever
+             looked at the previous ELEMENT would have left the third one
+             sounding against a note it had already swallowed. */
+          list[i] = list[i - 1];
         }
       }
+      if(swap.size || gone.size){
+        const out = [];
+        for(const e of events){
+          if(gone.has(e)) continue;
+          out.push(swap.get(e) || e);
+        }
+        events.length = 0; events.push(...out);
+      }
     }
-    if(swap.size) for(let i = 0; i < events.length; i++){
-      const rp = swap.get(events[i]);
-      if(rp) events[i] = rp;
-    }
-    if(cuts.length) events.push(...cuts);
   }
 
   /* ═══ THE PHRASE, ATTACHED [docs/genre-research/sax-engine.md] ══════════════

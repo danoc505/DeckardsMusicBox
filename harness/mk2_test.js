@@ -113,6 +113,31 @@ const check = (name, ok, detail) => {
   if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
 }
 
+/* ═══ AND NO SAMPLED VOICE EVER RE-FIRES A PITCH IT HAS NOT STOPPED ═════════
+   Reported FIVE times, the last two of them shouted, and answered wrongly four
+   times before it was answered at all -- a slur, a whistle cut, drum round
+   robins, and a `lines.repeat` rule that measured onset distance instead of
+   silence and so waved through the exact note being complained about.
+
+   IT RUNS IN THE BATTERY BECAUSE THE LAST FOUR ATTEMPTS ALL LOOKED FIXED. Each
+   one changed something real, was checked by reading the code that had just
+   been written, and shipped. The only thing that ever caught the fault was
+   printing the notes, and a check that has to be remembered is not a check.
+
+   `harness/probe_repeat.js` owns the logic. 30 songs a genre. ══════════════ */
+{
+  const { execFileSync } = require("child_process");
+  let out = "", ok = true;
+  try { out = execFileSync(process.execPath,
+          [path.resolve(__dirname, "probe_repeat.js"), "30"], { encoding: "utf8" }); }
+  catch(e){ ok = false; out = (e.stdout || "") + (e.stderr || ""); }
+  const n = (out.match(/(\d+) repeated note\(s\)/) || [])[1];
+  check("a sampled voice never plays the same pitch twice without stopping", ok,
+        ok ? "no repeated note on any voice that declares it cannot play one (10 genres x 30 songs)"
+           : `${n || "some"} repeated note(s) — run: node harness/probe_repeat.js 30`);
+  if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
+}
+
 const errors = [];
 let dilla = 0, hookExact = 0, hookTotal = 0, forms = new Set(), nondet = 0, ruleOf3 = 0;
 let dillaIdentical = 0, dillaChecked = 0;
