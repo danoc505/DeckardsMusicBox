@@ -61,6 +61,293 @@ should be built on top of this stack until it has been played.**
 
 ---
 
+## 0a. WHAT IS STILL NOT BUILT — the whole open list, `2026-08-13`
+
+*Asked for in as many words: "add what everything we have failed to implement
+to the todo file". This is that list, on the branch `claude/code-review-6jd9cz`,
+current as of build `2026-08-12i`.*
+
+**EVERY NUMBER BELOW WAS MEASURED TODAY, not remembered.** The probes that
+produced them are named at each item so any of it can be re-checked in one
+command. Where something is written down in a research sheet and not in the
+program, that is said plainly rather than described as "partial".
+
+---
+
+### 0a.1 THE BIGGEST ONE: the grid is four beats to a bar, and two of the four source themes are not
+
+`lotr-themes-measured.md` §5.2. **The Shire theme is in 3/4 and Rohan is a 6/8
+jig** — the travelling meter an overworld genre most wants, and the one the
+overworld research suspected and could not source until the notation was read.
+
+The program's grid is sixteen steps to a bar, a four-beat assumption baked deep
+enough that **"the meter is 3" is not expressible anywhere in the file**. Not
+in a genre table, not in a material, not in a section. It would touch stage 3
+through stage 5. Noted when the transcriptions were read and never acted on.
+
+This is the largest outstanding item by a distance, and it is the reason a genre
+built from a 3/4 theme is being generated in 4/4 and nobody said so.
+
+### 0a.2 The melody has no interval budget — one hardcoded line for every genre
+
+MEASURED `2026-08-12i`, 10 genres × 20 songs, lead line:
+
+| genre | step | repeated pitch | leap | distinct pitches, 20 whole songs |
+|---|---|---|---|---|
+| hobbit synth | 41% | **27%** | 32% | 20 |
+| dungeon synth | 42% | **31%** | 28% | **13** |
+| lofi | 61% | 16% | 23% | 23 |
+| bladerunner | 44% | 14% | 42% | 20 |
+
+The cause is one line in `buildTheme`, identical for every genre in the file:
+
+```js
+move = wpick(rng, [[0, 2], [dir, 5], [dir * 2, 2], [-dir, 2]]);
+```
+
+Four outcomes — stay, one step, two steps, one step back — **and no leap at
+all**, ever, in any genre. That is principle 1 exactly: a dimension shaped like
+a choice, holding a constant. It is why seed 1 of hobbit synth reads as a
+two-note wobble repeated across a whole record even after the sampled repeats
+were merged out of it, and it is a different fault from the repeat, fixed
+separately in `2026-08-12i`.
+
+**What would close it**: `theme.moves` as a declared weighted palette per genre,
+drawn in a named substream, with the existing four as the default so no genre
+moves that does not declare one. Then hobbit synth's own from the notation
+(0a.3).
+
+### 0a.3 The Shire theme's actual pitch constraints are known and unbuilt
+
+`score-craft.md` §14, five sources, three of them official publications: the
+Shire theme is **D major PENTATONIC** (no 4th, no 7th), head motif degrees
+**1-2-3-3-5**, over a **static tonic triad** — one chord per motif, not per bar
+— with the melody in the major and the bass in the **relative minor**
+(Bm-D-G-Em). The corpus is explicit that the pentatonic mask applies to the
+theme STATEMENT and relaxes in the continuation.
+
+**The mechanism gap, checked and stated so the next attempt does not re-derive
+it**: the theme walks by `scaleStep(key, mode, midi, move)`, so its pitch set
+IS the mode. Three ways in, and only one is right:
+
+- **(a) a degree mask threaded into `scaleStep`** — shared by every genre, too
+  broad to bolt on.
+- **(b) a pentatonic entry in `MODES`** — but `MODES` feeds chord building,
+  progression rows (seven degrees) and `inKey`, so a five-note member breaks
+  all three.
+- **(c) a declared mask in the genre's `theme` block, filtered where
+  `buildTheme` accepts a candidate pitch** — contained to melody, and the right
+  shape. **Build (c).**
+
+Keep it DRAWN — a weighted set of masks the song picks from — or it is a
+baked-in value wearing a table, which is the fault it exists to fix.
+
+### 0a.4 Development by sequence — the cheapest development there is, and there is no mechanism
+
+`lotr-themes-measured.md` §5.4: the Shire theme's second strain is its first
+**transposed a fifth, note for note**.
+
+MEASURED: a true sequence — six successive notes restated with every pitch
+shifted by one constant nonzero amount — occurs in **6 of 40** hobbit synth
+songs, and all six are accidents of the chord-follow, not a declared device.
+The ostinato has a `transpose` change-kind; the THEME has nothing.
+
+### 0a.5 The walking two-note accompaniment does not exist as an object
+
+`lotr-themes-measured.md` §2 and §4 both contain it written out: a **fixed
+two-element rhythmic cell whose PITCHES track the chord while its SHAPE does not
+change** — *Concerning Hobbits* bars 26-33 at a third, *The Ring Goes South*
+bar 17 onward at the octave.
+
+Hobbit synth's ostinato cells are six or seven stepwise scale degrees — a
+melodic figure, not a two-element alternation. The ostinato draws a cell of
+degrees; this needs **a shape plus an interval**. It is the thing an overworld
+genre most needs and the program generates nothing like it.
+
+### 0a.6 `roleGain` cannot express the loudness table — it is dynamic-dependent
+
+`score-craft.md` §3. Rimsky-Korsakov, exact: **at forte** 1 trumpet = 1 trombone
+= 1 tuba = 2 horns = 4 woodwinds; **at piano ALL winds are equal.** Berlioz
+adds that one synth string-section voice = 1 wind voice at *p* and 2 at *f*, so
+a five-part string layer weighs ten wind voices at forte.
+
+`roleGain` is **one fixed number per role**, so it cannot express a ratio that
+collapses with dynamic. That is a structural gap, not a wrong constant, and it
+is the arithmetic behind "we have bad levels and not using frequences well" and
+behind winds vanishing under pads.
+
+### 0a.7 The brass, and a dungeon-synth tutti that is actually orchestral
+
+`dungeon-synth-score-and-drums.md` §6. Everything else that sheet asked for was
+built in `2026-08-10e` — the timpani roll at three rates, the martial hand-drum
+figures with drags, the war drum. **Brass is the missing voice** and stays
+missing until recorded patches land: no brass is to be invented from a
+description. `V.horns` and the carnyx exist and are synthesised; a section is
+not.
+
+### 0a.8 The sample pack's real coverage gaps
+
+Roots parsed from the bank's own names; played range measured over 10 genres ×
+3 seeds:
+
+| family | detected roots | played | verdict |
+|---|---|---|---|
+| `bardFlute` | B4 C5 C6 C#6 | 69–87 | 2–3 semitones outside its sampled span — **ordinary sampler behaviour, not a fault** |
+| `bardWind` | C3 C4 C5 D#5 C#7 | 63–87 | **a two-octave hole, C5 → C#7** |
+| `bardPluck` | C2 C3 C4 | 48–67 | covered |
+| `erangHarp` | **none detected** | 50–78 | **28 semitones with no pitch reference at all** |
+
+Two real faults: `erangHarp` carries no detected root in any sample name yet is
+played across 28 semitones — whatever it is pitched against is not a measured
+root, and `harness/erang_bank.py` already detects roots and carries
+`CORRECT_ROOT` for hand fixes, so this may be measurable from the audio without
+new samples. And `bardWind`'s two-octave hole means mid-range notes are stretched
+a long way from the nearest sample.
+
+*(This item also carries a correction of my own: I first claimed `bardFlute` was
+"played five semitones below a whistle's lowest note", measured against a D
+whistle's D5. The pack's own roots refute it — the recorded instrument goes down
+to B4. I picked a reference instrument and then found a fault against my own
+pick.)*
+
+### 0a.9 Acid's keys lane is composed and never sounds
+
+Found by `probe_rack.js` as its SILENT column, and it is **not** a rack fault —
+it predates all of that work. Re-measured today at 20 songs: acid keys silent in
+**13 of 20**; bladerunner keys2 and hobbit synth keys2 once each. Either the
+role is allowed into sections it is then filtered out of, or the comp material is
+empty for that genre's registers.
+
+Run: `node harness/probe_rack.js 40`
+
+### 0a.10 Re-audit every declared fact for voices that quietly ignore it
+
+`ev.tied` was computed in stage 5, carried to stage 6, and **silently dropped by
+`erangVoice`** because that voice has its own envelope and never called the
+shared `adsr`. I verified the helper and not the callers.
+
+The same shape of hole may exist for `holdSec`, `wow`/`flutter`, `art`, `vib`,
+`cut`, `sam` — anywhere a voice with a bespoke path reads some fields and not
+others. **What would close it**: a probe that renders one voice at a time with a
+flag on and off and asserts the audio DIFFERS, rather than trusting that a field
+reaches the door.
+
+---
+
+### 0a.11 THE RESEARCH THAT IS WRITTEN DOWN AND NOT IN THE PROGRAM
+
+Counted today, mechanically: `score-craft.md` has **56 sections and 11 of them
+are cited anywhere in the program** — §2, §3, §7, §15, §17, §39, §41, §48, §53,
+§56. `lotr-themes-measured.md` has one section cited, §2.
+
+A citation is not proof of implementation and its absence is not proof of the
+reverse — but **45 uncited sections of a sheet written specifically to be built
+from is the shape of the problem**, and the named ones below were checked
+individually:
+
+- **§47 — the researcher's own ranking of what changes most for least code**,
+  and item 2 is still open: *"chords dealt out across voices instead of struck
+  as blocks"*, plus §4's voicing rules to decide who gets what. Item 1 (a
+  `reattack` boolean) is effectively done via `tied`; item 3 (the breath budget)
+  is done, §41.
+- **§42 — a wind plays ONE note, so a chord is an ASSIGNMENT PROBLEM.** The
+  program hands a wind a chord and lets it play all of it. This is the same
+  fault as §47.2 seen from the instrument's end, and it is the unfinished half
+  of "you arrange everything like it's a piano".
+- **§49–§52 — the bow.** A bowed player holds two notes (three independent
+  sources agree; the most load-bearing rule in the sheet); the bow has a clock
+  and it is dynamic-dependent; a section has infinite sustain and a soloist does
+  not; what keeps a held string chord alive. None expressible today.
+- **§55 — the pedal harp is a state machine.** Not modelled. §53 (rolled by
+  default) and §54 (the medieval instruments, easier to model) are built.
+- **§9 — Rimsky-Korsakov's five re-orchestration operations**, §10 tutti,
+  §11 the scarcity budget, §12 four escalations with numbers, §13 the ceiling on
+  "add more voices". The ladder re-scores a theme; none of these five govern how.
+- **§16 — chromatic mediants, as an actual lookup table.** Written out and
+  unused.
+- **§21 — the pastoral and the hunt, topic theory with hard constraints**, and
+  §19 mode and affect, §20 the walking tempo, §22 written to be heard a thousand
+  times, §23 the seam map.
+- **§43–§46 — articulation speed with numbers, register as character, the
+  flute's idiom of interruption, the tin whistle.** §46 carries a warning that
+  is this project's own.
+
+**AND THIS IS THE HABIT THE LIST IS MADE OF.** Research is commissioned, it
+comes back with numbers, one or two sections become table entries, the sheet is
+committed, and the sheet reads as done. Nothing reconciles a written finding
+with whether it is reachable in the program — the same gap `probe_reachable.js`
+was built to close for *declarations*, one level up, for *research*.
+
+---
+
+### 0a.12 WHERE A GENRE STILL COLLAPSES TO ONE VALUE
+
+`node harness/probe_palette.js 40`, run today. PINNED means the table offers a
+choice and the music never takes it:
+
+| genre | dimension | |
+|---|---|---|
+| hobbit synth | `keys pick` | 1 of 7 declared — always `erangHarp` |
+| hobbit synth | `lead pick` | 1 of 4 declared — always `bardFlute` |
+| acid | `groove` | 1 of 2 declared — always `even` |
+| vgm | `tempo` | 25 of 75 declared (THIN) |
+
+The two hobbit synth rows are **a hole between two probes, and it is worth
+naming**: a laddered slot's `machines` pool decides nothing, so
+`probe_reachable.js` deliberately exempts it — and `probe_palette.js` then finds
+the pick pinned. The file's own comment says as much: *"the twelve names on these
+three lines are the ONLY machines that ever play keys, lead or keys2 here… the
+`machines` pool further down never wins one of these lanes."* So hobbit synth's
+`machines.keys` (7 rows), `machines.lead` (4) and `machines.keys2` are dead
+config that no check will ever flag. Either delete them or make the pick read
+the ladder.
+
+And ONE COLOUR — a weighted list of alternatives holding exactly one entry:
+
+- `groove.styles = "even"` in **8 genres**. Only lofi and acid declare more, and
+  acid never takes it (above). The program has one groove.
+- `bridgeProgressions = [0,0,0,0]` — plastikman (dorian, minor, phrygian) and
+  acid (major). **The drone survives in the bridge harmony** after being killed
+  in the main progressions.
+- `keysChar = "rhodes"` and `leadChar = "synth"` in 9 genres each.
+- `counter.style` is a drawn list in dungeon synth and hobbit synth and a bare
+  scalar in synthwave, vgm, bladerunner and prog-techno.
+
+---
+
+### 0a.13 THE FAULT CLASS THIS LIST KEEPS BEING MADE OF — and the newest instance
+
+Every item above is one of two shapes, and both have now been named enough times
+to be treated as the default suspicion rather than a discovery:
+
+1. **A NAME THE CONFIG MENTIONS THAT NEVER HAPPENS.** The bridge, the ladder
+   rungs, the machine pools, the rack, `ev.tied`. `probe_reachable.js` closes
+   this for declarations; §0a.11 is the same fault for research and nothing
+   closes it.
+2. **A DIMENSION SHAPED LIKE A CHOICE WITH ONE OUTCOME.** The drone, the
+   one-note solo, the single scale, `groove.styles`, the theme's move
+   vocabulary. `probe_palette.js` closes this for anything the table declares as
+   a list; it cannot see a constant that was never written as a list at all,
+   which is exactly what 0a.2 is.
+
+**The newest instance, and the most expensive, was answered wrongly four times
+before it was answered at all.** A sampled voice re-firing the same pitch was
+reported five times. The first four answers each changed how the repeat was
+*dressed* and left the repeat there: a slur on a one-shot buffer; a whistle cut
+that turned a bare repeat into a decorated one; drum round robins (a different
+problem with the same name); and a `lines.repeat` rule that measured **onset
+distance instead of silence** and so waved through the exact note being
+complained about — a whistle held 1.047 s and struck again 1 ms later has a
+full second between its onsets and no gap at all.
+
+Fixed and guarded in `2026-08-12i` (`harness/probe_repeat.js`, in the battery).
+**The lesson that belongs in this file is not the fix.** It is that four
+consecutive answers were checked by reading the code that had just been written,
+and the only thing that ever caught the fault was printing the notes. A check
+that has to be remembered is not a check.
+
+---
+
 ## 0b. OPEN AFTER 2026-08-07 — the session that added the mixer and the phrase
 
 Everything here was found or left open on `2026-08-07` (`07a`…`07f`). Each says
