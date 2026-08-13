@@ -63,6 +63,107 @@ should be built on top of this stack until it has been played.**
 
 ## 0a. WHAT IS STILL NOT BUILT — the whole open list, `2026-08-13`
 
+> ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-13a` … `2026-08-13d`
+>
+> **0a.1, the grid.** A genre declares `metre` and everything derives from it:
+> steps per bar, beats per bar, steps per beat, and the accent hierarchy.
+> `METRE_DEPTH` turned out to be the published Longuet-Higgins & Lee weight tree
+> byte for byte (Fitch & Rosenfeld 2007 Fig. 1), so 4/4 was already right; five
+> more tables were derived under Lerdahl & Jackendoff's MWFR 4. The research
+> also found a bug no ear would have: `METRE(bite)` divided by a hardcoded 4
+> while four of six tables top out at 3. `probe_meter.js` guards it, including
+> the one failure most likely here — 6/8 is DUPLE, and a table reading a beat at
+> step 4 is a waltz calling itself a jig. **300 of 300 records byte-identical**:
+> the default is 4/4 and is proven to be one.
+>
+> **The inheritance.** `merge(GENRE.dungeonsynth, {...})` is gone. A deep diff
+> put the real figure at **69 silently inherited paths**, not the 24 top-level
+> ones — a partial override like `form` or `motion` inherited its missing
+> siblings too. Converted, then proved: **300 of 300 byte-identical**, in the
+> merge's own key order, because `Object.keys(G.bridgeProgressions)` at the
+> bridge's mode pick reads JS object key order and appending moved ten records.
+>
+> **The values.** The chorus was moving at double the genre's stated harmonic
+> rhythm in ~two thirds of records; major and mixolydian had no chorus row at
+> all; carpathian still carried a one-chord vamp; the energy column was written
+> to *prevent* a crescendo; three section types shared one cast; the epic lever
+> had the highest sit-out rate in the table; wow and flutter sat below the
+> audibility floor; the playing was tighter than a measured string quartet.
+> **All 30 hobbit synth records moved and no other record did.**
+>
+> **The drone.** Hobbit synth had zero parameter locks and 1.1% of a knob's
+> travel inside a bar. It has six and 2.8%. **And the premise was then checked
+> and is half wrong** — see 0a.14 below, which is new.
+
+### 0a.14 THE DRONE STILL DOES NOT EVOLVE, AND THE CURE IS RANKED
+
+`docs/genre-research/how-a-drone-evolves.md`, written specifically to test a
+claim I had already built on:
+
+> *"Parameter locking cannot be a long-form evolution mechanism **by
+> construction** — a value stored against step 7 recurs on step 7 of every bar,
+> so a mechanism with a period of exactly one bar carries no information at the
+> 200-bar timescale."*
+
+Elektron, who coined the term, sells it as *"an ultra-fast and detailed way of
+**sequencing**"*. Its own long-form answers are Song Mode, per-track pattern
+**length**, and trig conditions — `4:7` has a period of seven bars. And the
+hardest fact in the sheet: **no parameter was automated in *Music for Airports***.
+
+Four traditions with no shared ancestry — Javanese gamelan, Scottish pibroch,
+north Indian alap, baroque ground bass — each sustain 10–20 minutes over a fixed
+foundation, and all evolve by **discrete countable events**, none by a
+continuously moving quantity. Ranked, with the number of traditions naming each:
+
+| | mechanism | |
+|---|---|---|
+| 1 | parts entering and leaving | five |
+| 2 | cycles whose periods do not divide | four, with numbers |
+| 3 | variation events over an unchanged ground | four, formalised |
+| 4 | density change | irama, pibroch doublings |
+| 5 | register expansion | alap *vistar* |
+| 6 | filter movement at the **section** scale | dub techno, MIR |
+| 8 | **per-step parameter locks** | Elektron only, and it disclaims them |
+
+And the number that reorders the question: **slow change deafness** — Neuhoff et
+al. 2015, continuous speech shifting **three semitones** and ~50% of listeners
+failing to notice. Three hundred cents against a 3-cent JND. The JND is the
+wrong ruler for long-form change.
+
+**What this means for the build**: the locks stay — they are audible (`tone`
+spans 5.17 octaves; a lock of ±0.05–0.10 is a 1.2–1.7× step-to-step cutoff
+ratio) and they make one bar differ from the next, which was genuinely missing.
+They do not make bar 200 differ from bar 4. Mechanisms 1–3 are the real build
+and none of them exists.
+
+### 0a.15 A DRAW THAT READS JAVASCRIPT OBJECT KEY ORDER
+
+`Object.keys(G.bridgeProgressions)` at the bridge's mode pick. Re-ordering a
+config object is therefore not cosmetic — it is a draw. Found because a table
+conversion that changed nothing but key order moved ten records and exactly one
+pitch, 76 to 75. Nothing else in any record differed, which is precisely how a
+fault of that shape hides. **Every other order-dependent read in the file is
+unaudited.**
+
+### 0a.16 THE BLEND'S OUT-OF-KEY LEAD NOW HAS A REPRODUCTION
+
+`mk2_test`'s "blended genres compose" has carried one failure for many builds
+and I have been calling it pre-existing and stepping past it. Two instances now,
+and printing the chart at the throw shows they are **the same defect**:
+
+```
+lofi+dungeonsynth w=0.75 seed 2 : mode=minor root=2  [5,5,0,0]         lead 80 bar 3 of B
+lofi+hobbitsynth  w=0.75 seed 4 : mode=minor root=10 [2,2,5,5,0,0,0,0] lead 71 bar 3 of B
+```
+
+Both minor, both the chorus material, both bar 3, both a lead note out of key,
+not in the chord, not resolving by step. Neither genre throws un-blended.
+**Likely owner**: the melody-target snap in `buildTheme` runs *after* the
+departure law has narrowed the move, so a snapped note escapes "a dissonance
+must step" — two owners of one pitch. Do not fix by widening the tolerance; this
+file's own comment records that the old 99% was hiding exactly one bug.
+
+
 *Asked for in as many words: "add what everything we have failed to implement
 to the todo file". This is that list, on the branch `claude/code-review-6jd9cz`,
 current as of build `2026-08-12i`.*
