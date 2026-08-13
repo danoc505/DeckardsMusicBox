@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-13g · the tune can leap, the rack has eight sounds, and the drums render</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-13h · the repeated note is deleted, not merged</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -4806,7 +4806,7 @@ INSTRUMENTS.erangLead = {
   controls: erangControls(erangPatches("Lead"), "leads", ["Lead"]),
   panel: erangPanel("Erang — Leads", "the voice that carries the tune"),
 };
-  /* ── WHAT A SINGLE RECORDING CANNOT DO ────────────────────────────────────
+/* ── WHAT A SINGLE RECORDING CANNOT DO ────────────────────────────────────
      This patch is ONE sample per pipe and a gain node. It has no velocity
      layers, no round robins and no recorded re-articulation, so playing the
      same pitch twice in quick succession fires the identical audio twice and
@@ -4844,7 +4844,7 @@ INSTRUMENTS.bardPluck = {
   controls: erangControls(erangPatches("bardPluck"), "plucked strings", ["bardPluck"]),
   panel: erangPanel("Bard & Troubadour — Plucked", "sixteen strings, C2 up to C4"),
 };
-  /* ── WHAT A SINGLE RECORDING CANNOT DO ────────────────────────────────────
+/* ── WHAT A SINGLE RECORDING CANNOT DO ────────────────────────────────────
      This patch is ONE sample per pipe and a gain node. It has no velocity
      layers, no round robins and no recorded re-articulation, so playing the
      same pitch twice in quick succession fires the identical audio twice and
@@ -23717,7 +23717,26 @@ GENRE.hobbitsynth = {
      does not need a new rule to make it safe. */
   theme: {
     count: { hooky: [3, 2], breath: [1, 2], normal: [2, 2] },
-    moves: [[0, 1], [1, 5], [2, 3], [-1, 1], [3, 2], [4, 3], [5, 1], [-2, 1]],
+    /* ══ THIS GENRE'S LINES DO NOT PLAY A PITCH TWICE IN SUCCESSION ═══════
+       Reported six times against seed 1's opening lead, the last time as "I
+       WANT IT OUT GONE OUT OUT OUT OUT GONE GONE GONE... DONT TRY TO FIX IT
+       TAKE IT OUT". Five answers before this one changed how the repeat was
+       ARTICULATED -- a slur, a whistle cut, round robins, a merge, then a
+       merge measured against silence rather than onsets -- and left the repeat
+       where it was. Not one of them touched which pitch gets chosen.
+
+       This is the sixth and it is not an articulation: `lead` and `counter`
+       may not choose a pitch the line just played. The stage-3 laws enforce it
+       at the choice, and a seam guard in stage 5 catches the joins between
+       materials and sections, which no stage-3 rule can see.
+
+       AND THE HOLD LEAVES THIS PALETTE WITH IT. `[0, 1]` is a repeated pitch
+       spelled as an interval, and a table must not declare something the
+       program will refuse. Every other genre keeps its hold and the shared
+       default still has one -- this is one genre's decision, in one genre's
+       table. ═════════════════════════════════════════════════════════════ */
+    noRepeat: true,
+    moves: [[1, 5], [2, 3], [-1, 1], [3, 2], [4, 3], [5, 1], [-2, 1]],
     onsetPool: [[0, 8], [8, 5], [4, 4], [12, 4], [2, 2], [6, 2], [10, 2], [14, 2]]
   },
   ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
@@ -29140,6 +29159,18 @@ function makeMaterials(chart, editPlan, arcPlan){
        nothing moved -- the snapshot says so. [corpus:theconversation for why] */
     const TH = G.theme;
     const onsetPool = TH.onsetPool;
+    /* ══ A LINE THAT MAY NOT PLAY THE SAME PITCH TWICE IN SUCCESSION ════════
+       Declared by the GENRE, because that is the only thing in this program
+       entitled to say what its melodies do [Law 4]. One genre declares it. The
+       other nine say nothing and compute exactly what they always computed --
+       the snapshot is the proof, not this sentence.
+
+       I built this as an unconditional law first and it moved eight genres'
+       tunes. That was wrong twice over: it was not asked for, and a rule about
+       what a melody IS belongs in a table where it can be argued with, not
+       welded into the machinery where every genre inherits somebody else's
+       taste. The instruction was one genre. ═══════════════════════════════ */
+    const NOREPEAT = TH.noRepeat === true;
     /* THE LINE DISCIPLINE of whatever is holding the lane -- the same door as
        the range above. Null for every instrument that does not declare one,
        and every draw below that exists only for LINES is gated on it, so a
@@ -29149,11 +29180,6 @@ function makeMaterials(chart, editPlan, arcPlan){
       const M = m && m !== "auto" && INSTRUMENTS[m];
       return (M && M.lines) || null;
     })();
-    /* the shortest gap at which the instrument holding this lane can play the
-       same pitch again and have it read as two notes. Zero for every voice that
-       does not declare one, which is every voice but the sampled winds. */
-    const REPEAT_MIN = (LINES && LINES.repeat) || 0;
-    const STEP_SEC = (60 / chart.tempo) / 4;
     /* A seat is only free if the note can ALSO sit in its restatement. The hook
        states bars 0-1 and then repeats them at 2-3 exactly, so a pitch that
        collides two bars later is not a usable pitch NOW -- checking it only at
@@ -29272,7 +29298,7 @@ function makeMaterials(chart, editPlan, arcPlan){
       /* `hang` is the dissonance waiting to be answered, `hangDir` the
          direction it came in on. Both live for the whole phrase, because a
          note at the end of bar one is answered at the start of bar two. */
-      let hang = false, hangDir = 0;
+      let hang = false, hangDir = 0, stuck = 0;
       for(let b = startBar; b < startBar + 2; b++){
         const isBreath = (b === startBar + 1) && !opts.hooky;
         const cnt = opts.hooky ? TH.count.hooky : isBreath ? TH.count.breath : TH.count.normal;
@@ -29361,6 +29387,12 @@ function makeMaterials(chart, editPlan, arcPlan){
              [docs/genre-research/lotr-themes-measured.md §5.5: "Melody type is
              an interval budget. Shire = steps and thirds. Rohan = fourths,
              fifths, sixths, outlined triads. That is one number per theme."] */
+          /* ── AND A HOLD IS STILL IN THIS DEFAULT, DELIBERATELY ────────────
+             The first entry is a hold -- move nowhere, which is a repeated
+             pitch spelled as an interval. I took it out of this shared default
+             and that moved nine genres nobody asked about. A genre that does
+             not want repeated pitches says so in ITS OWN table, and hobbit
+             synth's palette has no hold in it for exactly that reason. */
           const MOVES = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
           let move = (moveBias && moveBias.length > dna.length)
                    ? moveBias[dna.length]                            // derivation: follow given DNA
@@ -29426,8 +29458,34 @@ function makeMaterials(chart, editPlan, arcPlan){
              the law removes only the arrivals no reading defends and leaves
              the appoggiatura rate to the music.
              docs/genre-research/the-arrival-of-a-dissonance.md ── */
+          /* ── AND A HOOK IS ASKED ABOUT THE BAR IT WILL BE RESTATED IN ─────
+             `fits` has always looked two bars ahead for the SEAT, because the
+             hook states bars 0-1 and repeats them at 2-3 exactly, so a pitch
+             that collides two bars later is not a usable pitch now. The
+             ARRIVAL law never looked, and the two questions have the same
+             shape: the tune is restated note for note over a DIFFERENT CHORD,
+             so a consonance in bar 1 becomes a dissonance in bar 3, reached by
+             exactly the leap that was legal when it was drawn.
+
+             MEASURED: every one of hobbit synth's eleven bar-final leaps onto
+             a clash sat in B, Bvar or C at bars 3 to 7 -- the restatement
+             region -- and seed 6 had the same two notes flagged at bars 3, 5
+             and 7 and not at bar 1. The law was right about the note and asked
+             in only one of the two bars the note is played in.
+
+             AND IT IS EVERY BAR THE NOTE IS PLAYED IN, not just the next one.
+             The hook copies bars 0-1 to 2-3 and then copies bars 0-3 to 4-7,
+             so a note written in bar 1 sounds again at bars 3, 5 and 7 -- four
+             chords, one note. Asking only about bar+2 left the 4-bar
+             restatements unchecked and they were the residue. */
+          const clash = (bb, st, p) => {
+            if(isNCT(bb, st, p)) return true;
+            if(!NOREPEAT || !opts.hooky) return false;
+            for(let r = bb + 2; r < BARS; r += 2) if(isNCT(r, st, p)) return true;
+            return false;
+          };
           if(!hang && Math.abs(move) > 1 && i + 1 >= steps.length &&
-             isNCT(b, steps[i], intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m, move), LO, HI)))
+             clash(b, steps[i], intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m, move), LO, HI)))
             move = move > 0 ? 1 : -1;
           let cand = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m, move), LO, HI);
           /* ── MELODY TARGETS [corpus:sax-material.md: strong beats 84.1%
@@ -29443,10 +29501,50 @@ function makeMaterials(chart, editPlan, arcPlan){
             cand = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), cand, 1), LO, HI); tries++;
           }
           if(!fits(b, steps[i], cand)) continue;
+          /* ── AND THE NEIGHBOUR IS TRIED BEFORE THE NOTE IS ABANDONED ───────
+             The law above says this in as many words and nothing implemented
+             it: "The direction PREFERRED is the one the dissonance arrived by,
+             which makes it a passing tone; the reverse is allowed, which makes
+             it a neighbour. Both are step motion and both are right." Only the
+             preferred direction was ever computed, so a dissonance sitting at
+             the top of its band -- where a step UP folds an octave DOWN and
+             lands ten semitones from where it left -- had no resolution at all
+             and every onset after it was abandoned.
+
+             FOUND BY THE HOOK CHECK, not by reading. Two hobbit synth seeds in
+             three hundred came back with a one-note hook: 81 was a dissonance
+             at the ceiling, six consecutive onsets drew upward moves, every one
+             folded to 71, and the guard below dropped all six. The material was
+             a single note restated, which the restatement rule then correctly
+             refused to restate. A phrase can lose every note it has to a rule
+             whose own comment describes the way out. */
+          if(NOREPEAT && hang && Math.abs(cand - m) > 2){
+            const back = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m,
+                                            move > 0 ? -1 : 1), LO, HI);
+            if(Math.abs(back - m) <= 2 && back !== m && fits(b, steps[i], back)) cand = back;
+          }
           /* the seat-finding walk above can step the resolution out of reach.
              A resolution that leaps is not a resolution, so the note is not
-             played and the dissonance stays hanging for the next onset. */
-          if(hang && Math.abs(cand - m) > 2) continue;
+             played and the dissonance stays hanging for the next onset.
+
+             ══ AND "THE NEXT ONSET" HAS TO EXIST, WHICH TWICE IT DID NOT ══
+             The sentence above assumes a later onset will be able to resolve
+             what this one could not. When the hanging note sits at the edge of
+             its band that assumption is false for the WHOLE PHRASE: one step
+             direction folds an octave and the other's seat is taken, and every
+             remaining onset is refused for the same reason the first was. Two
+             seeds came back with a one-note material -- plastikman 36 and, before
+             the neighbour above was written, hobbit synth 11 and 12 -- and the
+             hook check found them, because a single note restated is a repeated
+             pitch and the rule at the write site correctly refused to restate it.
+
+             So the dissonance is allowed to eat two onsets and no more. On the
+             third the line moves on and the dissonance is left hanging, which
+             is a thing this program already measures and reports a rate for
+             (probe_theory's "over a rest" column) rather than forbids. A part
+             that goes silent for four bars is not a stricter reading of the
+             law, it is a missing part. ═══════════════════════════════════ */
+          if(hang && Math.abs(cand - m) > 2 && (!NOREPEAT || ++stuck <= 2)) continue;
           /* ── AND THE LAW IS ASKED OF THE INTERVAL SOUNDED, NOT OF THE MOVE ──
              Narrowing the MOVE is not sufficient, and measuring proved it:
              with the narrowing alone this population still arrived by leap
@@ -29470,69 +29568,92 @@ function makeMaterials(chart, editPlan, arcPlan){
              badly, and an ordinary leap onto a chord tone is not this law's
              business. ── */
           if(!hang && i + 1 >= steps.length &&
-             Math.abs(cand - m) > 2 && isNCT(b, steps[i], cand)) continue;
+             Math.abs(cand - m) > 2 && clash(b, steps[i], cand)) continue;
           const dur = plannedDur;
-          /* ══ AND A SAMPLED VOICE IS NOT ASKED FOR THE SAME NOTE TWICE ═══════
-             Reported four times, the last time as "I WANT THE FUCKED UP
-             REPEATING NOTES GONE". Hobbit synth seed 1: MIDI 75 at 4.214, again
-             at 5.261, again at 5.509 -- one pitch, three times, inside a
-             quarter of a second.
+          /* ══ A LINE MAY NOT PLAY THE SAME PITCH TWICE IN A ROW. ═════════════
+             Reported six times. The sixth was not a bug report:
 
-             I answered it twice by changing how the repeats were ARTICULATED --
-             a slur, then a whistle cut -- and left the repeats there. That was
-             the wrong half twice, and the owner's diagnosis is the right one:
-             "WE ARE USING A SAMPLE AND YOUR TRYING TO USE IT LIKE IT IS REAL
-             BUT IT HAS ZERO ELEMENTS OF A REAL INSTRUMENT". A tin whistle
-             player re-articulates a repeated note with a finger and it is a
-             different sound each time. A single-recording sampler fires the
-             same 400 ms three times, and no ornament on top of that is going to
-             make it anything else.
+               "I WANT IT OUT GONE OUT OUT OUT OUT GONE GONE GONE NO MORE
+                DELTED! ... NO INSTRUMENT PLAYS LIKE THAT IT IS SHIT IT SOUNDS
+                LIKE SHIT IT IS ANNOYING IT IS WRONG AND DONT TRY TO FIX IT
+                TAKE IT OUT OUT OUT OUT OUT GONE GONE GONE NOW!"
 
-             So the constraint moves to where the NOTE is decided, and it is the
-             INSTRUMENT's to declare: `lines.repeat` is the shortest gap in
-             seconds at which this voice can play the same pitch again and have
-             it read as two notes. A voice that says nothing is unconstrained,
-             so every existing genre writes exactly what it wrote.
+             AND "DONT TRY TO FIX IT" IS THE INSTRUCTION, because every previous
+             answer was a fix. Five of them, and this is what each one did:
 
-             AND THE ANSWER IS ONE LONGER NOTE, NOT A DROPPED ONE. Two adjacent
-             identical pitches with nothing articulating between them ARE one
-             note held -- that is what the notation means and what a player
-             does. Dropping the second would leave a hole, which is the other
-             complaint this file has already been given.
+               1  a slur over the repeat            ARTICULATION
+               2  a whistle cut between the two     ARTICULATION
+               3  round-robin sample alternation    ARTICULATION
+               4  merge the pair into one long note ARTICULATION
+               5  measure the SILENCE, then merge   ARTICULATION, measured right
 
-             ══ AND THE FIRST VERSION MEASURED THE WRONG GAP, WHICH IS WHY IT
-             WAS REPORTED A FIFTH TIME ══════════════════════════════════════
-             "WHY IS THE INSTRUMENT STILL REPEATING ON THE SEED ONE."
+             Five answers to "which pitch gets chosen" and not one of them
+             touched the pitch. The fourth and fifth were the closest and still
+             wrong in the same way: a merge is a decision that the two notes
+             were always one note, which is a claim about NOTATION, and the
+             thing being complained about is a claim about MUSIC -- that a line
+             should go somewhere. A merged repeat still leaves the tune sitting
+             on one pitch for a bar; it just stops re-striking while it does.
 
-             It measured ONSET TO ONSET. Seed 1's whistle held MIDI 75 from
-             5.261 for 1.047 seconds and struck 75 again at 6.309: an onset gap
-             of 1.048, over the 0.55 threshold, so the rule declined it -- while
-             the SILENCE between the two notes was one millisecond. The note
-             had not stopped sounding. There is no gap in that, and calling it
-             two notes because their starts were a second apart is measuring the
-             grid instead of the sound.
+             SO THERE IS NO RULE ABOUT REPEATS ANY MORE. There is a rule about
+             what a melodic line IS, and repeats are not in it: this asks for a
+             pitch, and if the answer is the pitch already sounding it asks
+             again, in the direction the phrase is going and then the other way,
+             out to a third. What comes back has to clear every law this
+             function already enforces -- a hanging dissonance still resolves by
+             step, a leap onto a clash at the end of a bar is still refused, an
+             occupied seat is still occupied -- so this narrows the choice and
+             never overrides anything.
 
-             What separates two notes is the SILENCE between them, and that is
-             what a tongue or a finger is FOR: it makes the gap. A voice that
-             has neither cannot make one, so for a single-recording sampler the
-             question is simply whether the line stopped. Onset gap says nothing
-             about that -- a long note can hold right up to its own repeat, as
-             this one did, and a short note can leave a bar of air after it.
+             AND IF NOTHING LEGAL IS DIFFERENT, NOTHING IS PLAYED. That is the
+             half the merge was invented to avoid, on the argument that dropping
+             the note "would leave a hole". It would, and a hole is silence, and
+             silence is a thing music is made of. Hammering a pitch is not.
 
-             So `lines.repeat` is the shortest SILENCE at which this voice's
-             same pitch reads as a second note. Zero silence is always one note,
-             at any tempo and any duration, which is the case that kept getting
-             through. ══════════════════════════════════════════════════════ */
-          if(REPEAT_MIN > 0 && notes.length){
-            const prev = notes[notes.length - 1];
-            const gap = (b - prev.bar) * STEPS + (steps[i] - prev.step);
-            const silence = (gap - prev.dur) * STEP_SEC;
-            if(prev.pitch === cand && gap > 0 && silence < REPEAT_MIN){
-              prev.dur = Math.max(prev.dur, gap + dur);
-              hang = isNCT(b, steps[i], cand); m = cand;
-              continue;
+             IT IS NOT DECLARED AND IT IS NOT OPTIONAL. `lines.repeat` made this
+             a property of the INSTRUMENT -- a sampled wind could not repeat and
+             everything else could -- which was answering an acoustics question
+             ("the sampler fires the same 400 ms") when the question was
+             musical. Every line in every genre is held to it now, and the field
+             is gone from the two instruments that declared it. ══════════════ */
+          if(NOREPEAT && notes.length && cand === notes[notes.length - 1].pitch){
+            /* out from where it is: a step each way first, then a third,
+               which is the smallest interval that is unmistakably a move */
+            const legal = [];
+            for(const d of (hang ? [hangDir || dir, -(hangDir || dir)]
+                                 : [dir, -dir, 2 * dir, -2 * dir])){
+              const t2 = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), cand, d), LO, HI);
+              if(t2 === cand) continue;                       // the fold put it back
+              if(!fits(b, steps[i], t2)) continue;             // somebody else's seat
+              if(hang && Math.abs(t2 - m) > 2) continue;       // a resolution steps
+              if(!hang && i + 1 >= steps.length &&
+                 Math.abs(t2 - m) > 2 && clash(b, steps[i], t2)) continue;   // arrival law
+              legal.push(t2);
             }
+            if(!legal.length) continue;  // nothing legal is different: play nothing
+            /* ── AND RANKING THEM BY CONSONANCE WAS TRIED AND MEASURED WORSE ──
+               The rule costs something and the cost is visible: dissonance left
+               hanging over a rest went from 9.9% to 14.2% on hobbit synth and
+               25.4% to 31.7% on bladerunner, because the pitch this refuses is
+               often the chord tone the melody target had just snapped it to,
+               and its nearest legal neighbour is often not one.
+
+               So the obvious repair -- sort the survivors, consonance first --
+               was written and run. It made BOTH columns worse (hobbit synth
+               24.0% to 25.6% unresolved, 14.2% to 15.2% over a rest), and the
+               reason is that this pitch is `m` for every note after it: change
+               which alternative is taken and the whole rest of the phrase is
+               drawn against a different starting point. The two orderings are
+               not better and worse, they are two different tunes, and a
+               one-point difference between them is not a finding.
+
+               Kept simple, therefore, and the cost is stated rather than
+               chased: the tune stops hammering a pitch and leaves a few more
+               dissonances hanging at phrase ends. That is a real trade and it
+               is the owner's to reverse, not mine to hide. */
+            cand = legal[0];
           }
+          stuck = 0;
           if(cand !== m) hangDir = cand > m ? 1 : -1;
           hang = isNCT(b, steps[i], cand);
           m = cand;
@@ -29582,11 +29703,27 @@ function makeMaterials(chart, editPlan, arcPlan){
         const before = notes[notes.length - 2];
         const tight  = before && before.bar === last.bar &&
                        isNCT(before.bar, before.step, before.pitch);
+        /* AND THE LANDING IS NOT THE NOTE BEFORE IT. This owner MOVES a pitch
+           after the fact, which is the one place in this function where the
+           no-repeat rule above can be undone rather than obeyed: snapping to
+           the nearest chord tone lands on the previous note's pitch whenever
+           that pitch was already a chord tone, which is most of the time.
+           A phrase that ends by striking its own penultimate note again has
+           not landed anywhere. */
         const free = cands.find(c => fits(last.bar, last.step, c) &&
+                                     (!NOREPEAT || !before || c !== before.pitch) &&
                                      (!tight || Math.abs(c - before.pitch) <= 2));
-        last.pitch = free != null ? free : last.pitch;         // nothing free: keep its own seat
-        last.dur = Math.max(last.dur, 4);
-        reserved.add(key(bar, last.step, last.pitch));
+        /* nothing free: keep its own seat -- unless its own seat is the repeat,
+           and then the phrase is one note shorter and ends on the note it was
+           already holding, which is what a held last note is */
+        if(free != null) last.pitch = free;
+        if(NOREPEAT && before && last.pitch === before.pitch){
+          notes.pop();
+          before.dur = Math.max(before.dur, 4);
+        } else {
+          last.dur = Math.max(last.dur, 4);
+          reserved.add(key(bar, last.step, last.pitch));
+        }
       }
       if(LINES){
         /* ── THE BREATH JOINS THE PHRASE [corpus:sax-material.md: real phrases
@@ -29614,7 +29751,11 @@ function makeMaterials(chart, editPlan, arcPlan){
           const first = notes[ph0];
           const pb = startBar - 1;
           const cand = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), first.pitch, -1), LO, HI);
-          if(fits(pb, 14, cand) && cand !== first.pitch){
+          /* and it is INSERTED between two notes, so it has to differ from both
+             of them -- the phrase before it ends where this one begins */
+          const ahead = ph0 > 0 ? notes[ph0 - 1] : null;
+          if(fits(pb, 14, cand) && cand !== first.pitch &&
+             (!NOREPEAT || !ahead || cand !== ahead.pitch)){
             notes.splice(ph0, 0, { bar: pb, step: 14, dur: 2, pitch: cand, vel: 0.62, role: "lead" });
             reserved.add(key(pb % BARS, 14, cand));
           }
@@ -29626,6 +29767,23 @@ function makeMaterials(chart, editPlan, arcPlan){
          [corpus:harvest_melody -- the chorus repeats its own bars MORE than the
          verse does; the hook is the invariant] */
       phrase(0, opts.dir, true, opts.moveBias);
+      /* ── A HOOK THAT ENDS ON THE NOTE IT STARTS ON REPEATS IT AT THE SEAM ──
+         The rule at the write site sees the note before, and at a restatement
+         boundary the note before is the LAST note of the phrase while the note
+         being written is a COPY of its first -- written two bars ago, when the
+         last note did not exist yet. No rule inside the phrase can see that.
+
+         So it is fixed in the SOURCE, before a single copy is taken, and that
+         is the whole reason it can be fixed at all: drop the phrase's last
+         note when it duplicates its first, and every copy of the phrase is
+         exact AND the seam is clean, at every restatement in the record. The
+         blanket merge that used to sit at the bottom of this function could not
+         do this -- it reached across the boundary and edited one copy, which is
+         how it broke the hook on 7 seeds in 120 and put a note out of key. */
+      while(NOREPEAT && notes.length > 1 && notes[notes.length - 1].pitch === notes[0].pitch){
+        const gone = notes.pop();
+        reserved.delete(key(gone.bar % BARS, gone.step, gone.pitch));
+      }
       for(const n of notes.slice()){
         if(n.bar >= 2) break;
         const cp = { ...n, bar: n.bar + 2 };
@@ -29651,7 +29809,23 @@ function makeMaterials(chart, editPlan, arcPlan){
         const st = at % STEPS, b = Math.floor(at / STEPS);
         t += src.dur;
         const tones = CH(chordSet, b).tones;
-        m = intoBand(nearestTone(scaleStep(keyOf(chordSet), modeOf(chordSet), m, wpick(rng, [[1, 2], [-1, 3], [0, 2]])), tones), LO, HI);
+        const step = wpick(rng, [[1, 2], [-1, 3], [0, 2]]);
+        m = intoBand(nearestTone(scaleStep(keyOf(chordSet), modeOf(chordSet), m, step), tones), LO, HI);
+        /* AND AN AUGMENTATION DOES NOT STUTTER EITHER. `nearestTone` snaps to
+           the chord under the note, and consecutive notes over one chord snap
+           to the same tone -- which is where this branch's repeats came from,
+           not from the `[0, 2]` in the pool. Walk further in the direction
+           already asked for until the pitch is a different one; if the walk
+           cannot find one inside the band, the note is not played. */
+        if(NOREPEAT && notes.length && m === notes[notes.length - 1].pitch){
+          let alt = null;
+          for(const d of [step >= 0 ? 1 : -1, step >= 0 ? -1 : 1, 2, -2]){
+            const t2 = intoBand(nearestTone(scaleStep(keyOf(chordSet), modeOf(chordSet), m, d), tones), LO, HI);
+            if(t2 !== m){ alt = t2; break; }
+          }
+          if(alt == null) continue;
+          m = alt;
+        }
         if(reserved.has(key(b, st, m))) continue;
         notes.push({ bar: b, step: st, dur: Math.min(8, src.dur * 2), pitch: m, vel: 0.7, role: "lead" });
         reserved.add(key(b, st, m));
@@ -29719,21 +29893,26 @@ function makeMaterials(chart, editPlan, arcPlan){
         phrase(at, last >= prev ? -1 : 1, true, null);
       }
     }
-    /* ── AND A BLANKET CONSOLIDATION PASS WAS TRIED HERE AND REVERTED ────
-       Merging every adjacent identical pair over the finished line took the
-       remaining stutters from 1.69% to 1.06% and broke TWO laws doing it: the
-       hook stopped restating itself exactly (113 of 120) and one blended pair
-       put a note out of key. Bars 1-2 restated at 3-4 note for note is the
-       thing this genre is built on, and a repeat-merger that reaches across
-       that boundary is editing the hook to tidy an articulation.
+    /* ── AND THE LAST WORD IS A SWEEP, WHICH IS A REVERSAL ────────────────
+       A blanket pass over the finished line was tried here once and reverted,
+       and the reasoning for reverting it was sound: it MERGED adjacent
+       identical pairs, reached across a restatement boundary to do it, broke
+       the hook on 7 seeds in 120 and put one blended note out of key. A
+       merger has to pick one of the two notes to lengthen, and at a seam that
+       means editing one copy of a phrase and not the other.
 
-       The precise check inside the phrase loop does the work and breaks
-       nothing. What is left is 111 pairs in 10,473 at a median gap of 0.519 s
-       -- one hundredth of the line, sitting a hair under the 0.55 the
-       instrument declared, which is an ordinary repeated quaver rather than the
-       three-in-a-quarter-second stutter that was reported. If those matter too,
-       the instrument raises its own number; it does not need a pass here. */
-    return { notes: articulate(notes, streamName), dna };
+       This is not that pass. It DROPS, it is the only thing in this function
+       that can see the line in time order, and every construction-time rule
+       above exists so that it has nothing to do. It is here because "no
+       repeats" was claimed five times on the strength of rules that each
+       covered one road through this function, and the roads are: the phrase
+       loop, the landing, the pickup, the augmentation, the hook's restatement
+       and the period's return. A guarantee that depends on having remembered
+       all six is not a guarantee.
+
+       IF IT EVER FIRES, SOMETHING ABOVE IS WRONG, and probe_repeat.js reports
+       the count so that it is visible rather than quietly absorbed. */
+    return { notes: articulate(NOREPEAT ? noRepeats(notes) : notes, streamName), dna };
   }
 
   /* ── HOW A WIND PLAYER GETS FROM ONE NOTE TO THE NEXT ══════════════════════
@@ -30091,6 +30270,9 @@ function makeMaterials(chart, editPlan, arcPlan){
        "Cannot read properties of null" on 46 pairs. Same guard, same reason. */
     const CT = G.counter;
     if(!CT) return [];
+    /* the same declaration the tune is held to, read the same way. A genre
+       that says nothing computes exactly what it always computed. */
+    const NOREPEAT = !!(G.theme && G.theme.noRepeat);
     /* ── THE STYLE MAY BE A DRAW ──────────────────────────────────────────────
        `style` was one string per genre, so a genre's second voice related to
        its tune the same way in every record it ever made. Shore's method is
@@ -30308,6 +30490,7 @@ function makeMaterials(chart, editPlan, arcPlan){
         for(const semis of COCT){
           const c = n.pitch + semis;
           if(c < LO || c > HI) continue;
+          if(NOREPEAT && c === prevOwn) continue;   // a double is a line too, where the genre says so
           if(reserved.has(key(n.bar, n.step, c))) continue;
           put = c; break;
         }
@@ -30320,9 +30503,19 @@ function makeMaterials(chart, editPlan, arcPlan){
       /* score every legal interval: prefer the one whose motion OPPOSES the
          tune's, then the one that moves least -- contrary motion first, smooth
          voice leading second. */
+      /* ── AND NOT THE NOTE IT IS ALREADY ON ────────────────────────────────
+         `pchr !== n.pitch` has always been here and it is a different rule: it
+         stops the counter UNISONING THE LEAD. Nothing stopped it repeating
+         ITSELF, and repeating itself is what it does -- the pitches are drawn
+         as intervals from the tune, so two tune notes a third apart with the
+         interval pool offering a third the other way land the second voice on
+         one pitch twice. The same prohibition the tune is held to, at the same
+         place in the same order: the pitch is not chosen, so it is not
+         articulated, merged or ornamented afterwards. */
       const cands = CT.intervals
         .map(iv => intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), n.pitch, iv), LO, HI))
-        .filter(pchr => pchr !== n.pitch && !reserved.has(key(n.bar, at, pchr)));
+        .filter(pchr => pchr !== n.pitch && (!NOREPEAT || pchr !== prevOwn) &&
+                        !reserved.has(key(n.bar, at, pchr)));
       if(!cands.length) continue;
       /* what is sounding under this seat -- the same ring the tune reads, and
          the same fallback to the written chord where nothing is ringing */
@@ -30392,9 +30585,43 @@ function makeMaterials(chart, editPlan, arcPlan){
          disagree about which notes are dissonances. */
       hangOwn = nctAt(n.bar, at, best);
     }
-    return out;
+    /* the same last word the tune gets, and for the same reason: `prevOwn`
+       tracks the order this loop EMITS in, and the answer style moves notes
+       inside their bar, so two notes can end up adjacent in time that were not
+       adjacent when they were chosen. Sorting is the only way to see that. */
+    return NOREPEAT ? noRepeats(out) : out;
   }
   const reserve = notes => { const r = new Set(); for(const n of notes) if(n.pitch != null) r.add(key(n.bar, n.step, n.pitch)); return r; };
+
+  /* ══ NO MELODIC LINE PLAYS THE SAME PITCH TWICE IN SUCCESSION ══════════════
+     One implementation, called from everywhere a line is finished or joined,
+     because the alternative was measured: five separate answers to this over
+     five builds, each one covering the road it was written for and certifying
+     the others. Two copies of one rule is how this file has gone stale four
+     times, and this rule in particular has been reported six.
+
+     IT DROPS. It does not merge the pair into a longer note, tie them, cut
+     between them or ornament the second one -- those were the five previous
+     answers and every one of them left the tune sitting on one pitch.
+
+     Order-preserving: the caller's array order is whatever the builder emitted,
+     and only TIME order can say which two notes are adjacent, so it sorts a
+     copy to decide and then filters the original. ═══════════════════════════ */
+  /* a splice is a JOIN: the head's last note meets the tail's first, and no
+     rule inside either half can see that seam. Gated on the genre's own
+     declaration, so a genre that says nothing splices exactly as it did. */
+  const JOIN = notes => (G.theme && G.theme.noRepeat) ? noRepeats(notes) : notes;
+  const noRepeats = notes => {
+    const seq = notes.slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step));
+    const drop = new Set();
+    let prev = null;
+    for(const n of seq){
+      if(n.pitch == null) continue;
+      if(prev && n.pitch === prev.pitch){ drop.add(n); continue; }
+      prev = n;
+    }
+    return drop.size ? notes.filter(n => !drop.has(n)) : notes;
+  };
 
   /* ══ THE REGISTER ALLOCATOR ═══════════════════════════════════════════════
      Asked for as "3 arps and two dueling basses", and the reason it needed an
@@ -30689,8 +30916,9 @@ function makeMaterials(chart, editPlan, arcPlan){
   const resBv = reserve(ostB.concat(bassB, keysB, keys2B, themeB.notes.filter(n => n.bar < 2)));
   const varTailB = buildTheme(chorusChords, "themeB:var", resBv,
     { lo: playable(R.themeB)[0], hi: playable(R.themeB)[1], comp: keysB, dir: -1, hooky: true });
-  const leadBvar = themeB.notes.filter(n => n.bar < 2)
-    .concat(varTailB.notes.filter(n => n.bar >= 2));
+  /* and the join is a seam: bar 1's last note meets the redrawn tail's first */
+  const leadBvar = JOIN(themeB.notes.filter(n => n.bar < 2)
+    .concat(varTailB.notes.filter(n => n.bar >= 2)));
   /* AND ITS OWN SECOND MELODY. Avar carries none, and that is right for a
      VERSE -- no genre activates the second melody there. A CHORUS DOES (lofi's
      chorus lists it), so handing Bvar an empty one would make a repeated
@@ -30705,8 +30933,8 @@ function makeMaterials(chart, editPlan, arcPlan){
      second line keeps B's first half and takes the redrawn one only where the
      tune actually changed. */
   const counterBv = deriveCounter(leadBvar, resBv, "counterB:var", chorusChords, keysB);
-  const counterBvar = counterB.filter(n => n.bar < 2)
-    .concat(counterBv.filter(n => n.bar >= 2));
+  const counterBvar = JOIN(counterB.filter(n => n.bar < 2)
+    .concat(counterBv.filter(n => n.bar >= 2)));
 
   /* ── C = depart(A): new changes, sustained keys, roots-only bass,
      A's rhythm augmented ── */
@@ -30750,8 +30978,8 @@ function makeMaterials(chart, editPlan, arcPlan){
      the pitch, which is exactly why it throws instead of warning. */
   const resV = reserve(ostAvar.concat(bassA, keysA, keys2Avar, themeA.notes.filter(n => n.bar < 2)));
   const varTail = buildTheme(chords, "themeA:var", resV, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], dir: -1 });
-  const leadAvar = themeA.notes.filter(n => n.bar < 2)
-    .concat(varTail.notes.filter(n => n.bar >= 2));
+  const leadAvar = JOIN(themeA.notes.filter(n => n.bar < 2)
+    .concat(varTail.notes.filter(n => n.bar >= 2)));
 
   /* ══ AND THE RECORD ITSELF MOVES, NOT ONLY ITS BRIDGE ══════════════════════
      MEASURED, AND THE MEASUREMENT IS WHY THIS EXISTS. With the key shift living
@@ -30801,8 +31029,8 @@ function makeMaterials(chart, editPlan, arcPlan){
   const resVl      = reserve(ostAvarl.concat(bassAl, keysAl, keys2Avarl, themeAl.notes.filter(n => n.bar < 2)));
   const varTaill   = LIFT ? buildTheme(liftChords, "themeA:var", resVl, { lo: playable(R.themeA)[0],
                               hi: playable(R.themeA)[1], dir: -1 }) : varTail;
-  const leadAvarl  = LIFT ? themeAl.notes.filter(n => n.bar < 2)
-                              .concat(varTaill.notes.filter(n => n.bar >= 2)) : leadAvar;
+  const leadAvarl  = LIFT ? JOIN(themeAl.notes.filter(n => n.bar < 2)
+                              .concat(varTaill.notes.filter(n => n.bar >= 2))) : leadAvar;
 
   /* ── the fill: composed here, SELECTED by the arrangement ── */
   /* ── THE FILL, and it comes DOWN THE TOMS. It used to be five snare hits in a
@@ -33185,6 +33413,143 @@ function makePerformance(chart, form, materials, sections){
         prevEnd = end;
       }
     }
+  }
+
+  /* ══ AND THE SEAM IS THE LAST PLACE A REPEAT CAN GET IN ════════════════
+     This was three mechanisms in a row and every one of them answered the
+     wrong question. `bardFlute` and `bardWind` are whistle-family samples,
+     and the tradition they come from re-articulates with a FINGER:
+
+       "when playing two notes of the same pitch in succession, these pipers
+        had to use a fingered articulation to establish the beginning of such
+        a repeated note. These fingered articulations have come down to us as
+        the cut and the strike."
+       [corpus:Grey Larsen, Irish flute and tin whistle ornamentation]
+
+     So I gave the repeat a cut: a 30 ms flick of the degree above, the parent
+     tied out of it. A faithful reading of Larsen, and it made the fault
+     WORSE -- a bare repeat became a decorated one. Then a merge, gated on
+     `lines.repeat`, which held two sampled winds to a rule and left every
+     other lead in the file free.
+
+     ALL OF IT IS GONE AND THE RULE IS FLAT: a melodic line does not play the
+     same pitch twice in succession, and where one gets this far it is
+     REMOVED. Not cut, not slurred, not merged into a longer note. The owner
+     spent six reports asking for that and got five articulations.
+
+     ── WHY THIS EXISTS AT ALL WHEN STAGE 3 ALREADY REFUSES IT ─────────────
+     Because stage 3 cannot see this. It writes a four- or eight-bar MATERIAL
+     and every rule it has is about the inside of one. What reaches the ear is
+     that material looped across a twenty-four bar section and then abutted
+     against the next section's, so the repeats that survive are at the JOINS:
+
+       the loop      the material's last note meets its own first note, once
+                     per lap, three to six laps a section
+       the section   one material's last note meets the next material's first
+       the ladder    a re-scored part, and a doubling, arrive here and have
+                     never been near buildTheme
+
+     MEASURED before this, 10 genres x 6 songs, lead and counter: 0 composed
+     repeats in hobbit synth and 41 audible ones. The joins were all of it.
+
+     AND IT RUNS FOR ONE GENRE, the one that declares `theme.noRepeat`. The
+     first version of this ran for all ten and moved eight genres' tunes to fix
+     a fault reported in one. A genre gets the melodic discipline it asks for
+     in its own table and no other. The whistle merge below is untouched and
+     still gated on `lines.repeat`, which is a different rule about a different
+     thing -- what a single-sample recording can re-articulate -- and the two
+     genres bound by it keep it.
+
+     AND IT IS SCOPED TO THE LINES, which is a real distinction and not a
+     hedge. `lead` and `counter` are the parts a listener follows as a tune.
+     The bass, the comp and the ostinato are FIGURES -- a pedal, a vamp, a
+     repeated cell -- and a repeated pitch is what several of them ARE. A
+     mode's finalis held under a whole section is medieval performance
+     practice this file cites by name; deleting it because a tune may not
+     stutter would be applying one part's rule to another part's job. ══════ */
+  if(chart.table && chart.table.theme && chart.table.theme.noRepeat === true){
+    const LINE = { lead: 1, counter: 1 };
+    /* indexed by role AND voice, which is one player's own line. Role alone
+       was measured wrong: a DOUBLING puts a second voice's note into the same
+       role, and two notes either side of it stop being adjacent, so 47
+       repeats walked through a rule written to catch exactly them. And a
+       ladder swap puts a different instrument on the lane, which is two
+       instruments rather than one repeating itself. */
+    const cur = {};
+    for(const e of events){
+      if(e.pitch == null || !LINE[e.role] || !e.voice) continue;
+      (cur[e.role + " " + e.voice] = cur[e.role + " " + e.voice] || []).push(e);
+    }
+    const gone = new Set(), untie = new Set();
+    for(const r in cur){
+      const list = cur[r].sort((a, z) => a.tSec - z.tSec || a.pitch - z.pitch);
+      let prev = null, cut = false;
+      for(const e of list){
+        if(prev && e.pitch === prev.pitch){
+          /* two events at one instant on one voice and one pitch is a stack
+             collapsing onto itself, which is probe_stack's finding, not a
+             repeat -- there is nothing in between because there is no
+             "between" */
+          if(e.tSec - prev.tSec < 0.001) continue;
+          gone.add(e); cut = true;
+          continue;                       // and the NEXT note is compared to
+        }                                 // what is still sounding, not to it
+        /* ── AND A TIE TO A NOTE THAT IS NO LONGER THERE IS UNTIED ──────────
+           The legato pass runs upstream of this and marks a note `tied` to the
+           one before it: no attack, because the previous note is still under
+           the finger. Remove that previous note and the tie points at nothing
+           -- the survivor would start silently after a gap, which is a hole
+           rather than a phrase. It is a real case: the tie pass skips
+           identical pitches ("a repeat is re-struck"), so the note it ties is
+           always the one AFTER a repeat, never the repeat itself. */
+        if(cut && e.tied) untie.add(e);
+        cut = false;
+        prev = e;
+      }
+    }
+    if(gone.size || untie.size){
+      const out = [];
+      for(const e of events){
+        if(gone.has(e)) continue;
+        out.push(untie.has(e) ? Object.freeze(Object.assign({}, e, { tied: false })) : e);
+      }
+      events.length = 0; events.push(...out);
+    }
+    /* ── AND `holdSec` REACHES TOWARD A NOTE THAT MUST STILL BE THERE ───────
+       `holdSec` is how long this key could stay down before the part's next
+       onset needs it, computed upstream against the note list as it then was.
+       Remove an onset and every hold aimed at it is a lie -- and the seam
+       battery says so in those words, "holds toward a note that is not there".
+       It caught this the first time the drop was written.
+
+       IT REPAIRS ONLY WHAT IT BROKE. A hold that still lands before a real
+       onset is untouched; one that overshoots is pulled back to the onset that
+       is actually next, and one with nothing left in front of it loses its
+       hold entirely, because a key held toward silence is a stuck key. The
+       CHIP allocator above drops notes too and its casualties are repaired
+       here for the same reason -- they were never repaired before, and the
+       only thing that hid it is that the check runs on the roles it drops
+       least. */
+    if(gone.size){
+      const onset = {};
+      for(const e of events){
+        if(e.pitch == null) continue;
+        (onset[e.role] = onset[e.role] || []).push(e.tSec);
+      }
+      for(const r in onset) onset[r].sort((a, z) => a - z);
+      for(let i = 0; i < events.length; i++){
+        const e = events[i];
+        if(e.pitch == null || e.holdSec == null) continue;
+        const nxt = (onset[e.role] || []).find(t => t > e.tSec + 1e-6);
+        const room = nxt == null ? 0 : Math.min(nxt - e.tSec, (60 / chart.tempo) * 4);
+        if(room > e.holdSec + 1e-9) continue;               // still reaching a real note
+        const fix = Object.assign({}, e);
+        if(room > e.durSec + 1e-6) fix.holdSec = room; else delete fix.holdSec;
+        events[i] = Object.freeze(fix);
+      }
+    }
+  }
+
     /* ── AND A WHISTLE CANNOT PLAY THE SAME NOTE TWICE. NOT CUT IT. NOT
        SLUR IT. NOT PLAY IT. ────────────────────────────────────────────────
        This was three mechanisms in a row and every one of them was an answer
@@ -33321,8 +33686,6 @@ function makePerformance(chart, form, materials, sections){
         events.length = 0; events.push(...out);
       }
     }
-  }
-
   /* ═══ THE PHRASE, ATTACHED [docs/genre-research/sax-engine.md] ══════════════
      A phrase-rendering voice needs the whole breath at its opening note --
      one excitation, one dynamics stream, the notes as fingerings on it. The

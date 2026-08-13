@@ -1,18 +1,19 @@
 #!/usr/bin/env node
 /* ═══════════════════════════════════════════════════════════════════════════
-   THE REPEATED NOTE — does a sampled voice ever fire the same pitch twice?
+   THE REPEATED NOTE — does any line ever play the same pitch twice in a row?
 
        node harness/probe_repeat.js [songs]
 
-   Reported FIVE times, the last two in these words:
+   Reported SIX times. The sixth was not a bug report:
 
-     "I WANT THE FUCKED UP REPEATING NOTES GONE!"
-     "WHY IS THE INSTRUMENT STILL REPEATING ON THE SEED ONE WHY WHY WHY I KEEP
-      ASKING FOR ONE FUCKING THING TO BE DONE GIT RIDE OF THE FUCKING ECHOING
-      THE REPEATING IT GOES AND GOES AND GOES AND YOU IGNORE ME!"
+     "I WANT IT OUT GONE OUT OUT OUT OUT GONE GONE GONE NO MORE DELTED! I DO
+      NOT WANT THE STUPID REPEATING SHIT I KEEP TELLING YOU THE SAME THING AND
+      YOU KEEP IGNORING ME YOU ARE WRONG WRONG WRONG WRONG! NO INSTRUMENT PLAYS
+      LIKE THAT IT IS SHIT IT SOUNDS LIKE SHIT IT IS ANNOYING IT IS WRONG AND
+      DONT TRY TO FIX IT TAKE IT OUT OUT OUT OUT OUT GONE GONE GONE NOW!"
 
-   FOUR ANSWERS WERE WRONG BEFORE THIS EXISTED, and they were wrong in the same
-   way each time -- each changed how the repeat was DRESSED and left the repeat:
+   FIVE ANSWERS WERE WRONG BEFORE THIS ONE, and they were wrong in the same way
+   every time -- each changed how the repeat was DRESSED and left the repeat:
 
      a slur                 tie the second note so it does not re-attack. The
                             sample still re-fires; a tie on a one-shot buffer
@@ -23,24 +24,38 @@
                             one, and seed 1 came back 75-[76]-75, 80-81-80-[81]-80.
      round robins           real variation, on the DRUMS, where the machine-gun
                             effect is a different problem with the same name.
-     `lines.repeat`         the right idea, measuring the wrong thing -- ONSET
-                            distance. A note that holds a full second and then
-                            repeats has a second between its starts and NO
-                            silence at all. It waved through the exact case
-                            being complained about.
+     `lines.repeat`         merge the pair into one long note -- but measured
+                            ONSET distance, so a note that held a full second
+                            and then repeated had a second between its starts,
+                            no silence at all, and was waved through.
+     the same, measured     silence, correctly measured, then merged. Right
+                            about the acoustics and still an articulation: a
+                            merged repeat is a tune sitting on one pitch for a
+                            bar without re-striking while it does.
 
-   So this asks the only question that matters, of the SOUND rather than of the
-   grid: on a voice that declares it cannot re-articulate, are there ever two
-   notes of the SAME PITCH with less than that voice's own silence between them?
+   AND THIS PROBE WAS PART OF THE FIFTH WRONG ANSWER. It asked whether a voice
+   that DECLARED `lines.repeat` ever broke its own declaration -- so it was
+   green while nine genres repeated freely, because none of their instruments
+   had declared anything. A guard scoped to the one place the defect had been
+   reported is a guard that certifies the other nine.
 
-   IT MUST BE ZERO. Not low. Zero -- because the instrument's declaration says
-   the second one is not a note, and one that gets through is an echo.
+   ── WHAT IT ASKS NOW ────────────────────────────────────────────────────────
+   Of every melodic line in every genre, composed and as it sounds: are there
+   two notes of the same pitch with nothing between them?
 
-   AND IT COUNTS THE NOTES TOO, because the cheap way to pass this is to delete
-   things. A merge makes one longer note out of two; it does not leave a hole,
-   and "there are gaps with just silence" is a complaint this file has already
-   been given once. If NOTES falls while MERGED rises one-for-one, that is the
-   rule working. If NOTES falls further than that, something is dropping.
+   IT MUST BE ZERO. Not low, not lower than it was, and not merged away.
+
+     COMPOSED   stage 3's own output, lead and counter, in bar/step order. This
+                is where the rule lives, so a failure here is the rule itself.
+     SOUNDED    stage 5's events, per role AND per voice, in time order. A
+                ladder swap puts a different instrument on the lane and that is
+                two instruments, not a repeat; a doubling is a second voice at
+                the same instant and is not a repeat either. Splitting by voice
+                is what makes both of those true rather than assumed.
+
+   AND IT COUNTS THE NOTES, because the cheap way to pass this is to delete
+   things and "there are gaps with just silence" is a complaint this file has
+   already been given once. The note count per genre is printed every run.
    ═══════════════════════════════════════════════════════════════════════════ */
 const fs = require("fs"), path = require("path");
 const html = fs.readFileSync(path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html"), "utf8");
@@ -52,56 +67,71 @@ eval(src);
 const M = global.window.MK2;
 
 const N = parseInt(process.argv[2], 10) || 20;
+/* the lines a listener follows as a tune. The comp, the ostinato and the bass
+   are figures -- a pedal, a vamp, a repeated cell -- and a repeated pitch is
+   what several of them ARE, so holding them to this would be holding them to
+   somebody else's rule. */
+const LINES = { lead: 1, counter: 1 };
 
-/* which voices declare a limit, asked of the instruments rather than named
-   here -- the hardcoded `{ bardFlute: 1, bardWind: 1 }` in the old cut was
-   itself the standing fault: a fact about an instrument, written where the
-   instrument cannot see it. */
-const LIMIT = {};
-for(const k in M.INSTRUMENTS){
-  const L = M.INSTRUMENTS[k].lines;
-  if(!L || !L.repeat) continue;
-  for(const lane in (M.INSTRUMENTS[k].lanes || {})) LIMIT[M.INSTRUMENTS[k].lanes[lane]] = L.repeat;
-}
-if(!Object.keys(LIMIT).length){
-  console.log("\n  no voice declares `lines.repeat`. Nothing to check.\n");
-  process.exit(0);
-}
-
-let notes = 0, pairs = 0;
-const bad = [];
+const bad = [], rows = [];
 for(const genre of M.genres()){
+  let comp = 0, snd = 0, cBad = 0, sBad = 0;
   for(let seed = 1; seed <= N; seed++){
     const song = M.composeSong(seed, null, genre);
-    const byLane = {};
-    for(const e of song.perf.events){
-      if(e.pitch == null || !e.voice || !LIMIT[e.voice]) continue;
-      notes++;
-      (byLane[e.role + ":" + e.voice] = byLane[e.role + ":" + e.voice] || []).push(e);
+    /* ── COMPOSED ─────────────────────────────────────────────────────────── */
+    for(const k in song.materials){
+      const mat = song.materials[k];
+      if(!mat || typeof mat !== "object") continue;
+      for(const role in mat){
+        if(!LINES[role] || !Array.isArray(mat[role])) continue;
+        const seq = mat[role].slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step));
+        comp += seq.length;
+        for(let i = 1; i < seq.length; i++){
+          if(seq[i].pitch !== seq[i - 1].pitch) continue;
+          cBad++;
+          if(bad.length < 400)
+            bad.push(`COMPOSED ${genre} seed ${seed} ${k}.${role}: midi ${seq[i].pitch} at ` +
+                     `bar ${seq[i - 1].bar} step ${seq[i - 1].step} and bar ${seq[i].bar} step ${seq[i].step}`);
+        }
+      }
     }
-    for(const k in byLane){
-      const list = byLane[k].sort((a, z) => a.tSec - z.tSec);
+    /* ── SOUNDED ──────────────────────────────────────────────────────────── */
+    const byVoice = {};
+    for(const e of song.perf.events){
+      if(e.pitch == null || !LINES[e.role]) continue;
+      snd++;
+      (byVoice[e.role + " " + (e.voice || "?")] = byVoice[e.role + " " + (e.voice || "?")] || []).push(e);
+    }
+    for(const k in byVoice){
+      const list = byVoice[k].sort((a, z) => a.tSec - z.tSec || a.pitch - z.pitch);
       for(let i = 1; i < list.length; i++){
         const a = list[i - 1], b = list[i];
         if(a.pitch !== b.pitch) continue;
-        pairs++;
-        const gap = b.tSec - (a.tSec + a.durSec);
-        if(gap >= LIMIT[b.voice]) continue;          // it really stopped: two notes
-        bad.push(`${genre} seed ${seed} ${k} midi ${b.pitch} at ${b.tSec.toFixed(3)}` +
-                 ` — ${(gap * 1000).toFixed(0)} ms of silence, needs ${(LIMIT[b.voice] * 1000).toFixed(0)}`);
+        /* two events at the same instant on one voice and one pitch is a stack
+           collapsing onto itself, which probe_stack owns; it is not a repeat */
+        if(b.tSec - a.tSec < 1e-6) continue;
+        sBad++;
+        if(bad.length < 400)
+          bad.push(`SOUNDED  ${genre} seed ${seed} ${k}: midi ${b.pitch} at ${a.tSec.toFixed(3)} ` +
+                   `and again at ${b.tSec.toFixed(3)} (${((b.tSec - a.tSec - a.durSec) * 1000).toFixed(0)} ms apart)`);
       }
     }
   }
+  rows.push({ genre, comp: comp / N, snd: snd / N, cBad, sBad });
 }
 
-console.log(`\n  ${M.genres().length} genres x ${N} songs`);
-console.log(`  voices bound by a repeat limit: ${Object.keys(LIMIT).map(v => v + " " + LIMIT[v] + "s").join(", ")}`);
-console.log(`  ${notes} notes on them, ${pairs} same-pitch pairs anywhere in the line\n`);
+console.log(`\n  ${M.genres().length} genres x ${N} songs — lead and counter, composed and as they sound\n`);
+console.log("    genre           notes/song  composed repeats   sounded repeats");
+for(const r of rows)
+  console.log(`    ${r.genre.padEnd(14)}${String(Math.round(r.comp)).padStart(8)}` +
+              `${String(r.cBad).padStart(18)}${String(r.sBad).padStart(18)}`);
+
+console.log("");
 if(!bad.length){
-  console.log("  no sampled voice ever re-fires a pitch it has not stopped sounding.\n");
+  console.log("  no melodic line anywhere plays the same pitch twice in a row.\n");
 } else {
   for(const b of bad.slice(0, 25)) console.log("    " + b);
   if(bad.length > 25) console.log(`    ... and ${bad.length - 25} more`);
-  console.log(`\n  ${bad.length} repeated note(s) the instrument says it cannot play.\n`);
+  console.log(`\n  ${bad.length} repeated note(s). It has to be zero.\n`);
   process.exitCode = 1;
 }
