@@ -1,0 +1,232 @@
+# Modulation — what this program has, what it cannot express, and what eurorack already solved
+
+Written 2026-08-13, in answer to five questions:
+
+> *"Did we create LFOs for our drones? What about all the data i provided on
+> drones? We should be copying the open spurce mutable instuments open source
+> euro rack moduals for this. We should be learning about eurorack generative
+> music and how to modulate how do you use a lfo to modulate an lfo? Can we add
+> lfos to many of our fx racks? Where else can we use them and what other
+> eurorack units should we be using"*
+
+Measured first, researched second. Everything in §1–§2 is read off the program.
+
+---
+
+## 1. Yes — and there are more of them than I expected
+
+Measured across all ten genres, seed 1:
+
+```
+  controls the program declares        559
+  lanes at least one genre modulates   435   (78%)
+  moves in play    lfo 616 · section 250 · apex 107 · arc 62 · gesture 50
+                   occurrence 43 · plock 25 · throw 14 · phrase 14 · snap 6
+  LFO rates        8 to 160 bars per cycle
+```
+
+616 LFOs, the slowest turning once every 160 bars. So "we have no slow LFOs"
+is not the fault. Hobbit synth alone carries 121 live motion lanes.
+
+Per rack, controls declared vs ever modulated:
+
+```
+  tr1000  82/72     matrix  49/39     echo    7/5      rhodes  6/5
+  kit     69/67     tb303   36/27     vp330   7/5      wurly   6/5
+  amen    65/65     cs80    17/11     horns   7/6      desk    6/3
+  segakit 62/62     dp4     12/8      carnyx  7/4      comp    6/0  <- never
+                                      mellotron 8/6    sax    13/0  <- never
+```
+
+**So the answer to "can we add LFOs to many of our FX racks" is that they are
+mostly already there.** The echo, the matrix, the DP4, the spring and the tape
+are all modulated by several genres. What is missing is not MORE LFOs.
+
+---
+
+## 2. What is missing is that a modulator cannot be modulated
+
+`motionAt`, the whole of the LFO case:
+
+```js
+else if(mv.kind === "lfo"){
+  const ph = mv.phase + (bar * STEPS + step) / (STEPS * mv.bars);
+  d += mv.depth * MOTION_WAVE[mv.shape](ph - Math.floor(ph));
+}
+```
+
+`mv.bars`, `mv.depth`, `mv.phase` and `mv.shape` are drawn once, frozen with
+the plan, and never read again. And two moves on one lane are **summed**.
+
+Three consequences, and the third is the one that matters:
+
+1. Two LFOs on a lane give **beating** — the coprime pairs on `erangStrings`
+   and `erangHarp` (71/89 against 23/29/17) are real and they work. That is
+   addition, and addition is a legitimate technique.
+2. But an LFO's RATE never changes, so its period is a constant of the record.
+   A 160-bar cycle is slow; it is not *evolving*, it is *long*.
+3. **Nothing in this program modulates a modulator.** There is no LFO into
+   another LFO's rate, no LFO into another's depth, no cross-modulation, no
+   sample-and-hold, no probability at play time. The vocabulary is: constants,
+   fixed periodic functions, and the song's own shape.
+
+That is the honest answer to *"how do you use a lfo to modulate a lfo"* — in
+this program, you cannot. Nothing is stopping it but the shape of one `if`.
+
+### 2.1 And of the seven things you gave me for drones, one got built
+
+From the three articles and the technique list handed over on 2026-08-12:
+
+| | |
+|---|---|
+| slow LFOs | **BUILT** — 616 of them, out to 160 bars |
+| neighbour tracks | not built |
+| scenes | not built (backlog task #63) |
+| infinite feedback / max send on delay | **NOT EXPRESSIBLE** — `echo.fb` is declared `[0 .. 0.85]`. There is no way for a genre to ask for near-unity |
+| very short delay time | **NOT EXPRESSIBLE** — `echo.div` is `[1 .. 8]` *beat divisions*. Milliseconds are not a thing this delay has |
+| rtrg / rtim synced by a slow LFO | not built |
+| one loop of radio frequencies for harmonics | not built |
+
+One of seven. The two marked NOT EXPRESSIBLE are the same object under two
+names — a short delay at near-unity feedback **is** a resonator — and that is
+already backlog task #62, unbuilt since it was written.
+
+---
+
+## 3. Mutable Instruments — and yes, it is genuinely ours to read
+
+`github.com/pichenettes/eurorack`, Émilie Gillet. 27 modules.
+
+> Code (STM32F projects): **MIT license**
+> Code (AVR projects): **GPL3.0**
+> Hardware: **cc-by-sa-3.0**
+
+MIT on the DSP is as permissive as it gets. The designs have already been
+ported to VCV Rack, Max and a dozen hardware clones, so porting the *ideas*
+into this program is exactly what the licence is for. What follows is what
+each one answers that this program currently cannot.
+
+### 3.1 Marbles — and this is the answer to the drone question
+
+The question asked weeks ago and never properly answered:
+
+> *"The issue with drones is you cant figure out how to make something that
+> goes on and on while also allowing it to have evolution."*
+
+I answered it with parameter locks, researched that, and found the premise
+half wrong. **Marbles answers it in one control.** From the manual:
+
+> *"DEJA VU is a parameter that increases the probability of re-playing past
+> material to the point that the generated output forms a loop, then increases
+> the probability of randomizing the order of this loop."*
+
+One knob, three regions:
+
+```
+  hard left    pure novelty — every value new
+  centre       a PERFECT LOOP, 1 to 16 steps, with a virtual notch so you can
+               find it by feel
+  hard right   the same loop, its order progressively shuffled
+```
+
+That is not a compromise between repetition and change; it is a **continuous
+dial between them**, and either end is reachable. It is precisely the thing a
+drone needs and precisely what this program has no way to say.
+
+Two more of its ideas matter as much:
+
+- **LENGTH is separate from déjà vu.** The loop is 1–16 steps and can be
+  changed while it runs, so the same material re-phrases.
+- **SPREAD and BIAS re-map a loop that is already running** — *"once a
+  sequence is looping, it is still possible to alter it with SPREAD/BIAS to map
+  it to a different range of voltages."* Evolution WITHOUT re-randomising. The
+  figure stays; where it sits moves. This program has no equivalent at all.
+
+### 3.2 Tides — one modulator, four related outputs
+
+A modulation source whose shape is itself a set of controls:
+
+- **SHAPE** — the curve of the rise and the fall (linear / exponential /
+  logarithmic combinations)
+- **SLOPE** — *"the ratio between the durations of the ascending and descending
+  segments"*: from an instant attack with a full-cycle decay through to its
+  mirror
+- **SMOOTHNESS** — below centre a low-pass on the CV itself, above centre a
+  **wave multiplier** (it folds, adding harmonics to the modulation)
+- **four outputs** that are *"detuned, de-phased or cross-faded"* versions of
+  one another, with one control setting the amount of that spread
+- free-running down to **one cycle per two minutes**
+
+The four-outputs-from-one-source idea is the coprime-LFO trick done properly:
+related motion on several destinations from a single generator, instead of
+independent LFOs that merely happen not to line up.
+
+### 3.3 The rest, and what each one is FOR here
+
+| module | what it is | the gap it fills |
+|---|---|---|
+| **Warps** | meta-modulator: cross-modulates two signals | the literal answer to "modulate a modulator" |
+| **Kinks** | rectifier, analogue logic, **sample & hold**, noise | S&H of one slow LFO clocked by another is *the* classic generative stepped-random CV, and we have nothing like it |
+| **Branches** | dual **Bernoulli gate** — a trigger goes one way or the other with probability p | probability at PLAY time. Every draw here happens once, at compose time |
+| **Stages** | segment generator — a chain of segments that loops | our `arc` and `apex` are fixed two-point curves; this is their general form |
+| **Rings** | resonator | task #62, verbatim |
+| **Clouds / Beads** | granular texture synthesis | the §6.3 answer in `playing-a-sampled-instrument.md`, for material too short to sustain |
+| **Grids** | topographic drum sequencer — a 2-D map you *move through* rather than a list of patterns | the drums complaint: "might not be one loop but it feels like it" |
+| **Plaits / Braids** | macro-oscillator, one algorithm per model | the voice bank's own shape already |
+| **Frames** | keyframer — interpolates a whole set of levels between saved scenes | **scenes**, from the drone list. Task #63 |
+| **Shades / Blinds** | attenuverters, VC polarisers | a modulation depth that can go NEGATIVE, and be modulated |
+
+### 3.4 The patch idiom, in the sources' own words
+
+> *"Take two LFOs that both have FM CV inputs, modulate the rate of the first
+> one with the output of the second one, and also modulate the rate of the
+> second one with the output of the first one, then patch both LFO outputs to a
+> mixer."*
+
+> *"You can also do more complex and chaotic arrangements, like LFO1 > LFO2 >
+> LFO3 > LFO1 in a FM 'loop', and then use any one, any two, or all three LFOs
+> mixed together and send them all to various different destinations."*
+
+> *"Generative patches are created by connecting modules in such a way that they
+> basically play themselves with little or no interaction from the user, yet the
+> music evolves and changes without repeating itself."*
+
+The last sentence is this program's entire brief, written by somebody else.
+
+---
+
+## 4. What follows for this program
+
+In the order of how much each buys against how much it costs.
+
+1. **A move may be modulated by another move.** One change in `motionAt` and in
+   the draw: `depth` and `bars` become lanes in their own right rather than
+   numbers. That single change gives LFO→depth, LFO→rate, the FM loop, and
+   Tides' SLOPE — everything in §3.4 — and every one of the 616 LFOs already
+   in the tables becomes a possible source or destination.
+2. **`déjà vu` as a declarable property of a generative lane.** A loop of N
+   drawn values, a probability of re-using rather than renewing, and a
+   probability of shuffling. This is the drone answer and it is small.
+3. **The resonator** — short delay, near-unity feedback (tasks #62). It needs
+   `echo.fb` to be able to exceed 0.85 and `echo` to be able to speak in
+   milliseconds, neither of which it can today.
+4. **Sample & hold, and a Bernoulli gate** — stepped random modulation, and a
+   coin that is flipped while the record plays rather than while it is written.
+5. **Scenes** (Frames) — a saved set of levels, interpolated between. Task #63.
+6. **`comp` and `sax` are never modulated by anything**, which is a smaller and
+   duller finding than the rest but is a fact and is cheap to fix.
+
+Nothing above is a taste decision about how any genre should sound. Every one
+is a thing a table currently *cannot say*.
+
+## Sources
+
+- Mutable Instruments, `pichenettes/eurorack` — https://github.com/pichenettes/eurorack
+- Marbles manual — https://pichenettes.github.io/mutable-instruments-documentation/modules/marbles/manual/
+- Sound On Sound, *Mutable Instruments Marbles* — https://www.soundonsound.com/reviews/mutable-instruments-marbles
+- Tides v2 manual — https://pichenettes.github.io/mutable-instruments-documentation/modules/tides_2018/manual/
+- SchneidersLaden, *Mutable Instruments Tides 2* — https://schneidersladen.de/en/mutable-instruments-tides-2
+- Gearspace, *Modulating an LFO with another LFO* — https://gearspace.com/board/electronic-music-instruments-and-electronic-music-production/774546-modulating-lfo-another-lfo.html
+- MacProVideo, *Making Generative Music With Eurorack Synths* — https://www.macprovideo.com/article/audio-hardware/making-generative-music-with-eurorack-synths
+- Learning Modular, October 2020 newsletter (cross-modulation) — https://learningmodular.com/2020-10-newsletter/
+- Perfect Circuit, *Mutable Instruments: a (Brief) Retrospective* — https://www.perfectcircuit.com/signal/mutable-instruments-retrospective
