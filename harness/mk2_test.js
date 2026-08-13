@@ -138,6 +138,31 @@ const check = (name, ok, detail) => {
   if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
 }
 
+/* ═══ AND A BAR IS THE LENGTH ITS GENRE SAYS IT IS ══════════════════════════
+   The grid was sixteen steps and four beats everywhere, in about fifty places,
+   and `lotr-themes-measured.md` §5.2 had said for two builds that two of the
+   four source themes are not in 4/4 at all.
+
+   IT RUNS IN THE BATTERY BECAUSE THE DEFAULT IS THE WHOLE SAFETY ARGUMENT. A
+   genre that declares no metre must be byte-identical to what it was, and
+   "must" is not a thing to hope for across fifty edit sites. It also owns the
+   one check most likely to matter later: 6/8 is DUPLE, and a table that reads
+   a beat at step 4 is a waltz calling itself a jig.
+
+   `harness/probe_meter.js` owns the logic. ══════════════════════════════════ */
+{
+  const { execFileSync } = require("child_process");
+  let out = "", ok = true;
+  try { out = execFileSync(process.execPath,
+          [path.resolve(__dirname, "probe_meter.js"), "12"], { encoding: "utf8" }); }
+  catch(e){ ok = false; out = (e.stdout || "") + (e.stderr || ""); }
+  const n = (out.match(/(\d+) metre fault\(s\)/) || [])[1];
+  check("every bar is the length its genre's metre says it is", ok,
+        ok ? "hierarchies, the jig/waltz distinction, the bite divisor and the grid all agree"
+           : `${n || "some"} metre fault(s) — run: node harness/probe_meter.js`);
+  if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
+}
+
 const errors = [];
 let dilla = 0, hookExact = 0, hookTotal = 0, forms = new Set(), nondet = 0, ruleOf3 = 0;
 let dillaIdentical = 0, dillaChecked = 0;

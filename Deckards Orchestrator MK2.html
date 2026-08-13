@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-12i · a sample cannot play the same note twice, so it does not</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-13a · a genre may now say it is in three, or in six-eight</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -5004,14 +5004,15 @@ function motionAt(plan, key, ev, offset){
   if(!moves || !ev || ev.tSec == null) return 0;
   const tSec = ev.tSec + (offset || 0);
   const s16  = Math.round(tSec / plan.spb);
-  const bar  = Math.max(0, Math.min(plan.nBars - 1, Math.floor(s16 / 16)));
-  const step = ((s16 % 16) + 16) % 16;
+  const STEPS = plan.steps || 16;
+  const bar  = Math.max(0, Math.min(plan.nBars - 1, Math.floor(s16 / STEPS)));
+  const step = ((s16 % STEPS) + STEPS) % STEPS;
   let d = 0;
   for(const mv of moves){
     if(mv.kind === "plock") d += mv.amt[step];
     else if(mv.kind === "section") d += mv.by[plan.secFn[bar]] || 0;
     else if(mv.kind === "lfo"){
-      const ph = mv.phase + (bar * 16 + step) / (16 * mv.bars);
+      const ph = mv.phase + (bar * STEPS + step) / (STEPS * mv.bars);
       d += mv.depth * MOTION_WAVE[mv.shape](ph - Math.floor(ph));
     }
     else if(mv.kind === "arc"){
@@ -5117,7 +5118,12 @@ function motionAt(plan, key, ev, offset){
    pipeline stage: it writes no note and no stage reads it. */
 function makeMotion(chart, form, sections, materials){
   const G = chart.table || GENRE[chart.genre] || {};
-  const spb = (60 / chart.tempo) / 4;
+  const spb = (60 / chart.tempo) / perBeatOf(chart.table);
+  /* steps per bar, the genre's -- see `makeMaterials` for why it is declared.
+     It goes ON THE PLAN because `motionAt` is stage 6 and has no chart: an LFO
+     whose period is "one bar" has to know how long a bar is, and a plock's
+     sixteen amounts are a bar's worth of steps whatever the metre. */
+  const STEPS = stepsOf(chart.table);
   const nBars = form.nBars;
   /* which section function owns each bar -- the lookup a `section` move needs */
   const secFn = new Array(nBars).fill("verse");
@@ -5424,7 +5430,7 @@ function makeMotion(chart, form, sections, materials){
       else if(sp.kind === "arc"){
         const from = drawIn(sp.from, rng), to = drawIn(sp.to, rng);
         out.push(Object.freeze({ kind: "arc", from, to, curve: sp.curve || "sCurve",
-                                 seconds: nBars * 16 * spb }));
+                                 seconds: nBars * STEPS * spb }));
       }
       /* ══ APEX — THE ARC, BUT SHAPED LIKE THE SONG ═════════════════════════
          `arc` above runs from one end of the record to the other on a fixed
@@ -5535,7 +5541,8 @@ function makeMotion(chart, form, sections, materials){
                          secFn: Object.freeze(secFn),
                          secOcc: Object.freeze(secOcc),
                          drums: (chart.picks && chart.picks.drums) || "kit",
-                         seconds: nBars * 16 * spb,
+                         steps: STEPS,
+                         seconds: nBars * STEPS * spb,
                          /* form's arc, so an `apex` lane can follow the song's
                             own shape rather than the clock */
                          arc: form.arc || null,
@@ -14433,9 +14440,83 @@ function referenceEvents(tempo){
    DEPTH per step and it is not a matter of taste; what IS the genre's taste is
    how hard the hierarchy bites, which is one number per lane. `bite` 0 gives
    back the flat table exactly, so nothing that wants to be flat is forced.  */
-const METRE_DEPTH = [0, 4, 3, 4, 2, 4, 3, 4, 1, 4, 3, 4, 2, 4, 3, 4];
-function METRE(bite){
-  return METRE_DEPTH.map(d => +(1 - bite * (d / 4)).toFixed(3));
+/* ══ AND THE HIERARCHY IS THE METRE'S, NOT FOUR-FOUR'S ══════════════════════
+   [docs/genre-research/metre.md] The row that was here is not a guess and was
+   never mine: it is the LONGUET-HIGGINS & LEE metrical weight tree, printed in
+   Fitch & Rosenfeld 2007 (Music Perception) Figure 1 as `0 -3 -2 -3 -1 -3 -2 -3`
+   with "Sixteenth notes receive weight -4". Interleaved and unsigned, that is
+   this array byte for byte. Four-four was right.
+
+   IT WAS ALSO THE ONLY ONE. The five below are the same published method run
+   on five more metres, and they are DERIVED -- no source anywhere prints a
+   depth-per-step array for a compound metre, which the research sheet says in
+   its own WHAT NOBODY GIVES. The derivation is not free-floating: the rule is
+   Lerdahl & Jackendoff's MWFR 4, "at each metrical level, strong beats are
+   spaced two or three beats apart" (1983, 69), and that is what forbids a
+   four-spacing -- so 4/4 and 12/8 get a half-bar level and 3/4, 6/8 and 9/8
+   cannot have one.
+
+   THE DISTINCTION THAT MATTERS, and it is the one thing most likely to be got
+   wrong here: 6/8 IS NOT THREE-IN-A-BAR AND IT IS NOT SIX. "Compound meters
+   are meters in which the beat divides into three... In this time signature,
+   each measure has two beats (6/3=2), indicating duple meter."
+   [corpus:Open Music Theory, Compound Meter and Time Signatures]
+
+   AND IT HAS BEEN MEASURED, not merely asserted. Palmer & Krumhansl 1990
+   (JEP:HPP) counted note onsets across Bach, Mozart, Brahms and Shostakovich
+   and Fourier-analysed the result: in 3/4 the strong periodicities are every
+   2 and 4 sixteenths; in 6/8 they are every 2 and 6. THE FOUR-STEP PERIODICITY
+   DOES NOT APPEAR IN THE 6/8 DATA AT ALL -- composers put no beat there.
+
+   So the two twelve-step tables differ in exactly three places, and that is
+   the whole difference between a jig and a waltz:
+
+     step   0  1  2  3  4  5  6  7  8  9 10 11
+     3/4    0  3  2  3 [1] 3  2  3 [1] 3  2  3     beats at 0, 4, 8
+     6/8    0  3  2  3 [2] 3 [1] 3 [2] 3  2  3     beats at 0, 6
+
+   If a 6/8 table ever reads 1 at steps 4 and 8, the program is playing a waltz
+   and calling it a jig. There is a check for exactly that in the battery.
+
+   ── AND `bite` WAS DIVIDING BY A HARDCODED FOUR ────────────────────────────
+   Four of these six top out at depth 3, so `d / 4` would have made the same
+   declared number mean a DIFFERENT amount of accent in a different metre --
+   `bite: 1` flooring a 4/4 sixteenth at 0.0 and a 3/4 sixteenth at 0.25, with
+   nothing saying so. Found by the research rather than by ear, which is the
+   only reason it is not in the file. The denominator is the metre's own
+   maximum depth. Arithmetic, not taste, and 4/4 is unchanged by it. */
+const METRE_DEPTH = {
+  "4/4":  [0, 4, 3, 4, 2, 4, 3, 4, 1, 4, 3, 4, 2, 4, 3, 4],
+  "2/4":  [0, 3, 2, 3, 1, 3, 2, 3],
+  "3/4":  [0, 3, 2, 3, 1, 3, 2, 3, 1, 3, 2, 3],
+  "6/8":  [0, 3, 2, 3, 2, 3, 1, 3, 2, 3, 2, 3],
+  "9/8":  [0, 3, 2, 3, 2, 3, 1, 3, 2, 3, 2, 3, 1, 3, 2, 3, 2, 3],
+  "12/8": [0, 4, 3, 4, 3, 4, 2, 4, 3, 4, 3, 4, 1, 4, 3, 4, 3, 4, 2, 4, 3, 4, 3, 4],
+};
+/* ══ AND A GENRE DECLARES ITS METRE, NEVER ITS STEP COUNT ═══════════════════
+   One owner. A table that carried both `metre` and `stepsPerBar` could say
+   6/8 and 16 in the same breath and nothing would catch it; derived, that
+   sentence cannot be written. `beats` is the metre's OWN beat -- two dotted
+   quarters in 6/8, three quarters in 3/4 -- which settles the tempo question
+   the research raises and calls an ambiguity of exactly 1.5x: notation counts
+   the dotted quarter, MIDI counts the quarter whatever the signature, and a
+   genre declaring 110 in 6/8 could mean 110, 73 or 37 felt beats a minute.
+   Here TEMPO IS ALWAYS THE METRE'S OWN BEAT, and `perBeat` is how many grid
+   steps that beat contains. Every 4/4 genre gets 16 / 4 / 4, which is exactly
+   what the three literals it replaces already were. */
+const METRE_GRID = {
+  "4/4":  { steps: 16, beats: 4 }, "2/4": { steps:  8, beats: 2 },
+  "3/4":  { steps: 12, beats: 3 }, "6/8": { steps: 12, beats: 2 },
+  "9/8":  { steps: 18, beats: 3 }, "12/8":{ steps: 24, beats: 4 },
+};
+const metreOf   = t => (t && t.metre && METRE_GRID[t.metre]) ? t.metre : "4/4";
+const stepsOf   = t => METRE_GRID[metreOf(t)].steps;
+const beatsOf   = t => METRE_GRID[metreOf(t)].beats;
+const perBeatOf = t => METRE_GRID[metreOf(t)].steps / METRE_GRID[metreOf(t)].beats;
+function METRE(bite, metre){
+  const d = METRE_DEPTH[(metre && METRE_DEPTH[metre]) ? metre : "4/4"];
+  const max = Math.max.apply(null, d);
+  return d.map(x => +(1 - bite * (x / max)).toFixed(3));
 }
 
 const GENRE = {
@@ -24371,7 +24452,7 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll, 
   /* the requested length in bars, now that the tempo it depends on exists.
      Written before the freeze and drawing nothing -- it is arithmetic on an
      input the hand supplied, not a decision the program makes. */
-  chart.wantBars = wantSec ? barsForSec(wantSec, chart.tempo) : null;
+  chart.wantBars = wantSec ? barsForSec(wantSec, chart.tempo, chart.table) : null;
   return Object.freeze(chart);
 }
 
@@ -24388,8 +24469,15 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll, 
    One bar is four beats, so a bar lasts 240/tempo seconds. The conversion lives
    here rather than at each call site because the length dial, the readout and
    the seam check all need the same answer and a second copy would drift. */
-const barsForSec = (sec, tempo) => Math.max(1, Math.round(sec * tempo / 240));
-const secForBars = (bars, tempo) => bars * 240 / tempo;
+/* A BAR IS `beats` BEATS LONG, AND IT WAS ALWAYS FOUR. 240 is 4 x 60, so
+   these two read "four beats to a bar" in disguise -- the same buried
+   assumption as the sixteen-step grid, in the one place that converts between
+   bars and the clock. A 3/4 bar is three beats and a 6/8 bar is two, so a
+   record in either was being measured with a ruler a third too long. Passed
+   the table rather than a number so the caller cannot get it wrong; a table
+   that declares no metre answers 4 and the arithmetic is byte-identical. */
+const barsForSec = (sec, tempo, table) => Math.max(1, Math.round(sec * tempo / (60 * beatsOf(table))));
+const secForBars = (bars, tempo, table) => bars * 60 * beatsOf(table) / tempo;
 /* seconds as a time on a clock face. One owner: the transport readout, the
    length dial and the "asked for / came out" line all print times, and three
    hand-written copies of the same padStart is how they end up disagreeing. */
@@ -25007,6 +25095,33 @@ function makeMaterials(chart, editPlan, arcPlan){
      So it is a constraint now, declared by the genre and defaulting to 4, and
      every genre that does not ask keeps the number it always had. */
   const BARS = chart.table.materialBars || 4;
+  /* ══ HOW MANY STEPS ARE IN A BAR, AND IT WAS THE DEEPEST BAKED NUMBER HERE ══
+     `lotr-themes-measured.md` §5.2, written when the transcriptions were finally
+     read off the notation and never acted on:
+
+       "TWO OF THE FOUR ARE NOT IN 4/4. The Shire is 3/4 and Rohan is a 6/8 jig.
+        The program's grid is sixteen steps to a bar -- a four-beat assumption
+        baked so deep that 'the meter is 3' is not currently expressible."
+
+     It was not expressible in one place, it was inexpressible in about fifty:
+     `bar * 16 + step` is how every builder in this stage addresses the grid, and
+     `% 16` is how every one of them wraps it. A genre could declare its tempo,
+     its modes, its chords, its kit and its form, and could not declare that it
+     is in three.
+
+     THIS IS THE SAME EDIT `materialBars` WAS, one level down. Four bars was a
+     literal until prog-techno asked for eight; sixteen steps is a literal until
+     a jig asks for twelve. Declared by the genre, DEFAULTING TO 16, so every
+     genre that does not ask keeps the number it always had -- and that is not a
+     hope, it is what the snapshot is for: this refactor moved not one note of
+     any of the ten genres, and until a table says otherwise it cannot.
+
+     A STEP IS A SIXTEENTH IN SIMPLE TIME AND STAYS ONE IN COMPOUND TIME. A 6/8
+     bar is six eighths, which is twelve sixteenths, so `stepsPerBar: 12`; 3/4 is
+     three quarters, also twelve. What changes with the metre is not the size of
+     a step but how many fit in a bar and WHERE THE WEIGHT FALLS -- and the
+     weight is `METRE()`'s business, not this constant's. ══════════════════════ */
+  const STEPS = stepsOf(chart.table);
   /* ── THE CHORD UNDER A BAR, AND IT USED TO ASSUME THE TWO WERE THE SAME LENGTH
      A progression is four chords and a material was four bars, so every builder
      read `chordSet[b]` and the two happened to line up. At eight bars that is
@@ -25852,7 +25967,7 @@ function makeMaterials(chart, editPlan, arcPlan){
         const len = P.len > 0 ? P.len : 16;
         const ph = phaseOf[P.lane] || 0;         // where this machine was when it started
         for(let st = 0; st < 16; st++)
-          if((P.on || [0]).includes(((b * 16 + st - ph) % len + len) % len))
+          if((P.on || [0]).includes(((b * STEPS + st - ph) % len + len) % len))
             notes.push({ bar: b, step: st, dur: P.dur || 1, lane: P.lane,
                          vel: P.vel != null ? P.vel : 0.5, role: "drums" });
       }
@@ -25960,12 +26075,12 @@ function makeMaterials(chart, editPlan, arcPlan){
   function hear(notes, K){
     const L = K.answer;
     if(!L || !L.length) return notes;
-    const SPAN = BARS * 16;
+    const SPAN = BARS * STEPS;
     /* what is ON, per lane, as a step set -- built once and then UPDATED as each
        player writes, which is what lets a later player hear an earlier one */
     const on = {};
     const mark = n => {
-      const at = n.bar * 16 + n.step;
+      const at = n.bar * STEPS + n.step;
       if(at < 0 || at >= SPAN) return;
       (on[n.lane] || (on[n.lane] = new Set())).add(at);
     };
@@ -26082,7 +26197,7 @@ function makeMaterials(chart, editPlan, arcPlan){
           const at2 = at + k;
           if(at2 >= SPAN) break;
           if(k > 0 && hit(rule.lane, at2)) continue;
-          made.push({ bar: Math.floor(at2 / 16), step: at2 % 16, dur: rule.dur || 1,
+          made.push({ bar: Math.floor(at2 / STEPS), step: at2 % STEPS, dur: rule.dur || 1,
                       lane: rule.lane, vel: v0 * Math.pow(taper, k),
                       role: "drums", heard: gen });
         }
@@ -26128,7 +26243,7 @@ function makeMaterials(chart, editPlan, arcPlan){
       const r = stream(chart.seed, "acid:" + streamName + ":" + n.bar + ":" + n.step + ":" + n.pitch);
       /* both draws run on every note whatever the outcome [Law 7] */
       const wantAcc = r() < A.accent, wantSlide = r() < A.slide;
-      const at = n.bar * 16 + n.step;
+      const at = n.bar * STEPS + n.step;
       if(wantAcc) n.accent = true;
       /* A SLIDE IS TO THE NOTE BEFORE IT IN TIME, and the qualifier is not
          pedantry: DKC's pedal strikes its root and its octave double on the same
@@ -26590,7 +26705,7 @@ function makeMaterials(chart, editPlan, arcPlan){
        and one owner keeps writing it. */
     if(STYLE === "riff"){
       const F = G.bassRiff;
-      const LEN = F.bars * 16;
+      const LEN = F.bars * STEPS;
       /* every draw below runs a fixed number of times whatever it yields, and
          all of them run before a single note is placed [Law 3] */
       const want = F.notes[0] + Math.floor(rng() * (F.notes[1] - F.notes[0] + 1));
@@ -26607,7 +26722,7 @@ function makeMaterials(chart, editPlan, arcPlan){
                      .map(x => x[0]).sort((a, z) => a - z);
       const cell = [];
       for(const st of on){
-        const strong = F.strong.includes(st % 16);
+        const strong = F.strong.includes(st % STEPS);
         /* one draw per note from each pool, always, so which pool was used
            cannot shift the stream for the notes after it [Law 3] */
         const a = wpick(rng, F.anchor), s = wpick(rng, F.spice);
@@ -26627,8 +26742,8 @@ function makeMaterials(chart, editPlan, arcPlan){
            happens at a change) -- so it follows the precedent already in the
            file rather than inventing a second convention. */
         for(const c of cell){
-          if(Math.floor(c.step / 16) !== b % F.bars) continue;
-          const st = c.step % 16;
+          if(Math.floor(c.step / STEPS) !== b % F.bars) continue;
+          const st = c.step % STEPS;
           notes.push({ bar: b, step: st, dur: c.dur,
                        pitch: intoBand(degMidi(ch.key, ch.mode, ch.degree + c.deg),
                                        R.bass[0], R.bass[1]),
@@ -27732,12 +27847,12 @@ function makeMaterials(chart, editPlan, arcPlan){
        progression where nothing is sounding at all, which is the honest
        answer when there is no chord to be outside of. */
     const COMP = opts.comp || [];
-    const SPAN = BARS * 16;
+    const SPAN = BARS * STEPS;
     const RING = [];                      // pitch classes sounding at each 1/16
     for(let i = 0; i < SPAN; i++) RING.push(null);
     for(const k of COMP){
       if(k.pitch == null) continue;
-      const from = (k.bar % BARS) * 16 + k.step;
+      const from = (k.bar % BARS) * STEPS + k.step;
       for(let d = 0; d < Math.max(1, k.dur || 1); d++){
         const at = (from + d) % SPAN;
         (RING[at] || (RING[at] = new Set())).add(pc(k.pitch));
@@ -27776,7 +27891,7 @@ function makeMaterials(chart, editPlan, arcPlan){
     }
     const isNCT = (b, st, p) => {
       if(omitted[b % BARS].has(pc(p))) return false;
-      const s = RING[((b % BARS) * 16 + st) % SPAN];
+      const s = RING[((b % BARS) * STEPS + st) % SPAN];
       return (s && s.size) ? !s.has(pc(p))
                            : !CH(chordSet, b).tones.some(t => pc(t) === pc(p));
     };
@@ -27998,7 +28113,7 @@ function makeMaterials(chart, editPlan, arcPlan){
              through. ══════════════════════════════════════════════════════ */
           if(REPEAT_MIN > 0 && notes.length){
             const prev = notes[notes.length - 1];
-            const gap = (b - prev.bar) * 16 + (steps[i] - prev.step);
+            const gap = (b - prev.bar) * STEPS + (steps[i] - prev.step);
             const silence = (gap - prev.dur) * STEP_SEC;
             if(prev.pitch === cand && gap > 0 && silence < REPEAT_MIN){
               prev.dur = Math.max(prev.dur, gap + dur);
@@ -28071,7 +28186,7 @@ function makeMaterials(chart, editPlan, arcPlan){
            durations. ── */
         for(let j = ph0; j < notes.length - 1; j++){
           const n = notes[j], nx = notes[j + 1];
-          const gap = (nx.bar * 16 + nx.step) - (n.bar * 16 + n.step);
+          const gap = (nx.bar * STEPS + nx.step) - (n.bar * STEPS + n.step);
           /* 12 sixteenths = a dotted half at the grid: long enough to carry
              the line across the bar boundary (where the old cap of 8 split
              every phrase in two and the join measured as having done
@@ -28120,8 +28235,8 @@ function makeMaterials(chart, editPlan, arcPlan){
            6.4% of them at the reserved guard. A note past the end of the loop
            does not belong in the last bar; it does not exist. */
         const at = t * 2;
-        if(at >= BARS * 16) break;
-        const st = at % 16, b = Math.floor(at / 16);
+        if(at >= BARS * STEPS) break;
+        const st = at % STEPS, b = Math.floor(at / STEPS);
         t += src.dur;
         const tones = CH(chordSet, b).tones;
         m = intoBand(nearestTone(scaleStep(keyOf(chordSet), modeOf(chordSet), m, wpick(rng, [[1, 2], [-1, 3], [0, 2]])), tones), LO, HI);
@@ -28263,19 +28378,19 @@ function makeMaterials(chart, editPlan, arcPlan){
     /* in time order, which is not the order the phrase builder emits them in --
        the hook copies bars 0-1 to 2-3 after the fact, and the answering phrase
        is appended whole. Sorting a COPY leaves the caller's array alone. */
-    const seq = notes.slice().sort((a, z) => (a.bar * 16 + a.step) - (z.bar * 16 + z.step));
+    const seq = notes.slice().sort((a, z) => (a.bar * STEPS + a.step) - (z.bar * STEPS + z.step));
     for(let i = 0; i < seq.length; i++){
       const n = seq[i], prev = i > 0 ? seq[i - 1] : null, next = seq[i + 1] || null;
-      const at = n.bar * 16 + n.step;
+      const at = n.bar * STEPS + n.step;
       /* every note draws whatever it ends up being [Law 7] */
       const r = stream(chart.seed, "art:" + streamName + ":" + n.bar + ":" + n.step + ":" + n.pitch)();
       /* IS THERE AIR BETWEEN THIS NOTE AND THE LAST? `dur` is in steps, so the
          previous note's end is its onset plus its length; anything at or before
          that is a continuation of one breath. */
-      const flowing = prev && (prev.bar * 16 + prev.step + prev.dur) >= at;
+      const flowing = prev && (prev.bar * STEPS + prev.step + prev.dur) >= at;
       /* and how long until the next one starts -- the inter-onset interval the
          staccato fraction is measured against */
-      const ioi = next ? (next.bar * 16 + next.step) - at : 99;
+      const ioi = next ? (next.bar * STEPS + next.step) - at : 99;
 
       if(!flowing){
         /* THE START OF A PHRASE. This is the one note that gets everything the
@@ -28619,12 +28734,12 @@ function makeMaterials(chart, editPlan, arcPlan){
     /* the comp laid out on the loop's sixteenths, rings and wrap included --
        the same map buildTheme makes, for the same reason */
     const ring = [];
-    for(let i = 0; i < BARS * 16; i++) ring.push(null);
+    for(let i = 0; i < BARS * STEPS; i++) ring.push(null);
     for(const k of (comp || [])){
       if(k.pitch == null) continue;
-      const from = (k.bar % BARS) * 16 + k.step;
+      const from = (k.bar % BARS) * STEPS + k.step;
       for(let d = 0; d < Math.max(1, k.dur || 1); d++){
-        const at2 = (from + d) % (BARS * 16);
+        const at2 = (from + d) % (BARS * STEPS);
         (ring[at2] || (ring[at2] = new Set())).add(pc(k.pitch));
       }
     }
@@ -28800,7 +28915,7 @@ function makeMaterials(chart, editPlan, arcPlan){
       /* what is sounding under this seat -- the same ring the tune reads, and
          the same fallback to the written chord where nothing is ringing */
       const nctAt = (bar, st, p) => {
-        const u = ring[((bar % BARS) * 16 + st) % (BARS * 16)];
+        const u = ring[((bar % BARS) * STEPS + st) % (BARS * STEPS)];
         return (u && u.size) ? !u.has(pc(p))
                              : !CH(chordSet, bar).tones.some(t => pc(t) === pc(p));
       };
@@ -30565,7 +30680,17 @@ function makeArrangement(chart, form, materials){
    half. This is a static part of the one gain formula, not a pass. */
 
 function makePerformance(chart, form, materials, sections){
-  const spb = (60 / chart.tempo) / 4;
+  /* SECONDS PER STEP. `/ 4` was "four sixteenths to a beat", true in every
+     simple metre and false in every compound one: a 6/8 beat is a dotted
+     quarter and holds SIX. Asked of the metre now, and 4/4 answers 4. */
+  const spb = (60 / chart.tempo) / perBeatOf(chart.table);
+  /* HOW MANY STEPS ARE IN A BAR -- the genre's, defaulting to 16. See the long
+     note in `makeMaterials`, which owns the reasoning; this stage only has to
+     agree with it. `spb` above is SECONDS PER STEP and `STEPS` is STEPS PER BAR,
+     and they are deliberately not spelled the same way round: a `SPB` sitting
+     one keystroke from `spb` in a file this size is a trap, and it was one for
+     about four minutes before being renamed. */
+  const STEPS = stepsOf(chart.table);
   const GR = chart.table.groove, TOUCH = chart.table.touch;
   const LEAN = GR.laneLean || {};
   const ACC = chart.table.accent;
@@ -30664,7 +30789,7 @@ function makePerformance(chart, form, materials, sections){
   const events = [];
   /* the tape bed: ONE event, dispatched like every other -- the crackle and the
      song go through the same scheduler on the same graph (Law 10) */
-  const totalSec = form.nBars * 16 * spb;
+  const totalSec = form.nBars * STEPS * spb;
   events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "tape",
                               role: "tape", gain: chart.tape.crackle,
                               hiss: chart.tape.hiss }));
@@ -30680,7 +30805,7 @@ function makePerformance(chart, form, materials, sections){
       const pk = sections.find(s => s.peak);
       const m = ERANG.meta(chart.atmos.accent);
       if(pk && m) events.push(Object.freeze({
-        tSec: pk.startBar * 16 * spb, durSec: m.n / ERANG.rate + 0.5,
+        tSec: pk.startBar * STEPS * spb, durSec: m.n / ERANG.rate + 0.5,
         voice: "atmos", role: "tape", gain: chart.atmos.accentGain,
         bed: chart.atmos.accent }));
     }
@@ -30826,7 +30951,7 @@ function makePerformance(chart, form, materials, sections){
              gain by design, LEVEL.bass is global to every genre, and the desk is
              a band EQ rather than a fader. There was nowhere to say "in THIS
              genre the bass sits under the kit". Absent or 1 changes nothing. */
-          const accent = (role === "drums" && ACC[lane]) ? ACC[lane][n.step % 16] : 1;
+          const accent = (role === "drums" && ACC[lane]) ? ACC[lane][n.step % STEPS] : 1;
           /* ── THE ARC REPLACES THE SECTION STEP ────────────────────────────
              This read `sec.energy`, one number held flat for a whole section,
              plus a 6% bump on whichever chorus happened to be last. So a song's
@@ -30861,7 +30986,7 @@ function makePerformance(chart, form, materials, sections){
           if(th > 0 && n.step > 0 && !slideSafe.has(lane + ":" + n.bar + ":" + n.step)){
             /* the metric weight of this step: downbeats survive, then the
                half-bar, then quarters, then everything else */
-            const w = n.step % 16 === 0 ? 1 : n.step % 8 === 0 ? 0.78
+            const w = n.step % STEPS === 0 ? 1 : n.step % 8 === 0 ? 0.78
                     : n.step % 4 === 0 ? 0.55 : n.step % 2 === 0 ? 0.32 : 0.14;
             const need = th * (1 - arcE) * (1 - w);
             if(keepR < need) continue;
@@ -30886,7 +31011,7 @@ function makePerformance(chart, form, materials, sections){
             sec.machines ? sec.machines[SLOT_OF[lane0]] : null);
           if(voice == null) continue;
           const ev = {
-            tSec: (bar * 16 + n.step + micro) * spb,
+            tSec: (bar * STEPS + n.step + micro) * spb,
             durSec: Math.max(spb * 0.9, n.dur * spb * artic),
             voice,
             role, lane: n.lane || role, gain,
@@ -30956,7 +31081,7 @@ function makePerformance(chart, form, materials, sections){
              backwards: the RIBBON is shared across simultaneous notes and the
              AFTERTOUCH below is independent per note. Those are the two halves
              of this instrument's expression and they have opposite polarity. */
-          const noteStart = (bar * 16 + n.step + micro) * spb;
+          const noteStart = (bar * STEPS + n.step + micro) * spb;
           const noteSec   = Math.max(spb * 0.9, n.dur * spb * artic);
           if(RIB && RIB.chance > 0 && n.pitch != null && (role === "lead" || role === "keys")){
             const rr = stream(chart.seed, "ribbon:" + bar);
@@ -30997,7 +31122,7 @@ function makePerformance(chart, form, materials, sections){
             /* where in the BAR the hand lands: falls and dives anchor LATE,
                because they are phrase-exit gestures */
             const win = kind === "fall" ? [0.68, 0.22] : kind === "dive" ? [0.55, 0.25] : RIB.at;
-            const at = (bar * 16 + 16 * (win[0] + when * win[1])) * spb;
+            const at = (bar * STEPS + STEPS * (win[0] + when * win[1])) * spb;
             /* a gesture needs a note still sounding when the hand arrives,
                with enough of it left to hear the move */
             if(hit && at >= noteStart && at < noteStart + noteSec - 0.12){
@@ -31327,7 +31452,7 @@ function makePerformance(chart, form, materials, sections){
     for(const s of sections){ const e = s.energy == null ? 0.5 : s.energy;
                               if(e < lo) lo = e; if(e > hi) hi = e; }
     const band = hi > lo ? hi - lo : 1;
-    return sections.map(s => ({ a: s.startBar * 16 * spb, b: s.endBar * 16 * spb,
+    return sections.map(s => ({ a: s.startBar * STEPS * spb, b: s.endBar * STEPS * spb,
       at: hi > lo ? ((s.energy == null ? 0.5 : s.energy) - lo) / band : 1 }));
   })();
   const loudEnough = (tSec, from) => {
@@ -31448,7 +31573,7 @@ function makePerformance(chart, form, materials, sections){
      seven genres whose chords overlap provably untouched and makes "how many
      notes would this switch move" a thing a probe can count. */
   {
-    const BAR = spb * 16;
+    const BAR = spb * STEPS;
     const nextOn = {}, curOn = {};
     for(let i = events.length - 1; i >= 0; i--){
       const e = events[i];
@@ -31780,9 +31905,9 @@ function makePerformance(chart, form, materials, sections){
        Found because the user heard it: 18 long foreign notes in lofi seed 6
        were being swelled like arrivals, which is what "notes out of key"
        sounds like when every pitch is technically in the key. */
-    const spb16 = (60 / chart.tempo) / 4 * 16;
+    const secPerBar = (60 / chart.tempo) / perBeatOf(chart.table) * STEPS;   // seconds per BAR, whatever the metre
     const stabOf = e => {
-      const bar = Math.max(0, Math.floor((e.tSec + 0.05) / spb16));
+      const bar = Math.max(0, Math.floor((e.tSec + 0.05) / secPerBar));
       const sec = sections.find(s => bar >= s.startBar && bar < s.endBar);
       const chSet = (sec && materials.chordsOf[sec.material]) || materials.chords;
       const ch = chSet && chSet[bar % chSet.length];
@@ -31890,7 +32015,7 @@ function makePerformance(chart, form, materials, sections){
     if(dropped){ events.length = 0; events.push(...kept); }
   }
 
-  return Object.freeze({ events: Object.freeze(events), seconds: form.nBars * 16 * spb + 2.5,
+  return Object.freeze({ events: Object.freeze(events), seconds: form.nBars * STEPS * spb + 2.5,
                          /* what the stack was asked for and would not do, in
                             words, so the panel can say so rather than the
                             request disappearing */
@@ -32464,7 +32589,7 @@ function describeText(song){
        record in bars. When the dial has been used this says both numbers, so a
        miss is visible instead of being something you notice later and mistrust
        the control for. */
-    `${clock(secForBars(song.form.nBars, c.tempo))}` +
+    `${clock(secForBars(song.form.nBars, c.tempo, song.chart.table))}` +
     (c.wantSec ? ` (asked for ${clock(c.wantSec)})` : "") +
     ` · ${song.form.nBars} bars · seed ${c.seed}\n` +
     `progression: ${song.materials.chords.map(name).join("  ")}` +
@@ -33545,7 +33670,7 @@ function programmeEl(){
   wrap.refresh = () => {
     const t = songTime();
     if(t == null || !nBars){ head.style.display = "none"; lamp.className = "prglamp"; return; }
-    const bar = t / (mo.spb * 16);
+    const bar = t / (mo.spb * (mo.steps || 16));
     head.style.display = "block";
     head.style.left = Math.max(0, Math.min(100, bar / nBars * 100)) + "%";
     const inCut = cuts.some(c => bar >= c.w.a && bar < c.w.b);
@@ -34580,13 +34705,13 @@ function patternNotes(role, pat){
 function playingPattern(role){
   const t = songTime();
   if(t == null) return null;
-  const bar = Math.floor(t / (16 * SONG.motion.spb));
+  const bar = Math.floor(t / ((SONG.motion.steps || 16) * SONG.motion.spb));
   const sec = SONG.sections.find(s => bar >= s.startBar && bar < s.endBar);
   if(!sec) return null;
   const isFill = role === "drums" && sec.fillInto && bar === sec.endBar - 1;
   return { pat: isFill ? "fill" : (patOf(sec.material) || {})[role],
            bar: isFill ? 0 : (bar - sec.startBar) % SONG.materials.bars,
-           step: Math.floor(t / SONG.motion.spb) % 16 };
+           step: Math.floor(t / SONG.motion.spb) % (SONG.motion.steps || 16) };
 }
 
 /* ── PINNING. Reading the grid gives the notes currently in force (composed, or
@@ -35008,7 +35133,7 @@ function rollHues(){
    role), plus a label so the glass can say what the outline is */
 function rollSnapshot(){
   if(!SONG) return null;
-  const spb = SONG.motion.spb, bar = 16 * spb;
+  const spb = SONG.motion.spb, bar = (SONG.motion.steps || 16) * spb;
   const notes = [];
   for(const ev of SONG.perf.events){
     const key = midiKeyFor(ev);
@@ -35026,6 +35151,13 @@ function drawRoll(){
   if(!host) return;
   host.innerHTML = "";
   ROLL = null;
+  /* THE RULER HAS TO AGREE WITH THE MUSIC. The roll draws a bar line every
+     `steps` and reads a bar number off the clock, and both were the literal 16
+     -- so a record in another metre would have drawn a correct performance
+     against a wrong ruler, which is the one failure mode that would make this
+     whole change look broken when it was not. Asked of the plan, which is where
+     the genre's answer now lives. */
+  const STEPS_UI = (SONG && SONG.motion && SONG.motion.steps) || 16;
   const h2 = el("h2", null, "the roll");
   host.appendChild(h2);
   /* HOLD / CLEAR, and the label says what is being held rather than "on" --
@@ -35113,7 +35245,7 @@ function drawRoll(){
   const grid = el("div", "rollgrid");
   for(let b = 0; b <= nBars; b++){
     const u = el("u", b % 4 === 0 ? "four" : null);
-    u.style.left = xOf(b * 16 * spb) + "%";
+    u.style.left = xOf(b * STEPS_UI * spb) + "%";
     grid.appendChild(u);
   }
   scope.appendChild(grid);
@@ -35150,12 +35282,12 @@ function drawRoll(){
     const gh = el("div", "rollghost");
     const g = [];
     for(const n of ROLL_HOLD.notes){
-      const x = xOf(n.b * 16 * spb);
+      const x = xOf(n.b * STEPS_UI * spb);
       if(x >= 100) continue;                        // the held song ran longer
       const y = n.d ? (lanes.includes(n.k) ? yDrum(n.k) : null)
                     : (n.k >= lo && n.k <= hi ? yOf(n.k) : null);
       if(y == null) continue;                       // outside this song's axes
-      const w = n.d ? 0.16 : Math.max(0.12, 100 * n.w * 16 * spb / secs);
+      const w = n.d ? 0.16 : Math.max(0.12, 100 * n.w * STEPS_UI * spb / secs);
       g.push(`<div class="gn" style="left:${x.toFixed(3)}%;width:${Math.min(100 - x, w).toFixed(3)}%;` +
              `top:${y}px;height:${(n.d ? ROLL_DRUM : ROLL_SEMI) - 1}px"></div>`);
     }
@@ -35167,7 +35299,7 @@ function drawRoll(){
      than recomputed from bars -- the roll must agree with the arrangement about
      where a section starts or clicking a note edits the wrong one. */
   const secAt = t => {
-    const bar = Math.floor(t / (16 * spb));
+    const bar = Math.floor(t / (STEPS_UI * spb));
     for(let i = 0; i < SONG.sections.length; i++)
       if(bar >= SONG.sections[i].startBar && bar < SONG.sections[i].endBar) return i;
     return -1;
@@ -35177,14 +35309,14 @@ function drawRoll(){
     const hue = HUE[ev.role] || 120;
     html.push(`<div class="rn" data-role="${ev.role}" data-sec="${secAt(ev.tSec)}" title="${ev.role} · ` +
       `${NOTE_NAMES[((key % 12) + 12) % 12]}${Math.floor(key / 12) - 1} · ` +
-      `bar ${Math.floor(ev.tSec / (16 * spb)) + 1}" style="left:${xOf(ev.tSec).toFixed(3)}%;` +
+      `bar ${Math.floor(ev.tSec / (STEPS_UI * spb)) + 1}" style="left:${xOf(ev.tSec).toFixed(3)}%;` +
       `width:${Math.max(0.12, 100 * ev.durSec / secs).toFixed(3)}%;top:${yOf(key)}px;` +
       `height:${ROLL_SEMI - 1}px;background:hsl(${hue} 85% ${(34 + 30 * Math.min(1, ev.gain)).toFixed(0)}%);` +
       `box-shadow:0 0 5px hsl(${hue} 90% 55% / .55)"></div>`);
   }
   for(const { ev, key } of drums){
     html.push(`<div class="rn" data-role="drums" data-sec="${secAt(ev.tSec)}" title="${ev.lane} · ` +
-      `bar ${Math.floor(ev.tSec / (16 * spb)) + 1}" style="left:${xOf(ev.tSec).toFixed(3)}%;` +
+      `bar ${Math.floor(ev.tSec / (STEPS_UI * spb)) + 1}" style="left:${xOf(ev.tSec).toFixed(3)}%;` +
       `width:.16%;top:${yDrum(key)}px;height:${ROLL_DRUM - 1}px;` +
       `background:hsl(${HUE.drums || 70} 70% ${(30 + 34 * Math.min(1, ev.gain)).toFixed(0)}%)"></div>`);
   }
@@ -35212,7 +35344,7 @@ function drawRoll(){
   const tags = [];
   for(const sec of SONG.sections){
     const t = el("div", "rollsec", sec.fn + " " + sec.material);
-    t.style.left = xOf(sec.startBar * 16 * spb) + "%";
+    t.style.left = xOf(sec.startBar * STEPS_UI * spb) + "%";
     lay.appendChild(t); tags.push({ el: t, sec });
   }
   const head = el("div", "rollhead");
@@ -35317,7 +35449,7 @@ function drawRoll(){
     if(t == null){ head.style.display = "none"; for(const g of tags) g.el.classList.remove("here"); return; }
     head.style.display = "block";
     head.style.left = xOf(t) + "%";
-    const bar = t / (16 * spb);
+    const bar = t / (STEPS_UI * spb);
     for(const g of tags) g.el.classList.toggle("here", bar >= g.sec.startBar && bar < g.sec.endBar);
   } };
   ROLL.refresh();
@@ -36001,7 +36133,7 @@ function refreshLive(){
      sounding. All four read the song rather than setting it. ── */
   if((READOUTS.length || LEDS.length) && SONG){
     const now = songTime();
-    const bar = now == null ? null : Math.floor(now / (16 * SONG.motion.spb));
+    const bar = now == null ? null : Math.floor(now / ((SONG.motion.steps || 16) * SONG.motion.spb));
     const sec = bar == null ? null : SONG.sections.find(s => bar >= s.startBar && bar < s.endBar);
     const iSec = sec ? SONG.sections.indexOf(sec) : -1;
     const ROMAN = ["I", "II", "III", "IV"];
@@ -36059,12 +36191,12 @@ function refreshLive(){
     }).join("");
     const t2 = songTime();
     scr.querySelector(".lcdfoot").textContent = SONG
-      ? `${SONG.chart.genre} · bar ${t2 == null ? 1 : Math.floor(t2 / (16 * SONG.motion.spb)) + 1}/${SONG.form.nBars}`
+      ? `${SONG.chart.genre} · bar ${t2 == null ? 1 : Math.floor(t2 / ((SONG.motion.steps || 16) * SONG.motion.spb)) + 1}/${SONG.form.nBars}`
       : "";
   }
   const t = songTime();
   $("pos").textContent = t == null ? ""
-    : clock(t) + ` · bar ${Math.floor(t / (16 * SONG.motion.spb)) + 1}/${SONG.form.nBars}`;
+    : clock(t) + ` · bar ${Math.floor(t / ((SONG.motion.steps || 16) * SONG.motion.spb)) + 1}/${SONG.form.nBars}`;
 }
 let RAF = null;
 function pumpLive(){
@@ -36308,6 +36440,11 @@ window.MK2 = {
      probe_rack.js is the test. Nothing outside the page draws a panel; this is
      here so something outside the page can CHECK one. */
   machineIn, heardOn,
+  /* THE METRE, so probe_meter.js can ask the program rather than keep its own
+     copy of six hierarchy tables and go stale the first time one is corrected.
+     `metreOf`/`stepsOf`/`beatsOf` are the accessors every stage reads through;
+     a probe that re-derived them would be testing its own arithmetic. */
+  METRE, METRE_DEPTH, METRE_GRID, metreOf, stepsOf, beatsOf, perBeatOf,
   /* THE GRID'S DECLARATION, for the same reason as `racks` below: probes that
      wrote out the effect columns by hand went stale twice, and probe_wiring
      had no barberpole column the build after one existed. */
