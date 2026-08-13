@@ -197,6 +197,32 @@ const check = (name, ok, detail) => {
   if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
 }
 
+/* ── AND THE MODULATION IS GENERAL, NOT A DRONE FEATURE ────────────────────
+   The four kinds with memory -- fm, sh, dejavu, bernoulli -- are in the shared
+   draw and name no genre, which was easy to SAY and was the whole of the
+   evidence until this ran. "Adding LFO's should be able to used in all genres,
+   not just for drones."
+
+   probe_modulation declares each kind on each genre, composes, and reads the
+   value back off the plan; and it checks that every curve a table actually
+   declares resolves to something that moves, which is the knob-that-does-
+   nothing defect one layer down.
+
+   `harness/probe_modulation.js` owns the logic. ══════════════════════════ */
+{
+  const { execFileSync } = require("child_process");
+  let out = "", ok = true;
+  try { out = execFileSync(process.execPath,
+          [path.resolve(__dirname, "probe_modulation.js")], { encoding: "utf8" }); }
+  catch(e){ ok = false; out = (e.stdout || "") + (e.stderr || ""); }
+  const mem = (out.match(/^\s+\w+\s+\d+\s+\d+\s+(\d+)$/gm) || [])
+                .map(l => +l.trim().split(/\s+/)[3]).filter(x => x > 0).length;
+  check("every modulation kind resolves on every genre, and every declared curve moves", ok,
+        ok ? `fm, sh, dejavu and bernoulli reach all 10 genres; ${mem} genre(s) declare one`
+           : "run: node harness/probe_modulation.js");
+  if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
+}
+
 const errors = [];
 let dilla = 0, hookExact = 0, hookTotal = 0, forms = new Set(), nondet = 0, ruleOf3 = 0;
 let dillaIdentical = 0, dillaChecked = 0;

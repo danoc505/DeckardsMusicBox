@@ -1438,7 +1438,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-13j · deja vu, and a modulator that can be modulated</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-13k · every genre has a knob that steps, not only the drone</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -15850,8 +15850,33 @@ const GENRE = {
            Added shallow and slow, because this is a colour on a send and not a
            filter sweep: enough that the dot travels and the repeats breathe,
            not enough to become an effect of its own. [CHOSEN] */
+        /* ══ AND THE COLOUR OF THE REPEATS STEPS, IT DOES NOT ONLY SWEEP ═══
+           "Adding LFO's should be able to used in all genres, not just for
+            drones."
+
+           Fair, and it was true: the four kinds with memory went in as general
+           machinery in the shared draw and were then declared on ONE genre's
+           pad, which made them a drone feature in everything but name.
+           probe_modulation.js now proves all four resolve on all ten genres.
+           This is the half that makes them USED.
+
+           A SAMPLE AND HOLD, not another sine. The move above sweeps this knob
+           smoothly and for ever on a fixed period; this holds a drawn value for
+           a stretch and then jumps to another, which is the oldest generative
+           gesture there is and the one thing a sine cannot do -- and it is the
+           Krell patch's own idea, where one random source sets both the value
+           and how long it lasts [Todd Barton]. Slewed most of the way, so it
+           slides between its steps rather than clicking.
+
+           SHALLOWER THAN THE SWEEP BESIDE IT, on purpose: this is meant to stop
+           the repeats arriving the same colour every time, not to become an
+           effect of its own. +/- 500 Hz against a 300-9000 Hz control. Every
+           number is [CHOSEN] and none of it has been heard.
+           docs/genre-research/modulation-and-the-eurorack.md §4 ═══════════ */
         tone: [{ kind: "lfo", bars: [[64, 2], [48, 1]], depth: [350, 1100],
-                shape: "sin", freePhase: true }],
+                shape: "sin", freePhase: true },
+               { kind: "sh", every: [[48, 2], [80, 1], [112, 1]], amt: [-500, 500],
+                 slew: [0.88, 0.95] }],
         /* the tape slap opens up where the record does and pulls back for the
            outro -- the delay is part of the arrangement, not a fixed insert */
         send: [{ kind: "section", by: { chorus: [0.03, 0.10], bridge: [0.06, 0.16],
@@ -16839,8 +16864,33 @@ const GENRE = {
            Added shallow and slow, because this is a colour on a send and not a
            filter sweep: enough that the dot travels and the repeats breathe,
            not enough to become an effect of its own. [CHOSEN] */
+        /* ══ AND THE COLOUR OF THE REPEATS STEPS, IT DOES NOT ONLY SWEEP ═══
+           "Adding LFO's should be able to used in all genres, not just for
+            drones."
+
+           Fair, and it was true: the four kinds with memory went in as general
+           machinery in the shared draw and were then declared on ONE genre's
+           pad, which made them a drone feature in everything but name.
+           probe_modulation.js now proves all four resolve on all ten genres.
+           This is the half that makes them USED.
+
+           A SAMPLE AND HOLD, not another sine. The move above sweeps this knob
+           smoothly and for ever on a fixed period; this holds a drawn value for
+           a stretch and then jumps to another, which is the oldest generative
+           gesture there is and the one thing a sine cannot do -- and it is the
+           Krell patch's own idea, where one random source sets both the value
+           and how long it lasts [Todd Barton]. Slewed most of the way, so it
+           slides between its steps rather than clicking.
+
+           SHALLOWER THAN THE SWEEP BESIDE IT, on purpose: this is meant to stop
+           the repeats arriving the same colour every time, not to become an
+           effect of its own. +/- 500 Hz against a 300-9000 Hz control. Every
+           number is [CHOSEN] and none of it has been heard.
+           docs/genre-research/modulation-and-the-eurorack.md §4 ═══════════ */
         tone: [{ kind: "lfo", bars: [[64, 2], [48, 1]], depth: [350, 1100],
-                shape: "sin", freePhase: true }],
+                shape: "sin", freePhase: true },
+               { kind: "sh", every: [[48, 2], [80, 1], [112, 1]], amt: [-500, 500],
+                 slew: [0.88, 0.95] }],
         send: [{ kind: "section", by: { bridge: [0.08, 0.20], chorus: [0.02, 0.08],
                                         outro: [0.05, 0.14] } },
                { kind: "gesture", on: "build", bars: 8, from: [0.08, 0.18], to: [0, 0], curve: "lin" }],
@@ -17547,8 +17597,33 @@ const GENRE = {
            Added shallow and slow, because this is a colour on a send and not a
            filter sweep: enough that the dot travels and the repeats breathe,
            not enough to become an effect of its own. [CHOSEN] */
+        /* ══ AND THE COLOUR OF THE REPEATS STEPS, IT DOES NOT ONLY SWEEP ═══
+           "Adding LFO's should be able to used in all genres, not just for
+            drones."
+
+           Fair, and it was true: the four kinds with memory went in as general
+           machinery in the shared draw and were then declared on ONE genre's
+           pad, which made them a drone feature in everything but name.
+           probe_modulation.js now proves all four resolve on all ten genres.
+           This is the half that makes them USED.
+
+           A SAMPLE AND HOLD, not another sine. The move above sweeps this knob
+           smoothly and for ever on a fixed period; this holds a drawn value for
+           a stretch and then jumps to another, which is the oldest generative
+           gesture there is and the one thing a sine cannot do -- and it is the
+           Krell patch's own idea, where one random source sets both the value
+           and how long it lasts [Todd Barton]. Slewed most of the way, so it
+           slides between its steps rather than clicking.
+
+           SHALLOWER THAN THE SWEEP BESIDE IT, on purpose: this is meant to stop
+           the repeats arriving the same colour every time, not to become an
+           effect of its own. +/- 500 Hz against a 300-9000 Hz control. Every
+           number is [CHOSEN] and none of it has been heard.
+           docs/genre-research/modulation-and-the-eurorack.md §4 ═══════════ */
         tone: [{ kind: "lfo", bars: [[64, 2], [48, 1]], depth: [350, 1100],
-                shape: "sin", freePhase: true }],
+                shape: "sin", freePhase: true },
+               { kind: "sh", every: [[48, 2], [80, 1], [112, 1]], amt: [-500, 500],
+                 slew: [0.88, 0.95] }],
         fb:   [{ kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.03, 0.08],
                 shape: "sin", freePhase: true }],
         send: [{ kind: "section", by: { chorus: [0.02, 0.08], instrumental: [0.03, 0.10],
@@ -18165,8 +18240,33 @@ const GENRE = {
         verb: [{ kind: "apex", from: [0.05, 0.14], to: [-0.02, 0.05] },
                { kind: "lfo", bars: [[96, 2], [64, 1]], depth: [0.03, 0.09],
                  shape: "sin", freePhase: true }],
+        /* ══ AND THE COLOUR OF THE REPEATS STEPS, IT DOES NOT ONLY SWEEP ═══
+           "Adding LFO's should be able to used in all genres, not just for
+            drones."
+
+           Fair, and it was true: the four kinds with memory went in as general
+           machinery in the shared draw and were then declared on ONE genre's
+           pad, which made them a drone feature in everything but name.
+           probe_modulation.js now proves all four resolve on all ten genres.
+           This is the half that makes them USED.
+
+           A SAMPLE AND HOLD, not another sine. The move above sweeps this knob
+           smoothly and for ever on a fixed period; this holds a drawn value for
+           a stretch and then jumps to another, which is the oldest generative
+           gesture there is and the one thing a sine cannot do -- and it is the
+           Krell patch's own idea, where one random source sets both the value
+           and how long it lasts [Todd Barton]. Slewed most of the way, so it
+           slides between its steps rather than clicking.
+
+           SHALLOWER THAN THE SWEEP BESIDE IT, on purpose: this is meant to stop
+           the repeats arriving the same colour every time, not to become an
+           effect of its own. +/- 500 Hz against a 300-9000 Hz control. Every
+           number is [CHOSEN] and none of it has been heard.
+           docs/genre-research/modulation-and-the-eurorack.md §4 ═══════════ */
         tone: [{ kind: "lfo", bars: [[64, 2], [48, 1]], depth: [400, 1400],
-                 shape: "sin", freePhase: true }],
+                 shape: "sin", freePhase: true },
+               { kind: "sh", every: [[48, 2], [80, 1], [112, 1]], amt: [-500, 500],
+                 slew: [0.88, 0.95] }],
       },
       /* the MELLOTRON, placed and drifting. A real one is mono -- one tape
          head a key -- so this is production, not instrument, and it is the
@@ -18666,8 +18766,33 @@ const GENRE = {
            Added shallow and slow, because this is a colour on a send and not a
            filter sweep: enough that the dot travels and the repeats breathe,
            not enough to become an effect of its own. [CHOSEN] */
+        /* ══ AND THE COLOUR OF THE REPEATS STEPS, IT DOES NOT ONLY SWEEP ═══
+           "Adding LFO's should be able to used in all genres, not just for
+            drones."
+
+           Fair, and it was true: the four kinds with memory went in as general
+           machinery in the shared draw and were then declared on ONE genre's
+           pad, which made them a drone feature in everything but name.
+           probe_modulation.js now proves all four resolve on all ten genres.
+           This is the half that makes them USED.
+
+           A SAMPLE AND HOLD, not another sine. The move above sweeps this knob
+           smoothly and for ever on a fixed period; this holds a drawn value for
+           a stretch and then jumps to another, which is the oldest generative
+           gesture there is and the one thing a sine cannot do -- and it is the
+           Krell patch's own idea, where one random source sets both the value
+           and how long it lasts [Todd Barton]. Slewed most of the way, so it
+           slides between its steps rather than clicking.
+
+           SHALLOWER THAN THE SWEEP BESIDE IT, on purpose: this is meant to stop
+           the repeats arriving the same colour every time, not to become an
+           effect of its own. +/- 500 Hz against a 300-9000 Hz control. Every
+           number is [CHOSEN] and none of it has been heard.
+           docs/genre-research/modulation-and-the-eurorack.md §4 ═══════════ */
         tone: [{ kind: "lfo", bars: [[64, 2], [48, 1]], depth: [350, 1100],
-                shape: "sin", freePhase: true }],
+                shape: "sin", freePhase: true },
+               { kind: "sh", every: [[48, 2], [80, 1], [112, 1]], amt: [-500, 500],
+                 slew: [0.88, 0.95] }],
         /* "reverb send increases during breakdowns open up space" -- so the
            send climbs where the parts thin and comes back for the arrival */
         send: [{ kind: "section", by: { bridge: [0.10, 0.24], chorus: [-0.04, 0.02],
@@ -20089,12 +20214,37 @@ const GENRE = {
                   "year of subtraction" leaves room for, because what subtracts
                   is the KIT, while the space fills in behind it */
                { kind: "arc", from: [-0.08, -0.02], to: [0.05, 0.12], curve: "sCurve" }],
+        /* ══ AND THE COLOUR OF THE REPEATS STEPS, IT DOES NOT ONLY SWEEP ═══
+           "Adding LFO's should be able to used in all genres, not just for
+            drones."
+
+           Fair, and it was true: the four kinds with memory went in as general
+           machinery in the shared draw and were then declared on ONE genre's
+           pad, which made them a drone feature in everything but name.
+           probe_modulation.js now proves all four resolve on all ten genres.
+           This is the half that makes them USED.
+
+           A SAMPLE AND HOLD, not another sine. The move above sweeps this knob
+           smoothly and for ever on a fixed period; this holds a drawn value for
+           a stretch and then jumps to another, which is the oldest generative
+           gesture there is and the one thing a sine cannot do -- and it is the
+           Krell patch's own idea, where one random source sets both the value
+           and how long it lasts [Todd Barton]. Slewed most of the way, so it
+           slides between its steps rather than clicking.
+
+           SHALLOWER THAN THE SWEEP BESIDE IT, on purpose: this is meant to stop
+           the repeats arriving the same colour every time, not to become an
+           effect of its own. +/- 500 Hz against a 300-9000 Hz control. Every
+           number is [CHOSEN] and none of it has been heard.
+           docs/genre-research/modulation-and-the-eurorack.md §4 ═══════════ */
         tone: [{ kind: "lfo", bars: [[48, 3], [96, 2]], depth: [220, 700],
                  shape: "tri", freePhase: true },
                { kind: "lfo", bars: [[20, 3], [14, 2]], depth: [180, 520],
                  shape: "sin", freePhase: true },
                { kind: "section", by: { bridge: [400, 1100], outro: [-500, -200] } },
-               { kind: "arc", from: [300, 900], to: [-700, -250], curve: "sCurve" }],
+               { kind: "arc", from: [300, 900], to: [-700, -250], curve: "sCurve" },
+               { kind: "sh", every: [[48, 2], [80, 1], [112, 1]], amt: [-500, 500],
+                 slew: [0.88, 0.95] }],
         hp:   [{ kind: "lfo", bars: [[64, 2], [32, 1]], depth: [30, 90],
                  shape: "sin", freePhase: true },
                { kind: "lfo", bars: [[18, 2], [26, 1]], depth: [25, 70],
@@ -20647,8 +20797,33 @@ const GENRE = {
            Added shallow and slow, because this is a colour on a send and not a
            filter sweep: enough that the dot travels and the repeats breathe,
            not enough to become an effect of its own. [CHOSEN] */
+        /* ══ AND THE COLOUR OF THE REPEATS STEPS, IT DOES NOT ONLY SWEEP ═══
+           "Adding LFO's should be able to used in all genres, not just for
+            drones."
+
+           Fair, and it was true: the four kinds with memory went in as general
+           machinery in the shared draw and were then declared on ONE genre's
+           pad, which made them a drone feature in everything but name.
+           probe_modulation.js now proves all four resolve on all ten genres.
+           This is the half that makes them USED.
+
+           A SAMPLE AND HOLD, not another sine. The move above sweeps this knob
+           smoothly and for ever on a fixed period; this holds a drawn value for
+           a stretch and then jumps to another, which is the oldest generative
+           gesture there is and the one thing a sine cannot do -- and it is the
+           Krell patch's own idea, where one random source sets both the value
+           and how long it lasts [Todd Barton]. Slewed most of the way, so it
+           slides between its steps rather than clicking.
+
+           SHALLOWER THAN THE SWEEP BESIDE IT, on purpose: this is meant to stop
+           the repeats arriving the same colour every time, not to become an
+           effect of its own. +/- 500 Hz against a 300-9000 Hz control. Every
+           number is [CHOSEN] and none of it has been heard.
+           docs/genre-research/modulation-and-the-eurorack.md §4 ═══════════ */
         tone: [{ kind: "lfo", bars: [[64, 2], [48, 1]], depth: [350, 1100],
-                shape: "sin", freePhase: true }],
+                shape: "sin", freePhase: true },
+               { kind: "sh", every: [[48, 2], [80, 1], [112, 1]], amt: [-500, 500],
+                 slew: [0.88, 0.95] }],
         send: [{ kind: "section", by: { bridge: [0.10, 0.24], intro: [0.04, 0.12] } },
                { kind: "gesture", on: "build", bars: 8, from: [0.10, 0.22], to: [0, 0], curve: "lin" },
                /* the throw: jungle's delay is a thrown thing, not a wash */
@@ -22059,8 +22234,26 @@ const GENRE = {
         mVerb: [{ kind: "apex", from: [-0.05, 0.02], to: [0.05, 0.16] },
                 { kind: "gesture", on: "fill", bars: 2, from: [0, 0],
                   to: [0.06, 0.14], curve: "exp" }],
-        tCut:  [{ kind: "apex", from: [-900, -200], to: [200, 1400] }],
-        mCut:  [{ kind: "apex", from: [-900, -200], to: [200, 1400] }],
+        /* ══ AND THE KETTLES' COLOUR STEPS, IT DOES NOT ONLY ARC ═══════════
+           This genre's echo has no `tone` lane, so the same idea goes on what
+           it does have: the kit's own filters, which until now moved once
+           across the whole record on an `apex` and nowhere else -- a single
+           slow open, and nothing between. A sample and hold beside that arc
+           holds a drawn cutoff for a stretch and then jumps, which is the one
+           thing an arc cannot do [Kinks; the Krell patch].
+
+           Dungeon synth is the OTHER drone genre and had none of this either.
+           Shallow against the arc it sits beside; [CHOSEN], and unheard.
+           The two lanes step on DIFFERENT periods so the two drums do not
+           change colour together -- cycles that do not divide each other is
+           this repo's own finding about what makes a long record move
+           (how-a-drone-evolves.md §1). */
+        tCut:  [{ kind: "apex", from: [-900, -200], to: [200, 1400] },
+                { kind: "sh", every: [[48, 2], [80, 1]], amt: [-380, 380],
+                  slew: [0.88, 0.95] }],
+        mCut:  [{ kind: "apex", from: [-900, -200], to: [200, 1400] },
+                { kind: "sh", every: [[64, 2], [112, 1]], amt: [-380, 380],
+                  slew: [0.88, 0.95] }],
         kMix:  [{ kind: "section", by: { bridge: [-0.3, -0.12], outro: [-0.25, -0.1] } }],
         /* every lane below carries an LFO beside its section move: a form is a
            draw and a draw can skip the bridge, and a lane that moves only in a
@@ -23298,9 +23491,34 @@ const GENRE = {
                { kind: "gesture", on: "fill", bars: 2,
                  from: [0, 0], to: [0.24, 0.46], curve: "exp" },
                { kind: "throw", amt: [0.20, 0.42], every: 8, at: 0.75 }],
+        /* ══ AND THE COLOUR OF THE REPEATS STEPS, IT DOES NOT ONLY SWEEP ═══
+           "Adding LFO's should be able to used in all genres, not just for
+            drones."
+
+           Fair, and it was true: the four kinds with memory went in as general
+           machinery in the shared draw and were then declared on ONE genre's
+           pad, which made them a drone feature in everything but name.
+           probe_modulation.js now proves all four resolve on all ten genres.
+           This is the half that makes them USED.
+
+           A SAMPLE AND HOLD, not another sine. The move above sweeps this knob
+           smoothly and for ever on a fixed period; this holds a drawn value for
+           a stretch and then jumps to another, which is the oldest generative
+           gesture there is and the one thing a sine cannot do -- and it is the
+           Krell patch's own idea, where one random source sets both the value
+           and how long it lasts [Todd Barton]. Slewed most of the way, so it
+           slides between its steps rather than clicking.
+
+           SHALLOWER THAN THE SWEEP BESIDE IT, on purpose: this is meant to stop
+           the repeats arriving the same colour every time, not to become an
+           effect of its own. +/- 500 Hz against a 300-9000 Hz control. Every
+           number is [CHOSEN] and none of it has been heard.
+           docs/genre-research/modulation-and-the-eurorack.md §4 ═══════════ */
         tone: [{ kind: "gesture", on: "fill", bars: 8,
                  from: [0, 0], to: [-3400, -1800], curve: "exp" },
-               { kind: "apex", from: [-2200, -1000], to: [1200, 3000] }],
+               { kind: "apex", from: [-2200, -1000], to: [1200, 3000] },
+               { kind: "sh", every: [[48, 2], [80, 1], [112, 1]], amt: [-500, 500],
+                 slew: [0.88, 0.95] }],
       },
       /* ── THE DRUM MACHINE, PLAYED RATHER THAN SET ─────────────────────────
          Boys Noize: "The sound is more important to me than the melody or a

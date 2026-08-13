@@ -219,6 +219,108 @@ In the order of how much each buys against how much it costs.
 Nothing above is a taste decision about how any genre should sound. Every one
 is a thing a table currently *cannot say*.
 
+---
+
+## 5. Ambient drone, and eurorack generative practice — the second question
+
+> *"Did you do any research on ambient drones, and generative music via eurorack"*
+
+**Ambient drone: yes, and it predates this sheet.**
+`docs/genre-research/how-a-drone-evolves.md` — sixteen searches, twenty-two
+page fetches, seven traditions (gamelan, pibroch, alap, ground bass, Eno,
+dub techno, dungeon synth), written after the challenge *"How do you know what i
+said about plocks is correct in regards the drones? Did you research it?"* Its
+verdict is the thing this whole line of work is executing:
+
+> *"What the sources put the heavy lifting on, in order: **parts entering and
+> leaving**; **cycles whose periods do not divide each other**; and **discrete
+> variation events over an unchanged ground**. Those three are what every one of
+> the seven traditions surveyed here converges on, and this program has the
+> first, has never had the second, and has the third only at the record scale."*
+
+The coprime LFO pairs are the second. `dejavu` is the third. Neither is my idea;
+both are that sheet's findings, finally built.
+
+**Eurorack generative practice: it was thin, and this is the fix.**
+
+### 5.1 The Krell patch
+
+The canonical generative patch, Todd Barton's, after *Forbidden Planet*:
+
+> *"A random value generator determines both the notes played by the oscillator,
+> and the decay times of the notes."*
+
+One source, two destinations, and the second is TIME. That is the idea `sh`
+carries here — a drawn value that also decides how long it lasts — and it is why
+`every` is drawn rather than fixed.
+
+### 5.2 Sequences of different lengths
+
+> *"Blending sequences of different lengths with a precision adder can be an
+> effective way to create long varied melodies from shorter source material."*
+
+> *"Multi-voice polyrhythms that involve coprime ratios can lead to very long
+> cycles of many millions of pulses."*
+
+This is `how-a-drone-evolves.md`'s second mechanism stated by a different
+tradition, and it is why the two dungeon-synth kettle filters step on 48/80 and
+64/112 rather than on the same period.
+
+### 5.3 Probability, and where it belongs
+
+> *"Probabilistic skippers for gate pulses and CVable clock dividers/multipliers
+> can be used for further manipulation of timing signals."*
+
+> *"Clock dividers, logic, and sequential switches can be great for triggering
+> semipredictable, structured changes."*
+
+`bernoulli` is the first of those and is built. Clock dividers and sequential
+switches are not, and they are the shape of the answer to *"the drums might not
+be one loop but it feels like it"* — a hit that sometimes does not happen, and a
+lane that changes on its own period rather than the bar's.
+
+### 5.4 Quantisation
+
+> *"A melodic variation on the Krell patch uses a Quantizer on the Random for a
+> more melodic take."*
+
+Worth naming because this program already has the quantiser and does not think
+of it that way: `scaleStep`/`inKey` are exactly that, and nothing generative
+currently feeds them. A `sh` or a `dejavu` on a PITCH rather than on a knob is
+the obvious next thing and is not built.
+
+### 5.5 And the honest summary of what generative means here
+
+> *"Generative patches are created by connecting modules in such a way that they
+> basically play themselves with little or no interaction from the user, yet the
+> music evolves and changes without repeating itself."*
+
+Which is this program's brief, written by somebody else, and the measurable form
+of it is the last column of `probe_modulation.js`: of the lanes that move, how
+many never come round again.
+
+---
+
+## 6. What is now built, and what is still not
+
+**Built** — four move kinds with memory (`fm`, `sh`, `dejavu`, `bernoulli`),
+resolved at draw time into a per-sixteenth curve; declared on **all ten
+genres**, not only the drone; `probe_modulation.js` proving every kind resolves
+on every genre and that every declared curve moves; `probe_drone.js` taught to
+measure long-term periodicity rather than only within-bar detail.
+
+**Not built, and named rather than dropped:**
+
+1. The **resonator** — `echo.fb` still caps at 0.85 and `echo.div` still speaks
+   only in beat divisions, so "infinite feedback" and "very short delay time"
+   from the drone list remain inexpressible. Task #62.
+2. **Scenes** (Frames). Task #63.
+3. **Clock dividers and sequential switches** (§5.3) — a lane that changes on
+   its own period, and structured rather than smooth change.
+4. **Generative PITCH** (§5.4) — every one of the four kinds currently modulates
+   a knob. None of them can touch a note.
+5. `comp` and `sax` are still modulated by nothing at all.
+
 ## Sources
 
 - Mutable Instruments, `pichenettes/eurorack` — https://github.com/pichenettes/eurorack
