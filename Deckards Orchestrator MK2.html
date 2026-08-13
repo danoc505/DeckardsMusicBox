@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-13d · the chorus moves, the record arrives, the road is not a crypt</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-13e · a frame drum, a phrase with an arrival, and four fills</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -2918,6 +2918,7 @@ const INSTRUMENTS = {
       sega:     "console chip kit",
       gretsch:  "recorded drum kit",
       dungeon:  "war drums and kettles",
+      shire:    "frame drums and hand percussion",
       brk:      "chopped breakbeat",
     },
     kits: {
@@ -2981,6 +2982,40 @@ const INSTRUMENTS = {
          everything a hand would strike is the sampled Erang percussion. The
          SET switch inside that voice decides which sample a lane reaches, so
          the eight lanes are not eight copies of one hit. */
+      /* ══ THE SHIRE KIT — one drum, four places on it ═══════════════════════
+         The rig has advertised a frame drum since it was written and there was
+         none; hobbit synth played `dungeon`, which is literally named "war
+         drums and kettles". See `frameVoice` for the acoustics.
+
+         IT IS FOUR PLACES ON ONE DRUM, NOT FOUR DRUMS. A bodhran player has one
+         head, a tipper with two ends and a hand behind the skin, and every
+         sound in the tradition comes out of those. So the lane map is a
+         translation from a kit's vocabulary into a player's: the KICK lane is
+         the centre stroke that carries the pulse, the SNARE lane is the
+         quarter-point stroke that rings, the GHOST lane is the flat palm --
+         which on this instrument is a damped stroke and not a quiet one -- and
+         the HAT lane is the rim, which the source calls "occasional... for
+         contrast", i.e. a substitution rather than a lane of its own.
+
+         THE TOMS ARE THE SAME DRUM AT THREE TENSIONS, because the hand behind
+         the head is a pitch control: nearer the rim is lower, and an octave
+         costs four times the tension so the spread is deliberately narrow.
+         `chTune` on the lane does the work; the three names exist so the drum
+         builder's tom runs have somewhere to go.
+
+         AND THE CYMBALS ARE THE DRUM. There is no metal in this ensemble --
+         Rimsky-Korsakov's "the combination of plucked strings with percussion
+         alone, is excellent" is the blend the shire rig already is, and adding
+         a crash to it would be the one thing he warns against. A crash lane
+         here is the open ringing stroke, which is what a player does at an
+         arrival. Naming that is better than pretending otherwise, which is the
+         same choice the chip kit makes about its noise channel. */
+      shire:    {
+        label: "TR-1000 · SHIRE",
+        lanes: { kick:"fdLow", snare:"fdOpen", ghost:"fdMute", hat:"fdRim",
+                 openhat:"fdOpen", tom1:"fdOpen", tom2:"fdOpen", tom3:"fdLow",
+                 rim:"fdRim", clap:"fdMute", crash:"fdOpen", ride:"fdRim" },
+      },
       dungeon:  {
         label: "TR-1000 · DUNGEON",
         lanes: { kick:"wardrum", tom1:"timpHi", tom2:"timpMid", tom3:"timpLo",
@@ -6664,6 +6699,13 @@ const DRUM_SOUND_NAME = {
   brk: "chopped breakbeat",
   /* the old drums */
   wardrum: "war drum",
+  /* the shire kit: four PLACES on one frame drum, not four drums, and the
+     names say so -- a player reading the meter should see what their hand is
+     doing, not four instruments they do not have. */
+  fdLow: "frame drum · centre",
+  fdOpen: "frame drum · open",
+  fdMute: "frame drum · palm",
+  fdRim: "frame drum · rim",
   timpHi: "kettle drum, high", timpMid: "kettle drum, middle", timpLo: "kettle drum, low",
   erangDrum: "hand percussion",
 };
@@ -10387,6 +10429,154 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     openGate(g, ev, t);
     return [o, s, n, d2, body, knock];
   };
+
+  /* ══ THE FRAME DRUM — the instrument the shire rig has been advertising ═════
+     [docs/genre-research/frame-drum-and-percussion-scoring.md]
+
+     `RIG_LABEL.shire` reads "the shire -- flute, plucked strings, FRAME DRUM"
+     and there was no frame drum in the program. Hobbit synth played the
+     inherited `dungeon` kit, whose own name is "war drums and kettles": a war
+     drum and three timpani, tuned for a genre at 52-78 bpm whose sources ask
+     for "one timpani hit on the first beat of each bar... dinosaurs steadily
+     marching on". Hobbit synth runs 102-124, which sits inside the MEASURED
+     106-130 gait-synchronisation window; dungeon synth's 52-78 is nearest the
+     60-per-minute slow march, which is the funeral pace. A walking party was
+     being accompanied by kettledrums.
+
+     ── IT IS NOT A TIMPANO AND IT IS NOT A TOM ────────────────────────────────
+     Three constructions, and the sources separate them: a timpano is a membrane
+     over a SEALED KETTLE, and `timpVoice`'s ratios (1 : 1.5 : 2 : 2.44 : 2.9)
+     are the kettle's rescue of the membrane into near-harmonicity. A frame drum
+     is a SINGLE HEAD WITH AIR AT ATMOSPHERIC PRESSURE ON BOTH SIDES -- no
+     kettle, no second head, no rescue. So it keeps the ideal membrane's own
+     inharmonic ratios, which are Bessel zeros and are sourced three ways to
+     four figures:
+
+       (0,1) 1  ·  (1,1) 1.593  ·  (2,1) 2.135  ·  (0,2) 2.295  ·  (3,1) 2.653
+       ·  (1,2) 2.917
+
+     AND A REAL HEAD IS STIFF. Read off a measured plot of a 12" single-headed
+     tom: the nodal-DIAMETER modes sit 8-15% HIGH of ideal, the axisymmetric
+     ones at or slightly below. Those corrected values are what is used below;
+     the uncorrected Bessel figures would be a rubber sheet, not a skin.
+
+     ── THE FUNDAMENTAL IS THE SHORTEST-LIVED MODE, WHICH IS BACKWARDS FROM
+     EVERY OTHER DRUM VOICE IN THIS FILE ───────────────────────────────────────
+     Derived T60s from the only published damping figures (a snare batter head,
+     zeta = 5.07 / 1.10 / 1.07 / 1.16 / 1.24 / 0.77 % of critical):
+
+       97 ms  ·  310  ·  225  ·  167  ·  144  ·  195
+
+     The (0,1) mode is a MONOPOLE -- the whole head moving in phase, pushing air
+     efficiently -- so it radiates its energy away fastest. Every drum voice in
+     this program decays the upper partials first, which is right for a kettle
+     and wrong for a struck skin. The caveat is carried honestly: the 5.07% is
+     attributed to two-head coupling, which a frame drum does not have, so the
+     DIRECTION transfers and the number does not. The ratios between the upper
+     modes are used and the absolute scale is [CHOSEN].
+
+     ── WHERE YOU HIT IT IS NOT A VOLUME, IT IS A DIFFERENT SOUND ──────────────
+     Measured twice by two groups who never met. A CENTRE strike drives the
+     (0,n) family ALONE -- few partials, low, short, "no definite pitch", and a
+     deep notch exactly where (1,1) should be. A strike a quarter of the way in
+     from the rim drives the (m,1) family: a dozen peaks out to ~700 Hz, and it
+     LINGERS. So `pos` below is not a brightness knob; it selects which subset
+     of one mode set is excited, which is why the two lanes sound like different
+     instruments rather than one instrument at two levels.
+
+     ── AND THE HAND IS THE INSTRUMENT ─────────────────────────────────────────
+     Two separable axes, and the sources separate them: contact AREA sets
+     damping (flat palm staccato, heel or knuckle a controlled ring), radial
+     POSITION sets pitch, nearer the rim being lower. From the sourced
+     f proportional to sqrt(T): an octave costs four times the tension and a
+     whole tone 1.26, so "an octave or more" is a ceiling and not a gesture --
+     `bend` below is held to a tone.
+
+     THE TRANSIENT DOES NOT MOVE UNDER THE HAND. Both shipping products that
+     document a frame drum split it the same way, and one ships its library as
+     "individual transients and sustains": the tipper's contact noise is a fixed
+     event and the RING is what the hand governs. So the noise burst here is
+     outside the damping entirely -- which is also why a heavily damped stroke
+     still reads as a stroke rather than as a quieter one. */
+  function frameVoice(cfg){
+    /* the stiffness-corrected ratios, and which family each belongs to */
+    const AXI = [1.000, 2.295];                    // (0,1) (0,2) -- centre drives these
+    const DIA = [1.840, 2.410, 3.000, 3.220];      // (1,1) (2,1) (3,1) (1,2) -- off-centre
+    const T60 = { 1.000: 0.097, 2.295: 0.167, 1.840: 0.310, 2.410: 0.225,
+                  3.000: 0.144, 3.220: 0.195 };
+    return function(g, ev, t){
+      const c = g.ctx;
+      const chT = chTune(g, ev), chD = chDecay(g, ev);
+      const hit = Math.max(0.15, Math.min(1, ev.gain == null ? 1 : ev.gain));
+      /* 90 Hz is the only measured bodhran fundamental anywhere; the 60-100 Hz
+         band around it is derived from single-head toms of the same size. */
+      const f0 = 90 * cfg.f0mul * chT;
+      const damp = cfg.damp * chD;
+      const out = drumOut(g, ev.lane);
+      /* WHICH MODES SOUND. `pos` 0 is dead centre and 1 is the quarter point;
+         between them the diameter family fades in, which is what moving the
+         tipper actually does. The notch at (1,1) in the centre case is the
+         measured feature and falls out of this for free. */
+      const modes = AXI.map(r => ({ r, a: 1 }))
+        .concat(DIA.map(r => ({ r, a: cfg.pos })));
+      for(const m of modes){
+        if(m.a < 0.02) continue;
+        const o = c.createOscillator(); o.type = "sine";
+        /* the same tension rise `V.wardrum` carries, and from the same
+           measurements: 10% at a full blow, falling as the SQUARE of the
+           strike because the tension goes as the square of the amplitude,
+           settling over Rose's 0.2 s. */
+        o.frequency.setValueAtTime(f0 * m.r * (1 + 0.10 * hit * hit), t);
+        o.frequency.exponentialRampToValueAtTime(f0 * m.r, t + 0.20);
+        const ring = Math.max(0.03, (T60[m.r] || 0.15) * damp);
+        const gn = c.createGain();
+        /* higher modes are excited less by a soft stroke -- the same reason a
+           quiet note on any struck thing is duller, and it is why `hit` is
+           here rather than only on the master gain */
+        const lvl = 0.42 * m.a * ev.gain * Math.pow(hit, 0.35 + 0.55 * (m.r - 1) / 2.3);
+        gn.gain.setValueAtTime(0.0001, t);
+        gn.gain.exponentialRampToValueAtTime(Math.max(0.0002, lvl), t + 0.004);
+        gn.gain.exponentialRampToValueAtTime(0.0002, t + ring);
+        o.connect(gn); gn.connect(out);
+        o.start(t); o.stop(t + ring + 0.03);
+      }
+      /* ── THE TIPPER'S CONTACT, WHICH THE HAND DOES NOT TOUCH ───────────────
+         A fixed transient: goat skin under a wooden stick. Outside `damp` on
+         purpose (see the note above), and brighter at the rim than at the
+         centre because there is less skin under the stick to absorb it. */
+      const n = c.createBufferSource();
+      const len = Math.max(1, Math.round(c.sampleRate * 0.03));
+      const buf = c.createBuffer(1, len, c.sampleRate);
+      const d = buf.getChannelData(0);
+      let rs = 22222 + Math.round(f0 * 7);
+      for(let i = 0; i < len; i++){
+        rs = (rs * 1664525 + 1013904223) >>> 0;
+        d[i] = ((rs >>> 8) / 8388608 - 1) * Math.pow(1 - i / len, 3.2);
+      }
+      n.buffer = buf;
+      const nf = c.createBiquadFilter(); nf.type = "bandpass";
+      nf.frequency.value = 900 + 2600 * cfg.pos;
+      nf.Q.value = 0.7;
+      const ng = c.createGain();
+      ng.gain.value = cfg.tip * ev.gain * (0.45 + 0.55 * hit);
+      n.connect(nf); nf.connect(ng); ng.connect(out);
+      n.start(t); n.stop(t + 0.06);
+    };
+  }
+  /* THE THREE THE KIT NEEDS, and they are three PLACES ON ONE DRUM rather than
+     three drums -- which is what a bodhran player has. `fdLow` is the centre
+     stroke that carries the pulse, `fdOpen` is the quarter-point stroke that
+     rings, and `fdRim` is the bright short one the hand kills. The sheet is
+     blunt that the rim is "occasional... for contrast", i.e. a SUBSTITUTION
+     and not a lane of its own -- which is exactly how the kit map uses it. */
+  V.fdLow  = frameVoice({ f0mul: 0.72, pos: 0.10, damp: 1.00, tip: 0.16 });
+  V.fdOpen = frameVoice({ f0mul: 1.00, pos: 0.85, damp: 1.00, tip: 0.26 });
+  V.fdRim  = frameVoice({ f0mul: 1.34, pos: 1.00, damp: 0.34, tip: 0.40 });
+  /* the flat palm: the same drum with the ring taken out of it. A ghost note on
+     a frame drum is not a quiet stroke, it is a DAMPED one, and that is the
+     whole difference between a hand drum and a drum machine. */
+  V.fdMute = frameVoice({ f0mul: 1.00, pos: 0.55, damp: 0.16, tip: 0.30 });
+
 
 
   /* ══ THE TR-808 ═══════════════════════════════════════════════════════════
@@ -23235,28 +23425,113 @@ GENRE.hobbitsynth = {
      anywhere gives a roll offset in milliseconds or in grid steps, and
      score-craft.md §56 records that absence rather than papering over it. */
   touch: { bassArtic: [[0.95, 3], [1.1, 5], [1.3, 2]], strum: [0, 0], roll: 1 },
-  accent: { kick: METRE(0.40),
-    snare: METRE(0.45),
-    ghost: METRE(0.55),
-    hat: METRE(0.50),
-    tom1: METRE(0.30),
-    tom2: METRE(0.30),
-    tom3: METRE(0.30),
-    openhat: METRE(0.50) },
+  /* ══ AND THE HIERARCHY BARELY BIT ═════════════════════════════════════════
+     Inherited at METRE(0.30-0.55) where lofi's kick spans 0.79. This file's own
+     note says why that matters: "A drum part with no metrical emphasis reads as
+     a machine however much the pattern varies, which is why the report says
+     LOOP about music that does not repeat."
+
+     ON THIS INSTRUMENT THE ACCENT IS THE TECHNIQUE, not a dynamic on top of it.
+     Ballard's basic figures are written as stroke DIRECTIONS -- accent-down,
+     up, down, accent-up, down, up -- and two tutors who have never heard of
+     each other print the same bar; a third gives the felt pulse as "strong
+     light light strong light light". A frame drum with a flat accent map is not
+     a quieter frame drum, it is a different instrument.
+
+     `bite` is the one number that says how hard the metre presses, and the
+     hierarchy itself is derived rather than typed -- so this is a taste
+     declaration about pressure, not a hand-written curve. The ghost lane bites
+     hardest because a damped palm stroke is the softest thing here and needs
+     the most room under the accented ones. */
+  accent: { kick: METRE(0.62), snare: METRE(0.60),
+            ghost: METRE(0.72), hat: METRE(0.55),
+            tom1: METRE(0.45), tom2: METRE(0.45),
+            tom3: METRE(0.45), openhat: METRE(0.50) },
+  /* ══ THE TREAD, FROM A BODHRAN TUTOR RATHER THAN FROM A CRYPT ════════════
+     [docs/genre-research/travelling-percussion.md §2.2] The inherited pocket
+     was dungeon synth's, which is a procession at 52-78 bpm. These are the
+     reel and hornpipe figures Ballard prints, read at one glyph per quarter --
+     the reading that agrees with every independent account of where the accents
+     fall ("accent on the first and third beats", "strong-weak-weak-strong").
+
+       reel basic      0 4 8 12    down-up-down-up, the walking tread
+       reel thinned    0 8         the same bar with the offbeats taken out
+       hornpipe        0 6 8 14    the dotted feel, accents still 0 and 8
+       with a pickup   + 14        Ballard: reels "often written with a pickup
+                                   note or grace note leading into the measure"
+
+     The accents at 0 and 8 are the best-corroborated fact in that sheet --
+     three independent sources, none citing another. The single-hit skeleton
+     stays in the pool at low weight because a walking party does not always
+     drum, and it is the row that lets the arc thin toward silence. */
   pocket: [
     [[0, 4, 8, 12], 6],
-    [[0, 12, 14], 5],
-    [[0, 4, 8, 12, 14], 4],
-    [[0, 12, 14, 15], 3],
-    [[0, 6, 12], 2],
-    [[0, 8], 2],
+    [[0, 8], 5],
+    [[0, 6, 8, 14], 3],
+    [[0, 4, 8, 12, 14], 3],
+    [[0, 8, 14], 2],
     [[0], 1]
   ],
   kit: {
+    /* ══ THE PHRASE, AND NO GENRE IN THIS FILE HAD EVER DECLARED ONE ═════════
+       [docs/genre-research/rhythm-phrasing.md §1]
+
+         "I generally define my rhythms with an A B A C A A D structure with
+          each letter representing one bar of music."
+         bar 2  B  "one small change -- an addition, subtraction or substitution"
+         bar 4  C  "a slightly bigger variation from bar B"
+         bar 8  D  "where we might introduce a FILL or an EMPTY, depending on
+                    the vibe"
+
+       `kit.phrase` has existed for builds and ALL TEN GENRES fell through to
+       the hardcoded `["A","B","A","C"]`. That default has no D in it, and the
+       consequence is exact rather than stylistic: `DRUM_PHRASE_END` appends a D
+       for the VARIANT materials only, so a base material -- A, B, C, the ones
+       that play most of a record -- COULD NEVER CONTAIN A FILL OR AN EMPTY.
+       Not rarely. Never, in any genre, in any song this program has made.
+
+       AND A FOUR-LETTER SENTENCE IN AN EIGHT-BAR MATERIAL IS THE SAME SENTENCE
+       TWICE, which is why hobbit synth's bars 0, 2, 4 and 6 were byte-identical
+       to each other. Eight letters for eight bars, so the material IS the
+       phrase and bar 8 is its arrival.
+
+       The transcript's own letter count is seven for an eight-bar phrase and
+       the sheet says so; his spoken description places A at 1 and 3, C at 4, D
+       at 8 and "the A section" through the middle, which is the first row. The
+       other two rows are [CHOSEN] -- a later first change, and a return that
+       varies -- because a genre that draws one sentence for ever has a shape
+       and not a phrase. */
+    phrase: [
+      [["A", "B", "A", "C", "A", "A", "A", "D"], 6],
+      [["A", "B", "A", "C", "A", "B", "A", "D"], 3],
+      [["A", "A", "B", "A", "A", "C", "A", "D"], 2]
+    ],
     snare: [8],
-    hatEvery: 16,
-    hatVel: 0.1,
-    ghostChance: 0,
+    /* ══ AND THE KIT HAD NO LANES TO ADD ══════════════════════════════════════
+       `ghostChance: 0`, `hatEvery: 16` at velocity 0.1, `flourish` a weighted
+       list holding one EMPTY array, `openSpot` a single -1. Measured, the arc's
+       six moves came out as toms / kickKeep / hatVel / toms / kickKeep+hatVel /
+       toms -- three of them the same block and one a pure velocity change that
+       writes no hit. The arc could not add anything because there was nothing
+       in the kit to add.
+
+       All of it correct for war drums and kettles, all of it wrong for the
+       instrument this genre now actually plays. Forsyth, on the class of
+       instrument: "the tendency is to write too few notes", and single detached
+       strokes are wrong on a drum "whose idiom is continuous".
+
+       hatEvery 2 IS THE JIG'S OWN HAND. Ballard's basic figure is six strokes
+       to the bar, down-up-down-up-down-up, and the rim is where they land on
+       this kit. Sixteen meant one tick per bar at a velocity of 0.1, which is
+       inaudible and was the whole "hat" part.
+
+       ghostChance is the flat palm. On a frame drum a ghost is not a quiet
+       stroke, it is a DAMPED one -- `V.fdMute` is a different sound, not a
+       lower level -- so this is the single control that most separates a hand
+       drum from a drum machine, and it was zero. */
+    hatEvery: 2,
+    hatVel: 0.34,
+    ghostChance: 0.38,
     snarePocket: [
       [[8], 4],
       [[4, 12], 3],
@@ -23265,10 +23540,34 @@ GENRE.hobbitsynth = {
       [[4, [6, "drag"], 12, 14], 2],
       [[], 2]
     ],
+    /* FOUR FILLS, so bar 8 differs from bar 16 -- and from bar 24 and 32. The
+       source's rule is an ordering and stage 5 walks them in order, so a record
+       with five fill boundaries repeats one, not five. */
+    fills: 4,
     tomRoll: { chance: 0.5, lanes: ["tom3", "tom2", "tom1"] },
-    ghostSpots: [8],
-    openSpot: [[-1, 10]],
-    openBars: [],
+    /* ── AND THE GHOST HAD EXACTLY ONE PLACE TO GO ─────────────────────────
+       `ghostSpots: [8]` with `ghostChance: 0` -- a list of one, drawn from
+       never. On a frame drum the flat palm is the most-used stroke there is,
+       so it gets the offbeats, which is where a hand naturally falls between
+       tipper strokes. */
+    ghostSpots: [2, 6, 8, 10, 14],
+    /* ── THE FLOURISH WAS A WEIGHTED LIST HOLDING ONE EMPTY ARRAY ──────────
+       `flourish: [[[], 1]]` and `flourishBar: 3` -- a bar pointed at a table
+       that could only ever draw nothing. probe_palette calls this shape ONE
+       COLOUR and finds it in six genres; here it meant the fourth bar of every
+       phrase, the C bar, had no flourish available to it.
+
+       These are extra rim strokes, which on this instrument is the tipper
+       filling in -- Ballard's "double" and the triplet where the UPPER end of
+       the stick plays the middle note. Empty stays in the pool at real weight
+       because a flourish every eight bars is a tic. */
+    flourish: [[[], 4], [[3, 7], 3], [[7, 11, 15], 3], [[5, 13], 2], [[3, 7, 11, 15], 2]],
+    /* the open ringing stroke -- this kit's crash, since there is no metal in
+       the ensemble. `openSpot: [[-1, 10]]` with `openBars: []` was two dead
+       declarations agreeing with each other: a single -1 (meaning "nowhere")
+       drawn for bars that are never listed. It lands on the phrase's arrival. */
+    openSpot: [[0, 6], [8, 3], [12, 2]],
+    openBars: [0, 4],
     toms: {
       use: 0.9,
       loop: 0.9,
@@ -23614,7 +23913,18 @@ GENRE.hobbitsynth = {
   },
   params: {
     tr1000: {
-      kit: "dungeon",
+      /* ── AND THE PARTY WAS WALKING TO KETTLEDRUMS ─────────────────────────
+         `kitNames.dungeon` is "war drums and kettles" and this genre inherited
+         it, while `RIG_LABEL.shire` has been advertising "flute, plucked
+         strings, FRAME DRUM" the whole time. The rig named an instrument that
+         did not exist and the panel said so; the oldest defect in this file.
+
+         The tempo argument is the clean one. Hobbit synth's 102-124 sits inside
+         the MEASURED 106-130 gait-synchronisation window and contains 110, 112
+         and 120 -- pipe band, Highland regiment, quick time. Dungeon synth's
+         52-78 is nearest the 60-per-minute SLOW MARCH, which is the funeral
+         pace. Same kit, two tempos an octave apart in feel. */
+      kit: "shire",
       ring: 1.05,
       pSet: "any",
       pTune: 1,
@@ -26789,7 +27099,13 @@ function makeMaterials(chart, editPlan, arcPlan){
          mute the offbeat hat" [myloops] -- so the kit needs a way to say it,
          and a hat lane silenced by a velocity of zero is still a lane full of
          events that the roll would draw and the mixer would meter. */
-      if(K.hatEvery > 0) for(let s = 0; s < 16; s += K.hatEvery) hatSteps.push(s);
+      /* THE BAR'S LENGTH, NOT SIXTEEN. Three loops here counted to a literal
+         16 -- the hat, the ride and the polymetre lane -- so a genre in 3/4 or
+         6/8 would have written four extra hat strokes past the end of its own
+         bar and into the next one. Same class as the p-lock resolver's
+         `s < 16`, and missed by the same sweep for the same reason: a loop
+         BOUND does not look like `* 16` or `% 16`. */
+      if(K.hatEvery > 0) for(let s = 0; s < STEPS; s += K.hatEvery) hatSteps.push(s);
       if(b === K.flourishBar) for(const s of flourish) if(!hatSteps.includes(s)) hatSteps.push(s);
       for(const s of hatSteps)
         notes.push({ bar: b, step: s, dur: 1, lane: "hat",
@@ -26862,7 +27178,7 @@ function makeMaterials(chart, editPlan, arcPlan){
          the hat rather than joining it. */
       const rideEvery = K.rideEvery || 0;
       if(rideEvery > 0)
-        for(let st = (K.rideFrom || 0); st < 16; st += rideEvery)
+        for(let st = (K.rideFrom || 0); st < STEPS; st += rideEvery)
           notes.push({ bar: b, step: st, dur: 1, lane: "ride",
                        vel: (K.rideVel || 0.5) * (st % 4 === 0 ? 1 : 0.8), role: "drums" });
 
@@ -26895,7 +27211,7 @@ function makeMaterials(chart, editPlan, arcPlan){
       for(const P of (K.poly || [])){
         const len = P.len > 0 ? P.len : 16;
         const ph = phaseOf[P.lane] || 0;         // where this machine was when it started
-        for(let st = 0; st < 16; st++)
+        for(let st = 0; st < STEPS; st++)
           if((P.on || [0]).includes(((b * STEPS + st - ph) % len + len) % len))
             notes.push({ bar: b, step: st, dur: P.dur || 1, lane: P.lane,
                          vel: P.vel != null ? P.vel : 0.5, role: "drums" });
@@ -30331,8 +30647,19 @@ function makeMaterials(chart, editPlan, arcPlan){
      is a GENRE decision -- a boom-bap drummer and an 80s drummer want opposite
      amounts of this. [theory: the descending tom fill is the canonical
      turnaround; TASTE for the weights] ── */
-  const fill = (() => {
-    const rng = stream(chart.seed, "fill");
+  /* ══ AND THERE WAS ONE FILL IN THE WHOLE RECORD ═══════════════════════════
+     Measured: this closure ran once, and stage 5 substituted its single bar at
+     every section boundary that asked for one -- 5.3 boundaries a record on
+     hobbit synth, 12.9 on synthwave. Every fill in a nine-minute record was the
+     same bar of drums.
+
+     The source this program takes its eight-bar phrase from says so outright:
+     "In bar 8 we're going to add a small fill or crash. But this fill HAS TO BE
+     DIFFERENT FROM BAR 16." [The Pro Audio Files, via rhythm-phrasing.md §1]
+
+     `kit.fills` is how many distinct ones a genre wants, DEFAULTING TO ONE. */
+  const makeFill = (streamName) => (() => {
+    const rng = stream(chart.seed, streamName);
     const K = G.kit, T = K.toms || { use: 0, shapes: [[[], 1]] };
     /* A GENRE WHOSE KIT IS A BREAK FILLS WITH A CHOP. The programmed fill below
        -- kick, hats, snare, a descending tom run -- is a drummer's turnaround,
@@ -30410,6 +30737,13 @@ function makeMaterials(chart, editPlan, arcPlan){
     }
     return pin(notes, "drums", "fill");        // the fill is a pattern too
   })();
+  /* ONE PER DECLARED FILL, each on its own named substream. Index 0 keeps the
+     stream name it always had, so a genre that declares none draws the identical
+     bar from the identical stream and cannot move. */
+  const fillSet = [];
+  for(let i = 0; i < Math.max(1, (G.kit && G.kit.fills) || 1); i++)
+    fillSet.push(makeFill(i === 0 ? "fill" : "fill:" + i));
+  const fill = fillSet[0];
 
   /* ── the ending: the tonic landing [theory: resolution is the arrival of
      tonic harmony -- the song closes, it does not just stop] ── */
@@ -30440,7 +30774,7 @@ function makeMaterials(chart, editPlan, arcPlan){
        is the device these tracks are built on, applied at section scale instead
        of bar scale. Dropping it made the bridge stop sounding like the genre. */
     C:    { drums: drumsC, bass: bassC, keys: keysC, keys2: keys2C, lead: themeC.notes, counter: [], ostinato: ostC },
-    fill, ending,
+    fill, fills: fillSet, ending,
   };
   /* THE LIFTED PAIR EXISTS ONLY ON A RECORD THAT MOVED, so a song that did not
      has exactly the materials it always had and every tool that asks the song
@@ -31781,6 +32115,7 @@ function makePerformance(chart, form, materials, sections){
     const priv = base + m.slice(at);
     return materials[priv] ? priv : base;
   };
+  let fillNo = 0;                      // which fill this boundary gets
   for(const sec of sections){
     const mat = materials[sec.material];
     const alt = materials[ALT_OF(sec.material)];
@@ -31800,7 +32135,15 @@ function makePerformance(chart, form, materials, sections){
         if(LONG[role] && alt && alt[role] && alt[role].length &&
            alt[role] !== mat[role] && (cycle % LONG[role]) !== 0)
           notes = alt[role];
-        if(role === "drums" && lastBar && sec.fillInto) notes = materials.fill;
+        if(role === "drums" && lastBar && sec.fillInto){
+          /* CONSECUTIVE BOUNDARIES TAKE CONSECUTIVE FILLS. The source's rule is
+             not "vary the fill", it is "this fill has to be different from bar
+             16" -- an ORDERING, not a coin, so it is satisfied by construction.
+             `fills` has one entry unless a genre declares more, in which case
+             this is `[0]` every time and nothing moves. */
+          const FS = materials.fills || [materials.fill];
+          notes = FS[fillNo++ % FS.length];
+        }
         if(sec.stripHalf && firstHalf && (role === "drums" || role === "bass")) continue;
         /* THE BUILD, gated per bar. Stage 4 decided which bar this part arrives
            on; this is stage 5 obeying it, exactly the way it obeys `active` --
