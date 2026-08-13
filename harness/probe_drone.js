@@ -80,7 +80,7 @@ const N = parseInt(process.argv[2], 10) || 3;
 const rows = [];
 
 for(const genre of M.genres()){
-  let wbSum = 0, lanes = 0, flat = 0, plocks = 0;
+  let wbSum = 0, lanes = 0, flat = 0, plocks = 0, periodSum = 0, periodN = 0, periodFree = 0;
   for(let seed = 1; seed <= N; seed++){
     const song = M.composeSong(seed, null, genre);
     const plan = song.motion, spb = plan.spb, STEPS = plan.steps || 16, nB = plan.nBars;
@@ -97,6 +97,41 @@ for(const genre of M.genres()){
       const span = Math.max.apply(null, v) - Math.min.apply(null, v);
       if(span < 1e-9) continue;                    // a lane that never moves at all is a different finding
       lanes++;
+      /* ── AND DOES IT EVER COME ROUND AGAIN? ────────────────────────────────
+         This probe's own header says it cannot measure evolution, and it was
+         right: everything above is about the inside of a BAR. A lane can score
+         well there and still be identical at bar 4 and bar 200, which is the
+         complaint the whole thing started from.
+
+         So: how PERIODIC is the lane? The best normalised autocorrelation over
+         every lag from one bar to half the record. A closed-form LFO scores
+         near 1 whatever its rate -- it is a sine, it comes round -- and that is
+         the point: a 160-bar sine is LONG, not evolving. A sample and hold, a
+         deja-vu loop above the notch, or an LFO whose rate is being driven do
+         not come round, and score low.
+
+         MEASURED AS A CEILING, not an average, because one strong period is
+         enough to make a lane predictable. */
+      const perBar = [];
+      for(let b = 0; b < nB; b++){
+        let a2 = 0;
+        for(let st = 0; st < STEPS; st++) a2 += v[b * STEPS + st];
+        perBar.push(a2 / STEPS);
+      }
+      const mean = perBar.reduce((x, y) => x + y, 0) / perBar.length;
+      const dev = perBar.map(x => x - mean);
+      let e0 = 0; for(const x of dev) e0 += x * x;
+      let best = 0;
+      if(e0 > 1e-12){
+        for(let lag = 1; lag <= Math.floor(nB / 2); lag++){
+          let num = 0, ea = 0, eb = 0;
+          for(let i = 0; i + lag < dev.length; i++){ num += dev[i] * dev[i + lag]; ea += dev[i] * dev[i]; eb += dev[i + lag] * dev[i + lag]; }
+          const r = (ea > 1e-12 && eb > 1e-12) ? num / Math.sqrt(ea * eb) : 0;
+          if(r > best) best = r;
+        }
+      }
+      periodSum += best; periodN++;
+      if(best < 0.60) periodFree++;         // this lane never comes round
       let wb = 0;
       for(let b = 0; b < nB; b++){
         const bar = v.slice(b * STEPS, (b + 1) * STEPS);
@@ -109,7 +144,9 @@ for(const genre of M.genres()){
   }
   rows.push({ genre, lanes, plocks: plocks / N,
               within: lanes ? 100 * wbSum / lanes : 0,
-              flatPct: lanes ? 100 * flat / lanes : 0 });
+              flatPct: lanes ? 100 * flat / lanes : 0,
+              period: periodN ? 100 * periodSum / periodN : 0,
+              free: periodN ? 100 * periodFree / periodN : 0, freeN: Math.round(periodFree / N) });
 }
 
 const nan = rows.filter(r => r.nan);
@@ -117,12 +154,13 @@ const good = rows.filter(r => !r.nan);
 good.sort((a, z) => z.within - a.within);
 
 console.log(`\n  ${M.genres().length} genres x ${N} seeds — how much of a knob's travel happens INSIDE a bar\n`);
-console.log("    genre          lanes  plocks   within a bar   flat inside every bar");
+console.log("    genre          lanes  plocks   within a bar   flat inside every bar   lanes that never come round");
 for(const r of good)
   console.log(`    ${r.genre.padEnd(14)}${String(Math.round(r.lanes / N)).padStart(5)}` +
               `${String(Math.round(r.plocks)).padStart(8)}` +
               `${(r.within.toFixed(1) + "%").padStart(15)}` +
-              `${(r.flatPct.toFixed(0) + "%").padStart(24)}`);
+              `${(r.flatPct.toFixed(0) + "%").padStart(24)}` +
+              `${(r.freeN + " of " + Math.round(r.lanes / N)).padStart(24)}`);
 
 /* ── WHAT FAILS AND WHAT IS MERELY OPEN ──────────────────────────────────────
    These are two different findings and folding them together would make this

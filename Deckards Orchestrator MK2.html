@@ -1438,7 +1438,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-13i · a channel is an instrument, not a slot</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-13j · deja vu, and a modulator that can be modulated</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -5056,6 +5056,15 @@ function motionAt(plan, key, ev, offset){
   let d = 0;
   for(const mv of moves){
     if(mv.kind === "plock") d += mv.amt[step];
+    /* ── A CURVE: one value per sixteenth, resolved when the plan was drawn ──
+       The four kinds that have MEMORY -- an LFO whose rate is moving, a sample
+       and hold, a deja-vu loop, a Bernoulli coin -- cannot be written as a
+       function of t, so they are computed at draw time and read here. Stage 6
+       does not know which of them it is looking at, which is the point: this
+       stays arithmetic and the offline render stays identical to the live one.
+       Clamped rather than wrapped, because a render can be asked for a moment
+       past the last bar and a knob reading `undefined` is a NaN. */
+    else if(mv.kind === "curve") d += mv.at[Math.min(mv.at.length - 1, bar * STEPS + step)] || 0;
     else if(mv.kind === "section") d += mv.by[plan.secFn[bar]] || 0;
     else if(mv.kind === "lfo"){
       const ph = mv.phase + (bar * STEPS + step) / (STEPS * mv.bars);
@@ -5407,6 +5416,160 @@ function makeMotion(chart, form, sections, materials){
         const by = {};
         for(const L in sp.by) by[L] = drawIn(sp.by[L], rng);
         out.push(Object.freeze({ kind: "phrase", by: Object.freeze(by) }));
+      }
+      /* ══ THE FOUR THAT ARE COMPUTED, NOT EVALUATED ═══════════════════════
+         Every kind above is a closed form: `motionAt` is given a time and does
+         arithmetic. That is what keeps a live playback and an offline render
+         bit-identical and lets the render battery cut a two-bar excerpt out of
+         the middle of a record [Law 10].
+
+         These four cannot be closed forms, and the reason is worth stating
+         because it is the same reason in all four cases: THEY HAVE MEMORY.
+
+           fm         an LFO whose RATE is moving. Phase is the integral of
+                      frequency; you cannot get it from t alone without
+                      integrating, and evaluating `t / period(t)` instead makes
+                      the phase JUMP every time the rate changes, which is a
+                      click rather than a vibrato.
+           sh         sample and hold. What it holds depends on when it last
+                      sampled.
+           dejavu     a loop that may re-use, renew or shuffle itself. The
+                      whole point is that it remembers.
+           bernoulli  a coin per step; which way it went is a fact, not a
+                      function.
+
+         So they are RESOLVED HERE, at draw time, in this spec's own named
+         substream, into one value per sixteenth for the whole record -- a
+         `curve`. The plan stays frozen, `motionAt` stays arithmetic, the
+         offline render stays identical, and stage 6 never learns that these
+         exist. A 200-bar record is 3200 floats a lane.
+         docs/genre-research/modulation-and-the-eurorack.md §4 ═════════════ */
+      else if(sp.kind === "fm" || sp.kind === "sh" ||
+              sp.kind === "dejavu" || sp.kind === "bernoulli"){
+        const N = nBars * STEPS;
+        const at = new Array(N);
+        if(sp.kind === "fm"){
+          /* ── AN LFO WHOSE RATE AND DEPTH ARE THEMSELVES MOVING ───────────
+             The eurorack patch, verbatim: "two LFOs where the first one
+             modulates the rate, pulse width and/or phase of the second one,
+             and different modulation depths and ratios between the LFO rates
+             will produce a wealth of complex shapes."
+
+             `bars` is the carrier's period and `by` is the modulator: its own
+             period in bars, how far it swings the carrier's rate (as a RATIO,
+             so 0.5 means the carrier runs between half and one-and-a-half
+             times its nominal rate), and how far it swings the depth.
+
+             PHASE IS ACCUMULATED, which is the whole reason this kind exists.
+             Each step advances the phase by the rate AT THAT STEP, so the
+             wave stays continuous however hard the rate is driven. */
+          const car   = wpick(rng, sp.bars);
+          const depth = drawIn(sp.depth, rng);
+          const mBars = wpick(rng, sp.by.bars);
+          const rAmt  = drawIn(sp.by.rate  || [0, 0], rng);
+          const dAmt  = drawIn(sp.by.depth || [0, 0], rng);
+          const mPh0  = sp.by.freePhase ? rng() : 0;
+          const shape = sp.shape || "sin";
+          const mShape = sp.by.shape || "sin";
+          let ph = sp.freePhase ? rng() : 0;
+          for(let i = 0; i < N; i++){
+            const mp = mPh0 + i / (STEPS * mBars);
+            const m  = MOTION_WAVE[mShape](mp - Math.floor(mp));      // -1..1
+            const rate = 1 / (STEPS * car) * (1 + rAmt * m);
+            at[i] = depth * (1 + dAmt * m) * MOTION_WAVE[shape](ph - Math.floor(ph));
+            ph += Math.max(1e-9, rate);          // a rate driven past zero still moves on
+          }
+        }
+        else if(sp.kind === "sh"){
+          /* ── SAMPLE AND HOLD [Kinks] ─────────────────────────────────────
+             A new random value every `every` steps, held flat between, with an
+             optional slew so the steps become a ramp instead of a jump. The
+             classic generative stepped CV, and the program had nothing that
+             could hold a value at all. */
+          const every = Math.max(1, Math.round(wpick(rng, sp.every)));
+          const slew  = Math.max(0, Math.min(1, drawIn(sp.slew || [0, 0], rng)));
+          let held = drawIn(sp.amt, rng), want = held;
+          for(let i = 0; i < N; i++){
+            if(i % every === 0) want = drawIn(sp.amt, rng);
+            held = slew > 0 ? held + (want - held) * (1 - slew) : want;
+            at[i] = held;
+          }
+        }
+        else if(sp.kind === "dejavu"){
+          /* ══ DEJA VU [Marbles] ════════════════════════════════════════════
+             The answer to a question asked of this program weeks ago and
+             answered wrongly:
+
+               "The issue with drones is you cant figure out how to make
+                something that goes on and on while also allowing it to have
+                evolution."
+
+             I answered parameter locks, researched it, and had to withdraw the
+             claim -- a p-lock's period is exactly one bar, so it carries no
+             information at the timescale a drone lives at. This is the answer,
+             and it is one number:
+
+               "DEJA VU is a parameter that increases the probability of
+                re-playing past material to the point that the generated output
+                forms a loop, then increases the probability of randomizing the
+                order of this loop."
+               [Mutable Instruments, Marbles manual]
+
+             Below 0.5 it lets new values in; at 0.5 it is a perfect loop of
+             `length` steps; above 0.5 it plays that same loop out of order.
+             So one dial runs from pure novelty, through exact repetition, to
+             the same material re-shuffled -- which is a drone that goes on and
+             on AND evolves, without either being a compromise.
+
+             AND `spread` MOVES A LOOP THAT IS ALREADY RUNNING. Marbles again:
+             "once a sequence is looping, it is still possible to alter it with
+             SPREAD/BIAS to map it to a different range of voltages." The
+             figure survives; where it sits does not. That is evolution without
+             re-randomising, and it is the half nobody thinks of.
+             ═══════════════════════════════════════════════════════════════ */
+          const len = Math.max(1, Math.round(wpick(rng, sp.length)));
+          const dv  = Math.max(0, Math.min(1, drawIn(sp.dejavu, rng)));
+          const loop = [];
+          for(let i = 0; i < len; i++) loop.push(drawIn(sp.amt, rng));
+          const every = Math.max(1, Math.round(wpick(rng, sp.every || [[4, 1]])));
+          /* the slow re-map: a whole-record swing applied on top of whatever
+             the loop is doing, so the same figure drifts through its range */
+          const spread = drawIn(sp.spread || [0, 0], rng);
+          const sBars  = sp.spreadBars ? wpick(rng, sp.spreadBars) : Math.max(8, nBars);
+          let k = 0, held = loop[0];
+          for(let i = 0; i < N; i++){
+            if(i % every === 0){
+              if(dv < 0.5){
+                /* let novelty in: below the notch, each step has a chance of
+                   being a fresh value that REPLACES the loop's slot -- so the
+                   loop is still a loop, it is just being rewritten */
+                if(rng() > dv * 2) loop[k % len] = drawIn(sp.amt, rng);
+                held = loop[k % len]; k++;
+              } else {
+                /* above the notch: the same loop, increasingly out of order */
+                if(rng() < (dv - 0.5) * 2) k = Math.floor(rng() * len);
+                held = loop[k % len]; k++;
+              }
+            }
+            const sp2 = spread ? spread * MOTION_WAVE.sin((i / (STEPS * sBars)) % 1) : 0;
+            at[i] = held + sp2;
+          }
+        }
+        else {
+          /* ── A BERNOULLI GATE [Branches] ─────────────────────────────────
+             A coin per step: one value or the other, with a declared
+             probability. Every other draw in this program is spent once, when
+             the record is written; this one is spent at every step of it. */
+          const p = Math.max(0, Math.min(1, drawIn(sp.p, rng)));
+          const a = drawIn(sp.a, rng), b = drawIn(sp.b, rng);
+          const every = Math.max(1, Math.round(wpick(rng, sp.every || [[4, 1]])));
+          let held = a;
+          for(let i = 0; i < N; i++){
+            if(i % every === 0) held = rng() < p ? a : b;
+            at[i] = held;
+          }
+        }
+        out.push(Object.freeze({ kind: "curve", at: Object.freeze(at) }));
       }
       else if(sp.kind === "lfo"){
         const lBars  = wpick(rng, sp.bars);     // musical lengths, weighted
@@ -24786,22 +24949,67 @@ GENRE.hobbitsynth = {
        automation" LAST, and did not notice they are one mechanism at two
        resolutions. What that sheet's evidence refutes is a SINGLE cycle -- which
        is what every lane in this genre had. */
+    /* ══ THE DRONE, AND THE QUESTION IT WAS ASKED ═════════════════════════
+       "The issue with drones is you cant figure out how to make something that
+        goes on and on while also allowing it to have evolution."
+
+       The pad is the thing that goes on and on. Under this genre it already
+       carried five moves on `tone` -- an apex, an occurrence step, a plock and
+       a beating pair of coprime LFOs -- and every one of them is a CLOSED FORM
+       whose rate and depth were fixed when the record was written. That is
+       long, not evolving. See docs/genre-research/modulation-and-the-eurorack.md.
+
+       Two answers, both from eurorack and both new to this program:
+
+       DEJA VU is Marbles', and it is the direct answer. A sixteen-value loop,
+       stepped every bar, with one number saying how much of it is re-used
+       against renewed against SHUFFLED -- drawn across the notch so some
+       records get a figure that rewrites itself and others get the same figure
+       played out of order. `spread` then walks the whole loop slowly through
+       its range without disturbing it, which is Marbles' other half and the
+       one that makes a repeating figure stop sounding like a repeat.
+
+       FM is the patch the sources describe: an LFO whose RATE is driven by a
+       slower one, so the movement itself speeds up and slows down over a
+       hundred and thirty bars. Phase is integrated, so it never jumps.
+
+       The five moves above are UNTOUCHED. This adds to them, which is what the
+       sum in `motionAt` is for, and is why a drone can now be still and moving
+       at the same time. ═══════════════════════════════════════════════════ */
     erangStrings: {
       tone: [
         { kind: "apex", from: [-0.1, -0.02], to: [0.05, 0.16] },
         { kind: "occurrence", step: [0.04, 0.09], cap: 3 },
         { kind: "plock", density: [0.12, 0.22], amt: [-0.05, 0.04] },
         { kind: "lfo", bars: [[71, 3], [89, 2]], depth: [0.05, 0.11], shape: "sin", freePhase: true },
-        { kind: "lfo", bars: [[23, 3], [29, 2], [17, 1]], depth: [0.03, 0.07], shape: "sin", freePhase: true }
+        { kind: "lfo", bars: [[23, 3], [29, 2], [17, 1]], depth: [0.03, 0.07], shape: "sin", freePhase: true },
+        { kind: "dejavu", length: [[16, 3], [12, 2], [8, 1]], every: [[16, 3], [12, 2]],
+          dejavu: [0.30, 0.80], amt: [-0.07, 0.07],
+          spread: [0.03, 0.08], spreadBars: [[144, 2], [176, 1]] },
+        { kind: "fm", bars: [[37, 2], [43, 1]], depth: [0.04, 0.09], shape: "sin", freePhase: true,
+          by: { bars: [[131, 2], [149, 1]], rate: [0.35, 0.75], depth: [0.2, 0.5],
+                shape: "sin", freePhase: true } }
       ],
-      pan: [{ kind: "lfo", bars: [[72, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }]
+      pan: [
+        { kind: "lfo", bars: [[72, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true },
+        /* and where it sits moves in steps rather than sliding -- a sample and
+           hold on the pan, held four bars, slewed most of the way so it drifts
+           across rather than jumping [Kinks] */
+        { kind: "sh", every: [[64, 2], [96, 1]], amt: [-0.10, 0.10], slew: [0.86, 0.94] }
+      ]
     },
     erangHarp: {
       tone: [
         { kind: "apex", from: [-0.08, -0.01], to: [0.04, 0.12] },
         { kind: "plock", density: [0.26, 0.42], amt: [-0.1, 0.08] },
         { kind: "lfo", bars: [[53, 3], [67, 2]], depth: [0.06, 0.13], shape: "tri", freePhase: true },
-        { kind: "lfo", bars: [[19, 3], [31, 2]], depth: [0.04, 0.09], shape: "tri", freePhase: true }
+        { kind: "lfo", bars: [[19, 3], [31, 2]], depth: [0.04, 0.09], shape: "tri", freePhase: true },
+        /* the ostinato's cell is fixed; how BRIGHT it is is not. A twelve-step
+           deja-vu loop above the notch -- the same handful of colours, played
+           in a different order each time round. */
+        { kind: "dejavu", length: [[12, 3], [8, 2]], every: [[8, 3], [16, 2]],
+          dejavu: [0.55, 0.90], amt: [-0.06, 0.06],
+          spread: [0.02, 0.06], spreadBars: [[128, 1]] }
       ],
       pan: [{ kind: "lfo", bars: [[56, 1]], depth: [0.06, 0.16], shape: "sin", freePhase: true }]
     },
