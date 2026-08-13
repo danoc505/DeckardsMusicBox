@@ -44,10 +44,37 @@ const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")
     const played=[...new Set(MK2.currentSong().perf.events.map(e=>e.role))];
     return {strips, played};
   });
+  /* ── A STRIP PER SOURCE NOW, NOT PER SLOT ─────────────────────────────────
+     The desk grew the tier a console has and this file did not: a part played
+     by ONE instrument still draws one strip keyed by the part, and a part
+     played by SEVERAL draws a channel each (`lead|corAnglais`) plus the group
+     they sum into (`@lead`). So the question this check asks had to change with
+     it -- "one strip per part" was the assumption being fixed. It now asks the
+     two things that must still be true: every part the record plays is
+     REPRESENTED, and nothing is drawn for a part that is not played. */
   const parts = s.strips.filter(r=>r!=="__master");
+  const partOf = k => String(k).replace(/^@/,"").split("|")[0];
+  const covered = [...new Set(parts.map(partOf))];
   check("a strip for every part the song plays, and no others",
-        parts.length===s.played.length && s.played.every(r=>parts.includes(r)),
+        covered.length===s.played.length && s.played.every(r=>covered.includes(r)),
         `strips ${parts.join(",")} · played ${s.played.join(",")}`);
+  /* and where a part HAS several instruments, each one has its own strip and
+     they sum into a group -- the thing that was reported and is now checked */
+  const multi = await pg.evaluate(()=>{
+    const out={};
+    for(const e of MK2.currentSong().perf.events){
+      if(!e.voice||!e.role||e.role==="drums") continue;
+      (out[e.role]=out[e.role]||[]).indexOf(e.voice)<0 && out[e.role].push(e.voice);
+    }
+    return Object.entries(out).filter(([,v])=>v.length>1).map(([r,v])=>[r,v]);
+  });
+  const missing = multi.filter(([r,vs]) =>
+    !parts.includes("@"+r) || !vs.every(v=>parts.includes(r+"|"+v)));
+  check("...and a part played by several instruments gives each its own channel",
+        missing.length===0,
+        multi.length
+          ? multi.map(([r,v])=>r+": "+v.length+" channels + @"+r).join(" · ")
+          : "this record plays one instrument per part — nothing to split");
   check("...and a MASTER strip", s.strips.includes("__master"), s.strips.join(" "));
 
   // 2. THE COLOURS ARE THE ROLL'S COLOURS -- the same function, checked as such

@@ -204,6 +204,17 @@
      -6 dBFS, amber to -1, red above -- the standard reading, so the colour
      means the same thing here as on any other meter anyone has used. */
   .mixer .mixstrips{ display:flex; gap:.55rem; align-items:flex-end; flex-wrap:wrap; }
+  /* ── A CHANNEL, A GROUP, AND THE DIFFERENCE BETWEEN THEM ─────────────────
+     A channel strip carries one instrument; the group beside it carries what
+     they add up to. The eye has to be able to tell which is which without
+     reading, so the group is set apart the way a desk sets it apart -- pulled
+     half a gap closer to the channels it sums, and topped with a heavier rule
+     in the part's own colour. The channels themselves are separated by their
+     SHADE of that colour and by their NAME, not by a different shape: they are
+     the same kind of thing as each other. */
+  .mixer .mixch.mixchvoice{ margin-right:-.18rem; }
+  .mixer .mixch.mixchgroup{ margin-left:.34rem; border-top-width:3px; }
+  .mixer .mixch.mixchgroup .mixname{ letter-spacing:.08em; text-transform:uppercase; }
   .mixch{ display:flex; flex-direction:column; align-items:center; gap:.3rem;
           padding:.4rem .3rem .35rem; border-radius:3px;
           background:rgba(0,0,0,.16); box-shadow:inset 0 1px 0 rgba(255,255,255,.06); }
@@ -1427,7 +1438,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-13h · the flute is not blown into over and over</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-13i · a channel is an instrument, not a slot</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -7496,9 +7507,91 @@ registerProcessor("mk2-room", MK2Room);
        next reader does not have to find it. */
     g.chanBus = MIX_ROLE_BUS;
     g.chan = {};
+    /* ══ AND A CHANNEL IS AN INSTRUMENT, NOT A SLOT ════════════════════════
+       "Why is the song starting with one instrument and then going to another
+        but they share the same channels the same color same fader. This is
+        wrong."
+
+       It was wrong, and it was wrong in the graph and not only on the glass.
+       `g.chan` was keyed by ROLE, so one fader, one three-band EQ, one duck,
+       one pair of sends and one meter served everything that ever occupied
+       that role. MEASURED, 20 seeds a genre: hobbit synth draws 6.8 strips for
+       21.6 instruments, and 62% of its strips carry more than one. Seed 1's
+       LEAD strip is bardFlute 0-32s, corAnglais 33.7-133s, erangLead
+       135.8-233.7s, bardWind 236.8-282.4s. Four instruments. One fader.
+
+       WHY THAT IS A FAULT AND NOT A SIMPLIFICATION:
+
+         - one number set the level of a wooden flute sample, a synthesised
+           double reed, a lo-fi lead and a whistle. They do not sit at the same
+           level and nothing could say so (task #30 named the symptom)
+         - the EQ set for the flute was applied to the cor anglais
+         - the two could not have different reverb, because the sends were the
+           slot's
+         - a hand move was bound to the SLOT: pull `lead` down at 20 s because
+           the flute is loud and you have pulled the cor anglais down at 40 s
+           for no reason. On any desk a fader belongs to a SOURCE
+         - the flute had no fader at all. It could not be reached
+
+       ── SO THE DESK GROWS THE TIER IT WAS MISSING ─────────────────────────
+       A console has three, and this file had the top two:
+
+         CHANNEL   one instrument. Fader, EQ, duck, sends, meter, name.  NEW
+         GROUP     the part -- lead, keys, drums. What the strips were.
+         BUS       what was already above that.
+
+       Each instrument's channel runs its own strip and sums into its role's
+       subgroup; the subgroup keeps the part's place in the arrangement. The
+       flute and the cor anglais are now two sources that happen to play the
+       same line, which is what they are.
+
+       AT DEFAULTS IT IS A WIRE, and that claim is held by the render A/B
+       rather than by this sentence: a subgroup gain of 1 is a wire, and gain
+       is linear, so summing the channels and then ducking is identical to
+       ducking each and then summing -- which is the argument the duck's own
+       note already makes one tier up.
+
+       THE DRUMS KEEP ONE GROUP ON PURPOSE. The kit is already a sub-mixer with
+       a strip per drum inside it (`g.dchain`, and the kit's own `mk` sends),
+       which is why it was never the thing being complained about. Building a
+       second set of channels around it would be two answers to one question.
+
+       AND THE TOPOLOGY NOW DEPENDS ON THE SONG, which is a stated departure.
+       "buildGraph runs once per context by law" is about not rebuilding the
+       graph per note or per knob, and it stands. But WHICH INSTRUMENTS EXIST
+       is a fact about the record, so `ensureChannels` adds any missing channel
+       when a song is armed -- once per song, before a note sounds, never
+       during playback. ═════════════════════════════════════════════════════ */
+    g.grp = {};
+    g.sendMaster = {};                 // bus + "|" + dest -> the send master gain
     for(const role in MIX_ROLE_BUS){
       const dest = g.bus[MIX_ROLE_BUS[role]];
       if(!dest) continue;
+      /* THE SUBGROUP: a fader, a three-band EQ and a meter, and nothing else.
+         The duck and the sends live on the CHANNELS below it now, because a
+         send is a channel's decision and a duck has to reach the send. */
+      const gin  = c.createGain(); gin.gain.value = 1;
+      const glow = c.createBiquadFilter(); glow.type = "lowshelf";
+      glow.frequency.value = 200;  glow.gain.value = 0;
+      const gmid = c.createBiquadFilter(); gmid.type = "peaking";
+      gmid.frequency.value = 1000; gmid.Q.value = 0.9; gmid.gain.value = 0;
+      const ghigh = c.createBiquadFilter(); ghigh.type = "highshelf";
+      ghigh.frequency.value = 4000; ghigh.gain.value = 0;
+      const gmeter = c.createAnalyser();
+      gmeter.fftSize = 512; gmeter.smoothingTimeConstant = 0;
+      gin.connect(glow); glow.connect(gmid); gmid.connect(ghigh);
+      ghigh.connect(dest); ghigh.connect(gmeter);
+      g.grp[role] = { inp: gin, low: glow, mid: gmid, high: ghigh,
+                      meter: gmeter, bus: MIX_ROLE_BUS[role], role, group: true };
+    }
+    /* the channel factory. One per (role, instrument), built here so every
+       reader below -- the matrix, the duck, the desk -- sees the same object
+       shape it always saw, only more of them and keyed by the source. */
+    g.makeChan = function(role, voice){
+      const key = voice ? role + "|" + voice : role;
+      if(g.chan[key]) return g.chan[key];
+      const grp = g.grp[role];
+      if(!grp) return null;
       const inp  = c.createGain(); inp.gain.value = 1;
       const low  = c.createBiquadFilter(); low.type  = "lowshelf";
       low.frequency.value  = 200;  low.gain.value = 0;
@@ -7542,17 +7635,54 @@ registerProcessor("mk2-room", MK2Room);
          these rather than by the bus -- so the sum of the parts is the bus and
          not one decibel moves until a hand is on a strip. */
       inp.connect(low); low.connect(mid); mid.connect(high);
-      high.connect(duck); duck.connect(dest); high.connect(meter);
-      const ch = { inp, low, mid, high, duck, bus: MIX_ROLE_BUS[role], meter };
-      /* one gain per PART per SEND, built from the declaration rather than
+      high.connect(duck); duck.connect(grp.inp); high.connect(meter);
+      const ch = { inp, low, mid, high, duck, bus: grp.bus, meter, role, voice: voice || null };
+      /* one gain per CHANNEL per SEND, built from the declaration rather than
          named twice -- a third send is then one entry, not four edits */
       for(const s of MIX_SEND){
         const n = c.createGain(); n.gain.value = 1;
         duck.connect(n);
         ch["send" + s.dest] = n;
+        /* and it reaches its bus's send master straight away. The master is
+           built by the matrix loop below; a channel made later at song-arm
+           finds it already there, which is the whole reason it is kept on `g`
+           rather than closed over by that loop. */
+        const m = g.sendMaster[grp.bus + "|" + s.dest];
+        if(m) n.connect(m);
       }
-      g.chan[role] = ch;
-    }
+      g.chan[key] = ch;
+      return ch;
+    };
+    /* every role gets its slot-wide channel up front -- the one a voice with no
+       name of its own lands on, and the one every existing reader and every
+       saved MIXTRIM key still means */
+    for(const role in g.grp) g.makeChan(role, null);
+    /* ── THE CHANNELS THIS RECORD NEEDS ────────────────────────────────────
+       Called when a song is armed, never during playback. `buildGraph` still
+       fixes the topology of the DESK; which instruments are plugged into it is
+       a fact about the record, and it is not knowable until there is one. */
+    g.ensureChannels = function(song){
+      if(!song || !song.perf) return;
+      const byRole = {};
+      for(const e of song.perf.events){
+        if(!e.voice || !e.role || e.role === "drums") continue;   // the kit is its own sub-mixer
+        if(!g.grp[e.role]) continue;
+        (byRole[e.role] = byRole[e.role] || new Set()).add(e.voice);
+      }
+      /* ── AND A PART PLAYED BY ONE INSTRUMENT DOES NOT GROW A SECOND TIER ──
+         A channel and a group are two faders, and where a part has exactly one
+         source they would be two faders for one thing -- a strip whose only
+         possible use is to undo the strip beside it. So a role with ONE voice
+         keeps using its own channel, which is the strip it has always had,
+         keyed by the bare role: identical graph, identical key, identical
+         saved hand. The tier appears only where there is something in it,
+         which on jungle and bladerunner is nowhere at all and on hobbit synth
+         is the lead, the keys and keys2. */
+      for(const role in byRole){
+        if(byRole[role].size < 2) continue;
+        for(const v of byRole[role]) g.makeChan(role, v);
+      }
+    };
     /* the room and the delay do not exist yet -- they are built further down --
        so the sends are connected to them there, in one loop, once. */
     g.mix = c.createGain(); g.mix.gain.value = 1;
@@ -8497,6 +8627,16 @@ registerProcessor("mk2-room", MK2Room);
        gain can be opened from upstream. That is how a desk behaves too, and the
        master is on the matrix panel where you can reach it. */
     const partsOf = bus => Object.keys(g.chan || {}).filter(r => g.chan[r].bus === bus);
+    /* ── AND A BUS THAT CAN CARRY CHANNELS TAKES THE SEND-MASTER ROAD EVEN
+       WHEN IT IS EMPTY RIGHT NOW ─────────────────────────────────────────
+       This used to ask `partsOf(bus).length`, which was a safe question while
+       every channel existed before this loop ran. Channels are per INSTRUMENT
+       now and the ones a record needs arrive when the record does, so an empty
+       answer here means "not yet", not "never". Asked of the ROLE MAP instead,
+       which is the fixed fact: if any role routes to this bus, this bus is fed
+       by channels and gets a send master. */
+    const busTakesChannels = bus =>
+      Object.keys(MIX_ROLE_BUS).some(r => MIX_ROLE_BUS[r] === bus && g.grp[r]);
     for(const cell of matrixCells()){
       /* drumsMix is already built, above the drum bus: the kit's dry level has
          to sit after its saturation, so it cannot be made by this generic loop */
@@ -8505,10 +8645,11 @@ registerProcessor("mk2-room", MK2Room);
          column is fed from the bus. Asked of the send declaration, so a third
          strip send wires itself. */
       const wet = !!MIX_SEND_OF[cell.out.k] && !cell.in.ret;
-      const parts = wet ? partsOf(cell.in.k) : [];
-      const src = parts.length ? null : matrixSource(cell.in.k);
+      const fed = wet && busTakesChannels(cell.in.k);
+      const parts = fed ? partsOf(cell.in.k) : [];
+      const src = fed ? null : matrixSource(cell.in.k);
       const dst = matrixDest(cell.out.k, cell.in.k);
-      if(parts.length){
+      if(fed){
         const gain = c.createGain();
         /* THE SAME OPENING VALUE THE BUS CROSSING HAD. It is not cosmetic: the
            song's own level arrives as an automation curve scheduled from t0, so
@@ -8520,6 +8661,8 @@ registerProcessor("mk2-room", MK2Room);
         for(const r of parts) g.chan[r]["send" + cell.out.k].connect(gain);
         gain.connect(dst);
         g.route[cell.k] = gain;
+        /* kept where a channel built at song-arm can find it */
+        g.sendMaster[cell.in.k + "|" + cell.out.k] = gain;
         continue;
       }
       if(!src || !dst) continue;
@@ -8868,7 +9011,7 @@ registerProcessor("mk2-room", MK2Room);
        as the part playing it -- the ornament goes to the lead bus and the figure
        to the keys bus. The FADER is the part's, so the channel is looked up by
        `ev.role` and the bus name stays the fallback. */
-    const c = g.ctx, bus = chanIn(g, ev && ev.role, role);
+    const c = g.ctx, bus = chanIn(g, ev && ev.role, role, ev);
     /* a machine with no pan control declared costs nothing and stays mono --
        the node is not even built, so every voice that has not been given a
        position renders exactly what it always did */
@@ -9885,7 +10028,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
        row's reverb.
        `stereoOut` states the contract above: the BUS is the voice's, the
        CHANNEL is the part's. These four are the call sites that ignored it. */
-    mufflerStage(g, B.muff, post).connect(chanIn(g, ev.role, "bass"));
+    mufflerStage(g, B.muff, post).connect(chanIn(g, ev.role, "bass", ev));
     const o1 = osc(c, "sine", f, t, end);
     /* DRIVE is the saw against the sine: at 0 it is a pure sub, at 1 it has
        teeth. 0.20 reproduces the 0.38 saw gain this voice shipped with. */
@@ -11351,7 +11494,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       const fm = c.createGain(); fm.gain.value = fFM * base * 2.2;
       outNode.connect(dly); dly.connect(fm); fm.connect(lp1.frequency);
     }
-    outNode.connect(chanIn(g, ev.role, "bass"));   // the part's channel -- see V.bass
+    outNode.connect(chanIn(g, ev.role, "bass", ev));   // the instrument's channel -- see V.bass
     return nodes;
   };
 
@@ -12049,7 +12192,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
     lp.frequency.value = dCut; lp.Q.value = P(g, ev, "tb303", "dRes", 3.2);
     out.connect(lp);
-    mufflerStage(g, B.muff, lp).connect(chanIn(g, ev.role, "bass"));  // see V.bass
+    mufflerStage(g, B.muff, lp).connect(chanIn(g, ev.role, "bass", ev));  // see V.bass
     const made = [], det = P(g, ev, "tb303", "dDetune", 0.55);
     for(const cents of [-7 * det, 0, 7 * det]){
       const o = c.createOscillator(); o.type = "sawtooth";
@@ -12178,7 +12321,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
     lp.frequency.value = cut0; lp.Q.value = P(g, ev, "tb303", "rRes", 4.0);
     out.connect(lp);
-    mufflerStage(g, B.muff, lp).connect(chanIn(g, ev.role, "bass"));  // see V.bass
+    mufflerStage(g, B.muff, lp).connect(chanIn(g, ev.role, "bass", ev));  // see V.bass
     const made = [], subAmt = P(g, ev, "tb303", "rSub", 0.45);
     /* THE GROWL: three saws, detuned in CENTS and wide. At 22 cents a pair at
        55 Hz beat about 0.7 times a second, and the partials higher up beat
@@ -12917,7 +13060,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       const dcb = c.createBiquadFilter(); dcb.type = "highpass";
       dcb.frequency.value = 20; dcb.Q.value = 0.7;
       out.connect(dcb);
-      (B ? mufflerStage(g, B.muff, dcb) : dcb).connect(chanIn(g, ev.role, busName));
+      (B ? mufflerStage(g, B.muff, dcb) : dcb).connect(chanIn(g, ev.role, busName, ev));
       let end = keyOff;
       /* modulators: ONE envelope each, in Hz of peak deviation, fanned out to
          every operator that modulator drives. Brightness tracks velocity through
@@ -13092,9 +13235,21 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
      knows a part can have a fader on it. A graph built before the channels
      existed -- or any future one that skips them -- still answers with the bus
      and plays exactly as it did. */
-  function chanIn(g, role, fallbackBus){
-    const ch = g.chan && g.chan[role];
-    if(ch) return ch.inp;
+  function chanIn(g, role, fallbackBus, ev){
+    /* ── THE INSTRUMENT'S OWN CHANNEL, AND THE SLOT'S ONLY AS A FALLBACK ────
+       Every voice has always asked here, which is why this could be fixed in
+       one place. `ev.voice` is the instrument actually playing -- after picks,
+       machines, ladder and rig -- so a lead that changes from a flute to a cor
+       anglais at 33.7 s now changes CHANNEL there, instead of two instruments
+       sharing one fader, one EQ and one pair of sends.
+
+       A caller with no event, or a voice this record never declared, still
+       lands on the role's own channel and plays exactly as it did. */
+    if(g.chan){
+      const v = ev && ev.voice;
+      if(v && g.chan[role + "|" + v]) return g.chan[role + "|" + v].inp;
+      if(g.chan[role]) return g.chan[role].inp;
+    }
     return g.bus[fallbackBus || role] || g.bus.keys;
   }
   function drumOut(g, lane){
@@ -13630,6 +13785,19 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
   function applyMixer(g){
     if(!g || !g.chan) return;
     const soloing = MIX_SOLO_ANY(MIXTRIM);
+    /* ── THE SUBGROUPS, WHICH ARE FADERS TOO ──────────────────────────────
+       A group strip is keyed `@lead` so it cannot collide with a channel key
+       and so a saved hand from before this tier existed -- keyed by the bare
+       role -- still lands on that role's own channel, where it always did.
+       Groups have no duck and no sends: those belong to the channels. */
+    for(const role in (g.grp || {})){
+      const t = MIXTRIM["@" + role] || {}, gp = g.grp[role];
+      const off = t.mute || (soloing && !t.solo && MIXTRIM["@" + role]);
+      gp.inp.gain.value  = off ? 0 : Math.pow(10, (t.vol || 0) / 20);
+      gp.low.gain.value  = t.low  || 0;
+      gp.mid.gain.value  = t.mid  || 0;
+      gp.high.gain.value = t.high || 0;
+    }
     for(const role in g.chan){
       const t = MIXTRIM[role] || {}, ch = g.chan[role];
       /* a muted channel, and a channel that is not the soloed one, are OFF --
@@ -13859,6 +14027,14 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       }
       g.springTone.frequency.value = panelValue("spring", "tone", 4200);
     }
+    /* ── THE RECORD'S OWN CHANNELS, BEFORE ITS HAND IS RE-APPLIED ──────────
+       Which instruments this record plugs into the desk is a fact about the
+       record, so the channels arrive with it -- here, at the one place the
+       song's sound is set, which the live path and the offline render both go
+       through [Law 10]. Idempotent: a channel that already exists is returned,
+       not rebuilt, so a genre change adds the new sources and leaves the rest
+       of the desk standing. */
+    if(g.ensureChannels) g.ensureChannels(SONG);
     /* the mixer's hand, re-applied whenever the song's sound is set -- so a
        fader survives a new song, a genre change and an offline render alike */
     applyMixer(g);
@@ -35813,6 +35989,16 @@ const MIX_BAND = [
    has no MIDI track and therefore has no colour on the roll. It gets a NEUTRAL
    here rather than an invented hue, because a ninth colour on the desk that
    corresponds to nothing on the roll would be exactly the lie this is fixing. */
+/* which instruments play this part in this record, in the order they first
+   sound -- so the desk's strips are in the order the ear meets them, and a
+   channel's shade is stable for the whole song */
+function mixVoicesOf(role){
+  if(!SONG) return [];
+  const out = [];
+  for(const e of SONG.perf.events)
+    if(e.role === role && e.voice && out.indexOf(e.voice) < 0) out.push(e.voice);
+  return out;
+}
 function mixHue(role){
   const h = rollHues()[role];
   return h == null ? null : h;
@@ -35871,7 +36057,11 @@ function mixSendBase(role, band){
   if(!bus || !CONTROL["matrix." + bus + band.dest]) return null;
   return panelValue("matrix", bus + band.dest);
 }
-function mixKnob(role, band){
+function mixKnob(role, band, part){
+  /* `role` is THIS STRIP's key (its hand); `part` is the role whose bus the
+     send crosses (its base). They differ only on a channel strip, where the
+     hand belongs to the instrument and the wire belongs to the part. */
+  const P = part || String(role).replace(/^@/, "").split("|")[0];
   /* a send is a 0..1 level and the EQ is +/-12 dB, so the travel comes off the
      band rather than being written here twice */
   const send = !!band.dest;
@@ -35897,7 +36087,7 @@ function mixKnob(role, band){
      part's bus, which is 0 where the genre sends nothing -- an honest reading
      of "nothing happens here" -- and turning it up opens the master to reach
      it (`mixSendLift`), leaving every other part on that bus where it was. */
-  const base = () => send ? (mixSendBase(role, band) || 0) : 0;
+  const base = () => send ? (mixSendBase(P, band) || 0) : 0;
   const box = el("div", "kn");
   box.dataset.key = "mixer." + role + "." + band.k;
   box.title = band.label + (send
@@ -35957,12 +36147,37 @@ function mixKnob(role, band){
   box.refresh(); registerKnob(box);
   return box;
 }
+/* ── WHAT AN INSTRUMENT IS CALLED, ASKED OF THE INSTRUMENT ─────────────────
+   A channel strip is named after its source, and the source's own name is on
+   the machine that provides it. Derived from `lanes` rather than written down
+   again, so a voice added tomorrow arrives with its name on it -- the rule
+   this file has broken four times and now keeps in one direction only. */
+function mixVoiceLabel(voice){
+  for(const m in INSTRUMENTS){
+    const L = INSTRUMENTS[m].lanes || {};
+    for(const lane in L) if(L[lane] === voice) return INSTRUMENTS[m].label || voice;
+  }
+  return voice;
+}
 function mixStrip(role){
   /* the fader's travel. -40 is "gone" and +12 is as far as anything here should
      ever need; the scale is linear in dB, which is what makes equal moves of the
      hand equal changes to the owner. */
   const FLO = -40, FHI = 12;
-  const wrap = el("div", "mixch");
+  /* ── A STRIP'S KEY IS EITHER A PART OR AN INSTRUMENT ────────────────────
+       lead          the part, played by one instrument -- the strip this desk
+                     has always drawn, unchanged in key, colour and label
+       lead|corAnglais   one INSTRUMENT's channel, where the part has several
+       @lead         the subgroup those channels sum into
+
+     Everything below asks `R` for facts about the PART -- which bus it is on,
+     which sends the desk has wires for, what colour it is on the roll -- and
+     `role` for facts about THIS STRIP: its hand, its knobs, its name. That
+     split is the whole change on the glass. */
+  const R = String(role).replace(/^@/, "").split("|")[0];
+  const VOICE = String(role).includes("|") ? String(role).split("|")[1] : null;
+  const GROUP = String(role)[0] === "@";
+  const wrap = el("div", "mixch" + (VOICE ? " mixchvoice" : GROUP ? " mixchgroup" : ""));
   wrap.dataset.role = role;
   /* THE PART'S COLOUR, taken from the roll rather than chosen. `--ink` is read
      by the name plate, the strip's top edge, the fader cap's line and the two
@@ -35974,12 +36189,34 @@ function mixStrip(role){
      and recolouring it per part would destroy the one piece of information on
      this panel that needs no legend. Colour identifies the PART; the meter's
      colour identifies the LEVEL. Two different facts, two different scales. */
-  const ink = mixInk(role, 62, 62);
+  /* ── THE CHANNEL'S OWN SHADE OF THE PART'S COLOUR ──────────────────────
+     "they share the same channels the same color same fader" -- so the colour
+     has to separate them, and it must NOT separate them from their part. Same
+     hue, stepped in lightness: the flute and the cor anglais read as two
+     strips at a glance and still read as the tune. A part with one instrument
+     keeps exactly the colour it had.
+
+     THE STEP IS BOUNDED so the darkest channel is still legible and the
+     lightest is still tinted; beyond about five instruments on one part the
+     eye is not going to count them by shade anyway, and the NAME is the thing
+     that identifies them. */
+  const sibs = VOICE ? mixVoicesOf(R) : [];
+  const at   = VOICE ? Math.max(0, sibs.indexOf(VOICE)) : 0;
+  const lift = sibs.length > 1 ? (at / (sibs.length - 1) - 0.5) * 26 : 0;
+  const ink = mixInk(R, 62, Math.max(38, Math.min(80, 62 + lift)));
   wrap.style.setProperty("--ink", ink);
-  const nameEl = el("div", "mixname", MIX_LABEL[role] || role);
-  nameEl.title = mixHue(role) == null
-    ? (MIX_LABEL[role] || role) + " — no colour: this is the record surface, not notes, so it has no line on the roll"
-    : (MIX_LABEL[role] || role) + " — the same colour as this part has on the roll";
+  const label = VOICE ? mixVoiceLabel(VOICE)
+              : GROUP ? (MIX_LABEL[R] || R)
+                      : (MIX_LABEL[role] || role);
+  const nameEl = el("div", "mixname", label);
+  nameEl.title = VOICE
+    ? label + " — this instrument's own channel. It plays the " +
+      (MIX_LABEL[R] || R) + " and has its own fader, EQ and sends, because it is its own source."
+    : GROUP
+      ? "the " + (MIX_LABEL[R] || R) + " group — every instrument playing this part, summed"
+      : mixHue(R) == null
+        ? label + " — no colour: this is the record surface, not notes, so it has no line on the roll"
+        : label + " — the same colour as this part has on the roll";
   wrap.appendChild(nameEl);
   const eq = el("div", "mixeq");
   for(const b of MIX_BAND) eq.appendChild(mixKnob(role, b));
@@ -35995,12 +36232,14 @@ function mixStrip(role){
      send with no destination in the graph at all. Asked of `MATRIX` through
      `mixSendBase`, never listed, so a column added tomorrow is covered. */
   const aux = el("div", "mixeq mixaux");
-  for(const b of MIX_SEND)
-    if(mixSendBase(role, b) != null) aux.appendChild(mixKnob(role, b));
+  /* a GROUP has no sends of its own: they belong to the channels under it, and
+     drawing a second set here would be two knobs for one send */
+  if(!GROUP) for(const b of MIX_SEND)
+    if(mixSendBase(R, b) != null) aux.appendChild(mixKnob(role, b, R));
   if(aux.childNodes.length) wrap.appendChild(aux);
-  else {
+  else if(!GROUP){
     const why = el("div", "mixnosend", "no sends");
-    why.title = MATRIX.none[MIX_ROLE_BUS[role] + MIX_SEND[0].dest] ||
+    why.title = MATRIX.none[MIX_ROLE_BUS[R] + MIX_SEND[0].dest] ||
                 "this row has no crossing into the effect columns";
     wrap.appendChild(why);
   }
@@ -36280,7 +36519,26 @@ function drawMixer(host){
   brand.appendChild(el("span", "slotTag", roles.length + " tracks + master"));
   box.appendChild(brand);
   const strips = el("div", "mixstrips");
-  for(const r of roles) strips.appendChild(mixStrip(r));
+  /* ── ONE STRIP PER SOURCE, AND A GROUP WHERE THERE IS MORE THAN ONE ─────
+     "Why is the song starting with one instrument and then going to another
+      but they share the same channels the same color same fader."
+
+     They did, and now they do not. A part played by one instrument draws the
+     single strip it always drew, keyed by the part, same colour, same label,
+     same saved hand -- which on jungle and bladerunner is every strip on the
+     desk. A part played by SEVERAL draws one channel each, in the order they
+     first sound, followed by the group they sum into. Hobbit synth seed 1's
+     lead is four instruments across the record and now has four faders.
+
+     THE GROUP GOES LAST, after its channels, because that is the direction the
+     signal runs and the direction a desk is read: sources on the left, what
+     they add up to on the right, master at the end. */
+  for(const r of roles){
+    const vs = r === "drums" ? [] : mixVoicesOf(r);
+    if(vs.length < 2){ strips.appendChild(mixStrip(r)); continue; }
+    for(const v of vs) strips.appendChild(mixStrip(r + "|" + v));
+    strips.appendChild(mixStrip("@" + r));
+  }
   /* the master sits at the RIGHT-HAND END, where a desk puts it, and is set
      apart by a rule rather than by being a different shape -- it is the same
      strip doing the same job to everything at once */
