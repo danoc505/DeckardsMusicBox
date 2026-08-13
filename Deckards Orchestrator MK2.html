@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-13f · two cycles that never come round together</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-13g · the tune can leap, the rack has eight sounds, and the drums render</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3013,8 +3013,8 @@ const INSTRUMENTS = {
       shire:    {
         label: "TR-1000 · SHIRE",
         lanes: { kick:"fdLow", snare:"fdOpen", ghost:"fdMute", hat:"fdRim",
-                 openhat:"fdOpen", tom1:"fdOpen", tom2:"fdOpen", tom3:"fdLow",
-                 rim:"fdRim", clap:"fdMute", crash:"fdOpen", ride:"fdRim" },
+                 openhat:"fdOpenLong", tom1:"fdTom1", tom2:"fdTom2", tom3:"fdTom3",
+                 rim:"fdRim", clap:"fdMute", crash:"fdOpenLong", ride:"fdRim" },
       },
       dungeon:  {
         label: "TR-1000 · DUNGEON",
@@ -6706,6 +6706,10 @@ const DRUM_SOUND_NAME = {
   fdOpen: "frame drum · open",
   fdMute: "frame drum · palm",
   fdRim: "frame drum · rim",
+  fdOpenLong: "frame drum · ring",
+  fdTom1: "frame drum · hand high",
+  fdTom2: "frame drum · hand mid",
+  fdTom3: "frame drum · hand low",
   timpHi: "kettle drum, high", timpMid: "kettle drum, middle", timpLo: "kettle drum, low",
   erangDrum: "hand percussion",
 };
@@ -10502,8 +10506,23 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     /* the stiffness-corrected ratios, and which family each belongs to */
     const AXI = [1.000, 2.295];                    // (0,1) (0,2) -- centre drives these
     const DIA = [1.840, 2.410, 3.000, 3.220];      // (1,1) (2,1) (3,1) (1,2) -- off-centre
-    const T60 = { 1.000: 0.097, 2.295: 0.167, 1.840: 0.310, 2.410: 0.225,
-                  3.000: 0.144, 3.220: 0.195 };
+    /* ── AND THE DERIVED T60s WERE TOO SHORT TO HEAR ─────────────────────────
+       Reported: "The drums you made are shitty. They do not sound good bearly
+       audible." Right, and the sheet warned about it before I used the numbers:
+       the only published damping figures anywhere are a SNARE BATTER HEAD, and
+       its 5.07% critical on the fundamental "is attributed to two-head coupling,
+       which a frame drum doesn't have, so the DIRECTION transfers and the number
+       doesn't". I took the numbers anyway. A 97 ms fundamental at 65 Hz is six
+       cycles -- a click with a hint of pitch in it, not a drum.
+
+       THE RATIOS ARE WHAT THE MEASUREMENT ACTUALLY GIVES and they are kept
+       exactly: the fundamental still lets go first and the (1,1) rings longest,
+       which is the finding that separates a struck head from a kettle. Only the
+       absolute scale moves, it is [CHOSEN], and x2.6 puts the ring at 250-800 ms
+       -- the band an undamped hand drum sustains for. */
+    const K60 = 2.6;
+    const T60 = { 1.000: 0.097 * K60, 2.295: 0.167 * K60, 1.840: 0.310 * K60,
+                  2.410: 0.225 * K60, 3.000: 0.144 * K60, 3.220: 0.195 * K60 };
     return function(g, ev, t){
       const c = g.ctx;
       const chT = chTune(g, ev), chD = chDecay(g, ev);
@@ -10517,6 +10536,20 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
          between them the diameter family fades in, which is what moving the
          tipper actually does. The notch at (1,1) in the centre case is the
          measured feature and falls out of this for free. */
+      /* ── AND EVERY VOICE RETURNS ITS SOURCE NODES ──────────────────────────
+         The scheduler does `made = voice(graph, ev, at)` and then
+         `let left = made.length` -- it counts the nodes down as they end, so it
+         knows when the event is finished and can release them. A voice that
+         returns nothing throws "Cannot read properties of undefined (reading
+         'length')" on the RENDER path only.
+
+         WHICH IS WHY NOTHING CAUGHT IT. The note battery composes and never
+         renders, so 181 checks passed on a drum kit that could not make a
+         sound; the browser harness renders every voice and found it in one
+         line. The owner found it first, by pressing play: "i changed one sound
+         because half the drum rack is the same hand sound and the whole thing
+         broke". The kit was not misbehaving -- it was throwing on every hit. */
+      const made = [];
       const modes = AXI.map(r => ({ r, a: 1 }))
         .concat(DIA.map(r => ({ r, a: cfg.pos })));
       for(const m of modes){
@@ -10533,12 +10566,18 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
         /* higher modes are excited less by a soft stroke -- the same reason a
            quiet note on any struck thing is duller, and it is why `hit` is
            here rather than only on the master gain */
-        const lvl = 0.42 * m.a * ev.gain * Math.pow(hit, 0.35 + 0.55 * (m.r - 1) / 2.3);
+        /* 0.42 was set against `V.wardrum`'s 0.80 as if the two were
+           comparable, and they are not: the war drum puts nearly everything
+           into ONE oscillator at the fundamental, and this spreads it over two
+           to six modes at INHARMONIC ratios, which do not sum coherently. The
+           peak was therefore about half what the number implied. */
+        const lvl = 0.70 * m.a * ev.gain * Math.pow(hit, 0.35 + 0.55 * (m.r - 1) / 2.3);
         gn.gain.setValueAtTime(0.0001, t);
         gn.gain.exponentialRampToValueAtTime(Math.max(0.0002, lvl), t + 0.004);
         gn.gain.exponentialRampToValueAtTime(0.0002, t + ring);
         o.connect(gn); gn.connect(out);
         o.start(t); o.stop(t + ring + 0.03);
+        made.push(o);
       }
       /* ── THE TIPPER'S CONTACT, WHICH THE HAND DOES NOT TOUCH ───────────────
          A fixed transient: goat skin under a wooden stick. Outside `damp` on
@@ -10561,6 +10600,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       ng.gain.value = cfg.tip * ev.gain * (0.45 + 0.55 * hit);
       n.connect(nf); nf.connect(ng); ng.connect(out);
       n.start(t); n.stop(t + 0.06);
+      made.push(n);
+      return made;
     };
   }
   /* THE THREE THE KIT NEEDS, and they are three PLACES ON ONE DRUM rather than
@@ -10569,13 +10610,36 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
      rings, and `fdRim` is the bright short one the hand kills. The sheet is
      blunt that the rim is "occasional... for contrast", i.e. a SUBSTITUTION
      and not a lane of its own -- which is exactly how the kit map uses it. */
-  V.fdLow  = frameVoice({ f0mul: 0.72, pos: 0.10, damp: 1.00, tip: 0.16 });
-  V.fdOpen = frameVoice({ f0mul: 1.00, pos: 0.85, damp: 1.00, tip: 0.26 });
-  V.fdRim  = frameVoice({ f0mul: 1.34, pos: 1.00, damp: 0.34, tip: 0.40 });
+  V.fdLow  = frameVoice({ f0mul: 0.72, pos: 0.10, damp: 1.00, tip: 0.20 });
+  V.fdOpen = frameVoice({ f0mul: 1.00, pos: 0.85, damp: 1.00, tip: 0.30 });
+  V.fdRim  = frameVoice({ f0mul: 1.34, pos: 1.00, damp: 0.34, tip: 0.46 });
+  /* ── AND HALF THE RACK WAS ONE SOUND ──────────────────────────────────────
+     Reported: "half the drum rack is the same hand sound". MEASURED and worse
+     than that -- `fdOpen` covered snare, openhat, tom1 AND tom2, and `fdLow`
+     covered kick and tom3, so SIX OF EIGHT SOUNDING LANES WERE TWO VOICES. A
+     tom run was the same sound three times.
+
+     That was my error and it came from taking "a bodhran player has one drum"
+     too literally. A player has one drum and the HAND BEHIND IT, and the hand
+     is a pitch control: the sources are explicit that radial position sets
+     pitch, nearer the rim being lower. Three tom lanes are three hand
+     positions, not three names for one.
+
+     THE SPREAD IS DELIBERATELY NARROW AND THE ARITHMETIC SAYS WHY. From the
+     sourced f proportional to sqrt(T), an octave costs FOUR TIMES the tension
+     and a whole tone 1.26 -- so a hand cannot open an octave between toms
+     without the head going slack or splitting. 0.86 / 1.00 / 1.18 is about a
+     minor third across the three, which is what a hand can actually reach. */
+  V.fdTom1 = frameVoice({ f0mul: 1.18, pos: 0.80, damp: 0.86, tip: 0.30 });
+  V.fdTom2 = frameVoice({ f0mul: 1.00, pos: 0.74, damp: 0.94, tip: 0.28 });
+  V.fdTom3 = frameVoice({ f0mul: 0.86, pos: 0.66, damp: 1.06, tip: 0.26 });
   /* the flat palm: the same drum with the ring taken out of it. A ghost note on
      a frame drum is not a quiet stroke, it is a DAMPED one, and that is the
      whole difference between a hand drum and a drum machine. */
-  V.fdMute = frameVoice({ f0mul: 1.00, pos: 0.55, damp: 0.16, tip: 0.30 });
+  V.fdMute = frameVoice({ f0mul: 1.00, pos: 0.55, damp: 0.16, tip: 0.34 });
+  /* the ringing stroke left to sound -- this kit's crash and open hat, since
+     there is no metal in the ensemble. Longest decay of the family. */
+  V.fdOpenLong = frameVoice({ f0mul: 1.06, pos: 0.95, damp: 1.55, tip: 0.34 });
 
 
 
@@ -23628,8 +23692,32 @@ GENRE.hobbitsynth = {
     styles: { double: { density: 0.88, octaves: [-12] } }
   },
   /* a tune with somewhere to go. Dungeon synth is [2,2]/[1,1]/[1,2]. */
+  /* ══ THE INTERVAL BUDGET — the fifth answer to the repeating lead ══════════
+     `theme.moves` is multiples of the phrase direction; see `buildTheme` for
+     why this line was the whole melody and why the default four could not leap.
+
+     THE SHIRE THEME'S HEAD MOTIF IS 1-2-3-3-5 [score-craft.md §14]: stepwise up,
+     a repeated note, and then A LEAP TO THE FIFTH. Three of those five notes are
+     things the old palette could produce and the fourth -- the leap -- was not
+     expressible in this program at all. `lotr-themes-measured.md` §5.5 states it
+     as a rule: "Shire = steps and thirds. Rohan = fourths, fifths, sixths,
+     outlined triads. That is one number per theme."
+
+     So: the step still leads by a distance, because this is a folk tune and not
+     a fanfare. The third (2 scale steps) is next. THE FIFTH (4) IS THE ONE THE
+     SOURCE NAMES and it carries real weight; the fourth (3) and the sixth (5)
+     sit under it. The turnback (-1) is halved and the REPEAT IS CUT FROM 2 TO 1
+     -- it was 18% of every move in every genre, and on a sampled whistle that
+     cannot re-articulate it is the single worst thing the palette could draw.
+
+     THE LEAP IS SAFE BECAUSE THE COUNTERPOINT LAWS ALREADY CATCH IT. A
+     dissonance must be arrived at by step or be an appoggiatura that steps out;
+     a leap onto a clash held to the end of a bar is dropped, not repaired. The
+     palette proposes, the laws dispose. That order is why offering a fifth here
+     does not need a new rule to make it safe. */
   theme: {
     count: { hooky: [3, 2], breath: [1, 2], normal: [2, 2] },
+    moves: [[0, 1], [1, 5], [2, 3], [-1, 1], [3, 2], [4, 3], [5, 1], [-2, 1]],
     onsetPool: [[0, 8], [8, 5], [4, 4], [12, 4], [2, 2], [6, 2], [10, 2], [14, 2]]
   },
   ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
@@ -29230,9 +29318,53 @@ function makeMaterials(chart, editPlan, arcPlan){
         }
         steps.sort((a, z) => a - z);
         for(let i = 0; i < steps.length; i++){
+          /* ══ THE INTERVAL BUDGET, AND THIS LINE WAS THE WHOLE MELODY ═══════
+             Reported five times, most recently: "the song starts with a lead
+             that REPEATS its nots like it is on echo only its not echo its just
+             someone smashing the same note over and over and over again... i
+             have tried 4 times to get you to stop it and you cant do it."
+
+             AND THE FOUR EARLIER FIXES WERE ALL AIMED AT THE WRONG THING. Each
+             one addressed how a REPEATED PITCH was articulated or merged -- a
+             slur, a whistle cut, a silence-measured merge, round robins. Not one
+             touched WHICH PITCH GETS CHOSEN, and this line is where that
+             happens. Printed, seed 1's opening twenty seconds:
+
+               71 70 71 · 70 · 76 78 76 · 73 71 · 70 71
+
+             Almost no literal repeats left -- the merge works -- and it is a
+             SEMITONE OSCILLATION, over and over, which is what an ear hears as
+             one note being hammered. Fixing the repeat and leaving the wobble
+             answered the letter of five reports and the substance of none.
+
+             THE CAUSE IS THAT NO GENRE COULD LEAP. This was
+             `[[0,2],[dir,5],[dir*2,2],[-dir,2]]` -- hardcoded, identical for all
+             ten genres, four outcomes: stay, one scale step on, two steps on,
+             one step back. THE LARGEST INTERVAL EXPRESSIBLE ANYWHERE IN THIS
+             PROGRAM WAS A THIRD. Measured across ten genres: 41% step, 27%
+             repeated pitch, 32% "leap" -- and every one of those leaps came from
+             `intoBand` folding a pitch back by octaves, not from a drawn
+             interval. The tune could not go anywhere because there was nowhere
+             in the table to say it should.
+
+             `theme.moves` is that table. Entries are MULTIPLES OF THE PHRASE
+             DIRECTION, so a genre says "sometimes jump a fifth" without knowing
+             which way this phrase is going. The default is the old four exactly,
+             so a genre that declares nothing draws what it always drew -- proven
+             by the snapshot, not asserted.
+
+             The existing laws still narrow it afterwards and are the reason a
+             leap is safe to offer: a dissonance must be arrived at by step or be
+             an appoggiatura that steps out, and a leap onto a clash held to the
+             end of a bar is dropped. So the palette proposes and the
+             counterpoint disposes, which is the order everything else here uses.
+             [docs/genre-research/lotr-themes-measured.md §5.5: "Melody type is
+             an interval budget. Shire = steps and thirds. Rohan = fourths,
+             fifths, sixths, outlined triads. That is one number per theme."] */
+          const MOVES = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
           let move = (moveBias && moveBias.length > dna.length)
                    ? moveBias[dna.length]                            // derivation: follow given DNA
-                   : wpick(rng, [[0, 2], [dir, 5], [dir * 2, 2], [-dir, 2]]);
+                   : wpick(rng, MOVES) * dir;
           /* the DNA is recorded as DRAWN, before the law narrows it: B is
              derived from A's shape, and A's shape is what A wanted, not what
              the chord under it allowed. */
