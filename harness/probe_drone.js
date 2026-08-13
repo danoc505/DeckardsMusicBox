@@ -4,7 +4,24 @@
 
        node harness/probe_drone.js [seeds]
 
-   Asked as a diagnosis, not a complaint, and it was right:
+   Asked as a diagnosis, not a complaint. It is HALF right, and this probe's
+   name overstates what it can see -- kept, with the correction attached, rather
+   than renamed, because the measurement is sound and only the claim built on
+   top of it was not. See docs/genre-research/how-a-drone-evolves.md:
+
+     "Parameter locking cannot be a long-form evolution mechanism BY
+      CONSTRUCTION -- a value stored against step 7 recurs on step 7 of every
+      bar, so a mechanism with a period of exactly one bar carries no
+      information at the 200-bar timescale."
+
+   WHAT THIS PROBE MEASURES IS WITHIN-BAR DETAIL, and it says so in its own
+   column heading. It does not and cannot measure evolution. A genre could score
+   10% here and still be identical at bar 4 and bar 200. The four traditions
+   that actually sustain ten to twenty minutes over a fixed foundation --
+   gamelan, pibroch, alap, ground bass -- do it by DISCRETE COUNTABLE EVENTS,
+   and no parameter was automated in Music for Airports at all.
+
+   The diagnosis, verbatim:
 
      "The issue with drones is you cant figure out how to make something that
       goes on and on while also allowing it to have evolution, i think this is
