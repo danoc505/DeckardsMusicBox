@@ -1555,6 +1555,14 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     /* which way the pole's stripes climb: read once per song and applied as
        the SIGN of the sweep ramp, same shape as the DP/4's algo switches */
     "barber.dir",
+    /* the modulation module's two: DEPTH is an attenuverter on every modulator
+       in the record and FREEZE holds them all where they are. setSpace reads
+       both with P() and writes them into MODTRIM, which is the one place every
+       modulator looks -- so they reach the sound the same way `echo.div` does,
+       once per song, rather than per note. They are the desk's own position and
+       nothing automates them, which is why they are `voicing` and `switch`
+       rather than `gesture`. */
+    "modulation.depth","modulation.freeze",
     /* the desk: three shelf/bell gains the whole mix passes through, plus the
        three crossovers that place them */
     "desk.low","desk.mid","desk.high","desk.lowF","desk.midF","desk.highF",

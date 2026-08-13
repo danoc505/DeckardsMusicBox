@@ -203,6 +203,22 @@
      numbers the person playing it cares about were only visible to a probe. Green up to
      -6 dBFS, amber to -1, red above -- the standard reading, so the colour
      means the same thing here as on any other meter anyone has used. */
+  /* ── THE MODULATION SCOPE ────────────────────────────────────────────────
+     Dark, because it is a screen and not a faceplate, and because the traces
+     have to read against each other rather than against a panel colour.
+     A lane with MEMORY is drawn brighter and a lane that NEVER COMES ROUND is
+     drawn in the accent -- the two facts the research turned on, on the glass
+     where they can be seen instead of in a probe's last column. */
+  .modwrap{ width:100%; }
+  .modsvg{ width:100%; height:clamp(150px,26vh,260px); display:block;
+           background:#0b0d0f; border:1px solid #262b30; border-radius:4px; }
+  .modtrace{ fill:none; stroke:#5d6a74; stroke-width:1.6; vector-effect:non-scaling-stroke; }
+  .modtrace.mem{ stroke:#9fb3c0; stroke-width:2.2; }
+  .modtrace.free{ stroke:#e0a33c; stroke-width:2.4; }
+  .modlab{ fill:#7d8b95; font:600 11px ui-monospace,monospace; letter-spacing:.04em; }
+  .modhead{ stroke:#e6e9ec; stroke-width:1.2; opacity:.75; vector-effect:non-scaling-stroke; }
+  .modfoot{ margin-top:.3rem; font:600 11px ui-monospace,monospace; color:#8b98a2;
+            letter-spacing:.03em; }
   .mixer .mixstrips{ display:flex; gap:.55rem; align-items:flex-end; flex-wrap:wrap; }
   /* ── A CHANNEL, A GROUP, AND THE DIFFERENCE BETWEEN THEM ─────────────────
      A channel strip carries one instrument; the group beside it carries what
@@ -1438,7 +1454,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-13k · every genre has a knob that steps, not only the drone</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-13l · the modulation has a face you can see and turn</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3860,6 +3876,53 @@ const INSTRUMENTS = {
      seeded like the room's — chirp train, progressive blur — and its
      crossings are the HAND's until a genre earns one by asking for it.
      [docs/genre-research/spring-reverb.md] */
+  /* ══ THE MODULATION MODULE ════════════════════════════════════════════════
+     "Did you build ui for the eurorack moduals? We need interactive racks with
+      a visual element to them that can be intereacted with."
+
+     Four kinds of modulator with memory went in and none of them had a face.
+     This is the face: a eurorack-style module that DRAWS what every modulator
+     in the record is doing, and gives two controls that reach all of them.
+
+     THE PICTURE IS THE POINT. Eleven machines in this file draw one and
+     twenty-four are knobs in a row; a modulation system is the worst possible
+     candidate for knobs-only, because the whole subject is movement and a
+     number cannot show movement. So `grid: "modscope"` draws one trace per
+     lane, the record's whole length across, the playhead where you are -- and
+     the lanes that never come round again marked, because that is the
+     distinction the research turned on and it is invisible in a number.
+
+     DEPTH is an attenuverter: -1 to +2, and negative is not a mistake. At -1
+     every modulator in the record runs upside down. It is Shades and Blinds in
+     one knob and it is the fastest way to hear what the modulation is doing at
+     all -- flip it and whatever changes was the modulation.
+
+     FREEZE holds the whole plan at the instant it is thrown. Every knob stays
+     where the modulation had put it, so the sound does not jump; it simply
+     stops moving. Frames' scenes, one third built.
+
+     `fixed: true` because this is not a slot anything is drawn into -- it is
+     part of the desk, like the spring tank and the compressor beside it. */
+  modulation: {
+    slot: "modulation", label: "the modulation module", fixed: true,
+    lanes: {},
+    controls: [
+      /* `voicing` and `switch`, NOT `gesture`, and the battery is why: a
+         gesture is a knob the CONDUCTOR may ride, and the seam check "every
+         knob the conductor can move is one some genre moves" is right to fail
+         a control no table automates. These two are the HAND's, and a hand on
+         the modulation is not itself a modulation -- there is nowhere for that
+         to end. */
+      { k:"depth",  label:"how much modulation, and which way up", cap:"DEPTH",
+        min:-1, max:2, step:0.01, def:1, kind:"voicing", live:true },
+      { k:"freeze", label:"hold every modulator where it is", cap:"FREEZE",
+        min:0, max:1, step:1, def:0, kind:"switch", live:true },
+    ],
+    panel: { skin: "spring", maker: "DECKARD", title: "MODULATION", grid: "modscope",
+             picture: "modscope",
+             groups: [{ label: "THE HAND", keys: ["depth", "freeze"] }] },
+  },
+
   spring: {
     slot: "spring", label: "the spring tank", fixed: true,
     lanes: {},
@@ -5045,10 +5108,36 @@ function drawIn(v, rng){
    chorus would be rendered with the intro's automation -- a battery measuring a
    sound no song makes, which is exactly the defect this file's own comments warn
    about two functions up. The excerpt carries its own start time instead. */
+/* ══ THE HAND ON THE MODULATION ═════════════════════════════════════════════
+   "Did you build ui for the eurorack moduals? We need interactive racks with a
+    visual element to them that can be intereacted with."
+
+   No, and that was the fault. Four kinds of modulator went in with no panel,
+   no knob and no display -- a system with no face, which is this file's own
+   standing defect (`probe_rack`: the rack must name a box you can hear)
+   pointing the other way: sound with nothing to touch.
+
+   This is what the MODULATION module writes and what every modulator reads.
+   Zero-cost at rest by construction: DEPTH 1 is a multiply by one and FREEZE 0
+   is no test at all, so a program nobody has touched is the one it always was.
+
+   DEPTH IS AN ATTENUVERTER, which is a eurorack idea this file did not have:
+   it goes NEGATIVE. At -1 every modulator runs upside down -- the filter that
+   opened into the apex closes into it -- which is Shades and Blinds in one
+   knob and is the cheapest way to hear what the modulation is actually doing.
+
+   FREEZE holds every modulator at the moment it was thrown. Not a mute: the
+   knobs stay where the modulation had them, so it is the "scenes" idea's
+   smaller cousin and the fastest way to hear a lane's contribution -- throw it
+   and the movement stops without the sound changing. ═══════════════════════ */
+const MODTRIM = { depth: 1, freeze: 0, at: 0 };
+
 function motionAt(plan, key, ev, offset){
   const moves = plan.lanes[key];
   if(!moves || !ev || ev.tSec == null) return 0;
-  const tSec = ev.tSec + (offset || 0);
+  /* the hand: FREEZE pins the moment every modulator is read at, so the whole
+     plan stops moving together rather than each lane stopping where it was */
+  const tSec = MODTRIM.freeze ? MODTRIM.at : ev.tSec + (offset || 0);
   const s16  = Math.round(tSec / plan.spb);
   const STEPS = plan.steps || 16;
   const bar  = Math.max(0, Math.min(plan.nBars - 1, Math.floor(s16 / STEPS)));
@@ -5165,7 +5254,10 @@ function motionAt(plan, key, ev, offset){
       }
     }
   }
-  return d;
+  /* the attenuverter, applied once to the SUM rather than per move: a hand on
+     this is a hand on "how much modulation is there", and scaling each move
+     separately would be the same number written eight times. */
+  return MODTRIM.depth === 1 ? d : d * MODTRIM.depth;
 }
 
 /* THE PLAN. Built once per song, after the arrangement exists (a gesture needs
@@ -14197,6 +14289,27 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
        through [Law 10]. Idempotent: a channel that already exists is returned,
        not rebuilt, so a genre change adds the new sources and leaves the rest
        of the desk standing. */
+    /* ── THE HAND ON THE MODULATION, THROUGH THE SAME DOOR AS EVERY KNOB ──
+       Written here rather than from the UI pump, and the seam check is what
+       forced it: "every knob on every panel reaches the sound" is a STATIC
+       READER of this source that finds a control by the shape of a `P()` call,
+       and a knob the UI reads with `panelValue` and hands to a module variable
+       is invisible to it. It was right to fail -- a knob whose only path to the
+       sound is a live animation frame does nothing at all in an offline render,
+       which is half of what this program does [Law 10].
+
+       `ev` is null because these are not per-note: they are the desk's own
+       position, read once when the song's sound is set, the same way the
+       mixer's hand is. `motionAt` returns 0 for a null event, so P() here is
+       the panel value and the hand, which is exactly what is wanted -- and it
+       means nothing can automate them, which is the point of the kinds above. */
+    if(CONTROL["modulation.depth"]){
+      const dep = P(g, null, "modulation", "depth", 1);
+      const frz = P(g, null, "modulation", "freeze", 0) >= 0.5 ? 1 : 0;
+      if(frz && !MODTRIM.freeze) MODTRIM.at = 0;   // the UI refines this to "now"
+      MODTRIM.freeze = frz;
+      MODTRIM.depth  = dep;
+    }
     if(g.ensureChannels) g.ensureChannels(SONG);
     /* the mixer's hand, re-applied whenever the song's sound is set -- so a
        fader survives a new song, a genre change and an offline render alike */
@@ -35708,6 +35821,119 @@ function fieldRows(){
   }
   return out;
 }
+/* ══ THE MODULATION SCOPE ══════════════════════════════════════════════════
+   One trace per modulated lane, the record's whole length across, the playhead
+   where you are. The thing a knob cannot show.
+
+   WHAT IT DRAWS AND WHY EACH CHOICE:
+
+     THE WHOLE RECORD, not a rolling window. The subject is long-form movement
+     -- a 160-bar sine, a deja-vu loop that never comes round -- and a scope
+     showing the last two seconds of that shows nothing at all. So the x axis
+     is the song and the playhead moves across it.
+
+     ONE TRACE PER LANE, tallest first, capped. A record carries 28 to 165
+     modulated lanes and all of them at once is a grey smear; the ones with the
+     most travel are the ones you can hear.
+
+     THE ONES THAT NEVER COME ROUND ARE MARKED. That is the distinction all of
+     this turned on -- a 160-bar sine is LONG, a deja-vu loop is EVOLVING, and
+     they look identical in a list of numbers. Measured the same way
+     probe_modulation measures it, so the glass and the probe cannot disagree.
+
+   IT IS DRAWN ONCE PER SONG, not per frame: the plan is frozen, so the traces
+   are too. Only the playhead moves, which is one style write a frame. */
+function modScopeEl(){
+  /* the class IS the declaration: `picture: "modscope"` on the panel, and the
+     seam check looks for exactly that on the glass. A picture a machine claims
+     and does not draw is the same defect as a knob nothing reads, and this
+     check caught this panel on its first run. */
+  const wrap = el("div", "modwrap modscope");
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS, "svg");
+  svg.setAttribute("class", "modsvg");
+  svg.setAttribute("preserveAspectRatio", "none");
+  wrap.appendChild(svg);
+  const head = document.createElementNS(svgNS, "line");
+  head.setAttribute("class", "modhead");
+  const foot = el("div", "modfoot");
+  wrap.appendChild(foot);
+  wrap.__paint = () => {
+    while(svg.firstChild) svg.removeChild(svg.firstChild);
+    if(!SONG || !SONG.motion){ foot.textContent = "no record loaded"; return; }
+    const plan = SONG.motion, STEPS = plan.steps || 16, nB = plan.nBars;
+    const W = 1000, H = 260, ROWS = 10;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    /* sample every lane one value a bar -- the scale the eye reads, and the
+       scale the movement lives at */
+    const rows = [];
+    for(const key in plan.lanes){
+      const v = [];
+      for(let b = 0; b < nB; b++) v.push(motionAt(plan, key, { tSec: b * STEPS * plan.spb }));
+      if(v.some(x => !isFinite(x))) continue;
+      const lo = Math.min.apply(null, v), hi = Math.max.apply(null, v);
+      if(hi - lo < 1e-9) continue;
+      /* does it come round again? the same question probe_modulation asks */
+      const m = v.reduce((x, y) => x + y, 0) / v.length, d = v.map(x => x - m);
+      let best = 0, e0 = 0;
+      for(const x of d) e0 += x * x;
+      if(e0 > 1e-12) for(let lag = 1; lag <= Math.floor(nB / 2); lag++){
+        let n = 0, ea = 0, eb = 0;
+        for(let i = 0; i + lag < d.length; i++){ n += d[i] * d[i + lag]; ea += d[i] * d[i]; eb += d[i + lag] * d[i + lag]; }
+        const r = (ea > 1e-12 && eb > 1e-12) ? n / Math.sqrt(ea * eb) : 0;
+        if(r > best) best = r;
+      }
+      rows.push({ key, v, lo, hi, span: hi - lo, free: best < 0.60,
+                  mem: plan.lanes[key].some(x => x.kind === "curve") });
+    }
+    /* a lane's SPAN is in the control's own units -- Hz against a level -- so
+       they cannot be ranked against each other directly. Ranked by how much of
+       its own dial it uses, which is the honest comparison. */
+    for(const r of rows){
+      const c = CONTROL[r.key];
+      r.use = c ? r.span / Math.max(1e-9, c.max - c.min) : r.span;
+    }
+    /* ── AND THE ONES THAT ARE THE POINT ARE NEVER RANKED OUT ─────────────
+       First pass ranked purely by how much of its own dial a lane uses, and
+       the sample and hold on the echo's tone -- +/-500 of a 300-9000 Hz
+       control, 11% of the dial -- came 30th and was invisible. The whole
+       subject of this panel is which lanes have MEMORY and which never come
+       round; ranking those out because they are shallow is the panel failing
+       at its one job. So they sort first, and the widest fill what is left. */
+    rows.sort((a2, z) =>
+      (z.free - a2.free) || (z.mem - a2.mem) || (z.use - a2.use));
+    const show = rows.slice(0, ROWS);
+    const rh = H / Math.max(1, show.length);
+    show.forEach((r, i) => {
+      const y0 = i * rh, mid = y0 + rh / 2, amp = rh * 0.40;
+      const line = document.createElementNS(svgNS, "polyline");
+      const pts = r.v.map((x, b) =>
+        `${(b / Math.max(1, nB - 1) * W).toFixed(1)},` +
+        `${(mid - ((x - r.lo) / r.span * 2 - 1) * amp).toFixed(1)}`).join(" ");
+      line.setAttribute("points", pts);
+      line.setAttribute("class", "modtrace" + (r.free ? " free" : "") + (r.mem ? " mem" : ""));
+      svg.appendChild(line);
+      const t = document.createElementNS(svgNS, "text");
+      t.setAttribute("x", "6"); t.setAttribute("y", (y0 + 12).toFixed(1));
+      t.setAttribute("class", "modlab");
+      t.textContent = r.key + (r.free ? "  ·  never comes round" : "");
+      svg.appendChild(t);
+    });
+    head.setAttribute("y1", "0"); head.setAttribute("y2", String(H));
+    head.setAttribute("x1", "0"); head.setAttribute("x2", "0");
+    svg.appendChild(head);
+    const free = rows.filter(r => r.free).length, mem = rows.filter(r => r.mem).length;
+    foot.textContent = `${rows.length} lanes moving · ${mem} with memory · ${free} never come round` +
+                       (show.length < rows.length ? ` · showing the ${show.length} widest` : "");
+  };
+  wrap.__head = (u) => {
+    const x = (Math.max(0, Math.min(1, u)) * 1000).toFixed(1);
+    head.setAttribute("x1", x); head.setAttribute("x2", x);
+  };
+  wrap.__paint();
+  return wrap;
+}
+
 function fieldEl(){
   const wrap = el("div", "fldwrap");
   const tube = el("div", "fldtube");
@@ -38089,7 +38315,7 @@ function drawPanels(){
   const host = $("panels");
   host.innerHTML = "";
   KNOBS.length = 0; KNOB_BY_KEY.clear();
-  GRIDS.length = 0; TRIGS.length = 0; LCD.length = 0;
+  GRIDS.length = 0; TRIGS.length = 0; LCD.length = 0; MODSCOPES.length = 0;
   READOUTS.length = 0; LEDS.length = 0;
   if(!SONG) return;
   /* THE MIXER FIRST, above every rack. A desk's master section is at the top of
@@ -38591,6 +38817,9 @@ function drawPanels(){
         box.appendChild(bay);
       }
       if(P.grid === "field") box.appendChild(fieldEl());
+      /* NOT into `GRIDS`: that list is the step sequencers, and everything in
+         it is walked for `stepEls` on every frame. A scope has no steps. */
+      if(P.grid === "modscope"){ const sc = modScopeEl(); box.appendChild(sc); MODSCOPES.push(sc); }
       if(P.grid === "programme") box.appendChild(programmeEl());
       if(P.grid === "tape") box.appendChild(tapeEl(m, M));
       if(P.grid === "compvu") box.appendChild(compVuEl(m, M));
@@ -38663,6 +38892,8 @@ function drawPanels(){
 /* ── ONE ANIMATION LOOP, driven by the audio clock, updating every live thing on
    the panels: the automation dots, the lit step, and the position readout. ── */
 const GRIDS = [];
+/* the modulation scopes, kept apart from GRIDS because a scope has no steps */
+const MODSCOPES = [];
 /* the voice trigger keys, so the playhead can light them like the step grid */
 const TRIGS = [];
 /* the machine screens, refreshed with the playhead */
@@ -38761,6 +38992,26 @@ function refreshLive(){
     scr.querySelector(".lcdfoot").textContent = SONG
       ? `${SONG.chart.genre} · bar ${t2 == null ? 1 : Math.floor(t2 / ((SONG.motion.steps || 16) * SONG.motion.spb)) + 1}/${SONG.form.nBars}`
       : "";
+  }
+  /* ── THE MODULATION MODULE, ON EVERY FRAME ──────────────────────────────
+     Two jobs and both are cheap. The HAND is read from the panel and written
+     into `MODTRIM`, which is the one place every modulator looks -- so the
+     attenuverter and the freeze reach all of them without a wire per lane.
+     The PLAYHEAD is one attribute write; the traces themselves are frozen
+     with the plan and are painted once per song. */
+  {
+    const dep = CONTROL["modulation.depth"] ? panelValue("modulation", "depth") : 1;
+    const frz = CONTROL["modulation.freeze"] ? panelValue("modulation", "freeze") : 0;
+    const tNow = songTime();
+    /* FREEZE PINS THE MOMENT IT WAS THROWN, not the moment it is read: pinning
+       "now" every frame would leave every modulator crawling forward one frame
+       at a time, which is not frozen, it is slow. */
+    if(frz >= 0.5 && !MODTRIM.freeze) MODTRIM.at = tNow == null ? 0 : tNow;
+    MODTRIM.freeze = frz >= 0.5 ? 1 : 0;
+    MODTRIM.depth = dep;
+    const total = SONG ? SONG.form.nBars * (SONG.motion.steps || 16) * SONG.motion.spb : 0;
+    for(const sc of MODSCOPES)
+      if(sc.__head) sc.__head(total > 0 && tNow != null ? tNow / total : 0);
   }
   const t = songTime();
   $("pos").textContent = t == null ? ""
