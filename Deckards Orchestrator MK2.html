@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-13a · a genre may now say it is in three, or in six-eight</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-13b · the drone gets a detail smaller than a bar</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -5321,13 +5321,32 @@ function makeMotion(chart, form, sections, materials){
       const sp = specs[i];
       const rng = stream(chart.seed, "motion:" + key + ":" + i);
       if(sp.kind === "plock"){
-        /* thirty-three draws, always, whatever lands: the density first, then a
-           hit and an amount for each of the sixteen steps. A conditional draw
-           here would make one genre's p-lock density shift another control's
-           sweep, which is exactly the coupling named substreams exist to kill. */
+        /* 2N+1 draws, always, whatever lands: the density first, then a hit and
+           an amount for each step in the bar. A conditional draw here would
+           make one genre's p-lock density shift another control's sweep, which
+           is exactly the coupling named substreams exist to kill.
+
+           ── AND IT WAS `s < 16`, WHICH IS THE METRE FAULT ONE MORE TIME ─────
+           Found by reading rather than by a crash, and it would have been a
+           crash: `motionAt` reads `mv.amt[step]`, so a genre in 9/8 or 12/8
+           would have indexed past the end of a sixteen-long array and added
+           `undefined` to the offset -- NaN into a knob, silently, for every
+           step past the sixteenth. In 6/8 or 3/4 it would not have thrown at
+           all; it would just have drawn four amounts nobody reads.
+
+           IT DID NOT MATCH THE SWEEP that threaded the rest of the grid,
+           because it is not `* 16` or `% 16` -- it is a loop bound, and a
+           mechanical search for the arithmetic pattern walked straight past
+           it. That is worth writing down: the sweep found forty-odd sites and
+           the one it missed was the one shaped differently.
+
+           The draw COUNT changes with the metre and that is safe here and
+           nowhere else: this substream is `motion:<key>:<i>`, read by this
+           spec and nothing else, so a different number of draws inside it
+           cannot move another lane. Every 4/4 genre draws 33 as before. */
         const density = drawIn(sp.density, rng);
         const amt = [];
-        for(let s = 0; s < 16; s++){
+        for(let s = 0; s < STEPS; s++){
           const hit = rng(), size = drawIn(sp.amt, rng);
           amt.push(hit < density ? size : 0);
         }
@@ -23399,6 +23418,80 @@ GENRE.hobbitsynth = (function(){
        a plain, would not have a twentieth part of the musical action that an
        ordinary orchestra of eighty players... in the concert-room." Dry is not
        neutral, it is dead, and scale cannot be bought by stacking parts into it. */
+    /* ══ THE DRONE GETS A DETAIL SMALLER THAN A BAR ═════════════════════════
+       Reported, and it is a diagnosis rather than a complaint: "The issue with
+       drones is you cant figure out how to make something that goes on and on
+       while also allowing it to have evolution, i think this is done with
+       prameter locking and automitization but you seem to fail in implimenting
+       this."
+
+       MEASURED, AND EXACTLY RIGHT. Dungeon synth and hobbit synth were the
+       ONLY TWO GENRES IN THE FILE DECLARING ZERO PARAMETER LOCKS; the other
+       eight declare between one and four. And the cost is not small. Sampling
+       every motion lane at every step across a whole record and splitting the
+       travel by timescale:
+
+                       travel WITHIN a bar     lanes flat inside every bar
+         lofi                7.6%                  17 of 165   (10%)
+         progtechno          6.5%                  36 of 63
+         plastikman          4.2%                  14 of 77
+         dungeon synth       1.1%                  68 of 118   (58%)
+         hobbit synth        1.1%                  69 of 121   (57%)
+
+       Bar-to-bar was 98-99% of all travel in both. So the automation was not
+       missing -- 121 live lanes -- it was ENTIRELY AT THE SLOW TIMESCALES. The
+       record swells and arcs and never has a detail smaller than a bar, which
+       is precisely a drone that goes on and on: it evolves, at a rate too slow
+       to make this bar sound different from the last one.
+
+       The file's own definition of the cure has been sitting above `motionAt`
+       since motion was built, and names the mechanism the owner named: "a knob
+       value stored against a STEP, so step 7 has a different filter than step 6
+       and the difference repeats every bar UNTIL IT STOPS SOUNDING LIKE A
+       REPEAT AND STARTS SOUNDING LIKE A PART."
+
+       ── IT RIDES `tone` BECAUSE `tone` IS THE ONLY THING THESE VOICES HAVE ──
+       An erang sampler exposes patch, tune, attack, release, tone and pan, and
+       of those only `tone` is timbral -- it is the one lowpass, swept 500 Hz to
+       18 kHz. So a plock here is per-step brightness, which for a single-sample
+       voice with no filter envelope and no velocity layers is the ONLY internal
+       detail available at all. Checked before it was written, because a lock on
+       a control no voice reads is this file's oldest defect wearing a new hat.
+
+       EACH ARRAY REPEATS THE APEX SPEC IT ALREADY HAD. The merge replaces an
+       array wholesale rather than appending to it, so writing only the plock
+       here would have silently deleted the record-scale gesture and traded one
+       missing timescale for another. Found by reading the merge, not by the
+       battery, which would not have noticed.
+
+       THE NUMBERS ARE [CHOSEN] inside the family the file already uses --
+       densities elsewhere run [0.05,0.12] to [0.14,0.30]. These sit at the top
+       of that band because this is the genre with nothing else moving fast, and
+       the amounts are a twentieth to a tenth of `tone`'s 0.85 span: detail, not
+       a wobble. Nothing sources a p-lock density; there is no such literature. */
+    motion: {
+      bardFlute:    { tone: [{ kind: "apex", from: [-0.09, -0.02], to: [0.05, 0.15] },
+                             { kind: "plock", density: [0.20, 0.34], amt: [-0.09, 0.06] }] },
+      bardWind:     { tone: [{ kind: "apex", from: [-0.10, -0.02], to: [0.05, 0.14] },
+                             { kind: "plock", density: [0.20, 0.34], amt: [-0.09, 0.06] }] },
+      erangLead:    { tone: [{ kind: "apex", from: [-0.09, -0.02], to: [0.05, 0.14] },
+                             { kind: "plock", density: [0.18, 0.32], amt: [-0.08, 0.06] }] },
+      /* the figure and the plucked chords carry the record when nothing else
+         does, so they get the widest locks -- and they keep the `occurrence`
+         step they already had, which is the rule of three on a dial */
+      erangHarp:    { tone: [{ kind: "apex", from: [-0.08, -0.01], to: [0.04, 0.12] },
+                             { kind: "plock", density: [0.26, 0.42], amt: [-0.10, 0.08] }] },
+      bardPluck:    { tone: [{ kind: "apex", from: [-0.08, -0.01], to: [0.04, 0.13] },
+                             { kind: "occurrence", step: [0.03, 0.07], cap: 3 },
+                             { kind: "plock", density: [0.26, 0.42], amt: [-0.10, 0.08] }] },
+      /* the pad is the drone itself. Its locks are the smallest of the six:
+         a held chord with a fifth of its steps jumping in brightness is not
+         evolution, it is a fault, and the pad is the one voice here that is
+         genuinely sustaining rather than re-articulating. */
+      erangStrings: { tone: [{ kind: "apex", from: [-0.10, -0.02], to: [0.05, 0.16] },
+                             { kind: "occurrence", step: [0.04, 0.09], cap: 3 },
+                             { kind: "plock", density: [0.12, 0.22], amt: [-0.05, 0.04] }] },
+    },
     matrixDraw: {
       pick: [4, 7],
       pool: [ ["roomMix", 7], ["leadRoom", 6], ["keysRoom", 5], ["leadEcho", 4],

@@ -163,6 +163,40 @@ const check = (name, ok, detail) => {
   if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
 }
 
+/* ═══ AND A PARAMETER LOCK A GENRE DECLARES MUST REACH THE KNOB ═════════════
+   "The issue with drones is you cant figure out how to make something that
+   goes on and on while also allowing it to have evolution, i think this is
+   done with prameter locking and automitization but you seem to fail in
+   implimenting this." Correct: the two genres actually built on a drone were
+   the only two in the file declaring zero p-locks, and they measured 1.1% of a
+   knob's travel inside a bar against lofi's 7.6%.
+
+   THIS CHECKS THE MECHANISM, NOT THE TASTE. It fails when a genre declares
+   locks that do not reach -- a broken door -- and merely REPORTS a genre that
+   declares none, because that is a decision nobody has taken rather than
+   something anyone broke. A battery that went red for the second would be red
+   for weeks and would stop being read, which is the failure mode this file has
+   a standing note about.
+
+   It also catches the NaN the sixteen-step p-lock resolver would have handed
+   any genre in 9/8 or 12/8 -- found by reading, not by a crash, because the
+   grid sweep looked for `* 16` and `% 16` and this one was a loop bound.
+
+   `harness/probe_drone.js` owns the logic. ═════════════════════════════════ */
+{
+  const { execFileSync } = require("child_process");
+  let out = "", ok = true;
+  try { out = execFileSync(process.execPath,
+          [path.resolve(__dirname, "probe_drone.js"), "3"], { encoding: "utf8" }); }
+  catch(e){ ok = false; out = (e.stdout || "") + (e.stderr || ""); }
+  const n = (out.match(/(\d+) genre\(s\) whose declared locks do not reach/) || [])[1];
+  const openN = (out.match(/OPEN —/) ? out.split("\n").filter(l => /not one parameter lock/.test(l)).length : 0);
+  check("every parameter lock a genre declares reaches the knob", ok,
+        ok ? `declared locks all reach` + (openN ? `; ${openN} genre(s) declare none at all — see the probe's OPEN list` : "")
+           : `${n || "some"} genre(s) declare locks that do not reach — run: node harness/probe_drone.js`);
+  if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
+}
+
 const errors = [];
 let dilla = 0, hookExact = 0, hookTotal = 0, forms = new Set(), nondet = 0, ruleOf3 = 0;
 let dillaIdentical = 0, dillaChecked = 0;
