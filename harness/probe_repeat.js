@@ -43,7 +43,14 @@
    Of every melodic line in every genre, composed and as it sounds: are there
    two notes of the same pitch with nothing between them?
 
-   IT MUST BE ZERO. Not low, not lower than it was, and not merged away.
+   AND IT IS REQUIRED TO BE ZERO WHERE THE GENRE DECLARES `theme.noRepeat`,
+   AND MERELY REPORTED EVERYWHERE ELSE. The first version of this required zero
+   of all ten, which is a probe deciding a question of taste for nine genres
+   nobody asked about -- and the code that made it pass did exactly that, moving
+   eight genres' tunes to fix a fault reported in one. A repeated pitch is a
+   legitimate melodic device; this genre has decided it does not want one. The
+   column is printed for every genre so the decision stays visible and can be
+   taken again later, by the owner, in a table.
 
      COMPOSED   stage 3's own output, lead and counter, in bar/step order. This
                 is where the rule lives, so a failure here is the rule itself.
@@ -72,6 +79,12 @@ const N = parseInt(process.argv[2], 10) || 20;
    what several of them ARE, so holding them to this would be holding them to
    somebody else's rule. */
 const LINES = { lead: 1, counter: 1 };
+/* which genres have decided it, asked of the tables rather than named here */
+const BOUND = {};
+for(const g of M.genres()){
+  const t = M.composeSong(1, null, g).chart.table;
+  BOUND[g] = !!(t && t.theme && t.theme.noRepeat);
+}
 
 const bad = [], rows = [];
 for(const genre of M.genres()){
@@ -89,7 +102,7 @@ for(const genre of M.genres()){
         for(let i = 1; i < seq.length; i++){
           if(seq[i].pitch !== seq[i - 1].pitch) continue;
           cBad++;
-          if(bad.length < 400)
+          if(BOUND[genre] && bad.length < 400)
             bad.push(`COMPOSED ${genre} seed ${seed} ${k}.${role}: midi ${seq[i].pitch} at ` +
                      `bar ${seq[i - 1].bar} step ${seq[i - 1].step} and bar ${seq[i].bar} step ${seq[i].step}`);
         }
@@ -111,7 +124,7 @@ for(const genre of M.genres()){
            collapsing onto itself, which probe_stack owns; it is not a repeat */
         if(b.tSec - a.tSec < 1e-6) continue;
         sBad++;
-        if(bad.length < 400)
+        if(BOUND[genre] && bad.length < 400)
           bad.push(`SOUNDED  ${genre} seed ${seed} ${k}: midi ${b.pitch} at ${a.tSec.toFixed(3)} ` +
                    `and again at ${b.tSec.toFixed(3)} (${((b.tSec - a.tSec - a.durSec) * 1000).toFixed(0)} ms apart)`);
       }
@@ -121,17 +134,20 @@ for(const genre of M.genres()){
 }
 
 console.log(`\n  ${M.genres().length} genres x ${N} songs — lead and counter, composed and as they sound\n`);
-console.log("    genre           notes/song  composed repeats   sounded repeats");
+console.log("    genre           notes/song  composed repeats   sounded repeats   bound?");
 for(const r of rows)
   console.log(`    ${r.genre.padEnd(14)}${String(Math.round(r.comp)).padStart(8)}` +
-              `${String(r.cBad).padStart(18)}${String(r.sBad).padStart(18)}`);
+              `${String(r.cBad).padStart(18)}${String(r.sBad).padStart(18)}` +
+              `   ${BOUND[r.genre] ? "declares noRepeat" : "-"}`);
 
 console.log("");
+const boundList = Object.keys(BOUND).filter(g => BOUND[g]);
 if(!bad.length){
-  console.log("  no melodic line anywhere plays the same pitch twice in a row.\n");
+  console.log(`  ${boundList.join(", ") || "no genre"} declares noRepeat, and no line of ` +
+              `${boundList.length === 1 ? "its" : "theirs"} plays the same pitch twice in a row.\n`);
 } else {
   for(const b of bad.slice(0, 25)) console.log("    " + b);
   if(bad.length > 25) console.log(`    ... and ${bad.length - 25} more`);
-  console.log(`\n  ${bad.length} repeated note(s). It has to be zero.\n`);
+  console.log(`\n  ${bad.length} repeated note(s) in a genre that declares it will not. Zero is the only pass.\n`);
   process.exitCode = 1;
 }
