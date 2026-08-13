@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-13b · the drone gets a detail smaller than a bar</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-13c · hobbit synth owns every value it plays</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -22919,807 +22919,1519 @@ const GENRE = {
    THE BARD PACK IS ITS DEFAULT SOUND. Flutes and plucked strings lead here
    where dungeon synth leads with mellotron and the keyboard patches -- the
    pack the owner landed for this is a bard-and-troubadour set, and a party on
-   a road is the thing it is for. ═══════════════════════════════════════════ */
-GENRE.hobbitsynth = (function(){
-  /* a structural clone, so an override reaches inside a nested block without
-     dropping its siblings -- `form.roles` may change while `form.arc` does not */
-  const clone = v => Array.isArray(v) ? v.map(clone)
-    : (v && typeof v === "object") ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, clone(x)]))
-    : v;
-  const merge = (a, b) => {
-    const out = clone(a);
-    for(const k in b){
-      const x = b[k];
-      out[k] = (x && typeof x === "object" && !Array.isArray(x) &&
-                out[k] && typeof out[k] === "object" && !Array.isArray(out[k]))
-        ? merge(out[k], x) : clone(x);
-    }
-    return out;
-  };
-  return merge(GENRE.dungeonsynth, {
-    label: "hobbit synth",
-    tempo: [102, 124],
-    /* dorian first. See the mode note above -- this is the "better descriptor
-       than dark" made into weights. */
-    /* ── A PALETTE, NOT A SETTING ─────────────────────────────────────────────
-       The first version of this row led dorian 6 / minor 5 and gave the bright
-       end almost nowhere to go. Reading the Shire theme off its notation — plain
-       C major, not one accidental — I then proposed swapping it to Ionian, and
-       the owner stopped that in one line: "dont be that stupid to think we want
-       ONE scale. That is not only insane it goes against the programs rules.
-       Constraints NOT baked in values."
-
-       Right, and it is the same habit as the drone and the one-note solo:
-       reading a measurement as an instruction. Four transcriptions are a SAMPLE.
-       What the score actually shows is a mode palette assigned by culture — the
-       Shire in major, Rohan a jig in A major, and in the same score Adams'
-       "Rohan-esque Dorian modes", Mordor's chromatic writing, Moria's bare
-       rising fifths, Lothlorien's adapted Hijaz. A score with one scale is the
-       thing nobody wants.
-
-       So the row widens rather than moving. Six modes, none of them commanding:
-       major is REACHABLE now (it was absent, so a genre whose own source
-       material is largely diatonic-major could not draw it at all), phrygian
-       stays in as the dark end, and dungeon synth's own five-wide palette is
-       the precedent for how wide a fantasy genre's should be. */
-    modes: [["dorian", 5], ["minor", 4], ["major", 4], ["mixolydian", 3],
-            ["carpathian", 2], ["phrygian", 2]],
-    materialBars: 8,
-    /* one chord per two bars, which is the measured overworld harmonic rhythm */
-    progressions: {
-      /* ── WEIGHTED TOWARD THE LEAPS, AND THE BATTERY IS WHY ────────────────
-         The first draft led with i-flatVII-flatVI-flatVII (Hyrule Field), which
-         is three whole-tone root steps in a row. Two keyboards over a bass that
-         walks by step shadow each other in fifths and octaves however well the
-         voicer behaves, and the file-wide parallel-perfects rate went to 5.8%
-         against a 5% ceiling -- a check dungeon synth passes because its
-         harmony barely moves. The stepwise rows are still here and still
-         sourced; they are no longer what most records draw. */
-      dorian:     [[[0,0,5,5,2,2,6,6], 5],   // i-flatVI-flatIII-flatVII: leaps
-                   [[0,0,3,3,0,0,6,6], 4],   // i-IV-i-flatVII: dorian's bright IV
-                   [[0,0,6,6,3,3,0,0], 3],
-                   [[0,0,6,6,5,5,6,6], 2]],  // Hyrule Field, transcribed
-      minor:      [[[0,0,5,5,2,2,6,6], 5],   // i-flatVI-flatIII-flatVII
-                   [[0,0,0,0,5,5,2,2], 4],
-                   [[0,0,2,2,5,5,3,3], 3],
-                   [[0,0,6,6,5,5,6,6], 2]],
-      mixolydian: [[[0,0,3,3,6,6,0,0], 5],   // I-IV-flatVII-I: leaps, folk road
-                   [[0,0,4,4,3,3,0,0], 3],
-                   [[0,0,6,6,3,3,0,0], 2]],  // I-flatVII-IV-I
-      phrygian:   [[[0,0,5,5,1,1,0,0], 3], [[0,0,3,3,5,5,0,0], 2]],
-      /* ── AND MAJOR HAD TO BE GIVEN CHORDS BEFORE IT COULD BE DRAWN ─────────
-         Widening `modes` alone threw on seed 13 with "pairs is not iterable":
-         the draw reached `major` and there was no row for it. The constraint
-         doing its job -- a mode is reachable only if harmony exists for it --
-         and worth the note, because "add the mode" and "add the mode's chords"
-         look like one job and are two. These lead with LEAPING roots for the
-         same reason the minor rows do: this genre's two keyboards shadow each
-         other in perfects when the bass walks by step. */
-      major:      [[[0,0,5,5,3,3,4,4], 5],   // I-vi-IV-V
-                   [[0,0,3,3,0,0,4,4], 4],   // I-IV-I-V
-                   [[0,0,4,4,5,5,3,3], 3],   // I-V-vi-IV
-                   [[0,0,5,5,1,1,4,4], 2]],  // I-vi-ii-V
-    },
-    bridgeProgressions: {
-      dorian:     [[[0,0,5,5,6,6,3,3], 4], [[3,3,0,0,6,6,5,5], 2]],
-      minor:      [[[0,0,5,5,6,6,3,3], 4], [[0,0,2,2,5,5,6,6], 2]],
-      mixolydian: [[[0,0,3,3,6,6,0,0], 4], [[6,6,3,3,0,0,5,5], 2]],
-      phrygian:   [[[0,0,1,1,5,5,6,6], 3], [[0,0,5,5,6,6,1,1], 2]],
-      major:      [[[0,0,5,5,1,1,4,4], 4], [[3,3,0,0,5,5,4,4], 2]],
-    },
-    /* the road does move under you: a key change is a change of country */
-    keyShift: { chance: 0.38, by: [[2, 5], [5, 3], [1, 2]], change: 0.5 },
-    sevenths: true,
-    /* ── THE EPIC LEVER. Dungeon synth draws `double` 3 times in 10; here it is
-       7, because doubling the theme with another instrument is what makes a
-       statement heroic rather than merely louder -- and it is the mechanism
-       Rimsky-Korsakov says an orchestra is actually made of. */
-    counter: { style: [["double", 7], ["answer", 3]],
-               density: 0.16, intervals: [-3, -4, -5, -7, -12],
-               octaves: [-12, 12], answer: 0.80,
-               styles: { double: { density: 0.88, octaves: [-12] } } },
-    /* a tune with somewhere to go. Dungeon synth is [2,2]/[1,1]/[1,2]. */
-    theme: { count: { hooky: [3, 2], breath: [1, 2], normal: [2, 2] },
-             onsetPool: [[0, 8], [8, 5], [4, 4], [12, 4], [2, 2], [6, 2], [10, 2], [14, 2]] },
-    /* the walking figure: a stepwise cell rather than the dungeon's static one */
-    ostinato: { unit: 2, vel: 0.5, vary: true, run: true, ratchet: 0.05,
-                change: { pick: [2, 3],
-                          kinds: [["cell", 6], ["follow", 6], ["octave", 4],
-                                  ["transpose", 3], ["stride", 2], ["rest", 2]] },
-                cells: [[[0, 2, 3, 5, 3, 2], 5],
-                        [[0, 3, 5, 6, 5, 3], 4],
-                        [[0, 2, 0, 5, 3, 2, 0], 3],
-                        [[0, 5, 3, 2, 3, 5], 3]] },
-    /* ── THE THEME IS RE-SCORED AS THE RECORD CLIMBS ──────────────────────
-       Ordered smallest to largest, and the section takes its rung from the
-       energy arc. A solo whistle-sized voice opens; the peak gets the brass.
-       Same notes throughout -- that is the point, and it is what this program
-       could not do until now: it drew one voice per part per song and played it
-       for nine minutes.
-       The Shire theme's own substitution ladder is the model: Shore takes it
-       from the tin whistle to the clarinet to the flute as the hobbits leave
-       home, and Adams records him refusing the whistle in Rivendell because
-       "it's too tender a scene... There are none of the hobbit folk sounds in
-       Rivendell. It's more classical." An instrument is a register of feeling
-       here, not a colour. [corpus:Doug Adams, The Annotated Score]
-
-       AND THE ORDER OF THESE THREE LINES IS THE ORDER THEY ENTER, strings
-       first, then the wood-wind carrying the tune, then the brass -- which is
-       Rimsky-Korsakov's crescendo order and the reason the slots are written
-       this way round rather than melody-first. The program derives the spacing;
-       this only says who goes before whom.
-
-       ── AND THIS IS THE ONLY DOOR INTO THIS GENRE'S INSTRUMENTS ────────────
-       Measured while adding the reeds below: across 40 songs, the twelve names
-       on these three lines are the ONLY machines that ever play keys, lead or
-       keys2 here. The `machines` pool further down never wins one of these
-       lanes, because a rung is written into `sec.machines` for every section.
-       So a new instrument that is not on this ladder does not exist in hobbit
-       synth, whatever the pool says -- which is why the reeds are here.
-
-       WHERE EACH ONE GOES IS RIMSKY-KORSAKOV'S ORDER, not appended to the end.
-       The cor anglais is the plaintive solo double reed of the repertoire and
-       it stands one rung above the whistle, where the Shire theme's own
-       substitution goes whistle-to-clarinet. The bassoon is the SECOND CHAIR
-       and sits between the pad and the strings, which is where the treatise
-       puts it. And the carnyx is above the horns, because there is nothing
-       above a war horn -- it only sounds when the record is at its loudest. */
-    ladder: { keys:  ["erangHarp", "bardPluck", "mellotron", "erangStrings"],
-              lead:  ["bardFlute", "corAnglais", "erangLead", "bardWind", "cs80"],
-              keys2: ["vp330", "bassoon", "erangStrings", "horns", "carnyx"] },
-    /* ══ THE BALANCE IS THIS GENRE'S OWN, AND THE DRUMS WERE EATING IT ══════
-       MEASURED, 12 songs, share of the sound computed as each part's note
-       count times its mean written gain:
-
-         drums 64.6%   ostinato 17.1%   keys 9.8%   LEAD 4.4%
-         keys2 2.7%    counter 0.9%     bass 0.4%
-
-       Two thirds of a record whose whole argument is a theme re-scored, spent
-       on the drums, with the theme itself at one twenty-third of it. That is
-       the owner's "we have bad levels and not using frequences well" as a
-       number, and the treatise names the failure exactly:
-
-         "It must not be forgotten that the bass drum, cymbals, gong and a
-          tremolo on the side drum, played fortissimo, is sufficient to
-          OVERPOWER ANY ORCHESTRAL TUTTI."
-         [corpus:gutenberg 33900; docs/genre-research/score-craft.md §3]
-
-       Four percussion voices outweigh everything else combined -- so a genre
-       that wants to sound like an orchestra cannot leave the kit at the level a
-       genre built on a war-drum procession needed. Dungeon synth's 1.40 was
-       measured FOR DUNGEON SYNTH, against its own drone and its own census;
-       inheriting it here was never a decision.
-
-       The other direction comes from the same source: the harmonic basis
-       "should be of inferior dynamic power" to the melodic design, so the lead
-       now outranks the keyboards rather than sitting under them.
-
-       WHAT IS NOT ATTEMPTED: lifting the bass with this fader. The note beside
-       dungeon synth's table records that experiment and its refusal -- +2.7 dB
-       moved its leave-one-out by 0.01 dB, because the drone lives at 41-98 Hz
-       where the ear is 30-45 dB down and "no fader fixes physics". This genre's
-       bass has the same register and a different problem on top of it: it plays
-       1.5% of the notes. That is an arrangement question, not a gain one.
-
-       WHERE IT LANDED, same measurement, same 12 songs:
-
-         drums 34.3%   ostinato 22.0%   keys 21.5%   LEAD 11.9%
-         keys2 7.3%    counter 2.2%     bass 0.9%
-
-       The kit is still the floor this genre marches on -- 34.3% against a note
-       share of 28.6%, so it is still written louder per note than the average
-       part -- but the pitched group now holds two thirds of the record instead
-       of one third, and the theme is heard at nearly three times what it was.
-       The bass did not move and was never going to; see above. */
-    /* ── AND I OVERCORRECTED THE DRUMS INTO SILENCE ───────────────────────
-       These numbers came from a share-of-sound measurement that said the drums
-       were 64.6% of the record, so I cut them. MEASURED again, 12 songs, share
-       computed the same way -- gain times duration, across the whole record:
-
-         keys 57.0%   lead 13.0%   keys2 11.0%   bass 7.2%
-         ostinato 6.3%   DRUMS 3.5%   counter 1.9%
-
-       against dungeon synth, whose drums are 28.7% and whose keys are 32.1%.
-       A war drum and three timpani at three and a half per cent is not a
-       balance decision, it is the part being switched off, and "the drums are
-       fucked, there is no dynamic, there is nothing but the same LOOP" is what
-       that sounds like -- there is not enough of them to hear the pattern with.
-       Two thirds was wrong and a thirtieth is wrong; I answered a measurement
-       with its opposite instead of with a balance.
-
-       And the COMP is now the record. 57% on a sustained pad, against a tune
-       at 13%, is the harmonic background playing the lead role -- exactly what
-       Rimsky-Korsakov says the background must not do: it "should be of
-       inferior dynamic power" to the thing it is behind.
-
-       So: the drums back to a fifth of the record, the pad cut to where a
-       background belongs, and the two parts that were under two per cent --
-       the counter and the bass -- lifted to where they can be heard at all.
-
-       SWEPT, not guessed. Four candidate settings measured the same way:
-
-         keys 0.26 drums 1.15  ->  drums  9.1%  keys 34.7%  bass 15.5%
-         keys 0.22 drums 1.60  ->  drums 12.2%  keys 29.2%  bass 18.0%
-         keys 0.20 drums 1.90  ->  drums 13.7%  keys 26.6%  bass 19.2%
-         keys 0.18 drums 2.20  ->  drums 14.6%  keys 24.0%  bass 20.6%
-
-       The drums plateau near 14% however hard they are pushed, because this
-       measure is gain TIMES DURATION and a struck drum has almost none of the
-       second -- so it under-reads percussion by construction and the number to
-       read is the SHAPE of the column, not its height. The third row is where
-       the comp stops being the record and nothing else has run away.
-
-       HONEST LIMIT: this is the composed domain, not the rendered one. The
-       rendered check is `probe_stems.js`, which needs a full-length render and
-       did not finish inside this session's budget; over the first 40 seconds
-       it reads the opening only, where these parts have not entered yet. So
-       this balance is measured, and it is measured with the cheaper instrument
-       of the two. */
-    roleGain: { keys: 0.20, keys2: 0.40, ostinato: 0.50,
-                bass: 0.55, lead: 1.00, counter: 0.95, drums: 1.90 },
-    /* ══ THE BASS WALKS, BECAUSE THE PARTY DOES ═════════════════════════════
-       Inherited, `bassPedal: 0.5` put half of this genre's records on a held
-       drone -- dungeon synth's own device, and the right one for a crypt. On
-       the road it is the wrong one, and the notes said so: TWO bass notes in an
-       eight-bar material, both at bar 1.
-
-       What the sources give instead is unusually specific, because three
-       independent transcriptions give the SAME object: a two-element cell whose
-       pitches track the chord while its shape does not change -- Concerning
-       Hobbits' written-out `DA, FA, FA DA`, The Ring Goes South's octave
-       oscillation `A2 A,2`, and Rohan's cello `C3 D3 | D3 C3` off the full
-       score. [docs/genre-research/score-craft.md §15]
-
-       So the pedal drops to a fifth of the records -- the halt still exists,
-       and the drone under a bridge is exactly where it belongs -- and the rest
-       walk. `bassStep: 4` is the fifth above, which is the interval the pedal's
-       own double already used and the one the medieval drone names as the
-       reciting tone; the Fellowship's figure is the octave and Rohan's is a
-       step, so this is one point on a range the sources cover rather than the
-       only reading of them. */
-    bassPedal: 0.20,
-    bassWalk: 0.72,
-    bassStep: 4,
-    /* ══ AND THE KEYBOARD PLAYS, RATHER THAN LEANING ON THE KEYS ════════════
-       Inherited, `keysStyle: "hold"` made this the second of only two genres in
-       the file whose first keyboard is a PAD. The notes said what that means:
-
-         keys    3--------------- 3--------------- 3--------------- 3---------------
-         keys2   ..3------------- ..3------------- ..3------------- ..3-------------
-
-       Four notes struck on the downbeat, held the bar, repeated identically for
-       the whole material -- and keys2 the same thing two steps later. The
-       pitches follow the chords, so nothing about it is WRONG; it is inert, and
-       it is the "nothing is different" half of the complaint, distinct from the
-       silence. Eight genres in this file comp instead, and the comping road in
-       `buildKeys` already rolls the voicing and runs a figure on the material's
-       own cell -- machinery this genre was declaring itself out of.
-
-       The sources want the figure, and they want it for THIS music
-       specifically. The Lord of the Rings piano scores write the accompaniment
-       out as BROKEN ARPEGGIOS, bar by bar:
-
-         m13  D3 A3 D4 A3 F#4 A3 D4 A3   (= D)
-         m14  A2 E3 A3 E3 C#4 E3 A3 E3   (= A)
-         m15  B2 F#3 B3 F#3 D4 F#3 B3 F#3 (= Bm)
-         [docs/genre-research/score-craft.md §7, §14]
-
-       And it is the answer to the owner's "why would a plucked intrument be put
-       on chords?" -- a plucked patch is a DECAY ENVELOPE and can only hold a
-       chord by re-striking it. `bardPluck` was never the wrong instrument; a
-       block chord was the wrong writing to put under it. The pad has not gone
-       away either: `keys2` is still built with `sustain: true`, so the held
-       string bed is underneath and the first keyboard moves over it, which is
-       the two-plane texture the scoring sources describe. */
-    keysStyle: null,
-    /* ══ AND THE ROLL LANDS ON THE BEAT, BECAUSE THE RACK IS PLUCKED ════════
-       This genre's keyboard is a harp or a plucked string on most draws --
-       `erangHarp`, `bardPluck` -- and Rimsky-Korsakov states the default for
-       that instrument outright, as a thing the composer must cancel rather than
-       ask for:
-
-         "The chords must always be broken (ARPEGGIATO); should the composer
-          wish otherwise he should notify it (non arpeggiato)."
-         [corpus:gutenberg 33900, Harp]
-
-       Forsyth twice over: "The Harpist always 'spreads' his chords slightly",
-       and "nine-tenths of all orchestral Harp-music must be 'in arpeggio'" --
-       and he notes the instrument "is the only instrument whose particular
-       technique has given a generic word -- arpeggio -- to the rest of the
-       instrumental force."
-
-       The placement is the audible half and is separately sourced: the roll is
-       played BEFORE the beat so its last note coincides with the downbeat.
-       [docs/genre-research/score-craft.md §53]
-
-       AND THE ROLL HAD TO BE TURNED ON AT ALL. Inherited, `touch.roll` was ZERO
-       -- dungeon synth's explicit instruction never to spread a chord, which is
-       right for an organ or a tape choir and precisely backwards for a harp.
-       The flag above was landing on a roll of width nought and doing nothing;
-       measured, the keys still struck four notes on one step.
-
-       ONE STEP, not two, and the notes decided it. At `roll: 2` the voicing
-       spread over six steps -- about 790 ms at this genre's tempo -- which is
-       an arpeggio FIGURE, not a spread chord. At `roll: 1` it lands
-       1.0 / 1.1 / 1.2 / 1.3, roughly 400 ms end to end, which is the "brisk"
-       the source asks for and is still heard as one chord.
-       NOTE the number is CHOSEN, not sourced -- no treatise or course note
-       anywhere gives a roll offset in milliseconds or in grid steps, and
-       score-craft.md §56 records that absence rather than papering over it. */
-    touch: { roll: 1 },
-    rollLandsOnBeat: true,
-    /* ══ AND THE PARTY IS NOT STANDING IN A CRYPT ═══════════════════════════
-       Inherited whole, this genre was playing dungeon synth's hall: an 8.5
-       SECOND tail, the longest space in the file by a margin -- the next
-       longest is bladerunner at 5.0 -- and the one whose own note records that
-       "a hit every 909 ms into a hall that takes eight and a half seconds to
-       die is a continuous wash by arithmetic". That is the oubliette, and this
-       genre is outdoors.
-
-       The artists say it plainly, and one of them says it as a two-record
-       experiment on exactly this axis. Pale Castle, on why his second tape
-       sounds different from his first:
-
-         "On the first tape I created a COLD AND CONFINED sound to illustrate
-          the OUBLIETTE like atmosphere, in 'Sorrowful Mysteries' I wanted to
-          convey the feeling of TRAVELING AND DISCOVERY. So yes, it was a very
-          conscious decision to create a more cinematic sound. The listener
-          should feel OUTDOORS and upon a means travel."
-         [corpus:thedungeonindeepspace/pale-castle]
-
-       So space in this family is a LOCATION parameter, not a mood one -- and
-       the way to the dungeon end is to SHRINK THE ROOM, not to dry it out.
-
-       And the constraint that decides the numbers is Summoning's, who changed
-       exactly this between two records and said why:
-
-         "We did not use so much reverb this time and took more care to create a
-          sound where the listeners can DISTINGUISH BETTER BETWEEN THE DIFFERENT
-          MELODIES playing at the same time."
-         "If the same song comes hidden behind a lot of reverb it offers more a
-          feeling of FAR DISTANCE and therefore can be considered as MORE DARK."
-         [corpus:thkdblog/summoning-interview]
-
-       Reverb send trades against polyphonic legibility, and darkness is what
-       distance buys. This genre's whole argument is a theme carried by a
-       succession of named instruments, so legibility is the thing it cannot
-       spend -- and it is the bright end of the family, so the darkness is not
-       wanted either. Both point the same way.
-
-       Four numbers move, and each has a reason rather than a taste:
-         irSec   8.5 -> 4.4   a large room, not a crypt. Still the third
-                              longest in the file, because "cinematic" is not
-                              "dry" and Berlioz's floor stands: there is no
-                              such thing as music in the open air.
-         tailDark 0.62 -> 0.44  darkness IS distance [Summoning]. The bright
-                              end of the family should not sound far away.
-         wet     0.5 -> 0.36  the legibility spend, and still well above lofi's
-                              0.10 and jungle's 0.22.
-         sendHp  70 -> 120    keep the bottom out of the wash so it stays
-                              defined -- Summoning again, who fixed the same
-                              collision by putting the accompaniment "much more
-                              into the deep frequency spectrum" so it
-                              "interferes less with the high keyboard melodies".
-
-       WHAT IS NOT COPIED FROM THE SOURCES: Hole Dweller -- the actual hobbit
-       flagship -- is deliberately the GRITTIER of its author's two projects
-       ("something more weathered and humble... gritty, yet soft", four hand-
-       built voices from one synth), which inverts the obvious assumption that
-       the pastoral end is the clean one. That is a texture decision about
-       saturation and voice count, not about the room, and it is a design
-       question for the owner rather than a number to slip in here.
-
-       ══ AND THE TWO PARENTS OF THIS GENRE DISAGREE ABOUT THIS, FLATLY ═══════
-       The dungeon synth side says space is a location and should change with
-       one (Pale Castle, above). THE SCORING SIDE SAYS THE OPPOSITE, and says it
-       with three years of work behind it. John Kurlander, who recorded all
-       three films:
-
-         "On LOTR we needed to record in no fewer than four principal venues,
-          one in Wellington, New Zealand and three in London, in some cases with
-          different orchestral personnel. However, in order to allow for
-          extensive editing between performances, THE SOUND HAD TO BE 100%
-          CONSISTENT between takes from all venues and the edits had to sound
-          like A SINGLE PERFORMANCE -- actually a single performance that was
-          recorded over a time span of 3.5 years."
-         [corpus:squareenixmusic/kurlander-interview]
-
-       And the irony is exact: MORIA, the most cavernous place in the story, is
-       the one sequence recorded in a different hall, and the whole engineering
-       effort went into making that difference VANISH. What varies by culture in
-       that score is instrumentation and voice type -- Celtic band, monochord
-       and droning strings, a male chorus of rugby players -- never the room.
-
-       Two further corrections to the obvious assumption, from the same pass:
-       Watford Colosseum, where the heart of the score was recorded, "has one of
-       the LOWEST reverberation times of the British concert halls"; and the
-       sound being chased was an OPERA PIT, not a cathedral -- Kurlander "visited
-       the Metropolitan Opera in New York to see how they handled their pit
-       orchestra; that was the sound they were trying to emulate". Shore picked
-       the LPO for the same reason: "Being in a pit accompanying opera is so much
-       like what I'm trying to do with film music."
-
-       SO THE SECTION-KEYED DISTANCE STATES IN `matrixDraw` BELOW ARE DUNGEON
-       SYNTH PRACTICE, NOT SHORE PRACTICE, and they are labelled that way rather
-       than left to read as sourced from the scoring tradition. This genre is a
-       declared hybrid and the room is where the two parents pull hardest against
-       each other: 4.4 seconds is the compromise, not a finding -- long enough to
-       keep the backbone's cavern, far short of the 8.5 it inherited, and far
-       longer than the ~2 seconds the pit-and-Colosseum reading would ask for. If
-       the owner wants this genre to sit further toward either parent, THIS
-       number is the lever and the two poles are now written down. */
-    space: { wet: 0.36, irSec: 4.4, tailPow: 1.5, tailDark: 0.44, sendHp: 120,
-             feeds: ["keys", "lead", "bass"], echoFeeds: ["keys", "lead"],
-             random: 0, spread: 0.8, preDelay: 0.075,
-             kitPan: { tom1: -0.22, tom2: 0.1, tom3: 0.24, snare: 0, kick: 0 } },
-    /* ══ THE DESK IS THIS GENRE'S OWN, AND IT MOVES ON A DIFFERENT PRINCIPLE ══
-       The owner: "We should be automating the Matrix Mixer this is where we get
-       the most back for our buck."
-
-       MEASURED before this: hobbit synth moved 5-6 crossings a song, union 8
-       over 12 songs, 7 distinct sets -- numbers IDENTICAL to dungeon synth's,
-       because it declared no `matrixDraw` and no `motion` and inherited both
-       whole. Prog-techno, for scale: union 26, 22-24 a song, a different set in
-       all 12. This genre had no automation identity at all.
-
-       AND THE SHAPE OF IT IS NOT PROG-TECHNO'S. Two research passes came back
-       independently on the same point, and it contradicts what every other
-       genre in this file does:
-
-         "Actively increasing the send with the arc simulates the orchestra
-          moving AWAY as it gets louder -- which is wrong."
-
-       The physics under it is sourced: perceived distance is carried by the
-       direct-to-reverberant RATIO, which is intensity-independent -- a real hall
-       gets louder along with the orchestra and the ratio does not move. A
-       post-fader send at fixed depth already does the right thing. So a room
-       send ridden UP into a climax reads as the players retreating at the exact
-       moment they should arrive. Dungeon synth's `drumsRoom` and prog-techno's
-       `leadRoom` both do precisely that, on the apex. They are not changed here
-       -- both genres have been judged good and this is a finding, not a verdict
-       -- but this genre does not inherit the habit.
-
-       (The "therefore do not ride the send with the dynamic" step is the
-       researchers' inference from the sourced physics, not a quoted claim, and
-       is recorded as such in score-craft.md §on space.)
-
-       SO WHAT DOES DRIVE A SEND HERE. Three things, each sourced:
-
-       ONE -- SECTION, as a quantised named distance. Mahler does not write a
-       distance knob, he writes named states: "In der Ferne" / "In weiter
-       Entfernung" / "In sehr weiter Entfernung", and then "Die 3 Tromp. nehmen
-       ihren Platz im Orchester ein" -- the trumpets WALK IN from offstage, once,
-       as an event. Distance is a small ordered set traversed at a structural
-       boundary, not a continuous ride. [corpus:Mahler 1, score markings]
-
-       TWO -- DENSITY, not dynamic. "For faster tracks with more elements,
-       shorter decay times are often more effective"; the sparse end takes the
-       long tail. So the thin sections are the WET ones here and the tutti is the
-       dry one, which is the opposite of the arc-driven habit.
-
-       THREE -- THE BOUNDARY. The only verbatim automation SHAPES anybody
-       documents are anchored to a structural edge and are one or two bars long:
-       "an automation curve to ramp up the reverb send level in the two bars
-       preceding the 'stop'"; on the downbeat of the stop itself "a short (one
-       beat long) but very large dollop of reverb"; and the reverse, "starting
-       with lots of reverb and quickly returning back to almost none over the
-       course of the one bar roll." [corpus:soundonsound/spot-reverb]
-
-       AND THE CRESCENDO IS ASYMMETRIC, which is the one Rimsky-Korsakov shape
-       that does belong on a send: "While the first group effects the crescendo
-       gradually, the second group enters piano or pianissimo, and attains its
-       crescendo MORE RAPIDLY." Its converse is not a fade -- the diminuendo is
-       "the suppression of one of the groups", a removal. So a build here is two
-       ramps of different steepness crossing, and its release is a cut.
-
-       ONE FLOOR, from Berlioz, and it is why nothing below ever reaches zero
-       wet: "there is no such thing as music in the open air... An orchestra of a
-       thousand wind instruments, with a chorus of two thousand voices, placed in
-       a plain, would not have a twentieth part of the musical action that an
-       ordinary orchestra of eighty players... in the concert-room." Dry is not
-       neutral, it is dead, and scale cannot be bought by stacking parts into it. */
-    /* ══ THE DRONE GETS A DETAIL SMALLER THAN A BAR ═════════════════════════
-       Reported, and it is a diagnosis rather than a complaint: "The issue with
-       drones is you cant figure out how to make something that goes on and on
-       while also allowing it to have evolution, i think this is done with
-       prameter locking and automitization but you seem to fail in implimenting
-       this."
-
-       MEASURED, AND EXACTLY RIGHT. Dungeon synth and hobbit synth were the
-       ONLY TWO GENRES IN THE FILE DECLARING ZERO PARAMETER LOCKS; the other
-       eight declare between one and four. And the cost is not small. Sampling
-       every motion lane at every step across a whole record and splitting the
-       travel by timescale:
-
-                       travel WITHIN a bar     lanes flat inside every bar
-         lofi                7.6%                  17 of 165   (10%)
-         progtechno          6.5%                  36 of 63
-         plastikman          4.2%                  14 of 77
-         dungeon synth       1.1%                  68 of 118   (58%)
-         hobbit synth        1.1%                  69 of 121   (57%)
-
-       Bar-to-bar was 98-99% of all travel in both. So the automation was not
-       missing -- 121 live lanes -- it was ENTIRELY AT THE SLOW TIMESCALES. The
-       record swells and arcs and never has a detail smaller than a bar, which
-       is precisely a drone that goes on and on: it evolves, at a rate too slow
-       to make this bar sound different from the last one.
-
-       The file's own definition of the cure has been sitting above `motionAt`
-       since motion was built, and names the mechanism the owner named: "a knob
-       value stored against a STEP, so step 7 has a different filter than step 6
-       and the difference repeats every bar UNTIL IT STOPS SOUNDING LIKE A
-       REPEAT AND STARTS SOUNDING LIKE A PART."
-
-       ── IT RIDES `tone` BECAUSE `tone` IS THE ONLY THING THESE VOICES HAVE ──
-       An erang sampler exposes patch, tune, attack, release, tone and pan, and
-       of those only `tone` is timbral -- it is the one lowpass, swept 500 Hz to
-       18 kHz. So a plock here is per-step brightness, which for a single-sample
-       voice with no filter envelope and no velocity layers is the ONLY internal
-       detail available at all. Checked before it was written, because a lock on
-       a control no voice reads is this file's oldest defect wearing a new hat.
-
-       EACH ARRAY REPEATS THE APEX SPEC IT ALREADY HAD. The merge replaces an
-       array wholesale rather than appending to it, so writing only the plock
-       here would have silently deleted the record-scale gesture and traded one
-       missing timescale for another. Found by reading the merge, not by the
-       battery, which would not have noticed.
-
-       THE NUMBERS ARE [CHOSEN] inside the family the file already uses --
-       densities elsewhere run [0.05,0.12] to [0.14,0.30]. These sit at the top
-       of that band because this is the genre with nothing else moving fast, and
-       the amounts are a twentieth to a tenth of `tone`'s 0.85 span: detail, not
-       a wobble. Nothing sources a p-lock density; there is no such literature. */
-    motion: {
-      bardFlute:    { tone: [{ kind: "apex", from: [-0.09, -0.02], to: [0.05, 0.15] },
-                             { kind: "plock", density: [0.20, 0.34], amt: [-0.09, 0.06] }] },
-      bardWind:     { tone: [{ kind: "apex", from: [-0.10, -0.02], to: [0.05, 0.14] },
-                             { kind: "plock", density: [0.20, 0.34], amt: [-0.09, 0.06] }] },
-      erangLead:    { tone: [{ kind: "apex", from: [-0.09, -0.02], to: [0.05, 0.14] },
-                             { kind: "plock", density: [0.18, 0.32], amt: [-0.08, 0.06] }] },
-      /* the figure and the plucked chords carry the record when nothing else
-         does, so they get the widest locks -- and they keep the `occurrence`
-         step they already had, which is the rule of three on a dial */
-      erangHarp:    { tone: [{ kind: "apex", from: [-0.08, -0.01], to: [0.04, 0.12] },
-                             { kind: "plock", density: [0.26, 0.42], amt: [-0.10, 0.08] }] },
-      bardPluck:    { tone: [{ kind: "apex", from: [-0.08, -0.01], to: [0.04, 0.13] },
-                             { kind: "occurrence", step: [0.03, 0.07], cap: 3 },
-                             { kind: "plock", density: [0.26, 0.42], amt: [-0.10, 0.08] }] },
-      /* the pad is the drone itself. Its locks are the smallest of the six:
-         a held chord with a fifth of its steps jumping in brightness is not
-         evolution, it is a fault, and the pad is the one voice here that is
-         genuinely sustaining rather than re-articulating. */
-      erangStrings: { tone: [{ kind: "apex", from: [-0.10, -0.02], to: [0.05, 0.16] },
-                             { kind: "occurrence", step: [0.04, 0.09], cap: 3 },
-                             { kind: "plock", density: [0.12, 0.22], amt: [-0.05, 0.04] }] },
-    },
-    matrixDraw: {
-      pick: [4, 7],
-      pool: [ ["roomMix", 7], ["leadRoom", 6], ["keysRoom", 5], ["leadEcho", 4],
-              ["keysEcho", 4], ["keysDP4", 4], ["leadFlange", 3], ["roomDP4", 3],
-              ["drumsRoom", 3], ["bassEcho", 3], ["leadDP4", 2], ["keysBarber", 2],
-              ["roomFlange", 2], ["drumsDP4", 2] ],
-      shapes: {
-        /* THE HALL ITSELF, and the only crossing that rests off both rails --
-           base 0.5, so it is the one thing here that can be played in either
-           direction. Named states at section boundaries, and the TUTTI IS THE
-           CLOSE ONE: the chorus draws the room in rather than pushing it away,
-           which is the whole correction above. The bridge and the intro are the
-           far states. Never to zero [Berlioz]. */
-        roomMix:    [{ kind: "section", by: { instrumental: [0.14, 0.28], intro: [0.10, 0.20],
-                                             outro: [0.08, 0.18], chorus: [-0.16, -0.08] } },
-                     { kind: "lfo", bars: [[96, 1]], depth: [0.02, 0.05],
-                       shape: "sin", freePhase: true }],
-        /* THE SOLO SPOTLIGHT, which is the ONE use of send automation a working
-           orchestral mixer sanctions: "raise the level of reverb ... on the spot
-           mic in solo lines to give that solo a little bit more shine". Routed,
-           so it is played down -- and it comes DRY toward the sections that
-           feature it, because a tune that arrives should arrive close.
-           [corpus:robin-hoffmann/mix-automations-in-orchestral-music] */
-        leadRoom:   [{ kind: "section", by: { chorus: [-0.34, -0.20], instrumental: [-0.26, -0.14] } },
-                     { kind: "gesture", on: "fill", bars: 2, from: [0, 0],
-                       to: [-0.22, -0.10], curve: "exp" }],
-        /* DENSITY, stated as a lane: the pad is wettest where the record is
-           thinnest and dries as the parts arrive. Routed, so down only. */
-        keysRoom:   [{ kind: "section", by: { chorus: [-0.28, -0.16], instrumental: [-0.20, -0.10] } }],
-        /* THE APPROACH RAMP, verbatim: up over the two bars before the edge.
-           Routed crossings get the REVERSE ramp -- high into the boundary and
-           gone by it -- which is the same source's third gesture. */
-        leadEcho:   [{ kind: "gesture", on: "build", bars: 2, from: [0, 0],
-                       to: [-0.44, -0.26], curve: "exp" },
-                     { kind: "section", by: { instrumental: [-0.30, -0.16] } }],
-        /* the bridge is NOT listed here, and that is the point: leaving a
-           section alone is saying nothing about it. A `bridge: [0, 0]` entry
-           stood here for one build -- a declared move of exactly zero, which is
-           dead config in miniature and reads as an intention it does not have. */
-        keysEcho:   [{ kind: "section", by: { outro: [-0.26, -0.12] } },
-                     { kind: "gesture", on: "fill", bars: 2, from: [0, 0],
-                       to: [-0.20, -0.08], curve: "exp" }],
-        /* THE SECOND GROUP, entering from nothing and climbing STEEPER than
-           anything already moving -- Rimsky-Korsakov's crescendo, and the reason
-           a long build keeps accelerating after level has run out. Unrouted, so
-           these are the ones that climb. Their release is a section cut, not a
-           fade: "the suppression of one of the groups". */
-        keysDP4:    [{ kind: "gesture", on: "build", bars: 3, from: [0, 0],
-                       to: [0.30, 0.56], curve: "exp" },
-                     { kind: "section", by: { instrumental: [0.10, 0.24] } }],
-        leadFlange: [{ kind: "gesture", on: "peak", bars: 4, from: [0, 0],
-                       to: [0.34, 0.62], curve: "exp" }],
-        leadDP4:    [{ kind: "gesture", on: "build", bars: 2, from: [0, 0],
-                       to: [0.24, 0.46], curve: "exp" }],
-        keysBarber: [{ kind: "section", by: { intro: [0.16, 0.34], outro: [0.10, 0.22] } }],
-        /* THE RETURN, PROCESSED -- the hall's own output through the flanger and
-           the multi-fx, which is the closest this desk comes to Wright's joystick
-           and is the one place a big move belongs: it colours the ROOM, not the
-           players. Unrouted, so up from nothing. */
-        roomDP4:    [{ kind: "gesture", on: "peak", bars: 6, from: [0, 0],
-                       to: [0.26, 0.50], curve: "exp" },
-                     { kind: "section", by: { instrumental: [0.12, 0.26] } }],
-        roomFlange: [{ kind: "section", by: { outro: [0.14, 0.30], intro: [0.06, 0.16] } }],
-        /* THE DRUMS STAY NEARLY OUT OF THE HALL, and that is dungeon synth's own
-           measurement rather than a taste: a hit every 909 ms into a tail that
-           takes eight and a half seconds to die is "a continuous wash by
-           arithmetic". They get a boundary throw and nothing sustained. */
-        drumsRoom:  [{ kind: "gesture", on: "fill", bars: 1, from: [0, 0],
-                       to: [0.16, 0.30], curve: "exp" }],
-        drumsDP4:   [{ kind: "gesture", on: "fill", bars: 1, from: [0, 0],
-                       to: [0.12, 0.24], curve: "exp" }],
-        /* and the low end takes a little of the delay as the road goes on --
-           the smallest lane here, because the bass is where a long tail turns
-           to mud fastest */
-        bassEcho:   [{ kind: "section", by: { instrumental: [0.08, 0.18] } },
-                     { kind: "occurrence", step: [0.02, 0.05], cap: 3 }],
-      },
-    },
-    /* its own rack, and the bard pack leads it */
-    rig: [["shire", 6], ["citadel", 4]],
-    /* ── THESE POOLS DO NOT PICK THE LANE. THEY DECLARE THE PALETTE ─────────
-       MEASURED, 40 songs: the only machines that ever PLAY this genre's keys,
-       lead and keys2 lanes are the ones named on the `ladder` above -- a rung
-       is written into `sec.machines` for every section, so the song-wide pick
-       these weights decide is overridden before a note exists. I recorded that
-       as dead config and left it alone.
-
-       It stopped being dead the moment doubling was drawn. A doubling looks for
-       a partner among the instruments THIS GENRE CAN HOLD, and a genre says
-       what it can hold in exactly these three lists plus its ladder and its
-       rig. So the pools now answer a real question -- not "who plays the lane",
-       which the ladder owns, but "who is in this orchestra at all".
-
-       Which is why the bass oboe and the baritone saxophone are here. They are
-       melodic instruments in a low register: wrong for a comp ladder, wrong for
-       a tune that lives at MIDI 69-91, and exactly right as the second chair
-       doubling a line. Before this they had no reachable home in hobbit synth
-       and read 0 notes in 60 records while being fully built. */
-    machines: { drums: [["tr1000", 1]],
-                bass:  [["auto", 1]],
-                keys:  [["bardPluck", 5], ["erangHarp", 3], ["mellotron", 3],
-                        ["erangStrings", 2], ["vp330", 2],
-                        ["bassOboe", 2], ["bariSax", 2]],
-                lead:  [["bardFlute", 5], ["bardWind", 4], ["erangLead", 3],
-                        ["auto", 2]],
-                keys2: [["erangStrings", 4], ["horns", 4], ["vp330", 3],
-                        ["bardPluck", 3], ["mellotron", 2],
-                        ["bassoon", 3], ["bassOboe", 2]] },
-    form: {
-      /* the party is on the road for a while: the measured overworld loop runs
-         35 s to 2:15 and the eight-bar section is the corpus's own unit.
-         TWENTY-FOUR, not thirty-two: at 32 the four movements below came to
-         191 bars and 6.8 minutes, with the long tail of the range at 8:31 --
-         still past the 7:18 top of the measured exploration-cue band. Three
-         eight-bar units to a section keeps the corpus's unit and lands the
-         record where the measurement says it belongs. */
-      lengths: { intro: 16, verse: 24, chorus: 24, bridge: 16,
-                 instrumental: 24, outro: 16 },
-      /* ── AND THE EPIC GENRE ALWAYS HAS AT LEAST ONE DOUBLING ─────────────
-         Dungeon synth draws 0 to 3 and a third of its records have none, which
-         is right for a genre described as "atmosphere over loudness". This one
-         was asked for an epic-sized orchestra, so its FLOOR is one: every
-         record carries at least one line on two instruments. Only the floor
-         moves -- the roles, the unison weight, the level under the parent and
-         the arrival threshold are all dungeon synth's and are inherited, which
-         is what a deep merge is for. One number is the whole difference. */
-      double: { pick: [1, 2] },
-      /* ══ AND THE JOURNEY IS NOT A DESCENT ═════════════════════════════════
-         Inherited whole, this genre was walking dungeon synth's route:
-         `descend -> halls -> deeper -> return`. For the music the owner asked
-         for -- "the moody music that plays when the party is adventuring ABOVE
-         GROUND from dungeon to town" -- that is the wrong direction, and it was
-         the wrong LENGTH with it.
-
-         MEASURED before this, over 12 songs: 237 bars, 8.49 minutes. The corpus
-         is unusually clear here, because track length is the STRONGEST measured
-         discriminator between the two ends of this family and the ranges do not
-         overlap at all: the pastoral end writes short (Hole Dweller mean 2:47,
-         max 3:27; Fief 3:24; Erang 3:37) and the dark end writes long
-         (Mortiis 5:03; Thangorodrim mean 10:00, min 6:23).
-         [docs/genre-research/score-craft.md §17]
-
-         At 8:29 this genre sat PAST Mortiis and next to Thangorodrim -- the
-         darkest, longest end of the family -- while claiming to be the bright
-         one. And the use case the owner named has its own measured target:
-         Western open-world EXPLORATION cues run 3:24 to 7:18, median 4:44,
-         "roughly 3-6x the length of a JRPG overworld loop". That median is the
-         honest middle of "dungeon synth backbone with fantasy scoring on top",
-         so it is what this aims at.
-
-         Four movements, out and back, and the vista is the third -- which is
-         also where the form's own apex wants to be. `endOn` holds the last two
-         open until the payoff lands, exactly as the descent did.
-
-         WHERE IT LANDED, 60 songs: mean 6:28, median 6:37, range 4:14 to 8:27,
-         with 48 of 60 inside the measured exploration band. Not at the 4:44
-         median, and deliberately not: this genre is dungeon synth's backbone
-         with fantasy scoring on top, so the overlap of "exploration cue" and
-         "short dungeon synth record" is exactly where it belongs. Tuning to
-         somebody else's median would be reading a measurement as an
-         instruction, which is the habit this repo keeps catching. The number to
-         trust is the measurement, not the table. */
-      plan: [
-        { name: "setting out",     pool: ["intro", "verse"],                  bars: [16, 1, 16] },
-        /* THE BRIDGE IS THE HALT, and it lives here rather than nowhere. The
-           first version of this plan pooled only verse and instrumental, and the
-           seam battery caught what that cost: `roles.bridge` is declared, the
-           inherited `transitions` route to it, and it OCCURRED IN 0 OF 40 SONGS.
-           Every `by: { bridge: ... }` in the desk below was therefore dead
-           config, and `matrix.keysBarber` -- which had only a bridge entry --
-           was a whole lane that could never move. The same fault as the ladder's
-           unreachable bottom rung, one build later, found by the check that
-           measures rather than by me.
-           AND IT CANNOT GO ON THE ROAD, which is where I put it first and
-           measured again: still 0 of 40. `bridgeAfterChorus` gates it on how
-           many choruses have already been heard, and the road runs BEFORE the
-           high country, so no chorus exists yet to unlock it. It goes in the
-           last movement, which is also where dungeon synth's own plan keeps it:
-           the party stops in sight of the town, the drums and the tune drop out
-           (`roles.bridge` is keys, keys2, ostinato and bass -- no percussion, no
-           melody), and then the final chorus arrives. */
-        { name: "the road",        pool: ["verse", "instrumental"],           bars: [16, 2, 16] },
-        { name: "the high country", pool: ["chorus", "instrumental"],         bars: [16, 2, 16], endOn: "chorus" },
-        /* ── AND THE PARAGRAPH ABOVE DESCRIBED A FIX THAT WAS NEVER MADE ────
-           "It goes in the last movement, which is also where dungeon synth's
-           own plan keeps it." It did not. This pool read ["verse", "chorus"]
-           and the phase walk can only emit what a pool contains, so every word
-           of that reasoning was true and none of it was in the code. Measured
-           at the time and reported as 0 of 40, and I wrote the explanation
-           instead of the line. See probe_reachable.js -- the check that now
-           makes this class of thing impossible to leave. */
-        { name: "town in sight",   pool: ["bridge", "verse", "chorus"],       bars: [16, 1, 16], endOn: "chorus" },
+   a road is the thing it is for.
+
+   ══ AND IT STOPPED INHERITING, BECAUSE THE INHERITANCE WAS THE FAULT ═══════
+   This was `merge(GENRE.dungeonsynth, {...})`, and the commit that wrote it
+   said so in its own title -- "hobbit synth, a tenth genre, AND IT INHERITS ITS
+   BACKBONE" -- and in its body: "SO IT LITERALLY INHERITS DUNGEON SYNTH'S TABLE
+   and overrides the diff... Everything unnamed IS dungeon synth: the drum
+   engine, the fx, the balance."
+
+   The owner, having listened to the result: "One thing i feel we might have
+   copied and pasted Dungeon Synths tables and now are stuck in some kind of
+   constraints from it and this was not how we should have built this genre."
+
+   MEASURED, AND HE IS RIGHT. 24 of 48 top-level fields were byte-identical to
+   dungeon synth and 31 of 48 were identical or within two numbers -- and the
+   identical half was not the incidental half. It was EVERY drum key (`pocket`,
+   `accent`, `kit`, `groove`, `kick`, `drumDrive`, `gate`), every character key
+   (`tape`, `pressure`, `atmos`, `params`, `ribbon`), the registers, the
+   section-to-material map, and the automation. A deep diff put the real figure
+   at SIXTY-NINE inherited paths, because a partial override like `form` or
+   `motion` silently inherited its missing siblings too.
+
+   THE DEFENCE FOR THE MERGE WAS A MAINTENANCE ARGUMENT THAT QUIETLY BECAME A
+   MUSICAL ONE. It said "a copied thousand lines would drift from its parent the
+   first time either was touched" -- true, and a reason to share a MECHANISM. It
+   is not a reason to share the NUMBERS that make a genre sound like itself.
+   What the merge did in practice was make inheriting free and differing
+   effortful, so what got overridden is whatever somebody happened to think of,
+   and everything nobody thought about stayed a dungeon.
+
+   So every field is written out. Seven hundred lines that will not track
+   dungeon synth when dungeon synth changes, AND THAT IS THE POINT: it is a
+   different genre, and a change to a crypt should not silently reach a road.
+   The cost is real and accepted -- two tables to edit where there was one.
+
+   ── THE CONVERSION WAS PROVED BEFORE ANY VALUE WAS ARGUED WITH ─────────────
+   Generated from the resolved merge rather than retyped, in the merge's own key
+   ORDER, and 10 genres x 30 seeds came back 300 of 300 byte-identical. Key
+   order is not cosmetic here and that was learned the hard way: a first attempt
+   appended the missing keys at the end of each block and moved ten records,
+   because `Object.keys(G.bridgeProgressions)` at the bridge's mode pick reads
+   JS OBJECT KEY ORDER. One pitch changed, 76 to 75, and nothing else in the
+   record did -- which is exactly how a fault of that shape hides.
+
+   Everything after this commit is a decision with its own reason, and the
+   snapshot says which. ═════════════════════════════════════════════════════ */
+GENRE.hobbitsynth = {
+  label: "hobbit synth",
+  tempo: [102, 124],
+  /* dorian first. See the mode note above -- this is the "better descriptor
+     than dark" made into weights. */
+  /* ── A PALETTE, NOT A SETTING ─────────────────────────────────────────────
+     The first version of this row led dorian 6 / minor 5 and gave the bright
+     end almost nowhere to go. Reading the Shire theme off its notation — plain
+     C major, not one accidental — I then proposed swapping it to Ionian, and
+     the owner stopped that in one line: "dont be that stupid to think we want
+     ONE scale. That is not only insane it goes against the programs rules.
+     Constraints NOT baked in values."
+  
+     Right, and it is the same habit as the drone and the one-note solo:
+     reading a measurement as an instruction. Four transcriptions are a SAMPLE.
+     What the score actually shows is a mode palette assigned by culture — the
+     Shire in major, Rohan a jig in A major, and in the same score Adams'
+     "Rohan-esque Dorian modes", Mordor's chromatic writing, Moria's bare
+     rising fifths, Lothlorien's adapted Hijaz. A score with one scale is the
+     thing nobody wants.
+  
+     So the row widens rather than moving. Six modes, none of them commanding:
+     major is REACHABLE now (it was absent, so a genre whose own source
+     material is largely diatonic-major could not draw it at all), phrygian
+     stays in as the dark end, and dungeon synth's own five-wide palette is
+     the precedent for how wide a fantasy genre's should be. */
+  modes: [
+    ["dorian", 5],
+    ["minor", 4],
+    ["major", 4],
+    ["mixolydian", 3],
+    ["carpathian", 2],
+    ["phrygian", 2]
+  ],
+  /* its own rack, and the bard pack leads it */
+  rig: [["shire", 6], ["citadel", 4]],
+  keysChar: [["rhodes", 1]],
+  leadChar: [["synth", 1]],
+  tape: {
+    wow: [0.0016, 0.0022],
+    crackle: [0.0015, 0.001],
+    flutter: [0.0008, 0.0012],
+    hiss: [0.004, 0.003]
+  },
+  atmos: { level: [0.025, 0.025], accent: 0.5, accentLevel: [0.14, 0.1] },
+  sevenths: true,
+  parallels: 0,
+  /* ══ AND THE KEYBOARD PLAYS, RATHER THAN LEANING ON THE KEYS ════════════
+     Inherited, `keysStyle: "hold"` made this the second of only two genres in
+     the file whose first keyboard is a PAD. The notes said what that means:
+  
+       keys    3--------------- 3--------------- 3--------------- 3---------------
+       keys2   ..3------------- ..3------------- ..3------------- ..3-------------
+  
+     Four notes struck on the downbeat, held the bar, repeated identically for
+     the whole material -- and keys2 the same thing two steps later. The
+     pitches follow the chords, so nothing about it is WRONG; it is inert, and
+     it is the "nothing is different" half of the complaint, distinct from the
+     silence. Eight genres in this file comp instead, and the comping road in
+     `buildKeys` already rolls the voicing and runs a figure on the material's
+     own cell -- machinery this genre was declaring itself out of.
+  
+     The sources want the figure, and they want it for THIS music
+     specifically. The Lord of the Rings piano scores write the accompaniment
+     out as BROKEN ARPEGGIOS, bar by bar:
+  
+       m13  D3 A3 D4 A3 F#4 A3 D4 A3   (= D)
+       m14  A2 E3 A3 E3 C#4 E3 A3 E3   (= A)
+       m15  B2 F#3 B3 F#3 D4 F#3 B3 F#3 (= Bm)
+       [docs/genre-research/score-craft.md §7, §14]
+  
+     And it is the answer to the owner's "why would a plucked intrument be put
+     on chords?" -- a plucked patch is a DECAY ENVELOPE and can only hold a
+     chord by re-striking it. `bardPluck` was never the wrong instrument; a
+     block chord was the wrong writing to put under it. The pad has not gone
+     away either: `keys2` is still built with `sustain: true`, so the held
+     string bed is underneath and the first keyboard moves over it, which is
+     the two-plane texture the scoring sources describe. */
+  keysStyle: null,
+  /* ══ THE BASS WALKS, BECAUSE THE PARTY DOES ═════════════════════════════
+     Inherited, `bassPedal: 0.5` put half of this genre's records on a held
+     drone -- dungeon synth's own device, and the right one for a crypt. On
+     the road it is the wrong one, and the notes said so: TWO bass notes in an
+     eight-bar material, both at bar 1.
+  
+     What the sources give instead is unusually specific, because three
+     independent transcriptions give the SAME object: a two-element cell whose
+     pitches track the chord while its shape does not change -- Concerning
+     Hobbits' written-out `DA, FA, FA DA`, The Ring Goes South's octave
+     oscillation `A2 A,2`, and Rohan's cello `C3 D3 | D3 C3` off the full
+     score. [docs/genre-research/score-craft.md §15]
+  
+     So the pedal drops to a fifth of the records -- the halt still exists,
+     and the drone under a bridge is exactly where it belongs -- and the rest
+     walk. `bassStep: 4` is the fifth above, which is the interval the pedal's
+     own double already used and the one the medieval drone names as the
+     reciting tone; the Fellowship's figure is the octave and Rohan's is a
+     step, so this is one point on a range the sources cover rather than the
+     only reading of them. */
+  bassPedal: 0.2,
+  bassPedalDouble: 0.66,
+  /* one chord per two bars, which is the measured overworld harmonic rhythm */
+  progressions: {
+    minor: [
+      [[0, 0, 5, 5, 2, 2, 6, 6], 5],
+      [[0, 0, 0, 0, 5, 5, 2, 2], 4],
+      [[0, 0, 2, 2, 5, 5, 3, 3], 3],
+      [[0, 0, 6, 6, 5, 5, 6, 6], 2]
+    ],
+    dorian: [
+      [[0, 0, 5, 5, 2, 2, 6, 6], 5],
+      [[0, 0, 3, 3, 0, 0, 6, 6], 4],
+      [[0, 0, 6, 6, 3, 3, 0, 0], 3],
+      [[0, 0, 6, 6, 5, 5, 6, 6], 2]
+    ],
+    carpathian: [
+      [[0, 0, 3, 3], 6],
+      [[0, 3, 0, 3], 4],
+      [[0, 0, 2, 2], 3],
+      [[0, 0, 6, 6], 2],
+      [[0, 0, 0, 0], 1]
+    ],
+    andean: [
+      [[0, 0, 4, 4], 5],
+      [[0, 0, 2, 2], 4],
+      [[0, 0, 1, 1], 3],
+      [[0, 4, 0, 4], 2],
+      [[0, 0, 0, 0], 1]
+    ],
+    phrygian: [[[0, 0, 5, 5, 1, 1, 0, 0], 3], [[0, 0, 3, 3, 5, 5, 0, 0], 2]],
+    mixolydian: [
+      [[0, 0, 3, 3, 6, 6, 0, 0], 5],
+      [[0, 0, 4, 4, 3, 3, 0, 0], 3],
+      [[0, 0, 6, 6, 3, 3, 0, 0], 2]
+    ],
+    major: [
+      [[0, 0, 5, 5, 3, 3, 4, 4], 5],
+      [[0, 0, 3, 3, 0, 0, 4, 4], 4],
+      [[0, 0, 4, 4, 5, 5, 3, 3], 3],
+      [[0, 0, 5, 5, 1, 1, 4, 4], 2]
+    ]
+  },
+  bridgeProgressions: {
+    carpathian: [[[3, 3, 0, 0], 3], [[2, 2, 0, 0], 2], [[6, 6, 3, 3], 2]],
+    andean: [[[4, 4, 0, 0], 3], [[2, 2, 4, 4], 2], [[1, 1, 0, 0], 2]],
+    minor: [[[0, 0, 5, 5, 6, 6, 3, 3], 4], [[0, 0, 2, 2, 5, 5, 6, 6], 2]],
+    dorian: [[[0, 0, 5, 5, 6, 6, 3, 3], 4], [[3, 3, 0, 0, 6, 6, 5, 5], 2]],
+    phrygian: [[[0, 0, 1, 1, 5, 5, 6, 6], 3], [[0, 0, 5, 5, 6, 6, 1, 1], 2]],
+    mixolydian: [[[0, 0, 3, 3, 6, 6, 0, 0], 4], [[6, 6, 3, 3, 0, 0, 5, 5], 2]],
+    major: [[[0, 0, 5, 5, 1, 1, 4, 4], 4], [[3, 3, 0, 0, 5, 5, 4, 4], 2]]
+  },
+  /* the road does move under you: a key change is a change of country */
+  keyShift: { chance: 0.38, by: [[2, 5], [5, 3], [1, 2]], change: 0.5 },
+  chorusProgressions: {
+    minor: [
+      [[5, 5, 0, 0], 5],
+      [[2, 2, 5, 5], 4],
+      [[3, 3, 0, 0], 3],
+      [[5, 5, 2, 2], 2],
+      [[6, 6, 5, 5], 1]
+    ],
+    dorian: [[[3, 3, 0, 0], 5], [[2, 2, 3, 3], 3], [[5, 5, 0, 0], 3], [[3, 3, 5, 5], 2]],
+    carpathian: [[[3, 3, 0, 0], 5], [[2, 2, 0, 0], 4], [[3, 3, 2, 2], 3], [[6, 6, 0, 0], 1]],
+    andean: [[[4, 4, 0, 0], 5], [[2, 2, 0, 0], 3], [[4, 4, 2, 2], 3], [[1, 1, 4, 4], 2]],
+    phrygian: [[[5, 5, 0, 0], 5], [[1, 1, 0, 0], 4], [[2, 2, 5, 5], 3], [[5, 5, 1, 1], 2]]
+  },
+  registers: {
+    bass: [28, 43],
+    keys: [48, 67],
+    counter: [62, 79],
+    bassWalk: [28, 43],
+    ostinato: [67, 88],
+    themeA: [69, 90],
+    themeB: [71, 91],
+    themeC: [67, 86]
+  },
+  groove: {
+    styles: [["even", 10]],
+    swing: [1, 0],
+    swingUnit: 2,
+    snareEarly: [0, 0],
+    kickLate: [0, 0],
+    hatMul: 1,
+    jitter: { dilla: 0.03, even: 0.03 },
+    push: 0.008
+  },
+  /* ══ AND THE ROLL LANDS ON THE BEAT, BECAUSE THE RACK IS PLUCKED ════════
+     This genre's keyboard is a harp or a plucked string on most draws --
+     `erangHarp`, `bardPluck` -- and Rimsky-Korsakov states the default for
+     that instrument outright, as a thing the composer must cancel rather than
+     ask for:
+  
+       "The chords must always be broken (ARPEGGIATO); should the composer
+        wish otherwise he should notify it (non arpeggiato)."
+       [corpus:gutenberg 33900, Harp]
+  
+     Forsyth twice over: "The Harpist always 'spreads' his chords slightly",
+     and "nine-tenths of all orchestral Harp-music must be 'in arpeggio'" --
+     and he notes the instrument "is the only instrument whose particular
+     technique has given a generic word -- arpeggio -- to the rest of the
+     instrumental force."
+  
+     The placement is the audible half and is separately sourced: the roll is
+     played BEFORE the beat so its last note coincides with the downbeat.
+     [docs/genre-research/score-craft.md §53]
+  
+     AND THE ROLL HAD TO BE TURNED ON AT ALL. Inherited, `touch.roll` was ZERO
+     -- dungeon synth's explicit instruction never to spread a chord, which is
+     right for an organ or a tape choir and precisely backwards for a harp.
+     The flag above was landing on a roll of width nought and doing nothing;
+     measured, the keys still struck four notes on one step.
+  
+     ONE STEP, not two, and the notes decided it. At `roll: 2` the voicing
+     spread over six steps -- about 790 ms at this genre's tempo -- which is
+     an arpeggio FIGURE, not a spread chord. At `roll: 1` it lands
+     1.0 / 1.1 / 1.2 / 1.3, roughly 400 ms end to end, which is the "brisk"
+     the source asks for and is still heard as one chord.
+     NOTE the number is CHOSEN, not sourced -- no treatise or course note
+     anywhere gives a roll offset in milliseconds or in grid steps, and
+     score-craft.md §56 records that absence rather than papering over it. */
+  touch: { bassArtic: [[0.95, 3], [1.1, 5], [1.3, 2]], strum: [0, 0], roll: 1 },
+  accent: { kick: METRE(0.40),
+    snare: METRE(0.45),
+    ghost: METRE(0.55),
+    hat: METRE(0.50),
+    tom1: METRE(0.30),
+    tom2: METRE(0.30),
+    tom3: METRE(0.30),
+    openhat: METRE(0.50) },
+  pocket: [
+    [[0, 4, 8, 12], 6],
+    [[0, 12, 14], 5],
+    [[0, 4, 8, 12, 14], 4],
+    [[0, 12, 14, 15], 3],
+    [[0, 6, 12], 2],
+    [[0, 8], 2],
+    [[0], 1]
+  ],
+  kit: {
+    snare: [8],
+    hatEvery: 16,
+    hatVel: 0.1,
+    ghostChance: 0,
+    snarePocket: [
+      [[8], 4],
+      [[4, 12], 3],
+      [[0, 3, 4, [8, "drag"], 11, 12], 3],
+      [[[8, "drag"], 14, 15], 2],
+      [[4, [6, "drag"], 12, 14], 2],
+      [[], 2]
+    ],
+    tomRoll: { chance: 0.5, lanes: ["tom3", "tom2", "tom1"] },
+    ghostSpots: [8],
+    openSpot: [[-1, 10]],
+    openBars: [],
+    toms: {
+      use: 0.9,
+      loop: 0.9,
+      loopSpots: [8, 12, 14],
+      loopLanes: ["tom3", "tom2", "tom1"],
+      loopBars: [1, 3],
+      loopShapes: [
+        [
+          [[10, "tom1"], [11, "tom2"], [12, "tom3"], [13, "tom1"], [14, "tom2"], [15, "tom3"]],
+          4
+        ],
+        [[[12, "tom1"], [13, "tom2"], [14, "tom3"]], 3],
+        [[[11, "tom1"], [12, "tom2"], [13, "tom2"], [14, "tom3"], [15, "tom3"]], 3],
+        [[[6, "tom1"], [7, "tom2"], [8, "tom3"], [14, "tom2"], [15, "tom3"]], 2]
       ],
-      /* every part, in every section that is not the break. The owner asked for
-         an epic-sized orchestra and this is the arrangement half of it; `rest`
-         and `thin` inherited from dungeon synth put the holes back. */
-      roles: { intro:        ["keys", "ostinato", "lead"],
-               verse:        ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
-               chorus:       ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
-               bridge:       ["keys", "keys2", "ostinato", "bass"],
-               instrumental: ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
-               outro:        ["drums", "bass", "keys", "keys2", "lead", "ostinato"] },
-      thinTo: [2, 3],
-      arc: {
-        /* ── AND THE DOUBLING HAS TO SURVIVE THE THINNER ─────────────────────
-           Inherited straight, `thin.counter` is 0.88 -- dungeon synth removes
-           seven of eight counter notes because there the counter is an
-           ornament that answers occasionally. Here the counter IS the
-           orchestra: it draws `double` 7 times in 10, which is the theme
-           carried by a second instrument, and thinning a doubling to one note
-           in eight does not make it sparse, it makes it a glitch. Measured
-           before this: 1.3% of the record.
-           The lead comes up too. It is the tune on a road and it was arriving
-           a tenth of the way in and then losing 44% of itself. */
-        thin: { drums: 0.22, bass: 0.28, keys: 0.34, lead: 0.30,
-                counter: 0.24, keys2: 0.48 },
-      },
-      build: { enter: { drums: [0.01, 0.015], keys: [0.01, 0.015],
-                        ostinato: [0.025, 0.025], bass: [0.05, 0.025],
-                        lead: [0.06, 0.04], keys2: [0.12, 0.06],
-                        /* the second instrument on the tune arrives early
-                           enough to be part of the record rather than a late
-                           guest -- the escalation is what it does after it
-                           arrives, not when */
-                        counter: [0.14, 0.06] } },
+      shapes: [
+        [
+          [[10, "tom1"], [11, "tom2"], [12, "tom3"], [13, "tom1"], [14, "tom2"], [15, "tom3"]],
+          4
+        ],
+        [[[11, "tom1"], [12, "tom2"], [13, "tom2"], [14, "tom3"], [15, "tom3"]], 3],
+        [[[8, "tom3"], [12, "tom2"], [13, "tom1"], [14, "tom2"], [15, "tom3"]], 3],
+        [[[12, "tom3"], [14, "tom2"]], 2],
+        [[[8, "tom3"], [12, "tom2"], [14, "tom1"]], 2],
+        [[[14, "tom3"]], 1]
+      ]
     },
-  });
-})();
+    kickKeep: 5,
+    flourishBar: 3,
+    flourish: [[[], 1]],
+    arc: {
+      span: [0, 3],
+      moves: [
+        [{ toms: { loop: 0.25 } }, 4, { takes: true }],
+        [{ kickKeep: 2 }, 4, { takes: true }],
+        [{ hatVel: 0.06 }, 3, { takes: true }],
+        [{ toms: { loop: 1, loopBars: [0, 1, 2, 3] } }, 5],
+        [{ kickKeep: 5, hatVel: 0.22 }, 3],
+        [{ toms: { loopLanes: ["tom3"], loop: 0.85 } }, 2]
+      ]
+    },
+    variants: { main: {}, lift: { toms: { use: 0.8 } }, depart: { kickKeep: 0, hatVel: 0.05 } }
+  },
+  /* ── THE EPIC LEVER. Dungeon synth draws `double` 3 times in 10; here it is
+     7, because doubling the theme with another instrument is what makes a
+     statement heroic rather than merely louder -- and it is the mechanism
+     Rimsky-Korsakov says an orchestra is actually made of. */
+                      /* the second instrument on the tune arrives early
+                         enough to be part of the record rather than a late
+                         guest -- the escalation is what it does after it
+                         arrives, not when */
+  counter: {
+    style: [["double", 7], ["answer", 3]],
+    density: 0.16,
+    intervals: [-3, -4, -5, -7, -12],
+    octaves: [-12, 12],
+    answer: 0.8,
+    styles: { double: { density: 0.88, octaves: [-12] } }
+  },
+  /* a tune with somewhere to go. Dungeon synth is [2,2]/[1,1]/[1,2]. */
+  theme: {
+    count: { hooky: [3, 2], breath: [1, 2], normal: [2, 2] },
+    onsetPool: [[0, 8], [8, 5], [4, 4], [12, 4], [2, 2], [6, 2], [10, 2], [14, 2]]
+  },
+  ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
+  pressure: { depth: 0, amount: [0, 0], at: [0, 0], rise: [0, 0] },
+  bassStyle: "drone",
+  bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },
+  bassAccent: { accent: 0, slide: 0 },
+  legato: { lead: 1, keys2: 1 },
+  /* the walking figure: a stepwise cell rather than the dungeon's static one */
+  ostinato: {
+    unit: 2,
+    vel: 0.5,
+    run: true,
+    follow: true,
+    ratchet: 0.05,
+    cells: [
+      [[0, 2, 3, 5, 3, 2], 5],
+      [[0, 3, 5, 6, 5, 3], 4],
+      [[0, 2, 0, 5, 3, 2, 0], 3],
+      [[0, 5, 3, 2, 3, 5], 3]
+    ],
+    vary: true,
+    change: {
+      pick: [2, 3],
+      kinds: [
+        ["cell", 6],
+        ["follow", 6],
+        ["octave", 4],
+        ["transpose", 3],
+        ["stride", 2],
+        ["rest", 2]
+      ]
+    }
+  },
+  /* ══ AND THE PARTY IS NOT STANDING IN A CRYPT ═══════════════════════════
+     Inherited whole, this genre was playing dungeon synth's hall: an 8.5
+     SECOND tail, the longest space in the file by a margin -- the next
+     longest is bladerunner at 5.0 -- and the one whose own note records that
+     "a hit every 909 ms into a hall that takes eight and a half seconds to
+     die is a continuous wash by arithmetic". That is the oubliette, and this
+     genre is outdoors.
+  
+     The artists say it plainly, and one of them says it as a two-record
+     experiment on exactly this axis. Pale Castle, on why his second tape
+     sounds different from his first:
+  
+       "On the first tape I created a COLD AND CONFINED sound to illustrate
+        the OUBLIETTE like atmosphere, in 'Sorrowful Mysteries' I wanted to
+        convey the feeling of TRAVELING AND DISCOVERY. So yes, it was a very
+        conscious decision to create a more cinematic sound. The listener
+        should feel OUTDOORS and upon a means travel."
+       [corpus:thedungeonindeepspace/pale-castle]
+  
+     So space in this family is a LOCATION parameter, not a mood one -- and
+     the way to the dungeon end is to SHRINK THE ROOM, not to dry it out.
+  
+     And the constraint that decides the numbers is Summoning's, who changed
+     exactly this between two records and said why:
+  
+       "We did not use so much reverb this time and took more care to create a
+        sound where the listeners can DISTINGUISH BETTER BETWEEN THE DIFFERENT
+        MELODIES playing at the same time."
+       "If the same song comes hidden behind a lot of reverb it offers more a
+        feeling of FAR DISTANCE and therefore can be considered as MORE DARK."
+       [corpus:thkdblog/summoning-interview]
+  
+     Reverb send trades against polyphonic legibility, and darkness is what
+     distance buys. This genre's whole argument is a theme carried by a
+     succession of named instruments, so legibility is the thing it cannot
+     spend -- and it is the bright end of the family, so the darkness is not
+     wanted either. Both point the same way.
+  
+     Four numbers move, and each has a reason rather than a taste:
+       irSec   8.5 -> 4.4   a large room, not a crypt. Still the third
+                            longest in the file, because "cinematic" is not
+                            "dry" and Berlioz's floor stands: there is no
+                            such thing as music in the open air.
+       tailDark 0.62 -> 0.44  darkness IS distance [Summoning]. The bright
+                            end of the family should not sound far away.
+       wet     0.5 -> 0.36  the legibility spend, and still well above lofi's
+                            0.10 and jungle's 0.22.
+       sendHp  70 -> 120    keep the bottom out of the wash so it stays
+                            defined -- Summoning again, who fixed the same
+                            collision by putting the accompaniment "much more
+                            into the deep frequency spectrum" so it
+                            "interferes less with the high keyboard melodies".
+  
+     WHAT IS NOT COPIED FROM THE SOURCES: Hole Dweller -- the actual hobbit
+     flagship -- is deliberately the GRITTIER of its author's two projects
+     ("something more weathered and humble... gritty, yet soft", four hand-
+     built voices from one synth), which inverts the obvious assumption that
+     the pastoral end is the clean one. That is a texture decision about
+     saturation and voice count, not about the room, and it is a design
+     question for the owner rather than a number to slip in here.
+  
+     ══ AND THE TWO PARENTS OF THIS GENRE DISAGREE ABOUT THIS, FLATLY ═══════
+     The dungeon synth side says space is a location and should change with
+     one (Pale Castle, above). THE SCORING SIDE SAYS THE OPPOSITE, and says it
+     with three years of work behind it. John Kurlander, who recorded all
+     three films:
+  
+       "On LOTR we needed to record in no fewer than four principal venues,
+        one in Wellington, New Zealand and three in London, in some cases with
+        different orchestral personnel. However, in order to allow for
+        extensive editing between performances, THE SOUND HAD TO BE 100%
+        CONSISTENT between takes from all venues and the edits had to sound
+        like A SINGLE PERFORMANCE -- actually a single performance that was
+        recorded over a time span of 3.5 years."
+       [corpus:squareenixmusic/kurlander-interview]
+  
+     And the irony is exact: MORIA, the most cavernous place in the story, is
+     the one sequence recorded in a different hall, and the whole engineering
+     effort went into making that difference VANISH. What varies by culture in
+     that score is instrumentation and voice type -- Celtic band, monochord
+     and droning strings, a male chorus of rugby players -- never the room.
+  
+     Two further corrections to the obvious assumption, from the same pass:
+     Watford Colosseum, where the heart of the score was recorded, "has one of
+     the LOWEST reverberation times of the British concert halls"; and the
+     sound being chased was an OPERA PIT, not a cathedral -- Kurlander "visited
+     the Metropolitan Opera in New York to see how they handled their pit
+     orchestra; that was the sound they were trying to emulate". Shore picked
+     the LPO for the same reason: "Being in a pit accompanying opera is so much
+     like what I'm trying to do with film music."
+  
+     SO THE SECTION-KEYED DISTANCE STATES IN `matrixDraw` BELOW ARE DUNGEON
+     SYNTH PRACTICE, NOT SHORE PRACTICE, and they are labelled that way rather
+     than left to read as sourced from the scoring tradition. This genre is a
+     declared hybrid and the room is where the two parents pull hardest against
+     each other: 4.4 seconds is the compromise, not a finding -- long enough to
+     keep the backbone's cavern, far short of the 8.5 it inherited, and far
+     longer than the ~2 seconds the pit-and-Colosseum reading would ask for. If
+     the owner wants this genre to sit further toward either parent, THIS
+     number is the lever and the two poles are now written down. */
+  space: {
+    wet: 0.36,
+    irSec: 4.4,
+    tailPow: 1.5,
+    tailDark: 0.44,
+    sendHp: 120,
+    feeds: ["keys", "lead", "bass"],
+    echoFeeds: ["keys", "lead"],
+    random: 0,
+    spread: 0.8,
+    preDelay: 0.075,
+    kitPan: { tom1: -0.22, tom2: 0.1, tom3: 0.24, snare: 0, kick: 0 }
+  },
+  kick: { tune: 52, decay: 0.95, click: 0.04, drive: 0.3, body: 1.35, gain: 1.3 },
+  drumDrive: 1.35,
+  gate: null,
+  /* ══ THE BALANCE IS THIS GENRE'S OWN, AND THE DRUMS WERE EATING IT ══════
+     MEASURED, 12 songs, share of the sound computed as each part's note
+     count times its mean written gain:
+  
+       drums 64.6%   ostinato 17.1%   keys 9.8%   LEAD 4.4%
+       keys2 2.7%    counter 0.9%     bass 0.4%
+  
+     Two thirds of a record whose whole argument is a theme re-scored, spent
+     on the drums, with the theme itself at one twenty-third of it. That is
+     the owner's "we have bad levels and not using frequences well" as a
+     number, and the treatise names the failure exactly:
+  
+       "It must not be forgotten that the bass drum, cymbals, gong and a
+        tremolo on the side drum, played fortissimo, is sufficient to
+        OVERPOWER ANY ORCHESTRAL TUTTI."
+       [corpus:gutenberg 33900; docs/genre-research/score-craft.md §3]
+  
+     Four percussion voices outweigh everything else combined -- so a genre
+     that wants to sound like an orchestra cannot leave the kit at the level a
+     genre built on a war-drum procession needed. Dungeon synth's 1.40 was
+     measured FOR DUNGEON SYNTH, against its own drone and its own census;
+     inheriting it here was never a decision.
+  
+     The other direction comes from the same source: the harmonic basis
+     "should be of inferior dynamic power" to the melodic design, so the lead
+     now outranks the keyboards rather than sitting under them.
+  
+     WHAT IS NOT ATTEMPTED: lifting the bass with this fader. The note beside
+     dungeon synth's table records that experiment and its refusal -- +2.7 dB
+     moved its leave-one-out by 0.01 dB, because the drone lives at 41-98 Hz
+     where the ear is 30-45 dB down and "no fader fixes physics". This genre's
+     bass has the same register and a different problem on top of it: it plays
+     1.5% of the notes. That is an arrangement question, not a gain one.
+  
+     WHERE IT LANDED, same measurement, same 12 songs:
+  
+       drums 34.3%   ostinato 22.0%   keys 21.5%   LEAD 11.9%
+       keys2 7.3%    counter 2.2%     bass 0.9%
+  
+     The kit is still the floor this genre marches on -- 34.3% against a note
+     share of 28.6%, so it is still written louder per note than the average
+     part -- but the pitched group now holds two thirds of the record instead
+     of one third, and the theme is heard at nearly three times what it was.
+     The bass did not move and was never going to; see above. */
+  /* ── AND I OVERCORRECTED THE DRUMS INTO SILENCE ───────────────────────
+     These numbers came from a share-of-sound measurement that said the drums
+     were 64.6% of the record, so I cut them. MEASURED again, 12 songs, share
+     computed the same way -- gain times duration, across the whole record:
+  
+       keys 57.0%   lead 13.0%   keys2 11.0%   bass 7.2%
+       ostinato 6.3%   DRUMS 3.5%   counter 1.9%
+  
+     against dungeon synth, whose drums are 28.7% and whose keys are 32.1%.
+     A war drum and three timpani at three and a half per cent is not a
+     balance decision, it is the part being switched off, and "the drums are
+     fucked, there is no dynamic, there is nothing but the same LOOP" is what
+     that sounds like -- there is not enough of them to hear the pattern with.
+     Two thirds was wrong and a thirtieth is wrong; I answered a measurement
+     with its opposite instead of with a balance.
+  
+     And the COMP is now the record. 57% on a sustained pad, against a tune
+     at 13%, is the harmonic background playing the lead role -- exactly what
+     Rimsky-Korsakov says the background must not do: it "should be of
+     inferior dynamic power" to the thing it is behind.
+  
+     So: the drums back to a fifth of the record, the pad cut to where a
+     background belongs, and the two parts that were under two per cent --
+     the counter and the bass -- lifted to where they can be heard at all.
+  
+     SWEPT, not guessed. Four candidate settings measured the same way:
+  
+       keys 0.26 drums 1.15  ->  drums  9.1%  keys 34.7%  bass 15.5%
+       keys 0.22 drums 1.60  ->  drums 12.2%  keys 29.2%  bass 18.0%
+       keys 0.20 drums 1.90  ->  drums 13.7%  keys 26.6%  bass 19.2%
+       keys 0.18 drums 2.20  ->  drums 14.6%  keys 24.0%  bass 20.6%
+  
+     The drums plateau near 14% however hard they are pushed, because this
+     measure is gain TIMES DURATION and a struck drum has almost none of the
+     second -- so it under-reads percussion by construction and the number to
+     read is the SHAPE of the column, not its height. The third row is where
+     the comp stops being the record and nothing else has run away.
+  
+     HONEST LIMIT: this is the composed domain, not the rendered one. The
+     rendered check is `probe_stems.js`, which needs a full-length render and
+     did not finish inside this session's budget; over the first 40 seconds
+     it reads the opening only, where these parts have not entered yet. So
+     this balance is measured, and it is measured with the cheaper instrument
+     of the two. */
+  roleGain: { keys: 0.2, keys2: 0.4, ostinato: 0.5, bass: 0.55, lead: 1, counter: 0.95, drums: 1.9 },
+  swap: { keys: 0.45, keys2: 0.45, lead: 0.4, drums: 0.22, bass: 0.06 },
+  /* ── THESE POOLS DO NOT PICK THE LANE. THEY DECLARE THE PALETTE ─────────
+     MEASURED, 40 songs: the only machines that ever PLAY this genre's keys,
+     lead and keys2 lanes are the ones named on the `ladder` above -- a rung
+     is written into `sec.machines` for every section, so the song-wide pick
+     these weights decide is overridden before a note exists. I recorded that
+     as dead config and left it alone.
+  
+     It stopped being dead the moment doubling was drawn. A doubling looks for
+     a partner among the instruments THIS GENRE CAN HOLD, and a genre says
+     what it can hold in exactly these three lists plus its ladder and its
+     rig. So the pools now answer a real question -- not "who plays the lane",
+     which the ladder owns, but "who is in this orchestra at all".
+  
+     Which is why the bass oboe and the baritone saxophone are here. They are
+     melodic instruments in a low register: wrong for a comp ladder, wrong for
+     a tune that lives at MIDI 69-91, and exactly right as the second chair
+     doubling a line. Before this they had no reachable home in hobbit synth
+     and read 0 notes in 60 records while being fully built. */
+  machines: {
+    drums: [["tr1000", 1]],
+    bass: [["auto", 1]],
+    keys: [
+      ["bardPluck", 5],
+      ["erangHarp", 3],
+      ["mellotron", 3],
+      ["erangStrings", 2],
+      ["vp330", 2],
+      ["bassOboe", 2],
+      ["bariSax", 2]
+    ],
+    lead: [["bardFlute", 5], ["bardWind", 4], ["erangLead", 3], ["auto", 2]],
+    keys2: [
+      ["erangStrings", 4],
+      ["horns", 4],
+      ["vp330", 3],
+      ["bardPluck", 3],
+      ["mellotron", 2],
+      ["bassoon", 3],
+      ["bassOboe", 2]
+    ]
+  },
+  params: {
+    tr1000: {
+      kit: "dungeon",
+      ring: 1.05,
+      pSet: "any",
+      pTune: 1,
+      pAtk: 0.003,
+      pRel: 1.6,
+      pTone: 0.66,
+      bus: 1,
+      gate: 0,
+      kTune: 4,
+      kDecay: 0.8,
+      kMix: 1.15,
+      kVerb: 0.05,
+      kEcho: 0.03,
+      kCut: 9000,
+      sTune: 1,
+      sDecay: 1,
+      sMix: 0.62,
+      sVerb: 0.55,
+      sEcho: 0.08,
+      sCut: 9500,
+      tTune: -2,
+      tDecay: 0.85,
+      tMix: 1.2,
+      tVerb: 0.3,
+      tEcho: 0.08,
+      tCut: 8000,
+      mTune: -2,
+      mDecay: 0.85,
+      mMix: 1.15,
+      mVerb: 0.3,
+      mEcho: 0.08,
+      mCut: 8000,
+      rTune: 1,
+      rDecay: 1,
+      rMix: 0.3,
+      rVerb: 0.4,
+      rEcho: 0.05,
+      rCut: 9000,
+      cTune: 1,
+      cDecay: 1,
+      cMix: 0.3,
+      cVerb: 0.4,
+      cEcho: 0.05,
+      cCut: 9000,
+      hTune: 1,
+      hDecay: 0.8,
+      hMix: 0.28,
+      hVerb: 0.35,
+      hEcho: 0.04,
+      hCut: 9000,
+      oTune: 1,
+      oDecay: 0.9,
+      oMix: 0.3,
+      oVerb: 0.4,
+      oEcho: 0.05,
+      oCut: 9000,
+      aTune: 1,
+      aDecay: 1,
+      aMix: 0.3,
+      aVerb: 0.5,
+      aEcho: 0.05,
+      aCut: 8500,
+      dTune: 1,
+      dDecay: 1,
+      dMix: 0.3,
+      dVerb: 0.5,
+      dEcho: 0.05,
+      dCut: 8500
+    },
+    desk: { low: -3, mid: 0, high: 0, lowF: 200, midF: 1000, highF: 4000 },
+    mellotron: { voice: "any", wow: 0.006, flutter: 0.4, hiss: 0.45, tapeEnd: 1 },
+    vp330: {
+      ens: 0.72,
+      choir: 0.55,
+      attack: 1.8,
+      release: 4.6,
+      pan: 0.15,
+      panHz: 0.04,
+      panDep: 0.18
+    },
+    echo: { div: 3, send: 0.14, fb: 0.3, tone: 2600, hp: 180, verb: 0.5, width: 0.25 },
+    erangStrings: { patch: "any", tune: 1, attack: 1.1, release: 3.6, tone: 0.7, pan: 0 },
+    erangHarp: { patch: "any", tune: 1, attack: 0.006, release: 1.6, tone: 0.78, pan: 0.12 },
+    erangLead: { patch: "any", tune: 1, attack: 0.55, release: 2.4, tone: 0.74, pan: -0.1 }
+  },
+  matrixDraw: {
+    pick: [4, 7],
+    pool: [
+      ["roomMix", 7],
+      ["leadRoom", 6],
+      ["keysRoom", 5],
+      ["leadEcho", 4],
+      ["keysEcho", 4],
+      ["keysDP4", 4],
+      ["leadFlange", 3],
+      ["roomDP4", 3],
+      ["drumsRoom", 3],
+      ["bassEcho", 3],
+      ["leadDP4", 2],
+      ["keysBarber", 2],
+      ["roomFlange", 2],
+      ["drumsDP4", 2]
+    ],
+    shapes: {
+      bassEcho: [
+        { kind: "section", by: { instrumental: [0.08, 0.18] } },
+        { kind: "occurrence", step: [0.02, 0.05], cap: 3 }
+      ],
+      drumsEcho: [
+        { kind: "gesture", on: "fill", bars: 3, from: [0, 0], to: [0.1, 0.2], curve: "exp" },
+        { kind: "section", by: { instrumental: [0.04, 0.1] } }
+      ],
+      keysEcho: [
+        { kind: "section", by: { outro: [-0.26, -0.12] } },
+        { kind: "gesture", on: "fill", bars: 2, from: [0, 0], to: [-0.2, -0.08], curve: "exp" }
+      ],
+      leadEcho: [
+        {
+          kind: "gesture",
+          on: "build",
+          bars: 2,
+          from: [0, 0],
+          to: [-0.44, -0.26],
+          curve: "exp"
+        },
+        { kind: "section", by: { instrumental: [-0.3, -0.16] } }
+      ],
+      bassRoom: [
+        { kind: "arc", from: [-0.16, -0.1], to: [-0.04, 0], curve: "log" },
+        { kind: "section", by: { bridge: [-0.4, -0.2] } },
+        { kind: "lfo", bars: [[84, 1]], depth: [0.05, 0.1], shape: "sin", freePhase: true }
+      ],
+      roomMix: [
+        {
+          kind: "section",
+          by: {
+            instrumental: [0.14, 0.28],
+            intro: [0.1, 0.2],
+            outro: [0.08, 0.18],
+            chorus: [-0.16, -0.08]
+          }
+        },
+        { kind: "lfo", bars: [[96, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }
+      ],
+      leadRoom: [
+        { kind: "section", by: { chorus: [-0.34, -0.2], instrumental: [-0.26, -0.14] } },
+        { kind: "gesture", on: "fill", bars: 2, from: [0, 0], to: [-0.22, -0.1], curve: "exp" }
+      ],
+      keysRoom: [{ kind: "section", by: { chorus: [-0.28, -0.16], instrumental: [-0.2, -0.1] } }],
+      keysDP4: [
+        { kind: "gesture", on: "build", bars: 3, from: [0, 0], to: [0.3, 0.56], curve: "exp" },
+        { kind: "section", by: { instrumental: [0.1, 0.24] } }
+      ],
+      leadFlange: [{ kind: "gesture", on: "peak", bars: 4, from: [0, 0], to: [0.34, 0.62], curve: "exp" }],
+      leadDP4: [
+        { kind: "gesture", on: "build", bars: 2, from: [0, 0], to: [0.24, 0.46], curve: "exp" }
+      ],
+      keysBarber: [{ kind: "section", by: { intro: [0.16, 0.34], outro: [0.1, 0.22] } }],
+      roomDP4: [
+        { kind: "gesture", on: "peak", bars: 6, from: [0, 0], to: [0.26, 0.5], curve: "exp" },
+        { kind: "section", by: { instrumental: [0.12, 0.26] } }
+      ],
+      roomFlange: [{ kind: "section", by: { outro: [0.14, 0.3], intro: [0.06, 0.16] } }],
+      drumsRoom: [{ kind: "gesture", on: "fill", bars: 1, from: [0, 0], to: [0.16, 0.3], curve: "exp" }],
+      drumsDP4: [{ kind: "gesture", on: "fill", bars: 1, from: [0, 0], to: [0.12, 0.24], curve: "exp" }]
+    }
+  },
+  /* ══ THE DESK IS THIS GENRE'S OWN, AND IT MOVES ON A DIFFERENT PRINCIPLE ══
+     The owner: "We should be automating the Matrix Mixer this is where we get
+     the most back for our buck."
+  
+     MEASURED before this: hobbit synth moved 5-6 crossings a song, union 8
+     over 12 songs, 7 distinct sets -- numbers IDENTICAL to dungeon synth's,
+     because it declared no `matrixDraw` and no `motion` and inherited both
+     whole. Prog-techno, for scale: union 26, 22-24 a song, a different set in
+     all 12. This genre had no automation identity at all.
+  
+     AND THE SHAPE OF IT IS NOT PROG-TECHNO'S. Two research passes came back
+     independently on the same point, and it contradicts what every other
+     genre in this file does:
+  
+       "Actively increasing the send with the arc simulates the orchestra
+        moving AWAY as it gets louder -- which is wrong."
+  
+     The physics under it is sourced: perceived distance is carried by the
+     direct-to-reverberant RATIO, which is intensity-independent -- a real hall
+     gets louder along with the orchestra and the ratio does not move. A
+     post-fader send at fixed depth already does the right thing. So a room
+     send ridden UP into a climax reads as the players retreating at the exact
+     moment they should arrive. Dungeon synth's `drumsRoom` and prog-techno's
+     `leadRoom` both do precisely that, on the apex. They are not changed here
+     -- both genres have been judged good and this is a finding, not a verdict
+     -- but this genre does not inherit the habit.
+  
+     (The "therefore do not ride the send with the dynamic" step is the
+     researchers' inference from the sourced physics, not a quoted claim, and
+     is recorded as such in score-craft.md §on space.)
+  
+     SO WHAT DOES DRIVE A SEND HERE. Three things, each sourced:
+  
+     ONE -- SECTION, as a quantised named distance. Mahler does not write a
+     distance knob, he writes named states: "In der Ferne" / "In weiter
+     Entfernung" / "In sehr weiter Entfernung", and then "Die 3 Tromp. nehmen
+     ihren Platz im Orchester ein" -- the trumpets WALK IN from offstage, once,
+     as an event. Distance is a small ordered set traversed at a structural
+     boundary, not a continuous ride. [corpus:Mahler 1, score markings]
+  
+     TWO -- DENSITY, not dynamic. "For faster tracks with more elements,
+     shorter decay times are often more effective"; the sparse end takes the
+     long tail. So the thin sections are the WET ones here and the tutti is the
+     dry one, which is the opposite of the arc-driven habit.
+  
+     THREE -- THE BOUNDARY. The only verbatim automation SHAPES anybody
+     documents are anchored to a structural edge and are one or two bars long:
+     "an automation curve to ramp up the reverb send level in the two bars
+     preceding the 'stop'"; on the downbeat of the stop itself "a short (one
+     beat long) but very large dollop of reverb"; and the reverse, "starting
+     with lots of reverb and quickly returning back to almost none over the
+     course of the one bar roll." [corpus:soundonsound/spot-reverb]
+  
+     AND THE CRESCENDO IS ASYMMETRIC, which is the one Rimsky-Korsakov shape
+     that does belong on a send: "While the first group effects the crescendo
+     gradually, the second group enters piano or pianissimo, and attains its
+     crescendo MORE RAPIDLY." Its converse is not a fade -- the diminuendo is
+     "the suppression of one of the groups", a removal. So a build here is two
+     ramps of different steepness crossing, and its release is a cut.
+  
+     ONE FLOOR, from Berlioz, and it is why nothing below ever reaches zero
+     wet: "there is no such thing as music in the open air... An orchestra of a
+     thousand wind instruments, with a chorus of two thousand voices, placed in
+     a plain, would not have a twentieth part of the musical action that an
+     ordinary orchestra of eighty players... in the concert-room." Dry is not
+     neutral, it is dead, and scale cannot be bought by stacking parts into it. */
+  /* ══ THE DRONE GETS A DETAIL SMALLER THAN A BAR ═════════════════════════
+     Reported, and it is a diagnosis rather than a complaint: "The issue with
+     drones is you cant figure out how to make something that goes on and on
+     while also allowing it to have evolution, i think this is done with
+     prameter locking and automitization but you seem to fail in implimenting
+     this."
+  
+     MEASURED, AND EXACTLY RIGHT. Dungeon synth and hobbit synth were the
+     ONLY TWO GENRES IN THE FILE DECLARING ZERO PARAMETER LOCKS; the other
+     eight declare between one and four. And the cost is not small. Sampling
+     every motion lane at every step across a whole record and splitting the
+     travel by timescale:
+  
+                     travel WITHIN a bar     lanes flat inside every bar
+       lofi                7.6%                  17 of 165   (10%)
+       progtechno          6.5%                  36 of 63
+       plastikman          4.2%                  14 of 77
+       dungeon synth       1.1%                  68 of 118   (58%)
+       hobbit synth        1.1%                  69 of 121   (57%)
+  
+     Bar-to-bar was 98-99% of all travel in both. So the automation was not
+     missing -- 121 live lanes -- it was ENTIRELY AT THE SLOW TIMESCALES. The
+     record swells and arcs and never has a detail smaller than a bar, which
+     is precisely a drone that goes on and on: it evolves, at a rate too slow
+     to make this bar sound different from the last one.
+  
+     The file's own definition of the cure has been sitting above `motionAt`
+     since motion was built, and names the mechanism the owner named: "a knob
+     value stored against a STEP, so step 7 has a different filter than step 6
+     and the difference repeats every bar UNTIL IT STOPS SOUNDING LIKE A
+     REPEAT AND STARTS SOUNDING LIKE A PART."
+  
+     ── IT RIDES `tone` BECAUSE `tone` IS THE ONLY THING THESE VOICES HAVE ──
+     An erang sampler exposes patch, tune, attack, release, tone and pan, and
+     of those only `tone` is timbral -- it is the one lowpass, swept 500 Hz to
+     18 kHz. So a plock here is per-step brightness, which for a single-sample
+     voice with no filter envelope and no velocity layers is the ONLY internal
+     detail available at all. Checked before it was written, because a lock on
+     a control no voice reads is this file's oldest defect wearing a new hat.
+  
+     EACH ARRAY REPEATS THE APEX SPEC IT ALREADY HAD. The merge replaces an
+     array wholesale rather than appending to it, so writing only the plock
+     here would have silently deleted the record-scale gesture and traded one
+     missing timescale for another. Found by reading the merge, not by the
+     battery, which would not have noticed.
+  
+     THE NUMBERS ARE [CHOSEN] inside the family the file already uses --
+     densities elsewhere run [0.05,0.12] to [0.14,0.30]. These sit at the top
+     of that band because this is the genre with nothing else moving fast, and
+     the amounts are a twentieth to a tenth of `tone`'s 0.85 span: detail, not
+     a wobble. Nothing sources a p-lock density; there is no such literature. */
+  motion: {
+    horns: {
+      blaze: [
+        { kind: "apex", from: [-0.22, -0.12], to: [0.1, 0.22] },
+        { kind: "section", by: { bridge: [-0.18, -0.08] } }
+      ],
+      section: [{ kind: "arc", from: [-0.25, -0.12], to: [0.06, 0.18], curve: "sCurve" }],
+      weight: [
+        { kind: "section", by: { bridge: [-0.3, -0.16], outro: [-0.2, -0.1] } },
+        { kind: "apex", from: [-0.12, -0.04], to: [0.04, 0.14] }
+      ],
+      pan: [{ kind: "lfo", bars: [[112, 1]], depth: [0.02, 0.06], shape: "sin", freePhase: true }],
+      panHz: [{ kind: "lfo", bars: [[96, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      panDep: [{ kind: "arc", from: [0, 0.01], to: [0.03, 0.08], curve: "log" }]
+    },
+    bassoon: {
+      push: [
+        { kind: "apex", from: [-0.12, -0.06], to: [0.05, 0.12] },
+        { kind: "section", by: { bridge: [-0.1, -0.04] } }
+      ],
+      pan: [{ kind: "lfo", bars: [[128, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+      panHz: [{ kind: "lfo", bars: [[104, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      panDep: [{ kind: "arc", from: [0, 0.01], to: [0.02, 0.06], curve: "log" }]
+    },
+    bariSax: {
+      push: [
+        { kind: "apex", from: [-0.12, -0.06], to: [0.06, 0.14] },
+        { kind: "section", by: { bridge: [-0.1, -0.04] } }
+      ],
+      pan: [{ kind: "lfo", bars: [[120, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+      panHz: [{ kind: "lfo", bars: [[100, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      panDep: [{ kind: "arc", from: [0, 0.01], to: [0.02, 0.06], curve: "log" }]
+    },
+    bassOboe: {
+      push: [
+        { kind: "apex", from: [-0.12, -0.06], to: [0.05, 0.12] },
+        { kind: "section", by: { bridge: [-0.1, -0.04] } }
+      ],
+      pan: [{ kind: "lfo", bars: [[136, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+      panHz: [{ kind: "lfo", bars: [[108, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      panDep: [{ kind: "arc", from: [0, 0.01], to: [0.02, 0.06], curve: "log" }]
+    },
+    corAnglais: {
+      push: [
+        { kind: "apex", from: [-0.12, -0.06], to: [0.05, 0.12] },
+        { kind: "section", by: { bridge: [-0.1, -0.04] } }
+      ],
+      pan: [{ kind: "lfo", bars: [[144, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+      panHz: [{ kind: "lfo", bars: [[112, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      panDep: [{ kind: "arc", from: [0, 0.01], to: [0.02, 0.06], curve: "log" }]
+    },
+    carnyx: {
+      blaze: [
+        { kind: "apex", from: [-0.3, -0.18], to: [0.14, 0.3] },
+        { kind: "section", by: { bridge: [-0.22, -0.1], outro: [-0.18, -0.08] } }
+      ],
+      pan: [{ kind: "lfo", bars: [[160, 1]], depth: [0.03, 0.08], shape: "sin", freePhase: true }],
+      panHz: [{ kind: "lfo", bars: [[92, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      panDep: [{ kind: "arc", from: [0, 0.02], to: [0.04, 0.1], curve: "log" }]
+    },
+    tr1000: {
+      bus: [{ kind: "apex", from: [-0.06, 0], to: [0.04, 0.12] }],
+      gate: [{ kind: "section", by: { chorus: [0, 0.06] } }],
+      tVerb: [
+        { kind: "apex", from: [-0.05, 0.02], to: [0.05, 0.16] },
+        {
+          kind: "lfo",
+          bars: [[48, 2], [64, 1]],
+          depth: [0.02, 0.06],
+          shape: "sin",
+          freePhase: true
+        },
+        { kind: "gesture", on: "fill", bars: 2, from: [0, 0], to: [0.06, 0.14], curve: "exp" }
+      ],
+      mVerb: [
+        { kind: "apex", from: [-0.05, 0.02], to: [0.05, 0.16] },
+        { kind: "gesture", on: "fill", bars: 2, from: [0, 0], to: [0.06, 0.14], curve: "exp" }
+      ],
+      tCut: [{ kind: "apex", from: [-900, -200], to: [200, 1400] }],
+      mCut: [{ kind: "apex", from: [-900, -200], to: [200, 1400] }],
+      kMix: [{ kind: "section", by: { bridge: [-0.3, -0.12], outro: [-0.25, -0.1] } }],
+      sMix: [
+        { kind: "section", by: { bridge: [-0.25, -0.1] } },
+        { kind: "lfo", bars: [[56, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }
+      ],
+      tMix: [{ kind: "occurrence", step: [0.03, 0.08], cap: 3 }],
+      mMix: [{ kind: "occurrence", step: [0.03, 0.08], cap: 3 }],
+      pTone: [{ kind: "lfo", bars: [[104, 1]], depth: [0.03, 0.07], shape: "sin", freePhase: true }],
+      kDecay: [{ kind: "lfo", bars: [[64, 1]], depth: [0.02, 0.06], shape: "sin", freePhase: true }],
+      kVerb: [{ kind: "apex", from: [-0.04, 0.02], to: [0.04, 0.12] }],
+      kEcho: [{ kind: "section", by: { outro: [0.04, 0.12] } }],
+      kTune: [{ kind: "lfo", bars: [[96, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      kCut: [{ kind: "apex", from: [-600, -100], to: [100, 900] }],
+      sTune: [{ kind: "lfo", bars: [[80, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      sDecay: [{ kind: "section", by: { chorus: [0.02, 0.1] } }],
+      sVerb: [{ kind: "apex", from: [-0.04, 0.02], to: [0.04, 0.14] }],
+      sEcho: [{ kind: "section", by: { outro: [0.03, 0.1] } }],
+      sCut: [{ kind: "apex", from: [-600, -100], to: [100, 900] }],
+      tTune: [{ kind: "lfo", bars: [[72, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      tDecay: [{ kind: "section", by: { chorus: [0.05, 0.2] } }],
+      tEcho: [
+        { kind: "section", by: { bridge: [0.03, 0.1] } },
+        { kind: "lfo", bars: [[60, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }
+      ],
+      mTune: [{ kind: "lfo", bars: [[88, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      mDecay: [{ kind: "section", by: { chorus: [0.05, 0.2] } }],
+      mEcho: [
+        { kind: "section", by: { bridge: [0.03, 0.1] } },
+        { kind: "lfo", bars: [[68, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }
+      ],
+      rTune: [{ kind: "lfo", bars: [[70, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      rDecay: [{ kind: "lfo", bars: [[60, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+      rMix: [
+        { kind: "section", by: { bridge: [-0.12, -0.04] } },
+        { kind: "lfo", bars: [[52, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }
+      ],
+      rVerb: [{ kind: "apex", from: [-0.03, 0.01], to: [0.03, 0.1] }],
+      rEcho: [{ kind: "section", by: { outro: [0.02, 0.08] } }],
+      rCut: [{ kind: "apex", from: [-400, -80], to: [80, 700] }],
+      cTune: [{ kind: "lfo", bars: [[76, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      cDecay: [{ kind: "lfo", bars: [[66, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+      cMix: [
+        { kind: "section", by: { bridge: [-0.12, -0.04] } },
+        { kind: "lfo", bars: [[58, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }
+      ],
+      cVerb: [{ kind: "apex", from: [-0.03, 0.01], to: [0.03, 0.1] }],
+      cEcho: [{ kind: "section", by: { outro: [0.02, 0.08] } }],
+      cCut: [{ kind: "apex", from: [-400, -80], to: [80, 700] }],
+      hTune: [{ kind: "lfo", bars: [[58, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      hDecay: [{ kind: "lfo", bars: [[54, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+      hMix: [
+        { kind: "section", by: { bridge: [-0.1, -0.03] } },
+        { kind: "lfo", bars: [[46, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }
+      ],
+      hVerb: [{ kind: "apex", from: [-0.03, 0.01], to: [0.02, 0.08] }],
+      hEcho: [{ kind: "section", by: { outro: [0.02, 0.07] } }],
+      hCut: [{ kind: "apex", from: [-400, -80], to: [80, 600] }],
+      oTune: [{ kind: "lfo", bars: [[62, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      oDecay: [{ kind: "lfo", bars: [[56, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+      oMix: [
+        { kind: "section", by: { bridge: [-0.1, -0.03] } },
+        { kind: "lfo", bars: [[50, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }
+      ],
+      oVerb: [{ kind: "apex", from: [-0.03, 0.01], to: [0.02, 0.08] }],
+      oEcho: [{ kind: "section", by: { outro: [0.02, 0.07] } }],
+      oCut: [{ kind: "apex", from: [-400, -80], to: [80, 600] }],
+      aTune: [{ kind: "lfo", bars: [[84, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      aDecay: [{ kind: "lfo", bars: [[74, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+      aMix: [
+        { kind: "section", by: { bridge: [-0.12, -0.04] } },
+        { kind: "lfo", bars: [[62, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }
+      ],
+      aVerb: [{ kind: "apex", from: [-0.03, 0.01], to: [0.03, 0.1] }],
+      aEcho: [{ kind: "section", by: { outro: [0.02, 0.08] } }],
+      aCut: [{ kind: "apex", from: [-400, -80], to: [80, 700] }],
+      dTune: [{ kind: "lfo", bars: [[90, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
+      dDecay: [{ kind: "lfo", bars: [[78, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
+      dMix: [
+        { kind: "section", by: { bridge: [-0.12, -0.04] } },
+        { kind: "lfo", bars: [[66, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }
+      ],
+      dVerb: [{ kind: "apex", from: [-0.03, 0.01], to: [0.03, 0.1] }],
+      dEcho: [{ kind: "section", by: { outro: [0.02, 0.08] } }],
+      dCut: [{ kind: "apex", from: [-400, -80], to: [80, 700] }]
+    },
+    erangStrings: {
+      tone: [
+        { kind: "apex", from: [-0.1, -0.02], to: [0.05, 0.16] },
+        { kind: "occurrence", step: [0.04, 0.09], cap: 3 },
+        { kind: "plock", density: [0.12, 0.22], amt: [-0.05, 0.04] }
+      ],
+      pan: [{ kind: "lfo", bars: [[72, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }]
+    },
+    erangHarp: {
+      tone: [
+        { kind: "apex", from: [-0.08, -0.01], to: [0.04, 0.12] },
+        { kind: "plock", density: [0.26, 0.42], amt: [-0.1, 0.08] }
+      ],
+      pan: [{ kind: "lfo", bars: [[56, 1]], depth: [0.06, 0.16], shape: "sin", freePhase: true }]
+    },
+    erangLead: {
+      tone: [
+        { kind: "apex", from: [-0.09, -0.02], to: [0.05, 0.14] },
+        { kind: "plock", density: [0.18, 0.32], amt: [-0.08, 0.06] }
+      ],
+      pan: [{ kind: "lfo", bars: [[64, 1]], depth: [0.05, 0.13], shape: "sin", freePhase: true }]
+    },
+    bardFlute: {
+      tone: [
+        { kind: "apex", from: [-0.09, -0.02], to: [0.05, 0.15] },
+        { kind: "plock", density: [0.2, 0.34], amt: [-0.09, 0.06] }
+      ],
+      pan: [{ kind: "lfo", bars: [[52, 1]], depth: [0.06, 0.15], shape: "sin", freePhase: true }]
+    },
+    bardPluck: {
+      tone: [
+        { kind: "apex", from: [-0.08, -0.01], to: [0.04, 0.13] },
+        { kind: "occurrence", step: [0.03, 0.07], cap: 3 },
+        { kind: "plock", density: [0.26, 0.42], amt: [-0.1, 0.08] }
+      ],
+      pan: [{ kind: "lfo", bars: [[44, 1]], depth: [0.07, 0.17], shape: "sin", freePhase: true }]
+    },
+    bardWind: {
+      tone: [
+        { kind: "apex", from: [-0.1, -0.02], to: [0.05, 0.14] },
+        { kind: "plock", density: [0.2, 0.34], amt: [-0.09, 0.06] }
+      ],
+      pan: [{ kind: "lfo", bars: [[68, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }]
+    },
+    mellotron: {
+      wow: [
+        {
+          kind: "lfo",
+          bars: [[40, 2], [56, 1]],
+          depth: [0.0008, 0.002],
+          shape: "sin",
+          freePhase: true
+        }
+      ],
+      flutter: [
+        {
+          kind: "lfo",
+          bars: [[48, 2], [64, 1]],
+          depth: [0.04, 0.1],
+          shape: "sin",
+          freePhase: true
+        }
+      ],
+      hiss: [{ kind: "section", by: { outro: [0.06, 0.16] } }]
+    },
+    vp330: {
+      ens: [
+        {
+          kind: "lfo",
+          bars: [[52, 2], [68, 1]],
+          depth: [0.05, 0.14],
+          shape: "sin",
+          freePhase: true
+        }
+      ],
+      choir: [{ kind: "apex", from: [-0.1, -0.02], to: [0.05, 0.16] }],
+      pan: [{ kind: "lfo", bars: [[64, 1]], depth: [0.06, 0.16], shape: "sin", freePhase: true }]
+    },
+    echo: {
+      send: [
+        { kind: "section", by: { bridge: [0.05, 0.14], outro: [0.04, 0.12] } },
+        { kind: "occurrence", step: [0.05, 0.11], cap: 3 },
+        { kind: "gesture", on: "fill", bars: 3, from: [0, 0], to: [0.08, 0.16], curve: "exp" }
+      ],
+      verb: [{ kind: "apex", from: [-0.04, 0.02], to: [0.05, 0.16] }],
+      fb: [{ kind: "occurrence", step: [0.04, 0.09], cap: 2 }]
+    },
+    desk: {
+      high: [{ kind: "apex", from: [-0.12, -0.03], to: [0.02, 0.1] }],
+      low: [{ kind: "section", by: { outro: [-0.14, -0.04] } }]
+    },
+    matrix: {
+      keysRoom: [
+        { kind: "apex", from: [-0.62, -0.48], to: [-0.44, -0.34] },
+        { kind: "occurrence", step: [0.09, 0.15], cap: 3 }
+      ],
+      drumsRoom: [
+        { kind: "apex", from: [0, 0.02], to: [0.24, 0.42] },
+        { kind: "occurrence", step: [0.06, 0.12], cap: 3 },
+        { kind: "gesture", on: "fill", bars: 3, from: [0, 0], to: [0.1, 0.2], curve: "exp" }
+      ],
+      leadRoom: [
+        { kind: "arc", from: [-0.62, -0.5], to: [-0.44, -0.36], curve: "sCurve" },
+        { kind: "occurrence", step: [0.09, 0.14], cap: 3 }
+      ],
+      vinylMix: [
+        { kind: "section", by: { bridge: [-0.3, -0.14] } },
+        { kind: "lfo", bars: [[76, 1]], depth: [0.04, 0.09], shape: "sin", freePhase: true }
+      ]
+    }
+  },
+  form: {
+    lengths: { intro: 16, verse: 24, chorus: 24, bridge: 16, instrumental: 24, outro: 16 },
+    material: { intro: "A", verse: "A", chorus: "B", bridge: "C", instrumental: "A", outro: "A" },
+    roles: {
+      intro: ["keys", "ostinato", "lead"],
+      verse: ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+      chorus: ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+      bridge: ["keys", "keys2", "ostinato", "bass"],
+      instrumental: ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+      outro: ["drums", "bass", "keys", "keys2", "lead", "ostinato"]
+    },
+    thinTo: [2, 3],
+    build: {
+      enter: {
+        drums: [0.01, 0.015],
+        keys: [0.01, 0.015],
+        ostinato: [0.025, 0.025],
+        bass: [0.05, 0.025],
+        lead: [0.06, 0.04],
+        keys2: [0.12, 0.06],
+        counter: [0.14, 0.06]
+      }
+    },
+    rest: {
+      counter: 0.34,
+      keys2: 0.26,
+      lead: 0.2,
+      ostinato: 0.14,
+      drums: 0.09,
+      keys: 0.07,
+      bass: 0.04
+    },
+    longLoop: { lead: 2, keys2: 2 },
+    coldOpen: 0.05,
+    openVerse: 0.9,
+    target: [96, 5, 16],
+    plan: [
+      { name: "setting out", pool: ["intro", "verse"], bars: [16, 1, 16] },
+      { name: "the road", pool: ["verse", "instrumental"], bars: [16, 2, 16] },
+      {
+        name: "the high country",
+        pool: ["chorus", "instrumental"],
+        bars: [16, 2, 16],
+        endOn: "chorus"
+      },
+      {
+        name: "town in sight",
+        pool: ["bridge", "verse", "chorus"],
+        bars: [16, 1, 16],
+        endOn: "chorus"
+      }
+    ],
+    transitions: {
+      intro: [["verse", 8], ["instrumental", 2]],
+      verse: [["verse", 4], ["instrumental", 4], ["chorus", 3], ["bridge", 1]],
+      chorus: [["verse", 4], ["instrumental", 3], ["chorus", 2], ["bridge", 1]],
+      bridge: [["verse", 6], ["chorus", 3]],
+      instrumental: [["verse", 4], ["chorus", 4], ["instrumental", 2], ["bridge", 1]],
+      outro: []
+    },
+    bridgeAfterChorus: { verse: 2, instrumental: 2, chorus: 1 },
+    double: {
+      pick: [1, 2],
+      of: [["lead", 6], ["keys", 3], ["counter", 3], ["keys2", 3], ["ostinato", 2], ["bass", 2]],
+      uni: 0.7,
+      under: [0.42, 0.26],
+      from: [0.34, 0.34]
+    },
+    energy: {
+      intro: 0.62,
+      outro: 0.66,
+      bridge: 0.68,
+      instrumental: 0.84,
+      chorus: 0.9,
+      chorusPeak: 0.92,
+      verse: 0.76
+    },
+    arc: {
+      apexAt: [0.62, 0.74],
+      floor: [0.2, 0.34],
+      tail: [0.36, 0.52],
+      bend: [1.6, 2.2],
+      dip: [0.06, 0.14],
+      preHighs: [1, 1],
+      thin: { drums: 0.22, bass: 0.28, keys: 0.34, lead: 0.3, counter: 0.24, keys2: 0.48 }
+    }
+  },
+  materialBars: 8,
+  /* ── THE THEME IS RE-SCORED AS THE RECORD CLIMBS ──────────────────────
+     Ordered smallest to largest, and the section takes its rung from the
+     energy arc. A solo whistle-sized voice opens; the peak gets the brass.
+     Same notes throughout -- that is the point, and it is what this program
+     could not do until now: it drew one voice per part per song and played it
+     for nine minutes.
+     The Shire theme's own substitution ladder is the model: Shore takes it
+     from the tin whistle to the clarinet to the flute as the hobbits leave
+     home, and Adams records him refusing the whistle in Rivendell because
+     "it's too tender a scene... There are none of the hobbit folk sounds in
+     Rivendell. It's more classical." An instrument is a register of feeling
+     here, not a colour. [corpus:Doug Adams, The Annotated Score]
+  
+     AND THE ORDER OF THESE THREE LINES IS THE ORDER THEY ENTER, strings
+     first, then the wood-wind carrying the tune, then the brass -- which is
+     Rimsky-Korsakov's crescendo order and the reason the slots are written
+     this way round rather than melody-first. The program derives the spacing;
+     this only says who goes before whom.
+  
+     ── AND THIS IS THE ONLY DOOR INTO THIS GENRE'S INSTRUMENTS ────────────
+     Measured while adding the reeds below: across 40 songs, the twelve names
+     on these three lines are the ONLY machines that ever play keys, lead or
+     keys2 here. The `machines` pool further down never wins one of these
+     lanes, because a rung is written into `sec.machines` for every section.
+     So a new instrument that is not on this ladder does not exist in hobbit
+     synth, whatever the pool says -- which is why the reeds are here.
+  
+     WHERE EACH ONE GOES IS RIMSKY-KORSAKOV'S ORDER, not appended to the end.
+     The cor anglais is the plaintive solo double reed of the repertoire and
+     it stands one rung above the whistle, where the Shire theme's own
+     substitution goes whistle-to-clarinet. The bassoon is the SECOND CHAIR
+     and sits between the pad and the strings, which is where the treatise
+     puts it. And the carnyx is above the horns, because there is nothing
+     above a war horn -- it only sounds when the record is at its loudest. */
+  ladder: {
+    keys: ["erangHarp", "bardPluck", "mellotron", "erangStrings"],
+    lead: ["bardFlute", "corAnglais", "erangLead", "bardWind", "cs80"],
+    keys2: ["vp330", "bassoon", "erangStrings", "horns", "carnyx"]
+  },
+  bassWalk: 0.72,
+  bassStep: 4,
+  rollLandsOnBeat: true,
+};
+
+/* ══ NOTES THAT LOST THEIR KEY IN THE CONVERSION ═══════════════════════════
+   The merge is gone and these comments documented keys whose position moved
+   or whose name no longer appears at the depth it sat at. NOT ONE IS
+   DISCARDED -- a comment in this file is the reasoning, and dropping one to
+   tidy a diff is how a sourced decision becomes a magic number. They are
+   parked here verbatim, to be re-filed by hand. ══════════════════════════ */
+  /* ── WEIGHTED TOWARD THE LEAPS, AND THE BATTERY IS WHY ────────────────
+     The first draft led with i-flatVII-flatVI-flatVII (Hyrule Field), which
+     is three whole-tone root steps in a row. Two keyboards over a bass that
+     walks by step shadow each other in fifths and octaves however well the
+     voicer behaves, and the file-wide parallel-perfects rate went to 5.8%
+     against a 5% ceiling -- a check dungeon synth passes because its
+     harmony barely moves. The stepwise rows are still here and still
+     sourced; they are no longer what most records draw. */
+
+  /* ── AND MAJOR HAD TO BE GIVEN CHORDS BEFORE IT COULD BE DRAWN ─────────
+     Widening `modes` alone threw on seed 13 with "pairs is not iterable":
+     the draw reached `major` and there was no row for it. The constraint
+     doing its job -- a mode is reachable only if harmony exists for it --
+     and worth the note, because "add the mode" and "add the mode's chords"
+     look like one job and are two. These lead with LEAPING roots for the
+     same reason the minor rows do: this genre's two keyboards shadow each
+     other in perfects when the bass walks by step. */
+
+  /* the figure and the plucked chords carry the record when nothing else
+     does, so they get the widest locks -- and they keep the `occurrence`
+     step they already had, which is the rule of three on a dial */
+
+  /* the pad is the drone itself. Its locks are the smallest of the six:
+     a held chord with a fifth of its steps jumping in brightness is not
+     evolution, it is a fault, and the pad is the one voice here that is
+     genuinely sustaining rather than re-articulating. */
+
+    /* THE HALL ITSELF, and the only crossing that rests off both rails --
+       base 0.5, so it is the one thing here that can be played in either
+       direction. Named states at section boundaries, and the TUTTI IS THE
+       CLOSE ONE: the chorus draws the room in rather than pushing it away,
+       which is the whole correction above. The bridge and the intro are the
+       far states. Never to zero [Berlioz]. */
+
+    /* THE SOLO SPOTLIGHT, which is the ONE use of send automation a working
+       orchestral mixer sanctions: "raise the level of reverb ... on the spot
+       mic in solo lines to give that solo a little bit more shine". Routed,
+       so it is played down -- and it comes DRY toward the sections that
+       feature it, because a tune that arrives should arrive close.
+       [corpus:robin-hoffmann/mix-automations-in-orchestral-music] */
+
+    /* DENSITY, stated as a lane: the pad is wettest where the record is
+       thinnest and dries as the parts arrive. Routed, so down only. */
+
+    /* THE APPROACH RAMP, verbatim: up over the two bars before the edge.
+       Routed crossings get the REVERSE ramp -- high into the boundary and
+       gone by it -- which is the same source's third gesture. */
+
+    /* the bridge is NOT listed here, and that is the point: leaving a
+       section alone is saying nothing about it. A `bridge: [0, 0]` entry
+       stood here for one build -- a declared move of exactly zero, which is
+       dead config in miniature and reads as an intention it does not have. */
+
+    /* THE SECOND GROUP, entering from nothing and climbing STEEPER than
+       anything already moving -- Rimsky-Korsakov's crescendo, and the reason
+       a long build keeps accelerating after level has run out. Unrouted, so
+       these are the ones that climb. Their release is a section cut, not a
+       fade: "the suppression of one of the groups". */
+
+    /* THE RETURN, PROCESSED -- the hall's own output through the flanger and
+       the multi-fx, which is the closest this desk comes to Wright's joystick
+       and is the one place a big move belongs: it colours the ROOM, not the
+       players. Unrouted, so up from nothing. */
+
+    /* THE DRUMS STAY NEARLY OUT OF THE HALL, and that is dungeon synth's own
+       measurement rather than a taste: a hit every 909 ms into a tail that
+       takes eight and a half seconds to die is "a continuous wash by
+       arithmetic". They get a boundary throw and nothing sustained. */
+
+    /* and the low end takes a little of the delay as the road goes on --
+       the smallest lane here, because the bass is where a long tail turns
+       to mud fastest */
+
+  /* the party is on the road for a while: the measured overworld loop runs
+     35 s to 2:15 and the eight-bar section is the corpus's own unit.
+     TWENTY-FOUR, not thirty-two: at 32 the four movements below came to
+     191 bars and 6.8 minutes, with the long tail of the range at 8:31 --
+     still past the 7:18 top of the measured exploration-cue band. Three
+     eight-bar units to a section keeps the corpus's unit and lands the
+     record where the measurement says it belongs. */
+
+  /* ── AND THE EPIC GENRE ALWAYS HAS AT LEAST ONE DOUBLING ─────────────
+     Dungeon synth draws 0 to 3 and a third of its records have none, which
+     is right for a genre described as "atmosphere over loudness". This one
+     was asked for an epic-sized orchestra, so its FLOOR is one: every
+     record carries at least one line on two instruments. Only the floor
+     moves -- the roles, the unison weight, the level under the parent and
+     the arrival threshold are all dungeon synth's and are inherited, which
+     is what a deep merge is for. One number is the whole difference. */
+
+  /* ══ AND THE JOURNEY IS NOT A DESCENT ═════════════════════════════════
+     Inherited whole, this genre was walking dungeon synth's route:
+     `descend -> halls -> deeper -> return`. For the music the owner asked
+     for -- "the moody music that plays when the party is adventuring ABOVE
+     GROUND from dungeon to town" -- that is the wrong direction, and it was
+     the wrong LENGTH with it.
+
+     MEASURED before this, over 12 songs: 237 bars, 8.49 minutes. The corpus
+     is unusually clear here, because track length is the STRONGEST measured
+     discriminator between the two ends of this family and the ranges do not
+     overlap at all: the pastoral end writes short (Hole Dweller mean 2:47,
+     max 3:27; Fief 3:24; Erang 3:37) and the dark end writes long
+     (Mortiis 5:03; Thangorodrim mean 10:00, min 6:23).
+     [docs/genre-research/score-craft.md §17]
+
+     At 8:29 this genre sat PAST Mortiis and next to Thangorodrim -- the
+     darkest, longest end of the family -- while claiming to be the bright
+     one. And the use case the owner named has its own measured target:
+     Western open-world EXPLORATION cues run 3:24 to 7:18, median 4:44,
+     "roughly 3-6x the length of a JRPG overworld loop". That median is the
+     honest middle of "dungeon synth backbone with fantasy scoring on top",
+     so it is what this aims at.
+
+     Four movements, out and back, and the vista is the third -- which is
+     also where the form's own apex wants to be. `endOn` holds the last two
+     open until the payoff lands, exactly as the descent did.
+
+     WHERE IT LANDED, 60 songs: mean 6:28, median 6:37, range 4:14 to 8:27,
+     with 48 of 60 inside the measured exploration band. Not at the 4:44
+     median, and deliberately not: this genre is dungeon synth's backbone
+     with fantasy scoring on top, so the overlap of "exploration cue" and
+     "short dungeon synth record" is exactly where it belongs. Tuning to
+     somebody else's median would be reading a measurement as an
+     instruction, which is the habit this repo keeps catching. The number to
+     trust is the measurement, not the table. */
+
+    /* THE BRIDGE IS THE HALT, and it lives here rather than nowhere. The
+       first version of this plan pooled only verse and instrumental, and the
+       seam battery caught what that cost: `roles.bridge` is declared, the
+       inherited `transitions` route to it, and it OCCURRED IN 0 OF 40 SONGS.
+       Every `by: { bridge: ... }` in the desk below was therefore dead
+       config, and `matrix.keysBarber` -- which had only a bridge entry --
+       was a whole lane that could never move. The same fault as the ladder's
+       unreachable bottom rung, one build later, found by the check that
+       measures rather than by me.
+       AND IT CANNOT GO ON THE ROAD, which is where I put it first and
+       measured again: still 0 of 40. `bridgeAfterChorus` gates it on how
+       many choruses have already been heard, and the road runs BEFORE the
+       high country, so no chorus exists yet to unlock it. It goes in the
+       last movement, which is also where dungeon synth's own plan keeps it:
+       the party stops in sight of the town, the drums and the tune drop out
+       (`roles.bridge` is keys, keys2, ostinato and bass -- no percussion, no
+       melody), and then the final chorus arrives. */
+
+    /* ── AND THE PARAGRAPH ABOVE DESCRIBED A FIX THAT WAS NEVER MADE ────
+       "It goes in the last movement, which is also where dungeon synth's
+       own plan keeps it." It did not. This pool read ["verse", "chorus"]
+       and the phase walk can only emit what a pool contains, so every word
+       of that reasoning was true and none of it was in the code. Measured
+       at the time and reported as 0 of 40, and I wrote the explanation
+       instead of the line. See probe_reachable.js -- the check that now
+       makes this class of thing impossible to leave. */
+
+  /* every part, in every section that is not the break. The owner asked for
+     an epic-sized orchestra and this is the arrangement half of it; `rest`
+     and `thin` inherited from dungeon synth put the holes back. */
+
+    /* ── AND THE DOUBLING HAS TO SURVIVE THE THINNER ─────────────────────
+       Inherited straight, `thin.counter` is 0.88 -- dungeon synth removes
+       seven of eight counter notes because there the counter is an
+       ornament that answers occasionally. Here the counter IS the
+       orchestra: it draws `double` 7 times in 10, which is the theme
+       carried by a second instrument, and thinning a doubling to one note
+       in eight does not make it sparse, it makes it a glitch. Measured
+       before this: 1.3% of the record.
+       The lead comes up too. It is the tune on a road and it was arriving
+       a tenth of the way in and then losing 44% of itself. */
+
 
 /* ═══════════════════════════════════════════════════════════════════════════
    THE BLEND — elements of any genre in any other.
