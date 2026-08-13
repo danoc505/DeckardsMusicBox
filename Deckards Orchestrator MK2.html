@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-13e · a frame drum, a phrase with an arrival, and four fills</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-13f · two cycles that never come round together</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -24410,18 +24410,53 @@ GENRE.hobbitsynth = {
       dEcho: [{ kind: "section", by: { outro: [0.02, 0.08] } }],
       dCut: [{ kind: "apex", from: [-400, -80], to: [80, 700] }]
     },
+    /* ══ TWO CYCLES THAT DO NOT DIVIDE — what plastikman does and the two drone
+       genres did on ZERO lanes ═══════════════════════════════════════════════
+       Sources handed over directly, and one names the mechanism outright:
+
+         "One of my favourite sound design techniques is to modulate one LFO's
+          rate or speed with another, giving a much more interesting result than
+          A SINGLE REPEATING CYCLE."   [corpus:modeaudio, creating drones with synths]
+
+         "Sync means the LFOs will keep changing smoothly even after a note has
+          finished, and they won't snap back to the beginning of their cycles
+          when a new note is triggered."                    [corpus:modeaudio]
+
+       MEASURED, and it is the same shape as `kit.phrase` exactly. Plastikman --
+       the genre this file holds up as the model for a locked groove that stays
+       alive -- stacks two LFOs of different periods on 35 of its 77 lanes.
+       Hobbit synth did it on 0 of 121, dungeon synth on 0 of 118. The mechanism
+       has existed the whole time, because `motionAt` SUMS the moves on a lane;
+       the two genres that most need it never used it.
+
+       WHY IT IS NOT SIMPLY MORE MODULATION. One LFO of 71 bars repeats every 71
+       bars, so a 192-bar record hears it not quite three times -- that is a
+       SHAPE, and an ear learns a shape. Two free-running cycles of 71 and 23
+       sum to a composite that does not come round until bar 1633, so inside any
+       record this program makes THE COMBINATION NEVER REPEATS. The pools are
+       coprime on purpose -- 71/89 against 23/29/17, none dividing another.
+
+       AND IT CORRECTS THIS PROJECT'S OWN RESEARCH. `how-a-drone-evolves.md`
+       ranked "cycles whose periods do not divide" SECOND and "slow continuous
+       automation" LAST, and did not notice they are one mechanism at two
+       resolutions. What that sheet's evidence refutes is a SINGLE cycle -- which
+       is what every lane in this genre had. */
     erangStrings: {
       tone: [
         { kind: "apex", from: [-0.1, -0.02], to: [0.05, 0.16] },
         { kind: "occurrence", step: [0.04, 0.09], cap: 3 },
-        { kind: "plock", density: [0.12, 0.22], amt: [-0.05, 0.04] }
+        { kind: "plock", density: [0.12, 0.22], amt: [-0.05, 0.04] },
+        { kind: "lfo", bars: [[71, 3], [89, 2]], depth: [0.05, 0.11], shape: "sin", freePhase: true },
+        { kind: "lfo", bars: [[23, 3], [29, 2], [17, 1]], depth: [0.03, 0.07], shape: "sin", freePhase: true }
       ],
       pan: [{ kind: "lfo", bars: [[72, 1]], depth: [0.05, 0.14], shape: "sin", freePhase: true }]
     },
     erangHarp: {
       tone: [
         { kind: "apex", from: [-0.08, -0.01], to: [0.04, 0.12] },
-        { kind: "plock", density: [0.26, 0.42], amt: [-0.1, 0.08] }
+        { kind: "plock", density: [0.26, 0.42], amt: [-0.1, 0.08] },
+        { kind: "lfo", bars: [[53, 3], [67, 2]], depth: [0.06, 0.13], shape: "tri", freePhase: true },
+        { kind: "lfo", bars: [[19, 3], [31, 2]], depth: [0.04, 0.09], shape: "tri", freePhase: true }
       ],
       pan: [{ kind: "lfo", bars: [[56, 1]], depth: [0.06, 0.16], shape: "sin", freePhase: true }]
     },

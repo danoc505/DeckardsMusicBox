@@ -484,3 +484,118 @@ it is a research finding, not a commit. What it licenses:
 - `static-harmony-and-evolution.md` §4 — "no phase relationship between two patterns", recorded 2026-08-08
 - `dungeon-synth-fx-and-balance.md` §4, §5 — the inaudible drone; the `fill` gestures
 - Sound On Sound / Hugh Robjohns — [Q. What's the smallest audible change in level?](https://www.soundonsound.com/sound-advice/q-whats-smallest-audible-change-level)
+
+
+---
+
+# §POSTSCRIPT — THREE SOURCES THE OWNER HANDED OVER, AND A CORRECTION TO THIS SHEET'S OWN RANKING
+
+*Added 2026-08-13, after this sheet had already been written and acted on. The
+owner supplied three practitioner articles and a list of techniques. Two of the
+techniques are not reachable in this program at all, one is reachable and unused,
+and one of them shows that this sheet's ranking contains the same mechanism
+twice, at opposite ends.*
+
+The list, verbatim:
+
+> slow LFO's · neighbor tracks · scenes · Infinite feedback/max Send on delay ·
+> very short delay time · rtrg/rtim synced by a slow lfo · With a single loop of
+> radio frequencies, it creates nice and deep harmonics.
+
+## P.1 The correction: #2 and #9 are one mechanism
+
+This sheet ranked **"cycles whose periods do not divide" second** and **"slow
+continuous automation" last, as contradicted**. They are the same thing at two
+resolutions, and one of the supplied sources says so directly:
+
+> "One of my favourite sound design techniques is to **modulate one LFO's rate
+> or speed with another**, giving a much more interesting result than **a single
+> repeating cycle**."
+> — [corpus:modeaudio], *Creating Drones With Synths*, fetched 2026-08-13
+
+> "Sync means the LFOs will keep changing smoothly even after a note has
+> finished, and **they won't snap back to the beginning of their cycles** when a
+> new note is triggered."
+> — [corpus:modeaudio]
+
+What the evidence in §6b actually refutes is **one** cycle, not continuous
+motion. One LFO of 71 bars is a shape and an ear learns a shape; two free-running
+cycles of 71 and 23 bars sum to a composite that does not come round until bar
+1633, which is longer than any record this program makes. The distinction is
+period, not continuity.
+
+**MEASURED in the program, and it is the `kit.phrase` shape again:** plastikman —
+the genre this file holds up as the model for a locked groove that stays alive —
+stacks two LFOs of different periods on **35 of its 77 lanes**. Hobbit synth did
+it on **0 of 121**, dungeon synth on **0 of 118**. `motionAt` has always summed
+the moves on a lane, so the mechanism was there the whole time and the two genres
+that most need it never used it.
+
+## P.2 What the three articles add that this sheet did not have
+
+| technique | source | in the program? |
+|---|---|---|
+| accumulate sustained notes so pitches pile up ("set the Length to 10s", 20 voices, attack 5 s / release 60 s) | [corpus:musicradar] | no — note length is grid-derived |
+| **randomly modulate an FM modulator's LEVEL**, not its pitch (LFO "Type to Random", depth 44.8%, rate 1 Hz) | [corpus:musicradar] | no FM index is automated anywhere |
+| free-running LFOs that do not reset on note | [corpus:modeaudio] | **yes** — `freePhase: true` |
+| one LFO's rate modulated by another | [corpus:modeaudio] | **no** — `bars` is drawn once per song, one fixed period per lane. Summing two LFOs is the reachable equivalent (P.1) |
+| unison detune driven by an envelope, to make beating move | [corpus:modeaudio] | no — detune is static per voice |
+| a second high-resonance filter "to amplify the meandering harmonic character" | [corpus:modeaudio] | no |
+| clusters; growing a drone by octaves | [corpus:richardpryn] | partly — `STACK_OK` doubles, but not as a growth over time |
+| long reverb as a compositional element (decay 10 s, 80% wet) | [corpus:musicradar] | yes — `space` |
+
+`richardpryn` is the weakest of the three: nine headings, most of them
+"record one" / "use effects" / "automate something", with no numbers. Its one
+usable claim is beating from closely-pitched sines, which this sheet already
+covers at #7. It is cited here for completeness and carries no weight.
+
+## P.3 The two techniques that are UNREACHABLE, and why
+
+> "Infinite feedback/max Send on delay" · "very short delay time"
+
+Together these are not two settings, they are **one instrument**: a delay short
+enough that its comb peaks land in the audio band, fed back near unity, is a
+**resonator**. That is what makes the owner's last line true —
+
+> "With a single loop of radio frequencies, it creates nice and deep harmonics."
+
+— because a comb filter imposes a harmonic series on *whatever* you feed it,
+including noise, including radio. The pitch is `1 / delayTime`.
+
+**MEASURED against the program's echo:**
+
+| control | range | consequence |
+|---|---|---|
+| `echo.div` | **1–8, in sixteenths** | the shortest possible delay at 114 bpm is **≈132 ms**, i.e. 7.6 Hz. A slapback. To resonate at even 80 Hz you need **12.5 ms**, an order of magnitude shorter |
+| `echo.fb` | **max 0.85** | always decays; a resonator needs ≈0.95–0.999 |
+
+So the echo is a *musical, tempo-divided* delay by construction and cannot be
+made into a comb. **This is a missing unit, not a missing setting** — and it is
+the most concrete gap the owner's list exposes, because it is the only mechanism
+in it that generates NEW harmonic content rather than modulating existing
+content.
+
+## P.4 The two Elektron techniques, named honestly
+
+`neighbor tracks` and `scenes` are Octatrack concepts and neither has an
+equivalent here:
+
+- **Neighbour tracks** are SERIAL: a track processes the audio of the track above
+  it. The matrix mixer is entirely **parallel** — every crossing is a send from a
+  part to an effect bus. One part cannot be another part's input.
+- **Scenes** are two complete machine states with a crossfader between them. The
+  program has a matrix and a mixer and no notion of a second state, let alone a
+  fader between two.
+
+`rtrg/rtim synced by a slow lfo` is retrigger rate under slow modulation. The
+program has `art: "roll"` at a fixed rate; the rate is not modulated by anything.
+Note that this is the owner's own list quietly containing the correction in P.1:
+a retrigger whose RATE moves slowly is exactly a fast cycle nested inside a slow
+one, and it is the same idea as modulating one LFO with another.
+
+## P.5 What was built from this
+
+`2026-08-13f` stacks two coprime free-running LFOs on hobbit synth's pad and
+figure — 71/89 bars against 23/29/17. That is P.1, and it is the only item here
+that was both reachable and cheap. The resonator (P.3), serial routing and scenes
+(P.4) are named in the backlog and are not built.
