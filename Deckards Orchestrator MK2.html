@@ -1427,7 +1427,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-13c · hobbit synth owns every value it plays</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-13d · the chorus moves, the record arrives, the road is not a crypt</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -22991,11 +22991,24 @@ GENRE.hobbitsynth = {
      material is largely diatonic-major could not draw it at all), phrygian
      stays in as the dark end, and dungeon synth's own five-wide palette is
      the precedent for how wide a fantasy genre's should be. */
+  /* ── MIXOLYDIAN WAS BEHIND TWO MODES IT CANNOT BE DISTINGUISHED FROM ─────
+     Temperley & Tan, read from the paper: measured happiness proportions
+     Ionian .83, MIXOLYDIAN .64, Lydian .58, Dorian .40, Aeolian .34,
+     Phrygian .21, and "modes become happier as scale-degrees are raised".
+     Only three of fifteen pairs are non-significant and one of them is
+     Dorian/Aeolian -- so leading dorian 5 / minor 4 led with two modes a
+     listener cannot tell apart, while the mode that actually carries the
+     brightness sat at 3. Mixolydian beats Dorian at p<.01 and Aeolian at p<.05,
+     and it is the folk travelling mode besides.
+
+     AN ARGUMENT ABOUT A WEIGHT, NOT ABOUT PINNING A SCALE. The palette still
+     holds six and the dark end keeps real weight, because the brief says "not
+     as doom and gloom", not "sunny". */
   modes: [
-    ["dorian", 5],
-    ["minor", 4],
+    ["mixolydian", 5],
+    ["dorian", 4],
     ["major", 4],
-    ["mixolydian", 3],
+    ["minor", 3],
     ["carpathian", 2],
     ["phrygian", 2]
   ],
@@ -23003,10 +23016,40 @@ GENRE.hobbitsynth = {
   rig: [["shire", 6], ["citadel", 4]],
   keysChar: [["rhodes", 1]],
   leadChar: [["synth", 1]],
+  /* ══ "GRITTY AND ROUGH" HAD NO FIELD TO BE WRITTEN INTO ═══════════════════
+     [docs/genre-research/grit-and-the-fantasy-axis.md] The brief is "not as
+     doom and gloom, something gritty and rough but with a more orchestral
+     feel". The table expressed the first clause and had NO field for the
+     second: every character parameter was dungeon synth's byte for byte, and
+     `pressure` was four zeros.
+
+     THE SHEET'S HEADLINE IS THAT GRIT IS NOT ON THE BRIGHT/DARK AXIS AT ALL.
+     Hole Dweller -- the actual hobbit flagship -- is deliberately the dirtier
+     of its maker's two projects ("gritty, yet soft", one synth, four sounds),
+     while Fief, the pastoral flagship, is professionally mastered. The two
+     clauses of the brief are statements about two DIFFERENT parameters, which
+     is why expressing one did nothing for the other.
+
+     AND GRIT HAS A BAND, from five independent media: vinyl 55-60 dB S/N,
+     groove noise measured -48 dB, cassette -50/-55 dBFS, print-through
+     -50/-55 dB, scoring stage NC-15/20. IT LIVES AT -45 TO -60 dB BELOW PEAK.
+     Louder than -45 dB is not grit, it is a fault.
+
+     WOW AND FLUTTER WERE BELOW THE AUDIBILITY FLOOR. That floor is 0.08%
+     weighted RMS and peak runs 1.5-2x RMS; the inherited wow is +/-0.16-0.38%
+     peak and the flutter straddled the floor rather than clearing it. Both
+     raised to sit just above it. `TAPE_WOW_HZ = 0.7` and `TAPE_FLUTTER_HZ =
+     7.4` were checked and already sit inside their sourced bands (0.5-6 Hz and
+     6-100 Hz), so the RATES are untouched -- only the depths were wrong.
+
+     CRACKLE IS A VINYL ARTEFACT AND THE MEDIUM HERE IS TAPE. Stacking both
+     double-counts the noise floor against a budget only 15 dB wide. Cut to a
+     trace rather than to zero, because this pack is lo-fi and its floor is part
+     of what it sounds like. */
   tape: {
-    wow: [0.0016, 0.0022],
-    crackle: [0.0015, 0.001],
-    flutter: [0.0008, 0.0012],
+    wow: [0.0022, 0.0030],
+    crackle: [0.0004, 0.0004],
+    flutter: [0.0014, 0.0018],
     hiss: [0.004, 0.003]
   },
   atmos: { level: [0.025, 0.025], accent: 0.5, accentLevel: [0.14, 0.1] },
@@ -23068,68 +23111,67 @@ GENRE.hobbitsynth = {
   bassPedalDouble: 0.66,
   /* one chord per two bars, which is the measured overworld harmonic rhythm */
   progressions: {
-    minor: [
-      [[0, 0, 5, 5, 2, 2, 6, 6], 5],
-      [[0, 0, 0, 0, 5, 5, 2, 2], 4],
-      [[0, 0, 2, 2, 5, 5, 3, 3], 3],
-      [[0, 0, 6, 6, 5, 5, 6, 6], 2]
-    ],
-    dorian: [
-      [[0, 0, 5, 5, 2, 2, 6, 6], 5],
-      [[0, 0, 3, 3, 0, 0, 6, 6], 4],
-      [[0, 0, 6, 6, 3, 3, 0, 0], 3],
-      [[0, 0, 6, 6, 5, 5, 6, 6], 2]
-    ],
-    carpathian: [
-      [[0, 0, 3, 3], 6],
-      [[0, 3, 0, 3], 4],
-      [[0, 0, 2, 2], 3],
-      [[0, 0, 6, 6], 2],
-      [[0, 0, 0, 0], 1]
-    ],
-    andean: [
-      [[0, 0, 4, 4], 5],
-      [[0, 0, 2, 2], 4],
-      [[0, 0, 1, 1], 3],
-      [[0, 4, 0, 4], 2],
-      [[0, 0, 0, 0], 1]
-    ],
-    phrygian: [[[0, 0, 5, 5, 1, 1, 0, 0], 3], [[0, 0, 3, 3, 5, 5, 0, 0], 2]],
-    mixolydian: [
-      [[0, 0, 3, 3, 6, 6, 0, 0], 5],
-      [[0, 0, 4, 4, 3, 3, 0, 0], 3],
-      [[0, 0, 6, 6, 3, 3, 0, 0], 2]
-    ],
-    major: [
-      [[0, 0, 5, 5, 3, 3, 4, 4], 5],
-      [[0, 0, 3, 3, 0, 0, 4, 4], 4],
-      [[0, 0, 4, 4, 5, 5, 3, 3], 3],
-      [[0, 0, 5, 5, 1, 1, 4, 4], 2]
-    ]
+    dorian:     [[[0, 0, 5, 5, 2, 2, 6, 6], 5], [[0, 0, 3, 3, 0, 0, 6, 6], 4],
+                 [[0, 0, 6, 6, 3, 3, 0, 0], 3], [[0, 0, 6, 6, 5, 5, 6, 6], 2]],
+    minor:      [[[0, 0, 5, 5, 2, 2, 6, 6], 5], [[0, 0, 0, 0, 5, 5, 2, 2], 4],
+                 [[0, 0, 2, 2, 5, 5, 3, 3], 3], [[0, 0, 6, 6, 5, 5, 6, 6], 2]],
+    major:      [[[0, 0, 5, 5, 3, 3, 4, 4], 5], [[0, 0, 3, 3, 0, 0, 4, 4], 4],
+                 [[0, 0, 4, 4, 5, 5, 3, 3], 3], [[0, 0, 5, 5, 1, 1, 4, 4], 2]],
+    mixolydian: [[[0, 0, 3, 3, 6, 6, 0, 0], 5], [[0, 0, 4, 4, 3, 3, 0, 0], 3],
+                 [[0, 0, 6, 6, 3, 3, 0, 0], 2]],
+    /* ── AND THE ONE-CHORD VAMP IS GONE FROM THE ONE MODE THAT STILL HAD ONE ─
+       Inherited at four slots with `[[0,0,0,0], 1]` in the pool -- a literal
+       drone, in a genre whose whole argument against its parent is that it
+       goes somewhere. It is the same row this project has now removed three
+       times in three genres under three different names, and it survived here
+       only because carpathian was never written out. Eight slots like the rest,
+       and the static row deleted rather than down-weighted. */
+    carpathian: [[[0, 0, 3, 3, 0, 0, 2, 2], 6], [[0, 0, 3, 3, 0, 0, 3, 3], 4],
+                 [[0, 0, 2, 2, 0, 0, 6, 6], 3], [[0, 0, 6, 6, 3, 3, 0, 0], 2]],
+    phrygian:   [[[0, 0, 5, 5, 1, 1, 0, 0], 3], [[0, 0, 3, 3, 5, 5, 0, 0], 2]],
   },
   bridgeProgressions: {
-    carpathian: [[[3, 3, 0, 0], 3], [[2, 2, 0, 0], 2], [[6, 6, 3, 3], 2]],
-    andean: [[[4, 4, 0, 0], 3], [[2, 2, 4, 4], 2], [[1, 1, 0, 0], 2]],
-    minor: [[[0, 0, 5, 5, 6, 6, 3, 3], 4], [[0, 0, 2, 2, 5, 5, 6, 6], 2]],
-    dorian: [[[0, 0, 5, 5, 6, 6, 3, 3], 4], [[3, 3, 0, 0, 6, 6, 5, 5], 2]],
-    phrygian: [[[0, 0, 1, 1, 5, 5, 6, 6], 3], [[0, 0, 5, 5, 6, 6, 1, 1], 2]],
+    minor:      [[[0, 0, 5, 5, 6, 6, 3, 3], 4], [[0, 0, 2, 2, 5, 5, 6, 6], 2]],
+    dorian:     [[[0, 0, 5, 5, 6, 6, 3, 3], 4], [[3, 3, 0, 0, 6, 6, 5, 5], 2]],
+    major:      [[[0, 0, 5, 5, 1, 1, 4, 4], 4], [[3, 3, 0, 0, 5, 5, 4, 4], 2]],
     mixolydian: [[[0, 0, 3, 3, 6, 6, 0, 0], 4], [[6, 6, 3, 3, 0, 0, 5, 5], 2]],
-    major: [[[0, 0, 5, 5, 1, 1, 4, 4], 4], [[3, 3, 0, 0, 5, 5, 4, 4], 2]]
+    /* carpathian was four slots here too, and `andean` was a whole mode this
+       genre does not draw -- dead config that nothing checks, because
+       probe_reachable walks sections and rungs and pools and has never walked
+       a progression table. Logged. */
+    carpathian: [[[0, 0, 3, 3, 0, 0, 6, 6], 3], [[0, 0, 2, 2, 0, 0, 3, 3], 2],
+                 [[6, 6, 3, 3, 0, 0, 2, 2], 2]],
+    phrygian:   [[[0, 0, 1, 1, 5, 5, 6, 6], 3], [[0, 0, 5, 5, 6, 6, 1, 1], 2]],
   },
   /* the road does move under you: a key change is a change of country */
   keyShift: { chance: 0.38, by: [[2, 5], [5, 3], [1, 2]], change: 0.5 },
   chorusProgressions: {
-    minor: [
-      [[5, 5, 0, 0], 5],
-      [[2, 2, 5, 5], 4],
-      [[3, 3, 0, 0], 3],
-      [[5, 5, 2, 2], 2],
-      [[6, 6, 5, 5], 1]
-    ],
-    dorian: [[[3, 3, 0, 0], 5], [[2, 2, 3, 3], 3], [[5, 5, 0, 0], 3], [[3, 3, 5, 5], 2]],
-    carpathian: [[[3, 3, 0, 0], 5], [[2, 2, 0, 0], 4], [[3, 3, 2, 2], 3], [[6, 6, 0, 0], 1]],
-    andean: [[[4, 4, 0, 0], 5], [[2, 2, 0, 0], 3], [[4, 4, 2, 2], 3], [[1, 1, 4, 4], 2]],
-    phrygian: [[[5, 5, 0, 0], 5], [[1, 1, 0, 0], 4], [[2, 2, 5, 5], 3], [[5, 5, 1, 1], 2]]
+    /* ── ONE CHORD PER TWO BARS, LIKE EVERY OTHER ROW THIS GENRE OWNS ───────
+       Inherited, these were FOUR slots -- two chords wrapping twice inside an
+       eight-bar material -- so the verse moved at this genre's stated harmonic
+       rhythm and THE CHORUS MOVED AT DOUBLE IT, at exactly the moment the
+       record is supposed to open out. Measured: the four inherited rows cover
+       13 of 20 mode weight, so roughly two thirds of records did it.
+
+       AND MAJOR AND MIXOLYDIAN HAD NO CHORUS ROW AT ALL. They fell through to
+       their verse rows, so the two brightest modes -- the travelling ones this
+       genre is actually about -- were the only ones whose chorus was not a
+       different harmony from its verse.
+
+       The leading degrees are the ones the inherited rows already chose; the
+       completion to four chords is [CHOSEN], out of this genre s own vocabulary. */
+    minor:      [[[5, 5, 0, 0, 2, 2, 0, 0], 5], [[2, 2, 5, 5, 0, 0, 0, 0], 4],
+                 [[3, 3, 0, 0, 5, 5, 0, 0], 3], [[6, 6, 5, 5, 0, 0, 0, 0], 2]],
+    dorian:     [[[3, 3, 0, 0, 5, 5, 0, 0], 5], [[2, 2, 3, 3, 0, 0, 0, 0], 3],
+                 [[5, 5, 0, 0, 3, 3, 0, 0], 3], [[3, 3, 5, 5, 0, 0, 0, 0], 2]],
+    major:      [[[3, 3, 4, 4, 0, 0, 0, 0], 5], [[5, 5, 3, 3, 4, 4, 0, 0], 4],
+                 [[3, 3, 0, 0, 4, 4, 0, 0], 3]],
+    mixolydian: [[[3, 3, 6, 6, 0, 0, 0, 0], 5], [[6, 6, 3, 3, 0, 0, 0, 0], 3],
+                 [[3, 3, 0, 0, 6, 6, 0, 0], 2]],
+    carpathian: [[[3, 3, 0, 0, 2, 2, 0, 0], 5], [[2, 2, 0, 0, 3, 3, 0, 0], 4],
+                 [[3, 3, 2, 2, 0, 0, 0, 0], 3], [[6, 6, 3, 3, 0, 0, 0, 0], 1]],
+    phrygian:   [[[5, 5, 0, 0, 1, 1, 0, 0], 5], [[1, 1, 0, 0, 5, 5, 0, 0], 4],
+                 [[2, 2, 5, 5, 0, 0, 0, 0], 3], [[5, 5, 1, 1, 0, 0, 0, 0], 2]],
   },
   registers: {
     bass: [28, 43],
@@ -23148,7 +23190,14 @@ GENRE.hobbitsynth = {
     snareEarly: [0, 0],
     kickLate: [0, 0],
     hatMul: 1,
-    jitter: { dilla: 0.03, even: 0.03 },
+    /* ── AND THE PLAYING WAS TIGHTER THAN A REAL STRING QUARTET ────────────
+       0.03 is 17.3 ms standard deviation. MEASURED professional string quartets
+       sit at 24.4-28.3 ms -- so a genre whose ladder is flutes, cor anglais,
+       bassoon, horns and strings was playing to a grid a real ensemble cannot
+       hold. 0.045 is 26.0 ms, inside the measured band. This is the "rough"
+       half of the brief put where roughness actually lives in an acoustic
+       ensemble: the timing, not a distortion box. */
+    jitter: { dilla: 0.045, even: 0.045 },
     push: 0.008
   },
   /* ══ AND THE ROLL LANDS ON THE BEAT, BECAUSE THE RACK IS PLUCKED ════════
@@ -24164,13 +24213,29 @@ GENRE.hobbitsynth = {
   },
   form: {
     lengths: { intro: 16, verse: 24, chorus: 24, bridge: 16, instrumental: 24, outro: 16 },
-    material: { intro: "A", verse: "A", chorus: "B", bridge: "C", instrumental: "A", outro: "A" },
+    /* ── FOUR OF SIX SECTIONS PLAYED THE SAME MATERIAL ─────────────────────
+       Inherited. With this genre's own plan pools -- verse- and
+       instrumental-heavy -- it put five or six of a nine-section record on A or
+       a variant, which is the owner's "the sections differ so little that it
+       doesnt matter", as a count. The instrumental takes `Avar`, so the three
+       section types that dominate the plan play three different things. */
+    material: { intro: "A", verse: "A", chorus: "B", bridge: "C", instrumental: "Avar", outro: "A" },
     roles: {
       intro: ["keys", "ostinato", "lead"],
-      verse: ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+      /* ── AND THREE SECTION TYPES HAD THE IDENTICAL CAST ──────────────────
+         `verse`, `chorus` and `instrumental` all named the same seven roles, so
+         nothing but the energy arc told them apart -- and the energy arc was
+         the 0.30-wide band above. A section type is a KIND of section, not a
+         position; three of them holding one list is three names for one thing.
+         The verse is leaner by two, the chorus is the full band, and the
+         instrumental drops the FIGURE so the tune has to carry it. That is
+         "repeats with variation" at the level a cast can express it, and it is
+         also Rimsky-Korsakov's scarcity argument: a part that never leaves
+         cannot be an arrival when it returns. */
+      verse: ["drums", "bass", "keys", "lead", "ostinato"],
       chorus: ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
       bridge: ["keys", "keys2", "ostinato", "bass"],
-      instrumental: ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+      instrumental: ["drums", "bass", "keys", "keys2", "lead", "counter"],
       outro: ["drums", "bass", "keys", "keys2", "lead", "ostinato"]
     },
     thinTo: [2, 3],
@@ -24185,8 +24250,11 @@ GENRE.hobbitsynth = {
         counter: [0.14, 0.06]
       }
     },
+    /* `counter` at 0.34 was the HIGHEST sit-out rate of any role -- on the
+       part this genre's own header calls "the single biggest epic lever in this
+       table". Inherited from a genre whose counter is 0.3% of its record. */
     rest: {
-      counter: 0.34,
+      counter: 0.12,
       keys2: 0.26,
       lead: 0.2,
       ostinato: 0.14,
@@ -24230,14 +24298,34 @@ GENRE.hobbitsynth = {
       under: [0.42, 0.26],
       from: [0.34, 0.34]
     },
+    /* ══ AND THE COLUMN WAS WRITTEN TO PREVENT A CRESCENDO ═════════════════
+       This arrived from dungeon synth, whose own comment says what it is for:
+       "THE NARROWEST ENERGY COLUMN IN THE FILE, on purpose. 'dynamics gentle',
+       'atmosphere over loudness' -- a record that gets LOUDER to arrive is
+       doing the thing this genre is described as not doing."
+
+       A correct decision for a crypt and the exact opposite of the one this
+       genre needs. The brief is "a more orchestral feel", and the defining move
+       of an orchestra is the crescendo -- Rimsky-Korsakov's prolonged crescendi
+       "obtained by the gradual addition of other instruments", which is what
+       `form.double` and the ladder both exist to serve. Hobbit synth was
+       forbidden one by a number it never chose.
+
+       0.30 wide becomes 0.62. The intro starts genuinely quiet so there is
+       somewhere to go; the peak reaches the top of the dial instead of stopping
+       at 0.92, a ceiling that meant no record ever arrived. The bridge drops
+       BELOW the intro, which is the re-entry rule the treatise is blunt about:
+       "a group of instruments which has been silent for some time gains fresh
+       interest upon its reappearance". [CHOSEN] within that shape -- no source
+       gives an energy column in numbers. */
     energy: {
-      intro: 0.62,
-      outro: 0.66,
-      bridge: 0.68,
-      instrumental: 0.84,
-      chorus: 0.9,
-      chorusPeak: 0.92,
-      verse: 0.76
+      intro: 0.42,
+      outro: 0.50,
+      bridge: 0.38,
+      instrumental: 0.86,
+      chorus: 0.95,
+      chorusPeak: 1.0,
+      verse: 0.70
     },
     arc: {
       apexAt: [0.62, 0.74],
