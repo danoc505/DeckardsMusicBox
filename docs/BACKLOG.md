@@ -63,7 +63,27 @@ should be built on top of this stack until it has been played.**
 
 ## 0a. WHAT IS STILL NOT BUILT — the whole open list, `2026-08-13`
 
-> ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-14a` … `2026-08-15d`
+> ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-14a` … `2026-08-15e`
+>
+> **0a.7 The brass — CLOSED, `2026-08-15e`.** The owner picked it: *"Brass.
+> Make sure to do research about how to arrange brass. Make sure to look
+> online for free brass open source that we can use."* Recorded patches
+> landed exactly as the rule demanded: VSCO-2 Community Edition (CC0-1.0,
+> `sgossner/VSCO-2-CE`, commit `4403009`) analyzed by
+> `corpus/analyze_brass.py` into `BRASS_WT` — horn, trumpet, tenor trombone,
+> tuba and three RECORDED mutes, per pitch per dynamic, octave verified by
+> measurement, not name. `V.brass` morphs the recorded pp/mf/ff spectra so
+> the crescendo is a timbre event (cuivré, measured), and the CHAIR dial at
+> SECTION deals notes to members by register. It plays from the new
+> `bastion` rig — the citadel with the recorded section in the second chair,
+> staged only by dungeon synth, so hobbit synth and every other genre are
+> byte-identical (measured, 3000 snapshot rows; 91/300 dungeon synth records
+> move, 64 pure voice renames, 27 doubling redraws where the range doctrine
+> refuses a line the section cannot play). The arranging sheet is
+> `docs/genre-research/brass-arranging.md`; the guard is
+> `harness/probe_brass.js` (11 checks). What was looked for and NOT built is
+> in that sheet's §8: no cup mute, no bass trombone, no gliss/rips — no
+> recorded source, and the §0a.7 rule holds.
 >
 > **Prog-techno is deleted. Ambient replaces it.** The owner's call, and the
 > table is gone from `GENRE`, not commented out —
@@ -250,7 +270,7 @@ not a new fault.
 
 *Asked for in as many words: "add what everything we have failed to implement
 to the todo file". This is that list, on the branch `claude/code-review-6jd9cz`,
-current as of build `2026-08-15d`.*
+current as of build `2026-08-15e`.*
 
 **EVERY NUMBER BELOW WAS MEASURED TODAY, not remembered.** The probes that
 produced them are named at each item so any of it can be re-checked in one
@@ -363,12 +383,14 @@ behind winds vanishing under pads.
 
 ### 0a.7 The brass, and a dungeon-synth tutti that is actually orchestral
 
-`dungeon-synth-score-and-drums.md` §6. Everything else that sheet asked for was
-built in `2026-08-10e` — the timpani roll at three rates, the martial hand-drum
-figures with drags, the war drum. **Brass is the missing voice** and stays
-missing until recorded patches land: no brass is to be invented from a
-description. `V.horns` and the carnyx exist and are synthesised; a section is
-not.
+**CLOSED, `2026-08-15e` — see the closure block at the head of §0a.** The
+recorded patches landed (VSCO-2 CE, CC0) and the section plays from the
+`bastion` rig's second chair. The rule this item stated — no brass invented
+from a description — held all the way down: even the mutes are recorded
+spectra, and the articulations with no recorded source (cup mute, gliss,
+rips) stay unbuilt and are listed in `brass-arranging.md` §8. What remains
+of the ORIGINAL ask is the full §10 tutti object (three-of-four families,
+the §12 escalation), which is task #58's Phase 4, not this item.
 
 ### 0a.8 The sample pack's real coverage gaps
 

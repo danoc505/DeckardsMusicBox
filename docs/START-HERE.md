@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-15d` unless it says otherwise (the
+*Everything below is verified at `2026-08-15e` unless it says otherwise (the
 newest build; its entry is under "What happened last"). If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
@@ -123,7 +123,7 @@ while both files carried an identical stamp, so three commits of work went
 unjudged. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-15d`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-15e`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -135,6 +135,48 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Build `2026-08-15e` — THE BRASS LANDS, RECORDED, AND THE SECOND CHAIR IS A
+NEW RIG.** The owner picked it from the shortlist: *"Brass. Make sure to do
+research about how to arrange brass. Make sure to look online for free brass
+open source that we can use."* Both halves are done and both are in
+`docs/genre-research/brass-arranging.md`: the arranging rules (ranges, the
+subgroup-as-harmonic-unit rule, overtone spacing, the trombone f stick-out,
+mute filter numbers with Hz, endurance) with every number cited, and the
+source settled on **VSCO-2 Community Edition** (`sgossner/VSCO-2-CE`,
+**CC0-1.0**, pinned commit `4403009`) — per-note recordings of horn, trumpet,
+tenor trombone, tuba, and three REAL recorded mutes. Iowa MIS verified as
+fallback and recorded so the next search does not start at zero.
+
+The encoding is the sax's engine, not embedded PCM: `corpus/analyze_brass.py`
+(two passes — the filename fixes only the pitch CLASS, the octave is measured;
+VSCO names an octave below sounding, one subharmonic lock and one
+harmonic-locked file caught, a two-note swell layer refused the horn's ff
+slot) emits `BRASS_WT`, 44 KB for MIDI 29–84. `V.brass` morphs phase-locked
+pp/mf/ff spectra, so the crescendo blazes because the ff recording blazes —
+centroids measured, straight mute 6.2 against the open bell's 2.8. The CHAIR
+dial at SECTION deals each note to the member whose register covers it (tuba
+to A2, trombone to G#3, horn to B4, trumpet above, boundaries [CHOSEN] from
+the sheet's chord bands); 1–4 force a solo chair; MUTE swaps to the recorded
+muted spectra and honestly does nothing on the chairs the source never
+recorded muted.
+
+**The wiring lesson: a NEW RIG, `bastion`, and the citadel untouched.** The
+first wiring edited the citadel's chair and the snapshot caught two kinds of
+collateral: hobbit synth also stages the citadel (its records moved), and the
+brass's declared range recomposed every pool and ladder it joined. So the
+bastion is the citadel with the recorded section in the second chair, staged
+only by dungeon synth's rig table, and the brass machine sits directly after
+the horns in `INSTRUMENTS` so the doubling-partner pool keeps its shape.
+Measured over all 3000 snapshot rows: **hobbit synth and eight other genres
+byte-identical; 91 of 300 dungeon synth records move** — 64 as pure voice
+renames (the chair and the heroic doubling, horns → brass), 27 redraw one
+role's drawn doubling because the section's real range [29,84] now refuses a
+line it cannot play (the doctrine working, stated not hidden).
+`harness/probe_brass.js` (11 checks, Chromium: tables, cuivré, the chair, the
+deal/mute/rank A/B'd on renders) guards it; battery **178/1**, the one red
+the owner-ruled blend throw. NOT judged by ear yet — no build is until the
+owner listens.
 
 **Builds `2026-08-14a` … `2026-08-15d` — PROG-TECHNO IS GONE, AMBIENT IS BUILT
 ON A REAL DRONE, AND MUTABLE INSTRUMENTS' OWN SOURCE IS PORTED.** The owner's
@@ -485,7 +527,7 @@ wanted, and nobody should quietly re-add costs to the other files either.
 
 ## The commands
 
-Build `2026-08-15d`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-15e`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 
@@ -500,6 +542,8 @@ node harness/mk2_midi.js                    the MIDI port and the .mid export
 node harness/probe_mixer.js                 the desk reaches the graph
 node harness/probe_dronerack.js             the drone rack's panel, its LFOs, and whether a
                                              hand-patched modulator bank slot reaches rendered audio
+node harness/probe_brass.js                 the recorded section: tables, cuivré, the chair,
+                                             the register deal and the mutes A/B'd on renders
 node harness/probe_drumarc.js               does the drum part have a SHAPE
 node harness/probe_blendshare.js 30 --all   what share of a song each genre on
                                             the faders actually supplied
