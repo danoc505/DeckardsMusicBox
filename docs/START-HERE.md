@@ -207,7 +207,11 @@ called "pre-existing" and stepped past for a long time. Dungeon synth's
 rebuild moved which bars its materials land on, which moved WHERE the same
 two pairs hit the throw across the blend slider's weight range — `mk2_ui.js`'s
 own blend drag now reproduces it on nearly every run instead of intermittently.
-Same defect, not a worse one, but there is no excuse left for leaving it.
+Same defect, not a worse one. **RULED ON BY THE OWNER, 2026-08-15: "thats not
+a concern there are better things to tackle."** It stays recorded and it stays
+out of the way — do not nominate it as the next job again; the owner decides
+what gets tackled, and two throws in 1,080 blend combinations on two specific
+slider positions is not where the music gets better.
 
 **Build `2026-08-10e` — THE KETTLES ROLL, THE HAND DRUM LEARNS ITS FIGURES.**
 The owner asked for the orchestral element ("like the score from Lord of the

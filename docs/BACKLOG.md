@@ -241,8 +241,12 @@ Dungeon synth's `15d` rebuild changed which bars its materials land on, which
 moved WHERE the same two pairs (`lofi`×`dungeonsynth`, `lofi`×`hobbitsynth`)
 hit the throw across the blend slider's weights — same two pairs, same class
 of defect, not a new or worse one. `mk2_ui.js`'s own blend drag now reproduces
-it on nearly every run rather than intermittently, which makes this the
-easiest of the open items to work on next: the repro is no longer rare.
+it on nearly every run rather than intermittently, so the repro is cheap
+whenever someone does pick it up. **AND THE OWNER HAS RULED ON THE PRIORITY,
+2026-08-15: "thats not a concern there are better things to tackle."** So:
+recorded, reproducible, deliberately not next. Expect the battery's blend
+check and `mk2_ui` to carry this red until it is; that is the known cause,
+not a new fault.
 
 *Asked for in as many words: "add what everything we have failed to implement
 to the todo file". This is that list, on the branch `claude/code-review-6jd9cz`,
