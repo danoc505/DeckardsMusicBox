@@ -1591,7 +1591,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15c · dungeon synth put back exactly as it was — the drone dragged its whole arrangement</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15d · the drone as a decree — dungeon synth gets its ground and loses nothing</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -22642,7 +22642,8 @@ const GENRE = {
        Wide at the bottom, tight at the top, exactly as the rule says. */
     registers: { bass: [28, 43], keys: [48, 67], counter: [62, 79],
                  bassWalk: [28, 43], ostinato: [67, 88],
-                 themeA: [69, 90], themeB: [71, 91], themeC: [67, 86] },
+                 themeA: [69, 90], themeB: [71, 91], themeC: [67, 86],
+                 drone: [24, 31] },
     /* no swing, almost no push: a procession keeps time. The jitter is a
        hand-played feel rather than a grid, which is what a one-keyboard
        recording is. */
@@ -22946,6 +22947,10 @@ const GENRE = {
        about what it produces is worse than a table that says less. So this
        genre keeps its single `drone`, and giving it a real second role means
        writing it a riff table -- a new design with no source behind it yet. */
+    /* the drone lane, under an UNTOUCHED bass this time -- the register the
+       genre researched stays exactly where it was, and an exact-pitch meeting
+       is resolved by clearAgainst moving the DRONE down, never the bass up */
+    drone: { unit: 8, hold: 2, pedal: 0.8, octave: 0 },
     bassStyle: "drone",
     bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },
     bassAccent: { accent: 0, slide: 0 },
@@ -23114,7 +23119,7 @@ const GENRE = {
        for a verdict, not numbers to slip in here.
        docs/genre-research/dungeon-synth-fx-and-balance.md §4 */
     roleGain: { keys: 0.32, keys2: 0.17, ostinato: 0.50,
-                bass: 0.22, lead: 0.57, counter: 0.43, drums: 1.40 },
+                bass: 0.22, lead: 0.57, counter: 0.43, drums: 1.40, drone: 0.30 },
     /* THE PROCESSION, and the palette. The keys are a tape choir or a string
        ensemble, which is what the sources name: "choirs, strings, pipe/chapel
        organs, flutes/recorders, horns, harps" [corpus:melodigging], and a
@@ -23371,6 +23376,11 @@ const GENRE = {
       /* the Erang percussion's five knobs moved onto the TR-1000 with the
          drums themselves -- see `kits.dungeon.controls` for why they are
          prefixed. Values unchanged; only the panel they live on moved. */
+      dronebox: { voices: 4, shape: 2, wave: 1, spread: 7,
+                  clockA: 19, clockB: 23, drift: 5,
+                  cut: 420, res: 1.4, peak: 0.22, peakHz: 900,
+                  swell: 3.0, fall: 8, air: 0.10, level: 0.9,
+                  pan: 0, panHz: 0, panDep: 0 },
     },
     /* the movement is slow and it is the only movement there is: the harmony
        barely changes, so a filter opening across a section is the arrival. */
@@ -32677,7 +32687,6 @@ function makeMaterials(chart, editPlan, arcPlan){
   const drumsBvar = pin(buildDrums("drumsB:var", "lift", DRUM_PHRASE_END), "drums", "Bvar");
   const drumsC = pin(buildDrums("drumsC", "depart"), "drums", "C");   // the bridge thins out
   const bassA  = pin(buildBass(chords, "bass", false), "bass", "A");
-  const droneA = pin(buildDroneLane(chords, "A"), "drone", "A");
   /* ── THE COMP HAS TO BE LEGAL IN BOTH MATERIALS IT APPEARS IN ──────────────
      `keysA` is built once and used TWICE: in A against `ostA`, and in Avar
      against `ostAvar`, which is a different cell in its second half. It was
@@ -32816,7 +32825,6 @@ function makeMaterials(chart, editPlan, arcPlan){
      when they are not these are the same arrays A uses -- identity, not a
      copy, so nothing downstream can tell the difference. */
   const bassB = NEW_CHORUS ? pin(buildBass(chorusChords, "bassB", false), "bass", "B") : bassA;
-  const droneB = NEW_CHORUS ? pin(buildDroneLane(chorusChords, "B"), "drone", "B") : droneA;
   const ostB  = NEW_CHORUS ? buildOstinato("ostinatoB", false, chorusChords) : ostA;
   const placedB = NEW_CHORUS ? reserve(ostB.concat(bassB)) : placed;
   const keysB  = buildKeys(chorusChords, "keysB", { dense: true, avoid: placedB,
@@ -32908,7 +32916,6 @@ function makeMaterials(chart, editPlan, arcPlan){
   const ostCkey = buildOstinato("ostinato", false, bridgeChords);
   const ostC = (bKey !== root || bMode !== mode) ? ostCkey : ostA;
   const bassC  = pin(buildBass(bridgeChords, "bassC", true), "bass", "C");
-  const droneC = pin(buildDroneLane(bridgeChords, "C"), "drone", "C");
   const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true,
                                                    avoid: reserve(ostC.concat(bassC)) });
   const keys2C = tryPad(band => buildKeys(bridgeChords, "keys2C", { sustain: true, at: 2, band,
@@ -32963,7 +32970,6 @@ function makeMaterials(chart, editPlan, arcPlan){
   const ostAl      = LIFT ? buildOstinato("ostinato", false, liftChords) : ostA;
   const ostAvarl   = LIFT ? buildOstinato("ostinato", true,  liftChords) : ostAvar;
   const bassAl     = LIFT ? pin(buildBass(liftChords, "bass", false), "bass", "A") : bassA;
-  const droneAl    = LIFT ? pin(buildDroneLane(liftChords, "A"), "drone", "A") : droneA;
   const placedl    = LIFT ? reserve(ostAl.concat(ostAvarl, bassAl)) : placed;
   const keysAl     = LIFT ? buildKeys(liftChords, "keys", { dense: false, avoid: placedl,
                                                sustain: HOLD, at: HOLD ? 0 : undefined }) : keysA;
@@ -33098,6 +33104,17 @@ function makeMaterials(chart, editPlan, arcPlan){
     return notes;
   })();
 
+  /* ── THE DRONE IS BUILT LAST AND NOBODY SEES IT ───────────────────────────
+     It was built beside the bass, and `pin` put its notes where every later
+     builder negotiates -- so the keys voiced away from it, the lead thinned
+     around it, and "adding a drone" re-arranged the genre. MEASURED: dungeon
+     synth keys 597 -> 732 with the drone built early, 597 with it built here.
+     A foundation is outside the reckoning: the tunes are written as if it did
+     not exist, and only clearAgainst below may move THE DRONE, never them. */
+  const droneA = pin(buildDroneLane(chords, "A"), "drone", "A");
+  const droneB = NEW_CHORUS ? pin(buildDroneLane(chorusChords, "B"), "drone", "B") : droneA;
+  const droneC = pin(buildDroneLane(bridgeChords, "C"), "drone", "C");
+  const droneAl    = LIFT ? pin(buildDroneLane(liftChords, "A"), "drone", "A") : droneA;
   const materials = {
     A:    { drums: drumsA, bass: bassA, keys: keysA, keys2: keys2A, lead: themeA.notes, counter: counterA, ostinato: ostA, drone: droneA },
     // Avar carries NO counter: the harmony vocal was derived from A's tune, and the
@@ -34024,6 +34041,20 @@ function makeArrangement(chart, form, materials){
         keep.push(pool.splice(Math.floor(tr() * pool.length), 1)[0]);
       active = keep;
     }
+    /* ── THE FOUNDATION JOINS BY DECREE ──────────────────────────────────────
+       A genre that declares `drone` but does NOT name it in `form.roles` gets
+       it in every section HERE, after every draw over the active set has
+       already happened. MEASURED, and this placement is the whole point:
+       putting "drone" in dungeon synth's roles lists moved its keys from 597
+       notes to 732 and thinned its lead, because the rest, strip and thin
+       draws all pick from the set the role had joined. A ground is not a
+       candidate for those draws -- it is what they happen over -- and a
+       membership that arrives after them cannot shift one. Ambient names
+       drone in its roles ON PURPOSE (its bridge removes the ground); this
+       path is for a genre whose ground never leaves. */
+    if(chart.table.drone && !active.includes("drone") &&
+       !Object.values(ROLES).some(l => l.includes("drone")))
+      active = active.concat(["drone"]);
     const enterBar = {};
     for(const r of allowed)
       if(arrivesAt[r] != null && arrivesAt[r] >= sec.startBar && arrivesAt[r] < sec.endBar)
