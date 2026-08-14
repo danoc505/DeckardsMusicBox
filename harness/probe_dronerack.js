@@ -141,6 +141,73 @@ const check = (label, ok, detail) => {
         missing.length ? "missing: " + missing.join(", ")
                        : `${knobs.length} knobs, including DEJA VU / SPREAD / BIAS, CURVE / SLOPE / SMOOTH, and two assignable LFOs`);
 
+  /* ── THE FACEPLATES ARE THE MODULES ────────────────────────────────────── */
+  const plates = await pg.evaluate(() =>
+    Array.from(document.querySelectorAll(".eumod")).map(md => ({
+      name: (md.querySelector(".euname") || {}).textContent,
+      knobs: md.querySelectorAll("[data-key]").length,
+      jacks: md.querySelectorAll(".eujack").length,
+      big: !!md.querySelector(".kn.big"),
+      screws: md.querySelectorAll(".screw").length,
+    })));
+  check("the Mutable controls are drawn as module clone faceplates",
+        plates.length === 3 && plates.every(x => x.knobs >= 3 && x.screws === 4 && x.jacks >= 2) &&
+        plates[0].name === "Marbles" && plates[0].big && plates[1].name === "Tides",
+        plates.map(x => `${x.name}: ${x.knobs} knobs, ${x.jacks} jacks${x.big ? ", big knob" : ""}`).join(" · "));
+
+  /* ── THE TUBE FOLLOWS THE LFOs, not only the clocks ─────────────────────────
+     Isolated: drift 0 and Marbles' register at 0, so the only thing that can
+     move the stack across the record is an LFO patched to SPREAD. With AMT 0
+     the span must sit still over the playhead; at 0.8 it must move. This is
+     the check that was missing when the first version shipped a tube that
+     ignored its own LFO sockets. */
+  const spanAt = (u) => pg.evaluate((u) => {
+    const el = document.querySelector(".dronefield");
+    el.__paint(); el.__head(u);
+    const xs = Array.from(el.querySelectorAll(".drntone")).map(t => +t.getAttribute("x1")).filter(x => x > 0);
+    return Math.max(...xs) - Math.min(...xs);
+  }, u);
+  await set("drift", 0); await set("spreadCV", 0); await set("spread", 20);
+  await set("l1dest", 2); await set("l1rate", 3); await set("l1wave", 0);
+  await set("l1amt", 0); await pg.waitForTimeout(150);
+  const still = Math.abs(await spanAt(0.10) - await spanAt(0.22));
+  await set("l1amt", 0.8); await pg.waitForTimeout(150);
+  const moving = Math.abs(await spanAt(0.10) - await spanAt(0.22));
+  check("the tube follows an LFO patched to SPREAD",
+        still < 2 && moving > 10,
+        `span change over the same stretch of record: amt 0 -> ${still.toFixed(1)}px · amt 0.8 -> ${moving.toFixed(1)}px`);
+  await set("l1amt", 0); await set("drift", 6); await set("spreadCV", 0.5); await set("spread", 9);
+
+  /* ── AND THE LFO REACHES THE AUDIO, proved on rendered samples ──────────────
+     Everything above is the glass. This renders the same nine seconds of the
+     same record twice through the real offline path -- once with LFO 1 off,
+     once patched to CUTOFF -- and measures the difference between the sample
+     streams. If the knob were display-only the two renders would be
+     byte-identical and this check is what would say so. */
+  const rms = await pg.evaluate(async () => {
+    const S = soundNow();
+    const evs = SONG.perf.events.filter(e => e.tSec < 8);
+    const render = async () => {
+      const blob = await Sound.renderWav(evs, 9, 22050, S.space, S.kick, S.drumDrive, S.gate, S.motion);
+      return new Int16Array(await blob.arrayBuffer(), 44);
+    };
+    TRIM["dronebox.l1dest"] = 0 - PARAMS["dronebox.l1dest"];
+    TRIM["dronebox.l1rate"] = 2 - PARAMS["dronebox.l1rate"];
+    TRIM["dronebox.l1amt"] = 0 - PARAMS["dronebox.l1amt"];
+    const A = await render();
+    TRIM["dronebox.l1amt"] = 0.9 - PARAMS["dronebox.l1amt"];
+    const B = await render();
+    delete TRIM["dronebox.l1dest"]; delete TRIM["dronebox.l1rate"]; delete TRIM["dronebox.l1amt"];
+    let ea = 0, ed = 0;
+    const n = Math.min(A.length, B.length);
+    for(let i = 0; i < n; i++){ ea += A[i] * A[i]; ed += (A[i] - B[i]) * (A[i] - B[i]); }
+    return { db: 10 * Math.log10(ed / Math.max(1, ea)), sig: 10 * Math.log10(ea / n / (32768 * 32768)) };
+  });
+  check("...and the LFO reaches the RENDERED AUDIO, not only the picture",
+        isFinite(rms.db) && rms.db > -30,
+        `difference between amt 0 and amt 0.9 renders: ${rms.db.toFixed(1)} dB relative to the signal ` +
+        `(byte-identical would be -Infinity)`);
+
   /* patching an LFO has to change what the FOOT says, or the socket is a lie */
   const footOf = () => pg.evaluate(() => document.querySelector(".drnfoot").textContent);
   const f0 = await footOf();
@@ -163,6 +230,56 @@ const check = (label, ok, detail) => {
   const late = await envOf();
   check("TIDES' SLOPE moves where the swell peaks",
         late > early + 0.4, `peak at ${(early * 100).toFixed(0)}% of the shape -> ${(late * 100).toFixed(0)}%`);
+
+  /* ── THE MODULATOR BANK ON A LANE THE GENRE NEVER TOUCHES ───────────────────
+     The audit's real find. `rideBus` returned early when the GENRE had no
+     motion lane on a key, and the bank's contribution only enters through
+     `motionAt` -- so a bank slot patched to an unautomated destination was
+     silently dead, and dead differently per genre. This renders the proof on
+     lofi: pick a matrix destination lofi's own table does not ride, patch
+     slot 1 to it at a one-bar rate, and the audio must move. Before the fix
+     this exact A/B came back byte-identical. */
+  await pg.selectOption("#genre", "lofi");
+  await pg.waitForTimeout(900);
+  const bank = await pg.evaluate(async () => {
+    const CAND = ["matrix.keysEcho", "matrix.bassEcho", "matrix.keysSpring", "matrix.bassRoom"];
+    const dest = CAND.find(k => !SONG.motion.lanes[k]);
+    if(!dest) return { skip: "lofi rides every candidate — pick another genre" };
+    const di = HANDMOD_DEST.indexOf(dest);
+    const S = soundNow();
+    const evs = SONG.perf.events.filter(e => e.tSec < 9);
+    const render = async () => {
+      const blob = await Sound.renderWav(evs, 10, 16000, S.space, S.kick, S.drumDrive, S.gate, S.motion);
+      return new Int16Array(await blob.arrayBuffer(), 44);
+    };
+    const setB = (k, v) => { TRIM["modulation." + k] = v - PARAMS["modulation." + k]; };
+    const abFor = async (idx) => {
+      setB("d0", idx); setB("m0", 0); setB("r0", 1); setB("s0", 0); setB("a0", 0);
+      const A = await render();
+      setB("a0", 0.9);
+      const B = await render();
+      for(const k of ["d0", "m0", "r0", "s0", "a0"]) delete TRIM["modulation." + k];
+      let ea = 0, ed = 0;
+      const n = Math.min(A.length, B.length);
+      for(let i = 0; i < n; i++){ ea += A[i] * A[i]; ed += (A[i] - B[i]) * (A[i] - B[i]); }
+      return 10 * Math.log10(ed / Math.max(1, ea));
+    };
+    /* the CALIBRATION: the same A/B on a destination the genre DOES automate,
+       which the bank has been proven on since it shipped. The laneless key is
+       held to the same order of magnitude as that, not to a loudness picked
+       from the air -- the check's question is alive-or-dead, not how loud a
+       0.45 echo send is in this genre's mix. */
+    const cal = HANDMOD_DEST.find(k => SONG.motion.lanes[k]) || "echo.send";
+    const calDb = await abFor(HANDMOD_DEST.indexOf(cal));
+    const db = await abFor(di);
+    return { dest, cal, calDb, db, laneless: !SONG.motion.lanes[dest] };
+  });
+  check("the modulator bank moves a lane its genre never automates",
+        !bank.skip && bank.laneless && isFinite(bank.db) &&
+        bank.db > Math.min(-60, bank.calDb - 25),
+        bank.skip || `${bank.dest} (no genre lane): ${bank.db.toFixed(1)} dB — the known-good ` +
+        `${bank.cal} (laned) gives ${bank.calDb.toFixed(1)} dB on the same A/B; before the ` +
+        `rideBus+motionAt fixes the laneless one was -100 dB of numerical dust`);
 
   check("no page errors while the rack was driven", errs.length === 0,
         errs.length ? errs.slice(0, 2).join(" | ") : "clean");

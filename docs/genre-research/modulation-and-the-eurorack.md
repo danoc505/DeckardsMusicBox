@@ -348,6 +348,22 @@ genres**, not only the drone; `probe_modulation.js` proving every kind resolves
 on every genre and that every declared curve moves; `probe_drone.js` taught to
 measure long-term periodicity rather than only within-bar detail.
 
+**Found 2026-08-14e, by asking "is this hooked up properly?" of every
+destination instead of the two that had been demonstrated:** the modulator
+bank was DEAD on any destination the current genre did not itself automate.
+Two guards, one defect: `rideBus` returned early when the genre had no motion
+lane on a key, and `motionAt`'s first line returned 0 for a laneless key before
+reaching the `handModAt` addition at its end. So a bank slot on DRUM ROOM
+worked on a genre that moves its drum room and silently did nothing on one
+that does not — and the person at the panel could not know which. Both guards
+now also ask whether the HAND has a modulator patched. Proved by render A/B on
+a laneless key: −100 dB of numerical dust before, −43.7 dB after, against
+−37.6 dB for the known-good laned calibration on the same A/B. In the same
+build the bank's destinations went from 12 to 22 — every part bus's room, echo
+and spring send, and the echo→spring dub route. TAPE WOW was added and then
+REMOVED in the same commit: the tape reads its knobs at graph build and is
+never bus-ridden, so it would have been a socket that does nothing.
+
 **Not built, and named rather than dropped:**
 
 1. The **resonator** — `echo.fb` still caps at 0.85 and `echo.div` still speaks

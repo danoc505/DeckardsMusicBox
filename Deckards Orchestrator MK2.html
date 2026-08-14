@@ -299,6 +299,57 @@
   .drnfoot{ margin-top:.35rem; font:600 11px ui-monospace,monospace; color:#b98a3c;
             letter-spacing:.10em; text-transform:uppercase; }
   .drnfoot b{ color:#ffd98a; font-weight:700; }
+  /* ══ THE EURORACK ROW — the Mutable controls drawn as the modules ═════════
+     "do we actually have the controls from the mutable instruments i think
+      would prefer clones as ui"
+
+     So they are drawn as the hardware: light aluminium faceplates, four rack
+     screws, the module's name at the BOTTOM in a serif — which is where and
+     how Mutable prints it — the maker line small at the top, a tinted halo
+     behind the signature knob (Marbles' panel art is warm, Tides' is cool),
+     and a strip of inert jacks, labelled, exactly as the 303's sockets are:
+     drawn because leaving them off is what makes a clone stop looking like
+     the machine. The knobs are the SHARED knobEl/switchEl — same drag, same
+     double-click release, same TRIM offset — so these plates own no behaviour.
+
+     The same honesty as the Mellotron's "Mellotronics" plate applies and is
+     stated here once: the FACEPLATE is a clone; the DSP behind it is my
+     re-implementation from the manuals, not Émilie Gillet's code, per the
+     correction in docs/genre-research/modulation-and-the-eurorack.md §3. */
+  .eurorow{ display:flex; gap:.6rem; margin-top:.6rem; align-items:stretch; flex-wrap:wrap; }
+  .eumod{ position:relative; flex:1 1 0; min-width:190px;
+          border-radius:5px; padding:1.6rem .6rem 2.3rem;
+          background:linear-gradient(175deg,#edeae3 0%,#dbd7ce 55%,#ccc8be 100%);
+          border:1px solid #a19c91;
+          box-shadow:inset 0 1px 0 rgba(255,255,255,.7), 0 2px 7px rgba(0,0,0,.5); }
+  .eumod .screw{ position:absolute; width:9px; height:9px; border-radius:50%;
+          background:radial-gradient(circle at 35% 30%, #f6f4ef, #8d887d 60%, #514e46);
+          box-shadow:inset 0 0 2px rgba(0,0,0,.55); }
+  .eumod .screw.tl{ top:5px; left:7px; }  .eumod .screw.tr{ top:5px; right:7px; }
+  .eumod .screw.bl{ bottom:5px; left:7px; } .eumod .screw.br{ bottom:5px; right:7px; }
+  .eumod .eumaker{ position:absolute; left:0; right:0; top:.35rem; text-align:center;
+          font:600 8px ui-monospace,monospace; letter-spacing:.30em; color:#6d675c;
+          text-transform:uppercase; }
+  .eumod .euname{ position:absolute; left:0; right:0; bottom:.5rem; text-align:center;
+          font:600 14px Georgia,'Times New Roman',serif; letter-spacing:.10em; color:#211e19; }
+  .eumod .euhalo{ position:absolute; border-radius:50%; pointer-events:none; opacity:.55;
+          width:88px; height:88px; }
+  .eumod .eurowk{ position:relative; display:flex; justify-content:center;
+          align-items:flex-end; gap:.45rem; flex-wrap:wrap; }
+  .eumod .kn .cap{ color:#38342c; }  .eumod .kn .val{ color:#5a554b; opacity:.9; }
+  .eumod .kn .dial{ background:radial-gradient(circle at 38% 30%, #4c4c50, #131316 68%);
+          box-shadow:0 1px 3px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.06); }
+  .eumod .kn.big{ width:4.4rem; }
+  .eumod .kn.big .dial{ width:3.9rem; height:3.9rem; }
+  .eumod .sw .cap{ color:#38342c; }
+  .eumod .grp .leg{ color:#57524a; }
+  .eumod .eujacks{ display:flex; justify-content:center; gap:.5rem;
+          margin:.65rem 0 .1rem; flex-wrap:wrap; }
+  .eumod .eujack{ text-align:center; font:600 7px ui-monospace,monospace; color:#4d4941;
+          letter-spacing:.06em; }
+  .eumod .eujack i{ display:block; width:15px; height:15px; margin:0 auto 2px; border-radius:50%;
+          background:radial-gradient(circle at 50% 45%, #05070a 36%, #2b2f35 54%, #a3a9b1 62%, #565b62 80%);
+          box-shadow:0 1px 1px rgba(255,255,255,.5); }
   .mixer .mixstrips{ display:flex; gap:.55rem; align-items:flex-end; flex-wrap:wrap; }
   /* ── A CHANNEL, A GROUP, AND THE DIFFERENCE BETWEEN THEM ─────────────────
      A channel strip carries one instrument; the group beside it carries what
@@ -1534,7 +1585,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-14d · the drone gets its own lane, Marbles and Tides on the box, and a voice that plays itself</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-14e · the clone faceplates, and the modulator bank was half dead</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3987,8 +4038,8 @@ const INSTRUMENTS = {
     slot: "modulation", label: "the modulator bank", fixed: true,
     lanes: {},
     controls: [
-      { k:"d0", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS", cap:"DEST 1",
-        min:0, max:11, step:1, def:0, kind:"switch", live:true },
+      { k:"d0", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS/DRUM ROOM/BASS ROOM/KEYS ECHO/LEAD ECHO/BASS ECHO/DRUM SPRING/BASS SPRING/KEYS SPRING/LEAD SPRING/DUB ROUTE", cap:"DEST 1",
+        min:0, max:21, step:1, def:0, kind:"switch", live:true },
       { k:"m0", label:"LFO/S+H/DEJA VU/FM", cap:"MODE 1",
         min:0, max:3, step:1, def:0, kind:"switch", live:true },
       { k:"r0", label:"cycle length in bars", cap:"RATE 1",
@@ -3997,8 +4048,8 @@ const INSTRUMENTS = {
         min:-1, max:1, step:0.01, def:0, kind:"voicing", live:true },
       { k:"s0", label:"SINE/TRI/RAMP/FALL", cap:"WAVE 1",
         min:0, max:3, step:1, def:0, kind:"switch", live:true },
-      { k:"d1", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS", cap:"DEST 2",
-        min:0, max:11, step:1, def:4, kind:"switch", live:true },
+      { k:"d1", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS/DRUM ROOM/BASS ROOM/KEYS ECHO/LEAD ECHO/BASS ECHO/DRUM SPRING/BASS SPRING/KEYS SPRING/LEAD SPRING/DUB ROUTE", cap:"DEST 2",
+        min:0, max:21, step:1, def:4, kind:"switch", live:true },
       { k:"m1", label:"LFO/S+H/DEJA VU/FM", cap:"MODE 2",
         min:0, max:3, step:1, def:1, kind:"switch", live:true },
       { k:"r1", label:"cycle length in bars", cap:"RATE 2",
@@ -4007,8 +4058,8 @@ const INSTRUMENTS = {
         min:-1, max:1, step:0.01, def:0, kind:"voicing", live:true },
       { k:"s1", label:"SINE/TRI/RAMP/FALL", cap:"WAVE 2",
         min:0, max:3, step:1, def:0, kind:"switch", live:true },
-      { k:"d2", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS", cap:"DEST 3",
-        min:0, max:11, step:1, def:7, kind:"switch", live:true },
+      { k:"d2", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS/DRUM ROOM/BASS ROOM/KEYS ECHO/LEAD ECHO/BASS ECHO/DRUM SPRING/BASS SPRING/KEYS SPRING/LEAD SPRING/DUB ROUTE", cap:"DEST 3",
+        min:0, max:21, step:1, def:7, kind:"switch", live:true },
       { k:"m2", label:"LFO/S+H/DEJA VU/FM", cap:"MODE 3",
         min:0, max:3, step:1, def:2, kind:"switch", live:true },
       { k:"r2", label:"cycle length in bars", cap:"RATE 3",
@@ -4017,8 +4068,8 @@ const INSTRUMENTS = {
         min:-1, max:1, step:0.01, def:0, kind:"voicing", live:true },
       { k:"s2", label:"SINE/TRI/RAMP/FALL", cap:"WAVE 3",
         min:0, max:3, step:1, def:1, kind:"switch", live:true },
-      { k:"d3", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS", cap:"DEST 4",
-        min:0, max:11, step:1, def:2, kind:"switch", live:true },
+      { k:"d3", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS/DRUM ROOM/BASS ROOM/KEYS ECHO/LEAD ECHO/BASS ECHO/DRUM SPRING/BASS SPRING/KEYS SPRING/LEAD SPRING/DUB ROUTE", cap:"DEST 4",
+        min:0, max:21, step:1, def:2, kind:"switch", live:true },
       { k:"m3", label:"LFO/S+H/DEJA VU/FM", cap:"MODE 4",
         min:0, max:3, step:1, def:0, kind:"switch", live:true },
       { k:"r3", label:"cycle length in bars", cap:"RATE 4",
@@ -4677,11 +4728,20 @@ const INSTRUMENTS = {
                { label: "THE CLOCKS", keys: ["clockA", "clockB", "drift"] },
                { label: "THE FILTERS",keys: ["cut", "res", "peak", "peakHz"] },
                { label: "THE SWELL",  keys: ["swell", "fall", "air"] },
-               { label: "MARBLES",    keys: ["dejavu", "spreadCV", "bias"] },
-               { label: "TIDES",      keys: ["curve", "slope", "smooth"] },
-               { label: "LFO 1",      keys: ["l1dest", "l1rate", "l1amt", "l1wave"] },
-               { label: "LFO 2",      keys: ["l2dest", "l2rate", "l2amt", "l2wave"] },
                { label: "OUT",        keys: ["level", "pan", "panHz", "panDep"] },
+             ],
+             /* the Mutable controls, drawn as the modules -- see .eurorow */
+             euro: [
+               { maker: "Mutable Instruments", name: "Marbles", tint: "#e8a13f",
+                 big: "dejavu", beside: ["spreadCV", "bias"],
+                 jacks: ["t1", "t2", "t3", "X1", "X2", "X3"] },
+               { maker: "Mutable Instruments", name: "Tides", tint: "#49b6c4",
+                 big: "slope", beside: ["curve", "smooth"],
+                 jacks: ["TIDE", "UNI", "BI", "CLOCK"] },
+               { maker: "Deckard", name: "Dual LFO", tint: "#9aa04e",
+                 rows: [["l1dest", "l1rate", "l1amt", "l1wave"],
+                        ["l2dest", "l2rate", "l2amt", "l2wave"]],
+                 jacks: ["OUT 1", "OUT 2"] },
              ] },
   },
 
@@ -5520,10 +5580,37 @@ const MODTRIM = { depth: 1, freeze: 0, at: 0 };
    middle [Law 10]. So the sample-and-hold and the deja-vu here draw from a HASH
    of the slot and the step rather than from a running generator: the same step
    yields the same value, for ever, in any order, in either engine. ═════════ */
+/* ── THE DESTINATIONS, AND WHY THE MATRIX IS MOST OF THEM NOW ───────────────
+   "Why wouldnt we use LFOs on our matrix mixer?"
+
+   The GENRES already do -- probe-measured, 39 of the matrix's 49 crossings are
+   modulated by at least one genre's own motion table, which makes the matrix
+   the single most-automated machine in the file. What could not reach it was
+   the HAND: this bank's twelve destinations included exactly TWO crossings.
+   A modulation system whose richest target is 4% reachable by the person
+   holding the knobs is the gap, and this list is the fix.
+
+   Every part bus's three sends (room, echo, spring), the echo->spring crossing
+   -- which is the dub route, the wiring Hawtin's whole method lives on -- and
+   the tape's two instabilities. Not all 49: the *Mix trims and the fx-to-fx
+   lattice move a bus's LEVEL, and an LFO on a level is a tremolo on the whole
+   record, which nobody asked for and the four slots would be wasted holding. */
 const HANDMOD_DEST = ["echo.tone", "echo.fb", "echo.send", "echo.verb",
                       "desk.low", "desk.mid", "desk.high",
                       "matrix.keysRoom", "matrix.leadRoom", "matrix.drumsEcho",
-                      "spring.dwell", "spring.tension"];
+                      "spring.dwell", "spring.tension",
+                      "matrix.drumsRoom", "matrix.bassRoom",
+                      "matrix.keysEcho", "matrix.leadEcho", "matrix.bassEcho",
+                      "matrix.drumsSpring", "matrix.bassSpring",
+                      "matrix.keysSpring", "matrix.leadSpring",
+                      "matrix.echoSpring"];
+/* TAPE WOW and TAPE FLUTTER were on this list for one commit and are NOT,
+   deliberately: the tape reads its knobs when the graph is built and is never
+   bus-ridden, so a bank slot patched to it would be a socket that does nothing
+   -- the exact defect this file names most often, and adding two of them to
+   answer "where else should we have LFOs" would have been answering the letter
+   of the question against its whole spirit. If the tape ever gets a ride, they
+   go back on. */
 const HANDMOD_MODE = ["lfo", "sh", "dejavu", "fm"];
 const HANDMOD_SHAPE = ["sin", "tri", "ramp", "fall"];
 const HANDMOD = [];                       // filled from the panel; see handModRead
@@ -5610,7 +5697,18 @@ function handModAt(key, tSec, plan){
 
 function motionAt(plan, key, ev, offset){
   const moves = plan.lanes[key];
-  if(!moves || !ev || ev.tSec == null) return 0;
+  /* ── NO LANE IS NOT NO MODULATION ─────────────────────────────────────────
+     This returned 0 the moment the genre had no motion on the key, which was
+     the whole function until the modulator bank existed -- and then it was a
+     hole that swallowed the bank on every destination a genre left alone. The
+     rideBus fix above let the ride RUN for a hand-patched laneless key; this
+     line then returned 0 at every point of it. Two guards, one defect, and the
+     render A/B is what told them apart: -100 dB (numerical dust) instead of an
+     audible sweep. A key with no lane now falls through with an empty move
+     list and picks up the hand's modulators at the bottom like every other. */
+  if(!ev || ev.tSec == null) return 0;
+  if(!moves && !(HANDMOD.length && HANDMOD.some(h => h && h.depth && h.dest === key)))
+    return 0;
   /* the hand: FREEZE pins the moment every modulator is read at, so the whole
      plan stops moving together rather than each lane stopping where it was */
   const tSec = MODTRIM.freeze ? MODTRIM.at : ev.tSec + (offset || 0);
@@ -5619,7 +5717,7 @@ function motionAt(plan, key, ev, offset){
   const bar  = Math.max(0, Math.min(plan.nBars - 1, Math.floor(s16 / STEPS)));
   const step = ((s16 % STEPS) + STEPS) % STEPS;
   let d = 0;
-  for(const mv of moves){
+  for(const mv of (moves || [])){
     if(mv.kind === "plock") d += mv.amt[step];
     /* ── A CURVE: one value per sixteenth, resolved when the plan was drawn ──
        The four kinds that have MEMORY -- an LFO whose rate is moving, a sample
@@ -14627,7 +14725,18 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const K = scale == null ? 1 : scale;
     const plan = g.motion;
     try { param.cancelScheduledValues(t0); } catch(e){}
-    if(!plan || !plan.lanes || !plan.lanes[key]){ param.value = base * K; return; }
+    /* ── A HAND MODULATOR IS A LANE TOO ───────────────────────────────────────
+       This returned early whenever the GENRE had no motion on the key -- which
+       was right until the modulator bank existed, and silently wrong after:
+       the bank's contribution only enters through motionAt, so a slot patched
+       to a destination the genre does not itself automate was DEAD, and dead
+       differently per genre -- DRUM ROOM worked on a genre that moves its drum
+       room and did nothing on one that does not. The person at the panel
+       cannot know which is which. Found by asking "is this hooked up
+       properly?" of every destination instead of the two that had been
+       demonstrated. */
+    const handOn = HANDMOD.some(h => h && h.depth && h.dest === key);
+    if((!plan || !plan.lanes || !plan.lanes[key]) && !handOn){ param.value = base * K; return; }
     const seconds = plan.seconds;
     const c = CONTROL[key];
     /* ── A FADER AT THE BOTTOM MEANS OFF ──────────────────────────────────────
@@ -14680,7 +14789,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
        So a lane that carries an edge kind is written on the plan's OWN grid.
        Four times the points on those lanes only, which is the cheapest thing
        in this function; every other lane keeps the beat exactly as before. */
-    const wantEdge = (plan.lanes[key] || []).some(mv => mv && mv.edge);
+    const wantEdge = ((plan.lanes && plan.lanes[key]) || []).some(mv => mv && mv.edge);
     const step = wantEdge ? plan.spb : plan.spb * 4;
     const n = Math.max(1, Math.ceil(seconds / step));
     /* the first point is an anchor, not a ramp: ramping from whatever the node
@@ -36726,6 +36835,55 @@ function modScopeEl(){
                  is the mechanism; this is the readout that proves the pair on
                  the panel really does not come round inside the record.
    ═══════════════════════════════════════════════════════════════════════════ */
+/* the eurorack row: each entry of `panel.euro` becomes one faceplate. The
+   knobs inside are the shared widgets; the plate is only geometry and paint. */
+function euroRowEl(m, M, mods){
+  const row = el("div", "eurorow");
+  for(const spec of mods){
+    const mod = el("div", "eumod");
+    for(const c of ["tl", "tr", "bl", "br"]) mod.appendChild(el("div", "screw " + c));
+    mod.appendChild(el("div", "eumaker", spec.maker));
+    const widget = k => {
+      const c = M.controls.find(x => x.k === k);
+      if(!c) return null;
+      return (c.step >= 1 && c.max - c.min <= 2) ? switchEl(m, c) : knobEl(m, c);
+    };
+    /* the signature knob, big, with the module's tint behind it */
+    if(spec.big){
+      const wrap = el("div", "eurowk");
+      if(spec.tint){
+        const halo = el("div", "euhalo");
+        halo.style.background = "radial-gradient(closest-side, " + spec.tint + ", transparent 72%)";
+        halo.style.top = "-14px";
+        wrap.appendChild(halo);
+      }
+      const big = widget(spec.big);
+      if(big){ big.classList.add("big"); wrap.appendChild(big); }
+      for(const k of (spec.beside || [])){ const w = widget(k); if(w) wrap.appendChild(w); }
+      mod.appendChild(wrap);
+    }
+    for(const r of (spec.rows || [])){
+      const wrap = el("div", "eurowk");
+      for(const k of r){ const w = widget(k); if(w) wrap.appendChild(w); }
+      mod.appendChild(wrap);
+    }
+    if(spec.jacks && spec.jacks.length){
+      const jr = el("div", "eujacks");
+      for(const j of spec.jacks){
+        const jk = el("div", "eujack");
+        jk.appendChild(el("i"));
+        jk.appendChild(document.createTextNode(j));
+        jk.title = j + " — a socket. Drawn because the module has one; this program has no outside to plug into.";
+        jr.appendChild(jk);
+      }
+      mod.appendChild(jr);
+    }
+    mod.appendChild(el("div", "euname", spec.name));
+    row.appendChild(mod);
+  }
+  return row;
+}
+
 function droneFieldEl(){
   const wrap = el("div", "drnwrap dronefield");
   const glass = el("div", "drnglass");
@@ -36918,10 +37076,47 @@ function droneFieldEl(){
     const barSec = plan.spb * STEPS, total = nB * barSec, T = u * total;
     const A = Math.max(1, Math.round(pv("clockA", 23))), B = Math.max(1, Math.round(pv("clockB", 29)));
     const PA = Math.max(0.5, A * barSec), PB = Math.max(0.5, B * barSec);
+    /* ── AND THE TWO LFOs ARE IN THE PICTURE ──────────────────────────────
+       They were not, which was this file's oldest defect shipped one more
+       time: patch LFO 2 to SPREAD and the SOUND widened while the tube sat
+       still. Same arithmetic as V.dronebox's `modAt`, same spans, so the
+       glass cannot drift from the graph by being written twice. */
+    const WAVE = [ph => Math.sin(2 * Math.PI * ph),
+                  ph => 4 * Math.abs(ph - Math.floor(ph + 0.5)) - 1,
+                  ph => 2 * (ph - Math.floor(ph)) - 1,
+                  ph => 1 - 2 * (ph - Math.floor(ph))];
+    const SPANS = [2400, 2600, 60, 60, 1, 1.4];
+    const modAt = (dest) => {
+      let d = 0;
+      for(const n2 of [1, 2]){
+        const amt = pv("l" + n2 + "amt", 0);
+        if(!amt || Math.round(pv("l" + n2 + "dest", n2 === 1 ? 0 : 2)) !== dest) continue;
+        const rate = Math.max(1, pv("l" + n2 + "rate", n2 === 1 ? 11 : 19));
+        const wv = Math.max(0, Math.min(3, Math.round(pv("l" + n2 + "wave", 0))));
+        d += amt * SPANS[dest] * WAVE[wv](T / Math.max(0.5, rate * barSec));
+      }
+      return d;
+    };
+    /* Marbles' register too -- the same hash the voice reads, at the bar the
+       playhead is in, so DEJA VU's loop/shuffle is visible as the tones
+       snapping to new places bar by bar */
+    const dejavu = pv("dejavu", 0.5), spCV = pv("spreadCV", 0.5), spr = pv("spread", 9);
+    const barIx = Math.floor(T / Math.max(0.001, barSec));
+    const h01 = k => ((hash32("drn:" + k) >>> 8) & 0xffff) / 65536;
+    const dv = (k) => {
+      const slot = ((barIx + k) % 16 + 16) % 16;
+      const shuf = dejavu > 0.5
+        ? (slot + Math.floor(h01("s" + barIx + ":" + k) * 16 * (dejavu - 0.5) * 2)) % 16
+        : slot;
+      const fresh = dejavu < 0.5 && h01("p" + barIx + ":" + k) < (1 - dejavu * 2);
+      return h01("v" + (fresh ? barIx + ":" : "") + shuf) * 2 - 1;
+    };
     const cents = [];
+    const drift2 = S.drift + modAt(3);
     for(let k = 0; k < S.rows.length; k++){
       const r = S.rows[k];
-      const d = r.base + S.drift * 0.5 *
+      const kf = S.rows.length > 1 ? (k / (S.rows.length - 1) - 0.5) : 0;
+      const d = r.base + spCV * dv(k) * spr * 0.5 + kf * modAt(2) + drift2 * 0.5 *
                 (Math.sin(2 * Math.PI * (T / PA + r.pa)) + Math.sin(2 * Math.PI * (T / PB + r.pb)));
       cents.push(d);
       const x = SX + SW * (Math.max(-40, Math.min(40, d)) + 40) / 80;
@@ -39835,6 +40030,7 @@ function drawPanels(){
          it is walked for `stepEls` on every frame. A scope has no steps. */
       if(P.grid === "modscope"){ const sc = modScopeEl(); box.appendChild(sc); MODSCOPES.push(sc); }
       if(P.grid === "dronefield"){ const dr = droneFieldEl(); box.appendChild(dr); DRONES.push(dr); }
+      if(P.euro) box.appendChild(euroRowEl(m, M, P.euro));
       if(P.grid === "programme") box.appendChild(programmeEl());
       if(P.grid === "tape") box.appendChild(tapeEl(m, M));
       if(P.grid === "compvu") box.appendChild(compVuEl(m, M));
