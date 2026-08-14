@@ -63,6 +63,79 @@ should be built on top of this stack until it has been played.**
 
 ## 0a. WHAT IS STILL NOT BUILT — the whole open list, `2026-08-13`
 
+> ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-14a` … `2026-08-15d`
+>
+> **Prog-techno is deleted. Ambient replaces it.** The owner's call, and the
+> table is gone from `GENRE`, not commented out —
+> `docs/genre-research/prog-techno.md` is kept with a withdrawal note at its
+> head, because several of its mechanisms (the structural solo, the drawn
+> matrix vocabulary, poly on pitched parts) outlived the genre and are still
+> cited from it. `docs/genre-research/ambient.md` is the new sheet, written
+> against `how-a-drone-evolves.md`'s own ranking: `form.roles` is the whole
+> form (the drone alone, then a bed, a figure, a voice, and a bridge where the
+> drone itself LEAVES); every LFO pair on the table is coprime.
+>
+> **The drone is a real lane now, on every genre, not a bass engine.**
+> `INSTRUMENTS.dronebox`, `SLOT_OF.drone`, its own mixer strip, MIDI track and
+> rack slot. Before this it was `V.drone` — three saws and a lowpass, living
+> inside the 303, reachable from one rig (bladerunner), longest held note
+> 16.55 s, and it was ON THE BASS SLOT, so a genre had to give up its bottom
+> end to have one. Dungeon synth and hobbit synth both declared
+> `bassStyle: "drone"` and put the plucked `V.bass` on the lane instead —
+> longest held note 4.80 s and 2.54 s, i.e. no drone at all, which is what the
+> owner's own ear caught on `15b` after the audit table had said so in writing
+> and nobody had acted on it.
+>
+> **Dungeon synth's drone, done twice.** The first attempt (`15b`) DECLARED the
+> role inside `form.roles` and moved the genre's keys 597 → 732 notes and its
+> bass register besides — adding a foundation re-arranged the whole record,
+> because the rest/strip/thin draws and the register allocator all pick from
+> whatever is in `form.roles`. Reverted whole (`15c`), then rebuilt as a
+> DECREE (`15d`): a genre that declares `drone` without naming it in
+> `form.roles` gets it added to every section AFTER every draw over the active
+> set has already run. Twelve seeds, every non-drone event SHA-identical to
+> the pre-drone build; 37–41 drone notes added per record. Ambient keeps the
+> explicit `form.roles` path on purpose — its bridge removes the ground, which
+> is the whole point of that genre's form.
+>
+> **Three pieces of Mutable Instruments' own source code are ported, not
+> guessed at.** `marbles/random/random_sequence.h`, `marbles/random/
+> t_generator.cc`, `tides2/poly_slope_generator.h`, fetched raw from
+> `pichenettes/eurorack` (MIT, Emilie Gillet, copyright notice carried in the
+> comments). The first version (`14a`–`14e`) was a re-implementation from the
+> MANUALS and got Marbles' déjà vu backwards: the real mutation probability is
+> `p = (2·dejavu − 1)²`, zero at the notch, and below it a mutation REWRITES a
+> loop slot rather than drawing fresh noise. `MarblesSequence` runs the ported
+> algorithm now; the t-section's drum-pattern bank (plus Bernoulli and
+> clusters, the module's other two rhythm models) drives ambient's figure;
+> Tides' SMOOTHNESS is corrected to bidirectional-from-clean-centre.
+>
+> **The resonator is built — closes the item in `how-a-drone-evolves.md` §P.3
+> and the "infinite feedback / very short delay time" pair from the owner's
+> own eurorack list.** A comb at 1/f seconds, feedback to 0.99, wired serially
+> on the echo's return (the dub route) rather than as new matrix plumbing. The
+> echo itself cannot be this by construction — shortest delay ~132 ms, feedback
+> capped at 0.85.
+>
+> **Scenes are built; serial routing is not.** STORE A / STORE B and a
+> crossfader on the modulator bank's glass, morphing every hand TRIM offset
+> between two captured desk states — Frames' idea, writing TRIM and nothing
+> else so the record underneath is untouched. The other Octatrack idea on the
+> owner's list, a track processing another track's audio, is still open: the
+> honest design is a RES column on the matrix, and it is not built because the
+> matrix's builder, `routeBaseFor` and `probe_wiring` all walk the column list
+> by hand — a rushed column is a broken desk.
+>
+> **And the modulator bank was found half dead.** `rideBus` and `motionAt` both
+> returned early for any destination the current GENRE did not itself
+> automate, so a hand-patched bank slot on an unautomated destination did
+> nothing — silently, and differently per genre. Proved by render A/B:
+> −100 dB (numerical dust) before the fix, −43.7 dB (real audio, in line with
+> a known-good laned destination's −37.6 dB) after. The bank's destinations
+> went from 12 to 22 in the same pass — every part bus's room/echo/spring
+> send, the echo→spring dub route, the compressor's threshold (now genuinely
+> ridden rather than set once), and the resonator's own ring and mix.
+>
 > ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-13a` … `2026-08-13d`
 >
 > **0a.1, the grid.** A genre declares `metre` and everything derives from it:
@@ -163,10 +236,17 @@ departure law has narrowed the move, so a snapped note escapes "a dissonance
 must step" — two owners of one pitch. Do not fix by widening the tolerance; this
 file's own comment records that the old 99% was hiding exactly one bug.
 
+**STILL OPEN, and now the oldest unfixed defect named in this file.**
+Dungeon synth's `15d` rebuild changed which bars its materials land on, which
+moved WHERE the same two pairs (`lofi`×`dungeonsynth`, `lofi`×`hobbitsynth`)
+hit the throw across the blend slider's weights — same two pairs, same class
+of defect, not a new or worse one. `mk2_ui.js`'s own blend drag now reproduces
+it on nearly every run rather than intermittently, which makes this the
+easiest of the open items to work on next: the repro is no longer rare.
 
 *Asked for in as many words: "add what everything we have failed to implement
 to the todo file". This is that list, on the branch `claude/code-review-6jd9cz`,
-current as of build `2026-08-12i`.*
+current as of build `2026-08-15d`.*
 
 **EVERY NUMBER BELOW WAS MEASURED TODAY, not remembered.** The probes that
 produced them are named at each item so any of it can be re-checked in one

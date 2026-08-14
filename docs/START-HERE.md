@@ -1,7 +1,7 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-10b` unless it says otherwise (the
-newest build is `2026-08-10e`; its entry is under "What happened last"). If you
+*Everything below is verified at `2026-08-15d` unless it says otherwise (the
+newest build; its entry is under "What happened last"). If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -123,7 +123,7 @@ while both files carried an identical stamp, so three commits of work went
 unjudged. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-10e`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-15d`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -135,6 +135,79 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Builds `2026-08-14a` … `2026-08-15d` — PROG-TECHNO IS GONE, AMBIENT IS BUILT
+ON A REAL DRONE, AND MUTABLE INSTRUMENTS' OWN SOURCE IS PORTED.** The owner's
+words started it: *"I dont believe that you have actually built drones but if
+you have we have all the fx, instruments and drones to make an amazing
+ambient genre built around drones"* — and the scepticism was correct.
+Ten genres × six seeds, events reaching the one drone voice the file had:
+bladerunner 450 (longest 16.55 s), everybody else **0**. Dungeon synth and
+hobbit synth both declared `bassStyle: "drone"` and put the plucked `V.bass`
+on the lane instead, longest held note 4.80 s and 2.54 s. That is what "no
+drone" actually meant, from the outside.
+
+**Prog-techno is deleted, not commented out.** `docs/genre-research/
+prog-techno.md` stays, with a withdrawal note — several of its mechanisms
+(the structural solo, the drawn matrix vocabulary, poly on pitched parts)
+outlived the genre. `ambient` replaces it, written against
+`how-a-drone-evolves.md`'s own ranking of long-form mechanisms: `form.roles`
+IS the form (the drone alone, then a bed, a figure, a voice, and a bridge
+where the drone itself LEAVES); every LFO pair on the table is coprime.
+
+**The drone is a real lane now** — `INSTRUMENTS.dronebox`, `SLOT_OF.drone`,
+its own mixer strip, MIDI track, rack slot — not a bass engine competing with
+the bottom end for the one slot a genre gets. Its face is a Mutable-styled
+control room: **Marbles and Tides drawn as actual eurorack clone
+faceplates** (aluminium, rack screws, jacks), and two of the three ported
+files (`marbles/random/random_sequence.h`, `marbles/random/t_generator.cc`,
+`tides2/poly_slope_generator.h`, fetched raw from `pichenettes/eurorack`, MIT,
+Emilie Gillet's copyright carried in the comments) caught the FIRST version's
+manual-based guess getting Marbles' déjà vu backwards — the real mutation
+curve is `p = (2·dejavu − 1)²`, and below the notch a mutation REWRITES a
+loop slot rather than drawing fresh noise. A resonator (a comb the echo could
+never be — its shortest delay is ~132 ms and its feedback caps at 0.85) and
+Frames-style scenes (STORE A / STORE B / crossfader on the bank's glass) are
+built too. Serial routing — the OTHER Octatrack idea on the owner's list — is
+still open and is not rushed: it needs a RES column on the matrix, and the
+matrix's builder, `routeBaseFor` and `probe_wiring` all walk that column list
+by hand.
+
+**Dungeon synth's drone was rebuilt twice in one day, and the second attempt
+is the one that shipped.** The owner: *"It feel like you did much more than
+adding a drone to dungeon synth it feels like you messed it up."* Correct —
+the first attempt put `"drone"` inside `form.roles`, and the genre's rest,
+strip and thin draws all pick from that set: keys went 597 → 732 notes and
+the bass register moved, from adding one part. Reverted whole, then rebuilt as
+a DECREE — a genre that declares `drone` without naming it in `form.roles`
+gets it added to every section AFTER every draw over the active set has
+already run, so it cannot be a candidate for anything that reads that set.
+Twelve seeds, every non-drone event of dungeon synth SHA-identical to the
+build before any of this started; 37–41 drone notes added per record.
+
+**And the modulator bank was found half dead.** `rideBus` and `motionAt` both
+returned early for a destination the current GENRE did not itself automate —
+so a hand-patched bank slot did nothing on any song where nobody else had
+already wired that destination, silently, differently per genre. Proved by a
+render A/B: −100 dB (numerical dust) before the fix, −43.7 dB (real audio,
+matching a known-good destination's −37.6 dB on the same test) after. Bank
+destinations: 12 → 22.
+
+Verification throughout: `mk2_test.js` steady at 177 passed / 2 failed (the
+build stamp, which is expected red until republished each time, and the
+blend throw named below); blast-radius A/Bs — SHA-1 over every event of every
+untouched genre — at ZERO for every build in this run except the one genre
+being deliberately changed; `probe_dronerack.js` (new) driving the real panel
+in Chromium.
+
+**⚠ THE OLDEST NAMED DEFECT IN THE FILE IS NOW THE EASIEST TO REPRODUCE.**
+`BACKLOG.md` §0a.16, the blend's out-of-key lead — `lofi`×`dungeonsynth` and
+`lofi`×`hobbitsynth`, always the chorus material, always bar 3. It has been
+called "pre-existing" and stepped past for a long time. Dungeon synth's
+rebuild moved which bars its materials land on, which moved WHERE the same
+two pairs hit the throw across the blend slider's weight range — `mk2_ui.js`'s
+own blend drag now reproduces it on nearly every run instead of intermittently.
+Same defect, not a worse one, but there is no excuse left for leaving it.
 
 **Build `2026-08-10e` — THE KETTLES ROLL, THE HAND DRUM LEARNS ITS FIGURES.**
 The owner asked for the orchestral element ("like the score from Lord of the
@@ -408,7 +481,7 @@ wanted, and nobody should quietly re-add costs to the other files either.
 
 ## The commands
 
-Build `2026-08-10b`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-15d`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 
@@ -421,6 +494,8 @@ node harness/mk2_ui.js                      the front panel, real browser (flaky
 node harness/mk2_blend.js                   the blend sliders
 node harness/mk2_midi.js                    the MIDI port and the .mid export
 node harness/probe_mixer.js                 the desk reaches the graph
+node harness/probe_dronerack.js             the drone rack's panel, its LFOs, and whether a
+                                             hand-patched modulator bank slot reaches rendered audio
 node harness/probe_drumarc.js               does the drum part have a SHAPE
 node harness/probe_blendshare.js 30 --all   what share of a song each genre on
                                             the faders actually supplied
