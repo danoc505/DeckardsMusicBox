@@ -1588,6 +1588,13 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
        nothing automates them, which is why they are `voicing` and `switch`
        rather than `gesture`. */
     "modulation.depth","modulation.freeze",
+    /* the resonator: PITCH and DAMP are read by setSpace and applied to the
+       comb's own nodes (delayTime in seconds computed from the MIDI knob, so
+       it can never be lane-ridden -- the unit mismatch is stated on the
+       machine); RING and MIX are handed to rideBus like every gain on the
+       desk. All four reach the sound once per song, which is what this list
+       records. */
+    "resonator.pitch","resonator.fb","resonator.damp","resonator.mix",
     /* and the bank's four slots, twenty controls. setSpace reads them through
        P() into HANDMOD, which `motionAt` adds to every lane -- so they reach
        the sound in the live engine and the offline render alike.

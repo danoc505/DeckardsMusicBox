@@ -1585,7 +1585,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-14e · the clone faceplates, and the modulator bank was half dead</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15a · the Mutable source, actually ported — and the resonator, at last</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -4038,8 +4038,8 @@ const INSTRUMENTS = {
     slot: "modulation", label: "the modulator bank", fixed: true,
     lanes: {},
     controls: [
-      { k:"d0", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS/DRUM ROOM/BASS ROOM/KEYS ECHO/LEAD ECHO/BASS ECHO/DRUM SPRING/BASS SPRING/KEYS SPRING/LEAD SPRING/DUB ROUTE", cap:"DEST 1",
-        min:0, max:21, step:1, def:0, kind:"switch", live:true },
+      { k:"d0", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS/DRUM ROOM/BASS ROOM/KEYS ECHO/LEAD ECHO/BASS ECHO/DRUM SPRING/BASS SPRING/KEYS SPRING/LEAD SPRING/DUB ROUTE/COMP THRESH/RESO MIX/RESO RING/MOD 1 AMT/MOD 2 AMT/MOD 3 AMT/MOD 4 AMT", cap:"DEST 1",
+        min:0, max:28, step:1, def:0, kind:"switch", live:true },
       { k:"m0", label:"LFO/S+H/DEJA VU/FM", cap:"MODE 1",
         min:0, max:3, step:1, def:0, kind:"switch", live:true },
       { k:"r0", label:"cycle length in bars", cap:"RATE 1",
@@ -4048,8 +4048,8 @@ const INSTRUMENTS = {
         min:-1, max:1, step:0.01, def:0, kind:"voicing", live:true },
       { k:"s0", label:"SINE/TRI/RAMP/FALL", cap:"WAVE 1",
         min:0, max:3, step:1, def:0, kind:"switch", live:true },
-      { k:"d1", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS/DRUM ROOM/BASS ROOM/KEYS ECHO/LEAD ECHO/BASS ECHO/DRUM SPRING/BASS SPRING/KEYS SPRING/LEAD SPRING/DUB ROUTE", cap:"DEST 2",
-        min:0, max:21, step:1, def:4, kind:"switch", live:true },
+      { k:"d1", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS/DRUM ROOM/BASS ROOM/KEYS ECHO/LEAD ECHO/BASS ECHO/DRUM SPRING/BASS SPRING/KEYS SPRING/LEAD SPRING/DUB ROUTE/COMP THRESH/RESO MIX/RESO RING/MOD 1 AMT/MOD 2 AMT/MOD 3 AMT/MOD 4 AMT", cap:"DEST 2",
+        min:0, max:28, step:1, def:4, kind:"switch", live:true },
       { k:"m1", label:"LFO/S+H/DEJA VU/FM", cap:"MODE 2",
         min:0, max:3, step:1, def:1, kind:"switch", live:true },
       { k:"r1", label:"cycle length in bars", cap:"RATE 2",
@@ -4058,8 +4058,8 @@ const INSTRUMENTS = {
         min:-1, max:1, step:0.01, def:0, kind:"voicing", live:true },
       { k:"s1", label:"SINE/TRI/RAMP/FALL", cap:"WAVE 2",
         min:0, max:3, step:1, def:0, kind:"switch", live:true },
-      { k:"d2", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS/DRUM ROOM/BASS ROOM/KEYS ECHO/LEAD ECHO/BASS ECHO/DRUM SPRING/BASS SPRING/KEYS SPRING/LEAD SPRING/DUB ROUTE", cap:"DEST 3",
-        min:0, max:21, step:1, def:7, kind:"switch", live:true },
+      { k:"d2", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS/DRUM ROOM/BASS ROOM/KEYS ECHO/LEAD ECHO/BASS ECHO/DRUM SPRING/BASS SPRING/KEYS SPRING/LEAD SPRING/DUB ROUTE/COMP THRESH/RESO MIX/RESO RING/MOD 1 AMT/MOD 2 AMT/MOD 3 AMT/MOD 4 AMT", cap:"DEST 3",
+        min:0, max:28, step:1, def:7, kind:"switch", live:true },
       { k:"m2", label:"LFO/S+H/DEJA VU/FM", cap:"MODE 3",
         min:0, max:3, step:1, def:2, kind:"switch", live:true },
       { k:"r2", label:"cycle length in bars", cap:"RATE 3",
@@ -4068,8 +4068,8 @@ const INSTRUMENTS = {
         min:-1, max:1, step:0.01, def:0, kind:"voicing", live:true },
       { k:"s2", label:"SINE/TRI/RAMP/FALL", cap:"WAVE 3",
         min:0, max:3, step:1, def:1, kind:"switch", live:true },
-      { k:"d3", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS/DRUM ROOM/BASS ROOM/KEYS ECHO/LEAD ECHO/BASS ECHO/DRUM SPRING/BASS SPRING/KEYS SPRING/LEAD SPRING/DUB ROUTE", cap:"DEST 4",
-        min:0, max:21, step:1, def:2, kind:"switch", live:true },
+      { k:"d3", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS/DRUM ROOM/BASS ROOM/KEYS ECHO/LEAD ECHO/BASS ECHO/DRUM SPRING/BASS SPRING/KEYS SPRING/LEAD SPRING/DUB ROUTE/COMP THRESH/RESO MIX/RESO RING/MOD 1 AMT/MOD 2 AMT/MOD 3 AMT/MOD 4 AMT", cap:"DEST 4",
+        min:0, max:28, step:1, def:2, kind:"switch", live:true },
       { k:"m3", label:"LFO/S+H/DEJA VU/FM", cap:"MODE 4",
         min:0, max:3, step:1, def:0, kind:"switch", live:true },
       { k:"r3", label:"cycle length in bars", cap:"RATE 4",
@@ -4099,6 +4099,47 @@ const INSTRUMENTS = {
                { label: "SLOT 4", keys: ["d3", "m3", "r3", "a3", "s3"] },
                { label: "MASTER", keys: ["depth", "freeze"] },
              ] },
+  },
+
+  /* ══ THE RESONATOR — task #62, the unit the echo cannot be ═══════════════
+     From the owner's own technique list, via how-a-drone-evolves.md §P.3:
+     "Infinite feedback/max Send on delay" + "very short delay time" are ONE
+     instrument -- a delay short enough that its comb peaks land in the audio
+     band, fed back near unity, imposing a harmonic series on whatever enters
+     it. "With a single loop of radio frequencies, it creates nice and deep
+     harmonics." The echo cannot be this by construction: its shortest delay is
+     ~132 ms and its feedback caps at 0.85.
+
+     WIRED ON THE ECHO'S RETURN, SERIALLY -- the dub route: what the echo
+     carries feeds the comb, and the comb's ring rides the same crossing and
+     ping-pong the echo already has, so no new matrix plumbing and no new
+     return path. A cousin of this idea -- a tonic-tuned comb across the whole
+     MIX -- was built here once and measured dead or destructive (see the note
+     at the echo's graph); this one differs where that one failed: it is a
+     UNIT with its own level, on a send path, defaulting to silence.
+
+     PITCH is not ridden and not automatable, deliberately: the delay time is
+     1/f seconds and rideBus writes lane values RAW onto params -- a MIDI lane
+     landing on a seconds param would be the unit-mismatch defect. It is live,
+     so the hand can retune it; FB and MIX are gains and ride like everything
+     on the desk. The damp filter in the loop is Q -3, which is the echo's own
+     hard-won stability lesson: a resonant filter inside a feedback loop is a
+     runaway. */
+  resonator: {
+    slot: "resonator", label: "the resonator", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"pitch", label:"where the comb sits", cap:"PITCH",
+        min:24, max:72, step:1, def:43, unit:"midi", kind:"voicing", live:true },
+      { k:"fb",    label:"how long it rings", cap:"RING",
+        min:0, max:0.99, step:0.005, def:0.9, kind:"gesture", live:true },
+      { k:"damp",  label:"how dark the ring is", cap:"DAMP",
+        min:500, max:8000, step:50, def:2600, unit:"Hz", kind:"voicing", live:true },
+      { k:"mix",   label:"how much of it is heard", cap:"MIX",
+        min:0, max:1, step:0.01, def:0, kind:"gesture", live:true },
+    ],
+    panel: { skin: "crt", maker: "DECKARD", title: "RESONATOR",
+             groups: [{ label: "THE COMB", keys: ["pitch", "fb", "damp", "mix"] }] },
   },
 
   spring: {
@@ -4677,8 +4718,26 @@ const INSTRUMENTS = {
         min:0, max:2, step:1, def:1, kind:"switch" },
       { k:"slope",  label:"rise against fall", cap:"SLOPE",
         min:0, max:1, step:0.01, def:0.35, kind:"voicing" },
-      { k:"smooth", label:"stepped to smooth", cap:"SMOOTH",
-        min:0, max:1, step:0.01, def:1, kind:"voicing" },
+      /* ── CORRECTED AGAINST THE SOURCE. My "stepped to smooth" was a
+         misreading of the manual; tides2's smoothness is BIDIRECTIONAL from a
+         clean centre -- one way a wavefolder puts kinks and ripples ON the
+         ramp, the other a one-pole lowpass rounds it off, with the module's
+         own fourth-power taper so the middle half of the travel stays nearly
+         clean [tides2/poly_slope_generator.h, fetched 2026-08-15]. Default at
+         the centre, which is the module's clean position. */
+      { k:"smooth", label:"fold, clean at centre, filter", cap:"SMOOTH",
+        min:0, max:1, step:0.01, def:0.5, kind:"voicing" },
+      /* ── TIDES' FOUR OUTPUTS ────────────────────────────────────────────
+         The module's whole point is one function generator with four related
+         outputs, and until now this box used exactly one. The switch deals the
+         swell across the STACK's own tones, in the module's three output
+         modes: SEQUENCE is phase mode (each tone's swell arrives later than
+         the one below -- a canon), RIPPLE is frequency mode (each tone
+         trembles at a related rate), FADE is amplitude mode (a gain window
+         slides across the stack as the swell rises, Gaussian-ish, which is the
+         module's channel-index arithmetic). */
+      { k:"tOut", label:"OFF/SEQUENCE/RIPPLE/FADE", cap:"TIDES OUT",
+        min:0, max:3, step:1, def:0, kind:"switch" },
 
       /* ══ AND TWO LFOs OF ITS OWN ═════════════════════════════════════════
          "Where are the LFOs?"
@@ -4702,8 +4761,12 @@ const INSTRUMENTS = {
         min:-1, max:1, step:0.01, def:0, kind:"voicing" },
       { k:"l1wave", label:"SINE/TRI/RAMP/FALL", cap:"LFO 1 WAVE",
         min:0, max:3, step:1, def:0, kind:"switch" },
-      { k:"l2dest", label:"CUTOFF/PEAK FREQ/SPREAD/DRIFT/AIR/LEVEL", cap:"LFO 2 -> ",
-        min:0, max:5, step:1, def:2, kind:"switch" },
+      /* LFO 2 alone gets the last two sockets: an LFO patched into its own
+         rate or depth is self-modulation with nowhere to end, so LFO 1 is the
+         carrier and LFO 2 the modulator -- which is how the question "how do
+         you use a lfo to modulate an lfo" is actually patched on a rack. */
+      { k:"l2dest", label:"CUTOFF/PEAK FREQ/SPREAD/DRIFT/AIR/LEVEL/LFO1 RATE/LFO1 AMT", cap:"LFO 2 -> ",
+        min:0, max:7, step:1, def:2, kind:"switch" },
       { k:"l2rate", label:"cycle length in bars", cap:"LFO 2 RATE",
         min:1, max:128, step:1, def:19, unit:"bars", kind:"voicing" },
       { k:"l2amt",  label:"how far it swings, and which way up", cap:"LFO 2 AMT",
@@ -4736,7 +4799,7 @@ const INSTRUMENTS = {
                  big: "dejavu", beside: ["spreadCV", "bias"],
                  jacks: ["t1", "t2", "t3", "X1", "X2", "X3"] },
                { maker: "Mutable Instruments", name: "Tides", tint: "#49b6c4",
-                 big: "slope", beside: ["curve", "smooth"],
+                 big: "slope", beside: ["curve", "smooth", "tOut"],
                  jacks: ["TIDE", "UNI", "BI", "CLOCK"] },
                { maker: "Deckard", name: "Dual LFO", tint: "#9aa04e",
                  rows: [["l1dest", "l1rate", "l1amt", "l1wave"],
@@ -5151,7 +5214,7 @@ const INSTRUMENTS = {
     range: [49, 81],
     controls: [
       ...panControls(),
-      { k:"bright",  label:"reed brightness", cap:"TONE",   min:0, max:1, step:0.01, def:0.50, kind:"voicing" },
+      { k:"bright",  label:"reed brightness", cap:"TONE",   min:0, max:1, step:0.01, def:0.50, kind:"gesture" },
       /* WHICH HORN. Two real altos, analyzed: 0 = the Iowa MIS instrument
          (three recorded dynamics), 1 = the Karoryfer Weresax (CC0; two
          recorded dynamics, mf derived). A switch by contract: changing horns
@@ -5161,14 +5224,14 @@ const INSTRUMENTS = {
       /* not a control: the instrument's LINE DISCIPLINE, read by stage 3 the
          way `range` is [docs/genre-research/sax-material.md]. */
       { k:"reed",    label:"second reed",     cap:"REED",   min:0, max:1, step:0.01, def:0.35, kind:"voicing" },
-      { k:"air",     label:"breath",          cap:"AIR",    min:0, max:1, step:0.01, def:0.35, kind:"voicing" },
+      { k:"air",     label:"breath",          cap:"AIR",    min:0, max:1, step:0.01, def:0.35, kind:"gesture" },
       /* the two that make a line read as saxophone before the growl does */
       { k:"scoop",   label:"scoop into note", cap:"SCOOP",  min:0, max:1, step:0.01, def:0.50, kind:"voicing" },
       { k:"fall",    label:"fall off the end",cap:"FALL",   min:0, max:1, step:0.01, def:0,    kind:"voicing" },
       /* JAW VIBRATO, and it arrives late and swings downward -- see the voice.
          A horn line with no vibrato at all was the other half of why this
          instrument read as a patch. [corpus:dansr, tamingthesaxophone] */
-      { k:"vib",     label:"vibrato depth",   cap:"VIB",    min:0, max:1, step:0.01, def:0.45, kind:"voicing" },
+      { k:"vib",     label:"vibrato depth",   cap:"VIB",    min:0, max:1, step:0.01, def:0.45, kind:"gesture" },
       { k:"vibHz",   label:"vibrato rate",    cap:"VIB RATE", min:0, max:1, step:0.01, def:0.50, kind:"voicing" },
       /* and the one no sample library has, so it is modelled: AM + FM together
          at a hummed-note rate. [CHOSEN] throughout -- see sax-sources.md */
@@ -5603,7 +5666,31 @@ const HANDMOD_DEST = ["echo.tone", "echo.fb", "echo.send", "echo.verb",
                       "matrix.keysEcho", "matrix.leadEcho", "matrix.bassEcho",
                       "matrix.drumsSpring", "matrix.bassSpring",
                       "matrix.keysSpring", "matrix.leadSpring",
-                      "matrix.echoSpring"];
+                      "matrix.echoSpring",
+                      /* the compressor's threshold -- the breathing knob, now
+                         genuinely ridden by rideBus below rather than set once */
+                      "comp.thresh", "resonator.mix", "resonator.fb",
+                      /* ── AND THE BANK CAN MODULATE ITSELF ───────────────────
+                         "how do you use a lfo to modulate an lfo" -- these four
+                         are the other slots' DEPTHS. Not CONTROL keys: handModAt
+                         resolves them itself, in one pass over the raw slot
+                         values, so slot 1 aimed at MOD 2 AMT while slot 2 aims
+                         at MOD 1 AMT cannot recurse -- each reads the other's
+                         UNMODULATED value, which is also how a real rack
+                         behaves when two LFOs cross-patch. A slot aimed at its
+                         own depth is ignored, because self-modulation of an
+                         amplitude has nowhere to end. */
+                      "hand:a0", "hand:a1", "hand:a2", "hand:a3"];
+/* the destination names the glass prints, derived from the same list so the
+   two cannot drift */
+const HANDMOD_NAME = ["ECHO TONE", "ECHO FDBK", "ECHO SEND", "ECHO VERB",
+                      "DESK LOW", "DESK MID", "DESK HIGH",
+                      "KEYS ROOM", "LEAD ROOM", "DRUM ECHO",
+                      "SPRING DWELL", "SPRING TENS",
+                      "DRUM ROOM", "BASS ROOM", "KEYS ECHO", "LEAD ECHO", "BASS ECHO",
+                      "DRUM SPRING", "BASS SPRING", "KEYS SPRING", "LEAD SPRING",
+                      "DUB ROUTE", "COMP THRESH", "RESO MIX", "RESO RING",
+                      "MOD 1 AMT", "MOD 2 AMT", "MOD 3 AMT", "MOD 4 AMT"];
 /* TAPE WOW and TAPE FLUTTER were on this list for one commit and are NOT,
    deliberately: the tape reads its knobs when the graph is built and is never
    bus-ridden, so a bank slot patched to it would be a socket that does nothing
@@ -5655,15 +5742,10 @@ function handRand(slot, i){
   const h = hash32("hand:" + slot + ":" + i);
   return ((h >>> 8) & 0xffff) / 32768 - 1;
 }
-function handModAt(key, tSec, plan){
-  if(!HANDMOD.length) return 0;
+/* the raw -1..1 value of one slot at one instant, before its depth -- shared
+   by the destination sum and by the cross-modulation pass */
+function handModRaw(n, m, tSec, plan){
   const STEPS = plan.steps || 16, spb = plan.spb || 0.125;
-  const c = CONTROL[key];
-  const span = c ? (c.max - c.min) : 1;
-  let d = 0;
-  for(let n = 0; n < HANDMOD.length; n++){
-    const m = HANDMOD[n];
-    if(!m || !m.depth || m.dest !== key) continue;
     const step = Math.round(tSec / spb);
     const cyc = Math.max(1, m.rate) * STEPS;          // steps per cycle
     let v;
@@ -5676,9 +5758,19 @@ function handModAt(key, tSec, plan){
          because a mode's controls have to come from the knobs the panel has. */
       const L = 16, i = Math.floor(step / cyc);
       const dv = m.dejavu == null ? 0.5 : m.dejavu;
-      const slot = (dv > 0.5 && handRand(n + 40, i) > 1 - (dv - 0.5) * 2)
-                 ? Math.floor(((handRand(n + 80, i) + 1) / 2) * L) : (i % L);
-      v = handRand(n, slot);
+      /* corrected to the module's curve -- p = (2d-1)^2, zero at the notch;
+         below it the loop ERODES, above it the read JUMPS. The first version
+         had no below-notch behaviour at all. random_sequence.h, ported. */
+      const pM = (2 * dv - 1) * (2 * dv - 1);
+      let slot = i % L;
+      if(dv <= 0.5){
+        const epoch = Math.floor(i / L * pM * L + (handRand(n + 120, slot) + 1));
+        v = handRand(n, slot + 1000 * epoch);
+      } else {
+        if((handRand(n + 40, i) + 1) / 2 < pM)
+          slot = Math.floor(((handRand(n + 80, i) + 1) / 2) * L);
+        v = handRand(n, slot);
+      }
     } else if(m.mode === "fm"){
       /* an LFO whose rate is driven by a slower one -- the patch the sources
          describe, and the reason phase is accumulated in whole steps here
@@ -5690,7 +5782,28 @@ function handModAt(key, tSec, plan){
       const ph = step / cyc + (m.phase || 0);
       v = MOTION_WAVE[m.shape](((ph % 1) + 1) % 1);
     }
-    d += m.depth * span * 0.5 * v;
+    return v;
+}
+function handModAt(key, tSec, plan){
+  if(!HANDMOD.length) return 0;
+  const c = CONTROL[key];
+  const span = c ? (c.max - c.min) : 1;
+  let d = 0;
+  for(let n = 0; n < HANDMOD.length; n++){
+    const m = HANDMOD[n];
+    if(!m || !m.depth || m.dest !== key) continue;
+    /* ── THE CROSS-MOD PASS ────────────────────────────────────────────────
+       Any OTHER slot aimed at "hand:a<n>" scales this slot's depth by its own
+       raw value -- computed unmodulated, so two slots cross-patched at each
+       other settle in one pass instead of recursing. Self-patching is skipped. */
+    let depth = m.depth;
+    for(let j = 0; j < HANDMOD.length; j++){
+      if(j === n) continue;
+      const mj = HANDMOD[j];
+      if(!mj || !mj.depth || mj.dest !== "hand:a" + n) continue;
+      depth *= Math.max(0, 1 + mj.depth * handModRaw(j, mj, tSec, plan));
+    }
+    d += depth * span * 0.5 * handModRaw(n, m, tSec, plan);
   }
   return d;
 }
@@ -9026,6 +9139,17 @@ registerProcessor("mk2-room", MK2Room);
        the pattern of sides is part of the record -- Law 7 holds. Live, the
        phase depends on when playback began, which is what a hardware
        ping-pong does too. */
+    /* the resonator's comb, on the echo's return -- see INSTRUMENTS.resonator */
+    g.resDelay = c.createDelay(0.2);
+    g.resDelay.delayTime.value = 1 / 98;
+    g.resFb = c.createGain(); g.resFb.gain.value = 0.9;
+    g.resDamp = c.createBiquadFilter(); g.resDamp.type = "lowpass";
+    g.resDamp.frequency.value = 2600; g.resDamp.Q.value = -3;
+    g.resMix = c.createGain(); g.resMix.gain.value = 0;
+    g.echoOut.connect(g.resDelay);
+    g.resDelay.connect(g.resDamp); g.resDamp.connect(g.resFb); g.resFb.connect(g.resDelay);
+    g.resDamp.connect(g.resMix);
+
     g.echoPan = c.createStereoPanner();
     g.echoPanLfo = c.createOscillator(); g.echoPanLfo.type = "square";
     g.echoPanLfo.frequency.value = 1 / (2 * 0.25);
@@ -9033,6 +9157,7 @@ registerProcessor("mk2-room", MK2Room);
     g.echoPanLfo.connect(g.echoWidth); g.echoWidth.connect(g.echoPan.pan);
     g.echoPanLfo.start(0);
     g.echoOut.connect(g.echoPan);
+    g.resMix.connect(g.echoPan);              // the ring rides the echo's own return
     /* the delay's own return level is the echo->MIX crossing, built below with
        the rest of the grid; it still lands on `post`, past the shaper, exactly
        where this connect() used to put it */
@@ -13158,6 +13283,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const l2rate = Math.max(1, P(g, ev, "dronebox", "l2rate", 19));
     const l2amt  = P(g, ev, "dronebox", "l2amt", 0);
     const l2wave = Math.round(P(g, ev, "dronebox", "l2wave", 1));
+    const tOut   = Math.round(P(g, ev, "dronebox", "tOut", 0));
     const end = t + ev.durSec + fall + 0.3;
 
     const out = c.createGain();
@@ -13220,13 +13346,43 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     /* how much of a destination's own range one unit of AMT is worth, so the
        knob means the same thing whatever it is patched to */
     const SPAN = [2400, 2600, 60, 60, 1, 1.4];   // cut Hz, peak Hz, spread c, drift c, air, level
+    /* ── LFO INTO LFO ─────────────────────────────────────────────────────
+       Dests 6 and 7 are LFO 1's RATE and AMT. A moving rate cannot be a
+       function of bare time -- the phase would jump every time the rate did --
+       so LFO 1's phase is INTEGRATED across the note's own half-second grid,
+       which is the same trick handModAt's fm mode uses and the reason a
+       eurorack FM patch needs a phase accumulator. Stateless per note: the
+       integration always starts from the record's own zero. */
+    const l2raw = T => l2amt * lfo(l2rate, l2wave, T);
+    let PH1 = null;
+    if(l2dest === 6 && l2amt){
+      PH1 = new Float64Array(NPT + 1);
+      /* integrate from the record's zero to the note in coarse steps, then
+         across the note finely, so a note at bar 40 agrees with one at bar 0 */
+      let ph = 0;
+      const COARSE = 2.0;
+      for(let T = 0; T < t0; T += COARSE)
+        ph += COARSE / Math.max(0.5, l1rate * barSec * Math.max(0.2, 1 + 0.6 * l2raw(T)));
+      for(let i = 0; i <= NPT; i++){
+        PH1[i] = ph;
+        const T = t0 + i * STEP;
+        ph += STEP / Math.max(0.5, l1rate * barSec * Math.max(0.2, 1 + 0.6 * l2raw(T)));
+      }
+    }
+    const l1val = T => {
+      const w = WAVE[Math.max(0, Math.min(3, l1wave))];
+      const ph = PH1 ? PH1[Math.max(0, Math.min(NPT, Math.round((T - t0) / STEP)))]
+                     : T / Math.max(0.5, l1rate * barSec);
+      const amp = (l2dest === 7 && l2amt) ? l1amt * Math.max(0, 1 + l2raw(T)) : l1amt;
+      return amp * w(ph - Math.floor(ph));
+    };
     const modAt = (dest, T) => {
       let d = 0;
-      if(l1dest === dest && l1amt) d += l1amt * SPAN[dest] * lfo(l1rate, l1wave, T);
-      if(l2dest === dest && l2amt) d += l2amt * SPAN[dest] * lfo(l2rate, l2wave, T);
+      if(l1dest === dest && l1amt) d += l1val(T) * SPAN[dest];
+      if(l2dest === dest && l2amt && l2dest <= 5) d += l2raw(T) * SPAN[dest];
       return d;
     };
-    const anyMod = d => (l1dest === d && l1amt) || (l2dest === d && l2amt);
+    const anyMod = d => (l1dest === d && l1amt) || (l2dest === d && l2amt && l2dest <= 5);
 
     /* ── MARBLES' DEJA VU, ON THE STACK'S OWN DETUNE ──────────────────────
        A 16-slot register of drawn offsets. Below 0.5 the slots are rewritten
@@ -13240,18 +13396,29 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     /* the same arithmetic hash `handRand` uses, so nothing new has to be
        trusted -- 0..1 rather than -1..1 because these are probabilities */
     const h01 = k => ((hash32("drn:" + k) >>> 8) & 0xffff) / 65536;
+    /* ── THE MODULE'S OWN ARITHMETIC, in stateless form ───────────────────
+       Corrected against marbles/random/random_sequence.h (fetched 2026-08-15):
+       the mutation probability is (2*dejavu - 1)^2 -- a parabola, ZERO at the
+       notch -- and the two halves do DIFFERENT things: below the notch a
+       mutation REWRITES a loop slot (the loop erodes and keeps playing), above
+       it the read JUMPS across an unchanged loop. My first version drew fresh
+       noise below the notch, which is a different instrument. Stateless here
+       because this is a live knob on a per-note voice (Law 10); `epoch` is the
+       erosion counter a stateful write head would carry, derived from time. */
+    const dvP = (2 * dejavu - 1) * (2 * dejavu - 1);
     const dv = (k) => {
       const slot = ((barIx + k) % 16 + 16) % 16;
-      const shuf = dejavu > 0.5
-        ? (slot + Math.floor(h01("s" + barIx + ":" + k) * 16 * (dejavu - 0.5) * 2)) % 16
-        : slot;
-      /* below the notch, a slot is re-drawn per bar; at or above it, the slot's
-         value depends only on the slot, which is what makes it a loop */
-      const fresh = dejavu < 0.5 && h01("p" + barIx + ":" + k) < (1 - dejavu * 2);
-      return h01("v" + (fresh ? barIx + ":" : "") + shuf) * 2 - 1;
+      if(dejavu <= 0.5){
+        const epoch = Math.floor(barIx / 16 * dvP * 16 + h01("e" + slot) * 2);
+        return h01("v" + slot + (epoch ? ":" + epoch : "")) * 2 - 1;
+      }
+      const jump = h01("j" + barIx + ":" + k) < dvP;
+      const at = jump ? Math.floor(h01("w" + barIx + ":" + k) * 16) : slot;
+      return h01("v" + at) * 2 - 1;
     };
 
     const moves = drift > 0.01 || anyMod(2) || anyMod(3);
+    const voiceGains = [];
     for(let k = 0; k < n; k++){
       const o = c.createOscillator(); o.type = TYPE;
       o.frequency.value = f0 * (RATIO[k % RATIO.length] || 1);
@@ -13286,6 +13453,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       og.gain.value = (1 / Math.sqrt(n)) * Math.pow(0.78, k) *
                       Math.pow(2, bias * (climb - 0.5) * 2.4);
       o.connect(og); og.connect(out); o.start(t); o.stop(end); made.push(o);
+      voiceGains.push({ gain: og.gain, base: og.gain.value });
     }
 
     /* AIR: a breath bed, band-limited around the stack so it reads as the room
@@ -13337,20 +13505,74 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       const rise = Math.max(0.05, Math.min(total - 0.05, total * Math.max(0.02, Math.min(0.98, slope))));
       const N = 64, gp = out.gain;
       const shape = u => curve === 0 ? u * u : curve === 2 ? Math.sqrt(u) : u;
-      const steps = Math.max(2, Math.round(2 + 30 * (1 - Math.max(0, Math.min(1, smooth)))));
-      const quant = u => smooth >= 0.999 ? u : Math.round(u * steps) / steps;
+      /* SMOOTH, as the module has it [tides2, fetched source]: centre clean;
+         below it a FOLD puts ripples on the ramp; above it a one-pole lowpass
+         rounds it, both with the module's fourth-power taper so the middle
+         half of the knob is nearly clean. The old "stepped" behaviour is gone
+         because it was my misreading, not the instrument. */
+      const foldA = Math.pow(Math.max(0, (0.5 - smooth) * 2), 2);
+      const filtA = Math.pow(Math.max(0, (smooth - 0.5) * 2), 4);
+      const bend = u => foldA > 0.001
+        ? Math.max(0, Math.min(1, u + foldA * 0.35 * Math.sin(2 * Math.PI * u * (1 + 3 * foldA))))
+        : u;
       gp.setValueAtTime(0.0001, t);
       const hold = Math.max(0, ev.durSec - rise);
+      let lp1 = 0;
+      const kF = 1 - 0.92 * filtA;
       for(let i = 1; i <= N; i++){
         const dt = (i / N) * (rise + hold + fall);
-        const u = dt < rise ? shape(dt / rise)
+        let u = dt < rise ? shape(dt / rise)
                 : dt < rise + hold ? 1
                 : Math.max(0, 1 - (dt - rise - hold) / Math.max(0.05, fall));
-        const lv = peak * Math.max(0.0001, quant(u)) *
+        u = bend(u);
+        lp1 += kF * (u - lp1);
+        const lv = peak * Math.max(0.0001, filtA > 0.001 ? lp1 : u) *
                    Math.max(0.05, 1 + modAt(5, (ev.tSec == null ? 0 : ev.tSec) + dt) / 1.4);
         gp.linearRampToValueAtTime(Math.max(0.0001, lv), t + dt);
       }
       gp.linearRampToValueAtTime(0.0001, t + rise + hold + fall + 0.05);
+
+      /* ── THE FOUR OUTPUTS, DEALT ACROSS THE STACK ──────────────────────────
+         `made.og` was saved by the oscillator loop for exactly this. SEQUENCE
+         staggers each tone's arrival by an equal share of the swell (phase
+         mode); RIPPLE trembles each tone at a related rate (frequency mode);
+         FADE slides a gain window up the stack as the envelope rises, which is
+         the module's channel-index arithmetic (amplitude mode). All scheduled,
+         so offline and live agree. */
+      if(tOut > 0 && voiceGains.length > 1){
+        const nV = voiceGains.length, total = rise + hold + fall;
+        for(let k = 0; k < nV; k++){
+          const vg = voiceGains[k].gain, base = voiceGains[k].base;
+          vg.cancelScheduledValues(t);
+          if(tOut === 1){
+            const dly = (k / nV) * rise;
+            vg.setValueAtTime(0.0001, t);
+            vg.setValueAtTime(0.0001, t + dly);
+            vg.linearRampToValueAtTime(base, t + dly + Math.max(0.2, rise * 0.6));
+          } else if(tOut === 2){
+            const fT = (k + 1) / Math.max(4, total * 0.6);
+            const M2 = 40;
+            vg.setValueAtTime(base, t);
+            for(let i2 = 1; i2 <= M2; i2++){
+              const dt = (i2 / M2) * total;
+              vg.linearRampToValueAtTime(
+                base * (0.65 + 0.35 * Math.sin(2 * Math.PI * fT * dt)), t + dt);
+            }
+          } else {
+            const M2 = 32;
+            vg.setValueAtTime(base * 0.05, t);
+            for(let i2 = 1; i2 <= M2; i2++){
+              const dt = (i2 / M2) * total;
+              const u = dt < rise ? dt / rise
+                      : dt < rise + hold ? 1
+                      : Math.max(0, 1 - (dt - rise - hold) / Math.max(0.05, fall));
+              const centre = u * (nV - 1);
+              const gWin = Math.max(0.05, 1 - Math.abs(k - centre) / 2);
+              vg.linearRampToValueAtTime(base * gWin, t + dt);
+            }
+          }
+        }
+      }
     }
     return made;
   };
@@ -15146,7 +15368,14 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       const has = !!(space && space.comp);
       const on = sw === 0 ? false : (sw === 1 ? true : has);
       const th = hand("thresh"), ratio = hand("ratio");
-      g.compNode.threshold.value = th;
+      /* ── THE THRESHOLD IS RIDDEN, NOT SET ─────────────────────────────────
+         The one comp knob worth modulating is the threshold -- moving it
+         against a steady mix is what "breathing" compression IS -- and it was
+         assigned once per song, which put the compressor on the §1 list of
+         racks modulated by nothing. rideBus gives it the same door every desk
+         and matrix knob has: a genre motion lane if a table ever declares one,
+         and the modulator bank's COMP THRESH socket either way. */
+      rideBus(g, g.compNode.threshold, "comp.thresh", th, busT0 || 0);
       g.compNode.ratio.value     = ratio;
       g.compNode.attack.value    = hand("attack");
       g.compNode.release.value   = hand("release");
@@ -15169,6 +15398,21 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       g.compDry.gain.value = on ? 0 : 1;
       g.compWet.gain.value = on ? 1 : 0;
       g.compOn = on;
+    }
+    /* ── THE RESONATOR ──────────────────────────────────────────────────────
+       PITCH set live (seconds from MIDI, so it cannot be lane-ridden -- see
+       the machine's note); FB and MIX ridden like every gain on the desk. */
+    if(g.resDelay){
+      const rp = k => {
+        const c2 = CONTROL["resonator." + k];
+        const base = PARAMS["resonator." + k] != null ? PARAMS["resonator." + k] : (c2 ? c2.def : 0);
+        const v = base + (TRIM["resonator." + k] || 0);
+        return c2 ? Math.max(c2.min, Math.min(c2.max, v)) : v;
+      };
+      g.resDelay.delayTime.value = 1 / (440 * Math.pow(2, (rp("pitch") - 69) / 12));
+      g.resDamp.frequency.value = rp("damp");
+      rideBus(g, g.resFb.gain, "resonator.fb", rp("fb"), busT0 || 0);
+      rideBus(g, g.resMix.gain, "resonator.mix", rp("mix"), busT0 || 0);
     }
     /* ── THE SPRING TANK'S KNOBS, read per song and on a hand (`live`) ──────
        DWELL and TENSION are the IR itself, so moving either rebuilds the
@@ -19296,6 +19540,25 @@ const GENRE = {
          one this score would have had: a tape choir sitting off-centre under
          the CS-80 and breathing across the cue. Small; a film bed does not
          swing around the room. [CHOSEN] */
+      /* ── THE SAX, DORMANT UNTIL A HAND LOADS ONE ────────────────────────
+         The one lead this film is remembered for, and the rack it lived on was
+         modulated by nothing -- 13 controls, 0 moved, the worst row in the §1
+         table of the eurorack sheet. These lanes cost zero notes and zero
+         audio on every record where no sax is loaded [Law 4]; the moment a
+         hand puts one on the lead slot, the vibrato deepens toward the apex,
+         the breath opens with the chorus, and the bell drifts in the room --
+         which is what the Love Theme's player is doing. */
+      sax: {
+        vib:    [{ kind: "arc", from: [-0.06, -0.02], to: [0.05, 0.12], curve: "sCurve" },
+                 { kind: "lfo", bars: [[23, 2], [37, 1]], depth: [0.02, 0.06],
+                   shape: "sin", freePhase: true }],
+        air:    [{ kind: "section", by: { chorus: [0.04, 0.12], bridge: [0.03, 0.1] } },
+                 { kind: "lfo", bars: [[31, 2], [47, 1]], depth: [0.02, 0.07],
+                   shape: "sin", freePhase: true }],
+        bright: [{ kind: "apex", from: [-0.08, -0.03], to: [0.03, 0.1] }],
+        pan:    [{ kind: "lfo", bars: [[53, 2], [71, 1]], depth: [0.04, 0.12],
+                   shape: "sin", freePhase: true }],
+      },
       mellotron: {
         pan:    [{ kind: "section", by: { intro: [-0.30, -0.14], bridge: [0.08, 0.24] } },
                  { kind: "lfo", bars: [[96, 2], [64, 1]], depth: [0.05, 0.14],
@@ -24061,7 +24324,16 @@ const GENRE = {
        Slow, and it FOLLOWS -- one tone every half bar, two seconds apart, so it
        reads as a bell in the distance rather than as an arpeggio. `ratchet: 0`
        because a ratchet is a rhythmic event and there are none here. */
-    ostinato: { unit: 8, vel: 0.30, run: true, follow: true, ratchet: 0,
+    /* ── THE FIGURE'S TIMING IS MARBLES' T-SECTION NOW ────────────────────
+       unit 2 with the ported t-generator gating which steps sound: BIAS 0.28
+       reads the sparse end of the module's pattern bank (one to three bells a
+       bar), DEJA VU 0.55 sits just over the notch so the pattern mostly loops
+       and occasionally reorders, and JITTER 0.5 is far enough down the
+       module's fourth-power taper to nudge rather than scatter. The result is
+       the "long percussion loop of odd length" Sound On Sound names as the
+       ambient move, generated the way the module generates it. */
+    ostinato: { unit: 2, vel: 0.30, run: true, follow: true, ratchet: 0,
+                marbles: { bias: 0.28, dejavu: 0.55, jitter: 0.5 },
                 cells: [[[0, 4, 7, 4], 5], [[0, 7, 4, 2, 7], 3], [[0, 4, 2, 7], 2]] },
     counter: { style: "line", density: 0.14, intervals: [-3, -5, -7, -12],
                octaves: [-12, 12], answer: 0.4 },
@@ -24216,6 +24488,12 @@ const GENRE = {
       /* the echo is long and mostly feedback -- at div 8 and 0.42 it is a wash
          behind the figure rather than a repeat you can count */
       echo:     { div: 8, fb: 0.42, tone: 2400, hp: 140, send: 0.24, verb: 0.9 },
+      /* the comb on the echo's return, low: G2, ringing long, present but under
+         the wash. A fixed pitch against a drawn key will agree with some
+         records and beat against others -- "retains doubt and uncertainty" is
+         this genre's founding instruction, and the mix is low enough that the
+         disagreement is a colour rather than a wrong note. */
+      resonator:{ pitch: 43, fb: 0.93, damp: 2200, mix: 0.10 },
     },
     /* ═══ THE MOTION, AND EVERY PAIR OF PERIODS IS COPRIME ════════════════════
        This is mechanism #2 and it is written as a rule rather than as a habit:
@@ -24295,6 +24573,14 @@ const GENRE = {
                  shape: "sin", freePhase: true },
                { kind: "sh", every: [[31, 2], [43, 1]], amt: [-400, 400], slew: [0.9, 0.96] }],
         verb: [{ kind: "arc", from: [0.02, 0.08], to: [-0.04, 0.04], curve: "sCurve" }],
+      },
+      /* the comb swells and recedes on its own coprime pair, and steps its
+         ring occasionally -- discrete change over an unchanged ground, again */
+      resonator: {
+        mix: [{ kind: "lfo", bars: [[41, 2], [59, 1]], depth: [0.03, 0.08],
+                shape: "sin", freePhase: true },
+              { kind: "section", by: { bridge: [0.04, 0.10], outro: [-0.06, -0.02] } }],
+        fb: [{ kind: "sh", every: [[29, 2], [43, 1]], amt: [-0.05, 0.04], slew: [0.9, 0.96] }],
       },
       matrix: {
         keysRoom: [{ kind: "lfo", bars: [[67, 2], [89, 1]], depth: [0.05, 0.15],
@@ -28997,6 +29283,107 @@ function makeMaterials(chart, editPlan, arcPlan){
     return notes;
   }
 
+  /* ══ MARBLES' RANDOM SEQUENCE — PORTED FROM THE SOURCE THIS TIME ══════════
+     "isnt mutable instruments open source free code? Why are we not using it?"
+
+     No good answer existed, so now we are. This is a JavaScript port of the
+     core of `marbles/random/random_sequence.h` from pichenettes/eurorack --
+     Copyright 2015-2018 Emilie Gillet, MIT licence, notice preserved here as
+     the licence asks -- fetched and read on 2026-08-15,
+     rather than re-imagined from the manual as everything before this commit
+     was. The manual-based guess in this file got the REGIONS right and the
+     ARITHMETIC wrong, and the difference is audible:
+
+       THE REAL CURVE   p = (2*dejavu - 1)^2 -- a parabola, ZERO at the notch.
+                        My guess used linear ramps, so at dejavu 0.25 mine drew
+                        fresh values 50% of the time where the module draws 25%.
+       BELOW THE NOTCH  a mutation WRITES A NEW VALUE INTO THE LOOP and the
+                        loop keeps playing -- the sequence is a loop that
+                        erodes, not noise with occasional memory, which is what
+                        my guess was.
+       ABOVE THE NOTCH  a mutation JUMPS THE READ STEP to a random place in an
+                        UNCHANGED loop -- the material is preserved, the order
+                        dissolves.
+
+     Stateful, exactly like the module, and that is fine HERE because this
+     class is used at COMPOSE time (stage 3), where everything is sequential
+     and seeded -- Law 10 is about stage 6. The drone rack's live register
+     keeps its stateless hash form but now follows the module's p-curve and
+     region semantics; see the note there. */
+  function MarblesSequence(rng, length){
+    this.loop = new Array(16);
+    for(let i = 0; i < 16; i++) this.loop[i] = rng();
+    this.writeHead = 0;
+    this.step = 0;
+    this.length = Math.max(1, Math.min(16, length || 16));
+    this.next = function(dejavu){
+      const pSqrt = 2 * dejavu - 1;
+      const pMut = pSqrt * pSqrt;
+      const mutate = rng() < pMut;
+      if(mutate && dejavu <= 0.5){
+        /* below the notch: the mutation replaces the OLDEST value in the loop
+           and the read lands on it -- the loop erodes, one slot at a time */
+        this.loop[this.writeHead] = rng();
+        this.writeHead = (this.writeHead + 1) % 16;
+        this.step = this.length - 1;
+      } else if(mutate){
+        /* above the notch: the loop is untouched; the READ jumps */
+        this.step = Math.floor(rng() * this.length);
+      } else {
+        this.step = (this.step + 1) % this.length;
+      }
+      const i = (this.writeHead + 16 - this.length + this.step) % 16;
+      return this.loop[i];
+    };
+  }
+
+  /* ══ MARBLES' T-SECTION — the drum-pattern model, ported ══════════════════
+     From `marbles/random/t_generator.cc`, same fetch, same licence. The module
+     has three rhythm models; the one ported is GenerateDrums: a bank of 8-step
+     patterns, BIAS choosing where in the bank to read, deja vu (through the
+     same RandomSequence) deciding whether the NEXT bar keeps this bar's
+     pattern, erodes it, or jumps. The module's own bank is twenty patterns of
+     {accent, hit, rest}; this bank is eight of them, chosen to span the same
+     gradient from sparse to busy, because the consumer here is a figure in an
+     ambient record and the busiest half of a Eurorack drum bank has no work to
+     do at 56 bpm. JITTER is the module's own curve -- jitter^4, the fourth
+     power, so the knob's lower half is nearly clean and the drift arrives all
+     at once near the top, which is Gillet's arithmetic and not mine. */
+  const T_PATTERNS = [
+    [2, 0, 0, 0, 0, 0, 0, 0],
+    [2, 0, 0, 0, 1, 0, 0, 0],
+    [2, 0, 0, 1, 0, 0, 1, 0],
+    [2, 0, 1, 0, 2, 0, 1, 0],
+    [2, 1, 0, 1, 2, 0, 1, 0],
+    [2, 1, 1, 0, 2, 1, 0, 1],
+    [2, 1, 1, 1, 2, 1, 1, 1],
+    [2, 2, 1, 2, 1, 2, 1, 2],
+  ];
+  function tGenerate(rng, bars, D){
+    const bias = Math.max(0, Math.min(1, D.bias == null ? 0.4 : D.bias));
+    const dejavu = Math.max(0, Math.min(1, D.dejavu == null ? 0.5 : D.dejavu));
+    const jitter = Math.max(0, Math.min(1, D.jitter || 0));
+    const seq = new MarblesSequence(rng, D.length || 8);
+    const out = [];
+    for(let b = 0; b < bars; b++){
+      /* BIAS steers WHERE in the bank the drawn value lands -- the module's
+         "strength" reading -- and the sequence decides whether this bar's
+         draw is fresh, looped or jumped */
+      const v = Math.max(0, Math.min(0.999, seq.next(dejavu) * 0.6 + bias * 0.4));
+      const pat = T_PATTERNS[Math.floor(v * T_PATTERNS.length)];
+      const row = [];
+      for(let k = 0; k < 8; k++){
+        if(!pat[k]) continue;
+        /* jitter^4 * a fraction of a step, the module's own taper */
+        const j = jitter * jitter * jitter * jitter * (rng() * 2 - 1) * 1.5;
+        row.push({ step: Math.max(0, Math.min(15, Math.round(k * 2 + j))),
+                   accent: pat[k] === 2 });
+      }
+      out.push(row);
+    }
+    return out;
+  }
+
   /* ══ GENERATIVE PITCH — THE KRELL PATCH, AS A PART ════════════════════════
      "And build the gen pitch."
 
@@ -29070,23 +29457,18 @@ function makeMaterials(chart, editPlan, arcPlan){
     const shortSt = Math.max(1, Math.round(P.short == null ? 2 : P.short));
     const longSt = Math.max(shortSt, Math.round(P.long == null ? 16 : P.long));
     const gapSt = Math.max(0, Math.round(P.gap || 0));
-    const h01 = k => ((hash32("gen:" + chart.seed + ":" + tag + ":" + k) >>> 8) & 0xffff) / 65536;
-    /* the sixteen-slot register, read exactly as Marbles describes it */
-    const draw = (i) => {
-      const slot = ((i % 16) + 16) % 16;
-      const shuf = dejavu > 0.5
-        ? (slot + Math.floor(h01("s" + i) * 16 * (dejavu - 0.5) * 2)) % 16
-        : slot;
-      const fresh = dejavu < 0.5 && h01("p" + i) < (1 - dejavu * 2);
-      return h01("v" + (fresh ? i + ":" : "") + shuf);
-    };
+    /* the register is the PORTED RandomSequence now -- Gillet's arithmetic,
+       not my paraphrase of her manual. Seeded on its own named stream, so it
+       is deterministic per (seed, material) like every other draw here. */
+    const seq = new MarblesSequence(stream(chart.seed, "gen:" + tag), 16);
+    const draw = () => seq.next(dejavu);
     const notes = [];
     const TOT = BARS * 16;
     let at = 0, i = 0, prev = null;
     /* the loop IS the patch: a note's own length decides where the next one
        starts, so there is no step grid being walked here */
     while(at < TOT && i < 512){
-      const v = draw(i);
+      const v = draw();
       const b = Math.min(BARS - 1, Math.floor(at / 16));
       const ch = CH(chordSet, b);
       /* ── THE QUANTISER IS SET TO THE CHORD, NOT THE SCALE ─────────────────
@@ -31623,6 +32005,18 @@ function makeMaterials(chart, editPlan, arcPlan){
     const others = O.cells.filter(pr => pr[0] !== cell);
     const alt = others.length ? others[Math.floor(pickAlt * others.length) % others.length][0] : cell;
     const notes = [];
+    /* ── MARBLES' T-SECTION AS THE FIGURE'S GATE ─────────────────────────────
+       `O.marbles` hands WHICH steps sound to the ported t-generator -- the
+       module's own drum-pattern bank, BIAS choosing where in it to read, the
+       ported RandomSequence deciding per bar whether the pattern loops, erodes
+       or jumps, jitter^4 nudging hits off their slots. The cell still decides
+       WHAT sounds -- degrees, follow, key -- which is exactly the module's own
+       split: t decides when, X decides what. Drawn on its own named stream, so
+       every genre that does not declare it is byte-identical [Law 3 -- and the
+       ratchet's own note above records what happens when a new feature draws
+       from the shared stream: 882 of 2100 lines moved]. */
+    const TGEN = O.marbles
+      ? tGenerate(stream(chart.seed, "tgen:" + streamName), BARS, O.marbles) : null;
     /* the running index for a polymetric cell -- it does NOT reset per bar */
     let seqI = 0;
     for(let b = 0; b < BARS; b++){
@@ -31674,7 +32068,12 @@ function makeMaterials(chart, editPlan, arcPlan){
          there instead, which thins the figure without deleting notes. */
       const late = b >= OCHANGE.turn;
       const step = (OCHANGE.stride && late) ? O.unit * 2 : O.unit;
+      const tRow = TGEN ? TGEN[b] : null;
       for(let st = 0; st < 16; st += step){
+        /* the gate: with marbles declared, a step sounds only where the
+           generated pattern put a hit; its accent carries to the velocity */
+        const tHit = tRow ? tRow.find(x => x.step === st) : null;
+        if(tRow && !tHit){ if(O.run) seqI++; continue; }
         const idx = O.run ? (seqI++) : (st / O.unit);
         let deg = c[((idx % c.length) + c.length) % c.length];
         if(OCHANGE.transpose && late) deg += OCHANGE.by;
@@ -31744,7 +32143,8 @@ function makeMaterials(chart, editPlan, arcPlan){
         const home = !!O.sam && idx % c.length === 0 && st === 0;
         for(let h = 0; h < hits; h++){
           const ev = { bar: b, step: st + (h * step) / hits, dur: step / hits,
-                       pitch, vel: O.vel * (h ? 0.82 : 1), role: "ostinato" };
+                       pitch, vel: O.vel * (h ? 0.82 : 1) * (tHit && tHit.accent ? 1.25 : 1),
+                       role: "ostinato" };
           if(home){ ev.vel = Math.min(1, ev.vel * O.sam); if(!h) ev.sam = true; }
           notes.push(ev);
         }
@@ -36758,8 +37158,9 @@ function modScopeEl(){
       }
       traces[i].setAttribute("points", pts.join(" "));
       traces[i].setAttribute("class", "modhand" + (on ? "" : " off"));
+      const nm = HANDMOD_NAME[HANDMOD_DEST.indexOf(dest)] || dest;
       labels[i].textContent =
-        `${i + 1}  ${m ? m.mode.toUpperCase() : "--"}  ->  ${dest}` +
+        `${i + 1}  ${m ? m.mode.toUpperCase() : "--"}  ->  ${nm}` +
         (m ? `   ${m.rate}bars   ${(m.depth * 100).toFixed(0)}%` : "");
     }
     /* the song's own move on slot 1's destination, behind it */
@@ -37103,13 +37504,17 @@ function droneFieldEl(){
     const dejavu = pv("dejavu", 0.5), spCV = pv("spreadCV", 0.5), spr = pv("spread", 9);
     const barIx = Math.floor(T / Math.max(0.001, barSec));
     const h01 = k => ((hash32("drn:" + k) >>> 8) & 0xffff) / 65536;
+    /* same corrected arithmetic as V.dronebox -- see the note there */
+    const dvP = (2 * dejavu - 1) * (2 * dejavu - 1);
     const dv = (k) => {
       const slot = ((barIx + k) % 16 + 16) % 16;
-      const shuf = dejavu > 0.5
-        ? (slot + Math.floor(h01("s" + barIx + ":" + k) * 16 * (dejavu - 0.5) * 2)) % 16
-        : slot;
-      const fresh = dejavu < 0.5 && h01("p" + barIx + ":" + k) < (1 - dejavu * 2);
-      return h01("v" + (fresh ? barIx + ":" : "") + shuf) * 2 - 1;
+      if(dejavu <= 0.5){
+        const epoch = Math.floor(barIx / 16 * dvP * 16 + h01("e" + slot) * 2);
+        return h01("v" + slot + (epoch ? ":" + epoch : "")) * 2 - 1;
+      }
+      const jump = h01("j" + barIx + ":" + k) < dvP;
+      const at = jump ? Math.floor(h01("w" + barIx + ":" + k) * 16) : slot;
+      return h01("v" + at) * 2 - 1;
     };
     const cents = [];
     const drift2 = S.drift + modAt(3);

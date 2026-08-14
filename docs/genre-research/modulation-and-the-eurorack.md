@@ -115,9 +115,40 @@ already backlog task #62, unbuilt since it was written.
 > is accurate about the licence and was written before anything was built, and
 > it should not be read as a report that a port happened. It did not.
 >
-> This matters in two directions and both are worth stating. It is **honest
-> about provenance**: nothing here is derived work and there is no attribution
-> obligation I have quietly skipped. And it is **honest about fidelity**: a
+> **FOLLOW-UP, 2026-08-15, and the correction now has a correction.** The owner:
+> *"isnt mutable instruments open source free code? Why are we not using it?"*
+> No good answer existed, so the source was fetched and read this time:
+> `marbles/random/random_sequence.h`, `marbles/random/t_generator.cc`, and
+> `tides2/poly_slope_generator.h`, raw from `pichenettes/eurorack` (MIT).
+> Three things in this program are now PORTS of that code rather than guesses
+> from the manuals, and each carries the attribution in its comment:
+>
+> 1. **`MarblesSequence`** in stage 3 — the deja-vu core. The real mutation
+>    probability is `p = (2·dejavu − 1)²`, a parabola that is ZERO at the notch;
+>    below it a mutation REWRITES a loop slot (the loop erodes and keeps
+>    playing), above it the read JUMPS across an unchanged loop. My guess used
+>    linear ramps and drew fresh noise below the notch — a different instrument.
+>    The generative lead uses the port directly; the drone rack's live register
+>    and the modulator bank's deja-vu mode were corrected to the same curve and
+>    semantics in stateless form.
+> 2. **`tGenerate`** — the t-section's drum-pattern model: a bank of 8-step
+>    patterns read by BIAS, the same RandomSequence deciding loop/erode/jump per
+>    bar, and the module's own `jitter⁴` taper. Consumed by ambient's figure.
+> 3. **Tides' SMOOTHNESS, corrected** — it is BIDIRECTIONAL from a clean centre:
+>    a wavefolder one way, a one-pole lowpass the other, with a fourth-power
+>    taper. My "stepped to smooth" was a misreading and is gone.
+>
+> What is still NOT a port: the DSP topology (this program is WebAudio graphs,
+> not sample loops), Marbles' X-channel voltage processing, Tides' wavetable
+> bank. Those remain adaptations, and the paragraph below still applies to them.
+>
+> This matters in two directions and both are worth stating — and the first
+> half is now SCOPED by the follow-up above: as of 2026-08-15 the three named
+> ports ARE derived work, carry Gillet's copyright notice in their comments as
+> MIT asks, and the "nothing here is derived" sentence below is true only of
+> everything else. It was **honest
+> about provenance**: nothing else here is derived work and there is no
+> attribution obligation quietly skipped. And it is **honest about fidelity**: a
 > re-implementation from a manual is a guess at the algorithm. Marbles' real
 > déjà-vu is a specific interpolation between a fresh draw and a stored loop
 > with a documented notch at 12 o'clock; what is in this file is *a* function
@@ -364,17 +395,25 @@ and spring send, and the echo→spring dub route. TAPE WOW was added and then
 REMOVED in the same commit: the tape reads its knobs at graph build and is
 never bus-ridden, so it would have been a socket that does nothing.
 
-**Not built, and named rather than dropped:**
+**Closed since this list was written** (2026-08-15 build): the **resonator**
+(task #62 — a comb on the echo's return, pitch 1/f, feedback to 0.99, ridden
+mix); **generative PITCH** (the Krell lane, now running the ported
+RandomSequence); **`comp`** (threshold ridden by rideBus, a bank destination,
+"breathing" reachable); **`sax`** (four dormant lanes on bladerunner that wake
+when a hand loads one); and **LFO-into-LFO by hand** (the bank's four MOD AMT
+cross-patch destinations, and the drone rack's LFO 2 into LFO 1's rate or
+depth with integrated phase).
 
-1. The **resonator** — `echo.fb` still caps at 0.85 and `echo.div` still speaks
-   only in beat divisions, so "infinite feedback" and "very short delay time"
-   from the drone list remain inexpressible. Task #62.
-2. **Scenes** (Frames). Task #63.
-3. **Clock dividers and sequential switches** (§5.3) — a lane that changes on
-   its own period, and structured rather than smooth change.
-4. **Generative PITCH** (§5.4) — every one of the four kinds currently modulates
-   a knob. None of them can touch a note.
-5. `comp` and `sax` are still modulated by nothing at all.
+**Still not built, and named rather than dropped:**
+
+1. **Scenes** (Frames). Task #63.
+2. **Clock dividers and sequential switches** (§5.3) — a lane that changes on
+   its own period, at play time, outside the drone rack and the bank.
+3. **Marbles' X-channel processing and the t-section's other two models**
+   (complementary Bernoulli, clusters) — the port took the drum model only.
+4. **Neighbour tracks / serial routing** — the resonator is serial on the
+   echo's return, but a general "this track processes that track" is still
+   not expressible.
 
 ## Sources
 
