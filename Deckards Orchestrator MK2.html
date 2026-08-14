@@ -1591,7 +1591,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15b · dungeon synth's drone is heard, all three t-models, and scenes</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15c · dungeon synth put back exactly as it was — the drone dragged its whole arrangement</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -22640,7 +22640,7 @@ const GENRE = {
          themeA/B  69-90   the tune, on top of everything
 
        Wide at the bottom, tight at the top, exactly as the rule says. */
-    registers: { drone: [24, 32], bass: [33, 45], keys: [48, 67], counter: [62, 79],
+    registers: { bass: [28, 43], keys: [48, 67], counter: [62, 79],
                  bassWalk: [28, 43], ostinato: [67, 88],
                  themeA: [69, 90], themeB: [71, 91], themeC: [67, 86] },
     /* no swing, almost no push: a procession keeps time. The jitter is a
@@ -22946,18 +22946,6 @@ const GENRE = {
        about what it produces is worse than a table that says less. So this
        genre keeps its single `drone`, and giving it a real second role means
        writing it a riff table -- a new design with no source behind it yet. */
-    /* ── THE DRONE, HEARD AT LAST ─────────────────────────────────────────────
-   "Dungeon Synth does not seem to have a drone." Correct, and the file has
-   known it since the 2026-08-14 audit: this genre DECLARED bassStyle "drone"
-   and put V.bass -- the plucked voice -- on the lane, longest held note
-   4.80 s. The declaration was about how notes are written, not what plays
-   them, and nothing played a drone. "long pedal notes and drones"
-   [corpus:melodigging] is this genre'"'"'s own sourced identity; the drone lane
-   is how it finally gets the second half. Eight bars a note, held past the
-   material, pedalling the tonic most of the time -- and the BASS, lifted an
-   octave clear of it, keeps its plucked notes over the top, which is the
-   two-layer bottom the sources describe and one lane could never hold. */
-    drone: { unit: 8, hold: 2, pedal: 0.8, octave: 0 },
     bassStyle: "drone",
     bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },
     bassAccent: { accent: 0, slide: 0 },
@@ -23125,7 +23113,7 @@ const GENRE = {
        octave up, or the drone an octave up -- and both are design questions
        for a verdict, not numbers to slip in here.
        docs/genre-research/dungeon-synth-fx-and-balance.md §4 */
-    roleGain: { drone: 0.30, keys: 0.32, keys2: 0.17, ostinato: 0.50,
+    roleGain: { keys: 0.32, keys2: 0.17, ostinato: 0.50,
                 bass: 0.22, lead: 0.57, counter: 0.43, drums: 1.40 },
     /* THE PROCESSION, and the palette. The keys are a tape choir or a string
        ensemble, which is what the sources name: "choirs, strings, pipe/chapel
@@ -23211,14 +23199,6 @@ const GENRE = {
                         ["bassoon", 3], ["carnyx", 2],
                         ["auto", 1]] },
     params: {
-      /* the drone rack, set for a crypt: four tones on open FIFTHS -- the
-         medieval interval this genre is built on -- darker filter, slower
-         swell than ambient'"'"'s, and the two clocks still coprime */
-      dronebox: { voices: 4, shape: 2, wave: 1, spread: 7,
-                  clockA: 19, clockB: 23, drift: 5,
-                  cut: 420, res: 1.4, peak: 0.22, peakHz: 900,
-                  swell: 3.0, fall: 8, air: 0.10, level: 0.9,
-                  pan: 0, panHz: 0, panDep: 0 },
       /* ── THE SIZE OF THE DRUM LIVES HERE, not in `kick` above ───────────────
          `kick` is the acoustic kit's voicing and `soundOf` only hands it over
          when the kit is the machine playing -- the war drum reads NONE of it.
@@ -23864,12 +23844,12 @@ const GENRE = {
          own session shows: eight tracks, every one of them full of holes, and
          no track that is simply absent from a whole kind of section. The bridge
          stays deliberately thin, because a break is a break. */
-      roles: { intro:        ["drone", "drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
-               verse:        ["drone", "drums", "bass", "keys", "keys2", "lead", "ostinato"],
-               chorus:       ["drone", "keys", "keys2", "bass", "lead", "counter", "ostinato", "drums"],
-               bridge:       ["drone", "keys", "bass", "ostinato", "drums"],
-               instrumental: ["drone", "drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
-               outro:        ["drone", "drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"] },
+      roles: { intro:        ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+               verse:        ["drums", "bass", "keys", "keys2", "lead", "ostinato"],
+               chorus:       ["keys", "keys2", "bass", "lead", "counter", "ostinato", "drums"],
+               bridge:       ["keys", "bass", "ostinato", "drums"],
+               instrumental: ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+               outro:        ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"] },
       /* one or two parts left at the end; the draw picks WHICH */
       thinTo: [1, 2],
       /* the record opens on ONE KEYBOARD ALONE nearly every time -- that is
@@ -23928,11 +23908,7 @@ const GENRE = {
            from there is `rest` and the section swaps, which is what the same
            session shows: not parts arriving forever, but parts coming and
            going once they have all arrived. */
-        /* the drone is the ground and the ground is there before anyone --
-           an enter table that does not name a role never admits it, which is
-           how the first cut of this drone played its opening note and was
-           never heard from again */
-        enter: { drone: [0.0, 0.005], drums: [0.010, 0.015], keys: [0.010, 0.015], ostinato: [0.025, 0.025],
+        enter: { drums: [0.010, 0.015], keys: [0.010, 0.015], ostinato: [0.025, 0.025],
                  bass: [0.055, 0.025], lead: [0.10, 0.06],
                  keys2: [0.17, 0.07], counter: [0.28, 0.08] },
         /* NO `openWith`: every part with an entry point can open the record,
