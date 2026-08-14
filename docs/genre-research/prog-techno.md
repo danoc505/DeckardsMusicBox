@@ -1,5 +1,23 @@
 # PROG-TECHNO — Pink Floyd crossed with punk, on a techno backbone
 
+> **WITHDRAWN 2026-08-14. THE GENRE THIS SHEET DESCRIBES NO LONGER EXISTS IN THE
+> PROGRAM.** The owner: *"I want you to then delete the progtechno genre and
+> replace it with an ambient genre."* `GENRE.progtechno` was deleted, not
+> commented out, and `docs/genre-research/ambient.md` is what stands in its
+> place.
+>
+> **The sheet is kept, in full and unedited below this note**, for two reasons.
+> The research was real work against real sources and deleting it would destroy
+> the record of what was decided and why. And several of the *mechanisms* built
+> for this genre outlived it and are still in the program, used by others — the
+> structural solo (`form.arc.thin` gating a part's notes by the energy curve),
+> the drawn matrix-mixer vocabulary, and the polyphony generalisation to pitched
+> parts. Anyone reading those in the source and following the citation trail
+> arrives here.
+>
+> Nothing below has been re-checked since it was written. Read it as a record,
+> not as a description of the current build.
+
 *2026-08-09, rebuilt 2026-08-10 — see **§7**, which supersedes this sheet's
 harmony and its note counts. The owner named the genre and its references over
 several turns and corrected the research five times on the way. The corrections

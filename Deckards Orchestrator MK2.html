@@ -253,6 +253,52 @@
   .modsteps span.on{ background:#7dffb0; box-shadow:0 0 7px rgba(125,255,176,.75); }
   .modfoot{ margin-top:.35rem; font:600 11px ui-monospace,monospace; color:#4e9c6b;
             letter-spacing:.10em; text-transform:uppercase; }
+  /* ══ THE DRONE RACK'S FACE ═══════════════════════════════════════════════
+     "I want to have controls for it to be interesting and interactive with a
+      retro futuristic visual nature."
+
+     A different tube from the modulator bank's, on purpose: that one is a
+     green oscilloscope and this is an AMBER TUNING DISPLAY, the register a
+     spectrum analyser and a station dial live in. Three things on it, and each
+     one is a fact about the drone that a number cannot carry:
+
+       THE STACK      every tone held, placed on a CENTS axis, so SPREAD is a
+                      thing you watch open rather than a value you read. The
+                      lines drift while the record plays, because the detune
+                      really is drifting.
+       THE BEAT       one bar that PULSES at the actual beat rate between the
+                      closest pair. Cents are not audible; beats are, and this
+                      is the only honest way to show a rate of 0.4 Hz.
+       THE CLOCKS     two rings turning at CLOCK A and CLOCK B, with the bar
+                      count at which they next coincide printed between them.
+                      When that number is larger than the record, the display
+                      says so -- that is Eno's whole mechanism, on the glass. */
+  .sk-drone{ background:linear-gradient(#20180f,#100b06); border-color:#3a2b18; }
+  .sk-drone .brand .maker{ color:#b98a3c; }
+  .drnwrap{ width:100%; }
+  .drnglass{ position:relative; border-radius:10px; overflow:hidden; padding:.1rem;
+             background:radial-gradient(120% 140% at 50% 35%,#1c1408 0%,#0b0704 72%,#060402 100%);
+             border:1px solid #3a2b18; box-shadow:inset 0 0 44px rgba(0,0,0,.92),
+                     inset 0 0 10px rgba(255,180,60,.05); }
+  .drnglass::after{ content:""; position:absolute; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(to bottom, rgba(0,0,0,.30) 0 1px, rgba(0,0,0,0) 1px 3px);
+    mix-blend-mode:multiply; }
+  .drnsvg{ width:100%; height:clamp(190px,32vh,320px); display:block; }
+  .drnaxis{ stroke:#3d2a12; stroke-width:1; vector-effect:non-scaling-stroke; }
+  .drntick{ stroke:#2b1d0c; stroke-width:1; vector-effect:non-scaling-stroke; }
+  .drntone{ stroke:#ffc95e; stroke-width:2.6; vector-effect:non-scaling-stroke;
+            filter:url(#drnbloom); }
+  .drntone.hi{ stroke:#ffe6a8; }
+  .drnlab{ fill:#c08a35; font:600 10px ui-monospace,monospace; letter-spacing:.10em; }
+  .drnlab.lit{ fill:#ffd98a; }
+  .drnring{ fill:none; stroke:#4a3316; stroke-width:2; vector-effect:non-scaling-stroke; }
+  .drnhand{ stroke:#ffc95e; stroke-width:2.2; vector-effect:non-scaling-stroke;
+            filter:url(#drnbloom); }
+  .drnenv{ fill:none; stroke:#8a6423; stroke-width:1.6; vector-effect:non-scaling-stroke; }
+  .drnbeat{ fill:#ffc95e; filter:url(#drnbloom); }
+  .drnfoot{ margin-top:.35rem; font:600 11px ui-monospace,monospace; color:#b98a3c;
+            letter-spacing:.10em; text-transform:uppercase; }
+  .drnfoot b{ color:#ffd98a; font-weight:700; }
   .mixer .mixstrips{ display:flex; gap:.55rem; align-items:flex-end; flex-wrap:wrap; }
   /* ── A CHANNEL, A GROUP, AND THE DIFFERENCE BETWEEN THEM ─────────────────
      A channel strip carries one instrument; the group beside it carries what
@@ -1488,7 +1534,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-14a · a modulator bank with four slots and a phosphor tube</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-14b · the drone rack, and an ambient genre where prog-techno was</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -4404,6 +4450,135 @@ const INSTRUMENTS = {
   /* the FM chip bass is `tb303.engines.chip` -- see the note above the basses.
      Its control is `cBright` there; the voice is still `V.chipBass`. */
 
+  /* ══ THE DRONE RACK ═══════════════════════════════════════════════════════
+     "I want you to create the drone rack ... I dont believe that you have
+      actually built drones."
+
+     THE SCEPTICISM WAS CORRECT AND HERE IS THE MEASUREMENT THAT SAYS SO. Before
+     this box existed, `V.drone` was the only drone voice in the file -- three
+     sawtooths and one lowpass, living as an ENGINE inside the 303 chassis --
+     and it was reachable from exactly one rig. Composed, ten genres x six seeds:
+
+       bladerunner    450 events on the drone voice, longest 16.55 s
+       every other genre                                      0
+
+     Dungeon synth and hobbit synth both declare `bassStyle: "drone"`, which is
+     a rule about how the NOTES are written, and both put `V.bass` on the lane
+     -- the plucked voice whose own comment says "V.bass's 25 ms 1.2 kHz attack
+     click is a plucked string, and a drone is not plucked". Their longest held
+     bass note is 4.80 s and 2.54 s. So: one drone voice, one rig, and two
+     genres calling something a drone that is a short plucked note.
+
+     ── WHAT THIS BOX IS, AND WHERE EVERY PART OF IT COMES FROM ───────────────
+     Not a filter and a knob called DRONE. Each control below is a mechanism one
+     of the sources names, and the ones that were listed as MISSING in
+     `how-a-drone-evolves.md` §P.2 are marked -- that table is a list of things
+     the research said this program could not do, and three of them are here.
+
+       VOICES / SHAPE   "sustained sounds, notes, or tone clusters called
+                        drones"; Richardson, in Pitchfork: the subject is "the
+                        base-level interaction between small clusters of 'pure'
+                        tone" [corpus:wikipedia Drone music]. PARTIALS stacks
+                        the JUST harmonic series -- 2:1, 3:2, 5:4, 7:4 -- rather
+                        than equal temperament, which is the tuning La Monte
+                        Young's sustained-tone work is built on. Growing a drone
+                        by octaves is §P.2's "clusters" row, marked "partly".
+       SPREAD           the beating. Synth practice puts the useful band at
+                        "between one and five beats per second", with "a 5-cent
+                        error is a 1.27 Hz beat at A4" [how-a-drone-evolves.md
+                        #7]. The FACE prints the resulting beat rate in Hz,
+                        because cents are not what you hear -- beats are.
+       CLOCK A/B, DRIFT §P.2 row "unison detune driven by an envelope, to make
+                        beating move: NO -- detune is static per voice". It is
+                        not static now. Two free-running clocks in BARS move the
+                        detune, and the panel refuses to let them divide: this
+                        is Eno's mechanism, the strongest-evidenced one in the
+                        whole sheet. "One of the notes repeats every 23 1/2
+                        seconds... the next 25 7/8 ... the third 29 15/16" --
+                        "they are not likely to come back into sync again"
+                        [corpus:reverbmachine, transcribing Eno]. The face
+                        prints when they DO come round, which is usually a
+                        number longer than the record.
+       PEAK / PEAK Hz   §P.2 row "a second high-resonance filter to amplify the
+                        meandering harmonic character: NO". A high-Q bandpass in
+                        parallel with the main lowpass, so a partial that drifts
+                        through it swells and falls. [corpus:modeaudio]
+       SWELL / FALL     "Pads need 2-8 second attack times; fast attack makes
+                        them sound like synth leads" [corpus:splice/unison
+                        production guides, ⚠ SEO tier]; musicradar's own drone
+                        recipe is "attack 5 s / release 60 s".
+       AIR              a breath bed under the tone. [CHOSEN]
+
+     AND IT IS ITS OWN MACHINE, NOT A SIXTH ENGINE IN THE 303. The bass unit
+     holds five engines because they are all BASS LINES -- things that play a
+     part. This plays no part: it holds. Folding it in would have given it the
+     303's face, and the whole complaint was that the drone has no face of its
+     own. `V.drone` stays exactly where it is, untouched, so bladerunner does
+     not move a sample. */
+  dronebox: {
+    slot: "bass", label: "the drone rack",
+    lanes: { bass: "dronebox" },
+    controls: [
+      /* ── THE STACK ────────────────────────────────────────────────────── */
+      /* the label is the POSITION LIST, which is how every other switch in this
+         file names what it selected -- a switch with more than two positions
+         that does not say what it landed on is a seam check this build failed
+         once already */
+      { k:"voices", label:"1/2/3/4/5/6/7/8", cap:"VOICES",
+        min:1, max:8, step:1, def:4, kind:"switch" },
+      { k:"shape",  label:"UNISON/OCTAVE/FIFTH/PARTIALS", cap:"STACK",
+        min:0, max:3, step:1, def:1, kind:"switch" },
+      { k:"wave",   label:"SINE/TRIANGLE/SAW", cap:"WAVE",
+        min:0, max:2, step:1, def:1, kind:"switch" },
+      /* cents between the outermost pair. At 55 Hz, 9 cents is a beat every
+         3.5 seconds; at 220 Hz the same 9 cents beats four times as fast, which
+         is why the face prints hertz and this knob prints cents. */
+      { k:"spread", label:"detune across the stack", cap:"SPREAD",
+        min:0, max:40, step:0.5, def:9, unit:"c", kind:"voicing" },
+      /* ── THE TWO CLOCKS ───────────────────────────────────────────────── */
+      { k:"clockA", label:"first drift cycle", cap:"CLOCK A",
+        min:5, max:97, step:1, def:23, unit:"bars", kind:"voicing" },
+      { k:"clockB", label:"second drift cycle", cap:"CLOCK B",
+        min:5, max:97, step:1, def:29, unit:"bars", kind:"voicing" },
+      { k:"drift",  label:"how far the clocks move the detune", cap:"DRIFT",
+        min:0, max:30, step:0.5, def:6, unit:"c", kind:"voicing" },
+      /* ── THE FILTERS ──────────────────────────────────────────────────── */
+      { k:"cut",    label:"main lowpass", cap:"CUTOFF",
+        min:80, max:3000, step:10, def:620, unit:"Hz", kind:"gesture" },
+      { k:"res",    label:"lowpass resonance", cap:"RESO",
+        min:0.3, max:10, step:0.1, def:1.2, kind:"gesture" },
+      { k:"peak",   label:"how much of the resonant peak is mixed in", cap:"PEAK",
+        min:0, max:1, step:0.01, def:0.25, kind:"gesture" },
+      { k:"peakHz", label:"where the peak sits", cap:"PEAK FREQ",
+        min:200, max:4000, step:10, def:1400, unit:"Hz", kind:"gesture" },
+      /* ── THE ENVELOPE ─────────────────────────────────────────────────── */
+      { k:"swell",  label:"attack", cap:"SWELL",
+        min:0.2, max:12, step:0.1, def:3.0, unit:"s", kind:"voicing" },
+      { k:"fall",   label:"release", cap:"FALL",
+        min:0.5, max:30, step:0.5, def:8, unit:"s", kind:"voicing" },
+      { k:"air",    label:"breath under the tone", cap:"AIR",
+        min:0, max:1, step:0.01, def:0.12, kind:"gesture" },
+      /* ── OUT ──────────────────────────────────────────────────────────── */
+      { k:"level",  label:"level", cap:"LEVEL",
+        min:0, max:1.4, step:0.01, def:1, kind:"voicing" },
+      { k:"pan",    label:"pan", cap:"PAN",
+        min:-1, max:1, step:0.01, def:0, kind:"gesture" },
+      { k:"panHz",  label:"drift across the stereo field", cap:"PAN RATE",
+        min:0, max:0.4, step:0.005, def:0, unit:"Hz", kind:"gesture" },
+      { k:"panDep", label:"how far it drifts", cap:"PAN DEPTH",
+        min:0, max:1, step:0.01, def:0, kind:"gesture" },
+    ],
+    panel: { skin: "drone", maker: "DECKARD", title: "DRONE", grid: "dronefield",
+             picture: "dronefield",
+             groups: [
+               { label: "THE STACK",  keys: ["voices", "shape", "wave", "spread"] },
+               { label: "THE CLOCKS", keys: ["clockA", "clockB", "drift"] },
+               { label: "THE FILTERS",keys: ["cut", "res", "peak", "peakHz"] },
+               { label: "THE SWELL",  keys: ["swell", "fall", "air"] },
+               { label: "OUT",        keys: ["level", "pan", "panHz", "panDep"] },
+             ] },
+  },
+
   /* ── KEYBOARDS ─────────────────────────────────────────────────────────── */
   rhodes: {
     slot: "keys", label: "Rhodes (sampled)",
@@ -6865,6 +7040,20 @@ const RIG = {
           tom1:"tom1", tom2:"tom2", tom3:"tom3",
           bass:"drone", keys:"vp330", lead:"cs80", counter:"rhodes", ostinato:"rhodes" ,
             rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
+  /* AETHER -- the ambient rack, and the DRONE RACK is the whole point of it.
+     Every other lane is chosen for how little it articulates: the VP-330 for a
+     bed that does not attack, the wave sequencer because it is the one voice in
+     the file whose TIMBRE travels while a note is held ("a slowly moving
+     soundscape" -- David Wise), the CS-80 for a lead that swells rather than
+     strikes, and the Erang strings for a figure that is bowed rather than hit.
+     There is no drum kit in this music, so as with `nemo` the drum lanes exist
+     only so a rig lookup cannot return undefined; `form.roles` never asks. */
+  aether: { kick:"kick", snare:"rim", ghost:"rim", hat:"hat", openhat:"openhat",
+            brk:"brk",
+            tom1:"tom1", tom2:"tom2", tom3:"tom3",
+            bass:"dronebox", keys:"vp330", lead:"cs80", counter:"waveseq",
+            ostinato:"erangStrings",
+            rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
   /* THE BOX -- acid house. Every element is a machine and every machine is one
      somebody can name: the 808's bridged-T kick and its six-square hats, a CLAP
      on 2 and 4 (not a snare; the difference is the record), a rimshot filling
@@ -7030,6 +7219,7 @@ const RIG_LABEL = {
   detroit: "detroit — Rhodes + strings",
   noize:   "noize — 303 + CS-80",
   volta:   "volta — live kit + Wurlitzer",
+  aether:  "aether — the drone rack + VP-330",
   citadel: "citadel — brass in the second chair",
   shire:   "the shire — flute, plucked strings, frame drum",
 };
@@ -12661,6 +12851,133 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     lp.frequency.linearRampToValueAtTime(dCut, t + Math.min(3.0, ev.durSec));
     adsr(c, out, t, LEVEL.bass * 1.30 * ev.gain * B.vol * (1 + 0.5 * B.acc),
          0.35, 0.80, 0.90, t + ev.durSec, 1.20);
+    return made;
+  };
+
+  /* ══ THE DRONE RACK ═══════════════════════════════════════════════════════
+     The voice behind the box declared up in INSTRUMENTS.dronebox. Everything
+     it does is one of the mechanisms `how-a-drone-evolves.md` names, and the
+     three the sheet listed as MISSING are the interesting ones:
+
+       THE DETUNE MOVES. §P.2 recorded "unison detune driven by an envelope, to
+       make beating move" as NO -- "detune is static per voice". Here each tone
+       in the stack has its own detune scheduled ACROSS the note by two
+       free-running clocks, so the beat rate itself wanders and the wash never
+       settles into one texture.
+
+       AND THE TWO CLOCKS ARE READ OFF THE SONG'S OWN TIME, not off the note.
+       This is the whole point of "free-running" -- modeaudio: the LFOs "won't
+       snap back to the beginning of their cycles when a new note is triggered".
+       A WebAudio oscillator cannot be given a phase, so the drift is SCHEDULED
+       arithmetic from `ev.tSec` rather than an oscillator node: same value live
+       and offline (Law 10), and phase that belongs to the record instead of to
+       the note. A note starting at bar 40 of a 23-bar clock arrives partway
+       through that clock, which is what Eno's tape loops do.
+
+       THE SECOND RESONANT FILTER. §P.2's other NO. A high-Q bandpass in
+       parallel with the lowpass: a partial drifting through it swells and
+       falls, and since the partials are drifting, something is always moving
+       through it. [corpus:modeaudio]
+
+     PARTIALS is JUST -- 2/1, 3/2, 5/4, 7/4, 9/8, 11/8, 13/8 -- and deliberately
+     not twelve-tone. Equal temperament's third is 14 cents sharp of 5:4 and its
+     seventh is 31 cents off 7:4; on a held tone that is not a tuning nicety, it
+     is the difference between a stack that locks and a stack that beats at
+     several rates at once. Sustained-tone practice is built on just ratios and
+     this is the one place in the file that has them. ═══════════════════════ */
+  V.dronebox = function(g, ev, t){
+    const c = g.ctx, f0 = F(ev.pitch);
+    const n      = Math.max(1, Math.min(8, Math.round(P(g, ev, "dronebox", "voices", 4))));
+    const shape  = Math.round(P(g, ev, "dronebox", "shape", 1));
+    const wave   = Math.round(P(g, ev, "dronebox", "wave", 1));
+    const spread = P(g, ev, "dronebox", "spread", 9);
+    const clockA = Math.max(1, P(g, ev, "dronebox", "clockA", 23));
+    const clockB = Math.max(1, P(g, ev, "dronebox", "clockB", 29));
+    const drift  = P(g, ev, "dronebox", "drift", 6);
+    const cut    = P(g, ev, "dronebox", "cut", 620);
+    const res    = P(g, ev, "dronebox", "res", 1.2);
+    const peak   = P(g, ev, "dronebox", "peak", 0.25);
+    const peakHz = P(g, ev, "dronebox", "peakHz", 1400);
+    const swell  = P(g, ev, "dronebox", "swell", 3.0);
+    const fall   = P(g, ev, "dronebox", "fall", 8);
+    const air    = P(g, ev, "dronebox", "air", 0.12);
+    const lvl    = P(g, ev, "dronebox", "level", 1);
+    const end = t + ev.durSec + fall + 0.3;
+
+    const out = c.createGain();
+    /* the two filters in PARALLEL, which is what makes the peak a peak and not
+       a second lowpass: the main path is the body, the bandpass is one narrow
+       window the drifting partials pass through */
+    const lp = c.createBiquadFilter(); lp.type = "lowpass";
+    lp.frequency.value = Math.max(40, cut); lp.Q.value = res;
+    const bp = c.createBiquadFilter(); bp.type = "bandpass";
+    bp.frequency.value = Math.max(80, peakHz); bp.Q.value = 9;
+    const bpg = c.createGain(); bpg.gain.value = Math.max(0, peak) * 0.9;
+    const bus = stereoOut(g, ev, t, "dronebox", "bass");
+    out.connect(lp); lp.connect(bus);
+    out.connect(bp); bp.connect(bpg); bpg.connect(bus);
+
+    /* THE STACK. UNISON is one pitch many times; the other three are ratios,
+       and PARTIALS is the just series rather than the tempered one. */
+    const RATIO = [
+      [1],                                                     // unison
+      [1, 2, 4, 8, 0.5, 16, 0.25, 32],                         // octaves, out and down
+      [1, 1.5, 2, 3, 4, 6, 0.5, 0.75],                         // just fifths and their octaves
+      [1, 2, 3, 4, 5, 6, 7, 9],                                // the harmonic series
+    ][Math.max(0, Math.min(3, shape))];
+    const TYPE = ["sine", "triangle", "sawtooth"][Math.max(0, Math.min(2, wave))];
+
+    const made = [];
+    /* the drift is written at a coarse grid: a clock of 23 bars at 60 bpm is
+       92 seconds, so half-second points are 180x oversampled and cost nothing.
+       Capped so a pathological duration cannot schedule thousands of ramps. */
+    const barSec = (g.motion ? g.motion.spb : 0.5) * ((g.motion && g.motion.steps) || 16);
+    const PA = Math.max(0.5, clockA * barSec), PB = Math.max(0.5, clockB * barSec);
+    const STEP = 0.5, NPT = Math.min(240, Math.ceil((ev.durSec + fall) / STEP) + 1);
+    const t0 = (ev.tSec == null ? 0 : ev.tSec);
+
+    for(let k = 0; k < n; k++){
+      const o = c.createOscillator(); o.type = TYPE;
+      o.frequency.value = f0 * (RATIO[k % RATIO.length] || 1);
+      /* the stack is dealt across the spread so the OUTERMOST pair is `spread`
+         cents apart whatever the voice count -- the knob means the same thing
+         at two voices and at eight */
+      const base = n > 1 ? (-spread / 2 + (spread * k) / (n - 1)) : 0;
+      if(drift > 0.01){
+        /* the two clocks, out of phase per voice so no two tones swing together
+           -- eight oscillators sharing one wobble is a vibrato, not a drift */
+        const pa = k * 0.137, pb = k * 0.311;
+        for(let i = 0; i < NPT; i++){
+          const dt = i * STEP, T = t0 + dt;
+          const d = base + drift * 0.5 *
+                    (Math.sin(2 * Math.PI * (T / PA + pa)) + Math.sin(2 * Math.PI * (T / PB + pb)));
+          if(i === 0) o.detune.setValueAtTime(d, t);
+          else o.detune.linearRampToValueAtTime(d, t + dt);
+        }
+      } else o.detune.value = base;
+      const og = c.createGain();
+      /* the upper tones are quieter, or PARTIALS is a sawtooth with extra steps
+         -- a real stack thins as it climbs */
+      og.gain.value = (1 / Math.sqrt(n)) * Math.pow(0.78, k);
+      o.connect(og); og.connect(out); o.start(t); o.stop(end); made.push(o);
+    }
+
+    /* AIR: a breath bed, band-limited around the stack so it reads as the room
+       the tone is in rather than as hiss over the top of it. [CHOSEN] */
+    if(air > 0.005 && g.noise){
+      const src = c.createBufferSource(); src.buffer = g.noise; src.loop = true;
+      const nf = c.createBiquadFilter(); nf.type = "bandpass";
+      nf.frequency.value = Math.max(120, Math.min(6000, f0 * 6)); nf.Q.value = 0.7;
+      const ng = c.createGain(); ng.gain.value = air * 0.16;
+      src.connect(nf); nf.connect(ng); ng.connect(out);
+      src.start(t); src.stop(end); made.push(src);
+    }
+
+    /* the swell. Long attack, long fall, and NO decay stage -- a drone that
+       droops after its attack is a pad, and the sources are unanimous that the
+       foundation layer "changes the least". */
+    adsr(c, out, t, LEVEL.bass * 1.15 * ev.gain * lvl, Math.max(0.05, swell),
+         0.4, 1.0, t + ev.durSec, Math.max(0.2, fall));
     return made;
   };
 
@@ -23084,977 +23401,489 @@ const GENRE = {
   },
 
   /* ═══════════════════════════════════════════════════════════════════════════
-     PROG-TECHNO — Pink Floyd crossed with punk, on a techno backbone
+     AMBIENT — a record built on the drone rack
 
-     The owner named it and named its references: Pink Floyd, Mars Volta,
-     Jagatara, Bloody Beetroots, Boys Noize, Death Grips, Indian and Asian music.
-     Full sheet with every source: docs/genre-research/prog-techno.md.
+     The owner: "I want you to then delete the progtechno genre and replace it
+     with an ambient genre. I dont believe that you have actually built drones
+     but if you have we have all the fx, instruments and drones to make an
+     amazing ambient genre built around drones."
 
-     ── THE ONE FINDING THIS GENRE IS BUILT ON ──────────────────────────────────
-     Pink Floyd and techno are the same compositional strategy. Cohen, on "Dogs":
-     "Pink Floyd used a small amount of material, appropriate to a
-     standard-length song, and expanded each of its sections enormously by
-     employing heavy repetition and an exceptionally slow harmonic pace" -- one
-     vamp covering "ten out of the 17 minutes", cycling "between 37 and 55
-     seconds" [corpus:cohen-mto-21.2]. That is a techno track described in a prog
-     paper. So this is not a fusion of two opposed things; it is one strategy,
-     with punk on the surface.
+     PROG-TECHNO IS GONE. Its table stood here and has been deleted, not
+     commented out; `docs/genre-research/prog-techno.md` is kept and carries a
+     withdrawal note at its head, because the research was real work and the
+     record of what was decided is worth more than the table was.
 
-     Every other reference says it again: Jagatara's "restless, sax-filled
-     grooves" where "the bass and bongos give songs a get-up-and-dance bounce,
-     allowing the saxophone and guitar their own chaotic agendas"; Indian
-     classical's fixed drone with a soloist who "will always return to the
-     composition on the sam"; gamelan's colotomic cycle under elaborating layers.
-     A LOCKED GROOVE WITH VOICES IMPROVISING ACROSS IT.
+     ── AND THE SCEPTICISM ABOUT THE DRONES WAS CORRECT ────────────────────────
+     Measured before this genre was written, ten genres x six seeds, counting
+     events that actually reach `V.drone`:
 
-     ── AND THE PARTS OF IT THIS PROGRAM ALREADY HAD ────────────────────────────
-     Both mechanisms the plan called missing turned out to exist, which is this
-     project's oldest recurring finding and worth stating rather than quietly
-     benefiting from:
+       bladerunner   450 events, longest held note 16.55 s
+       everybody else                                    0
 
-       the pitched cycle   `ostinato.run` is Berlin School sequencing, already
-                           researched: "an 11-step cell against a 16-step bar
-                           realigns every 11 bars". What it lacked was the
-                           HOMECOMING -- Berlin School treats the realignment as
-                           drift, Indian music treats it as the point. `sam` is
-                           the only new line of engine code this genre needed.
-       the structural solo `form.arc.thin` already gates a part's NOTES by the
-                           record's energy curve, and `form.build.enter` already
-                           says when a part first arrives. A lead that is nearly
-                           absent early and fills toward the apex -- Cohen's
-                           "the guitar solos provide an overall sense of
-                           direction by outlining the contour in energy level of
-                           the song... and leading it to its peak" -- is a table
-                           declaration, not new machinery.
+     Dungeon synth and hobbit synth declare `bassStyle: "drone"` -- a rule about
+     how NOTES are written -- and then put `V.bass` on the lane, whose own
+     comment says a drone is not plucked. Longest held bass note: 4.80 s and
+     2.54 s. So there was ONE drone voice, three saws and a lowpass, reachable
+     from one rig, and no rack anywhere. `INSTRUMENTS.dronebox` is the answer to
+     that and this genre is what it is for.
+
+     ── WHAT THIS TABLE IS BUILT ON ────────────────────────────────────────────
+     `docs/genre-research/ambient.md`, and behind it the sheet that was already
+     here and had never been spent: `how-a-drone-evolves.md`. That sheet ranked
+     the mechanisms of long-form change by weight of evidence and this table is
+     written against the ranking rather than around it:
+
+       #1 PARTS ENTERING AND LEAVING -- five traditions, all primary. So
+          `form.roles` is the arrangement here: the drone alone, then a bed,
+          then a figure, then a voice, and a bridge where THE DRONE ITSELF
+          LEAVES. Nothing else in this file removes its foundation.
+       #2 CYCLES WHOSE PERIODS DO NOT DIVIDE -- Eno's 23 1/2, 25 7/8 and
+          29 15/16 second loops, "not likely to come back into sync again".
+          Every LFO below is declared in a COPRIME pair, and the drone rack's
+          own two clocks are 23 and 29 bars.
+       #3 DISCRETE VARIATION EVENTS OVER AN UNCHANGED GROUND -- pibroch,
+          passacaglia, gamelan, alap. `occurrence` moves and the `sh` and
+          `dejavu` kinds are step changes, not curves, and they are here for
+          that reason.
+       #9 SLOW CONTINUOUS AUTOMATION is LAST in that ranking, contradicted by
+          the change-deafness result: half a room misses three semitones of
+          continuous pitch change. So the slow curves here are texture and the
+          arrangement carries the form. That is the opposite of how an ambient
+          genre would have been written from instinct.
+
+     Eno's own definition is the brief: ambient music "must be able to
+     accommodate many levels of listening attention without enforcing one in
+     particular" and "must be as ignorable as it is interesting"
+     [corpus:wikipedia Ambient 1 / Eno's sleeve note].
      ═══════════════════════════════════════════════════════════════════════════ */
-  progtechno: {
-    label: "prog-techno",
-    /* electro-house ground, which is where all three electronic references sit.
-       Not the 128-135 of club techno: this record is long and wants to breathe */
-    tempo: [124, 134],
-    /* it borrowed minimal techno's rack, where every pitched lane is the 303.
-       Its own three now -- see RIG. */
-    rig: [["detroit", 4], ["noize", 4], ["volta", 3]],
-    /* DARK. Phrygian is the darkest mode in common use and it leads, minor
-       behind it. The owner asked for dark and heavy and this is where dark
-       actually lives in a program with no chord progression to darken. [CHOSEN] */
-    modes: [["phrygian", 6], ["minor", 5], ["dorian", 2]],
-    /* ── FOUR CHORDS HELD ENORMOUSLY LONG, AND THE LAST ONE DOES NOT LAND ─────
-       THIS WAS A DRONE AND THE DRONE WAS MINE, NOT THE SOURCE'S. The owner,
-       twice: "Pink Floyd is NOT drone. It is novel use of FX. It is breaking
-       the rules", and "It should not be simple and droning." Both correct. I
-       had built this row off Cohen's phrase "an exceptionally slow harmonic
-       pace" and written `[[[0,0,0,0], 10]]` -- one chord, for ever. Going back
-       to the same paper for what "Dogs" actually plays:
-
-         "Chord 1 is a tonic with added 7th and 9th; Chord 2 simultaneously
-          includes a third (D) and a fourth (E flat), an uncommon clash; Chord 3
-          is a dominant with a suspended fourth and a suspended second; Chord 4
-          is based on A flat with a suspended augmented fourth and suspended
-          second." ... "its last chord calls for a resolution that never
-          arrives, and the bass line goes from A flat back to D, producing a
-          dissonant leap of a tritone."  [corpus:mtosmt Cohen]
-
-       FOUR chords, every one of them a clash, and a progression that REFUSES TO
-       RESOLVE. Slow is not static. And Detroit says four as well, independently
-       -- Attack's teardown of "Strings Of Life" has it "based around four
-       chords" [corpus:attackmagazine/deconstructed].
-
-       EIGHT ENTRIES, NOT FOUR, because this genre's materialBars is 8 and the
-       array is one entry per bar: a chord repeated four times is a chord held
-       four bars, which at this tempo is a ~15-second cycle. That is how the
-       pace gets slow without the harmony getting stuck -- the thing I got
-       wrong the first time.
-
-       ROWS THAT END AWAY FROM HOME are the rule-break, and they are sourced
-       rather than invented: the last chord of several of these is flat-II or
-       the fifth, and the loop drops from there back to i. */
-    progressions: {
-      phrygian: [[[0,0,0,0,1,1,0,0], 5],   // the flat-II sting and home again
-                 [[0,0,0,0,5,5,6,6], 4],   // i - flat-VI - flat-VII
-                 [[0,0,5,5,0,0,1,1], 3],   // ENDS ON flat-II -- does not resolve
-                 [[0,0,6,6,5,5,1,1], 2],   // descending, and still does not land
-                 [[0,0,0,3,3,0,5,5], 2]],
-      minor:    [[[0,0,0,0,5,5,2,2], 4],
-                 [[0,0,5,5,2,2,6,6], 4],   // i - flat-VI - flat-III - flat-VII
-                 [[0,0,3,3,5,5,4,4], 3],   // ENDS ON v -- does not resolve
-                 [[0,0,0,0,3,3,6,6], 3],
-                 [[0,0,6,6,5,5,4,4], 2]],  // descending, unresolved
-      dorian:   [[[0,0,0,0,3,3,0,0], 4],   // the dorian major IV, which is the
-                 [[0,0,3,3,0,0,6,6], 3],   //   one bright thing this genre owns
-                 [[0,0,6,6,3,3,0,0], 3],
-                 [[0,0,0,3,3,6,6,0], 2]],
-    },
-    bridgeProgressions: {
-      phrygian: [[[0,0,1,1,5,5,6,6], 4], [[0,0,0,0,1,1,1,1], 3],
-                 [[5,5,6,6,0,0,1,1], 2]],
-      minor:    [[[0,0,5,5,6,6,3,3], 4], [[3,3,5,5,0,0,4,4], 3],
-                 [[0,0,2,2,5,5,6,6], 2]],
-      dorian:   [[[0,0,3,3,6,6,0,0], 4], [[3,3,0,0,6,6,3,3], 3],
-                 [[0,0,6,6,0,0,3,3], 2]],
-    },
-    /* AND THE KEY MOVES NOW. It was pinned at 0 to protect the drone, which
-       also meant `ostC` and `ostAl` -- two of the three places the figure could
-       have been re-stated -- collapsed onto `ostA` by identity and the genre
-       had no long-range harmonic event at all. */
-    keyShift: { chance: 0.34, by: [[2, 5], [1, 2], [5, 2]], change: 0.5 },
-    /* Detroit's stab is a MINOR SEVENTH -- "the detroit/chicago stab sound is a
-       minor 7th chord. Adding a 7th, 9th or 13th gives interesting results"
-       [corpus:kvraudio, producer consensus rather than an originator's own
-       words -- flagged as such by the research]. Cohen's chord 1 is "a tonic
-       with added 7th and 9th". Both want more than a triad. */
-    sevenths: true,
-    /* ── THE REFUSAL THAT WAS ACTUALLY JUST AN ABSENCE ────────────────────────
-       This said `counter: null` and called it punk, on the argument that punk
-       rejects "ostentatious displays of 'talent'" [corpus:cook-afb]. That quote
-       is about VIRTUOSITY. It is not an argument for having fewer parts, and
-       using it as one is how this genre ended up playing drums, a figure and a
-       bass and nothing else -- the owner: "Why do we only haver ostinato, bass
-       drums for all tracks? This is such poor and lazy work here."
-
-       Every source this genre is built on has the second voice:
-
-         "None of the compositions include chord changes, relying instead on the
-          use of different harmonies and COUNTER-MELODIES over pedal points."
-          -- Remain in Light [corpus:wikipedia/Remain_in_Light]
-
-         "two guitars playing distinct, INTERLOCKING rhythm parts has been a
-          fundamental part of Afrobeat since around 1971"
-          [corpus:edgeoftheline]
-
-         and Detroit's own record has the piano chords AND the stabbing strings
-         over them [corpus:attackmagazine/deconstructed].
-
-       So the answering line comes back. `style: "line"` against the figure is
-       the interlocking pair -- two parts that make one faster line between
-       them, which is what kotekan is and what this genre was missing. */
-    counter: { style: "line", density: 0.72, intervals: [-2, -3, -4, -5],
-               /* the answering line comes in AFTER the phrase far more often
-                  than with it, which is what makes two parts sound like two
-                  players rather than one thickened one -- the interlocking
-                  pair, not a harmoniser */
-               answer: 0.72 },
-    comp: 0,
-    gate: null,
-    /* heavy. "The sound is more important to me than the melody" [corpus:boys-
-       noize], and Pearson: punk distortion "is functionally timbral distortion
-       rather than harmonic dissonance" -- the drive IS the instrument here. */
-    drumDrive: 1.75,
-    kick: { tune: 44, decay: 0.72, click: 0.6, drive: 0.78, body: 1.25, gain: 1.24 },
-    /* ── FUNKY: THE KICK IS NOT STRAIGHT ───────────────────────────────────────
-       This is the word that separates the genre from techno and it is a real
-       constraint, not a mood. Electro "breathes -- its syncopated patterns
-       create tension and release" against four-on-the-floor's relentlessness,
-       with "a syncopated kick drum, and usually a snare or clap accenting the
-       backbeat". Minimal techno's pocket is [0,4,8,12]; this one never is. [CHOSEN
-       on the exact placements, sourced on the principle] */
-    pocket: [[[0, 6, 10], 5], [[0, 6, 10, 14], 4], [[0, 4, 6, 10], 2], [[0, 3, 10], 1]],
-    accent: {
-      kick:    [1, 0.9, 0.9, 0.94, 0.9, 0.9, 1, 0.9, 0.9, 0.9, 0.98, 0.9, 0.9, 0.9, 0.94, 0.9],
-      snare:   [0.92, 0.88, 0.88, 0.88, 1, 0.88, 0.88, 0.88, 0.92, 0.88, 0.88, 0.88, 1, 0.88, 0.88, 0.88],
-      ghost:   [0.9, 0.86, 0.86, 0.86, 0.94, 0.86, 0.86, 0.86, 0.9, 0.86, 0.86, 0.86, 0.94, 0.86, 0.86, 0.86],
-      hat:     [1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88, 1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88],
-      openhat: [1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88, 1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88],
-      tom1:    [1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88, 1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88],
-      tom2:    [1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88, 1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88],
-      tom3:    [1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88, 1, 0.88, 0.94, 0.88, 0.96, 0.88, 0.94, 0.88],
-    },
-    kit: {
-      phraseBy: "notes",
-      /* the electro backbone: a clap on the backbeat, which is the one thing
-         every electro source names */
-      snare: [], clap: [4, 12],
-      hatEvery: 2, hatVel: 0.54,
-      ghostChance: 0.18, ghostSpots: [3, 7, 11, 15],
-      openSpot: [[14, 4], [6, 3], [10, 2]], openBars: [1, 3],
-      /* no tom rolls: this genre answers a phrase with a cycle coming home, not
-         with a fill down the kit. Same refusal Plastikman's table already makes
-         and for the same reason. */
-      toms: { use: 0.04, loop: 0, loopSpots: [], loopLanes: [], shapes: [[[[15, "tom3"]], 1]] },
-      kickKeep: 4,
-      rim: [], rideEvery: 0, crashChance: 0.06, crashStep: 0,
-      /* ── INTERLOCKING PERCUSSION, WHICH IS THE JAGATARA/GAMELAN HALF ─────────
-         Two lanes on their own lengths against a 16-step bar, so they cross the
-         bar and each other. Hood's "rhythms inside of rhythms", gamelan's layers
-         at different rates, and the "bass and bongos" bounce Jagatara is built
-         on. 7 and 5 are coprime with 16 and with each other, so the three-way
-         alignment is rare and audible when it lands. */
-      poly: [
-        { lane: "rim",  len: 7, on: [0, 3], vel: 0.48,
-          phase: [[0, 1], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1]] },
-        /* ── AND THE SECOND LANE IS NOT A TOM ─────────────────────────────
-           It was `tom2`, and the tom law caught it immediately: this genre
-           declares `toms.use: 0.04` -- near-tomless -- and then put a tom on a
-           polymetric lane 920 times a song, which is 100% of its drum parts.
-           The check is right and my table was two things at once. What this
-           lane wants is INTERLOCKING PERCUSSION, the gamelan/afrobeat layer,
-           not a fill coming down the kit, so it takes a percussion voice. */
-        { lane: "ride", len: 5, on: [2], vel: 0.42,
-          phase: [[0, 1], [1, 1], [2, 1], [3, 1], [4, 1]] },
-      ],
-      /* a lane that answers the interlocking pair, the way Plastikman's ghost
-         answers its rim and clap */
-      answer: [
-        { lane: "ghost", watch: ["rim", "ride"], every: 3, notOn: ["kick"], vel: 0.36 },
-      ],
-      flourishBar: -1, flourish: [[[], 1]],
-      arc: {
-        span: [0, 3],
-        moves: [
-          [{ hatEvery: 4 }, 5, { takes: true }],
-          [{ openBars: [] }, 4, { takes: true }],
-          [{ kickKeep: 2 }, 2, { takes: true }],
-          [{ hatEvery: 1, hatVel: 0.6 }, 4],
-          [{ ghostChance: 0.4 }, 3],
-          [{ clap: [4, 10, 12], crashChance: 0.5 }, 2],
-        ],
-      },
-      variants: { main: {}, lift: { hatEvery: 1, ghostChance: 0.3 },
-                  depart: { hatEvery: 4, ghostChance: 0, clap: [], kickKeep: 2 } },
-    },
-    /* ── THE CYCLE: A PITCHED FIGURE ON ITS OWN LENGTH, COMING HOME ────────────
-       `run` lets the cell index cross bars, so a cell whose length is coprime
-       with the eight ostinato steps in a bar walks against the bar and realigns
-       later -- 7 realigns every 7 bars, 5 every 5, 11 every 11. That much is
-       Berlin School and already existed.
-
-       `sam` is the new part and it is what the traditions add: the beat the
-       cycle comes home on is ACCENTED, so you hear it land instead of merely
-       drifting. Indian classical names it (the soloist "will always return to
-       the composition on the sam"); gamelan marks it with the gong.
-
-       Rupak tala is seven beats grouped 3+2+2, and the seven-cell below is
-       written to that grouping. The degrees are modal, mostly the drone's root,
-       with the mode's colour tones -- a raga's shape rather than a melody.
-       [corpus:kennedy-center, corpus:krishna-music-school; the exact degrees TASTE] */
-    /* ── EIGHT-BAR MATERIALS, SO THE CYCLE HAS ROOM TO COME HOME ──────────────
-       Eight bars is eight ostinato steps x 8 = 64 positions, and 64 is not a
-       multiple of 7, 5 or 11 -- so the cells below walk right across the
-       material instead of resetting inside it, and the seven-cell lands home
-       at bar 7 of 8. That is the whole point of the genre and it does not work
-       at the default 4. */
-    materialBars: 8,
-    ostinato: {
-      /* `vary` WAS FALSE AND THAT WAS THE WHOLE COMPLAINT. It is the only lever
-         that makes the Avar material's figure differ from A's, and A/Avar is
-         how this program answers the rule of three. With it off, every
-         instrumental section restated the verse's figure exactly -- measured
-         byte-identical -- which is "why is it doing the same thing for the
-         whole track" in one boolean. It is the FLOOR now; the menu below adds
-         to it rather than substituting for it. */
-      unit: 2, vel: 0.6, vary: true, run: true, sam: 1.4, ratchet: 0.08,
-      /* THE MENU: two to four kinds per record out of seven, so a record
-         changes its figure in more than one way and two records do not change
-         it the same way. */
-      change: { pick: [2, 4],
-                kinds: [ ["cell",      6],   // the alternate cell takes over
-                         ["follow",    6],   // re-state against each chord
-                         ["octave",    4],   // up a register at the turn
-                         ["transpose", 3],   // moved by scale degrees
-                         ["stride",    3],   // the step widens, the figure thins
-                         ["ratchet",   2],   // steps subdivide
-                         ["rest",      2] ] },
-      cells: [
-        /* ── THE CELLS HAD THREE PITCHES IN THEM AND THAT IS WHY THE FIGURE
-              HAD THREE ─────────────────────────────────────────────────────
-           The owner: "the ostinato is crap! What is it why is it doing the same
-           thing for the whole track?" Measured, the figure used THREE distinct
-           pitches across a nine-minute record where every other genre in the
-           file uses five to seven. The cause was arithmetic, not taste: the old
-           rows were built from degrees {0, 3, 5, 7, 10}, and in a seven-note
-           scale degree 7 IS degree 0 and degree 10 IS degree 3. Every number in
-           the table reduced to 0, 3 or 5. The old first cell -- weighted 6 of
-           16, so most records -- was root, root, 4th, root, root, root, 6th: a
-           pedal with two grace notes, which is a fair description of what came
-           out.
-
-           The lengths are unchanged and still coprime with the 8-bar material,
-           because that is the researched part -- the cell walks against the bar
-           and is ACCENTED when it comes home (`sam`). What changes is that the
-           rows now have a CONTOUR: 2nd, 4th and flat-7th are in the vocabulary,
-           so the figure has somewhere to go. Coltrane's late playing is held
-           together by exactly this -- small pitch cells, "Tn-type (0,1,3) as a
-           structural progenitor ... for the entire length of the piece"
-           [corpus:BCU open-access thesis; corpus:Porter on A Love Supreme]. */
-        [[0, 0, 3, 0, 6, 4, 0], 6],           // 7 -- Rupak's 3+2+2
-        [[0, 4, 0, 6, 2], 4],                 // 5
-        [[0, 0, 5, 0, 3, 6, 4, 0, 2, 0, 6], 3],   // 11
-        [[0, 6, 0, 3, 0, 4, 2], 3],           // 7
-        [[0, 2, 3, 0, 5, 4, 0], 2],           // 7 -- stepwise, the singing one
-      ],
-    },
-    /* ── THE CYCLE SITS ABOVE THE KEYS, NOT INSIDE THEM ───────────────────────
-       It was written at [55,74] against keys of [48,70] -- fifteen semitones of
-       overlap -- and the blend suite threw on six pairs with "no keys voicing
-       fits [48,70] clear of the bass and ostinato". The voicer was right: there
-       was genuinely nowhere to put a chord. Every other genre in the file keeps
-       its ostinato above its keys and this one now does too, which is also what
-       the music wants -- the cycle is the thing you follow, so it rings on top
-       of the groove rather than in the middle of it. */
-    registers: { bass: [28, 44], keys: [48, 70], counter: [55, 74], bassWalk: [28, 44],
-                 ostinato: [67, 88], themeA: [64, 88], themeB: [64, 88], themeC: [64, 88] },
-    /* ── THE SOLO: FEW NOTES, HELD ────────────────────────────────────────────
-       Gilmour's virtuosity is not density. It is "wide, vocal-like bends",
-       "letting notes bloom and decay dramatically through sustain", "melodic
-       phrasing like a singer", "long-held, sustaining notes, using dynamics and
-       note length to create dramatic, musical tension" [corpus:louder,
-       corpus:classicrockhistory]. That is also what makes it survive punk's
-       objection: expressive, not ostentatious.
-       So the lowest note count in the file, and legato on top of it. */
-    /* ── AND THE NUMBER ABOVE WAS THE MISREADING, NOT THE SOURCE ─────────────
-       The comment above is right about Gilmour and I turned it into `[1, 1]`
-       for all three phrase kinds -- ONE note per phrase, the lowest count in
-       the file by a distance, where the next lowest is [2, 1] and synthwave is
-       [4, 2]. With `thin.lead` at 0.9 on top of it the solo came out at 30-80
-       notes in a nine-minute record.
-
-       "Virtuosity is not density" is not "one note". The same paper says "Dogs"
-       contains "no less than three improvised solos" plus a duet, and the
-       owner's own note on this genre is "Mars volta is virtuosos it is long
-       solos." Held and expressive is `legato` and note LENGTH, which this genre
-       already sets; it was never the note count's job.
-
-       THIS IS THE FIFTH TIME A SENTENCE OF THIS GENRE'S BRIEF BECAME ONE SMALL
-       NUMBER IN THIS TABLE. See prog-techno.md §0. */
-    theme: { count: { hooky: [3, 2], breath: [1, 2], normal: [2, 2] },
-             onsetPool: [[0, 6], [8, 4], [4, 3], [12, 3], [2, 2], [6, 2], [10, 2], [14, 2]] },
-    legato: { lead: 1 },
-    /* "guitar" was written here and is not a voice this program has -- the
-       seam check caught it on the first full run. The Gilmour reference is
-       about PHRASING, not about a guitar: few notes, held long, bent. Those
-       are `legato` and the note count, not the timbre. */
+  ambient: {
+    label: "ambient — the drone",
+    /* SLOW. The production sources put drone and deep ambient at 40-70 bpm and
+       ambient electronic at 80-120; this is the drone end. At 54 bpm a bar is
+       4.4 seconds, which is the unit everything below is written in -- a 16-bar
+       section is seventy seconds long. [corpus:splice, corpus:unison, both SEO
+       tier and cited as such in docs/genre-research/ambient.md §2] */
+    tempo: [50, 64],
+    rig: [["aether", 1]],
+    /* MIXOLYDIAN FIRST, and that is not a mood word. Music for Airports 1/1 is
+       "D Mixolydian mode (D major but with C instead of C-sharp), a scale that
+       evokes both medieval Europe and the blues" [corpus:musicradar]. Lydian
+       and dorian are the other two modes whose characteristic degree does not
+       pull anywhere -- the point of a modal centre here is that it does not
+       want to resolve, because a resolution is an event and this music has
+       almost none. Minor is kept for the dark end. */
+    modes: [["mixolydian", 5], ["lydian", 3], ["minor", 3], ["dorian", 2], ["major", 1]],
+    /* THE FLOATING CENTRE, and it has a source. Music for Airports 2/1 sits on
+       five pitches -- "A-flat, C, D-flat, E-flat, and F" -- "creating floating
+       tonal centers between Ab major and F minor" [corpus:musicradar]. Ab major
+       and F minor are RELATIVES: that is exactly the R of a neo-Riemannian
+       transform, so `harmony.style: "plr"` is not a decoration bolted on, it is
+       the one mechanism in this file that produces the effect the source
+       describes. Set high, because it is the genre's only harmonic event. */
+    /* AND 0.30 IS MEASURED, NOT CHOSEN TO TASTE. It went in at 0.42 -- there is
+       no rate in the source, only "floating" -- and the blend battery failed:
+       ambient x hobbit synth at 50/50, seed 1, a BASS note out of key and
+       unresolved. The cause is real and is worth writing down rather than
+       tuning past. A neo-Riemannian transform lands on a chord that is OUTSIDE
+       the key by construction -- that is what P, L and R are for -- and a drone
+       bass strikes the ROOT of whatever chord is current. So a drone plus a
+       high PLR rate is a bass sitting on a foreign root for a whole section,
+       which is exactly what that seam check exists to catch. Clean at 0.30,
+       still failing at 0.36. 0.30 is also the rate Blade Runner runs it at,
+       which is the genre the mechanism was researched for. */
+    harmony: { style: "plr", chance: 0.30 },
+    keysChar: [["pad", 1]],
     leadChar: [["synth", 1]],
-    keysChar: [["rhodes", 1]],
-    /* ── THE BASS PLAYS A LINE. IT USED TO PLAY A DRONE AND THAT WAS WRONG ────
-       Reported by the owner the first time through: "I do not like the bass. Its a
-       drone and its not what i want in this genre. Its not prog its not punk
-       its not funky... That bassline just destroys the whole thing."
+    /* barely any tape. This is a synthesiser record, not a cassette one, and
+       the wow that suits dungeon synth would be the most audible thing here */
+    tape:   { wow: [0.0006, 0.0009], crackle: [0.0015, 0.001], flutter: [0, 0], hiss: [0, 0] },
+    /* EVERYTHING IS JOINED. There is nothing in this music that re-attacks if
+       it can avoid it. */
+    /* EVERYTHING IS JOINED -- but only the parts this genre's `form.roles`
+       actually names. `counter` is not one of them here, and declaring legato on
+       a part no song plays is a claim about a record that does not exist. */
+    legato: { lead: 1, keys: 1, keys2: 1, ostinato: 1, counter: 1 },
+    sevenths: true,
+    /* ── THE PAD HOLDS. IT DOES NOT COMP ──────────────────────────────────────
+       READ OFF THE ROLL, which is the only instrument that has ever caught this
+       class: seed 1's first keyboard played 38 notes in four bars -- a spread
+       chord and then a busy inner figure over the top of it, in a genre whose
+       own sources say the foundation "changes the least". 725 of the record's
+       903 events were the pad.
 
-       They are right and the cause is plain in the table it replaces:
-       `bassStyle: "pulse"` with `rootBias: 1` and `octaveJump: 0` is the root
-       note, on every quarter, for ten minutes. I built it from the MINIMAL
-       TECHNO research -- "the bass feels like an extension of the kick",
-       "carried by the kicks" -- which is true of Plastikman and is a finding
-       about a different genre. Pasting one genre's research into another is
-       the mistake this project's own notes warn about, and I made it in the
-       one place the owner would hear first.
-
-       WHAT THE ACTUAL REFERENCES SAY. Jagatara: "the bass and bongos give songs
-       a get-up-and-dance bounce, allowing the saxophone and guitar their own
-       chaotic agendas" -- the bass IS the bounce, the thing the rest plays
-       over. Fela and Remain in Light are interlocking bass riffs. Punk bass
-       drives in eighths. None of them is a pedal.
-
-       SO IT IS A RIFF, AND ITS ANCHORS SIT ON THE KICK'S OWN POCKET. `strong`
-       is [0,6,10] -- the same syncopation `pocket` draws -- so the bass lands
-       with the kick where the kick is off the beat, and moves in the gaps. That
-       is where funk comes from in this program: not a swing setting, a bass and
-       a kick agreeing about where the beat is not.
-       Anchors are root and fifth; everything between them is the flat seventh,
-       the fourth and the octave, which is the funk and punk vocabulary. Two
-       bars so it is a figure rather than a bar that repeats, and `hold: 2`
-       keeps it short -- funk bass is played staccato, not held. [CHOSEN on the
-       exact weights; the shape is the sources'] */
-    bassStyle: "riff",
-    bassRiff: { bars: 2, notes: [9, 13], grid: 2, hold: 2, strong: [0, 6, 10],
-                anchor: [[0, 8], [4, 3], [7, 1]],
-                spice:  [[6, 5], [3, 4], [7, 3], [4, 2], [2, 1]] },
-    bassPulse: { unit: 4, rootBias: 1, octaveJump: 0, restChance: 0.12 },  // unused by "riff"
-    bassAccent: { accent: 0.34, slide: 0.06 },
-    acidLine: null,
-    touch: { bassArtic: [[3, 5], [4, 3], [2, 2]], strum: [0, 0] },
-    roleGain: { bass: 0.62, ostinato: 0.72, lead: 0.82 },
-    groove: {
-      /* "nudge the offbeat hats and the percussion 5 to 15 percent late"
-         [corpus:tracksensei] -- the funk is in the lean as well as the pocket */
-      /* ── AND IT SOMETIMES SWINGS NOW ──────────────────────────────────────
-         The owner: "It should sometimes have a swing." It never did -- measured
-         `{style:"even", snareEarly:0, kickLate:0}` in 12 of 12 songs, with a
-         swing ratio drawn between 1.00 and 1.09, which is straight.
-
-         The numbers come from the man who invented the control. Roger Linn, on
-         the MPC's swing [corpus:attackmagazine/roger-linn-swing]:
-
-           "I merely delay the second 16th note within each 8th note."
-           "50% is no swing ... 66% means perfect triplet swing."
-           "for straight 16th-note beats (no swing), a swing setting of 54% will
-            LOOSEN UP THE FEEL WITHOUT IT SOUNDING LIKE SWING."
-           "Between 50% and around 70% are lots of wonderful little settings
-            that ... can change a rigid beat into something that makes people
-            move."
-
-         As a ratio that ladder is 50%=1.00, 54%=1.17, 58%=1.38, 62%=1.63. The
-         draw below spans 1.00 to 1.63 -- so a record can come out anywhere from
-         straight to a real 62% shuffle, and two records differ. "Sometimes" is
-         the draw, not a constant.
-
-         SIXTEENTHS, not eighths, because that is what an MPC and a 909 do and
-         what Detroit is described as doing: "Detroit producers combine SWUNG,
-         JITTERY percussion with warm, soulful chords", "shuffling hi-hats"
-         [corpus:theshfl]. And the swing sits on the offbeats rather than the
-         downbeat -- "generally swing is felt on the off-beats, on things like
-         hi-hats, not on 1 2 3 4" [corpus:gearspace] -- which is what this
-         engine already does for an `even` groove, where the kick is on the beat
-         and only the in-between sixteenths move.
-
-         KEPT MODERATE ON PURPOSE, and that is sourced too: swing ratio is
-         TEMPO-DEPENDENT -- "for fast tempi, the swing ratio reaches 1 and ...
-         for successively slower tempi, the swing ratio gradually increases to
-         almost 3.5" [Friberg & Sundstrom, "Swing Ratios and Ensemble Timing in
-         Jazz Performance", Music Perception 19(3), 2002]. At 124-134 BPM a
-         triplet shuffle would be wrong for the tempo, so the ladder stops at
-         62% rather than 66%. */
-      styles: [["even", 10]], swing: [1, 0.63], swingUnit: 1,
-      snareEarly: [0, 0], kickLate: [0, 0], hatMul: 1,
-      jitter: { even: 0.002, dilla: 0.002 }, push: 0,
-      laneLean: { kick: 0, hat: 0.006, openhat: -0.003, ghost: 0.008, snare: 0.005,
-                  rim: 0.007, ride: 0.006 },
-    },
-    phasing: { chance: 0.3, detune: [0.08, 0.2] },
-    pressure: { depth: 0, amount: [0, 0], at: [0, 0], rise: [0, 0] },
-    ribbon: { chance: 0, semitones: [0, 0], secs: [0, 0], at: [0, 0], returns: 0, downChance: 0 },
-    tape: { wow: [0, 0], crackle: [0, 0], flutter: [0, 0], hiss: [0, 0] },
-    machines: { drums: [["tr1000", 1]], kit: { drums: [["analog", 1]] },
-                bass: [["auto", 1]], keys: [["auto", 1]] },
-    space: {
-      wet: 0.4, irSec: 4.2, tailPow: 1.5, tailDark: 0.46, sendHp: 100,
-      feeds: ["drums", "ostinato"],
-      echoFeeds: ["drums", "ostinato", "lead"],
-      dp4Feeds: ["drums", "lead"],
-      barberFeeds: ["lead"],
-      flangeFeeds: ["drums", "ostinato", "lead"],
-      kitPan: { h: 0.28, o: -0.32, r: 0.34, c: -0.24, a: -0.38, d: 0.38, t: -0.3, m: 0.16 },
-      random: 0, spread: 0.76, preDelay: 0.03,
-    },
+       `keysStyle: "hold"` already exists and was built for exactly this
+       complaint on dungeon synth ("the chord track is too loud", "I can't
+       really hear the other instruments"). It strikes the voicing once and
+       holds it. Nothing here is new machinery -- what is new is a genre that
+       obviously wanted it and had not said so. */
+    keysStyle: "hold",
     form: {
-      /* ── AND THE RULE OF THREE IS NOT DEFERRED HERE ANY MORE ───────────────
-         This said `varyAsBefore: true`, and the comment justifying it said "the
-         rule of three is a law of SONGS and this genre is built on a locked
-         groove." The owner: "The rule of three HAS to be there in EVERYTHING we
-         do."
+      /* FIFTY SECONDS A SECTION -- the longest in the file, and half again as
+         long as Blade Runner's, which was the longest before it. "ambient
+         changes can span minutes" where "a pop track might change every 8-16
+         bars" [corpus:splice].
 
-         THE FILE ALREADY CARRIED THIS CORRECTION ONCE, about the drums, under
-         the heading "AND IT APPLIES TO EVERY GENRE. I EXEMPTED THREE AND WAS
-         WRONG" -- "the drum rules apply to every genre, it is a rule of music;
-         if the drum hits don't change, the FX does." That fixed the drum side
-         and left the same exemption standing on the NOTE side, which is where
-         it did the damage: `varyAsBefore` defers the vary demand to the third
-         hearing instead of the second AND answers it with the old thin-the-
-         chorus move instead of developing variation. For this genre it amounted
-         to nothing at all, because the verse's answer is to swap to `Avar` and
-         `Avar`'s figure was byte-identical to `A`'s.
+         AND IT IS TWELVE AND NOT SIXTEEN FOR A MEASURED REASON. At sixteen the
+         shortest record this genre could build was 122 seconds, and the battery
+         holds every genre's floor under two minutes -- a rule that exists
+         because dungeon synth once "could not" go under seven minutes and the
+         cause turned out to be one integer. The dial shrinks sections down a
+         ladder to 0.25x; at sixteen bars the bottom rung still could not reach,
+         at twelve it can. The owner's own sentence on this: "A song can be any
+         length if weve coded it to be so ridged its fixed to one length weve
+         done something very wrong!" */
+      lengths: { intro: 12, verse: 12, chorus: 12, bridge: 12, instrumental: 12, outro: 12 },
+      material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
+                  instrumental: "A", outro: "A" },
+      /* ── THE ARRANGEMENT IS THE FORM ────────────────────────────────────────
+         Mechanism #1, and the only place in this file where a genre's whole
+         shape is carried by who is playing. Read down the column:
 
-         Gone. The demand fires on the second hearing and is answered by
-         variation that is FURTHER ALONG each time, which is what the rest of
-         the file already does. */
-      lengths: { intro: 16, verse: 32, chorus: 32, bridge: 16, instrumental: 32, outro: 16 },
-      material: { intro: "A", verse: "A", chorus: "A", bridge: "A", instrumental: "Avar", outro: "A" },
-      /* ── THE PARTS THE GENRE BUILT AND NEVER PLAYED ────────────────────────
-         `keys` appeared in NONE of these lists and `counter` in none either, so
-         the material was building both every song and the arrangement threw
-         them away. Measured over five records: drums 61.8% of notes, ostinato
-         23.9%, bass 13.9%, lead 0.5%, keys and counter and keys2 exactly zero.
-         Four parts declared where dungeon synth declares seven, and one of the
-         four inaudible.
+           intro         THE DRONE, ALONE. Nothing else. A minute of one held
+                         stack is the opening this music actually has.
+           verse         the bed arrives over it
+           instrumental  and a voice over that
+           chorus        the fullest it gets -- five parts, which in this genre
+                         is a crowd
+           bridge        AND THE DRONE LEAVES. Everything above it keeps going
+                         over nothing, and the answering line arrives in the
+                         hole where the ground was. This is Hawtin's move run
+                         the way the drone traditions run it: the ground is what
+                         you notice by its absence. Nothing else in this file
+                         removes its own foundation.
+           outro         back to the drone and the bed
 
-         `lead` was also allowed only in `chorus` and `instrumental` -- and
-         `chorus` occurs in 2.0% of this genre's sections, so the solo was
-         effectively confined to one section type. It plays across the record
-         now, which is what Cohen's claim requires: the solos "provide an
-         overall sense of direction by outlining the contour in energy level of
-         the song", and "Dogs" has three of them plus a duet. */
+         "Most dungeon synth consists of a single loop repeated endlessly, with
+         instruments coming in and out"; "stuff will slowly get layered in on
+         top of it" [corpus:dungeon-synth.neocities]; Dozzy: "you build layers
+         that you play one on top of each other to create the flow"
+         [corpus:orbmag]. All three describe this column. */
       roles: {
-        intro:        ["drums", "ostinato"],
-        verse:        ["drums", "ostinato", "bass", "keys", "lead"],
-        chorus:       ["drums", "ostinato", "bass", "keys", "lead"],
-        bridge:       ["ostinato", "keys", "counter"],
-        instrumental: ["drums", "ostinato", "bass", "keys", "counter", "lead"],
-        outro:        ["drums", "ostinato", "keys"],
+        intro:        ["bass"],
+        verse:        ["bass", "keys"],
+        chorus:       ["bass", "keys", "keys2", "ostinato", "lead"],
+        bridge:       ["keys", "keys2", "ostinato", "counter"],
+        instrumental: ["bass", "keys", "lead", "counter"],
+        outro:        ["bass", "keys"],
       },
-      /* ── TEXTURE ACCUMULATING IS THE STRUCTURE ────────────────────────────
-         Cohen's "a series of arranging and sound-processing techniques that
-         jointly create a gradual increase in intensity and, as a result, a
-         strong sense of direction". The solo arrives nearly halfway in, which
-         is what makes it read as an event rather than a part. */
-      /* the solo still ARRIVES rather than playing throughout -- that is the
-         Pink Floyd finding and it stands -- but it was arriving at 42-56% of a
-         record, which at this length was five minutes of waiting. A third of
-         the way in is still an entrance. */
-      /* ── AND THE FIGURE ITSELF WAS ARRIVING TOO LATE ──────────────────────
-         probe_stems reads the first seventy seconds, and in them the ostinato
-         -- the seven-note cell this whole genre is built on -- contributed
-         0.86 dB against plastikman's 3.57, on 42 notes against 105. The
-         opening minute was drums and almost nothing else. Not the material
-         (the roll has the figure from bar one of A) but this gate: 0.11 +/-
-         0.07 of a 538-second record is 59 to 97 SECONDS before the genre's own
-         subject is heard. The drone under it is what an alap is; a minute of
-         drums alone is not. It still ENTERS -- that is the accumulation the
-         Floyd finding asks for -- it just enters where the person playing it is still
-         paying attention. */
-      build: { enter: { drums: [0, 0], bass: [0.05, 0.04], ostinato: [0.04, 0.04],
-                        keys: [0.10, 0.06], counter: [0.22, 0.08],
-                        lead: [0.30, 0.10] },
-               openWith: [["drums", 6], ["ostinato", 3], ["keys", 2]] },
-      coldOpen: 0.6, openVerse: 1,
-      /* the planless walk's length. THIS GENRE DECLARES A PLAN, so the number
-         below is drawn and not used -- the phase budgets are what set the
-         length here, and they are where the shortening was done. Left correct
-         rather than left looking like the control. */
-      target: [128, 4, 32],
-      payoff: "instrumental",
-      transitions: {
-        verse:        [["instrumental", 8], ["verse", 6], ["bridge", 1]],
-        instrumental: [["verse", 8], ["instrumental", 3], ["chorus", 2], ["bridge", 1]],
-        chorus:       [["instrumental", 8], ["verse", 3]],
-        bridge:       [["instrumental", 7], ["verse", 3]],
-      },
-      bridgeAfterChorus: { verse: 2, instrumental: 2, chorus: 1 },
-      /* ── THE MOVEMENTS: alap -> jod -> jhala ──────────────────────────────
-         An Indian concert is three parts -- alap (slow, no pulse yet), jod/jhala
-         (rhythm enters, density grows), gat (the composed piece). Cohen finds
-         the same three in "Dogs" and calls them exposition, free interlude and
-         recapitulation. This is that spine, in the mechanism the program already
-         has for genres owning their architecture. */
+      /* never cold-opens: the drone is always what you walk in on */
+      coldOpen: 0,
+      openVerse: 0.9,
+      /* 64 to 112 bars. At 54 bpm that is five to eight and a half minutes,
+         which is the length the traditions in §5 of the drone sheet work at --
+         pibroch runs ten to fifteen. Longer than anything else in this file. */
+      target: [48, 4, 8],
+      /* THREE PHASES, NOT FOUR, AND THE REASON IS THE FLOOR. Every phase costs
+         at least one section, and with an intro and an outro on top a four-
+         phase plan could not build a record under two minutes however far the
+         dial shrank the sections -- which is the exact defect the battery holds
+         every genre to, and which cost dungeon synth seven minutes once. The
+         removal and the return are one phase whose pool contains both, so the
+         story is unchanged and the arithmetic fits. */
       plan: [
-        /* the pool holds only functions the WALK may draw. `intro` is not one:
-           it can only be first and the form adds it outside the plan, so
-           listing it here left the walk standing on a function with no
-           transitions row and `lawTable` threw on the first long record the
-           length dial asked for. */
-        /* ── AND THE PHASES ARE SHORTER, BECAUSE THE OPENING WAS THE COMPLAINT
-           "the song takes so long to get into anything and you dont even bother
-           to do anything with all that time." Measured before this: 11.5
-           minutes, of which the first FIVE were three parts and an energy curve
-           flat at 0.13. The alap is the phase that was doing the waiting, so it
-           takes the biggest cut. Progressive still means long -- this lands
-           around eight minutes and the dial goes to twenty -- but long has to
-           be earned by something happening, and the fx sweeps above are the
-           other half of that. */
-        { name: "alap",  pool: ["verse"], bars: [32, 2, 16], endOn: "verse" },
-        /* ── THE BREAKDOWN LIVES HERE, AND IT WAS MISSING ─────────────────
-           `bridge` was in the transitions table and in NO plan pool, so this
-           genre never played one: 0 bridges in 20 songs. Six automation lanes
-           were keyed on `section: { bridge: ... }` -- the low kill, the swirl,
-           the barberpole -- and every one of them was dead by construction.
-           Caught by the seam check that walks declared lanes and asks whether
-           they ever move, which is exactly the check for this mistake.
-           It belongs here musically too: the middle phase is Cohen's "free
-           interlude" in Dogs, and in techno the breakdown is the biggest move
-           the genre has. */
-        { name: "jod",   pool: ["verse", "instrumental"], bars: [48, 3, 32], endOn: "instrumental" },
-        /* ── THE BREAKDOWN IS A PHASE, NOT A DICE ROLL ────────────────────
-           `bridge` sat in the transitions table with a weight of 1 in 15, and
-           behind a hard law that will not allow one until the record has stated
-           its payoff twice. Result: 0 bridges in 20 songs, and six automation
-           lanes keyed on `section: { bridge: ... }` -- the low kill, the swirl,
-           the barberpole -- dead by construction. The seam check that walks
-           declared lanes and asks whether they ever move is what found it.
-           A phase of its own guarantees it, which is correct for this music
-           twice over: the breakdown is the biggest move techno has, and this is
-           the position Cohen calls the "free interlude" in the middle of Dogs.
-           It sits after `jod` so the payoff has a verdict and the law is
-           satisfied by the time the phase opens. */
-        { name: "breakdown", pool: ["bridge"], bars: [16, 2, 16], endOn: "bridge" },
-        { name: "jhala", pool: ["instrumental", "chorus", "verse"], bars: [64, 3, 32], endOn: "instrumental" },
+        { name: "the ground",  pool: ["verse", "instrumental"], bars: [12, 2, 12] },
+        { name: "the layers",  pool: ["chorus", "verse"],       bars: [12, 2, 12] },
+        { name: "away and back", pool: ["bridge", "verse", "instrumental", "chorus"],
+                                                                bars: [24, 2, 12], endOn: "chorus" },
       ],
-      energy: { intro: 0.7, outro: 0.66, bridge: 0.68, instrumental: 0.9,
-                chorus: 0.94, chorusPeak: 0.98, verse: 0.82 },
-      arc: {
-        /* ── AND THE CURVE ITSELF WAS THE OTHER HALF OF THE EMPTY OPENING ────
-           `floor` 0.06 with `bend` 2.8 is a record that starts at six per cent
-           and stays there: a steep bend means the rise is slow at first, and at
-           this length "at first" was four minutes. The floor is up, the bend is
-           down so it climbs from the start, the apex is earlier, and `preHighs`
-           goes to two or three -- those are the lesser peaks BEFORE the arrival,
-           which are exactly the "something happening" the long middle was
-           missing. */
-        apexAt: [0.58, 0.72], floor: [0.20, 0.30], tail: [0.28, 0.44],
-        bend: [1.1, 1.6], dip: [0.12, 0.22], preHighs: [2, 3],
-        /* ── AND THIS IS THE STRUCTURAL SOLO ────────────────────────────────
-           `thin` is the fraction of a part the arc is allowed to take away at
-           the record's floor. 0.9 on the lead means the solo is almost entirely
-           absent early and arrives as the record climbs -- Cohen's solos
-           "outlining the contour in energy level of the song, articulating its
-           structure, and leading it to its peak", expressed in the mechanism
-           this program already had. The drums and the cycle hold steady
-           underneath, because the groove is the thing that does not change. */
-        /* `lead: 0.9` removed nine notes in ten. Stacked on a theme count of
-           one note per phrase and a lead allowed in only two section types, it
-           left the solo at 30-80 notes in a nine-minute record -- 0.5% of the
-           notes played. Thinning is supposed to shape a part across the arc,
-           not delete it; 0.55 still empties the opening and fills the peak. */
-        thin: { drums: 0.18, bass: 0.3, ostinato: 0.22, keys: 0.34,
-                counter: 0.30, lead: 0.55 },
+      /* ── AND THE BRIDGE HAS TO ACTUALLY HAPPEN ──────────────────────────
+         Written first as `bridge` at weight 2-3 behind a gate of two verses and
+         three choruses, and MEASURED: the bridge appeared in 0 of 25 records.
+         A signature move that never fires is a comment, not a mechanism -- and
+         this file has already shipped that defect once, which is why
+         probe_reachable.js exists. The gate is one of each and the bridge is
+         the heaviest thing a chorus can go to, because in this genre the
+         chorus is the fullest it gets and the bridge is where the ground drops
+         out from under it: that is the pairing the whole form turns on. */
+      transitions: {
+        verse:        [["instrumental", 4], ["chorus", 4], ["bridge", 3], ["verse", 2]],
+        chorus:       [["bridge", 6], ["verse", 4], ["instrumental", 3]],
+        bridge:       [["verse", 5], ["chorus", 4], ["instrumental", 2]],
+        instrumental: [["chorus", 4], ["bridge", 3], ["verse", 3]],
       },
+      bridgeAfterChorus: { verse: 1, chorus: 1 },
+      /* a NARROW column, and unlike hobbit synth's -- where the narrowness was
+         inherited and wrong -- this one is the genre. "must be able to
+         accommodate many levels of listening attention without enforcing one in
+         particular" is a sentence about dynamics as much as anything else, and
+         a record that shouts at its apex has enforced one. The bridge sits
+         LOWEST because that is where the drone has gone. */
+      energy: { intro: 0.30, outro: 0.34, bridge: 0.38, instrumental: 0.52,
+                chorus: 0.66, chorusPeak: 0.72, verse: 0.46 },
+      arc: { apexAt: [0.62, 0.80], floor: [0.10, 0.20], tail: [0.14, 0.26],
+             bend: [1.6, 2.4], dip: [0.02, 0.06], preHighs: [1, 2],
+             thin: { drums: 0.5, bass: 0.10, keys: 0.22, lead: 0.55 } },
+    },
+    /* ── NO DRUMS ─────────────────────────────────────────────────────────────
+       `form.roles` never names them, exactly as with the Blade Runner table.
+       The kit below exists so that a lookup cannot return undefined, and every
+       number in it is inert. */
+    pocket: [[[0], 1]],
+    kit: { snare: [], hatEvery: 16, hatVel: 0, ghostChance: 0, ghostSpots: [8],
+           openSpot: [[-1, 10]], openBars: [],
+           toms: { use: 0, loop: 0, loopSpots: [14], loopLanes: ["tom3"],
+                   shapes: [[[[14, "tom3"]], 1]] },
+           kickKeep: 1, flourishBar: 3, flourish: [[[], 10]],
+           variants: { main: {}, lift: {}, depart: {} } },
+    accent: { kick: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+              snare:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+              ghost:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+              hat:  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+              tom1: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+              tom2: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+              tom3: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+              openhat:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] },
+    kick: { tune: 48, decay: 0.3, click: 0.05, drive: 0.05, body: 1, gain: 0.4 },
+    drumDrive: 1,
+    gate: null,
+    /* NO GROOVE. There is no swing, no push and no jitter, because there is no
+       pulse to be early or late against: drone music is "rhythmically still or
+       very slow" [corpus:wikipedia Drone music]. A humanising jitter here would
+       be humanising something that is not being played by hands. */
+    groove: { styles: [["even", 1]], swing: [1, 0], swingUnit: 2,
+              snareEarly: [0, 0], kickLate: [0, 0], hatMul: 1,
+              jitter: { dilla: 0, even: 0 }, push: 0 },
+    /* ── HOW LONG A HELD NOTE IS ──────────────────────────────────────────────
+       `bassArtic` multiplies the written duration in stage 5, and it is the one
+       number that decides whether this genre has a drone or a slow bass part.
+       Blade Runner asks for 3-5 and gets held notes of up to 16.5 seconds; this
+       asks for 8-16, on sections four times as long. */
+    touch: { bassArtic: [[8, 3], [12, 5], [16, 3]], strum: [0.06, 0.09] },
+    /* ── THE PEDAL POINT ──────────────────────────────────────────────────────
+       "long pedal notes and drones" names two things. `bassPedal` is how often
+       the bottom holds the TONIC while the chords move over it rather than
+       following them -- and at 0.62 most records here do, which is what makes
+       the harmony above read as floating rather than as a progression. */
+    bassStyle: "drone",
+    bassPedal: 0.62,
+    bassPulse: { unit: 16, rootBias: 1, octaveJump: 0, restChance: 0 },  // unused by "drone"
+    bassAccent: { accent: 0, slide: 0 },                                 // nothing to accent
+    /* ── THE FIGURE ───────────────────────────────────────────────────────────
+       Slow, and it FOLLOWS -- one tone every half bar, two seconds apart, so it
+       reads as a bell in the distance rather than as an arpeggio. `ratchet: 0`
+       because a ratchet is a rhythmic event and there are none here. */
+    ostinato: { unit: 8, vel: 0.30, run: true, follow: true, ratchet: 0,
+                cells: [[[0, 4, 7, 4], 5], [[0, 7, 4, 2, 7], 3], [[0, 4, 2, 7], 2]] },
+    counter: { style: "line", density: 0.14, intervals: [-3, -5, -7, -12],
+               octaves: [-12, 12], answer: 0.4 },
+    /* ── THE MELODY, WHAT LITTLE THERE IS ─────────────────────────────────────
+       One phrase, or none. `breath` is the shape this genre mostly wants: a
+       single long note that arrives and goes. The onset pool leans on the bar
+       line and the half bar because everything else would be a rhythm. */
+    theme: { count: { hooky: [1, 2], breath: [1, 1], normal: [1, 1] },
+             onsetPool: [[0, 10], [8, 6], [4, 2], [12, 2]] },
+    /* ── THE CHORDS, AND HOW LITTLE THEY MOVE ─────────────────────────────────
+       Weighted toward one chord for a whole row, then a single move that comes
+       back. Mixolydian's is to the bVII -- the C in D mixolydian, which is the
+       one chord that makes the mode audible as itself and pulls nowhere. */
+    progressions: {
+      mixolydian: [[[0, 0, 0, 0], 5], [[0, 0, 6, 6], 4], [[0, 6, 0, 6], 2], [[0, 0, 3, 3], 1]],
+      lydian:     [[[0, 0, 0, 0], 5], [[0, 0, 1, 1], 4], [[0, 1, 0, 1], 2]],
+      minor:      [[[0, 0, 0, 0], 4], [[0, 0, 5, 5], 4], [[0, 5, 0, 5], 2], [[0, 0, 2, 2], 1]],
+      dorian:     [[[0, 0, 0, 0], 4], [[0, 0, 3, 3], 4], [[0, 3, 0, 3], 2]],
+      major:      [[[0, 0, 0, 0], 4], [[0, 0, 3, 3], 3], [[0, 3, 0, 3], 2]],
+    },
+    /* the bridge is where the drone has gone, so the chords may move -- there is
+       nothing underneath holding them still any more */
+    bridgeProgressions: {
+      mixolydian: [[[6, 6, 0, 0], 3], [[3, 3, 6, 6], 2], [[6, 3, 6, 0], 1]],
+      lydian:     [[[1, 1, 4, 4], 3], [[4, 4, 1, 1], 2]],
+      minor:      [[[5, 5, 3, 3], 3], [[3, 3, 5, 5], 2], [[6, 6, 5, 5], 1]],
+      dorian:     [[[3, 3, 6, 6], 3], [[6, 6, 3, 3], 2]],
+      major:      [[[3, 3, 4, 4], 3], [[5, 5, 3, 3], 2]],
+    },
+    /* ── REGISTER: the hole in the middle is deliberate ───────────────────────
+       The production sources describe the foundation layer as "a sustained pad
+       or drone occupying the sub-bass through low-mid frequency range (roughly
+       40-400 Hz), which changes the least and serves as the ground". MIDI 28 is
+       41 Hz and MIDI 43 is 98 Hz, and the drone rack stacks partials UPWARD
+       from there, so the ground covers that band from below rather than being
+       parked in the middle of it. Everything else sits well above, which is
+       what leaves the room the reverb fills. */
+    registers: { bass: [28, 43], keys: [52, 76], counter: [57, 81],
+                 bassWalk: [28, 43], ostinato: [69, 91],
+                 themeA: [67, 88], themeB: [72, 92], themeC: [64, 84] },
+    /* ── THE ROOM IS AN INSTRUMENT ────────────────────────────────────────────
+       musicradar's own drone recipe uses "long reverb as a compositional
+       element (decay 10 s, 80% wet)". Nine seconds and 0.6 wet is that, pulled
+       back far enough that the stack is still legible under it. The drone FEEDS
+       the room -- normally a bass is kept dry so the low end stays defined, and
+       here the low end IS the atmosphere, so the usual rule is the wrong one.
+       The high-pass on the send is what keeps that from turning to mud. */
+    space: { wet: 0.60, irSec: 9, tailPow: 1.5, tailDark: 0.42, sendHp: 110,
+             feeds: ["bass", "keys"], echoFeeds: ["keys", "lead", "ostinato"],
+             random: 0, spread: 0.92, preDelay: 0.085 },
+    pressure: { depth: 1, amount: [0.5, 0.65], at: [0.3, 0.5], rise: [0.4, 0.7] },
+    ribbon: { chance: 0.18, semitones: [2, 3], secs: [2.4, 3.2], at: [0.15, 0.5],
+              returns: 0.7, downChance: 0.5, gestures: [["sweep", 5], ["fall", 2]],
+              fall: [2, 4], dive: [5, 8], fallSec: [1.0, 1.6], diveSec: [1.6, 2.2] },
+    /* the drone is the loudest thing in the room and it is meant to be */
+    roleGain: { bass: 1.15, keys: 0.95, keys2: 0.85, lead: 0.8, ostinato: 0.72 },
+    machines: {
+      drums:    [["auto", 1]],
+      bass:     [["auto", 1]],
+      keys:     [["auto", 6], ["mellotron", 3], ["vp330", 2]],
+      keys2:    [["auto", 5], ["waveseq", 4], ["mellotron", 2]],
+      lead:     [["auto", 1]],
+      ostinato: [["auto", 1]],
     },
     params: {
-      desk: { low: 0, mid: 0, high: 0, lowF: 180, midF: 900, highF: 4500 },
-      echo: { div: 3, fb: 0.5, tone: 2200, hp: 180, send: 0.36, verb: 0.72, width: 0.5 },
+      /* ── THE DRONE RACK, SET FOR THIS RECORD ────────────────────────────────
+         Five tones on the JUST harmonic series, nine cents across the stack,
+         and the two clocks at 23 and 29 BARS. 23 and 29 are coprime, so the
+         pair comes round every 667 bars -- against a record of 64 to 112, which
+         is the point: "they are not likely to come back into sync again". The
+         panel prints that number and says when it is longer than the record.
+
+         The swell is four seconds and the fall twelve, which is the pad advice
+         ("2-8 second attack times") taken at its slow end because this is the
+         foundation and not a pad. */
+      dronebox: { voices: 5, shape: 3, wave: 1, spread: 9,
+                  clockA: 23, clockB: 29, drift: 7,
+                  cut: 540, res: 1.6, peak: 0.34, peakHz: 1150,
+                  swell: 4.0, fall: 12, air: 0.16, level: 1.05,
+                  pan: 0, panHz: 0.012, panDep: 0.18 },
+      vp330:    { ens: 0.82, choir: 0.62, attack: 2.4, release: 5.0 },
+      waveseq:  { rate: 0.9, depth: 0.6 },
+      cs80:     { pw: 0.5, pwm: 0.6, pwmHz: 1.4, initBend: 1, bright: 0.34, res: 0.34,
+                  ring: 0.05, ens: 0.7, vib: 0.5, atBrill: 0.6, atLevel: 0.45,
+                  atVib: 0.3, atk: 2.2, rel: 3.0 },   // 3.0 is the knob's top
+      mellotron:{ voice: 1, wow: 0.0035, flutter: 0.22, hiss: 0.16, tapeEnd: 1 },
+      erangStrings: { patch: 0, tune: 1, attack: 1.2, release: 3.0, tone: 0.62, pan: 0 },
+      /* the echo is long and mostly feedback -- at div 8 and 0.42 it is a wash
+         behind the figure rather than a repeat you can count */
+      echo:     { div: 8, fb: 0.42, tone: 2400, hp: 140, send: 0.24, verb: 0.9 },
     },
-    /* ═══════════════════════════════════════════════════════════════════════
-       THE AUTOMATION IS THE ARRANGEMENT
+    /* ═══ THE MOTION, AND EVERY PAIR OF PERIODS IS COPRIME ════════════════════
+       This is mechanism #2 and it is written as a rule rather than as a habit:
+       wherever two LFOs sit on one lane, their bar counts share no factor, so
+       the sum has a period equal to their product and does not come round
+       inside any record this genre makes. 23/29 is 667 bars; 31/47 is 1457;
+       17/23 is 391. The shortest record here is 64.
 
-       This block was written empty and the battery caught it in one line: every
-       seed produced the identical motion plan, because there was no plan. That
-       is the wrong gap to leave in THIS genre of all of them.
-
-       Cohen's account of how Pink Floyd holds seventeen minutes together with
-       one vamp is "a series of arranging and sound-processing techniques that
-       jointly create a gradual increase in intensity and, as a result, a strong
-       sense of direction" -- the PROCESSING is the direction. The owner said
-       the same thing about techno from the other end: "the low mid highs being
-       cut and brought up is vital". And the DJ lineage is a named instrument:
-       Derrick May "uses his isolator to create a jagged sound sculpture with
-       abrupt moments spent on each band", as "an entirely rhythmic tool"
-       [corpus:djtechtools].
-
-       So the three bands are ridden hard here -- deeper than any genre in the
-       file, because the isolator move is a cut you notice rather than a dB or
-       two of polish -- and the free-running LFOs are the unsynced drift the
-       production sources prescribe: "a sine LFO, rate around 0.05-0.08 Hz,
-       unsynced, routed to a low-pass cutoff", so "every time you hear that
-       element, it's in a slightly different tonal state" [corpus:myloops].
-       At 129 bpm a 64-bar cycle is about 2 minutes, which is that rate.
-       ═══════════════════════════════════════════════════════════════════════ */
-    /* ── THE DESK MOVES SOMEWHERE DIFFERENT ON EVERY RECORD ──────────────────
-       Six to ten of these on top of the hand-written rows below, drawn per
-       song. All of them are crossings this genre NEVER touched: measured, 33 of
-       the 49 sat still in every prog-techno record ever made. */
-    matrixDraw: {
-      /* ── AND THE DIRECTION OF EACH ONE IS NOT A FREE CHOICE ────────────────
-         Two rules the seam battery caught the moment this pool was written, and
-         both are worth stating because they are easy to get wrong twice:
-
-         ONE: A SEND MATRIX CROSSING IS A SWITCH BEFORE IT IS A KNOB. Routed is
-         1, unrouted is 0, and motion is an ADDITIVE offset -- so a crossing
-         that is already routed can only be played DOWN, and one that is not can
-         only be played UP. Push the wrong way and the clamp eats the whole
-         gesture silently. That is the `2026-08-10a` finding; the check that
-         measures `clamp(base + offset)` rather than the offset is what stopped
-         this being nine more nailed-open lanes.
-
-         TWO: the `Spring` column is `kind: "voicing"` -- a switch, not a
-         control -- and switches are not automated. Five of them were in the
-         first draft of this pool and the battery threw all five out. */
-      pick: [5, 9],
-      pool: [ ["keysEcho", 6], ["keysFlange", 5], ["keysDP4", 4],
-              ["keysBarber", 4], ["bassFlange", 4], ["bassBarber", 3],
-              ["drumsDP4", 4], ["leadDP4", 3], ["roomFlange", 3],
-              ["roomDP4", 3], ["flangeDP4", 2] ],
-      shapes: {
-        /* UNROUTED, so these climb from silence -- a part seizing an effect */
-        keysEcho:   [{ kind: "throw", amt: [0.34, 0.62], every: 8, at: 0.75 },
-                     { kind: "gesture", on: "fill", bars: 4, from: [0, 0],
-                       to: [0.26, 0.48], curve: "exp" }],
-        keysFlange: [{ kind: "arc", from: [0, 0.04], to: [0.34, 0.58], curve: "sCurve" }],
-        keysDP4:    [{ kind: "phrase", by: { C: [0.12, 0.28], D: [0.14, 0.32] } }],
-        keysBarber: [{ kind: "gesture", on: "peak", bars: 12, from: [0, 0],
-                       to: [0.52, 0.84], curve: "exp" }],
-        bassFlange: [{ kind: "gesture", on: "fill", bars: 4, from: [0, 0],
-                       to: [0.22, 0.44], curve: "exp" }],
-        bassBarber: [{ kind: "section", by: { bridge: [0.14, 0.30] } }],
-        roomFlange: [{ kind: "arc", from: [0, 0.03], to: [0.18, 0.34], curve: "log" }],
-        roomDP4:    [{ kind: "gesture", on: "peak", bars: 8, from: [0, 0],
-                       to: [0.30, 0.58], curve: "exp" }],
-        flangeDP4:  [{ kind: "phrase", by: { C: [0.10, 0.26] } }],
-        /* ROUTED, so these can only be TAKEN AWAY -- the kill, not the throw */
-        drumsDP4:   [{ kind: "phrase", by: { B: [-0.20, -0.08], D: [-0.34, -0.16] } }],
-        leadDP4:    [{ kind: "apex", from: [-0.44, -0.30], to: [-0.04, 0] },
-                     { kind: "section", by: { bridge: [-0.30, -0.16] } }],
-      },
-    },
+       AND THE STEP CHANGES ARE HERE ON PURPOSE. `sh` and `dejavu` are #3 --
+       discrete variation over an unchanged ground -- and they are the kinds the
+       change-deafness result says will actually be noticed. Every curve on this
+       table is texture; the things you are meant to HEAR change are the parts
+       arriving and leaving, and these. ══════════════════════════════════════ */
     motion: {
-      desk: {
-        /* the top opens as the record fills and closes over the outro -- `apex`
-           follows the shape FORM drew rather than the clock, so it tracks the
-           solo's arrival instead of merely elapsing */
-        high: [{ kind: "apex", from: [-11, -6], to: [1.5, 4] },
-               { kind: "section", by: { bridge: [3, 6], intro: [-8, -4] } },
-               { kind: "lfo", bars: [[64, 3], [40, 2]], depth: [1.5, 3.5],
-                 shape: "tri", freePhase: true }],
-        /* THE KILL. The low leaves for the bridge and comes back, which is the
-           isolator move and the one every techno source calls the biggest
-           gesture in the genre. It does NOT arc across the record: cutting the
-           bottom for four minutes is a mix fault, not an arrangement -- the
-           note beside Plastikman's desk records that being got wrong once. */
-        low:  [{ kind: "section", by: { bridge: [-30, -20], intro: [-6, -3], outro: [-7, -4] } },
-               { kind: "gesture", on: "build", bars: 16, from: [-11, -7], to: [0, 0], curve: "exp" },
-               { kind: "lfo", bars: [[96, 3], [64, 2]], depth: [0.8, 2.2],
-                 shape: "sin", freePhase: true }],
-        /* and the middle is where the punk lives: the mid band swung about is
-           what makes a record sound handled rather than mixed.
-           The PHRASE letters are what makes it happen in the opening: the drums
-           are sentenced A B A C A B A D from bar one, and a knob on the same
-           letters lands with them. Everything else here waits for a fill (52
-           seconds in) or the arc (which has moved 6% by then). */
-        mid:  [{ kind: "gesture", on: "fill", bars: 4, from: [0, 0],
-                 to: [-14, -8], curve: "exp" },
-               { kind: "phrase", by: { B: [-3.5, -1.5], C: [2, 5], D: [-6, -3] } },
-               { kind: "lfo", bars: [[48, 3], [32, 2]], depth: [1.0, 2.6],
-                 shape: "tri", freePhase: true },
-               { kind: "section", by: { bridge: [-8, -4], instrumental: [1, 3] } }],
-      },
-      /* the dub inheritance: the delay is played, not set. Feedback rising into
-         a section and pulling back is the oldest move in the lineage this genre
-         sits in, and it is what carries the record while nothing else changes. */
-      echo: {
-        /* feedback pushed toward self-oscillation into every arrival and pulled
-           back on the downbeat -- the dub move, and the one the production
-           sources name: "a delay edging toward self-oscillation, then cut to
-           dry exactly on the boundary" */
-        fb: [{ kind: "gesture", on: "fill", bars: 4,
-               from: [0, 0], to: [0.30, 0.52], curve: "exp" },
-             { kind: "section", by: { bridge: [0.18, 0.34], instrumental: [0.06, 0.16] } },
-             { kind: "apex", from: [-0.1, -0.04], to: [0.05, 0.16] }],
-        /* the default here is ZERO, so a negative offset is not a quiet send,
-           it is no send at all -- this parked the echo off for half the record */
-        send: [{ kind: "arc", from: [0.02, 0.05], to: [0.26, 0.42], curve: "log" },
-               { kind: "gesture", on: "fill", bars: 2,
-                 from: [0, 0], to: [0.24, 0.46], curve: "exp" },
-               { kind: "throw", amt: [0.20, 0.42], every: 8, at: 0.75 }],
-        /* ══ AND THE COLOUR OF THE REPEATS STEPS, IT DOES NOT ONLY SWEEP ═══
-           "Adding LFO's should be able to used in all genres, not just for
-            drones."
-
-           Fair, and it was true: the four kinds with memory went in as general
-           machinery in the shared draw and were then declared on ONE genre's
-           pad, which made them a drone feature in everything but name.
-           probe_modulation.js now proves all four resolve on all ten genres.
-           This is the half that makes them USED.
-
-           A SAMPLE AND HOLD, not another sine. The move above sweeps this knob
-           smoothly and for ever on a fixed period; this holds a drawn value for
-           a stretch and then jumps to another, which is the oldest generative
-           gesture there is and the one thing a sine cannot do -- and it is the
-           Krell patch's own idea, where one random source sets both the value
-           and how long it lasts [Todd Barton]. Slewed most of the way, so it
-           slides between its steps rather than clicking.
-
-           SHALLOWER THAN THE SWEEP BESIDE IT, on purpose: this is meant to stop
-           the repeats arriving the same colour every time, not to become an
-           effect of its own. +/- 500 Hz against a 300-9000 Hz control. Every
-           number is [CHOSEN] and none of it has been heard.
-           docs/genre-research/modulation-and-the-eurorack.md §4 ═══════════ */
-        tone: [{ kind: "gesture", on: "fill", bars: 8,
-                 from: [0, 0], to: [-3400, -1800], curve: "exp" },
-               { kind: "apex", from: [-2200, -1000], to: [1200, 3000] },
-               { kind: "sh", every: [[48, 2], [80, 1], [112, 1]], amt: [-500, 500],
-                 slew: [0.88, 0.95] }],
-      },
-      /* ── THE DRUM MACHINE, PLAYED RATHER THAN SET ─────────────────────────
-         Boys Noize: "The sound is more important to me than the melody or a
-         lyric." Jeff Mills's method on the 909 is live TRANSPOSE and RELEASE
-         tweaks over sixteen bars. So the per-voice tune, decay and filter move,
-         and the PLOCKS are the per-step version of the same hand -- a value
-         bound to a sixteenth, the same every bar, which is what a step
-         sequencer's parameter locks are. */
-      tr1000: {
-        /* ── THE SWEEP THAT HAPPENS EVERY TIME, NOT ONCE ────────────────────
-           This was a free LFO swinging 7000 Hz a minute, for ever. Measured,
-           and it is the fault the owner named: "not building sweeping motions
-           quick nor long movement". A free LFO is MOTION WITHOUT DIRECTION --
-           it never departs from anywhere or arrives anywhere, and it is loud
-           enough to bury anything that does.
-           `fill` is the trigger that recurs: 9.8 a song against ONE peak, so
-           every gesture written on peak or build fires once in eleven minutes.
-           That is where all of mine were. Now the hats close over eight bars
-           into every arrival and snap back on the downbeat -- the window ending
-           ON the beat IS the snap-back, no second move needed. */
-        /* ── AND THE MOVES ADD UP, WHICH IS HOW I SHUT THE MACHINE ──────────
-           First pass at these sweeps put the arc at -9000 and the fill gesture
-           at -11000 on a control whose default is 20000 -- and they STACK, so
-           the hats sat on the 120 Hz floor for 100% of the record. Measured,
-           and it is worse than the wobble it replaced: a filter pinned shut is
-           not a sweep, it is a muted machine.
-           Sized so the deepest stack lands around 6 kHz and the record still
-           opens all the way. A sweep has to have somewhere to come back to. */
-        /* ── AND AN sCURVE IS FLAT WHERE THE RECORD STARTS ─────────────────
-           `sCurve` is smoothstep: at a fifth of the way in it has travelled 8%
-           of its range. Every long move here was on one, so the first ninety
-           seconds of a nine-minute record had eighteen lanes measurably still
-           -- "the song takes so long to get into anything and you dont even
-           bother to do anything with all that time". `log` is sqrt(u): 45% of
-           the way there at the same point. So the machine starts opening from
-           bar one and the DIRECTED moves -- the ones aimed at the apex -- keep
-           the sCurve, because those are supposed to hold back. */
-        hCut:    [{ kind: "gesture", on: "fill", bars: 8,
-                    from: [0, 0], to: [-7000, -4500], curve: "exp" },
-                  { kind: "arc", from: [-7000, -4000], to: [0, 0], curve: "log" },
-                  { kind: "phrase", by: { B: [-900, -300], C: [400, 1400], D: [-2200, -1100] } },
-                  { kind: "lfo", bars: [[34, 3], [52, 2]], depth: [400, 1100],
-                    shape: "tri", freePhase: true },
-                  { kind: "plock", density: [0.14, 0.30], amt: [-1800, 900] }],
-        /* the hat's decay is 0.2..3, so a p-lock of +-0.02 was 1% of the dial:
-           a number that exists rather than a hand on a machine. Sized to what
-           the 909 hand actually does -- some steps clipped short, some left to
-           ring past the next one. */
-        hDecay:  [{ kind: "plock", density: [0.14, 0.30], amt: [-0.45, 0.70] }],
-        chdecay: [{ kind: "lfo", bars: [[28, 3], [18, 2]], depth: [0.008, 0.022],
-                    shape: "sin", freePhase: true },
-                  { kind: "occurrence", step: [0.002, 0.008], cap: 3 }],
-        ohdecay: [{ kind: "phrase", by: { B: [0.04, 0.10], C: [-0.10, -0.04], D: [0.10, 0.22] } }],
-        kTune:   [{ kind: "occurrence", step: [-0.8, -0.3], cap: 3 }],
-        kDecay:  [{ kind: "occurrence", step: [-0.02, -0.008], cap: 3 },
-                  { kind: "gesture", on: "peak", bars: 8, from: [0.05, 0.12], to: [0, 0], curve: "exp" }],
-        /* the record opens on drums alone, so the kick's own filter is the
-           first thing that has anywhere to go -- `log`, not `sCurve` */
-        kCut:    [{ kind: "arc", from: [-2600, -1200], to: [400, 1400], curve: "log" },
-                  { kind: "phrase", by: { C: [300, 900], D: [-1100, -500] } }],
-        cVerb:   [{ kind: "occurrence", step: [0.05, 0.13], cap: 3 }],
-        cTune:   [{ kind: "plock", density: [0.10, 0.22], amt: [-2.5, 2.5] }],
-        rTune:   [{ kind: "plock", density: [0.12, 0.28], amt: [-3.0, 3.0] }],
-        rCut:    [{ kind: "lfo", bars: [[26, 3], [40, 2]], depth: [900, 2400],
-                    shape: "tri", freePhase: true }],
-        oCut:    [{ kind: "apex", from: [-2200, -900], to: [500, 1600] }],
-        oDecay:  [{ kind: "phrase", by: { B: [0.03, 0.09], D: [0.12, 0.26] } }],
-        /* the ride is the five-step interlocking lane, so its tone moving is
-           the interlocking figure changing colour as it crosses the bar */
-        dCut:    [{ kind: "lfo", bars: [[34, 3], [21, 2]], depth: [1200, 3200],
-                    shape: "sin", freePhase: true }],
-        dEcho:   [{ kind: "throw", amt: [0.18, 0.40], every: 8, at: 0.75 }],
-        /* ── THE LONG MOVEMENT, AND IT HAS TO BE BIG TO BE ONE ──────────────
-           The whole-record arc was 4000 Hz spread over eleven minutes, which is
-           imperceptible -- a number that exists rather than a movement. This
-           one opens the machine from nearly shut to wide over the length of the
-           record, and the `build` gesture shuts it again over the 32 bars
-           before the apex so the arrival has somewhere to come from.
-           The snap is the QUICK one: a hard cut, four bars, every sixteen. */
-        /* one big long move and one small recurring one, rather than four big
-           ones that add to more than the dial has -- see the note on hCut */
-        fxFilter:[{ kind: "arc", from: [-13000, -9000], to: [0, 0], curve: "log" },
-                  { kind: "gesture", on: "build", bars: 32,
-                    from: [0, 0], to: [-5000, -3000], curve: "exp" },
-                  { kind: "gesture", on: "fill", bars: 4,
-                    from: [0, 0], to: [-4000, -2200], curve: "exp" },
-                  { kind: "phrase", by: { C: [900, 2600], D: [-3200, -1600] } }],
-        gate:    [{ kind: "phrase", by: { C: [0.10, 0.24], D: [0.14, 0.30] } }],
-        revSend: [{ kind: "apex", from: [-0.06, -0.02], to: [0.05, 0.14] }],
-        dlySend: [{ kind: "throw", amt: [0.14, 0.34], every: 16, at: 0.75 },
-                  { kind: "gesture", on: "build", bars: 16, from: [-0.05, -0.02],
-                    to: [0.08, 0.18], curve: "exp" }],
-      },
-      /* ── THE SEND MATRIX IS WHERE THE ARRANGEMENT ACTUALLY HAPPENS ─────────
-         Thirty-nine crossings and this genre was using none of them. The dub
-         lineage Jagatara sits in plays the desk: what is wet, and how wet, IS
-         the change, and it is the same idea as the band kills one block up.
-         The THROWS are the move by name -- a send pushed for a moment and
-         pulled back, which is what a dub engineer's hand does and what nothing
-         in this genre was doing. */
-      /* ── AND WHICH DIRECTION A SEND CAN BE PLAYED IN ──────────────────────
-         A crossing is a SWITCH before it is a knob: applyRack translates list
-         membership into 0 or 1, so a send this genre routes sits at 1 and one
-         it does not sits at 0. Motion is an ADDITIVE OFFSET on top of that.
-         Which means a positive move on a routed crossing is nothing at all --
-         it is already at the top of its dial and the clamp eats every bit of
-         it. I wrote nine of those. Measured on the CLAMPED value rather than
-         the offset, four of them travelled 0.00% of their dial in every song,
-         which is the owner's complaint in a number: "you're not doing anything
-         with the fx".
-
-         So the rule, and it is the dub engineer's hand anyway: A ROUTED SEND IS
-         PLAYED DOWNWARD. It rests partly closed and OPENS to full at the
-         arrival -- the throw, the fill, the apex. Full wet is the gesture, not
-         the resting state. Crossings this genre does not route are the mirror
-         image and move up from zero. */
-      matrix: {
-        /* rests around half wet and is thrown WIDE open every eight bars --
-           the oldest move in the lineage, and the one that carries a record
-           where nothing else changes */
-        drumsEcho:   [{ kind: "arc", from: [-0.78, -0.62], to: [-0.48, -0.32], curve: "log" },
-                      { kind: "throw", amt: [0.45, 0.78], every: 8, at: 0.75 },
-                      { kind: "gesture", on: "fill", bars: 4, from: [0, 0],
-                        to: [0.34, 0.60], curve: "exp" },
-                      { kind: "lfo", bars: [[48, 3], [32, 2]], depth: [0.05, 0.14],
-                        shape: "sin", freePhase: true }],
-        /* the room follows the arc: a dry machine at the bottom, a wide one at
-           the apex, and the breakdown floods */
-        drumsRoom:   [{ kind: "apex", from: [-0.62, -0.46], to: [-0.10, 0.00] },
-                      { kind: "section", by: { bridge: [0.30, 0.46], intro: [-0.16, -0.06] } }],
-        drumsFlange: [{ kind: "arc", from: [-0.92, -0.80], to: [-0.56, -0.40], curve: "sCurve" },
-                      { kind: "gesture", on: "peak", bars: 8, from: [0, 0],
-                        to: [0.56, 0.86], curve: "exp" },
-                      { kind: "gesture", on: "fill", bars: 4, from: [0, 0],
-                        to: [0.28, 0.52], curve: "exp" }],
-        drumsBarber: [{ kind: "section", by: { bridge: [0.12, 0.28] } }],
-        bassEcho:    [{ kind: "throw", amt: [0.10, 0.26], every: 16, at: 0.5 }],
-        bassRoom:    [{ kind: "arc", from: [0, 0.02], to: [0.10, 0.22], curve: "log" }],
-        bassDP4:     [{ kind: "phrase", by: { C: [0.10, 0.24], D: [0.12, 0.30] } }],
-        /* the solo is the thing that arrives, so its wetness arrives with it --
-           dry and close where the record starts, drowned at the peak */
-        leadEcho:    [{ kind: "apex", from: [-0.72, -0.56], to: [-0.12, 0.00] },
-                      { kind: "throw", amt: [0.40, 0.72], every: 8, at: 0.75 },
-                      { kind: "gesture", on: "fill", bars: 4, from: [0, 0],
-                        to: [0.24, 0.50], curve: "exp" }],
-        leadRoom:    [{ kind: "apex", from: [-0.66, -0.50], to: [-0.08, 0.00] },
-                      { kind: "section", by: { bridge: [0.24, 0.42] } }],
-        leadBarber:  [{ kind: "arc", from: [-0.96, -0.86], to: [-0.62, -0.46], curve: "sCurve" },
-                      { kind: "gesture", on: "peak", bars: 12, from: [0, 0],
-                        to: [0.60, 0.92], curve: "exp" }],
-        leadFlange:  [{ kind: "apex", from: [-0.62, -0.46], to: [-0.22, -0.10] },
-                      { kind: "lfo", bars: [[40, 3], [56, 2]], depth: [0.10, 0.24],
-                        shape: "sin", freePhase: true }],
-        keysEcho:    [{ kind: "section", by: { bridge: [0.16, 0.34] } }],
-        echoMix:     [{ kind: "arc", from: [-0.52, -0.36], to: [-0.14, -0.06], curve: "log" },
-                      { kind: "gesture", on: "fill", bars: 6, from: [0, 0],
-                        to: [0.06, 0.14], curve: "exp" }],
-        /* not routed, so this one is the mirror image and climbs from nothing */
-        echoFlange:  [{ kind: "arc", from: [0.08, 0.16], to: [0.24, 0.40], curve: "log" },
-                      { kind: "lfo", bars: [[64, 3], [44, 2]], depth: [0.06, 0.16],
-                        shape: "sin", freePhase: true }],
-        roomMix:     [{ kind: "apex", from: [-0.24, -0.12], to: [0.20, 0.40] }],
-        barberMix:   [{ kind: "arc", from: [-0.92, -0.78], to: [-0.52, -0.36], curve: "sCurve" },
-                      { kind: "section", by: { bridge: [0.34, 0.54] } },
-                      { kind: "gesture", on: "peak", bars: 16, from: [0, 0],
-                        to: [0.40, 0.72], curve: "exp" }],
-      },
-      /* the swirl, which is the punk half of the surface: a flanger ridden hard
-         is the cheapest way a record sounds handled rather than mixed */
-      flange: {
-        rate:  [{ kind: "lfo", bars: [[52, 3], [36, 2]], depth: [0.05, 0.16],
-                  shape: "tri", freePhase: true }],
-        depth: [{ kind: "apex", from: [-0.10, -0.04], to: [0.10, 0.26] },
-                { kind: "gesture", on: "fill", bars: 6, from: [0, 0],
-                  to: [0.30, 0.55], curve: "exp" },
-                { kind: "gesture", on: "build", bars: 16, from: [0, 0],
-                  to: [0.20, 0.42], curve: "exp" }],
-        fb:    [{ kind: "snap", to: [0.16, 0.34], every: 48, bars: 4 }],
-        /* and the flanger's wetness on the eight-bar sentence, so the swirl is
-           there from bar one instead of waiting for a section that is minutes
-           away -- the phrase is the only trigger that recurs in the opening */
-        mix:   [{ kind: "section", by: { bridge: [0.14, 0.30], instrumental: [0.03, 0.10] } },
-               { kind: "phrase", by: { B: [0.04, 0.11], C: [-0.08, -0.03], D: [0.10, 0.22] } }],
-      },
-      /* the effects box: four processors, and the phrase letters are what
-         decides which of them is doing anything */
-      dp4: {
-        aAmt: [{ kind: "phrase", by: { B: [0.06, 0.16], D: [0.14, 0.32] } }],
-        aLvl: [{ kind: "apex", from: [-0.06, -0.02], to: [0.06, 0.16] }],
-        bAmt: [{ kind: "lfo", bars: [[44, 3], [30, 2]], depth: [0.05, 0.15],
-                 shape: "sin", freePhase: true }],
-        cAmt: [{ kind: "gesture", on: "peak", bars: 8, from: [0, 0], to: [0.14, 0.34], curve: "exp" }],
-        dLvl: [{ kind: "section", by: { bridge: [0.10, 0.26] } }],
-      },
-      /* the endless rise, kept for the peak: a barberpole that runs all record
-         is wallpaper, and one that arrives is a gesture */
-      barber: {
-        rate:  [{ kind: "lfo", bars: [[80, 3], [60, 2]], depth: [0.03, 0.10],
-                  shape: "sin", freePhase: true }],
-        depth: [{ kind: "gesture", on: "peak", bars: 16, from: [0, 0], to: [0.18, 0.40], curve: "exp" }],
-        mix:   [{ kind: "apex", from: [-0.05, -0.02], to: [0.08, 0.20] }],
-      },
-      /* the pad's own movement, slow enough that it reads as the room breathing
-         rather than as an effect */
-      wash: {
-        cut:    [{ kind: "lfo", bars: [[72, 3], [48, 2]], depth: [250, 650],
+      dronebox: {
+        /* the main filter: two coprime slow cycles, plus a sample-and-hold that
+           steps it somewhere new every 17 to 29 bars and stays there */
+        cut:    [{ kind: "lfo", bars: [[31, 3], [47, 2]], depth: [60, 190],
                    shape: "sin", freePhase: true },
-                 { kind: "apex", from: [-480, -220], to: [900, 1700] }],
-        /* the pan sweep runs 0-8 Hz, so a depth of 0.02-0.07 was 2% of the dial:
-           automated on paper and static in the mix, which is exactly what
-           probe_automation's "barely moves" column exists to catch. Widened to
-           something the person playing it can actually hear the pad drifting across. */
-        panHz:  [{ kind: "lfo", bars: [[64, 2], [96, 1]], depth: [0.5, 1.6],
+                 { kind: "lfo", bars: [[17, 2], [23, 1]], depth: [25, 70],
+                   shape: "tri", freePhase: true },
+                 { kind: "sh", every: [[17, 2], [29, 2], [23, 1]],
+                   amt: [-140, 140], slew: [0.90, 0.97] },
+                 { kind: "section", by: { intro: [-120, -60], bridge: [-90, -40],
+                                          chorus: [70, 200], outro: [-140, -70] } }],
+        res:    [{ kind: "lfo", bars: [[29, 2], [41, 1]], depth: [0.3, 1.1],
+                   shape: "sin", freePhase: true },
+                 { kind: "arc", from: [-0.3, -0.1], to: [0.4, 1.2], curve: "sCurve" }],
+        /* the second resonant filter -- the one the research said was missing.
+           A deja-vu lane, so where the peak sits is a 16-slot loop that
+           re-writes itself rather than a curve: Marbles' mechanism, and #3's
+           "discrete variation over an unchanged ground" exactly. */
+        peakHz: [{ kind: "dejavu", length: [[8, 3], [16, 2]], every: [[19, 2], [23, 1]],
+                   dejavu: [0.22, 0.42], amt: [-600, 900], spread: [0.2, 0.5],
+                   spreadBars: [[37, 1]] },
+                 { kind: "lfo", bars: [[43, 2], [67, 1]], depth: [120, 400],
                    shape: "sin", freePhase: true }],
-        panDep: [{ kind: "section", by: { bridge: [0.10, 0.26] } }],
+        peak:   [{ kind: "lfo", bars: [[23, 2], [37, 1]], depth: [0.06, 0.18],
+                   shape: "sin", freePhase: true },
+                 { kind: "section", by: { chorus: [0.08, 0.22], bridge: [-0.2, -0.08] } }],
+        air:    [{ kind: "arc", from: [-0.06, -0.02], to: [0.06, 0.16], curve: "sCurve" },
+                 { kind: "lfo", bars: [[53, 2], [29, 1]], depth: [0.02, 0.07],
+                   shape: "sin", freePhase: true }],
+        /* the stack wanders across the field, slowly, and never comes round */
+        pan:    [{ kind: "lfo", bars: [[61, 2], [43, 1]], depth: [0.05, 0.16],
+                   shape: "sin", freePhase: true }],
+        panHz:  [{ kind: "lfo", bars: [[71, 2], [53, 1]], depth: [0.004, 0.014],
+                   shape: "sin", freePhase: true }],
+        panDep: [{ kind: "arc", from: [0.04, 0.10], to: [0.12, 0.26], curve: "sCurve" }],
+      },
+      /* the desk, opening and closing at the scale of a whole record */
+      desk: {
+        high: [{ kind: "arc", from: [-3.5, -1.6], to: [0.6, 2.2], curve: "sCurve" },
+               { kind: "lfo", bars: [[59, 2], [83, 1]], depth: [0.5, 1.5],
+                 shape: "sin", freePhase: true }],
+        low:  [{ kind: "section", by: { intro: [-1.5, -0.4], bridge: [-4.5, -2.5],
+                                        outro: [-2.5, -1.2] } }],
+        mid:  [{ kind: "lfo", bars: [[73, 2], [47, 1]], depth: [0.4, 1.2],
+                 shape: "sin", freePhase: true }],
+      },
+      echo: {
+        /* the send steps up an increment each time a section arrives and holds
+           there -- #3 again, and the reason it is a step and not a ramp is that
+           a ramp is the one thing the psychoacoustics says nobody notices */
+        send: [{ kind: "occurrence", step: [0.02, 0.06], cap: 4 },
+               { kind: "section", by: { bridge: [0.08, 0.20], chorus: [0.04, 0.12] } }],
+        fb:   [{ kind: "lfo", bars: [[37, 2], [53, 1]], depth: [0.04, 0.11],
+                 shape: "sin", freePhase: true }],
+        tone: [{ kind: "lfo", bars: [[41, 2], [29, 1]], depth: [300, 900],
+                 shape: "sin", freePhase: true },
+               { kind: "sh", every: [[31, 2], [43, 1]], amt: [-400, 400], slew: [0.9, 0.96] }],
+        verb: [{ kind: "arc", from: [0.02, 0.08], to: [-0.04, 0.04], curve: "sCurve" }],
+      },
+      matrix: {
+        keysRoom: [{ kind: "lfo", bars: [[67, 2], [89, 1]], depth: [0.05, 0.15],
+                     shape: "sin", freePhase: true }],
+        leadRoom: [{ kind: "section", by: { chorus: [-0.2, -0.06], bridge: [0.05, 0.16] } }],
+      },
+      vp330: {
+        ens:  [{ kind: "lfo", bars: [[19, 3], [31, 2]], depth: [0.05, 0.13], shape: "sin" }],
+        choir:[{ kind: "section", by: { chorus: [0.06, 0.18], bridge: [0.04, 0.14],
+                                        outro: [-0.12, -0.04] } }],
+        pan:  [{ kind: "lfo", bars: [[47, 2], [29, 1]], depth: [0.05, 0.14],
+                 shape: "sin", freePhase: true }],
+        panHz:[{ kind: "lfo", bars: [[83, 2], [59, 1]], depth: [0.008, 0.026],
+                 shape: "sin", freePhase: true }],
+        panDep:[{ kind: "arc", from: [0.03, 0.09], to: [0.10, 0.22], curve: "sCurve" }],
+      },
+      waveseq: {
+        /* the wave sequence's own step rate, thrown by a coin every 13 to 19
+           bars -- Branches' Bernoulli gate, and the reason the timbre travel
+           does not settle into one speed */
+        rate:  [{ kind: "bernoulli", p: [0.4, 0.6], a: [-0.25, -0.1], b: [0.15, 0.4],
+                  every: [[13, 2], [19, 1]] },
+                { kind: "lfo", bars: [[43, 2], [67, 1]], depth: [0.05, 0.16],
+                  shape: "sin", freePhase: true }],
+        depth: [{ kind: "arc", from: [-0.18, -0.06], to: [0.06, 0.18], curve: "sCurve" }],
+      },
+      cs80: {
+        bright: [{ kind: "lfo", bars: [[29, 2], [41, 1]], depth: [0.03, 0.09],
+                   shape: "sin", freePhase: true },
+                 { kind: "section", by: { chorus: [0.04, 0.12], instrumental: [0.02, 0.08] } }],
+        ens:    [{ kind: "lfo", bars: [[23, 2], [37, 1]], depth: [0.04, 0.10],
+                   shape: "sin", freePhase: true }],
+        atBrill:[{ kind: "arc", from: [-0.2, -0.08], to: [0.06, 0.18], curve: "sCurve" }],
+        atLevel:[{ kind: "lfo", bars: [[53, 2], [31, 1]], depth: [0.02, 0.07],
+                   shape: "sin", freePhase: true }],
+        atVib:  [{ kind: "section", by: { chorus: [0.04, 0.12] } }],
+        vib:    [{ kind: "occurrence", step: [0.01, 0.05], cap: 3 }],
+        pan:    [{ kind: "lfo", bars: [[59, 2], [37, 1]], depth: [0.04, 0.12],
+                   shape: "sin", freePhase: true }],
+        panHz:  [{ kind: "lfo", bars: [[89, 2], [61, 1]], depth: [0.006, 0.02],
+                   shape: "sin", freePhase: true }],
+        panDep: [{ kind: "arc", from: [0.02, 0.06], to: [0.08, 0.18], curve: "sCurve" }],
+      },
+      /* the sampled strings' own tone, moved by two coprime cycles and a slow
+         FM: one clock driving another, which is P.1 of the drone sheet -- "much
+         more interesting than a single repeating cycle" [corpus:modeaudio] */
+      erangStrings: {
+        tone: [{ kind: "fm", bars: [[19, 2], [29, 1]], depth: [0.04, 0.11], shape: "sin",
+                 by: { bars: [[71, 2], [97, 1]], rate: [0.5, 0.8], depth: [0.4, 0.8],
+                       shape: "sin" } }],
+        pan:  [{ kind: "lfo", bars: [[43, 2], [67, 1]], depth: [0.06, 0.18],
+                 shape: "sin", freePhase: true }],
+      },
+      mellotron: {
+        pan:    [{ kind: "lfo", bars: [[79, 2], [53, 1]], depth: [0.05, 0.14],
+                   shape: "sin", freePhase: true }],
+        panHz:  [{ kind: "lfo", bars: [[97, 2], [71, 1]], depth: [0.006, 0.02],
+                   shape: "sin", freePhase: true }],
+        panDep: [{ kind: "arc", from: [0.03, 0.08], to: [0.09, 0.20], curve: "sCurve" }],
       },
     },
   },
@@ -35813,6 +35642,16 @@ function busTouched(key){
     }, 60);
     return;
   }
+  /* ── AND A HAND ON THE DRONE RACK REDRAWS ITS TUBE ────────────────────────
+     Same argument, different box. VOICES, STACK and WAVE are switches and
+     SPREAD, DRIFT and the two CLOCKS are `voicing` -- none of them rides a bus,
+     so none of them would reach the early return below, and the picture of the
+     stack would sit still while the stack it is a picture of changed. The
+     repaint is cheap: eight lines and two rings of arithmetic. */
+  if(String(key).startsWith("dronebox.")){
+    for(const dr of DRONES) if(dr.__paint) dr.__paint();
+    /* and fall through, because CUTOFF and the rest genuinely are live */
+  }
   const c = CONTROL[key];
   if(!c || (c.kind !== "bus" && !c.live)) return;
   if(busPending) return;
@@ -36194,6 +36033,225 @@ function modScopeEl(){
       const at = Math.floor(Math.round(tSec / plan.spb) / cyc) % 16;
       for(let i = 0; i < 16; i++) kids[i].classList.toggle("on", i === at);
     } else for(let i = 0; i < 16; i++) kids[i].classList.remove("on");
+  };
+  wrap.__paint();
+  return wrap;
+}
+
+/* ══ THE DRONE RACK'S FACE ══════════════════════════════════════════════════
+   Three instruments on one amber tube, and each of them answers a question the
+   knobs cannot:
+
+     THE STACK   where every held tone actually IS -- vertical position by its
+                 ratio to the root, horizontal by its detune in cents. SPREAD
+                 opens it; VOICES adds lines; STACK moves them up the series.
+                 And they DRIFT while the record plays, because the detune in
+                 the graph is drifting: this is the same arithmetic V.dronebox
+                 schedules, read at the playhead.
+
+     THE BEAT    the honest one. Cents are not audible and hertz are, so this
+                 finds the closest pair of PARTIALS anywhere in the stack --
+                 not the closest pair of fundamentals, because an octave stack
+                 beats between tone 1's second harmonic and tone 2's first --
+                 and pulses a lamp at exactly that rate. A stack with nothing
+                 beating says LOCKED, which is a legitimate setting and should
+                 not look like a broken display.
+
+     THE CLOCKS  two rings at CLOCK A and CLOCK B bars, and the bar number at
+                 which they next coincide, computed as their least common
+                 multiple. "They are not likely to come back into sync again"
+                 is the mechanism; this is the readout that proves the pair on
+                 the panel really does not come round inside the record.
+   ═══════════════════════════════════════════════════════════════════════════ */
+function droneFieldEl(){
+  const wrap = el("div", "drnwrap dronefield");
+  const glass = el("div", "drnglass");
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("class", "drnsvg");
+  svg.setAttribute("preserveAspectRatio", "none");
+  svg.setAttribute("viewBox", "0 0 1000 320");
+  svg.innerHTML =
+    '<defs><filter id="drnbloom" x="-30%" y="-60%" width="160%" height="220%">' +
+    '<feGaussianBlur stdDeviation="3.0" result="b"/>' +
+    '<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>' +
+    '</filter></defs>';
+  glass.appendChild(svg);
+  wrap.appendChild(glass);
+  const foot = el("div", "drnfoot");
+  wrap.appendChild(foot);
+
+  const mk = (tag, attrs, cls) => {
+    const n = document.createElementNS(NS, tag);
+    for(const k in attrs) n.setAttribute(k, attrs[k]);
+    if(cls) n.setAttribute("class", cls);
+    svg.appendChild(n);
+    return n;
+  };
+  /* ── the stack field: x is cents (-40..+40), y is the ratio, log ────────── */
+  const SX = 30, SW = 530, SY = 26, SH = 168;
+  mk("line", { x1: SX, x2: SX + SW, y1: SY + SH, y2: SY + SH }, "drnaxis");
+  mk("line", { x1: SX + SW / 2, x2: SX + SW / 2, y1: SY, y2: SY + SH }, "drntick");
+  for(const cents of [-40, -20, 20, 40])
+    mk("line", { x1: SX + SW * (cents + 40) / 80, x2: SX + SW * (cents + 40) / 80,
+                 y1: SY + SH - 6, y2: SY + SH }, "drntick");
+  mk("text", { x: SX, y: SY + SH + 16 }, "drnlab").textContent = "-40c";
+  mk("text", { x: SX + SW - 26, y: SY + SH + 16 }, "drnlab").textContent = "+40c";
+  mk("text", { x: SX, y: SY - 10 }, "drnlab").textContent = "THE STACK";
+  const tones = [];
+  for(let i = 0; i < 8; i++)
+    tones.push({ line: mk("line", { x1: -20, x2: -20, y1: 0, y2: 0 }, "drntone"),
+                 lab:  mk("text", { x: -20, y: 0 }, "drnlab") });
+
+  /* ── the beat lamp ─────────────────────────────────────────────────────── */
+  mk("text", { x: SX, y: 232 }, "drnlab").textContent = "THE BEAT";
+  const beatLamp = mk("circle", { cx: SX + 14, cy: 262, r: 11 }, "drnbeat");
+  const beatTxt = mk("text", { x: SX + 36, y: 267 }, "drnlab lit");
+  /* ── the swell, drawn from SWELL and FALL ──────────────────────────────── */
+  mk("text", { x: SX + 250, y: 232 }, "drnlab").textContent = "THE SWELL";
+  const envPath = mk("polyline", { points: "" }, "drnenv");
+
+  /* ── the two clocks ────────────────────────────────────────────────────── */
+  const CX = [700, 880], CY = 96, CR = 52;
+  const rings = [], hands = [], clabs = [];
+  for(let i = 0; i < 2; i++){
+    mk("circle", { cx: CX[i], cy: CY, r: CR }, "drnring");
+    rings.push(mk("circle", { cx: CX[i], cy: CY, r: 3 }, "drnbeat"));
+    hands.push(mk("line", { x1: CX[i], y1: CY, x2: CX[i], y2: CY - CR + 6 }, "drnhand"));
+    clabs.push(mk("text", { x: CX[i] - 26, y: CY + CR + 22 }, "drnlab lit"));
+  }
+  mk("text", { x: 640, y: 26 }, "drnlab").textContent = "THE CLOCKS";
+  const coincide = mk("text", { x: 640, y: 208 }, "drnlab lit");
+  const coincide2 = mk("text", { x: 640, y: 226 }, "drnlab");
+  const together = mk("text", { x: 640, y: 262 }, "drnlab");
+
+  const gcd = (a, b) => b ? gcd(b, a % b) : a;
+  /* the stack as the VOICE builds it -- same ratios, same dealt spread, so the
+     picture cannot drift away from the sound by being written twice */
+  const RATIO = [[1], [1, 2, 4, 8, 0.5, 16, 0.25, 32],
+                 [1, 1.5, 2, 3, 4, 6, 0.5, 0.75], [1, 2, 3, 4, 5, 6, 7, 9]];
+  const RNAME = ["UNISON", "OCTAVE", "FIFTH", "PARTIALS"];
+  const pv = (k, d) => panelValue("dronebox", k, d);
+
+  const state = () => {
+    const n = Math.max(1, Math.min(8, Math.round(pv("voices", 4))));
+    const shape = Math.max(0, Math.min(3, Math.round(pv("shape", 1))));
+    const spread = pv("spread", 9), drift = pv("drift", 6);
+    const rows = [];
+    for(let k = 0; k < n; k++)
+      rows.push({ ratio: RATIO[shape][k % RATIO[shape].length] || 1,
+                  base: n > 1 ? (-spread / 2 + (spread * k) / (n - 1)) : 0,
+                  pa: k * 0.137, pb: k * 0.311 });
+    return { n, shape, spread, drift, rows };
+  };
+  /* the root the stack is built on: the record's own lowest bass note when
+     there is a record, and A1 when the panel is being looked at cold */
+  const rootHz = () => {
+    if(SONG && SONG.perf){
+      for(const e of SONG.perf.events)
+        if(e.role === "bass" && e.pitch != null) return 440 * Math.pow(2, (e.pitch - 69) / 12);
+    }
+    return 55;
+  };
+  /* THE CLOSEST PAIR OF PARTIALS, which is where the beating actually is */
+  const beatHz = (S, cents) => {
+    const f0 = rootHz(), list = [];
+    for(let k = 0; k < S.rows.length; k++){
+      const f = f0 * S.rows[k].ratio * Math.pow(2, cents[k] / 1200);
+      for(let h = 1; h <= 6; h++) list.push(f * h);
+    }
+    let best = Infinity;
+    for(let i = 0; i < list.length; i++)
+      for(let j = i + 1; j < list.length; j++){
+        const d = Math.abs(list[i] - list[j]);
+        if(d > 0.004 && d < best) best = d;
+      }
+    return best === Infinity ? 0 : best;
+  };
+
+  wrap.__paint = () => {
+    const S = state();
+    const cents = S.rows.map(r => r.base);
+    /* the stack */
+    for(let i = 0; i < 8; i++){
+      const r = S.rows[i];
+      if(!r){ tones[i].line.setAttribute("x1", -20); tones[i].line.setAttribute("x2", -20);
+              tones[i].lab.textContent = ""; continue; }
+      const x = SX + SW * (Math.max(-40, Math.min(40, r.base)) + 40) / 80;
+      /* y by ratio, log, so an octave is always the same distance up the tube */
+      const oct = Math.log2(Math.max(0.2, r.ratio));
+      const y = SY + SH - (SH * (oct + 2) / 7);
+      tones[i].line.setAttribute("x1", x.toFixed(1)); tones[i].line.setAttribute("x2", x.toFixed(1));
+      tones[i].line.setAttribute("y1", (y - 11).toFixed(1));
+      tones[i].line.setAttribute("y2", (y + 11).toFixed(1));
+      tones[i].line.setAttribute("class", "drntone" + (i === 0 ? " hi" : ""));
+      tones[i].lab.setAttribute("x", (x + 6).toFixed(1));
+      tones[i].lab.setAttribute("y", (y - 13).toFixed(1));
+      tones[i].lab.textContent = (r.ratio === 1 ? "1:1" : (r.ratio >= 1 ? r.ratio + "x" : "/" + (1 / r.ratio)));
+    }
+    /* the swell, drawn to scale against the longer of the two times */
+    const sw = pv("swell", 3), fl = pv("fall", 8), span = Math.max(1, sw + fl + 2);
+    const EX = SX + 250, EW = 250, EY = 288, EH = 46;
+    const pts = [];
+    for(let i = 0; i <= 60; i++){
+      const T = (i / 60) * span;
+      const v = T < sw ? T / sw : (T < sw + 2 ? 1 : Math.max(0, 1 - (T - sw - 2) / Math.max(0.2, fl)));
+      pts.push(`${(EX + EW * i / 60).toFixed(1)},${(EY - EH * v).toFixed(1)}`);
+    }
+    envPath.setAttribute("points", pts.join(" "));
+    /* the clocks, and whether they ever come round */
+    const A = Math.max(1, Math.round(pv("clockA", 23))), B = Math.max(1, Math.round(pv("clockB", 29)));
+    clabs[0].textContent = "A  " + A + " BARS";
+    clabs[1].textContent = "B  " + B + " BARS";
+    const lcm = A / gcd(A, B) * B;
+    const nB = SONG && SONG.form ? SONG.form.nBars : 0;
+    coincide.textContent = "TOGETHER EVERY " + lcm + " BARS";
+    coincide2.textContent = gcd(A, B) === 1 ? "COPRIME — NO EARLY MEETING"
+                                            : "SHARE A FACTOR OF " + gcd(A, B);
+    together.textContent = nB ? (lcm > nB ? "LONGER THAN THIS RECORD (" + nB + ")"
+                                          : "COMES ROUND " + Math.floor(nB / lcm) + "x IN THIS RECORD")
+                              : "";
+    const hz = S.drift > 0.01 ? beatHz(S, cents) : beatHz(S, cents);
+    beatTxt.textContent = hz > 0.004 ? hz.toFixed(2) + " BEATS/SEC" : "LOCKED — NO BEATING";
+    foot.innerHTML = "";
+    foot.appendChild(document.createTextNode(S.n + " tones · " + RNAME[S.shape] + " · spread "));
+    const b1 = document.createElement("b"); b1.textContent = S.spread.toFixed(1) + "c"; foot.appendChild(b1);
+    foot.appendChild(document.createTextNode(" · drift "));
+    const b2 = document.createElement("b"); b2.textContent = S.drift.toFixed(1) + "c"; foot.appendChild(b2);
+    foot.appendChild(document.createTextNode(" on " + A + "/" + B + " bars"));
+    wrap.__S = S;
+  };
+
+  /* the live half: the tones drift, the hands turn, the lamp beats */
+  wrap.__head = (u) => {
+    const S = wrap.__S || state();
+    if(!SONG || !SONG.motion) return;
+    const plan = SONG.motion, STEPS = plan.steps || 16, nB = plan.nBars;
+    const barSec = plan.spb * STEPS, total = nB * barSec, T = u * total;
+    const A = Math.max(1, Math.round(pv("clockA", 23))), B = Math.max(1, Math.round(pv("clockB", 29)));
+    const PA = Math.max(0.5, A * barSec), PB = Math.max(0.5, B * barSec);
+    const cents = [];
+    for(let k = 0; k < S.rows.length; k++){
+      const r = S.rows[k];
+      const d = r.base + S.drift * 0.5 *
+                (Math.sin(2 * Math.PI * (T / PA + r.pa)) + Math.sin(2 * Math.PI * (T / PB + r.pb)));
+      cents.push(d);
+      const x = SX + SW * (Math.max(-40, Math.min(40, d)) + 40) / 80;
+      tones[k].line.setAttribute("x1", x.toFixed(1));
+      tones[k].line.setAttribute("x2", x.toFixed(1));
+      tones[k].lab.setAttribute("x", (x + 6).toFixed(1));
+    }
+    for(let i = 0; i < 2; i++){
+      const th = 2 * Math.PI * ((T / (i ? PB : PA)) % 1) - Math.PI / 2;
+      hands[i].setAttribute("x2", (CX[i] + Math.cos(th) * (CR - 6)).toFixed(1));
+      hands[i].setAttribute("y2", (CY + Math.sin(th) * (CR - 6)).toFixed(1));
+    }
+    const hz = beatHz(S, cents);
+    beatTxt.textContent = hz > 0.004 ? hz.toFixed(2) + " BEATS/SEC" : "LOCKED — NO BEATING";
+    /* the lamp really pulses at the beat rate -- a number saying "0.4 Hz" is
+       not a thing anybody can feel, and this is */
+    beatLamp.style.opacity = hz > 0.004
+      ? (0.25 + 0.75 * (0.5 + 0.5 * Math.cos(2 * Math.PI * hz * T))).toFixed(3) : "0.18";
   };
   wrap.__paint();
   return wrap;
@@ -38581,6 +38639,7 @@ function drawPanels(){
   host.innerHTML = "";
   KNOBS.length = 0; KNOB_BY_KEY.clear();
   GRIDS.length = 0; TRIGS.length = 0; LCD.length = 0; MODSCOPES.length = 0;
+  DRONES.length = 0;
   READOUTS.length = 0; LEDS.length = 0;
   if(!SONG) return;
   /* THE MIXER FIRST, above every rack. A desk's master section is at the top of
@@ -39085,6 +39144,7 @@ function drawPanels(){
       /* NOT into `GRIDS`: that list is the step sequencers, and everything in
          it is walked for `stepEls` on every frame. A scope has no steps. */
       if(P.grid === "modscope"){ const sc = modScopeEl(); box.appendChild(sc); MODSCOPES.push(sc); }
+      if(P.grid === "dronefield"){ const dr = droneFieldEl(); box.appendChild(dr); DRONES.push(dr); }
       if(P.grid === "programme") box.appendChild(programmeEl());
       if(P.grid === "tape") box.appendChild(tapeEl(m, M));
       if(P.grid === "compvu") box.appendChild(compVuEl(m, M));
@@ -39159,6 +39219,8 @@ function drawPanels(){
 const GRIDS = [];
 /* the modulation scopes, kept apart from GRIDS because a scope has no steps */
 const MODSCOPES = [];
+/* the drone rack's tube, kept apart for the same reason */
+const DRONES = [];
 /* the voice trigger keys, so the playhead can light them like the step grid */
 const TRIGS = [];
 /* the machine screens, refreshed with the playhead */
@@ -39277,6 +39339,10 @@ function refreshLive(){
     const total = SONG ? SONG.form.nBars * (SONG.motion.steps || 16) * SONG.motion.spb : 0;
     for(const sc of MODSCOPES)
       if(sc.__head) sc.__head(total > 0 && tNow != null ? tNow / total : 0);
+    /* the drone's stack drifts on the same clock -- and it is the SONG's clock,
+       not the frame's, so what the tube shows is where the detune actually is */
+    for(const dr of DRONES)
+      if(dr.__head) dr.__head(total > 0 && tNow != null ? tNow / total : 0);
   }
   const t = songTime();
   $("pos").textContent = t == null ? ""

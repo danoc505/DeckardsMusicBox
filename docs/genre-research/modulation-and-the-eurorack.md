@@ -95,6 +95,36 @@ already backlog task #62, unbuilt since it was written.
 
 ## 3. Mutable Instruments — and yes, it is genuinely ours to read
 
+> **CORRECTION, added 2026-08-14, in answer to a direct question.** The owner
+> asked: *"Did you build both of the mutable instruments you mentioned using the
+> open source free code for them?"*
+>
+> **No. I did not read one line of `pichenettes/eurorack`.** What I read was the
+> repository's *front page* — the module list and the licence block quoted below
+> — and the **manuals** for Marbles and Tides, which are prose documents on
+> `pichenettes.github.io`, not source. Marbles' DÉJÀ VU, SPREAD and BIAS and
+> Tides' SHAPE / SLOPE / SMOOTHNESS were then re-implemented as my own
+> JavaScript arithmetic inside `makeMotion` and `motionAt`, from the *described
+> behaviour*.
+>
+> So what is in the file is **the idea, not the implementation**. No C++ was
+> fetched, read, translated or ported; none of Émilie Gillet's code is in this
+> program; the `t_gen`, `random_sequence` and `ramp_extractor` sources that do
+> the real work in those modules were never opened. The paragraph below —
+> "porting the *ideas* into this program is exactly what the licence is for" —
+> is accurate about the licence and was written before anything was built, and
+> it should not be read as a report that a port happened. It did not.
+>
+> This matters in two directions and both are worth stating. It is **honest
+> about provenance**: nothing here is derived work and there is no attribution
+> obligation I have quietly skipped. And it is **honest about fidelity**: a
+> re-implementation from a manual is a guess at the algorithm. Marbles' real
+> déjà-vu is a specific interpolation between a fresh draw and a stored loop
+> with a documented notch at 12 o'clock; what is in this file is *a* function
+> with that shape, and whether it behaves like the module under a knob sweep has
+> not been tested against the module, because the module has not been consulted
+> at the level where that question lives.
+
 `github.com/pichenettes/eurorack`, Émilie Gillet. 27 modules.
 
 > Code (STM32F projects): **MIT license**
