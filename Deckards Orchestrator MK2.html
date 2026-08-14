@@ -1534,7 +1534,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-14b · the drone rack, and an ambient genre where prog-techno was</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-14c · the ambient research I had not done, and a knob that could not reach it</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -4530,18 +4530,39 @@ const INSTRUMENTS = {
         min:0, max:3, step:1, def:1, kind:"switch" },
       { k:"wave",   label:"SINE/TRIANGLE/SAW", cap:"WAVE",
         min:0, max:2, step:1, def:1, kind:"switch" },
-      /* cents between the outermost pair. At 55 Hz, 9 cents is a beat every
-         3.5 seconds; at 220 Hz the same 9 cents beats four times as fast, which
-         is why the face prints hertz and this knob prints cents. */
+      /* ── AND THE RANGE IS 120 CENTS BECAUSE 40 COULD NOT REACH THE PRACTICE ─
+         Shipped at max 40 and then measured against the two things the sources
+         actually give. Synth practice puts the useful beating band at "between
+         one and five beats per second" [how-a-drone-evolves.md #7]. Niblock's
+         layers are deliberately offset -- "55 Hz against 57 Hz" -- which is a
+         2 Hz beat and SIXTY-TWO CENTS apart [corpus:grokipedia/secondinversion
+         on Niblock]. At A1, five tones on the harmonic series:
+
+              9c ->  0.14 beats/sec      (the shipped default)
+             20c ->  0.32
+             40c ->  0.63               <- the OLD top of the knob
+             62c ->  0.97                (Niblock's offset)
+            120c ->  1.86                (Niblock's beat rate)
+
+         So the knob's whole travel sat below the bottom of the only band
+         anybody publishes. That is a capability defect and not a matter of
+         taste: a control that cannot reach the setting it is modelling is the
+         same defect as a knob that does nothing, wearing a range.
+
+         THE DEFAULT IS LEFT WHERE IT IS. Widening the travel is a fact about
+         reach; choosing how much a record beats is the owner's, and the face
+         prints the consequence in hertz so the choice can be made by eye. */
       { k:"spread", label:"detune across the stack", cap:"SPREAD",
-        min:0, max:40, step:0.5, def:9, unit:"c", kind:"voicing" },
+        min:0, max:120, step:0.5, def:9, unit:"c", kind:"voicing" },
       /* ── THE TWO CLOCKS ───────────────────────────────────────────────── */
       { k:"clockA", label:"first drift cycle", cap:"CLOCK A",
         min:5, max:97, step:1, def:23, unit:"bars", kind:"voicing" },
       { k:"clockB", label:"second drift cycle", cap:"CLOCK B",
         min:5, max:97, step:1, def:29, unit:"bars", kind:"voicing" },
+      /* widened with SPREAD, and for the same reason: the drift has to be able
+         to move the beat rate across a musically real distance, not nudge it */
       { k:"drift",  label:"how far the clocks move the detune", cap:"DRIFT",
-        min:0, max:30, step:0.5, def:6, unit:"c", kind:"voicing" },
+        min:0, max:60, step:0.5, def:6, unit:"c", kind:"voicing" },
       /* ── THE FILTERS ──────────────────────────────────────────────────── */
       { k:"cut",    label:"main lowpass", cap:"CUTOFF",
         min:80, max:3000, step:10, def:620, unit:"Hz", kind:"gesture" },

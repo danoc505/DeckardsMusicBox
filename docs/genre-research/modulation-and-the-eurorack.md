@@ -253,6 +253,15 @@ is a thing a table currently *cannot say*.
 
 ## 5. Ambient drone, and eurorack generative practice — the second question
 
+> **NOTE ADDED 2026-08-14b, and it is against myself.** This section existed a
+> day before the `ambient` genre was written and **I did not open it while
+> writing that table.** Its §5.4 and §6.4 name generative PITCH — a `sh` or a
+> `dejavu` on a note rather than on a knob — as the obvious next thing and as
+> not built, and an ambient genre built around a drone is the genre that most
+> wants it. It is still not built. The Krell patch is now written out as an
+> actual algorithm in `docs/genre-research/ambient.md` §4b, which is where the
+> follow-up research went; §5.1 below is the one-line version of it.
+
 > *"Did you do any research on ambient drones, and generative music via eurorack"*
 
 **Ambient drone: yes, and it predates this sheet.**

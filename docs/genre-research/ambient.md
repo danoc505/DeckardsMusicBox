@@ -232,6 +232,133 @@ just harmonic series (1, 2, 3, 4, 5, 6, 7, 9) for that reason, and it is the
 only place in this program where anything is tuned justly. *The specific set of
 partials offered is `[CHOSEN]`; the principle is sourced.*
 
+### 4a. HOW A DRONE RECORD IS PHYSICALLY MADE — added after the sheet had been used
+
+*The first pass of this sheet asked what drone music **is** and skipped what its
+practitioners **do**. That is the half that has numbers in it.*
+
+**Phill Niblock.** The method, stated plainly:
+
+> "a style of music built from **overlapping layers of sustained instrumental
+> tones, usually multitracked recordings of the same instrument playing closely
+> spaced pitches**." — "**The close, microtonal intervals create their own
+> beats.**" — "There's **no melody, no change of dynamics and no pulse**."
+> — *Early Winter* (1993) is "a typical specimen. Its **44 minutes** feature the
+> Soldier String Quartet, two flutists and **38 channels of recorded sound**."
+> [corpus:secondinversion, *Phill Niblock at 85*]
+
+And the one hard number anybody gives for the detuning:
+
+> layers "incorporated deliberate detuning, where pitches were intentionally
+> offset from standard tuning (such as **55 Hz against 57 Hz**), producing
+> acoustic 'beating' effects and complex harmonic interactions." [⚠ summary]
+
+**55 against 57 Hz is a 2 Hz beat and the two tones are 62 cents apart.**
+
+**Éliane Radigue**, who made her drone works on an ARP 2500 recorded live to
+tape, uses beating as the subject rather than as a texture:
+
+> beating tones are "a favorite technique that allows her use of **long tones to
+> exist in an ambiguous place on the spectrum between pitch and rhythm**." [⚠ summary]
+
+That sentence is the justification for the drone rack's centre panel being a
+**lamp that pulses at the beat rate** rather than a number printing cents: the
+quantity is on the boundary between pitch and rhythm, and a rhythm is something
+you watch, not something you read.
+
+**AND IT CAUGHT A DEFECT IN THE RACK, MEASURED.** SPREAD shipped with a range of
+0–40 cents. At A1 with five tones on the harmonic series that whole travel
+produces **0.07 to 0.63 beats per second** — and the only band anybody publishes
+is **one to five** (`how-a-drone-evolves.md` #7), with Niblock's own offset
+sitting at 62 cents and 2 Hz. The knob could not reach the practice it was
+modelling, which is the same class of defect as a knob that does nothing. The
+range is 0–120 cents now (DRIFT 0–60 with it); the **default is unchanged**,
+because how much a record beats is a decision for the owner and the face prints
+the consequence in hertz so it can be made by eye.
+
+---
+
+## 4b. GENERATIVE EURORACK, AND THE PATCH THIS PROGRAM CANNOT PLAY
+
+*`modulation-and-the-eurorack.md` §5 covered this a day before the ambient table
+was written, and I did not open it while writing the table. This is that section
+spent, plus the Krell algorithm in detail, which it did not have.*
+
+The generative brief, in the practitioners' own words:
+
+> "Generative patches are created by connecting modules in such a way that they
+> **basically play themselves with little or no interaction from the user**, yet
+> the music evolves and changes **without repeating itself**."
+> [corpus:macprovideo, via §5.5]
+
+> generative ambient composition "focuses on **cycles, rates of change, and
+> attenuating voltages** to influence a **slowly evolving but seemingly static
+> form**." [⚠ summary]
+
+The how-to sources agree on the same three moves, and all three are about
+restraint rather than about modules:
+
+> "**Modulate the tone as well as the pattern** to prevent things sounding
+> stagnant" · use a "**slower rate of change**" with "subtlety, so **attenuate
+> modulations**" · "play with different wave shapes for less predictable
+> changes". Reverb "wet mix set to about **65%** and a long decay."
+> [corpus:musicradar, *How to design an ambient drone with your Eurorack modular synth*]
+
+> "using **modulation sources to control VCAs** allows you to set up a near
+> limitless piece of music" · "logic modules, sequential switches, matrix mixers
+> — control on tap" · "ambient music tends to run for longer and generally
+> **doesn't remain static**."
+> [corpus:musicradar, *How to use modular synths to create ambient music*]
+
+The ambient table's 60% wet against that 65%, and its coprime LFO pairs against
+"cycles, rates of change", are the parts already built. **What is not built is
+the canonical patch itself.**
+
+### THE KRELL PATCH, AS AN ALGORITHM
+
+Todd Barton's, after the Barrons' *Forbidden Planet* score, released 2012 — the
+patch every generative-ambient source names first. The mechanism, from a
+textbook treatment rather than a forum post:
+
+> "The heart of a Krell patch is a **voltage-controlled cycling envelope
+> generator with an end pulse**, where the **rise and fall times are modified by
+> random, periodically changing voltage**, and the envelope generator controls a
+> VCA through which a VCO is heard, with **each end pulse triggering a sample
+> and hold for a new pitch**." [⚠ summary]
+
+> "the envelope **fires a trigger at the end of its decay stage**, and when it is
+> in looping mode, that trigger is used to **fire the envelope again**." — "The
+> SRV sends random voltages that the oscillator interprets as pitches, and
+> because the SRV has the **correlation parameter, we can control how far each
+> note is from the last note**." — sampling occurs "triggered by the
+> end-of-cycle trigger from the main envelope."
+> [corpus:olney.ai, *Computational Thinking through Modular Sound Synthesis*, ch. 14]
+
+> the result is "**short trills of high notes and slow swelling bass notes**" —
+> "a rhythm of slow, sustained notes interspersed with fast bursts of bleeps."
+> [⚠ summary]
+
+**Read that as a specification and every clause of it is unreachable here.** One
+random source decides three things at once — *the pitch, how long the note
+lasts, and when the next note happens* — and this program's four generative
+kinds (`fm`, `sh`, `dejavu`, `bernoulli`) can touch **none** of them. Every one
+of them modulates a **knob**. `modulation-and-the-eurorack.md` §6 item 4 said so
+a day before this genre was written:
+
+> "**Generative PITCH** — every one of the four kinds currently modulates a knob.
+> **None of them can touch a note.**"
+
+And the correlation parameter has an exact counterpart already in the file that
+nothing generative feeds: `scaleStep`/`inKey` **is** a quantiser, and the
+one-note-at-a-time constraint the alap sources describe (§5b of the drone sheet)
+is the same idea as Marbles' correlation.
+
+**So the honest position on this genre is:** the drone, the room, the coprime
+modulation and the arrangement are built and sourced. The generative *voice* —
+the thing that makes a eurorack ambient patch play itself — is not, it is named
+here as the largest open item, and the ambient genre is the genre that most
+wants it. It is backlog work, not a footnote.
+
 ---
 
 ## 5. WHAT THE TABLE DOES WITH ALL OF IT
@@ -285,7 +412,22 @@ the lowpass so a drifting partial swells as it passes through.
 
 ## Sources
 
-**Fetched and quoted from the page:**
+**Fetched and quoted from the page (second pass, 2026-08-14, added after "Did you
+do research on ambient? On ambient drones? On ambient eurorack?"):**
+
+- [MusicRadar — How to design an ambient drone with your Eurorack modular synth](https://www.musicradar.com/how-to/ambient-drone-modular) *(65% wet and a long decay; "modulate the tone as well as the pattern"; "attenuate modulations")*
+- [MusicRadar — How to use modular synths to create ambient music](https://www.musicradar.com/news/how-to-use-modular-synths-ambient-music) *(modulation into VCAs; logic, sequential switches, matrix mixers)*
+- [olney.ai — *Computational Thinking through Modular Sound Synthesis*, ch. 14 "Krell"](https://olney.ai/ct-modular-book/krell.html) *(the looping envelope, the end-of-cycle trigger, the sample-and-hold pitch, the correlation parameter)*
+- [Second Inversion — Phill Niblock at 85](https://www.secondinversion.org/2018/10/02/phill-niblock-at-85-austere-unpopular-astounding-minimalism/) *(overlapping layers of closely spaced pitches; "no melody, no change of dynamics and no pulse"; Early Winter, 44 minutes, 38 channels)*
+
+**Refused the fetcher and are therefore NOT quoted:** macprovideo *Making
+Generative Music With Eurorack Synths* (403); Straebel, *Technological
+implications of Phill Niblock's drone music* (503); james-saunders.com Niblock
+interview (bot wall). The Niblock 55-vs-57 Hz figure and the Radigue
+pitch/rhythm quote are ⚠ **search summary only** and are load-bearing — the
+first one changed a knob's range — which is flagged rather than buried.
+
+**Fetched and quoted from the page (first pass):**
 
 - [MusicRadar — A music professor breaks down Brian Eno's *Ambient 1: Music For Airports*](https://www.musicradar.com/artists/the-album-was-played-in-laguardia-airport-for-a-brief-period-in-1980-but-travellers-said-it-induced-unease-and-sounded-like-funeral-music-a-music-professor-breaks-down-brian-enos-ambient-1-music-for-airports) *(D Mixolydian; the five pitches of 2/1; "floating tonal centers between Ab major and F minor"; F(add9) no 3rd)*
 - [Sound On Sound — Sound Design For Ambient Music](https://www.soundonsound.com/techniques/sound-design-ambient-music) *(no verse/chorus; 300–400 Hz low-cut on the reverb send; the odd-bar-length loop)*
