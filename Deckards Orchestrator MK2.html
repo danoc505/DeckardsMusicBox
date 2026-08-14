@@ -253,6 +253,12 @@
   .modsteps span.on{ background:#7dffb0; box-shadow:0 0 7px rgba(125,255,176,.75); }
   .modfoot{ margin-top:.35rem; font:600 11px ui-monospace,monospace; color:#4e9c6b;
             letter-spacing:.10em; text-transform:uppercase; }
+  .scnrow{ display:flex; align-items:center; gap:.6rem; margin-top:.5rem; }
+  .scnbtn{ font:600 10px ui-monospace,monospace; letter-spacing:.12em; padding:.3rem .6rem;
+           background:#0d1a12; color:#57a377; border:1px solid #223028; border-radius:3px;
+           cursor:pointer; }
+  .scnbtn.lit{ color:#7dffb0; border-color:#7dffb0; box-shadow:0 0 6px rgba(125,255,176,.4); }
+  .scnfad{ flex:1; accent-color:#7dffb0; }
   /* ══ THE DRONE RACK'S FACE ═══════════════════════════════════════════════
      "I want to have controls for it to be interesting and interactive with a
       retro futuristic visual nature."
@@ -1585,7 +1591,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15a · the Mutable source, actually ported — and the resonator, at last</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15b · dungeon synth's drone is heard, all three t-models, and scenes</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -22634,7 +22640,7 @@ const GENRE = {
          themeA/B  69-90   the tune, on top of everything
 
        Wide at the bottom, tight at the top, exactly as the rule says. */
-    registers: { bass: [28, 43], keys: [48, 67], counter: [62, 79],
+    registers: { drone: [24, 32], bass: [33, 45], keys: [48, 67], counter: [62, 79],
                  bassWalk: [28, 43], ostinato: [67, 88],
                  themeA: [69, 90], themeB: [71, 91], themeC: [67, 86] },
     /* no swing, almost no push: a procession keeps time. The jitter is a
@@ -22940,6 +22946,18 @@ const GENRE = {
        about what it produces is worse than a table that says less. So this
        genre keeps its single `drone`, and giving it a real second role means
        writing it a riff table -- a new design with no source behind it yet. */
+    /* ── THE DRONE, HEARD AT LAST ─────────────────────────────────────────────
+   "Dungeon Synth does not seem to have a drone." Correct, and the file has
+   known it since the 2026-08-14 audit: this genre DECLARED bassStyle "drone"
+   and put V.bass -- the plucked voice -- on the lane, longest held note
+   4.80 s. The declaration was about how notes are written, not what plays
+   them, and nothing played a drone. "long pedal notes and drones"
+   [corpus:melodigging] is this genre'"'"'s own sourced identity; the drone lane
+   is how it finally gets the second half. Eight bars a note, held past the
+   material, pedalling the tonic most of the time -- and the BASS, lifted an
+   octave clear of it, keeps its plucked notes over the top, which is the
+   two-layer bottom the sources describe and one lane could never hold. */
+    drone: { unit: 8, hold: 2, pedal: 0.8, octave: 0 },
     bassStyle: "drone",
     bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },
     bassAccent: { accent: 0, slide: 0 },
@@ -23107,7 +23125,7 @@ const GENRE = {
        octave up, or the drone an octave up -- and both are design questions
        for a verdict, not numbers to slip in here.
        docs/genre-research/dungeon-synth-fx-and-balance.md §4 */
-    roleGain: { keys: 0.32, keys2: 0.17, ostinato: 0.50,
+    roleGain: { drone: 0.30, keys: 0.32, keys2: 0.17, ostinato: 0.50,
                 bass: 0.22, lead: 0.57, counter: 0.43, drums: 1.40 },
     /* THE PROCESSION, and the palette. The keys are a tape choir or a string
        ensemble, which is what the sources name: "choirs, strings, pipe/chapel
@@ -23193,6 +23211,14 @@ const GENRE = {
                         ["bassoon", 3], ["carnyx", 2],
                         ["auto", 1]] },
     params: {
+      /* the drone rack, set for a crypt: four tones on open FIFTHS -- the
+         medieval interval this genre is built on -- darker filter, slower
+         swell than ambient'"'"'s, and the two clocks still coprime */
+      dronebox: { voices: 4, shape: 2, wave: 1, spread: 7,
+                  clockA: 19, clockB: 23, drift: 5,
+                  cut: 420, res: 1.4, peak: 0.22, peakHz: 900,
+                  swell: 3.0, fall: 8, air: 0.10, level: 0.9,
+                  pan: 0, panHz: 0, panDep: 0 },
       /* ── THE SIZE OF THE DRUM LIVES HERE, not in `kick` above ───────────────
          `kick` is the acoustic kit's voicing and `soundOf` only hands it over
          when the kit is the machine playing -- the war drum reads NONE of it.
@@ -23838,12 +23864,12 @@ const GENRE = {
          own session shows: eight tracks, every one of them full of holes, and
          no track that is simply absent from a whole kind of section. The bridge
          stays deliberately thin, because a break is a break. */
-      roles: { intro:        ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
-               verse:        ["drums", "bass", "keys", "keys2", "lead", "ostinato"],
-               chorus:       ["keys", "keys2", "bass", "lead", "counter", "ostinato", "drums"],
-               bridge:       ["keys", "bass", "ostinato", "drums"],
-               instrumental: ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
-               outro:        ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"] },
+      roles: { intro:        ["drone", "drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+               verse:        ["drone", "drums", "bass", "keys", "keys2", "lead", "ostinato"],
+               chorus:       ["drone", "keys", "keys2", "bass", "lead", "counter", "ostinato", "drums"],
+               bridge:       ["drone", "keys", "bass", "ostinato", "drums"],
+               instrumental: ["drone", "drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+               outro:        ["drone", "drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"] },
       /* one or two parts left at the end; the draw picks WHICH */
       thinTo: [1, 2],
       /* the record opens on ONE KEYBOARD ALONE nearly every time -- that is
@@ -23902,7 +23928,11 @@ const GENRE = {
            from there is `rest` and the section swaps, which is what the same
            session shows: not parts arriving forever, but parts coming and
            going once they have all arrived. */
-        enter: { drums: [0.010, 0.015], keys: [0.010, 0.015], ostinato: [0.025, 0.025],
+        /* the drone is the ground and the ground is there before anyone --
+           an enter table that does not name a role never admits it, which is
+           how the first cut of this drone played its opening note and was
+           never heard from again */
+        enter: { drone: [0.0, 0.005], drums: [0.010, 0.015], keys: [0.010, 0.015], ostinato: [0.025, 0.025],
                  bass: [0.055, 0.025], lead: [0.10, 0.06],
                  keys2: [0.17, 0.07], counter: [0.28, 0.08] },
         /* NO `openWith`: every part with an entry point can open the record,
@@ -24333,7 +24363,12 @@ const GENRE = {
        the "long percussion loop of odd length" Sound On Sound names as the
        ambient move, generated the way the module generates it. */
     ostinato: { unit: 2, vel: 0.30, run: true, follow: true, ratchet: 0,
-                marbles: { bias: 0.28, dejavu: 0.55, jitter: 0.5 },
+                marbles: { bias: 0.28, dejavu: 0.55, jitter: 0.5,
+                           /* all three ported models, drawn per song, weighted
+                              toward the pattern bank; a record that draws
+                              clusters phrases in bursts, a bernoulli one
+                              scatters -- variety BETWEEN records, not within */
+                           model: [["drums", 6], ["clusters", 3], ["bernoulli", 1]] },
                 cells: [[[0, 4, 7, 4], 5], [[0, 7, 4, 2, 7], 3], [[0, 4, 2, 7], 2]] },
     counter: { style: "line", density: 0.14, intervals: [-3, -5, -7, -12],
                octaves: [-12, 12], answer: 0.4 },
@@ -29363,21 +29398,41 @@ function makeMaterials(chart, editPlan, arcPlan){
     const bias = Math.max(0, Math.min(1, D.bias == null ? 0.4 : D.bias));
     const dejavu = Math.max(0, Math.min(1, D.dejavu == null ? 0.5 : D.dejavu));
     const jitter = Math.max(0, Math.min(1, D.jitter || 0));
+    /* ── THE THREE MODELS, all from t_generator.cc, drawn per song when the
+       declaration offers a weighted list -- the file's own idiom, so every
+       model a table names is reachable and measurable. DRUMS is the pattern
+       bank above; BERNOULLI is the module's coin per slot with BIAS as the
+       threshold; CLUSTERS is its divider idea -- runs of hits then gaps, the
+       run length drawn through the same sequence so it loops and erodes the
+       way everything on this module does. */
+    const model = Array.isArray(D.model) ? wpick(rng, D.model) : (D.model || "drums");
     const seq = new MarblesSequence(rng, D.length || 8);
     const out = [];
     for(let b = 0; b < bars; b++){
-      /* BIAS steers WHERE in the bank the drawn value lands -- the module's
-         "strength" reading -- and the sequence decides whether this bar's
-         draw is fresh, looped or jumped */
       const v = Math.max(0, Math.min(0.999, seq.next(dejavu) * 0.6 + bias * 0.4));
-      const pat = T_PATTERNS[Math.floor(v * T_PATTERNS.length)];
       const row = [];
-      for(let k = 0; k < 8; k++){
-        if(!pat[k]) continue;
-        /* jitter^4 * a fraction of a step, the module's own taper */
-        const j = jitter * jitter * jitter * jitter * (rng() * 2 - 1) * 1.5;
-        row.push({ step: Math.max(0, Math.min(15, Math.round(k * 2 + j))),
-                   accent: pat[k] === 2 });
+      if(model === "bernoulli"){
+        for(let k = 0; k < 8; k++){
+          const c = rng();
+          if(c > 1 - bias * 0.9) continue;               // BIAS thins the coin
+          if(c < v * 0.5) row.push({ step: k * 2, accent: c < v * 0.15 });
+        }
+      } else if(model === "clusters"){
+        let k = 0;
+        while(k < 8){
+          const run = 1 + Math.floor(v * 3), gap = 1 + Math.floor((1 - bias) * 3);
+          for(let r = 0; r < run && k < 8; r++, k++)
+            row.push({ step: k * 2, accent: r === 0 });
+          k += gap;
+        }
+      } else {
+        const pat = T_PATTERNS[Math.floor(v * T_PATTERNS.length)];
+        for(let k = 0; k < 8; k++){
+          if(!pat[k]) continue;
+          const j = jitter * jitter * jitter * jitter * (rng() * 2 - 1) * 1.5;
+          row.push({ step: Math.max(0, Math.min(15, Math.round(k * 2 + j))),
+                     accent: pat[k] === 2 });
+        }
       }
       out.push(row);
     }
@@ -37103,6 +37158,44 @@ function modScopeEl(){
   wrap.appendChild(steps);
   const foot = el("div", "modfoot");
   wrap.appendChild(foot);
+
+  /* ══ SCENES — Frames' idea, task #63, on the bank's own glass ═══════════════
+     Two complete states of the HAND's desk -- every TRIM offset -- and a
+     crossfader between them. STORE A and STORE B capture what the knobs are
+     doing now; the fader then MORPHS every numeric offset from A's value to
+     B's, switches snapping at the midpoint. It writes TRIM and nothing else --
+     the same door the stereo field's presets use -- so the genre's own values
+     and automation are untouched underneath, and releasing every knob
+     (double-click, or the field's AS WRITTEN) still hands the record back.
+     Live-performance state, deliberately not part of the composed record: a
+     scene is a hand gesture, and Law 10 is about the song. */
+  const scn = el("div", "scnrow");
+  const mkBtn = (txt) => { const b2 = document.createElement("button");
+    b2.className = "scnbtn"; b2.textContent = txt; return b2; };
+  const bA = mkBtn("STORE A"), bB = mkBtn("STORE B");
+  const fad = document.createElement("input");
+  fad.type = "range"; fad.min = 0; fad.max = 1; fad.step = 0.01; fad.value = 0;
+  fad.className = "scnfad";
+  const scnState = { A: null, B: null };
+  const snap = () => { const o = {}; for(const k in TRIM) o[k] = TRIM[k]; return o; };
+  bA.addEventListener("click", () => { scnState.A = snap(); bA.classList.add("lit"); });
+  bB.addEventListener("click", () => { scnState.B = snap(); bB.classList.add("lit"); });
+  fad.addEventListener("input", () => {
+    if(!scnState.A || !scnState.B) return;
+    const x = +fad.value;
+    const keys = new Set([...Object.keys(scnState.A), ...Object.keys(scnState.B)]);
+    for(const k of keys){
+      const a2 = scnState.A[k] || 0, b3 = scnState.B[k] || 0;
+      const c2 = CONTROL[k];
+      const v = (c2 && c2.step >= 1) ? (x < 0.5 ? a2 : b3) : a2 + (b3 - a2) * x;
+      if(v === 0 && a2 === 0 && b3 === 0) continue;
+      TRIM[k] = v;
+      busTouched(k);
+    }
+    for(const kn of KNOBS) kn.refresh();
+  });
+  scn.appendChild(bA); scn.appendChild(fad); scn.appendChild(bB);
+  wrap.appendChild(scn);
 
   const W = 1000, H = 300, LANES = 4, LH = H / LANES;
   const mk = (tag, attrs, cls) => {

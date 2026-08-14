@@ -406,7 +406,13 @@ depth with integrated phase).
 
 **Still not built, and named rather than dropped:**
 
-1. **Scenes** (Frames). Task #63.
+1. ~~Scenes~~ **built 2026-08-15b** — STORE A / STORE B / crossfader on the
+   modulator bank's glass, morphing every hand TRIM between two captured desk
+   states, switches snapping at the midpoint. Task #63's other half (serial
+   routing) remains: the honest design is a RES column on the matrix so any
+   part can feed the resonator directly, and it is not built because the
+   matrix's builder, `routeBaseFor` and `probe_wiring` all walk the column
+   list and a rushed column is a broken desk.
 2. **Clock dividers and sequential switches** (§5.3) — a lane that changes on
    its own period, at play time, outside the drone rack and the bank.
 3. **Marbles' X-channel processing and the t-section's other two models**
