@@ -203,6 +203,27 @@
      numbers the person playing it cares about were only visible to a probe. Green up to
      -6 dBFS, amber to -1, red above -- the standard reading, so the colour
      means the same thing here as on any other meter anyone has used. */
+  /* ══ THE CRT ══════════════════════════════════════════════════════════════
+     Retro-futuristic on purpose and not as decoration: this panel's whole
+     subject is a signal moving, and the visual language for "a signal moving"
+     that everyone already reads is a phosphor tube. So: a curved dark glass, a
+     scanline field, a green trace that BLOOMS where it is brightest, and a
+     bezel with the machine's name etched into it.
+
+     THE GLOW IS AN SVG FILTER, not a box-shadow, because it has to follow the
+     trace rather than the element -- a shadow on a polyline is a shadow on its
+     bounding box, which on a wide flat wave is a glowing rectangle. */
+  .sk-crt{ background:linear-gradient(#191d21,#0e1114); border-color:#2b3238; }
+  .sk-crt .brand .maker{ color:#5f8f6a; }
+  .modglass{ position:relative; border-radius:10px; overflow:hidden;
+             background:radial-gradient(120% 140% at 50% 40%,#0d1a12 0%,#060a07 70%,#040705 100%);
+             border:1px solid #223028; box-shadow:inset 0 0 44px rgba(0,0,0,.9),
+                     inset 0 0 8px rgba(90,220,140,.06); }
+  .modglass::after{ content:""; position:absolute; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(to bottom, rgba(0,0,0,.28) 0 1px, rgba(0,0,0,0) 1px 3px);
+    mix-blend-mode:multiply; }
+  .modglass::before{ content:""; position:absolute; inset:-30%; pointer-events:none;
+    background:radial-gradient(closest-side, rgba(120,255,180,.07), transparent 70%); }
   /* ── THE MODULATION SCOPE ────────────────────────────────────────────────
      Dark, because it is a screen and not a faceplate, and because the traces
      have to read against each other rather than against a panel colour.
@@ -210,15 +231,28 @@
      drawn in the accent -- the two facts the research turned on, on the glass
      where they can be seen instead of in a probe's last column. */
   .modwrap{ width:100%; }
-  .modsvg{ width:100%; height:clamp(150px,26vh,260px); display:block;
-           background:#0b0d0f; border:1px solid #262b30; border-radius:4px; }
-  .modtrace{ fill:none; stroke:#5d6a74; stroke-width:1.6; vector-effect:non-scaling-stroke; }
-  .modtrace.mem{ stroke:#9fb3c0; stroke-width:2.2; }
-  .modtrace.free{ stroke:#e0a33c; stroke-width:2.4; }
-  .modlab{ fill:#7d8b95; font:600 11px ui-monospace,monospace; letter-spacing:.04em; }
-  .modhead{ stroke:#e6e9ec; stroke-width:1.2; opacity:.75; vector-effect:non-scaling-stroke; }
-  .modfoot{ margin-top:.3rem; font:600 11px ui-monospace,monospace; color:#8b98a2;
-            letter-spacing:.03em; }
+  .modsvg{ width:100%; height:clamp(170px,30vh,300px); display:block; }
+  /* the song's own automation: dim, behind, the thing the hand is working over */
+  .modtrace{ fill:none; stroke:#2f6b47; stroke-width:1.3; vector-effect:non-scaling-stroke; opacity:.75; }
+  .modtrace.mem{ stroke:#4e9c6b; stroke-width:1.8; opacity:.9; }
+  .modtrace.free{ stroke:#c8862a; stroke-width:2; opacity:.95; }
+  /* a HAND slot: bright phosphor, and it blooms */
+  .modhand{ fill:none; stroke:#7dffb0; stroke-width:2.4; vector-effect:non-scaling-stroke;
+            filter:url(#modbloom); }
+  .modhand.off{ stroke:#20402e; stroke-width:1.2; filter:none; }
+  .moddot{ fill:#ccffdf; filter:url(#modbloom); }
+  .modlab{ fill:#57a377; font:600 11px ui-monospace,monospace; letter-spacing:.10em; }
+  .modlab.hand{ fill:#8fffc0; }
+  .modgrid{ stroke:#12301f; stroke-width:1; vector-effect:non-scaling-stroke; }
+  .modhead{ stroke:#e8fff1; stroke-width:1.1; opacity:.55; vector-effect:non-scaling-stroke; }
+  .modring i{ display:block; width:100%; height:100%; border-radius:50%;
+              background:#16301f; box-shadow:inset 0 0 3px rgba(0,0,0,.8); }
+  .modring b{ background:#7dffb0; box-shadow:0 0 8px rgba(125,255,176,.8); }
+  .modsteps{ display:flex; gap:3px; margin-top:.35rem; }
+  .modsteps span{ flex:1; height:8px; border-radius:2px; background:#16301f; }
+  .modsteps span.on{ background:#7dffb0; box-shadow:0 0 7px rgba(125,255,176,.75); }
+  .modfoot{ margin-top:.35rem; font:600 11px ui-monospace,monospace; color:#4e9c6b;
+            letter-spacing:.10em; text-transform:uppercase; }
   .mixer .mixstrips{ display:flex; gap:.55rem; align-items:flex-end; flex-wrap:wrap; }
   /* ── A CHANNEL, A GROUP, AND THE DIFFERENCE BETWEEN THEM ─────────────────
      A channel strip carries one instrument; the group beside it carries what
@@ -1454,7 +1488,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-13l · the modulation has a face you can see and turn</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-14a · a modulator bank with four slots and a phosphor tube</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3904,9 +3938,50 @@ const INSTRUMENTS = {
      `fixed: true` because this is not a slot anything is drawn into -- it is
      part of the desk, like the spring tank and the compressor beside it. */
   modulation: {
-    slot: "modulation", label: "the modulation module", fixed: true,
+    slot: "modulation", label: "the modulator bank", fixed: true,
     lanes: {},
     controls: [
+      { k:"d0", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS", cap:"DEST 1",
+        min:0, max:11, step:1, def:0, kind:"switch", live:true },
+      { k:"m0", label:"LFO/S+H/DEJA VU/FM", cap:"MODE 1",
+        min:0, max:3, step:1, def:0, kind:"switch", live:true },
+      { k:"r0", label:"cycle length in bars", cap:"RATE 1",
+        min:1, max:128, step:1, def:16, unit:"bars", kind:"voicing", live:true },
+      { k:"a0", label:"how far it swings the destination, and which way up", cap:"AMT 1",
+        min:-1, max:1, step:0.01, def:0, kind:"voicing", live:true },
+      { k:"s0", label:"SINE/TRI/RAMP/FALL", cap:"WAVE 1",
+        min:0, max:3, step:1, def:0, kind:"switch", live:true },
+      { k:"d1", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS", cap:"DEST 2",
+        min:0, max:11, step:1, def:4, kind:"switch", live:true },
+      { k:"m1", label:"LFO/S+H/DEJA VU/FM", cap:"MODE 2",
+        min:0, max:3, step:1, def:1, kind:"switch", live:true },
+      { k:"r1", label:"cycle length in bars", cap:"RATE 2",
+        min:1, max:128, step:1, def:32, unit:"bars", kind:"voicing", live:true },
+      { k:"a1", label:"how far it swings the destination, and which way up", cap:"AMT 2",
+        min:-1, max:1, step:0.01, def:0, kind:"voicing", live:true },
+      { k:"s1", label:"SINE/TRI/RAMP/FALL", cap:"WAVE 2",
+        min:0, max:3, step:1, def:0, kind:"switch", live:true },
+      { k:"d2", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS", cap:"DEST 3",
+        min:0, max:11, step:1, def:7, kind:"switch", live:true },
+      { k:"m2", label:"LFO/S+H/DEJA VU/FM", cap:"MODE 3",
+        min:0, max:3, step:1, def:2, kind:"switch", live:true },
+      { k:"r2", label:"cycle length in bars", cap:"RATE 3",
+        min:1, max:128, step:1, def:8, unit:"bars", kind:"voicing", live:true },
+      { k:"a2", label:"how far it swings the destination, and which way up", cap:"AMT 3",
+        min:-1, max:1, step:0.01, def:0, kind:"voicing", live:true },
+      { k:"s2", label:"SINE/TRI/RAMP/FALL", cap:"WAVE 3",
+        min:0, max:3, step:1, def:1, kind:"switch", live:true },
+      { k:"d3", label:"ECHO TONE/ECHO FDBK/ECHO SEND/ECHO VERB/DESK LOW/DESK MID/DESK HIGH/KEYS ROOM/LEAD ROOM/DRUM ECHO/SPRING DWELL/SPRING TENS", cap:"DEST 4",
+        min:0, max:11, step:1, def:2, kind:"switch", live:true },
+      { k:"m3", label:"LFO/S+H/DEJA VU/FM", cap:"MODE 4",
+        min:0, max:3, step:1, def:0, kind:"switch", live:true },
+      { k:"r3", label:"cycle length in bars", cap:"RATE 4",
+        min:1, max:128, step:1, def:64, unit:"bars", kind:"voicing", live:true },
+      { k:"a3", label:"how far it swings the destination, and which way up", cap:"AMT 4",
+        min:-1, max:1, step:0.01, def:0, kind:"voicing", live:true },
+      { k:"s3", label:"SINE/TRI/RAMP/FALL", cap:"WAVE 4",
+        min:0, max:3, step:1, def:0, kind:"switch", live:true },
+
       /* `voicing` and `switch`, NOT `gesture`, and the battery is why: a
          gesture is a knob the CONDUCTOR may ride, and the seam check "every
          knob the conductor can move is one some genre moves" is right to fail
@@ -3918,9 +3993,15 @@ const INSTRUMENTS = {
       { k:"freeze", label:"hold every modulator where it is", cap:"FREEZE",
         min:0, max:1, step:1, def:0, kind:"switch", live:true },
     ],
-    panel: { skin: "spring", maker: "DECKARD", title: "MODULATION", grid: "modscope",
+    panel: { skin: "crt", maker: "DECKARD", title: "MODULATOR BANK", grid: "modscope",
              picture: "modscope",
-             groups: [{ label: "THE HAND", keys: ["depth", "freeze"] }] },
+             groups: [
+               { label: "SLOT 1", keys: ["d0", "m0", "r0", "a0", "s0"] },
+               { label: "SLOT 2", keys: ["d1", "m1", "r1", "a1", "s1"] },
+               { label: "SLOT 3", keys: ["d2", "m2", "r2", "a2", "s2"] },
+               { label: "SLOT 4", keys: ["d3", "m3", "r3", "a3", "s3"] },
+               { label: "MASTER", keys: ["depth", "freeze"] },
+             ] },
   },
 
   spring: {
@@ -5132,6 +5213,120 @@ function drawIn(v, rng){
    and the movement stops without the sound changing. ═══════════════════════ */
 const MODTRIM = { depth: 1, freeze: 0, at: 0 };
 
+/* ══ THE MODULATOR BANK — FOUR OF THEM, PATCHED AND DIALLED BY HAND ═════════
+   "I dont see lfo rack or drone rack with controlls? ... I dont want some lazy
+    work. I want to have controls for it to be interesting and interactive"
+
+   The first answer was one module with two knobs and a read-out, which is a
+   METER, not a rack. This is the rack: four independent modulators, each with
+   its own destination, mode, rate, depth and shape, all of them reaching the
+   sound through `motionAt` -- the same door every genre's own automation uses,
+   so a hand modulator is not a second system bolted on, it is another move on
+   the same lane.
+
+   AT REST IT IS NOT THERE. Every slot ships at depth 0, and a slot at zero
+   returns before it computes anything, so a program nobody has touched is the
+   one it always was. The snapshot and the render A/B hold that.
+
+   DEPTH IS A FRACTION OF THE DESTINATION'S OWN RANGE, not a raw number. One
+   knob has to work for a filter measured in Hz and a send measured 0 to 1, and
+   asking the person playing it to know which is which is how a control becomes
+   unusable. +/-1 means "the whole dial"; the sign is an attenuverter.
+
+   STATELESS BY CONSTRUCTION. `motionAt` is arithmetic on a time and must stay
+   that way -- it is called from the live scheduler and from an offline render
+   at arbitrary moments, and the render battery cuts two-bar excerpts out of the
+   middle [Law 10]. So the sample-and-hold and the deja-vu here draw from a HASH
+   of the slot and the step rather than from a running generator: the same step
+   yields the same value, for ever, in any order, in either engine. ═════════ */
+const HANDMOD_DEST = ["echo.tone", "echo.fb", "echo.send", "echo.verb",
+                      "desk.low", "desk.mid", "desk.high",
+                      "matrix.keysRoom", "matrix.leadRoom", "matrix.drumsEcho",
+                      "spring.dwell", "spring.tension"];
+const HANDMOD_MODE = ["lfo", "sh", "dejavu", "fm"];
+const HANDMOD_SHAPE = ["sin", "tri", "ramp", "fall"];
+const HANDMOD = [];                       // filled from the panel; see handModRead
+
+/* ── ONE READER, TWO CALLERS ───────────────────────────────────────────────
+   `setSpace` fills this so the bank reaches the SOUND -- live and offline
+   alike, through P(), which is the door the seam check reads. But setSpace only
+   runs once there is an audio graph, and a graph only exists after the first
+   gesture: so before anything is played, the panel had nothing to draw and drew
+   four empty lanes reading "--". A rack that cannot show its own state until
+   you press play is the meter problem again in a smaller shape.
+
+   So the read is one function and the picture calls it too. `get` is the only
+   difference -- P() through the graph for the sound, `panelValue` for the
+   glass -- and neither of these controls is automatable, so the two agree by
+   construction rather than by luck. */
+function handModRead(get){
+  HANDMOD.length = 0;
+  for(let n = 0; n < 4; n++){
+    const di = Math.round(get("d" + n, 0));
+    const mi = Math.round(get("m" + n, 0));
+    const si = Math.round(get("s" + n, 0));
+    HANDMOD.push({
+      dest:  HANDMOD_DEST[Math.max(0, Math.min(HANDMOD_DEST.length - 1, di))],
+      mode:  HANDMOD_MODE[Math.max(0, Math.min(3, mi))],
+      shape: HANDMOD_SHAPE[Math.max(0, Math.min(3, si))],
+      rate:  get("r" + n, 16),
+      depth: get("a" + n, 0),
+      /* DEJA VU rides the WAVE switch when the mode is deja vu: four positions
+         across its travel, which is Marbles' notch at the centre with novelty
+         below and shuffle above. A mode's controls have to be knobs the panel
+         already has. */
+      dejavu: [0.15, 0.5, 0.75, 1][Math.max(0, Math.min(3, si))],
+      phase: n * 0.25,
+    });
+  }
+}
+
+/* a stable value in [-1,1) for (slot, index). The same arithmetic hash the rest
+   of this file uses for its named streams, so nothing new has to be trusted. */
+function handRand(slot, i){
+  const h = hash32("hand:" + slot + ":" + i);
+  return ((h >>> 8) & 0xffff) / 32768 - 1;
+}
+function handModAt(key, tSec, plan){
+  if(!HANDMOD.length) return 0;
+  const STEPS = plan.steps || 16, spb = plan.spb || 0.125;
+  const c = CONTROL[key];
+  const span = c ? (c.max - c.min) : 1;
+  let d = 0;
+  for(let n = 0; n < HANDMOD.length; n++){
+    const m = HANDMOD[n];
+    if(!m || !m.depth || m.dest !== key) continue;
+    const step = Math.round(tSec / spb);
+    const cyc = Math.max(1, m.rate) * STEPS;          // steps per cycle
+    let v;
+    if(m.mode === "sh"){
+      v = handRand(n, Math.floor(step / cyc));
+    } else if(m.mode === "dejavu"){
+      /* Marbles, by hand: a sixteen-step loop, and DEJA VU decides whether the
+         step you get is the loop's own or one drawn from anywhere in it. The
+         knob is the SHAPE control here, reading 0..1 across its four positions,
+         because a mode's controls have to come from the knobs the panel has. */
+      const L = 16, i = Math.floor(step / cyc);
+      const dv = m.dejavu == null ? 0.5 : m.dejavu;
+      const slot = (dv > 0.5 && handRand(n + 40, i) > 1 - (dv - 0.5) * 2)
+                 ? Math.floor(((handRand(n + 80, i) + 1) / 2) * L) : (i % L);
+      v = handRand(n, slot);
+    } else if(m.mode === "fm"){
+      /* an LFO whose rate is driven by a slower one -- the patch the sources
+         describe, and the reason phase is accumulated in whole steps here
+         rather than divided: a changing rate must not jump the phase */
+      const mod = MOTION_WAVE.sin(((step / (cyc * 5)) % 1 + 1) % 1);
+      const ph = (step / cyc) * (1 + 0.6 * mod);
+      v = MOTION_WAVE[m.shape](((ph % 1) + 1) % 1);
+    } else {
+      const ph = step / cyc + (m.phase || 0);
+      v = MOTION_WAVE[m.shape](((ph % 1) + 1) % 1);
+    }
+    d += m.depth * span * 0.5 * v;
+  }
+  return d;
+}
+
 function motionAt(plan, key, ev, offset){
   const moves = plan.lanes[key];
   if(!moves || !ev || ev.tSec == null) return 0;
@@ -5257,7 +5452,12 @@ function motionAt(plan, key, ev, offset){
   /* the attenuverter, applied once to the SUM rather than per move: a hand on
      this is a hand on "how much modulation is there", and scaling each move
      separately would be the same number written eight times. */
-  return MODTRIM.depth === 1 ? d : d * MODTRIM.depth;
+  if(MODTRIM.depth !== 1) d *= MODTRIM.depth;
+  /* and the four hand modulators, which are moves on this lane like any other.
+     Added AFTER the attenuverter on purpose: DEPTH is a hand on what the SONG
+     is doing, and a hand that also scaled the other hand would make the bank's
+     own depth knobs mean two different things at two settings. */
+  return d + handModAt(key, tSec, plan);
 }
 
 /* THE PLAN. Built once per song, after the arrangement exists (a gesture needs
@@ -14309,6 +14509,14 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       if(frz && !MODTRIM.freeze) MODTRIM.at = 0;   // the UI refines this to "now"
       MODTRIM.freeze = frz;
       MODTRIM.depth  = dep;
+      /* ── AND THE FOUR SLOTS, READ THE SAME WAY ────────────────────────────
+         Twenty controls, read once per song through P() like every other knob
+         on the desk, so the bank works in an offline render and not only under
+         a live animation frame -- which is the fault the seam check caught the
+         first time this panel was built. A slot at AMT 0 is stored anyway and
+         costs nothing: `handModAt` returns before it computes for a zero
+         depth, so the bank at rest is not in the signal path at all. */
+      handModRead((k, d) => P(g, null, "modulation", k, d));
     }
     if(g.ensureChannels) g.ensureChannels(SONG);
     /* the mixer's hand, re-applied whenever the song's sound is set -- so a
@@ -35587,6 +35795,24 @@ let busPending = null;
    see inside setSpace, and a seam check holds the declaration against the
    battery's own list of per-song controls so the two cannot drift. */
 function busTouched(key){
+  /* ── A HAND ON THE BANK REDRAWS THE TUBE ──────────────────────────────────
+     The modulator bank's twenty controls include five SWITCHES per slot, and a
+     switch is not `live` -- it does not ride a bus. But turning DEST or MODE
+     changes the shape on the glass completely, and a panel whose picture does
+     not follow its own knobs is the meter this started as. So the scope is
+     repainted for any modulation control, before the early return below.
+
+     `setSpace` is what actually re-reads the twenty knobs into HANDMOD, and
+     `refreshBus` is what calls it -- so the repaint is queued behind the same
+     timeout rather than racing it. */
+  if(String(key).startsWith("modulation.")){
+    if(!busPending) busPending = setTimeout(() => {
+      busPending = null;
+      try { MK2.refreshBus(); } catch(e){}
+      for(const sc of MODSCOPES) if(sc.__paint) sc.__paint();
+    }, 60);
+    return;
+  }
   const c = CONTROL[key];
   if(!c || (c.kind !== "bus" && !c.live)) return;
   if(busPending) return;
@@ -35845,90 +36071,129 @@ function fieldRows(){
    are too. Only the playhead moves, which is one style write a frame. */
 function modScopeEl(){
   /* the class IS the declaration: `picture: "modscope"` on the panel, and the
-     seam check looks for exactly that on the glass. A picture a machine claims
-     and does not draw is the same defect as a knob nothing reads, and this
-     check caught this panel on its first run. */
+     seam check looks for exactly that on the glass. */
   const wrap = el("div", "modwrap modscope");
-  const svgNS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(svgNS, "svg");
+  const glass = el("div", "modglass");
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
   svg.setAttribute("class", "modsvg");
   svg.setAttribute("preserveAspectRatio", "none");
-  wrap.appendChild(svg);
-  const head = document.createElementNS(svgNS, "line");
-  head.setAttribute("class", "modhead");
+  svg.setAttribute("viewBox", "0 0 1000 300");
+  /* the bloom, so a bright trace spills the way phosphor does */
+  svg.innerHTML =
+    '<defs><filter id="modbloom" x="-20%" y="-60%" width="140%" height="220%">' +
+    '<feGaussianBlur stdDeviation="3.2" result="b"/>' +
+    '<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>' +
+    '</filter></defs>';
+  glass.appendChild(svg);
+  wrap.appendChild(glass);
+  const steps = el("div", "modsteps");
+  for(let i = 0; i < 16; i++) steps.appendChild(document.createElement("span"));
+  wrap.appendChild(steps);
   const foot = el("div", "modfoot");
   wrap.appendChild(foot);
+
+  const W = 1000, H = 300, LANES = 4, LH = H / LANES;
+  const mk = (tag, attrs, cls) => {
+    const n = document.createElementNS(NS, tag);
+    for(const k in attrs) n.setAttribute(k, attrs[k]);
+    if(cls) n.setAttribute("class", cls);
+    svg.appendChild(n);
+    return n;
+  };
+  const traces = [], labels = [], dots = [];
+  for(let i = 0; i < LANES; i++){
+    mk("line", { x1: 0, x2: W, y1: (i + 0.5) * LH, y2: (i + 0.5) * LH }, "modgrid");
+    traces.push(mk("polyline", { points: "" }, "modhand"));
+    dots.push(mk("circle", { r: 4.5, cx: -10, cy: 0 }, "moddot"));
+    labels.push(mk("text", { x: 8, y: i * LH + 15 }, "modlab hand"));
+  }
+  const song = mk("polyline", { points: "" }, "modtrace mem");
+  const head = mk("line", { x1: 0, x2: 0, y1: 0, y2: H }, "modhead");
+
+  /* ── WHAT IT DRAWS ────────────────────────────────────────────────────────
+     One lane per SLOT, because the slots are what the hand turns and a panel
+     whose picture does not show what its knobs do is the meter this started as.
+     Each lane is that slot's own modulator over the whole record, its dot on
+     the playhead, and its destination and mode written on it.
+
+     The SONG's own automation for the same destination is drawn faintly under
+     slot 1, so the hand can see what it is adding to rather than working blind.
+
+     Repainted whenever a knob moves -- the shapes are arithmetic on the plan,
+     so this is a few hundred points, not a render. */
   wrap.__paint = () => {
-    while(svg.firstChild) svg.removeChild(svg.firstChild);
+    /* the panel's own state, so the tube is right before a note has played */
+    handModRead((k, d) => panelValue("modulation", k, d));
     if(!SONG || !SONG.motion){ foot.textContent = "no record loaded"; return; }
     const plan = SONG.motion, STEPS = plan.steps || 16, nB = plan.nBars;
-    const W = 1000, H = 260, ROWS = 10;
-    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
-    /* sample every lane one value a bar -- the scale the eye reads, and the
-       scale the movement lives at */
-    const rows = [];
-    for(const key in plan.lanes){
-      const v = [];
-      for(let b = 0; b < nB; b++) v.push(motionAt(plan, key, { tSec: b * STEPS * plan.spb }));
-      if(v.some(x => !isFinite(x))) continue;
-      const lo = Math.min.apply(null, v), hi = Math.max.apply(null, v);
-      if(hi - lo < 1e-9) continue;
-      /* does it come round again? the same question probe_modulation asks */
-      const m = v.reduce((x, y) => x + y, 0) / v.length, d = v.map(x => x - m);
-      let best = 0, e0 = 0;
-      for(const x of d) e0 += x * x;
-      if(e0 > 1e-12) for(let lag = 1; lag <= Math.floor(nB / 2); lag++){
-        let n = 0, ea = 0, eb = 0;
-        for(let i = 0; i + lag < d.length; i++){ n += d[i] * d[i + lag]; ea += d[i] * d[i]; eb += d[i + lag] * d[i + lag]; }
-        const r = (ea > 1e-12 && eb > 1e-12) ? n / Math.sqrt(ea * eb) : 0;
-        if(r > best) best = r;
+    const N = 240;
+    let live = 0;
+    for(let i = 0; i < LANES; i++){
+      const m = HANDMOD[i];
+      const dest = m ? m.dest : "--";
+      const on = !!(m && m.depth);
+      if(on) live++;
+      const mid = (i + 0.5) * LH, amp = LH * 0.36;
+      const pts = [];
+      for(let k = 0; k < N; k++){
+        const tSec = (k / (N - 1)) * nB * STEPS * plan.spb;
+        /* the slot alone, normalised to its own full swing so a shallow slot is
+           still legible -- this is a shape, not a level meter */
+        const c = CONTROL[dest];
+        const span = c ? (c.max - c.min) : 1;
+        const v = span ? (handModAt(dest, tSec, plan) / (span * 0.5)) : 0;
+        pts.push(`${(k / (N - 1) * W).toFixed(1)},${(mid - v * amp).toFixed(1)}`);
       }
-      rows.push({ key, v, lo, hi, span: hi - lo, free: best < 0.60,
-                  mem: plan.lanes[key].some(x => x.kind === "curve") });
+      traces[i].setAttribute("points", pts.join(" "));
+      traces[i].setAttribute("class", "modhand" + (on ? "" : " off"));
+      labels[i].textContent =
+        `${i + 1}  ${m ? m.mode.toUpperCase() : "--"}  ->  ${dest}` +
+        (m ? `   ${m.rate}bars   ${(m.depth * 100).toFixed(0)}%` : "");
     }
-    /* a lane's SPAN is in the control's own units -- Hz against a level -- so
-       they cannot be ranked against each other directly. Ranked by how much of
-       its own dial it uses, which is the honest comparison. */
-    for(const r of rows){
-      const c = CONTROL[r.key];
-      r.use = c ? r.span / Math.max(1e-9, c.max - c.min) : r.span;
-    }
-    /* ── AND THE ONES THAT ARE THE POINT ARE NEVER RANKED OUT ─────────────
-       First pass ranked purely by how much of its own dial a lane uses, and
-       the sample and hold on the echo's tone -- +/-500 of a 300-9000 Hz
-       control, 11% of the dial -- came 30th and was invisible. The whole
-       subject of this panel is which lanes have MEMORY and which never come
-       round; ranking those out because they are shallow is the panel failing
-       at its one job. So they sort first, and the widest fill what is left. */
-    rows.sort((a2, z) =>
-      (z.free - a2.free) || (z.mem - a2.mem) || (z.use - a2.use));
-    const show = rows.slice(0, ROWS);
-    const rh = H / Math.max(1, show.length);
-    show.forEach((r, i) => {
-      const y0 = i * rh, mid = y0 + rh / 2, amp = rh * 0.40;
-      const line = document.createElementNS(svgNS, "polyline");
-      const pts = r.v.map((x, b) =>
-        `${(b / Math.max(1, nB - 1) * W).toFixed(1)},` +
-        `${(mid - ((x - r.lo) / r.span * 2 - 1) * amp).toFixed(1)}`).join(" ");
-      line.setAttribute("points", pts);
-      line.setAttribute("class", "modtrace" + (r.free ? " free" : "") + (r.mem ? " mem" : ""));
-      svg.appendChild(line);
-      const t = document.createElementNS(svgNS, "text");
-      t.setAttribute("x", "6"); t.setAttribute("y", (y0 + 12).toFixed(1));
-      t.setAttribute("class", "modlab");
-      t.textContent = r.key + (r.free ? "  ·  never comes round" : "");
-      svg.appendChild(t);
-    });
-    head.setAttribute("y1", "0"); head.setAttribute("y2", String(H));
-    head.setAttribute("x1", "0"); head.setAttribute("x2", "0");
-    svg.appendChild(head);
-    const free = rows.filter(r => r.free).length, mem = rows.filter(r => r.mem).length;
-    foot.textContent = `${rows.length} lanes moving · ${mem} with memory · ${free} never come round` +
-                       (show.length < rows.length ? ` · showing the ${show.length} widest` : "");
+    /* the song's own move on slot 1's destination, behind it */
+    const d0 = HANDMOD[0] ? HANDMOD[0].dest : null;
+    if(d0 && plan.lanes[d0]){
+      const c = CONTROL[d0], span = c ? (c.max - c.min) : 1;
+      const pts = [];
+      for(let k = 0; k < N; k++){
+        const tSec = (k / (N - 1)) * nB * STEPS * plan.spb;
+        let v = 0;
+        for(const mv of plan.lanes[d0]){
+          const one = { lanes: { x: [mv] }, spb: plan.spb, steps: STEPS, nBars: nB, secFn: plan.secFn };
+          v += motionAt(one, "x", { tSec });
+        }
+        pts.push(`${(k / (N - 1) * W).toFixed(1)},${(0.5 * LH - (v / (span * 0.5)) * LH * 0.36).toFixed(1)}`);
+      }
+      song.setAttribute("points", pts.join(" "));
+    } else song.setAttribute("points", "");
+    foot.textContent = `${live} of 4 slots patched · ` +
+      (MODTRIM.freeze ? "FROZEN · " : "") + `master depth ${(MODTRIM.depth * 100).toFixed(0)}%`;
   };
+
+  /* the playhead, the four dots and the deja-vu step row, once a frame */
   wrap.__head = (u) => {
-    const x = (Math.max(0, Math.min(1, u)) * 1000).toFixed(1);
-    head.setAttribute("x1", x); head.setAttribute("x2", x);
+    const x = Math.max(0, Math.min(1, u)) * W;
+    head.setAttribute("x1", x.toFixed(1)); head.setAttribute("x2", x.toFixed(1));
+    if(!SONG || !SONG.motion) return;
+    const plan = SONG.motion, STEPS = plan.steps || 16, nB = plan.nBars;
+    const tSec = u * nB * STEPS * plan.spb;
+    for(let i = 0; i < LANES; i++){
+      const m = HANDMOD[i];
+      const c = m && CONTROL[m.dest], span = c ? (c.max - c.min) : 1;
+      const v = (m && span) ? handModAt(m.dest, tSec, plan) / (span * 0.5) : 0;
+      dots[i].setAttribute("cx", x.toFixed(1));
+      dots[i].setAttribute("cy", ((i + 0.5) * LH - v * LH * 0.36).toFixed(1));
+      dots[i].style.opacity = (m && m.depth) ? "1" : "0.15";
+    }
+    /* which step of a deja-vu loop is sounding: the first slot in that mode */
+    const dv = HANDMOD.find(m => m && m.depth && m.mode === "dejavu");
+    const kids = steps.children;
+    if(dv){
+      const cyc = Math.max(1, dv.rate) * STEPS;
+      const at = Math.floor(Math.round(tSec / plan.spb) / cyc) % 16;
+      for(let i = 0; i < 16; i++) kids[i].classList.toggle("on", i === at);
+    } else for(let i = 0; i < 16; i++) kids[i].classList.remove("on");
   };
   wrap.__paint();
   return wrap;

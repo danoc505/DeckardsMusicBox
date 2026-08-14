@@ -1563,6 +1563,20 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
        nothing automates them, which is why they are `voicing` and `switch`
        rather than `gesture`. */
     "modulation.depth","modulation.freeze",
+    /* and the bank's four slots, twenty controls. setSpace reads them through
+       P() into HANDMOD, which `motionAt` adds to every lane -- so they reach
+       the sound in the live engine and the offline render alike.
+
+       THEY ARE LISTED HERE RATHER THAN FOUND, and the reason is written on
+       `erangVoice` already: this check is a STATIC READER that finds a control
+       by the SHAPE of a P() call, and a loop reading `P(g, null, "modulation",
+       "d" + n, 0)` builds its key at runtime. Twenty literal calls would satisfy
+       the reader and be twenty copies of one line; the list is where that fact
+       is stated instead. */
+    "modulation.d0","modulation.m0","modulation.r0","modulation.a0","modulation.s0",
+    "modulation.d1","modulation.m1","modulation.r1","modulation.a1","modulation.s1",
+    "modulation.d2","modulation.m2","modulation.r2","modulation.a2","modulation.s2",
+    "modulation.d3","modulation.m3","modulation.r3","modulation.a3","modulation.s3",
     /* the desk: three shelf/bell gains the whole mix passes through, plus the
        three crossovers that place them */
     "desk.low","desk.mid","desk.high","desk.lowF","desk.midF","desk.highF",
