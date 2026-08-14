@@ -63,7 +63,19 @@ should be built on top of this stack until it has been played.**
 
 ## 0a. WHAT IS STILL NOT BUILT — the whole open list, `2026-08-13`
 
-> ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-14a` … `2026-08-15e`
+> ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-14a` … `2026-08-15f`
+>
+> **Three recorded instruments in one day, `2026-08-15f`** — the owner's
+> pick: taiko (SCC v1.0, CC BY-SA, layered by measured RMS, drawn 6/4 onto
+> dungeon synth's kit), contrabassoon (Philharmonia, a guest in BRASS_WT,
+> beside the synthesised bassoon, no pools), and a REAL hurdy-gurdy (the
+> MidiGurdy project's French gurdy soundfont, CC BY-SA — wheel, keybox
+> clicks, chien on accents, and its drone strings on the drone rack).
+> Still unbuilt for want of a recorded source: the chien's sustained growl,
+> cup mute, bass trombone. Still unused and waiting in the same CC0 repos:
+> VSCO-2-CE's bassoon/oboe/clarinet/strings/pipe organ and its ANVIL (the
+> DS sources' own instrument), VCSL's Renaissance organ, recorder consort,
+> psaltery, rope-tension snare.
 >
 > **0a.7 The brass — CLOSED, `2026-08-15e`.** The owner picked it: *"Brass.
 > Make sure to do research about how to arrange brass. Make sure to look
@@ -270,7 +282,7 @@ not a new fault.
 
 *Asked for in as many words: "add what everything we have failed to implement
 to the todo file". This is that list, on the branch `claude/code-review-6jd9cz`,
-current as of build `2026-08-15e`.*
+current as of build `2026-08-15f`.*
 
 **EVERY NUMBER BELOW WAS MEASURED TODAY, not remembered.** The probes that
 produced them are named at each item so any of it can be re-checked in one

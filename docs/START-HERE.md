@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-15e` unless it says otherwise (the
+*Everything below is verified at `2026-08-15f` unless it says otherwise (the
 newest build; its entry is under "What happened last"). If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
@@ -123,7 +123,7 @@ while both files carried an identical stamp, so three commits of work went
 unjudged. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-15e`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-15f`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -135,6 +135,41 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Build `2026-08-15f` — TAIKO, CONTRABASSOON, HURDY-GURDY: THREE RECORDED
+INSTRUMENTS IN ONE DAY.** The owner: *"Taiko drums absolutely, lets get the
+contrabosson from the sample collection you mentioned, Lets try harder to
+find a hurdy gurdy."* All three found, licensed, measured, built:
+
+- **Taiko** (SCC Taiko v1.0, CC BY-SA 4.0, via `floe-audio/Taiko-Drums`) —
+  eight drums, each with soft/median/loud takes RANKED BY MEASURED RMS (the
+  take labelled f2 measures quieter than the one labelled p), IMA ADPCM as
+  the Erang bank's second payload. `TR-1000 · TAIKO` kit, sticks on the tick
+  lanes. **Dungeon synth's kit is a 6/4 dungeon/taiko DRAW** consuming the
+  stream call that already ran discarded [Law 7]: 13/30 DS records draw
+  taiko, 12/12 note-identical, other genres byte-identical.
+- **Contrabassoon** (Philharmonia recordings; free-to-use, weaker than CC0,
+  stated) — 160 notes measured by the brass analyzer's rules into a guest
+  member of `BRASS_WT` (the AUTO chair deal never reaches it). Caveat
+  carried: the mirror's files are level-normalised, so layer trims are
+  unity. A machine beside the synthesised bassoon; in no pools.
+- **Hurdy-gurdy** (MidiGurdy factory soundfonts, CC BY-SA 4.0 — a real
+  French gurdy; found after Sonokinetic proved Kontakt-locked and Pianobook
+  login-walled) — `harness/gurdy_bank.py` parses the sf2 itself, measures
+  every root (two zones >60 cents off their own declared correction,
+  dropped), keeps the soundfont's loop points. 19 chromatic zones D4..Bb5,
+  recorded keybox clicks at press and release, the chien buzzing on
+  accents, and the recorded drone strings as a second DRONE RACK machine.
+  In no pools; pickable by hand.
+
+Wiring rule held throughout (the bastion lesson): only dungeon synth's kit
+draw touches a genre; every other genre byte-identical, measured. Battery
+**178/1** (the ruled blend). Renders proven in Chromium. NOT judged by ear.
+Skipped for want of a recorded source, stated: the chien's sustained growl
+(loop sits 8 s into the take), cup mute, bass trombone. VSCO-2-CE also holds
+an unused recorded bassoon/oboe/clarinet/strings/organ and a real ANVIL —
+the DS sources' own instrument — recorded in `brass-arranging.md` §8 and the
+backlog.
 
 **Build `2026-08-15e` — THE BRASS LANDS, RECORDED, AND THE SECOND CHAIR IS A
 NEW RIG.** The owner picked it from the shortlist: *"Brass. Make sure to do
@@ -527,7 +562,7 @@ wanted, and nobody should quietly re-add costs to the other files either.
 
 ## The commands
 
-Build `2026-08-15e`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-15f`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 
