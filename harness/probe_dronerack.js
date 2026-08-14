@@ -63,8 +63,10 @@ const check = (label, ok, detail) => {
   await pg.waitForTimeout(900);
   await pg.evaluate(() => MK2.rackSlots().forEach(s => MK2.showRack(s)));
   await pg.waitForTimeout(400);
-  /* and the drone rack into the bass slot, by name */
-  await pg.selectOption("#m_bass", "dronebox");
+  /* and the drone rack into its OWN slot, by name -- it used to live in the
+     bass slot, which meant a genre had to give up its bottom end to have a
+     drone; SLOT_OF.drone is why that is no longer true */
+  await pg.selectOption("#m_drone", "dronebox");
   await pg.waitForTimeout(700);
 
   const box = await pg.evaluate(() => {
@@ -128,6 +130,40 @@ const check = (label, ok, detail) => {
         nOf(shared.meet) === 48 && nOf(coprime.meet) === 391,
         `16/24 -> ${nOf(shared.meet)} bars (lcm 48) · 17/23 -> ${nOf(coprime.meet)} bars (lcm 391)`);
 
+  /* ── THE MUTABLE CONTROLS AND THE TWO LFOs ARE ON THE BOX ──────────────── */
+  const knobs = await pg.evaluate(() =>
+    Object.keys(CONTROL).filter(k => k.startsWith("dronebox.")).map(k => k.split(".")[1]));
+  const want = ["dejavu", "spreadCV", "bias", "curve", "slope", "smooth",
+                "l1dest", "l1rate", "l1amt", "l1wave", "l2dest", "l2rate", "l2amt", "l2wave"];
+  const missing = want.filter(k => !knobs.includes(k));
+  check("Marbles, Tides and two LFOs are on the drone rack itself",
+        missing.length === 0,
+        missing.length ? "missing: " + missing.join(", ")
+                       : `${knobs.length} knobs, including DEJA VU / SPREAD / BIAS, CURVE / SLOPE / SMOOTH, and two assignable LFOs`);
+
+  /* patching an LFO has to change what the FOOT says, or the socket is a lie */
+  const footOf = () => pg.evaluate(() => document.querySelector(".drnfoot").textContent);
+  const f0 = await footOf();
+  await set("l1amt", 0.7); await set("l1dest", 1); await pg.waitForTimeout(250);
+  const f1 = await footOf();
+  check("...and patching an LFO says so on the glass",
+        /LFO1 OFF/.test(f0) && /LFO1 PEAK FREQ/.test(f1),
+        `"${(f0.match(/LFO1[^·]*/) || [""])[0].trim()}" -> "${(f1.match(/LFO1[^·]*/) || [""])[0].trim()}"`);
+
+  /* and the SWELL curve has to follow Tides' SLOPE */
+  const envOf = () => pg.evaluate(() => {
+    const pts = document.querySelector(".drnenv").getAttribute("points").split(" ").map(s => s.split(",").map(Number));
+    let top = pts[0], i = 0;
+    pts.forEach((p, k) => { if(p[1] < top[1]){ top = p; i = k; } });
+    return i / (pts.length - 1);
+  });
+  await set("slope", 0.1); await pg.waitForTimeout(200);
+  const early = await envOf();
+  await set("slope", 0.9); await pg.waitForTimeout(200);
+  const late = await envOf();
+  check("TIDES' SLOPE moves where the swell peaks",
+        late > early + 0.4, `peak at ${(early * 100).toFixed(0)}% of the shape -> ${(late * 100).toFixed(0)}%`);
+
   check("no page errors while the rack was driven", errs.length === 0,
         errs.length ? errs.slice(0, 2).join(" | ") : "clean");
 
@@ -142,12 +178,21 @@ const check = (label, ok, detail) => {
                       createElement: () => ({ click(){} }) };
   eval(src);
   const M = global.window.MK2;
-  let n = 0, longest = 0, secs = 0;
+  let n = 0, longest = 0, secs = 0, roleBad = 0, bassSeen = 0;
   for(let seed = 1; seed <= 6; seed++){
     const song = M.composeSong(seed, null, "ambient");
-    for(const e of song.perf.events)
-      if(e.voice === "dronebox"){ n++; longest = Math.max(longest, e.durSec); secs += e.durSec; }
+    for(const e of song.perf.events){
+      if(e.role === "bass") bassSeen++;
+      if(e.voice === "dronebox"){ n++; longest = Math.max(longest, e.durSec); secs += e.durSec;
+        if(e.role !== "drone") roleBad++; }
+    }
   }
+  check("the drone is on its OWN lane, and the bass is still there beside it",
+        roleBad === 0 && bassSeen > 0,
+        roleBad ? `${roleBad} drone-rack events landed on a role that is not "drone"`
+                : `every drone-rack event is role "drone", and ${bassSeen} bass events play alongside them ` +
+                  `— which is the arrangement that was impossible while the box lived in the bass slot`);
+
   check("the drone rack is what plays ambient's bottom, and it HOLDS",
         n > 0 && longest > 20,
         `${n} events over 6 records · longest ${longest.toFixed(1)}s · ${(secs / n).toFixed(1)}s mean ` +

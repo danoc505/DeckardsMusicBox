@@ -913,7 +913,32 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     check(`[${g}] every seed composes and passes its own seam checks`, errs.length === 0,
           errs.length ? errs.join(" | ") : "120 seeds");
     check(`[${g}] same seed, same events`, nondet === 0, nondet + " mismatches in 10");
-    check(`[${g}] the hook restates itself exactly`, hookExact === 120, hookExact + "/120");
+    /* ── AND A GENERATIVE LEAD HAS NO HOOK TO RESTATE ──────────────────────
+       This check reads material B's tune and requires bar 0 to equal bar 2 and
+       bar 1 to equal bar 3 -- the four-bar hook stated and answered, which is
+       the shape every written theme in this file has.
+
+       A genre declaring `genPitch` on the lead has replaced that builder with
+       the Krell patch, where a drawn value decides the pitch, the length and
+       therefore when the next note happens. THE ABSENCE OF AN EXACT RESTATEMENT
+       IS THE DECLARATION, not a defect: "generative patches ... play themselves
+       ... yet the music evolves and changes WITHOUT REPEATING ITSELF."
+
+       Exempted by asking the TABLE rather than by naming a genre here, so the
+       exemption cannot outlive the declaration -- and the genre is still held
+       to every other check in this block, including that it composes, that it
+       is deterministic, and that its forms vary. */
+    const genLead = (() => {
+      try { const t = M.composeSong(1, undefined, g).chart.table;
+            return !!(t && t.genPitch && t.genPitch.on === "lead"); } catch(e){ return false; }
+    })();
+    if(genLead)
+      check(`[${g}] the lead is generative, so there is no hook to restate`,
+            hookExact === 0,
+            `${hookExact}/120 restate exactly — a Krell lead that repeated its own bars ` +
+            `would mean the deja-vu register had locked, which is a different declaration`);
+    else
+      check(`[${g}] the hook restates itself exactly`, hookExact === 120, hookExact + "/120");
     check(`[${g}] no function three times in a row`, r3 === 0, r3 + " violations");
     check(`[${g}] forms genuinely vary`, forms.size > 20, forms.size + " distinct in 120");
   }

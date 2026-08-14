@@ -1534,7 +1534,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-14c · the ambient research I had not done, and a knob that could not reach it</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-14d · the drone gets its own lane, Marbles and Tides on the box, and a voice that plays itself</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -4516,8 +4516,9 @@ const INSTRUMENTS = {
      own. `V.drone` stays exactly where it is, untouched, so bladerunner does
      not move a sample. */
   dronebox: {
-    slot: "bass", label: "the drone rack",
-    lanes: { bass: "dronebox" },
+    /* ── ITS OWN SLOT. See SLOT_OF.drone for why this is not `bass`. ─────── */
+    slot: "drone", label: "the drone rack",
+    lanes: { drone: "dronebox" },
     controls: [
       /* ── THE STACK ────────────────────────────────────────────────────── */
       /* the label is the POSITION LIST, which is how every other switch in this
@@ -4579,6 +4580,86 @@ const INSTRUMENTS = {
         min:0.5, max:30, step:0.5, def:8, unit:"s", kind:"voicing" },
       { k:"air",    label:"breath under the tone", cap:"AIR",
         min:0, max:1, step:0.01, def:0.12, kind:"gesture" },
+      /* ══ THE MUTABLE CONTROLS, ON THE BOX THEY BELONG ON ═════════════════
+         "where is the mutable instruments controls?"
+
+         A fair question and the answer was embarrassing: they were on the
+         MODULATOR BANK, a separate fixed unit across the desk, where they
+         modulate other machines' knobs. The drone -- the one voice in the file
+         whose entire subject is randomness with memory -- had none of them.
+
+         These are re-implementations from the MANUALS, not ports of Émilie
+         Gillet's source; that correction is written out in full in
+         docs/genre-research/modulation-and-the-eurorack.md §3 and is not being
+         softened here. What they do on THIS box:
+
+           DEJA VU   Marbles' one-knob answer to the drone question. "increases
+                     the probability of re-playing past material to the point
+                     that the generated output forms a loop, then increases the
+                     probability of randomizing the order of this loop." Here
+                     the material is the stack's own detune offsets: hard left
+                     every note re-draws them, centre they lock into a 16-note
+                     loop, hard right that loop shuffles.
+           SPREAD    how WIDE the drawn offsets are around their centre.
+           BIAS      where the centre IS -- and on a stack of partials, moving
+                     the centre moves which partials are loud, so this is the
+                     spectral tilt of the drone rather than a pitch shift.
+
+         And Tides, which is a FUNCTION GENERATOR, so it belongs on the swell:
+
+           CURVE     Tides' SHAPE: exponential through linear to logarithmic.
+                     A drone that swells exponentially arrives differently from
+                     one that swells in a straight line, and that is the single
+                     most audible thing about a ten-second attack.
+           SLOPE     the balance between rise and fall, at constant total
+                     length -- the knob that turns a swell into a fall.
+           SMOOTH    Tides' SMOOTHNESS, which "morphs from a stepped, quantised
+                     shape to a smooth one". At 0 the envelope moves in steps
+                     you can hear; at 1 it is continuous. */
+      { k:"dejavu", label:"loop the stack's detune, then shuffle it", cap:"DEJA VU",
+        min:0, max:1, step:0.01, def:0.5, kind:"voicing" },
+      { k:"spreadCV", label:"how wide the drawn offsets are", cap:"SPREAD",
+        min:0, max:1, step:0.01, def:0.5, kind:"voicing" },
+      { k:"bias",   label:"which partials are loud", cap:"BIAS",
+        min:-1, max:1, step:0.01, def:0, kind:"gesture" },
+      { k:"curve",  label:"EXPO/LINEAR/LOG", cap:"CURVE",
+        min:0, max:2, step:1, def:1, kind:"switch" },
+      { k:"slope",  label:"rise against fall", cap:"SLOPE",
+        min:0, max:1, step:0.01, def:0.35, kind:"voicing" },
+      { k:"smooth", label:"stepped to smooth", cap:"SMOOTH",
+        min:0, max:1, step:0.01, def:1, kind:"voicing" },
+
+      /* ══ AND TWO LFOs OF ITS OWN ═════════════════════════════════════════
+         "Where are the LFOs?"
+
+         Also fair. CLOCK A and CLOCK B are free-running cycles and they only
+         ever reached ONE destination -- the detune -- which makes them a
+         drift, not an LFO. These two are LFOs in the sense the question means:
+         a rate, a depth, a shape, and A SOCKET YOU CHOOSE. Six destinations,
+         all of them things on this box that are worth moving.
+
+         They are free-running off the RECORD's clock like everything else here,
+         so they do not restart with each note, and their rates are in BARS so a
+         genre can make them coprime with the two drift clocks and with each
+         other -- which is mechanism #2 of the drone research and the reason
+         this box has four independent periods rather than one. */
+      { k:"l1dest", label:"CUTOFF/PEAK FREQ/SPREAD/DRIFT/AIR/LEVEL", cap:"LFO 1 -> ",
+        min:0, max:5, step:1, def:0, kind:"switch" },
+      { k:"l1rate", label:"cycle length in bars", cap:"LFO 1 RATE",
+        min:1, max:128, step:1, def:11, unit:"bars", kind:"voicing" },
+      { k:"l1amt",  label:"how far it swings, and which way up", cap:"LFO 1 AMT",
+        min:-1, max:1, step:0.01, def:0, kind:"voicing" },
+      { k:"l1wave", label:"SINE/TRI/RAMP/FALL", cap:"LFO 1 WAVE",
+        min:0, max:3, step:1, def:0, kind:"switch" },
+      { k:"l2dest", label:"CUTOFF/PEAK FREQ/SPREAD/DRIFT/AIR/LEVEL", cap:"LFO 2 -> ",
+        min:0, max:5, step:1, def:2, kind:"switch" },
+      { k:"l2rate", label:"cycle length in bars", cap:"LFO 2 RATE",
+        min:1, max:128, step:1, def:19, unit:"bars", kind:"voicing" },
+      { k:"l2amt",  label:"how far it swings, and which way up", cap:"LFO 2 AMT",
+        min:-1, max:1, step:0.01, def:0, kind:"voicing" },
+      { k:"l2wave", label:"SINE/TRI/RAMP/FALL", cap:"LFO 2 WAVE",
+        min:0, max:3, step:1, def:1, kind:"switch" },
+
       /* ── OUT ──────────────────────────────────────────────────────────── */
       { k:"level",  label:"level", cap:"LEVEL",
         min:0, max:1.4, step:0.01, def:1, kind:"voicing" },
@@ -4596,6 +4677,10 @@ const INSTRUMENTS = {
                { label: "THE CLOCKS", keys: ["clockA", "clockB", "drift"] },
                { label: "THE FILTERS",keys: ["cut", "res", "peak", "peakHz"] },
                { label: "THE SWELL",  keys: ["swell", "fall", "air"] },
+               { label: "MARBLES",    keys: ["dejavu", "spreadCV", "bias"] },
+               { label: "TIDES",      keys: ["curve", "slope", "smooth"] },
+               { label: "LFO 1",      keys: ["l1dest", "l1rate", "l1amt", "l1wave"] },
+               { label: "LFO 2",      keys: ["l2dest", "l2rate", "l2amt", "l2wave"] },
                { label: "OUT",        keys: ["level", "pan", "panHz", "panDep"] },
              ] },
   },
@@ -6979,6 +7064,20 @@ const SLOT_OF = {
      when a hand puts a machine in it, so its lane resolves through the pick or
      not at all. */
   keys2:"keys2",
+  /* ── THE DRONE IS ITS OWN LANE, AND THAT IS THE WHOLE POINT ────────────────
+     "Why is the drone on the bass rack? How can it be part of any genre if its
+      on the bass rack? Thats not right."
+
+     Right, and the reasoning behind the mistake was lazy: a drone is low, the
+     bass is low, so the drone went in the bass slot. What that actually meant
+     is that a genre could have a drone OR a bass and never both -- so the one
+     thing in this program that is supposed to sit UNDER everything was
+     competing with the part it is supposed to sit under. Nine genres could not
+     have a drone at all without giving up their bottom end.
+
+     A drone is not a bass part. It does not play a line, it does not follow a
+     pocket, it does not walk, and it is not in the same job. It gets a lane. */
+  drone:"drone",
 };
 /* WHICH KIND OF MACHINE FILLS A RACK SLOT, where the slot is not the machine's
    own. Every keyboard in INSTRUMENTS declares slot:"keys" -- there is no such
@@ -6998,7 +7097,7 @@ const SLOT_ACCEPTS = { keys2: "keys" };
    choice". That reasoning skipped the choice that matters: NONE. Being able to
    take the space away is the difference between a treatment you are stuck with
    and one you are using. */
-const RACK_SLOTS = ["drums", "bass", "keys", "lead", "keys2", "fx"];
+const RACK_SLOTS = ["drums", "bass", "keys", "lead", "keys2", "drone", "fx"];
 /* ── WHICH RACKS ARE ON SCREEN, which is a different question from which slots
    the engine has. Asked for directly: "i wanted 4 racks and each rack has a
    drop down to change the sound character. None could be an option and the
@@ -7072,7 +7171,10 @@ const RIG = {
   aether: { kick:"kick", snare:"rim", ghost:"rim", hat:"hat", openhat:"openhat",
             brk:"brk",
             tom1:"tom1", tom2:"tom2", tom3:"tom3",
-            bass:"dronebox", keys:"vp330", lead:"cs80", counter:"waveseq",
+            /* the BASS lane is the old Prophet-10 low drone -- the drone rack is
+               on its own lane now and the two coexist, which is the whole
+               reason the lane exists */
+            bass:"drone", drone:"dronebox", keys:"vp330", lead:"cs80", counter:"waveseq",
             ostinato:"erangStrings",
             rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
   /* THE BOX -- acid house. Every element is a machine and every machine is one
@@ -7221,6 +7323,23 @@ const RIG = {
              ostinato:"waveseq",
              rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
 };
+
+/* ── EVERY RIG NAMES THE DRONE LANE, AND IT IS THE SAME BOX IN ALL OF THEM ──
+   The point of taking the drone off the bass rack is that ANY genre can have
+   one, so every band in the file has to be able to dispatch the lane -- the
+   seam check "every rig names every lane, with a voice that exists" is exactly
+   the guard for this and it would have gone red the moment the lane existed.
+
+   Filled by a loop rather than by hand in fourteen literals, for the same
+   reason `RACK_SLOTS` is one list: a rig added later cannot forget to. A rig
+   that genuinely wants a different drone box may still declare its own -- this
+   only fills what is missing.
+
+   AND NAMING THE LANE IS NOT PLAYING IT. A rig says who WOULD play the drone;
+   `form.roles` says whether anybody does. Nine of the ten genres never name
+   `drone` in a single section, so nine of the ten records are byte-identical
+   with this loop in place -- which is the proof, not the intention. */
+for(const r in RIG) if(!RIG[r].drone) RIG[r].drone = "dronebox";
 
 /* WHAT TO CALL EACH BAND IN THE PICKER. Kept OUT of the RIG entries on purpose:
    `voiceFor` reads `RIG[rig][lane]`, so every key of a rig is a lane, and a
@@ -7868,6 +7987,10 @@ const Sound = (function(){
   const LEVEL = {
     kick: 0.72, snare: 0.62, hat: 0.44, openhat: 0.34, ghost: 0.62, // ghost is a snare; quiet comes from velocity
     bass: 0.26, keys: 0.15, lead: 0.28, counter: 0.16,
+    /* the drone sits UNDER the bass and is meant to be felt as the floor of the
+       record rather than heard as a part, so it is level with the bass and gets
+       its presence from holding rather than from gain */
+    drone: 0.24,
     /* the break is a whole kit in one voice, so it sits where a kit sits rather
        than where a single drum does. Calibrated against the acoustic kick's
        peak: the rendered break is normalised to 0.92, so 0.55 puts a chopped
@@ -12923,6 +13046,20 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const fall   = P(g, ev, "dronebox", "fall", 8);
     const air    = P(g, ev, "dronebox", "air", 0.12);
     const lvl    = P(g, ev, "dronebox", "level", 1);
+    const dejavu = P(g, ev, "dronebox", "dejavu", 0.5);
+    const spreadCV = P(g, ev, "dronebox", "spreadCV", 0.5);
+    const bias   = P(g, ev, "dronebox", "bias", 0);
+    const curve  = Math.round(P(g, ev, "dronebox", "curve", 1));
+    const slope  = P(g, ev, "dronebox", "slope", 0.35);
+    const smooth = P(g, ev, "dronebox", "smooth", 1);
+    const l1dest = Math.round(P(g, ev, "dronebox", "l1dest", 0));
+    const l1rate = Math.max(1, P(g, ev, "dronebox", "l1rate", 11));
+    const l1amt  = P(g, ev, "dronebox", "l1amt", 0);
+    const l1wave = Math.round(P(g, ev, "dronebox", "l1wave", 0));
+    const l2dest = Math.round(P(g, ev, "dronebox", "l2dest", 2));
+    const l2rate = Math.max(1, P(g, ev, "dronebox", "l2rate", 19));
+    const l2amt  = P(g, ev, "dronebox", "l2amt", 0);
+    const l2wave = Math.round(P(g, ev, "dronebox", "l2wave", 1));
     const end = t + ev.durSec + fall + 0.3;
 
     const out = c.createGain();
@@ -12933,8 +13070,21 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     lp.frequency.value = Math.max(40, cut); lp.Q.value = res;
     const bp = c.createBiquadFilter(); bp.type = "bandpass";
     bp.frequency.value = Math.max(80, peakHz); bp.Q.value = 9;
+    /* the two filters are scheduled rather than set when an LFO is patched to
+       them, on the same half-second grid the drift uses -- and only then, so a
+       record with no LFO patched builds exactly the graph it built before */
+    const sweep = (param, baseHz, dest, lo, hi) => {
+      if(!anyMod(dest)) return;
+      const t0s = (ev.tSec == null ? 0 : ev.tSec);
+      for(let i = 0; i < NPT; i++){
+        const dt = i * STEP;
+        const v = Math.max(lo, Math.min(hi, baseHz + modAt(dest, t0s + dt)));
+        if(i === 0) param.setValueAtTime(v, t);
+        else param.linearRampToValueAtTime(v, t + dt);
+      }
+    };
     const bpg = c.createGain(); bpg.gain.value = Math.max(0, peak) * 0.9;
-    const bus = stereoOut(g, ev, t, "dronebox", "bass");
+    const bus = stereoOut(g, ev, t, "dronebox", "drone");
     out.connect(lp); lp.connect(bus);
     out.connect(bp); bp.connect(bpg); bpg.connect(bus);
 
@@ -12957,20 +13107,73 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const STEP = 0.5, NPT = Math.min(240, Math.ceil((ev.durSec + fall) / STEP) + 1);
     const t0 = (ev.tSec == null ? 0 : ev.tSec);
 
+    /* ── THE TWO LFOs ─────────────────────────────────────────────────────
+       Free-running off the RECORD's time, exactly like the two drift clocks,
+       so they neither restart with a note nor differ between a live play and
+       an offline render (Law 10). -1..+1, before the AMT knob scales them. */
+    const WAVE = [
+      ph => Math.sin(2 * Math.PI * ph),                       // sine
+      ph => 4 * Math.abs(ph - Math.floor(ph + 0.5)) - 1,       // triangle
+      ph => 2 * (ph - Math.floor(ph)) - 1,                     // ramp
+      ph => 1 - 2 * (ph - Math.floor(ph)),                     // fall
+    ];
+    const lfo = (rate, wave, T) =>
+      WAVE[Math.max(0, Math.min(3, wave))](T / Math.max(0.5, rate * barSec));
+    /* how much of a destination's own range one unit of AMT is worth, so the
+       knob means the same thing whatever it is patched to */
+    const SPAN = [2400, 2600, 60, 60, 1, 1.4];   // cut Hz, peak Hz, spread c, drift c, air, level
+    const modAt = (dest, T) => {
+      let d = 0;
+      if(l1dest === dest && l1amt) d += l1amt * SPAN[dest] * lfo(l1rate, l1wave, T);
+      if(l2dest === dest && l2amt) d += l2amt * SPAN[dest] * lfo(l2rate, l2wave, T);
+      return d;
+    };
+    const anyMod = d => (l1dest === d && l1amt) || (l2dest === d && l2amt);
+
+    /* ── MARBLES' DEJA VU, ON THE STACK'S OWN DETUNE ──────────────────────
+       A 16-slot register of drawn offsets. Below 0.5 the slots are rewritten
+       with falling probability, so the sequence is fresh; at 0.5 nothing is
+       rewritten and the sixteen offsets loop; above 0.5 the READ ORDER is
+       shuffled by an amount that grows to the right. Hashed from the note's own
+       bar index rather than held in a closure, so it is stateless and a render
+       started halfway through a record produces the same offsets as one played
+       from the top -- the same discipline `handRand` works under. */
+    const barIx = Math.floor(t0 / Math.max(0.001, barSec));
+    /* the same arithmetic hash `handRand` uses, so nothing new has to be
+       trusted -- 0..1 rather than -1..1 because these are probabilities */
+    const h01 = k => ((hash32("drn:" + k) >>> 8) & 0xffff) / 65536;
+    const dv = (k) => {
+      const slot = ((barIx + k) % 16 + 16) % 16;
+      const shuf = dejavu > 0.5
+        ? (slot + Math.floor(h01("s" + barIx + ":" + k) * 16 * (dejavu - 0.5) * 2)) % 16
+        : slot;
+      /* below the notch, a slot is re-drawn per bar; at or above it, the slot's
+         value depends only on the slot, which is what makes it a loop */
+      const fresh = dejavu < 0.5 && h01("p" + barIx + ":" + k) < (1 - dejavu * 2);
+      return h01("v" + (fresh ? barIx + ":" : "") + shuf) * 2 - 1;
+    };
+
+    const moves = drift > 0.01 || anyMod(2) || anyMod(3);
     for(let k = 0; k < n; k++){
       const o = c.createOscillator(); o.type = TYPE;
       o.frequency.value = f0 * (RATIO[k % RATIO.length] || 1);
       /* the stack is dealt across the spread so the OUTERMOST pair is `spread`
          cents apart whatever the voice count -- the knob means the same thing
-         at two voices and at eight */
-      const base = n > 1 ? (-spread / 2 + (spread * k) / (n - 1)) : 0;
-      if(drift > 0.01){
+         at two voices and at eight. MARBLES' SPREAD then widens or narrows the
+         DRAWN part of that offset around it: at 0 the stack is exactly the
+         dealt ladder, at 1 each tone's place in it is half re-drawn. */
+      const base = (n > 1 ? (-spread / 2 + (spread * k) / (n - 1)) : 0)
+                 + spreadCV * dv(k) * spread * 0.5;
+      if(moves){
         /* the two clocks, out of phase per voice so no two tones swing together
-           -- eight oscillators sharing one wobble is a vibrato, not a drift */
+           -- eight oscillators sharing one wobble is a vibrato, not a drift --
+           plus whichever of the two LFOs is patched to SPREAD or DRIFT */
         const pa = k * 0.137, pb = k * 0.311;
+        const kf = n > 1 ? (k / (n - 1) - 0.5) : 0;
         for(let i = 0; i < NPT; i++){
           const dt = i * STEP, T = t0 + dt;
-          const d = base + drift * 0.5 *
+          const dr = drift + modAt(3, T);
+          const d = base + kf * modAt(2, T) + dr * 0.5 *
                     (Math.sin(2 * Math.PI * (T / PA + pa)) + Math.sin(2 * Math.PI * (T / PB + pb)));
           if(i === 0) o.detune.setValueAtTime(d, t);
           else o.detune.linearRampToValueAtTime(d, t + dt);
@@ -12978,8 +13181,12 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       } else o.detune.value = base;
       const og = c.createGain();
       /* the upper tones are quieter, or PARTIALS is a sawtooth with extra steps
-         -- a real stack thins as it climbs */
-      og.gain.value = (1 / Math.sqrt(n)) * Math.pow(0.78, k);
+         -- a real stack thins as it climbs. MARBLES' BIAS tilts that: negative
+         leans on the bottom of the stack, positive on the top, which on a stack
+         of partials is the spectral centre and not a pitch. */
+      const climb = n > 1 ? k / (n - 1) : 0;
+      og.gain.value = (1 / Math.sqrt(n)) * Math.pow(0.78, k) *
+                      Math.pow(2, bias * (climb - 0.5) * 2.4);
       o.connect(og); og.connect(out); o.start(t); o.stop(end); made.push(o);
     }
 
@@ -12989,16 +13196,64 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       const src = c.createBufferSource(); src.buffer = g.noise; src.loop = true;
       const nf = c.createBiquadFilter(); nf.type = "bandpass";
       nf.frequency.value = Math.max(120, Math.min(6000, f0 * 6)); nf.Q.value = 0.7;
-      const ng = c.createGain(); ng.gain.value = air * 0.16;
+      const ng = c.createGain(); ng.gain.value = Math.max(0, air) * 0.16;
+      if(anyMod(4)){
+        const t0s = (ev.tSec == null ? 0 : ev.tSec);
+        for(let i = 0; i < NPT; i++){
+          const dt = i * STEP;
+          const v = Math.max(0, Math.min(1, air + modAt(4, t0s + dt))) * 0.16;
+          if(i === 0) ng.gain.setValueAtTime(v, t);
+          else ng.gain.linearRampToValueAtTime(v, t + dt);
+        }
+      }
       src.connect(nf); nf.connect(ng); ng.connect(out);
       src.start(t); src.stop(end); made.push(src);
     }
 
-    /* the swell. Long attack, long fall, and NO decay stage -- a drone that
-       droops after its attack is a pad, and the sources are unanimous that the
-       foundation layer "changes the least". */
-    adsr(c, out, t, LEVEL.bass * 1.15 * ev.gain * lvl, Math.max(0.05, swell),
-         0.4, 1.0, t + ev.durSec, Math.max(0.2, fall));
+    sweep(lp.frequency, Math.max(40, cut), 0, 40, 12000);
+    sweep(bp.frequency, Math.max(80, peakHz), 1, 80, 12000);
+
+    /* ══ THE SWELL, WHICH IS TIDES ═══════════════════════════════════════════
+       It was `adsr` with a long attack and a long release, which is a shape
+       with no controls on it. Tides is a FUNCTION GENERATOR and the three knobs
+       it puts on a shape are exactly the three this envelope was missing:
+
+         SLOPE    where the peak falls between the start and the end. At 0.35 it
+                  rises for roughly a third of its life and falls for the rest,
+                  which is a swell; at 0.9 it is a fall with a fast front, which
+                  is a completely different gesture out of the same box. It
+                  redistributes SWELL and FALL at constant total length, so it
+                  cannot make a note outlive its own event.
+         CURVE    exponential, linear or logarithmic. On a ten-second attack
+                  this is the single most audible property of the note.
+         SMOOTH   "morphs from a stepped, quantised shape to a smooth one". At 1
+                  the ramp is continuous; at 0 it climbs in sixteen audible
+                  steps, which is a texture rather than an envelope.
+
+       Written as scheduled points rather than as `adsr`, because none of the
+       three is expressible in an attack/decay/sustain/release quadruple -- and
+       LFO 1 or 2 patched to LEVEL rides the whole shape while it runs. */
+    {
+      const peak = LEVEL.drone * 1.15 * ev.gain * lvl;
+      const total = Math.max(0.2, swell + fall);
+      const rise = Math.max(0.05, Math.min(total - 0.05, total * Math.max(0.02, Math.min(0.98, slope))));
+      const N = 64, gp = out.gain;
+      const shape = u => curve === 0 ? u * u : curve === 2 ? Math.sqrt(u) : u;
+      const steps = Math.max(2, Math.round(2 + 30 * (1 - Math.max(0, Math.min(1, smooth)))));
+      const quant = u => smooth >= 0.999 ? u : Math.round(u * steps) / steps;
+      gp.setValueAtTime(0.0001, t);
+      const hold = Math.max(0, ev.durSec - rise);
+      for(let i = 1; i <= N; i++){
+        const dt = (i / N) * (rise + hold + fall);
+        const u = dt < rise ? shape(dt / rise)
+                : dt < rise + hold ? 1
+                : Math.max(0, 1 - (dt - rise - hold) / Math.max(0.05, fall));
+        const lv = peak * Math.max(0.0001, quant(u)) *
+                   Math.max(0.05, 1 + modAt(5, (ev.tSec == null ? 0 : ev.tSec) + dt) / 1.4);
+        gp.linearRampToValueAtTime(Math.max(0.0001, lv), t + dt);
+      }
+      gp.linearRampToValueAtTime(0.0001, t + rise + hold + fall + 0.05);
+    }
     return made;
   };
 
@@ -23478,7 +23733,7 @@ const GENRE = {
      [corpus:wikipedia Ambient 1 / Eno's sleeve note].
      ═══════════════════════════════════════════════════════════════════════════ */
   ambient: {
-    label: "ambient — the drone",
+    label: "ambient",
     /* SLOW. The production sources put drone and deep ambient at 40-70 bpm and
        ambient electronic at 80-120; this is the drone end. At 54 bpm a bar is
        4.4 seconds, which is the unit everything below is written in -- a 16-bar
@@ -23580,12 +23835,12 @@ const GENRE = {
          that you play one on top of each other to create the flow"
          [corpus:orbmag]. All three describe this column. */
       roles: {
-        intro:        ["bass"],
-        verse:        ["bass", "keys"],
-        chorus:       ["bass", "keys", "keys2", "ostinato", "lead"],
+        intro:        ["drone"],
+        verse:        ["drone", "keys"],
+        chorus:       ["drone", "bass", "keys", "keys2", "ostinato", "lead"],
         bridge:       ["keys", "keys2", "ostinato", "counter"],
-        instrumental: ["bass", "keys", "lead", "counter"],
-        outro:        ["bass", "keys"],
+        instrumental: ["drone", "bass", "keys", "lead", "counter"],
+        outro:        ["drone", "keys"],
       },
       /* never cold-opens: the drone is always what you walk in on */
       coldOpen: 0,
@@ -23675,6 +23930,20 @@ const GENRE = {
        the bottom holds the TONIC while the chords move over it rather than
        following them -- and at 0.62 most records here do, which is what makes
        the harmony above read as floating rather than as a progression. */
+    /* ── AND THE DRONE PART ITSELF ────────────────────────────────────────
+       One held pitch per four bars -- which at this genre's material length is
+       ONE PER MATERIAL, so the drone changes when the material does and not
+       otherwise. `pedal: 0.72` is the chance a record holds the key's tonic
+       under the moving chords rather than following them; that is the sourced
+       distinction (a pedal is "always harmonic", "based on the repetition of
+       long notes"), and it is the device the whole genre leans on.
+
+       THE NOTES OVERLAP BY CONSTRUCTION. Sixteen seconds of held pitch with a
+       twelve-second fall behind it means the next one begins while the last is
+       still sounding, so a material repeat is a re-swell rather than a
+       re-attack -- which is how Niblock's overlapping layers work and is why
+       this does not need the no-restrike machinery the bass has. */
+    drone: { unit: 4, hold: 3, pedal: 0.72, octave: 0 },
     bassStyle: "drone",
     bassPedal: 0.62,
     bassPulse: { unit: 16, rootBias: 1, octaveJump: 0, restChance: 0 },  // unused by "drone"
@@ -23687,6 +23956,33 @@ const GENRE = {
                 cells: [[[0, 4, 7, 4], 5], [[0, 7, 4, 2, 7], 3], [[0, 4, 2, 7], 2]] },
     counter: { style: "line", density: 0.14, intervals: [-3, -5, -7, -12],
                octaves: [-12, 12], answer: 0.4 },
+    /* ══ THE VOICE THAT PLAYS ITSELF ═════════════════════════════════════════
+       The Krell patch, declared on the LEAD -- see `buildGenLane` for the
+       algorithm and its source. This is the part of an ambient record nobody
+       writes: a line whose pitches, lengths and timing all come out of one
+       drawn value, quantised into the mode, with a correlation that stops it
+       leaping and a deja-vu that decides whether it ever comes round.
+
+         SPREAD 0.55      just over half the mode, so it is a voice and not a
+                          scale run
+         BIAS   +0.15     leaning slightly high, because the low half of the
+                          register is where the drone and the bass are
+         DEJA VU 0.42     BELOW the notch -- fresh values, mostly. This genre
+                          already has coprime cycles for its long form; the
+                          generated voice is the one thing in the record that is
+                          genuinely allowed never to repeat.
+         CORRELATE 0.72   neighbouring notes. "phrases never travel further than
+                          one note above or below what has been covered before"
+                          is the alap rule from the drone sheet, and Marbles'
+                          correlation parameter is the same idea with a knob on
+                          it; 0.72 of a 21-semitone band is a leap budget of six.
+         SHORT 3 / LONG 20 / GAP 8
+                          the Krell length law. A note landing at the top of the
+                          band lasts three sixteenths; one at the bottom lasts
+                          twenty; the gap after each is what keeps a genre with
+                          fifty-second sections from turning into a stream. */
+    genPitch: { on: "lead", band: [74, 92], spread: 0.55, bias: 0.15, dejavu: 0.42,
+                correlate: 0.72, short: 3, long: 20, gap: 8 },
     /* ── THE MELODY, WHAT LITTLE THERE IS ─────────────────────────────────────
        One phrase, or none. `breath` is the shape this genre mostly wants: a
        single long note that arrives and goes. The onset pool leans on the bar
@@ -23721,8 +24017,41 @@ const GENRE = {
        from there, so the ground covers that band from below rather than being
        parked in the middle of it. Everything else sits well above, which is
        what leaves the room the reverb fills. */
-    registers: { bass: [28, 43], keys: [52, 76], counter: [57, 81],
-                 bassWalk: [28, 43], ostinato: [69, 91],
+    /* ── AND THE FIRST KEYBOARD SITS LOW, SO THE SECOND IS NOT ITS SHADOW ──
+       `keys` was [52, 76] and the battery caught what that did: with BOTH pads
+       holding whole chords, their top voices moved together in fifths and
+       octaves 14.7% of the time -- the highest rate in the file, and enough to
+       push the whole-program aggregate to exactly the 5% the check allows.
+
+       AND `parallels` IS THE WRONG ANSWER HERE, which was worth finding out.
+       Declared at 0.55 it went green -- and the very next check said "the dial
+       changes nothing". It was right: with `keysStyle: "hold"` and chords this
+       static the second keyboard has essentially one legal voicing, so the
+       penalty the dial scales cannot change the outcome whatever it is set to.
+       A declaration that cannot reach the music is the defect this file names
+       most often, and shipping one to pass a test would have been worse than
+       the parallels.
+
+       So the cause is fixed instead. Dropping the first pad's ceiling to 68
+       moves the allocator's window for the second one clear of it, and the
+       interval between their top voices is a fourth or a sixth far more often
+       than a fifth or an octave. Measured after: ambient 0.0%.
+
+     ── THE DRONE'S OWN REGISTER, UNDER THE BASS'S ───────────────────────
+       MIDI 24 is 32.7 Hz -- this file's own stated hearing floor -- and 34 is
+       58 Hz, which is the bottom of the "sub-bass through low-mid, roughly
+       40-400 Hz" the production sources put the foundation layer in, with the
+       rack stacking its partials UPWARD from there so the band is covered from
+       below rather than parked in the middle of it.
+
+       AND THE TWO BANDS DO NOT OVERLAP, which is not tidiness: they did at
+       first, and the seam check caught it instantly -- "collision in A at
+       0:0:37", the drone pedalling the tonic and the bass following a chord
+       whose root was the same note at the same instant. Two parts on one pitch
+       at one moment is one part. The drone lives under the bass now, an octave
+       clear, which is where a foundation belongs anyway. */
+    registers: { drone: [24, 34], bass: [36, 48], keys: [50, 68], counter: [57, 81],
+                 bassWalk: [36, 48], ostinato: [69, 91],
                  themeA: [67, 88], themeB: [72, 92], themeC: [64, 84] },
     /* ── THE ROOM IS AN INSTRUMENT ────────────────────────────────────────────
        musicradar's own drone recipe uses "long reverb as a compositional
@@ -23743,6 +24072,7 @@ const GENRE = {
     machines: {
       drums:    [["auto", 1]],
       bass:     [["auto", 1]],
+      drone:    [["auto", 1]],
       keys:     [["auto", 6], ["mellotron", 3], ["vp330", 2]],
       keys2:    [["auto", 5], ["waveseq", 4], ["mellotron", 2]],
       lead:     [["auto", 1]],
@@ -23764,6 +24094,9 @@ const GENRE = {
                   cut: 540, res: 1.6, peak: 0.34, peakHz: 1150,
                   swell: 4.0, fall: 12, air: 0.16, level: 1.05,
                   pan: 0, panHz: 0.012, panDep: 0.18 },
+      /* the bass lane's Prophet drone -- dark, so it sits under the pad and
+         over the drone rack without competing with either */
+      tb303:    { dCut: 300, dRes: 2.8, dDetune: 0.5 },
       vp330:    { ens: 0.82, choir: 0.62, attack: 2.4, release: 5.0 },
       waveseq:  { rate: 0.9, depth: 0.6 },
       cs80:     { pw: 0.5, pwm: 0.6, pwmHz: 1.4, initBend: 1, bright: 0.34, res: 0.34,
@@ -23814,6 +24147,13 @@ const GENRE = {
         peak:   [{ kind: "lfo", bars: [[23, 2], [37, 1]], depth: [0.06, 0.18],
                    shape: "sin", freePhase: true },
                  { kind: "section", by: { chorus: [0.08, 0.22], bridge: [-0.2, -0.08] } }],
+        /* MARBLES' BIAS -- the spectral tilt of the stack -- on a cycle coprime
+           with everything else on this box. The battery's "every knob the
+           conductor can move is one some genre moves" is what put it here: a
+           gesture nobody automates is a knob that does nothing wearing a kind. */
+        bias:   [{ kind: "lfo", bars: [[79, 2], [59, 1]], depth: [0.06, 0.18],
+                   shape: "sin", freePhase: true },
+                 { kind: "section", by: { chorus: [0.04, 0.14], bridge: [-0.12, -0.04] } }],
         air:    [{ kind: "arc", from: [-0.06, -0.02], to: [0.06, 0.16], curve: "sCurve" },
                  { kind: "lfo", bars: [[53, 2], [29, 1]], depth: [0.02, 0.07],
                    shape: "sin", freePhase: true }],
@@ -28484,6 +28824,216 @@ function makeMaterials(chart, editPlan, arcPlan){
     return notes;
   }
   /* one seam, so every bass style gets the treatment and none can forget to */
+  /* ══ THE DRONE LANE ═══════════════════════════════════════════════════════
+     Its own part, on its own lane, and deliberately the SIMPLEST builder in the
+     file: a drone that is written cleverly is not a drone. One held pitch per
+     `unit` bars, in the drone's own register, and the only decision it makes is
+     whether it FOLLOWS the chord or PEDALS the tonic under it.
+
+     That distinction is the sourced one and it is not mine: a pedal is "one or
+     two notes throughout several continuous chords", "based on the repetition
+     of long notes", "always harmonic" [corpus:audiofanzine, quoted in full at
+     buildBassLine]. The friction between a held note and chords moving over it
+     is the oldest device in this music, and until now the only part that could
+     do it was the bass -- which meant a genre had to choose between a pedal and
+     a bass line.
+
+     `G.drone` is the declaration: `{ unit, pedal, octave }`. A genre that says
+     nothing gets nothing, because a genre that says nothing never names `drone`
+     in `form.roles` either. UNIT is in BARS, not steps, because the shortest
+     musically meaningful drone event is a whole bar and everything here is
+     longer than that. THE DRAW RUNS UNCONDITIONALLY on its own substream
+     [Law 3], so a genre acquiring a drone cannot move another genre's notes --
+     and nine of ten genres are byte-identical, which is the proof. */
+  function buildDroneLane(chordSet, streamName){
+    const rng = stream(chart.seed, "drone:" + streamName);
+    const D = G.drone || {};
+    const band = (R.drone && R.drone.length === 2) ? R.drone : R.bass;
+    const unit = Math.max(1, Math.round(D.unit || 4));
+    const hold = Math.max(1, Math.round(D.hold || 1));
+    const pedal = rng() < Math.max(0, Math.min(1, D.pedal == null ? 0 : D.pedal));
+    const oct = Math.round(D.octave || 0) * 12;
+    if(!G.drone) return [];
+    const notes = [];
+    for(let b = 0; b < BARS; b += unit){
+      const ch = CH(chordSet, b);
+      /* the PEDAL is the key's own tonic and does not move; the FOLLOW is the
+         root of whatever chord this row is on. Both are folded into the drone's
+         band, then the octave offset is applied and folded again so a genre
+         asking for an octave down cannot walk under hearing. */
+      const deg = pedal ? 0 : ch.degree;
+      const p0 = intoBand(degMidi(ch.key, ch.mode, deg), band[0], band[1]);
+      const p = intoBand(p0 + oct, Math.max(24, band[0] - 12), band[1] + 12);
+      /* AND IT DOES NOT RE-STRIKE WHEN NOTHING HAS CHANGED. Two identical held
+         pitches back to back are one longer held pitch -- re-attacking a drone
+         is the defect this program was told about six times on a different
+         part, and it is not being reintroduced on the part it would be most
+         obvious on. */
+      const last = notes[notes.length - 1];
+      if(last && last.pitch === p){ last.dur += unit * 16; continue; }
+      void 0;
+      /* ── AND IT HOLDS PAST THE MATERIAL ──────────────────────────────────
+         `hold` is how many UNITS the note actually sounds for, against `unit`
+         being how often a new one starts. At hold 1 they are the same and the
+         drone re-attacks every unit; above 1 each note outlives the material it
+         was written in and overlaps the next repeat -- which is what makes it a
+         drone rather than a very slow bass part, and is exactly how Niblock's
+         overlapping layers work. MEASURED: without this the longest held note
+         was 18.8 s, against 46 s for the old bass-slot drone, whose length came
+         from `touch.bassArtic` -- a bass control the drone lane rightly does
+         not read. */
+      notes.push({ bar: b, step: 0, dur: unit * 16 * hold, pitch: p,
+                   vel: b === 0 ? 0.8 : 0.7, role: "drone" });
+    }
+    return notes;
+  }
+
+  /* ══ GENERATIVE PITCH — THE KRELL PATCH, AS A PART ════════════════════════
+     "And build the gen pitch."
+
+     WHAT WAS MISSING, stated in this repo a day before it was asked for
+     (`modulation-and-the-eurorack.md` §6.4): "every one of the four kinds
+     currently modulates a knob. NONE OF THEM CAN TOUCH A NOTE." Four move kinds
+     with memory -- fm, sh, dejavu, bernoulli -- and all four end at a filter
+     cutoff. The one thing a eurorack ambient patch is FOR is the part that
+     plays itself, and this program could not write one.
+
+     THE PATCH, from a textbook treatment rather than a forum post:
+
+       "The heart of a Krell patch is a voltage-controlled cycling envelope
+        generator with an end pulse, where the rise and fall times are modified
+        by random, periodically changing voltage, and the envelope generator
+        controls a VCA through which a VCO is heard, with EACH END PULSE
+        TRIGGERING A SAMPLE AND HOLD FOR A NEW PITCH."
+       "the envelope fires a trigger at the end of its decay stage, and when it
+        is in looping mode, that trigger is used to fire the envelope again."
+       "the SRV sends random voltages that the oscillator interprets as pitches,
+        and because the SRV has the CORRELATION PARAMETER, we can control how
+        far each note is from the last note."
+       [corpus:olney.ai, Computational Thinking through Modular Sound Synthesis,
+        ch. 14; Todd Barton's patch, after the Barrons' Forbidden Planet score]
+
+     THREE THINGS ONE RANDOM VALUE DECIDES, and that is the whole idea: the
+     PITCH, the LENGTH of the note, and -- because the note's end is what fires
+     the next one -- WHEN THE NEXT NOTE HAPPENS. There is no grid underneath it.
+     The reported character follows from that arithmetic and is not imposed:
+     "short trills of high notes and slow swelling bass notes", because the same
+     value that put the note high is the value that made it brief.
+
+     ── HOW IT IS WRITTEN HERE ────────────────────────────────────────────────
+     As a STAGE 3 BUILDER, so the notes are notes: they reach the roll, the MIDI
+     export, the mixer and the seam checks like any other part. A knob-side
+     implementation would have produced a part the roll could not draw, which is
+     this file's oldest rule and is not being broken for a good idea.
+
+     THE QUANTISER WAS ALREADY HERE. `degMidi`/`intoBand` are exactly the
+     "Quantizer on the Random" the melodic variation of the patch calls for --
+     the drawn value picks a SCALE DEGREE of whatever chord this bar is on, so
+     nothing it plays can be out of key. Nothing generative had ever fed them.
+
+     AND THE MEMORY IS MARBLES'. The drawn values come from a sixteen-slot
+     register under a DEJA VU control -- below the notch each slot is re-drawn,
+     at it the sixteen lock into a loop, above it the read order shuffles. So
+     the same declaration spans "never repeats" and "a sixteen-note figure",
+     which is the one-knob answer that sheet has been quoting for two builds.
+
+     Stateless, hashed from (tag, index), for the same reason `handRand` is: a
+     render that starts halfway down a record has to agree with one that starts
+     at the top. */
+  function buildGenLane(chordSet, tag, role){
+    const P = G.genPitch;
+    if(!P || P.on !== role) return null;
+    /* the band is the DECLARATION's, not the role's, because this part is not
+       playing the role's usual job and should not be forced into the register
+       the written theme was allocated. Falls back to the role's own band. */
+    /* ...AND NARROWED TO WHAT CAN ACTUALLY PLAY IT. The declared band is a
+       musical intention; a sax has a top note. `playable` is the same door the
+       written theme goes through, and skipping it put a generated note at MIDI
+       92 into an instrument whose ceiling is 81 -- caught by the battery's
+       "the tune stays inside the range of whatever is playing it", which exists
+       for exactly this and had never been shown a generative part before. */
+    const want = (P.band && P.band.length === 2) ? P.band : (R[role] || R.lead || [60, 79]);
+    const band = playable(want, role) || want;
+    const dejavu = Math.max(0, Math.min(1, P.dejavu == null ? 0.5 : P.dejavu));
+    const spread = Math.max(0, Math.min(1, P.spread == null ? 0.6 : P.spread));
+    const bias = Math.max(-1, Math.min(1, P.bias || 0));
+    const corr = Math.max(0, Math.min(1, P.correlate == null ? 0.5 : P.correlate));
+    const shortSt = Math.max(1, Math.round(P.short == null ? 2 : P.short));
+    const longSt = Math.max(shortSt, Math.round(P.long == null ? 16 : P.long));
+    const gapSt = Math.max(0, Math.round(P.gap || 0));
+    const h01 = k => ((hash32("gen:" + chart.seed + ":" + tag + ":" + k) >>> 8) & 0xffff) / 65536;
+    /* the sixteen-slot register, read exactly as Marbles describes it */
+    const draw = (i) => {
+      const slot = ((i % 16) + 16) % 16;
+      const shuf = dejavu > 0.5
+        ? (slot + Math.floor(h01("s" + i) * 16 * (dejavu - 0.5) * 2)) % 16
+        : slot;
+      const fresh = dejavu < 0.5 && h01("p" + i) < (1 - dejavu * 2);
+      return h01("v" + (fresh ? i + ":" : "") + shuf);
+    };
+    const notes = [];
+    const TOT = BARS * 16;
+    let at = 0, i = 0, prev = null;
+    /* the loop IS the patch: a note's own length decides where the next one
+       starts, so there is no step grid being walked here */
+    while(at < TOT && i < 512){
+      const v = draw(i);
+      const b = Math.min(BARS - 1, Math.floor(at / 16));
+      const ch = CH(chordSet, b);
+      /* ── THE QUANTISER IS SET TO THE CHORD, NOT THE SCALE ─────────────────
+         It was set to the scale, and the seam check found the consequence in a
+         browser run: "out of key, not in the chord, and does not resolve into
+         the next one, in Bvar: lead 68 bar 2". A scale-quantised generative
+         voice draws non-chord tones and then, having no phrase to resolve them
+         into, leaves them hanging -- which is the one thing this program has
+         never allowed any part to do.
+
+         A eurorack quantiser has the same setting and it is the usual one for
+         a generative patch: feed it the chord rather than the mode and every
+         drawn value is consonant by construction. What the draw still decides
+         is WHICH chord tone and in WHICH OCTAVE, which across a nineteen-
+         semitone band with sevenths on is plenty of line. `scale: "mode"` is
+         left reachable in the declaration for a genre that wants the risk. */
+      const tones = (P.scale === "mode")
+        ? null
+        : chordTones(ch.key, ch.mode, ch.degree, !!G.sevenths);
+      let pitch;
+      if(tones && tones.length){
+        const wide = Math.round(bias * tones.length + (v * 2 - 1) * spread * tones.length * 2);
+        const ti = ((wide % tones.length) + tones.length) % tones.length;
+        const oct = Math.floor(wide / tones.length);
+        pitch = intoBand(tones[ti] + oct * 12, band[0], band[1]);
+      } else {
+        const deg = Math.round(bias * 7 + (v * 2 - 1) * spread * 7);
+        pitch = intoBand(degMidi(ch.key, ch.mode, ch.degree + deg), band[0], band[1]);
+      }
+      /* CORRELATION: how far this note may fall from the last one. At 1 it is a
+         neighbour, at 0 it may go anywhere in the band -- which is the alap
+         rule and Marbles' parameter arriving at the same place. */
+      if(prev != null && corr > 0){
+        const maxLeap = Math.max(1, Math.round((1 - corr) * (band[1] - band[0])));
+        if(Math.abs(pitch - prev) > maxLeap){
+          /* fold the drawn note by octaves toward the last one -- an octave
+             transposition of a chord tone is still a chord tone, so this cannot
+             reintroduce the dissonance the quantiser just removed */
+          while(pitch - prev > maxLeap && pitch - 12 >= band[0]) pitch -= 12;
+          while(prev - pitch > maxLeap && pitch + 12 <= band[1]) pitch += 12;
+        }
+      }
+      /* THE SAME VALUE SETS THE LENGTH, and high means short. `u` is where the
+         note landed in its band, so this is the source's own sentence as
+         arithmetic rather than as an adjective. */
+      const u = (pitch - band[0]) / Math.max(1, band[1] - band[0]);
+      const dur = Math.max(1, Math.round(longSt + (shortSt - longSt) * u));
+      notes.push({ bar: b, step: at % 16, dur, pitch,
+                   vel: 0.55 + 0.3 * (1 - u), role });
+      prev = pitch;
+      at += dur + gapSt;
+      i++;
+    }
+    return notes;
+  }
+
   function buildBass(chordSet, streamName, rootsOnly){
     return acidize(buildBassLine(chordSet, streamName, rootsOnly), streamName);
   }
@@ -31587,6 +32137,7 @@ function makeMaterials(chart, editPlan, arcPlan){
   const drumsBvar = pin(buildDrums("drumsB:var", "lift", DRUM_PHRASE_END), "drums", "Bvar");
   const drumsC = pin(buildDrums("drumsC", "depart"), "drums", "C");   // the bridge thins out
   const bassA  = pin(buildBass(chords, "bass", false), "bass", "A");
+  const droneA = pin(buildDroneLane(chords, "A"), "drone", "A");
   /* ── THE COMP HAS TO BE LEGAL IN BOTH MATERIALS IT APPEARS IN ──────────────
      `keysA` is built once and used TWICE: in A against `ostA`, and in Avar
      against `ostAvar`, which is a different cell in its second half. It was
@@ -31725,6 +32276,7 @@ function makeMaterials(chart, editPlan, arcPlan){
      when they are not these are the same arrays A uses -- identity, not a
      copy, so nothing downstream can tell the difference. */
   const bassB = NEW_CHORUS ? pin(buildBass(chorusChords, "bassB", false), "bass", "B") : bassA;
+  const droneB = NEW_CHORUS ? pin(buildDroneLane(chorusChords, "B"), "drone", "B") : droneA;
   const ostB  = NEW_CHORUS ? buildOstinato("ostinatoB", false, chorusChords) : ostA;
   const placedB = NEW_CHORUS ? reserve(ostB.concat(bassB)) : placed;
   const keysB  = buildKeys(chorusChords, "keysB", { dense: true, avoid: placedB,
@@ -31816,6 +32368,7 @@ function makeMaterials(chart, editPlan, arcPlan){
   const ostCkey = buildOstinato("ostinato", false, bridgeChords);
   const ostC = (bKey !== root || bMode !== mode) ? ostCkey : ostA;
   const bassC  = pin(buildBass(bridgeChords, "bassC", true), "bass", "C");
+  const droneC = pin(buildDroneLane(bridgeChords, "C"), "drone", "C");
   const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true,
                                                    avoid: reserve(ostC.concat(bassC)) });
   const keys2C = tryPad(band => buildKeys(bridgeChords, "keys2C", { sustain: true, at: 2, band,
@@ -31870,6 +32423,7 @@ function makeMaterials(chart, editPlan, arcPlan){
   const ostAl      = LIFT ? buildOstinato("ostinato", false, liftChords) : ostA;
   const ostAvarl   = LIFT ? buildOstinato("ostinato", true,  liftChords) : ostAvar;
   const bassAl     = LIFT ? pin(buildBass(liftChords, "bass", false), "bass", "A") : bassA;
+  const droneAl    = LIFT ? pin(buildDroneLane(liftChords, "A"), "drone", "A") : droneA;
   const placedl    = LIFT ? reserve(ostAl.concat(ostAvarl, bassAl)) : placed;
   const keysAl     = LIFT ? buildKeys(liftChords, "keys", { dense: false, avoid: placedl,
                                                sustain: HOLD, at: HOLD ? 0 : undefined }) : keysA;
@@ -32005,17 +32559,17 @@ function makeMaterials(chart, editPlan, arcPlan){
   })();
 
   const materials = {
-    A:    { drums: drumsA, bass: bassA, keys: keysA, keys2: keys2A, lead: themeA.notes, counter: counterA, ostinato: ostA },
+    A:    { drums: drumsA, bass: bassA, keys: keysA, keys2: keys2A, lead: themeA.notes, counter: counterA, ostinato: ostA, drone: droneA },
     // Avar carries NO counter: the harmony vocal was derived from A's tune, and the
     // variant's redrawn second half is a different tune -- a shadow of the wrong line.
     // Verses (Avar's consumers) never activate the counter anyway; if a future section
     // wants one, it derives it from leadAvar, it does not borrow A's.
-    Avar: { drums: drumsAvar, bass: bassA, keys: keysA, keys2: keys2Avar, lead: leadAvar, counter: [], ostinato: ostAvar },
-    B:    { drums: drumsB, bass: bassB, keys: keysB, keys2: keys2B, lead: themeB.notes, counter: counterB, ostinato: ostB },
+    Avar: { drums: drumsAvar, bass: bassA, keys: keysA, keys2: keys2Avar, lead: leadAvar, counter: [], ostinato: ostAvar, drone: droneA },
+    B:    { drums: drumsB, bass: bassB, keys: keysB, keys2: keys2B, lead: themeB.notes, counter: counterB, ostinato: ostB, drone: droneB },
     /* Bvar = vary(B) -- the chorus's rule-of-three answer. Same drums, bass,
        chords and pad as B; only the tune's second half is redrawn, so the hook
        is recognised and then turns. See its construction above. */
-    Bvar: { drums: drumsBvar, bass: bassB, keys: keysB, keys2: keys2B, lead: leadBvar, counter: counterBvar, ostinato: ostB },
+    Bvar: { drums: drumsBvar, bass: bassB, keys: keysB, keys2: keys2B, lead: leadBvar, counter: counterBvar, ostinato: ostB, drone: droneB },
     /* C KEEPS THE OSTINATO -- and keeps it THROUGH A KEY CHANGE by re-stating
        it, which is `ostC` above; when the bridge has not changed key `ostC` IS
        `ostA`, the same array. It ignores the chords by construction, so it needs no
@@ -32023,7 +32577,7 @@ function makeMaterials(chart, editPlan, arcPlan){
        through IS the departure: a constant cell with the harmony moving under it
        is the device these tracks are built on, applied at section scale instead
        of bar scale. Dropping it made the bridge stop sounding like the genre. */
-    C:    { drums: drumsC, bass: bassC, keys: keysC, keys2: keys2C, lead: themeC.notes, counter: [], ostinato: ostC },
+    C:    { drums: drumsC, bass: bassC, keys: keysC, keys2: keys2C, lead: themeC.notes, counter: [], ostinato: ostC, drone: droneC },
     fill, fills: fillSet, ending,
   };
   /* THE LIFTED PAIR EXISTS ONLY ON A RECORD THAT MOVED, so a song that did not
@@ -32033,10 +32587,92 @@ function makeMaterials(chart, editPlan, arcPlan){
      the kit has no pitch to move. */
   if(LIFT){
     materials.Alift    = { drums: drumsA, bass: bassAl, keys: keysAl, keys2: keys2Al,
-                           lead: themeAl.notes, counter: counterAl, ostinato: ostAl };
+                           lead: themeAl.notes, counter: counterAl, ostinato: ostAl, drone: droneAl };
     materials.Avarlift = { drums: drumsAvar, bass: bassAl, keys: keysAl, keys2: keys2Avarl,
-                           lead: leadAvarl, counter: [], ostinato: ostAvarl };
+                           lead: leadAvarl, counter: [], ostinato: ostAvarl, drone: droneAl };
   }
+
+  /* ── AND THE GENERATIVE PART REPLACES WHAT IT IS DECLARED ON ──────────────
+     Applied HERE, after every material is built, rather than inside the theme
+     builder -- so the theme still draws unconditionally on its own stream
+     [Law 3] and a genre acquiring `genPitch` cannot move another genre's notes
+     by shifting a draw. What it replaces is the ARRAY, per material, with the
+     chord set that material is built on, so the generated line follows the
+     bridge's changes and the lifted key like any written part would.
+
+     A genre that declares nothing gets `null` back and keeps everything. */
+  /* ══ THE TWO LANES THAT DO NOT NEGOTIATE ══════════════════════════════════
+     The written parts settle their pitches through `reserve` before any of them
+     is drawn. The DRONE and the GENERATIVE lane deliberately do not join that:
+     a drone that asked the pad's permission before holding a root would not be
+     a foundation, and a generative voice that asked before every note would not
+     be generative.
+
+     So the collision is resolved AFTERWARDS, and the seam check is what found
+     it -- twice, and the second time in a BLEND, where ambient's drone register
+     met another genre's bass on the same pitch in 110 of 1080 pairs. Two parts
+     on one pitch at one instant is one part.
+
+     `prefer` is which way each lane moves when it is beaten to a note: the
+     drone goes DOWN, because it is the floor and the floor should get lower;
+     the generative voice goes UP, because it is the top line. Dropped only if
+     both octaves are taken too, which is the honest outcome. */
+  const clearAgainst = (mat, ROLE, prefer, lo, hi) => {
+    const taken = new Set();
+    for(const r in mat){
+      if(r === ROLE || !Array.isArray(mat[r])) continue;
+      for(const n of mat[r]) if(n.pitch != null) taken.add(n.bar + ":" + n.step + ":" + n.pitch);
+    }
+    const clear = [];
+    for(const n of (mat[ROLE] || [])){
+      if(n.pitch == null){ clear.push(n); continue; }
+      const key = p2 => n.bar + ":" + n.step + ":" + p2;
+      const tries = [0, prefer * 12, -prefer * 12, prefer * 24];
+      let done = false;
+      for(const d of tries){
+        /* AND NEVER BELOW HEARING. The drone's preference is downward and the
+           first version walked one to MIDI 17 -- 21.8 Hz, under the 32.7 Hz
+           floor this file states in three other places and holds itself to. */
+        if(n.pitch + d < Math.max(24, lo || 24) || n.pitch + d > Math.min(108, hi || 108)) continue;
+        if(taken.has(key(n.pitch + d))) continue;
+        n.pitch += d; clear.push(n); taken.add(key(n.pitch)); done = true; break;
+      }
+      if(!done) continue;                       // a note there is already taken
+    }
+    mat[ROLE] = clear;
+  };
+  for(const m in materials){
+    if(!materials[m] || Array.isArray(materials[m])) continue;
+    if(materials[m].drone && materials[m].drone.length) clearAgainst(materials[m], "drone", -1);
+  }
+
+  if(G.genPitch && G.genPitch.on){
+    const ROLE = G.genPitch.on;
+    const GW = (G.genPitch.band && G.genPitch.band.length === 2)
+             ? G.genPitch.band : (R[ROLE] || R.lead || [60, 79]);
+    const GEN_BAND = playable(GW, ROLE) || GW;
+    const setGen = (mat, tag, cs) => {
+      const g2 = buildGenLane(cs, tag, ROLE);
+      if(!g2) return;
+      mat[ROLE] = g2;
+      /* AND THE OCTAVE-UP MAY NOT LEAVE THE BAND EITHER. The band was already
+         narrowed to what is holding the lane; a collision walk that ignored it
+         put a generated note at MIDI 92 into an alto sax, and the battery said
+         so. The walk is clamped to the same band the builder drew inside. */
+      clearAgainst(mat, ROLE, +1, GEN_BAND[0], GEN_BAND[1]);
+      mat[ROLE] = pin(mat[ROLE], ROLE, tag.replace(/[^ABC]/g, "") || "A");
+    };
+    setGen(materials.A, "A", chords);
+    setGen(materials.Avar, "Avar", chords);
+    setGen(materials.B, "B", NEW_CHORUS ? chorusChords : chords);
+    setGen(materials.Bvar, "Bvar", NEW_CHORUS ? chorusChords : chords);
+    setGen(materials.C, "C", bridgeChords);
+    if(LIFT){
+      setGen(materials.Alift, "Alift", liftChords);
+      setGen(materials.Avarlift, "Avarlift", liftChords);
+    }
+  }
+
 
   /* ══ WHAT THE HAND ASKED FOR, APPLIED WHERE STAGE 3 CAN STILL PROVE IT ═════
      One private copy per edited section: `A@5` is material A as section 5 alone
@@ -32779,7 +33415,7 @@ function makeArrangement(chart, form, materials){
        genre that never asks for the slot is untouched because nothing is loaded.
        Derived here rather than written into seven role tables, for the same
        reason as before: a genre added later cannot forget to. */
-    const PITCHED = ["keys", "keys2", "bass", "lead", "counter", "ostinato"];
+    const PITCHED = ["keys", "keys2", "bass", "lead", "counter", "ostinato", "drone"];
     /* BY HAND, not merely non-"auto" -- see the note in resolvePicks. A machine
        the COMPOSER drew from the genre's own table is the genre's business and
        the genre's `form.roles` decides where it plays; a machine the USER put
@@ -32820,7 +33456,7 @@ function makeArrangement(chart, form, materials){
       const restRng = stream(chart.seed, "rest:" + i);
       const REST = F.rest || {};
       const resting = {};
-      for(const r of ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"])
+      for(const r of ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato", "drone"])
         resting[r] = restRng() < (REST[r] || 0);
       const kept = active.filter(r => !resting[r]);
       /* never rest the last thing standing: a section with nobody in it is not
@@ -34940,6 +35576,12 @@ const MIDI_TRACK = {
      where the file keeps learning it. Channel 5, and a warm pad program,
      because that is what this part plays. */
   keys2:    { ch: 5, prog: 89, name: "keys 2"   },  // pad 2 (warm)
+  /* AND THE DRONE, for the third time this table has learned the same lesson:
+     a role added upstream is a track that has to exist downstream. Channel 6,
+     and pad 8 (sweep) because that is the nearest General MIDI has to a held
+     stack that moves. `rollHues` derives the roll and mixer colours from the
+     KEYS of this object, so this entry is also what gives the drone a colour. */
+  drone:    { ch: 6, prog: 95, name: "drone"    },  // pad 8 (sweep)
 };
 
 /* WHICH KEY AND HOW HARD — the ONE answer, for the file you export and the port
@@ -36210,14 +36852,23 @@ function droneFieldEl(){
       tones[i].lab.setAttribute("y", (y - 13).toFixed(1));
       tones[i].lab.textContent = (r.ratio === 1 ? "1:1" : (r.ratio >= 1 ? r.ratio + "x" : "/" + (1 / r.ratio)));
     }
-    /* the swell, drawn to scale against the longer of the two times */
-    const sw = pv("swell", 3), fl = pv("fall", 8), span = Math.max(1, sw + fl + 2);
+    /* THE SWELL, AND IT IS TIDES' SHAPE, not a generic ramp -- SLOPE moves the
+       peak, CURVE bends the rise, SMOOTH quantises the whole thing into visible
+       steps. Drawn with the same arithmetic the voice schedules, so the picture
+       cannot drift from the sound by being written twice. */
+    const sw = pv("swell", 3), fl = pv("fall", 8);
+    const total = Math.max(0.2, sw + fl), slope = pv("slope", 0.35);
+    const cv = Math.round(pv("curve", 1)), sm = pv("smooth", 1);
+    const rise = Math.max(0.05, Math.min(total - 0.05, total * Math.max(0.02, Math.min(0.98, slope))));
+    const steps = Math.max(2, Math.round(2 + 30 * (1 - Math.max(0, Math.min(1, sm)))));
+    const shape = u => cv === 0 ? u * u : cv === 2 ? Math.sqrt(u) : u;
+    const quant = u => sm >= 0.999 ? u : Math.round(u * steps) / steps;
     const EX = SX + 250, EW = 250, EY = 288, EH = 46;
     const pts = [];
-    for(let i = 0; i <= 60; i++){
-      const T = (i / 60) * span;
-      const v = T < sw ? T / sw : (T < sw + 2 ? 1 : Math.max(0, 1 - (T - sw - 2) / Math.max(0.2, fl)));
-      pts.push(`${(EX + EW * i / 60).toFixed(1)},${(EY - EH * v).toFixed(1)}`);
+    for(let i = 0; i <= 80; i++){
+      const T = (i / 80) * total;
+      const u = T < rise ? shape(T / rise) : Math.max(0, 1 - (T - rise) / Math.max(0.05, total - rise));
+      pts.push(`${(EX + EW * i / 80).toFixed(1)},${(EY - EH * quant(u)).toFixed(1)}`);
     }
     envPath.setAttribute("points", pts.join(" "));
     /* the clocks, and whether they ever come round */
@@ -36239,7 +36890,23 @@ function droneFieldEl(){
     const b1 = document.createElement("b"); b1.textContent = S.spread.toFixed(1) + "c"; foot.appendChild(b1);
     foot.appendChild(document.createTextNode(" · drift "));
     const b2 = document.createElement("b"); b2.textContent = S.drift.toFixed(1) + "c"; foot.appendChild(b2);
-    foot.appendChild(document.createTextNode(" on " + A + "/" + B + " bars"));
+    foot.appendChild(document.createTextNode(" on " + A + "/" + B + " bars · deja vu "));
+    const b3 = document.createElement("b");
+    const dj = pv("dejavu", 0.5);
+    b3.textContent = dj < 0.48 ? "FRESH" : dj > 0.52 ? "SHUFFLED" : "LOOPED";
+    foot.appendChild(b3);
+    /* AND WHAT THE TWO LFOs ARE PATCHED TO, in English, because a socket with
+       nothing in it and a socket at zero depth look identical on a knob */
+    const DEST = ["CUTOFF", "PEAK FREQ", "SPREAD", "DRIFT", "AIR", "LEVEL"];
+    for(const n of [1, 2]){
+      const amt = pv("l" + n + "amt", 0);
+      foot.appendChild(document.createTextNode(" · LFO" + n + " "));
+      const bn = document.createElement("b");
+      bn.textContent = Math.abs(amt) < 0.005 ? "OFF"
+        : DEST[Math.max(0, Math.min(5, Math.round(pv("l" + n + "dest", 0))))] +
+          " " + Math.round(pv("l" + n + "rate", 11)) + "b " + Math.round(amt * 100) + "%";
+      foot.appendChild(bn);
+    }
     wrap.__S = S;
   };
 
@@ -36953,8 +37620,10 @@ const MIXER_TRIM = {};
 const MIXER_CH = [];                     // the strips on screen, for refreshLive
 /* the order a desk would put them in: the floor, then the middle, then the top.
    Any part not named here still gets a strip, after these. */
-const MIX_ORDER = ["drums", "bass", "keys", "keys2", "ostinato", "counter", "lead", "tape"];
-const MIX_LABEL = { drums: "drums", bass: "bass", keys: "chords", keys2: "chords 2",
+/* the drone is FIRST because it is the floor -- a desk puts the thing
+   everything else sits on at the left-hand end */
+const MIX_ORDER = ["drone", "drums", "bass", "keys", "keys2", "ostinato", "counter", "lead", "tape"];
+const MIX_LABEL = { drone: "drone", drums: "drums", bass: "bass", keys: "chords", keys2: "chords 2",
                     ostinato: "figure", counter: "answer", lead: "tune", tape: "tape" };
 const MIX_BAND = [
   { k: "low",  cap: "LOW",  label: "low shelf, 200 Hz" },
