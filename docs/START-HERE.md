@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-15f` unless it says otherwise (the
+*Everything below is verified at `2026-08-15g` unless it says otherwise (the
 newest build; its entry is under "What happened last"). If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
@@ -123,7 +123,7 @@ while both files carried an identical stamp, so three commits of work went
 unjudged. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-15f`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-15g`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -135,6 +135,21 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Build `2026-08-15g` — A RACK FOR EVERY PART, AND DUNGEON SYNTH DEALS ITS NEW
+INSTRUMENTS ITSELF.** The owner: *"create ui that lets the user select the
+instruments they want for the song for the different parts and to be able to
+add more instruments"* — and the two parts a hand could never touch got their
+racks: **counter ("answer") and ostinato ("figure")**, appended to RACK_SLOTS
+so no existing draw moves, 27 pitched boxes pickable on each, verified
+end-to-end in Chromium through the real dropdowns. And the genre half:
+dungeon synth's pools grew by the owner's word — **contrabassoon on the bass
+(11/40 records), gurdy drone strings on the drone lane (18/40), hurdy-gurdy
+on keys2 (10/40)** — all register-neutral by the arithmetic (each range
+CONTAINS its band), 12/12 DS records keep their exact notes, nine other
+genres byte-identical. The new drone pool also exposed probe_reachable's
+five-slot pick literal (predating the drone slot); it derives from
+`rackSlots()` now. Battery 178/1 (the ruled blend). NOT judged by ear.
 
 **Build `2026-08-15f` — TAIKO, CONTRABASSOON, HURDY-GURDY: THREE RECORDED
 INSTRUMENTS IN ONE DAY.** The owner: *"Taiko drums absolutely, lets get the
@@ -562,7 +577,7 @@ wanted, and nobody should quietly re-add costs to the other files either.
 
 ## The commands
 
-Build `2026-08-15f`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-15g`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 
