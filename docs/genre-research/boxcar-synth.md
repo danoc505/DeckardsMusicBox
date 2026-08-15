@@ -216,6 +216,57 @@ The genre opts in with a `journey` table naming which sounds play at which
 boundary; a name the bank does not carry is skipped rather than faked. No
 other genre declares one, so no other genre gained an event — measured.
 
+## 8b. WHAT PHASE 4 BUILT — THE MEDIUM, with its numbers
+
+Dungeon synth owns warped tape. Boxcar synth's era had two other machines,
+and both are band limits with a noise floor and one motion of their own.
+Built as ONE machine with a switch, inserted on the master after the tape and
+before the limiter — a switch, never a blend, because half a band limit is a
+comb filter rather than an old machine. OFF is two unity gains, so every
+other genre renders exactly what it always rendered (measured).
+
+**THE GRAMOPHONE** — an acoustic gramophone runs "about 100 Hz to about
+8000 Hz", and even the 1925 Western Electric cutter's "cutoff frequency could
+not be extended above 5 kHz" [pspatialaudio; hifisystemcomponents]. Shellac
+is loaded with slate and "particles of slate contribute to the harsh
+surface-noise". Its motion is arithmetic: a 78 turns once every 60/78 =
+**0.769 s**, so an off-centre hole wobbles the pitch at **1.30 Hz** — once
+per revolution, the one wobble no tape has. A horn is a resonator, so the
+band pair is joined by a peak that honks (placement [CHOSEN] inside the
+sourced band).
+
+**THE AM SET** — "most commercial AM stations restrict their audio to a range
+of 5 kHz", the widest standard band being "20 Hz–10 kHz", and "in 5 kHz you
+can reproduce a human voice" [Radio World; NRSC-G100-A]. Its noise is
+electrical: "electrical storms, engines, power lines... cause crackling,
+static, or fading". Its motion is the slow drift of a set that will not hold
+a station.
+
+MEASURED, A/B on the same eight seconds of one record:
+
+| | 400 Hz | 2 kHz | 7 kHz | 9 kHz |
+|---|---|---|---|---|
+| medium OFF | −83.9 | −72.4 | −98.7 | −106.2 |
+| **gramophone** | −82.7 | **−72.1** | −100.7 | **−124.0** |
+| **AM set** | **−93.1** | −78.2 | **−112.5** | −108.6 |
+
+The gramophone keeps its middle (the horn's honk) and loses 18 dB of top;
+the AM set loses the bottom AND the top and leaves the voice band. Which is
+what the sources say each machine does.
+
+**AND THE DECAY IS AN ARC, NOT A FINISH** — the dungeon synth critique's own
+finding, built here as the genre's: WORN rides across the record (drawn, so
+a record may clear as it travels or age into it), and the towns come up out
+of the murk a little, because arriving somewhere is the moment you hear it
+plainly.
+
+**One defect worth recording**, caught by the A/B and not by reading: the
+first version read the genre's declaration from a channel `setSpace` never
+receives, so the band limit, the wobble and the noise measured byte-identical
+to no medium at all. The file had already written the lesson down for the
+tape — "a second channel for one more number is how the two get out of step"
+— and the fix was to make the medium ride the same one.
+
 ## 9. What is built, in phases (the plan of record)
 
 Phase 0 this sheet + the rail payload · Phase 1 the hobo band

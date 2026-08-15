@@ -1629,6 +1629,12 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
        (setSpace rebuilds the buffer when either settles), TONE is the tank's
        lowpass. The kick is a button, not a control. */
     "spring.dwell","spring.tension","spring.tone",
+    /* THE MEDIUM: the gramophone / AM set the record reaches you through.
+       Same class as the tape one unit up the chain — setSpace reads these
+       once per song and re-applies them on a hand through `live`. Its NARROW
+       and WORN are kind:"bus" and arrive by derivation above; these four are
+       the switch pair and the two motions, exactly as the tape's are. */
+    "medium.power","medium.kind","medium.wobble","medium.drift",
     ]);
   /* ── THE PER-VOICE CHAINS, DERIVED, NOT LISTED ──────────────────────────────
      These were twenty names typed in for tr1000 alone. Then the acoustic kit and

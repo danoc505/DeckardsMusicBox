@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15r · the journey you can hear — brakes into town, two longs out, the conductor calling</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15s · the medium — shellac at 78, or a radio that drifts</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -4553,6 +4553,35 @@ const INSTRUMENTS = {
                 drawn on its panel" sweep exists to catch, and did. */
              groups: [{ label: "TRANSPORT", keys: ["power", "speed"] },
                       { label: "THE DRIFT", keys: ["wow", "flutter"] }] },
+  },
+
+  /* ── THE MEDIUM ───────────────────────────────────────────────────────────
+     The machine the record reaches you through: a horn gramophone playing
+     shellac, or an AM set that will not hold its station. Boxcar synth's own
+     decay, and the answer to "what other degradation is there besides tape?"
+     Every number is sourced at the graph nodes in stage 6.
+     [docs/genre-research/boxcar-synth.md §8] */
+  medium: {
+    slot: "medium", label: "the medium", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"power",  label:"genre / off / on", cap:"POWER", min:-1, max:1, step:1, def:-1, kind:"switch", live:true },
+      { k:"kind",   label:"GRAMOPHONE/RADIO", cap:"KIND",  min:0, max:1, step:1, def:0, kind:"switch", live:true },
+      /* BUS, like the desk's three bands and for the same reason: these are
+         ridden as curves by `rideBus` onto the filter nodes the whole record
+         passes through, and the genre's motion rides them. The battery's
+         "no switch or voicing control is automated" check is what named this
+         — it was right, and the desk is the precedent it pointed at. */
+      { k:"band",   label:"how narrow",   cap:"NARROW", min:0, max:1, step:0.01, def:0, kind:"bus" },
+      { k:"age",    label:"how worn",     cap:"WORN",   min:0, max:1, step:0.01, def:0, kind:"bus" },
+      { k:"wobble", label:"the wobble",   cap:"WOBBLE", min:0, max:0.02, step:0.0005, def:0, kind:"voicing", live:true },
+      { k:"drift",  label:"tuning drift", cap:"DRIFT",  min:0, max:0.02, step:0.0005, def:0, kind:"voicing", live:true },
+    ],
+    panel: { skin: "tape", maker: "DECKARD", title: "THE MEDIUM",
+             sub: "shellac at 78, or a radio that drifts",
+             groups: [{ label: "", keys: ["power", "kind"] },
+                      { label: "THE BAND", keys: ["band", "age"] },
+                      { label: "THE MOTION", keys: ["wobble", "drift"] }] },
   },
 
   /* ── THE SPRING REVERB ────────────────────────────────────────────────────
@@ -7697,6 +7726,15 @@ function soundOf(genre, drumMachine, picks, chart){
       const extra = {};
       if(chart && chart.root != null) extra.tonic = chart.root;
       if(chart && chart.tape) extra.tape = chart.tape;
+      /* AND THE MEDIUM RIDES IT TOO, for the reason stated three paragraphs
+         up and proved again the day it was built: the first version read the
+         genre's declaration from a channel setSpace never receives, and the
+         A/B render measured the band limit, the wobble and the noise as
+         BYTE-IDENTICAL to no medium at all — the knob-that-lies defect,
+         caught by the render rather than by reading the code. Read off the
+         CHART'S TABLE first, so a blended song gets the blend's answer. */
+      const med = (chart && chart.table && chart.table.medium) || G.medium || null;
+      if(med) extra.medium = med;
       if(leg) extra.legato = leg;
       if(cmp >= 0.5) extra.comp = 1;
       return Object.keys(extra).length ? Object.assign({}, space, extra) : space;
@@ -9130,6 +9168,10 @@ const Sound = (function(){
      transport, and it is a different fault with the same shape.
      docs/genre-research/lofi-noise.md §3 */
   const TAPE_WOW_HZ = 0.7, TAPE_FLUTTER_HZ = 7.4;
+/* A 78 TURNS ONCE EVERY 60/78 = 0.769 SECONDS, so an off-centre hole wobbles
+   the pitch at 1.30 Hz. Arithmetic, not a taste: this is the number that makes
+   a shellac record sound like a record. [docs/genre-research/boxcar-synth.md §8] */
+const MEDIUM_WOW_HZ = 78 / 60;
   const LEVEL = {
     kick: 0.72, snare: 0.62, hat: 0.44, openhat: 0.34, ghost: 0.62, // ghost is a snare; quiet comes from velocity
     bass: 0.26, keys: 0.15, lead: 0.28, counter: 0.16,
@@ -9869,8 +9911,66 @@ registerProcessor("mk2-room", MK2Room);
     g.mix.connect(g.pre); g.pre.connect(g.shaper); g.shaper.connect(g.post);
     g.post.connect(g.deskLow); g.deskLow.connect(g.deskMid); g.deskMid.connect(g.deskHigh);
     g.deskHigh.connect(g.compIn);
+    /* ══ THE MEDIUM: THE MACHINE THE RECORD REACHES YOU THROUGH ═══════════════
+       [docs/genre-research/boxcar-synth.md §8; the owner: "are there other
+       interesting degradation techniques we could use to get our own novel
+       sound?"]
+
+       Dungeon synth owns warped TAPE. This is the other imagined past, and it
+       is the one boxcar synth's era actually had: a record cut to shellac and
+       played through a horn, or a broadcast heard on an AM set. Both are
+       BAND LIMITS with a noise floor, and each has one motion of its own:
+
+         THE GRAMOPHONE  An acoustic gramophone runs "about 100 Hz to about
+                         8000 Hz", and even the 1925 Western Electric electric
+                         cutter's "cutoff frequency could not be extended
+                         above 5 kHz" [pspatialaudio; hifisystemcomponents].
+                         Shellac is cut with slate dust and "particles of
+                         slate contribute to the harsh surface-noise". And the
+                         motion is ARITHMETIC, not taste: a 78 turns once
+                         every 60/78 = 0.769 s, so an off-centre hole wobbles
+                         the pitch at 1.30 Hz — once per revolution, a wobble
+                         no tape has and the one sound that says "record"
+                         rather than "old".
+
+         THE AM SET      "Most commercial AM stations restrict their audio to
+                         a range of 5 kHz"; the band is "20 Hz-10 kHz" at its
+                         widest under the NRSC standard, and "in 5 kHz you can
+                         reproduce a human voice" [Radio World; NRSC-G100-A].
+                         Its noise is electrical — "electrical storms, engines,
+                         power lines... cause crackling, static, or fading" —
+                         and its motion is the slow DRIFT of a set that will
+                         not hold a station.
+
+       A SWITCH, NOT A BLEND, exactly as the tape argues: half a band limit is
+       two copies of the record, which is a comb filter, not an old machine.
+       OFF is two unity gains — numerically transparent, so every genre that
+       declares nothing renders precisely what it always rendered. ══════════ */
+    g.medIn  = c.createGain(); g.medIn.gain.value  = 1;
+    g.medDry = c.createGain(); g.medDry.gain.value = 1;    // the switch, OFF
+    g.medWet = c.createGain(); g.medWet.gain.value = 0;
+    g.medHP  = c.createBiquadFilter(); g.medHP.type = "highpass";
+    g.medHP.frequency.value = 100; g.medHP.Q.value = 0.7;
+    g.medLP  = c.createBiquadFilter(); g.medLP.type = "lowpass";
+    g.medLP.frequency.value = 8000; g.medLP.Q.value = 0.7;
+    /* the horn's own honk: a real horn is a resonator, not a filter pair, and
+       the peak is what makes a gramophone sound like a gramophone rather than
+       like a telephone [CHOSEN placement, inside the sourced band] */
+    g.medHorn = c.createBiquadFilter(); g.medHorn.type = "peaking";
+    g.medHorn.frequency.value = 1600; g.medHorn.Q.value = 1.1; g.medHorn.gain.value = 0;
+    g.medDelay = c.createDelay(0.2);
+    g.medDelay.delayTime.value = 0.005;                    // the gap the wobble is about
+    g.medWob = c.createOscillator(); g.medWob.frequency.value = MEDIUM_WOW_HZ;
+    g.medWobD = c.createGain(); g.medWobD.gain.value = 0;
+    g.medWob.connect(g.medWobD); g.medWobD.connect(g.medDelay.delayTime);
+    g.medWob.start(0);
+    g.medIn.connect(g.medDry);
+    g.medIn.connect(g.medHP); g.medHP.connect(g.medLP); g.medLP.connect(g.medHorn);
+    g.medHorn.connect(g.medDelay); g.medDelay.connect(g.medWet);
+
     g.compDry.connect(g.tapeIn); g.compWet.connect(g.tapeIn);
-    g.tapeDry.connect(g.limit); g.tapeWet.connect(g.limit);
+    g.tapeDry.connect(g.medIn); g.tapeWet.connect(g.medIn);
+    g.medDry.connect(g.limit); g.medWet.connect(g.limit);
     g.limit.connect(g.master);
     g.master.connect(c.destination); g.master.connect(g.masterMeter);
 
@@ -15917,6 +16017,50 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     return [src];
   };
 
+  /* ══ THE MEDIUM'S OWN NOISE ═══════════════════════════════════════════════
+     A 78's surface and an AM set's static are not the same noise and the
+     sources say why: shellac is loaded with slate and its noise is a HISS
+     with grit in it — "particles of slate contribute to the harsh
+     surface-noise" — plus the occasional pop where the groove is chipped;
+     a radio's is electrical, "crackling, static" from storms and power
+     lines, brighter and more even. Both ride the tape role, so everything
+     that already excludes the medium from the .mid, the roll and the stem
+     windows excludes this too. Deterministic: the pops are placed by the
+     hash of their own time, never by a random. */
+  V.medium = function(g, ev, t){
+    const c = g.ctx;
+    if(!g.noise) return [];
+    const made = [];
+    const radio = ev.kind >= 1;
+    const src = c.createBufferSource(); src.buffer = g.noise; src.loop = true;
+    const bp = c.createBiquadFilter();
+    bp.type = radio ? "bandpass" : "highpass";
+    bp.frequency.value = radio ? 2200 : 1800;
+    bp.Q.value = radio ? 0.5 : 0.7;
+    const gn = c.createGain(); gn.gain.value = ev.gain;
+    src.connect(bp); bp.connect(gn); gn.connect(chanIn(g, "tape", "vinyl"));
+    src.start(t); src.stop(t + ev.durSec); made.push(src);
+    /* the pops: a chipped groove speaks once every second or so, and a
+       storm crackles less often but louder */
+    const every = radio ? 2.4 : 0.9;
+    for(let x = 0; x < ev.durSec; x += every){
+      const h = hash32("med:" + x.toFixed(2) + ":" + ev.durSec.toFixed(1));
+      const at = t + x + ((h >>> 8) & 255) / 255 * every;
+      if(at > t + ev.durSec) break;
+      if(((h >>> 20) & 255) / 255 > (radio ? 0.35 : 0.62)) continue;
+      const p = c.createBufferSource(); p.buffer = g.noise; p.loop = true;
+      const pf = c.createBiquadFilter(); pf.type = "bandpass";
+      pf.frequency.value = 900 + ((h >>> 4) & 255) * 12; pf.Q.value = 1.4;
+      const pg = c.createGain();
+      const lvl = ev.gain * (radio ? 5.5 : 4.0) * (0.4 + ((h >>> 12) & 255) / 255 * 0.6);
+      pg.gain.setValueAtTime(lvl, at);
+      pg.gain.exponentialRampToValueAtTime(0.00001, at + 0.035);
+      p.connect(pf); pf.connect(pg); pg.connect(chanIn(g, "tape", "vinyl"));
+      p.start(at); p.stop(at + 0.06); made.push(p);
+    }
+    return made;
+  };
+
   V.openhat = function(g, ev, t){
     const c = g.ctx;
     const body = burst(g, t, 0.30, ev.tSec.toFixed(5) + ":openhat");
@@ -17255,6 +17399,51 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       rideBus(g, g.deskLow.gain,  "desk.low",  panelValue("desk", "low"),  t0);
       rideBus(g, g.deskMid.gain,  "desk.mid",  panelValue("desk", "mid"),  t0);
       rideBus(g, g.deskHigh.gain, "desk.high", panelValue("desk", "high"), t0);
+    }
+    /* ── THE MEDIUM, CONFIGURED ────────────────────────────────────────────
+       Same three-way switch the tape keeps: -1 the genre decides, 0 off,
+       1 on. `space.medium` is the genre's declaration; the panel's own knobs
+       are added on top in the same units, so a hand always outranks a table
+       and a genre that declares nothing leaves the record untouched. */
+    if(g.medIn){
+      const mh = k => {
+        const cc = CONTROL["medium." + k];
+        const base = PARAMS["medium." + k] != null ? PARAMS["medium." + k] : (cc ? cc.def : 0);
+        return base + (TRIM["medium." + k] || 0);
+      };
+      const M = (space && space.medium) || null;
+      const sw = Math.round(mh("power"));
+      const on = sw === 0 ? false : (sw === 1 ? true : !!M);
+      /* KIND: 0 the gramophone, 1 the radio. The genre names one; the hand
+         can say the other, and both are real machines with real numbers. */
+      const kind = Math.round(mh("kind"));
+      /* AGE is the arc [the owner: a decay that travels with the record]: it
+         narrows the band and raises the noise together, because that is what
+         wear does to a disc and what distance does to a broadcast. Ridden by
+         the genre's motion like any other control. */
+      const age = Math.max(0, Math.min(1, mh("age") + (M && M.age ? M.age : 0)));
+      const narrow = Math.max(0, Math.min(1, mh("band") + (M && M.band ? M.band : 0)));
+      const n = Math.max(0, Math.min(1, narrow * 0.55 + age * 0.45));
+      /* the sourced bands, walked from wide to narrow by that one number:
+         the gramophone 100 Hz-8 kHz down to its 1925 electric ceiling and
+         below; the AM set 20 Hz-10 kHz down to the 5 kHz voice band */
+      const lo = kind >= 1 ? 60 + 160 * n : 100 + 200 * n;
+      const hi = kind >= 1 ? 10000 - 5200 * n : 8000 - 5000 * n;
+      rideBus(g, g.medHP.frequency, "medium.lo", lo, t0);
+      rideBus(g, g.medLP.frequency, "medium.hi", hi, t0);
+      /* the horn honks; a radio does not have one */
+      g.medHorn.gain.value = kind >= 1 ? 0 : 4 + 5 * n;
+      g.medHorn.frequency.value = 1600;
+      /* the wobble: the disc's once-per-revolution, or the set's slow drift.
+         Both are a fraction of pitch, and the delay swing each needs is
+         depth/(2*pi*rate) seconds — the tape's own arithmetic, reused. */
+      const wobDepth = Math.max(0, mh("wobble") + (M && M.wobble ? M.wobble : 0));
+      const driftD   = Math.max(0, mh("drift")  + (M && M.drift  ? M.drift  : 0));
+      const depth = kind >= 1 ? driftD : wobDepth;
+      g.medWob.frequency.value = kind >= 1 ? 0.07 : MEDIUM_WOW_HZ;
+      g.medWobD.gain.value = on ? depth / (2 * Math.PI * (kind >= 1 ? 0.07 : MEDIUM_WOW_HZ)) : 0;
+      g.medDry.gain.value = on ? 0 : 1;
+      g.medWet.gain.value = on ? 1 : 0;
     }
     if(!space) return;
     /* the ROOM ITSELF, when a genre asks for a different one. Rebuilding the IR
@@ -28392,8 +28581,30 @@ GENRE.boxcarsynth = {
                 pan: 0, panHz: 0.02, panDep: 0.12, strings: 0 },
     echo: { div: 4, fb: 0.30, tone: 2000, hp: 150, send: 0.12, verb: 0.6 },
     vp330: { ens: 0.7, choir: 0.5, attack: 1.4, release: 2.6 },
+    /* the medium's own knobs sit at the genre's chosen starting point; the
+       AGE arc below rides them from there */
+    medium: { kind: 0, band: 0.25, age: 0.15, wobble: 0.004, drift: 0.002 },
   },
+  /* ── THE RECORD THE JOURNEY IS CUT TO ────────────────────────────────────
+     A gramophone by default: shellac, the horn's honk, and the 1.30 Hz
+     once-per-revolution wobble that is arithmetic rather than taste. The
+     noise is the surface. `kind: 1` would put the same record on an AM set,
+     and a hand can. [docs/genre-research/boxcar-synth.md §8] */
+  medium: { kind: 0, noise: 0.010, band: 0.10, age: 0.10, wobble: 0.003, drift: 0 },
   motion: {
+    /* ── THE DECAY IS AN ARC, NOT A FINISH ──────────────────────────────────
+       The dungeon synth critique's own finding — decay as composition, not as
+       a coat of paint — built here as the genre's own: the record CLEARS as
+       the journey goes on, or ages into it, drawn per record. Either way the
+       medium is doing something across the record instead of sitting still.
+       The town sections come UP out of the murk a little, because arriving
+       somewhere is the moment you hear it plainly. */
+    medium: {
+      age:  [{ kind: "arc", from: [0.10, 0.30], to: [-0.14, 0.10], curve: "sCurve" },
+             { kind: "section", by: { chorus: [-0.10, -0.03], bridge: [0.04, 0.12] } }],
+      band: [{ kind: "lfo", bars: [[37, 2], [53, 1]], depth: [0.02, 0.07],
+               shape: "sin", freePhase: true }],
+    },
     desk: {
       high: [{ kind: "arc", from: [-2.5, -1.2], to: [0.4, 1.4], curve: "sCurve" }],
       low:  [{ kind: "section", by: { chorus: [0.4, 1.2], bridge: [-1.6, -0.6] } }],
@@ -36501,6 +36712,15 @@ function makePerformance(chart, form, materials, sections){
   events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "tape",
                               role: "tape", gain: chart.tape.crackle,
                               hiss: chart.tape.hiss }));
+  /* and the MEDIUM's noise, when the genre declares one: the surface of the
+     disc or the static behind the station, one event for the whole record on
+     the same rail as the tape's own crackle */
+  if(chart.table.medium){
+    const MD = chart.table.medium;
+    events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "medium",
+                                role: "tape", kind: MD.kind || 0,
+                                gain: MD.noise == null ? 0.006 : MD.noise }));
+  }
   /* the atmosphere bed rides the same rail: ONE event on the tape role, so
      everything that already excludes the medium from the .mid, the roll and
      the stem windows excludes the weather too. The accent, when the chart
