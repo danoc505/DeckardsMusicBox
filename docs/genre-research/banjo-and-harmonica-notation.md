@@ -4,10 +4,24 @@
 scores written for banjo and harmonica, we are not using them correctly. I
 think we need more notes at the least."*
 
-**He is right, and the sources say so in numbers.** This sheet is what a real
-score and a real tab actually contain, so the program can stop guessing. Every
-pattern below is quoted from a named source; anything I chose is marked
-`[CHOSEN]`.
+**He is right, and the sources say so in numbers.** Every pattern below is
+quoted from a named source; anything I chose is marked `[CHOSEN]`.
+
+> **WHAT THESE SOURCES ARE, said before they are used.** They are REFERENCE AND
+> INSTRUCTIONAL material — an encyclopedia layout table, a technique article, a
+> teaching page that prints the roll patterns string by string. They are not
+> transcriptions of actual tunes. The patterns in them are exact, which is why
+> the cells built from them are trustworthy; what they do NOT contain is a
+> whole piece of music.
+>
+> **So this sheet has the vocabulary and not the deployment**, and the
+> difference is real: it can say what a roll IS and cannot say where a player
+> changes roll inside a tune, how a break is shaped from first bar to last, or
+> how often the melody note is displaced off the beat. The program currently
+> picks one roll per material and repeats it. That is defensible from these
+> sources and is certainly cruder than a player. Closing it needs a real
+> transcription — that is the next piece of research on this instrument, and it
+> is written down here rather than left as an impression that the job is done.
 
 ---
 
