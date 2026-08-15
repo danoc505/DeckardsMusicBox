@@ -368,6 +368,12 @@
   .mixer .mixch.mixchvoice{ margin-right:-.18rem; }
   .mixer .mixch.mixchgroup{ margin-left:.34rem; border-top-width:3px; }
   .mixer .mixch.mixchgroup .mixname{ letter-spacing:.08em; text-transform:uppercase; }
+/* the strip's instrument picker: reads as a name plate until you open it */
+.mixpick{ width:100%; margin:2px 0 3px; font-size:9px; line-height:1.4;
+  background:rgba(0,0,0,.35); color:var(--ink, #bbb);
+  border:1px solid rgba(255,255,255,.14); border-radius:3px; padding:1px 2px;
+  text-overflow:ellipsis; }
+.mixpick:hover{ border-color:rgba(255,255,255,.32); }
   .mixch{ display:flex; flex-direction:column; align-items:center; gap:.3rem;
           padding:.4rem .3rem .35rem; border-radius:3px;
           background:rgba(0,0,0,.16); box-shadow:inset 0 1px 0 rgba(255,255,255,.06); }
@@ -1591,7 +1597,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15g · a rack for every part, and dungeon synth deals its new instruments itself</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15h · the mixer names every part's instrument, and the name is a dropdown</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -39546,6 +39552,75 @@ function mixStrip(role){
         ? label + " — no colour: this is the record surface, not notes, so it has no line on the roll"
         : label + " — the same colour as this part has on the roll";
   wrap.appendChild(nameEl);
+  /* ── THE INSTRUMENT, NAMED ON THE STRIP — AND THE NAME IS A CHOICE ────────
+     [owner, 2026-08-15: "Every song has instruments, they show up on the
+     master mixer so thats probably where this should be. Each part like the
+     lead for example should name what instrument it is and this should be a
+     drop down that allows the user to pick from a list of instruments."]
+
+     The rack panels carry pickers already, but the desk is where the record's
+     parts are listed and read -- so the strip SAYS which instrument is on the
+     part, and the saying is a select. Same doors as the rack picker, no new
+     mechanism: the option list comes from canFill, the choice lands in PICK,
+     recompose() carries on from the same second. The first option is always
+     what is PLAYING NOW -- read from the record's own events, never from a
+     list -- so an untouched desk still names its instruments truthfully.
+
+     ONE PART, ONE PICKER: a part played by several instruments splits into
+     channels and a group, and the pick lives on the GROUP strip (a hand's
+     pick outranks the ladder, so choosing there puts ONE instrument on the
+     whole part -- which is what picking means). The DRUMS name their KIT,
+     because "which drums" is the kit, through the same picks.kit door
+     resolvePicks reads first. The record surface is not an instrument and
+     draws no picker. */
+  /* `SLOT_OF` maps drum LANES (kick, snare...), never the drums ROLE — but the
+     drums rack slot is simply "drums", so the strip asks for it by name */
+  const pickSlot = R === "drums" ? "drums" : SLOT_OF[R];
+  if(!VOICE && R !== "tape" && pickSlot && SONG){
+    const slot = pickSlot;
+    const sel = document.createElement("select");
+    sel.className = "mixpick";
+    sel.id = "mx_" + slot;
+    if(R === "drums"){
+      const M = INSTRUMENTS[machineIn(SONG.chart, "drums")] || INSTRUMENTS.tr1000;
+      const coll = (M && M.kits) ? M : INSTRUMENTS.tr1000;
+      const names = coll.kitNames || {};
+      const cur = (SONG.chart.picks.kit || {}).drums;
+      const curName = names[cur] || cur || "the band's own kit";
+      sel.title = "which drums play this part — the record is playing: " + curName;
+      /* with a hand pick active the auto option is the way back, not an echo */
+      const kitHand = !!(PICK.kit && PICK.kit.drums);
+      sel.innerHTML =
+        `<option value="auto">${kitHand ? "back to the band's choice" : curName}</option>` +
+        Object.keys(coll.kits || {})
+          .map(k => `<option value="${k}">${names[k] || k}</option>`).join("");
+      sel.value = (PICK.kit && PICK.kit.drums && coll.kits[PICK.kit.drums])
+                  ? PICK.kit.drums : "auto";
+      sel.addEventListener("change", () => {
+        if(sel.value === "auto") delete PICK.kit.drums;
+        else PICK.kit.drums = sel.value;
+        recompose();
+      });
+    } else {
+      const played = mixVoicesOf(R).map(v => {
+        const m = machineOfVoice(slot, v);
+        return m ? (INSTRUMENTS[m].label || m) : mixVoiceLabel(v);
+      });
+      const now = [...new Set(played)].join(" · ") || "silent in this record";
+      sel.title = "which instrument plays the " + (MIX_LABEL[R] || R) +
+                  " — the record is playing: " + now;
+      const hand = !!(PICK[slot] && PICK[slot] !== "auto");
+      sel.innerHTML =
+        `<option value="auto">${hand ? "back to the band's choice" : now}</option>` +
+        `<option value="none">none — silence this part</option>` +
+        Object.keys(INSTRUMENTS).filter(k => canFill(slot, k))
+          .map(k => `<option value="${k}">${INSTRUMENTS[k].label}</option>`).join("");
+      sel.value = (PICK[slot] === "none" || (PICK[slot] && canFill(slot, PICK[slot])))
+                  ? PICK[slot] : "auto";
+      sel.addEventListener("change", () => { PICK[slot] = sel.value; recompose(); });
+    }
+    wrap.appendChild(sel);
+  }
   const eq = el("div", "mixeq");
   for(const b of MIX_BAND) eq.appendChild(mixKnob(role, b));
   wrap.appendChild(eq);
