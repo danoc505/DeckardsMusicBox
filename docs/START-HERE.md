@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-15h` unless it says otherwise (the
+*Everything below is verified at `2026-08-15i` unless it says otherwise (the
 newest build; its entry is under "What happened last"). If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
@@ -123,7 +123,7 @@ while both files carried an identical stamp, so three commits of work went
 unjudged. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-15h`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-15i`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -135,6 +135,31 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Build `2026-08-15i` — THE OWNER'S REVIEW, ANSWERED WITH MEASUREMENTS.**
+*"I feel like the gurdy is not correct... the drone mixer fader is dead. The
+Takio is not sounding correct... its a good rough draft but its not complete
+yet."* All three were real:
+
+- **The drone fader was dead since the lane was born** — MIX_ROLE_BUS never
+  gained a drone entry, so the strip's fader/EQ/meter wrote into a channel
+  that did not exist while the audio fell through chanIn's fallback into the
+  keys bus. The role now has a real channel in front of that bus (proven:
+  strip −30 dB → rendered drone −25.1 → −55.1 dBFS). **A drone bus of its
+  own is a matrix-row job, recorded, not done.**
+- **The gurdy**: tied notes enter at the loop (the wheel no longer restarts
+  per note); the drone strings are an ADDITIONAL layer — `dronebox.strings`
+  rides the same swell/level/fader as the synth stack (DS carries 0.4,
+  measured +7.4 dB of wheel under the drone); the short-lived drone POOL is
+  gone; loop seams crossfaded 40 ms in the encoder.
+- **The taiko**: the kettledrum release was chopping the great drum's 3 s
+  ring with a 15 ms ramp (now a 0.35 s skin release), and lane levels were
+  off by a 19 dB spread against the dungeon kit (great drum +6.6, high drums
+  −9, ticks −12). Per-drum trims are the A/B's own corrections; re-measured,
+  every lane within ~2 dB of the genre's contour.
+
+Battery 178/1 (the ruled blend). NOT judged by ear — the review continues
+there.
 
 **Build `2026-08-15h` — THE MIXER NAMES EVERY PART'S INSTRUMENT, AND THE NAME
 IS A DROPDOWN.** The owner corrected `15g`'s placement: *"they show up on the
@@ -592,7 +617,7 @@ wanted, and nobody should quietly re-add costs to the other files either.
 
 ## The commands
 
-Build `2026-08-15h`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-15i`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 

@@ -63,7 +63,17 @@ should be built on top of this stack until it has been played.**
 
 ## 0a. WHAT IS STILL NOT BUILT — the whole open list, `2026-08-13`
 
-> ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-14a` … `2026-08-15h`
+> ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-14a` … `2026-08-15i`
+>
+> **The owner's review, `2026-08-15i`** — three faults, all measured: the
+> drone fader dead since the lane was born (no MIX_ROLE_BUS entry — fixed,
+> channel in front of the keys bus its audio always took; A DRONE BUS OF
+> ITS OWN IS STILL OPEN, it is a matrix row and belongs with the serial-
+> routing column work); the gurdy wheel restarting per note (tied notes
+> enter at the loop) with its drone strings now a LAYER under the drone
+> rack (dronebox.strings) instead of a rival machine; the taiko choked at
+> 1.6 s and off by a 19 dB lane spread (released 0.35 s, per-drum trims
+> from the A/B's own corrections).
 >
 > **The mixer names every part's instrument, `2026-08-15h`** — a dropdown
 > on every part strip, first option always what is actually playing (read
@@ -294,7 +304,7 @@ not a new fault.
 
 *Asked for in as many words: "add what everything we have failed to implement
 to the todo file". This is that list, on the branch `claude/code-review-6jd9cz`,
-current as of build `2026-08-15h`.*
+current as of build `2026-08-15i`.*
 
 **EVERY NUMBER BELOW WAS MEASURED TODAY, not remembered.** The probes that
 produced them are named at each item so any of it can be re-checked in one
