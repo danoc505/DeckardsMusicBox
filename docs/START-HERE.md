@@ -123,7 +123,7 @@ while both files carried an identical stamp, so three commits of work went
 unjudged. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-15i`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-15p`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
