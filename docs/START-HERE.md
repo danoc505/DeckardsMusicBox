@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-15l` unless it says otherwise (the
+*Everything below is verified at `2026-08-15p` unless it says otherwise (the
 newest build; its entry is under "What happened last"). If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
@@ -135,6 +135,29 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Builds `2026-08-15n`..`2026-08-15p` — BOXCAR SYNTH, A NEW GENRE IN THREE
+BUILDS.** The owner founded a subgenre: dungeon synth's imagined-past logic
+on the American rails, comfy synth's bittersweet warmth, named **Boxcar
+Synth** by the owner. `docs/genre-research/boxcar-synth.md` is the founding
+sheet. `15n`: fifteen BBC "Age of Steam" recordings measured into a fourth
+sample payload (licence in the ledger). `15o`: the hobo band — Philharmonia
+banjo, VCSL Hohner harmonicas, a synthesized steam chime whistle
+(signal: true, the carnyx contract), a synthesized glass slide, anvil and
+brake-drum hits. `15p`: the genre itself — tempo IS the train's speed
+(39-ft rail: mph x 2.256 = clicks/min), the journey form (travel sections
+carry the track rhythm, TOWNS SILENCE THE DRUMS because the train is
+standing — measured 94/94 travel with drums, 7 stray hits in 29 towns),
+dark→light as a zero-semitone keyShift into major (fires ~60% of records),
+the rail beds under the record via the atmos door's new per-genre `fams`.
+The battery caught and corrected five real defects during authoring (intro
+in a plan pool, overlapping keys/figure registers, a dial that changed
+nothing — resolved the ambient way with keysStyle hold). Every existing
+genre byte-identical, +25 fresh-seed rows measured; the committed 300-seed
+baseline still predates 15e and is refreshed against HEAD-snaps per
+practice. Battery 183/1 (the ruled blend). Phases 3-5 (journey boundary
+events, the gramophone/AM decay, guards) are tasks #91-#93. NOT judged by
+ear — the owner has not yet heard a single boxcar record.
 
 **Build `2026-08-15l` — THE WAR HORN ANSWERS; IT DOES NOT PAD.** The owner:
 *"can we make sure we are using the carnex properly?"* Researched first

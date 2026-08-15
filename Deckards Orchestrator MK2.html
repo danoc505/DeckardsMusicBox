@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15o · boxcar synth phase 1: the hobo band — banjo, harmonica, whistle, slide</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15p · boxcar synth is a genre: the journey form, the freight, dark to light</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3606,6 +3606,7 @@ const INSTRUMENTS = {
       shire:    "frame drums and hand percussion",
       brk:      "chopped breakbeat",
       taiko:    "taiko drums",
+      freight:  "freight yard — brake drum, anvil, sticks",
     },
     kits: {
       analog:   { kick:"k808", snare:"s808", ghost:"s808", hat:"h808", openhat:"oh808",
@@ -3769,6 +3770,20 @@ const INSTRUMENTS = {
         lanes: { kick:"tkBig", snare:"tkMid", ghost:"tkMid", hat:"tkKa",
                  openhat:"tkStick", tom1:"tkTomHi", tom2:"tkTomMid", tom3:"tkTomLo",
                  rim:"tkKa", clap:"tkStick", crash:"tkLow", ride:"tkKa" },
+      },
+          /* ── THE FREIGHT YARD ────────────────────────────────────────────
+         Boxcar synth's kit: the rail joint on the kick (the brake drum's
+         SOFT layers -- taikoVoice picks by gain, and a quiet hammer tap on
+         brake metal is what a wheel over a joint is), the anvil answering
+         on the snare, and the recorded taiko STICKS keeping the fast click
+         -- the same tick-lane honesty the taiko kit keeps. The clickety
+         pattern itself is the genre's kit table; these are its drums.
+         [docs/genre-research/boxcar-synth.md §3] */
+      freight:  {
+        label: "TR-1000 · FREIGHT",
+        lanes: { kick:"bxBrake", snare:"bxAnvil", ghost:"bxBrake", hat:"tkStick",
+                 openhat:"tkStick", tom1:"bxAnvil", tom2:"bxBrake", tom3:"tkLow",
+                 rim:"tkKa", clap:"tkStick", crash:"bxAnvil", ride:"tkKa" },
       },
     },
     controls: [
@@ -8187,6 +8202,16 @@ const RIG = {
             bass:"drone", drone:"dronebox", keys:"vp330", lead:"cs80", counter:"waveseq",
             ostinato:"erangStrings",
             rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
+  /* THE FREIGHT -- boxcar synth's band: banjo on the chords and the figure,
+     harmonica on the tune, the glass slide answering, the choir pad as the
+     second keyboard, the drone rack as the engine's hum under it all.
+     [docs/genre-research/boxcar-synth.md §7] */
+  freight: { kick:"kick", snare:"rim", ghost:"rim", hat:"hat", openhat:"openhat",
+             brk:"brk",
+             tom1:"tom1", tom2:"tom2", tom3:"tom3",
+             bass:"bass", drone:"dronebox", keys:"banjo", lead:"harmonica",
+             counter:"slideGlass", ostinato:"banjo",
+             rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
   /* THE BOX -- acid house. Every element is a machine and every machine is one
      somebody can name: the 808's bridged-T kick and its six-square hats, a CLAP
      on 2 and 4 (not a snare; the difference is the record), a rimshot filling
@@ -8387,6 +8412,7 @@ const RIG_LABEL = {
   citadel: "citadel — horns in the second chair",
   bastion: "bastion — the recorded brass in the second chair",
   shire:   "the shire — flute, plucked strings, frame drum",
+  freight: "the freight — banjo, harmonica, the engine's hum",
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -8539,6 +8565,8 @@ const DRUM_SOUND_NAME = {
   tkTomHi: "taiko · high drum",    tkTomMid: "taiko · middle drum",
   tkTomLo: "taiko · low drum",
   tkKa: "taiko · rim tick",        tkStick: "taiko · stick knock",
+  /* the freight yard */
+  bxBrake: "freight · brake drum",  bxAnvil: "freight · anvil",
 };
 const drumSoundName = v => DRUM_SOUND_NAME[v] || v;
 
@@ -28003,6 +28031,222 @@ GENRE.hobbitsynth = {
   rollLandsOnBeat: true,
 };
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOXCAR SYNTH — the owner's own subgenre, founded 2026-08-15: dungeon
+   synth's imagined-past logic carried onto the American rails, with comfy
+   synth's bittersweet warmth. The whole design is argued in
+   docs/genre-research/boxcar-synth.md; every number below cites its section
+   or says [CHOSEN]. The one law is MOVEMENT [sheet §2]: the record is a
+   journey — it departs, travels, stops in towns, and arrives — and the
+   variation lives in the passing landscape, not in note-churn.
+   ═══════════════════════════════════════════════════════════════════════════ */
+GENRE.boxcarsynth = {
+  label: "boxcar synth",
+  /* THE TEMPO IS THE TRAIN'S SPEED [sheet §3]: 39-foot jointed rail makes
+     clicks/min = mph x 2.256, so 25-40 mph IS 56-90 to the click. */
+  tempo: [56, 90],
+  rig: [["freight", 1]],
+  /* bittersweet base [owner's chosen center]: dorian is the warm minor,
+     plain minor the lonesome one, mixolydian the folk major that pulls nowhere.
+     The LIGHT arrives by keyShift, not by the base draw. */
+  modes: [["dorian", 5], ["minor", 3], ["mixolydian", 2]],
+  keysChar: [["pad", 1]],
+  leadChar: [["synth", 1]],
+  /* the era's lo-fi lives mostly in phase 4's gramophone; the tape here is
+     the gentle comfy haze the sources describe [sheet §1] [CHOSEN] */
+  tape: { wow: [0.0015, 0.001], crackle: [0.004, 0.003], flutter: [0.0004, 0.0003], hiss: [0.001, 0.001] },
+  /* the harmonica's held lines tie; keys2 is a sometime part here and a
+     legato claim on it failed the battery's are-you-sure check [measured] */
+  legato: { lead: 1 },
+  sevenths: false,
+  /* struck once and left to ring — a strummed chord IS this genre's comp,
+     and it is also the parallel-perfects fix: a held pad takes few
+     bar-to-bar steps, so the two keyboards stop shadowing. The `parallels`
+     dial was tried first and the battery said the dial changes nothing —
+     the ambient table's exact finding, resolved the same way: fix the
+     cause, remove the dial. [measured] */
+  keysStyle: "hold",
+  /* ── DARK TO LIGHT — the key change is the clock [sheet §5] ──────────────
+     The zero-semitone entry with `change` high is the parallel minor→major:
+     same tonic, the light switched on, the record's own material restated
+     brighter across its middle third. Weighted so most records travel
+     toward light, some into night; +2 and +5 are the folk lifts. */
+  keyShift: { chance: 0.65, by: [[0, 6], [2, 2], [5, 1]], change: 0.8 },
+  form: {
+    lengths: { intro: 8, verse: 16, chorus: 12, bridge: 16, instrumental: 16, outro: 8 },
+    material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
+                instrumental: "A", outro: "A" },
+    /* ── WHO IS IN THE ROOM IS THE JOURNEY [sheet §3] ──────────────────────
+       Travel sections carry the track rhythm; THE TOWN (chorus) HAS NO
+       DRUMS, because the train is standing — the single most legible
+       journey fact in the design. The bridge is the night run: the tune
+       rests, the slide answers in the dark. */
+    roles: {
+      intro:        ["drone", "keys"],
+      verse:        ["drums", "bass", "keys", "lead", "drone"],
+      instrumental: ["drums", "bass", "keys", "keys2", "ostinato", "lead"],
+      chorus:       ["keys", "keys2", "lead", "counter", "drone"],
+      bridge:       ["drums", "bass", "keys2", "counter", "drone"],
+      outro:        ["keys", "drone"],
+    },
+    coldOpen: 0.15,
+    openVerse: 0.5,
+    target: [56, 3, 8],
+    /* the journey: yard → rolling → town → the night run → last town.
+       Town is the payoff and every plan phase that ends, ends there. */
+    plan: [
+      { name: "the yard",   pool: ["verse"],                          bars: [12, 2, 10] },
+      { name: "rolling",    pool: ["verse", "instrumental"],          bars: [20, 2, 14] },
+      { name: "first town", pool: ["chorus", "verse"],                bars: [12, 2, 8], endOn: "chorus" },
+      { name: "night run",  pool: ["verse", "instrumental", "bridge"],bars: [20, 2, 14] },
+      { name: "last town",  pool: ["chorus", "verse", "instrumental"],bars: [12, 2, 8], endOn: "chorus" },
+    ],
+    payoff: "chorus",
+    transitions: {
+      intro:        [["verse", 1]],
+      verse:        [["instrumental", 4], ["verse", 3], ["chorus", 3], ["bridge", 1]],
+      instrumental: [["verse", 4], ["chorus", 3], ["instrumental", 2], ["bridge", 1]],
+      chorus:       [["verse", 5], ["instrumental", 3], ["bridge", 2]],
+      bridge:       [["verse", 4], ["instrumental", 3], ["chorus", 2]],
+    },
+    bridgeAfterChorus: { verse: 1, chorus: 1 },
+    /* the town is WARM, not loud: its energy sits under the rolling peak,
+       because arriving is a relief and not a climax [CHOSEN] */
+    energy: { intro: 0.35, verse: 0.55, instrumental: 0.62, chorus: 0.60,
+              chorusPeak: 0.72, bridge: 0.42, outro: 0.33 },
+    arc: { apexAt: [0.55, 0.75], floor: [0.15, 0.25], tail: [0.12, 0.20],
+           bend: [1.4, 2.0], dip: [0.03, 0.08], preHighs: [1, 2],
+           thin: { drums: 0.4, bass: 0.2, keys: 0.25, lead: 0.5 } },
+  },
+  pocket: [[[0], 1]],
+  /* ── THE CLICKETY DRAFT [sheet §3] — a phase-3 refinement is recorded ────
+     The joint pair under the truck is a quick DA-DA, not a metronome: the
+     kick keeps the joints (0 and 8, two trucks a bar at cruise), the stick
+     tick runs the fast patter, the anvil answers mid-bar rarely. */
+  kit: { snare: [8], hatEvery: 2, hatVel: 0.45, ghostChance: 0.18, ghostSpots: [1, 9],
+         openSpot: [[-1, 8], [14, 2]], openBars: [3],
+         toms: { use: 0.25, loop: 0.3, loopSpots: [12, 14], loopLanes: ["tom2", "tom3"],
+                 shapes: [[[[12, "tom2"], [14, "tom3"]], 2], [[[14, "tom2"]], 1]] },
+         kickKeep: 1, flourishBar: 3,
+         flourish: [[[], 6], [[[13, "rim"], [15, "rim"]], 2]],
+         variants: { main: {}, lift: { hatVel: 0.2 }, depart: {} } },
+  accent: { kick: [1,.5,.6,.5,.8,.5,.6,.5,.95,.5,.6,.5,.8,.5,.6,.5],
+            snare:[.7,.5,.5,.5,.7,.5,.5,.5,1,.5,.5,.5,.7,.5,.6,.5],
+            ghost:[.6,.6,.5,.5,.6,.5,.5,.5,.6,.6,.5,.5,.6,.5,.5,.5],
+            hat:  [.9,.6,.7,.55,.8,.6,.7,.55,.9,.6,.7,.55,.8,.6,.7,.6],
+            tom1: [.8,.5,.6,.5,.8,.5,.6,.5,.8,.5,.6,.5,.8,.5,.6,.5],
+            tom2: [.8,.5,.6,.5,.8,.5,.6,.5,.8,.5,.6,.5,.8,.5,.6,.5],
+            tom3: [.8,.5,.6,.5,.8,.5,.6,.5,.8,.5,.6,.5,.8,.5,.6,.5],
+            openhat:[.8,.5,.6,.5,.8,.5,.6,.5,.8,.5,.6,.5,.8,.5,.6,.5] },
+  kick: { tune: 50, decay: 0.5, click: 0.03, drive: 0.1, body: 1, gain: 0.8 },
+  drumDrive: 1,
+  gate: null,
+  /* a train rocks but does not swing; the jitter is a wooden car's, gentle */
+  groove: { styles: [["even", 1]], swing: [1, 0], swingUnit: 2,
+            snareEarly: [0, 0], kickLate: [0, 0], hatMul: 1,
+            jitter: { dilla: 0.02, even: 0.02 }, push: 0 },
+  touch: { bassArtic: [[2, 4], [3, 4], [4, 2]], strum: [0.05, 0.08] },
+  /* the engine's hum under the record: the drone holds the ground the way
+     dungeon synth's does, an octave clear of the bass [CHOSEN] */
+  drone: { unit: 4, hold: 2, pedal: 0.6, octave: 0 },
+  bassStyle: "drone",
+  bassPedal: 0.4,
+  bassWalk: 0.65,
+  bassStep: 3,
+  bassPulse: { unit: 8, rootBias: 0.7, octaveJump: 0.2, restChance: 0.1 },
+  bassAccent: { accent: 0.2, slide: 0 },
+  /* the banjo roll: the figure is an arpeggio the way a picker's right hand
+     is, thumb on the root [sheet §7] [CHOSEN cells] */
+  ostinato: { unit: 2, vel: 0.5, run: true, follow: true, ratchet: 0,
+              cells: [[[0, 4, 7, 4], 4], [[0, 7, 12, 7], 3], [[0, 4, 7, 12], 2]] },
+  /* the answer is the slide or the harp speaking in the tune's gaps */
+  counter: { style: "line", density: 0.2, intervals: [-3, -5, 3, 5],
+             octaves: [0], answer: 0.6 },
+  theme: { count: { hooky: [2, 2], breath: [1, 1], normal: [2, 1] },
+           onsetPool: [[0, 8], [4, 4], [8, 4], [12, 2]] },
+  /* folk shuttles: the dorian i-IV, the aeolian i-VI-VII, mixolydian's bVII;
+     MAJOR is written for the LIFT to land in [sheet §5] */
+  progressions: {
+    dorian:     [[[0, 0, 3, 3], 4], [[0, 3, 0, 3], 3], [[0, 0, 0, 3], 2], [[0, 5, 3, 0], 1]],
+    minor:    [[[0, 0, 5, 5], 4], [[0, 5, 6, 6], 2], [[0, 6, 0, 5], 2], [[0, 0, 6, 6], 2]],
+    mixolydian: [[[0, 0, 6, 6], 4], [[0, 6, 0, 6], 3], [[0, 3, 6, 0], 2]],
+    major:      [[[0, 0, 4, 4], 4], [[0, 3, 0, 4], 3], [[0, 4, 3, 0], 2], [[0, 0, 3, 4], 1]],
+  },
+  bridgeProgressions: {
+    dorian:     [[[3, 3, 6, 6], 3], [[6, 6, 3, 3], 2], [[3, 3, 0, 0], 1]],
+    minor:    [[[5, 5, 3, 3], 3], [[6, 6, 5, 5], 2], [[3, 3, 5, 5], 1]],
+    mixolydian: [[[6, 6, 3, 3], 3], [[3, 3, 6, 6], 2]],
+    major:      [[[3, 3, 4, 4], 3], [[5, 5, 3, 3], 2], [[1, 1, 4, 4], 1]],
+  },
+  /* registers sized so every pooled instrument CONTAINS its band — the
+     register arithmetic, zero narrowing by construction [sheet §7]:
+     banjo [48,84] ⊇ keys [52,69] and ostinato [64,84]; harmonica [48,84]
+     and slide [50,86] ⊇ counter [62,79] and every theme band. */
+  /* keys and the figure are ADJACENT, never overlapping — the discipline
+     every other genre keeps (dungeon synth: keys [48,67], figure [67,88]).
+     The first draft overlapped them by 8 semitones and the BLEND battery
+     measured the price: three pairings where no chord voicing could clear
+     the bass and the figure at once. Banjo [48,84] contains both bands. */
+  /* the second keyboard clears the first: keys top 69 against the counter
+     band's floor 67 leaves 2 semitones of shadow, not 7 — the parallel-
+     perfects guard measured the price of the first draft (the ambient
+     table's own lesson, relearned) */
+  registers: { drone: [24, 32], bass: [34, 46], keys: [52, 69], counter: [67, 82],
+               bassWalk: [34, 46], ostinato: [69, 84],
+               themeA: [64, 82], themeB: [66, 84], themeC: [62, 80] },
+  /* a wooden boxcar, not a hall: short, close, warm [CHOSEN] */
+  space: { wet: 0.28, irSec: 1.6, tailPow: 1.3, tailDark: 0.5, sendHp: 130,
+           feeds: ["keys", "lead"], echoFeeds: ["lead"],
+           random: 0, spread: 0.7, preDelay: 0.02 },
+  pressure: { depth: 0.4, amount: [0.2, 0.3], at: [0.3, 0.5], rise: [0.3, 0.5] },
+  ribbon: { chance: 0 },
+  /* THE TUNE IS THE PROTAGONIST — the dungeon synth critique's lesson
+     applied from birth: the melody above everything, the figure back */
+  roleGain: { bass: 0.9, keys: 0.8, keys2: 0.7, lead: 1.15, ostinato: 0.75, counter: 0.9 },
+  machines: {
+    drums:    [["tr1000", 1]],
+    bass:     [["auto", 1]],
+    drone:    [["auto", 1]],
+    keys:     [["banjo", 5], ["bardPluck", 2], ["erangHarp", 1], ["auto", 2]],
+    keys2:    [["vp330", 3], ["erangStrings", 2], ["banjo", 2], ["auto", 3]],
+    lead:     [["harmonica", 5], ["slideGlass", 3], ["bardWind", 1], ["auto", 1]],
+    ostinato: [["banjo", 4], ["auto", 6]],
+    counter:  [["harmonica", 4], ["slideGlass", 2], ["auto", 4]],
+  },
+  /* ── THE SCENE UNDER THE RECORD [sheet §6] — the rail beds and the
+     passing landscape, through the atmos door with the genre's OWN
+     families: loopables are beds (the ride, the stream, the birds), the
+     one-shots (coupling clank, crossing bell) are the saved accent. */
+  atmos: { fams: ["railRun", "railSteam", "sceneRiver", "sceneBirds", "railClank", "railBell"],
+           level: [0.06, 0.05], accent: 0.65, accentLevel: [0.12, 0.08] },
+  params: {
+    tr1000: { kit: "freight", pSet: "any", pTune: 1, pAtk: 0.002, pRel: 1.1,
+              pTone: 0.6, bus: 1, gate: 0 },
+    desk: { low: -1, mid: 0, high: -0.5, lowF: 200, midF: 1000, highF: 4000 },
+    dronebox: { voices: 4, shape: 2, wave: 1, spread: 6,
+                clockA: 17, clockB: 23, drift: 5,
+                cut: 520, res: 1.2, peak: 0.25, peakHz: 900,
+                swell: 2.2, fall: 6, air: 0.10, level: 0.9,
+                pan: 0, panHz: 0.02, panDep: 0.12, strings: 0 },
+    echo: { div: 4, fb: 0.30, tone: 2000, hp: 150, send: 0.12, verb: 0.6 },
+    vp330: { ens: 0.7, choir: 0.5, attack: 1.4, release: 2.6 },
+  },
+  motion: {
+    desk: {
+      high: [{ kind: "arc", from: [-2.5, -1.2], to: [0.4, 1.4], curve: "sCurve" }],
+      low:  [{ kind: "section", by: { chorus: [0.4, 1.2], bridge: [-1.6, -0.6] } }],
+    },
+    dronebox: {
+      cut: [{ kind: "lfo", bars: [[19, 2], [29, 1]], depth: [40, 140], shape: "sin", freePhase: true },
+            { kind: "section", by: { chorus: [-160, -80], intro: [-60, -20] } }],
+    },
+    echo: {
+      send: [{ kind: "occurrence", step: [0.02, 0.05], cap: 3 }],
+    },
+  },
+};
+
+
 /* ══ NOTES THAT LOST THEIR KEY IN THE CONVERSION ═══════════════════════════
    The merge is gone and these comments documented keys whose position moved
    or whose name no longer appears at the depth it sat at. NOT ONE IS
@@ -28983,7 +29227,11 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll, 
     atmos: (() => {
       if(!G.atmos) return null;
       const r = stream(seed, "atmos");
-      const all = ERANG.family("sfx", "Noise");
+      /* a genre may name its OWN scene families (boxcar synth's rail and
+         landscape sounds); absent, the erang beds serve as they always have.
+         The list changes, the draw count does not, so genres without `fams`
+         are byte-identical by construction. */
+      const all = ERANG.family(...((G.atmos && G.atmos.fams) || ["sfx", "Noise"]));
       const beds = all.filter(n => { const m = ERANG.meta(n); return m && m.ls >= 0; });
       const hits = all.filter(n => { const m = ERANG.meta(n); return m && m.ls < 0; });
       if(!beds.length) return null;
