@@ -117,6 +117,19 @@ def main():
             keep_end = min(len(x), le + 1)
         else:
             keep_end = len(x)
+        # ── THE LOOP SEAM IS CROSSFADED, 40 ms ─────────────────────────
+        # The soundfont's loop points were placed against the original 44.1k
+        # samples; after pair-averaging and ADPCM the seam survives with a
+        # step comparable to the signal's own motion (measured 0.2x-1.3x the
+        # typical inter-sample step) -- not a gross click, but a phase jump
+        # once a second is a tick a drone cannot afford. The tail of the loop
+        # is blended into the audio just before the loop START, so the jump
+        # lands mid-crossfade instead of on a cliff.
+        if looped:
+            nfx = min(int(0.040 * SR), le - ls, ls)
+            if nfx > 8:
+                tf = np.linspace(0.0, 1.0, nfx)
+                x[le - nfx:le] = x[le - nfx:le] * (1 - tf) + x[ls - nfx:ls] * tf
         cut = 0
         if looped and ls > int(head_cap * SR):
             cut = ls - int(head_cap * SR)
