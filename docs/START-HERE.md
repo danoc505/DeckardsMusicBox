@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-15g` unless it says otherwise (the
+*Everything below is verified at `2026-08-15h` unless it says otherwise (the
 newest build; its entry is under "What happened last"). If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
@@ -123,7 +123,7 @@ while both files carried an identical stamp, so three commits of work went
 unjudged. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-15g`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-15h`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -135,6 +135,21 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Build `2026-08-15h` — THE MIXER NAMES EVERY PART'S INSTRUMENT, AND THE NAME
+IS A DROPDOWN.** The owner corrected `15g`'s placement: *"they show up on the
+master mixer so thats probably where this should be. Each part like the lead
+for example should name what instrument it is and this should be a drop
+down."* Right — the rack pickers ride the machine panels, and the desk is
+where the parts are listed. Every part strip now carries a select under its
+name plate: the first option is WHAT IS PLAYING NOW, read from the record's
+own events ("bass · contrabassoon", "gurdy drone strings"), the list is every
+instrument that can hold the part (canFill, one owner) plus "none". The
+DRUMS strip names its KIT ("war drums and kettles" → "taiko drums") through
+picks.kit. Same PICK + recompose() doors as the rack pickers, so both stay
+in step and the music carries on from the same second. Verified end-to-end
+in Chromium; probe_mixer 4/4, probe_desk 11/11, battery 178/1 (the ruled
+blend). NOT judged by ear.
 
 **Build `2026-08-15g` — A RACK FOR EVERY PART, AND DUNGEON SYNTH DEALS ITS NEW
 INSTRUMENTS ITSELF.** The owner: *"create ui that lets the user select the
@@ -577,7 +592,7 @@ wanted, and nobody should quietly re-add costs to the other files either.
 
 ## The commands
 
-Build `2026-08-15g`. The commands, each in the DEFAULT form, which is the form
+Build `2026-08-15h`. The commands, each in the DEFAULT form, which is the form
 to use. `mk2_stamp.js check` tells you whether the file in front of you is the
 build these documents describe — that, not a battery, is the pickup check.
 

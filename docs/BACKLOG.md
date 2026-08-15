@@ -63,7 +63,12 @@ should be built on top of this stack until it has been played.**
 
 ## 0a. WHAT IS STILL NOT BUILT — the whole open list, `2026-08-13`
 
-> ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-14a` … `2026-08-15g`
+> ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-14a` … `2026-08-15h`
+>
+> **The mixer names every part's instrument, `2026-08-15h`** — a dropdown
+> on every part strip, first option always what is actually playing (read
+> from the record's events), the drums strip naming its kit. Same PICK /
+> recompose doors as the rack pickers.
 >
 > **A rack for every part, `2026-08-15g`** — counter and ostinato slots
 > (the last two rig-only parts), every pitched box pickable per part, the
@@ -289,7 +294,7 @@ not a new fault.
 
 *Asked for in as many words: "add what everything we have failed to implement
 to the todo file". This is that list, on the branch `claude/code-review-6jd9cz`,
-current as of build `2026-08-15g`.*
+current as of build `2026-08-15h`.*
 
 **EVERY NUMBER BELOW WAS MEASURED TODAY, not remembered.** The probes that
 produced them are named at each item so any of it can be re-checked in one
