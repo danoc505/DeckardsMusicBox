@@ -72,7 +72,17 @@ above** the 3rd string's G, not below it. So in semitones from the chord root
 
 | string | 4 | 3 | 2 | 1 | 5 |
 |---|---|---|---|---|---|
-| **semitones from the root** | −5 | 0 | +4 | +7 | **+12** |
+| note | D | G | B | D | **g** |
+| semitones from the root | −5 | 0 | +4 | +7 | **+12** |
+| **SCALE DEGREE** | **−3** | **0** | **2** | **4** | **7** |
+
+**Use the DEGREE row when writing cells.** `buildOstinato` hands a cell's
+numbers to `degMidi`, so a 4 is the fifth and a 7 is the octave. I wrote the
+semitone row into the genre table on the first pass and the engine read 4, 7
+and 12 as the sixth, the octave and the sixteenth: the roll spanned two
+octaves and the fifth string came out as the LOWEST note of the figure, which
+is the exact inverse of the instrument. Both rows are printed here so the
+mistake is one line of reading away from being avoided.
 
 Every roll in the table above hits string 5 two or three times a bar, so a
 banjo roll is **an arpeggio with a high drone punched through it**. A figure
