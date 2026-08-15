@@ -1358,6 +1358,10 @@
   .cvlamp.lit{ background:linear-gradient(90deg, #2a5a8a, #9fc4e8, #2a5a8a); }
   .cvfoot{ font-size:9px; letter-spacing:.10em; opacity:.6; text-align:center;
            margin-top:.3rem; min-height:1.1em; text-transform:uppercase; }
+  /* the spectrometer's glass: dark, amber, and never wider than the phone */
+  .rtaglass{ display:block; width:464px; max-width:100%; height:auto;
+             background:#0b0c0e; border-radius:4px; border:1px solid #23252a;
+             box-shadow:inset 0 0 16px rgba(0,0,0,.7); }
   .tapedeck{ display:flex; align-items:center; justify-content:center; gap:1.1rem;
              padding:.9rem .6rem .5rem; min-height:170px; }
   .tapereel{ position:relative; width:132px; height:132px; border-radius:50%;
@@ -1597,7 +1601,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15i · the review: a live drone fader, the wheel uninterrupted, the taiko in balance</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15j · the spectrometer: the record by register, on the desk that equalizes it</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -4677,6 +4681,45 @@ const INSTRUMENTS = {
              groups: [{ label: "", keys: ["power"] },
                       { label: "THE SQUEEZE", keys: ["thresh", "ratio"] },
                       { label: "THE CLOCK", keys: ["attack", "release", "makeup"] }] },
+  },
+
+  /* ── THE SPECTROMETER ─────────────────────────────────────────────────────
+     [owner, 2026-08-15: "Can we get a spectrometer and use it for
+     equalizing?"]
+
+     A REAL-TIME ANALYZER, the tool a desk actually pairs with its EQ: the
+     record grouped into 1/3-OCTAVE BANDS, 25 Hz to 16 kHz, because "an RTA
+     groups bins into standardized octave or fractional-octave bands...
+     the band-averaged view is more stable and easier to interpret" and the
+     1/3-octave grid is the professional default [SonaVyx RTA glossary;
+     Faber Acoustical; docs/genre-research/spectrum-analyzer.md §1]. Both
+     axes are logarithmic; the window is -60..0 dB of the analyser's own
+     scale, inside the 70 dB convention [toon-llc; sheet §2, CHOSEN].
+
+     IT IS A TAP, NOT A LINK IN THE CHAIN -- the same contract every meter
+     on this page keeps: an analyser passes audio through and nothing reads
+     its output, so the record is identical whether or not anyone looks.
+     The tap sits on the MASTER, after the desk's three bands, which is the
+     whole point: move an EQ knob and the glass moves where the band is.
+     The desk's lowF/midF/highF are DRAWN ON THE GLASS, read from the live
+     graph's own filter nodes -- never from the knobs -- so the spectrometer
+     and the equalizer are one instrument [sheet §5-6]. Solo a strip and
+     the glass answers for that part alone, through the solo the desk
+     already has.
+
+     NO CONTROLS: peak-hold caps decay on their own ("holding the past
+     maximum values of the amplitude spectrum" [toon-llc]), the exponential
+     averaging is the analyser's own smoothing at 0.8 [sheet §3, CHOSEN],
+     and a display with nothing to configure cannot be set wrong. `lanes`
+     is empty like the desk's and the compressor's, so no pool, no picker
+     and no doubling ladder can ever draw it -- it makes no sound. */
+  rta: {
+    slot: "rta", label: "the spectrometer", fixed: true,
+    lanes: {},
+    controls: [],
+    panel: { skin: "comp", maker: "DECKARD", title: "SPECTROMETER", grid: "spectrum",
+             picture: "spectrum", host: "mixer",
+             groups: [] },
   },
 
   /* ── THE PROGRAMME ────────────────────────────────────────────────────────
@@ -17277,6 +17320,40 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
            compState: () => liveGraph && liveGraph.compNode
              ? { on: !!liveGraph.compOn, reduction: liveGraph.compNode.reduction }
              : null,
+           /* ── THE SPECTROMETER'S TAP ──────────────────────────────────────
+              An analyser on the MASTER -- after the desk EQ, the compressor
+              and the tape, so the glass shows the record as it leaves --
+              attached lazily like every other meter here. fftSize 16384:
+              at 44.1/48 kHz that is ~3 Hz per bin, so even the 25 Hz band
+              (which is only ~6 Hz wide) holds real bins rather than a
+              rounding. smoothingTimeConstant 0.8 IS the RTA's exponential
+              averaging [docs/genre-research/spectrum-analyzer.md §3]. The
+              buffer is reused: one allocation, sixty reads a second. */
+           spectrum: () => {
+             if(!ctx || !liveGraph || !liveGraph.master) return null;
+             if(!liveGraph.specMeter){
+               try {
+                 liveGraph.specMeter = ctx.createAnalyser();
+                 liveGraph.specMeter.fftSize = 16384;
+                 liveGraph.specMeter.smoothingTimeConstant = 0.8;
+                 liveGraph.master.connect(liveGraph.specMeter);
+               } catch(e){ return null; }
+             }
+             const n = liveGraph.specMeter.frequencyBinCount;
+             if(!liveGraph.specBuf || liveGraph.specBuf.length !== n)
+               liveGraph.specBuf = new Float32Array(n);
+             liveGraph.specMeter.getFloatFrequencyData(liveGraph.specBuf);
+             return { db: liveGraph.specBuf, rate: ctx.sampleRate };
+           },
+           /* the desk's three bands AS THE AUDIO ENGINE HOLDS THEM -- the
+              filter nodes' own frequency and gain, mid-automation, never the
+              knobs. Same doctrine as the compressor needle: the picture
+              cannot lie about what the record is passing through. */
+           deskState: () => liveGraph && liveGraph.deskLow ? [
+             { band: "low",  f: liveGraph.deskLow.frequency.value,  g: liveGraph.deskLow.gain.value  },
+             { band: "mid",  f: liveGraph.deskMid.frequency.value,  g: liveGraph.deskMid.gain.value  },
+             { band: "high", f: liveGraph.deskHigh.frequency.value, g: liveGraph.deskHigh.gain.value },
+           ] : null,
            /* ── KICKING THE TANK — the documented dub move ──────────────────
               "Sending a loud transient into a spring reverb to create
               dramatic impact sounds" [corpus:izotope]. A short click into the
@@ -38983,6 +39060,106 @@ function compVuEl(m, M){
   outer.refresh(); registerKnob(outer);
   return outer;
 }
+/* ── THE SPECTROMETER'S GLASS ────────────────────────────────────────────────
+   1/3-octave bars on log axes, peak-hold caps, and the desk's three EQ bands
+   drawn where they actually sit. Band energy is the SUM of bin powers inside
+   fc/2^(1/6)..fc*2^(1/6) -- sum, not mean, because pink noise has equal energy
+   per octave and must read FLAT on a correctly built RTA [SonaVyx;
+   docs/genre-research/spectrum-analyzer.md §4]: a mean would tilt it down as
+   the bands widen. Marker colours follow the SSL band coding the roll already
+   cites (LF amber-brown, MF green, HF red) so the marks and the master
+   strip's knobs speak the same language. */
+function spectrumEl(m, M){
+  const FC = [25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500,
+              630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 5000, 6300,
+              8000, 10000, 12500, 16000];
+  const LO = -60, HI = 0, K = Math.pow(2, 1 / 6);
+  const W = 464, H = 150, PL = 24, PB = 13;
+  const F0 = FC[0] / K, F1 = FC[FC.length - 1] * K;
+  const xOf = f => PL + (Math.log(f / F0) / Math.log(F1 / F0)) * (W - PL - 2);
+  const yOf = db => 2 + (1 - (Math.min(HI, Math.max(LO, db)) - LO) / (HI - LO)) * (H - PB - 2);
+  const cv = document.createElement("canvas");
+  cv.width = W; cv.height = H; cv.className = "rtaglass";
+  const g2 = cv.getContext("2d");
+  const outer = el("div");
+  const foot = el("div", "cvfoot", "");
+  outer.appendChild(cv); outer.appendChild(foot);
+  const hold = new Float32Array(FC.length).fill(LO);
+  const EQCOL = { low: "#b8863b", mid: "#5a9e62", high: "#b0524a" };
+  let lastT = 0, wasTxt = null;
+  outer.refresh = () => {
+    const sp = Sound.spectrum ? Sound.spectrum() : null;
+    const now = (typeof performance !== "undefined" ? performance.now() : 0) / 1000;
+    const dt = lastT ? Math.min(0.25, now - lastT) : 0.016;
+    lastT = now;
+    g2.clearRect(0, 0, W, H);
+    /* the graticule: a dB line every 12, labelled up the left */
+    g2.font = "8px system-ui, sans-serif";
+    g2.textAlign = "left"; g2.textBaseline = "middle";
+    for(let db = HI; db >= LO; db -= 12){
+      const y = yOf(db);
+      g2.fillStyle = "rgba(255,255,255,.05)";
+      g2.fillRect(PL, y, W - PL - 2, 1);
+      g2.fillStyle = "rgba(255,255,255,.28)";
+      g2.fillText(String(db), 2, y);
+    }
+    g2.textAlign = "center"; g2.textBaseline = "alphabetic";
+    for(const [f, lab] of [[63, "63"], [250, "250"], [1000, "1k"], [4000, "4k"], [16000, "16k"]]){
+      g2.fillStyle = "rgba(255,255,255,.28)";
+      g2.fillText(lab, xOf(f), H - 3);
+    }
+    /* the bands */
+    const bw = (W - PL - 2) / FC.length;
+    if(sp){
+      const half = sp.rate / 2, n = sp.db.length;
+      for(let i = 0; i < FC.length; i++){
+        const a = Math.max(1, Math.round(FC[i] / K / half * n));
+        const b = Math.min(n - 1, Math.max(a, Math.round(FC[i] * K / half * n)));
+        let p = 0;
+        for(let j = a; j <= b; j++){
+          const d = sp.db[j];
+          if(d > -160) p += Math.pow(10, d / 10);
+        }
+        const db = p > 0 ? 10 * Math.log10(p) : LO;
+        hold[i] = Math.max(db, hold[i] - 9 * dt);      /* the cap falls 9 dB/s */
+        const x = xOf(FC[i] / K) + 1, wpx = Math.max(2, bw - 2);
+        const y = yOf(db);
+        const grad = g2.createLinearGradient(0, yOf(HI), 0, yOf(LO));
+        grad.addColorStop(0, "#e8b34a"); grad.addColorStop(0.55, "#c98f2e");
+        grad.addColorStop(1, "#6e4f1c");
+        g2.fillStyle = grad;
+        g2.fillRect(x, y, wpx, H - PB - y);
+        if(hold[i] > LO + 0.5){
+          g2.fillStyle = "rgba(238,205,140,.85)";
+          g2.fillRect(x, yOf(hold[i]), wpx, 1.5);
+        }
+      }
+    }
+    /* the desk's three bands, on the glass they equalize */
+    const eq = Sound.deskState ? Sound.deskState() : null;
+    if(eq){
+      for(const bnd of eq){
+        const x = xOf(Math.min(F1, Math.max(F0, bnd.f)));
+        g2.fillStyle = EQCOL[bnd.band];
+        g2.globalAlpha = 0.5;
+        g2.fillRect(x, 2, 1, H - PB - 2);
+        g2.globalAlpha = 1;
+        /* the band's gain as a dot: 0 dB rests on the -24 line, ±12 dB of
+           EQ travel drawn at 1 dB : 1 dB against the same scale */
+        g2.beginPath();
+        g2.arc(x, yOf(-24 + bnd.g), 3, 0, 6.2832);
+        g2.fill();
+      }
+    }
+    const txt = !sp ? "no record playing — press play and the record draws itself"
+      : eq ? "the record by register · " +
+             eq.map(b => b.band.toUpperCase() + " " + (b.g >= 0 ? "+" : "") + b.g.toFixed(1)).join(" · ")
+      : "the record by register, 25 Hz – 16 kHz";
+    if(txt !== wasTxt){ foot.textContent = txt; wasTxt = txt; }
+  };
+  outer.refresh(); registerKnob(outer);
+  return outer;
+}
 function tapeEl(m, M){
   const deck = el("div", "tapedeck");
   const mk = side => {
@@ -40082,6 +40259,7 @@ function drawMixer(host){
       const face = el("div", "mixunitface");
       /* THE PICTURE, through the same builder its own rack used — one owner */
       if(P.grid === "compvu") face.appendChild(compVuEl(m, M));
+      if(P.grid === "spectrum") face.appendChild(spectrumEl(m, M));
       /* and its knobs, in the machine's own declared groups, drawn by the same
          knobEl/switchEl every panel uses, so the automation dot, the TRIM, the
          double-click release and the live re-apply all arrive with them */
