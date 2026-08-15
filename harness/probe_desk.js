@@ -103,6 +103,24 @@ const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")
   await pg.evaluate(()=>document.getElementById("play").click());
   await pg.waitForTimeout(2500);
 
+  /* every strip registered on the glass must have a reading FILED behind it —
+     a silent part legitimately reads 0, but a role missing from meterLevels()
+     is a meter wired to nothing. The group strips (@keys, @lead...) shipped
+     exactly that way and stayed at 0% while their channels moved; found
+     2026-08-15 by the owner's eye, not by any probe. The graph half of the
+     check asks MIX_ROLE_BUS directly, because a record whose parts are all
+     single-instrument draws no group STRIP — the first version of this check
+     passed on the broken build for exactly that reason (driven to failure
+     and it did not fail; rewritten until it did). */
+  const unmetered = await pg.evaluate(()=>{
+    const lv = MK2.meterLevels() || {};
+    const dead = MIXER_CH.map(c=>c.role).filter(r => !(r in lv));
+    for(const r in MIX_ROLE_BUS) if(!(("@"+r) in lv)) dead.push("@"+r+" (group)");
+    return dead;
+  });
+  check("every strip on the glass has a meter reading filed behind it (groups included)",
+        unmetered.length===0, unmetered.length ? "dead: "+unmetered.join(" ") : "all filed");
+
   const level = () => pg.evaluate(async ()=>{
     const lv = MK2.meterLevels(); return lv ? lv.__master : null;
   });

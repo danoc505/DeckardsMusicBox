@@ -374,6 +374,10 @@
   border:1px solid rgba(255,255,255,.14); border-radius:3px; padding:1px 2px;
   text-overflow:ellipsis; }
 .mixpick:hover{ border-color:rgba(255,255,255,.32); }
+/* the group strip's badge: the fader that is the PART, not an instrument */
+.mixgrptag{ display:inline-block; margin-left:.35em; padding:0 3px;
+  font-size:7px; letter-spacing:.12em; vertical-align:middle;
+  border:1px solid rgba(255,255,255,.25); border-radius:2px; opacity:.65; }
   .mixch{ display:flex; flex-direction:column; align-items:center; gap:.3rem;
           padding:.4rem .3rem .35rem; border-radius:3px;
           background:rgba(0,0,0,.16); box-shadow:inset 0 1px 0 rgba(255,255,255,.06); }
@@ -1601,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15l · the war horn answers — one voice, at moments, never the pad</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15m · the audit: group meters live, and the part fader says PART</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -16448,6 +16452,20 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       if(!a) continue;
       out[role] = peak(a);
     }
+    /* ── AND THE GROUPS, which this loop never read ───────────────────────
+       [owner, 2026-08-15: "im not... seeing certain instruments move on the
+       mixer"] — MEASURED: 14 s of live playback, every part-level strip
+       (@keys, @keys2, @lead, @tape) pinned at 0% while their member
+       channels metered up to 60%. The graph builds a real analyser on every
+       subgroup (`g.grp[role].meter`) and this function only ever walked
+       `chan`, so the group strips' meters were dead from the day the desk
+       split into groups and channels. The strips register under "@" + role,
+       so that is the key the reading is filed under. */
+    if(liveGraph.grp)
+      for(const role in liveGraph.grp){
+        const a = liveGraph.grp[role].meter;
+        if(a) out["@" + role] = peak(a);
+      }
     /* the master reads the SUM, past the limiter -- the number the gain-staging
        sources say you watch. Same reserved `__` key the trims use. */
     if(liveGraph.masterMeter) out.__master = peak(liveGraph.masterMeter);
@@ -39972,6 +39990,17 @@ function mixStrip(role){
       : mixHue(R) == null
         ? label + " — no colour: this is the record surface, not notes, so it has no line on the roll"
         : label + " — the same colour as this part has on the roll";
+  /* ── THE PART STRIP SAYS IT IS THE PART ──────────────────────────────────
+     [owner, 2026-08-15: "some are doubled with two faders"] — MEASURED, and
+     the report is exact: when the synth bass plays the bass, the desk shows
+     a channel strip named "bass" (the INSTRUMENT's label) beside a group
+     strip named "bass" (the PART's label) — two identical nameplates, and
+     nothing but a hover title to say one is the instrument and one is the
+     sum of everything playing the part. Same for "tape". A real desk marks
+     its group faders (GRP); this one says PART, in plain English, on every
+     group strip — so the twin nameplates can never read as a doubled fader
+     again. */
+  if(GROUP) nameEl.appendChild(el("span", "mixgrptag", "PART"));
   wrap.appendChild(nameEl);
   /* ── THE INSTRUMENT, NAMED ON THE STRIP — AND THE NAME IS A CHOICE ────────
      [owner, 2026-08-15: "Every song has instruments, they show up on the
