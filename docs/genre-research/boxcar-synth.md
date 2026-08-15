@@ -119,6 +119,29 @@ the train: the bass still holds its pedal (`bassStyle: "drone"`), the
 second keyboard still carries the choir pad. A layer is a decision per
 record, never a budget.
 
+### 3b. AND HERE IS THE LEVEL, MEASURED
+
+Rendered, seed 4, boxcar synth, the train's own events against everything
+else in the record — three windows, one per thing the design claims:
+
+| where | the band | the train | the train is |
+|---|---|---|---|
+| a VERSE (the heartbeat end of the automation) | −23.6 dB rms | −32.6 | **9.0 dB under** |
+| an INSTRUMENTAL (the going) | −19.4 dB rms | −28.9 | **9.5 dB under** |
+| **IN THE TOWN** | −15.3 dB rms | **−240** | **SILENT** |
+
+Three things to read off it. The town line is the whole build in one number:
+the run is not turned down there, it is **absent** — −240 dB is the floor of
+the arithmetic, not a quiet sound. The train comes **3.7 dB forward in
+absolute terms** from the verse to the instrumental, which is the owner's
+"at times louder, at other times the heartbeat" happening. And it stays about
+9 dB under the band at both ends of its own story: audible, never swamping.
+
+The first pass measured **2.6 dB under** in a verse and was wrong for a
+reason worth keeping — a verse is where the automation puts the train at its
+QUIETEST, so 2.6 dB under *there* meant the night run would sit ABOVE the
+band. A level has to be judged at the loud end of its own curve.
+
 Two engine facts the machine is built on, both audible rather than
 decorative: a working engine is **never metronomic** (the DRIFT knob wanders
 the playback rate, which is the regulator being worked), and it **comes off
