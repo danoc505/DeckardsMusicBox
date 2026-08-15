@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15t · the journey, guarded — nine claims, each held to a measurement</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15u · you can hear the train now — levels, the roll, and the texture travels</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -6025,7 +6025,7 @@ const INSTRUMENTS = {
     play: { poly: 5, onLong: "restrike" },
     controls: [
       ...panControls().map(c => Object.assign({}, c, { kind: "voicing" })),
-      { k:"pick", label:"pick brightness", cap:"PICK", min:0, max:1, step:0.01, def:0.65, kind:"voicing" },
+      { k:"pick", label:"pick brightness", cap:"PICK", min:0, max:1, step:0.01, def:0.65, kind:"gesture" },
     ],
     panel: { skin: "erang", maker: "", title: "banjo",
              sub: "Philharmonia recordings — two dynamics, measured roots",
@@ -6044,7 +6044,7 @@ const INSTRUMENTS = {
     play: { poly: 2 },
     controls: [
       ...panControls().map(c => Object.assign({}, c, { kind: "voicing" })),
-      { k:"vib", label:"hand vibrato", cap:"VIB", min:0, max:1, step:0.01, def:0.4, kind:"voicing" },
+      { k:"vib", label:"hand vibrato", cap:"VIB", min:0, max:1, step:0.01, def:0.4, kind:"gesture" },
     ],
     panel: { skin: "erang", maker: "", title: "harmonica",
              sub: "two Hohner Special 20s — the recorded hand vibrato is the dial",
@@ -6079,9 +6079,9 @@ const INSTRUMENTS = {
     play: { poly: 2 },
     controls: [
       ...panControls().map(c => Object.assign({}, c, { kind: "voicing" })),
-      { k:"scoop", label:"slide into the note", cap:"SCOOP", min:0, max:1, step:0.01, def:0.5, kind:"voicing" },
+      { k:"scoop", label:"slide into the note", cap:"SCOOP", min:0, max:1, step:0.01, def:0.5, kind:"gesture" },
       { k:"vib",   label:"hand vibrato",        cap:"VIB",   min:0, max:1, step:0.01, def:0.5, kind:"voicing" },
-      { k:"tone",  label:"tone",                cap:"TONE",  min:0, max:1, step:0.01, def:0.5, kind:"voicing" },
+      { k:"tone",  label:"tone",                cap:"TONE",  min:0, max:1, step:0.01, def:0.5, kind:"gesture" },
     ],
     panel: { skin: "erang", maker: "", title: "glass slide",
              sub: "synthesized and saying so — continuous pitch, scooped in",
@@ -15989,9 +15989,21 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
         pan.pan.setValueAtTime(-0.85, t);
         pan.pan.linearRampToValueAtTime(0.85, t + dur);
       }
+      /* ── THE SHAPE OF PASSING, AND WHY IT IS NOT ONE EXPONENTIAL ──────────
+         [owner: "I dont here any of the train sound samples"] MEASURED: a
+         single exponential ramp from silence to the midpoint spends almost
+         all of its time near silence — the sound only reached full level for
+         an instant, and the render measured its PEAK at -30 dB against a
+         band peaking at -1.2. Inaudible, and correctly reported as absent.
+         A thing that passes is loud for a WHILE: it comes up, it is beside
+         you, it goes. Four moves, and the middle half of the event is within
+         9 dB of full. */
       const gn = c0.createGain();
+      const g0 = Math.max(0.0002, ev.gain);
       gn.gain.setValueAtTime(0.0001, t);
-      gn.gain.exponentialRampToValueAtTime(Math.max(0.0002, ev.gain), mid);
+      gn.gain.exponentialRampToValueAtTime(g0 * 0.35, t + dur * 0.28);
+      gn.gain.linearRampToValueAtTime(g0, mid);
+      gn.gain.linearRampToValueAtTime(g0 * 0.35, t + dur * 0.72);
       gn.gain.exponentialRampToValueAtTime(0.0001, t + dur);
       src.connect(lp);
       if(pan){ lp.connect(pan); pan.connect(gn); } else lp.connect(gn);
@@ -28475,8 +28487,21 @@ GENRE.boxcarsynth = {
   bassAccent: { accent: 0.2, slide: 0 },
   /* the banjo roll: the figure is an arpeggio the way a picker's right hand
      is, thumb on the root [sheet §7] [CHOSEN cells] */
-  ostinato: { unit: 2, vel: 0.5, run: true, follow: true, ratchet: 0,
-              cells: [[[0, 4, 7, 4], 4], [[0, 7, 12, 7], 3], [[0, 4, 7, 12], 2]] },
+  /* ── THE BANJO ROLLS, AND THAT IS THE INSTRUMENT ─────────────────────────
+     [owner: "the banjo would be better if it had many more notes to play"]
+     Right, and it is what a banjo IS: the picking hand plays a continuous
+     ROLL — "playing a note fast and repeatedly gives the impression of a
+     single sustained note", and the standard rolls are eight notes to the
+     bar, not two [Deering, on the tremolo; clawhammer sources]. `unit: 1`
+     is that roll at this genre's tempo — about four and a half notes a
+     second, which is a picker's right hand rather than a keyboard's chord.
+     The cells are the forward and backward rolls: thumb on the root, the
+     fingers walking the chord above it. */
+  ostinato: { unit: 1, vel: 0.5, run: true, follow: true, ratchet: 0,
+              cells: [[[0, 4, 7, 12, 7, 4, 7, 4], 4],     // the forward roll
+                      [[0, 7, 12, 7, 4, 7, 12, 7], 3],    // thumb-lead, walking up
+                      [[0, 4, 7, 4, 12, 7, 4, 7], 2],     // the backward roll
+                      [[0, 7, 4, 7, 0, 7, 12, 7], 2]] },  // alternating thumb
   /* the answer is the slide or the harp speaking in the tune's gaps */
   counter: { style: "line", density: 0.2, intervals: [-3, -5, 3, 5],
              octaves: [0], answer: 0.6 },
@@ -28547,8 +28572,16 @@ GENRE.boxcarsynth = {
      passing landscape, through the atmos door with the genre's OWN
      families: loopables are beds (the ride, the stream, the birds), the
      one-shots (coupling clank, crossing bell) are the saved accent. */
+  /* ── LEVELS, MEASURED AGAINST THE BAND ───────────────────────────────────
+     [owner, 2026-08-15: "I dont here any of the train sound samples no
+     vocals nothing of that sort at all."] MEASURED and true: the bed sat at
+     0.06 and the record's own music renders at -20.8 dB rms, so the
+     landscape was 25-30 dB under the band — present in the file and absent
+     to an ear. These are the levels that put the scene UNDER the music and
+     still in the room: the bed about 12 dB below the band, an event about 6.
+     A genre whose whole subject is a journey cannot whisper it. */
   atmos: { fams: ["railRun", "railSteam", "sceneRiver", "sceneBirds", "railClank", "railBell"],
-           level: [0.06, 0.05], accent: 0.65, accentLevel: [0.12, 0.08] },
+           level: [0.17, 0.10], accent: 0.7, accentLevel: [0.34, 0.16] },
   /* ── THE JOURNEY YOU CAN HEAR ────────────────────────────────────────────
      Which sound plays at which boundary. The names are the bank's own, and a
      name the bank does not have is skipped rather than faked — the encoder
@@ -28563,12 +28596,19 @@ GENRE.boxcarsynth = {
     depart: ["railDepart", "railPeep"],// the engine answers: it is about to move
     guard:  ["railGuard", "railCbell"],// the guard's whistle / the conductor's bell
     call:   ["railCall"],              // the platform announcement — a human voice, once
-    callChance: 0.7,
-    callLevel: [0.16, 0.06],
+    callChance: 0.85,
+    callLevel: [0.42, 0.16],
     pass:   ["railPass0", "railPass1", "railBell", "railClank"],
-    passPer: 1.6,                      // a couple a travelling section, drawn
-    passLevel: [0.13, 0.07],
-    level:  [0.20, 0.10],
+    passPer: 2.4,                      // two or three a travelling section, drawn
+    passLevel: [0.42, 0.20],
+    level:  [0.46, 0.22],
+    /* ── AND THE RECORD LEAVES THE YARD IN ITS FIRST MINUTE ────────────────
+       The first arrival in a town measured 4 minutes 38 seconds into seed 3,
+       so a listener heard no train at all for the length of most songs. A
+       journey record should depart before it travels: the guard blows and
+       the engine answers at the END of the opening, which is the one place
+       every record has and the one moment the sound is the subject. */
+    departAtStart: true,
   },
   params: {
     tr1000: { kit: "freight", pSet: "any", pTune: 1, pAtk: 0.002, pRel: 1.1,
@@ -28591,7 +28631,89 @@ GENRE.boxcarsynth = {
      noise is the surface. `kind: 1` would put the same record on an AM set,
      and a hand can. [docs/genre-research/boxcar-synth.md §8] */
   medium: { kind: 0, noise: 0.010, band: 0.10, age: 0.10, wobble: 0.003, drift: 0 },
+  /* ═══ THE TEXTURE TRAVELS — the genre's own law, as automation ═══════════
+     [owner, 2026-08-15: "we dont see to have things hooked up to fx for
+     evolution through texture... Feels like we took the banjo and harmonica
+     and stopped there with the effort."] MEASURED and exactly true: this
+     table had SIX automated controls and no effects routing at all, against
+     dungeon synth's 119 and hobbit synth's 121. The thinnest genre in the
+     file, and the one whose whole constitution is that the texture varies.
+
+     EVERY LANE BELOW IS THE JOURNEY, not decoration. The road is far and
+     open; the town is near and dry. So the room and the delay OPEN while
+     travelling and CLOSE when the train stops — which is what arriving
+     somewhere sounds like — and the players' hands change with the light:
+     the pick brightens toward the record's apex, the harmonica's vibrato
+     widens where a player would lean in, the slide scoops further in the
+     night run. ══════════════════════════════════════════════════════════ */
   motion: {
+    /* ── THE ROOM IS THE DISTANCE ───────────────────────────────────────────
+       Sends, per section: open on the road, dry in the town. This is the
+       matrix — the routing the genre had none of. */
+    /* ── AND A CROSSING TRAVELS IN THE DIRECTION IT HAS ROOM FOR ────────────
+       The first version pushed the room and the delay UP from crossings that
+       are already fully open, and the battery's clamp check measured the
+       result: "keeps 0% (base 1, wanted 0.19)" — movement written into a
+       wall. A send this genre declares (keys and lead into the room, lead
+       into the delay) starts open, so its travel is DOWNWARD; one it does
+       not declare starts shut, so its travel is upward. Which is the
+       journey anyway: the road is open and the town closes in. */
+    matrix: {
+      keysRoom: [{ kind: "section", by: { chorus: [-0.30, -0.12], outro: [-0.14, -0.05] } },
+                 { kind: "lfo", bars: [[31, 2], [43, 1]], depth: [-0.10, -0.02],
+                   shape: "sin", freePhase: true }],
+      leadRoom: [{ kind: "section", by: { chorus: [-0.34, -0.14], intro: [-0.12, -0.04] } },
+                 { kind: "arc", from: [-0.22, -0.08], to: [-0.06, 0], curve: "sCurve" }],
+      leadEcho: [{ kind: "section", by: { chorus: [-0.26, -0.10] } },
+                 { kind: "lfo", bars: [[37, 2], [53, 1]], depth: [-0.12, -0.03],
+                   shape: "sin", freePhase: true }],
+      /* the second keyboard is NOT in the genre's echo list, so this one
+         starts shut and opens — the one crossing with headroom upward */
+      keysEcho: [{ kind: "section", by: { bridge: [0.10, 0.28], instrumental: [0.04, 0.14] } },
+                 { kind: "occurrence", step: [0.02, 0.06], cap: 4 }],
+    },
+    /* ── THE HANDS ──────────────────────────────────────────────────────────
+       The pick brightens as the record brightens (it travels with the key
+       change, which is the genre's clock); the vibrato widens at the apex,
+       where a player leans in; the slide scoops further in the dark. */
+    banjo: {
+      pick: [{ kind: "arc", from: [-0.14, -0.04], to: [0.06, 0.20], curve: "sCurve" },
+             { kind: "section", by: { chorus: [0.04, 0.12], bridge: [-0.14, -0.05] } },
+             { kind: "lfo", bars: [[23, 2], [37, 1]], depth: [0.02, 0.07],
+               shape: "sin", freePhase: true }],
+    },
+    harmonica: {
+      vib: [{ kind: "apex", from: [-0.14, -0.05], to: [0.10, 0.26] },
+            { kind: "section", by: { bridge: [0.06, 0.16], intro: [-0.12, -0.04] } }],
+    },
+    slideGlass: {
+      scoop: [{ kind: "section", by: { bridge: [0.08, 0.22], chorus: [-0.10, -0.03] } },
+              { kind: "lfo", bars: [[29, 2], [41, 1]], depth: [0.03, 0.10],
+                shape: "sin", freePhase: true }],
+      tone:  [{ kind: "arc", from: [-0.12, -0.04], to: [0.06, 0.18], curve: "sCurve" }],
+    },
+    /* ── THE ENGINE'S HUM, and the pad behind the band ─────────────────────── */
+    dronebox: {
+      res:  [{ kind: "lfo", bars: [[23, 2], [37, 1]], depth: [0.15, 0.5],
+               shape: "sin", freePhase: true }],
+      air:  [{ kind: "arc", from: [-0.04, -0.01], to: [0.04, 0.12], curve: "sCurve" }],
+      peak: [{ kind: "sh", every: [[13, 2], [19, 1]], amt: [-0.08, 0.10], slew: [0.88, 0.96] }],
+      pan:  [{ kind: "lfo", bars: [[47, 2], [61, 1]], depth: [0.04, 0.12],
+               shape: "sin", freePhase: true }],
+    },
+    vp330: {
+      ens:   [{ kind: "lfo", bars: [[19, 2], [29, 1]], depth: [0.04, 0.12], shape: "sin" }],
+      choir: [{ kind: "section", by: { chorus: [0.06, 0.18], bridge: [0.04, 0.14] } }],
+    },
+    /* ── THE DELAY IS THE DISTANCE DOWN THE LINE ───────────────────────────── */
+    echo: {
+      fb:   [{ kind: "lfo", bars: [[41, 2], [29, 1]], depth: [0.04, 0.12],
+               shape: "sin", freePhase: true },
+             { kind: "section", by: { bridge: [0.06, 0.16] } }],
+      tone: [{ kind: "sh", every: [[17, 2], [23, 1]], amt: [-500, 500], slew: [0.9, 0.96] },
+             { kind: "arc", from: [-300, 0], to: [200, 900], curve: "sCurve" }],
+      verb: [{ kind: "section", by: { chorus: [-0.10, -0.03], bridge: [0.05, 0.14] } }],
+    },
     /* ── THE DECAY IS AN ARC, NOT A FINISH ──────────────────────────────────
        The dungeon synth critique's own finding — decay as composition, not as
        a coat of paint — built here as the genre's own: the record CLEARS as
@@ -36808,6 +36930,17 @@ function makePerformance(chart, form, materials, sections){
           if(guardN) put(guardN, s.startBar * barSec - 2.2, lvlD * 0.85);
           put(departN, s.startBar * barSec - 1.2, lvlD);
         }
+      }
+      /* THE RECORD LEAVES THE YARD. The opening section ends with the train
+         pulling out: the guard's whistle, then the engine. Every record gets
+         one, which is what makes the genre audible as itself inside the
+         first minute rather than at its first town. */
+      if(J.departAtStart !== false && sections.length > 1){
+        const first = sections[0];
+        const gN = pick(J.guard), dN = pick(J.depart);
+        const at = first.endBar * barSec;
+        if(gN) put(gN, at - 2.4, (J.level ? J.level[0] : 0.4) * 0.9);
+        if(dN) put(dN, at - 1.3, (J.level ? J.level[0] : 0.4));
       }
       /* THE CONDUCTOR, ONCE. Drawn a section, not a second: it lands on the
          downbeat of a town that is not the first one, so the record has
