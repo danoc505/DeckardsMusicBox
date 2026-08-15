@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15u · you can hear the train now — levels, the roll, and the texture travels</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15v · the train is the drone — it stops in every town, and every stop is a script</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -5442,6 +5442,83 @@ const INSTRUMENTS = {
              ] },
   },
 
+  /* ══ THE TRAIN — boxcar synth's ground, and it is a DRONE MACHINE ════════
+     [owner, 2026-08-15: "Its boxcar synth how can it be that if the train
+     sound is not the backbone of the whole song? Its the drone for the genre
+     ... It needs to be automated just like a drone would be with lfo and fx."]
+
+     THE MISTAKE THIS CORRECTS, stated plainly because it was architectural
+     and no level would have fixed it: the build before this one played the
+     running sound as WEATHER — one bed drawn per record, continuous, under
+     everything. It never stopped. The drums stopped in a town, and the train
+     did not, so nothing on the record ever actually ARRIVED anywhere, which
+     is the one structural fact this genre is made of.
+
+     The program already had the right object and it was not being used. The
+     `drone` role is the continuous ground: its own lane, its own machine, its
+     own mixer channel and fader, and its own automation lanes in the genre's
+     motion table. Boxcar synth's ground is the train, so the train IS that
+     machine — and everything follows for free, which is how you know it is
+     the right shape:
+
+       · IT STOPS IN A TOWN, because a town is a section whose `form.roles`
+         does not name `drone`. Nobody wrote a stop; the arrangement is it.
+       · IT HAS A FADER, because the drone strip already exists.
+       · IT IS AUTOMATED LIKE A DRONE, because `motion.trainbox` is read by
+         the same reader that rides the drone rack.
+
+     AND NOTHING IS SURRENDERED TO MAKE ROOM FOR IT [owner: "If a drone itself
+     is needed then make it happen, your acting like there is some limit when
+     thats not how music works"] — right. The harmonic ground goes on beside
+     it: the bass still holds its pedal, the second keyboard still carries the
+     choir pad. A layer is a decision per record, never a budget.
+
+     WHAT THE CONTROLS ARE, in the language of a train rather than a synth:
+       LEVEL    how far forward the run sits — the owner's story, as a knob
+       WINDOW   a lowpass: how open the carriage window is
+       RUMBLE   a low shelf: the bogie's weight under the floor
+       AIR      the steam and brake gear over the wheels
+       DRIFT    rate wobble — an engine working, never machine-steady
+       SPEED    a heavier or a lighter train; not automated, it is what the
+                train IS rather than what it is doing
+     [docs/genre-research/boxcar-synth.md §3] ═════════════════════════════ */
+  trainbox: {
+    slot: "drone", label: "the train",
+    lanes: { drone:"trainbox" },
+    controls: [
+      /* ── THE RUN ──────────────────────────────────────────────────────── */
+      { k:"speed",  label:"a heavier or a lighter train", cap:"SPEED",
+        min:0.7, max:1.35, step:0.01, def:1, kind:"voicing" },
+      /* the engine is never metronomic: a slow wobble on the playback rate is
+         the exhaust beat wandering as the regulator is worked, and it is the
+         difference between a recording of a train and a loop of one */
+      { k:"drift",  label:"the engine working — how much the rate wanders",
+        cap:"DRIFT", min:0, max:0.06, step:0.001, def:0.010, kind:"gesture" },
+      { k:"air",    label:"steam and brake gear over the wheels", cap:"AIR",
+        min:0, max:1, step:0.01, def:0.22, kind:"gesture" },
+      /* ── THE CAR YOU ARE RIDING IN ────────────────────────────────────── */
+      { k:"window", label:"how open the carriage window is", cap:"WINDOW",
+        min:250, max:9000, step:50, def:2600, unit:"Hz", kind:"gesture" },
+      { k:"rumble", label:"the bogie's weight under the floor", cap:"RUMBLE",
+        min:0, max:18, step:0.5, def:7, unit:"dB", kind:"gesture" },
+      /* ── OUT ──────────────────────────────────────────────────────────── */
+      { k:"level",  label:"how far forward the run sits", cap:"LEVEL",
+        min:0, max:1.6, step:0.01, def:0.85, kind:"gesture" },
+      { k:"pan",    label:"pan", cap:"PAN",
+        min:-1, max:1, step:0.01, def:0, kind:"gesture" },
+      { k:"sway",   label:"how far the car swings across the field", cap:"SWAY",
+        min:0, max:1, step:0.01, def:0.30, kind:"voicing" },
+      { k:"swayHz", label:"how slowly it swings", cap:"SWAY RATE",
+        min:0, max:0.3, step:0.005, def:0.03, unit:"Hz", kind:"voicing" },
+    ],
+    panel: { skin: "drone", maker: "DECKARD", title: "THE TRAIN",
+             groups: [
+               { label: "THE RUN", keys: ["speed", "drift", "air"] },
+               { label: "THE CAR", keys: ["window", "rumble"] },
+               { label: "OUT",     keys: ["level", "pan", "sway", "swayHz"] },
+             ] },
+  },
+
   /* ── KEYBOARDS ─────────────────────────────────────────────────────────── */
   rhodes: {
     slot: "keys", label: "Rhodes (sampled)",
@@ -8265,7 +8342,10 @@ const RIG = {
   freight: { kick:"kick", snare:"rim", ghost:"rim", hat:"hat", openhat:"openhat",
              brk:"brk",
              tom1:"tom1", tom2:"tom2", tom3:"tom3",
-             bass:"bass", drone:"dronebox", keys:"banjo", lead:"harmonica",
+             /* the DRONE lane is the train itself — this band's continuous
+                ground is not a pad, it is the running gear under the floor
+                [see INSTRUMENTS.trainbox] */
+             bass:"bass", drone:"trainbox", keys:"banjo", lead:"harmonica",
              counter:"slideGlass", ostinato:"banjo",
              rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
   /* THE BOX -- acid house. Every element is a machine and every machine is one
@@ -16027,6 +16107,152 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     src.connect(gn); gn.connect(chanIn(g, "tape", "vinyl"));
     src.start(t); src.stop(t + ev.durSec);
     return [src];
+  };
+
+  /* ══ THE TRAIN, PLAYED AS A DRONE ════════════════════════════════════════
+     [see INSTRUMENTS.trainbox for why this is a drone machine and not a scene
+     sound, and for the mistake it corrects.]
+
+     One held event on the `drone` lane is one continuous run. The role's own
+     machinery decides WHEN there is one, which means the arrangement decides
+     when the train is moving — and a town is simply a section that does not
+     name `drone`. This function's whole job is to make an eight-bar held note
+     sound like a train rather than like a loop. ════════════════════════════ */
+  V.trainbox = function(g, ev, t){
+    const c = g.ctx;
+    const runs = ["railRun0", "railRun1"].filter(n => ERANG.meta(n));
+    if(!runs.length) return [];
+    /* which of the two takes this run is: a property of the note's own pitch,
+       so it is decided without a draw and cannot shift another part [Law 3] */
+    const name = runs[Math.abs(Math.round(ev.pitch || 0)) % runs.length];
+    const s = ERANG.meta(name), buf = erangBuffer(g, name);
+    if(!s || !buf || s.ls < 0) return [];
+    const dur = Math.max(0.6, ev.durSec);
+    const made = [];
+
+    /* ── THE KNOBS ARE READ ALONG THE EVENT, NOT ONCE AT ITS START ──────────
+       A drone event here is several BARS long, and a gesture read once at its
+       downbeat holds one value for half a minute — which is the exact shape of
+       "automated" that is not automation, and it would have made the owner's
+       "at times louder, at other times the heartbeat" impossible to express.
+       `motionAt` is a pure function of the moment [see P], so the curve the
+       genre declared can be SAMPLED along the event and written onto the
+       AudioParam as a real ramp. Offline and live read the same function at
+       the same times, so Law 10 holds by construction rather than by care. */
+    const evAt = tt => ({ tSec: tt, role: ev.role, voice: ev.voice });
+    const at = (k, dflt, tt) => P(g, evAt(tt), "trainbox", k, dflt);
+    const STEP = Math.max(0.30, dur / 96);
+    const ride = (param, k, dflt, map) => {
+      const f = map || (x => x);
+      param.setValueAtTime(f(at(k, dflt, ev.tSec)), t);
+      for(let x = STEP; x <= dur; x += STEP)
+        param.linearRampToValueAtTime(f(at(k, dflt, ev.tSec + x)), t + x);
+    };
+
+    /* ── THE RUN ───────────────────────────────────────────────────────────
+       Looped on the take's measured loop points, and STARTED AT THE PHASE the
+       record has already reached: consecutive events butt against each other
+       without replaying the same second of wheel-noise, so a run that spans
+       three material cycles reads as one train rather than three. */
+    const ls = s.ls / ERANG.rate, le = s.le / ERANG.rate;
+    const loopLen = Math.max(0.05, le - ls);
+    const speed = P(g, ev, "trainbox", "speed", 1);
+    /* THE ONE HONEST USE OF A PITCH ON AN UNPITCHED SOUND: the drone lane
+       hands this voice a note, and a train answers a note by working harder or
+       coasting. A quarter of the written distance, so the grade is heard and
+       the recording is not transposed into a toy. */
+    const grade = Math.pow(2, (((ev.pitch == null ? 28 : ev.pitch) - 28) / 12) * 0.25);
+    const rate = Math.max(0.4, speed * grade);
+    const src = c.createBufferSource();
+    src.buffer = buf; src.loop = true; src.loopStart = ls; src.loopEnd = le;
+    src.playbackRate.setValueAtTime(rate, t);
+
+    /* ── AND IT SLOWS INTO THE PLATFORM ────────────────────────────────────
+       `ev.halt` is set in stage 5 on the last drone note before a town, which
+       is the one place that knows what comes next. A train that simply stops
+       at a bar line is an edit; a train that comes off the regulator for the
+       last few seconds has arrived. */
+    const HALT = 3.2;
+    if(ev.halt && dur > HALT + 1){
+      src.playbackRate.setValueAtTime(rate, t + dur - HALT);
+      src.playbackRate.linearRampToValueAtTime(rate * 0.55, t + dur);
+    }
+    /* the exhaust beat wanders: a slow LFO added onto the rate, depth in
+       fractions of the rate itself so DRIFT means the same thing at any speed */
+    const dLfo = c.createOscillator(); dLfo.type = "sine";
+    dLfo.frequency.value = 0.11;
+    const dAmt = c.createGain();
+    ride(dAmt.gain, "drift", 0.010, x => x * rate);
+    dLfo.connect(dAmt); dAmt.connect(src.playbackRate);
+    dLfo.start(t); dLfo.stop(t + dur + 0.4);
+
+    /* ── THE CAR ───────────────────────────────────────────────────────────
+       The window is a lowpass and the bogie is a low shelf: between them they
+       are the difference between standing on the platform and sitting inside
+       the car with the window down, which is the distance this genre travels. */
+    const win = c.createBiquadFilter(); win.type = "lowpass"; win.Q.value = 0.6;
+    ride(win.frequency, "window", 2600);
+    const bog = c.createBiquadFilter(); bog.type = "lowshelf";
+    bog.frequency.value = 110;
+    ride(bog.gain, "rumble", 7);
+
+    /* ── THE STEAM OVER THE WHEELS ─────────────────────────────────────────
+       A second loop rather than a synthesised hiss, because the bank has the
+       recording and a made-up noise floor next to a real one is exactly the
+       seam an ear finds. Rides the same LEVEL, so the two never drift apart. */
+    const airName = ERANG.meta("railHiss") ? "railHiss" : null;
+    const lvlG = c.createGain();
+    if(airName){
+      const am = ERANG.meta(airName), ab = erangBuffer(g, airName);
+      if(am && ab && am.ls >= 0){
+        const asr = c.createBufferSource();
+        asr.buffer = ab; asr.loop = true;
+        asr.loopStart = am.ls / ERANG.rate; asr.loopEnd = am.le / ERANG.rate;
+        const ahp = c.createBiquadFilter(); ahp.type = "highpass";
+        ahp.frequency.value = 1500;
+        const ag = c.createGain();
+        ride(ag.gain, "air", 0.22, x => x * 0.5 / (am.pk || 1));
+        asr.connect(ahp); ahp.connect(ag); ag.connect(lvlG);
+        asr.start(t, (am.ls + (ev.tSec % Math.max(0.05, (am.le - am.ls) / ERANG.rate))
+                      * ERANG.rate) / ERANG.rate);
+        asr.stop(t + dur + 0.5); made.push(asr);
+      }
+    }
+
+    /* ── OUT ───────────────────────────────────────────────────────────────
+       Two gains in series and they are two different jobs: LEVEL is the story
+       the genre is telling and is ridden along the whole event; the envelope
+       is the physics of starting and stopping, and belongs to the event. */
+    ride(lvlG.gain, "level", 0.85,
+         x => x * LEVEL.drone * 2.1 * Math.min(1.3, ev.gain) / (s.pk || 1));
+    const env = c.createGain();
+    const IN = Math.min(1.6, dur * 0.12), OUT = ev.halt ? HALT : Math.min(1.2, dur * 0.10);
+    env.gain.setValueAtTime(0.0001, t);
+    env.gain.linearRampToValueAtTime(1, t + IN);
+    env.gain.setValueAtTime(1, t + dur - OUT);
+    env.gain.linearRampToValueAtTime(0.0001, t + dur);
+
+    const pan = c.createStereoPanner ? c.createStereoPanner() : null;
+    if(pan){
+      ride(pan.pan, "pan", 0);
+      const sway = P(g, ev, "trainbox", "sway", 0.30);
+      const swayHz = P(g, ev, "trainbox", "swayHz", 0.03);
+      if(sway > 0 && swayHz > 0){
+        const sl = c.createOscillator(); sl.type = "sine";
+        sl.frequency.value = swayHz;
+        const sg = c.createGain(); sg.gain.value = sway * 0.5;
+        sl.connect(sg); sg.connect(pan.pan);
+        sl.start(t); sl.stop(t + dur + 0.4);
+      }
+    }
+    src.connect(win); win.connect(bog); bog.connect(lvlG);
+    lvlG.connect(env);
+    const out = chanIn(g, ev.role, "drone", ev);
+    if(pan){ env.connect(pan); pan.connect(out); } else env.connect(out);
+    src.start(t, ls + ((ev.tSec * rate) % loopLen));
+    src.stop(t + dur + 0.05);
+    made.push(src);
+    return made;
   };
 
   /* ══ THE MEDIUM'S OWN NOISE ═══════════════════════════════════════════════
@@ -28403,7 +28629,11 @@ GENRE.boxcarsynth = {
      toward light, some into night; +2 and +5 are the folk lifts. */
   keyShift: { chance: 0.65, by: [[0, 6], [2, 2], [5, 1]], change: 0.8 },
   form: {
-    lengths: { intro: 8, verse: 16, chorus: 12, bridge: 16, instrumental: 16, outro: 8 },
+    /* THE TOWN IS SHORT [owner: "two or three short stops"]. A stop is an
+       EVENT in a record about moving, so the chorus is the shortest thing
+       here — 8 bars, two thirds of a verse — and the record is mostly under
+       way, which is rule 5 ("our genre is marked by its movement"). */
+    lengths: { intro: 8, verse: 16, chorus: 8, bridge: 16, instrumental: 16, outro: 8 },
     material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
                 instrumental: "A", outro: "A" },
     /* ── WHO IS IN THE ROOM IS THE JOURNEY [sheet §3] ──────────────────────
@@ -28411,11 +28641,29 @@ GENRE.boxcarsynth = {
        DRUMS, because the train is standing — the single most legible
        journey fact in the design. The bridge is the night run: the tune
        rests, the slide answers in the dark. */
+    /* ══ AND `drone` IS THE TRAIN ITSELF, SO THIS LIST IS THE JOURNEY ═══════
+       [owner: "the train sound ... its the drone for the genre"]
+       The `drone` role plays `trainbox` — the running gear — so naming it or
+       not naming it in a section IS the decision "is the train moving here".
+       Read the column downward and it is the record:
+
+         intro         THE YARD      standing; the train has not left yet
+         verse         ROLLING       running
+         instrumental  ROLLING       running, and the band takes the tune
+         chorus        THE TOWN      STOPPED — no drums AND no train
+         bridge        THE NIGHT RUN running, the tune resting
+         outro         PULLING AWAY  running, into the distance
+
+       The build before this one had `drone` in the intro and in the chorus,
+       which meant the train ran at the yard and went on running through every
+       town. That is the whole defect, and it is fixed by deleting two words
+       and adding one — which is the argument for putting the train on this
+       role rather than on a bed nobody's arrangement can see. */
     roles: {
-      intro:        ["drone", "keys"],
+      intro:        ["keys", "keys2"],
       verse:        ["drums", "bass", "keys", "lead", "drone"],
-      instrumental: ["drums", "bass", "keys", "keys2", "ostinato", "lead"],
-      chorus:       ["keys", "keys2", "lead", "counter", "drone"],
+      instrumental: ["drums", "bass", "keys", "keys2", "ostinato", "lead", "drone"],
+      chorus:       ["keys", "keys2", "lead", "counter"],
       bridge:       ["drums", "bass", "keys2", "counter", "drone"],
       outro:        ["keys", "drone"],
     },
@@ -28427,9 +28675,9 @@ GENRE.boxcarsynth = {
     plan: [
       { name: "the yard",   pool: ["verse"],                          bars: [12, 2, 10] },
       { name: "rolling",    pool: ["verse", "instrumental"],          bars: [20, 2, 14] },
-      { name: "first town", pool: ["chorus", "verse"],                bars: [12, 2, 8], endOn: "chorus" },
+      { name: "first town", pool: ["chorus", "verse"],                bars: [9, 2, 8], endOn: "chorus" },
       { name: "night run",  pool: ["verse", "instrumental", "bridge"],bars: [20, 2, 14] },
-      { name: "last town",  pool: ["chorus", "verse", "instrumental"],bars: [12, 2, 8], endOn: "chorus" },
+      { name: "last town",  pool: ["chorus", "verse", "instrumental"],bars: [9, 2, 8], endOn: "chorus" },
     ],
     payoff: "chorus",
     transitions: {
@@ -28476,9 +28724,20 @@ GENRE.boxcarsynth = {
             snareEarly: [0, 0], kickLate: [0, 0], hatMul: 1,
             jitter: { dilla: 0.02, even: 0.02 }, push: 0 },
   touch: { bassArtic: [[2, 4], [3, 4], [4, 2]], strum: [0.05, 0.08] },
-  /* the engine's hum under the record: the drone holds the ground the way
-     dungeon synth's does, an octave clear of the bass [CHOSEN] */
-  drone: { unit: 4, hold: 2, pedal: 0.6, octave: 0 },
+  /* ── THE GROUND IS THE RUNNING GEAR ─────────────────────────────────────
+     One note per material cycle, held for the whole of it: `hold: 1` against
+     `unit: 4` is butt-joined rather than overlapping, because two overlapping
+     copies of a recorded train are two trains, and this is one. `pedal: 1`
+     keeps the run on a single note so consecutive cycles MERGE into one long
+     held event [see buildDroneLane] — the run is continuous by construction,
+     and the only thing that ends it is the arrangement.
+
+     `cut` is the other half and it is the correction this build exists for:
+     the ground must not outlive the section that holds it. Without it the
+     last cycle of a section rings on through the downbeat of the town, and
+     the record never arrives. No other genre declares it, so no other genre
+     moves by a sample. */
+  drone: { unit: 4, hold: 1, pedal: 1, octave: 0, cut: true, unpitched: true },
   bassStyle: "drone",
   bassPedal: 0.4,
   bassWalk: 0.65,
@@ -28549,7 +28808,11 @@ GENRE.boxcarsynth = {
   machines: {
     drums:    [["tr1000", 1]],
     bass:     [["auto", 1]],
-    drone:    [["auto", 1]],
+    /* NAMED, not left to the rig: this genre's ground is the train and there
+       is no draw about it. The pad a record may also want is on `keys2`,
+       which carries the choir and the strings — the train takes nothing away
+       from the harmony, it sits under it. */
+    drone:    [["trainbox", 1]],
     keys:     [["banjo", 5], ["bardPluck", 2], ["erangHarp", 1], ["auto", 2]],
     /* ── HOW MANY PLAYERS ARE IN THIS BAND, AND IT IS A DECISION ─────────
        [owner, 2026-08-15: "that means we would have three harmonicas
@@ -28580,7 +28843,13 @@ GENRE.boxcarsynth = {
      to an ear. These are the levels that put the scene UNDER the music and
      still in the room: the bed about 12 dB below the band, an event about 6.
      A genre whose whole subject is a journey cannot whisper it. */
-  atmos: { fams: ["railRun", "railSteam", "sceneRiver", "sceneBirds", "railClank", "railBell"],
+  /* ── AND THE RUNNING SOUND IS NOT IN THIS LIST ANY MORE ──────────────────
+     `railRun` and `railSteam` were here, which is precisely the mistake this
+     build corrects: as an atmos bed the run is ONE EVENT PER RECORD, playing
+     continuously under everything, and no arrangement can stop it. The train
+     is the drone machine now [INSTRUMENTS.trainbox], so what is left here is
+     what it actually is — the LANDSCAPE the train is passing through. */
+  atmos: { fams: ["sceneRiver", "sceneBirds", "railClank", "railBell"],
            level: [0.17, 0.10], accent: 0.7, accentLevel: [0.34, 0.16] },
   /* ── THE JOURNEY YOU CAN HEAR ────────────────────────────────────────────
      Which sound plays at which boundary. The names are the bank's own, and a
@@ -28590,35 +28859,48 @@ GENRE.boxcarsynth = {
      that arrives with the music is a event, not a wash.
      [docs/genre-research/boxcar-synth.md §4, §8] */
   journey: {
+    /* ── ARRIVING, in order ─────────────────────────────────────────────── */
+    approach: ["railWhistle"],         // ONE LONG — a station ahead [GCOR]
     arrive: ["railArrive"],            // brakes and doors, into a town
     brake:  ["railBrake"],             // the short screech, sometimes doubled in
     brakeAlso: 0.45,
+    stand:  ["railTown"],              // the station's own room tone, while stopped
+    valve:  ["railValve"],             // and the safety valve lifting over it
+    doors:  ["railDoors"],             // people getting off, and later back on
+    crowd:  ["railCrowd"],             // the platform — what a town is FOR
+    standLevel: [0.22, 0.10],          // the standing bed sits under the band
+    /* ── LEAVING, in order ──────────────────────────────────────────────── */
+    call:   ["railCall"],              // the conductor: all aboard — at EVERY stop
+    guard:  ["railGuard"],             // the guard's whistle
     depart: ["railDepart", "railPeep"],// the engine answers: it is about to move
-    guard:  ["railGuard", "railCbell"],// the guard's whistle / the conductor's bell
-    call:   ["railCall"],              // the platform announcement — a human voice, once
-    callChance: 0.85,
+    cbell:  ["railCbell"],             // and the bell, once it is already moving
     callLevel: [0.42, 0.16],
     pass:   ["railPass0", "railPass1", "railBell", "railClank"],
     passPer: 2.4,                      // two or three a travelling section, drawn
     passLevel: [0.42, 0.20],
     level:  [0.46, 0.22],
-    /* ── AND THE RECORD LEAVES THE YARD IN ITS FIRST MINUTE ────────────────
-       The first arrival in a town measured 4 minutes 38 seconds into seed 3,
-       so a listener heard no train at all for the length of most songs. A
-       journey record should depart before it travels: the guard blows and
-       the engine answers at the END of the opening, which is the one place
-       every record has and the one moment the sound is the subject. */
-    departAtStart: true,
+    /* ── AND THE YARD NO LONGER NEEDS A SPECIAL CASE ───────────────────────
+       `departAtStart` used to bolt a departure onto the end of the opening,
+       because the train was weather and the arrangement could not express
+       "not moving yet". Now the intro simply does not carry the `drone` role,
+       so the intro→verse boundary IS a departure and runs the same script as
+       every other one. A special case removed by getting the model right is
+       the best kind of deletion this file has. */
   },
   params: {
     tr1000: { kit: "freight", pSet: "any", pTune: 1, pAtk: 0.002, pRel: 1.1,
               pTone: 0.6, bus: 1, gate: 0 },
     desk: { low: -1, mid: 0, high: -0.5, lowF: 200, midF: 1000, highF: 4000 },
-    dronebox: { voices: 4, shape: 2, wave: 1, spread: 6,
-                clockA: 17, clockB: 23, drift: 5,
-                cut: 520, res: 1.2, peak: 0.25, peakHz: 900,
-                swell: 2.2, fall: 6, air: 0.10, level: 0.9,
-                pan: 0, panHz: 0.02, panDep: 0.12, strings: 0 },
+    /* ── THE TRAIN THIS RECORD IS RIDING ────────────────────────────────────
+       A little under standard speed and a little heavy: SPEED 0.96 with
+       RUMBLE at 8 dB is a loaded freight rather than a light express, which
+       is the train this genre is named after. The window is half open — 2400
+       Hz — so the run has its top on it without becoming a hiss, and SWAY
+       gives the car a slow roll across the field that no LFO on any other
+       machine here duplicates. [CHOSEN, against the sheet's §3] */
+    trainbox: { speed: 0.96, drift: 0.012, air: 0.24,
+                window: 2400, rumble: 8,
+                level: 0.9, pan: 0, sway: 0.34, swayHz: 0.025 },
     echo: { div: 4, fb: 0.30, tone: 2000, hp: 150, send: 0.12, verb: 0.6 },
     vp330: { ens: 0.7, choir: 0.5, attack: 1.4, release: 2.6 },
     /* the medium's own knobs sit at the genre's chosen starting point; the
@@ -28692,14 +28974,56 @@ GENRE.boxcarsynth = {
                 shape: "sin", freePhase: true }],
       tone:  [{ kind: "arc", from: [-0.12, -0.04], to: [0.06, 0.18], curve: "sCurve" }],
     },
-    /* ── THE ENGINE'S HUM, and the pad behind the band ─────────────────────── */
-    dronebox: {
-      res:  [{ kind: "lfo", bars: [[23, 2], [37, 1]], depth: [0.15, 0.5],
-               shape: "sin", freePhase: true }],
-      air:  [{ kind: "arc", from: [-0.04, -0.01], to: [0.04, 0.12], curve: "sCurve" }],
-      peak: [{ kind: "sh", every: [[13, 2], [19, 1]], amt: [-0.08, 0.10], slew: [0.88, 0.96] }],
-      pan:  [{ kind: "lfo", bars: [[47, 2], [61, 1]], depth: [0.04, 0.12],
-               shape: "sin", freePhase: true }],
+    /* ══ THE TRAIN'S LEVEL IS THE STORY ══════════════════════════════════════
+       [owner, 2026-08-15, verbatim: "It needs to be automated to help tell the
+       story at times it should be louder at other times it should fade to the
+       backbeat and be the heart beat that keeps the track movine."]
+
+       That sentence is this table, and it is a table rather than a number
+       because the answer changes by section:
+
+         VERSE          the tune is speaking, so the run drops back and becomes
+                        the heartbeat under it — the lowest the train ever sits
+                        while it is moving
+         INSTRUMENTAL   the band has the record, the going is the subject, and
+                        the run comes forward with them
+         BRIDGE         the night run: the tune rests and the train is almost
+                        the only thing left, so it is furthest forward here
+         OUTRO          pulling away — it recedes, which is how a record about
+                        travelling should end
+
+       ...and then the APEX lane lifts the whole thing toward the record's own
+       climax wherever the arc puts it, so two records with the same sections
+       still do not tell the story at the same moment. The slow LFO on top is
+       the ground never being quite steady. ════════════════════════════════ */
+    trainbox: {
+      level: [{ kind: "section", by: { verse: [-0.34, -0.18],
+                                       instrumental: [0.08, 0.22],
+                                       bridge: [0.18, 0.38],
+                                       outro: [-0.34, -0.18] } },
+              { kind: "apex", from: [-0.10, -0.03], to: [0.10, 0.26] },
+              { kind: "lfo", bars: [[23, 2], [31, 1]], depth: [0.03, 0.09],
+                shape: "sin", freePhase: true }],
+      /* THE WINDOW IS THE LIGHT. It opens across the record with the key
+         change — the genre's dark-to-light clock, heard on the one voice that
+         is present for all of it — and closes in the night run. */
+      window: [{ kind: "arc", from: [-700, -250], to: [400, 1600], curve: "sCurve" },
+               { kind: "section", by: { bridge: [-900, -400], outro: [-600, -200] } },
+               { kind: "lfo", bars: [[19, 2], [29, 1]], depth: [80, 260],
+                 shape: "sin", freePhase: true }],
+      /* the weight under the floor: heaviest in the dark, lightest as the
+         record clears */
+      rumble: [{ kind: "section", by: { bridge: [1.2, 3.0], instrumental: [-1.4, -0.5] } },
+               { kind: "arc", from: [0.6, 2.0], to: [-2.0, -0.6], curve: "sCurve" }],
+      /* steam and brake gear: a sample-and-hold, because a working engine
+         breathes at no fixed rate */
+      air: [{ kind: "sh", every: [[11, 2], [17, 1]], amt: [-0.10, 0.14], slew: [0.86, 0.95] },
+            { kind: "apex", from: [-0.06, -0.01], to: [0.06, 0.16] }],
+      /* and the regulator is worked hardest where the record works hardest */
+      drift: [{ kind: "apex", from: [-0.004, 0], to: [0.006, 0.020] },
+              { kind: "section", by: { bridge: [0.004, 0.014] } }],
+      pan: [{ kind: "lfo", bars: [[47, 2], [61, 1]], depth: [0.05, 0.16],
+              shape: "sin", freePhase: true }],
     },
     vp330: {
       ens:   [{ kind: "lfo", bars: [[19, 2], [29, 1]], depth: [0.04, 0.12], shape: "sin" }],
@@ -28713,6 +29037,16 @@ GENRE.boxcarsynth = {
       tone: [{ kind: "sh", every: [[17, 2], [23, 1]], amt: [-500, 500], slew: [0.9, 0.96] },
              { kind: "arc", from: [-300, 0], to: [200, 900], curve: "sCurve" }],
       verb: [{ kind: "section", by: { chorus: [-0.10, -0.03], bridge: [0.05, 0.14] } }],
+      /* ── AND THE SEND WAS DECLARED TWICE, WHICH MEANT ONCE ────────────────
+         This table carried a SECOND `echo:` key at its foot holding only
+         `send`, and a second `dronebox:` holding only `cut`. A repeated key in
+         an object literal is not a merge — the later one REPLACES the earlier
+         — so the four lanes above (fb, tone, verb) and the drone rack's four
+         were being silently thrown away before the program ever read them.
+         Found while moving the drone lanes to the train. The `send` lane is
+         restored here, where it belongs; the drone-rack lanes are gone with
+         the machine they described. */
+      send: [{ kind: "occurrence", step: [0.02, 0.05], cap: 3 }],
     },
     /* ── THE DECAY IS AN ARC, NOT A FINISH ──────────────────────────────────
        The dungeon synth critique's own finding — decay as composition, not as
@@ -28730,13 +29064,6 @@ GENRE.boxcarsynth = {
     desk: {
       high: [{ kind: "arc", from: [-2.5, -1.2], to: [0.4, 1.4], curve: "sCurve" }],
       low:  [{ kind: "section", by: { chorus: [0.4, 1.2], bridge: [-1.6, -0.6] } }],
-    },
-    dronebox: {
-      cut: [{ kind: "lfo", bars: [[19, 2], [29, 1]], depth: [40, 140], shape: "sin", freePhase: true },
-            { kind: "section", by: { chorus: [-160, -80], intro: [-60, -20] } }],
-    },
-    echo: {
-      send: [{ kind: "occurrence", step: [0.02, 0.05], cap: 3 }],
     },
   },
 };
@@ -35519,9 +35846,26 @@ function makeMaterials(chart, editPlan, arcPlan){
     }
     mat[ROLE] = clear;
   };
+  /* ── AND A GROUND WITH NO PITCH HAS NOTHING TO NEGOTIATE ──────────────────
+     `drone.unpitched` is a genre saying "the machine on this lane is not
+     playing a note". Boxcar synth's ground is a recording of a train: the
+     written pitch only nudges its playback rate a few percent [V.trainbox], so
+     it cannot be in unison with anything and the whole premise of the walk
+     below — two parts on one pitch is one part — does not apply to it.
+
+     MEASURED, and this is why it is not a nicety. That genre's bass holds its
+     own pedal and its octave jump lands at MIDI 25, which is exactly where the
+     ground sits. The walk then found 0 taken, -12 under the hearing floor,
+     +12 taken by the bass's other note and -24 under the floor again — so it
+     DROPPED THE GROUND. In seeds 1 and 6 the train existed in one material out
+     of seven, which read on the roll as a genre whose backbone plays for a
+     sixth of the record and vanishes. Nine genres declare nothing here and
+     take the walk exactly as before. */
+  const NEGOTIATE = !(G.drone && G.drone.unpitched);
   for(const m in materials){
     if(!materials[m] || Array.isArray(materials[m])) continue;
-    if(materials[m].drone && materials[m].drone.length) clearAgainst(materials[m], "drone", -1);
+    if(NEGOTIATE && materials[m].drone && materials[m].drone.length)
+      clearAgainst(materials[m], "drone", -1);
   }
 
   if(G.genPitch && G.genPitch.on){
@@ -36903,54 +37247,92 @@ function makePerformance(chart, form, materials, sections){
           tSec, durSec: secs != null ? secs : m.n / ERANG.rate + 0.4,
           voice: "atmos", role: "tape", gain, bed: name }));
       };
-      const PAY = (chart.table.form && chart.table.form.payoff) || "chorus";
       const barSec = STEPS * spb;
+      /* ══ THE STOP IS A SCRIPT, AND IT RUNS AT EVERY TOWN ═══════════════════
+         [owner, 2026-08-15: "the breaks and conductor announcement should be
+         at places in the song as signifiers telling a story. The breaks come
+         before the stop and the train sound stops people get on the conductor
+         makes a call before and after the train starts again."]
+
+         The build before this one had step one and step five of that and
+         nothing between, so a stop was two effects rather than an event. This
+         is the whole sequence, in the owner's own order, every time:
+
+           ARRIVING   one long blast (a station ahead) · the brakes · THE
+                      RUNNING SOUND STOPS · the station bed and the safety
+                      valve · the doors · the platform crowd
+           LEAVING    the conductor's call (all aboard) · the doors · the
+                      guard's whistle · the engine answers · THE RUN STARTS
+                      AGAIN · the conductor's bell, once it is already moving
+
+         AND IT IS DRIVEN OFF THE ARRANGEMENT, not off a section's name: a
+         town is a section that does not carry the `drone` role, because that
+         role IS the train [see INSTRUMENTS.trainbox]. So the script cannot
+         drift out of step with the sound — the same fact decides both, and a
+         genre that renamed its payoff section would still stop correctly.
+         The record leaving the YARD is the same event: the intro carries no
+         train either, so the first verse is a departure like any other and
+         `departAtStart` is no longer a special case. ═══════════════════════ */
+      const hasRun = s => (s.active || []).includes("drone");
+      const lvl = (a, b) => (a == null ? 0.20 : a) + jr() * (b == null ? 0.08 : b);
       /* every draw runs whatever the boundary turns out to be [Law 7] */
       for(let i = 0; i < sections.length; i++){
         const s = sections[i], prev = sections[i - 1];
-        const arriveN = pick(J.arrive), brakeN = pick(J.brake);
-        const departN = pick(J.depart), guardN = pick(J.guard);
-        const lvlA = (J.level ? J.level[0] : 0.20) + jr() * (J.level ? J.level[1] : 0.08);
-        const lvlD = (J.level ? J.level[0] : 0.20) + jr() * (J.level ? J.level[1] : 0.08);
-        const intoTown = s.fn === PAY && (!prev || prev.fn !== PAY);
-        const outOfTown = prev && prev.fn === PAY && s.fn !== PAY;
-        if(intoTown && arriveN){
-          /* THE BRAKES LAND BEFORE THE DOWNBEAT, not on it: a train stops and
-             THEN the town is quiet. The squeal runs into the section it ends,
-             which is what the recording does. */
-          const m = ERANG.meta(arriveN), len = m.n / ERANG.rate;
-          put(arriveN, s.startBar * barSec - len * 0.72, lvlA, len + 0.4);
-          if(brakeN && jr() < (J.brakeAlso == null ? 0.4 : J.brakeAlso))
-            put(brakeN, s.startBar * barSec - len * 0.72 - 0.6, lvlA * 0.7);
+        const A = s.startBar * barSec, END = s.endBar * barSec;
+        const approachN = pick(J.approach), arriveN = pick(J.arrive), brakeN = pick(J.brake);
+        const standN = pick(J.stand), valveN = pick(J.valve);
+        const doorsN = pick(J.doors), crowdN = pick(J.crowd);
+        const callN = pick(J.call), guardN = pick(J.guard);
+        const departN = pick(J.depart), cbellN = pick(J.cbell);
+        const lvlA = lvl(J.level && J.level[0], J.level && J.level[1]);
+        const lvlD = lvl(J.level && J.level[0], J.level && J.level[1]);
+        const lvlB = lvl(J.standLevel && J.standLevel[0], J.standLevel && J.standLevel[1]);
+        const stops  = prev && hasRun(prev) && !hasRun(s);
+        const starts = prev && !hasRun(prev) && hasRun(s);
+        if(stops){
+          /* 1. THE LONG BLAST — one long is "approaching a station" in the
+             railroad's own code, and it is the first thing you hear, well
+             before the town [GCOR whistle signals; sheet §4]. */
+          if(approachN) put(approachN, A - 15.5, lvlA * 0.8);
+          /* 2. THE BRAKES land BEFORE the downbeat and run INTO it: a train
+             stops and THEN the town is quiet. */
+          if(arriveN){
+            const m = ERANG.meta(arriveN), len = m.n / ERANG.rate;
+            put(arriveN, A - len * 0.72, lvlA, len + 0.4);
+            if(brakeN && jr() < (J.brakeAlso == null ? 0.4 : J.brakeAlso))
+              put(brakeN, A - len * 0.72 - 0.6, lvlA * 0.7);
+          }
+          /* 3. THE RUNNING SOUND STOPS — nothing is written here, and that is
+             the point of the whole build: the drone role has ended, so the
+             train has. The silence is the arrangement's, not an effect's. */
+          /* 4. AND SOMETHING STANDS IN ITS PLACE, or the record falls into a
+             hole. A stopped steam engine is not silent: the station's own room
+             tone under the section, and the safety valve lifting over it. */
+          const stand = Math.max(1, END - A);
+          if(standN) put(standN, A, lvlB, stand);
+          if(valveN) put(valveN, A + 0.8, lvlB * 0.9, Math.max(1, stand - 1));
+          /* 5. THE DOORS, and 6. THE PLATFORM — people getting on, which is
+             what the town is FOR. */
+          if(doorsN) put(doorsN, A + barSec * 0.5, lvlA * 0.85);
+          if(crowdN) put(crowdN, A + barSec * 0.25, lvlB * 1.1,
+                         Math.max(1, stand - barSec * 0.25));
         }
-        if(outOfTown && departN){
-          /* AND THE DEPARTURE IS ANNOUNCED BEFORE IT HAPPENS: the guard blows,
-             then the engine answers, then the train moves — so the signal sits
-             ahead of the downbeat the music starts on. */
-          if(guardN) put(guardN, s.startBar * barSec - 2.2, lvlD * 0.85);
-          put(departN, s.startBar * barSec - 1.2, lvlD);
+        if(starts){
+          /* 7. THE CONDUCTOR CALLS — all aboard — BEFORE the train moves. At
+             EVERY stop: the build before this drew it once a record, and a
+             conductor calls at every station. */
+          if(callN) put(callN, A - 10.5,
+                        lvl(J.callLevel && J.callLevel[0], J.callLevel && J.callLevel[1]));
+          /* 8. the doors again, 9. the guard's whistle, 10. the engine answers */
+          if(doorsN) put(doorsN, A - 6.0, lvlD * 0.8);
+          if(guardN) put(guardN, A - 3.2, lvlD * 0.9);
+          if(departN) put(departN, A - 1.6, lvlD);
+          /* 11. THE RUN STARTS AGAIN on the downbeat — again nothing written
+             here; the section carries `drone` and the train is back.
+             12. AND THE CONDUCTOR'S BELL ONCE IT IS MOVING, which is the
+             owner's "makes a call before and after the train starts again". */
+          if(cbellN) put(cbellN, A + barSec * 0.75, lvlD * 0.75);
         }
-      }
-      /* THE RECORD LEAVES THE YARD. The opening section ends with the train
-         pulling out: the guard's whistle, then the engine. Every record gets
-         one, which is what makes the genre audible as itself inside the
-         first minute rather than at its first town. */
-      if(J.departAtStart !== false && sections.length > 1){
-        const first = sections[0];
-        const gN = pick(J.guard), dN = pick(J.depart);
-        const at = first.endBar * barSec;
-        if(gN) put(gN, at - 2.4, (J.level ? J.level[0] : 0.4) * 0.9);
-        if(dN) put(dN, at - 1.3, (J.level ? J.level[0] : 0.4));
-      }
-      /* THE CONDUCTOR, ONCE. Drawn a section, not a second: it lands on the
-         downbeat of a town that is not the first one, so the record has
-         already taught you what a town sounds like before a voice calls in it. */
-      const callN = pick(J.call);
-      if(callN && jr() < (J.callChance == null ? 0.7 : J.callChance)){
-        const towns = sections.filter(s => s.fn === PAY);
-        const at = towns.length > 1 ? towns[1 + Math.floor(jr() * (towns.length - 1))] : towns[0];
-        if(at) put(callN, at.startBar * barSec + barSec * 0.5,
-                   (J.callLevel ? J.callLevel[0] : 0.16) + jr() * (J.callLevel ? J.callLevel[1] : 0.06));
       }
       /* ══ AND THE LANDSCAPE PASSES ═══════════════════════════════════════════
          The genre's own device [docs/genre-research/boxcar-synth.md §8]: a
@@ -36961,7 +37343,10 @@ function makePerformance(chart, form, materials, sections){
       const passPool = (J.pass || []).filter(has);
       if(passPool.length){
         for(const s of sections){
-          if(s.fn === PAY) continue;
+          /* asked of the arrangement, exactly as the stop script is: a
+             STANDING train passes nothing, and standing is "this section does
+             not carry the train" rather than "this section is called chorus" */
+          if(!hasRun(s)) continue;
           const n = Math.floor(jr() * ((J.passPer == null ? 1.6 : J.passPer) + 1));
           for(let k = 0; k < n; k++){
             const nm = passPool[Math.floor(jr() * passPool.length) % passPool.length];
@@ -37194,6 +37579,36 @@ function makePerformance(chart, form, materials, sections){
             voice,
             role, lane: n.lane || role, gain,
           };
+          /* ══ THE GROUND STOPS AT THE EDGE OF THE SECTION HOLDING IT ═══════
+             `drone.cut` is a genre's declaration that its continuous ground
+             must not outlive the section it was written in. Nine genres say
+             nothing and are byte-identical; boxcar synth says it because its
+             ground is a TRAIN, and a train that rings four bars into the town
+             it just pulled into has not arrived anywhere.
+
+             MEASURED and this is why it is needed: the drone lane writes one
+             note per material cycle, and a material is 4 or 8 bars while a
+             section is 12 to 20 — so the last cycle of a 12-bar section with
+             an 8-bar material runs FOUR BARS past its own section, straight
+             through the downbeat the record is supposed to fall silent on.
+             The arrangement said stop and the note did not.
+
+             AND `halt` IS WHAT COMES NEXT, decided here because this is the
+             only place that can see it: the last note before a town is the one
+             that has to slow into the platform, and V.trainbox comes off the
+             regulator for its final seconds when it is set. */
+          if(role === "drone" && chart.table.drone && chart.table.drone.cut){
+            const endSec = sec.endBar * STEPS * spb;
+            if(ev.tSec + ev.durSec > endSec)
+              ev.durSec = Math.max(spb, endSec - ev.tSec);
+            const nxt = sections[sections.indexOf(sec) + 1];
+            /* asked of the ARRANGEMENT rather than of the section's name: the
+               ground stops wherever the next section does not carry it, which
+               is the same question the listener's ear is asking */
+            const stops = !nxt || !(nxt.active || []).includes("drone");
+            if(stops && Math.abs(ev.tSec + ev.durSec - endSec) < spb * 1.5)
+              ev.halt = true;
+          }
           if(role === "keys"){ ev.timbre = chart.keysChar; }
           /* ...and the tune carries its own, so `V.lead` can hand the note to
              the instrument the genre named. The counter is the same player's
@@ -38629,6 +39044,16 @@ function composeSong(seed, rig, genre, picks, pins, edits, traitRoll, traits, wa
     /* WHICH CHANGES THIS MATERIAL IS ON. C is the bridge and has its own. */
     const chSet = materials.chordsOf[m] || materials.chords;
     for(const role in materials[m]){
+      /* ── AN UNPITCHED GROUND IS NOT A PART IN THIS RECKONING ──────────────
+         Both laws below are about PITCHES: that no two parts sound the same
+         one at the same instant, and that every pitch is spelled by the
+         harmony. A genre declaring `drone.unpitched` has said its ground is a
+         RECORDING and the written note only nudges its playback rate a few
+         percent [see clearAgainst, and V.trainbox] — so it is in unison with
+         nothing and belongs to no chord, and holding it to either law is
+         asking a train whether it is in the key. Nine genres declare nothing
+         and are checked exactly as before. */
+      if(role === "drone" && chart.table.drone && chart.table.drone.unpitched) continue;
       /* the part IN ORDER, and as a LOOP -- the note after the last one is the
          first one, because a material is four bars that repeat. Needed by the
          law below, which asks what a note does NEXT. */

@@ -70,6 +70,63 @@ drums' silence in town sections is structural, the single most legible
 journey fact in the whole design. What sounds in town: steam hiss (the
 standing engine), the station, the bell, voices of the place.
 
+### 3a. AND THE RUNNING SOUND IS THE GROUND — corrected 2026-08-15
+
+The owner, having listened to build `2026-08-15u`:
+
+> *"Its boxcar synth how can it be that if the train sound is not the
+> backbone of the whole song? Its the drone for the genre... It needs to be
+> automated just like a drone would be with lfo and fx... at times it should
+> be louder at other times it should fade to the backbeat and be the heart
+> beat that keeps the track moving."*
+
+He was right, and what was wrong was **architectural, not a level**. Phase 3
+played the run as an ATMOSPHERE BED: one event drawn per record, playing
+continuously and quietly under everything. It never stopped. The drums
+stopped in a town and the train did not — so nothing on the record ever
+actually **arrived**, and the fact §3 calls "the single most legible journey
+fact in the whole design" was silently destroyed by the way the sound was
+wired. No amount of gain would have fixed it; `15u` raised the levels and
+made the record louder without making it a journey.
+
+**The run is the `drone` role.** That role is this program's continuous
+ground — its own lane, its own machine (`trainbox`), its own mixer channel
+and fader, its own lanes in the genre's motion table. Boxcar synth's ground
+is the train, so the train is that machine, and three things follow without
+being written:
+
+| what the genre needs | where it now comes from |
+|---|---|
+| the run stops in a town | the town's `form.roles` does not name `drone` |
+| the run has a fader | the drone strip already exists |
+| the run is automated | `motion.trainbox` is read by the drone's own reader |
+
+Read the arrangement column downward and it is the record: **intro** the
+yard (standing) · **verse** and **instrumental** rolling · **chorus** THE
+TOWN, no drums and no train · **bridge** the night run · **outro** pulling
+away.
+
+The level is the story, in the owner's own terms: back to a **heartbeat**
+under the verses where the tune is speaking, **forward** in the
+instrumental and furthest forward in the night run where the train is
+nearly all there is, **receding** in the outro — plus an apex lane so two
+records with the same sections do not tell it at the same moment.
+
+**And nothing was surrendered to make room for it** [owner: *"If a drone
+itself is needed then make it happen, your acting like there is some limit
+when thats not how music works is it"*]. The harmonic ground goes on beside
+the train: the bass still holds its pedal (`bassStyle: "drone"`), the
+second keyboard still carries the choir pad. A layer is a decision per
+record, never a budget.
+
+Two engine facts the machine is built on, both audible rather than
+decorative: a working engine is **never metronomic** (the DRIFT knob wanders
+the playback rate, which is the regulator being worked), and it **comes off
+the regulator before the platform** — the last run event before a town
+carries `halt`, and slows to 55% of its rate over its final three seconds.
+A train that simply stops at a bar line is an edit; one that coasts in has
+arrived.
+
 ## 4. The conductor's language (the owner's chosen voice)
 
 From the **General Code of Operating Rules** whistle signals [Trains
@@ -83,10 +140,51 @@ Magazine, "Whistle signals"; GCOR]:
   never uses it is normal)
 
 Plus the station/crossing **bell**. These are real railroad speech — the
-section boundaries of the journey form get announced in it. The
-synthesized "all aboard" (a formant call, clearly artificial, far off and
-band-limited) is a **once-per-record accent at most** — Belkin's held-back
-colour, exactly like dungeon synth's thunder.
+section boundaries of the journey form get announced in it.
+
+### 4a. THE STOP IS A SCRIPT — corrected 2026-08-15
+
+> *"The breaks come before the stop and the train sound stops people get on
+> the conductor makes a call before and after the train starts again."*
+> — the owner
+
+Phase 3 had step one and step five of that and nothing between, so a stop
+was two effects rather than an event. It is now the whole sequence, **in
+that order, at every town**:
+
+| # | ARRIVING | the recording |
+|---|---|---|
+| 1 | one long blast — a station ahead | `railWhistle` |
+| 2 | the brakes, running into the downbeat | `railArrive` / `railBrake` |
+| 3 | **THE RUNNING SOUND STOPS** | nothing — the arrangement |
+| 4 | the station stands, the safety valve lifts | `railTown` + `railValve` |
+| 5 | the doors | `railDoors` |
+| 6 | the platform | `railCrowd` |
+
+| # | LEAVING | the recording |
+|---|---|---|
+| 7 | the conductor: *all aboard* | `railCall` |
+| 8 | the doors again | `railDoors` |
+| 9 | the guard's whistle | `railGuard` |
+| 10 | the engine answers | `railDepart` / `railPeep` |
+| 11 | **THE RUN STARTS AGAIN** | nothing — the arrangement |
+| 12 | the conductor's bell, once it is moving | `railCbell` |
+
+Steps 3 and 11 are the two that are not written anywhere, and they are the
+two the genre is made of.
+
+**The call is at EVERY stop.** Phase 3 drew it once a record, on the
+held-back-colour argument — but that argument is about a colour, and a
+conductor calling the train out is not a colour, it is what a conductor
+does. The reserve is kept elsewhere: the alarm signal (a succession of
+short blasts) is still never used.
+
+**The script is driven off the arrangement, not off a section's name**: a
+town is a section that does not carry the `drone` role, because that role
+is the train. The same fact decides the sound and the story, so they cannot
+drift apart — and the record leaving the yard stopped being a special case
+(`departAtStart` is deleted), because the intro carries no train either and
+the first verse is a departure like every other.
 
 A real American steam whistle is a **chord** — multi-note chime whistles
 (3–6 pipes) are why the lonesome sound is a cluster, not a note [Trains
