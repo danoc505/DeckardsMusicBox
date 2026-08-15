@@ -56,6 +56,7 @@ protection comes from our *method* (above), not from the source's jurisdiction.
 | Weimar Jazz DB (456 recorded solos) | chord **changes** only (no melodies) | progressions non-copyrightable; ODbL DB |
 | Grammar (order-2 Markov over the pooled corpus) | **nothing** — new contours, rhythms & progressions generated from statistics | no source material retained; strongest position |
 | **mda ePiano sample bank** (MK2's Rhodes) | the **audio samples themselves** — 422,418 shorts, 33 zones | **MIT**, © 2008 Paul Kellett — see the note below |
+| **BBC Sound Effects archive** (Boxcar Synth's rail/scene bank) | trimmed, measured ADPCM excerpts of 15 recordings (steam trains, brakes, whistles, bells, birds, a stream) | BBC RemArc licence: **personal/educational/research use**, no commercial use — this program is personal and not distributed; stated honestly as weaker than CC0, like the Philharmonia position. IDs and windows in `harness/rail_bank.py` |
 
 ### The one place we DO ship someone else's audio — and how it was checked
 

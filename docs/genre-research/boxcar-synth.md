@@ -1,0 +1,203 @@
+# BOXCAR SYNTH — the founding sheet of a new subgenre
+
+*Researched 2026-08-15. The owner is founding a subgenre of dungeon synth,
+inspired by comfy synth, dinosynth, and dungeon synth: the railroad, the
+hobo, the journey. Decisions the owner has already made: the name is
+**Boxcar Synth** (`boxcarsynth`); the mood center is the **bittersweet
+journey** (comfy warmth AND lonesome dark in one record); the conductor
+speaks in **whistle-and-bell language**, with a synthesized far-off
+"all aboard" as a rare accent. The owner's design brief, verbatim intent:
+steam, tracks, conductor calls, "the brakes every so often signal stopping
+in a town and then the change in the song", birds and rivers as the train
+passes, "a change in key and tone to show the change of time from dark to
+light" — and rule 5: "our genre is marked by its movement, not its stale
+repetition, but the texture varied is something we do want."*
+
+## 1. The parents
+
+**Dungeon synth** — the five sheets already in this folder. What boxcar
+synth inherits: the imagined past rendered on synths, lo-fi as commitment,
+modal writing, the record as a place.
+
+**Comfy synth** [Dazed, "The inside story of comfy synth"; RYM genre page;
+Invisible Oranges digest #9]: born 2019 with Grandma's Cottage's *Cottage*
+EP. "Calm, peaceful, or soothing, **often times melancholic and
+bittersweet**", "low fidelity and hazy recordings", "**minimalist, looping
+synth patterns and gentle melodies**", "plinking pianos and hazy
+synthesiser arrangements". Themes are the wholesome small ("picking beans,
+sipping on glasses of milk, going fishing") and its nostalgia is "a mix of
+actual memories as well as **borrowed ones from an imagined simpler
+time**". Boxcar synth takes: the warmth, the smallness of the tunes, the
+bittersweet center.
+
+**Dinosynth** [Dungeon Synth Wiki; admindagency]: "an extreme consequence
+of dungeon synth logic — **if the point of interest is the (imagined) past,
+why stop at the Middle Ages?**" And its method: DIEGETIC sound as a genre
+marker (stock animal roars, documentary narration laid into the music).
+Boxcar synth takes: the founding move (our imagined past is the American
+railroad, 1880s–1930s) and the method (the train's own sounds ARE genre
+material, not decoration).
+
+## 2. The one law: MOVEMENT
+
+The owner's rule 5 is the genre's constitution. Dungeon synth stands still
+in a place; **boxcar synth passes through places**. The materials repeat —
+comfy synth's looping patterns — but the landscape around them changes:
+scene sounds rotate, instruments hand off, the register and the room vary.
+Variation lives in TEXTURE, never in note-churn (the same criterion the
+dungeon synth critique sheet holds: "simple, not simplistic"). A boxcar
+record has a geography: it departs, travels, stops in towns, and arrives.
+
+## 3. The train is the drummer — and the tempo is the speed
+
+Standard American jointed rail came in **39-foot lengths** (cut to fit
+40-foot gondola cars) [Wikipedia, Rail profile/track]. A wheel passes one
+joint per rail length, so the click rate IS the train's speed:
+
+    clicks per minute = mph × 5280 / 39 / 60 = mph × 2.256
+
+    25 mph  →  56 clicks/min          40 mph  →  90 clicks/min
+
+So a cruising local sits at **56–90 joint-clicks a minute — exactly a slow
+musical tempo band**, and boxcar synth's tempo IS its train's speed, one
+click to the beat. The "clickety-clack" doubling comes from the truck
+(bogie): two axles a few feet apart hit the same joint as a quick pair —
+a flam, not two beats — so the kit writes *da-da . . da-da*, pairs of
+soft clicks, not a metronome. [derivation; the 39-ft length sourced]
+
+**In town the track rhythm STOPS.** A standing train has no clicks — the
+drums' silence in town sections is structural, the single most legible
+journey fact in the whole design. What sounds in town: steam hiss (the
+standing engine), the station, the bell, voices of the place.
+
+## 4. The conductor's language (the owner's chosen voice)
+
+From the **General Code of Operating Rules** whistle signals [Trains
+Magazine, "Whistle signals"; GCOR]:
+
+- **two long blasts** — brakes released, train about to move: THE DEPARTURE
+- **one long** — approaching a station: THE ARRIVAL WARNING (with the brakes)
+- **long–long–short–long** — approaching a public grade crossing (still law
+  today): heard mid-journey as the train passes a road
+- a **succession of short blasts** — alarm (held in reserve; a record that
+  never uses it is normal)
+
+Plus the station/crossing **bell**. These are real railroad speech — the
+section boundaries of the journey form get announced in it. The
+synthesized "all aboard" (a formant call, clearly artificial, far off and
+band-limited) is a **once-per-record accent at most** — Belkin's held-back
+colour, exactly like dungeon synth's thunder.
+
+A real American steam whistle is a **chord** — multi-note chime whistles
+(3–6 pipes) are why the lonesome sound is a cluster, not a note [Trains
+Magazine; steam whistle references]. The synthesized whistle voice is
+therefore a small pipe-chord with breath, not a sine.
+
+## 5. Dark to light — the key change is the clock
+
+The owner: "a change in key and tone to show the change of time from dark
+to light." The program already owns this machinery (`keyShift`, built from
+the Miles Davis modulations — docs/genre-research/key-shift.md): a
+**zero-semitone shift with a mode change is the parallel minor→major** —
+same tonic, the light switched on — and the LIFT restates the record's own
+material in the new mode across the middle third of the record. Night
+becomes morning over the same landscape, which is THE genre gesture.
+`bridgeProgressions` therefore must include **major** (and likely
+mixolydian — the folk dominant) so the derived mode-set contains the
+light. Weighted so most records travel toward light, some travel into
+night: bittersweet, per the owner's chosen center.
+
+## 6. The scene material — sourced, licence stated
+
+**BBC Sound Effects archive** (sound-effects.bbcrewind.co.uk), the "Age of
+Steam" collection and the natural history library. Licence: the archive's
+RemArc/BBC content licence permits **personal, educational and research
+use**; commercial use is excluded. This program is personal and not
+distributed (standing rule, README): the use fits, and the position is
+stated honestly here as WEAKER than CC0, like the Philharmonia recordings
+already in the file. What ships is a measured, trimmed, ADPCM-encoded
+excerpt bank, not the archive.
+
+The journey vocabulary, chosen from the catalog by description and length
+(IDs are the archive's own):
+
+| family | id | what it is |
+|---|---|---|
+| railRun (bed, loop) | 07041063 | steam train interior, constant run — the clickety bed |
+| railRun (bed, loop) | 00008117 | train interior, second colour |
+| railSteam (bed, loop) | 07045052 | letting off steam — the STANDING engine, the town's hiss |
+| railStation (bed, loop) | 07035168 | station atmosphere, steam era — the town |
+| railArrive (one-shot) | 07045054 | arrives at station: squealing brakes and doors — INTO TOWN |
+| railBrake (one-shot) | 07041052 | screech of brakes, 20 s — the short brake signal |
+| railDepart (one-shot) | 07045057 | departs with whistle at the start — OUT OF TOWN |
+| railWhistle (one-shot) | 07041116 | whistle, then the train departs (Ffestiniog) |
+| railClank (one-shot) | 07006097 | coupling trucks in a goods yard |
+| railBell (one-shot) | 07071133 | level-crossing bell, train crosses |
+| railPass (one-shot) | 07045051 | passes through the station without stopping — THE PASSING |
+| railPass (one-shot) | 07006086 | fast goods train passing |
+| sceneRiver (bed, loop) | 07044100 | small stream |
+| sceneBirds (bed, loop) | NHU05008110 | dawn chorus in a wet forest |
+| sceneBirds (bed, loop) | NHU05073129 | riverside at midday, birds and insects |
+
+Encoded by `harness/rail_bank.py` in the erang bank's exact row format
+(name, fam, off, n, root −1, loop points measured/trimmed, pk), a fourth
+payload beside ERANG/TAIKO/GURDY. Loopable rows are BEDS, one-shots are
+EVENTS — the same measured split the atmos system already reads.
+
+## 7. The hobo band — sources found
+
+- **Banjo, mandolin, guitar** — the Philharmonia Orchestra samples (the
+  contrabassoon's own source, same licence position, same fetch pipeline).
+- **Harmonica** — VCSL (CC0): Hohner Special 20 diatonic in C and F, and a
+  Super 64 chromatic. The blues harp is the hobo instrument.
+- **Train whistle (toy)**, **Brake Drum** (a literal struck brake drum —
+  freight-yard percussion), **Anvil** (spike driving), claps, cowbells,
+  Strumstick, two upright pianos (the mission-hall piano) — VCSL (CC0).
+- **The glass slide** — no free recorded bottleneck-slide set found; the
+  voice is SYNTHESIZED honestly: a continuous-pitch lead (portamento is
+  what a slide IS) with a resonant body, the ribbon/sax engines as
+  precedent. Recorded here so the omission of a recording is a decision.
+
+## 8. The era's decay — novel devices, not dungeon synth's tape
+
+The owner: "are there other interesting degradation techniques we could
+use to get our own novel sound?" Dungeon synth owns warped TAPE (and the
+critique sheet's TDBS case shows decay as composition). Boxcar synth
+records to ITS era's machines instead:
+
+- **The gramophone / 78 shellac**: horn-loaded playback is a bandpass
+  (roughly 250 Hz–3 kHz before electrical recording), constant surface
+  crackle, and once-per-revolution wow — at 78 rpm one revolution is
+  **0.77 s**, a slow pitch wobble no tape has.
+- **The AM radio**: static bed, hard band-limit, slow tuning drift that
+  momentarily detunes the whole record into noise and back.
+- **THE PASSING** (the genre's own, novel): sounds that approach, pass,
+  and recede — gain, pan and low-pass shaped by distance, with the pitch
+  dipping as it passes (the doppler everyone knows from a train). Not a
+  degradation of the record but a rendering of motion; no other genre in
+  the program has it, and it is rule 5 made audible.
+
+## 9. What is built, in phases (the plan of record)
+
+Phase 0 this sheet + the rail payload · Phase 1 the hobo band
+(banjo/harmonica/whistle/slide/kit lanes) · Phase 2 the genre table
+(travel→town plan, town = payoff, keyShift dark→light, atmos on rail
+beds) · Phase 3 the journey devices (brakes into town, two-longs out,
+towns silence the track, the passing, the all-aboard) · Phase 4 the
+gramophone/radio decay · Phase 5 guards and the battery. Blast radius of
+a NEW genre: zero movement in existing genres (the ambient precedent,
+measured), plus 300 new baseline rows.
+
+## Sources
+
+- [Dazed — The inside story of comfy synth](https://www.dazeddigital.com/music/article/58365/1/the-inside-story-of-comfy-synth-the-internets-snuggliest-microgenre)
+- [RYM — Comfy Synth genre page](https://rateyourmusic.com/genre/comfy-synth/)
+- [Invisible Oranges — Dungeon Synth Digest #9: Comfy Synth](https://www.invisibleoranges.com/dungeon-synth-digest-9)
+- [Dungeon Synth Wiki — Dino Synth](https://dungeonsynthwiki.com/Dino_Synth)
+- [admindagency — Dungeon Synth aesthetic: the Middle Ages, a grandma's hut, and dinosaurs](https://admindagency.com/dungeon-synth-aesthetic/)
+- [Trains Magazine — Whistle signals (GCOR table)](https://www.trains.com/trn/train-basics/abcs-of-railroading/whistle-signals/)
+- [Strasburg Rail Road — the language of the train whistle](https://strasburgrailroad.com/train-whistle-meanings/)
+- [Wikipedia — Train whistle / Steam whistle (chime whistles)](https://en.wikipedia.org/wiki/Train_whistle)
+- [BBC Sound Effects archive](https://sound-effects.bbcrewind.co.uk/) (RemArc licence — personal/educational use)
+- [VCSL — Versilian Community Sample Library, CC0](https://github.com/sgossner/VCSL)
+- [Philharmonia Orchestra sound samples](https://philharmonia.co.uk/resources/sound-samples/)
