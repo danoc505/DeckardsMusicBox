@@ -63,7 +63,23 @@ should be built on top of this stack until it has been played.**
 
 ## 0a. WHAT IS STILL NOT BUILT — the whole open list, `2026-08-13`
 
-> ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-14a` … `2026-08-15p`
+> ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-14a` … `2026-08-15t`
+>
+> **The instruments play like instruments, `2026-08-15q`** — the owner's
+> correction, and task #38 closed with it: a note is now capped at what the
+> instrument can ring, chords written for a one-reed instrument arpeggiate,
+> a note arriving while the hands are full ends the oldest, and a plucked
+> instrument re-strikes a long note. Dungeon synth and hobbit synth records
+> moved, which is the correction working.
+>
+> **Boxcar synth phases 3-5, `2026-08-15r`..`15t`** — the journey you can
+> hear (brakes into town, the guard's whistle out, a real recorded conductor
+> calling once a record, and THE PASSING with its measured swell, filter
+> sweep, stereo crossing and doppler dip); THE MEDIUM (shellac at 78 with its
+> 1.30 Hz once-per-revolution wobble, or an AM set at 5 kHz, both sourced and
+> A/B measured, with the decay as an arc across the record); and
+> probe_journey.js holding all nine of the genre's claims, driven to failure
+> on purpose.
 >
 > **Boxcar synth, `2026-08-15n`..`15p`** — a NEW GENRE, the owner's own:
 > the rails as the imagined past. The founding sheet, the BBC rail/scene
@@ -346,7 +362,7 @@ not a new fault.
 
 *Asked for in as many words: "add what everything we have failed to implement
 to the todo file". This is that list, on the branch `claude/code-review-6jd9cz`,
-current as of build `2026-08-15p`.*
+current as of build `2026-08-15t`.*
 
 **EVERY NUMBER BELOW WAS MEASURED TODAY, not remembered.** The probes that
 produced them are named at each item so any of it can be re-checked in one

@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-15p` unless it says otherwise (the
+*Everything below is verified at `2026-08-15t` unless it says otherwise (the
 newest build; its entry is under "What happened last"). If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
@@ -123,7 +123,7 @@ while both files carried an identical stamp, so three commits of work went
 unjudged. Bump the stamp in the HTML, run `node harness/mk2_stamp.js write`,
 and republish **the same artifact URL**:
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-Current: `build 2026-08-15p`. **And read the stamp back off the LIVE PAGE
+Current: `build 2026-08-15t`. **And read the stamp back off the LIVE PAGE
 afterwards** — `mk2_stamp.js check` compares the build to a RECORD of what was
 published, which is not the same claim as the page agreeing with either.
 
@@ -135,6 +135,48 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Builds `2026-08-15q`..`2026-08-15t` — THE INSTRUMENTS PLAY LIKE INSTRUMENTS,
+AND BOXCAR SYNTH IS FINISHED THROUGH PHASE 5.**
+
+`15q` is a CORRECTION the owner called: *"We cant just shove new instruments
+into an old genre... The new instruments do not feel like they should."*
+Right, and the file had already written the warning — its instrument-family
+list says "this list is the FIRST thing a new voice joins" and the last three
+builds joined none of them. Measured: 49% of banjo notes were written longer
+than a banjo string rings, and the bassoon — one player, one reed — was being
+handed nine simultaneous notes. Researched (harmonica players "play chords as
+arpeggios as substitutes for chords that are impossible"; a banjo sustains by
+re-striking — tremolo, roll, clawhammer brush) and built: chords written for
+a one-reed instrument ARPEGGIATE, a note arriving while the hands are full
+ENDS THE OLDEST, and a plucked instrument given a long note RE-STRIKES it,
+each stroke softer. This MOVED dungeon synth and hobbit synth records (22 and
+11 of 25 seeds) — the correction working, since those genres play the
+bassoon and contrabassoon.
+
+`15r` — **the journey you can hear**: seven more BBC recordings including a
+real station announcement (a human voice, indiscernible through the horn —
+the conductor), the guard's whistle, a conductor's bell. Brakes land BEFORE
+a town's downbeat; the departure signal sits ahead of the music; the
+conductor calls once a record and never in the first town; and THE PASSING —
+a sound that approaches, passes and recedes (measured: +23 dB swell, the top
+opening 900 Hz→6.5 kHz and closing, the recede right-channel-only, a 4%
+doppler dip).
+
+`15s` — **the medium**: shellac at 78 or an AM set, on the master after the
+tape. The gramophone's sourced 100 Hz–8 kHz and its 1.30 Hz once-per-
+revolution wobble (a 78 turns every 0.769 s — arithmetic, not taste); the AM
+set's 5 kHz voice band and drift. Measured A/B: the gramophone keeps its
+middle and loses 18 dB of top, the radio loses bottom AND top. The decay is
+an ARC across the record, and towns come up out of the murk.
+
+`15t` — **`harness/probe_journey.js`**: nine checks, one per claim the genre's
+sheet makes, driven to failure on purpose (adding drums to a town makes it
+fail and name the towns; restoring passes). Battery **186/1** — the one red
+is still the ruled blend item.
+
+**NOT JUDGED BY EAR.** Not one boxcar record, and not the corrected dungeon
+synth. That is the whole outstanding question.
 
 **Builds `2026-08-15n`..`2026-08-15p` — BOXCAR SYNTH, A NEW GENRE IN THREE
 BUILDS.** The owner founded a subgenre: dungeon synth's imagined-past logic
