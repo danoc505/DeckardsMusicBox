@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15x · the train stops fading, and every scene sound has a place and a reason</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15y · the trip is planned first — stations, terrain, a clock, and weather fronts</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -29158,29 +29158,51 @@ GENRE.boxcarsynth = {
      what it actually is — the LANDSCAPE the train is passing through. */
   atmos: { fams: ["sceneRiver", "sceneBirds", "railClank", "railBell"],
            level: [0.17, 0.10], accent: 0.7, accentLevel: [0.34, 0.16] },
-  /* ── THE ROUTE THE TRAIN TAKES ───────────────────────────────────────────
-     [owner: "the enviromental sounds need a location and reason ... Are we
-     passing a river? Did this stop stop in the forest or a city?"]
+  /* ── THE LINE THIS TRAIN RUNS ON ─────────────────────────────────────────
+     [owner: "create a SFX route planner for the song that Simulating a train
+     ride, this way the songs sfx is planned according to the trip"]
 
-     A WALK, not a shuffle: from open country you reach the woods or the water;
-     from the woods you come out into the open or down to a river; you do not
-     cross two rivers running. `sound` is how often a stretch actually says
-     anything — OPEN COUNTRY IS SILENT MORE OFTEN THAN NOT, and that silence is
-     what makes the river mean something when it arrives. The stops are drawn
-     city or country halt, and that decides what standing there sounds like.
-     [CHOSEN weights; the beds are the pack's own] */
-  route: {
-    start: "open",
+     The itinerary, declared. `secs` is how long a stretch of this terrain
+     lasts IN SECONDS — that is what frees the landscape from the bar line, and
+     it is why a river can arrive in the middle of a verse. `sound` is how
+     often the place says anything at all; `day` means its sound is an animal
+     and therefore a fact about the CLOCK; `crossing` is how often a public
+     road cuts the line here, which is the one place the researched whistle
+     signal belongs [sheet §4].
+
+     Read the `to` weights as a map and it is a real branch line: you leave the
+     yard through farmland, the country opens out, the woods come and go, and
+     the river is something you cross rather than somewhere you stay.
+     [CHOSEN weights and lengths; the beds and the signal are sourced] */
+  trip: {
+    start: "farm",
     level: [0.15, 0.08],
-    places: {
-      open:  { beds: ["sfx_wind"], sound: 0.35,
-               to: [["open", 3], ["woods", 3], ["river", 2]] },
-      woods: { beds: ["sceneDawn"], sound: 0.85,
-               to: [["woods", 2], ["open", 4], ["river", 2]] },
-      river: { beds: ["sceneRiver", "sceneRiverside"], sound: 1,
-               to: [["open", 5], ["woods", 3]] },
+    passLevel: [0.42, 0.20],
+    signalLevel: [0.34, 0.14],
+    longWhistle: ["railWhistle"], shortWhistle: ["railPeep"], crossBell: ["railBell"],
+    stations: [["city", 3], ["halt", 2]],
+    /* the ride starts before dawn and takes most of a day: that is the
+       genre's dark-to-light clock made literal, and it is what decides
+       whether there are birds [sheet §5] */
+    startHour: [4.5, 2.5],
+    hours: [5, 6],
+    dawn: 6, dusk: 20.5,
+    terrain: {
+      farm:  { beds: ["sceneDawn"], dawnBeds: ["sceneDawn"], day: true, sound: 0.45,
+               secs: [35, 30], crossing: 0.45,
+               to: [["open", 4], ["woods", 2], ["farm", 1]] },
+      open:  { beds: ["sfx_wind"], sound: 0.3, secs: [45, 45], crossing: 0.25,
+               to: [["open", 2], ["woods", 3], ["river", 2], ["farm", 2]] },
+      woods: { beds: ["sceneDawn"], dawnBeds: ["sceneDawn"], day: true, sound: 0.8,
+               secs: [30, 30], crossing: 0.1,
+               to: [["open", 4], ["river", 2], ["woods", 1]] },
+      /* a river is CROSSED. It has no bed of its own for that reason — what
+         you hear is the water arriving and going, which is `passing`. */
+      river: { beds: ["sceneRiver", "sceneRiverside"], sound: 0.35, secs: [18, 14],
+               passing: 0.85, passing_beds: ["sceneRiver"],
+               to: [["open", 5], ["woods", 3], ["farm", 2]] },
     },
-    stops: [["city", 3], ["halt", 2]],
+    fronts: { chance: 0.55, span: [0.12, 0.20] },
   },
   /* ── THE WEATHER THE JOURNEY IS MADE IN ──────────────────────────────────
      [owner, 2026-08-15: "We should also have a weather channel for rain,
@@ -37618,9 +37640,13 @@ function makePerformance(chart, form, materials, sections){
     if(/wind|thunder|rain|blizzard|storm/i.test(n || "")) return "weather";
     return "tape";
   };
-  /* A GENRE WITH A ROUTE DOES NOT GET THE ONE-BED-PER-RECORD ATMOSPHERE:
-     that bed is the thing the route replaces. See THE ROUTE below. */
-  if(chart.atmos && !chart.table.route){
+  /* A GENRE WITH A PLANNED TRIP DOES NOT GET THE ONE-BED-PER-RECORD
+     ATMOSPHERE: that bed is the thing the plan replaces, and leaving it in
+     puts a river under the entire record again underneath everything the plan
+     carefully placed. Caught by probe_route's own guard the moment the key was
+     renamed from `route` to `trip` — the gate went stale in one rename, which
+     is why the check exists. */
+  if(chart.atmos && !chart.table.trip){
     events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "atmos",
                                 role: roleOfBed(chart.atmos.bed), gain: chart.atmos.level,
                                 bed: chart.atmos.bed }));
@@ -37748,77 +37774,211 @@ function makePerformance(chart, form, materials, sections){
           voice: "atmos", role: roleOfBed(name), gain, bed: name }));
       };
       const barSec = STEPS * spb;
-      /* ══ THE ROUTE — EVERY SECTION IS SOMEWHERE ═══════════════════════════════
-     [owner, 2026-08-15: "the enviromental sounds need a location and reason,
-     is it rainy? Does it stop? Does it start again? Are we passing a river?
-     Did this stop stop in the forest or a city? The SFX are part of the story
-     of the song its not just all on at once"]
+      /* ══ THE TRIP PLANNER — THE RIDE IS PLANNED, THEN THE RECORD IS PLAYED ═══
+     [owner, 2026-08-15: "I think we need to create a SFX route planner for the
+     song that Simulating a train ride, this way the songs sfx is planned
+     according to the trip."]
 
-     He is describing exactly what was wrong. The scene was ONE BED PER RECORD:
-     a river that started at 0:00 and ran to the end, under everything, whether
-     the train was beside water or not. That is not a location, it is a wash —
-     and it is the same mistake as the train-as-weather, one level up.
+     THIS REPLACES A PLACE-PER-SECTION, AND THE DIFFERENCE IS THE WHOLE POINT.
+     The version before this drew a place for each section and played its bed
+     for that section's length — better than one bed per record, but the
+     landscape still changed only where the MUSIC changed, which is backwards.
+     A train does not cross a river because the verse ended.
 
-     A ROUTE is a place per section, drawn as a WALK rather than a shuffle: you
-     do not leave the woods and arrive back in the woods, and you do not cross
-     three rivers in a row. Each place names the beds that can voice it, and a
-     place's bed plays FOR ITS SECTION AND STOPS — so the river approaches,
-     you cross it, and it is behind you.
+     So an ITINERARY is planned first, on its own clock, and the record is
+     played against it. The trip knows four things the song does not:
 
-     AND `none` IS A PLACE. The most important weight in the table is the one
-     for open country with nothing on it, because a landscape that is
-     continuously making a noise is the "all on at once" the owner is
-     objecting to. Silence is what makes the river mean anything.
+       THE STATIONS   the towns, in order — the payoff sections are where this
+                      line has platforms, so the plan and the form agree by
+                      construction rather than by coincidence
+       THE LEGS       what is between them, filled with TERRAIN SEGMENTS whose
+                      lengths have nothing to do with bar lines. A river can
+                      arrive in the middle of a verse, because that is where
+                      the river is.
+       THE CLOCK      the trip starts at an hour and takes hours. Birds sing in
+                      daylight and not at night; the dawn chorus happens near
+                      dawn. That is the "reason" — a bird is not a texture, it
+                      is a fact about the time.
+       THE FRONTS     weather is a system lying across a STRETCH OF THE LINE,
+                      so the train rides into it and out the other side.
 
-     THE STOP IS SOMEWHERE TOO: a town is drawn as a CITY or a country HALT,
-     and that decides what you hear standing there — a city has a crowd on the
-     platform, a country halt has birds and the engine ticking. Same script
-     either way [see below]; different place.
-
-     Its own substream [Law 3]; a genre that declares no route draws nothing
-     and keeps the single bed it always had. ═══════════════════════════════ */
+     Every sound below is a CONSEQUENCE of the itinerary. Nothing is decoration
+     and nothing is "on" — it is somewhere, at a time, and it stops when the
+     train has gone past. Drawn on its own substream [Law 3]; a genre that
+     declares no trip plans none. ═══════════════════════════════════════════ */
   const ROUTE = [];
-  if(chart.table.route){
-    const RT = chart.table.route;
-    const rr = stream(chart.seed, "route");
+  const TRIP = { stations: [], segs: [], hour0: 0, hours: 0 };
+  if(chart.table.trip && sections.length > 1){
+    const TR = chart.table.trip;
+    const tr = stream(chart.seed, "trip");
     const has = n => !!ERANG.meta(n);
-    const PL = RT.places || {};
-    const names = Object.keys(PL);
-    const PAYR = (chart.table.form && chart.table.form.payoff) || "chorus";
-    let at = RT.start && PL[RT.start] ? RT.start : names[0];
+    const PAYT = (chart.table.form && chart.table.form.payoff) || "chorus";
+    const pickOf = arr => {
+      const live = (arr || []).filter(has);
+      return live.length ? live[Math.floor(tr() * live.length) % live.length] : null;
+    };
+    /* ── AND A WHISTLE IS THE TRAIN, NOT THE LANDSCAPE ────────────────────
+       The first version put everything the planner emits on the WORLD channel,
+       including the crossing signals — so the guard measured 48 moments with
+       two things on that fader and it was right: a whistle blown by the engine
+       is not a place. The terrain and the water are the world; the signals
+       belong with every other whistle in the record. `roleOfBed` already knows
+       how to tell them apart, so it decides unless the caller says otherwise. */
+    const put = (name, at, gain, secs, extra, role) => {
+      const m = ERANG.meta(name);
+      if(!m || at < 0 || at > totalSec) return;
+      events.push(Object.freeze(Object.assign({
+        tSec: at, durSec: secs != null ? secs : m.n / ERANG.rate + 0.4,
+        voice: "atmos", role: role || roleOfBed(name), gain, bed: name }, extra || {})));
+    };
+
+    /* ── 1. THE STATIONS, AND WHAT KIND OF PLACE EACH ONE IS ──────────────── */
     for(let i = 0; i < sections.length; i++){
-      const sec = sections[i], fn = sec.fn || sec.type;
-      /* the draw runs for EVERY section whatever it turns out to be [Law 7] */
-      const step = wpick(rr, (PL[at] && PL[at].to) || [[at, 1]]);
-      const stopKind = wpick(rr, RT.stops || [["city", 1], ["halt", 1]]);
-      const bedRoll = rr();
-      if(fn === PAYR){ ROUTE.push({ place: stopKind, stop: true }); continue; }
-      if(fn === "intro"){ ROUTE.push({ place: "yard", stop: false }); continue; }
-      at = PL[step] ? step : at;
-      const P0 = PL[at] || {};
-      const pool = (P0.beds || []).filter(has);
-      /* a place may be SILENT even when it has beds: `sound` is how often this
-         stretch of country actually says anything */
-      const bed = (pool.length && bedRoll < (P0.sound == null ? 1 : P0.sound))
-                    ? pool[Math.floor(rr() * pool.length) % pool.length] : null;
-      ROUTE.push({ place: at, stop: false, bed });
+      const fn = sections[i].fn || sections[i].type;
+      const kind = wpick(tr, TR.stations || [["city", 3], ["halt", 2]]);   // drawn every section [Law 7]
+      if(fn === PAYT){
+        TRIP.stations.push({ i, kind, at: sections[i].startBar * STEPS * spb });
+        ROUTE.push({ place: kind, stop: true });
+      } else ROUTE.push({ place: "line", stop: false });
     }
-    /* and the bed sounds FOR ITS SECTION, then stops */
-    const bl = RT.level || [0.16, 0.08];
-    for(let i = 0; i < sections.length; i++){
-      const r = ROUTE[i], sec = sections[i];
-      if(!r || !r.bed) continue;
-      const t0 = sec.startBar * STEPS * spb, t1 = sec.endBar * STEPS * spb;
-      /* ── A PLACE IS THE WORLD, WHATEVER ITS BED IS CALLED ────────────────
-         `roleOfBed` classifies by the bank's family and name, which is right
-         for a bed drawn out of a pool and WRONG here: open country is voiced
-         by `sfx_wind`, so the name rule sent it to the WEATHER fader — a
-         LOCATION arriving on the weather channel, where turning the rain down
-         would have turned the open country down with it. A route bed is the
-         world by definition, because the route is what decides it. */
-      events.push(Object.freeze({
-        tSec: t0, durSec: Math.max(1, t1 - t0), voice: "atmos",
-        role: "scene", gain: bl[0] + rr() * bl[1], bed: r.bed }));
+
+    /* ── 2. THE CLOCK ──────────────────────────────────────────────────────
+       The record starts at an hour and the ride takes hours, so a long record
+       genuinely crosses more of the day. DAWN and DUSK are the only two
+       numbers that matter to the sound: birds are a daylight fact. */
+    const H = TR.startHour || [4.5, 5];
+    TRIP.hour0 = H[0] + tr() * H[1];
+    TRIP.hours = (TR.hours || [5, 6])[0] + tr() * (TR.hours || [5, 6])[1];
+    const DAWN = TR.dawn == null ? 6 : TR.dawn, DUSK = TR.dusk == null ? 20.5 : TR.dusk;
+    const hourAt = t => TRIP.hour0 + (t / Math.max(1, totalSec)) * TRIP.hours;
+    const daylight = t => { const h = hourAt(t); return h > DAWN && h < DUSK; };
+    const dawnish = t => { const h = hourAt(t); return h > DAWN - 0.6 && h < DAWN + 2.2; };
+
+    /* ── 3. THE LEGS, FILLED WITH TERRAIN ──────────────────────────────────
+       A leg is the line between two platforms. It is filled end to end with
+       segments whose lengths are DRAWN IN SECONDS, not in bars — that is what
+       makes the landscape independent of the music. */
+    const TERR = TR.terrain || {};
+    /* ── A LEG ENDS AT A PLATFORM AND THE NEXT ONE STARTS WHEN THE TRAIN
+       LEAVES IT ──────────────────────────────────────────────────────────
+       The first version resumed the line EIGHT SECONDS after the station's
+       downbeat, which is eight seconds into a stop that lasts half a minute —
+       so the countryside started up again while the train was still standing
+       at the platform, and the guard measured it: thirteen stops with both a
+       crowd and birds. A leg begins at the END of the town's own section. */
+    const edges = [0];
+    for(const st of TRIP.stations){
+      edges.push(st.at);
+      edges.push(sections[st.i].endBar * STEPS * spb);
+    }
+    edges.push(totalSec);
+    let cur = TR.start && TERR[TR.start] ? TR.start : Object.keys(TERR)[0];
+    for(let e = 0; e + 1 < edges.length; e += 2){
+      let t = edges[e], z = Math.min(edges[e + 1], totalSec);
+      while(t < z - 5){
+        const T0 = TERR[cur] || {};
+        const span = (T0.secs || [40, 50])[0] + tr() * (T0.secs || [40, 50])[1];
+        const len = Math.min(span, z - t);
+        TRIP.segs.push({ t0: t, t1: t + len, kind: cur });
+
+        /* ── WHAT BEING THERE SOUNDS LIKE ─────────────────────────────────
+           A bed if the place says anything at all (`sound`), gated by the
+           CLOCK where the source of the sound is an animal. Silence is a
+           terrain too: open country says nothing most of the time, and that
+           is what makes the next thing mean something. */
+        const speaks = tr() < (T0.sound == null ? 1 : T0.sound);
+        const needsDay = !!T0.day;
+        /* ── YOU EITHER SIT BY THE WATER OR YOU CROSS IT ──────────────────
+           Drawn FIRST so the bed below can stand down, and both draws run
+           whatever the outcome [Law 7]. The first version let a river segment
+           lay a bed AND send a crossing through it, which is two rivers at
+           once — the guard measured 46 moments of it. A place is one thing at
+           a time; that is the whole claim the owner is making. */
+        const crosses = tr() < (T0.passing || 0);
+        if(speaks && !crosses && (!needsDay || daylight(t))){
+          let pool = T0.beds || [];
+          if(T0.dawnBeds && dawnish(t)) pool = T0.dawnBeds;
+          const bed = pickOf(pool);
+          if(bed) put(bed, t, (TR.level || [0.15, 0.08])[0] + tr() * (TR.level || [0.15, 0.08])[1],
+                      Math.max(2, len), null, "scene");
+        }
+
+        /* ── AND THE THINGS THAT HAPPEN AT A PLACE RATHER THAN IN IT ───────
+           A crossing is an EVENT on the line, not a texture. The whistle
+           signal is the railroad's own and it is the one we researched and
+           never used: LONG-LONG-SHORT-LONG, sounded on approach to a public
+           grade crossing, and still law [Trains Magazine, GCOR; sheet §4].
+           The bell answers as the train goes over it. */
+        if(T0.crossing && tr() < T0.crossing){
+          const lo = pickOf(TR.longWhistle || ["railWhistle"]);
+          const sh = pickOf(TR.shortWhistle || ["railPeep"]);
+          const bl = pickOf(TR.crossBell || ["railBell"]);
+          const at0 = t + len * 0.35, g = (TR.signalLevel || [0.34, 0.14]);
+          const gl = g[0] + tr() * g[1];
+          if(lo) put(lo, at0, gl);
+          if(lo) put(lo, at0 + 1.5, gl);
+          if(sh) put(sh, at0 + 3.0, gl * 0.85);
+          if(lo) put(lo, at0 + 3.9, gl);
+          if(bl) put(bl, at0 + 6.2, gl * 0.8, null, { pass: true });
+        }
+        /* a river is CROSSED, so it approaches and recedes rather than sitting
+           under the music — stage 6 renders `pass` as a doppler [V.atmos] */
+        if(crosses){
+          const nm = pickOf(T0.passing_beds || T0.beds);
+          const m = nm && ERANG.meta(nm);
+          /* and the crossing FITS INSIDE ITS OWN SEGMENT — a pass that runs
+             past the end of the water is a river you are still hearing from
+             the next field */
+          if(m){
+            const raw = m.n / ERANG.rate;
+            const dur = Math.min(raw, Math.max(3, len * 0.8));
+            put(nm, t + Math.max(0, (len - dur) * 0.5),
+                (TR.passLevel || [0.4, 0.2])[0] + tr() * (TR.passLevel || [0.4, 0.2])[1],
+                dur, { pass: true }, "scene");
+          }
+        }
+        t += len;
+        cur = wpick(tr, T0.to || [[cur, 1]]);
+        if(!TERR[cur]) cur = TR.start || Object.keys(TERR)[0];
+      }
+    }
+
+    /* ── 4. THE WEATHER IS A FRONT LYING ACROSS THE LINE ────────────────────
+       Not a spell snapped to section boundaries — weather does not care where
+       the verse ends. A front covers a stretch of the ride and the train goes
+       into it and out of it. */
+    if(TR.fronts && chart.table.weather){
+      const W = chart.table.weather;
+      const kinds = (W.kinds || []).filter(k => k[0] !== "clear");
+      const n = tr() < (TR.fronts.chance == null ? 0.55 : TR.fronts.chance)
+                  ? (tr() < 0.3 ? 2 : 1) : 0;
+      let from = totalSec * (0.06 + tr() * 0.3);
+      for(let k = 0; k < n && kinds.length; k++){
+        const kind = wpick(tr, kinds);
+        const span = totalSec * ((TR.fronts.span || [0.12, 0.2])[0]
+                               + tr() * (TR.fronts.span || [0.12, 0.2])[1]);
+        const t1 = Math.min(totalSec - 2, from + span);
+        if(t1 - from > 10){
+          const REC = { wind: "sfx_wind" };
+          const bed = REC[kind] && has(REC[kind]) ? REC[kind] : null;
+          const wl = (W.level || [0.09, 0.05]);
+          events.push(Object.freeze({ tSec: from, durSec: t1 - from, voice: "weather",
+                                      role: "weather", gain: wl[0] + tr() * wl[1], kind, bed }));
+          /* and the thunder belongs to the front it is inside */
+          const TH = W.thunder, clap = TH && has("sfx_thunder_impact") ? "sfx_thunder_impact" : null;
+          if(clap && tr() < (TH.chance == null ? 0.3 : TH.chance)){
+            const m = ERANG.meta(clap);
+            for(let x = from + 5 + tr() * 15; x < t1 - 3;
+                    x += (TH.every ? TH.every[0] : 70) + tr() * (TH.every ? TH.every[1] : 40))
+              events.push(Object.freeze({
+                tSec: x, durSec: m.n / ERANG.rate + 0.6, voice: "weather", role: "weather",
+                gain: (TH.level ? TH.level[0] : 0.28) + tr() * (TH.level ? TH.level[1] : 0.12),
+                bed: clap }));
+          }
+        }
+        from = t1 + totalSec * (0.08 + tr() * 0.18);
+        if(from > totalSec * 0.9) break;
+      }
     }
   }
 

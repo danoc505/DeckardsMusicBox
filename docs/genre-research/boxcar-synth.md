@@ -214,6 +214,65 @@ A real American steam whistle is a **chord** — multi-note chime whistles
 Magazine; steam whistle references]. The synthesized whistle voice is
 therefore a small pipe-chord with breath, not a sine.
 
+## 4c. THE TRIP PLANNER — the ride is planned, then the record is played
+
+> *"I think we need to create a SFX route planner for the song that Simulating
+> a train ride, this way the songs sfx is planned according to the trip."*
+> — the owner, and this supersedes §4b below
+
+**§4b drew a place per SECTION, and that is still backwards.** The landscape
+changed only where the music changed — a train does not cross a river because
+the verse ended. The planner turns it round: an **itinerary is laid out on the
+clock first**, and the record is played against it.
+
+The trip knows four things the song does not:
+
+| | |
+|---|---|
+| **the stations** | the towns in order. The payoff sections are where this line has platforms, so the plan and the form agree by construction rather than by coincidence. |
+| **the legs** | what is between them, filled end to end with terrain segments whose lengths are drawn **in seconds, not bars**. That is what frees the landscape from the bar line. |
+| **the clock** | the ride starts at an hour and takes hours. Birds sing in daylight and not at night; the dawn chorus happens near dawn. A bird is not a texture, it is a fact about the time. |
+| **the fronts** | weather is a system lying across a stretch of the LINE, so the train rides into it and out the other side. |
+
+### The line, declared
+
+| terrain | says | how often | length | a road crosses here |
+|---|---|---|---|---|
+| farm | the dawn chorus *(daylight)* | 45% | 35–65 s | 45% |
+| open country | wind | **30%** | 45–90 s | 25% |
+| woods | birds *(daylight)* | 80% | 30–60 s | 10% |
+| a river | — it is **crossed**, not sat beside | 35% | 18–32 s | — |
+
+`to` weights make it a real branch line: you leave the yard through farmland,
+the country opens out, the woods come and go, and the river is somewhere you
+go **over**.
+
+### And the whistle signal finally has a place to be
+
+§4 researched the General Code of Operating Rules signals and the program used
+two of them. The third — **long–long–short–long, sounded on approach to a
+public grade crossing, and still law** — had nowhere to live, because nothing
+in the program knew where a road was. The planner does: a crossing is an event
+on the line, the signal sounds at it, and the crossing bell answers as the
+train goes over.
+
+### Four defects the guards caught, each in one run
+
+1. **The one-bed-per-record atmosphere came back**, because the gate named the
+   old key and I renamed it — a river under the whole record again, underneath
+   everything the plan had carefully placed. Twenty of twenty seeds.
+2. **A leg resumed eight seconds after a station's downbeat**, which is eight
+   seconds into a stop lasting half a minute: the countryside started up while
+   the train was still at the platform. Thirteen stops with both a crowd and
+   birds.
+3. **A river segment could both sit by the water and cross it** — two rivers at
+   once.
+4. **A whistle was on the world channel.** A signal blown by the engine is not
+   a place; it belongs with every other whistle in the record.
+
+Guarded by `harness/probe_route.js`, which prints any record as prose and then
+holds five claims over twenty records.
+
 ## 4b. THE ROUTE — every section is somewhere, corrected 2026-08-15
 
 > *"the enviromental sounds need a location and reason, is it rainy? Does it
