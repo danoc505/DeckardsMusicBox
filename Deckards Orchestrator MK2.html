@@ -1591,7 +1591,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15f · taiko, contrabassoon, hurdy-gurdy — three recorded instruments in one day</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15g · a rack for every part, and dungeon synth deals its new instruments itself</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -7825,6 +7825,16 @@ const SLOT_OF = {
      A drone is not a bass part. It does not play a line, it does not follow a
      pocket, it does not walk, and it is not in the same job. It gets a lane. */
   drone:"drone",
+  /* ── THE LAST TWO PARTS WITHOUT A RACK ────────────────────────────────────
+     [owner, 2026-08-15: "create ui that lets the user select the instruments
+     they want for the song for the different parts and to be able to add
+     more instruments."] The comment above this map said it plainly for
+     months: lead, counter and ostinato "have no rack slot yet and always
+     come from the rig". Lead got its slot; these two never did, so the
+     answer line and the figure were the only parts a hand could not touch.
+     Same contract as every slot: "auto" is the rig, a pick is a pick. */
+  counter:"counter",
+  ostinato:"ostinato",
 };
 /* WHICH KIND OF MACHINE FILLS A RACK SLOT, where the slot is not the machine's
    own. Every keyboard in INSTRUMENTS declares slot:"keys" -- there is no such
@@ -7844,7 +7854,14 @@ const SLOT_ACCEPTS = { keys2: "keys" };
    choice". That reasoning skipped the choice that matters: NONE. Being able to
    take the space away is the difference between a treatment you are stuck with
    and one you are using. */
-const RACK_SLOTS = ["drums", "bass", "keys", "lead", "keys2", "drone", "fx"];
+/* counter and ostinato are APPENDED, never inserted: resolvePicks and the
+   kit loop draw in this list's order on one stream, so a slot added in the
+   middle would consume a draw ahead of every slot behind it and move every
+   record in the file. Appended, the new draws land after the last existing
+   use of the stream — the same argument that placed the bass unit's kit
+   draw, and the snapshot is the proof it held. */
+const RACK_SLOTS = ["drums", "bass", "keys", "lead", "keys2", "drone", "fx",
+                    "counter", "ostinato"];
 /* ── WHICH RACKS ARE ON SCREEN, which is a different question from which slots
    the engine has. Asked for directly: "i wanted 4 racks and each rack has a
    drop down to change the sound character. None could be an option and the
@@ -7860,9 +7877,12 @@ const RACK_DEFAULT = ["drums", "bass", "lead", "fx"];
 /* what each rack is called on its own dropdown, and what "auto" means there --
    for most slots the rig names a machine, for the second keyboard there is
    nothing to fall back to, and for the space the fixture is the fallback */
-const SLOT_LABEL = { drums:"drums", bass:"bass", keys:"keys", lead:"lead", keys2:"keys 2", fx:"fx" };
+const SLOT_LABEL = { drums:"drums", bass:"bass", keys:"keys", lead:"lead", keys2:"keys 2", fx:"fx",
+                     /* the mixer's own words for these two parts */
+                     counter:"answer", ostinato:"figure" };
 const SLOT_AUTO  = { drums:"as the rig", bass:"as the rig", keys:"as the rig",
-                     lead:"as the rig", keys2:"none", fx:"the genre's space" };
+                     lead:"as the rig", keys2:"none", fx:"the genre's space",
+                     counter:"as the rig", ostinato:"as the rig" };
 
 /* THE RIG TABLE — which instrument plays which part. Stage 5 still writes the
    `voice` field in exactly one place; this is the lookup it writes through, and
@@ -8314,7 +8334,7 @@ function drumLoad(){
 }
 /* which racks hold something that plays PITCHES, and can therefore stand in for
    each other. Drums and fx are not here on purpose -- see voiceFor. */
-const PITCHED_SLOT = { bass:1, keys:1, keys2:1, lead:1 };
+const PITCHED_SLOT = { bass:1, keys:1, keys2:1, lead:1, counter:1, ostinato:1 };
 /* WHICH RACKS COULD EVER HOLD A BOX WITH A LOAD SWITCH. Derived from the
    instrument table, so it is the same for every song -- which is the whole
    point: resolvePicks draws a load per rack and a draw whose PRESENCE varies
@@ -24088,7 +24108,19 @@ const GENRE = {
                    the snapshot is the proof. Weights [CHOSEN]. */
                 kit: { drums: [["dungeon", 6], ["taiko", 4]] },
                 drums: [["tr1000", 1]],
-                bass:  [["auto", 1]],
+                /* ── THE OWNER'S THREE, DEALT INTO THE GENRE [2026-08-15:
+                   "We need to make sure dungeon synth is able to use these"]:
+                   the recorded contrabassoon on the bass (its span [24,61]
+                   CONTAINS the bass band [28,43] — zero narrowing, see the
+                   register arithmetic below), the recorded gurdy drone
+                   strings on the drone lane's own pool, and the hurdy-gurdy
+                   in the keys2 shelf further down. Weights [CHOSEN]. The
+                   drone pool is a NEW stream draw for this genre, so this
+                   genre's kit draw lands differently than it did one build
+                   ago — dungeon synth reshuffling its own sound is the
+                   point; every other genre is untouched, measured. */
+                bass:  [["auto", 7], ["contrabassoon", 3]],
+                drone: [["auto", 6], ["gurdyDrone", 4]],
                 /* the Bard pack joins the shelves the genre already draws from.
                    Weighted below the pack this genre was built on rather than
                    beside it: the plucked strings and flutes are a brighter,
@@ -24129,6 +24161,10 @@ const GENRE = {
                 keys2: [["erangStrings", 4], ["vp330", 3], ["mellotron", 3],
                         ["erangHarp", 2], ["horns", 2], ["bardPluck", 2],
                         ["bassoon", 3], ["carnyx", 2],
+                        /* the wheel: range [59,84] against the keys2 band
+                           [62,79] — zero narrowing, the medieval second
+                           keyboard this genre never had */
+                        ["hurdyGurdy", 3],
                         ["auto", 1]] },
     params: {
       /* ── THE SIZE OF THE DRUM LIVES HERE, not in `kick` above ───────────────

@@ -81,7 +81,11 @@ for(const genre of M.genres()){
       if(sec.machines) for(const slot in sec.machines)
         (rungSeen[slot] = rungSeen[slot] || new Set()).add(sec.machines[slot]);
     }
-    for(const slot of ["drums", "bass", "keys", "lead", "keys2"])
+    /* DERIVE, NEVER LIST — this was a five-slot literal that predated the
+       drone slot, so the first drone POOL ever declared read as two dead
+       rows while its picks were landing on 45% of the genre's records.
+       The rack's own list is the truth about which slots carry a pick. */
+    for(const slot of M.rackSlots())
       (pickSeen[slot] = pickSeen[slot] || new Set()).add(song.chart.picks[slot]);
   }
   const F = table.form || {};
