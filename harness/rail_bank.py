@@ -74,6 +74,17 @@ TAKE = [
     ("railBell",   "railBell",    "07071133",   10.0, False),  # crossing bell + train
     ("railPass0",  "railPass",    "07045051",   14.0, False),  # passes without stopping
     ("railPass1",  "railPass",    "07006086",   12.0, False),  # fast goods train passing
+    # ── PHASE 3: THE JOURNEY'S OWN VOICES ─────────────────────────────────
+    # [owner: "finding the samples and train sounds conductors, engines,
+    #  breaks ect"] The signal language needs its own clean blasts, the town
+    # needs its human noise, and the conductor needs a voice.
+    ("railCall",   "railCall",    "07044010",   12.0, False),  # a station P.A. — a HUMAN VOICE calling, indiscernible through the horn
+    ("railGuard",  "railGuard",   "07045055",    5.0, False),  # the guard's whistle: the departure signal itself
+    ("railPeep",   "railWhistle", "07045046",    5.0, False),  # a clean GWR engine whistle — one blast, for the signal patterns
+    ("railCbell",  "railBell",    "07039387",   10.0, False),  # the conductor's bell: one ring, two rings, four
+    ("railDoors",  "railDoors",   "07041100",   10.0, False),  # doors slamming as passengers alight — arriving in town
+    ("railCrowd",  "railStation", "07061111",   12.0, True ),  # a platform of passengers before departure — the town's bed
+    ("railValve",  "railSteam",   "07045062",   10.0, True ),  # standing, safety valve blowing — the engine WAITING in town
     ("sceneRiver", "sceneRiver",  "07044100",   10.0, True ),  # small stream
     ("sceneDawn",  "sceneBirds",  "NHU05008110",12.0, True ),  # dawn chorus
     ("sceneRiverside","sceneBirds","NHU05073129",12.0, True ), # riverside, birds and insects

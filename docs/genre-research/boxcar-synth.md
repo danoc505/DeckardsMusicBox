@@ -138,6 +138,13 @@ The journey vocabulary, chosen from the catalog by description and length
 | sceneRiver (bed, loop) | 07044100 | small stream |
 | sceneBirds (bed, loop) | NHU05008110 | dawn chorus in a wet forest |
 | sceneBirds (bed, loop) | NHU05073129 | riverside at midday, birds and insects |
+| railCall (one-shot) | 07044010 | a station P.A. — a HUMAN VOICE, indiscernible through the horn: the conductor |
+| railGuard (one-shot) | 07045055 | the guard's whistle — the departure signal itself |
+| railWhistle (one-shot) | 07045046 | a clean Great Western engine whistle, one blast |
+| railBell (one-shot) | 07039387 | a conductor's bell: rung once, twice, four times |
+| railDoors (one-shot) | 07041100 | doors slamming as passengers alight — arriving |
+| railStation (bed, loop) | 07061111 | a platform of passengers before departure |
+| railSteam (bed, loop) | 07045062 | standing, safety valve blowing — the engine WAITING |
 
 Encoded by `harness/rail_bank.py` in the erang bank's exact row format
 (name, fam, off, n, root −1, loop points measured/trimmed, pk), a fourth
@@ -176,6 +183,38 @@ records to ITS era's machines instead:
   dipping as it passes (the doppler everyone knows from a train). Not a
   degradation of the record but a rendering of motion; no other genre in
   the program has it, and it is rule 5 made audible.
+
+## 8a. WHAT PHASE 3 BUILT — the journey you can hear
+
+The form already alternated travel and town, and the drums already stopped in
+a town because the train is standing. Phase 3 is the other half: you HEAR it
+stop and start, in the railroad's own language rather than in sound effects
+chosen for drama.
+
+- **Into a town**: the brakes. The squeal lands BEFORE the downbeat and runs
+  into the section it ends — a train stops and *then* the town is quiet.
+  Sometimes doubled with the short screech (drawn, 45%).
+- **Out of a town**: the guard's whistle or the conductor's bell first, then
+  the engine answers, then the music starts — the signal sits ahead of the
+  downbeat because that is the order it happens in.
+- **The conductor's call**: a real recorded platform announcement, a human
+  voice indiscernible through the horn speaker. ONCE a record at most (70%),
+  and never in the first town — the record teaches you what a town sounds
+  like before a voice calls in one. The held-back-colour rule the dungeon
+  synth thunder keeps.
+- **The passing** — the genre's own device: a sound that approaches, passes
+  and recedes. Four things at once, all of them distance rather than taste:
+  it swells (measured −78 → −55 dB), the top opens and closes again (900 Hz
+  → 6.5 kHz → 900 Hz, because air eats the high end first), it crosses the
+  stereo picture (measured: the recede is right-channel only, the left at
+  digital silence), and the pitch dips 4% up to 4% down as it goes by — the
+  doppler everyone knows from a train. A couple per travelling section,
+  drawn; never in a town, because a standing train passes nothing.
+
+Fifteen to twenty-seven scene events a record, measured over eight seeds.
+The genre opts in with a `journey` table naming which sounds play at which
+boundary; a name the bank does not carry is skipped rather than faked. No
+other genre declares one, so no other genre gained an event — measured.
 
 ## 9. What is built, in phases (the plan of record)
 
