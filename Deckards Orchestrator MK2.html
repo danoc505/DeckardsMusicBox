@@ -37809,9 +37809,16 @@ function makePerformance(chart, form, materials, sections){
       const r = ROUTE[i], sec = sections[i];
       if(!r || !r.bed) continue;
       const t0 = sec.startBar * STEPS * spb, t1 = sec.endBar * STEPS * spb;
+      /* ── A PLACE IS THE WORLD, WHATEVER ITS BED IS CALLED ────────────────
+         `roleOfBed` classifies by the bank's family and name, which is right
+         for a bed drawn out of a pool and WRONG here: open country is voiced
+         by `sfx_wind`, so the name rule sent it to the WEATHER fader — a
+         LOCATION arriving on the weather channel, where turning the rain down
+         would have turned the open country down with it. A route bed is the
+         world by definition, because the route is what decides it. */
       events.push(Object.freeze({
         tSec: t0, durSec: Math.max(1, t1 - t0), voice: "atmos",
-        role: roleOfBed(r.bed), gain: bl[0] + rr() * bl[1], bed: r.bed }));
+        role: "scene", gain: bl[0] + rr() * bl[1], bed: r.bed }));
     }
   }
 
