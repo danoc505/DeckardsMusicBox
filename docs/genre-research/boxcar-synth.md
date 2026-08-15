@@ -214,6 +214,72 @@ A real American steam whistle is a **chord** — multi-note chime whistles
 Magazine; steam whistle references]. The synthesized whistle voice is
 therefore a small pipe-chord with breath, not a sine.
 
+## 4b. THE ROUTE — every section is somewhere, corrected 2026-08-15
+
+> *"the enviromental sounds need a location and reason, is it rainy? Does it
+> stop? Does it start again? Are we passing a river? Did this stop stop in the
+> forest or a city? The SFX are part of the story of the song its not just all
+> on at once"* — the owner
+
+**Measured before the fix, and he is describing it exactly.** The scene was
+ONE BED PER RECORD: a river that started at 0:00 and ran to the last bar,
+under everything, whether the train was beside water or not. The weather was
+the same — one bed for the whole record, so it could not start and could not
+stop. And the thunder ran on its own clock: seed 3 had thunder at 0:00, 1:36
+and 2:40 in a record whose rain does not begin until 8:00. Thunder out of a
+clear sky, four times, before any weather at all.
+
+That is the train-as-weather mistake one level up, and it is the same fix: a
+sound needs a REASON, and the reason is where you are.
+
+### The route is a walk
+
+Each section gets a place, drawn as a walk rather than a shuffle — you do not
+leave the woods and arrive back in the woods, and you do not cross two rivers
+running. A place's bed sounds **for its section and stops**, so the river
+approaches, you cross it, and it is behind you.
+
+| place | what it says | how often it says anything |
+|---|---|---|
+| open country | wind | **35%** |
+| the woods | birds | 85% |
+| a river | water, birds by the water | always |
+
+**The most important number in that table is the 35%.** A landscape that is
+continuously making a noise is the "all on at once" being objected to; the
+silence of open country is what makes the river mean something when it
+arrives.
+
+### A stop is somewhere too
+
+A town is drawn a **city** or a **country halt**. The script is identical —
+that is what a stop IS — but the place decides what you hear standing there: a
+city has a crowd on the platform; a country halt has the birds carrying on,
+because nothing has arrived there but you. Measured over 20 records: 37 city
+stops, 23 country halts, and **never a crowd at a halt**.
+
+### The weather is a spell
+
+A record draws none, one or two spells, each two to four sections long, placed
+on section boundaries with a dry stretch after. So a shower passes and the sky
+clears, and a second one can come over later. **Thunder only lands inside a
+spell** — no storm, no thunder.
+
+### Read back, seed 3
+
+    0:00  the yard      STOPPED   the conductor calls, the guard, the engine
+    0:32  rolling                 birds by the water
+    2:40  rolling                 wind over open country
+    3:44  rolling                 a long whistle, the brakes
+    4:48  A TOWN        STOPPED   the station, the valve, A CROWD — a city
+    6:24  A TOWN        STOPPED   the station, the valve, BIRDS — a country halt
+    8:00  rolling                 [rain begins] wind, thunder
+   10:40  A TOWN        STOPPED   [rain] the station, the crowd, thunder
+   11:12  pulling away            the conductor's bell
+
+Guarded by `harness/probe_route.js`, which prints that table for any seed and
+then holds five claims over twenty records.
+
 ## 5. Dark to light — the key change is the clock
 
 The owner: "a change in key and tone to show the change of time from dark

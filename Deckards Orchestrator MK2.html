@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15w · the banjo plays real rolls and can be heard; the world and the weather get faders</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15x · the train stops fading, and every scene sound has a place and a reason</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -13322,7 +13322,20 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
        own trim, and a velocity that trims rather than governs. */
     const dyn = 0.55 + 0.45 * Math.min(1.2, ev.gain);
     const lvl = LEVEL[bus] * BANJO_TRIM * dyn;
-    gn.gain.setValueAtTime(lvl, t);
+    /* ══ A HAMMER-ON IS NOT PICKED ════════════════════════════════════════
+       Counted off a real break: 19 of its 125 sounding notes are hammer-ons
+       and pull-offs [docs/genre-research/banjo-and-harmonica-notation.md §1d].
+       The left hand sounds them, so there are two differences from a picked
+       note and both are audible: THE PITCH ARRIVES FROM BELOW, because the
+       finger lands on a string that is already ringing at the lower fret; and
+       THERE IS NO PICK ATTACK, so the note opens instead of striking. 35 ms is
+       the fret hitting the board. */
+    if(ev.art === "hammer"){
+      src.playbackRate.setValueAtTime((F0 / s.root) * Math.pow(2, -2 / 12), t);
+      src.playbackRate.linearRampToValueAtTime(F0 / s.root, t + 0.035);
+      gn.gain.setValueAtTime(0.0001, t);
+      gn.gain.linearRampToValueAtTime(lvl, t + 0.028);
+    } else gn.gain.setValueAtTime(lvl, t);
     /* a pluck rings until the hand stops it: the gate closes at the note's
        end with a short honest release, never a chop */
     gn.gain.setValueAtTime(lvl, end0);
@@ -28978,7 +28991,8 @@ GENRE.boxcarsynth = {
      last cycle of a section rings on through the downbeat of the town, and
      the record never arrives. No other genre declares it, so no other genre
      moves by a sample. */
-  drone: { unit: 4, hold: 1, pedal: 1, octave: 0, cut: true, unpitched: true },
+  drone: { unit: 4, hold: 1, pedal: 1, octave: 0, cut: true, unpitched: true,
+           continuous: true },
   bassStyle: "drone",
   bassPedal: 0.4,
   bassWalk: 0.65,
@@ -29034,7 +29048,11 @@ GENRE.boxcarsynth = {
      `unit: 2` is the sourced rate: a roll is "eight (eighth) notes" to the bar,
      not sixteen. The extra notes the owner asked for come from the roll being
      in the RECORD rather than in one section function — see form.roles. */
+  /* `perBar` the roll turns every bar; `thumb` the thumb accents the pulse;
+     `slur` one note in seven is hammered rather than picked — all three
+     counted off a real break [sheet §1d] */
   ostinato: { unit: 2, vel: 0.5, run: true, follow: true, ratchet: 0, whole: true,
+              perBar: true, thumb: 0.30, slur: 0.15,
               cells: [[[2, 4, 7, 2, 4, 7, 2, 4], 5],        // forward: 2-1-5-2-1-5-2-1
                       [[0, 2, 7, 4, -3, 2, 7, 4], 4],       // alternating thumb: 3-2-5-1-4-2-5-1
                       [[0, 2, 4, 7, 4, 2, 0, 4], 3],        // forward-reverse: 3-2-1-5-1-2-3-1
@@ -29140,6 +29158,30 @@ GENRE.boxcarsynth = {
      what it actually is — the LANDSCAPE the train is passing through. */
   atmos: { fams: ["sceneRiver", "sceneBirds", "railClank", "railBell"],
            level: [0.17, 0.10], accent: 0.7, accentLevel: [0.34, 0.16] },
+  /* ── THE ROUTE THE TRAIN TAKES ───────────────────────────────────────────
+     [owner: "the enviromental sounds need a location and reason ... Are we
+     passing a river? Did this stop stop in the forest or a city?"]
+
+     A WALK, not a shuffle: from open country you reach the woods or the water;
+     from the woods you come out into the open or down to a river; you do not
+     cross two rivers running. `sound` is how often a stretch actually says
+     anything — OPEN COUNTRY IS SILENT MORE OFTEN THAN NOT, and that silence is
+     what makes the river mean something when it arrives. The stops are drawn
+     city or country halt, and that decides what standing there sounds like.
+     [CHOSEN weights; the beds are the pack's own] */
+  route: {
+    start: "open",
+    level: [0.15, 0.08],
+    places: {
+      open:  { beds: ["sfx_wind"], sound: 0.35,
+               to: [["open", 3], ["woods", 3], ["river", 2]] },
+      woods: { beds: ["sceneDawn"], sound: 0.85,
+               to: [["woods", 2], ["open", 4], ["river", 2]] },
+      river: { beds: ["sceneRiver", "sceneRiverside"], sound: 1,
+               to: [["open", 5], ["woods", 3]] },
+    },
+    stops: [["city", 3], ["halt", 2]],
+  },
   /* ── THE WEATHER THE JOURNEY IS MADE IN ──────────────────────────────────
      [owner, 2026-08-15: "We should also have a weather channel for rain,
      blizzard, thunder, wind"] A record draws ONE day. Mostly clear, because a
@@ -29169,6 +29211,7 @@ GENRE.boxcarsynth = {
     brake:  ["railBrake"],             // the short screech, sometimes doubled in
     brakeAlso: 0.45,
     stand:  ["railTown"],              // the station's own room tone, while stopped
+    halt:   ["sceneDawn", "sceneRiverside"],  // and a country stop has birds, not a crowd
     valve:  ["railValve"],             // and the safety valve lifting over it
     doors:  ["railDoors"],             // people getting off, and later back on
     crowd:  ["railCrowd"],             // the platform — what a town is FOR
@@ -35022,7 +35065,15 @@ function makeMaterials(chart, editPlan, arcPlan){
          running. The law passed on the section names and was defeated in the
          notes. A genre whose cell IS its identity says vary:false and keeps it
          -- that is DKC, where four bars of the cell is how you name the game. */
-      const c = (varyTail && (O.vary || OCHANGE.cell) && b >= 2) ? alt : cell;
+      let c = (varyTail && (O.vary || OCHANGE.cell) && b >= 2) ? alt : cell;
+      /* ── AND A BREAK IS NOT ONE ROLL REPEATED ─────────────────────────────
+         [docs/genre-research/banjo-and-harmonica-notation.md §1d, counted off
+         a real tab] Sixteen bars of Foggy Mountain Breakdown are not sixteen
+         copies of the forward roll — the pattern turns with the harmony and
+         with the phrase. `perBar` redraws the cell every bar from the genre's
+         own pool, on the figure's own stream. A genre that does not declare it
+         keeps the one-cell-per-material behaviour exactly. */
+      if(O.perBar) c = wpick(rng, O.cells);
       /* ── THE SEQUENCER, AS BERLIN SCHOOL BUILT IT ────────────────────────
          Three optional switches turn this cell player into the thing Tangerine
          Dream and Klaus Schulze actually did. All three default OFF, so DKC --
@@ -35167,9 +35218,35 @@ function makeMaterials(chart, editPlan, arcPlan){
            here byte-identical. */
         const home = !!O.sam && idx % c.length === 0 && st === 0;
         for(let h = 0; h < hits; h++){
-          const ev = { bar: b, step: st + (h * step) / hits, dur: step / hits,
-                       pitch, vel: O.vel * (h ? 0.82 : 1) * (tHit && tHit.accent ? 1.25 : 1),
+          const at = st + (h * step) / hits;
+          /* ══ THE THUMB IS THE BEAT, AND ONE NOTE IN SEVEN IS NOT PICKED ════
+             Both counted off the real tab [sheet §1d]. Of 106 picked notes in
+             the break, 43 are the THUMB, and in every roll the thumb falls on
+             the strong positions — that is where a break's accent lives, and
+             the program's measured dynamic range across the whole roll was
+             1 dB, which is no accent at all.
+
+             And 19 of the 125 sounding notes — 15% — are HAMMER-ONS and
+             PULL-OFFS: the left hand sounding a note between picked ones, with
+             no pick attack behind it. They are most of what makes a break sound
+             like playing rather than like a pattern. Marked here, sounded by
+             V.banjo, and placed by the hash of their own position so the
+             offline render is the live one [Law 10]. Only where a genre asks
+             for it, so nothing else in the file gains a note. */
+          let vv = O.vel * (h ? 0.82 : 1) * (tHit && tHit.accent ? 1.25 : 1);
+          let art = null;
+          if(O.thumb){
+            const strong = at % 4 === 0;             // the quarter-note pulse
+            vv *= strong ? (1 + O.thumb) : (1 - O.thumb * 0.55);
+          }
+          if(O.slur && at % 4 !== 0){
+            const hh = hash32("slur:" + streamName + ":" + b + ":" + at);
+            if(((hh >>> 9) & 1023) / 1023 < O.slur){ art = "hammer"; vv *= 0.72; }
+          }
+          const ev = { bar: b, step: at, dur: step / hits,
+                       pitch, vel: Math.max(0.05, Math.min(1, vv)),
                        role: "ostinato" };
+          if(art) ev.art = art;
           if(home){ ev.vel = Math.min(1, ev.vel * O.sam); if(!h) ev.sam = true; }
           notes.push(ev);
         }
@@ -37541,7 +37618,9 @@ function makePerformance(chart, form, materials, sections){
     if(/wind|thunder|rain|blizzard|storm/i.test(n || "")) return "weather";
     return "tape";
   };
-  if(chart.atmos){
+  /* A GENRE WITH A ROUTE DOES NOT GET THE ONE-BED-PER-RECORD ATMOSPHERE:
+     that bed is the thing the route replaces. See THE ROUTE below. */
+  if(chart.atmos && !chart.table.route){
     events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "atmos",
                                 role: roleOfBed(chart.atmos.bed), gain: chart.atmos.level,
                                 bed: chart.atmos.bed }));
@@ -37571,25 +37650,57 @@ function makePerformance(chart, form, materials, sections){
     const lvl = (W.level ? W.level[0] : 0.10) + wr() * (W.level ? W.level[1] : 0.05);
     const stormRoll = wr();
     const REC = { wind: "sfx_wind" };
-    if(kind !== "clear"){
+    /* ══ WEATHER COMES IN SPELLS — IT STARTS AND IT STOPS ═════════════════
+       [owner, 2026-08-15: "is it rainy? Does it stop? Does it start again?"]
+       It did not. One bed was laid over the whole record, which is not weather,
+       it is a filter. A spell has a beginning, a length and an end, and a
+       record may have none, one or two of them — so a shower can pass and the
+       sky can clear, and a second one can come over later. Placed on SECTION
+       boundaries, because that is where a listener is already being told
+       something changed. */
+    const spellWin = [];
+    if(kind !== "clear" && sections.length > 2){
       const bed = REC[kind] && ERANG.meta(REC[kind]) ? REC[kind] : null;
-      events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "weather",
-                                  role: "weather", gain: lvl, kind, bed }));
+      const spells = wr() < 0.35 ? 2 : 1;
+      let from = 1 + Math.floor(wr() * Math.max(1, sections.length - 3));
+      for(let k = 0; k < spells; k++){
+        const span = 2 + Math.floor(wr() * 3);          // two to four sections
+        const a1 = sections[Math.min(from, sections.length - 1)];
+        const b1 = sections[Math.min(from + span, sections.length - 1)];
+        if(!a1 || !b1) break;
+        const t0 = a1.startBar * STEPS * spb, t1 = b1.startBar * STEPS * spb;
+        if(t1 - t0 > 6){
+          events.push(Object.freeze({ tSec: t0, durSec: t1 - t0, voice: "weather",
+                                      role: "weather", gain: lvl, kind, bed }));
+          spellWin.push([t0, t1]);
+        }
+        from += span + 2 + Math.floor(wr() * 3);        // and a dry stretch after it
+        if(from >= sections.length - 1) break;
+      }
     }
-    /* THE THUNDER IS ITS OWN EVENT and it is rationed: a clap every minute or
-       so at most, because the one thing that stops a storm meaning anything is
-       hearing it constantly. Held-back colour, the same rule the dungeon
-       synth's thunder keeps. */
+    /* ── AND THUNDER BELONGS TO A STORM ──────────────────────────────────
+       [owner: "The SFX are part of the story of the song its not just all on
+       at once"] The first version of this ran the clap across the whole record
+       on its own clock, so seed 3 had thunder at 0:00, 1:36 and 2:40 in a
+       record whose rain does not start until 8:00 — thunder out of a clear
+       sky, four times, before any weather at all. Exactly the defect one level
+       down from the one being fixed.
+
+       A clap now only lands INSIDE a spell, and only when the record drew a
+       storm: no spell, no thunder. Rationed within the spell too, because a
+       storm you hear constantly stops being one. */
     const TH = W.thunder;
     const clap = TH && ERANG.meta("sfx_thunder_impact") ? "sfx_thunder_impact" : null;
-    if(clap && stormRoll < (TH.chance == null ? 0.3 : TH.chance)){
+    if(clap && spellWin.length && stormRoll < (TH.chance == null ? 0.3 : TH.chance)){
       const gap0 = (TH.every ? TH.every[0] : 70), gapV = (TH.every ? TH.every[1] : 40);
       const m = ERANG.meta(clap);
-      for(let x = 6 + wr() * 20; x < totalSec - 4; x += gap0 + wr() * gapV){
-        events.push(Object.freeze({
-          tSec: x, durSec: m.n / ERANG.rate + 0.6, voice: "weather", role: "weather",
-          gain: (TH.level ? TH.level[0] : 0.28) + wr() * (TH.level ? TH.level[1] : 0.12),
-          bed: clap }));
+      for(const [t0, t1] of spellWin){
+        for(let x = t0 + 4 + wr() * 12; x < t1 - 2; x += gap0 + wr() * gapV){
+          events.push(Object.freeze({
+            tSec: x, durSec: m.n / ERANG.rate + 0.6, voice: "weather", role: "weather",
+            gain: (TH.level ? TH.level[0] : 0.28) + wr() * (TH.level ? TH.level[1] : 0.12),
+            bed: clap }));
+        }
       }
     }
   }
@@ -37637,7 +37748,74 @@ function makePerformance(chart, form, materials, sections){
           voice: "atmos", role: roleOfBed(name), gain, bed: name }));
       };
       const barSec = STEPS * spb;
-      /* ══ THE STOP IS A SCRIPT, AND IT RUNS AT EVERY TOWN ═══════════════════
+      /* ══ THE ROUTE — EVERY SECTION IS SOMEWHERE ═══════════════════════════════
+     [owner, 2026-08-15: "the enviromental sounds need a location and reason,
+     is it rainy? Does it stop? Does it start again? Are we passing a river?
+     Did this stop stop in the forest or a city? The SFX are part of the story
+     of the song its not just all on at once"]
+
+     He is describing exactly what was wrong. The scene was ONE BED PER RECORD:
+     a river that started at 0:00 and ran to the end, under everything, whether
+     the train was beside water or not. That is not a location, it is a wash —
+     and it is the same mistake as the train-as-weather, one level up.
+
+     A ROUTE is a place per section, drawn as a WALK rather than a shuffle: you
+     do not leave the woods and arrive back in the woods, and you do not cross
+     three rivers in a row. Each place names the beds that can voice it, and a
+     place's bed plays FOR ITS SECTION AND STOPS — so the river approaches,
+     you cross it, and it is behind you.
+
+     AND `none` IS A PLACE. The most important weight in the table is the one
+     for open country with nothing on it, because a landscape that is
+     continuously making a noise is the "all on at once" the owner is
+     objecting to. Silence is what makes the river mean anything.
+
+     THE STOP IS SOMEWHERE TOO: a town is drawn as a CITY or a country HALT,
+     and that decides what you hear standing there — a city has a crowd on the
+     platform, a country halt has birds and the engine ticking. Same script
+     either way [see below]; different place.
+
+     Its own substream [Law 3]; a genre that declares no route draws nothing
+     and keeps the single bed it always had. ═══════════════════════════════ */
+  const ROUTE = [];
+  if(chart.table.route){
+    const RT = chart.table.route;
+    const rr = stream(chart.seed, "route");
+    const has = n => !!ERANG.meta(n);
+    const PL = RT.places || {};
+    const names = Object.keys(PL);
+    const PAYR = (chart.table.form && chart.table.form.payoff) || "chorus";
+    let at = RT.start && PL[RT.start] ? RT.start : names[0];
+    for(let i = 0; i < sections.length; i++){
+      const sec = sections[i], fn = sec.fn || sec.type;
+      /* the draw runs for EVERY section whatever it turns out to be [Law 7] */
+      const step = wpick(rr, (PL[at] && PL[at].to) || [[at, 1]]);
+      const stopKind = wpick(rr, RT.stops || [["city", 1], ["halt", 1]]);
+      const bedRoll = rr();
+      if(fn === PAYR){ ROUTE.push({ place: stopKind, stop: true }); continue; }
+      if(fn === "intro"){ ROUTE.push({ place: "yard", stop: false }); continue; }
+      at = PL[step] ? step : at;
+      const P0 = PL[at] || {};
+      const pool = (P0.beds || []).filter(has);
+      /* a place may be SILENT even when it has beds: `sound` is how often this
+         stretch of country actually says anything */
+      const bed = (pool.length && bedRoll < (P0.sound == null ? 1 : P0.sound))
+                    ? pool[Math.floor(rr() * pool.length) % pool.length] : null;
+      ROUTE.push({ place: at, stop: false, bed });
+    }
+    /* and the bed sounds FOR ITS SECTION, then stops */
+    const bl = RT.level || [0.16, 0.08];
+    for(let i = 0; i < sections.length; i++){
+      const r = ROUTE[i], sec = sections[i];
+      if(!r || !r.bed) continue;
+      const t0 = sec.startBar * STEPS * spb, t1 = sec.endBar * STEPS * spb;
+      events.push(Object.freeze({
+        tSec: t0, durSec: Math.max(1, t1 - t0), voice: "atmos",
+        role: roleOfBed(r.bed), gain: bl[0] + rr() * bl[1], bed: r.bed }));
+    }
+  }
+
+  /* ══ THE STOP IS A SCRIPT, AND IT RUNS AT EVERY TOWN ═══════════════════
          [owner, 2026-08-15: "the breaks and conductor announcement should be
          at places in the song as signifiers telling a story. The breaks come
          before the stop and the train sound stops people get on the conductor
@@ -37700,11 +37878,24 @@ function makePerformance(chart, form, materials, sections){
           const stand = Math.max(1, END - A);
           if(standN) put(standN, A, lvlB, stand);
           if(valveN) put(valveN, A + 0.8, lvlB * 0.9, Math.max(1, stand - 1));
-          /* 5. THE DOORS, and 6. THE PLATFORM — people getting on, which is
-             what the town is FOR. */
+          /* 5. THE DOORS, and 6. WHERE THIS STOP ACTUALLY IS ─────────────
+             [owner: "Did this stop stop in the forest or a city?"] The script
+             is the same at every town because that is what a stop IS; the
+             PLACE is what differs, and it differs in what you hear standing
+             there. A CITY has people on the platform. A country HALT has the
+             birds carrying on, because nothing has arrived there but you.
+             The route drew which one this is [see THE ROUTE]. */
           if(doorsN) put(doorsN, A + barSec * 0.5, lvlA * 0.85);
-          if(crowdN) put(crowdN, A + barSec * 0.25, lvlB * 1.1,
-                         Math.max(1, stand - barSec * 0.25));
+          const here = ROUTE[i] || {};
+          const city = here.place !== "halt";
+          if(city){
+            if(crowdN) put(crowdN, A + barSec * 0.25, lvlB * 1.1,
+                           Math.max(1, stand - barSec * 0.25));
+          } else {
+            const quiet = pick(J.halt);
+            if(quiet) put(quiet, A + barSec * 0.25, lvlB * 0.9,
+                          Math.max(1, stand - barSec * 0.25));
+          }
         }
         if(starts){
           /* 7. THE CONDUCTOR CALLS — all aboard — BEFORE the train moves. At
@@ -38544,6 +38735,54 @@ function makePerformance(chart, form, materials, sections){
   }
 
   events.sort((a, z) => a.tSec - z.tSec);
+
+  /* ══ A CONTINUOUS GROUND IS ONE EVENT, NOT A CHAIN OF THEM ════════════════
+     [owner, 2026-08-15: "the train is fading in and out this is wrong"]
+     MEASURED and exactly right, and it was mine. The drone lane writes one
+     note per MATERIAL CYCLE — every four bars — and `V.trainbox` gives each
+     event an envelope, because an event that starts abruptly clicks. So a
+     train running for sixty seconds was fourteen events, and the listener
+     heard it swell and duck fourteen times. The arrangement said one
+     continuous run; the emitter said "here is a run, and here is another one".
+
+     Neither end of that is wrong on its own. What is wrong is treating a chain
+     of abutting events as if they were separate sounds. So they are MERGED
+     here, once, after everything that can move a note has finished: abutting
+     events on the same lane with the same voice and the same pitch become ONE
+     event spanning the lot, and the envelope then applies where it should —
+     at the moment the run starts and the moment it stops.
+
+     `drone.continuous` is the genre's declaration. A genre that does not say
+     it keeps its chain exactly as before, so nothing else in the file moves. */
+  if(chart.table.drone && chart.table.drone.continuous){
+    const EPS = spb * 0.6;                       // half a step of slack at the join
+    const run = events.filter(e => e.role === "drone" && e.voice)
+                      .sort((a, z) => a.tSec - z.tSec);
+    const gone = new Set();
+    for(let i = 0; i < run.length; i++){
+      if(gone.has(run[i])) continue;
+      let head = run[i], end = head.tSec + head.durSec, halt = head.halt;
+      let j = i + 1;
+      while(j < run.length){
+        const nx = run[j];
+        if(nx.voice !== head.voice || nx.pitch !== head.pitch) break;
+        if(nx.tSec > end + EPS) break;           // a real gap: the town
+        end = Math.max(end, nx.tSec + nx.durSec);
+        halt = nx.halt || halt;                  // the LAST one knows what is next
+        gone.add(nx); j++;
+      }
+      if(j > i + 1){
+        const at = events.indexOf(head);
+        if(at >= 0) events[at] = Object.freeze(Object.assign({}, head,
+                                   { durSec: end - head.tSec, halt: !!halt }));
+      }
+      i = j - 1;
+    }
+    if(gone.size){
+      const kept = events.filter(e => !gone.has(e));
+      events.length = 0; events.push(...kept);
+    }
+  }
 
   /* ═══ HOW LONG THIS KEY COULD STAY DOWN [docs/genre-research/legato.md] ═════
      Legato is "no intervening silence" between one note and the next

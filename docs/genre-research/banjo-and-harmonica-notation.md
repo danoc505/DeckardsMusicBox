@@ -99,6 +99,58 @@ the former — invented, plausible, and not the instrument.
 
 ---
 
+## 1d. A REAL BREAK, COUNTED — *Foggy Mountain Breakdown*
+
+*Added 2026-08-15 at the owner's request to close the deployment gap. This is
+an actual tablature, read note by note: Tom Adams, "Foggy Mountain Breakdown",
+based on the Flatt & Scruggs 1949 recording (adamscountybanjo.com, © 2012).
+Its own header is honest and so is this: **"this is a template for a
+down-the-neck break. This is not a transcription of any one break."** So it is
+how the vocabulary is DEPLOYED over sixteen bars by a player who knows the
+record, which is exactly what was missing — not a note-for-note copy of one
+performance.*
+
+Counted off the tab itself:
+
+| measured | value |
+|---|---|
+| bars in the break | **16** |
+| picked notes (a T, I or M in the tab) | **106** |
+| notes sounded by the LEFT hand — hammer-ons and pull-offs | **19** (17 H, 2 Po) |
+| **total sounding notes** | **125**, against 16 × 8 = 128 eighth-note slots |
+| thumb / middle / index | **43 / 34 / 29** |
+
+**Three things follow, and the program had none of them.**
+
+1. **The stream really is unbroken.** 125 of 128 slots sound. The claim in §1
+   that "the roll is the part" is not a figure of speech — a break is a
+   continuous eighth-note stream with three rests in sixteen bars.
+2. **One note in seven is NOT PICKED.** 19 of 125 — 15% — are hammer-ons and
+   pull-offs: the left hand sounding a note between picked ones. They are
+   quieter, they have no pick attack, and they are most of what makes a break
+   sound like playing rather than like a pattern generator. The program picks
+   every note.
+3. **The thumb leads and it is the beat.** 43 of 106 picked notes are the
+   thumb, and in every roll in §1a the thumb falls on the strong positions.
+   That is where a break's dynamic accent lives — and the program's measured
+   dynamic range across the whole roll was **1 dB**, which is no accent at all.
+
+And the form, printed in the tab's own chord chart:
+
+    | 1  1  1  1 | 6m 6m 6m 1 | 6m 6m 6m 1 | 5  5  1  1 |
+    | G  G  G  G | Em Em Em G | Em Em Em G | D  D  G  G |
+
+Sixteen bars, and the harmonic event is the **relative minor** — three bars of
+it, twice, before the V. Not a i-VI-VII shuttle and not a blues.
+
+**What is still not closed:** the tab is a template rather than one recorded
+break, so it cannot say how a player varies between his FIRST and SECOND
+break, or what he does behind a singer as opposed to in a solo. That needs two
+transcriptions of the same tune from the same player, and it is the next thing
+to look for.
+
+---
+
 ## 2. THE HARMONICA — the layout decides what it can play
 
 A 10-hole Richter diatonic in C [Wikipedia, *Richter-tuned harmonica*]:
