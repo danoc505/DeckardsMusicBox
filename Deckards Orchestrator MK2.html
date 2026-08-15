@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15v · the train is the drone — it stops in every town, and every stop is a script</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15w · the banjo plays real rolls and can be heard; the world and the weather get faders</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3345,7 +3345,17 @@ const MIX_ROLE_BUS = { drums: "drums", bass: "bass",
                           drone bus of its own is a matrix row (the serial-
                           routing column's territory) and is recorded in the
                           backlog, not smuggled in here. */
-                       drone: "keys" };
+                       drone: "keys",
+                       /* ── AND THE WORLD GETS TWO OF ITS OWN ────────────────
+                          Same shape as the drone above and for the same
+                          reason: a role missing from this map draws a strip on
+                          the glass and has no channel in the graph, so its
+                          fader writes into nothing. The BUS stays `vinyl`
+                          because that is where these sounds have always gone —
+                          naming them here puts a real channel, with its own
+                          fader, EQ and meter, in front of the wire the audio
+                          already takes. At defaults the record is unchanged. */
+                       scene: "vinyl", weather: "vinyl" };
 /* ── THE TWO A CHANNEL STRIP SENDS TO, DECLARED ONCE ───────────────────────
    "reverb, digital delay", while dynamics "would normally be on an insert,
    instead" [corpus:wikipedia Aux-send; docs/genre-research/channel-sends.md].
@@ -9266,6 +9276,24 @@ const MEDIUM_WOW_HZ = 78 / 60;
        0.92 x 0.55 = 0.51 against LEVEL.kick 0.72 x a typical 0.8 velocity] */
     brk: 0.55,
   };
+  /* ── THE STRING BAND'S TWO TRIMS, MEASURED RATHER THAN CHOSEN ─────────────
+     The banjo and the harmonica ride buses (`keys`, `lead`) that were levelled
+     for synthesisers, and both are RECORDINGS whose normalised full-scale
+     output is a different animal from an oscillator's. These two numbers put
+     each where it belongs against the band, and they are here rather than
+     inside the voices so the pair can be read side by side.
+
+     MEASURED across 8 records, peak gain handed to the channel:
+
+                            before          after
+       banjo, the roll      -38.4 dB        the roll is the rhythm part of a
+       banjo, the chords    -29.2 dB        string band, so it sits with the
+       harmonica, the tune  -27.1 dB        bass; the tune sits above it
+       (bass -18.5, kick -4.7 for scale)
+
+     [docs/genre-research/banjo-and-harmonica-notation.md §3] */
+  const BANJO_TRIM = 0.62;
+  const HARP_TRIM  = 0.46;
 
   /* ══ THE ROOM'S DSP, as a worklet module ═══════════════════════════════════
      Source for the AudioWorkletProcessor that IS the room. It lives here as a
@@ -13265,7 +13293,35 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
     lp.frequency.value = 1200 + 6500 * pick; lp.Q.value = 0.4;
     const gn = c.createGain();
-    const lvl = LEVEL[bus] * 1.0 * (s.pk || 1) * Math.min(1.2, ev.gain);
+    /* ══ THE TAKES ARE NORMALISED, AND THE LAYER IS THE DYNAMIC ══════════════
+       [owner, 2026-08-15: "The Banjo is playing back to quite and even when i
+       turn up the volume its still to low." MEASURED and exactly true — see
+       docs/genre-research/banjo-and-harmonica-notation.md §3. The roll, which
+       is this genre's signature part, handed its channel a median peak of
+       -38.4 dB against a bass at -18.5 and a kick at -4.7. A fader that
+       travels +12 dB cannot rescue 20 dB, which is precisely what he reports.
+
+       TWO CAUSES, BOTH IN THIS LINE.
+
+       1. THE DYNAMIC WAS COUNTED TWICE. The bank has two recorded layers and
+          the quiet one was recorded quiet — `banjoP`'s takes peak at 0.12-0.34
+          against the forte set's 0.34-0.79. `want` above already picks the
+          soft LAYER for a soft note; multiplying by `ev.gain` as well applies
+          the same dynamic a second time, so a soft note lands 10 dB below
+          where the recording already put it. A sampler normalises its layers
+          and lets velocity choose the TIMBRE plus a gentle trim, which is what
+          `dyn` is now.
+       2. THE TAKES WERE NOT NORMALISED TO EACH OTHER. `pk` undoes the
+          encoder's own normalisation (`enc = adpcm_encode(x / pk)`), so it
+          restores whatever level each note happened to be recorded at — and
+          inside the FORTE layer alone those run 0.34 to 0.79. A scale up the
+          neck jumped 7 dB between adjacent notes for no musical reason. That
+          is a recording artefact, not the instrument, so it goes.
+
+       What is left is one honest number per part: the bus level, the genre's
+       own trim, and a velocity that trims rather than governs. */
+    const dyn = 0.55 + 0.45 * Math.min(1.2, ev.gain);
+    const lvl = LEVEL[bus] * BANJO_TRIM * dyn;
     gn.gain.setValueAtTime(lvl, t);
     /* a pluck rings until the hand stops it: the gate closes at the note's
        end with a short honest release, never a chop */
@@ -13305,7 +13361,13 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       src.loopStart = s.ls / ERANG.rate; src.loopEnd = s.le / ERANG.rate;
     }
     const gn = c.createGain();
-    const lvl = LEVEL[bus] * 1.15 * (s.pk || 1) * Math.min(1.2, ev.gain);
+    /* NORMALISED FOR THE SAME REASON THE BANJO IS, and this bank is worse:
+       the harmonica takes peak from 0.085 to 0.44, so the tune jumped FOURTEEN
+       decibels between adjacent notes of a scale. `pk` restores what each note
+       happened to be recorded at, which is a fact about the session and not
+       about the instrument. [see the sheet, §3] */
+    const dyn = 0.55 + 0.45 * Math.min(1.2, ev.gain);
+    const lvl = LEVEL[bus] * HARP_TRIM * dyn;
     /* the recording's own breath IS the attack; the gate only opens fast
        enough not to clip it */
     gn.gain.setValueAtTime(0.0001, t);
@@ -16087,7 +16149,11 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       gn.gain.exponentialRampToValueAtTime(0.0001, t + dur);
       src.connect(lp);
       if(pan){ lp.connect(pan); pan.connect(gn); } else lp.connect(gn);
-      gn.connect(chanIn(g, "tape", "vinyl"));
+      /* the event's OWN role decides its channel: the birds and the river are
+         "the world", the weather is "weather", and the surface noise is the
+         tape. `chanIn` falls back to the vinyl bus for anything unlabelled, so
+         a genre that says nothing plays exactly as it did. */
+      gn.connect(chanIn(g, ev.role, "vinyl", ev));
       src.start(t); src.stop(t + dur + 0.1);
       return [src];
     }
@@ -16104,7 +16170,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const src = c.createBufferSource(); src.buffer = buf;
     if(s.ls >= 0){ src.loop = true; src.loopStart = s.ls / ERANG.rate; src.loopEnd = s.le / ERANG.rate; }
     const gn = c.createGain(); gn.gain.value = ev.gain;
-    src.connect(gn); gn.connect(chanIn(g, "tape", "vinyl"));
+    src.connect(gn); gn.connect(chanIn(g, ev.role, "vinyl", ev));
     src.start(t); src.stop(t + ev.durSec);
     return [src];
   };
@@ -16292,6 +16358,113 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     src.start(t, ls + ((ev.tSec * rate) % loopLen));
     src.stop(t + dur + 0.05);
     made.push(src);
+    return made;
+  };
+
+  /* ══ THE WEATHER ══════════════════════════════════════════════════════════
+     [owner, 2026-08-15: "We should also have a weather channel for rain,
+     blizzard, thunder, wind"]
+
+     WHAT IS A RECORDING AND WHAT IS NOT, said plainly, because the difference
+     matters and this file does not fake provenance:
+
+       WIND      the pack's own `sfx_wind`, a real loopable recording
+       THUNDER   the pack's own `sfx_thunder_impact`, a real one-shot
+       RAIN      SYNTHESISED. There is no rain in the bank. It is bandpassed
+                 noise with a dense scatter of droplet transients over it —
+                 rain is broadband hiss plus impacts, and the impacts are what
+                 stop it sounding like tape hiss.
+       BLIZZARD  SYNTHESISED, and it is not "rain but colder": snow is WIND
+                 carrying fine particles, so it is a low-mid howl with slow
+                 gusts under a thin high hiss, and the gusts are the part an
+                 ear identifies.
+
+     The droplets and the gusts are placed by the HASH of their own time, never
+     by a random draw, so the offline render is the live one [Law 10] and no
+     other genre's draws move. ══════════════════════════════════════════════ */
+  V.weather = function(g, ev, t){
+    const c = g.ctx, made = [];
+    const dur = Math.max(0.5, ev.durSec), lvl = Math.max(0.0001, ev.gain);
+    /* the two RECORDINGS take the short path: the bank already has them */
+    if(ev.bed){
+      const m = ERANG.meta(ev.bed), buf = erangBuffer(g, ev.bed);
+      if(!m || !buf) return [];
+      const src = c.createBufferSource(); src.buffer = buf;
+      if(m.ls >= 0){ src.loop = true;
+        src.loopStart = m.ls / ERANG.rate; src.loopEnd = m.le / ERANG.rate; }
+      const gn = c.createGain();
+      gn.gain.setValueAtTime(0.0001, t);
+      gn.gain.linearRampToValueAtTime(lvl, t + Math.min(2.5, dur * 0.1));
+      gn.gain.setValueAtTime(lvl, t + dur - Math.min(2.5, dur * 0.1));
+      gn.gain.linearRampToValueAtTime(0.0001, t + dur);
+      src.connect(gn); gn.connect(chanIn(g, ev.role, "vinyl", ev));
+      src.start(t); src.stop(t + dur + 0.05);
+      return [src];
+    }
+    if(!g.noise) return [];
+    const snow = ev.kind === "blizzard";
+    const out = chanIn(g, ev.role, "vinyl", ev);
+    /* ── THE BODY ────────────────────────────────────────────────────────
+       Rain sits up in the 1-6 kHz band where a shower actually lives; a
+       blizzard sits low and wide, because what you hear is moving air. */
+    const src = c.createBufferSource(); src.buffer = g.noise; src.loop = true;
+    const bp = c.createBiquadFilter();
+    bp.type = snow ? "lowpass" : "bandpass";
+    bp.frequency.value = snow ? 900 : 2600;
+    bp.Q.value = snow ? 0.7 : 0.5;
+    const body = c.createGain();
+    body.gain.value = lvl * (snow ? 1.0 : 0.85);
+    src.connect(bp); bp.connect(body); body.connect(out);
+    src.start(t); src.stop(t + dur + 0.05); made.push(src);
+    /* ── THE GUSTS, which are the blizzard ───────────────────────────────
+       Slow, uneven, and never the same length twice: a gust every 7-16
+       seconds, each one swelling and falling over a few seconds. Two LFOs
+       would give a pattern; the hash gives weather. */
+    if(snow){
+      for(let x = 0; x < dur; ){
+        const h = hash32("gust:" + x.toFixed(2));
+        const wait = 7 + ((h >>> 8) & 255) / 255 * 9;
+        const len = 2.5 + ((h >>> 16) & 255) / 255 * 4;
+        const amt = 0.5 + ((h >>> 4) & 15) / 15 * 1.1;
+        const at = t + x;
+        if(x + len > dur) break;
+        body.gain.setValueAtTime(body.gain.value, at);
+        body.gain.linearRampToValueAtTime(lvl * (1 + amt), at + len * 0.45);
+        body.gain.linearRampToValueAtTime(lvl, at + len);
+        /* and the air brightens as it accelerates, which is what makes a gust
+           read as MOVING rather than as a volume change */
+        bp.frequency.setValueAtTime(900, at);
+        bp.frequency.linearRampToValueAtTime(900 + 900 * amt, at + len * 0.45);
+        bp.frequency.linearRampToValueAtTime(900, at + len);
+        x += wait;
+      }
+      /* the fine stuff: snow is particles, and they are the top of it */
+      const hs = c.createBufferSource(); hs.buffer = g.noise; hs.loop = true;
+      const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 4200;
+      const hg = c.createGain(); hg.gain.value = lvl * 0.28;
+      hs.connect(hp); hp.connect(hg); hg.connect(out);
+      hs.start(t); hs.stop(t + dur + 0.05); made.push(hs);
+      return made;
+    }
+    /* ── THE DROPLETS ────────────────────────────────────────────────────
+       Rain without impacts is hiss. About twenty a second, each a few
+       milliseconds of high noise — individually inaudible, collectively the
+       whole difference between rain and a filter. */
+    const every = 0.05;
+    for(let x = 0; x < dur; x += every){
+      const h = hash32("drop:" + x.toFixed(3));
+      if(((h >>> 20) & 255) / 255 > 0.55) continue;
+      const at = t + x + ((h >>> 8) & 255) / 255 * every;
+      const d = c.createBufferSource(); d.buffer = g.noise; d.loop = true;
+      const df = c.createBiquadFilter(); df.type = "bandpass";
+      df.frequency.value = 2200 + ((h >>> 4) & 255) * 18; df.Q.value = 2.2;
+      const dg = c.createGain();
+      const dl = lvl * 0.9 * (0.3 + ((h >>> 12) & 255) / 255 * 0.7);
+      dg.gain.setValueAtTime(dl, at);
+      dg.gain.exponentialRampToValueAtTime(0.00001, at + 0.02);
+      d.connect(df); df.connect(dg); dg.connect(out);
+      d.start(at); d.stop(at + 0.03); made.push(d);
+    }
     return made;
   };
 
@@ -28700,10 +28873,19 @@ GENRE.boxcarsynth = {
        and adding one — which is the argument for putting the train on this
        role rather than on a bed nobody's arrangement can see. */
     roles: {
+      /* ── AND THE ROLL IS IN THE RECORD, NOT IN ONE SECTION ──────────────
+         [owner: "I think we need more notes at the least"] The `ostinato` lane
+         is the banjo's ROLL, and it was named in ONE of these six lines — so
+         the instrument the genre is built on played its own characteristic
+         part in about a fifth of the record. A bluegrass banjo player rolls
+         continuously; the roll is the rhythm part, not an ornament. It now
+         runs wherever the band is playing. The night run keeps its sparseness
+         on purpose (the tune rests there and the slide answers), and the yard
+         and the outro are two instruments by design. */
       intro:        ["keys", "keys2"],
-      verse:        ["drums", "bass", "keys", "lead", "drone"],
+      verse:        ["drums", "bass", "keys", "lead", "ostinato", "drone"],
       instrumental: ["drums", "bass", "keys", "keys2", "ostinato", "lead", "drone"],
-      chorus:       ["keys", "keys2", "lead", "counter"],
+      chorus:       ["keys", "keys2", "lead", "counter", "ostinato"],
       bridge:       ["drums", "bass", "keys2", "counter", "drone"],
       outro:        ["keys", "drone"],
     },
@@ -28815,11 +28997,52 @@ GENRE.boxcarsynth = {
      second, which is a picker's right hand rather than a keyboard's chord.
      The cells are the forward and backward rolls: thumb on the root, the
      fingers walking the chord above it. */
-  ostinato: { unit: 1, vel: 0.5, run: true, follow: true, ratchet: 0,
-              cells: [[[0, 4, 7, 12, 7, 4, 7, 4], 4],     // the forward roll
-                      [[0, 7, 12, 7, 4, 7, 12, 7], 3],    // thumb-lead, walking up
-                      [[0, 4, 7, 4, 12, 7, 4, 7], 2],     // the backward roll
-                      [[0, 7, 4, 7, 0, 7, 12, 7], 2]] },  // alternating thumb
+  /* ── AND THESE ARE THE REAL ROLLS, NOT AN IMPRESSION OF THEM ──────────────
+     [owner, 2026-08-15: "You need to look up some music scores written for
+     banjo and harmonica, we are not using them correctly."]
+
+     He was right. The four cells that were here were invented — plausible
+     arpeggios with a 12 in them. These eight are the NAMED Scruggs rolls with
+     their actual string numbers [Banjo For Dummies, "Roll Patterns on the
+     Banjo"; the eighth-note claim from Wikipedia, "Banjo roll"], translated
+     through open G tuning, which is the part that matters:
+
+         string    4    3    2    1    5
+         note     D    G    B    D    g
+         DEGREE   -3    0    2    4    7
+
+     THE NUMBERS IN A CELL ARE SCALE DEGREES, NOT SEMITONES — `buildOstinato`
+     hands them to `degMidi`, so a 4 is the fifth and a 7 is the octave. My
+     first pass at this table wrote the semitone offsets (4, 7, 12) and the
+     engine read them as the sixth, the octave and the sixteenth: the roll
+     spanned two octaves and the fifth string came out as the LOWEST note of
+     the figure, which is the exact inverse of the instrument. Measured on
+     seed 3 before the fix: pitches 79 72 79 72 69 79 72 69, with the drone
+     at the bottom.
+
+     THE FIFTH STRING IS A HIGH DRONE. It is a short string tuned to the g
+     ABOVE the third string's G, and every roll below strikes it two or three
+     times a bar. That is why a roll sounds like a banjo and an arpeggio does
+     not: it is not a line climbing through a chord, it is a line with a high
+     drone punched through it. The old cells had a 12 at the top where an
+     arpeggio would put it; these have it in the middle, where the thumb does.
+
+     And the law that shapes all eight, quoted: "you don't want to use the same
+     right-hand finger or hit the same string twice in a row" — so no cell
+     repeats an offset back to back, and that is checkable rather than stylistic.
+
+     `unit: 2` is the sourced rate: a roll is "eight (eighth) notes" to the bar,
+     not sixteen. The extra notes the owner asked for come from the roll being
+     in the RECORD rather than in one section function — see form.roles. */
+  ostinato: { unit: 2, vel: 0.5, run: true, follow: true, ratchet: 0, whole: true,
+              cells: [[[2, 4, 7, 2, 4, 7, 2, 4], 5],        // forward: 2-1-5-2-1-5-2-1
+                      [[0, 2, 7, 4, -3, 2, 7, 4], 4],       // alternating thumb: 3-2-5-1-4-2-5-1
+                      [[0, 2, 4, 7, 4, 2, 0, 4], 3],        // forward-reverse: 3-2-1-5-1-2-3-1
+                      [[2, 4, 2, 4, 7, 2, 4, 7], 3],        // Foggy Mountain: 2-1-2-1-5-2-1-5
+                      [[4, 2, 7, 4, 2, 7, 2, 4], 2],        // backward: 1-2-5-1-2-5-2-1
+                      [[0, 4, 7, 0, 4, 0, 7, 4], 2],        // the "lick": 3-1-5-3-1-3-5-1
+                      [[4, 2, 4, 7, 4, 2, 4, 7], 1],        // middle-leading (Osborne): 1-2-1-5-1-2-1-5
+                      [[2, 0, 2, 4, 2, 0, 2, 4], 1]] },     // index-leading: 2-3-2-1-2-3-2-1
   /* the answer is the slide or the harp speaking in the tune's gaps */
   counter: { style: "line", density: 0.2, intervals: [-3, -5, 3, 5],
              octaves: [0], answer: 0.6 },
@@ -28852,8 +29075,15 @@ GENRE.boxcarsynth = {
      band's floor 67 leaves 2 semitones of shadow, not 7 — the parallel-
      perfects guard measured the price of the first draft (the ambient
      table's own lesson, relearned) */
+  /* ── AND THE FIGURE'S BAND MUST BE WIDER THAN THE FIGURE ─────────────────
+     `intoBand` folds every note into the register INDEPENDENTLY, so a cell
+     that spans more than the band is not transposed, it is MANGLED — the
+     note that does not fit comes back an octave down and the shape inverts.
+     A banjo roll spans the fourth string to the fifth, which is 17 semitones
+     [see ostinato below], so a 15-semitone band could not hold one. 69-88 is
+     19, and the high drone stays on top where the instrument puts it. */
   registers: { drone: [24, 32], bass: [34, 46], keys: [52, 69], counter: [67, 82],
-               bassWalk: [34, 46], ostinato: [69, 84],
+               bassWalk: [34, 46], ostinato: [69, 88],
                themeA: [64, 82], themeB: [66, 84], themeC: [62, 80] },
   /* a wooden boxcar, not a hall: short, close, warm [CHOSEN] */
   space: { wet: 0.28, irSec: 1.6, tailPow: 1.3, tailDark: 0.5, sendHp: 130,
@@ -28910,6 +29140,21 @@ GENRE.boxcarsynth = {
      what it actually is — the LANDSCAPE the train is passing through. */
   atmos: { fams: ["sceneRiver", "sceneBirds", "railClank", "railBell"],
            level: [0.17, 0.10], accent: 0.7, accentLevel: [0.34, 0.16] },
+  /* ── THE WEATHER THE JOURNEY IS MADE IN ──────────────────────────────────
+     [owner, 2026-08-15: "We should also have a weather channel for rain,
+     blizzard, thunder, wind"] A record draws ONE day. Mostly clear, because a
+     journey record whose every take is wet has no dry one to contrast with;
+     rain and wind are the common weathers of a long haul and the blizzard is
+     the rare winter run. The thunder is a separate coin at 30%, so a wet
+     record is not obliged to be a storm.
+
+     WIND and THUNDER are the pack's own recordings; RAIN and BLIZZARD are
+     synthesised, and V.weather says so in full. [CHOSEN weights] */
+  weather: {
+    kinds: [["clear", 5], ["rain", 3], ["wind", 3], ["blizzard", 1]],
+    level: [0.085, 0.05],
+    thunder: { chance: 0.30, every: [75, 45], level: [0.26, 0.12] },
+  },
   /* ── THE JOURNEY YOU CAN HEAR ────────────────────────────────────────────
      Which sound plays at which boundary. The names are the bank's own, and a
      name the bank does not have is skipped rather than faked — the encoder
@@ -34817,6 +35062,37 @@ function makeMaterials(chart, editPlan, arcPlan){
       const late = b >= OCHANGE.turn;
       const step = (OCHANGE.stride && late) ? O.unit * 2 : O.unit;
       const tRow = TGEN ? TGEN[b] : null;
+      /* ══ A FIGURE IS TRANSPOSED AS A FIGURE, NOT NOTE BY NOTE ══════════════
+         `intoBand` folds EACH note into the register on its own, which is right
+         for a part whose notes are independent and destroys any figure with an
+         octave inside it: the note that does not fit comes back an octave down,
+         so the shape inverts rather than moving.
+
+         MEASURED, and it is why the banjo did not sound like a banjo. A roll's
+         fifth string is the OCTAVE above the root — the high drone the whole
+         instrument is built around [docs/genre-research/banjo-and-harmonica-
+         notation.md §1b]. Folded note by note into a band that already held the
+         root, the octave landed BELOW the third and the fifth: seed 3 came out
+         75 79 75 79 72 75 79 72, with the drone at the bottom of the figure.
+         A listener hears that as a different instrument, because it is.
+
+         `ostinato.whole` says "move the whole bar together": one octave offset
+         is chosen for the bar so the figure sits as far inside the band as it
+         can, and every note of that bar takes the same offset. A genre that
+         does not declare it folds note by note exactly as before, so every
+         other genre's figure is byte-identical. */
+      let whole = 0;
+      if(O.whole){
+        const degOf = d => ch ? degMidi(ch.key, ch.mode, ch.degree + d)
+                              : degMidi(keyOf(chords), modeOf(chords), d);
+        let lo = Infinity, hi = -Infinity;
+        for(const d of c){ const a2 = degOf(d); if(a2 < lo) lo = a2; if(a2 > hi) hi = a2; }
+        /* the offset that puts the figure's own span inside the band; if the
+           figure is wider than the band, the BOTTOM is what lands, so the high
+           drone stays the high note rather than being the one that is sacrificed */
+        while(lo + whole < R.ostinato[0]) whole += 12;
+        while(hi + whole > R.ostinato[1] && lo + whole - 12 >= R.ostinato[0]) whole -= 12;
+      }
       for(let st = 0; st < 16; st += step){
         /* the gate: with marbles declared, a step sounds only where the
            generated pattern put a hit; its accent carries to the velocity */
@@ -34833,8 +35109,9 @@ function makeMaterials(chart, editPlan, arcPlan){
            behind in the old one. */
         const abs = ch ? degMidi(ch.key, ch.mode, ch.degree + deg)
                        : degMidi(keyOf(chords), modeOf(chords), deg);
-        const pitch = intoBand(abs + ((OCHANGE.octave && late) ? 12 : 0),
-                               R.ostinato[0], R.ostinato[1]);
+        const shifted = abs + ((OCHANGE.octave && late) ? 12 : 0);
+        const pitch = O.whole ? shifted + whole
+                              : intoBand(shifted, R.ostinato[0], R.ostinato[1]);
         /* ── THE RATCHET DRAWS FROM ITS OWN STREAM ─────────────────────────
            Taken from `rng` this consumed a number on every step of every
            ostinato, which shifted every draw after it: 882 of 2100 snapshot
@@ -37250,17 +37527,70 @@ function makePerformance(chart, form, materials, sections){
      everything that already excludes the medium from the .mid, the roll and
      the stem windows excludes the weather too. The accent, when the chart
      drew one, lands on the peak section's downbeat -- the one climax. */
+  /* ── AND WHICH CHANNEL A SCENE SOUND BELONGS ON ──────────────────────────
+     [owner: "The animal sfx is really good. That might want to be on its own
+     channel also."] It rode the TAPE strip along with the surface noise, so
+     pulling the crackle down pulled the birds down with it. A bed is now
+     labelled by what it IS: the birds and the river are "the world", anything
+     named for weather is "weather", everything else stays where it was. The
+     label is derived from the bank's own family and name, so a bed added to
+     the pack lands on the right fader without anybody editing a list. */
+  const roleOfBed = n => {
+    const m = ERANG.meta(n);
+    if(/^scene/.test((m && m.fam) || "")) return "scene";
+    if(/wind|thunder|rain|blizzard|storm/i.test(n || "")) return "weather";
+    return "tape";
+  };
   if(chart.atmos){
     events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "atmos",
-                                role: "tape", gain: chart.atmos.level,
+                                role: roleOfBed(chart.atmos.bed), gain: chart.atmos.level,
                                 bed: chart.atmos.bed }));
     if(chart.atmos.accent){
       const pk = sections.find(s => s.peak);
       const m = ERANG.meta(chart.atmos.accent);
       if(pk && m) events.push(Object.freeze({
         tSec: pk.startBar * STEPS * spb, durSec: m.n / ERANG.rate + 0.5,
-        voice: "atmos", role: "tape", gain: chart.atmos.accentGain,
+        voice: "atmos", role: roleOfBed(chart.atmos.accent), gain: chart.atmos.accentGain,
         bed: chart.atmos.accent }));
+    }
+  }
+
+  /* ══ THE WEATHER, DECLARED AND DRAWN ══════════════════════════════════════
+     [owner: "We should also have a weather channel for rain, blizzard,
+     thunder, wind"] A genre says what its weather can be and how often; the
+     record draws ONE day out of that, and the thunder is a separate coin so a
+     rainy record is not obliged to have a storm in it.
+
+     Its own substream [Law 3], so a genre that declares no weather draws
+     nothing and cannot move another genre's music by a sample — and the
+     draws below all run whatever the outcome [Law 7]. */
+  if(chart.table.weather){
+    const W = chart.table.weather;
+    const wr = stream(chart.seed, "weather");
+    const kind = W.kinds && W.kinds.length ? wpick(wr, W.kinds) : "clear";
+    const lvl = (W.level ? W.level[0] : 0.10) + wr() * (W.level ? W.level[1] : 0.05);
+    const stormRoll = wr();
+    const REC = { wind: "sfx_wind" };
+    if(kind !== "clear"){
+      const bed = REC[kind] && ERANG.meta(REC[kind]) ? REC[kind] : null;
+      events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "weather",
+                                  role: "weather", gain: lvl, kind, bed }));
+    }
+    /* THE THUNDER IS ITS OWN EVENT and it is rationed: a clap every minute or
+       so at most, because the one thing that stops a storm meaning anything is
+       hearing it constantly. Held-back colour, the same rule the dungeon
+       synth's thunder keeps. */
+    const TH = W.thunder;
+    const clap = TH && ERANG.meta("sfx_thunder_impact") ? "sfx_thunder_impact" : null;
+    if(clap && stormRoll < (TH.chance == null ? 0.3 : TH.chance)){
+      const gap0 = (TH.every ? TH.every[0] : 70), gapV = (TH.every ? TH.every[1] : 40);
+      const m = ERANG.meta(clap);
+      for(let x = 6 + wr() * 20; x < totalSec - 4; x += gap0 + wr() * gapV){
+        events.push(Object.freeze({
+          tSec: x, durSec: m.n / ERANG.rate + 0.6, voice: "weather", role: "weather",
+          gain: (TH.level ? TH.level[0] : 0.28) + wr() * (TH.level ? TH.level[1] : 0.12),
+          bed: clap }));
+      }
     }
   }
 
@@ -37304,7 +37634,7 @@ function makePerformance(chart, form, materials, sections){
         if(!m || tSec < 0) return;
         events.push(Object.freeze({
           tSec, durSec: secs != null ? secs : m.n / ERANG.rate + 0.4,
-          voice: "atmos", role: "tape", gain, bed: name }));
+          voice: "atmos", role: roleOfBed(name), gain, bed: name }));
       };
       const barSec = STEPS * spb;
       /* ══ THE STOP IS A SCRIPT, AND IT RUNS AT EVERY TOWN ═══════════════════
@@ -37415,7 +37745,7 @@ function makePerformance(chart, form, materials, sections){
             if(span <= 0) continue;
             events.push(Object.freeze({
               tSec: s.startBar * barSec + jr() * span,
-              durSec: len, voice: "atmos", role: "tape",
+              durSec: len, voice: "atmos", role: roleOfBed(nm),
               gain: (J.passLevel ? J.passLevel[0] : 0.14) + jr() * (J.passLevel ? J.passLevel[1] : 0.06),
               bed: nm, pass: true }));
           }
@@ -41589,9 +41919,19 @@ const MIXER_CH = [];                     // the strips on screen, for refreshLiv
    Any part not named here still gets a strip, after these. */
 /* the drone is FIRST because it is the floor -- a desk puts the thing
    everything else sits on at the left-hand end */
-const MIX_ORDER = ["drone", "drums", "bass", "keys", "keys2", "ostinato", "counter", "lead", "tape"];
+const MIX_ORDER = ["drone", "drums", "bass", "keys", "keys2", "ostinato", "counter", "lead",
+                   /* ── THE WORLD THE RECORD IS IN, ON ITS OWN TWO FADERS ────
+                      [owner, 2026-08-15: "The animal sfx is really good. That
+                      might want to be on its own channel also. We should also
+                      have a weather channel for rain, blizzard, thunder, wind"]
+                      Both of these used to ride the TAPE strip along with the
+                      surface noise and the medium, so turning the birds down
+                      turned the crackle down with them. They are separate
+                      things a mix would separate. */
+                   "scene", "weather", "tape"];
 const MIX_LABEL = { drone: "drone", drums: "drums", bass: "bass", keys: "chords", keys2: "chords 2",
-                    ostinato: "figure", counter: "answer", lead: "tune", tape: "tape" };
+                    ostinato: "figure", counter: "answer", lead: "tune", tape: "tape",
+                    scene: "the world", weather: "weather" };
 const MIX_BAND = [
   { k: "low",  cap: "LOW",  label: "low shelf, 200 Hz" },
   { k: "mid",  cap: "MID",  label: "mid bell, 1 kHz" },
