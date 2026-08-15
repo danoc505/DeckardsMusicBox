@@ -175,6 +175,35 @@ sheet makes, driven to failure on purpose (adding drums to a town makes it
 fail and name the towns; restoring passes). Battery **186/1** — the one red
 is still the ruled blend item.
 
+**Builds `2026-08-15v`..`2026-08-15x` — THE TRAIN, THE BAND, AND THE WORLD.**
+
+`15v` — **the train is the DRONE**, not an atmosphere bed. It plays the
+`drone` role, so a town is a section that does not carry it and the running
+sound stops there by arrangement rather than by an effect. The stop is a
+SCRIPT in a fixed order at every town. `probe_journey.js` grew to eleven
+claims. Measured: the train 9 dB under the band while travelling, **−240 dB
+(absent) in a town**.
+
+`15w` — **the banjo could not be heard, and it was arithmetic.** The roll
+handed its channel −38.4 dB against a bass at −18.5; a +12 dB fader cannot
+close 20. Two causes: the dynamic was counted twice (the quiet layer was
+already recorded quiet), and the takes were never normalised to each other (a
+7 dB jump between adjacent notes; 14 on the harmonica). Also: the four
+ostinato cells were INVENTED — replaced with the eight named Scruggs rolls,
+and the roll moved from one section function to 92% of the record. Two new
+mixer channels: **the world** and **the weather**.
+
+`15x` — **the train was fading in and out** because the drone lane writes one
+note per material cycle and each got its own envelope; abutting events are
+now merged into one run. And **the scene sounds got a place and a reason**: a
+ROUTE draws a place per section as a walk, a place's bed sounds for its
+section and stops, a stop is a city or a country halt, the weather comes in
+spells, and thunder only lands inside one. **`harness/probe_route.js`** prints
+any record back as prose and then holds five claims. The banjo deployment gap
+closed off a real tablature — 16 bars, 106 picked notes, **19 hammer-ons**,
+thumb 43: the roll now turns every bar, the thumb accents the pulse (6.7 dB
+where the range was 1), and one note in eight is hammered rather than picked.
+
 **NOT JUDGED BY EAR.** Not one boxcar record, and not the corrected dungeon
 synth. That is the whole outstanding question.
 
