@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-15i` unless it says otherwise (the
+*Everything below is verified at `2026-08-15l` unless it says otherwise (the
 newest build; its entry is under "What happened last"). If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
@@ -135,6 +135,69 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+**Build `2026-08-15l` — THE WAR HORN ANSWERS; IT DOES NOT PAD.** The owner:
+*"can we make sure we are using the carnex properly?"* Researched first
+(`docs/genre-research/carnyx-usage.md` — Polybius on Telamon, Diodorus, the
+John Kenny reconstructions): a carnyx is a SIGNAL instrument — blasts that
+time an assault, one voice from one valveless tube; massed it is a wall of
+independent noise, never harmony. What the program was doing: dungeon synth
+pooled it on **keys2, the sustained chord pad** — a one-note tube voicing
+block chords, softly, through verses. Two fixes:
+
+- **The pool move**: carnyx leaves keys2 and joins a new
+  `counter: [["auto",7],["carnyx",3]]` pool — the single answering line that
+  speaks in the tune's gaps. Measured across 25 seeds: six records carry the
+  horn, every event on the counter, pitches 63–67 (beside its measured
+  623/696 Hz resonances), one record's whole answer is a single call. The
+  new pool's draw is a new call on the rack stream, so DS's keys2/kit deals
+  reshuffle with it: 21/25 DS seeds move, **every other genre
+  byte-identical**.
+- **The second door, closed surgically**: the doubling engine had drawn the
+  horn onto the keys pad (189 chord notes at gain 0.10) and the bass. The
+  carnyx now declares `signal: true` and the DRAWN doubling declines it
+  AFTER the selection — pool membership and every rng call byte-identical,
+  so only the records whose drawn partner was the horn change (2 of 25),
+  and they keep their line undoubled. A hand's `picks.stack` still gets a
+  war horn deliberately (Belkin's exception, as with the unison).
+
+Hobbit synth's keys2 ladder still ends on the carnyx **pad** at the apex —
+recorded in the sheet as open, tied to task #58 (dealing a chord across
+monophonic voices), not half-fixed. Battery 178/1 (the ruled blend).
+probe_reachable: every pool name happens. NOT judged by ear.
+
+**Build `2026-08-15k` — THE BASS SECTION: A RECORDED BASSOON AN OCTAVE ABOVE
+THE CONTRABASSOON.** The owner: *"can we improve the bass section with the
+bassoons and contrabassoons?"* The sheet
+(`docs/genre-research/the-bass-section.md`) quotes the doctrine: the double
+bassoon doubles *"an octave lower, the bass of the group to which it
+belongs"* [Rimsky-Korsakov]; the contrabassoon *"can anchor a bass line by
+itself in passages of mf or less"* and the bassoon *"adds strength and
+clarity when doubling"*. Built: the VSCO-2 CE bassoon sustains measured by
+the brass analyzer's own rules (`corpus/analyze_bassoon.py` — octave voted
++12 at 24-to-1, two layers → pp/ff with mf derived, MIDI 34–75) into
+`BRASS_WT.bassoon`, and a **SECTION dial on the contrabassoon** (def 0.5):
+the recorded bassoon on the same line at twice the frequency, entering with
+the same attack, one recorded dynamic below — RK's inferior level as a
+lookup. DS rides the dial toward the apex. Events IDENTICAL across 250
+songs; the dial measures −40.6 → −40.1 → −39.2 dB (off/default/full) on the
+bass alone. The SYNTH bassoon keeps its rack — replacing its engine would
+orphan five knobs two genres ride; and it stays out of the DS bass pool (its
+B♭1 floor would narrow the band [28,43] → [34,43] for every record).
+Battery 178/1. NOT judged by ear.
+
+**Build `2026-08-15j` — THE SPECTROMETER.** The owner: *"Can we get a
+spectrometer and use it for equalizing?"* Researched
+(`docs/genre-research/spectrum-analyzer.md`), then built as a machine
+(`INSTRUMENTS.rta`, `host:"mixer"`, `grid:"spectrum"`) so the desk's centre
+section derives it exactly like the bus compressor: a 1/3-octave RTA,
+25 Hz–16 kHz, both axes log, −60..0 dB, peak-hold caps, band energy SUMMED
+so pink noise reads flat. The tap is an analyser on the MASTER — a dead-end
+branch, signal path identical. **And it equalizes**: the desk's three EQ
+bands are drawn ON the glass, frequency and gain read from the live graph's
+own filter nodes mid-automation (the compressor needle's doctrine), in the
+SSL band colours. Solo a strip and the glass answers for that part. Events
+IDENTICAL across 250 songs. Battery 178/1. NOT judged by ear.
 
 **Build `2026-08-15i` — THE OWNER'S REVIEW, ANSWERED WITH MEASUREMENTS.**
 *"I feel like the gurdy is not correct... the drone mixer fader is dead. The

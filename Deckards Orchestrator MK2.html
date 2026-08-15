@@ -1601,7 +1601,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15k · the bass section: a recorded bassoon an octave above the contrabassoon</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15l · the war horn answers — one voice, at moments, never the pad</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -5652,6 +5652,14 @@ const INSTRUMENTS = {
   carnyx: {
     slot: "lead", label: "carnyx — war horn",
     lanes: { lead:"carnyx" },
+    /* A SIGNAL INSTRUMENT: it calls and answers, one voice at a time -- it
+       does not double the accompaniment. Polybius's massed horns at Telamon
+       were a wall of independent blasts, not a section voicing the pad. Read
+       by the drawn-doubling engine, which declines rather than re-draws; a
+       HAND asking for a war horn doubling still gets it, which is Belkin's
+       exception exactly as the unison already keeps it.
+       [docs/genre-research/carnyx-usage.md §2] */
+    signal: true,
     /* THE SEVEN MEASURED PLAYING FREQUENCIES SPAN E flat 0 TO F5, and this is
        that span. The seven themselves are in the voice, as the body's own
        resonances -- a note between two of them speaks thin and quiet, which is
@@ -24397,8 +24405,11 @@ const GENRE = {
                                      bassOboe [46,76]     all three CONTAIN
                                      the band -- zero narrowing, and [48,67]
                                      is a baritone saxophone's home register
-                     keys2  [62,79]  bassoon, carnyx [27,77]  ->  [62,77]
+                     keys2  [62,79]  bassoon [34,77]  ->  [62,77]
                                      two semitones off the top
+                     counter[62,79]  carnyx [27,77]   ->  [62,77]
+                                     the same two semitones — the answer band
+                                     pays what the pad band was already paying
                      lead   [69,91]  corAnglais [52,81]      ->  [69,81]
                                      the plaintive solo double reed, and the
                                      only one of the five that can go this high
@@ -24414,18 +24425,41 @@ const GENRE = {
                         ["auto", 1]],
                 lead:  [["erangLead", 5], ["bardFlute", 2], ["bardWind", 2],
                         ["corAnglais", 2], ["auto", 4]],
-                /* THE WAR HORN, and it belongs to this genre before any other.
-                   Weighted low: a carnyx is a signal instrument, so a record
-                   that is led by one all the way through is not a dungeon, it
-                   is a battle. */
                 keys2: [["erangStrings", 4], ["vp330", 3], ["mellotron", 3],
                         ["erangHarp", 2], ["horns", 2], ["bardPluck", 2],
-                        ["bassoon", 3], ["carnyx", 2],
+                        ["bassoon", 3],
                         /* the wheel: range [59,84] against the keys2 band
                            [62,79] — zero narrowing, the medieval second
                            keyboard this genre never had */
                         ["hurdyGurdy", 3],
-                        ["auto", 1]] },
+                        ["auto", 1]],
+                /* ── THE WAR HORN ANSWERS; IT DOES NOT PAD ────────────────────
+                   [owner, 2026-08-15: "can we make sure we are using the
+                   carnyx properly?"] It sat in the keys2 pool above — the
+                   SUSTAINED CHORD PAD — which is two improprieties at once: a
+                   valveless one-note tube voicing block chords, and a signal
+                   instrument padding softly through verses at whatever energy
+                   the section had. The sources say what it is for: its blasts
+                   "signal the start of swift, violent assaults, where timing
+                   was critical"; Diodorus calls it "a harsh sound which suits
+                   the tumult of war"; and massed at Telamon it was a wall of
+                   independent noise, never harmony — nobody dealt a triad
+                   across a Gallic horn line. John Kenny's reconstructions add
+                   the subtle half (drones, growls, a scream at the top), all
+                   of it ONE VOICE AT A TIME. [docs/genre-research/
+                   carnyx-usage.md]
+
+                   So it moves to the COUNTER — the single answering line
+                   derived to speak in the tune's gaps — which is a war horn's
+                   actual job: one voice, at moments, answering over the
+                   heads of the band. The blaze/apex ride built with the voice
+                   finally has a part the shape of the thing it rides.
+                   Weighted low for the old comment's own reason: a record the
+                   war horn leads is a battle, not a dungeon. Blast radius:
+                   the counter pool's draw is a new call on the rack stream,
+                   so this genre's keys2/kit deals reshuffle with it — this
+                   genre ONLY, measured; every other genre byte-identical. */
+                counter: [["auto", 7], ["carnyx", 3]] },
     params: {
       /* ── THE SIZE OF THE DRUM LIVES HERE, not in `kick` above ───────────────
          `kick` is the acoustic kit's voicing and `soundOf` only hands it over
@@ -36405,7 +36439,25 @@ function makePerformance(chart, form, materials, sections){
       else if(oct && fits(oct).length){ semis = oct; pool = fits(oct); }
       else if(rule.uni && fits(0).length){ semis = 0; pool = fits(0); }
       if(semis === null) continue;
-      drawnStacks.push({ of: role, semis, voice: pool[Math.floor(pk * pool.length) % pool.length].voice,
+      const partner = pool[Math.floor(pk * pool.length) % pool.length];
+      /* ── A SIGNAL INSTRUMENT DECLINES A DRAWN DOUBLING ────────────────────
+         [owner, 2026-08-15: "can we make sure we are using the carnyx
+         properly?"] MEASURED the moment the war horn joined dungeon synth's
+         counter pool: the doubling engine drew it onto the KEYS PAD (189
+         chord notes at gain 0.10) and onto the bass -- the padding
+         impropriety back through a second door, because this pool offers
+         every single-lane pitched box in the palette. The check sits AFTER
+         the selection, never in the pool: pool membership and every rng call
+         are byte-identical, so the only records that move are the ones whose
+         drawn partner was the horn -- and those simply keep their line
+         undoubled, exactly as if the draw had not fit. Nobody re-draws; a
+         re-draw would shift every later draw on the stream [Law 7]. A hand's
+         `picks.stack` never passes here, so asking for a war horn doubling
+         still gets one. [docs/genre-research/carnyx-usage.md §§1-2] */
+      const partnerM = Object.keys(INSTRUMENTS).find(k => (INSTRUMENTS[k].lanes || {})[
+        Object.keys(INSTRUMENTS[k].lanes || {})[0]] === partner.voice);
+      if(partnerM && INSTRUMENTS[partnerM].signal) continue;
+      drawnStacks.push({ of: role, semis, voice: partner.voice,
                          gain: under, from, drawn: true });
     }
   }

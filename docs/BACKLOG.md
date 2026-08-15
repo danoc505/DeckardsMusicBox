@@ -63,7 +63,40 @@ should be built on top of this stack until it has been played.**
 
 ## 0a. WHAT IS STILL NOT BUILT — the whole open list, `2026-08-13`
 
-> ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-14a` … `2026-08-15i`
+> ### CLOSED SINCE THIS LIST WAS WRITTEN — `2026-08-14a` … `2026-08-15l`
+>
+> **The war horn answers, `2026-08-15l`** — the owner: *"make sure we are
+> using the carnyx properly"*. Researched (carnyx-usage.md: signal blasts
+> that time an assault, massed as independent noise, one voice per tube),
+> then measured: dungeon synth had it on keys2 — a one-note tube voicing
+> chord PADS. Moved to a new counter pool ([auto 7, carnyx 3]): six of 25
+> records now carry the horn as the single answering line, pitches beside
+> its measured resonances. And the doubling engine — which had drawn it
+> onto the keys pad and the bass — now sees `signal: true` and DECLINES
+> after the selection, so pool and rng stay byte-identical and only the
+> two records whose drawn partner was the horn change. 21/25 DS seeds
+> re-deal (the new pool draw shifts the rack stream); every other genre
+> byte-identical, measured twice. Hobbit synth's apex carnyx PAD rung
+> stays open with task #58.
+>
+> **The bass section, `2026-08-15k`** — the owner: *"improve the bass
+> section with the bassoons and contrabassoons"*. The VSCO-2-CE bassoon
+> sustains (CC0, same pinned commit) measured into BRASS_WT.bassoon by
+> analyze_bassoon.py, and the contrabassoon grew the SECTION dial: the
+> recorded bassoon on the same line an octave up at Rimsky-Korsakov's
+> inferior level ("doubling, an octave lower, the bass of the group to
+> which it belongs" — so the 16-foot line gets its 8-foot edge). DS rides
+> it toward the apex. Events identical across 250 songs; the dial measured
+> −40.6/−40.1/−39.2 dB off/default/full on the bass alone. The VSCO shelf
+> note shortens by one: the bassoon is no longer waiting.
+>
+> **The spectrometer, `2026-08-15j`** — the owner: *"a spectrometer and
+> use it for equalizing"*. A 1/3-octave RTA (25 Hz–16 kHz, log/log,
+> −60..0 dB, peak-hold, pink-noise-flat band sums) derived into the desk's
+> centre section as a machine beside the bus compressor, tapped off the
+> master as a dead-end analyser. The desk's three EQ bands are drawn on
+> the glass from the LIVE GRAPH's own filter nodes, so the spectrum and
+> the equalizer are one instrument. Zero notes moved.
 >
 > **The owner's review, `2026-08-15i`** — three faults, all measured: the
 > drone fader dead since the lane was born (no MIX_ROLE_BUS entry — fixed,
@@ -95,9 +128,10 @@ should be built on top of this stack until it has been played.**
 > clicks, chien on accents, and its drone strings on the drone rack).
 > Still unbuilt for want of a recorded source: the chien's sustained growl,
 > cup mute, bass trombone. Still unused and waiting in the same CC0 repos:
-> VSCO-2-CE's bassoon/oboe/clarinet/strings/pipe organ and its ANVIL (the
+> VSCO-2-CE's oboe/clarinet/strings/pipe organ and its ANVIL (the
 > DS sources' own instrument), VCSL's Renaissance organ, recorder consort,
-> psaltery, rope-tension snare.
+> psaltery, rope-tension snare. (The VSCO bassoon left this shelf in
+> `2026-08-15k` — it is the contrabassoon's octave-above partner now.)
 >
 > **0a.7 The brass — CLOSED, `2026-08-15e`.** The owner picked it: *"Brass.
 > Make sure to do research about how to arrange brass. Make sure to look
@@ -304,7 +338,7 @@ not a new fault.
 
 *Asked for in as many words: "add what everything we have failed to implement
 to the todo file". This is that list, on the branch `claude/code-review-6jd9cz`,
-current as of build `2026-08-15i`.*
+current as of build `2026-08-15l`.*
 
 **EVERY NUMBER BELOW WAS MEASURED TODAY, not remembered.** The probes that
 produced them are named at each item so any of it can be re-checked in one
