@@ -2048,22 +2048,42 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       }
       return L.length - 1;
     };
+    /* ── AND IT WAS BLIND TO A WHOLE GENRE, WHICH IS THE SAME DEFECT AGAIN ──
+       MEASURED, 2026-08-15: boxcar synth's motion table declared `echo` TWICE
+       and `dronebox` TWICE, so seven lanes were being replaced rather than
+       merged — and this check reported "0 duplicate keys" while it happened.
+
+       Two causes, both about SHAPE. It found a genre by a two-space-indented
+       `name: {`, which is how a genre nested inside a literal looks; boxcar
+       synth is written `GENRE.boxcarsynth = {` at column zero, so it was never
+       inside a genre and its table was skipped entirely. And its blocks sit
+       two spaces further out than the others', so even once found, the fixed
+       six-and-eight-space patterns would have matched nothing.
+
+       Both are now RELATIVE: a genre is either form, and a machine block is
+       whatever is indented two past its own `motion: {`. A check that only
+       covers the genres that happen to be written one way is a check that
+       silently stops covering the newest one, which is this file's oldest
+       recurring failure. */
     const dupes = [];
     let genre = null;
     for(let i = 0; i < L.length; i++){
-      const g = /^  (\w+): \{/.exec(L[i]);
+      const g = /^  (\w+): \{/.exec(L[i]) || /^GENRE\.(\w+)\s*=\s*\{/.exec(L[i]);
       if(g && M.genres().includes(g[1])) genre = g[1];
       if(!genre || L[i].trim() !== "motion: {") continue;
+      const pad = L[i].length - L[i].replace(/^ +/, "").length;
+      const mRe = new RegExp("^ {" + (pad + 2) + "}(\\w+): \\{");
+      const cRe = new RegExp("^ {" + (pad + 4) + "}(\\w+):");
       const mEnd = endOf(i);
       const seenM = {};
       for(let j = i + 1; j < mEnd; j++){
-        const mm = /^      (\w+): \{/.exec(L[j]);
+        const mm = mRe.exec(L[j]);
         if(!mm) continue;
         if(seenM[mm[1]]) dupes.push(`${genre}.${mm[1]} (machine, lines ${seenM[mm[1]]},${j + 1})`);
         seenM[mm[1]] = j + 1;
         const bEnd = endOf(j), seenC = {};
         for(let k = j + 1; k < bEnd; k++){
-          const ck = /^        (\w+):/.exec(L[k]);
+          const ck = cRe.exec(L[k]);
           if(!ck) continue;
           if(seenC[ck[1]]) dupes.push(`${genre}.${mm[1]}.${ck[1]} (control, lines ${seenC[ck[1]]},${k + 1})`);
           seenC[ck[1]] = k + 1;

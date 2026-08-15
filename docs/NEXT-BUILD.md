@@ -1,5 +1,23 @@
 # DIRECTIONS TO THE NEXT CODER — the train is the drone
 
+> **STATUS, 2026-08-15: THIS BUILD IS DONE.** It shipped as
+> `2026-08-15v` on branch **`claude/code-review-6jd9cz`**. Everything in §4
+> below was built; §6's verification was run; the two new guards were driven
+> to failure on purpose. What §7 says is still true and is the only thing that
+> matters now: **none of it has been judged by ear.**
+>
+> What this build actually found and fixed, beyond the plan — each of these is
+> a defect that had been true for some time and was invisible:
+>
+> | found | why it was invisible |
+> |---|---|
+> | the bass's octave jump lands on the ground's exact pitch, so the collision walk DROPPED the train (it existed in one material out of seven on seeds 1 and 6) | the ground is built last and nobody sees it, so nothing downstream could notice it was missing |
+> | a held ground outlives its own section — the last cycle of a 12-bar section with an 8-bar material rang four bars into the town | no check asked whether a note stopped where its section did |
+> | boxcar synth's motion table declared `echo` and `dronebox` TWICE, so seven lanes were replaced rather than merged | the battery's duplicate-key check found genres by a two-space-indented `name: {`, and this genre is written `GENRE.boxcarsynth = {` at column zero — it had never once looked at this table. Fixed, and it now finds exactly those two in the previous build. |
+> | the first version of the new town guard was CIRCULAR — it found towns by asking whether they carried the drone, then asked whether the drone sounded in them | it passed. Driven to failure on purpose it reported "5 towns, 0 carrying the run": the defect had deleted the towns rather than been caught. |
+>
+> Read the rest as the record of why the build was shaped this way.
+
 *Written 2026-08-15 by the coder who built boxcar synth phases 0–5, at the
 owner's request, after the owner listened to build `2026-08-15u` and told me
 what was wrong. Read this before you touch anything. The branch is

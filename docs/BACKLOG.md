@@ -11,6 +11,43 @@ a source. Items are grouped by what they cost, not by when they appeared.
 
 ---
 
+## 0z. FOUND WHILE BUILDING `2026-08-15v` — three checks that could not see
+
+*Recorded here because each one is the same failure in a different place: a
+guard that reports a pass while the thing it guards is broken. All three are
+fixed; they are written down because the CLASS is not.*
+
+1. **A range check is not a type check.** The grid seam check asked
+   `n.step < 0 || n.step > 15`, and **both comparisons are false for NaN**.
+   Boxcar synth's `flourish` pool held `[step, lane]` pairs where the hat
+   builder wanted bare step numbers, so 51 events per six records were
+   composed with `tSec` NaN and `gain` NaN — inaudible, invisible on the roll,
+   and *displacing other events*, because a sort comparator returning NaN
+   reads as "equal". That last part is how it surfaced: it made emptying an
+   unrelated rack "move other roles". Now asks `Number.isFinite`.
+   **Look for the same shape elsewhere** — any check written as a range.
+
+2. **A scanner that knows one spelling covers only that spelling.** The
+   battery's duplicate-motion-key check found a genre by a two-space-indented
+   `name: {`. Boxcar synth is written `GENRE.boxcarsynth = {` at column zero,
+   so the check had **never once looked at that table**, and it carried two
+   duplicate machine keys (`echo`, `dronebox`) throwing away seven lanes.
+   Now matches either form, and derives the block indentation instead of
+   assuming it.
+
+3. **A guard that asks the same question twice cannot fail.** The first
+   version of "the running sound stops in every town" found towns by asking
+   whether the section carried the `drone` role, then asked whether the drone
+   sounded in them. Driven to failure on purpose it reported "5 towns, 0
+   carrying the run" — the injected defect had *deleted the towns*. A guard
+   has to name its subject in terms the defect cannot move.
+
+**The standing lesson:** a new guard is not finished until it has been driven
+to failure on purpose, and the failure has been read to check it failed for
+the right reason.
+
+---
+
 ## 0. THE ONE THAT OUTRANKS EVERYTHING
 
 > ### AND IT NOW INCLUDES SIX BUILDS FROM ONE DAY

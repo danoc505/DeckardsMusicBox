@@ -16139,14 +16139,22 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
        genre declared can be SAMPLED along the event and written onto the
        AudioParam as a real ramp. Offline and live read the same function at
        the same times, so Law 10 holds by construction rather than by care. */
+    /* ── AND EVERY READ NAMES ITS OWN KNOB, IN FULL ────────────────────────
+       The first version passed the control's key into the sampler as a
+       variable, and the battery went red on four live knobs: the scanner that
+       proves "no genre automates a knob no voice reads" walks the SHIPPED
+       SOURCE for `P(g, ev, "machine", "control"` and cannot see a key that is
+       only a variable at the call site. It was right to. Reading a knob by a
+       name assembled somewhere else is exactly how a control goes quietly
+       dead, so the sampler takes a READER instead of a key and each call below
+       says the machine and the control out loud. */
     const evAt = tt => ({ tSec: tt, role: ev.role, voice: ev.voice });
-    const at = (k, dflt, tt) => P(g, evAt(tt), "trainbox", k, dflt);
     const STEP = Math.max(0.30, dur / 96);
-    const ride = (param, k, dflt, map) => {
+    const ride = (param, read, map) => {
       const f = map || (x => x);
-      param.setValueAtTime(f(at(k, dflt, ev.tSec)), t);
+      param.setValueAtTime(f(read(ev.tSec)), t);
       for(let x = STEP; x <= dur; x += STEP)
-        param.linearRampToValueAtTime(f(at(k, dflt, ev.tSec + x)), t + x);
+        param.linearRampToValueAtTime(f(read(ev.tSec + x)), t + x);
     };
 
     /* ── THE RUN ───────────────────────────────────────────────────────────
@@ -16182,7 +16190,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const dLfo = c.createOscillator(); dLfo.type = "sine";
     dLfo.frequency.value = 0.11;
     const dAmt = c.createGain();
-    ride(dAmt.gain, "drift", 0.010, x => x * rate);
+    ride(dAmt.gain, tt => P(g, evAt(tt), "trainbox", "drift", 0.010), x => x * rate);
     dLfo.connect(dAmt); dAmt.connect(src.playbackRate);
     dLfo.start(t); dLfo.stop(t + dur + 0.4);
 
@@ -16191,10 +16199,10 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
        are the difference between standing on the platform and sitting inside
        the car with the window down, which is the distance this genre travels. */
     const win = c.createBiquadFilter(); win.type = "lowpass"; win.Q.value = 0.6;
-    ride(win.frequency, "window", 2600);
+    ride(win.frequency, tt => P(g, evAt(tt), "trainbox", "window", 2600));
     const bog = c.createBiquadFilter(); bog.type = "lowshelf";
     bog.frequency.value = 110;
-    ride(bog.gain, "rumble", 7);
+    ride(bog.gain, tt => P(g, evAt(tt), "trainbox", "rumble", 7));
 
     /* ── THE STEAM OVER THE WHEELS ─────────────────────────────────────────
        A second loop rather than a synthesised hiss, because the bank has the
@@ -16211,7 +16219,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
         const ahp = c.createBiquadFilter(); ahp.type = "highpass";
         ahp.frequency.value = 1500;
         const ag = c.createGain();
-        ride(ag.gain, "air", 0.22, x => x * 0.5 / (am.pk || 1));
+        ride(ag.gain, tt => P(g, evAt(tt), "trainbox", "air", 0.22),
+                       x => x * 0.5 / (am.pk || 1));
         asr.connect(ahp); ahp.connect(ag); ag.connect(lvlG);
         asr.start(t, (am.ls + (ev.tSec % Math.max(0.05, (am.le - am.ls) / ERANG.rate))
                       * ERANG.rate) / ERANG.rate);
@@ -16223,7 +16232,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
        Two gains in series and they are two different jobs: LEVEL is the story
        the genre is telling and is ridden along the whole event; the envelope
        is the physics of starting and stopping, and belongs to the event. */
-    ride(lvlG.gain, "level", 0.85,
+    ride(lvlG.gain, tt => P(g, evAt(tt), "trainbox", "level", 0.85),
          x => x * LEVEL.drone * 2.1 * Math.min(1.3, ev.gain) / (s.pk || 1));
     const env = c.createGain();
     const IN = Math.min(1.6, dur * 0.12), OUT = ev.halt ? HALT : Math.min(1.2, dur * 0.10);
@@ -16234,7 +16243,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
 
     const pan = c.createStereoPanner ? c.createStereoPanner() : null;
     if(pan){
-      ride(pan.pan, "pan", 0);
+      ride(pan.pan, tt => P(g, evAt(tt), "trainbox", "pan", 0));
       const sway = P(g, ev, "trainbox", "sway", 0.30);
       const swayHz = P(g, ev, "trainbox", "swayHz", 0.03);
       if(sway > 0 && swayHz > 0){
@@ -28706,7 +28715,26 @@ GENRE.boxcarsynth = {
          toms: { use: 0.25, loop: 0.3, loopSpots: [12, 14], loopLanes: ["tom2", "tom3"],
                  shapes: [[[[12, "tom2"], [14, "tom3"]], 2], [[[14, "tom2"]], 1]] },
          kickKeep: 1, flourishBar: 3,
-         flourish: [[[], 6], [[[13, "rim"], [15, "rim"]], 2]],
+         /* ── AND THESE ARE STEPS, NOT [step, lane] PAIRS ────────────────────
+            MEASURED, 2026-08-15: this pool held `[[13,"rim"],[15,"rim"]]`, and
+            `flourish` adds EXTRA HAT STROKES on the flourish bar — every other
+            genre in the file declares bare step numbers here. So two in ten
+            material cycles pushed a hat note whose `step` was an ARRAY, and
+            both of the things stage 5 computes from a step went non-finite:
+
+              tSec = (bar*16 + step + micro) * spb   ->  NaN
+              gain uses accent.hat[step]             ->  NaN
+
+            Fifty-one events per six records with NO TIME AT ALL. They cannot
+            sound; what they do is sit in the event list wherever the sort
+            leaves them, because `NaN - x` is NaN and a comparator returning
+            NaN is treated as "equal" — so their position depends on what else
+            is in the array, which is how emptying an unrelated rack came to
+            "move other roles". The grid seam check let them through because it
+            asked `step < 0 || step > 15` and both are FALSE for NaN; it now
+            asks whether the number is a number. The intent — the kit answers
+            at 13 and 15 on the fourth bar — is what it says here now. */
+         flourish: [[[], 6], [[13, 15], 2]],
          variants: { main: {}, lift: { hatVel: 0.2 }, depart: {} } },
   accent: { kick: [1,.5,.6,.5,.8,.5,.6,.5,.95,.5,.6,.5,.8,.5,.6,.5],
             snare:[.7,.5,.5,.5,.7,.5,.5,.5,1,.5,.5,.5,.7,.5,.6,.5],
@@ -39144,7 +39172,20 @@ function composeSong(seed, rig, genre, picks, pins, edits, traitRoll, traits, wa
         if(seen.has(k)) throw new Error("collision in " + m + " at " + k);
         seen.add(k);
       }
-      if(n.step < 0 || n.step > 15 || n.dur < 1) throw new Error("bad grid: " + m + "/" + role);
+      /* ── AND "IS IT IN RANGE" IS NOT "IS IT A NUMBER" ──────────────────────
+         This read `n.step < 0 || n.step > 15`, and BOTH COMPARISONS ARE FALSE
+         FOR NaN — so the one shape of bad grid that cannot possibly sound went
+         straight through the check written to catch bad grids. It really
+         happened: boxcar synth's flourish pool held [step, lane] pairs where
+         the hat builder wanted bare steps, and 51 events per six records were
+         composed with no time and no gain. They are invisible in the roll,
+         silent in the render, and they DISPLACE OTHER EVENTS, because a sort
+         comparator that returns NaN reads as "equal" and leaves them wherever
+         the array happened to put them. Ask whether the number is a number. */
+      if(!Number.isFinite(n.step) || !Number.isFinite(n.dur) ||
+         !Number.isFinite(n.bar) || (n.vel != null && !Number.isFinite(n.vel)) ||
+         n.step < 0 || n.step > 15 || n.dur < 1)
+        throw new Error("bad grid: " + m + "/" + role + " " + JSON.stringify(n));
     }
     }
   }
