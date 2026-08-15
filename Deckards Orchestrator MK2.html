@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15p · boxcar synth is a genre: the journey form, the freight, dark to light</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-15q · every instrument played as it is played — the ring, the breath, the hands</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -5572,6 +5572,9 @@ const INSTRUMENTS = {
     /* B flat 1 to F5. The measured top is B flat 5 and it is specialist
        writing; the ordinary orchestral ceiling is around here. */
     range: [34, 77],
+    /* ONE PLAYER. MEASURED at NINE simultaneous notes in dungeon synth — the
+       worst instance in the file of the fault the owner named. §4 */
+    play: { poly: 1 },
     controls: [
       ...panControls(),
       { k:"push", label:"blown",     cap:"PUSH", min:0, max:1, step:0.01, def:0.55, kind:"gesture" },
@@ -5601,6 +5604,9 @@ const INSTRUMENTS = {
     lanes: { keys:"contrabassoon" },
     /* measured span, floored at the program's own MIDI 24 writing floor */
     range: [24, 61],
+    /* ONE PLAYER, ONE REED — and it was being written four-note chords.
+       A chord dealt to it arpeggiates. §4 */
+    play: { poly: 1 },
     controls: [
       ...panControls().map(c => Object.assign({}, c, { kind: "voicing" })),
       { k:"bright", label:"dynamic bias", cap:"BLAZE",  min:0, max:1, step:0.01, def:0.45, kind:"voicing" },
@@ -5984,6 +5990,10 @@ const INSTRUMENTS = {
     lanes: { keys:"banjo" },
     /* the recorded span: Philharmonia C3..C6, measured roots */
     range: [48, 84],
+    /* FIVE STRINGS, and a long note is played AGAIN rather than held: the
+       tremolo and the roll are how a banjo sustains at all
+       [docs/genre-research/playing-the-hobo-band.md §2] */
+    play: { poly: 5, onLong: "restrike" },
     controls: [
       ...panControls().map(c => Object.assign({}, c, { kind: "voicing" })),
       { k:"pick", label:"pick brightness", cap:"PICK", min:0, max:1, step:0.01, def:0.65, kind:"voicing" },
@@ -5998,6 +6008,11 @@ const INSTRUMENTS = {
     lanes: { lead:"harmonica" },
     /* two Hohner diatonics (C and F) interleave: zones C3..C6 */
     range: [48, 84],
+    /* ONE MOUTH. A diatonic harp really does sound several reeds at once —
+       but only the two chords it is built for, so a written triad is played
+       as an ARPEGGIO, which is what players do [themusicstand.ca]. Two
+       adjacent reeds is the honest ceiling. §1 */
+    play: { poly: 2 },
     controls: [
       ...panControls().map(c => Object.assign({}, c, { kind: "voicing" })),
       { k:"vib", label:"hand vibrato", cap:"VIB", min:0, max:1, step:0.01, def:0.4, kind:"voicing" },
@@ -6030,6 +6045,9 @@ const INSTRUMENTS = {
     slot: "lead", label: "glass slide",
     lanes: { lead:"slideGlass" },
     range: [50, 86],
+    /* one bar across the strings: two notes at most, and the string under it
+       still decays like a picked string §3 */
+    play: { poly: 2 },
     controls: [
       ...panControls().map(c => Object.assign({}, c, { kind: "voicing" })),
       { k:"scoop", label:"slide into the note", cap:"SCOOP", min:0, max:1, step:0.01, def:0.5, kind:"voicing" },
@@ -8570,6 +8588,55 @@ const DRUM_SOUND_NAME = {
 };
 const drumSoundName = v => DRUM_SOUND_NAME[v] || v;
 
+/* ══ WHAT KIND OF INSTRUMENT EACH VOICE IS, AT MODULE SCOPE ═════════════════
+   Hoisted out of stage 5 so the BATTERY can hold every record to it: the last
+   three builds added five instruments and joined none of them to this list,
+   and the only thing that noticed was the owner's ear. One owner, two readers
+   — the playing pass reads it to shape the notes, `MK2.playFamilies()` reads
+   it so a check can prove no record writes a note the instrument cannot play.
+   [docs/genre-research/playing-the-hobo-band.md] */
+const PLAY_AIR = { bardFlute: 5.5, bariSax: 6.0, carnyx: 6.0, horns: 7.0,
+                  bassoon: 7.0, corAnglais: 10.0, bassOboe: 10.0,
+                  /* the harmonica breathes BY CONSTRUCTION — it alternates
+                     blow and draw — and a long tone is a practised skill
+                     inside one lungful [countryinstruments; JDR breath-control
+                     guide]. The contrabassoon is a bassoon with more tube and
+                     a bigger reed to feed, so it sits under one. A signal
+                     horn's blast is short by nature. */
+                  harmonica: 6.0, contrabassoon: 6.0, steamWhistle: 4.0 };
+const PLAY_FAMILY = {
+      /* PLUCKED -- struck and then decaying. Rimsky-Korsakov files harp and
+         pizzicato together as "plucked strings", a group apart from the bowed. */
+      erangHarp: "plucked", bardPluck: "plucked",
+      /* STRUCK -- an electric piano is a hammer and a decay, same shape */
+      rhodes: "struck", wurly: "struck",
+      /* WIND -- must breathe. The horn is included on RK's own instruction:
+         "The remarks on breathing, in the section devoted to the wood-wind,
+         apply with equal force to the brass." */
+      bardFlute: "wind", bardWind: "wind", horns: "wind", sax: "wind",
+      /* and the low dark voices, the moment they existed -- a family rule that
+         has to be edited by hand for each new instrument is a rule that will be
+         forgotten, so this list is the FIRST thing a new voice joins */
+      bassoon: "wind", bassOboe: "wind", corAnglais: "wind", bariSax: "wind",
+      carnyx: "wind",
+      /* ── AND THE COMMENT ABOVE WAS RIGHT, MEASURED ────────────────────────
+         "this list is the FIRST thing a new voice joins" — and then three
+         builds added five voices and joined none of them. The owner heard it
+         before any probe did: "These new instruments need to be played like
+         they should be played... if a harmonica is being played long chords
+         — I'm not sure that's possible on a harmonica."
+
+         MEASURED, 8 songs a genre: the banjo had 49% of its notes written
+         LONGER THAN A BANJO STRING RINGS (max 3.6 s against a 2.4 s
+         recording, so the tail was silence), and the recorded contrabassoon
+         and bassoon — one player, one note — were being handed four and NINE
+         simultaneous notes. Joining here fixes the durations; the two laws
+         below fix the rest. [docs/genre-research/playing-the-hobo-band.md] */
+      banjo: "plucked", slideGlass: "plucked",
+      harmonica: "wind", steamWhistle: "wind", contrabassoon: "wind",
+    };
+
+
 /* ── WHAT A DRUM CHANNEL CAN HOLD, AND WHICH CHANNELS THERE ARE ─────────────
    The user, on the drum rack: "Dynamic means adjusts to what is needed", and a
    kit is "a starting point you edit" -- an unused channel is not a blank, it is
@@ -8642,6 +8709,26 @@ function canFill(slot, k){
 /* WHICH BOX OWNS A VOICE. The inverse of `voiceFor`, asked the same three ways
    it answers: the machine's own lane, the lane its slot accepts, and a
    single-lane pitched box lent to another pitched lane. */
+/* WHICH MACHINE OWNS A VOICE, asked WITHOUT a slot. `machineOfVoice` needs to
+   know which rack it is talking about; the playing-discipline pass in stage 5
+   has only `ev.voice` and wants the instrument's own declarations (how many
+   notes it can sound, what it does with a long one). Derived from the same
+   lanes table, cached because it is asked once per event. */
+let VOICE_OWNER = null;
+function machineOfVoice2(voice){
+  if(!VOICE_OWNER){
+    VOICE_OWNER = {};
+    for(const k in INSTRUMENTS){
+      const M = INSTRUMENTS[k];
+      if(M.legacy || !M.lanes) continue;
+      for(const lane in M.lanes){
+        const v = M.lanes[lane];
+        if(v && !(v in VOICE_OWNER)) VOICE_OWNER[v] = k;
+      }
+    }
+  }
+  return VOICE_OWNER[voice] || null;
+}
 function machineOfVoice(slot, voice){
   if(!voice) return null;
   const kind = SLOT_ACCEPTS[slot] || slot;
@@ -28208,10 +28295,22 @@ GENRE.boxcarsynth = {
     bass:     [["auto", 1]],
     drone:    [["auto", 1]],
     keys:     [["banjo", 5], ["bardPluck", 2], ["erangHarp", 1], ["auto", 2]],
-    keys2:    [["vp330", 3], ["erangStrings", 2], ["banjo", 2], ["auto", 3]],
+    /* ── HOW MANY PLAYERS ARE IN THIS BAND, AND IT IS A DECISION ─────────
+       [owner, 2026-08-15: "that means we would have three harmonicas
+       playing and we would need to simulate that"] — right, and the first
+       draft had exactly that: the banjo pooled on the chords AND the second
+       keyboard AND the figure is THREE BANJO PLAYERS, and the harmonica on
+       the tune AND the answer is two. The playing law below caps what one
+       player can sound; only the pools can decide how many players there
+       are. A string band is a picker and a strummer — TWO banjos — and one
+       harp player who is answered by the slide, which is more characterful
+       anyway. So the banjo leaves the second keyboard (the choir pad and
+       the strings belong there) and the harmonica's weight on the answer
+       drops under the slide's. */
+    keys2:    [["vp330", 4], ["erangStrings", 3], ["auto", 3]],
     lead:     [["harmonica", 5], ["slideGlass", 3], ["bardWind", 1], ["auto", 1]],
     ostinato: [["banjo", 4], ["auto", 6]],
-    counter:  [["harmonica", 4], ["slideGlass", 2], ["auto", 4]],
+    counter:  [["slideGlass", 4], ["harmonica", 2], ["auto", 4]],
   },
   /* ── THE SCENE UNDER THE RECORD [sheet §6] — the rail beds and the
      passing landscape, through the atmos door with the genre's OWN
@@ -37236,22 +37335,7 @@ function makePerformance(chart, form, materials, sections){
      Two rules, because two are what the sources actually support with numbers.
      [docs/genre-research/score-craft.md §41, §53] */
   {
-    const FAMILY = {
-      /* PLUCKED -- struck and then decaying. Rimsky-Korsakov files harp and
-         pizzicato together as "plucked strings", a group apart from the bowed. */
-      erangHarp: "plucked", bardPluck: "plucked",
-      /* STRUCK -- an electric piano is a hammer and a decay, same shape */
-      rhodes: "struck", wurly: "struck",
-      /* WIND -- must breathe. The horn is included on RK's own instruction:
-         "The remarks on breathing, in the section devoted to the wood-wind,
-         apply with equal force to the brass." */
-      bardFlute: "wind", bardWind: "wind", horns: "wind", sax: "wind",
-      /* and the low dark voices, the moment they existed -- a family rule that
-         has to be edited by hand for each new instrument is a rule that will be
-         forgotten, so this list is the FIRST thing a new voice joins */
-      bassoon: "wind", bassOboe: "wind", corAnglais: "wind", bariSax: "wind",
-      carnyx: "wind",
-    };
+    const FAMILY = PLAY_FAMILY;
     /* HOW LONG A PLUCKED NOTE CAN RING, by register. Sourced in DIRECTION only:
        "The lower strings naturally sustain longer than higher ones, which are
        substantially brighter and more percussive" [corpus:ACTOR, Harp]. NO
@@ -37274,8 +37358,7 @@ function makePerformance(chart, form, materials, sections){
        exhale before running out of breath. So the cor anglais and the bass oboe
        get the longest budget in the file, the bassoon sits where the horn does,
        and the baritone saxophone -- a wide cone that eats air -- sits under it. */
-    const AIR = { bardFlute: 5.5, bariSax: 6.0, carnyx: 6.0, horns: 7.0,
-                  bassoon: 7.0, corAnglais: 10.0, bassOboe: 10.0 };
+    const AIR = PLAY_AIR;
     const airFor = v => AIR[v] == null ? 8.0 : AIR[v];
     const BREATH = 0.20;                       // the gap a breath needs, seconds
     const byRole = {};
@@ -37317,6 +37400,225 @@ function makePerformance(chart, form, materials, sections){
           sounded += e.durSec;
         }
         prevEnd = end;
+      }
+    }
+
+    /* ══ AND WHAT A PLUCKED INSTRUMENT DOES WITH A LONG NOTE ═════════════════
+       The plucked rule above truncates: a note longer than the ring is cut to
+       the ring, which is honest and leaves SILENCE for the rest of the written
+       note. That is right for a harp arpeggio and wrong for a genre whose comp
+       is a strummed chord — the owner's "surely these new instruments can be
+       played in the slow manner we want".
+
+       They can, and the sources say how: a banjo holds a long note by playing
+       it AGAIN. "Tremolo... playing a note fast and repeatedly so that it
+       gives the impression of a single sustained note" [Deering Banjos]; the
+       bluegrass roll and the clawhammer brush do the same thing more slowly.
+
+       So an instrument may declare `play.onLong: "restrike"` and get repeated
+       strokes across the written note instead of silence after the first —
+       each softer than the last, which is what a hand does. Nothing else in
+       the file declares it, so nothing else changes. */
+    {
+      const reOf = v => {
+        const M = v && INSTRUMENTS[machineOfVoice2(v)];
+        return M && M.play && M.play.onLong === "restrike";
+      };
+      const born = [], shorten = [];
+      for(const e of events){
+        if(e.pitch == null || !e.voice || !reOf(e.voice)) continue;
+        const fam = FAMILY[e.voice];
+        if(fam !== "plucked" && fam !== "struck") continue;
+        const ring = pluckRing(e.pitch);
+        /* `holdSec` is how long the key COULD stay down — the written note
+           before the ring truncated it — so it is the length to cover */
+        const want = Math.max(e.durSec, e.holdSec != null ? e.holdSec : 0);
+        if(want <= ring * 1.15) continue;
+        let t = e.tSec + ring, n = 1;
+        while(t < e.tSec + want - 0.12 && n < 8){
+          born.push(Object.freeze(Object.assign({}, e, {
+            tSec: t,
+            /* 0.97 so consecutive strokes never overlap: the hand
+               that plays the string again has just damped it */
+            durSec: Math.min(ring * 0.97, e.tSec + want - t),
+            holdSec: undefined,
+            /* softer every time round: a re-strike is a hand keeping a chord
+               alive, not a new attack demanding attention */
+            gain: e.gain * Math.pow(0.82, n),
+            tied: false,
+          })));
+          t += ring; n++;
+        }
+        /* AND THE FIRST STROKE STOPS WHERE THE SECOND BEGINS. `holdSec` says
+           how long this key COULD stay down, and the battery holds every note
+           to it: leaving the parent claiming the whole written length while a
+           re-strike of its own sounds 0.2 s later is the same note overreach-
+           ing itself, which is exactly what the check caught. */
+        if(n > 1) shorten.push([e, ring]);
+      }
+      for(const [e, ring] of shorten){
+        const i = events.indexOf(e);
+        if(i >= 0) events[i] = Object.freeze(Object.assign({}, events[i], { holdSec: ring }));
+      }
+      /* the file's own comparator — by time, and stable, so notes already in
+         the array keep their relative order and only the new strokes move */
+      if(born.length){ events.push(...born); events.sort((a, z) => a.tSec - z.tSec); }
+    }
+    /* ══ HOW MANY NOTES ONE PLAYER CAN SOUND AT ONCE ═════════════════════════
+       The law this file never had, and the owner found it: "if a harmonica is
+       being played long chords... that means we would have three harmonicas
+       playing and we would need to simulate that."
+
+       Exactly so. A bassoon is ONE PLAYER WITH ONE REED and this program was
+       writing it nine-note chords; a five-string banjo was being written
+       fifteen. Nothing anywhere declared how many notes an instrument can
+       make, so nothing refused.
+
+       AND THE ANSWER IS THE ARPEGGIO, WHICH IS SOURCED FOR BOTH FAMILIES.
+       The harmonica: "since the number of actual chords is very limited,
+       harmonica players usually play chords as ARPEGGIOS... as substitutes
+       for chords that are impossible to play" [themusicstand.ca]. The banjo:
+       the roll IS an arpeggio, and it is how the instrument holds a chord at
+       all [Deering; Peghead Nation]. So a chord too thick for the player is
+       not thinned and the harmony is not lost — it is SPREAD IN TIME, which
+       is what the player does.
+
+       Declared per instrument as `play.poly`; an instrument that declares
+       nothing keeps today's behaviour exactly, so every existing genre is
+       untouched unless a voice it plays opts in. */
+    {
+      const polyOf = v => {
+        const M = v && INSTRUMENTS[machineOfVoice2(v)];
+        return M && M.play && M.play.poly > 0 ? M.play.poly : 0;
+      };
+      const at = {};
+      for(const e of events){
+        if(e.pitch == null || e.role === "tape" || !e.voice) continue;
+        if(!polyOf(e.voice)) continue;
+        const k = e.role + "|" + e.voice + "@" + e.tSec.toFixed(4);
+        (at[k] = at[k] || []).push(e);
+      }
+      for(const k in at){
+        const stack = at[k];
+        const cap = polyOf(stack[0].voice);
+        if(stack.length <= cap) continue;
+        /* NOTE: this spreads a chord written at ONE INSTANT. The other half of
+           the law — notes that begin at different moments and OVERLAP — is the
+           voice-stealing pass below, and it is the half that matters most: a
+           bassoon cannot start a note while its last one is still sounding
+           however far apart the two onsets are. Measured with only this half
+           in place, the bassoon still reached seven notes at once. */
+        /* the roll runs UP from the bottom, which is what a right hand does;
+           the spread is a fraction of the chord's own length so a slow chord
+           arpeggiates slowly and a quick one sounds nearly together */
+        stack.sort((a, z) => a.pitch - z.pitch);
+        const span = Math.min(stack[0].durSec * 0.5, 0.42);
+        const step = span / Math.max(1, stack.length - 1);
+        for(let n = cap; n < stack.length; n++){
+          const e = stack[n], i = events.indexOf(e);
+          if(i < 0) continue;
+          const shift = step * n;
+          events[i] = Object.freeze(Object.assign({}, e, {
+            tSec: e.tSec + shift,
+            durSec: Math.max(0.08, e.durSec - shift),
+            /* an arpeggiated note is struck, never tied out of the note
+               below it — there is no line to continue */
+            tied: false,
+          }));
+        }
+      }
+
+      /* ── AND THE PLAYER ONLY HAS SO MANY VOICES SOUNDING AT ONCE ──────────
+         The half above spreads a written chord. This is the physical law: a
+         reed plays one note and the next note REPLACES it; a five-string
+         banjo has five strings and a sixth note means a string was re-fretted
+         and stopped ringing. So when a new note arrives and the player is
+         already full, the OLDEST sounding note ends where the new one starts.
+
+         This is voice stealing, and it is what the instrument does — not a
+         refusal, not a dropped note: every written pitch still sounds, the
+         old one just stops when the hand moves. MEASURED before it existed:
+         bassoon 9 at once, banjo 16. */
+      const held = {};
+      /* the sounding list carries each note's INDEX and its CURRENT end, so a
+         note this pass has already shortened is measured at its new length —
+         the first version re-read the original object after replacing it in
+         `events` and silently compared against the old duration, which is why
+         the bassoon still measured four notes at once */
+      const order = events.map((e, i) => ({ e, i }))
+        .filter(x => x.e.pitch != null && x.e.voice && polyOf(x.e.voice))
+        .sort((a, z) => a.e.tSec - z.e.tSec);
+      for(const { e, i } of order){
+        const key = e.role + "|" + e.voice;
+        const cap = polyOf(e.voice);
+        const live = (held[key] = (held[key] || []).filter(x => x.end > e.tSec + 1e-6));
+        while(live.length >= cap){
+          const old = live.shift();
+          /* the old note ends EXACTLY where the new one begins — no floor.
+             A 60 ms minimum was the first version and the battery caught what
+             it cost: two notes 30 ms apart left the reed sounding both, which
+             is the very thing this law exists to forbid. A note squeezed to
+             nothing is a note the player never got to, and 1 ms is that. */
+          const cut = Math.max(0.001, e.tSec - events[old.i].tSec);
+          if(cut < events[old.i].durSec)
+            events[old.i] = Object.freeze(Object.assign({}, events[old.i], { durSec: cut }));
+        }
+        live.push({ i, end: e.tSec + events[i].durSec });
+      }
+      /* AND THE ARRAY GOES BACK INTO TIME ORDER. An arpeggiated note was moved
+         LATER than the chord it came from, so it was sitting in the array
+         behind notes that now start before it — and anything downstream that
+         walks the array expecting time order reads the wrong neighbour. The
+         file's own comparator: by time, stable, so notes sharing an instant
+         keep the order they already had. */
+      events.sort((a, z) => a.tSec - z.tSec);
+    }
+
+    /* ══ AND THE KEY-DOWN MEASUREMENT IS RE-TAKEN, BECAUSE THE NOTES MOVED ═══
+       `holdSec` — how long this key could stay down — was measured before this
+       block ran, and this block MOVES NOTES: an arpeggiated note starts later
+       than the chord it came from, a re-struck note is a new onset, a stolen
+       voice ends early. So the measurement went stale exactly where the
+       playing changed, and the battery caught it ("holds 3.630 past the next
+       note at 0.210"). The same rule, re-run over the finished events — one
+       arithmetic, applied twice, never two versions of it. */
+    {
+      /* ASKED OF THE ONSETS, NOT OF THE ARRAY'S ORDER. The first version
+         sorted the events first so a backward walk could work — and the
+         snapshot said what that cost: NINE GENRES moved, not one of them
+         because a note changed. Re-ordering notes that share an instant is
+         enough to change a record's fingerprint, so this now collects each
+         part's onsets and asks them, leaving the array exactly as it was. */
+      const BAR2 = spb * STEPS;
+      const onsetsOf = {};
+      for(const e of events){
+        if(e.pitch == null) continue;
+        /* the RAW time, never rounded: rounding the onsets to six decimals
+           moved `nxt - tSec` by half a microsecond, which flipped the
+           boundary on three notes in the whole file and re-wrote a plastikman,
+           two synthwave and an acid record that this build never touched. The
+           comparison below must be bit-for-bit the one that wrote the field. */
+        (onsetsOf[e.role] = onsetsOf[e.role] || new Set()).add(e.tSec);
+      }
+      for(const r in onsetsOf) onsetsOf[r] = [...onsetsOf[r]].sort((a, z) => a - z);
+      for(let i = events.length - 1; i >= 0; i--){
+        const e = events[i];
+        if(e.pitch == null) continue;
+        /* ONLY EVER CORRECTS A HOLD THAT IS ALREADY THERE — never writes a new
+           one. The version that also added them moved FOUR GENRES that play
+           none of these instruments: the wind and plucked truncation above
+           shortens notes, which made `hold > durSec` newly true for records
+           this block never touched. A re-take that invents fields is not a
+           re-take. Shorten it, or remove it when the note it was reaching for
+           has moved past it; otherwise leave the record exactly as it was. */
+        if(e.holdSec == null) continue;
+        const list = onsetsOf[e.role] || [];
+        const nxt = list.find(t => t > e.tSec + 1e-6);
+        const hold = nxt == null ? null : Math.min(nxt - e.tSec, BAR2);
+        if(hold == null || hold <= e.durSec + 0.001)
+          events[i] = Object.freeze(Object.assign({}, e, { holdSec: undefined }));
+        else if(hold < e.holdSec - 0.001)
+          events[i] = Object.freeze(Object.assign({}, e, { holdSec: hold }));
       }
     }
   }
@@ -43052,6 +43354,15 @@ window.MK2 = {
      So adding a fourth and fifth rack turned a green check red, which is the
      check being stale rather than the program being wrong. One owner. */
   rackSlots: () => RACK_SLOTS.slice(),
+  /* WHAT KIND OF INSTRUMENT EACH VOICE IS, and what each family may do — so a
+     check can prove the records honour it rather than trusting that whoever
+     added an instrument remembered to. */
+  playFamilies: () => Object.assign({}, PLAY_FAMILY),
+  /* how many notes one player of this voice can sound at once, 0 = undeclared */
+  playPoly: v => { const M = INSTRUMENTS[machineOfVoice2(v)];
+                   return M && M.play && M.play.poly > 0 ? M.play.poly : 0; },
+  playLimits: () => ({ pluck: p => 4.2 - 3.0 * Math.max(0, Math.min(1, (p - 36) / 48)),
+                       air: Object.assign({}, PLAY_AIR), airDefault: 8.0 }),
   /* HOW MANY KNOBS A GIVEN STRIP CARRIES: the EQ's bands, plus the sends that
      have somewhere to go. A check that counted the literal 3 went red the hour
      the sends landed; one that counts bands + sends went red the hour a strip

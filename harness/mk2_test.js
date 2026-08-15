@@ -3684,6 +3684,85 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         bad.length === 0 && held > 0,
         bad.length ? bad.slice(0, 4).join(" · ") + (bad.length > 4 ? " (+" + (bad.length - 4) + ")" : "")
                    : held + " of " + notes + " notes could be held longer");
+
+  /* ══ AND NO RECORD WRITES A NOTE THE INSTRUMENT CANNOT PLAY ════════════════
+     The owner found this one by ear, which is the expensive way: "these new
+     instruments need to be played like they should be played... if a harmonica
+     is being played long chords — I'm not sure that's possible on a
+     harmonica." He was right. Three builds had added five instruments and
+     joined NONE of them to the file's own playing-family list — the list whose
+     comment says "this is the FIRST thing a new voice joins" — so a banjo was
+     being written notes longer than a banjo string rings (the tail was
+     silence) and a one-reed bassoon was being written nine-note chords.
+
+     Both halves are checked here, asked of the program's own tables rather
+     than a copy: a plucked note may not outlast its ring, a wind note may not
+     outlast one breath, and a player may not sound more notes at once than the
+     instrument declares. [docs/genre-research/playing-the-hobo-band.md] */
+  {
+    const fams = M.playFamilies(), lim = M.playLimits();
+    const tooLong = [], tooMany = [];
+    for(const g of M.genres()){
+      for(let seed = 1; seed <= 4; seed++){
+        /* sorted here, not trusted: this check is about who is SOUNDING at an
+           instant, so it must walk the record in time order whatever order the
+           array happens to be in */
+        const evs = M.composeSong(seed, undefined, g).perf.events
+          .slice().sort((a, z) => a.tSec - z.tSec);
+        const live = {};
+        for(const e of evs){
+          if(e.pitch == null || !e.voice) continue;
+          const f = fams[e.voice];
+          if(f === "plucked" || f === "struck"){
+            const ring = lim.pluck(e.pitch);
+            if(e.durSec > ring + 0.02)
+              tooLong.push(`${g} ${e.voice} ${e.durSec.toFixed(2)}s > rings ${ring.toFixed(2)}s`);
+          } else if(f === "wind"){
+            const air = lim.air[e.voice] == null ? lim.airDefault : lim.air[e.voice];
+            if(e.durSec > air + 0.02)
+              tooLong.push(`${g} ${e.voice} ${e.durSec.toFixed(2)}s > one breath ${air}s`);
+          }
+          const cap = (M.INSTRUMENTS && M.playPoly) ? M.playPoly(e.voice) : 0;
+          if(cap > 0){
+            const k = e.role + "|" + e.voice;
+            const l = (live[k] = (live[k] || []).filter(x => x > e.tSec + 1e-6));
+            if(l.length >= cap)
+              tooMany.push(`${g} ${e.voice} on ${e.role}: ${l.length + 1} at once, plays ${cap}`);
+            l.push(e.tSec + e.durSec);
+          }
+        }
+      }
+    }
+    /* AND THE PAIRING IS CHECKED, because the check above cannot see a voice
+       that was never joined — un-joining the banjo makes it INVISIBLE to a
+       rule about families, which is precisely how this shipped. An instrument
+       that declares how it is played (`play.poly`, `play.onLong`) must also
+       say WHAT IT IS, and every name in the family table must be a voice that
+       exists. The hole that remains is stated rather than hidden: an
+       instrument with neither declaration is still invisible to both, and the
+       only cure for that is the owner's ear, which is what found it. */
+    {
+      const voices = new Set(M.voiceNames());
+      const orphanFam = Object.keys(fams).filter(v => !voices.has(v));
+      const undeclared = [];
+      for(const v of voices){
+        if(M.playPoly(v) > 0 && !fams[v]) undeclared.push(v);
+      }
+      check("an instrument that says how it is played also says what it is",
+            undeclared.length === 0 && orphanFam.length === 0,
+            [...undeclared.map(v => v + " declares its playing but joins no family"),
+             ...orphanFam.map(v => v + " is in the family table and is not a voice")
+            ].join(" · ") || `${Object.keys(fams).length} families, every name a real voice`);
+    }
+
+    check("no record writes a note the instrument cannot play",
+          tooLong.length === 0,
+          tooLong.length ? tooLong.slice(0, 4).join(" · ")
+            : `${Object.keys(fams).length} voices declare what they are; every note inside the ring or the breath`);
+    check("...and no player sounds more notes at once than it has",
+          tooMany.length === 0,
+          tooMany.length ? tooMany.slice(0, 4).join(" · ") : "every declared player within its own hands");
+  }
   /* the parts the measurement said were NOT already legato: the lines */
   const want = ["lead", "counter", "keys2"];
   const missing = want.filter(r => !reach[r]);
