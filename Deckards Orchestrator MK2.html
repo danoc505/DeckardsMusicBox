@@ -29046,7 +29046,21 @@ GENRE.boxcarsynth = {
        record and measured 23.5 distinct bars each heard 6.7 times. Alternating
        it doubles what there is to hear without writing a note.
        [drums already default to 2; these are CHOSEN] */
-    rest: { counter: 0.30, keys2: 0.22, lead: 0.16, ostinato: 0.12, keys: 0.10 },
+    /* ── AND THE COUNTER IS NOT IN THIS LIST, HAVING BEEN IN IT ─────────────
+       The first draft rested it at 0.30, which was wrong for a reason only
+       reading the exported MIDI showed: **the counter plays TWO NOTES in a
+       152-bar record** (seed 1, track 5). It is not a part with room to
+       breathe, it is a part that is already almost never there — 5.7 sounding
+       bars of 177 — and resting it took 30% off a part measured in single
+       figures. A rest is a hole in something continuous; a hole in something
+       absent is nothing.
+
+       The underlying sparsity is NOT this build's doing and is not fixed here:
+       `counter.density` is 0.2, and `call-and-response.md` §5 already recorded
+       the same complaint about the same lane — "a device that fires in one bar
+       in fourteen is a long way from So What, where the answer is half the
+       melody." Written down in §10 rather than tuned blind. */
+    rest: { keys2: 0.22, lead: 0.16, ostinato: 0.12, keys: 0.10 },
     longLoop: { ostinato: 2, lead: 2, keys2: 2 },
     /* the town is WARM, not loud: its energy sits under the rolling peak,
        because arriving is a relief and not a climax [CHOSEN] */

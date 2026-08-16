@@ -740,7 +740,19 @@ here as the record of what was wrong, each with its outcome:
 14. **`trip.startHour` IS DEAD FOR THIS GENRE**, superseded by `chart.clock`.
     It survives only as the fallback for a caller with no clock; nothing in
     boxcar synth reads it any more.
-15. **NO PROBE MEASURES WHETHER THE SAME NOTES ARRIVE SOUNDING DIFFERENT**,
+15. **THE COUNTER PLAYS TWO NOTES IN A 152-BAR RECORD.** Seed 1, track 5 of
+    the exported MIDI — and only reading the MIDI showed it, because
+    `probe_rack`'s "composed and never sounding" list cannot catch a lane that
+    *does* sound, twice. Over 24 seeds it is **5.7 sounding bars of 177**,
+    about 3% of the record. `counter.density` is 0.2, and
+    `call-and-response.md` §5 already made the same complaint about the same
+    lane: "a device that fires in one bar in fourteen is a long way from So
+    What, where the answer is half the melody." Not tuned here, because tuning
+    a density blind is how the last three level bugs happened.
+16. **`keys2` CAN VANISH FROM A WHOLE RECORD** — seed 1's MIDI has eight tracks
+    rather than nine. Possibly a legitimate night off for a part, possibly the
+    `rest` weight compounding with an already-thin lane. Unmeasured.
+17. **NO PROBE MEASURES WHETHER THE SAME NOTES ARRIVE SOUNDING DIFFERENT**,
     which is the entire claim of the stacked-cycle work.
     `probe_modulation`'s FREE column counts lanes whose autocorrelation never
     exceeds 0.60 — and it scores **plastikman, this file's own exemplar of the

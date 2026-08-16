@@ -959,7 +959,30 @@ Run across the whole genre after the phases, as asked.
    35 of 77 lanes — at ZERO**. Boxcar reads 1 of 25. So the device is in (6 of
    24 lanes carry two cycles, up from none) and the metric that would confirm
    it *works* is measuring something else. No claim is made on FREE.
-6. **Nothing here has been judged by ear**, which outranks all of it.
+6. **THE COUNTER PLAYS TWO NOTES IN A 152-BAR RECORD** — seed 1, track 5 of
+   the exported MIDI, and nothing but reading the MIDI would have shown it.
+   `probe_rack`'s "composed and never sounding" list cannot catch it because
+   the lane does sound; it sounds twice. Measured across 24 seeds it is 5.7
+   sounding bars of 177 — about 3% of the record.
+
+   **Phase 4 briefly made it worse and that is worth admitting**: the first
+   draft rested the counter at 0.30, taking 30% off a part already measured in
+   single figures. A rest is a hole in something continuous, and a hole in
+   something absent is nothing. Removed.
+
+   The sparsity itself is older than this build and is NOT fixed here.
+   `counter.density` is 0.2, and `call-and-response.md` §5 already made the
+   same complaint about the same lane: *"a device that fires in one bar in
+   fourteen is a long way from So What, where the answer is half the melody."*
+   Which is this sheet's own subject arriving from a third direction — the
+   modal jazz answer to a static harmony is that the parts talk to each other,
+   and in this genre one of them barely speaks.
+7. **`keys2` can vanish from a whole record.** Seed 1's MIDI has eight tracks,
+   not nine — the second keyboard never sounds. That may be a legitimate
+   arrangement (a part is allowed a night off) or the `rest` weight compounding
+   with an already-thin lane. Unmeasured either way, and stated rather than
+   assumed benign.
+8. **Nothing here has been judged by ear**, which outranks all of it.
 
 ## 8. WHAT THIS SHEET DOES NOT SETTLE
 
