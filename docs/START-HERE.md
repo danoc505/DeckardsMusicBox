@@ -1,6 +1,6 @@
 # START HERE — the prompt for whoever picks this up next
 
-*Everything below is verified at `2026-08-15t` unless it says otherwise (the
+*Everything below is verified at `2026-08-16j` unless it says otherwise (the
 newest build; its entry is under "What happened last"). If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
@@ -135,6 +135,51 @@ because the measurement refused it.
 **No pull request unless the user asks for one.**
 
 ## What happened last, and what to do next
+
+### `2026-08-16j` — boxcar synth, and the lesson is about MEASUREMENT
+
+**Read this before you trust any probe in this repo.** A full critical audit of
+boxcar synth ran with **every guard green** — route 6/6, journey 11/11, battery
+187/2 — and the owner found four faults by ear in a minute. The audit measured
+**events, not sound**: it never rendered, never traced a bed to a sample, never
+asked what a voice does between the composed event and the speaker.
+
+A muffled train (three stacked lowpasses), a run take that had **never played in
+the life of the genre** (chosen by `pitch % 2`, and the pitch is always 24), two
+machines with **no rack at all** (`atmos` and `weather` were not in
+`INSTRUMENTS`), and a fallback bus still pointing at the crackle were all
+invisible to composer-level measurement. **A green battery is not evidence that
+a record sounds right.** `docs/BACKLOG.md` §0za is the class; nothing guards it
+yet.
+
+**What landed:** the banjo's fifth string is a fixed drone (it was
+`chord.degree + 7`, so the roll was an arpeggio); `materialBars: 8` and 8-bar
+progressions; **`materialTakes`** — a 20-minute record composed the same ~40 bars
+as a six-minute one, now 128; the SFX came off the crackle fader onto
+engine/pass/station on a `rail` bus; the whole band got a **place in the stereo
+field** (it was rendering dead centre and immovable); the "glass slide" became
+the **diddley bow** (a slide is a tool, and the voice was two sawtooths); the
+train's window opened; and `atmos`/`weather` became real machines with racks.
+
+**New guards:** `probe_banjo.js`, `probe_length.js` (composed material must grow
+with record length — 16 roles across the other ten genres are still capped).
+
+**What to do next**, in order (evidence in
+`docs/genre-research/boxcar-audit.md`, detail in tasks #111–#117):
+
+1. **Section lengths do not vary at all** — verse is 16 bars in all 111
+   instances measured, every leg exactly 64 s, every town exactly 32. The
+   terrain planner draws real variety and none reaches the ear. Largest open
+   item in the genre.
+2. **The apex is the sparsest bar** — the only genre of eleven whose density
+   falls toward its peak.
+3. **A probe that renders and measures the result** — the missing instrument
+   this whole session proved is missing (BACKLOG §0za, task #102).
+
+**Still open and unexplained:** the owner cannot hear the conductor
+(`railCall`) — 6 s of real audio, composed 36×/10 records, gain 0.518, *louder
+than the bass*. Needs a render to settle.
+
 
 **Builds `2026-08-15q`..`2026-08-15t` — THE INSTRUMENTS PLAY LIKE INSTRUMENTS,
 AND BOXCAR SYNTH IS FINISHED THROUGH PHASE 5.**

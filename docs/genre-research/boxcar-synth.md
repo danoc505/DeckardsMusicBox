@@ -5,14 +5,25 @@
 > there and nowhere else. `main` is a snapshot from 2026-08-03 and looks
 > deceptively clean.
 >
-> **CURRENT BUILD: `2026-08-16a`**, published to the artifact at
+> **CURRENT BUILD: `2026-08-16j`**, published to the artifact at
 > `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
-> Battery 186/1 (the one red is the permanently ruled blend item, task #61).
-> Guards: `harness/probe_journey.js` 11/11, `harness/probe_route.js` 6/6.
+> Battery **187/2** — the build stamp (green after publish) and the permanently
+> ruled blend item, task #61. Guards: `probe_journey` 11/11, `probe_route` 6/6,
+> `probe_banjo` 13/13, `probe_length` (new) asserts composed material grows with
+> record length.
 >
-> **NOT ONE RECORD OF THIS GENRE HAS BEEN JUDGED BY EAR.** Every number below
-> is evidence that the machine does what it says. None of it is evidence that
-> it sounds good, and the owner is the only one who can say.
+> **THE OWNER HAS NOW JUDGED IT BY EAR, AND THAT CHANGED EVERYTHING.** Read
+> `boxcar-audit.md` §"what this audit did not do" before trusting any number
+> here: an audit of this genre passed every guard and missed four faults an ear
+> found in a minute, because **it measured EVENTS and not SOUND**. The muffled
+> train, the run take that had never played, the missing racks and the
+> still-unexplained conductor were all invisible to the composer-level
+> measurements this sheet is full of.
+>
+> **STILL OPEN AND UNEXPLAINED:** the owner cannot hear the conductor
+> (`railCall`), which decodes to 6 s of real audio, is composed 36 times per 10
+> records, and plays at gain 0.518 — *louder than the bass*. Present and loud at
+> every layer that can be measured without rendering. Needs a render.
 *Researched 2026-08-15. The owner is founding a subgenre of dungeon synth,
 inspired by comfy synth, dinosynth, and dungeon synth: the railroad, the
 hobo, the journey. Decisions the owner has already made: the name is

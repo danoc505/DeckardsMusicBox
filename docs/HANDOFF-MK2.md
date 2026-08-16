@@ -4,6 +4,58 @@
 > the rules, the current state and what to do next, in two pages. Then come
 > back and read this whole file, which is the contract.
 
+*⚠ **CURRENT AT `2026-08-16j` — BOXCAR SYNTH, AND THE LESSON IS ABOUT
+MEASUREMENT.** Branch **`claude/code-review-6jd9cz`** (NOT `main`, which is a
+2026-08-03 snapshot that looks deceptively clean). Artifact
+`https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
+Battery **187/2** — the stamp (green after publish) and the ruled blend item #61.
+
+**THE ONE THING TO CARRY FORWARD, above every number below:** this session ran a
+full critical audit of boxcar synth (`docs/genre-research/boxcar-audit.md`) with
+**every guard green** — route 6/6, journey 11/11, battery 187/2 — and the owner
+then found four faults by ear in a minute. The audit **measured EVENTS, not
+SOUND**: it never rendered, never traced a bed to a sample, never asked what a
+voice does between the event and the speaker. A muffled train, a run take that
+had never once played in the life of the genre, two machines with no rack at
+all, and a fallback bus left pointing at the crackle were all invisible to it.
+**A composer-level measurement cannot see a sound-level defect.** That is the
+class, and nothing in this repo currently guards it.
+
+**What landed, in order.**
+**The banjo's fifth string is fixed** (`ostinato.fixed: [7]`) — it was
+`chord.degree + 7`, so the drone transposed and the roll was an arpeggio, which
+is what the owner said three times. A pitch survives the chord change in 94% of
+windows against 75.7% fretted-only. **`materialBars: 8` and 8-bar progressions**
+— the cell went 43.3 times round to 21.7, the verse 2.1 → 3.0 distinct chords.
+**`materialTakes`** — the deepest fix: a 20-minute record composed the same ~40
+bars as a six-minute one, because `makePerformance` has *no note-generating call
+at all* and `makeMaterials` never sees the record's length. Modal jazz's answer
+(`modal-jazz.md` §7e) is that the material is a constraint RE-REALISED, not an
+array replayed — So What is 32 composed bars over ~600 played and works because
+nobody plays the same bar twice. Distinct banjo bars at 20 min: **43 → 128**.
+**The SFX came off the crackle fader** — sixteen rail beds all carried
+`role: "tape"` because `roleOfBed` ended in a FALLBACK; they are engine/pass/
+station on a `rail` bus now and can finally reach a room. **The stereo field** —
+banjo, harmonica, whistle and slide all declared `pan` as `voicing` with a
+default of 0, so the whole band rendered dead centre and immovable. **The
+"glass slide" was a category error**: a slide is a TOOL, and the voice was two
+sawtooth oscillators. It is the **diddley bow** now — one wire, a bottle for a
+bridge, Karplus-Strong, `poly: 1`. **And the train's window opened** (2400 →
+4300 Hz; the corner travels 3468 → 5075), `railRun1` became reachable (it was
+selected by `pitch % 2` and the pitch is *always 24*), and `atmos`/`weather`
+became real machines with racks — they were not in `INSTRUMENTS` at all.
+
+**New guards:** `probe_banjo.js` (the cells still match the tab they were copied
+from; a pitch survives the changes), `probe_length.js` (**composed material must
+grow with record length** — it binds on any genre declaring `materialTakes` and
+prints the rest as capped; 16 roles across the other ten genres still are).
+
+**Still open and unexplained:** the owner cannot hear the conductor
+(`railCall`), which decodes to 6 s of real audio, is composed 36×/10 records and
+plays at gain 0.518 — louder than the bass. Present and loud at every measurable
+layer. Needs a render, which is exactly the instrument this session proved is
+missing.*
+
 *⚠ **CURRENT AT `2026-08-10e` — THE KETTLES ROLL, AND THE HAND DRUM LEARNS ITS
 FIGURES.** The owner asked for the orchestral element and drum creativity, and
 both land as the two percussion gestures the genre's own sources name and the

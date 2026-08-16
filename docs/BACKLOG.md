@@ -11,6 +11,88 @@ a source. Items are grouped by what they cost, not by when they appeared.
 
 ---
 
+## 0za. FOUND BY EAR AT `2026-08-16j` — THE MEASUREMENT CLASS THIS REPO CANNOT SEE
+
+*The most important entry in this file. A full critical audit of boxcar synth
+ran with **every guard green** — route 6/6, journey 11/11, battery 187/2 — and
+the owner found four faults by ear in a minute. Recorded as a CLASS because the
+individual fixes are done and the blind spot is not.*
+
+**THE CLASS: every probe in `harness/` measures EVENTS. None measures SOUND.**
+`probe_repetition` counts note content, `probe_theory` counts wrong notes,
+`probe_automation` counts knob travel, `probe_arc` counts density. All correct,
+all blind to anything that happens between the composed event and the speaker —
+filters, levels compounding through a voice, a sample never selected, a rack
+that does not exist. Four defects lived there:
+
+1. **The train was muffled by three stacked lowpasses** — a 2400 Hz `window`, a
+   +8 dB shelf at 110 Hz, and the gramophone on top. A chuff is an ATTACK at
+   1–4 kHz. Fixed (window 4300, travelling 3468→5075; rumble 8→5).
+2. **`railRun1` had never played, in any record, ever.** Selected by
+   `pitch % runs.length`, and the drone lane writes `pitch: 24` on every event
+   it has ever made. Five seconds of shipped bank, never heard. Fixed.
+3. **`atmos` and `weather` were not in `INSTRUMENTS` at all** — no controls, no
+   panel, no rack. A fader with no machine behind it. Fixed.
+4. **`V.atmos`'s fallback bus was still `vinyl`** — a role that missed its
+   channel landed on the surface noise. Fixed.
+
+**WHAT WOULD CLOSE THE CLASS**, and it does not exist: a probe that RENDERS a
+window and measures the result — per-role contribution to the mix, spectral
+balance, and whether a thing that is composed is actually *audible against what
+is playing at the same time*. Task #102 ("a probe that measures levels AGAINST
+each other") is the nearest existing item and is a subset of this. Until it
+exists, **no green battery is evidence that a record sounds right**, and the
+handoff should keep saying so.
+
+**STILL OPEN, and it is the live example:** the owner cannot hear the conductor
+(`railCall`). It decodes to 6 s of real audio (rms 0.133), is composed 36 times
+per 10 records, and plays at gain 0.518 — *louder than the bass*, 3.4 dB under
+the tune. Present and loud at every layer measurable without rendering. Either
+it is masked, or the sample is not what its name says (§0y / task #23 is the
+precedent for names not matching audio). **Both require a render to settle.**
+
+---
+
+## 0zb. BOXCAR SYNTH — what `2026-08-16` left open
+
+Ordered by how much each changes the listening experience.
+
+1. **SECTION LENGTHS DO NOT VARY, AT ALL.** Measured over 20 records: verse is
+   16 bars in all 111 instances, chorus 8 in all 60, instrumental 16 in all 54.
+   Every travelling leg is exactly 64 s and every town exactly 32 s. The terrain
+   planner draws real variety (`farm secs:[35,30]`, `open [45,45]`) and **none
+   of it reaches the ear**, because what is heard is the section grid. Fatal for
+   a genre whose constitution is "a boxcar record has a geography" — a geography
+   has distances. **This is the single largest open item in the genre.**
+2. **The apex is the sparsest moment.** Boxcar is the only genre of eleven whose
+   density FALLS from opening to peak (22.8 → 14.5 ev/bar, against plastikman
+   13.8 → 43.3). `chorusPeak` makes the town the loudest declared moment and the
+   town is where the roll stops.
+3. **The bass is a pedal** — six notes in four bars, each twelve beats, and it
+   re-strikes a pitch that is still ringing. `bassWalk: 0.65` is declared and
+   inaudible.
+4. **The tune has no phrases and barely any pitches** — measured D5 D5 D5 D#5 C5
+   across four bars: three repeats, three semitones. Task #113 has the sourced
+   model (2–2.5 bars of phrase answered by 1.5–2 of rest, AAB).
+5. **The counter answers one call in ten** (174 notes to the lead's 1,751) and
+   shares **100% of the lead's register**.
+6. **Zero parameter locks.** The engine has them; boxcar declares none, against
+   hobbit's 6. The one modulation shape that gives detail smaller than a bar,
+   which is what a 16th-note roll of three pitches needs.
+7. **No low transient in the kit** — three sounds carry it, `tkLow` sounds 6
+   times in ten records, and nothing hits below the bass. The train has pitch
+   and no weight.
+8. **`keys` cannot use takes because it HOLDS** (task #112) — the flattest part
+   of the record at ×6.9.
+9. **The other ten genres carry the same length cap** — `probe_length --all`
+   names 16 roles, e.g. dungeonsynth.ostinato at ×6.8 the playing for ×1.3 the
+   music.
+
+Tasks #111–#117 carry the detail. Full evidence:
+`docs/genre-research/boxcar-audit.md`.
+
+---
+
 ## 0z. FOUND WHILE BUILDING `2026-08-15v` — three checks that could not see
 
 *Recorded here because each one is the same failure in a different place: a
