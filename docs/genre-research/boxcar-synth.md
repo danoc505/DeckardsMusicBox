@@ -656,12 +656,17 @@ lesson of §4d.
    middle of the sample; it should measure each pass sample's own peak
    position and align to it.
 
-### AND FOUR MORE, FOUND 2026-08-16 — see `modal-jazz.md`
+### FOUR FOUND 2026-08-16, AND ALL FOUR NOW BUILT — see `modal-jazz.md`
 
-The owner: *"The songs can feel stale... Are we preplanning a route and using
-it to create the sfx and are we using our fx racks to modulate the sfx."*
-Researched and measured in `docs/genre-research/modal-jazz.md`; the findings
-that belong on this list:
+The owner, having listened: *"The songs can feel stale"* — and, asked what he
+was hearing, he named all four of the harmony never moving, the same loop
+returning, the record not building, and the town not feeling like an arrival.
+Plus: *"Are we preplanning a route and using it to create the sfx and are we
+using our fx racks to modulate the sfx."*
+
+**Items 7–10 below were the findings. All four are now built** — phases 1–5 in
+`docs/genre-research/modal-jazz.md` §7a–§7d, with the numbers. They are kept
+here as the record of what was wrong, each with its outcome:
 
 7. **THE TOWN HAS NO CHANGES OF ITS OWN, AND THE PARENT GENRE'S DOES.**
    Measured: `CHORUS HAS ITS OWN CHANGES` is **0/24 boxcar records against
@@ -706,6 +711,42 @@ that belong on this list:
     the reverb. **The train has effects; the landscape it passes through does
     not.** The guard is "every send gain terminates somewhere", and
     `probe_deskgraph.js` / `probe_busedge.js` are its home.
+    **BUILT** — the world has a `world` bus of its own with all seven
+    crossings, and vinyl's six plates stay exactly as they were ruled. It is
+    NOT opened flat: open country at speed has no room in it and a station shed
+    does, so `motion.matrix.worldRoom` opens it in the town, which is also the
+    one direction this genre's sends usually lack. Measured live at −49.1 dB by
+    `probe_section_motion`. **The guard is still unwritten.**
+
+### AND WHAT THE AUDIT OF 2026-08-16 LEFT OPEN
+
+11. **`space.feeds: ["keys", "lead"]` IS A NO-OP, IN EVERY GENRE.**
+    `routeBaseFor`'s Room case opens `keys` and `lead` **by name**, before it
+    consults `feeds` at all. Eleven tables carry those two words as inherited
+    decoration, so the declaration lies about what decides the routing.
+    `probe_wiring`'s own lesson — "ask the question of the thing, not of the
+    declaration" — records the symptom without naming this cause.
+12. **THE SPRING COLUMN IS FED BY NOBODY.** `probe_wiring`: "Spring 0 <<<
+    NOBODY USES THIS". A whole effect unit, built and reachable, that no genre
+    has ever named.
+13. **THE DECLARED PEAK AND THE DYNAMIC PEAK ARE DIFFERENT SECTIONS.**
+    `form.energy.chorusPeak: 0.72` is the highest number in this table, but the
+    chorus is the TOWN — no drums, no train — while `motion.trainbox.level`
+    puts the train's own maximum in the **bridge** at `[0.18, 0.38]`. The table
+    says the climax is the last town; the automation says it is the night run.
+    Both are defensible, they are not the same claim, and nothing reconciles
+    them. The comment beside `energy` half-concedes it: "arriving is a relief
+    and not a climax".
+14. **`trip.startHour` IS DEAD FOR THIS GENRE**, superseded by `chart.clock`.
+    It survives only as the fallback for a caller with no clock; nothing in
+    boxcar synth reads it any more.
+15. **NO PROBE MEASURES WHETHER THE SAME NOTES ARRIVE SOUNDING DIFFERENT**,
+    which is the entire claim of the stacked-cycle work.
+    `probe_modulation`'s FREE column counts lanes whose autocorrelation never
+    exceeds 0.60 — and it scores **plastikman, this file's own exemplar of the
+    technique at 35 of 77 stacked lanes, at ZERO**. Boxcar reads 1 of 25. The
+    device is demonstrably in (6 of 24 lanes carry two cycles, up from none)
+    and the number that would confirm it works is measuring something else.
 
 ## 9. What is built, in phases (the plan of record)
 

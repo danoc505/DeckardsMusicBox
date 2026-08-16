@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-16b · the train and its own sounds come back forward; only the landscape stays back</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-16c · the town leaves home, the lift is the sunrise, and the loop stops coming round</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3157,6 +3157,31 @@ const MATRIX = {
        the reason is generated into MATRIX.none below.
        See docs/genre-research/lofi-noise.md §6b. */
     { k: "vinyl", label: "vinyl" },
+    /* ── AND A PLACE IS NOT A RECORD SURFACE ────────────────────────────────
+       [owner, 2026-08-16: "are we using our fx racks to modulate the sfx"]
+
+       `scene` and `weather` were put on the `vinyl` bus on 2026-08-15, for the
+       good reason stated there — a role missing from MIX_ROLE_BUS draws a
+       fader that writes into nothing. What came with it was NOT reasoned
+       about: the vinyl row is blind-plated out of all six effect columns, on
+       an argument that is entirely about STYLUS NOISE — "the crackle happens
+       at the stylus, after everything, it never met the band". That is right
+       about crackle and wrong about a river.
+
+       MEASURED: `g.sendMaster["vinyl|Room"]` is never built, so the `sendRoom`
+       and `sendEcho` gain nodes on the scene and weather strips exist, are fed
+       by `duck`, AND CONNECT TO NOTHING. Birds, rivers, thunder, station
+       crowds and grade-crossing whistles are recordings of PLACES, and a place
+       is the thing a reverb is for. Meanwhile the train — the one rail sound
+       promoted off this bus into an instrument — reaches the room at unity.
+       The train had effects and the landscape it was passing through did not.
+
+       So the world gets its OWN row rather than the plates being lifted off
+       vinyl's: the crackle's five blind plates stay exactly as they were
+       ruled, and this row is open to the columns a place can use. It arrives
+       CLOSED in every column — a genre opens it by naming `world` in `feeds`
+       or `echoFeeds` — so no genre that says nothing changes by a decimal. */
+    { k: "world", label: "world" },
     { k: "echo",   label: "echo",   ret: true },
     { k: "room",   label: "room",   ret: true },
     /* the spring tank's return -- the boingy room, after the plain one in the
@@ -3350,12 +3375,17 @@ const MIX_ROLE_BUS = { drums: "drums", bass: "bass",
                           Same shape as the drone above and for the same
                           reason: a role missing from this map draws a strip on
                           the glass and has no channel in the graph, so its
-                          fader writes into nothing. The BUS stays `vinyl`
-                          because that is where these sounds have always gone —
-                          naming them here puts a real channel, with its own
-                          fader, EQ and meter, in front of the wire the audio
-                          already takes. At defaults the record is unchanged. */
-                       scene: "vinyl", weather: "vinyl" };
+                          fader writes into nothing. Naming them here puts a
+                          real channel, with its own fader, EQ and meter, in
+                          front of the wire the audio already takes.
+
+                          AND THE BUS IS `world` NOW, NOT `vinyl` — see the
+                          MATRIX row of that name. Sharing vinyl's bus meant
+                          silently inheriting five blind plates that were ruled
+                          about STYLUS CRACKLE, so the world's reverb and delay
+                          sends were built, were fed by `duck`, and terminated
+                          in nothing. A river is not a record surface. */
+                       scene: "world", weather: "world" };
 /* ── THE TWO A CHANNEL STRIP SENDS TO, DECLARED ONCE ───────────────────────
    "reverb, digital delay", while dynamics "would normally be on an insert,
    instead" [corpus:wikipedia Aux-send; docs/genre-research/channel-sends.md].
@@ -28978,6 +29008,46 @@ GENRE.boxcarsynth = {
       bridge:       [["verse", 4], ["instrumental", 3], ["chorus", 2]],
     },
     bridgeAfterChorus: { verse: 1, chorus: 1 },
+    /* ── PARTS HAVE A LIFE, AND THIS GENRE HAD NOT SAID SO ──────────────────
+       [owner, 2026-08-16, having listened: "it doesn't build to anything"]
+
+       MEASURED [modal-jazz.md §4a-iii]: every body section of a boxcar record
+       plays between 12.6 and 14.8 notes a bar — a range of 2.2 against dungeon
+       synth's 6.0 — and the count of sounding roles goes 7 → 6 across the
+       record where dungeon synth goes 4 → 7. The `energy` numbers below move
+       from 0.33 to 0.72 and THE PERFORMANCE DOES NOT FOLLOW THEM. The only
+       thing that moved was mean note level, creeping 0.383 → 0.517 over eleven
+       minutes, which is the exact shape `how-a-drone-evolves.md` §6b measured
+       listeners missing nearly half the time.
+
+       The cause was three declarations this table never made. The file already
+       names the syndrome, of a genre since deleted: "no `follow`, no `rest`,
+       no `longLoop`, no `thinTo` ... so it changed in exactly the same way,
+       which is to say not at all." Boxcar synth was in that state.
+
+       `rest` is the TOP-RANKED mechanism in this repo's own table — "parts
+       entering and leaving", five traditions, all primary [how-a-drone-evolves
+       §4 #1]. NOT `drums` and NOT `drone`: in this genre those two ARE the
+       arrangement — a town is a section that does not carry the train — and
+       the guards hold "every travelling section carries the run" and "a
+       travelling section always has them". Resting either would not be
+       variation, it would be a false arrival. The bass is left alone too,
+       because the pedal is the ground. What breathes is the colour: the
+       counter, the second keyboard, the tune, the roll.
+
+       `longLoop` is the one whose own comment is the owner's complaint word
+       for word — "every part read the same four-bar material on every cycle,
+       for ten minutes" — and it costs NOTHING, because the variant it
+       alternates to is already built, already reserved against, and already
+       sitting unused on odd cycles. It is the note-level twin of the stacked
+       cycles in `motion` below.
+
+       `ostinato: 2` is the important one: the banjo roll sounds in 92% of the
+       record and measured 23.5 distinct bars each heard 6.7 times. Alternating
+       it doubles what there is to hear without writing a note.
+       [drums already default to 2; these are CHOSEN] */
+    rest: { counter: 0.30, keys2: 0.22, lead: 0.16, ostinato: 0.12, keys: 0.10 },
+    longLoop: { ostinato: 2, lead: 2, keys2: 2 },
     /* the town is WARM, not loud: its energy sits under the rolling peak,
        because arriving is a relief and not a climax [CHOSEN] */
     energy: { intro: 0.35, verse: 0.55, instrumental: 0.62, chorus: 0.60,
@@ -29233,6 +29303,21 @@ GENRE.boxcarsynth = {
                bassWalk: [34, 46], ostinato: [69, 88],
                themeA: [64, 82], themeB: [66, 84], themeC: [62, 80] },
   /* a wooden boxcar, not a hall: short, close, warm [CHOSEN] */
+  /* ── AND THE LANDSCAPE IS NOT NAMED HERE, ON PURPOSE ──────────────────────
+     `world` now has a real Room crossing [see MATRIX.ins — its sends used to
+     terminate in nothing], and it is deliberately NOT opened flat.
+
+     Outdoors is dry. A field going past at forty miles an hour has no room in
+     it, and a reverb on open country is a reverb on nothing. A STATION SHED
+     does have one. So the crossing starts SHUT and is opened by
+     `motion.matrix.worldRoom` in the town, which also gives it the upward
+     headroom this file's own note demands: "a send this genre declares starts
+     open, so its travel is DOWNWARD; one it does not declare starts shut, so
+     its travel is upward."
+
+     (`keys` and `lead` are open in the Room whatever a genre declares —
+     routeBaseFor's Room case opens them by name — so those two entries are
+     inherited decoration rather than a decision.) */
   space: { wet: 0.28, irSec: 1.6, tailPow: 1.3, tailDark: 0.5, sendHp: 130,
            feeds: ["keys", "lead"], echoFeeds: ["lead"],
            random: 0, spread: 0.7, preDelay: 0.02 },
@@ -29462,7 +29547,12 @@ GENRE.boxcarsynth = {
                     its travel is downward */
                  { kind: "lfo", bars: [[17, 2], [23, 1]], depth: [-0.05, -0.01],
                    shape: "sin", freePhase: true }],
-      leadRoom: [{ kind: "section", by: { chorus: [-0.34, -0.14], intro: [-0.12, -0.04] } },
+      /* the `intro` entry that used to sit beside the chorus one is gone:
+         `probe_section_motion boxcarsynth` measured it at **-88.2 dB, INERT**
+         — the lead bus is silent in the yard, so closing its reverb there was
+         automation of nothing. A move keyed to a section whose bus does not
+         sound is a knob turning in an empty room. */
+      leadRoom: [{ kind: "section", by: { chorus: [-0.34, -0.14] } },
                  { kind: "arc", from: [-0.22, -0.08], to: [-0.06, 0], curve: "sCurve" }],
       leadEcho: [{ kind: "section", by: { chorus: [-0.26, -0.10] } },
                  { kind: "lfo", bars: [[37, 2], [53, 1]], depth: [-0.12, -0.03],
@@ -29471,6 +29561,26 @@ GENRE.boxcarsynth = {
          starts shut and opens — the one crossing with headroom upward */
       keysEcho: [{ kind: "section", by: { bridge: [0.10, 0.28], instrumental: [0.04, 0.14] } },
                  { kind: "occurrence", step: [0.02, 0.06], cap: 4 }],
+      /* ── AND THE ROOM IS WHAT ARRIVES IN THE TOWN ──────────────────────────
+         [owner, 2026-08-16: the town "doesn't feel like arriving"]
+
+         It did not, because arriving was defined entirely by things STOPPING —
+         no drums, no train. Nothing came IN. Phase 1 gave the town its own
+         harmony; this gives it its own SPACE, and the two together are what an
+         arrival is.
+
+         It is also the only honest place for the world's new reverb. Open
+         country at forty miles an hour has no room in it; a station shed does.
+         So the landscape rides past dry and the platform opens up around you
+         when the train stops — which is a fact about where you are, in a genre
+         whose whole argument is that a sound needs a reason [sheet §4b].
+
+         This crossing is NOT in `space.feeds`, so it starts shut and all its
+         travel is upward — the one direction this genre's sends usually do not
+         have. The band goes the other way in the same bar (`keysRoom` and
+         `leadRoom` both close in the chorus), so the town is the one moment in
+         the record where the world is wetter than the band. [CHOSEN] */
+      worldRoom: [{ kind: "section", by: { chorus: [0.22, 0.55] } }],
     },
     /* ── THE HANDS ──────────────────────────────────────────────────────────
        The pick brightens as the record brightens (it travels with the key
@@ -29606,7 +29716,12 @@ GENRE.boxcarsynth = {
              { kind: "section", by: { bridge: [0.06, 0.16] } }],
       tone: [{ kind: "sh", every: [[17, 2], [23, 1]], amt: [-500, 500], slew: [0.9, 0.96] },
              { kind: "arc", from: [-300, 0], to: [200, 900], curve: "sCurve" }],
-      verb: [{ kind: "section", by: { chorus: [-0.10, -0.03], bridge: [0.05, 0.14] } }],
+      /* the `bridge` entry is gone for the same reason as `leadRoom`'s intro:
+         measured at **-63.9 dB, INERT**. The delay's own reverb needs the
+         delay to be carrying something, and in the night run the echo feeds
+         only the lead, which is the part that rests there — the tune sits out
+         and the slide answers in the dark [see form.material]. */
+      verb: [{ kind: "section", by: { chorus: [-0.10, -0.03] } }],
       /* ── AND THE SEND WAS DECLARED TWICE, WHICH MEANT ONCE ────────────────
          This table carried a SECOND `echo:` key at its foot holding only
          `send`, and a second `dronebox:` holding only `cut`. A repeated key in
@@ -31610,7 +31725,36 @@ function makeMaterials(chart, editPlan, arcPlan){
   const KS = G.keyShift || {};
   const ksOn = rngK() < (KS.chance || 0);
   const ksBy = wpick(rngK, KS.by || [[1, 1]]);
-  const ksChange = rngK() < (KS.change || 0);
+  const ksChangeRoll = rngK() < (KS.change || 0);
+  /* ── AND A ZERO-SEMITONE SHIFT THAT KEEPS ITS MODE IS NOT A KEY CHANGE ─────
+     Boxcar synth draws `by: [[0, 6], [2, 2], [5, 1]]` — weight SIX on a
+     zero-semitone move, because for that genre the device is the parallel
+     minor→major: same tonic, the light switched on [sheet §5]. With
+     `change: 0.8` that leaves 0.667 x 0.2 = **13% of its lifts moving the
+     tonic by nothing and the scale by nothing**, which is a whole lifted copy
+     of the record's material that is identical to the original.
+
+     MEASURED, reading the pitch content either side of the lift: seed 1 went
+     `C# D# E F F# G# A# B` before and `C# D# E F F# G# A# B` after — not one
+     note different. Seeds 2 and 3 were real (D dorian to aeolian on a DUSK
+     record, the natural 6 flattening; C dorian gaining its major third on a
+     dawn one). The guard could not see it either: `probe_journey` counts a
+     record as having changed key by asking the DECLARATION, not the notes.
+
+     AFTER: **84 of 84 lifted copies differ from their own unlifted twin, note
+     for note**, over 120 seeds. (A coarser reading — the pitch-CLASS set of
+     the whole lifted stretch against the whole unlifted one — still shows ten
+     coinciding, because the unlifted stretch contains the chorus in the town's
+     key and the bridge in the shifted one, so the record's total inventory can
+     match while every material in it has moved. The per-material comparison is
+     the one that answers the question.)
+
+     So when the tonic does not move, the mode must. The draw still happens
+     [Law 3] and its result is still used everywhere else; it is only
+     overridden in the one case where obeying it produces silence. No other
+     genre can reach this line — minimal techno draws `[[2,5],[1,2]]` and
+     dungeon synth `[[2,4],[1,3]]`, and neither list contains a zero. */
+  const ksChange = (ksBy === 0) ? true : ksChangeRoll;
   const ksPick = rngK();
   /* the genre's own bridge modes, minus the one it is already in */
   const ksModes = Object.keys(G.bridgeProgressions).filter(m => m !== mode);

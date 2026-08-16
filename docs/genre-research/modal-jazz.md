@@ -811,6 +811,156 @@ measures notes, and this phase moves none. What it changes is whether the same
 notes arrive sounding the same, which is the thing no probe in this repo
 currently measures. That gap is real and is named in §8.
 
+## 7d. WHAT PHASES 4 AND 5 BUILT — the record builds, the town arrives
+
+### Phase 4 — three declarations this table had never made
+
+The arc was declared and not played [§4a-iii]. The cause was not the arc: it
+was that `boxcarsynth` declared **none** of `rest`, `longLoop`, `thinTo` or
+`follow`. The file already names that exact syndrome, of a genre since deleted:
+
+> "no `follow`, no `rest`, no `longLoop`, no `thinTo` ... so it changed in
+> exactly the same way, which is to say **not at all**."
+
+- **`rest`** is the top-ranked mechanism in this repo's own table — "parts
+  entering and leaving", five traditions, all primary. **Not `drums` and not
+  `drone`**: in this genre those two ARE the arrangement, and resting either
+  would be a false arrival rather than variation. What breathes is the colour.
+- **`longLoop`** costs nothing — the variant it alternates to is already built
+  and already sitting unused on odd cycles. Its own comment is the owner's
+  complaint word for word: *"every part read the same four-bar material on
+  every cycle, for ten minutes."*
+
+Measured, 24 seeds, across all four phases:
+
+| role | baseline | after P1 | **after P4** | dungeon synth |
+|---|---|---|---|---|
+| ostinato (the banjo) | 23.5 / ×6.7 | 36.3 / ×4.4 | **37.0 / ×3.9** | 33.6 / ×3.9 |
+| keys | 22.8 / ×7.5 | 31.1 / ×5.5 | **31.4 / ×5.1** | 24.9 / ×4.2 |
+| keys2 | 1.7 / **×24.4** | 2.3 / ×17.4 | **2.6 / ×12.3** | 4.8 / ×14.6 |
+| lead | 29.6 / ×4.7 | 30.6 / ×4.5 | **28.2 / ×4.1** | 25.6 / ×3.6 |
+
+**The banjo roll went from each bar-idea heard 6.7 times to 3.9 — exact parity
+with the parent genre** — and `keys2` from ×24.4 to ×12.3, which is now better
+than dungeon synth's ×14.6. And the arc:
+
+| | before | after | dungeon synth |
+|---|---|---|---|
+| notes/bar across the body | 12.6 – 14.8 | **6.9 – 14.6** | 8.8 – 14.8 |
+| **range** | **2.2** | **7.7** | 6.0 |
+| roles sounding | 7 … 6 | **3 … 7** | 4 … 7 |
+
+### Phase 5 — the world gets a room, and the town is what opens it
+
+The `scene` and `weather` roles sat on the `vinyl` bus, blind-plated out of all
+six effect columns on a ruling made entirely about **stylus crackle**. Their
+`sendRoom` and `sendEcho` nodes were built, were fed by `duck`, and connected
+to nothing. They now have a bus of their own — `world` — with all seven
+crossings and **vinyl's six plates left exactly as they were ruled**.
+
+**It is deliberately not opened flat.** Open country at forty miles an hour has
+no room in it; a station shed does. So the crossing starts shut and
+`motion.matrix.worldRoom` opens it in the town — which is also the one
+direction this genre's sends usually lack, since a declared send starts open
+and can only travel down. The band closes its own reverb in the same bar
+(`keysRoom` and `leadRoom` both duck in the chorus), so **the town is the one
+moment in the record where the world is wetter than the band**.
+
+That is the answer to "the town doesn't feel like arriving": arriving was
+defined entirely by things *stopping*. Phase 1 gave the town its own harmony;
+this gives it its own space.
+
+Verified live, not merely declared — `probe_section_motion boxcarsynth`:
+`matrix.worldRoom chorus −49.1 dB **live**`.
+
+**AND THE BLAST RADIUS IS NOT ZERO, WHICH IS WORTH SAYING PROPERLY.**
+`MIX_ROLE_BUS` is global, so every genre's `scene` and `weather` events moved
+off `vinyl` with boxcar's. Measured over 6 seeds a genre: boxcar emits 41 scene
+and 16 weather events, and **dungeon synth and hobbit synth emit one weather
+event each** — the rest of the file emits none.
+
+Those two genres therefore changed bus, and the change is **provably silent**
+rather than merely believed to be: a bus is `c.createGain()` with
+`gain.value = 1` and nothing else, both rows sit in the MIX column at 1.0, and
+the new row's sends arrive CLOSED because neither genre names `world` in
+`feeds`. A unity gain replaced by a unity gain, with muted sends beside it.
+Stated because "no other genre is touched" would have been the easy sentence
+and it is not the true one.
+
+## 9. THE AUDIT — what is hooked up, and what is not
+
+Run across the whole genre after the phases, as asked.
+
+### Clean
+
+| probe | result |
+|---|---|
+| `probe_reachable` | **"every name the config mentions happens"** — no dead config in this table |
+| `probe_rack` | boxcar has **no** silent or wrongly-named lanes (acid, hobbitsynth and bladerunner do) |
+| `probe_theory` | **6.3% out of key** against dungeon synth's 8.5%; unisons **2.6%** vs 4.9%; chord-under-bass **0.0%** — cleaner than its parent |
+| `probe_journey` | **11/11** |
+| `probe_route` | **6/6** |
+| the MIDI export | 9 tracks, format 1, 960 ppq, tempo 82.0 correct; every part's durations sane — pad 3.6 beats, ostinato 0.5, drums 0.25, bass an 8-beat pedal, drone 64 beats |
+
+### Found and fixed this session
+
+1. **Two section moves were automation of nothing.** `probe_section_motion`
+   measured `matrix.leadRoom` in the **intro at −88.2 dB** and `echo.verb` in
+   the **bridge at −63.9 dB** — both INERT, because the bus they ride is silent
+   in that section. Both entries deleted.
+2. **The world's reverb and delay sends terminated in nothing** — §7d above.
+3. **A grade-crossing bell could land on a platform** — §7b.
+4. **`probe_journey` identified the departure engine by a sample name that does
+   two jobs** — §7b.
+5. **A KEY CHANGE THAT CHANGED NO NOTE.** Found by reading the exported MIDI
+   across the lift boundary, which is the only reason it surfaced at all.
+   Boxcar draws `by: [[0, 6], [2, 2], [5, 1]]` — **weight six on a
+   zero-semitone move**, because for this genre the device is the parallel
+   minor→major, same tonic. Against `change: 0.8` that left
+   0.667 × 0.2 = **13% of lifts moving the tonic by nothing and the scale by
+   nothing** — a whole lifted copy of the record's material identical to the
+   original. Seed 1 read `C# D# E F F# G# A# B` on both sides of its own key
+   change. **And no guard could see it**: `probe_journey` asks the
+   DECLARATION whether the key changed, not the notes. Fixed by forcing the
+   mode to change when the tonic does not; the draw still runs [Law 3] and is
+   overridden only in the case where obeying it produces silence. No other
+   genre can reach the line — neither minimal techno's `by` nor dungeon
+   synth's contains a zero. **After: 84 of 84 lifted copies differ from their
+   own unlifted twin, note for note, over 120 seeds.**
+
+   This is §2d — the characteristic note — arriving as a bug rather than as
+   advice. A mode change that never sounds the degree that distinguishes the
+   mode has not happened, and the same is true one level up: a key change that
+   moves neither tonic nor scale has not happened either.
+
+### Found and NOT fixed — recorded rather than quietly carried
+
+1. **`space.feeds: ["keys", "lead"]` is a no-op in every genre in the file.**
+   `routeBaseFor`'s Room case opens `keys` and `lead` **by name**, before it
+   consults `feeds` at all. Eleven genres carry those two words as inherited
+   decoration. Harmless, and it means the declaration lies about what decides
+   the routing.
+2. **The SPRING column is used by zero of eleven genres** [`probe_wiring`: "0
+   <<< NOBODY USES THIS"]. A whole effect unit, built and reachable, that no
+   table has ever fed.
+3. **`trip.startHour` is now dead for boxcar synth**, superseded by
+   `chart.clock`. Kept only as the fallback for a caller with no clock, and
+   said so in the comment — but nothing in this genre reads it any more.
+4. **The declared peak and the dynamic peak are different sections.**
+   `form.energy.chorusPeak: 0.72` is the highest number in the table, but the
+   chorus is the town — no drums, no train — and `motion.trainbox.level` puts
+   the train's own maximum in the **bridge** (`[0.18, 0.38]`). The table says
+   the climax is the last town; the automation says it is the night run. Both
+   are defensible and they are not the same claim. The genre comment already
+   half-concedes it: "arriving is a relief and not a climax".
+5. **`probe_modulation`'s FREE metric is not a usable proxy for the stacked-
+   cycle device.** It counts lanes whose autocorrelation never exceeds 0.60,
+   and it scores **plastikman — this file's own exemplar of the technique, at
+   35 of 77 lanes — at ZERO**. Boxcar reads 1 of 25. So the device is in (6 of
+   24 lanes carry two cycles, up from none) and the metric that would confirm
+   it *works* is measuring something else. No claim is made on FREE.
+6. **Nothing here has been judged by ear**, which outranks all of it.
+
 ## 8. WHAT THIS SHEET DOES NOT SETTLE
 
 1. **No verdict, by ear or otherwise.** Every number here says what the
