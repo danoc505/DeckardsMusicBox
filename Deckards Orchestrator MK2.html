@@ -29680,6 +29680,53 @@ GENRE.boxcarsynth = {
       vib: [{ kind: "apex", from: [-0.14, -0.05], to: [0.10, 0.26] },
             { kind: "section", by: { bridge: [0.06, 0.16], intro: [-0.12, -0.04] } }],
     },
+    /* ══ AND THREE PLUCKED VOICES HAD NO HAND ON THEM AT ALL ═════════════════
+       [owner, 2026-08-16: "are we using amply automation for texture and
+       evolution"] MEASURED, and the honest answer was no: boxcar rode **12 of
+       its 21 `gesture` controls, 57%**, against dungeon synth's 76% and
+       ambient's 79% — and `bardPluck`, `erangHarp` and `erangStrings`, three
+       sampled instruments this genre actually plays, carried **ZERO lanes
+       between them**. A sampled instrument with no hand on its tone is the
+       same note every time it is struck, which is exactly the
+       texture-not-notes gap the rest of this build is about; the banjo got a
+       second cycle while the harp beside it had none at all.
+
+       (`voicing` and `switch` controls are drawn once a record and cannot be
+       ridden, so they are not counted here. An earlier pass of mine put the
+       figure at 24% by counting them, which was wrong.)
+
+       All three take the same shape and for the same reason: TONE travels with
+       the record's light, because a plucked string heard through the genre's
+       gramophone should brighten as the record clears [§8b, WORN rides across
+       the record]; PAN drifts on two cycles that do not divide, so an
+       ensemble does not sit at one point of the picture for eleven minutes.
+       [CHOSEN; the periods are prime, as everywhere else in this table] */
+    bardPluck: {
+      tone: [{ kind: "arc", from: [-0.12, -0.04], to: [0.06, 0.18], curve: "sCurve" },
+             { kind: "lfo", bars: [[17, 2], [29, 1]], depth: [0.02, 0.07],
+               shape: "sin", freePhase: true }],
+      pan:  [{ kind: "lfo", bars: [[43, 2], [59, 1]], depth: [0.05, 0.15],
+               shape: "sin", freePhase: true },
+             { kind: "lfo", bars: [[13, 2], [19, 1]], depth: [0.02, 0.06],
+               shape: "sin", freePhase: true }],
+    },
+    erangHarp: {
+      tone: [{ kind: "arc", from: [-0.10, -0.03], to: [0.05, 0.16], curve: "sCurve" },
+             { kind: "lfo", bars: [[23, 2], [31, 1]], depth: [0.02, 0.07],
+               shape: "sin", freePhase: true }],
+      pan:  [{ kind: "lfo", bars: [[47, 2], [61, 1]], depth: [0.05, 0.15],
+               shape: "sin", freePhase: true },
+             { kind: "lfo", bars: [[11, 2], [17, 1]], depth: [0.02, 0.06],
+               shape: "sin", freePhase: true }],
+    },
+    erangStrings: {
+      tone: [{ kind: "arc", from: [-0.10, -0.03], to: [0.05, 0.16], curve: "sCurve" },
+             { kind: "section", by: { bridge: [-0.10, -0.03], chorus: [0.03, 0.10] } }],
+      pan:  [{ kind: "lfo", bars: [[41, 2], [67, 1]], depth: [0.05, 0.14],
+               shape: "sin", freePhase: true },
+             { kind: "lfo", bars: [[19, 2], [13, 1]], depth: [0.02, 0.06],
+               shape: "sin", freePhase: true }],
+    },
     slideGlass: {
       scoop: [{ kind: "section", by: { bridge: [0.08, 0.22], chorus: [-0.10, -0.03] } },
               { kind: "lfo", bars: [[29, 2], [41, 1]], depth: [0.03, 0.10],
@@ -29758,6 +29805,17 @@ GENRE.boxcarsynth = {
       choir: [{ kind: "section", by: { chorus: [0.06, 0.18], bridge: [0.04, 0.14] } },
               { kind: "lfo", bars: [[23, 2], [31, 1]], depth: [0.03, 0.09],
                 shape: "sin", freePhase: true }],
+      /* and the pad moves ACROSS as well as within — a choir that sits at one
+         point of the stereo picture for eleven minutes is a speaker, not a
+         section [these three were unridden until 2026-08-16c] */
+      pan:    [{ kind: "lfo", bars: [[53, 2], [37, 1]], depth: [0.06, 0.18],
+                 shape: "sin", freePhase: true },
+               { kind: "lfo", bars: [[17, 2], [23, 1]], depth: [0.02, 0.07],
+                 shape: "sin", freePhase: true }],
+      panHz:  [{ kind: "lfo", bars: [[71, 2], [59, 1]], depth: [0.004, 0.013],
+                 shape: "sin", freePhase: true }],
+      panDep: [{ kind: "arc", from: [-0.06, -0.02], to: [0.05, 0.14], curve: "sCurve" },
+               { kind: "section", by: { chorus: [-0.08, -0.02] } }],
     },
     /* ── THE DELAY IS THE DISTANCE DOWN THE LINE ───────────────────────────── */
     echo: {

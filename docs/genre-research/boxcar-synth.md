@@ -603,9 +603,42 @@ tape — "a second channel for one more number is how the two get out of step"
 
 The trip planner has a CLOCK [§4c] and night currently means only "no birds" —
 silence. These are the two sounds that would make night a place rather than an
-absence. **Found, licence-checked and downloaded; nothing is encoded and
-nothing is wired.** Written down here so the next coder does not repeat the
-search.
+absence.
+
+> **⚠ "DOWNLOADED" WAS NEVER A DURABLE STATE, AND THE FILES ARE GONE.**
+> Checked 2026-08-16c: `find` over the whole repo returns no owl, no cicada,
+> nothing; `samples/` holds only the amen README; the HTML carries four bank
+> payloads (`ERANG`, `TAIKO`, `GURDY`, `RAIL`, `BAND`) and no night one. The
+> sentence below used to read "found, licence-checked and downloaded" — but
+> the download happened in a session container, which is ephemeral, and
+> `.gitignore` keeps sample audio out of the repo by standing rule. **The
+> research survived and the audio did not.** Anything a future sheet calls
+> "downloaded" means "fetchable again from the citation", nothing more.
+>
+> **RE-VERIFIED AGAINST THE API, same date, all three still resolve:**
+>
+> | obs | taxon returned | place returned | licence | file |
+> |---|---|---|---|---|
+> | 390921242 | *Strix varia* | Ixonia, WI, USA | **cc-by** | `.wav` |
+> | 390985822 | *Hyalessa maculaticollis* | Edacho, Yokohama, JP | **cc-by** | `.m4a` |
+> | 384278786 | *Tanna japonensis* | Japan | **cc0** | `.mp3` |
+>
+> Attribution strings as the API gives them: "(c) Eric Schmidt, some rights
+> reserved (CC BY)" — note the sheet's `eric-schmitty` is the login, Eric
+> Schmidt the name to credit — and "(c) Yoshihiro Tokue, some rights reserved
+> (CC BY)". iNaturalist answered 200 from this container, so the fetch is not
+> the obstacle; the encode and the wiring are.
+
+**Nothing is encoded and nothing is wired.** Written down here so the next
+coder does not repeat the search.
+
+**AND PHASE 2 RAISED THE PRICE OF NOT HAVING THEM.** The clock is now drawn
+backwards from the light crossing [§10 item 9], so night is a real 35–60% of
+the record instead of the first tenth. It is not silence — `open` and `river`
+carry no `day: true`, so wind and water still sound — but `farm` and `woods`
+go quiet, and those are the two chattiest terrains (45% and 80% likely to
+speak). A longer night with fewer things in it is exactly what these three
+recordings are for.
 
 | what | recording | licence | why this one |
 |---|---|---|---|
@@ -648,10 +681,22 @@ lesson of §4d.
 4. **The harmonica's sourced constraints are not enforced**: it can hold only
    the I and the V, and its bottom octave has no 4th and no 6th
    [banjo-and-harmonica-notation.md §2a, §2b]. Written down, not coded.
+   **RE-CHECKED 2026-08-16c AND STILL TRUE.** Grepping for any enforcement
+   (`harmChord`, a hole map, a blow/draw table, an I-and-V gate) returns
+   nothing; the only trace in the program is two PROSE comments quoting the
+   source about arpeggios. So the sheet is right that the constraint exists
+   and right that nothing obeys it, and this item has now survived a build
+   that touched the harmonica's own motion lane without touching its legality.
+   **This is the oldest unbuilt thing about the hobo band.**
 5. **The banjo deployment is from a TEMPLATE, not a performance.** The tab
    used is explicitly "not a transcription of any one break", so it cannot say
    how a player varies between his first and second break, or what he does
    behind a singer. That needs two transcriptions of the same tune.
+   *(For the avoidance of doubt, re-checked the same day: the EIGHT NAMED
+   ROLLS themselves ARE built and reachable — forward, backward, alternating
+   thumb, forward-reverse, Foggy Mountain and the rest are all in the program.
+   What is missing is not the vocabulary, it is the evidence for how a player
+   DEPLOYS it across a tune.)*
 6. **Task #95**: the passing envelope assumes the loudest moment sits at the
    middle of the sample; it should measure each pass sample's own peak
    position and align to it.
@@ -762,7 +807,21 @@ here as the record of what was wrong, each with its outcome:
     exactly the world-versus-story split §4d-ii already draws in levels, and
     the routing has not caught up with it. A station shed is the most
     reverberant place in the whole record and it is the one thing still dry.
-18. **NO PROBE MEASURES WHETHER THE SAME NOTES ARRIVE SOUNDING DIFFERENT**,
+18. **THE AUTOMATION WAS THIN, AND THREE INSTRUMENTS HAD NO HAND ON THEM AT
+    ALL.** [owner: "are we using amply automation for texture and evolution"]
+    Measured before the fix: boxcar rode **12 of its 21 `gesture` controls,
+    57%**, against dungeon synth's 76%, ambient's 79% and hobbit synth's 69% —
+    and `bardPluck`, `erangHarp` and `erangStrings`, three sampled instruments
+    the genre actually plays, carried **zero lanes between them**, plus the
+    choir pad's `pan`/`panHz`/`panDep`. A sampled instrument with no hand on
+    its tone is the same note every time it is struck, which is the exact
+    texture-not-notes gap the rest of this build is about. **FIXED — now 21 of
+    21, the highest coverage of any genre in the file**, and lanes went 24 → 36
+    with ten carrying two cycles that do not divide.
+    *(An earlier pass of mine reported 24% by counting `voicing` and `switch`
+    controls, which are drawn once a record and cannot be ridden at all. 57%
+    is the honest before-number.)*
+19. **NO PROBE MEASURES WHETHER THE SAME NOTES ARRIVE SOUNDING DIFFERENT**,
     which is the entire claim of the stacked-cycle work.
     `probe_modulation`'s FREE column counts lanes whose autocorrelation never
     exceeds 0.60 — and it scores **plastikman, this file's own exemplar of the
