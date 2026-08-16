@@ -1163,6 +1163,73 @@ widen their reserves properly — every take must be reserved, the way `resA`
 already reserves both `keys2A` and `keys2Avar`, or a comp voices onto a seat a
 later take is about to want.
 
+### 7e-ii-b. AND THEN THE WHOLE BAND — the owner's follow-up
+
+*[owner: "If the solution was Modal Jazz why isn't the correction genre wide?
+Why wouldn't it apply to all instruments in the genre"]*
+
+Fair, and the first pass scoping this to the figure was an implementation-risk
+decision dressed up as a musical one. `buildOstinato` takes no `avoid` and no
+pinned pattern, so the roll was the one part that could be re-realised without
+touching anything else. That is a reason to do the rest carefully, not a reason
+to stop.
+
+Now: **`materialTakes: { ostinato: 6, bass: 4, lead: 3, counter: 3 }`**, across
+the A family, the chorus (B/Bvar), the bridge (C) and the lifted copies —
+because a part is only as un-repetitive as its **thinnest material**, and takes
+on the A family alone left the wurly flat whatever the record's length.
+
+Every take is folded into the reserves the first one was in (`placed`, the
+keys2 avoid sets, `resA`/`resB`/`resC`), which is the same discipline the file
+already applies to `keys2A` and `keys2Avar`. The counter follows its own tune
+take-for-take: `deriveCounter` reads the theme's notes, so a counter drawn
+against take 0 played over take 2 is a shadow of the wrong line.
+
+The **tune gets fewer takes on purpose** — three against the roll's six. It is
+the head; recognition is half of what makes a record a record rather than a
+stream, and bar 0 is always take 0, so every record still opens by stating its
+tune.
+
+| | 180s | 1200s | played | distinct |
+|---|---|---|---|---|
+| ostinato | 29 | **128** | ×7.5 | **×4.5** |
+| lead | 24 | **60** | ×6.6 | **×2.5** |
+| bass | 9 | **24** | ×7.5 | **×2.7** |
+| keys | 22 | 45 | ×6.2 | ×2.1 |
+
+### 7e-ii-c. ⚠ AND `keys` COULD NOT USE THEM — a held chord has no second voicing
+
+Declared at `keys: 5`, measured immediately after: **five identical arrays.**
+
+```
+A|keys      distinct takes: 1 of 5     ← identical
+A|bass      distinct takes: 4 of 4
+A|ostinato  distinct takes: 6 of 6
+A|lead      distinct takes: 3 of 3
+```
+
+This genre's wurly **holds** the progression — `sustain`, one strike at step 0,
+duration 16 — and a held chord has no second realisation. The chord is the
+chord. Five copies published as five takes is a table shaped like variety
+holding a constant, which is the same fault as an accent curve of sixteen ones.
+
+Two consequences, both kept:
+
+1. **`takesOf` now drops identical takes** rather than counting them, so no
+   genre can ever publish fake variety. 19 take lists on a 20-minute boxcar
+   record, 0 with duplicates.
+2. **`keys` is left out of boxcar's declaration**, because a number that cannot
+   do anything is dead config and this file does not keep those.
+
+**The real fix for the wurly is not takes — it is that it should COMP.** A comp
+has rhythm and inner voices to redraw; a pad has neither. `buildKeys` can
+already do both (the bridge pad asks for `sustain`), so this is a genre-table
+decision with its own consequences, and it is the honest next question for this
+part rather than a take count. The general rule the episode gives:
+
+> **Takes can re-realise a part that PLAYS. They cannot re-realise a part that
+> HOLDS.**
+
 ### 7e-iii. AND THE CAP IS THE ENGINE'S, NOT THIS GENRE'S
 
 `harness/probe_length.js` measures the slope and is in the battery. Run across

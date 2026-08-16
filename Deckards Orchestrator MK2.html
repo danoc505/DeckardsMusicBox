@@ -29055,7 +29055,16 @@ GENRE.boxcarsynth = {
      never returns is not a tune, and modal jazz keeps its head for exactly that
      reason. Bass and the wurly comp are the honest next candidates and are left
      to a pass that can widen their reserves properly. */
-  materialTakes: { ostinato: 6 },
+  /* NO `keys` HERE, AND THE REASON IS MEASURED. It was declared at 5 and
+     produced FIVE IDENTICAL ARRAYS -- this genre's wurly HOLDS the progression
+     (one strike a bar, duration 16), and a held chord has no second voicing to
+     find. `takesOf` now drops identical takes rather than publishing them as
+     variety, so declaring it would be harmless; it is left out because a number
+     that cannot do anything is dead config, and this file does not keep those.
+     Making the comp vary is a decision about what the wurly PLAYS -- comp
+     rather than hold, which has rhythm and inner voices to redraw -- and that
+     is a genre-table change with its own consequences, not a take count. */
+  materialTakes: { ostinato: 6, bass: 4, lead: 3, counter: 3 },
   leadChar: [["synth", 1]],
   /* the era's lo-fi lives mostly in phase 4's gramophone; the tape here is
      the gentle comfy haze the sources describe [sheet §1] [CHOSEN] */
@@ -36688,27 +36697,70 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      A genre that declares nothing gets `[]` here, does not draw, and is
      byte-identical — the snapshot is the proof, not this sentence. */
   const TAKE_N = (chart.table.materialTakes || {});
-  const takesOf = (role, cs, tag, first) => {
+  /* what makes two realisations the same music: the notes, not the gains.
+     Sorted, because a builder is free to emit in any order. */
+  const sigOf = ns => ns.map(n => n.bar + ":" + n.step + ":" + n.pitch).sort().join("|");
+  const takesOf = (role, tag, first, make) => {
     const want = TAKE_N[role] | 0;
     if(want < 2) return null;
+    /* a record that only comes round twice cannot use six takes, and composing
+       them would be work nobody hears */
     const rounds = nBars ? Math.max(1, Math.round(nBars / BARS)) : 1;
     const n = Math.min(want, rounds);
     if(n < 2) return null;
-    const list = [first];
+    /* ── AND A TAKE THAT IS NOT DIFFERENT IS NOT A TAKE ──────────────────
+       CAUGHT BY THIS FILE'S OWN RULE AGAINST DEAD CONFIG, one measurement
+       after the feature was written. Boxcar synth declared `keys: 5` and got
+       FIVE IDENTICAL ARRAYS: its wurly holds whole-bar chords (`sustain`, one
+       strike at step 0, duration 16), and a held chord has no second
+       realisation -- the chord is the chord. Five copies published as five
+       takes is a table shaped like variety holding a constant, which is the
+       same fault as an accent curve of sixteen ones.
+
+       So the identical ones are dropped here rather than counted. A part that
+       cannot vary reports one take and is honestly a replay; making it vary is
+       a decision about WHAT THAT PART PLAYS (a comp has rhythm and inner
+       voices to redraw; a pad does not), and it belongs in the genre table, not
+       in a silently-passing take count. */
+    const list = [first], seen = new Set([sigOf(first)]);
     for(let i = 1; i < n; i++){
-      const alt = role === "ostinato"
-        ? buildOstinato("ostinato:" + tag + "@" + i, false, cs) : null;
-      if(alt && alt.length) list.push(alt);
+      const alt = make(tag + "@" + i, i);
+      if(!alt || !alt.length) continue;
+      const sg = sigOf(alt);
+      if(seen.has(sg)) continue;
+      seen.add(sg); list.push(alt);
     }
     return list.length > 1 ? list : null;
   };
-  const ostATakes = takesOf("ostinato", chords, "A", ostA);
+  /* every take a part will play has to be in the reserve that later parts see,
+     or a comp voices onto a seat a take is about to want -- the note above
+     `placed` is that bug with two figures, and N takes is it N times */
+  const allOf = (first, takes) => takes ? first.concat.apply(first, takes.slice(1)) : first;
+  const ostATakes = takesOf("ostinato", "A", ostA,
+                            t => buildOstinato("ostinato:" + t, false, chords));
   /* WHAT EVERY OTHER PART HAS TO AVOID. The note above `placed` records what
      happens when a comp is shown only one of two figures it will actually play
      against: it voices onto a seat the other one takes. Two variants was
      already the bug; N takes is the same bug N times, so the reserve sees all
      of them. Identity when the genre declares no takes. */
-  const ostAx = ostATakes ? ostA.concat.apply(ostA, ostATakes.slice(1)) : ostA;
+  const ostAx = allOf(ostA, ostATakes);
+  /* ── AND AVAR'S TAKES ARE AVAR'S ─────────────────────────────────────────
+       CAUGHT BY THE BLEND BATTERY IN ONE RUN, "collision in Avarlift". The
+       first version published A's take list for Avar as well, on the reasoning
+       that they share their bed -- and they do share their BASS and their COMP,
+       which is why those really are one list. They do NOT share the figure:
+       `ostAvar` is the VARIED cell, a different array by construction, so
+       handing Avar the takes of `ostA` did not vary Avar's figure, it REPLACED
+       it with somebody else's -- and with an array that `keys2Avar` had never
+       been shown, so the pad voiced straight onto it.
+
+       That is the same mistake the note above `placed` records, arriving by a
+       new road: a part is only safe against the figures it was actually shown.
+       Avar draws its own takes, varied like its own cell, and they go into the
+       reserves that see `ostAvar`. */
+  const ostAvarTakes = takesOf("ostinato", "Avar", ostAvar,
+                               t => buildOstinato("ostinato:" + t, true, chords));
+  const ostAvarx = allOf(ostAvar, ostAvarTakes);
   /* THE ONE PLACE A PINNED PATTERN ENTERS. Every drum and bass pattern in the
      song goes through `pin`, so a grid the user has programmed substitutes for
      the drawn one at the moment the material is built -- before the seam checks,
@@ -36759,7 +36811,14 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      voicer: the comp now finds a seat that is free in BOTH materials. That is
      the owner making its material valid, which is the rule -- not a later pass
      moving a note that had already been written wrong. */
-  const placed = reserve(ostAx.concat(ostAvar, bassA));
+  /* the bass walks a new line, the way a bass player does. `pin` is applied to
+     every take exactly as it is to the first, so a HAND-PROGRAMMED bass grid
+     still wins -- all the takes come back as that grid and the cycling is a
+     no-op, which is the correct answer to "the user typed this pattern". */
+  const bassATakes = takesOf("bass", "A", bassA,
+                             t => pin(buildBass(chords, "bass:" + t, false), "bass", "A"));
+  const bassAx = allOf(bassA, bassATakes);
+  const placed = reserve(ostAx.concat(ostAvarx, bassAx));
   /* ── DOES THE FIRST KEYBOARD COMP, OR DOES IT HOLD? ──────────────────────
      `buildKeys` has always been able to do both -- the bridge pad already asks
      for `sustain` -- but WHICH one the main keyboard does was a fixed law, and
@@ -36783,6 +36842,14 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const HOLD = chart.table.keysStyle === "hold";
   const keysA  = buildKeys(chords, "keys", { dense: false, avoid: placed,
                                              sustain: HOLD, at: HOLD ? 0 : undefined });
+  /* the comp finds new voicings, which is the one thing every account of a
+     rhythm section agrees on -- Bill Evans does not play the same voicing twice
+     in twenty minutes. Each take avoids `placed`, so it clears the bass and the
+     figure exactly as the first one had to. */
+  const keysATakes = takesOf("keys", "A", keysA,
+                             t => buildKeys(chords, "keys:" + t, { dense: false, avoid: placed,
+                                            sustain: HOLD, at: HOLD ? 0 : undefined }));
+  const keysAx = allOf(keysA, keysATakes);
   /* the ostinato goes into every reservation set BEFORE the tunes are drawn.
      It is the fixed thing in this music -- the cell that does not move -- so
      the melody and the counter are the parts that must find room, not it. */
@@ -36853,9 +36920,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      Avar already has its own drums and its own tune for exactly this reason.
      Give it its own pad and each one clears one cell. */
   const keys2A = tryPad(band => buildKeys(chords, "keys2", { sustain: true, at: 2, band,
-                            against: keysA, avoid: reserve(ostAx.concat(bassA, keysA)) }));
+                            against: keysA, avoid: reserve(ostAx.concat(bassAx, keysAx)) }));
   const keys2Avar = tryPad(band => buildKeys(chords, "keys2:var", { sustain: true, at: 2, band,
-                            against: keysA, avoid: reserve(ostAvar.concat(bassA, keysA)) }));
+                            against: keysA, avoid: reserve(ostAvarx.concat(bassAx, keysAx)) }));
   /* BOTH PADS, and the reason is two lines of history. The note above `resV`
      records fixing this for Avar's redrawn TAIL and it missed Avar's retained
      HEAD: `leadAvar` is themeA's first two bars concatenated with the new tail,
@@ -36865,9 +36932,35 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      roles keys2/lead", seed 17, with a second keyboard forced in by hand.
      Reserving both pads costs A nothing it was not already conceding and makes
      the head safe in the material that borrows it. */
-  const resA   = reserve(ostAx.concat(bassA, keysA, keys2A, keys2Avar));
+  const resA   = reserve(ostAx.concat(bassAx, keysAx, keys2A, keys2Avar));
   const themeA = buildTheme(chords, "themeA", resA, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], comp: keysA, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
   const counterA = deriveCounter(themeA.notes, resA, "counterA", chords, keysA);
+  /* ── THE TUNE TOO, AND FEWER OF THEM ON PURPOSE ──────────────────────────
+     [owner: "If the solution was Modal Jazz why isn't the correction genre
+     wide? Why wouldn't it apply to all instruments in the genre"] Right, and
+     the first pass scoping this to the figure was an implementation-risk
+     decision dressed up as a musical one. The principle is the engine's: no
+     part should be an array replayed.
+
+     The tune is different in DEGREE, not in kind. It is the head, and a head
+     that never returns is not a tune -- recognition is half of what makes a
+     record a record rather than a stream. So the lead gets takes like everyone
+     else and the genre gives it FEWER, which is the honest way to say "restate
+     this with variation" instead of "replace it". Bar 0 is always take 0, so
+     every record still opens by stating its tune.
+
+     THE COUNTER FOLLOWS ITS OWN TUNE, take for take. `deriveCounter` reads the
+     theme's notes -- it is a shadow of the lead -- so a counter drawn against
+     take 0 played over take 2 is a shadow of the wrong line. That is the exact
+     mistake the `Avar carries NO counter` note below already records. */
+  const themeATakes = takesOf("lead", "A", themeA.notes, t =>
+    buildTheme(chords, "themeA:" + t, resA,
+               { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], comp: keysA,
+                 dir: stream(chart.seed, "dir:" + t)() < 0.5 ? 1 : -1 }).notes);
+  const counterATakes = themeATakes
+    ? themeATakes.map((ln, i) => i === 0 ? counterA
+        : deriveCounter(ln, resA, "counterA:A@" + i, chords, keysA))
+    : null;
 
   /* ── B = hook(A): same bed family, new tune FROM A's DNA, denser comp,
      a half-octave up [corpus: verse->chorus register lift ~ +1.5 st; the hook
@@ -36880,15 +36973,37 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      copy, so nothing downstream can tell the difference. */
   const bassB = NEW_CHORUS ? pin(buildBass(chorusChords, "bassB", false), "bass", "B") : bassA;
   const ostB  = NEW_CHORUS ? buildOstinato("ostinatoB", false, chorusChords) : ostA;
-  const placedB = NEW_CHORUS ? reserve(ostB.concat(bassB)) : placed;
+  /* the town's band takes too -- `keys` sounds in the chorus and the bridge as
+     well as the verse, so takes on the A family alone left the wurly measured
+     flat at 45 distinct bars whatever the record's length. A part is only as
+     un-repetitive as its THINNEST material. */
+  const bassBTakes = NEW_CHORUS ? takesOf("bass", "B", bassB,
+                       t => pin(buildBass(chorusChords, "bass:" + t, false), "bass", "B")) : bassATakes;
+  const ostBTakes  = NEW_CHORUS ? takesOf("ostinato", "B", ostB,
+                       t => buildOstinato("ostinato:" + t, false, chorusChords)) : ostATakes;
+  const bassBx  = allOf(bassB, bassBTakes);
+  const ostBx   = allOf(ostB, ostBTakes);
+  const placedB = NEW_CHORUS ? reserve(ostBx.concat(bassBx)) : placed;
   const keysB  = buildKeys(chorusChords, "keysB", { dense: true, avoid: placedB,
                                              sustain: HOLD, at: HOLD ? 0 : undefined });
+  const keysBTakes = takesOf("keys", "B", keysB,
+                       t => buildKeys(chorusChords, "keys:" + t, { dense: true, avoid: placedB,
+                                      sustain: HOLD, at: HOLD ? 0 : undefined }));
+  const keysBx = allOf(keysB, keysBTakes);
   const keys2B = tryPad(band => buildKeys(chorusChords, "keys2B", { sustain: true, at: 2, band,
-                            against: keysB, avoid: reserve(ostB.concat(bassB, keysB)) }));
-  const resB   = reserve(ostB.concat(bassB, keysB, keys2B));
+                            against: keysB, avoid: reserve(ostBx.concat(bassBx, keysBx)) }));
+  const resB   = reserve(ostBx.concat(bassBx, keysBx, keys2B));
   const themeB = buildTheme(chorusChords, "themeB", resB,
     { lo: playable(R.themeB)[0], hi: playable(R.themeB)[1], comp: keysB, dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
   const counterB = deriveCounter(themeB.notes, resB, "counterB", chorusChords, keysB);
+  const themeBTakes = takesOf("lead", "B", themeB.notes, t =>
+    buildTheme(chorusChords, "themeB:" + t, resB,
+               { lo: playable(R.themeB)[0], hi: playable(R.themeB)[1], comp: keysB, dir: 1,
+                 hooky: true, moveBias: themeA.dna.map(mv => -mv) }).notes);
+  const counterBTakes = themeBTakes
+    ? themeBTakes.map((ln, i) => i === 0 ? counterB
+        : deriveCounter(ln, resB, "counterB:B@" + i, chorusChords, keysB))
+    : null;
 
   /* ── Bvar = vary(B): THE CHORUS FINALLY GETS THE ANSWER THE VERSE HAS ───────
      The rule of three demanded a change on a repeated chorus and the only
@@ -36972,9 +37087,15 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const bassC  = pin(buildBass(bridgeChords, "bassC", true), "bass", "C");
   const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true,
                                                    avoid: reserve(ostC.concat(bassC)) });
+  const bassCTakes = takesOf("bass", "C", bassC,
+                       t => pin(buildBass(bridgeChords, "bass:" + t, true), "bass", "C"));
+  const keysCTakes = takesOf("keys", "C", keysC,
+                       t => buildKeys(bridgeChords, "keys:" + t, { sustain: true,
+                                      avoid: reserve(ostC.concat(bassC)) }));
+  const bassCx = allOf(bassC, bassCTakes), keysCx = allOf(keysC, keysCTakes);
   const keys2C = tryPad(band => buildKeys(bridgeChords, "keys2C", { sustain: true, at: 2, band,
-                            against: keysC, avoid: reserve(ostC.concat(bassC, keysC)) }));
-  const resC   = reserve(ostC.concat(bassC, keysC, keys2C));
+                            against: keysC, avoid: reserve(ostC.concat(bassCx, keysCx)) }));
+  const resC   = reserve(ostC.concat(bassCx, keysCx, keys2C));
   const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: playable(R.themeC)[0], hi: playable(R.themeC)[1], comp: keysC, augmentOf: themeA.notes });
 
   /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
@@ -37026,20 +37147,39 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   /* the lifted copy gets its OWN takes, in the lifted key, rather than a
      transposed reprint of the road's -- otherwise the sunrise arrives and the
      banjo plays the same four bars it has been playing all night, a fifth up. */
-  const ostAlTakes = LIFT ? takesOf("ostinato", liftChords, "Alift", ostAl) : ostATakes;
-  const ostAlx     = ostAlTakes ? ostAl.concat.apply(ostAl, ostAlTakes.slice(1)) : ostAl;
+  const ostAlTakes = LIFT ? takesOf("ostinato", "Alift", ostAl,
+                              t => buildOstinato("ostinato:" + t, false, liftChords)) : ostATakes;
+  const ostAlx     = allOf(ostAl, ostAlTakes);
+  const ostAvarlTakes = LIFT ? takesOf("ostinato", "Avarlift", ostAvarl,
+                          t => buildOstinato("ostinato:" + t, true, liftChords)) : ostAvarTakes;
+  const ostAvarlx  = allOf(ostAvarl, ostAvarlTakes);
   const bassAl     = LIFT ? pin(buildBass(liftChords, "bass", false), "bass", "A") : bassA;
-  const placedl    = LIFT ? reserve(ostAlx.concat(ostAvarl, bassAl)) : placed;
+  const bassAlTakes = LIFT ? takesOf("bass", "Alift", bassAl,
+                               t => pin(buildBass(liftChords, "bass:" + t, false), "bass", "A")) : bassATakes;
+  const bassAlx    = allOf(bassAl, bassAlTakes);
+  const placedl    = LIFT ? reserve(ostAlx.concat(ostAvarlx, bassAlx)) : placed;
   const keysAl     = LIFT ? buildKeys(liftChords, "keys", { dense: false, avoid: placedl,
                                                sustain: HOLD, at: HOLD ? 0 : undefined }) : keysA;
+  const keysAlTakes = LIFT ? takesOf("keys", "Alift", keysAl,
+                        t => buildKeys(liftChords, "keys:" + t, { dense: false, avoid: placedl,
+                                       sustain: HOLD, at: HOLD ? 0 : undefined })) : keysATakes;
+  const keysAlx    = allOf(keysAl, keysAlTakes);
   const keys2Al    = LIFT ? tryPad(band => buildKeys(liftChords, "keys2", { sustain: true, at: 2, band,
-                              against: keysAl, avoid: reserve(ostAl.concat(bassAl, keysAl)) })) : keys2A;
+                              against: keysAl, avoid: reserve(ostAlx.concat(bassAlx, keysAlx)) })) : keys2A;
   const keys2Avarl = LIFT ? tryPad(band => buildKeys(liftChords, "keys2:var", { sustain: true, at: 2, band,
-                              against: keysAl, avoid: reserve(ostAvarl.concat(bassAl, keysAl)) })) : keys2Avar;
-  const resAl      = reserve(ostAl.concat(bassAl, keysAl, keys2Al));
+                              against: keysAl, avoid: reserve(ostAvarlx.concat(bassAlx, keysAlx)) })) : keys2Avar;
+  const resAl      = reserve(ostAlx.concat(bassAlx, keysAlx, keys2Al));
   const themeAl    = LIFT ? buildTheme(liftChords, "themeA", resAl, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1],
                               comp: keysAl, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 }) : themeA;
   const counterAl  = LIFT ? deriveCounter(themeAl.notes, resAl, "counterA", liftChords, keysAl) : counterA;
+  const themeAlTakes = LIFT ? takesOf("lead", "Alift", themeAl.notes, t =>
+      buildTheme(liftChords, "themeA:" + t, resAl,
+                 { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], comp: keysAl,
+                   dir: stream(chart.seed, "dir:" + t)() < 0.5 ? 1 : -1 }).notes) : themeATakes;
+  const counterAlTakes = themeAlTakes
+    ? themeAlTakes.map((ln, i) => i === 0 ? counterAl
+        : deriveCounter(ln, resAl, "counterA:Alift@" + i, liftChords, keysAl))
+    : null;
   const resVl      = reserve(ostAvarl.concat(bassAl, keysAl, keys2Avarl, themeAl.notes.filter(n => n.bar < 2)));
   const varTaill   = LIFT ? buildTheme(liftChords, "themeA:var", resVl, { lo: playable(R.themeA)[0],
                               hi: playable(R.themeA)[1], dir: -1 }) : varTail;
@@ -37204,8 +37344,36 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      Empty object when no genre asked, so the lookup in stage 5 is one falsy
      test on every other record in the file. */
   materials.takes = {};
-  if(ostATakes) materials.takes["A|ostinato"] = ostATakes;
-  if(ostATakes) materials.takes["Avar|ostinato"] = ostATakes;
+  /* ── TAKE 0 IS THE MATERIAL'S OWN ARRAY, BY CONSTRUCTION ─────────────────
+     The invariant the blend battery caught me breaking: a take list is a set of
+     realisations OF A PART, so its head must be the very array that part
+     already holds. Publish A's list under Avar and the cycling stops varying
+     Avar's figure and starts REPLACING it with a different part's -- one that
+     nothing downstream reserved against, which is how it surfaced ("collision
+     in Avarlift", 1318 -> 1317 pairs).
+
+     Refused here rather than asserted in a probe, because a probe finds it on
+     the next run and this cannot happen at all. `notes === mat[role]` in stage
+     5 relies on exactly this: the take swap is gated on the part not having
+     already been swapped, and that test is meaningless if take 0 is a stranger. */
+  const putTakes = (mats, pairs) => {
+    for(const m of mats) for(const k of Object.keys(pairs)){
+      if(!pairs[k]) continue;
+      if(!materials[m] || pairs[k][0] !== materials[m][k]) continue;
+      materials.takes[m + "|" + k] = pairs[k];
+    }
+  };
+  /* A and Avar share their bass and their comp on purpose (see the return
+     object above), so they share those takes too -- and Avar carries no
+     counter, so it is not given one here either. */
+  putTakes(["A"],    { ostinato: ostATakes,    bass: bassATakes, keys: keysATakes });
+  putTakes(["Avar"], { ostinato: ostAvarTakes, bass: bassATakes, keys: keysATakes });
+  putTakes(["A"], { lead: themeATakes, counter: counterATakes });
+  /* B and Bvar share bass, chords and pad; only the tune's tail differs, so the
+     bed's takes are shared and the tune's are not (Bvar's lead is its own). */
+  putTakes(["B", "Bvar"], { ostinato: ostBTakes, bass: bassBTakes, keys: keysBTakes });
+  putTakes(["B"], { lead: themeBTakes, counter: counterBTakes });
+  putTakes(["C"], { bass: bassCTakes, keys: keysCTakes });
   /* THE LIFTED PAIR EXISTS ONLY ON A RECORD THAT MOVED, so a song that did not
      has exactly the materials it always had and every tool that asks the song
      what it contains -- the roll, the seam check, the snapshot -- sees no change
@@ -37216,10 +37384,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                            lead: themeAl.notes, counter: counterAl, ostinato: ostAl, drone: droneAl };
     materials.Avarlift = { drums: drumsAvar, bass: bassAl, keys: keysAl, keys2: keys2Avarl,
                            lead: leadAvarl, counter: [], ostinato: ostAvarl, drone: droneAl };
-    if(ostAlTakes){
-      materials.takes["Alift|ostinato"]    = ostAlTakes;
-      materials.takes["Avarlift|ostinato"] = ostAlTakes;
-    }
+    putTakes(["Alift"],    { ostinato: ostAlTakes,    bass: bassAlTakes, keys: keysAlTakes });
+    putTakes(["Avarlift"], { ostinato: ostAvarlTakes, bass: bassAlTakes, keys: keysAlTakes });
+    putTakes(["Alift"], { lead: themeAlTakes, counter: counterAlTakes });
   }
 
   /* ── AND THE GENERATIVE PART REPLACES WHAT IT IS DECLARED ON ──────────────
