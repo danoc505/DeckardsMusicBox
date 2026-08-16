@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-16i · a slide is not an instrument — the diddley bow, one wire and a bottle</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-16j · the window opens, the second run take exists, the world gets a rack</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -6291,6 +6291,60 @@ const INSTRUMENTS = {
              groups: [{ label: "THE PIPES", keys: ["chime", "breath", "far"] },
                       panGroup()] },
   },
+  /* ══ THE WORLD AND THE WEATHER, AS MACHINES ═══════════════════════════════
+     [owner, 2026-08-16: "i do not see sfx racks for weather wildlife and
+     world"] Correct — there were none, because neither was an INSTRUMENT. A
+     voice function with no entry here has no controls, no panel and no rack,
+     so the strip on the glass had a fader and nothing behind it.
+
+     Split in two rather than one "sfx" machine, because they are two different
+     things a mix treats differently: the PLACE is a thing you are travelling
+     through and its knob is how far away it is; the WEATHER is a thing you are
+     inside and its knob is how hard it is coming down. Both read in V.atmos /
+     V.weather, so every control here reaches the sound. */
+  atmos: {
+    slot: "atmos", label: "the world",
+    /* FIXED, and `lanes: {}` with it — the same declaration `medium` and
+       `tape` make, for the same reason stated at the hosting check: a place
+       and a sky are not things a genre CHOOSES for a slot, they are things
+       every record has. Without `fixed` the hosting check can never see this
+       machine played (no rig lane names it), and a machine that is never
+       hosted is silently exempt from "every knob must be ridden" — which is
+       the exact hole that lets a panel grow knobs nobody uses. Without
+       `lanes` at all the check throws, which is how this was found. */
+    fixed: true, lanes: {},
+    /* the landscape, the wildlife and the railway all play through this voice;
+       the ROLE decides which fader they land on [MIX_ROLE_BUS] */
+    controls: [
+      ...panControls(),
+      { k:"far", label:"how far away the place is", cap:"FAR",  min:0, max:1, step:0.01, def:0.35, kind:"gesture" },
+      { k:"air", label:"open air above it",         cap:"AIR",  min:0, max:1, step:0.01, def:0.5,  kind:"gesture" },
+    ],
+    panel: { skin: "erang", maker: "", title: "the world",
+             sub: "the landscape, the wildlife and the railway — recordings of places",
+             groups: [{ label: "DISTANCE", keys: ["far", "air"] }, panGroup()] },
+  },
+  weather: {
+    slot: "weather", label: "weather",
+    /* FIXED, and `lanes: {}` with it — the same declaration `medium` and
+       `tape` make, for the same reason stated at the hosting check: a place
+       and a sky are not things a genre CHOOSES for a slot, they are things
+       every record has. Without `fixed` the hosting check can never see this
+       machine played (no rig lane names it), and a machine that is never
+       hosted is silently exempt from "every knob must be ridden" — which is
+       the exact hole that lets a panel grow knobs nobody uses. Without
+       `lanes` at all the check throws, which is how this was found. */
+    fixed: true, lanes: {},
+    controls: [
+      ...panControls(),
+      { k:"far", label:"how far off the weather is", cap:"FAR",  min:0, max:1, step:0.01, def:0.35, kind:"gesture" },
+      { k:"air", label:"open air above it",          cap:"AIR",  min:0, max:1, step:0.01, def:0.5,  kind:"gesture" },
+    ],
+    panel: { skin: "erang", maker: "", title: "weather",
+             sub: "rain, wind, thunder — the sky the record is under",
+             groups: [{ label: "DISTANCE", keys: ["far", "air"] }, panGroup()] },
+  },
+
   /* ── A SLIDE IS NOT AN INSTRUMENT — see V.diddley for the whole correction.
      This was `slideGlass`, "glass slide", declaring `poly: 2` on a thing that
      has one string, and rendering two sawtooth oscillators. It is the DIDDLEY
@@ -16512,8 +16566,42 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const c = g.ctx;
     const src = c.createBufferSource(); src.buffer = buf;
     if(s.ls >= 0){ src.loop = true; src.loopStart = s.ls / ERANG.rate; src.loopEnd = s.le / ERANG.rate; }
-    const gn = c.createGain(); gn.gain.value = ev.gain * worldTrim(ev);
-    src.connect(gn); gn.connect(chanIn(g, ev.role, "vinyl", ev));
+    /* ══ THE WORLD'S OWN RACK ═════════════════════════════════════════════
+       [owner, 2026-08-16: "i do not see sfx racks for weather wildlife and
+       world"] There were none, and the reason is blunt: `atmos` and `weather`
+       were NOT INSTRUMENTS AT ALL -- bare voice functions with no entry in
+       INSTRUMENTS, so no controls, no panel, no rack. The train has nine
+       controls and three groups; the gramophone and the tape have racks;
+       everything that makes the PLACE had a fader with no machine behind it,
+       which is a fader you cannot grab.
+
+       These three are what a bed physically has, and each is read here so it
+       reaches the sound -- the battery walks the shipped source for
+       `P(g, ev, "machine", "control"` and a knob that is declared and not read
+       goes red. FAR is distance and does the two things distance does at once
+       (darker AND quieter); AIR is the openness of the place above that; and
+       the pan controls make a bed placeable, which is also what a flock of
+       birds will need to stop being one bird [task #116]. */
+    const mach = ev.role === "weather" ? "weather" : "atmos";
+    const far = ev.role === "weather" ? P(g, ev, "weather", "far", 0.35)
+                                      : P(g, ev, "atmos", "far", 0.35);
+    const airK = ev.role === "weather" ? P(g, ev, "weather", "air", 0.5)
+                                       : P(g, ev, "atmos", "air", 0.5);
+    const dist = c.createBiquadFilter(); dist.type = "lowpass";
+    dist.frequency.value = 16000 - 13200 * far; dist.Q.value = 0.5;
+    const airF = c.createBiquadFilter(); airF.type = "highshelf";
+    airF.frequency.value = 3200; airF.gain.value = -9 + 18 * airK;
+    const gn = c.createGain();
+    /* distance takes level as well as top: the two together are what makes a
+       thing far away rather than merely dull */
+    gn.gain.value = ev.gain * worldTrim(ev) * (1 - 0.45 * far);
+    src.connect(dist); dist.connect(airF); airF.connect(gn);
+    /* ── AND THE FALLBACK BUS WAS STILL `vinyl` ──────────────────────────────
+       Left over from when every bed rode the crackle's bus. If a role ever
+       failed to find its channel it landed on the surface noise rather than on
+       its own bus, which is a fallback that hides the very defect it is meant
+       to survive. The role's own bus is the honest answer. */
+    gn.connect(stereoOut(g, ev, t, mach, MIX_ROLE_BUS[ev.role] || "world"));
     src.start(t); src.stop(t + ev.durSec);
     return [src];
   };
@@ -16531,9 +16619,20 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const c = g.ctx;
     const runs = ["railRun0", "railRun1"].filter(n => ERANG.meta(n));
     if(!runs.length) return [];
-    /* which of the two takes this run is: a property of the note's own pitch,
-       so it is decided without a draw and cannot shift another part [Law 3] */
-    const name = runs[Math.abs(Math.round(ev.pitch || 0)) % runs.length];
+    /* ── AND railRun1 NEVER PLAYED, FOR THE LIFE OF THIS GENRE ─────────────
+       The line here read `runs[Math.abs(Math.round(ev.pitch||0)) % runs.length]`
+       with the comment "a property of the note's own pitch, so it is decided
+       without a draw". The reasoning is right and the input is a CONSTANT:
+       measured over every record, the drone lane writes `pitch: 24` on every
+       event it has ever made, and 24 % 2 === 0. So take 0 was chosen every
+       time, in every record, and the second run recording -- five seconds of
+       the bank, encoded and shipped -- has never once been heard.
+
+       The same hash the rest of this file uses for "decided, not drawn": keyed
+       on the event's own time, so it is deterministic, needs no stream, and
+       actually varies. [Law 3 holds -- no draw is consumed.] */
+    const pick = hash32("run:" + ev.tSec.toFixed(4));
+    const name = runs[(pick >>> 7) % runs.length];
     const s = ERANG.meta(name), buf = erangBuffer(g, name);
     if(!s || !buf || s.ls < 0) return [];
     const dur = Math.max(0.6, ev.durSec);
@@ -29932,8 +30031,26 @@ GENRE.boxcarsynth = {
        Hz — so the run has its top on it without becoming a hiss, and SWAY
        gives the car a slow roll across the field that no LFO on any other
        machine here duplicates. [CHOSEN, against the sheet's §3] */
+    /* ── AND THE WINDOW WAS SHUT ──────────────────────────────────────────
+       [owner, 2026-08-16: "I hear the train but its muffled to much and not
+       much of a chug chug"]
+
+       Three lowpasses were stacked on the one voice that plays for 77% of the
+       record: this `window` at 2400 Hz, a `rumble` shelf of +8 dB at 110 Hz,
+       and then the gramophone band-limiting the whole record to about
+       141 Hz - 7 kHz on top. A locomotive's exhaust beat lives at 1-4 kHz --
+       it is the ATTACK that reads as a chug -- and a 2400 Hz corner with a big
+       bass lift smears exactly that band and leaves the rumble underneath it.
+
+       The window's own idea is good and stays: it is "sitting inside the car
+       with the window down", and it OPENS across the record with the key change
+       [see motion.trainbox.window]. It was simply open far too little. 4300
+       puts the corner above the chuff's harmonics rather than through them, and
+       the rumble comes down so the low end stops masking what is left.
+
+       This is a level/tone change and moves no note; the snapshot says so. */
     trainbox: { speed: 0.96, drift: 0.012, air: 0.24,
-                window: 2400, rumble: 8,
+                window: 4300, rumble: 5,
                 level: 0.9, pan: 0, sway: 0.34, swayHz: 0.025 },
     echo: { div: 4, fb: 0.30, tone: 2000, hp: 150, send: 0.12, verb: 0.6 },
     vp330: { ens: 0.7, choir: 0.5, attack: 1.4, release: 2.6 },
@@ -30134,6 +30251,45 @@ GENRE.boxcarsynth = {
                { kind: "lfo", bars: [[31, 2], [17, 1]], depth: [0.025, 0.075],
                  shape: "sin", freePhase: true }],
     },
+    /* ══ THE PLACE AND THE SKY, RIDDEN ═════════════════════════════════════
+       New racks are new knobs, and a knob nobody moves is the defect this file
+       spends its comments on. Both are ridden for reasons that belong to a
+       journey rather than to a mix.
+
+       THE WORLD comes CLOSER as the record goes: at the start you are looking
+       out at a country you are passing through, by the end you are in it. So
+       `far` travels downward across the arc and opens right up in the TOWN,
+       where you have stopped and the place is around you rather than going by.
+       `air` opens with it -- the same dark-to-light clock the whole genre runs
+       on, heard on the landscape for the first time.
+
+       THE WEATHER goes the other way. It arrives from a distance and closes
+       in: `far` starts high and comes down, and the bridge -- the night run --
+       is where it is nearest. That is also where the record is darkest, so
+       `air` closes there while the world's opens, and the two never move
+       together. */
+    atmos: {
+      far: [{ kind: "arc", from: [0.10, 0.26], to: [-0.22, -0.08], curve: "sCurve" },
+            { kind: "section", by: { chorus: [-0.26, -0.10] } },
+            { kind: "lfo", bars: [[59, 2], [23, 1]], depth: [0.02, 0.07],
+              shape: "sin", freePhase: true }],
+      air: [{ kind: "arc", from: [-0.18, -0.06], to: [0.10, 0.28], curve: "sCurve" },
+            { kind: "section", by: { bridge: [-0.20, -0.07] } }],
+      pan:    [{ kind: "lfo", bars: [[61, 2], [29, 1]], depth: [0.06, 0.18],
+                 shape: "sin", freePhase: true }],
+      panHz:  [{ kind: "arc", from: [0.03, 0.06], to: [0.05, 0.10] }],
+      panDep: [{ kind: "arc", from: [0.06, 0.14], to: [0.10, 0.22] }],
+    },
+    weather: {
+      far: [{ kind: "arc", from: [0.14, 0.34], to: [-0.18, -0.05], curve: "sCurve" },
+            { kind: "section", by: { bridge: [-0.24, -0.09] } }],
+      air: [{ kind: "arc", from: [0.04, 0.16], to: [-0.14, -0.04], curve: "sCurve" },
+            { kind: "section", by: { bridge: [-0.22, -0.08] } }],
+      pan:    [{ kind: "lfo", bars: [[67, 2], [31, 1]], depth: [0.08, 0.22],
+                 shape: "sin", freePhase: true }],
+      panHz:  [{ kind: "arc", from: [0.02, 0.05], to: [0.04, 0.09] }],
+      panDep: [{ kind: "arc", from: [0.08, 0.18], to: [0.12, 0.26] }],
+    },
     /* ══ WHERE THE BAND IS STANDING, AND IT DOES NOT STAND STILL ═══════════
        [owner, 2026-08-16: "We are not using the stereo field correct, all of
        the instruments should have a place on it and also are able to have their
@@ -30329,7 +30485,7 @@ GENRE.boxcarsynth = {
       /* THE WINDOW IS THE LIGHT. It opens across the record with the key
          change — the genre's dark-to-light clock, heard on the one voice that
          is present for all of it — and closes in the night run. */
-      window: [{ kind: "arc", from: [-700, -250], to: [400, 1600], curve: "sCurve" },
+      window: [{ kind: "arc", from: [-900, -350], to: [900, 2600], curve: "sCurve" },
                { kind: "section", by: { bridge: [-900, -400], outro: [-600, -200] } },
                { kind: "lfo", bars: [[19, 2], [29, 1]], depth: [80, 260],
                  shape: "sin", freePhase: true },
