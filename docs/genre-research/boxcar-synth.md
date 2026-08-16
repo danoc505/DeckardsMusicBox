@@ -656,6 +656,57 @@ lesson of §4d.
    middle of the sample; it should measure each pass sample's own peak
    position and align to it.
 
+### AND FOUR MORE, FOUND 2026-08-16 — see `modal-jazz.md`
+
+The owner: *"The songs can feel stale... Are we preplanning a route and using
+it to create the sfx and are we using our fx racks to modulate the sfx."*
+Researched and measured in `docs/genre-research/modal-jazz.md`; the findings
+that belong on this list:
+
+7. **THE TOWN HAS NO CHANGES OF ITS OWN, AND THE PARENT GENRE'S DOES.**
+   Measured: `CHORUS HAS ITS OWN CHANGES` is **0/24 boxcar records against
+   24/24 dungeon synth records**. `chorusProgressions` was built as the answer
+   to "it's too static for far too long" and this genre, founded afterwards,
+   never declared it — so the chorus falls through to `chords` at `:31450`.
+   The chorus **is the town** here, so the arrival lands on the identical two
+   chords as the countryside just crossed. Read off twelve seeds: **eleven of
+   twelve records contain exactly TWO distinct chords**, over a mean 173 bars.
+   *This is the cheapest real fix in the genre — one table entry, Law 3 draw,
+   zero blast radius.*
+
+8. **A STATED INVARIANT IS FALSE FOR THIS GENRE.** `:37092` skips the key lift
+   when a record's middle is a chorus, "which is honest — the departure it
+   already has is the chorus's own changes." True for dungeon synth, **false
+   here** because of item 7: such a record gets neither. Five of twelve seeds
+   showed no lift. Same class as §4d — a claim made false by something
+   underneath it moving.
+
+9. **THE KEY CHANGE FIRES ON THE BAR COUNT, NOT ON THE SUN.** §5 of this sheet
+   says the key change IS the clock. The lift window is structural —
+   `mid >= 0.40 * TOTAL && mid < 0.67 * TOTAL` (`:36787`), where `TOTAL` is
+   bars — while the trip planner owns a real clock (`TRIP.hour0`, `hours`,
+   `DAWN`, `DUSK`, `:37905`). **The two never meet**, so a record's dawn and
+   its key change are unrelated events. §5 is, strictly, not built: the
+   machinery exists and is aimed at the wrong thing. And the planner has **no
+   musical authority at all** — `TRIP`/`ROUTE` are block-scoped and discarded
+   at `:38168`, which is why `probe_route.js` re-derives the itinerary from
+   the events.
+
+10. **THE LANDSCAPE GETS NO EFFECTS, AND TWO SENDS GO NOWHERE.** A terrain bed
+    is `BufferSource → one static Gain → channel → master`: no filter, no pan,
+    no send, and **no `P()` call anywhere in `V.atmos`/`V.weather`**, so
+    `motionAt` cannot reach them and no genre can automate them. Worse, the
+    `scene` and `weather` channels' `sendRoom`/`sendEcho` nodes are built, are
+    fed by `duck`, **and connect to nothing** — they sit on the `vinyl` bus,
+    blind-plated out of all six FX columns (`:3266`) on a ruling made about
+    *stylus crackle*; the two roles were added to that bus on 2026-08-15 and
+    inherited it silently. Rivers and station crowds are recordings of places,
+    and a place is what reverb is for. Meanwhile the train — the one rail sound
+    promoted off that bus into an instrument — has six motion lanes and reaches
+    the reverb. **The train has effects; the landscape it passes through does
+    not.** The guard is "every send gain terminates somewhere", and
+    `probe_deskgraph.js` / `probe_busedge.js` are its home.
+
 ## 9. What is built, in phases (the plan of record)
 
 Phase 0 this sheet + the rail payload · Phase 1 the hobo band
