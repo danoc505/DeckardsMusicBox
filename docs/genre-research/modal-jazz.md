@@ -206,20 +206,87 @@ remedies applies."*
 
 Three measurements, all read-only, all reproducible.
 
-### 4a. THE TEXTURE IS FINE. RULE 5 IS WORKING.
+### 4a. ⚠ THE FIRST READING OF THIS WAS WRONG, AND THE PROBE WAS THE REASON
 
-`node harness/probe_static.js boxcarsynth 24`:
+**Written first, and retracted below.** `node harness/probe_static.js
+boxcarsynth 24` reported:
 
 ```
-  PARTS SOUNDING AT ONCE   mean 5.95   10th pct 3.8   90th pct 7.7
   HOW MANY DIFFERENT BARS  123.8 distinct pictures in 178 bars
   LONGEST UNCHANGING RUN   1.0 bars  ·  commonest bar is 2% of the record
 ```
 
-**124 distinct bar-pictures in 178 bars, and no bar ever repeats twice
-running.** Whatever is stale, it is not the texture. The owner's rule 5 —
-"marked by its movement, not its stale repetition, but the texture varied is
-something we do want" — is being delivered.
+and this sheet concluded from it: *"124 distinct bar-pictures in 178 bars, and
+no bar ever repeats twice running. Whatever is stale, it is not the texture."*
+
+**Then the owner, who had listened, said the loop keeps returning — and he is
+right.** `probe_static`'s "picture" is
+`cast + material + loopBar + cycle%2 + degree`, and **`cast` is the set of
+roles sounding in the bar**. On a record whose parts thin, rest and drop by
+design, the cast changes nearly every bar, so a four-bar cell played
+forty-four times reports as a hundred and twenty-four different bars. It was
+measuring **instrumentation churn** and this sheet read it as musical variety.
+
+The repo's own rule, `harness/README.md`: *"When a measurement surprises you,
+suspect the measurement first."* It surprised me, I believed it over the ear,
+and the ear was right. `harness/probe_repetition.js` is the replacement; it
+never looks at the cast.
+
+### 4a-ii. WHAT ACTUALLY COMES BACK — `probe_repetition.js`, 24 seeds
+
+```
+  THE CELL     4.0 bars long, in a 177.7-bar record  =  44.4 TIMES ROUND
+```
+
+**A four-bar cell, forty-four times.** That is the ceiling on everything, and
+no amount of dropout moves it.
+
+Per part, hashed on note content alone — pitch and onset step, gain and
+duration excluded — against dungeon synth beside it:
+
+| role | boxcar: distinct bars | **each heard** | dungeon synth | **each heard** |
+|---|---|---|---|---|
+| ostinato | 23.5 of 158 sounding | **×6.7** | 33.6 of 132 | ×3.9 |
+| keys | 22.8 of 172 | **×7.5** | 24.9 of 104 | ×4.2 |
+| lead | 29.6 of 138 | ×4.7 | 25.6 of 93 | ×3.6 |
+| **keys2** | **1.7** of 41 | **×24.4** | 4.8 of 71 | ×14.6 |
+| bass | 14.7 of 98 | ×6.6 | 12.5 of 95 | ×7.5 |
+| counter | 2.0 of 8 | ×4.1 | 2.6 of 7 | ×2.8 |
+
+**On every part but the bass, boxcar synth repeats itself more than the genre
+it is a subgenre of** — the banjo roll 72% more, the first keyboard 79% more.
+
+**And `keys2` is the single worst number in the genre: 1.7 distinct bars,
+played twenty-four times each.** The second keyboard — the choir pad, the
+thing holding the harmony under everything — is one bar of music for eleven
+minutes.
+
+The ~23 distinct ostinato bars are not 23 ideas. They are **five materials
+(A, Avar, B, Bvar, C) × a four-bar cell**, plus the lift's copies. So what the
+ear is given is five four-bar loops, each played four times inside its own
+section, in sections that themselves recur. That is exactly "the same loop
+keeps returning", and it was audible long before it was measurable.
+
+### 4a-iii. AND IT DOES NOT BUILD — the arc is declared and not played
+
+Same probe, seed 1, the declared `section.energy` against what was performed:
+
+| | boxcar synth | dungeon synth |
+|---|---|---|
+| notes/bar across the body sections | **12.6 – 14.8** | 8.8 – 14.8 |
+| range | **2.2** | **6.0** |
+| roles sounding, first body section → last | 7 → 6 | **4 → 7** |
+| an intro ramp | often no intro section at all | 0.8 → 2.5 → 11.4 → 14.5 notes/bar |
+
+Boxcar's declared energy moves 0.33–0.72 across the record and **the
+performance does not follow it**: every section except the bridge and the outro
+plays between 12.6 and 14.8 notes a bar. The one thing that does move is the
+mean note level, creeping 0.383 → 0.517 monotonically over eleven minutes —
+which is precisely the shape `how-a-drone-evolves.md` §6b measured nobody
+hearing.
+
+**The record declares an arc and plays a flat one.** That is the owner's third
+complaint, and it is a different defect from the first two.
 
 ### 4b. AND THE HARMONY IS TWO CHORDS
 
