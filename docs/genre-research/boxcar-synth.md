@@ -752,7 +752,17 @@ here as the record of what was wrong, each with its outcome:
 16. **`keys2` CAN VANISH FROM A WHOLE RECORD** — seed 1's MIDI has eight tracks
     rather than nine. Possibly a legitimate night off for a part, possibly the
     `rest` weight compounding with an already-thin lane. Unmeasured.
-17. **NO PROBE MEASURES WHETHER THE SAME NOTES ARRIVE SOUNDING DIFFERENT**,
+17. **THE STOP SCRIPT'S OWN SOUNDS STILL HAVE NO ROOM.** `roleOfBed` returns
+    `"scene"` only for beds whose family starts with `scene` and `"weather"`
+    for the four weather names; **everything else is `"tape"`**. So the rail
+    one-shots that ARE the arrival — `railTown`, `railCrowd`, `railWhistle`,
+    `railDoors`, the conductor's call — sit on the `vinyl` bus with the stylus
+    crackle and are still plated out of every effect column. The `world` bus
+    built this session reaches the LANDSCAPE and not the STATION. That is
+    exactly the world-versus-story split §4d-ii already draws in levels, and
+    the routing has not caught up with it. A station shed is the most
+    reverberant place in the whole record and it is the one thing still dry.
+18. **NO PROBE MEASURES WHETHER THE SAME NOTES ARRIVE SOUNDING DIFFERENT**,
     which is the entire claim of the stacked-cycle work.
     `probe_modulation`'s FREE column counts lanes whose autocorrelation never
     exceeds 0.60 — and it scores **plastikman, this file's own exemplar of the

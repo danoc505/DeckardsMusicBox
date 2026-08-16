@@ -866,9 +866,37 @@ and can only travel down. The band closes its own reverb in the same bar
 (`keysRoom` and `leadRoom` both duck in the chorus), so **the town is the one
 moment in the record where the world is wetter than the band**.
 
-That is the answer to "the town doesn't feel like arriving": arriving was
-defined entirely by things *stopping*. Phase 1 gave the town its own harmony;
-this gives it its own space.
+**⚠ AND WHAT REACHES THAT ROOM IS NARROWER THAN I FIRST WROTE.** `roleOfBed`
+returns `"scene"` only for beds whose family starts with `scene`, `"weather"`
+for wind/rain/thunder/blizzard, and **`"tape"` for everything else** — which
+means the rail one-shots that carry the stop script (`railTown`, `railCrowd`,
+`railWhistle`, `railDoors`, the conductor's call) are role **tape**, still on
+the `vinyl` bus, still plated. So the town's new reverb reaches the
+**landscape** — the country-halt birds, the water, the weather — and not the
+station itself.
+
+That is a smaller claim than "the platform opens up around you", and it is the
+true one. It also maps cleanly onto §4d-ii's distinction, which the file
+already makes in levels and does not yet make in routing: the WORLD is the
+countryside, the STORY is the train's own sounds, and only the first of them
+has a room. **Routing the story sounds is not done and is now §10 item 18.**
+
+Even narrowed, it is the answer to "the town doesn't feel like arriving":
+arriving was defined entirely by things *stopping*. Phase 1 gave the town its
+own harmony; this gives it a change of space.
+
+**And the battery caught the cost of the new row within one run.** Adding
+`world` created SEVEN crossings, and "every knob the conductor can move is one
+some genre moves" went red naming `worldSpring`, `worldFlange`, `worldDP4` and
+`worldBarber` — four knobs that move nothing, which is the exact defect
+`vinyl`'s own plates exist to prevent. A place can be in a room and can be far
+enough to arrive late; it cannot be flanged and stay a place. So Spring,
+Flange, DP/4 and Pole are blind-plated for the world with that reason, and Mix
+and Echo got lanes that earn themselves: the dry country **recedes** in the
+town as the room opens (the same gesture from both sides), and the delay opens
+on the night run, because the thing that answers a whistle across open country
+is a delay — which is this genre's own phrase for its echo, "the distance down
+the line."
 
 Verified live, not merely declared — `probe_section_motion boxcarsynth`:
 `matrix.worldRoom chorus −49.1 dB **live**`.

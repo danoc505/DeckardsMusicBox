@@ -3295,6 +3295,27 @@ const MATRIX = {
       "band, so it has no business in the band's effects. And measured: feeding " +
       "it the room moved it 0.00 dB at the level a genre actually declares";
   }
+  /* ── AND THE WORLD REACHES A ROOM AND A DELAY, AND NOTHING ELSE ────────────
+     The `world` row was added so a place could have a reverb -- birds, rivers
+     and weather used to sit on `vinyl` and inherit five plates ruled about
+     stylus noise. But adding a row adds SEVEN crossings, and the battery said
+     so immediately: "every knob the conductor can move is one some genre
+     moves" went red naming worldSpring, worldFlange, worldDP4 and worldBarber.
+     Five knobs that move nothing is the exact defect the vinyl plates above
+     exist to prevent, and this build had just created four more of them.
+
+     A place can be in a ROOM and it can be far enough away to arrive LATE.
+     It cannot be flanged, pitch-shifted or run through a spring tank and stay
+     a place -- those are effects that announce themselves, and the moment a
+     river sounds processed it stops being a river and becomes a synth patch.
+     So the same treatment vinyl gets, for a different and stated reason. */
+  for(const k of ["Spring", "Flange", "DP4", "Barber"]){
+    MATRIX.none["world" + k] =
+      "the world is a RECORDING OF A PLACE. A place can be in a room and it " +
+      "can be far away, so the Room and the Echo are open above -- but a " +
+      "flanged river is not a river, it is a synth patch, and the same goes " +
+      "for the spring, the DP/4 and the pole";
+  }
 })();
 
 /* every crossing that is a matrix control of its own, in grid order */
@@ -29595,6 +29616,21 @@ GENRE.boxcarsynth = {
          `leadRoom` both close in the chorus), so the town is the one moment in
          the record where the world is wetter than the band. [CHOSEN] */
       worldRoom: [{ kind: "section", by: { chorus: [0.22, 0.55] } }],
+      /* ── AND THE COUNTRY IS BEHIND YOU ON A PLATFORM ───────────────────────
+         The dry landscape recedes where the room opens. Standing at a station
+         you are not in a field any more, and the two lanes together are the
+         same gesture from both sides: less of the country, more of the shed.
+         This send starts OPEN (every instrument row does in the MIX column),
+         so its travel is downward, which is the direction it wants. */
+      worldMix: [{ kind: "section", by: { chorus: [-0.34, -0.14] } }],
+      /* ── AND THE DELAY IS THE DISTANCE DOWN THE LINE ───────────────────────
+         The genre's own phrase, three lanes below, about its echo. It is truer
+         of a crossing bell than of anything the band plays: the thing that
+         answers a whistle across open country IS a delay, and the night run is
+         where the line runs longest and emptiest. Starts shut — `world` is not
+         in `echoFeeds` — so all of this is upward. */
+      worldEcho: [{ kind: "section", by: { bridge: [0.10, 0.30],
+                                           instrumental: [0.04, 0.16] } }],
     },
     /* ── THE HANDS ──────────────────────────────────────────────────────────
        The pick brightens as the record brightens (it travels with the key
