@@ -829,6 +829,60 @@ here as the record of what was wrong, each with its outcome:
     device is demonstrably in (6 of 24 lanes carry two cycles, up from none)
     and the number that would confirm it works is measuring something else.
 
+## 8d. THE BANJO PLAYED AT HALF SPEED, AND ONE PLAYER WAS THE WHOLE BAND —
+corrected 2026-08-16
+
+> *"Harmonicas are not used for playing three notes over and over and over
+> again! Same for Banjo! ... you build another part on the banjo what amounts
+> to a slow arp and its bad"* — the owner, and he was right on every count.
+
+**Three defects, all found by printing the notes rather than by any probe:**
+
+1. **THE ROLL WAS AT HALF RATE.** `unit: 2` came from reading the source's
+   "a roll is eight notes" as the RATE when it is the pattern LENGTH — a
+   Scruggs roll is an eight-note cell played as continuous SIXTEENTHS.
+   Measured: 109 notes a minute, one every 0.366 s, against a real break's
+   300–600. The right pattern at half speed is a slow arpeggio, which is
+   exactly what the owner called it. Now `unit: 1`: the grid prints a note on
+   every 16th (`5351535153515351`), median gap 0.183 s — a true sixteenth at
+   82 bpm.
+
+2. **ONE PLAYER WAS THE WHOLE BAND.** The machines pool put the banjo on the
+   CHORDS (`keys: [["banjo", 5], ...]`) while the rig's ostinato had it on the
+   ROLL — one instrument holding block chords and rolling over them at once,
+   which no banjo player has ever done. And the rig's `keys:"banjo"` was a
+   decoy: **the pool outranks the rig**, which the first fix missed and the
+   voice-per-section check caught. The chords now go to the mission-hall
+   keyboard (`keys` machine, wurly by `keysChar`) [the owner's own call], and
+   the banjo keeps the roll alone.
+
+3. **THE BANJO NEVER CHANGED JOBS.** A real player has two: rolls when the
+   band drives, VAMPED CHORDS when backing off. Mapped onto the journey — the
+   owner's design, and it is better than the real-world driver because here it
+   is diegetic: **the roll is the motor**. Rolling sections roll; in the TOWN
+   the train is standing, the `ostinato` role is out of the chorus, and
+   `form.setMachines: { chorus: { keys: "banjo" } }` hands the strummed
+   chord-hold to the banjo — the vamp, on the town's own changes. Built as a
+   third, deterministic source in the section-machines writer (`swap` is a
+   coin, `ladder` follows the arc, `setMachines` is an arrangement fact; a
+   hand on the rack still outranks all three).
+
+Verified per section, strictly inside bounds: chorus keys = **banjo**, verse
+and outro keys = **wurly**, roll silent in every town, roll at 16ths
+everywhere it plays. MIDI: the ostinato track went 898 → 1284 notes at 0.25
+beats each. Two consequential fixes: `keys` left the `rest` list (a rested
+keys in the town was a town with no chord instrument — two of seed 4's four
+towns had lost their vamp), and the counter's density 0.2 → 0.4, A/B measured
+over 8 seeds: 100 → 178 answers (seed 4 alone coincidentally unchanged, which
+is why the A/B was run before claiming anything).
+
+**STILL NOT DONE, said plainly:** the harmonica's own speech — bends, draw
+chords, trills, the §2a/§2b legality — remains unbuilt; the tune still
+restates by the program's global law; and the roll's doubled note count
+raises its level ~3 dB, unmeasured against the band because `probe_stems`'
+voice attribution printed brake/anvil rows under the ostinato and could not
+be trusted (README lesson 2, again). The ear rules on the level.
+
 ## 9. What is built, in phases (the plan of record)
 
 Phase 0 this sheet + the rail payload · Phase 1 the hobo band

@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-16d · the download buttons stop pretending</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-16e · the banjo rolls at speed and vamps in the town; the wurly holds the chords</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -8406,7 +8406,17 @@ const RIG = {
              /* the DRONE lane is the train itself — this band's continuous
                 ground is not a pad, it is the running gear under the floor
                 [see INSTRUMENTS.trainbox] */
-             bass:"bass", drone:"trainbox", keys:"banjo", lead:"harmonica",
+             /* ── ONE PLAYER WAS THE WHOLE BAND ─────────────────────────────
+                [owner, 2026-08-16: "im not sure that the banjo should be the
+                only one playing the chord progression"] It was — keys AND
+                ostinato both said "banjo", so one instrument held the block
+                chords and rolled over them at once, which no banjo player has
+                ever done. The chords go to the keyboard pair (V.keys; the
+                genre's keysChar picks the wurly), and the banjo keeps the
+                roll. In the TOWN the banjo takes the chords back —
+                form.setMachines — because a stopped train is when a picker
+                drops the roll and vamps. */
+             bass:"bass", drone:"trainbox", keys:"keys", lead:"harmonica",
              counter:"slideGlass", ostinato:"banjo",
              rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
   /* THE BOX -- acid house. Every element is a machine and every machine is one
@@ -28938,7 +28948,12 @@ GENRE.boxcarsynth = {
      plain minor the lonesome one, mixolydian the folk major that pulls nowhere.
      The LIGHT arrives by keyShift, not by the base draw. */
   modes: [["dorian", 5], ["minor", 3], ["mixolydian", 2]],
-  keysChar: [["pad", 1]],
+  /* the mission-hall keyboard holds the progression now [owner's call,
+     2026-08-16]. "wurly" so V.keys dispatches the Wurlitzer voice — the reed
+     bark reads as an old keyed instrument through the gramophone, and the
+     era question is blurred by the medium on purpose. "pad" was dead config
+     here anyway: the rig sent keys to the banjo, so no keyboard ever read it. */
+  keysChar: [["wurly", 1]],
   leadChar: [["synth", 1]],
   /* the era's lo-fi lives mostly in phase 4's gramophone; the tape here is
      the gentle comfy haze the sources describe [sheet §1] [CHOSEN] */
@@ -29004,10 +29019,23 @@ GENRE.boxcarsynth = {
       intro:        ["keys", "keys2"],
       verse:        ["drums", "bass", "keys", "lead", "ostinato", "drone"],
       instrumental: ["drums", "bass", "keys", "keys2", "ostinato", "lead", "drone"],
-      chorus:       ["keys", "keys2", "lead", "counter", "ostinato"],
+      /* ── THE ROLL IS THE MOTOR, AND THE MOTOR IS STOPPED IN A TOWN ────────
+         [owner, 2026-08-16: the banjo does chords "when the train slows down
+         and then it goes up to speed and the banjo leaves the chord
+         progression"] `ostinato` is out of the chorus: the train is standing
+         there — no drums, no drone — and a roll is the going-sound of this
+         band the way the track click is the drums'. What the banjo does in
+         the town instead is VAMP: `form.setMachines` below hands it the keys
+         lane for this one section, so the strummed chord-hold IS the banjo,
+         on the town's own changes. Rolls at speed, chords at rest — which is
+         what a bluegrass player calls backup, mapped onto the journey. */
+      chorus:       ["keys", "keys2", "lead", "counter"],
       bridge:       ["drums", "bass", "keys2", "counter", "drone"],
       outro:        ["keys", "drone"],
     },
+    /* the town's chord hold is the BANJO — see the roles comment above.
+       Everywhere else the wurly holds the progression [rig: keys→"keys"]. */
+    setMachines: { chorus: { keys: "banjo" } },
     coldOpen: 0.15,
     openVerse: 0.5,
     target: [56, 3, 8],
@@ -29081,7 +29109,12 @@ GENRE.boxcarsynth = {
        the same complaint about the same lane — "a device that fires in one bar
        in fourteen is a long way from So What, where the answer is half the
        melody." Written down in §10 rather than tuned blind. */
-    rest: { keys2: 0.22, lead: 0.16, ostinato: 0.12, keys: 0.10 },
+    /* `keys` left this list 2026-08-16: with the banjo vamp riding the keys
+       lane, a rested keys in the TOWN is a town with no chord instrument at
+       all — measured, two of seed 4's four towns had lost their vamp to the
+       0.10 that used to be here. The chord hold is the ground; grounds do
+       not take sections off. */
+    rest: { keys2: 0.22, lead: 0.16, ostinato: 0.12 },
     longLoop: { ostinato: 2, lead: 2, keys2: 2 },
     /* the town is WARM, not loud: its energy sits under the rolling peak,
        because arriving is a relief and not a climax [CHOSEN] */
@@ -29205,13 +29238,22 @@ GENRE.boxcarsynth = {
      right-hand finger or hit the same string twice in a row" — so no cell
      repeats an offset back to back, and that is checkable rather than stylistic.
 
-     `unit: 2` is the sourced rate: a roll is "eight (eighth) notes" to the bar,
-     not sixteen. The extra notes the owner asked for come from the roll being
-     in the RECORD rather than in one section function — see form.roles. */
+     ── ⚠ `unit: 2` WAS A MISREAD, AND THE OWNER'S EAR CAUGHT IT ─────────────
+     [owner, 2026-08-16: "you build another part on the banjo what amounts to
+     a slow arp and its bad"] The old comment said a roll is "eight (eighth)
+     notes to the bar, not sixteen" — reading the SOURCE's eight notes as the
+     RATE. It is the pattern LENGTH: a Scruggs roll is an eight-note cell
+     played as continuous SIXTEENTHS, and Foggy Mountain Breakdown is 16ths
+     at ~160. At `unit: 2` this banjo played eighths at 56–90 bpm — MEASURED:
+     109 notes a minute, one every 0.366 s, against a real break's 300–600.
+     The right pattern at half the rate is a slow arpeggio, which is exactly
+     what he called it. `unit: 1` is 16ths: an 8-note roll spans half a 4/4
+     bar, two rolls a bar, ~330 notes a minute at 82 — a hand actually
+     rolling. */
   /* `perBar` the roll turns every bar; `thumb` the thumb accents the pulse;
      `slur` one note in seven is hammered rather than picked — all three
      counted off a real break [sheet §1d] */
-  ostinato: { unit: 2, vel: 0.5, run: true, follow: true, ratchet: 0, whole: true,
+  ostinato: { unit: 1, vel: 0.5, run: true, follow: true, ratchet: 0, whole: true,
               perBar: true, thumb: 0.30, slur: 0.15,
               cells: [[[2, 4, 7, 2, 4, 7, 2, 4], 5],        // forward: 2-1-5-2-1-5-2-1
                       [[0, 2, 7, 4, -3, 2, 7, 4], 4],       // alternating thumb: 3-2-5-1-4-2-5-1
@@ -29221,8 +29263,11 @@ GENRE.boxcarsynth = {
                       [[0, 4, 7, 0, 4, 0, 7, 4], 2],        // the "lick": 3-1-5-3-1-3-5-1
                       [[4, 2, 4, 7, 4, 2, 4, 7], 1],        // middle-leading (Osborne): 1-2-1-5-1-2-1-5
                       [[2, 0, 2, 4, 2, 0, 2, 4], 1]] },     // index-leading: 2-3-2-1-2-3-2-1
-  /* the answer is the slide or the harp speaking in the tune's gaps */
-  counter: { style: "line", density: 0.2, intervals: [-3, -5, 3, 5],
+  /* the answer is the slide speaking in the tune's gaps. MEASURED at
+     density 0.2: THREE NOTES A MINUTE — an answerer that almost never
+     answers, the exact shortfall call-and-response.md §5 counted. 0.4 is
+     still sparse; it is just no longer absent. [CHOSEN, unheard] */
+  counter: { style: "line", density: 0.4, intervals: [-3, -5, 3, 5],
              octaves: [0], answer: 0.6 },
   theme: { count: { hooky: [2, 2], breath: [1, 1], normal: [2, 1] },
            onsetPool: [[0, 8], [4, 4], [8, 4], [12, 2]] },
@@ -29369,7 +29414,22 @@ GENRE.boxcarsynth = {
        which carries the choir and the strings — the train takes nothing away
        from the harmony, it sits under it. */
     drone:    [["trainbox", 1]],
-    keys:     [["banjo", 5], ["bardPluck", 2], ["erangHarp", 1], ["auto", 2]],
+    /* ── THE CHORDS LEAVE THE BANJO [owner, 2026-08-16] ─────────────────────
+       This pool, not the rig, decides who holds the progression — the rig is
+       only what "auto" resolves to, which is the miss that had the banjo
+       still on the chords after the rig said otherwise. "keys" is the
+       mission-hall keyboard (V.keys → wurly via keysChar). The banjo is OUT
+       of this pool on purpose: it takes the chord hold back only in the
+       town, by form.setMachines, which is the vamp. A record may still draw
+       the bard's pluck or the harp for its comp colour, weighted low.
+
+       "auto", not "keys", though they resolve to the same instrument: the
+       rig already says keys→"keys", and resolvePicks NORMALIZES a pool row
+       equal to the rig's own machine to "auto" — measured, 14 of 20 records
+       stored "auto" while the wurly played — so a row spelled "keys" wins
+       and is invisible to probe_reachable's pickSeen at once. Name the row
+       what the resolver will store. */
+    keys:     [["auto", 7], ["bardPluck", 2], ["erangHarp", 1]],
     /* ── HOW MANY PLAYERS ARE IN THIS BAND, AND IT IS A DECISION ─────────
        [owner, 2026-08-15: "that means we would have three harmonicas
        playing and we would need to simulate that"] — right, and the first
@@ -37867,7 +37927,16 @@ function makeArrangement(chart, form, materials){
       machines: (() => {
         const SW = chart.table.swap;
         const LAD = chart.table.ladder;
-        if(!SW && !LAD) return null;
+        /* ── AND A THIRD SOURCE, WRITTEN RATHER THAN DRAWN ───────────────────
+           `swap` is a coin and `ladder` follows the arc; `form.setMachines`
+           is an ARRANGEMENT FACT: this section function is played by this
+           machine, every record, deterministically. Boxcar synth's town is
+           the first user — the banjo takes the chord hold back when the
+           train is standing [its table says why]. No stream is touched, so
+           a genre that declares nothing is byte-identical, and a hand on
+           the rack still outranks it below, same as the other two. */
+        const SET = (chart.table.form && chart.table.form.setMachines) || null;
+        if(!SW && !LAD && !SET) return null;
         const MA = chart.table.machines || {};
         const rs = stream(chart.seed, "swap:" + i);
         const out = {};
@@ -38005,6 +38074,13 @@ function makeArrangement(chart, form, materials){
           if(take && !pinned && !onLadder[slot] && alt && alt !== "auto" && alt !== chart.picks[slot])
             out[slot] = alt;
         }
+        /* the written source lands LAST — an arrangement fact outranks a coin
+           and a rung, and only a hand outranks the arrangement */
+        if(SET && SET[sec.fn])
+          for(const slot of Object.keys(SET[sec.fn])){
+            const pinned = chart.picks && chart.picks.byHand && chart.picks.byHand[slot];
+            if(!pinned) out[slot] = SET[sec.fn][slot];
+          }
         return Object.keys(out).length ? Object.freeze(out) : null;
       })(),
     });
