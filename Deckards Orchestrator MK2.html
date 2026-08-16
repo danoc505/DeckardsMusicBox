@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-16g · the railway comes off the crackle fader and gets a room</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-16h · the band stands somewhere, and the floor sways</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -6218,7 +6218,25 @@ const INSTRUMENTS = {
        [docs/genre-research/playing-the-hobo-band.md §2] */
     play: { poly: 5, onLong: "restrike" },
     controls: [
-      ...panControls().map(c => Object.assign({}, c, { kind: "voicing" })),
+      /* ── AND THIS BAND STANDS SOMEWHERE ──────────────────────────────────
+         [owner, 2026-08-16: "We are not using the stereo field correct, all of
+         the instruments should have a place on it and also are able to have
+         their position drift and move"]
+
+         MEASURED and exactly true. These three used to be re-declared here as
+         `kind: "voicing"` -- "set once per song" -- and their default is 0, and
+         nothing set them. So the banjo, the harmonica, the whistle and the
+         slide were ALL DEAD CENTRE AND IMMOVABLE: `stereoOut` does not even
+         build a panner at (0,0,0), so the genre's entire band rendered mono,
+         stacked in one spot. The only pan lanes boxcar declared were on
+         instruments it BORROWED -- bardPluck, erangHarp, trainbox -- never on
+         its own.
+
+         `panControls()` already returns these as `gesture`, which is what makes
+         them rideable; overriding them to `voicing` was the whole bug. The
+         override is gone, and the genre's motion table now places each player
+         and lets the position breathe. */
+      ...panControls(),
       { k:"pick", label:"pick brightness", cap:"PICK", min:0, max:1, step:0.01, def:0.65, kind:"gesture" },
       /* WHERE the hand strikes, not how hard — a comb whose nulls track the
          note's own pitch. The second timbral dimension this voice did not
@@ -6242,7 +6260,7 @@ const INSTRUMENTS = {
        adjacent reeds is the honest ceiling. §1 */
     play: { poly: 2 },
     controls: [
-      ...panControls().map(c => Object.assign({}, c, { kind: "voicing" })),
+      ...panControls(),
       { k:"vib", label:"hand vibrato", cap:"VIB", min:0, max:1, step:0.01, def:0.4, kind:"gesture" },
       /* the cup opening and closing — the player's actual tone control, and
          the only CONTINUOUS gesture this instrument has. `vib` picks a take;
@@ -6263,7 +6281,7 @@ const INSTRUMENTS = {
     signal: true,
     range: [55, 84],
     controls: [
-      ...panControls().map(c => Object.assign({}, c, { kind: "voicing" })),
+      ...panControls(),
       { k:"chime",  label:"pipe spread", cap:"CHIME",  min:0, max:1, step:0.01, def:0.6, kind:"voicing" },
       { k:"breath", label:"steam",       cap:"STEAM",  min:0, max:1, step:0.01, def:0.5, kind:"voicing" },
       { k:"far",    label:"distance",    cap:"FAR",    min:0, max:1, step:0.01, def:0.4, kind:"voicing" },
@@ -6281,7 +6299,7 @@ const INSTRUMENTS = {
        still decays like a picked string §3 */
     play: { poly: 2 },
     controls: [
-      ...panControls().map(c => Object.assign({}, c, { kind: "voicing" })),
+      ...panControls(),
       { k:"scoop", label:"slide into the note", cap:"SCOOP", min:0, max:1, step:0.01, def:0.5, kind:"gesture" },
       { k:"vib",   label:"hand vibrato",        cap:"VIB",   min:0, max:1, step:0.01, def:0.5, kind:"voicing" },
       { k:"tone",  label:"tone",                cap:"TONE",  min:0, max:1, step:0.01, def:0.5, kind:"gesture" },
@@ -29994,6 +30012,24 @@ GENRE.boxcarsynth = {
        never line up is a different device from one shape moving slowly.
        [the periods are CHOSEN; the mechanism and the ranking are corpus] */
     banjo: {
+      /* LEFT, and it STAYS left: the rhythm player off your shoulder.
+
+         ── AND A LANE IS AN OFFSET, WHICH IS THE MISTAKE I MADE FIRST ───────
+         `pan`'s base is its declared default, 0, and every lane here ADDS to
+         it. My first version was a `section` nudge plus a small lfo, which
+         gave each player a wobble AROUND THE CENTRE rather than a place --
+         measured at +-0.08 for the whole band, four instruments still stacked
+         in the middle, which is the complaint restated rather than answered.
+
+         An `arc`'s from/to is therefore the POSITION and its travel: this one
+         opens well left and eases in a little as the record goes, the way a
+         band closes up as it warms up. The lfo on top is the floor swaying. */
+      pan:    [{ kind: "arc", from: [-0.42, -0.30], to: [-0.34, -0.22], curve: "sCurve" },
+               { kind: "section", by: { chorus: [0.06, 0.16] } },
+               { kind: "lfo", bars: [[53, 2], [31, 1]], depth: [0.03, 0.08],
+                 shape: "sin", freePhase: true }],
+      panHz:  [{ kind: "arc", from: [0.04, 0.07], to: [0.06, 0.11] }],
+      panDep: [{ kind: "arc", from: [0.04, 0.08], to: [0.06, 0.12] }],
       pick: [{ kind: "arc", from: [-0.14, -0.04], to: [0.06, 0.20], curve: "sCurve" },
              { kind: "section", by: { chorus: [0.04, 0.12], bridge: [-0.14, -0.05] } },
              { kind: "lfo", bars: [[23, 2], [37, 1]], depth: [0.02, 0.07],
@@ -30013,7 +30049,49 @@ GENRE.boxcarsynth = {
                { kind: "lfo", bars: [[31, 2], [17, 1]], depth: [0.025, 0.075],
                  shape: "sin", freePhase: true }],
     },
+    /* ══ WHERE THE BAND IS STANDING, AND IT DOES NOT STAND STILL ═══════════
+       [owner, 2026-08-16: "We are not using the stereo field correct, all of
+       the instruments should have a place on it and also are able to have their
+       position drift and move"]
+
+       MEASURED before this: banjo, harmonica, whistle and slide all declared
+       `pan` as `voicing` with a default of 0, and nothing set it -- so the
+       genre's whole band was DEAD CENTRE and could not move. See the note at
+       INSTRUMENTS.banjo for the override that caused it.
+
+       THE PLAN IS A BAND IN A BOXCAR, seen from where you are sitting, and it
+       follows the one sourced rule this file already keeps: "keep drums, bass
+       and lead vocals centered... below 60-100 Hz should be mono"
+       [corpus:waves; adsr, quoted at panControls]. So the bass and the kit stay
+       where they are and are not given lanes here at all.
+
+           the banjo    LEFT of centre -- the rhythm player sits off your
+                        shoulder, and it is the busiest part, so it gets out of
+                        the tune's way
+           the wurly    RIGHT, opposite the banjo. Two chord instruments in one
+                        place is the crowding the owner is describing
+           harmonica    just off centre, where a singer stands -- it is the
+                        voice, so it is nearly centred but not stacked on the
+                        bass
+           the slide    wide RIGHT, past the wurly: it answers the tune, and an
+                        answer comes from somewhere else or it is not one
+
+       AND THE DRIFT IS THE FLOOR MOVING. A boxcar is not a studio -- the room
+       sways, and the players sway with it. Each `panHz` is a different prime
+       fraction of a hertz so no two ever line up, and the depths are small:
+       this is a floor moving, not an auto-panner. The whistle is the exception
+       and gets the widest travel, because it is on the engine and the engine is
+       ahead of you round a bend. */
     harmonica: {
+      /* THE VOICE, and a voice is nearly centred -- but not ON the bass and the
+         kick, which are the two things the sourced rule keeps in the middle.
+         A hand's breadth right of centre, drifting back toward it. */
+      pan:    [{ kind: "arc", from: [0.16, 0.24], to: [0.06, 0.14], curve: "sCurve" },
+               { kind: "section", by: { chorus: [-0.10, 0.06] } },
+               { kind: "lfo", bars: [[47, 2], [29, 1]], depth: [0.04, 0.10],
+                 shape: "sin", freePhase: true }],
+      panHz:  [{ kind: "arc", from: [0.05, 0.09], to: [0.09, 0.15] }],
+      panDep: [{ kind: "arc", from: [0.05, 0.10], to: [0.08, 0.16] }],
       vib: [{ kind: "apex", from: [-0.14, -0.05], to: [0.10, 0.26] },
             { kind: "section", by: { bridge: [0.06, 0.16], intro: [-0.12, -0.04] } }],
       /* THE CUP OPENS ACROSS THE RECORD. An arc rather than an apex, because
@@ -30025,6 +30103,30 @@ GENRE.boxcarsynth = {
              { kind: "section", by: { chorus: [0.06, 0.18], bridge: [-0.16, -0.06] } },
              { kind: "lfo", bars: [[29, 2], [43, 1]], depth: [0.03, 0.09],
                shape: "sin", freePhase: true }],
+    },
+    /* THE CHORD INSTRUMENT SITS OPPOSITE THE OTHER ONE. Two things playing
+       harmony in the same spot is the crowding this is all about: the banjo
+       rolls left, the mission-hall keyboard answers from the right, and the
+       tune walks between them. Mirrored travel, so the pair close together as
+       the record goes rather than both sliding the same way. */
+    wurly: {
+      pan:    [{ kind: "arc", from: [0.30, 0.42], to: [0.22, 0.34], curve: "sCurve" },
+               { kind: "lfo", bars: [[43, 2], [19, 1]], depth: [0.03, 0.09],
+                 shape: "sin", freePhase: true }],
+      panHz:  [{ kind: "arc", from: [0.04, 0.07], to: [0.06, 0.11] }],
+      panDep: [{ kind: "arc", from: [0.04, 0.09], to: [0.06, 0.13] }],
+    },
+    /* THE WHISTLE IS ON THE ENGINE, and the engine is ahead of you round a
+       bend, so this is the one part of the band that really travels. It is a
+       signal instrument -- it sounds a handful of times a record -- so a wide
+       sweep costs nothing in crowding and buys the single most legible fact
+       about where the sound is coming from. */
+    steamWhistle: {
+      pan:    [{ kind: "arc", from: [-0.62, -0.34], to: [0.34, 0.62], curve: "sCurve" },
+               { kind: "lfo", bars: [[37, 2], [17, 1]], depth: [0.08, 0.22],
+                 shape: "sin", freePhase: true }],
+      panHz:  [{ kind: "arc", from: [0.06, 0.11], to: [0.10, 0.20] }],
+      panDep: [{ kind: "arc", from: [0.10, 0.22], to: [0.16, 0.34] }],
     },
     /* ══ AND THREE PLUCKED VOICES HAD NO HAND ON THEM AT ALL ═════════════════
        [owner, 2026-08-16: "are we using amply automation for texture and
@@ -30074,6 +30176,20 @@ GENRE.boxcarsynth = {
                shape: "sin", freePhase: true }],
     },
     slideGlass: {
+      /* THE ANSWER COMES FROM SOMEWHERE ELSE, or it is not an answer: the slide
+         sits wide right, past the wurly and opposite the banjo.
+
+         Merged INTO this block rather than declared as a second `slideGlass:`
+         key -- which is what I wrote first, and a duplicate key in an object
+         literal is silently overwritten by the later one, so three lanes read
+         as "*** PARKED -- nothing rides it" while the table appeared to
+         declare them. probe_automation caught it in one run. */
+      pan:    [{ kind: "arc", from: [0.44, 0.56], to: [0.34, 0.46], curve: "sCurve" },
+               { kind: "section", by: { bridge: [-0.20, -0.06] } },
+               { kind: "lfo", bars: [[41, 2], [23, 1]], depth: [0.04, 0.11],
+                 shape: "sin", freePhase: true }],
+      panHz:  [{ kind: "arc", from: [0.05, 0.08], to: [0.07, 0.13] }],
+      panDep: [{ kind: "arc", from: [0.05, 0.11], to: [0.09, 0.18] }],
       scoop: [{ kind: "section", by: { bridge: [0.08, 0.22], chorus: [-0.10, -0.03] } },
               { kind: "lfo", bars: [[29, 2], [41, 1]], depth: [0.03, 0.10],
                 shape: "sin", freePhase: true },
