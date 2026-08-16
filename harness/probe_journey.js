@@ -162,10 +162,28 @@ const check = (name, ok, note) => {
              downbeat, in that order — and the conductor's bell after it.
              This is the owner's "makes a call before and after the train
              starts again" written as an inequality. */
-          const call  = firstIn(scene, /Call/,          A - 40, A);
-          const guard = firstIn(scene, /Guard/,         A - 40, A);
-          const eng   = firstIn(scene, /Depart|Peep/,   A - 40, A);
-          const bell  = firstIn(scene, /Cbell/,         A, A + barSec * 4);
+          /* ── AND THIS CHECK NAMED A SAMPLE THAT DOES TWO JOBS ──────────────
+             `eng` used to be `firstIn(scene, /Depart|Peep/, A - 40, A)` — the
+             FIRST thing matching those names in a FORTY-SECOND window. But
+             `railPeep` is the departure engine AND the genre's grade-crossing
+             `shortWhistle`, so a crossing anywhere in that window was picked
+             up as the engine and reported out of order. Seed 2 read
+             "engine 260.19" against a call at 280.4: the engine was exactly
+             where the script puts it (A - 1.6) and the probe had found a
+             crossing thirty seconds earlier instead.
+
+             It went red when a terrain re-deal moved a crossing into the
+             window, which means the check had been passing by luck rather
+             than by construction. The engine is searched from THE GUARD
+             ONWARDS, because that is where the script actually puts it —
+             derive the window from the thing being checked, not from a round
+             number. [harness/README.md: "Anything that LISTS what the program
+             contains will go stale."] */
+          const call  = firstIn(scene, /Call/,   A - 40, A);
+          const guard = firstIn(scene, /Guard/,  A - 40, A);
+          const eng   = guard == null ? null
+                      : firstIn(scene, /Depart|Peep/, guard + 1e-6, A);
+          const bell  = firstIn(scene, /Cbell/,  A, A + barSec * 4);
           if(call != null) out.callsGot++;
           out.callsWanted++;
           if(call != null && guard != null && eng != null && bell != null &&

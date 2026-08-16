@@ -29135,6 +29135,80 @@ GENRE.boxcarsynth = {
     mixolydian: [[[6, 6, 3, 3], 3], [[3, 3, 6, 6], 2]],
     major:      [[[3, 3, 4, 4], 3], [[5, 5, 3, 3], 2], [[1, 1, 4, 4], 1]],
   },
+  /* ── THE TOWN LEAVES HOME — THE SO WHAT MOVE ──────────────────────────────
+     [owner, 2026-08-16: the songs "can feel stale"; and asked what the harmony
+     should do at a stop, he chose: "the road is the tonic; the town is where
+     the harmony departs from it, and PULLING OUT OF THE STATION IS THE
+     RETURN."]
+
+     MEASURED BEFORE THE FIX, and it is the worst number this genre has:
+     `CHORUS HAS ITS OWN CHANGES` was **0/24 boxcar records against 24/24 for
+     dungeon synth**, the genre this one is a subgenre of. `chorusProgressions`
+     was built as the answer to "it's too static for far too long" and this
+     table, written afterwards, never declared it — so the chorus fell through
+     to `chords` and the record was two chords for eleven minutes [11 of 12
+     seeds; docs/genre-research/modal-jazz.md §4b].
+
+     AND THE CHORUS IS THE TOWN HERE. It is the section that does not carry
+     the `drone` role, so the train is standing in it and the drums are out
+     [§3a]. That makes this the arrival — the thing the whole journey is for —
+     and it was landing on the identical two chords as the countryside the
+     train had just crossed.
+
+     WHY THESE SHAPES, and it is not the same argument dungeon synth made:
+
+     · THEY STAY AWAY FOR THE WHOLE CELL. Dungeon synth's chorus rows come
+       home inside themselves (`[5,5,0,0]` is bVI-then-i). These mostly do
+       not, because the owner put the return at the section boundary rather
+       than inside the section — which is also what the source does: "So
+       What"'s B section is eight bars of E-flat Dorian that never touches D,
+       and the return IS the A section arriving. The chorus is 8 bars and the
+       cell is 4, so a row here is heard twice and then the verse comes home.
+     · A THIRD FROM HOME, NOT A STEP. The common-tone arithmetic at the head
+       of `progressions` holds: III and VI are a third from the tonic and keep
+       TWO of its three notes, so the floor moves without the record becoming
+       a different piece. Step-motion rows are kept low as colour.
+     · NO V-I ANYWHERE. A town is somewhere you arrive, not something that
+       resolves. The plagal IV does the arriving [raw/overworld-and-materials
+       .md: "cadences plagal only (IV-I), never V-I"], and mixolydian's v is
+       minor on purpose — "the folk major that pulls nowhere" is this table's
+       own phrase for the mode and it applies to the stop as well.
+     · AND THEY AVOID THE BRIDGE'S VOCABULARY. The bridge above is the NIGHT
+       RUN and leans on IV-bVII; the town leans on III and VI, which the
+       bridge never uses. Two departures that sound the same are one
+       departure heard twice.
+     · EVERY ROW CONTAINS A DEGREE THE ROAD NEVER PLAYS, and the first draft
+       broke this. `progressions` above reaches only degrees {0,3,5} in
+       dorian, {0,5,6} in minor, {0,3,6} in mixolydian and {0,3,4} in major.
+       A dorian row of `[3,3,0,0]` is therefore IV-then-i — THE ROAD'S OWN TWO
+       CHORDS ROTATED — and seed 1 duly printed a road of `C#m C#m C#m F#`
+       against a town of `F# F# C#m C#m`. That is a new section on paper and
+       the same harmony to an ear. Both offending rows were replaced with ones
+       built on III and vi, the degrees the road cannot reach.
+
+     [Shapes are the modal-shuttle vocabulary of the main table, rotated to
+     open away from home — lolth, dungeonsynth.proboards.com/thread/1491. The
+     weights are a judgement and nothing has heard them.] */
+  chorusProgressions: {
+    dorian:     [[[3, 3, 2, 2], 5],   // IV-III: IV carries dorian's natural 6,
+                                      // the one note that proves the mode
+                 [[2, 2, 3, 3], 4],   // III-IV, the same pair entered the other way
+                 [[4, 4, 3, 3], 3],   // v-IV: the minor dominant, no leading tone
+                 [[2, 2, 0, 0], 2]],  // III home — comes back, but on a new chord
+    minor:      [[[2, 2, 5, 5], 5],   // III-bVI: both a third out, two held each
+                 [[3, 3, 2, 2], 4],   // iv-III
+                 [[5, 5, 2, 2], 3],
+                 [[2, 2, 0, 0], 2]],  // III home, as colour
+    mixolydian: [[[5, 5, 3, 3], 5],   // vi-IV: the relative minor is the
+                                      // lonesome half of the bittersweet
+                 [[3, 3, 5, 5], 4],
+                 [[4, 4, 3, 3], 3],   // v-IV, the modal minor v again
+                 [[5, 5, 0, 0], 2]],  // vi home
+    major:      [[[3, 3, 5, 5], 5],   // IV-vi: the plagal warmth, then the shade
+                 [[1, 1, 3, 3], 4],   // ii-IV: a third apart, two held, no V
+                 [[5, 5, 1, 1], 3],
+                 [[5, 5, 0, 0], 2]],  // vi-I: the relative minor into the light
+  },
   /* registers sized so every pooled instrument CONTAINS its band — the
      register arithmetic, zero narrowing by construction [sheet §7]:
      banjo [48,84] ⊇ keys [52,69] and ostinato [64,84]; harmonica [48,84]
@@ -29236,11 +29310,27 @@ GENRE.boxcarsynth = {
     signalLevel: [0.34, 0.14],
     longWhistle: ["railWhistle"], shortWhistle: ["railPeep"], crossBell: ["railBell"],
     stations: [["city", 3], ["halt", 2]],
-    /* the ride starts before dawn and takes most of a day: that is the
-       genre's dark-to-light clock made literal, and it is what decides
-       whether there are birds [sheet §5] */
+    /* ── THE RIDE IS TIMED FROM ITS SUNRISE BACKWARDS ──────────────────────
+       [sheet §5; the arithmetic and the 100,000-draw measurement that
+       condemned the old numbers are in makeChart]
+
+       `lightAt` is WHERE IN THE RECORD the light changes, and the departure
+       hour is derived from it — so every record crosses exactly one boundary
+       and crosses it in its own middle third. `night` is how often that
+       boundary is dusk rather than dawn, which is the brief's "most records
+       travel toward light, some travel into night" — a sentence the old
+       physically-drawn clock could not express at all, because 0.0% of records
+       ever reached dusk.
+
+       So a dawn record now departs between about 01:00 and 04:20 for a five to
+       eight hour run, which is a pre-dawn freight and makes "the ride starts
+       before dawn" literally true for the first time; a night record leaves in
+       the late afternoon and rides into the dark. `startHour` is kept only as
+       the fallback for a caller with no clock. [CHOSEN] */
+    hours: [5, 3],
+    lightAt: [0.34, 0.28],
+    night: 0.25,
     startHour: [4.5, 2.5],
-    hours: [5, 6],
     dawn: 6, dusk: 20.5,
     terrain: {
       farm:  { beds: ["sceneDawn"], dawnBeds: ["sceneDawn"], day: true, sound: 0.45,
@@ -29367,6 +29457,10 @@ GENRE.boxcarsynth = {
     matrix: {
       keysRoom: [{ kind: "section", by: { chorus: [-0.30, -0.12], outro: [-0.14, -0.05] } },
                  { kind: "lfo", bars: [[31, 2], [43, 1]], depth: [-0.10, -0.02],
+                   shape: "sin", freePhase: true },
+                 /* negative, like its partner: this send starts open, so all
+                    its travel is downward */
+                 { kind: "lfo", bars: [[17, 2], [23, 1]], depth: [-0.05, -0.01],
                    shape: "sin", freePhase: true }],
       leadRoom: [{ kind: "section", by: { chorus: [-0.34, -0.14], intro: [-0.12, -0.04] } },
                  { kind: "arc", from: [-0.22, -0.08], to: [-0.06, 0], curve: "sCurve" }],
@@ -29382,10 +29476,44 @@ GENRE.boxcarsynth = {
        The pick brightens as the record brightens (it travels with the key
        change, which is the genre's clock); the vibrato widens at the apex,
        where a player leans in; the slide scoops further in the dark. */
+    /* ══ AND EVERY MOVING LANE GETS A SECOND CYCLE THAT DOES NOT DIVIDE IT ════
+       [owner, 2026-08-16, having listened: "the same loop keeps returning"]
+
+       MEASURED [docs/genre-research/modal-jazz.md §4a-ii]: the cell is four
+       bars and it goes round FORTY-FOUR TIMES in a record. The notes are not
+       the lever — `dungeon-synth-critique.md` is explicit that this family's
+       best practice "varies TEXTURE around few notes", and that adding and
+       redistributing notes is "precisely the 'simplistic, not simple' failure
+       the critics name". So the loop has to stop SOUNDING the same rather than
+       stop being the same, which is also the owner's own rule 5: "the texture
+       varied is something we do want".
+
+       `how-a-drone-evolves.md` §4 ranks nine mechanisms and puts "cycles whose
+       periods do not divide" at #2, and its POSTSCRIPT P.1 is the arithmetic:
+       "one LFO of 71 bars is a shape and an ear learns a shape; two
+       free-running cycles of 71 and 23 bars sum to a composite that does not
+       come round until bar 1633." That postscript also MEASURED the gap —
+       **plastikman stacks two LFOs of different periods on 35 of 77 lanes;
+       dungeon synth on 0 of 118** — and boxcar synth was on zero too.
+
+       So each lane that carried one LFO now carries two: the second faster, on
+       a co-prime pool, at a shallower depth. A second layer, not a doubling.
+       `motionAt` sums a lane's moves [see motionAt], so this is a table change
+       and nothing else. Every period is prime, so no pair can share a factor,
+       and `freePhase` stops them starting together.
+
+       NOT a slow continuous sweep — §6b of the same sheet measured listeners
+       missing a three-semitone change nearly half the time. Two shapes that
+       never line up is a different device from one shape moving slowly.
+       [the periods are CHOSEN; the mechanism and the ranking are corpus] */
     banjo: {
       pick: [{ kind: "arc", from: [-0.14, -0.04], to: [0.06, 0.20], curve: "sCurve" },
              { kind: "section", by: { chorus: [0.04, 0.12], bridge: [-0.14, -0.05] } },
              { kind: "lfo", bars: [[23, 2], [37, 1]], depth: [0.02, 0.07],
+               shape: "sin", freePhase: true },
+             /* the roll is 92% of the record, so it is the part an ear learns
+                fastest and the one that most needs a second hand on it */
+             { kind: "lfo", bars: [[13, 2], [19, 1]], depth: [0.015, 0.045],
                shape: "sin", freePhase: true }],
     },
     harmonica: {
@@ -29395,6 +29523,8 @@ GENRE.boxcarsynth = {
     slideGlass: {
       scoop: [{ kind: "section", by: { bridge: [0.08, 0.22], chorus: [-0.10, -0.03] } },
               { kind: "lfo", bars: [[29, 2], [41, 1]], depth: [0.03, 0.10],
+                shape: "sin", freePhase: true },
+              { kind: "lfo", bars: [[11, 2], [17, 1]], depth: [0.02, 0.06],
                 shape: "sin", freePhase: true }],
       tone:  [{ kind: "arc", from: [-0.12, -0.04], to: [0.06, 0.18], curve: "sCurve" }],
     },
@@ -29427,6 +29557,10 @@ GENRE.boxcarsynth = {
                                        outro: [-0.34, -0.18] } },
               { kind: "apex", from: [-0.10, -0.03], to: [0.10, 0.26] },
               { kind: "lfo", bars: [[23, 2], [31, 1]], depth: [0.03, 0.09],
+                shape: "sin", freePhase: true },
+              /* the train is the one voice present for the whole record, so a
+                 single cycle on it is the shape an ear learns first */
+              { kind: "lfo", bars: [[13, 2], [17, 1]], depth: [0.02, 0.05],
                 shape: "sin", freePhase: true }],
       /* THE WINDOW IS THE LIGHT. It opens across the record with the key
          change — the genre's dark-to-light clock, heard on the one voice that
@@ -29434,6 +29568,8 @@ GENRE.boxcarsynth = {
       window: [{ kind: "arc", from: [-700, -250], to: [400, 1600], curve: "sCurve" },
                { kind: "section", by: { bridge: [-900, -400], outro: [-600, -200] } },
                { kind: "lfo", bars: [[19, 2], [29, 1]], depth: [80, 260],
+                 shape: "sin", freePhase: true },
+               { kind: "lfo", bars: [[11, 2], [17, 1]], depth: [40, 130],
                  shape: "sin", freePhase: true }],
       /* the weight under the floor: heaviest in the dark, lightest as the
          record clears */
@@ -29450,8 +29586,18 @@ GENRE.boxcarsynth = {
               shape: "sin", freePhase: true }],
     },
     vp330: {
-      ens:   [{ kind: "lfo", bars: [[19, 2], [29, 1]], depth: [0.04, 0.12], shape: "sin" }],
-      choir: [{ kind: "section", by: { chorus: [0.06, 0.18], bridge: [0.04, 0.14] } }],
+      /* ── AND THIS ONE IS THE WORST CASE IN THE GENRE ───────────────────────
+         MEASURED: `keys2` holds **2.3 distinct bars, each heard seventeen
+         times** — the choir pad is one chord a bar over a two-chord record, so
+         its NOTES cannot carry variety however the harmony is written. It is
+         the exact part the texture-not-notes doctrine was written for, so it
+         gets the pair. */
+      ens:   [{ kind: "lfo", bars: [[19, 2], [29, 1]], depth: [0.04, 0.12], shape: "sin" },
+              { kind: "lfo", bars: [[7, 2], [13, 1]], depth: [0.02, 0.06],
+                shape: "sin", freePhase: true }],
+      choir: [{ kind: "section", by: { chorus: [0.06, 0.18], bridge: [0.04, 0.14] } },
+              { kind: "lfo", bars: [[23, 2], [31, 1]], depth: [0.03, 0.09],
+                shape: "sin", freePhase: true }],
     },
     /* ── THE DELAY IS THE DISTANCE DOWN THE LINE ───────────────────────────── */
     echo: {
@@ -30497,6 +30643,56 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll, 
      Written before the freeze and drawing nothing -- it is arithmetic on an
      input the hand supplied, not a decision the program makes. */
   chart.wantBars = wantSec ? barsForSec(wantSec, chart.tempo, chart.table) : null;
+  /* ══ THE CLOCK — AND IT IS DRAWN BACKWARDS ON PURPOSE ══════════════════════
+     [the owner's founding brief: "a change in key and tone to show the change
+     of time from dark to light"; docs/genre-research/boxcar-synth.md §5]
+
+     The trip planner has always had a clock and it drew the ride PHYSICALLY: a
+     departure hour, a duration, and then dawn fell wherever the arithmetic put
+     it. MEASURED over 100,000 draws of the shipped numbers — `startHour`
+     [4.5, 2.5], `hours` [5, 6], dawn 6, dusk 20.5:
+
+         59.9%  cross dawn      median position in the record  0.093
+          0.0%  cross dusk      the latest arrival is 18:00, against a 20:30 dusk
+         40.1%  NO LIGHT EVENT AT ALL
+
+     So two records in five had no sunrise; NO RECORD HAS EVER REACHED DUSK, so
+     the brief's "some travel into night" was unreachable by construction; and
+     when the sun did come up it came up a tenth of the way in, before the
+     record had established anything for it to change. **0.0% of dawns landed
+     in the window the key lift actually used.**
+
+     This draws the same object from the other end: WHERE IN THE RECORD THE
+     LIGHT CHANGES is drawn first, and the departure hour is derived from it.
+     That is the trip planner's own philosophy — the itinerary is laid out
+     first and the record is played against it [sheet §4c] — applied one level
+     up, and it puts the crossing where a musical event can use it.
+
+     IT LIVES HERE, ON THE CHART, rather than in the planner, because two
+     things need it and they run in different stages: the key lift in stage 4
+     and the landscape in stage 5. A second clock for one more number is how
+     the two get out of step — the medium already learned that exact lesson
+     [sheet §8b, "a second channel for one more number is how the two get out
+     of step"].
+
+     ALL THREE DRAWS RUN WHETHER OR NOT THE GENRE ASKS [Law 3], on their own
+     named substream, so adding a `trip` to one table cannot move a note in any
+     other genre, and a genre that declares none computes what it always did. */
+  const rngClk = stream(seed, "clock");
+  const TRP = chart.table.trip || {};
+  const HRS = TRP.hours || [5, 6], LAT = TRP.lightAt || [0.34, 0.28];
+  const clkHours = HRS[0] + rngClk() * HRS[1];
+  const clkNight = rngClk() < (TRP.night == null ? 0.25 : TRP.night);
+  const clkAt    = LAT[0] + rngClk() * LAT[1];
+  const clkDawn  = TRP.dawn == null ? 6 : TRP.dawn;
+  const clkDusk  = TRP.dusk == null ? 20.5 : TRP.dusk;
+  chart.clock = chart.table.trip ? Object.freeze({
+    /* the record crosses exactly ONE light boundary and `at` is where, as a
+       fraction of the record. `night` picks which boundary it is: dawn is the
+       dark-to-light record the brief centres on, dusk is the lonesome one. */
+    at: clkAt, night: clkNight, hours: clkHours, dawn: clkDawn, dusk: clkDusk,
+    hour0: (clkNight ? clkDusk : clkDawn) - clkAt * clkHours,
+  }) : null;
   return Object.freeze(chart);
 }
 
@@ -31418,8 +31614,37 @@ function makeMaterials(chart, editPlan, arcPlan){
   const ksPick = rngK();
   /* the genre's own bridge modes, minus the one it is already in */
   const ksModes = Object.keys(G.bridgeProgressions).filter(m => m !== mode);
-  const bMode = (ksOn && ksChange && ksModes.length)
-    ? ksModes[Math.floor(ksPick * ksModes.length) % ksModes.length]
+  /* ── AND IF THE RECORD HAS A CLOCK, THE SUN DECIDES WHICH WAY ──────────────
+     Wiring the lift to the clock [see makeChart, makeArrangement] left one
+     thing incoherent, and the guard printed it: with a quarter of records now
+     crossing DUSK, `probe_journey` still measured "16/17 records moved into a
+     brighter mode". A record whose sun is going down was brightening.
+
+     The clock says WHEN the light changes and WHICH boundary it is; this says
+     which way the mode goes with it. Brightness is ranked by the third and the
+     sixth, which is what an ear actually hears as light or dark — the same
+     ranking `probe_journey` uses to make its claim, so the check and the thing
+     checked agree on the word.
+
+     `ksPick` is drawn above and unchanged, and a genre with no clock keeps the
+     whole list — minimal techno and dungeon synth pick exactly as they did. If
+     the wanted direction has no mode available the full list is used rather
+     than the change being dropped: a lift the record cannot aim is still
+     better than a lift that does not happen [key-shift.md §3, "a harmonic
+     event nobody hears is not a harmonic event"]. */
+  const KS_BRIGHT = { major: 3, lydian: 3, mixolydian: 2, dorian: 1,
+                      minor: 0, aeolian: 0, phrygian: -1, locrian: -1,
+                      carpathian: -1, andean: -1 };
+  const ksLit = m => (KS_BRIGHT[m] == null ? 1 : KS_BRIGHT[m]);
+  let ksPool = ksModes;
+  if(chart.clock && ksModes.length){
+    const here = ksLit(mode);
+    const want = ksModes.filter(m => chart.clock.night ? ksLit(m) < here
+                                                       : ksLit(m) > here);
+    if(want.length) ksPool = want;
+  }
+  const bMode = (ksOn && ksChange && ksPool.length)
+    ? ksPool[Math.floor(ksPick * ksPool.length) % ksPool.length]
     : mode;
   const bKey = ksOn ? pc(root + ksBy) : root;
   /* the bridge's harmony: the departure -- rotated to open OFF the tonic
@@ -36782,8 +37007,29 @@ function makeArrangement(chart, form, materials){
      is chosen per section and a section has one key. */
   const TOTAL = form.length ? form[form.length - 1].endBar : 0;
   const LIFTED = !!(materials.lift && materials.Alift);
+  /* ── AND IF THE RECORD HAS A CLOCK, THE LIFT IS THE SUN ────────────────────
+     [boxcar-synth.md §5: "a change in key and tone to show the change of time
+     from dark to light" — the genre's founding gesture, and until now the one
+     thing in its brief that was never actually wired.] A genre declaring a
+     `trip` carries a real sunrise on `chart.clock`, drawn backwards from where
+     in the record the light changes [see makeChart]. This is the single place
+     the journey is allowed to decide something musical.
+
+     AND IT DOES NOT COME BACK, which is a DELIBERATE DEPARTURE FROM THE
+     SOURCES. key-shift.md §1 says of "So What" and "Milestones": "Both come
+     back. Neither tune leaves and stays gone." A sunrise does not come back.
+     The record after the light changes stays changed, because that is what a
+     journey from dark to light IS — it arrives somewhere else rather than
+     returning home, and the outro belongs on the far side of the change
+     rather than outside it. [owner, 2026-08-16, asked to choose between once a
+     record and every town: "Once — dawn happens once."]
+
+     A genre with no clock keeps the structural window exactly — minimal techno
+     and dungeon synth are byte-identical by construction. */
+  const CLK = chart.clock;
   const inLift = sec => {
     const mid = (sec.startBar + sec.endBar) / 2;
+    if(CLK) return mid >= CLK.at * TOTAL;
     return mid >= 0.40 * TOTAL && mid < 0.67 * TOTAL;
   };
 
@@ -37901,9 +38147,19 @@ function makePerformance(chart, form, materials, sections){
        The record starts at an hour and the ride takes hours, so a long record
        genuinely crosses more of the day. DAWN and DUSK are the only two
        numbers that matter to the sound: birds are a daylight fact. */
+    /* ── AND THE CLOCK IS THE CHART'S NOW, NOT DRAWN AGAIN HERE ────────────
+       It is drawn backwards from the light crossing at chart time, so the key
+       lift and this landscape read the SAME sunrise [see makeChart]. Drawing
+       it twice is how the band and the world end up on different days, and
+       that failure already has a name in this file [sheet §8b].
+
+       Removing the two draws that used to be here shifts every terrain draw
+       after them, so a boxcar record's countryside is re-dealt by this change.
+       That is a real music change and it is intended, not a side effect.
+       `startHour` survives only as the fallback below. */
     const H = TR.startHour || [4.5, 5];
-    TRIP.hour0 = H[0] + tr() * H[1];
-    TRIP.hours = (TR.hours || [5, 6])[0] + tr() * (TR.hours || [5, 6])[1];
+    TRIP.hour0 = chart.clock ? chart.clock.hour0 : H[0];
+    TRIP.hours = chart.clock ? chart.clock.hours : (TR.hours || [5, 6])[0];
     const DAWN = TR.dawn == null ? 6 : TR.dawn, DUSK = TR.dusk == null ? 20.5 : TR.dusk;
     const hourAt = t => TRIP.hour0 + (t / Math.max(1, totalSec)) * TRIP.hours;
     const daylight = t => { const h = hourAt(t); return h > DAWN && h < DUSK; };
@@ -37964,11 +38220,28 @@ function makePerformance(chart, form, materials, sections){
            never used: LONG-LONG-SHORT-LONG, sounded on approach to a public
            grade crossing, and still law [Trains Magazine, GCOR; sheet §4].
            The bell answers as the train goes over it. */
-        if(T0.crossing && tr() < T0.crossing){
+        /* ── AND THE SIGNAL MUST FIT INSIDE THE SEGMENT THAT SOUNDS IT ────
+           The group spans 6.2 s from the first blast to the bell, and `at0`
+           was a flat 35% into the segment — so on any segment shorter than
+           about 9.5 s the BELL LANDED PAST THE END OF THE LEG, which on a
+           final segment means on the platform. The bell carries `pass: true`,
+           so what it produced was a doppler sweeping past a standing train.
+
+           The river six lines below already had this exact guard — "the
+           crossing FITS INSIDE ITS OWN SEGMENT" — and it was never applied
+           up here. It stayed invisible until the clock change re-dealt the
+           terrain and `probe_journey`'s "the landscape passes only while the
+           train is moving" caught two of them.
+
+           The draw still happens exactly where it did [Law 7]; only the
+           emission is suppressed, so a terrain's stream position is
+           unchanged by this test. */
+        const SIG = 6.8;
+        if(T0.crossing && tr() < T0.crossing && len >= SIG + 2){
           const lo = pickOf(TR.longWhistle || ["railWhistle"]);
           const sh = pickOf(TR.shortWhistle || ["railPeep"]);
           const bl = pickOf(TR.crossBell || ["railBell"]);
-          const at0 = t + len * 0.35, g = (TR.signalLevel || [0.34, 0.14]);
+          const at0 = t + Math.min(len * 0.35, len - SIG), g = (TR.signalLevel || [0.34, 0.14]);
           const gl = g[0] + tr() * g[1];
           if(lo) put(lo, at0, gl);
           if(lo) put(lo, at0 + 1.5, gl);

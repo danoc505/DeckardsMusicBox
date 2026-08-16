@@ -398,6 +398,51 @@ that happen to occur in the same song. §5 of the founding sheet is, in the
 strict sense, not built — the machinery exists, and it is aimed at the bar
 count instead of at the sun.
 
+### 4f-ii. AND THE CLOCK COULD NOT CARRY IT ANYWAY — measured
+
+Rewiring the lift to the clock is not enough, because **the clock as declared
+does not put the sun anywhere useful.** The trip draws
+`startHour: [4.5, 2.5]`, `hours: [5, 6]`, `dawn: 6`, `dusk: 20.5` — so a
+record departs between **04:30 and 07:00** and runs **5 to 11 hours**,
+arriving between 09:30 and 18:00. Over 100,000 draws of that arithmetic:
+
+| | |
+|---|---|
+| records that cross **dawn** | **59.9%** |
+| records that cross **dusk** | **0.0%** |
+| records with **no light event at all** | **40.1%** |
+| when dawn does happen, its position in the record | **median 0.093**, 90th pct 0.185, max 0.297 |
+| dawns landing in the current lift window (0.40–0.67) | **0.0%** |
+
+Three things follow, and they are all facts about the founding brief rather
+than about the code:
+
+1. **Two records in five have no sunrise.** They depart after dawn and arrive
+   before dusk, so "dark to light" has nothing to attach to.
+2. **No record has ever reached dusk.** The latest possible arrival is 18:00
+   against a dusk of 20:30, so the brief's "some travel into night" — the
+   lonesome half of the bittersweet centre — is **unreachable by
+   construction**, and always has been.
+3. **When the sun does come up it comes up nine percent in**, before the
+   record has established anything for it to change.
+
+So Phase 2 is two jobs, not one: aim the lift at the clock, **and give the
+clock a sunrise worth aiming at.** The cleanest way round is to stop drawing
+the departure hour and then seeing where dawn falls, and instead **draw where
+in the record the light changes and derive the departure hour from it** —
+which is the same "plan the trip first, then play the record against it" move
+the SFX planner already makes [§4c of the founding sheet], applied one level
+up. A record then departs at ~02:45 for a 6-hour run and meets the sunrise in
+its middle third, which is what the brief has said since the beginning.
+
+**One cost, stated rather than buried:** a mid-record dawn makes NIGHT a real
+half of the record instead of a first tenth, and `boxcar-synth.md` §8c already
+records that night currently means only "no birds". It is not silence — `open`
+and `river` carry no `day: true`, so wind and water sound at night and only
+`farm` and `woods` go quiet — but it is sparse. That raises the value of the
+owl and the two cicadas [§8c, task #101] and raises the cost of not having
+them.
+
 ---
 
 ## 5. AND THE PLANNER HAS NO MUSICAL AUTHORITY AT ALL
@@ -569,6 +614,202 @@ happened.
 - **Do not touch the texture engine.** §4a says it is working.
 
 ---
+
+## 7a. WHAT PHASE 1 BUILT — the town leaves home
+
+Shipped: `chorusProgressions` on `GENRE.boxcarsynth`, four rows a mode across
+dorian, minor, mixolydian and major.
+
+**The shapes are not dungeon synth's.** That table's rows come home inside
+themselves (`[5,5,0,0]` is bVI-then-i). These mostly do not, because the owner
+put the return at the section boundary rather than inside the section:
+
+> *"the road is the tonic; the town is where the harmony departs from it, and
+> **pulling out of the station is the return**."* — the owner, 2026-08-16
+
+Which is also what the source does. "So What"'s B section is eight bars of
+E♭ dorian that never touches D, and the return **is** the A section arriving.
+The chorus here is 8 bars against a 4-bar cell, so a row is heard twice and
+then the verse comes home.
+
+Three rules the rows obey, and the third was a defect caught in the first
+draft:
+
+1. **A third from home, not a step** — III and VI keep two of the tonic's
+   three notes [the common-tone arithmetic at the head of `progressions`].
+2. **No V–I anywhere.** The plagal IV does the arriving; mixolydian's v stays
+   minor. A town is somewhere you arrive, not something that resolves.
+3. **Every row contains a degree the road cannot reach.** `progressions`
+   touches only {0,3,5} in dorian, {0,5,6} in minor, {0,3,6} in mixolydian,
+   {0,3,4} in major. The first draft's dorian row `[3,3,0,0]` is therefore
+   **the road's own two chords rotated**, and seed 1 duly printed a road of
+   `C#m C#m C#m F#` against a town of `F# F# C#m C#m` — a new section on paper
+   and the same harmony to an ear. Both offending rows were rebuilt on III
+   and vi. **Checked over 60 seeds: 0 towns add no new chord, 0 towns have no
+   changes, 0 towns sit wholly inside the bridge's set.**
+
+### And it moved much more than the chorus
+
+Because `:31440` gives a declaring genre's chorus **its own bass and figure**
+as well as its chords — "new chords under the old root would be the harmony
+moving while nothing else does, which is half a change" — one table entry
+reduced repetition across the whole record. `probe_repetition.js`, 24 seeds:
+
+| | before | after | dungeon synth |
+|---|---|---|---|
+| chorus has its own changes | **0/24** | **24/24** | 24/24 |
+| distinct chords in the whole record | 4.8 | **6.0** | 4.5 |
+| ostinato — distinct bars / each heard | 23.5 / **×6.7** | **36.3 / ×4.4** | 33.6 / ×3.9 |
+| keys | 22.8 / ×7.5 | **31.1 / ×5.5** | 24.9 / ×4.2 |
+| keys2 | 1.7 / ×24.4 | **2.3 / ×17.4** | 4.8 / ×14.6 |
+| the ground, distinct bars | 139.1 | **146.3** | 125.9 |
+
+**The banjo roll went from being heard 6.7 times a bar-idea to 4.4** — a 34%
+cut in repetition from a table entry, and it now sits close to the parent
+genre's 3.9. That is the cheapest change in this whole sheet and it moved the
+most.
+
+**The bass did not move at all** (14.7 distinct, ×6.6, identical). That is
+correct rather than broken: `bassStyle: "drone"` pedals the tonic, and a pedal
+does not care what is above it. What it means is that the town's departure is
+happening **over a held tonic** — III/i and VI/i rather than a moved floor —
+which is Naima's device [§2c] arriving by accident. Whether the ground should
+move under a town too is now a real question and is not answered here.
+
+**And `keys2` is still the worst number in the genre**: 2.3 distinct bars,
+heard seventeen times each. Phase 1 barely touched it. That belongs to
+Phase 3.
+
+## 7b. WHAT PHASE 2 BUILT — the lift is the sunrise
+
+Three changes and one guard fix.
+
+**1. The clock moved to the chart, and it is drawn backwards.** `chart.clock`
+is computed in `makeChart` on its own `stream(seed, "clock")` substream, and it
+draws **where in the record the light changes** first, then derives the
+departure hour from it. Both consumers read the one object: the key lift in
+stage 4 and the landscape in stage 5. The planner's own two draws are gone —
+"a second clock for one more number is how the two get out of step" is the
+lesson the medium already taught this file [founding sheet §8b].
+
+**2. The lift window follows it.** `mid >= CLK.at * TOTAL` replaces
+`mid >= 0.40 * TOTAL && mid < 0.67 * TOTAL` **for genres that declare a
+trip only**. Minimal techno and dungeon synth keep the structural window
+exactly.
+
+**AND IT DOES NOT COME BACK — a deliberate break with the sources.**
+`key-shift.md` §1 says of "So What" and "Milestones": *"Both come back.
+Neither tune leaves and stays gone."* A sunrise does not come back. The record
+after the light changes stays changed, because a journey from dark to light
+**arrives somewhere else rather than returning home**, and the outro belongs
+on the far side of the change. Recorded as a decision, not an oversight.
+
+**3. The direction follows the sun.** Wiring the lift to the clock left one
+thing incoherent and the guard printed it: with a quarter of records now
+crossing dusk, `probe_journey` still read *"16/17 records moved into a brighter
+mode"* — records whose sun was going down were brightening. The lift's mode is
+now filtered to brighter-than-current at dawn and darker-than-current at dusk,
+ranked by the third and the sixth (the same ranking the probe uses, so the
+check and the thing checked agree on the word).
+
+### Measured, 60 seeds
+
+| | before | after |
+|---|---|---|
+| records with **no light event at all** | **40.1%** | **0** |
+| records crossing **dusk** — "some travel into night" | **0.0%** | **25%** |
+| where the light change lands | median **0.093**, max 0.297 | median **0.49**, range 0.34–0.61 |
+| key lift **built** | 16/24 | 38/60 (63%, declared 65%) |
+| key lift actually **played** | — | **38/38** |
+| share of the record's bars in the new mode | — | 39% |
+
+And the direction, over 120 seeds: **dawn records that brightened 47/47**;
+**dusk records that darkened 16/23**. The seven that did not are records
+already in `minor` — the darkest mode boxcar's `bridgeProgressions` contains —
+so they hit the documented fallback rather than losing the lift entirely. That
+is honest and it is also an open item: the genre has no mode darker than
+aeolian to travel into, and phrygian is sourced for the parent [§1 of
+`dungeon-synth.md`]. Adding it means adding it to `progressions`,
+`bridgeProgressions` and `chorusProgressions` together, so it is not a one-line
+change and it is not done.
+
+### Two guards went red, and only one of them was the program
+
+`probe_journey.js` was 11/11 at build `2026-08-16a` and dropped to 9/11 the
+moment the clock change re-dealt the terrain. **Both had been passing by luck
+rather than by construction**, which is the useful part.
+
+- **A grade-crossing bell landed on a platform.** The signal group spans 6.2 s
+  from the first blast to the bell, and it was placed a flat 35% into its
+  terrain segment — so on any segment shorter than about 9.5 s the bell fell
+  past the end of the leg, and the bell carries `pass: true`, so what it
+  produced was **a doppler sweeping past a standing train**. The river six
+  lines below already carried this exact guard — *"the crossing FITS INSIDE
+  ITS OWN SEGMENT"* — and it had never been applied to the signal. Fixed in
+  the program; the draw still happens where it did [Law 7], only the emission
+  is suppressed. **0 passes in a town, over 25 records.**
+- **The probe named a sample that does two jobs.** It found the departure
+  engine with `firstIn(scene, /Depart|Peep/, A - 40, A)` — the first match in a
+  forty-second window — but `railPeep` is the departure engine **and** the
+  genre's grade-crossing `shortWhistle`. Seed 2 reported "engine 260.19"
+  against a call at 280.4: the engine was exactly where the script puts it
+  (`A - 1.6`) and the probe had found a crossing thirty seconds earlier. Fixed
+  in the **probe** — the engine is now searched from the guard onwards, which
+  is where the script actually puts it. `harness/README.md` already names this
+  class: *"Anything that LISTS what the program contains will go stale."*
+
+`probe_journey` 11/11, `probe_route` 6/6.
+
+## 7c. WHAT PHASE 3 BUILT — a second cycle on every moving lane
+
+**The notes were deliberately not touched, and that is the argument.**
+`dungeon-synth-critique.md` is explicit that this family's best practice
+"varies TEXTURE around few notes", and that adding and redistributing notes is
+*"precisely the 'simplistic, not simple' failure the critics name"*. The
+owner's own rule 5 says the same thing from the other side: "marked by its
+movement, not its stale repetition, **but the texture varied is something we
+do want**". So the four-bar cell stays four bars and stops **sounding** the
+same instead.
+
+`materialBars: 8` was the obvious alternative — the mechanism exists, one genre
+already declares it, and a 4-chord progression wraps under an 8-bar material so
+the harmonic rhythm would not have changed. It would have halved the 44
+repetitions to 22 at a stroke. **Rejected on the repo's own critique**: it is
+exactly the "add notes" move that sheet condemns. Recorded here so the owner
+can overrule it, because it is the single biggest available lever on the raw
+repetition count.
+
+What was built instead is `how-a-drone-evolves.md` §4's **#2 of nine ranked
+mechanisms**, and the same sheet's POSTSCRIPT P.1 measured that this genre did
+not have it:
+
+> "one LFO of 71 bars is a shape and an ear learns a shape; two free-running
+> cycles of 71 and 23 bars sum to a composite that does not come round until
+> bar 1633" — and, measured: **"plastikman stacks two LFOs of different
+> periods on 35 of 77 lanes; dungeon synth on 0 of 118."**
+
+**Boxcar synth was on zero.** Six lanes now carry a second, faster, co-prime
+cycle at a shallower depth — the banjo's pick (the roll is 92% of the record),
+the slide's scoop, the train's level and filter window, the choir pad's
+ensemble and choir, and the keys' room send. Every period is prime so no pair
+can share a factor, and `freePhase` stops them starting together. `motionAt`
+sums a lane's moves, so this is a table change and nothing else.
+
+| | before | after | plastikman |
+|---|---|---|---|
+| lanes with two or more cycles | **0 of 24** | **6 of 24** | 35 of 77 |
+| as a share of lanes that cycle at all | **0%** | **46%** | 45% |
+
+**And `keys2` is why this is the right shape of fix.** It measures 2.3 distinct
+bars each heard seventeen times, because the choir pad is one chord a bar over
+a two-chord record — its *notes* cannot carry variety however the harmony is
+written. It is the exact part the texture-not-notes doctrine was written for,
+and it now has stacked cycles on both its lanes.
+
+**`probe_repetition` is unchanged by this phase, and that is correct** — it
+measures notes, and this phase moves none. What it changes is whether the same
+notes arrive sounding the same, which is the thing no probe in this repo
+currently measures. That gap is real and is named in §8.
 
 ## 8. WHAT THIS SHEET DOES NOT SETTLE
 
