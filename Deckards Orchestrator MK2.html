@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-16a · the world sits under the band again — measured against it, not guessed</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-16b · the train and its own sounds come back forward; only the landscape stays back</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -9318,7 +9318,27 @@ const MEDIUM_WOW_HZ = 78 / 60;
 
      Four numbers, one per class, at the one door they all pass through — so
      the next person can move the world as a whole without hunting six tables. */
-  const WORLD = { signal: 0.26, place: 0.16, pass: 0.16, weather: 0.28 };
+  /* ── AND THE TRAIN'S OWN VOICE IS NOT THE LANDSCAPE ──────────────────────
+     [owner, 2026-08-16: "Your correction broke the train and any other sfx
+     associated with it."] Right, and the mistake is visible in the name of the
+     constant: I trimmed THE WORLD, and the whistle, the brakes, the station,
+     the doors and the conductor were caught by the same brush. They are not
+     the world. They are the STORY — the things that tell you the train is
+     arriving, stopping, leaving — and they should sit forward of the
+     countryside by a wide margin.
+
+     RENDERED against the band's own rms, seed 3 and seed 5, 120 s:
+
+                          the first correction      shipped
+       the train                -12.8, -13.2 dB     about -9
+       its own sounds           -17.1, -36.7 dB     about -11
+       the landscape                    -27.2 dB     about -25
+
+     The -36.7 is the one that proves the point: on seed 5 the train's signals
+     were 37 dB under the band, which is not quiet, it is absent. The
+     landscape's own figure was right and stays near where it was — that part
+     of the correction was the part he asked for. */
+  const WORLD = { signal: 0.52, place: 0.20, pass: 0.20, weather: 0.28 };
   const worldTrim = ev => ev.pass ? WORLD.pass
                         : ev.role === "scene"   ? WORLD.place
                         : ev.role === "weather" ? WORLD.weather
@@ -16371,8 +16391,14 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
        The one thing this may NOT be is what the previous build was: 25-30 dB
        under, present in the file and absent to an ear. Normalised by the
        take's own measured peak so the two recordings land in the same place. */
+    /* 1.55 rather than 1.0 [2026-08-16]: the constant was placed when the band
+       was quieter, and the band then GREW — the banjo roll went from one
+       section function to 92% of the record with twice the notes [see
+       banjo-and-harmonica-notation.md §1d]. Rendered against the band's rms
+       the train had slipped from its designed 9 dB under to 12.8 and 13.2 on
+       two seeds. Same class of drift as the world's levels, one voice along. */
     ride(lvlG.gain, readLevel,
-         x => x * LEVEL.drone * 1.0 * Math.min(1.3, ev.gain) / (s.pk || 1));
+         x => x * LEVEL.drone * 1.55 * Math.min(1.3, ev.gain) / (s.pk || 1));
     const env = c.createGain();
     const IN = Math.min(1.6, dur * 0.12), OUT = ev.halt ? HALT : Math.min(1.2, dur * 0.10);
     env.gain.setValueAtTime(0.0001, t);

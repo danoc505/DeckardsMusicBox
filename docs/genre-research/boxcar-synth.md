@@ -324,6 +324,38 @@ The world is now four numbers — `WORLD.signal`, `.place`, `.pass`, `.weather`
 — applied at the one door they all pass through, so it can be moved as a whole
 without hunting six tables.
 
+### 4d-ii. AND THE FIRST CORRECTION OVERSHOT — `2026-08-16b`
+
+> *"Your correction broke the train and any other sfx associated with it."*
+> — the owner, on `2026-08-16a`
+
+Right, and **the mistake is visible in the name of the constant**: I trimmed
+THE WORLD, and the whistle, the brakes, the station, the doors and the
+conductor were caught by the same brush. They are not the world. They are the
+STORY — the things that tell you the train is arriving, stopping, leaving —
+and they belong forward of the countryside by a wide margin.
+
+Rendered against the band's own rms, seeds 3 and 5, 120 s:
+
+| | before `16a` | `16a` | **`16b`, shipped** |
+|---|---|---|---|
+| the train | −9 (designed) | −12.8, −13.2 | **−9.0, −9.4** |
+| **its own sounds** | at the kick | −17.1, **−36.7** | **−11.2** |
+| the landscape | −14.2 (drowning) | −27.2 | **−25.3** |
+
+The **−36.7** is what proves it: on seed 5 the train's signals were 37 dB under
+the band, which is not quiet, it is absent.
+
+**And the train itself had drifted too, for the same reason as everything else
+in this section.** Its constant was placed when the band was quieter, and the
+band then GREW — the banjo roll went from one section function to 92% of the
+record with twice the notes. It had slipped from its designed 9 dB under to
+12.8. Raised 1.0 → 1.55 and re-measured.
+
+**Three times in three builds, the same class of bug**: a level correct when it
+was set, wrong later because something it was measured against moved. That is
+now the top open item in §10.
+
 ## 4b. THE ROUTE — every section is somewhere, corrected 2026-08-15
 
 > *"the enviromental sounds need a location and reason, is it rainy? Does it
@@ -602,10 +634,16 @@ lesson of §4d.
 ## 10. WHAT IS STILL OPEN — read this before starting
 
 1. **NOT JUDGED BY EAR.** Every build listed here. This outranks everything.
-2. **Nothing watches one level against another.** §4d happened because three
-   correct, separately-measured changes left the world 10–18 dB over the band
-   and no guard compares them. A probe that holds the scene, the band and the
-   train in one measurement would have caught it the day it appeared.
+2. **NOTHING WATCHES ONE LEVEL AGAINST ANOTHER, and it has now bitten three
+   times in three builds** — §4d, §4d-ii, and the train's own drift. Every
+   individual change was correct and separately measured; what is never
+   measured is the RELATIONSHIP, so a level set against a reference stays put
+   while the reference moves. **This is the most valuable unbuilt guard in the
+   repo**: a probe that renders the band, the train, the train's own sounds and
+   the landscape in one pass and holds each to a declared dB distance from the
+   band would have caught all three the day they appeared. The measurement
+   script already exists in scratch form — it only needs to become a probe with
+   thresholds.
 3. **The night is researched and not built** — §8c.
 4. **The harmonica's sourced constraints are not enforced**: it can hold only
    the I and the V, and its bottom octave has no 4th and no 6th
