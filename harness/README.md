@@ -28,7 +28,8 @@ chain eight times in a day. It is replaced by measured costs.
 | `mk2_roll.js … --blend a:50,b:50 --trait kit=b --deal 2` | instant | the notes of an aimed blend |
 | `mk2_test.js` | **1m45s** | freely, after any change to composition |
 | `probe_stems.js <genre> <seed> [secs] [from]` | ~1.5m | any question about balance |
-| `probe_static.js <genre> [songs]` | ~40s | how much a record actually changes |
+| `probe_static.js <genre> [songs]` | ~40s | how much a record actually changes — **but see the warning below** |
+| `probe_repetition.js [genre ...] [--seeds N]` | ~40s, no browser | **what actually comes back**: the cell length and how many times it goes round, then per role the distinct bars of note content and how often each is heard, plus the declared arc against the played one |
 | `probe_palette.js <genre> [songs]` | ~40s | which of a genre's sounds get used |
 | `probe_blendshare.js [songs] [a+b ...\|--all]` | ~15s all pairs | what share of a song each genre on the faders actually supplied |
 | `mk2_ui.js` | ~2m, flaky ~1 in 5 | once before publishing — and ALWAYS for anything with a knob |
@@ -41,9 +42,43 @@ chain eight times in a day. It is replaced by measured costs.
 `mk2_test.js`'s seed argument barely moves it: 20 seeds took 1m54, 300 took
 1m44. Do not bother lowering it.
 
+**⚠ THAT 1m45 IS STALE — RE-MEASURED 2026-08-16 AT 12–15 MINUTES.** Four
+consecutive runs on an otherwise idle box, one core pinned at ~105%, 776 MB
+resident. The table above dates from 2026-08-07 and the battery has grown by
+two genres and several checks since. It is not hung at four minutes with an
+empty log: it buffers, and the first `✓` can take a while to appear — the count
+climbs steadily after that.
+
+The practical consequence is the one the table was written to prevent, pointing
+the other way: **budget a quarter of an hour, and do not start a browser probe
+beside it.** Chromium plus the battery's 776 MB is what the "killed for memory
+(exit 137)" note below is about.
+
+And when killing a stale run, kill it by PID. `pkill -f mk2_test` matches the
+shell that is running the `pkill` itself if that command line contains the
+string — which killed a fresh battery and three waiters in one stroke here, all
+reporting exit 144. `pgrep -f mk2_test` lies the same way, reporting "still
+running" for its own command.
+
 **Run browser probes ONE AT A TIME.** Four cores; four Chromium renders at once
 finish slower than four in a row, and a combined run has been killed for memory
 (exit 137).
+
+## ⚠ `probe_static.js` MEASURES INSTRUMENTATION CHURN, NOT REPETITION
+
+Added 2026-08-16, after it answered the wrong question confidently. Its
+"picture" is `cast + material + loopBar + cycle%2 + degree`, and **`cast` is
+the set of roles sounding in the bar**. On a record whose parts thin, rest and
+drop by design the cast changes almost every bar, so it reported boxcar synth
+at "123.8 distinct pictures in 178 bars, longest unchanging run 1.0" for music
+that is **a four-bar cell played forty-four times**. The owner had listened and
+said the loop kept returning; the probe was believed over the ear for one round.
+
+Use `probe_repetition.js` for the question "what comes back". `probe_static` is
+still the right tool for its other column — how many parts sound at once.
+
+This is rule 1 of the two below, and it cost a round of the wrong fix being
+designed before the number was doubted.
 
 ## The three lessons that cost the most, 2026-08-07
 
