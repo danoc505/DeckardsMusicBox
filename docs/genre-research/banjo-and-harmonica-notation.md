@@ -90,6 +90,56 @@ built from 0/4/7/12 in ascending order is an arpeggio; a figure that keeps
 landing back on +12 between other notes is a banjo. The program's cells were
 the former — invented, plausible, and not the instrument.
 
+### 1b-ii. ⚠ AND THIS SECTION WAS STILL WRONG — the drone does not TRANSPOSE
+
+*[owner, 2026-08-16: "I always thought a banjo was pretty much just like a
+guitar."]*
+
+Read §1b again. It gets the drone's **position in the pattern** right and never
+once says the thing that matters: **the fifth string does not move when the
+chord moves.** "A figure that keeps landing back on +12 between other notes is
+a banjo" is false as written — +12 *from what?* I wrote that table as offsets
+from "the chord root", the program duly computed `chord.degree + 7` on every
+bar, and the drone dutifully transposed along with everything else.
+
+So the genre table was built from this sheet, faithfully, and produced an
+arpeggio. Three builds of it. The owner said "it sounds like SHIT" and "why do
+you tell me you've made changes but the truth is NOTHING has changed", and both
+were fair: the *names* were right, the *string numbers* were right, and the one
+physical fact underneath them was missing.
+
+**The fact.** A guitar's six strings all run the full neck: every one is
+fretted, every one moves with the chord. That instrument really is an arpeggio
+machine, and modelling a banjo as one is the entire bug. A 5-string banjo's
+**fifth string is short** — it joins the neck at the 5th fret, has no tuning peg
+at the nut, and is not fretted in ordinary playing. In open G it is a high g
+**under a G chord, a C chord and a D chord alike.**
+
+| | guitar | banjo |
+|---|---|---|
+| strings that run the full neck | 6 of 6 | 4 of 5 |
+| strings fretted with the chord | all | 4 |
+| strings at a FIXED pitch | none | **the 5th** |
+| what a repeating right-hand pattern gives you | an arpeggio | **a roll** |
+
+**MEASURED, seed 1, printed off the MIDI.** Before: bar 17–18 on A#m gave
+`C#5 F5 A#5` cycling; bar 19 on G# gave `D#5 C5 G#5` cycling — three pitches,
+transposed bodily, no note held. After: bars 89–92 give `C#5 F5 C#6 G#5 G#4 …`
+on one chord and `F#5 A#5 C#6 …` on the next, with **C#6 in every bar** and on
+top.
+
+Across 24 records the difference is one number: **the drone is the highest note
+of its bar 13.9% of the time before, 83.7% after.** 13.9% is what a transposing
+arpeggio gives — the top note is whatever the chord put there. Guarded by
+`harness/probe_banjo.js`, which also re-checks that each cell still matches the
+string numbers in its own comment, since `fixed: [7]` is only safe while a 7
+means string 5 and nothing else.
+
+**Rule for writing any plucked cell after this:** state, for every note,
+whether it is *fretted* (moves with the harmony) or *open* (does not). A table
+of offsets that does not distinguish them cannot express a drone, and will
+silently produce an arpeggio no matter how correct the pattern is.
+
 ### 1c. What this means for the program
 
 - the roll's rate is **eighth notes**, continuous, one pattern a bar
@@ -210,6 +260,7 @@ note — the program has vibrato and had no warble at all.
 | a roll is eight notes a bar, continuously, and it is the rhythm part | the banjo's roll lane (`ostinato`) was named in **one** of six section functions |
 | the eight rolls above, each hitting the high 5th string 2–3 times a bar | four **invented** cells, none of them a named roll |
 | no string twice in a row | the invented cells repeat an offset back to back |
+| the 5th string is a FIXED high g under every chord | every note including the drone was computed as `chord.degree + n`, so the whole figure transposed — an arpeggio. **The drone was the bar's top note 13.9% of the time; it is 83.7% now.** This row was added on 2026-08-16 because §1b above, which the table was built from, never said the drone does not move — see §1b-ii |
 | a harmonica holds only the I and the V | held chords were not modelled at all |
 | the bottom octave has no 4th and no 6th | the whole range was treated as chromatic |
 

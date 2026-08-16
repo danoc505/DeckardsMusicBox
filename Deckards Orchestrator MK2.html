@@ -6164,10 +6164,15 @@ const INSTRUMENTS = {
     controls: [
       ...panControls().map(c => Object.assign({}, c, { kind: "voicing" })),
       { k:"pick", label:"pick brightness", cap:"PICK", min:0, max:1, step:0.01, def:0.65, kind:"gesture" },
+      /* WHERE the hand strikes, not how hard — a comb whose nulls track the
+         note's own pitch. The second timbral dimension this voice did not
+         have; see V.banjo for the physics and for the measurement that made
+         it necessary. */
+      { k:"bridge", label:"hand position", cap:"BRIDGE", min:0, max:1, step:0.01, def:0.35, kind:"gesture" },
     ],
     panel: { skin: "erang", maker: "", title: "banjo",
              sub: "Philharmonia recordings — two dynamics, measured roots",
-             groups: [{ label: "PLAYING", keys: ["pick"] },
+             groups: [{ label: "PLAYING", keys: ["pick", "bridge"] },
                       panGroup()] },
   },
   harmonica: {
@@ -6183,10 +6188,14 @@ const INSTRUMENTS = {
     controls: [
       ...panControls().map(c => Object.assign({}, c, { kind: "voicing" })),
       { k:"vib", label:"hand vibrato", cap:"VIB", min:0, max:1, step:0.01, def:0.4, kind:"gesture" },
+      /* the cup opening and closing — the player's actual tone control, and
+         the only CONTINUOUS gesture this instrument has. `vib` picks a take;
+         this one filters. */
+      { k:"hand", label:"cupped hand", cap:"CUP", min:0, max:1, step:0.01, def:0.45, kind:"gesture" },
     ],
     panel: { skin: "erang", maker: "", title: "harmonica",
              sub: "two Hohner Special 20s — the recorded hand vibrato is the dial",
-             groups: [{ label: "PLAYING", keys: ["vib"] },
+             groups: [{ label: "PLAYING", keys: ["vib", "hand"] },
                       panGroup()] },
   },
   steamWhistle: {
@@ -13402,6 +13411,32 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const pick = P(g, ev, "banjo", "pick", 0.65);
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
     lp.frequency.value = 1200 + 6500 * pick; lp.Q.value = 0.4;
+    /* ══ WHERE THE HAND IS OVER THE STRINGS ═══════════════════════════════
+       [owner, 2026-08-16: "The issue is STALE repetition ... especially when
+       there is no evolving texture"] MEASURED, `probe_automation`: this voice
+       had ONE control that can be ridden — `pick`, a plain lowpass — and the
+       genre rode it four different ways. Four hands on one knob is still one
+       dimension of timbre, and 20 minutes of it is one sound.
+
+       This is the second dimension, and it is the one a picker actually
+       varies: WHERE the hand strikes. Pluck a string at a fraction p of its
+       length and every harmonic that has a node there is cancelled — the
+       n = 1/p, 2/p ... partials drop out. Near the bridge (small p) the first
+       null is high and the note comes out thin and nasal, all upper partials;
+       out over the fingerboard (large p) the null lands low and the note is
+       round and hollow. It is a real physical filter, not an EQ preset, and a
+       feedforward comb IS that filter: delay by p/F0 and subtract, and the
+       nulls fall exactly where the plucked string's do.
+
+       Different from `pick` in kind, not just in setting: `pick` rolls the
+       whole top off, this one takes notches OUT OF THE MIDDLE and moves them
+       with the note's own pitch. Two hands on two different things is what
+       makes a sampled instrument stop being the same note every time. */
+    const bridge = P(g, ev, "banjo", "bridge", 0.35);
+    const frac = 0.055 + 0.245 * (1 - bridge);   // at the bridge .. over the neck
+    const comb = c.createDelay(0.05);
+    comb.delayTime.value = Math.min(0.05, frac / F0);
+    const combG = c.createGain(); combG.gain.value = -0.8;
     const gn = c.createGain();
     /* ══ THE TAKES ARE NORMALISED, AND THE LAYER IS THE DYNAMIC ══════════════
        [owner, 2026-08-15: "The Banjo is playing back to quite and even when i
@@ -13450,7 +13485,11 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
        end with a short honest release, never a chop */
     gn.gain.setValueAtTime(lvl, end0);
     gn.gain.exponentialRampToValueAtTime(0.0001, end0 + REL);
-    src.connect(lp); lp.connect(gn); gn.connect(out);
+    /* the comb, in parallel with the direct path — the sum is the notch */
+    src.connect(lp);
+    lp.connect(gn);
+    lp.connect(comb); comb.connect(combG); combG.connect(gn);
+    gn.connect(out);
     src.start(t); src.stop(end0 + REL + 0.05);
     return [src];
   };
@@ -13497,7 +13536,29 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     gn.gain.linearRampToValueAtTime(lvl, t + 0.02);
     gn.gain.setValueAtTime(lvl, end0);
     gn.gain.exponentialRampToValueAtTime(0.0001, end0 + REL);
-    src.connect(gn); gn.connect(out);
+    /* ══ THE CUPPED HAND — the harmonica's one continuous gesture ══════════
+       Same measurement, same shortfall: this voice had ONE ridable control,
+       `vib`, and `vib` is not even a filter — it chooses which recorded TAKE
+       to play, so it is a switch with a probability rather than a hand on the
+       tone. Between the two of them the genre's lead and its figure had, in
+       timbre, one moving part.
+
+       Cupping is what a harmonica player does instead of a tone control: the
+       hands close around the back of the harp and open again, and the cavity
+       they make is a resonator whose corner walks up and down. Closed is dark
+       and honky with a peak low in the throat of the sound; open is bright and
+       flat. It is the wah every blues record is full of, it is continuous, and
+       it is completely absent here.
+
+       Two filters because cupping does two things at once and one of them
+       alone reads as an EQ tweak: a PEAK that travels (the cavity) and a
+       SHELF that closes over the top (the hands themselves). */
+    const hand = P(g, ev, "harmonica", "hand", 0.45);
+    const cup = c.createBiquadFilter(); cup.type = "peaking";
+    cup.frequency.value = 620 + 1850 * hand; cup.Q.value = 1.3; cup.gain.value = 7;
+    const shut = c.createBiquadFilter(); shut.type = "highshelf";
+    shut.frequency.value = 2600; shut.gain.value = -11 * (1 - hand);
+    src.connect(cup); cup.connect(shut); shut.connect(gn); gn.connect(out);
     src.start(t); src.stop(end0 + REL + 0.05);
     return [src];
   };
@@ -28953,6 +29014,29 @@ GENRE.boxcarsynth = {
      bark reads as an old keyed instrument through the gramophone, and the
      era question is blurred by the medium on purpose. "pad" was dead config
      here anyway: the rig sent keys to the banjo, so no keyboard ever read it. */
+  /* ── THE CELL CAME ROUND FORTY-THREE TIMES ────────────────────────────
+     [owner, 2026-08-16: "The issue is STALE repetition! The problem is the
+     same exact notes played for 20 mins is NOT music"]
+
+     MEASURED, `probe_repetition`, 12 records: THE CELL IS 4.0 BARS LONG IN A
+     173.3-BAR RECORD = 43.3 TIMES ROUND. Every fix this session has been
+     about what the four bars CONTAIN — the town's own changes, the sunrise,
+     the arc, the fifth string. Not one of them touched how many bars there
+     are, and that number is the ceiling on all of them: a part cannot be
+     less repetitive than its own cell length allows, however well it is
+     written or voiced or deployed.
+
+     `materialBars` is the engine's answer and it has been there the whole
+     time — hobbit synth declares 8 for the same reason. Boxcar synth never
+     declared anything, so it took the default 4, which is a lofi habit and
+     is written down as one at `:35409`: "four bars is what gets written".
+
+     EIGHT, not more, for a reason: the tune, the roll and the bass are all
+     drawn to fill the material, so the cost of a longer one is paid in
+     composed notes rather than in structure, and this genre's parts are
+     sparse enough that doubling them is a gain. Sixteen would make the
+     four-bar folk shuttle below stop being a shuttle. */
+  materialBars: 8,
   keysChar: [["wurly", 1]],
   leadChar: [["synth", 1]],
   /* the era's lo-fi lives mostly in phase 4's gramophone; the tape here is
@@ -29253,8 +29337,45 @@ GENRE.boxcarsynth = {
   /* `perBar` the roll turns every bar; `thumb` the thumb accents the pulse;
      `slur` one note in seven is hammered rather than picked — all three
      counted off a real break [sheet §1d] */
+  /* `fixed: [7]` IS THE FIFTH STRING, and it is the one thing that separates a
+     roll from an arpeggio. Every 7 in the eight cells below is string 5 in the
+     tab it was copied from, and no 7 is anything else — checked by
+     probe_banjo.js against these comments, so a cell edited tomorrow that puts
+     a 7 somewhere a tab does not fails the battery rather than quietly turning
+     a fretted octave into a drone. */
   ostinato: { unit: 1, vel: 0.5, run: true, follow: true, ratchet: 0, whole: true,
-              perBar: true, thumb: 0.30, slur: 0.15,
+              perBar: true, thumb: 0.30, slur: 0.15, fixed: [7],
+              /* ── AND THE BREAK GOES UP THE NECK ─────────────────────────
+                 `ostinato.change` is the engine's device for a figure that is
+                 not the same at the end of its material as at the start, and
+                 boxcar synth declared NONE of it — so `OCHANGE` computed all
+                 false here and eight bars of roll were eight bars of the same
+                 roll, laid end to end, for the whole record.
+
+                 Three of the six kinds, and the three are chosen off the
+                 instrument rather than off the list:
+
+                 `cell` — the roll turns for the back half. This is what a
+                   break does; `perBar` already redraws each bar, and this
+                   makes the SECOND HALF commit to a different one so the
+                   material has two halves instead of eight independent bars.
+                 `octave` — the player goes up the neck. The commonest thing a
+                   picker does in the back half of a break, and with `fixed`
+                   the fifth string stays where it is while the fretted hand
+                   moves, which is exactly what happens on the instrument.
+                 `rest` — the roll stops. The one texture change no amount of
+                   note-writing can fake, and the motor stopping is diegetic
+                   here.
+
+                 NOT `transpose` (the fretted hand moving in scale steps is a
+                 keyboard's idea of a banjo), NOT `stride` (it halves the rate,
+                 which is the `unit: 2` bug this table already made once and
+                 had corrected by ear), NOT `follow` (already on, always).
+
+                 `pick: [1, 2]` — one or two of the three, so a record is not
+                 obliged to use all of them and no two records evolve alike. */
+              change: { pick: [1, 2],
+                        kinds: [["cell", 6], ["octave", 4], ["rest", 2]] },
               cells: [[[2, 4, 7, 2, 4, 7, 2, 4], 5],        // forward: 2-1-5-2-1-5-2-1
                       [[0, 2, 7, 4, -3, 2, 7, 4], 4],       // alternating thumb: 3-2-5-1-4-2-5-1
                       [[0, 2, 4, 7, 4, 2, 0, 4], 3],        // forward-reverse: 3-2-1-5-1-2-3-1
@@ -29274,16 +29395,23 @@ GENRE.boxcarsynth = {
   /* folk shuttles: the dorian i-IV, the aeolian i-VI-VII, mixolydian's bVII;
      MAJOR is written for the LIFT to land in [sheet §5] */
   progressions: {
-    dorian:     [[[0, 0, 3, 3], 4], [[0, 3, 0, 3], 3], [[0, 0, 0, 3], 2], [[0, 5, 3, 0], 1]],
-    minor:    [[[0, 0, 5, 5], 4], [[0, 5, 6, 6], 2], [[0, 6, 0, 5], 2], [[0, 0, 6, 6], 2]],
-    mixolydian: [[[0, 0, 6, 6], 4], [[0, 6, 0, 6], 3], [[0, 3, 6, 0], 2]],
-    major:      [[[0, 0, 4, 4], 4], [[0, 3, 0, 4], 3], [[0, 4, 3, 0], 2], [[0, 0, 3, 4], 1]],
+    dorian:     [[[0, 0, 3, 3, 0, 0, 5, 3], 4], [[0, 3, 0, 3, 5, 5, 3, 0], 3],
+                 [[0, 0, 0, 3, 5, 5, 0, 3], 2], [[0, 5, 3, 0, 3, 3, 5, 0], 1]],
+    minor:      [[[0, 0, 5, 5, 0, 0, 6, 5], 4], [[0, 5, 6, 6, 5, 5, 0, 0], 2],
+                 [[0, 6, 0, 5, 6, 6, 5, 0], 2], [[0, 0, 6, 6, 5, 5, 6, 0], 2]],
+    mixolydian: [[[0, 0, 6, 6, 0, 0, 3, 6], 4], [[0, 6, 0, 6, 3, 3, 6, 0], 3],
+                 [[0, 3, 6, 0, 6, 6, 3, 0], 2]],
+    major:      [[[0, 0, 4, 4, 0, 0, 3, 4], 4], [[0, 3, 0, 4, 4, 4, 3, 0], 3],
+                 [[0, 4, 3, 0, 3, 3, 4, 0], 2], [[0, 0, 3, 4, 3, 3, 0, 4], 1]],
   },
   bridgeProgressions: {
-    dorian:     [[[3, 3, 6, 6], 3], [[6, 6, 3, 3], 2], [[3, 3, 0, 0], 1]],
-    minor:    [[[5, 5, 3, 3], 3], [[6, 6, 5, 5], 2], [[3, 3, 5, 5], 1]],
-    mixolydian: [[[6, 6, 3, 3], 3], [[3, 3, 6, 6], 2]],
-    major:      [[[3, 3, 4, 4], 3], [[5, 5, 3, 3], 2], [[1, 1, 4, 4], 1]],
+    dorian:     [[[3, 3, 6, 6, 3, 3, 0, 6], 3], [[6, 6, 3, 3, 0, 0, 3, 6], 2],
+                 [[3, 3, 0, 0, 6, 6, 0, 3], 1]],
+    minor:      [[[5, 5, 3, 3, 6, 6, 3, 5], 3], [[6, 6, 5, 5, 3, 3, 5, 6], 2],
+                 [[3, 3, 5, 5, 6, 6, 5, 3], 1]],
+    mixolydian: [[[6, 6, 3, 3, 0, 0, 3, 6], 3], [[3, 3, 6, 6, 4, 4, 6, 3], 2]],
+    major:      [[[3, 3, 4, 4, 5, 5, 4, 3], 3], [[5, 5, 3, 3, 4, 4, 3, 5], 2],
+                 [[1, 1, 4, 4, 5, 5, 4, 1], 1]],
   },
   /* ── THE TOWN LEAVES HOME — THE SO WHAT MOVE ──────────────────────────────
      [owner, 2026-08-16: the songs "can feel stale"; and asked what the harmony
@@ -29340,24 +29468,29 @@ GENRE.boxcarsynth = {
      open away from home — lolth, dungeonsynth.proboards.com/thread/1491. The
      weights are a judgement and nothing has heard them.] */
   chorusProgressions: {
-    dorian:     [[[3, 3, 2, 2], 5],   // IV-III: IV carries dorian's natural 6,
-                                      // the one note that proves the mode
-                 [[2, 2, 3, 3], 4],   // III-IV, the same pair entered the other way
-                 [[4, 4, 3, 3], 3],   // v-IV: the minor dominant, no leading tone
-                 [[2, 2, 0, 0], 2]],  // III home — comes back, but on a new chord
-    minor:      [[[2, 2, 5, 5], 5],   // III-bVI: both a third out, two held each
-                 [[3, 3, 2, 2], 4],   // iv-III
-                 [[5, 5, 2, 2], 3],
-                 [[2, 2, 0, 0], 2]],  // III home, as colour
-    mixolydian: [[[5, 5, 3, 3], 5],   // vi-IV: the relative minor is the
-                                      // lonesome half of the bittersweet
-                 [[3, 3, 5, 5], 4],
-                 [[4, 4, 3, 3], 3],   // v-IV, the modal minor v again
-                 [[5, 5, 0, 0], 2]],  // vi home
-    major:      [[[3, 3, 5, 5], 5],   // IV-vi: the plagal warmth, then the shade
-                 [[1, 1, 3, 3], 4],   // ii-IV: a third apart, two held, no V
-                 [[5, 5, 1, 1], 3],
-                 [[5, 5, 0, 0], 2]],  // vi-I: the relative minor into the light
+    /* EIGHT BARS NOW, like the verse — the town gets a whole material rather
+       than a four-bar loop played twice. Each row keeps its own first half and
+       answers it, and the vocabulary is untouched: the guard that every chorus
+       row must contain a degree `progressions` cannot reach still holds,
+       because the verse's degrees are unchanged too. */
+    dorian:     [[[3, 3, 2, 2, 3, 3, 4, 2], 5],   // IV-III: IV carries dorian's natural 6,
+                                                  // the one note that proves the mode
+                 [[2, 2, 3, 3, 4, 4, 3, 3], 4],   // III-IV, the same pair entered the other way
+                 [[4, 4, 3, 3, 2, 2, 3, 3], 3],   // v-IV: the minor dominant, no leading tone
+                 [[2, 2, 0, 0, 4, 4, 2, 0], 2]],  // III home — comes back, but on a new chord
+    minor:      [[[2, 2, 5, 5, 3, 3, 5, 2], 5],   // III-bVI: both a third out, two held each
+                 [[3, 3, 2, 2, 5, 5, 2, 3], 4],   // iv-III
+                 [[5, 5, 2, 2, 3, 3, 2, 5], 3],
+                 [[2, 2, 0, 0, 3, 3, 2, 0], 2]],  // III home, as colour
+    mixolydian: [[[5, 5, 3, 3, 4, 4, 3, 5], 5],   // vi-IV: the relative minor is the
+                                                  // lonesome half of the bittersweet
+                 [[3, 3, 5, 5, 4, 4, 5, 3], 4],
+                 [[4, 4, 3, 3, 5, 5, 3, 4], 3],   // v-IV, the modal minor v again
+                 [[5, 5, 0, 0, 4, 4, 5, 0], 2]],  // vi home
+    major:      [[[3, 3, 5, 5, 1, 1, 5, 3], 5],   // IV-vi: the plagal warmth, then the shade
+                 [[1, 1, 3, 3, 5, 5, 3, 1], 4],   // ii-IV: a third apart, two held, no V
+                 [[5, 5, 1, 1, 3, 3, 1, 5], 3],
+                 [[5, 5, 0, 0, 1, 1, 5, 0], 2]],  // vi-I: the relative minor into the light
   },
   /* registers sized so every pooled instrument CONTAINS its band — the
      register arithmetic, zero narrowing by construction [sheet §7]:
@@ -29379,8 +29512,29 @@ GENRE.boxcarsynth = {
      A banjo roll spans the fourth string to the fifth, which is 17 semitones
      [see ostinato below], so a 15-semitone band could not hold one. 69-88 is
      19, and the high drone stays on top where the instrument puts it. */
-  registers: { drone: [24, 32], bass: [34, 46], keys: [52, 69], counter: [67, 82],
-               bassWalk: [34, 46], ostinato: [69, 88],
+  /* ── AND THE FIGURE'S FLOOR IS THE FOURTH STRING ──────────────────────────
+     [2026-08-16] The band above was sized 19 wide to hold "the fourth string
+     to the fifth, which is 17 semitones" — i.e. the DRONE was part of the
+     figure being placed. It is not any more: `ostinato.fixed` puts the fifth
+     string on its own, so this band now holds the four LONG strings, and it
+     should reach from the fourth string up to the fifth.
+
+     MEASURED, and it was one semitone: with the drone at 85 the fretted figure
+     wants [68, 85], the floor said 69, and a 12-semitone figure at raw 80-92
+     had NO legal octave — 92 broke the ceiling and 68 broke the floor by one.
+     So the fold gave up and left the figure sitting ABOVE the drone, which is
+     the one thing the drone exists not to do.
+
+     Fixed where it belongs, in the declaration, rather than by widening the
+     floor inside `buildOstinato` — that version put ostinato notes into the
+     comp's register and the blend battery caught it in one run (1318 -> 1317,
+     "no keys voicing fits clear of the bass"). The comp gives up its top two
+     semitones instead, which costs a Wurlitzer chord nothing and keeps the
+     "adjacent, never overlapping" discipline this table documents: keys top 67,
+     figure floor 68. It also ENDS the 2-semitone shadow the note below admits
+     against the counter's floor of 67. */
+  registers: { drone: [24, 32], bass: [34, 46], keys: [52, 67], counter: [67, 82],
+               bassWalk: [34, 46], ostinato: [68, 88],
                themeA: [64, 82], themeB: [66, 84], themeC: [62, 80] },
   /* a wooden boxcar, not a hall: short, close, warm [CHOSEN] */
   /* ── AND THE LANDSCAPE IS NOT NAMED HERE, ON PURPOSE ──────────────────────
@@ -29735,10 +29889,29 @@ GENRE.boxcarsynth = {
                 fastest and the one that most needs a second hand on it */
              { kind: "lfo", bars: [[13, 2], [19, 1]], depth: [0.015, 0.045],
                shape: "sin", freePhase: true }],
+      /* THE HAND WALKS TOWARD THE BRIDGE AS THE TRAIN RUNS, and comes back
+         over the neck when it stops. Opposite in sign to `pick`, deliberately:
+         two controls that rise together are one control with two names, and
+         the whole point of the second dimension is that it is independent.
+         Periods 31/17 — co-prime with pick's 23/37 and 13/19 and with the
+         harmonica's 29/43, so no two of the six cycles ever line up. */
+      bridge: [{ kind: "arc", from: [0.10, 0.22], to: [-0.16, -0.05], curve: "sCurve" },
+               { kind: "section", by: { chorus: [-0.18, -0.07], instrumental: [0.05, 0.16] } },
+               { kind: "lfo", bars: [[31, 2], [17, 1]], depth: [0.025, 0.075],
+                 shape: "sin", freePhase: true }],
     },
     harmonica: {
       vib: [{ kind: "apex", from: [-0.14, -0.05], to: [0.10, 0.26] },
             { kind: "section", by: { bridge: [0.06, 0.16], intro: [-0.12, -0.04] } }],
+      /* THE CUP OPENS ACROSS THE RECORD. An arc rather than an apex, because
+         a player does not close the hands again at the end — the sound opens
+         out as the journey does, and the town is where it is most open. The
+         two LFOs are co-prime with each other and with the banjo's, so the
+         lead and the figure never breathe together. */
+      hand: [{ kind: "arc", from: [-0.16, -0.06], to: [0.08, 0.24], curve: "sCurve" },
+             { kind: "section", by: { chorus: [0.06, 0.18], bridge: [-0.16, -0.06] } },
+             { kind: "lfo", bars: [[29, 2], [43, 1]], depth: [0.03, 0.09],
+               shape: "sin", freePhase: true }],
     },
     /* ══ AND THREE PLUCKED VOICES HAD NO HAND ON THEM AT ALL ═════════════════
        [owner, 2026-08-16: "are we using amply automation for texture and
@@ -35667,6 +35840,57 @@ function makeMaterials(chart, editPlan, arcPlan){
        from the shared stream: 882 of 2100 lines moved]. */
     const TGEN = O.marbles
       ? tGenerate(stream(chart.seed, "tgen:" + streamName), BARS, O.marbles) : null;
+    /* ══ AN OPEN STRING IS NOT A DEGREE — THE FIFTH STRING DOES NOT MOVE ═════
+       [owner, 2026-08-16: "I always thought a banjo was pretty much just like
+       a guitar."] It is not, and the difference is this whole feature.
+
+       Every string on a guitar runs the full neck, so every string is fretted
+       and every note moves when the chord moves. That is an arpeggio machine,
+       and it is precisely what this function was: `follow` reads each cell
+       entry against the CURRENT CHORD, so a cell of [2,4,7,...] came out as
+       that chord's third, fifth and octave — and on the next chord, THAT
+       chord's third, fifth and octave. MEASURED off the printed MIDI, seed 1,
+       bars 17-20: A#m gave C#5 F5 A#5 cycling, G# gave D#5 C5 G#5 cycling.
+       Three pitches, transposed bodily. The owner heard it and called it what
+       it is: "a slow arp", and speeding it up only made it a fast one.
+
+       A 5-string banjo's FIFTH STRING IS SHORT. It joins the neck at the 5th
+       fret, it has no nut-end peg, and it is not fretted: in open G it is a
+       high g that rings under a G chord, a C chord and a D chord alike. A roll
+       is not a line climbing a chord — it is a line with a FIXED HIGH DRONE
+       punched through it, two or three times a bar. Take the drone out and
+       there is nothing left but the arpeggio.
+
+       THE EARLIER FIX WAS NOT ONE. The note in the genre table claims the old
+       cells "had a 12 at the top where an arpeggio would put it; these have it
+       in the middle, where the thumb does." Moving an offset to the middle of
+       the cell does not make it FIXED. It was still `chord.degree + 7`. The
+       drone was described, not built.
+
+       `ostinato.fixed` is the list of cell values that are OPEN STRINGS: they
+       are rendered against the KEY once per material and never touched again —
+       no chord follow, no `whole` octave shift, no `OCHANGE.octave`. The key is
+       right rather than the song, because a player spikes or capos the fifth
+       string when the band changes key, and this genre changes key at the lift.
+
+       CHECKABLE, and it is why one value can carry the whole feature: in all
+       eight cells below, every 7 sits exactly where the tab writes string 5,
+       and no 7 appears anywhere else. `probe_banjo.js` asserts both halves —
+       that the cells still line up with their own comments, and that the
+       rendered roll really does hold one pitch across a chord change.
+
+       A genre that does not declare `fixed` computes exactly what it always
+       computed, so the other ten genres' figures are byte-identical [Law 4]. */
+    const FIX = (O.fixed && O.fixed.length) ? new Set(O.fixed) : null;
+    let DRONE = null;
+    if(FIX){
+      /* the open fifth string: the KEY's tonic, in the highest octave the
+         figure's own band will hold — the highest OPEN string on the
+         instrument, which is what it is */
+      DRONE = degMidi(keyOf(chords), modeOf(chords), 0);
+      while(DRONE + 12 <= R.ostinato[1]) DRONE += 12;
+      while(DRONE > R.ostinato[1]) DRONE -= 12;
+    }
     /* the running index for a polymetric cell -- it does NOT reset per bar */
     let seqI = 0;
     for(let b = 0; b < BARS; b++){
@@ -35751,12 +35975,54 @@ function makeMaterials(chart, editPlan, arcPlan){
         const degOf = d => ch ? degMidi(ch.key, ch.mode, ch.degree + d)
                               : degMidi(keyOf(chords), modeOf(chords), d);
         let lo = Infinity, hi = -Infinity;
-        for(const d of c){ const a2 = degOf(d); if(a2 < lo) lo = a2; if(a2 > hi) hi = a2; }
+        /* the open strings are not part of the figure being placed — they are
+           already where they are. Including the drone in this span dragged the
+           whole fretted figure around to accommodate a note that was never
+           going to move anyway. */
+        for(const d of c){ if(FIX && FIX.has(d)) continue;
+                           const a2 = degOf(d); if(a2 < lo) lo = a2; if(a2 > hi) hi = a2; }
+        if(lo === Infinity){ lo = hi = degOf(0); }
         /* the offset that puts the figure's own span inside the band; if the
            figure is wider than the band, the BOTTOM is what lands, so the high
            drone stays the high note rather than being the one that is sacrificed */
-        while(lo + whole < R.ostinato[0]) whole += 12;
-        while(hi + whole > R.ostinato[1] && lo + whole - 12 >= R.ostinato[0]) whole -= 12;
+        /* ── AND THE FRETTED STRINGS PLAY UNDER IT, NOT OVER IT ──────────────
+           MEASURED the moment the drone existed, seed 1, bars 90-91: the roll
+           came out C#6 F6 G#6 against a drone of C#6, so the "high drone" was
+           the LOWEST note of the figure. Excluding it from the span (right)
+           without lowering the ceiling (wrong) let the fretted figure float up
+           past the string it is supposed to ring under, and a drone underneath
+           the melody is just a bass note.
+
+           On the instrument the four long strings are open D3 G3 B3 D4 and the
+           fifth string is G4 — every one of them BELOW it. Fretting the first
+           string five frets brings it up to the drone's own pitch; past that a
+           picker is up the neck and out of the position a roll is played in.
+           So a drone lowers this figure's ceiling to a fourth above itself,
+           which is that left hand's reach.
+
+           THE CEILING MOVES AND THE FLOOR DOES NOT, and the floor is where I
+           was wrong first. The declared band is 19 semitones wide because "a
+           banjo roll spans the fourth string to the fifth, which is 17", which
+           the drone no longer needs — so I dropped the floor to the fourth
+           string's own pitch, 17 under the drone, and it read as the
+           instrument's geometry. It also put ostinato notes one semitone into
+           the comp's register, and the BLEND battery caught it in one run:
+           1318 -> 1317 pairs, "no keys voicing fits clear of the bass". The
+           figure enters `reserve`, so widening it downwards spends the comp's
+           headroom, and no argument from the instrument buys that back.
+
+           So the floor stays declared and only the ceiling answers to the
+           drone. The cost is honest and measured: where neither octave fits
+           between the floor and the drone's ceiling the fold still gives up and
+           leaves the figure high, and the drone is the bar's top note 62.4% of
+           the time rather than 83.7%. Against 13.9% for the fretted-only
+           figure, that is still the whole difference, and it does not cost
+           another part its register to get it. */
+        const FLOOR = R.ostinato[0];
+        const CEIL  = DRONE == null ? R.ostinato[1]
+                                    : Math.min(R.ostinato[1], DRONE);
+        while(lo + whole < FLOOR) whole += 12;
+        while(hi + whole > CEIL && lo + whole - 12 >= FLOOR) whole -= 12;
       }
       for(let st = 0; st < 16; st += step){
         /* the gate: with marbles declared, a step sounds only where the
@@ -35765,17 +36031,30 @@ function makeMaterials(chart, editPlan, arcPlan){
         if(tRow && !tHit){ if(O.run) seqI++; continue; }
         const idx = O.run ? (seqI++) : (st / O.unit);
         let deg = c[((idx % c.length) + c.length) % c.length];
-        if(OCHANGE.transpose && late) deg += OCHANGE.by;
+        /* AN OPEN STRING IS DECIDED ON THE RAW CELL VALUE, before anything can
+           move it. `transpose` adds `by` to every degree, so a 7 would become
+           an 8, fall out of `fixed`, and the drone would silently VANISH for
+           the back half of the material -- a feature that turns another
+           feature off, which is the worst kind. Nothing frets the fifth
+           string, including the material's own transposition. */
+        const open = (FIX && FIX.has(deg)) ? DRONE : null;
+        if(OCHANGE.transpose && late && open == null) deg += OCHANGE.by;
         /* a cell that does NOT follow the chords still stands in a KEY, and it
            is the key of the material it is playing in -- so a figure handed the
            bridge's chords states itself in the bridge's key even though it is
            ignoring the bridge's harmony. That is the difference between a
            section changing key and a section changing key with one part left
            behind in the old one. */
-        const abs = ch ? degMidi(ch.key, ch.mode, ch.degree + deg)
+        /* AN OPEN STRING SHORT-CIRCUITS ALL OF IT. Not the chord, not the
+           material's octave move, not the whole-bar fold -- the four things
+           below are the four ways a fretted note travels, and the fifth string
+           is defined by travelling in none of them. */
+        const abs = open != null ? open
+                  : ch ? degMidi(ch.key, ch.mode, ch.degree + deg)
                        : degMidi(keyOf(chords), modeOf(chords), deg);
-        const shifted = abs + ((OCHANGE.octave && late) ? 12 : 0);
-        const pitch = O.whole ? shifted + whole
+        const shifted = abs + ((OCHANGE.octave && late && open == null) ? 12 : 0);
+        const pitch = open != null ? open
+                    : O.whole ? shifted + whole
                               : intoBand(shifted, R.ostinato[0], R.ostinato[1]);
         /* ── THE RATCHET DRAWS FROM ITS OWN STREAM ─────────────────────────
            Taken from `rng` this consumed a number on every step of every

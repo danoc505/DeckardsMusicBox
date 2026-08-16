@@ -113,6 +113,41 @@ const check = (name, ok, detail) => {
   if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
 }
 
+/* ═══ AND THE BANJO'S FIFTH STRING DOES NOT MOVE ════════════════════════════
+   [owner, 2026-08-16: "I always thought a banjo was pretty much just like a
+   guitar."] It is not, and the program believed it was for three builds: with
+   `follow` on, every note of the roll was read against the current chord, so
+   the figure transposed bodily and came out an arpeggio. He said so three
+   times before it was measured instead of grepped.
+
+   The reason this sits in the battery rather than in a notebook is that it is
+   the exact shape of bug a battery is for. It passed every existing check --
+   the notes were in key, in the chord, in the band, in the right register,
+   with the right rhythm. Nothing in the file could tell an arpeggio from a
+   roll, because the difference is ONE NOTE THAT REFUSES TO MOVE and no probe
+   was asking whether anything held still.
+
+   `harness/probe_banjo.js` owns the logic, both halves: the cells still agree
+   with the tab they were copied from, and the rendered roll still has a fixed
+   top. 12 seeds here rather than its default 24 -- the top-note share moves
+   from 13.9% to 83.7% between broken and fixed, so a dozen records is far more
+   than enough to see it, and this runs on every change. ═════════════════════ */
+{
+  const { execFileSync } = require("child_process");
+  let out = "", ok = true;
+  try { out = execFileSync(process.execPath,
+          [path.resolve(__dirname, "probe_banjo.js"), "--seeds", "12"], { encoding: "utf8" }); }
+  catch(e){ ok = false; out = (e.stdout || "") + (e.stderr || ""); }
+  /* the INVARIANCE is the check -- a pitch that survives the chord changes.
+     Where that pitch sits in the figure is printed by the probe and asserted by
+     nobody; the note in probe_banjo.js records why that distinction matters. */
+  const cov = (out.match(/mean coverage ([\d.]+)%/) || [])[1];
+  check("the banjo's fifth string is a fixed drone, not a chord tone", ok,
+        ok ? `a pitch rings through the changes (${cov || "?"}% coverage; 75.7% when fretted-only)`
+           : `the roll transposes with the chord — run: node harness/probe_banjo.js`);
+  if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
+}
+
 /* ═══ AND NO SAMPLED VOICE EVER RE-FIRES A PITCH IT HAS NOT STOPPED ═════════
    Reported FIVE times, the last two of them shouted, and answered wrongly four
    times before it was answered at all -- a slur, a whistle cut, drum round

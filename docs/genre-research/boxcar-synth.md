@@ -876,6 +876,61 @@ towns had lost their vamp), and the counter's density 0.2 → 0.4, A/B measured
 over 8 seeds: 100 → 178 answers (seed 4 alone coincidentally unchanged, which
 is why the A/B was run before claiming anything).
 
+4. **AND IT WAS STILL AN ARPEGGIO AFTER ALL THREE.** The owner, next: *"Why
+   are you making the Banjo an arp? ... you did all this research and that's
+   all you came up with?"*, then — the sentence that actually solved it —
+   *"I always thought a banjo was pretty much just like a guitar."*
+
+   It is not, and the program believed it was. With `ostinato.follow` on,
+   **every** cell entry is read against the current chord, drone included, so
+   the figure transposed bodily: seed 1, bars 17–20, `C#5 F5 A#5` on A#m then
+   `D#5 C5 G#5` on G#. Three pitches, moved. The fixes above made it a faster,
+   better-voiced, better-deployed arpeggio, because all three left the one
+   thing that makes a roll a roll untouched.
+
+   A guitar's six strings all run the full neck — every one fretted, every one
+   moving with the chord. That instrument really *is* an arpeggio machine. A
+   banjo's **fifth string is short**: it starts at the 5th fret, has no peg at
+   the nut, isn't fretted, and rings a fixed high g under every chord. That
+   single asymmetry is the difference between a roll and an arpeggio, and
+   `banjo-and-harmonica-notation.md` §1b **described the drone's position in
+   the pattern and never said it doesn't move** — so the genre table was built
+   from the sheet, faithfully, and was wrong. §1b-ii now carries the
+   correction and the rule: for any plucked cell, say of every note whether it
+   is *fretted* or *open*.
+
+   Built as `ostinato.fixed: [7]` — the cell values that are open strings,
+   rendered against the KEY once per material and then immune to chord follow,
+   to `OCHANGE.octave` and to the whole-bar fold. The key rather than the song,
+   because a player spikes or capos the fifth string when the band changes key,
+   and this genre changes key at the lift. The figure's band came with it: it
+   was 19 semitones wide to hold "the fourth string to the fifth", which the
+   drone no longer needs, so the fretted strings now sit from 17 semitones
+   under the drone to a fourth above it — the instrument's own geometry, and it
+   is what makes the fold fit (seed 1's figure had *no* legal octave against
+   the old floor, so it gave up and sat above the drone).
+
+   **MEASURED, 24 records, by deleting the declaration and re-running:**
+
+   | | fretted-only | with the fifth string |
+   |---|---|---|
+   | a pitch survives the chord change (mean coverage) | 75.7% | 93.5% |
+   | windows covered end to end | 10/77 | 25/77 |
+   | **the drone is the bar's TOP note** | **13.9%** | **83.7%** |
+
+   Coverage is the weak reading — this genre holds each chord two bars over a
+   four-bar cell, so a fretted pitch recurs often enough to look like a drone.
+   The top-note share is the test: 13.9% is what a transposing arpeggio gives.
+   Guarded by `harness/probe_banjo.js`, in the battery, which also re-derives
+   each cell from the string numbers in its own comment — `fixed: [7]` is only
+   safe while a 7 means string 5 and nothing else, and all 8 cells check out.
+
+   **The class of mistake, and it is the third time this session:** every
+   existing check passed. The notes were in key, in the chord, in the band, in
+   register, at the right rate. Nothing could tell an arpeggio from a roll,
+   because the difference is *one note that refuses to move* and no probe was
+   asking whether anything held still.
+
 **STILL NOT DONE, said plainly:** the harmonica's own speech — bends, draw
 chords, trills, the §2a/§2b legality — remains unbuilt; the tune still
 restates by the program's global law; and the roll's doubled note count

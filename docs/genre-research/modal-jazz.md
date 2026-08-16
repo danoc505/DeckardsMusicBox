@@ -1012,6 +1012,112 @@ Run across the whole genre after the phases, as asked.
    assumed benign.
 8. **Nothing here has been judged by ear**, which outranks all of it.
 
+## 7e. THE OWNER'S REAL QUESTION, AND THE ANSWER THIS SHEET WAS MISSING
+
+*[owner, 2026-08-16, after every phase above was built and the record still felt
+stale: "I think the problem is fundamental to the architecture of the program,
+something deep inside is limiting what we can and can not do."* Then, the
+question that settles the design: *"How does Modal Jazz solve this issue? How
+can Modal Jazz play for 20 mins+ and it's never stale or boring?"]*
+
+He is right, and §8 item 1 below — *"it is possible the answer is 'the harmony
+is fine, the arrangement is the problem'"* — was closer than the rest of this
+sheet. It is neither. **It is the store.**
+
+### The ceiling, measured
+
+Boxcar synth, 4 seeds a length; distinct bars of note content per role against
+bars actually played:
+
+| asked | played | ostinato distinct | keys | lead | ostinato repeat |
+|---|---|---|---|---|---|
+| 180s | 36 | 20 | 23 | 24 | ×1.8 |
+| 360s | 70 | 36 | 35 | 36 | ×1.9 |
+| 600s | 124 | 39 | 40 | 43 | ×3.2 |
+| 900s | 200 | 38 | 39 | 46 | ×5.3 |
+| **1200s** | **270** | **43** | **45** | **53** | **×6.2** |
+
+Playing time grows **7.5×**. Composed content is flat from six minutes — it even
+falls, 39 → 38. **A twenty-minute record holds the same written music as a
+six-minute one.** Every device in §7a–§7d improves the contents of those forty
+bars; not one of them makes more of them.
+
+### Why, in one line
+
+`makePerformance:39096`
+
+```js
+const loopBar = (bar - sec.startBar) % materials.bars;
+```
+
+**There is no note-generating call anywhere in `makePerformance`.** It reads
+frozen arrays and emits events. `makeMaterials` returns a hardcoded literal —
+`A, Avar, B, Bvar, C` (+ `Alift`/`Avarlift`) — is called as
+`makeMaterials(chart)` and **never receives the record's length**, so it cannot
+scale with it even in principle. `makeArrangement`'s own header says *"this
+stage never edits a note"*. A 20-minute record is ~650 bars drawn from ~20–40
+composed ones: a replay ratio of about **32:1**.
+
+### And modal jazz does not fix that with more material — it has LESS
+
+"So What" is a 32-bar head on two chords. A twenty-minute performance is ~600
+bars from 32 composed ones — **a worse ratio than ours.** By the arithmetic that
+governs this program, So What should be the most tedious record ever made.
+
+The difference is that those 600 bars are **not a lookup**. Nobody plays the
+same bar twice: Miles solos differently every chorus, Evans never repeats a
+voicing, Chambers walks a new line every eight bars, Cobb varies every bar. And
+§1 of this sheet already carried the proof in the composer's own mouth —
+
+> **"[Modal jazz] would get monotonous if you'd sit there a long time."**
+
+That sentence is not a warning about harmony. It is a description of **exactly
+what this program does**: it sits there. Miles named our failure mode and we
+quoted him for six sections without noticing he was describing the engine.
+
+So the lesson is the opposite of "compose more blocks":
+
+> **THE MATERIAL IS A CONSTRAINT THAT IS RE-REALISED, NOT AN ARRAY THAT IS
+> REPLAYED.**
+
+And this program is already built to do it. `buildOstinato`, `buildBass`,
+`buildKeys` and `deriveCounter` all take a `streamName`, so
+`buildOstinato("ostinato:c3", …)` yields a different, in-style, fully valid
+block on its own substream. **The generators are run once and their output is
+looped for twenty minutes.** The arranger even carries an unused indexed-variant
+hook already: `if(materials[material + "@" + i]) material += "@" + i;`
+
+### The split that keeps it music
+
+A head that never returns is not a tune, and a rhythm section that never varies
+is a drum machine. Modal jazz has both, and so should this:
+
+| role | modal jazz | boxcar | treatment |
+|---|---|---|---|
+| `lead` | the head | harmonica tune | **replay** — it is the tune, it must return |
+| `ostinato` | comping | banjo roll | **re-realise per cycle** |
+| `bass` | walking | bass | **re-realise per cycle** |
+| `keys` | piano comp | wurly | **re-realise per cycle** |
+
+`makePerformance` already computes the counter this needs, on the line after the
+one that causes the problem:
+
+```js
+const cycle = Math.floor((bar - sec.startBar) / materials.bars);
+```
+
+### What this is NOT
+
+**The dynamics are not flat**, and that is worth stating because the *same*
+complaint about drums — *"nothing but the same fucking LOOP!"* — turned out to
+be flat accents on music that did not repeat (`:18859`; 118 of 134 bars were
+distinct). Measured here: boxcar's ostinato spans **13.8 dB over 248 distinct
+gain values**, its lead 4.0 dB, its bass 5.1 dB, against dungeon synth's
+ostinato at 2.1 dB. This time the ear and the arithmetic agree, and the notes
+really are the same ones.
+
+---
+
 ## 8. WHAT THIS SHEET DOES NOT SETTLE
 
 1. **No verdict, by ear or otherwise.** Every number here says what the
