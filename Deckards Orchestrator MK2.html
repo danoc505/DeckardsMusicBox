@@ -29038,6 +29038,24 @@ GENRE.boxcarsynth = {
      four-bar folk shuttle below stop being a shuttle. */
   materialBars: 8,
   keysChar: [["wurly", 1]],
+  /* ── SIX ROLLS, NOT ONE ───────────────────────────────────────────────────
+     [owner, 2026-08-16: "the same exact notes played for 20 mins is NOT music"]
+     The measurement and the modal-jazz reasoning are at `buildOstinato`'s
+     `takesOf`; the short version is that a twenty-minute record held the same
+     43 composed bars as a six-minute one, because stage 5 replays frozen arrays
+     and stage 3 never saw how long the record was.
+
+     SIX for the figure, and the figure first, because the banjo roll is this
+     genre's rhythm section: it sounds in most of the record, the owner has
+     named it more than any other part, and `buildOstinato` needs neither a
+     reserve nor a pinned pattern to be rebuilt, so nothing else has to move for
+     it to be right. Six 8-bar takes is 48 bars of banjo where there were 8.
+
+     The tune is NOT in this list and should not be. It is the head; a head that
+     never returns is not a tune, and modal jazz keeps its head for exactly that
+     reason. Bass and the wurly comp are the honest next candidates and are left
+     to a pass that can widen their reserves properly. */
+  materialTakes: { ostinato: 6 },
   leadChar: [["synth", 1]],
   /* the era's lo-fi lives mostly in phase 4's gramophone; the tape here is
      the gentle comfy haze the sources describe [sheet §1] [CHOSEN] */
@@ -31774,7 +31792,7 @@ function makeForm(chart){
    Every note frozen on exit. Nothing downstream re-pitches anything.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-function makeMaterials(chart, editPlan, arcPlan){
+function makeMaterials(chart, editPlan, arcPlan, nBars){
   /* ── HOW LONG A MATERIAL IS, AND IT WAS A BAKED NUMBER ─────────────────────
      Four bars for every genre, forever. That is the same class of hardcoded
      value as `form.lengths` was before the length dial went in, and it went
@@ -36609,6 +36627,88 @@ function makeMaterials(chart, editPlan, arcPlan){
      second chop. Both are cheap and both are no-ops for a genre that says
      nothing, so no existing song moves. */
   const ostAvar = buildOstinato("ostinato", true, chords);
+  /* ══ TAKES — THE RHYTHM SECTION DOES NOT PLAY THE SAME BAR TWICE ══════════
+     [owner, 2026-08-16: "the same exact notes played for 20 mins is NOT music";
+     then "I think the problem is fundamental to the architecture of the
+     program, something deep inside is limiting what we can and can not do."]
+
+     He was right, and it is the deepest thing measured in this file.
+     `makePerformance` reads `(bar - sec.startBar) % materials.bars` and emits
+     what it finds; there is NO note-generating call in that stage at all. So a
+     record's entire composed content is the material set, and the material set
+     is a literal of five names that never sees how long the record is.
+
+     MEASURED, boxcar synth, 4 seeds a length — distinct bars of note content
+     against bars actually played:
+
+         180s    36 played    20 distinct    x1.8
+         360s    70 played    36 distinct    x1.9
+         600s   124 played    39 distinct    x3.2
+         900s   200 played    38 distinct    x5.3
+        1200s   270 played    43 distinct    x6.2
+
+     Playing time grows SEVEN AND A HALF TIMES and the composed content is flat
+     from the six-minute mark — it even falls, 39 to 38. A twenty-minute record
+     holds the same written music as a six-minute one and simply says it four
+     times as often.
+
+     ── AND MODAL JAZZ DOES NOT FIX THIS WITH MORE MATERIAL. IT HAS LESS ──────
+     [docs/genre-research/modal-jazz.md §7e] "So What" is a 32-bar head on two
+     chords; a twenty-minute performance is ~600 bars from 32 composed ones,
+     which is a WORSE ratio than ours. By the arithmetic that governs this
+     program it should be the most tedious record ever made.
+
+     The difference is that those 600 bars are not a lookup. Nobody plays the
+     same bar twice: Miles solos differently every chorus, Evans never repeats a
+     voicing, Chambers walks a new line every eight bars. And Miles named our
+     failure mode himself — "[modal jazz] would get monotonous if you'd sit
+     there a long time" — which the sheet quoted for six sections before anyone
+     noticed he was describing the engine rather than the harmony.
+
+         THE MATERIAL IS A CONSTRAINT THAT IS RE-REALISED,
+         NOT AN ARRAY THAT IS REPLAYED.
+
+     So a genre may declare `materialTakes: { ostinato: N }` and get N
+     realisations of the figure instead of one. Each is a full, legal,
+     in-style block drawn on its OWN NAMED SUBSTREAM, which is the only reason a
+     second call can give different music without moving a single other draw in
+     the file [Law 3]. `makePerformance` then plays take `cycle % takes.length`,
+     using a counter it already computes.
+
+     WHY THE FIGURE FIRST, and not the tune: the tune is the HEAD. A head that
+     never returns is not a tune, and modal jazz keeps its head exactly because
+     recognition is half of the music. The rhythm section is the half that must
+     never repeat, and of the rhythm section the roll is both the part the owner
+     has complained about most and the one `buildOstinato` can rebuild with no
+     reserve and no pin — so it needs nothing else moved to be correct.
+
+     CAPPED BY THE RECORD. A record that only comes round twice cannot use four
+     takes, and composing them would be work nobody hears.
+
+     A genre that declares nothing gets `[]` here, does not draw, and is
+     byte-identical — the snapshot is the proof, not this sentence. */
+  const TAKE_N = (chart.table.materialTakes || {});
+  const takesOf = (role, cs, tag, first) => {
+    const want = TAKE_N[role] | 0;
+    if(want < 2) return null;
+    const rounds = nBars ? Math.max(1, Math.round(nBars / BARS)) : 1;
+    const n = Math.min(want, rounds);
+    if(n < 2) return null;
+    const list = [first];
+    for(let i = 1; i < n; i++){
+      const alt = role === "ostinato"
+        ? buildOstinato("ostinato:" + tag + "@" + i, false, cs) : null;
+      if(alt && alt.length) list.push(alt);
+    }
+    return list.length > 1 ? list : null;
+  };
+  const ostATakes = takesOf("ostinato", chords, "A", ostA);
+  /* WHAT EVERY OTHER PART HAS TO AVOID. The note above `placed` records what
+     happens when a comp is shown only one of two figures it will actually play
+     against: it voices onto a seat the other one takes. Two variants was
+     already the bug; N takes is the same bug N times, so the reserve sees all
+     of them. Identity when the genre declares no takes. */
+  const ostAx = ostATakes ? ostA.concat.apply(ostA, ostATakes.slice(1)) : ostA;
   /* THE ONE PLACE A PINNED PATTERN ENTERS. Every drum and bass pattern in the
      song goes through `pin`, so a grid the user has programmed substitutes for
      the drawn one at the moment the material is built -- before the seam checks,
@@ -36659,7 +36759,7 @@ function makeMaterials(chart, editPlan, arcPlan){
      voicer: the comp now finds a seat that is free in BOTH materials. That is
      the owner making its material valid, which is the rule -- not a later pass
      moving a note that had already been written wrong. */
-  const placed = reserve(ostA.concat(ostAvar, bassA));
+  const placed = reserve(ostAx.concat(ostAvar, bassA));
   /* ── DOES THE FIRST KEYBOARD COMP, OR DOES IT HOLD? ──────────────────────
      `buildKeys` has always been able to do both -- the bridge pad already asks
      for `sustain` -- but WHICH one the main keyboard does was a fixed law, and
@@ -36753,7 +36853,7 @@ function makeMaterials(chart, editPlan, arcPlan){
      Avar already has its own drums and its own tune for exactly this reason.
      Give it its own pad and each one clears one cell. */
   const keys2A = tryPad(band => buildKeys(chords, "keys2", { sustain: true, at: 2, band,
-                            against: keysA, avoid: reserve(ostA.concat(bassA, keysA)) }));
+                            against: keysA, avoid: reserve(ostAx.concat(bassA, keysA)) }));
   const keys2Avar = tryPad(band => buildKeys(chords, "keys2:var", { sustain: true, at: 2, band,
                             against: keysA, avoid: reserve(ostAvar.concat(bassA, keysA)) }));
   /* BOTH PADS, and the reason is two lines of history. The note above `resV`
@@ -36765,7 +36865,7 @@ function makeMaterials(chart, editPlan, arcPlan){
      roles keys2/lead", seed 17, with a second keyboard forced in by hand.
      Reserving both pads costs A nothing it was not already conceding and makes
      the head safe in the material that borrows it. */
-  const resA   = reserve(ostA.concat(bassA, keysA, keys2A, keys2Avar));
+  const resA   = reserve(ostAx.concat(bassA, keysA, keys2A, keys2Avar));
   const themeA = buildTheme(chords, "themeA", resA, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], comp: keysA, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
   const counterA = deriveCounter(themeA.notes, resA, "counterA", chords, keysA);
 
@@ -36923,8 +37023,13 @@ function makeMaterials(chart, editPlan, arcPlan){
   const liftChords = LIFT ? mkChords(degrees, bKey, bMode) : chords;
   const ostAl      = LIFT ? buildOstinato("ostinato", false, liftChords) : ostA;
   const ostAvarl   = LIFT ? buildOstinato("ostinato", true,  liftChords) : ostAvar;
+  /* the lifted copy gets its OWN takes, in the lifted key, rather than a
+     transposed reprint of the road's -- otherwise the sunrise arrives and the
+     banjo plays the same four bars it has been playing all night, a fifth up. */
+  const ostAlTakes = LIFT ? takesOf("ostinato", liftChords, "Alift", ostAl) : ostATakes;
+  const ostAlx     = ostAlTakes ? ostAl.concat.apply(ostAl, ostAlTakes.slice(1)) : ostAl;
   const bassAl     = LIFT ? pin(buildBass(liftChords, "bass", false), "bass", "A") : bassA;
-  const placedl    = LIFT ? reserve(ostAl.concat(ostAvarl, bassAl)) : placed;
+  const placedl    = LIFT ? reserve(ostAlx.concat(ostAvarl, bassAl)) : placed;
   const keysAl     = LIFT ? buildKeys(liftChords, "keys", { dense: false, avoid: placedl,
                                                sustain: HOLD, at: HOLD ? 0 : undefined }) : keysA;
   const keys2Al    = LIFT ? tryPad(band => buildKeys(liftChords, "keys2", { sustain: true, at: 2, band,
@@ -37091,6 +37196,16 @@ function makeMaterials(chart, editPlan, arcPlan){
     C:    { drums: drumsC, bass: bassC, keys: keysC, keys2: keys2C, lead: themeC.notes, counter: [], ostinato: ostC, drone: droneC },
     fill, fills: fillSet, ending,
   };
+  /* ── THE TAKES, KEYED `material|role` ────────────────────────────────────
+     Deliberately NOT a field on each material: the deep-freeze below walks a
+     material's values and freezes each as a NOTE ARRAY, so a nested object of
+     arrays would be handed to `for(const n of arr)` and throw. Flat and beside
+     them instead, which is also how `chordsOf` and `fills` already sit.
+     Empty object when no genre asked, so the lookup in stage 5 is one falsy
+     test on every other record in the file. */
+  materials.takes = {};
+  if(ostATakes) materials.takes["A|ostinato"] = ostATakes;
+  if(ostATakes) materials.takes["Avar|ostinato"] = ostATakes;
   /* THE LIFTED PAIR EXISTS ONLY ON A RECORD THAT MOVED, so a song that did not
      has exactly the materials it always had and every tool that asks the song
      what it contains -- the roll, the seam check, the snapshot -- sees no change
@@ -37101,6 +37216,10 @@ function makeMaterials(chart, editPlan, arcPlan){
                            lead: themeAl.notes, counter: counterAl, ostinato: ostAl, drone: droneAl };
     materials.Avarlift = { drums: drumsAvar, bass: bassAl, keys: keysAl, keys2: keys2Avarl,
                            lead: leadAvarl, counter: [], ostinato: ostAvarl, drone: droneAl };
+    if(ostAlTakes){
+      materials.takes["Alift|ostinato"]    = ostAlTakes;
+      materials.takes["Avarlift|ostinato"] = ostAlTakes;
+    }
   }
 
   /* ── AND THE GENERATIVE PART REPLACES WHAT IT IS DECLARED ON ──────────────
@@ -39108,6 +39227,36 @@ function makePerformance(chart, form, materials, sections){
         if(LONG[role] && alt && alt[role] && alt[role].length &&
            alt[role] !== mat[role] && (cycle % LONG[role]) !== 0)
           notes = alt[role];
+        /* ══ THE CYCLE'S OWN TAKE ══════════════════════════════════════════
+           This line is the answer to "the same exact notes played for 20 mins".
+           Everything above it selects WHICH frozen array to replay; stage 3 now
+           composes several realisations of the rhythm section instead of one,
+           and this plays a different one each time the material comes round.
+
+           `cycle` is not new -- it is computed two lines above this block and
+           was already there for the long loop. The counter the fix needed had
+           been sitting in the file the whole time; what was missing was
+           anything for it to point at.
+
+           AFTER the long loop and gated on `notes === mat[role]`, so a part
+           that has just been swapped to its variant keeps that variant: the
+           two devices answer different questions (which VARIANT of the material,
+           versus which REALISATION of this part) and stacking them silently
+           would make the variant unreachable.
+
+           Only where stage 3 built takes -- one falsy lookup on every record in
+           every other genre. */
+        const TKS = materials.takes && materials.takes[sec.material + "|" + role];
+        if(TKS && TKS.length > 1 && notes === mat[role])
+          /* ── AND THE TAKE COUNTER IS THE RECORD'S, NOT THE SECTION'S ──────
+             `cycle` resets at every section boundary, which is right for the
+             long loop (a section should open on its own material) and WRONG
+             here: with sections around 16 bars a resetting counter never
+             reaches take 2, and every verse in the record opens on take 0 --
+             a fix that produces a new kind of sameness. A player does not go
+             back to the first thing they played each time a section starts, so
+             the index walks the whole record. */
+          notes = TKS[Math.floor(bar / materials.bars) % TKS.length];
         if(role === "drums" && lastBar && sec.fillInto){
           /* CONSECUTIVE BOUNDARIES TAKE CONSECUTIVE FILLS. The source's rule is
              not "vary the fill", it is "this fill has to be different from bar
@@ -40730,7 +40879,7 @@ function composeSong(seed, rig, genre, picks, pins, edits, traitRoll, traits, wa
      "least necessary change" rule the owner asked for, and it is the same
      machinery the key shift already uses to give a stretch of the record its
      own copy of the main material. ══════════════════════════════════════════ */
-  let materials = makeMaterials(chart);
+  let materials = makeMaterials(chart, null, null, form.nBars);
   let sections = makeArrangement(chart, form, materials);
   /* ── AND THE DRUM ARC RIDES THE SAME TWO PASSES, FOR THE SAME REASON ───────
      A section's place in the record decides what its drums do, and which
@@ -40756,7 +40905,7 @@ function composeSong(seed, rig, genre, picks, pins, edits, traitRoll, traits, wa
     mat: (sections[e.sec] && sections[e.sec].material) || null,
   })).filter(e => e.mat);
   if(editPlan.length || arcPlan.length){
-    materials = makeMaterials(chart, editPlan, arcPlan);
+    materials = makeMaterials(chart, editPlan, arcPlan, form.nBars);
     sections = makeArrangement(chart, form, materials);
   }
   const perf = makePerformance(chart, form, materials, sections);

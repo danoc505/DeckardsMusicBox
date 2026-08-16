@@ -1116,6 +1116,76 @@ gain values**, its lead 4.0 dB, its bass 5.1 dB, against dungeon synth's
 ostinato at 2.1 dB. This time the ear and the arithmetic agree, and the notes
 really are the same ones.
 
+### 7e-ii. WHAT WAS BUILT — takes, and the ceiling lifts
+
+`materialTakes: { ostinato: 6 }` on boxcar synth. Stage 3 composes **six**
+realisations of the banjo roll instead of one — each a full, legal, in-style
+8-bar block on its own named substream (`"ostinato:A@3"`), capped by how many
+times the material can actually come round. Stage 5 plays take
+`floor(bar / materials.bars) % takes.length`.
+
+**The counter it needed was already there.** `makePerformance` computes `cycle`
+two lines above the modulo that causes the problem — it was written for the long
+loop. Nothing was missing but something for it to point at. (The take index uses
+the *absolute* bar, not `cycle`: `cycle` resets at every section boundary, so
+with ~16-bar sections it never reaches take 2 and every verse would open on take
+0 — a fix that produces a new kind of sameness.)
+
+**The ceiling, after** — same sweep, 4 seeds a length:
+
+| asked | played | ostinato distinct | before | repeat |
+|---|---|---|---|---|
+| 180s | 36 | **29** | 20 | ×1.2 |
+| 360s | 70 | **54** | 36 | ×1.3 |
+| 600s | 124 | **86** | 39 | ×1.4 |
+| 900s | 200 | **101** | 38 | ×2.0 |
+| **1200s** | **270** | **123** | **43** | **×2.2** |
+
+It is no longer flat. The twenty-minute record went from 43 composed bars of
+banjo to 123, and from hearing each 6.2 times to 2.2. Per-record:
+ostinato 39.2 → **75.6** distinct, ×3.1 → **×1.6**.
+
+**Printed, seed 1** — the same material, four cycles apart:
+
+```
+bar  1  verse[A]          C#5 G#5 C#6 C#5 G#5 C#5 C#6 G#5   forward, 2-1-5-2-1-5-2-1
+bar 33  instrumental[A]   E5  G#5 E5  G#5 C#6 E5  G#5 C#6   Foggy Mountain, 2-1-2-1-5-2-1-5
+```
+
+Before this change bar 33 was byte-identical to bar 1. `C#6` — the fifth string
+— is in both, so the drone rides across the takes rather than being redrawn
+with them.
+
+**The tune is deliberately NOT in the list.** It is the head; a head that never
+returns is not a tune, and modal jazz keeps its head for exactly that reason.
+Bass and the wurly comp are the honest next candidates and want a pass that can
+widen their reserves properly — every take must be reserved, the way `resA`
+already reserves both `keys2A` and `keys2Avar`, or a comp voices onto a seat a
+later take is about to want.
+
+### 7e-iii. AND THE CAP IS THE ENGINE'S, NOT THIS GENRE'S
+
+`harness/probe_length.js` measures the slope and is in the battery. Run across
+all eleven genres it says plainly that boxcar synth was not special:
+
+| | played over the range | distinct |
+|---|---|---|
+| **boxcarsynth**.ostinato | ×7.5 | **×4.5** ✓ |
+| dungeonsynth.ostinato | ×6.8 | ×1.3 ✗ |
+| dungeonsynth.lead | ×6.0 | ×1.4 ✗ |
+| dungeonsynth.keys2 | ×7.8 | ×1.1 ✗ |
+
+Every genre in the file is built by the same frozen-material replay. The probe
+therefore asserts only on genres that declare `materialTakes` and **prints** the
+rest as capped — a battery that is red by design is one people learn to ignore,
+and this way the guard extends itself the moment a genre is given takes.
+
+**Why nothing caught this for so long, which is the transferable lesson:** every
+other probe in the harness measures ONE record and asks whether it is any good.
+All of them are right and all of them were blind here, because a 3-minute boxcar
+record at ×1.8 is perfectly healthy. The defect existed only as a *relationship
+between records of different lengths*, and nothing was comparing two.
+
 ---
 
 ## 8. WHAT THIS SHEET DOES NOT SETTLE

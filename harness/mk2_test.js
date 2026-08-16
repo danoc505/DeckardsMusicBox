@@ -148,6 +148,41 @@ const check = (name, ok, detail) => {
   if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
 }
 
+/* ═══ AND A LONGER RECORD MUST CONTAIN MORE MUSIC, NOT JUST MORE PLAYING ════
+   The deepest thing this battery has ever been asked to guard, and the reason
+   it went unguarded for so long is worth stating: EVERY OTHER PROBE HERE
+   MEASURES ONE RECORD. probe_repetition counts what comes back, probe_theory
+   counts wrong notes, probe_arc counts the build -- all correct, and all blind
+   to this, because a 3-minute boxcar record was perfectly healthy at x1.8. The
+   defect only existed as a RELATIONSHIP BETWEEN records of different lengths,
+   and nothing in the harness compared two.
+
+   Measured before the fix: playing time x7.5 from 180s to 1200s, composed
+   content flat from six minutes (39 distinct bars -> 38 -> 43). A twenty-minute
+   record held the same written music as a six-minute one, which is exactly what
+   the owner reported and nothing here could see.
+
+   `harness/probe_length.js` owns the logic and the reasoning, and asserts only
+   on genres that declare `materialTakes` -- the cap is the engine's, not any
+   one genre's, and a battery that is red by design is one people ignore. The
+   guard extends itself as each genre is fixed. 2 seeds a length here rather
+   than its default 4: five lengths x 11 genres is the expensive axis, and the
+   slope is a x4.5-versus-x1.3 difference that two records show plainly.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  const { execFileSync } = require("child_process");
+  let out = "", ok = true;
+  try { out = execFileSync(process.execPath,
+          [path.resolve(__dirname, "probe_length.js"), "--all", "--seeds", "2"],
+          { encoding: "utf8" }); }
+  catch(e){ ok = false; out = (e.stdout || "") + (e.stderr || ""); }
+  const capped = (out.match(/^ +· /gm) || []).length;
+  check("a longer record composes more music, not just more playing", ok,
+        ok ? `every genre with takes grows with its length (${capped} role(s) still capped in genres without)`
+           : `a role plays a longer record without composing more of it — run: node harness/probe_length.js --all`);
+  if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
+}
+
 /* ═══ AND NO SAMPLED VOICE EVER RE-FIRES A PITCH IT HAS NOT STOPPED ═════════
    Reported FIVE times, the last two of them shouted, and answered wrongly four
    times before it was answered at all -- a slur, a whistle cut, drum round
