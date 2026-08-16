@@ -1,5 +1,18 @@
 # BOXCAR SYNTH — the founding sheet of a new subgenre
 
+
+> **THE BRANCH IS `claude/code-review-6jd9cz`.** All of this genre's work is
+> there and nowhere else. `main` is a snapshot from 2026-08-03 and looks
+> deceptively clean.
+>
+> **CURRENT BUILD: `2026-08-16a`**, published to the artifact at
+> `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
+> Battery 186/1 (the one red is the permanently ruled blend item, task #61).
+> Guards: `harness/probe_journey.js` 11/11, `harness/probe_route.js` 6/6.
+>
+> **NOT ONE RECORD OF THIS GENRE HAS BEEN JUDGED BY EAR.** Every number below
+> is evidence that the machine does what it says. None of it is evidence that
+> it sounds good, and the owner is the only one who can say.
 *Researched 2026-08-15. The owner is founding a subgenre of dungeon synth,
 inspired by comfy synth, dinosynth, and dungeon synth: the railroad, the
 hobo, the journey. Decisions the owner has already made: the name is
@@ -273,6 +286,44 @@ train goes over.
 Guarded by `harness/probe_route.js`, which prints any record as prose and then
 holds five claims over twenty records.
 
+## 4d. AND THEN IT ALL DROWNED THE BAND — corrected 2026-08-16
+
+> *"The world sounds are too lound they sre drowning out the whole thing"*
+> — the owner, on build `2026-08-15y`
+
+**Measured over 10 records, and he was right by a wide margin.** `V.atmos` and
+`V.weather` write `ev.gain` straight onto a gain node, and the bank is
+normalised, so the declared number IS the peak the event reaches:
+
+| | was | now | for scale |
+|---|---|---|---|
+| rail one-shots — whistle, brakes, station, doors | **−7.3 dB** | −19.0 | the kick is −4.6 |
+| a river crossing | **−5.9 dB** | −21.8 | the bass is −18.5 |
+| terrain beds | −14.2 dB | −30.1 | the banjo is −23.4 |
+| weather beds | −19.3 dB | −30.3 | |
+
+478 rail events a record, every one at the kick's level, and a river louder
+than the kick.
+
+### The class of mistake, which is the part worth keeping
+
+Build `15u` raised these because the owner could not hear the train. That was
+TRUE AT THE TIME, and it was fixed properly afterwards by a different route —
+the train became the drone with a level of its own [§3a]. The scene levels
+were never re-measured, and the BAND then changed underneath them **twice**:
+the train left the atmosphere, and the banjo and harmonica were normalised and
+re-placed [banjo-and-harmonica-notation.md §3].
+
+**A level set against a broken reference stays wrong when the reference is
+fixed.** Every one of those changes was measured in isolation and was right on
+its own; the RELATIONSHIP between them was measured by nobody, and there is no
+guard in the harness that watches it. That gap is real and is not closed —
+see §10.
+
+The world is now four numbers — `WORLD.signal`, `.place`, `.pass`, `.weather`
+— applied at the one door they all pass through, so it can be moved as a whole
+without hunting six tables.
+
 ## 4b. THE ROUTE — every section is somewhere, corrected 2026-08-15
 
 > *"the enviromental sounds need a location and reason, is it rainy? Does it
@@ -513,6 +564,60 @@ to no medium at all. The file had already written the lesson down for the
 tape — "a second channel for one more number is how the two get out of step"
 — and the fix was to make the medium ride the same one.
 
+## 8c. THE NIGHT — RESEARCHED AND SOURCED, **NOT BUILT**
+
+> *"We need an owl for night time, Cicadias from japan like in neon genesis
+> evangelion"* — the owner, 2026-08-16
+
+The trip planner has a CLOCK [§4c] and night currently means only "no birds" —
+silence. These are the two sounds that would make night a place rather than an
+absence. **Found, licence-checked and downloaded; nothing is encoded and
+nothing is wired.** Written down here so the next coder does not repeat the
+search.
+
+| what | recording | licence | why this one |
+|---|---|---|---|
+| the owl | **Barred owl** (*Strix varia*), Ixonia, Wisconsin, USA — iNaturalist obs 390921242, uncompressed wav | **CC-BY** | boxcar synth is an AMERICAN line. A tawny owl in Nebraska is wrong, and the barred owl's "who-cooks-for-you" is the sound of those woods at night. |
+| the hot midday | **Minminzemi** (*Hyalessa maculaticollis*), Edacho, Yokohama, JP — obs 390985822 | **CC-BY** | the "miin-miin" that is shorthand for a hot summer day in Japanese manga |
+| the evening | **Higurashi** (*Tanna japonensis*), Japan — obs 384278786 | **CC0** | the "kana-kana" dusk cicada; the melancholy end-of-summer sound, and the one cited as used in *Evangelion* |
+
+**Two cicadas, not one, and that is the point:** minminzemi is NOON and
+higurashi is DUSK. The planner already knows the hour, so they are two
+different facts about the time rather than two textures.
+
+**The BBC archive has no Japanese cicadas.** It is the source for every rail
+sound [§6], and searching it returns Australia, Gambia, Mississippi, Tunisia,
+Borneo and New Zealand; "higurashi" returns zero. Substituting an Australian
+cicada would have been a lie about provenance, so the source moved to
+iNaturalist, whose recordings are species-identified, located and licensed.
+
+**What building it needs:** a fifth payload encoded by a script shaped like
+`harness/rail_bank.py` (measured windows, 60 ms loop crossfade, ADPCM at
+22050); a `night` terrain and a clock gate in the trip planner so the owl
+calls after dusk and the cicadas by species-hour; attribution for the two
+CC-BY recordings carried in the bank header and in §Sources; **and the level
+measured against the band BEFORE the owner hears it**, which is the whole
+lesson of §4d.
+
+## 10. WHAT IS STILL OPEN — read this before starting
+
+1. **NOT JUDGED BY EAR.** Every build listed here. This outranks everything.
+2. **Nothing watches one level against another.** §4d happened because three
+   correct, separately-measured changes left the world 10–18 dB over the band
+   and no guard compares them. A probe that holds the scene, the band and the
+   train in one measurement would have caught it the day it appeared.
+3. **The night is researched and not built** — §8c.
+4. **The harmonica's sourced constraints are not enforced**: it can hold only
+   the I and the V, and its bottom octave has no 4th and no 6th
+   [banjo-and-harmonica-notation.md §2a, §2b]. Written down, not coded.
+5. **The banjo deployment is from a TEMPLATE, not a performance.** The tab
+   used is explicitly "not a transcription of any one break", so it cannot say
+   how a player varies between his first and second break, or what he does
+   behind a singer. That needs two transcriptions of the same tune.
+6. **Task #95**: the passing envelope assumes the loudest moment sits at the
+   middle of the sample; it should measure each pass sample's own peak
+   position and align to it.
+
 ## 9. What is built, in phases (the plan of record)
 
 Phase 0 this sheet + the rail payload · Phase 1 the hobo band
@@ -524,7 +629,38 @@ gramophone/radio decay · Phase 5 guards and the battery. Blast radius of
 a NEW genre: zero movement in existing genres (the ambient precedent,
 measured), plus 300 new baseline rows.
 
+**AND THEN SIX CORRECTIONS, ALL FROM LISTENING** — the owner heard each one
+and every one was a real defect, not a taste call:
+
+| build | what he said | what it was |
+|---|---|---|
+| `15v` | "how can it be [boxcar synth] if the train sound is not the backbone" | the train was WEATHER — one bed per record that never stopped, so nothing ever arrived. It became the `drone` role. |
+| `15w` | "the Banjo is playing back to quite and even when i turn up the volume its still to low" | the roll handed its channel −38.4 dB against a bass at −18.5; a +12 dB fader cannot close 20. The dynamic was counted twice and the takes were never normalised. |
+| `15w` | "we are not using them correctly ... we need more notes" | the four roll cells were INVENTED. Replaced with the eight named Scruggs rolls; the roll went from one section function to 92% of the record. |
+| `15x` | "the train is fading in and out" | one drone note per material cycle, each with its own envelope — fourteen swells a minute. Abutting events now merge into one run. |
+| `15x`/`15y` | "the SFX are part of the story ... its not just all on at once" | one scene bed per record. Now an itinerary is planned first and the record plays against it. |
+| `16a` | "the world sounds are too lound they sre drowning out the whole thing" | the world sat 10–18 dB OVER the band [§4d]. |
+
+Every one of those was invisible to a green battery. **The ear found all six.**
+
 ## Sources
+
+**The night recordings [§8c], found 2026-08-16, downloaded and not yet built:**
+
+- Barred owl (*Strix varia*), Ixonia, Wisconsin, USA — iNaturalist observation
+  390921242, recordist `eric-schmitty`, **CC-BY**
+- Minminzemi (*Hyalessa maculaticollis*), Edacho, Yokohama, Japan —
+  iNaturalist observation 390985822, recordist `tokue`, **CC-BY**
+- Higurashi (*Tanna japonensis*), Japan — iNaturalist observation 384278786,
+  recordist `unipon`, **CC0**
+- Searched and rejected: the BBC Sound Effects archive has no Japanese cicada
+  recordings (hits are Australia, Gambia, Mississippi, Tunisia, Borneo, New
+  Zealand; "higurashi" returns zero)
+- On which cicada *Evangelion* uses: the series leans on cicadas throughout to
+  hold summer all year (Second Impact shifted the axis), and higurashi is the
+  species named in fan discussion of it — [TV Tropes, *Cicadian Rhythm*](https://tvtropes.org/pmwiki/pmwiki.php/Main/CicadianRhythm)
+
+**The genre's own reading:**
 
 - [Dazed — The inside story of comfy synth](https://www.dazeddigital.com/music/article/58365/1/the-inside-story-of-comfy-synth-the-internets-snuggliest-microgenre)
 - [RYM — Comfy Synth genre page](https://rateyourmusic.com/genre/comfy-synth/)
