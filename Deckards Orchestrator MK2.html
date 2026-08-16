@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-16h · the band stands somewhere, and the floor sways</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-16i · a slide is not an instrument — the diddley bow, one wire and a bottle</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -6291,22 +6291,32 @@ const INSTRUMENTS = {
              groups: [{ label: "THE PIPES", keys: ["chime", "breath", "far"] },
                       panGroup()] },
   },
-  slideGlass: {
-    slot: "lead", label: "glass slide",
-    lanes: { lead:"slideGlass" },
-    range: [50, 86],
-    /* one bar across the strings: two notes at most, and the string under it
-       still decays like a picked string §3 */
-    play: { poly: 2 },
+  /* ── A SLIDE IS NOT AN INSTRUMENT — see V.diddley for the whole correction.
+     This was `slideGlass`, "glass slide", declaring `poly: 2` on a thing that
+     has one string, and rendering two sawtooth oscillators. It is the DIDDLEY
+     BOW: a board, one wire, and a bottle for a bridge. The slide is how it is
+     PLAYED, which is why `scoop` is still here and is now the string's own
+     length moving rather than a portamento bolted onto a synth. */
+  diddley: {
+    slot: "lead", label: "diddley bow",
+    lanes: { lead:"diddley" },
+    /* a plank and a wire: it does not reach where a guitar reaches, and the
+       slide means the top is limited by how near the bridge you dare go */
+    range: [45, 76],
+    /* ONE STRING. Not a preference -- the instrument is one wire between two
+       nails, so two notes at once is not a thing it can do. */
+    play: { poly: 1 },
     controls: [
       ...panControls(),
-      { k:"scoop", label:"slide into the note", cap:"SCOOP", min:0, max:1, step:0.01, def:0.5, kind:"gesture" },
-      { k:"vib",   label:"hand vibrato",        cap:"VIB",   min:0, max:1, step:0.01, def:0.5, kind:"voicing" },
-      { k:"tone",  label:"tone",                cap:"TONE",  min:0, max:1, step:0.01, def:0.5, kind:"gesture" },
+      { k:"scoop",  label:"slide into the note", cap:"SLIDE",  min:0, max:1, step:0.01, def:0.5, kind:"gesture" },
+      { k:"vib",    label:"hand vibrato",        cap:"VIB",    min:0, max:1, step:0.01, def:0.5, kind:"voicing" },
+      { k:"tone",   label:"string damping",      cap:"TONE",   min:0, max:1, step:0.01, def:0.5, kind:"gesture" },
+      { k:"bottle", label:"the bottle bridge",   cap:"BOTTLE", min:0, max:1, step:0.01, def:0.5, kind:"gesture" },
     ],
-    panel: { skin: "erang", maker: "", title: "glass slide",
-             sub: "synthesized and saying so — continuous pitch, scooped in",
+    panel: { skin: "erang", maker: "", title: "diddley bow",
+             sub: "one wire on a board, a bottle for a bridge — plucked, and the slide travels",
              groups: [{ label: "THE HAND", keys: ["scoop", "vib", "tone"] },
+                      { label: "THE BOARD", keys: ["bottle"] },
                       panGroup()] },
   },
 
@@ -8500,7 +8510,7 @@ const RIG = {
                 form.setMachines — because a stopped train is when a picker
                 drops the roll and vamps. */
              bass:"bass", drone:"trainbox", keys:"keys", lead:"harmonica",
-             counter:"slideGlass", ostinato:"banjo",
+             counter:"diddley", ostinato:"banjo",
              rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
   /* THE BOX -- acid house. Every element is a machine and every machine is one
      somebody can name: the 808's bridged-T kick and its six-square hats, a CLAP
@@ -8904,7 +8914,7 @@ const PLAY_FAMILY = {
          and bassoon — one player, one note — were being handed four and NINE
          simultaneous notes. Joining here fixes the durations; the two laws
          below fix the rest. [docs/genre-research/playing-the-hobo-band.md] */
-      banjo: "plucked", slideGlass: "plucked",
+      banjo: "plucked", diddley: "plucked",
       harmonica: "wind", steamWhistle: "wind", contrabassoon: "wind",
     };
 
@@ -13697,49 +13707,124 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
      glides in, and grows a slow hand vibrato as it holds. Two barely
      detuned saws through a body resonance stand in for the steel string
      under glass. */
-  V.slideGlass = function(g, ev, t){
+  /* ══ THE DIDDLEY BOW — ONE STRING, A BOARD, AND A BOTTLE ══════════════════
+     [owner, 2026-08-16: "What is a glass slide and what are you using as a
+     glass slide? I do not think it is correct and i dont like what your doing
+     with it. A glass slide i thought was part of another instrument like a 2
+     string bass played with a glass slide"]
+
+     RIGHT ON BOTH COUNTS, and the second fault is worse than the first.
+
+     1. A GLASS SLIDE IS A TOOL, NOT AN INSTRUMENT. It is a smooth tube --
+        traditionally the cut-off neck of a bottle -- worn on a finger and
+        pressed against the strings of some OTHER instrument instead of
+        fretting them. An instrument called "glass slide" is an instrument
+        called "the plectrum".
+
+     2. AND THE VOICE WAS NOT A STRING AT ALL. What stood here was TWO DETUNED
+        SAWTOOTH OSCILLATORS through a lowpass and a peaking filter, with a
+        pitch scoop and a vibrato: a synth lead with portamento. No pluck, no
+        string decay, no attack transient. Its own comment said "one bar across
+        the strings" and there was no string in the code -- and it declared
+        `poly: 2`, which is two notes on an instrument that has one string.
+
+     WHAT THE INSTRUMENT ACTUALLY IS [Wikipedia, "Diddley bow";
+     cigarboxguitar.com]: "a wooden board and a single wire string stretched
+     between two screws, and played by plucking while varying the pitch with a
+     metal or glass slide held in the other hand", and "A GLASS BOTTLE IS
+     USUALLY USED AS THE BRIDGE, which helps amplify the sound". Some add a
+     resonator box and are "essentially single-string cigar box guitars".
+     Blind Willie Johnson's father built him one when he was five and he
+     played it with a pocketknife. It is the documented ancestor of slide
+     blues, it is homemade from rubbish, and it is a sibling of the washtub
+     bass -- same lineage, same people, same decade as this genre.
+
+     SO THIS IS A PLUCKED STRING, MODELLED AS ONE. Karplus-Strong: a delay line
+     one period long with a lowpass in its feedback path, excited by a short
+     noise burst. That is not a stylistic choice, it is the cheapest honest
+     model of a plucked string, and it gives for free the three things two
+     sawtooths could never give -- a real attack transient, a decay that gets
+     darker as it dies, and a body that rings rather than a tone that is held.
+
+     AND THE SLIDE IS THE DELAY TIME MOVING. A slide does not step between
+     pitches, it travels, and on a real string the PITCH IS THE STRING LENGTH.
+     Ramping the delay time IS the glass moving along the wire, which means the
+     one thing the old voice got right -- continuous pitch -- is now the thing
+     the model does by construction rather than by an added portamento.
+
+     `poly: 1`, because it has ONE STRING. */
+  V.diddley = function(g, ev, t){
     const c = g.ctx, f = 440 * Math.pow(2, (ev.pitch - 69) / 12);
-    const scoopK = P(g, ev, "slideGlass", "scoop", 0.5);
-    const vibK   = P(g, ev, "slideGlass", "vib",   0.5);
-    const tone   = P(g, ev, "slideGlass", "tone",  0.5);
-    const end0 = t + ev.durSec, REL = 0.14, end = end0 + REL + 0.3;
+    const scoopK = P(g, ev, "diddley", "scoop", 0.5);
+    const vibK   = P(g, ev, "diddley", "vib",   0.5);
+    const tone   = P(g, ev, "diddley", "tone",  0.5);
+    const bottle = P(g, ev, "diddley", "bottle", 0.5);
+    const end0 = t + ev.durSec, REL = 0.10, end = end0 + REL + 0.4;
     const bus = kbdBus(ev);
-    const out = c.createGain(); out.connect(stereoOut(g, ev, t, "slideGlass", bus));
+    const out = c.createGain(); out.connect(stereoOut(g, ev, t, "diddley", bus));
+
+    /* THE BOTTLE IS THE BRIDGE, and the sources say so in as many words -- it
+       is what couples the string to the board, so it is a resonance every note
+       passes through rather than an effect on top. High and glassy. */
+    const glass = c.createBiquadFilter(); glass.type = "peaking";
+    glass.frequency.value = 1700 + 900 * bottle; glass.Q.value = 5.5;
+    glass.gain.value = 3 + 7 * bottle;
+    /* the board, or the cigar box: a small boxy cavity, not a guitar's bloom */
+    const box = c.createBiquadFilter(); box.type = "peaking";
+    box.frequency.value = 420; box.Q.value = 1.6; box.gain.value = 5;
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
-    lp.frequency.value = 1400 + 2600 * tone; lp.Q.value = 0.6;
-    const body = c.createBiquadFilter(); body.type = "peaking";
-    body.frequency.value = 1050; body.Q.value = 2.2; body.gain.value = 5;
-    lp.connect(body); body.connect(out);
-    const h = hash32("slide:" + ev.tSec.toFixed(4) + ":" + ev.pitch);
-    const scoop = (0.8 + 2.4 * scoopK) * (0.6 + 0.8 * (((h >>> 8) & 255) / 255));
-    const glide = 0.08 + 0.10 * scoopK;
-    const made = [];
-    for(const det of [-3, 3]){
-      const o = c.createOscillator(); o.type = "sawtooth";
-      const f0 = f * Math.pow(2, -scoop / 12) * Math.pow(2, det / 1200);
-      const f1 = f * Math.pow(2, det / 1200);
-      o.frequency.setValueAtTime(f0, t);
-      o.frequency.linearRampToValueAtTime(f1, t + Math.min(glide, ev.durSec * 0.4));
-      const gn = c.createGain();
-      const lvl = LEVEL[bus] * 0.28 * Math.min(1.2, ev.gain);
-      gn.gain.setValueAtTime(0.0001, t);
-      gn.gain.linearRampToValueAtTime(lvl, t + 0.03);
-      gn.gain.setValueAtTime(lvl, end0);
-      gn.gain.exponentialRampToValueAtTime(0.0001, end0 + REL);
-      o.connect(gn); gn.connect(lp);
-      /* the hand's vibrato arrives once the slide has settled */
-      if(ev.durSec > 0.5 && vibK > 0.02){
-        const vo = c.createOscillator(); vo.frequency.value = 4.6;
-        const vg = c.createGain();
-        vg.gain.setValueAtTime(0, t);
-        vg.gain.setValueAtTime(0, t + ev.durSec * 0.35);
-        vg.gain.linearRampToValueAtTime(f1 * 0.006 * vibK * 3, end0);
-        vo.connect(vg); vg.connect(o.frequency);
-        vo.start(t); vo.stop(end); made.push(vo);
-      }
-      o.start(t); o.stop(end); made.push(o);
+    lp.frequency.value = 1800 + 3400 * tone; lp.Q.value = 0.5;
+    glass.connect(box); box.connect(lp); lp.connect(out);
+
+    /* ── THE STRING ─────────────────────────────────────────────────────────
+       delay = one period. The loop filter is what makes a plucked string decay
+       from bright to dark instead of fading evenly, and the feedback is how
+       long a homemade wire on a plank actually rings, which is not long. */
+    const str = c.createDelay(0.05);
+    const fb  = c.createGain();
+    const damp = c.createBiquadFilter(); damp.type = "lowpass";
+    damp.frequency.value = 2600 + 2600 * tone; damp.Q.value = 0.0001;
+    str.connect(damp); damp.connect(fb); fb.connect(str);
+    str.connect(glass);
+    fb.gain.value = 0.965;
+
+    /* THE SLIDE: the glass travels along the wire, so the string's LENGTH
+       travels -- one ramp on the delay time, from wherever the hand started. */
+    const per = 1 / f;
+    const h = hash32("diddley:" + ev.tSec.toFixed(4) + ":" + ev.pitch);
+    const from = (0.9 + 2.6 * scoopK) * (0.6 + 0.8 * (((h >>> 8) & 255) / 255));
+    const glide = 0.09 + 0.13 * scoopK;
+    str.delayTime.setValueAtTime(Math.min(0.05, per * Math.pow(2, from / 12)), t);
+    str.delayTime.linearRampToValueAtTime(
+      Math.min(0.05, per), t + Math.min(glide, Math.max(0.03, ev.durSec * 0.45)));
+    /* the hand shakes once the slide has arrived -- a slide player's vibrato is
+       the WHOLE HAND rocking, so it is wide and slow next to a fretted one */
+    if(ev.durSec > 0.5 && vibK > 0.02){
+      const vo = c.createOscillator(); vo.frequency.value = 4.1;
+      const vg = c.createGain();
+      vg.gain.setValueAtTime(0, t);
+      vg.gain.setValueAtTime(0, t + ev.durSec * 0.35);
+      vg.gain.linearRampToValueAtTime(per * 0.010 * vibK * 3, end0);
+      vo.connect(vg); vg.connect(str.delayTime);
+      vo.start(t); vo.stop(end);
     }
-    return made;
+
+    /* THE PLUCK: a few milliseconds of the seeded noise bank, which is what
+       excites the string. Seeded, so the offline render is the live one. */
+    const nb = c.createBufferSource(); nb.buffer = g.noise;
+    nb.loop = false;
+    const off = ((h >>> 17) & 8191) / 8191 * 1.5;
+    const ng = c.createGain();
+    const lvl = LEVEL[bus] * 0.90 * Math.min(1.2, ev.gain);
+    ng.gain.setValueAtTime(lvl, t);
+    ng.gain.exponentialRampToValueAtTime(0.0001, t + 0.010);
+    nb.connect(ng); ng.connect(str);
+    nb.start(t, off, 0.05);
+
+    /* the hand stops the string at the end of the note -- a damp, not a chop */
+    fb.gain.setValueAtTime(0.965, end0);
+    fb.gain.linearRampToValueAtTime(0.35, end0 + REL);
+    return [nb];
   };
 
   /* the freight yard's hits, on the taiko engine — trims [CHOSEN] until the
@@ -29698,9 +29783,9 @@ GENRE.boxcarsynth = {
        the strings belong there) and the harmonica's weight on the answer
        drops under the slide's. */
     keys2:    [["vp330", 4], ["erangStrings", 3], ["auto", 3]],
-    lead:     [["harmonica", 5], ["slideGlass", 3], ["bardWind", 1], ["auto", 1]],
+    lead:     [["harmonica", 5], ["diddley", 3], ["bardWind", 1], ["auto", 1]],
     ostinato: [["banjo", 4], ["auto", 6]],
-    counter:  [["slideGlass", 4], ["harmonica", 2], ["auto", 4]],
+    counter:  [["diddley", 4], ["harmonica", 2], ["auto", 4]],
   },
   /* ── THE SCENE UNDER THE RECORD [sheet §6] — the rail beds and the
      passing landscape, through the atmos door with the genre's OWN
@@ -30175,7 +30260,7 @@ GENRE.boxcarsynth = {
              { kind: "lfo", bars: [[19, 2], [13, 1]], depth: [0.02, 0.06],
                shape: "sin", freePhase: true }],
     },
-    slideGlass: {
+    diddley: {
       /* THE ANSWER COMES FROM SOMEWHERE ELSE, or it is not an answer: the slide
          sits wide right, past the wurly and opposite the banjo.
 
@@ -30196,6 +30281,16 @@ GENRE.boxcarsynth = {
               { kind: "lfo", bars: [[11, 2], [17, 1]], depth: [0.02, 0.06],
                 shape: "sin", freePhase: true }],
       tone:  [{ kind: "arc", from: [-0.12, -0.04], to: [0.06, 0.18], curve: "sCurve" }],
+      /* THE BOTTLE IS THE BRIDGE, so how hard the string is coupled to the
+         board is a thing that changes as a player settles: it rings glassier
+         as the record brightens, the way `pick` does on the banjo, and it
+         backs off in the town where the instrument is played quietly across a
+         platform rather than leaned on. Rides rather than sits, because a
+         parked knob is a knob that lies about being a control. */
+      bottle: [{ kind: "arc", from: [-0.16, -0.05], to: [0.08, 0.24], curve: "sCurve" },
+               { kind: "section", by: { chorus: [-0.18, -0.06], bridge: [0.05, 0.18] } },
+               { kind: "lfo", bars: [[19, 2], [37, 1]], depth: [0.02, 0.07],
+                 shape: "sin", freePhase: true }],
     },
     /* ══ THE TRAIN'S LEVEL IS THE STORY ══════════════════════════════════════
        [owner, 2026-08-15, verbatim: "It needs to be automated to help tell the

@@ -938,6 +938,77 @@ raises its level ~3 dB, unmeasured against the band because `probe_stems`'
 voice attribution printed brake/anvil rows under the ostinato and could not
 be trusted (README lesson 2, again). The ear rules on the level.
 
+## 7b. ⚠ "THE GLASS SLIDE" WAS NOT AN INSTRUMENT, AND WAS NOT A STRING
+
+*[owner, 2026-08-16: "What is a glass slide and what are you using as a glass
+slide? I do not think it is correct and i dont like what your doing with it. A
+glass slide i thought was part of another instrument like a 2 string bass played
+with a glass slide"]*
+
+**Right on both counts, and the second fault is worse than the first.**
+
+**1. A glass slide is a TOOL.** It is a smooth tube — traditionally the cut-off
+neck of a bottle — worn on a finger and pressed against the strings of some
+*other* instrument instead of fretting them. An instrument called "glass slide"
+is an instrument called "the plectrum". §7 above lists it under "the hobo band —
+sources found" as though it were a member of the band.
+
+**2. And the voice was not a string at all.** `V.slideGlass` was **two detuned
+sawtooth oscillators** through a lowpass and a peaking filter, with a pitch scoop
+and a vibrato — a synth lead with portamento. No pluck, no string decay, no
+attack transient. Its own comment read *"one bar across the strings"* and there
+was no string in the code. It declared `poly: 2`, which is two notes at once on
+an instrument that has one string.
+
+### What the instrument actually is
+
+The **diddley bow** — which is what the owner was describing:
+
+> "a wooden board and a single wire string stretched between two screws, and
+> played by plucking while varying the pitch with a metal or glass slide held in
+> the other hand" … "**A glass bottle is usually used as the bridge**, which
+> helps amplify the sound." Some add a resonator box and are "essentially
+> single-string cigar box guitars."
+
+Blind Willie Johnson's father built him one when he was five; he played it with
+a pocketknife. It is the documented ancestor of slide blues, it is homemade from
+rubbish, and it is a **sibling of the washtub bass** — same lineage, same people,
+same decade as this genre. Two one-string homemade instruments is a hobo band.
+
+### What was built
+
+`V.diddley`, and it is a **plucked string modelled as one**: Karplus–Strong — a
+delay line one period long with a lowpass in its feedback path, excited by a
+short burst of the seeded noise bank. Not a stylistic choice; it is the cheapest
+honest model of a plucked string, and it gives the three things two sawtooths
+could never give — a real attack transient, a decay that darkens as it dies, and
+a body that rings rather than a tone that is held.
+
+**And the slide is the delay time moving.** On a real string the pitch *is* the
+string length, so ramping the delay length IS the glass travelling along the
+wire. The one thing the old voice got right — continuous pitch — is now
+something the model does by construction rather than by a portamento bolted on.
+
+| | before | after |
+|---|---|---|
+| name | "glass slide" (a tool) | diddley bow |
+| polyphony | `poly: 2` on one string | **`poly: 1`** |
+| sound source | 2 sawtooth oscillators | plucked string, seeded noise excitation |
+| the slide | a portamento on a synth | the string's own length travelling |
+| the bottle | absent | the **bridge**, a high-Q resonance every note passes |
+| range | 50–86 | 45–76 (a plank and a wire is not a guitar) |
+
+Controls: `SLIDE` (how far the hand starts below the note), `VIB` (a slide
+player's vibrato is the whole hand rocking, so it is wider and slower than a
+fretted one), `TONE` (string damping), and `BOTTLE` (how hard the bridge
+couples). 263 notes over 6 records; `probe_automation` PARKED unchanged at 4.
+
+**Still open:** no free recorded diddley-bow set has been searched for. §7's
+honest position on the old voice — "synthesized and saying so" — still stands,
+but it is now a synthesis *of the right instrument*.
+
+---
+
 ## 8b. THE SFX WERE ALL ON ONE FADER, AND IT WAS NEVER A DECISION
 
 *[owner, 2026-08-16: "the SFX needs to not be clumped together on one single
