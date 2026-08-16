@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-15y · the trip is planned first — stations, terrain, a clock, and weather fronts</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-16a · the world sits under the band again — measured against it, not guessed</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -9294,6 +9294,35 @@ const MEDIUM_WOW_HZ = 78 / 60;
      [docs/genre-research/banjo-and-harmonica-notation.md §3] */
   const BANJO_TRIM = 0.62;
   const HARP_TRIM  = 0.46;
+  /* ══ AND THE WORLD SITS UNDER THE BAND ════════════════════════════════════
+     [owner, 2026-08-16: "The world sounds are too lound they sre drowning out
+     the whole thing"] MEASURED over 10 records, and he is right by a wide
+     margin. `V.atmos` and `V.weather` write `ev.gain` straight onto a gain
+     node and the bank is normalised, so the declared number IS the peak the
+     event reaches. Against a band whose bass peaks at -18.5 dB:
+
+                              was            is now      against
+       rail one-shots         -7.3 dB        -19.0       (the kick is -4.6)
+       a river crossing       -5.9 dB        -21.8       (the bass is -18.5)
+       terrain beds          -14.2 dB        -30.1       (the banjo is -23.4)
+       weather beds          -19.3 dB        -30.4
+
+     HOW IT GOT LIKE THAT IS THE PART WORTH KEEPING. Build `15u` raised these
+     because the owner could not hear the train — true at the time, and fixed
+     properly since by making the train the drone with a level of its own. The
+     scene levels were never re-measured afterwards, and the BAND changed
+     underneath them twice: the train left the atmosphere, and the banjo and
+     harmonica were normalised and re-placed. A level set against a broken
+     reference stays wrong when the reference is fixed, and nothing was
+     watching the pair.
+
+     Four numbers, one per class, at the one door they all pass through — so
+     the next person can move the world as a whole without hunting six tables. */
+  const WORLD = { signal: 0.26, place: 0.16, pass: 0.16, weather: 0.28 };
+  const worldTrim = ev => ev.pass ? WORLD.pass
+                        : ev.role === "scene"   ? WORLD.place
+                        : ev.role === "weather" ? WORLD.weather
+                        : WORLD.signal;
 
   /* ══ THE ROOM'S DSP, as a worklet module ═══════════════════════════════════
      Source for the AudioWorkletProcessor that IS the room. It lives here as a
@@ -16154,7 +16183,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
          you, it goes. Four moves, and the middle half of the event is within
          9 dB of full. */
       const gn = c0.createGain();
-      const g0 = Math.max(0.0002, ev.gain);
+      const g0 = Math.max(0.0002, ev.gain * worldTrim(ev));
       gn.gain.setValueAtTime(0.0001, t);
       gn.gain.exponentialRampToValueAtTime(g0 * 0.35, t + dur * 0.28);
       gn.gain.linearRampToValueAtTime(g0, mid);
@@ -16182,7 +16211,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const c = g.ctx;
     const src = c.createBufferSource(); src.buffer = buf;
     if(s.ls >= 0){ src.loop = true; src.loopStart = s.ls / ERANG.rate; src.loopEnd = s.le / ERANG.rate; }
-    const gn = c.createGain(); gn.gain.value = ev.gain;
+    const gn = c.createGain(); gn.gain.value = ev.gain * worldTrim(ev);
     src.connect(gn); gn.connect(chanIn(g, ev.role, "vinyl", ev));
     src.start(t); src.stop(t + ev.durSec);
     return [src];
@@ -16397,7 +16426,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
      other genre's draws move. ══════════════════════════════════════════════ */
   V.weather = function(g, ev, t){
     const c = g.ctx, made = [];
-    const dur = Math.max(0.5, ev.durSec), lvl = Math.max(0.0001, ev.gain);
+    const dur = Math.max(0.5, ev.durSec), lvl = Math.max(0.0001, ev.gain * WORLD.weather);
     /* the two RECORDINGS take the short path: the bank already has them */
     if(ev.bed){
       const m = ERANG.meta(ev.bed), buf = erangBuffer(g, ev.bed);
