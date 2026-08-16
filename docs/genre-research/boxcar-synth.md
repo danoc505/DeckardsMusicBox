@@ -938,6 +938,90 @@ raises its level ~3 dB, unmeasured against the band because `probe_stems`'
 voice attribution printed brake/anvil rows under the ostinato and could not
 be trusted (README lesson 2, again). The ear rules on the level.
 
+## 8b. THE SFX WERE ALL ON ONE FADER, AND IT WAS NEVER A DECISION
+
+*[owner, 2026-08-16: "the SFX needs to not be clumped together on one single
+fader. Each element needs its own fader and its own space on the piano roll. It
+is over crowded and none of it is reaching the gramophone"]*
+
+**MEASURED, 6 records.** Sixteen distinct rail beds — `railWhistle`, `railBell`,
+`railBrake`, `railDepart`, `railArrive`, `railPass0/1`, `railClank`, `railValve`,
+`railDoors`, `railCrowd`, `railGuard`, `railTown`, `railCall`, `railCbell`,
+`railPeep` — were **all carrying `role: "tape"`**, on the `vinyl` bus, sharing
+one fader, one EQ, one meter and one piano-roll lane with the surface crackle
+and the medium hiss.
+
+And it was never chosen. `roleOfBed` read:
+
+```js
+if(/^scene/.test(fam))            return "scene";
+if(/wind|thunder|rain|.../.test(n)) return "weather";
+return "tape";                    // ← everything else
+```
+
+**`tape` was the fallback.** The entire railway landed there because nothing ever
+claimed it.
+
+### One correction to the report, and one confirmation
+
+**The gramophone: they DO reach it.** `vinyl`'s Mix column is open, and the chain
+is `mix → shaper → desk → comp → tape → medium`. Nothing bypasses the horn.
+
+**But they reach nothing else**, and that is the real fault. Printed off the
+program's own matrix:
+
+```
+bus       Mix     Echo    Room    Spring  Flange  DP4     Barber
+vinyl     open    BLIND   BLIND   BLIND   BLIND   BLIND   BLIND
+world     open    open    open    BLIND   BLIND   BLIND   BLIND
+rail      open    open    open    BLIND   BLIND   BLIND   BLIND   ← new
+```
+
+The rail beds inherited **five blind plates that were ruled about stylus
+crackle** — "the crackle happens at the stylus, after everything; it never met
+the band". True of crackle, false of a locomotive. So this genre's signature
+sound, a steam whistle, **could not reach a reverb**: a whistle with no room is
+a whistle in your kitchen, not one across a valley.
+
+This is the *same fix the `world` row got on 2026-08-15* for the birds and the
+rivers — §MATRIX.ins records it in as many words — and **the rail beds were
+simply left behind.**
+
+### What was built
+
+A `rail` matrix row (Room and Echo open; Spring/Flange/DP4/Barber plated for the
+world row's own reason — a flanged locomotive is a synth patch), and the railway
+split onto **three faders by what makes the sound**, which is how a desk would
+group it anyway:
+
+| strip | label | what it is | beds |
+|---|---|---|---|
+| `engine` | the engine | the locomotive itself | whistle, peep, brake, valve, clank, depart, arrive |
+| `pass` | going by | the thing that MOVES — already rendered with a doppler | railPass0/1 |
+| `station` | the station | the place and its people | bell, cbell, call, crowd, doors, guard, town |
+
+Classified off the **bank's own `fam` metadata**, not off bed names: `railPeep`
+is in the `railWhistle` family and `railCbell` is in `railBell`'s, so reading
+names would have split both wrongly.
+
+**After, 6 records:** engine 165 events, station 185, pass 39, scene 41,
+weather 16 — and **`tape` is down to 12 events with zero beds**, which is
+exactly the crackle and the medium it is named for. The fallback is gone.
+
+Three automation lanes ride the new row (`railRoom`, `railEcho`, `railMix`), so
+the seven new crossings are not seven dead knobs — `probe_automation` went
+442 → 445 ridden with PARKED unchanged at 4. The gesture is the world row's
+**mirrored**: the landscape goes dry in the town while the railway goes wet,
+because on the road the engine is the thing you are riding and in the town it is
+a machine across a platform.
+
+**Deliberately NOT moved:** `bxBrake` and `bxAnvil` (1,681 hits) stay on
+`drums`. They are not sound effects in this genre — they are the kit. The
+train's percussion is made of railway metal on purpose, and they are *played*
+as drums.
+
+---
+
 ## 9. What is built, in phases (the plan of record)
 
 Phase 0 this sheet + the rail payload · Phase 1 the hobo band

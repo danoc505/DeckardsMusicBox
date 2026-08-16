@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-16f · the fifth string does not move, the material is eight bars, and the band takes</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-16g · the railway comes off the crackle fader and gets a room</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3182,6 +3182,34 @@ const MATRIX = {
        CLOSED in every column — a genre opens it by naming `world` in `feeds`
        or `echoFeeds` — so no genre that says nothing changes by a decimal. */
     { k: "world", label: "world" },
+    /* ── AND THE RAILWAY IS NOT THE RECORD SURFACE EITHER ───────────────────
+       [owner, 2026-08-16: "the SFX needs to not be clumped together on one
+       single fader. Each element needs its own fader and its own space on the
+       piano roll. It is over crowded"]
+
+       MEASURED, 6 boxcar records, and he is right in a way I did not expect:
+       SIXTEEN distinct rail sounds -- railWhistle, railBell, railBrake,
+       railDepart, railArrive, railPass0/1, railClank, railValve, railDoors,
+       railCrowd, railGuard, railTown, railCall, railCbell, railPeep -- were
+       ALL carrying `role: "tape"`, on the `vinyl` bus, sharing one fader and
+       one piano-roll lane with the surface crackle and the medium hiss.
+
+       And it was never a decision. `roleOfBed` reads:
+
+           if(/^scene/) return "scene";
+           if(/wind|thunder|.../) return "weather";
+           return "tape";                       <-- everything else
+
+       `tape` is the FALLBACK. The railway landed there because nothing ever
+       claimed it, and it inherited vinyl's five blind plates -- so the genre's
+       signature sound, a steam whistle, could not reach a reverb. A whistle
+       with no room is a whistle in your kitchen, not one across a valley.
+
+       This is the same fix the `world` row above got for the birds and the
+       rivers on the same day, and the rail beds were simply left behind.
+       Room and Echo open, the four announcing effects plated, for the world
+       row's own reason: a flanged locomotive is not a locomotive. */
+    { k: "rail", label: "rail" },
     { k: "echo",   label: "echo",   ret: true },
     { k: "room",   label: "room",   ret: true },
     /* the spring tank's return -- the boingy room, after the plain one in the
@@ -3310,6 +3338,14 @@ const MATRIX = {
      river sounds processed it stops being a river and becomes a synth patch.
      So the same treatment vinyl gets, for a different and stated reason. */
   for(const k of ["Spring", "Flange", "DP4", "Barber"]){
+    MATRIX.none["rail" + k] =
+      "the railway is a RECORDING OF A MACHINE, and it is outdoors. A whistle " +
+      "can be in a valley and it can arrive late across one, so the Room and " +
+      "the Echo are open -- but a flanged locomotive is a synth patch, not a " +
+      "locomotive, and a train run through a spring tank stops being a train. " +
+      "Same treatment as the world row, same reason, different machine";
+  }
+  for(const k of ["Spring", "Flange", "DP4", "Barber"]){
     MATRIX.none["world" + k] =
       "the world is a RECORDING OF A PLACE. A place can be in a room and it " +
       "can be far away, so the Room and the Echo are open above -- but a " +
@@ -3406,7 +3442,27 @@ const MIX_ROLE_BUS = { drums: "drums", bass: "bass",
                           about STYLUS CRACKLE, so the world's reverb and delay
                           sends were built, were fed by `duck`, and terminated
                           in nothing. A river is not a record surface. */
-                       scene: "world", weather: "world" };
+                       scene: "world", weather: "world",
+                       /* ── THE RAILWAY, ON THREE FADERS ────────────────────
+                          [owner: "Each element needs its own fader and its own
+                          space on the piano roll. It is over crowded"] Sixteen
+                          faders would be unusable and one is what he is
+                          complaining about, so the split is by WHAT MAKES THE
+                          SOUND, which is how a desk would group it anyway:
+
+                            engine   the locomotive itself -- whistle, brakes,
+                                     valve, couplers, departure, arrival, run
+                            station  the place and its people -- platform bell,
+                                     doors, guard, call, crowd, the town
+                            pass     something going by, which is the one that
+                                     MOVES and is already rendered with a
+                                     doppler [V.atmos `pass`]
+
+                          Three channels into one subgroup is ordinary desk
+                          practice, and it means "the whistle is too loud" and
+                          "the platform is too loud" finally have different
+                          answers -- which they did not when both were `tape`. */
+                       engine: "rail", station: "rail", pass: "rail" };
 /* ── THE TWO A CHANNEL STRIP SENDS TO, DECLARED ONCE ───────────────────────
    "reverb, digital delay", while dynamics "would normally be on an insert,
    instead" [corpus:wikipedia Aux-send; docs/genre-research/channel-sends.md].
@@ -29872,6 +29928,36 @@ GENRE.boxcarsynth = {
          in `echoFeeds` — so all of this is upward. */
       worldEcho: [{ kind: "section", by: { bridge: [0.10, 0.30],
                                            instrumental: [0.04, 0.16] } }],
+      /* ── AND THE RAILWAY'S THREE, WHICH ARE NOT THE LANDSCAPE'S ───────────
+         A new bus row is SEVEN crossings, and the note above `worldSpring`
+         records what happens when they are opened and nobody moves them: the
+         battery names each dead knob. Four are plated at MATRIX.none; these
+         are the three that are open, and they are ridden for reasons that
+         belong to a train rather than to a field.
+
+         ROOM: the opposite gesture to the landscape's. `worldRoom` opens in
+         the town because a station shed has a room in it -- and so does the
+         railway that is standing in it. The engine is the one thing that gets
+         WETTER in the town and DRIER on the road, because on the road it is
+         the thing you are riding, an arm's length away, and in the town it is
+         a machine across a platform.
+
+         ECHO: the genre's own sentence, and it is truer here than anywhere.
+         "The thing that answers a whistle across open country IS a delay."
+         That was written under `worldEcho` about a crossing bell that was, at
+         the time, on the world bus by accident. The bell is on THIS bus now,
+         so the lane follows it -- and it opens on the ROAD, not the bridge,
+         because open country is where the line runs longest.
+
+         MIX: the dry path closes a little as the room opens, so the whistle
+         moves away from you rather than getting louder in two places at once.
+         The band's own rows already do this in the same bar. [CHOSEN travels;
+         the gesture is the world row's, mirrored] */
+      railRoom: [{ kind: "section", by: { chorus: [0.18, 0.48],
+                                          verse: [-0.10, -0.02] } }],
+      railEcho: [{ kind: "section", by: { verse: [0.08, 0.26],
+                                          instrumental: [0.10, 0.28] } }],
+      railMix:  [{ kind: "section", by: { chorus: [-0.22, -0.08] } }],
     },
     /* ── THE HANDS ──────────────────────────────────────────────────────────
        The pick brightens as the record brightens (it travels with the key
@@ -38828,10 +38914,33 @@ function makePerformance(chart, form, materials, sections){
      named for weather is "weather", everything else stays where it was. The
      label is derived from the bank's own family and name, so a bed added to
      the pack lands on the right fader without anybody editing a list. */
+  /* ── WHAT MAKES THIS SOUND, AND `tape` IS NO LONGER THE ANSWER TO EVERYTHING
+     The last line used to be `return "tape"` and it was a FALLBACK, not a
+     decision: sixteen rail beds fell through it onto the crackle's fader and
+     the crackle's bus, where five blind plates meant the genre's own steam
+     whistle could never reach a reverb. Measured and written up at the `rail`
+     row in MATRIX.ins.
+
+     The family comes off the BANK's own metadata (`fam`), not off the bed's
+     name, because the name is a label a human typed and the family is what the
+     encoder recorded. `railPeep` is in the `railWhistle` family and `railCbell`
+     is in `railBell`'s -- reading names would have split those wrongly.
+
+     `tape` keeps exactly one job now, which is the one it is named for: the
+     surface noise and the medium. Anything that falls through to it today is a
+     bed nobody has classified, and that is now visible as "the crackle got
+     louder" rather than invisible as one more thing on a crowded strip. */
   const roleOfBed = n => {
     const m = ERANG.meta(n);
-    if(/^scene/.test((m && m.fam) || "")) return "scene";
+    const fam = (m && m.fam) || "";
+    if(/^scene/.test(fam)) return "scene";
     if(/wind|thunder|rain|blizzard|storm/i.test(n || "")) return "weather";
+    /* the one that moves: rendered with a doppler, so it is its own thing */
+    if(/^railPass/.test(fam)) return "pass";
+    /* the place and its people */
+    if(/^rail(Station|Doors|Guard|Call|Bell)/.test(fam)) return "station";
+    /* the machine */
+    if(/^rail/.test(fam)) return "engine";
     return "tape";
   };
   /* A GENRE WITH A PLANNED TRIP DOES NOT GET THE ONE-BED-PER-RECORD
@@ -43585,10 +43694,16 @@ const MIX_ORDER = ["drone", "drums", "bass", "keys", "keys2", "ostinato", "count
                       surface noise and the medium, so turning the birds down
                       turned the crackle down with them. They are separate
                       things a mix would separate. */
-                   "scene", "weather", "tape"];
+                   /* ── AND THE RAILWAY GOT THE SAME TREATMENT, A YEAR LATE
+                      Same complaint, same day of the week: the rail beds rode
+                      the TAPE strip too, so turning the whistle down turned the
+                      crackle down with it. Ordered the way the journey happens
+                      -- the engine, then what it passes, then where it stops. */
+                   "engine", "pass", "station", "scene", "weather", "tape"];
 const MIX_LABEL = { drone: "drone", drums: "drums", bass: "bass", keys: "chords", keys2: "chords 2",
                     ostinato: "figure", counter: "answer", lead: "tune", tape: "tape",
-                    scene: "the world", weather: "weather" };
+                    scene: "the world", weather: "weather",
+                    engine: "the engine", pass: "going by", station: "the station" };
 const MIX_BAND = [
   { k: "low",  cap: "LOW",  label: "low shelf, 200 Hz" },
   { k: "mid",  cap: "MID",  label: "mid bell, 1 kHz" },
