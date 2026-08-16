@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-16c · the town leaves home, the lift is the sunrise, and the loop stops coming round</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-16d · the download buttons stop pretending</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -45477,13 +45477,66 @@ async function togglePlay(){
   }
   sayAudio();
 }
-function downloadMidi(){
+/* ══ HANDING A FILE OVER, AND THE HOSTED PAGE CANNOT CARRY THESE TWO ════════
+   [owner, 2026-08-16: "yes fix the downloads! Why wouldnt you!"]
+
+   Opened from disk, an `<a download>` works and always has. Inside the
+   claude.ai artifact viewer it does NOTHING: the frame is never granted
+   download permission, so the click is swallowed with no error and the button
+   is dead. That is this file's own most-named defect — a control that does not
+   reach the thing it names — and it had been shipping on the published page.
+
+   The viewer's answer is the `downloads` capability: `claude.use("downloads")`
+   and then `save({filename, data})`, which asks the viewer to confirm.
+
+   ⚠ AND IT CANNOT CARRY A `.wav` OR A `.mid`. The capability allowlists
+   `gif png jpg jpeg webp mp4 webm txt json md`, plus `docx pptx epub csv ttf
+   html svg` where extended types are enabled. **Neither of this program's two
+   export formats is in either list**, so `save()` answers `rejected_extension`
+   for both, and no amount of wiring changes that — it is a platform rule, not
+   something this file gets to argue with. Renaming a MIDI to `.json` to slip
+   it past would hand somebody a file their sequencer will not open, which is
+   worse than a refusal and is the kind of thing this repo does not do.
+
+   So both buttons do the one honest thing available. They TRY the capability,
+   and when the platform refuses they SAY SO — naming the format, the reason,
+   and the way round it — instead of appearing to work. A button that explains
+   itself beats a button that does nothing, and the anchor path below is
+   untouched for anybody running the file locally, where it always worked. */
+async function handOver(filename, data, mime){
+  const tell = m => { const el = $("snd"); if(el) el.textContent = m; };
+  /* a page opened from disk has no `claude` at all — that is the anchor's case */
+  const use = (window.claude && window.claude.use) || null;
+  let dl = null;
+  if(use){ try { dl = await use("downloads"); } catch(_){ dl = null; } }
+  if(!dl){
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([data], { type: mime }));
+    a.download = filename;
+    a.click();
+    return;
+  }
+  const ext = filename.slice(filename.lastIndexOf("."));
+  try {
+    await dl.save({ filename, data });
+    tell("saved " + filename);
+  } catch(e){
+    const code = e && e.code;
+    tell(
+      code === "declined"      ? "save cancelled" :
+      code === "rate_limited"  ? "a save prompt is already open — try again in a moment" :
+      code === "too_large"     ? "too big to hand over (16 MiB limit) — render a shorter length" :
+      (code === "rejected_extension" || code === "extension_not_enabled")
+        ? "this hosted page is not allowed to hand you a " + ext + " file — the "
+        + "viewer only accepts a fixed list of types and " + ext + " is not on it. "
+        + "Open the HTML from the repo and this button saves normally."
+        : "could not save: " + ((e && e.message) || code || e));
+  }
+}
+async function downloadMidi(){
   if(!SONG) newSong();
-  const blob = new Blob([toMidi(SONG)], { type: "audio/midi" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = `mk2_${SONG.chart.genre}_${SONG.chart.tempo}bpm_seed${SONG.chart.seed}.mid`;
-  a.click();
+  await handOver(`mk2_${SONG.chart.genre}_${SONG.chart.tempo}bpm_seed${SONG.chart.seed}.mid`,
+                 toMidi(SONG), "audio/midi");
 }
 async function downloadWav(){
   if(!SONG) newSong();
@@ -45492,10 +45545,8 @@ async function downloadWav(){
     const S = soundNow();
     const blob = await Sound.renderWav(SONG.perf.events, SONG.perf.seconds, 44100,
                                        S.space, S.kick, S.drumDrive, S.gate, S.motion);
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = `mk2_${SONG.chart.genre}_${SONG.chart.rig}_${SONG.chart.tempo}bpm_seed${SONG.chart.seed}.wav`;
-    a.click();
+    await handOver(`mk2_${SONG.chart.genre}_${SONG.chart.rig}_${SONG.chart.tempo}bpm_seed${SONG.chart.seed}.wav`,
+                   blob, "audio/wav");
   } finally { $("wav").textContent = "render .wav"; $("wav").disabled = false; }
 }
 function boot(){
