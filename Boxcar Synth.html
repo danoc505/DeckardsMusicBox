@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17r · the tune travels, and comes home in its own key</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17x · the tune is the head, and the band varies around it</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20611,12 +20611,65 @@ GENRE.boxcarsynth = {
     noRepeat: true,
     verseHook: true,
     develop: { at: 4, of: [["sequence",4],["displace",3],["tail",3]] },
+    /* THE BRIDGE IS THE TUNE, STRETCHED — C is 26.7% of playing time, the
+       largest single material in the record, and its pitches were a random
+       one-step walk under a comment promising "the same shape". See the
+       augmentation branch of `buildTheme` for the measurement and the source. */
+    augmentContour: true,
     onsetPool: [[0,5],[2,2],[4,4],[7,2],[8,4],[12,3]],
   },
   /* the cell is EIGHT bars: a 4-bar cell came round 43.3 times in a 173-bar
      record, and no writing survives forty-three hearings */
   materialBars: 8,
-  materialTakes: { ostinato: 6, bass: 5, lead: 4, counter: 4, keys: 3 },
+  /* ══ AND THE TUNE IS NOT ONE OF THEM ═══════════════════════════════════════
+     [owner] "The worst thing is its just random notes with instruments being
+     played wrong we have no motif no repeating patterns no rule of three. Its
+     just bad! I cant even listen to a whole song there is nothing to listen to"
+
+     This line said `lead: 4, counter: 4`, and the machinery it declares against
+     ARGUES THE OPPOSITE IN AS MANY WORDS, at the takes comment:
+
+       "WHY THE FIGURE FIRST, and not the tune: THE TUNE IS THE HEAD. A head
+        that never returns is not a tune, and modal jazz keeps its head exactly
+        because RECOGNITION IS HALF OF THE MUSIC. The rhythm section is the
+        half that must never repeat."
+
+     Then the table handed the head four realisations. PRINTED, seed 1's verse:
+
+       take 0   D#5 C#5 D#5 C#5 G#4  (stated twice — a hook)
+       take 1   E5 F#5 G#5 A#5 G#5 F#5 G#5 F#5
+       take 2   D#5 E5 F#5 E5 F#5 B4 A#4 F#4 E4 C#5
+       take 3   F#5 C#5 F#5 G#5 A#5 B4
+
+     FOUR DIFFERENT MELODIES, not four performances of one — different
+     contours, different registers, different lengths. `makePerformance` plays
+     `cycle % takes.length`, so the hook a listener has just learned is REPLACED
+     BY A DIFFERENT HOOK eight bars later, all record. There is nothing wrong
+     with any one of those tunes and there is no record in which all four are
+     the same tune.
+
+     MEASURED, 8 seeds, distinct 4-note figures in a 20-minute record — the
+     unit `boxcar-the-missing-hook.md` §4 uses:
+
+       lead: 4 takes    166 distinct figures    top figure 4.0% of the line
+       one realisation  100 distinct figures    top figure 4.7%
+       dungeon synth     39 distinct figures    top figure 12.2%   [§4]
+
+     A third of the record's melodic material was the head being re-drawn.
+
+     `counter` went with it and is not a separate loss: `counterATakes` is built
+     take-for-take FROM the lead's takes — "a counter drawn against take 0
+     played over take 2 is a shadow of the wrong line" — so with one head there
+     is one shadow, and a `counter` entry here could never have been reached.
+     Left out rather than left declared, because a number nothing reads is the
+     dead config this file refuses everywhere else.
+
+     THE RHYTHM SECTION KEEPS ITS TAKES, which is the whole point: the roll, the
+     bass and the comp still re-realise every cycle, so the founding complaint
+     this feature answered — "the same exact notes played for 20 mins is NOT
+     music" — is answered by the band, and the tune stays the tune. That is what
+     Miles's band does and it is what the comment already said. */
+  materialTakes: { ostinato: 6, bass: 5, keys: 3 },
 
   /* THE GROUND IS THE TRAIN [§3a] and it STOPS when the train does — `cut`
      ends it at the boundary, which is what makes a platform silent, and
@@ -26470,6 +26523,33 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       /* THE DEPARTURE'S TUNE: A's rhythm AUGMENTED -- every duration doubled, so
          half the density at the same shape [research: augmentation is a
          canonical derivation]. Pitches walk the new (bridge) changes. */
+      /* ══ AND "AT THE SAME SHAPE" WAS NOT TRUE — THE SHAPE WAS THROWN AWAY ═══
+         The line above promises A's rhythm at A's shape. The rhythm is A's; the
+         PITCHES were `wpick(rng, [[1,2],[-1,3],[0,2]])` — a random walk of one
+         scale step either way, which is a shape only in the sense that a
+         staircase in fog is a shape. An augmentation whose pitches are redrawn
+         is not an augmentation, it is a new tune at half speed: "sequence —
+         repeating a motive at different pitch levels ... PRESERVE THE IDENTITY
+         OF THE MOTIVE while adding variety" [corpus:vaia, development.md §4].
+
+         And this is not a corner of the record. MEASURED, share of playing time
+         over 8 seeds: **C is 26.7%** — the largest single material, ahead of
+         Avarlift's 24.8% and A's 17.3%. A quarter of every record was the one
+         road through this function with no hook, no restatement and no relation
+         to the tune it claims to derive from. [owner: "we have no motif no
+         repeating patterns no rule of three"]
+
+         So the step is A's OWN interval, counted in scale steps, and the walk
+         is what it was in every other respect — the chord-tone snap, the
+         no-stutter walk and the band all still apply, so this narrows what C
+         plays and invents nothing. C becomes the tune, stretched, over the
+         departure's changes, which is what the bridge of a song IS.
+
+         THE DRAW IS STILL SPENT [Law 3]: `wpick` runs first and unconditionally,
+         so a genre that does not declare `augmentContour` draws from the
+         identical stream position and its C is byte-identical. */
+      const KEEP = !!(TH.augmentContour);
+      let prevSrc = null;
       let m = intoBand(degMidi(keyOf(chordSet), modeOf(chordSet), 9), LO, HI);
       let t = 0;
       for(const src of opts.augmentOf){
@@ -26485,8 +26565,45 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         const st = at % STEPS, b = Math.floor(at / STEPS);
         t += src.dur;
         const tones = CH(chordSet, b).tones;
-        const step = wpick(rng, [[1, 2], [-1, 3], [0, 2]]);
-        m = intoBand(nearestTone(scaleStep(keyOf(chordSet), modeOf(chordSet), m, step), tones), LO, HI);
+        /* drawn first and always, so the stream position is the stream position
+           it has always been for every genre that says nothing [Law 3] */
+        const drawn = wpick(rng, [[1, 2], [-1, 3], [0, 2]]);
+        /* A's own interval, counted in SCALE STEPS of the mode this material is
+           in — the same unit `develop`'s sequence device uses, so the move is a
+           degree and cannot leave the key. Read by walking the scale rather than
+           by an inverse this file does not have: the number of steps whose
+           landing is nearest the source's next note IS the interval. */
+        let step = drawn;
+        if(KEEP && prevSrc){
+          let bestD = Infinity;
+          for(let n = -9; n <= 9; n++){
+            const d = Math.abs(scaleStep(keyOf(chordSet), modeOf(chordSet), prevSrc.pitch, n) - src.pitch);
+            if(d < bestD){ bestD = d; step = n; }
+          }
+        }
+        prevSrc = src;
+        /* ── AND THE SNAP HAD TO GO WITH IT, WHICH THE BRANCH ALREADY KNEW ────
+           Feeding A's intervals in and leaving `nearestTone` on measured as
+           doing NOTHING: 52.8% contour agreement before, 53.3% after — chance,
+           for a binary up/down. Instrumented at the site, the reason is total:
+
+             asked for a move, got the same direction   90/620   14.5%
+             THE SNAP FLATTENED IT TO ZERO             429/620   69.2%
+
+           A bridge chord has three or four tones and the snap takes the nearest
+           one, so seven moves in ten land back on the note they left. The
+           comment ten lines down says this in as many words — "consecutive
+           notes over one chord snap to the same tone, WHICH IS WHERE THIS
+           BRANCH'S REPEATS CAME FROM" — and answered it by walking further
+           afterwards, which treats the symptom.
+
+           A SCALE STEP CANNOT LEAVE THE KEY, so the snap is not what keeps this
+           branch diatonic; `scaleStep` is. What the snap bought was chord tones,
+           and the price is the tune. The genre that asks for its bridge to be
+           its tune gets its tune; every genre that does not still snaps, so
+           nothing else in the file moves. */
+        m = KEEP ? intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m, step), LO, HI)
+                 : intoBand(nearestTone(scaleStep(keyOf(chordSet), modeOf(chordSet), m, step), tones), LO, HI);
         /* AND AN AUGMENTATION DOES NOT STUTTER EITHER. `nearestTone` snaps to
            the chord under the note, and consecutive notes over one chord snap
            to the same tone -- which is where this branch's repeats came from,
@@ -26673,10 +26790,48 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
             if(done) break;
           }
         }
+        const put = [];
         for(const n of (laid || src.map(x => ({ ...x, bar: x.bar + at })))){
           if(n.bar >= BARS) continue;
           if(reserved.has(key(n.bar % BARS, n.step, n.pitch))) continue;
-          notes.push(n); reserved.add(key(n.bar % BARS, n.step, n.pitch));
+          notes.push(n); reserved.add(key(n.bar % BARS, n.step, n.pitch)); put.push(n);
+        }
+        /* ══ AND A COPY THAT NOTHING VARIED IS THE LOOP THE SHEET FORBIDS ═════
+           `probe_develop.js` asks two things and this is the second: RETURN, so
+           there is something to recognise, and VARY, because "too much
+           repetition can become monotonous" [corpus:vaia]. When every device
+           and every one of its settings fails the all-or-nothing test the fall
+           back is the plain copy — bars 0-1 at 2-3 at 4-5 at 6-7, four
+           statements of two bars, which is periodic by construction and is the
+           precise fault `development.md` §2 was written about.
+
+           MEASURED: seed 58 of 59, the only one left, 28 notes across the eight
+           bars — dense enough that no transposition and no displacement had a
+           free seat for EVERY note. §4b already widened the parameters once
+           (26 of 60 → 10), and widening them again would move all 59 records
+           that are already fine to rescue one, which is the wrong trade.
+
+           So the last note takes the `tail` device on its own: "only the LAST
+           note changes — the antecedent/consequent pair, the oldest varied
+           repeat there is" [development.md §4]. It is asked at the SAME
+           permissiveness the copy itself was laid at, per note rather than
+           all-or-nothing, which is why it can succeed where the device could
+           not; the seat, the band and the no-repeat rule all still hold.
+
+           NO DRAW, so nothing moves that was not already a plain copy: the
+           direction is down a step and then up, in that order, always. [Law 3] */
+        if(!laid && put.length > 1){
+          const ord = put.slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step));
+          const t = ord[ord.length - 1], before = ord[ord.length - 2];
+          for(const d of [-1, 1, -2, 2]){
+            const p = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), t.pitch, d), LO, HI);
+            if(p === t.pitch || (NOREPEAT && before && p === before.pitch)) continue;
+            if(reserved.has(key(t.bar % BARS, t.step, p))) continue;
+            reserved.delete(key(t.bar % BARS, t.step, t.pitch));
+            t.pitch = p;
+            reserved.add(key(t.bar % BARS, t.step, p));
+            break;
+          }
         }
       } else {
         /* a new phrase, contrary to wherever the last one left off [RK: an
@@ -28248,7 +28403,24 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      Avar at 2:4:71". The seam check named the material, the bar, the step and
      the pitch, which is exactly why it throws instead of warning. */
   const resV = reserve(ostAvar.concat(bassA, keysA, keys2Avar, themeA.notes.filter(n => n.bar < 2)));
-  const varTail = buildTheme(chords, "themeA:var", resV, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], dir: -1 });
+  /* ── AND THE REDRAWN TAIL GETS A HOOK, WHICH THE CHORUS VARIANT ALREADY HAS ─
+     `varTailB` two hundred lines above has carried `hooky: true` since the
+     chorus variant was written; this one has never carried anything, so Avar
+     was A's first two bars followed by SIX BARS OF WANDERING.
+
+     MEASURED, material share of playing time over 8 seeds:
+
+       C 26.7% · Avarlift 24.8% · Avar 18.3% · A 17.3% · B 6.9% · Bvar 5.6%
+
+     Avar and Avarlift are 43.1% of the record between them, and neither had a
+     repeating cell anywhere after bar 1. That is the fault
+     `boxcar-the-missing-hook.md` §2 measured on A — "0 of 12 contained any cell
+     shorter than their whole eight bars" — fixed for A by `verseHook` and never
+     asked of the material A turns into, which the record plays MORE than A.
+
+     Same word, same road, same reason as the chorus: the tail states a two-bar
+     idea, restates it exactly, then develops it [development.md §3]. */
+  const varTail = buildTheme(chords, "themeA:var", resV, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], dir: -1, hooky: !!(G.theme && G.theme.verseHook) });
   const leadAvar = JOIN(themeA.notes.filter(n => n.bar < 2)
     .concat(varTail.notes.filter(n => n.bar >= 2)));
   /* ══ AND THE SECOND VOICE COMES WITH IT ═══════════════════════════════════
@@ -28334,8 +28506,16 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const keys2Avarl = LIFT ? tryPad(band => buildKeys(liftChords, "keys2:var", { sustain: true, at: 2, band,
                               against: keysAl, avoid: reserve(ostAvarlx.concat(bassAlx, keysAlx)) })) : keys2Avar;
   const resAl      = reserve(ostAlx.concat(bassAlx, keysAlx, keys2Al));
+  /* ── THE SUNRISE IS THE SAME TUNE IN A NEW LIGHT, SO IT IS THE SAME SHAPE ──
+     `themeA` has carried `hooky` since the verse got one and this re-composition
+     of it never did, so the lifted verse — and `Avarlift`, which takes its first
+     two bars from here and is 24.8% OF THE RECORD — was built by the wandering
+     road. The lift is meant to be recognisable as the record's own tune moved,
+     not a new tune; a lift you cannot recognise is the fault `probe_mode.js`
+     exists to catch one level down, at the mode. */
   const themeAl    = LIFT ? buildTheme(liftChords, "themeA", resAl, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1],
-                              comp: keysAl, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 }) : themeA;
+                              comp: keysAl, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1,
+                              hooky: !!(G.theme && G.theme.verseHook) }) : themeA;
   const counterAl  = LIFT ? deriveCounter(themeAl.notes, resAl, "counterA", liftChords, keysAl) : counterA;
   const themeAlTakes = LIFT ? takesOf("lead", "Alift", themeAl.notes, t =>
       buildTheme(liftChords, "themeA:" + t, resAl,
@@ -28347,7 +28527,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     : null;
   const resVl      = reserve(ostAvarl.concat(bassAl, keysAl, keys2Avarl, themeAl.notes.filter(n => n.bar < 2)));
   const varTaill   = LIFT ? buildTheme(liftChords, "themeA:var", resVl, { lo: playable(R.themeA)[0],
-                              hi: playable(R.themeA)[1], dir: -1 }) : varTail;
+                              hi: playable(R.themeA)[1], dir: -1,
+                              hooky: !!(G.theme && G.theme.verseHook) }) : varTail;
   const leadAvarl  = LIFT ? JOIN(themeAl.notes.filter(n => n.bar < 2)
                               .concat(varTaill.notes.filter(n => n.bar >= 2))) : leadAvar;
 

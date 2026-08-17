@@ -60,10 +60,16 @@ const argv = process.argv.slice(2);
 let N = 24;
 const si = argv.indexOf("--seeds");
 if(si >= 0){ N = parseInt(argv[si + 1], 10) || 24; argv.splice(si, 2); }
-const GENRES = argv.includes("--all") ? M.genres()
-             : (argv.filter(a => !a.startsWith("--")).length
-                 ? argv.filter(a => !a.startsWith("--"))
-                 : ["boxcarsynth", "dungeonsynth", "lofi"]);
+/* ── AND THE DEFAULT NAMED TWO GENRES THAT ARE NOT IN THE FILE ─────────────
+   `["boxcarsynth", "dungeonsynth", "lofi"]` — the last two were deleted, so
+   `composeSong` walked into `G.rig` on an undefined table and this probe died
+   with a stack trace AFTER printing a clean boxcar section, which reads like a
+   pass if you stop reading at the numbers. Same class as the faders probe that
+   was green because it composed a genre that no longer exists.
+   ASK THE FILE [Law 4 — DERIVE, NEVER LIST]. */
+const GENRES = argv.filter(a => !a.startsWith("--")).length
+             ? argv.filter(a => !a.startsWith("--"))
+             : M.genres();
 
 /* the parts that CARRY the loop. Drums and tape are excluded from the headline
    because a kit repeating is not the complaint, and `drone`/`scene`/`weather`
