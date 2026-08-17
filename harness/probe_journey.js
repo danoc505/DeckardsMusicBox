@@ -8,7 +8,7 @@
    ride, the 20 min song is broken into 4 pieces dissected by the train stops."
 
    `makeJourney` is a SECOND form builder — not a mode of the grammar walk, not
-   a phase list fed into it. A genre declaring `form.journey` skips the walk
+   a phase list fed into it. A genre declaring `form.ride` skips the walk
    entirely. NOBODY DECLARES ONE YET, so this probe declares one itself, on a
    genre that has none, composes at five lengths, measures, and puts the table
    back. The same discipline `probe_tempo` works under and for the same reason:
@@ -64,6 +64,10 @@ console.log("\n=== THE JOURNEY — " + SEEDS + " seeds\n");
 {
   const grew = [];
   for(const g of M.genres()){
+    /* asked only of the genres that did NOT ask for a journey — a genre that
+       declares `form.ride` is supposed to have legs, and checking that it has
+       none would be checking the feature is switched off */
+    if(M.GENRE[g] && M.GENRE[g].form && M.GENRE[g].form.ride) continue;
     let song; try { song = M.composeSong(1, undefined, g); } catch(e){ continue; }
     if(song.form.legs != null || song.form.some(s => s.leg != null || s.atStop != null))
       grew.push(g);
@@ -96,7 +100,7 @@ const poolOf = T => {
 };
 const G0 = M.genres().find(g => {
   const T = M.GENRE[g];
-  return T && T.form && T.form.lengths && T.form.roles && !T.form.journey &&
+  return T && T.form && T.form.lengths && T.form.roles && !T.form.ride &&
          poolOf(T).length >= 2;
 });
 if(!G0){ console.log("\n  no genre with a machine pool to hand over between\n");
@@ -107,8 +111,8 @@ const pick = (...want) => { for(const w of want) if(FNS.includes(w)) return w; r
 const CRUISE = FNS.filter(f => f !== "intro" && f !== "outro").slice(0, 3);
 const LEADS = poolOf(T).slice(0, 5);
 
-const kept = T.form.journey;
-T.form.journey = {
+const kept = T.form.ride;
+T.form.ride = {
   legSec: [290, 310], maxLegs: 12, defaultSec: 1200,
   leads: LEADS,
   terrain: [["open", 3], ["woods", 2]],
@@ -197,8 +201,8 @@ try {
     for(const x of F)
       for(let b = x.startBar; b < x.endBar && b < map.length; b++){
         if(x.atStop != null) stopT.push(map[b]);
-        else if(F.ride && F.ride[b] >= 0){
-          const r = F.ride[b];
+        else if(F.ridePos && F.ridePos[b] >= 0){
+          const r = F.ridePos[b];
           (r > 0.35 && r < 0.65 ? midT : (r < 0.12 || r > 0.88) ? edgeT : []).push(map[b]);
         }
       }
@@ -221,7 +225,7 @@ try {
       badPace.length ? badPace.slice(0, 3).join(" | ")
                      : "fastest mid-leg, slower at both ends, slowest standing");
 } finally {
-  if(kept === undefined) delete T.form.journey; else T.form.journey = kept;
+  if(kept === undefined) delete T.form.ride; else T.form.ride = kept;
 }
 
 console.log("\n  " + faults + " journey fault(s)\n");

@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17k · V2-3, the journey: legs, stops, and the handover</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17l · boxcar synth II — the genre exists</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -8791,6 +8791,32 @@ const RIG = {
      harmonica on the tune, the glass slide answering, the choir pad as the
      second keyboard, the drone rack as the engine's hum under it all.
      [docs/genre-research/boxcar-synth.md §7] */
+  /* ── THE HOBO — BOXCAR SYNTH V2's RIG, AND IT PINS NOTHING PITCHED ────────
+     `freight` below names an instrument for every pitched lane: lead is the
+     harmonica, counter is the slide, ostinato is the banjo, every record, for
+     twenty minutes. That is the right shape for a record with ONE band and the
+     wrong shape for a journey, whose whole subject is the band changing — the
+     lead is handed over at every station and the terrain decides who is
+     seated, so a rig that answers "the lead is the harmonica" is answering a
+     question the form has already decided.
+
+     So this rig binds only what a rig is FOR: which sound each drum lane
+     strikes, and which family holds a pitched lane when nothing else has
+     said. `lead` and `counter` are left on the two voices the sources put at
+     the front of a hobo band — a fiddle carries and a slide answers — and both
+     are overwritten by `sec.hand` on every leg, so what they really are is the
+     fallback for a record with no handover rather than a decision about it.
+
+     AND `keys2` EXISTS HERE, which it does not in `freight`. That single
+     missing line is a large part of why the measured band was 4.9 players: the
+     second keyboard had nowhere to sound. An orchestra needs six pitched seats
+     and this rig has six. [docs/genre-research/the-journey.md] */
+  hobo: { kick:"kick", snare:"rim", ghost:"rim", hat:"hat", openhat:"openhat",
+          brk:"brk", tom1:"tom1", tom2:"tom2", tom3:"tom3",
+          rim:"rim", clap:"clap", crash:"crash", ride:"ride",
+          bass:"washtub", drone:"trainbox",
+          keys:"wurly", keys2:"horns",
+          lead:"fiddle", counter:"diddley", ostinato:"banjo" },
   freight: { kick:"kick", snare:"rim", ghost:"rim", hat:"hat", openhat:"openhat",
              brk:"brk",
              tom1:"tom1", tom2:"tom2", tom3:"tom3",
@@ -9011,6 +9037,7 @@ const RIG_LABEL = {
   bastion: "bastion — the recorded brass in the second chair",
   shire:   "the shire — flute, plucked strings, frame drum",
   freight: "the freight — banjo, harmonica, the engine's hum",
+  hobo:    "the hobo — six seats, and the lead changes at every station",
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -25978,6 +26005,467 @@ GENRE.boxcarsynth = {
   },
 };
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOXCAR SYNTH V2 — THE RIDE IS THE CONDUCTOR
+
+   A string band riding a freight train across country, and the JOURNEY is what
+   organises the music. Not a song about a train: a train that has a band on it.
+
+   > "The train ride is the conductor, it is what sets the pace, it is what
+   >  tells the orchestra where it is, the orchestra waxes and wanes with the
+   >  ride, the 20 min song is broken into 4 pieces dissected by the train
+   >  stops." [owner]
+
+   THIS TABLE IS AUTHORED, NOT INHERITED. Every value below was decided for
+   this genre and carries the reason it was decided. Facts that were measured
+   correctly for V1 — the tempo derivation, the rail bank's own names, the
+   terrain walk — are RE-DECLARED here deliberately, with their sources, rather
+   than carried across; a number nobody can defend is a number nobody can
+   argue with.
+
+   WHAT MAKES IT A DIFFERENT GENRE AND NOT A NEW COAT OF PAINT
+
+     1. IT DOES NOT USE THE SONG FORM AT ALL. `form.ride` sends stage 2 to
+        `makeJourney`, and the grammar walk — the transitions, the laws of
+        succession, the drawn energy arc, the target walked toward — is not
+        run. There is no verse and no chorus here because a journey has
+        neither. Its sections are places on a trip.
+     2. ITS SECTION VOCABULARY IS THE TRIP'S. yard, roll, open, high, brake,
+        solo, dance, pullout, arrive — nine functions, and every one of them
+        is a thing that happens on a railway journey rather than a thing that
+        happens in a pop record.
+     3. THE TEMPO IS NOT A NUMBER. It accelerates out of a platform, holds at
+        cruise, and brakes into the next one, four times over.
+     4. THE LEAD CHANGES. Every leg is carried by a different instrument and
+        every station is where the two of them trade.
+
+   [docs/genre-research/boxcar-synth.md, the-journey.md, the-clock.md,
+    playing-the-hobo-band.md, the-bow.md, the-washboard.md, washtub-bass.md]
+   ═══════════════════════════════════════════════════════════════════════════ */
+GENRE.boxcarsynth2 = {
+  label: "boxcar synth II",
+  /* ── THE TEMPO IS THE TRAIN'S SPEED, AND THE OWNER PICKED THE BAND ────────
+     39-foot jointed rail: a wheel passes one joint per rail length, so
+     clicks/min = mph x 5280 / 39 / 60 = mph x 2.256 [Wikipedia, Rail profile;
+     derivation in boxcar-synth.md §3]. V1 declared 56-90, the full 25-40 mph
+     span. The owner asked V2 for "moderate, around 60-85", which is 26.6 to
+     37.7 mph — a loaded local rather than a light engine, and the band whose
+     middle a leg's cruise can sit at while its ends still have somewhere to
+     go. The arc is a MULTIPLIER on this, so the number here is the record's
+     average and not its speed at any given bar. */
+  tempo: [60, 85],
+  rig: [["hobo", 1]],
+  /* bittersweet: dorian is the warm minor, plain minor the lonesome one,
+     mixolydian the folk major that pulls nowhere [comfy synth's "melancholic
+     and bittersweet" centre, boxcar-synth.md §1]. Weighted toward dorian
+     because a twenty-minute record in plain minor is a dirge. */
+  modes: [["dorian", 5], ["minor", 3], ["mixolydian", 2]],
+
+  /* ══ THE FORM: A JOURNEY, NOT A SONG ═════════════════════════════════════ */
+  form: {
+    /* ── THE DECLARATION THAT SENDS STAGE 2 SOMEWHERE ELSE ───────────────── */
+    ride: {
+      /* ABOUT FIVE MINUTES A LEG — the owner's own arithmetic, and the reason
+         the leg count is not drawn: "5 min = 1 leg, 20 = 4, 40 = 8". Drawn
+         inside a narrow band so two records of the same length are the same
+         journey with different weather rather than different journeys. */
+      legSec: [280, 320], maxLegs: 12, defaultSec: 1200,
+      /* WHO CAN CARRY A LEG. Four voices that can hold a tune in a string
+         band and are audibly different from one another — a bowed one, a
+         reed one, a plucked one and a wheel one. The steam whistle is
+         deliberately NOT here: it is the train's voice, not a player's, and
+         giving it a five-minute solo would make the engine a member of the
+         band. [playing-the-hobo-band.md §7] */
+      leads: ["fiddle", "harmonica", "banjo", "hurdyGurdy"],
+      /* WHAT IS UNDER THE TRAIN. Weighted the way a rail line actually runs:
+         mostly open country, a good deal of farmland, woods now and then, and
+         a river crossing as an event rather than a state. */
+      terrain: [["open", 4], ["farm", 3], ["woods", 2], ["river", 1]],
+      /* AND THE HOUR. Walked in order across the legs rather than drawn, so a
+         record is one day and not four — the owner's "a change in key and tone
+         to show the change of time from dark to light" is a DIRECTION, and a
+         direction cannot be shuffled. [boxcar-synth.md §5] */
+      character: ["dawn", "midday", "dusk", "night"],
+      /* THE LEG: pull away, run, and thin into the platform ahead. The cruise
+         walks its three functions in order and wraps, so a long leg states the
+         open road, lifts to its high point and comes back to the road — an
+         arch inside the arch the tempo is already making. */
+      leg:  { open: "roll", cruise: ["open", "high", "open"], close: "brake" },
+      /* THE STOP: the ceremony. Solo X, the two of them, solo Y, and the train
+         moves again. Short sections on purpose — a stop is a minute or so of a
+         twenty-minute record, and the first build of this made it three. */
+      stop: { solo: "solo", dance: "dance", out: "pullout" },
+      depart: "yard", arrive: "arrive",
+      /* the chair a leg is carried in, and the chair the incoming player takes
+         for the dance before it moves across */
+      handover: { chair: "lead", second: "counter" },
+      /* ── THE PACE, AS MULTIPLIERS OF THE DRAWN TEMPO ─────────────────────
+         Out of the platform at 0.80, cruise at 1.06, braking to 0.76, and
+         0.62 while standing. Relative by construction and normalised by the
+         engine, so the record's mean stays the drawn tempo and only the SHAPE
+         is declared here. A real train's acceleration is asymmetric — it
+         pulls away harder than it brakes, because brakes are applied early
+         and gently on a loaded freight — which is why `out` is nearer cruise
+         than `into` is. [CHOSEN from the described behaviour; no source gives
+         a freight's acceleration curve as a tempo] */
+      tempo: { out: 0.80, cruise: 1.06, into: 0.76, stop: 0.62 },
+      /* AND THE BAND WAXES AND WANES WITH IT. Full at cruise, thin at the
+         platforms, and down to almost nothing while standing — the number the
+         gain formula and the note thinner both read. */
+      energy: { stop: 0.14, cruise: 0.96, edge: 0.38 },
+    },
+
+    /* ── HOW LONG EACH PLACE LASTS ────────────────────────────────────────
+       A stop must come to about a minute at this tempo: 8 + 8 + 8 + 8 bars is
+       32, and 32 bars at 65 bpm is 118 seconds, which is the owner's "a full
+       minute or more" without being a third of the record. The travelling
+       sections are 16 so the eight-bar material gets two passes in each. */
+    lengths: { yard: 8, roll: 16, open: 16, high: 16, brake: 12,
+               solo: 8, dance: 8, pullout: 8, arrive: 12 },
+
+    /* ── WHO IS IN THE ROOM, PLACE BY PLACE ───────────────────────────────
+       THIS IS THE ORCHESTRATION, and it is the one thing V1 never wrote down
+       properly: measured, its band was 4.9 distinct instruments a section with
+       a maximum of 8 reached once in 158 sections. The owner asked for eight
+       or more. So the seats are named here, per place, and they are what makes
+       the band swell and thin as the train runs.
+
+         yard      two players and the engine — nothing has left yet
+         roll      the band rebuilding around the leg's new lead
+         open      EIGHT SEATS, the full band at cruise
+         high      the same eight, at the leg's peak
+         brake     thinning into the platform
+         solo      ONE PLAYER. This is the whole point of the ceremony, and it
+                   is why the stop is legible at all.
+         dance     TWO — the outgoing lead and the incoming one, and nothing
+                   else, so the trade is the only thing you can hear
+         pullout   the ground returns first, then the band
+         arrive    the last station: the tune, the ground, and the chord
+       [score-craft.md on entrances at section boundaries; the measured
+        complaint in SESSION-2026-08-17.md] */
+    roles: {
+      yard:    ["keys", "drone"],
+      roll:    ["drone", "bass", "keys", "lead", "ostinato"],
+      open:    ["drums", "drone", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+      high:    ["drums", "drone", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+      brake:   ["drone", "bass", "keys", "lead"],
+      solo:    ["lead"],
+      dance:   ["lead", "counter"],
+      pullout: ["drone", "bass", "keys"],
+      arrive:  ["keys", "keys2", "lead", "drone"],
+    },
+    /* WHICH MATERIAL EACH PLACE PLAYS. The theme (A) travels; the leg's peak
+       takes the hook (B); the stop plays the departing material (C) because a
+       platform is where the record is allowed to leave its own progression.
+       [see makeMaterials for what A, B and C are] */
+    material: { yard: "A", roll: "A", open: "A", high: "B", brake: "A",
+                solo: "C", dance: "C", pullout: "A", arrive: "B" },
+    /* THE PAYOFF is the leg's high point, not a chorus — this genre has none,
+       and stage 2 asks for a payoff rather than assuming the word. */
+    payoff: "high",
+    /* the eight-bar material gets a real cell rather than a lofi four:
+       MEASURED on V1, a 4-bar cell came round 43 times in a 173-bar record */
+    /* ── AND A PART MAY SIT A PLACE OUT ───────────────────────────────────
+       Small numbers, and only for the parts an ensemble really does drop: the
+       kit rests where the track is quiet, the second keyboard and the answer
+       drop out to let a texture thin. The lead never rests — it is carrying
+       the leg — and neither does the ground, which is the train. */
+    rest: { drums: 0.18, keys2: 0.22, counter: 0.20, ostinato: 0.12 },
+  },
+
+  /* ══ WHO PLAYS WHAT ══════════════════════════════════════════════════════
+     The pools the rack draws from, and the pools the handover hands out of.
+     Eight instruments the owner named, plus the two the sheets sourced and
+     built. [owner: "We should have horns, hurdy gurdy, the harmonica, the
+     washtub, contrabasson, wurly, banjo, fiddle and boxcar drum kit"] */
+  machines: {
+    drums: [["tr1000", 1]],
+    /* the washtub is the genre's usual bass — plucked and percussive where a
+       pad-bass was sustained and inaudible [washtub-bass.md §1] — with the
+       contrabassoon as the low reed alternative */
+    bass:  [["washtub", 5], ["contrabassoon", 3]],
+    drone: [["trainbox", 1]],
+    /* ── SIX CHAIRS, AND NO TWO OF THEM MAY BE THE SAME PLAYER ────────────
+       MEASURED on the first run of this table: `keys2` and `lead` both drew
+       the hurdy-gurdy, so two of the eight seats were one instrument and the
+       band the printout counted was five. An orchestra is not eight NAMES, it
+       is eight distinct things you can hear at once, and two seats holding one
+       voice is a seat that does not exist.
+
+       The pools are therefore DISJOINT BY FAMILY rather than trusted to differ
+       by luck. The four `ride.leads` — fiddle, harmonica, banjo, hurdy-gurdy —
+       carry a leg and appear in no other pool; the accompaniment is drawn from
+       instruments that are never handed a leg. `keys` keeps the banjo because
+       a picker really does drop the roll and vamp, and the roll's own chair
+       has the banjo too — but those two are one player's two hands and the
+       arrangement already knows it. [score-craft.md §7 on colour;
+       playing-the-hobo-band.md §7 for who is in a hobo band at all] */
+    keys:  [["wurly", 5], ["bassoon", 2], ["banjo", 2]],
+    keys2: [["horns", 5], ["bassoon", 3], ["bariSax", 1]],
+    /* the tune's chair is written by the handover on every leg; this pool is
+       what a record with no journey would draw, and it is the same four so a
+       hand on the rack sees the instruments the record actually uses */
+    lead:  [["fiddle", 4], ["harmonica", 3], ["hurdyGurdy", 2], ["banjo", 1]],
+    /* THE ANSWER — the diddley bow, one wire and a slide, which is what
+       answers a tune in this band [playing-the-hobo-band.md §7b] */
+    counter: [["diddley", 5], ["harmonica", 2]],
+    /* THE ROLL — the banjo's right hand, and nothing else can do it */
+    ostinato: [["banjo", 1]],
+  },
+  /* the Wurlitzer's reed bark reads as an old keyed instrument through the
+     gramophone, and the era question is blurred by the medium on purpose */
+  keysChar: [["wurly", 1]],
+  leadChar: [["synth", 1]],
+
+  /* ══ THE HARMONY ═════════════════════════════════════════════════════════
+     Modal folk: the tune goes somewhere and the ground does not. Roman numerals
+     as scale degrees from the mode's own root, eight bars to a progression
+     because the material is eight bars.
+
+     THE RULE THESE OBEY, and it is the genre's: a boxcar progression LEAVES AND
+     COMES BACK, because that is what the record is about. Every one of them
+     ends on the tonic and none of them sits on it throughout. */
+  progressions: {
+    /* i - VII - i - IV: the dorian pair, and the major IV is the whole reason
+       to be in dorian rather than minor — it is the light in the mode */
+    dorian: [[[0, 0, 10, 10, 0, 0, 5, 0], 4],
+             [[0, 10, 0, 5, 0, 10, 5, 0], 3],
+             [[0, 0, 5, 5, 10, 10, 0, 0], 2],
+             [[0, 5, 10, 5, 0, 5, 10, 0], 1]],
+    /* the lonesome one: i - VI - VII - i, no major chord anywhere in it */
+    minor:  [[[0, 0, 8, 8, 10, 10, 0, 0], 4],
+             [[0, 8, 0, 10, 0, 8, 10, 0], 3],
+             [[0, 0, 5, 5, 8, 10, 0, 0], 2],
+             [[0, 10, 8, 10, 0, 10, 8, 0], 1]],
+    /* mixolydian: I - VII - IV - I, the folk major that pulls nowhere */
+    mixolydian: [[[0, 0, 10, 10, 5, 5, 0, 0], 4],
+                 [[0, 10, 5, 0, 0, 10, 5, 0], 3],
+                 [[0, 5, 0, 10, 5, 10, 0, 0], 2]],
+    major:  [[[0, 0, 7, 7, 5, 5, 0, 0], 3],
+             [[0, 5, 7, 0, 5, 7, 5, 0], 2],
+             [[0, 7, 5, 7, 0, 5, 7, 0], 1]],
+  },
+  /* THE STOP LEAVES THE PROGRESSION. A platform is the one place this record is
+     allowed off its own harmony — the band is two players and nothing is
+     holding the ground — so material C gets changes that go somewhere the
+     travelling music does not, and comes back for the pull-out. */
+  bridgeProgressions: {
+    dorian: [[[3, 3, 10, 10, 5, 5, 0, 0], 3], [[8, 8, 3, 3, 10, 10, 0, 0], 2]],
+    minor:  [[[8, 8, 3, 3, 10, 10, 0, 0], 3], [[5, 5, 8, 8, 3, 3, 0, 0], 2]],
+    mixolydian: [[[5, 5, 2, 2, 10, 10, 0, 0], 3], [[10, 10, 5, 5, 2, 2, 0, 0], 2]],
+    major:  [[[9, 9, 5, 5, 7, 7, 0, 0], 3], [[2, 2, 7, 7, 5, 5, 0, 0], 2]],
+  },
+  sevenths: false,
+
+  /* ══ WHERE EACH PART SITS — THIS IS THE ORCHESTRATION ════════════════════
+     Eight players in a boxcar and none of them in each other's way. The spread
+     is by ROLE rather than by instrument, because the handover means a chair
+     changes instrument every leg and the chair's place in the texture must not.
+
+       drone     24-32   the running gear, under everything
+       bass      28-46   the washtub's whole range [washtub-bass.md §3a]
+       keys2     43-60   the horns, in the tenor — the pad under the chords
+       keys      48-67   the chords, in the middle where a Wurlitzer lives.
+                       AN OCTAVE AND A HALF, not the octave the first draft
+                       gave it: a chord has to find a voicing that clears the
+                       bass below and the roll above, and inside twelve
+                       semitones there is often no such voicing — seed 4 threw
+                       on exactly that, "no keys voicing fits [50,62]".
+       counter   58-74   the answer, UNDER the tune so it reads as an answer
+       ostinato  67-86   the banjo roll, above the chords, where a roll sits
+       theme     64-84   the tune, and it may cross the roll — a fiddle does
+
+     The three theme registers differ by a couple of semitones on purpose: B is
+     the leg's high point and sits higher, C is the platform and sits lower,
+     which is a dynamic written into the pitch rather than into the gain.
+     [score-craft.md on spacing; the-bow.md for the fiddle's own range] */
+  registers: {
+    drone: [24, 32], bass: [28, 46], bassWalk: [28, 46],
+    keys: [48, 67], keys2: [43, 60],
+    counter: [58, 74], ostinato: [67, 86],
+    themeA: [64, 82], themeB: [67, 84], themeC: [62, 78],
+  },
+
+  /* ══ THE TUNE ════════════════════════════════════════════════════════════
+     MEASURED ON V1 AND IT IS THE FAULT THIS FIXES: 14 notes in an eight-bar
+     material and only 3.7 DISTINCT PITCHES — the fewest per note of any genre
+     in the file, and on one seed the entire tune was a single repeated D5.
+     A melody that circles three pitches for twenty minutes is not a melody.
+
+     Two changes, both here: MORE NOTES per bar, and more PLACES for them to
+     land. `count` is notes per bar by phrase kind, and `onsetPool` is where in
+     the bar they may start — V1 offered four positions and weighted the
+     downbeat at 8 of 18, so half the tune was on beat one. Six positions here,
+     flatter, with the off-beats real rather than token.
+
+     The hook still states and develops: bars 0-3 exactly, 4-7 developed by
+     sequence, displacement or a changed tail [development.md]. */
+  theme: {
+    count: { hooky: [3, 2], breath: [2, 1], normal: [3, 2] },
+    verseHook: true,
+    develop: { at: 4, of: [["sequence", 4], ["displace", 3], ["tail", 3]] },
+    onsetPool: [[0, 5], [2, 2], [4, 4], [7, 2], [8, 4], [12, 3]],
+  },
+  /* the cell is EIGHT bars, not four. MEASURED on V1: a four-bar cell came
+     round 43.3 times in a 173-bar record, and no amount of good writing inside
+     four bars survives forty-three hearings. */
+  materialBars: 8,
+  /* AND THE ACCOMPANIMENT IS RE-REALISED, not replayed: several takes per part,
+     indexed by which time round the material is being played */
+  materialTakes: { ostinato: 6, bass: 5, lead: 4, counter: 4, keys: 3 },
+
+  /* ══ THE GROUND — THE TRAIN ══════════════════════════════════════════════
+     Not a pad. The genre's continuous ground is the running gear under the
+     floor, and it STOPS when the train does: `cut` ends it at the section
+     boundary, which is what makes a platform silent. `unpitched` says the
+     written note only nudges its playback rate — a train is in no key.
+     [boxcar-synth.md §3a] */
+  drone: { unit: 4, hold: 1, pedal: 1, octave: 0,
+           cut: true, unpitched: true, continuous: true },
+
+  /* ══ THE BASS — PLUCKED, NOT SUSTAINED ═══════════════════════════════════
+     "a propulsive root-note bass line" and "a percussive, thumping rhythm that
+     anchors the overall tempo" [corpus:grokipedia, washtub bass]. So: a pulse
+     style rather than a drone, on the eighth, biased to the root, with the
+     octave jump a rope player gets by pulling the staff.
+     MEASURED ON V1 AND THIS IS WHY: its bass rendered 38 dB under the lead and
+     removing it changed the mix by 0.00 dB. A sustained pedal spends headroom
+     below where hearing is. [washtub-bass.md §1] */
+  bassStyle: "pulse",
+  bassPulse: { unit: 8, rootBias: 0.62, octaveJump: 0.28, restChance: 0.14 },
+  bassAccent: { accent: 0.3, slide: 0 },
+  bassStep: 3,
+  bassWalk: 0.55,
+
+  /* ══ THE ROLL — THE BANJO'S RIGHT HAND ═══════════════════════════════════
+     A bluegrass player rolls continuously; the roll IS the rhythm part, not an
+     ornament, and the fifth string is a fixed drone the thumb keeps hitting
+     whatever the chord [banjo-and-harmonica-notation.md]. `fixed: [7]` is that
+     string. The cells are forward and backward rolls written as scale degrees.
+     [corpus:Earl Scruggs' three rolls] */
+  ostinato: {
+    unit: 1, vel: 0.52, run: true, follow: true, ratchet: 0,
+    whole: true, perBar: true, thumb: 0.32, slur: 0.15, fixed: [7],
+    change: { pick: [1, 2], kinds: [["cell", 6], ["octave", 3], ["rest", 3]] },
+    cells: [[[0, 2, 7, 0, 4, 7, 2, 4], 5],     // forward roll
+            [[7, 4, 2, 7, 4, 0, 2, 4], 4],     // backward roll
+            [[0, 4, 7, 4, 2, 7, 0, 4], 3],     // alternating thumb
+            [[2, 7, 4, 2, 7, 0, 4, 7], 3],
+            [[0, 2, 4, 7, 4, 2, 0, 7], 2],
+            [[4, 7, 2, 4, 7, 0, 2, 7], 2]],
+  },
+
+  /* ══ THE ANSWER ══════════════════════════════════════════════════════════
+     The slide answers the tune — it does not double it. Thirds and fifths
+     BELOW, so the answer sits under the melody and reads as a reply rather
+     than a harmony part. [call-and-response.md] */
+  counter: { style: "line", density: 0.45, intervals: [-3, -5, -4, 3],
+             octaves: [0], answer: 0.7 },
+
+  /* ══ THE KIT — THE RAIL JOINTS ═══════════════════════════════════════════
+     "clicks per minute = mph x 2.256 ... the click rate IS the train's speed"
+     and "the clickety-clack doubling comes from the truck: two axles a few feet
+     apart hit the same joint as a quick pair — a FLAM, not two beats"
+     [boxcar-synth.md §3].
+
+     So this kit is not a backbeat with a train on top. The rim is the joint,
+     one to the beat; the ghost a sixteenth behind it is the second axle; the
+     washboard rides underneath. There is deliberately NO snare on 2 and 4 — a
+     freight train has no backbeat, and putting one on it is the single fastest
+     way to turn this genre back into a pop record. */
+  kit: {
+    /* THE RIM IS THE JOINT, and the rig sends `snare` to it. Beats two and
+       four here; the kick has one and three (see `pocket`), so between them
+       there is ONE CLICK A BEAT — which is the rail, at one joint per beat, by
+       construction. What there is NOT is a backbeat: nothing lands on 2 and 4
+       that is louder than what lands on 1 and 3, and the accent table above
+       makes the four of them even. A freight train has no backbeat, and
+       putting one on it is the fastest way to turn this genre back into a pop
+       record. */
+    snare: [4, 12],
+    hatEvery: 4, hatVel: 0.34,
+    ghostChance: 0.85, ghostSpots: [1, 5, 9, 13],   // the second axle, every beat
+    rideEvery: 2, rideFrom: 0, rideVel: 0.34,       // the washboard, under it
+    openSpot: [[-1, 10], [14, 1]], openBars: [],
+    /* ── AND THE TRACK CHANGES UNDER A CHANGE OF MATERIAL ─────────────────
+       Three treatments of the one kit, because the material has three members
+       and the track is not indifferent to which one is playing. At the leg's
+       high point the joints ring more (a lighter hand on the washboard lets
+       the rim through); on the platform material the whole thing thins,
+       because a train pulling out of a station has not got up to speed.
+       Every genre must declare all three keys or a material silently keeps
+       the base kit — measured on the first run of this table, which had none
+       and threw. */
+    variants: { main: {},
+                lift: { rideVel: 0.24, ghostChance: 0.92 },
+                depart: { rideVel: 0.20, ghostChance: 0.55, hatVel: 0.24 } },
+    /* THE POINTS AND THE CROSSINGS. A flourish is where the track does
+       something other than repeat: a set of points at the end of a phrase.
+       Mostly nothing, because mostly a railway is straight. */
+    flourish: [[[], 7], [[13, 15], 2], [[11, 13, 15], 1]],
+    flourishBar: 7,
+    /* the joint never stops while the train is moving — the kick is the
+       leading axle and it keeps its place through a fill */
+    kickKeep: true,
+  },
+  kick: { tune: 46, decay: 0.55, click: 0.02, drive: 0.08, body: 1, gain: 0.72 },
+  drumDrive: 1,
+  /* WHERE THE KIT IS LOUD, by lane and sixteenth. The rim carries the joint, so
+     it is even — a rail joint does not know where beat one is. */
+  accent: {
+    kick:  [1, .5, .6, .5, .8, .5, .6, .5, .9, .5, .6, .5, .8, .5, .6, .5],
+    snare: [.7, .5, .5, .5, .7, .5, .5, .5, .7, .5, .5, .5, .7, .5, .5, .5],
+    ghost: [.55, .55, .55, .55, .55, .55, .55, .55, .55, .55, .55, .55, .55, .55, .55, .55],
+    hat:   [.8, .55, .6, .55, .7, .55, .6, .55, .8, .55, .6, .55, .7, .55, .6, .55],
+    rim:   [.9, .55, .6, .55, .9, .55, .6, .55, .9, .55, .6, .55, .9, .55, .6, .55],
+    ride:  [.7, .6, .65, .6, .7, .6, .65, .6, .7, .6, .65, .6, .7, .6, .65, .6],
+    tom1:  [.8, .5, .6, .5, .8, .5, .6, .5, .8, .5, .6, .5, .8, .5, .6, .5],
+    tom2:  [.8, .5, .6, .5, .8, .5, .6, .5, .8, .5, .6, .5, .8, .5, .6, .5],
+    tom3:  [.8, .5, .6, .5, .8, .5, .6, .5, .8, .5, .6, .5, .8, .5, .6, .5],
+  },
+  /* ── THE POCKET IS THE LEADING AXLE ──────────────────────────────────────
+     `pocket` is which sixteenths the kick strikes. One and three: the heavy
+     part of the car passing a joint, with the rim taking two and four, so the
+     pair covers every beat. The trailing axle is `ghostSpots` a sixteenth
+     behind each — "two axles a few feet apart hit the same joint as a quick
+     pair, a FLAM, not two beats" [boxcar-synth.md §3].
+
+     ONE POCKET, NOT A CHOICE. Every other genre offers several and draws one;
+     a rail joint is mechanical and does not have moods, so this genre has
+     exactly one and says why. The pocket is also dead straight: swinging it
+     would make the track a shuffle, and track is not played by a person. */
+  pocket: [[[0, 8], 1]],
+  groove: { styles: [["even", 1]], swing: [1, 0], swingUnit: 2,
+            snareEarly: [0, 0], kickLate: [0, 0], hatMul: 1,
+            jitter: { dilla: 0.02, even: 0.022 }, push: 0 },
+  /* a bowed note is long, a plucked one short, and the bass is plucked:
+     two, three or four sixteenths, weighted short [washtub-bass.md] */
+  touch: { bassArtic: [[2, 5], [3, 4], [4, 1]], strum: [0.05, 0.09] },
+
+  /* ══ THE ROOM AND THE MEDIUM ═════════════════════════════════════════════
+     A boxcar is a wooden box on wheels, not a cathedral: short, dark, and the
+     tune and the chords are what is sent to it. The gramophone sits over the
+     whole thing — this is an imagined past and the recording is part of the
+     imagining [dinosynth's diegetic method, boxcar-synth.md §1]. */
+  space: { wet: 0.24, irSec: 1.1, tailPow: 1.4, tailDark: 0.62, sendHp: 150,
+           feeds: ["keys", "lead"], echoFeeds: ["lead"], random: 0 },
+  tape: { wow: [0.0018, 0.0012], crackle: [0.005, 0.003],
+          flutter: [0.0005, 0.0003], hiss: [0.0012, 0.001] },
+  medium: { kind: 0, noise: 0.012, band: 0.12, age: 0.12, wobble: 0.0035, drift: 0 },
+  pressure: { depth: 0.4, amount: [0.2, 0.3], at: [0.3, 0.5], rise: [0.3, 0.5] },
+  gate: null,
+  ribbon: { chance: 0 },
+  /* the balance, measured against each other rather than chosen one at a time:
+     the tune carries, the ground sits under, and the roll is an accompaniment
+     however busy it is */
+  roleGain: { bass: 1.0, keys: 0.8, keys2: 0.7, lead: 1.15, ostinato: 0.7, counter: 0.9 },
+  params: {
+    tr1000: { kit: "freight", pSet: "any", pTune: 1, pAtk: 0.002, pRel: 1.1,
+              pTone: 0.6, bus: 1, gate: 0 },
+  },
+  motion: {},
+};
+
 
 /* ══ NOTES THAT LOST THEIR KEY IN THE CONVERSION ═══════════════════════════
    The merge is gone and these comments documented keys whose position moved
@@ -26302,6 +26790,26 @@ const BLEND_GROUP = {
      and worse, silently so */
   "form.build": "form",
   "form.target": "form", "form.bridgeAfterChorus": "form",
+  /* ── AND EVERYTHING ELSE THAT NAMES A SECTION FUNCTION ────────────────────
+     The comment below says why the transition table is grouped: it NAMES
+     SECTIONS, so it belongs to whichever genre supplied them. Every one of
+     these does the same thing and none of them was grouped, which went unseen
+     for as long as every table used the same handful of function names.
+
+     `form.ride` is the one that made it visible, and it is the strongest case
+     in the list: it does not merely name sections, it decides WHICH FORM
+     BUILDER RUNS. A blend that took a journey's ride and a song's lengths sent
+     stage 2 to `makeJourney` and then asked it for the length of a section
+     called `roll` in a table that has verses — 56 of 360 pairs threw on the
+     first run of a file with two form builders in it.
+
+     The rest are grouped now rather than when they next break: `payoff` names
+     the function a record returns to, `rest` and `thinTo` name the roles those
+     sections hold, `extend` and `setMachines` name functions outright, and
+     `plan` is a whole spine of them. */
+  "form.ride": "form", "form.payoff": "form", "form.rest": "form",
+  "form.thinTo": "form", "form.extend": "form", "form.setMachines": "form",
+  "form.plan": "form", "form.longLoop": "form", "form.double": "form",
   /* THE TRANSITION TABLE NAMES SECTIONS, so it belongs to whichever genre
      supplied the sections. This was NOT grouped, and it did not matter for as
      long as every genre drew from the same four functions -- the moment one
@@ -27188,7 +27696,7 @@ const clock = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(
 
    So this is not a mode of the walk and not a phase list fed into it. It is a
    SECOND FORM BUILDER, written from the journey outward, and a genre chooses
-   which one it is by declaring `form.journey` or not. Nothing here runs for a
+   which one it is by declaring `form.ride` or not. Nothing here runs for a
    genre that declares none, and nothing here reads the grammar, the transition
    weights, the laws of succession or the drawn arc — a journey has no use for
    any of them, because where a section sits is decided by where the train is.
@@ -27227,7 +27735,7 @@ const clock = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(
                 change from leg to leg and the two leads can trade at a stop
    ═══════════════════════════════════════════════════════════════════════════ */
 function makeJourney(chart){
-  const F = chart.table.form, J = F.journey, LEN = F.lengths;
+  const F = chart.table.form, J = F.ride, LEN = F.lengths;
   const rng = stream(chart.seed, "journey");
   const STEPS = stepsOf(chart.table);
   const beats = beatsOf(chart.table);
@@ -27504,13 +28012,13 @@ function makeJourney(chart){
      A section's `legPos` is coarse — it counts sections, and a sixteen-bar
      section covers a real distance. The tempo ramp and the seating both need
      to know where the train is at a BAR, so form works it out once, from the
-     bars themselves, and hangs it here. `ride[b]` is 0 at the platform behind,
+     bars themselves, and hangs it here. `ridePos[b]` is 0 at the platform behind,
      1 at the platform ahead, and -1 wherever the train is standing.
 
      Derived from the bar layout rather than from the section index, so a leg
      whose sections are uneven still reads as one even stretch of track —
      which is what it is. */
-  const ride = new Array(out.nBars).fill(-1);
+  const ridePos = new Array(out.nBars).fill(-1);
   for(let L = 0; L < legs; L++){
     let a = Infinity, z = -Infinity;
     for(const s of out)
@@ -27519,9 +28027,9 @@ function makeJourney(chart){
         if(s.endBar > z) z = s.endBar;
       }
     if(!isFinite(a) || z <= a) continue;
-    for(let b = a; b < z && b < out.nBars; b++) ride[b] = (b - a) / (z - a);
+    for(let b = a; b < z && b < out.nBars; b++) ridePos[b] = (b - a) / (z - a);
   }
-  out.ride = Object.freeze(ride);
+  out.ridePos = Object.freeze(ridePos);
   /* THE ARC IS THE RIDE, BAR BY BAR. The song walk draws a curve with an apex,
      lesser highs and a dip, because that is the shape of a record. A journey's
      shape is already decided — it is the legs — so the arc is read off them
@@ -27544,11 +28052,11 @@ function makeJourney(chart){
 }
 
 function makeForm(chart){
-  /* A GENRE CHOOSES ITS FORM BUILDER. Declaring `form.journey` says this record
+  /* A GENRE CHOOSES ITS FORM BUILDER. Declaring `form.ride` says this record
      is a trip rather than a song, and the whole of the walk below is skipped —
      not configured, skipped. No genre declares one today, so every record in
      the file still comes out of the walk. */
-  if(chart.table.form && chart.table.form.journey) return makeJourney(chart);
+  if(chart.table.form && chart.table.form.ride) return makeJourney(chart);
   const F = chart.table.form, LEN = F.lengths;
   const PAY0 = F.payoff || "chorus";
   /* ═══════════════════════════════════════════════════════════════════════════
@@ -28222,8 +28730,8 @@ function makeForm(chart){
    returns the constant it always returned -- the same arithmetic, not merely
    the same answer. */
 function makeTempoMap(chart, sections, nBars){
-  const FJ = chart.table.form && chart.table.form.journey;
-  if(FJ && FJ.tempo) return journeyTempo(chart, sections, nBars, FJ.tempo);
+  const FR = chart.table.form && chart.table.form.ride;
+  if(FR && FR.tempo) return journeyTempo(chart, sections, nBars, FR.tempo);
   const A = chart.table.form && chart.table.form.tempoArc;
   if(!A || !A.by || nBars < 1) return null;
   const EASE = A.ease === "lin" ? (u => u) : (u => 0.5 - 0.5 * Math.cos(Math.PI * u));
@@ -28278,7 +28786,7 @@ function journeyTempo(chart, sections, nBars, T){
   const ease = u => 0.5 - 0.5 * Math.cos(Math.PI * Math.max(0, Math.min(1, u)));
   /* PER BAR, from form's own `ride` — where the train is, not what the section
      is called. -1 is a standing train. */
-  const ride = sections.ride;
+  const ride = sections.ridePos;
   const mult = new Array(nBars).fill(CRU);
   for(let b = 0; b < nBars; b++){
     const x = ride ? ride[b] : 0.5;

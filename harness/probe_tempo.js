@@ -67,6 +67,12 @@ console.log("\n=== THE TEMPO MAP — " + SEEDS + " seeds a genre\n");
 for(const g of M.genres()){
   const G = M.GENRE[g];
   if(!G || !G.form) continue;
+  /* A GENRE THAT DECLARES A RIDE IS NOT INERT AND MUST NOT BE ASKED TO BE.
+     Its tempo map comes from where the train is, per bar, and `journeyTempo`
+     owns it — so `form.tempoArc` is not the mechanism under test there and
+     the arc this probe declares would be ignored. `probe_journey` checks that
+     genre's pace instead, against the thing that actually decides it. */
+  if(G.form.ride){ console.log("  " + g + "\n     — declares a ride; its pace is probe_journey's"); continue; }
 
   /* ── 1. INERT: nothing declared, nothing moved ────────────────────────────
      Compared against the arithmetic the clock replaced, recomputed here from
