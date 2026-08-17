@@ -211,6 +211,33 @@ const TARGET = { train: -9, story: -11, world: -25 };
           return Object.assign({}, e, { tSec: 0, durSec: Math.max(0.05, (e.durSec || 0) + t) });
         });
       if(!win.length) return ZERO;
+      /* ══ HOW LOUD IT IS WHEN YOU HEAR IT, NOT AVERAGED OVER THE SILENCE ═════
+         A PLAIN RMS OVER THE WINDOW UNDER-READS ANYTHING BURSTY, and this
+         probe now measures two things that are: the countryside became a
+         sequence of 3-5 second passes with 8-15 seconds between them, and the
+         station's signals were always a handful of whistles inside twenty
+         seconds. Measured the moment the passes landed: seed 4 read the world
+         at -54.3 dB against a want of -25, because the window happened to
+         catch one pass and nineteen seconds of nothing. That is the probe
+         describing the RHYTHM of a part, not its level — the same class of
+         error as comparing a station against the band in its own window, which
+         this file already records twice.
+
+         So the level is taken over the time the part is SOUNDING. The covered
+         fraction comes from the events' own spans, merged so an overlap is not
+         counted twice, and the mean square is divided by it — which for a
+         continuous bed is a division by one and changes nothing, and for the
+         band is a division by one and changes nothing. Only the bursty parts
+         move, and they move to the number a listener would give them. */
+      const spans = win.map(e => [Math.max(0, e.tSec), Math.min(secs, e.tSec + (e.durSec || 0))])
+                       .filter(x => x[1] > x[0]).sort((a, z) => a[0] - z[0]);
+      let cov = 0, cur = null;
+      for(const sp of spans){
+        if(!cur || sp[0] > cur[1]){ if(cur) cov += cur[1] - cur[0]; cur = sp.slice(); }
+        else cur[1] = Math.max(cur[1], sp[1]);
+      }
+      if(cur) cov += cur[1] - cur[0];
+      const live = Math.max(0.02, Math.min(1, cov / secs));
       const buf = await M.renderWav(win, secs, 22050, S.space, S.kick,
                                     S.drumDrive, S.gate, song.motion, from);
       /* `renderWav` hands back a WAV FILE, not samples — it is the same door
@@ -239,7 +266,11 @@ const TARGET = { train: -9, story: -11, world: -25 };
       for(let i = 0; i < out.length; i++)
         out[i] = bits === 16 ? dv.getInt16(dataAt + i * ch * 2, true) / 32768
                              : dv.getFloat32(dataAt + i * ch * 4, true);
-      return { rms: rms(out), arms: rms(AW.weight(out)) };
+      /* dividing the RMS by sqrt(live) is dividing the MEAN SQUARE by the
+         covered fraction — the energy is real, it is just spread over less
+         time than the window */
+      const k = 1 / Math.sqrt(live);
+      return { rms: rms(out) * k, arms: rms(AW.weight(out)) * k, live };
     };
     const ZERO = { rms: 0, arms: 0 };
 
