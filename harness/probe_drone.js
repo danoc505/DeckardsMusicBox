@@ -64,7 +64,7 @@
    choosing not to use one, and the two were indistinguishable until now.
    ═══════════════════════════════════════════════════════════════════════════ */
 const fs = require("fs"), path = require("path");
-const html = fs.readFileSync(path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html"), "utf8");
+const html = fs.readFileSync(path.resolve(__dirname, "..", "Boxcar Synth.html"), "utf8");
 let src = html.split("<script>")[1].split("</script>")[0];
 /* motionAt is stage 6's own reader and is not on window.MK2; a probe that
    re-implemented it would be measuring its own arithmetic rather than the

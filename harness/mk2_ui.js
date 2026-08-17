@@ -34,7 +34,7 @@ catch(e){ console.log("playwright not installed — skipping the UI probe"); pro
 const CANDIDATES = ["/opt/pw-browsers/chromium", process.env.CHROME_PATH].filter(Boolean);
 const exe = CANDIDATES.find(p => { try { return fs.existsSync(p); } catch(e){ return false; } });
 
-const FILE = "file://" + path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html");
+const FILE = "file://" + path.resolve(__dirname, "..", "Boxcar Synth.html");
 const shotAt = process.argv.indexOf("--shot");
 const shotDir = shotAt >= 0 ? process.argv[shotAt + 1] : null;
 

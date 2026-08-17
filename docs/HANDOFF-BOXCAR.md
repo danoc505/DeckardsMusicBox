@@ -241,27 +241,58 @@ that pulling the faders down made it silent. All three are fixed.
 
 ---
 
-## 6. THE FAULT THIS REWRITE EXISTS FOR — NOW PINNED EXACTLY
+## 6. THE FAULT THIS REWRITE EXISTS FOR — HALF FIXED, HALF PINNED
 
-The theme, printed as notes:
+### Fixed: the material never developed across the record
+
+`demand === "vary"` read `sec.fn === "verse" ? "Avar" : "Bvar"` — two SECTION
+NAMES standing in for two materials. This genre has no "verse", so every repeat
+took the else branch and a `roll` whose material was **A** came back as a
+variation **of something else**, and then stayed that one for fifteen minutes.
 
 ```
-seed 1   D#5 D#5 | D#5 D#5 | D#5 D#5 | D#5 C#5     8 notes, TWO pitches
-seed 2   G G | A G C C |  (the same two bars, four times)
-seed 3   D D# | F D# D# |  (two bars twice, then transposed, twice)
+before   leg 0  roll=A     open=A     high=B     brake=A
+         leg 1  roll=Bvar  open=Bvar  high=Bvar  brake=Bvar
+         leg 2  roll=Bvar  open=Bvar  brake=Bvar
+         leg 3  roll=Bvar  open=Bvar  arrive=B
+
+after    leg 0  A, A, B, Avar, A
+         leg 1  Avar, Avar, Bvar, Avarlift, Avarlift
+         leg 2  Avarlift x3                   <- furthest from home
+         leg 3  Avar, Avar, Bvar, Avar, B     <- home key for the arrival
 ```
 
-**The eight-bar material is really a TWO-BAR cell repeated**, so
-`materialBars: 8` bought nothing. And it does not grow: at 5, 20 and 40 minutes
-the theme is the same 8 notes — 376 bars and 744 bars playing the same cell.
-**Length buys more playing and never more music.**
+Two questions, separated, each answered by the fact that decides it: **how often
+have we heard this** → the variant (occurrence); **how far from home are we** →
+the key (the leg). They compose, and the last leg drops the lift so the arrival
+is in the key the record opened in. That is the brief's *"the last leg rhymes
+with the first"*, and it is a return rather than a repeat because the band is at
+its fullest by then.
 
-That is the founding complaint at its source, and it is worse than the audit's
-3.7 distinct pitches rather than better. Task #147 has the fix in two parts: a
-pitch-variety floor the theme builder must reach, then the motif transformed
-per leg using the private-copy mechanism the engine already has.
+Bars by material, seed 1: Avar 26% · Avarlift 23% · C 19% · A 16% · Bvar 9% · B 7%.
 
-**This is the next thing to build. Everything else is scaffolding for it.**
+### Still open: the 8-bar theme is a 2-bar cell tiled four times
+
+```
+material A, 8 bars, 12 notes, 4 distinct pitches
+  1 |*---...*--......|  D#5 C#5
+  2 |*---............|  G#4
+  3 |*---...*--......|  D#5 C#5      <- bar 1 again
+  4 |*---............|  G#4
+  ...
+  8 |*---............|  F#4          <- the only bar that differs
+```
+
+**And it is not following its own harmony.** The progression is
+`[0,0,10,10,0,0,5,0]`, so the chord CHANGES at bar 3 — and the melody plays the
+identical `D#5 C#5` over it. `materialBars: 8` buys eight bars of grid and two
+bars of music.
+
+That is inside the theme builder (stage 3, the `BARS` / `CH(set, b)` loop), not
+in the form, and it is **task #147** with the fix in two parts: the melody must
+read the chord under THIS bar, and the builder needs a pitch-variety floor
+across `materialBars`. Judge it by note print — "4 distinct pitches" is a shrug,
+the tiling above is a verdict.
 
 ---
 

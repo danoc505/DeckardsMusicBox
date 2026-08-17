@@ -30,7 +30,7 @@
 const path = require("path");
 const { chromium } = require((() => { try { require.resolve("playwright"); return "playwright"; }
                                       catch(e){ return "@playwright/test"; } })());
-const FILE = "file://" + path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html");
+const FILE = "file://" + path.resolve(__dirname, "..", "Boxcar Synth.html");
 const exe = process.env.PLAYWRIGHT_CHROMIUM || (process.env.PLAYWRIGHT_BROWSERS_PATH
             ? path.join(process.env.PLAYWRIGHT_BROWSERS_PATH, "chromium") : null);
 

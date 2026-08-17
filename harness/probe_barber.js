@@ -49,7 +49,7 @@
 */
 const { chromium } = require(require('path').resolve(__dirname, '..', 'node_modules', 'playwright'));
 const path = require('path');
-const HTML = process.env.MK2_HTML || path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html');
+const HTML = process.env.MK2_HTML || path.resolve(__dirname, '..', 'Boxcar Synth.html');
 const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const SECS = Number(process.argv[2] || 16);
 const SEEDS = (process.env.MK2_SEEDS || "11").split(",").map(Number);

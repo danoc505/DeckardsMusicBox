@@ -36,7 +36,7 @@
    what it claims where it is used.
    ═══════════════════════════════════════════════════════════════════════════ */
 const fs = require("fs"), path = require("path");
-const html = fs.readFileSync(path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html"), "utf8");
+const html = fs.readFileSync(path.resolve(__dirname, "..", "Boxcar Synth.html"), "utf8");
 let src = html.split("<script>")[1].split("</script>")[0];
 src += ";global.__motionAt = motionAt; global.__makeMotion = makeMotion;";
 global.window = { addEventListener(){}, MK2: null };

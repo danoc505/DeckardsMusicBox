@@ -27,7 +27,7 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 const { chromium } = require('/home/user/DeckardsMusicBox/node_modules/playwright');
 const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-const F = 'file:///home/user/DeckardsMusicBox/Deckards Orchestrator MK2.html';
+const F = 'file:///home/user/DeckardsMusicBox/Boxcar Synth.html';
 let pass=0, fail=0;
 const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")":"")); ok?pass++:fail++; };
 (async () => {

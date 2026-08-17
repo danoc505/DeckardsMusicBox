@@ -30,7 +30,7 @@
                 extending in a genre whose table does not list the intro. */
 const fs = require("fs");
 const path = require("path");
-const HTML = process.argv[3] || path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html");
+const HTML = process.argv[3] || path.resolve(__dirname, "..", "Boxcar Synth.html");
 const SEEDS = parseInt(process.argv[2], 10) || 40;
 const src = fs.readFileSync(HTML, "utf8").split("<script>")[1].split("</script>")[0];
 global.window = { addEventListener(){}, MK2: null };

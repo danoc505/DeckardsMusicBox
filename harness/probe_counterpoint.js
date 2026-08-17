@@ -37,7 +37,7 @@
 const fs = require('fs'), path = require('path');
 /* the engine, loaded exactly the way probe_theory.js loads it -- same idiom, so
    there is one way this repo evals the composer out of the page, not two */
-const html = fs.readFileSync(path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html'), 'utf8');
+const html = fs.readFileSync(path.resolve(__dirname, '..', 'Boxcar Synth.html'), 'utf8');
 const src = html.split('<script>')[1].split('</script>')[0];
 global.window = { addEventListener(){}, MK2: null };
 global.document = { getElementById: () => ({ addEventListener(){}, textContent: '', value: '1', innerHTML: '' }),

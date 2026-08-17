@@ -24,7 +24,7 @@
    sample or a wrong root, not tuning. */
 const { chromium } = require(require('path').resolve(__dirname, '..', 'node_modules', 'playwright'));
 const path = require('path');
-const HTML = path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html');
+const HTML = path.resolve(__dirname, '..', 'Boxcar Synth.html');
 const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 
 const NOTES = (process.argv[2] || '48,55,64').split(',').map(Number);

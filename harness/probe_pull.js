@@ -22,7 +22,7 @@
    be. The features the genre already owns should score high; the interesting
    ones are the features nobody has assigned to anybody. */
 const fs = require("fs"), path = require("path");
-const html = fs.readFileSync(path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html"), "utf8");
+const html = fs.readFileSync(path.resolve(__dirname, "..", "Boxcar Synth.html"), "utf8");
 const src = html.split("<script>")[1].split("</script>")[0];
 global.window = { addEventListener(){}, MK2: null };
 global.document = { getElementById: () => ({ addEventListener(){}, textContent: "", value: "1", innerHTML: "" }) };

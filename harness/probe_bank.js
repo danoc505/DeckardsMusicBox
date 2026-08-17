@@ -54,7 +54,7 @@ const fs = require("fs");
 const path = require("path");
 /* a path may be passed so this check can be RUN AGAINST A KNOWN-BROKEN COPY --
    a guard nobody has watched fail is a guard nobody knows works */
-const HTML = process.argv[2] || path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html");
+const HTML = process.argv[2] || path.resolve(__dirname, "..", "Boxcar Synth.html");
 const src = fs.readFileSync(HTML, "utf8").split("<script>")[1].split("</script>")[0];
 global.window = { addEventListener(){}, MK2: null };
 global.document = { getElementById: () => ({ addEventListener(){}, textContent: "", value: "1", innerHTML: "" }),

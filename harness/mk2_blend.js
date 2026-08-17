@@ -16,7 +16,7 @@ const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")
   const pg = await b.newPage();
   const errs=[]; pg.on('pageerror',e=>errs.push(String(e.message)));
   pg.on('console',m=>{ if(m.type()==='error') errs.push("CONSOLE: "+m.text()); });
-  await pg.goto('file://' + require('path').resolve(__dirname, '..', 'Deckards Orchestrator MK2.html'),{waitUntil:'load',timeout:60000});
+  await pg.goto('file://' + require('path').resolve(__dirname, '..', 'Boxcar Synth.html'),{waitUntil:'load',timeout:60000});
   await pg.waitForFunction(()=>window.MK2,{timeout:20000});
 
   /* FULL PRECISION, rounded only when printed. This rounded to 4 digits on the

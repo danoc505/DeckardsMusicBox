@@ -10,7 +10,7 @@
    sits 20 dB off its neighbours is a bug you can see before you hear it. */
 const { chromium } = require(require('path').resolve(__dirname, '..', 'node_modules', 'playwright'));
 const path = require('path'), fs = require('fs');
-const HTML = path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html');
+const HTML = path.resolve(__dirname, '..', 'Boxcar Synth.html');
 const OUT = process.argv[2];
 const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 

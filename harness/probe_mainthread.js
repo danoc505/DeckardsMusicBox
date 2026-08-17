@@ -16,7 +16,7 @@
 */
 const { chromium } = require(require('path').resolve(__dirname, '..', 'node_modules', 'playwright'));
 const path = require('path');
-const HTML = path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html');
+const HTML = path.resolve(__dirname, '..', 'Boxcar Synth.html');
 const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const GENRE = process.argv[2] || 'synthwave';
 const SECS = Number(process.argv[3] || 30);

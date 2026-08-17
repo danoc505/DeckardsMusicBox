@@ -19,7 +19,7 @@ const N = parseInt(process.argv[2] || "60", 10);
     executablePath: process.env.CHROME_PATH || "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
     args: ["--no-sandbox", "--disable-gpu"] });
   const p = await b.newPage();
-  await p.goto("file://" + require("path").resolve(__dirname, "../Deckards Orchestrator MK2.html"),
+  await p.goto("file://" + require("path").resolve(__dirname, "../Boxcar Synth.html"),
                { waitUntil: "load", timeout: 60000 });
   await p.waitForFunction(() => window.MK2, { timeout: 20000 });
 

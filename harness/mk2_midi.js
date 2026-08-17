@@ -57,7 +57,7 @@ const STUB = `
   const errs = []; pg.on('pageerror', e => errs.push(String(e.message)));
   pg.on('console', m => { if (m.type() === 'error') errs.push("CONSOLE: " + m.text()); });
   await pg.addInitScript(STUB);
-  await pg.goto('file://' + path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html'),
+  await pg.goto('file://' + path.resolve(__dirname, '..', 'Boxcar Synth.html'),
                 { waitUntil: 'load', timeout: 60000 });
   await pg.waitForFunction(() => window.MK2, { timeout: 20000 });
 

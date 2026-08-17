@@ -18,7 +18,7 @@
 */
 const { chromium } = require(require('path').resolve(__dirname, '..', 'node_modules', 'playwright'));
 const path = require('path');
-const HTML = path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html');
+const HTML = path.resolve(__dirname, '..', 'Boxcar Synth.html');
 const GENRE = process.argv[2] || 'boxcarsynth';
 const SECS  = Number(process.argv[3] || 90);
 const SEED  = Number(process.argv[4] || 1);

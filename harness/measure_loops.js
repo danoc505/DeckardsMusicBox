@@ -59,7 +59,7 @@
    and a short noise loop is audible as a rhythm.
    ═══════════════════════════════════════════════════════════════════════════ */
 const fs = require("fs"), path = require("path");
-const HTML = path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html");
+const HTML = path.resolve(__dirname, "..", "Boxcar Synth.html");
 const html = fs.readFileSync(HTML, "utf8");
 const src = html.split("<script>")[1].split("</script>")[0];
 

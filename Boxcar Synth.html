@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17q · every bed levelled, every sound on a fader</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17r · the tune travels, and comes home in its own key</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -29059,7 +29059,35 @@ function makeArrangement(chart, form, materials){
            the thin outright: a genre with no lead at all lost its
            only variation and gained nothing, on 300 of 300 songs. A better
            mechanism that silently removes a working one is not an improvement. */
-        material = sec.fn === "verse" ? "Avar" : "Bvar";
+        /* ── A VARIATION IS A VARIATION OF WHAT WAS JUST PLAYED ──────────────
+           This read `sec.fn === "verse" ? "Avar" : "Bvar"`, which is two
+           SECTION NAMES standing in for two materials — and it holds only
+           while a genre's sections are called verse and chorus. On a genre
+           whose sections are `roll`, `open`, `high`, `brake`, `pullout` there
+           is no verse, so EVERY repeat took the else branch and became `Bvar`.
+
+           MEASURED on this genre, material per leg:
+
+             leg 0   roll=A     open=A     high=B     brake=A
+             leg 1   roll=Bvar  open=Bvar  high=Bvar  brake=Bvar
+             leg 2   roll=Bvar  open=Bvar  brake=Bvar
+             leg 3   roll=Bvar  open=Bvar  arrive=B
+
+           A `roll` whose material is A came back as a variation OF SOMETHING
+           ELSE — not a redrawn tail on the tune you just heard, a different
+           tune — and then every later section was that same one for fifteen
+           minutes. Both halves of "developing variation" broken by one
+           hardcoded name: it did not develop what was there, and it did not
+           keep developing.
+
+           So the variant is derived from THE MATERIAL THE SECTION ACTUALLY
+           HAS. `A` varies to `Avar`, `B` to `Bvar`, and a material with no
+           variant stays as it is rather than jumping to a stranger's. Genres
+           that want the old behaviour have `varyAsBefore` and take the branch
+           above, so nothing that relied on it moves. [Law 4 — the engine may
+           not reason about a section called "verse"] */
+        const v = material + "var";
+        if(materials[v]) material = v;
         if(sec.occurrence >= 3) stripHalf = true;
       }
     }
@@ -29072,6 +29100,65 @@ function makeArrangement(chart, form, materials){
        chorus simply does not move, which is honest -- the departure it already
        has is the chorus's own changes. */
     if(LIFTED && inLift(sec) && materials[material + "lift"]) material += "lift";
+
+    /* ══ AND THE TUNE IS FURTHER ALONG ON EVERY LEG ═══════════════════════════
+       [owner] "we want a motif that evolves, and the whole song builds around
+       and towards" ... "something like the four seasons orchestral song that
+       changes with the seasons". And the founding brief: "one tune,
+       re-orchestrated per leg, GROWING; the last leg rhymes with the first."
+
+       MEASURED, AND THE DIAGNOSIS IN THE HANDOFF WAS WRONG — it said the
+       record was the same material A four times. Printed per leg, it is worse
+       than that and in a different way:
+
+         leg 0   roll=A     open=A     high=B     open=Bvar  brake=A
+         leg 1   roll=Bvar  open=Bvar  high=Bvar  open=Bvar  brake=Bvar
+         leg 2   roll=Bvar  open=Bvar  brake=Bvar
+         leg 3   roll=Bvar  open=Bvar  high=Bvar  arrive=B
+
+       THE VARIATION FIRES ONCE AND THEN NOTHING DEVELOPS FOR FIFTEEN MINUTES.
+       The `demand === "vary"` rule above counts OCCURRENCES of a section
+       function, so the second `roll` becomes the variant and every later one
+       is the same variant. That is correct for what it measures — repetition —
+       and it is blind to the thing this genre is made of, which is DISTANCE
+       TRAVELLED. Three legs, one material.
+
+       So the two questions are separated, and each is answered by the fact
+       that actually decides it:
+
+         HOW OFTEN HAVE WE HEARD THIS   ->  the variant   (occurrence, above)
+         HOW FAR FROM HOME ARE WE       ->  the KEY       (the leg, here)
+
+       They compose: a section that is both a repeat and a long way out plays
+       the redrawn tail IN THE LIFTED KEY, which is a further place than either
+       on its own, and neither rule has to know about the other.
+
+       AND THE LAST LEG COMES HOME. `far >= 0.4` puts the lift on from roughly
+       the second leg outward and TAKES IT OFF AGAIN on the final one, so the
+       arrival is in the key the record opened in. That is the rhyme the brief
+       asks for, and it is a return rather than a repeat because by then the
+       band is at its fullest and the arc is at its apex — the same notes in
+       the same key mean something different when everything around them has
+       grown. Sonata form has done exactly this for two hundred years: the
+       recapitulation is home, and it is not the exposition.
+
+       NOTHING NEW IS COMPOSED HERE and no rng is touched [Law 3, Law 7]: every
+       material this reaches already exists (`lift` copies are the same music
+       in the key the record moved to), the choice is deterministic from
+       `sec.leg`, and a genre that declares no ride is byte-identical. */
+    if(F.ride && sec.leg != null){
+      let legs = 0;
+      for(const s of form) if(s.leg != null && s.leg > legs) legs = s.leg;
+      if(legs > 0){
+        const home = sec.leg >= legs || sec.leg === 0;
+        const out  = !home && sec.leg / legs >= 0.4;
+        if(out && !/lift$/.test(material) && materials[material + "lift"]) material += "lift";
+        else if(home && /lift$/.test(material)){
+          const base = material.replace(/lift$/, "");
+          if(materials[base]) material = base;
+        }
+      }
+    }
     /* AND LAST OF ALL, THE HAND. A section the user has edited plays its own
        private copy of whatever it had otherwise settled on -- after the variant
        choice and after the key lift, so an edit does not cancel either of them:

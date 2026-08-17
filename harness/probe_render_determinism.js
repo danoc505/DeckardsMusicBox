@@ -26,7 +26,7 @@
 */
 const { chromium } = require(require('path').resolve(__dirname, '..', 'node_modules', 'playwright'));
 const path = require('path');
-const HTML = path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html');
+const HTML = path.resolve(__dirname, '..', 'Boxcar Synth.html');
 const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 /* dB. MEASURED both ends: with everything right the seven genres land between
    -92 and -106 (float accumulation through the convolver, 15+ bits down,

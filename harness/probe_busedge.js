@@ -54,7 +54,7 @@ const fs = require("fs");
    before/after in the header was measured against the same probe rather than
    against a memory of one. */
 const HTML = process.env.MK2_HTML ||
-             require("path").resolve(__dirname, "..", "Deckards Orchestrator MK2.html");
+             require("path").resolve(__dirname, "..", "Boxcar Synth.html");
 const src = fs.readFileSync(HTML, "utf8").split("<script>")[1].split("</script>")[0];
 global.window = { addEventListener(){}, MK2: null };
 global.document = { getElementById: () => ({ addEventListener(){}, textContent: "", value: "1", innerHTML: "" }),

@@ -44,7 +44,7 @@ const argOf = (name, dflt) => {
 const GENRE = argOf("--genre", "boxcarsynth");
 const SEEDS = parseInt(argOf("--seeds", "12"), 10);
 const ONE   = argv.indexOf("--seed") >= 0 ? parseInt(argOf("--seed", "1"), 10) : null;
-const HTML  = argOf("--file", path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html"));
+const HTML  = argOf("--file", path.resolve(__dirname, "..", "Boxcar Synth.html"));
 
 const src = fs.readFileSync(HTML, "utf8").split("<script>")[1].split("</script>")[0];
 global.window = { addEventListener(){}, MK2: null };
