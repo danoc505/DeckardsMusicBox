@@ -1309,3 +1309,85 @@ between records of different lengths*, and nothing was comparing two.
 **Measured here, 2026-08-16, build `2026-08-16a`:**
 `harness/probe_static.js boxcarsynth 24` · `harness/probe_static.js
 dungeonsynth 24` · `harness/mk2_roll.js <1..12> --genre boxcarsynth --song`
+
+---
+
+## 10. FRESH RESEARCH `2026-08-17` — WHAT KEEPS A LONG MODAL RECORD ALIVE
+
+*The owner: "We also need to do more research on modal Jazz so we can utilize
+it more, it might be the key to having this long songs that tell a story stay
+fresh and evolve."*
+
+Fresh search, not a re-reading of §1–§2. The question asked was narrower and
+better than the one this sheet asked first: not "what is modal jazz" but **what
+does a player DO for fifteen minutes when the harmony has stopped moving.**
+
+### The finding, and it lands on work this repo did today
+
+> "The practical challenge is real: how do you sustain listener interest for 16
+> bars over a single scale? **The answer lies in phrasing.** Modal jazz
+> soloists learned to build **melodic sentences that breathe, repeat, vary, and
+> resolve on their own terms** rather than tracking the harmony."
+> [corpus:newyorkjazzworkshop]
+
+And the framing underneath it:
+
+> Traditional jazz requires **"vertical thinking"** — outlining chord changes as
+> they occur, measure by measure. Modal jazz demands **"horizontal thinking"** —
+> constructing melodic lines within a sustained harmonic environment.
+> [corpus:thejazzpianosite]
+
+> "Without harmonic changes to outline, you must generate musical interest
+> through **pure melodic invention, rhythmic sophistication, and dynamic
+> control**." [corpus:ejazznews]
+
+> Practical strategy: **prioritise asymmetry** — break the monotony by
+> introducing surprise and unpredictability. [corpus:learnjazzstandards]
+
+### Why this matters more than it looks
+
+**The sources say the cure for a static harmony is a REPEATING PHRASE, not a
+wandering one.** "Breathe, repeat, vary, resolve" is a description of a hook.
+
+That is the exact fault measured and fixed today: boxcar synth's verse had no
+repeating cell at all — 0 of 12 materials — while its chorus stated a two-bar
+figure four times. The tune wandered for 27 seconds and never said anything
+twice. `theme.verseHook` fixed the mechanism; **this sheet is the argument for
+why it was the right fix**, and it was arrived at from the opposite direction.
+
+So the two questions the owner has asked across this session — *"do we have a
+motif?"* and *"can modal jazz keep a long song fresh?"* — have the same answer.
+A modal record does not stay fresh by changing chords. It stays fresh because a
+recognisable phrase keeps coming back **differently**.
+
+### WHAT THIS GIVES US THAT IS NOT BUILT
+
+The sources name four levers and this program uses one and a half:
+
+| lever | state |
+|---|---|
+| melodic development — a phrase that repeats and varies | **half.** `verseHook` restates the phrase. It restates it IDENTICALLY. Nothing varies it. |
+| rhythmic sophistication — displacement, asymmetry | **no.** The restatement lands on the same steps every time. |
+| dynamic control | partly — the arc moves density, not phrase weight |
+| timbre | yes, and it is this genre's strongest suit already |
+
+**The single highest-value next move is that first row.** A hook that returns
+note-for-note four times is a loop; the sources are explicit that the return
+must VARY. The engine already has `vary()` for materials — what it has no
+equivalent of is varying a phrase INSIDE a material: same shape, moved by a
+step, or displaced by a beat, or with one note changed.
+
+That is "development", it is §8 of `score-craft.md` from the other side, and it
+is what would turn today's hook from a loop into a story.
+
+### Sources
+
+- [What Is Modal Jazz? — New York Jazz Workshop](https://newyorkjazzworkshop.com/what-is-modal-jazz/)
+- [Modal Jazz Improvisation & Harmony — The Jazz Piano Site](https://www.thejazzpianosite.com/jazz-piano-lessons/modern-jazz-theory/modal-jazz/)
+- [Stuck On One Chord — Learn Jazz Standards](https://www.learnjazzstandards.com/blog/learning-jazz/jazz-theory/stuck-one-chord-strategies-dramatically-improve-modal-jazz-solos/)
+- [Modal Jazz: Miles Davis & Scales — eJazzNews](https://ejazznews.com/jazz-education/modal-jazz/)
+
+**What this does NOT settle:** no source found gives a NUMBER — how often a
+phrase should return, how far it may move, how long a modal record can hold one
+mode before an ear gives up. Those remain [CHOSEN] and should be measured
+against the program rather than asserted.
