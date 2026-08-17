@@ -27114,7 +27114,36 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
 
      A genre that declares nothing gets `[]` here, does not draw, and is
      byte-identical — the snapshot is the proof, not this sentence. */
-  const TAKE_N = (chart.table.materialTakes || {});
+  /* ── AND THE COUNT GROWS WITH THE RECORD ──────────────────────────────────
+     MEASURED, distinct bars of tune actually played, one seed at three
+     lengths:
+
+        5 min   100 bars   56 distinct
+       20 min   376 bars   82 distinct
+       40 min   744 bars   81 distinct
+
+     It PLATEAUS. Doubling the record from twenty minutes to forty bought
+     exactly nothing — the fortieth minute is the twentieth minute's music
+     played again, because the take count is a constant and four takes run out
+     however long the ride is. That is the founding complaint measured at the
+     place it actually lives: "the same exact notes played for 20 mins is NOT
+     music" [owner], and a fixed number of realisations is a ceiling on every
+     other thing done to the material.
+
+     So the declared count is a count FOR THE GENRE'S OWN LENGTH, and a record
+     asked to run longer gets proportionally more. Rounded up and capped, since
+     a take nobody reaches is work nobody hears — the cap below already refuses
+     more takes than the material has cycles, so this only ever asks. */
+  const TAKE_N = (() => {
+    const D = chart.table.materialTakes || {};
+    const base = (chart.table.form.ride && chart.table.form.ride.defaultSec) || 0;
+    const want = chart.wantSec || base;
+    if(!base || !want || want <= base) return D;
+    const k = want / base;
+    const o = {};
+    for(const r in D) o[r] = Math.min(16, Math.max(D[r], Math.round(D[r] * k)));
+    return o;
+  })();
   /* what makes two realisations the same music: the notes, not the gains.
      Sorted, because a builder is free to emit in any order. */
   const sigOf = ns => ns.map(n => n.bar + ":" + n.step + ":" + n.pitch).sort().join("|");
