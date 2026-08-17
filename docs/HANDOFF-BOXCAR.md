@@ -1,9 +1,25 @@
 # HANDOFF — BOXCAR SYNTH, ITS OWN PROGRAM
 
-**Branch:** `claude/code-review-6jd9cz`
-**File:** `Boxcar Synth.html` — this is the project now.
-`Deckards Orchestrator MK2.html` is the six-genre program it was copied from
-and is **not** being worked on.
+```
+BRANCH   claude/code-review-6jd9cz
+REPO     github.com/danoc505/DeckardsMusicBox
+FILE     Boxcar Synth.html          <- THIS IS THE PROJECT
+GENRE    boxcarsynth2               <- the only genre in it
+```
+
+**Do not work on `Deckards Orchestrator MK2.html`.** That is the six-genre
+program this was copied from. It still exists, it still has boxcar synth V1 in
+it, and it is the published artifact — but nothing in it is being developed.
+Every change goes in `Boxcar Synth.html`.
+
+**The filename has a space in it.** Quote it in every command:
+
+```sh
+node harness/mk2_notes.js --seeds 12 --genre boxcarsynth2 --file "Boxcar Synth.html"
+```
+
+Most of the harness defaults to the MK2 file, so a probe run without `--file`
+is measuring the wrong program. Pass the path.
 
 ---
 
