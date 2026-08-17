@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17h · one section in seven runs past its ending</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17i · six phases, and the bass is still inaudible</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -14308,7 +14308,31 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     damp.frequency.value = 700 + 1500 * toneK; damp.Q.value = 0.0001;
     str.connect(damp); damp.connect(fb); fb.connect(str);
     str.connect(air);
-    fb.gain.value = 0.80 + 0.10 * toneK;
+    /* ── THE STRING WAS DECAYING IN A FIFTH OF A SECOND ──────────────────────
+       At 0.80 feedback and a bass period of ~18 ms the string is 30 dB down
+       after about ten round trips: A FIFTH OF A SECOND. A bass note that lasts
+       0.2 s at 66 bpm is a click on beat one and silence for the rest of the
+       bar, which is a percussion part and not a bass. The sources give no decay
+       time -- the note above says so -- so this is [CHOSEN] against a musical
+       target: hold to about the next beat, which is roughly fifty round trips
+       and a feedback near 0.93. TONE keeps its whole travel; only its floor
+       moves, from a tick to a note.
+
+       AND IT DOES NOT FIX THE REAL FAULT, WHICH IS SAID HERE BECAUSE I
+       ASSUMED IT WOULD. Measured at ship, `probe_stems boxcarsynth 5 30 60`:
+       the bass renders alone at -53.9 dB against the lead's -16.1, and
+       **MISSED(A) is 0.00 dB** -- take the bass out and the audible mix does
+       not change. That is the same number the sustained pad-bass had, the one
+       this instrument was built to replace, and the feedback change moved it
+       by nothing (-60.7 to -58.7 dB on another seed, MISSED(A) unchanged).
+
+       The remaining fault is this voice's own OUTPUT LEVEL, not its decay:
+       `LEVEL.bass` is 0.26 against `LEVEL.lead` 0.28, so the buses are level
+       and the loss is inside the synthesis. That is the same class the banjo
+       and the harmonica needed measured trims for (see the note at LEVEL), and
+       it is TASK #126 rather than something guessed at here. Written down
+       instead of tuned blind. */
+    fb.gain.value = 0.930 + 0.050 * toneK;
 
     /* THE PULL: the note arrives from under, because the hand is still taking
        up the tension when the string is struck. */
