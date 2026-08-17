@@ -9880,6 +9880,30 @@ const MEDIUM_WOW_HZ = 78 / 60;
      [docs/genre-research/banjo-and-harmonica-notation.md §3] */
   const BANJO_TRIM = 0.62;
   const HARP_TRIM  = 0.46;
+  /* ── AND THE FIDDLE NEEDED THE SAME THING, THREE BUILDS LATE ──────────────
+     [owner] "The fiddle doesnt work" — and it did not, because it kept the
+     `(s.pk || 1)` term the paragraph above this one was written to remove. See
+     `V.fiddle` for the measurement; the short version is that taking the
+     fiddle out of a rendered band changed the mix by 0.00 dB.
+
+     LEVELLED AGAINST THE HARMONICA RATHER THAN CHOSEN, because those two share
+     the lead chair — a leg hands the tune from one to the other, so they are
+     the pair that must match.
+
+     MEASURED TWICE, because the first number overshot and that is the whole
+     point of re-measuring. Solo renders, MIDI 66, the written gain this genre
+     actually uses:
+
+                      before      at 0.50     at 0.30
+       fiddle    peak  0.0189      0.2485      0.149
+       harmonica peak  0.1318      0.1318      0.1318
+
+     0.50 made the fiddle the loudest thing in the band — five and a half
+     decibels OVER the instrument it hands the tune to, which is the same
+     overshoot §4d-ii records, arriving from the quiet side this time. 0.30
+     puts it a decibel above the harmonica: the tune, slightly forward of its
+     partner, which is where a tune belongs. */
+  const FIDDLE_TRIM = 0.30;
   /* ── AND THE TWO HOMEMADE STRINGS NEED THE SAME THING, FOR A THIRD REASON ──
      [owner] "the diddly and contrabasson should both be playing, this is
      ORCHESTRAL" ... "nothing has its place most things are to quite"
@@ -14650,7 +14674,49 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const lp = c.createBiquadFilter(); lp.type = "lowpass";
     lp.frequency.value = 1800 + 6200 * dig; lp.Q.value = 0.4;
     const gn = c.createGain();
-    const lvl = LEVEL[bus] * 0.95 * Math.min(1.2, ev.gain) * (s.pk || 1);
+    /* ══ AND `pk` WAS MAKING THE FIDDLE INAUDIBLE ═══════════════════════════
+       [owner] "The fiddle doesnt work"
+
+       MEASURED, and it is the most complete version of this fault in the file:
+       rendered solo at the same written gain as its neighbours, the fiddle
+       peaks at 0.0189 against the banjo's 0.1693 — NINETEEN DECIBELS DOWN. In
+       the band, seed 11, a 20-second window holding twelve fiddle notes:
+
+         FULL          -15.7 dB rms      NO-FIDDLE     -15.7 dB rms
+         FIDDLE-ONLY   -47.2 dB
+
+       **TAKING THE FIDDLE OUT CHANGES THE MIX BY 0.00 dB.** That is the same
+       signature the washtub bass carries at #126, on a different instrument.
+
+       THE CAUSE IS `(s.pk || 1)`, AND THIS FILE ALREADY ARGUED AGAINST IT — in
+       `V.banjo`, sixty lines up, in as many words: "`pk` undoes the encoder's
+       own normalisation, so it restores whatever level each note happened to
+       be recorded at ... A scale up the neck jumped 7 dB between adjacent
+       notes for no musical reason. That is a recording artefact, not the
+       instrument, so it goes." The banjo dropped it. The harmonica dropped it.
+       The fiddle kept it, and no `FIDDLE_TRIM` was ever measured to replace it.
+
+       What `pk` is doing here, measured over the rows actually reached:
+
+         layer   rows   pk median   spread within the layer   worst neighbour
+         M         28      0.102        13.1 dB                 8.2 dB
+         F         32      0.176         9.9 dB                 6.1 dB
+
+       A median of 0.102 is a flat -19.8 dB on every note, and the spread is a
+       RECORDING SESSION, not a dynamic: two adjacent semitones differ by eight
+       decibels because they were captured that way. So it goes, and one honest
+       number replaces it — the bus level, a measured trim, and a velocity that
+       trims rather than governs, which is the shape the banjo comment lands on.
+
+       ── AND THE THREE DYNAMIC LAYERS ARE ONE ──────────────────────────────
+       Written down rather than fixed here, because it is a separate fault:
+       over 20 seeds the voice chose P **0** times, M 4,021 and F 90. The
+       written gains only ever span 0.436-0.682 and the P branch needs < 0.42,
+       so twelve recorded piano notes are unreachable by construction. §3 of
+       `the-bow.md` says "the dynamic picks the recording, not a volume knob";
+       at present it picks one recording. TASK #151. */
+    const dyn = 0.55 + 0.45 * Math.min(1.2, ev.gain);
+    const lvl = LEVEL[bus] * FIDDLE_TRIM * dyn;
     /* THE BOW START. A bow does not speak instantly -- it takes a few tens of
        milliseconds for the string to catch -- and rosin is how much scratch
        rides in front of it. */
@@ -20413,7 +20479,33 @@ GENRE.boxcarsynth = {
   /* ══ WHERE EACH PART SITS — eight players, none in another's way ════════ */
   registers: {
     drone: [24,32], bass: [28,46], bassWalk: [28,46],
-    keys: [48,67], keys2: [43,60], counter: [58,74], ostinato: [67,86],
+    keys: [48,67], keys2: [43,60], counter: [58,74],
+    /* ── THE ROLL IS AN OCTAVE ABOVE THE INSTRUMENT, AND THIS IS NOT THE DIAL
+       A five-string banjo's four long strings are open D3 G3 B3 D4 — MIDI 50,
+       55, 59, 62 — and the fifth string is G4, 67. Measured drones come out at
+       84, 85, 86: seventeen to nineteen semitones above the real thing, and
+       85/86 are ABOVE `INSTRUMENTS.banjo.range` [48, 84], i.e. off the top of
+       the bank, reached by pitch-shifting a C6 sample up.
+       `boxcar-audit.md:202` already counted the cost: "each bar has only THREE
+       DISTINCT PITCHES: two fretted notes and the drone."
+
+       TRIED AND REVERTED, TWICE, AND THE FAILURES ARE THE USEFUL PART:
+
+         [55, 74]   `buildKeys` threw outright on bar 0 — "no keys voicing fits
+                    [48,67] clear of the bass and ostinato". The roll had landed
+                    on top of the chord comp.
+         [62, 79]   8 of 12 seeds composed; FOUR THREW the same error — and the
+                    roll still wrote pitches up to 85 regardless.
+
+       That last fact is the whole answer. `whole: true` takes the branch
+       `shifted + whole` and NEVER CALLS `intoBand`, so this register only sets
+       the drone's ceiling and the fold — IT DOES NOT BOUND WHAT THE ROLL PLAYS.
+       Lowering it squeezes the chord comp without moving the roll, which is the
+       worst of both, and four records stopped composing to buy nothing.
+
+       The height is real and it is TASK #150; the fix belongs in the whole-bar
+       fold, not in this table. Left where it was rather than shipped broken. */
+    ostinato: [67,86],
     themeA: [64,82], themeB: [67,84], themeC: [62,78],
   },
   /* THE TUNE. V1 measured 14 notes and 3.7 DISTINCT PITCHES — the fewest per
@@ -20462,12 +20554,80 @@ GENRE.boxcarsynth = {
   /* THE ROLL — the banjo's right hand, continuously, with the fifth string a
      fixed drone the thumb keeps hitting whatever the chord
      [banjo-and-harmonica-notation.md; corpus:Scruggs] */
+  /* ══ AND IT WAS PLAYED INSIDE OUT ═══════════════════════════════════════════
+     [owner] "The banjo is an instrument that is played in the oppasite way we
+     are using it and this is extensive in the notes!" ... "Its just random
+     notes!"
+
+     He is right, and it was one line. THE SHEET SAYS THE PATTERN BELONGS TO THE
+     RIGHT HAND AND IS THE CONSTANT — "each roll pattern is a RIGHT HAND
+     fingering pattern", "The roll IS the part: a continuous stream of eighth
+     notes, ONE PATTERN PER BAR, running for as long as the tune does"
+     [banjo-and-harmonica-notation.md §1]. The whole §1b-ii argument turns on
+     ONE THING THAT REFUSES TO MOVE while the left hand changes the chord.
+
+     `perBar: true` drew a NEW RIGHT-HAND PATTERN AT RANDOM EVERY BAR, on top of
+     `follow: true`, which already moves the fretted pitches with the chord. The
+     constant was randomised and the variable stayed variable. That is the
+     owner's "opposite way" and his "random notes" in the same switch, and it is
+     gone.
+
+     Its justification cited §1d — "sixteen bars of Foggy Mountain Breakdown are
+     not sixteen copies of the forward roll". §1d says nothing of the kind about
+     RANDOMNESS, and its closing paragraph says outright that how a player
+     deploys rolls across a tune is THE THING THESE SOURCES CANNOT SUPPLY. A
+     random redraw is not deployment. The roll now changes where `change` says
+     it changes — at a section, for a stated reason — which is the mechanism
+     this table already had.
+
+     ── AND THE CELLS WERE INVENTED ──────────────────────────────────────────
+     Six unnamed arrays, and NOT ONE of them was a named roll. Translated back
+     through the sheet's own string map they came out as things like
+     `3-2-5-3-1-5-2-1`, which is no roll anybody plays; string 4 appeared in
+     none of them. An older table carried three roll NAMES and all three were
+     mislabelled, and a later commit deleted the labels and kept the numbers.
+     `score-craft.md:702` states that all eight named rolls "ARE built and
+     reachable" — a claim the program contradicted.
+
+     These are the eight, from §1a, with their tabs. The map is the sheet's and
+     is the only one there is:
+
+         string   4    3    2    1    5
+         degree  -3    0    2    4    7
+
+     Every one obeys the sheet's one TESTABLE law — "you don't want to use the
+     same right-hand finger or hit the same string twice in a row" — and
+     `probe_banjo.js` parses these comments to check the arrays against the
+     tabs. It has been unable to parse a single cell until now: its regex wants
+     `// name: 3-2-5-1`, a format this file had never used, so it was asserting
+     the drone rule over an EMPTY LOOP and printing a green tick.
+
+     ── AND THE RATE WAS DOUBLE THE SOURCE ───────────────────────────────────
+     §1c: "the roll's rate is EIGHTH NOTES, continuous, one pattern a bar." §1d,
+     counted off a real tab: "125, against 16 x 8 = 128 EIGHTH-NOTE SLOTS."
+     `unit: 1` wrote SIXTEEN a bar. That is where 35,648 events came from — the
+     largest part in the program by a wide margin, and the wash under
+     everything.
+
+     The change to 16ths was argued from "a real break's 300-600 notes/min" —
+     but a break reaches that because Foggy Mountain Breakdown is played near
+     160 bpm at eight notes to the bar. THIS genre is 60-85 bpm [§1, "calm,
+     peaceful"]. The build kept the walking-freight tempo and doubled the
+     subdivision instead, which is the one substitution the sheet's own
+     arithmetic forbids. `unit: 2` is the sourced rate. */
   ostinato: {
-    unit: 1, vel: 0.52, run: true, follow: true, ratchet: 0,
-    whole: true, perBar: true, thumb: 0.32, slur: 0.15, fixed: [7],
+    unit: 2, vel: 0.52, run: true, follow: true, ratchet: 0,
+    whole: true, thumb: 0.32, slur: 0.15, fixed: [7],
     change: { pick: [1,2], kinds: [["cell",6],["octave",3],["rest",3]] },
-    cells: [[[0,2,7,0,4,7,2,4],5],[[7,4,2,7,4,0,2,4],4],[[0,4,7,4,2,7,0,4],3],
-            [[2,7,4,2,7,0,4,7],3],[[0,2,4,7,4,2,0,7],2],[[4,7,2,4,7,0,2,7],2]],
+    cells: [
+      [[2,4,7,2,4,7,2,4], 5],   // forward: 2-1-5-2-1-5-2-1
+      [[0,2,4,7,4,2,0,4], 5],   // forward-reverse: 3-2-1-5-1-2-3-1
+      [[0,2,7,4,-3,2,7,4], 4],  // alternating thumb: 3-2-5-1-4-2-5-1
+      [[2,4,2,4,7,2,4,7], 4],   // foggy mountain: 2-1-2-1-5-2-1-5
+      [[4,2,7,4,2,7,2,4], 3],   // backward: 1-2-5-1-2-5-2-1
+      [[0,4,7,0,4,0,7,4], 3],   // the lick: 3-1-5-3-1-3-5-1
+      [[4,2,4,7,4,2,4,7], 2],   // middle-leading: 1-2-1-5-1-2-1-5
+      [[2,0,2,4,2,0,2,4], 2]],  // index-leading: 2-3-2-1-2-3-2-1
   },
   /* the slide ANSWERS the tune rather than doubling it — below it, so it
      reads as a reply [call-and-response.md] */
@@ -29100,65 +29260,6 @@ function makeArrangement(chart, form, materials){
        chorus simply does not move, which is honest -- the departure it already
        has is the chorus's own changes. */
     if(LIFTED && inLift(sec) && materials[material + "lift"]) material += "lift";
-
-    /* ══ AND THE TUNE IS FURTHER ALONG ON EVERY LEG ═══════════════════════════
-       [owner] "we want a motif that evolves, and the whole song builds around
-       and towards" ... "something like the four seasons orchestral song that
-       changes with the seasons". And the founding brief: "one tune,
-       re-orchestrated per leg, GROWING; the last leg rhymes with the first."
-
-       MEASURED, AND THE DIAGNOSIS IN THE HANDOFF WAS WRONG — it said the
-       record was the same material A four times. Printed per leg, it is worse
-       than that and in a different way:
-
-         leg 0   roll=A     open=A     high=B     open=Bvar  brake=A
-         leg 1   roll=Bvar  open=Bvar  high=Bvar  open=Bvar  brake=Bvar
-         leg 2   roll=Bvar  open=Bvar  brake=Bvar
-         leg 3   roll=Bvar  open=Bvar  high=Bvar  arrive=B
-
-       THE VARIATION FIRES ONCE AND THEN NOTHING DEVELOPS FOR FIFTEEN MINUTES.
-       The `demand === "vary"` rule above counts OCCURRENCES of a section
-       function, so the second `roll` becomes the variant and every later one
-       is the same variant. That is correct for what it measures — repetition —
-       and it is blind to the thing this genre is made of, which is DISTANCE
-       TRAVELLED. Three legs, one material.
-
-       So the two questions are separated, and each is answered by the fact
-       that actually decides it:
-
-         HOW OFTEN HAVE WE HEARD THIS   ->  the variant   (occurrence, above)
-         HOW FAR FROM HOME ARE WE       ->  the KEY       (the leg, here)
-
-       They compose: a section that is both a repeat and a long way out plays
-       the redrawn tail IN THE LIFTED KEY, which is a further place than either
-       on its own, and neither rule has to know about the other.
-
-       AND THE LAST LEG COMES HOME. `far >= 0.4` puts the lift on from roughly
-       the second leg outward and TAKES IT OFF AGAIN on the final one, so the
-       arrival is in the key the record opened in. That is the rhyme the brief
-       asks for, and it is a return rather than a repeat because by then the
-       band is at its fullest and the arc is at its apex — the same notes in
-       the same key mean something different when everything around them has
-       grown. Sonata form has done exactly this for two hundred years: the
-       recapitulation is home, and it is not the exposition.
-
-       NOTHING NEW IS COMPOSED HERE and no rng is touched [Law 3, Law 7]: every
-       material this reaches already exists (`lift` copies are the same music
-       in the key the record moved to), the choice is deterministic from
-       `sec.leg`, and a genre that declares no ride is byte-identical. */
-    if(F.ride && sec.leg != null){
-      let legs = 0;
-      for(const s of form) if(s.leg != null && s.leg > legs) legs = s.leg;
-      if(legs > 0){
-        const home = sec.leg >= legs || sec.leg === 0;
-        const out  = !home && sec.leg / legs >= 0.4;
-        if(out && !/lift$/.test(material) && materials[material + "lift"]) material += "lift";
-        else if(home && /lift$/.test(material)){
-          const base = material.replace(/lift$/, "");
-          if(materials[base]) material = base;
-        }
-      }
-    }
     /* AND LAST OF ALL, THE HAND. A section the user has edited plays its own
        private copy of whatever it had otherwise settled on -- after the variant
        choice and after the key lift, so an edit does not cancel either of them:
