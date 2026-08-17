@@ -8791,6 +8791,29 @@ const RIG = {
      harmonica on the tune, the glass slide answering, the choir pad as the
      second keyboard, the drone rack as the engine's hum under it all.
      [docs/genre-research/boxcar-synth.md §7] */
+  /* ── THE HOBO — SIX PITCHED SEATS AND A PERCUSSION SECTION ────────────────
+     [owner] "The trains noise is part of the rythm of the song not the only
+     one though we have plenty of drums and want to use lots toms, kettle drum,
+     takio, and war drums."
+
+     That is the correction this rig exists for. The founding sheet says "the
+     train is the drummer" and a kit built from that alone is rail joints and
+     nothing else — one rhythm, and the owner is asking for a section. So the
+     tom lanes carry the KETTLE DRUM, the TAIKO and the WAR DRUM, all three
+     already in the file and all three unplayed until now, and the rail joint
+     keeps its own place on the rim rather than being the only thing there.
+
+     Six pitched seats, because an orchestra needs six and `freight` has five —
+     it has no `keys2` at all, which is a large part of why the measured band
+     was 4.9 players. */
+  hobo: { /* the joint, and the truck's second axle a sixteenth behind it */
+          kick:"kick", snare:"rim", ghost:"rim", hat:"washboard", openhat:"openhat",
+          brk:"brk", rim:"rim", clap:"clap", crash:"crash", ride:"washboard",
+          /* THE PERCUSSION SECTION — kettle drum, taiko, war drum */
+          tom1:"timpMid", tom2:"tkLow", tom3:"wardrum",
+          /* and the band */
+          bass:"washtub", drone:"trainbox", keys:"wurly", keys2:"horns",
+          lead:"fiddle", counter:"diddley", ostinato:"banjo" },
   freight: { kick:"kick", snare:"rim", ghost:"rim", hat:"hat", openhat:"openhat",
              brk:"brk",
              tom1:"tom1", tom2:"tom2", tom3:"tom3",
@@ -9011,6 +9034,7 @@ const RIG_LABEL = {
   bastion: "bastion — the recorded brass in the second chair",
   shire:   "the shire — flute, plucked strings, frame drum",
   freight: "the freight — banjo, harmonica, the engine's hum",
+  hobo:    "the hobo — six seats, and a kettle drum in the boxcar",
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -20013,6 +20037,291 @@ const GENRE = {
    in this file still using the grammar walk. Nothing here composes a song
    shaped like a song any more. ─────────────────────────────────────────── */
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOXCAR SYNTH — a string band on a freight train, and the ride conducts
+
+   PARENTS [owner]: MODAL JAZZ, ORCHESTRA, COMFY SYNTH.
+   Modal jazz for the harmony that stays put while the tune travels
+   [modal-jazz.md]. Orchestra for the size of the band and its percussion
+   section. Comfy synth for the centre: "calm, peaceful or soothing, often
+   times melancholic and bittersweet", "low fidelity and hazy recordings"
+   [Dazed; RYM] — the warmth, the smallness of the tunes, the bittersweet.
+
+   THE ONE LAW IS MOVEMENT [§2]. Dungeon synth stands still in a place; this
+   passes through places. The materials repeat, but the landscape around them
+   changes: the record departs, travels, stops in towns, and arrives.
+
+   Written FROM the sheets. A previous table was authored from their section
+   headings and deleted for it.
+   ═══════════════════════════════════════════════════════════════════════════ */
+GENRE.boxcarsynth = {
+  label: "boxcar synth",
+  /* THE TEMPO IS THE TRAIN'S SPEED [§3]. 39-foot jointed rail: one joint per
+     rail length, so clicks/min = mph x 5280 / 39 / 60 = mph x 2.256, and
+     25-40 mph is 56-90 to the click. The owner asked V2 for "moderate, around
+     60-85" — a loaded local, and a band whose middle a cruise can sit at while
+     both ends still have somewhere to go. The ride's arc is a MULTIPLIER on
+     this, so the number is the record's mean and not its speed at any bar. */
+  tempo: [60, 85],
+  rig: [["hobo", 1]],
+  /* bittersweet [§1]: dorian is the warm minor and its major IV is the light
+     in the mode, plain minor the lonesome one, mixolydian the folk major that
+     pulls nowhere */
+  modes: [["dorian", 5], ["minor", 3], ["mixolydian", 2]],
+
+  form: {
+    /* ── THE RIDE ─────────────────────────────────────────────────────────
+       Five minutes a leg, so 20 minutes is four [owner]. The count is the
+       LENGTH and is never drawn. */
+    ride: {
+      legSec: [280, 320], maxLegs: 12, defaultSec: 1200,
+      /* four voices that can hold a tune in a string band and are audibly
+         different from one another — bowed, reed, plucked, wheel. The steam
+         whistle is deliberately not here: it is the train's voice, not a
+         player's [§7]. */
+      leads: ["fiddle", "harmonica", "banjo", "hurdyGurdy"],
+      leg:  { open: "roll", cruise: ["open", "high", "open"], close: "brake" },
+      stop: { solo: "solo", dance: "dance", out: "pullout" },
+      depart: "yard", arrive: "arrive",
+      handover: { chair: "lead", second: "counter" },
+      /* out of the platform, cruise, braking, standing — multipliers of the
+         drawn tempo, normalised so the record's mean is the drawn tempo and
+         only the SHAPE is declared. A loaded freight pulls away harder than
+         it brakes, which is why `out` sits nearer cruise than `into`.
+         [CHOSEN from the described behaviour; no source gives a freight's
+         acceleration as a tempo] */
+      tempo: { out: 0.80, cruise: 1.06, into: 0.76, stop: 0.62 },
+      energy: { stop: 0.14, cruise: 0.96, edge: 0.38 },
+    },
+    /* a stop comes to about a minute at this tempo: 8+8+8+8 bars is 32, and 32
+       bars at 70 bpm is 110 seconds — the owner's "a full minute or more"
+       without being a third of the record */
+    lengths: { yard: 8, roll: 16, open: 16, high: 16, brake: 12,
+               solo: 8, dance: 8, pullout: 8, arrive: 12 },
+    /* ── WHO IS IN THE ROOM, PLACE BY PLACE — THIS IS THE ORCHESTRATION ────
+       V1 measured 4.9 distinct instruments a section with a maximum of 8
+       reached once in 158. The owner asked for eight or more. The seats are
+       named per place, and they are what makes the band swell and thin as the
+       train runs.
+
+       `solo` is ONE PLAYER and `dance` is TWO — that is the whole point of
+       the ceremony and why a stop is legible at all. */
+    roles: {
+      yard:    ["keys", "drone"],
+      roll:    ["drone", "bass", "keys", "lead", "ostinato"],
+      open:    ["drums", "drone", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+      high:    ["drums", "drone", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+      brake:   ["drone", "bass", "keys", "lead"],
+      solo:    ["lead"],
+      dance:   ["lead", "counter"],
+      pullout: ["drone", "bass", "keys"],
+      arrive:  ["keys", "keys2", "lead", "drone"],
+    },
+    material: { yard: "A", roll: "A", open: "A", high: "B", brake: "A",
+                solo: "C", dance: "C", pullout: "A", arrive: "B" },
+    payoff: "high",
+    rest: { drums: 0.15, keys2: 0.18, counter: 0.18, ostinato: 0.10 },
+  },
+
+  machines: {
+    drums: [["tr1000", 1]],
+    bass:  [["washtub", 5], ["contrabassoon", 3]],
+    drone: [["trainbox", 1]],
+    /* THE CHAIRS ARE DISJOINT so eight seats are eight things you can hear.
+       The four that carry a leg appear in no other pool. */
+    keys:  [["wurly", 5], ["bassoon", 2], ["banjo", 2]],
+    keys2: [["horns", 5], ["bassoon", 3], ["bariSax", 1]],
+    lead:  [["fiddle", 4], ["harmonica", 3], ["hurdyGurdy", 2], ["banjo", 1]],
+    counter:  [["diddley", 5], ["harmonica", 2]],
+    ostinato: [["banjo", 1]],
+  },
+  keysChar: [["wurly", 1]],
+  leadChar: [["synth", 1]],
+
+  /* ══ THE HARMONY — modal, and it LEAVES AND COMES BACK ══════════════════ */
+  progressions: {
+    dorian: [[[0,0,10,10,0,0,5,0],4],[[0,10,0,5,0,10,5,0],3],
+             [[0,0,5,5,10,10,0,0],2],[[0,5,10,5,0,5,10,0],1]],
+    minor:  [[[0,0,8,8,10,10,0,0],4],[[0,8,0,10,0,8,10,0],3],
+             [[0,0,5,5,8,10,0,0],2],[[0,10,8,10,0,10,8,0],1]],
+    mixolydian: [[[0,0,10,10,5,5,0,0],4],[[0,10,5,0,0,10,5,0],3],[[0,5,0,10,5,10,0,0],2]],
+    major:  [[[0,0,7,7,5,5,0,0],3],[[0,5,7,0,5,7,5,0],2],[[0,7,5,7,0,5,7,0],1]],
+  },
+  /* THE PLATFORM LEAVES THE PROGRESSION. Measured on V1: eleven of twelve
+     records contained exactly TWO distinct chords over a mean 173 bars,
+     because the payoff fell through to the same changes as the countryside
+     [modal-jazz.md §4b, §4c]. Material C is the stop and it goes somewhere. */
+  bridgeProgressions: {
+    dorian: [[[3,3,10,10,5,5,0,0],3],[[8,8,3,3,10,10,0,0],2]],
+    minor:  [[[8,8,3,3,10,10,0,0],3],[[5,5,8,8,3,3,0,0],2]],
+    mixolydian: [[[5,5,2,2,10,10,0,0],3],[[10,10,5,5,2,2,0,0],2]],
+    major:  [[[9,9,5,5,7,7,0,0],3],[[2,2,7,7,5,5,0,0],2]],
+  },
+  sevenths: false,
+  /* DARK TO LIGHT, AND THE KEY CHANGE IS THE CLOCK [§5]. A zero-semitone
+     shift with a mode change is the parallel minor->major: same tonic, the
+     light switched on. Weighted so most records travel toward light and some
+     travel into night — bittersweet, per the owner's chosen centre. */
+  keyShift: { chance: 0.65, by: [[0, 5], [2, 2], [-2, 2]], change: 0.8 },
+
+  /* ══ WHERE EACH PART SITS — eight players, none in another's way ════════ */
+  registers: {
+    drone: [24,32], bass: [28,46], bassWalk: [28,46],
+    keys: [48,67], keys2: [43,60], counter: [58,74], ostinato: [67,86],
+    themeA: [64,82], themeB: [67,84], themeC: [62,78],
+  },
+  /* THE TUNE. V1 measured 14 notes and 3.7 DISTINCT PITCHES — the fewest per
+     note in the file, and on one seed the whole tune was a repeated D5. More
+     notes, and six places for them to land instead of four with half the
+     weight on the downbeat. */
+  theme: {
+    count: { hooky: [3,2], breath: [2,1], normal: [3,2] },
+    verseHook: true,
+    develop: { at: 4, of: [["sequence",4],["displace",3],["tail",3]] },
+    onsetPool: [[0,5],[2,2],[4,4],[7,2],[8,4],[12,3]],
+  },
+  /* the cell is EIGHT bars: a 4-bar cell came round 43.3 times in a 173-bar
+     record, and no writing survives forty-three hearings */
+  materialBars: 8,
+  materialTakes: { ostinato: 6, bass: 5, lead: 4, counter: 4, keys: 3 },
+
+  /* THE GROUND IS THE TRAIN [§3a] and it STOPS when the train does — `cut`
+     ends it at the boundary, which is what makes a platform silent, and
+     `unpitched` says the written note only nudges its playback rate, because
+     a train is in no key. */
+  drone: { unit: 4, hold: 1, pedal: 1, octave: 0, cut: true, unpitched: true, continuous: true },
+
+  /* THE BASS is plucked and percussive: "a propulsive root-note bass line",
+     "a percussive, thumping rhythm that anchors the overall tempo"
+     [corpus:grokipedia]. V1's sustained bass rendered 38 dB under the lead and
+     removing it changed the mix by 0.00 dB [washtub-bass.md §1]. */
+  bassStyle: "pulse",
+  bassPulse: { unit: 8, rootBias: 0.62, octaveJump: 0.28, restChance: 0.14 },
+  bassAccent: { accent: 0.3, slide: 0 }, bassStep: 3, bassWalk: 0.55,
+  /* THE ROLL — the banjo's right hand, continuously, with the fifth string a
+     fixed drone the thumb keeps hitting whatever the chord
+     [banjo-and-harmonica-notation.md; corpus:Scruggs] */
+  ostinato: {
+    unit: 1, vel: 0.52, run: true, follow: true, ratchet: 0,
+    whole: true, perBar: true, thumb: 0.32, slur: 0.15, fixed: [7],
+    change: { pick: [1,2], kinds: [["cell",6],["octave",3],["rest",3]] },
+    cells: [[[0,2,7,0,4,7,2,4],5],[[7,4,2,7,4,0,2,4],4],[[0,4,7,4,2,7,0,4],3],
+            [[2,7,4,2,7,0,4,7],3],[[0,2,4,7,4,2,0,7],2],[[4,7,2,4,7,0,2,7],2]],
+  },
+  /* the slide ANSWERS the tune rather than doubling it — below it, so it
+     reads as a reply [call-and-response.md] */
+  counter: { style: "line", density: 0.45, intervals: [-3,-5,-4,3], octaves: [0], answer: 0.7 },
+
+  /* ══ THE RHYTHM — THE TRAIN IS ONE VOICE IN IT, NOT ALL OF IT ═══════════
+     [§3] the joint click IS the train's speed, and the truck's two axles hit
+     it as a FLAM, not two beats. The kick takes beats one and three and the
+     rim two and four, so between them there is one click a beat; the ghost a
+     sixteenth behind each is the trailing axle.
+
+     AND THEN THE SECTION, which is the owner's correction: the toms carry a
+     kettle drum, a taiko and a war drum [see RIG.hobo], so the track is the
+     floor of the rhythm rather than the whole of it. `toms.use` is high on
+     purpose — this is a section, not a fill. */
+  kit: {
+    snare: [4, 12], hatEvery: 4, hatVel: 0.30,
+    ghostChance: 0.85, ghostSpots: [1,5,9,13],
+    rideEvery: 2, rideFrom: 0, rideVel: 0.32,
+    openSpot: [[-1,10],[14,1]], openBars: [],
+    toms: { use: 0.85,
+            /* THE FILL — [step, lane] pairs over the back half of the bar.
+               `shapes` is the fill's own vocabulary and `loopShapes` is what
+               the section repeats; both are needed, and the first build of
+               this table declared only the second and threw on every seed. */
+            shapes: [[[[8,"tom1"],[11,"tom2"],[14,"tom3"]],4],
+                     [[[10,"tom2"],[13,"tom3"]],3],
+                     [[[8,"tom3"],[10,"tom2"],[12,"tom1"],[14,"tom3"]],2],
+                     [[[12,"tom1"],[13,"tom2"],[14,"tom3"],[15,"tom3"]],2],
+                     [[[14,"tom3"]],1]],
+            loop: 0.62, loopSpots: [8,10,12,14],
+            loopLanes: ["tom1","tom2","tom3"], loopBars: [1,3,5,7],
+            loopShapes: [[[[12,"tom1"],[14,"tom2"]],3],
+                         [[[8,"tom3"],[12,"tom1"],[14,"tom2"]],3],
+                         [[[10,"tom2"],[13,"tom1"],[15,"tom3"]],2],
+                         [[[14,"tom3"]],2]] },
+    variants: { main: {}, lift: { rideVel: 0.22, ghostChance: 0.92 },
+                depart: { rideVel: 0.18, ghostChance: 0.55, hatVel: 0.20 } },
+    flourish: [[[],6],[[13,15],2],[[11,13,15],1]], flourishBar: 7, kickKeep: true,
+  },
+  kick: { tune: 46, decay: 0.55, click: 0.02, drive: 0.08, body: 1, gain: 0.72 },
+  drumDrive: 1,
+  accent: {
+    kick:  [1,.5,.6,.5,.85,.5,.6,.5,.95,.5,.6,.5,.85,.5,.6,.5],
+    snare: [.7,.5,.5,.5,.7,.5,.5,.5,.7,.5,.5,.5,.7,.5,.5,.5],
+    ghost: [.55,.55,.55,.55,.55,.55,.55,.55,.55,.55,.55,.55,.55,.55,.55,.55],
+    hat:   [.8,.55,.6,.55,.7,.55,.6,.55,.8,.55,.6,.55,.7,.55,.6,.55],
+    rim:   [.9,.55,.6,.55,.9,.55,.6,.55,.9,.55,.6,.55,.9,.55,.6,.55],
+    ride:  [.7,.6,.65,.6,.7,.6,.65,.6,.7,.6,.65,.6,.7,.6,.65,.6],
+    tom1:  [.85,.5,.6,.5,.85,.5,.6,.5,.85,.5,.6,.5,.85,.5,.6,.5],
+    tom2:  [.85,.5,.6,.5,.85,.5,.6,.5,.85,.5,.6,.5,.85,.5,.6,.5],
+    tom3:  [.9,.5,.6,.5,.9,.5,.6,.5,.9,.5,.6,.5,.9,.5,.6,.5],
+  },
+  /* dead straight, and the FLAM does the work — track is not played by a
+     person and swinging it would make it a shuffle */
+  pocket: [[[0, 8], 1]],
+  groove: { styles: [["even",1]], swing: [1,0], swingUnit: 2, snareEarly: [0,0],
+            kickLate: [0,0], hatMul: 1, jitter: { dilla: 0.02, even: 0.022 }, push: 0 },
+  touch: { bassArtic: [[2,5],[3,4],[4,1]], strum: [0.05,0.09] },
+
+  /* ══ THE TRIP [§4c] — the itinerary `planTrip` lays out ═════════════════ */
+  trip: {
+    start: "farm", startHour: [4, 6], hoursPerMinute: 0.55, dawn: 5.5, dusk: 20.0,
+    cityChance: 0.6, thunderChance: 0.30,
+    weather: [["rain",3],["wind",3],["blizzard",1]],
+  },
+  /* ══ THE STOP IS A SCRIPT [§4a] — twelve steps, in order, at every town ══
+     Steps 3 and 11 are not here because they are the ARRANGEMENT: the running
+     sound stopping and starting. A name the bank does not carry is skipped
+     rather than faked. */
+  journey: {
+    approach: ["railWhistle"],          /* 1  one long — a station ahead */
+    arrive:   ["railArrive"],           /* 2  brakes, running into the downbeat */
+    brake:    ["railBrake"], brakeAlso: 0.45,
+    stand:    ["railTown"],             /* 4  the station's own room tone */
+    valve:    ["railValve"],            /*    the safety valve over it */
+    halt:     ["sceneDawn", "sceneRiverside"],  /* a country halt has birds */
+    doors:    ["railDoors"],            /* 5 */
+    crowd:    ["railCrowd"],            /* 6  a CITY has people [§4b] */
+    call:     ["railCall"],             /* 7  all aboard — at EVERY stop */
+    guard:    ["railGuard"],            /* 9 */
+    depart:   ["railDepart", "railPeep"], /* 10 the engine answers */
+    cbell:    ["railCbell"],            /* 12 once it is moving */
+    pass:     ["railPass0", "railPass1", "railBell", "railClank"],
+    /* THE LEVELS, from §4d-ii, rendered against the band's own rms: the STORY
+       (whistle, brakes, station, doors, conductor) is NOT the world and sits
+       far forward of the countryside. Measured targets: the train -9, its own
+       sounds -11, the landscape -25. */
+    level: [0.22, 0.10], standLevel: [0.20, 0.08], callLevel: [0.42, 0.16],
+    passLevel: [0.14, 0.06], passPer: 1.6,
+  },
+  atmos: { fams: ["sceneRiver","sceneBirds","railClank","railBell"],
+           level: [0.10, 0.05], accent: 0.7, accentLevel: [0.20, 0.10] },
+  weather: { kinds: [["clear",5],["rain",3],["wind",3],["blizzard",1]],
+             level: [0.085, 0.05],
+             thunder: { chance: 0.30, every: [75,45], level: [0.20, 0.10] } },
+
+  /* ══ THE ROOM AND THE MEDIUM ════════════════════════════════════════════
+     A boxcar is a wooden box on wheels. The gramophone sits over the whole
+     thing: an imagined past, and the recording is part of the imagining.
+     A 78 turns once every 0.769 s, so an off-centre hole wobbles at 1.30 Hz —
+     the one wobble no tape has [§8b]. */
+  space: { wet: 0.24, irSec: 1.1, tailPow: 1.4, tailDark: 0.62, sendHp: 150,
+           feeds: ["keys","lead"], echoFeeds: ["lead"], random: 0 },
+  tape: { wow: [0.0018,0.0012], crackle: [0.005,0.003],
+          flutter: [0.0005,0.0003], hiss: [0.0012,0.001] },
+  medium: { kind: 0, noise: 0.012, band: 0.12, age: 0.12, wobble: 0.0035, drift: 0 },
+  pressure: { depth: 0.4, amount: [0.2,0.3], at: [0.3,0.5], rise: [0.3,0.5] },
+  gate: null, ribbon: { chance: 0 },
+  roleGain: { bass: 1.0, keys: 0.8, keys2: 0.7, lead: 1.15, ostinato: 0.7, counter: 0.9 },
+  params: { tr1000: { kit: "freight", pSet: "any", pTune: 1, pAtk: 0.002,
+                      pRel: 1.1, pTone: 0.6, bus: 1, gate: 0 } },
+  motion: {},
+};
+
 /* ── THE GENRE TABLE IS NOT HERE YET, AND THAT IS DELIBERATE ────────────────
    A `boxcarsynth2` table stood here and was deleted. It was authored from the
    founding sheet's section HEADINGS rather than the sheet: its stop ceremony
@@ -21464,9 +21773,192 @@ function planTrip(chart, seconds, legs){
   });
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE FORM FOLLOWS THE TRIP — not the other way round
+
+   `planTrip` above laid the ride out in SECONDS: where the stations are, what
+   is under the train, when the weather comes over. This turns that into
+   sections, and the direction of that sentence is the whole design. The
+   stations are decided first, on the clock; the music is fitted to them.
+
+   THE OWNER'S ARITHMETIC: "about five minutes a leg, so 5 min = 1 leg, 20 = 4,
+   40 = 8." The leg count comes from the LENGTH and is never drawn.
+
+   A LEG runs from one platform to the next and is shaped like the ride itself:
+   pull away, run, and thin into the platform ahead.
+
+   A STOP is a movement, and it is the sheet's twelve-step script [§4a] made
+   structural. Four sections: the outgoing lead alone, the two leads trading,
+   the incoming lead alone, and the train pulling out. Steps 3 and 11 of the
+   script — the running sound stopping and starting — are not written anywhere
+   because they are the ARRANGEMENT: a stop is a section that does not carry
+   the `drone` role, and §4a is explicit that the script must be driven off
+   that fact rather than off a section's name, so the sound and the story
+   cannot drift apart.
+   ═══════════════════════════════════════════════════════════════════════════ */
+function makeRide(chart){
+  const F = chart.table.form, R = F.ride, LEN = F.lengths;
+  const rng = stream(chart.seed, "ride");
+  const STEPS = stepsOf(chart.table), beats = beatsOf(chart.table);
+  const barSec = 60 * beats / chart.tempo;
+  const bars = n => Math.max(1, Math.round(n / barSec));
+
+  const wantSec = chart.wantSec || R.defaultSec || 1200;
+  const legSec = R.legSec[0] + rng() * (R.legSec[1] - R.legSec[0]);
+  let legs = Math.max(1, Math.min(R.maxLegs || 12, Math.round(wantSec / legSec)));
+  /* the stop is a written ceremony of known length, so what it costs is known
+     before anything is laid out. A journey that cannot afford its stations
+     makes fewer of them rather than shortening the track between — a leg with
+     no travelling in it is a stop wearing a leg's name. */
+  const stopBars = (LEN[R.stop.solo] || 8) * 2 + (LEN[R.stop.dance] || 8) + (LEN[R.stop.out] || 8);
+  const minLeg = (LEN[R.leg.open] || 8) + (LEN[R.leg.close] || 8) +
+                 Math.min.apply(null, R.leg.cruise.map(f => LEN[f] || 8));
+  const endBars = (LEN[R.depart] || 0) + (LEN[R.arrive] || 0);
+  while(legs > 1 && endBars + (legs - 1) * stopBars + legs * minLeg > bars(wantSec)) legs--;
+
+  const TRIP = planTrip(chart, wantSec, legs);
+
+  /* ── AND NOW THE SECTIONS, WALKED ALONG THE LINE ─────────────────────────
+     `sec` tracks where on the RIDE each section begins, so every one of them
+     can be asked what is underneath it — the terrain, the hour, the weather —
+     rather than being handed a label drawn from a hat. That lookup is the
+     seam the whole genre hangs off. */
+  const plan = [];
+  let atSec = 0;
+  const put = (fn, extra) => {
+    const n = plan.length;
+    const trip3 = f => n >= 2 && plan[n-1].fn === f && plan[n-2].fn === f;
+    let use = fn;
+    /* the program throws on a function three times running, and two legs
+       meeting is exactly where that happens */
+    if(trip3(use)) for(const alt of R.leg.cruise) if(!trip3(alt)){ use = alt; break; }
+    const len = LEN[use] || 8, secs = len * barSec;
+    const here = TRIP.atSec(atSec + secs / 2) || {};
+    const front = TRIP.frontAt(atSec + secs / 2);
+    plan.push(Object.assign({
+      fn: use, len,
+      atSec, hour: TRIP.hourAt(atSec + secs / 2), light: TRIP.lightAt(atSec + secs / 2),
+      terrain: here.kind || null, speaks: !!here.speaks, crossing: !!here.cross,
+      weather: front ? front.kind : null, thunder: front ? front.thunder : false,
+    }, extra || {}));
+    atSec += secs;
+  };
+
+  /* WHO CARRIES EACH LEG. One instrument a leg, never the same twice running,
+     and REFUSED rather than re-drawn so the dice count cannot depend on the
+     outcome [Law 3]. */
+  const POOL = (R.leads || []).slice(), leads = [];
+  for(let i = 0; i < legs; i++){
+    const free = POOL.filter(m => m !== leads[i - 1]);
+    const from = free.length ? free : POOL;
+    leads.push(from.length ? from[Math.floor(rng() * from.length) % from.length] : null);
+  }
+
+  if(R.depart) put(R.depart, { leg: null, atStop: null });
+
+  for(let L = 0; L < legs; L++){
+    /* WHERE THIS LEG ENDS IS THE TRIP'S DECISION, not the form's: the next
+       station's second, or the end of the ride. The form fills the distance;
+       it does not choose it. */
+    const until = L < legs - 1 ? TRIP.stations[L].at : wantSec - (LEN[R.arrive] || 0) * barSec;
+    const open = R.leg.open, close = L < legs - 1 ? R.leg.close : null;
+    const hand = { [R.handover.chair]: leads[L] };
+    const shape = () => ({ leg: L, atStop: null, hand });
+    if(open) put(open, shape());
+    for(let g = 0; g < 64; g++){
+      const fn = R.leg.cruise[g % R.leg.cruise.length];
+      const room = until - atSec - (close ? (LEN[close] || 8) * barSec : 0);
+      if(g && room < (LEN[fn] || 8) * barSec / 2) break;
+      put(fn, shape());
+    }
+    if(close) put(close, shape());
+
+    if(L < legs - 1){
+      const X = leads[L], Y = leads[L + 1], st = TRIP.stations[L];
+      const A = R.handover.chair, B = R.handover.second;
+      const two = (a, b) => { const h = {}; if(a) h[A] = a; if(b) h[B] = b; return h; };
+      const at = { leg: null, atStop: L, place: st.place };
+      const alt = [R.stop.dance, R.stop.out, R.stop.solo].filter(Boolean);
+      put(R.stop.solo,  Object.assign({}, at, { hand: two(X, null), soloOf: X }), alt);
+      put(R.stop.dance, Object.assign({}, at, { hand: two(X, Y) }), alt);
+      put(R.stop.solo,  Object.assign({}, at, { hand: two(Y, null), soloOf: Y }), alt);
+      put(R.stop.out,   Object.assign({}, at, { hand: two(Y, null) }), alt);
+    }
+  }
+  if(R.arrive) put(R.arrive, { leg: legs - 1, atStop: null, hand: { [R.handover.chair]: leads[legs-1] } });
+
+  /* ── FROZEN, WITH THE FIELDS EVERY STAGE BELOW READS ─────────────────────
+     `energy` is arithmetic rather than a per-function constant: the orchestra
+     waxes and wanes WITH THE RIDE [owner], so it is where the section sits
+     between two platforms. A stop is at the floor, which is what makes the
+     handover audible. */
+  const E = R.energy || {};
+  const eStop = E.stop == null ? 0.14 : E.stop, eCruise = E.cruise == null ? 0.96 : E.cruise,
+        eEdge = E.edge == null ? 0.38 : E.edge;
+  const legSpan = {};
+  for(const p of plan) if(p.leg != null && p.atStop == null){
+    const q = legSpan[p.leg] = legSpan[p.leg] || { a: p.atSec, z: p.atSec };
+    q.a = Math.min(q.a, p.atSec); q.z = Math.max(q.z, p.atSec + p.len * barSec);
+  }
+  const seen = {};
+  let bar = 0, peakAt = -1, peakE = -Infinity;
+  const posOf = p => { const q = legSpan[p.leg];
+    return (!q || q.z <= q.a) ? 0.5 : (p.atSec - q.a) / (q.z - q.a); };
+  plan.forEach((p, i) => {
+    if(p.leg !== legs - 1 || p.atStop != null) return;
+    const e = 1 - Math.abs(2 * posOf(p) - 1);
+    if(e >= peakE){ peakE = e; peakAt = i; }
+  });
+  const out = plan.map((p, i) => {
+    seen[p.fn] = (seen[p.fn] || 0) + 1;
+    const u = p.atStop != null ? 0 : p.leg == null ? 0 : 1 - Math.abs(2 * posOf(p) - 1);
+    const o = {
+      fn: p.fn, startBar: bar, endBar: bar + p.len, occurrence: seen[p.fn],
+      leg: p.leg, atStop: p.atStop, legPos: p.leg == null ? null : +posOf(p).toFixed(4),
+      place: p.place || null, soloOf: p.soloOf || null,
+      hand: p.hand && Object.keys(p.hand).length ? Object.freeze(p.hand) : null,
+      /* what is under the train HERE — the seam the arrangement and the SFX
+         both read, so the landscape and the band cannot disagree */
+      terrain: p.terrain, speaks: p.speaks, crossing: p.crossing,
+      hour: +p.hour.toFixed(2), light: p.light,
+      weather: p.weather, thunder: p.thunder,
+      demand: seen[p.fn] >= 2 ? "vary" : null,
+      energy: p.atStop != null ? eStop : p.leg == null ? eEdge : eEdge + (eCruise - eEdge) * u,
+      peak: i === peakAt,
+    };
+    bar += p.len;
+    return Object.freeze(o);
+  });
+  out.nBars = Math.max(1, bar);
+  out.legs = legs;
+  out.trip = TRIP;
+  out.leads = Object.freeze(leads.slice());
+  /* WHERE THE TRAIN IS, PER BAR — 0 at the platform behind, 1 at the one
+     ahead, -1 standing. One owner; the pace and the seating both read it. */
+  const ridePos = new Array(out.nBars).fill(-1);
+  for(let L = 0; L < legs; L++){
+    const ss = out.filter(x => x.leg === L && x.atStop == null);
+    if(!ss.length) continue;
+    const a = ss[0].startBar, z = ss[ss.length - 1].endBar;
+    for(let b = a; b < z && b < out.nBars; b++) ridePos[b] = (b - a) / Math.max(1, z - a);
+  }
+  out.ridePos = Object.freeze(ridePos);
+  const arc = new Array(out.nBars).fill(eEdge);
+  for(const x of out) for(let b = x.startBar; b < x.endBar && b < out.nBars; b++) arc[b] = x.energy;
+  const sm = arc.slice();
+  for(let b = 1; b < arc.length - 1; b++) sm[b] = (arc[b-1] + 2*arc[b] + arc[b+1]) / 4;
+  out.arc = Object.freeze(sm);
+  out.apexBar = peakAt >= 0 ? out[peakAt].startBar : 0;
+  out.wantBars = chart.wantBars || null;
+  out.minBars = out.nBars;
+  out.lengths = Object.freeze({ ...LEN });
+  out.tempo = makeTempoMap(chart, out, out.nBars);
+  return Object.freeze(out);
+}
+
 function makeForm(chart){
   const F = chart.table.form;
-  if(F && F.ride) return makeJourney(chart);
+  if(F && F.ride) return makeRide(chart);
   /* A record in this program IS a journey. A table that does not say how the
      ride goes has not described a record, and the honest thing is to say so
      rather than fall back to a shape this file no longer has. */
