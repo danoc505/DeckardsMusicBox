@@ -20286,6 +20286,17 @@ GENRE.boxcarsynth = {
   trip: {
     start: "farm", startHour: [4, 6], hoursPerMinute: 0.55, dawn: 5.5, dusk: 20.0,
     cityChance: 0.6, thunderChance: 0.30,
+    /* WHAT EACH TERRAIN SAYS [§4c]. A name the bank does not carry is skipped
+       rather than faked. */
+    beds: { farm:  ["sceneDawn"],
+            woods: ["sceneBirds", "sceneRiverside"],
+            river: ["sceneRiver"],
+            open:  ["sfx_wind"] },
+    /* the two that are EVERYWHERE and therefore do not pass */
+    everywhere: ["open"],
+    level: [0.10, 0.05],
+    longWhistle: ["railWhistle"], shortWhistle: ["railPeep"], crossBell: ["railBell"],
+    signalLevel: [0.30, 0.10],
     weather: [["rain",3],["wind",3],["blizzard",1]],
   },
   /* ══ THE STOP IS A SCRIPT [§4a] — twelve steps, in order, at every town ══
@@ -29373,6 +29384,72 @@ function makePerformance(chart, form, materials, sections){
      carefully placed. Caught by probe_route's own guard the moment the key was
      renamed from `route` to `trip` — the gate went stale in one rename, which
      is why the check exists. */
+  /* ══ THE LINE IS HEARD ═══════════════════════════════════════════════════
+     `planTrip` lays out the whole route — farm, open country, woods, a river
+     to cross, which segments speak, where the roads are — and until this block
+     existed NOTHING READ IT. Measured on the first published build: ZERO scene
+     events in a twenty-minute record. The planner ran, the itinerary was
+     correct, and the landscape was silent; the only world sounds were the
+     station beds, which is why a bird sounded like a bird standing at a
+     platform. It WAS one.
+
+     A segment speaks or it does not — that was drawn when the line was planned
+     [§4c] — and the silence of open country is what makes the river mean
+     something when it arrives [§4b]. Nothing is re-drawn here; this reads the
+     plan and sounds it.
+
+     AND ON A MOVING TRAIN, EVERYTHING PASSES [owner]: "a train that is moving
+     has birds in passing not the same bird making the same call that might
+     happen when the train is parked." Right, and it is a better rule than the
+     sheet's, which reserved `pass: true` for a named pool. A point source
+     heard from a moving train approaches, passes and recedes — so a bed that
+     is a PLACE (birds, a stream) is marked `pass` while the train is running,
+     and only a bed that is genuinely everywhere (wind, rain) sits still. */
+  if(chart.table.trip && form.trip){
+    const TR = form.trip, TB = chart.table.trip.beds || {};
+    const lvl = chart.table.trip.level || [0.10, 0.05];
+    const jr = stream(chart.seed, "line");
+    /* is the train running at this second? `ridePos` is -1 while standing */
+    const rolling = t => {
+      const b = Math.floor(CLK.barAt(t));
+      return !form.ridePos || form.ridePos[Math.max(0, Math.min(form.ridePos.length-1, b))] >= 0;
+    };
+    for(const g of TR.segments){
+      if(!g.speaks) continue;
+      const pool = TB[g.kind];
+      if(!pool || !pool.length) continue;
+      const nm = pool[Math.floor(jr() * pool.length) % pool.length];
+      if(!ERANG.meta(nm)) continue;
+      /* WIND AND RAIN ARE EVERYWHERE; A BIRD AND A STREAM ARE SOMEWHERE. Only
+         the second kind passes, and only while the train is moving. */
+      const place = !(chart.table.trip.everywhere || []).includes(g.kind);
+      events.push(Object.freeze({
+        tSec: g.at, durSec: Math.max(2, g.sec), voice: "atmos",
+        role: roleOfBed(nm), gain: lvl[0] + jr() * lvl[1], bed: nm,
+        pass: place && rolling(g.at + g.sec / 2),
+      }));
+    }
+    /* ── AND THE CROSSING SIGNAL, WHICH FINALLY HAS SOMEWHERE TO BE ─────────
+       long-long-short-long on approach to a public grade crossing is still law
+       [GCOR, §4], and §4c records that the program used two of the three
+       signals because nothing knew where a road was. The planner does. */
+    const J = chart.table.journey || {};
+    const sig = (J.longWhistle || J.approach || [])[0], peep = (J.shortWhistle || J.depart || [])[1];
+    const bell = (J.crossBell || [])[0] || "railBell";
+    for(const g of TR.segments){
+      if(!g.cross) continue;
+      const at = g.at + g.sec * 0.45;
+      const put = (nm, t, gn) => { const m = nm && ERANG.meta(nm);
+        if(m) events.push(Object.freeze({ tSec: Math.max(0, t), durSec: m.n / ERANG.rate + 0.3,
+          voice: "atmos", role: roleOfBed(nm), gain: gn, bed: nm })); };
+      const L = (J.signalLevel ? J.signalLevel[0] : 0.30) + jr() * (J.signalLevel ? J.signalLevel[1] : 0.10);
+      put(sig,  at - 3.2, L);          /* long  */
+      put(sig,  at - 2.0, L);          /* long  */
+      put(peep, at - 1.1, L * 0.9);    /* short */
+      put(sig,  at - 0.4, L);          /* long  */
+      put(bell, at,       L * 0.7);    /* and the crossing answers */
+    }
+  }
   if(chart.atmos && !chart.table.trip){
     events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "atmos",
                                 role: roleOfBed(chart.atmos.bed), gain: chart.atmos.level,
