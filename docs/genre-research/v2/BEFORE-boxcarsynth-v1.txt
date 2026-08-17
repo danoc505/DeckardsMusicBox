@@ -1,0 +1,1072 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║  THE RECORD, PRINTED — boxcarsynth                                        ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+══════════════════════════════════════════════════════════════════════════════
+SEED 1   boxcarsynth   dorian   74 bpm   8:25   11 sections   departs 3:00, toward the light
+══════════════════════════════════════════════════════════════════════════════
+
+THE JOURNEY
+  legs: none declared — this build has no leg structure
+  minute  terrain / what is happening
+      0    1× passing
+      1    wind   1× a level crossing   couplings, the whistle, long, the whistle, long, the whistle, short, the whistle, long   1× passing
+      2    wind   1× a level crossing   couplings
+      3    the river   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls   1× a level crossing   the whistle, long, arriving, the safety valve   1× passing
+      4    wind   PULLING OUT: the doors, the guard, the bell, moving off   1× a level crossing   the whistle, short, the whistle, long, the whistle, long, the whistle, short, the whistle, long
+      5    wind   [wind]   1× a level crossing
+      6    wind   [wind]   1× a level crossing   couplings, couplings
+      7    wind   [wind]   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard   the whistle, long, arriving, the safety valve, the whistle, short
+      8    PULLING OUT: the bell, moving off   1× passing
+
+THE BAND
+  lead=harmonica  counter=diddley  keys=auto  keys2=horns  bass=contrabassoon  ostinato=auto  drums=tr1000  drone=trainbox
+
+THE FORM  —  and how many instruments actually sound in each
+     0:00  verse         16 bars                8 playing:  contrabassoon bardPluck trainbox harmonica keys counter horns diddley
+     0:51  verse         16 bars                6 playing:  harmonica contrabassoon bardPluck keys horns counter
+     1:43  instrumental  16 bars                7 playing:  contrabassoon bardPluck harmonica keys counter horns diddley
+     2:35  verse         16 bars                7 playing:  keys counter harmonica horns contrabassoon bardPluck banjo
+     3:27  chorus        12 bars (+4)           6 playing:  banjo contrabassoon harmonica bardPluck diddley keys
+     4:06  bridge        16 bars                5 playing:  trainbox keys horns contrabassoon harmonica
+     4:58  verse         16 bars                5 playing:  keys counter harmonica contrabassoon bardPluck
+     5:50  instrumental  16 bars                6 playing:  contrabassoon bardPluck keys counter horns diddley
+     6:42  verse         16 bars                7 playing:  harmonica keys counter horns contrabassoon bardPluck banjo
+     7:34  chorus         8 bars                5 playing:  contrabassoon bardPluck banjo horns diddley
+     8:00  outro          8 bars                4 playing:  trainbox keys contrabassoon horns
+   MEAN 6.0 instruments a section
+
+THE TUNE  —  material A, 8 bars, 11 notes, 3 distinct pitches
+    1 |*---*--.........|  D#5 E5
+    2 |*---............|  G#4
+    3 |*---*--.........|  D#5 E5
+    4 |*---............|  G#4
+    5 |*---............|  D#5
+    6 |*---............|  G#4
+    7 |*---*--.........|  D#5 E5
+    8 |*---............|  G#4
+
+EVERY INSTRUMENT THAT SOUNDS
+   counter          1536 notes   G#4..F6   ostinato
+   keys              408 notes   G#3..F#4   keys
+   horns             381 notes   D#3..D#4   keys2
+   contrabassoon     299 notes   C#1..A#2   bass
+   bardPluck         249 notes   C#1..A#2   bass
+   harmonica         154 notes   G#4..B5   lead
+   banjo              60 notes   G#3..E4   keys
+   diddley            33 notes   G#4..F#5   counter
+   trainbox            3 notes   C#1..C#1   drone
+   drums              961 hits    hat:362  ride:308  snare:124  kick:122  ghost:15  tom1:10  tom2:8  tom3:8  openhat:4
+
+THE SFX  —  named, with when they happen
+   the tape (hiss)         tape       1×   0:00
+   the medium (the gramophone)tape       1×   0:00
+   a train passing         pass       2×   0:00 8:07
+   a train passing         pass       2×   1:03 3:03
+   couplings               engine     4×   1:06 2:26 6:03 6:23
+   the whistle, long       engine     8×   1:17 1:19 1:21 3:12 4:30 4:31 4:33 7:18
+   the whistle, short      engine     4×   1:20 4:04 4:33 7:58
+   the crossing bell       station    6×   1:23 2:02 3:08 4:36 5:30 6:22
+   wind                    scene      4×   1:50 4:06 5:50 5:51
+   the river               scene      1×   3:03
+   arriving                engine     2×   3:17 7:23
+   the station             station    2×   3:27 7:34
+   the safety valve        engine     2×   3:28 7:34
+   the platform crowd      station    2×   3:28 7:34
+   the doors               station    4×   3:29 4:00 7:35 7:54
+   the conductor calls     station    2×   3:55 7:49
+   the guard               station    2×   4:03 7:56
+   the bell, moving off    station    2×   4:08 8:02
+   the train (trainbox)    drone      1×   0:00 for 3:27
+   the train (trainbox)    drone      1×   4:06 for 3:27
+   the train (trainbox)    drone      1×   8:00 for 0:25
+
+EARLY AND LATE  —  the lead lane, one bar from each end
+   early  bar    1  |*...*...........|  D#5 E5
+   late   bar  140  |....*...........|  A#4
+
+══════════════════════════════════════════════════════════════════════════════
+SEED 2   boxcarsynth   dorian   66 bpm   11:09   14 sections   departs 17:00, into the night
+══════════════════════════════════════════════════════════════════════════════
+
+THE JOURNEY
+  legs: none declared — this build has no leg structure
+  minute  terrain / what is happening
+      0    dawn birds   PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   the whistle, short   2× passing
+      1    1× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long, couplings, couplings   1× passing
+      2    the river + dawn birds   [wind]   1× a level crossing   1× passing
+      3    the river   [wind]
+      4    the river + wind + the riverside   [wind]   AT THE PLATFORM: the station, the doors, the conductor calls, the doors, the guard, the bell, moving off   the whistle, long, the brakes, arriving, the safety valve, pulling out
+      5    wind   the whistle, long, the brakes, arriving
+      6    wind   [wind]   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   the safety valve, the whistle, short   1× passing
+      7    [wind]
+      8    dawn birds   [wind]   ARRIVING: the station, the doors   1× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long, the whistle, long, the brakes, arriving, the safety valve
+      9    dawn birds   [wind]   PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   the whistle, short, the whistle, long   2× passing
+     10    AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   arriving, the safety valve, the whistle, short   1× passing
+     11    —
+
+THE BAND
+  lead=harmonica  counter=harmonica  keys=erangHarp  keys2=vp330  bass=washtub  ostinato=banjo  drums=tr1000  drone=trainbox
+
+THE FORM  —  and how many instruments actually sound in each
+     0:00  intro          8 bars                4 playing:  erangHarp vp330 trainbox banjo
+     0:29  verse         16 bars                5 playing:  washtub erangHarp banjo vp330 harmonica
+     1:27  instrumental  16 bars                4 playing:  banjo harmonica erangHarp washtub
+     2:25  verse         16 bars                5 playing:  harmonica erangHarp banjo vp330 washtub
+     3:23  verse         16 bars                4 playing:  banjo erangHarp harmonica washtub
+     4:21  chorus         8 bars                4 playing:  washtub banjo harmonica trainbox
+     4:50  verse         20 bars (+4)           4 playing:  harmonica banjo erangHarp washtub
+     6:03  chorus         8 bars                3 playing:  harmonica banjo washtub
+     6:32  instrumental  18 bars (+2)           6 playing:  erangHarp trainbox harmonica washtub banjo vp330
+     7:38  instrumental  18 bars (+2)           5 playing:  banjo erangHarp vp330 harmonica washtub
+     8:43  chorus         8 bars                4 playing:  harmonica banjo vp330 washtub
+     9:12  verse         16 bars                6 playing:  erangHarp harmonica trainbox banjo vp330 washtub
+    10:10  chorus         8 bars                4 playing:  banjo vp330 harmonica washtub
+    10:40  outro          8 bars                4 playing:  trainbox washtub erangHarp vp330
+   MEAN 4.4 instruments a section
+
+THE TUNE  —  material A, 8 bars, 16 notes, 6 distinct pitches
+    1 |*-------*--.....|  G5 A5
+    2 |*---........*---|  C5 C5
+    3 |*-------*--.....|  G5 A5
+    4 |*---........*---|  C5 C5
+    5 |*-------*--.....|  E5 F5
+    6 |*---........*---|  A4 A4
+    7 |*-------*--.....|  E5 F5
+    8 |*---........*---|  A4 A4
+
+EVERY INSTRUMENT THAT SOUNDS
+   banjo            2278 notes   A3..F7   ostinato,keys
+   erangHarp         456 notes   A3..G4   keys
+   vp330             345 notes   D3..D4   keys2
+   harmonica         307 notes   G4..A5   lead,counter
+   washtub           142 notes   D2..D2   bass
+   trainbox            5 notes   D1..D1   drone
+   drums             1005 hits    hat:381  ride:341  snare:140  kick:116  tom2:7  tom3:7  openhat:7  ghost:6
+
+THE SFX  —  named, with when they happen
+   the tape (hiss)         tape       1×   0:00
+   the medium (the gramophone)tape       1×   0:00
+   dawn birds              scene      3×   0:00 2:21 8:44
+   the conductor calls     station    5×   0:18 4:40 6:22 9:02 10:29
+   the doors               station    9×   0:23 4:23 4:44 6:05 6:26 8:45 9:06 10:12 …
+   the guard               station    5×   0:25 4:47 6:29 9:09 10:36
+   the whistle, short      engine     6×   0:27 1:09 6:31 8:17 9:11 10:38
+   a train passing         pass       6×   0:29 0:47 1:45 6:38 9:16 9:48
+   the bell, moving off    station    5×   0:31 4:53 6:35 9:15 10:42
+   the whistle, long       engine    10×   1:06 1:08 1:10 4:06 5:48 8:14 8:15 8:18 …
+   couplings               engine     2×   1:12 1:30
+   the crossing bell       station    3×   1:13 2:45 8:20
+   a train passing         pass       2×   2:05 10:49
+   the river               scene      2×   2:07 3:59
+   wind                    weather    5×   2:25 2:33 4:14 5:48 6:32
+   the brakes              engine     3×   4:11 5:52 8:32
+   arriving                engine     4×   4:11 5:53 8:33 10:00
+   the station             station    4×   4:21 6:03 8:43 10:10
+   the safety valve        engine     4×   4:22 6:04 8:44 10:11
+   the riverside           scene      1×   4:22
+   pulling out             engine     1×   4:49
+   the platform crowd      station    2×   6:04 10:11
+   the train (trainbox)    drone      1×   0:29 for 3:52
+   the train (trainbox)    drone      1×   4:50 for 1:12
+   the train (trainbox)    drone      1×   6:32 for 2:10
+   the train (trainbox)    drone      1×   9:12 for 0:58
+   the train (trainbox)    drone      1×   10:40 for 0:29
+
+EARLY AND LATE  —  the lead lane, one bar from each end
+   early  bar    9  |....*.......*...|  B4 B4
+   late   bar  176  |..*...*.........|  D5 B4
+
+══════════════════════════════════════════════════════════════════════════════
+SEED 3   boxcarsynth   dorian   60 bpm   12:00   14 sections   departs 3:00, toward the light
+══════════════════════════════════════════════════════════════════════════════
+
+THE JOURNEY
+  legs: none declared — this build has no leg structure
+  minute  terrain / what is happening
+      0    PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   2× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long, pulling out
+      1    wind   1× passing
+      2    1× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long   1× passing
+      3    1× a level crossing
+      4    the river   [rain,thunder]   ARRIVING: the station, the platform crowd, the doors   1× a level crossing   couplings, the whistle, long, arriving, the safety valve
+      5    wind   [rain,thunder]   PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   3× a level crossing   pulling out, the whistle, long, the whistle, long, the whistle, short, the whistle, long
+      6    wind + dawn birds   [rain]   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   1× a level crossing   the whistle, long, arriving, the safety valve, the whistle, short
+      7    dawn birds + the river   [rain,thunder]   couplings   1× passing
+      8    dawn birds   [rain,thunder]   1× a level crossing   the whistle, long, the brakes, arriving
+      9    dawn birds   [rain,thunder]   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   the safety valve, pulling out
+     10    dawn birds   [rain,thunder]   ARRIVING: the station, the platform crowd, the doors   1× a level crossing   the whistle, long, the whistle, long, the whistle, long, the whistle, short, the whistle, long, arriving, the safety valve   1× passing
+     11    dawn birds   [rain,thunder]   PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   1× a level crossing   pulling out   1× passing
+
+THE BAND
+  lead=fiddle  counter=diddley  keys=wurly  keys2=auto  bass=auto  ostinato=banjo  drums=tr1000  drone=trainbox
+
+THE FORM  —  and how many instruments actually sound in each
+     0:00  intro          8 bars                4 playing:  wurly banjo trainbox bass
+     0:32  verse         16 bars                5 playing:  wurly banjo fiddle diddley bass
+     1:36  verse         16 bars                4 playing:  wurly banjo bass fiddle
+     2:40  instrumental  16 bars                5 playing:  diddley wurly banjo bass fiddle
+     3:44  verse         16 bars                4 playing:  wurly banjo fiddle bass
+     4:48  chorus         8 bars                6 playing:  fiddle bass banjo diddley wurly trainbox
+     5:20  verse         16 bars                4 playing:  wurly banjo fiddle bass
+     6:24  chorus         8 bars                5 playing:  banjo fiddle diddley bass wurly
+     6:56  bridge        16 bars                4 playing:  bass trainbox wurly banjo
+     8:00  instrumental  16 bars                5 playing:  wurly banjo fiddle bass diddley
+     9:04  chorus         8 bars                5 playing:  banjo diddley bass wurly trainbox
+     9:36  verse         20 bars (+4)           3 playing:  banjo wurly bass
+    10:56  chorus         8 bars                3 playing:  banjo diddley bass
+    11:28  outro          8 bars                3 playing:  bass trainbox wurly
+   MEAN 4.3 instruments a section
+
+THE TUNE  —  material A, 8 bars, 12 notes, 1 distinct pitches
+    1 |....*---........|  D5
+    2 |*-------*---....|  D5 D5
+    3 |....*---........|  D5
+    4 |*-------*---....|  D5 D5
+    5 |..*---........*-|  D5 D5
+    6 |......*---......|  D5
+    7 |..*---........*-|  D5 D5
+    8 |......*---......|  D5
+
+EVERY INSTRUMENT THAT SOUNDS
+   banjo            1708 notes   A3..G7   ostinato,keys
+   wurly             444 notes   G3..G4   keys
+   bass              171 notes   C1..A2   bass
+   fiddle            137 notes   G4..A5   lead
+   diddley            45 notes   G4..A5   counter
+   trainbox            5 notes   C1..C1   drone
+   drums             1022 hits    hat:381  ride:335  snare:159  kick:130  tom3:7  openhat:4  ghost:4  tom2:2
+
+THE SFX  —  named, with when they happen
+   the tape (hiss)         tape       1×   0:00
+   the medium (the gramophone)tape       1×   0:00
+   the conductor calls     station    5×   0:21 5:09 6:45 9:25 11:17
+   the whistle, long       engine    16×   0:21 0:23 0:25 2:08 2:09 2:12 4:32 5:39 …
+   the whistle, short      engine     5×   0:24 2:11 5:42 6:54 10:42
+   the doors               station    9×   0:26 4:50 5:14 6:26 6:50 9:06 9:30 10:58 …
+   the crossing bell       station   12×   0:27 0:50 2:14 3:22 4:08 5:32 5:45 5:48 …
+   the guard               station    5×   0:28 5:16 6:52 9:32 11:24
+   pulling out             engine     4×   0:30 5:18 9:34 11:26
+   the bell, moving off    station    5×   0:35 5:23 6:59 9:39 11:31
+   wind                    scene      2×   1:01 5:20
+   a train passing         pass       2×   1:08 11:28
+   a train passing         pass       3×   2:55 7:14 10:10
+   rain                    weather    2×   4:01 8:00
+   couplings               engine     2×   4:07 7:18
+   thunder                 weather    6×   4:13 5:50 7:19 8:06 9:38 10:59
+   arriving                engine     4×   4:37 6:13 8:53 10:45
+   the river               scene      2×   4:38 7:37
+   the station             station    4×   4:48 6:24 9:04 10:56
+   the safety valve        engine     4×   4:48 6:24 9:04 10:56
+   the platform crowd      station    4×   4:49 6:25 9:05 10:57
+   dawn birds              scene      5×   6:56 7:54 8:27 10:29 11:28
+   the brakes              engine     1×   8:53
+   the train (trainbox)    drone      1×   0:31 for 4:16
+   the train (trainbox)    drone      1×   5:19 for 1:04
+   the train (trainbox)    drone      1×   6:56 for 2:07
+   the train (trainbox)    drone      1×   9:35 for 1:20
+   the train (trainbox)    drone      1×   11:28 for 0:31
+
+EARLY AND LATE  —  the lead lane, one bar from each end
+   early  bar    9  |........*...*...|  D5 D#5
+   late   bar  136  |........*.......|  C5
+
+══════════════════════════════════════════════════════════════════════════════
+SEED 4   boxcarsynth   minor   82 bpm   8:17   13 sections   departs 2:00, toward the light
+══════════════════════════════════════════════════════════════════════════════
+
+THE JOURNEY
+  legs: none declared — this build has no leg structure
+  minute  terrain / what is happening
+      0    1× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long, couplings   2× passing
+      1    —
+      2    [rain]   the whistle, long, arriving   2× passing
+      3    the river   [rain]   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   the safety valve, pulling out
+      4    [rain]   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   1× a level crossing   the whistle, long, the brakes, arriving, the safety valve, the whistle, short
+      5    wind   [rain]   1× a level crossing   2× passing
+      6    wind + dawn birds   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   the whistle, long, arriving, the safety valve, pulling out, couplings
+      7    dawn birds + wind   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   the whistle, long, the brakes, arriving, the safety valve, the whistle, short   1× passing
+      8    wind   1× passing
+
+THE BAND
+  lead=fiddle  counter=harmonica  keys=auto  keys2=vp330  bass=washtub  ostinato=banjo  drums=tr1000  drone=trainbox
+
+THE FORM  —  and how many instruments actually sound in each
+     0:00  verse         16 bars                6 playing:  washtub fiddle keys vp330 harmonica banjo
+     0:46  verse         16 bars                4 playing:  fiddle keys banjo washtub
+     1:33  instrumental  16 bars                7 playing:  washtub keys banjo vp330 fiddle wurly harmonica
+     2:20  verse         16 bars                5 playing:  fiddle banjo keys vp330 washtub
+     3:07  chorus         8 bars                7 playing:  washtub banjo vp330 fiddle wurly harmonica trainbox
+     3:30  verse         16 bars                4 playing:  keys vp330 fiddle washtub
+     4:17  chorus         8 bars                7 playing:  banjo fiddle wurly harmonica washtub trainbox keys
+     4:40  bridge        16 bars                3 playing:  washtub keys vp330
+     5:27  verse         18 bars (+2)           4 playing:  fiddle banjo keys washtub
+     6:20  chorus         8 bars                7 playing:  banjo vp330 fiddle wurly harmonica washtub trainbox
+     6:43  verse         16 bars                5 playing:  banjo keys fiddle vp330 washtub
+     7:30  chorus         8 bars                7 playing:  banjo vp330 fiddle wurly harmonica washtub keys
+     7:54  outro          8 bars                3 playing:  trainbox keys washtub
+   MEAN 5.3 instruments a section
+
+THE TUNE  —  material A, 8 bars, 12 notes, 3 distinct pitches
+    1 |*-------........|  G#4
+    2 |*-------*---....|  F#4 F4
+    3 |*-------........|  G#4
+    4 |*-------*---....|  F#4 F4
+    5 |..*-------......|  G#4
+    6 |..*-------*---..|  F#4 F4
+    7 |..*-------......|  G#4
+    8 |..*-------*---..|  F#4 F4
+
+EVERY INSTRUMENT THAT SOUNDS
+   banjo            1412 notes   G#3..F6   ostinato,keys
+   keys              414 notes   F#3..F4   keys
+   vp330             360 notes   C3..D#4   keys2
+   fiddle            221 notes   F4..G#5   lead
+   washtub           129 notes   A#1..A#1   bass
+   wurly              80 notes   F5..G#6   lead
+   harmonica          38 notes   A#4..F#5   counter
+   trainbox            5 notes   A#1..A#1   drone
+   drums              961 hits    hat:352  ride:316  kick:112  snare:90  ghost:48  tom1:15  tom3:14  tom2:12  openhat:2
+
+THE SFX  —  named, with when they happen
+   the tape (hiss)         tape       1×   0:00
+   the medium (the gramophone)tape       1×   0:00
+   the whistle, long       engine     7×   0:14 0:15 0:18 2:51 4:02 6:04 7:15
+   a train passing         pass       2×   0:15 2:49
+   the whistle, short      engine     3×   0:17 4:39 7:52
+   the crossing bell       station    3×   0:20 4:47 5:02
+   a train passing         pass       6×   0:30 2:25 5:46 5:51 7:15 8:01
+   couplings               engine     2×   0:50 6:47
+   rain                    weather    1×   2:34
+   arriving                engine     4×   2:57 4:07 6:10 7:20
+   the station             station    4×   3:07 4:17 6:20 7:30
+   the platform crowd      station    4×   3:08 4:18 6:21 7:31
+   the safety valve        engine     4×   3:08 4:18 6:21 7:31
+   the doors               station    8×   3:08 3:24 4:19 4:34 6:21 6:37 7:32 7:48
+   the conductor calls     station    4×   3:20 4:30 6:33 7:43
+   the guard               station    4×   3:27 4:37 6:40 7:50
+   pulling out             engine     2×   3:29 6:42
+   the bell, moving off    station    4×   3:32 4:43 6:46 7:56
+   the river               scene      1×   3:35
+   the brakes              engine     2×   4:06 7:20
+   wind                    scene      2×   5:39 7:54
+   dawn birds              scene      1×   6:43
+   the train (trainbox)    drone      1×   -1:-1 for 3:07
+   the train (trainbox)    drone      1×   3:30 for 0:46
+   the train (trainbox)    drone      1×   4:40 for 1:39
+   the train (trainbox)    drone      1×   6:43 for 0:46
+   the train (trainbox)    drone      1×   7:54 for 0:23
+
+EARLY AND LATE  —  the lead lane, one bar from each end
+   early  bar    1  |*...............|  G#4 F#4
+   late   bar  162  |....*...*.......|  F#5 F#6 G#5 G#6
+
+══════════════════════════════════════════════════════════════════════════════
+SEED 5   boxcarsynth   minor   74 bpm   9:04   12 sections   departs 16:00, into the night
+══════════════════════════════════════════════════════════════════════════════
+
+THE JOURNEY
+  legs: none declared — this build has no leg structure
+  minute  terrain / what is happening
+      0    dawn birds   1× a level crossing
+      1    dawn birds   1× a level crossing   2× passing
+      2    dawn birds   couplings
+      3    the riverside   AT THE PLATFORM: the station, the doors, the conductor calls, the doors, the guard   the whistle, long, arriving, the safety valve, pulling out
+      4    PULLING OUT: the bell, moving off   3× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long, the whistle, long, the whistle, long, the whistle, short, the whistle, long   2× passing
+      5    the river + wind   couplings   1× passing
+      6    wind   ARRIVING: the station, the platform crowd, the doors   the whistle, long, arriving, the safety valve
+      7    the river   PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   1× a level crossing   the whistle, short, couplings, the whistle, long, the whistle, long, the whistle, short, the whistle, long, the whistle, long   1× passing
+      8    the riverside   AT THE PLATFORM: the station, the doors, the conductor calls, the doors, the guard, the bell, moving off   1× a level crossing   arriving, the safety valve, pulling out, couplings, the whistle, long, the whistle, long, the whistle, short, couplings, the whistle, long
+      9    —
+
+THE BAND
+  lead=bardWind  counter=auto  keys=bardPluck  keys2=erangStrings  bass=washtub  ostinato=auto  drums=tr1000  drone=trainbox
+
+THE FORM  —  and how many instruments actually sound in each
+     0:00  verse         18 bars (+2)           5 playing:  bardWind washtub counter bardPluck erangStrings
+     0:58  verse         16 bars                5 playing:  bardWind washtub bardPluck erangStrings counter
+     1:50  instrumental  16 bars                5 playing:  bardPluck counter erangStrings bardWind washtub
+     2:42  verse         16 bars                6 playing:  bardPluck counter erangStrings bardWind washtub banjo
+     3:34  chorus         8 bars                6 playing:  banjo erangStrings washtub bardWind counter trainbox
+     4:00  verse         16 bars                5 playing:  counter bardPluck erangStrings bardWind washtub
+     4:51  instrumental  16 bars                6 playing:  trainbox washtub bardPluck counter erangStrings bardWind
+     5:43  verse         20 bars (+4)           6 playing:  bardPluck counter erangStrings bardWind washtub banjo
+     6:48  chorus         8 bars                6 playing:  banjo erangStrings washtub counter bardWind trainbox
+     7:14  instrumental  18 bars (+2)           4 playing:  bardPluck washtub counter erangStrings
+     8:12  chorus         8 bars                5 playing:  banjo bardWind counter washtub bardPluck
+     8:38  outro          8 bars                3 playing:  trainbox bardPluck washtub
+   MEAN 5.2 instruments a section
+
+THE TUNE  —  material A, 8 bars, 12 notes, 3 distinct pitches
+    1 |*---*--.........|  C#5 D5
+    2 |............*---|  D5
+    3 |*---*--.........|  C#5 D5
+    4 |............*---|  D5
+    5 |*---*--.........|  C#5 D5
+    6 |............*---|  D5
+    7 |*---*--.........|  C#5 D5
+    8 |............*---|  E5
+
+EVERY INSTRUMENT THAT SOUNDS
+   counter          1958 notes   G#4..D#6   ostinato,counter
+   erangStrings      456 notes   C#3..D#4   keys2
+   bardPluck         432 notes   F#3..F#4   keys
+   washtub           310 notes   D1..A#2   bass
+   bardWind          179 notes   F4..F#5   lead
+   banjo              72 notes   A3..F#4   keys
+   trainbox            5 notes   F#1..G#1   drone
+   drums              997 hits    hat:376  ride:340  kick:123  snare:106  ghost:17  tom1:12  tom2:12  tom3:11
+
+THE SFX  —  named, with when they happen
+   the tape (hiss)         tape       1×   0:00
+   the medium (the gramophone)tape       1×   0:00
+   the crossing bell       station    7×   0:24 1:56 4:08 4:18 4:58 7:53 8:54
+   dawn birds              scene      2×   0:40 2:14
+   a train passing         pass       5×   1:05 1:23 4:22 4:30 5:26
+   couplings               engine     5×   2:35 5:45 7:17 8:44 8:51
+   the whistle, long       engine    15×   3:18 4:12 4:13 4:16 4:52 4:54 4:56 6:33 …
+   arriving                engine     3×   3:23 6:38 8:02
+   the station             station    3×   3:34 6:48 8:12
+   the safety valve        engine     3×   3:34 6:49 8:13
+   the riverside           scene      2×   3:34 8:13
+   the doors               station    6×   3:35 3:54 6:50 7:08 8:14 8:32
+   the conductor calls     station    3×   3:49 7:04 8:28
+   the guard               station    3×   3:56 7:11 8:35
+   pulling out             engine     2×   3:58 8:37
+   the bell, moving off    station    3×   4:02 7:17 8:41
+   the whistle, short      engine     5×   4:15 4:55 7:12 7:49 8:51
+   the river               scene      2×   5:30 7:19
+   wind                    scene      1×   5:45
+   the platform crowd      station    1×   6:49
+   a train passing         pass       1×   7:53
+   the train (trainbox)    drone      1×   -1:-1 for 3:34
+   the train (trainbox)    drone      1×   3:59 for 0:51
+   the train (trainbox)    drone      1×   4:51 for 1:56
+   the train (trainbox)    drone      1×   7:14 for 0:58
+   the train (trainbox)    drone      1×   8:38 for 0:25
+
+EARLY AND LATE  —  the lead lane, one bar from each end
+   early  bar    1  |*...*...........|  C#5 D5
+   late   bar  159  |*...*...........|  E5 F#4 G#4
+
+══════════════════════════════════════════════════════════════════════════════
+SEED 6   boxcarsynth   mixolydian   60 bpm   12:16   14 sections   departs 2:00, toward the light
+══════════════════════════════════════════════════════════════════════════════
+
+THE JOURNEY
+  legs: none declared — this build has no leg structure
+  minute  terrain / what is happening
+      0    PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   1× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long, the whistle, short
+      1    3× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long
+      2    2× passing
+      3    wind   1× a level crossing   1× passing
+      4    wind   [rain]   ARRIVING: the station, the platform crowd, the doors   1× a level crossing   the whistle, long, the brakes, arriving, the safety valve   1× passing
+      5    wind   [rain]   PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   the whistle, short
+      6    wind + dawn birds   [rain]   AT THE PLATFORM: the station, the doors, the conductor calls, the doors, the guard, the bell, moving off   the whistle, long, the brakes, arriving, the safety valve, the whistle, short, couplings
+      7    the river + wind   2× a level crossing
+      8    wind + dawn birds   1× passing
+      9    dawn birds   1× passing
+     10    couplings, the whistle, long   1× passing
+     11    the river   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   arriving, the safety valve, pulling out   1× passing
+     12    the river   couplings
+
+THE BAND
+  lead=diddley  counter=harmonica  keys=wurly  keys2=erangStrings  bass=contrabassoon  ostinato=banjo  drums=tr1000  drone=trainbox
+
+THE FORM  —  and how many instruments actually sound in each
+     0:00  intro          8 bars                5 playing:  wurly trainbox diddley contrabassoon banjo
+     0:32  verse         16 bars                6 playing:  wurly banjo erangStrings contrabassoon diddley harmonica
+     1:36  verse         16 bars                5 playing:  banjo contrabassoon wurly erangStrings diddley
+     2:40  instrumental  16 bars                6 playing:  contrabassoon banjo wurly erangStrings harmonica diddley
+     3:44  verse         16 bars                5 playing:  banjo wurly erangStrings diddley contrabassoon
+     4:48  chorus         8 bars                5 playing:  banjo erangStrings diddley harmonica contrabassoon
+     5:20  verse         16 bars                6 playing:  diddley trainbox wurly banjo erangStrings contrabassoon
+     6:24  chorus         8 bars                7 playing:  banjo contrabassoon erangStrings diddley harmonica wurly trainbox
+     6:56  instrumental  16 bars                6 playing:  wurly banjo erangStrings diddley contrabassoon harmonica
+     8:00  verse         16 bars                5 playing:  wurly banjo erangStrings diddley contrabassoon
+     9:04  instrumental  16 bars                6 playing:  diddley banjo wurly erangStrings contrabassoon harmonica
+    10:08  verse         16 bars                5 playing:  wurly banjo erangStrings diddley contrabassoon
+    11:12  chorus         8 bars                6 playing:  banjo erangStrings harmonica contrabassoon wurly trainbox
+    11:44  outro          8 bars                3 playing:  wurly erangStrings contrabassoon
+   MEAN 5.4 instruments a section
+
+THE TUNE  —  material A, 8 bars, 16 notes, 3 distinct pitches
+    1 |*---........*--.|  A4 G4
+    2 |....*-------*---|  G4 F4
+    3 |*---........*--.|  A4 G4
+    4 |....*-------*---|  G4 F4
+    5 |..*---........*-|  A4 G4
+    6 |......*-------*-|  G4 F4
+    7 |..*---........*-|  A4 G4
+    8 |......*-------*-|  G4 F4
+
+EVERY INSTRUMENT THAT SOUNDS
+   banjo            2380 notes   G3..G6   ostinato,keys
+   erangStrings      525 notes   C3..D4   keys2
+   wurly             480 notes   G3..G4   keys
+   contrabassoon     314 notes   C1..A2   bass
+   diddley           226 notes   E4..E5   lead
+   harmonica          42 notes   G4..F#5   counter
+   trainbox            4 notes   G1..G1   drone
+   drums             1067 hits    hat:406  ride:378  kick:131  snare:95  tom3:18  tom2:17  ghost:11  tom1:11
+
+THE SFX  —  named, with when they happen
+   the tape (hiss)         tape       1×   0:00
+   the medium (the gramophone)tape       1×   0:00
+   the whistle, long       engine     9×   0:16 0:17 0:19 1:00 1:02 1:04 4:32 6:08 …
+   the whistle, short      engine     5×   0:19 0:30 1:03 5:18 6:54
+   the conductor calls     station    4×   0:21 5:09 6:45 11:33
+   the crossing bell       station    8×   0:22 1:01 1:07 1:37 3:16 4:31 7:05 7:27
+   the doors               station    7×   0:26 4:50 5:14 6:26 6:50 11:14 11:38
+   the guard               station    4×   0:28 5:16 6:52 11:40
+   the bell, moving off    station    4×   0:35 5:23 6:59 11:47
+   a train passing         pass       3×   2:05 3:24 4:27
+   a train passing         pass       5×   2:23 8:50 9:47 10:08 11:51
+   wind                    scene      3×   3:59 5:20 7:16
+   the brakes              engine     2×   4:37 6:13
+   arriving                engine     3×   4:37 6:13 11:01
+   rain                    weather    1×   4:48
+   the station             station    3×   4:48 6:24 11:12
+   the safety valve        engine     3×   4:48 6:24 11:12
+   the platform crowd      station    2×   4:49 11:13
+   dawn birds              scene      2×   6:25 8:15
+   couplings               engine     3×   6:57 10:10 12:08
+   the river               scene      2×   7:01 11:51
+   pulling out             engine     1×   11:42
+   the train (trainbox)    drone      1×   0:31 for 4:16
+   the train (trainbox)    drone      1×   5:20 for 1:03
+   the train (trainbox)    drone      1×   6:55 for 4:16
+   the train (trainbox)    drone      1×   11:43 for 0:32
+
+EARLY AND LATE  —  the lead lane, one bar from each end
+   early  bar    8  |................|  E5
+   late   bar  168  |........*.......|  G4
+
+══════════════════════════════════════════════════════════════════════════════
+SEED 7   boxcarsynth   dorian   58 bpm   12:49   14 sections   departs 2:00, toward the light
+══════════════════════════════════════════════════════════════════════════════
+
+THE JOURNEY
+  legs: none declared — this build has no leg structure
+  minute  terrain / what is happening
+      0    PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   1× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long, the whistle, short   1× passing
+      1    couplings
+      2    the river   2× a level crossing
+      3    3× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long   1× passing
+      4    1× a level crossing   couplings, the whistle, long   1× passing
+      5    dawn birds   [rain]   AT THE PLATFORM: the station, the doors, the conductor calls, the doors, the guard, the bell, moving off   the brakes, arriving, the safety valve, pulling out
+      6    wind   [rain]   ARRIVING: the station, the platform crowd, the doors   1× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long, the whistle, long, arriving, the safety valve
+      7    dawn birds   PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   pulling out
+      8    dawn birds   couplings   1× passing
+      9    ARRIVING: the station, the platform crowd, the doors   the whistle, long, the brakes, arriving, the safety valve
+     10    PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   the whistle, short
+     11    dawn birds   ARRIVING: the station, the doors   the whistle, long, arriving, the safety valve
+     12    dawn birds   PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   the whistle, short
+
+THE BAND
+  lead=harmonica  counter=harmonica  keys=wurly  keys2=horns  bass=auto  ostinato=banjo  drums=tr1000  drone=trainbox
+
+THE FORM  —  and how many instruments actually sound in each
+     0:00  intro          8 bars                3 playing:  wurly horns banjo
+     0:33  verse         20 bars (+4)           6 playing:  trainbox wurly bass bardPluck banjo harmonica
+     1:55  verse         16 bars                6 playing:  banjo bass bardPluck wurly horns harmonica
+     3:02  instrumental  16 bars                6 playing:  banjo wurly horns harmonica bass bardPluck
+     4:08  verse         16 bars                5 playing:  banjo wurly harmonica bass bardPluck
+     5:14  chorus         8 bars                6 playing:  banjo bass bardPluck horns harmonica wurly
+     5:47  verse         16 bars                6 playing:  trainbox harmonica wurly bass bardPluck banjo
+     6:53  chorus         8 bars                5 playing:  banjo harmonica bass bardPluck trainbox
+     7:26  verse         16 bars                6 playing:  wurly harmonica horns bass bardPluck banjo
+     8:33  instrumental  20 bars (+4)           6 playing:  harmonica bass bardPluck wurly banjo horns
+     9:55  chorus         8 bars                6 playing:  banjo horns harmonica bass bardPluck wurly
+    10:28  instrumental  16 bars                7 playing:  banjo trainbox wurly horns harmonica bass bardPluck
+    11:35  chorus        10 bars (+2)           5 playing:  banjo horns harmonica bass bardPluck
+    12:16  outro          8 bars                3 playing:  bass wurly trainbox
+   MEAN 5.4 instruments a section
+
+THE TUNE  —  material A, 8 bars, 19 notes, 3 distinct pitches
+    1 |*---*---*--.....|  G4 G#4 G4
+    2 |*-------....*---|  G#4 A#4
+    3 |*---*---*--.....|  G4 G#4 G4
+    4 |*-------....*---|  G#4 A#4
+    5 |*---*---*--.....|  G4 G#4 G4
+    6 |*-------....*---|  G#4 A#4
+    7 |*---*---*--.....|  G4 G#4 G4
+    8 |............*---|  A#4
+
+EVERY INSTRUMENT THAT SOUNDS
+   banjo            1772 notes   F3..F6   ostinato,keys
+   wurly             456 notes   G#3..F4   keys
+   horns             354 notes   D#3..D#4   keys2
+   harmonica         248 notes   F4..C6   counter,lead
+   bass              145 notes   F2..F2   bass
+   bardPluck         137 notes   F1..F1   bass
+   trainbox            5 notes   F1..F1   drone
+   drums             1083 hits    hat:410  ride:368  snare:148  kick:123  ghost:27  tom3:7
+
+THE SFX  —  named, with when they happen
+   the tape (hiss)         tape       1×   0:00
+   the medium (the gramophone)tape       1×   0:00
+   the whistle, long       engine    13×   0:16 0:17 0:20 3:18 3:19 3:22 4:58 6:01 …
+   the whistle, short      engine     6×   0:19 0:31 3:21 6:04 10:27 12:14
+   the crossing bell       station    8×   0:22 2:12 2:38 3:07 3:24 3:55 4:49 6:08
+   the conductor calls     station    5×   0:22 5:37 7:16 10:18 12:06
+   the doors               station    9×   0:27 5:16 5:41 6:55 7:20 9:57 10:22 11:37 …
+   the guard               station    5×   0:29 5:44 7:23 10:25 12:13
+   the bell, moving off    station    5×   0:36 5:50 7:30 10:32 12:19
+   a train passing         pass       3×   0:39 3:18 8:12
+   couplings               engine     3×   1:48 4:36 8:02
+   the river               scene      1×   2:40
+   a train passing         pass       1×   4:33
+   the brakes              engine     2×   5:03 9:45
+   arriving                engine     4×   5:04 6:43 9:45 11:25
+   rain                    weather    1×   5:14
+   the station             station    4×   5:14 6:53 9:55 11:35
+   the safety valve        engine     4×   5:15 6:54 9:56 11:35
+   dawn birds              scene      4×   5:15 7:26 11:36 12:16
+   pulling out             engine     2×   5:45 7:25
+   wind                    scene      1×   6:28
+   the platform crowd      station    2×   6:54 9:56
+   the train (trainbox)    drone      1×   0:33 for 4:41
+   the train (trainbox)    drone      1×   5:47 for 1:06
+   the train (trainbox)    drone      1×   7:26 for 2:28
+   the train (trainbox)    drone      1×   10:28 for 1:06
+   the train (trainbox)    drone      1×   12:16 for 0:33
+
+EARLY AND LATE  —  the lead lane, one bar from each end
+   early  bar   28  |................|  G4
+   late   bar  178  |....*...........|  D5
+
+══════════════════════════════════════════════════════════════════════════════
+SEED 8   boxcarsynth   mixolydian   87 bpm   7:37   12 sections   departs 2:00, toward the light
+══════════════════════════════════════════════════════════════════════════════
+
+THE JOURNEY
+  legs: none declared — this build has no leg structure
+  minute  terrain / what is happening
+      0    PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   1× a level crossing   the whistle, short   2× passing
+      1    the riverside   2× a level crossing
+      2    the riverside + wind   1× a level crossing   couplings   1× passing
+      3    wind + dawn birds   AT THE PLATFORM: the station, the doors, the conductor calls, the doors, the guard, the bell, moving off   the whistle, long, arriving, the safety valve, pulling out   3× passing
+      4    1× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long
+      5    dawn birds   [wind]   1× a level crossing   2× passing
+      6    dawn birds   [wind]   ARRIVING: the station, the doors   the whistle, long, arriving, the safety valve
+      7    dawn birds + the river   [wind]   PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   2× a level crossing   the whistle, short   1× passing
+
+THE BAND
+  lead=auto  counter=fiddle  keys=auto  keys2=auto  bass=contrabassoon  ostinato=auto  drums=tr1000  drone=trainbox
+
+THE FORM  —  and how many instruments actually sound in each
+     0:00  intro          8 bars                3 playing:  keys lead counter
+     0:22  verse         16 bars                6 playing:  keys contrabassoon trainbox counter lead fiddle
+     1:06  instrumental  16 bars                5 playing:  contrabassoon counter keys lead fiddle
+     1:50  verse         20 bars (+4)           4 playing:  contrabassoon counter keys lead
+     2:45  verse         16 bars                4 playing:  keys counter lead contrabassoon
+     3:29  chorus         8 bars                5 playing:  banjo contrabassoon lead fiddle keys
+     3:51  bridge        16 bars                4 playing:  trainbox keys contrabassoon counter
+     4:35  verse         16 bars                4 playing:  keys counter lead contrabassoon
+     5:20  verse         16 bars                4 playing:  keys counter lead contrabassoon
+     6:04  instrumental  16 bars                5 playing:  counter keys contrabassoon fiddle lead
+     6:48  chorus        10 bars (+2)           4 playing:  contrabassoon banjo lead fiddle
+     7:15  outro          8 bars                3 playing:  keys trainbox contrabassoon
+   MEAN 4.3 instruments a section
+
+THE TUNE  —  material A, 8 bars, 10 notes, 3 distinct pitches
+    1 |........*---*--.|  E5 F#5
+    2 |....*---........|  C#5
+    3 |........*---*--.|  E5 F#5
+    4 |....*---........|  C#5
+    5 |............*--.|  F#5
+    6 |....*---........|  C#5
+    7 |........*---....|  E5
+    8 |....*---........|  C#5
+
+EVERY INSTRUMENT THAT SOUNDS
+   counter          1856 notes   A4..E6   ostinato
+   keys              444 notes   E3..G4   keys
+   contrabassoon     166 notes   D1..A2   bass
+   lead              158 notes   E4..F#5   lead
+   banjo              54 notes   A3..G4   keys
+   fiddle             30 notes   G4..G5   counter
+   trainbox            3 notes   A1..A1   drone
+   drums              982 hits    hat:393  ride:296  snare:127  kick:122  ghost:26  tom3:10  tom2:7  tom1:1
+
+THE SFX  —  named, with when they happen
+   the tape (hiss)         tape       1×   0:00
+   the medium (the gramophone)tape       1×   0:00
+   the conductor calls     station    3×   0:11 3:41 7:05
+   the doors               station    5×   0:16 3:31 3:45 6:49 7:09
+   the guard               station    3×   0:18 3:48 7:12
+   the whistle, short      engine     3×   0:20 4:08 7:14
+   the bell, moving off    station    3×   0:24 3:53 7:17
+   a train passing         pass       6×   0:45 0:53 2:57 3:07 3:53 5:51
+   the crossing bell       station    8×   0:55 1:22 1:27 2:06 4:11 5:36 7:17 7:19
+   the riverside           scene      1×   1:41
+   wind                    scene      2×   2:07 5:20
+   couplings               engine     1×   2:11
+   the whistle, long       engine     5×   3:14 4:05 4:06 4:09 6:32
+   arriving                engine     2×   3:19 6:38
+   the station             station    2×   3:29 6:48
+   dawn birds              scene      3×   3:30 5:30 6:48
+   the safety valve        engine     2×   3:30 6:49
+   pulling out             engine     1×   3:50
+   a train passing         pass       3×   3:54 5:04 7:17
+   the river               scene      1×   7:21
+   the train (trainbox)    drone      1×   0:22 for 3:07
+   the train (trainbox)    drone      1×   3:51 for 2:56
+   the train (trainbox)    drone      1×   7:15 for 0:22
+
+EARLY AND LATE  —  the lead lane, one bar from each end
+   early  bar    8  |................|  B4
+   late   bar  158  |....*...........|  D5
+
+══════════════════════════════════════════════════════════════════════════════
+SEED 9   boxcarsynth   dorian   64 bpm   11:52   14 sections   departs 2:00, toward the light
+══════════════════════════════════════════════════════════════════════════════
+
+THE JOURNEY
+  legs: none declared — this build has no leg structure
+  minute  terrain / what is happening
+      0    [rain]   PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   2× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long, pulling out, the whistle, long, the whistle, long, the whistle, short, the whistle, long
+      1    wind   [rain]   2× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long, couplings   1× passing
+      2    wind   [rain]   the whistle, long, the whistle, long, the whistle, short
+      3    [rain]   1× a level crossing   the whistle, long
+      4    [rain]   2× passing
+      5    [rain]   ARRIVING: the station, the platform crowd, the doors   the whistle, long, arriving, the safety valve   1× passing
+      6    the river   [rain]   PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   pulling out
+      7    [rain]   1× a level crossing   1× passing
+      8    dawn birds + wind   [rain]   1× a level crossing
+      9    wind + the river   [rain]   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   the whistle, long, the brakes, arriving, the safety valve, pulling out
+     10    the river + dawn birds   [rain]   ARRIVING: the station, the platform crowd, the doors   1× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long, the whistle, long, arriving, the safety valve   2× passing
+     11    wind   PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   1× a level crossing   the whistle, short, the whistle, long, the whistle, long, the whistle, short, the whistle, long, couplings   1× passing
+
+THE BAND
+  lead=harmonica  counter=fiddle  keys=auto  keys2=horns  bass=auto  ostinato=auto  drums=tr1000  drone=trainbox
+
+THE FORM  —  and how many instruments actually sound in each
+     0:00  intro          8 bars                3 playing:  keys counter trainbox
+     0:30  verse         20 bars (+4)           6 playing:  bass harmonica keys counter horns fiddle
+     1:45  verse         16 bars                5 playing:  keys counter horns bass harmonica
+     2:45  instrumental  16 bars                5 playing:  bass keys counter harmonica fiddle
+     3:45  verse         18 bars (+2)           4 playing:  counter keys harmonica bass
+     4:52  verse         16 bars                5 playing:  harmonica keys counter horns bass
+     5:52  chorus         8 bars                6 playing:  banjo horns bass fiddle harmonica counter
+     6:22  verse         16 bars                5 playing:  keys trainbox counter harmonica bass
+     7:22  verse         16 bars                5 playing:  counter keys horns harmonica bass
+     8:22  instrumental  16 bars                7 playing:  bass keys counter horns harmonica fiddle banjo
+     9:22  chorus         8 bars                7 playing:  bass banjo horns harmonica fiddle counter keys
+     9:52  verse         16 bars                7 playing:  harmonica trainbox keys counter horns bass banjo
+    10:52  chorus         8 bars                7 playing:  banjo horns harmonica fiddle bass keys trainbox
+    11:22  outro          8 bars                3 playing:  keys horns bass
+   MEAN 5.4 instruments a section
+
+THE TUNE  —  material A, 8 bars, 4 notes, 2 distinct pitches
+    1 |*---............|  B4
+    2 |................|  
+    3 |*---............|  B4
+    4 |................|  
+    5 |*---............|  A4
+    6 |................|  
+    7 |*---............|  A4
+    8 |................|  
+
+EVERY INSTRUMENT THAT SOUNDS
+   counter          2400 notes   A4..F#7   ostinato
+   keys              498 notes   F#3..F#4   keys
+   horns             393 notes   D#3..D#4   keys2
+   bass              289 notes   C#1..A#2   bass
+   harmonica         193 notes   F#4..A5   lead
+   banjo              72 notes   F#3..E4   keys
+   fiddle             50 notes   G#4..F#5   counter
+   trainbox            4 notes   F#1..B1   drone
+   drums             1057 hits    hat:403  ride:334  snare:164  kick:128  ghost:15  tom3:5  openhat:4  tom1:2  tom2:2
+
+THE SFX  —  named, with when they happen
+   the tape (hiss)         tape       1×   0:00
+   the medium (the gramophone)tape       1×   0:00
+   the whistle, long       engine    21×   0:12 0:14 0:16 0:50 0:51 0:53 1:45 1:47 …
+   the whistle, short      engine     7×   0:15 0:53 1:48 2:59 10:28 11:20 11:36
+   the crossing bell       station    9×   0:18 0:56 1:06 1:52 3:03 7:42 8:38 10:31 …
+   the conductor calls     station    4×   0:19 6:12 9:42 11:12
+   the doors               station    7×   0:24 5:54 6:16 9:24 9:46 10:54 11:16
+   the guard               station    4×   0:26 6:19 9:49 11:19
+   pulling out             engine     3×   0:28 6:20 9:50
+   rain                    weather    4×   0:30 3:08 6:22 7:52
+   the bell, moving off    station    4×   0:32 6:25 9:55 11:25
+   wind                    scene      3×   1:16 8:55 11:22
+   a train passing         pass       5×   1:30 7:36 10:08 10:29 11:28
+   couplings               engine     2×   1:54 11:44
+   a train passing         pass       3×   4:09 4:57 5:06
+   arriving                engine     3×   5:42 9:12 10:42
+   the station             station    3×   5:52 9:22 10:52
+   the safety valve        engine     3×   5:53 9:23 10:53
+   the platform crowd      station    3×   5:53 9:23 10:53
+   the river               scene      2×   6:28 9:56
+   dawn birds              scene      2×   8:00 10:10
+   the brakes              engine     1×   9:11
+   the train (trainbox)    drone      1×   0:29 for 5:22
+   the train (trainbox)    drone      1×   6:22 for 2:59
+   the train (trainbox)    drone      1×   9:52 for 0:59
+   the train (trainbox)    drone      1×   11:22 for 0:30
+
+EARLY AND LATE  —  the lead lane, one bar from each end
+   early  bar    9  |*.......*.......|  G#5 A5
+   late   bar  182  |....*...........|  D#5
+
+══════════════════════════════════════════════════════════════════════════════
+SEED 10   boxcarsynth   dorian   78 bpm   9:07   12 sections   departs 17:00, into the night
+══════════════════════════════════════════════════════════════════════════════
+
+THE JOURNEY
+  legs: none declared — this build has no leg structure
+  minute  terrain / what is happening
+      0    dawn birds   1× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long   1× passing
+      1    [wind]
+      2    wind   [wind]   2× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long
+      3    wind   [wind]   the whistle, long   1× passing
+      4    the river   [wind]   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   arriving, the safety valve, the whistle, short, couplings
+      5    —
+      6    the river   [wind]   1× a level crossing   1× passing
+      7    [wind]
+      8    wind   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   1× a level crossing   the whistle, long, arriving, the safety valve, pulling out, couplings
+      9    wind
+
+THE BAND
+  lead=harmonica  counter=auto  keys=auto  keys2=auto  bass=washtub  ostinato=auto  drums=tr1000  drone=trainbox
+
+THE FORM  —  and how many instruments actually sound in each
+     0:00  verse         16 bars                4 playing:  trainbox counter washtub keys
+     0:49  verse         16 bars                4 playing:  harmonica keys counter washtub
+     1:38  instrumental  16 bars                4 playing:  counter washtub keys harmonica
+     2:27  instrumental  16 bars                4 playing:  keys washtub harmonica counter
+     3:16  verse         18 bars (+2)           4 playing:  keys counter harmonica washtub
+     4:12  chorus         8 bars                6 playing:  washtub banjo harmonica counter trainbox keys
+     4:36  instrumental  20 bars (+4)           4 playing:  washtub keys counter harmonica
+     5:38  verse         16 bars                4 playing:  harmonica keys counter washtub
+     6:27  verse         16 bars                4 playing:  keys counter harmonica washtub
+     7:16  instrumental  20 bars (+4)           4 playing:  keys counter harmonica washtub
+     8:18  chorus         8 bars                6 playing:  banjo harmonica washtub counter trainbox keys
+     8:43  outro          8 bars                2 playing:  washtub keys
+   MEAN 4.2 instruments a section
+
+THE TUNE  —  material A, 8 bars, 16 notes, 5 distinct pitches
+    1 |*---............|  G5
+    2 |*---*---*---....|  G5 G#5 C5
+    3 |*---............|  G5
+    4 |*---*---*---....|  G5 G#5 C5
+    5 |*---............|  F5
+    6 |*---*---*---....|  F5 G5 A#4
+    7 |*---............|  F5
+    8 |*---*---*---....|  F5 G5 A#4
+
+EVERY INSTRUMENT THAT SOUNDS
+   counter          2516 notes   G4..F7   ostinato,counter
+   keys              486 notes   G#3..F4   keys
+   washtub           335 notes   C1..A#2   bass
+   harmonica         247 notes   F4..A#5   lead
+   banjo              48 notes   F3..F4   keys
+   trainbox            3 notes   F1..F1   drone
+   drums             1234 hits    hat:480  ride:390  snare:161  kick:138  tom2:20  tom3:17  ghost:12  openhat:8  tom1:8
+
+THE SFX  —  named, with when they happen
+   the tape (hiss)         tape       1×   0:00
+   the medium (the gramophone)tape       1×   0:00
+   dawn birds              scene      1×   0:00
+   the whistle, long       engine     8×   0:16 0:17 0:19 2:20 2:21 2:24 3:56 8:02
+   the whistle, short      engine     3×   0:19 2:23 4:35
+   the crossing bell       station    5×   0:22 2:26 2:43 6:37 8:02
+   a train passing         pass       1×   0:26
+   wind                    weather    4×   1:28 2:45 6:20 8:43
+   a train passing         pass       2×   3:34 6:47
+   arriving                engine     2×   4:02 8:08
+   the station             station    2×   4:12 8:18
+   the platform crowd      station    2×   4:13 8:19
+   the safety valve        engine     2×   4:13 8:19
+   the doors               station    4×   4:13 4:30 8:20 8:37
+   the conductor calls     station    2×   4:26 8:32
+   the guard               station    2×   4:33 8:39
+   the bell, moving off    station    2×   4:39 8:45
+   the river               scene      2×   4:43 6:42
+   couplings               engine     2×   4:52 8:48
+   pulling out             engine     1×   8:41
+   the train (trainbox)    drone      1×   0:00 for 4:12
+   the train (trainbox)    drone      1×   4:36 for 3:41
+   the train (trainbox)    drone      1×   8:43 for 0:24
+
+EARLY AND LATE  —  the lead lane, one bar from each end
+   early  bar   17  |*...............|  G5 G5
+   late   bar  170  |..*...........*.|  G5 F5
+
+══════════════════════════════════════════════════════════════════════════════
+SEED 11   boxcarsynth   dorian   84 bpm   8:40   13 sections   departs 2:00, toward the light
+══════════════════════════════════════════════════════════════════════════════
+
+THE JOURNEY
+  legs: none declared — this build has no leg structure
+  minute  terrain / what is happening
+      0    PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   1× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long, pulling out
+      1    [wind]   couplings, couplings
+      2    wind   [wind]   2× passing
+      3    wind   [wind]   3× passing
+      4    wind   [wind]   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   the whistle, long, arriving, the safety valve, the whistle, short
+      5    dawn birds   2× passing
+      6    dawn birds   1× a level crossing
+      7    dawn birds   ARRIVING: the station, the doors   1× a level crossing   the whistle, long, the whistle, long, the whistle, short, the whistle, long, the whistle, long, the brakes, arriving, the safety valve   1× passing
+      8    dawn birds   PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   pulling out   1× passing
+
+THE BAND
+  lead=harmonica  counter=fiddle  keys=wurly  keys2=auto  bass=contrabassoon  ostinato=banjo  drums=tr1000  drone=trainbox
+
+THE FORM  —  and how many instruments actually sound in each
+     0:00  intro          8 bars                3 playing:  wurly contrabassoon trainbox
+     0:22  verse         16 bars                5 playing:  wurly banjo harmonica contrabassoon fiddle
+     1:08  verse         16 bars                4 playing:  wurly banjo harmonica contrabassoon
+     1:54  instrumental  18 bars (+2)           6 playing:  contrabassoon wurly bardPluck banjo harmonica fiddle
+     2:45  verse         16 bars                4 playing:  banjo harmonica wurly contrabassoon
+     3:31  verse         16 bars                4 playing:  wurly banjo harmonica contrabassoon
+     4:17  chorus        12 bars (+4)           5 playing:  contrabassoon banjo bardPluck harmonica fiddle
+     4:51  bridge        16 bars                4 playing:  contrabassoon wurly trainbox banjo
+     5:37  instrumental  16 bars                6 playing:  contrabassoon wurly bardPluck banjo harmonica fiddle
+     6:22  instrumental  16 bars                5 playing:  wurly bardPluck banjo contrabassoon fiddle
+     7:08  verse         16 bars                4 playing:  banjo wurly harmonica contrabassoon
+     7:54  chorus         8 bars                6 playing:  banjo bardPluck contrabassoon harmonica fiddle trainbox
+     8:17  outro          8 bars                2 playing:  wurly contrabassoon
+   MEAN 4.5 instruments a section
+
+THE TUNE  —  material A, 8 bars, 16 notes, 6 distinct pitches
+    1 |*---*---........|  F#4 E4
+    2 |*---*---........|  D5 C#5
+    3 |*---*---........|  F#4 E4
+    4 |*---*---........|  D5 C#5
+    5 |*---*---........|  D5 C#5
+    6 |*---*---........|  B4 A4
+    7 |*---*---........|  D5 C#5
+    8 |*---*---........|  B4 A4
+
+EVERY INSTRUMENT THAT SOUNDS
+   banjo            2406 notes   E3..E7   ostinato,lead,keys
+   wurly             486 notes   F#3..G4   keys
+   contrabassoon     330 notes   C#1..A2   bass
+   harmonica         213 notes   E4..B5   lead
+   bardPluck         208 notes   E4..G5   keys
+   fiddle             49 notes   G4..G5   counter
+   trainbox            3 notes   E1..E1   drone
+   drums             1054 hits    hat:418  ride:354  kick:140  snare:105  ghost:18  tom3:10  tom1:7  tom2:2
+
+THE SFX  —  named, with when they happen
+   the tape (hiss)         tape       1×   0:00
+   the medium (the gramophone)tape       1×   0:00
+   the conductor calls     station    3×   0:12 4:40 8:06
+   the whistle, long       engine     8×   0:16 0:17 0:20 4:01 7:35 7:36 7:38 7:39
+   the doors               station    5×   0:16 4:18 4:45 7:55 8:11
+   the whistle, short      engine     3×   0:19 4:49 7:38
+   the guard               station    3×   0:19 4:48 8:13
+   pulling out             engine     2×   0:21 8:15
+   the crossing bell       station    3×   0:22 6:39 7:41
+   the bell, moving off    station    3×   0:25 4:53 8:19
+   couplings               engine     2×   1:19 1:33
+   wind                    weather    3×   1:54 2:04 2:58
+   a train passing         pass       4×   2:46 2:56 3:41 3:47
+   a train passing         pass       5×   3:56 5:09 5:16 7:27 8:20
+   arriving                engine     2×   4:07 7:44
+   the station             station    2×   4:17 7:54
+   the platform crowd      station    1×   4:17
+   the safety valve        engine     2×   4:17 7:55
+   dawn birds              scene      3×   5:29 7:25 7:55
+   the brakes              engine     1×   7:43
+   the train (trainbox)    drone      1×   0:22 for 3:54
+   the train (trainbox)    drone      1×   4:51 for 3:02
+   the train (trainbox)    drone      1×   8:17 for 0:22
+
+EARLY AND LATE  —  the lead lane, one bar from each end
+   early  bar    9  |*...........*...|  F#5 F#5 G5 G5
+   late   bar  174  |....*...*.......|  C#5 C#5 B4 B4
+
+══════════════════════════════════════════════════════════════════════════════
+SEED 12   boxcarsynth   mixolydian   81 bpm   9:46   15 sections   departs 2:00, toward the light
+══════════════════════════════════════════════════════════════════════════════
+
+THE JOURNEY
+  legs: none declared — this build has no leg structure
+  minute  terrain / what is happening
+      0    PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   pulling out, couplings, couplings
+      1    couplings
+      2    the river   1× a level crossing
+      3    the river   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   couplings, the whistle, long, arriving, the safety valve, the whistle, short
+      4    the river   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls   couplings, the whistle, long, arriving, the safety valve   1× passing
+      5    wind   PULLING OUT: the doors, the guard, the bell, moving off   pulling out
+      6    wind   1× a level crossing   1× passing
+      7    wind   [rain]   AT THE PLATFORM: the station, the platform crowd, the doors, the conductor calls, the doors, the guard, the bell, moving off   the whistle, long, arriving, the safety valve, the whistle, short
+      8    [rain]   ARRIVING: the station, the platform crowd, the doors   the whistle, long, arriving, the safety valve   1× passing
+      9    the river   PULLING OUT: the conductor calls, the doors, the guard, the bell, moving off   pulling out   1× passing
+
+THE BAND
+  lead=harmonica  counter=fiddle  keys=auto  keys2=horns  bass=contrabassoon  ostinato=banjo  drums=tr1000  drone=trainbox
+
+THE FORM  —  and how many instruments actually sound in each
+     0:00  intro          8 bars                4 playing:  keys horns banjo contrabassoon
+     0:23  verse         16 bars                6 playing:  trainbox keys banjo horns contrabassoon fiddle
+     1:11  verse         16 bars                5 playing:  harmonica contrabassoon keys banjo horns
+     1:58  instrumental  16 bars                6 playing:  banjo keys horns harmonica contrabassoon fiddle
+     2:45  verse         16 bars                4 playing:  keys banjo harmonica contrabassoon
+     3:33  chorus         8 bars                7 playing:  banjo contrabassoon horns harmonica fiddle keys trainbox
+     3:57  verse         16 bars                5 playing:  harmonica keys banjo horns contrabassoon
+     4:44  chorus         8 bars                5 playing:  banjo contrabassoon fiddle keys trainbox
+     5:08  bridge        16 bars                4 playing:  keys horns contrabassoon banjo
+     5:55  verse         16 bars                5 playing:  harmonica keys banjo horns contrabassoon
+     6:42  verse         16 bars                5 playing:  harmonica banjo keys horns contrabassoon
+     7:30  chorus         8 bars                5 playing:  banjo horns harmonica fiddle contrabassoon
+     7:54  verse         18 bars (+2)           6 playing:  trainbox keys banjo horns harmonica contrabassoon
+     8:47  chorus        12 bars (+4)           5 playing:  banjo horns fiddle contrabassoon trainbox
+     9:22  outro          8 bars                2 playing:  keys contrabassoon
+   MEAN 4.9 instruments a section
+
+THE TUNE  —  material A, 8 bars, 24 notes, 6 distinct pitches
+    1 |*---*-------*--.|  C#5 B4 A4
+    2 |*---*---*---....|  G#4 F#4 F#4
+    3 |*---*-------*--.|  C#5 B4 A4
+    4 |*---*---*---....|  G#4 F#4 F#4
+    5 |*---*-------*--.|  D#5 C#5 B4
+    6 |*---*---*---....|  A4 G#4 G#4
+    7 |*---*-------*--.|  D#5 C#5 B4
+    8 |*---*---*---....|  A4 G#4 G#4
+
+EVERY INSTRUMENT THAT SOUNDS
+   banjo            2194 notes   F#3..F#7   ostinato,keys
+   horns             498 notes   C#3..D#4   keys2
+   keys              486 notes   F#3..F#4   keys
+   harmonica         269 notes   F#4..A5   lead
+   contrabassoon     139 notes   B1..F#2   bass
+   fiddle             35 notes   G#4..A5   counter
+   trainbox            5 notes   B1..B1   drone
+   drums              951 hits    hat:366  ride:324  kick:119  snare:102  tom2:10  tom1:9  tom3:9  ghost:6  openhat:6
+
+THE SFX  —  named, with when they happen
+   the tape (hiss)         tape       1×   0:00
+   the medium (the gramophone)tape       1×   0:00
+   the conductor calls     station    5×   0:13 3:46 4:57 7:43 9:12
+   the doors               station    9×   0:17 3:34 3:51 4:45 5:02 7:31 7:48 8:48 …
+   the guard               station    5×   0:20 3:53 5:04 7:50 9:19
+   pulling out             engine     3×   0:22 5:06 9:21
+   the bell, moving off    station    5×   0:25 3:59 5:10 7:56 9:25
+   couplings               engine     5×   0:50 0:52 1:40 3:10 4:27
+   the river               scene      3×   2:51 4:02 9:28
+   the crossing bell       station    2×   2:58 6:11
+   the whistle, long       engine     4×   3:17 4:28 7:14 8:31
+   arriving                engine     4×   3:23 4:34 7:20 8:37
+   the station             station    4×   3:33 4:44 7:30 8:47
+   the platform crowd      station    4×   3:34 4:45 7:31 8:48
+   the safety valve        engine     4×   3:34 4:45 7:31 8:48
+   the whistle, short      engine     2×   3:55 7:52
+   a train passing         pass       2×   4:27 6:47
+   wind                    scene      2×   5:08 6:18
+   rain                    weather    1×   7:30
+   a train passing         pass       2×   8:21 9:27
+   the train (trainbox)    drone      1×   0:23 for 3:09
+   the train (trainbox)    drone      1×   3:57 for 0:47
+   the train (trainbox)    drone      1×   5:08 for 2:22
+   the train (trainbox)    drone      1×   7:54 for 0:53
+   the train (trainbox)    drone      1×   9:22 for 0:23
+
+EARLY AND LATE  —  the lead lane, one bar from each end
+   early  bar   25  |*...*...........|  C#5 B4 G#4
+   late   bar  178  |*...*...*.......|  G#4 F#4 F#4
+
