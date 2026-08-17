@@ -355,6 +355,15 @@ const TARGET = { train: -9, story: -11, world: -25 };
          the old pad-bass measured fine and could not be heard. */
       const rel = r.groupsA[g] - bandA, relU = r.groups[g] - band;
       const want = TARGET[g], off = isFinite(rel) ? rel - want : -Infinity;
+      /* ── A TAIL IS NOT A LEVEL ────────────────────────────────────────────
+         An event that STARTED long before the window and is still nominally
+         sounding satisfies `has`, so a station bed decaying two minutes later
+         counted as "the story is written here" and read -76.5 dB. That is not
+         a mix fault; it is the last hair of a reverb, and faulting it sent the
+         report red on a record whose stations are correct. Below -60 dB
+         against the band, a group is not present in any sense a listener would
+         accept, and the honest answer is that nothing of this kind is here. */
+      if(r.has[g] && isFinite(rel) && rel < -60) r.has[g] = false;
       const bad = r.has[g] ? (!isFinite(rel) || Math.abs(off) > 6) : false;
       if(bad) faults++;
       if(!r.has[g]){ console.log("     ·  " + g.padEnd(10) + "   nothing of this kind here"); continue; }

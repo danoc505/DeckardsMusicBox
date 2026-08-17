@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17p · things go past, and a chair holds two players</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17q · every bed levelled, every sound on a fader</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -9983,10 +9983,113 @@ const MEDIUM_WOW_HZ = 78 / 60;
      landscape's own figure was right and stays near where it was — that part
      of the correction was the part he asked for. */
   const WORLD = { signal: 0.52, place: 0.20, pass: 0.20, weather: 0.28 };
-  const worldTrim = ev => ev.pass ? WORLD.pass
+
+  /* ══ AND EVERY BED IS BROUGHT TO THE SAME LOUDNESS FIRST ═══════════════════
+     [owner] "The SFX is drowning everything out ... nothing has its place most
+     things are to quite" — BOTH HALVES OF THAT SENTENCE AT ONCE, which is the
+     shape of the fault and the reason it survived three attempts to level it.
+
+     Everything above this line multiplies a DECLARED number by a recording,
+     and the recordings are not the same loudness. Measured, A-weighted, over
+     each bed's loudest second, across the twenty beds this genre reaches:
+
+       sceneRiver     -31.0 dB(A)          railBell       -14.5
+       railPass0      -27.1                railWhistle    -11.6
+       sfx_wind       -22.8                            median -17.0
+                                                       SPREAD 19.4 dB
+
+     So one multiplier over the top of that cannot place them: raise it until
+     the river is audible and the whistle shouts; lower it until the whistle
+     sits and the river is gone. That is exactly what the render showed — the
+     same declared level rendering between -12.9 and -48.7 across records, 22 dB
+     of it inside ONE record against a reference that does not move — and it is
+     why the countryside was tuned three times and was wrong in a different
+     direction each time. THE LEVEL WAS NEVER THE VARIABLE.
+
+     MEASURED AT RUN TIME, NOT PASTED. A table of twenty numbers copied out of
+     a probe is a table that goes stale the first time a bed is re-encoded, and
+     this file has been bitten by exactly that: `probe_theory` hand-copied a
+     MODES table that had already drifted, the rig labels drifted, the "seven
+     genres" in every document drifted. The bank already carries the audio and
+     `ERANG.pcm` already decodes it, so the trim is DERIVED from the sound
+     itself — measured once per bed on first use and cached. Twenty beds at
+     roughly a millisecond each, once per session.
+
+     THE REFERENCE IS FIXED AT THE MEASURED MEDIAN and not recomputed as the
+     median of whatever is loaded, because a floating reference moves every
+     other bed whenever one is added — which is the moving-reference fault §4d
+     exists to record, arriving through a third door.
+
+     CLAMPED, because a trim is a correction and not a rescue: a bed 20 dB out
+     is a bed that is wrong in the pack, and quietly multiplying it by ten
+     would hide that instead of showing it. */
+  const BED_REF_DB = -17.0;                 /* the measured median, 20 beds */
+  const bedTrimCache = Object.create(null);
+  let bedAW = null;
+  const bedTrim = name => {
+    if(!name) return 1;
+    if(bedTrimCache[name] != null) return bedTrimCache[name];
+    let t = 1;
+    try {
+      const pcm = ERANG.pcm(name);
+      if(pcm && pcm.length){
+        if(!bedAW) bedAW = (SR => {
+          const C2 = 2 * SR, sec = [], w = f => 2 * Math.PI * f;
+          for(const f of [20.598997, 20.598997, 107.65265, 737.86223]){
+            const o = w(f), d = C2 + o;
+            sec.push({ b0: C2 / d, b1: -C2 / d, a1: (o - C2) / d });
+          }
+          for(const f of [12194.217, 12194.217]){
+            const o = w(f), d = C2 + o;
+            sec.push({ b0: o / d, b1: o / d, a1: (o - C2) / d });
+          }
+          const run = (s, k) => {
+            const x1 = new Float64Array(sec.length), y1 = new Float64Array(sec.length);
+            const out = new Float64Array(s.length);
+            for(let i = 0; i < s.length; i++){
+              let v = s[i];
+              for(let j = 0; j < sec.length; j++){
+                const S = sec[j];
+                const y = S.b0 * v + S.b1 * x1[j] - S.a1 * y1[j];
+                x1[j] = v; y1[j] = y; v = y;
+              }
+              out[i] = v * k;
+            }
+            return out;
+          };
+          const gainAt = (hz, k) => {
+            const N = SR, sig = new Float64Array(N);
+            for(let i = 0; i < N; i++) sig[i] = Math.sin(2 * Math.PI * hz * i / SR);
+            const y = run(sig, k);
+            let s = 0; for(let i = N >> 1; i < N; i++) s += y[i] * y[i];
+            return Math.sqrt(s / (N - (N >> 1))) * Math.SQRT2;
+          };
+          const K = 1 / gainAt(1000, 1);
+          return s => run(s, K);
+        })(ERANG.rate);
+        /* THE LOUDEST SECOND, not the whole file. A bed's level is what it
+           does when it is doing something; averaging a twelve-second field
+           recording over its own quiet lead-in measures the lead-in. */
+        const wt = bedAW(pcm), W = Math.min(pcm.length, ERANG.rate);
+        let best = 0, run = 0;
+        for(let i = 0; i < wt.length; i++){
+          run += wt[i] * wt[i];
+          if(i >= W) run -= wt[i - W] * wt[i - W];
+          if(i >= W - 1){ const r = Math.sqrt(run / W); if(r > best) best = r; }
+        }
+        if(best > 1e-9)
+          t = Math.max(0.25, Math.min(4.0,
+                Math.pow(10, (BED_REF_DB - 20 * Math.log10(best)) / 20)));
+      }
+    } catch(e){ t = 1; }               // a bed that will not decode keeps its level
+    bedTrimCache[name] = t;
+    return t;
+  };
+
+  const worldTrim = ev => (ev.pass ? WORLD.pass
                         : ev.role === "scene"   ? WORLD.place
                         : ev.role === "weather" ? WORLD.weather
-                        : WORLD.signal;
+                        : WORLD.signal) * bedTrim(ev.bed);
 
   /* ══ THE ROOM'S DSP, as a worklet module ═══════════════════════════════════
      Source for the AudioWorkletProcessor that IS the room. It lives here as a
@@ -20549,7 +20652,25 @@ GENRE.boxcarsynth = {
        STOPPED and they measure right (-13.0 against a want of -11), so they
        do not move. */
     level: [0.45, 0.18], standLevel: [0.085, 0.035], callLevel: [0.28, 0.10],
-    passLevel: [0.075, 0.030], passPer: 1.6,
+    /* ── AND A PASSING TRAIN WAS THE QUIETEST THING IN THE RECORD ───────────
+       Traced from a single window rather than guessed: seed 4's cruise holds
+       exactly ONE world event, a `railPass1`, and its gain arrives at the
+       graph as
+
+         0.091  (passLevel)  x  0.20  (WORLD.pass)  x  0.90  (bed trim)  =  0.016
+
+       against a station whistle's 0.45 x 0.52 = 0.234. A TRAIN GOING PAST YOU
+       IS TWENTY-THREE DECIBELS UNDER A MAN SHOUTING ON A PLATFORM, which is
+       not a balance anybody would choose; it is the §4d-ii over-trim surviving
+       in the one pool nothing had re-measured. Rendered, that window reads
+       -49.6 dB(A) against a want of -25.
+
+       Raised 10 dB. Not the full 24 the window asks for, because the pass
+       envelope spends most of its length well below peak by design (that shape
+       is what makes it a pass rather than a bed) and because chasing one
+       window with one event in it is how this level got wrong in the first
+       place. Re-measured after. */
+    passLevel: [0.24, 0.095], passPer: 1.6,
   },
   atmos: { fams: ["sceneRiver","sceneBirds","railClank","railBell"],
            level: [0.10, 0.05], accent: 0.7, accentLevel: [0.20, 0.10] },
@@ -29735,9 +29856,54 @@ function makePerformance(chart, form, materials, sections){
         }
         continue;
       }
+      /* ── A BED THAT NEVER STOPS IS NOT AS LOUD AS ONE THAT GOES PAST ──────
+         MEASURED after the beds were normalised against each other, which is
+         what made this visible at all: at cruise the countryside read -27 to
+         -29 dB(A) against a want of -25 (right), and AT A STOP the same
+         declared level read -17.3 and -13.3 — seven and twelve decibels over.
+         The level had not changed between those two moments and neither had
+         the reference.
+
+         The difference is the SHAPE. A pass is three to five seconds with an
+         envelope that spends most of its length well below peak, by design;
+         a standing bed runs flat for the whole segment. Continuous and brief
+         cannot share one number, and this is the second time in one build that
+         a single multiplier has been asked to place two different things —
+         the first was the beds themselves, and normalising them is what
+         uncovered this one underneath.
+
+         So a bed that sits still is quieter than a thing that goes by, and the
+         plain musical reading agrees: a landscape you are parked in is a
+         background, a thing that passes the window is an event.
+
+         -8 dB, AND THE ARITHMETIC BEHIND CHOOSING IT IS WORTH KEEPING because
+         it is a case where the tidy answer and the measured one differ:
+
+           standing trim      -8 dB      -6 dB
+           seed 1               0          0    faults
+           seed 2               0          1
+           seed 3               2          2
+           seed 4               2          1
+           total                4          4
+
+         THE TOTALS ARE EQUAL. Splitting the difference bought nothing; it
+         moved a fault from one record to another. -8 is chosen because it puts
+         TWO WHOLE RECORDS clean rather than spreading one fault across three,
+         and a record you can play end to end is worth more than an average.
+
+         (Written down because the first version of this comment said -6 gave
+         four faults against -8's two, which was a table assembled before seed 4
+         had been re-run at -8. It came back 2 and the table was wrong. A
+         measurement half-taken is the thing this whole file keeps being caught
+         by, including three times today.)
+
+         What is left is two records whose countryside runs quiet, and part of
+         the residue is the bed trim's own CLAMP — the quietest recording in the
+         pack asks for x5.03 and is held at x4.0, so it stays 2 dB down on
+         purpose rather than being rescued. Stated, not tuned away. */
       events.push(Object.freeze({
         tSec: g.at, durSec: Math.max(2, g.sec), voice: "atmos",
-        role: roleOfBed(nm), gain: lvl[0] + jr() * lvl[1], bed: nm, pass: false,
+        role: roleOfBed(nm), gain: (lvl[0] + jr() * lvl[1]) * 0.40, bed: nm, pass: false,
       }));
     }
     /* ── AND THE CROSSING SIGNAL, WHICH FINALLY HAS SOMEWHERE TO BE ─────────

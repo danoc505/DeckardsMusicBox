@@ -172,16 +172,72 @@ genre declares `legato` on the three chairs its sustaining instruments hold.
 **A note print cannot check this and nearly reported the fix as a failure.**
 `legato` does not rewrite the event; stage 5 attaches `holdSec` and `tied`
 beside it and stage 6 decides. A gurdy note prints 0.82 s before and after,
-forever. `harness/probe_wheel.js` asks the right question instead: it counts
-SUPPRESSED ONSETS (`soundState().legatoTied`) and A/Bs the rendered audio
-against the same window with the declaration removed. 11 of 12 lead notes
-arrive with no attack, against 0 without it, and the audio differs by 1.35 dB.
+forever. `harness/probe_wheel.js` asks the right question: it counts SUPPRESSED
+ONSETS (`soundState().legatoTied`) and A/Bs the rendered audio against the same
+window with the declaration removed. 11 of 12 lead notes arrive with no attack,
+against 0 without it, and the audio differs by 1.35 dB.
 
-**Known, small, written down rather than patched:** `keys2` is untied because
-it reaches the tie pass as CHORDS (measured by instrumenting that pass — 15
-pairs, all chords) and is spread into an arpeggio afterwards. A chair can be
-monophonic in the finished events and still have been a chord when the question
-was asked.
+**Known, small, written down rather than patched:** `keys2` is untied because it
+reaches the tie pass as CHORDS (measured by instrumenting that pass — 15 pairs,
+all chords) and is spread into an arpeggio afterwards (#149).
+
+### On a moving train, things go past
+
+> *"a train that is moving has birds in passing not a the same bird making the
+> same call that might happen when the train is parked"*
+
+The passing envelope was **built and being applied** — playback rate 1.04 →
+0.96, a stereo crossing, the top opening 900 Hz → 6.5 k → 900. It sounded like
+none of that because the emission handed it `durSec: g.sec` and **a segment is
+30–90 seconds long**. The defect was the duration, not the envelope.
+
+A segment the train runs through is now a sequence of passes: 3–5.5 s each (60 m
+of approach-and-recede at the 11–20 m/s the 39-foot-rail tempo band implies),
+spaced by the terrain's own talkativeness — **woods every 8.0 s, farm every
+13.0 s**, measured. A standing train still gets one long bed, which is the other
+half of the sentence.
+
+That needed a new field: segments carried `speaks` as a BOOLEAN — the coin, not
+the odds — so reading it would have given every terrain the same gap. The
+planner now carries `talk` beside `speaks`.
+
+### A chair holds two players
+
+> *"the diddly and contrabasson should both be playing, this is ORCHASTRAL!"*
+
+The doubling engine was complete and argued — Berlioz's unison-before-octave,
+Rimsky-Korsakov's spacing law barring the tenor from octaves, the inferior
+dynamic level, partners drawn only from instruments whose declared range
+contains the line — and its own comment admitted *"not drawn anywhere
+automatically"*. This genre now declares the vocabulary in `form.double`.
+
+Over 12 records, chairs carrying two instruments:
+
+```
+bass: contrabassoon + washtub  x2      <- the pairing he named
+bass: contrabassoon + wurly    x2      7 of 12 records have a two-player bass
+bass: contrabassoon + horns    x2
+counter: diddley + horns       x2
+counter: diddley + fiddle      x1
+```
+
+### Every sound is on a fader — checked, not read
+
+`harness/probe_sfxdesk.js`. For every role the record contains: render it alone,
+then render it with its own strip muted through `MK2.setMixer`. **0 faults, 13
+roles**, including `engine`, `pass`, `station`, `scene` and `weather` — and
+pulling one fader moves no other part (±0.00 dB).
+
+So *"the SFX is not connected on the mixer"* is **not true of this build**. The
+strips exist and work; what was wrong is that they were inaudible, which was the
+levels. **#117 remains open for what it actually asks** — RACKS, front panels
+with knobs like the drone rack has. That is not the same thing as a fader.
+
+**And the guard that should have said so was green for three wrong reasons.**
+`probe_faders_down.js` hardcoded the six-genre file, composed `synthwave` (a
+deleted genre), and took the first 12 seconds flat — on a record that opens in a
+rail yard with the train standing and no drums. It rendered silence and reported
+that pulling the faders down made it silent. All three are fixed.
 
 ---
 
