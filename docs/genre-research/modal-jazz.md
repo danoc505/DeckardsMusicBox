@@ -191,7 +191,7 @@ its own table (`Deckards Orchestrator MK2.html:28880`):
 | modes, not keys | `modes: [["dorian", 5], ["minor", 3], ["mixolydian", 2]]` |
 | no functional cadence | folk shuttles only — i–IV, i–♭VII; no V–I anywhere |
 | slow harmonic rhythm | **two bars a chord** |
-| a pedal under it | `bassStyle: "drone"`, plus the train as the `drone` role |
+| a pedal under it | ⚠ **NO LONGER TRUE — see §3a** |
 | the scale moves, rarely | `keyShift: { chance: 0.65, by: [[0,6],[2,2],[5,1]], change: 0.8 }` |
 
 **The genre does not need modal jazz's harmony. It already has it.** What it
@@ -199,6 +199,45 @@ does not have is what modal jazz's players did about §1's monotony. That
 reframes the owner's question from *"should we incorporate modal jazz"* to
 *"we are already there, and we have the disease Miles named — which of their
 remedies applies."*
+
+### 3a. ⚠ THE PEDAL ROW WAS TRUE WHEN IT WAS WRITTEN AND IS FALSE NOW
+
+That row read *"`bassStyle: "drone"`, plus the train as the `drone` role"*, and
+**both halves have since stopped being pedals** — separately, each for a good
+reason, neither noticing what the pair of them was holding up:
+
+- **`bassStyle: "pulse"`.** The washtub sheet is right that this instrument is
+  *"a propulsive root-note bass line ... a percussive, thumping rhythm"*
+  [washtub-bass.md §1; corpus:grokipedia], and a sustained washtub measured 38 dB
+  under the lead. Correct change. It also means the bass no longer holds
+  anything: **mean note 1.45–2.99 s, longest 6.1 s** over 8 records.
+- **`drone: { unpitched: true }`.** The train's written note *"only nudges its
+  playback rate, because a train is in no key"* — also correct, and also the end
+  of the pedal. Measured, seed 1: the drone is **18 events, 50.2 s each, ONE
+  distinct pitch for the whole record** — a textbook pedal by every structural
+  test, rendered as a locomotive, so nothing about it is heard as a pitch.
+
+**MEASURED, 8 records.** What survives is real and is not a pedal:
+
+```
+   the tonic pitch class is sounding somewhere    75.1% of the record
+      of which: keys 71.9%   drone 74.4% (unpitched)   bass 28.7%   ostinato 29.6%
+   time on the tonic CHORD in the verse            52%
+   distinct chords in a whole 20-minute record      6.9
+   the lift returns to the home key                 7/7 records that draw one
+```
+
+So the *home* is intact — the harmony is modal, the ground is 6.9 chords in
+twenty minutes, and the lift comes back the way "So What" comes back. What is
+gone is the **held note underneath it**. The tonic is present because the comp
+keeps voicing it, not because anything is standing on it.
+
+**And the voice that would move above a pedal is empty.** `keys2` — the second
+pad, the Naima part — writes **0 events in 7 of 12 records**, 48 events a record
+on average. §7 item 3 is the one recommendation of the four that was never
+built, and in the meantime both of the things it needed have been removed or
+have gone silent. That is the honest reading of "boxcar synth is already a modal
+record": it is modal in its harmony and it no longer has the ground.
 
 ---
 
