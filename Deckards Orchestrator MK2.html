@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17e · the washboard, recorded — and the bank was addressing the wrong bytes</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17f · the hook comes back changed</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -24786,8 +24786,26 @@ GENRE.boxcarsynth = {
       With it, material A restates its first four bars at bars 5-8 instead of
       writing four more bars of new tune. It is the ONLY genre that declares it,
       and the snapshot proves the other four did not move. */
+   /* ── AND THE SECOND RETURN DEVELOPS ─────────────────────────────────────
+      `verseHook` alone made an eight-bar material the SAME TWO BARS FOUR
+      TIMES, which is a loop wearing a hook's clothes. `modal-jazz.md` §10 is
+      the argument and it is quoted at the mechanism in buildTheme: the sources
+      say a melodic sentence must "breathe, REPEAT, VARY, and resolve", and
+      this genre had the repeat without the vary.
+
+      `at: 4` keeps bars 0-3 exactly as they are -- statement, then exact
+      restatement, which is what teaches the ear the tune -- and develops only
+      the return at bars 4-7. You cannot vary something nobody has learned yet.
+
+      The three devices are the sourced ones and the weights are a judgement:
+      SEQUENCE most often because moving the whole phrase to a new pitch level
+      is the plainest development there is and the one an ear follows without
+      effort; DISPLACE next, because a phrase a beat late is the jazz device
+      this genre is built on; TAIL least, because changing one note is the
+      smallest thing that still counts as varying. Nothing has heard them. */
    theme: { count: { hooky: [2, 2], breath: [1, 1], normal: [2, 1] },
             verseHook: true,
+            develop: { at: 4, of: [["sequence", 4], ["displace", 3], ["tail", 2]] },
             onsetPool: [[0, 8], [4, 4], [8, 4], [12, 2]] },
   /* folk shuttles: the dorian i-IV, the aeolian i-VI-VII, mixolydian's bVII;
      MAJOR is written for the LIFT to land in [sheet §5] */
@@ -31328,11 +31346,128 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       if(opts.hooky){
         /* the hook returns whole, four bars at a time */
         if((at % 4) !== 0) continue;
-        for(const n of notes.filter(x => x.bar < 4)){
-          const cp = { ...n, bar: n.bar + at };
-          if(cp.bar >= BARS) continue;
-          if(reserved.has(key(cp.bar % BARS, cp.step, cp.pitch))) continue;
-          notes.push(cp); reserved.add(key(cp.bar % BARS, cp.step, cp.pitch));
+        const src = notes.filter(x => x.bar < 4);
+        /* ── AND THE SECOND RETURN IS DEVELOPED, NOT COPIED ──────────────────
+           MEASURED: an eight-bar hooky material was the SAME TWO BARS FOUR
+           TIMES -- bars 0-1 written, 2-3 an exact copy, 4-7 an exact copy of
+           0-3. That is a loop by construction, and it is the fault
+           `docs/genre-research/modal-jazz.md` §10 names as the single
+           highest-value thing missing from this program:
+
+             "modal jazz soloists learned to build melodic sentences that
+              breathe, REPEAT, VARY, and resolve on their own terms"
+              [corpus:newyorkjazzworkshop]
+
+           The two halves of that are both required and this had only the
+           first. A motif is "recognizable through their repetition" [Webern,
+           via corpus:wikipedia/Motif], and "too much repetition can become
+           monotonous, which is why VARIATION often accompanies it"
+           [corpus:vaia].
+
+           SO THE FIRST RETURN STAYS EXACT AND THE SECOND ONE DEVELOPS. That
+           order is the whole design: bars 2-3 are what make the idea
+           recognisable, and you cannot develop something the listener has not
+           learned yet. It is also why material B's guard is untouched -- the
+           battery asserts bars 0-3 restate exactly, and they still do.
+
+           THE DEVICES ARE THE SOURCED ONES, and all three are PITCH- or
+           STEP-ONLY transforms of a phrase that already exists, so none of
+           them can invent a note that breaks a rule the phrase did not
+           already satisfy:
+
+             sequence   "repeating a motive at different pitch levels"
+                        [corpus:vaia] -- every pitch moved by the same number
+                        of SCALE steps, so it cannot leave the key
+             displace   "taking a rhythmic pattern and starting it on a
+                        different beat or subdivision than expected"
+                        [corpus:learn2playjazz]. Jazz players "pass around a
+                        theme, with the rhythm of each solo differing just
+                        enough to make it sound like they're not all playing
+                        the same piece of music -- even though they pretty
+                        much are" [corpus:hackmusictheory], which is exactly
+                        the effect wanted here
+             tail       only the LAST note changes: the antecedent/consequent
+                        pair, the oldest varied repeat there is
+
+           ALL-OR-NOTHING, AND IT FALLS BACK TO THE EXACT COPY. A device is
+           applied only if EVERY note of the developed copy survives -- in
+           band, in the bar block, not on a seat another part reserved, and
+           not repeating the note in front of it. A partial transform is a
+           different phrase, not a varied one. If nothing fits, the copy is
+           exact and the material is what it was, which is why this cannot
+           make a record worse than it is today.
+
+           OFF UNLESS A GENRE ASKS. `theme.develop` is undefined everywhere but
+           boxcar synth, and `rng` is not touched when it is absent -- so every
+           other genre draws the same numbers in the same order and composes
+           byte-for-byte what it composed before. The snapshot is the proof. */
+        let laid = null;
+        if(TH.develop && at >= (TH.develop.at || 4) && src.length){
+          const pool = TH.develop.of || [["sequence", 1]];
+          const tot = pool.reduce((s, x) => s + x[1], 0);
+          /* the draw is ordered from the drawn one, so a device that does not
+             fit hands over to the next rather than to silence */
+          const order = [];
+          { let r = rng() * tot, i = 0;
+            for(; i < pool.length; i++){ r -= pool[i][1]; if(r <= 0) break; }
+            for(let k = 0; k < pool.length; k++) order.push(pool[(i + k) % pool.length][0]); }
+          const lastPitch = notes.length ? notes[notes.length - 1].pitch : null;
+          /* ── EXHAUST THE PARAMETER BEFORE ABANDONING THE DEVICE ────────────
+             The first version drew ONE interval per device and gave up on the
+             device if that interval did not fit. MEASURED: 26 of 60 records
+             fell all the way through to the plain copy. A sequence is a
+             device; "up a second" is a PARAMETER of it, and a fifth of a tone
+             too high is not a reason to stop transposing. So each device gets
+             every one of its settings, in an order rotated by the draw so the
+             choice is still the seed's. */
+          const settings = { sequence: [1, -1, 2, -2], displace: [4, -4, 2, -2], tail: [1, -1] };
+          const spin = (a, r) => a.map((_, i) => a[(r + i) % a.length]);
+          for(const dev of order){
+            const opts_ = spin(settings[dev] || [1], Math.floor(rng() * 4));
+            let done = false;
+            for(const v of opts_){
+              const out = [];
+              let ok = true;
+              if(dev === "sequence"){
+                /* a second or a third, the two intervals a sequence is
+                   normally written at, up or down */
+                for(const n of src){
+                  const p = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), n.pitch, v), LO, HI);
+                  if(p < LO || p > HI || p === n.pitch){ ok = false; break; }
+                  out.push({ ...n, bar: n.bar + at, pitch: p });
+                }
+              } else if(dev === "displace"){
+                /* a whole beat or a half beat, late or early -- far enough to
+                   hear, near enough that the phrase is still the phrase */
+                for(const n of src){
+                  const abs = (n.bar + at) * STEPS + n.step + v;
+                  if(abs < at * STEPS || abs >= (at + 4) * STEPS){ ok = false; break; }
+                  out.push({ ...n, bar: Math.floor(abs / STEPS), step: abs % STEPS });
+                }
+              } else {   /* tail: only the last note moves */
+                for(const n of src) out.push({ ...n, bar: n.bar + at });
+                out.sort((a, z) => (a.bar - z.bar) || (a.step - z.step));
+                const t = out[out.length - 1];
+                const p = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), t.pitch, v), LO, HI);
+                if(p === t.pitch) ok = false; else t.pitch = p;
+              }
+              if(!ok) continue;
+              /* every seat free, inside the loop, and no repeat at the seam */
+              for(const cp of out)
+                if(cp.bar >= BARS || reserved.has(key(cp.bar % BARS, cp.step, cp.pitch))){ ok = false; break; }
+              if(ok && NOREPEAT && lastPitch != null){
+                const first = out.slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step))[0];
+                if(first && first.pitch === lastPitch) ok = false;
+              }
+              if(ok){ laid = out; done = true; break; }
+            }
+            if(done) break;
+          }
+        }
+        for(const n of (laid || src.map(x => ({ ...x, bar: x.bar + at })))){
+          if(n.bar >= BARS) continue;
+          if(reserved.has(key(n.bar % BARS, n.step, n.pitch))) continue;
+          notes.push(n); reserved.add(key(n.bar % BARS, n.step, n.pitch));
         }
       } else {
         /* a new phrase, contrary to wherever the last one left off [RK: an

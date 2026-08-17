@@ -208,6 +208,39 @@ const check = (name, ok, detail) => {
   if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
 }
 
+/* ═══ AND THE HOOK COMES BACK CHANGED ═══════════════════════════════════════
+   THE MEASURE THAT FOUND THE FAULT WOULD HAVE SCORED THE FIX AS A FAILURE,
+   which is the whole reason this is its own check.
+
+   `boxcar-the-missing-hook.md` asked whether a material is PERFECTLY PERIODIC
+   and answered "0 of 12" — correctly, of a tune that wandered and never
+   repeated. But that single number cannot separate a wandering tune from a
+   developed hook: both are aperiodic. It CAN be satisfied by a loop, and after
+   `verseHook` landed, 38 of 60 boxcar verses were exactly that — the same two
+   bars four times — and nothing in the battery said so.
+
+   So the two halves are asked separately: something must RETURN exactly (or
+   there is nothing to recognise) and the material must NOT be a plain loop (or
+   the return is a wall). Plus: the developed return must keep the idea's
+   contour, because a variation nobody recognises is a different tune.
+
+   `harness/probe_develop.js` owns the logic, asserts only for genres that
+   declare `theme.develop`, and reports the rest. It has been watched failing
+   against a build that keeps the declaration and breaks the mechanism.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  const { execFileSync } = require("child_process");
+  let out = "", ok = true;
+  try { out = execFileSync(process.execPath,
+          [path.resolve(__dirname, "probe_develop.js"), "40"], { encoding: "utf8" }); }
+  catch(e){ ok = false; out = (e.stdout || "") + (e.stderr || ""); }
+  const n = (out.match(/(\d+) development fault\(s\)/) || [])[1];
+  check("a genre that declares a hook restates it AND develops it", ok,
+        ok ? "the hook returns exactly, the material is never a plain loop, and the developed return keeps its shape"
+           : `${n || "some"} development fault(s) — run: node harness/probe_develop.js`);
+  if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
+}
+
 /* ═══ AND THE RECORDINGS ACTUALLY DECODE TO SOUND ═══════════════════════════
    The most expensive check to be missing, because it is the one whose absence
    let a whole instrument ship as silence with a green battery behind it.
