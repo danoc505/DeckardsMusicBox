@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17o · the wheel does not stop, and the mix is weighted</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17p · things go past, and a chair holds two players</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20183,6 +20183,65 @@ GENRE.boxcarsynth = {
                 solo: "C", dance: "C", pullout: "A", arrive: "B" },
     payoff: "high",
     rest: { drums: 0.15, keys2: 0.18, counter: 0.18, ostinato: 0.10 },
+
+    /* ══ TWO PLAYERS ON A LINE — THE ENGINE WAS BUILT AND NEVER ASKED ═══════
+       [owner] "the diddly and contrabasson should both be playing, this is
+       ORCHASTRAL! The whole damn point of the rewrite was so that we can have
+       all the instruments playing when they should be"
+
+       MEASURED, three records: the bass chair holds ONE instrument every time
+       — washtub, washtub, contrabassoon — and the pool it draws from has both.
+       A chair is a seat, and until this declaration existed a seat held one
+       player. Eight seats and five sounds is five soloists who happen to
+       overlap, which is the thing the doubling engine's own comment says it
+       exists to fix and then admits nothing ever asked it for:
+
+         "the unison is permitted here and is not drawn anywhere automatically"
+
+       Everything it needs is already argued a few hundred lines down —
+       Berlioz's unison-before-octave, Rimsky-Korsakov's spacing law, the
+       inferior dynamic level, refusals in words, a partner drawn only from
+       instruments whose DECLARED RANGE contains the line actually written, and
+       only from this genre's own palette. Nothing here invents a rule. This is
+       the genre finally answering the question.
+
+       WHAT GETS DOUBLED, AND WHY EACH. The weights are this band, not a
+       general preference:
+
+         bass      the loudest ask. `STACK_OK` allows the bass down or in
+                   unison and never up, so the washtub gets the contrabassoon
+                   under or beside it — a homemade string and the orchestra's
+                   deepest double reed on one line, which is what this genre
+                   has been describing itself as since the first sheet.
+         counter   the diddley's line. RK bars the tenor from OCTAVE doubling
+                   for spacing and the table honours that, so this one can only
+                   ever come out at the unison — which is the doubling Berlioz
+                   reaches for first anyway.
+         lead      the tune carried by two, the plainest orchestral gesture
+                   there is, and the one a leg's handover already sets up.
+         keys2     the second keyboard, lowest weight: it is the thinnest
+                   chair in the record and doubling a part that barely plays
+                   buys less than doubling one that does.
+
+       UNISON LEADS AT 0.65 because the source says so in as many words. The
+       octave is the alternative, not the default.
+
+       AND IT ARRIVES EARLIER THAN AN ORCHESTRAL RECORD WOULD NORMALLY WANT.
+       Belkin's warning against constant unison doubling is real and the
+       threshold is how the engine honours it — but this band measured THIN,
+       not thick, and a threshold in the upper half of the arc would keep the
+       contrabassoon out of most of the record the owner is complaining about.
+       0.30-0.55 puts the second player in from the middle of the arc upward,
+       so the orchestra still thickens toward the climax and still thins away
+       from it. [Berlioz, Treatise; Rimsky-Korsakov; Belkin, Artistic
+       Orchestration — all quoted at STACK_OK] */
+    double: {
+      pick: [1, 2],                                  /* one to three a record */
+      of: [["bass", 5], ["counter", 4], ["lead", 3], ["keys2", 1]],
+      uni: 0.65,                                     /* unison before octave */
+      under: [0.55, 0.20],                           /* the inferior dynamic */
+      from: [0.30, 0.25],                            /* where it arrives */
+    },
   },
 
   machines: {
@@ -21956,8 +22015,14 @@ function planTrip(chart, seconds, legs){
     const nxt = wpick(rng, LINE_NEXT[where] || LINE_NEXT.open);
     /* a daylight voice is silent at night, and that is the clock doing it
        rather than a coin [§8c] */
+    /* `speaks` is WHETHER this stretch says anything; `talk` is HOW TALKATIVE
+       the terrain is — the declared probability, carried through rather than
+       thrown away with the coin. The performance stage needs the second one to
+       decide how OFTEN a thing goes past the window, and without it every
+       terrain sounded equally busy: woods and open country are 0.80 against
+       0.30 in the table and were 1 and 1 by the time anything could read them. */
     seg.push({ at: t, sec: Math.min(len, seconds - t), kind: where,
-               speaks: speaks && (!T.day || lightAt(t + len / 2)),
+               speaks: speaks && (!T.day || lightAt(t + len / 2)), talk: T.speaks,
                cross, light: lightAt(t + len / 2) });
     t += len; where = nxt;
   }
@@ -29615,10 +29680,64 @@ function makePerformance(chart, form, materials, sections){
       /* WIND AND RAIN ARE EVERYWHERE; A BIRD AND A STREAM ARE SOMEWHERE. Only
          the second kind passes, and only while the train is moving. */
       const place = !(chart.table.trip.everywhere || []).includes(g.kind);
+      const moving = rolling(g.at + g.sec / 2);
+      /* ══ AND A PASS IS SHORT, WHICH THE FIRST VERSION OF THIS GOT WRONG ═════
+         [owner] "we still hear a bird with no doppler effect, a train that is
+         moving has birds in passing not a the same bird making the same call
+         that might happen when the train is parked"
+
+         The doppler was BUILT and was being APPLIED — `V.atmos` ramps the
+         playback rate 1.04 -> 0.96, crosses the stereo field and opens the top
+         from 900 Hz to 6.5 k and back. It sounded like none of those things
+         because this line handed it `durSec: g.sec`, AND A SEGMENT IS 30 TO 90
+         SECONDS LONG. Stretched over a minute, a 4% pitch dip is a drift
+         nobody can name, the pan is a slow drift, and the filter is a slow
+         swell. Every part of a pass was there and none of it was audible: the
+         defect was the DURATION, not the envelope.
+
+         So a segment the train is RUNNING through is not one bed. It is a
+         sequence of things going by — which is also §10's "one bird is not a
+         countryside" (#116), arriving from the other direction.
+
+         HOW LONG A PASS LASTS, DERIVED RATHER THAN CHOSEN. A lineside sound is
+         audible over roughly the thirty metres either side of the train. This
+         genre's tempo band comes from 39-foot jointed rail [§4], which puts
+         the train between about 11 and 20 m/s, so 60 m of approach-and-recede
+         is THREE TO FIVE AND A HALF SECONDS. That is the number, and it is
+         the same physics the doppler ratio already assumes.
+
+         HOW OFTEN, from the plan rather than a new draw. The terrain's own
+         talkativeness [§4c] sets the gap directly — woods 0.80, farm 0.45,
+         river 0.35, open 0.30, so the woods speak every eight seconds and open
+         country every fifteen. Nothing is re-drawn; this reads the plan and
+         sounds it, which is the rule this whole block was written under.
+
+         AND IT IS `talk` AND NOT `speaks`, which is a distinction the segment
+         did not carry until this build. `speaks` is the COIN — whether this
+         stretch says anything at all — and it is a boolean by the time it
+         leaves the planner, so reading it here would have given every terrain
+         the identical gap and made the paragraph above a lie. The planner now
+         carries the probability alongside the coin.
+
+         A STANDING TRAIN STILL GETS ONE LONG BED, and that is the other half
+         of the owner's sentence: at a platform you hear the same bird making
+         the same call, because you are not going anywhere. */
+      if(place && moving){
+        const gap = 18 - 12 * Math.max(0, Math.min(1, g.talk == null ? 0.5 : g.talk));
+        let at = g.at + jr() * gap;
+        while(at < g.at + g.sec - 2){
+          const dur = 3.0 + jr() * 2.5;            // 60 m at 11-20 m/s
+          events.push(Object.freeze({
+            tSec: at, durSec: dur, voice: "atmos",
+            role: roleOfBed(nm), gain: lvl[0] + jr() * lvl[1], bed: nm, pass: true,
+          }));
+          at += gap * (0.6 + jr() * 0.8);
+        }
+        continue;
+      }
       events.push(Object.freeze({
         tSec: g.at, durSec: Math.max(2, g.sec), voice: "atmos",
-        role: roleOfBed(nm), gain: lvl[0] + jr() * lvl[1], bed: nm,
-        pass: place && rolling(g.at + g.sec / 2),
+        role: roleOfBed(nm), gain: lvl[0] + jr() * lvl[1], bed: nm, pass: false,
       }));
     }
     /* ── AND THE CROSSING SIGNAL, WHICH FINALLY HAS SOMEWHERE TO BE ─────────
