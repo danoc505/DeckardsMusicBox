@@ -91,6 +91,19 @@
   /* the roll brings its own dark glass, so the case is only a frame for it */
   .machine.rollrack{ padding-bottom:.85rem; }
   .machine.rollrack #roll{ margin:0; }
+  /* ── THE RIDE ─────────────────────────────────────────────────────────────
+     A CANVAS AND NOT AN SVG, and the canvas is 320x96 and stretched, which is
+     the whole look: every "pixel" on screen is a block of real pixels, so the
+     art is drawn at the size it is authored at and the browser does the
+     enlarging with `pixelated` rather than smoothing it into mush. Anything
+     drawn at CSS resolution and called pixel art is a drawing of pixel art.
+     `aspect-ratio` keeps the block square at every width without a resize
+     listener, and the dark ground under it is the box's own, so a frame that
+     has not drawn yet reads as a switched-on screen rather than as a hole. */
+  .machine.riderack{ padding-bottom:.85rem; }
+  #ride{ display:block; width:100%; aspect-ratio:320/96; background:#0d0b12;
+         image-rendering:pixelated; image-rendering:crisp-edges;
+         border:1px solid #33302a; }
   /* the × is deliberately quiet: it is next to a control people use constantly
      and it removes something, so it should not compete for the eye */
   .rackoff{ padding:.45rem .5rem; color:var(--dim); border-left:1px solid #33302a; line-height:1; }
@@ -1605,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17x · the tune is the head, and the band varies around it</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17y · the ride — the record, seen</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -1677,6 +1690,24 @@
      is played. It draws through midiKeyFor, the same function the .mid export
      and the live MIDI port use, so what is on the glass is what would leave
      the program: this IS the MIDI display. Filled by drawRoll(). -->
+<!-- ══ THE RIDE ════════════════════════════════════════════════════════════
+     The record, seen. Above the roll because it is the same twenty minutes
+     read a different way: the roll says what was WRITTEN, this says where the
+     train WAS when it was written.
+
+     Everything on it is read off the song and nothing is invented for it --
+     the terrain, the hour, the weather and the stations all come from
+     `form.trip`, and whether the train is moving comes from `form.ridePos`,
+     which is the SAME array the passing-bed gate asks. That is the point: a
+     picture drawn from a second model would drift from the audio, and this
+     file has shipped that fault twice already (the tape drawing a running deck
+     over dry audio; the medium read off a channel setSpace never receives).
+     Filled by rideDraw(). -->
+<div class="machine sk-desk rackhead riderack">
+<div class="brand"><span class="maker">DECKARD</span><span class="model">THE RIDE</span>
+  <span class="slotTag">320&times;96</span></div>
+<canvas id="ride" width="320" height="96"></canvas>
+</div>
 <div class="machine sk-desk rackhead rollrack">
 <div class="brand"><span class="maker">MK2</span><span class="model">the notes</span>
   <span class="slotTag">midi</span></div>
@@ -33675,6 +33706,7 @@ function newSong(forcedSeed){
     `${NOTE_NAMES[SONG.chart.root]} ${SONG.chart.mode}.`;
   drawPanels();
   drawRoll();
+  rideNewSong(SONG);
   return SONG;
 }
 
@@ -36855,6 +36887,648 @@ function rollSnapshot(){
                   " · " + Math.round(SONG.chart.tempo) + " bpm" };
 }
 
+/* ══ THE RIDE ═══════════════════════════════════════════════════════════════
+   `docs/HANDOFF-BOXCAR.md` §7: "a live pixel-art side-scroller above the piano
+   roll: the train in profile, the band aboard with the players who are sounding
+   animated, parallax landscape, day/night from the record's own clock, weather
+   from its own draw. A station sprite must arrive within a beat of the brake
+   sample."
+
+   ── THE ONE RULE THIS FILE IS BUILT ON ────────────────────────────────────
+   NOTHING HERE IS A SECOND MODEL OF THE JOURNEY. Every fact on the glass is
+   read off the song object the audio was made from:
+
+     the terrain      `form.trip.segments`  — kind, in SECONDS, with `at`/`sec`
+     the hour         `form.trip.hourAt(t)` — the same function the light gate uses
+     the weather      `form.trip.fronts`    — kind, thunder, in seconds
+     IS IT MOVING     `form.ridePos[bar]`   — -1 while standing. THE SAME ARRAY
+                      the passing-bed gate asks, so a bird stops passing and the
+                      landscape stops scrolling on one decision, not two.
+     the stop's kind  `form[i].place`       — "city" or "halt"
+     who is playing   `perf.events`, by role, at the playhead
+
+   This project has shipped a picture that disagreed with the sound twice — the
+   tape drawing a running deck over dry audio, and the medium read off a channel
+   `setSpace` never receives — and both times the picture was the thing being
+   believed. A visualiser is the easiest place in the program to make that
+   mistake a third time, so it does not get its own numbers.
+
+   ── AND THE STOP IS WHERE `ridePos` SAYS, NOT WHERE THE PLANNER MEANT ──────
+   MEASURED, seed 1: `trip.stations` says 285.5 / 605.0 / 873.8, and the train
+   is ACTUALLY standing at 252.0 / 605.1 / 866.3. The planner's list is the
+   intent; the form is what happened, and up to 33 seconds apart. Anchoring the
+   platform to `trip.stations` would have put the station sprite half a screen
+   from the train at the moment the brakes bite. The four-section ceremony
+   (solo · dance · solo · pullout) is the stop, and `ridePos` is its edge. */
+const RIDE_W = 320, RIDE_H = 96;
+const RIDE_DT = 0.25;                  // the distance table's step, seconds
+const RIDE_PXPS = 26;                  // pixels a second at line speed
+const RIDE_RAIL = 78;                  // the railhead, in canvas rows
+const RIDE_HOR  = 58;                  // the horizon
+/* the train, laid out left to right because it travels right and the world
+   scrolls under it. Front of the cowcatcher is TRAIN_X + the sum of these. */
+const RIDE_CAR = 56, RIDE_TENDER = 26, RIDE_LOCO = 52, RIDE_GAP = 3;
+const RIDE_X = 26;
+const RIDE_FRONT = RIDE_X + RIDE_CAR + RIDE_GAP + RIDE_TENDER + RIDE_GAP + RIDE_LOCO;
+let RIDE = null, RIDE_LAST = 0;
+
+/* four palettes and the hour picks between them. Interpolated rather than
+   switched, because a record runs from 02:53 to 14:00 in twenty minutes and a
+   sky that changes in four steps would read as four songs. */
+const RIDE_SKY = {
+  night: { top:"#080b1e", bot:"#1b2350", far:"#0d1330", mid:"#0a1024", gnd:"#0a0c18", rail:"#2a2b3a", lamp:"#ffd88a" },
+  dawn:  { top:"#2a2350", bot:"#e0824a", far:"#3a2c45", mid:"#4a3a3a", gnd:"#241d22", rail:"#4a4438", lamp:"#ffd88a" },
+  day:   { top:"#3f7fc4", bot:"#a8d0ea", far:"#5a7a6a", mid:"#4a7a45", gnd:"#6b5b3d", rail:"#6b6455", lamp:"#3a3020" },
+  dusk:  { top:"#1e2148", bot:"#d4663a", far:"#40304a", mid:"#3a3038", gnd:"#2a2026", rail:"#463c34", lamp:"#ffd88a" },
+};
+const rideMix = (a, b, k) => {
+  const h = s => [parseInt(s.slice(1,3),16), parseInt(s.slice(3,5),16), parseInt(s.slice(5,7),16)];
+  const A = h(a), B = h(b);
+  return "rgb(" + Math.round(A[0]+(B[0]-A[0])*k) + "," + Math.round(A[1]+(B[1]-A[1])*k) + "," +
+                  Math.round(A[2]+(B[2]-A[2])*k) + ")";
+};
+/* THE LIGHT COMES FROM THE RECORD'S OWN DAWN AND DUSK, which the trip declares
+   and every other light decision in the program already reads. */
+function ridePalette(hour, dawn, dusk){
+  const P = RIDE_SKY;
+  const seg = (a, b, k) => { const o = {};
+    for(const key in a) o[key] = rideMix(a[key], b[key], Math.max(0, Math.min(1, k)));
+    return o; };
+  if(hour < dawn - 1.2)  return P.night;
+  if(hour < dawn + 1.2)  return seg(P.night, P.dawn, (hour - (dawn - 1.2)) / 2.4);
+  if(hour < dawn + 3.0)  return seg(P.dawn, P.day, (hour - (dawn + 1.2)) / 1.8);
+  if(hour < dusk - 1.8)  return P.day;
+  if(hour < dusk + 0.6)  return seg(P.day, P.dusk, (hour - (dusk - 1.8)) / 2.4);
+  if(hour < dusk + 2.0)  return seg(P.dusk, P.night, (hour - (dusk + 0.6)) / 1.4);
+  return P.night;
+}
+
+/* a deterministic hash, so the scenery and the rain are the SAME every time the
+   playhead passes a place. A visualiser that re-rolls its trees on every frame
+   is a screensaver; this is a journey and the third mile has to look like the
+   third mile. Nothing here touches the song's streams [Law 3]. */
+const rideHash = n => { let x = (n * 2654435761) >>> 0; x ^= x >>> 15; x = (x * 2246822519) >>> 0;
+                        x ^= x >>> 13; return ((x * 3266489917) >>> 0) / 4294967296; };
+
+function rideBuild(song){
+  if(!song || !song.form || !song.form.trip) return null;
+  const TR = song.form.trip;
+  const C = song.motion && song.motion.clock;
+  const total = song.perf.seconds;
+  const n = Math.ceil(total / RIDE_DT) + 2;
+  /* ── SPEED, FROM THE ARRAY THE AUDIO ASKS ────────────────────────────────
+     `ridePos[bar] < 0` is standing. That is a step function and a train is
+     not: it brakes into the platform and pulls away from it, and the whole
+     point of the brake sample is that you HEAR that. So the square wave is
+     smoothed by a one-pole run FORWARDS AND THEN BACKWARDS -- zero phase, so
+     the ramp is centred on the edge and the moment the train is actually
+     stopped still lands exactly where the form says it does. A one-directional
+     filter would lag, and the platform would slide past the train. */
+  const raw = new Float32Array(n);
+  for(let i = 0; i < n; i++){
+    const t = i * RIDE_DT;
+    const b = C ? Math.floor(C.barAt(t)) : 0;
+    const rp = song.form.ridePos;
+    raw[i] = (!rp || rp[Math.max(0, Math.min(rp.length - 1, b))] >= 0) ? 1 : 0;
+  }
+  const v = new Float32Array(n);
+  const k = Math.exp(-RIDE_DT / 2.6);                 // ~2.6 s to fall to 1/e
+  let acc = raw[0];
+  for(let i = 0; i < n; i++){ acc = acc * k + raw[i] * (1 - k); v[i] = acc; }
+  acc = v[n - 1];
+  for(let i = n - 1; i >= 0; i--){ acc = acc * k + v[i] * (1 - k); v[i] = acc; }
+  /* ── AND A STOPPED TRAIN IS STOPPED ─────────────────────────────────────
+     CAUGHT BY `probe_ride.js`, not by looking: 20 of 602 samples taken in the
+     MIDDLE of a stop still moved more than a pixel over four seconds. An
+     exponential never reaches zero, so the smoothing left a tail that crept
+     the landscape along under a train the form says is standing still — small
+     enough to be invisible and exactly the class of disagreement between the
+     picture and the record this probe exists for. A deadband takes the tail
+     off and rescales what is left, so the ramp keeps its shape and nought
+     means nought. */
+  const DEAD = 0.06;
+  for(let i = 0; i < n; i++) v[i] = v[i] < DEAD ? 0 : (v[i] - DEAD) / (1 - DEAD);
+  /* distance is the integral of speed, so a stopped train's landscape stops
+     dead and the platform beside it does not creep */
+  const dist = new Float64Array(n);
+  for(let i = 1; i < n; i++) dist[i] = dist[i - 1] + v[i] * RIDE_DT * RIDE_PXPS;
+
+  const at = t => { const i = Math.max(0, Math.min(n - 2, Math.floor(t / RIDE_DT)));
+                    const f = (t - i * RIDE_DT) / RIDE_DT;
+                    return dist[i] + (dist[i + 1] - dist[i]) * f; };
+  const spd = t => { const i = Math.max(0, Math.min(n - 1, Math.round(t / RIDE_DT))); return v[i]; };
+
+  /* ── THE STOPS, READ OFF THE FORM ───────────────────────────────────────
+     Every run of standing bars is a stop. The first one is the YARD the record
+     starts in -- `form[0].fn === "yard"` -- and it gets a water tower and a
+     shed rather than a platform, because a yard is not a station and the
+     record does open in one. */
+  const stops = [];
+  { const rp = song.form.ridePos || [];
+    let inHalt = false, from = 0;
+    for(let b = 0; b <= rp.length; b++){
+      const halt = b < rp.length && rp[b] < 0;
+      if(halt && !inHalt){ inHalt = true; from = b; }
+      if(!halt && inHalt){
+        inHalt = false;
+        const t0 = C ? C.at(from, 0) : 0, t1 = C ? C.at(b, 0) : 0;
+        const sec = song.form.find(f => f.startBar <= from && f.endBar > from) || {};
+        /* ── WHERE THE PLATFORM IS, AND IT IS NOT WHERE THE HALT BEGINS ─────
+           MEASURED, seed 1: anchored at `at(t0)` the platform landed 34 pixels
+           behind the train, because `ridePos` goes to -1 at the bar the stop
+           STARTS and the smoothed speed is still 0.3 there — the train coasts
+           into the platform for a few more seconds, which is the whole point
+           of having a brake at all. The place a train is parked is the place
+           it is parked, so the anchor is the distance at the MIDDLE of the
+           halt, where the speed is zero and staying zero. */
+        stops.push({ t0, t1, place: sec.place || (sec.fn === "yard" ? "yard" : "halt"),
+                     d: at((t0 + t1) / 2) });
+      }
+    }
+  }
+  /* the terrain, in distance, so a segment is a stretch of LINE rather than a
+     stretch of clock -- which is what it is, and why a segment the train
+     stands still in does not slide past */
+  const segs = TR.segments.map(g => ({ kind: g.kind, d0: at(g.at), d1: at(g.at + g.sec) }));
+  const kindAt = d => { for(const g of segs) if(d >= g.d0 && d < g.d1) return g.kind;
+                        return segs.length ? segs[segs.length - 1].kind : "open"; };
+
+  /* ── WHO IS ABOARD ──────────────────────────────────────────────────────
+     Asked of the record, never listed [Law 4]. The world's own roles are not
+     players and are excluded by what they are, not by name-checking each one:
+     a role with no `lane` is a bed, not a chair. */
+  const WORLD = { engine:1, pass:1, station:1, scene:1, weather:1, tape:1, drone:1 };
+  const seats = [];
+  for(const r of [...new Set(song.perf.events.map(e => e.role))]){
+    if(!r || WORLD[r]) continue;
+    const ev = song.perf.events.filter(e => e.role === r).sort((a, z) => a.tSec - z.tSec);
+    if(ev.length) seats.push({ role: r, ev, cur: 0,
+                               voice: (ev[0] || {}).voice || r });
+  }
+  /* the tune at the door, the kit at the back -- a seating order, so the
+     figure you watch is the one you are listening to */
+  const ORDER = ["lead", "counter", "ostinato", "keys", "keys2", "bass", "drums"];
+  seats.sort((a, z) => (ORDER.indexOf(a.role) + 99 * (ORDER.indexOf(a.role) < 0)) -
+                       (ORDER.indexOf(z.role) + 99 * (ORDER.indexOf(z.role) < 0)));
+
+  return { song, TR, total, at, spd, stops, kindAt, seats, smoke: [], lastT: -1,
+           dawn: TR.dawn, dusk: TR.dusk, hourAt: TR.hourAt,
+           fronts: (TR.fronts || []).slice() };
+}
+
+/* is this role sounding at t? A cursor per part, because a linear scan of ten
+   thousand events sixty times a second is a scan of six hundred thousand
+   events a second and the display would cost more than the audio. The cursor
+   walks forward with the playhead and is reset when it jumps back. */
+function rideSounding(seat, t){
+  const ev = seat.ev;
+  if(t < seat.lastT) seat.cur = 0;
+  seat.lastT = t;
+  while(seat.cur < ev.length && ev[seat.cur].tSec + (ev[seat.cur].durSec || 0) < t) seat.cur++;
+  let peak = 0;
+  for(let i = seat.cur; i < ev.length && ev[i].tSec <= t; i++)
+    if(ev[i].tSec + (ev[i].durSec || 0) > t) peak = Math.max(peak, ev[i].gain || 0.5);
+  return peak;
+}
+
+function rideDraw(t){
+  const cv = $("ride");
+  if(!cv || !cv.getContext) return;
+  const cx = cv.getContext("2d");
+  cx.imageSmoothingEnabled = false;
+  if(!RIDE){
+    cx.fillStyle = "#0d0b12"; cx.fillRect(0, 0, RIDE_W, RIDE_H);
+    cx.fillStyle = "#5a5245"; cx.fillRect(0, RIDE_RAIL, RIDE_W, 1);
+    return;
+  }
+  const R = RIDE;
+  if(t == null) t = 0;
+  t = Math.max(0, Math.min(R.total, t));
+  const dt = Math.max(0, Math.min(0.2, t - RIDE_LAST)); RIDE_LAST = t;
+
+  const hour = R.hourAt ? R.hourAt(t) : 12;
+  let P = ridePalette(hour, R.dawn, R.dusk);
+  const D = R.at(t), V = R.spd(t);
+  const night = hour < R.dawn || hour > R.dusk;
+
+  /* the weather now, and how far into it -- a front fades in and out rather
+     than switching, because `fronts` gives it a length and a length that is
+     not used is a length that was not modelled */
+  let wet = 0, wKind = null, thunder = 0;
+  for(const f of R.fronts){
+    if(t < f.at || t > f.at + f.sec) continue;
+    const into = (t - f.at) / f.sec;
+    wet = Math.min(1, Math.min(into, 1 - into) * 8);
+    wKind = f.kind;
+    if(f.thunder){
+      /* a flash on a slow deterministic beat, so it is the same lightning on
+         every play of the same record */
+      const ph = (t - f.at) / 11;
+      const strike = rideHash(Math.floor(ph) + 700);
+      const inFlash = (ph % 1) < 0.06 && strike > 0.55;
+      thunder = inFlash ? 1 - ((ph % 1) / 0.06) : 0;
+    }
+  }
+
+  /* ── SKY ─────────────────────────────────────────────────────────────────
+     WEATHER TAKES THE LIGHT AWAY, and it has to happen HERE rather than as a
+     grey wash at the end: a rain veil painted over a bright blue sky and a
+     hard-edged sun is a sky with rain in front of it, not an overcast one.
+     So the palette itself is pulled toward slate before anything is drawn.
+
+     AND IT COPIES. `ridePalette` returns one of the RIDE_SKY constants
+     unchanged whenever the hour is squarely inside a band, so pulling the
+     colours toward slate IN PLACE would have dimmed `RIDE_SKY.day` itself and
+     every record after the first rain shower would have been overcast for
+     ever — a global edited through a local name. */
+  { const murk = wet * 0.62, into = night ? "#141824" : "#5b6270", Q = {};
+    for(const key in P) Q[key] = murk > 0 ? rideMix(P[key], into, murk) : P[key];
+    P = Q;
+  }
+  const g = cx.createLinearGradient(0, 0, 0, RIDE_HOR + 6);
+  g.addColorStop(0, P.top); g.addColorStop(1, P.bot);
+  cx.fillStyle = g; cx.fillRect(0, 0, RIDE_W, RIDE_HOR + 6);
+  if(night){
+    /* stars, fixed to the SKY and not to the ground, so they do not scroll --
+       which is the one parallax layer that is genuinely at infinity */
+    for(let i = 0; i < 40; i++){
+      const sx = Math.floor(rideHash(i * 3 + 1) * RIDE_W), sy = Math.floor(rideHash(i * 3 + 2) * (RIDE_HOR - 12));
+      const tw = 0.5 + 0.5 * Math.sin(t * 1.7 + i);
+      cx.fillStyle = "rgba(255,255,235," + (0.25 + 0.5 * tw * (1 - wet)) + ")";
+      cx.fillRect(sx, sy, 1, 1);
+    }
+  }
+  /* the sun or the moon, on the record's own clock: it rises at dawn, sets at
+     dusk, and its height is where it is in that arc */
+  {
+    const up = !night;
+    const span = up ? (R.dusk - R.dawn) : 24 - (R.dusk - R.dawn);
+    const k = up ? (hour - R.dawn) / span
+                 : ((hour > R.dusk ? hour - R.dusk : hour + 24 - R.dusk) / span);
+    const dx = Math.round(24 + k * (RIDE_W - 48));
+    const dy = Math.round(RIDE_HOR - 8 - Math.sin(Math.max(0, Math.min(1, k)) * Math.PI) * 34);
+    /* AND IT GOES BEHIND THE CLOUD. A hard-edged sun in heavy rain is the
+       tell that a weather layer was painted over a fair-weather sky rather
+       than the light being changed, which is what §3 of this comment block is
+       about; `wet` takes the disc down with everything else. */
+    const lit = (1 - wet * 0.85).toFixed(3);
+    cx.fillStyle = up ? "rgba(255,238,190," + lit + ")" : "rgba(226,232,255," + lit + ")";
+    cx.beginPath(); cx.arc(dx, dy, up ? 5 : 4, 0, 6.284); cx.fill();
+    if(!up){ cx.fillStyle = P.top; cx.beginPath(); cx.arc(dx + 3, dy - 2, 4, 0, 6.284); cx.fill(); }
+  }
+
+  /* ── FAR HILLS, parallax 0.14 ─────────────────────────────────────────────
+     A SILHOUETTE AND NOT A BAR CHART. The first cut of this drew one random
+     height per 8-pixel column and it came out as a city skyline in the middle
+     of a farm — the shape said "buildings" however green it was painted,
+     because hills do not have vertical sides. Summed sines give a ridge that
+     rises and falls, and the terms are irrational multiples of each other so
+     the ridge never repeats over the length of a record. */
+  { const par = 0.14;
+    cx.fillStyle = P.far;
+    cx.beginPath(); cx.moveTo(0, RIDE_H);
+    for(let x = 0; x <= RIDE_W; x++){
+      const w = (x + D * par) * 0.011;
+      const h = 13 + 7 * Math.sin(w) + 4.5 * Math.sin(w * 2.37 + 1.1) + 2.5 * Math.sin(w * 5.11 + 2.7);
+      cx.lineTo(x, RIDE_HOR - h);
+    }
+    cx.lineTo(RIDE_W, RIDE_H); cx.fill();
+    /* a nearer ridge, darker and lower, so the distance reads as distance */
+    cx.fillStyle = rideMix(P.far, P.mid, 0.45);
+    cx.beginPath(); cx.moveTo(0, RIDE_H);
+    for(let x = 0; x <= RIDE_W; x++){
+      const w = (x + D * par * 2.1) * 0.017;
+      const h = 6 + 4 * Math.sin(w + 0.7) + 2.5 * Math.sin(w * 3.03 + 2.2);
+      cx.lineTo(x, RIDE_HOR - h + 3);
+    }
+    cx.lineTo(RIDE_W, RIDE_H); cx.fill();
+  }
+  /* the haze where the land meets the sky, so the horizon is a distance and
+     not a cut */
+  { const hz = cx.createLinearGradient(0, RIDE_HOR - 10, 0, RIDE_HOR + 4);
+    hz.addColorStop(0, "rgba(0,0,0,0)"); hz.addColorStop(1, P.bot);
+    cx.globalAlpha = 0.30; cx.fillStyle = hz;
+    cx.fillRect(0, RIDE_HOR - 10, RIDE_W, 14); cx.globalAlpha = 1;
+  }
+  /* ── THE LINE'S OWN COUNTRY, parallax 0.55 — one look per terrain kind ──
+     Drawn per 16-pixel post so the kind can change mid-screen, which is what a
+     boundary between two segments is. */
+  { const step = 16, par = 0.55, off = (D * par) % step;
+    for(let x = -step; x < RIDE_W + step; x += step){
+      const world = x + D * par;
+      const i = Math.floor(world / step);
+      const kind = R.kindAt(i * step / par);
+      const px = Math.round(x - off);
+      const r1 = rideHash(i * 7 + 3), r2 = rideHash(i * 7 + 5), r3 = rideHash(i * 7 + 9);
+      cx.fillStyle = P.mid;
+      if(kind === "woods"){
+        for(let k2 = 0; k2 < 3; k2++){
+          const tx = px + 2 + k2 * 5, th = 12 + Math.floor(rideHash(i * 31 + k2) * 10);
+          cx.fillRect(tx, RIDE_HOR + 4 - th, 3, th);
+          cx.fillRect(tx - 2, RIDE_HOR + 4 - th, 7, Math.floor(th * 0.6));
+        }
+      } else if(kind === "town"){
+        const bh = 10 + Math.floor(r1 * 18), bw = 7 + Math.floor(r2 * 6);
+        cx.fillRect(px + 2, RIDE_HOR + 4 - bh, bw, bh);
+        if(night){ cx.fillStyle = P.lamp;
+          for(let wy = 0; wy < bh - 4; wy += 4)
+            if(rideHash(i * 13 + wy) > 0.45) cx.fillRect(px + 4, RIDE_HOR + 6 - bh + wy, 2, 2);
+        }
+      } else if(kind === "river"){
+        /* ── AND WATER IS THE COLOUR OF THE SKY, NOT OF THE FIELD ──────────
+           The first cut painted the river in `P.mid` like everything else and
+           it was invisible — a green band among green bands. Water reads as
+           water because it REFLECTS: the band is the sky's own colour, so the
+           river is blue at noon, orange at dusk and near-black at night with
+           no second palette to keep in step.
+           The line RUNS BESIDE it and does not cross it [boxcar-synth.md §4b:
+           "a river · water, birds by the water · always"]. */
+        cx.fillStyle = rideMix(P.bot, P.mid, 0.25);
+        cx.fillRect(px, RIDE_HOR - 2, step, 8);
+        cx.fillStyle = rideMix(P.mid, P.gnd, 0.5);          // the far bank
+        cx.fillRect(px, RIDE_HOR - 3, step, 1);
+        cx.fillStyle = rideMix(P.bot, "#ffffff", 0.55);      // and it glitters
+        for(let k2 = 0; k2 < 2; k2++)
+          if(rideHash(i * 17 + k2 + Math.floor(t * 2)) > 0.55)
+            cx.fillRect(px + Math.floor(rideHash(i * 5 + k2) * step), RIDE_HOR + Math.floor(rideHash(i * 3 + k2) * 4), 3, 1);
+      } else if(kind === "farm"){
+        cx.fillRect(px, RIDE_HOR + 1, step, 4);
+        if(r1 > 0.72){                                   // a barn, now and then
+          cx.fillStyle = rideMix(P.mid, "#7a2f22", 0.55);
+          cx.fillRect(px + 3, RIDE_HOR - 8, 10, 9);
+          cx.fillRect(px + 1, RIDE_HOR - 11, 14, 3);
+        }
+        cx.fillStyle = rideMix(P.mid, P.gnd, 0.4);       // a fence
+        for(let k2 = 0; k2 < step; k2 += 5) cx.fillRect(px + k2, RIDE_HOR - 1, 1, 4);
+      } else {                                            // open ground
+        cx.fillRect(px, RIDE_HOR + 2, step, 3);
+        if(r3 > 0.80){                                    // a telegraph pole
+          cx.fillStyle = rideMix(P.mid, P.gnd, 0.5);
+          cx.fillRect(px + 6, RIDE_HOR - 16, 1, 18);
+          cx.fillRect(px + 4, RIDE_HOR - 15, 5, 1);
+        }
+      }
+    }
+  }
+
+  /* ── THE GROUND, THE BALLAST AND THE LINE ────────────────────────────────
+     Three depths in eighteen pixels, and they are three because the SLEEPERS
+     ARE THE ONLY THING THE TRAIN IS TOUCHING: they scroll at exactly 1.0, the
+     verge beyond them at 0.8, and the grass in front of the camera at 1.5.
+     Anything drawn at one speed is a backdrop; the wheel has to sit on the one
+     layer that moves with it or the train reads as sliding. */
+  cx.fillStyle = rideMix(P.gnd, P.mid, 0.35);
+  cx.fillRect(0, RIDE_HOR + 5, RIDE_W, RIDE_RAIL - RIDE_HOR - 8);
+  { const off = (D * 0.8) % 6;                      // the verge, scrub on it
+    cx.fillStyle = rideMix(P.gnd, P.mid, 0.6);
+    for(let x = -6; x < RIDE_W + 6; x += 6){
+      const i = Math.floor((x + D * 0.8) / 6);
+      if(rideHash(i + 41) > 0.55)
+        cx.fillRect(Math.round(x - off), RIDE_RAIL - 6 - Math.floor(rideHash(i + 43) * 2), 2, 3);
+    }
+  }
+  /* the ballast, a shoulder rather than a slab */
+  cx.fillStyle = P.gnd; cx.fillRect(0, RIDE_RAIL - 3, RIDE_W, 9);
+  cx.fillStyle = rideMix(P.gnd, "#000000", 0.28); cx.fillRect(0, RIDE_RAIL + 6, RIDE_W, 3);
+  { const off = D % 8;
+    cx.fillStyle = rideMix(P.gnd, "#000000", 0.55);
+    for(let x = -8; x < RIDE_W + 8; x += 8) cx.fillRect(Math.round(x - off), RIDE_RAIL + 1, 5, 3);
+    cx.fillStyle = rideMix(P.gnd, "#ffffff", 0.10);   // ballast stones, lit from above
+    for(let x = -8; x < RIDE_W + 8; x += 4){
+      const i = Math.floor((x + D) / 4);
+      if(rideHash(i + 61) > 0.7) cx.fillRect(Math.round(x - (D % 4)), RIDE_RAIL + 5, 1, 1);
+    }
+  }
+  cx.fillStyle = P.rail; cx.fillRect(0, RIDE_RAIL, RIDE_W, 1);
+  cx.fillStyle = rideMix(P.rail, "#ffffff", 0.35); cx.fillRect(0, RIDE_RAIL - 1, RIDE_W, 1);
+
+  /* ── THE STATION, ANCHORED TO THE MOMENT THE TRAIN ACTUALLY STOPS ────────
+     Its right edge sits just ahead of the cowcatcher when the train is at
+     rest, so the platform runs the length of the train and the building is at
+     the head of it -- which is where a station building is. */
+  for(const st of R.stops){
+    const yard = st.place === "yard";
+    const bw0 = yard ? 60 : (st.place === "city" ? 62 : 34);
+    /* ── AND THE FIRST CUT PUT THE BUILDING INSIDE THE LOCOMOTIVE ──────────
+       The anchor was "the station's right edge, just past the cowcatcher",
+       which is where the RIGHT EDGE OF THE PLATFORM goes — and the building
+       sits at the platform's right end, so at rest it landed at x 148..182
+       with the loco spanning 140..192. It was drawn, it was correct, and it
+       was entirely behind the train. Nothing in the code was wrong except the
+       number, which is the kind of fault only a screenshot finds.
+       So the anchor is the BUILDING's left edge, one car-gap ahead of the
+       cowcatcher, and the platform is laid backwards from it along the train
+       — which is also the true arrangement: you stop with the cars at the
+       platform and the engine past its end. */
+    const x = Math.round(RIDE_FRONT + 14 - (200 - bw0) + (st.d - D));
+    if(x > RIDE_W || x < -220) continue;
+    if(yard){
+      /* a yard: a water tower and a shed, no platform */
+      cx.fillStyle = rideMix(P.gnd, "#3a3128", 0.6);
+      cx.fillRect(x + 150, RIDE_RAIL - 26, 3, 26); cx.fillRect(x + 162, RIDE_RAIL - 26, 3, 26);
+      cx.fillStyle = rideMix(P.gnd, "#4a3c2c", 0.7);
+      cx.fillRect(x + 146, RIDE_RAIL - 38, 22, 12);
+      cx.fillStyle = rideMix(P.gnd, "#2e2820", 0.8);
+      cx.fillRect(x + 178, RIDE_RAIL - 16, 26, 16);
+      continue;
+    }
+    const city = st.place === "city";
+    /* ── THE PLATFORM IS ON THE FAR SIDE, WHICH IS WHY IT HAS TO BE LOUD ────
+       The camera is on the door side — that is the whole reason you can see
+       the band — so the platform is BEHIND the train and only its top edge and
+       the stretch past the locomotive are ever visible. A platform painted a
+       neighbouring brown to the ballast then disappears, which is what the
+       first two cuts did. It gets a lit top face, a shadowed front and a
+       railing, and the top sits above the car underframes so it reads through
+       the gaps between the cars. */
+    cx.fillStyle = rideMix(P.gnd, "#c6bea6", 0.80);
+    cx.fillRect(x, RIDE_RAIL - 11, 200, 2);          // the lit top face
+    cx.fillStyle = rideMix(P.gnd, "#8b8270", 0.80);
+    cx.fillRect(x, RIDE_RAIL - 9, 200, 8);           // the face of it
+    cx.fillStyle = rideMix(P.gnd, "#000000", 0.55);
+    cx.fillRect(x, RIDE_RAIL - 1, 200, 1);
+    cx.fillStyle = rideMix(P.gnd, "#3a332a", 0.7);   // a railing at the back
+    cx.fillRect(x, RIDE_RAIL - 17, 200, 1);
+    for(let rx = 4; rx < 200; rx += 22) cx.fillRect(x + rx, RIDE_RAIL - 17, 1, 6);
+    /* the building, bigger in a city than at a country halt [§4b] */
+    const bw = bw0, bh = city ? 30 : 18, bx = x + 200 - bw;
+    cx.fillStyle = rideMix(P.gnd, city ? "#6b4a34" : "#5a4632", 0.75);
+    cx.fillRect(bx, RIDE_RAIL - 5 - bh, bw, bh);
+    cx.fillStyle = rideMix(P.gnd, "#39302a", 0.85);
+    cx.fillRect(bx - 3, RIDE_RAIL - 8 - bh, bw + 6, 4);
+    cx.fillStyle = night ? P.lamp : rideMix(P.gnd, "#241d18", 0.8);
+    for(let wx = 5; wx < bw - 6; wx += 11) cx.fillRect(bx + wx, RIDE_RAIL - 5 - bh + 7, 5, 6);
+    /* a lamp on the platform, lit at night */
+    cx.fillStyle = rideMix(P.gnd, "#2a241e", 0.9); cx.fillRect(x + 24, RIDE_RAIL - 22, 2, 17);
+    cx.fillStyle = night ? P.lamp : "#6a6055"; cx.fillRect(x + 22, RIDE_RAIL - 25, 6, 4);
+    /* PEOPLE ON THE PLATFORM ONLY WHERE THE RECORD PUTS THEM: `railCrowd` is a
+       CITY sound and a country halt gets birds instead, which is the thing
+       probe_route.js guards -- so the picture obeys the same rule. */
+    if(city) for(let i = 0; i < 7; i++){
+      const px = x + 40 + i * 18 + Math.floor(rideHash(i + 90) * 8);
+      const bob = Math.sin(t * 1.4 + i * 2.1) > 0 ? 0 : 1;
+      cx.fillStyle = rideMix(P.gnd, "#1a1512", 0.9);
+      cx.fillRect(px, RIDE_RAIL - 15 + bob, 3, 10);
+      cx.fillStyle = rideMix(P.gnd, "#c8a07a", 0.75);
+      cx.fillRect(px, RIDE_RAIL - 18 + bob, 3, 3);
+    }
+  }
+
+  /* ── SMOKE, before the train so it sits behind the funnel ── */
+  {
+    if(dt > 0 && V > 0.05 && R.smoke.length < 70 && Math.random() < V * 0.9)
+      R.smoke.push({ x: RIDE_FRONT - 14, y: RIDE_RAIL - 34, a: 1, r: 1.5 });
+    for(const s of R.smoke){
+      s.x -= (14 + 30 * V) * dt; s.y -= 7 * dt; s.a -= 0.34 * dt; s.r += 5 * dt;
+    }
+    R.smoke = R.smoke.filter(s => s.a > 0.02 && s.x > -20);
+    for(const s of R.smoke){
+      cx.fillStyle = "rgba(" + (night ? "80,80,92," : "196,196,204,") + (s.a * 0.55).toFixed(3) + ")";
+      cx.fillRect(Math.round(s.x - s.r), Math.round(s.y - s.r), Math.round(s.r * 2), Math.round(s.r * 2));
+    }
+  }
+
+  /* ── THE TRAIN, IN PROFILE ── */
+  {
+    const bounce = V > 0.05 ? (Math.sin(t * 11) > 0.4 ? 1 : 0) : 0;
+    const y = RIDE_RAIL - 1 + bounce;
+    const IRON = "#23262e", IRON2 = "#31353f", TRIM = "#8a5a2a", WOOD = "#6b4a2c", WOOD2 = "#7d5a36";
+    /* the boxcar the band is in, doors open on the near side */
+    const cx0 = RIDE_X;
+    cx.fillStyle = WOOD;  cx.fillRect(cx0, y - 30, RIDE_CAR, 26);
+    cx.fillStyle = WOOD2; cx.fillRect(cx0, y - 32, RIDE_CAR, 3);
+    cx.fillStyle = "#150f0c"; cx.fillRect(cx0 + 10, y - 27, 36, 22);       // the open door
+    cx.fillStyle = IRON;
+    cx.fillRect(cx0 + 8, y - 30, 2, 26); cx.fillRect(cx0 + 46, y - 30, 2, 26);
+    cx.fillRect(cx0, y - 4, RIDE_CAR, 3);
+    for(const wx of [cx0 + 8, cx0 + 18, cx0 + 38, cx0 + 48]){
+      cx.fillStyle = IRON2; cx.beginPath(); cx.arc(wx, y - 1, 3, 0, 6.284); cx.fill();
+    }
+    /* the tender */
+    const tx = cx0 + RIDE_CAR + RIDE_GAP;
+    cx.fillStyle = IRON;  cx.fillRect(tx, y - 20, RIDE_TENDER, 16);
+    cx.fillStyle = "#141821"; cx.fillRect(tx + 3, y - 23, RIDE_TENDER - 6, 4);   // the coal
+    cx.fillStyle = IRON; cx.fillRect(tx, y - 4, RIDE_TENDER, 3);
+    for(const wx of [tx + 6, tx + 20]){
+      cx.fillStyle = IRON2; cx.beginPath(); cx.arc(wx, y - 1, 3, 0, 6.284); cx.fill();
+    }
+    /* the locomotive: cab, boiler, smokebox, funnel, cowcatcher */
+    const lx = tx + RIDE_TENDER + RIDE_GAP;
+    cx.fillStyle = IRON;  cx.fillRect(lx, y - 30, 18, 26);                  // cab
+    cx.fillStyle = "#0e1218"; cx.fillRect(lx + 4, y - 26, 9, 9);            // cab window
+    cx.fillStyle = IRON;  cx.fillRect(lx + 18, y - 22, 30, 18);             // boiler
+    cx.fillStyle = IRON2; cx.fillRect(lx + 18, y - 23, 30, 2);
+    cx.fillStyle = TRIM;  cx.fillRect(lx + 26, y - 26, 5, 4);               // steam dome
+    cx.fillStyle = IRON;                                                    // the funnel, flared
+    cx.fillRect(lx + 36, y - 34, 6, 12); cx.fillRect(lx + 34, y - 36, 10, 3);
+    cx.fillStyle = "#1a1d24"; cx.fillRect(lx + 48, y - 24, 4, 20);          // smokebox front
+    cx.fillStyle = night ? "#ffe9a8" : "#b9a377";                            // the headlamp
+    cx.fillRect(lx + 44, y - 30, 6, 5);
+    if(night){                                                              // and its beam
+      cx.fillStyle = "rgba(255,233,168,0.10)";
+      cx.beginPath(); cx.moveTo(lx + 50, y - 28); cx.lineTo(RIDE_W, y - 40);
+      cx.lineTo(RIDE_W, y - 6); cx.lineTo(lx + 50, y - 25); cx.fill();
+    }
+    cx.fillStyle = IRON;                                                    // the cowcatcher
+    cx.beginPath(); cx.moveTo(lx + 52, y - 14); cx.lineTo(lx + 52, y - 1);
+    cx.lineTo(lx + 40, y - 1); cx.fill();
+    for(const wx of [lx + 6, lx + 22, lx + 32, lx + 42]){
+      cx.fillStyle = IRON2;
+      cx.beginPath(); cx.arc(wx, y - 1, wx > lx + 15 ? 5 : 3, 0, 6.284); cx.fill();
+      cx.fillStyle = TRIM;
+      cx.beginPath(); cx.arc(wx, y - 1, 1, 0, 6.284); cx.fill();
+    }
+    /* ── THE BAND, IN THE DOORWAY ─────────────────────────────────────────
+       One figure a chair, and a chair MOVES ONLY WHILE ITS PART IS SOUNDING.
+       That is the claim `probe_ride.js` checks, and it is the reason to draw
+       people at all: a listener can see which of nine instruments is the one
+       they are hearing, which is a question the mixer answers in numbers and
+       nothing on this page answered in pictures. */
+    const seats = R.seats, dw = 34, x0 = cx0 + 11;
+    const step = seats.length ? Math.max(4, Math.floor(dw / seats.length)) : 6;
+    seats.forEach((s, i) => {
+      const lvl = rideSounding(s, t);
+      const px = x0 + i * step, hue = (i * 47) % 360;
+      const bob = lvl > 0 ? (Math.sin(t * 9 + i * 1.7) > 0 ? 0 : 1) : 0;
+      const py = y - 24 + bob;
+      cx.fillStyle = lvl > 0 ? "hsl(" + hue + ",65%,62%)" : "hsl(" + hue + ",20%,26%)";
+      cx.fillRect(px, py + 4, 3, 9);                            // body
+      cx.fillStyle = lvl > 0 ? "#e8c49a" : "#5a4a3c";
+      cx.fillRect(px, py, 3, 4);                                // head
+      if(lvl > 0){                                              // the arm, working
+        cx.fillStyle = "hsl(" + hue + ",70%,72%)";
+        cx.fillRect(px + 3, py + 5 + (bob ? 1 : 0), 2, 2);
+      }
+    });
+  }
+
+  /* ── THE NEAR VERGE, IN FRONT OF THE TRAIN AND BEHIND THE WEATHER ───────────────────────────────────
+     Drawn over the train because it is in front of it: the strip between the
+     camera and the line, at parallax 1.6. Without it the bottom eighteen rows
+     were a flat brown slab and the train read as sitting on a shelf — the
+     speed of a side-scroller is carried by whatever is NEAREST, and the
+     nearest thing here was nothing at all. */
+  { const par = 1.6, off = (D * par) % 5;
+    /* A BASE BAND FIRST, AND THEN TUFTS ON IT. Drawn as separated blocks it
+       came out as a picket fence -- three pixels of grass, two of the ballast
+       showing through, all the way across, which the eye reads as an object
+       and not as ground. The band is the ground; the tufts are its texture. */
+    cx.fillStyle = rideMix(P.gnd, P.mid, 0.30);
+    cx.fillRect(0, RIDE_H - 5, RIDE_W, 5);
+    for(let x = -6; x < RIDE_W + 6; x += 5){
+      const i = Math.floor((x + D * par) / 5), r = rideHash(i + 77);
+      const px = Math.round(x - off);
+      const h = 5 + Math.floor(rideHash(i + 79) * 4);
+      cx.fillStyle = rideMix(P.gnd, P.mid, 0.22 + 0.30 * rideHash(i + 83));
+      cx.fillRect(px, RIDE_H - h, 4, h);
+      if(r > 0.88){                                    // a taller weed, now and then
+        cx.fillStyle = rideMix(P.mid, "#000000", 0.30);
+        cx.fillRect(px + 1, RIDE_H - h - 4, 1, 4);
+      }
+    }
+  }
+
+  /* ── WEATHER, over everything, because that is where weather is ── */
+  if(wet > 0.01){
+    const snow = wKind === "blizzard";
+    cx.fillStyle = snow ? "rgba(210,220,235," + (0.20 * wet).toFixed(3) + ")"
+                        : "rgba(40,48,70," + (0.16 * wet).toFixed(3) + ")";
+    cx.fillRect(0, 0, RIDE_W, RIDE_H);
+    const n2 = Math.floor((snow ? 150 : 200) * wet);
+    cx.fillStyle = snow ? "rgba(240,245,255,0.85)" : "rgba(150,175,210,0.55)";
+    for(let i = 0; i < n2; i++){
+      const sp = snow ? 26 : 190;
+      const px = ((rideHash(i + 5) * RIDE_W + (snow ? -t * 14 : -t * 40) - D * 0.4) % RIDE_W + RIDE_W) % RIDE_W;
+      const py = ((rideHash(i + 55) * RIDE_H + t * sp) % RIDE_H + RIDE_H) % RIDE_H;
+      if(snow) cx.fillRect(Math.round(px), Math.round(py), 1, 1);
+      else cx.fillRect(Math.round(px), Math.round(py), 1, 3);
+    }
+  }
+  if(thunder > 0){
+    cx.fillStyle = "rgba(226,236,255," + (0.55 * thunder).toFixed(3) + ")";
+    cx.fillRect(0, 0, RIDE_W, RIDE_H);
+  }
+
+  /* the hour and the place, small, in the corner -- the one thing on the glass
+     that is words, because "03:41" answers a question the picture only hints */
+  cx.fillStyle = "rgba(0,0,0,0.45)"; cx.fillRect(0, 0, 62, 9);
+  cx.fillStyle = "#d8cfa8"; cx.font = "7px monospace"; cx.textBaseline = "top";
+  const hh = Math.floor(((hour % 24) + 24) % 24), mm = Math.floor((hour - Math.floor(hour)) * 60);
+  cx.fillText(String(hh).padStart(2, "0") + ":" + String(mm).padStart(2, "0") + " " +
+              (V < 0.15 ? "standing" : R.kindAt(D)), 2, 1);
+}
+
+/* the picture is rebuilt with the song and redrawn on every frame the transport
+   pumps; when nothing is playing it still shows the record's first moment
+   rather than a blank, because a switched-on screen showing 00:00 is
+   information and a grey box is not */
+function rideNewSong(song){
+  RIDE = null;
+  try { RIDE = rideBuild(song); } catch(e){ RIDE = null; }
+  RIDE_LAST = 0;
+  rideDraw(0);
+}
+
 function drawRoll(){
   const host = $("roll");
   if(!host) return;
@@ -37949,6 +38623,11 @@ function refreshLive(){
   const t = songTime();
   $("pos").textContent = t == null ? ""
     : clock(t) + ` · bar ${Math.floor(songBar(t)) + 1}/${SONG.form.nBars}`;
+  /* THE RIDE RUNS ON THE PLAYHEAD, not on a clock of its own. `songTime()` is
+     `Sound.now() - PLAY_T0` — the audio graph's own clock — so the train is
+     where the record is even if the browser drops frames, which a wall-clock
+     animation would not be. */
+  rideDraw(t);
 }
 let RAF = null;
 function pumpLive(){
@@ -38200,6 +38879,7 @@ function boot(){
   }
   drawRack();
   drawRoll();                    // an empty tube that says so, rather than a gap
+  rideDraw(null);                // and a dark screen with a rail on it, likewise
   /* the dropdown is a PRESET now: it solos one genre and the sliders follow */
   /* the genre and the rig keep playing too, for the same reason -- a genre
      change mid-song is a DJ move, not a reason to stop the record */
@@ -38244,6 +38924,24 @@ window.MK2 = {
      probe_rack.js is the test. Nothing outside the page draws a panel; this is
      here so something outside the page can CHECK one. */
   machineIn, heardOn,
+  /* ── THE RIDE, FOR THE SAME REASON `machineIn` IS HERE ────────────────────
+     The visualiser makes a claim that can be false: that the station arrives
+     when the brakes bite, that the landscape stops when the train does, and
+     that a figure in the doorway moves only while its part is sounding. Those
+     are three sentences a probe can falsify, and a picture nobody can check is
+     exactly the class of fault this file has shipped twice — the tape drawing
+     a running deck over dry audio, and the medium read off a channel that
+     never receives it. So the ride hands out its own plan and its own draw
+     call, and `probe_ride.js` asks the picture where the train is rather than
+     looking at it. `songNow` is here so a probe can reach the record the PAGE
+     composed, which is not the same object as one it composes itself. */
+  rideDraw, rideState: () => RIDE, songNow: () => SONG,
+  /* the geometry the draw uses, so the probe's idea of where the platform
+     lands cannot drift from the canvas's -- the same reason `makeClock` is
+     exported rather than re-derived in probe_mode.js */
+  rideGeom: () => ({ width: RIDE_W, height: RIDE_H, front: RIDE_FRONT,
+                     rail: RIDE_RAIL, pxps: RIDE_PXPS }),
+  rideSoundingAt: rideSounding,
   /* THE METRE, so probe_meter.js can ask the program rather than keep its own
      copy of six hierarchy tables and go stale the first time one is corrected.
      `metreOf`/`stepsOf`/`beatsOf` are the accessors every stage reads through;
