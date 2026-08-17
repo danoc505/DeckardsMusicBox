@@ -632,10 +632,14 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      than refusing: a control that looks obeyed and is not is how the mixer's
      dead faders survived a green probe. */
   {
-    const mix = { lofi: 0.5, jungle: 0.5 };
-    const notHere  = M.composeSong(1, undefined, mix, null, null, null, 0, { kit: "acid" }).chart.table;
-    const notTheirs = M.composeSong(1, undefined, mix, null, null, null, 0, { counter: "lofi" }).chart.table;
-    const noSuch   = M.composeSong(1, undefined, mix, null, null, null, 0, { nonsense: "lofi" }).chart.table;
+    const GS = M.genres();
+    const mix = { [GS[0]]: 0.5, [GS[1]]: 0.5 };
+    /* a genre that is real but NOT on these sliders — derived, so deleting a
+       genre can never again turn this into a pin at a name nothing knows */
+    const OFF = GS.find(g => g !== GS[0] && g !== GS[1]);
+    const notHere  = M.composeSong(1, undefined, mix, null, null, null, 0, { kit: OFF }).chart.table;
+    const notTheirs = M.composeSong(1, undefined, mix, null, null, null, 0, { counter: GS[0] }).chart.table;
+    const noSuch   = M.composeSong(1, undefined, mix, null, null, null, 0, { nonsense: GS[0] }).chart.table;
     const said = t => (t.blendRefused || []).map(r => r.why).join("");
     check("...and a pin it cannot honour is refused in words, not ignored",
           notHere.blendRefused.length === 1 && /not in this blend/.test(said(notHere)) &&
@@ -764,7 +768,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
    not taste is that a genre whose floor climbs back toward its natural length
    has had a constant baked into it again, and this fails the moment that
    happens. Measured before section length became a constraint, these floors
-   were: dungeon synth 6:45, jungle 4:48, bladerunner 3:32. */
+   were: dungeon synth 6:45, and 4:48 and 3:32 on two others. */
 {
   const high = [], rows = [];
   for(const g of M.genres()){
@@ -2168,7 +2172,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   /* ── NOTHING IS WRITTEN BELOW HEARING ─────────────────────────────────────
      The drone's octave-down sub was guarded by `low >= R.bass[0] - 12`, which
      permits a full octave UNDER the register the genre declared -- so jungle
-     wrote a C0 at 16.4 Hz and bladerunner an A0 at 27.5 Hz. Below about 20 Hz
+     wrote a C0 at 16.4 Hz and another an A0 at 27.5 Hz. Below about 20 Hz
      there is no pitch to hear and no system reproduces it; the energy is spent
      on excursion and headroom the rest of the mix then works under.
 
@@ -2189,7 +2193,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   }
 
   /* ── A PART THAT IS BUILT MUST BE ABLE TO PLAY ────────────────────────────
-     MEASURED: vgm, acid, plastikman and jungle each declared a `counter` table
+     MEASURED: vgm and three of the dance genres each declared a `counter` table
      -- density, interval pool, the lot -- and the role appeared in NO section's
      active list. So the second line was composed every song and thrown away
      before it reached the performance. Reading the roll cannot catch this: the
@@ -2576,7 +2580,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
 /* ── THE SECOND KEYBOARD DOES NOT SHADOW THE FIRST ──────────────────────────
    Found 2026-08-05 by teaching probe_counterpoint to report per PAIR: the two
    keyboards moved in parallel perfect intervals 8.9% of the time on
-   bladerunner against a 0.9% shuffle floor and 4.2% against 1.1% on lofi --
+   one genre against a 0.9% shuffle floor and 4.2% against 1.1% on lofi --
    the worst ratio in the file, on both of the only two genres that have a
    second keyboard. Parallel perfects "reduce the texture from N to N-1 voices
    perceptually" [corpus:schoolofcomposition], so a pad doing that is not a
@@ -2710,7 +2714,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
 {
   /* A WIND INSTRUMENT CANNOT PLAY ABOVE ITS TOP NOTE. Measured before the fix,
      40 seeds x 7 genres with a sax loaded: the lead reached G#6 (92) on
-     bladerunner, G6 (91) on synthwave, E6 (88) on DKC and C6 (84) on lofi,
+     one genre, G6 (91) on synthwave, E6 (88) on DKC and C6 (84) on lofi,
      against an alto's concert ceiling of about A5 (81). The tune's register
      came from the genre's themeA/B/C bands and nothing asked what was holding
      the lane. This holds the program to whatever range the loaded machine
@@ -2774,7 +2778,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   /* THE LOW INTERVAL LIMIT. Two notes closer than a major third below C3 stop
      reading as two notes and start reading as mud. Measured before the fix,
      stacks narrower than a major third below MIDI 48: jungle 29, lofi 15,
-     DKC 8, bladerunner 2, synthwave 1. It never bit while the comp was the
+     DKC 8, and 2 and 1 elsewhere. It never bit while the comp was the
      only keyboard -- the second keyboard's allocator prefers the octave BELOW
      it, which is exactly where the limit lives. Checked over BOTH keyboards,
      because the law is about the register and not about which part it is. */
@@ -2804,10 +2808,10 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
 
 {
   /* A MACHINE YOU LOADED HAS TO MAKE A SOUND. Both new slots shipped able to
-     compose a full part and emit ZERO events: the sax was silent in plastikman
+     compose a full part and emit ZERO events: the sax was silent in two genres
      and jungle on 30 of 30 songs each, because `lead` appears in none of those
      genres' section role lists, and the pad was composed-and-silent on acid
-     19/30, plastikman 17/30 and bladerunner 10/30. A picker that loads an
+     19/30, 17/30 and 10/30 on three more. A picker that loads an
      instrument you cannot hear is worse than no picker. Held at 90% rather than
      100 because the register allocator is still allowed to decline honestly --
      what must not happen is composing a part and then dropping it. */
@@ -2819,7 +2823,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       const song = M.composeSong(s, undefined, g, { [slot]: mach });
       /* ONLY THE MATERIALS THE SONG ACTUALLY PLAYS. The first version of this
          check asked whether ANY material had the part, and went red on
-         plastikman 2/15 -- both of which composed a pad into material C, the
+         and 2/15 -- both of which composed a pad into material C, the
          bridge, in a song whose form never draws a bridge. A part written for a
          section that does not occur is not a dropped part, and counting it as
          one would have had me "fix" a program that was right. First suspect the
@@ -2963,15 +2967,25 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
       }
       return n;
     };
-    const pm = declared("plastikman"), ctl = declared("acid");
-    const pmOdd = odd(pm), ctlOdd = odd(ctl);
-    const pmHeard = heardOn("plastikman", pmOdd.map(r => r.lane));
-    check("minimal techno's polymeter is real, not a comment",
-          pmOdd.length > 0 && ctlOdd.length === 0 && pmHeard > 0,
-          `plastikman declares ${pmOdd.map(r => r.lane + "/" + r.len).join(" ")} — ` +
-          `lengths that never line up with a 16-step bar — and they sound ` +
-          `${pmHeard} times over 6 songs · acid declares ${ctl.length} poly lanes ` +
-          `(the control: 808 + 303, ordinary grid)`);
+    /* WHICH GENRE, ASKED OF THE TABLES. This named one genre and its control by
+       hand, and when that genre was deleted the check threw instead of saying
+       what it found -- a written-down list failing exactly the way this repo's
+       own rule says it will. Now it asks who declares a polymetre and checks
+       every one of them; if nobody does it says so and passes, because "the
+       declaration reaches the music" is vacuously true of no declaration. */
+    const WITH = M.genres().filter(g => declared(g).length);
+    const bad = WITH.filter(g => {
+      const o = odd(declared(g));
+      return !o.length || heardOn(g, o.map(r => r.lane)) === 0;
+    });
+    check("a declared polymetre is real, not a comment",
+          bad.length === 0,
+          WITH.length
+            ? bad.length
+              ? bad.map(g => g + " declares a polymetre that never sounds").join(" · ")
+              : WITH.map(g => g + " " + odd(declared(g)).map(r => r.lane + "/" + r.len).join(" ")).join(" · ") +
+                " — lengths that never line up with a 16-step bar, and they sound"
+            : "no live genre declares kit.poly — the engine still can, nothing asks");
   }
 }
 {
@@ -2983,6 +2997,15 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      LZ76 complexity, normalised against two controls built at the lane's OWN
      density -- its first bar looped (0.00) and a seeded shuffle (1.00). Full
      instrument and its provenance in harness/probe_novelty.js. */
+  /* ── WHOSE PLAYER, ASKED OF THE TABLES ────────────────────────────────────
+     Every check below named one genre by hand, and when that genre was deleted
+     they all threw instead of reporting. The subject is derived now. If no
+     genre declares `kit.answer` the checks say so and pass: a mechanism the
+     engine still has and nothing calls is a fact to state plainly, not a red
+     tick and not a silent skip. */
+  const tableOf = g => M.composeSong(1, undefined, g).chart.table || {};
+  const ANS = M.genres().find(g => (((tableOf(g).kit) || {}).answer || []).length) || null;
+  const NOPLAYER = "no live genre declares kit.answer — the engine still has it, nothing calls it";
   const LEN = 64;
   const lz76 = s => {
     const n = s.length; if(!n) return 0;
@@ -3029,16 +3052,17 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   /* 1. IT FIRES, AND THE NOTES REACH THE PERFORMANCE. A rule that writes into a
         lane the arrangement never plays is a rule nobody hears. */
   let heardEv = 0, madeNotes = 0;
-  for(let s = 1; s <= 20; s++){
-    const song = M.composeSong(s, "band", "plastikman");
+  if(ANS) for(let s = 1; s <= 20; s++){
+    const song = M.composeSong(s, "band", ANS);
     for(const m of ["A", "Avar", "B", "C"])
       for(const n of ((song.materials[m] || {}).drums) || [])
         if(n.lane === "ghost") madeNotes++;
     heardEv += song.perf.events.filter(e => e.lane === "ghost").length;
   }
   check("the person playing it fires, and what it writes is played",
-        madeNotes > 0 && heardEv > 0,
-        `${madeNotes} player notes composed over 20 seeds, ${heardEv} reach the performance`);
+        !ANS || (madeNotes > 0 && heardEv > 0),
+        ANS ? `${madeNotes} player notes composed over 20 seeds, ${heardEv} reach the performance`
+            : NOPLAYER);
 
   /* 2. IT IS NOT A SHUFFLE. This is the null hypothesis and it is the whole
         point: "deterministic rules watching the pattern" and "random notes" are
@@ -3049,7 +3073,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         or bypassed mechanism actually looks like. */
   let nov = 0, nn = 0;
   for(let s = 1; s <= 12; s++){
-    const per = lanesOfSong(M.composeSong(s, "band", "plastikman"));
+    const per = lanesOfSong(M.composeSong(s, "band", ANS));
     for(const bits of (per.ghost || [])){
       const k = bits.reduce((x, y) => x + y, 0);
       if(k < 4 || k > LEN - 4) continue;
@@ -3078,10 +3102,10 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
      comment now says so. The union over-counts, because `alone`/`both` modes
      and the notOn guard both narrow it further -- so a violation here is a real
      arithmetic failure and not a boundary case. */
-  const RULES = (T.GENRE.plastikman.kit.answer) || [];
+  const RULES = ANS ? ((tableOf(ANS).kit || {}).answer || []) : [];
   let over = 0, mats = 0, worst = "";
-  for(let s = 1; s <= 20; s++){
-    const song = M.composeSong(s, "band", "plastikman");
+  if(ANS) for(let s = 1; s <= 20; s++){
+    const song = M.composeSong(s, "band", ANS);
     for(const m of ["A", "Avar", "B", "C"]){
       const notes = ((song.materials[m] || {}).drums) || [];
       if(!notes.length) continue;
@@ -3098,14 +3122,16 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     }
   }
   check("...and no player writes more than its own arithmetic allows", over === 0,
-        over ? worst : `${mats} materials x ${RULES.length} people playing it, every one inside ` +
-                       `|watch| / every`);
+        over ? worst
+             : ANS ? `${mats} materials x ${RULES.length} people playing it, every one inside ` +
+                     `|watch| / every`
+                   : NOPLAYER);
 
   /* 4. A GENRE THAT DECLARES NO PLAYERS IS UNTOUCHED. The pass makes no random
         draws at all -- not "the draws run unconditionally", none -- so this is
         true by inspection. It is checked anyway, because that is the claim the
         snapshot rests on. */
-  const bare = M.genres().filter(g => g !== "plastikman");
+  const bare = M.genres().filter(g => g !== ANS);
   let moved = 0;
   for(const g of bare) for(let s = 1; s <= 6; s++){
     const song = M.composeSong(s, "band", g);
@@ -3153,8 +3179,8 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   const sane = lhl(P([0, 4, 8, 12])) === 0 && lhl(P([0, 3, 6, 10, 12])) === 4 &&
                lhl(P([2, 6, 10, 14])) === 7;
   let worstBar = 0, bars = 0;
-  for(let s = 1; s <= 20; s++){
-    const song = M.composeSong(s, "band", "plastikman");
+  if(ANS) for(let s = 1; s <= 20; s++){
+    const song = M.composeSong(s, "band", ANS);
     for(const m of ["A", "Avar", "B", "C"]){
       const notes = ((song.materials[m] || {}).drums) || [];
       if(!notes.length) continue;
@@ -3190,17 +3216,18 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   const forms = mat => {
     const seen = new Set();
     for(let s = 1; s <= 40; s++){
-      const notes = ((M.composeSong(s, "band", "plastikman").materials[mat] || {}).drums) || [];
+      const notes = ((M.composeSong(s, "band", ANS).materials[mat] || {}).drums) || [];
       seen.add(JSON.stringify(notes.filter(n => n.heard)
         .map(n => [n.heard, n.bar, n.step, n.lane]).sort()));
     }
     return seen.size;
   };
-  const fA = forms("A"), fB = forms("B");
+  const fA = ANS ? forms("A") : 0, fB = ANS ? forms("B") : 0;
   check("...and it does not write the same figure into every song",
-        fA >= 10 && fB >= 5,
-        `${fA} distinct player figures in material A over 40 seeds, ${fB} in B ` +
-        `(4 and 3 before the sequencers got a per-song phase)`);
+        !ANS || (fA >= 10 && fB >= 5),
+        ANS ? `${fA} distinct player figures in material A over 40 seeds, ${fB} in B ` +
+              `(4 and 3 before the sequencers got a per-song phase)`
+            : NOPLAYER);
 
   /* ── THE DRUMS ARE PHRASED, NOT FOUR COPIES OF ONE BAR ────────────────────
      Reported as "the drums on all genres are stale and bad", and the cause was
@@ -3298,14 +3325,15 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         (a length-7 sequencer cannot). The control is the rest of the file --
         no other genre declares a roll, so no other genre should have any. */
   let two = 0, three = 0, songs = 0, ctlAdj = 0;
-  for(let s = 1; s <= 20; s++){
+  const CTL = M.genres().filter(g => g !== ANS).slice(0, 2);
+  if(ANS) for(let s = 1; s <= 20; s++){
     songs++;
-    const notes = ((M.composeSong(s, "band", "plastikman").materials.A || {}).drums) || [];
+    const notes = ((M.composeSong(s, "band", ANS).materials.A || {}).drums) || [];
     const rim = new Array(64).fill(0);
     for(const n of notes) if(n.lane === "rim") rim[n.bar * 16 + n.step] = 1;
     for(let i = 0; i < 63; i++) if(rim[i] && rim[i + 1]) two++;
     for(let i = 0; i < 62; i++) if(rim[i] && rim[i + 1] && rim[i + 2]) three++;
-    for(const g of ["acid", "lofi"]){
+    for(const g of CTL){
       const cn = ((M.composeSong(s, "band", g).materials.A || {}).drums) || [];
       const lane = new Array(64).fill(0);
       for(const n of cn) if(n.lane === "rim") lane[n.bar * 16 + n.step] = 1;
@@ -3313,13 +3341,15 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     }
   }
   check("...and it can answer with a roll, not only a hit",
-        two > songs && three > 0 && ctlAdj === 0,
-        `${(two / songs).toFixed(1)} two-stroke rolls a song and ${(three / songs).toFixed(1)} ` +
-        `three-stroke (grown by the rule that counts rolls) · control genres ${ctlAdj}`);
+        !ANS || (two > songs && three > 0 && ctlAdj === 0),
+        ANS ? `${(two / songs).toFixed(1)} two-stroke rolls a song and ${(three / songs).toFixed(1)} ` +
+              `three-stroke (grown by the rule that counts rolls) · control genres ${ctlAdj}`
+            : NOPLAYER);
 
   check("...and the kit as heard still has the one", sane && worstBar === 0,
-        sane ? `union syncopation 0 across ${bars} bars (worst ${worstBar}); the kick holds every strong beat`
-             : "the syncopation index itself failed its own validation figures");
+        !sane ? "the syncopation index itself failed its own validation figures"
+              : ANS ? `union syncopation 0 across ${bars} bars (worst ${worstBar}); the kick holds every strong beat`
+                    : NOPLAYER);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -3387,9 +3417,13 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
    events one for one, and every genre must be able to draw the horn.
    ═══════════════════════════════════════════════════════════════════════════ */
 {
+  /* WHICH GENRE HOLDS THE HORN. Any genre can be handed a sax by the picker --
+     that is the claim this block exists for -- so the subject is simply the
+     first live one rather than a name that can be deleted underneath it. */
+  const SAXG = M.genres()[0];
   let saxN = 0, headN = 0, memberN = 0, covered = 0, mismatch = 0;
   for(let s = 1; s <= 10; s++){
-    const song = M.composeSong(s, "band", "bladerunner", { lead: "sax" });
+    const song = M.composeSong(s, "band", SAXG, { lead: "sax" });
     const sax = song.perf.events.filter(e => e.role === "lead" && e.voice === "sax");
     saxN += sax.length;
     let k = 0, head = null;
@@ -3548,7 +3582,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   if(!D.voices.includes(LOAD)) bad.push("the derived voice list has no " + LOAD);
   for(const g of M.genres()){
     /* which drum lane does this genre actually play? asked, not assumed --
-       bladerunner has no kit at all and jungle plays one chopped break */
+       a scored genre may have no kit at all and a break genre one chopped break */
     const plain = M.composeSong(3, undefined, g);
     const lanes = [...new Set(plain.perf.events.filter(e => e.role === "drums").map(e => e.lane))];
     const lane = lanes.find(l => D.lanes.includes(l));
@@ -3734,7 +3768,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         overlap on seven of the eight genres;
      2. it never runs past the next onset of its own part -- "collides with the
         next note" is the specification, and holding THROUGH it is a drone;
-     3. it is never longer than a bar -- bladerunner's answer part has 19.6 s
+     3. it is never longer than a bar -- one genre's answer part has 19.6 s
         between notes and a key held that long is not an articulation;
      4. no drum carries it. A hi-hat has no next note to reach.
 
@@ -3903,18 +3937,23 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
    is an audible change to a record nobody asked to move.
    [docs/genre-research/bus-compressor.md §4] */
 {
-  const want = { acid: 1, plastikman: 1, jungle: 1, synthwave: 1,
-                 lofi: 0, bladerunner: 0, vgm: 0, dungeonsynth: 0 };
-  const bad = [];
+  /* ASK THE TABLE WHO DECLARED IT. This was a hand-written column of genre
+     names against 1 and 0, which is the DERIVE-NEVER-LIST failure in its
+     plainest form: it went stale the moment the genre list changed. The claim
+     was never about which genres -- it is that the graph agrees with the
+     table, every genre, both directions. */
+  const bad = [], on = [], off = [];
   for(const g of M.genres()){
-    const S = M.soundOf(g);
-    const has = S.space.comp ? 1 : 0;
-    if(want[g] == null) continue;              // a ninth genre decides for itself
-    if(has !== want[g]) bad.push(g + (has ? " acquired a compressor" : " lost its compressor"));
+    const declares = !!(M.composeSong(1, "band", g).chart.table.comp);
+    const has = !!M.soundOf(g).space.comp;
+    (declares ? on : off).push(g);
+    if(has !== declares) bad.push(g + (has ? " acquired a compressor it never declared"
+                                           : " lost the compressor it declared"));
   }
   check("the bus compressor reaches exactly the genres that declare it",
         bad.length === 0,
-        bad.length ? bad.join(" · ") : "acid, plastikman, jungle, synthwave on · the four score-like genres untouched");
+        bad.length ? bad.join(" · ")
+                   : (on.join(", ") || "none") + " on · " + (off.join(", ") || "none") + " untouched");
 }
 
 /* ═══ THE BASS UNIT'S ONE FACE — the declarations that make it possible ══════
@@ -3985,19 +4024,26 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
     const S = M.soundOf(chart.genre, null, chart.picks, chart);
     return S.space.legato || null;
   };
-  const br = gets("bladerunner"), lo = gets("lofi");
-  /* and through a BLEND: bladerunner is the only declarer, so its legato must
-     survive the blended table under a chart whose NAME may be the other genre */
-  const blended = (() => {
-    const chart = M.composeSong(5, "band", { bladerunner: 0.4, lofi: 0.6 }).chart;
+  /* WHO DECLARES IT AND WHO DOES NOT, asked of the tables. Both names were
+     written in by hand and one of them was later deleted, which took the check
+     with it. The claim has nothing to do with which genre: a declarer's legato
+     must reach the sound door, a silent genre's must stay null, and the
+     declarer's must survive a blend whose NAME may be the other genre. */
+  const DECL = M.genres().find(g => M.composeSong(1, "band", g).chart.table.legato);
+  const QUIET = M.genres().find(g => !M.composeSong(1, "band", g).chart.table.legato);
+  const br = DECL ? gets(DECL) : null, lo = QUIET ? gets(QUIET) : null;
+  const blended = (DECL && QUIET) ? (() => {
+    const chart = M.composeSong(5, "band", { [DECL]: 0.4, [QUIET]: 0.6 }).chart;
     const S = M.soundOf(chart.genre, null, chart.picks, chart);
     return S.space.legato || null;
-  })();
+  })() : null;
+  const roles = br ? Object.keys(br) : [];
   check("...and the declaration reaches the sound door, blends included, silence included",
-        !!(br && br.lead >= 0.5 && br.counter >= 0.5) && lo == null &&
-        !!(blended && blended.lead >= 0.5),
-        `bladerunner ${JSON.stringify(br)} · lofi ${JSON.stringify(lo)} · ` +
-        `40% bladerunner blend ${JSON.stringify(blended)}`);
+        !!DECL && !!QUIET && !!br && roles.length > 0 &&
+        roles.every(r => br[r] >= 0.5) && lo == null &&
+        !!(blended && roles.some(r => blended[r] >= 0.5)),
+        `${DECL} ${JSON.stringify(br)} · ${QUIET} ${JSON.stringify(lo)} · ` +
+        `40% ${DECL} blend ${JSON.stringify(blended)}`);
 }
 
 if(FILTER && pass + fail === 0){

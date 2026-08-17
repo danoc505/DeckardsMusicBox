@@ -46,13 +46,13 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
        drums. It is not the fader that was absent from that render -- it is the
        whole chain. Measuring a control on a graph that was never configured
        measures the graph.  */
-    MK2.composeSong(1, 'draw', 'plastikman');
-    const S = MK2.soundOf('plastikman');
+    MK2.composeSong(1, 'draw', 'synthwave');
+    const S = MK2.soundOf('synthwave');
     const motion = { lanes: {}, spb: 0.118, nBars: 4, seconds: 8, secFn: ['verse'],
                      secOcc: [1], drums: 'tr1000' };
     /* ── TWO QUESTIONS, TWO RENDERS ──────────────────────────────────────────
        The fader question needs the chain configured, which needs a space. The
-       TONE question must not have one: with plastikman's room on, every tail in
+       TONE question must not have one: with a room on, every tail in
        the table lengthened -- kick 0.25 s to 2.25 s -- and I nearly read a
        reverb as a change to the crash. The room is shared by every drum and is
        not what "this cymbal is harsh" is about. So the tone rows render DRY. */

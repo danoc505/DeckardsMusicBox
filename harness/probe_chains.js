@@ -25,8 +25,8 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
   await page.waitForFunction(() => window.MK2, { timeout: 20000 });
 
   const out = await page.evaluate(async () => {
-    MK2.composeSong(1, 'draw', 'plastikman');        // loads the TR-1000 panel
-    const S = MK2.soundOf('plastikman');
+    MK2.composeSong(1, 'draw', 'boxcarsynth');       // loads the TR-1000 panel
+    const S = MK2.soundOf('boxcarsynth');
     const motion = { lanes: {}, spb: 0.118, nBars: 4, seconds: 8, secFn: ['verse'],
                      drums: 'tr1000' };
 
@@ -79,7 +79,7 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
     set(OPEN);
 
     /* 2. travel across a real song */
-    const song = MK2.composeSong(1, 'draw', 'plastikman');
+    const song = MK2.composeSong(1, 'draw', 'boxcarsynth');
     const travel = [];
     for(const key in song.motion.lanes){
       if(!/^tr1000\.[ksho t]/.test(key) && !/^tr1000\.[kshot](Cut|Drv|Echo|Verb)$/.test(key)) continue;

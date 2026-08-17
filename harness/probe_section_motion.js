@@ -13,7 +13,7 @@
    decoration (HANDOFF §0).
 
    Role lists cannot answer this from the table side: roles share buses
-   (plastikman's bridge plays only the ostinato, and its keys bus is LIVE
+   (a bridge that plays only the ostinato still has its keys bus LIVE
    there at -3 dB, so keysMix's bridge cut is real). So MEASURE, the way
    probe_matrix does: for every kind:"section" move on a matrix crossing or
    an echo dial, cut the section's own bars from a real song, render twice --
@@ -95,7 +95,7 @@ const ONLY = process.argv[2];
         /* ── the occurrence with the most notes in it, not the first ──
            probe_matrix's lesson, re-learned here on the first run: a
            recurring function whose content grows across the record (a
-           plastikman instrumental at bar 0 has no drums; at bar 200 it
+           an instrumental at bar 0 may have no drums; at bar 200 it
            has all of them) read INERT when only its first statement was
            measured. Measure the fullest statement; a bus silent in THAT
            is silent in the section as this song plays it. */

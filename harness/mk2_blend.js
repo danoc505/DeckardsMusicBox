@@ -35,7 +35,7 @@ const check=(n,ok,d)=>{ console.log((ok?"  ✓ ":"  ✗ FAIL: ")+n+(d?"  ("+d+")
         show(w));
 
   /* ── THE THREE SLIDERS ARE DRAWN FROM THE PROGRAM, NOT NAMED ───────────────
-     This file used to say "lofi", "jungle" and "acid" in fourteen places. The
+     This file used to name three specific genres in fourteen places. The
      simplex arithmetic does not care WHICH three sliders it moves -- it is
      about a sum staying at 1 while weights give way in proportion -- so naming
      them bought nothing and cost the usual thing: a second copy of the genre

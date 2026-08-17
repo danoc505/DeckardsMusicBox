@@ -38,7 +38,7 @@ const { chromium } = require(require('path').resolve(__dirname, '..', 'node_modu
 const path = require('path');
 const HTML='file://' + path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html');
 const CHROME=process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-const G=process.argv[2]||'acid', MINS=Number(process.argv[3]||3);
+const G=process.argv[2]||'boxcarsynth', MINS=Number(process.argv[3]||3);
 (async()=>{
  const b=await chromium.launch({executablePath:CHROME,args:['--no-sandbox','--autoplay-policy=no-user-gesture-required','--disable-gpu']});
  const page=await b.newPage();

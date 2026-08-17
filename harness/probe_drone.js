@@ -53,7 +53,7 @@
                      within a bar     lanes flat inside every bar
        lofi              7.6%              17 of 165   (10%)
        progtechno        6.5%              36 of 63
-       plastikman        4.2%              14 of 77
+       the densest        4.2%              14 of 77
        dungeon synth     1.1%              68 of 118   (58%)
        hobbit synth      1.1%              69 of 121   (57%)
 

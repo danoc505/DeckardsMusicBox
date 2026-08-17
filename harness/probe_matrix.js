@@ -22,7 +22,7 @@ const { chromium } = require(require('path').resolve(__dirname, '..', 'node_modu
 const path = require('path');
 const HTML = path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html');
 const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-const GENRE = process.argv[2] || 'plastikman';
+const GENRE = process.argv[2] || 'boxcarsynth';
 
 (async () => {
   const b = await chromium.launch({ executablePath: CHROME, args: ['--no-sandbox', '--disable-gpu'] });
@@ -36,7 +36,7 @@ const GENRE = process.argv[2] || 'plastikman';
     const S = MK2.soundOf(genre);
     /* ── AN EXCERPT WHERE THE ROWS ACTUALLY PLAY ──────────────────────────
        The first version cut six bars from the middle and reported six dead
-       crossings, which was the PROBE being wrong: plastikman is a record that
+       crossings, which was the PROBE being wrong: a dense record is one that
        subtracts, and at that point it had no drums and no lead, so those rows
        had no signal to move. A crossing can only be tested where its source
        is sounding. So: scan candidate windows and take the one covering the

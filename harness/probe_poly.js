@@ -2,12 +2,16 @@
 /* DOES THE GRID ACTUALLY DISAGREE WITH ITSELF?
      node harness/probe_poly.js [seeds]
 
-   Plastikman's table has quoted Hawtin on the breakdown since the day it was
-   written -- "all you've got is this polymeter and because it doesn't line up
-   with the one people on the dance floor are going 'oh where was the one
-   again'" -- and until `kit.poly` existed the engine could not produce one.
-   Every drum lane was written against the bar, so the rimshot and the clap
-   landed on the same sixteenth in every bar of the record.
+   The genre this was built for quoted Hawtin on the breakdown -- "all you've
+   got is this polymeter and because it doesn't line up with the one people on
+   the dance floor are going 'oh where was the one again'" -- and until
+   `kit.poly` existed the engine could not produce one. Every drum lane was
+   written against the bar, so the rimshot and the clap landed on the same
+   sixteenth in every bar of the record.
+
+   NOTHING DECLARES `kit.poly` TODAY. The mechanism is still in the engine and
+   any genre may ask for it; this probe prints what it finds and says so when
+   the answer is nothing, rather than failing on an empty subject.
 
    This reads the notes back and reconstructs each lane's PERIOD: the smallest
    p that explains every onset across the whole four-bar material. A lane lines
@@ -76,8 +80,16 @@ for(const g of genres){
 /* AND THE SPECIFIC CLAIM: the rimshot really runs at 7 and the clap at 5.
    Reconstruct each lane's period from the notes by finding the smallest p that
    explains every onset across the whole four-bar material. */
-console.log("\n  plastikman — the period actually written into each lane:");
-const song = M.composeSong(1, undefined, "plastikman");
+/* ask the TABLE, not a written-down list — the same rule the rest of the repo
+   follows, and the only way this keeps working when a genre takes poly up */
+const POLY = M.genres().filter(g => {
+  const kit = (M.composeSong(1, undefined, g).chart.table || {}).kit;
+  return !!(kit && kit.poly);
+});
+const SUBJ = POLY[0] || M.genres()[0];
+console.log("\n  " + SUBJ + " — the period actually written into each lane:");
+if(!POLY.length) console.log("  (no live genre declares kit.poly — the engine can still do it)");
+const song = M.composeSong(1, undefined, SUBJ);
 const notes = song.materials.A.drums;
 const byLane = {};
 for(const n of notes) (byLane[n.lane] ||= new Set()).add(n.bar * 16 + n.step);

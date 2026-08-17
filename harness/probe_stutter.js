@@ -22,7 +22,7 @@
    FOUR THEORIES DIED TO MEASUREMENTS, in this order, which is why the tool
    exists rather than a patch:
 
-     1. "It is the note count."  plastikman has MORE events than either (6068
+     1. "It is the note count."  the densest genre has MORE events than either (6068
         against 5598) and 6 long tasks against synthwave's 100. Refuted.
      2. "It is our JavaScript."  86% of the main thread was `(program)` —
         native, no JS frame. refreshLive measured 2–4 ms a call and 12% of
@@ -41,7 +41,7 @@
    element per note. Dense genre, big roll, slow frame.
 
    FIXED by writing only what changed (see knobEl in the HTML). After:
-   every genre 17 ms, acid and plastikman 0 long tasks, synthwave 100 -> 4.
+   every genre 17 ms, the dance genres 0 long tasks, synthwave 100 -> 4.
 
    AND ONE CHANGE WAS REVERTED FOR MEASURING NOTHING. The playhead is moved by
    writing `left` as a percentage every frame, which is a layout property and

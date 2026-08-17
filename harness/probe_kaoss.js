@@ -80,7 +80,7 @@ const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome
     return { died: died == null ? 6 : died, at1s: r[5] ? r[5].rms : 0 };
   };
 
-  await setGenre('plastikman');            // the genre built on this echo
+  await setGenre('boxcarsynth');           // a genre that rides this echo
   await page.waitForTimeout(700);
   await openPad();
 

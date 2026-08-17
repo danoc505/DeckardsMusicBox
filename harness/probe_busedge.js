@@ -13,14 +13,14 @@
 
    TWO FAULTS, FOUND IN THAT ORDER, both now fixed:
      1. the grid smoothed the step. jungle's cut took 312 ms and began 285 ms
-        BEFORE the bar line; plastikman's 415 ms, 379 ms early.
+        BEFORE the bar line; the other 415 ms, 379 ms early.
      2. the grid MISSED the step. A beat is four times coarser than the plan,
         and a throw at `at: 0.8` or `0.875` lives entirely between two beat
         points -- rendered as nothing at all, on three lanes across three
         genres. And the size threshold that decided "is this a step" read the
         fader-law factor instead of the lane's depth, so it sat at a flat 0.35
         against declared throws of 0.10-0.34: 1 of 38 hard steps written on
-        jungle, 0 of 6 / 0 of 40 / 0 of 42 on lofi / acid / plastikman.
+        the busiest genre, and 0 of 6 / 0 of 40 / 0 of 42 elsewhere.
 
    SO IT ASKS EVERY LANE, NOT TWO. Every genre, every lane that carries an
    edge-marked movement, every step in it: how much of the planned excursion

@@ -29,7 +29,7 @@ global.document = { getElementById: () => ({ addEventListener(){}, textContent: 
 eval(src);
 const M = global.window.MK2;
 
-const genre = process.argv[2] || "hobbitsynth";
+const genre = process.argv[2] || "dungeonsynth";
 const songs = parseInt(process.argv[3], 10) || 60;
 
 const counts = {};      // slot -> rung index -> sections

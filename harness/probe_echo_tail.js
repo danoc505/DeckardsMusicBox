@@ -68,7 +68,7 @@ const GENRE = process.argv[2] || 'synthwave';
   /* and does a genre change start clean */
   await page.evaluate(() => {
     const s = document.getElementById('genre');
-    s.value = 'plastikman'; s.dispatchEvent(new Event('change', { bubbles: true }));
+    s.value = 'boxcarsynth'; s.dispatchEvent(new Event('change', { bubbles: true }));
   });
   await page.waitForTimeout(700);
   await page.click('#play');

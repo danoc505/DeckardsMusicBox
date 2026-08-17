@@ -368,7 +368,7 @@ console.log(`GROOVE  ${song.perf.groove.style}` +
 /* NAME THE CHORD THE NOTES ACTUALLY SPELL. This read the chord's nearest SCALE
    DEGREE, which was exactly true while every chord was diatonic and became a
    lie the moment one was not: with chromatic harmony a transformation lands on
-   a triad whose nearest degree names a different chord, and seed 13 bladerunner
+   a triad whose nearest degree names a different chord, and one seed
    printed "B B G B" for a progression that plays Bm B G#m B. The roll is the
    test that matters in this repo; a roll that misnames the harmony sends the
    next person looking for a bug in the notes. Read the tones. */

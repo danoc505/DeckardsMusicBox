@@ -12,7 +12,7 @@
    THE SCEPTICISM WAS CORRECT, MEASURED. Before this build there was ONE drone
    voice in the file -- `V.drone`, three saws and a lowpass -- living as an
    engine inside the 303 chassis, reachable from one rig, with no face of its
-   own. Ten genres x six seeds, events reaching that voice: bladerunner 450,
+   own. Every genre x six seeds, events reaching that voice: one of them 450,
    everybody else 0. Dungeon synth and hobbit synth both DECLARE
    `bassStyle: "drone"` and both put `V.bass` on the lane, whose own comment
    says a drone is not plucked; their longest held bass notes are 4.80 s and
@@ -34,7 +34,7 @@
                       that mistake before.
      IT HOLDS         and the drone is actually heard: a held note tens of
                       seconds long, on the drone rack's own voice, in a genre
-                      that is not bladerunner.
+                      that is not the genre whose rig named it.
    ═══════════════════════════════════════════════════════════════════════════ */
 const path = require("path");
 const { chromium } = require((() => { try { require.resolve("playwright"); return "playwright"; }
@@ -59,7 +59,7 @@ const check = (label, ok, detail) => {
   await pg.waitForTimeout(900);
 
   /* the ambient genre, through the same door a person uses */
-  await pg.selectOption("#genre", "ambient");
+  await pg.selectOption("#genre", "boxcarsynth");
   await pg.waitForTimeout(900);
   await pg.evaluate(() => MK2.rackSlots().forEach(s => MK2.showRack(s)));
   await pg.waitForTimeout(400);
@@ -297,7 +297,7 @@ const check = (label, ok, detail) => {
   const M = global.window.MK2;
   let n = 0, longest = 0, secs = 0, roleBad = 0, bassSeen = 0;
   for(let seed = 1; seed <= 6; seed++){
-    const song = M.composeSong(seed, null, "ambient");
+    const song = M.composeSong(seed, null, "boxcarsynth");
     for(const e of song.perf.events){
       if(e.role === "bass") bassSeen++;
       if(e.voice === "dronebox"){ n++; longest = Math.max(longest, e.durSec); secs += e.durSec;

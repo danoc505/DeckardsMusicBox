@@ -72,7 +72,7 @@ for(const g of M.genres()){
    than inferred from a column of averages. `.` is a rest, `o` a note, `>` an
    accented note, `/` a slide into one. */
 const SEED = parseInt(process.argv[3], 10) || 1;
-const GEN = process.argv[4] || "plastikman";
+const GEN = process.argv[4] || "boxcarsynth";
 const song = M.composeSong(SEED, "draw", GEN);
 const spb = song.motion.spb, barSec = 16 * spb, nB = song.form.arc.length;
 console.log(`\n=== ${GEN}, seed ${SEED} — the bass, bar by bar ===`);
