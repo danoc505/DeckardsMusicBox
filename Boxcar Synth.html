@@ -20176,6 +20176,21 @@ GENRE.boxcarsynth = {
      weight on the downbeat. */
   theme: {
     count: { hooky: [3,2], breath: [2,1], normal: [3,2] },
+    /* ── A TUNE DOES NOT SAY THE SAME NOTE TWICE RUNNING ──────────────────
+       MEASURED before this line existed, printing material A's actual notes:
+
+         seed 1   D#5 D#5 | D#5 D#5 | D#5 D#5 | D#5 C#5
+
+       Eight notes and TWO distinct pitches, because consecutive notes were
+       free to choose the same one and did. The register is [64,82] —
+       eighteen semitones — so nothing was forcing it; the pitch chooser
+       simply had no reason to move.
+
+       `noRepeat` is the engine's rule for this and it is declared by the
+       GENRE rather than welded in, because "a melody in this genre does not
+       repeat a pitch" is a statement about a style and not about melody in
+       general [Law 4]. A string band tune moves. */
+    noRepeat: true,
     verseHook: true,
     develop: { at: 4, of: [["sequence",4],["displace",3],["tail",3]] },
     onsetPool: [[0,5],[2,2],[4,4],[7,2],[8,4],[12,3]],
