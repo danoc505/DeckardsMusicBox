@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17a · five genres, and every rack kept</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17b · the washtub, the contrabassoon, and the verse gets a hook</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -6439,6 +6439,35 @@ const INSTRUMENTS = {
                       panGroup()] },
   },
 
+  /* ══ THE WASHTUB BASS ══════════════════════════════════════════════════════
+     The diddley bow's sibling, and this file said so before either was built:
+     both are one homemade string, both come from the same people in the same
+     decade, and both make pitch by moving the string rather than by fretting
+     it. See V.washtub for the sources and for the measurement that made it
+     necessary. */
+  washtub: {
+    slot: "bass", label: "washtub bass",
+    lanes: { bass:"washtub" },
+    /* "approximately an octave to an octave and a half in the low bass
+       register" [corpus:grokipedia] -- so an octave and a half, and no more.
+       A player reaching past that is fighting a rope. MIDI 28-46 is E1 to A#2. */
+    range: [28, 46],
+    /* ONE STRING, ONE ROPE. Same law as the bow's, same reason. */
+    play: { poly: 1 },
+    controls: [
+      ...panControls(),
+      { k:"thump", label:"string on the rim",  cap:"THUMP", min:0, max:1, step:0.01, def:0.62, kind:"voicing" },
+      { k:"tub",   label:"the tub",            cap:"TUB",   min:0, max:1, step:0.01, def:0.5,  kind:"gesture" },
+      { k:"pull",  label:"pull into the note", cap:"PULL",  min:0, max:1, step:0.01, def:0.45, kind:"gesture" },
+      { k:"tone",  label:"string damping",     cap:"TONE",  min:0, max:1, step:0.01, def:0.4,  kind:"gesture" },
+    ],
+    panel: { skin: "erang", maker: "", title: "washtub bass",
+             sub: "one rope on a tin tub — pull the pole for the note, and the string slaps the rim",
+             groups: [{ label: "THE HAND", keys: ["pull", "tone"] },
+                      { label: "THE TUB", keys: ["thump", "tub"] },
+                      panGroup()] },
+  },
+
 };
 
 /* the declaration index, so a knob read can clamp to the dial's real ends and
@@ -9033,7 +9062,7 @@ const PLAY_FAMILY = {
          and bassoon — one player, one note — were being handed four and NINE
          simultaneous notes. Joining here fixes the durations; the two laws
          below fix the rest. [docs/genre-research/playing-the-hobo-band.md] */
-      banjo: "plucked", diddley: "plucked",
+      banjo: "plucked", diddley: "plucked", washtub: "plucked",
       harmonica: "wind", steamWhistle: "wind", contrabassoon: "wind",
     };
 
@@ -13944,6 +13973,133 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     fb.gain.setValueAtTime(0.965, end0);
     fb.gain.linearRampToValueAtTime(0.35, end0 + REL);
     return [nb];
+  };
+
+  /* ══ THE WASHTUB BASS ══════════════════════════════════════════════════════
+     The owner: "the bass what about the washbucket bass? Or a two string bass
+     played with a slide?" It is the right instrument and this file already said
+     so: §7b calls the washtub bass "a **sibling of the washtub bass** -- same
+     lineage, same people, same decade" of the diddley bow, and named it as an
+     instrument to build. It never got built. Task #114.
+
+     AND IT IS THE ANSWER TO A MEASUREMENT, not only to a wish. Rendered through
+     probe_stems, three windows on two seeds, the old bass came back at
+     MISSED(A) of -0.12, -0.11 and 0.00 dB -- take it out of the mix and the
+     audible level does not change, or goes UP. Its RMS-to-A-weighted gap was
+     9.4-10.7 dB, the largest of any part: ten decibels of what it made sat
+     below where hearing is. It was a sustained pedal, 7.5 s a note, spending
+     headroom and returning nothing. A washtub bass is the opposite of that in
+     every respect the measurement complained about.
+
+     WHAT THE SOURCES GIVE:
+       - one string, over an inverted metal washtub "as a resonator", tub
+         18-30 inches across [corpus:wikipedia Washtub_bass; corpus:grokipedia]
+       - the pitch is TENSION: "pitch is adjusted by pushing or pulling on a
+         staff or stick to change the tension" [corpus:wikipedia; corpus:handwiki]
+       - "approximately an octave to an octave and a half in the low bass
+         register, with a plucky, twangy timbre suited to rhythmic
+         accompaniment" [corpus:grokipedia]
+       - in a jug band it is "a propulsive root-note bass line" and "a
+         percussive, thumping rhythm that anchors the overall tempo"
+         [corpus:grokipedia]
+       - technique is "plucking the string with the fingers, using a pick or
+         slide, and slapping or thumping the string" [corpus:audiolover]
+       - ancestry is the earth-bow / ground harp of West and Central Africa
+         [corpus:grokipedia]
+
+     WHAT THE SOURCES DO NOT GIVE, and it is worth saying: not one of them
+     states a decay time, a frequency, or a spectrum. Every number below is
+     therefore [CHOSEN] from the described behaviour, and marked.
+
+     SO THE MODEL IS THE DIDDLEY BOW'S, RE-PROPORTIONED. Same Karplus-Strong
+     string, because the sources describe the same object -- one wire, homemade,
+     plucked -- and this file already argued that case for its sibling. What
+     changes is everything the tub does to it:
+
+       the string    LOWER feedback (0.86 against the bow's 0.965), because a
+                     rope or wire under hand tension over a tin tub is the most
+                     heavily damped string in this program. That IS "plucky":
+                     the note stops. [CHOSEN from "plucky, twangy"]
+       the tub       a wide, low, metallic cavity rather than the bow's small
+                     boxy one -- one broad resonance near 90 Hz for the air in
+                     the tub and a second, sharper one near 320 Hz for the
+                     tin itself, which is where the "twang" lives. [CHOSEN]
+       the thump     a short noise burst is not enough. A washtub's attack is
+                     the STRING SLAPPING THE TUB RIM, so there is a separate
+                     percussive layer -- a filtered click that does not go
+                     through the string at all. This is the part that makes it
+                     audible on a small speaker, and it is why this voice can
+                     answer the measurement the old bass failed.
+       the pull      the pitch ARRIVES. A player pulls the pole to reach a note,
+                     so every note scoops up into itself over a few tens of
+                     milliseconds. Not an ornament -- it is how the instrument
+                     makes pitch at all. [corpus:wikipedia, the tension quote] */
+  V.washtub = function(g, ev, t){
+    const c = g.ctx, f = 440 * Math.pow(2, (ev.pitch - 69) / 12);
+    const thumpK = P(g, ev, "washtub", "thump", 0.5);
+    const tubK   = P(g, ev, "washtub", "tub",   0.5);
+    const pullK  = P(g, ev, "washtub", "pull",  0.5);
+    const toneK  = P(g, ev, "washtub", "tone",  0.5);
+    const end0 = t + ev.durSec, REL = 0.06, end = end0 + REL + 0.5;
+    const bus = kbdBus(ev);
+    const out = c.createGain(); out.connect(stereoOut(g, ev, t, "washtub", bus));
+
+    /* THE TUB. Two resonances: the air inside it, and the tin it is made of. */
+    const air = c.createBiquadFilter(); air.type = "peaking";
+    air.frequency.value = 78 + 34 * tubK; air.Q.value = 1.1;
+    air.gain.value = 4 + 6 * tubK;
+    const tin = c.createBiquadFilter(); tin.type = "peaking";
+    tin.frequency.value = 300 + 140 * tubK; tin.Q.value = 3.2;
+    tin.gain.value = 2 + 6 * tubK;
+    const lp = c.createBiquadFilter(); lp.type = "lowpass";
+    lp.frequency.value = 900 + 2600 * toneK; lp.Q.value = 0.5;
+    air.connect(tin); tin.connect(lp); lp.connect(out);
+
+    /* ── THE STRING, HEAVILY DAMPED ─────────────────────────────────────── */
+    const per = 1 / f;
+    const str = c.createDelay(0.09);
+    const fb  = c.createGain();
+    const damp = c.createBiquadFilter(); damp.type = "lowpass";
+    damp.frequency.value = 700 + 1500 * toneK; damp.Q.value = 0.0001;
+    str.connect(damp); damp.connect(fb); fb.connect(str);
+    str.connect(air);
+    fb.gain.value = 0.80 + 0.10 * toneK;
+
+    /* THE PULL: the note arrives from under, because the hand is still taking
+       up the tension when the string is struck. */
+    const h = hash32("washtub:" + ev.tSec.toFixed(4) + ":" + ev.pitch);
+    const from = (0.8 + 2.2 * pullK) * (0.5 + 1.0 * (((h >>> 8) & 255) / 255));
+    str.delayTime.setValueAtTime(Math.min(0.09, per * Math.pow(2, from / 12)), t);
+    str.delayTime.linearRampToValueAtTime(
+      Math.min(0.09, per), t + Math.min(0.05 + 0.05 * pullK, Math.max(0.02, ev.durSec * 0.30)));
+
+    /* THE PLUCK, into the string */
+    const nb = c.createBufferSource(); nb.buffer = g.noise; nb.loop = false;
+    const off = ((h >>> 17) & 8191) / 8191 * 1.5;
+    const ng = c.createGain();
+    const lvl = LEVEL[bus] * 1.05 * Math.min(1.2, ev.gain);
+    ng.gain.setValueAtTime(lvl, t);
+    ng.gain.exponentialRampToValueAtTime(0.0001, t + 0.014);
+    nb.connect(ng); ng.connect(str);
+    nb.start(t, off, 0.06);
+
+    /* ── THE THUMP: the string slapping the tub, and it BYPASSES the string ──
+       This is the layer the old bass had no equivalent of. A broad mid click
+       carries on a speaker with no bottom, which is exactly the failure the
+       render measured: energy under the hearing threshold is not loudness. */
+    const tb = c.createBufferSource(); tb.buffer = g.noise; tb.loop = false;
+    const tg = c.createGain();
+    const tf = c.createBiquadFilter(); tf.type = "bandpass";
+    tf.frequency.value = 190 + 220 * thumpK; tf.Q.value = 0.9;
+    tg.gain.setValueAtTime(lvl * (0.35 + 0.55 * thumpK), t);
+    tg.gain.exponentialRampToValueAtTime(0.0001, t + 0.045 + 0.04 * thumpK);
+    tb.connect(tg); tg.connect(tf); tf.connect(out);
+    tb.start(t, ((h >>> 3) & 8191) / 8191 * 1.5, 0.12);
+
+    /* the hand stops it: a washtub note is short and the player damps it */
+    fb.gain.setValueAtTime(fb.gain.value, end0);
+    fb.gain.linearRampToValueAtTime(0.20, end0 + REL);
+    return [nb, tb];
   };
 
   /* the freight yard's hits, on the taiko engine — trims [CHOSEN] until the
@@ -23824,8 +23980,23 @@ GENRE.boxcarsynth = {
          on purpose (the tune rests there and the slide answers), and the yard
          and the outro are two instruments by design. */
       intro:        ["keys", "keys2"],
-      verse:        ["drums", "bass", "keys", "lead", "ostinato", "drone"],
-      instrumental: ["drums", "bass", "keys", "keys2", "ostinato", "lead", "drone"],
+      /* ── `2026-08-17`: THE BAND WAS THREE PLAYERS ─────────────────────────
+         The owner: "Boxcar synth is meant to be more orchestral with 8 or more
+         instruments being played." MEASURED, distinct voices actually sounding
+         at the same instant, sampled every 2 s over 6 records, with the train,
+         the weather, the tape hiss and the station EXCLUDED so the number is
+         the band and not the world:
+
+           dungeonsynth   mean 4.3   median 4
+           synthwave      mean 3.6   median 3
+           boxcarsynth    mean 2.9   median 3   <- second lowest in the file
+
+         Three players, in the genre that is supposed to be the orchestral one.
+         The verse is 86% of the record and it never asked for `counter` or
+         `keys2` at all, so the two parts that would thicken it were composed
+         and then left out of every verse. Both join. */
+      verse:        ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato", "drone"],
+      instrumental: ["drums", "bass", "keys", "keys2", "ostinato", "lead", "counter", "drone"],
       /* ── THE ROLL IS THE MOTOR, AND THE MOTOR IS STOPPED IN A TOWN ────────
          [owner, 2026-08-16: the banjo does chords "when the train slows down
          and then it goes up to speed and the banjo leaves the chord
@@ -23836,9 +24007,16 @@ GENRE.boxcarsynth = {
          lane for this one section, so the strummed chord-hold IS the banjo,
          on the town's own changes. Rolls at speed, chords at rest — which is
          what a bluegrass player calls backup, mapped onto the journey. */
-      chorus:       ["keys", "keys2", "lead", "counter"],
-      bridge:       ["drums", "bass", "keys2", "counter", "drone"],
-      outro:        ["keys", "drone"],
+      /* the chorus keeps its own argument -- the ostinato is out because the
+         train is standing -- but it had no bass and no drums either, which is
+         not "the train has stopped", it is a hole. A town has a band in it. */
+      /* NO DRUMS. Adding them here was tried and `probe_journey` refused it in
+         so many words -- "a town has no drums, the train is standing" -- and
+         the guard is right: the percussion IS the train. The bass and the
+         second keyboard join, because a band on a platform still has a bass. */
+      chorus:       ["bass", "keys", "keys2", "lead", "counter"],
+      bridge:       ["drums", "bass", "keys", "keys2", "counter", "drone"],
+      outro:        ["keys", "keys2", "bass", "drone"],
     },
     /* the town's chord hold is the BANJO — see the roles comment above.
        Everywhere else the wurly holds the progression [rig: keys→"keys"]. */
@@ -23864,6 +24042,32 @@ GENRE.boxcarsynth = {
       bridge:       [["verse", 4], ["instrumental", 3], ["chorus", 2]],
     },
     bridgeAfterChorus: { verse: 1, chorus: 1 },
+    /* ── THE DOUBLING, AND IT WAS `null` ────────────────────────────────────
+       [owner: "Boxcar synth is meant to be more orchestral with 8 or more
+       instruments being played."]
+
+       This genre declared `double: null` while dungeon synth -- the other
+       orchestral one -- carries a full vocabulary. That is the whole of the
+       difference between them: doubling is what puts TWO instruments on ONE
+       line, and "an orchestra" is not a longer list of parts, it is the same
+       parts carried by more players. The engine is already built and argued
+       in stage 5; this is only the genre's vocabulary for it.
+
+       `of` leads with the TUNE because that is what an orchestra doubles
+       first, and the bass is weighted next -- a washtub and a contrabassoon on
+       one line is exactly the hobo-band-meets-orchestra sound the brief asks
+       for, and both are now in the pool to be drawn.
+
+       `pick: [0, 2]` is deliberately smaller than dungeon synth's [0, 3]: this
+       band is five or six players and a bigger draw would double everything at
+       once, which Rimsky-Korsakov's own warning calls the beginner's fault.
+       [CHOSEN, against docs/genre-research/score-craft.md's spacing rules] */
+    double: { pick:  [0, 2],
+              of:    [["lead", 6], ["bass", 4], ["keys", 3], ["counter", 3],
+                      ["keys2", 2], ["ostinato", 1]],
+              uni:   0.62,
+              under: [0.40, 0.26],
+              from:  [0.34, 0.34] },
     /* ── PARTS HAVE A LIFE, AND THIS GENRE HAD NOT SAID SO ──────────────────
        [owner, 2026-08-16, having listened: "it doesn't build to anything"]
 
@@ -24150,8 +24354,14 @@ GENRE.boxcarsynth = {
      still sparse; it is just no longer absent. [CHOSEN, unheard] */
   counter: { style: "line", density: 0.4, intervals: [-3, -5, 3, 5],
              octaves: [0], answer: 0.6 },
-  theme: { count: { hooky: [2, 2], breath: [1, 1], normal: [2, 1] },
-           onsetPool: [[0, 8], [4, 4], [8, 4], [12, 2]] },
+   /* `verseHook` is the owner's instruction of 2026-08-17: "Give the verse the
+      same trick the chorus already has: say a short idea, then say it again."
+      With it, material A restates its first four bars at bars 5-8 instead of
+      writing four more bars of new tune. It is the ONLY genre that declares it,
+      and the snapshot proves the other four did not move. */
+   theme: { count: { hooky: [2, 2], breath: [1, 1], normal: [2, 1] },
+            verseHook: true,
+            onsetPool: [[0, 8], [4, 4], [8, 4], [12, 2]] },
   /* folk shuttles: the dorian i-IV, the aeolian i-VI-VII, mixolydian's bVII;
      MAJOR is written for the LIFT to land in [sheet §5] */
   progressions: {
@@ -24322,7 +24532,22 @@ GENRE.boxcarsynth = {
   roleGain: { bass: 0.9, keys: 0.8, keys2: 0.7, lead: 1.15, ostinato: 0.75, counter: 0.9 },
   machines: {
     drums:    [["tr1000", 1]],
-    bass:     [["auto", 1]],
+    /* ── THE BASS IS THE WASHTUB AND THE CONTRABASSOON ──────────────────────
+       [owner: "I would like the washtub and the contrabasson."]
+
+       This pool was `[["auto", 1]]` -- one row, no draw, the rig's plucked
+       V.bass every time. It is also the part probe_stems measured at
+       MISSED(A) 0.00 to -0.12 dB across three windows: remove it and the
+       audible mix does not change. A pool of one cannot fix that; a different
+       instrument can.
+
+       The washtub leads the draw because it is this genre's own instrument --
+       the diddley bow's documented sibling, one homemade string, the same
+       people and decade. The contrabassoon is the orchestral floor the owner
+       asked for and it is already built and already measured for dungeon
+       synth; it reads [22,53] and this pool's band sits inside that.
+       `auto` stays, weighted low, so the plucked bass is still reachable. */
+    bass:     [["washtub", 5], ["contrabassoon", 3], ["auto", 2]],
     /* NAMED, not left to the rig: this genre's ground is the train and there
        is no draw about it. The pad a record may also want is on `keys2`,
        which carries the choir and the strings — the train takes nothing away
@@ -31865,7 +32090,27 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      Reserving both pads costs A nothing it was not already conceding and makes
      the head safe in the material that borrows it. */
   const resA   = reserve(ostAx.concat(bassAx, keysAx, keys2A, keys2Avar));
-  const themeA = buildTheme(chords, "themeA", resA, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], comp: keysA, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 });
+  /* ── AND THE VERSE MAY ASK FOR A HOOK TOO [owner, 2026-08-17] ─────────────
+     "Give the verse the same trick the chorus already has: say a short idea,
+     then say it again."
+
+     The trick was always here and only the CHORUS was allowed it. `opts.hooky`
+     is what chooses between the two roads at the bottom of buildTheme: hooky
+     RESTATES its first four bars, and everything else writes a brand-new
+     phrase over bars 5-8. themeB has passed `hooky: true` since it was written;
+     themeA has never passed anything.
+
+     MEASURED, twelve seeds, before this line: 0 of 12 A materials and 0 of 12
+     Avar contained any cell shorter than their whole eight bars, against 6 of
+     12 B materials that state a two-bar cell four times. One statement of the
+     verse tune ran 27.1 seconds -- three times longer than any other genre in
+     the file -- and the verse is 86% of the record. The program could write a
+     motif and only ever wrote one in the material you hear least.
+
+     A GENRE DECLARATION, not a new law, because it is a taste: lofi's verse
+     wandering is lofi being lofi. A genre that says nothing is untouched and
+     the snapshot proves it. */
+  const themeA = buildTheme(chords, "themeA", resA, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], comp: keysA, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1, hooky: !!(G.theme && G.theme.verseHook) });
   const counterA = deriveCounter(themeA.notes, resA, "counterA", chords, keysA);
   /* ── THE TUNE TOO, AND FEWER OF THEM ON PURPOSE ──────────────────────────
      [owner: "If the solution was Modal Jazz why isn't the correction genre
