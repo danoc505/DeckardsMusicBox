@@ -97,43 +97,42 @@ nothing here builds one.
 
 ---
 
-## 5. THERE IS NO GENRE IN THIS FILE RIGHT NOW, AND THAT IS THE INTENDED STATE
+## 5. WHERE IT IS NOW
 
-`M.genres()` returns `[]`. The engine parses and exports; nothing composes.
+`GENRE.boxcarsynth` is authored from the sheets and 20/20 seeds compose. The
+form follows the trip: `planTrip` lays the ride out in SECONDS — stations,
+terrain, weather fronts, the clock — and `makeRide` fits sections to it, so
+every section carries what is under the train at that point. §4a's twelve-step
+stop script runs at every town. The `hobo` rig has six pitched seats and puts a
+kettle drum, a taiko and a war drum on the tom lanes.
 
-A `boxcarsynth2` table and a `makeJourney` form builder were written and then
-**deleted**, because both were authored without reading the founding sheet.
-§4a **is** the stop script — twelve numbered steps. §4b **is** the route. §4c
-**is** the trip planner, and it says the itinerary runs **on the clock** with
-terrain drawn **in seconds, not bars**, "which is what frees the landscape from
-the bar line". `makeJourney` laid legs out in bars. It was the exact thing §4c
-exists to undo.
-
-Also deleted: the `hobo` rig, `probe_journey.js` (it held the invented shape
-green), and `the-journey.md` (a sheet describing an invention as research).
-
-**A foundation with the wrong building taken off it is a better place to start
-than a wrong building extended.** Re-author from the sheets.
+**Measured, 12 records:** mean 3.5 instruments a section, **5.0 at cruise**,
+2.3 at a stop, **1.7 at a solo**. The SHAPE is right and is what V1 never had.
+The SIZE is not: eight seats are declared and five sound.
 
 ---
 
-## 6. THE FAULT THIS REWRITE EXISTS FOR, STILL UNFIXED
+## 6. THE FAULT THIS REWRITE EXISTS FOR — NOW PINNED EXACTLY
 
-The owner's founding complaint was **stale repetition**. Measured on V1:
+The theme, printed as notes:
 
-| | |
-|---|---|
-| the cell is 4 bars and comes round | **43.3 times** in a 173-bar record |
-| verses perfectly periodic — the same 2 bars, 4× | 38 of 60 |
-| the tune | 14 notes, **3.7 distinct pitches** — fewest in the file |
-| content | flat from six minutes on: replayed, not re-composed |
+```
+seed 1   D#5 D#5 | D#5 D#5 | D#5 D#5 | D#5 C#5     8 notes, TWO pitches
+seed 2   G G | A G C C |  (the same two bars, four times)
+seed 3   D D# | F D# D# |  (two bars twice, then transposed, twice)
+```
 
-**All of that lives in stage 3, the materials. Every hour of this rewrite so far
-has gone into stage 2, the form.** The journey reorders the rooms in a house
-whose problem is the furniture. Play the current build for twenty minutes and it
-is still the same eight bars, forty-three times.
+**The eight-bar material is really a TWO-BAR cell repeated**, so
+`materialBars: 8` bought nothing. And it does not grow: at 5, 20 and 40 minutes
+the theme is the same 8 notes — 376 bars and 744 bars playing the same cell.
+**Length buys more playing and never more music.**
 
-**If you do one thing next, do this one.**
+That is the founding complaint at its source, and it is worse than the audit's
+3.7 distinct pitches rather than better. Task #147 has the fix in two parts: a
+pitch-variety floor the theme builder must reach, then the motif transformed
+per leg using the private-copy mechanism the engine already has.
+
+**This is the next thing to build. Everything else is scaffolding for it.**
 
 ---
 
