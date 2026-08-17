@@ -69,6 +69,27 @@ for(const g of M.genres()){
   let table = null;
   try { table = M.composeSong(1, undefined, g).chart.table; } catch(e){ continue; }
   const TH = table && table.theme;
+  /* ── AND THE VARY CLAIM MOVED HOUSE, `2026-08-17` ────────────────────────
+     This file asserts two things of a genre that declares `theme.develop`:
+     RETURN (a cell comes back exactly) and VARY (the material is not a plain
+     loop). Boxcar synth's loop is now FOUR bars — a two-bar motif and its
+     restatement — so the material IS periodic by construction, and this probe
+     went to `59/59 perfectly periodic` the moment that landed.
+
+     THE PROGRAM IS NOT WRONG AND NEITHER WAS THE CLAIM. The variation moved: it
+     used to live in bars 4-7 of an eight-bar material and it now lives in the
+     loop's THIRD HEARING, which is a fact about a repetition rather than about
+     an array [LOOP_TO_SONG.md §6, and `the-rule-of-three.md`]. `theme.develop`
+     is deleted from that genre — INSTRUMENTED, the block ran 0 times across 20
+     records once BARS was 4 — so this probe stops asserting against it and
+     `probe_motif.js` asks the same question where the answer now is.
+
+     Left REPORTING for every genre, because the numbers are still the numbers
+     and a row that reads 59/59 periodic beside a genre that declares `third` is
+     information, not a fault. Loosening a guard to make it green is the thing
+     this harness exists to prevent; following a claim to where it moved is not
+     the same act, and the difference is that probe_motif goes red if the third
+     statement stops diverging — watched failing, 3 faults. */
   const declares = !!(TH && TH.develop);
   const at = (TH && TH.develop && TH.develop.at) || 4;
   let tot = 0, ret = 0, periodic = 0, kept = 0;

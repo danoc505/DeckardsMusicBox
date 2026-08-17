@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17y · the ride — the record, seen</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17z · the loop, three times, and then it goes somewhere</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20641,7 +20641,36 @@ GENRE.boxcarsynth = {
        general [Law 4]. A string band tune moves. */
     noRepeat: true,
     verseHook: true,
-    develop: { at: 4, of: [["sequence",4],["displace",3],["tail",3]] },
+    /* ── THE THIRD STATEMENT'S VOCABULARY ────────────────────────────────
+       Every entry is a classical motivic transformation of a phrase that
+       already exists [STORY_AND_MATERIAL.md §3], so none of them can invent a
+       note that breaks a rule the phrase did not already satisfy:
+
+         sequence     "repeating a motive at different pitch levels"
+         invert       "flip the intervals — every rise becomes a fall"
+         tail         only the last note moves — the antecedent/consequent pair
+         retrograde   "play it backwards", same rhythm, pitches reversed
+
+       Weighted so the two that keep the contour recognisable lead. Retrograde
+       is rare on purpose: it is the least audible as a RELATION, and a device
+       nobody can hear as a return of the same idea is a new tune wearing the
+       old one's rhythm. These weights are [CHOSEN] and nothing has heard them. */
+    third: { of: [["sequence",4],["invert",3],["tail",2],["retrograde",1]] },
+    /* ── `develop` IS GONE, BECAUSE ITS JOB MOVED AND IT COULD NO LONGER FIRE ─
+       It read `develop: { at: 4, of: [...] }` and it varied the material's
+       SECOND HALF — bars 4-7 of an eight-bar cell. With the loop at four bars
+       there are no bars 4-7: the block is guarded by `for(let at = 4; at + 2 <=
+       BARS; ...)` and at BARS=4 that condition is false on the first test.
+       INSTRUMENTED rather than reasoned about: the develop block RAN 0 TIMES
+       across 20 records. A declaration nothing can reach is the dead config
+       this file refuses everywhere else, so it is deleted rather than left
+       looking live.
+
+       Its job is done by `third` below, which is the same idea asked at the
+       right scale: `develop` varied the back half of a long material, `third`
+       varies the back half of the loop's THIRD HEARING. One is a fact about an
+       array, the other is a fact about a repetition, and a repetition is what
+       the rule of three is about. */
     /* THE BRIDGE IS THE TUNE, STRETCHED — C is 26.7% of playing time, the
        largest single material in the record, and its pitches were a random
        one-step walk under a comment promising "the same shape". See the
@@ -20649,9 +20678,43 @@ GENRE.boxcarsynth = {
     augmentContour: true,
     onsetPool: [[0,5],[2,2],[4,4],[7,2],[8,4],[12,3]],
   },
-  /* the cell is EIGHT bars: a 4-bar cell came round 43.3 times in a 173-bar
-     record, and no writing survives forty-three hearings */
-  materialBars: 8,
+  /* ══ THE LOOP IS FOUR BARS: A TWO-BAR MOTIF AND ITS RESTATEMENT ═══════════
+     [owner] "We need LOOPS that repeat three times and then evolve this is the
+     basis of ALL MUSIC! We need a motif!"
+
+     THIS LINE SAID EIGHT, and its reason was "a 4-bar cell came round 43.3
+     times in a 173-bar record, and no writing survives forty-three hearings."
+     That reason is answered — but not by making the cell longer. It is answered
+     by the RULE OF THREE, which is what the repo's own research has said since
+     `LOOP_TO_SONG.md` was written and which nothing has ever implemented:
+
+       "Once = intriguing, but not yet memorable · Twice = reinforced; the
+        person playing it can now sing it back · THREE TIMES = the brain begins
+        to tune it out. So on the third pass you must either GO SOMEWHERE
+        DIFFERENT, or START THE SAME AND THEN DIVERGE." [LOOP_TO_SONG.md §6]
+
+     A loop that comes round forty-three times is not the fault. A loop that
+     comes round forty-three times UNCHANGED is. Lengthening the cell to eight
+     bars traded one fault for a worse one, MEASURED at the time and never acted
+     on: one statement of the tune ran 27.1 SECONDS, three times longer than any
+     other genre in the file, and `boxcar-the-missing-hook.md` §1 named that as
+     the reason the record has no hook — "a hook is a thing you can hold in your
+     head, a bar or two, a few seconds. This tune takes half a minute to say
+     once, and then says something else."
+
+     Four bars at 72 bpm is 13.3 seconds, and it is TWO STATEMENTS of a two-bar
+     motif: `buildTheme`'s hooky road writes bars 0-1 and copies them exactly to
+     2-3, which is the motif and its restatement by construction. The third
+     statement — the one that has to evolve — is the next time the loop comes
+     round, and it is handled where a repetition actually happens, in
+     `makePerformance`. See THE RULE OF THREE there.
+
+     MEASURED before this change, and it is the whole complaint in one number:
+     6.5 SEPARATELY-COMPOSED materials a record, sharing 0-40% of their notes
+     with A. `LOOP_TO_SONG.md` §1: "A song is not made by generating different
+     material for each section. It is made by taking ONE loop, spreading it
+     across the whole timeline, and then SUBTRACTING." */
+  materialBars: 4,
   /* ══ AND THE TUNE IS NOT ONE OF THEM ═══════════════════════════════════════
      [owner] "The worst thing is its just random notes with instruments being
      played wrong we have no motif no repeating patterns no rule of three. Its
@@ -28691,6 +28754,175 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const droneB = NEW_CHORUS ? pin(buildDroneLane(chorusChords, "B"), "drone", "B") : droneA;
   const droneC = pin(buildDroneLane(bridgeChords, "C"), "drone", "C");
   const droneAl    = LIFT ? pin(buildDroneLane(liftChords, "A"), "drone", "A") : droneA;
+
+  /* ══ THE THIRD STATEMENT ═══════════════════════════════════════════════════
+     [owner] "We need LOOPS that repeat three times and then evolve this is the
+     basis of ALL MUSIC!"
+
+     `LOOP_TO_SONG.md` §6 has said this since it was written and nothing has
+     ever implemented it:
+
+       "Once = intriguing, but not yet memorable. Twice = reinforced; the person
+        playing it can now sing it back. THREE TIMES = THE BRAIN BEGINS TO TUNE
+        IT OUT. So on the third pass you must do one of two things: go somewhere
+        different, or START THE SAME, THEN DIVERGE partway through — 'oh yeah
+        I've heard this before, but you haven't, because we're going to go
+        somewhere different'."
+
+     The owner chose the second, which the doc also calls the stronger: it is
+     what `003` finds in the Zelda theme's B section — "the first two bars are
+     identical to the first time around, which puts us in a false sense of
+     security. But then bar three... it's at this point that we realise we've
+     been duped" — and it is the classical ABAC, one A answered two ways.
+
+     ── WHY THIS IS BUILT HERE AND SELECTED IN STAGE 5 ──────────────────────
+     A repetition is not a property of the material, it is a thing that happens
+     to it IN TIME. The material cannot know it is being heard for the third
+     time; only `makePerformance` knows, and it already counts — `cycle` has
+     been in that loop for two features. So stage 3 composes the alternative and
+     stage 5 chooses it, which is the same shape as `takes` and keeps the rule
+     this file has everywhere else: selection upstream, no note edited at emit.
+
+     ── AND IT IS BUILT LAST, AGAINST EVERYTHING ────────────────────────────
+     The divergence puts new pitches on seats the original already holds, so it
+     has to be checked against the FULL reservation set — every part of every
+     material, which only exists down here. Nothing is built after it, so
+     reserving its notes costs nothing and keeps the map honest.
+
+     ── ALL OR NOTHING, AND IT FALLS BACK TO THE PLAIN LOOP ─────────────────
+     Same rule as `develop`: a transform applies only if EVERY note of it
+     survives — in band, in key, on a free seat, not repeating the note in
+     front of it. A partial transform is a different phrase, not a varied one.
+     If nothing fits, the third statement is the plain loop and the record is
+     what it was, so this cannot make a record worse than it is. */
+  const THIRD = (() => {
+    const T = (G.theme && G.theme.third) || null;
+    if(!T) return null;                          // a genre that says nothing gets none
+    const half = Math.floor(BARS / 2);           // where the restatement begins
+    if(half < 1) return null;
+    const out = {};
+    /* the scale-step distance between two pitches, by walking — this file has
+       `scaleStep` and no inverse, and the number of steps whose landing is
+       nearest the target IS the interval */
+    const stepsBetween = (from, to, k, md) => {
+      let best = 0, bd = Infinity;
+      for(let n = -12; n <= 12; n++){
+        const d = Math.abs(scaleStep(k, md, from, n) - to);
+        if(d < bd){ bd = d; best = n; }
+      }
+      return best;
+    };
+    const build = (tag, notes, chordSet, reserved, lo, hi) => {
+      const src = (notes || []).filter(n => n.bar >= half);
+      const head = (notes || []).filter(n => n.bar < half);
+      if(src.length < 2 || !head.length) return null;
+      const k = keyOf(chordSet), md = modeOf(chordSet);
+      const rng = stream(chart.seed, "third:" + tag);
+      const pool = T.of || [["sequence", 1]];
+      const tot = pool.reduce((s, x) => s + x[1], 0);
+      /* ordered from the drawn one, so a device that does not fit hands over to
+         the next rather than to silence [the same shape `develop` uses] */
+      const order = [];
+      { let r = rng() * tot, i = 0;
+        for(; i < pool.length; i++){ r -= pool[i][1]; if(r <= 0) break; }
+        for(let j = 0; j < pool.length; j++) order.push(pool[(i + j) % pool.length][0]); }
+      const settings = { sequence: [1, -1, 2, -2, 3, -3], invert: [0], tail: [1, -1, 2, -2],
+                         retrograde: [0] };
+      const spin = (a, r) => a.map((_, i) => a[(r + i) % a.length]);
+      const ordered = src.slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step));
+      const lastHead = head.slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step)).pop();
+      for(const dev of order){
+        for(const v of spin(settings[dev] || [1], Math.floor(rng() * 4))){
+          const out2 = [];
+          let ok = true;
+          if(dev === "sequence"){
+            /* "repeating a motive at different pitch levels" — every pitch moved
+               by the same number of SCALE steps, so it cannot leave the key
+               [corpus:vaia, via development.md §4] */
+            for(const n of ordered){
+              const p = intoBand(scaleStep(k, md, n.pitch, v), lo, hi);
+              if(p === n.pitch){ ok = false; break; }
+              out2.push({ ...n, pitch: p });
+            }
+          } else if(dev === "invert"){
+            /* "flip the intervals — every rise becomes a fall"
+               [STORY_AND_MATERIAL.md §3]. Reflected about the phrase's own
+               first note, in scale steps, so the answer is the question upside
+               down and still in the key. */
+            const axis = ordered[0].pitch;
+            for(const n of ordered){
+              const d = stepsBetween(axis, n.pitch, k, md);
+              const p = intoBand(scaleStep(k, md, axis, -d), lo, hi);
+              out2.push({ ...n, pitch: p });
+            }
+            if(out2.every(n2 => n2.pitch === ordered[out2.indexOf(n2)].pitch)) ok = false;
+          } else if(dev === "retrograde"){
+            /* "play it backwards" — the same rhythm, the pitches reversed */
+            const rev = ordered.map(n => n.pitch).reverse();
+            for(let i = 0; i < ordered.length; i++) out2.push({ ...ordered[i], pitch: rev[i] });
+            if(rev.every((p, i) => p === ordered[i].pitch)) ok = false;
+          } else {
+            /* tail: "only the last note changes — the antecedent/consequent
+               pair, the oldest varied repeat there is" */
+            for(const n of ordered) out2.push({ ...n });
+            const t2 = out2[out2.length - 1];
+            const p = intoBand(scaleStep(k, md, t2.pitch, v), lo, hi);
+            if(p === t2.pitch) ok = false; else t2.pitch = p;
+          }
+          if(!ok) continue;
+          /* ── IN BAND, ON A FREE SEAT, AND NO REPEAT AT THE SEAM ────────────
+             AND A NOTE THAT DID NOT MOVE IS NOT A COLLISION WITH ITSELF. The
+             first cut asked `reserved.has(...)` of every note, and the original
+             material has already reserved every one of its own seats — so any
+             device that leaves a note where it found it failed on that note.
+             MEASURED: 40 records, 220 divergences, and the vocabulary came out
+             `sequence 200, retrograde 20` with INVERT AND TAIL AT ZERO. Both of
+             those keep notes in place by definition — tail moves only the last
+             one, and inversion maps its own axis to itself — so the check was
+             not choosing between four devices, it was silently deleting the two
+             that hold still. The weights in the table read like a preference and
+             were describing a bug. */
+          let prev = lastHead ? lastHead.pitch : null;
+          for(let i = 0; i < out2.length; i++){
+            const n = out2[i];
+            if(n.pitch < lo || n.pitch > hi){ ok = false; break; }
+            if(n.pitch === prev){ ok = false; break; }
+            if(n.pitch !== ordered[i].pitch &&
+               reserved.has(key(n.bar % BARS, n.step, n.pitch))){ ok = false; break; }
+            prev = n.pitch;
+          }
+          /* AND IT MUST ACTUALLY BE DIFFERENT. A transform that lands back on
+             the notes it started from is a third statement that has not
+             diverged, which is the fault this whole block exists to remove. */
+          if(ok && out2.every((n, i) => n.pitch === ordered[i].pitch)) ok = false;
+          if(!ok) continue;
+          for(const n of out2) reserved.add(key(n.bar % BARS, n.step, n.pitch));
+          return { dev, notes: head.concat(out2) };
+        }
+      }
+      return null;
+    };
+    /* every material's TUNE, which is the part a listener is following. The
+       accompaniment already re-realises per cycle through `takes`; asking the
+       roll and the comp to diverge as well would be three devices moving at
+       once and nothing recognisable underneath any of them. */
+    const lo = playable(R.themeA)[0], hi = playable(R.themeA)[1];
+    const add = (name, notes, chordSet, reserved, band) => {
+      const r = build(name, notes, chordSet, reserved, band ? band[0] : lo, band ? band[1] : hi);
+      if(r) out[name + "|lead"] = r;
+    };
+    add("A", themeA.notes, chords, resA);
+    add("Avar", leadAvar, chords, resV);
+    add("B", themeB.notes, chorusChords, resB, [playable(R.themeB)[0], playable(R.themeB)[1]]);
+    add("Bvar", leadBvar, chorusChords, resBv, [playable(R.themeB)[0], playable(R.themeB)[1]]);
+    add("C", themeC.notes, bridgeChords, resC, [playable(R.themeC)[0], playable(R.themeC)[1]]);
+    if(LIFT){
+      add("Alift", themeAl.notes, liftChords, resAl);
+      add("Avarlift", leadAvarl, liftChords, resVl);
+    }
+    return Object.keys(out).length ? out : null;
+  })();
+
   const materials = {
     A:    { drums: drumsA, bass: bassA, keys: keysA, keys2: keys2A, lead: themeA.notes, counter: counterA, ostinato: ostA, drone: droneA },
     // Avar carries NO counter: the harmony vocal was derived from A's tune, and the
@@ -28721,6 +28953,12 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      Empty object when no genre asked, so the lookup in stage 5 is one falsy
      test on every other record in the file. */
   materials.takes = {};
+  /* THE THIRD STATEMENT sits beside them for the same reason and is read the
+     same way — `material|role`, one falsy test where no genre asked. */
+  materials.third = {};
+  if(THIRD) for(const k in THIRD) materials.third[k] = THIRD[k].notes;
+  materials.thirdDev = {};
+  if(THIRD) for(const k in THIRD) materials.thirdDev[k] = THIRD[k].dev;
   /* ── TAKE 0 IS THE MATERIAL'S OWN ARRAY, BY CONSTRUCTION ─────────────────
      The invariant the blend battery caught me breaking: a take list is a set of
      realisations OF A PART, so its head must be the very array that part
@@ -31062,7 +31300,29 @@ function makePerformance(chart, form, materials, sections){
     return materials[priv] ? priv : base;
   };
   let fillNo = 0;                      // which fill this boundary gets
+  /* ══ HOW MANY TIMES HAS THIS LOOP BEEN HEARD? ══════════════════════════════
+     The rule of three counts HEARINGS, and a hearing is a statement of a
+     particular loop — not a bar number. Counting `floor(bar / bars) % 3` was
+     the first cut and it is wrong in the way that matters most: the tune enters
+     at bar 8, 8/4 = 2, so THE FIRST TIME A LISTENER HEARS THE TUNE IT IS
+     ALREADY THE DIVERGED VERSION. Printed and caught. "Once = intriguing,
+     twice = reinforced, three times = tuned out" is a sequence, and it has to
+     start at once.
+
+     So each material carries its own running count across the record. A section
+     that plays A resumes A's count where the last A section left it, because a
+     listener does not forget a tune because a bridge happened. */
+  const STMT0 = [];
+  { const seen = {};
+    for(const sec of sections){
+      STMT0.push(seen[sec.material] || 0);
+      seen[sec.material] = (seen[sec.material] || 0) +
+        Math.ceil((sec.endBar - sec.startBar) / materials.bars);
+    }
+  }
+  let secNo = -1;
   for(const sec of sections){
+    secNo++;
     const mat = materials[sec.material];
     const alt = materials[ALT_OF(sec.material)];
     for(let bar = sec.startBar; bar < sec.endBar; bar++){
@@ -31111,6 +31371,32 @@ function makePerformance(chart, form, materials, sections){
              back to the first thing they played each time a section starts, so
              the index walks the whole record. */
           notes = TKS[Math.floor(bar / materials.bars) % TKS.length];
+        /* ══ THE RULE OF THREE ═════════════════════════════════════════════
+           [owner] "We need LOOPS that repeat three times and then evolve this
+           is the basis of ALL MUSIC!"
+
+           "Once = intriguing. Twice = reinforced; the person playing it can now
+            sing it back. THREE TIMES = the brain begins to tune it out."
+            [LOOP_TO_SONG.md §6]
+
+           So the third statement of the loop starts where the first two started
+           and then GOES SOMEWHERE ELSE — the doc's stronger option, and the one
+           the owner chose. Stage 3 composed that alternative against the full
+           reservation map; this only decides WHEN it is heard.
+
+           THE COUNTER IS THE RECORD'S, NOT THE SECTION'S, for the reason the
+           take counter above already had to learn: `cycle` resets at every
+           boundary, so a section-local count would put the divergence at a
+           different place in every section and often never reach it at all. A
+           listener counts hearings, not sections.
+
+           AND IT IS THE TUNE ONLY. The accompaniment already re-realises per
+           cycle through `takes`; a roll, a comp and a tune all diverging on the
+           same bar is three devices moving at once with nothing recognisable
+           left underneath any of them. */
+        const THR = materials.third && materials.third[sec.material + "|" + role];
+        if(THR && notes === mat[role] && (STMT0[secNo] + cycle) % 3 === 2)
+          notes = THR;
         if(role === "drums" && lastBar && sec.fillInto){
           /* CONSECUTIVE BOUNDARIES TAKE CONSECUTIVE FILLS. The source's rule is
              not "vary the fill", it is "this fill has to be different from bar
