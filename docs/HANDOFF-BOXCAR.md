@@ -83,57 +83,37 @@ A constant record takes the closed form, and that is **not** an optimisation:
 a clock that accumulated bar lengths diverged from the shipped arithmetic by
 **bar 6**. Measured against a deliberately broken build.
 
-### The journey — a second stage 2, and now the only one
-`makeJourney(chart)` lays out legs, the stops between them, the handover, and
-`ridePos[]` — **where the train is, per bar**, 0 at the platform behind, 1 at
-the one ahead, −1 while standing. Everything about pace and seating reads that.
-
-Measured: `5:00 → 1 leg, 10:00 → 2, 20:00 → 4, 40:00 → 8`, within 4% of the
-length asked for.
-
-### The genre — `GENRE.boxcarsynth2`, authored not inherited
-Not one line of the V1 table was copied and not one line was edited; V1 was
-deleted whole. Facts that were measured correctly are **re-declared with their
-sources**.
-
-Its section vocabulary: `yard roll open high brake solo dance pullout arrive`.
-**These are labels, not a theory change** — `high` is a chorus doing a chorus's
-job, `open` is a verse doing a verse's job. Sections, materials, harmony and
-energy are unchanged and stay unchanged.
-
-### The deletions
+### The deletions — this is most of what has been done
 | | |
 |---|---|
 | lofi, synthwave, vgm, dungeon synth | 4,397 lines |
 | boxcar synth V1 | ~1,600 lines |
 | **the grammar walk** | **652 lines** |
+| **my own pre-sheet work** (see §5) | 45,364 chars |
 
-The walk was the limit. Laws of succession, a plan of phases, a bisection search
-over section lengths, a drawn energy arc — all of it for building a song, and
-nothing here builds one. `makeForm` now dispatches to the journey or **throws**;
-there is no fallback to a shape this file does not have.
-
-**40/40 seeds compose.**
+The walk was the limit. Laws of succession, a plan of phases, a bisection
+search over section lengths, a drawn energy arc — all for building a song, and
+nothing here builds one.
 
 ---
 
-## 5. WHAT IS BROKEN RIGHT NOW
+## 5. THERE IS NO GENRE IN THIS FILE RIGHT NOW, AND THAT IS THE INTENDED STATE
 
-All diagnosed. None fixed. **The file is worse before it is better and that is
-deliberate — nothing here is hidden.**
+`M.genres()` returns `[]`. The engine parses and exports; nothing composes.
 
-1. **No train sounds at all.** The SFX tables — the trip planner, the station
-   script, the weather, the atmosphere — lived on V1's table and went with it.
-   Re-declare from `boxcar-synth.md` §4, §4a–§4d, not from git.
-2. **The engine is silent on the open road** (task #144). The drone material is
-   ONE note, `{bar:0, step:0, dur:128}` — written per **material cycle**, so
-   whether the train sounds in a section depends on where that section falls
-   against an 8-bar loop. Measured: silent in `roll` and `open`, present in
-   `high`, `brake`, `pullout`. **The fix is per-SECTION, not more notes.**
-3. **The band is 5 at cruise where 8 seats are declared** (task #145). The shape
-   is right — 2.3 at a stop, 1.7 at a solo, so it genuinely thins — the size is
-   not.
-4. **THE MATERIALS ARE UNTOUCHED, AND THEY ARE THE WHOLE POINT.** See §6.
+A `boxcarsynth2` table and a `makeJourney` form builder were written and then
+**deleted**, because both were authored without reading the founding sheet.
+§4a **is** the stop script — twelve numbered steps. §4b **is** the route. §4c
+**is** the trip planner, and it says the itinerary runs **on the clock** with
+terrain drawn **in seconds, not bars**, "which is what frees the landscape from
+the bar line". `makeJourney` laid legs out in bars. It was the exact thing §4c
+exists to undo.
+
+Also deleted: the `hobo` rig, `probe_journey.js` (it held the invented shape
+green), and `the-journey.md` (a sheet describing an invention as research).
+
+**A foundation with the wrong building taken off it is a better place to start
+than a wrong building extended.** Re-author from the sheets.
 
 ---
 
