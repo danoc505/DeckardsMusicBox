@@ -191,7 +191,7 @@ its own table (`Deckards Orchestrator MK2.html:28880`):
 | modes, not keys | `modes: [["dorian", 5], ["minor", 3], ["mixolydian", 2]]` |
 | no functional cadence | folk shuttles only — i–IV, i–♭VII; no V–I anywhere |
 | slow harmonic rhythm | **two bars a chord** |
-| a pedal under it | ⚠ **NO LONGER TRUE — see §3a** |
+| a pedal under it | the train, continuously; `drone` is a machine we have if a pitched one is ever wanted |
 | the scale moves, rarely | `keyShift: { chance: 0.65, by: [[0,6],[2,2],[5,1]], change: 0.8 }` |
 
 **The genre does not need modal jazz's harmony. It already has it.** What it
@@ -200,44 +200,155 @@ reframes the owner's question from *"should we incorporate modal jazz"* to
 *"we are already there, and we have the disease Miles named — which of their
 remedies applies."*
 
-### 3a. ⚠ THE PEDAL ROW WAS TRUE WHEN IT WAS WRITTEN AND IS FALSE NOW
+### 3a. ⚠ I READ THIS ROW AND WROTE THE WRONG SHEET — kept, because the correction is the finding
 
-That row read *"`bassStyle: "drone"`, plus the train as the `drone` role"*, and
-**both halves have since stopped being pedals** — separately, each for a good
-reason, neither noticing what the pair of them was holding up:
+A first pass at this row claimed the pedal was **gone**, on the grounds that
+`bassStyle` had moved `"drone"` → `"pulse"` and that the train's `drone` role
+declares `unpitched: true`. It then proposed building a pitched pedal.
 
-- **`bassStyle: "pulse"`.** The washtub sheet is right that this instrument is
-  *"a propulsive root-note bass line ... a percussive, thumping rhythm"*
-  [washtub-bass.md §1; corpus:grokipedia], and a sustained washtub measured 38 dB
-  under the lead. Correct change. It also means the bass no longer holds
-  anything: **mean note 1.45–2.99 s, longest 6.1 s** over 8 records.
-- **`drone: { unpitched: true }`.** The train's written note *"only nudges its
-  playback rate, because a train is in no key"* — also correct, and also the end
-  of the pedal. Measured, seed 1: the drone is **18 events, 50.2 s each, ONE
-  distinct pitch for the whole record** — a textbook pedal by every structural
-  test, rendered as a locomotive, so nothing about it is heard as a pitch.
+**Wrong, and corrected by the owner:** *"a pedal has nothing to do with any of
+the issues! We have a pedal with the train itself, we also have access to a
+drone if we wanted something like a pedal."*
 
-**MEASURED, 8 records.** What survives is real and is not a pedal:
+He is right on the fact and on the framing. **A pedal is a ground that does not
+move**, and the train is exactly that — measured, seed 1: `drone` is **18
+events, 50.2 s each, one pitch for the whole record**. §2c of this sheet already
+said so — *"Boxcar has the pedal twice over"* — and the sources agree that the
+mechanism is one of three interchangeable ones, not specifically a sustained
+pitch:
+
+> "you have to use other techniques, such as: **pedal points or repetition of
+> the root note**" · "an ostinato is essentially just a pattern that you repeat
+> over and over that **focuses on that root note**"
+> — [corpus:thejazzpianosite *Modal Jazz*; corpus:learnjazzstandards]
+
+The program has all three: the train (pedal), the banjo roll's fixed fifth-string
+drone (ostinato on the root), and the comp. **Measured, 8 records — home is
+established and it is not the problem:**
 
 ```
    the tonic pitch class is sounding somewhere    75.1% of the record
-      of which: keys 71.9%   drone 74.4% (unpitched)   bass 28.7%   ostinato 29.6%
    time on the tonic CHORD in the verse            52%
    distinct chords in a whole 20-minute record      6.9
    the lift returns to the home key                 7/7 records that draw one
 ```
 
-So the *home* is intact — the harmony is modal, the ground is 6.9 chords in
-twenty minutes, and the lift comes back the way "So What" comes back. What is
-gone is the **held note underneath it**. The tonic is present because the comp
-keeps voicing it, not because anything is standing on it.
+Six point nine chords in twenty minutes, half the verse on the tonic, and the
+lift leaves and comes back the way "So What" leaves and comes back. **That is a
+modal record with a home.** Turning a measured absence-of-a-pitch into "the
+pedal is gone" was the same mistake as the interval work two sections earlier:
+a real number, a wrong conclusion, and a proposal to build the thing that was
+already there. See §3b for what the sources actually say is missing.
 
-**And the voice that would move above a pedal is empty.** `keys2` — the second
-pad, the Naima part — writes **0 events in 7 of 12 records**, 48 events a record
-on average. §7 item 3 is the one recommendation of the four that was never
-built, and in the meantime both of the things it needed have been removed or
-have gone silent. That is the honest reading of "boxcar synth is already a modal
-record": it is modal in its harmony and it no longer has the ground.
+### 3b. WHAT THE SOURCES SAY YOU USE WHEN THE HARMONY IS STANDING STILL
+
+Fresh research `2026-08-17`, because the answer to "how does Miles do it" turns
+out not to be a harmony answer at all. Every source asked the same question —
+*if the chords stop moving, where does the music come from?* — gives the same
+three-word answer, and **none of the three words is "harmony" or "pedal".**
+
+> "**When harmony remains static, RHYTHM becomes your primary tool for
+> generating interest and development.**"
+>
+> "The most common error I hear in modal playing is **MINDLESS SCALE RUNNING**
+> ... They used **space, dynamics, and rhythmic variety** to create musical
+> statements."
+>
+> improvisers should use "rhythmic variation and displacement" and develop
+> "**clear shape and direction**" rather than merely running scales
+>
+> "Without harmonic changes to outline, you must generate musical interest
+> through **pure melodic invention, rhythmic sophistication, and dynamic
+> control**."
+> — [corpus:newyorkjazzworkshop *What Is Modal Jazz?*]
+
+> "Without functional harmony pulling toward resolution, modal jazz creates
+> expansive spaces where **melody and rhythm become the primary forces**."
+> — [corpus:thejazzpianosite *Modal Jazz Improvisation & Harmony*]
+
+**"Mindless scale running" is the owner's complaint in a teacher's mouth**, and
+the sourced remedy is space, dynamics and rhythm — not more notes, not more
+chords, and not a pedal the record already has.
+
+### 3c. AND HOME IS A PLACE YOU COME TO REST — which is the same finding
+
+The other half is what home DOES once it is established. Every description of it
+is in the language of **rest**, not of ground:
+
+> "the bass line defines the note D as a **central rest-point**, and when the
+> chord a half-step above Dm creates tension, **returning to Dm provides a sense
+> of rest**" · "the II–I chord sequence sounds like a **cadence with tension and
+> release**"
+>
+> "the melody defines the modal sonority by **establishing D as the tonal centre
+> ... by outlining its dominant before coming to rest on the D**"
+
+> "there is still a tonal centre (and therefore a tonic chord) so there is still
+> **some pull to the tonic** ... less of a pull than in tonal music"
+> — [corpus:thejazzpianosite *Tonal Harmony vs Modal Harmony*]
+
+So the ground states where home is, and then **the tune and the arrangement have
+to leave it and come back**, audibly, over and over. Tension and release is not
+deleted by modal jazz; it is moved off the chord chart and onto melody, rhythm
+and dynamics. A record whose ground is perfect and which never departs or
+arrives has a home nobody visits.
+
+### 3d. MEASURED — the three tools, in this program
+
+40 records for the rhythm, 8 for the rest. This is the audit §3b implies and it
+has never been run.
+
+**RHYTHM — the primary tool, and it is quarter notes on the beat**
+
+```
+   onsets ON THE BEAT (0,4,8,12)          67.3%
+   off-beat eighths                       19.2%
+   sixteenths                             13.5%
+   note length = exactly one beat         38.0%   (next: 3/16 at 17.8%, 2/16 at 14.6%)
+   DISTINCT BAR RHYTHMS across 40 records  216    the commonest is 4.0% of all bars
+```
+
+Two thirds of the tune lands on a beat, nearly two fifths of it is a plain
+quarter note — and **216 distinct bar rhythms means no rhythmic figure ever
+comes back either.** That is the pitch fault of `the-head-and-the-band.md`
+repeated exactly in the rhythm domain, in the one dimension the sources call the
+*primary* tool. `theme.develop`'s `displace` device is the only rhythmic
+variation anywhere in the program, and it fires once per material, on bars 4–7.
+
+**DYNAMICS — a flat line**
+
+```
+   seed   quietest   loudest   RANGE
+      1      0.436     0.671   3.8 dB
+      2      0.305     0.682   7.0 dB
+      3      0.436     0.662   3.6 dB
+      4      0.436     0.684   3.9 dB
+      5      0.324     0.682   6.5 dB
+      6      0.436     0.682   3.9 dB
+      7      0.436     0.671   3.8 dB
+      8      0.436     0.682   3.9 dB
+```
+
+**Under four decibels, on five records in eight, across twenty minutes.** An
+orchestral score runs *pp* to *ff*; a horn player gets twenty. This is the same
+number task #151 found from the other end — the fiddle's *p* layer needs a gain
+below 0.42 and the lead never goes there, so the quiet layer is unreachable by
+construction — now measured at the source rather than at the voice. There is no
+dynamic arc, so nothing can build and nothing can drop away.
+
+**SPACE — uncontrolled rather than absent**
+
+```
+   share of the record the lead is silent:  16.3%  28.2%  30.4%  39.6%  40.1%  44.9%  52.7%
+```
+
+A three-to-one spread with nothing declaring it. `theme.breathLast` exists and
+places the breath bar's onsets early; nothing above the bar ever decides that a
+whole section lays out.
+
+**In one line:** the harmony is right, the ground is right, and all three of the
+tools the sources say carry a static-harmony record are either flat (dynamics),
+unshaped (space), or as unrepeating as the tune was (rhythm).
 
 ---
 
@@ -1317,6 +1428,35 @@ between records of different lengths*, and nothing was comparing two.
 ---
 
 ## Sources
+
+**§3b/§3c — what carries a record when the harmony stops moving, fetched
+`2026-08-17`.** This is the set that answers the owner's question, and it was
+not consulted when §7's four recommendations were ranked:
+
+- [New York Jazz Workshop — What Is Modal Jazz?](https://newyorkjazzworkshop.com/what-is-modal-jazz/)
+  — "when harmony remains static, rhythm becomes your primary tool"; "the most
+  common error I hear in modal playing is mindless scale running ... they used
+  space, dynamics, and rhythmic variety"; "pure melodic invention, rhythmic
+  sophistication, and dynamic control"; character tones "present and audible"
+- [The Jazz Piano Site — Modal Jazz Improvisation & Harmony](https://www.thejazzpianosite.com/jazz-piano-lessons/modern-jazz-theory/modal-jazz/)
+  — "pedal points **or** repetition of the root note" as interchangeable ways to
+  establish the tonic without functional harmony; "melody and rhythm become the
+  primary forces"
+- [The Jazz Piano Site — Tonal Harmony vs Modal Harmony](https://www.thejazzpianosite.com/jazz-piano-lessons/modern-jazz-theory/tonal-harmony-vs-modal-harmony/)
+  — "there is still a tonal centre ... so there is still some pull to the
+  tonic", and no chordal hierarchy above it
+- [Learn Jazz Standards — What is Modal Jazz](https://www.learnjazzstandards.com/blog/5-easy-modal-jazz-standards/)
+  — the ostinato "focuses on that root note"; "Footprints" as riff-based
+- [Hooktheory — So What analysis](https://www.hooktheory.com/theorytab/view/miles-davis/so-what)
+  and [Jazz Video Lessons — So What](https://jazzvideolessons.net/standards-studies/so-what/)
+  — the bass line as "a central rest-point"; "returning to Dm provides a sense
+  of rest"; the II–I heard "like a cadence with tension and release"
+- ⚠ [Jazz Language Workbooks — So What analysis](https://jazzlanguageworkbooks.com/so-what-miles-davis-analysis/)
+  — **fetched and it does NOT support the mechanism claims**; it gives the form
+  (A8-A8-B8-A8, D dorian → E♭ dorian) and Miles's "no chords ... gives you a lot
+  more freedom and space to hear things", and nothing on how the tonic is
+  established. Recorded so nobody re-fetches it expecting the detail.
+- ⚠ grokipedia's *So What* page returned **HTTP 403** and was not read.
 
 **Modal jazz, fetched 2026-08-16:**
 
