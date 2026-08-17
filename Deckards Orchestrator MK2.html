@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17g · two of Rimsky's rules, asked of the notes</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17h · one section in seven runs past its ending</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -24434,6 +24434,19 @@ GENRE.boxcarsynth = {
        here — 8 bars, two thirds of a verse — and the record is mostly under
        way, which is rule 5 ("our genre is marked by its movement"). */
     lengths: { intro: 8, verse: 16, chorus: 8, bridge: 16, instrumental: 16, outro: 8 },
+    /* ── AND ONE SECTION IN SEVEN RUNS PAST ITS ENDING ───────────────────────
+       A cadential extension, and the mechanism in makeForm carries the sources.
+       `chance: 0.14` is the proportion the repertoire survey gives -- three
+       asymmetrical periods in about two dozen -- rather than a number picked to
+       feel right. Two or four bars, so the tag is a quarter or a half of a
+       material: long enough to hear as an extra breath, short enough that it
+       reads as the section refusing to end rather than as a new section.
+
+       Verse, chorus and instrumental only. The intro and outro are already the
+       record's own bookends and the bridge is the one departure -- extending a
+       departure is just a longer departure. [CHOSEN which functions; the device,
+       its direction and its frequency are sourced] */
+    extend: { chance: 0.14, bars: [2, 4], fn: ["verse", "chorus", "instrumental"] },
     material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
                 instrumental: "A", outro: "A" },
     /* ── WHO IS IN THE ROOM IS THE JOURNEY [sheet §3] ──────────────────────
@@ -27098,8 +27111,17 @@ function makeForm(chart){
   const LEN = (lenScale == null || lenScale === 1) ? chart.table.form.lengths : scaled(lenScale);
   const rng = stream(chart.seed, "form");
   const fns = [];
+  /* INDEX-ALIGNED WITH `fns`, AND THAT ALIGNMENT IS THE WHOLE CONTRACT. Three
+     places push a section -- the intro, the walk, the outro -- and the first
+     draft only fed this from the walk. The array slipped by one and the section
+     map read the WALK's extension against the INTRO, which is how an intro
+     started running past its ending in a genre whose table does not list the
+     intro as extendable. Every push site pushes here too. */
+  const EXTB = [];
+  const extRng = stream(chart.seed, "sectionExtend");
+  const EXT = F.extend;
   const coldOpen = rng() < F.coldOpen;                  // a cold open is a choice, not an absence
-  if(!coldOpen) fns.push("intro");
+  if(!coldOpen){ fns.push("intro"); EXTB.push(0); }
   /* ── THE PAYOFF IS A GENRE'S CHOICE, NOT THE WORD "CHORUS" ────────────────
      This function named `chorus` in four places: the opening draw, the repeat
      counter that unlocks the bridge, the break that ends a song on its payoff,
@@ -27193,8 +27215,25 @@ function makeForm(chart){
       table = table.map(([to, w]) => [to, to === "chorus" ? Math.max(w, 1) : 0]);
     return table;
   };
+  /* ══ THE EXTENSION IS DRAWN HERE, WHERE THE PLANNER CAN SEE IT ═══════════
+     The first version drew it later, in the section-object map, and the battery
+     found the consequence at once: "the length dial lands near the length that
+     was asked for" went red -- boxcarsynth asked for 180 s and got 214. The
+     planner counts `bars` as it admits sections and stops when it has enough;
+     bars added AFTER that count are bars nobody budgeted for, so a 14% chance
+     of two-to-four extra bars became a 19% overshoot on the whole record.
+
+     So the draw moves to the one place that knows the running total. Same
+     device, same numbers, same stream -- it is only asked EARLIER, and the
+     section map below reads what was drawn instead of drawing again. */
   const admit = () => {
-    fns.push(fn); bars += LEN[fn];
+    let ext = 0;
+    if(EXT && (EXT.fn || []).indexOf(fn) >= 0 && extRng() < (EXT.chance || 0)){
+      const pool = EXT.bars || [2];
+      ext = pool[Math.floor(extRng() * pool.length) % pool.length];
+    }
+    EXTB.push(ext);
+    fns.push(fn); bars += LEN[fn] + ext;
     if(fn === PAY) chorusSeen++;
     if(fn === "bridge") bridgeUsed = true;
   };
@@ -27372,8 +27411,9 @@ function makeForm(chart){
       }
     }
   }
-  fns.push("outro");
-  return { fns, len: LEN, bars: fns.reduce((t, f) => t + LEN[f], 0) };
+  fns.push("outro"); EXTB.push(0);
+  return { fns, len: LEN, ext: EXTB,
+           bars: fns.reduce((t, f, i) => t + LEN[f] + (EXTB[i] || 0), 0) };
   };
 
   /* ── BUILD IT, AND IF A LENGTH WAS ASKED FOR, FIND THE AIM THAT LANDS ──────
@@ -27435,15 +27475,50 @@ function makeForm(chart){
      hearing must differ -- research: state, repeat, change on the third) */
   const seen = {};
   let bar = 0;
+  /* ══ AND ONE SECTION IN SEVEN RUNS PAST ITS OWN ENDING ═══════════════════
+     MEASURED, 40 records a genre: EVERY SECTION FUNCTION HAS EXACTLY ONE
+     LENGTH, in every genre in the file. A boxcar verse is 16 bars 220 times out
+     of 220; its chorus is 8 bars 119 times out of 119. Across five genres and
+     roughly 2,000 sections there is not one exception. Nothing breathes.
+
+     THE SOURCED SHAPE IS NOT "RANDOM LENGTHS", AND THAT MATTERS. The term for
+     what real music does here is a CADENTIAL EXTENSION -- "the addition of
+     musical material beyond the point at which a cadence is expected"
+     [corpus:Kallstrom, PHRASE AND PERIOD STRUCTURE] -- and an ASYMMETRICAL
+     period is "a period in which the phrases differ in length" [same].
+
+     THE PROPORTION IS SOURCED TOO. That sheet catalogues about two dozen
+     periods from real repertoire and marks THREE of them asymmetrical -- and
+     all three are extensions rather than odd lengths: 10 bars (8+2), 14 (8+6),
+     and 17, the last annotated "repeated consequent and cadential extension".
+     So: symmetry is the rule, roughly seven times in eight, and the exception
+     ADDS to the end rather than cutting anything.
+
+     WHY IT MUST ADD AND NOT CUT, in this program specifically. A material is
+     eight bars and the hook lives in bars 0-3 with its development at 4-7.
+     Shortening a section to 12 bars would stop the tune in the middle of its
+     own development -- it would break exactly what phase 3 built. An extension
+     runs PAST the end, so the extra bars wrap round to the material's opening:
+     the hook said once more as a tag, which is what a cadential extension
+     sounds like and why it is the right device rather than a convenient one.
+
+     Declared, so no other genre moves. */
+
   /* the LAST payoff is the record's peak, and stage 4 empties the bar before it.
      Reading the genre's payoff rather than the word "chorus" is what lets a
      chorus-free genre still have a highest point. */
   const lastChorus = fns.lastIndexOf(PAY);
   const out = fns.map((f, i) => {
     seen[f] = (seen[f] || 0) + 1;
+    /* what `admit` drew for this section -- and never on the LAST one, since a
+       record whose final bars are a tag has no cadence left to extend past */
+    const ext = (i < fns.length - 1 && built.ext) ? (built.ext[i] || 0) : 0;
     const o = {
-      fn: f, startBar: bar, endBar: bar + SLEN[f],
+      fn: f, startBar: bar, endBar: bar + SLEN[f] + ext,
       occurrence: seen[f],
+      /* how many bars this section runs past its own expected ending, so a
+         probe can ask the question and stage 4 can leave it alone */
+      extended: ext || undefined,
       /* ── THE RULE OF THREE COUNTS WHAT A PLAYERS COUNTS ───────────────────
          Reported by taste: "it feels like we are repeating the same loop with no
          changes after three passes -- that violates the rule of three." Right,
@@ -27483,7 +27558,7 @@ function makeForm(chart){
                               : F.energy[f],
       peak: i === lastChorus,
     };
-    bar += SLEN[f];
+    bar += SLEN[f] + ext;
     return Object.freeze(o);
   });
   out.nBars = bar;

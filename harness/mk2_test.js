@@ -208,6 +208,36 @@ const check = (name, ok, detail) => {
   if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
 }
 
+/* ═══ AND A SECTION SOMETIMES RUNS PAST ITS OWN ENDING ══════════════════════
+   MEASURED before it did: EVERY SECTION FUNCTION HAD EXACTLY ONE LENGTH, in
+   every genre — a boxcar verse 16 bars 220 times out of 220, a vgm section 8
+   bars with a standard deviation of 0.00, no exception in ~2,000 sections.
+
+   The sourced device is a CADENTIAL EXTENSION and it only ever ADDS. That
+   direction is not a preference here: a material is eight bars and the hook
+   lives in 0-3 with its development at 4-7, so a section CUT short would stop
+   the tune inside its own development and break what the hook phase built.
+
+   `harness/probe_lengths.js` owns the logic and asserts three things for a
+   genre that declares `form.extend` — something varies, nothing is ever
+   shorter, and only the named functions vary. The third has been watched
+   catching a real bug: three places push a section and the first build fed the
+   extension array from one of them, so it slipped by one and INTROS started
+   extending in a genre whose table does not list the intro.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  const { execFileSync } = require("child_process");
+  let out = "", ok = true;
+  try { out = execFileSync(process.execPath,
+          [path.resolve(__dirname, "probe_lengths.js"), "40"], { encoding: "utf8" }); }
+  catch(e){ ok = false; out = (e.stdout || "") + (e.stderr || ""); }
+  const n = (out.match(/(\d+) length fault\(s\)/) || [])[1];
+  check("a genre that extends its sections only ever adds, and only where it said", ok,
+        ok ? "the declared functions vary, nothing is ever shorter, nothing else moves"
+           : `${n || "some"} length fault(s) — run: node harness/probe_lengths.js`);
+  if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
+}
+
 /* ═══ AND TWO OF RIMSKY'S RULES ARE ASKED OF THE NOTES ══════════════════════
    `score-craft.md` holds 56 sections and the program cited about eleven. These
    two were sourced, prescriptive and entirely unbuilt, and both are ARRANGEMENT
