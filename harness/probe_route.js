@@ -111,10 +111,42 @@ const check = (name, ok, note) => {
         if(wet < total * 0.85) out.dryToo++;
       }
       /* 4. the stops are somewhere */
+      /* ── AND A STOP IS NOT THE PAYOFF SECTION ──────────────────────────────
+         This looked for the platform crowd in sections whose `fn` equals
+         `form.payoff` — which on this genre is `high`, A MID-LEG CRUISE
+         SECTION. So it searched the middle of open country for a station, never
+         found a crowd, found the countryside's birds instead, and reported
+         "0 city stops, 20 country halts" on a record whose stations are
+         correct: the planner draws city/halt per station, `railCrowd` is
+         emitted, and the crowd-at-a-halt check passes.
+
+         Its model of "a stop" predates the ride form. A journey genre marks
+         its stops with `atStop`, and that is what a stop IS here — the
+         `solo -> dance -> pullout` ceremony, not the loudest cruise section.
+         Falls back to the payoff for a genre that declares no ride, so the
+         other shape still works. */
       const PAY = (song.chart.table.form && song.chart.table.form.payoff) || 'chorus';
-      for(const sec of secs){
-        if((sec.fn || sec.type) !== PAY) continue;
-        const a = sec.startBar * barSec, z = sec.endBar * barSec;
+      const RIDE = !!(song.chart.table.form && song.chart.table.form.ride);
+      /* `atStop` is on `song.form`, NOT on `song.sections` — the two are
+         parallel by index and carry different facts. And bars become seconds
+         through the program's OWN clock, because a ride genre has a tempo MAP
+         and this file's flat `60/tempo/4` conversion is wrong by a growing
+         margin across a twenty-minute record. Both were stale here. */
+      const FORM = song.form || [];
+      const CLK = MK2.makeClock(song.chart, song.form);
+      const stopsOf = () => {
+        if(!RIDE) return secs.map((x, i) => [x, i]).filter(([x]) => (x.fn || x.type) === PAY)
+                             .map(([x, i]) => [i, i]);
+        const byStop = new Map();
+        FORM.forEach((f, i) => {
+          if(f.atStop == null) return;
+          if(!byStop.has(f.atStop)) byStop.set(f.atStop, [i, i]);
+          else { const r = byStop.get(f.atStop); r[1] = i; }
+        });
+        return [...byStop.values()];
+      };
+      for(const [i0, i1] of stopsOf()){
+        const a = CLK.at(FORM[i0].startBar, 0), z = CLK.at(FORM[i1].endBar, 0);
         const crowd = ev.some(e => e.bed === 'railCrowd' && e.tSec >= a - 1 && e.tSec < z);
         const birds = ev.some(e => /sceneDawn|sceneRiverside/.test(e.bed || '') && e.tSec >= a - 1 && e.tSec < z);
         if(crowd) out.cities++; else if(birds) out.halts++;

@@ -30121,6 +30121,14 @@ function makePerformance(chart, form, materials, sections){
         let at = g.at + jr() * gap;
         while(at < g.at + g.sec - 2){
           const dur = 3.0 + jr() * 2.5;            // 60 m at 11-20 m/s
+          /* ── AND `moving` IS DECIDED AT THE SEGMENT'S MIDPOINT ─────────────
+             A terrain segment is 30 to 90 seconds and a stop is about half a
+             minute, so a segment STRADDLING a station reads as moving from its
+             midpoint and then scatters things-going-past across the platform.
+             Nothing goes past a train that is standing still. Asked per pass,
+             at the moment it would sound — the draw still runs either way, so
+             a suppressed pass costs the same dice as one that fires [Law 3]. */
+          if(!rolling(at + dur / 2)){ at += gap * (0.6 + jr() * 0.8); continue; }
           events.push(Object.freeze({
             tSec: at, durSec: dur, voice: "atmos",
             role: roleOfBed(nm), gain: lvl[0] + jr() * lvl[1], bed: nm, pass: true,
@@ -30174,6 +30182,19 @@ function makePerformance(chart, form, materials, sections){
          the residue is the bed trim's own CLAMP — the quietest recording in the
          pack asks for x5.03 and is held at x4.0, so it stays 2 dB down on
          purpose rather than being rescued. Stated, not tuned away. */
+      /* ── AND A STANDING TRAIN IS AT A STATION, WHICH HAS ITS OWN SOUND ────
+         `place && moving` above is the pass. This branch is everything else,
+         and it was firing the terrain bed UNDER a station — so a stop carried
+         the journey's own halt bed AND the countryside's, two recordings of
+         birds at once. Measured once probe_route was reading the right
+         sections: 8 moments in 4814 with two scene beds overlapping, and 18
+         stops holding both.
+
+         A place-bed while the train is STOPPED is the station's job: §4a's
+         `halt` is exactly "a country HALT has the birds carrying on". So only
+         a bed that is genuinely EVERYWHERE — wind, rain — sits under a
+         standing train. The countryside resumes when the train does. */
+      if(place && !moving) continue;
       events.push(Object.freeze({
         tSec: g.at, durSec: Math.max(2, g.sec), voice: "atmos",
         role: roleOfBed(nm), gain: (lvl[0] + jr() * lvl[1]) * 0.40, bed: nm, pass: false,
@@ -30639,7 +30660,27 @@ function makePerformance(chart, form, materials, sections){
              birds carrying on, because nothing has arrived there but you.
              The route drew which one this is [see THE ROUTE]. */
           if(doorsN) put(doorsN, A + BAR * 0.5, lvlA * 0.85);
-          const here = ROUTE[i] || {};
+          /* ── AND THIS READ A DEAD ARRAY, SO EVERY HALT GOT A CITY CROWD ──
+             `ROUTE` is the legacy per-section route, and this genre plans its
+             journey with `planTrip` instead — `GENRE.boxcarsynth.trip` declares
+             none of the keys that block needs, so ROUTE is EMPTY. `ROUTE[i]`
+             was therefore always undefined, `undefined !== "halt"` is always
+             true, and every country halt in every record got a platform full
+             of people.
+
+             MEASURED once `probe_route` was reading the right sections: 60 city
+             stops, 0 halts, and 37 stops carrying BOTH a crowd and the birds.
+             The sheet's own line — "a country HALT has the birds carrying on,
+             because nothing has arrived there but you" — was never once true.
+
+             The FORM knows. `makeRide` writes `place` onto every form section
+             from the station the trip drew, which is the same fact ROUTE was
+             meant to carry — and it is on `form`, not on the laid `sections`
+             this loop walks. The two are parallel by index (makePerformance
+             takes both), so `form[i]` is this section's own place. ROUTE stays
+             as the fallback for a genre that still uses it. */
+          const fs = (form && form[i]) || {};
+          const here = fs.place ? fs : (ROUTE[i] || {});
           const city = here.place !== "halt";
           if(city){
             if(crowdN) put(crowdN, A + BAR * 0.25, lvlB * 1.1,
