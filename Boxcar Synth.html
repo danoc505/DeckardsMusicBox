@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17m · boxcar synth — one genre, and the record grows with its length</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17n · the line is heard, and the mix is measured</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20321,8 +20321,33 @@ GENRE.boxcarsynth = {
        (whistle, brakes, station, doors, conductor) is NOT the world and sits
        far forward of the countryside. Measured targets: the train -9, its own
        sounds -11, the landscape -25. */
-    level: [0.22, 0.10], standLevel: [0.20, 0.08], callLevel: [0.42, 0.16],
-    passLevel: [0.14, 0.06], passPer: 1.6,
+    /* ── MEASURED BY probe_mix, NOT COPIED ────────────────────────────────
+       The first numbers here were lifted out of §4d-ii, which measured them
+       against V1's band. This band is different — different rig, different
+       roleGain, different instruments — and §4d's own lesson is that a level
+       set against a moved reference is wrong. Rendered, the story sat at
+       -3.6 dB against the band at a station where it should be at -11:
+       SEVEN AND A HALF DB TOO LOUD, and against nearly no band at all, which
+       is exactly the owner's "the SFX is drowning everything out".
+
+       AND THEN THE FIRST CORRECTION WAS WRONG, WHICH IS THE PART WORTH
+       KEEPING. The +7.4 dB was the PROBE's fault, not the mix's: it compared
+       each window against the band IN THAT WINDOW, and at a station the band
+       is one player. So the station read "too loud" without having moved. I
+       trimmed everything by 0.43 on that reading and made the departure
+       signals 10.9 dB too quiet — the same overshoot §4d-ii records, for the
+       same reason, one build later.
+
+       With the reference fixed to the band AT CRUISE, measured:
+
+         at the stop      story -11.9   against a want of -11    right
+         pulling out      story -21.9   against a want of -11    10.9 too quiet
+
+       `standLevel` and `callLevel` are what sound at a stop and they are
+       right where the trim left them. `level` is what sounds on the way in and
+       out, and it was right BEFORE the trim — so it goes back. */
+    level: [0.20, 0.08], standLevel: [0.085, 0.035], callLevel: [0.28, 0.10],
+    passLevel: [0.075, 0.030], passPer: 1.6,
   },
   atmos: { fams: ["sceneRiver","sceneBirds","railClank","railBell"],
            level: [0.10, 0.05], accent: 0.7, accentLevel: [0.20, 0.10] },
@@ -20342,7 +20367,17 @@ GENRE.boxcarsynth = {
   medium: { kind: 0, noise: 0.012, band: 0.12, age: 0.12, wobble: 0.0035, drift: 0 },
   pressure: { depth: 0.4, amount: [0.2,0.3], at: [0.3,0.5], rise: [0.3,0.5] },
   gate: null, ribbon: { chance: 0 },
-  roleGain: { bass: 1.0, keys: 0.8, keys2: 0.7, lead: 1.15, ostinato: 0.7, counter: 0.9 },
+  /* ── THE BALANCE, MEASURED AGAINST EACH OTHER ─────────────────────────────
+     Rendered at cruise, against the band's own rms: lead -4.5, drums -4.8,
+     keys -5.4, ostinato -12.4 — and then BASS -29.8 AND COUNTER -35.2. That is
+     the owner's "most things are to quite", and the counter is the diddley he
+     could not hear at all.
+
+     The bass repeats V1's oldest measured fault at a new number (#126: 38 dB
+     under the lead, and removing it changed the mix by 0.00 dB), so this is a
+     first correction rather than a cure — the loss is inside the synthesis and
+     a fader cannot close 25 dB. Re-measured after every change. */
+  roleGain: { bass: 3.2, keys: 0.8, keys2: 1.4, lead: 1.15, ostinato: 0.75, counter: 3.0 },
   params: { tr1000: { kit: "freight", pSet: "any", pTune: 1, pAtk: 0.002,
                       pRel: 1.1, pTone: 0.6, bus: 1, gate: 0 } },
   motion: {},

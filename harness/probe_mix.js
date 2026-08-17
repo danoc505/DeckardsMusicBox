@@ -152,11 +152,33 @@ const TARGET = { train: -9, story: -11, world: -25 };
       return rms(out);
     };
 
+    /* ── THE REFERENCE IS THE RECORD'S BAND, NOT THE WINDOW'S ───────────────
+       The first version compared each group against the band IN THAT WINDOW,
+       and at a station the band is one player — so the station's own sounds
+       read +7.4 dB "too loud" when they had not moved at all. That is the
+       probe describing the arrangement, not the mix, and it would have sent me
+       trimming a level that was already right.
+
+       A mix is judged against ONE reference: the band at full cruise, which is
+       what §4d-ii's targets were measured against. A stop is quiet BECAUSE it
+       is a stop, and the whole point of the ceremony is that the world is
+       audible over a band that has stepped back. */
+    const REF = dB(await render(song.perf.events.filter(e => GROUP.band.includes(e.role)),
+                                spots[0][1], WIN));
+
     const rows = [];
     for(const [name, from, fn] of spots){
-      const r = { name, fn, at: from, groups: {}, chairs: {} };
-      for(const g of Object.keys(GROUP))
-        r.groups[g] = dB(await render(song.perf.events.filter(e => GROUP[g].includes(e.role)), from, WIN));
+      const r = { name, fn, at: from, ref: REF, groups: {}, chairs: {} };
+      r.has = {};
+      for(const g of Object.keys(GROUP)){
+        const evs = song.perf.events.filter(e => GROUP[g].includes(e.role));
+        /* WHETHER ANYTHING OF THIS KIND IS EVEN HERE. A station has no station
+           sounds at cruise and that is the design, not a fault — the first
+           version faulted it and made a correct record look broken in three
+           places. Absence is only wrong when something WAS written here. */
+        r.has[g] = evs.some(e => e.tSec + (e.durSec || 0) > from && e.tSec < from + WIN);
+        r.groups[g] = dB(await render(evs, from, WIN));
+      }
       /* and every pitched chair on its own, so a silent player is visible */
       for(const role of GROUP.band){
         const evs = song.perf.events.filter(e => e.role === role);
@@ -176,13 +198,15 @@ const TARGET = { train: -9, story: -11, world: -25 };
   const f = v => (v === null || !isFinite(v)) ? "  silent" : (v >= 0 ? "+" : "") + v.toFixed(1);
 
   for(const r of out.rows){
-    const band = r.groups.band;
-    console.log("  " + r.name.toUpperCase() + "   " + mm(r.at) + "   (" + r.fn + ")");
+    const band = r.ref;   // the band AT CRUISE, one reference for the record
+    console.log("  " + r.name.toUpperCase() + "   " + mm(r.at) + "   (" + r.fn + ")" +
+      "   band here " + f(r.groups.band - band) + " dB");
     for(const g of ["train", "story", "world"]){
       const rel = r.groups[g] - band;
       const want = TARGET[g], off = isFinite(rel) ? rel - want : -Infinity;
-      const bad = !isFinite(rel) || Math.abs(off) > 6;
+      const bad = r.has[g] ? (!isFinite(rel) || Math.abs(off) > 6) : false;
       if(bad) faults++;
+      if(!r.has[g]){ console.log("     ·  " + g.padEnd(10) + "   nothing of this kind here"); continue; }
       console.log("     " + (bad ? "✗" : "✓") + " " + g.padEnd(10) +
         f(rel).padStart(8) + " dB against the band   (want " + want +
         (isFinite(off) ? ", off by " + (off >= 0 ? "+" : "") + off.toFixed(1) : ", ABSENT") + ")");
