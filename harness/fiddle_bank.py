@@ -127,10 +127,18 @@ def main():
         got.append((midi, dyn, hz, pk, a, b, adpcm(x)))
     got.sort()
     for midi, dyn, hz, pk, a, b, enc in got:
+        # OFF IS IN BYTES, n IS IN SAMPLES -- and getting that backwards is the
+        # bug this file shipped once. The reader indexes the blob as
+        # `bin.charCodeAt(s.off + (i >> 1))`: `off` addresses BYTES and `i`
+        # counts SAMPLES, two of which live in each byte. Writing `off * 2`
+        # here doubled every address, so 37 of 75 rows pointed past the end of
+        # the blob and decoded to silence while the rest decoded the wrong
+        # note. Every other encoder in this directory writes `len(blob)`
+        # unmultiplied; this one now does too.
         off = len(blob); blob += enc
         rows.append("fid%d%s,fiddle,%d,%d,%.3f,%d,%d,%d"
                     % (midi, "F" if dyn == "forte" else ("M" if dyn == "mezzo-forte" else "P"),
-                       off * 2, len(enc) * 2, hz, a, b, int(pk * 10000)))
+                       off, len(enc) * 2, hz, a, b, int(pk * 10000)))
 
     # ── the washboard ───────────────────────────────────────────────────────
     wd = os.path.join(src, "washboard")
@@ -147,7 +155,8 @@ def main():
     hits.sort()                                   # RANKED BY MEASURED RMS
     for i, (rms, fn, x, pk) in enumerate(hits):
         enc = adpcm(x); off = len(blob); blob += enc
-        rows.append("wb%d,washboard,%d,%d,0,-1,-1,%d" % (i, off * 2, len(enc) * 2, int(pk * 10000)))
+        # bytes, not samples -- see the note above the fiddle rows
+        rows.append("wb%d,washboard,%d,%d,0,-1,-1,%d" % (i, off, len(enc) * 2, int(pk * 10000)))
 
     b64 = base64.b64encode(bytes(blob)).decode()
     os.makedirs(os.path.dirname(dst), exist_ok=True)

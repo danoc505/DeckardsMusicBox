@@ -208,6 +208,35 @@ const check = (name, ok, detail) => {
   if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
 }
 
+/* ═══ AND THE RECORDINGS ACTUALLY DECODE TO SOUND ═══════════════════════════
+   The most expensive check to be missing, because it is the one whose absence
+   let a whole instrument ship as silence with a green battery behind it.
+
+   `harness/fiddle_bank.py` wrote SAMPLE offsets where every other encoder here
+   writes BYTE offsets. 37 of the fiddle bank's 75 rows addressed past the end
+   of the payload and decoded to nothing; the other 38 decoded the wrong note.
+   The fiddle drew, arranged, obeyed its bowing discipline and made no sound,
+   and every check in this file passed while it did — because every check in
+   this file asks about NOTES, and a note is not audio.
+
+   `harness/probe_bank.js` owns the logic and asserts three structural things:
+   every row addresses audio the payload holds, decodes to something audible,
+   and is not pinned ADPCM garbage. Its fourth measurement — does a sample
+   sound at the root it claims — REPORTS and does not assert, and the probe
+   says why. ═════════════════════════════════════════════════════════════════ */
+{
+  const { execFileSync } = require("child_process");
+  let out = "", ok = true;
+  try { out = execFileSync(process.execPath,
+          [path.resolve(__dirname, "probe_bank.js")], { encoding: "utf8" }); }
+  catch(e){ ok = false; out = (e.stdout || "") + (e.stderr || ""); }
+  const n = (out.match(/(\d+) samples usable, (\d+) not/) || [])[2];
+  check("every recorded sample in every bank decodes to sound", ok,
+        ok ? (out.match(/(\d+) samples usable/) || [])[1] + " samples in 30-odd families, all readable and audible"
+           : `${n || "some"} unusable sample(s) — run: node harness/probe_bank.js`);
+  if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
+}
+
 /* ═══ AND A BAR IS THE LENGTH ITS GENRE SAYS IT IS ══════════════════════════
    The grid was sixteen steps and four beats everywhere, in about fifty places,
    and `lotr-themes-measured.md` §5.2 had said for two builds that two of the

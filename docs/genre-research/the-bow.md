@@ -197,6 +197,74 @@ different players.**
 
 ---
 
+## 8. AND THE BANK WAS ADDRESSING THE WRONG BYTES — `2026-08-17`, the day after
+
+Everything above shipped, and **none of it made a sound.**
+
+`harness/fiddle_bank.py` wrote **sample** offsets into the index where every
+other encoder in this directory writes **byte** offsets. The reader indexes the
+payload as `bin.charCodeAt(s.off + (i >> 1))` — `off` addresses bytes, `i`
+counts samples, two samples to a byte — so every address was doubled.
+
+| | |
+|---|---|
+| rows in the bank | 75 |
+| rows addressing **past the end** of the payload → **silence** | **37** |
+| remaining rows, addressing the **wrong audio** → the wrong note | 38 |
+| rows that happened to be correct | 1 (`fid55F`, whose offset is 0) |
+
+The fix is one character in the encoder and a halving of every offset in the
+shipped index. **The corrected offsets tile the payload exactly — 954,684 bytes,
+no gap and no overlap.** That is the proof, not the argument.
+
+### 8a. AND EVERY CHECK PASSED WHILE IT WAS BROKEN
+
+This is the part worth keeping.
+
+- the **battery** was green
+- **`probe_rack`** — "the panel names a box that played this lane", 312/312
+- **`probe_reachable`** — "every name the config mentions happens"
+- **`probe_controls`** — all five fiddle knobs "move the sound"
+- the composer knew the fiddle was drawn; the arranger knew it was playing;
+  stage 5 knew how long a bow lasts and split the note at the bow change
+
+**Every one of those asks about NOTES. A note is not audio.** The repo could
+describe an instrument in complete detail and could not hear it.
+
+It was found by rendering — the washboard, on the same bank, measured 0.00 dB of
+contribution to a kit it was supposed to be playing 19 strokes into.
+
+### 8b. THE GUARD — `harness/probe_bank.js`
+
+Decodes every sample in every bank and asserts three things:
+
+1. **in range** — the row addresses audio the payload actually holds
+2. **not silent** — the decoded audio has energy
+3. **not pinned** — ADPCM fed the wrong bytes runs its step index to the
+   ceiling and pins at full scale; over a fifth of samples at ±1.0 is a misread,
+   not a loud recording
+
+Run against the broken bank it fails on 37; against the corrected bank, 308
+samples in 30-odd families all pass. **It has been watched failing** — that is
+why the probe takes an optional path argument.
+
+A fourth measurement — *does a sample sound at the root its row claims* — finds
+39 more on the broken bank. On the **corrected** bank it still names eleven,
+all banjo, harmonica or bard wind, all off by about a fifth or an octave. That
+is either genuine mis-rooting in packs encoded by other scripts or an
+autocorrelation that cannot read a reedy tone. **It reports and does not
+assert**, because the only way to make it zero today would be to widen the
+window until it passed, and a test whose bar moves to fit the code is not a
+test. Written down as work instead.
+
+### 8c. WHAT THE FIDDLE ACTUALLY MEASURES, NOW THAT IT SOUNDS
+
+Rendered, boxcar seed 4, 24 s: the fiddle at **−35.4 dB**, the rest of the band
+at −27.1 — so it sits **8.3 dB under the ensemble**, which is a lead instrument
+in a band rather than in front of one.
+
+---
+
 ## SOURCES
 
 - philharmonia.co.uk/resources/sound-samples — the recordings and the licence
