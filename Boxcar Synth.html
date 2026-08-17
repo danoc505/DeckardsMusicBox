@@ -21321,6 +21321,149 @@ const clock = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(
    version — decide where the train is and put the music there — could only be
    bolted alongside it. Deleting it is not tidying. It is removing the reason
    the last rewrite had to be declared around the outside of the problem. */
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE TRIP IS PLANNED ON THE CLOCK, AND THEN THE RECORD IS PLAYED AGAINST IT
+
+   [boxcar-synth.md §4c, and this function is that section]
+
+   > "I think we need to create a SFX route planner for the song that
+   >  Simulating a train ride, this way the songs sfx is planned according to
+   >  the trip." — the owner
+
+   THE ORDER IS THE WHOLE POINT. An earlier build drew a place per SECTION, so
+   the landscape changed only where the music changed — and the sheet's verdict
+   on that is exact: *"a train does not cross a river because the verse ended."*
+   So the itinerary is laid out FIRST, on its own clock, and the music is fitted
+   to it afterwards.
+
+   AND THE UNIT IS SECONDS, NOT BARS. §4c: terrain segments' lengths are drawn
+   *"in seconds, not bars. That is what frees the landscape from the bar line."*
+   A build that laid the trip out in bars was deleted for being the thing this
+   paragraph exists to forbid.
+
+   THE FOUR THINGS THE TRIP KNOWS THAT THE SONG DOES NOT [§4c]:
+
+     the stations   the towns, in order
+     the legs       what is between them, filled end to end with terrain
+     the clock      the ride starts at an hour and takes hours. Birds sing in
+                    daylight; the dawn chorus happens near dawn. A bird is not
+                    a texture, it is a fact about the time.
+     the fronts     weather is a system lying across a stretch of the LINE, so
+                    the train rides into it and out the other side
+
+   THE LINE, DECLARED [§4c, and these are the sheet's own numbers]:
+
+     terrain   speaks              how often   length      a road crosses
+     farm      the dawn chorus       45%       35-65 s        45%
+     open      wind                  30%       45-90 s        25%
+     woods     birds                 80%       30-60 s        10%
+     river     it is CROSSED         35%       18-32 s         -
+
+   The 30% is the most important number in that table [§4b]: *"a landscape that
+   is continuously making a noise is the 'all on at once' being objected to;
+   the silence of open country is what makes the river mean something when it
+   arrives."*
+
+   Returns a plain object. It writes no note and reads no material — the form
+   below asks it where the stations are, and stage 5 asks it what to play.
+   ═══════════════════════════════════════════════════════════════════════════ */
+const TERRAIN = {
+  /* `day` marks a terrain whose voice is a DAYLIGHT one, so the clock can
+     silence it at night without silencing the wind and the water [§8c] */
+  farm:  { speaks: 0.45, sec: [35, 65], cross: 0.45, day: true  },
+  open:  { speaks: 0.30, sec: [45, 90], cross: 0.25, day: false },
+  woods: { speaks: 0.80, sec: [30, 60], cross: 0.10, day: true  },
+  river: { speaks: 0.35, sec: [18, 32], cross: 0.00, day: false },
+};
+/* WHERE THE LINE GOES NEXT. A walk, never a shuffle [§4b]: *"you do not leave
+   the woods and arrive back in the woods, and you do not cross two rivers
+   running."* You leave the yard through farmland, the country opens out, the
+   woods come and go, and the river is somewhere you go OVER — so nothing
+   follows itself and the river always hands on to open ground. */
+const LINE_NEXT = {
+  farm:  [["open", 5], ["woods", 3], ["river", 1]],
+  open:  [["farm", 4], ["woods", 4], ["river", 2]],
+  woods: [["open", 5], ["farm", 3], ["river", 1]],
+  river: [["open", 6], ["farm", 3], ["woods", 2]],
+};
+
+function planTrip(chart, seconds, legs){
+  const rng = stream(chart.seed, "trip");
+  const J = (chart.table && chart.table.trip) || {};
+  /* THE CLOCK. The ride starts at an hour and takes hours; a twenty-minute
+     record is a whole afternoon of travelling, not twenty minutes of one.
+     `hourScale` is how many hours of the day one second of record buys, and
+     it is the genre's to declare because it is a statement about how far this
+     train goes. */
+  const hour0 = J.startHour ? J.startHour[0] + rng() * J.startHour[1] : rng() * 24;
+  const hours = seconds / 60 * (J.hoursPerMinute == null ? 0.55 : J.hoursPerMinute);
+  const DAWN = J.dawn == null ? 5.5 : J.dawn, DUSK = J.dusk == null ? 20.0 : J.dusk;
+  const hourAt = t => (hour0 + (t / Math.max(1, seconds)) * hours) % 24;
+  const lightAt = t => { const h = hourAt(t); return h >= DAWN && h < DUSK; };
+
+  /* THE STATIONS, evenly spaced with a drawn wobble: a branch line's towns are
+     not at equal distances, but they are not clustered either. One fewer than
+     the legs, because a stop divides two legs. */
+  const stations = [];
+  for(let i = 1; i < legs; i++){
+    const at = seconds * (i / legs);
+    const wob = (rng() * 2 - 1) * seconds / legs * 0.10;
+    stations.push({ at: Math.max(1, at + wob),
+      /* a stop is somewhere too [§4b]: a CITY has a crowd on the platform, a
+         country HALT has the birds carrying on, because nothing has arrived
+         there but you */
+      place: rng() < (J.cityChance == null ? 0.6 : J.cityChance) ? "city" : "halt" });
+  }
+
+  /* THE LINE, laid end to end in SECONDS until the ride is covered. Every
+     segment draws its terrain, its length, whether it speaks, and whether a
+     road crosses it — all four unconditionally, so a segment that turns out
+     silent has cost the same draws as one that sings [Law 3]. */
+  const seg = [];
+  let t = 0, where = J.start || "farm";
+  for(let guard = 0; guard < 4096 && t < seconds; guard++){
+    const T = TERRAIN[where] || TERRAIN.open;
+    const len = T.sec[0] + rng() * (T.sec[1] - T.sec[0]);
+    const speaks = rng() < T.speaks;
+    const cross = rng() < T.cross;
+    const nxt = wpick(rng, LINE_NEXT[where] || LINE_NEXT.open);
+    /* a daylight voice is silent at night, and that is the clock doing it
+       rather than a coin [§8c] */
+    seg.push({ at: t, sec: Math.min(len, seconds - t), kind: where,
+               speaks: speaks && (!T.day || lightAt(t + len / 2)),
+               cross, light: lightAt(t + len / 2) });
+    t += len; where = nxt;
+  }
+
+  /* THE FRONTS. Weather lies across a stretch of the LINE, so the train rides
+     into it and out the other side [§4c] — none, one or two, with a dry
+     stretch after [§4b]. Thunder only lands inside a front, which is the fix
+     for the seed that had thunder at 0:00 in a record whose rain began at
+     8:00. */
+  const fronts = [];
+  const nF = rng() < 0.30 ? 2 : rng() < 0.72 ? 1 : 0;
+  let from = seconds * (0.08 + rng() * 0.25);
+  for(let i = 0; i < nF; i++){
+    const span = seconds * (0.10 + rng() * 0.16);
+    if(from + span > seconds * 0.97) break;
+    fronts.push({ at: from, sec: span,
+                  kind: J.weather ? wpick(rng, J.weather) : "rain",
+                  thunder: rng() < (J.thunderChance == null ? 0.30 : J.thunderChance) });
+    from += span + seconds * (0.10 + rng() * 0.14);
+  }
+
+  return Object.freeze({
+    seconds, hour0, hours, dawn: DAWN, dusk: DUSK,
+    hourAt, lightAt,
+    stations: Object.freeze(stations),
+    segments: Object.freeze(seg),
+    fronts: Object.freeze(fronts),
+    /* what is under the train at this second, and what the weather is doing */
+    atSec: t => seg.find(x => t >= x.at && t < x.at + x.sec) || seg[seg.length - 1],
+    frontAt: t => fronts.find(f => t >= f.at && t < f.at + f.sec) || null,
+  });
+}
+
 function makeForm(chart){
   const F = chart.table.form;
   if(F && F.ride) return makeJourney(chart);
@@ -36465,6 +36608,10 @@ window.MK2 = {
      live table, so a probe that writes to it is editing the program; every
      one that does puts it back. */
   makeClock, GENRE,
+  /* THE ITINERARY, so it can be read back and judged before any music is
+     fitted to it. §4c's own guard printed the trip as prose and then held
+     claims over it; this is the door that lets one do that again. */
+  planTrip, TERRAIN,
   /* THE GRID'S DECLARATION, for the same reason as `racks` below: probes that
      wrote out the effect columns by hand went stale twice, and probe_wiring
      had no barberpole column the build after one existed. */
