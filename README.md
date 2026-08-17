@@ -59,7 +59,7 @@
 > **Two traps, both of which have already caught someone:**
 >
 > - **`--genre` is a flag, and a bare genre name is silently ignored.**
->   `mk2_roll.js 1 acid` composes **lofi**. Read the header line of every
+>   `mk2_roll.js 1 vgm` composes **lofi**. Read the header line of every
 >   printout and check it names the genre you asked for.
 > - **Passing the test battery is not a substitute.** The snapshot goes red
 >   when a decorative field is added and no note moved; the seam checks prove
@@ -106,7 +106,11 @@ A genre is **parameter tables only** — no code below stage 1 may name a genre 
 branch on one. Genres can also be *blended*: the sliders resolve any mixture to
 one table before a note exists.
 
-`lofi` · `synthwave` · `dkc` · `vangelis` · `acid` · `plastikman` · `jungle`
+How many genres, and which, is deliberately **not written here** — a list in
+prose goes stale and this one already did, twice. Ask the program:
+```js
+MK2.genres()
+```
 
 ## Layout
 

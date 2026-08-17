@@ -1,5 +1,14 @@
 # BOXCAR SYNTH — a critical audit, 2026-08-16
 
+> **READ THIS FIRST, added `2026-08-17`.** Every comparison table below ranks
+> boxcar synth against the **eleven** genres that existed on the day it was
+> measured. **Six of those are gone** — blade runner, plastikman, hobbit synth,
+> acid, jungle and ambient. The rows are left exactly as measured, because a
+> dated measurement is a record and editing it would be falsifying evidence.
+> Read "worst of eleven" as what it was: worst of the field at the time. The
+> *findings about boxcar synth itself* are unaffected and still open —
+> `BACKLOG.md` §0zb has them ranked.
+
 *Asked for: "an audit of the genre. Look at volume and frequency's, drum loops,
 automatization, plocks, lfos, use of fx, texture building. Print out midi notes
 and critically judge them. Look at the train route, critically analyze it. And

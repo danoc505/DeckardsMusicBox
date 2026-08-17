@@ -176,7 +176,7 @@ published and where.
 | `probe_render_determinism.js` | the same events rendered three times null out. Written after a feedback cycle in the graph cost the renderer its repeatability at gain 0 |
 | `probe_wiring.js` | **which genre actually reaches what was added.** A table, not a pass/fail. Found `preDelay` connected to NOBODY for two builds |
 | `probe_kaoss.js` | the pad reaches live sound, and by how much, per genre |
-| `probe_section_motion.js [genre]` | **every section-keyed matrix/echo move, measured inside its own section** — a move keyed to a section whose bus is silent there is automation of nothing. Found lofi's outro "Tubby pair" and jungle's bridge drum-drop both inert. A table, not a pass/fail. **Slow — ~30 min all genres** |
+| `probe_section_motion.js [genre]` | **every section-keyed matrix/echo move, measured inside its own section** — a move keyed to a section whose bus is silent there is automation of nothing. Found lofi's outro "Tubby pair" and a bridge drum-drop both inert. A table, not a pass/fail. **Slow — ~30 min all genres** |
 | `render_audio.js` + `test_audio.py` | output assertions on rendered excerpts. **15 of them fail today and 13 are one stale check** — `docs/BACKLOG.md` §1 before you "fix" anything here |
 
 ## Samples

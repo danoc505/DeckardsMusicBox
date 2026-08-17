@@ -11,6 +11,69 @@ a source. Items are grouped by what they cost, not by when they appeared.
 
 ---
 
+## 0zz. SIX GENRES WERE DELETED AT `2026-08-17`. READ THIS BEFORE BELIEVING ANY ITEM BELOW
+
+The owner: *"We are going to delete the genres blade runner, plastikman,
+hobbit synth, acid, jungle, and ambient. Our main focus is boxcar synth."*
+
+**The program now has five: lofi, synthwave, vgm, dungeon synth, boxcar
+synth.** Ask `MK2.genres()`; do not trust any count written in prose,
+including this sentence one build from now.
+
+**THE ELEVEN RACKS THOSE GENRES USED ARE KEPT.** The owner: *"All those racks
+are being used."* The 808, the 303, the breakbeat chopper, the Shire flutes,
+the drone rack, the Blade Runner room — every one is still on the rig menu and
+still pickable by hand on any genre. A rack is an instrument, not a genre, and
+deleting a genre must never quietly take instruments with it.
+
+**Items in this file that named a deleted genre have been removed**, along
+with their research sheets. What is left may still *mention* one in a dated
+history entry — that is a record of what happened, not a live plan.
+
+### 0zz.1 THE PRICE, AND THE BATTERY IS RED ON IT ON PURPOSE — **the top open item**
+
+`mk2_test.js` fails **"every knob the conductor can move is one some genre
+moves"** with **69 controls** named. That check was green before the deletion
+because the deleted genres were the only ones automating them:
+
+| unit | what is now unautomated |
+|---|---|
+| `flange` | all four — rate, depth, fb, mix |
+| `dp4` | all eight — every A/B/C/D amount and level |
+| `matrix` | 22 crossings, including every `*Flange`, `*DP4` and `*Barber` send |
+| `tb303` | 13 engine knobs — drive, accent decay, track, slide, sweep, the sub's and the Reese's |
+| `dronebox` | 9 — cut, res, peak, peakHz, air, bias, pan, panHz, panDep |
+| `cs80` | 6 — pan, panHz, panDep, and all three aftertouch destinations |
+| `mellotron` | panHz, panDep |
+| `resonator` | fb, mix |
+
+**Nothing is broken.** Every machine works, every knob turns, and the hand
+still moves all of them — which matters, because the racks were kept precisely
+so the hand could. What is gone is any genre that moves them *for you*: a
+record made by the program alone now leaves those units sitting still.
+
+**DO NOT MAKE THIS GREEN BY DELETING THE CHECK, OR BY DELETING THE KNOBS.**
+The check is telling the truth and the knobs are ones the owner uses. The
+honest close is to give a surviving genre a motion table for the units it
+plausibly hosts — boxcar synth first, since the owner's standing complaint
+about it is exactly this: *"we dont see to have things hooked up to fx for
+evolution through texture"*. That genre already went from 6 automated controls
+to a full table at `2026-08-16`; the flange, the DP4 and the matrix crossings
+are the next tranche, and the deleted tables are still in git history as
+worked examples of the shape.
+
+**AND TWO MECHANISMS NOW HAVE NO CALLER.** `kit.poly` (the polymetre) and
+`kit.answer` (the part that answers the pattern) are still in the engine and
+no live genre declares either. `bassRiff`, `acidLine`, `chop`, `ladder`,
+`phasing` and a handful more are in the same position — the engine can do
+them, nothing asks. They were deliberately NOT ripped out: several are one
+genre-table line away from being alive again, and the racks that play them
+are kept. The battery's checks on the first two now report "nothing declares
+this" and pass rather than failing on an empty subject. **If boxcar synth
+wants any of them, it is a table entry, not a build.**
+
+---
+
 ## 0za. FOUND BY EAR AT `2026-08-16j` — THE MEASUREMENT CLASS THIS REPO CANNOT SEE
 
 *The most important entry in this file. A full critical audit of boxcar synth
@@ -533,53 +596,6 @@ drawn in a named substream, with the existing four as the default so no genre
 moves that does not declare one. Then hobbit synth's own from the notation
 (0a.3).
 
-### 0a.3 The Shire theme's actual pitch constraints are known and unbuilt
-
-`score-craft.md` §14, five sources, three of them official publications: the
-Shire theme is **D major PENTATONIC** (no 4th, no 7th), head motif degrees
-**1-2-3-3-5**, over a **static tonic triad** — one chord per motif, not per bar
-— with the melody in the major and the bass in the **relative minor**
-(Bm-D-G-Em). The corpus is explicit that the pentatonic mask applies to the
-theme STATEMENT and relaxes in the continuation.
-
-**The mechanism gap, checked and stated so the next attempt does not re-derive
-it**: the theme walks by `scaleStep(key, mode, midi, move)`, so its pitch set
-IS the mode. Three ways in, and only one is right:
-
-- **(a) a degree mask threaded into `scaleStep`** — shared by every genre, too
-  broad to bolt on.
-- **(b) a pentatonic entry in `MODES`** — but `MODES` feeds chord building,
-  progression rows (seven degrees) and `inKey`, so a five-note member breaks
-  all three.
-- **(c) a declared mask in the genre's `theme` block, filtered where
-  `buildTheme` accepts a candidate pitch** — contained to melody, and the right
-  shape. **Build (c).**
-
-Keep it DRAWN — a weighted set of masks the song picks from — or it is a
-baked-in value wearing a table, which is the fault it exists to fix.
-
-### 0a.4 Development by sequence — the cheapest development there is, and there is no mechanism
-
-`lotr-themes-measured.md` §5.4: the Shire theme's second strain is its first
-**transposed a fifth, note for note**.
-
-MEASURED: a true sequence — six successive notes restated with every pitch
-shifted by one constant nonzero amount — occurs in **6 of 40** hobbit synth
-songs, and all six are accidents of the chord-follow, not a declared device.
-The ostinato has a `transpose` change-kind; the THEME has nothing.
-
-### 0a.5 The walking two-note accompaniment does not exist as an object
-
-`lotr-themes-measured.md` §2 and §4 both contain it written out: a **fixed
-two-element rhythmic cell whose PITCHES track the chord while its SHAPE does not
-change** — *Concerning Hobbits* bars 26-33 at a third, *The Ring Goes South*
-bar 17 onward at the octave.
-
-Hobbit synth's ostinato cells are six or seven stepwise scale degrees — a
-melodic figure, not a two-element alternation. The ostinato draws a cell of
-degrees; this needs **a shape plus an interval**. It is the thing an overworld
-genre most needs and the program generates nothing like it.
-
 ### 0a.6 `roleGain` cannot express the loudness table — it is dynamic-dependent
 
 `score-craft.md` §3. Rimsky-Korsakov, exact: **at forte** 1 trumpet = 1 trombone
@@ -627,16 +643,6 @@ a long way from the nearest sample.
 whistle's D5. The pack's own roots refute it — the recorded instrument goes down
 to B4. I picked a reference instrument and then found a fault against my own
 pick.)*
-
-### 0a.9 Acid's keys lane is composed and never sounds
-
-Found by `probe_rack.js` as its SILENT column, and it is **not** a rack fault —
-it predates all of that work. Re-measured today at 20 songs: acid keys silent in
-**13 of 20**; bladerunner keys2 and hobbit synth keys2 once each. Either the
-role is allowed into sections it is then filtered out of, or the comp material is
-empty for that genre's registers.
-
-Run: `node harness/probe_rack.js 40`
 
 ### 0a.10 Re-audit every declared fact for voices that quietly ignore it
 
@@ -944,37 +950,6 @@ Not a defect in the program; a defect in how it is checked.
 
 ---
 
-## 0d. PROG-TECHNO IS BUILT — `2026-08-09f`. What is left of it
-
-The ninth genre. "Pink Floyd crossed with punk wrapped into a techno back bone."
-Sources, the four corrections that shaped it, and what is deliberately missing:
-`docs/genre-research/prog-techno.md`.
-
-**Built:** a locked groove; a seven-note figure that walks against the bar and is
-accented when it comes home (`sam`); a solo silent for the first third and
-arriving with the record; a drone instead of a progression; the three desk bands
-ridden hard; movements shaped alap → jod → jhala.
-
-**⚠ IT DOES NOT BREAK ANY RULE, AND IT WAS SUPPOSED TO.** `probe_theory` reads it
-**0.0% out of key**, next to acid and jungle. A drone and one mode puts every
-note in the key by construction. Punk-as-refusal is §G — *"the program has no way
-to break its own rules"* — and this genre is the first thing in the file that has
-a reason to need it. **That is the next slice and it is the interesting one.**
-
-**Also left out on purpose:** the long-range unresolved tension (Cohen traces a
-dissonant E over D minor through the whole of "Dogs", resolving only at the end —
-we have nothing that holds an idea across a record); **kotekan**, two parts
-interlocking into one faster line; vocal and noise fragments for the Death Grips
-texture; and sludge, parked by the owner.
-
-**And two things this build turned up that are worth knowing:**
-- **`materialBars` exists now.** A material was hardcoded at four bars for every
-  genre. Any genre wanting a cycle longer than four bars needs it.
-- **Three checks and one probe assumed four-bar materials** and were corrected.
-  If you add a genre with a different material length, expect more.
-
----
-
 ## 0e. A SEND CAN ONLY BE PLAYED IN ONE DIRECTION — found and fixed `2026-08-10a`
 
 The owner, on the build before this one: *"Your not doing anything with the fx.
@@ -1058,49 +1033,6 @@ never read alone.
 - **The snapshot does not hash the motion plan.** Every FX change in this build
   left 2400 of 2700 songs byte-identical *by construction* — the gate cannot see
   the automation at all. The two probes above are the only coverage.
-
----
-
-## 0c. MINIMAL TECHNO IS WRONG EVERYWHERE EXCEPT THE DRUMS — opened 2026-08-09
-
-The owner: *"I think weve got the fx for the drums right but everything else is
-wrong."* Researched fresh and measured against `2026-08-09e`:
-`docs/genre-research/techno-and-minimal-2026-08-09.md`.
-
-**They are right, and the drums are right for a reason worth keeping.** The rim
-and clap are declared polymetric — 7 steps and 5 steps against a 16-step bar —
-which is exactly *"set its clip length to 3 bars, 5 bars, or 7 beats"*
-[corpus:myloops] and Hood's own *"rhythms inside of rhythms inside of rhythms"*
-[corpus:rbma]. Tempo, section lengths (only 16s and 32s), parts-at-once (3.02)
-and the bass's pitch content (2.7 distinct pitches a song) all match the sources
-too. **Do not touch any of those.**
-
-**What is wrong, each with the number and the source:**
-
-- **The record never repeats itself.** Longest unchanging run **1.0 bars**, 100.7
-  distinct bars in 293. The sources say *"every 4 to 8 bars, move one thing"* and
-  *"each 32 bar block adds or subtracts one element"* [corpus:tracksensei] — this
-  is eight to thirty times too much change, in the one genre whose identity is
-  patience. **The big one.**
-- **The chord keyboard plays a different part in every bar** — 835 events a song,
-  49–64 distinct bar-patterns, longest identical run **1 bar**. Harmony here
-  should be *"one or two tonal centers or a single pedal tone"* [corpus:
-  melodigging]. That is a comping pianist, not a pad.
-- **The kick moves** — 21 different kick patterns in one record, against *"kick
-  and sub remain static (boringly consistent on purpose)"* [corpus:myloops].
-- **Change is composed where it should be modulated.** *"Changes happen through
-  modulation, not composition"* [corpus:tracksensei]: a free-running unsynced
-  LFO at 0.05–0.08 Hz on a lowpass, sends and drive automated over 32–64 bars.
-  The program has the motion system and this genre barely uses it.
-
-**AND THE FILE HAS NO `techno`**, only acid house and minimal techno. Club techno
-is 128–135 with a rolling 16th sub and it owns a mechanism nothing here has —
-**the kick drop**, *"the single most powerful move in the genre"*, pulling the
-kick for 8–16 bars before the peak [corpus:tracksensei]. Whether that becomes a
-ninth genre is the owner's call and the sheet does not assume it.
-
-**What would close it:** the owner's decision on items 1–3, which change what the
-genre sounds like, then the build. **Nothing is built yet.**
 
 ---
 

@@ -4,9 +4,35 @@
 > the rules, the current state and what to do next, in two pages. Then come
 > back and read this whole file, which is the contract.
 
-*⚠ **CURRENT AT `2026-08-16j` — BOXCAR SYNTH, AND THE LESSON IS ABOUT
-MEASUREMENT.** Branch **`claude/code-review-6jd9cz`** (NOT `main`, which is a
-2026-08-03 snapshot that looks deceptively clean). Artifact
+*⚠ **CURRENT AT `2026-08-17a` — SIX GENRES DELETED; FIVE REMAIN; EVERY RACK
+KEPT.** Branch **`claude/code-review-6jd9cz`** (NOT `main`, which is a
+2026-08-03 snapshot that looks deceptively clean).*
+
+*The owner: "We are going to delete the genres blade runner, plastikman, hobbit
+synth, acid, jungle, and ambient. Our main focus is boxcar synth." Done.
+`MK2.genres()` answers **lofi, synthwave, vgm, dungeonsynth, boxcarsynth**.*
+
+***THE ELEVEN RACKS THOSE GENRES USED ARE KEPT*** *— the owner's call, in their
+own words: "All those racks are being used." The 808, the 303, the breakbeat
+chopper, the Shire flutes, the drone rack, the Blade Runner room. Every one is
+still on the rig menu and still pickable by hand on any genre. **A rack is an
+instrument, not a genre.** That is the question to ask before any future
+deletion, and it is the reason this one did not quietly cost the owner half
+their sound palette.*
+
+***AND HERE IS THE PRICE, MEASURED AND NOT HIDDEN:*** *`mk2_test.js` now fails
+"every knob the conductor can move is one some genre moves" with **69 controls**
+on it — the whole flange, the whole DP4, most of the matrix crossings, the
+resonator, the 303's engine knobs, the drone rack's, the CS-80's. Those knobs
+were ridden by the deleted genres' motion tables and by nobody else. The
+machines still work and a hand still moves them; what is gone is any genre that
+moves them for you. This is real and it is the largest open consequence of the
+deletion — see BACKLOG §0zz. It is NOT to be made green by deleting the check.*
+
+*The older entry, still worth reading for its own lesson:*
+
+*⚠ **`2026-08-16j` — BOXCAR SYNTH, AND THE LESSON IS ABOUT MEASUREMENT.**
+Artifact
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
 Battery **187/2** — the stamp (green after publish) and the ruled blend item #61.
 

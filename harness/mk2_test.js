@@ -693,8 +693,11 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   }
 
   {
-    const dealt = M.blendPlan({ lofi: 0.5, jungle: 0.5 }).map(e => e.key);
-    const heard = M.composeSong(1, undefined, { lofi: 0.5, jungle: 0.5 }).chart.table.blendTraits.map(t => t.key);
+    /* the pair is derived, not written down: a blend literal naming a genre is
+       one deletion away from reading `undefined` and throwing here */
+    const PAIR = { [M.genres()[0]]: 0.5, [M.genres()[1]]: 0.5 };
+    const dealt = M.blendPlan(PAIR).map(e => e.key);
+    const heard = M.composeSong(1, undefined, PAIR).chart.table.blendTraits.map(t => t.key);
     check("the hand holds no element the record throws away",
           !dealt.includes("label") && !heard.includes("label") &&
           dealt.slice().sort().join() === heard.slice().sort().join(),
@@ -3072,7 +3075,7 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
         what this catches is degeneration to either end, which is what a broken
         or bypassed mechanism actually looks like. */
   let nov = 0, nn = 0;
-  for(let s = 1; s <= 12; s++){
+  if(ANS) for(let s = 1; s <= 12; s++){
     const per = lanesOfSong(M.composeSong(s, "band", ANS));
     for(const bits of (per.ghost || [])){
       const k = bits.reduce((x, y) => x + y, 0);
@@ -3084,9 +3087,10 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
   }
   const score = nn ? nov / nn : -1;
   check("...and what it writes is neither a loop nor a shuffle",
-        nn > 0 && score > 0.15 && score < 0.90,
-        `player lane scores ${score.toFixed(3)}  (0.00 = its own first bar looped, 1.00 = a random ` +
-        `sprinkle at the same density; ${nn} samples)`);
+        !ANS || (nn > 0 && score > 0.15 && score < 0.90),
+        ANS ? `player lane scores ${score.toFixed(3)}  (0.00 = its own first bar looped, 1.00 = a random ` +
+              `sprinkle at the same density; ${nn} samples)`
+            : NOPLAYER);
 
   /* 3. IT CANNOT RUN AWAY. The person playing it firing on every Nth hit of its watch set
         has density at most density(watch)/N, so a chain of them is strictly

@@ -136,6 +136,57 @@ because the measurement refused it.
 
 ## What happened last, and what to do next
 
+### `2026-08-17a` — SIX GENRES DELETED. THE PROGRAM HAS FIVE, AND THE RACKS ALL STAYED
+
+The owner: *"We are going to delete the genres blade runner, plastikman, hobbit
+synth, acid, jungle, and ambient. Our main focus is boxcar synth."*
+
+**`MK2.genres()` now answers `lofi, synthwave, vgm, dungeonsynth,
+boxcarsynth`.** Ask it. Do not trust the number in any sentence, this one
+included.
+
+**THE RACKS WERE KEPT, AND THAT WAS THE OWNER'S CALL.** Asked whether the
+eleven instrument racks those genres used should go too, the answer was *"All
+those racks are being used."* So the 808, the 303, the breakbeat chopper, the
+Shire flutes, the drone rack and the rest are all still on the rig menu, still
+pickable by hand on any genre. **A rack is an instrument. Deleting a genre must
+not quietly take instruments with it** — that was the one thing worth asking
+about before cutting, and it is the thing to remember next time.
+
+**What that broke, and what fixing it taught.** Thirteen probes took a genre
+argument defaulting to one that no longer existed; the battery named genres by
+hand in seven places, including two blend literals that read `undefined` and
+threw. Every one of those is the DERIVE-NEVER-LIST rule being broken *inside
+the test harness that exists to enforce it*. They now all ask
+`MK2.genres()`. **If you write a genre name into a probe, you are writing the
+next crash.**
+
+**Two mechanisms now have no caller**: `kit.poly` (the polymetre) and
+`kit.answer` (the part that answers the pattern), plus `bassRiff`, `acidLine`,
+`chop`, `ladder` and `phasing`. The engine still has all of them; nothing
+declares them. They were deliberately left in — each is one table line from
+being alive, and the racks that play them are kept. The battery's checks on
+the first two say "nothing declares this" and pass instead of failing on an
+empty subject. **Backlog §0zz has the full list.**
+
+**Fifteen research sheets went** with their genres, and `docs/GENRES.md`, which
+had been describing genres that stopped existing months ago. What survives a
+deletion is a sheet that sources a mechanism the program still has — deleting
+those would leave live code unsourced, which this repo's own rules forbid.
+**`docs/genre-research/DELETED-SHEETS.md` lists every one and why**, because
+older documents still point at them and a dead pointer with no explanation is
+how a reader decides the repo is broken.
+
+**The five surviving genres did not move one note.** `mk2_snapshot.js check
+--full` over 1500 songs: IDENTICAL. That is the proof the deletion was a
+deletion and not an edit.
+
+**What still names a deleted genre, on purpose:** iOS's "ambient audio session"
+is a platform term; the Blade Runner and Plastikman citations are the named
+sources for the CS-80, the VP-330 and the echo unit, which are all live
+instruments; and quoted source material keeps its own wording, because
+rewriting a quotation is worse than a leftover word.
+
 ### `2026-08-16j` — boxcar synth, and the lesson is about MEASUREMENT
 
 **Read this before you trust any probe in this repo.** A full critical audit of
@@ -162,7 +213,7 @@ the **diddley bow** (a slide is a tool, and the voice was two sawtooths); the
 train's window opened; and `atmos`/`weather` became real machines with racks.
 
 **New guards:** `probe_banjo.js`, `probe_length.js` (composed material must grow
-with record length — 16 roles across the other ten genres are still capped).
+with record length — roles on the other genres are still capped).
 
 **What to do next**, in order (evidence in
 `docs/genre-research/boxcar-audit.md`, detail in tasks #111–#117):
@@ -171,7 +222,7 @@ with record length — 16 roles across the other ten genres are still capped).
    instances measured, every leg exactly 64 s, every town exactly 32. The
    terrain planner draws real variety and none reaches the ear. Largest open
    item in the genre.
-2. **The apex is the sparsest bar** — the only genre of eleven whose density
+2. **The apex is the sparsest bar** — the only genre whose density
    falls toward its peak.
 3. **A probe that renders and measures the result** — the missing instrument
    this whole session proved is missing (BACKLOG §0za, task #102).
@@ -697,10 +748,10 @@ explanation. **When the program cannot do something, suspect the program.**
 **Build `2026-08-09d` — and now every part of the mix can be AIMED.** Under the
 sliders, each part of the record — the bass line, the drum kit, the swing, how
 the song is built — has a little menu: leave it on *whichever*, or say *always
-jungle* and it comes from jungle every time. What you did not aim, the sliders
+THIS genre* and it comes from that genre every time. What you did not aim, the sliders
 still decide. Ask for something a genre does not have and it says so instead of
 pretending. Read it in the notes:
-`node harness/mk2_roll.js 1 --blend lofi:50,jungle:50 --trait kit=jungle`.
+`node harness/mk2_roll.js 1 --blend lofi:50,synthwave:50 --trait kit=synthwave`.
 
 **Build `2026-08-09c` — the genre sliders mean what they say in every song.**
 Set two of them to 50/50 and you now get a record that is half and half. You did
