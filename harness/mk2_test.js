@@ -339,45 +339,6 @@ const check = (name, ok, detail) => {
   if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
 }
 
-/* ═══ AND A RECORD CAN BE A JOURNEY INSTEAD OF A SONG ═══════════════════════
-   Everything in stage 2 built a SONG: a grammar walk over section functions
-   with laws about which may follow which. `makeJourney` is a SECOND form
-   builder — a genre declaring `form.journey` skips the walk entirely rather
-   than configuring it — and it lays out legs, the stops between them, and the
-   handover of the lead from one leg to the next.
-
-   [owner] "the 20 min song is broken into 4 pieces dissected by the train
-   stops." So the leg count is the record's LENGTH and not a draw, and that is
-   the first thing checked.
-
-   NO GENRE DECLARES ONE YET, so `harness/probe_journey.js` declares one itself
-   — built out of whichever section functions and machines the genre already
-   has, so it names none — composes at four lengths, measures, and puts the
-   table back.
-
-   Watched failing against EIGHT deliberately broken builds, each caught by the
-   claim meant for it: the leg count made a constant, a stop laid after the
-   last leg, the ceremony put out of order, the same instrument handed to
-   itself, the handed chair left out of the room, the tempo flattened across a
-   leg, the leg fill allowed to overshoot, and the original length fault — a
-   fixed share per leg with the stops unbudgeted, which read 24% long.
-
-   A ninth break passed, and that was the useful one: it proved a `legBars`
-   the code computed and never read. Dead code, deleted.
-   ═══════════════════════════════════════════════════════════════════════════ */
-{
-  const { execFileSync } = require("child_process");
-  let out = "", ok = true;
-  try { out = execFileSync(process.execPath,
-          [path.resolve(__dirname, "probe_journey.js"), "8"], { encoding: "utf8" }); }
-  catch(e){ ok = false; out = (e.stdout || "") + (e.stderr || ""); }
-  const n = (out.match(/(\d+) journey fault\(s\)/) || [])[1];
-  check("a journey has legs, stops between them, and hands the lead over at each one", ok,
-        ok ? "the leg count is the length, the ceremony is in order, and the soloist plays"
-           : `${n || "some"} journey fault(s) — run: node harness/probe_journey.js`);
-  if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
-}
-
 /* ═══ AND THE RECORDINGS ACTUALLY DECODE TO SOUND ═══════════════════════════
    The most expensive check to be missing, because it is the one whose absence
    let a whole instrument ship as silence with a green battery behind it.

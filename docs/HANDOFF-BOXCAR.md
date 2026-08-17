@@ -177,48 +177,23 @@ is still the same eight bars, forty-three times.
 
 ---
 
-## 7a. READ THE SHEETS FIRST. BEFORE WRITING A LINE.
+## 7a. THE SHEETS ARE THE SOURCE. READ THEM.
 
-This is not a suggestion and it is written from a failure.
+`docs/genre-research/boxcar-synth.md` — all 1,161 lines — is what this genre
+is. §4 the conductor's language · §4a the stop is a script (twelve numbered
+steps) · §4b the route · §4c the trip planner · §4d the levels · §5 dark to
+light · §6 the scene material · §7 the hobo band · §8 the era's decay · §8c the
+night (researched, not built) · §9 the plan of record and the six corrections ·
+§10 what is still open.
 
-`GENRE.boxcarsynth2` was authored having read the founding sheet's section
-HEADINGS and about a hundred of its 1,161 lines. The owner asked, plainly,
-*"have you read the docs on what this genre is?"* — and the honest answer was
-no, not properly. It shows: the table declares a stop ceremony without having
-read §4a, which is the stop script; a terrain walk without §4b, which is the
-route; SFX pools without §4c, which is the trip planner.
+Then `modal-jazz.md` (the parent, and §4's staleness measurements),
+`playing-the-hobo-band.md`, `the-bow.md`, `the-washboard.md`,
+`washtub-bass.md`, `banjo-and-harmonica-notation.md`, both audit sheets,
+`score-craft.md` §7–§8.
 
-**The failure pattern of this whole project is building before understanding.**
-Do not repeat it. Read these end to end, then write:
-
-| sheet | what is in it |
-|---|---|
-| `boxcar-synth.md` | **all 1,161 lines.** §1 the parents · §2 the one law: MOVEMENT · §3 the train is the drummer, and the tempo is its speed · §4 the conductor's language · §4a the stop is a script · §4b the route · §4c the trip planner · §4d and then it all drowned the band · §5 dark to light · §6 the scene material · §7 the hobo band · §8 the era's decay · §8c the night (researched, NOT built) · §10 what is still open |
-| `playing-the-hobo-band.md` | who is in the band and how each one is played |
-| `the-bow.md` | the fiddle — and §8a, "every check passed while it was broken" |
-| `the-washboard.md` | the three real scrapes, and how the take is chosen |
-| `washtub-bass.md` | the bass, and the measurement that justified it |
-| `banjo-and-harmonica-notation.md` | the roll, the fifth string, the reed |
-| `boxcar-audit.md`, `boxcar-audit-2.md` | what an audit missed that an ear caught in a minute |
-| `development.md`, `score-craft.md` §7–§8 | how a hook is developed; how a score is orchestrated |
-
-### What is understood so far, so it can be corrected rather than assumed
-
-- a subgenre of dungeon synth out of comfy synth and dinosynth; the imagined
-  past is the American railroad, 1880s–1930s
-- **the one law is MOVEMENT** — dungeon synth stands still in a place, this
-  passes through places. The materials repeat; the landscape around them
-  changes. Variation lives in TEXTURE, never in note-churn.
-- the train is the drummer and **the tempo is its speed**: 39-foot jointed
-  rail, clicks/min = mph x 2.256, and the truck's two axles are a FLAM
-- **in town the track rhythm STOPS** — a standing train has no clicks, and the
-  drums' silence is structural rather than an effect
-- the train's own sounds are genre material, not decoration
-- dark to light: the key and tone move to mark the passage of time
-- the record is a journey of legs divided by stops, the lead handed over at each
-
-**Everything below §4 of the founding sheet is unread and therefore unverified
-in the table as it stands.**
+**A table written from the section headings was deleted for being one.** The
+sheets specify the stop, the route and the planner in detail; anything built
+without reading them is a re-invention of something better.
 
 ## 8. HOW TO WORK ON THIS
 
