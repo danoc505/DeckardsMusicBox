@@ -14402,7 +14402,9 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const str = c.createDelay(0.05);
     const fb  = c.createGain();
     const damp = c.createBiquadFilter(); damp.type = "lowpass";
-    damp.frequency.value = 2600 + 2600 * tone; damp.Q.value = 0.0001;
+    /* the same `Q = 0.0001` defect the washtub carries — see the note there.
+       Measured identically: peak 1.1546 at 2765 Hz, loop gain 1.13, divergent. */
+    damp.frequency.value = 2600 + 2600 * tone; damp.Q.value = -3.01;
     str.connect(damp); damp.connect(fb); fb.connect(str);
     str.connect(glass);
     fb.gain.value = 0.965;
@@ -14533,7 +14535,31 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const str = c.createDelay(0.09);
     const fb  = c.createGain();
     const damp = c.createBiquadFilter(); damp.type = "lowpass";
-    damp.frequency.value = 700 + 1500 * toneK; damp.Q.value = 0.0001;
+    /* ── AND `Q = 0.0001` WAS MAKING THE STRING BLOW UP ────────────────────
+       MEASURED on the real node with `getFrequencyResponse`, not reasoned:
+
+         Q =  0.0001   peak gain 1.1545   x feedback = 1.13   DIVERGES
+         Q = -3.01     peak gain 1.0000   x feedback = 0.98   stable
+
+       WEB AUDIO'S `Q` FOR A LOWPASS IS IN DECIBELS, which is the whole trap.
+       0.0001 reads as "no resonance at all" and is in fact 0.0001 dB — a
+       linear Q of 1.0, which puts a +1.2 dB BUMP just under the cutoff. Sitting
+       that inside a feedback loop at 0.93-0.98 makes the loop gain exceed one,
+       so the string does not decay: it GROWS. A standalone replica of this
+       exact graph passes +-1.0 at 0.278 s after the pluck and reaches an
+       amplitude of 185,044 within three seconds. The WAV writer's clamp turns
+       the resulting non-finite samples into ZEROS, which is why the stem
+       measures as stretches of digital silence.
+
+       -3.01 dB is a linear Q of 0.707 — Butterworth, maximally flat, no peak
+       anywhere. Loop gain 0.98, and the string rings and dies like a string.
+
+       THIS IS ALSO THE ANSWER TO #126. The washtub has been recorded for three
+       sessions as "38 dB under the lead, and MISSED(A) is 0.00 — removing it
+       changes nothing", and every attempt to fix it moved a LEVEL. The level
+       was never the fault: the loop was diverging into silence. I raised
+       TUB_TRIM by 11 dB earlier today on exactly that misreading. */
+    damp.frequency.value = 700 + 1500 * toneK; damp.Q.value = -3.01;
     str.connect(damp); damp.connect(fb); fb.connect(str);
     str.connect(air);
     /* ── THE STRING WAS DECAYING IN A FIFTH OF A SECOND ──────────────────────
@@ -28140,6 +28166,14 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                             against: keysC, avoid: reserve(ostC.concat(bassCx, keysCx)) }));
   const resC   = reserve(ostC.concat(bassCx, keysCx, keys2C));
   const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: playable(R.themeC)[0], hi: playable(R.themeC)[1], comp: keysC, augmentOf: themeA.notes });
+  /* ── AND C IS THE ONE SECTION THAT IS EXPLICITLY TWO PLAYERS ──────────────
+     C carried `counter: []` like Avar did, and it is the material the DANCE
+     plays — the middle step of the stop's own ceremony, "solo X -> the dance
+     (X and Y) -> solo Y". A section whose entire point is that two instruments
+     are playing together was handing the second one an empty part, so the
+     dance was the handover seating a chair over silence.
+     Same derivation as everywhere else, against C's own chords. */
+  const counterC = deriveCounter(themeC.notes, resC, "counterC", bridgeChords, keysC);
 
   /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
      the canonical rule-of-three answer at the material level ── */
@@ -28153,6 +28187,30 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const varTail = buildTheme(chords, "themeA:var", resV, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], dir: -1 });
   const leadAvar = JOIN(themeA.notes.filter(n => n.bar < 2)
     .concat(varTail.notes.filter(n => n.bar >= 2)));
+  /* ══ AND THE SECOND VOICE COMES WITH IT ═══════════════════════════════════
+     [owner] "the diddly and contrabasson should both be playing, this is
+     ORCHASTRAL! The whole damn point of the rewrite was so that we can have
+     all the instruments playing when they should be"
+
+     MEASURED, seed 1: the counter is SEATED IN 10 OF 31 SECTIONS and plays 27
+     notes in a twenty-minute record. Not quiet — barely written. Counting the
+     notes each material actually holds says why:
+
+       A     7 counter notes        Avar  0        C  0
+       B     3                      Bvar  6
+
+     `Avar`, `C` and `Avarlift` were `counter: []`, hardcoded — so five of the
+     ten sections that seat the second voice hand it a material with NOTHING
+     IN IT. The player is in the room and has no part.
+
+     `Bvar` already does this properly and has since the variant was built:
+     derive a counter against the redrawn tune, then keep the ORIGINAL
+     counter's opening two bars so the answer is recognised before it turns,
+     exactly as the tune itself does. Nothing new is invented here; the same
+     three lines are applied to the three materials that never got them. */
+  const counterAv = deriveCounter(leadAvar, resV, "counterA:var", chords, keysA);
+  const counterAvar = JOIN(counterA.filter(n => n.bar < 2)
+    .concat(counterAv.filter(n => n.bar >= 2)));
 
   /* ══ AND THE RECORD ITSELF MOVES, NOT ONLY ITS BRIDGE ══════════════════════
      MEASURED, AND THE MEASUREMENT IS WHY THIS EXISTS. With the key shift living
@@ -28363,7 +28421,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     // variant's redrawn second half is a different tune -- a shadow of the wrong line.
     // Verses (Avar's consumers) never activate the counter anyway; if a future section
     // wants one, it derives it from leadAvar, it does not borrow A's.
-    Avar: { drums: drumsAvar, bass: bassA, keys: keysA, keys2: keys2Avar, lead: leadAvar, counter: [], ostinato: ostAvar, drone: droneA },
+    Avar: { drums: drumsAvar, bass: bassA, keys: keysA, keys2: keys2Avar, lead: leadAvar, counter: counterAvar, ostinato: ostAvar, drone: droneA },
     B:    { drums: drumsB, bass: bassB, keys: keysB, keys2: keys2B, lead: themeB.notes, counter: counterB, ostinato: ostB, drone: droneB },
     /* Bvar = vary(B) -- the chorus's rule-of-three answer. Same drums, bass,
        chords and pad as B; only the tune's second half is redrawn, so the hook
@@ -28376,7 +28434,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        through IS the departure: a constant cell with the harmony moving under it
        is the device these tracks are built on, applied at section scale instead
        of bar scale. Dropping it made the bridge stop sounding like the genre. */
-    C:    { drums: drumsC, bass: bassC, keys: keysC, keys2: keys2C, lead: themeC.notes, counter: [], ostinato: ostC, drone: droneC },
+    C:    { drums: drumsC, bass: bassC, keys: keysC, keys2: keys2C, lead: themeC.notes, counter: counterC, ostinato: ostC, drone: droneC },
     fill, fills: fillSet, ending,
   };
   /* ── THE TAKES, KEYED `material|role` ────────────────────────────────────
