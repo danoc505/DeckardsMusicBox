@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17z · the loop, three times, and then it goes somewhere</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17aa · one tune, and every section is it</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20656,6 +20656,18 @@ GENRE.boxcarsynth = {
        nobody can hear as a return of the same idea is a new tune wearing the
        old one's rhythm. These weights are [CHOSEN] and nothing has heard them. */
     third: { of: [["sequence",4],["invert",3],["tail",2],["retrograde",1]] },
+    /* THE TOWN IS THE ROAD TURNED OVER. B is A inverted — the same rhythm, the
+       same shape upside down, in the chorus's higher band. The antagonist, in
+       Almén's sense: not different music, the same character opposed.
+       [STORY_AND_MATERIAL.md §1] */
+    deriveB: "invert",
+    /* THE SUNRISE IS THE SAME TUNE, MOVED. The lift re-composed the verse and
+       shared 7% of its notes with it, across 24.8% of the record. */
+    deriveLift: "transpose",
+    /* AND THE VERSE ANSWERS ITSELF A STEP UP, rather than bolting a new tune to
+       A's opening. Two scale steps — a third, the interval a sequence is
+       normally written at. */
+    deriveVar: 2,
     /* ── `develop` IS GONE, BECAUSE ITS JOB MOVED AND IT COULD NO LONGER FIRE ─
        It read `develop: { at: 4, of: [...] }` and it varied the material's
        SECOND HALF — bars 4-7 of an eight-bar cell. With the loop at four bars
@@ -26957,6 +26969,151 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     return { notes: articulate(NOREPEAT ? noRepeats(notes) : notes, streamName), dna };
   }
 
+  /* ══ A THEME DERIVED FROM ANOTHER THEME ════════════════════════════════════
+     [owner] "We need a motif!" · "delete the bad code and tables and rewrite
+     them correct"
+
+     ── THE BAD CODE THIS REPLACES, AND IT WAS TRYING ────────────────────────
+     themeB was drawn by `buildTheme(..., { moveBias: themeA.dna.map(mv => -mv) })`
+     — A's shape, inverted. The intent was exactly right and the mechanism
+     reached four notes: `dna` is filled by `if(dna.length < 4) dna.push(move)`
+     and `moveBias` only applies `while(moveBias.length > dna.length)`, so the
+     bias governs the first FOUR moves of the phrase and then lets go. MEASURED:
+     B follows A's contour on 54.7% of steps, which is chance, and shares 0-40%
+     of its notes. A derivation that abandons the phrase after four notes is not
+     a derivation, and the table read like one.
+
+     ── WHAT THE RESEARCH SAYS IS PRESERVED ─────────────────────────────────
+     "Thematic transformation ... permutation (transposition or modulation,
+      INVERSION, and RETROGRADE), AUGMENTATION, DIMINUTION and FRAGMENTATION"
+      — and the transformed theme "has a life of its own and is no longer a
+      sibling to the original". Themes "differ in their expression (character)
+      but stay uniform in their BASIC MELODIC LAYOUT."
+      [corpus:wikipedia/Thematic transformation; corpus:classicalmusic-notes]
+
+     and the governing principle, from the songwriting side:
+
+       "sections feel satisfying when they are DIFFERENTIATED ENOUGH TO REGISTER
+        AS DISTINCT BUT RELATED ENOUGH TO FEEL PART OF A COHERENT WHOLE"
+        [corpus:songacademy]
+
+     Our sections have been differentiated and not related. So this keeps the
+     two things that carry recognition — THE RHYTHM, exactly, and the SHAPE
+     measured in scale steps — and changes the two that carry contrast: the
+     pitch level and the direction. Rhythm is kept whole rather than transformed
+     because it is the cheapest recognition there is and this record has none:
+     216 distinct bar rhythms across 40 records, measured, with no figure ever
+     returning [modal-jazz.md §3d].
+
+     ── AND IT WORKS IN DEGREES, NOT SEMITONES ──────────────────────────────
+     The source may be in a different key and mode from the target — the chorus
+     has its own progression and the lift has its own tonic. A semitone copy
+     would land out of key; a copy in SCALE STEPS from the target's own tonic
+     lands in the target's key by construction, which is the same reason
+     `develop`'s sequence device counts in steps. */
+  function deriveTheme(srcNotes, chordSet, reserved, opts){
+    const LO = opts.lo, HI = opts.hi;
+    const K = keyOf(chordSet), MD = modeOf(chordSet);
+    const half = Math.max(1, Math.floor(BARS / 2));
+    /* the SOURCE's own key, so its shape is read in the mode it was written in */
+    const SK = opts.srcKey != null ? opts.srcKey : K, SM = opts.srcMode || MD;
+    const src = (srcNotes || []).filter(n => n.bar < half)
+                  .sort((a, z) => (a.bar - z.bar) || (a.step - z.step));
+    if(src.length < 2) return null;
+    /* how many scale steps each note is from the phrase's first, in the source's
+       key. Walked rather than solved, because this file has `scaleStep` and no
+       inverse — the number of steps whose landing is nearest IS the interval. */
+    const stepsFrom = (from, to, k, md) => {
+      let best = 0, bd = Infinity;
+      for(let n = -14; n <= 14; n++){
+        const d = Math.abs(scaleStep(k, md, from, n) - to);
+        if(d < bd){ bd = d; best = n; }
+      }
+      return best;
+    };
+    const shape = src.map(n => stepsFrom(src[0].pitch, n.pitch, SK, SM));
+    /* THE TRANSFORM. Each is a named classical one and each keeps the rhythm. */
+    let out = shape.slice();
+    const mode2 = opts.transform || "invert";
+    if(mode2 === "transpose")   out = shape.slice();   // the same shape, new tonic
+    else if(mode2 === "invert") out = shape.map(d => -d);
+    else if(mode2 === "retrograde") out = shape.slice().reverse();
+    else if(mode2 === "sequence")   out = shape.map(d => d + (opts.by || 2));
+    /* where the shape is planted: the target's own tonic, in the octave that
+       centres the phrase in the band it has been given. A chorus band sits
+       above a verse band [R.themeB against R.themeA], so "the same shape,
+       higher" falls out of the register table rather than out of a number
+       here — "choruses are generally higher than verses" [corpus:masterclass]. */
+    const span = Math.max(...out) - Math.min(...out);
+    let anchor = intoBand(degMidi(K, MD, 0), LO, HI);
+    for(let o = -2; o <= 2; o++){
+      const a = anchor + 12 * o;
+      const lowNote = scaleStep(K, MD, a, Math.min(...out));
+      const hiNote  = scaleStep(K, MD, a, Math.max(...out));
+      if(lowNote >= LO && hiNote <= HI){ anchor = a; break; }
+    }
+    /* ── WHERE THE PHRASE IS PLACED, AND THE SEAT IS CHECKED THERE ──────────
+       `at` puts the derived phrase at a bar offset — which is what Avar needs,
+       because its answer sits in bars 2-3 rather than 0-1. The first cut
+       derived at bars 0-1 and shifted afterwards, so every seat was checked at
+       a bar the notes do not end up in, and the seam check threw on 13 records
+       in 40: "collision in Avar at 3:12:70". A seat is a seat at a PLACE. */
+    const AT = opts.at || 0;
+    const notes = [];
+    let prev = null;
+    for(let i = 0; i < src.length; i++){
+      const n = { ...src[i], bar: src[i].bar + AT };
+      if(n.bar >= BARS) continue;
+      let p = intoBand(scaleStep(K, MD, anchor, out[i]), LO, HI);
+      /* ── AND A CHORD-TONE SNAP WAS TRIED HERE AND MEASURED WORSE ──────────
+         A transform bypasses the counterpoint laws `buildTheme` enforces at its
+         own pitch choice, and it shows: `probe_theory`'s unresolved non-chord
+         tones went 20.3% -> 29.2% when three materials started being derived.
+         That is a real cost of this change and it is written down rather than
+         hidden.
+
+         The obvious repair — snap a long or strong-beat note to the nearest
+         chord tone, which is the sourced melody target [corpus:sax-material.md,
+         strong beats 84.1% stable] — was built and run: 29.2% -> 31.9%. WORSE.
+         Moving one note to a consonance turns its two NEIGHBOURS into leaps,
+         and what this probe counts is dissonances LEFT BY LEAP. Reverted.
+
+         The second time today a plausible repair measured worse than the thing
+         it was repairing [the other is modal-jazz.md §1], and the pattern is
+         the same both times: a rule that is right about one note in isolation,
+         applied to a line where every note is somebody else's neighbour. TASK
+         #166 — the real fix is to run the derived line through the same arrival
+         and departure laws the drawn one gets, not to patch pitches. */
+      /* the laws this file already enforces, asked of the derived note: not the
+         pitch in front of it, and not a seat another part is holding. Walked a
+         scale step at a time rather than redrawn, so a note that has to move
+         moves as little as possible and the shape survives. */
+      let tries = 0;
+      while(tries < 4 && ((prev != null && p === prev) ||
+                          reserved.has(key(n.bar % BARS, n.step, p)))){
+        p = intoBand(scaleStep(K, MD, p, tries % 2 ? -1 : 1), LO, HI); tries++;
+      }
+      if((prev != null && p === prev) || reserved.has(key(n.bar % BARS, n.step, p))) continue;
+      notes.push({ bar: n.bar, step: n.step, dur: n.dur, pitch: p,
+                   vel: n.step === 0 ? 0.85 : 0.7, role: "lead" });
+      reserved.add(key(n.bar % BARS, n.step, p));
+      prev = p;
+    }
+    if(notes.length < 2) return null;
+    /* AND IT RESTATES, exactly as the drawn road does: bars 0..half-1 copied to
+       half..BARS-1, so the derived material is a motif and its restatement and
+       the rule of three has the same shape to work on. A phrase placed at an
+       offset is already somebody's second half and does not restate itself. */
+    if(!AT) for(const n of notes.slice()){
+      const cp = { ...n, bar: n.bar + half };
+      if(cp.bar >= BARS) continue;
+      if(reserved.has(key(cp.bar % BARS, cp.step, cp.pitch))) continue;
+      notes.push(cp); reserved.add(key(cp.bar % BARS, cp.step, cp.pitch));
+    }
+    const NR = !!(G.theme && G.theme.noRepeat);
+    return { notes: articulate(NR ? noRepeats(notes) : notes, "derive"), dna: [] };
+  }
+
   /* ── HOW A WIND PLAYER GETS FROM ONE NOTE TO THE NEXT ══════════════════════
      Reported: "the sax sounds bad." It did, and the reason was not the timbre.
 
@@ -28375,8 +28532,34 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const keys2B = tryPad(band => buildKeys(chorusChords, "keys2B", { sustain: true, at: 2, band,
                             against: keysB, avoid: reserve(ostBx.concat(bassBx, keysBx)) }));
   const resB   = reserve(ostBx.concat(bassBx, keysBx, keys2B));
-  const themeB = buildTheme(chorusChords, "themeB", resB,
+  /* ── B IS A, TURNED OVER ─────────────────────────────────────────────────
+     `STORY_AND_MATERIAL.md` §1: "B should be derived from A BY OPPOSITION, not
+     generated independently: inverted contour, the complementary register, the
+     rhythm displaced, the mode darkened." And §3 calls doing it properly "the
+     single most valuable unimplemented idea for this engine, because it
+     produces genuine sectional contrast FROM ONE SOURCE, which is the thing we
+     keep failing to do — either generating unrelated material or repeating."
+
+     It was `moveBias: themeA.dna.map(mv => -mv)` — the right idea, reaching
+     four notes, because `dna` stops at four and the bias only applies while it
+     lasts. MEASURED: B followed A's contour on 54.7% of steps, which is chance.
+
+     `deriveTheme` inverts the WHOLE phrase, in scale steps of the chorus's own
+     key, keeping A's rhythm exactly. The chorus band is already the higher one
+     [R.themeB [67,84] against R.themeA [64,82]] so "the same shape, upside
+     down, higher" needs no number here — it is the register table doing it,
+     and "choruses are generally higher than verses" [corpus:masterclass].
+
+     FALLS BACK TO THE DRAWN TUNE if the inversion cannot be seated, so a record
+     that cannot hold it is the record it was rather than a record with a hole.
+     The draw is spent either way, so nothing else moves [Law 3]. */
+  const themeBdrawn = buildTheme(chorusChords, "themeB", resB,
     { lo: playable(R.themeB)[0], hi: playable(R.themeB)[1], comp: keysB, dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
+  const themeB = (G.theme && G.theme.deriveB
+    ? deriveTheme(themeA.notes, chorusChords, resB,
+        { lo: playable(R.themeB)[0], hi: playable(R.themeB)[1],
+          transform: G.theme.deriveB, srcKey: keyOf(chords), srcMode: modeOf(chords) })
+    : null) || themeBdrawn;
   const counterB = deriveCounter(themeB.notes, resB, "counterB", chorusChords, keysB);
   const themeBTakes = takesOf("lead", "B", themeB.notes, t =>
     buildTheme(chorusChords, "themeB:" + t, resB,
@@ -28515,8 +28698,22 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      Same word, same road, same reason as the chorus: the tail states a two-bar
      idea, restates it exactly, then develops it [development.md §3]. */
   const varTail = buildTheme(chords, "themeA:var", resV, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], dir: -1, hooky: !!(G.theme && G.theme.verseHook) });
-  const leadAvar = JOIN(themeA.notes.filter(n => n.bar < 2)
-    .concat(varTail.notes.filter(n => n.bar >= 2)));
+  /* ── AVAR IS THE MOTIF ANSWERED BY ITSELF, A STEP AWAY ───────────────────
+     The tail was a fresh `buildTheme` — a different tune bolted to A's opening,
+     and `Avar` is 18.3% of the record. Sequenced instead: bars 0-1 are A, bars
+     2-3 are A moved by a scale step, which is the antecedent/consequent pair
+     and the oldest answering figure there is. "Repeating a motive at different
+     pitch levels ... you won't hear a Mozart piece that doesn't move a melody
+     around in sequence at least once" [LOOP_TO_SONG.md §4, corpus:002/003]. */
+  const HALFB = Math.max(1, Math.floor((chart.table.materialBars || 4) / 2));
+  const varSeq = (G.theme && G.theme.deriveVar)
+    ? deriveTheme(themeA.notes, chords, resV,
+        { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1],
+          transform: "sequence", by: G.theme.deriveVar, at: HALFB,
+          srcKey: keyOf(chords), srcMode: modeOf(chords) })
+    : null;
+  const leadAvar = JOIN(themeA.notes.filter(n => n.bar < HALFB)
+    .concat(varSeq ? varSeq.notes : varTail.notes.filter(n => n.bar >= HALFB)));
   /* ══ AND THE SECOND VOICE COMES WITH IT ═══════════════════════════════════
      [owner] "the diddly and contrabasson should both be playing, this is
      ORCHASTRAL! The whole damn point of the rewrite was so that we can have
@@ -28607,9 +28804,28 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      road. The lift is meant to be recognisable as the record's own tune moved,
      not a new tune; a lift you cannot recognise is the fault `probe_mode.js`
      exists to catch one level down, at the mode. */
-  const themeAl    = LIFT ? buildTheme(liftChords, "themeA", resAl, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1],
+  /* ── THE SUNRISE IS THE SAME TUNE IN A NEW KEY, AND NOW IT ACTUALLY IS ────
+     This RE-COMPOSED the verse against `liftChords` — a whole new tune that
+     happened to share a register. MEASURED: `Avarlift` is 24.8% OF THE RECORD,
+     the second largest material in it, and it shared 7% of its notes with A.
+     A quarter of every record was an unrelated melody labelled as the record's
+     own tune arriving in a new light.
+
+     A key change is a TRANSPOSITION — "permutation (transposition or
+     MODULATION, inversion, and retrograde)" is the first entry in the thematic
+     transformation list, and the theme "stays uniform in its basic melodic
+     layout" through it [corpus:wikipedia/Thematic transformation]. So the lift
+     replants A's shape, in scale steps, on the lifted tonic: same contour, same
+     rhythm, new key. That is what a lift IS, and it is what `probe_mode.js`
+     already checks the harmony half of. */
+  const themeAlDrawn = LIFT ? buildTheme(liftChords, "themeA", resAl, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1],
                               comp: keysAl, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1,
                               hooky: !!(G.theme && G.theme.verseHook) }) : themeA;
+  const themeAl    = LIFT ? ((G.theme && G.theme.deriveLift
+      ? deriveTheme(themeA.notes, liftChords, resAl,
+          { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1],
+            transform: G.theme.deriveLift, srcKey: keyOf(chords), srcMode: modeOf(chords) })
+      : null) || themeAlDrawn) : themeA;
   const counterAl  = LIFT ? deriveCounter(themeAl.notes, resAl, "counterA", liftChords, keysAl) : counterA;
   const themeAlTakes = LIFT ? takesOf("lead", "Alift", themeAl.notes, t =>
       buildTheme(liftChords, "themeA:" + t, resAl,
@@ -28623,8 +28839,18 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const varTaill   = LIFT ? buildTheme(liftChords, "themeA:var", resVl, { lo: playable(R.themeA)[0],
                               hi: playable(R.themeA)[1], dir: -1,
                               hooky: !!(G.theme && G.theme.verseHook) }) : varTail;
-  const leadAvarl  = LIFT ? JOIN(themeAl.notes.filter(n => n.bar < 2)
-                              .concat(varTaill.notes.filter(n => n.bar >= 2))) : leadAvar;
+  /* the lifted variant answers itself the same way the unlifted one does — it
+     was half derived and half drawn, which measured as keeping 32% of A's
+     rhythm against Avar's 100% */
+  const varSeql = LIFT && (G.theme && G.theme.deriveVar)
+    ? deriveTheme(themeAl.notes, liftChords, resVl,
+        { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1],
+          transform: "sequence", by: G.theme.deriveVar, at: HALFB,
+          srcKey: keyOf(liftChords), srcMode: modeOf(liftChords) })
+    : null;
+  const leadAvarl  = LIFT ? JOIN(themeAl.notes.filter(n => n.bar < HALFB)
+                              .concat(varSeql ? varSeql.notes
+                                              : varTaill.notes.filter(n => n.bar >= HALFB))) : leadAvar;
 
   /* ── the fill: composed here, SELECTED by the arrangement ── */
   /* ── THE FILL, and it comes DOWN THE TOMS. It used to be five snare hits in a

@@ -204,3 +204,122 @@ none of them is built.
   repeated listening produces "an attentional shift from more local to more
   global levels of musical organization". Fetched `2026-08-17` as the
   psychological grounding for why the rule of three is a rule at all.
+
+---
+
+# PART TWO — ONE TUNE, AND EVERY SECTION IS IT, `2026-08-17aa`
+
+> *"Ok delete the bad code and tables and rewrite them correct! Do you need to do
+> research on the web so you understand exactly what your doing?"*
+
+Yes, on one point, and it changed the design: **which elements a transformation
+must PRESERVE for the theme to still be recognised.** I had the list of devices
+already (`STORY_AND_MATERIAL.md` §3). What I did not have was what survives.
+
+## 6. THE RESEARCH — what is kept, what is changed
+
+> "Thematic transformation is a musical technique in which a theme is developed
+> by **permutation (transposition or modulation, inversion, and retrograde),
+> augmentation, diminution, and fragmentation**." · "while thematic
+> transformation is similar to variation, the effect is usually different since
+> **the transformed theme has a life of its own and is no longer a sibling to
+> the original**." — [corpus:wikipedia/Thematic transformation]
+
+> themes "greatly differ in their expression (character), but **stay uniform in
+> their basic melodic layout**" — [corpus:classicalmusic-notes, Liszt Sonata]
+
+and from the songwriting side, the governing principle in one sentence:
+
+> "sections feel satisfying when they are **differentiated enough to register as
+> distinct but related enough to feel part of a coherent whole**"
+> — [corpus:songacademy]
+
+Plus the concrete contrast levers: *"choruses are generally higher than verses;
+bridges are often the highest or most rhythmically distinct section"* and
+*"modulating by a minor third is a great way to brighten up a bridge"*
+[corpus:masterclass].
+
+**Our sections have been differentiated and not related.** That is the whole
+fault in one line, and it tells you what to keep: the **rhythm**, exactly, and
+the **shape in scale steps**. Change the pitch level and the direction.
+
+## 7. THE BAD CODE, AND IT WAS TRYING
+
+`themeB` was already drawn as `buildTheme(..., { moveBias: themeA.dna.map(mv => -mv) })`
+— A's shape, inverted. **The intent was exactly right and the mechanism reached
+four notes:** `dna` is filled by `if(dna.length < 4) dna.push(move)` and
+`moveBias` applies only `while(moveBias.length > dna.length)`. So the bias
+governs the first four moves and then lets go. A derivation that abandons the
+phrase after four notes is not a derivation, and the table read like one.
+
+## 8. `deriveTheme` — and what it measures
+
+Reads a source phrase as scale-step distances from its own first note **in the
+source's key**, transforms those distances, and replants them from the target's
+tonic **in the target's key** — so a modulation lands in the new key by
+construction. Keeps `bar`, `step` and `dur` untouched.
+
+| material | transform | was | now |
+|---|---|---|---|
+| **B** (the town) | `invert` | drawn, biased for 4 notes | A upside down, in the chorus's higher band |
+| **Avar** | `sequence` by 2 | A's head + a fresh tune | A answered by itself a third away |
+| **Alift / Avarlift** | `transpose` | re-composed in the new key | A's shape on the new tonic |
+| **C** (the bridge) | `augment` | built `2026-08-17x` | A's rhythm doubled, A's intervals |
+
+**B against A, 12 records, measured on direction:**
+
+```
+   same direction      35.8%    (was 54.7% — chance)
+   OPPOSITE direction  64.2%    <- the inversion
+   shares A's rhythm   94.4%    (was 43.8%)
+```
+
+**And how much of A's rhythm each material keeps** — the recognition carrier:
+
+```
+   Avar 100%  ·  B 94%  ·  Bvar 55%  ·  Alift 58%  ·  Avarlift 53%  ·  C 27%
+```
+
+`deriveTheme` succeeds 131 times in 136 across 40 records; the 5 that cannot be
+seated fall back to the drawn tune, so a record that cannot hold the derivation
+is the record it was rather than a record with a hole.
+
+### 8a. A bug the seam check caught, and a fix that measured worse
+
+**The seat is a seat at a PLACE.** The first cut derived Avar's answer at bars
+0–1 and shifted it to 2–3 afterwards, so every seat was checked at a bar the
+notes do not end up in. The seam check threw on 13 records in 40 —
+`collision in Avar at 3:12:70`. `deriveTheme` now takes a placement offset and
+checks where the notes actually go.
+
+**And the counterpoint cost is real.** `probe_theory`'s unresolved non-chord
+tones went **20.3% → 29.2%** when three materials started being derived: a
+transform bypasses the arrival and departure laws `buildTheme` enforces at its
+own pitch choice. The obvious repair — snap a long or strong-beat note to the
+nearest chord tone, which is the sourced melody target — was **built and
+measured worse, 29.2% → 31.9%**, because moving one note to a consonance turns
+its two neighbours into leaps and *leaps away from dissonance* is exactly what
+that probe counts. Reverted, and the attempt is kept in the comment.
+
+That is the **second time today** a plausible repair measured worse than the
+thing it repaired (the other is `modal-jazz.md` §1's interval budget), and the
+pattern is identical: a rule that is right about one note in isolation, applied
+to a line where every note is somebody else's neighbour. **Task #166** — the fix
+is to run the derived line through the same per-note narrowing the drawn one
+gets, not to patch pitches after the transform.
+
+## 9. AND THE HEADLINE NUMBER BARELY MOVED — which is the right answer
+
+```
+   distinct 4-note figures    166 -> 96 -> 94 -> 93
+   most-heard figure         4.0% -> 5.5% -> 6.3% -> 6.7%
+```
+
+**Inversion does not reduce distinct pitch figures and should not.** B upside
+down produces new pitch sequences by design; what makes it *related* is the
+rhythm and the shape, which the count cannot see. The dungeon-synth 39/12.2%
+reference was measured on a genre whose materials are literally similar; ours
+are now related-by-transform, which is the better relation and the wrong thing
+to measure with that ruler. **The number to watch is the rhythm-share table in
+§8**, and it went from "unrelated" to 94–100% on the two materials that carry
+half the record.
