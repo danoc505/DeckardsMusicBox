@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17b · the washtub, the contrabassoon, and the verse gets a hook</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17c · the horns, the gurdy and the wurly join the band</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -24568,7 +24568,7 @@ GENRE.boxcarsynth = {
        stored "auto" while the wurly played — so a row spelled "keys" wins
        and is invisible to probe_reachable's pickSeen at once. Name the row
        what the resolver will store. */
-    keys:     [["auto", 7], ["bardPluck", 2], ["erangHarp", 1]],
+    keys:     [["auto", 6], ["wurly", 3], ["bardPluck", 2], ["erangHarp", 1]],
     /* ── HOW MANY PLAYERS ARE IN THIS BAND, AND IT IS A DECISION ─────────
        [owner, 2026-08-15: "that means we would have three harmonicas
        playing and we would need to simulate that"] — right, and the first
@@ -24581,10 +24581,28 @@ GENRE.boxcarsynth = {
        anyway. So the banjo leaves the second keyboard (the choir pad and
        the strings belong there) and the harmonica's weight on the answer
        drops under the slide's. */
-    keys2:    [["vp330", 4], ["erangStrings", 3], ["auto", 3]],
+    /* ── THE ORCHESTRA THE OWNER NAMED, `2026-08-17` ────────────────────────
+       "We should have horns, hurdy gurdy, the harmonica, the washtub,
+       contrabasson, wurly, banjo, fiddle and boxcar drum kit."
+
+       Three of those were BUILT AND UNREACHABLE from this genre: `horns`,
+       `hurdyGurdy` and `wurly` all exist as machines and no boxcar pool named
+       any of them. The wurly was the subtle one -- it does sound, but only
+       because `keys` resolves through `keysChar` to V.wurly, so the MACHINE was
+       never drawable and the rack could never say its name. Named now.
+
+       The hurdy-gurdy earns the second keyboard rather than the first: it is a
+       drone-and-melody box, its measured band is [59,84], and this genre
+       already has a ground on the train -- so it colours, it does not found.
+       The horns go on keys2 for the same reason dungeon synth puts them in the
+       second chair.
+
+       STILL MISSING: the fiddle. It has no voice yet -- see the sheet. */
+    keys2:    [["vp330", 3], ["erangStrings", 3], ["hurdyGurdy", 3],
+               ["horns", 2], ["auto", 3]],
     lead:     [["harmonica", 5], ["diddley", 3], ["bardWind", 1], ["auto", 1]],
-    ostinato: [["banjo", 4], ["auto", 6]],
-    counter:  [["diddley", 4], ["harmonica", 2], ["auto", 4]],
+    ostinato: [["banjo", 5], ["auto", 5]],
+    counter:  [["diddley", 4], ["harmonica", 2], ["hurdyGurdy", 2], ["auto", 4]],
   },
   /* ── THE SCENE UNDER THE RECORD [sheet §6] — the rail beds and the
      passing landscape, through the atmos door with the genre's OWN
