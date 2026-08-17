@@ -20306,11 +20306,38 @@ GENRE.boxcarsynth = {
        LENGTH and is never drawn. */
     ride: {
       legSec: [280, 320], maxLegs: 12, defaultSec: 1200,
-      /* four voices that can hold a tune in a string band and are audibly
-         different from one another — bowed, reed, plucked, wheel. The steam
-         whistle is deliberately not here: it is the train's voice, not a
-         player's [§7]. */
-      leads: ["fiddle", "harmonica", "banjo", "hurdyGurdy"],
+      /* ── WHO CAN CARRY THE TUNE, AND THE BANJO CANNOT ────────────────────
+         Three voices that hold a tune in a string band and are audibly
+         different from one another — bowed, reed, wheel. The steam whistle is
+         deliberately not here: it is the train's voice, not a player's [§7].
+
+         THE BANJO WAS HERE AND IT IS THE INSTRUMENT THE SHEET IS MOST
+         EMPHATIC ABOUT. `banjo-and-harmonica-notation.md` §1: "The roll IS the
+         part: a continuous stream of eighth notes, one pattern per bar,
+         running for as long as the tune does" — and §1c, "the roll is not a
+         decoration for one section: IT IS THE RHYTHM PART."
+
+         MEASURED, 12 records, who led each leg:
+
+           hurdyGurdy 16    banjo 15    fiddle 10    harmonica 7
+
+         THE BANJO LED MORE LEGS THAN THE FIDDLE. And what it played there was
+         not a roll: measured on the seeds where it was drawn, a stepwise sung
+         line at 0.85 s a note, twelve to fifteen distinct pitches, no right-
+         hand pattern and no fifth-string drone. That is a fiddle's part handed
+         to a banjo, which is the owner's "played in the opposite way" in its
+         plainest form — the instrument taken off its own job and given
+         somebody else's.
+
+         AND IT WAS CROWDING OUT THE ACTUAL MELODY INSTRUMENTS. With four names
+         in this list and one lead a leg, the fiddle never sounded at all on
+         seeds 5, 9 and 12, and entered after ELEVEN MINUTES on four more — so
+         on 7 of 12 records you effectively never heard it. Three names for
+         three chairs gives every melody voice a real share of the record.
+
+         The banjo still plays every leg. It plays the roll, which is its
+         part. */
+      leads: ["fiddle", "harmonica", "hurdyGurdy"],
       leg:  { open: "roll", cruise: ["open", "high", "open"], close: "brake" },
       stop: { solo: "solo", dance: "dance", out: "pullout" },
       depart: "yard", arrive: "arrive",
