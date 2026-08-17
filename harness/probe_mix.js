@@ -87,6 +87,23 @@ const TARGET = { train: -9, story: -11, world: -25 };
   const out = await pg.evaluate(async ([SEED, WIN, GROUP]) => {
     const M = window.MK2;
     const song = M.composeSong(SEED, undefined, M.genres()[0]);
+    /* ── THE SOUND THE OWNER HEARS, NOT THE ONE THE CHART CARRIES ────────────
+       THE FIRST VERSION OF THIS PROBE PASSED `song.chart.space`, AND THERE IS
+       NO SUCH FIELD. `composeSong` returns a chart of seed, genre, root, mode,
+       tempo, table, picks, tape, atmos, clock — and no `space`. So every render
+       this probe made went through `space === undefined`: no room, no echo, no
+       tape, no medium, and NO LEGATO. The levels I then set from those numbers
+       were measured down a signal path that exists nowhere else in the program.
+
+       `soundOf` is the one door that assembles a song's sound — the same call
+       the play button and the WAV export make (and the same one probe_stems
+       already makes). A probe that does not go through it is measuring a
+       different record and reporting it with confidence, which is the exact
+       shape of every fault this file's header lists.
+
+       It takes the TABLE rather than the name, because a blended song has no
+       name to look up and its sound is in the table like everything else. */
+    const S = M.soundOf(song.chart.table, song.chart.picks.drums, song.chart.picks, song.chart);
     const C = M.makeClock(song.chart, song.form);
     const at = b => C.at(b, 0);
 
@@ -121,8 +138,8 @@ const TARGET = { train: -9, story: -11, world: -25 };
           return Object.assign({}, e, { tSec: 0, durSec: Math.max(0.05, (e.durSec || 0) + t) });
         });
       if(!win.length) return 0;
-      const buf = await M.renderWav(win, secs, 22050, song.chart.space, song.chart.kick,
-                                    song.chart.drumDrive, song.chart.gate, song.motion, from);
+      const buf = await M.renderWav(win, secs, 22050, S.space, S.kick,
+                                    S.drumDrive, S.gate, song.motion, from);
       /* `renderWav` hands back a WAV FILE, not samples — it is the same door
          the export button uses. The first version of this probe read it as an
          AudioBuffer, got nothing back from every group, and printed SILENT
@@ -179,10 +196,19 @@ const TARGET = { train: -9, story: -11, world: -25 };
         r.has[g] = evs.some(e => e.tSec + (e.durSec || 0) > from && e.tSec < from + WIN);
         r.groups[g] = dB(await render(evs, from, WIN));
       }
-      /* and every pitched chair on its own, so a silent player is visible */
+      /* and every pitched chair on its own, so a silent player is visible.
+         `wrote` is the same distinction the groups get: A CHAIR THAT IS NOT
+         PLAYING HERE IS NOT A BURIED CHAIR. At a solo the band is one player
+         by design — the ceremony is the whole point of the stop — and the
+         first version faulted six chairs for obeying the arrangement. Fault a
+         chair only when it WROTE something into this window and you still
+         cannot hear it, which is the only reading that means "buried". */
       for(const role of GROUP.band){
         const evs = song.perf.events.filter(e => e.role === role);
-        if(evs.length) r.chairs[role] = dB(await render(evs, from, WIN));
+        if(!evs.length) continue;
+        r.chairs[role] = dB(await render(evs, from, WIN));
+        r.wrote = r.wrote || {};
+        r.wrote[role] = evs.some(e => e.tSec + (e.durSec || 0) > from && e.tSec < from + WIN);
       }
       rows.push(r);
     }
@@ -212,9 +238,13 @@ const TARGET = { train: -9, story: -11, world: -25 };
         (isFinite(off) ? ", off by " + (off >= 0 ? "+" : "") + off.toFixed(1) : ", ABSENT") + ")");
     }
     const ch = Object.keys(r.chairs).sort((a, z) => r.chairs[z] - r.chairs[a]);
-    console.log("     chairs   " + ch.map(k => k + " " + f(r.chairs[k] - band)).join("   "));
-    const gone = ch.filter(k => !isFinite(r.chairs[k]) || r.chairs[k] - band < -40);
-    if(gone.length){ faults++; console.log("     ✗ inaudible: " + gone.join(" ")); }
+    const wrote = r.wrote || {};
+    console.log("     chairs   " + ch.map(k => k + " " + (wrote[k] ? f(r.chairs[k] - band) : "—")).join("   "));
+    const gone = ch.filter(k => wrote[k] && (!isFinite(r.chairs[k]) || r.chairs[k] - band < -40));
+    if(gone.length){ faults++; console.log("     ✗ wrote notes here and cannot be heard: " + gone.join(" ")); }
+    const quiet = ch.filter(k => wrote[k] && isFinite(r.chairs[k]) &&
+                                 r.chairs[k] - band < -24 && r.chairs[k] - band >= -40);
+    if(quiet.length) console.log("     ·  buried (under -24): " + quiet.join(" "));
     console.log("");
   }
   if(errs.length) console.log("  page errors: " + errs.slice(0, 3).join(" | "));

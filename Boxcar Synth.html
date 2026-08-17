@@ -20137,6 +20137,28 @@ GENRE.boxcarsynth = {
   },
   keysChar: [["wurly", 1]],
   leadChar: [["synth", 1]],
+  /* ── THE WHEEL DOES NOT STOP ──────────────────────────────────────────────
+     [owner] "The hurdy gury is playing a single note then stopping? Thats not
+     a hurdy gurdy is it?"
+
+     No, it is not. MEASURED: 409 notes at a mean 0.82 s — a wheel instrument
+     starting and stopping four hundred times in one record.
+
+     `PLAY_FAMILY` reasons about this and stops one step short. It says the
+     gurdy is not BOWED because "the wheel is a bow that never reverses, so it
+     has no bow change to make", which is true and is about the wrong thing:
+     the fault is not a missing bow change, it is that every note RE-ATTACKS
+     FROM SILENCE. A hurdy-gurdy sounds continuously while the wheel turns;
+     the player articulates by pressing keys against a string that is already
+     sounding, and the drones never stop at all.
+
+     `legato` is the seam that already exists for exactly this: a note that
+     runs into the next is tied rather than re-struck. Declared on the three
+     chairs this band's sustaining instruments hold — the tune, its answer,
+     and the second keyboard, which is where the gurdy, the horns and the
+     bassoon sit. The banjo and the washtub are plucked and are not here:
+     tying a pluck would be inventing a rule to tidy a table. */
+  legato: { lead: 1, counter: 1, keys2: 1 },
 
   /* ══ THE HARMONY — modal, and it LEAVES AND COMES BACK ══════════════════ */
   progressions: {
