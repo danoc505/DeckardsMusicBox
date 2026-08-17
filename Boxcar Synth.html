@@ -14750,10 +14750,37 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     gn.gain.setValueAtTime(0.0001, t);
     gn.gain.exponentialRampToValueAtTime(lvl, t + atk);
     const end0 = t + ev.durSec;
-    gn.gain.setValueAtTime(lvl, Math.max(t + atk, end0 - 0.06));
-    gn.gain.exponentialRampToValueAtTime(0.0001, end0 + 0.10);
+    /* ══ AND THE BOW WAS BEING LIFTED OFF BEFORE THE NOTE ENDED ═════════════
+       [owner] "the fiddle is being played wrong, its not quik notes with zero
+       tail"
+
+       The notes are not the fault — MEASURED over 12 records: 2,891 fiddle
+       notes, mean written length 0.79 s, which at this genre's 70 bpm is 0.92
+       OF A BEAT; 71% arrive tied, and only 207 leave an audible gap. The part
+       is a legato line of beat-long notes. It was the ENVELOPE cutting them:
+
+         it began falling at `end0 - 0.06`  — SIXTY MILLISECONDS BEFORE the
+                                              note's own written end, so no
+                                              fiddle note ever reached its
+                                              full length
+         and was silent by `end0 + 0.10`   — a 160 ms total release
+
+       On a 0.79 s note that is a fifth of the note spent dying, starting early.
+       `the-bow.md` §2: the tone is a stick-slip oscillation, "the string is
+       dragged by the rosin, snaps back, is caught again" — and when the bow
+       LIFTS, that stops driving but the string does not stop instantly. A bow
+       release is a couple of hundred milliseconds, not sixty.
+
+       So: hold the full written length, then release as a bow lifts. DIG is
+       the bow pressure the sheet already declares — "a fiddler leans on the
+       string where an orchestral player will not" — and a leaned-on note stops
+       shorter than a floated one, so the pressure that shapes the attack
+       shapes the lift too. 0.18 s hard down to 0.40 s barely touching. */
+    const lift = 0.18 + 0.22 * (1 - dig);
+    gn.gain.setValueAtTime(lvl, Math.max(t + atk, end0));
+    gn.gain.exponentialRampToValueAtTime(0.0001, end0 + lift);
     src.connect(lp); lp.connect(gn); gn.connect(out);
-    src.start(t); src.stop(end0 + 0.16);
+    src.start(t); src.stop(end0 + lift + 0.06);
     return [src];
   };
 
@@ -27017,7 +27044,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          can, and every note of that bar takes the same offset. A genre that
          does not declare it folds note by note exactly as before, so every
          other genre's figure is byte-identical. */
-      let whole = 0;
+      let whole = 0, overflow = 0, FLOOR_ = 0, CEIL_ = 127;
       if(O.whole){
         const degOf = d => ch ? degMidi(ch.key, ch.mode, ch.degree + d)
                               : degMidi(keyOf(chords), modeOf(chords), d);
@@ -27070,6 +27097,34 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                                     : Math.min(R.ostinato[1], DRONE);
         while(lo + whole < FLOOR) whole += 12;
         while(hi + whole > CEIL && lo + whole - 12 >= FLOOR) whole -= 12;
+        /* ══ AND WHEN THE BAR WILL NOT FIT, THE NOTES THAT DO NOT FIT COME DOWN
+           [owner] "There is literally nothing that is repeating in a memorable
+           fashion its just random noise!"
+
+           The paragraph above says the fold "gives up and leaves the figure
+           high" when neither octave fits, and treats that as a small cost.
+           MEASURED, 12 records: 2,806 ostinato notes — FIFTEEN PER CENT of the
+           roll — land ABOVE the declared ceiling of 86, some as high as MIDI
+           102, which is eighteen semitones above the banjo bank's own top and
+           three octaves above where a roll is played.
+
+           What that does to the record is the owner's complaint. In one 40-
+           second cruise section: the tune plays 38 notes and the roll plays
+           129, at G#5-C#6 — ABOVE the melody's own range. A hook underneath
+           three times its own density, in a register over it, is not a hook a
+           listener can find. The materials are fine; A is `D#5 C#5 D#5 C#5 G#4`
+           said twice and then the same shape down a third, twice. You cannot
+           hear it.
+
+           The bar-wide offset is still tried first and still wins wherever it
+           works — a figure moves as a figure, and that argument is untouched.
+           This only catches the bars the fold ALREADY FAILED, and drops the
+           individual offenders by an octave rather than leaving them screaming
+           over the tune. A broken rule applied to a bar that already broke it
+           costs nothing; leaving the note where it is costs the melody. */
+        overflow = whole;
+        if(hi + whole > CEIL) overflow = null;   // this bar did not fit
+        FLOOR_ = FLOOR; CEIL_ = CEIL;
       }
       for(let st = 0; st < 16; st += step){
         /* the gate: with marbles declared, a step sounds only where the
@@ -27100,9 +27155,18 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                   : ch ? degMidi(ch.key, ch.mode, ch.degree + deg)
                        : degMidi(keyOf(chords), modeOf(chords), deg);
         const shifted = abs + ((OCHANGE.octave && late && open == null) ? 12 : 0);
-        const pitch = open != null ? open
+        let pitch = open != null ? open
                     : O.whole ? shifted + whole
                               : intoBand(shifted, R.ostinato[0], R.ostinato[1]);
+        /* THE PER-NOTE RESCUE. Asked of every fretted note rather than only of
+           the bars measured as failing: a note ABOVE the ceiling is, by
+           definition, one the whole-bar fold did not place, whatever the bar's
+           span said. Gating it on a bar-level test left 8.3% of the roll still
+           over the top; asking the note itself leaves only what genuinely
+           cannot come down without going under the floor. The open strings are
+           exempt — they are where they are. */
+        if(open == null && O.whole)
+          while(pitch > CEIL_ && pitch - 12 >= FLOOR_) pitch -= 12;
         /* ── THE RATCHET DRAWS FROM ITS OWN STREAM ─────────────────────────
            Taken from `rng` this consumed a number on every step of every
            ostinato, which shifted every draw after it: 882 of 2100 snapshot
