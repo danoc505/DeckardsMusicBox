@@ -3897,11 +3897,74 @@ const INSTRUMENTS = {
          -- the same tick-lane honesty the taiko kit keeps. The clickety
          pattern itself is the genre's kit table; these are its drums.
          [docs/genre-research/boxcar-synth.md §3] */
+      /* ── REBUILT `2026-08-17`: THE STICK WAS PLAYING THE WHOLE RECORD ────────
+         The owner: "there is a takio stick that is used all the time in the loop
+         i always change it to something like the kettle low or takio low the
+         stick is to high pitched to be played so much and to be honest the whole
+         of the loop is only 3-4 hits when we have so many more options id prefer
+         if we used more of the toms, kettle and takio and then there are some
+         click clack sounds like the anvil that are used already that work well as
+         they are not all the time and they sound like a hammer working on the
+         rail."
+
+         MEASURED, spectral centroid of every sample in the bank
+         (harness/probe_kit.js's method, run over the decoded ADPCM):
+
+           tkKa        1574-2823 Hz     the brightest thing in the bank
+           tkStick      469- 788 Hz     <- was on hat AND openhat AND clap
+           tkTomHi      546- 782 Hz
+           tkMid        159- 307 Hz  }
+           tkBig        180- 296 Hz  }  five drums this kit could not reach
+           tkTomMid     211- 219 Hz  }
+           tkTomLo      204- 750 Hz  }
+           tkLow        163- 198 Hz  }  reached only by tom3 -- 6 hits / 10 records
+
+         The owner is right and it is a number: the busiest lane in the record
+         was carrying the second-brightest sound in the bank, and the five drums
+         underneath it were unreachable.
+
+         WHY THIS IS NOT A STRAIGHT SWAP, and the constraint is physical. The
+         low drums RING: tkBig 2.80-3.00 s to -30 dB, tkLow 2.60 s, tkMid
+         2.13-2.40 s, tkTomMid 1.67-1.77 s. The hat lane fires every second
+         sixteenth -- at this genre's 56-90 bpm that is a hit every 0.35-0.55 s.
+         Putting a 2.6-second drum there would stack six tails on top of each
+         other, which is mud, not weight. So the repair is TWO changes and the
+         kit table alone could not have done it:
+
+           1. the fast lane plays HALF as often (`hatEvery` 2 -> 4 in the genre
+              table), which is also the owner's "the whole of the loop is only
+              3-4 hits" -- you cannot add drums to a bar with no room in it;
+           2. the drums that ring get the lanes that strike ONCE or twice a bar.
+
+         THE ANVIL AND THE BRAKE DO NOT MOVE. The owner: they "work well as they
+         are not all the time and they sound like a hammer working on the rail."
+         Kick, snare, ghost and clap keep them exactly as they were. */
       freight:  {
         label: "TR-1000 · FREIGHT",
-        lanes: { kick:"bxBrake", snare:"bxAnvil", ghost:"bxBrake", hat:"tkStick",
-                 openhat:"tkStick", tom1:"bxAnvil", tom2:"bxBrake", tom3:"tkLow",
-                 rim:"tkKa", clap:"tkStick", crash:"bxAnvil", ride:"tkKa" },
+        lanes: { kick:"bxBrake", snare:"bxAnvil", ghost:"bxBrake",
+                 /* ── THE CONSTANT LANE IS THE DEEP DRUM, WHICH IS THE SWAP THE
+                    OWNER HAS BEEN MAKING BY HAND ────────────────────────────
+                    "i always change it to something like the kettle low or
+                    takio low". Honoured literally. The worry with a 2.60 s drum
+                    on a lane that fires four times a bar is a pile-up, and it
+                    does not happen: a drum note is one step long, and the kit
+                    strip brings anything longer than its note down over 0.35 s
+                    (see `keep < dur` in the taiko voice). The ring is truncated
+                    by the envelope before the next stroke lands, so this reads
+                    as a low pulse rather than a rumble. */
+                 hat:"tkLow",
+                 /* the great drum is the accent, once or twice a bar, where
+                    three seconds of ring is the point of it */
+                 openhat:"tkBig",
+                 /* the three toms are three DIFFERENT drums for the first time */
+                 tom1:"tkTomHi", tom2:"tkTomMid", tom3:"tkTomLo",
+                 /* THE STICK IS NOT DELETED, it is demoted. The owner's
+                    objection was to it playing "so much", not to the sound, so
+                    it keeps the two lanes this genre strikes rarely or not at
+                    all -- and a hand loading this kit still has it. */
+                 rim:"tkStick", ride:"tkStick",
+                 /* the hammer on the rail, untouched */
+                 clap:"bxAnvil", crash:"tkMid" },
       },
     },
     controls: [
@@ -23873,10 +23936,47 @@ GENRE.boxcarsynth = {
      The joint pair under the truck is a quick DA-DA, not a metronome: the
      kick keeps the joints (0 and 8, two trucks a bar at cruise), the stick
      tick runs the fast patter, the anvil answers mid-bar rarely. */
-  kit: { snare: [8], hatEvery: 2, hatVel: 0.45, ghostChance: 0.18, ghostSpots: [1, 9],
-         openSpot: [[-1, 8], [14, 2]], openBars: [3],
-         toms: { use: 0.25, loop: 0.3, loopSpots: [12, 14], loopLanes: ["tom2", "tom3"],
-                 shapes: [[[[12, "tom2"], [14, "tom3"]], 2], [[[14, "tom2"]], 1]] },
+   /* ── AND `2026-08-17` MADE ROOM IN THE BAR ───────────────────────────────
+      MEASURED before this change, 10 records: tkStick 7,164 hits, bxAnvil
+      1,436, bxBrake 1,388, tkLow SIX. One sound was 71% of the kit and five
+      drums in the bank were unreachable. The owner heard it as "the stick is
+      to high pitched to be played so much" and "the whole of the loop is only
+      3-4 hits when we have so many more options".
+
+      `hatEvery: 2` is eight tick strokes a bar. At 56-90 bpm that is a hit
+      every 0.35-0.55 s, which is why nothing with a tail could ever go on that
+      lane -- see the FREIGHT kit's note for the measured ring times. FOUR
+      strokes a bar leaves the other half of the grid free, and the toms, the
+      deep drum and the great drum now have somewhere to land.
+
+      `toms.use` 0.25 -> 0.62 and all three lanes are in the pool, because the
+      three toms are three DIFFERENT drums now instead of two names on the
+      anvil and the brake. Two shapes are added and they reach tom1, which no
+      shape in this genre had ever named. */
+   kit: { snare: [8], hatEvery: 4, hatVel: 0.45, ghostChance: 0.18, ghostSpots: [1, 9],
+          openSpot: [[-1, 8], [14, 2]], openBars: [3],
+          /* `use` is the FILL's tom chance and `loop` is the main loop's, and
+             they are different mechanisms -- a session that raised only `use`
+             would move nothing but section boundaries. And `loop` alone is not
+             enough either: without `loopBars` the gate is `b === BARS - 1`, so
+             at this genre's eight-bar materials only bar 8 could ever carry a
+             tom -- 0.3/8 = under 4% of bars. MEASURED that way: 115 tom hits in
+             ten records against the stick's 3,681.
+
+             So the toms get `loopBars` and `loopShapes`, the marching-run
+             mechanism the drum engine already has: a FIGURE inside the bar
+             rather than one hit at the end of four. Two bars of eight carry
+             one, which is a drummer's habit and not a fixture. */
+          toms: { use: 0.62, loop: 0.55, loopSpots: [10, 12, 14],
+                  loopLanes: ["tom1", "tom2", "tom3"], loopBars: [3, 7],
+                  loopShapes: [[[[12, "tom2"], [14, "tom3"]], 3],
+                               [[[10, "tom1"], [13, "tom2"], [15, "tom3"]], 2],
+                               [[[14, "tom3"]], 2],
+                               [[[8, "tom1"], [11, "tom2"], [14, "tom3"]], 1]],
+                  shapes: [[[[12, "tom2"], [14, "tom3"]], 2],
+                           [[[14, "tom2"]], 1],
+                           [[[10, "tom1"], [12, "tom2"], [14, "tom3"]], 2],
+                           [[[6, "tom1"], [14, "tom3"]], 1]] },
          kickKeep: 1, flourishBar: 3,
          /* ── AND THESE ARE STEPS, NOT [step, lane] PAIRS ────────────────────
             MEASURED, 2026-08-15: this pool held `[[13,"rim"],[15,"rim"]]`, and
