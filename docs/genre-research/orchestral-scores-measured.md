@@ -154,6 +154,9 @@ Ranked by measured distance from the corpus:
    `LOOP_TO_SONG.md` §1 already named as the primary arrangement verb and which
    this measurement now puts a number on.
 
+Tasks **#167** (the handover), **#168** (octave doubling at the peak), and #145
+re-read in the light of §3.
+
 None of these is a change to the notes. **Every previous session's diagnosis was
 about the notes**, and the corpus says the notes were roughly the right count
 all along — 5.6 themes against 5.9.
