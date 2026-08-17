@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17c · the horns, the gurdy and the wurly join the band</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17d · the fiddle, recorded — and a bow is not a breath</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -2245,7 +2245,8 @@ const ERANG = (() => {
      add an eighth column -- the recorded peak x10000, restored at playback
      the way the SMP bank's `pk` is -- and the Erang rows simply do not have
      one, which reads as pk 1 and changes nothing. */
-  const bins = [atob(ERANG_B64), atob(TAIKO_B64), atob(GURDY_B64), atob(RAIL_B64), atob(BAND_B64)];
+  const bins = [atob(ERANG_B64), atob(TAIKO_B64), atob(GURDY_B64), atob(RAIL_B64),
+                atob(BAND_B64), atob(FIDDLE_B64)];
   const byName = {}, byFam = {}, order = [];
   const ingest = (index, b) => {
     for(const row of index.split(";")){
@@ -2261,6 +2262,7 @@ const ERANG = (() => {
   ingest(ERANG_INDEX, 0);
   ingest(TAIKO_INDEX, 1);
   ingest(GURDY_INDEX, 2); ingest(RAIL_INDEX, 3); ingest(BAND_INDEX, 4);
+  ingest(FIDDLE_INDEX, 5);
   /* DECODED ON FIRST USE, not at load. All 65 at once is five million samples
      of arithmetic before the page draws, for a bank of which one song touches
      a handful. Cached on the sample record, so the cost is paid once per
@@ -5914,8 +5916,26 @@ const INSTRUMENTS = {
      palette changes are their own decision, not a rider. Pickable by hand on
      any pitched rack today. */
   contrabassoon: {
-    slot: "keys", label: "contrabassoon",
-    lanes: { keys:"contrabassoon" },
+    /* ── IT IS A BASS, AND IT SAID "keys" ─────────────────────────────────────
+       FOUND 2026-08-17, by the same battery abort that found the washtub: this
+       declared `slot: "keys"` while EVERY pool that draws it — dungeon synth's
+       and boxcar synth's — draws it on the BASS. It reached the bass lane only
+       by the single-lane lend, so the declaration was never load-bearing and
+       never checked.
+
+       It bit through the rack picker. `canFill` offered contrabassoon → keys as
+       a first-class match, and a hand that took it handed buildKeys a band of
+       [45,61]: the top of a contrabassoon is C#4, so there is no room for a
+       chord ABOVE synthwave's bass inside it, and the voicer threw and took the
+       whole run with it. The voicer was right both times. The declaration was
+       wrong.
+
+       Named for what it is. The lend still works in the directions that make
+       sense — one lane, so it can still be put on a tune or an answer by hand —
+       and the one direction that cannot produce a chord is now simply not
+       offered. */
+    slot: "bass", label: "contrabassoon",
+    lanes: { bass:"contrabassoon" },
     /* measured span, floored at the program's own MIDI 24 writing floor */
     range: [24, 61],
     /* ONE PLAYER, ONE REED — and it was being written four-note chords.
@@ -6362,6 +6382,52 @@ const INSTRUMENTS = {
     panel: { skin: "erang", maker: "", title: "harmonica",
              sub: "two Hohner Special 20s — the recorded hand vibrato is the dial",
              groups: [{ label: "PLAYING", keys: ["vib", "hand"] },
+                      panGroup()] },
+  },
+  /* ══ THE FIDDLE ════════════════════════════════════════════════════════════
+     [owner, 2026-08-17: "A fiddle is something we should get in here, i bet we
+      can find a free open source version just like the other instruments we
+      have found."] They were right and it took one fetch. See V.fiddle for what
+      makes it a fiddle rather than a violin, and FIDDLE_INDEX for the bank. */
+  fiddle: {
+    slot: "lead", label: "fiddle",
+    /* ONE LANE, AND THE SECOND CHAIR COMES FOR FREE. The first draft declared
+       `{ lead, counter }` because this instrument is meant to play both, and
+       MEASURED it drew the counter ZERO times in 60 records while the diddley,
+       the harp and the gurdy shared it. `canFill` is why: a pitched box is lent
+       to another pitched lane only when `Object.keys(M.lanes).length === 1`,
+       and the doubling engine reads `Object.keys(lanes)[0]` in two places on
+       the same assumption. Declaring the second lane is what REMOVED it. */
+    lanes: { lead:"fiddle" },
+    /* THE RECORDED SPAN, ASKED OF THE BANK AND NOT GUESSED. The encoder emitted
+       `fid55`..`fid91` — G3 to G6, which is the violin's open G to three
+       octaves above it. A part written outside that is transposed off a
+       recording that does not exist, so the range says what was recorded. */
+    range: [55, 91],
+    /* FOUR STRINGS, ONE BOW. A double stop is two strings sounding because the
+       bow is wide enough to touch both; three is a roll, not a chord, and four
+       is not physically available at once. Two is the honest ceiling and it is
+       the same reasoning the harmonica's `poly: 2` already carries.
+
+       NO `onLong: "restrike"`. This is the one instrument here that genuinely
+       sustains — a bow can hold a note for as long as the arm has left, and the
+       bowed discipline in PLAY_FAMILY splits a long note at the bow change
+       rather than re-attacking it. That is the whole difference between this
+       and the banjo. */
+    play: { poly: 2 },
+    controls: [
+      ...panControls(),
+      /* bow pressure. A fiddler leans on the string where an orchestral player
+         would not, and the recordings already hold that brightness at forte —
+         so this rides the filter rather than inventing an edge. */
+      { k:"dig",   label:"bow pressure",  cap:"DIG",   min:0, max:1, step:0.01, def:0.55, kind:"gesture" },
+      /* the scratch in front of the note. A concert attack is clean; a porch
+         attack is not, and this is the dial between them. */
+      { k:"rosin", label:"bow-start bite", cap:"ROSIN", min:0, max:1, step:0.01, def:0.45, kind:"gesture" },
+    ],
+    panel: { skin: "erang", maker: "", title: "fiddle",
+             sub: "Philharmonia violin, bowed — three dynamics, measured roots, played like a fiddle",
+             groups: [{ label: "THE BOW", keys: ["dig", "rosin"] },
                       panGroup()] },
   },
   steamWhistle: {
@@ -9087,8 +9153,33 @@ const PLAY_FAMILY = {
          LONGER THAN A BANJO STRING RINGS (max 3.6 s against a 2.4 s
          recording, so the tail was silence), and the recorded contrabassoon
          and bassoon — one player, one note — were being handed four and NINE
-         simultaneous notes. Joining here fixes the durations; the two laws
-         below fix the rest. [docs/genre-research/playing-the-hobo-band.md] */
+      banjo: "plucked", diddley: "plucked", washtub: "plucked",
+      harmonica: "wind", steamWhistle: "wind", contrabassoon: "wind",
+      /* ── THE BOW, `2026-08-17` — the family this file did not have ──────────
+         The owner: "We have all the families now correct?" No. There were
+         three -- plucked, struck, wind -- and a bow is none of them. A plucked
+         string is dying from the moment it is struck and a wind has to breathe;
+         a bow does NEITHER. It can hold a note as long as there is bow left,
+         and when the bow runs out the player changes direction WITHOUT a gap.
+
+         So it needs its own discipline, and the discipline has a number the
+         other two do not: HOW LONG A BOW LASTS DEPENDS ON HOW LOUD YOU PLAY.
+
+           pp  10-15+ s     mf  4-8 s
+           p    8-12  s     f   2-5 s
+           mp   6- 9  s     ff  1-3 s
+         [corpus:ovationpressbooks bow-speed-techniques]
+
+         "Louder dynamics require the bow to move faster, resulting with more
+         frequent changes of direction" -- which is the exact opposite of a
+         wind, where a loud note and a quiet one both end when the air does.
+
+         ONLY THE FIDDLE IS BOWED HERE, and that is deliberate rather than an
+         omission. The hurdy-gurdy's wheel is a bow that never reverses, so it
+         has no bow change to make; the VP-330 and the string samples are
+         machines that hold forever. Giving them a bow's limit would be a rule
+         invented for a tidier table. */
+      fiddle: "bowed",
       banjo: "plucked", diddley: "plucked", washtub: "plucked",
       harmonica: "wind", steamWhistle: "wind", contrabassoon: "wind",
     };
@@ -9147,6 +9238,28 @@ function canFill(slot, k){
   if(!M || M.legacy || M.fixed) return false;
   const kind = SLOT_ACCEPTS[slot] || slot;
   if(M.slot === kind) return true;
+  /* ── AND A BASS BOX IS NOT LENT TO THE COMP ───────────────────────────────
+     FOUND 2026-08-17 by the battery ABORTING rather than failing: forcing the
+     washtub into `keys` on lofi, or the contrabassoon into `keys` on synthwave,
+     threw "no keys voicing fits [28,46] clear of the bass and ostinato on bar
+     0" and took the whole run down with it. Pre-existing — it arrived with the
+     washtub and it is not the fiddle's doing — but it means no battery has
+     completed since, so it is fixed here.
+
+     The throw is CORRECT and stays. buildKeys' job is to place a chord clear of
+     the bass, it already widens by whole octaves when the close voicings are
+     spent, and when the band it was handed IS the bass's own register there is
+     genuinely nothing to place. The error is offering the pair at all.
+
+     WHY THIS RULE AND NOT A RANGE TEST. A bass instrument is not "a pitched box
+     that happens to sit low" — the register beneath the chords is its whole
+     identity, which is what `slot: "bass"` declares. Asking a washtub to comp is
+     asking it to be somewhere it is not. Every other lend still works: a Rhodes
+     onto the tune, a harp onto the answer, a fiddle onto the counter — the door
+     this file opened deliberately stays open. Only the direction that cannot
+     produce a chord is shut, and it is shut in the ONE place that owns the
+     question rather than patched at the throw. */
+  if(kind === "keys" && M.slot === "bass") return false;
   return !!(PITCHED_SLOT[kind] && PITCHED_SLOT[M.slot] && Object.keys(M.lanes).length === 1);
 }
 
@@ -14129,18 +14242,24 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     return [nb, tb];
   };
 
-  /* ══ THE JUG, AND THE WASHBOARD — the two the band was named after ═════════
-     [owner, 2026-08-17: "lets get the fiddle, the jug and the washboard"]
+  /* ══ THE JUG ══════════════════════════════════════════════════════════════
+     [owner, 2026-08-17: "lets get the fiddle, the jug and the washboard"
+      and then, after the fetch: "Forget the jug for now."]
 
      A JUG BAND WITH NO JUG. This genre's whole hobo-band premise comes out of
-     jug band music and neither of its two defining instruments existed.
+     jug band music and its named instrument did not exist.
 
-     BOTH ARE SYNTHESISED AND THIS SAYS SO, which is the position §7b already
-     set for the diddley bow: "synthesized and saying so" is honest when the
-     recording is not in hand, and unlike a bowed string these two are simple
-     enough that a model IS the instrument rather than an impression of it. The
-     fiddle is deliberately NOT done this way -- a bow is the one thing here
-     that genuinely needs a recording, and it is left for the fetch.
+     THIS ONE IS SYNTHESISED AND SAYS SO, which is the position §7b set for the
+     diddley bow: a model is honest when the recording is not in hand, and a
+     jug is simple enough that the model IS the instrument rather than an
+     impression of it. The fiddle and the washboard are NOT done this way --
+     both were fetched from the Philharmonia in the end, and the first attempt
+     at faking them is recorded at the bank as an error, not a choice.
+
+     IT IS BUILT AND NOT WIRED. No pool draws it; the owner set it aside. It
+     stays because the physics below is correct and re-deriving it later is
+     wasted work -- but nothing sounds it, and this comment is the only place
+     that says so.
 
      THE JUG IS A HELMHOLTZ RESONATOR. Blow across the mouth of a stoneware jug
      and the air in the neck oscillates against the springiness of the air in
@@ -14149,7 +14268,70 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
      little above it and why the player changes pitch with their lips and the
      jug's angle rather than with fingers. So: a narrow resonance, a weak
      second partial, and a great deal of breath -- the buzz is a real part of
-     the sound, not a defect. */
+     the note and not a flaw in it. */
+
+  /* ══ THE FIDDLE ════════════════════════════════════════════════════════════
+     Philharmonia violin, `arco-normal`, 72 notes G3..G6 at three dynamics. The
+     bank note above says why this one is recorded and the jug is not.
+
+     A FIDDLE IS A VIOLIN PLAYED DIFFERENTLY, and this voice is where that
+     difference lives. The recording is a concert violinist's plain bowed note;
+     what makes it a fiddle is chosen here:
+
+       - the DYNAMIC PICKS THE RECORDING, not a volume knob. Three sets were
+         encoded and a loud note is a different SOUND, not a louder one -- the
+         same rule the banjo's forte/piano sets already follow.
+       - `dig` is bow pressure: a fiddler leans on the string where an
+         orchestral player would not, and that is a brightness the recording
+         already contains at forte. It rides the lowpass.
+       - `rosin` is the scratch of the bow start. A concert attack is clean; a
+         porch attack is not.
+       - NO VIBRATO CONTROL. The recordings have the player's own and adding a
+         second one on top is two hands on one string. */
+  V.fiddle = function(g, ev, t){
+    const c = g.ctx, F0 = 440 * Math.pow(2, (ev.pitch - 69) / 12);
+    /* the dynamic chooses the SET, then pitch chooses within it */
+    const want = ev.gain < 0.42 ? "P" : (ev.gain < 0.68 ? "M" : "F");
+    let all = ERANG.family("fiddle").filter(n => n.endsWith(want));
+    if(!all.length) all = ERANG.family("fiddle");
+    if(!all.length) return [];
+    let name = all[0], best = Infinity;
+    for(const nm of all){
+      const d = Math.abs(Math.log(F0 / ERANG.meta(nm).root));
+      if(d < best){ best = d; name = nm; }
+    }
+    const s = ERANG.meta(name), buf = erangBuffer(g, name);
+    if(!buf) return [];
+    const dig   = P(g, ev, "fiddle", "dig",   0.5);
+    const rosin = P(g, ev, "fiddle", "rosin", 0.4);
+    const bus = kbdBus(ev);
+    const out = c.createGain(); out.connect(stereoOut(g, ev, t, "fiddle", bus));
+    const src = c.createBufferSource(); src.buffer = buf;
+    src.playbackRate.value = F0 / s.root;
+    /* a bow can hold, so the recording LOOPS its own steady middle rather than
+       running out -- the loop points are measured in the bank */
+    if(s.ls > 0 && s.le > s.ls){
+      src.loop = true;
+      src.loopStart = s.ls / 22050; src.loopEnd = s.le / 22050;
+    }
+    const lp = c.createBiquadFilter(); lp.type = "lowpass";
+    lp.frequency.value = 1800 + 6200 * dig; lp.Q.value = 0.4;
+    const gn = c.createGain();
+    const lvl = LEVEL[bus] * 0.95 * Math.min(1.2, ev.gain) * (s.pk || 1);
+    /* THE BOW START. A bow does not speak instantly -- it takes a few tens of
+       milliseconds for the string to catch -- and rosin is how much scratch
+       rides in front of it. */
+    const atk = 0.018 + 0.045 * (1 - rosin);
+    gn.gain.setValueAtTime(0.0001, t);
+    gn.gain.exponentialRampToValueAtTime(lvl, t + atk);
+    const end0 = t + ev.durSec;
+    gn.gain.setValueAtTime(lvl, Math.max(t + atk, end0 - 0.06));
+    gn.gain.exponentialRampToValueAtTime(0.0001, end0 + 0.10);
+    src.connect(lp); lp.connect(gn); gn.connect(out);
+    src.start(t); src.stop(end0 + 0.16);
+    return [src];
+  };
+
   V.jug = function(g, ev, t){
     const c = g.ctx, f = 440 * Math.pow(2, (ev.pitch - 69) / 12);
     const breath = P(g, ev, "jug", "breath", 0.5);
@@ -24745,12 +24927,21 @@ GENRE.boxcarsynth = {
        The horns go on keys2 for the same reason dungeon synth puts them in the
        second chair.
 
-       STILL MISSING: the fiddle. It has no voice yet -- see the sheet. */
+       AND THE FIDDLE IS HERE NOW, recorded rather than modelled. It draws on
+       BOTH the tune and the answer, which no other instrument in this genre
+       does, and that is deliberate: a fiddle is the one voice in a string band
+       that trades the lead back and forth with the harp rather than owning one
+       chair. Its weight on the tune sits just under the harmonica's -- the harp
+       is still this genre's voice -- and level with the slide on the answer.
+
+       IT IS THE ONLY BOWED THING IN THE FILE, which is why PLAY_FAMILY had to
+       grow a fourth discipline for it. A bow holds where everything else here
+       decays or has to breathe. */
     keys2:    [["vp330", 3], ["erangStrings", 3], ["hurdyGurdy", 3],
                ["horns", 2], ["auto", 3]],
-    lead:     [["harmonica", 5], ["diddley", 3], ["bardWind", 1], ["auto", 1]],
+    lead:     [["harmonica", 5], ["fiddle", 4], ["diddley", 3], ["bardWind", 1], ["auto", 1]],
     ostinato: [["banjo", 5], ["auto", 5]],
-    counter:  [["diddley", 4], ["harmonica", 2], ["hurdyGurdy", 2], ["auto", 4]],
+    counter:  [["diddley", 4], ["fiddle", 4], ["harmonica", 2], ["hurdyGurdy", 2], ["auto", 4]],
   },
   /* ── THE SCENE UNDER THE RECORD [sheet §6] — the rail beds and the
      passing landscape, through the atmos door with the genre's OWN
@@ -25182,6 +25373,12 @@ GENRE.boxcarsynth = {
                         bass
            the slide    wide RIGHT, past the wurly: it answers the tune, and an
                         answer comes from somewhere else or it is not one
+           the fiddle   LEFT of centre, opposite the harp. This is the one
+                        player that takes BOTH the tune and the answer, so it
+                        has to have a place of its own on the side the voice is
+                        not on -- otherwise the two lead instruments trade lines
+                        from the same spot, which sounds like one player
+                        changing instrument rather than two players
 
        AND THE DRIFT IS THE FLOOR MOVING. A boxcar is not a studio -- the room
        sways, and the players sway with it. Each `panHz` is a different prime
@@ -25210,6 +25407,70 @@ GENRE.boxcarsynth = {
              { kind: "section", by: { chorus: [0.06, 0.18], bridge: [-0.16, -0.06] } },
              { kind: "lfo", bars: [[29, 2], [43, 1]], depth: [0.03, 0.09],
                shape: "sin", freePhase: true }],
+    },
+    /* ── THE FIDDLER, WHO IS NOT THE SINGER ────────────────────────────────
+       Left of centre, mirroring the harmonica's right. It is the only player
+       here that takes the tune AND the answer, so it needs its own place more
+       than anything else in the band does: two lead lines from one spot is one
+       player changing instrument.
+
+       Periods 41/11 and 59/7 — prime, and co-prime with the banjo's 53/31,
+       23/37, 13/19 and 31/17, the harmonica's 47/29 and 29/43, the wurly's
+       43/19 and the whistle's 37/17. No two cycles in this band ever line up,
+       which is the whole point of the §4a-ii device. */
+    fiddle: {
+      pan:    [{ kind: "arc", from: [-0.26, -0.16], to: [-0.16, -0.06], curve: "sCurve" },
+               { kind: "section", by: { chorus: [0.06, 0.16] } },
+               { kind: "lfo", bars: [[41, 2], [11, 1]], depth: [0.04, 0.10],
+                 shape: "sin", freePhase: true }],
+      panHz:  [{ kind: "arc", from: [0.05, 0.08], to: [0.07, 0.13] }],
+      panDep: [{ kind: "arc", from: [0.05, 0.10], to: [0.07, 0.14] }],
+      /* THE BOW LEANS IN AT THE APEX. `dig` is pressure, and pressure is what a
+         fiddler does instead of getting louder — an `apex` rather than an arc,
+         the same shape the harmonica's vibrato takes, because both are the
+         player pushing at the record's high point and easing off after it. */
+      dig: [{ kind: "apex", from: [-0.16, -0.06], to: [0.12, 0.28] },
+            { kind: "section", by: { chorus: [0.06, 0.18], intro: [-0.14, -0.05] } },
+            { kind: "lfo", bars: [[59, 2], [7, 1]], depth: [0.03, 0.08],
+              shape: "sin", freePhase: true }],
+      /* AND THE SCRATCH WEARS OFF. A cold bow at the top of a record bites;
+         by the end the player is warm and the attacks are cleaner. The bridge
+         is the night run and the darkest part of the record, so the bite comes
+         back there — this genre's one clock, heard on the bow arm. */
+      rosin: [{ kind: "arc", from: [0.10, 0.24], to: [-0.16, -0.06], curve: "sCurve" },
+              { kind: "section", by: { bridge: [0.08, 0.22], chorus: [-0.14, -0.05] } }],
+    },
+    /* ── THE WASHTUB, AND WHY IT HAS NO PAN LANE ───────────────────────────
+       Three knobs ridden and three deliberately not. The three that move are
+       the hand: how hard the rope is pulled, how much of the tub is in it, how
+       fast the palm kills the note.
+
+       `pan`, `panHz` and `panDep` are left ALONE, and that is the sourced rule
+       at the top of this table rather than an omission: "keep drums, bass and
+       lead vocals centered... below 60-100 Hz should be mono" [corpus:waves;
+       adsr]. A washtub bass tops out at MIDI 46 — 116 Hz — so almost all of it
+       is under that line. Panning it would be automation that contradicts the
+       one mixing law this genre cites. The battery will name these three as
+       knobs no genre moves; that is the correct answer and this is where it is
+       written down. */
+    washtub: {
+      /* THE PULL IS THE PLAYER WARMING UP. A rope player leans further into the
+         note as the night goes on, and hardest where the band is loudest. */
+      pull: [{ kind: "arc", from: [-0.14, -0.05], to: [0.10, 0.24], curve: "sCurve" },
+             { kind: "section", by: { chorus: [0.08, 0.20], intro: [-0.12, -0.04] } },
+             { kind: "lfo", bars: [[67, 2], [5, 1]], depth: [0.03, 0.08],
+               shape: "sin", freePhase: true }],
+      /* THE TUB OPENS UP IN THE TOWN, where there is a room around it — the
+         same gesture `worldRoom` makes two dozen lanes above, on the one
+         instrument in the band that is literally a resonating box. */
+      tub:  [{ kind: "section", by: { chorus: [0.10, 0.26], bridge: [-0.12, -0.04] } },
+             { kind: "lfo", bars: [[73, 2], [13, 1]], depth: [0.02, 0.07],
+               shape: "sin", freePhase: true }],
+      /* AND THE HAND KILLS MORE OF IT AS THE RECORD TIGHTENS. Opposite in sign
+         to `pull`, for the reason the banjo's `bridge` gives: two controls that
+         rise together are one control with two names. */
+      tone: [{ kind: "arc", from: [0.08, 0.20], to: [-0.14, -0.05], curve: "sCurve" },
+             { kind: "section", by: { instrumental: [0.06, 0.16] } }],
     },
     /* THE CHORD INSTRUMENT SITS OPPOSITE THE OTHER ONE. Two things playing
        harmony in the same spot is the crowding this is all about: the banjo
@@ -35725,6 +35986,32 @@ function makePerformance(chart, form, materials, sections){
         if(!fam) continue;
         const i = events.indexOf(e);
         if(i < 0) continue;
+        /* ── THE BOW RUNS OUT, AND IT DOES NOT LEAVE A GAP ──────────────────
+           A wind stops to breathe. A bow does not: the player reverses and the
+           note carries on, which is why a violin can hold a note a flute
+           cannot. So this branch SPLITS the note instead of shortening it --
+           same pitch, no silence, a fresh attack where the bow turns.
+
+           The budget is dynamic-dependent, which nothing else in this file is:
+           "louder dynamics require the bow to move faster, resulting with more
+           frequent changes of direction" [corpus:ovationpressbooks]. pp buys
+           10-15 s, ff buys 1-3. Interpolated across `gain`, and the ends are
+           the sourced ends rather than chosen ones.
+
+           AND A SECTION HIDES IT WHERE A SOLOIST CANNOT: orchestras stagger
+           the changes so the sound stays continuous. This genre's fiddle is
+           one player on a porch, so the change is meant to be heard. */
+        if(fam === "bowed"){
+          const bow = 13.0 - 11.0 * Math.max(0, Math.min(1, e.gain));
+          if(e.durSec > bow){
+            const parts = Math.ceil(e.durSec / bow), each = e.durSec / parts;
+            events[i] = Object.freeze(Object.assign({}, e, { durSec: each }));
+            for(let k = 1; k < parts; k++)
+              events.push(Object.freeze(Object.assign({}, e, {
+                tSec: e.tSec + each * k, durSec: each, bowChange: true })));
+          }
+          continue;
+        }
         if(fam === "plucked" || fam === "struck"){
           /* IT CANNOT HOLD. A plucked string was excited once and is dying; a
              note told to last four bars is a lie the envelope cannot tell.
