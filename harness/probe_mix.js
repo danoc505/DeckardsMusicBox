@@ -122,6 +122,79 @@ const TARGET = { train: -9, story: -11, world: -25 };
                        return Math.sqrt(t / Math.max(1, a.length)); };
     const dB = v => v <= 1e-9 ? -Infinity : 20 * Math.log10(v);
 
+    /* ══ AND HOW LOUD IT ACTUALLY IS, NOT HOW MUCH ENERGY IT CARRIES ═════════
+       The header of this file called the unweighted reading "a real limit" and
+       said lifting probe_stems' filter in was the next step. It is the step,
+       and it is not cosmetic: THE TWO CHAIRS THIS PROBE SAYS ARE BURIED ARE
+       THE BASS AND THE COUNTER, and a part in the bottom octave can carry the
+       energy of a mix while being nearly inaudible — which is exactly how the
+       old pad-bass measured fine and could not be heard. Setting a bass level
+       off an unweighted number is the same class of error as setting it
+       against a reference that has moved.
+
+       IEC 61672, built from the standard's own pole/zero definition rather
+       than pasted as coefficients, and CHECKED against the published curve
+       before it is used on anything. Lifted from probe_stems.js, which
+       records why it is built rather than quoted: a first attempt pasted
+       sixth-order coefficients from memory, the filter diverged, and every
+       reading came back -inf.
+
+         H(s) = K s^4 / ((s+w1)^2 (s+w2) (s+w3) (s+w4)^2)
+         f1 20.598997   f2 107.65265   f3 737.86223   f4 12194.217 Hz
+
+       BUILT AT THIS PROBE'S OWN SAMPLE RATE, which is 22050 and not 44100 —
+       three twenty-second windows times eleven renders is the compute budget
+       the owner set ("rendering a 20 min song going to take to long"). The
+       cost of that is real and is stated rather than hidden: plain bilinear
+       drifts near Nyquist, and at 22050 Nyquist is 11 kHz, so the top octave
+       is not trustworthy. The check below therefore BINDS below 4 kHz and
+       merely reports above it. The question being asked is whether a 44 Hz
+       string can be heard, and that is decided two decades lower down. */
+    const AW = (SR => {
+      const C2 = 2 * SR, sections = [], w = f => 2 * Math.PI * f;
+      for(const f of [20.598997, 20.598997, 107.65265, 737.86223]){
+        const o = w(f), d = C2 + o;
+        sections.push({ b0: C2 / d, b1: -C2 / d, a1: (o - C2) / d });
+      }
+      for(const f of [12194.217, 12194.217]){
+        const o = w(f), d = C2 + o;
+        sections.push({ b0: o / d, b1: o / d, a1: (o - C2) / d });
+      }
+      const run = (s, k) => {
+        const x1 = new Float64Array(sections.length), y1 = new Float64Array(sections.length);
+        const out = new Float64Array(s.length);
+        for(let i = 0; i < s.length; i++){
+          let v = s[i];
+          for(let j = 0; j < sections.length; j++){
+            const S = sections[j];
+            const y = S.b0 * v + S.b1 * x1[j] - S.a1 * y1[j];
+            x1[j] = v; y1[j] = y; v = y;
+          }
+          out[i] = v * k;
+        }
+        return out;
+      };
+      /* the gain at a frequency, MEASURED by running a sine through it — so
+         the 1 kHz normalisation is measured rather than asserted */
+      const gainAt = (hz, k) => {
+        const N = SR, sig = new Float64Array(N);
+        for(let i = 0; i < N; i++) sig[i] = Math.sin(2 * Math.PI * hz * i / SR);
+        const y = run(sig, k);
+        let s = 0; for(let i = N >> 1; i < N; i++) s += y[i] * y[i];
+        return Math.sqrt(s / (N - (N >> 1))) * Math.SQRT2;
+      };
+      const K = 1 / gainAt(1000, 1);
+      /* IEC 61672 table 3. Binding below 4 kHz, reported above — see above. */
+      const check = [[31.5, -39.4, 0.5, true], [125, -16.1, 0.4, true],
+                     [1000, 0.0, 0.1, true], [4000, 1.0, 0.5, true],
+                     [8000, -1.1, 1.0, false]]
+        .map(([hz, want, tol, binds]) => {
+          const got = 20 * Math.log10(gainAt(hz, K));
+          return { hz, want, got, tol, binds, ok: Math.abs(got - want) <= tol };
+        });
+      return { weight: s => run(s, K), check };
+    })(22050);
+
     /* one render per group per window, over the SAME window, so what is
        compared is the same twenty seconds of the same record */
     const render = async (evs, from, secs) => {
@@ -137,7 +210,7 @@ const TARGET = { train: -9, story: -11, world: -25 };
           if(t >= 0) return Object.assign({}, e, { tSec: t });
           return Object.assign({}, e, { tSec: 0, durSec: Math.max(0.05, (e.durSec || 0) + t) });
         });
-      if(!win.length) return 0;
+      if(!win.length) return ZERO;
       const buf = await M.renderWav(win, secs, 22050, S.space, S.kick,
                                     S.drumDrive, S.gate, song.motion, from);
       /* `renderWav` hands back a WAV FILE, not samples — it is the same door
@@ -160,14 +233,15 @@ const TARGET = { train: -9, story: -11, world: -25 };
         if(id === "data"){ dataAt = off + 8; dataLen = sz; break; }
         off += 8 + sz + (sz & 1);
       }
-      if(dataAt < 0) return 0;
+      if(dataAt < 0) return ZERO;
       const n = Math.floor(dataLen / (bits / 8));
       const out = new Float32Array(Math.floor(n / ch));
       for(let i = 0; i < out.length; i++)
         out[i] = bits === 16 ? dv.getInt16(dataAt + i * ch * 2, true) / 32768
                              : dv.getFloat32(dataAt + i * ch * 4, true);
-      return rms(out);
+      return { rms: rms(out), arms: rms(AW.weight(out)) };
     };
+    const ZERO = { rms: 0, arms: 0 };
 
     /* ── THE REFERENCE IS THE RECORD'S BAND, NOT THE WINDOW'S ───────────────
        The first version compared each group against the band IN THAT WINDOW,
@@ -180,12 +254,13 @@ const TARGET = { train: -9, story: -11, world: -25 };
        what §4d-ii's targets were measured against. A stop is quiet BECAUSE it
        is a stop, and the whole point of the ceremony is that the world is
        audible over a band that has stepped back. */
-    const REF = dB(await render(song.perf.events.filter(e => GROUP.band.includes(e.role)),
-                                spots[0][1], WIN));
+    const refBoth = await render(song.perf.events.filter(e => GROUP.band.includes(e.role)),
+                                 spots[0][1], WIN);
+    const REF = dB(refBoth.rms), REFA = dB(refBoth.arms);
 
     const rows = [];
     for(const [name, from, fn] of spots){
-      const r = { name, fn, at: from, ref: REF, groups: {}, chairs: {} };
+      const r = { name, fn, at: from, ref: REF, refA: REFA, groups: {}, groupsA: {}, chairs: {}, chairsA: {} };
       r.has = {};
       for(const g of Object.keys(GROUP)){
         const evs = song.perf.events.filter(e => GROUP[g].includes(e.role));
@@ -194,7 +269,8 @@ const TARGET = { train: -9, story: -11, world: -25 };
            version faulted it and made a correct record look broken in three
            places. Absence is only wrong when something WAS written here. */
         r.has[g] = evs.some(e => e.tSec + (e.durSec || 0) > from && e.tSec < from + WIN);
-        r.groups[g] = dB(await render(evs, from, WIN));
+        const m = await render(evs, from, WIN);
+        r.groups[g] = dB(m.rms); r.groupsA[g] = dB(m.arms);
       }
       /* and every pitched chair on its own, so a silent player is visible.
          `wrote` is the same distinction the groups get: A CHAIR THAT IS NOT
@@ -206,13 +282,15 @@ const TARGET = { train: -9, story: -11, world: -25 };
       for(const role of GROUP.band){
         const evs = song.perf.events.filter(e => e.role === role);
         if(!evs.length) continue;
-        r.chairs[role] = dB(await render(evs, from, WIN));
+        const m = await render(evs, from, WIN);
+        r.chairs[role] = dB(m.rms); r.chairsA[role] = dB(m.arms);
         r.wrote = r.wrote || {};
         r.wrote[role] = evs.some(e => e.tSec + (e.durSec || 0) > from && e.tSec < from + WIN);
       }
       rows.push(r);
     }
-    return { rows, genre: song.chart.genre, tempo: song.chart.tempo, bars: song.form.nBars };
+    return { rows, aw: AW.check, genre: song.chart.genre,
+             tempo: song.chart.tempo, bars: song.form.nBars };
   }, [SEED, WIN, GROUP]);
 
   await b.close();
@@ -223,28 +301,52 @@ const TARGET = { train: -9, story: -11, world: -25 };
   const mm = t => Math.floor(t / 60) + ":" + String(Math.round(t % 60)).padStart(2, "0");
   const f = v => (v === null || !isFinite(v)) ? "  silent" : (v >= 0 ? "+" : "") + v.toFixed(1);
 
+  /* ── THE INSTRUMENT CHECKS ITSELF BEFORE IT MEASURES ANYTHING ─────────────
+     If the A curve is not the A curve, every number under it is meaningless
+     and this says so rather than printing them. */
+  const awBad = out.aw.filter(c => c.binds && !c.ok);
+  console.log("  A-weighting (IEC 61672 table 3, built at 22050): " +
+    out.aw.map(c => c.hz + "Hz " + c.got.toFixed(1) + "/" + c.want.toFixed(1) +
+                    (c.ok ? "" : c.binds ? " ✗" : " ~")).join("   "));
+  if(awBad.length){ faults++; console.log("     ✗ THE FILTER IS NOT THE CURVE — A-weighted readings below are void"); }
+  console.log("");
+
   for(const r of out.rows){
-    const band = r.ref;   // the band AT CRUISE, one reference for the record
+    const band = r.ref, bandA = r.refA;   // the band AT CRUISE, one reference for the record
     console.log("  " + r.name.toUpperCase() + "   " + mm(r.at) + "   (" + r.fn + ")" +
-      "   band here " + f(r.groups.band - band) + " dB");
+      "   band here " + f(r.groups.band - band) + " dB   (A " + f(r.groupsA.band - bandA) + ")");
     for(const g of ["train", "story", "world"]){
-      const rel = r.groups[g] - band;
+      /* ── JUDGED ON THE A-WEIGHTED READING, AND THAT IS THE CHANGE ─────────
+         "how loud it IS, not how much energy it carries". The unweighted
+         number is printed beside it because the two disagreeing IS the
+         finding: a part with a big unweighted reading and a small A-weighted
+         one is eating headroom without being heard, which is precisely how
+         the old pad-bass measured fine and could not be heard. */
+      const rel = r.groupsA[g] - bandA, relU = r.groups[g] - band;
       const want = TARGET[g], off = isFinite(rel) ? rel - want : -Infinity;
       const bad = r.has[g] ? (!isFinite(rel) || Math.abs(off) > 6) : false;
       if(bad) faults++;
       if(!r.has[g]){ console.log("     ·  " + g.padEnd(10) + "   nothing of this kind here"); continue; }
       console.log("     " + (bad ? "✗" : "✓") + " " + g.padEnd(10) +
-        f(rel).padStart(8) + " dB against the band   (want " + want +
-        (isFinite(off) ? ", off by " + (off >= 0 ? "+" : "") + off.toFixed(1) : ", ABSENT") + ")");
+        f(rel).padStart(8) + " dB(A) against the band   (want " + want +
+        (isFinite(off) ? ", off by " + (off >= 0 ? "+" : "") + off.toFixed(1) : ", ABSENT") + ")" +
+        "   [unweighted " + f(relU) + "]");
     }
-    const ch = Object.keys(r.chairs).sort((a, z) => r.chairs[z] - r.chairs[a]);
+    const ch = Object.keys(r.chairs).sort((a, z) => r.chairsA[z] - r.chairsA[a]);
     const wrote = r.wrote || {};
-    console.log("     chairs   " + ch.map(k => k + " " + (wrote[k] ? f(r.chairs[k] - band) : "—")).join("   "));
-    const gone = ch.filter(k => wrote[k] && (!isFinite(r.chairs[k]) || r.chairs[k] - band < -40));
+    console.log("     chairs   " + ch.map(k => k + " " +
+      (wrote[k] ? f(r.chairsA[k] - bandA) : "—")).join("   "));
+    const gone = ch.filter(k => wrote[k] && (!isFinite(r.chairsA[k]) || r.chairsA[k] - bandA < -40));
     if(gone.length){ faults++; console.log("     ✗ wrote notes here and cannot be heard: " + gone.join(" ")); }
-    const quiet = ch.filter(k => wrote[k] && isFinite(r.chairs[k]) &&
-                                 r.chairs[k] - band < -24 && r.chairs[k] - band >= -40);
-    if(quiet.length) console.log("     ·  buried (under -24): " + quiet.join(" "));
+    const quiet = ch.filter(k => wrote[k] && isFinite(r.chairsA[k]) &&
+                                 r.chairsA[k] - bandA < -24 && r.chairsA[k] - bandA >= -40);
+    if(quiet.length) console.log("     ·  buried (under -24 dB(A)): " + quiet.join(" "));
+    /* AND WHERE THE TWO READINGS DISAGREE BY A LOT, say so by name — that gap
+       is the whole reason the filter is here */
+    const liar = ch.filter(k => wrote[k] && isFinite(r.chairsA[k]) && isFinite(r.chairs[k]) &&
+                                (r.chairs[k] - band) - (r.chairsA[k] - bandA) > 8);
+    if(liar.length) console.log("     ·  carries more energy than it is heard as: " +
+      liar.map(k => k + " " + f(r.chairs[k] - band) + " vs " + f(r.chairsA[k] - bandA) + " dB(A)").join("   "));
     console.log("");
   }
   if(errs.length) console.log("  page errors: " + errs.slice(0, 3).join(" | "));

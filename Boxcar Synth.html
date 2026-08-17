@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17n · the line is heard, and the mix is measured</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17o · the wheel does not stop, and the mix is weighted</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -9880,6 +9880,64 @@ const MEDIUM_WOW_HZ = 78 / 60;
      [docs/genre-research/banjo-and-harmonica-notation.md §3] */
   const BANJO_TRIM = 0.62;
   const HARP_TRIM  = 0.46;
+  /* ── AND THE TWO HOMEMADE STRINGS NEED THE SAME THING, FOR A THIRD REASON ──
+     [owner] "the diddly and contrabasson should both be playing, this is
+     ORCHESTRAL" ... "nothing has its place most things are to quite"
+
+     The banjo and the harmonica needed trims because they are RECORDINGS on
+     buses levelled for oscillators. The washtub and the diddley need them for
+     the opposite reason: they are KARPLUS-STRONG LOOPS. A short burst of noise
+     — 14 ms for the tub, 10 ms for the bow — is fired into a delay with
+     near-unity feedback, and what you hear is the LOOP, not the burst. So the
+     one number each voice sets (`LEVEL[bus] * k * ev.gain`) is the level of
+     something that lasts a hundredth of a second, and the sustained note that
+     comes out of the filter is far below it. Nothing in the file measured the
+     difference, which is why both read as levelled and neither could be heard.
+
+     AND roleGain COULD NOT REACH THEM. `gain` is `min(1.25, vel x accent x
+     arc x roleGain)`, so at `bass: 3.2` and `counter: 3.0` both parts are
+     PINNED AT THE CLAMP — the two largest numbers in that table were doing
+     nothing at all, and raising them further would keep doing nothing. That is
+     task #30 ("roleGain cannot express the loudness table") arriving as an
+     audible fault rather than a note.
+
+     MEASURED, `probe_mix` seed 1 at cruise, A-WEIGHTED against the band —
+     which is the reading that matters here, because a part in the bottom
+     octave can carry a mix's energy while being inaudible, and the bass is
+     exactly that part:
+
+                        dB(A) vs band     unweighted
+       lead                 -0.5             -1.7
+       ostinato            -12.3            -13.2
+       drums               -13.2             -9.4
+       keys                -14.7             -7.0
+       bass (washtub)      -27.0            -27.5     <- 13 dB under the drums
+       counter (diddley)   -27.3            -29.1
+
+     AND THE TRIM IS ON THE VOICE RATHER THAN THE ROLE BECAUSE SEED 3 PROVED
+     IT HAS TO BE. That record's bass chair is the CONTRABASSOON, and it reads
+     -9.3 dB(A) — right where a bass belongs, with nothing wrong with it. The
+     same chair on seeds 1 and 2 is the washtub at -27.0 and -18.8. One number
+     on the ROLE would have lifted a correct instrument by fourteen decibels to
+     rescue a different one sitting in the same chair. It is the INSTRUMENT
+     that is quiet, so the instrument is what gets trimmed.
+
+     Both are brought to sit with the drums, which is where a string band's
+     bottom and its answering voice belong. Measured across three records
+     rather than one, because the spread between them is wide — the washtub
+     reads -27.0 and -18.8 on two seeds of the same build, since what a chair
+     sits against depends on who else is playing:
+
+       washtub   -27.0  -18.8         mean -22.9   ->  +11 dB
+       diddley   -27.3  -17.3  -23.3  mean -22.6   ->  +9 dB
+
+     Deliberately UNDER the full shortfall. §4d-ii records an overshoot that
+     buried the train's own signals at -36.7 dB, "which is not quiet, it is
+     absent", and this session already repeated it once. A part 3 dB shy is a
+     part you can hear; a part 8 dB past is a new fault. Re-measured after
+     every change — the one rule §4d exists to enforce. */
+  const TUB_TRIM     = 3.5;    // +11 dB, from a measured mean of -22.9 dB(A)
+  const DIDDLEY_TRIM = 2.8;    //  +9 dB, from a measured mean of -22.6 dB(A)
   /* ══ AND THE WORLD SITS UNDER THE BAND ════════════════════════════════════
      [owner, 2026-08-16: "The world sounds are too lound they sre drowning out
      the whole thing"] MEASURED over 10 records, and he is right by a wide
@@ -14194,6 +14252,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const end0 = t + ev.durSec, REL = 0.10, end = end0 + REL + 0.4;
     const bus = kbdBus(ev);
     const out = c.createGain(); out.connect(stereoOut(g, ev, t, "diddley", bus));
+    /* the loop's output, not the burst's — see DIDDLEY_TRIM at LEVEL */
+    out.gain.value = DIDDLEY_TRIM;
 
     /* THE BOTTLE IS THE BRIDGE, and the sources say so in as many words -- it
        is what couples the string to the board, so it is a resonance every note
@@ -14327,6 +14387,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     const end0 = t + ev.durSec, REL = 0.06, end = end0 + REL + 0.5;
     const bus = kbdBus(ev);
     const out = c.createGain(); out.connect(stereoOut(g, ev, t, "washtub", bus));
+    /* the loop's output, not the burst's — see TUB_TRIM at LEVEL */
+    out.gain.value = TUB_TRIM;
 
     /* THE TUB. Two resonances: the air inside it, and the tin it is made of. */
     const air = c.createBiquadFilter(); air.type = "peaking";
@@ -20316,7 +20378,50 @@ GENRE.boxcarsynth = {
             open:  ["sfx_wind"] },
     /* the two that are EVERYWHERE and therefore do not pass */
     everywhere: ["open"],
-    level: [0.10, 0.05],
+    /* ── THE COUNTRYSIDE, MEASURED AT CRUISE ────────────────────────────────
+       This was 0.10 and it was a number carried over from a table where these
+       beds did not sound at all — the planner laid the whole line out and
+       nothing read it until this build, so the level had never been rendered.
+
+       `probe_mix`, A-weighted against the band at cruise, want -25 [§4d-ii]:
+
+         seed 1   world -37.6      seed 2   -46.5      seed 3   -37.0
+
+       12 to 21 dB under, mean 15.4. Raised by 12 — deliberately short of the
+       mean for the reason TUB_TRIM states, and short of seed 2's shortfall on
+       purpose, because that record's -46.5 is one thin bed over a loud band
+       rather than a level that is wrong.
+
+       IT IS SAFE TO MOVE THIS AND NOT THE OTHERS. `trip.level` reaches ONLY
+       the terrain beds — the countryside under a running train. What sounds
+       at a station is `journey`'s own levels, and those measure right where
+       they are (-13.0, -13.7 against a want of -11). The world being too quiet
+       on the open road and about right at a platform is two facts, and it took
+       separating the two to see it.
+
+       ── AND THEN 0.40 WAS TOO MUCH, AND WHY IS THE REAL FINDING ────────────
+       At 0.40 seed 1 measures clean at all three windows and seed 2 goes 12 dB
+       OVER at two of them. Same build, same level, same reference. The reason
+       is not the level:
+
+         seed 2, world, A-weighted against the band at cruise
+           at cruise      -34.9        (its segment is `open` -> sfx_wind)
+           at the stop    -12.9        (a different segment, a different bed)
+
+       TWENTY-TWO DECIBELS BETWEEN TWO MOMENTS OF ONE RECORD, measured against
+       a reference that does not move. THE BEDS ARE NOT LEVELLED AGAINST EACH
+       OTHER. `sfx_wind` and `sceneRiver` are separate recordings that arrive at
+       whatever loudness they were captured at, and one multiplier over the top
+       of that cannot place both — raise it until the wind is audible and the
+       river shouts; lower it until the river sits and the wind is gone.
+
+       So this number is a COMPROMISE and is labelled one rather than tuned
+       until one seed looks clean. 0.28 is +9 dB on the original, which centres
+       the spread instead of chasing either end. The fix is to normalise the
+       beds against each other before the genre's level is applied — the same
+       thing BANJO_TRIM and TUB_TRIM do for instruments — and it is written
+       down as a task, not smuggled in here. */
+    level: [0.28, 0.14],
     longWhistle: ["railWhistle"], shortWhistle: ["railPeep"], crossBell: ["railBell"],
     signalLevel: [0.30, 0.10],
     weather: [["rain",3],["wind",3],["blizzard",1]],
@@ -20368,7 +20473,23 @@ GENRE.boxcarsynth = {
        `standLevel` and `callLevel` are what sound at a stop and they are
        right where the trim left them. `level` is what sounds on the way in and
        out, and it was right BEFORE the trim — so it goes back. */
-    level: [0.20, 0.08], standLevel: [0.085, 0.035], callLevel: [0.28, 0.10],
+    /* ── AND THE ARRIVAL AND DEPARTURE, RE-MEASURED A THIRD TIME ────────────
+       The paragraph above put `level` "back" to where it was before a bad
+       trim, and rendering says it did not go far enough. A-weighted against
+       the band at cruise, at the bar the train pulls out, want -11:
+
+         seed 1   -21.3      seed 2   -13.7      seed 3   -23.8      mean -19.6
+
+       That is the whistle, the brakes and the guard's answer — the loudest
+       moments of the whole journey — sitting nine decibels under where the
+       sheet puts them, which is the "absent rather than quiet" fault §4d-ii
+       names, at a smaller number. Raised by 7 dB rather than the full 8.6, for
+       the reason stated at TUB_TRIM: this exact level has now been overshot
+       once in each direction, and the third correction is not going to be a
+       fourth. `standLevel` and `callLevel` are what sound while the train is
+       STOPPED and they measure right (-13.0 against a want of -11), so they
+       do not move. */
+    level: [0.45, 0.18], standLevel: [0.085, 0.035], callLevel: [0.28, 0.10],
     passLevel: [0.075, 0.030], passPer: 1.6,
   },
   atmos: { fams: ["sceneRiver","sceneBirds","railClank","railBell"],
@@ -20399,7 +20520,21 @@ GENRE.boxcarsynth = {
      under the lead, and removing it changed the mix by 0.00 dB), so this is a
      first correction rather than a cure — the loss is inside the synthesis and
      a fader cannot close 25 dB. Re-measured after every change. */
-  roleGain: { bass: 3.2, keys: 0.8, keys2: 1.4, lead: 1.15, ostinato: 0.75, counter: 3.0 },
+  /* ── AND THE TWO BIGGEST NUMBERS HERE WERE DOING NOTHING ─────────────────
+     `gain` is `min(1.25, vel x accent x arc x roleGain)`. With a typical
+     velocity and arc the product before roleGain is about 0.75, so anything
+     above roughly 1.6 IS THE CLAMP AND NOTHING ELSE — `bass: 3.2` and
+     `counter: 3.0` were pinned, and raising them further would have kept being
+     pinned. That is why those two are now trimmed at the VOICE (TUB_TRIM,
+     DIDDLEY_TRIM, at LEVEL) and why the numbers here are brought back inside
+     the clamp, where they mean something. Task #30 said this table "cannot
+     express the loudness table"; this is the half of it that is now measured.
+
+     THE LEAD COMES DOWN, and that is the other half. Rendered at cruise it
+     reads -0.5 dB(A) against the whole band on seed 1 — the lead IS the band,
+     with every other chair 12 to 27 dB beneath it. An orchestra is not one
+     player and six shadows. -3 dB on the tune is what makes room for the six. */
+  roleGain: { bass: 1.5, keys: 1.0, keys2: 1.4, lead: 0.82, ostinato: 0.75, counter: 1.5 },
   params: { tr1000: { kit: "freight", pSet: "any", pTune: 1, pAtk: 0.002,
                       pRel: 1.1, pTone: 0.6, bus: 1, gate: 0 } },
   motion: {},
