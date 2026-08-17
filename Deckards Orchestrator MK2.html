@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17f · the hook comes back changed</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17g · two of Rimsky's rules, asked of the notes</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -5749,6 +5749,7 @@ const INSTRUMENTS = {
   /* ── KEYBOARDS ─────────────────────────────────────────────────────────── */
   rhodes: {
     slot: "keys", label: "Rhodes (sampled)",
+    family: "keys",
     lanes: { keys:"rhodes" },
     /* three knobs, and each one moves something that is really in the signal
        path -- bark switches velocity layers, wow scales the chart's drawn tape
@@ -5775,6 +5776,7 @@ const INSTRUMENTS = {
   },
   vp330: {
     slot: "keys", label: "VP-330 strings / choir",
+    family: "tape",
     lanes: { keys:"vp330" },
     /* the four controls the VP-330's own front panel actually has that mean
        anything here: the ENSEMBLE (its BBD chorus, the reason anyone bought
@@ -5793,6 +5795,7 @@ const INSTRUMENTS = {
   },
   horns: {
     slot: "keys", label: "synth horns",
+    family: "brass",
     lanes: { keys:"horns" },
     /* the four controls a synth-brass rank actually has: how hard it plays
        (level AND brightness at once, because that is how brass works), how
@@ -5857,6 +5860,7 @@ const INSTRUMENTS = {
      (the bastion lesson); pickable by hand on any pitched rack. */
   hurdyGurdy: {
     slot: "keys", label: "hurdy-gurdy",
+    family: "strings",
     lanes: { keys:"hurdyGurdy" },
     /* 19 measured zones D4..Bb5, a step and a half of transposition each way */
     range: [59, 84],
@@ -5901,6 +5905,7 @@ const INSTRUMENTS = {
      tune's register is drawn, never corrected afterwards. */
   bassoon: {
     slot: "keys", label: "bassoon",
+    family: "reed",
     lanes: { keys:"bassoon" },
     /* B flat 1 to F5. The measured top is B flat 5 and it is specialist
        writing; the ordinary orchestral ceiling is around here. */
@@ -5952,6 +5957,7 @@ const INSTRUMENTS = {
        and the one direction that cannot produce a chord is now simply not
        offered. */
     slot: "bass", label: "contrabassoon",
+    family: "reed",
     lanes: { bass:"contrabassoon" },
     /* measured span, floored at the program's own MIDI 24 writing floor */
     range: [24, 61],
@@ -5984,6 +5990,7 @@ const INSTRUMENTS = {
   },
   bariSax: {
     slot: "keys", label: "baritone sax",
+    family: "reed",
     /* the SAMPLED alto is a `lead` machine and stays one; this is the low horn
        in the second chair, which is a different job and a different rack. It is
        synthesised rather than sampled because no free baritone set was found
@@ -6007,6 +6014,7 @@ const INSTRUMENTS = {
   },
   bassOboe: {
     slot: "lead", label: "bass oboe",
+    family: "reed",
     lanes: { lead:"bassOboe" },
     /* sounds an octave below the oboe: B flat 2 up to a practical E5. */
     range: [46, 76],
@@ -6026,6 +6034,7 @@ const INSTRUMENTS = {
   },
   corAnglais: {
     slot: "lead", label: "cor anglais",
+    family: "reed",
     lanes: { lead:"corAnglais" },
     /* the lowest note is E3 and that is measured, not chosen. */
     range: [52, 81],
@@ -6045,6 +6054,7 @@ const INSTRUMENTS = {
   },
   carnyx: {
     slot: "lead", label: "carnyx — war horn",
+    family: "brass",
     lanes: { lead:"carnyx" },
     /* A SIGNAL INSTRUMENT: it calls and answers, one voice at a time -- it
        does not double the accompaniment. Polybius's massed horns at Telamon
@@ -6096,6 +6106,7 @@ const INSTRUMENTS = {
   },
   wurly: {
     slot: "keys", label: "Wurlitzer",
+    family: "keys",
     lanes: { keys:"wurly" },
     controls: [
       /* ── STEREO. The Wurlitzer's own tremolo is genuine mono AMPLITUDE modulation
@@ -6119,6 +6130,7 @@ const INSTRUMENTS = {
   },
   mellotron: {
     slot: "keys", label: "Mellotron",
+    family: "tape",
     lanes: { keys:"mellotron" },
     controls: [
       /* ── STEREO. A real Mellotron is mono -- one output, one tape head a key. Its
@@ -6266,6 +6278,7 @@ const INSTRUMENTS = {
      a motion lane and the control's kind changes with it. */
   sax: {
     slot: "lead", label: "saxophone",
+    family: "reed",
     lanes: { lead:"sax" },
     /* THE MELODY ROLE'S DISCIPLINE [docs/genre-research/sax-material.md,
        cross-validated: Omnibook 50 scores + WJazzD 272 solos + pedagogy].
@@ -6339,6 +6352,7 @@ const INSTRUMENTS = {
      stages them in phase 2. */
   banjo: {
     slot: "keys", label: "banjo",
+    family: "plucked",
     lanes: { keys:"banjo" },
     /* the recorded span: Philharmonia C3..C6, measured roots */
     range: [48, 84],
@@ -6380,6 +6394,7 @@ const INSTRUMENTS = {
   },
   harmonica: {
     slot: "lead", label: "harmonica",
+    family: "reed",
     lanes: { lead:"harmonica" },
     /* two Hohner diatonics (C and F) interleave: zones C3..C6 */
     range: [48, 84],
@@ -6408,6 +6423,7 @@ const INSTRUMENTS = {
       makes it a fiddle rather than a violin, and FIDDLE_INDEX for the bank. */
   fiddle: {
     slot: "lead", label: "fiddle",
+    family: "strings",
     /* ONE LANE, AND THE SECOND CHAIR COMES FOR FREE. The first draft declared
        `{ lead, counter }` because this instrument is meant to play both, and
        MEASURED it drew the counter ZERO times in 60 records while the diddley,
@@ -6449,6 +6465,7 @@ const INSTRUMENTS = {
   },
   steamWhistle: {
     slot: "lead", label: "steam whistle",
+    family: "brass",
     lanes: { lead:"steamWhistle" },
     /* A SIGNAL INSTRUMENT, the carnyx's contract: it calls — two longs and
        the train moves — it does not double the accompaniment. The drawn
@@ -6528,6 +6545,7 @@ const INSTRUMENTS = {
      length moving rather than a portamento bolted onto a synth. */
   diddley: {
     slot: "lead", label: "diddley bow",
+    family: "plucked",
     lanes: { lead:"diddley" },
     /* a plank and a wire: it does not reach where a guitar reaches, and the
        slide means the top is limited by how near the bridge you dare go */
@@ -6557,6 +6575,7 @@ const INSTRUMENTS = {
      necessary. */
   washtub: {
     slot: "bass", label: "washtub bass",
+    family: "plucked",
     lanes: { bass:"washtub" },
     /* "approximately an octave to an octave and a half in the low bass
        register" [corpus:grokipedia] -- so an octave and a half, and no more.
@@ -6679,18 +6698,21 @@ const erangControls = (patchMax, patchLabel, fams) => ([
 
 INSTRUMENTS.erangStrings = {
   slot: "keys", label: "Erang Strings",
+  family: "tape",
   lanes: { keys: "erangStrings" },
   controls: erangControls(erangPatches("strings", "Pad"), "strings / pads", ["strings", "Pad"]),
   panel: erangPanel("Erang — Strings & Pads", "the held half of the pack"),
 };
 INSTRUMENTS.erangHarp = {
   slot: "keys", label: "Erang Harp",
+  family: "plucked",
   lanes: { keys: "erangHarp" },
   controls: erangControls(erangPatches("Key", "Plucked"), "keys / plucked", ["Key", "Plucked"]),
   panel: erangPanel("Erang — Keys & Plucked", "the struck half; this one rolls"),
 };
 INSTRUMENTS.erangLead = {
   slot: "lead", label: "Erang Lead",
+  family: "synth",
   lanes: { lead: "erangLead" },
   controls: erangControls(erangPatches("Lead"), "leads", ["Lead"]),
   panel: erangPanel("Erang — Leads", "the voice that carries the tune"),
@@ -6722,6 +6744,7 @@ INSTRUMENTS.erangLead = {
      such limit; this recording of one does. */
 INSTRUMENTS.bardFlute = {
   slot: "lead", label: "Bard Flute",
+  family: "reed",
   lanes: { lead: "bardFlute" },
   lines: { repeat: 0.55 },
   controls: erangControls(erangPatches("bardFlute"), "flutes", ["bardFlute"]),
@@ -6729,6 +6752,7 @@ INSTRUMENTS.bardFlute = {
 };
 INSTRUMENTS.bardPluck = {
   slot: "keys", label: "Bard Plucked",
+  family: "plucked",
   lanes: { keys: "bardPluck" },
   controls: erangControls(erangPatches("bardPluck"), "plucked strings", ["bardPluck"]),
   panel: erangPanel("Bard & Troubadour — Plucked", "sixteen strings, C2 up to C4"),
@@ -6760,6 +6784,7 @@ INSTRUMENTS.bardPluck = {
      such limit; this recording of one does. */
 INSTRUMENTS.bardWind = {
   slot: "lead", label: "Bard Wind",
+  family: "reed",
   lanes: { lead: "bardWind" },
   lines: { repeat: 0.55 },
   controls: erangControls(erangPatches("bardWind"), "winds", ["bardWind"]),
@@ -9557,6 +9582,66 @@ function resolvePicks(genre, picks, seed){
        that wants a second keyboard now says so in `form.roles`, like every
        other role, which is also what Law 4 asks for. */
     if(fits(want)) byHand[slot] = true;
+  }
+  /* ══ AND THE TUNE AND THE CHORDS MUST NOT BE THE SAME COLOUR ═══════════════
+     [score-craft.md §7, and Rimsky-Korsakov is prescriptive here]
+
+       "the harmonic basis should differ from the melody not only in fullness
+        and intensity of tone, but ALSO IN COLOUR. If the fanfare figure is
+        allotted to the brass (trumpets or horns) the harmony should be given
+        to the wood-wind; if the phrase is given to the wood-wind (oboes and
+        clarinets) the harmony should be entrusted to the horns."
+
+       "The greater the dissimilarity in timbre between the harmonic basis on
+        the one hand and the melodic design on the other, the LESS DISCORDANT
+        the notes extraneous to the harmony will sound."
+
+     THE SHEET SAID THIS COULD NOT BE ASKED, and it was right: "No voice in the
+     program knows whether it is a wind or a brass, so 'melody family != harmony
+     family' is not currently a question that can be asked, let alone enforced."
+     `family` on the machine is that seam, and this is the enforcement.
+
+     IT IS A SMALL FAULT AND THE NUMBER IS HONEST. Measured on boxcar synth over
+     120 records, counting only the songs where BOTH the tune and the comp drew a
+     named box rather than "auto": 64 such records, and the two came out the same
+     colour in SIX. Always the same case -- the slide (plucked) on the tune under
+     the harp or the bard's plucked patch. So this fixes 6 records in 120, and it
+     is worth doing because it is a rule with a source and a mechanism that did
+     not exist, not because it is loud.
+
+     THE MELODY WINS. When the two clash it is the HARMONY that moves, because
+     the quoted passage is written from the tune's side both times -- the fanfare
+     is allotted first and the harmony is "given" and "entrusted" after it. The
+     comp redraws from its own pool, by the pool's own weights, among the boxes
+     of a different colour; if the pool has none it keeps what it drew, because a
+     rule that cannot be satisfied is not a licence to empty the lane.
+
+     ── AND IT IS DECLARED, WHICH IT WAS NOT IN THE FIRST DRAFT ────────────────
+     The first version applied this to every genre and the snapshot caught it:
+     56 dungeon synth records moved, and they moved BADLY. Its lead is a
+     bardFlute or a bardWind -- reeds -- and its comp draws the bassoon, the
+     bass oboe and the baritone sax, which are reeds too, so the rule fired on
+     most of the record and (worse, because I took the first eligible box rather
+     than drawing one) resolved EVERY ONE OF THEM TO THE SAME MELLOTRON. One
+     rule turned a hand-built wind consort into a monoculture.
+
+     Two things wrong with that and both are fixed here. The redraw is a DRAW
+     now, weighted like every other draw in this function. And §7 is a GENRE
+     DECLARATION, because a wind consort playing wind harmony is not a defect --
+     it is what dungeon synth IS, and Rimsky is describing an orchestra with
+     four families available, not a band that only owns one. Law 4: the genre
+     is the only thing entitled to say what its music does.
+
+     `colour: true` on boxcar synth alone. Every other genre draws exactly what
+     it drew before, and the snapshot is the proof rather than this sentence. */
+  if(GENRE[genre] && GENRE[genre].colour){
+    const famOf = m => { const X = m && m !== "auto" && INSTRUMENTS[m]; return (X && X.family) || null; };
+    const lead = famOf(out.lead);
+    for(const slot of ["keys", "keys2"]){
+      if(!lead || byHand[slot] || famOf(out[slot]) !== lead) continue;
+      const pool = (M[slot] || []).filter(x => x[0] !== "auto" && canFill(slot, x[0]) && famOf(x[0]) !== lead);
+      if(pool.length) out[slot] = wpick(rng, pool);
+    }
   }
   /* WHAT IS LOADED IN EACH BOX, drawn on the same stream and in the same breath
      as the machines -- because on a box like this the LOAD is the choice of
@@ -24807,6 +24892,30 @@ GENRE.boxcarsynth = {
             verseHook: true,
             develop: { at: 4, of: [["sequence", 4], ["displace", 3], ["tail", 2]] },
             onsetPool: [[0, 8], [4, 4], [8, 4], [12, 2]] },
+  /* ── HOW A PART COMES BACK AFTER IT HAS BEEN AWAY ────────────────────────
+     Rimsky, quoted in full at the mechanism in stage 5: a re-entry after a long
+     rest belongs at PP or FF, and mezzo "produces a colourless and common-place
+     effect" -- and he extends the same sentence to the first and last note of
+     the piece.
+
+     MEASURED on this genre before it existed: 472 re-entries after four bars'
+     rest, 438 of them mezzo -- 93% -- and every one of thirty records began
+     mezzo AND ended mezzo. The worst score in the file by a distance, which is
+     what a genre with the most parts and the most resting is going to produce
+     when nothing asks the question.
+
+     `restBars: 4` is the shortest gap this genre can have and still read as a
+     part having been away: at 8-bar materials it is half a statement.
+     [the four levels are CHOSEN; the rule and its extension are Rimsky's] */
+  entry: { restBars: 4, low: 0.24, high: 0.84, midLow: 0.30, midHigh: 0.72 },
+  /* ── AND THE TUNE AND THE CHORDS ARE NOT THE SAME COLOUR ────────────────
+     Rimsky's rule, quoted in full at the mechanism in resolvePicks. Declared
+     HERE and nowhere else: a wind consort playing wind harmony is not a defect,
+     it is what dungeon synth is, and applying this file-wide moved 56 of its
+     records into a monoculture the first time it was tried. This genre has a
+     fiddle, a harmonica, a banjo, a wurly and a set of horns -- four colours
+     and a machine -- so it is the one that can afford the rule. */
+  colour: true,
   /* folk shuttles: the dorian i-IV, the aeolian i-VI-VII, mixolydian's bVII;
      MAJOR is written for the LIFT to land in [sheet §5] */
   progressions: {
@@ -36511,6 +36620,98 @@ function makePerformance(chart, form, materials, sections){
           events[i] = Object.freeze(Object.assign({}, e, { holdSec: undefined }));
         else if(hold < e.holdSec - 0.001)
           events[i] = Object.freeze(Object.assign({}, e, { holdSec: hold }));
+      }
+    }
+
+    /* ══ AND A PART THAT HAS BEEN AWAY COMES BACK AT AN EXTREME ══════════════
+       [score-craft.md §8, and it is Rimsky-Korsakov speaking prescriptively]
+
+         "After a long rest the re-entry of the horns, trombones and tuba
+          should coincide with some characteristic intensity of tone, either
+          PP OR FF; piano and forte re-entries are less successful, while
+          re-introducing these instruments MEZZO-FORTE OR MEZZO-PIANO produces
+          a colourless and common-place effect. THIS REMARK IS CAPABLE OF WIDER
+          APPLICATION. For the same reasons it is not good to commence or
+          finish any piece of music either mf or mp."
+
+       He says the wider application himself, so it is not a stretch to apply
+       it past the brass.
+
+       MEASURED BEFORE THIS, 30 records a genre, a rest being four bars or more:
+
+         boxcarsynth   472 re-entries, 438 of them MEZZO   93%
+         vgm           204 re-entries, 172 of them MEZZO   84%
+         synthwave     208 re-entries,  52 of them MEZZO   25%
+         dungeonsynth  190 re-entries,  26 of them MEZZO   14%
+         lofi           74 re-entries,   3 of them MEZZO    4%
+
+       And the bookends: **every boxcar record began mezzo and ended mezzo**,
+       30 of 30 on both counts -- the one thing the passage names twice.
+
+       That is not a mixing fault and no fader fixes it. The arc decides a
+       section's energy and a part re-enters at whatever the arc happens to be
+       doing, which is precisely "whatever is going on" rather than a decision
+       about the entry. `form.rest` takes parts OUT and nothing was ever asked
+       about how they come back IN.
+
+       WHICH DIRECTION. Away from the middle, along the way the record is
+       already leaning: a part returning while the arc is rising comes back
+       LOUD, one returning as it falls comes back SOFT. That keeps the entry an
+       intensification of the shape rather than an argument with it -- and it
+       is why this reads as arrangement and not as a random accent.
+
+       THE FIRST AND LAST EVENT OF THE RECORD get the same treatment for the
+       same sentence: a record opens quietly (it is an arrival from silence)
+       and its last note is pushed to whichever extreme it is nearer.
+
+       DECLARED, so nothing moves that did not ask. `entry` is undefined on
+       every genre but boxcar synth. */
+    if(chart.table.entry && events.length){
+      const E = chart.table.entry;
+      const restSec = (60 / chart.tempo) * 4 * (E.restBars || 4);
+      const LO_V = E.low != null ? E.low : 0.26, HI_V = E.high != null ? E.high : 0.82;
+      /* the middle Rimsky calls colourless; a part must not RE-ENTER inside it */
+      const midLo = E.midLow != null ? E.midLow : 0.30, midHi = E.midHigh != null ? E.midHigh : 0.72;
+      const pitched = events.map((e, i) => [e, i]).filter(x => x[0].pitch != null);
+      const byRole = {};
+      for(const [e, i] of pitched) (byRole[e.role] = byRole[e.role] || []).push([e, i]);
+      const set = (i, v) => { events[i] = Object.freeze(Object.assign({}, events[i], { gain: v })); };
+      for(const r in byRole){
+        const list = byRole[r].sort((a, z) => a[0].tSec - z[0].tSec);
+        for(let k = 1; k < list.length; k++){
+          const [e, i] = list[k], prev = list[k - 1][0];
+          if(e.tSec - (prev.tSec + prev.durSec) < restSec) continue;
+          if(e.gain <= midLo || e.gain >= midHi) continue;    // already at an extreme
+          /* which way the record is leaning, read from the part's own next few
+             notes -- the arc is not reachable here and this is the same fact */
+          let rise = 0;
+          for(let j = k + 1; j < Math.min(k + 5, list.length); j++)
+            rise += list[j][0].gain - e.gain;
+          set(i, rise >= 0 ? HI_V : LO_V);
+        }
+      }
+      /* ── AND NOT MEZZO AT EITHER END ─────────────────────────────────────
+         "it is not good to commence or finish any piece of music either mf or
+         mp." A part arrives out of silence, so its first note is soft; its last
+         is pushed to whichever end it is already nearer, because an ending can
+         be a fade or a slam and the arc has already chosen.
+
+         PER PART, NOT PER RECORD, and the battery is why. The first draft took
+         the record's globally first and last pitched event, and the check "a
+         rack set to none plays nothing, AND MOVES NOTHING ELSE" went red on
+         boxcarsynth/keys: muting one rack changes WHICH note is first, so the
+         bookend rule landed on a different role and a silenced box had edited
+         a part it does not play. That law is right and the fix is not a
+         weakening of Rimsky -- a part's first note IS an entry after an
+         infinite rest, which is the same sentence as the loop above, and
+         treating it that way decouples the roles completely. The record's own
+         first and last note are still covered, because they belong to a part. */
+      for(const r in byRole){
+        const list = byRole[r];
+        const first = list[0], last = list[list.length - 1];
+        if(first && first[0].gain > midLo && first[0].gain < midHi) set(first[1], LO_V);
+        if(last && last !== first && last[0].gain > midLo && last[0].gain < midHi)
+          set(last[1], last[0].gain >= (midLo + midHi) / 2 ? HI_V : LO_V);
       }
     }
   }

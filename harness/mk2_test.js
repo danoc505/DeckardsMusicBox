@@ -208,6 +208,41 @@ const check = (name, ok, detail) => {
   if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
 }
 
+/* ═══ AND TWO OF RIMSKY'S RULES ARE ASKED OF THE NOTES ══════════════════════
+   `score-craft.md` holds 56 sections and the program cited about eleven. These
+   two were sourced, prescriptive and entirely unbuilt, and both are ARRANGEMENT
+   rules rather than mixing ones:
+
+     §8  a part returning after a long rest belongs at pp or ff, never mezzo,
+         "and for the same reasons it is not good to commence or finish any
+         piece of music either mf or mp"
+     §7  "the harmonic basis should differ from the melody ... also in COLOUR"
+
+   §7 could not even be ASKED before: the sheet's own note said "no voice in the
+   program knows whether it is a wind or a brass". `family` on the machine is
+   that seam.
+
+   Both are asserted only where the genre DECLARES the rule and reported
+   everywhere else — a wind consort playing wind harmony is a different
+   ensemble, not a fault, and applying §7 file-wide was tried, moved 56 dungeon
+   synth records into a monoculture, and was reverted.
+
+   `harness/probe_arrange.js` owns the logic and has been watched failing
+   against a build that declares both rules and does neither.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  const { execFileSync } = require("child_process");
+  let out = "", ok = true;
+  try { out = execFileSync(process.execPath,
+          [path.resolve(__dirname, "probe_arrange.js"), "30"], { encoding: "utf8" }); }
+  catch(e){ ok = false; out = (e.stdout || "") + (e.stderr || ""); }
+  const n = (out.match(/(\d+) arrangement fault\(s\)/) || [])[1];
+  check("a part that has been away comes back at an extreme, and the harmony differs in colour", ok,
+        ok ? "no mezzo re-entry, no mezzo first or last note, and the tune never shares a colour with the chords"
+           : `${n || "some"} arrangement fault(s) — run: node harness/probe_arrange.js`);
+  if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
+}
+
 /* ═══ AND THE HOOK COMES BACK CHANGED ═══════════════════════════════════════
    THE MEASURE THAT FOUND THE FAULT WOULD HAVE SCORED THE FIX AS A FAILURE,
    which is the whole reason this is its own check.
