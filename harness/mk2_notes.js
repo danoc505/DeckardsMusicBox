@@ -11,7 +11,10 @@
    It answers, per seed:
 
      THE JOURNEY   the legs, the stops, the terrain under each stretch, the
-                   weather, and the tempo at each point
+                   weather, and what passes
+     THE PACE      the tempo bar by bar, as a trace — where the record
+                   accelerates and where it brakes. A record at one tempo says
+                   so in a line rather than drawing a flat graph.
      THE BAND      who is in which chair
      THE FORM      the sections, their lengths, and which leg they sit in
      THE ENSEMBLE  how many distinct instruments actually sound, section by
@@ -97,15 +100,23 @@ function printSeed(seed){
   catch(e){ console.log("\nSEED " + seed + " — THREW: " + e.message); return; }
 
   const c = song.chart, picks = c.picks || {}, form = song.form;
-  const STEPS = 16;
-  const spb = (60 / c.tempo) / 4;              // seconds per step
-  const barSec = spb * STEPS;
-  const total = form[form.length - 1].endBar * barSec;
+  const STEPS = M.stepsOf(c.table);
+  /* THE CLOCK, NOT A MULTIPLICATION. A record may change tempo, so "the second
+     bar 40 starts on" is a question with an owner; asking it here rather than
+     multiplying is also what makes the leg arc visible in this printout at
+     all. On a record at one tempo it is the same arithmetic. */
+  const CLK = M.makeClock(c, form);
+  const barSec = b => CLK.barSec(b);
+  const tOf = b => CLK.at(b, 0);
+  const total = tOf(form[form.length - 1].endBar);
   const ev = song.perf.events;
 
   console.log("\n" + "═".repeat(78));
   console.log("SEED " + seed + "   " + GENRE + "   " + (c.mode || "?") +
-              "   " + c.tempo + " bpm   " + mmss(total) +
+              "   " + (form.tempo
+                  ? Math.round(Math.min.apply(null, form.tempo)) + "-" +
+                    Math.round(Math.max.apply(null, form.tempo)) + " bpm"
+                  : c.tempo + " bpm") + "   " + mmss(total) +
               "   " + form.length + " sections" +
               (c.clock ? "   departs " + (Math.floor(c.clock.hour0) % 24) + ":00" +
                          (c.clock.night ? ", into the night" : ", toward the light") : ""));
@@ -167,6 +178,29 @@ function printSeed(seed){
     console.log("   " + String(m).padStart(4) + "    " + (bits.join("   ") || "—"));
   }
 
+  /* ══ AND HOW FAST, ALL THE WAY ALONG ═══════════════════════════════════
+     The ride sets the pace, so the pace is something you have to be able to
+     look at. One column a bar, coarse on purpose: a trace with a number for
+     every bar of a twenty-minute record is a wall, and what a reader needs to
+     see is the SHAPE — where it accelerates and where it brakes. A record at
+     one tempo says so in one line rather than drawing a flat graph. */
+  if(form.tempo){
+    const map = form.tempo;
+    const lo = Math.min.apply(null, map), hi = Math.max.apply(null, map);
+    const RAMP = " ▁▂▃▄▅▆▇█";
+    const COLS = 72, per = map.length / COLS;
+    let bar = "";
+    for(let i = 0; i < COLS; i++){
+      const b = Math.min(map.length - 1, Math.floor(i * per));
+      bar += RAMP[Math.max(0, Math.min(8, Math.round(8 * (map[b] - lo) / Math.max(1e-9, hi - lo))))];
+    }
+    console.log("\n  THE PACE  " + lo.toFixed(1) + " to " + hi.toFixed(1) + " bpm");
+    console.log("   " + bar);
+    console.log("   " + mmss(0).padEnd(36) + mmss(total).padStart(36));
+  } else {
+    console.log("\n  THE PACE  " + c.tempo + " bpm from the first bar to the last — no arc declared");
+  }
+
   /* ══ THE BAND ══════════════════════════════════════════════════════════ */
   console.log("\nTHE BAND");
   const chairs = ["lead","counter","keys","keys2","bass","ostinato","drums","drone"];
@@ -176,7 +210,7 @@ function printSeed(seed){
   console.log("\nTHE FORM  —  and how many instruments actually sound in each");
   let sum = 0;
   for(const s of form){
-    const t0 = s.startBar * barSec, t1 = s.endBar * barSec;
+    const t0 = tOf(s.startBar), t1 = tOf(s.endBar);
     const vs = [...new Set(ev.filter(e => e.pitch != null && e.tSec >= t0 && e.tSec < t1)
                              .map(e => e.voice))];
     sum += vs.size || vs.length;
@@ -184,6 +218,11 @@ function printSeed(seed){
       String(s.endBar - s.startBar).padStart(3) + " bars" +
       (s.extended ? " (+" + s.extended + ")" : "     ") +
       (s.leg != null ? "  leg " + s.leg : "       ") +
+      /* AND HOW FAST IT IS HERE — the number the whole leg structure turns on.
+         A record at one tempo prints nothing extra. */
+      (form.tempo ? "  " + String(Math.round(form.tempo[s.startBar])).padStart(3) + "→" +
+                    String(Math.round(form.tempo[Math.max(s.startBar, s.endBar - 1)])).padStart(3) + "bpm"
+                  : "") +
       "   " + String(vs.length).padStart(2) + " playing:  " + vs.join(" "));
   }
   console.log("   MEAN " + (sum / form.length).toFixed(1) + " instruments a section");
@@ -252,20 +291,21 @@ function printSeed(seed){
   console.log("\nEARLY AND LATE  —  the lead lane, one bar from each end");
   const lead = ev.filter(e => e.role === "lead" && e.pitch != null).sort((a, z) => a.tSec - z.tSec);
   if(lead.length > 4){
+    const barAt = t => Math.floor(CLK.barAt(t));
     const show = (label, list) => {
-      const b0 = Math.floor(list[0].tSec / barSec);
+      const b0 = barAt(list[0].tSec);
       const g = Array(STEPS).fill(".");
       for(const e of list){
-        const st = Math.round((e.tSec - b0 * barSec) / spb);
+        const st = Math.round((e.tSec - tOf(b0)) / CLK.stepSec(b0));
         if(st >= 0 && st < STEPS) g[st] = "*";
       }
       console.log("   " + label.padEnd(7) + "bar " + String(b0 + 1).padStart(4) +
                   "  |" + g.join("") + "|  " + list.map(e => nn(e.pitch)).join(" "));
     };
-    const firstBar = Math.floor(lead[0].tSec / barSec);
-    const lastBar  = Math.floor(lead[lead.length - 1].tSec / barSec);
-    show("early", lead.filter(e => Math.floor(e.tSec / barSec) === firstBar));
-    show("late",  lead.filter(e => Math.floor(e.tSec / barSec) === lastBar));
+    const firstBar = barAt(lead[0].tSec);
+    const lastBar  = barAt(lead[lead.length - 1].tSec);
+    show("early", lead.filter(e => barAt(e.tSec) === firstBar));
+    show("late",  lead.filter(e => barAt(e.tSec) === lastBar));
   }
 }
 

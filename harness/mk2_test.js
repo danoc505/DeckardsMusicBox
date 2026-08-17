@@ -306,6 +306,39 @@ const check = (name, ok, detail) => {
   if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
 }
 
+/* ═══ AND A RECORD CAN SPEED UP AND SLOW DOWN ═══════════════════════════════
+   Tempo was ONE NUMBER for a whole record, multiplied out in nineteen
+   hand-written copies in the performance stage alone, so no record could
+   accelerate out of anything or brake into it. The clock owns that arithmetic
+   now and a genre may declare `form.tempoArc`.
+
+   NO GENRE DECLARES ONE YET, which is exactly why this is checked. The last
+   untested capability this repo shipped was a whole instrument that made no
+   sound with a green battery behind it, so `harness/probe_tempo.js` declares
+   an arc ITSELF on each genre, watches the tempo ramp, proves the record does
+   not get longer, then removes it and proves every note is back on the same
+   double it was on before.
+
+   Watched failing against four deliberately broken builds, each caught by the
+   claim meant for it: normalisation removed (the record grew by up to 79 s),
+   the ease turned into a step (0 ramped), the clock made blind to the map (no
+   bar changed length), and — the one that matters for a refactor — a clock
+   that ACCUMULATED bar lengths instead of using the closed form, which
+   diverged from the shipped arithmetic by bar 6.
+   ═══════════════════════════════════════════════════════════════════════════ */
+{
+  const { execFileSync } = require("child_process");
+  let out = "", ok = true;
+  try { out = execFileSync(process.execPath,
+          [path.resolve(__dirname, "probe_tempo.js"), "12"], { encoding: "utf8" }); }
+  catch(e){ ok = false; out = (e.stdout || "") + (e.stderr || ""); }
+  const n = (out.match(/(\d+) tempo fault\(s\)/) || [])[1];
+  check("the tempo can vary across a record, and costs nothing to a genre that does not", ok,
+        ok ? "a declared arc ramps and keeps the record's length; with none, every note is bit-identical"
+           : `${n || "some"} tempo fault(s) — run: node harness/probe_tempo.js`);
+  if(!ok) console.log(out.split("\n").map(l => "      " + l).join("\n"));
+}
+
 /* ═══ AND THE RECORDINGS ACTUALLY DECODE TO SOUND ═══════════════════════════
    The most expensive check to be missing, because it is the one whose absence
    let a whole instrument ship as silence with a green battery behind it.

@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17i · six phases, and the bass is still inaudible</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17j · V2-2, the clock: tempo is a function of position</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -7101,7 +7101,13 @@ function handRand(slot, i){
    by the destination sum and by the cross-modulation pass */
 function handModRaw(n, m, tSec, plan){
   const STEPS = plan.steps || 16, spb = plan.spb || 0.125;
-    const step = Math.round(tSec / spb);
+    /* WHICH STEP THIS INSTANT IS. Through the plan's clock where there is one:
+       at a varying tempo "seconds divided by a step" names the wrong step
+       within a bar or two of the first change, and a sample-and-hold reading
+       the wrong step is a modulator that has slipped off the music. A plan
+       built without a clock -- the synthetic ones the panel preview makes --
+       keeps the division. */
+    const step = Math.round(plan.clock ? plan.clock.stepAt(tSec) : tSec / spb);
     const cyc = Math.max(1, m.rate) * STEPS;          // steps per cycle
     let v;
     if(m.mode === "sh"){
@@ -7180,7 +7186,7 @@ function motionAt(plan, key, ev, offset){
   /* the hand: FREEZE pins the moment every modulator is read at, so the whole
      plan stops moving together rather than each lane stopping where it was */
   const tSec = MODTRIM.freeze ? MODTRIM.at : ev.tSec + (offset || 0);
-  const s16  = Math.round(tSec / plan.spb);
+  const s16  = Math.round(plan.clock ? plan.clock.stepAt(tSec) : tSec / plan.spb);
   const STEPS = plan.steps || 16;
   const bar  = Math.max(0, Math.min(plan.nBars - 1, Math.floor(s16 / STEPS)));
   const step = ((s16 % STEPS) + STEPS) % STEPS;
@@ -7312,7 +7318,14 @@ function motionAt(plan, key, ev, offset){
    pipeline stage: it writes no note and no stage reads it. */
 function makeMotion(chart, form, sections, materials){
   const G = chart.table || GENRE[chart.genre] || {};
-  const spb = (60 / chart.tempo) / perBeatOf(chart.table);
+  /* the same clock stage 5 places its notes on -- built here rather than
+     passed, because both are pure functions of (chart, form) and a second
+     argument threaded through an already-long signature is how two copies of
+     one fact start disagreeing. It goes ON THE PLAN below: `motionAt` is
+     stage 6 and has no chart, so a lane whose period is "one bar" has to be
+     able to ask how long a bar is HERE. */
+  const CLK = makeClock(chart, form);
+  const spb = CLK.spb;
   /* steps per bar, the genre's -- see `makeMaterials` for why it is declared.
      It goes ON THE PLAN because `motionAt` is stage 6 and has no chart: an LFO
      whose period is "one bar" has to know how long a bar is, and a plock's
@@ -7797,7 +7810,7 @@ function makeMotion(chart, form, sections, materials){
       else if(sp.kind === "arc"){
         const from = drawIn(sp.from, rng), to = drawIn(sp.to, rng);
         out.push(Object.freeze({ kind: "arc", from, to, curve: sp.curve || "sCurve",
-                                 seconds: nBars * STEPS * spb }));
+                                 seconds: CLK.at(nBars, 0) }));
       }
       /* ══ APEX — THE ARC, BUT SHAPED LIKE THE SONG ═════════════════════════
          `arc` above runs from one end of the record to the other on a fixed
@@ -7885,7 +7898,9 @@ function makeMotion(chart, form, sections, materials){
           } else {
             b1 = s.endBar; b0 = Math.max(s.startBar, s.endBar - nb);
           }
-          const a = b0 * 16 * spb, b = b1 * 16 * spb;
+          /* `16` here was the sixteen-step bar the metre work replaced
+             everywhere else; the clock knows the genre's own step count. */
+          const a = CLK.at(b0, 0), b = CLK.at(b1, 0);
           if(b > a) win.push(Object.freeze({ a, b }));
         }
         out.push(Object.freeze({ kind: "gesture", from, to, curve: sp.curve || "lin",
@@ -7904,12 +7919,12 @@ function makeMotion(chart, form, sections, materials){
      then variant, which is exactly the order `form.longLoop` plays them in. */
   const PH = materials && materials.drumPhrase
            ? materials.drumPhrase.A.concat(materials.drumPhrase.Avar) : null;
-  return Object.freeze({ spb, nBars, phrase: PH ? Object.freeze(PH) : null,
+  return Object.freeze({ spb, clock: CLK, nBars, phrase: PH ? Object.freeze(PH) : null,
                          secFn: Object.freeze(secFn),
                          secOcc: Object.freeze(secOcc),
                          drums: (chart.picks && chart.picks.drums) || "kit",
                          steps: STEPS,
-                         seconds: nBars * STEPS * spb,
+                         seconds: CLK.at(nBars, 0),
                          /* form's arc, so an `apex` lane can follow the song's
                             own shape rather than the clock */
                          arc: form.arc || null,
@@ -16222,7 +16237,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
        bar index rather than held in a closure, so it is stateless and a render
        started halfway through a record produces the same offsets as one played
        from the top -- the same discipline `handRand` works under. */
-    const barIx = Math.floor(t0 / Math.max(0.001, barSec));
+    const barIx = Math.floor(g.motion && g.motion.clock
+                             ? g.motion.clock.barAt(t0) : t0 / Math.max(0.001, barSec));
     /* the same arithmetic hash `handRand` uses, so nothing new has to be
        trusted -- 0..1 rather than -1..1 because these are probabilities */
     const h01 = k => ((hash32("drn:" + k) >>> 8) & 0xffff) / 65536;
@@ -27067,6 +27083,91 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll, 
    that declares no metre answers 4 and the arithmetic is byte-identical. */
 const barsForSec = (sec, tempo, table) => Math.max(1, Math.round(sec * tempo / (60 * beatsOf(table))));
 const secForBars = (bars, tempo, table) => bars * 60 * beatsOf(table) / tempo;
+/* ── THE CLOCK: THE ONE PLACE A BAR BECOMES A SECOND ─────────────────────────
+   Both lines above answer for a WHOLE record at one tempo, which was the only
+   kind of record this program could make. Everything that placed a note wrote
+   `(bar * STEPS + step) * spb` by hand, and there were nineteen copies of that
+   multiplication in stage 5 alone -- so "the tempo may change here" was not a
+   thing anyone could add without finding all nineteen.
+
+   The clock is that arithmetic, owned once, asked instead of repeated:
+
+     at(bar, steps)   seconds at a position, `steps` being an offset INTO the
+                      bar and free to be fractional (micro-timing) or outside
+                      it (an ending that reaches past the last bar)
+     barAt(sec)       the inverse, for anything that starts from the clock --
+                      the playhead, the roll, a section lookup
+     stepSec(bar)     how long a step lasts THERE, which is what a duration
+                      wants: a note is so many steps long, and how many
+                      seconds that is depends on where it is played
+     tempoAt(bar)     the bpm there, for the readout and the .mid's conductor
+
+   A CONSTANT RECORD TAKES THE CLOSED FORM, AND THAT IS NOT AN OPTIMISATION.
+   Accumulating N equal bar lengths and multiplying by N give different
+   doubles, so a clock that always accumulated would move every note in every
+   record by a few microseconds -- ten genres' worth of snapshot, changed by a
+   refactor that was supposed to change nothing. With no map declared this
+   returns `(bar * STEPS + steps) * spb`, character for character what the code
+   it replaces computed. The prefix sum only exists for a record that varies,
+   where it is also the numerically stable way to do it. */
+function makeClock(chart, form){
+  const T = chart.table, STEPS = stepsOf(T), PB = perBeatOf(T);
+  const flat = (60 / chart.tempo) / PB;                  // seconds per STEP, one tempo
+  const map = (form && form.tempo) || null;
+  if(!map) return Object.freeze({
+    varies: false, steps: STEPS, spb: flat,
+    tempoAt: () => chart.tempo,
+    stepSec: () => flat,
+    barSec:  () => STEPS * flat,
+    at:    (bar, steps) => (bar * STEPS + (steps || 0)) * flat,
+    barAt: sec => sec / (STEPS * flat),
+    /* the same question in STEPS rather than bars, because that is the unit
+       every lookup in stage 6 counts in. Not `barAt(sec) * STEPS`: that is
+       the same number algebraically and a different double, and these answers
+       get ROUNDED to an integer step, so the two spellings disagree about
+       which step a note is on roughly once in a very large number of notes.
+       One spelling, and at one tempo it is the division the code it replaces
+       already did. */
+    stepAt: sec => sec / flat,
+  });
+  const n = map.length, step = new Array(n), edge = new Array(n + 1);
+  for(let i = 0; i < n; i++) step[i] = (60 / map[i]) / PB;
+  edge[0] = 0;
+  for(let i = 0; i < n; i++) edge[i + 1] = edge[i] + step[i] * STEPS;
+  const idx = b => Math.max(0, Math.min(n - 1, Math.floor(b)));
+  /* OUTSIDE THE RECORD IS NOT AN ERROR: an ending reaches past the last bar
+     and a lead-in sits before the first. Both extend at the tempo of the
+     nearest real bar rather than clamping, so time never runs backwards. */
+  const at = (bar, steps) => {
+    const b = bar + (steps || 0) / STEPS;
+    if(b <= 0) return b * step[0] * STEPS;
+    if(b >= n) return edge[n] + (b - n) * step[n - 1] * STEPS;
+    const i = Math.floor(b);
+    return edge[i] + (b - i) * step[i] * STEPS;
+  };
+  const barAt = sec => {
+    if(sec <= 0) return sec / (step[0] * STEPS);
+    if(sec >= edge[n]) return n + (sec - edge[n]) / (step[n - 1] * STEPS);
+    let lo = 0, hi = n;
+    while(hi - lo > 1){ const m = (lo + hi) >> 1; if(edge[m] <= sec) lo = m; else hi = m; }
+    return lo + (sec - edge[lo]) / (step[lo] * STEPS);
+  };
+  return Object.freeze({
+    varies: true, steps: STEPS,
+    /* the MEAN step, for the handful of places that still want one scalar --
+       a slack tolerance, a display. Every place that positions or measures
+       asks the clock. */
+    spb: edge[n] / (n * STEPS),
+    tempoAt: b => map[idx(b)],
+    stepSec: b => step[idx(b)],
+    barSec:  b => step[idx(b)] * STEPS,
+    at, barAt,
+    stepAt: sec => {
+      const b = barAt(sec), i = Math.max(0, Math.min(n - 1, Math.floor(b)));
+      return i * STEPS + (b - i) * STEPS;
+    },
+  });
+}
 /* seconds as a time on a clock face. One owner: the transport readout, the
    length dial and the "asked for / came out" line all print times, and three
    hand-written copies of the same padStart is how they end up disagreeing. */
@@ -27705,7 +27806,72 @@ function makeForm(chart){
      rather than a constant -- the bottom rung of the ladder at the smallest aim */
   out.minBars  = spine(1, 0.25).bars;
   out.lengths  = Object.freeze({ ...SLEN });
+  /* ═══ AND HOW FAST, BAR BY BAR ═════════════════════════════════════════════
+     Tempo was ONE NUMBER for a whole record: `chart.tempo`, drawn at stage 1
+     and true from the first bar to the last. Every bars-to-seconds arithmetic
+     in the file multiplied by it, so a record could not speed up or slow down
+     at all -- not into an ending, not out of one.
+
+     FORM IS THE STAGE THAT OWNS IT, for the same reason it owns the energy
+     arc: tempo across a record is a fact about ITS SHAPE, and shape is what
+     this stage decides. The array is per BAR, in bpm, and `makeClock` below
+     turns it into seconds. Null means the record is at one tempo, which is
+     what every record has been. ═══════════════════════════════════════════ */
+  out.tempo = makeTempoMap(chart, out, nB);
   return Object.freeze(out);
+}
+
+/* ── THE TEMPO ARC, AS A GENRE DECLARES IT ───────────────────────────────────
+   The engine's half of this names no genre and no style [Law 4]. A table may
+   declare, under `form.tempoArc`:
+
+     by:   { <section function>: [at its first bar, at its last] }  — MULTIPLIERS
+     ease: "cos" (default) or "lin" — the shape between the two
+
+   A function the table does not name holds 1.0 for its whole span, so a genre
+   naming one section leaves every other bar exactly where it was.
+
+   MULTIPLIERS, NOT BPM, AND THE RECORD DOES NOT GET LONGER. The map is
+   normalised so the mean SECONDS PER BAR is the one the drawn tempo gives:
+   an arc REDISTRIBUTES time, it does not add any. That is not a convenience --
+   it is what keeps the length dial honest. `chart.wantBars` is computed at
+   stage 1, before this stage exists and therefore before any arc does, so a
+   map that changed the total would make the dial miss by whatever the arc
+   averaged and nothing downstream would be able to tell. Normalised, "four
+   minutes" is still four minutes and the arc is free to be as steep as the
+   genre likes. The declared numbers are relative BY CONSTRUCTION, which is
+   also the honest way to write them: a stop is 0.6 OF CRUISE, whatever cruise
+   turned out to be on this seed.
+
+   A record whose table declares nothing gets `null` and every clock below
+   returns the constant it always returned -- the same arithmetic, not merely
+   the same answer. */
+function makeTempoMap(chart, sections, nBars){
+  const A = chart.table.form && chart.table.form.tempoArc;
+  if(!A || !A.by || nBars < 1) return null;
+  const EASE = A.ease === "lin" ? (u => u) : (u => 0.5 - 0.5 * Math.cos(Math.PI * u));
+  const mult = new Array(nBars).fill(1);
+  for(const s of sections){
+    const pair = A.by[s.fn];
+    if(!pair) continue;
+    const span = Math.max(1, s.endBar - s.startBar);
+    for(let b = s.startBar; b < s.endBar && b < nBars; b++){
+      if(b < 0) continue;
+      const u = (b - s.startBar) / span;
+      mult[b] = pair[0] + (pair[1] - pair[0]) * EASE(u);
+    }
+  }
+  /* a multiplier is a RATE, so the time it costs is its reciprocal, and the
+     thing to hold fixed is the mean of THOSE -- scale by the mean reciprocal
+     and the bars sum to exactly the seconds the flat tempo would have taken.
+     Clamped first: a table typo of 0 would be a bar of infinite length. */
+  let inv = 0;
+  for(let b = 0; b < nBars; b++){
+    mult[b] = Math.max(0.25, Math.min(4, mult[b]));
+    inv += 1 / mult[b];
+  }
+  const k = inv / nBars;
+  return Object.freeze(mult.map(m => chart.tempo * m * k));
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -34762,8 +34928,17 @@ function makeArrangement(chart, form, materials){
 function makePerformance(chart, form, materials, sections){
   /* SECONDS PER STEP. `/ 4` was "four sixteenths to a beat", true in every
      simple metre and false in every compound one: a 6/8 beat is a dotted
-     quarter and holds SIX. Asked of the metre now, and 4/4 answers 4. */
-  const spb = (60 / chart.tempo) / perBeatOf(chart.table);
+     quarter and holds SIX. Asked of the metre now, and 4/4 answers 4.
+
+     AND IT IS NO LONGER ONE NUMBER FOR THE WHOLE RECORD. `CLK` is the clock;
+     every position and every duration below asks it, because at a varying
+     tempo "how long is a step" has no answer without "where". `spb` survives
+     as the record's MEAN step -- it is what the clock returns for a record at
+     one tempo, exactly, so a genre declaring no arc computes what it always
+     computed -- and it is used only where a scalar is genuinely what is
+     wanted: a slack tolerance, a ratio. */
+  const CLK = makeClock(chart, form);
+  const spb = CLK.spb;
   /* HOW MANY STEPS ARE IN A BAR -- the genre's, defaulting to 16. See the long
      note in `makeMaterials`, which owns the reasoning; this stage only has to
      agree with it. `spb` above is SECONDS PER STEP and `STEPS` is STEPS PER BAR,
@@ -34869,7 +35044,7 @@ function makePerformance(chart, form, materials, sections){
   const events = [];
   /* the tape bed: ONE event, dispatched like every other -- the crackle and the
      song go through the same scheduler on the same graph (Law 10) */
-  const totalSec = form.nBars * STEPS * spb;
+  const totalSec = CLK.at(form.nBars, 0);
   events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "tape",
                               role: "tape", gain: chart.tape.crackle,
                               hiss: chart.tape.hiss }));
@@ -34937,7 +35112,7 @@ function makePerformance(chart, form, materials, sections){
       const pk = sections.find(s => s.peak);
       const m = ERANG.meta(chart.atmos.accent);
       if(pk && m) events.push(Object.freeze({
-        tSec: pk.startBar * STEPS * spb, durSec: m.n / ERANG.rate + 0.5,
+        tSec: CLK.at(pk.startBar, 0), durSec: m.n / ERANG.rate + 0.5,
         voice: "atmos", role: roleOfBed(chart.atmos.accent), gain: chart.atmos.accentGain,
         bed: chart.atmos.accent }));
     }
@@ -34977,7 +35152,7 @@ function makePerformance(chart, form, materials, sections){
         const a1 = sections[Math.min(from, sections.length - 1)];
         const b1 = sections[Math.min(from + span, sections.length - 1)];
         if(!a1 || !b1) break;
-        const t0 = a1.startBar * STEPS * spb, t1 = b1.startBar * STEPS * spb;
+        const t0 = CLK.at(a1.startBar, 0), t1 = CLK.at(b1.startBar, 0);
         if(t1 - t0 > 6){
           events.push(Object.freeze({ tSec: t0, durSec: t1 - t0, voice: "weather",
                                       role: "weather", gain: lvl, kind, bed }));
@@ -35056,7 +35231,11 @@ function makePerformance(chart, form, materials, sections){
           tSec, durSec: secs != null ? secs : m.n / ERANG.rate + 0.4,
           voice: "atmos", role: roleOfBed(name), gain, bed: name }));
       };
-      const barSec = STEPS * spb;
+      /* A BAR IS NOT ONE LENGTH ANY MORE, so the ruler is a function of where
+         you are standing. `barSec(b)` is this bar's length; a record at one
+         tempo answers the same number at every bar, which is what this
+         constant was. */
+      const barSec = b => CLK.barSec(b);
       /* ══ THE TRIP PLANNER — THE RIDE IS PLANNED, THEN THE RECORD IS PLAYED ═══
      [owner, 2026-08-15: "I think we need to create a SFX route planner for the
      song that Simulating a train ride, this way the songs sfx is planned
@@ -35120,7 +35299,7 @@ function makePerformance(chart, form, materials, sections){
       const fn = sections[i].fn || sections[i].type;
       const kind = wpick(tr, TR.stations || [["city", 3], ["halt", 2]]);   // drawn every section [Law 7]
       if(fn === PAYT){
-        TRIP.stations.push({ i, kind, at: sections[i].startBar * STEPS * spb });
+        TRIP.stations.push({ i, kind, at: CLK.at(sections[i].startBar, 0) });
         ROUTE.push({ place: kind, stop: true });
       } else ROUTE.push({ place: "line", stop: false });
     }
@@ -35162,7 +35341,7 @@ function makePerformance(chart, form, materials, sections){
     const edges = [0];
     for(const st of TRIP.stations){
       edges.push(st.at);
-      edges.push(sections[st.i].endBar * STEPS * spb);
+      edges.push(CLK.at(sections[st.i].endBar, 0));
     }
     edges.push(totalSec);
     let cur = TR.start && TERR[TR.start] ? TR.start : Object.keys(TERR)[0];
@@ -35322,7 +35501,8 @@ function makePerformance(chart, form, materials, sections){
       /* every draw runs whatever the boundary turns out to be [Law 7] */
       for(let i = 0; i < sections.length; i++){
         const s = sections[i], prev = sections[i - 1];
-        const A = s.startBar * barSec, END = s.endBar * barSec;
+        const A = CLK.at(s.startBar, 0), END = CLK.at(s.endBar, 0);
+        const BAR = barSec(s.startBar);
         const approachN = pick(J.approach), arriveN = pick(J.arrive), brakeN = pick(J.brake);
         const standN = pick(J.stand), valveN = pick(J.valve);
         const doorsN = pick(J.doors), crowdN = pick(J.crowd);
@@ -35362,16 +35542,16 @@ function makePerformance(chart, form, materials, sections){
              there. A CITY has people on the platform. A country HALT has the
              birds carrying on, because nothing has arrived there but you.
              The route drew which one this is [see THE ROUTE]. */
-          if(doorsN) put(doorsN, A + barSec * 0.5, lvlA * 0.85);
+          if(doorsN) put(doorsN, A + BAR * 0.5, lvlA * 0.85);
           const here = ROUTE[i] || {};
           const city = here.place !== "halt";
           if(city){
-            if(crowdN) put(crowdN, A + barSec * 0.25, lvlB * 1.1,
-                           Math.max(1, stand - barSec * 0.25));
+            if(crowdN) put(crowdN, A + BAR * 0.25, lvlB * 1.1,
+                           Math.max(1, stand - BAR * 0.25));
           } else {
             const quiet = pick(J.halt);
-            if(quiet) put(quiet, A + barSec * 0.25, lvlB * 0.9,
-                          Math.max(1, stand - barSec * 0.25));
+            if(quiet) put(quiet, A + BAR * 0.25, lvlB * 0.9,
+                          Math.max(1, stand - BAR * 0.25));
           }
         }
         if(starts){
@@ -35388,7 +35568,7 @@ function makePerformance(chart, form, materials, sections){
              here; the section carries `drone` and the train is back.
              12. AND THE CONDUCTOR'S BELL ONCE IT IS MOVING, which is the
              owner's "makes a call before and after the train starts again". */
-          if(cbellN) put(cbellN, A + barSec * 0.75, lvlD * 0.75);
+          if(cbellN) put(cbellN, A + BAR * 0.75, lvlD * 0.75);
         }
       }
       /* ══ AND THE LANDSCAPE PASSES ═══════════════════════════════════════════
@@ -35409,10 +35589,10 @@ function makePerformance(chart, form, materials, sections){
             const nm = passPool[Math.floor(jr() * passPool.length) % passPool.length];
             const m = ERANG.meta(nm);
             const len = m.n / ERANG.rate;
-            const span = (s.endBar - s.startBar) * barSec - len;
+            const span = CLK.at(s.endBar, 0) - CLK.at(s.startBar, 0) - len;
             if(span <= 0) continue;
             events.push(Object.freeze({
-              tSec: s.startBar * barSec + jr() * span,
+              tSec: CLK.at(s.startBar, 0) + jr() * span,
               durSec: len, voice: "atmos", role: roleOfBed(nm),
               gain: (J.passLevel ? J.passLevel[0] : 0.14) + jr() * (J.passLevel ? J.passLevel[1] : 0.06),
               bed: nm, pass: true }));
@@ -35536,6 +35716,15 @@ function makePerformance(chart, form, materials, sections){
         for(const n of notes){
           if(n.bar !== useBar) continue;
           if(sec.emptyLastBar && lastBar && (role === "drums" || role === "bass") && n.step > 0) continue;
+          /* HOW LONG A STEP LASTS *HERE*. Every micro-timing amount below is
+             declared in SECONDS and has to become a fraction of a step to be
+             added to `n.step`, and at a varying tempo that conversion is a
+             different number in a different bar -- a 12 ms machine lean is a
+             smaller slice of a slow bar than of a fast one, which is exactly
+             right: the hand is late by twelve milliseconds, not by a fraction
+             of a beat. At one tempo this is the same number every bar and the
+             arithmetic is unchanged. */
+          const SS = CLK.stepSec(bar);
           let micro = 0;
           const lane = n.lane || "";
           /* in dilla mode the kick/snare/ghost lanes live on their OWN early/late
@@ -35551,7 +35740,7 @@ function makePerformance(chart, form, materials, sections){
                           : (grooveStyle === "dilla" && role === "drums") ? 0
                           : 1;
           micro += swingWarp(n.step) * swingAmt;
-          if(role === "drums") micro += GR.push / spb;
+          if(role === "drums") micro += GR.push / SS;
           /* MACHINE DRIFT. Hawtin on where his groove came from: "I would let
              each machine go... Each one had its own processor and interpretation
              of timing that somehow created the funk." That is not jitter --
@@ -35560,7 +35749,7 @@ function makePerformance(chart, form, materials, sections){
              snareEarly and kickLate are the two special cases of it this file
              already had; this is the general form, and a genre that declares
              none pays nothing. [corpus:hawtin, MusicRadar 2016] */
-          if(LEAN[lane]) micro += LEAN[lane] / spb;
+          if(LEAN[lane]) micro += LEAN[lane] / SS;
           if(lane === "snare" || lane === "ghost") micro += snareEarly;
           if(lane === "kick" && n.step > 0) micro += kickLate;
           /* ── JITTER IS A PLAYER'S HAND, AND A HAND HITS BOTH NOTES AT ONCE ──
@@ -35583,13 +35772,13 @@ function makePerformance(chart, form, materials, sections){
              one spreads a chord ON PURPOSE, a few milliseconds low to high, and
              it is applied below rather than drawn here. */
           const j = stream(chart.seed, "jit:" + role + ":" + bar + ":" + n.step + ":" + (n.lane || role));
-          micro += ((j() * 2 - 1) * jitterSec) / spb;
+          micro += ((j() * 2 - 1) * jitterSec) / SS;
           /* the strum: notes of one keys strike roll low-to-high by a few ms --
              a hand, not a machine stamp */
           if(role === "keys"){
             const k = "k" + n.step;
             strumAt[k] = (strumAt[k] || 0) + 1;
-            micro += ((strumAt[k] - 1) * strumSec) / spb;
+            micro += ((strumAt[k] - 1) * strumSec) / SS;
           }
           /* THE ONE GAIN FORMULA: identity x position accent x section dynamic
              x the genre's balance for this role.
@@ -35661,8 +35850,8 @@ function makePerformance(chart, form, materials, sections){
             sec.machines ? sec.machines[SLOT_OF[lane0]] : null);
           if(voice == null) continue;
           const ev = {
-            tSec: (bar * STEPS + n.step + micro) * spb,
-            durSec: Math.max(spb * 0.9, n.dur * spb * artic),
+            tSec: CLK.at(bar, n.step + micro),
+            durSec: Math.max(SS * 0.9, n.dur * SS * artic),
             voice,
             role, lane: n.lane || role, gain,
           };
@@ -35685,15 +35874,15 @@ function makePerformance(chart, form, materials, sections){
              that has to slow into the platform, and V.trainbox comes off the
              regulator for its final seconds when it is set. */
           if(role === "drone" && chart.table.drone && chart.table.drone.cut){
-            const endSec = sec.endBar * STEPS * spb;
+            const endSec = CLK.at(sec.endBar, 0);
             if(ev.tSec + ev.durSec > endSec)
-              ev.durSec = Math.max(spb, endSec - ev.tSec);
+              ev.durSec = Math.max(SS, endSec - ev.tSec);
             const nxt = sections[sections.indexOf(sec) + 1];
             /* asked of the ARRANGEMENT rather than of the section's name: the
                ground stops wherever the next section does not carry it, which
                is the same question the listener's ear is asking */
             const stops = !nxt || !(nxt.active || []).includes("drone");
-            if(stops && Math.abs(ev.tSec + ev.durSec - endSec) < spb * 1.5)
+            if(stops && Math.abs(ev.tSec + ev.durSec - endSec) < SS * 1.5)
               ev.halt = true;
           }
           if(role === "keys"){ ev.timbre = chart.keysChar; }
@@ -35761,8 +35950,8 @@ function makePerformance(chart, form, materials, sections){
              backwards: the RIBBON is shared across simultaneous notes and the
              AFTERTOUCH below is independent per note. Those are the two halves
              of this instrument's expression and they have opposite polarity. */
-          const noteStart = (bar * STEPS + n.step + micro) * spb;
-          const noteSec   = Math.max(spb * 0.9, n.dur * spb * artic);
+          const noteStart = CLK.at(bar, n.step + micro);
+          const noteSec   = Math.max(SS * 0.9, n.dur * SS * artic);
           if(RIB && RIB.chance > 0 && n.pitch != null && (role === "lead" || role === "keys")){
             const rr = stream(chart.seed, "ribbon:" + bar);
             /* every draw runs whatever the outcome [Law 7] */
@@ -35802,7 +35991,7 @@ function makePerformance(chart, form, materials, sections){
             /* where in the BAR the hand lands: falls and dives anchor LATE,
                because they are phrase-exit gestures */
             const win = kind === "fall" ? [0.68, 0.22] : kind === "dive" ? [0.55, 0.25] : RIB.at;
-            const at = (bar * STEPS + STEPS * (win[0] + when * win[1])) * spb;
+            const at = CLK.at(bar, STEPS * (win[0] + when * win[1]));
             /* a gesture needs a note still sounding when the hand arrives,
                with enough of it left to hear the move */
             if(hit && at >= noteStart && at < noteStart + noteSec - 0.12){
@@ -36145,12 +36334,16 @@ function makePerformance(chart, form, materials, sections){
      absolute scale -- the same normalisation the ladder uses, and for the same
      reason. A hand's doubling has no threshold: you asked for it, you get it. */
   const secAt = (() => {
-    const spb = (60 / chart.tempo) / 4;
+    /* this kept its OWN copy of seconds-per-step, and its own copy said `/ 4`
+       -- the "four sixteenths to a beat" the metre work removed everywhere
+       else. Every genre is 4/4 today so the two agreed, and the day one is
+       not they would have disagreed silently about where a section ends. It
+       asks the clock, like everything else that turns a bar into a time. */
     let lo = Infinity, hi = -Infinity;
     for(const s of sections){ const e = s.energy == null ? 0.5 : s.energy;
                               if(e < lo) lo = e; if(e > hi) hi = e; }
     const band = hi > lo ? hi - lo : 1;
-    return sections.map(s => ({ a: s.startBar * STEPS * spb, b: s.endBar * STEPS * spb,
+    return sections.map(s => ({ a: CLK.at(s.startBar, 0), b: CLK.at(s.endBar, 0),
       at: hi > lo ? ((s.energy == null ? 0.5 : s.energy) - lo) / band : 1 }));
   })();
   const loudEnough = (tSec, from) => {
@@ -36319,7 +36512,11 @@ function makePerformance(chart, form, materials, sections){
      seven genres whose chords overlap provably untouched and makes "how many
      notes would this switch move" a thing a probe can count. */
   {
-    const BAR = spb * STEPS;
+    /* CAPPED AT A BAR -- AND WHICH BAR. At one tempo every bar is the same
+       length and this was a constant; where the tempo moves, "a bar" is the
+       length of the bar the note is played in, which is the honest reading of
+       the rule and the same number as before on a record that does not vary. */
+    const BAR = t => CLK.barSec(CLK.barAt(t));
     const nextOn = {}, curOn = {};
     for(let i = events.length - 1; i >= 0; i--){
       const e = events[i];
@@ -36330,7 +36527,7 @@ function makePerformance(chart, form, materials, sections){
       }
       const nxt = nextOn[e.role];
       if(nxt == null) continue;
-      const hold = Math.min(nxt - e.tSec, BAR);
+      const hold = Math.min(nxt - e.tSec, BAR(e.tSec));
       if(hold > e.durSec + 0.001)
         events[i] = Object.freeze(Object.assign({}, e, { holdSec: hold }));
     }
@@ -36689,7 +36886,7 @@ function makePerformance(chart, form, materials, sections){
          because a note changed. Re-ordering notes that share an instant is
          enough to change a record's fingerprint, so this now collects each
          part's onsets and asks them, leaving the array exactly as it was. */
-      const BAR2 = spb * STEPS;
+      const BAR2 = t => CLK.barSec(CLK.barAt(t));
       const onsetsOf = {};
       for(const e of events){
         if(e.pitch == null) continue;
@@ -36714,7 +36911,7 @@ function makePerformance(chart, form, materials, sections){
         if(e.holdSec == null) continue;
         const list = onsetsOf[e.role] || [];
         const nxt = list.find(t => t > e.tSec + 1e-6);
-        const hold = nxt == null ? null : Math.min(nxt - e.tSec, BAR2);
+        const hold = nxt == null ? null : Math.min(nxt - e.tSec, BAR2(e.tSec));
         if(hold == null || hold <= e.durSec + 0.001)
           events[i] = Object.freeze(Object.assign({}, e, { holdSec: undefined }));
         else if(hold < e.holdSec - 0.001)
@@ -37217,7 +37414,7 @@ function makePerformance(chart, form, materials, sections){
     if(dropped){ events.length = 0; events.push(...kept); }
   }
 
-  return Object.freeze({ events: Object.freeze(events), seconds: form.nBars * STEPS * spb + 2.5,
+  return Object.freeze({ events: Object.freeze(events), seconds: CLK.at(form.nBars, 0) + 2.5,
                          /* what the stack was asked for and would not do, in
                             words, so the panel can say so rather than the
                             request disappearing */
@@ -37547,7 +37744,19 @@ function midiChunk(id, bytes){
 
 function toMidi(song){
   const tempo = song.chart.tempo;
-  const tick = sec => Math.round(sec * tempo / 60 * MIDI_PPQ);
+  /* ── A TICK IS A MUSICAL POSITION, NOT A TIME ───────────────────────────────
+     `sec * tempo / 60 * PPQ` reads the file's one tempo backwards out of the
+     seconds -- correct while a record had one tempo and a lie the moment it
+     has two: a bar played slower would arrive at fewer ticks, so a DAW reading
+     the conductor track would place it EARLY and then play it at the written
+     tempo, moving the note twice. The clock knows where a second sits in BARS,
+     which is the position a tick actually measures, so the conversion goes
+     through it and the conductor track below carries the tempo changes that
+     turn those positions back into the right seconds. At one tempo
+     `barAt(sec) * beats * PPQ` is the same arithmetic as before, rearranged. */
+  const CLK = (song.motion && song.motion.clock) || makeClock(song.chart, song.form);
+  const BEATS = beatsOf(song.chart.table);
+  const tick = sec => Math.round(CLK.barAt(sec) * BEATS * MIDI_PPQ);
   /* group the events by role; the tape bed is not a note and does not go */
   const byRole = {};
   for(const ev of song.perf.events){
@@ -37558,13 +37767,27 @@ function toMidi(song){
 
   /* track 0 — the conductor: tempo, metre, and what this file IS */
   {
-    const us = Math.round(60000000 / tempo);
+    const MAP = (song.form && song.form.tempo) || null;
+    const us = Math.round(60000000 / (MAP ? MAP[0] : tempo));
     let b = [];
     const meta = (delta, type, data) => { b = b.concat(midiVLQ(delta), [0xff, type], midiVLQ(data.length), data); };
     meta(0, 0x03, midiStr(`MK2 ${song.chart.genre} seed ${song.chart.seed}`));
     meta(0, 0x51, [(us >> 16) & 255, (us >> 8) & 255, us & 255]);
     meta(0, 0x58, [4, 2, 24, 8]);                    // 4/4, 24 clocks per beat
     meta(0, 0x59, [0, song.chart.mode === "major" ? 0 : 1]);   // key sig: major/minor flag
+    /* ── AND THE TEMPO CHANGES, IF THE RECORD HAS ANY ────────────────────────
+       One meta at each bar whose tempo differs from the bar before it. A
+       record at one tempo writes none of these and its conductor track is
+       byte-identical to the one that shipped. In bar order, each delta
+       measured from the last meta written, which is what the format wants. */
+    let atTick = 0;
+    for(let bar = 1; MAP && bar < MAP.length; bar++){
+      if(Math.abs(MAP[bar] - MAP[bar - 1]) < 1e-9) continue;
+      const t = bar * BEATS * MIDI_PPQ;
+      const u = Math.round(60000000 / MAP[bar]);
+      meta(t - atTick, 0x51, [(u >> 16) & 255, (u >> 8) & 255, u & 255]);
+      atTick = t;
+    }
     b = b.concat(midiVLQ(0), [0xff, 0x2f, 0x00]);
     tracks.push(b);
   }
@@ -37740,16 +37963,31 @@ const MIDI_OUT = (() => {
   const CLOCK_TICK_MS = 100, CLOCK_HORIZON = 1.2;
   let clockOn = false;
   const setClock = on => { clockOn = on; };
-  function startClock(t0, tempo, fromSec){
+  /* ── AND THE GEAR FOLLOWS THE RECORD'S TEMPO, NOT A NUMBER ────────────────
+     `t0 + n * period` cannot drift and is still how a tick is placed -- but
+     `period` is a constant only while the record is. Given the song's clock,
+     tick n is simply the time of beat n/24, which the clock already answers,
+     and the anti-drift property is unchanged because every tick is still
+     computed from t0 rather than accumulated. Without a clock (no song, an
+     older caller) it is the constant period it always was. */
+  function startClock(t0, tempo, fromSec, clk, beats){
     stopClock(false);
     if(!port || !clockOn) return;
     clockPeriod = 60 / tempo / 24;
     clockT0 = t0;
-    clockN = Math.max(0, Math.ceil((Sound.now() - t0) / clockPeriod));
+    const BTS = beats || 4;
+    const CK = (clk && clk.varies) ? clk : null;
+    /* seconds since the top of the record -> which 24-ppq tick that is */
+    const tickAt = n => CK ? CK.at(n / (24 * BTS), 0) : n * clockPeriod;
+    const tickOf = sec => CK ? Math.ceil(CK.barAt(sec) * 24 * BTS)
+                             : Math.ceil(sec / clockPeriod);
+    clockN = Math.max(0, tickOf(Sound.now() - t0));
     const from = fromSec > 0 ? fromSec : 0;
     try {
       if(from > 0){
-        const sixteenth = Math.floor(from / (60 / tempo / 4));
+        /* a MIDI beat is a SIXTEENTH, so this counts sixteenth notes */
+        const sixteenth = Math.floor(CK ? CK.barAt(from) * BTS * 4
+                                        : from / (60 / tempo / 4));
         port.send([0xf2, sixteenth & 0x7f, (sixteenth >> 7) & 0x7f]);
         port.send([0xfb]);                                   // continue
       } else {
@@ -37759,13 +37997,13 @@ const MIDI_OUT = (() => {
     const pump = () => {
       if(!port || !clockOn) return;
       const horizon = Sound.now() + CLOCK_HORIZON;
-      let at = clockT0 + clockN * clockPeriod;
+      let at = clockT0 + tickAt(clockN);
       while(at < horizon){
         if(at >= Sound.now() - 0.005){
           try { port.send([0xf8], Sound.toPerfTime(at)); ticks++; } catch(e){}
         }
         clockN++;
-        at = clockT0 + clockN * clockPeriod;
+        at = clockT0 + tickAt(clockN);
       }
     };
     pump();
@@ -38115,6 +38353,16 @@ function songTime(){
   if(PLAY_T0 == null || !SONG) return null;
   const t = Sound.now() - PLAY_T0;
   return (t < 0 || t > SONG.perf.seconds) ? null : t;
+}
+/* WHICH BAR THE PLAYHEAD IS IN. Four readouts computed this by dividing the
+   time by one bar's length -- correct for a record at one tempo and a copy of
+   the same arithmetic four times over, which is how they would have drifted
+   apart the moment a record stopped having one tempo. The clock hung on the
+   plan knows; this is the one place that asks it. */
+function songBar(t){
+  if(t == null || !SONG || !SONG.motion) return 0;
+  const C = SONG.motion.clock;
+  return C ? C.barAt(t) : t / ((SONG.motion.steps || 16) * SONG.motion.spb);
 }
 
 /* ── THE KNOB. Drag it up or down; it turns 270 degrees, seven o'clock to five,
@@ -40770,13 +41018,15 @@ function patternNotes(role, pat){
 function playingPattern(role){
   const t = songTime();
   if(t == null) return null;
-  const bar = Math.floor(t / ((SONG.motion.steps || 16) * SONG.motion.spb));
+  const bar = Math.floor(songBar(t));
   const sec = SONG.sections.find(s => bar >= s.startBar && bar < s.endBar);
   if(!sec) return null;
   const isFill = role === "drums" && sec.fillInto && bar === sec.endBar - 1;
   return { pat: isFill ? "fill" : (patOf(sec.material) || {})[role],
            bar: isFill ? 0 : (bar - sec.startBar) % SONG.materials.bars,
-           step: Math.floor(t / SONG.motion.spb) % (SONG.motion.steps || 16) };
+           step: Math.floor(SONG.motion.clock
+                            ? SONG.motion.clock.stepAt(t) : t / SONG.motion.spb)
+                 % (SONG.motion.steps || 16) };
 }
 
 /* ── PINNING. Reading the grid gives the notes currently in force (composed, or
@@ -41198,12 +41448,19 @@ function rollHues(){
    role), plus a label so the glass can say what the outline is */
 function rollSnapshot(){
   if(!SONG) return null;
+  /* IN BARS, ASKED OF THE CLOCK. Dividing a time by "a bar" only works while
+     every bar is the same length; a held snapshot of a record that changes
+     tempo would be drawn against the wrong grid, and the whole point of
+     holding one is laying it over another. */
+  const CLKU = SONG.motion.clock;
   const spb = SONG.motion.spb, bar = (SONG.motion.steps || 16) * spb;
+  const barOf = t => CLKU ? CLKU.barAt(t) : t / bar;
   const notes = [];
   for(const ev of SONG.perf.events){
     const key = midiKeyFor(ev);
     if(key == null) continue;
-    notes.push({ b: ev.tSec / bar, w: (ev.durSec || 0) / bar, k: key,
+    const b0 = barOf(ev.tSec);
+    notes.push({ b: b0, w: barOf(ev.tSec + (ev.durSec || 0)) - b0, k: key,
                  d: ev.role === "drums" });
   }
   return { notes, nBars: SONG.form.nBars,
@@ -41247,6 +41504,14 @@ function drawRoll(){
   const HUE = rollHues();
   const secs = SONG.perf.seconds || 1;
   const spb  = SONG.motion.spb, nBars = SONG.form.nBars;
+  /* THE ROLL IS DRAWN ON THE CLOCK, NOT ON A CONSTANT BAR. `bar * STEPS * spb`
+     was a straight line from bar to time, which is what a record at one tempo
+     is; where the tempo moves, the bar lines would drift away from the notes
+     they are supposed to be under. `tOf(bar)` is the clock's answer and, on a
+     record that does not vary, exactly the multiplication it replaces. */
+  const CLKU = SONG.motion.clock;
+  const tOf  = b => CLKU ? CLKU.at(b, 0) : b * STEPS_UI * spb;
+  const barOf= t => CLKU ? CLKU.barAt(t) : t / (STEPS_UI * spb);
   const xOf  = t => Math.max(0, Math.min(100, 100 * t / secs));
 
   /* WHAT IS ON THE GLASS. Split by whether the part has a pitch axis at all:
@@ -41310,7 +41575,7 @@ function drawRoll(){
   const grid = el("div", "rollgrid");
   for(let b = 0; b <= nBars; b++){
     const u = el("u", b % 4 === 0 ? "four" : null);
-    u.style.left = xOf(b * STEPS_UI * spb) + "%";
+    u.style.left = xOf(tOf(b)) + "%";
     grid.appendChild(u);
   }
   scope.appendChild(grid);
@@ -41347,12 +41612,12 @@ function drawRoll(){
     const gh = el("div", "rollghost");
     const g = [];
     for(const n of ROLL_HOLD.notes){
-      const x = xOf(n.b * STEPS_UI * spb);
+      const x = xOf(tOf(n.b));
       if(x >= 100) continue;                        // the held song ran longer
       const y = n.d ? (lanes.includes(n.k) ? yDrum(n.k) : null)
                     : (n.k >= lo && n.k <= hi ? yOf(n.k) : null);
       if(y == null) continue;                       // outside this song's axes
-      const w = n.d ? 0.16 : Math.max(0.12, 100 * n.w * STEPS_UI * spb / secs);
+      const w = n.d ? 0.16 : Math.max(0.12, 100 * (tOf(n.b + n.w) - tOf(n.b)) / secs);
       g.push(`<div class="gn" style="left:${x.toFixed(3)}%;width:${Math.min(100 - x, w).toFixed(3)}%;` +
              `top:${y}px;height:${(n.d ? ROLL_DRUM : ROLL_SEMI) - 1}px"></div>`);
     }
@@ -41364,7 +41629,7 @@ function drawRoll(){
      than recomputed from bars -- the roll must agree with the arrangement about
      where a section starts or clicking a note edits the wrong one. */
   const secAt = t => {
-    const bar = Math.floor(t / (STEPS_UI * spb));
+    const bar = Math.floor(barOf(t));
     for(let i = 0; i < SONG.sections.length; i++)
       if(bar >= SONG.sections[i].startBar && bar < SONG.sections[i].endBar) return i;
     return -1;
@@ -41374,14 +41639,14 @@ function drawRoll(){
     const hue = HUE[ev.role] || 120;
     html.push(`<div class="rn" data-role="${ev.role}" data-sec="${secAt(ev.tSec)}" title="${ev.role} · ` +
       `${NOTE_NAMES[((key % 12) + 12) % 12]}${Math.floor(key / 12) - 1} · ` +
-      `bar ${Math.floor(ev.tSec / (STEPS_UI * spb)) + 1}" style="left:${xOf(ev.tSec).toFixed(3)}%;` +
+      `bar ${Math.floor(barOf(ev.tSec)) + 1}" style="left:${xOf(ev.tSec).toFixed(3)}%;` +
       `width:${Math.max(0.12, 100 * ev.durSec / secs).toFixed(3)}%;top:${yOf(key)}px;` +
       `height:${ROLL_SEMI - 1}px;background:hsl(${hue} 85% ${(34 + 30 * Math.min(1, ev.gain)).toFixed(0)}%);` +
       `box-shadow:0 0 5px hsl(${hue} 90% 55% / .55)"></div>`);
   }
   for(const { ev, key } of drums){
     html.push(`<div class="rn" data-role="drums" data-sec="${secAt(ev.tSec)}" title="${ev.lane} · ` +
-      `bar ${Math.floor(ev.tSec / (STEPS_UI * spb)) + 1}" style="left:${xOf(ev.tSec).toFixed(3)}%;` +
+      `bar ${Math.floor(barOf(ev.tSec)) + 1}" style="left:${xOf(ev.tSec).toFixed(3)}%;` +
       `width:.16%;top:${yDrum(key)}px;height:${ROLL_DRUM - 1}px;` +
       `background:hsl(${HUE.drums || 70} 70% ${(30 + 34 * Math.min(1, ev.gain)).toFixed(0)}%)"></div>`);
   }
@@ -41409,7 +41674,7 @@ function drawRoll(){
   const tags = [];
   for(const sec of SONG.sections){
     const t = el("div", "rollsec", sec.fn + " " + sec.material);
-    t.style.left = xOf(sec.startBar * STEPS_UI * spb) + "%";
+    t.style.left = xOf(tOf(sec.startBar)) + "%";
     lay.appendChild(t); tags.push({ el: t, sec });
   }
   const head = el("div", "rollhead");
@@ -41514,7 +41779,7 @@ function drawRoll(){
     if(t == null){ head.style.display = "none"; for(const g of tags) g.el.classList.remove("here"); return; }
     head.style.display = "block";
     head.style.left = xOf(t) + "%";
-    const bar = t / (STEPS_UI * spb);
+    const bar = barOf(t);
     for(const g of tags) g.el.classList.toggle("here", bar >= g.sec.startBar && bar < g.sec.endBar);
   } };
   ROLL.refresh();
@@ -42208,7 +42473,7 @@ function refreshLive(){
      sounding. All four read the song rather than setting it. ── */
   if((READOUTS.length || LEDS.length) && SONG){
     const now = songTime();
-    const bar = now == null ? null : Math.floor(now / ((SONG.motion.steps || 16) * SONG.motion.spb));
+    const bar = now == null ? null : Math.floor(songBar(now));
     const sec = bar == null ? null : SONG.sections.find(s => bar >= s.startBar && bar < s.endBar);
     const iSec = sec ? SONG.sections.indexOf(sec) : -1;
     const ROMAN = ["I", "II", "III", "IV"];
@@ -42266,7 +42531,7 @@ function refreshLive(){
     }).join("");
     const t2 = songTime();
     scr.querySelector(".lcdfoot").textContent = SONG
-      ? `${SONG.chart.genre} · bar ${t2 == null ? 1 : Math.floor(t2 / ((SONG.motion.steps || 16) * SONG.motion.spb)) + 1}/${SONG.form.nBars}`
+      ? `${SONG.chart.genre} · bar ${t2 == null ? 1 : Math.floor(songBar(t2)) + 1}/${SONG.form.nBars}`
       : "";
   }
   /* ── THE MODULATION MODULE, ON EVERY FRAME ──────────────────────────────
@@ -42285,7 +42550,8 @@ function refreshLive(){
     if(frz >= 0.5 && !MODTRIM.freeze) MODTRIM.at = tNow == null ? 0 : tNow;
     MODTRIM.freeze = frz >= 0.5 ? 1 : 0;
     MODTRIM.depth = dep;
-    const total = SONG ? SONG.form.nBars * (SONG.motion.steps || 16) * SONG.motion.spb : 0;
+    const total = SONG ? (SONG.motion.clock ? SONG.motion.clock.at(SONG.form.nBars, 0)
+                          : SONG.form.nBars * (SONG.motion.steps || 16) * SONG.motion.spb) : 0;
     for(const sc of MODSCOPES)
       if(sc.__head) sc.__head(total > 0 && tNow != null ? tNow / total : 0);
     /* the drone's stack drifts on the same clock -- and it is the SONG's clock,
@@ -42295,7 +42561,7 @@ function refreshLive(){
   }
   const t = songTime();
   $("pos").textContent = t == null ? ""
-    : clock(t) + ` · bar ${Math.floor(t / ((SONG.motion.steps || 16) * SONG.motion.spb)) + 1}/${SONG.form.nBars}`;
+    : clock(t) + ` · bar ${Math.floor(songBar(t)) + 1}/${SONG.form.nBars}`;
 }
 let RAF = null;
 function pumpLive(){
@@ -42311,7 +42577,8 @@ async function startPlayback(fromSec){
   PLAY_T0 = await Sound.playLive(SONG.perf.events, S.space, S.kick, S.drumDrive, S.gate, S.motion, fromSec,
                            MIDI_OUT.port ? MIDI_OUT.onEvent : null);
   /* the clock is anchored to the SAME song zero the audio and the bus ride use */
-  MIDI_OUT.startClock(PLAY_T0, SONG.chart.tempo, fromSec);
+  MIDI_OUT.startClock(PLAY_T0, SONG.chart.tempo, fromSec,
+                      SONG.motion && SONG.motion.clock, beatsOf(SONG.chart.table));
   playing = true; $("play").innerHTML = "&#9632; stop";
   if(!RAF) RAF = requestAnimationFrame(pumpLive);
 }
@@ -42595,6 +42862,19 @@ window.MK2 = {
      `metreOf`/`stepsOf`/`beatsOf` are the accessors every stage reads through;
      a probe that re-derived them would be testing its own arithmetic. */
   METRE, METRE_DEPTH, METRE_GRID, metreOf, stepsOf, beatsOf, perBeatOf,
+  /* THE CLOCK, and the tables it reads. `makeClock` is exported for the same
+     reason the metre accessors are: a check on "does the record speed up
+     where the table says it does" has to ask the program how a bar becomes a
+     second, not keep its own copy of the arithmetic.
+
+     `GENRE` is exported so `probe_tempo.js` can DECLARE an arc on a genre that
+     has none, compose, and watch the tempo move -- and then take it away and
+     watch every note land back where it was. A capability nobody has seen
+     switched on is a capability nobody knows works, and with no genre
+     declaring `form.tempoArc` yet there is no other way to see it. It is the
+     live table, so a probe that writes to it is editing the program; every
+     one that does puts it back. */
+  makeClock, GENRE,
   /* THE GRID'S DECLARATION, for the same reason as `racks` below: probes that
      wrote out the effect columns by hand went stale twice, and probe_wiring
      had no barberpole column the build after one existed. */
