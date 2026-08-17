@@ -146,7 +146,21 @@ const check = (name, ok, note) => {
         return [...byStop.values()];
       };
       for(const [i0, i1] of stopsOf()){
-        const a = CLK.at(FORM[i0].startBar, 0), z = CLK.at(FORM[i1].endBar, 0);
+        /* ── AND A STOP IS WHERE THE TRAIN IS STANDING, NOT THE WHOLE CEREMONY
+           `atStop` marks every section of the stop — solo, the dance, solo, and
+           THE PULLOUT — and that whole group runs 134 seconds on seed 1. The
+           pullout is the train LEAVING, so the countryside legitimately starts
+           up again inside it, and counting it as "at the platform" flagged two
+           correct records as faults. `ridePos` is the form's own answer to
+           where the train is: -1 while standing. Ask it. */
+        let a = CLK.at(FORM[i0].startBar, 0), z = CLK.at(FORM[i1].endBar, 0);
+        const RP = song.form.ridePos;
+        if(RP){
+          let b0 = null, b1 = null;
+          for(let b = FORM[i0].startBar; b < FORM[i1].endBar; b++)
+            if(RP[b] < 0){ if(b0 == null) b0 = b; b1 = b + 1; }
+          if(b0 != null){ a = CLK.at(b0, 0); z = CLK.at(b1, 0); }
+        }
         const crowd = ev.some(e => e.bed === 'railCrowd' && e.tSec >= a - 1 && e.tSec < z);
         const birds = ev.some(e => /sceneDawn|sceneRiverside/.test(e.bed || '') && e.tSec >= a - 1 && e.tSec < z);
         if(crowd) out.cities++; else if(birds) out.halts++;

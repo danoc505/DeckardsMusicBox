@@ -30128,7 +30128,12 @@ function makePerformance(chart, form, materials, sections){
              Nothing goes past a train that is standing still. Asked per pass,
              at the moment it would sound — the draw still runs either way, so
              a suppressed pass costs the same dice as one that fires [Law 3]. */
-          if(!rolling(at + dur / 2)){ at += gap * (0.6 + jr() * 0.8); continue; }
+          /* AND THE WHOLE PASS, NOT ITS MIDPOINT. Testing the middle left two
+             records with a bird BEGINNING 1.9 SECONDS BEFORE the train pulled
+             out and finishing after it: the midpoint was moving, the start was
+             not. A thing that goes past a window has to be going past for the
+             whole of it, so both ends are asked. */
+          if(!rolling(at) || !rolling(at + dur)){ at += gap * (0.6 + jr() * 0.8); continue; }
           events.push(Object.freeze({
             tSec: at, durSec: dur, voice: "atmos",
             role: roleOfBed(nm), gain: lvl[0] + jr() * lvl[1], bed: nm, pass: true,
