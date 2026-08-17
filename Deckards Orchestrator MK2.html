@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17j · V2-2, the clock: tempo is a function of position</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-17k · V2-3, the journey: legs, stops, and the handover</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -27173,7 +27173,382 @@ function makeClock(chart, form){
    hand-written copies of the same padStart is how they end up disagreeing. */
 const clock = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}`;
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   STAGE 2, THE OTHER KIND OF RECORD — A JOURNEY.
+
+   Everything below this in `makeForm` builds a SONG: a grammar walk over
+   section functions, with laws about which function may follow which, and an
+   energy arc laid over the result. That is the right machine for a record whose
+   shape is verse-chorus-verse, and it is the wrong machine for one whose shape
+   is a trip.
+
+   THE RIDE IS THE CONDUCTOR [owner]: "it is what sets the pace, it is what
+   tells the orchestra where it is, the orchestra waxes and wanes with the ride,
+   the 20 min song is broken into 4 pieces dissected by the train stops."
+
+   So this is not a mode of the walk and not a phase list fed into it. It is a
+   SECOND FORM BUILDER, written from the journey outward, and a genre chooses
+   which one it is by declaring `form.journey` or not. Nothing here runs for a
+   genre that declares none, and nothing here reads the grammar, the transition
+   weights, the laws of succession or the drawn arc — a journey has no use for
+   any of them, because where a section sits is decided by where the train is.
+
+   WHAT A JOURNEY IS MADE OF
+
+     the LEG      a stretch of travelling, about five minutes of it. It has its
+                  own lead instrument, its own terrain, its own character, and
+                  a tempo that accelerates out of the station behind it, holds
+                  at cruise, and brakes into the one ahead.
+     the STOP     the ceremony between two legs, and a movement in its own
+                  right. Four moves: the outgoing lead alone, the two leads
+                  trading, the incoming lead alone, and the train pulling out.
+     the ENDS     a departure before the first leg and an arrival after the last
+
+   HOW MANY LEGS IS NOT DRAWN — it is the length divided by how long a leg
+   runs. Five minutes is one leg, twenty is four, forty is eight. That is the
+   owner's arithmetic and it is the reason this builder does not need the
+   bisection search the song walk needs: a journey is built TO a length rather
+   than walked until it happens to reach one.
+
+   WHAT IT HANDS BACK is the same object stage 3 and stage 4 read — an array of
+   frozen sections carrying `fn`, `startBar`, `endBar`, `energy`, `occurrence`,
+   `peak`, `demand`, plus `nBars`, `arc`, `lengths` and `tempo` on the array
+   itself. The INTERFACE is shared; none of the machinery is.
+
+   AND FIVE FIELDS ARE NEW, because a section of a journey knows things a
+   section of a song does not:
+
+     leg        which leg it belongs to, 0-based; null inside a stop
+     legPos     how far through that leg it is, 0 at the platform behind and
+                1 at the platform ahead — what the tempo and the seating read
+     atStop     which stop it belongs to, 0-based; null while travelling
+     terrain    what is under the train here
+     hand       the machines this section's chairs are handed, so the lead can
+                change from leg to leg and the two leads can trade at a stop
+   ═══════════════════════════════════════════════════════════════════════════ */
+function makeJourney(chart){
+  const F = chart.table.form, J = F.journey, LEN = F.lengths;
+  const rng = stream(chart.seed, "journey");
+  const STEPS = stepsOf(chart.table);
+  const beats = beatsOf(chart.table);
+  const barSec = 60 * beats / chart.tempo;
+
+  /* ── HOW MANY LEGS, AND THAT IS ARITHMETIC RATHER THAN A DRAW ──────────────
+     A leg is about `J.legSec` seconds of travelling; the record is however long
+     the hand asked for, or the genre's own default when nobody asked. Divide,
+     round, and never go below one — a five-minute record is one leg and it is
+     still a journey, it just has no stop in it. The draw for the leg's own
+     length runs first and unconditionally [Law 3] so that the count, which is
+     derived, cannot move it. */
+  const legSec = J.legSec[0] + rng() * (J.legSec[1] - J.legSec[0]);
+  const wantSec = chart.wantSec || J.defaultSec || (legSec * 4);
+  const nLegs = Math.max(1, Math.min(J.maxLegs || 12, Math.round(wantSec / legSec)));
+  /* ── AND THE LEGS SHARE WHAT THE STOPS LEAVE, WHICH IS THE WHOLE BUDGET ────
+     MEASURED the first time this ran: a record asked for twenty minutes came
+     out at 27:40. The leg count was right and the legs were the right length,
+     and then three stops of forty-eight bars each were laid between them —
+     bars nobody had budgeted for. That is exactly the fault the cadential
+     extension had in phase 5, in a new place: a length dial cannot be honoured
+     by counting only the part of the record you happened to think of first.
+
+     So the fixed costs are worked out FIRST — the departure, the arrival, and
+     every stop, all of them known lengths because a stop is a written
+     ceremony rather than a walk — and the legs divide what is left. That
+     division happens per leg, against what is ACTUALLY left at that point in
+     the record, so a leg that landed long is paid back by the next one; see
+     the `share` inside the loop, which is the one owner of it.
+
+     The count still comes from the leg's own length, which is the owner's
+     arithmetic ("about five minutes a leg, so 20 min is four"). What bends is
+     how long each leg travels, not how many there are: a journey with the
+     right number of stations and slightly shorter track between them is the
+     same journey, and one with a station missing is not. */
+  const barsOf = fn => (fn && LEN[fn]) ? LEN[fn] : 0;
+  const stopBars = barsOf(J.stop && J.stop.solo) * 2
+                 + barsOf(J.stop && J.stop.dance)
+                 + barsOf(J.stop && J.stop.out);
+  const wantBars = Math.max(1, Math.round(wantSec / barSec));
+  /* ── AND A STOP THE RECORD CANNOT AFFORD IS A STOP THE RECORD DOES NOT MAKE ─
+     MEASURED, with a stop ceremony built out of long sections: a twenty-minute
+     record at 50 bpm has 250 bars, three stops cost 144 of them, and the train
+     spent 64% of the journey standing at a platform. Every leg was then squeezed
+     below the length of its own opening.
+
+     The honest answer is fewer stations, not shorter legs. A journey has a
+     minimum stretch of track worth calling a leg — its opening, one cruise and
+     its close — and if the count the length asked for cannot be given that,
+     the count is what gives way. A five-minute record with a two-minute
+     ceremony in it is ONE leg and no stop at all, which is a real short
+     journey rather than a long one with the travelling cut out. */
+  const shortestCruise = Math.min.apply(null,
+    ((J.leg && J.leg.cruise) || ["verse"]).map(f => LEN[f] || 8));
+  const minLeg = barsOf(J.leg && J.leg.open) + barsOf(J.leg && J.leg.close) + shortestCruise;
+  let legs = nLegs;
+  while(legs > 1 &&
+        barsOf(J.depart) + barsOf(J.arrive) + (legs - 1) * stopBars + legs * minLeg > wantBars)
+    legs--;
+  /* AND THERE IS NO `legBars` HERE, DELIBERATELY. The first build computed one
+     — the whole budget less the fixed costs, divided by the leg count — and
+     then never read it, because the per-leg `share` below supersedes it. It
+     was found by breaking it on purpose and watching the probe stay GREEN:
+     a deliberately broken build that changes nothing is dead code saying so.
+     One owner of the leg budget, and it is the one inside the loop. */
+
+  /* ── THE BAND'S LEAD, ONE PER LEG, AND NEVER TWICE RUNNING ─────────────────
+     "The instrument that held X and the instrument that will hold Y" [owner].
+     A leg is carried by one instrument; the next leg is carried by a different
+     one, and the stop between them is where the record says so out loud. The
+     pool is the genre's, and the draw refuses the outgoing lead rather than
+     re-drawing until it differs — a re-draw would make the number of dice rolls
+     depend on the outcome, which is the coupling this file keeps being bitten
+     by [Law 7]. */
+  const POOL = (J.leads || []).slice();
+  const leads = [];
+  for(let i = 0; i < nLegs; i++){
+    const free = POOL.filter(m => m !== leads[i - 1]);
+    const from = free.length ? free : POOL;
+    leads.push(from.length ? from[Math.floor(rng() * from.length) % from.length] : null);
+  }
+  /* the terrain under each leg, and the hour it is travelled in. Both are
+     properties of the LEG rather than of a section, which is the whole point:
+     the landscape changes because the train moved, not because the verse
+     ended. Every leg draws both, whatever the table declares [Law 3]. */
+  /* DRAWN TO THE COUNT THE LENGTH ASKED FOR, USED UP TO THE COUNT THE RECORD
+     COULD AFFORD [Law 3] — the same discipline the energy arc's lesser highs
+     work under. Trimming the loop instead would make every draw after it
+     depend on how many stations turned out to fit. */
+  const terrain = [], character = [];
+  for(let i = 0; i < nLegs; i++){
+    terrain.push(J.terrain && J.terrain.length ? wpick(rng, J.terrain) : null);
+    character.push(J.character && J.character.length
+      ? J.character[Math.floor((i / Math.max(1, nLegs)) * J.character.length) % J.character.length]
+      : null);
+  }
+
+  /* ── AND NOW THE RECORD IS LAID OUT, BAR BY BAR ────────────────────────────
+     One pass, front to back. Each entry is a section; the fields a journey
+     knows are attached as it goes rather than looked up afterwards, because
+     the only place that knows a section is the third cruise of leg two is the
+     loop that put it there. */
+  const plan = [];
+  /* ── THE ONE LAW OF THE WALK THAT IS ALSO A LAW HERE ───────────────────────
+     A function cannot appear three times running. That is not the grammar's
+     rule, it is the program's — `composeSong` THROWS on a triple, for every
+     genre and every form builder — and a journey hits it the moment two legs
+     meet: the first leg's cruise ends on a verse, the stop pulls out on a
+     verse, the next leg opens on a verse, and the record is refused before it
+     is heard. Found the first time this ran.
+
+     So `put` takes the alternatives the caller would accept and substitutes
+     the first that does not triple. It is a SUBSTITUTION rather than a
+     re-draw, so nothing about the leg's length or its lead depends on the
+     collision, and it consumes no randomness at all. */
+  const put = (fn, extra, alts) => {
+    const n = plan.length;
+    const triples = f => n >= 2 && plan[n - 1].fn === f && plan[n - 2].fn === f;
+    let use = fn;
+    if(triples(use))
+      for(const a of (alts || [])) if(a && !triples(a)){ use = a; break; }
+    const len = Math.max(1, LEN[use] || 8);
+    plan.push(Object.assign({ fn: use, len }, extra || {}));
+  };
+
+  /* THE DEPARTURE — the train has not left yet, so this is not part of leg 0.
+     A genre that names none simply starts rolling, which is a cold open and a
+     real way to begin a record. */
+  if(J.depart) put(J.depart, { leg: null, atStop: null, terrain: terrain[0] });
+
+  /* ── AND EACH LEG IS MEASURED AGAINST WHAT IS ACTUALLY LEFT ───────────────
+     A leg can only be built out of whole sections, so it lands within half a
+     section of its share and never exactly on it. Giving every leg the SAME
+     share lets those errors accumulate — four legs each half a section long
+     is two sections of drift by the end, and it all falls on the record's
+     total. Measured against the remaining budget instead, an overshoot in leg
+     one is paid back by leg two, and only the last leg carries any error at
+     all. */
+  let used = plan.reduce((t, p) => t + p.len, 0);
+
+  for(let L = 0; L < legs; L++){
+    /* THE LEG. It opens (the band rebuilding around its new lead), cruises for
+       as long as the budget allows, and closes (thinning into the platform
+       ahead). A leg too short for all three keeps the cruise, because a leg
+       with no travelling in it is a stop wearing a leg's name. */
+    const open  = J.leg.open  || null;
+    const close = (L < legs - 1) ? (J.leg.close || null) : null;
+    const cruise = J.leg.cruise || ["verse"];
+    let spent = 0;
+    const legsLeft = legs - L;
+    const stopsLeft = (legs - 1 - L) * stopBars + barsOf(J.arrive);
+    const share = Math.max(4, Math.round((wantBars - used - stopsLeft) / legsLeft));
+    const room = share
+      - (open  ? (LEN[open]  || 8) : 0)
+      - (close ? (LEN[close] || 8) : 0);
+    const body = [];
+    /* FILLED TO THE NEAREST, NOT PAST. `while(spent < room)` always admits one
+       more section than fits and overshoots by up to its whole length — with
+       four legs that measured as 22:03 for a record asked to be 20:00, on top
+       of the unbudgeted stops above. A section is taken only while more than
+       half of it fits, which is rounding rather than flooring and leaves the
+       error under half a section either way. */
+    for(let guard = 0; guard < 64; guard++){
+      const nextLen = LEN[cruise[body.length % cruise.length]] || 8;
+      if(body.length && spent + nextLen / 2 > room) break;
+      /* the cruise vocabulary is walked in ORDER and wrapped, not drawn. A leg
+         is a stretch of one landscape and the ear should hear it settle; the
+         variety a record needs comes from the legs differing, from the
+         material being re-composed, and from who is playing — not from the
+         section names shuffling. The table decides the order. */
+      const fn = cruise[body.length % cruise.length];
+      body.push(fn);
+      spent += LEN[fn] || 8;
+    }
+    if(!body.length) body.push(cruise[0]);
+    const total = (open ? 1 : 0) + body.length + (close ? 1 : 0);
+    let k = 0;
+    const at = () => total <= 1 ? 0.5 : k / (total - 1);
+    const rolling = () => ({ leg: L, legPos: at(), atStop: null, terrain: terrain[L],
+                             character: character[L], hand: { lead: leads[L] } });
+    if(open){ put(open, rolling(), cruise); k++; }
+    for(const fn of body){ put(fn, rolling(), cruise); k++; }
+    if(close){ put(close, rolling(), cruise); k++; }
+    used = plan.reduce((t, p) => t + p.len, 0);
+
+    /* ── THE STOP, AND IT IS A MOVEMENT ────────────────────────────────────
+       [owner] "The instrument that held X and the instrument that will hold
+       Y = solo X - Dance X,Y - solo Y - train begins movement again."
+
+       Four sections, in that order, and the HANDOVER is written into them:
+       the outgoing lead holds the lead chair through its own solo and through
+       the dance; the incoming lead sits in the second chair for the dance and
+       takes the lead chair for its own solo and everything after. Which chairs
+       those are is the genre's to name — a table that says nothing gets no
+       handover and the stop is simply a quiet stretch.
+
+       There is no stop after the last leg: a stop divides two legs, and after
+       the last one the record arrives instead. */
+    if(L < legs - 1){
+      const X = leads[L], Y = leads[L + 1];
+      const A = J.handover ? J.handover.chair : null;      // who carries a leg
+      const B = J.handover ? J.handover.second : null;     // the other seat, for the dance
+      const shared = { leg: null, atStop: L, terrain: terrain[L], character: character[L] };
+      const hand = (a, b) => {
+        const h = {};
+        if(A && a) h[A] = a;
+        if(B && b) h[B] = b;
+        return h;
+      };
+      const alt = [J.stop.dance, J.stop.out, J.stop.solo].filter(Boolean);
+      if(J.stop.solo)  put(J.stop.solo,  Object.assign({}, shared, { hand: hand(X, null), soloOf: X }), alt);
+      if(J.stop.dance) put(J.stop.dance, Object.assign({}, shared, { hand: hand(X, Y), soloOf: null }), alt);
+      if(J.stop.solo)  put(J.stop.solo,  Object.assign({}, shared, { hand: hand(Y, null), soloOf: Y }), alt);
+      if(J.stop.out)   put(J.stop.out,   Object.assign({}, shared, { hand: hand(Y, null) }), alt);
+      used = plan.reduce((t, p) => t + p.len, 0);
+    }
+  }
+  /* THE ARRIVAL */
+  if(J.arrive) put(J.arrive, { leg: legs - 1, legPos: 1, atStop: null,
+                               terrain: terrain[legs - 1],
+                               character: character[legs - 1],
+                               hand: { lead: leads[legs - 1] } });
+
+  /* ── THE SECTIONS, FROZEN, WITH THE FIELDS THE REST OF THE PIPELINE READS ──
+     `energy` is NOT looked up from a table of section functions here. The
+     orchestra waxes and wanes with the ride, so a section's energy is where it
+     sits in its leg: lowest at a platform, highest at cruise. That is the one
+     sentence the owner gave for the whole shape and it belongs in arithmetic
+     rather than in a per-function constant. A stop is at the genre's declared
+     floor, which is what makes the handover audible. */
+  const E = J.energy || {};
+  const eStop   = E.stop   == null ? 0.16 : E.stop;
+  const eCruise = E.cruise == null ? 0.95 : E.cruise;
+  const eEdge   = E.edge   == null ? 0.42 : E.edge;
+  const seen = {};
+  let bar = 0;
+  /* the record's peak is the top of the LAST leg, because the last leg is the
+     one that plays the theme whole [the plan]. Found before the map so the
+     section can be marked as it is built. */
+  let peakAt = -1, peakE = -Infinity;
+  for(let i = 0; i < plan.length; i++){
+    const p = plan[i];
+    if(p.leg !== legs - 1 || p.atStop != null) continue;
+    const e = p.legPos == null ? 0 : 1 - Math.abs(2 * p.legPos - 1);
+    if(e >= peakE){ peakE = e; peakAt = i; }
+  }
+  const out = plan.map((p, i) => {
+    seen[p.fn] = (seen[p.fn] || 0) + 1;
+    /* an arch across the leg: the platform behind, the open road, the platform
+       ahead. `u` is 0 at both ends and 1 in the middle. */
+    const u = p.legPos == null ? 0 : 1 - Math.abs(2 * p.legPos - 1);
+    const energy = p.atStop != null ? eStop
+                 : p.leg == null    ? eEdge
+                 : eEdge + (eCruise - eEdge) * u;
+    const o = {
+      fn: p.fn, startBar: bar, endBar: bar + p.len,
+      occurrence: seen[p.fn],
+      /* ── THE JOURNEY'S OWN FIELDS ──────────────────────────────────────── */
+      leg: p.leg, legPos: p.legPos == null ? null : +p.legPos.toFixed(4),
+      atStop: p.atStop, terrain: p.terrain || null, character: p.character || null,
+      soloOf: p.soloOf || null,
+      hand: p.hand && Object.keys(p.hand).length ? Object.freeze(p.hand) : null,
+      /* ── AND THE FIELDS EVERY STAGE BELOW ALREADY READS ─────────────────── */
+      demand: seen[p.fn] >= 2 ? "vary" : null,
+      energy, peak: i === peakAt,
+    };
+    bar += p.len;
+    return Object.freeze(o);
+  });
+  out.nBars = Math.max(1, bar);
+  out.legs = legs;
+  out.leads = Object.freeze(leads.slice());
+  /* ── WHERE THE TRAIN IS, PER BAR, AND THIS IS THE ONE OWNER OF IT ──────────
+     A section's `legPos` is coarse — it counts sections, and a sixteen-bar
+     section covers a real distance. The tempo ramp and the seating both need
+     to know where the train is at a BAR, so form works it out once, from the
+     bars themselves, and hangs it here. `ride[b]` is 0 at the platform behind,
+     1 at the platform ahead, and -1 wherever the train is standing.
+
+     Derived from the bar layout rather than from the section index, so a leg
+     whose sections are uneven still reads as one even stretch of track —
+     which is what it is. */
+  const ride = new Array(out.nBars).fill(-1);
+  for(let L = 0; L < legs; L++){
+    let a = Infinity, z = -Infinity;
+    for(const s of out)
+      if(s.leg === L && s.atStop == null){
+        if(s.startBar < a) a = s.startBar;
+        if(s.endBar > z) z = s.endBar;
+      }
+    if(!isFinite(a) || z <= a) continue;
+    for(let b = a; b < z && b < out.nBars; b++) ride[b] = (b - a) / (z - a);
+  }
+  out.ride = Object.freeze(ride);
+  /* THE ARC IS THE RIDE, BAR BY BAR. The song walk draws a curve with an apex,
+     lesser highs and a dip, because that is the shape of a record. A journey's
+     shape is already decided — it is the legs — so the arc is read off them
+     rather than drawn, and the two never have to be made to agree the way the
+     walk's `apexAt` and `peak` did. */
+  const arc = new Array(out.nBars).fill(eEdge);
+  for(const s of out)
+    for(let b = s.startBar; b < s.endBar && b < out.nBars; b++) arc[b] = s.energy;
+  /* one bar of smoothing at every join, so the band swells and thins rather
+     than stepping — the same reason the walk's arc is a curve and not a stair */
+  const sm = arc.slice();
+  for(let b = 1; b < arc.length - 1; b++) sm[b] = (arc[b - 1] + 2 * arc[b] + arc[b + 1]) / 4;
+  out.arc = Object.freeze(sm);
+  out.apexBar = peakAt >= 0 ? out[peakAt].startBar : 0;
+  out.wantBars = chart.wantBars || null;
+  out.minBars  = out.nBars;
+  out.lengths  = Object.freeze({ ...LEN });
+  out.tempo = makeTempoMap(chart, out, out.nBars);
+  return Object.freeze(out);
+}
+
 function makeForm(chart){
+  /* A GENRE CHOOSES ITS FORM BUILDER. Declaring `form.journey` says this record
+     is a trip rather than a song, and the whole of the walk below is skipped —
+     not configured, skipped. No genre declares one today, so every record in
+     the file still comes out of the walk. */
+  if(chart.table.form && chart.table.form.journey) return makeJourney(chart);
   const F = chart.table.form, LEN = F.lengths;
   const PAY0 = F.payoff || "chorus";
   /* ═══════════════════════════════════════════════════════════════════════════
@@ -27847,6 +28222,8 @@ function makeForm(chart){
    returns the constant it always returned -- the same arithmetic, not merely
    the same answer. */
 function makeTempoMap(chart, sections, nBars){
+  const FJ = chart.table.form && chart.table.form.journey;
+  if(FJ && FJ.tempo) return journeyTempo(chart, sections, nBars, FJ.tempo);
   const A = chart.table.form && chart.table.form.tempoArc;
   if(!A || !A.by || nBars < 1) return null;
   const EASE = A.ease === "lin" ? (u => u) : (u => 0.5 - 0.5 * Math.cos(Math.PI * u));
@@ -27865,6 +28242,50 @@ function makeTempoMap(chart, sections, nBars){
      thing to hold fixed is the mean of THOSE -- scale by the mean reciprocal
      and the bars sum to exactly the seconds the flat tempo would have taken.
      Clamped first: a table typo of 0 would be a bar of infinite length. */
+  let inv = 0;
+  for(let b = 0; b < nBars; b++){
+    mult[b] = Math.max(0.25, Math.min(4, mult[b]));
+    inv += 1 / mult[b];
+  }
+  const k = inv / nBars;
+  return Object.freeze(mult.map(m => chart.tempo * m * k));
+}
+
+/* ── AND A JOURNEY'S TEMPO IS NOT A PROPERTY OF ITS SECTION NAMES ────────────
+   `tempoArc.by` above asks "what is this section called". For a trip that is
+   the wrong question: two sections with the same name are at different speeds
+   if one is pulling out of a station and the other is braking into the next.
+   The right question is WHERE IN THE LEG, which is exactly what `legPos`
+   carries, so this reads that instead.
+
+     out     the multiplier at the platform behind — the train accelerating away
+     cruise  the multiplier in the middle of the leg — the open road
+     into    the multiplier at the platform ahead — braking
+     stop    what it holds through the ceremony itself
+
+   Between them it is a cosine, so the change is a RAMP and not a step: a train
+   that changed speed on a section boundary would be a gearbox, not a journey.
+
+   Normalised by the same law as the arc above — the mean seconds per bar is
+   the one the drawn tempo gives, so the leg count worked out in bars at the
+   flat tempo is the leg count the record actually plays. */
+function journeyTempo(chart, sections, nBars, T){
+  if(nBars < 1) return null;
+  const OUT = T.out == null ? 0.86 : T.out;
+  const CRU = T.cruise == null ? 1.0 : T.cruise;
+  const INTO = T.into == null ? 0.80 : T.into;
+  const STOP = T.stop == null ? 0.62 : T.stop;
+  const ease = u => 0.5 - 0.5 * Math.cos(Math.PI * Math.max(0, Math.min(1, u)));
+  /* PER BAR, from form's own `ride` — where the train is, not what the section
+     is called. -1 is a standing train. */
+  const ride = sections.ride;
+  const mult = new Array(nBars).fill(CRU);
+  for(let b = 0; b < nBars; b++){
+    const x = ride ? ride[b] : 0.5;
+    if(x == null || x < 0){ mult[b] = STOP; continue; }
+    mult[b] = x <= 0.5 ? OUT + (CRU - OUT) * ease(x / 0.5)
+                       : CRU + (INTO - CRU) * ease((x - 0.5) / 0.5);
+  }
   let inv = 0;
   for(let b = 0; b < nBars; b++){
     mult[b] = Math.max(0.25, Math.min(4, mult[b]));
@@ -34565,6 +34986,24 @@ function makeArrangement(chart, form, materials){
     if(chart.table.drone && !active.includes("drone") &&
        !Object.values(ROLES).some(l => l.includes("drone")))
       active = active.concat(["drone"]);
+    /* ── AND A CHAIR THE FORM HANDED AN INSTRUMENT TO HAS TO BE IN THE ROOM ──
+       MEASURED the first time the handover ran: the stop's solo sections were
+       handed the outgoing lead and played 2 to 4 instruments, none of them it.
+       `sec.hand` says WHICH MACHINE sits in a chair; whether that chair plays
+       here is `form.roles`, and the two disagreed — so the record announced a
+       solo and the soloist was not on the list.
+
+       This is the same defect the file already fixed for a hand-loaded machine
+       ("load a saxophone, hear silence"), and it takes the same answer: a
+       deliberate placement is not a suggestion. A genre's roles say what it
+       does BY DEFAULT; a handover is the form stating what this section IS.
+
+       AFTER every draw over the active set, exactly like the ground above and
+       for the same measured reason: a membership that arrives before the rest
+       and thin draws would change what they are drawing from. */
+    if(sec.hand)
+      for(const r of Object.keys(sec.hand))
+        if(sec.hand[r] && !active.includes(r)) active = active.concat([r]);
     const enterBar = {};
     for(const r of allowed)
       if(arrivesAt[r] != null && arrivesAt[r] >= sec.startBar && arrivesAt[r] < sec.endBar)
@@ -34733,7 +35172,10 @@ function makeArrangement(chart, form, materials){
            a genre that declares nothing is byte-identical, and a hand on
            the rack still outranks it below, same as the other two. */
         const SET = (chart.table.form && chart.table.form.setMachines) || null;
-        if(!SW && !LAD && !SET) return null;
+        /* a FOURTH source, and it is form's: see the handover at the bottom.
+           A record with none of the four still returns null and touches no
+           stream, which is what keeps every song-shaped genre where it was. */
+        if(!SW && !LAD && !SET && !sec.hand) return null;
         const MA = chart.table.machines || {};
         const rs = stream(chart.seed, "swap:" + i);
         const out = {};
@@ -34877,6 +35319,19 @@ function makeArrangement(chart, form, materials){
           for(const slot of Object.keys(SET[sec.fn])){
             const pinned = chart.picks && chart.picks.byHand && chart.picks.byHand[slot];
             if(!pinned) out[slot] = SET[sec.fn][slot];
+          }
+        /* ── AND LAST OF ALL, THE HANDOVER ─────────────────────────────────
+           A journey's form has already decided who carries this leg and who
+           takes over at the stop — that is not a coin, a rung or a per-function
+           fact, it is the record's ARCHITECTURE, so it outranks all three. It
+           still yields to a hand on the rack, like everything else here: if you
+           loaded an instrument deliberately, the train does not take it off you
+           at the next station. `sec.hand` is null for every section of every
+           song-shaped record, so nothing else in the file sees this line. */
+        if(sec.hand)
+          for(const slot of Object.keys(sec.hand)){
+            const pinned = chart.picks && chart.picks.byHand && chart.picks.byHand[slot];
+            if(!pinned && sec.hand[slot]) out[slot] = sec.hand[slot];
           }
         return Object.keys(out).length ? Object.freeze(out) : null;
       })(),

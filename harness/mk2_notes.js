@@ -133,12 +133,42 @@ function printSeed(seed){
   const drones  = ev.filter(e => e.role === "drone").sort((a, z) => a.tSec - z.tSec);
 
   console.log("\nTHE JOURNEY");
-  /* legs: V2 declares them on the section; V1 has none and says so */
-  const legs = [...new Set(form.map(s => s.leg).filter(x => x != null))];
-  console.log("  legs: " + (legs.length ? legs.length + " — " +
-        legs.map(L => "leg " + L + " (" +
-          form.filter(s => s.leg === L).length + " sections)").join(", ")
-      : "none declared — this build has no leg structure"));
+  /* THE LEGS AND THE STOPS BETWEEN THEM. A journey's form declares them on the
+     section; a song-shaped record has none and says so rather than printing an
+     empty table. Each leg is read for the things the ride decides — who is
+     carrying it, what is under the train, and what time of day it is. */
+  const legs = [...new Set(form.map(s => s.leg).filter(x => x != null))].sort((a, z) => a - z);
+  if(!legs.length){
+    console.log("  legs: none declared — this build has no leg structure");
+  } else {
+    console.log("  legs: " + legs.length + ", " +
+      (form.filter(s => s.atStop != null).length ? new Set(form.filter(s => s.atStop != null)
+        .map(s => s.atStop)).size + " stops between them" : "no stops"));
+    for(const L of legs){
+      const ss = form.filter(s => s.leg === L);
+      const a = ss[0], z = ss[ss.length - 1];
+      console.log("   leg " + L + "  " + mmss(tOf(a.startBar)).padStart(6) + "–" +
+        mmss(tOf(z.endBar)).padEnd(6) +
+        "  led by " + String(a.hand && a.hand.lead || "—").padEnd(12) +
+        String(a.terrain || "—").padEnd(8) + String(a.character || "") +
+        "   " + ss.length + " sections");
+      /* THE HANDOVER, printed as the ceremony it is: X alone, the two of them,
+         then Y alone. Read off the sections rather than off the leads list, so
+         what prints is what the record does. */
+      const stop = form.filter(s => s.atStop === L);
+      if(stop.length){
+        const moves = stop.map(s => {
+          const h = s.hand || {};
+          const pair = [h.lead, h.counter].filter(Boolean);
+          return s.soloOf ? "solo " + s.soloOf
+               : pair.length > 1 ? "the dance: " + pair.join(" + ")
+               : "pulling out" + (pair.length ? " behind " + pair[0] : "");
+        });
+        console.log("      the stop  " + mmss(tOf(stop[0].startBar)).padStart(6) + "–" +
+          mmss(tOf(stop[stop.length - 1].endBar)).padEnd(6) + "  " + moves.join("  →  "));
+      }
+    }
+  }
 
   /* a timeline strip, one row a minute */
   const mins = Math.ceil(total / 60);
@@ -217,7 +247,8 @@ function printSeed(seed){
     console.log("   " + mmss(t0).padStart(6) + "  " + s.fn.padEnd(13) +
       String(s.endBar - s.startBar).padStart(3) + " bars" +
       (s.extended ? " (+" + s.extended + ")" : "     ") +
-      (s.leg != null ? "  leg " + s.leg : "       ") +
+      (s.atStop != null ? "  STOP " + s.atStop
+                        : s.leg != null ? "  leg " + s.leg : "       ") +
       /* AND HOW FAST IT IS HERE — the number the whole leg structure turns on.
          A record at one tempo prints nothing extra. */
       (form.tempo ? "  " + String(Math.round(form.tempo[s.startBar])).padStart(3) + "→" +

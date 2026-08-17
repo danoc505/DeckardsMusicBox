@@ -1,251 +1,228 @@
 #!/usr/bin/env node
-/* PROBE_JOURNEY — boxcar synth's claims, each held to a measurement.
+/* PROBE_JOURNEY — IS THE RIDE ACTUALLY CONDUCTING?
 
-     node harness/probe_journey.js [seeds]
+     node harness/probe_journey.js [seeds] [file.html]
 
-   A genre that says it is a journey has to be one, and every claim below was
-   true the day it was built. This exists because "true the day it was built"
-   is exactly the class of fact this program has watched go stale — the dead
-   drone fader, the five-slot pick literal, the group meters. Each check here
-   fails loudly if the genre stops doing what its research sheet says.
+   [owner] "The train ride is the conductor, it is what sets the pace, it is
+   what tells the orchestra where it is, the orchestra waxes and wanes with the
+   ride, the 20 min song is broken into 4 pieces dissected by the train stops."
 
-   THE CLAIMS [docs/genre-research/boxcar-synth.md]:
+   `makeJourney` is a SECOND form builder — not a mode of the grammar walk, not
+   a phase list fed into it. A genre declaring `form.journey` skips the walk
+   entirely. NOBODY DECLARES ONE YET, so this probe declares one itself, on a
+   genre that has none, composes at five lengths, measures, and puts the table
+   back. The same discipline `probe_tempo` works under and for the same reason:
+   the last untested capability this repo shipped was a whole instrument that
+   made no sound with a green battery behind it.
 
-     1. THE TRAIN IS THE GROUND, AND IN TOWN IT STOPS. The `drone` role plays
-        the running gear, so a town is a section that does not carry it — and
-        NOT ONE SAMPLE of the run may sound inside one. §3.
-     2. THE TRAIN IS THE DRUMMER TOO. Travel sections carry the track rhythm;
-        town sections carry no drums, because the train is standing. §3.
-     3. THE STOP IS A SCRIPT, AND IT RUNS IN ORDER. Arriving: the long blast,
-        then the brakes, then the downbeat. Leaving: the conductor's call,
-        the guard's whistle, the engine — all before the downbeat — and the
-        conductor's bell AFTER it. §4.
-     4. AND THE CONDUCTOR CALLS AT EVERY STOP. Not once a record: a conductor
-        calls at every station. §4.
-     5. DARK TO LIGHT. The key change fires at roughly its declared rate and
-        most of it lands in a brighter mode than it left. §5.
-     6. THE LANDSCAPE PASSES, AND ONLY WHILE MOVING. A standing train passes
-        nothing. §8. */
-const { chromium } = require(require('path').resolve(__dirname, '..', 'node_modules', 'playwright'));
-const path = require('path');
-const HTML = path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html');
-const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-const SEEDS = parseInt(process.argv[2], 10) || 25;
+   SEVEN CLAIMS:
 
-let pass = 0, fail = 0;
-const check = (name, ok, note) => {
-  console.log('  ' + (ok ? '✓' : '✗ FAIL:') + ' ' + name + (note ? '  (' + note + ')' : ''));
-  ok ? pass++ : fail++;
+     INERT      a genre with no journey declared has no legs, no stops, and no
+                section carrying one — the walk is untouched
+     COUNT      the leg count follows the LENGTH, not a draw: five minutes is
+                one leg, ten is two, twenty is four, forty is eight. That is
+                the owner's arithmetic and it is the whole shape of the record.
+     LENGTH     and the record still lands on the length it was asked for. This
+                is the one that has already caught a real fault: the first
+                build budgeted the legs and not the stops, and a twenty-minute
+                record came out at 27:40.
+     STOPS      there are exactly (legs - 1) of them — a stop divides two legs,
+                so there is never one after the last
+     CEREMONY   every stop runs solo X → the two of them → solo Y, in that
+                order, with X the lead of the leg behind and Y the lead of the
+                leg ahead
+     HANDOVER   consecutive legs are led by DIFFERENT instruments, and the one
+                the form named actually sounds in its own solo. Both halves
+                matter: the second caught the handover naming a chair that the
+                genre's roles did not put in the room, so the record announced
+                a solo and the soloist was not playing.
+     PACE       the tempo ramps ACROSS a leg — fastest in the middle, slower at
+                both platforms — and is at its lowest while standing at a stop */
+const fs = require("fs");
+const path = require("path");
+const HTML = process.argv[3] || path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html");
+const SEEDS = parseInt(process.argv[2], 10) || 8;
+const src = fs.readFileSync(HTML, "utf8").split("<script>")[1].split("</script>")[0];
+global.window = { addEventListener(){}, MK2: null };
+global.document = { getElementById: () => ({ addEventListener(){}, textContent: "", value: "1", innerHTML: "" }),
+                    createElement: () => ({ click(){} }) };
+eval(src);
+const M = global.window.MK2;
+
+let faults = 0;
+const say = (ok, label, detail) => {
+  console.log("     " + (ok ? "✓" : "✗ FAIL:") + " " + label + "  (" + detail + ")");
+  if(!ok) faults++;
+};
+const mm = t => Math.floor(t / 60) + ":" + String(Math.round(t % 60)).padStart(2, "0");
+
+console.log("\n=== THE JOURNEY — " + SEEDS + " seeds\n");
+
+/* ── 1. INERT ────────────────────────────────────────────────────────────────
+   Asked of every genre before anything is declared. The snapshot proves no note
+   moved; this proves no genre grew a leg it did not ask for. */
+{
+  const grew = [];
+  for(const g of M.genres()){
+    let song; try { song = M.composeSong(1, undefined, g); } catch(e){ continue; }
+    if(song.form.legs != null || song.form.some(s => s.leg != null || s.atStop != null))
+      grew.push(g);
+  }
+  console.log("  every genre, as it ships");
+  say(grew.length === 0, "a genre that declares no journey has no legs and no stops",
+      grew.length ? grew.join(", ") + " grew one" : M.genres().length + " genres, none of them a journey");
+}
+
+/* ── 2. NOW DECLARE ONE ──────────────────────────────────────────────────────
+   Built out of the genre's OWN section functions, so its roles, lengths and
+   energies already exist and this probe is testing the journey rather than a
+   half-written table. Which functions those are is read off the genre rather
+   than named here [Law 4]. */
+/* the genre has to have somewhere to hand the lead FROM: a handover between
+   two of the same instrument is not a handover, and a probe that passed on a
+   genre with no pool would be reporting on nothing. Derived by asking each
+   table what machines it has, never by naming one here [Law 4]. */
+const poolOf = T => {
+  const seen = [];
+  for(const slot of Object.keys(T.machines || {})){
+    const list = T.machines[slot];
+    if(!Array.isArray(list)) continue;          // some slots carry an object, not a pool
+    for(const e of list){
+      const m = Array.isArray(e) ? e[0] : e;
+      if(m && typeof m === "string" && m !== "auto" && !seen.includes(m)) seen.push(m);
+    }
+  }
+  return seen;
+};
+const G0 = M.genres().find(g => {
+  const T = M.GENRE[g];
+  return T && T.form && T.form.lengths && T.form.roles && !T.form.journey &&
+         poolOf(T).length >= 2;
+});
+if(!G0){ console.log("\n  no genre with a machine pool to hand over between\n");
+         process.exit(faults ? 1 : 0); }
+const T = M.GENRE[G0];
+const FNS = Object.keys(T.form.lengths).filter(f => T.form.roles[f]);
+const pick = (...want) => { for(const w of want) if(FNS.includes(w)) return w; return FNS[0]; };
+const CRUISE = FNS.filter(f => f !== "intro" && f !== "outro").slice(0, 3);
+const LEADS = poolOf(T).slice(0, 5);
+
+const kept = T.form.journey;
+T.form.journey = {
+  legSec: [290, 310], maxLegs: 12, defaultSec: 1200,
+  leads: LEADS,
+  terrain: [["open", 3], ["woods", 2]],
+  character: ["dawn", "midday", "dusk", "night"],
+  leg:  { open: CRUISE[0], cruise: CRUISE.length ? CRUISE : ["verse"], close: pick("bridge", "outro") },
+  stop: { solo: pick("intro"), dance: pick("chorus", "instrumental"), out: pick("intro") },
+  depart: pick("intro"), arrive: pick("outro"),
+  handover: { chair: "lead", second: "counter" },
+  tempo: { out: 0.78, cruise: 1.0, into: 0.74, stop: 0.60 },
+  energy: { stop: 0.15, cruise: 0.95, edge: 0.40 },
 };
 
-(async () => {
-  const browser = await chromium.launch({ executablePath: CHROME, args: ['--no-sandbox'] });
-  const pg = await browser.newPage();
-  const errs = [];
-  pg.on('pageerror', e => errs.push(String(e)));
-  await pg.goto('file://' + HTML.replace(/ /g, '%20'));
-  await pg.waitForTimeout(1200);
+try {
+  console.log("\n  " + G0 + ", with a journey declared on it" +
+              (LEADS.length ? "   leads: " + LEADS.join(" ") : "   (no lead pool)"));
 
-  const R = await pg.evaluate((SEEDS) => {
-    const out = { townsWithDrums: [], travelNoDrums: 0, travelSecs: 0,
-                  runInTown: [], towns: 0, runningTowns: 0,
-                  movingSecs: 0, movingWithRun: 0, silentMoving: [],
-                  arrivals: 0, arrivalsInOrder: 0, arrivalsBad: [],
-                  departures: 0, departuresInOrder: 0, departuresBad: [],
-                  callsWanted: 0, callsGot: 0,
-                  lifted: 0, toBrighter: 0, passesInTown: 0, passesTravelling: 0,
-                  records: 0 };
-    /* how bright a mode is, for the dark-to-light claim: the third and the
-       sixth are what a listener hears as light or dark, so a mode with a
-       major third outranks one without. */
-    const BRIGHT = { major: 3, lydian: 3, mixolydian: 2, dorian: 1, minor: 0,
-                     phrygian: -1, locrian: -1 };
-    /* the FIRST time a named bed speaks inside a window, or null */
-    const firstIn = (list, re, a, b) => {
-      let best = null;
-      for(const e of list)
-        if(re.test(e.bed || '') && e.tSec >= a && e.tSec < b && (best == null || e.tSec < best))
-          best = e.tSec;
-      return best;
-    };
+  /* COUNT and LENGTH, over the lengths the owner's arithmetic names */
+  const WANT = [300, 600, 1200, 2400];
+  const rows = [], badCount = [], badLen = [];
+  for(const sec of WANT){
+    const legs = [], errs = [];
     for(let s = 1; s <= SEEDS; s++){
-      const song = MK2.composeSong(s, undefined, 'boxcarsynth');
-      out.records++;
-      const T = song.chart.table;
-      const PAY = (T.form && T.form.payoff) || 'chorus';
-      const STEPS = 16, spb = (60 / song.chart.tempo) / 4, barSec = STEPS * spb;
-      const secs = song.sections || [];
-      const ev = song.perf.events;
-      const scene = ev.filter(e => e.voice === 'atmos');
-      const run = ev.filter(e => e.voice === 'trainbox');
-      const lift = song.materials && song.materials.lift;
-      if(lift){
-        out.lifted++;
-        const from = BRIGHT[song.chart.mode] == null ? 0 : BRIGHT[song.chart.mode];
-        const to = BRIGHT[lift.mode] == null ? 0 : BRIGHT[lift.mode];
-        if(to > from) out.toBrighter++;
-      }
-      for(let i = 0; i < secs.length; i++){
-        const sec = secs[i], prev = secs[i - 1];
-        const fn = sec.fn || sec.type;
-        /* ── THE BOUNDARY IS EXCLUSIVE AT BOTH ENDS, AND THAT MATTERS ────────
-           The first version counted a hit landing exactly on the NEXT
-           section's downbeat as belonging to this one, and reported 541 drum
-           hits inside towns that are in fact silent — every one of them at
-           bar 12.00 of a 12-bar town, which is the next section's first
-           instant. A probe that cannot tell a boundary from an interior
-           invents defects; EPS is a hundredth of a bar. A section whose bars
-           are not numbers is skipped rather than turned into NaN. */
-        if(!Number.isFinite(sec.startBar) || !Number.isFinite(sec.endBar)) continue;
-        const EPS = barSec * 0.01;
-        const a = sec.startBar * barSec + EPS, b = sec.endBar * barSec - EPS;
-        const drums = ev.filter(e => e.role === 'drums' && e.tSec >= a && e.tSec < b).length;
-        if(fn === PAY){
-          if(drums > 0) out.townsWithDrums.push(`seed ${s} bar ${sec.startBar}: ${drums} hits`);
-          out.passesInTown += scene.filter(e => e.pass && e.tSec >= a && e.tSec < b).length;
-        } else if(fn === "intro" || fn === "outro"){
-          /* THE YARD AND THE ARRIVAL ARE NOT TRAVELLING. The train has not
-             left yet, or it has stopped for good: both legitimately carry no
-             track rhythm, and counting them as travel made the first run
-             report 35 silent "travelling" sections that are nothing of the
-             kind. The claim is about the sections where the train is MOVING. */
-        } else {
-          out.travelSecs++;
-          if(drums === 0) out.travelNoDrums++;
-          out.passesTravelling += scene.filter(e => e.pass && e.tSec >= a && e.tSec < b).length;
-        }
+      let song;
+      try { song = M.composeSong(s, undefined, G0, undefined, undefined, undefined, undefined, undefined, sec); }
+      catch(e){ badCount.push(mm(sec) + " seed " + s + " threw: " + e.message); continue; }
+      const C = M.makeClock(song.chart, song.form);
+      legs.push(song.form.legs);
+      errs.push(Math.abs(C.at(song.form.nBars, 0) - sec) / sec);
+    }
+    if(!legs.length) continue;
+    const want = Math.max(1, Math.round(sec / 300));
+    if(legs.some(n => n !== want)) badCount.push(mm(sec) + " wanted " + want + ", got " + legs.join("/"));
+    const worst = Math.max.apply(null, errs);
+    /* 6%, and the number is the error floor rather than a taste: a leg is built
+       out of WHOLE sections, so it lands within half a section of its share and
+       never on it. Measured, the honest build's worst is 4% (at five minutes,
+       where one section is a bigger slice of the record); a build that fills
+       past its budget reads 8% and one that forgets the stops reads 24%. */
+    if(worst > 0.06) badLen.push(mm(sec) + " off by " + (worst * 100).toFixed(0) + "%");
+    rows.push(mm(sec) + "→" + legs[0] + " leg" + (legs[0] === 1 ? "" : "s") +
+              " ±" + (worst * 100).toFixed(0) + "%");
+  }
+  say(badCount.length === 0, "the leg count is the record's LENGTH, not a draw",
+      badCount.length ? badCount.join(" | ") : rows.join("   "));
+  say(badLen.length === 0, "and the record still lands on the length it was asked for",
+      badLen.length ? badLen.join(" | ") : "every length within 6%, worst " +
+        rows.map(r => r.split("±")[1]).sort((a, z) => parseFloat(z) - parseFloat(a))[0]);
 
-        /* ══ 1. NOT ONE SAMPLE OF THE RUN INSIDE A TOWN ═══════════════════
-           The claim the whole build exists for.
-
-           ── AND THE FIRST VERSION OF THIS CHECK WAS CIRCULAR ──────────────
-           It found towns by asking whether the section carried the `drone`
-           role, then asked whether the run sounded in them — which is the
-           same question twice, so it could not fail. Driven to failure on
-           purpose (the train put back into the chorus, which is the exact
-           defect this build removed) it reported "5 towns, 0 carrying the
-           run": the defect had deleted the towns rather than been caught.
-
-           A town is now the PAYOFF SECTION, which is what the form says a
-           town is and is independent of the thing being tested. An event
-           that merely ENDS on the town's downbeat is not in the town; one
-           that spans any part of its interior is. */
-        if(fn === PAY){
-          out.towns++;
-          const inside = run.filter(e => e.tSec + e.durSec > a && e.tSec < b);
-          if(inside.length){
-            out.runningTowns++;
-            out.runInTown.push(`seed ${s} bar ${sec.startBar}: ${inside.length} run events`);
-          }
-        } else if(fn !== "intro"){
-          /* AND THE REVERSE REGRESSION: a train that never runs would pass
-             the claim above trivially. Everything that is not the yard and
-             not a town has to carry it. */
-          out.movingSecs++;
-          if(run.some(e => e.tSec + e.durSec > a && e.tSec < b)) out.movingWithRun++;
-          else out.silentMoving.push(`seed ${s} ${fn} bar ${sec.startBar}`);
-        }
-
-        /* ══ 3. THE SCRIPT, IN ORDER ══════════════════════════════════════ */
-        const A = sec.startBar * barSec;
-        if(prev && (prev.fn || prev.type) !== PAY && fn === PAY){
-          out.arrivals++;
-          /* ARRIVING: one long blast, then the brakes, then the downbeat. */
-          const blast = firstIn(scene, /Whistle/, A - 40, A);
-          const brake = firstIn(scene, /Arrive|Brake/, A - 40, A);
-          if(blast != null && brake != null && blast < brake) out.arrivalsInOrder++;
-          else out.arrivalsBad.push(`seed ${s} bar ${sec.startBar}: blast ${blast} brake ${brake}`);
-        }
-        if(prev && (prev.fn || prev.type) === PAY && fn !== PAY){
-          out.departures++;
-          /* LEAVING: the call, the guard, the engine — all before the
-             downbeat, in that order — and the conductor's bell after it.
-             This is the owner's "makes a call before and after the train
-             starts again" written as an inequality. */
-          /* ── AND THIS CHECK NAMED A SAMPLE THAT DOES TWO JOBS ──────────────
-             `eng` used to be `firstIn(scene, /Depart|Peep/, A - 40, A)` — the
-             FIRST thing matching those names in a FORTY-SECOND window. But
-             `railPeep` is the departure engine AND the genre's grade-crossing
-             `shortWhistle`, so a crossing anywhere in that window was picked
-             up as the engine and reported out of order. Seed 2 read
-             "engine 260.19" against a call at 280.4: the engine was exactly
-             where the script puts it (A - 1.6) and the probe had found a
-             crossing thirty seconds earlier instead.
-
-             It went red when a terrain re-deal moved a crossing into the
-             window, which means the check had been passing by luck rather
-             than by construction. The engine is searched from THE GUARD
-             ONWARDS, because that is where the script actually puts it —
-             derive the window from the thing being checked, not from a round
-             number. [harness/README.md: "Anything that LISTS what the program
-             contains will go stale."] */
-          const call  = firstIn(scene, /Call/,   A - 40, A);
-          const guard = firstIn(scene, /Guard/,  A - 40, A);
-          const eng   = guard == null ? null
-                      : firstIn(scene, /Depart|Peep/, guard + 1e-6, A);
-          const bell  = firstIn(scene, /Cbell/,  A, A + barSec * 4);
-          if(call != null) out.callsGot++;
-          out.callsWanted++;
-          if(call != null && guard != null && eng != null && bell != null &&
-             call < guard && guard < eng && eng <= A && bell > A)
-            out.departuresInOrder++;
-          else out.departuresBad.push(
-            `seed ${s} bar ${sec.startBar}: call ${call} guard ${guard} engine ${eng} bell ${bell}`);
-        }
+  /* STOPS, CEREMONY, HANDOVER, PACE — measured on the twenty-minute record,
+     which is the one the owner described */
+  let badStops = [], badCer = [], badSame = [], badSilent = [], badPace = [], n = 0;
+  for(let s = 1; s <= SEEDS; s++){
+    let song;
+    try { song = M.composeSong(s, undefined, G0, undefined, undefined, undefined, undefined, undefined, 1200); }
+    catch(e){ continue; }
+    n++;
+    const F = song.form, legs = F.legs;
+    const stops = [...new Set(F.filter(x => x.atStop != null).map(x => x.atStop))];
+    if(stops.length !== legs - 1)
+      badStops.push("seed " + s + ": " + legs + " legs, " + stops.length + " stops");
+    for(const k of stops){
+      const block = F.filter(x => x.atStop === k);
+      const solos = block.filter(x => x.soloOf);
+      const dance = block.find(x => x.hand && x.hand.lead && x.hand.counter);
+      const leadOf = L => { const a = F.find(x => x.leg === L && x.hand); return a && a.hand.lead; };
+      const X = leadOf(k), Y = leadOf(k + 1);
+      /* the ceremony, IN ORDER: X alone, the two of them, Y alone */
+      if(solos.length !== 2 || !dance ||
+         solos[0].soloOf !== X || solos[1].soloOf !== Y ||
+         F.indexOf(solos[0]) > F.indexOf(dance) || F.indexOf(dance) > F.indexOf(solos[1]))
+        badCer.push("seed " + s + " stop " + k);
+      if(X && Y && X === Y) badSame.push("seed " + s + " stop " + k + ": both " + X);
+      /* AND THE SOLOIST SOUNDS. This is the half that caught a real fault: the
+         chair was handed an instrument the genre's roles did not seat. */
+      for(const so of solos){
+        const sec = song.sections[F.indexOf(so)];
+        if(sec && !(sec.active || []).includes("lead"))
+          badSilent.push("seed " + s + " stop " + k + ": " + so.soloOf + " is not in the room");
       }
     }
-    out.keyShiftDeclared = GENRE.boxcarsynth.keyShift.chance;
-    return out;
-  }, SEEDS);
-
-  console.log(`\nPROBE_JOURNEY — boxcar synth, ${R.records} records\n`);
-
-  /* THE ONE THE BUILD EXISTS FOR */
-  check("the running sound STOPS in every town",
-        R.towns > 0 && R.runningTowns === 0,
-        R.runningTowns ? R.runInTown.slice(0, 3).join(" · ")
-                       : `${R.towns} towns, not one carries a sample of the run`);
-  check("...and it runs everywhere else — every travelling section carries it",
-        R.movingSecs > 0 && R.movingWithRun === R.movingSecs,
-        R.movingWithRun === R.movingSecs
-          ? `${R.movingWithRun}/${R.movingSecs} moving sections carry the run`
-          : R.silentMoving.slice(0, 3).join(" · "));
-  check("a town has no drums — the train is standing",
-        R.townsWithDrums.length === 0,
-        R.townsWithDrums.length ? R.townsWithDrums.slice(0, 3).join(" · ")
-                                : "every town silent, every time");
-  check("...and a travelling section always has them",
-        R.travelNoDrums === 0,
-        `${R.travelSecs - R.travelNoDrums}/${R.travelSecs} travelling sections carry the track`);
-  check("every arrival runs its script in order — the blast, then the brakes",
-        R.arrivals > 0 && R.arrivalsInOrder === R.arrivals,
-        R.arrivalsInOrder === R.arrivals ? `${R.arrivalsInOrder}/${R.arrivals}`
-                                         : R.arrivalsBad.slice(0, 3).join(" · "));
-  check("every departure runs its script in order — call, guard, engine, then the bell after",
-        R.departures > 0 && R.departuresInOrder === R.departures,
-        R.departuresInOrder === R.departures ? `${R.departuresInOrder}/${R.departures}`
-                                             : R.departuresBad.slice(0, 3).join(" · "));
-  check("the conductor calls at EVERY stop, not once a record",
-        R.callsWanted > 0 && R.callsGot === R.callsWanted,
-        `${R.callsGot}/${R.callsWanted} departures carry the call`);
-  check("the landscape passes only while the train is moving",
-        R.passesTravelling > 0 && R.passesInTown === 0,
-        `${R.passesTravelling} passing while travelling, ${R.passesInTown} in a town`);
-  /* the key change is a DRAW, so this is a band around the declared rate
-     rather than an equality — a coin that lands 65% of the time over 25
-     records is somewhere between 45% and 85% unless something is wrong */
-  {
-    const rate = R.lifted / R.records, want = R.keyShiftDeclared;
-    check("the key changes at about the rate the genre declares",
-          rate > want - 0.22 && rate < want + 0.22,
-          `${R.lifted}/${R.records} = ${(rate*100).toFixed(0)}%, declared ${(want*100).toFixed(0)}%`);
+    /* THE PACE: fastest in the middle of a leg, slower at both platforms, and
+       slowest of all while standing. Read off the map rather than the table. */
+    const map = F.tempo;
+    if(!map){ badPace.push("seed " + s + ": no tempo map"); continue; }
+    const stopT = [], midT = [], edgeT = [];
+    for(const x of F)
+      for(let b = x.startBar; b < x.endBar && b < map.length; b++){
+        if(x.atStop != null) stopT.push(map[b]);
+        else if(F.ride && F.ride[b] >= 0){
+          const r = F.ride[b];
+          (r > 0.35 && r < 0.65 ? midT : (r < 0.12 || r > 0.88) ? edgeT : []).push(map[b]);
+        }
+      }
+    const mean = a => a.length ? a.reduce((t, v) => t + v, 0) / a.length : null;
+    const mS = mean(stopT), mM = mean(midT), mE = mean(edgeT);
+    if(!(mM > mE + 1 && (mS == null || mS < mE)))
+      badPace.push("seed " + s + ": stop " + (mS && mS.toFixed(1)) +
+                   " edge " + (mE && mE.toFixed(1)) + " middle " + (mM && mM.toFixed(1)));
   }
-  check("...and the change mostly goes toward the light",
-        R.lifted > 0 && R.toBrighter >= R.lifted * 0.5,
-        `${R.toBrighter}/${R.lifted} records moved into a brighter mode`);
-  check("no page errors", errs.length === 0, errs.slice(0, 2).join(" | "));
+  say(badStops.length === 0, "a stop divides two legs, so there are one fewer than the legs",
+      badStops.length ? badStops.join(" | ") : n + " records, every stop between two legs");
+  say(badCer.length === 0, "and each one runs solo X → the two of them → solo Y",
+      badCer.length ? badCer.length + " out of order: " + badCer.slice(0, 3).join(", ")
+                    : "the ceremony is in order at every station");
+  say(badSame.length === 0, "the leg ahead is led by a different instrument from the leg behind",
+      badSame.length ? badSame.slice(0, 3).join(" | ") : "no station hands over to the same player");
+  say(badSilent.length === 0, "and the instrument the form named is actually in the room",
+      badSilent.length ? badSilent.slice(0, 3).join(" | ") : "every soloist plays its own solo");
+  say(badPace.length === 0, "the pace rises across a leg and falls at the platform",
+      badPace.length ? badPace.slice(0, 3).join(" | ")
+                     : "fastest mid-leg, slower at both ends, slowest standing");
+} finally {
+  if(kept === undefined) delete T.form.journey; else T.form.journey = kept;
+}
 
-  console.log(`\n  ${pass} passed, ${fail} failed\n`);
-  await browser.close();
-  process.exit(fail ? 1 : 0);
-})();
+console.log("\n  " + faults + " journey fault(s)\n");
+process.exit(faults ? 1 : 0);
