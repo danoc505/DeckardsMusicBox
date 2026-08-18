@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18c · the loop EVOLVES — a chain, not a star</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18d · the hurdy-gurdy is off the draw</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20421,7 +20421,20 @@ GENRE.boxcarsynth = {
 
          The banjo still plays every leg. It plays the roll, which is its
          part. */
-      leads: ["fiddle", "harmonica", "hurdyGurdy"],
+      /* ── AND THE HURDY-GURDY IS OFF THE LIST ──────────────────────────────
+         [owner] "Delete the hurdy gurdy from options for drawing instruments
+         its horrible."
+
+         It led 16 of 48 legs across 12 records — MORE THAN ANY OTHER
+         INSTRUMENT, per the measurement two paragraphs up — so it was not a
+         corner of the record, it was the voice you heard most. Two chairs for
+         three legs now, which means the fiddle and the harmonica each get a
+         bigger share rather than a third voice replacing it.
+         The machine itself is untouched: the wheel, the drone strings and the
+         trompette are still in the file and still loadable by hand from the
+         rack. This is a change to what the COMPOSER draws, not a deletion of
+         an instrument. */
+      leads: ["fiddle", "harmonica"],
       leg:  { open: "roll", cruise: ["open", "high", "open"], close: "brake" },
       stop: { solo: "solo", dance: "dance", out: "pullout" },
       depart: "yard", arrive: "arrive",
@@ -20575,7 +20588,10 @@ GENRE.boxcarsynth = {
        The four that carry a leg appear in no other pool. */
     keys:  [["wurly", 5], ["bassoon", 2], ["banjo", 2]],
     keys2: [["horns", 5], ["bassoon", 3], ["bariSax", 1]],
-    lead:  [["fiddle", 4], ["harmonica", 3], ["hurdyGurdy", 2], ["banjo", 1]],
+    /* the gurdy is off this pool too, for the same reason and by the same
+       ruling — a coin that can still land on it would put it back in the chair
+       the list above just took it out of */
+    lead:  [["fiddle", 4], ["harmonica", 3], ["banjo", 1]],
     counter:  [["diddley", 5], ["harmonica", 2]],
     ostinato: [["banjo", 1]],
   },
