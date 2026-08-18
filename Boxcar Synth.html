@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18p · the bass is a chain of notes, not a metronome playing pitches</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18q · the banjo pinches — the gap arrives as a technique, not a hole</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -21291,7 +21291,34 @@ GENRE.boxcarsynth = {
       [[4,2,7,4,2,7,2,4], 3],   // backward: 1-2-5-1-2-5-2-1
       [[0,4,7,0,4,0,7,4], 3],   // the lick: 3-1-5-3-1-3-5-1
       [[4,2,4,7,4,2,4,7], 2],   // middle-leading: 1-2-1-5-1-2-1-5
-      [[2,0,2,4,2,0,2,4], 2]],  // index-leading: 2-3-2-1-2-3-2-1
+      [[2,0,2,4,2,0,2,4], 2],   // index-leading: 2-3-2-1-2-3-2-1
+      /* ══ AND THE BACKUP PATTERN, WHICH IS WHERE THE GAPS COME FROM ═════════
+         Every cell above is eight picked eighth notes, so the roll never stops
+         and nothing in it implies a rhythm — the owner's "no long notes and
+         barely any gaps... the gap implys the rythem at times".
+
+         This is the PINCH PATTERN, printed step by step by the same source the
+         rolls come from [dummies.com, How to Play Pinch Patterns on the Banjo]:
+         "Pick the 3rd string with a downward motion of the thumb · strike the
+         5th string with the thumb, the 2nd string with the index finger, and
+         the 1st string with the middle, playing all three strings at the same
+         time · pick the fourth string with the thumb · repeat."
+
+         Through this table's string map (0=3rd, 2=2nd, 4=1st, 7=5th, -3=4th)
+         that is exactly what is written below: bass note, PINCH, bass note,
+         PINCH, on the quarters, with the eighths between them left unpicked.
+         Four events a bar instead of eight, half of them three-string chords,
+         and the silence between them is the rhythm — arriving as the thing a
+         player actually does rather than as a hole punched in a roll.
+
+         It is BACKUP, which is what an ostinato is: a banjo pinches under the
+         singing and rolls in the breaks — and the ostinato chair IS the backup
+         chair, so this is not a rare colour. MEASURED at weight 4: 2% of the
+         record's onsets were pinches and the spacing did not move at all
+         (p10 1.5, p50 1.7, p90 2.0 — still an even chain). At 14 against the
+         rolls' 25 it is a bit over a third of the materials, which is a band
+         that pinches under the singing and rolls when it is playing. */
+      [[0, null, [7,2,4], null, -3, null, [7,2,4], null], 14]],
   },
   /* the slide ANSWERS the tune rather than doubling it — below it, so it
      reads as a reply [call-and-response.md]. `answer` is the share that steps
@@ -28077,6 +28104,43 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         if(tRow && !tHit){ if(O.run) seqI++; continue; }
         const idx = O.run ? (seqI++) : (st / O.unit);
         let deg = c[((idx % c.length) + c.length) % c.length];
+        /* ══ A CELL SLOT MAY BE SILENT, AND IT MAY BE A PINCH ═══════════════
+           THE OWNER: "The problem with the banjo is that the notes are played
+           next to one another no long notes and barely any gaps, THE GAP IMPLYS
+           THE RYTHEM AT TIMES. But its a chain of notes."
+
+           MEASURED before this, four records, ostinato onset to onset in
+           sixteenths: p10 1.9, p50 2.0, p90 2.1. The tenth percentile and the
+           ninetieth are the same number — a perfectly even eighth chain from
+           the first bar of the record to the last, which NEVER breaks. Being a
+           chain is correct; that is what a roll is. Having no gap ever is not,
+           because with nothing to interrupt it nothing implies a rhythm.
+
+           A cell could only ever hold one degree per slot, so the builder had
+           no way to write either thing a real player uses to make that gap:
+
+             null      the slot is not picked. The gap itself.
+             [a,b,c]   the degrees are struck TOGETHER — the PINCH.
+
+           THE PINCH IS THE NAMED TECHNIQUE AND IT IS WHY THE GAP EXISTS.
+           "With your thumb on the 5th string and your middle finger on the
+           first string, play both of those notes simultaneously — that's a
+           pinch" [dummies.com, How to Play Pinches on the Bluegrass Banjo], and
+           the backup pattern the same source prints is: thumb on the 3rd
+           string, then 5th + 2nd + 1st all together, then thumb on the 4th,
+           then the pinch again. Four events a bar instead of eight, half of
+           them chords, and the space between them is where the rhythm comes
+           from. Pinches are "used at the end of phrases for emphasis and
+           variety" — which is the gap he is asking for, arriving as a musical
+           event rather than as a hole punched in a pattern.
+
+           No draw sits in this loop — the ratchet and the slur each take a
+           named substream — so a skipped slot cannot move the music of any
+           part after it [Law 3]. A genre whose cells hold plain numbers is
+           byte-identical. */
+        if(deg == null){ continue; }
+        const chord = Array.isArray(deg) ? deg : null;
+        if(chord) deg = chord[0];
         /* the RAW cell value, kept before `transpose` can move it — the thumb
            accent below is a fact about which STRING this note is, and a
            transposed degree is no longer that string's number */
@@ -28115,6 +28179,26 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
            exempt — they are where they are. */
         if(open == null && O.whole)
           while(pitch > CEIL_ && pitch - 12 >= FLOOR_) pitch -= 12;
+        /* THE OTHER STRINGS OF A PINCH TRAVEL EXACTLY AS THIS ONE DID — the
+           same open-string short circuit, the same chord, the same fold, the
+           same rescue. Written once, here, rather than as a second copy of the
+           four rules above: two copies of one rule is how this file has gone
+           stale four times, and the fifth string vanishing out of a pinch
+           because the copy forgot `FIX` is precisely that failure. */
+        const pinchPitch = d => {
+          const op = (FIX && FIX.has(d)) ? DRONE : null;
+          let dd = d;
+          if(OCHANGE.transpose && late && op == null) dd += OCHANGE.by;
+          const ab = op != null ? op
+                   : ch ? degMidi(ch.key, ch.mode, ch.degree + dd)
+                        : degMidi(keyOf(chords), modeOf(chords), dd);
+          const sh = ab + ((OCHANGE.octave && late && op == null) ? 12 : 0);
+          let pp = op != null ? op
+                 : O.whole ? sh + whole : intoBand(sh, R.ostinato[0], R.ostinato[1]);
+          if(op == null && O.whole)
+            while(pp > CEIL_ && pp - 12 >= FLOOR_) pp -= 12;
+          return pp;
+        };
         /* ── THE RATCHET DRAWS FROM ITS OWN STREAM ─────────────────────────
            Taken from `rng` this consumed a number on every step of every
            ostinato, which shifted every draw after it: 882 of 2100 snapshot
@@ -28236,6 +28320,22 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           if(art) ev.art = art;
           if(home){ ev.vel = Math.min(1, ev.vel * O.sam); if(!h) ev.sam = true; }
           notes.push(ev);
+          /* AND THE REST OF THE PINCH, struck with it. Only on the first hit of
+             a ratcheted step — a pinch is one gesture of the hand and does not
+             subdivide — and never doubling a pitch already sounding, because
+             two strings at the same pitch is one string played louder and this
+             instrument's own no-repeat law would drop it anyway. */
+          if(chord && !h){
+            const at2 = new Set([pitch]);
+            for(let ci = 1; ci < chord.length; ci++){
+              const pp = pinchPitch(chord[ci]);
+              if(at2.has(pp)) continue;
+              at2.add(pp);
+              notes.push({ bar: b, step: at, dur: ev.dur, pitch: pp,
+                           vel: Math.max(0.05, Math.min(1, vv * 0.88)),
+                           role: "ostinato" });
+            }
+          }
         }
       }
     }
