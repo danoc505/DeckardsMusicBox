@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18d · the hurdy-gurdy is off the draw</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18e · the tune has five pitches, not three</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20683,7 +20683,49 @@ GENRE.boxcarsynth = {
      notes, and six places for them to land instead of four with half the
      weight on the downbeat. */
   theme: {
-    count: { hooky: [3,2], breath: [2,1], normal: [3,2] },
+    /* ══ HOW MANY NOTES — AND THIS IS THE LEVER, NOT THE INTERVALS ═════════
+       [owner] "Why is the lead repeating itself over and over and over?"
+
+       PRINTED, seed 1, what this table produced at [3,2]:
+
+         G#4 F#4 G#4 F#4 G#4 E4    and then the same six notes again
+
+       TEN notes and THREE distinct pitches, oscillating between two of them,
+       for twenty minutes. Four of its nine slots never changed once in the
+       whole record.
+
+       THE INTERVALS WERE NOT THE CAUSE, AND THIS FILE HAD ALREADY PROVED IT
+       AND DRAWN THE WRONG CONCLUSION. `the-head-and-the-band.md` widened the
+       move palette to fourths and fifths, measured no improvement and a worse
+       contour, threw it away, and left the tune where it was. Re-run here as a
+       controlled sweep over 12 records, measuring the number that actually
+       matters — DISTINCT PITCHES IN THE TUNE:
+
+         as shipped                     9.8 notes   3.42 pitches
+         + a palette with leaps        10.3 notes   3.58 pitches   <- the old attempt
+         + more notes                  15.2 notes   4.67 pitches
+         + both                        16.0 notes   4.75 pitches
+
+       The palette buys 0.16 of a pitch. THE COUNT BUYS 1.25. And the reason is
+       arithmetic rather than taste: with five notes and a palette that moves
+       one scale step at a time, three or four pitches is the most the phrase
+       can physically reach. Widening the intervals cannot help a phrase that
+       has run out of notes to take them on — which is also why the 57.8% of
+       moves that a hanging dissonance forces to a single step mattered so much:
+       there was nothing left over.
+
+       SWEPT TO THE PLATEAU rather than stopped at the first number that worked:
+       [4,2] 12.7 notes / 4.00, [5,3] 15.2 / 4.67, [6,3] 17.0 / 4.83, and
+       [7,3] and [8,2] both 17.0 / 4.83 — the onset grid runs out of slots, so
+       above [6,3] the table is asking for notes there is nowhere to put. This
+       is the last value that buys anything.
+
+       AND IT IS WHAT A FIDDLE TUNE IS. Seventeen notes over four bars is about
+       four a bar against a 60-85 bpm beat — a moving line, which is the string
+       band's melody instrument played the way it is played, and the same
+       reasoning the roll already follows ("the roll's rate is eighth notes,
+       continuous" [banjo-and-harmonica-notation.md §1c]). */
+    count: { hooky: [6,3], breath: [3,2], normal: [6,3] },
     /* ── A TUNE DOES NOT SAY THE SAME NOTE TWICE RUNNING ──────────────────
        MEASURED before this line existed, printing material A's actual notes:
 
@@ -20699,6 +20741,15 @@ GENRE.boxcarsynth = {
        repeat a pitch" is a statement about a style and not about melody in
        general [Law 4]. A string band tune moves. */
     noRepeat: true,
+    /* ── THE TUNE LANDS ON THE CHORD, AND UNTIL NOW IT NEVER HAS ──────────
+       Strong beats and long notes take a chord tone — 84.1% and 85.8% across
+       two corpora [sax-material.md]. The rule was in the engine and gated on
+       the INSTRUMENT declaring a line discipline, which only the sampled winds
+       do, so a fiddle-and-harmonica band never got it. What that cost,
+       instrumented over 12 records: 57.8% of this tune's moves were forced to a
+       single scale step by a hanging dissonance, whatever the interval palette
+       drew — and the tune came out as three pitches oscillating. */
+    landOnTone: true,
     verseHook: true,
     /* ── THE THIRD STATEMENT'S VOCABULARY ────────────────────────────────
        Every entry is a classical motivic transformation of a phrase that
@@ -26432,7 +26483,33 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              chord tones on the strong beats and under the long notes; the
              snap happens at the CHOICE, never after, and a hanging dissonance's
              stepwise resolution always outranks it. ── */
-          if(LINES && !hang && (steps[i] === 0 || steps[i] === 8 || plannedDur >= 4) &&
+          /* ── AND A GENRE MAY ASK FOR THIS WITHOUT HIRING A SAXOPHONE ──────
+             The gate was `LINES` alone — the line discipline of the INSTRUMENT
+             holding the lane — and only the sampled winds declare one. A
+             fiddle does not, a harmonica does not, so a string band has never
+             once had this rule, and the cost is not small:
+
+               63.4% of the tune's notes are dissonances
+               and a hanging dissonance FORCES the next move to one scale step
+               INSTRUMENTED, 12 records: 152 of 263 theme moves — 57.8% —
+               were overridden to ±1 whatever the palette drew
+
+             That is why the tune came out D#5 C#5 D#5 C#5 G#4: THREE DISTINCT
+             PITCHES in ten notes, an oscillation, for twenty minutes. And it
+             is why the previous attempt at this failed and was thrown away —
+             `the-head-and-the-band.md` widened the interval palette to fourths
+             and fifths, measured no improvement and a worse contour, and
+             concluded the palette was not the lever. The palette was never the
+             lever: more than half of what it draws is discarded downstream.
+
+             The rule itself is sourced and is about MELODY, not about
+             saxophones — strong beats 84.1% stable, held notes 85.8%, in two
+             corpora [sax-material.md]. So it becomes something a GENRE can
+             declare, which is the rule this file uses everywhere for a musical
+             taste [Law 4], rather than something welded on for everyone or
+             reachable only by drawing the right instrument. */
+          if((LINES || TH.landOnTone) && !hang &&
+             (steps[i] === 0 || steps[i] === 8 || plannedDur >= 4) &&
              isNCT(b, steps[i], cand))
             cand = intoBand(nearestTone(cand, CH(chordSet, b).tones), LO, HI);
           let tries = 0;
