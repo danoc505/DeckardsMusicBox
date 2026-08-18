@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18s · the second keyboard gets a rhythm, and one genre uses it to hold still</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18t · the chorus's developed tune was being judged against the verse's chords</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -33633,11 +33633,35 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      Avar's, so that is what it is held clear of; A's own tune is not reserved
      because this REPLACES it. */
   const resDev = reserve(ostAvar.concat(bassA, keysA, keys2Avar));
-  const twist = (rhythm, from, res) => {
+  const twist = (rhythm, from, res, cs) => {
     const rh = rhythm.filter(n => n.pitch != null).slice().sort(byTime);
     const pl = from.filter(n => n.pitch != null).map(n => n.pitch);
     if(!rh.length || !pl.length) return rhythm;
     const LO = playable(R.themeA)[0], HI = playable(R.themeA)[1];
+    /* ── AND THE TWIST HAS TO OBEY THE HARMONY IT LANDS ON ──────────────────
+       This checked the register, the taken seats and the no-repeat law, and
+       NOT WHETHER THE NOTE IS LEGAL UNDER THE CHORD IT IS MOVED ONTO. That is
+       the one law the seam check throws for, and the whole move is to take a
+       pitch that was safe at ITS OWN position and put it somewhere else — a
+       different bar, so a different chord.
+
+       It survived on plain genres because a genre draws its verse and its
+       chorus changes from one table and they tend to share tones. A blend
+       takes them from two genres and they do not: measured, `Adev`/`Bdev`
+       named 60 of the 63 blend failures.
+
+       So legality is a CONSTRAINT ON THE CHOICE, not a repair afterwards [no
+       correcting passes]: the pool is walked twice, and the first pass will
+       only accept a candidate that is in key or is a tone of the chord at that
+       bar. If nothing in the pool can do that the second pass is the old rule,
+       and the final fallback is the note's OWN pitch, which is legal because
+       the material it came from is. Nothing is moved after the fact. */
+    const tKey = keyOf(cs), tMode = modeOf(cs);
+    const legalAt = (q, bar) => {
+      if(inKey(tKey, tMode, q)) return true;
+      const ch = cs && cs[bar % cs.length];
+      return !!(ch && ch.tones.some(t => pc(t) === pc(q)));
+    };
     let prev = null;
     return rh.map((n, i) => {
       /* offset by one so the first note does not land back on its own pitch --
@@ -33645,13 +33669,17 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       const want = [];
       for(let k = 0; k < pl.length; k++) want.push(pl[(i + 1 + k) % pl.length]);
       let put = null;
-      for(const cand of want){
-        for(const oct of [0, 12, -12]){
-          const q = cand + oct;
-          if(q < LO || q > HI) continue;
-          if(res.has(key(n.bar, n.step, q))) continue;
-          if(q === prev) continue;              // this file's no-repeat law
-          put = q; break;
+      for(const strict of [true, false]){
+        for(const cand of want){
+          for(const oct of [0, 12, -12]){
+            const q = cand + oct;
+            if(q < LO || q > HI) continue;
+            if(res.has(key(n.bar, n.step, q))) continue;
+            if(q === prev) continue;              // this file's no-repeat law
+            if(strict && !legalAt(q, n.bar)) continue;
+            put = q; break;
+          }
+          if(put != null) break;
         }
         if(put != null) break;
       }
@@ -33662,7 +33690,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       return Object.assign({}, n, { pitch: put });
     });
   };
-  const leadAdev = JOIN(twist(themeA.notes, varTail.notes, resDev));
+  const leadAdev = JOIN(twist(themeA.notes, varTail.notes, resDev, chords));
   /* and the same move for the chorus, against ITS accompaniment */
   /* AND ITS COUNTER IS IN THE RESERVE, not merely its band. Bdev keeps Bvar's
      second melody — a chorus that loses a whole part on its third hearing is
@@ -33670,7 +33698,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      twisted tune has to stay clear of that line too. Without it the seam check
      threw "collision in Bdev at 2:0:74", which is the counter's seat. */
   const leadBdev = JOIN(twist(themeB.notes, varTailB.notes,
-                              reserve(ostB.concat(bassB, keysB, keys2B, counterBvar))));
+                              reserve(ostB.concat(bassB, keysB, keys2B, counterBvar)),
+                              chorusChords));
 
   /* ══ AND THE RECORD ITSELF MOVES, NOT ONLY ITS BRIDGE ══════════════════════
      MEASURED, AND THE MEASUREMENT IS WHY THIS EXISTS. With the key shift living
@@ -34109,13 +34138,44 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      hand-written list -- the file's own note there says why: "There were two
      copies of this rule and the moment a third chord set existed both were
      wrong in the same silent way." A private copy plays its parent's changes. */
-  const chordsFor = m => {
-    const base = String(m).split("@")[0];
-    return base === "C" ? bridgeChords
-         : (base === "B" || base === "Bvar") ? chorusChords
-         : (base === "Alift" || base === "Avarlift") ? liftChords
-         : chords;
+  /* ── WHICH CHANGES A MATERIAL'S NAME SAYS IT PLAYS — THE RULE, ONCE ──────
+     `whichChanges` answers "A", "B", "C" or "lift" for any material name, and
+     it is the ONLY place that rule exists. There were two copies of it: this
+     one and `frozenFor` beside `chordsOf` below — under a comment which said in
+     as many words that `chordsOf` "is built from this same function rather than
+     from a second hand-written list". It was not. It was a second hand-written
+     list, and it was the copy the SEAM CHECK reads, so the one that mattered
+     was the one nobody was looking at. This file's own warning, four lines
+     further up its own history: "There were two copies of this rule and the
+     moment a third chord set existed both were wrong in the same silent way."
+     ─────────────────────────────────────────────────────────────────────── */
+  const whichChanges = m => {
+    let base = String(m).split("@")[0];               // A@5 is A's changes
+    if(/lift$/.test(base)) return "lift";             // Alift, Avarlift
+    base = base.replace(/(var|dev)+$/, "") || base;   // Bvar, Bdev, Adev -> B, B, A
+    return base === "C" ? "C" : base === "B" ? "B" : "A";
   };
+  /* ── AND IT IS DERIVED FROM THE NAME, NOT LISTED ─────────────────────────
+     THIS WENT STALE THE DAY THE DEVELOPED RESTATEMENT LANDED, and it is the
+     fourth time this exact shape of mistake has been made here. The list knew
+     `B` and `Bvar`; `Bdev` arrived one commit later carrying `bassB`, `keysB`,
+     `keys2B` and `counterBvar` -- all of them written against the CHORUS
+     chords -- and fell through to the verse chords, so the seam check judged
+     correct chorus material against a progression it was never written for.
+
+     MEASURED: blends went from 1 failure in 432 to 63, and 59 of those name
+     `Bdev`. Plain genres never showed it because a genre's verse and chorus
+     changes are drawn from one table and often agree; a blend takes them from
+     two genres and they do not. `no PR-blend battery exists any more` is why it
+     shipped: the printout prints one genre at a time and nothing asked this
+     question until it was asked here.
+
+     So the parent is READ OFF THE NAME instead. A copy suffix `@n` goes first,
+     then a `var` or `dev` ending -- both are developments OF a letter and play
+     that letter's changes -- and what is left is the letter itself. A `Cdev` or
+     a `Bvar2` added tomorrow lands on the right chords without touching this. */
+  const chordsFor = m => ({ C: bridgeChords, B: chorusChords,
+                            lift: liftChords, A: chords })[whichChanges(m)];
   /* ── WHICH KIT SETTING AND WHICH LETTERS A MATERIAL'S DRUMS WERE BUILT WITH ─
      ONE OWNER. Stage 3 used exactly this mapping when it built the five drum
      parts above, `phraseFor` below now reads it instead of restating it, and
@@ -34320,13 +34380,11 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   materials.drumPhrase = Object.freeze(dp);
   /* asked of `chordsFor`, and of every material the song actually has, so a
      private copy is proved against its parent's changes like anything else */
-  const frozenFor = m => {
-    const base = String(m).split("@")[0];
-    return base === "C" ? materials.bridgeChords
-         : (base === "B" || base === "Bvar") ? materials.chorusChords
-         : (base === "Alift" || base === "Avarlift") ? materials.liftChords
-         : materials.chords;
-  };
+  /* the frozen copies of exactly the same answer -- ONE rule, asked twice,
+     rather than two rules that agree until they do not */
+  const frozenFor = m => ({ C: materials.bridgeChords, B: materials.chorusChords,
+                            lift: materials.liftChords,
+                            A: materials.chords })[whichChanges(m)];
   const cOf = {};
   for(const m of MAT_KEYS) cOf[m] = frozenFor(m);
   materials.chordsOf = Object.freeze(cOf);
