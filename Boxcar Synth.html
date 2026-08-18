@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18l · the answer steps off the beat, and the battery runs again</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18m · a banjo is not a harp — every instrument gets its own decay</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -6389,8 +6389,19 @@ const INSTRUMENTS = {
     range: [48, 84],
     /* FIVE STRINGS, and a long note is played AGAIN rather than held: the
        tremolo and the roll are how a banjo sustains at all
-       [docs/genre-research/playing-the-hobo-band.md §2] */
-    play: { poly: 5, onLong: "restrike" },
+       [docs/genre-research/playing-the-hobo-band.md §2]
+
+       AND IT DOES NOT RING. `ring` is [at the bottom of the range, at the top]
+       in seconds. Before this it inherited the plucked family's HARP curve and
+       was allowed 1.2-3.45 s; 13% of its notes ran over a second and the
+       longest was 3.33 s. Banjo string modes below 1 kHz decay in 100-200 ms
+       against a guitar's 300-400 ms — two to three times faster, because the
+       membrane's bridge admittance is far higher than a soundboard's [Acta
+       Acustica 5:16 (2021), Acoustics of the banjo: measurements and sound
+       synthesis]. The factor and the direction are sourced; turning a modal
+       decay into a note ceiling is chosen, and the full argument is at
+       `ringOf` where the curve lives. */
+    play: { poly: 5, onLong: "restrike", ring: [0.90, 0.35] },
     controls: [
       /* ── AND THIS BAND STANDS SOMEWHERE ──────────────────────────────────
          [owner, 2026-08-16: "We are not using the stereo field correct, all of
@@ -6612,8 +6623,27 @@ const INSTRUMENTS = {
        register" [corpus:grokipedia] -- so an octave and a half, and no more.
        A player reaching past that is fighting a rope. MIDI 28-46 is E1 to A#2. */
     range: [28, 46],
-    /* ONE STRING, ONE ROPE. Same law as the bow's, same reason. */
-    play: { poly: 1 },
+    /* ONE STRING, ONE ROPE. Same law as the bow's, same reason.
+
+       AND IT DOES NOT RING OUT — this instrument's own sheet says so twice and
+       the engine was not listening. `washtub-bass.md` §3: "TONE — the hand
+       damping — a rope player stops the note; IT DOES NOT RING OUT", and §1
+       names the instrument it replaced by its fault: "note length 7.5 s — a
+       sustained pedal ... A washtub bass is the opposite of that in every
+       respect the measurement complained about — SHORT, plucked, percussive".
+
+       MEASURED 2026-08-18, eight records: its longest note was 4.20 SECONDS,
+       sitting exactly on the plucked family's harp ceiling. It had become the
+       sustained pedal it was built to replace, because `family: "plucked"` was
+       the only thing anyone had asked it and the family answers with a harp.
+
+       The seconds are CHOSEN — no source gives a decay for a rope on a tub, and
+       the sheet says outright that not one source states a decay time. What is
+       sourced is that it stops: the player's hand is a damper and the technique
+       is a thump. 0.70 falling to 0.35 puts a bass note under a beat at this
+       genre's tempi, so it speaks and gets out of the way, which is the whole
+       argument for having chosen this instrument. */
+    play: { poly: 1, ring: [0.70, 0.35] },
     controls: [
       ...panControls(),
       { k:"thump", label:"string on the rim",  cap:"THUMP", min:0, max:1, step:0.01, def:0.62, kind:"voicing" },
@@ -33847,7 +33877,56 @@ function makePerformance(chart, form, materials, sections){
        substantially brighter and more percussive" [corpus:ACTOR, Harp]. NO
        SOURCE ANYWHERE GIVES A HARP DECAY IN SECONDS -- score-craft.md §56
        records that absence -- so these two numbers are CHOSEN, and marked. */
-    const pluckRing = midi => 4.2 - 3.0 * Math.max(0, Math.min(1, (midi - 36) / 48));
+    /* ── AND THE INSTRUMENT MAY DECLARE ITS OWN, BECAUSE A BANJO IS NOT A HARP ──
+       THE OWNER, and he is right and the measurement agreed with him:
+
+         "A banjo does not have a tail it does not have legato it should never
+          be treated like it does ... there should never be long banjo notes."
+
+       MEASURED before this, 9,694 banjo notes over six records: 13% ran longer
+       than a SECOND and the longest was 3.33 s. The curve above was doing its
+       job — it truncated everything to its ceiling — but its ceiling at the
+       banjo's own register is 1.2-3.45 s, because the curve was sourced from a
+       HARP ("The lower strings naturally sustain longer than higher ones"
+       [corpus:ACTOR, Harp]) and then applied to every plucked instrument in the
+       file. A harp, a banjo, a diddley bow and a washtub bass were given one
+       set of physics. That is the piano fault one level down: not "every part
+       written like a piano" but "every plucked instrument decaying like a harp".
+
+       THE BANJO'S NUMBER IS MEASURED AND PUBLISHED, which is rarer than this
+       repo usually gets. Politzer/Woodhouse et al, Acta Acustica 5:16 (2021),
+       "Acoustics of the banjo: measurements and sound synthesis": banjo string
+       modes below 1 kHz have decay times of 100-200 ms against a steel-string
+       guitar's 300-400 ms — "significantly and systematically higher [damping]
+       for the banjo than for a guitar" — because a light membrane presents a
+       far higher bridge admittance than a plate soundboard, so the string's
+       energy leaves it two to three times faster.
+
+       WHAT IS SOURCED AND WHAT IS CHOSEN, marked the way this file marks it
+       everywhere else. Sourced: the FACTOR of 2-3 against a guitar, and the
+       direction (low rings longer than high). Chosen: turning a modal decay
+       time into a note-length ceiling, because a mode dying at 150 ms and a
+       note becoming inaudible are not the same measurement and no source
+       bridges them. The harp curve gives this register 3.45 s down to 1.20 s;
+       the paper's factor puts that at roughly 1.4 s down to 0.5 s, and the
+       roll's own eighth notes at this genre's 57-97 bpm are 0.31-0.53 s. A
+       banjo note that outlives the note after it is wrong for the part
+       whatever the physics says, so it lands at 0.90 / 0.35.
+
+       AND A LONG NOTE IS NOT LOST — it becomes a re-strike, below. That is the
+       other half of his complaint answered by the same change: shorter notes
+       with `onLong: "restrike"` is a CONTINUOUS STREAM OF SHORT NOTES, which
+       is what a roll is. */
+    const ringOf = (voice, midi) => {
+      const M = voice && INSTRUMENTS[machineOfVoice2(voice)];
+      const r = M && M.play && M.play.ring;
+      const t = Math.max(0, Math.min(1, (midi - 36) / 48));
+      /* an instrument's own [low, high] pair, interpolated across the same
+         span the family curve uses, so the two are directly comparable */
+      if(Array.isArray(r) && r.length === 2) return r[0] + (r[1] - r[0]) * t;
+      return 4.2 - 3.0 * t;                       // the harp curve, for whoever has not declared
+    };
+    const pluckRing = midi => ringOf(null, midi);  // kept for anything asking without a voice
     /* HOW LONG A WIND CAN GO BEFORE IT HAS TO BREATHE. Also chosen, and
        deliberately so: the best pedagogy source argues that publishing a
        seconds table is HARMFUL because "once those values were established,
@@ -33911,7 +33990,7 @@ function makePerformance(chart, form, materials, sections){
              note told to last four bars is a lie the envelope cannot tell.
              This is the owner's "why would a plucked intrument be put on
              chords?" enforced rather than described. */
-          const ring = pluckRing(e.pitch);
+          const ring = ringOf(e.voice, e.pitch);
           if(e.durSec > ring)
             events[i] = Object.freeze(Object.assign({}, e, { durSec: ring }));
           continue;
@@ -33961,7 +34040,7 @@ function makePerformance(chart, form, materials, sections){
         if(e.pitch == null || !e.voice || !reOf(e.voice)) continue;
         const fam = FAMILY[e.voice];
         if(fam !== "plucked" && fam !== "struck") continue;
-        const ring = pluckRing(e.pitch);
+        const ring = ringOf(e.voice, e.pitch);
         /* `holdSec` is how long the key COULD stay down — the written note
            before the ring truncated it — so it is the length to cover */
         const want = Math.max(e.durSec, e.holdSec != null ? e.holdSec : 0);
