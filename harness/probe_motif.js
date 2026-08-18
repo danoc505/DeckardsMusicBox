@@ -63,7 +63,7 @@ console.log("\n=== THE LOOP, THE THIRD TIME — " + SEEDS + " seeds\n");
 
 const g0 = M.genres()[0];
 let loopSec = 0, recs = 0, thirds = 0, same = 0, diverged = 0, missing = 0;
-let figShare = 0, figN = 0, devs = {};
+let figShare = 0, figN = 0, devs = {}, cuts = 0, noCut = 0;
 const rows = [];
 
 for(let s = 1; s <= SEEDS; s++){
@@ -88,14 +88,32 @@ for(let s = 1; s <= SEEDS; s++){
     if(!base || !alt) continue;
     thirds++;
     devs[song.materials.thirdDev[k]] = (devs[song.materials.thirdDev[k]] || 0) + 1;
-    const half = Math.floor(bars / 2);
-    const sig = ns => ns.slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step) || (a.pitch - z.pitch))
-                        .map(n => n.bar + ":" + n.step + ":" + n.pitch).join("|");
-    const headB = sig(base.filter(n => n.bar < half)), headA = sig(alt.filter(n => n.bar < half));
-    const tailB = sig(base.filter(n => n.bar >= half)), tailA = sig(alt.filter(n => n.bar >= half));
-    if(headB !== headA) missing++;                 // it did not start the same
-    else if(tailB === tailA) same++;               // it did not diverge
+    /* ── AND IT ASKS WHERE THE SPLIT IS RATHER THAN ASSUMING BAR 2 ──────────
+       The first cut hard-coded `half = bars / 2`, which was the split stage 3
+       used and is no longer always the split stage 3 uses: a phrase that does
+       not reach the loop's midpoint now departs at ITS OWN midpoint instead,
+       and the material that needed that is `C` — the bridge, and the largest
+       material in the record at 26.7% of playing time, which was refused a
+       third statement on NINE of 24 seeds and repeated up to six times running.
+       Stage 3 publishes the index it actually split at as `materials.thirdCut`,
+       so the claim is unchanged and is now asked at the right place.
+
+       A part with NO cut published did not take that road — `thin` opens a
+       pad's voicing across the whole loop by removing its inner voices, which
+       is a subtraction, not an antecedent/consequent pair. It is counted as a
+       divergence, because it is one, and it is not asked to hold an opening it
+       was never built to hold. */
+    const cut = (song.materials.thirdCut || {})[k];
+    const ord = ns => ns.slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step) || (a.pitch - z.pitch));
+    const sig = ns => ns.map(n => n.bar + ":" + n.step + ":" + n.pitch).join("|");
+    if(sig(ord(base)) === sig(ord(alt))) same++;                      // it did not change at all
     else diverged++;
+    if(cut == null) noCut++;                                          // took a road with no seam
+    else {
+      cuts++;
+      const B2 = ord(base), A2 = ord(alt);
+      if(sig(B2.slice(0, cut)) !== sig(A2.slice(0, cut))) missing++;   // did not start the same
+    }
   }
 
   /* ── HOLD ── */
@@ -135,14 +153,37 @@ say(thirds > 0, "the record composes a third statement at all",
    guards that were green because they were measuring nothing: the faders probe
    composing a deleted genre, the banjo probe parsing zero cells, the mode probe
    filtering on a field the events do not have. */
-say(thirds > 0 && missing === 0, "and it STARTS THE SAME as the first two hearings",
-    !thirds ? "NO THIRD STATEMENTS AT ALL — nothing to ask"
-            : missing ? missing + "/" + thirds + " changed their opening — that is not a divergence, it is a new tune"
-                      : (thirds - missing) + "/" + thirds + " keep the opening exactly");
-say(thirds > 0 && same === 0, "and then DIVERGES",
+/* ── AND THE OPENING IS ASKED OF THE ENTRIES THAT HAVE ONE ────────────────
+   Two roads reach a third statement and only one of them has a seam.
+
+     A TRANSFORM keeps the phrase's opening and turns its tail, and stage 3
+     publishes the index it turned at as `materials.thirdCut`. That is the
+     road the TUNE takes, on every material, on every seed, and the claim
+     "start the same, then diverge partway through" is asked of it exactly.
+
+     A DERIVATION has no opening to keep. `deriveCounter` reads the tune it is
+     answering and writes a fresh shadow of it, so when the tune's third
+     statement diverges the answer is re-derived WHOLE — the head moves too,
+     because the head of a counter is a function of a tune, not a copy of
+     itself. `thin` is the same shape for the other reason: it removes the
+     pad's inner voices across all four bars, which is a subtraction and has
+     no seam by construction.
+
+   So the seam claim is asserted over the entries that publish a cut, carrying
+   `cuts > 0` so an empty population cannot pass, and the roads with no seam
+   are COUNTED AND PRINTED rather than folded in. Folding them in is how this
+   claim read 582/582 in the cut that added them — a number that was true and
+   was answering a question nobody asked. What every entry IS held to is the
+   one below: it has to differ from the statement it replaces. */
+say(cuts > 0 && missing === 0, "and where there is a seam, it STARTS THE SAME as the first two hearings",
+    !cuts ? "NO TRANSFORMED THIRD STATEMENTS AT ALL — nothing to ask"
+          : missing ? missing + "/" + cuts + " changed their opening — that is not a divergence, it is a new tune"
+                    : (cuts - missing) + "/" + cuts + " keep the opening exactly, at the cut stage 3 published" +
+                      " (" + noCut + " more re-derive or thin, and have no seam)");
+say(thirds > 0 && same === 0, "and every third statement DIFFERS from the one it replaces",
     !thirds ? "NO THIRD STATEMENTS AT ALL — nothing to ask"
             : same ? same + "/" + thirds + " are identical to the loop — nothing evolved"
-                   : diverged + "/" + thirds + " depart at the halfway bar");
+                   : diverged + "/" + thirds + " depart");
 console.log("     devices used: " + Object.keys(devs).sort((a, z) => devs[z] - devs[a])
                                           .map(d => d + " " + devs[d]).join(", "));
 

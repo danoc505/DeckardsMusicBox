@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-17aa · one tune, and every section is it</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18a · ONE LOOP — and the tune is allowed to stop</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20462,7 +20462,50 @@ GENRE.boxcarsynth = {
     material: { yard: "A", roll: "A", open: "A", high: "B", brake: "A",
                 solo: "C", dance: "C", pullout: "A", arrive: "B" },
     payoff: "high",
-    rest: { drums: 0.15, keys2: 0.18, counter: 0.18, ostinato: 0.10 },
+    /* ══ THE BAND IS TOO FULL, AND THE TUNE NEVER STOPS ═══════════════════
+       MEASURED, 12 records, 359 sections, before this table changed:
+
+         lead      plays in  97% of sections      <- never rests, in any record
+         keys                70%
+         drone               70%
+         bass                63%
+         ostinato            39%
+         counter             34%
+         drums               27%
+         keys2               27%
+         mean roles sounding at once   4.26 of 8   = 53%
+
+       TWO SOURCES IN THIS REPO SAY BOTH HALVES OF THAT ARE WRONG, and one of
+       them is a corpus measurement rather than an opinion.
+
+       THE TUNE. `LOOP_TO_SONG.md`'s ranked list of what to change, item 2, in
+       full: "GIVE THE LEAD RESTS. It currently sounds ~92% of the song;
+       sources are unanimous that the lead leaves gaps and that something else
+       answers IN those gaps." That was written, ranked second of nine, and
+       never built — `rest` had no `lead` key at all, so the coin could not be
+       tossed, and the number went UP to 97%. `009`: "A lead part doesn't
+       usually go constantly throughout the whole song, so in the spaces it
+       leaves you often want to add a little something else to maintain the
+       interest... These are the things that elevate a song from being solid to
+       being magical."
+
+       THE BAND. `orchestral-scores-measured.md` §3, 11,219 blocks across 94
+       movements of real full scores: "parts in the score 17.3 mean, PARTS
+       SOUNDING in a block 7.1 -> 59% RESTING". An orchestra is 41% sounding.
+       We are 53%. That sheet's own conclusion: "Our band is too full, not too
+       empty" — and it names thinning as item 3 of three, against
+       `LOOP_TO_SONG.md` §1's "subtraction is the primary arrangement verb".
+
+       So the numbers below are set to land the band near 41% with the tune
+       resting for the first time. They are the one thing here that is a DIAL
+       rather than a citation: the corpus gives the target, not the per-role
+       split, so the split follows the roles' jobs — the ground (drone) and the
+       harmony (keys) rest least because a place needs a floor, the decoration
+       (keys2, counter, ostinato) rests most, and the tune sits between them.
+       The measured result is what justifies them and it is printed by
+       `probe_law.js` and `harness/probe_density.js`. */
+    rest: { lead: 0.24, drums: 0.28, keys2: 0.34, counter: 0.30,
+            ostinato: 0.26, bass: 0.18, keys: 0.14, drone: 0.10 },
 
     /* ══ TWO PLAYERS ON A LINE — THE ENGINE WAS BUILT AND NEVER ASKED ═══════
        [owner] "the diddly and contrabasson should both be playing, this is
@@ -20727,6 +20770,16 @@ GENRE.boxcarsynth = {
      material for each section. It is made by taking ONE loop, spreading it
      across the whole timeline, and then SUBTRACTING." */
   materialBars: 4,
+  /* ══ ONE LOOP, SPREAD, THEN SUBTRACTED [LOOP_TO_SONG.md, headline] ════════
+     "A song is not made by generating different material for each section. It
+     is made by taking ONE loop, spreading it across the whole timeline, and
+     then SUBTRACTING." Ten practitioner transcripts said it independently and
+     this table is the first one to ask for it. See the collapse in stage 3 for
+     what it does and the numbers that made it necessary — seven materials, of
+     which the BRIDGE was the most-played thing in the record and the verse tune
+     was 16% of it. The lift is exempt: one key change is the genre's central
+     gesture [§5], six materials is a shuffle. */
+  oneLoop: true,
   /* ══ AND THE TUNE IS NOT ONE OF THEM ═══════════════════════════════════════
      [owner] "The worst thing is its just random notes with instruments being
      played wrong we have no motif no repeating patterns no rule of three. Its
@@ -29039,9 +29092,42 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       return best;
     };
     const build = (tag, notes, chordSet, reserved, lo, hi) => {
-      const src = (notes || []).filter(n => n.bar >= half);
-      const head = (notes || []).filter(n => n.bar < half);
-      if(src.length < 2 || !head.length) return null;
+      /* ══ WHERE THE THIRD HEARING DEPARTS, AND WHY IT IS NOT ALWAYS BAR 2 ══
+         The first cut split at the loop's midpoint and asked for two notes past
+         it. MEASURED over 24 records that refused a third statement to `C` on
+         NINE OF THEM — and `C` is the largest material in the record at 26.7%
+         of playing time — so the bridge repeated unchanged for as long as the
+         form gave it. PRINTED, seed 21: three C sections back to back, 24 bars,
+         SIX identical statements of the same four bars. Every one of the five
+         `lead` violations across those 24 records was this and nothing else.
+
+         The reason is upstream and is its own fault (#153): C is A's rhythm
+         AUGMENTED, and `at = t * 2` accumulates DURATIONS rather than doubling
+         POSITIONS, so a motif whose notes are four sixteenths long and sixteen
+         apart comes out COMPRESSED — a diminution wearing an augmentation's
+         name. C's notes then all live inside bars 0-1 and the second half of
+         the loop is empty. Fixing that is a change to what C plays and belongs
+         in its own pass; this is a change to where the divergence is read.
+
+         A PHRASE DIVERGES AT ITS OWN MIDDLE, NOT AT THE LOOP'S. "Start the
+         same, then diverge partway through" [LOOP_TO_SONG.md §6] is a
+         statement about the phrase. The bar midpoint is the right reading when
+         the phrase actually reaches it, so it is still tried first and still
+         wins; when the phrase does not, the split falls back to the phrase's
+         own note count and the claim is unchanged — an opening that is heard
+         again exactly, and a tail that turns.
+
+         AND ONE NOTE IS ENOUGH TO TURN ON. The old floor of two was arbitrary:
+         `tail` — "only the last note changes — the antecedent/consequent pair,
+         the oldest varied repeat there is" — moves exactly one note by
+         definition, so a tail of one is the device this table already draws
+         most often, not a degenerate case of it. */
+      const all = (notes || []).slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step));
+      if(all.length < 2) return null;
+      let cut = all.findIndex(n => n.bar >= half);
+      if(cut < 1 || cut >= all.length) cut = Math.max(1, Math.ceil(all.length / 2));
+      const head = all.slice(0, cut), src = all.slice(cut);
+      if(!src.length || !head.length) return null;
       const k = keyOf(chordSet), md = modeOf(chordSet);
       const rng = stream(chart.seed, "third:" + tag);
       const pool = T.of || [["sequence", 1]];
@@ -29123,8 +29209,46 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           if(ok && out2.every((n, i) => n.pitch === ordered[i].pitch)) ok = false;
           if(!ok) continue;
           for(const n of out2) reserved.add(key(n.bar % BARS, n.step, n.pitch));
-          return { dev, notes: head.concat(out2) };
+          return { dev, cut, notes: head.concat(out2) };
         }
+      }
+      /* ══ AND IF NOTHING FITS, CUT IT SHORT ═══════════════════════════════
+         [owner] "Nothing can repeat more than three times in a row without SOME
+         KIND of change there are plenty of options for change."
+
+         Every device above can fail to seat — a transposition can leave the
+         band, an inversion can land on a seat another part holds — and without
+         a floor the function returns null and the loop repeats unchanged.
+
+         TRUNCATION CANNOT FAIL. "Truncation — cut the phrase short" is in the
+         same classical list as the rest [STORY_AND_MATERIAL.md §3], removing a
+         note can never collide with anything, and a phrase that stops early is
+         audibly a change without being a different tune.
+
+         AND IT HAS NEVER ONCE BEEN NEEDED — INSTRUMENTED, 582 third statements
+         across 40 records: `sequence 212, tail 183, invert 93, thin 74,
+         retrograde 20`, and TRUNCATE 0. Four devices with six settings between
+         them, tried in a drawn order, always seat something.
+
+         IT IS ALSO NOT WHAT FIXED THE LEAD. This block was written believing
+         it was: the lead broke the law nine times across 24 records with a run
+         of six, the reasoning was "a device must have failed to seat", and
+         adding the floor moved that number by NOTHING — measured with the
+         floor removed and the count was identical, 17 both ways. The real cause
+         was two functions upstream and had nothing to do with seating: `C` was
+         never OFFERED to this block, because its notes all landed in bars 0-1
+         and the split asked for two in the second half. See the split above.
+
+         Kept anyway, and kept as the floor rather than as a device in the pool:
+         a branch that costs nothing and guarantees the law cannot be broken by
+         a seating failure is worth having even at zero uses, and the moment the
+         register table or the reservation map tightens it is what stands
+         between the record and a silent repeat. Recorded here at zero so the
+         next reader does not have to re-measure it, and so nobody credits it
+         with a fix it did not make. */
+      if(ordered.length >= 2){
+        const short = ordered.slice(0, -1);
+        if(short.length) return { dev: "truncate", cut, notes: head.concat(short) };
       }
       return null;
     };
@@ -29133,18 +29257,157 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        roll and the comp to diverge as well would be three devices moving at
        once and nothing recognisable underneath any of them. */
     const lo = playable(R.themeA)[0], hi = playable(R.themeA)[1];
-    const add = (name, notes, chordSet, reserved, band) => {
+    /* ══ AND THE ANSWERING VOICE FOLLOWS THE TUNE ══════════════════════════
+       [owner] "The rule of three IS THE LAW! Nothing can repeat more than three
+       times in a row without some kind of change."
+
+       PRINTED, SEED 1, quantised to the written grid so groove and jitter do
+       not make every bar look unique:
+
+         part      statements  distinct  longest identical run
+         lead          92         32          2      ✓
+         keys          79         56          1      ✓
+         bass          60         46          1      ✓
+         ostinato      57         45          1      ✓
+         drums         35         33          1      ✓
+         keys2         19         10          3      ✓ (at the limit)
+         drone         20          3          3      ✓ (at the limit)
+         COUNTER       26          5          4      ✗  FIVE TIMES OVER
+
+       One part in eight breaks it, and it breaks it for a structural reason
+       rather than a musical one: the counter had NEITHER device. The
+       accompaniment re-realises through `takes`; the tune diverges on its third
+       hearing; and `counterATakes` was built take-for-take FROM the lead's
+       takes — so when the head became one realisation, the counter's only
+       source of change went with it and nobody noticed.
+
+       The counter is not accompaniment. It is the ANSWER — `deriveCounter`
+       reads the tune's notes and shadows them — so the right fix is not to give
+       it takes of its own but to make it follow the tune where the tune goes.
+       When the third hearing diverges, the answer answers the line that is
+       actually being played. That is also the only correct one: "a counter
+       drawn against take 0 played over take 2 is a shadow of the wrong line"
+       is already written at the takes site, and this is the same sentence. */
+    const add = (name, notes, chordSet, reserved, band, keys, baseCounter) => {
       const r = build(name, notes, chordSet, reserved, band ? band[0] : lo, band ? band[1] : hi);
-      if(r) out[name + "|lead"] = r;
+      if(!r) return;
+      out[name + "|lead"] = r;
+      /* only where the genre actually seats a second voice — one falsy test
+         otherwise, and no draw is spent [Law 3] */
+      if(!(G.counter || (G.machines && G.machines.counter))) return;
+      let c = null;
+      try { c = deriveCounter(r.notes, reserved, "counter:third:" + name, chordSet, keys); }
+      catch(e){ c = null; }
+      /* ── AND A SHADOW THAT DID NOT MOVE IS NOT A DIVERGENCE ────────────────
+         `deriveCounter` reads the tune and answers it, so when the tune's
+         divergence is a `tail` — one note, at the end — the answer can come
+         back BYTE-IDENTICAL to the one it already played. MEASURED, seeds 3, 8
+         and 9: the counter's third statement was stored, selected, and was the
+         same four events, so the run counter never broke and the part repeated
+         four times. A third statement that is the second statement is the fault
+         this block exists to remove, and it was passing the gate because
+         nothing asked. The `build` road above has held this rule since it was
+         written ("AND IT MUST ACTUALLY BE DIFFERENT"); this is that same
+         sentence applied to the road that derives rather than transforms. */
+      const same = (x, y) => x.length === y.length &&
+        x.every((n, i) => n.bar === y[i].bar && n.step === y[i].step && n.pitch === y[i].pitch);
+      const base = baseCounter;
+      const moved = c && c.length && !(base && same(
+            c.slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step)),
+            base.slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step))));
+      if(moved){ out[name + "|counter"] = { dev: r.dev, notes: c }; return; }
+      /* ── AND WHEN THE SHADOW WILL NOT MOVE, THE ANSWER TURNS ON ITS OWN ────
+         Refusing an identical derivation is right and it is not enough: the
+         part then has no third statement at all and repeats exactly as before,
+         which is what the first cut of this shipped as — seeds 3, 8 and 9 stayed
+         at a run of four with the check in place. So the counter goes down the
+         same road the tune does, with its own notes, its own register and its
+         own draw: the four devices in `theme.third`, tried in the drawn order,
+         all-or-nothing, checked against the same reservation map. An answering
+         voice inverting or shortening its own tail is the antecedent/consequent
+         pair one voice down, which is what a counter-subject IS. */
+      if(!base || base.length < 2) return;
+      const cb = R.counter && R.counter.length === 2 ? R.counter
+               : [Math.min(...base.map(n => n.pitch)) - 5, Math.max(...base.map(n => n.pitch)) + 5];
+      let own = null;
+      try { own = build("counter:" + name, base, chordSet, reserved, cb[0], cb[1]); }
+      catch(e){ own = null; }
+      if(own) out[name + "|counter"] = { dev: own.dev, cut: own.cut,
+                                         notes: own.notes.map(n => ({ ...n, role: "counter" })) };
     };
-    add("A", themeA.notes, chords, resA);
-    add("Avar", leadAvar, chords, resV);
-    add("B", themeB.notes, chorusChords, resB, [playable(R.themeB)[0], playable(R.themeB)[1]]);
-    add("Bvar", leadBvar, chorusChords, resBv, [playable(R.themeB)[0], playable(R.themeB)[1]]);
-    add("C", themeC.notes, bridgeChords, resC, [playable(R.themeC)[0], playable(R.themeC)[1]]);
+    /* ══ AND THE PART THAT CANNOT TURN, SUBTRACTS ══════════════════════════
+       [owner] "Nothing can repeat more than three times in a row without some
+       kind of change — there are plenty of options for change."
+
+       PRINTED, seed 8, quantised to the written grid: `keys2` ran FOUR
+       identical statements at bars 40, 72, 88, 164, 256, 272, 288 and 364 —
+       eight separate breaches in one record, more than every other part in
+       these 24 seeds put together. The reason is that it has NO mechanism at
+       all. The tune diverges on its third hearing; the roll, the comp and the
+       bass re-realise through `materialTakes: { ostinato: 6, bass: 5, keys: 3 }`
+       — and `keys2` is in neither list. It is a whole-note pad, one voicing a
+       bar, and it plays that voicing for as long as the form gives it.
+
+       SO IT DOES NOT PLAY A DIFFERENT CHORD, IT PLAYS FEWER NOTES OF THE SAME
+       ONE. `docs/LOOP_TO_SONG.md` §1, the headline finding of that research
+       pass, is one sentence: "A song is not made by generating different
+       material for each section. It is made by taking ONE loop, spreading it
+       across the whole timeline, and then SUBTRACTING." The pad's third hearing
+       drops its INNER voices and keeps the outer two — the harmony is
+       unchanged, the register is unchanged, the texture opens, and no note is
+       invented, so this cannot put a pitch anywhere the counterpoint laws have
+       not already cleared. It is also the one device that is always available:
+       removing a note can never collide with anything and can never leave the
+       band.
+
+       A pad already down to two voices has no inner voice to lose and gets
+       nothing — refusing is correct there, because the alternative is dropping
+       the part, and a pad that vanishes every third hearing is an arrangement
+       decision this has no business making on its own. */
+    const thin = (name, role, notes) => {
+      if(!notes || !notes.length) return;
+      const at = {};
+      for(const n of notes){ const k2 = n.bar + ":" + n.step; (at[k2] = at[k2] || []).push(n); }
+      /* ── AND THE RULE IS "IT LOSES ITS LOWEST VOICE", WHICH IS ONE SENTENCE
+         The first cut dropped the INNER voices and kept the outer two, and
+         refused a pad already down to two on the grounds that it had no
+         interior to lose. Correct as stated, and it left three of 24 records
+         with `keys2` running FIVE identical statements (seeds 7, 17, 24) —
+         every genuine failure the law had left. A rule with a hole in it is a
+         rule that does not apply to the cases that need it.
+
+         The pad's LOWEST note is the most redundant thing in the record: the
+         bass is on the root and the comp is on the chord, so the pad doubling
+         the bottom buys nothing and costs the register. Lifting it off is what
+         opening a texture means, it is always available — a stack of two has a
+         lowest note exactly as a stack of four does — and it invents nothing,
+         so no pitch can land anywhere the counterpoint laws have not cleared.
+         [LOOP_TO_SONG.md §1: subtraction is the primary arrangement verb.] */
+      const drop = new Set();
+      for(const k2 in at){
+        const v = at[k2].slice().sort((a, z) => a.pitch - z.pitch);
+        if(v.length >= 2) drop.add(v[0]);
+      }
+      if(!drop.size) return;                       // a single line: nothing to lift
+      const kept = notes.filter(n => !drop.has(n));
+      if(kept.length) out[name + "|" + role] = { dev: "thin", notes: kept };
+    };
+    const BT = [playable(R.themeB)[0], playable(R.themeB)[1]];
+    add("A", themeA.notes, chords, resA, null, keysA, counterA);
+    add("Avar", leadAvar, chords, resV, null, keysA, counterAvar);
+    add("B", themeB.notes, chorusChords, resB, BT, keysB, counterB);
+    add("Bvar", leadBvar, chorusChords, resBv, BT, keysB, counterBvar);
+    add("C", themeC.notes, bridgeChords, resC, [playable(R.themeC)[0], playable(R.themeC)[1]], keysC, counterC);
+    /* THE PAD, on every material it is written for. `Bvar` shares `keys2B` and
+       `Avarlift` shares nothing with `Avar`, so each is named once and the two
+       that are the same array simply get the same answer. */
+    thin("A", "keys2", keys2A);       thin("Avar", "keys2", keys2Avar);
+    thin("B", "keys2", keys2B);       thin("Bvar", "keys2", keys2B);
+    thin("C", "keys2", keys2C);
     if(LIFT){
-      add("Alift", themeAl.notes, liftChords, resAl);
-      add("Avarlift", leadAvarl, liftChords, resVl);
+      add("Alift", themeAl.notes, liftChords, resAl, null, keysAl, counterAl);
+      add("Avarlift", leadAvarl, liftChords, resVl, null, keysAl, []);
+      thin("Alift", "keys2", keys2Al); thin("Avarlift", "keys2", keys2Avarl);
     }
     return Object.keys(out).length ? out : null;
   })();
@@ -29185,6 +29448,12 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   if(THIRD) for(const k in THIRD) materials.third[k] = THIRD[k].notes;
   materials.thirdDev = {};
   if(THIRD) for(const k in THIRD) materials.thirdDev[k] = THIRD[k].dev;
+  /* WHERE THE THIRD HEARING DEPARTS, as an index into the part's own notes in
+     written order — so a guard can ask where the divergence IS rather than
+     assume it is at the loop's midpoint, which it is only when the phrase
+     reaches that far. `thin` opens the whole pad and names no cut. */
+  materials.thirdCut = {};
+  if(THIRD) for(const k in THIRD) if(THIRD[k].cut != null) materials.thirdCut[k] = THIRD[k].cut;
   /* ── TAKE 0 IS THE MATERIAL'S OWN ARRAY, BY CONSTRUCTION ─────────────────
      The invariant the blend battery caught me breaking: a take list is a set of
      realisations OF A PART, so its head must be the very array that part
@@ -29197,6 +29466,51 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      the next run and this cannot happen at all. `notes === mat[role]` in stage
      5 relies on exactly this: the take swap is gated on the part not having
      already been swapped, and that test is meaningless if take 0 is a stranger. */
+  /* ══ AND HERE IS WHERE THE FAMILY COLLAPSES — BEFORE ANYTHING IS KEYED ON IT
+     Placed above `putTakes` and above nothing else, because everything below
+     this line is keyed `material|role` and would otherwise smuggle the deleted
+     materials back in through their own keys: `takes["C|bass"]` would hand the
+     bridge's bass to a section playing the loop, and `third["C|lead"]` would
+     make its THIRD HEARING a transform of a tune the record no longer contains.
+     Both were true when this collapse sat two hundred lines lower down.
+
+     THE HEAD OF THE FAMILY IS `A`, and the lifted head is `Alift`. */
+  if(G.oneLoop){
+    const HEAD = { Avar: "A", B: "A", Bvar: "A", C: "A", Avarlift: "Alift" };
+    for(const m in HEAD) if(materials[m] && materials[HEAD[m]]) materials[m] = materials[HEAD[m]];
+    /* ── AND A COLLAPSED NAME INHERITS THE HEAD'S THIRD, IT DOES NOT KEEP ITS
+       OWN AND IT DOES NOT GO WITHOUT ────────────────────────────────────────
+       The first cut REWROTE the keys that already existed. That is half the
+       job: a name whose own third statement failed to build had no key to
+       rewrite, so it inherited nothing and played the plain loop for as long as
+       the form gave it. TRACED, seed 7, `keys2` in the `high` sections: the
+       divergence was built for `A`, `B|keys2` was never created because that
+       material's pad had no inner voice to lose, the collapse had no key to
+       map, and the record played five identical statements with the answer
+       sitting in the same object under a different name.
+
+       So the head's entries are COPIED ONTO every collapsed name, for every
+       role the head has one for. They are the same material; there is no sense
+       in which one of its names can have a third statement and another cannot. */
+    const T2 = {}, D2 = {}, C2 = {};
+    const keep = (k, h) => { if(!materials.third[h]) return;
+      T2[k] = materials.third[h]; D2[k] = materials.thirdDev[h];
+      if(materials.thirdCut && materials.thirdCut[h] != null) C2[k] = materials.thirdCut[h]; };
+    for(const k in materials.third){
+      const i = k.indexOf("|");
+      keep(k, (HEAD[k.slice(0, i)] || k.slice(0, i)) + "|" + k.slice(i + 1));
+    }
+    for(const m in HEAD){
+      if(!materials[m]) continue;
+      for(const k in materials.third){
+        const i = k.indexOf("|");
+        if(k.slice(0, i) !== HEAD[m]) continue;
+        keep(m + "|" + k.slice(i + 1), k);
+      }
+    }
+    materials.third = T2; materials.thirdDev = D2;
+    if(materials.thirdCut) materials.thirdCut = C2;
+  }
   const putTakes = (mats, pairs) => {
     for(const m of mats) for(const k of Object.keys(pairs)){
       if(!pairs[k]) continue;
@@ -29215,6 +29529,21 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   putTakes(["B", "Bvar"], { ostinato: ostBTakes, bass: bassBTakes, keys: keysBTakes });
   putTakes(["B"], { lead: themeBTakes, counter: counterBTakes });
   putTakes(["C"], { bass: bassCTakes, keys: keysCTakes });
+  /* ── AND THE COLLAPSED NAMES TAKE THE HEAD'S TAKES ─────────────────────────
+     The gate above is `pairs[k][0] !== materials[m][k]` — take 0 must BE the
+     array the part already holds — and after the collapse it correctly refuses
+     C's bass takes for C, because C's bass is now A's. Correct, and it would
+     leave every section labelled `C`, `B` or `Avar` playing the loop with no
+     re-realisation at all: the accompaniment's only source of variation, gone
+     from two thirds of the record, by a gate doing its job.
+
+     So they are registered again under A's lists, which now pass the same gate
+     for the same reason. One loop is not one performance of it. */
+  if(G.oneLoop){
+    putTakes(["Avar", "B", "Bvar", "C"],
+             { ostinato: ostATakes, bass: bassATakes, keys: keysATakes });
+    putTakes(["Avar", "B", "Bvar", "C"], { lead: themeATakes, counter: counterATakes });
+  }
   /* THE LIFTED PAIR EXISTS ONLY ON A RECORD THAT MOVED, so a song that did not
      has exactly the materials it always had and every tool that asks the song
      what it contains -- the roll, the seam check, the snapshot -- sees no change
@@ -29228,6 +29557,23 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     putTakes(["Alift"],    { ostinato: ostAlTakes,    bass: bassAlTakes, keys: keysAlTakes });
     putTakes(["Avarlift"], { ostinato: ostAvarlTakes, bass: bassAlTakes, keys: keysAlTakes });
     putTakes(["Alift"], { lead: themeAlTakes, counter: counterAlTakes });
+    /* THE LIFTED PAIR COLLAPSES HERE, not with the rest of the family, because
+       it does not exist until this block runs — and the collapse has to happen
+       before anything is keyed on `Avarlift`, which is what these two lines
+       are. One key change is the genre's central gesture [§5]; a lifted VARIANT
+       of it is a second tune wearing the departure's name. */
+    if(G.oneLoop){
+      materials.Avarlift = materials.Alift;
+      for(const k in materials.third){
+        const i = k.indexOf("|");
+        if(k.slice(0, i) !== "Avarlift") continue;
+        const h = "Alift" + k.slice(i);
+        if(materials.third[h]){ materials.third[k] = materials.third[h]; materials.thirdDev[k] = materials.thirdDev[h]; }
+        else { delete materials.third[k]; delete materials.thirdDev[k]; }
+      }
+      putTakes(["Avarlift"], { ostinato: ostAlTakes, bass: bassAlTakes, keys: keysAlTakes });
+      putTakes(["Avarlift"], { lead: themeAlTakes, counter: counterAlTakes });
+    }
   }
 
   /* ── AND THE GENERATIVE PART REPLACES WHAT IT IS DECLARED ON ──────────────
@@ -29594,6 +29940,65 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   };
   const cOf = {};
   for(const m of MAT_KEYS) cOf[m] = frozenFor(m);
+  /* ══ ONE LOOP ══════════════════════════════════════════════════════════════
+     [owner] "You have foundational errors that are fucking everything up!"
+
+     THE ERROR IS WRITTEN DOWN IN THIS REPO, AS THE HEADLINE FINDING OF THE ONE
+     RESEARCH PASS THAT WENT LOOKING FOR IT. `docs/LOOP_TO_SONG.md`, first
+     paragraph, in a block quote, from ten practitioner transcripts:
+
+       "A song is not made by generating different material for each section.
+        It is made by taking ONE loop, spreading it across the whole timeline,
+        and then SUBTRACTING — plus placing ONE moment that everything is
+        arranged around."
+
+     and the sentence immediately after it: "The engine has been doing the
+     opposite." That was written, committed, and then not built. Stage 3's own
+     header still opens "R1: not one loop but a FAMILY" — the two documents
+     contradict each other in the same repository and the code followed the
+     wrong one.
+
+     MEASURED, 12 records, 359 sections, before this line existed:
+
+       material   sections        what it is
+       C               108        the BRIDGE — the most-played thing in the record
+       Avar             85
+       A                59        the verse tune — 16% of the record
+       Avarlift         59
+       B                24
+       Bvar             23
+       Alift             1        built every record, heard in one section of 359
+
+     Seven tunes, and the one a listener is meant to leave humming is the third
+     most common. The departure is the main event. A whole material is composed
+     in every record and never heard. That is not an arrangement; it is seven
+     songs shuffled, and it is why the answer to "it's just random notes" was
+     never a better melody — every fix made one of seven melodies better.
+
+     SO THE FAMILY COLLAPSES TO ITS HEAD. `Avar`, `B`, `Bvar` and `C` become
+     A's own arrays — the same objects, not copies — and the sections stop
+     differing by WHAT IS PLAYED. What they differ by is `active`, which is
+     already built and is the mechanism the sheet says is "the *whole* job".
+
+     THE LIFT SURVIVES, AND IT IS THE ONLY THING THAT DOES. §5 of the founding
+     sheet makes the key change this genre's central gesture — "a change in key
+     and tone to show the change of time from dark to light" — and `007
+     (structure)` gives the reason a bridge modulates: "you get TWO FOR ONE, a
+     shift going in and another coming back out". One departure in a record is
+     a departure. Six is a shuffle. So `Avarlift` collapses onto `Alift` and
+     the lifted pair stays a real re-realisation in the new key.
+
+     EVERY DRAW STILL RUNS [Law 3]. The discarded materials are still composed,
+     against the same streams, in the same order — this replaces the RESULT and
+     never the arithmetic, so no other genre's notes move by a single step, and
+     `oneLoop` is one falsy test on every table that does not ask for it. */
+  /* the changes follow the notes: with `oneLoop` the collapsed names ARE A, so
+     holding their line against the chorus's chords would report a fault that is
+     an artefact of the collapse rather than a fact about the record */
+  if(G.oneLoop){
+    for(const m of ["Avar", "B", "Bvar", "C"]) cOf[m] = materials.chords;
+    if(materials.Alift) cOf.Avarlift = materials.liftChords;
+  }
   materials.chordsOf = Object.freeze(cOf);
   /* WHAT THE RECORD DID WITH ITS KEY, stated once, so the arrangement, the roll
      and the seam check all read the same fact rather than each deriving it. */
@@ -30156,10 +30561,10 @@ function makeArrangement(chart, form, materials){
        for the allowed roles would make the drums' coin depend on whether this
        section happens to have a counter in it -- coupling two owners through
        one stream, which this file has shipped three times. */
+    const resting = {};
     {
       const restRng = stream(chart.seed, "rest:" + i);
       const REST = F.rest || {};
-      const resting = {};
       for(const r of ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato", "drone"])
         resting[r] = restRng() < (REST[r] || 0);
       const kept = active.filter(r => !resting[r]);
@@ -30217,9 +30622,33 @@ function makeArrangement(chart, form, materials){
        AFTER every draw over the active set, exactly like the ground above and
        for the same measured reason: a membership that arrives before the rest
        and thin draws would change what they are drawing from. */
+    /* ── ...BUT IT MAY NOT OVERRULE A REST, AND IT WAS ─────────────────────
+       THE COMMENT ABOVE STATES THE RULE AND THE CODE BELOW DID THE OPPOSITE.
+       "`sec.hand` says WHICH MACHINE sits in a chair; whether that chair plays
+       here is `form.roles`" — and then the line re-added the chair in every
+       section that named one, after the rest draw, unconditionally.
+
+       MEASURED, seed 1, instrumented at the draw: the rest coin said the tune
+       should sit out FIVE of its 27 sections. The record played it in all 27,
+       plus three more the table does not list it in. The lead's share of the
+       record did not move by one section when `rest.lead` went from absent to
+       0.24 — the coin was tossed, read, and then thrown away, which is worse
+       than never having tossed it, because the table now says something the
+       record does not do.
+
+       This is the single mechanism standing between this genre and
+       `LOOP_TO_SONG.md`'s ranked item 2 — "GIVE THE LEAD RESTS. It currently
+       sounds ~92% of the song; sources are unanimous" — which is why it is
+       fixed here rather than by raising a number until it wins.
+
+       THE SOLO IS STILL SAFE, and by the guard that was already there rather
+       than by a special case: `solo: ["lead"]` is a one-chair section, so
+       resting its only role leaves `kept` empty and "never rest the last thing
+       standing" puts it straight back. The measured bug this line was written
+       for cannot return. */
     if(sec.hand)
       for(const r of Object.keys(sec.hand))
-        if(sec.hand[r] && !active.includes(r)) active = active.concat([r]);
+        if(sec.hand[r] && !active.includes(r) && !resting[r]) active = active.concat([r]);
     const enterBar = {};
     for(const r of allowed)
       if(arrivesAt[r] != null && arrivesAt[r] >= sec.startBar && arrivesAt[r] < sec.endBar)
@@ -31538,12 +31967,61 @@ function makePerformance(chart, form, materials, sections){
      So each material carries its own running count across the record. A section
      that plays A resumes A's count where the last A section left it, because a
      listener does not forget a tune because a bridge happened. */
+  /* ══ AND THE COUNT IS PER LOOP, NOT PER LABEL ══════════════════════════════
+     This counted statements under `sec.material`, which was right while seven
+     materials meant seven tunes and is wrong the moment they are one. With
+     `oneLoop` the names `A`, `Avar`, `B`, `Bvar` and `C` are FIVE NAMES FOR THE
+     SAME ARRAYS — so a listener who has heard the loop nine times was counted
+     as having heard five different things twice each, the "third hearing" reset
+     at every label change, and the divergence never arrived.
+
+     MEASURED, 24 records, with the collapse in and this line unchanged: SIX
+     parts still repeated past the law, longest run FIVE, and every one of them
+     sat across a label boundary — `lead` at bar 124 of seed 6 called `Avar`,
+     `keys2` at bar 36 of seed 7 called `A`, `counter` at bar 44 of seed 11
+     called `B`. Three different names, one tune.
+
+     So the key is the MATERIAL OBJECT, by identity. Two names that were
+     collapsed onto one object share a count; two that were not are still
+     counted apart, so a genre without `oneLoop` behaves exactly as it did and
+     the lift — the one real departure — still starts its own count, which is
+     correct: a key change is a new thing to hear three times. */
+  /* ══ AND IT IS COUNTED PER PART, BECAUSE A REST CAN SWALLOW THE THIRD ══════
+     Two corrections, and the second only became visible once the first landed.
+
+     PER LOOP, NOT PER LABEL. This counted under `sec.material`, which was right
+     while seven materials meant seven tunes and is wrong the moment they are
+     one: with `oneLoop` the names `A`, `Avar`, `B`, `Bvar` and `C` are five
+     names for the same arrays, so a listener who had heard the loop nine times
+     was counted as having heard five things twice each and the third hearing
+     reset at every label change. Keyed on the material OBJECT instead, so names
+     that were collapsed share a count and the lift — a real departure — still
+     starts its own, which is correct: a key change is a new thing to hear three
+     times.
+
+     PER PART, NOT PER RECORD. That fixed six of nine and left three: `keys2`
+     running FIVE identical statements on seeds 7, 17 and 24 — with its third
+     statement BUILT, and selected, and never heard. The record's statement
+     counter runs whether a part is playing or not, so a part that rests across
+     the exact statement its divergence was due for comes back and plays the
+     plain loop again. Heard: base, base, base, base, base. The divergence was
+     spent on a bar the part sat out.
+
+     A listener counts the hearings OF THAT PART. So the counter is per
+     (material, role) and only advances where the role is actually in the room —
+     `sec.active`, which is the same list stage 5 iterates. A part that rests
+     for a minute and returns picks up its own count where it left off, which is
+     what recognising a tune actually is. */
   const STMT0 = [];
-  { const seen = {};
+  { const seen = new Map();
     for(const sec of sections){
-      STMT0.push(seen[sec.material] || 0);
-      seen[sec.material] = (seen[sec.material] || 0) +
-        Math.ceil((sec.endBar - sec.startBar) / materials.bars);
+      const k = materials[sec.material] || sec.material;
+      let row = seen.get(k);
+      if(!row){ row = {}; seen.set(k, row); }
+      const n = Math.ceil((sec.endBar - sec.startBar) / materials.bars);
+      const here = {};
+      for(const r of sec.active){ here[r] = row[r] || 0; row[r] = here[r] + n; }
+      STMT0.push(here);
     }
   }
   let secNo = -1;
@@ -31621,7 +32099,7 @@ function makePerformance(chart, form, materials, sections){
            same bar is three devices moving at once with nothing recognisable
            left underneath any of them. */
         const THR = materials.third && materials.third[sec.material + "|" + role];
-        if(THR && notes === mat[role] && (STMT0[secNo] + cycle) % 3 === 2)
+        if(THR && notes === mat[role] && ((STMT0[secNo][role] || 0) + cycle) % 3 === 2)
           notes = THR;
         if(role === "drums" && lastBar && sec.fillInto){
           /* CONSECUTIVE BOUNDARIES TAKE CONSECUTIVE FILLS. The source's rule is
