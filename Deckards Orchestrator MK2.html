@@ -6359,7 +6359,23 @@ const INSTRUMENTS = {
     /* FIVE STRINGS, and a long note is played AGAIN rather than held: the
        tremolo and the roll are how a banjo sustains at all
        [docs/genre-research/playing-the-hobo-band.md §2] */
-    play: { poly: 5, onLong: "restrike" },
+    /* AND IT DOES NOT RING LIKE A HARP. `ring` is [at the bottom of the range,
+       at the top] in seconds; without it every plucked instrument in this file
+       shared ONE decay curve sourced from a harp — "the lower strings naturally
+       sustain longer than higher ones" [corpus:ACTOR, Harp] — which allowed the
+       banjo 1.2-3.45 s a note. Banjo string modes below 1 kHz decay in
+       100-200 ms against a guitar's 300-400 ms, two to three times faster,
+       because a light membrane presents a far higher bridge admittance than a
+       soundboard [Acta Acustica 5:16 (2021), Acoustics of the banjo].
+
+       THE NUMBER IS SET BY THE PART, NOT BY THE PHYSICS ALONE, and getting that
+       backwards was measured: a ceiling of 0.35 s against an eighth note of
+       0.31-0.53 s killed every overlap, and the strings ringing into each other
+       ARE the roll — the left hand holds a shape and nothing damps them, so
+       three or four sound at once continuously. The ring must cover three notes
+       of the roll, which at this genre's tempi is 0.9-1.6 s. A three-second
+       held banjo note is still impossible, which was the original complaint. */
+    play: { poly: 5, onLong: "restrike", ring: [1.60, 1.05] },
     controls: [
       /* ── AND THIS BAND STANDS SOMEWHERE ──────────────────────────────────
          [owner, 2026-08-16: "We are not using the stereo field correct, all of
@@ -6581,8 +6597,19 @@ const INSTRUMENTS = {
        register" [corpus:grokipedia] -- so an octave and a half, and no more.
        A player reaching past that is fighting a rope. MIDI 28-46 is E1 to A#2. */
     range: [28, 46],
-    /* ONE STRING, ONE ROPE. Same law as the bow's, same reason. */
-    play: { poly: 1 },
+    /* ONE STRING, ONE ROPE. Same law as the bow's, same reason.
+
+       AND IT DOES NOT RING OUT — this instrument's own sheet says so twice.
+       `washtub-bass.md` §3: "TONE — the hand damping — a rope player stops the
+       note; IT DOES NOT RING OUT", and §1 names the instrument it replaced by
+       its fault: "note length 7.5 s — a sustained pedal ... A washtub bass is
+       the opposite of that in every respect: SHORT, plucked, percussive". On
+       the plucked family's harp curve it was allowed 4.2 s and used it — it had
+       become the sustained pedal it was built to replace. The seconds are
+       CHOSEN (the sheet records that no source gives a decay); what is sourced
+       is that the player's hand is a damper. "Short" is not "isolated", so it
+       still reaches toward the next note rather than dying halfway to it. */
+    play: { poly: 1, ring: [1.40, 0.80] },
     controls: [
       ...panControls(),
       { k:"thump", label:"string on the rim",  cap:"THUMP", min:0, max:1, step:0.01, def:0.62, kind:"voicing" },
@@ -24185,11 +24212,44 @@ GENRE.boxcarsynth = {
      moves by a sample. */
   drone: { unit: 4, hold: 1, pedal: 1, octave: 0, cut: true, unpitched: true,
            continuous: true },
-  bassStyle: "drone",
+  /* ══ THE BASS IS NOT A PEDAL, AND ITS OWN SHEET SAYS SO ══════════════════
+     THE OWNER: "A bassline goes badum badum badum, it moves and flows. Yours
+     go badum ...... badum ...... badum."
+
+     MEASURED with `bassStyle: "drone"`: 1.3 onsets a bar, and the median gap
+     between them THIRTEEN sixteenths — most of a bar of nothing between notes.
+     A drone bass is one held note a cycle. That is a pedal.
+
+     AND A PEDAL IS THE THING THIS GENRE'S BASS INSTRUMENT WAS CHOSEN TO
+     REPLACE. `washtub-bass.md` §1 names the fault of the bass that came
+     before it — "note length 7.5 s — a sustained pedal ... Take it out of the
+     mix and the audible level does not change" — and then: "A washtub bass is
+     the opposite of that in every respect the measurement complained about —
+     SHORT, plucked, percussive". The instrument was swapped and the STYLE that
+     made the old one a pedal was left declared.
+
+     `pulse` is the jug band two-beat — root on one, fifth on three — with the
+     pickup that leads into each beat. Nothing else in this table changes. */
+  bassStyle: "pulse",
   bassPedal: 0.4,
   bassWalk: 0.65,
   bassStep: 3,
-  bassPulse: { unit: 8, rootBias: 0.7, octaveJump: 0.2, restChance: 0.1 },
+  /* ══ THE TWO-BEAT, AND THE NOTE THAT LEADS INTO IT ═══════════════════════
+     `unit: 8` is ONE NOTE EVERY HALF BAR — two notes a bar for a twenty-minute
+     record, every one of them exactly a half note after the last. The owner:
+     "A bassline goes badum badum badum, it moves and flows. Yours go badum
+     ...... badum ...... badum ... Phonetically it is something like this:
+     Badabumpbadumbadabadabumpbadum".
+
+     A jug band bass plays the TWO-BEAT — root on one, fifth on three — which
+     is `unit: 4`, and it APPROACHES its beats rather than only landing on
+     them. `pickup` is the "ba" of "ba-dum": a sixteenth before the beat,
+     softer, a scale step away, so the line arrives somewhere instead of
+     restating. The builder had no rhythm vocabulary at all before this — its
+     three draws only ever decided the pitch — so no value here could have
+     fixed it. */
+  bassPulse: { unit: 4, rootBias: 0.7, octaveJump: 0.2, restChance: 0.1,
+               pickup: { chance: 0.45, by: 1 } },
   bassAccent: { accent: 0.2, slide: 0 },
   /* the banjo roll: the figure is an arpeggio the way a picker's right hand
      is, thumb on the root [sheet §7] [CHOSEN cells] */
@@ -24258,8 +24318,37 @@ GENRE.boxcarsynth = {
      probe_banjo.js against these comments, so a cell edited tomorrow that puts
      a 7 somewhere a tab does not fails the battery rather than quietly turning
      a fretted octave into a drone. */
-  ostinato: { unit: 1, vel: 0.5, run: true, follow: true, ratchet: 0, whole: true,
-              perBar: true, thumb: 0.30, slur: 0.15, fixed: [7],
+  /* ══ THE RATE, THE CONSTANT, AND WHERE THE ACCENT FALLS ══════════════════
+     Three corrections, 2026-08-18, all of them things the comment below this
+     already argued for and the numbers then contradicted.
+
+     `unit: 1` WAS SIXTEEN NOTES A BAR. The paragraph under `cells` argues the
+     rate from "the standard rolls are eight notes to the bar, not two" and
+     then writes the value that gives SIXTEEN. §1c of the notation sheet is
+     explicit — "the roll's rate is EIGHTH NOTES" — and §1d counts 125 picked
+     notes against "16 x 8 = 128 eighth-note slots". `unit: 2` is eight to the
+     bar, which is what both the comment and the source ask for. This halves
+     the largest part in the record.
+
+     `perBar: true` REDREW THE RIGHT HAND AT RANDOM EVERY BAR, on top of
+     `follow: true`, which already moves the fretted pitches with the chord.
+     "Each roll pattern is a RIGHT HAND fingering pattern... one pattern per
+     bar, running for as long as the tune does" [§1] — the whole §1b-ii
+     argument turns on ONE THING THAT REFUSES TO MOVE while the left hand
+     changes the chord. The constant was randomised and the variable stayed
+     variable. `change` below is the sourced way a roll turns: at a section,
+     for a stated reason, not per bar on a coin.
+
+     `thumbOn` NAMES THE DEGREES THE THUMB PLAYS — the two bass strings and
+     the fifth, through this table's string map (0 = 3rd, 2 = 2nd, 4 = 1st,
+     7 = 5th, -3 = 4th). The accent used to fall on `at % 4 === 0`: beats one
+     two three four, a metronome, the one pattern a roll never has. Every cell
+     below puts the thumb on a 3+3+2 across the eight eighths — except the
+     alternating roll, which puts it on every other note exactly as Deering
+     describes that roll, and that is the check saying the map is read right
+     rather than guessed. */
+  ostinato: { unit: 2, vel: 0.5, run: true, follow: true, ratchet: 0, whole: true,
+              thumb: 0.30, thumbOn: [0, -3, 7], slur: 0.15, fixed: [7],
               /* ── AND THE BREAK GOES UP THE NECK ─────────────────────────
                  `ostinato.change` is the engine's device for a figure that is
                  not the same at the end of its material as at the start, and
@@ -24291,7 +24380,29 @@ GENRE.boxcarsynth = {
                  obliged to use all of them and no two records evolve alike. */
               change: { pick: [1, 2],
                         kinds: [["cell", 6], ["octave", 4], ["rest", 2]] },
-              cells: [[[2, 4, 7, 2, 4, 7, 2, 4], 5],        // forward: 2-1-5-2-1-5-2-1
+              /* ══ THE BACKUP PATTERN, AND IT IS WHERE THE GAPS COME FROM ═════
+                 Every cell below is eight picked eighth notes, so the roll
+                 never stops and nothing in it implies a rhythm — the owner's
+                 "no long notes and barely any gaps... the gap implys the
+                 rythem at times".
+
+                 A cell slot may now be `null` (not picked — the gap) or an
+                 ARRAY (struck together — the PINCH). "With your thumb on the
+                 5th string and your middle finger on the first string, play
+                 both of those notes simultaneously — that's a pinch", and
+                 pinches are used "at the end of phrases for emphasis and
+                 variety" [dummies.com, How to Play Pinches on the Bluegrass
+                 Banjo]. The backup pattern the same source prints step by
+                 step is: thumb on the 3rd string · 5th + 2nd + 1st all
+                 together · thumb on the 4th · pinch again — which through
+                 this table's string map is exactly the first cell here.
+
+                 It is BACKUP, which is what an ostinato IS: a banjo pinches
+                 under the singing and rolls in the breaks. Four events a bar
+                 instead of eight, half of them three-string chords, and the
+                 silence between them is the rhythm. */
+              cells: [[[0, null, [7,2,4], null, -3, null, [7,2,4], null], 14],
+                      [[2, 4, 7, 2, 4, 7, 2, 4], 5],        // forward: 2-1-5-2-1-5-2-1
                       [[0, 2, 7, 4, -3, 2, 7, 4], 4],       // alternating thumb: 3-2-5-1-4-2-5-1
                       [[0, 2, 4, 7, 4, 2, 0, 4], 3],        // forward-reverse: 3-2-1-5-1-2-3-1
                       [[2, 4, 2, 4, 7, 2, 4, 7], 3],        // Foggy Mountain: 2-1-2-1-5-2-1-5
@@ -29794,12 +29905,52 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         for(let st = 0; st < 16; st += P.unit){
           /* every draw runs on every step, whatever the outcome [Law 7] */
           const rest = rng() < P.restChance, up = rng() < P.octaveJump, alt = rng();
+          /* ══ AND THE PICKUP IS DRAWN WHETHER OR NOT IT IS USED ═══════════════
+             THE OWNER: "A bassline goes badum badum badum, it moves and flows.
+             Yours go badum ... badum ... badum ... Phonetically it is something
+             like this: Badabumpbadumbadabadabumpbadum."
+
+             The three draws above were the whole vocabulary of this builder, and
+             they only ever decide the PITCH. The RHYTHM was `st += P.unit` — one
+             note every unit, forever, and nothing has ever varied it. MEASURED
+             on this genre, four records, onset to onset in sixteenths:
+
+                 p10 7.9    p50 8.0    p90 8.2
+
+             The tenth percentile and the ninetieth are the same number. That is
+             not a bass line, it is a metronome playing pitches, and it is
+             exactly the "badum ...... badum" he wrote out.
+
+             THE "BA" IS A PICKUP. In his phonetic it is the unstressed syllable
+             leading into the stressed one — ba-DUM — and in a jug band it is the
+             note the player pulls on the way to the beat. It is the oldest
+             thing a bass does and this builder could not do it at all.
+
+             So `pickup` declares how often a beat is approached rather than
+             merely struck: a short note `by` sixteenths earlier, softer, on the
+             note the beat is about to land on. A genre that does not declare it
+             is untouched, and the draw is spent either way so the stream does
+             not move [Law 3, Law 7]. */
+          const pk = rng(), pkDeg = rng();
           if(rest && st > 0) continue;
           let pch = ch.rootMidi;
           if(up && st > 0) pch += 12;
           else if(alt > P.rootBias && st > 0)
             pch = intoBand(degMidi(ch.key, ch.mode, ch.degree + 4), R.bass[0], R.bassWalk[1]);
           if(pch > R.bassWalk[1] + 12) pch -= 12;
+          const PU = P.pickup;
+          if(PU && st > 0 && pk < PU.chance){
+            const by = PU.by || 1;
+            /* it approaches from a scale step below or above -- a leading tone
+               into the beat, which is what makes it read as movement rather
+               than as a second attack on the same pitch */
+            const dir = pkDeg < 0.62 ? -1 : 1;
+            const lead = intoBand(degMidi(ch.key, ch.mode, ch.degree + dir),
+                                  R.bass[0], R.bassWalk[1]);
+            notes.push({ bar: b, step: st - by, dur: by,
+                         pitch: lead === pch ? intoBand(pch - 2, R.bass[0], R.bassWalk[1]) : lead,
+                         vel: 0.52, role: "bass" });
+          }
           notes.push({ bar: b, step: st, dur: P.unit,
                        pitch: pch, vel: st === 0 ? 0.92 : 0.74, role: "bass" });
         }
@@ -32097,6 +32248,47 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         if(tRow && !tHit){ if(O.run) seqI++; continue; }
         const idx = O.run ? (seqI++) : (st / O.unit);
         let deg = c[((idx % c.length) + c.length) % c.length];
+        /* ══ A CELL SLOT MAY BE SILENT, AND IT MAY BE A PINCH ═══════════════
+           THE OWNER: "The problem with the banjo is that the notes are played
+           next to one another no long notes and barely any gaps, THE GAP IMPLYS
+           THE RYTHEM AT TIMES. But its a chain of notes."
+
+           MEASURED before this, four records, ostinato onset to onset in
+           sixteenths: p10 1.9, p50 2.0, p90 2.1. The tenth percentile and the
+           ninetieth are the same number — a perfectly even eighth chain from
+           the first bar of the record to the last, which NEVER breaks. Being a
+           chain is correct; that is what a roll is. Having no gap ever is not,
+           because with nothing to interrupt it nothing implies a rhythm.
+
+           A cell could only ever hold one degree per slot, so the builder had
+           no way to write either thing a real player uses to make that gap:
+
+             null      the slot is not picked. The gap itself.
+             [a,b,c]   the degrees are struck TOGETHER — the PINCH.
+
+           THE PINCH IS THE NAMED TECHNIQUE AND IT IS WHY THE GAP EXISTS.
+           "With your thumb on the 5th string and your middle finger on the
+           first string, play both of those notes simultaneously — that's a
+           pinch" [dummies.com, How to Play Pinches on the Bluegrass Banjo], and
+           the backup pattern the same source prints is: thumb on the 3rd
+           string, then 5th + 2nd + 1st all together, then thumb on the 4th,
+           then the pinch again. Four events a bar instead of eight, half of
+           them chords, and the space between them is where the rhythm comes
+           from. Pinches are "used at the end of phrases for emphasis and
+           variety" — which is the gap he is asking for, arriving as a musical
+           event rather than as a hole punched in a pattern.
+
+           No draw sits in this loop — the ratchet and the slur each take a
+           named substream — so a skipped slot cannot move the music of any
+           part after it [Law 3]. A genre whose cells hold plain numbers is
+           byte-identical. */
+        if(deg == null){ continue; }
+        const chord = Array.isArray(deg) ? deg : null;
+        if(chord) deg = chord[0];
+        /* the RAW cell value, kept before `transpose` can move it — the thumb
+           accent below is a fact about which STRING this note is, and a
+           transposed degree is no longer that string's number */
+        const rawDeg = deg;
         /* AN OPEN STRING IS DECIDED ON THE RAW CELL VALUE, before anything can
            move it. `transpose` adds `by` to every degree, so a 7 would become
            an 8, fall out of `fixed`, and the drone would silently VANISH for
@@ -32122,6 +32314,23 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         const pitch = open != null ? open
                     : O.whole ? shifted + whole
                               : intoBand(shifted, R.ostinato[0], R.ostinato[1]);
+        /* THE OTHER STRINGS OF A PINCH TRAVEL EXACTLY AS THIS ONE DID — the
+           same open-string short circuit, the same chord, the same octave move,
+           the same band. Written once, here, rather than as a second copy of
+           the four rules above: two copies of one rule is how this file has
+           gone stale four times, and the fifth string vanishing out of a pinch
+           because the copy forgot `FIX` is precisely that failure. */
+        const pinchPitch = d => {
+          const op = (FIX && FIX.has(d)) ? DRONE : null;
+          let dd = d;
+          if(OCHANGE.transpose && late && op == null) dd += OCHANGE.by;
+          const ab = op != null ? op
+                   : ch ? degMidi(ch.key, ch.mode, ch.degree + dd)
+                        : degMidi(keyOf(chords), modeOf(chords), dd);
+          const sh = ab + ((OCHANGE.octave && late && op == null) ? 12 : 0);
+          return op != null ? op
+               : O.whole ? sh + whole : intoBand(sh, R.ostinato[0], R.ostinato[1]);
+        };
         /* ── THE RATCHET DRAWS FROM ITS OWN STREAM ─────────────────────────
            Taken from `rng` this consumed a number on every step of every
            ostinato, which shifted every draw after it: 882 of 2100 snapshot
@@ -32195,7 +32404,42 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           let vv = O.vel * (h ? 0.82 : 1) * (tHit && tHit.accent ? 1.25 : 1);
           let art = null;
           if(O.thumb){
-            const strong = at % 4 === 0;             // the quarter-note pulse
+            /* ══ AND THE THUMB IS NOT THE METRONOME ══════════════════════════
+               THE OWNER: "There is no rythem its just pluck space pluck space
+               pluck! That is not how these instruments are played."
+
+               He is right and this line was the reason. `at % 4 === 0` accents
+               beats one, two, three and four — a metronome, and the one accent
+               pattern a banjo roll never has. MEASURED on seed 1, mean gain by
+               step: 0.46 . 0.27 .13 0.47 .13 0.27 .12 0.47 .10 0.27 .08 0.46
+               — loud, soft, loud, soft, on the quarters, for 1,561 notes.
+
+               THE THUMB IS A FINGER, NOT A BEAT, and where it falls is a fact
+               about the roll rather than about the bar. Deering's four
+               essential rolls, in strings [blog.deeringbanjos.com, The Four
+               Essential 5-String Banjo Rolls] — and this genre's cells ARE
+               those rolls, which is checkable through the sheet's own string
+               map (0=3rd, 2=2nd, 4=1st, 7=5th, -3=4th):
+
+                 forward          2-1-5-2-1-5-2-1   thumb at 3 and 6   3+3+2
+                 forward-reverse  3-2-1-5-1-2-3-1   thumb at 1,4,7     3+3+2
+                 alternating      3-2-5-1-4-2-5-1   thumb every other note
+                 backward         1-2-5-1-2-5-2-1   thumb at 3 and 6   3+3+2
+
+               THREE PLUS THREE PLUS TWO. That is the syncopation the roll IS,
+               and it is why eight even eighth notes do not sound even. Deering
+               names the alternating roll's rule outright — "the thumb plays
+               every other note" — and our alternating cell puts its thumb on
+               exactly every other note, which is the check that says this map
+               is read right and not guessed.
+
+               So the accent is derived from the cell: `thumbOn` names the
+               DEGREES the thumb plays — the bass strings and the fifth — and
+               any note whose raw cell value is one of them is a thumb note. A
+               genre that declares nothing keeps the old pulse, so nothing else
+               in the file moves [Law 4]. */
+            const strong = Array.isArray(O.thumbOn) ? O.thumbOn.indexOf(rawDeg) >= 0
+                                                    : at % 4 === 0;
             vv *= strong ? (1 + O.thumb) : (1 - O.thumb * 0.55);
           }
           if(O.slur && at % 4 !== 0){
@@ -32208,6 +32452,22 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           if(art) ev.art = art;
           if(home){ ev.vel = Math.min(1, ev.vel * O.sam); if(!h) ev.sam = true; }
           notes.push(ev);
+          /* AND THE REST OF THE PINCH, struck with it. Only on the first hit of
+             a ratcheted step — a pinch is one gesture of the hand and does not
+             subdivide — and never doubling a pitch already sounding, because
+             two strings at the same pitch is one string played louder and this
+             instrument's own no-repeat law would drop it anyway. */
+          if(chord && !h){
+            const at2 = new Set([pitch]);
+            for(let ci = 1; ci < chord.length; ci++){
+              const pp = pinchPitch(chord[ci]);
+              if(at2.has(pp)) continue;
+              at2.add(pp);
+              notes.push({ bar: b, step: at, dur: ev.dur, pitch: pp,
+                           vel: Math.max(0.05, Math.min(1, vv * 0.88)),
+                           role: "ostinato" });
+            }
+          }
         }
       }
     }
@@ -36473,7 +36733,56 @@ function makePerformance(chart, form, materials, sections){
        substantially brighter and more percussive" [corpus:ACTOR, Harp]. NO
        SOURCE ANYWHERE GIVES A HARP DECAY IN SECONDS -- score-craft.md §56
        records that absence -- so these two numbers are CHOSEN, and marked. */
-    const pluckRing = midi => 4.2 - 3.0 * Math.max(0, Math.min(1, (midi - 36) / 48));
+    /* ── AND THE INSTRUMENT MAY DECLARE ITS OWN, BECAUSE A BANJO IS NOT A HARP ──
+       THE OWNER, and he is right and the measurement agreed with him:
+
+         "A banjo does not have a tail it does not have legato it should never
+          be treated like it does ... there should never be long banjo notes."
+
+       MEASURED before this, 9,694 banjo notes over six records: 13% ran longer
+       than a SECOND and the longest was 3.33 s. The curve above was doing its
+       job — it truncated everything to its ceiling — but its ceiling at the
+       banjo's own register is 1.2-3.45 s, because the curve was sourced from a
+       HARP ("The lower strings naturally sustain longer than higher ones"
+       [corpus:ACTOR, Harp]) and then applied to every plucked instrument in the
+       file. A harp, a banjo, a diddley bow and a washtub bass were given one
+       set of physics. That is the piano fault one level down: not "every part
+       written like a piano" but "every plucked instrument decaying like a harp".
+
+       THE BANJO'S NUMBER IS MEASURED AND PUBLISHED, which is rarer than this
+       repo usually gets. Politzer/Woodhouse et al, Acta Acustica 5:16 (2021),
+       "Acoustics of the banjo: measurements and sound synthesis": banjo string
+       modes below 1 kHz have decay times of 100-200 ms against a steel-string
+       guitar's 300-400 ms — "significantly and systematically higher [damping]
+       for the banjo than for a guitar" — because a light membrane presents a
+       far higher bridge admittance than a plate soundboard, so the string's
+       energy leaves it two to three times faster.
+
+       WHAT IS SOURCED AND WHAT IS CHOSEN, marked the way this file marks it
+       everywhere else. Sourced: the FACTOR of 2-3 against a guitar, and the
+       direction (low rings longer than high). Chosen: turning a modal decay
+       time into a note-length ceiling, because a mode dying at 150 ms and a
+       note becoming inaudible are not the same measurement and no source
+       bridges them. The harp curve gives this register 3.45 s down to 1.20 s;
+       the paper's factor puts that at roughly 1.4 s down to 0.5 s, and the
+       roll's own eighth notes at this genre's 57-97 bpm are 0.31-0.53 s. A
+       banjo note that outlives the note after it is wrong for the part
+       whatever the physics says, so it lands at 0.90 / 0.35.
+
+       AND A LONG NOTE IS NOT LOST — it becomes a re-strike, below. That is the
+       other half of his complaint answered by the same change: shorter notes
+       with `onLong: "restrike"` is a CONTINUOUS STREAM OF SHORT NOTES, which
+       is what a roll is. */
+    const ringOf = (voice, midi) => {
+      const M = voice && INSTRUMENTS[machineOfVoice2(voice)];
+      const r = M && M.play && M.play.ring;
+      const t = Math.max(0, Math.min(1, (midi - 36) / 48));
+      /* an instrument's own [low, high] pair, interpolated across the same
+         span the family curve uses, so the two are directly comparable */
+      if(Array.isArray(r) && r.length === 2) return r[0] + (r[1] - r[0]) * t;
+      return 4.2 - 3.0 * t;                       // the harp curve, for whoever has not declared
+    };
+    const pluckRing = midi => ringOf(null, midi);  // kept for anything asking without a voice
     /* HOW LONG A WIND CAN GO BEFORE IT HAS TO BREATHE. Also chosen, and
        deliberately so: the best pedagogy source argues that publishing a
        seconds table is HARMFUL because "once those values were established,
@@ -36537,7 +36846,7 @@ function makePerformance(chart, form, materials, sections){
              note told to last four bars is a lie the envelope cannot tell.
              This is the owner's "why would a plucked intrument be put on
              chords?" enforced rather than described. */
-          const ring = pluckRing(e.pitch);
+          const ring = ringOf(e.voice, e.pitch);
           if(e.durSec > ring)
             events[i] = Object.freeze(Object.assign({}, e, { durSec: ring }));
           continue;
@@ -36587,7 +36896,7 @@ function makePerformance(chart, form, materials, sections){
         if(e.pitch == null || !e.voice || !reOf(e.voice)) continue;
         const fam = FAMILY[e.voice];
         if(fam !== "plucked" && fam !== "struck") continue;
-        const ring = pluckRing(e.pitch);
+        const ring = ringOf(e.voice, e.pitch);
         /* `holdSec` is how long the key COULD stay down — the written note
            before the ring truncated it — so it is the length to cover */
         const want = Math.max(e.durSec, e.holdSec != null ? e.holdSec : 0);
