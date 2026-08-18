@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18o · the drums are the wheels — they play whenever the train moves</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18p · the bass is a chain of notes, not a metronome playing pitches</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -21165,8 +21165,45 @@ GENRE.boxcarsynth = {
      "a percussive, thumping rhythm that anchors the overall tempo"
      [corpus:grokipedia]. V1's sustained bass rendered 38 dB under the lead and
      removing it changed the mix by 0.00 dB [washtub-bass.md §1]. */
-  bassStyle: "pulse",
-  bassPulse: { unit: 8, rootBias: 0.62, octaveJump: 0.28, restChance: 0.14 },
+  /* THE WALK, not the pulse. `pulse` writes one note every `bassPulse.unit`
+     steps — at unit 8 that is two half notes a bar, forever, which measured as
+     p10 7.9 / p50 8.0 / p90 8.2 sixteenths between every pair of bass notes in
+     the record. A washtub player is not a sequencer. The walk places the root
+     on the chord change and its partner on beat three, and `bassRun` below
+     fills the eighths between them. */
+  bassStyle: "walk",
+  /* THE CHAIN. The bass speaks on eighths — its own grid, not the drums' two —
+     and `bassTones` decides what lands on each, REST included. The rests are
+     the holes and the holes are where the rhythm is [the owner: "the gap implys
+     the rythem at times"]. */
+  /* STEP 14 IS NOT ON THIS LIST and that is deliberate: the APPROACH NOTE into
+     the next chord is written there, unconditionally, by the builder. Putting
+     the walk on it too made the two write the same pitch at the same instant
+     and the collision guard threw, correctly — the last eighth of the bar has
+     an owner and it is the approach. */
+  bassPocket: [0, 2, 4, 6, 8, 10, 12],
+  /* AND IT WALKS. The default vocabulary is root/fifth/rest and contains no
+     `step` at all, so the bass could only jump between two pitches — 71.2% of
+     its moves were leaps where Bach's are 35.4%. `step` is one scale step from
+     wherever the bass just was, toward the next chord's root: the PASSING TONES
+     this engine's own comment quotes three sources for and no genre ever asked
+     for. Weighted over the leaps, because a walking line is mostly steps.
+     [corpus:learnjazzstandards; corpus:jazzguitar.be; corpus:yamaha] */
+  bassTones: [["step", 6], ["root", 3], ["fifth", 2], ["third", 2], ["rest", 4]],
+  /* ══ THE TWO-BEAT, AND THE NOTE THAT LEADS INTO IT ═══════════════════════
+     `unit: 8` was ONE NOTE EVERY HALF BAR — two notes a bar, on the half note,
+     for a twenty-minute record. Measured onset-to-onset: p10 7.9, p50 8.0,
+     p90 8.2, so the tenth percentile and the ninetieth were the same number.
+     The owner heard it exactly: "badum ...... badum ...... badum".
+
+     A jug band bass plays the TWO-BEAT — root on one, fifth on three — which is
+     `unit: 4`, and it approaches its beats rather than only landing on them.
+     `pickup` is the "ba" of "ba-dum": a sixteenth before the beat, softer, a
+     scale step away, so the line arrives somewhere instead of restating. At
+     0.45 it happens on a bit under half the beats, which is what keeps it from
+     becoming its own metronome one level down. */
+  bassPulse: { unit: 4, rootBias: 0.62, octaveJump: 0.28, restChance: 0.14,
+               pickup: { chance: 0.45, by: 1 } },
   bassAccent: { accent: 0.3, slide: 0 }, bassStep: 3, bassWalk: 0.55,
   /* THE ROLL — the banjo's right hand, continuously, with the fifth string a
      fixed drone the thumb keeps hitting whatever the chord
@@ -25365,12 +25402,52 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         for(let st = 0; st < 16; st += P.unit){
           /* every draw runs on every step, whatever the outcome [Law 7] */
           const rest = rng() < P.restChance, up = rng() < P.octaveJump, alt = rng();
+          /* ══ AND THE PICKUP IS DRAWN WHETHER OR NOT IT IS USED ═══════════════
+             THE OWNER: "A bassline goes badum badum badum, it moves and flows.
+             Yours go badum ... badum ... badum ... Phonetically it is something
+             like this: Badabumpbadumbadabadabumpbadum."
+
+             The three draws above were the whole vocabulary of this builder, and
+             they only ever decide the PITCH. The RHYTHM was `st += P.unit` — one
+             note every unit, forever, and nothing has ever varied it. MEASURED
+             on this genre, four records, onset to onset in sixteenths:
+
+                 p10 7.9    p50 8.0    p90 8.2
+
+             The tenth percentile and the ninetieth are the same number. That is
+             not a bass line, it is a metronome playing pitches, and it is
+             exactly the "badum ...... badum" he wrote out.
+
+             THE "BA" IS A PICKUP. In his phonetic it is the unstressed syllable
+             leading into the stressed one — ba-DUM — and in a jug band it is the
+             note the player pulls on the way to the beat. It is the oldest
+             thing a bass does and this builder could not do it at all.
+
+             So `pickup` declares how often a beat is approached rather than
+             merely struck: a short note `by` sixteenths earlier, softer, on the
+             note the beat is about to land on. A genre that does not declare it
+             is untouched, and the draw is spent either way so the stream does
+             not move [Law 3, Law 7]. */
+          const pk = rng(), pkDeg = rng();
           if(rest && st > 0) continue;
           let pch = ch.rootMidi;
           if(up && st > 0) pch += 12;
           else if(alt > P.rootBias && st > 0)
             pch = intoBand(degMidi(ch.key, ch.mode, ch.degree + 4), R.bass[0], R.bassWalk[1]);
           if(pch > R.bassWalk[1] + 12) pch -= 12;
+          const PU = P.pickup;
+          if(PU && st > 0 && pk < PU.chance){
+            const by = PU.by || 1;
+            /* it approaches from a scale step below or above -- a leading tone
+               into the beat, which is what makes it read as movement rather
+               than as a second attack on the same pitch */
+            const dir = pkDeg < 0.62 ? -1 : 1;
+            const lead = intoBand(degMidi(ch.key, ch.mode, ch.degree + dir),
+                                  R.bass[0], R.bassWalk[1]);
+            notes.push({ bar: b, step: st - by, dur: by,
+                         pitch: lead === pch ? intoBand(pch - 2, R.bass[0], R.bassWalk[1]) : lead,
+                         vel: 0.52, role: "bass" });
+          }
           notes.push({ bar: b, step: st, dur: P.unit,
                        pitch: pch, vel: st === 0 ? 0.92 : 0.74, role: "bass" });
         }
@@ -25433,8 +25510,39 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          it by construction.
          Research: docs/genre-research/bass.md */
       const BT = G.bassTones || [["root", 5], ["fifth", 3], ["rest", 2]];
+      /* ══ AND THE BASS GETS ITS OWN GRID, BECAUSE THE DRUMS' IS TWO STEPS ═══
+         THE OWNER: "A bassline goes badum badum badum, it moves and flows.
+         Yours go badum [gap] badum [gap] badum. That is not how it works! Its
+         the same fault the banjo has ... Phonetically it is something like
+         this: Badabumpbadumbadabadabumpbadum ... its a chain of notes."
+
+         MEASURED, four records, onset-to-onset spacing in sixteenths:
+
+           the bass, EVERY instrument and every style   1.9 notes a bar
+                                     p10 7.9   p50 8.0   p90 8.2
+
+         The tenth percentile and the ninetieth are both a half note. Not a
+         tendency: every bass note in the program sat exactly two beats from the
+         one before it. THE REASON IS ONE ARRAY. This loop walks `pocket`, the
+         pocket is the GROOVE's, and this genre's groove pocket is `[0, 8]` —
+         two positions in the bar. The vocabulary above could offer passing
+         tones and approach notes all it liked; there was nowhere to put them.
+
+         The pocket is the DRUMS' pocket and it is right for them — a freight
+         kit that hit eight times a bar would be a different genre. It was never
+         a statement about the bass; the bass just borrowed it because it was
+         the array in scope. So `bassPocket` is the bass's own, defaulting to
+         the groove's so no genre that stays silent moves a note [Law 4].
+
+         AND THE HOLES ARE THE POINT, which is his other sentence and the same
+         one he wrote about the banjo: "the gap implys the rythem at times." A
+         wider grid does not mean a note on every slot — `bassTones` already
+         carries a "rest" weight, and it is what leaves the holes. A grid of
+         eight with rests in it is a line that speaks and stops; a grid of two
+         is a line that can only plod. */
+      const BPK = (Array.isArray(G.bassPocket) && G.bassPocket.length) ? G.bassPocket : pocket;
       let prevPitch = ch.rootMidi;
-      for(let i = 1; i < pocket.length; i++){
+      for(let i = 1; i < BPK.length; i++){
         const choice = wpick(rng, BT);
         if(choice === "rest") continue;
         const band = t => intoBand(t, R.bassWalk[0], R.bassWalk[1]);
@@ -25448,7 +25556,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           const t = ch.tones[idx] != null ? ch.tones[idx] : ch.tones[2];
           pch = band(t);
         }
-        notes.push({ bar: b, step: pocket[i], dur: 2, pitch: pch, vel: 0.72, role: "bass" });
+        notes.push({ bar: b, step: BPK[i], dur: 2, pitch: pch, vel: 0.72, role: "bass" });
         prevPitch = pch;
       }
       /* w was hoisted for stream stability but the SECOND draw stayed inside the
