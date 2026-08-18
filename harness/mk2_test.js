@@ -466,6 +466,21 @@ let rigs = {}, rigSame = 0, rigChecked = 0, rigVoices = 0, unknownVoice = [];
    voice behind it fails here instead of throwing at the first note played. */
 const RIG_NAMES = new Set(M.voiceNames());
 
+/* ── WHAT THE TABLES DECLARE, ASKED OF THE TABLES ─────────────────────────
+   These checks used to name "band" and "sega" and "dilla" -- rigs and a groove
+   that belonged to genres since deleted. They did not go quiet when those
+   genres went: they reported `band 0 / sega 0` and `dilla 0/300` as FAILURES,
+   build after build, so the battery's own output stopped meaning anything and
+   the real crash below it was never reached.
+
+   A check may not carry a list of names the tables are supposed to contain --
+   that is the same welded-taste fault as a default genre, one level out. It
+   asks the tables what they declare and then asserts that all of it happens. */
+const RIG_PAIR = [...new Set([].concat(...M.genres().map(g => (M.GENRE[g].rig || []).map(r => r[0]))))];
+const GROOVES  = [...new Set([].concat(...M.genres().map(g =>
+                   ((M.GENRE[g].groove || {}).styles || []).map(x => Array.isArray(x) ? x[0] : x))))];
+const GROOVE_SEEN = {};
+
 for(let s = 1; s <= N; s++){
   let song;
   try{ song = M.composeSong(s); }
@@ -479,10 +494,10 @@ for(let s = 1; s <= N; s++){
   /* the rig changes WHO plays, never WHAT is played: strip `voice` and the two
      performances must be byte-identical. This is the law that makes a rig a
      lookup table instead of a second engine. */
-  if(s <= 40){
+  if(s <= 40 && RIG_PAIR.length === 2){
     rigChecked++;
     const strip = x => JSON.stringify(x.perf.events.map(e => { const { voice, ...rest } = e; return rest; }));
-    const b = M.composeSong(s, "band"), g = M.composeSong(s, "sega");
+    const b = M.composeSong(s, RIG_PAIR[0]), g = M.composeSong(s, RIG_PAIR[1]);
     if(strip(b) === strip(g)) rigSame++;
     if(JSON.stringify(b.perf.events.map(e => e.voice)) !==
        JSON.stringify(g.perf.events.map(e => e.voice))) rigVoices++;
@@ -504,6 +519,8 @@ for(let s = 1; s <= N; s++){
   for(let i = 2; i < song.form.length; i++)
     if(song.form[i].fn === song.form[i-1].fn && song.form[i].fn === song.form[i-2].fn) ruleOf3++;
 
+  GROOVE_SEEN[song.perf.groove.style] = (GROOVE_SEEN[song.perf.groove.style] || 0) + 1;
+
   /* dilla: the offsets must repeat identically (±2 ms dust), never wander */
   if(song.perf.groove.style === "dilla"){
     dilla++;
@@ -523,17 +540,34 @@ check("every seed composes and passes its own seam checks", errors.length === 0,
 check("same seed, same events", nondet === 0, nondet + " mismatches in 40");
 check("the hook restates itself exactly", hookExact === hookTotal, hookExact + "/" + hookTotal);
 check("no function three times in a row", ruleOf3 === 0, ruleOf3 + " violations");
-check("dilla offsets repeat identically bar to bar", dillaChecked > 0 && dillaIdentical === dillaChecked,
-      dillaIdentical + "/" + dillaChecked + " songs");
+if(dillaChecked > 0)
+  check("dilla offsets repeat identically bar to bar", dillaIdentical === dillaChecked,
+        dillaIdentical + "/" + dillaChecked + " songs");
+else
+  console.log("  ·  no genre declares the `dilla` groove — that check has nothing to ask");
 check("forms genuinely vary", forms.size > N / 4, forms.size + " distinct in " + N);
-check("both grooves get drawn", dilla > N * 0.3 && dilla < N * 0.9, "dilla " + dilla + "/" + N);
-check("the rig changes who plays, never what is played", rigChecked > 0 && rigSame === rigChecked,
-      rigSame + "/" + rigChecked + " seeds identical apart from `voice`");
-check("...and it really does change who plays", rigVoices === rigChecked,
-      rigVoices + "/" + rigChecked + " seeds swap their voice names");
+{
+  const missing = GROOVES.filter(g => !GROOVE_SEEN[g]);
+  check("every groove style a genre declares gets drawn", missing.length === 0,
+        missing.length ? "never drawn: " + missing.join(", ")
+                       : GROOVES.map(g => g + " " + (GROOVE_SEEN[g] || 0) + "/" + N).join("  ")); 
+}
+if(RIG_PAIR.length >= 2){
+  check("the rig changes who plays, never what is played", rigChecked > 0 && rigSame === rigChecked,
+        rigSame + "/" + rigChecked + " seeds identical apart from `voice`");
+  check("...and it really does change who plays", rigVoices === rigChecked,
+        rigVoices + "/" + rigChecked + " seeds swap their voice names");
+} else {
+  console.log("  ·  " + RIG_PAIR.length + " rig declared across every genre (" + RIG_PAIR.join(", ") +
+              ") — the rig A/B needs two and is not judged");
+}
 check("every voice a rig names exists", unknownVoice.length === 0, unknownVoice.join(" | "));
-check("both rigs get drawn", (rigs.band || 0) > N * 0.4 && (rigs.sega || 0) > N * 0.1,
-      "band " + (rigs.band || 0) + " / sega " + (rigs.sega || 0));
+{
+  const missing = RIG_PAIR.filter(r => !rigs[r]);
+  check("every rig a genre declares gets drawn", missing.length === 0,
+        missing.length ? "never drawn: " + missing.join(", ")
+                       : RIG_PAIR.map(r => r + " " + (rigs[r] || 0) + "/" + N).join("  "));
+}
 
 /* scaleStep(…, 0) means "keep this note". It has to be an identity on every
    in-key pitch, at every root, in every mode. A bounded nearest-degree search
@@ -589,7 +623,11 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
    only mean something together -- the ostinato cell and the register set --
    gave 172 failures in 1890 blended songs until they were grouped.
    ═══════════════════════════════════════════════════════════════════════════ */
-{
+if(M.genres().length < 2){
+  console.log("  ·  " + M.genres().length + " genre in the file — a blend needs two, so the whole");
+  console.log("     blend suite (composability, the fader's quota, the hand, the pin refusals)");
+  console.log("     is NOT RUN rather than reported as passing on zero pairs.");
+} else {
   const gs = M.genres();
   let tot = 0, ok = 0; const why = {};
   for(let i = 0; i < gs.length; i++) for(let j = i + 1; j < gs.length; j++)
@@ -3526,7 +3564,9 @@ check("the comp uses its whole register, not one octave", hi - lo > 12,
    plan that is not realised in the section sequence is a comment with syntax.
    ═══════════════════════════════════════════════════════════════════════════ */
 {
-  const clone = JSON.parse(JSON.stringify(T.GENRE.lofi));
+  /* the base is whatever genre is declared first, not a name typed in here --
+     this read T.GENRE.lofi and died on `undefined` once lofi was deleted */
+  const clone = JSON.parse(JSON.stringify(T.GENRE[M.genres()[0]]));
   clone.label = "plan test";
   clone.form.coldOpen = 0;            // deterministic frame: always intro...outro
   clone.form.plan = [

@@ -97,6 +97,16 @@ for(const genre of M.genres()){
       if(!mat || typeof mat !== "object") continue;
       for(const role in mat){
         if(!LINES[role] || !Array.isArray(mat[role])) continue;
+        /* ── AND IT HAS TO BE A NOTE ARRAY, NOT MERELY AN ARRAY ─────────────
+           This walked every array it found under every material key. Stage 3
+           publishes more than notes under those keys -- `formRole.counter` is
+           a list of formula strings, `formOffs.counter` a list of numbers --
+           and a string has no `.pitch`, so every adjacent pair read
+           `undefined === undefined` and was counted as a repeated note. That
+           reported 111 repeats that do not exist, on a claim whose whole value
+           is that zero is the only pass. A guard that invents faults is as
+           useless as one that misses them. */
+        if(!mat[role].every(x => x && typeof x === "object" && typeof x.bar === "number")) continue;
         const seq = mat[role].slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step));
         comp += seq.length;
         for(let i = 1; i < seq.length; i++){
