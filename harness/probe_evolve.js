@@ -56,18 +56,53 @@ const M = global.window.MK2;
    they do not agree. Quantised to the WRITTEN grid, because groove and
    humanisation would otherwise make every pair maximally distant — the fault
    the first cut of probe_law shipped with. */
+/* ── AND THE TWO KINDS OF DIFFERENCE ARE MEASURED APART ────────────────────
+   The first cut counted any disagreement at any grid position as distance, and
+   that conflates two things the sources say are opposites.
+
+   `docs/genre-research/melodic-math.md`: a motif is recognised by its RHYTHM —
+   "the A and B motifs always stay in the same rhythm, thus giving them a strong
+   hook" — and it is varied by TURNING SLOTS OFF: "A+a+B / A+A+B / A+a+B /
+   A+a+b, upper case turned ON, lower case turned OFF". So when a statement
+   drops its second motif, EVERY POSITION IN THAT MOTIF reads as "different"
+   to a naive comparison, and the number says the tune changed when what
+   actually happened is that a motif rested. Measured that way, the structural
+   formula landing took adjacent statements from 0.29 to 0.55 and the guard went
+   red on a build that had just become more faithful to the sources, not less.
+
+   So:
+     PITCH distance     over the positions BOTH statements sound — did the TUNE
+                        move? This is the one that must stay low nearby and grow
+                        with time, because it is the thing a listener follows.
+     PRESENCE distance  positions sounding in one and not the other — how much
+                        the formula is muting. Reported, and asserted non-zero,
+                        because a formula that never turns anything off is a
+                        formula that is not running.
+
+   This is not a loosened guard. It is two claims where there was one, and the
+   pitch claim is STRICTER than the old combined number: a tune whose pitches
+   drifted while its motifs stayed present used to be able to hide inside the
+   same average. */
 const dist = (a, b) => {
+  const A = new Map(a), B = new Map(b);
+  let both = 0, diff = 0;
+  for(const [k, v] of A) if(B.has(k)){ both++; if(B.get(k) !== v) diff++; }
+  return both ? diff / both : null;
+};
+const presence = (a, b) => {
   const A = new Map(a), B = new Map(b);
   const keys = new Set([...A.keys(), ...B.keys()]);
   if(!keys.size) return null;
-  let diff = 0;
-  for(const k of keys) if(A.get(k) !== B.get(k)) diff++;
-  return diff / keys.size;
+  let only = 0;
+  for(const k of keys) if(A.has(k) !== B.has(k)) only++;
+  return only / keys.size;
 };
 
 const BUCKETS = [[1, 1], [2, 3], [4, 7], [8, 15], [16, 31], [32, 999]];
 const sum = BUCKETS.map(() => ({ n: 0, d: 0 }));
 const inLink = { n: 0, d: 0 }, xLink = { n: 0, d: 0 };
+const pres = { n: 0, d: 0 };
+const grid = { stmts: 0, offGrid: 0 };
 let recs = 0;
 
 for(let s = 1; s <= SEEDS; s++){
@@ -87,6 +122,35 @@ for(let s = 1; s <= SEEDS; s++){
   const matOf = k => { const b = k * B;
     for(const x of g.sections) if(b >= x.startBar && b < x.endBar) return x.material; return "-"; };
   const linkOf = k => g.materials.evoEvery ? Math.floor(k / g.materials.evoEvery) : 0;
+  /* ── THE RHYTHM IS THE INVARIANT, AND IT IS ASKED OF WHAT WAS WRITTEN ───
+     `melodic-math.md` §1, the load-bearing claim of the whole sheet: "the A and
+     B motifs ALWAYS STAY IN THE SAME RHYTHM, thus giving them a strong hook and
+     quickly establishes into your mind". A motif is recognised by its
+     DURATIONS; its pitches are free. So every device downstream may mute a slot
+     or move a pitch level, and none may put a note where the motif has none.
+
+     ASKED OF THE COMPOSED ARRAYS, NOT OF THE RENDER, and that is the whole
+     difference between a guard and a wrong number. Read off rendered `tSec` it
+     reported 27 of 402 statements off-grid, and printing them showed positions
+     31 and 38 against a motif holding 32 and 39 — ONE STEP EARLY, which is the
+     humanisation doing its job and the probe's rounding turning a few
+     milliseconds of feel into a rhythmic fault. probe_law learned the same
+     lesson from the other side and wrote it down: the render carries groove,
+     swing and per-note jitter, and a claim about what was WRITTEN has to be
+     asked of what was written. Every variant stage 3 builds is right here. */
+  {
+    const A = (g.materials.A || {}).lead || [];
+    const home = new Set(A.map(n => (n.bar % g.materials.bars) * 16 + n.step));
+    const check = arr => {
+      if(!arr || !arr.length) return;
+      grid.stmts++;
+      if(arr.some(n => !home.has((n.bar % g.materials.bars) * 16 + n.step))) grid.offGrid++;
+    };
+    (g.materials.evo || []).forEach(check);                    // the chain
+    (g.materials.evoThird || []).forEach(check);               // each link's third
+    (g.materials.form || []).forEach(row => row.forEach(check));// every formula variant
+    check((g.materials.third || {})["A|lead"]);
+  }
   recs++;
   for(let i = 0; i < st.length; i++){
     if(!st[i]) continue;
@@ -102,6 +166,8 @@ for(let s = 1; s <= SEEDS; s++){
          Asked of one material at a time, "how far has THIS tune moved" is a
          question about the tune. */
       if(matOf(i) !== matOf(j)) continue;
+      const pz = presence(st[i], st[j]);
+      if(pz != null){ pres.n++; pres.d += pz; }
       const d = dist(st[i], st[j]);
       if(d == null) continue;
       const gap = j - i;
@@ -134,8 +200,8 @@ const say = (ok, label, detail) => {
 };
 console.log("");
 const near = mean(0), far = mean(5) != null ? mean(5) : mean(4);
-say(near != null && near <= 0.45, "adjacent statements are CLOSE — there is a loop to recognise",
-    near == null ? "no adjacent pairs" : near.toFixed(3) + " of positions differ");
+say(near != null && near <= 0.45, "adjacent statements are CLOSE IN PITCH — there is a loop to recognise",
+    near == null ? "no adjacent pairs" : near.toFixed(3) + " of SHARED positions differ in pitch");
 say(near != null && far != null && far >= near + 0.10,
     "and distant statements are FURTHER — the tune travelled",
     near == null || far == null ? "not enough pairs"
@@ -161,5 +227,14 @@ say(inM != null && xM != null && xM >= inM + 0.05,
     inM == null || xM == null ? "not enough pairs"
       : "within a link " + inM.toFixed(3) + ", across links " + xM.toFixed(3) +
         " (+" + (xM - inM).toFixed(3) + ", over " + (inLink.n + xLink.n) + " pairs)");
+const pm = pres.n ? pres.d / pres.n : null;
+say(pm != null && pm >= 0.05, "and the structural formula is turning motifs OFF",
+    pm == null ? "no pairs" : (100 * pm).toFixed(1) + "% of grid positions sound in one statement and not the other" +
+      " — the lower-case slots of the formula [melodic-math.md \u00a73]");
+say(grid.stmts > 0 && grid.offGrid === 0,
+    "and the RHYTHM never moves — every note sits on a position the motif has",
+    !grid.stmts ? "no statements" :
+      grid.offGrid ? grid.offGrid + "/" + grid.stmts + " statements put a note where the motif has none"
+                   : grid.stmts + " statements, every note on the motif's own grid [melodic-math.md \u00a71]");
 console.log("\n  " + faults + " evolution fault(s)\n");
 process.exit(faults ? 1 : 0);

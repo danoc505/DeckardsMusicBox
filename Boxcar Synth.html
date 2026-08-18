@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18e · the tune has five pitches, not three</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18f · MELODIC MATH — the phrase is motifs, and slots turn off</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20811,6 +20811,33 @@ GENRE.boxcarsynth = {
        consequent pair. Inversion and retrograde turn the answer over and are
        rarer — two of those in a row stop sounding like the same tune. */
     evolve: { every: 9, of: [["sequence", 4], ["tail", 3], ["invertTail", 2], ["retroTail", 1]] },
+    /* ── THE STRUCTURAL FORMULA [melodic-math.md §3, §4] ───────────────────
+       The loop's four bars are four motif slots — A B A B, because the second
+       half restates the first. A formula is one character a bar: UPPER CASE
+       SOUNDS, LOWER CASE IS SILENT, which is the notation in the source
+       diagram ("A+a+B / A+A+B / A+a+B / A+a+b", upper case turned on, lower
+       case turned off).
+
+       Four statements a cycle, and every entry differs from the others:
+
+         ABAB   the phrase whole — the hook, stated
+         ABaB   the restatement's A drops out, so the B answers alone
+         ABAb   the tail drops instead — the phrase stops early, a question
+         Abab   only the head sounds, the sparsest hearing
+
+       That is "the B rotates from being active and inactive to give rest"
+       [Nobody Else, melody] and it is the reason the rhythm never has to
+       change: what a listener hears as variation is which motif is missing.
+
+       AND THE PITCH LEVEL WALKS. `move` states a sequence properly — motif A
+       rises one scale step per statement for two statements and then falls
+       back, which is Deep Purple's "elevates on the first 3, but on the 4th
+       one it FALLS, giving ... a sense of closure by ending where the melody
+       starts". In scale steps, so it cannot leave the key. */
+    phrase: {
+      formula: ["ABAB", "ABaB", "ABAb", "Abab"],
+      move: { of: "A", by: 1, dir: "NEEF" },
+    },
     onsetPool: [[0,5],[2,2],[4,4],[7,2],[8,4],[12,3]],
   },
   /* ══ THE LOOP IS FOUR BARS: A TWO-BAR MOTIF AND ITS RESTATEMENT ═══════════
@@ -29756,6 +29783,99 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   /* the third hearing OF EACH LINK, so the rule of three keeps working as the
      tune walks — see the printout in the block above */
   materials.evoThird = EVO ? EVO.thirds : null;
+  /* ══ THE STRUCTURAL FORMULA — WHICH MOTIF SOUNDS THIS TIME ════════════════
+     [owner] "The phrase is what is being altered ... it could be broken into
+     two parts and those parts can be manipulated in ways that keep their memory
+     to the listening. Right now those nine notes are on repeat."
+
+     He is right and the printout says so: seed 1's tune is nine notes, played
+     whole, every thirteen seconds, for twenty minutes. Both existing devices —
+     the rule of three and the evolution chain — take the WHOLE PHRASE and
+     change its PITCHES. Neither can say "play the first half and leave the
+     second one out", which is the primary device in all five of the analyses in
+     `docs/genre-research/melodic-math.md`.
+
+     THE SOURCE, and it is one diagram [NTFO & Karmon, "Nobody Else", bassline]:
+
+         Structural Formula:   A+a+B / A+A+B / A+a+B / A+a+b
+                               (A+A+B)*4 with variations
+                               UPPER CASE TURNED ON, LOWER CASE TURNED OFF
+
+     The phrase is SLOTS. Every statement plays the same slots in the same
+     rhythm; what changes is WHICH ONES SOUND. In the roll the lower-case slots
+     are drawn as empty outlines — written, not sounding. Deep Purple's riff is
+     the same device with a third motif: A+B+A+C+A+B+A+c, where C's second
+     appearance is turned off.
+
+     AND THE RHYTHM NEVER MOVES, which is the load-bearing claim: "the A and B
+     motifs ALWAYS STAY IN THE SAME RHYTHM, thus giving them a strong hook and
+     quickly establishes into your mind" — the identity of a motif is its
+     durations, and its pitches are free. Every device in this block preserves
+     `bar`, `step` and `dur` exactly.
+
+     ── THE SLOTS ARE THE BARS ─────────────────────────────────────────────
+     The loop is four bars and its second half is a restatement of its first, so
+     the four bars ARE four motif slots: A B A B. A formula is one character a
+     bar, and `materialBars` decides how many.
+
+     ── AND THE PITCH LEVEL MOVES BY A DECLARED INTERVAL ───────────────────
+     [Deep Purple] "Each 'A' motif has a melodic movement of 'x2', meaning it
+     moves by 2 semitones AT A TIME ... The 'A' motif elevates on the first 3,
+     but ON THE 4TH ONE IT FALLS, giving variation and a sense of closure by
+     ending where the melody starts."
+
+     That is a SEQUENCE — "repeating a motive at different pitch levels ...
+     without disrupting the pattern" [corpus:soundfly-flypaper] — with a FIXED
+     interval and a declared turn at the end. The engine's own `sequence` device
+     redraws ±1 or ±2 each time it fires, which is a wander wearing a sequence's
+     name. `move: { of, by, dir }` states it: E elevates, F falls, N holds, and
+     the level accumulates so "NEEF" rises for three statements and comes back.
+     Counted in SCALE STEPS rather than semitones so it cannot leave the key,
+     which is the rule everything else in this file follows.
+
+     ── BUILT ON TOP OF THE CHAIN, NOT BESIDE IT ───────────────────────────
+     Every link of the evolution chain gets its own set of formula variants, so
+     the two compose: the chain says WHICH TUNE this stretch of the record is
+     on, and the formula says which of its motifs sound this time round. */
+  const FORM = (() => {
+    const P = (G.theme && G.theme.phrase) || null;
+    if(!P || !EVO || !EVO.chain.length) return null;
+    const F = (P.formula || []).filter(x => typeof x === "string" && x.length);
+    if(!F.length) return null;
+    const MV = P.move || null;
+    const k0 = keyOf(chords), md = modeOf(chords);
+    const band = playable(R.themeA), lo = band[0], hi = band[1];
+    /* bar 0 is motif A, bar 1 is motif B, and the restatement repeats them */
+    const NAME = b => String.fromCharCode(65 + (b % 2));
+    /* the pitch level of each statement, accumulated along the movement string */
+    const level = [];
+    { let L = 0;
+      for(let n = 0; n < F.length; n++){
+        level.push(L);
+        const d = MV && MV.dir ? MV.dir[n % MV.dir.length] : "N";
+        L += d === "E" ? (MV.by || 1) : d === "F" ? -(MV.by || 1) : 0;
+      } }
+    const apply = (src, n) => {
+      const f = F[n % F.length];
+      const out = [];
+      for(const nt of src){
+        const ch = f[nt.bar % f.length];
+        if(!ch || ch === ch.toLowerCase()) continue;      // this slot is silent
+        const lv = (MV && MV.of === NAME(nt.bar)) ? level[n % F.length] : 0;
+        out.push(lv ? { ...nt, pitch: intoBand(scaleStep(k0, md, nt.pitch, lv), lo, hi) }
+                    : { ...nt });
+      }
+      return out;
+    };
+    /* every link of the chain, in every formula position */
+    const byLink = EVO.chain.map(link => F.map((_, n) => apply(link, n)));
+    return { cycle: F.length, byLink, formula: F.join(" / "),
+             level: level.slice() };
+  })();
+  materials.form = FORM ? FORM.byLink : null;
+  materials.formCycle = FORM ? FORM.cycle : 0;
+  materials.formSaid = FORM ? FORM.formula : null;
+  materials.formLevel = FORM ? FORM.level : null;
   /* ── TAKE 0 IS THE MATERIAL'S OWN ARRAY, BY CONSTRUCTION ─────────────────
      The invariant the blend battery caught me breaking: a take list is a set of
      realisations OF A PART, so its head must be the very array that part
@@ -32338,15 +32458,32 @@ function makePerformance(chart, form, materials, sections){
         const DUE = ((STMT0[secNo][role] || 0) + cycle) % 3 === 2;
         let walked = false;
         if(materials.evo && role === "lead" && notes === mat[role] && EVO_ON(sec.material)){
+          const stmt = Math.floor(bar / materials.bars);
           const link = Math.min(materials.evo.length - 1,
-                                Math.floor(Math.floor(bar / materials.bars) / materials.evoEvery));
-          const base = materials.evo[link];
-          if(base){
-            /* the third hearing OF THIS LINK, never of the material the record
-               left behind — see the per-link build in stage 3 */
-            const alt = materials.evoThird && materials.evoThird[link];
-            notes = (DUE && alt) ? alt : base;
-            walked = true;
+                                Math.floor(stmt / materials.evoEvery));
+          /* ── THE FORMULA FIRST, WHERE THE GENRE DECLARED ONE ──────────────
+             The chain says WHICH TUNE this stretch of the record is on; the
+             structural formula says which of its motifs sound this time round
+             and at what pitch level [melodic-math.md §3, §4]. Both were built
+             in stage 3 against the key and the band, so this is a lookup.
+
+             AND IT SUPERSEDES THE RULE OF THREE FOR THIS PART. The formula's
+             entries differ from one another by construction, so a lead running
+             it cannot play the same statement three times — the law is a
+             CONSEQUENCE of the formula rather than a second mechanism competing
+             with it, which is what `materials.third` would be here. */
+          const F = materials.form && materials.form[link];
+          if(F && F.length){
+            const v = F[stmt % materials.formCycle];
+            if(v && v.length){ notes = v; walked = true; }
+          }
+          if(!walked){
+            const base = materials.evo[link];
+            if(base){
+              const alt = materials.evoThird && materials.evoThird[link];
+              notes = (DUE && alt) ? alt : base;
+              walked = true;
+            }
           }
         }
         const THR = materials.third && materials.third[sec.material + "|" + role];
