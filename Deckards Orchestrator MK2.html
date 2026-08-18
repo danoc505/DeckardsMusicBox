@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18t · the chorus's developed tune was being judged against the verse's chords</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18u · lofi's chorus stops playing the verse's chords, and the jug band gets its seventh</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20384,6 +20384,35 @@ const GENRE = {
       dorian: [[[5,3,4,3], 3], [[3,4,5,4], 2]],
       major:  [[[5,3,1,4], 3], [[2,5,1,4], 2]],
     },
+    /* ══ THE CHORUS GETS ITS OWN CHANGES ══════════════════════════════════
+       MEASURED, 24 records: the chorus played THE VERSE'S CHORDS 24 TIMES OUT
+       OF 24. The only thing that ever changed between a verse and a chorus was
+       the tune. `the-nine-files-against-the-program.md` §3 names it and calls
+       it the cheapest of its four items, and it is right -- the machinery has
+       existed since dungeon synth got it, and two genres already use it.
+
+       WHAT THE SOURCES ASK FOR: "to create a brighter, more uplifting moment
+       in the chorus, MODULATE TO THE RELATIVE MAJOR... while the verse stays
+       in minor for a more reflective and emotional tone", and the contrast
+       between the two "helps create emotional depth and variation throughout
+       the track"; plus "incorporate EXTENDED CHORDS LIKE D7 OR Fmaj7 IN THE
+       CHORUS to create a sense of sophistication and warmth" [corpus:unison].
+
+       This program cannot change key for a chorus -- `chorusProgressions` is
+       degrees in the song's own mode, and the key shift belongs to the bridge
+       -- so the brightening is done the way the mode allows: these open OFF
+       the tonic and lean on the degrees that carry the relative major. In
+       natural minor, degree 2 IS the relative major's tonic, so a chorus that
+       opens there is the bright chord without leaving the scale. The
+       extensions come free: lofi already draws sizes 4-6 on 87% of its chords.
+
+       THE DEGREES ARE [EAR] INSIDE A SOURCED SHAPE. Nobody has heard them.
+       docs/genre-research/chords-and-changes.md §4 */
+    chorusProgressions: {
+      minor:  [[[2,6,0,4], 4], [[5,2,6,3], 3], [[2,5,0,3], 2], [[6,2,5,0], 2]],
+      dorian: [[[3,0,5,3], 4], [[5,3,0,4], 3], [[3,6,2,3], 2]],
+      major:  [[[3,0,4,5], 4], [[5,1,4,0], 3], [[0,4,5,3], 2]],
+    },
     /* the registers. The "two hands" idea made structural: bass owns the bottom,
        the comp owns the middle, the tune sits above both, and they overlap only
        at the edges -- a countermelody that never crosses the comp is not one. */
@@ -23909,7 +23938,52 @@ GENRE.boxcarsynth = {
   /* the harmonica's held lines tie; keys2 is a sometime part here and a
      legato claim on it failed the battery's are-you-sure check [measured] */
   legato: { lead: 1 },
+  /* ══ THE DOMINANT SEVENTH IS THIS GENRE'S HOUSE CHORD ═════════════════════
+     MEASURED: 360 chords over 30 records, **3 notes, 100%**. This genre has
+     never produced a four-note chord in its life. `sevenths: false` sat here
+     with no comment and no source, and the word "seventh" does not appear
+     anywhere in `boxcar-synth.md` -- a default that was never a decision.
+
+     A jug band's own people are specific about it:
+
+       "You can play any V CHORDS AS DOMINANT 7THS, and experiment with playing
+        I and IV chords as sevenths, too."
+       "One frequently used progression in jug bands is the VI-II-V-I sequence.
+        THE VI, II AND V CHORDS ARE USUALLY PLAYED AS 7THS." [corpus:arlotone]
+
+     and the neighbouring idioms say it harder -- the ragtime progression is "a
+     chain of secondary dominants following the circle of fifths"
+     [corpus:wikipedia], and in blues "every chord is a dominant seventh,
+     including the I" [corpus:happybluesman].
+
+     `sevenths` STAYS FALSE, because it is all-or-nothing: it would make every
+     chord in every bar a seventh, which is the blues rule and not the jug band
+     one. The two fields below say it the way the sources do.
+
+     `dom7On: [4]` -- THE V, AND ONLY THE V. That is the one chord every source
+     here agrees on without qualification. The first build of this named
+     degrees 4, 1 and 5 (the VI-II-V of the ragtime chain) AS A SIZE, and
+     reading the chords refused it: a size stacks one more diatonic third, and
+     a diatonic third on dorian gave `A#m7b5` and `Emaj7` -- a half-diminished
+     and a major seventh, two jazz chords, where the genre had asked for its
+     house chord. The note beside `pickQuality` has the printout.
+
+     WHAT IS DELIBERATELY NOT HERE: the I and the IV. The source says
+     "experiment with playing I and IV chords as sevenths, too", which is
+     permission and not prescription -- and a dominant seventh on the tonic
+     turns this genre's dorian and minor records MAJOR, a far bigger claim than
+     any source supports. The ragtime VI-II-V chain is a chain of SECONDARY
+     DOMINANTS [corpus:wikipedia] and wants chromatic roots this genre's
+     degree-based progressions cannot state; it is named in the sheet as open.
+
+     AND IN MIXOLYDIAN THE PROGRAM ALREADY HAD IT: stacking one more third on a
+     mixolydian tonic gives a dominant seventh, because the flat seventh is IN
+     THE MODE. So arlotone's "experiment with playing I and IV as sevenths" is
+     not imported here -- it is what `sevenths: false` was refusing. This genre
+     draws mixolydian in 5 records of 30.
+     docs/genre-research/chords-and-changes.md ══════════════════════════════ */
   sevenths: false,
+  dom7On: [4],
   /* struck once and left to ring — a strummed chord IS this genre's comp,
      and it is also the parallel-perfects fix: a held pad takes few
      bar-to-bar steps, so the two keyboards stop shadowing. The `parallels`
@@ -25749,7 +25823,13 @@ const BLEND_DRAW = new Set([
      STEPS -- integer domains, the failure class this list exists for. Averaging
      a strong-step 8 with a strong-step 6 gives 7, which is neither genre's
      downbeat, and averaging scale steps indexes MODES at a fraction. */
-  "label", "sevenths", "bassStyle", "bassRiff", "gate", "chop", "ostinato",
+  "label", "sevenths",
+  /* ...and `seventhOn` is SCALE STEPS, which is the other half of the sentence
+     above this list. It names the degrees that take a seventh -- [4, 1, 5] --
+     and averaging that against a genre with no list, or with a different one,
+     indexes the mode at a fraction. Drawn whole, the day it was declared. */
+  "seventhOn",
+  "bassStyle", "bassRiff", "gate", "chop", "ostinato",
   "registers", "form.lengths", "form.material", "form.roles", "form.target",
   /* the build arrives whole or not at all: averaging one genre's entry points
      with another's -- or with a genre that has none -- gives a record that
@@ -28058,6 +28138,42 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      in, and once a section can stand in a different scale, reading the song's
      mode here would give the section chords named for a key it has left. */
   const pickQuality = (d, i, md) => {
+    /* ── A GENRE MAY NAME THE DEGREE THAT IS A DOMINANT SEVENTH ────────────
+       AND THE FIRST VERSION OF THIS WAS A SIZE AND IT WAS WRONG. It floored
+       the chord's SIZE at four on the named degrees, which stacks one more
+       diatonic third -- and a diatonic third stacked on a mode gives whatever
+       the mode has. Boxcar synth is dorian in 16 records of 30, and reading
+       the chords is what caught it:
+
+         C#m  C#m7  C#m  F#  A#m7b5  A#m7b5  C#m  F#     <- built by the size
+         E    Emaj7 C#m  C#m G#m7    G#m7    E    C#m
+
+       **A half-diminished chord and a major seventh are not jug band chords.**
+       The size said "put a seventh here" and the mode decided what kind, so
+       the genre asked for its house chord and got two jazz ones.
+
+       A DOMINANT SEVENTH IS A KIND, NOT A SIZE, so it belongs here where kinds
+       are decided. `chordTones` already builds an absolute interval set from
+       a named quality in ANY mode, which is what makes this work where the
+       measured table cannot: QUALITY_TABLE deliberately serves only major and
+       minor (the corpus is major/minor, and sending dorian to the minor table
+       would erase the mode's signature chord -- chord-quality.md §5, still
+       right, still unchanged), and this genre is dorian more often than not.
+
+       ONLY THE V. The sources are unanimous about exactly one chord -- "you
+       can play any V CHORDS AS DOMINANT 7THS" [corpus:arlotone] -- and that is
+       true in every key and every mode. The same page's "experiment with
+       playing I and IV chords as sevenths, too" is permission rather than
+       prescription, and a dominant seventh on the TONIC would make this
+       genre's minor and dorian records major, which is a much larger claim
+       than any source here supports. Named in the sheet, not built.
+
+       It is checked BEFORE the measured table and returns immediately, so a
+       genre declaring it does not also spend its `qualities` draw on that
+       chord. NO NEW DRAW -- it reads the degree the chord already has -- so a
+       genre that declares nothing is byte-identical [Law 3].
+       docs/genre-research/chords-and-changes.md §5 */
+    if(G.dom7On && G.dom7On.includes(((d % 7) + 7) % 7)) return "dom7";
     const strength = G.qualities || 0;
     const [gate, pick] = qRolls[i % qRolls.length];
     if(gate >= strength) return null;                      // this chord stays as it was
