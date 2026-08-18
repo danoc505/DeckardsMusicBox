@@ -481,7 +481,11 @@ if(require.main === module){
   say("");
 
   const text = out.join("\n") + "\n";
-  if(OUT){ fs.writeFileSync(OUT, text); console.log(`wrote ${OUT}  (${out.length} lines)`); }
+  /* count the LINES IN THE FILE, not the number of times say() was called --
+     plenty of those calls carry several lines at once, so the old count read
+     86 for a 9,000-line printout. A tool whose whole job is to report what is
+     actually there cannot misreport its own size. */
+  if(OUT){ fs.writeFileSync(OUT, text); console.log(`wrote ${OUT}  (${text.split("\n").length - 1} lines)`); }
   else process.stdout.write(text);
 
   process.exit(threw ? 1 : 0);
