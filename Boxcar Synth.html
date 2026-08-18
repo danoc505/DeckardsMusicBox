@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18a · ONE LOOP — and the tune is allowed to stop</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18b · the tune rests, the band thins, the train has four cars</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20779,7 +20779,39 @@ GENRE.boxcarsynth = {
      which the BRIDGE was the most-played thing in the record and the verse tune
      was 16% of it. The lift is exempt: one key change is the genre's central
      gesture [§5], six materials is a shuffle. */
-  oneLoop: true,
+  /* ── AND `oneLoop: true` STOOD HERE FOR ONE BUILD, AND IT WAS WRONG ───────
+     It collapsed Avar/B/Bvar/C onto A. The reasoning was `LOOP_TO_SONG.md`'s
+     headline — "ONE loop, spread, then SUBTRACT" — and the evidence was a count:
+     seven materials, the bridge the most-played thing in the record.
+
+     THE PRINTOUT KILLED IT, WHICH IS WHY THE RULE IS TO PRINT THE NOTES.
+     Seed 1, the chorus, before:
+
+       bar 40   4:D#5  7:C#5  20:D#5  28:A#5  36:D#5  39:C#5  52:D#5  60:A#5
+
+     and after, at bar 40 and at every other bar from 8 to 64:
+
+       bar 40   0:D#5 4:C#5 7:D#5 20:C#5 28:G#4 32:D#5 36:C#5 39:D#5 52:C#5 ...
+
+     A#5 — the note the chorus leaps to, the one the verse never plays — was
+     GONE FROM THE RECORD. Nineteen "distinct realisations" across 79
+     statements, and every one of them was the same eleven notes with a crumb
+     knocked off one end. The statistic said variation; the notes said a loop.
+
+     AND THE DIAGNOSIS WAS WRONG UNDERNEATH IT. "Seven different tunes" is not
+     what the printout shows: `Avar` keeps A's bars 0-1 and redraws 2-3, `B` is
+     a transform of A's opening intervals, `C` is A's rhythm augmented — task
+     #164 made every one of them a DERIVATION of the motif. They were seven
+     RELATIVES, and the collapse turned relatives into clones. Huang's own
+     fallback in that same sheet says the opposite of what I read into it: "take
+     some parts of your loop to make one section and OTHER PARTS of the loop to
+     make a second section" — different SUBSETS, not one array.
+
+     The count that started this is still a real fault and is still open: the
+     BRIDGE is 108 of 359 sections while the verse tune is 59. That is an
+     arrangement fault — the form spends 30% of the record on its departure —
+     and it is fixed in `form.lengths` and the material map, not by deleting
+     the departure. Task #169. */
   /* ══ AND THE TUNE IS NOT ONE OF THEM ═══════════════════════════════════════
      [owner] "The worst thing is its just random notes with instruments being
      played wrong we have no motif no repeating patterns no rule of three. Its
@@ -29466,51 +29498,6 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      the next run and this cannot happen at all. `notes === mat[role]` in stage
      5 relies on exactly this: the take swap is gated on the part not having
      already been swapped, and that test is meaningless if take 0 is a stranger. */
-  /* ══ AND HERE IS WHERE THE FAMILY COLLAPSES — BEFORE ANYTHING IS KEYED ON IT
-     Placed above `putTakes` and above nothing else, because everything below
-     this line is keyed `material|role` and would otherwise smuggle the deleted
-     materials back in through their own keys: `takes["C|bass"]` would hand the
-     bridge's bass to a section playing the loop, and `third["C|lead"]` would
-     make its THIRD HEARING a transform of a tune the record no longer contains.
-     Both were true when this collapse sat two hundred lines lower down.
-
-     THE HEAD OF THE FAMILY IS `A`, and the lifted head is `Alift`. */
-  if(G.oneLoop){
-    const HEAD = { Avar: "A", B: "A", Bvar: "A", C: "A", Avarlift: "Alift" };
-    for(const m in HEAD) if(materials[m] && materials[HEAD[m]]) materials[m] = materials[HEAD[m]];
-    /* ── AND A COLLAPSED NAME INHERITS THE HEAD'S THIRD, IT DOES NOT KEEP ITS
-       OWN AND IT DOES NOT GO WITHOUT ────────────────────────────────────────
-       The first cut REWROTE the keys that already existed. That is half the
-       job: a name whose own third statement failed to build had no key to
-       rewrite, so it inherited nothing and played the plain loop for as long as
-       the form gave it. TRACED, seed 7, `keys2` in the `high` sections: the
-       divergence was built for `A`, `B|keys2` was never created because that
-       material's pad had no inner voice to lose, the collapse had no key to
-       map, and the record played five identical statements with the answer
-       sitting in the same object under a different name.
-
-       So the head's entries are COPIED ONTO every collapsed name, for every
-       role the head has one for. They are the same material; there is no sense
-       in which one of its names can have a third statement and another cannot. */
-    const T2 = {}, D2 = {}, C2 = {};
-    const keep = (k, h) => { if(!materials.third[h]) return;
-      T2[k] = materials.third[h]; D2[k] = materials.thirdDev[h];
-      if(materials.thirdCut && materials.thirdCut[h] != null) C2[k] = materials.thirdCut[h]; };
-    for(const k in materials.third){
-      const i = k.indexOf("|");
-      keep(k, (HEAD[k.slice(0, i)] || k.slice(0, i)) + "|" + k.slice(i + 1));
-    }
-    for(const m in HEAD){
-      if(!materials[m]) continue;
-      for(const k in materials.third){
-        const i = k.indexOf("|");
-        if(k.slice(0, i) !== HEAD[m]) continue;
-        keep(m + "|" + k.slice(i + 1), k);
-      }
-    }
-    materials.third = T2; materials.thirdDev = D2;
-    if(materials.thirdCut) materials.thirdCut = C2;
-  }
   const putTakes = (mats, pairs) => {
     for(const m of mats) for(const k of Object.keys(pairs)){
       if(!pairs[k]) continue;
@@ -29529,21 +29516,6 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   putTakes(["B", "Bvar"], { ostinato: ostBTakes, bass: bassBTakes, keys: keysBTakes });
   putTakes(["B"], { lead: themeBTakes, counter: counterBTakes });
   putTakes(["C"], { bass: bassCTakes, keys: keysCTakes });
-  /* ── AND THE COLLAPSED NAMES TAKE THE HEAD'S TAKES ─────────────────────────
-     The gate above is `pairs[k][0] !== materials[m][k]` — take 0 must BE the
-     array the part already holds — and after the collapse it correctly refuses
-     C's bass takes for C, because C's bass is now A's. Correct, and it would
-     leave every section labelled `C`, `B` or `Avar` playing the loop with no
-     re-realisation at all: the accompaniment's only source of variation, gone
-     from two thirds of the record, by a gate doing its job.
-
-     So they are registered again under A's lists, which now pass the same gate
-     for the same reason. One loop is not one performance of it. */
-  if(G.oneLoop){
-    putTakes(["Avar", "B", "Bvar", "C"],
-             { ostinato: ostATakes, bass: bassATakes, keys: keysATakes });
-    putTakes(["Avar", "B", "Bvar", "C"], { lead: themeATakes, counter: counterATakes });
-  }
   /* THE LIFTED PAIR EXISTS ONLY ON A RECORD THAT MOVED, so a song that did not
      has exactly the materials it always had and every tool that asks the song
      what it contains -- the roll, the seam check, the snapshot -- sees no change
@@ -29557,23 +29529,6 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     putTakes(["Alift"],    { ostinato: ostAlTakes,    bass: bassAlTakes, keys: keysAlTakes });
     putTakes(["Avarlift"], { ostinato: ostAvarlTakes, bass: bassAlTakes, keys: keysAlTakes });
     putTakes(["Alift"], { lead: themeAlTakes, counter: counterAlTakes });
-    /* THE LIFTED PAIR COLLAPSES HERE, not with the rest of the family, because
-       it does not exist until this block runs — and the collapse has to happen
-       before anything is keyed on `Avarlift`, which is what these two lines
-       are. One key change is the genre's central gesture [§5]; a lifted VARIANT
-       of it is a second tune wearing the departure's name. */
-    if(G.oneLoop){
-      materials.Avarlift = materials.Alift;
-      for(const k in materials.third){
-        const i = k.indexOf("|");
-        if(k.slice(0, i) !== "Avarlift") continue;
-        const h = "Alift" + k.slice(i);
-        if(materials.third[h]){ materials.third[k] = materials.third[h]; materials.thirdDev[k] = materials.thirdDev[h]; }
-        else { delete materials.third[k]; delete materials.thirdDev[k]; }
-      }
-      putTakes(["Avarlift"], { ostinato: ostAlTakes, bass: bassAlTakes, keys: keysAlTakes });
-      putTakes(["Avarlift"], { lead: themeAlTakes, counter: counterAlTakes });
-    }
   }
 
   /* ── AND THE GENERATIVE PART REPLACES WHAT IT IS DECLARED ON ──────────────
@@ -29992,13 +29947,6 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      against the same streams, in the same order — this replaces the RESULT and
      never the arithmetic, so no other genre's notes move by a single step, and
      `oneLoop` is one falsy test on every table that does not ask for it. */
-  /* the changes follow the notes: with `oneLoop` the collapsed names ARE A, so
-     holding their line against the chorus's chords would report a fault that is
-     an artefact of the collapse rather than a fact about the record */
-  if(G.oneLoop){
-    for(const m of ["Avar", "B", "Bvar", "C"]) cOf[m] = materials.chords;
-    if(materials.Alift) cOf.Avarlift = materials.liftChords;
-  }
   materials.chordsOf = Object.freeze(cOf);
   /* WHAT THE RECORD DID WITH ITS KEY, stated once, so the arrangement, the roll
      and the seam check all read the same fact rather than each deriving it. */
@@ -37917,9 +37865,31 @@ const RIDE_RAIL = 78;                  // the railhead, in canvas rows
 const RIDE_HOR  = 58;                  // the horizon
 /* the train, laid out left to right because it travels right and the world
    scrolls under it. Front of the cowcatcher is TRAIN_X + the sum of these. */
-const RIDE_CAR = 56, RIDE_TENDER = 26, RIDE_LOCO = 52, RIDE_GAP = 3;
-const RIDE_X = 26;
-const RIDE_FRONT = RIDE_X + RIDE_CAR + RIDE_GAP + RIDE_TENDER + RIDE_GAP + RIDE_LOCO;
+/* ══ THE CONSIST, REAR TO FRONT ═══════════════════════════════════════════
+   [owner] "the train should have a passenger car, boxcar, and caboose, it is a
+   steam train."
+
+   Laid out left to right because the train travels RIGHT and the world scrolls
+   under it, so the order on screen is the order from the REAR of the train
+   forward: caboose, boxcar, passenger car, tender, locomotive. That is the
+   prototypical order and it is the only one that reads — a caboose is by
+   definition the last vehicle, and putting it anywhere else says "this artist
+   has not looked at a train".
+
+   The era is the sheet's: the American railroad, 1880s-1930s [boxcar-synth.md,
+   founding brief], which fixes the locomotive's silhouette — a DIAMOND STACK
+   (the spark arrestor of a wood-burner), a big single pair of drivers, a
+   leading pony truck and a slatted pilot. A modern boxy stack would be the
+   wrong century by fifty years.
+
+   206 pixels of train in a 320-pixel frame, which leaves 106 ahead of the
+   pilot for the road, the station and the headlamp's beam. */
+const RIDE_CABOOSE = 30, RIDE_BOX = 44, RIDE_COACH = 50, RIDE_TENDER = 22, RIDE_LOCO = 48;
+const RIDE_GAP = 3;
+const RIDE_X = 8;
+const RIDE_CAR = RIDE_BOX;                       // kept: the boxcar is still the boxcar
+const RIDE_FRONT = RIDE_X + RIDE_CABOOSE + RIDE_GAP + RIDE_BOX + RIDE_GAP +
+                   RIDE_COACH + RIDE_GAP + RIDE_TENDER + RIDE_GAP + RIDE_LOCO;
 let RIDE = null, RIDE_LAST = 0;
 
 /* four palettes and the hour picks between them. Interpolated rather than
@@ -38043,42 +38013,27 @@ function rideBuild(song){
   const kindAt = d => { for(const g of segs) if(d >= g.d0 && d < g.d1) return g.kind;
                         return segs.length ? segs[segs.length - 1].kind : "open"; };
 
-  /* ── WHO IS ABOARD ──────────────────────────────────────────────────────
-     Asked of the record, never listed [Law 4]. The world's own roles are not
-     players and are excluded by what they are, not by name-checking each one:
-     a role with no `lane` is a bed, not a chair. */
-  const WORLD = { engine:1, pass:1, station:1, scene:1, weather:1, tape:1, drone:1 };
-  const seats = [];
-  for(const r of [...new Set(song.perf.events.map(e => e.role))]){
-    if(!r || WORLD[r]) continue;
-    const ev = song.perf.events.filter(e => e.role === r).sort((a, z) => a.tSec - z.tSec);
-    if(ev.length) seats.push({ role: r, ev, cur: 0,
-                               voice: (ev[0] || {}).voice || r });
-  }
-  /* the tune at the door, the kit at the back -- a seating order, so the
-     figure you watch is the one you are listening to */
-  const ORDER = ["lead", "counter", "ostinato", "keys", "keys2", "bass", "drums"];
-  seats.sort((a, z) => (ORDER.indexOf(a.role) + 99 * (ORDER.indexOf(a.role) < 0)) -
-                       (ORDER.indexOf(z.role) + 99 * (ORDER.indexOf(z.role) < 0)));
+  /* ── AND NOBODY IS ABOARD ANY MORE ──────────────────────────────────────
+     [owner] "The musicians are not needed."
 
-  return { song, TR, total, at, spd, stops, kindAt, seats, smoke: [], lastT: -1,
+     A list of seats stood here, and a figure a chair was drawn in the boxcar
+     doorway, bobbing while its part sounded. It answered a real question — WHICH
+     of nine instruments am I hearing — and the owner has ruled that this
+     picture is not where that question gets answered. The mixer answers it in
+     numbers and the spectrometer answers it in a picture already.
+
+     DELETED RATHER THAN LEFT IN PLACE AND UNDRAWN, which is the whole point:
+     `seats` and `rideSounding` would have been a per-frame scan over every
+     event in a twenty-minute record, computed sixty times a second, to decide
+     the colour of nothing. Dead config that costs CPU is worse than dead config
+     that costs a line, and this repo has a task open for exactly this class
+     (#41, #52). `probe_ride.js` loses the two claims that measured it, for the
+     same reason it lost them: a guard that measures a program that no longer
+     exists is the fault this harness was built to prevent, not an example of
+     it. ─────────────────────────────────────────────────────────────────── */
+  return { song, TR, total, at, spd, stops, kindAt, smoke: [], lastT: -1,
            dawn: TR.dawn, dusk: TR.dusk, hourAt: TR.hourAt,
            fronts: (TR.fronts || []).slice() };
-}
-
-/* is this role sounding at t? A cursor per part, because a linear scan of ten
-   thousand events sixty times a second is a scan of six hundred thousand
-   events a second and the display would cost more than the audio. The cursor
-   walks forward with the playhead and is reset when it jumps back. */
-function rideSounding(seat, t){
-  const ev = seat.ev;
-  if(t < seat.lastT) seat.cur = 0;
-  seat.lastT = t;
-  while(seat.cur < ev.length && ev[seat.cur].tSec + (ev[seat.cur].durSec || 0) < t) seat.cur++;
-  let peak = 0;
-  for(let i = seat.cur; i < ev.length && ev[i].tSec <= t; i++)
-    if(ev[i].tSec + (ev[i].durSec || 0) > t) peak = Math.max(peak, ev[i].gain || 0.5);
-  return peak;
 }
 
 function rideDraw(t){
@@ -38212,11 +38167,28 @@ function rideDraw(t){
       const r1 = rideHash(i * 7 + 3), r2 = rideHash(i * 7 + 5), r3 = rideHash(i * 7 + 9);
       cx.fillStyle = P.mid;
       if(kind === "woods"){
+        /* ── A TRUNK IS NOT A CANOPY, AND PAINTING BOTH `P.mid` MADE A MUSHROOM
+           SCREENSHOT: the first cut drew a 3-pixel column and a 7-pixel slab on
+           top of it in ONE colour, so what arrived on screen was a row of flat
+           brown lollipops — no silhouette, no depth, and at a glance they read
+           as fence posts rather than as a wood. Two colours and two shapes fix
+           it: a dark narrow trunk, and a canopy built from three stacked bands
+           that narrow toward the top, which is the cheapest tree a pixel artist
+           draws and the only one that reads at ten pixels wide. */
         for(let k2 = 0; k2 < 3; k2++){
-          const tx = px + 2 + k2 * 5, th = 12 + Math.floor(rideHash(i * 31 + k2) * 10);
-          cx.fillRect(tx, RIDE_HOR + 4 - th, 3, th);
-          cx.fillRect(tx - 2, RIDE_HOR + 4 - th, 7, Math.floor(th * 0.6));
+          const tx = px + 3 + k2 * 5;
+          const th = 13 + Math.floor(rideHash(i * 31 + k2) * 11);
+          const base = RIDE_HOR + 4;
+          cx.fillStyle = rideMix(P.mid, "#000000", 0.55);          // the trunk
+          cx.fillRect(tx, base - th + 6, 1, th - 6);
+          const lit = rideMix(P.mid, "#ffffff", 0.10);
+          const shade = rideMix(P.mid, "#000000", 0.30);
+          const top = base - th;
+          cx.fillStyle = shade; cx.fillRect(tx - 3, top + 5, 7, 4);  // the skirt
+          cx.fillStyle = P.mid; cx.fillRect(tx - 2, top + 2, 5, 4);  // the middle
+          cx.fillStyle = lit;   cx.fillRect(tx - 1, top,     3, 3);  // the crown, sunlit
         }
+        cx.fillStyle = P.mid;
       } else if(kind === "town"){
         const bh = 10 + Math.floor(r1 * 18), bw = 7 + Math.floor(r2 * 6);
         cx.fillRect(px + 2, RIDE_HOR + 4 - bh, bw, bh);
@@ -38310,7 +38282,19 @@ function rideDraw(t){
        cowcatcher, and the platform is laid backwards from it along the train
        — which is also the true arrangement: you stop with the cars at the
        platform and the engine past its end. */
-    const x = Math.round(RIDE_FRONT + 14 - (200 - bw0) + (st.d - D));
+    /* ── AND THE PLATFORM IS AS LONG AS THE TRAIN, WHICH IS NOT A CONSTANT ──
+       This was 200 pixels, typed, and it matched a train that was 140 pixels
+       long. The consist is now 206 — caboose, boxcar, coach, tender and
+       locomotive — so a 200-pixel platform was SHORTER than the train standing
+       at it, and because the platform's left edge is what enters frame first,
+       the station also arrived 1.8 seconds later than it used to. MEASURED:
+       `probe_ride` went from 18/18 to 6/18 on "the station is in frame and
+       ahead of the train when the brake sounds", and the brake is a sound the
+       record has already made by then.
+       Derived from the consist instead, with a car-length of run-off at the
+       far end, so it cannot fall out of step with the train again. */
+    const PLAT = RIDE_FRONT - RIDE_X + RIDE_COACH;
+    const x = Math.round(RIDE_FRONT + 14 - (PLAT - bw0) + (st.d - D));
     if(x > RIDE_W || x < -220) continue;
     if(yard){
       /* a yard: a water tower and a shed, no platform */
@@ -38332,16 +38316,16 @@ function rideDraw(t){
        railing, and the top sits above the car underframes so it reads through
        the gaps between the cars. */
     cx.fillStyle = rideMix(P.gnd, "#c6bea6", 0.80);
-    cx.fillRect(x, RIDE_RAIL - 11, 200, 2);          // the lit top face
+    cx.fillRect(x, RIDE_RAIL - 11, PLAT, 2);         // the lit top face
     cx.fillStyle = rideMix(P.gnd, "#8b8270", 0.80);
-    cx.fillRect(x, RIDE_RAIL - 9, 200, 8);           // the face of it
+    cx.fillRect(x, RIDE_RAIL - 9, PLAT, 8);          // the face of it
     cx.fillStyle = rideMix(P.gnd, "#000000", 0.55);
-    cx.fillRect(x, RIDE_RAIL - 1, 200, 1);
+    cx.fillRect(x, RIDE_RAIL - 1, PLAT, 1);
     cx.fillStyle = rideMix(P.gnd, "#3a332a", 0.7);   // a railing at the back
-    cx.fillRect(x, RIDE_RAIL - 17, 200, 1);
-    for(let rx = 4; rx < 200; rx += 22) cx.fillRect(x + rx, RIDE_RAIL - 17, 1, 6);
+    cx.fillRect(x, RIDE_RAIL - 17, PLAT, 1);
+    for(let rx = 4; rx < PLAT; rx += 22) cx.fillRect(x + rx, RIDE_RAIL - 17, 1, 6);
     /* the building, bigger in a city than at a country halt [§4b] */
-    const bw = bw0, bh = city ? 30 : 18, bx = x + 200 - bw;
+    const bw = bw0, bh = city ? 30 : 18, bx = x + PLAT - bw;
     cx.fillStyle = rideMix(P.gnd, city ? "#6b4a34" : "#5a4632", 0.75);
     cx.fillRect(bx, RIDE_RAIL - 5 - bh, bw, bh);
     cx.fillStyle = rideMix(P.gnd, "#39302a", 0.85);
@@ -38367,89 +38351,239 @@ function rideDraw(t){
   /* ── SMOKE, before the train so it sits behind the funnel ── */
   {
     if(dt > 0 && V > 0.05 && R.smoke.length < 70 && Math.random() < V * 0.9)
-      R.smoke.push({ x: RIDE_FRONT - 14, y: RIDE_RAIL - 34, a: 1, r: 1.5 });
+      /* AT THE MOUTH OF THE STACK, and the number is derived from the consist
+         rather than typed: the locomotive's front is RIDE_FRONT, the stack
+         sits 33..42 back from its origin, so its centre is 11 pixels behind
+         the pilot and its lip is 37 above the railhead. The old numbers were
+         measured against a train that was 140 pixels long and put the first
+         puff inside the smokebox. */
+      R.smoke.push({ x: RIDE_FRONT - 11, y: RIDE_RAIL - 38, a: 1, r: 1.5 });
     for(const s of R.smoke){
       s.x -= (14 + 30 * V) * dt; s.y -= 7 * dt; s.a -= 0.34 * dt; s.r += 5 * dt;
     }
     R.smoke = R.smoke.filter(s => s.a > 0.02 && s.x > -20);
     for(const s of R.smoke){
-      cx.fillStyle = "rgba(" + (night ? "80,80,92," : "196,196,204,") + (s.a * 0.55).toFixed(3) + ")";
-      cx.fillRect(Math.round(s.x - s.r), Math.round(s.y - s.r), Math.round(s.r * 2), Math.round(s.r * 2));
+      /* A PUFF IS A DISC, NOT A SQUARE. Drawn as `fillRect(x-r, y-r, 2r, 2r)`
+         the exhaust was a column of grey BOXES growing as they rose — the one
+         thing in the frame with no reason to have corners, and the eye reads
+         corners as objects. Rasterised in whole pixels like the wheels, so it
+         is still pixel art and it is still round. */
+      const col = "rgba(" + (night ? "80,80,92," : "196,196,204,") + (s.a * 0.55).toFixed(3) + ")";
+      const rr = Math.max(1, Math.round(s.r)), ox = Math.round(s.x), oy = Math.round(s.y);
+      cx.fillStyle = col;
+      for(let dy = -rr; dy <= rr; dy++){
+        const w = Math.floor(Math.sqrt(Math.max(0, rr * rr - dy * dy)) + 0.5);
+        if(w > 0) cx.fillRect(ox - w, oy + dy, w * 2 + 1, 1);
+      }
     }
   }
 
-  /* ── THE TRAIN, IN PROFILE ── */
+  /* ══ THE TRAIN, IN PROFILE — PIXEL ART, AND THAT IS A CONSTRAINT ══════════
+     [owner] "I want the visualizer in pixel art!"
+
+     Pixel art is not "a small picture". It is a picture with no sub-pixel
+     anything, and the previous cut broke that in one specific place: every
+     wheel was `cx.arc`, which the 2D context ANTI-ALIASES whatever
+     `imageSmoothingEnabled` says — that flag governs image SCALING, not path
+     rasterisation. Eighteen soft grey discs on an otherwise hard-edged
+     drawing, and they were the only round things in the frame, so they were
+     exactly where the eye went. `pxDisc` rasterises a circle into whole pixels
+     the way a sprite artist would, and nothing in this function draws a path
+     any more except the pilot's wedge and the headlamp beam, which are
+     triangles and land on pixel boundaries by construction.
+
+     THE PALETTE IS FIXED AND SMALL, for the same reason: nine colours, each
+     used for one material — iron, its highlight, brass trim, two woods, the
+     caboose's oxide red, the coach's Pullman green, glass, and lamp-light.
+     A pixel drawing reads because a colour MEANS something. */
   {
     const bounce = V > 0.05 ? (Math.sin(t * 11) > 0.4 ? 1 : 0) : 0;
     const y = RIDE_RAIL - 1 + bounce;
-    const IRON = "#23262e", IRON2 = "#31353f", TRIM = "#8a5a2a", WOOD = "#6b4a2c", WOOD2 = "#7d5a36";
-    /* the boxcar the band is in, doors open on the near side */
-    const cx0 = RIDE_X;
-    cx.fillStyle = WOOD;  cx.fillRect(cx0, y - 30, RIDE_CAR, 26);
-    cx.fillStyle = WOOD2; cx.fillRect(cx0, y - 32, RIDE_CAR, 3);
-    cx.fillStyle = "#150f0c"; cx.fillRect(cx0 + 10, y - 27, 36, 22);       // the open door
-    cx.fillStyle = IRON;
-    cx.fillRect(cx0 + 8, y - 30, 2, 26); cx.fillRect(cx0 + 46, y - 30, 2, 26);
-    cx.fillRect(cx0, y - 4, RIDE_CAR, 3);
-    for(const wx of [cx0 + 8, cx0 + 18, cx0 + 38, cx0 + 48]){
-      cx.fillStyle = IRON2; cx.beginPath(); cx.arc(wx, y - 1, 3, 0, 6.284); cx.fill();
+    const IRON = "#23262e", IRON2 = "#3a3f4b", DARK = "#12151b",
+          TRIM = "#b08040", WOOD = "#6b4a2c", WOOD2 = "#8a6238",
+          OXIDE = "#7b3128", OXIDE2 = "#9a4436",
+          GREEN = "#2f4a38", GREEN2 = "#3f6149",
+          GLASS = night ? "#ffd98a" : "#8fa6b8";
+    /* a disc in whole pixels — the sprite artist's circle, not the plotter's */
+    const pxDisc = (ox, oy, r, col) => {
+      cx.fillStyle = col;
+      for(let dy = -r; dy <= r; dy++){
+        const w = Math.floor(Math.sqrt(Math.max(0, r * r - dy * dy)) + 0.5);
+        if(w > 0) cx.fillRect(ox - w, oy + dy, w * 2 + 1, 1);
+      }
+    };
+    /* a wheel is a tyre, a hub and a highlight — three pixels of information,
+       and the spokes are implied by the hub rather than drawn, because at four
+       pixels across a drawn spoke is noise */
+    const wheel = (ox, r) => {
+      pxDisc(ox, y - 1, r, IRON2);
+      pxDisc(ox, y - 1, Math.max(1, r - 2), DARK);
+      cx.fillStyle = TRIM; cx.fillRect(ox, y - 1, 1, 1);
+    };
+    /* the wheels turn: one lit pixel walking the rim, which is the cheapest
+       honest way to say "rotating" and stops the train reading as a sled */
+    const spin = (ox, r, phase) => {
+      if(V <= 0.05) return;
+      const a = (D / (r * 0.9)) + phase;
+      cx.fillStyle = rideMix(IRON2, "#ffffff", 0.5);
+      cx.fillRect(Math.round(ox + Math.cos(a) * (r - 1)), Math.round(y - 1 + Math.sin(a) * (r - 1)), 1, 1);
+    };
+    /* the underframe every vehicle stands on */
+    const frame = (ox, w2) => {
+      cx.fillStyle = IRON; cx.fillRect(ox, y - 5, w2, 3);
+      cx.fillStyle = DARK; cx.fillRect(ox, y - 2, w2, 1);
+    };
+    /* the coupling between two vehicles */
+    const link = (ox) => { cx.fillStyle = IRON2; cx.fillRect(ox, y - 5, RIDE_GAP, 2); };
+
+    /* ── 1. THE CABOOSE — the last vehicle, and it has a cupola ─────────────
+       The cupola is the whole point of a caboose: the raised lookout the
+       conductor watched his own train from. Without it the drawing is a short
+       red boxcar. */
+    const kx = RIDE_X;
+    frame(kx, RIDE_CABOOSE);
+    cx.fillStyle = OXIDE;  cx.fillRect(kx, y - 26, RIDE_CABOOSE, 21);
+    cx.fillStyle = OXIDE2; cx.fillRect(kx, y - 26, RIDE_CABOOSE, 2);       // the sunlit side
+    cx.fillStyle = DARK;   cx.fillRect(kx, y - 28, RIDE_CABOOSE, 2);       // the roof
+    cx.fillStyle = OXIDE;  cx.fillRect(kx + 9, y - 34, 13, 6);             // the cupola
+    cx.fillStyle = DARK;   cx.fillRect(kx + 8, y - 36, 15, 2);
+    cx.fillStyle = GLASS;  cx.fillRect(kx + 11, y - 33, 3, 3);
+    cx.fillStyle = GLASS;  cx.fillRect(kx + 17, y - 33, 3, 3);
+    cx.fillStyle = GLASS;  cx.fillRect(kx + 4, y - 22, 4, 5);              // a side window
+    cx.fillStyle = DARK;   cx.fillRect(kx + 23, y - 24, 5, 19);            // the end door
+    cx.fillStyle = IRON2;  cx.fillRect(kx - 3, y - 12, 3, 1);              // the rear platform
+    cx.fillRect(kx - 3, y - 18, 1, 7); cx.fillRect(kx - 3, y - 5, 3, 2);   // and its railing
+    if(night){ cx.fillStyle = "#ff6a4a"; cx.fillRect(kx - 2, y - 20, 2, 2); }  // the marker lamp
+    wheel(kx + 6, 3); wheel(kx + 23, 3);
+    spin(kx + 6, 3, 0); spin(kx + 23, 3, 1.1);
+    link(kx + RIDE_CABOOSE);
+
+    /* ── 2. THE BOXCAR — planks, a sliding door, and its track ──────────────
+       The door is what makes a boxcar legible: a panel INSET into the side
+       with an iron rail above it and a stop at each end. Slid open, because
+       that is what this genre's boxcar is for. */
+    const bx = kx + RIDE_CABOOSE + RIDE_GAP;
+    frame(bx, RIDE_BOX);
+    cx.fillStyle = WOOD;  cx.fillRect(bx, y - 28, RIDE_BOX, 23);
+    cx.fillStyle = WOOD2; cx.fillRect(bx, y - 28, RIDE_BOX, 2);
+    cx.fillStyle = rideMix(WOOD, "#000000", 0.35);                          // the planking
+    for(let px2 = 2; px2 < RIDE_BOX; px2 += 4) cx.fillRect(bx + px2, y - 26, 1, 21);
+    cx.fillStyle = DARK;  cx.fillRect(bx, y - 30, RIDE_BOX, 2);             // the roof
+    cx.fillStyle = "#0a0708"; cx.fillRect(bx + 15, y - 25, 15, 20);         // the open doorway
+    cx.fillStyle = WOOD2; cx.fillRect(bx + 30, y - 25, 6, 20);              // the door, slid back
+    cx.fillStyle = rideMix(WOOD2, "#000000", 0.4);
+    for(let px2 = 1; px2 < 6; px2 += 2) cx.fillRect(bx + 30 + px2, y - 24, 1, 18);
+    cx.fillStyle = IRON2; cx.fillRect(bx + 13, y - 27, 25, 1);              // the door rail
+    cx.fillRect(bx + 13, y - 26, 1, 21); cx.fillRect(bx + 37, y - 26, 1, 21);
+    wheel(bx + 7, 3); wheel(bx + 15, 3); wheel(bx + 29, 3); wheel(bx + 37, 3);
+    spin(bx + 7, 3, 0.4); spin(bx + 37, 3, 2.0);
+    link(bx + RIDE_BOX);
+
+    /* ── 3. THE PASSENGER CAR — a clerestory roof and a row of lit windows ──
+       The CLERESTORY — the raised centre strip of roof with its own little
+       windows, for light and air before electricity — is the silhouette of a
+       19th-century American coach, and it is the one detail that keeps this
+       from being a green boxcar. The windows carry the hour: they are glass by
+       day and lamplight after dusk, which is the same `night` the sky uses, so
+       the train lights up when the world does. */
+    const px0 = bx + RIDE_BOX + RIDE_GAP;
+    frame(px0, RIDE_COACH);
+    cx.fillStyle = GREEN;  cx.fillRect(px0, y - 27, RIDE_COACH, 22);
+    cx.fillStyle = GREEN2; cx.fillRect(px0, y - 27, RIDE_COACH, 2);
+    cx.fillStyle = TRIM;   cx.fillRect(px0, y - 17, RIDE_COACH, 1);         // the waist band
+    cx.fillStyle = DARK;   cx.fillRect(px0, y - 29, RIDE_COACH, 2);         // the roof
+    cx.fillStyle = rideMix(DARK, "#ffffff", 0.12);                          // the clerestory
+    cx.fillRect(px0 + 5, y - 32, RIDE_COACH - 10, 3);
+    cx.fillStyle = night ? rideMix(GLASS, DARK, 0.45) : rideMix(GLASS, DARK, 0.3);
+    for(let px2 = 8; px2 < RIDE_COACH - 10; px2 += 6) cx.fillRect(px0 + px2, y - 31, 2, 1);
+    cx.fillStyle = GLASS;                                                   // the windows
+    for(let px2 = 4; px2 <= RIDE_COACH - 9; px2 += 7) cx.fillRect(px0 + px2, y - 25, 5, 7);
+    if(night){                                                              // and the light they throw
+      cx.fillStyle = "rgba(255,217,138,0.07)";
+      cx.fillRect(px0, y - 5, RIDE_COACH, 6);
     }
-    /* the tender */
-    const tx = cx0 + RIDE_CAR + RIDE_GAP;
-    cx.fillStyle = IRON;  cx.fillRect(tx, y - 20, RIDE_TENDER, 16);
-    cx.fillStyle = "#141821"; cx.fillRect(tx + 3, y - 23, RIDE_TENDER - 6, 4);   // the coal
-    cx.fillStyle = IRON; cx.fillRect(tx, y - 4, RIDE_TENDER, 3);
-    for(const wx of [tx + 6, tx + 20]){
-      cx.fillStyle = IRON2; cx.beginPath(); cx.arc(wx, y - 1, 3, 0, 6.284); cx.fill();
-    }
-    /* the locomotive: cab, boiler, smokebox, funnel, cowcatcher */
+    cx.fillStyle = DARK;                                                    // the vestibule doors
+    cx.fillRect(px0 + 1, y - 25, 2, 20); cx.fillRect(px0 + RIDE_COACH - 3, y - 25, 2, 20);
+    /* two four-wheel trucks, which is what a coach rides on and a freight car
+       of this era does not */
+    for(const ox of [px0 + 6, px0 + 13, px0 + RIDE_COACH - 14, px0 + RIDE_COACH - 7]) wheel(ox, 3);
+    spin(px0 + 6, 3, 0.9); spin(px0 + RIDE_COACH - 7, 3, 2.6);
+    link(px0 + RIDE_COACH);
+
+    /* ── 4. THE TENDER — the coal, heaped and uneven ────────────────────────*/
+    const tx = px0 + RIDE_COACH + RIDE_GAP;
+    frame(tx, RIDE_TENDER);
+    cx.fillStyle = IRON;  cx.fillRect(tx, y - 20, RIDE_TENDER, 15);
+    cx.fillStyle = IRON2; cx.fillRect(tx, y - 20, RIDE_TENDER, 1);
+    cx.fillStyle = TRIM;  cx.fillRect(tx + 2, y - 14, RIDE_TENDER - 4, 1);
+    cx.fillStyle = "#0c0d10";                                               // coal, above the sides
+    for(let px2 = 2; px2 < RIDE_TENDER - 2; px2 += 2)
+      cx.fillRect(tx + px2, y - 22 - (rideHash(px2 * 7) > 0.5 ? 1 : 0), 2, 3);
+    wheel(tx + 5, 3); wheel(tx + 16, 3);
+    spin(tx + 5, 3, 1.4); spin(tx + 16, 3, 0.2);
+    link(tx + RIDE_TENDER);
+
+    /* ── 5. THE LOCOMOTIVE — 1880s American, and the stack says so ──────────
+       Cab, boiler, sand and steam domes, DIAMOND STACK, headlamp, slatted
+       pilot. One pair of large drivers with a connecting rod that moves, and a
+       leading pony truck: the rod is the only moving part on the whole train
+       that is not a wheel, and it is what makes a steam engine look driven
+       rather than pushed. */
     const lx = tx + RIDE_TENDER + RIDE_GAP;
-    cx.fillStyle = IRON;  cx.fillRect(lx, y - 30, 18, 26);                  // cab
-    cx.fillStyle = "#0e1218"; cx.fillRect(lx + 4, y - 26, 9, 9);            // cab window
-    cx.fillStyle = IRON;  cx.fillRect(lx + 18, y - 22, 30, 18);             // boiler
-    cx.fillStyle = IRON2; cx.fillRect(lx + 18, y - 23, 30, 2);
-    cx.fillStyle = TRIM;  cx.fillRect(lx + 26, y - 26, 5, 4);               // steam dome
-    cx.fillStyle = IRON;                                                    // the funnel, flared
-    cx.fillRect(lx + 36, y - 34, 6, 12); cx.fillRect(lx + 34, y - 36, 10, 3);
-    cx.fillStyle = "#1a1d24"; cx.fillRect(lx + 48, y - 24, 4, 20);          // smokebox front
-    cx.fillStyle = night ? "#ffe9a8" : "#b9a377";                            // the headlamp
-    cx.fillRect(lx + 44, y - 30, 6, 5);
+    frame(lx, RIDE_LOCO);
+    cx.fillStyle = IRON;  cx.fillRect(lx, y - 30, 16, 25);                  // the cab
+    cx.fillStyle = IRON2; cx.fillRect(lx, y - 31, 18, 2);                   // its roof, overhanging
+    cx.fillStyle = GLASS; cx.fillRect(lx + 4, y - 27, 8, 8);                // the cab window
+    if(night){ cx.fillStyle = "#ff8c3a"; cx.fillRect(lx + 14, y - 16, 3, 5); }  // the firebox glow
+    cx.fillStyle = IRON;  cx.fillRect(lx + 16, y - 24, 28, 19);             // the boiler
+    cx.fillStyle = IRON2; cx.fillRect(lx + 16, y - 24, 28, 2);
+    cx.fillStyle = rideMix(IRON, "#000000", 0.4);                           // the boiler bands
+    cx.fillRect(lx + 22, y - 24, 1, 19); cx.fillRect(lx + 32, y - 24, 1, 19);
+    cx.fillStyle = TRIM;  cx.fillRect(lx + 18, y - 28, 5, 4);               // the steam dome
+    cx.fillRect(lx + 26, y - 27, 4, 3);                                     // and the sand dome
+    cx.fillStyle = IRON;                                                    // THE DIAMOND STACK
+    cx.fillRect(lx + 35, y - 30, 5, 6);
+    cx.fillRect(lx + 34, y - 34, 7, 4);
+    cx.fillRect(lx + 33, y - 36, 9, 2);
+    cx.fillStyle = IRON2; cx.fillRect(lx + 33, y - 37, 9, 1);
+    cx.fillStyle = DARK;  cx.fillRect(lx + 44, y - 24, 4, 19);              // the smokebox front
+    cx.fillStyle = IRON2; cx.fillRect(lx + 44, y - 16, 4, 3);               // its door hinge
+    cx.fillStyle = night ? "#ffe9a8" : "#c9b489";                            // the headlamp
+    cx.fillRect(lx + 40, y - 31, 7, 6);
+    cx.fillStyle = DARK;  cx.fillRect(lx + 42, y - 30, 4, 4);
+    cx.fillStyle = night ? "#fff3c4" : "#e0cfa2"; cx.fillRect(lx + 43, y - 29, 2, 2);
     if(night){                                                              // and its beam
       cx.fillStyle = "rgba(255,233,168,0.10)";
-      cx.beginPath(); cx.moveTo(lx + 50, y - 28); cx.lineTo(RIDE_W, y - 40);
-      cx.lineTo(RIDE_W, y - 6); cx.lineTo(lx + 50, y - 25); cx.fill();
+      cx.beginPath(); cx.moveTo(lx + 47, y - 29); cx.lineTo(RIDE_W, y - 42);
+      cx.lineTo(RIDE_W, y - 4); cx.lineTo(lx + 47, y - 24); cx.fill();
     }
-    cx.fillStyle = IRON;                                                    // the cowcatcher
-    cx.beginPath(); cx.moveTo(lx + 52, y - 14); cx.lineTo(lx + 52, y - 1);
-    cx.lineTo(lx + 40, y - 1); cx.fill();
-    for(const wx of [lx + 6, lx + 22, lx + 32, lx + 42]){
-      cx.fillStyle = IRON2;
-      cx.beginPath(); cx.arc(wx, y - 1, wx > lx + 15 ? 5 : 3, 0, 6.284); cx.fill();
+    cx.fillStyle = IRON;                                                    // the pilot, slatted
+    cx.beginPath(); cx.moveTo(lx + 48, y - 13); cx.lineTo(lx + 48, y - 1);
+    cx.lineTo(lx + 38, y - 1); cx.fill();
+    cx.fillStyle = rideMix(IRON, "#ffffff", 0.18);
+    for(let k2 = 0; k2 < 4; k2++) cx.fillRect(lx + 41 + k2 * 2, y - 4 - k2 * 2, 1, 3 + k2 * 2);
+    /* the leading pony truck, then the drivers — the drivers are twice the
+       size, which is the proportion that says "this wheel is driven" */
+    wheel(lx + 40, 3); spin(lx + 40, 3, 1.7);
+    wheel(lx + 10, 6); wheel(lx + 26, 6);
+    { /* THE CONNECTING ROD, and it is the reason to have drawn drivers at all.
+         Crank pins at radius 4 on both drivers, in phase, joined by a bar —
+         so the rod rises and falls and the two wheels stay locked, which is
+         what a coupling rod IS. */
+      const a = V > 0.05 ? D / 5.4 : 1.2;
+      const ax = lx + 10 + Math.round(Math.cos(a) * 4), ay = y - 1 + Math.round(Math.sin(a) * 4);
+      const bx2 = lx + 26 + Math.round(Math.cos(a) * 4), by = y - 1 + Math.round(Math.sin(a) * 4);
       cx.fillStyle = TRIM;
-      cx.beginPath(); cx.arc(wx, y - 1, 1, 0, 6.284); cx.fill();
+      const n2 = Math.max(1, bx2 - ax);
+      for(let k2 = 0; k2 <= n2; k2++)
+        cx.fillRect(ax + k2, Math.round(ay + (by - ay) * (k2 / n2)), 1, 2);
+      cx.fillStyle = rideMix(TRIM, "#ffffff", 0.4);
+      cx.fillRect(ax, ay, 1, 1); cx.fillRect(bx2, by, 1, 1);
+      /* and the piston rod running forward from the leading driver into the
+         cylinder, which is the other half of the motion */
+      cx.fillStyle = IRON2; cx.fillRect(lx + 30, y - 8, 12, 4);            // the cylinder
+      cx.fillStyle = TRIM;  cx.fillRect(bx2, y - 7, Math.max(1, lx + 32 - bx2), 1);
     }
-    /* ── THE BAND, IN THE DOORWAY ─────────────────────────────────────────
-       One figure a chair, and a chair MOVES ONLY WHILE ITS PART IS SOUNDING.
-       That is the claim `probe_ride.js` checks, and it is the reason to draw
-       people at all: a listener can see which of nine instruments is the one
-       they are hearing, which is a question the mixer answers in numbers and
-       nothing on this page answered in pictures. */
-    const seats = R.seats, dw = 34, x0 = cx0 + 11;
-    const step = seats.length ? Math.max(4, Math.floor(dw / seats.length)) : 6;
-    seats.forEach((s, i) => {
-      const lvl = rideSounding(s, t);
-      const px = x0 + i * step, hue = (i * 47) % 360;
-      const bob = lvl > 0 ? (Math.sin(t * 9 + i * 1.7) > 0 ? 0 : 1) : 0;
-      const py = y - 24 + bob;
-      cx.fillStyle = lvl > 0 ? "hsl(" + hue + ",65%,62%)" : "hsl(" + hue + ",20%,26%)";
-      cx.fillRect(px, py + 4, 3, 9);                            // body
-      cx.fillStyle = lvl > 0 ? "#e8c49a" : "#5a4a3c";
-      cx.fillRect(px, py, 3, 4);                                // head
-      if(lvl > 0){                                              // the arm, working
-        cx.fillStyle = "hsl(" + hue + ",70%,72%)";
-        cx.fillRect(px + 3, py + 5 + (bob ? 1 : 0), 2, 2);
-      }
-    });
   }
 
   /* ── THE NEAR VERGE, IN FRONT OF THE TRAIN AND BEHIND THE WEATHER ───────────────────────────────────
@@ -39931,7 +40065,6 @@ window.MK2 = {
      exported rather than re-derived in probe_mode.js */
   rideGeom: () => ({ width: RIDE_W, height: RIDE_H, front: RIDE_FRONT,
                      rail: RIDE_RAIL, pxps: RIDE_PXPS }),
-  rideSoundingAt: rideSounding,
   /* THE METRE, so probe_meter.js can ask the program rather than keep its own
      copy of six hierarchy tables and go stale the first time one is corrected.
      `metreOf`/`stepsOf`/`beatsOf` are the accessors every stage reads through;

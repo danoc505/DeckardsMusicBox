@@ -62,7 +62,7 @@ const CHROME = process.env.CHROME || "/opt/pw-browsers/chromium";
       if(!R){ rows.push({ s, threw: "no ride plan" }); continue; }
       const beat = 60 / S.chart.tempo;
       const G = M.rideGeom();                    // the page's own numbers
-      const r = { s, tempo: S.chart.tempo, beat, stops: R.stops.length, seats: R.seats.map(x => x.role) };
+      const r = { s, tempo: S.chart.tempo, beat, stops: R.stops.length };
 
       /* STOPS — distance must not advance while the form says standing, and
          must advance while it says running */
@@ -119,20 +119,6 @@ const CHROME = process.env.CHROME || "/opt/pw-browsers/chromium";
 
       /* PLAYS — a seat moves only while its part sounds. Asked at a moment the
          part IS sounding and at a moment it is NOT, per seat. */
-      let moved = 0, still = 0, seatN = 0;
-      for(const seat of R.seats){
-        const ev = seat.ev;
-        if(!ev.length) continue;
-        seatN++;
-        const on = ev[Math.floor(ev.length / 2)];
-        /* a gap: the longest silence this part has */
-        let gap = null, gl = 0, last = 0;
-        for(const e of ev){ if(e.tSec - last > gl){ gl = e.tSec - last; gap = last + (e.tSec - last) / 2; }
-                            last = Math.max(last, e.tSec + (e.durSec || 0)); }
-        if(M.rideSoundingAt(seat, on.tSec + Math.min(0.05, (on.durSec || 0.1) / 2)) > 0) moved++;
-        if(gap != null && gl > 2 && M.rideSoundingAt(seat, gap) === 0) still++;
-      }
-      r.moved = moved; r.still = still; r.seatN = seatN;
       rows.push(r);
     }
     return rows;
@@ -146,18 +132,17 @@ const CHROME = process.env.CHROME || "/opt/pw-browsers/chromium";
     if(!ok) faults++;
   };
   console.log("\n=== THE RIDE — does the picture agree with the record? " + SEEDS + " seeds\n");
-  console.log("  seed  tempo  stops  seats                      standing/creeping  running/stuck");
+  console.log("  seed  tempo  stops  standing/creeping  running/stuck");
   let creep = 0, frozen = 0, stuck = 0, ran = 0, beside = 0, real = 0, away = 0, awayOK = 0;
-  let moved = 0, still = 0, seatN = 0, threw = 0;
+  let threw = 0;
   const gaps = [];
   for(const r of out){
     if(r.threw){ threw++; console.log("  " + String(r.s).padStart(4) + "  THREW: " + r.threw); continue; }
     creep += r.creep; frozen += r.frozen; stuck += r.stuck; ran += r.ran;
     beside += r.beside; real += r.real; away += r.away; awayOK += r.awayOK;
-    moved += r.moved; still += r.still; seatN += r.seatN;
     gaps.push(...r.brake);
     console.log("  " + String(r.s).padStart(4) + String(r.tempo.toFixed(0)).padStart(7) +
-      String(r.stops).padStart(7) + "  " + r.seats.join(",").padEnd(28) +
+      String(r.stops).padStart(7) + "  " +
       String(r.creep + "/" + r.frozen).padStart(12) + String(r.stuck + "/" + r.ran).padStart(16));
   }
   console.log("");
@@ -182,10 +167,20 @@ const CHROME = process.env.CHROME || "/opt/pw-browsers/chromium";
                 dts[dts.length - 1].toFixed(1) + " beats after it, which is the brake RUNNING IN" +
                 "\n     [the stop script, step 2: \"arrive: brakes, running into the downbeat\"]");
 
-  say(seatN > 0 && moved === seatN, "a player in the doorway moves while its part sounds",
-      moved + "/" + seatN + " seats");
-  say(still === seatN || still > 0, "and is still while its part rests",
-      still + "/" + seatN + " seats have a rest long enough to ask about");
+  /* ── TWO CLAIMS DELETED, AND NOT BECAUSE THEY WERE FAILING ────────────────
+     [owner] "The musicians are not needed."
+
+     This file used to assert "a player in the doorway moves while its part
+     sounds" and "and is still while its part rests". Both were true and both
+     are now unaskable: the figures are gone from the drawing and `seats` and
+     `rideSoundingAt` are gone from the program with them.
+
+     Kept as a note rather than commented-out code, because a guard that
+     measures a program that no longer exists is the single fault this harness
+     has caught most often in its own files — the faders probe composing a
+     deleted genre, the banjo probe parsing zero cells, the mode probe
+     filtering on a field the events do not carry. Every one of them was GREEN.
+     Deleting the claim with the feature is how that stops happening. */
 
   if(errs.length) console.log("\n  page errors: " + errs.slice(0, 3).join(" | "));
   console.log("\n  " + faults + " ride fault(s)\n");
