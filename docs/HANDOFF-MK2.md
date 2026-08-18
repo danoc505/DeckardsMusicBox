@@ -1,5 +1,29 @@
 # HANDOFF — Deckard's Orchestrator MK2
 
+> ## ⚠ 2026-08-18 — THIS FILE IS OUT OF DATE IN FOUR PLACES
+>
+> Read `docs/START-HERE.md`'s header block first; it says the same thing at
+> length. In short:
+>
+> - **`Boxcar Synth.html` is dead** and the work inside it is not being ported.
+>   Ruled on by the owner: *"You can't arrange non pianos it just sounds like
+>   crap."*
+> - **`Deckards Orchestrator MK2.html` is the program**, and every tool now
+>   reads it. For two days they all read the boxcar file instead.
+> - **There is one test.** `node harness/mk2_score.js` — every genre, seed 1 and
+>   a drawn seed, every instrument, the whole song, three seconds. The 190-check
+>   battery, all 87 probes, the snapshot and its baseline, the browser batteries
+>   and the audio assertions are deleted. Every battery count, seam count and
+>   `probe_*` instruction anywhere below is describing files that are gone.
+> - **Four genres.** `vgm` and `boxcarsynth2` deleted. lofi, synthwave,
+>   dungeonsynth, boxcarsynth remain; the work is on lofi, dungeon synth and
+>   boxcar synth.
+>
+> Everything else in this file — the six stages, the laws, the one-owner rule,
+> no correcting passes, the provenance rule, the genre-tables-only rule — still
+> holds and is still the constitution.
+
+
 > **Starting a fresh session? Read `docs/START-HERE.md` first** — the branch,
 > the rules, the current state and what to do next, in two pages. Then come
 > back and read this whole file, which is the contract.

@@ -1,216 +1,105 @@
-# harness — everything that holds the program to a number
+# harness — the printout, and the few things that are not it
 
-Every tool here reads **`../Deckards Orchestrator MK2.html`** directly. There is
-no build step and nothing to install: each one extracts the single `<script>`
-body, evaluates it with browser stubs, and asks the shipped program questions.
-The browser-driven ones use the Playwright + Chromium already in `node_modules`.
+**There is one test now.** It prints the notes.
 
-*This file used to describe MK1 — `00_theory.js`…`13_flip.js`, `conduct()`,
-`improvise()`, and a `build_engine.py` that reconstructed a runnable bundle.
-None of that exists any more. The seven probes that depended on it were
-confirmed dead (they `require("./run/engine_bundle.js")` and call `conduct`)
-and deleted, along with `build_engine.py` and `tests/`. MK1 itself is still
-here as `../Improv Machine playable_BETA 0.1.html`, frozen — for reading
-rather than running.*
+```sh
+node harness/mk2_score.js
+```
 
-## What to run, and when — CORRECTED 2026-08-07
+Every genre, twice — seed 1 and one drawn fresh each run — every instrument,
+every bar, start to finish. It takes about three seconds and prints about ten
+thousand lines. Nothing in it is a pass or a fail. You read it.
 
-This section used to be headed "the five-minute battery — run this before any
-claim" and listed six tools. That instruction is why one session ran the whole
-chain eight times in a day. It is replaced by measured costs.
+## Why this folder is now four files instead of ninety-three
 
-**MEASURED 2026-08-07, and it contradicted what I had been saying:**
+The owner, 2026-08-18:
 
-| tool | cost | when |
-|---|---|---|
-| `mk2_roll.js <seed> --genre <g>` | instant | constantly — it prints the notes |
-| `mk2_roll.js … --len 2:00` | instant | the notes at a length you asked for |
-| `mk2_roll.js … --blend a:50,b:50 --trait kit=b --deal 2` | instant | the notes of an aimed blend |
-| `mk2_test.js` | **1m45s** | freely, after any change to composition |
-| `probe_stems.js <genre> <seed> [secs] [from]` | ~1.5m | any question about balance |
-| `probe_static.js <genre> [songs]` | ~40s | how much a record actually changes — **but see the warning below** |
-| `probe_repetition.js [genre ...] [--seeds N]` | ~40s, no browser | **what actually comes back**: the cell length and how many times it goes round, then per role the distinct bars of note content and how often each is heard, plus the declared arc against the played one |
-| `probe_palette.js <genre> [songs]` | ~40s | which of a genre's sounds get used |
-| `probe_blendshare.js [songs] [a+b ...\|--all]` | ~15s all pairs | what share of a song each genre on the faders actually supplied |
-| `mk2_ui.js` | ~2m, flaky ~1 in 5 | once before publishing — and ALWAYS for anything with a knob |
-| `mk2_blend.js` | ~2m | once before publishing |
-| `mk2_midi.js` | ~1m | once before publishing |
-| `probe_mixer.js` | ~1m | once before publishing, if the graph moved |
-| `mk2_snapshot.js check <baseline>` | ~6m | once before publishing |
-| `probe_matrix.js <genre>` | ~20m A GENRE | only when the matrix itself changed |
+> "the tests they are a huge waste of time and the main test that needs to be
+>  done is to print out the midi of seed 1 and a random seed all the instruments
+>  and the whole song. This is the real test that should be being done its the
+>  only way you can actually see your work is doing something correct."
 
-`mk2_test.js`'s seed argument barely moves it: 20 seeds took 1m54, 300 took
-1m44. Do not bother lowering it.
+So on that day, deleted: `mk2_test.js` (190 checks, 4,300 lines, twelve to
+fifteen minutes a run, **zero notes printed**), all 87 probes, the snapshot and
+its 147 KB baseline, the browser batteries, and the audio assertions.
+23,059 lines.
 
-**⚠ THAT 1m45 IS STALE — RE-MEASURED 2026-08-16 AT 12–15 MINUTES.** Four
-consecutive runs on an otherwise idle box, one core pinned at ~105%, 776 MB
-resident. The table above dates from 2026-08-07 and the battery has grown by
-two genres and several checks since. It is not hung at four minutes with an
-empty log: it buffers, and the first `✓` can take a while to appear — the count
-climbs steadily after that.
+**And there was a second reason, worse than slowness.** Every one of those
+ninety-odd tools read `Boxcar Synth.html` — a one-genre side file — instead of
+`Deckards Orchestrator MK2.html`, which is the program. It had been that way
+since 2026-08-17, commit `49e3391`, and nothing said so anywhere you would see
+it. `mk2_roll.js 1 --genre lofi` printed **boxcar synth** and exited 0. So the
+whole folder was grading a file nobody was working on, and reporting green.
 
-The practical consequence is the one the table was written to prevent, pointing
-the other way: **budget a quarter of an hour, and do not start a browser probe
-beside it.** Chromium plus the battery's 776 MB is what the "killed for memory
-(exit 137)" note below is about.
+The printout names the file it read on its first line now. That is not a
+courtesy — it is the thing that would have caught this in one glance.
 
-And when killing a stale run, kill it by PID. `pkill -f mk2_test` matches the
-shell that is running the `pkill` itself if that command line contains the
-string — which killed a fresh battery and three waiters in one stroke here, all
-reporting exit 144. `pgrep -f mk2_test` lies the same way, reporting "still
-running" for its own command.
+## The printout
 
-**Run browser probes ONE AT A TIME.** Four cores; four Chromium renders at once
-finish slower than four in a row, and a combined run has been killed for memory
-(exit 137).
+```sh
+node harness/mk2_score.js                          every genre, seed 1 + a drawn one
+node harness/mk2_score.js --genre lofi             one genre, seed 1 + a drawn one
+node harness/mk2_score.js --genre lofi --seed 7    one genre, one seed
+node harness/mk2_score.js --seeds 1,7,42           the seeds you name
+node harness/mk2_score.js --from 0 --to 8          a window of bars
+node harness/mk2_score.js --out score.txt          to a file instead of the screen
+node harness/mk2_score.js --mid out/               ...and write real .mid files too
+```
 
-## ⚠ `probe_static.js` MEASURES INSTRUMENTATION CHURN, NOT REPETITION
+`--mid` writes one `.mid` per record and then **reads each one back** and counts
+the notes it finds, so "the export works" is a fact on the screen rather than a
+hope. Open them in anything.
 
-Added 2026-08-16, after it answered the wrong question confidently. Its
-"picture" is `cast + material + loopBar + cycle%2 + degree`, and **`cast` is
-the set of roles sounding in the bar**. On a record whose parts thin, rest and
-drop by design the cast changes almost every bar, so it reported boxcar synth
-at "123.8 distinct pictures in 178 bars, longest unchanging run 1.0" for music
-that is **a four-bar cell played forty-four times**. The owner had listened and
-said the loop kept returning; the probe was believed over the ear for one round.
+And the hand on the program — everything the front panel can do, printable:
 
-Use `probe_repetition.js` for the question "what comes back". `probe_static` is
-still the right tool for its other column — how many parts sound at once.
+```sh
+--blend lofi:50,dungeonsynth:50    the faders, as percentages
+--trait kit=dungeonsynth,bass=lofi which genre each part of a blend comes from
+--deal 3                           same sliders, a different hand
+--rig band                         which set of players
+--picks lead=sax,keys2=wurly       which machines are loaded in the rack
+--len 2:00                         ask for a length
+```
 
-This is rule 1 of the two below, and it cost a round of the wrong fix being
-designed before the number was doubted.
+### How to read it
 
-## The three lessons that cost the most, 2026-08-07
+One line a part, sixteen sixteenths a bar. `*` is a strike, `-` is the note
+still sounding, `.` is silence. The note names follow in the order they are
+struck, and a number in brackets is how many milliseconds that note sits off its
+step — the groove, printed rather than hidden. Drums get one line a lane, named.
+Parts are in score order: the tune on top, the bass at the foot, drums under
+that.
 
-1. **A probe that reaches past the interface only proves what is behind the
-   interface.** `probe_mixer.js` passed 4/4 while every control on the mixer
-   panel was dead — it called `MK2.setMixer` directly, and the panel's own call
-   went through `window.Sound`, which is `undefined` because `Sound` is declared
-   with `const` and const never lands on `window`. **For anything with a knob,
-   the check that counts is the one in `mk2_ui.js` that drives the real element
-   with real pointer events.**
+At every section boundary it prints the section, its bars, the tempo, the clock
+time, which material each part is playing, and who is playing at all. At the end
+it prints every part's note count, range and instruments, so the printout can be
+checked against itself.
 
-2. **A probe can measure a different program than the one that plays.**
-   `probe_stems.js` called `renderWav(list, secs, rate)` and stopped: no space,
-   no kick voicing, no drum drive, no motion. `chTune` returns 1 flat on a graph
-   with no drum machine on it, so the war drum's tuning was switched off in every
-   reading it had ever printed, and a round of drum changes came back "identical
-   to the decimal". **Before believing a finding:** was the machine in the slot,
-   was the sound object passed, was the motion plan passed, was the window long
-   enough, is the baseline the values that were there or the ones that were
-   declared.
+**It reads the PERFORMANCE, not the materials.** The materials are what was
+written; the performance is what is played, after stage 4 chose which material
+goes where and stage 5 picked the variants. Printing the materials would print
+the paper and not the record — the exact mistake that once let "the lead is one
+loop" survive a printout.
 
-3. **RMS is not loudness.** The drums measured -13.6 dB and **-39.9 dB
-   A-weighted** — the biggest thing in the record by power, and inaudible.
-   `probe_stems.js` now carries A-weighting (IEC 61672, built from the standard's
-   pole definitions and self-checked against its published curve before it is
-   allowed to report), CREST (peak minus average: how much of a part is a hit
-   rather than a hum), GAP (share of the window 30 dB under its own peak: the
-   silence between hits) and MISSED (how much quieter the whole mix gets without
-   this part, which is the only column that answers "is it actually there").
+## Everything else in here
 
-## When a check goes red, decide honestly which is wrong
-
-Three times on 2026-08-07 the CHECK'S PREMISE was stale, not the program.
-Each was rewritten to measure the thing it was actually about — reading a
-genre's own `kit.poly` declaration instead of inferring a period; exempting
-phrase-ending bars **by name** from `materials.drumPhrase` — and never by moving
-a threshold. A check you rewrite whenever it is inconvenient is not a check.
-Say in the commit message which one you changed and why.
-
-State at build `2026-08-07f`: seam **131 / 0**, ui **36 / 0**, blend **10 / 0**,
-midi **20 / 0**, mixer **4 / 0**, snapshot `b9c88d17b7e7c54e`.
-
-**The counts in that line date the moment they were measured and nothing
-keeps them true.** A check count that disagrees with this file is this file
-being old, not the battery being broken — the batteries themselves say what
-they ran. `docs/HANDOFF-MK2.md` carries the same table and is kept current
-with it.
-
-`mk2_midi.js` flakes about one run in five — its checks are wall-clock ("did 40
-clock ticks arrive in 2.5 s"). One red run is not a regression; it is also not
-fine, and the fix is to wait on counts rather than on durations.
-
-## Reading the music
-
-| tool | what it prints |
+| file | what it is |
 |---|---|
-| `mk2_roll.js <seed> [--genre g] [--song] [--mid out.mid] [--blend a:50,b:50]` | **the test that matters** — the note grid, chords, pocket, accent/slide, pins |
-| `probe_comp.js [seeds]` | how the comp is voiced: simultaneity, onsets/bar, inner movement, span |
-| `probe_theory.js` | the music laws off the notes: out of key, NCT, chord-under-bass, unisons |
-| `probe_harmony_neo.js [seeds]` | chromatic chords and voice-leading distance, per genre |
-| `probe_pull.js [seeds]` | does the genre outweigh the seed? Between- vs within-genre variance |
-| `probe_arc.js`, `probe_build.js`, `probe_rule_of_three.js` | the shape of the record over time |
+| `mk2_score.js` | **the test.** Above. |
+| `mk2_stamp.js` | `check` / `write`. Is the published page this build? Not a music check — publish bookkeeping. `mk2_build.json` is its record. |
+| `mk2_render.js`, `render_audio.js` | render a song to a WAV so it can be listened to. Not a check; the ear. |
+| `*_bank.py` | build the embedded sample banks from sources. Not tests. |
+| `make_sample.py` | turn a WAV or AIFF into a payload to paste into the HTML. Nothing from any sample library is committed to this repo. |
 
-## Proving a refactor is a refactor
+## Two rules that survived the cull, because they were paid for
 
-```sh
-node harness/mk2_snapshot.js check harness/mk2_baseline.snap
-node harness/mk2_snapshot.js write harness/mk2_baseline.snap   # ONLY with a deliberate music change
-```
-
-It hashes events, form and arrangement **separately**, which is how you tell a
-melodic change from a structural one. **If you change the music on purpose,
-rewrite the baseline in the same commit and say so in the message.**
-
-## Is the published build this build?
-
-```sh
-node harness/mk2_stamp.js check     # also runs inside mk2_test.js
-node harness/mk2_stamp.js write     # after bumping the stamp AND republishing
-```
-
-This exists because the published artifact was once three program commits behind
-while both files carried the identical stamp. `mk2_build.json` records what was
-published and where.
-
-## The sound
-
-| tool | what it measures |
-|---|---|
-| `probe_voices.js` | every voice fires and none is silent — the cheapest real check here |
-| `probe_controls.js [machine]` | every knob on a machine reaches the sound. **Slow — the TR-1000 is ~40 min.** Name one machine |
-| `probe_cymbals.js` | the harsh band (2–6 kHz) in absolute terms **and** as a share |
-| `probe_chains.js`, `probe_desk.js`, `probe_faders_down.js`, `probe_303.js` | routing, the desk, the faders, the 303 |
-| `probe_matrix.js [genre]` | **every crossing of the grid moves air** — each one rendered twice and measured as a DIFFERENCE SIGNAL, plus the dub drop (dry closed, send open). **Slow — ~20 min a genre** |
-| `probe_render_determinism.js` | the same events rendered three times null out. Written after a feedback cycle in the graph cost the renderer its repeatability at gain 0 |
-| `probe_wiring.js` | **which genre actually reaches what was added.** A table, not a pass/fail. Found `preDelay` connected to NOBODY for two builds |
-| `probe_kaoss.js` | the pad reaches live sound, and by how much, per genre |
-| `probe_section_motion.js [genre]` | **every section-keyed matrix/echo move, measured inside its own section** — a move keyed to a section whose bus is silent there is automation of nothing. Found lofi's outro "Tubby pair" and a bridge drum-drop both inert. A table, not a pass/fail. **Slow — ~30 min all genres** |
-| `render_audio.js` + `test_audio.py` | output assertions on rendered excerpts. **15 of them fail today and 13 are one stale check** — `docs/BACKLOG.md` §1 before you "fix" anything here |
-
-## Samples
-
-```sh
-python3 harness/make_sample.py <file.wav|file.aif> --name kick --rate 22050 \
-        [--max-sec 1.0] [--pitched]
-```
-
-Reads WAV **and** AIFF, trims, downsamples, mixes to mono 16-bit, preserves the
-original peak as `pk` so a kit keeps its recorded balance, and with `--pitched`
-detects the root note and reports a confidence. It prints a payload to paste
-into the HTML — **nothing from any sample library is committed to this repo.**
-
-## Two rules that keep being learned here
-
-1. **When a measurement surprises you, suspect the measurement first.**
-   `probe_controls.js` took twelve setup corrections before its output could be
-   trusted; handoff §3 lists all twelve. This very cleanup nearly deleted
-   `probe_rule_of_three.js` because a grep for "Error" matched the word "cannot"
-   in one of its legitimate findings.
-2. **Check the ruler fits the thing.** A 30 ms attack averaged over 4 seconds is
-   nothing, and a share can rise while the absolute level falls. Report both.
-3. **Anything that LISTS what the program contains will go stale.** Four times
-   now, three of them in one session: the seam scanner's read-detection;
-   `probe_matrix`'s column names, twice (a hardcoded `(Mix|Echo|Room)` died at
-   FLANGE, and its replacement — pulling names out with `[A-Z][a-z]+` — died at
-   DP4, because "DP4" has a digit in it); and `probe_wiring`, which had no
-   barberpole column the build after one existed. **Derive it from the
-   declaration.** `MK2.MATRIX`, `MK2.racks()` and `MK2.INSTRUMENTS` are exported
-   for exactly this, and a list written out by hand here is a bug with a
-   commit date on it.
-4. **Ask the question of the thing, not of the declaration.** The first derived
-   version of `probe_wiring`'s FX columns read each genre's `space.feeds` and
-   reported the ROOM as used by two genres, when all seven use it — keys and
-   lead arrive open there whatever a genre declares. A declaration says what
-   was asked for; the crossings say what happened.
+1. **When a measurement surprises you, suspect the measurement first.** Three
+   separate probes were found measuring a different program than the one that
+   plays — a mixer probe passed 4/4 while every knob on the panel was dead,
+   because it reached past the panel and called the function directly. A number
+   from a tool you have not checked is not evidence.
+2. **Anything that LISTS what the program contains will go stale.** It happened
+   four times, three of them in one session. `MK2.genres()`, `MK2.MATRIX`,
+   `MK2.racks()` and `MK2.INSTRUMENTS` are exported so nothing has to keep a
+   copy — the printout derives its genre list from `MK2.genres()` and never
+   writes one out.

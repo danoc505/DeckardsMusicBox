@@ -47,7 +47,7 @@
 const path = require('path'), fs = require('fs'), crypto = require('crypto');
 const ROOT = process.env.MK2_ROOT || path.resolve(__dirname, '..');
 const { chromium } = require(path.join(ROOT, 'node_modules', 'playwright'));
-const HTML = process.env.MK2_HTML || path.join(ROOT, 'Boxcar Synth.html');
+const HTML = process.env.MK2_HTML || path.join(ROOT, 'Deckards Orchestrator MK2.html');
 const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const OUT = process.argv[2] || path.join(ROOT, 'harness', 'audio_renders');
 /* ONE SONG PER GENRE, plus the rig alternated across them. Rendering only lofi

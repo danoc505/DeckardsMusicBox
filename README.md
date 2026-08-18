@@ -44,39 +44,46 @@
 
 > ## ⚠ RULE ONE — PRINT THE NOTES AND READ THEM. EVERY TIME.
 >
-> **You have no a verdict on it. The printed notes are the test.** Not one test among
-> several — the one that tells you what the music actually did. Every change,
-> every time, on top of whatever else you ran:
+> **The printed notes are the test. There is no other one.** As of 2026-08-18
+> the 190-check battery and all 87 probes are deleted — 23,059 lines of them —
+> and this is what replaced the lot:
 >
 > ```sh
-> node harness/mk2_roll.js 1 --genre lofi        # and all six others
+> node harness/mk2_score.js
 > ```
 >
-> Print it **before** the change and **after**, and put the two side by side.
-> If you think nothing moved, this is how you find out you were wrong. If
-> something did move, this is the only place you can see what.
+> Every genre, twice — seed 1 and one drawn fresh each run — every instrument,
+> every bar, start to finish. Three seconds. Add `--mid out/` and it writes real
+> `.mid` files beside the printout and reads each one back to prove it.
 >
-> **Two traps, both of which have already caught someone:**
+> Print it **before** the change and **after**, and put the two side by side. If
+> you think nothing moved, this is how you find out you were wrong. If something
+> did move, this is the only place you can see what.
 >
-> - **`--genre` is a flag, and a bare genre name is silently ignored.**
->   `mk2_roll.js 1 vgm` composes **lofi**. Read the header line of every
->   printout and check it names the genre you asked for.
-> - **Passing the test battery is not a substitute.** The snapshot goes red
->   when a decorative field is added and no note moved; the seam checks prove
->   the laws hold, not that the music is any good. Neither one shows you a
->   chord changing from minor to dominant. The printout does.
+> **Why the battery went.** Two reasons, and the second is the bad one:
 >
-> **And there is now a second way to look, in the program itself: THE ROLL**, at
-> the top of the page. It draws the same notes through the same function the
-> .mid export uses, so it shows the file you would export — the whole song at
-> once, one colour a part, click a part to see it alone. Use it to read the
-> ARRANGEMENT (what the groove and the arc thinner actually did) and the
-> printout to read the MATERIAL (what stage 3 wrote). They are different
-> pictures on purpose and the difference is worth knowing.
+> - It took twelve to fifteen minutes and printed **zero notes**. Everything it
+>   could tell you was a percentage — "44.2% of 4136 leap away" — and a
+>   percentage is not a thing you can look at and judge. It was green for months
+>   on a banjo holding 3.3-second notes, a ride cymbal playing the identical bar
+>   seventeen times, and two of eight chairs barely in the record. All three were
+>   found by printing the record and reading it, in one afternoon.
+> - **Every one of those ninety-odd tools was reading the wrong file.** They read
+>   `Boxcar Synth.html`, a one-genre side project, and not the program. Since
+>   2026-08-17, silently. `mk2_roll.js 1 --genre lofi` printed boxcar synth and
+>   exited 0. The printout names the file it read on its first line now.
+>
+> **And there is a second way to look, in the program itself: THE ROLL**, at the
+> top of the page. It draws the same notes through the same function the .mid
+> export uses, so it shows the file you would export — the whole song at once,
+> one colour a part, click a part to see it alone. Use it to read the
+> ARRANGEMENT (what the groove and the arc thinner actually did) and the printout
+> to read the MATERIAL (what stage 3 wrote). They are different pictures on
+> purpose and the difference is worth knowing.
 
 A generative-music instrument that composes and plays complete songs — drums,
-bass, chords, melody, a second melody and a repeating figure — across **seven
-genres**, with a rack of modelled machines you can put your hands on while it
+bass, chords, melody, a second melody and a repeating figure — with a rack of
+modelled machines you can put your hands on while it
 plays. It ships as **one self-contained HTML file**: no server, no build step,
 no internet, no dependencies. Open it and press play.
 
@@ -117,36 +124,28 @@ MK2.genres()
 | Path | What's inside |
 |---|---|
 | `Deckards Orchestrator MK2.html` | **The program.** Everything: engine, rack, panels, UI. |
-| `harness/` | Everything that holds the program to a number. Start at `harness/README.md`. |
+| `harness/` | **The printout** — `mk2_score.js`, the only test — plus the publish record and the sample-bank builders. Start at `harness/README.md`. |
 | `docs/HANDOFF-MK2.md` | **Read this before touching the HTML.** The constitution, the laws, what is done and what is not. |
 | `docs/genre-research/NOTES-FROM-THE-USER.md` | The running log of what was measured, what turned out wrong, and why. Read it with the handoff. |
 | `docs/` | Genre research, corpus sources, licensing, arrangement and synth research. |
 | `corpus/` | Python scripts that ingest open sources and build the embedded tables. |
 | `samples/` | Sample assets that belong to the repo (payloads are embedded, corpora never are). |
+| `Boxcar Synth.html` | **Dead.** A one-genre side file, abandoned 2026-08-18 — "you can't arrange non pianos it just sounds like crap" [owner]. Nothing reads it. Nothing should. |
 | `Improv Machine playable_BETA 0.1.html` | **MK1. Frozen** — reference and corpus source only. Its synthwave synth and drums are worth reading before redoing either. |
 
 ## Running the tools
 
-No build step — every tool reads the shipped HTML directly.
+No build step — the printer reads the shipped HTML directly.
 
 ```sh
-node harness/mk2_test.js                                    # the seam checks
-node harness/mk2_test.js kit                                # ...only the ones named "kit"
-node harness/mk2_ui.js                                      # the front panel, real browser
-node harness/mk2_blend.js                                   # the blend sliders
-node harness/mk2_snapshot.js check harness/mk2_baseline.snap
-node harness/probe_voices.js                                # every voice fires, none silent
-node harness/mk2_midi.js                                    # the MIDI port
-
-node harness/mk2_roll.js 1                                  # THE test that matters: read the notes
+node harness/mk2_score.js                       # THE test. Every genre, seed 1 + a drawn one
+node harness/mk2_score.js --genre lofi --seed 7 # one record
+node harness/mk2_score.js --mid out/            # ...and real .mid files with it
+node harness/mk2_stamp.js check                 # is the published page this build?
 ```
 
-`mk2_snapshot check` and `mk2_ui` each default to a cheap form and take
-`--full` for the exhaustive one. That is deliberate: the exhaustive form should
-be a decision, not a habit.
-
-`harness/README.md` lists the rest — the probes for the comp, the harmony, the
-cymbals, every knob on every machine, and whether the genre outweighs the seed.
+`harness/README.md` has the rest of the flags — the blend faders, the rack, the
+length dial — and the four files that are left in there.
 
 ## The four principles
 

@@ -6,7 +6,7 @@
 */
 const { chromium } = require(require('path').resolve(__dirname, '..', 'node_modules', 'playwright'));
 const path = require('path'), fs = require('fs');
-const HTML = path.resolve(__dirname, '..', 'Boxcar Synth.html');
+const HTML = path.resolve(__dirname, '..', 'Deckards Orchestrator MK2.html');
 const OUT = process.argv[2], MODE = process.argv[3] || 'ref';
 const SEEDS = (process.argv[4] || '1').split(',').map(Number);
 const RIG = process.argv[5] || 'draw';        // 'band' | 'sega' | 'neon' | 'draw'

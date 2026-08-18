@@ -1,5 +1,50 @@
 # START HERE — the prompt for whoever picks this up next
 
+> ## ⚠ 2026-08-18 — READ THIS BEFORE ANYTHING ELSE IN THIS FILE
+>
+> Four things changed on 2026-08-18 and they contradict a lot of what is
+> written below. Where they disagree, **this block is right and the rest of the
+> file is old.**
+>
+> **1. `Boxcar Synth.html` is dead.** The owner: *"we are no longer working on
+> the boxcar.html it has been a failure"* and *"You can't arrange non pianos it
+> just sounds like crap."* Everything committed into it after 2026-08-17 —
+> the loop evolving, melodic math, the bass as a chain of notes, the drums as
+> wheels, the ringing strings, the banjo's decay — **stays there and is not
+> being ported.** Ruled on directly when it was offered. Do not offer again.
+>
+> **2. `Deckards Orchestrator MK2.html` is the program.** It always was. But
+> every one of the ninety-odd tools in `harness/` had been reading the boxcar
+> file since commit `49e3391` on 2026-08-17, silently, so for two days the whole
+> test folder was grading a file nobody was working on. `mk2_roll.js 1 --genre
+> lofi` printed **boxcar synth** and exited 0.
+>
+> **3. THE TESTS ARE GONE.** 190 checks, 87 probes, the snapshot, the browser
+> batteries, the audio assertions — 23,059 lines, deleted. There is one test:
+>
+> ```sh
+> node harness/mk2_score.js          # every genre, seed 1 + a drawn seed, whole song
+> ```
+>
+> The owner: *"the tests they are a huge waste of time and the main test that
+> needs to be done is to print out the midi of seed 1 and a random seed all the
+> instruments and the whole song. This is the real test that should be being
+> done its the only way you can actually see your work is doing something
+> correct."* Three seconds, ten thousand lines of notes. Nothing in it is a pass
+> or a fail. **Do not rebuild a battery.** Anywhere below that tells you to run
+> `mk2_test.js`, the snapshot, `mk2_ui.js`, `mk2_blend.js`, `mk2_midi.js` or any
+> `probe_*` — those files do not exist.
+>
+> **4. FOUR GENRES, and three of them are the work.** `vgm` and `boxcarsynth2`
+> were deleted from the program on the owner's instruction. What is left is
+> **lofi, synthwave, dungeonsynth, boxcarsynth** — and the owner named the three
+> to focus on: **lofi hip hop, dungeon synth, boxcar synth.** Synthwave stays in
+> the file; nobody is working on it.
+>
+> The artifact is `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`
+> and it is build `2026-08-18q`. `harness/mk2_build.json` is the record.
+
+
 *Everything below is verified at `2026-08-16j` unless it says otherwise (the
 newest build; its entry is under "What happened last"). If you
 are an AI coder starting a fresh session on this project, read this file
