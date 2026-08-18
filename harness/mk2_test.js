@@ -4254,7 +4254,61 @@ if(FILTER && pass + fail === 0){
   console.log("\nno check's name contains \"" + FILTER + "\" — " + skipped + " were skipped, none run");
   process.exit(2);
 }
-console.log("\n" + pass + " passed, " + fail + " failed" +
+const SUMMARY = "\n" + pass + " passed, " + fail + " failed" +
   (FILTER ? "  — FILTERED to names containing \"" + FILTER + "\"; " + skipped +
-            " other checks were skipped, so this is not the battery" : ""));
+            " other checks were skipped, so this is not the battery" : "");
+console.log(SUMMARY);
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AND THEN THE NOTES. EVERY RUN, EVERY INSTRUMENT, THE WHOLE RECORD.
+
+     "FIX THE TEST SO THAT IT ALWAYS prints ALL the midi notes for all the
+      instruments for seed 1 and a random seed."
+
+   WHY IT IS A FIX AND NOT A FEATURE. This battery ran 144 pass/fail checks and
+   printed ZERO notes. Every finding it could state was a percentage — "44.2% of
+   4136 leap away" — and a percentage cannot tell you that the banjo is holding
+   3.3-second notes, or that the ride cymbal plays the identical bar seventeen
+   times running, or that two of the eight chairs are barely in the record. All
+   three of those were found by PRINTING THE RECORD AND READING IT, in one
+   afternoon, after the battery had been green on them for months.
+
+   SEED 1 AND A RANDOM ONE, and the random one is the point. Seed 1 is the seed
+   every measurement in this repo quotes, which is exactly why it is the seed a
+   fault can hide behind: fix what seed 1 shows and the record still breaks
+   everywhere else. The drawn seed is named in the header so anything it turns
+   up can be reproduced on demand:
+
+       node harness/mk2_score.js --seed <N>
+
+   It is printed AFTER the pass/fail summary, and the summary is printed again
+   at the very bottom, because a result you have to scroll five thousand lines
+   to find is a result nobody reads. ══════════════════════════════════════════ */
+{
+  const { score } = require("./mk2_score.js");
+  const G = M.genres()[0];
+  /* drawn, not derived: this is output and not a check, so it may be random --
+     and it must be, or it is a second seed 1. Nothing below it branches on the
+     value, so the battery's own pass/fail stays deterministic. */
+  const RANDOM = 2 + Math.floor(Math.random() * 998);
+  for(const seed of [1, RANDOM]){
+    console.log("\n\n" + "█".repeat(80));
+    console.log("█  THE NOTES — " + G + ", seed " + seed +
+                (seed === 1 ? "   (the seed every measurement quotes)"
+                            : "   (drawn this run — reproduce with: node harness/mk2_score.js --seed " + seed + ")"));
+    console.log("█".repeat(80));
+    try {
+      console.log(score(M, { genre: G, seed }).join("\n"));
+    } catch(e){
+      console.log("  the printer threw on this seed, which is itself a finding: " + e.message);
+      console.log("  " + (e.stack || "").split("\n").slice(1, 4).join("\n  "));
+      fail++;
+    }
+  }
+  /* recomputed, not the string from above: a printer that THREW is a fault and
+     the bottom line is the one a reader actually sees */
+  console.log("\n" + pass + " passed, " + fail + " failed" +
+              "   (the notes for seed 1 and seed " + RANDOM + " are above)\n");
+}
+
 process.exit(fail ? 1 : 0);
