@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18n · the strings ring into each other, and the thumb is not the beat</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18o · the drums are the wheels — they play whenever the train moves</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20527,16 +20527,50 @@ GENRE.boxcarsynth = {
 
        `solo` is ONE PLAYER and `dance` is TWO — that is the whole point of
        the ceremony and why a stop is legible at all. */
+    /* ══ THE DRUMS ARE THE WHEELS, SO THEY PLAY WHENEVER THE TRAIN MOVES ══════
+       THE OWNER: "Why do the drums hardly play at all?"
+
+       MEASURED, six records, 175 sections: the drums were active in 36 of them
+       — 21% — and in 463 of 2,086 bars. By SECTION FUNCTION:
+
+         high  13/15    open  23/34
+         roll   0/24    brake 0/18    pullout 0/18    arrive 0/6
+         yard   0/6     solo  0/36    dance   0/18
+
+       ZERO OF TWENTY-FOUR IN `roll`, which is the section where the train is
+       rolling. Not a bug — this table said so, and nothing ever asked it why.
+
+       THE SHEET IS UNAMBIGUOUS AND THIS TABLE CONTRADICTED IT. `boxcar-synth.md`
+       §3: the kit IS the wheels over the rail joints — "the bogie's two axles a
+       few feet apart hit the same joint as a quick pair" — and §3's structural
+       rule is about TOWNS, not about travel: "In town the track rhythm STOPS. A
+       standing train has no clicks — the drums' silence in town sections is
+       structural, the single most legible journey fact in the whole design."
+
+       So the drums are silent where the train is STANDING and sound wherever it
+       MOVES. Sorted that way:
+
+         standing   yard (not left yet) · solo · dance   — no drums, per §3
+         moving     pullout · roll · open · high · brake · arrive
+
+       and `pullout`, `roll`, `brake` and `arrive` are moving sections that had
+       no wheels under them. The shape a leg had was: roll in silence, wheels
+       appear, wheels vanish, brake in silence, stop. The shape it has now is
+       the one §8a describes — the train pulls out and the track rhythm starts,
+       runs under the whole leg, and slows into the town with the brakes.
+
+       `form.rest.drums` (0.28) still thins them inside those sections, so this
+       is a floor and not a wall of drums. */
     roles: {
       yard:    ["keys", "drone"],
-      roll:    ["drone", "bass", "keys", "lead", "ostinato"],
+      roll:    ["drums", "drone", "bass", "keys", "lead", "ostinato"],
       open:    ["drums", "drone", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
       high:    ["drums", "drone", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
-      brake:   ["drone", "bass", "keys", "lead"],
+      brake:   ["drums", "drone", "bass", "keys", "lead"],
       solo:    ["lead"],
       dance:   ["lead", "counter"],
-      pullout: ["drone", "bass", "keys"],
-      arrive:  ["keys", "keys2", "lead", "drone"],
+      pullout: ["drums", "drone", "bass", "keys"],
+      arrive:  ["drums", "keys", "keys2", "lead", "drone"],
     },
     material: { yard: "A", roll: "A", open: "A", high: "B", brake: "A",
                 solo: "C", dance: "C", pullout: "A", arrive: "B" },
