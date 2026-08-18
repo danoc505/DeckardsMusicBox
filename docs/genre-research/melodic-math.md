@@ -494,6 +494,79 @@ been chasing — lay down one track then use its notes to create the next track.
 
 ---
 
+## 12. WHAT LOFI'S TABLE SHOWS — `GENRE.lofi`, MK2, read 2026-08-18
+
+> [owner] "You need to read the tables from the MK2 file, look at lofi hip hop
+> to see how the music theory rules work in action."
+
+`Deckards Orchestrator MK2.html` on `main` still carries `GENRE.lofi`, and it is
+the clearest worked example in the repo of theory expressed as a table. Read
+against `GENRE.boxcarsynth`, one entry stands out.
+
+### 12a. `theme.onsetPool` — the melody's RHYTHM, declared
+
+```
+lofi     [0,5] [2,3] [4,4] [6,3] [8,4] [10,3] [12,4] [14,3]
+boxcar   [0,5] [2,2] [4,4] [7,2] [8,4]        [12,3]           (before)
+```
+
+lofi's is the **complete eighth-note grid**: the four strong beats (0, 4, 8, 12)
+weighted 4–5, the four offbeat eighths (2, 6, 10, 14) weighted 3. That is `004`
+in a table — *"the simple offbeat eighth note placed between kicks and snares of
+our strong beats **bridges the gap** and creates a simple but effective
+energetic gel that keeps the beats propelling forward."*
+
+Boxcar's had six positions and **holes at 6, 10 and 14** — three of the four
+offbeats were unreachable, and the line carried no comment or citation, the only
+number in that block without one.
+
+**AND IT EXPLAINED A CEILING I HAD MEASURED AND COULD NOT ACCOUNT FOR.** Sweeping
+`theme.count` upward, the tune stopped gaining notes at 17 however much was
+asked for — `[6,3]`, `[7,3]` and `[8,2]` all returned 17.0 notes / 4.83 pitches.
+Six slots a bar is why: the count was asking for notes there was nowhere to put.
+
+```
+                             notes   distinct pitches
+  as shipped, 6 slots         17.0        4.83
+  lofi's grid, 8 slots        20.2        5.20
+  that grid + the sync 7      21.1        5.36     <- taken
+  every sixteenth, 16 slots   24.7        6.73
+```
+
+The sixteenth grid scores highest and is **not** taken, for a cited reason
+rather than a taste: the banjo roll is already a continuous stream of eighth
+notes and is this genre's rhythm part [banjo-and-harmonica-notation.md §1c]. A
+tune in sixteenths over a roll in eighths is two rhythm parts.
+
+### 12b. What else lofi declares that this genre expresses differently
+
+- `counter: { style:"line", density:0.62, intervals:[-2,-3,-4,-5], answer:0.65 }`
+  — the second voice has a DENSITY, a set of legal intervals, and an **answer**
+  probability, with the comment "a beat tape's second line is a lazy answer
+  behind the tune, not a harmony under it — **most of it lands in the gaps**".
+  That is `LOOP_TO_SONG.md` §7's "the accompaniment answers IN the melody's
+  gaps", declared as one number. Boxcar's counter has no `answer`. **Task #175.**
+- `pocket: [[[0,10],5], [[0,7,10],3], ...]` — the bass's rhythm as weighted
+  cells of sixteenth positions, the same idea as `onsetPool` one part down.
+- `form.plan` — named phases with pools and bar budgets; `form.transitions` — a
+  weighted matrix of what may follow what. Boxcar replaces both with the trip's
+  legs and stops, which is a deliberate difference, not a gap.
+
+### 12c. And it surfaced a latent crash
+
+Widening the pool made seeds 12 and 14 throw `Cannot read properties of null
+(reading 'lane')`. `protectSlides` walked every array under `materials` reading
+`.lane` off every element — fine while a material was a flat map of note arrays,
+and false once stage 3 began publishing `evo` (arrays of note arrays), `form`
+(arrays of arrays of note arrays) and `evoThird` (whose entries were null
+wherever a link's tail transform could not seat). More notes in a phrase means
+more chances a device fails, so the wider pool simply reached a crash that was
+already there. Fixed at both ends: the walk recurses on nested arrays and only
+treats an array as a part when every element has a numeric `bar`, and
+`evoThird` publishes the link itself rather than a null.
+
+---
+
 ## Sources
 
 - Five annotated piano-roll analyses supplied by the owner, 2026-08-18: NTFO &

@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18i · coprime cycles, the empty, and the yard plays the hook</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18j · lofi's onset grid — the melody's rhythm, declared</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20882,7 +20882,49 @@ GENRE.boxcarsynth = {
       roles: { counter: [3, 4], keys2: [1, 3], bass: [2, 4], keys: [4, 3] },
       move: { of: "A", by: 1, dir: "NEEF" },
     },
-    onsetPool: [[0,5],[2,2],[4,4],[7,2],[8,4],[12,3]],
+    /* ══ WHERE THE TUNE'S NOTES MAY LAND — THE MELODY'S RHYTHM, DECLARED ═══
+       [owner] "Read the tables from the MK2 file, look at lofi hip hop to see
+       how the music theory rules work in action."
+
+       `GENRE.lofi` in `Deckards Orchestrator MK2.html` declares its melodic
+       rhythm as a weighted table of sixteenth positions, and this is the one
+       music-theory table it has that this genre had only half of:
+
+         lofi     [0,5] [2,3] [4,4] [6,3] [8,4] [10,3] [12,4] [14,3]
+         boxcar   [0,5] [2,2] [4,4] [7,2] [8,4]        [12,3]
+
+       lofi's is the COMPLETE EIGHTH-NOTE GRID with the strong beats (0, 4, 8,
+       12) weighted 4-5 and the offbeat eighths (2, 6, 10, 14) weighted 3 —
+       which is `004`'s "the simple offbeat eighth note placed between kicks and
+       snares of our strong beats BRIDGES THE GAP and creates a simple but
+       effective energetic gel". Boxcar's had six positions and holes at 6, 10
+       and 14: three of the four offbeats were unreachable.
+
+       AND THAT WAS THE CEILING I MEASURED AND COULD NOT EXPLAIN. Sweeping
+       `theme.count` upward, the tune stopped gaining notes at 17 however much
+       was asked for — [6,3], [7,3] and [8,2] all returned 17.0 notes and 4.83
+       pitches. Six slots a bar is why. The count was asking for notes there was
+       nowhere to put.
+
+       MEASURED, 12 records, this line alone:
+
+         as shipped, 6 slots        17.0 notes   4.83 distinct pitches
+         lofi's grid, 8 slots       20.2         5.20
+         that grid plus the sync 7  21.1         5.36
+         every sixteenth, 16 slots  24.7         6.73
+
+       THE SIXTEENTH GRID SCORES HIGHEST AND IS NOT TAKEN, and the reason is a
+       citation rather than taste: the banjo roll is ALREADY a continuous stream
+       of eighth notes and it is this genre's rhythm part — "the roll IS the
+       part ... running for as long as the tune does"
+       [banjo-and-harmonica-notation.md §1c]. A tune in sixteenths over a roll
+       in eighths is two rhythm parts, which is the texture this record was
+       first complained about for.
+
+       So: lofi's eighth-note grid, with the syncopated 7 the table already had
+       kept at a light weight — it is the "and-uh" of beat two and the one
+       place this genre pushes against the roll. */
+    onsetPool: [[0,5],[2,3],[4,4],[6,3],[7,1],[8,4],[10,3],[12,4],[14,3]],
   },
   /* ══ THE LOOP IS FOUR BARS: A TWO-BAR MOTIF AND ITS RESTATEMENT ═══════════
      [owner] "We need LOOPS that repeat three times and then evolve this is the
@@ -29813,9 +29855,12 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        alone, because "start the same, then diverge" is the claim and `sequence`
        moves the first note too. */
     const TAILONLY = [["tail", 3], ["invertTail", 2], ["retroTail", 1]];
+    /* the link's own third hearing, and where no tail device seats it is the
+       link itself — never null, because a null in a published array is a
+       shape every later reader has to know about [see protectSlides] */
     const thirds = chain.map(link => {
       const o = stepWith(link, TAILONLY);
-      return o ? o.notes : null;
+      return o ? o.notes : link;
     });
     return { every, chain, devs, thirds };
   })();
@@ -31736,7 +31781,31 @@ function makePerformance(chart, form, materials, sections){
      of every slide are protected here, and the thinner is not allowed near them.
      Cheap: one pass over each part, once per song. */
   const slideSafe = new Set();
+  /* ── AND IT WALKS ONLY WHAT IS ACTUALLY A NOTE ARRAY ─────────────────────
+     This walked every array it found under `materials` and read `.lane` off
+     every element. That held while a material was a flat map of note arrays,
+     and it stopped holding the moment stage 3 started publishing structures:
+     `evo` is an array of note arrays, `form` is an array of arrays of note
+     arrays, and `evoThird` is an array whose entries are NULL wherever a link's
+     tail transform could not seat.
+
+     FOUND BY THE PROBE, on seeds 12 and 14, as `Cannot read properties of null
+     (reading 'lane')` — and only after the onset pool widened, because more
+     notes in a phrase means more chances for one device to fail and leave a
+     null. A latent crash that the previous build could not reach.
+
+     Two guards, and the first is the real one: a NOTE is an object with a
+     numeric `bar`, so anything else in an array is not this function's
+     business. The recursion below then handles the nested shapes without
+     needing to know their names, which is what stopped this being a list of
+     special cases that the next structure would fall off the end of. */
+  const isNote = x => x && typeof x === "object" && typeof x.bar === "number";
   const protectSlides = notes => {
+    if(!Array.isArray(notes)) return;
+    if(!notes.every(isNote)){                       // a nested structure, not a part
+      for(const inner of notes) if(Array.isArray(inner)) protectSlides(inner);
+      return;
+    }
     const byLane = {};
     for(const n of notes){
       const L = n.lane || "";
