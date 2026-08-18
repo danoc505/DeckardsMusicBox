@@ -163,9 +163,26 @@ const CHROME = process.env.CHROME || "/opt/pw-browsers/chromium";
       console.log("     ·    not tied — a chord at the moment the tie is decided," +
                   " spread into a line afterwards");
     const dB = 20 * Math.log10(Math.max(1e-9, a.rms) / Math.max(1e-9, z.rms));
-    say(a.hash !== z.hash, "   and the audio is not the audio without it",
-        "rms " + a.rms.toFixed(6) + " vs " + z.rms.toFixed(6) +
-        " (" + (dB >= 0 ? "+" : "") + dB.toFixed(2) + " dB)");
+    /* ── A TIE NEEDS A NOTE TO TIE FROM ───────────────────────────────────
+       MEASURED: this genre's `counter` writes ~130 notes across a twenty-minute
+       record, so a 20-second window expects TWO of them and regularly holds
+       ONE. With one note the two renders are byte-identical and must be: the
+       legato pass joins a note to the one before it, and there is no note
+       before it. That was reported as a fault on three runs in five, which is
+       a coin toss dressed as a guard.
+
+       So a chair the window caught fewer than two notes of is reported and
+       skipped. The claim below — the whole record contains tied notes — is not
+       skippable, and it is the one that goes red if the declaration ever stops
+       reaching the graph. (That the counter is this sparse is a real finding
+       about the arrangement, and it belongs to the counter, not to here.) */
+    if(a.notes < 2)
+      console.log("     ·    one note in the window — a tie needs a note before it," +
+                  " so the two renders must agree; not judged");
+    else
+      say(a.hash !== z.hash, "   and the audio is not the audio without it",
+          "rms " + a.rms.toFixed(6) + " vs " + z.rms.toFixed(6) +
+          " (" + (dB >= 0 ? "+" : "") + dB.toFixed(2) + " dB)");
   }
 
   /* THE CLAIM THE WHOLE PROBE IS FOR: if the declaration ever stops reaching

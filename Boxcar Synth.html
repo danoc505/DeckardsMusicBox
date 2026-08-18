@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18j · lofi's onset grid — the melody's rhythm, declared</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18k · the answer stops striking with the call</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -21147,8 +21147,11 @@ GENRE.boxcarsynth = {
       [[2,0,2,4,2,0,2,4], 2]],  // index-leading: 2-3-2-1-2-3-2-1
   },
   /* the slide ANSWERS the tune rather than doubling it — below it, so it
-     reads as a reply [call-and-response.md] */
-  counter: { style: "line", density: 0.45, intervals: [-3,-5,-4,3], octaves: [0], answer: 0.7 },
+     reads as a reply [call-and-response.md]. `answer` is the share that steps
+     off the tune's onset: at 0.7 three notes in ten still struck WITH the lead,
+     which on a part that plays this rarely is three in ten of everything you
+     hear it do. A reply that lands on the call is not a reply. */
+  counter: { style: "line", density: 0.45, intervals: [-3,-5,-4,3], octaves: [0], answer: 0.9 },
 
   /* ══ THE RHYTHM — THE TRAIN IS ONE VOICE IN IT, NOT ALL OF IT ═══════════
      [§3] the joint click IS the train's speed, and the truck's two axles hit
@@ -28055,6 +28058,29 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       }
       return Math.max(0, next - end);
     };
+    /* ── WHERE THE TUNE ATTACKS, AND WHERE IT MERELY RINGS ──────────────────
+       MEASURED before this existed, on this genre's own record: 62% of counter
+       notes attacked on the SAME STEP as a lead attack, 25% sounded under a
+       lead note that was already ringing, and 13% spoke into silence. The
+       displacement above was running -- 757 of 1116 notes entered it -- and it
+       was landing them back on the tune, because `gapAfter` returned 0 on 603
+       of those 757: a legato tune's next note begins exactly where the last one
+       ends, so "one step later" IS the next attack.
+
+       The two cases are not the same fault. A second voice sounding while the
+       first HOLDS is two independent lines, which is the whole point; a second
+       voice striking on the first's attack is a chord, whatever its pitch. So
+       the rule is about ONSETS ONLY: never move onto a step the tune attacks
+       on, prefer a step it is not sounding on at all, and prefer the near ones
+       so the entry still reads as imitation rather than a separate event. */
+    const leadHit = [], leadRing = [];
+    for(let b = 0; b < BARS; b++){ leadHit.push(new Set()); leadRing.push(new Set()); }
+    for(const x of src){
+      if(x.pitch == null || !leadHit[x.bar]) continue;
+      leadHit[x.bar].add(x.step);
+      for(let d = 1; d < Math.max(1, x.dur || 1); d++)
+        if(x.step + d < 16) leadRing[x.bar].add(x.step + d);
+    }
     /* the comp laid out on the loop's sixteenths, rings and wrap included --
        the same map buildTheme makes, for the same reason */
     const ring = [];
@@ -28204,11 +28230,40 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
            collisions are still refused below, which is the constraint that
            actually matters. */
         const g = gapAfter(si);
-        const room = 16 - (n.step + (n.dur || 1));
+        const end = n.step + (n.dur || 1);
+        const room = 16 - end;
         const span = g >= 1 ? g : Math.min(3, Math.max(0, room));
-        if(span >= 1){
-          const off = 1 + Math.floor(gapDraw * span);        // 1..span steps later
-          at = Math.min(15, n.step + (n.dur || 1) + off - 1);
+        /* every step left in the bar that the tune does not ATTACK on, silence
+           before ring and nearest first -- so the first entries are the ones a
+           player would take, and the tail is there only so a bar with no near
+           room still has somewhere honest to go. */
+        const free = [], under = [];
+        const scan = start => {
+          for(let st = start; st <= 15; st++){
+            if(leadHit[n.bar] && leadHit[n.bar].has(st)) continue;
+            ((leadRing[n.bar] && leadRing[n.bar].has(st)) ? under : free).push(st);
+          }
+        };
+        scan(end);
+        /* THE LAST NOTE OF THE BAR HAS NOTHING AFTER IT. Its own duration runs
+           to the bar line, so a scan starting past its end finds no step and
+           the note stays welded to the tune's attack -- which on seed 1 was
+           exactly where the remaining unisons were. A voice entering DURING the
+           note it answers, one step behind, is imitation and is what a player
+           does; so where nothing follows the note, look inside it. */
+        if(!free.length && !under.length) scan(n.step + 1);
+        const legal = free.concat(under);
+        /* THE GATE IS THE PLACE, NOT THE SPAN. `span` is 0 for a note whose own
+           duration runs to the bar line, and gating on it left exactly those
+           notes -- every bar's last one -- welded to the tune's attack while a
+           legal step sat one sixteenth away. `span` sizes the window; whether
+           there is anywhere to go is `legal`. */
+        if(legal.length){
+          /* the same draw, spent the same way: it chooses among the nearest
+             `span` places, or among the whole tail when the bar gave the note
+             no near room at all. */
+          const win = Math.max(1, Math.min(legal.length, span));
+          at = legal[Math.min(win - 1, Math.floor(gapDraw * win))];
           dur = Math.max(1, Math.min(n.dur, 16 - at));
         }
       }

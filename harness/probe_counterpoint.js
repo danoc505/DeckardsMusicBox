@@ -144,6 +144,7 @@ console.log('  a unison/5th/octave on both sides. counterpoint.md §1.\n');
 console.log('  genre         pairs   steps   contrary  oblique  similar  parallel   PAR.PERF   (chance)');
 
 const genres = M.genres();
+let FAULTS = 0;
 const rows = [];
 for(const g of genres){
   const tot = {}; let pairCount = 0;
@@ -240,6 +241,65 @@ for(const { g, tot } of rows){
    So the control asks the definitional question -- IS THE INTERVAL A PERFECT
    OCTAVE -- and the flip rate is reported beside it as a finding in its own
    right rather than as a failure. */
+/* ══ AND WHERE THE SECOND VOICE STRIKES ═════════════════════════════════════
+   A `line` counter derives its pitches from the tune's notes, so without a rule
+   about TIME it strikes on every one of them and the two parts are one part
+   with two pitches. `counter.answer` is the declared share that steps off the
+   onset, and it was declared and not delivered: measured at answer 0.7, 62% of
+   counter notes still attacked on the same step as a lead attack, because the
+   displacement moved them one step past the end of the lead note and a legato
+   tune's next note begins exactly there.
+
+   THE TWO CASES ARE NOT THE SAME. A counter note sounding while the lead HOLDS
+   is two independent lines and is the point. A counter note striking ON the
+   lead's attack is a chord, whatever pitch it takes. So this counts onsets
+   against onsets and asks only about the strike. */
+console.log('\n  ── WHERE THE SECOND VOICE STRIKES, against the tune\'s attacks:\n');
+for(const g of genres){
+  const tbl = M.composeSong(1, 'draw', g).chart.table;
+  if(!tbl || !tbl.counter || tbl.counter.style === 'double') continue;
+  const want = tbl.counter.answer || 0;
+  let hit = 0, ring = 0, free = 0;
+  for(let s = 1; s <= SEEDS; s++){
+    const song = M.composeSong(s, 'draw', g);
+    for(const nm of Object.keys(song.materials)){
+      const A = song.materials[nm];
+      if(!A || typeof A !== 'object' || Array.isArray(A)) continue;
+      const L = A.lead, C = A.counter;
+      if(!Array.isArray(L) || !Array.isArray(C) || !L.length || !C.length) continue;
+      const att = new Set(), sus = new Set();
+      for(const n of L){
+        if(n.pitch == null) continue;
+        att.add(n.bar * 16 + n.step);
+        for(let d = 1; d < Math.max(1, n.dur || 1); d++) sus.add(n.bar * 16 + n.step + d);
+      }
+      for(const c of C){
+        if(c.pitch == null) continue;
+        const k = c.bar * 16 + c.step;
+        if(att.has(k)) hit++; else if(sus.has(k)) ring++; else free++;
+      }
+    }
+  }
+  const tot = hit + ring + free;
+  if(!tot){ console.log(`     ${g}: the counter writes no notes`); continue; }
+  const share = hit / tot;
+  console.log(`     ${g} (counter.answer ${want}): ${tot} notes — ` +
+              `${(100*hit/tot).toFixed(0)}% on a lead ATTACK, ` +
+              `${(100*ring/tot).toFixed(0)}% under a SUSTAIN, ` +
+              `${(100*free/tot).toFixed(0)}% in SILENCE`);
+  /* the declaration is the budget: a genre asking for `answer` 0.9 may not
+     leave more than about (1 - 0.9) of its notes welded, with a little room
+     for the bars that genuinely offer nowhere to go. */
+  const ceiling = Math.min(1, (1 - want) + 0.15);
+  if(share > ceiling){
+    console.log(`       ✗ FAIL: declared answer ${want} allows at most ` +
+                `${(100*ceiling).toFixed(0)}% struck with the tune, measured ${(100*share).toFixed(0)}%`);
+    FAULTS++;
+  } else {
+    console.log(`       ✓ within what the declaration allows (ceiling ${(100*ceiling).toFixed(0)}%)`);
+  }
+}
+
 console.log('\n  ── the CEILING control: a genre whose counter is a deliberate octave double');
 console.log('     must read ~100% PERFECT INTERVAL on its lead<->counter pair, or this probe');
 console.log('     is broken before any finding above means anything.\n');
@@ -277,3 +337,6 @@ for(const g of genres){
 }
 if(!checked) console.log('     no genre currently declares counter.style "double" — control could not run.');
 console.log('');
+
+console.log('  ' + FAULTS + ' counterpoint fault(s)\n');
+process.exit(FAULTS ? 1 : 0);
