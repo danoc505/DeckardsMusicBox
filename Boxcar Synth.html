@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18h · the formula reaches every pitched part, not just the tune</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18i · coprime cycles, the empty, and the yard plays the hook</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20517,6 +20517,10 @@ GENRE.boxcarsynth = {
        (keys2, counter, ostinato) rests most, and the tune sits between them.
        The measured result is what justifies them and it is printed by
        `probe_law.js` and `harness/probe_density.js`. */
+    /* THE EMPTY, as the other way out of a phrase [`004`; see the note at the
+       emptyLastBar site]. A third of boundaries drop out instead of rolling in;
+       the peak always does. Measured at 3.3% before this, against 85 fills. */
+    empty: 0.34,
     rest: { lead: 0.24, drums: 0.28, keys2: 0.34, counter: 0.30,
             ostinato: 0.26, bass: 0.18, keys: 0.14, drone: 0.10 },
 
@@ -20750,6 +20754,15 @@ GENRE.boxcarsynth = {
        single scale step by a hanging dissonance, whatever the interval palette
        drew — and the tune came out as three pitches oscillating. */
     landOnTone: true,
+    /* ── AND THE YARD PLAYS THE TUNE BEFORE THE TUNE DOES [`009`] ──────────
+       "Took the main notes from my chorus melody and played them on different
+       synths during the intro and in the background of the verses." The yard is
+       this record's intro — the train standing in the goods yard before it
+       moves — and it seats `keys` and `drone` only, so the wurly is the voice
+       that can carry the hook in without the hook having started. Four of the
+       tune's pitches, in the order it first plays them, one a bar, held.
+       [LOOP_TO_SONG.md ranked this ninth of nine and it had never been built.] */
+    foreshadow: { in: "yard", on: "keys", notes: 4 },
     verseHook: true,
     /* ── THE THIRD STATEMENT'S VOCABULARY ────────────────────────────────
        Every entry is a classical motivic transformation of a phrase that
@@ -20860,7 +20873,13 @@ GENRE.boxcarsynth = {
          [banjo-and-harmonica-notation.md §1a]. A banjo roll with holes punched
          in it is not a banjo roll. The drums are not listed for the reason
          above. */
-      roles: { counter: 3, keys2: 1, bass: 2, keys: 4 },
+      /* `[offset, period]` — where the part starts in the cycle, and how many
+         statements it takes to come round. The periods are chosen COPRIME
+         against the tune's five: 5 · 4 · 3 = 60 statements, about thirteen
+         minutes, before the whole ensemble repeats a combination
+         [LOOP_TO_SONG.md §9; `008`: "it's off enough that you won't be able to
+         catch it"]. Measured at 5 statements — 67 seconds — before this. */
+      roles: { counter: [3, 4], keys2: [1, 3], bass: [2, 4], keys: [4, 3] },
       move: { of: "A", by: 1, dir: "NEEF" },
     },
     onsetPool: [[0,5],[2,2],[4,4],[7,2],[8,4],[12,3]],
@@ -29970,7 +29989,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       if(r === "lead") continue;
       const src2 = (mine2 && mine2[r]) || null;
       if(!src2 || !src2.length) continue;
-      const off = Math.round(RO[r]) || 0;
+      const dec = RO[r];
+      const off = Math.round(Array.isArray(dec) ? dec[0] : dec) || 0;
+      const per = Array.isArray(dec) ? Math.max(2, Math.round(dec[1]) || F.length) : F.length;
       const rows = F.map((_, n) => {
         const f = F[(n + off) % F.length];
         const out = [];
@@ -30008,7 +30029,39 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         if(seen2.has(k2)) continue;
         seen2.add(k2); keep.push(row);
       }
-      if(keep.length >= 2) byRole[r] = keep;
+      /* ── AND THE PERIODS ARE COPRIME, WHICH COSTS NOTHING ─────────────────
+         `docs/LOOP_TO_SONG.md` §9 called this "the cheapest possible source of
+         long-form variation" and ranked it sixth of nine. It has never been
+         built. `008`, describing it at the desk:
+
+           "I took six and looped six ... now we have this weird five-six thing
+            kind of just forever rotating on top of itself ... IT'S OFF ENOUGH
+            THAT YOU WON'T BE ABLE TO CATCH IT because everything else is
+            moving on eight bars and sixteen bars, and then there's just this
+            thing."
+
+         and the formal name for it, from the research pass: polymeter, "more
+         interesting when the loop lengths being combined are RELATIVELY PRIME,
+         as such loop combinations gradually drift apart and then drift back
+         together in a predictable way, producing intricate patterns of
+         interference ... variations similar to the embellishments of a live
+         performer."
+
+         MEASURED before this, 12 records: every part's cycle deduped to FIVE,
+         so they locked, and the whole ensemble repeated every 5 statements —
+         SIXTY-SEVEN SECONDS — on three seeds of six. Mean period across the
+         twelve: 15.8 statements, 3.5 minutes of a twenty-minute record. The
+         one seed that came out well (60 statements, 13.4 minutes) got there by
+         accident, because its dedupe happened to leave lengths of 5, 3 and 4.
+
+         So the period is DECLARED per part and chosen coprime — 5 against 4
+         against 3 is 60 statements before the combination comes round, which
+         is most of a record. The list is trimmed to its period rather than
+         padded: a part cycles through fewer genuinely different variants, and
+         the ENSEMBLE stops repeating. No new material anywhere. */
+      const cut2 = keep.slice(0, Math.min(per, keep.length));
+      if(cut2.length >= 2) byRole[r] = cut2;
+      else if(keep.length >= 2) byRole[r] = keep;
     }
     return { cycle: F.length, byLink, byRole, formula: F.join(" / "),
              level: level.slice(), offs: RO || {} };
@@ -30019,6 +30072,56 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   materials.formSaid = FORM ? FORM.formula : null;
   materials.formLevel = FORM ? FORM.level : null;
   materials.formOffs = FORM ? FORM.offs : null;
+  /* ══ FORESHADOW THE HOOK — ITS OWN NOTES, ON SOMEBODY ELSE, EARLY ═════════
+     `009`, describing what his collaborator did:
+
+       "Pusher also did this simple but genius thing where he TOOK THE MAIN
+        NOTES FROM MY CHORUS MELODY and played them on different synths during
+        the intro and in the background of the verses."
+
+     `docs/LOOP_TO_SONG.md` ranked this ninth of nine and said what it is:
+     "That last one is the literal form of the thing this project has been
+     chasing — 'lay down one track then use its notes to create the next
+     track.' It is not harmonisation or mirroring; it is THE HOOK'S PITCHES,
+     REDUCED, ON A DIFFERENT VOICE, IN A DIFFERENT SECTION." Never built —
+     grepping the program for it returns nothing.
+
+     AND `007 (structure)` says why it works, from the other end: "most
+     typically the intro will effectively just be the verse but WITHOUT THE
+     VERSE MELODY HAVING BEGUN YET ... it kind of sets the song up so when the
+     verse melody arrives IT FEELS LIKE IT BELONGS THERE." The intro is not a
+     different piece of music; it is the same piece with the tune withheld. Its
+     notes should therefore be the tune's.
+
+     REDUCED, not copied: the hook's pitches in the order they first appear,
+     the first few of them, one a bar, held for the whole bar. That is an
+     accompaniment — "arpeggios are halfway between chord and melody ... they
+     support the lead more interestingly than just holding a chord, but they're
+     still repetitive and in the background so they STAY OUT OF THE WAY"
+     [`009`] — and it is unmistakably the tune to anyone who hears the tune
+     four bars later. Folded into the target part's own register, so the intro
+     still sounds like the instrument that is playing it. */
+  const FORE = (() => {
+    const FS = (G.theme && G.theme.foreshadow) || null;
+    if(!FS || !themeA.notes || !themeA.notes.length) return null;
+    const want = Math.max(2, Math.round(FS.notes || 4));
+    /* the hook's pitches in the order the hook first plays them */
+    const order2 = [], has = {};
+    for(const n of themeA.notes.slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step)))
+      if(!has[n.pitch]){ has[n.pitch] = 1; order2.push(n.pitch); }
+    if(order2.length < 2) return null;
+    const pick = order2.slice(0, want);
+    const band = R[FS.on] || R.keys || [48, 67];
+    const out = [];
+    for(let b = 0; b < BARS; b++)
+      out.push({ bar: b, step: 0, dur: 16,
+                 pitch: intoBand(pick[b % pick.length], band[0], band[1]),
+                 vel: 0.52, role: FS.on });
+    return Object.freeze(out);
+  })();
+  materials.foreshadow = FORE;
+  materials.foreshadowIn = FORE ? ((G.theme.foreshadow.in) || null) : null;
+  materials.foreshadowOn = FORE ? ((G.theme.foreshadow.on) || null) : null;
   /* ── TAKE 0 IS THE MATERIAL'S OWN ARRAY, BY CONSTRUCTION ─────────────────
      The invariant the blend battery caught me breaking: a take list is a set of
      realisations OF A PART, so its head must be the very array that part
@@ -31256,8 +31359,42 @@ function makeArrangement(chart, form, materials){
          So: any section that has drums and is followed by another section may
          roll into it. The size is still the fill material's business and the
          empty still belongs to the peak, both untouched. */
-      fillInto: !!(next && active.includes("drums")),
-      emptyLastBar: !!(next && next.peak),
+      /* and a boundary takes ONE of the two: a fill rolls into the next
+         section, an empty leaves a hole for it to land in. `004` names them as
+         alternatives and this is that sentence [see emptyLastBar below]. */
+      fillInto: !!(next && active.includes("drums")) &&
+                !((next && next.peak) || (next && stream(chart.seed, "empty:" + i)() < (F.empty || 0))),
+      /* ── THE EMPTY IS THE OTHER WAY OUT OF A PHRASE ──────────────────────
+         `004` gives the drum grammar as A B A C A A D, and defines D as "a
+         FILL *or* an EMPTY" — two alternatives, not a fill with a rare
+         exception. On the empty:
+
+           "The opposite of the fill is the empty ... it must include the
+            SUBTRACTION of most if not all of the main rhythmic elements before
+            the next downbeat. This creates a decoupling of the rhythmic
+            elements between large musical sections. The most basic form is
+            DROPPING THE KICK OUT on the last measure of an eight-bar phrase,
+            which destabilises the low end and creates a vacuum that the person
+            playing it will anticipate coming back. Playing to a lot of techno
+            ... TAKING THE KICK OUT AND PUTTING IT BACK IN IS ALMOST EVERYTHING
+            THE GENRE DOES FOR SONG STRUCTURE."
+
+         This read `next && next.peak` — the empty fired ONLY into the record's
+         one peak. MEASURED: 12 of 359 sections, 3.3%, against 85 fills. One of
+         the two alternatives had 3% of the boundaries.
+
+         So it becomes a DRAW against the fill, `form.empty`, with the peak
+         still forcing it — "the larger the change in the next section, the more
+         anticipation we can create for it" is the same source, and the peak is
+         the largest change there is. Every boundary still gets one or the
+         other; nothing is left untreated. [Law 3: the coin is tossed at every
+         boundary whether or not the genre declares a weight, so a table that
+         says nothing draws from the position it always drew from.] */
+      emptyLastBar: (() => {
+        const er = stream(chart.seed, "empty:" + i)();
+        if(next && next.peak) return true;
+        return !!(next && er < (F.empty || 0));
+      })(),
       endingLastBar: sec.fn === "outro",
       /* ── WHICH INSTRUMENT PLAYS THIS SECTION ────────────────────────────
          "An instrument doesnt have to be going all the time... we can bring
@@ -32628,6 +32765,17 @@ function makePerformance(chart, form, materials, sections){
               walked = true;
             }
           }
+        }
+        /* ── THE INTRO PLAYS THE HOOK'S OWN NOTES ─────────────────────────
+           Before the formula and before the takes, because it REPLACES what
+           this part plays here rather than varying it: the section named by
+           `theme.foreshadow.in` is the record's opening, and the part named by
+           `.on` plays the tune's pitches, reduced and held, so that when the
+           tune arrives it "feels like it belongs there" [`007 (structure)`,
+           `009`; see the build in stage 3]. */
+        if(materials.foreshadow && role === materials.foreshadowOn &&
+           sec.fn === materials.foreshadowIn && notes === mat[role]){
+          notes = materials.foreshadow; walked = true;
         }
         /* ── AND EVERY OTHER PITCHED PART READS THE FORMULA TOO ────────────
            At its own offset, so the parts fill each other's holes rather than

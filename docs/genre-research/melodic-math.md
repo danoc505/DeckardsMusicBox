@@ -394,6 +394,106 @@ name, and it is not this sheet's invention.
 
 ---
 
+## 11. APPLIED — what the ten transcripts changed in the program, 2026-08-18
+
+> [owner] "Apply all that is in the 001-009, that was the whole point of reading
+> it! Music theory is the absolute ground and the physics engine of this
+> program."
+
+§9 listed what the transcripts held that the program did not. Three of those are
+now built and measured; the rest are named at the end of this section with the
+reason they are not.
+
+### 11a. COPRIME CYCLES — `008`, and the biggest measured gap of the three
+
+> "I took six and looped six ... now we have this weird five-six thing kind of
+> just forever rotating on top of itself ... **it's off enough that you won't be
+> able to catch it** because everything else is moving on eight bars and sixteen
+> bars, and then there's just this thing."
+
+`LOOP_TO_SONG.md` §9 called it "the cheapest possible source of long-form
+variation", ranked it sixth of nine, and it had never been built.
+
+```
+                          ensemble repeats every
+  before   [5,4,5,5,5]    20 statements   4.5 min
+           [5,5,5,5]       5 statements   1.1 min      <- three seeds of six
+           [5,3,5,4]      60 statements  13.4 min      <- one, by accident
+           mean           15.8            3.5 min
+
+  after    every seed     60 statements  13.4 min
+```
+
+Every part's variant cycle had deduped to FIVE, so they locked and the whole
+band came round every sixty-seven seconds. Periods are now declared coprime —
+5 against 4 against 3 — and the combination takes most of a record to repeat.
+**No new material of any kind**; the lists are trimmed, not extended.
+
+### 11b. THE EMPTY — `004`, one of two alternatives that had 3% of the boundaries
+
+> "The opposite of the fill is the empty ... it must include the SUBTRACTION of
+> most if not all of the main rhythmic elements before the next downbeat ...
+> The most basic form is dropping the kick out on the last measure of an
+> eight-bar phrase, which destabilises the low end and creates a vacuum that the
+> person playing it will anticipate coming back. Playing to a lot of techno ...
+> **taking the kick out and putting it back in is almost everything the genre
+> does for song structure**."
+
+`004` gives the drum grammar as `A B A C A A D` and defines D as "a fill **or**
+an empty". The program read `emptyLastBar: !!(next && next.peak)` — the empty
+fired only into the record's single peak.
+
+```
+  before   EMPTY  12/359  =  3.3%     FILL 85
+  after    EMPTY 133/359  = 37.0%     FILL 46     never both at once
+```
+
+A draw against the fill, `form.empty: 0.34`, with the peak still forcing it —
+"the larger the change in the next section, the more anticipation we can create
+for it" is the same source.
+
+### 11c. FORESHADOW THE HOOK — `009`, ranked ninth of nine, zero occurrences
+
+> "Pusher also did this simple but genius thing where he **took the main notes
+> from my chorus melody and played them on different synths during the intro**
+> and in the background of the verses."
+
+and `007 (structure)` from the other end: "most typically the intro will
+effectively just be the verse but **without the verse melody having begun yet**
+... so when the verse melody arrives **it feels like it belongs there**."
+
+The yard — the train standing before it moves — seats `keys` and `drone` only.
+The wurly now plays the tune's own first four pitches, in order, one a bar,
+held, in its own register. Seed 1:
+
+```
+  the hook        G#4 B4 C#5 E5 A#4 | B4 C#5 E5 A#4   (and the restatement)
+  the yard plays  G#3 B3  C#4  E4                     one a bar, held
+```
+
+`LOOP_TO_SONG.md` called this "the literal form of the thing this project has
+been chasing — lay down one track then use its notes to create the next track."
+
+### 11d. NOT BUILT, AND WHY
+
+- **THE TWO-SIDED TRANSITION** (`005`: "there's the exit point and then there's
+  the entry point ... the drums cover the exit point but for this entry point I'm
+  going to add a couple effects"). The empty and the fill are now a real pair of
+  exits; the ENTRY side is an FX gesture, and this genre's FX are on the trip
+  planner rather than the form. It needs a transition object, which is a
+  structural change and not a table entry. **Task #172.**
+- **THE 2-LOOP RULE** (`005`: "the arrangement has to change every two loops of
+  the chords"). The record's period is currently the leg and the stop, which the
+  trip owns. Making the arrangement change on a *chord-loop* count would put two
+  clocks in the form. Needs a decision about which is the master. **Task #173.**
+- **ODD PHRASING** (`002`: sections in 4+1+3 and 5+2, "the very last bar of the
+  section is chopped off"). `form.lengths` is a flat table of bar counts; there
+  is no way to say a section is 4+1+3. **Task #174.**
+- **SILENCE AS A NAMED MOTIF** (§0b-ii) — still open, and still the difference
+  between a hole where a note was and a hole the phrase was built around.
+
+---
+
 ## Sources
 
 - Five annotated piano-roll analyses supplied by the owner, 2026-08-18: NTFO &
