@@ -109,15 +109,78 @@ say(over.length === 0,
     over.length ? over.map(v => `${v} ${stat[v].over}/${stat[v].n}`).join(" · ")
                 : `${voices.reduce((n, v) => n + stat[v].n, 0)} notes across ${voices.length} instrument(s)`);
 
-/* ── AND THE BANJO SPECIFICALLY, because it is the one that was measured wrong
-   and the one the owner named. A banjo note that outlives the note after it is
-   not a banjo note. The roll is eighth notes at this genre's 57-97 bpm, so an
-   eighth is 0.31-0.53 s; anything past a second is a held note by any reading. */
+/* ══ AND THE STRINGS MUST RING INTO EACH OTHER ═════════════════════════════
+   THE CLAIM THIS FILE FIRST CARRIED WAS "no banjo note is longer than a
+   second", and it was the wrong claim — it passed on a build the owner heard
+   immediately as broken:
+
+     "There is no rythem its just pluck space pluck space pluck! ... its like
+      if someone took a guitar and just lazily played one string at a time with
+      a gap in between each pluck."
+
+   A ROLL IS AN ARPEGGIO OF A HELD CHORD. The left hand holds a shape, the
+   right hand picks strings in order, and nothing damps them, so three or four
+   strings sound at once continuously. Capping the ring at 0.35 s against an
+   eighth note of 0.31-0.53 s made every note die exactly as the next arrived —
+   a ceiling check said "fine", because each note was individually short.
+
+   SO THE GUARD IS ABOUT THE OVERLAP, NOT THE LENGTH. An instrument that
+   declares `poly > 1` and plays an arpeggio may not spend most of its sounding
+   time on ONE note. Measured across the regression that prompted this:
+
+                     alone at any instant      consecutive pairs overlapping
+       keys/banjo      11%  ->  49%              85%  ->  66%
+       bass/washtub    37%  ->  75%              73%  ->  43%
+
+   The length ceiling stays too, one claim below, because the original
+   complaint — 3.3-second banjo notes — was also real. A plucked instrument
+   has to be short AND overlapping, and only holding it to both catches both. */
+{
+  const rolls = [];
+  for(let s = 1; s <= Math.min(N, 4); s++){
+    const song = M.composeSong(s, undefined, M.genres()[0]);
+    const by = {};
+    for(const e of song.perf.events){
+      if(e.pitch == null || !e.voice) continue;
+      const I = OWNER[e.voice];
+      if(!I || !I.play || !(I.play.poly > 1)) continue;
+      const fam = FAM[e.voice];
+      if(fam !== "plucked" && fam !== "struck") continue;
+      (by[e.role + "/" + e.voice] || (by[e.role + "/" + e.voice] = [])).push(e);
+    }
+    for(const k in by) (rolls[k] || (rolls[k] = [])).push(...by[k]), rolls[k] = rolls[k];
+  }
+  const parts = {};
+  for(const k in rolls) parts[k] = rolls[k];
+  const bad = [];
+  const rows = [];
+  for(const k of Object.keys(parts).sort()){
+    const ev = parts[k].slice().sort((a, z) => a.tSec - z.tSec);
+    if(ev.length < 100) continue;
+    const end = Math.max(...ev.map(e => e.tSec + e.durSec));
+    let i = 0; const live = []; let alone = 0, sounding = 0;
+    for(let t = 0; t < end; t += 0.02){
+      while(i < ev.length && ev[i].tSec <= t){ live.push(ev[i]); i++; }
+      for(let j = live.length - 1; j >= 0; j--) if(live[j].tSec + live[j].durSec <= t) live.splice(j, 1);
+      if(live.length){ sounding++; if(live.length === 1) alone++; }
+    }
+    const pct = 100 * alone / (sounding || 1);
+    rows.push(`${k} ${pct.toFixed(0)}% alone`);
+    /* 40% is the line: the measured healthy state was 11-19% and the state the
+       owner rejected on hearing was 49%. */
+    if(pct > 40) bad.push(`${k} ${pct.toFixed(0)}% alone`);
+  }
+  say(bad.length === 0,
+      "a polyphonic plucked part rings into itself — the strings overlap",
+      bad.length ? bad.join(" · ") : rows.join(" · "));
+}
+
 if(stat.banjo)
-  say(stat.banjo.max <= 1.0,
+  say(stat.banjo.max <= 2.0,
       "and no banjo note is a HELD note",
       `longest ${stat.banjo.max.toFixed(2)}s over ${stat.banjo.n} notes ` +
-      `(was 3.33s, 13% over a second, on the harp curve)`);
+      `(was 3.33s on the harp curve; the roll needs ~3 eighths of ring, ` +
+      `which is 0.9-1.6s at 57-97 bpm)`);
 
 /* ── THE FINDING THAT IS PRINTED WHETHER OR NOT ANYTHING FAILS ────────────
    Not a fault: an instrument may legitimately want the family curve, and the

@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18m · a banjo is not a harp — every instrument gets its own decay</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18n · the strings ring into each other, and the thumb is not the beat</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -6400,8 +6400,40 @@ const INSTRUMENTS = {
        Acustica 5:16 (2021), Acoustics of the banjo: measurements and sound
        synthesis]. The factor and the direction are sourced; turning a modal
        decay into a note ceiling is chosen, and the full argument is at
-       `ringOf` where the curve lives. */
-    play: { poly: 5, onLong: "restrike", ring: [0.90, 0.35] },
+       `ringOf` where the curve lives.
+
+       ── AND THE FIRST NUMBERS I CHOSE WERE WRONG, 2026-08-18n ──────────────
+       0.90 / 0.35 was arithmetic on the paper's factor and it broke the
+       instrument. THE OWNER, on hearing it: "There is no rythem its just pluck
+       space pluck space pluck ... its like if someone took a guitar and just
+       lazily played one string at a time with a gap in between each pluck."
+
+       MEASURED, and it is the clearest regression in this file's history:
+
+                        alone at any instant     consecutive pairs overlapping
+         keys/banjo       11%  ->  49%             85%  ->  66%
+         bass/washtub     37%  ->  75%             73%  ->  43%
+
+       A ROLL IS AN ARPEGGIO OF A HELD CHORD. The left hand holds a shape, the
+       right hand picks the strings in order, and NOTHING DAMPS THEM — string 2
+       is still ringing when string 1 is picked, and both are ringing when the
+       thumb hits the fifth. Three or four strings sound at once, always. That
+       overlap is not decoration, it is the difference between a banjo and a
+       sequence of separate plucks, and 0.35 s against an eighth note of
+       0.31-0.53 s at this genre's tempo removed all of it.
+
+       The paper's 100-200 ms is a MODE'S decay rate — how fast energy leaves
+       one resonance — not when a note stops being audible. This comment said
+       exactly that two paragraphs up, called it "the gap no source bridges",
+       and then closed the gap in the wrong direction anyway.
+
+       So the ceiling is now set by the PART: it must cover at least three
+       notes of the roll, because three strings ringing IS the roll. At 57-97
+       bpm the roll's eighths are 0.31-0.53 s, so three of them is 0.9-1.6 s.
+       The instrument's own damping still shows in the shape — the high strings
+       and the drone die faster than the low ones — and a 3.3-second held banjo
+       note is still impossible, which is what the original complaint was. */
+    play: { poly: 5, onLong: "restrike", ring: [1.60, 1.05] },
     controls: [
       /* ── AND THIS BAND STANDS SOMEWHERE ──────────────────────────────────
          [owner, 2026-08-16: "We are not using the stereo field correct, all of
@@ -6640,10 +6672,14 @@ const INSTRUMENTS = {
        The seconds are CHOSEN — no source gives a decay for a rope on a tub, and
        the sheet says outright that not one source states a decay time. What is
        sourced is that it stops: the player's hand is a damper and the technique
-       is a thump. 0.70 falling to 0.35 puts a bass note under a beat at this
-       genre's tempi, so it speaks and gets out of the way, which is the whole
-       argument for having chosen this instrument. */
-    play: { poly: 1, ring: [0.70, 0.35] },
+       ── AND 0.70 WAS TOO SHORT, 2026-08-18n. Measured: it took the washtub
+       from 37% of its time sounding alone to 75%, and its consecutive notes
+       from 73% overlapping to 43%. "Short" is not "isolated". A rope player
+       damps the note when the next one is coming, not the instant this one has
+       spoken, and a bass line whose notes die halfway to the next one is the
+       hole the owner heard under the banjo. 1.40 falling to 0.80 still puts
+       every note under a bar at this genre's tempi. */
+    play: { poly: 1, ring: [1.40, 0.80] },
     controls: [
       ...panControls(),
       { k:"thump", label:"string on the rim",  cap:"THUMP", min:0, max:1, step:0.01, def:0.62, kind:"voicing" },
@@ -21165,6 +21201,16 @@ GENRE.boxcarsynth = {
   ostinato: {
     unit: 2, vel: 0.52, run: true, follow: true, ratchet: 0,
     whole: true, thumb: 0.32, slur: 0.15, fixed: [7],
+    /* THE DEGREES THE THUMB PLAYS — the two bass strings and the fifth, through
+       this table's own string map (0 = 3rd string, -3 = 4th, 7 = 5th). Every
+       cell below puts these on a 3+3+2 across the eight eighths, except the
+       alternating roll, which puts the thumb on every other note exactly as its
+       source describes it. That is the roll's syncopation and it is why eight
+       even notes do not sound even. The accent used to fall on `at % 4 === 0`
+       — beats one two three four, a metronome, the one pattern a roll never
+       has. See `O.thumbOn` at the accent for the four rolls checked against
+       Deering's own string numbers. */
+    thumbOn: [0, -3, 7],
     change: { pick: [1,2], kinds: [["cell",6],["octave",3],["rest",3]] },
     cells: [
       [[2,4,7,2,4,7,2,4], 5],   // forward: 2-1-5-2-1-5-2-1
@@ -27889,6 +27935,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         if(tRow && !tHit){ if(O.run) seqI++; continue; }
         const idx = O.run ? (seqI++) : (st / O.unit);
         let deg = c[((idx % c.length) + c.length) % c.length];
+        /* the RAW cell value, kept before `transpose` can move it — the thumb
+           accent below is a fact about which STRING this note is, and a
+           transposed degree is no longer that string's number */
+        const rawDeg = deg;
         /* AN OPEN STRING IS DECIDED ON THE RAW CELL VALUE, before anything can
            move it. `transpose` adds `by` to every degree, so a 7 would become
            an 8, fall out of `fixed`, and the drone would silently VANISH for
@@ -27996,7 +28046,42 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           let vv = O.vel * (h ? 0.82 : 1) * (tHit && tHit.accent ? 1.25 : 1);
           let art = null;
           if(O.thumb){
-            const strong = at % 4 === 0;             // the quarter-note pulse
+            /* ══ AND THE THUMB IS NOT THE METRONOME ══════════════════════════
+               THE OWNER: "There is no rythem its just pluck space pluck space
+               pluck! That is not how these instruments are played."
+
+               He is right and this line was the reason. `at % 4 === 0` accents
+               beats one, two, three and four — a metronome, and the one accent
+               pattern a banjo roll never has. MEASURED on seed 1, mean gain by
+               step: 0.46 . 0.27 .13 0.47 .13 0.27 .12 0.47 .10 0.27 .08 0.46
+               — loud, soft, loud, soft, on the quarters, for 1,561 notes.
+
+               THE THUMB IS A FINGER, NOT A BEAT, and where it falls is a fact
+               about the roll rather than about the bar. Deering's four
+               essential rolls, in strings [blog.deeringbanjos.com, The Four
+               Essential 5-String Banjo Rolls] — and this genre's cells ARE
+               those rolls, which is checkable through the sheet's own string
+               map (0=3rd, 2=2nd, 4=1st, 7=5th, -3=4th):
+
+                 forward          2-1-5-2-1-5-2-1   thumb at 3 and 6   3+3+2
+                 forward-reverse  3-2-1-5-1-2-3-1   thumb at 1,4,7     3+3+2
+                 alternating      3-2-5-1-4-2-5-1   thumb every other note
+                 backward         1-2-5-1-2-5-2-1   thumb at 3 and 6   3+3+2
+
+               THREE PLUS THREE PLUS TWO. That is the syncopation the roll IS,
+               and it is why eight even eighth notes do not sound even. Deering
+               names the alternating roll's rule outright — "the thumb plays
+               every other note" — and our alternating cell puts its thumb on
+               exactly every other note, which is the check that says this map
+               is read right and not guessed.
+
+               So the accent is derived from the cell: `thumbOn` names the
+               DEGREES the thumb plays — the bass strings and the fifth — and
+               any note whose raw cell value is one of them is a thumb note. A
+               genre that declares nothing keeps the old pulse, so nothing else
+               in the file moves [Law 4]. */
+            const strong = Array.isArray(O.thumbOn) ? O.thumbOn.indexOf(rawDeg) >= 0
+                                                    : at % 4 === 0;
             vv *= strong ? (1 + O.thumb) : (1 - O.thumb * 0.55);
           }
           if(O.slur && at % 4 !== 0){
