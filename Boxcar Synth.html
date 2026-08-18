@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18f · MELODIC MATH — the phrase is motifs, and slots turn off</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18g · rhythmic acceleration — A2, the last note split in two</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20835,7 +20835,11 @@ GENRE.boxcarsynth = {
        one it FALLS, giving ... a sense of closure by ending where the melody
        starts". In scale steps, so it cannot leave the key. */
     phrase: {
-      formula: ["ABAB", "ABaB", "ABAb", "Abab"],
+      /* `2` is the ACCELERATED variant of that slot's motif — the source's
+         `A2`, its last note split in two inside its own span, carrying one
+         extra pitch move. Five entries now, every one different from the
+         others, so the lead cannot repeat a statement three times running. */
+      formula: ["ABAB", "ABaB", "AB2b", "Abab", "A2AB"],
       move: { of: "A", by: 1, dir: "NEEF" },
     },
     onsetPool: [[0,5],[2,2],[4,4],[7,2],[8,4],[12,3]],
@@ -29855,15 +29859,51 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         const d = MV && MV.dir ? MV.dir[n % MV.dir.length] : "N";
         L += d === "E" ? (MV.by || 1) : d === "F" ? -(MV.by || 1) : 0;
       } }
+    /* ── RHYTHMIC ACCELERATION — THE `A2` OF THE SOURCE ────────────────────
+       [Europe, "The Final Countdown", melody] "'A2' has the last note SPLIT
+       INTO 2, still taking up the same amount of space, but allowing for AN
+       EXTRA KEY CHANGE — we can call this rhythmic acceleration. A subtle yet
+       welcome variation. The 'B' motif can see doing the same thing at the end
+       of the phrase."
+
+         A  = 1(i)1(i)4        ->      A2 = 1(i)1(i)2(i)2
+
+       The closing 4 becomes 2+2. The span is identical, one note has become
+       two, and the POINT of it is that the new note carries an extra pitch
+       move. So this is not a rhythm change in the sense §1 of the sheet rules
+       out — the motif's length and its strong attacks are untouched — it is a
+       subdivision inside one note's own span, and the sheet is corrected at
+       §0b-iii to say so.
+
+       A slot whose last note is too short to halve, or whose halves would spill
+       past the bar, is returned unchanged: an acceleration that moves the
+       motif's edge is not this device. */
+    const accel = arr => {
+      if(!arr.length) return arr.map(n => ({ ...n }));
+      const ord2 = arr.slice().sort((a, z) => a.step - z.step);
+      const last = ord2[ord2.length - 1];
+      const half = Math.floor((last.dur || 0) / 2);
+      if(half < 1 || last.step + half >= 16) return arr.map(n => ({ ...n }));
+      const out = ord2.slice(0, -1).map(n => ({ ...n }));
+      out.push({ ...last, dur: half });
+      out.push({ ...last, step: last.step + half, dur: last.dur - half,
+                 pitch: intoBand(scaleStep(k0, md, last.pitch, 1), lo, hi) });
+      return out;
+    };
     const apply = (src, n) => {
       const f = F[n % F.length];
       const out = [];
-      for(const nt of src){
-        const ch = f[nt.bar % f.length];
-        if(!ch || ch === ch.toLowerCase()) continue;      // this slot is silent
-        const lv = (MV && MV.of === NAME(nt.bar)) ? level[n % F.length] : 0;
-        out.push(lv ? { ...nt, pitch: intoBand(scaleStep(k0, md, nt.pitch, lv), lo, hi) }
-                    : { ...nt });
+      /* by bar, so a slot can be transformed as a unit rather than note by note */
+      for(let b = 0; b < BARS; b++){
+        const ch = f[b % f.length];
+        if(!ch || ch === ch.toLowerCase() && ch !== "2") continue;   // silent
+        let slot = src.filter(nt => nt.bar === b);
+        if(!slot.length) continue;
+        const lv = (MV && MV.of === NAME(b)) ? level[n % F.length] : 0;
+        if(lv) slot = slot.map(nt => ({ ...nt, pitch: intoBand(scaleStep(k0, md, nt.pitch, lv), lo, hi) }));
+        else   slot = slot.map(nt => ({ ...nt }));
+        if(ch === "2") slot = accel(slot);          // the accelerated variant
+        for(const nt of slot) out.push(nt);
       }
       return out;
     };

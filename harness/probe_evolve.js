@@ -139,12 +139,34 @@ for(let s = 1; s <= SEEDS; s++){
      swing and per-note jitter, and a claim about what was WRITTEN has to be
      asked of what was written. Every variant stage 3 builds is right here. */
   {
+    /* ── AND THE CLAIM IS THE SPAN, NOT EVERY DURATION ────────────────────
+       The first cut demanded every note sit on an onset the motif already has.
+       That was §1 of the sheet taken too strictly, and the SECOND set of
+       diagrams corrects it [melodic-math.md §0b-iii, Europe "The Final
+       Countdown"]: "'A2' has the last note SPLIT INTO 2, still taking up the
+       same amount of space, but allowing for an extra key change — we can call
+       this RHYTHMIC ACCELERATION. A subtle yet welcome variation."
+
+         A = 1(i)1(i)4   ->   A2 = 1(i)1(i)2(i)2
+
+       So a note may subdivide INSIDE ITS OWN SPAN, and the invariant is that
+       the motif keeps its length and its attacks land within notes it already
+       had. A note starting where the motif is silent is still a fault; a note
+       starting halfway through a note the motif holds is the device.
+
+       This is the guard following a correction to the sheet, and the sheet
+       carries the quote that forced it — not a threshold moved to make a build
+       green. The strict form would now fail `A2`, which the source names and
+       welcomes. */
     const A = (g.materials.A || {}).lead || [];
-    const home = new Set(A.map(n => (n.bar % g.materials.bars) * 16 + n.step));
+    const BARSN = g.materials.bars;
+    const spans = A.map(n => { const at = (n.bar % BARSN) * 16 + n.step;
+                               return [at, at + Math.max(1, n.dur || 1)]; });
+    const inside = pos => spans.some(([a, b]) => pos >= a && pos < b);
     const check = arr => {
       if(!arr || !arr.length) return;
       grid.stmts++;
-      if(arr.some(n => !home.has((n.bar % g.materials.bars) * 16 + n.step))) grid.offGrid++;
+      if(arr.some(n => !inside((n.bar % BARSN) * 16 + n.step))) grid.offGrid++;
     };
     (g.materials.evo || []).forEach(check);                    // the chain
     (g.materials.evoThird || []).forEach(check);               // each link's third
@@ -232,9 +254,10 @@ say(pm != null && pm >= 0.05, "and the structural formula is turning motifs OFF"
     pm == null ? "no pairs" : (100 * pm).toFixed(1) + "% of grid positions sound in one statement and not the other" +
       " — the lower-case slots of the formula [melodic-math.md \u00a73]");
 say(grid.stmts > 0 && grid.offGrid === 0,
-    "and the RHYTHM never moves — every note sits on a position the motif has",
+    "and the RHYTHM holds — every note starts inside a note the motif already has",
     !grid.stmts ? "no statements" :
-      grid.offGrid ? grid.offGrid + "/" + grid.stmts + " statements put a note where the motif has none"
-                   : grid.stmts + " statements, every note on the motif's own grid [melodic-math.md \u00a71]");
+      grid.offGrid ? grid.offGrid + "/" + grid.stmts + " variants put a note where the motif is silent"
+                   : grid.stmts + " composed variants, every note inside the motif's own span" +
+                     " — subdivision allowed, the edge is not [melodic-math.md \u00a71, \u00a70b-iii]");
 console.log("\n  " + faults + " evolution fault(s)\n");
 process.exit(faults ? 1 : 0);

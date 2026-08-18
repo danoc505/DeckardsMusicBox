@@ -34,6 +34,67 @@ never their rhythm.
 
 ---
 
+## 0b. TWO CORRECTIONS TO THIS SHEET, FROM THE SECOND SET OF DIAGRAMS
+
+Written an hour after §1–§8 below, from three further analyses the owner
+supplied (Europe, *The Final Countdown* — melody; Deep Purple again, as code).
+**Both corrections are to claims I made too strongly.**
+
+### 0b-i. A MOTIF COMPILES TO ONE LINE
+
+> "So now we can combine these 2 functions to give a simple single line of
+> 'code' to lock in the motif. Motif 'A' being 4+4 in terms of Rhythm and has a
+> Melodic Movement of 2. Becoming **4(ii)4**. *The direction is up to your own
+> personal taste.* Motif 'B' becomes **6(N)** to express the length of 6×16ths
+> while having no movement. While motif 'C' becomes **2(i)8**."
+
+So the notation is `duration ( movement ) duration ( movement ) duration …` —
+numbers are durations in 16ths, the parenthesis carries the interval to the NEXT
+note, `i` counts semitones, `N` is none. *The Final Countdown*'s whole melody is
+five lines:
+
+```
+A  = 1(i)1(i)4        A2 = 1(i)1(i)2(i)2
+B  = 4(N)             B2 = 2(i)2
+S  = 6                (Silence)
+```
+
+This program has no such object. Its motifs are IMPLICIT — "bar 0 is A, bar 1 is
+B" is a convention in the selection code, not a declaration with a rhythm and a
+movement of its own.
+
+### 0b-ii. SILENCE IS A NAMED MOTIF WITH A LENGTH
+
+> "While the 'S' motif (which represents silence) keeps the other motifs
+> happening at the same time, in the song this gives the arrangement room for
+> **the chords to play at the start of every bar, acting like a Call &
+> Response**."
+
+`S = 6` — six sixteenths of nothing, scheduled, with a stated purpose. §3's
+lower-case device MUTES a slot; this SCHEDULES a rest as an element with a
+length and a reason. They are not the same thing: a muted slot leaves a hole
+where a note was, and an S motif is a hole the phrase was BUILT around, which is
+what makes room for the answer.
+
+### 0b-iii. AND THE RHYTHM MAY SUBDIVIDE — §1 BELOW IS TOO STRONG
+
+> "'A2' has the last note **split into 2**, still taking up the same amount of
+> space, but allowing for an extra key change, we can call this **rhythmic
+> acceleration**. A subtle yet welcome variation. The 'B' motif can see doing
+> the same thing at the end of the phrase."
+
+`A = 1(i)1(i)4` becomes `A2 = 1(i)1(i)2(i)2` — the closing 4 becomes 2+2. The
+TOTAL SPAN is identical; one note has become two, and the point of it is that
+the extra note carries an extra pitch change.
+
+**So the invariant is the motif's total SPAN and its attack points, not every
+duration in it.** §1 says "every device that changes a duration is out of
+scope" and that is wrong as written: a note may be subdivided WITHIN ITS OWN
+SPAN, and doing so is a named, welcomed variation. What may not happen is the
+motif changing length or its strong attacks moving.
+
+---
+
 ## 1. THE RHYTHM IS THE INVARIANT
 
 > "The 'A' and 'B' motifs **always stay in the same rhythm**, thus giving them a
@@ -203,6 +264,77 @@ shape) [corpus:vaia, corpus:fiveable-ap].
 4. **The rhythm never changes.** Every device that changes a duration is out of
    scope for the motif; augmentation belongs to a different material (`C`
    already does it).
+
+## 9. WHAT THE TEN TRANSCRIPTS ADD — read in full, 2026-08-18
+
+`001`–`009` on `main`, read end to end at the owner's instruction. Most of their
+content is already in `LOOP_TO_SONG.md`; these are the things that are NOT, and
+that bear on the motif.
+
+**`003` (Zelda) is the chain, described bar by bar, and it is the best
+statement of it anywhere in this repo:**
+
+> "Each phrase takes the last piece of the melody and adds something to it or
+> twists it in a new way, giving the melody a **step-by-step progression from
+> each bar to the next**."
+
+and its worked example is a list of single-step transformations, each applied to
+the PREVIOUS bar: leap root→fifth · the same leap INVERTED upward with the gap
+filled by a scale run · the same shape in the PARALLEL MINOR and in TRIPLETS
+instead of 16ths · the same again with a TURN that **delays the resolution from
+beat 1 to beat 2** ("every bar of the melody so far has resolved cleanly on beat
+one — small melodic surprises like this are the kind of thing that separates
+good melodies from legendary ones") · then the turn figure alone, direction
+FLIPPED, dropped a step, with a repeated note added to turn a dotted-eighth
+rhythm into the intro's gallop.
+
+**And it puts a length on a sequence**, which the program had to guess at:
+
+> "It moves down in sequence through the B♭ minor scale **for two bars, just
+> enough time to set up an expectation**, and then sucker punches us with the
+> sudden jump to C major."
+
+Two statements of a sequence, then break it. `move: { dir: "NEEF" }` — rise,
+rise, fall — is that shape, and this is its citation.
+
+**`005` (the 2-Loop Rule) puts a period on the arrangement**, and the program
+does not use it: *"the arrangement has to change **every two loops of the
+chords**, because our ears naturally expect songs to change every two loops of
+the main instruments."* Its four moves are the only ones it allows — add an
+instrument, add expression, remove an instrument, reduce expression — and it
+insists **every transition has two sides**: *"there's the exit point and then
+there's the entry point... the drums cover the exit point but for this entry
+point I'm going to add a couple effects."* This engine has no transition object
+at all; `fillInto` is an entry with no exit.
+
+**`002` (transitions) adds truncation as a structural device** — *"the very last
+bar of the section is chopped off and we instead dive straight into this
+transition"* — and names the three ingredients that make a passage read as
+transit: no melody, no harmonic stability, odd phrasing (*"sections break into
+4+1+3 and 5+2 bar chunks"*).
+
+**`006` (the rule of three) is stricter than this repo has been quoting it.**
+Not only "three times is too many": *"**using it more than two times is
+overusing it**"* — the change is due ON the third, which is what
+`(statement) % 3 === 2` does, so the implementation is right and the doc's
+paraphrase was loose.
+
+**`009` is where the owner's instruction comes from, in the source's own
+words:** *"you could always peel it back and maybe even **take some parts of
+your loop to make one section and then other parts of the loop to make a second
+section**"* — which is exactly "the first 9 notes are the phrase, break it into
+two parts".
+
+**`008` and `001`** are covered by `LOOP_TO_SONG.md` §9 and §1; the one thing not
+carried over is `008`'s habit of **disabling rather than deleting** so a mute
+pattern travels with a duplicated section — the same idea as this sheet's
+upper/lower case, arrived at from the arrangement side.
+
+**`004` (drums)** is a rhythm primer; its one item not in the drum engine is the
+observation that the SPINE and the WEAK-BEAT material should use different
+instruments, with a mix of low and high frequency content on the weak beats.
+
+---
 
 ## Sources
 
