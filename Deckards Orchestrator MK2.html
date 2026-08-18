@@ -27569,6 +27569,26 @@ function makeForm(chart){
          minutes" [corpus:attackmagazine, quoted in NOTES-FROM-THE-USER.md].
          Absent means the notes vary, which is what every song-shaped genre
          wants. */
+      /* ══ AND WHY THIS STILL NAMES TWO FUNCTIONS ══════════════════════════
+         `instrumental`, `postchorus`, `prechorus` and `bridge` can recur and
+         are never asked to change, and after the verse and chorus each got a
+         second device the identical runs of FOUR that remained were exactly
+         those: `postchorus` in synthwave, `instrumental` in dungeon synth,
+         both playing the base material four times running.
+
+         SO I TRIED REMOVING THE CLAUSE, AND IT MADE THINGS WORSE. Measured,
+         six records: synthwave's identical returns went 17% -> 28%. With every
+         repeating function funnelled into the same four materials, the
+         instrumental stopped playing A and started playing Avar — the same
+         thing the verse beside it was playing. Two devices cannot serve five
+         repeating functions; asking them to collapses the variety that the
+         different labels were providing for free.
+
+         The real answer is more devices, or a device that composes with the
+         section's own identity, and neither is a one-line change. Reverted,
+         and written down here rather than left as a comment that says the
+         clause is arbitrary — it is not, it is load-bearing until there is
+         something better to give those sections. */
       demand: (seen[f] >= (F.varyAsBefore ? 3 : 2)
                && (f === "verse" || f === "chorus")) ? "vary" : null,
       energy: f === PAY ? (i === lastChorus ? F.energy.chorusPeak : F.energy[PAY])
@@ -33430,6 +33450,76 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const leadAvar = JOIN(themeA.notes.filter(n => n.bar < 2)
     .concat(varTail.notes.filter(n => n.bar >= 2)));
 
+  /* ══ AND THE OTHER HALF OF A DEVELOPED RESTATEMENT ════════════════════════
+     `Avar` keeps the OPENING and redraws the ENDING — that is `003`'s answer,
+     "the end of the bar here is a perfect answer to the beginning". The other
+     move the same file describes is the TWIST: "each phrase takes the last
+     piece of the melody and adds something to it or TWISTS IT IN A NEW WAY".
+     A twist keeps the RHYTHM and changes the NOTES, and the engine had no way
+     to say it.
+
+     WHY IT MATTERED, measured before this existed: `demand: "vary"` fires on
+     every occurrence of a function past the first, and the only answer it
+     could give was `Avar`. So a form of five verses played A, Avar, Avar,
+     Avar, Avar — and synthwave and dungeon synth were measured playing the
+     IDENTICAL lead statement FOUR TIMES IN A ROW, with 22-23% of all section
+     entries a note-for-note repeat of the one before. That is `006` broken:
+     "repeating something beyond three times is generally speaking overusing
+     that idea". One device cannot answer a demand that recurs.
+
+     THE RHYTHM IS THE INVARIANT [melodic-math.md §1], so this takes the
+     material's own note positions and durations exactly and re-pitches them
+     from the variant tune already drawn above. No new draw — `varTail` exists
+     either way — so the stream does not move and no genre that never reaches
+     this is touched [Law 3]. */
+  const byTime = (a, z) => (a.bar - z.bar) || (a.step - z.step);
+  /* AND IT MUST NOT LAND ON A SEAT ANOTHER PART HAS TAKEN. `varTail`'s pitches
+     are safe at THEIR OWN positions; moved onto A's rhythm they are at
+     different bars and steps, and the first build of this threw the seam
+     check's own error — "collision in Adev at 0:8:74" — which is the guard
+     working exactly as intended. The accompaniment this material plays over is
+     Avar's, so that is what it is held clear of; A's own tune is not reserved
+     because this REPLACES it. */
+  const resDev = reserve(ostAvar.concat(bassA, keysA, keys2Avar));
+  const twist = (rhythm, from, res) => {
+    const rh = rhythm.filter(n => n.pitch != null).slice().sort(byTime);
+    const pl = from.filter(n => n.pitch != null).map(n => n.pitch);
+    if(!rh.length || !pl.length) return rhythm;
+    const LO = playable(R.themeA)[0], HI = playable(R.themeA)[1];
+    let prev = null;
+    return rh.map((n, i) => {
+      /* offset by one so the first note does not land back on its own pitch --
+         a twist that opens identically is `Avar`, and this is the other move */
+      const want = [];
+      for(let k = 0; k < pl.length; k++) want.push(pl[(i + 1 + k) % pl.length]);
+      let put = null;
+      for(const cand of want){
+        for(const oct of [0, 12, -12]){
+          const q = cand + oct;
+          if(q < LO || q > HI) continue;
+          if(res.has(key(n.bar, n.step, q))) continue;
+          if(q === prev) continue;              // this file's no-repeat law
+          put = q; break;
+        }
+        if(put != null) break;
+      }
+      /* nothing in the pool fits this seat: the note keeps its own pitch, which
+         is a bar of A showing through the twist rather than a dropped note */
+      if(put == null) put = n.pitch;
+      prev = put;
+      return Object.assign({}, n, { pitch: put });
+    });
+  };
+  const leadAdev = JOIN(twist(themeA.notes, varTail.notes, resDev));
+  /* and the same move for the chorus, against ITS accompaniment */
+  /* AND ITS COUNTER IS IN THE RESERVE, not merely its band. Bdev keeps Bvar's
+     second melody — a chorus that loses a whole part on its third hearing is
+     the "taking things out" this whole mechanism exists to stop — so the
+     twisted tune has to stay clear of that line too. Without it the seam check
+     threw "collision in Bdev at 2:0:74", which is the counter's seat. */
+  const leadBdev = JOIN(twist(themeB.notes, varTailB.notes,
+                              reserve(ostB.concat(bassB, keysB, keys2B, counterBvar))));
+
   /* ══ AND THE RECORD ITSELF MOVES, NOT ONLY ITS BRIDGE ══════════════════════
      MEASURED, AND THE MEASUREMENT IS WHY THIS EXISTS. With the key shift living
      only on the bridge, it fired on 171 of 300 records of one genre and was
@@ -33640,6 +33730,21 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     // Verses (Avar's consumers) never activate the counter anyway; if a future section
     // wants one, it derives it from leadAvar, it does not borrow A's.
     Avar: { drums: drumsAvar, bass: bassA, keys: keysA, keys2: keys2Avar, lead: leadAvar, counter: [], ostinato: ostAvar, drone: droneA },
+    /* Adev = twist(A): A's RHYTHM EXACTLY, its notes redrawn. The second device
+       a returning material can reach for, so a demand that recurs does not get
+       the same answer every time. Same accompaniment as Avar — the tune is what
+       develops; changing the band as well would make it a different section
+       rather than a restatement of this one. */
+    Adev: { drums: drumsAvar, bass: bassA, keys: keysA, keys2: keys2Avar, lead: leadAdev, counter: [], ostinato: ostAvar, drone: droneA },
+    /* Bdev = twist(B): the chorus's second device, and the reason it exists is
+       the same measurement. A chorus could only ever answer a vary demand with
+       `Bvar`, so a form with four choruses played B, Bvar, Bvar, Bvar — and the
+       identical run of FOUR that survived giving the VERSE two devices was the
+       chorus, every time. Held clear of B's own accompaniment, and it keeps
+       Bvar's counter: the second melody was derived from the redrawn tune and
+       is still a shadow of a redrawn tune, which is what Avar's own comment
+       says to do. */
+    Bdev: { drums: drumsBvar, bass: bassB, keys: keysB, keys2: keys2B, lead: leadBdev, counter: counterBvar, ostinato: ostB, drone: droneB },
     B:    { drums: drumsB, bass: bassB, keys: keysB, keys2: keys2B, lead: themeB.notes, counter: counterB, ostinato: ostB, drone: droneB },
     /* Bvar = vary(B) -- the chorus's rule-of-three answer. Same drums, bass,
        chords and pad as B; only the tune's second half is redrawn, so the hook
@@ -34522,7 +34627,43 @@ function makeArrangement(chart, form, materials){
            the thin outright: a genre with no lead at all lost its
            only variation and gained nothing, on 300 of 300 songs. A better
            mechanism that silently removes a working one is not an improvement. */
-        material = sec.fn === "verse" ? "Avar" : "Bvar";
+        /* ══ AND A RECURRING DEMAND MAY NOT GET THE SAME ANSWER TWICE ═══════
+           This line read `material = verse ? "Avar" : "Bvar"` and nothing
+           else, so EVERY return after the first got the SAME variant. A form
+           of five verses played A, Avar, Avar, Avar, Avar. MEASURED, six
+           records a genre: synthwave and dungeon synth both play the identical
+           lead statement FOUR TIMES IN A ROW, and 22-23% of all section
+           entries are a note-for-note repeat of the one before.
+
+           `006` is explicit that this is the fault, not a shortfall:
+           "repeating something beyond three times is generally speaking
+           overusing that idea, and actually using it more than two times is
+           overusing it."
+
+           So the returns ALTERNATE between the two devices `003` describes,
+           and the devices are different in kind rather than in degree:
+
+             2nd hearing   Avar   the OPENING kept, the ENDING redrawn
+                                  — 003's answer
+             3rd hearing   Adev   the RHYTHM kept, the NOTES redrawn
+                                  — 003's twist
+             4th, 5th …    back and forth, and thinning from the 3rd on
+
+           Alternating means no statement can equal the one before it, which is
+           the rule of three satisfied by construction rather than by a second
+           mechanism watching for it. A genre with no `Adev` — anything but a
+           verse, or a build where the tune was too short to twist — falls back
+           to exactly what it had, so nothing regresses. */
+        /* WHICH FAMILY, ASKED OF THE MATERIAL RATHER THAN OF THE LABEL. This
+           read `sec.fn === "verse" ? "Avar" : "Bvar"`, which was right while
+           only two functions could get here and wrong the moment any repeating
+           function could: an `instrumental` that plays A would have been handed
+           the CHORUS's variant. The material the section was about to play is
+           the only thing that knows which tune it is developing. */
+        const NTH = sec.occurrence || 2;
+        const fam = String(material).charAt(0) === "B" ? "B" : "A";
+        const dev = fam + "dev", vary = fam + "var";
+        if(materials[vary]) material = ((NTH % 2 === 1) && materials[dev]) ? dev : vary;
         if(sec.occurrence >= 3) stripHalf = true;
       }
     }
