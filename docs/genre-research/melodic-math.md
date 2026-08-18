@@ -336,6 +336,64 @@ instruments, with a mix of low and high frequency content on the weak beats.
 
 ---
 
+## 10. IT IS MAX MARTIN'S TOOLBOX, AND IT IS NOT ONLY FOR THE MELODY
+
+*Web research, 2026-08-18, at the owner's instruction: "do more research on the
+web about Melodic Math. It applies to all instruments but the drums."*
+
+**The name has a lineage.** "Melodic Math" is the shorthand pop-music researcher
+Asaf Peres uses for **Max Martin's entire songwriting toolbox** — the method
+behind a long run of Billboard #1s, taught commercially at `melodic-math.com`
+and `top40theory.com`. The two commercial pages are promotional and disclose no
+method; the working rules are in the secondary analyses, and they are these:
+
+| rule | as stated |
+|---|---|
+| **THREE OR FOUR PARTS** | "Use only **3–4 melodic parts per song** and introduce **one part at a time**" — "there must be no new items coming in at the same time" |
+| **MIRRORING** | "a line has to have a certain number of syllables and the next line has to be its **mirror image** — if you add one syllable or take it away, it's a completely different melody to Max" |
+| **CONTRAST BY NOTE LENGTH AND PLACEMENT** | "vary **shorter and longer notes, on and off beat** between verse and chorus... if the verse is off beat you need to be less messy (**on beat**) right after" |
+| **THE HIGH NOTE IS SAVED** | "he will frequently **save the highest note for the second half** of a section" |
+| **TENSION–RELEASE INSIDE THE PHRASE** | "he will often design phrases that have an **internal tension-release scheme**" |
+| **LEAST PARTS, MOST IMPACT** | "Max is famous for getting the most out of the **least amount of parts**" |
+
+**MIRRORING IS §2'S BALANCE, STATED AS A LAW ABOUT LENGTHS.** "A+B = 16, factors
+into 4/4" and "the next line has to be its mirror image" are the same rule from
+two directions: the motifs' lengths are not free, they must answer each other.
+Add or remove one and it is a different melody.
+
+**THREE OR FOUR PARTS** is a number this genre can be measured against directly,
+and it is a constraint on the MOTIF COUNT, not the instrument count.
+
+### And the scope
+
+> [owner] "It applies to all instruments but the drums."
+
+The sources agree by example: **the very first diagram in this whole set is a
+BASSLINE**, not a melody — *Nobody Else*, "The Bassline", `A+a+B / A+A+B /
+A+a+B / A+a+b`. Nothing in §3's device is particular to the melody chair, and
+the bassline literature says the same thing in its own dialect: *"write a single
+groovy bar of syncopated bass, then repeat that exact bar rather than constantly
+varying it — repeating gives the listener time to lock onto the groove"*, with
+named variations that are all subtraction or subdivision — **the skip** ("drop
+one offbeat entirely to create a hole"), **the held note**, **the 16th ghost**
+[corpus:mind-flux, corpus:attackmagazine].
+
+**Drums are excluded because a motif is a thing with pitches.** The drum engine
+has its own grammar and its own sheet (`ABACAAD`, fills and empties,
+`drum-sectional-arc.md`); it is not a melodic-math object and does not want to
+be one.
+
+### And the transformation vocabulary is confirmed from the literature
+
+Independent of the diagrams, the symbolic-music-generation literature catalogues
+motif variation as *"moving the pitch, **merging notes**, **splitting notes**,
+decorating notes"*, and defines **acceleration** as *"speeding up the motif by
+reducing note duration and inter-onset interval"* [corpus:arxiv-motif-transform].
+**Splitting a note is a named operation**, which is §0b-iii's `A2` under another
+name, and it is not this sheet's invention.
+
+---
+
 ## Sources
 
 - Five annotated piano-roll analyses supplied by the owner, 2026-08-18: NTFO &
@@ -348,5 +406,21 @@ instruments, with a mix of low and high frequency content on the weak beats.
 - Fiveable, AP Music Theory 6.5 "Motive and Motivic Transformation" —
   https://fiveable.me/ap-music-theory/unit-6/motive-motivic-pit-transformation/study-guide/z0DJQvgjoByphnhSnztH
 - Wikipedia, "Melodic motion" — https://en.wikipedia.org/wiki/Melodic_motion
+- Musician Wave, "Max Martin and his Melodic Math Formula" —
+  https://www.musicianwave.com/max-martin-melodic-math-formula/
+- Music Business Worldwide, "How Max Martin's songwriting techniques are used to
+  write hit, after hit, after hit" —
+  https://www.musicbusinessworldwide.com/how-max-martins-songwriting-techniques-are-used-to-write-hit-after-hit-after-hit/
+- Mystic Alankar, "Melodic Math — Max Martin's Song Writing Formula" —
+  https://mysticalankar.com/blogs/blog/melodic-math-max-martins-songwriting-formula
+- melodic-math.com and top40theory.com/melodic-math-course — the commercial
+  courses. Promotional only; no method disclosed. Recorded so the next reader
+  does not spend the fetch.
+- Mind Flux, "Sequencing for Groove: Crafting Compelling Tech House Basslines" —
+  https://www.mind-flux.com/news-1/2024/2/22/sequencing-for-groove-crafting-compelling-tech-house-basslines
+- Attack Magazine, "Sculpting Warehouse-Style Rolling Techno Basslines" —
+  https://www.attackmagazine.com/technique/tutorials/warehouse-rolling-techno-bass/
+- "Motifs, Phrases, and Beyond: The Modelling of Structure in Symbolic Music
+  Generation", arXiv:2403.07995
 - This repo, `main` branch, `06 melody engine.js` — the sentence form, from the
   project's own Melody_2 notes.

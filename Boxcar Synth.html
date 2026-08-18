@@ -1618,7 +1618,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18g · rhythmic acceleration — A2, the last note split in two</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-18h · the formula reaches every pitched part, not just the tune</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20840,6 +20840,27 @@ GENRE.boxcarsynth = {
          extra pitch move. Five entries now, every one different from the
          others, so the lead cannot repeat a statement three times running. */
       formula: ["ABAB", "ABaB", "AB2b", "Abab", "A2AB"],
+      /* ── WHO ELSE TAKES THE FORMULA, AND HOW FAR ROUND ────────────────────
+         [owner] "It applies to all instruments but the drums." The first of
+         the source diagrams is a BASSLINE, so this was never a melody-only
+         device — and measured before it reached them, seed 1's material A had
+         18 notes in the lead and NINETY-TWO in the parts the formula did not
+         touch.
+
+         The number is the part's OFFSET into the cycle, and the offsets are
+         spread so no two of them rest on the same statement: when the tune is
+         on `Abab` with only its head left, the counter is three along on
+         `ABAB` and answers with the whole thing. That is the source's stated
+         reason for a silence motif — "it gives the arrangement room ... acting
+         like a Call & Response".
+
+         THE OSTINATO IS NOT LISTED, and that is a citation rather than an
+         omission: "the roll IS the part — a continuous stream of eighth notes,
+         one pattern per bar, running for as long as the tune does"
+         [banjo-and-harmonica-notation.md §1a]. A banjo roll with holes punched
+         in it is not a banjo roll. The drums are not listed for the reason
+         above. */
+      roles: { counter: 3, keys2: 1, bass: 2, keys: 4 },
       move: { of: "A", by: 1, dir: "NEEF" },
     },
     onsetPool: [[0,5],[2,2],[4,4],[7,2],[8,4],[12,3]],
@@ -29843,6 +29864,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      on, and the formula says which of its motifs sound this time round. */
   const FORM = (() => {
     const P = (G.theme && G.theme.phrase) || null;
+    /* the parts as material A holds them — the formula is a statement about
+       the LOOP, so it is built from the loop's own arrays */
+    const mine2 = { bass: bassA, keys: keysA, keys2: keys2A,
+                    counter: counterA, ostinato: ostA };
     if(!P || !EVO || !EVO.chain.length) return null;
     const F = (P.formula || []).filter(x => typeof x === "string" && x.length);
     if(!F.length) return null;
@@ -29907,15 +29932,93 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       }
       return out;
     };
-    /* every link of the chain, in every formula position */
+    /* every link of the chain, in every formula position — the TUNE */
     const byLink = EVO.chain.map(link => F.map((_, n) => apply(link, n)));
-    return { cycle: F.length, byLink, formula: F.join(" / "),
-             level: level.slice() };
+    /* ══ AND IT IS NOT ONLY THE TUNE ═══════════════════════════════════════
+       [owner] "It applies to all instruments but the drums."
+
+       He is right and the sources say so plainly: the FIRST diagram in this
+       whole set is a BASSLINE, not a melody — "NTFO & Karmon, Nobody Else, The
+       Bassline", A+a+B / A+A+B / A+a+B / A+a+b. Nothing about turning a motif
+       off is particular to the melody chair.
+
+       MEASURED before this, seed 1, notes in material A: lead 18, keys 40,
+       ostinato 32, keys2 12, counter 10, bass 8. The formula reached the
+       eighteen and left the ninety-two alone.
+
+       ── AND THEY ROTATE AGAINST EACH OTHER, WHICH IS THE POINT ───────────
+       If every part read the same formula position they would fall silent
+       together and the record would just get quieter. The source says what the
+       holes are FOR: "the 'S' motif keeps the other motifs happening at the
+       same time — in the song this gives the arrangement room for the chords
+       to play at the start of every bar, ACTING LIKE A CALL & RESPONSE."
+       So each part reads the cycle at its own OFFSET: when the tune is on
+       `Abab` and has dropped everything but its head, the counter is three
+       steps along on `ABAB` and is playing the whole thing. One part's rest is
+       another part's turn.
+
+       ── MUTING FOR ALL, MOVEMENT FOR THE TUNE ONLY ──────────────────────
+       `move` shifts a motif's pitch level, and the bass's pitch level is the
+       harmony's root: moving it a scale step against chords that did not move
+       puts the record out of its own key, which is a thing this engine refuses
+       everywhere else. The lower parts take the formula's ON/OFF and keep their
+       pitches. Declared, not assumed — `phrase.roles` names who takes part and
+       at what offset, so a part that should never rest simply is not listed. */
+    const RO = P.roles || null;
+    const byRole = {};
+    if(RO) for(const r in RO){
+      if(r === "lead") continue;
+      const src2 = (mine2 && mine2[r]) || null;
+      if(!src2 || !src2.length) continue;
+      const off = Math.round(RO[r]) || 0;
+      const rows = F.map((_, n) => {
+        const f = F[(n + off) % F.length];
+        const out = [];
+        for(let b = 0; b < BARS; b++){
+          const ch = f[b % f.length];
+          if(!ch || (ch === ch.toLowerCase() && ch !== "2")) continue;
+          let slot = src2.filter(nt => nt.bar === b).map(nt => ({ ...nt }));
+          if(!slot.length) continue;
+          if(ch === "2") slot = accel(slot);
+          for(const nt of slot) out.push(nt);
+        }
+        return out;
+      });
+      /* ── AND A CYCLE WHOSE ENTRIES COLLAPSE IS NOT A CYCLE ────────────────
+         A formula entry only differs from another where the part HAS notes in
+         the bars they disagree about. `ABaB` and `AB2b` differ at bars 2 and 3
+         only — so a counter whose ten notes all sit in bars 0 and 1 renders
+         both identically, and the record plays the same statement twice in a
+         row for two different reasons.
+
+         MEASURED the first time this reached the lower parts: the COUNTER broke
+         the rule of three on seeds 3, 21 and 23, a run of four from bar 24, and
+         the formula was the cause — it supersedes the third-statement device
+         for a part it governs, so a collapsed cycle removes the variation that
+         was there before.
+
+         Deduped, order preserved. A part with notes in two bars gets a shorter
+         cycle of genuinely different variants rather than a long one that
+         stutters; a part left with fewer than two is not published at all and
+         falls back to the device it had. */
+      const seen2 = new Set(), keep = [];
+      for(const row of rows){
+        const k2 = row.slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step) || (a.pitch - z.pitch))
+                      .map(n => n.bar + ":" + n.step + ":" + n.pitch + ":" + n.dur).join("|");
+        if(seen2.has(k2)) continue;
+        seen2.add(k2); keep.push(row);
+      }
+      if(keep.length >= 2) byRole[r] = keep;
+    }
+    return { cycle: F.length, byLink, byRole, formula: F.join(" / "),
+             level: level.slice(), offs: RO || {} };
   })();
   materials.form = FORM ? FORM.byLink : null;
+  materials.formRole = FORM ? FORM.byRole : null;
   materials.formCycle = FORM ? FORM.cycle : 0;
   materials.formSaid = FORM ? FORM.formula : null;
   materials.formLevel = FORM ? FORM.level : null;
+  materials.formOffs = FORM ? FORM.offs : null;
   /* ── TAKE 0 IS THE MATERIAL'S OWN ARRAY, BY CONSTRUCTION ─────────────────
      The invariant the blend battery caught me breaking: a take list is a set of
      realisations OF A PART, so its head must be the very array that part
@@ -32525,6 +32628,18 @@ function makePerformance(chart, form, materials, sections){
               walked = true;
             }
           }
+        }
+        /* ── AND EVERY OTHER PITCHED PART READS THE FORMULA TOO ────────────
+           At its own offset, so the parts fill each other's holes rather than
+           resting together — see the call-and-response note in stage 3. The
+           drums are not here and never will be: a motif is a thing with
+           pitches, and "it applies to all instruments but the drums" is the
+           owner's line and the sheet's. */
+        if(!walked && materials.formRole && materials.formRole[role] &&
+           notes === mat[role] && EVO_ON(sec.material)){
+          const RW = materials.formRole[role];
+          const v = RW[Math.floor(bar / materials.bars) % RW.length];
+          if(v && v.length){ notes = v; walked = true; }
         }
         const THR = materials.third && materials.third[sec.material + "|" + role];
         if(!walked && THR && notes === mat[role] && DUE) notes = THR;
