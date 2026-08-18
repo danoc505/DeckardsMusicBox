@@ -11,6 +11,24 @@ a source. Items are grouped by what they cost, not by when they appeared.
 
 ---
 
+## 0aa. NAMED 2026-08-18 WHILE BUILDING THE PAD'S RHYTHM — three, measured
+
+| what | why it is open | what closes it |
+|---|---|---|
+| **A held pad can ring past its own section** | PRE-EXISTING, and the pad-rhythm build made the worst case longer. Measured over 37,374 sustained notes, four genres, twelve seeds: **944 notes rang past their section before, 952 after** — so this added eight — but the worst overrun went **4.505 s → 9.032 s**. A nine-second pad written in one section and still sounding in the next is a chord under a harmony that did not ask for it. | `pad.cut`, which is the same three lines as `drone.cut` one role over. It would also truncate the 944 that were already doing it, which is a change nobody has measured — so it needs its own commit with its own before-and-after, not a tail-end addition to somebody else's. |
+| **`bassRoles` is declared by NO GENRE** | The mechanism is built and nothing uses it. Its own comment in `buildBassLine` argues for it: *"a part that pedals for nine minutes is pedalling by default rather than by decision, and a pedal is supposed to be a decision AGAINST the other two."* Every genre plays one bass job for the whole record. | A table change per genre, weighted, and the printout read before and after. **It is about variety of JOB, not notes per bar** — `the-second-keyboard-rhythm.md` §4 has the sources that say density is not the problem. |
+| **Six blend combinations still throw** | Down from 63 (`ec57366`), and every remaining one is a different class from the chord-set fault that was fixed: **3 `Avarlift` collisions, 1 `Bdev` collision, 1 "no keys voicing fits", and 1 `B: lead`** — that last one predates the developed restatement entirely. 6 of 432, 1.4%. | Diagnosing each. Not measured beyond the count, and not claimed to be understood. |
+
+**AND THE REASON ALL THREE WERE FOUND BY ACCIDENT IS WORTH ITS OWN LINE.** The
+blend fault above shipped in the published build for two commits because the
+blend battery was deleted on 2026-08-18 and **the printout prints one genre at
+a time**. That is not an argument for rebuilding a battery — the owner's ruling
+stands, and the printout is what found the pad defects the battery never did.
+It is an argument for asking the blend question *by hand* when a build touches
+material selection, because nothing asks it for you now.
+
+---
+
 ## 0zz. SIX GENRES WERE DELETED AT `2026-08-17`. READ THIS BEFORE BELIEVING ANY ITEM BELOW
 
 The owner: *"We are going to delete the genres blade runner, plastikman,
