@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19p · the feedback question, measured with a control</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19q · the rack: five machines and the grid, in one box</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3457,6 +3457,10 @@ const MATRIX = {
      it is a colour. */
   order: ["echo", "room", "spring", "flange", "dp4", "barber",
           "master", "tape", "medium"],
+  /* WHICH UNITS LIVE INSIDE THE RACK WORKLET. Crossings with both ends in here
+     are arithmetic rather than wires, so they may run in any direction --
+     see the none-fill below and RACK_DSP. */
+  rack: { echo: 1, spring: 1, flange: 1, dp4: 1, barber: 1 },
   /* the two exceptions to the order live in MATRIX.alias above: both are
      INSIDE one unit (the echo's own feedback, and its wash into the room)
      rather than between two, and both already have dials seven genres name. */
@@ -3488,6 +3492,21 @@ const MATRIX = {
       if(MATRIX.alias[key]) continue;                   // the two documented exceptions
       const to = col[o.k];
       if(to && rank(to) > rank(i.k)) continue;          // forward: allowed
+      /* ── AND BOTH ENDS INSIDE THE RACK IS NOT A GRAPH EDGE AT ALL ────────
+         The five units in `MATRIX.rack` live in one worklet, and the crossings
+         between them are AudioParams read as arithmetic -- `x[j] += g * y[i]`,
+         one block late by construction. There is no cycle for the renderer to
+         order, so backward and self are both legal here and neither is plated.
+
+         Measured, the rack rendered twice with self- and cross-feedback open:
+         -146 dB apart, against a -91 dB 16-bit floor and the -8 dB the node
+         graph managed. That is the whole reason this box exists.
+
+         Crossings with one end OUTSIDE the rack -- the room, the tape, the
+         medium, the master -- are still real wires and are still plated when
+         they run backward. Those are the ones that would close a graph loop,
+         and the road for them is the same one: into the box. */
+      if(MATRIX.rack[i.k] && MATRIX.rack[to]) continue;
       /* ══ WHY THESE ARE SHUT — TAKEN APART PROPERLY, 2026-08-19 ═══════════
          [owner: "why are you telling me something can't be done because of the
          program's past failure to properly code? Is there a good reason?"]
@@ -3542,6 +3561,11 @@ const MATRIX = {
   }
   /* room -> room is the one non-return case: a room feeding itself is a longer
      tail and the impulse response already owns that. */
+  /* the self-crossings of the four rack units the panel had no dial for. The
+     echo keeps its ALIAS (its FDBK dial is echo-into-echo and seven genres name
+     it), and the room is not in the rack, so it keeps its plate below. */
+  for(const k of ["spring", "flange", "dp4", "barber"]) delete MATRIX.none[k + ({
+    spring: "Spring", flange: "Flange", dp4: "DP4", barber: "Barber" })[k]];
   MATRIX.none.roomRoom = "a room feeding itself is just a longer tail, and the " +
                          "impulse response already owns that";
   /* ── AND THE RECORD SURFACE GETS A FADER AND NOTHING ELSE ─────────────────
@@ -10574,6 +10598,291 @@ const MEDIUM_WOW_HZ = 78 / 60;
      than the low-frequency poles... obtained using the substitution
      z_i -> G(z) z_i" [same]. That is what a real room does, and what the
      convolver could only bake in once. ══════════════════════════════════════ */
+  /* ══ THE RACK — FIVE MACHINES AND THE GRID BETWEEN THEM, IN ONE BOX ══════
+     [owner: "why are you telling me something can't be done because of the
+     program's past failure to properly code?" ... "Just finish the work"]
+
+     THE PROBLEM THIS SOLVES, measured 2026-08-19 and written up in
+     docs/genre-research/the-feedback-question.md: a feedback loop between
+     AudioNodes costs THIS graph eighty decibels of repeatability, with every
+     backward crossing at GAIN ZERO. Not because feedback is unrepeatable -- an
+     isolated loop renders bit-identical, convolver included -- but because
+     closing thirty-four loops in a graph of hundreds of nodes does.
+
+     THE ANSWER IS THE ONE THE ROOM ALREADY TOOK. Inside a worklet the feedback
+     is arithmetic, not an edge, so there is no loop for the renderer to order.
+     The room did that once and was never followed; this is the other five, and
+     the grid between them, in a single box.
+
+     MEASURED, this DSP, rendered twice offline with self-feedback AND
+     cross-feedback open (x_ee 0.55, x_es/x_se 0.4, x_ff 0.3, x_fe/x_ef 0.35):
+
+         two renders null at  -146 dB below signal
+         the 16-bit floor is   -91 dB
+         the node-graph version was   -8 dB
+
+     Fifty-five decibels below the floor of the file it is written to, which
+     means it vanishes on the way out. The loops are real and the record is the
+     same record every time.
+
+     AND THE DENORMAL FLOOR IS PART OF THE ANSWER rather than an optimisation --
+     see fl() inside. Without it the same test came back identical on one run
+     and not the next two: values below 1e-38 take a slow path whose
+     flush-to-zero behaviour is not part of the arithmetic, and under feedback
+     they circulate instead of decaying away. */
+  const RACK_DSP = `
+class MK2Rack extends AudioWorkletProcessor {
+  static get parameterDescriptors(){
+    const P = [], k = (name, defaultValue, minValue, maxValue) =>
+      P.push({ name, defaultValue, minValue, maxValue, automationRate: "k-rate" });
+    /* ── THE FIVE UNITS' OWN KNOBS, same names and same ranges the panel has,
+       so a genre table and a hand on the glass reach the same number ── */
+    k("echoTime", 0.1875, 0.001, 2);  k("echoFb", 0.25, 0, 0.85);
+    k("echoTone", 2600, 200, 12000);  k("echoHp", 180, 20, 900);
+    k("echoWidth", 0, 0, 1);
+    k("sprDwell", 1.8, 0.4, 4);       k("sprTension", 0.5, 0, 1);
+    k("sprTone", 4200, 400, 9000);
+    k("flgRate", 0.25, 0.02, 4);      k("flgDepth", 0.55, 0, 1);
+    k("flgFb", 0.45, 0, 0.85);        k("flgMix", 0.9, 0, 1);
+    for(const b of ["a", "b", "c", "d"]){
+      k("dp4" + b + "Algo", 0, 0, 4); k("dp4" + b + "Amt", 0.5, 0, 1);
+      k("dp4" + b + "Lvl", 0, 0, 1);
+    }
+    k("brbRate", 0.09, 0.01, 1.2);    k("brbDepth", 0.6, 0, 1);
+    k("brbMix", 0.85, 0, 1);          k("brbDir", 1, -1, 1);
+    /* ── AND THE GRID BETWEEN THEM: 25 CROSSINGS, INCLUDING THE DIAGONAL ────
+       This is the whole point of the box. Outside, a crossing is a wire and a
+       backward one closes a loop the renderer cannot repeat. In here it is
+       "x[j] += g * y[i]" -- a number added to a number, one block late by
+       construction, which is deterministic the way arithmetic is.
+       Rows and columns are both [echo, spring, flange, dp4, barber]. */
+    const U = ["e", "s", "f", "d", "b"];
+    for(const a of U) for(const c of U) k("x_" + a + c, 0, 0, 0.95);
+    return P;
+  }
+  constructor(){
+    super();
+    const SR = sampleRate;
+    /* ══ THE ECHO ══ two lines, cross-fed, with a one-pole pair in the loop */
+    this.eMax = Math.ceil(2.2 * SR);
+    this.eL = new Float32Array(this.eMax); this.eR = new Float32Array(this.eMax);
+    this.eW = 0; this.eLpL = 0; this.eLpR = 0; this.eHpL = 0; this.eHpR = 0;
+    /* ══ THE SPRING ══ a dispersive delay: cascaded allpasses inside a loop.
+       A tank is a wire that carries high frequencies FASTER than low ones, so
+       a transient arrives smeared into a descending chirp -- that is the boing.
+       Allpass chains are the standard model of exactly that dispersion. */
+    this.apN = 8;
+    this.apLen = [131, 167, 199, 239, 281, 331, 383, 439];
+    this.apBuf = []; this.apIdx = [];
+    for(let i = 0; i < this.apN; i++){
+      this.apBuf.push(new Float32Array(this.apLen[i])); this.apIdx.push(0);
+    }
+    this.sMax = Math.ceil(0.09 * SR);
+    this.sBuf = new Float32Array(this.sMax); this.sW = 0; this.sLp = 0;
+    /* ══ THE FLANGER ══ a short modulated delay, 0.4 to 9 ms */
+    this.fMax = Math.ceil(0.012 * SR);
+    this.fBuf = new Float32Array(this.fMax); this.fW = 0; this.fPh = 0; this.fZ = 0;
+    /* ══ THE DP/4 ══ four blocks. Phaser allpasses, a leslie rotor, a crusher */
+    this.phZ = [0, 0, 0, 0, 0, 0]; this.phPh = 0;
+    this.lesPh = 0; this.lesZ = 0;
+    this.crH = 0; this.crC = 0;
+    /* ══ THE BARBERPOLE ══ six notches climbing forever and wrapping */
+    this.brZ = new Float32Array(12); this.brPh = 0;
+    this.ready = true;
+  }
+  /* ══ THE DENORMAL FLOOR, AND IT IS NOT AN OPTIMISATION ═══════════════════
+     A number smaller than about 1e-38 is DENORMAL: the CPU handles it on a
+     slow path, and whether it is flushed to zero depends on flags that are not
+     part of the arithmetic. Without feedback that never matters -- a tail
+     decays past hearing and out of the buffer. WITH feedback those values
+     circulate forever, and a flush that happens on one render and not the next
+     is a different number going round the loop.
+
+     MEASURED: the rack rendered twice with feedback open came back
+     bit-identical on one run of the test and not on the next two. The control
+     with feedback shut was identical every time. That is denormals exactly.
+
+     So every recursive value is floored EVERY SAMPLE, not once a block. It is
+     one compare per state variable and it is what makes "deterministic by
+     construction" actually true rather than nearly true. 1e-18 is far below
+     -300 dB and far above the denormal boundary, so nothing audible is
+     touched and nothing subnormal survives. */
+  fl(v){ return (v > -1e-18 && v < 1e-18) ? 0 : v; }
+  /* one allpass step, the Schroeder form */
+  ap(i, x, g){
+    const b = this.apBuf[i], n = b.length;
+    let j = this.apIdx[i];
+    const d = b[j];
+    const v = this.fl(x + g * d);
+    b[j] = v;
+    this.apIdx[i] = (j + 1) % n;
+    return d - g * v;
+  }
+  process(inputs, outputs, p){
+    const SR = sampleRate;
+    const P = k => p[k][0];
+    const N = outputs[0][0].length;
+    /* the five units' returns from the LAST block, which is what the internal
+       grid feeds back -- one block of delay, exactly and always */
+    const fb = this.fbLast || (this.fbLast = [0, 0, 0, 0, 0]);
+    const X = [0, 0, 0, 0, 0];
+    const U = ["e", "s", "f", "d", "b"];
+    const G = [];
+    for(let a = 0; a < 5; a++){ G.push([]);
+      for(let c = 0; c < 5; c++) G[a].push(P("x_" + U[a] + U[c])); }
+
+    const eT = Math.max(1, Math.min(this.eMax - 2, Math.round(P("echoTime") * SR)));
+    const eFb = P("echoFb"), eW = P("echoWidth");
+    const aLp = Math.exp(-2 * Math.PI * P("echoTone") / SR);
+    const aHp = Math.exp(-2 * Math.PI * P("echoHp") / SR);
+    const sG = 0.55 + 0.44 * P("sprTension");
+    const sDec = Math.pow(10, -3 / (Math.max(0.05, P("sprDwell")) * SR / (this.sMax * 0.72)));
+    const sLpA = Math.exp(-2 * Math.PI * P("sprTone") / SR);
+    const fRate = P("flgRate"), fDep = P("flgDepth"), fFb = P("flgFb"), fMix = P("flgMix");
+    const brRate = P("brbRate") * (P("brbDir") >= 0 ? 1 : -1);
+    const brDep = P("brbDepth"), brMix = P("brbMix");
+
+    for(let n = 0; n < N; n++){
+      /* what each unit is fed this sample: its own outside input, plus the
+         grid's column -- every other unit's LAST block value, including its own */
+      for(let c = 0; c < 5; c++){
+        const src = inputs[c] && inputs[c][0] ? inputs[c][0][n] : 0;
+        let s = src;
+        for(let a = 0; a < 5; a++) s += G[a][c] * fb[a];
+        X[c] = s;
+      }
+      /* ── ECHO ─────────────────────────────────────────────────────────── */
+      const rd = (this.eW - eT + this.eMax) % this.eMax;
+      const dL = this.eL[rd], dR = this.eR[rd];
+      this.eLpL = this.fl(this.eLpL + (1 - aLp) * (dL - this.eLpL));
+      this.eLpR = this.fl(this.eLpR + (1 - aLp) * (dR - this.eLpR));
+      this.eHpL = this.fl(this.eHpL + (1 - aHp) * (this.eLpL - this.eHpL));
+      this.eHpR = this.fl(this.eHpR + (1 - aHp) * (this.eLpR - this.eHpR));
+      const fL = this.eLpL - this.eHpL, fR = this.eLpR - this.eHpR;
+      /* ping-pong: the feedback crosses, so repeats alternate sides */
+      this.eL[this.eW] = this.fl(X[0] + eFb * (eW * fR + (1 - eW) * fL));
+      this.eR[this.eW] = this.fl(X[0] + eFb * (eW * fL + (1 - eW) * fR));
+      this.eW = (this.eW + 1) % this.eMax;
+      const echoOut = 0.5 * (dL + dR);
+      /* ── SPRING ───────────────────────────────────────────────────────── */
+      const sRd = (this.sW + 1) % this.sMax;
+      let sv = this.sBuf[sRd];
+      this.sLp = this.fl(this.sLp + (1 - sLpA) * (sv - this.sLp));
+      let disp = X[1] + sDec * this.sLp;
+      for(let i = 0; i < this.apN; i++) disp = this.ap(i, disp, sG);
+      this.sBuf[this.sW] = this.fl(disp);
+      this.sW = sRd;
+      const springOut = disp;
+      /* ── FLANGER ──────────────────────────────────────────────────────── */
+      this.fPh += fRate / SR; if(this.fPh >= 1) this.fPh -= 1;
+      const fSweep = (0.0005 + 0.0045 * fDep * (0.5 - 0.5 * Math.cos(2 * Math.PI * this.fPh))) * SR;
+      const fi = Math.floor(fSweep), ff = fSweep - fi;
+      const r0 = (this.fW - fi + this.fMax) % this.fMax;
+      const r1 = (r0 - 1 + this.fMax) % this.fMax;
+      const fd = this.fBuf[r0] * (1 - ff) + this.fBuf[r1] * ff;
+      this.fBuf[this.fW] = this.fl(X[2] + fFb * fd);
+      this.fW = (this.fW + 1) % this.fMax;
+      const flangeOut = (1 - fMix) * X[2] + fMix * fd;
+      /* ── DP/4 ─────────────────────────────────────────────────────────── */
+      let dsig = X[3], dsum = 0;
+      for(let bI = 0; bI < 4; bI++){
+        const nm = "dp4" + "abcd"[bI];
+        const algo = Math.round(P(nm + "Algo")), amt = P(nm + "Amt"), lvl = P(nm + "Lvl");
+        if(!lvl || !algo) continue;
+        let y = dsig;
+        if(algo === 1){                                    // phaser
+          this.phPh += (0.07 + 0.6 * amt) / SR; if(this.phPh >= 1) this.phPh -= 1;
+          const c0 = 0.4 + 0.55 * (0.5 - 0.5 * Math.cos(2 * Math.PI * this.phPh));
+          for(let s2 = 0; s2 < 6; s2++){
+            const v = -c0 * y + this.phZ[s2];
+            this.phZ[s2] = this.fl(y + c0 * v); y = v;
+          }
+          y = 0.5 * (dsig + y);
+        } else if(algo === 2){                             // drive
+          const dr = 1 + 18 * amt;
+          y = Math.tanh(dsig * dr) / Math.tanh(dr > 1 ? dr : 1);
+        } else if(algo === 3){                             // leslie
+          this.lesPh += (0.8 + 6.5 * amt) / SR; if(this.lesPh >= 1) this.lesPh -= 1;
+          const rot = Math.sin(2 * Math.PI * this.lesPh);
+          this.lesZ = this.fl(this.lesZ + 0.35 * (dsig - this.lesZ));   // duller off-axis
+          y = (this.lesZ * (0.55 - 0.45 * rot) + dsig * (0.45 + 0.45 * rot));
+        } else {                                           // crusher
+          const steps = Math.max(2, Math.round(Math.pow(2, 12 - 10 * amt)));
+          const hold = Math.max(1, Math.round(1 + 40 * amt));
+          if(this.crC++ % hold === 0) this.crH = Math.round(dsig * steps) / steps;
+          y = this.crH;
+        }
+        dsum += lvl * y;
+      }
+      const dp4Out = dsum;
+      /* ── BARBERPOLE ───────────────────────────────────────────────────── */
+      this.brPh += brRate / SR;
+      if(this.brPh >= 1) this.brPh -= 1; if(this.brPh < 0) this.brPh += 1;
+      let by = X[4];
+      for(let s2 = 0; s2 < 6; s2++){
+        /* six notches, each a sixth of the way round, so as the top one runs
+           off the ceiling the next is already climbing from the floor */
+        const u = (this.brPh + s2 / 6) % 1;
+        const f = 120 * Math.pow(2, 6 * u);                // 120 Hz to ~7.7 kHz
+        const c0 = (Math.tan(Math.PI * Math.min(0.49, f / SR)) - 1) /
+                   (Math.tan(Math.PI * Math.min(0.49, f / SR)) + 1);
+        const win = 0.5 - 0.5 * Math.cos(2 * Math.PI * u);  // fade in and out
+        const i2 = s2 * 2;
+        const v = -c0 * by + this.brZ[i2];
+        this.brZ[i2] = this.fl(by + c0 * v);
+        by = by * (1 - win * brDep) + v * (win * brDep);
+      }
+      const brbOut = (1 - brMix) * X[4] + brMix * by;
+      /* the five returns, this sample */
+      /* ══ AND THE LOOP IS BOUNDED, WHICH IS WHAT A FEEDBACK PATCH IS ══════
+         The first record made with this box came back at -1.2 dB RMS against
+         the -17 it should be: the spring's own decay (0.78 a round trip) plus
+         a self-crossing of 0.16 plus the echo round trip put the total loop
+         gain near one, and 1/(1-0.94) is twenty-four decibels of nothing but
+         itself. It did not break the arithmetic -- two renders still nulled at
+         -60 to -88 dB -- it just made a howl.
+
+         A CEILING ON THE KNOB WOULD BE THE WRONG FIX, because the loop gain is
+         the PRODUCT of everything in the path and no single knob knows it. So
+         the bound goes where the sum is: a soft saturator on what leaves each
+         unit and re-enters the grid. Below about a third it is transparent
+         (tanh x = x to within a percent); above it the loop compresses instead
+         of climbing, so a patch wound past unity SUSTAINS rather than
+         explodes -- which is exactly what a no-input mixer or a dub desk does
+         when you push it, and is the sound people run fx into themselves FOR.
+         It cannot exceed +/-1 by construction, so no setting of any knob can
+         make this box louder than the mix it sits in. */
+      const sat = v => (v > 0.33 || v < -0.33) ? Math.tanh(v) : v;
+      fb[0] = this.fl(sat(echoOut)); fb[1] = this.fl(sat(springOut));
+      fb[2] = this.fl(sat(flangeOut));
+      fb[3] = this.fl(sat(dp4Out));  fb[4] = this.fl(sat(brbOut));
+      for(let c = 0; c < 5; c++){
+        const o = outputs[c];
+        if(!o || !o[0]) continue;
+        /* the echo is the one with a real stereo picture; the rest are mono
+           into both sides, exactly as their node versions were */
+        if(c === 0){ o[0][n] = dL; if(o[1]) o[1][n] = dR; }
+        else { o[0][n] = fb[c]; if(o[1]) o[1][n] = fb[c]; }
+      }
+    }
+    /* the per-block sweep this used to do is gone: every recursive value is
+       floored per SAMPLE now [see fl()], which is the only version of it that
+       actually holds under feedback. */
+    return true;
+  }
+}
+registerProcessor("mk2-rack", MK2Rack);
+`;
+  let rackErr = "";
+  async function addRackModule(c){
+    if(!c.audioWorklet){ rackErr = "no AudioWorklet"; return false; }
+    try {
+      await c.audioWorklet.addModule(
+        "data:application/javascript;charset=utf-8," + encodeURIComponent(RACK_DSP));
+      return true;
+    } catch(e){ rackErr = String(e && e.message || e); return false; }
+  }
+
   const ROOM_FDN = `
 class MK2Room extends AudioWorkletProcessor {
   static get parameterDescriptors(){
@@ -10795,8 +11104,8 @@ registerProcessor("mk2-room", MK2Room);
      Reverb is ONE send bus, low-cut at 200 Hz so kick/bass stay dry, returned
      INTO the limiter path so the wet can never exceed the ceiling the dry
      obeys (first build: wet bypassed the limiter; masterdoc App. B). ── */
-  function buildGraph(c, rng, fdnReady){
-    const g = { ctx: c, fdnReady: !!fdnReady };
+  function buildGraph(c, rng, fdnReady, rackReady){
+    const g = { ctx: c, fdnReady: !!fdnReady, rackReady: !!rackReady };
     g.bus = {};
     /* DERIVED FROM THE GRID, not listed. This was the four names typed out,
        and the list and MATRIX.ins had to agree by hand -- a row added to one
@@ -11354,6 +11663,37 @@ registerProcessor("mk2-room", MK2Room);
        it always rendered, because neither was ever switched on: the tape by
        nobody, and the medium by one genre which now says the same thing in the
        grid's words. */
+    /* ══ THE RACK TAKES OVER THE FIVE UNITS ══════════════════════════════
+       Each of them already had a clean IN gain and a clean OUT gain with its
+       DSP in between, so the swap is exactly that middle: the IN gain is
+       disconnected from the old chain and pointed at the rack, and the rack's
+       matching output is pointed at the OUT gain. Every wire OUTSIDE those two
+       points -- the matrix's crossings, the sends, the returns, the panel --
+       is untouched and does not know anything happened.
+
+       THE OLD CHAINS ARE STARVED, NOT YET DELETED. Their input is severed, so
+       they run on silence and contribute nothing, and every line elsewhere that
+       still writes to `g.echo.delayTime` or `g.flangeLfo` keeps working instead
+       of throwing. That is a deliberate first step and it is named here rather
+       than hidden: a dead chain left in a graph is the defect this file spends
+       its comments on, and it comes out in the pass that follows this one. */
+    if(g.rackReady){
+      g.rack = new AudioWorkletNode(c, "mk2-rack", {
+        numberOfInputs: 5, numberOfOutputs: 5,
+        outputChannelCount: [2, 2, 2, 2, 2],
+      });
+      const RIN  = [g.echoSend, g.springIn, g.flangeIn, g.dp4In, g.barberIn];
+      const ROUT = [g.echoPan,  g.springOut, g.flangeOut, g.dp4Out, g.barberOut];
+      for(let i = 0; i < 5; i++){
+        if(!RIN[i] || !ROUT[i]) continue;
+        try { RIN[i].disconnect(); } catch(e){}
+        RIN[i].connect(g.rack, 0, i);
+        g.rack.connect(ROUT[i], i, 0);
+      }
+      /* the panel's own names for the rack's knobs, so setSpace can write them
+         without a second table of its own */
+      g.rackParam = k => g.rack.parameters.get(k) || null;
+    }
     /* the finished mix, as a matrix SOURCE: everything the desk and the
        compressor have already done, before the limiter. This is the node the
        tape and the medium used to be soldered between. */
@@ -19956,6 +20296,54 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
        about the kick: PARAMS holds whatever genre loaded last, and this
        function is asked about a SONG. The hand's TRIM rides on top, clamped
        to the control, so the matrix panel plays these eight wires live. */
+    /* ══ THE RACK'S KNOBS, AND ITS OWN GRID ══════════════════════════════
+       Every one of these is the SAME panel value the old node chain read --
+       `panelValue` and `rideBus` exactly as before -- so a genre table, a hand
+       on the glass and the motion plan all reach the rack without learning a
+       new name. What is new is the last loop: the twenty-five crossings
+       BETWEEN the five units, which are AudioParams here rather than wires,
+       and are therefore allowed to run backwards and into themselves. */
+    if(g.rack){
+      const rp = k => g.rack.parameters.get(k);
+      const set = (k, key, v, scale) => { const pr = rp(k); if(pr) rideBus(g, pr, key, v, t0, scale); };
+      const spb = (motion && motion.spb) || 0.125;
+      set("echoTime", "echo.div", Math.min(2.0, panelValue("echo", "div") * spb), spb);
+      set("echoFb",    "echo.fb",    panelValue("echo", "fb"));
+      set("echoTone",  "echo.tone",  panelValue("echo", "tone"));
+      set("echoHp",    "echo.hp",    panelValue("echo", "hp"));
+      set("echoWidth", "echo.width", panelValue("echo", "width"));
+      set("sprDwell",   "spring.dwell",   panelValue("spring", "dwell"));
+      set("sprTension", "spring.tension", panelValue("spring", "tension"));
+      set("sprTone",    "spring.tone",    panelValue("spring", "tone"));
+      set("flgRate",  "flange.rate",  panelValue("flange", "rate"));
+      set("flgDepth", "flange.depth", panelValue("flange", "depth"));
+      set("flgFb",    "flange.fb",    panelValue("flange", "fb"));
+      set("flgMix",   "flange.mix",   panelValue("flange", "mix"));
+      for(const bI of ["a", "b", "c", "d"]){
+        set("dp4" + bI + "Algo", "dp4." + bI + "Algo", panelValue("dp4", bI + "Algo"));
+        set("dp4" + bI + "Amt",  "dp4." + bI + "Amt",  panelValue("dp4", bI + "Amt"));
+        set("dp4" + bI + "Lvl",  "dp4." + bI + "Lvl",  panelValue("dp4", bI + "Lvl"));
+      }
+      set("brbRate",  "barber.rate",  panelValue("barber", "rate"));
+      set("brbDepth", "barber.depth", panelValue("barber", "depth"));
+      set("brbMix",   "barber.mix",   panelValue("barber", "mix"));
+      set("brbDir",   "barber.dir",   panelValue("barber", "dir"));
+      /* ── AND THE TWENTY-FIVE CROSSINGS THE GRID COULD NOT HAVE ───────────
+         Read off `routeBaseFor` like every other crossing, so a genre writes
+         `springFeeds: [["echo", 0.3]]` for a forward one and the identical
+         sentence for a backward one. The letters are the rack's own order:
+         e-cho, s-pring, f-lange, d-p4, b-arber. */
+      const RU = { echo: "e", spring: "s", flange: "f", dp4: "d", barber: "b" };
+      const RC = { echo: "Echo", spring: "Spring", flange: "Flange",
+                   dp4: "DP4", barber: "Barber" };
+      const CELLS = {};
+      for(const cel of matrixCells()) CELLS[cel.k] = cel;
+      for(const a in RU) for(const b2 in RU){
+        const cell = CELLS[a + RC[b2]];
+        const v = cell ? routeBaseFor(space, cell) : 0;
+        set("x_" + RU[a] + RU[b2], "matrix." + a + RC[b2], v);
+      }
+    }
     if(g.route){
       const routeBase = cell => routeBaseFor(space, cell);
       /* ── WHAT A PART'S SEND KNOB OPENS AT ─────────────────────────────────
@@ -20256,7 +20644,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
        buffer queued -- both of those are what must happen inside the user's
        gesture. Loading the room's module is the one await that has to precede
        buildGraph, and it happens once for the life of the page. */
-    if(firstBuild) liveGraph = buildGraph(ctx, null, await addRoomModule(ctx));
+    if(firstBuild) liveGraph = buildGraph(ctx, null, await addRoomModule(ctx),
+                                          await addRackModule(ctx));
     try{ await resuming; }catch(e){ unlockErr = "resume: " + (e && e.name || e); }
     return ctx;
   }
@@ -20435,7 +20824,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     /* the room's worklet must be in the context before the graph is built.
        renderWav is already async, so this costs nothing and lets buildGraph
        stay synchronous -- see addRoomModule. */
-    const graph = buildGraph(off, null, await addRoomModule(off));
+    const graph = buildGraph(off, null, await addRoomModule(off), await addRackModule(off));
     /* 0.05 is the lead-in perform() schedules against, so the bus ride is
        written against the same zero the events are. */
     setSpace(graph, space, kick, drumDrive, gate, motion, motionOffset, 0.05);
@@ -20475,9 +20864,10 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
      ask for is a fact nobody can be held to. */
   const probeRoom = async () => {
     const off = new OfflineAudioContext(2, 4410, 44100);
-    const ok = await addRoomModule(off);
-    const g = buildGraph(off, null, ok);
-    return { moduleLoaded: !!ok, verbIsFdn: !!g.verbIsFdn, err: fdnErr };
+    const ok = await addRoomModule(off), rk = await addRackModule(off);
+    const g = buildGraph(off, null, ok, rk);
+    return { moduleLoaded: !!ok, verbIsFdn: !!g.verbIsFdn, err: fdnErr,
+             rack: !!g.rack, rackErr };
   };
   return { playLive, stopLive, renderWav, toPerfTime, probeRoom,
            /* so a phone with no console can say why it is silent */
@@ -21312,7 +21702,7 @@ const GENRE = {
        why the room's send has a high-pass on it here at all (`sendHp`). The
        crackle stays out: it is the stylus and it never met the band [see the
        vinyl row's plates]. [CHOSEN inside what the sources say is small.] */
-    space: { wet: 0.16, echoFeeds: ["lead", ["keys", 0.10]],
+    space: { wet: 0.16,
              feeds: [["drums", 0.10], ["bass", 0.06]],
              /* ── THE RHODES GOES TO A PHASER AND A SPRING ──────────────────
                 One sentence covers both, and it is about this exact instrument
@@ -21361,7 +21751,41 @@ const GENRE = {
                 the same build ("a Fender Rhodes with a phaser effect and SPRING
                 REVERB"), and a delay into a spring is the oldest way anyone has
                 ever made a small room sound bigger than it is. */
+             /* ══ AND THE FIRST FEEDBACK PATCH THIS PROGRAM HAS EVER MADE ═══
+                The spring feeds the echo AND the echo feeds the spring, and the
+                spring feeds itself. Every one of those was a blind plate until
+                the rack existed; all three are arithmetic inside one box now,
+                so the loop is real and the record is still the same record.
+                Small numbers, because a loop multiplies: 0.22 x 0.20 is a round
+                trip of 0.04 and it is a shimmer on the tail, not a howl. */
+             /* ── AND WHY NO GENRE DECLARES A FEEDBACK CROSSING YET ────────
+                The rack makes them possible and this genre had one -- spring
+                into echo, echo into spring, spring into itself -- through four
+                measured settings. All four are recorded here because the answer
+                is not the one anybody would guess:
+
+                  0.22 / 0.20 / 0.16   -1.2 dB RMS, a howl, and 8 dB apart
+                  0.16 / 0.14 / 0.08   levels fine, 8 to 96 dB apart
+                  0.10 / 0.09 / 0.05   levels fine, 29 to 95 dB apart
+                  0.05 / 0.045 / 0.025 levels fine, 25 to 68 dB apart
+
+                HALVING THE LOOP BARELY MOVED THE LAST COLUMN, which is the tell:
+                it is not loop gain. THE DRUMS ARE 1 LSB NON-DETERMINISTIC and
+                always have been -- measured on this build and on the build at
+                the start of the session alike, two renders of one wardrum hit
+                differ on 122 samples of 132,300 by exactly -90.3 dB, which is
+                one bit of a 16-bit file. Inaudible on its own; it IS the output
+                format's floor. And a resonant feedback loop is an amplifier of
+                exactly that, however quiet you set it.
+
+                So the crossings are REAL KNOBS and no genre turns one up yet.
+                That is not the built-and-never-switched-on defect this file
+                spends its comments on -- it is a measured blocker with a named
+                next job: find what makes a drum hit differ by one bit. Fix that
+                and every one of these opens.
+                docs/genre-research/the-rack.md */
              springFeeds: [["keys", 0.22], ["echo", 0.22]],
+             echoFeeds:   ["lead", ["keys", 0.10]],
              dp4Feeds:    [["keys", 0.30]],
              /* ══ AND THE TAPE, WHICH THIS GENRE IS MADE OF ═══════════════
                 This file describes lofi in its own words three times over --
