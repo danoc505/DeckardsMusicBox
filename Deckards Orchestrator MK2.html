@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19e · the drone is automated, and the renderer works again</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19f · the matrix has an LFO on both axes, with a reset trigger</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -7054,7 +7054,15 @@ function resetBarOf(plan, reset, bar){
   if(reset === "section") return (plan.secStart && plan.secStart[bar]) || 0;
   if(reset === "phrase"){
     const L = plan.phrase && plan.phrase.length;
-    return L ? Math.floor(bar / L) * L : 0;
+    /* ── AND A GENRE WITH NO SENTENCE RESETS AT THE SECTION ────────────────
+       `plan.phrase` comes off the drums, and a genre whose kit writes no
+       eight-bar sentence has none. Returning 0 there would have been a reset
+       that silently never fires -- a declared trigger doing nothing, which is
+       the exact defect this file names most often. The section is the next
+       structure up and it always exists, so that is what "the phrase" means
+       where there is no phrase. */
+    if(L) return Math.floor(bar / L) * L;
+    return (plan.secStart && plan.secStart[bar]) || 0;
   }
   const n = Math.round(reset);
   return n > 0 ? Math.floor(bar / n) * n : 0;
@@ -7595,91 +7603,129 @@ function makeMotion(chart, form, sections, materials){
     }
   }
 
-  /* ══ AN LFO AT EVERY ROW OF THE MATRIX, WITH A RESET TRIGGER ═══════════════
+  /* ══ AN LFO ON EACH AXIS OF THE MATRIX, WITH A RESET TRIGGER ══════════════
      [owner: "why not add and build into the matrix AT EACH ROW A LFO WITH A
-     RESET TRIGGER so it can be automated and also reset with a trigger"]
+     RESET TRIGGER so it can be automated and also reset with a trigger" — and
+     then, better: "we might want LFOs ON THE X AND Y, that way you could have
+     say THE REVERB OPEN UP ALL THE WAY THROUGH ALL ITS CONNECTIONS"]
 
-     THIS IS THE ROW'S OWN MODULATION SOURCE. Everything the matrix had until
-     now was per-CELL and written by hand: a genre names `matrix.keysRoom` in
-     its motion table and that one crossing moves. `matrixDraw` above widened
-     WHICH cells a record picks, and it did not change the shape of the thing --
-     it still draws cells one at a time out of a hand-written pool of shapes.
-     Measured before this: of the eight instrument rows, the number carrying a
-     movement that spans the WHOLE ROW -- one source, all its sends together --
-     was zero, in every genre.
+     TWO AXES, AND THEY SAY DIFFERENT THINGS.
 
-     A row is one signal. Its crossings are where that signal goes. So the
-     modulation that belongs to a row is the one that moves all of its
-     destinations together: the drone gets wetter and echoes harder AT THE SAME
-     TIME, which reads as the drone moving, where four unrelated cell lanes read
-     as four knobs being fiddled.
+       a ROW is a SOURCE. Its cells are where that source goes. One modulator
+       across the row moves all of its destinations together: the drone gets
+       wetter and echoes harder AT THE SAME TIME, which reads as the drone
+       moving. Four unrelated cell lanes read as four knobs being fiddled.
 
-     THE HARDWARE IS BUILT THIS WAY AND SAYS WHY. "Connect an LFO or an envelope
-     generator to the CV inputs and use them to modulate the potentiometers
-     responsible for [the mix]" [corpus:aisynthesis AI018]; the 4ms VCA Matrix
-     puts a CV jack at all sixteen intersections of a 4x4 so "each intersection
-     of the matrix (row x column) has its own control" [corpus:4ms VCAM manual].
-     And the reason the modulator here is per ROW rather than per CELL is the
-     count: a 7x8 grid is 49 intersections and nobody has 49 LFOs. What people
-     have is four, and they patch one per source -- which is Batumi exactly,
-     four channels each with its own RESET/SYNC jack.
+       a COLUMN is an EFFECT, and this is the one the program has never been
+       able to make. A genre moves `matrix.keysRoom` and `matrix.leadRoom` as
+       two independent lanes, so the room has never once opened as ONE THING.
+       A column modulator swells every source's send into that unit at the same
+       instant: the whole record walks into the hall and back out. That is an
+       arrangement gesture, and it had no way of being written down.
 
-     THE RESET IS THE HALF THAT WAS MISSING FROM THE WHOLE FILE, not just from
-     the matrix. See `resetBarOf`. On this row it means the breathing lands on
-     the arrangement: the send opens INTO the chorus rather than at whatever
-     phase a free-running cycle had wandered to by bar 61.
+     WHERE A ROW AND A COLUMN CROSS, THE CELL GETS BOTH. Two lanes on one
+     destination already sum, so nothing new is needed for that -- and it is
+     the reason the axes are the right grain: fifteen modulators (eight rows,
+     seven columns) cover forty-nine crossings, and no two crossings move
+     identically because no two of them sit at the same intersection.
+
+     THE HARDWARE IS BUILT THIS WAY. "Connect an LFO or an envelope generator
+     to the CV inputs and use them to modulate the potentiometers responsible
+     for [the mix]" [corpus:aisynthesis AI018]; the 4ms VCA Matrix puts a CV
+     jack at all sixteen intersections of a 4x4 so "each intersection of the
+     matrix (row x column) has its own control" [corpus:4ms VCAM manual]. Per
+     INTERSECTION is the finest grain and nobody has forty-nine LFOs; what
+     people have is four, and they patch one per line. That is Batumi exactly:
+     four channels, each with its own RESET/SYNC jack.
+
+     THE RESET is the half that was missing from the whole file, not just from
+     the matrix -- see `resetBarOf`. Here it means the movement lands on the
+     music: the room opens INTO the chorus rather than at whatever phase a
+     free-running cycle had wandered to by bar 61.
+
+     WHICH TRIGGER EACH AXIS TAKES IS A REASONED SPLIT, not a coin toss. A
+     COLUMN is an arrangement gesture, so it resets at the SECTION -- the unit
+     opening is a thing that happens when the music arrives somewhere. A ROW is
+     a source breathing, which is groove-scale, so it resets on the PHRASE and
+     turns over with the eight-bar sentence the kit is written in. A genre may
+     say otherwise; these are what the tables below declare.
 
      IT ONLY MOVES CROSSINGS THE GENRE HAS ALREADY OPENED. A shut cell is not a
      knob at the bottom of its travel, it is a cable that was never patched, and
-     an LFO on it would be this program routing a signal the genre never asked
-     for -- "a genre that says nothing changes by a decimal" is the law that
-     kills that. Every open crossing sits at 1, so the movement is DOWNWARD from
-     the open position (`off`), which is a send being ridden rather than a wave
-     spending half its cycle in the clamp.
+     opening one would be this program routing a signal the genre never asked
+     for. "The reverb opens all the way through all its connections" means ALL
+     THE ONES IT HAS: a genre widens that by naming more rows in `feeds`, which
+     is where routing is decided, and not here.
 
-     AND THE MIX COLUMN IS EXCLUDED, for the reason the modulator bank already
-     gives about its own destination list: "the *Mix trims move a bus's LEVEL,
-     and an LFO on a level is a tremolo on the whole record, which nobody asked
-     for". A row LFO on Mix would be that, eight times over.
+     AND WHAT "OPEN UP" CAN MEAN, stated honestly, because it is a real limit:
+     every open crossing already sits at 1. That IS all the way. So the movement
+     is downward from the open position (`off`) and the top of its cycle is the
+     unit at full -- it backs off and returns, which is what makes an opening
+     read as an opening. To send MORE than the genre's own routing is not a
+     crossing at all: it is the unit's wet level and its decay, which are
+     separate knobs with their own lanes.
 
-     FIVE DRAWS PER ROW, ALWAYS, on that row's own stream -- for every row in
-     MATRIX.ins whether the genre lists it or not [Law 3], so adding a row here,
-     or a genre restricting itself to three of them, cannot move anything in
-     another row or another genre. A genre that declares no `matrixRow` makes
-     no stream at all and is bit-identical. */
-  if(G.matrixRow && G.matrixRow.bars){
-    const R = G.matrixRow;
+     THE MIX COLUMN IS EXCLUDED on both axes, for the reason the modulator
+     bank's own destination list already gives: "the *Mix trims move a bus's
+     LEVEL, and an LFO on a level is a tremolo on the whole record, which nobody
+     asked for". A column modulator on MIX would be that across every row at
+     once, which is the record fading in and out.
+
+     FIVE DRAWS PER LINE, ALWAYS, on that line's own stream -- for every row in
+     MATRIX.ins and every column in MATRIX.outs whether the genre lists it or
+     not [Law 3]. Adding a row here, or a genre restricting itself to three of
+     them, cannot move anything on another line or in another genre. A genre
+     that declares neither field makes no stream at all and is bit-identical.
+
+     ONE RULE FOR BOTH AXES rather than two hand-written copies of it, which is
+     the lesson `whichChanges` cost this file: the second copy is the one that
+     goes stale, and it is always the one something actually reads. */
+  const axisMod = (spec, axis) => {
+    if(!spec || !spec.bars) return;
     const mx = Object.assign({}, MO.matrix || {});
+    const lines = axis === "row" ? MATRIX.ins : MATRIX.outs;
     let touched = false;
-    for(const i of MATRIX.ins){
-      const rng = stream(chart.seed, "matrixrow:" + i.k);
+    for(const L of lines){
+      const rng = stream(chart.seed, "matrix" + axis + ":" + L.k);
       const roll  = rng();
-      const bars  = wpick(rng, R.bars);
-      const depth = drawIn(R.depth, rng);
+      const bars  = wpick(rng, spec.bars);
+      const depth = drawIn(spec.depth, rng);
       const shRoll = rng(), rsRoll = rng();
-      const shape = Array.isArray(R.shape) ? wpick(() => shRoll, R.shape)
-                                           : (R.shape || "sin");
-      const reset = Array.isArray(R.reset) ? wpick(() => rsRoll, R.reset)
-                                           : (R.reset || null);
-      if(R.rows && R.rows.indexOf(i.k) < 0) continue;
-      if(roll >= (R.chance != null ? R.chance : 1)) continue;
-      for(const o of MATRIX.outs){
+      const shape = Array.isArray(spec.shape) ? wpick(() => shRoll, spec.shape)
+                                              : (spec.shape || "sin");
+      const reset = Array.isArray(spec.reset) ? wpick(() => rsRoll, spec.reset)
+                                              : (spec.reset || null);
+      /* every check below the draws, so none of them can change the shape of
+         this line's stream [Law 3] */
+      if(axis === "col" && L.k === "Mix") continue;
+      if(spec.only && spec.only.indexOf(L.k) < 0) continue;
+      if(roll >= (spec.chance != null ? spec.chance : 1)) continue;
+      for(const M of (axis === "row" ? MATRIX.outs : MATRIX.ins)){
+        const i = axis === "row" ? L : M, o = axis === "row" ? M : L;
         if(o.k === "Mix") continue;                       // a level is a tremolo
         const k = i.k + o.k;
         if(MATRIX.alias[k] || MATRIX.none[k]) continue;   // a blind plate stays blind
         if(!routeOpen(G.space || {}, o.k, i.k)) continue; // an unpatched cell is not a knob
-        /* APPENDED, never replacing: two lanes on one destination SUM, and a
-           genre's own hand-written statement about a crossing is a different
-           statement from "this row breathes". The cell keeps both. */
+        /* APPENDED, never replacing: a genre's own statement about one crossing
+           is a different statement from "this row breathes" or "this unit
+           opens", and the cell keeps all three. */
         mx[k] = (mx[k] || []).concat([{
           kind: "lfo", bars: [[bars, 1]], depth: depth / 2, off: -depth / 2,
           shape, reset,
+          /* AN AXIS LANE TAKES NO PHASE TWIN. The twin is a beating device for
+             ONE destination; an axis lane is one movement spread across many,
+             and the twin's roll happens per lane on each cell's own stream --
+             so half the column would beat and half would not, and the single
+             gesture this exists to make would come apart into a smear. */
+          axis: true,
         }]);
         touched = true;
       }
     }
     if(touched) MO.matrix = mx;
-  }
+  };
+  axisMod(G.matrixRow, "row");
+  axisMod(G.matrixCol, "col");
   if(G.stage && G.stage.by){
     const SP = { drums: "drums", bass: "bass", keys: "keys", keys2: "keys", lead: "lead" };
     const seatable = [];
@@ -8036,7 +8082,7 @@ function makeMotion(chart, form, sections, materials){
            other lane can shift. docs/genre-research/phasing.md ═══════════════ */
         const twinRoll = rng(), twinAmt = rng();
         const PH = G.phasing;
-        if(PH && twinRoll < (PH.chance || 0)){
+        if(PH && !sp.axis && twinRoll < (PH.chance || 0)){
           const det = drawIn(PH.detune, () => twinAmt);
           out.push(Object.freeze({
             kind: "lfo", bars: lBars * (1 + det), depth: lDepth,
@@ -20863,6 +20909,26 @@ const GENRE = {
                 ducked itself would be a compressor, not a sidechain. */
              duck: { on: "kick", depth: 0.25, attack: 0.004, release: 0.065,
                      rows: ["bass", "keys", "vinyl"] } },
+
+    /* ── THE MATRIX'S TWO AXES ───────────────────────────────────────────────
+       One modulator across each ROW (the source breathing) and one down each
+       COLUMN (the unit opening). See `axisMod` for what each axis says and why
+       the reset triggers differ. The rates are this genre's own phrase and
+       section scales, so a cycle is a musical length rather than a number of
+       seconds; the depths are what the sources ask for -- "slow ... modulation
+       with LFO rates synced to something slow, with a smooth contour and
+       SHALLOW DEPTHS" [corpus:modeaudio], "attenuated so as not to overpower
+       things" [corpus:musicradar]. Depth is how far the send DUCKS from the
+       genre's own open position; the top of every cycle is the unit at full.
+       The exact numbers and weights inside those bounds are [CHOSEN]. */
+    /* Lofi's own word for its effects is PATINA, which is what these numbers
+       are: a send that moves an eighth of its travel over eight bars is felt
+       and not heard, and that is the whole register this genre works in. Half
+       the lines get one, so two records are not the same desk. */
+    matrixRow: { chance: 0.50, bars: [[8, 3], [16, 2]], depth: [0.08, 0.18],
+                 shape: "sin", reset: "phrase" },
+    matrixCol: { chance: 0.45, bars: [[8, 3], [16, 2]], depth: [0.10, 0.22],
+                 shape: [["ramp", 3], ["tri", 2], ["fall", 1]], reset: "section" },
     /* the kit's own character. Tuned HIGH, short, soft and barely driven -- a
        muffled boom-bap kick, not a club kick. [corpus: Improv Machine BETA 0.1,
        KICK_BY_GENRE.lofi] */
@@ -23096,6 +23162,30 @@ const GENRE = {
              feeds: ["keys", "lead", "bass", "drone"], echoFeeds: ["keys", "lead"],
              random: 0, spread: 0.8, preDelay: 0.075,
              kitPan: { tom1: -0.22, tom2: 0.1, tom3: 0.24, snare: 0, kick: 0 } },
+
+    /* ── THE MATRIX'S TWO AXES ───────────────────────────────────────────────
+       One modulator across each ROW (the source breathing) and one down each
+       COLUMN (the unit opening). See `axisMod` for what each axis says and why
+       the reset triggers differ. The rates are this genre's own phrase and
+       section scales, so a cycle is a musical length rather than a number of
+       seconds; the depths are what the sources ask for -- "slow ... modulation
+       with LFO rates synced to something slow, with a smooth contour and
+       SHALLOW DEPTHS" [corpus:modeaudio], "attenuated so as not to overpower
+       things" [corpus:musicradar]. Depth is how far the send DUCKS from the
+       genre's own open position; the top of every cycle is the unit at full.
+       The exact numbers and weights inside those bounds are [CHOSEN]. */
+    /* THE CAVERN IS THE GENRE, so this is where the axes matter most and where
+       they are deepest and slowest -- 16 to 64 bars at 52-78 BPM is one to five
+       minutes a cycle, which is the timescale the ambient sources give for
+       evolving material. It is also the only genre here whose ROOM column
+       reaches four rows (keys, lead, bass and the drone), so "the reverb opens
+       all the way through all its connections" is a real gesture here rather
+       than two cells moving. A 16-bar column cycle against this genre's 16-bar
+       sections is exactly one swell a section. */
+    matrixRow: { chance: 0.70, bars: [[16, 2], [32, 3], [64, 2]], depth: [0.12, 0.28],
+                 shape: "sin", reset: "phrase" },
+    matrixCol: { chance: 0.65, bars: [[16, 3], [32, 2]], depth: [0.18, 0.35],
+                 shape: [["tri", 3], ["ramp", 2], ["fall", 1]], reset: "section" },
     /* the war drum's own voicing, TUNED TO THE ERANG PACK: the ten percussion
        samples the user landed on `main` put 63-97% of their energy below
        200 Hz, fundamentals 58-90 Hz clustered at ~64, decays 0.5-1.1 s to
@@ -25206,6 +25296,28 @@ GENRE.boxcarsynth = {
            /* the train keeps the room it had while it rode the keys bus */
            feeds: ["keys", "lead", "drone"], echoFeeds: ["lead"],
            random: 0, spread: 0.7, preDelay: 0.02 },
+
+  /* ── THE MATRIX'S TWO AXES ─────────────────────────────────────────────────
+     One modulator across each ROW (the source breathing) and one down each
+     COLUMN (the unit opening). See `axisMod` for what each axis says and why
+     the reset triggers differ. The rates are this genre's own phrase and
+     section scales, so a cycle is a musical length rather than a number of
+     seconds; the depths are what the sources ask for -- "slow ... modulation
+     with LFO rates synced to something slow, with a smooth contour and SHALLOW
+     DEPTHS" [corpus:modeaudio], "attenuated so as not to overpower things"
+     [corpus:musicradar]. Depth is how far the send DUCKS from the genre's own
+     open position; the top of every cycle is the unit at full. The exact
+     numbers and weights inside those bounds are [CHOSEN].
+
+     The boxcar's space is a valley the train is crossing, and a valley does not
+     pulse -- so the rates sit long and the column shapes favour the RAMP, which
+     opens across a section and lands wide at the arrival. The snap back at the
+     reset is not a click: closing a send stops FEEDING the reverb, it does not
+     cut the tail already ringing. */
+  matrixRow: { chance: 0.60, bars: [[16, 3], [32, 2]], depth: [0.10, 0.22],
+               shape: "sin", reset: "phrase" },
+  matrixCol: { chance: 0.55, bars: [[8, 2], [16, 3], [32, 1]], depth: [0.14, 0.28],
+               shape: [["ramp", 3], ["tri", 2], ["fall", 1]], reset: "section" },
   pressure: { depth: 0.4, amount: [0.2, 0.3], at: [0.3, 0.5], rise: [0.3, 0.5] },
   ribbon: { chance: 0 },
   /* THE TUNE IS THE PROTAGONIST — the dungeon synth critique's lesson
@@ -26370,6 +26482,13 @@ const BLEND_DRAW = new Set([
      day it broke -- which is the first time anything on this list has managed
      that. */
   "pad",
+  /* ── AND THE TWO MATRIX AXES ARRIVE WHOLE ────────────────────────────────
+     Each of these holds a NAMED TRIGGER (`reset: "section"` / `"phrase"`) and a
+     weighted list of wave names beside its numbers, and there is no half of
+     "at the section" any more than there is half of a cadence. Registered the
+     day they were declared rather than the day they broke -- second time this
+     list has managed that, after `pad`. */
+  "matrixRow", "matrixCol",
   "space.feeds", "space.echoFeeds",
   /* ── EVERY ROUTING LIST, OR A BLEND SHIFTS ITS OWN DRAWS ──────────────────
      `feeds` and `echoFeeds` were registered here from the start; the three
