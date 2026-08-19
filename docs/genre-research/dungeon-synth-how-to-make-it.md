@@ -480,3 +480,95 @@ done."
 - Landini cadence and medieval composition sources
 
 **Single-source and flagged in place:** the M1's ~12 kHz usable bandwidth.
+
+---
+
+## 7. WHAT WAS BUILT FROM THIS SHEET — `2026-08-19x`
+
+Owner: *"Yes build both (i think we should add power chords into the pool of
+chords and we should put a higher preference for pedal tones and shared notes
+but we would need a mechanism for transforming chords to achieve that)"* — and
+he was right that the transform is the load-bearing part.
+
+### 7.1 The open fifth, as one object under three names
+
+`QUALITY.open = [0, 7]`. A root and a fifth, no third, so the chord states no
+quality at all. It is simultaneously a guitarist's power chord, a medieval open
+fifth, and the stable 8/5 sonority early polyphony rests on.
+
+**Two notes, not three.** The first version wrote `[0, 7, 12]` — the octave on
+top — and 2 of 8 seeds threw *"no keys voicing fits"* within the hour: a
+three-note shape with only two pitch classes has inversions that collapse onto
+each other, and the voicer ran out of candidates. The octave is a **voicing**
+decision and the voicer already owns it.
+
+### 7.2 The cadence: `open` replaces `picardy`
+
+Dungeon synth ended every record it has ever made on a **major** chord — a
+Picardy third, a 16th–17th-century device — in a genre whose sources say it
+"avoids major scales entirely" and name the open fifth as its colour. `open`
+takes the third off instead, and only where the fifth is perfect, so it cannot
+put a note outside the mode: it is a **subset** of the chord it came from.
+
+### 7.3 The transform: `voicing: { open, pedal }`
+
+A post-pass over a finished chord set, not a change to the progression draw —
+so the measured chord-quality corpus is untouched, declared degrees still mean
+what they said, and a genre that says nothing is byte-identical because both
+rolls are drawn and discarded [Law 3].
+
+- **`open`** takes the third off, where the fifth is perfect.
+- **`pedal`** answers "shared notes" **from the other end**. Re-weighting the
+  progression draw toward common tones would move every genre's notes. Adding
+  **the key's own tonic** to any chord that lacks it gets the same result by
+  construction: every chord then contains the tonic, so **every pair of chords
+  shares a note**. That is also exactly what a pedal tone is.
+
+The pedal goes in the octave **nearest the middle of the chord**, not on top —
+the first version stacked it above the highest note, which pushed the span past
+the keys voicer's 23-semitone filter and threw. It is refused where it would
+sound a semitone against a note already there.
+
+Dungeon synth declares `{ open: 0.4, pedal: 0.6 }`.
+
+**Measured, 16 records, keyboard bars:**
+
+| | before | after |
+|---|---|---|
+| bars sharing a pitch class with the bar before | 60.7% | **69.5%** |
+| bars containing the tonic (the pedal) | 70.0% | **75.3%** |
+| distinct pitch classes per bar | 3.20 | 2.95 |
+| notes outside the mode | 2.59% | **1.66%** |
+
+Out-of-mode notes went **down**, which is the check that matters: neither
+transform can leave the key by construction, and the measurement agrees.
+
+### 7.4 The filter envelope — `bloom` / `bloomT`
+
+The samplers had `tone`: one number, held for the whole note. The M1's
+monumental pad is programmed **cutoff 00, EG Init 99** — filter shut, envelope
+wide open, so the **tone arrives after the level does**. The note blooms rather
+than fades in, and this sampler could not do it.
+
+`bloom` is the EG depth (how far below `tone` the filter starts), `bloomT` how
+long it takes. Both default to 0 / no-op, so every other genre is untouched. Q
+stays at **0.4** — the M1's VDF is non-resonant, and a resonant bloom would be
+a different instrument.
+
+Declared per machine, because they are different instruments: strings
+0.55 / 2.8 s (near the pack's own measured 0.35–11 s swell), harp 0.12 / 0.30 s
+(a pluck whose tone arrives late is a pluck played backwards), lead 0.34 / 1.4 s.
+
+**Measured:** bloom on vs off = **−21.8 dB**, against controls of −75.2 and
+−89.2 dB. Real, and large.
+
+### 7.5 What moved and what did not
+
+- lofi, synthwave, boxcar synth: **0 of 6 records changed** — nothing declared.
+- dungeon synth: **6 of 6 changed**, which is the point.
+- 16 of 16 dungeon-synth seeds compose.
+
+### 7.6 Still not done from this sheet
+
+The parallel fifths (§1.5, and the program's own `parallels: 0` comment names
+the route), the Landini cadence, and the melody arch.

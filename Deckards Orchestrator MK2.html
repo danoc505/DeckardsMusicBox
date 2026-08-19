@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19w · the rack is plugged in, and the drone is audible without a recording in it</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19x · power chords, a tonic pedal, an open-fifth cadence, and a filter that blooms</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -1866,6 +1866,27 @@ const QUALITY = Object.freeze({
   maj:  [0, 4, 7],
   min:  [0, 3, 7],
   sus4: [0, 5, 7],
+  /* ── THE OPEN FIFTH, WHICH IS ALSO THE POWER CHORD ──────────────────────
+     [owner: "i think we should add power chords into the pool of chords"]
+
+     Root, fifth, octave, and NO THIRD -- so the chord states no quality at
+     all. It is the same object under three names: a guitarist's power chord,
+     a medieval open fifth, and the 8/5 sonority that early polyphony rests
+     on. Good medieval harmony is "an artful alternation of stable 8/5
+     combinations and mildly unstable 5/3 and 6/3 sonorities" -- the stable
+     one is this, and it is the sound melodigging calls the genre's own:
+     "parallel fifths and OPEN FIFTH/OCTAVE INTERVALS for medieval color".
+
+     It cannot leave the mode, because it adds nothing: it is a subset of
+     whatever chord it came from. */
+  /* TWO notes, not three. The octave on top is a VOICING decision and the
+     voicer already owns it -- it folds, inverts, drops and lifts every shape
+     it is handed. Writing the octave into the chord's identity gave the keys
+     voicer a three-note shape with only two pitch classes in it, whose
+     inversions collapse onto each other, and 2 of 8 dungeon-synth seeds threw
+     "no keys voicing fits" within the hour. A power chord is a root and a
+     fifth; everything above that is who is playing it. */
+  open: [0, 7],
   dom7: [0, 4, 7, 10],
   maj7: [0, 4, 7, 11],
   min7: [0, 3, 7, 10],
@@ -7057,6 +7078,30 @@ const erangControls = (patchMax, patchLabel, fams) => ([
   { k:"attack",label:"attack",   cap:"ATTACK",min:0.002, max:2.5, step:0.001, def:0.02, unit:"s", kind:"voicing" },
   { k:"release",label:"release", cap:"RELEASE",min:0.02, max:6, step:0.01, def:0.4, unit:"s", kind:"voicing" },
   { k:"tone",  label:"tone",     cap:"TONE",  min:0.15, max:1, step:0.01, def:0.8, kind:"gesture" },
+  /* ── THE FILTER ENVELOPE, WHICH IS THE ROMPLER'S OWN SHAPE ───────────────
+     TONE above is one number held for the whole note: the filter sits where it
+     is put and stays there. That is not how the machines this genre's sound
+     comes from are programmed. The Korg M1's monumental pad -- the patch the
+     research sheet quotes verbatim -- is:
+
+         VDF cutoff  00        VDF EG Init  99        slow decay, lazy release
+
+     Filter SHUT, envelope WIDE OPEN. The note does not fade in, it BLOOMS: the
+     tone opens across the note while the level is already up. That is the
+     single most identifying gesture of a PCM workstation pad and this sampler
+     could not make it, because it had no envelope on its filter at all.
+
+     BLOOM is the M1's EG Init -- how far below the tone knob the filter starts.
+     At 0 the filter sits exactly where TONE puts it and the graph is the one it
+     always built. BLOOMT is how long it takes to arrive.
+
+     It is a SEPARATE knob from ATTACK on purpose: the amplitude attack and the
+     filter opening are different times on a real patch, and a pad whose level
+     is up while its tone is still arriving is the whole effect. */
+  { k:"bloom", label:"filter opens across the note", cap:"BLOOM",
+    min:0, max:1, step:0.01, def:0, kind:"voicing" },
+  { k:"bloomT",label:"how long it takes",            cap:"BLOOM T",
+    min:0.05, max:12, step:0.05, def:1.5, unit:"s", kind:"voicing" },
   { k:"pan",   label:"pan",      cap:"PAN",   min:-1, max:1, step:0.01, def:0, kind:"gesture" },
 ]);
 
@@ -13308,14 +13353,28 @@ function erangVoice(mach, fams, lanes){
     const dest = (ev.role === "drums") ? drumOut(g, ev.lane)
                                        : stereoOut(g, ev, t, mach, BUS);
     src.connect(gn);
-    if(tone >= 0.995 && hit >= 0.999) gn.connect(dest);
+    /* Q STAYS AT 0.4, WHICH IS NOT AN OVERSIGHT. The M1's VDF is a NON-RESONANT
+       lowpass -- the machine has no resonance at all -- so the classic sound of
+       this genre has no squelch, no self-oscillation and no filter-sweep
+       whistle in it. A resonant bloom would be a different instrument. */
+    const bloom  = kitted(g) ? 0 : P(g, ev, mach, "bloom", 0);
+    const bloomT = kitted(g) ? 1.5 : P(g, ev, mach, "bloomT", 1.5);
+    if(tone >= 0.995 && hit >= 0.999 && bloom <= 0.005) gn.connect(dest);
     else {
       const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = 0.4;
       /* strike position rides on top of the velocity slope: nearer the rim is
          brighter, nearer the centre duller, and it moves every stroke */
       const spot = ev.role === "drums" ? (0.82 + 0.36 * rr.pos) : 1;
-      lp.frequency.value = Math.max(220,
+      const top = Math.max(220,
         500 * Math.pow(18000 / 500, tone) * Math.pow(hit, slope) * spot);
+      if(bloom > 0.005){
+        /* the M1's shape: start the filter shut by BLOOM's worth of the range
+           and let it climb to where TONE put it. Exponential because a filter
+           sweep heard as even is even in octaves, not in hertz. */
+        const from = Math.max(120, top * Math.pow(0.02, bloom));
+        lp.frequency.setValueAtTime(from, t);
+        lp.frequency.exponentialRampToValueAtTime(top, t + Math.max(0.05, bloomT));
+      } else lp.frequency.value = top;
       gn.connect(lp); lp.connect(dest);
     }
     /* a one-shot must be allowed to finish; a loop is stopped by the note */
@@ -24197,7 +24256,38 @@ const GENRE = {
 
        It is also exactly what `009` describes carrying a whole record: "the
        first time it's minor, the second time it's major." */
-    cadence: "picardy",
+    /* ── AND THIS GENRE ENDS ON AN OPEN FIFTH, NOT A PICARDY THIRD ─────────
+       It was `picardy`, and the comment above is a good argument for a device
+       from the wrong century. A Picardy third RAISES the final third to major
+       -- a 16th-to-17th-century practice -- in a genre whose own sources say
+       it "avoids major scales entirely" [ranseur] and name "open fifth/octave
+       intervals" as its medieval colour [corpus:melodigging]. Every record
+       this genre has ever made has ended on a major chord.
+
+       `open` takes the third off instead. Early polyphony ends on a bare fifth
+       or octave because the third was not yet a consonance, and that is four
+       centuries nearer this music than the device it replaces. */
+    cadence: "open",
+    /* ── THE OPEN FIFTHS AND THE PEDAL, ACROSS THE WHOLE SET ────────────────
+       [owner: "add power chords into the pool of chords ... higher preference
+       for pedal tones and shared notes"]
+
+       OPEN at 0.4: about two chords in five lose their third. Not all of them
+       -- a record with no thirds anywhere has no mode left to hear, and the
+       mode is this genre's entire identity. Two in five is enough that the
+       colour is present in every section and rare enough that the chords that
+       KEEP their third still say which mode this is.
+
+       PEDAL at 0.6: three chords in five that lack the tonic are given it. The
+       consequence is the one the owner asked for -- with the tonic in most
+       chords, most consecutive pairs share a note, so the keyboards have
+       something to hold rather than re-strike. It is also the genre's own
+       "long pedal notes and drones" written into the harmony rather than left
+       to the drone lane.
+
+       Both [CHOSEN] inside the sources: the sources name the colours, not the
+       proportions, and the proportions are measured below rather than argued. */
+    voicing: { open: 0.4, pedal: 0.6 },
     /* ══ THE SEQUENCE, TONAL — the figure walks down the mode ═══════════════
        `003`: "you won't hear a Mozart piece that doesn't move a melody around
        in sequence at least once." A TONAL sequence "alters the quality of the
@@ -24802,9 +24892,27 @@ const GENRE = {
          to be revised when the pack grows. Twenty sustained patches, fifteen
          struck ones, ten leads, ten drums -- and the person playing it hears a different
          set of them on the next song rather than the same one again. */
-      erangStrings: { patch: "any", tune: 1, attack: 1.1, release: 3.6, tone: 0.70, pan: 0 },
-      erangHarp:    { patch: "any", tune: 1, attack: 0.006, release: 1.6, tone: 0.78, pan: 0.12 },
-      erangLead:    { patch: "any", tune: 1, attack: 0.55, release: 2.4, tone: 0.74, pan: -0.10 },
+      /* ── AND THE FILTER OPENS ACROSS THE NOTE ─────────────────────────
+         The M1's monumental pad is programmed cutoff 00 / EG Init 99: the
+         filter shut and the envelope wide open, so the TONE arrives after the
+         LEVEL does. That is the shape a PCM workstation pad has, and this
+         sampler had no filter envelope at all until now.
+
+         The three land differently on purpose, which is why the knob is on the
+         machine rather than on the genre:
+           STRINGS bloom deep and slow -- 2.8 s, near this pack's own measured
+             swell (0.35-11 s to full, many above 3 s), so the held half of the
+             pack opens like a section leaning in.
+           HARP barely blooms, and fast. It is the struck half; a plucked note
+             whose tone arrives half a second late is a pluck played backwards.
+           LEAD sits between, and slower than its own attack, so the tune
+             speaks before it brightens. [CHOSEN inside the measurement] */
+      erangStrings: { patch: "any", tune: 1, attack: 1.1, release: 3.6, tone: 0.70,
+                      bloom: 0.55, bloomT: 2.8, pan: 0 },
+      erangHarp:    { patch: "any", tune: 1, attack: 0.006, release: 1.6, tone: 0.78,
+                      bloom: 0.12, bloomT: 0.30, pan: 0.12 },
+      erangLead:    { patch: "any", tune: 1, attack: 0.55, release: 2.4, tone: 0.74,
+                      bloom: 0.34, bloomT: 1.4, pan: -0.10 },
       /* the Erang percussion's five knobs moved onto the TR-1000 with the
          drums themselves -- see `kits.dungeon.controls` for why they are
          prefixed. Values unchanged; only the panel they live on moved. */
@@ -28057,6 +28165,14 @@ const BLEND_DRAW = new Set([
      "at the section" any more than there is half of a cadence. Registered the
      day they were declared rather than the day they broke -- second time this
      list has managed that, after `pad`. */
+  /* ── AND `voicing` IS DRAWN WHOLE ────────────────────────────────────────
+     Two chances that describe one harmonic intent: a genre that wants open
+     fifths under a tonic pedal wants BOTH, and averaging its 0.55 open against
+     a genre with none gives 0.27 -- a record that is a quarter medieval, which
+     is neither thing. Registered the hour it was declared rather than the hour
+     it broke a blend, which is the first time an entry in this list has
+     managed that. */
+  "voicing",
   "matrixRow", "matrixCol",
   "space.feeds", "space.echoFeeds",
   /* ── EVERY ROUTING LIST, OR A BLEND SHIFTS ITS OWN DRAWS ──────────────────
@@ -30640,7 +30756,89 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const rngB2 = stream(chart.seed, "lift");
   const chorusDegrees = wpick(rngB2, (G.chorusProgressions && G.chorusProgressions[mode])
                                       || G.progressions[mode]);
-  const chorusChords = G.chorusProgressions ? mkChords(chorusDegrees) : chords;
+  /* ══ THE VOICING PASS — THE OPEN FIFTH AND THE PEDAL ══════════════════════
+     [owner: "we should add power chords into the pool of chords and we should
+     put a higher preference for pedal tones and shared notes but we would need
+     a mechanism for transforming chords to achieve that"]
+
+     Exactly right about the mechanism, and this is it. Both moves are
+     TRANSFORMS ON A FINISHED CHORD SET rather than changes to the progression
+     draw, which matters for three reasons: the measured chord-quality corpus
+     is left untouched, the degrees a genre declares still mean what they said,
+     and a genre that declares nothing is byte-identical because both rolls are
+     drawn and then discarded [Law 3].
+
+     OPEN takes the third off. The result is a power chord, an open fifth and
+     the 8/5 sonority, all the same object -- see QUALITY.open. It fires only
+     where the fifth is perfect, so it can never put a note outside the mode:
+     it is a SUBSET of the chord it came from.
+
+     PEDAL is the answer to "shared notes", and it is the one that needed
+     thinking about. Preferring chords that share tones would mean re-weighting
+     the progression draw, which moves every genre's notes. ADDING THE KEY'S
+     OWN TONIC to any chord that lacks it gets the same result from the other
+     end: every chord in the set then contains the tonic, so EVERY PAIR OF
+     CHORDS SHARES AT LEAST ONE NOTE, by construction rather than by luck. That
+     is also, exactly, what a pedal tone is -- "long pedal notes and drones"
+     [corpus:melodigging] -- and when it sits above the bass rather than under
+     it, it is the inverted pedal `dungeon-synth-arrangement.md` lists as
+     unbuilt.
+
+     The tonic is degree 0 and is in every mode, so this cannot leave the key
+     either. It is refused where it would sound a SEMITONE against a note
+     already in the chord: a pedal is a held consonance, and a minor second
+     inside a three-note chord is a mistake rather than a colour. */
+  const VOI = G.voicing || {};
+  const openCh  = Math.max(0, Math.min(1, VOI.open  || 0));
+  const pedalCh = Math.max(0, Math.min(1, VOI.pedal || 0));
+  const voiceSet = (set, name) => {
+    if(!set || !set.length) return set;
+    const rng = stream(chart.seed, "voicing:" + name);
+    let moved = false;
+    const out = set.map(ch => {
+      /* BOTH ROLLS ALWAYS RUN, for every chord of every genre [Law 3] */
+      const oRoll = rng(), pRoll = rng();
+      const t0 = ch && ch.tones;
+      if(!t0 || t0.length < 3) return ch;
+      let tones = t0, quality = ch.quality, hit = false;
+      if(oRoll < openCh && pc(t0[2] - t0[0]) === 7){
+        tones = [t0[0], t0[2]];
+        quality = "open"; hit = true;
+      }
+      if(pRoll < pedalCh){
+        const tonic = pc(root);
+        if(!tones.some(x => pc(x) === tonic)){
+          /* ── IN THE NEAREST OCTAVE, NOT ON TOP ────────────────────────
+             The first version stacked the pedal above the chord's highest
+             note. That reads well as a sentence and is wrong as arithmetic:
+             it pushed the chord's span toward two octaves, and the keys
+             voicer filters any octave rearrangement wider than 23 semitones,
+             so on some bars every candidate was thrown away and the voicer
+             had nothing left. 2 of 8 seeds threw.
+
+             The pedal goes wherever the tonic falls CLOSEST to the middle of
+             the chord instead. It is the same pitch class either way -- the
+             pedal is a note the harmony contains, not a note on top of it --
+             and the voicer is then free to place it high, which is what makes
+             it an inverted pedal. */
+          const mid = (tones[0] + tones[tones.length - 1]) / 2;
+          let add = tones[0] + ((((tonic - pc(tones[0])) % 12) + 12) % 12);
+          while(add - mid > 6) add -= 12;
+          while(mid - add > 6) add += 12;
+          const clash = tones.some(x => { const d = pc(add - x); return d === 1 || d === 11; });
+          const dup   = tones.some(x => x === add);
+          if(!clash && !dup){ tones = tones.concat([add]).sort((a, z) => a - z); hit = true; }
+        }
+      }
+      if(!hit) return ch;
+      moved = true;
+      return Object.freeze(Object.assign({}, ch, { tones, quality, size: tones.length }));
+    });
+    return moved ? out : set;          // identity when nothing fired
+  };
+  chords = voiceSet(chords, "A");
+
+  const chorusChords = G.chorusProgressions ? voiceSet(mkChords(chorusDegrees), "B") : chords;
   const NEW_CHORUS = chorusChords !== chords;
 
   /* ══ THE CADENCE MACHINE — THE LAST CHORD CHANGES WHEN THE MATERIAL RETURNS ═
@@ -30690,6 +30888,19 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                  the top. A secondary dominant "acts as a powerful spotlight,
                  highlighting its target chord" [corpus:berklee], and an
                  unresolved ending is the antecedent's own weak cadence.
+       open      THE THIRD COMES OFF THE LAST CHORD. Not a substitution -- a
+                 SUBTRACTION, and the only cadence here that removes rather
+                 than moves. Early polyphony ends on an open fifth or a bare
+                 octave because the third was not a consonance yet, and the
+                 genre that most wants this ending was set to `picardy` --
+                 which RAISES a third to major, in a genre whose own sources
+                 say it "avoids major scales entirely" and names the open
+                 fifth as its colour. A Picardy third is a 16th-century
+                 device; this one is four centuries earlier and is what
+                 "medieval" actually sounds like at a full stop.
+                 It only fires on a chord whose fifth is PERFECT: you cannot
+                 play a power chord on a degree that has no perfect fifth,
+                 and forcing one would put a note outside the mode.
        tritone   a dominant replaced by the dominant a tritone away: "in the key
                  of C major, G7 can be replaced with Db7, AS BOTH HAVE THE
                  TRITONE B-F… the tritone's highly restless sound produces a
@@ -30725,7 +30936,18 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     if(!op || !set || set.length < 2) return set;
     const last = set[set.length - 1], first = set[0];
     let out = null;
-    if(op === "dominant")
+    if(op === "open"){
+      /* the chord's OWN fifth, not a forced +7 -- see the note above */
+      const t0 = last.tones || [];
+      if(t0.length >= 3 && pc(t0[2] - t0[0]) === 7)
+        out = Object.freeze({
+          degree: last.degree, size: 3, quality: "open",
+          key: last.key, mode: last.mode,
+          tones: [t0[0], t0[2], t0[0] + 12],
+          rootMidi: last.rootMidi, tri: triOf(last),
+        });
+    }
+    else if(op === "dominant")
       out = chordOfTri({ pc: pc(pc(first.tones[0]) + 7), min: false }, true, true);
     else if(op === "tritone")
       out = chordOfTri({ pc: pc(pc(last.tones[0]) + 6), min: false }, true, true);
