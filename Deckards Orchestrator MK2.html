@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19b · the sequence, and the law learns what one is</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19c · the chord stops always climbing</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -30654,6 +30654,65 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       while(b + n < BARS && !padPresses[b + n]) n++;
       padRing.push(n);
     }
+    /* ══ WHICH VOICE OF THE CHORD SPEAKS FIRST ═══════════════════════════════
+       THE OWNER, looking at two piano rolls: "I feel like the chords always go
+       from the bottom to the top and this is not what I want... random ordered
+       start time that is repeated, like we have, but we only go from bottom to
+       top."
+
+       Correct, and it was a literal: the roll wrote `at = st + v * width` where
+       `v` is the index into a voicing SORTED ASCENDING, so the lowest note was
+       always first and the highest always last, in every chord of every bar of
+       every genre, for the life of the program.
+
+       THE CANONICAL BROKEN CHORD IS NOT ASCENDING. The Alberti bass presents
+       "the notes of the chord in the order LOWEST, HIGHEST, MIDDLE, HIGHEST" --
+       "specifically NOT a simple ascending arpeggio", and "this pattern is then
+       REPEATED several times throughout the music" [corpus:wikipedia/Alberti
+       bass; corpus:mymusictheory]. That is both halves of what the owner asked
+       for: an order that is not the pitch order, and the same order every bar.
+
+       So the entry order is a PERMUTATION drawn once for the material. Drawn
+       once, because a figure redrawn every bar is not a figure -- the same
+       argument the inner-voice cell below is built on, and the same one the
+       Alberti sources make when they say the pattern repeats.
+
+       THE SHAPES ARE NAMED, not a shuffle. `up` is what the program has always
+       done and stays the heaviest weight, so most chords are unchanged in
+       character; `alberti` is the sourced one; `outIn` and `inOut` are the two
+       other orders a hand actually makes -- the outer voices first and the
+       inner ones filling, or the reverse. A shuffle would give an order with no
+       shape, and "novelty, constrained" is the principle, not novelty. */
+    const ORDER_POOL = [["up", 8], ["alberti", 4], ["outIn", 3], ["inOut", 2], ["down", 1]];
+    const ENTRY = wpick(rng, ORDER_POOL);
+    /* the permutation for a voicing of n notes: `entryAt[v]` is WHICH slot the
+       voice at pitch-index v speaks in. Derived from the shape rather than
+       stored per size, so a three-note triad and a six-note extended chord are
+       both answered without a table that would go stale. */
+    const entryOrder = n => {
+      const ix = [];
+      for(let i = 0; i < n; i++) ix.push(i);
+      let seq;
+      if(ENTRY === "down")        seq = ix.slice().reverse();
+      else if(ENTRY === "outIn"){ seq = []; let lo = 0, hi = n - 1;
+                                  while(lo <= hi){ seq.push(lo++); if(lo <= hi) seq.push(hi--); } }
+      else if(ENTRY === "inOut"){ seq = []; let lo = (n - 1) >> 1, hi = lo + 1;
+                                  while(lo >= 0 || hi < n){ if(lo >= 0) seq.push(lo--);
+                                                            if(hi < n) seq.push(hi++); } }
+      else if(ENTRY === "alberti"){
+        /* lowest, highest, middle, highest -- and for a chord with more than
+           three voices the same idea: the outer pair, then inward. The highest
+           cannot speak twice here (one voice, one entry), so what survives of
+           Alberti in a single roll is its ORDER: bottom, top, then the middle
+           voices from the top down. */
+        seq = [0]; if(n > 1) seq.push(n - 1);
+        for(let i = n - 2; i >= 1; i--) seq.push(i);
+      }
+      else seq = ix;                                   // "up", and every genre before this
+      const at = new Array(n);
+      for(let slot = 0; slot < seq.length; slot++) at[seq[slot]] = slot;
+      return at;
+    };
     const CELL_POOL = [[2, 3], [3, 4], [6, 5], [7, 4], [10, 5], [11, 4], [14, 3], [15, 2]];
     const cell = [];
     { const want = 2 + Math.floor(rng() * 3);            // 2..4 inner notes a bar
@@ -31247,9 +31306,13 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
            early note, it is a missing one. */
         const back = !!G.rollLandsOnBeat && width > 0 &&
                      (st - (voiced.length - 1) * width) >= 0;
+        const SLOT = entryOrder(voiced.length);
         for(let v = 0; v < voiced.length; v++){
-          const at = back ? st - (voiced.length - 1 - v) * width
-                          : st + v * width;
+          /* the voice's SLOT in the roll, not its index in the pitch order --
+             which is the whole change [see ORDER_POOL above] */
+          const k = SLOT[v];
+          const at = back ? st - (voiced.length - 1 - k) * width
+                          : st + k * width;
           /* A SUSTAINED VOICE RINGS TO THE NEXT PRESS, WHICH IS NOT ALWAYS
              THE BAR LINE. It was `16 - at` -- to the end of its own bar, always
              -- so a pad asked to hold across an unchanged chord would have gone
@@ -31263,7 +31326,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                                        : Math.max(2, 16 * padRing[b] - at))
                      : Math.max(2, (16 - at) - 1);
           emit.push({ bar: b, step: at, dur: ring, pitch: voiced[v],
-                      vel: 0.8, role: "keys" });
+                      vel: 0.8, role: "keys", roll: k });
         }
       }
       /* THE FIGURE — the inner voice, on the material's own cell, every bar.
@@ -36797,9 +36860,24 @@ function makePerformance(chart, form, materials, sections){
           /* the strum: notes of one keys strike roll low-to-high by a few ms --
              a hand, not a machine stamp */
           if(role === "keys"){
+            /* ── AND IT FOLLOWS THE ORDER THE MATERIAL CHOSE ─────────────────
+               This counted arrivals -- first note written gets 0 ms, second
+               gets one strum, and so on -- and the material writes its voicing
+               low to high, so the strum was ALWAYS low to high whatever the
+               material had decided. On a genre whose chords do not roll on the
+               grid (dungeon synth's mellotron, boxcar's strummed band) the
+               strum is the ONLY thing spreading the chord, so those two stayed
+               100% bottom-to-top after the entry order was drawn.
+
+               `n.roll` is the slot the material gave that voice. Reading it
+               here makes ONE owner for "which voice speaks first" instead of
+               two that agree until one of them changes. A note without it --
+               every part that is not a comp arrival -- keeps the arrival count
+               it always had. */
             const k = "k" + n.step;
             strumAt[k] = (strumAt[k] || 0) + 1;
-            micro += ((strumAt[k] - 1) * strumSec) / SS;
+            const slot = n.roll != null ? n.roll : (strumAt[k] - 1);
+            micro += (slot * strumSec) / SS;
           }
           /* THE ONE GAIN FORMULA: identity x position accent x section dynamic
              x the genre's balance for this role.
