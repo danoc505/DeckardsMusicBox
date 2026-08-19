@@ -50,15 +50,20 @@ arrangement gesture.
 
 **Where a row and a column cross, the cell gets both.** Two lanes on one
 destination already sum, so nothing new was needed for that — and it is why the
-axes are the right grain. Fifteen modulators (eight rows, seven columns) cover
-forty-nine crossings, and no two crossings move identically because no two of
-them sit at the same intersection.
+axes are the right grain. Twenty-one modulators (fourteen rows, seven columns)
+cover sixty-two real crossings, and no two crossings move identically because no
+two of them sit at the same intersection.
+
+*(Corrected 2026-08-19: the first version of this file said "eight rows, seven
+columns, forty-nine crossings". The grid is **14 x 7 = 98** — eight instrument
+rows and six effect returns — of which 34 are blind plates and 2 are aliases,
+leaving 62. Counted, not remembered, the second time.)*
 
 The hardware agrees about the grain. *"Connect an LFO or an envelope generator to
 the CV inputs and use them to modulate the potentiometers responsible for [the
 mix]"* [AI018]. The 4ms VCA Matrix puts a CV jack at all sixteen intersections of
 a 4×4, so *"each intersection of the matrix (row × column) has its own control"*.
-Per **intersection** is the finest grain and nobody has forty-nine LFOs; what
+Per **intersection** is the finest grain and nobody has sixty-two LFOs; what
 people have is four, and they patch one per line.
 
 ---

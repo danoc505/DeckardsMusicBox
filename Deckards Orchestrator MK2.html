@@ -7625,16 +7625,21 @@ function makeMotion(chart, form, sections, materials){
 
      WHERE A ROW AND A COLUMN CROSS, THE CELL GETS BOTH. Two lanes on one
      destination already sum, so nothing new is needed for that -- and it is
-     the reason the axes are the right grain: fifteen modulators (eight rows,
-     seven columns) cover forty-nine crossings, and no two crossings move
-     identically because no two of them sit at the same intersection.
+     the reason the axes are the right grain: twenty-one modulators (fourteen
+     rows, seven columns) cover sixty-two real crossings, and no two crossings
+     move identically because no two of them sit at the same intersection.
+     COUNTED, not remembered: 14 x 7 is 98 cells, of which 34 are blind plates
+     and 2 are aliases. The first version of this comment said "eight rows,
+     forty-nine crossings" -- it was counting the instrument rows and forgetting
+     that the six effect RETURNS are rows too, which is the whole thing that
+     makes this a matrix rather than a send panel.
 
      THE HARDWARE IS BUILT THIS WAY. "Connect an LFO or an envelope generator
      to the CV inputs and use them to modulate the potentiometers responsible
      for [the mix]" [corpus:aisynthesis AI018]; the 4ms VCA Matrix puts a CV
      jack at all sixteen intersections of a 4x4 so "each intersection of the
      matrix (row x column) has its own control" [corpus:4ms VCAM manual]. Per
-     INTERSECTION is the finest grain and nobody has forty-nine LFOs; what
+     INTERSECTION is the finest grain and nobody has sixty-two LFOs; what
      people have is four, and they patch one per line. That is Batumi exactly:
      four channels, each with its own RESET/SYNC jack.
 
