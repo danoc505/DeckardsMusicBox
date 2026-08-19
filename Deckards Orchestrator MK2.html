@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19k · the drone goes through the whole rack, at its own speeds</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19m · the tape and the gramophone are on the matrix</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3314,6 +3314,52 @@ const MATRIX = {
     { k: "flange", label: "flange", ret: true },
     { k: "dp4",    label: "DP/4",   ret: true },
     { k: "barber", label: "pole",   ret: true },
+    /* ── THE TAPE AND THE MEDIUM ARE ROWS AND COLUMNS NOW, NOT INSERTS ──────
+       [owner: "add the tape to the matrix ... rip out the gramophone/radio
+       rack and put it onto the matrix also"]
+
+       Both machines were wired as INSERTS on the finished mix -- the chain ran
+       desk -> compressor -> tape -> medium -> limiter -- so the whole record
+       went through them or none of it did. There was no way to say "the drums
+       are on tape and the voice is not", which is the single most ordinary
+       thing anyone does with a tape machine.
+
+       MEASURED before this, and it is the sharper half of why: NO GENRE TURNS
+       THE TAPE ON AT ALL. Not lofi, whose identity this file describes in its
+       own words as "a sampler through a tape machine" and "degraded tape". Not
+       dungeon synth, whose sources name "tape-like hiss" and "tape wow/flutter"
+       in the same sentence as the bit reduction that got built two days ago.
+       One genre uses the medium (boxcar, on GRAMOPHONE) and nothing uses the
+       tape. Its knobs are not dead because nobody automated them. They are
+       dead because the machine is switched off.
+
+       They sit LAST in the order, and that is the physical truth rather than a
+       convenience: the tape is what the mix is cut to and the medium is the
+       machine the record reaches you through, so everything may feed the tape,
+       the tape may feed the medium, and the medium feeds only the mix. A
+       gramophone playing a taped record is forward motion; the reverse is not
+       a signal path. */
+    { k: "tape",   label: "tape",   ret: true },
+    { k: "medium", label: "medium", ret: true },
+    /* ── AND THE FINISHED MIX IS A ROW ──────────────────────────────────────
+       THE ROW THE GRID HAS ALWAYS BEEN MISSING, and it took the gramophone to
+       show it. The first attempt fed the medium from the instrument BUSES, and
+       measured it: boxcar came out FIVE DECIBELS QUIETER and nulled at +7 dB
+       -- i.e. nothing like itself. The cause is not a bug, it is the topology
+       being honest. A bus send is taken BEFORE the desk and the compressor, and
+       the medium's whole job is to be the last thing the record passes through.
+       Feeding it from the buses is not "the record through a gramophone", it is
+       "the raw stems through a gramophone", which is a different sound.
+
+       So the master is a source like any other. `mediumFeeds: ["master"]` is
+       the whole record through the horn -- the insert, said in the grid's
+       words -- and `mediumFeeds: [["rail", 1]]` is just the locomotive on
+       shellac, which no insert can express. One owner, both sentences.
+
+       It sits after every return in the order, so everything may reach it and
+       it may reach only the tape, the medium and the mix. That is what a
+       master IS. */
+    { k: "master", label: "master", ret: true },
   ],
   /* `feeds` names the genre field that decides which rows arrive open in this
      column. It is here so nothing has to KNOW that the room's list is called
@@ -3328,6 +3374,8 @@ const MATRIX = {
     { k: "Flange", label: "FLANGE", cap: "E", feeds: "flangeFeeds" },
     { k: "DP4",    label: "DP/4",   cap: "F", feeds: "dp4Feeds"    },
     { k: "Barber", label: "POLE",   cap: "G", feeds: "barberFeeds" },
+    { k: "Tape",   label: "TAPE",   cap: "H", feeds: "tapeFeeds"   },
+    { k: "Medium", label: "MEDIUM", cap: "I", feeds: "mediumFeeds" },
   ],
   /* ── THE CELLS THAT ARE NOT PLAIN NEW KNOBS ────────────────────────────────
      ALIAS: a crossing this program already had a knob for, years before the
@@ -3352,7 +3400,8 @@ const MATRIX = {
      turn. It also needs none, because the room is the one return the grid
      opens by default (keys and lead, on every genre), so it is never the
      unfed-unit case this map exists for. */
-  retOf: { Echo: "echo", Spring: "spring", Flange: "flange", DP4: "dp4", Barber: "barber" },
+  retOf: { Echo: "echo", Spring: "spring", Flange: "flange", DP4: "dp4", Barber: "barber",
+           Tape: "tape", Medium: "medium" },
   /* ── WHAT IS BLIND, AND WHY, DERIVED FROM ONE ORDERING ────────────────────
      The grid must stay a DAG or the renderer stops being repeatable (measured:
      a cycle takes repeat renders from -115 dB apart to -35). The first version
@@ -3406,7 +3455,8 @@ const MATRIX = {
      to lever off. It is also only now SAFE to use, because a crossing became a
      level this build: one effect feeding another at 1.0 is a wash, and at 0.15
      it is a colour. */
-  order: ["echo", "room", "spring", "flange", "dp4", "barber"],
+  order: ["echo", "room", "spring", "flange", "dp4", "barber",
+          "master", "tape", "medium"],
   /* the two exceptions to the order live in MATRIX.alias above: both are
      INSIDE one unit (the echo's own feedback, and its wash into the room)
      rather than between two, and both already have dials seven genres name. */
@@ -3415,7 +3465,20 @@ const MATRIX = {
 /* fill MATRIX.none from the order: a return may feed a destination only if
    that destination's effect comes LATER, or is the mix. */
 (function(){
-  const col = { Echo: "echo", Room: "room", Spring: "spring", Flange: "flange", DP4: "dp4", Barber: "barber" };
+  /* ── WHICH UNIT EACH COLUMN IS, DERIVED AND NOT TYPED ────────────────────
+     This was a hand-written map of six columns, and it went stale the hour two
+     more arrived: `Tape` and `Medium` were not in it, so `to` came back
+     undefined for every return row and the forward test could not pass. TWELVE
+     crossings were blind-plated that the order plainly allows -- the reverb
+     into the tape, the echo into the gramophone -- with the generated reason
+     string claiming a cycle that does not exist.
+
+     `MATRIX.retOf` already answers this question and is right next to it, and
+     the ROOM is the one column that is not a rack unit, so it is the single
+     exception rather than a second table. Same lesson as `whichChanges` and
+     the probe that kept its own copy of the routing rules: the second copy is
+     the one that goes stale, and it is always the one something reads. */
+  const col = Object.assign({ Room: "room" }, MATRIX.retOf);
   const rank = k => MATRIX.order.indexOf(k);
   for(const i of MATRIX.ins){
     if(!i.ret) continue;
@@ -3737,7 +3800,28 @@ function routeLevel(space, dest, row){
      replaced); the room's row carries the genre's `wet`, which used to be a
      number only the song could write and is now a knob -- and which was the
      only level in the whole grid until this function existed. */
-  if(dest === "Mix") return row === "room" ? (space.wet != null ? space.wet : 0.16) : 1;
+  if(dest === "Mix"){
+    if(row === "room") return space.wet != null ? space.wet : 0.16;
+    /* ── AND THE DRY COLUMN IS A ROW'S OWN LEVEL AT LAST ────────────────────
+       Every non-room row returned a hard 1 here, so the MIX column was the one
+       column of the grid a genre could not touch. That was survivable while
+       the tape and the medium were master INSERTS -- everything went through
+       them by construction -- and it stopped being survivable the moment they
+       became matrix columns, because "the whole record is cut to tape" is
+       every row into `Tape` at 1.0 AND ITS DRY AT 0. Without a dry level you
+       get the taped record played on top of the untaped one, which is not an
+       insert, it is a doubling.
+
+       So `space.dry` names the rows whose dry path is turned down, in exactly
+       the same [name, level] shape every other feeds list uses. A row nobody
+       names is 1, which is what every row was. This is the last cell of the
+       matrix to become a knob. */
+    for(const e of (space.dry || [])){
+      if(Array.isArray(e)){ if(e[0] === row) return Math.max(0, Math.min(1, e[1])); }
+      else if(e === row) return 0;          // a bare name in `dry` means SHUT
+    }
+    return 1;
+  }
   const o = MATRIX.outs.find(x => x.k === dest);
   const list = (o && o.feeds) ? (space[o.feeds] || []) : [];
   for(const e of list){
@@ -4970,8 +5054,11 @@ const INSTRUMENTS = {
       /* added to the song's own drift, in the same units: a fraction of pitch.
          0.002 is roughly what lofi declares, so the top of this travel is about
          five times a heavily-worn tape. */
-      { k:"wow",     label:"extra wow",     cap:"WOW",     min:0, max:0.01, step:0.0002, def:0, kind:"voicing", live:true },
-      { k:"flutter", label:"extra flutter", cap:"FLUTTER", min:0, max:0.01, step:0.0002, def:0, kind:"voicing", live:true },
+      /* `bus` since 2026-08-19: rideBus now writes a curve onto this node, so it
+         joins the ridden set the same way the spring column did the day a
+         genre earned it. A knob a curve reaches is a bus knob. */
+      { k:"wow",     label:"extra wow",     cap:"WOW",     min:0, max:0.01, step:0.0002, def:0, kind:"bus", live:true },
+      { k:"flutter", label:"extra flutter", cap:"FLUTTER", min:0, max:0.01, step:0.0002, def:0, kind:"bus", live:true },
       { k:"speed",   label:"reel speed",    cap:"SPEED",   min:0.25, max:2, step:0.01, def:1, kind:"voicing", live:true },
     ],
     panel: { skin: "tape", maker: "DECKARD", title: "TAPE", grid: "tape",
@@ -5003,7 +5090,7 @@ const INSTRUMENTS = {
          — it was right, and the desk is the precedent it pointed at. */
       { k:"band",   label:"how narrow",   cap:"NARROW", min:0, max:1, step:0.01, def:0, kind:"bus" },
       { k:"age",    label:"how worn",     cap:"WORN",   min:0, max:1, step:0.01, def:0, kind:"bus" },
-      { k:"wobble", label:"the wobble",   cap:"WOBBLE", min:0, max:0.02, step:0.0005, def:0, kind:"voicing", live:true },
+      { k:"wobble", label:"the wobble",   cap:"WOBBLE", min:0, max:0.02, step:0.0005, def:0, kind:"bus", live:true },
       { k:"drift",  label:"tuning drift", cap:"DRIFT",  min:0, max:0.02, step:0.0005, def:0, kind:"voicing", live:true },
     ],
     panel: { skin: "tape", maker: "DECKARD", title: "THE MEDIUM",
@@ -11198,9 +11285,39 @@ registerProcessor("mk2-room", MK2Room);
     g.medIn.connect(g.medHP); g.medHP.connect(g.medLP); g.medLP.connect(g.medHorn);
     g.medHorn.connect(g.medDelay); g.medDelay.connect(g.medWet);
 
-    g.compDry.connect(g.tapeIn); g.compWet.connect(g.tapeIn);
-    g.tapeDry.connect(g.medIn); g.tapeWet.connect(g.medIn);
-    g.medDry.connect(g.limit); g.medWet.connect(g.limit);
+    /* ══ THE TAPE AND THE MEDIUM COME OFF THE MASTER CHAIN ════════════════
+       This was:
+
+           compDry/compWet -> tapeIn
+           tapeDry/tapeWet -> medIn
+           medDry/medWet   -> limit
+
+       -- both machines wired as INSERTS on the finished mix. Now each has a
+       matrix COLUMN (what goes in) and a RETURN ROW (where it comes back), so
+       a genre can put the drums on tape and leave the voice off it, which is
+       the most ordinary thing anyone does with a tape machine and was not
+       sayable at all.
+
+       THE OLD BEHAVIOUR IS STILL SAYABLE AND IS NOT THE DEFAULT BY ACCIDENT.
+       "The whole record is cut to tape" is every row into `Tape` at 1.0 with
+       its `dry` at 0 -- an insert expressed on the grid, which is what a grid
+       is for. `space.dry` exists for exactly that and is what makes the MIX
+       column genre-settable per row for the first time.
+
+       The compressor now feeds the mix directly and the limiter takes the
+       matrix's own sum. Every genre that declares neither machine renders what
+       it always rendered, because neither was ever switched on: the tape by
+       nobody, and the medium by one genre which now says the same thing in the
+       grid's words. */
+    /* the finished mix, as a matrix SOURCE: everything the desk and the
+       compressor have already done, before the limiter. This is the node the
+       tape and the medium used to be soldered between. */
+    g.masterRow = c.createGain(); g.masterRow.gain.value = 1;
+    g.tapeOut = c.createGain(); g.tapeOut.gain.value = 1;
+    g.medOut  = c.createGain(); g.medOut.gain.value  = 1;
+    g.tapeDry.connect(g.tapeOut); g.tapeWet.connect(g.tapeOut);
+    g.medDry.connect(g.medOut);   g.medWet.connect(g.medOut);
+    g.compDry.connect(g.masterRow); g.compWet.connect(g.masterRow);
     g.limit.connect(g.master);
     g.master.connect(c.destination); g.master.connect(g.masterMeter);
 
@@ -11863,6 +11980,9 @@ registerProcessor("mk2-room", MK2Room);
       k === "flange" ? g.flangeOut :      // the flanger's return
       k === "dp4" ? g.dp4Out :            // the DP/4's four units, summed
       k === "barber" ? g.barberOut :      // the pole's return
+      k === "tape" ? g.tapeOut :          // the reel's output, dry+wet summed
+      k === "medium" ? g.medOut :         // the horn or the speaker
+      k === "master" ? g.masterRow :      // the mix the desk and the comp made
       /* ...and every role bus. It used to tap `duckOf[k]`, a gain sitting just
          after the bus, so that "a ducked bass arrives at the reverb ducked".
          That requirement has not changed -- the DUCK has, from a bus insert to
@@ -11876,6 +11996,8 @@ registerProcessor("mk2-room", MK2Room);
       outK === "Flange" ? g.flangeIn :
       outK === "DP4" ? g.dp4In :
       outK === "Barber" ? g.barberIn :
+      outK === "Tape"   ? g.tapeIn :
+      outK === "Medium" ? g.medIn :
       /* THE MIX COLUMN IS TWO SUMMING POINTS AND MUST STAY TWO. An instrument
          goes into `mix`, ahead of the master shaper, so the band saturates
          together; an effect RETURN lands on `post`, past it -- which is where
@@ -11883,6 +12005,16 @@ registerProcessor("mk2-room", MK2Room);
          echo's old comment said "dry return, past the shaper". Collapsing
          these into one node would put the reverb through the soft clipper and
          quietly change every genre. */
+      /* ...and the two new returns land on `post` like every other return: the
+         tape and the medium ARE the master shaping now, so putting them back
+         through the soft clipper would shape them twice. */
+      /* ── AND THE THREE LATE ROWS GO STRAIGHT TO THE LIMITER ────────────
+         The master, the tape and the medium are all POST-DESK and POST-COMP by
+         definition -- the master IS that mix, and the other two are what it is
+         then cut to. Landing them on `post` would send the finished record back
+         through the desk and the compressor a second time. They join the chain
+         where they always were: at the limiter's door. */
+      (inK === "master" || inK === "tape" || inK === "medium") ? g.limit :
       (inK === "echo" || inK === "room" || inK === "spring" || inK === "flange"
         || inK === "dp4" || inK === "barber") ? g.post : g.mix;
     /* ── A BAND ROW REACHES THE ROOM AND THE DELAY THROUGH ITS PARTS ────────
@@ -11945,10 +12077,11 @@ registerProcessor("mk2-room", MK2Room);
       if(!src || !dst) continue;
       const gain = c.createGain();
       gain.gain.value = cell.out.k === "Mix"
-        ? (cell.in.k === "room" ? 0.16 : 1)
+        ? (cell.in.k === "room" ? 0.16 : 1)   // master included: 1, the way out
         : ((cell.out.k === "Room" && (cell.in.k === "keys" || cell.in.k === "lead")) ? 1 : 0);
       /* nothing is flanged until a genre asks */
-      if(cell.out.k === "Flange" || cell.out.k === "DP4" || cell.out.k === "Barber")
+      if(cell.out.k === "Flange" || cell.out.k === "DP4" || cell.out.k === "Barber"
+         || cell.out.k === "Tape" || cell.out.k === "Medium")
         gain.gain.value = 0;
       src.connect(gain); gain.connect(dst);
       g.route[cell.k] = gain;
@@ -19291,8 +19424,37 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       const flut = Math.max(0, T.flutter + hand("flutter")) / spd;
       const dev = (d, hz) => d / (2 * Math.PI * hz);
       const at = p2 => { try { p2.cancelScheduledValues(t0); } catch(e){} return p2; };
-      at(g.tapeWowD.gain).value  = on ? dev(wow,  TAPE_WOW_HZ)     : 0;
-      at(g.tapeFlutD.gain).value = on ? dev(flut, TAPE_FLUTTER_HZ) : 0;
+      /* ── AND THE WOW AND THE FLUTTER ARE RIDDEN NOW ────────────────────
+         They were `.value = ...` -- set once when the graph was configured and
+         never touched again. MEASURED across four genres and twelve records
+         each: `tape.wow`, `tape.flutter` and `tape.speed` were three of the 44
+         effect knobs that had NEVER MOVED, and unlike the sixteen that only
+         wanted a table line, these three could not move: nothing rode them.
+         `rideBus` had no call for this node, so a genre could declare motion on
+         `tape.wow` and the plan would carry a lane that reached nothing.
+
+         A tape machine whose wow does not change is not a tape machine, it is
+         an EQ curve with a delay in it. The whole reason wow and flutter are
+         two words is that they happen at different rates and BOTH DRIFT.
+         [corpus:melodigging names "tape wow/flutter" as a dungeon synth
+         device in the same sentence as the bit reduction that got built two
+         days ago.]
+
+         Ridden with `scale`, because the parameter is not the knob: the knob
+         is a deviation in seconds-per-second and the node wants it divided by
+         2*pi*f. That is what rideBus's last argument is for, and it means the
+         genre's table still names WOW rather than a number nobody can read. */
+      /* `busT0 || 0` and not `t0`: the tape block runs ABOVE where `t0` is
+         declared, and `const` in its temporal dead zone THROWS. It did --
+         "Cannot access 't0' before initialization", 47 of 47 renders, loudly,
+         which is the good version of this trap. The same mistake made silently
+         two builds ago cost material B its second keyboard on every genre. Use
+         the expression `t0` is made of rather than moving a declaration that
+         eleven other blocks below here depend on. */
+      rideBus(g, g.tapeWowD.gain,  "tape.wow",     on ? wow  : 0, busT0 || 0,
+              1 / (2 * Math.PI * TAPE_WOW_HZ));
+      rideBus(g, g.tapeFlutD.gain, "tape.flutter", on ? flut : 0, busT0 || 0,
+              1 / (2 * Math.PI * TAPE_FLUTTER_HZ));
       at(g.tapeDry.gain).value = on ? 0 : 1;
       at(g.tapeWet.gain).value = on ? 1 : 0;
       g.tapeOn = on;
@@ -19636,7 +19798,11 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
       const driftD   = Math.max(0, mh("drift")  + (M && M.drift  ? M.drift  : 0));
       const depth = kind >= 1 ? driftD : wobDepth;
       g.medWob.frequency.value = kind >= 1 ? 0.07 : MEDIUM_WOW_HZ;
-      g.medWobD.gain.value = on ? depth / (2 * Math.PI * (kind >= 1 ? 0.07 : MEDIUM_WOW_HZ)) : 0;
+      /* ridden, for the reason the tape's wow is: a gramophone's wobble comes
+         from an off-centre hole and a warped disc, and neither is a constant.
+         `scale` carries the same seconds-to-node conversion. */
+      rideBus(g, g.medWobD.gain, "medium.wobble", on ? depth : 0, t0,
+              1 / (2 * Math.PI * (kind >= 1 ? 0.07 : MEDIUM_WOW_HZ)));
       g.medDry.gain.value = on ? 0 : 1;
       g.medWet.gain.value = on ? 1 : 0;
     }
@@ -21111,6 +21277,35 @@ const GENRE = {
                 the dry keyboard would be gone. [CHOSEN inside the source.] */
              springFeeds: [["keys", 0.22]],
              dp4Feeds:    [["keys", 0.30]],
+             /* ══ AND THE TAPE, WHICH THIS GENRE IS MADE OF ═══════════════
+                This file describes lofi in its own words three times over --
+                "lofi's whole lineage is a sampler through a tape machine, and
+                a tape machine echoes", "this is a genre whose entire identity
+                is degraded tape" -- and MEASURED: `params.tape` was NULL. The
+                machine was never switched on. Not once, in any genre.
+
+                It was an insert on the master, so switching it on would have
+                meant the whole record at one setting. On the grid it is a
+                column, so the tape is where a beat tape actually puts it: on
+                the RHYTHM SECTION and the chords, hard, and NOT on the lead --
+                the sampler is what got taped, the melody on top is what got
+                played over it. That distinction is the entire genre and it was
+                unsayable eight hours ago.
+
+                Dry paths stay OPEN on these rows, which makes this PARALLEL
+                tape rather than an insert: the wobble sits under the straight
+                sound instead of replacing it. That is the sourced position --
+                "tape saturation adds warmth and grit" is an addition, and the
+                genre's own word for its effects is patina. */
+             /* ── AND THE LEVELS ARE HALF WHAT THEY FIRST WERE, MEASURED ──
+                A parallel path is CORRELATED with the dry it sits beside, so it
+                adds level as well as character: at the first values the record
+                came back 2 dB hotter in the peaks -- -1.5 dBFS against -3.4 --
+                which is a build that sounds "better" because it is louder, the
+                oldest false result there is. Halved, and re-measured. The tape
+                is still plainly there; the meter is back where it was. */
+             tapeFeeds: [["drums", 0.26], ["bass", 0.20], ["keys", 0.22],
+                         ["vinyl", 0.15]],
              /* the kit's image: hats to the right, rim and clap answering
                 left, cymbals straddling, kick and snare dead centre per the
                 mono rule. A dusty spread, not a drum showcase. [CHOSEN] */
@@ -21274,6 +21469,10 @@ const GENRE = {
          drift and not a whoosh: `aAmt` is the sweep depth and it is ridden
          below. [CHOSEN inside "dreamy, atmospheric".] */
       dp4:       { aAlgo: 1, aAmt: 0.42, aLvl: 0.55 },
+      /* the reel itself. Small numbers, because wow you can NAME is a broken
+         machine: 0.0025 s/s is a slow sway and 0.0018 is the faster shimmer
+         over it, which is what the two words mean. [CHOSEN inside "patina".] */
+      tape:      { wow: 0.0025, flutter: 0.0018, speed: 1 },
       /* the spring's own voicing: a SHORT tank, because this is a lofi room
          and not a surf record -- 1.2 s against the unit's 1.8 s default, and
          the tone rolled off, which is what a small tank sounds like. These
@@ -21362,6 +21561,29 @@ const GENRE = {
       },
     },
     motion: {
+      /* ══ AND THE REEL DRIFTS, WHICH IS THE WHOLE WORD ═════════════════════
+         `tape.wow` and `tape.flutter` were `.value = ...` -- set once when the
+         graph was configured and never touched again. Two of the 44 effect
+         knobs measured as never having moved, and unlike the sixteen that only
+         wanted a table line, these two COULD NOT move: nothing rode the node,
+         so a genre could declare a lane and the plan would carry a movement
+         that reached nothing. They are ridden now.
+
+         A tape machine whose wow does not change is not a tape machine, it is
+         an EQ curve with a delay in it. The reason wow and flutter are TWO
+         WORDS is that they are two rates -- the slow sway of an eccentric reel
+         and the faster shimmer of the capstan -- and both of them drift. So
+         they get their own primes and they never line up. [CHOSEN inside the
+         physics; the direction is the machine, the amounts are this genre's
+         register.] */
+      tape: {
+        wow:     [{ kind: "lfo", bars: [[23, 1]], depth: [0.0004, 0.0011],
+                    shape: "sin", freePhase: true },
+                  { kind: "arc", from: [-0.0004, 0], to: [0.0003, 0.0012],
+                    curve: "sCurve" }],
+        flutter: [{ kind: "lfo", bars: [[31, 1]], depth: [0.0003, 0.0008],
+                    shape: "tri", freePhase: true }],
+      },
       /* ── THE DESK AND THE ECHO, ON EVERY GENRE ─────────────────────────────
          MEASURED, and it was one of the plainer results this file has produced:
          the desk was ridden by ONE genre out of seven, and so was the echo. Six
@@ -23514,6 +23736,23 @@ const GENRE = {
              springFeeds: [["drone", 0.20]],
              flangeFeeds: [["drone", 0.26]],
              dp4Feeds:    [["drone", 0.34]],
+             /* THE OTHER HALF OF THE SOURCED SENTENCE. The bit reduction built
+                two days ago came from "90s workstation presets, bit reduction,
+                light saturation"; the same page's next line is "embrace
+                tasteful noise floor, TAPE WOW/FLUTTER, or mild distortion to
+                achieve a worn, archival feel", and the description names the
+                genre as pads and bells "layered with TAPE-LIKE HISS, room
+                reverb, and steady pedal notes" [corpus:melodigging].
+
+                Half that sentence was built and half was not, because the tape
+                was an insert nobody could switch on for part of a record. The
+                ground and the chords go through it; the tune stays off it, so
+                the melody this genre's critique put above everything is not
+                the thing that wobbles. */
+             /* halved for the reason lofi's are: a parallel path adds level
+                as well as colour, and a build that is only louder is not a
+                better build. [see lofi's tapeFeeds] */
+             tapeFeeds: [["drone", 0.22], ["keys", 0.18], ["bass", 0.12]],
              random: 0, spread: 0.8, preDelay: 0.075,
              kitPan: { tom1: -0.22, tom2: 0.1, tom3: 0.24, snare: 0, kick: 0 } },
 
@@ -23828,6 +24067,9 @@ const GENRE = {
          sources.] */
       dp4:     { aAlgo: 4, aAmt: 0.30, aLvl: 0.26,
                  bAlgo: 2, bAmt: 0.22, bLvl: 0.20 },
+      /* deeper than lofi's, and slower by being deeper: this is a cassette
+         that has been copied, not a studio machine in good repair. */
+      tape:    { wow: 0.0042, flutter: 0.0026, speed: 1 },
       flange:  { rate: 0.05, depth: 0.48, fb: 0.30, mix: 0.42 },
       spring:  { dwell: 3.2, tension: 0.58, tone: 2600 },
       /* ── THE SIZE OF THE DRUM LIVES HERE, not in `kick` above ───────────────
@@ -24068,6 +24310,29 @@ const GENRE = {
       },
     },
     motion: {
+      /* ══ AND THE REEL DRIFTS, WHICH IS THE WHOLE WORD ═════════════════════
+         `tape.wow` and `tape.flutter` were `.value = ...` -- set once when the
+         graph was configured and never touched again. Two of the 44 effect
+         knobs measured as never having moved, and unlike the sixteen that only
+         wanted a table line, these two COULD NOT move: nothing rode the node,
+         so a genre could declare a lane and the plan would carry a movement
+         that reached nothing. They are ridden now.
+
+         A tape machine whose wow does not change is not a tape machine, it is
+         an EQ curve with a delay in it. The reason wow and flutter are TWO
+         WORDS is that they are two rates -- the slow sway of an eccentric reel
+         and the faster shimmer of the capstan -- and both of them drift. So
+         they get their own primes and they never line up. [CHOSEN inside the
+         physics; the direction is the machine, the amounts are this genre's
+         register.] */
+      tape: {
+        wow:     [{ kind: "lfo", bars: [[23, 1]], depth: [0.0004, 0.0011],
+                    shape: "sin", freePhase: true },
+                  { kind: "arc", from: [-0.0004, 0], to: [0.0003, 0.0012],
+                    curve: "sCurve" }],
+        flutter: [{ kind: "lfo", bars: [[31, 1]], depth: [0.0003, 0.0008],
+                    shape: "tri", freePhase: true }],
+      },
       /* ══ EVERY KNOB ON THE DRONE'S ROW, AT ITS OWN SPEED ══════════════════
          [owner: "ALL the knobs automated at different levels, different
          speeds. You stack a bunch of FX on a drone and IT THEN EVOLVES"]
@@ -25832,6 +26097,23 @@ GENRE.boxcarsynth = {
      routeBaseFor's Room case opens them by name — so those two entries are
      inherited decoration rather than a decision.) */
   space: { wet: 0.28, irSec: 1.6, tailPow: 1.3, tailDark: 0.5, sendHp: 130,
+           /* ══ THE GRAMOPHONE, STATED ON THE GRID INSTEAD OF SOLDERED IN ═══
+              This genre is the only one that ever switched the medium on, and
+              it got it for free: the machine was an INSERT on the master, so
+              "on" meant the whole record. Now it is a matrix column, and the
+              same sentence has to be said in the grid's words -- WHICH IS THE
+              POINT. An insert is "the whole column open and the whole dry
+              column shut", and a grid that can say that can also say "the
+              locomotive is on shellac and the band is not", which no insert
+              can.
+
+              So: every row into MEDIUM at full, every dry path closed. The
+              room goes in at 0.28 because that was its return level and a
+              reverb played through a horn is still a reverb at the level the
+              genre set. The result is the same signal through the same filters
+              as the insert -- verified by rendering both and nulling. */
+           mediumFeeds: ["master"],
+           dry: ["master"],
            /* the train keeps the room it had while it rode the keys bus */
            /* THE VALLEY THE TRAIN IS CROSSING. `world` and `rail` got their own
               matrix rows so a river and a steam whistle could reach a reverb --
@@ -26804,6 +27086,22 @@ GENRE.boxcarsynth = {
              { kind: "section", by: { chorus: [-0.10, -0.03], bridge: [0.04, 0.12] } }],
       band: [{ kind: "lfo", bars: [[37, 2], [53, 1]], depth: [0.02, 0.07],
                shape: "sin", freePhase: true }],
+      /* ── AND THE WOBBLE WOBBLES, WHICH IT COULD NOT ─────────────────────
+         `medium.wobble` was set once when the graph was built and never
+         touched -- one of the 44 effect knobs measured as never having moved,
+         and one of the few that COULD not: nothing rode the node. It is a bus
+         control now.
+
+         A gramophone's wobble is an off-centre spindle hole and a warped
+         disc, and neither is constant: the warp gets worse as the record
+         turns through its own weight. So it drifts on its own prime, and it
+         DEEPENS across the record on an `arc`, which is what a shellac disc
+         does over four minutes on a heavy tonearm. [CHOSEN, inside physics
+         that only points one way.] */
+      wobble: [{ kind: "arc", from: [-0.0008, 0.0000], to: [0.0010, 0.0028],
+                 curve: "sCurve" },
+               { kind: "lfo", bars: [[67, 1]], depth: [0.0003, 0.0009],
+                 shape: "sin", freePhase: true }],
     },
     desk: {
       high: [{ kind: "arc", from: [-2.5, -1.2], to: [0.4, 1.4], curve: "sCurve" }],
@@ -27170,6 +27468,9 @@ const BLEND_DRAW = new Set([
      it; this list grows by being bitten. */
   "space.springFeeds",
   "space.flangeFeeds", "space.dp4Feeds", "space.barberFeeds",
+  /* the two machines that stopped being master inserts, and the dry column
+     that had to become a knob for them to be sayable [see routeLevel] */
+  "space.tapeFeeds", "space.mediumFeeds", "space.dry",
   /* the duck arrives whole or not at all: it holds a LIST OF BUS NAMES beside
      its numbers, and averaging one genre's depth onto another genre's row list
      makes a setting neither genre asked for -- the same reason `registers` and
@@ -27335,6 +27636,9 @@ const BLEND_NAME = {
   "space.feeds":       "which parts go to the big room",
   "space.echoFeeds":   "which parts go to the echo",
   "empty":             "how often a section ends in nothing, and how much",
+  "space.tapeFeeds":   "which parts are cut to tape",
+  "space.mediumFeeds": "which parts reach you through the gramophone",
+  "space.dry":         "which parts are turned down in the dry mix",
   "space.springFeeds": "which parts go to the spring tank",
   "space.flangeFeeds": "which parts go to the swirl",
   "space.dp4Feeds":    "which parts go to the effects box",
