@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19g · a crossing is a knob, not a switch</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19h · the rack wakes up: a phaser, a spring and a flanger</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3474,6 +3474,33 @@ const MATRIX = {
      river sounds processed it stops being a river and becomes a synth patch.
      So the same treatment vinyl gets, for a different and stated reason. */
   for(const k of ["Spring", "Flange", "DP4", "Barber"]){
+    /* ── EXCEPT THE FLANGER, AND THE REASON IS PHYSICS ───────────────────
+       This loop's blanket reason -- "a flanged locomotive is not a locomotive"
+       -- is right about a synth patch and WRONG ABOUT A PASSING VEHICLE, and
+       the correction is measurable rather than tasteful.
+
+       A source moving past a listener over hard ground reaches the ear twice:
+       direct, and reflected off the ground a few milliseconds later. "The comb
+       pattern is caused by two copies of the same exact sound arriving at
+       slightly different times, close enough that they form an interference
+       pattern... when the peaks and valleys move about it causes a 'whoosh'
+       sound; THIS IS THE SAME PRINCIPLE AS IN THE FLANGER EFFECT used in music
+       production" [corpus:windytan, passing planes and other whoosh sounds].
+       That source measures it on aircraft and adds "even passing cars can
+       produce this effect", and the effect's own name comes from exactly this
+       family of sounds -- "the comb filter sweeps across the spectrum with the
+       familiar 'jet plane' effect" [corpus:wikipedia, flanging].
+
+       A locomotive passing a listener at speed over a ballasted trackbed is
+       that geometry. A flanged locomotive is not a synth patch here; it is
+       what a locomotive going past you actually sounds like. So the rail row
+       reaches the flanger and the other three announcing effects stay plated,
+       because none of THEM is a description of anything physical.
+
+       `world` keeps all four of its plates: a river does not pass you at
+       speed, so the ground-reflection sweep has nothing to sweep. The
+       correction is about MOTION, not about outdoor sound. */
+    if(k === "Flange") continue;
     MATRIX.none["rail" + k] =
       "the railway is a RECORDING OF A MACHINE, and it is outdoors. A whistle " +
       "can be in a valley and it can arrive late across one, so the Room and " +
@@ -3781,15 +3808,28 @@ function matrixControls(){
        the graph was constructed with; setSpace overwrites it per song from
        `space.wet`, the way it always did. */
     def: c.out.k === "Mix" ? (c.in.k === "room" ? 0.16 : 1) : 0,
-    /* ── THE SPRING COLUMN IS THE HAND'S, deliberately ────────────────────
-       Every other column is `bus` because some genre rides it. No genre here
-       is dub, and a spring send handed to one would be taste with no source
-       — so these crossings are voicing+live: yours to open, re-applied when
-       you move them, and never automated in vain. The day a genre earns one
-       by asking for it, its cell flips to `bus` and joins the ridden set.
+    /* ── THE SPRING COLUMN WAS THE HAND'S, AND A GENRE HAS NOW EARNED IT ──
+       This read: "Every other column is `bus` because some genre rides it. No
+       genre here is dub, and a spring send handed to one would be taste with
+       no source — so these crossings are voicing+live: yours to open,
+       re-applied when you move them, and never automated in vain. THE DAY A
+       GENRE EARNS ONE BY ASKING FOR IT, ITS CELL FLIPS TO `bus` AND JOINS THE
+       RIDDEN SET."
+
+       That day is 2026-08-19 and the genre is lofi, and it did not arrive by
+       taste: "A FENDER RHODES WITH A PHASER EFFECT AND SPRING REVERB produces
+       a dreamy, atmospheric lead ideal for lofi beats" [corpus:mysticalankar].
+       The condition the old comment set was a CITATION, not dub in particular,
+       and one arrived. So the column is `bus` like every other, which is what
+       lets the matrix axes ride the send the same way they ride the room's.
+
+       The spring's own three knobs (dwell, tension, tone) stay `voicing`: they
+       are read once per song and nothing rides them, and pretending otherwise
+       would be the socket-that-does-nothing this file names most often. That
+       gap is written down rather than papered over.
        [docs/genre-research/spring-reverb.md §4] */
-    kind: (c.out.k === "Spring" || c.in.k === "spring") ? "voicing" : "bus",
-    live: (c.out.k === "Spring" || c.in.k === "spring") ? true : undefined,
+    kind: (c.in.k === "spring") ? "voicing" : "bus",
+    live: (c.in.k === "spring") ? true : undefined,
   }));
 }
 
@@ -21033,6 +21073,28 @@ const GENRE = {
        vinyl row's plates]. [CHOSEN inside what the sources say is small.] */
     space: { wet: 0.16, echoFeeds: ["lead", ["keys", 0.10]],
              feeds: [["drums", 0.10], ["bass", 0.06]],
+             /* ── THE RHODES GOES TO A PHASER AND A SPRING ──────────────────
+                One sentence covers both, and it is about this exact instrument
+                in this exact genre: "A FENDER RHODES WITH A PHASER EFFECT AND
+                SPRING REVERB produces a dreamy, atmospheric lead ideal for lofi
+                beats" [corpus:mysticalankar, lead instruments in lofi hip-hop].
+                The same source puts "bitcrushing or reduce the sample rate for a
+                gritty, textured sound" on the same instrument, which is the
+                DP/4's fourth algorithm and is left for a later build rather
+                than stacked on the first one.
+
+                THIS IS THE FIRST GENRE IN THE FILE TO FEED EITHER UNIT. The
+                spring's own comment set the condition -- "the day a genre earns
+                one by asking for it, its cell flips to `bus` and joins the
+                ridden set" -- and this is that day, with a citation rather than
+                a taste. The DP/4 has been built, wired and reachable by hand
+                since it landed and NO GENRE HAD EVER SENT IT A SIGNAL.
+
+                Levels, not switches, because that is what the sentence
+                describes: a Rhodes THROUGH a phaser is still a Rhodes. At 1.0
+                the dry keyboard would be gone. [CHOSEN inside the source.] */
+             springFeeds: [["keys", 0.22]],
+             dp4Feeds:    [["keys", 0.30]],
              /* the kit's image: hats to the right, rim and clap answering
                 left, cymbals straddling, kick and snare dead centre per the
                 mono rule. A dusty spread, not a drum showcase. [CHOSEN] */
@@ -21163,6 +21225,26 @@ const GENRE = {
          effects, they're arrangement tools" -- and boom-bap has always known it:
          the snare goes to a plate and the kick does not.
          [corpus:trackscore] ── */
+      /* ── THE DP/4'S A BLOCK, WHICH IS THE PHASER ────────────────────────
+         `aAlgo` 1 is the phaser (DP4_ALGOS = off, phaser, drive, leslie,
+         crusher) and it is already the default -- what was never set is
+         `aLvl`, WHICH DEFAULTS TO ZERO. That is the second half of why this
+         machine has never made a sound in this program: every one of its four
+         blocks is at output level 0 out of the box, so even a fed DP/4 is a
+         silent DP/4. Found by reading the control table rather than by
+         listening, which is the only way it could have been found.
+
+         Slow and shallow, because a phaser on a Rhodes in this genre is a
+         drift and not a whoosh: `aAmt` is the sweep depth and it is ridden
+         below. [CHOSEN inside "dreamy, atmospheric".] */
+      dp4:       { aAlgo: 1, aAmt: 0.42, aLvl: 0.55 },
+      /* the spring's own voicing: a SHORT tank, because this is a lofi room
+         and not a surf record -- 1.2 s against the unit's 1.8 s default, and
+         the tone rolled off, which is what a small tank sounds like. These
+         three are `voicing` and are read once per song; they are not ridden by
+         anything, and that is named in the doc as still-missing rather than
+         pretended about. [CHOSEN] */
+      spring:    { dwell: 1.2, tension: 0.42, tone: 3200 },
       kit:       { sCut: 8000, sEcho: 0.16, sVerb: 0.34,
                    kCut: 20000, kEcho: 0.00, kVerb: 0.05,
                    hCut: 11000, hEcho: 0.06, hVerb: 0.14,
@@ -21266,7 +21348,53 @@ const GENRE = {
         mid:  [{ kind: "lfo", bars: [[40, 2], [56, 1]], depth: [0.4, 1.1],
                  shape: "sin", freePhase: true }],
       },
+      /* ── AND THE PHASER SWEEPS, WHICH IS THE WHOLE POINT OF A PHASER ──────
+         A static phaser is an EQ curve. The one thing every description of this
+         sound has in common is that it MOVES -- "dreamy, atmospheric" is a
+         description of movement, and the reason a Rhodes goes through one at
+         all is that the notches travel while the chord is held.
+
+         Slow: 24 to 40 bars at 70-85 bpm is one to two minutes a cycle, which
+         is under the rate at which a phaser stops being a texture you sit in
+         and becomes an effect you notice. The section move holds it back for
+         the intro so the record does not open at full swirl.
+
+         `dp4.aAmt` and `dp4.aLvl` are THE FIRST MOTION ANY GENRE HAS EVER PUT
+         ON THIS MACHINE. Both are `bus` controls -- `rideBus` has scheduled a
+         curve for them every song since the unit landed, waiting for a table
+         line that was never written. [CHOSEN inside the source.] */
+      dp4: {
+        aAmt: [{ kind: "lfo", bars: [[32, 3], [24, 2], [40, 2]], depth: [0.10, 0.24],
+                 shape: "sin", reset: "phrase" },
+               { kind: "section", by: { intro: [-0.14, -0.06], outro: [-0.12, -0.04] } }],
+        aLvl: [{ kind: "section", by: { intro: [-0.22, -0.10], chorus: [0.04, 0.12] } },
+               { kind: "lfo", bars: [[48, 2], [64, 1]], depth: [0.03, 0.08],
+                 shape: "sin", freePhase: true }],
+      },
       echo: {
+        /* ── AND TWO KNOBS THAT WERE WIRED, RIDDEN, AND DEAD IN EVERY GENRE ──
+           Measured across all four genres, 12 records each: of 56 controls on
+           the effect units, 44 had never moved in any record -- and SIXTEEN of
+           those are `bus` controls that `rideBus` already schedules a curve for
+           every song. They were one table line away from being alive and the
+           line had never been written. These are two of them.
+
+           `width` is the ping-pong spread and ITS DEFAULT IS ZERO, so this
+           genre's tape repeat has been dead centre for its whole life. A
+           quarter-note slap that opens outward across the record is the tape
+           machine being a tape machine.
+
+           `hp` is the high-pass INSIDE the delay loop -- the knob that decides
+           whether the repeats keep their bottom or thin as they die. Climbing
+           into the apex is the classic tape behaviour, each repeat a little
+           smaller than the last. [The direction is the physics; the numbers are
+           inside this genre's own word, patina. CHOSEN.] */
+        width: [{ kind: "arc", from: [0.06, 0.16], to: [0.26, 0.44], curve: "sCurve" },
+                { kind: "lfo", bars: [[40, 2], [56, 1]], depth: [0.03, 0.08],
+                  shape: "sin", freePhase: true }],
+        hp:   [{ kind: "apex", from: [-40, -10], to: [60, 150] },
+               { kind: "lfo", bars: [[36, 2], [52, 1]], depth: [10, 30],
+                 shape: "sin", reset: "section" }],
         /* ── SO THE PAD HAS SOMETHING TO SHOW ─────────────────────────────────
            The XY pad drives `tone` and `fb`, and its dim dot only appears on a
            control the song actually rides. MEASURED across the seven genres:
@@ -23824,6 +23952,42 @@ const GENRE = {
       },
     },
     motion: {
+      /* ── NO NEW UNIT HERE, AND THAT IS THE RESEARCH RESULT ────────────────
+         The other two focus genres each earned an effect this build -- lofi a
+         phaser and a spring, boxcar a flanger -- and the honest answer for this
+         one is that the sources give it exactly what it already has. Everything
+         written down about how this music is made names two things: a single
+         big reverb fed by everything, and a modest delay.
+
+           "I use A SINGLE REVERB, PUT IN A BUS CHANNEL WITH SENDS FROM ALL
+            INSTRUMENTS leading to it, for the whole track, again to simulate
+            the sound of a symphony orchestra" [corpus:erichgrunewald, how I
+            make dungeon synth]
+
+           "Long reverbs and modest delay are used to suggest halls and
+            caverns" [corpus:melodigging / dungeon synth]
+
+         The one send that sentence asked for and this genre did not have was
+         the WAR DRUM's, and it got one this build (`drums` at 0.35 in `feeds`)
+         -- "sends from ALL instruments" is the whole claim. A flanger here
+         would be taste with no source, which is the exact mistake the spring
+         column's comment spent three builds warning about, so it is not made.
+
+         What IS added is the two echo knobs every genre in this file had left
+         for dead. `width` defaults to ZERO -- the delay has been mono in every
+         record this program has ever made -- and a cavern is the one place a
+         repeat arriving off-centre is not a gimmick but the room answering from
+         somewhere else. `hp` thins the repeats as they die, which is distance.
+         Both are `bus` controls `rideBus` has scheduled every song since the
+         echo landed, waiting for a table line nobody wrote. [CHOSEN] */
+      echo: {
+        width: [{ kind: "arc", from: [0.12, 0.26], to: [0.40, 0.64], curve: "sCurve" },
+                { kind: "lfo", bars: [[52, 2], [72, 1]], depth: [0.04, 0.11],
+                  shape: "sin", freePhase: true }],
+        hp:   [{ kind: "apex", from: [-50, -15], to: [70, 170] },
+               { kind: "lfo", bars: [[44, 2], [64, 1]], depth: [12, 35],
+                 shape: "sin", reset: "section" }],
+      },
       /* ── THE RANK IS CONDUCTED, and the gestures are the treatise's own ──
          Rimsky-Korsakov: prolonged crescendi are "obtained by the gradual
          addition of other instruments", brass "glorifying crescendo chords
@@ -25455,6 +25619,17 @@ GENRE.boxcarsynth = {
            feeds: ["keys", "lead", "drone", ["world", 0.55], ["rail", 0.45],
                    ["drums", 0.12], ["bass", 0.08]],
            echoFeeds: ["lead", ["rail", 0.22], ["keys", 0.10]],
+           /* ── AND THE TRAIN GOES PAST YOU ───────────────────────────────
+              The plate above this row was lifted on physics: a vehicle passing
+              over hard ground comb-filters itself through its own ground
+              reflection, which "is the same principle as in the flanger effect"
+              [corpus:windytan]. This is the genre that owns a locomotive, so it
+              is the genre that patches it.
+
+              At 0.35, not 1.0: the sweep is ON the whistle and the wheels, not
+              instead of them. A flanger at full mix is a jet; at a third it is
+              a train going by. [CHOSEN inside the physics.] */
+           flangeFeeds: [["rail", 0.35]],
            random: 0, spread: 0.7, preDelay: 0.02 },
 
   /* ── THE MATRIX'S TWO AXES ─────────────────────────────────────────────────
@@ -25733,6 +25908,16 @@ GENRE.boxcarsynth = {
                 window: 4300, rumble: 5,
                 level: 0.9, pan: 0, sway: 0.34, swayHz: 0.025 },
     echo: { div: 4, fb: 0.30, tone: 2000, hp: 150, send: 0.12, verb: 0.6 },
+    /* ── THE FLANGER, VOICED AS A GROUND REFLECTION AND NOT AS A JET ────────
+       The physics the plate was lifted on says what these are. A vehicle's
+       ground bounce is a FEW MILLISECONDS of delay -- the source measures ~9 ms
+       at the closest approach of an aircraft -- and it sweeps at the speed of
+       the pass, not at a musical rate. So: `rate` slow (0.12 Hz is one sweep
+       every eight seconds, about the length of a train going by), `fb` low
+       because a trackbed is not a resonator, and `mix` well under the unit's
+       0.9 default because the whistle has to survive being flanged.
+       [corpus:windytan; corpus:wikipedia flanging. Values CHOSEN inside them.] */
+    flange: { rate: 0.12, depth: 0.62, fb: 0.18, mix: 0.38 },
     vp330: { ens: 0.7, choir: 0.5, attack: 1.4, release: 2.6 },
     /* the medium's own knobs sit at the genre's chosen starting point; the
        AGE arc below rides them from there */
@@ -25760,6 +25945,39 @@ GENRE.boxcarsynth = {
      widens where a player would lean in, the slide scoops further in the
      night run. ══════════════════════════════════════════════════════════ */
   motion: {
+    /* ── THE SWEEP IS THE PASS ──────────────────────────────────────────────
+       A flanger left still is an EQ curve, and on this row it would be a train
+       frozen at one distance. What makes the ground reflection read is that the
+       delay CHANGES as the source moves past -- so `depth` and `mix` ride, and
+       they ride on an `apex` so the deepest sweep is where the record is
+       closest to its own train.
+
+       These two are `bus` controls that `rideBus` has scheduled every song
+       since the flanger landed, and NO GENRE HAD EVER WRITTEN A LINE FOR THEM:
+       measured across four genres and 12 records each, all four of the
+       flanger's knobs had never moved. [CHOSEN inside the physics.] */
+    flange: {
+      depth: [{ kind: "apex", from: [0.30, 0.46], to: [0.66, 0.88] },
+              { kind: "lfo", bars: [[19, 2], [29, 1]], depth: [0.04, 0.10],
+                shape: "sin", reset: "section" }],
+      mix:   [{ kind: "section", by: { intro: [-0.18, -0.08], outro: [-0.14, -0.05] } },
+              { kind: "lfo", bars: [[23, 2], [31, 1]], depth: [0.03, 0.09],
+                shape: "sin", freePhase: true }],
+    },
+    /* ── AND THE TWO ECHO KNOBS EVERY GENRE HAD LEFT FOR DEAD ───────────────
+       `width` defaults to ZERO, so the delay has been mono in every record this
+       program has ever made. On a genre whose whole subject is a thing moving
+       past you, a repeat that arrives on one side and answers on the other is
+       the picture. `hp` thins the repeats as they die, which is what distance
+       does to a whistle. [CHOSEN] */
+    echo: {
+      width: [{ kind: "arc", from: [0.10, 0.22], to: [0.34, 0.56], curve: "sCurve" },
+              { kind: "lfo", bars: [[37, 2], [53, 1]], depth: [0.04, 0.10],
+                shape: "sin", freePhase: true }],
+      hp:   [{ kind: "apex", from: [-60, -20], to: [90, 200] },
+             { kind: "lfo", bars: [[29, 2], [41, 1]], depth: [15, 40],
+               shape: "sin", reset: "section" }],
+    },
     /* ── THE ROOM IS THE DISTANCE ───────────────────────────────────────────
        Sends, per section: open on the road, dry in the town. This is the
        matrix — the routing the genre had none of. */
@@ -26658,6 +26876,21 @@ const BLEND_DRAW = new Set([
      draws the blend takes, so every draw after it lands somewhere else and the
      damage surfaces wherever the next draw happened to matter.
      A new effect column means a new line here. */
+  /* ── AND `springFeeds` MADE THIS COMMENT'S POINT A SECOND TIME ───────────
+     The paragraph above says "A new effect column means a new line here", and
+     the spring column was the one whose list NOTHING HAD EVER DECLARED -- so
+     there was no line, and no way to notice there was no line. The hour lofi
+     became the first genre to feed a spring, the blend suite went 1 throw of
+     108 to FOUR, in three pairs that have nothing to do with springs: a
+     collision in Avar, one in Bdev, and an out-of-key lead. That is this
+     comment's own prediction, word for word -- "an unregistered list changes
+     how many draws the blend takes, so every draw after it lands somewhere
+     else and the damage surfaces wherever the next draw happened to matter."
+
+     Sixth entry through this door and the first one that was not a new column
+     but an old one nobody had used. A field is only unsafe once a genre uses
+     it; this list grows by being bitten. */
+  "space.springFeeds",
   "space.flangeFeeds", "space.dp4Feeds", "space.barberFeeds",
   /* the duck arrives whole or not at all: it holds a LIST OF BUS NAMES beside
      its numbers, and averaging one genre's depth onto another genre's row list
@@ -26823,6 +27056,7 @@ const BLEND_NAME = {
      Found the day the blend was first asked to print what it decides. */
   "space.feeds":       "which parts go to the big room",
   "space.echoFeeds":   "which parts go to the echo",
+  "space.springFeeds": "which parts go to the spring tank",
   "space.flangeFeeds": "which parts go to the swirl",
   "space.dp4Feeds":    "which parts go to the effects box",
   "space.barberFeeds": "which parts go to the endless rise",
