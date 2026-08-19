@@ -488,5 +488,20 @@ if(require.main === module){
   if(OUT){ fs.writeFileSync(OUT, text); console.log(`wrote ${OUT}  (${text.split("\n").length - 1} lines)`); }
   else process.stdout.write(text);
 
-  process.exit(threw ? 1 : 0);
+  /* ── AND process.exit() TRUNCATES A PIPE ─────────────────────────────────
+     When stdout is a terminal or a file, node's writes are effectively
+     synchronous and `process.exit` here is harmless. When it is a PIPE --
+     `mk2_score.js ... | grep`, `| md5sum`, `diff <(...) <(...)` -- writes are
+     buffered and asynchronous, and exiting drops whatever has not drained.
+
+     This cost two false alarms in one sitting. Comparing two builds' scores
+     through a pipe reported "14 of 32 records changed" and then "9 of 24", and
+     every single difference was the LAST LINE cut at a different column. The
+     notes were identical both times. A harness that reports a fake regression
+     is worse than one that reports nothing, and this one did it while its own
+     comment three lines up was about misreporting its own size.
+
+     So the exit code is set and the process is allowed to end on its own once
+     the stream has drained. Same status, no truncation. */
+  process.exitCode = threw ? 1 : 0;
 }

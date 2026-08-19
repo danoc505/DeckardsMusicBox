@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19u · the hurdy-gurdy is out of the drone; a drone is one note held</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19v · the rack was never plugged in; now it is, and the grid is the only path</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -11661,14 +11661,26 @@ registerProcessor("mk2-room", MK2Room);
         numberOfInputs: 5, numberOfOutputs: 5,
         outputChannelCount: [2, 2, 2, 2, 2],
       });
-      const RIN  = [g.echoSend, g.springIn, g.flangeIn, g.dp4In, g.barberIn];
-      const ROUT = [g.echoPan,  g.springOut, g.flangeOut, g.dp4Out, g.barberOut];
-      for(let i = 0; i < 5; i++){
-        if(!RIN[i] || !ROUT[i]) continue;
-        try { RIN[i].disconnect(); } catch(e){}
-        RIN[i].connect(g.rack, 0, i);
-        g.rack.connect(ROUT[i], i, 0);
-      }
+      /* ── AND THE WIRING IS NOT HERE, BECAUSE NOTHING IT NEEDS EXISTS YET ──
+         It WAS here, and every one of the five connections silently did
+         nothing. `g.echoSend`, `g.springIn`, `g.flangeIn`, `g.dp4In` and
+         `g.barberIn` are built two hundred to six hundred lines BELOW this
+         point; read from here they are all `undefined`, and the loop's own
+         `if(!RIN[i] || !ROUT[i]) continue` guard -- written to be careful --
+         skipped all five without a word. So the box was constructed, its
+         twenty-five crossings were written to its parameters every song, and
+         it was CONNECTED TO NOTHING. Three builds of "the rack" were inert.
+
+         MEASURED, and this is the test that found it: make every rack output
+         emit a full-scale 440 Hz tone and render. The result differed from the
+         shipped build by -31.7 dB -- which is exactly what two renders of the
+         SAME build differed by. A box screaming at full level into the mix
+         changed nothing, because nothing was listening.
+
+         The wiring now happens in `wireRack()` below, after all ten endpoints
+         are built, and it THROWS if one is missing rather than continuing.
+         A guard that skips is how this hid for three builds; the graph either
+         wires up or the build fails loudly. */
       /* the panel's own names for the rack's knobs, so setSpace can write them
          without a second table of its own */
       g.rackParam = k => g.rack.parameters.get(k) || null;
@@ -12305,6 +12317,36 @@ registerProcessor("mk2-room", MK2Room);
       saw.start(0);
     }
 
+    /* ══ AND NOW THE RACK IS PLUGGED IN ═══════════════════════════════════════
+       Every one of the ten endpoints exists by this line and not one of them
+       existed where this used to run. Each unit's own IN gain is taken off its
+       node chain and pointed at the box, and the box's matching output takes
+       over that unit's OUT gain -- so the five machines are inside one worklet
+       and the crossings between them are `x[j] += g * y[i]`, arithmetic rather
+       than graph edges.
+
+       IT THROWS. The version of this that skipped a missing endpoint is the
+       reason the box spent three builds disconnected, and a skip is exactly
+       the failure a test cannot see: everything still renders, everything
+       still sounds like the old chains, and the feature is simply absent. */
+    if(g.rack){
+      const RIN  = { echo: g.echoSend, spring: g.springIn, flange: g.flangeIn,
+                     dp4: g.dp4In, barber: g.barberIn };
+      const ROUT = { echo: g.echoPan, spring: g.springOut, flange: g.flangeOut,
+                     dp4: g.dp4Out, barber: g.barberOut };
+      const RACK_ORDER = ["echo", "spring", "flange", "dp4", "barber"];
+      RACK_ORDER.forEach((k, i) => {
+        if(!RIN[k] || !ROUT[k])
+          throw new Error("the rack cannot be wired: " + k +
+            (RIN[k] ? " has no output node" : " has no input node") +
+            " at the moment wireRack runs — build order changed");
+        try { RIN[k].disconnect(); } catch(e){}
+        RIN[k].connect(g.rack, 0, i);
+        g.rack.connect(ROUT[k], i, 0);
+      });
+      g.rackWired = RACK_ORDER.slice();
+    }
+
     /* ── THE GRID, WIRED FROM ITS DECLARATION ───────────────────────────────
        One gain per crossing, built by walking MATRIX rather than by naming
        wires. The two lookups below are the ONLY places that know what a row
@@ -12410,10 +12452,37 @@ registerProcessor("mk2-room", MK2Room);
        by channels and gets a send master. */
     const busTakesChannels = bus =>
       Object.keys(MIX_ROLE_BUS).some(r => MIX_ROLE_BUS[r] === bus && g.grp[r]);
+    /* ── A CROSSING INSIDE THE RACK IS NOT A WIRE, SO IT DOES NOT GET ONE ────
+       Both ends in `MATRIX.rack` means the crossing is `x[j] += g * y[i]`
+       inside the worklet: setSpace writes it to the x_ab parameter and the DSP
+       applies it one block late. Building a NODE for it as well did two wrong
+       things at once.
+
+         IT DOUBLED THE CROSSING. lofi opens echo->spring; that send arrived
+         through the rack's own grid AND through a gain node in parallel, so
+         the genre's 0.3 landed as 0.6.
+
+         AND IT CLOSED A GRAPH CYCLE. echoSpring's node runs g.echoPan (rack
+         output 0) -> g.springIn (rack input 1): out of the worklet and back
+         into it. That is the loop the whole box exists to avoid, and this file
+         already has the measurement for what merely CLOSING one costs.
+
+       MEASURED, one lofi excerpt rendered eight times: with these nodes in the
+       graph, eight different files, differing 30 dB below signal. Without
+       them, every pair nulls at -96 dB, which is the 16-bit floor. Law 7 was
+       being broken by a duplicate.
+
+       So the grid inside the box is the only path, in both directions. A
+       browser with no AudioWorklet gets no rack and no crossings between
+       effects, which is what it got before the box existed. */
+    const rackUnitOf = Object.assign({ Room: "room" }, MATRIX.retOf);
+    const bothInRack = cell => !!(g.rack && MATRIX.rack[cell.in.k] &&
+                                  MATRIX.rack[rackUnitOf[cell.out.k]]);
     for(const cell of matrixCells()){
       /* drumsMix is already built, above the drum bus: the kit's dry level has
          to sit after its saturation, so it cannot be made by this generic loop */
       if(g.route[cell.k]) continue;
+      if(bothInRack(cell)) continue;
       /* a column the STRIPS send to reaches it through the parts; every other
          column is fed from the bus. Asked of the send declaration, so a third
          strip send wires itself. */
