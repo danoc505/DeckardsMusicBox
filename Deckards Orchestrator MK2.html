@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19i · every collision is gone: one bug in five places</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19j · the empty, ungated — and it has a size now</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20564,6 +20564,22 @@ const GENRE = {
 
     /* ── stage 2: form. Weights are measured; the rule of three is enforced by
        stage 2 itself and is not a genre choice. [corpus:harvest_structure] ── */
+    /* ── THE EMPTY, UNGATED ─────────────────────────────────────────────────
+       "You can use empties ANYWHERE YOU WANT in your track" [004]. Until this
+       the program fired one per record, into the peak only. `chance` is the
+       permission; `size` is which of the three the files describe. See the
+       block above `emptyLastBar` for the sources and the sizes.
+
+       NO SOURCE GIVES A RATE. The transcripts say what an empty IS and where it
+       belongs -- at the end of a phrase, as the fill's opposite -- and not how
+       often a record should have one. So `chance` is [EAR], exactly as the
+       transition's is, and it is the one number here with nothing behind it.
+
+       Lofi's register is patina, so its empty is mostly the SMALL one: the kick
+       out for a beat at the end of a bar is a boom-bap move, and a whole bar of
+       nothing is a bigger gesture than this genre usually makes. [CHOSEN] */
+    empty: { chance: 0.28, size: [["beat", 4], ["bar", 3], ["all", 1]] },
+
     form: {
       lengths:    { intro: 4, verse: 8, chorus: 8, bridge: 8, instrumental: 8, outro: 4 },
       /* which material each function plays, and who is in the room for it.
@@ -24417,6 +24433,25 @@ const GENRE = {
        the plan is four stretches with the roles thickening through them, and
        the "chorus" is simply the fullest thing the record reaches.
        112-176 bars at 52-78 bpm is roughly 6 to 13 minutes, centred near 9. */
+    /* ── THE EMPTY, UNGATED ─────────────────────────────────────────────────
+       "You can use empties ANYWHERE YOU WANT in your track" [004]. Until this
+       the program fired one per record, into the peak only. `chance` is the
+       permission; `size` is which of the three the files describe. See the
+       block above `emptyLastBar` for the sources and the sizes.
+
+       NO SOURCE GIVES A RATE. The transcripts say what an empty IS and where it
+       belongs -- at the end of a phrase, as the fill's opposite -- and not how
+       often a record should have one. So `chance` is [EAR], exactly as the
+       transition's is, and it is the one number here with nothing behind it.
+
+       THE CAVERN IS WHY THIS GENRE FAVOURS THE BIG ONE. At 52-78 BPM a bar is
+       three to four seconds, and cutting every instrument for it does not leave
+       silence -- it leaves the ROOM, which is what a 1.6-second reverb on a
+       genre whose whole subject is a hall was built to be heard as. "Going from
+       high energy to nothing" [005] is a different sentence in a space like
+       this: the nothing has a sound. [CHOSEN] */
+    empty: { chance: 0.30, size: [["all", 3], ["bar", 3], ["beat", 1]] },
+
     form: {
       /* ── AND THE INTRO WAS OVER A MINUTE OF TWO PARTS ─────────────────────
          Sixteen bars looks modest until it is counted in seconds: this genre
@@ -24862,6 +24897,22 @@ GENRE.boxcarsynth = {
      brighter across its middle third. Weighted so most records travel
      toward light, some into night; +2 and +5 are the folk lifts. */
   keyShift: { chance: 0.65, by: [[0, 6], [2, 2], [5, 1]], change: 0.8 },
+  /* ── THE EMPTY, UNGATED ─────────────────────────────────────────────────
+     "You can use empties ANYWHERE YOU WANT in your track" [004]. Until this
+     the program fired one per record, into the peak only. `chance` is the
+     permission; `size` is which of the three the files describe. See the
+     block above `emptyLastBar` for the sources and the sizes.
+
+     NO SOURCE GIVES A RATE. The transcripts say what an empty IS and where it
+     belongs -- at the end of a phrase, as the fill's opposite -- and not how
+     often a record should have one. So `chance` is [EAR], exactly as the
+     transition's is, and it is the one number here with nothing behind it.
+
+     The journey's own version: the train reaching a stop. Even weights, because
+     a record that crosses a valley and pulls into a town wants both the small
+     hesitation and the full stop. [CHOSEN] */
+  empty: { chance: 0.25, size: [["bar", 3], ["beat", 2], ["all", 2]] },
+
   form: {
     /* THE TOWN IS SHORT [owner: "two or three short stops"]. A stop is an
        EVENT in a record about moving, so the chorus is the shortest thing
@@ -26860,6 +26911,14 @@ const BLEND_DRAW = new Set([
      day it broke -- which is the first time anything on this list has managed
      that. */
   "pad",
+  /* ── AND THE EMPTY ARRIVES WHOLE ─────────────────────────────────────────
+     `chance` and `size` are READ TOGETHER by one decision: how often a section
+     ends in nothing, and how much nothing. Merged key by key, a record could
+     take one genre's rate with another's weights and end up with an empty
+     NEITHER GENRE DECLARED -- which is the sentence `pad` directly above is
+     here for. Registered the day it was declared, which this list has now
+     managed three times. */
+  "empty",
   /* ── AND THE TWO MATRIX AXES ARRIVE WHOLE ────────────────────────────────
      Each of these holds a NAMED TRIGGER (`reset: "section"` / `"phrase"`) and a
      weighted list of wave names beside its numbers, and there is no half of
@@ -27056,6 +27115,7 @@ const BLEND_NAME = {
      Found the day the blend was first asked to print what it decides. */
   "space.feeds":       "which parts go to the big room",
   "space.echoFeeds":   "which parts go to the echo",
+  "empty":             "how often a section ends in nothing, and how much",
   "space.springFeeds": "which parts go to the spring tank",
   "space.flangeFeeds": "which parts go to the swirl",
   "space.dp4Feeds":    "which parts go to the effects box",
@@ -36798,6 +36858,14 @@ function makeArrangement(chart, form, materials){
       drumArc = ARC.rung[drumLevel] || null;
     }
     const next = form[i + 1];
+    /* the empty's two draws, spent whatever the genre declares [see below] */
+    const eRng = stream(chart.seed, "empty:" + i);
+    const eRoll = eRng(), eSizeRoll = eRng();
+    const EMPTY = (chart.table && chart.table.empty) || {};
+    const eSize = EMPTY.size ? wpick(() => eSizeRoll, EMPTY.size) : "bar";
+    const atPeak = !!(next && next.peak);
+    const mayEmpty = !!EMPTY.chance &&
+                     (!EMPTY.before || (next && EMPTY.before.indexOf(next.fn) >= 0));
     return ({
       fn: sec.fn, startBar: sec.startBar, endBar: sec.endBar,
       energy: sec.energy, peak: sec.peak, occurrence: sec.occurrence,
@@ -36850,7 +36918,60 @@ function makeArrangement(chart, form, materials){
          roll into it. The size is still the fill material's business and the
          empty still belongs to the peak, both untouched. */
       fillInto: !!(next && active.includes("drums")),
-      emptyLastBar: !!(next && next.peak),
+      /* ══ THE EMPTY — A PERMISSION, AND THEN A SIZE ════════════════════════
+         `emptyLastBar: !!(next && next.peak)` -- fires ONCE A RECORD, only into
+         the peak, and the line above it in this very block says so: "the empty
+         still belongs to the peak". Two of the nine transcripts describe it as
+         a standing device and one of them says so in as many words:
+
+           "at the end of our eight bar phrase we hit d -- d is where we might
+            introduce a fill OR EMPTY depending on the vibe of the piece... THE
+            OPPOSITE OF THE FILL IS THE EMPTY... it must include the subtraction
+            of most if not all of the main rhythmic elements before the next
+            downbeat. This creates a different form of anticipation, what I like
+            to call a DECOUPLING of the rhythmic elements between large musical
+            sections." [004]
+
+           "YOU CAN USE EMPTIES ANYWHERE YOU WANT IN YOUR TRACK, even if it's
+            just as simple as TAKING THE KICK OUT FOR ONE BEAT at the end of a
+            bar" [004]
+
+           "it'll be really really satisfying if we reduce energy and go back
+            into just the chords... WHICH BY THE WAY IS ONE OF MY ALL-TIME
+            FAVOURITE TRANSITIONS TO MAKE, WHICH IS GOING FROM HIGH ENERGY TO
+            NOTHING -- we take ALL the instruments and cut them out and leave
+            them empty for that last bar" [005]
+
+         THE MECHANISM EXISTED AND THE PERMISSION DID NOT. `fillInto` was
+         widened for exactly this argument one build earlier -- "a fill goes at
+         the end of a PHRASE... nothing about that is specific to what comes
+         next being a chorus" -- and the empty, its stated opposite, was left
+         gated in the same edit.
+
+         AND THE FILES DESCRIBE THREE SIZES, not one. The program had the
+         middle one only:
+
+           "beat"  the last BEAT of the last bar, rhythm section -- 004's
+                   smallest, "just taking the kick out for one beat"
+           "bar"   the whole last bar, rhythm section -- what this program has
+                   always done, and what stays the default
+           "all"   the whole last bar, EVERY role -- 005's favourite
+                   transition, high energy to nothing. Notes already struck ring
+                   on; nothing new is played, which is what "leave them empty"
+                   means on an instrument with a tail.
+
+         A genre declares `empty: { chance, before, size }`; one that declares
+         nothing behaves exactly as it did. TWO DRAWS PER SECTION, always, on a
+         stream this and nothing else reads [Law 3], so declaring the feature
+         cannot move a note in a genre that has not.
+
+         THE PEAK KEEPS ITS EMPTY AND ITS FLOOR. It fires there whatever the
+         genre says, and never smaller than a bar: the peak is the arrival
+         `005` is describing, and letting a drawn "beat" shrink it would answer
+         the letter of "anywhere you want" by weakening the one place the device
+         was already right. */
+      emptyLastBar: atPeak || (!!next && mayEmpty && eRoll < (EMPTY.chance || 0)),
+      emptySize: atPeak ? (eSize === "beat" ? "bar" : eSize) : eSize,
       endingLastBar: sec.fn === "outro",
       /* ── WHICH INSTRUMENT PLAYS THIS SECTION ────────────────────────────
          "An instrument doesnt have to be going all the time... we can bring
@@ -37889,7 +38010,19 @@ function makePerformance(chart, form, materials, sections){
                      : (sec.endingLastBar && lastBar) ? 0 : loopBar;
         for(const n of notes){
           if(n.bar !== useBar) continue;
-          if(sec.emptyLastBar && lastBar && (role === "drums" || role === "bass") && n.step > 0) continue;
+          /* ── THE EMPTY, AT THE SIZE THIS BOUNDARY DREW ────────────────────
+             `bar` is what this line always did. `beat` subtracts only the last
+             beat, which is 004's smallest empty and is a different amount of
+             bar in a different metre, so it is `STEPS / 4` and not `12`. `all`
+             takes every role rather than the rhythm section -- notes already
+             struck ring on, nothing new is played. See `emptySize`. */
+          if(sec.emptyLastBar && lastBar){
+            const esz = sec.emptySize || "bar";
+            if(esz === "all" || role === "drums" || role === "bass"){
+              if(esz === "beat"){ if(n.step >= STEPS - Math.max(1, Math.round(STEPS / 4))) continue; }
+              else if(n.step > 0) continue;
+            }
+          }
           /* HOW LONG A STEP LASTS *HERE*. Every micro-timing amount below is
              declared in SECONDS and has to become a fraction of a step to be
              added to `n.step`, and at a varying tempo that conversion is a

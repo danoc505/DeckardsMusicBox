@@ -264,6 +264,13 @@ magical."*
 
 ## 9. WHAT I WOULD DO NEXT, AND WHY
 
+*(All four were built, 2026-08-18 to 2026-08-19. §2 became the cadence machine
+[`chords-and-changes.md`], §3 the empty's permission and its three sizes
+[`the-empty.md`], §1 the transition [`the-transition.md`], §5 the sequence
+[`the-chord-machine-and-the-sequence.md`]. Triplets (§4) and the layer items
+(§7) are still open, and so is `sus4`, which §1 named and the transition build
+did not reach.)*
+
 Ranked by what the files spend their words on against what one change buys:
 
 1. **The last chord different on the repeat** (§2). Smallest change here, and it
