@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19q · the rack: five machines and the grid, in one box</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19r · the drone is one note now, not a bow stroke every 14 seconds</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -24094,7 +24094,11 @@ const GENRE = {
     /* the drone lane, under an UNTOUCHED bass this time -- the register the
        genre researched stays exactly where it was, and an exact-pitch meeting
        is resolved by clearAgainst moving the DRONE down, never the bass up */
-    drone: { unit: 8, hold: 2, pedal: 0.8, octave: 0 },
+    /* `continuous` because a cavern's ground is ONE SOUND. Without it the drone
+       lane writes a note per material cycle -- 41 of them in a ten-minute
+       record, each swelling in over three seconds -- and what you hear is a bow
+       being drawn again every fourteen seconds. [see the merge in stage 5] */
+    drone: { unit: 8, hold: 2, pedal: 0.8, octave: 0, continuous: true },
     bassStyle: "drone",
     bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },
     bassAccent: { accent: 0, slide: 0 },
@@ -26195,7 +26199,7 @@ GENRE.boxcarsynth = {
      last cycle of a section rings on through the downbeat of the town, and
      the record never arrives. No other genre declares it, so no other genre
      moves by a sample. */
-  drone: { unit: 4, hold: 1, pedal: 1, octave: 0, cut: true, unpitched: true,
+  drone: { unit: 4, hold: 1, pedal: 1, octave: 0, cut: true, continuous: true, unpitched: true,
            continuous: true },
   /* ══ THE BASS IS NOT A PEDAL, AND ITS OWN SHEET SAYS SO ══════════════════
      THE OWNER: "A bassline goes badum badum badum, it moves and flows. Yours
@@ -39816,7 +39820,28 @@ function makePerformance(chart, form, materials, sections){
      at the moment the run starts and the moment it stops.
 
      `drone.continuous` is the genre's declaration. A genre that does not say
-     it keeps its chain exactly as before, so nothing else in the file moves. */
+     it keeps its chain exactly as before, so nothing else in the file moves.
+
+     ── AND FOR FOUR DAYS NO GENRE SAID IT ──────────────────────────────────
+     [owner: "I think you were right about the drone rack stuttering, it sounds
+     like a bow being drawn across a stand up bass"]
+
+     He is right, and the measurement that let this sit unused was mine and was
+     the wrong question. It asked whether the drone's notes OVERLAP -- they do,
+     791 joins of 792 -- and concluded there was therefore no stutter. OVERLAP
+     IS NOT THE QUESTION. THE ATTACK IS.
+
+     MEASURED, dungeon synth seed 1 before this line was declared: 41 drone
+     notes in a ten-minute record, each 58.2 s long, A NEW ONE EVERY 14.5
+     SECONDS, all on one pitch at one gain -- and `V.dronebox` swells every one
+     of them in over three seconds. Four copies of a note sounding at once and a
+     fresh three-second crescendo beginning every fourteen seconds is not a
+     drone with movement in it. It is a bow, lifted and drawn again, forever.
+
+     So the machine written for the train in August is what the cavern needed
+     too, and it was sitting here switched off -- which is this session's
+     recurring finding one more time, and the last one it will catch: nothing
+     was missing, it was declared by nobody. */
   if(chart.table.drone && chart.table.drone.continuous){
     const EPS = spb * 0.6;                       // half a step of slack at the join
     const run = events.filter(e => e.role === "drone" && e.voice)

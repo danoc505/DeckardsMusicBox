@@ -362,3 +362,59 @@ and on this evidence should not be until there is a reason better than a number.
   day one moves its tempo.
 - **Nobody has heard it.** The renders exist now, which is new; nobody has
   listened to them.
+
+---
+
+## POSTSCRIPT, 2026-08-19 — THE BOW
+
+> "I think you were right about the drone rack stuttering, it sounds like a bow
+> being drawn across a stand up bass."
+
+**He is right, and the measurement in this sheet that said otherwise was mine
+and was the wrong question.**
+
+That measurement asked whether the drone's notes **overlap**. They do — 791
+joins of 792, median note 58 seconds — and I concluded from it that there was no
+stutter and that `drone.continuous` was not needed. **Overlap is not the
+question. The attack is.**
+
+Measured properly, dungeon synth seed 1:
+
+```
+  41 drone notes in a ten-minute record
+  each 58.2 s long, A NEW ONE EVERY 14.5 SECONDS
+  all on one pitch, at one gain
+  and V.dronebox swells every one of them in over 3 seconds
+```
+
+Four copies of one note sounding at once, and a fresh three-second crescendo
+beginning every fourteen seconds. That is not a drone with movement in it. **It
+is a bow, lifted and drawn again, forever.**
+
+### And the fix was already built
+
+`drone.continuous` — the merge that turns a chain of abutting drone events into
+one — was written for **the train** on 2026-08-15, after the same complaint in
+different words ("the train is fading in and out this is wrong"). It has sat in
+stage 5 ever since, **declared by no genre at all**, including the one it was
+written for.
+
+One line each on the two genres that have a ground:
+
+```
+  dungeonsynth   41 notes  →  1 note, 640 seconds
+  boxcarsynth     3 notes  →  3 (its `cut` stops the train at each town — correct)
+  lofi, synthwave            no drone, 0 of 12 records changed
+```
+
+Rendered: **−6 to −10 dB below signal** of change, 0 of 47 renders failed, and
+the record comes out slightly *quieter* — four stacked copies of one note were
+adding about a decibel that nobody asked for.
+
+### The lesson this repo keeps re-learning
+
+*When a measurement surprises you, suspect the measurement first* — and the
+corollary this one adds: **a measurement that agrees with you is the dangerous
+one.** The overlap figure told me what I wanted (the owner's ear was wrong, no
+work needed) and I stopped there. His ear was right both times: right that
+"stutter" was the wrong word, right that something was being re-articulated.
