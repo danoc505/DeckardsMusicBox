@@ -132,3 +132,104 @@ faster, means the fight covers **more bars** than the others.
 6. The duel.
 
 1–4 are table work and one small mechanism. 5 and 6 are real builds.
+
+---
+
+## 6. WHAT WAS BUILT — `2026-08-19z`
+
+### 6.1 The genre, as a difference
+
+Declared as a delta from dungeon synth and merged key by key, not copied:
+tempo 84–108 against 52–78, modes led by **dorian and mixolydian** (both have a
+major sixth, which is the difference between a cave and a road), target 504
+bars — **measured at 19.6 minutes** — and the lead and keys shelves gain
+`carnyx`, `corAnglais`, `bassOboe`, `horns` and `brass`, every one of which was
+already built and drawn by no genre.
+
+### 6.2 The tempo arc — the first genre ever to declare one
+
+| | BPM across the record |
+|---|---|
+| arc off | 97 97 97 97 97 97 97 97 97 97 |
+| **arc on** | **81 92 92 92 114 124 124 87 79 70** |
+
+Total moved 20.29 → 20.57 min: the map is normalised, so an arc **redistributes
+time and never adds any**.
+
+Two things the first build got wrong, both caught by measurement:
+
+- `intro` and `outro` were named in movement pools, and the program's own law is
+  that they sit **outside** the plan. The section list showed an intro at 9% and
+  an outro at 67%. It turned out to be the better structure — **the journey home
+  is the outro**, 64 bars of it at a falling tempo.
+- the movement bar ranges were the usual wide ones, so a movement drawing high
+  beside one drawing low moved the fight by minutes. Narrowed, and made
+  **unequal on purpose**: four equal five-minute movements are not four equal
+  bar counts when the fight runs half again as fast.
+
+### 6.3 A mode per movement — and §3.5 of this sheet was wrong
+
+This sheet said four modes were "not supported". The owner: *"this is OUR code…
+the only limitation is music theory and constraints not baked in values."*
+
+He was right, and the mechanism was present three times over. The program builds
+four chord sets and `mkChords(degrees, key, mode)` has always taken a mode. What
+was missing was a genre being allowed to **say** which mode each set stands in.
+
+A movement now names a `mode` and the `set` it owns. Because the movement pools
+are function-disjoint — which they had to be for the tempo arc anyway — a
+section's function already identifies its movement, so the ordinary
+function-to-material map does the routing. **No new material family.**
+
+| movement | set | mode | measured pitch classes, seed 1 |
+|---|---|---|---|
+| setting out | A | the record's own | `[0,3,7,9]` dorian |
+| into the deep | C | minor | `[0,3,5,8]` |
+| the fight | B | phrygian | `[0,1,3,7,8]` |
+| the journey home | Alift | mixolydian | `[0,2,4,5,7,10]` |
+
+And **"a mode change nobody hears did not happen"** — the modal-jazz sheet's
+fourth device, and seed 2 was the case it is about: the fight was *declared*
+phrygian and its chord set came back reading as plain **minor**, because the
+inherited progressions draw the flat second only half the time and the flat
+second **is** phrygian. Fantasy synth writes its own phrygian chorus
+progressions in which every line contains degree 1.
+
+### 6.4 The stacked drone
+
+`drone.stack` is semitones above the drone's own pitch; the lane emits one held
+note per entry. Fantasy synth declares `[0, 7, 12]` — the open fifth and the
+octave, the same 8/5 sonority the open-fifth cadence lands on, held under the
+whole record.
+
+Two faults, both measured within the minute of declaring it:
+
+- the re-strike test compared against **the last note pushed**, which is the top
+  of the stack, so it never matched the root and the ground re-attacked every
+  unit — **252 drone events** on a record whose ground should be three held
+  notes. It is asked per stack voice now.
+- `drone.continuous` walked the drone events **in time order and broke on the
+  first pitch mismatch**. With a stack the very next event always differs, so
+  nothing merged at all. Grouped by voice and pitch first; a single-pitch drone
+  has one group and computes what it always computed.
+
+Result: **3 drone events** — three held notes — where dungeon synth still has 1.
+
+### 6.5 A regression this work uncovered
+
+Dungeon synth threw on **0 of 32 seeds before** the `voicing`/open-cadence build
+and **2 of 32 after**. I had tested sixteen seeds, seen none, and written "0 of
+16 threw" — a window too small to contain the fault.
+
+A/B against the five changes that shipped together put all of it on the **open
+cadence**, which built its chord as `[root, fifth, root+12]`: three tones
+carrying two pitch classes, whose inversions collapse and leave the keys voicer
+without candidates. That is the **same defect I had found and fixed in the
+voicing pass on the same day, written a comment about, and left standing in the
+cadence**. Two notes now, as a power chord is.
+
+All five genres: **0 of 48 seeds throw**.
+
+### 6.6 Still to build
+
+The two leitmotifs with the six transformation operations, and the chase.
