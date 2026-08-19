@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19d · the transition — no tune, standing on the dominant, and never four bars</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19e · the drone is automated, and the renderer works again</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3195,6 +3195,29 @@ const MATRIX = {
     { k: "bass",  label: "bass"  },
     { k: "keys",  label: "keys"  },
     { k: "lead",  label: "lead"  },
+    /* ── THE DRONE IS ITS OWN CHANNEL ────────────────────────────────────────
+       [owner: "the matrix mixer should be automated also, that's the point of
+       having it, EVERY SINGLE KNOB IS OPEN GAME FOR AUTOMATION"]
+
+       It could not be, for this row: there wasn't one. `MIX_ROLE_BUS` gave the
+       drone a FADER in 2026-08 and pointed it at `keys`, saying so in its own
+       comment -- "there is no drone row in the matrix, so chanIn's fallback has
+       been landing the lane on g.bus.keys from the start... a drone bus of its
+       own is a matrix row and is recorded in the backlog". This is that row.
+
+       It is the third time this fix has been made here, and the `world` row's
+       note states the cost of not making it: sharing another row's bus means
+       "its reverb and delay sends were BUILT, were FED, and TERMINATED IN
+       NOTHING". A drone is the one voice present for a whole record; having no
+       send of its own is the worst case of that, not the mildest.
+
+       AND THE GENRES WITH A DRONE ADD IT TO `space.feeds` IN THE SAME COMMIT.
+       The Room is open by default to `keys` and `lead` ONLY, so a drone moved
+       off the keys bus without that would go DRY -- a cavernous genre losing
+       its cavern, which is the "fixed it by causing a silence" shape this file
+       has been bitten by twice already. Named here so the two can never be
+       separated. */
+    { k: "drone", label: "drone" },
     /* ── THE RECORD SURFACE IS NOT PART OF THE BAND ──────────────────────────
        The vinyl crackle used to be plugged into the KEYS channel, which meant
        closing the keyboard fader silenced the record itself. MEASURED, lofi
@@ -3480,7 +3503,12 @@ const MIX_ROLE_BUS = { drums: "drums", bass: "bass",
                           drone bus of its own is a matrix row (the serial-
                           routing column's territory) and is recorded in the
                           backlog, not smuggled in here. */
-                       drone: "keys",
+                       /* ...AND IT HAS ONE NOW. See the `drone` row in
+                          MATRIX.ins: the backlog item that comment names is
+                          done, so the lane stops borrowing the keyboard's
+                          channel and takes its own -- with its own five
+                          crossings, which is what makes it automatable. */
+                       drone: "drone",
                        /* ── AND THE WORLD GETS TWO OF ITS OWN ────────────────
                           Same shape as the drone above and for the same
                           reason: a role missing from this map draws a strip on
@@ -7157,7 +7185,28 @@ function handModRaw(n, m, tSec, plan){
        the wrong step is a modulator that has slipped off the music. A plan
        built without a clock -- the synthetic ones the panel preview makes --
        keeps the division. */
-    const step = Math.round(plan.clock ? plan.clock.stepAt(tSec) : tSec / spb);
+    /* ── THE CLOCK DOES NOT SURVIVE THE TRIP INTO THE RENDER PAGE ──────────
+       `plan.clock` is an object of FUNCTIONS, and the renderer hands the motion
+       plan to the page through `page.evaluate` -- structured cloning, which
+       drops functions and keeps the object. So `plan.clock` arrived TRUTHY and
+       METHODLESS, this guard passed, and the call threw:
+
+         mix_s1_01_intro.wav   RENDER FAILED: plan.clock.stepAt is not a function
+         ...47 of 47, every section of every song
+
+       THE WHOLE RENDERED-AUDIO PATH HAS BEEN DEAD. Confirmed identical on the
+       build before the drone work, so it is not new -- and it is why nothing
+       has been listened to outside a browser tab. `render_audio.js` is the only
+       tool that turns this program into a wave file.
+
+       Asking for the METHOD rather than the object is the fix, and the fallback
+       is not a degradation here: `makeClock` reports `varies: false` on 20 of 20
+       records in all four genres, so `tSec / spb` is the same number `stepAt`
+       would have returned. A genre that ever moves its tempo mid-record would
+       want the clock rebuilt page-side instead, and that is written down in the
+       backlog rather than pretended about. */
+    const step = Math.round((plan.clock && plan.clock.stepAt)
+                            ? plan.clock.stepAt(tSec) : tSec / spb);
     const cyc = Math.max(1, m.rate) * STEPS;          // steps per cycle
     let v;
     if(m.mode === "sh"){
@@ -7236,7 +7285,9 @@ function motionAt(plan, key, ev, offset){
   /* the hand: FREEZE pins the moment every modulator is read at, so the whole
      plan stops moving together rather than each lane stopping where it was */
   const tSec = MODTRIM.freeze ? MODTRIM.at : ev.tSec + (offset || 0);
-  const s16  = Math.round(plan.clock ? plan.clock.stepAt(tSec) : tSec / plan.spb);
+  /* same guard, same reason [see the note on `step` above] */
+  const s16  = Math.round((plan.clock && plan.clock.stepAt)
+                          ? plan.clock.stepAt(tSec) : tSec / plan.spb);
   const STEPS = plan.steps || 16;
   const bar  = Math.max(0, Math.min(plan.nBars - 1, Math.floor(s16 / STEPS)));
   const step = ((s16 % STEPS) + STEPS) % STEPS;
@@ -18983,7 +19034,41 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
     /* the song's motion plan rides on the GRAPH, not on a module variable, so a
        live playback and an offline render running at the same moment cannot
        read each other's automation. Same reason the room is set per-graph. */
+    /* ══ AND THE CLOCK IS REBUILT IF IT DID NOT SURVIVE THE TRIP ═══════════
+       `motion.clock` is an object of FUNCTIONS. The renderer hands the whole
+       plan to its page through `page.evaluate`, which structured-clones it --
+       and structured cloning DROPS FUNCTIONS AND KEEPS THE OBJECT. So every
+       `g.motion.clock` arrived truthy and methodless, every guard of the form
+       `motion.clock ? motion.clock.x(t) : …` passed, and the call threw.
+
+         47 renders, 47 RENDER FAILED: plan.clock.stepAt is not a function
+
+       THE ENTIRE RENDERED-AUDIO PATH HAS BEEN DEAD, on the build before this
+       one too, and `render_audio.js` is the only tool that turns this program
+       into a wave file. That is why nothing gets listened to outside a tab.
+
+       Guarding each call site was the first fix and it was wrong: it moved the
+       error from `stepAt` to `barAt` to the next one, which is a rule written
+       in five places waiting to go stale in four. ONE OWNER: if the clock lost
+       its methods in transit, put a real flat one back here, built from the
+       numbers that DID survive. Exact rather than approximate -- `makeClock`
+       reports `varies: false` on 20 of 20 records in all four genres, so a flat
+       clock is the same clock. A genre that moves its tempo mid-record wants
+       the real one rebuilt from chart and form, and that is in the backlog
+       rather than papered over. */
     g.motion = motion || null;
+    if(g.motion && g.motion.clock && typeof g.motion.clock.stepAt !== "function"){
+      const spb   = g.motion.spb || (g.motion.clock.spb) || 0.125;
+      const steps = g.motion.steps || g.motion.clock.steps || 16;
+      g.motion.clock = {
+        varies: false, steps, spb,
+        stepSec: () => spb,
+        barSec:  () => steps * spb,
+        at:    (bar, st) => (bar * steps + (st || 0)) * spb,
+        barAt: sec => sec / (steps * spb),
+        stepAt: sec => sec / spb,
+      };
+    }
     g.motionOffset = motionOffset || 0;      // where in the song this render starts
     /* THE SONG'S KEY, on the graph for the same reason the motion plan is: a
        TIMPANO is tuned to the tonic of the piece and retuned between movements,
@@ -22840,7 +22925,10 @@ const GENRE = {
                 genre can size against the drum instead of against the record.
                 Rows can only be drums/bass/keys/lead/vinyl, so `keys` here is
                 the whole keyboard side. */
-             feeds: ["keys", "lead", "bass"], echoFeeds: ["keys", "lead"],
+             /* `drone` joins the day it stops riding the keys bus -- the Room
+                is open to keys and lead by default, so without this the cavern
+                this genre is made of would go dry [MATRIX.ins] */
+             feeds: ["keys", "lead", "bass", "drone"], echoFeeds: ["keys", "lead"],
              random: 0, spread: 0.8, preDelay: 0.075,
              kitPan: { tom1: -0.22, tom2: 0.1, tom3: 0.24, snare: 0, kick: 0 } },
     /* the war drum's own voicing, TUNED TO THE ERANG PACK: the ten percussion
@@ -23597,6 +23685,78 @@ const GENRE = {
       /* this was `erangDrums: { tone: ... }` -- an apex ride on a machine this
          genre no longer plays. It is `tr1000.pTone` now, declared with the
          kit's other lanes above, so the arc it describes reaches the sound. */
+      /* ══ THE DRONE, AUTOMATED — THE KNOBS WERE ALL HERE ══════════════════
+         [owner: "we should have the needed things to do this and yet we don't
+         have an evolving drone"; and "the matrix mixer should be automated
+         also, that's the point of having it, EVERY SINGLE KNOB IS OPEN GAME
+         FOR AUTOMATION"]
+
+         Both true. The drone rack has twenty-one controls -- four voices, a
+         detune SPREAD across the stack, two coprime internal CLOCKS, DRIFT, a
+         filter, and a Marbles DEJA VU -- and this genre set every one of them
+         once and never touched them again. Measured before this: its motion
+         table had lanes for fourteen instruments and NOT ONE for `dronebox`,
+         the single voice that sounds under the whole record.
+
+         WHAT THE SOURCES ASK OF AN EVOLVING DRONE, and every one is a lane
+         below rather than a new mechanism:
+
+           "a really slow modulation of the CUTOFF... ATTENUATED so as not to
+            overpower things" [corpus:musicradar, ambient drone on a modular]
+           "slow amplitude, pitch, phase and pan modulation with LFO rates
+            synced to something slow, with a smooth contour and SHALLOW DEPTHS"
+            [corpus:modeaudio]
+           detune "introduces BEATING... copies of the same waveform fall in and
+            out of phase with each other" [corpus:modeaudio]
+           "for ambient and drones, YOU CAN'T HAVE ENOUGH LFOs and Random
+            generators" [corpus:modwiggler]
+           a sample-and-hold "can give you generative powers right away... by
+            running the LFO and clock at DIFFERENT RATES" [corpus:perfectcircuit]
+
+         THE PERIODS ARE COPRIME AND FREE-PHASE, the same reason boxcar's train
+         uses 23/31 and 13/17: two cycles that never line up do not settle into
+         a pattern an ear can learn. No number below shares a factor with
+         another in its own lane.
+
+         AND THE DEPTHS ARE SMALL ON PURPOSE. The cutoff sits at 420 Hz on a
+         dial running to 3000; these lanes move it by a few hundred at most.
+         "Attenuated so as not to overpower things" is the instruction, and a
+         drone that sweeps is a filter sweep, not a drone.
+         docs/genre-research/the-evolving-drone.md */
+      dronebox: {
+        /* THE FILTER, the one every source names first. An arc opens it across
+           the record -- the cavern getting further away -- with two slow cycles
+           riding on top so it is never at rest. */
+        cut: [{ kind: "arc", from: [-120, -40], to: [180, 620], curve: "sCurve" },
+              { kind: "lfo", bars: [[37, 2], [53, 1]], depth: [40, 130],
+                shape: "sin", freePhase: true },
+              { kind: "lfo", bars: [[17, 2], [29, 1]], depth: [20, 70],
+                shape: "sin", freePhase: true },
+              { kind: "section", by: { bridge: [-140, -60] } }],
+        /* THE DETUNE, which is what makes a stack of four voices BEAT rather
+           than sit. The slowest lane here: phasing between voices is what an
+           ear follows on a held tone, and it should take most of a record to
+           travel. */
+        spread: [{ kind: "lfo", bars: [[71, 2], [89, 1]], depth: [2, 7],
+                   shape: "sin", freePhase: true },
+                 { kind: "arc", from: [-2, 0], to: [3, 9], curve: "sCurve" }],
+        /* the level breathes under the arrangement instead of sitting at one
+           gain, and pulls back where the record thins */
+        level: [{ kind: "section", by: { bridge: [-0.18, -0.08],
+                                         outro: [-0.22, -0.10] } },
+                { kind: "apex", from: [-0.06, -0.02], to: [0.04, 0.14] },
+                { kind: "lfo", bars: [[43, 2], [59, 1]], depth: [0.02, 0.06],
+                  shape: "sin", freePhase: true }],
+        /* THE SAMPLE-AND-HOLD, on the breath of the stack -- the non-periodic
+           element the eurorack sources make central, and the one lane here that
+           does not repeat. Slewed, so it glides between held values. */
+        air: [{ kind: "sh", every: [[13, 2], [19, 1]], amt: [-0.05, 0.08],
+                slew: [0.88, 0.96] }],
+        /* and the wander in the oscillators themselves */
+        drift: [{ kind: "apex", from: [-1, 0], to: [2, 7] },
+                { kind: "lfo", bars: [[23, 2], [31, 1]], depth: [0.5, 2],
+                  shape: "sin", freePhase: true }],
+      },
       mellotron: {
         /* wow is in absolute pitch-drift units, range 0..0.012 -- the weather
            here is a slow deepening and easing of the drift, not a vibrato */
@@ -23656,6 +23816,29 @@ const GENRE = {
            10a law. lofi's vinylMix section lane is the precedent. */
         vinylMix: [{ kind: "section", by: { bridge: [-0.30, -0.14] } },
                    { kind: "lfo", bars: [[76, 1]], depth: [0.04, 0.09], shape: "sin", freePhase: true }],
+        /* ── AND THE DRONE'S OWN CROSSINGS, NOW THAT IT HAS THEM ─────────────
+           The drone had no matrix row until this build, so there was nothing
+           here to move. It has one now, and it is the voice under the entire
+           record -- the crossing an ear has the most time to notice.
+
+           `droneRoom` is ROUTED (this genre puts `drone` in `space.feeds`), so
+           its base is 1 and every move is a CUT, per the 10a law that caught
+           `leadRoom` travelling 0.00% of its dial. It starts pulled back and
+           the apex opens it: the drone walks INTO the hall as the record
+           thickens, which is the same journey `keysRoom` above makes and the
+           reason this genre's room research exists.
+
+           `droneEcho` is NOT in `echoFeeds`, so it starts shut and is the one
+           drone crossing with headroom upward -- a slow open across the record,
+           shallow, and shut again for the break. */
+        droneRoom: [{ kind: "apex", from: [-0.55, -0.40], to: [-0.30, -0.18] },
+                    { kind: "occurrence", step: [0.06, 0.11], cap: 3 },
+                    { kind: "lfo", bars: [[67, 2], [83, 1]], depth: [-0.06, -0.01],
+                      shape: "sin", freePhase: true }],
+        droneEcho: [{ kind: "arc", from: [0, 0.03], to: [0.10, 0.24], curve: "sCurve" },
+                    { kind: "section", by: { bridge: [-0.10, -0.03] } },
+                    { kind: "lfo", bars: [[41, 2], [59, 1]], depth: [0.02, 0.07],
+                      shape: "sin", freePhase: true }],
       },
     },
     /* THE WALK. Not a song shape -- a descent. The sources describe duration
@@ -24855,7 +25038,8 @@ GENRE.boxcarsynth = {
      routeBaseFor's Room case opens them by name — so those two entries are
      inherited decoration rather than a decision.) */
   space: { wet: 0.28, irSec: 1.6, tailPow: 1.3, tailDark: 0.5, sendHp: 130,
-           feeds: ["keys", "lead"], echoFeeds: ["lead"],
+           /* the train keeps the room it had while it rode the keys bus */
+           feeds: ["keys", "lead", "drone"], echoFeeds: ["lead"],
            random: 0, spread: 0.7, preDelay: 0.02 },
   pressure: { depth: 0.4, amount: [0.2, 0.3], at: [0.3, 0.5], rise: [0.3, 0.5] },
   ribbon: { chance: 0 },
@@ -42311,7 +42495,7 @@ function playingPattern(role){
   return { pat: isFill ? "fill" : (patOf(sec.material) || {})[role],
            bar: isFill ? 0 : (bar - sec.startBar) % SONG.materials.bars,
            step: Math.floor(SONG.motion.clock
-                            ? SONG.motion.clock.stepAt(t) : t / SONG.motion.spb)
+                            ? SONG.motion.clock.stepAt(t) : t / SONG.motion.spb)  /* live: the clock is real here */
                  % (SONG.motion.steps || 16) };
 }
 

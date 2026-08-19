@@ -5,6 +5,9 @@ and making evolving drones in eurorack… We should have the needed things to do
 this and yet we don't have an evolving drone. Diagnose the issue with your
 research and tell me your plan."*
 
+**BUILT 2026-08-19 — see §6 for what it measured, and §7 for the correction the
+owner's ear made to §3b.**
+
 **The owner is right that the parts are here — and half right that we don't have
 one.** Boxcar synth's train *is* an evolving drone by every definition below.
 Dungeon synth's is not, and the reason turns out to be arithmetic rather than
@@ -219,3 +222,143 @@ evolving drone is the ear's, and the ear has not been asked.
 - [Make a Generative & Evolving Drone Sound with Operator — Ableton](https://www.ableton.com/en/blog/make-generative-evolving-drone-sound-operator/)
 - `docs/genre-research/how-a-drone-evolves.md` — the earlier sheet on this repo's own drone
 - `docs/genre-research/dungeon-synth-arrangement.md` — the double pedal, already sourced
+
+
+---
+
+# §6 — WHAT WAS BUILT, AND WHAT IT MEASURED
+
+## 6a. The drone rack has twenty-one knobs and nothing was turning any of them
+
+That is the finding, stated the way it should have been from the start.
+`dronebox` carries `voices`, `shape`, `wave`, **`spread` (detune across the
+stack)**, `clockA`, `clockB`, `drift`, `cut`, `res`, `peak`, `peakHz`, `swell`,
+`fall`, `air`, `strings`, **`dejavu` (the Marbles control)**, `spreadCV`,
+`bias`, `curve`, `slope`, `smooth`. Dungeon synth sets `voices: 4, spread: 7,
+clockA: 19, clockB: 23, cut: 420` — **a proper evolving-drone machine, with its
+knobs held still for the whole record.**
+
+Five motion lanes now, built the way `trainbox` already was. Measured travel,
+dungeon synth seed 1, 164 bars:
+
+```
+  dronebox.cut       -244.9 .. +514.7   (span 760)   base 420 on a dial to 3000
+  dronebox.spread      -5.1 ..   +7.9   (span  13)   base 7 — the beating
+  dronebox.level       -0.21..   +0.09
+  dronebox.air         -0.04..   +0.06                the sample-and-hold
+  dronebox.drift       +0.7 ..   +6.4
+```
+
+Periods are coprime and free-phase — 37/53, 17/29, 71/89, 43/59, 23/31, and the
+S&H clocked at 13/19 — for the same reason boxcar's train uses 23/31: two cycles
+that never line up do not settle into a pattern an ear can learn.
+
+## 6b. And the drone got its own matrix row, which is what makes it automatable
+
+The owner: *"the matrix mixer should be automated also, that's the point of
+having it, **every single knob is open game for automation**."* It could not be,
+for the drone, because **there was no drone row** — `MIX_ROLE_BUS` said so in its
+own comment and put the item in the backlog. That row exists now, with its own
+bus and its own five crossings, and two of them are automated:
+
+```
+  matrix.droneRoom   -0.411 .. -0.050    routed, so every move is a CUT —
+                                         it starts pulled back and the apex
+                                         walks the drone into the hall
+  matrix.droneEcho   -0.002 .. +0.235    not routed, so it opens from nothing
+```
+
+**And `drone` was added to `space.feeds` in the same change.** The Room is open
+by default to `keys` and `lead` only, so moving the drone off the keys bus
+without that would have taken a cavernous genre's cavern away — the "fixed it by
+causing a silence" shape this file has been bitten by twice. Verified after:
+`drone into Room = OPEN` on both genres that have one, `shut` on lofi which does
+not.
+
+## 6c. THE RENDERER HAS BEEN DEAD, AND THAT IS THE BIGGEST FINDING HERE
+
+Trying to verify any of the above by ear found this:
+
+```
+  47 renders, 47 RENDER FAILED: plan.clock.stepAt is not a function
+```
+
+**Every render, every section, every song.** Confirmed identical on the build
+before this work, so it is not new — and `render_audio.js` is the only tool that
+turns this program into a wave file. **That is why nothing gets listened to.**
+
+The cause: `motion.clock` is an object of *functions*, and the renderer hands the
+plan to its page through `page.evaluate`, which structured-clones it — and
+structured cloning **drops functions and keeps the object**. So every guard of
+the form `motion.clock ? motion.clock.x(t) : …` passed on a methodless object.
+
+Guarding each call site was the first fix and it was wrong — the error moved
+from `stepAt` to `barAt` to the next one, which is one rule written in five
+places waiting to go stale in four. **One owner:** if the clock lost its methods
+in transit, a real flat one is rebuilt at the door from the numbers that did
+survive. Exact rather than approximate — `makeClock` reports `varies: false` on
+20 of 20 records in all four genres, so a flat clock *is* the clock. A genre that
+moves its tempo mid-record would want the real one rebuilt from chart and form;
+that is named in the backlog, not papered over.
+
+**47 renders, all producing audio.**
+
+## 6d. What the render actually shows, stated at its real size
+
+A/B against a control build — the pre-automation program with *only* the
+renderer fix, so the difference is the drone and nothing else. Spectral
+brightness per section:
+
+```
+  intro      +0.0 Hz      the control working: the arc starts at zero
+  verses     -7 .. +10 Hz
+  bridge     -0.7 Hz      and -0.41 dB in the drone's band
+  outro    +130.1 Hz      and -2.17 dB — the arc fully travelled, level cut
+```
+
+**It moves, and it is small.** That is what was asked for — "attenuated so as not
+to overpower things", "shallow depths" — but it should not be reported as more
+than it is.
+
+**And the section excerpts are the wrong ruler for most of it.** They are nine
+seconds long; the slowest lane here has an 89-bar period, which is about six
+minutes. A nine-second window cannot show a six-minute cycle. The travel numbers
+in §6a are read off the motion plan, which can see the whole record; the renders
+confirm the motion *reaches the audio* and cannot confirm its shape. **Fourth
+time this session that checking the ruler first has changed the answer.**
+
+---
+
+# §7 — THE CORRECTION THE OWNER'S EAR MADE
+
+§3b of this sheet called dungeon synth's 40 drone attacks a **stutter**. The
+owner: *"I'm not hearing a stutter."* Measured properly:
+
+```
+  dungeonsynth   792 note-to-note joins · 791 OVERLAP the one before · 1 gap
+                 median note 58.2 s
+  boxcarsynth     71 joins ·   3 overlap · 68 leave a gap · median 65.1 s
+```
+
+**58-second notes overlapping four deep leave nothing to hear as a stutter.**
+Those are re-triggers *under a continuous tone* — which is layering, and layering
+is the first thing every source in §1 asks a drone for. The count was right and
+the word was wrong, and the ear caught it before the measurement did.
+
+`continuous: true` and the unit/material guard from §4 step 1 are **not built**,
+and on this evidence should not be until there is a reason better than a number.
+
+---
+
+# §8 — STILL OPEN
+
+- **The layers** (§4 step 3) — `spread` is automated now, so the four voices
+  beat against each other over time. A second drone *note* (the double pedal a
+  fifth below) is still not built.
+- **`dejavu`** — the Marbles control is on the rack and no lane moves it.
+- **Boxcar's train has no matrix lanes**, only instrument ones. Its row exists
+  now too.
+- **The renderer's clock is flat** — correct for all four genres today, wrong the
+  day one moves its tempo.
+- **Nobody has heard it.** The renders exist now, which is new; nobody has
+  listened to them.
