@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19c · the chord stops always climbing</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19d · the transition — no tune, standing on the dominant, and never four bars</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20101,8 +20101,12 @@ const GENRE = {
       /* which material each function plays, and who is in the room for it.
          A genre with no drums simply never lists "drums". */
       material:   { intro: "A", verse: "A", chorus: "B", bridge: "C",
-                    instrumental: "A", outro: "A" },
+                    instrumental: "A", outro: "A", transition: "T" },
       roles: {
+        /* the transition: the groove and the harmony, and NO TUNE. "The lack of
+           melody was literally the only difference between the setup and the
+           section that followed" [002] */
+        transition:   ["drums", "keys", "bass"],
         intro:        ["keys", "bass"],                    // the bed before the tune
         verse:        ["drums", "bass", "keys", "lead"],
         /* ── THE SECOND KEYBOARD IS THE CHORUS'S DRESS, NOT THE RECORD'S BED ──
@@ -20182,6 +20186,28 @@ const GENRE = {
         instrumental: [["chorus", 6], ["verse", 4]],
       },
       bridgeAfterChorus: { verse: 1, chorus: 2 },   // choruses heard before a bridge may be drawn
+      /* ══ THE TRANSITION ══════════════════════════════════════════════════
+         `002`'s worked example is this genre's case exactly: "between the four
+         bar introduction and the beginning of the main melody, TWO BARS of the
+         new groove are inserted before the melody comes in"; "these two bars
+         have less going on than the a section, there's no melody to follow and
+         we're just sitting on the tonic"; and "the lack of melody was literally
+         the only difference between the setup and the section that followed".
+
+         BEFORE THE CHORUS AND THE BRIDGE -- the two arrivals in this genre's
+         grammar. Not the verse: a verse follows a chorus as the record breathes
+         out, and setting up a release is not what a transition is for.
+
+         1, 2 AND 3 BARS, weighted to 2 because that is the length the source
+         demonstrates. Every one of the three is a length this program has never
+         produced -- measured, nothing in any genre was ever shorter than four.
+
+         `chance: 0.55` is [EAR] and it is the one number here with no source
+         behind it: the sources say what a transition IS, not how often a record
+         should have one. Every arrival taking one would make the device the
+         rule rather than the surprise. */
+      transition: { before: ["chorus", "bridge"], chance: 0.55,
+                    bars: [[2, 5], [1, 3], [3, 2]], energy: 0.5, on: 4 },
       energy: { intro: 0.55, outro: 0.5, bridge: 0.68, instrumental: 0.72,
                 chorus: 0.92, chorusPeak: 1.0, verse: 0.74 },
       /* a beat tape does not climb much: it sets a mood and stays in it. High
@@ -25920,6 +25946,11 @@ const BLEND_DRAW = new Set([
   "seventhOn",
   "bassStyle", "bassRiff", "gate", "chop", "ostinato",
   "registers", "form.lengths", "form.material", "form.roles", "form.target",
+  /* the transition arrives with the map that says what it plays. It names a
+     material ("T"), a set of arrivals to stand before, and lengths the rest of
+     the grid never uses -- averaging any of that with a genre that has no
+     transition at all is a setup for a section that is not there. */
+  "form.transition",
   /* the build arrives whole or not at all: averaging one genre's entry points
      with another's -- or with a genre that has none -- gives a record that
      accretes halfway, which is not a blend of two arrangements, it is neither */
@@ -26016,6 +26047,11 @@ const BLEND_GROUP = {
   "bassStyle": "bass", "bassPulse": "bass", "acidLine": "bass", "bassAccent": "bass",
   "bassRiff": "bass",
   "form.lengths": "form", "form.material": "form", "form.roles": "form",
+  /* SAME GENRE AS THE MATERIAL MAP. A blend drew lofi's transition beside
+     another genre's `form.material`, so `MAT["transition"]` came back undefined
+     and 117 of 432 blends threw on it. A section and the material it plays are
+     one decision. */
+  "form.transition": "form",
   /* the build names ROLES, so it has to come from whichever genre supplied the
      role lists -- an entry point for a part that section never plays is inert,
      and worse, silently so */
@@ -27746,6 +27782,51 @@ function makeForm(chart){
   /* the LAST payoff is the record's peak, and stage 4 empties the bar before it.
      Reading the genre's payoff rather than the word "chorus" is what lets a
      chorus-free genre still have a highest point. */
+  /* ══ THE TRANSITION, INSERTED — AND THE ODD PHRASING IS THE POINT ═════════
+     `002`'s third marker, and the file calls it the strongest: "the music broke
+     out of the structure of the phrasing that we'd seen so far, and I THINK
+     THIS MIGHT BE THE MOST IMPORTANT FACTOR at play here."
+
+     MEASURED before this, four genres, 24 records each: every section is 4, 8,
+     10, 12, 16, 18 or 20 bars, and NOTHING IS EVER 1, 2, 3, 5 OR 7. There was
+     no transition function either -- the program could make eight kinds of
+     section and none of them was this one. `002`'s own examples are two bars of
+     groove before a melody, a three-bar transition, a seven-bar one, and an
+     eight-bar section "broken up into four one and three bar chunks".
+
+     The theory agrees on the shape: transitional writing shows "IRREGULAR
+     HYPERMETER AND IRREGULAR PHRASE LENGTHS" [corpus:openmusictheory].
+
+     So a genre declares which arrivals get set up, how often, and how long the
+     setup is -- and the lengths on offer are the ones the grid has never been
+     allowed to use. The draw is on its own named stream, so a genre that
+     declares nothing never calls it and no other draw in the file moves [Law 3].
+
+     IT GOES BEFORE AN ARRIVAL, NEVER FIRST OR LAST. A transition transitions
+     INTO something; one at the top of a record has nothing to leave and one at
+     the end has nothing to reach. Walking backwards so the indices ahead of the
+     splice are still valid, and splicing `EXTB` in step because that array's
+     alignment with `fns` is, in this file's own words, "the whole contract". */
+  const TRN = F.transition || null;
+  const TLEN = new Array(fns.length).fill(0);
+  /* ...and it is only inserted if there is something for it to PLAY. The draw
+     group above makes the transition and the material map come from one genre;
+     this asks the question of the table rather than trusting that it did. */
+  if(TRN && TRN.bars && TRN.bars.length && F.material && F.material.transition){
+    const trRng = stream(chart.seed, "transition");
+    const into = TRN.before || [];
+    for(let i = fns.length - 1; i >= 1; i--){
+      if(!into.includes(fns[i])) continue;
+      if(trRng() >= (TRN.chance == null ? 1 : TRN.chance)) continue;
+      fns.splice(i, 0, "transition");
+      /* `built.ext` is the extension array and it is INDEX-ALIGNED WITH `fns`
+         -- this file calls that alignment "the whole contract", and the one
+         time it slipped an intro ran past its own ending. A splice into one is
+         a splice into the other, always. */
+      if(built.ext) built.ext.splice(i, 0, 0);
+      TLEN.splice(i, 0, wpick(trRng, TRN.bars));
+    }
+  }
   const lastChorus = fns.lastIndexOf(PAY);
   const out = fns.map((f, i) => {
     seen[f] = (seen[f] || 0) + 1;
@@ -27753,7 +27834,8 @@ function makeForm(chart){
        record whose final bars are a tag has no cadence left to extend past */
     const ext = (i < fns.length - 1 && built.ext) ? (built.ext[i] || 0) : 0;
     const o = {
-      fn: f, startBar: bar, endBar: bar + SLEN[f] + ext,
+      fn: f, startBar: bar,
+      endBar: bar + (f === "transition" ? TLEN[i] : SLEN[f] + ext),
       occurrence: seen[f],
       /* how many bars this section runs past its own expected ending, so a
          probe can ask the question and stage 4 can leave it alone */
@@ -27813,11 +27895,14 @@ function makeForm(chart){
          something better to give those sections. */
       demand: (seen[f] >= (F.varyAsBefore ? 3 : 2)
                && (f === "verse" || f === "chorus")) ? "vary" : null,
-      energy: f === PAY ? (i === lastChorus ? F.energy.chorusPeak : F.energy[PAY])
-                              : F.energy[f],
+      /* a transition drops back -- "less going on than the a section" [002] --
+         and it says so itself rather than borrowing a neighbour's number */
+      energy: f === "transition" ? (TRN && TRN.energy != null ? TRN.energy : 0.5)
+            : f === PAY ? (i === lastChorus ? F.energy.chorusPeak : F.energy[PAY])
+                        : F.energy[f],
       peak: i === lastChorus,
     };
-    bar += SLEN[f] + ext;
+    bar += (f === "transition" ? TLEN[i] : SLEN[f] + ext);
     return Object.freeze(o);
   });
   out.nBars = bar;
@@ -28615,6 +28700,32 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     copy[copy.length - 1] = out;
     return copy;
   };
+  /* ══ THE HARMONY A TRANSITION STANDS ON ═══════════════════════════════════
+     `002` is a whole file about transitions and names three things that make a
+     passage read as one rather than as a section: "A LACK OF MELODY, A LACK OF
+     HARMONIC STABILITY AND ODD PHRASING". This is the second of the three.
+
+     The theory names the device exactly. A transition "commonly emphasizes
+     non-tonic harmonies, TYPICALLY ENDING ON DOMINANT HARMONY", and transitional
+     writing is marked by "increased chromaticism... IRREGULAR HYPERMETER, AND
+     IRREGULAR PHRASE LENGTHS" [corpus:openmusictheory, Formal Sections in
+     General]. When a dominant is held across several bars theorists call it
+     "STANDING ON THE DOMINANT", and it is "an important marker of significant
+     formal events" [corpus:fiveable].
+
+     A half cadence "ends the phrase on a dominant chord, which in tonal music
+     DOES NOT SOUND FINAL; that is, the phrase ends with unresolved harmonic
+     tension" [corpus:musicnotes]. Unresolved is the entire job: `002` wants the
+     listener "scooped up and thrown into the air with no idea where or when
+     you're going to land".
+
+     So a transition stands on ONE degree, held, and the genre says which.
+     Degree 4 is the dominant and is the default because it is what every source
+     here names; a genre that wants the floating sound `002` describes on its
+     sus chords can say so once those exist. */
+  const TRDEG  = (G.form && G.form.transition && G.form.transition.on != null)
+                 ? G.form.transition.on : 4;
+  const transChords = mkChords(chords.map(() => TRDEG));
   const RETOP     = G.cadence || null;
   const chordsRet = cadenceSet(chords, RETOP);
   const chorusRet = cadenceSet(chorusChords, RETOP);
@@ -34460,6 +34571,27 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const seqBraw   = sequence(themeB.notes, chorusChords, G.sequence,
                              ostB.concat(bassBvar, keysBvar, keys2B, counterBvar, droneB));
   const leadBseq  = seqBraw === themeB.notes ? [] : JOIN(seqBraw);
+
+  /* ══ THE TRANSITION MATERIAL — AND WHAT IT DELIBERATELY HAS NOT GOT ═══════
+     `002`'s first marker: "A LACK OF MELODY". Its worked example is two bars of
+     the new groove put in before the tune arrives, and it is explicit that this
+     is the ONLY difference -- "the lack of melody was literally the only
+     difference between the setup and the section that followed" -- and that the
+     difference is enough to turn a section into a transition.
+
+     So `T` has drums, bass and chords and NO lead, NO second melody and NO
+     repeating figure. Not thinned: absent. A transition with a tune on it is
+     the section it was supposed to be introducing.
+
+     Its bass and comp stand on the held degree [see transChords], on their own
+     named streams so nothing else in the record moves. The drums are the
+     varied kit rather than a new one -- "less going on than the a section" is
+     about the parts present, and a genre that wants its transition to drop the
+     kit entirely does that with `form.roles`. */
+  const bassT = pin(buildBass(transChords, "bassT", false), "bass", "T");
+  const keysT = buildKeys(transChords, "keysT", { dense: false,
+                          avoid: reserve(bassT), sustain: HOLD,
+                          at: HOLD ? 0 : undefined });
   const droneC = pin(buildDroneLane(bridgeChords, "C"), "drone", "C");
   const droneAl    = LIFT ? pin(buildDroneLane(liftChords, "A"), "drone", "A") : droneA;
   const materials = {
@@ -34490,6 +34622,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        says to do. */
     Bdev: { drums: drumsBvar, bass: bassBvar, keys: keysBvar, keys2: keys2B, lead: leadBdev, counter: counterBvar, ostinato: ostB, drone: droneB },
     Bseq: { drums: drumsBvar, bass: bassBvar, keys: keysBvar, keys2: keys2B, lead: leadBseq, counter: counterBvar, ostinato: ostB, drone: droneB },
+    /* the transition: no lead, no second melody, no figure. `002` */
+    T:    { drums: drumsAvar, bass: bassT, keys: keysT, keys2: [], lead: [], counter: [], ostinato: [], drone: droneA },
     B:    { drums: drumsB, bass: bassB, keys: keysB, keys2: keys2B, lead: themeB.notes, counter: counterB, ostinato: ostB, drone: droneB },
     /* Bvar = vary(B) -- the chorus's rule-of-three answer. Same drums, bass,
        chords and pad as B; only the tune's second half is redrawn, so the hook
@@ -34725,6 +34859,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        whole reason this rule exists once instead of twice.
        When no cadence is declared the returning set IS the parent's set, by
        identity, so this costs those genres nothing. */
+    if(base === "T") return "T";                      // the transition stands on its own degree
     const ret = /(var|dev|seq)$/.test(base);
     base = base.replace(/(var|dev|seq)+$/, "") || base;   // Bvar, Bdev, Aseq -> B, B, A
     const letter = base === "C" ? "C" : base === "B" ? "B" : "A";
@@ -34750,7 +34885,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      that letter's changes -- and what is left is the letter itself. A `Cdev` or
      a `Bvar2` added tomorrow lands on the right chords without touching this. */
   const chordsFor = m => ({ C: bridgeChords, B: chorusChords, Bret: chorusRet,
-                            lift: liftChords, A: chords, Aret: chordsRet })[whichChanges(m)];
+                            lift: liftChords, A: chords, Aret: chordsRet,
+                            T: transChords })[whichChanges(m)];
   /* ── WHICH KIT SETTING AND WHICH LETTERS A MATERIAL'S DRUMS WERE BUILT WITH ─
      ONE OWNER. Stage 3 used exactly this mapping when it built the five drum
      parts above, `phraseFor` below now reads it instead of restating it, and
@@ -34929,6 +35065,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   materials.liftChords = LIFT ? freezeChords(liftChords) : materials.chords;
   /* the returning sets, frozen alongside the rest so `chordsOf` can hand a
      returning material its own changes. Identity when no cadence is declared. */
+  materials.transChords = freezeChords(transChords);
   materials.chordsRet = NEW_RET ? freezeChords(chordsRet) : materials.chords;
   materials.chorusRet = NEW_RET ? freezeChords(chorusRet) : materials.chorusChords;
   /* ── WHICH CHANGES EACH MATERIAL IS PLAYING, ASKED HERE AND NOWHERE ELSE ────
@@ -34963,7 +35100,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      rather than two rules that agree until they do not */
   const frozenFor = m => ({ C: materials.bridgeChords, B: materials.chorusChords,
                             Bret: materials.chorusRet, lift: materials.liftChords,
-                            A: materials.chords, Aret: materials.chordsRet })[whichChanges(m)];
+                            A: materials.chords, Aret: materials.chordsRet,
+                            T: materials.transChords })[whichChanges(m)];
   const cOf = {};
   for(const m of MAT_KEYS) cOf[m] = frozenFor(m);
   materials.chordsOf = Object.freeze(cOf);
