@@ -27927,6 +27927,19 @@ GENRE.fantasysynth = (function(D){
        other section here and sixteen times dungeon synth's intro. */
     lengths: { intro: 16, verse: 16, chorus: 16, bridge: 16,
                instrumental: 16, outro: 64 },
+    /* ── AND EACH MOVEMENT LANDS ON ITS OWN MATERIAL ────────────────────────
+       Because the movement pools are function-disjoint, a section's FUNCTION
+       already says which movement it is in -- so this ordinary function-to-
+       material map is what routes each movement to the chord set standing in
+       its own mode. No new machinery.
+
+       THE OUTRO PLAYS `Alift`, and that is the journey home: the record's own
+       A material coming back somewhere else, which is exactly what the lift
+       was built for. Sixty-four bars of it, in mixolydian, at a falling tempo.
+       "Triumphant but thinned -- something was lost": same material, brighter
+       mode, fewer voices than the fight. */
+    material: { intro: "A", verse: "A", bridge: "C", chorus: "B",
+                instrumental: "B", outro: "Alift" },
     /* ── THE FOUR MOVEMENTS ────────────────────────────────────────────────
        Dungeon synth already had a named movement plan -- descend, halls,
        deeper, return -- so this is that mechanism with the story the owner
@@ -27968,14 +27981,18 @@ GENRE.fantasysynth = (function(D){
          OUTRO -- a genre may say how long its outro is, so a sixty-four bar
          outro at a falling tempo IS the last five minutes, arriving by the one
          mechanism that guarantees it comes last and comes once. */
+      /* `set` names the chord set this movement stands in and `mode` the mode
+         that set is built in. Movement one names none: it IS the record's own
+         chords in the record's own drawn mode, which is what makes the mode
+         pool above still mean something. */
       { name: "setting out",  pool: ["verse"],
-        bars: [96, 2, 8], mode: "dorian" },
-      { name: "into the deep", pool: ["verse", "bridge"],
-        bars: [128, 2, 8], mode: "minor", endOn: "bridge" },
+        bars: [96, 2, 8] },
+      { name: "into the deep", pool: ["bridge"],
+        bars: [128, 2, 8], set: "C", mode: "minor" },
       { name: "the fight",    pool: ["chorus", "instrumental"],
-        bars: [160, 2, 8], mode: "phrygian", endOn: "chorus" },
+        bars: [160, 2, 8], set: "B", mode: "phrygian", endOn: "chorus" },
       { name: "the long way home", pool: ["verse"],
-        bars: [40, 1, 8], mode: "mixolydian" },
+        bars: [40, 1, 8], set: "lift", mode: "mixolydian" },
     ],
     /* ── THE TEMPO ARC, AND THIS IS THE FIRST GENRE EVER TO DECLARE ONE ────
        `form.tempoArc` has been built and unused since it was written. The
@@ -28027,6 +28044,25 @@ GENRE.fantasysynth = (function(D){
     ],
   }),
   chorusProgressions: merge(D.chorusProgressions, {
+    /* ── THE FIGHT HAS TO SOUND PHRYGIAN, NOT MERELY BE DECLARED IT ─────────
+       "A mode change nobody hears did not happen" -- the modal-jazz sheet's
+       fourth device, and this is the case it is about. The fight movement
+       declares phrygian and MEASURED, seed 2: its chord set came back reading
+       as plain minor, because the inherited progressions draw the flat second
+       only half the time and the flat second IS phrygian. Minor and phrygian
+       differ by that one note; a progression that never plays it has changed
+       nothing an ear can find.
+
+       So every line here contains degree 1. It is also the right sound for the
+       thing they are fighting: the phrygian second is the oldest dread
+       interval in Western music, and it is a STEP off the tonic, which is
+       where this genre's inherited organum happens. */
+    phrygian: [
+      [[0, 0, 1, 1], 6],        // i-bII, the mode's whole identity, and a step
+      [[0, 1, 0, 1], 5],        // rocking on it -- the phrygian shuttle
+      [[0, 1, 5, 1], 3],        // i-bII-bVI-bII, the flat second twice a bar
+      [[0, 1, 6, 1], 2],        // and with the bVII between
+    ],
     mixolydian: [
       [[0, 0, 6, 6], 5],
       [[0, 3, 6, 3], 3],        // I-IV-bVII-IV, the whole mode in one line
@@ -30974,11 +31010,47 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const bMode = (ksOn && ksChange && ksPool.length)
     ? ksPool[Math.floor(ksPick * ksPool.length) % ksPool.length]
     : mode;
+  /* ══ A MODE PER MOVEMENT ══════════════════════════════════════════════════
+     [owner: "a distinct mode is possible because we are working with code...
+     the only limitation is music theory and constraints not baked in values"]
+
+     Right, and the mechanism turned out to be already here three times over.
+     This program builds FOUR chord sets -- `chords`, `chorusChords`,
+     `bridgeChords` and `liftChords` -- and `mkChords(degrees, key, mode)` has
+     always taken a mode. What was missing was a genre being ALLOWED TO SAY
+     which mode each set stands in: the bridge took its mode from `keyShift`,
+     the chorus and the lift took the record's.
+
+     A movement in `form.plan` may now name a `mode` and the `set` it owns, and
+     the set is built in that mode. Four movements, four sets, four modes --
+     and because the movement pools are function-disjoint (they had to be for
+     the tempo arc), a section's FUNCTION already identifies its movement, so
+     `form.material` routes each movement to its own material family with no
+     new machinery at all.
+
+     Holst is the reason this does not fly apart: seven movements and an hour
+     with "no story line, no overarching form... nothing but mood", held
+     together by each movement being unmistakably itself. A mode per movement
+     is not a threat to coherence, it is what produces it.
+     docs/genre-research/telling-a-story-with-instruments.md §4
+
+     A genre that names no `set` on any movement gets exactly what it got
+     before -- the lookup returns null and every set keeps the mode it had. */
+  const planModeOf = which => {
+    const FP = (G.form && G.form.plan) || [];
+    const P = FP.find(x => x && x.set === which && x.mode);
+    return (P && MODES[P.mode]) ? P.mode : null;
+  };
   const bKey = ksOn ? pc(root + ksBy) : root;
   /* the bridge's harmony: the departure -- rotated to open OFF the tonic
      [theory: the bridge leaves home so the last chorus can arrive] */
   const rngC = stream(chart.seed, "depart");
-  const bridgeChords = mkChords(wpick(rngC, G.bridgeProgressions[bMode]), bKey, bMode);
+  /* the movement that owns C outranks keyShift's draw: a declared mode is a
+     statement about the record's shape, and a draw is a draw */
+  const cMode = planModeOf("C") || bMode;
+  const cKey  = planModeOf("C") ? root : bKey;
+  const bridgeChords = mkChords(wpick(rngC, G.bridgeProgressions[cMode] ||
+                                            G.bridgeProgressions[bMode]), cKey, cMode);
   /* ── AND THE CHORUS MAY HAVE ITS OWN CHANGES ────────────────────────────────
      Read off the roll, and it is the answer to "it's too static for far too
      long": B KEPT A'S BASS, A'S DRUMS AND A'S CHORDS -- verbatim, the roll
@@ -31085,7 +31157,16 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   };
   chords = voiceSet(chords, "A");
 
-  const chorusChords = G.chorusProgressions ? voiceSet(mkChords(chorusDegrees), "B") : chords;
+  /* THE CHORUS STANDS IN ITS MOVEMENT'S MODE when one is declared -- and its
+     degrees are re-drawn from that mode's own progressions, because a degree
+     list written for dorian means different chords in phrygian and the genre
+     wrote both. */
+  const bMode2 = planModeOf("B");
+  const chorusChords = bMode2
+    ? voiceSet(mkChords(wpick(stream(chart.seed, "chorusmode"),
+                              G.chorusProgressions[bMode2] || G.progressions[bMode2]),
+                        root, bMode2), "B")
+    : (G.chorusProgressions ? voiceSet(mkChords(chorusDegrees), "B") : chords);
   const NEW_CHORUS = chorusChords !== chords;
 
   /* ══ THE CADENCE MACHINE — THE LAST CHORD CHANGES WHEN THE MATERIAL RETURNS ═
@@ -36881,7 +36962,20 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      that do where the draw said no -- C gets `ostA` itself, the same array by
      identity, so nothing downstream can tell this line exists. */
   const ostCkey = buildOstinato("ostinato", false, bridgeChords);
-  const ostC = (bKey !== root || bMode !== mode) ? ostCkey : ostA;
+  /* ── AND THIS ASKED THE WRONG PAIR ────────────────────────────────────────
+     It read `bKey`/`bMode` -- keyShift's draw -- which was the only way the
+     bridge could move when this line was written. A movement declaring C's
+     mode moves it a second way, and then this test says "the bridge did not
+     move" and hands C the ostinato built for the RECORD's mode over chords
+     standing in another one: "out of key, not in the chord, and does not
+     resolve into the next one, in C: ostinato 70 bar 2", nine seeds in
+     twenty-four, within the minute of declaring it.
+
+     `cKey`/`cMode` are what `bridgeChords` was actually built from, which is
+     the question this line meant to ask all along. Second copy of a condition,
+     going stale the moment a second way to satisfy it existed -- the same
+     shape as `whichChanges`'s own note four hundred lines up. */
+  const ostC = (cKey !== root || cMode !== mode) ? ostCkey : ostA;
   const bassC  = pin(buildBass(bridgeChords, "bassC", true), "bass", "C");
   const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true,
                                                    avoid: reserve(ostC.concat(bassC)) });
@@ -37172,8 +37266,17 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      that declares no `keyShift` and for every record of the two that do where
      the draw said no, and then each of these is the A-material array ITSELF, by
      identity -- so nothing downstream can tell this block exists. ══════════ */
-  const LIFT = bKey !== root || bMode !== mode;
-  const liftChords = LIFT ? mkChords(degrees, bKey, bMode) : chords;
+  /* ── AND THE LIFT IS THE JOURNEY HOME ─────────────────────────────────────
+     `liftChords` was built for the key-lift: the A material again, a step up,
+     for a final chorus. A movement may now claim it and name its mode, which
+     is the same object doing the same job -- the record's own material coming
+     back somewhere else -- for a different reason. */
+  const lMode = planModeOf("lift");
+  const LIFT = lMode ? true : (bKey !== root || bMode !== mode);
+  const liftChords = lMode
+    ? mkChords(wpick(stream(chart.seed, "liftmode"),
+                     G.progressions[lMode] || G.progressions[mode]), root, lMode)
+    : (LIFT ? mkChords(degrees, bKey, bMode) : chords);
   const ostAl      = LIFT ? buildOstinato("ostinato", false, liftChords) : ostA;
   const ostAvarl   = LIFT ? buildOstinato("ostinato", true,  liftChords) : ostAvar;
   /* the lifted copy gets its OWN takes, in the lifted key, rather than a
@@ -37915,7 +38018,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   materials.chordsOf = Object.freeze(cOf);
   /* WHAT THE RECORD DID WITH ITS KEY, stated once, so the arrangement, the roll
      and the seam check all read the same fact rather than each deriving it. */
-  materials.lift = Object.freeze(LIFT ? { key: bKey, mode: bMode } : null);
+  /* the lift's OWN key and mode, for the same reason: a movement may have
+     declared them and then bKey/bMode are not what liftChords stands in */
+  materials.lift = Object.freeze(LIFT ? { key: lMode ? root : bKey,
+                                          mode: lMode || bMode } : null);
   return Object.freeze(materials);
 }
 
