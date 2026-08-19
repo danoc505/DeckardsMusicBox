@@ -572,3 +572,94 @@ Declared per machine, because they are different instruments: strings
 
 The parallel fifths (§1.5, and the program's own `parallels: 0` comment names
 the route), the Landini cadence, and the melody arch.
+
+---
+
+## 8. THE THREE THAT WERE LEFT — `2026-08-19y`
+
+### 8.1 The parallel fifths: the dial had to stop being a discount
+
+`parallels` was written as a REDUCTION of the shadowing penalty — at 1 the cost
+of parallel perfect motion went to zero. That removes an objection; it does not
+produce an effect, and the program's own comment recorded the consequence:
+parallel motion occurred in **0.0% of 50 bar-to-bar steps with the dial on and
+with it off, identical either way**. A dial that measures the same at both ends
+is not a dial.
+
+Two changes, both specified by that comment:
+
+1. **On a stepwise chord change the appetite is now a BONUS**, not the absence
+   of a penalty — the voicer goes looking for the shadowing candidate. On a
+   change by a third it stays a penalty, because a third holds two notes and
+   the right move there is to hold them. *"The two live at different moments"*,
+   as the old comment said and could not act on.
+2. **The Aeolian shuttle joins the minor pool** — `[[0, 6, 5, 6], 4]`,
+   i–♭VII–♭VI–♭VII, which lolth names as "extremely common in DS". Every move
+   in it is by a step, and roots a step apart share no notes, so both voices
+   must move — which is the only place parallel motion can happen.
+
+**Measured, 16 records, top voices of the two keyboards:**
+
+| | published build | dial off | dial on (0.85) |
+|---|---|---|---|
+| parallel perfect motion | 0.6% | 5.7% | **8.3%** |
+
+The dial now moves the number. (The jump from 0.6% to 5.7% with the dial *off*
+is the open fifths from §7 — two-note chords move in parallel naturally.)
+
+### 8.2 The melody arch: half of it was already true
+
+Measured before building anything, 131 lead phrases:
+
+| | |
+|---|---|
+| range within 12 semitones | **100%**, mean 6.8 |
+| high note struck once | 15% |
+| low note struck once | 22% |
+
+**The range rule was already satisfied.** `arch: { span: 12 }` is declared and
+the fold is built, so it is now a guarantee rather than a coincidence — it will
+catch a regression — but it changes nothing today, and saying otherwise would
+be claiming a fix for a fault that did not exist.
+
+**The "struck once" half was built, measured, and deleted.** An octave fold of
+every repeat after the first moved the high note 15% → 20% and made the low
+note *worse*, 22% → 18%. It fails for two reasons: the rule is about a PHRASE
+and the pass sees a whole material, and a climax struck four times is not
+repaired by dropping three of them an octave — that makes a lower echo, not a
+single summit. **It belongs where the contour is chosen, not after it.** Left
+out rather than left declared and useless.
+
+### 8.3 The Landini cadence
+
+What makes a line sound medieval rather than merely minor is mostly how it
+ARRIVES. The 14th-century figure: the upper voice descends from a major sixth
+to a perfect fifth before rising to the octave — the leading tone drops to the
+**sixth** before resolving. Its whole purpose is avoiding the direct
+leading-tone resolution.
+
+Measured first, 137 lead phrase endings: **15% arrived from a semitone below**
+— a leading tone resolving straight into the final, the one cadential gesture
+this music does not have.
+
+Where that happens, and only there, the seventh now steps down to the sixth and
+then leaps to the final: **7–6–8 in place of 7–8**. The escape note is taken
+out of the penultimate's own length so the phrase does not grow, and it is
+refused if the sixth is not in the mode, if another part is striking it, or if
+there is no room.
+
+| lead phrase endings | before | after |
+|---|---|---|
+| **leading tone resolving directly** | **15%** | **4%** |
+| approached by step | 64% | 56% |
+| approached from above | 36% | 39% |
+
+The residual 4% is the guard declining rather than the figure failing. And
+"approached by step" *falling* is correct: Landini deliberately leaps from the
+sixth to the final instead of stepping from the seventh — that leap is the
+figure.
+
+### 8.4 What moved
+
+- lofi, synthwave, boxcar synth: **0 of 6 records changed**.
+- 16 of 16 dungeon-synth seeds compose; lead notes outside the mode 1.55%.

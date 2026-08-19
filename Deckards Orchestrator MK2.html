@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19x · power chords, a tonic pedal, an open-fifth cadence, and a filter that blooms</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19y · the parallel fifths are back, and the tune lands the medieval way</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -23689,7 +23689,14 @@ const GENRE = {
        parallel fifths belong. A genre that drew both kinds of move and applied
        the organum appetite only to the stepwise ones would have both. That is
        a real job and it is not done. */
-    parallels: 0,
+    /* ── AND THE APPETITE IS ON, NOW THAT THE DIAL DOES SOMETHING ──────────
+       It sat at 0 with a comment explaining that it measured identically at
+       both ends, which was true of a dial that only removed a penalty. It is a
+       BONUS on stepwise changes now (see buildKeys), and the shuttle above
+       gives it stepwise changes to act on. 0.85 rather than 1: at full the
+       voicer would take a shadowing candidate over every other consideration,
+       and organum is this genre's colour rather than its only move. */
+    parallels: 0.85,
     /* THE FIRST KEYBOARD HOLDS ITS CHORD instead of comping a figure over it.
        See makeMaterials for the measurement that forced this: 1492 of 2812
        notes were this one part. Both primary sources describe a held chord --
@@ -23754,6 +23761,22 @@ const GENRE = {
         [[0, 5, 0, 5], 4],        // rocking on bVI, two held in both directions
         [[0, 0, 3, 3], 3],        // i-iv, a fourth apart: ONE note held
         [[0, 0, 0, 6], 2],        // the practitioner's 3:1 loop -- bVII holds nothing
+        /* ── THE AEOLIAN SHUTTLE, AND IT IS HERE FOR THE PARALLEL FIFTHS ────
+           "Look into modal shuttles, for ex. the dorian shuttle, aeolian
+           shuttle, etc. THESE SORT OF MODAL SOUNDS ARE EXTREMELY COMMON IN DS"
+           -- lolth, and he writes the aeolian one as i-bVII-bVI-bVII, which in
+           scale degrees is 0-6-5-6.
+
+           Every move in it is BY A STEP. That is the point of adding it: roots
+           a step apart share no notes, so both voices must move, and two voices
+           that must both move are the only place parallel fifths can happen.
+           The table above was rebuilt around root motion by THIRDS to buy
+           shared notes, and it succeeded so completely that organum -- this
+           genre's own identifying colour -- became unreachable: measured at
+           0.0% of bar-to-bar steps. This line is the other half of the
+           sentence, weighted below the third-motion loops so a record still
+           mostly holds notes and shuttles when it moves. */
+        [[0, 6, 5, 6], 4],        // the aeolian shuttle: every move a STEP
         [[0, 0, 0, 0], 1],        // no change at all
       ],
       dorian: [
@@ -24162,7 +24185,17 @@ const GENRE = {
                octaves: [-12, 12], answer: 0.85,
                styles: { double: { density: 0.85, octaves: [-12] } } },
     theme: { count: { hooky: [2, 2], breath: [1, 1], normal: [1, 2] },
-             onsetPool: [[0, 8], [8, 5], [4, 2], [12, 2], [6, 1]] },
+             onsetPool: [[0, 8], [8, 5], [4, 2], [12, 2], [6, 1]],
+             /* THE ARCH, from the only hard melodic numbers the genre's
+                community guide gives: a range of "no more than about 12 notes"
+                and "the high note should only be hit one time. Same for the
+                low note." An octave of range is also what a chapel choir or a
+                recorder actually has, so this is not only a stylistic rule. */
+             arch: { span: 12 },
+             /* the 14th-century cadence figure: where the tune would resolve a
+                leading tone straight into its final, it drops to the sixth
+                first. Measured at 15% of phrase endings before this. */
+             landini: true },
     /* NO BENDS AND NO PRESSURE. Not an omission -- the two keyboards this
        genre plays are a tape replay machine and a string ensemble, and neither
        has a strip under your left hand or a key that responds to how hard you
@@ -33140,6 +33173,15 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          the loop, so skipping a bar cannot starve the bars after it [Law 3]. */
       if(!padPresses[b]) continue;
       const ch = CH(chordSet, b);
+      /* ── WHICH KIND OF MOVE THIS BAR IS, because organum only belongs on one
+         of them. Roots a third apart share TWO notes; roots a STEP apart share
+         NONE, so a stepwise change is the one where both voices must move --
+         and two voices that must both move are where parallel motion lives.
+         Adjacent scale degrees in either direction, asked of the degree rather
+         than of semitones so a mode's own step sizes are respected. */
+      const chWas = b > 0 ? CH(chordSet, b - 1) : null;
+      const degStep = chWas ? ((((ch.degree - chWas.degree) % 7) + 7) % 7) : -1;
+      const stepMove = degStep === 1 || degStep === 6;
       let strikes;
       /* A PAD MAY SWELL IN JUST AFTER THE DOWNBEAT, and for a second keyboard
          that is the whole difference between fitting and not. Measured on lofi
@@ -33537,8 +33579,37 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                `counter.style: "double"` already opened for synthwave's octave
                double. A soft law stays soft; only its weight is the genre's.
                docs/genre-research/dungeon-synth.md ss4. */
+            /* ── AND THE DIAL HAD TO STOP BEING A DISCOUNT ────────────────
+               `parallels` was written as a REDUCTION of the penalty: at 1 the
+               cost of shadowing went to zero. That removes an objection; it
+               does not produce an effect, and the measurement said so in as
+               many words -- parallel perfect motion occurred in 0.0% of 50
+               bar-to-bar steps WITH THE DIAL ON AND WITH IT OFF, identical
+               either way. A dial that measures the same at both ends is not a
+               dial, and this file's own comment called it "a real job and it
+               is not done".
+
+               It is done here, and the shape of the fix is the one that
+               comment specified. Organum is not the absence of a rule against
+               parallel fifths, it is a POSITIVE PREFERENCE for them -- so on a
+               stepwise change the appetite becomes a BONUS and the voicer goes
+               looking for the shadowing candidate instead of merely tolerating
+               it. On a change by a third it stays a penalty, because a third
+               holds two notes and the right move there is to hold them: the
+               two devices want opposite things and they live at different
+               moments, which is exactly what the old comment said and could
+               not act on.
+
+               16 against the 12 it replaces, so on a step move a parallel
+               candidate beats one that is a whole tone better in top-voice
+               travel (2 per semitone) and still loses to a candidate that is
+               out of register or lands on another part's note -- those are
+               filters, and this is only a cost. */
             const want = Math.max(0, Math.min(1, G.parallels || 0));
-            if(da !== 0 && da === db && (iv === 0 || iv === 7)) cost += 12 * (1 - want);
+            if(da !== 0 && da === db && (iv === 0 || iv === 7)){
+              if(stepMove && want > 0) cost -= 16 * want;
+              else cost += 12 * (1 - want);
+            }
           }
         }
         if(cost < bestCost){ bestCost = cost; voiced = cand; }
@@ -34803,6 +34874,110 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
 
        IF IT EVER FIRES, SOMETHING ABOVE IS WRONG, and probe_repeat.js reports
        the count so that it is visible rather than quietly absorbed. */
+    /* ══ THE ARCH ═════════════════════════════════════════════════════════
+       The community guide gives the only hard melodic numbers anyone gives:
+       a low note and a high note "no more than about 12 notes apart", the line
+       shaped as a rise and fall, and "THE HIGH NOTE SHOULD ONLY BE HIT ONE
+       TIME. Same for the low note."
+       [dungeon-synth.neocities.org/music-making-guide]
+
+       Both halves are done by OCTAVE FOLDING and nothing else, which is the
+       whole reason this is safe to do after the fact. Moving a note by twelve
+       semitones does not change its pitch class, so a chord tone stays a chord
+       tone, a note in the mode stays in the mode, and every law this builder
+       already enforced about WHICH pitch may sound still holds. What changes is
+       only the register the note sounds in -- and register is exactly what the
+       rule is about.
+
+       SPAN folds outliers toward the line's own middle until the range fits.
+       PEAKONCE folds the REPEATS of the extreme, keeping the first: a climax
+       hit three times is not a climax, and the second and third become the
+       lower echo of it rather than a second summit.
+
+       A fold is refused when it would land on a pitch another part is already
+       striking (the same `reserved` set the builder used), or leave the band.
+       So this can decline to fully satisfy the rule, and does, rather than
+       putting a note somewhere it may not go. */
+    const ARCH = (G.theme && G.theme.arch) || null;
+    if(ARCH && notes.length > 1){
+      const fits = (n, to) => to >= LO && to <= HI && !reserved.has(key(n.bar % BARS, n.step, to));
+      const move = (n, to) => { reserved.delete(key(n.bar % BARS, n.step, n.pitch));
+                                n.pitch = to; reserved.add(key(n.bar % BARS, n.step, to)); };
+      /* SPAN, first: a range is a property of the whole line and folding for it
+         can itself remove a repeated extreme */
+      const span = Math.max(0, Math.round(ARCH.span || 0));
+      if(span > 0) for(let pass = 0; pass < 4; pass++){
+        let lo = Infinity, hi = -Infinity;
+        for(const n of notes){ if(n.pitch < lo) lo = n.pitch; if(n.pitch > hi) hi = n.pitch; }
+        if(hi - lo <= span) break;
+        const mid = (hi + lo) / 2;
+        let did = false;
+        for(const n of notes){
+          if(n.pitch === hi && fits(n, n.pitch - 12) && Math.abs(n.pitch - 12 - mid) < Math.abs(n.pitch - mid)){
+            move(n, n.pitch - 12); did = true; }
+          else if(n.pitch === lo && fits(n, n.pitch + 12) && Math.abs(n.pitch + 12 - mid) < Math.abs(n.pitch - mid)){
+            move(n, n.pitch + 12); did = true; }
+        }
+        if(!did) break;
+      }
+      /* ── THE OTHER HALF OF THE RULE IS NOT HERE, AND IT WAS TRIED ────────
+         "The high note should only be hit one time. Same for the low note."
+         Written, as an octave fold of every repeat after the first, and
+         MEASURED: the high note went from struck-once in 15% of phrases to
+         20%, and the LOW note got worse, 22% to 18%. Mean strikes of the
+         extreme, 4.59 to 4.26. That is noise for a change that moves notes.
+
+         It fails because the rule is about a PHRASE and this pass sees a whole
+         material, and because a climax struck four times is not repaired by
+         dropping three of them an octave -- that makes a lower echo, not a
+         single summit. The rule belongs where the contour is chosen, not after
+         it. Deleted rather than left declared and useless, which is the defect
+         this file's own comments name most often. */
+    }
+    /* ══ THE LANDINI CADENCE ═══════════════════════════════════════════════
+       What makes a line sound MEDIEVAL rather than merely minor is mostly how
+       it ARRIVES. The 14th-century practice has a name for the figure: the
+       upper voice "momentarily descends from a major sixth to a perfect fifth
+       before ascending to the octave" -- the leading tone drops to the SIXTH
+       degree before resolving. Its entire effect is AVOIDING the direct
+       leading-tone resolution, which is also what the academic reading of this
+       genre describes: modes that felt bardic "without requiring functional
+       tonal resolution" [Tamura].
+
+       MEASURED before building it, 137 lead phrase endings over 16 records:
+       15% arrived from a semitone below -- a leading tone resolving straight
+       into the final, the one cadential gesture this music does not have.
+
+       So where that happens, and only there, the seventh steps DOWN to the
+       sixth and then leaps to the final: 7-6-8 in place of 7-8. The escape
+       note is taken out of the penultimate's own length, so the phrase does not
+       grow and nothing after it moves; it is refused if the sixth is not in the
+       mode, if another part is already striking it, or if there is no room to
+       put it. A cadence figure, not a correcting pass. */
+    const LAND = !!(G.theme && G.theme.landini);
+    if(LAND && notes.length >= 2){
+      const fin = notes[notes.length - 1], pen = notes[notes.length - 2];
+      const sameBarish = (fin.bar - pen.bar) * STEPS + (fin.step - pen.step);
+      if(fin.pitch - pen.pitch === 1 && sameBarish >= 2 && pen.dur >= 2){
+        /* the scale step below the leading tone, in the record's own mode */
+        const SC = MODES[mode] || [];
+        let six = null;
+        for(let d = 1; d <= 3 && six == null; d++){
+          const cand = pen.pitch - d;
+          if(SC.includes((((cand - root) % 12) + 12) % 12)) six = cand;
+        }
+        const at = pen.step + Math.max(1, pen.dur - 1);
+        const atBar = pen.bar + Math.floor(at / STEPS), atStep = at % STEPS;
+        if(six != null && six >= LO && six <= HI &&
+           !reserved.has(key(atBar % BARS, atStep, six)) &&
+           (atBar - fin.bar) * STEPS + (atStep - fin.step) < 0){
+          pen.dur = Math.max(1, pen.dur - 1);
+          notes.splice(notes.length - 1, 0,
+            { bar: atBar, step: atStep, dur: 1, pitch: six, vel: 0.62, role: "lead" });
+          reserved.add(key(atBar % BARS, atStep, six));
+        }
+      }
+    }
     return { notes: articulate(NOREPEAT ? noRepeats(notes) : notes, streamName), dna };
   }
 
