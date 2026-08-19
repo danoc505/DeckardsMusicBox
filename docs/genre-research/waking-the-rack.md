@@ -225,6 +225,29 @@ Same two classes, different seeds. These are pre-existing faults relocating, not
 faults created here — and they are still real faults that this file has not
 fixed.
 
+### The full sweep, and where the pressure actually is
+
+432 blends on each build, every failure text collected and grouped:
+
+```
+                                        before   this build
+  collision in Avar / Bdev / Avarlift     10         16
+  out of key … in Bdev/Bvar/B              4          4
+  no keys voicing fits [52,67]             2          3
+                                        ------     ------
+                                          16         23
+```
+
+**Every one of the seven extra failures is in the collision family**, and the
+other two families are flat. No new failure *kind* appears — `Avarlift` is the
+lift variant of `Avar`, the same check on a different material name.
+
+So the honest reading is narrower than "latent faults moved around": the blend's
+**collision check is where the pressure is**, it was already the largest family
+before this build, and shifting the draw sequence pushes more pairs into it. That
+is a defect with a name and a place to look, not a mystery — and it is the next
+job rather than something this build fixed.
+
 ---
 
 ## 8. WHAT IS NOT BUILT
