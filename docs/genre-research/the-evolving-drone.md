@@ -564,3 +564,79 @@ Three instruments at fault rather than the program, in one sitting. The rule
 holds and needs restating in a harder form: *a measurement is a program too,
 and it is the one nobody reviewed.* And its corollary, which is the one that
 would have saved all three: **run it twice before you believe it once.**
+
+
+---
+
+## POSTSCRIPT 2, 2026-08-19 — "the drone is not sounding now"
+
+The build after the gurdy came out. He was right, and the meter used to check
+the previous fix could not see it.
+
+### The measurement that was wrong
+
+The drone was checked with flat RMS. Flat, deleting the recording cost it
+2.8 dB and everything looked fine. Weighted the way an ear actually responds:
+
+| the drone alone | flat RMS | **A-weighted** |
+|---|---|---|
+| with the gurdy string | −24.3 dB | **−30.0 dB** |
+| the stack alone | −27.1 dB | **−55.4 dB** |
+
+**Twenty-five decibels of audible level**, invisible to the instrument used.
+The band picture says where it went:
+
+| band | with the gurdy | without |
+|---|---|---|
+| 250 Hz | −3 | −25 |
+| 500 Hz | −6 | −43 |
+| 1 kHz | −12 | −54 |
+
+The recording had been carrying the entire midrange. What was left was a 31 Hz
+lump behind a 420 Hz lowpass: energy no speaker reproduces and no ear is
+sensitive to. The drone was not quiet. It was **inaudible**, which is a
+different fault and needs a different fix.
+
+And this file already knew the sentence. It is written about this very voice,
+a hundred lines up in the genre table: *"the drone lives at 41-98 Hz, where the
+ear is 30-45 dB down; no fader fixes physics."* The fader was never the lever.
+
+### The fix, which is harmonics and not level
+
+| knob | was | now | why |
+|---|---|---|---|
+| `wave` | triangle | **sawtooth** | a triangle's partials fall at 1/n² and nothing of a 35 Hz tone survives to 500 Hz; a saw falls at 1/n |
+| `cut` | 420 Hz | **1400 Hz** | a lowpass below the fourth partial removes the harmonics the line above just made. Still dark: 4 kHz sits 38 dB down |
+| `shape` | fifths | **the harmonic series** | at six voices that is 1, 2, 3, 4, 5, 6 — a pipe organ's drawbar registration, and "pipe/chapel organs" is in this genre's own source list |
+| `voices` | 4 | **6** | the upper three are what reach the band the ear lives in |
+
+The parallel bandpass at 900 Hz finally has something to find, too. Its whole
+design is *"a partial drifting through it swells and falls"*, and until this
+build no partial ever reached it.
+
+Measured after, the drone inside a real dungeon-synth mix:
+
+| | A-weighted |
+|---|---|
+| before | −52.2 dB |
+| after | **−38.5 dB** |
+| the mix it sits in | −23.6 dB |
+
+**+13.7 dB audible**, sitting 15 dB under the mix — a bed, which is what a
+drone is. The mix as a whole did not move (−23.7 → −23.6 A-weighted). Not the
+full 25 dB back, deliberately: the gurdy layer was running eight dB hot over
+its own stack, so matching it would be matching a fault.
+
+Spectral tilt after, so "louder" is not "harsher": 31 Hz −5, 63 −8, 125 −7,
+250 −9, 500 −9, 1 k −11, 2 k −19, 4 k −36, 8 k −46. An even midrange with a
+steep roll-off above 2 kHz.
+
+### The lesson
+
+The rule this session kept restating — *run it twice before you believe it
+once* — is not enough on its own. Both of these measurements were run many
+times and were perfectly repeatable. **They were repeatably measuring the
+wrong quantity.** A flat RMS answers "how much energy", and nobody was asking
+that; the question was "can it be heard", and that is a different integral.
+
+Pick the instrument from the question, not from the drawer.

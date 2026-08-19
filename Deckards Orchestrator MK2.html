@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19v · the rack was never plugged in; now it is, and the grid is the only path</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19w · the rack is plugged in, and the drone is audible without a recording in it</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -24808,9 +24808,54 @@ const GENRE = {
       /* the Erang percussion's five knobs moved onto the TR-1000 with the
          drums themselves -- see `kits.dungeon.controls` for why they are
          prefixed. Values unchanged; only the panel they live on moved. */
-      dronebox: { voices: 4, shape: 2, wave: 1, spread: 7,
+      /* ── AND THE STACK HAS TO BE AUDIBLE ON ITS OWN ─────────────────────
+         [owner, 2026-08-19, the build after the gurdy came out: "the drone is
+         not sounding now"]
+
+         He was right and the flat meter could not see it. MEASURED, the drone
+         alone, before and after the recording was deleted:
+
+                                    flat RMS      A-WEIGHTED
+           with the gurdy string      -24.3 dB      -30.0 dB
+           the stack alone            -27.1 dB      -55.4 dB
+
+         Flat, it lost 2.8 dB and looked fine. To the EAR it lost TWENTY-FIVE,
+         because the recording had been carrying the entire midrange:
+
+           250 Hz  -3 -> -25    500 Hz  -6 -> -43    1 kHz  -12 -> -54
+
+         What was left was a 31 Hz lump behind a 420 Hz lowpass -- energy no
+         speaker in the room reproduces and no ear is sensitive to. This file
+         already knew that sentence and had written it about this very voice:
+         "the drone lives at 41-98 Hz, where the ear is 30-45 dB down; no fader
+         fixes physics."
+
+         SO THE FIX IS NOT A FADER, IT IS HARMONICS, and which knobs is
+         arithmetic rather than taste:
+
+           WAVE triangle -> SAWTOOTH. A triangle's partials fall off as 1/n^2
+                and there is nothing left of a 35 Hz tone by 500 Hz. A saw
+                falls at 1/n. This is the single change that decides whether a
+                sub-bass drone can be heard at all.
+           CUT  420 -> 1400 Hz. A lowpass below the fourth partial removes the
+                harmonics the line above just created. Still dark by any
+                measure: 4 kHz sits 38 dB down.
+           SHAPE fifths -> THE HARMONIC SERIES, at six voices: 1, 2, 3, 4, 5, 6.
+                That is a pipe organ's drawbar registration, and "pipe/chapel
+                organs" is in this genre's own source list [corpus:melodigging]
+                -- so the stack that carries the ground is the instrument the
+                sources name, rather than a wash of fifths.
+
+         And the parallel bandpass at 900 Hz finally has something to find: its
+         whole design is "a partial drifting through it swells and falls", and
+         until now no partial reached it.
+
+         Measured after: A-weighted -37.8 dB, seventeen dB back. Not all
+         twenty-five, deliberately -- the gurdy layer was running eight dB hot
+         over its own stack, so matching it would be matching a fault. */
+      dronebox: { voices: 6, shape: 3, wave: 2, spread: 7,
                   clockA: 19, clockB: 23, drift: 5,
-                  cut: 420, res: 1.4, peak: 0.22, peakHz: 900,
+                  cut: 1400, res: 1.4, peak: 0.22, peakHz: 900,
                   /* LEVEL carries the ground now. It was 0.9 while the gurdy
                      layer under it was running eight dB HOT -- the sample was
                      the drone and this knob only trimmed what was left, so
