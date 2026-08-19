@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19h · the rack wakes up: a phaser, a spring and a flanger</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19i · every collision is gone: one bug in five places</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -34665,7 +34665,28 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const bassATakes = takesOf("bass", "A", bassA,
                              t => pin(buildBass(chords, "bass:" + t, false), "bass", "A"));
   const bassAx = allOf(bassA, bassATakes);
-  const placed = reserve(ostAx.concat(ostAvarx, bassAx));
+  /* ── AND THE RETURNING BASS BELONGS IN HERE TOO ───────────────────────────
+     THE NOTE ABOVE THIS ONE COLLECTS ITS DEBT A FOURTH TIME. It says the comp
+     is built once and played in A and in Avar, so it must find a seat free in
+     BOTH -- and then reserved `ostAvarx`, the returning OSTINATO, and stopped.
+     The returning BASS is a different set of notes the moment a genre declares
+     a cadence, and it was never added, so the comp went on voicing onto it.
+
+     MEASURED, 432 blends with the collision message taught to name both
+     parties: SEVEN of the sixteen collisions read "keys lands on bass", every
+     one of them in Avar or Bdev -- the returning materials -- and every one at
+     BAR 3, STEP 8 OR 10. That is the last beat of the last bar, which is
+     exactly where the bass walks its chromatic approach and exactly the bar the
+     cadence machine rewrites. The position alone identified the bug.
+
+     Fourth reserve in this file to point at the first statement's parts while
+     its material plays the returning ones (keys2A, keys2Avar and keys2B were
+     the first three, each with its own note). The rule they all state: A PART
+     IS ONLY LEGAL IF IT IS LEGAL IN EVERY MATERIAL IT APPEARS IN.
+
+     Costs nothing where no cadence is declared: `bassAvar` IS `bassA` then, so
+     the set is the same set [Law 3]. */
+  const placed = reserve(ostAx.concat(ostAvarx, bassAx, bassAvar));
   /* ── DOES THE FIRST KEYBOARD COMP, OR DOES IT HOLD? ──────────────────────
      `buildKeys` has always been able to do both -- the bridge pad already asks
      for `sustain` -- but WHICH one the main keyboard does was a fixed law, and
@@ -34859,19 +34880,35 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                        t => buildOstinato("ostinato:" + t, false, chorusChords)) : ostATakes;
   const bassBx  = allOf(bassB, bassBTakes);
   const ostBx   = allOf(ostB, ostBTakes);
-  const placedB = NEW_CHORUS ? reserve(ostBx.concat(bassBx)) : placed;
+  /* ── THE CHORUS'S RETURNING BASS, HOISTED SO THE RESERVE BELOW CAN SEE IT ─
+     Built here rather than after `keysB` for one reason: `placedB` is what the
+     chorus comp avoids, and it has to include the bass Bvar and Bdev actually
+     play. Same rule as `bassAvar`: the returning chords on the SAME named
+     stream, so only the cadence moves.
+
+     AND THE ORDER IS THE POINT, not a tidy-up. The last time a reserve on this
+     side named `bassBvar` before it was declared, `const`'s temporal dead zone
+     threw, `tryPad` caught it, and material B's second keyboard went from empty
+     in 0 of 20 dungeon synth records to empty in 20 of 20 -- with the compose
+     sweep reading 800/800 GREEN, because the part had vanished rather than
+     collided. The declaration moves ABOVE its readers; the readers do not move
+     down to it. */
+  const bassBvar = NEW_RET ? pin(buildBass(chorusRet, "bassB", false), "bass", "Bvar") : bassB;
+  /* and the comp the chorus's return plays must clear that bass, for the
+     reason `placed` states four times over */
+  const placedB = NEW_CHORUS ? reserve(ostBx.concat(bassBx, bassBvar)) : placed;
   const keysB  = buildKeys(chorusChords, "keysB", { dense: true, avoid: placedB,
                                              sustain: HOLD, at: HOLD ? 0 : undefined });
   const keysBTakes = takesOf("keys", "B", keysB,
                        t => buildKeys(chorusChords, "keys:" + t, { dense: true, avoid: placedB,
                                       sustain: HOLD, at: HOLD ? 0 : undefined }));
   const keysBx = allOf(keysB, keysBTakes);
-  /* ── AND THE CHORUS'S RETURN GETS ITS OWN BASS AND COMP TOO ───────────────
-     Same rule as `bassAvar`: the returning chords, the SAME named streams, so
+  /* ── AND THE CHORUS'S RETURN GETS ITS OWN COMP TOO ───────────────────────
+     Same rule as `keysAvar`: the returning chords, the SAME named stream, so
      only the cadence moves. `Bvar` and `Bdev` shared `bassB` and `keysB` with
      `B` outright before this, which is why a chorus heard three times was the
-     same chorus three times below the tune. */
-  const bassBvar = NEW_RET ? pin(buildBass(chorusRet, "bassB", false), "bass", "Bvar") : bassB;
+     same chorus three times below the tune. (Its bass is built further up, so
+     the reserve this comp avoids can include it -- see `placedB`.) */
   const keysBvar = NEW_RET ? buildKeys(chorusRet, "keysB", { dense: true, avoid: placedB,
                                              sustain: HOLD, at: HOLD ? 0 : undefined }) : keysB;
   /* ── ONE PAD, TWO MATERIALS, SO IT CLEARS BOTH ────────────────────────────
@@ -35080,6 +35117,13 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       return !!(ch && ch.tones.some(t => pc(t) === pc(q)));
     };
     let prev = null;
+    /* ── AND THE SEATS THIS TWIST HAS ALREADY TAKEN ARE TAKEN ───────────────
+       `res` is the ACCOMPANIMENT's seats. Nothing held the twist to its own:
+       two notes of the tune sounding at the same instant were free to be sent
+       to the same pitch, and a part that plays one note twice at one instant
+       is a part colliding with itself. MEASURED, 432 blends with the collision
+       message naming both parties: two failures read "lead lands on LEAD". */
+    const mine = new Set();
     return rh.map((n, i) => {
       /* offset by one so the first note does not land back on its own pitch --
          a twist that opens identically is `Avar`, and this is the other move */
@@ -35092,6 +35136,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
             const q = cand + oct;
             if(q < LO || q > HI) continue;
             if(res.has(key(n.bar, n.step, q))) continue;
+            if(mine.has(key(n.bar, n.step, q))) continue;   // and its own seats
             if(q === prev) continue;              // this file's no-repeat law
             if(strict && !legalAt(q, n.bar)) continue;
             put = q; break;
@@ -35100,12 +35145,42 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         }
         if(put != null) break;
       }
-      /* nothing in the pool fits this seat: the note keeps its own pitch, which
-         is a bar of A showing through the twist rather than a dropped note */
-      if(put == null) put = n.pitch;
+      /* ── AND THE FALLBACK WAS THE ONE PATH THAT CHECKED NOTHING ──────────
+         This read `if(put == null) put = n.pitch;` and its note said the own
+         pitch "is legal because the material it came from is". Harmonically,
+         yes. But legality is not the only law the seat has to satisfy: the
+         pool walk above rejects a candidate that is RESERVED, that repeats the
+         previous note, or that this twist has already used -- AND THE FALLBACK
+         SKIPPED ALL THREE. Every check in the loop was optional, because the
+         path taken when the loop found nothing obeyed none of them.
+
+         It is the file's oldest lesson wearing a new face: the note was safe
+         against ITS OWN material's accompaniment, and this material plays the
+         RETURNING one. MEASURED across 432 blends: of sixteen collisions, two
+         read "lead lands on lead" and two "lead lands on keys" -- four of them
+         this line.
+
+         So the fallback is a search too. Its own pitch first, then its octaves,
+         and only a seat nothing else holds. If every one of those is taken the
+         note is DROPPED -- and that costs nothing audible, because "taken"
+         here means some other part is already sounding that exact pitch at that
+         exact instant. Two identical notes at one instant are one note; writing
+         the second is not a musical event, it is a duplicate. `noRepeats` a few
+         hundred lines up settles the same question the same way, in one word:
+         "IT DROPS." */
+      if(put == null)
+        for(const oct of [0, 12, -12, 24, -24]){
+          const q = n.pitch + oct;
+          if(q < LO || q > HI) continue;
+          if(res.has(key(n.bar, n.step, q))) continue;
+          if(mine.has(key(n.bar, n.step, q))) continue;
+          put = q; break;
+        }
+      if(put == null) return null;                 // every seat this note has is taken
       prev = put;
+      mine.add(key(n.bar, n.step, put));
       return Object.assign({}, n, { pitch: put });
-    });
+    }).filter(Boolean);
   };
   /* ══ THE SEQUENCE — THE THIRD DEVICE, AND THE ONE `003` SAYS IS COMPULSORY ═
      "Taking a melodic idea and moving it down a scale in steps is called a
@@ -35269,7 +35344,22 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                               against: keysAl, avoid: reserve(ostAlx.concat(bassAlx, keysAlx)) })) : keys2A;
   const keys2Avarl = LIFT ? tryPad(band => buildKeys(liftChords, "keys2:var", { sustain: true, at: 2, band,
                               against: keysAl, avoid: reserve(ostAvarlx.concat(bassAlx, keysAlx)) })) : keys2Avar;
-  const resAl      = reserve(ostAlx.concat(bassAlx, keysAlx, keys2Al));
+  /* ── AND THE LIFTED PATH RESERVES BOTH PADS, LIKE THE PATH IT COPIES ─────
+     `resA` a few hundred lines up already carries this fix, with a note that
+     spends nine lines explaining it: `themeA`'s first two bars are reused as
+     `leadAvar`'s head, so the tune's head is played against AVAR's pad as well
+     as A's, and reserving only `keys2A` let it voice onto the other one.
+
+     THE LIFTED COPY OF THAT LINE NEVER GOT THE FIX. `leadAvarl` is built the
+     same way -- `themeAl`'s bars 0-1 concatenated with a new tail -- and is
+     played in `Avarlift` against `keys2Avarl`, while `themeAl` was built
+     avoiding `keys2Al` alone. MEASURED, 432 blends: FOUR collisions read "lead
+     lands on keys2", every one of them in Avarlift, every one at BAR 0 -- the
+     borrowed head, exactly.
+
+     Fifth reserve in this file pointed at the wrong material, and the second
+     to be a fix that was made on one path and not carried to its copy. */
+  const resAl      = reserve(ostAlx.concat(bassAlx, keysAlx, keys2Al, keys2Avarl));
   const themeAl    = LIFT ? buildTheme(liftChords, "themeA", resAl, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1],
                               comp: keysAl, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 }) : themeA;
   const counterAl  = LIFT ? deriveCounter(themeAl.notes, resAl, "counterA", liftChords, keysAl) : counterA;
@@ -39638,7 +39728,18 @@ function composeSong(seed, rig, genre, picks, pins, edits, traitRoll, traits, wa
      covering the newest material is worse than no check, because it still
      reports a pass. It asks the song what materials it has. */
   for(const m of Object.keys(materials).filter(k => materials[k] && materials[k].drums)){
-    const seen = new Set();
+    /* ── A COLLISION HAS TWO PARTIES AND THE MESSAGE NAMED NEITHER ──────────
+       This was a `Set` of "bar:step:pitch", so the throw could say WHERE two
+       parts landed on one pitch and never WHO. Sixteen of 432 blends fail on
+       this check -- the largest fault in the program by a distance -- and every
+       report of it for the life of the file has read "collision in Bdev at
+       3:0:62", which names a material, a moment, and no suspects.
+
+       A `Map` costs the same and remembers the first part's name, so the throw
+       can say "keys2 lands on ostinato". That is the difference between a
+       failure you can act on and one you can only re-run. It changes no music
+       and no draw; it is the error message doing its job. */
+    const seen = new Map();
     /* WHICH CHANGES THIS MATERIAL IS ON. C is the bridge and has its own. */
     const chSet = materials.chordsOf[m] || materials.chords;
     for(const role in materials[m]){
@@ -39739,8 +39840,10 @@ function composeSong(seed, rig, genre, picks, pins, edits, traitRoll, traits, wa
           }
         }
         const k = n.bar + ":" + n.step + ":" + n.pitch;
-        if(seen.has(k)) throw new Error("collision in " + m + " at " + k);
-        seen.add(k);
+        if(seen.has(k)) throw new Error("collision in " + m + " at " + k +
+              " — " + role + " lands on " + seen.get(k) +
+              " (bar " + n.bar + ", step " + n.step + ", pitch " + n.pitch + ")");
+        seen.set(k, role);
       }
       /* ── AND "IS IT IN RANGE" IS NOT "IS IT A NUMBER" ──────────────────────
          This read `n.step < 0 || n.step > 15`, and BOTH COMPARISONS ARE FALSE
