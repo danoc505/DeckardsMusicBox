@@ -1443,6 +1443,25 @@
   /* the grid: one column of input jacks, then a knob column per output */
   .mxwrap{ display:grid; gap:.30rem .34rem; align-items:center;
            justify-content:start; margin:.1rem 0 .2rem; }
+  /* ── AND THE LAST COLUMN WAS FALLING OFF THE PHONE ────────────────────────
+     Reported with a screenshot: on a narrow screen the POLE column (G) is cut
+     in half by the right edge -- knobs drawn, unreachable, and the OUTPUTS jack
+     under them clipped with its label.
+
+     The grid is seven columns of fixed-size knobs and a row of labels; it has a
+     natural width and a phone does not have it. `justify-content:start` means
+     it does not compress, which is right -- squeezing a matrix until its knobs
+     overlap would destroy the one thing this panel is for, which is that the
+     POSITION of a knob tells you which two things it connects.
+
+     So it SCROLLS instead. The grid keeps its true size and the panel gives it
+     a window, which is exactly what a rack does when the module is wider than
+     the case you are looking at it through. `overscroll-behavior-x: contain`
+     keeps a sideways drag on the grid from turning into a page swipe. */
+  .mxscroll{ max-width:100%; overflow-x:auto; overflow-y:hidden;
+             overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch;
+             /* room for the scrollbar so it never sits on the OUTPUTS labels */
+             padding-bottom:.15rem; }
   .mxcorner{ font-size:.62rem; letter-spacing:.10em; color:#4a4a46;
              text-transform:uppercase; padding-bottom:.15rem; }
   /* an input row's label and its socket, as the machine has them: the jack,
@@ -1605,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19f · the matrix has an LFO on both axes, with a reset trigger</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19g · a crossing is a knob, not a switch</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3345,7 +3364,48 @@ const MATRIX = {
      The right one is an ORDER. Signal may only flow FORWARD along it, plus
      into the mix. Everything else is a blind plate, and the reasons below are
      generated from this list rather than typed, so a new effect cannot forget
-     to close its own back-doors. */
+     to close its own back-doors.
+
+     ── AND THE ORDER WAS CHALLENGED, MEASURED, AND KEPT ─────────────────────
+     [owner: "isn't the point of the matrix mixer to be able to create novel
+     combinations and novel fx with the rerouting?"]
+
+     It is, and the argument against these fifteen plates looked strong: the
+     cycle measurement they cite (-35 dB vs -115 between repeat renders) was
+     taken on a ConvolverNode room, and the room is an FDN WORKLET now, whose
+     own comment says the opposite -- "it CAN BE FED... inside a worklet the
+     feedback is a line of arithmetic, not a graph edge, so it is deterministic
+     by construction... repeat renders of the FDN are bit-identical (-316 dB)".
+     A refusal resting on a machine the program had replaced.
+
+     SO IT WAS RE-MEASURED, 2026-08-19, rather than argued either way. A build
+     with `roomEcho` unplated, dungeon synth feeding the echo from the room at
+     0.35 against an `echo.verb` of 0.5 -- a real graph cycle at a loop gain of
+     0.175 -- rendered twice, seed 1, and nulled against a twice-rendered
+     control with no cycle at all:
+
+         control, no cycle    -89.9  -90.3  -90.8  -91.2  dB below signal
+         cycle patched        -89.8  -89.8  -69.3  -38.5  dB below signal
+
+     Two sections came back at the control's floor and two did not, and -38.5
+     is the original figure to within three dB. THE PLATES STAY, and the reason
+     is now stated correctly rather than by the wrong machine: what the FDN
+     made deterministic is the feedback INSIDE the worklet, which is arithmetic
+     on a sample. A cycle through the GRAPH is a different object -- it crosses
+     AudioNode boundaries, and Chromium's 128-sample render quantum and its
+     ordering of a loop are what vary. The worklet fixed the room's own tail,
+     not the graph's topology, and the old comment blurred those into one.
+
+     AND THE NOVEL EFFECTS DO NOT NEED THESE FIFTEEN. The FORWARD half of the
+     lattice is not plated at all: echoSpring, echoFlange, echoDP4, echoBarber,
+     roomSpring, roomFlange, roomDP4, roomBarber, springFlange, springDP4,
+     springBarber, flangeDP4, flangeBarber, dp4Barber -- fifteen crossings, one
+     per pair, every one of them a knob today. Measured the same day: the number
+     opened by any genre is ZERO. The re-routing this machine exists for is not
+     missing, it is UNUSED, and it is a genre research job rather than a plate
+     to lever off. It is also only now SAFE to use, because a crossing became a
+     level this build: one effect feeding another at 1.0 is a wash, and at 0.15
+     it is a colour. */
   order: ["echo", "room", "spring", "flange", "dp4", "barber"],
   /* the two exceptions to the order live in MATRIX.alias above: both are
      INSIDE one unit (the echo's own feedback, and its wash into the room)
@@ -3588,33 +3648,86 @@ function mixSendLift(bus, dest){
   }
   return up;
 }
-function routeBaseFor(space, cell, bare, noLift){
-  const b = cell.in.k, dest = cell.out.k;
+/* ══ A CROSSING IS A KNOB, NOT A SWITCH ══════════════════════════════════════
+   [owner: "you say it's a 0 or 1 more than once, what do you mean, and is this
+   the correct way for this to be set up?"]
+
+   IT WAS NOT. A genre declared its routing as a LIST OF NAMES --
+   `feeds: ["keys", "lead"]` -- and the code below turned membership of that
+   array into a send level with `? 1 : 0`. In the list meant FULL SEND. Out of
+   it meant SILENT. There was no third answer anywhere in the grid.
+
+   And the tell was sitting in the same expression: the room's own MIX crossing
+   already carried `space.wet` -- 0.16, a real number -- because the moment a
+   level was genuinely needed, one got added AS A SPECIAL CASE FOR ONE CELL
+   rather than the model being fixed. One cell of ninety-eight knew what a knob
+   was.
+
+   WHAT THE BINARY MODEL COST, all four measured this session:
+
+     1. IT IS WHY THE DESK IS SHUT. Of 48 automatable crossings a genre opens
+        three to six. Of course it does: if the only choices are DRENCHED and
+        DRY then dry is the honest answer for a drum kit. At 0.10 a drum kit in
+        the room is obviously right and costs nothing.
+     2. IT MAKES THE FX-TO-FX LATTICE UNUSABLE. `echo -> spring` at 1.0 is one
+        effect feeding another at full strength -- a wash, and in a feedback
+        path a runaway. Those crossings do not just need unplating, they need
+        LEVELS, or opening them would be dangerous.
+     3. IT CRIPPLES THE AUTOMATION, and this one was found by being bitten:
+        motion is an OFFSET ADDED TO THE BASE, so on a base of 1 an LFO can
+        only go DOWN and on a base of 0 it can only go UP. The matrix axes had
+        to invent an `off` term to duck from the top rather than clip against
+        it. Every crossing's automation was one-sided and WHICH SIDE was
+        decided by which of two values it happened to sit at. A knob at 0.4
+        moves both ways, which is the entire reason to have a knob.
+     4. THE MACHINE ALREADY SUPPORTED LEVELS AND ONLY THE TABLES DID NOT. Two
+        lines below this, `clamp(base + TRIM[...])` -- the hand's own trim --
+        is continuous. A person at the panel could set 0.37 with a finger and
+        the program could not say it. The panel DRAWS A KNOB at every
+        intersection; the model was writing a cheque the picture had cashed.
+
+   SO A FEEDS ENTRY IS EITHER A NAME OR A PAIR:
+
+       feeds: ["keys", "lead", ["drums", 0.10], ["bass", 0.18]]
+
+   A bare name still means 1.0, so every table written before today produces
+   bit-identical routing -- this is a widening, not a change. A pair names the
+   level. Absent still means 0.
+
+   AND IT IS ONE FUNCTION NOW. `routeBaseFor` and `routeOpen` each carried
+   their own copy of these rules, and this file's own comment forty lines up
+   records what that cost the last time: "a probe that kept a copy reported the
+   ROOM as fed by two genres when all seven feed it, because the copy read
+   `space.feeds` and missed the two rows this opens by default". Two copies of
+   one rule, and the second is always the one something reads. */
+function routeLevel(space, dest, row){
   /* an emptied fx rack kills every input to the ECHO outright, past any
      TRIM: a hand left on a route must not keep a "muted" delay alive.
      The MIX column is never killed -- an empty rack is a dry mix, not a
      silent one -- and the room's own return is cut by its `wet: 0`. */
   if(dest === "Echo" && space.echoKill) return 0;
-  const feedsOf = out => {
-    const o = MATRIX.outs.find(x => x.k === out);
-    return (o && o.feeds) ? (space[o.feeds] || []) : [];
-  };
-  const on =
-    /* THE MIX COLUMN. Every instrument row is open (that is the wire it
-       replaced); the room's row carries the genre's `wet`, which used to
-       be a number only the song could write and is now a knob. */
-    dest === "Mix"  ? (b === "room" ? (space.wet != null ? space.wet : 0.16) : 1) :
-    dest === "Spring" ? (feedsOf("Spring").indexOf(b) >= 0 ? 1 : 0) :
-    dest === "Flange" ? (feedsOf("Flange").indexOf(b) >= 0 ? 1 : 0) :
-    dest === "DP4"  ? (feedsOf("DP4").indexOf(b) >= 0 ? 1 : 0) :
-    dest === "Barber" ? (feedsOf("Barber").indexOf(b) >= 0 ? 1 : 0) :
-    dest === "Room" ? (b === "keys" || b === "lead" ||
-                       feedsOf("Room").indexOf(b) >= 0 ? 1 : 0) :
-    /* ...and the ECHO column, which only instrument rows reach: the
-       room's way in here is a blind plate (see MATRIX.none). */
-                   (feedsOf("Echo").indexOf(b) >= 0 ? 1 : 0);
+  /* THE MIX COLUMN. Every instrument row is open (that is the wire it
+     replaced); the room's row carries the genre's `wet`, which used to be a
+     number only the song could write and is now a knob -- and which was the
+     only level in the whole grid until this function existed. */
+  if(dest === "Mix") return row === "room" ? (space.wet != null ? space.wet : 0.16) : 1;
+  const o = MATRIX.outs.find(x => x.k === dest);
+  const list = (o && o.feeds) ? (space[o.feeds] || []) : [];
+  for(const e of list){
+    if(Array.isArray(e)){ if(e[0] === row) return Math.max(0, Math.min(1, e[1])); }
+    else if(e === row) return 1;                       // a bare name is FULL
+  }
+  /* THE ROOM IS OPEN TO KEYS AND LEAD WHATEVER A GENRE SAYS -- the default
+     wiring every genre inherited. Checked AFTER the list so a genre may now
+     dial them DOWN (`["keys", 0.4]`) as well as leave them alone; before this
+     they were forced to 1 and a genre naming them could only repeat itself. */
+  if(dest === "Room" && (row === "keys" || row === "lead")) return 1;
+  return 0;
+}
+function routeBaseFor(space, cell, bare, noLift){
+  const b = cell.in.k, dest = cell.out.k;
   /* the hand's override: an untouched unit nobody feeds stays unfed */
-  let base = on;
+  let base = routeLevel(space, dest, b);
   if(!bare && !base && !cell.in.ret){
     const mach = MATRIX.retOf[dest];
     if(mach && handOnMachine(mach) &&
@@ -3639,13 +3752,11 @@ function routeBaseFor(space, cell, bare, noLift){
   return clamp(master + mixSendLift(b, dest));
 }
 /* whether the GENRE (not the hand) opens this row into this column -- the
-   question "is this unit already fed", asked without recursing */
+   question "is this unit already fed", asked without recursing. One line now,
+   because `routeLevel` is the one owner of the rules: open is a level above
+   zero, and there is no second copy of what a feeds list means. */
 function routeOpen(space, dest, row){
-  const o = MATRIX.outs.find(x => x.k === dest);
-  if(dest === "Room") return row === "keys" || row === "lead" ||
-                             ((space.feeds || []).indexOf(row) >= 0);
-  if(!o || !o.feeds) return true;
-  return (space[o.feeds] || []).indexOf(row) >= 0;
+  return routeLevel(space, dest, row) > 0;
 }
 
 function matrixCells(){
@@ -7685,6 +7796,10 @@ function makeMotion(chart, form, sections, materials){
      ONE RULE FOR BOTH AXES rather than two hand-written copies of it, which is
      the lesson `whichChanges` cost this file: the second copy is the one that
      goes stale, and it is always the one something actually reads. */
+  /* the cells by key, so the loop below can ask what each crossing is SET to
+     rather than only whether it is open */
+  const CELLS = {};
+  for(const c of matrixCells()) CELLS[c.k] = c;
   const axisMod = (spec, axis) => {
     if(!spec || !spec.bars) return;
     const mx = Object.assign({}, MO.matrix || {});
@@ -7710,12 +7825,24 @@ function makeMotion(chart, form, sections, materials){
         if(o.k === "Mix") continue;                       // a level is a tremolo
         const k = i.k + o.k;
         if(MATRIX.alias[k] || MATRIX.none[k]) continue;   // a blind plate stays blind
-        if(!routeOpen(G.space || {}, o.k, i.k)) continue; // an unpatched cell is not a knob
+        /* ── AND THE DEPTH IS A FRACTION OF WHAT THE CROSSING IS SET TO ────
+           This read `routeOpen` and used the declared depth flat, which was
+           right while every open crossing sat at exactly 1 and became wrong
+           the hour a crossing could sit at 0.06: a 0.18 duck on a 0.06 send is
+           a 300% modulation that spends half its cycle clamped shut. A send
+           being ridden is ridden BY A PROPORTION OF ITSELF -- that is what an
+           attenuator on a send bus does -- so the depth is scaled by the level
+           the genre set. A crossing at 1.0 moves exactly as far as before; one
+           at 0.06 breathes by six percent of a duck instead of being gated. */
+        const cell = CELLS[k];
+        const lvl = cell ? routeBaseFor(G.space || {}, cell, true) : 0;
+        if(!(lvl > 0)) continue;                          // an unpatched cell is not a knob
+        const dep = depth * lvl;
         /* APPENDED, never replacing: a genre's own statement about one crossing
            is a different statement from "this row breathes" or "this unit
            opens", and the cell keeps all three. */
         mx[k] = (mx[k] || []).concat([{
-          kind: "lfo", bars: [[bars, 1]], depth: depth / 2, off: -depth / 2,
+          kind: "lfo", bars: [[bars, 1]], depth: dep / 2, off: -dep / 2,
           shape, reset,
           /* AN AXIS LANE TAKES NO PHASE TWIN. The twin is a beating device for
              ONE destination; an axis lane is one movement spread across many,
@@ -20892,7 +21019,20 @@ const GENRE = {
     /* even here: a quarter-note tape repeat, barely there, on the tune. Lofi's
        whole lineage is a sampler through a tape machine, and a tape machine
        echoes. Small numbers -- this is patina, not an effect. */
-    space: { wet: 0.16, echoFeeds: ["lead"],
+    /* ── AND NOW A ROW CAN BE PARTLY IN ───────────────────────────────────
+       Three of forty-eight crossings were open on this genre, because the only
+       two settings were DRENCHED and DRY and dry is the honest answer for a
+       boom-bap kit. These are the levels a lofi record actually has, and they
+       are small on purpose: this genre's own word for its effects is PATINA.
+
+       The kit gets a breath of room -- "a touch of reverb on the drums glues
+       the kit to the track" is the oldest advice in the genre and it is never
+       a wash; the bass gets less, because low end in a reverb is mud, which is
+       why the room's send has a high-pass on it here at all (`sendHp`). The
+       crackle stays out: it is the stylus and it never met the band [see the
+       vinyl row's plates]. [CHOSEN inside what the sources say is small.] */
+    space: { wet: 0.16, echoFeeds: ["lead", ["keys", 0.10]],
+             feeds: [["drums", 0.10], ["bass", 0.06]],
              /* the kit's image: hats to the right, rim and clap answering
                 left, cymbals straddling, kick and snare dead centre per the
                 mono rule. A dusty spread, not a drum showcase. [CHOSEN] */
@@ -23164,7 +23304,13 @@ const GENRE = {
              /* `drone` joins the day it stops riding the keys bus -- the Room
                 is open to keys and lead by default, so without this the cavern
                 this genre is made of would go dry [MATRIX.ins] */
-             feeds: ["keys", "lead", "bass", "drone"], echoFeeds: ["keys", "lead"],
+             /* THE CAVERN TAKES EVERYTHING, and now the war drum can be IN it
+                without being drowned by it. A drum at full send in a room this
+                size is a wash where the strokes should be; at 0.35 it is a
+                drum in a hall, which is the whole picture this genre is.
+                `world` and `rail` are not in this genre's palette. */
+             feeds: ["keys", "lead", "bass", "drone", ["drums", 0.35]],
+             echoFeeds: ["keys", "lead", ["bass", 0.12]],
              random: 0, spread: 0.8, preDelay: 0.075,
              kitPan: { tom1: -0.22, tom2: 0.1, tom3: 0.24, snare: 0, kick: 0 } },
 
@@ -25299,7 +25445,16 @@ GENRE.boxcarsynth = {
      inherited decoration rather than a decision.) */
   space: { wet: 0.28, irSec: 1.6, tailPow: 1.3, tailDark: 0.5, sendHp: 130,
            /* the train keeps the room it had while it rode the keys bus */
-           feeds: ["keys", "lead", "drone"], echoFeeds: ["lead"],
+           /* THE VALLEY THE TRAIN IS CROSSING. `world` and `rail` got their own
+              matrix rows so a river and a steam whistle could reach a reverb --
+              and then no genre named them in `feeds`, so they still could not.
+              That is the half of that fix which was never made, and it is made
+              here: a place and a locomotive are the two things in this record
+              that are FAR AWAY, so they take more room than the band does.
+              The kit stays nearly dry -- a boxcar rhythm is close-miked. */
+           feeds: ["keys", "lead", "drone", ["world", 0.55], ["rail", 0.45],
+                   ["drums", 0.12], ["bass", 0.08]],
+           echoFeeds: ["lead", ["rail", 0.22], ["keys", 0.10]],
            random: 0, spread: 0.7, preDelay: 0.02 },
 
   /* ── THE MATRIX'S TWO AXES ─────────────────────────────────────────────────
@@ -40386,7 +40541,12 @@ function knobEl(m, c){
    (`echo.fb` at echo x echo), which is how the grid can show a crossing this
    program already had a dial for without becoming its second owner. */
 function matrixGridEl(m, M){
+  /* the scroller is the OUTER element and the grid is inside it, so the grid
+     keeps its natural width on a narrow screen instead of losing its last
+     column off the edge [see .mxscroll] */
+  const scroll = el("div", "mxscroll");
   const wrap = el("div", "mxwrap");
+  scroll.appendChild(wrap);
   wrap.style.gridTemplateColumns = "auto repeat(" + MATRIX.outs.length + ", auto)";
   const cellFor = (inK, outK) => {
     const k = inK + outK;
@@ -40442,7 +40602,7 @@ function matrixGridEl(m, M){
     leg.appendChild(el("div", "nm", o.label));
     wrap.appendChild(leg);
   }
-  return wrap;
+  return scroll;
 }
 
 /* ── THE FIELD, DRAWN ───────────────────────────────────────────────────────
