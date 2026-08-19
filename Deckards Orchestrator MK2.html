@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19a · the last chord changes when the material comes back</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19b · the sequence, and the law learns what one is</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -2004,7 +2004,30 @@ function nearestDegree(root, mode, rootPc){
    note's legality depend on its NEIGHBOUR, so any edit that removes or reorders
    notes can strand a perfectly good passing tone with nothing to resolve into.
    docs/genre-research/the-note-that-does-not-belong.md ═════════════════════ */
+/* ── WHETHER A NOTE IS LEGAL WHERE IT STANDS ────────────────────────────────
+   In key, or a tone of the chord under it, or a step away from a chord tone it
+   resolves into. Three ways to be right, and for a long time they were all of
+   them -- which made this law narrower than music is.
+
+   ── AND A SEQUENCE LICENCES ITS OWN CHROMATICISM ──────────────────────────
+   A REAL sequence transposes a figure by an exact interval, so it brings in
+   notes the key does not have BY CONSTRUCTION: that is the definition, not a
+   side effect -- "no change in either quality or size of the interval"
+   [corpus:iastate], and "chromatic sequences use accidentals to keep interval
+   quality exact" [corpus:intmus]. `002` describes exactly this in the music it
+   is written about: a figure "repeated in sequence down a whole step", with
+   "harmony that moves chromatically farther and farther away from the home
+   key".
+
+   So a note carrying `seq` is legal. That is not a hole in the law, it is the
+   law being told a rule it did not know: THE UNIT OF COHERENCE IS THE PATTERN,
+   not the bar. The licence is bounded by construction rather than by trust --
+   only the COPIES in a sequence carry the mark, the model does not (it was
+   drawn legally like any other bar), and the bars after the copies do not
+   either, so the note the sequence breaks into must still satisfy the three
+   clauses below. The pattern earns the chromatic notes and then has to land. */
 function noteFits(n, nx, chSet, key, mode){
+  if(n.seq) return true;
   if(inKey(key, mode, n.pitch)) return true;
   const ch = chSet && chSet[n.bar % chSet.length];
   if(ch && ch.tones.some(t => pc(t) === pc(n.pitch))) return true;
@@ -20506,6 +20529,26 @@ const GENRE = {
        chords, and every return of every material had the verse's cadence. The
        chorus half was fixed earlier today; this is the other half. */
     cadence: "relative",
+    /* ══ THE SEQUENCE, REAL — the exact shape, and the chromatic notes with it ═
+       A REAL sequence "uses the EXACT INTERVALS between each pitch as the
+       original melody statement... no change in either quality or size"
+       [corpus:iastate], so it brings in notes the key does not have -- and
+       `002` describes precisely that in the music it studies: a figure
+       "repeated in sequence DOWN A WHOLE STEP", with "harmony that moves
+       chromatically farther and farther away from the home key".
+
+       `semis: -2` is that whole step. `003` writes the same move twice --
+       "it drops the whole thing down a step", "this bar is repeated down a
+       whole step".
+
+       THIS IS THE ONE THE PROGRAM USED TO REFUSE. Its out-of-key law had three
+       clauses and none of them knew what a sequence was, so a figure moved by
+       an exact interval threw. The law has been taught the rule instead of the
+       genre being told it cannot have the device: the unit of coherence is the
+       pattern, not the bar. Lofi is the right genre to carry it -- it is the
+       one with jazz harmony, extensions on 87% of its chords and a `qualities`
+       draw that already reaches outside the scale. */
+    sequence: { kind: "real", semis: -2, copies: 2 },
     /* WHERE in the bar a hit is loud. Measured off human drummers
        [corpus:harvest_drums] -- which is right for this genre and wrong for a
        drum machine, so it is a genre entry rather than a global. */
@@ -22724,6 +22767,17 @@ const GENRE = {
        It is also exactly what `009` describes carrying a whole record: "the
        first time it's minor, the second time it's major." */
     cadence: "picardy",
+    /* ══ THE SEQUENCE, TONAL — the figure walks down the mode ═══════════════
+       `003`: "you won't hear a Mozart piece that doesn't move a melody around
+       in sequence at least once." A TONAL sequence "alters the quality of the
+       intervals in order to remain in the same key" [corpus:iastate], which is
+       what this genre wants: it is modal music and its whole identity is the
+       mode. A real sequence would drag in the chromatic notes that erase a
+       phrygian or a carpathian, so the one that cannot leave the scale is the
+       one that belongs here -- and that is a decision about THIS GENRE, not a
+       limit on the program: lofi declares the other kind three tables down.
+       Two copies, then the break, which is `003`'s own worked size. */
+    sequence: { kind: "tonal", step: -1, copies: 2 },
     /* a slow repeating figure -- the thing the person playing it walks beside. `run` and
        `follow` on, so it does not restart at the bar and it reads the chord:
        this is the Berlin-School sequencer door, used here for the layered
@@ -34017,6 +34071,100 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       return Object.assign({}, n, { pitch: put });
     });
   };
+  /* ══ THE SEQUENCE — THE THIRD DEVICE, AND THE ONE `003` SAYS IS COMPULSORY ═
+     "Taking a melodic idea and moving it down a scale in steps is called a
+     SEQUENCE, and it's a very classical technique. YOU WON'T HEAR A MOZART
+     PIECE THAT DOESN'T MOVE A MELODY AROUND IN SEQUENCE AT LEAST ONCE." [003]
+     `002` names the same move: "taking a short musical idea and repeating it
+     moving up or down through some chord progression".
+
+     MODEL AND COPY. "The term MODEL refers to the initial statement of the
+     pattern, and the term COPY refers to subsequent repetitions"
+     [corpus:milne/musicsc]. The model here is the material's FIRST BAR, which
+     is the size `003`'s own worked examples use.
+
+     TONAL OR REAL, AND THE GENRE SAYS WHICH. A TONAL sequence "alters the
+     quality of the intervals in order to remain in the same key" -- the interval
+     SIZE stays, the quality shifts. A REAL sequence "uses the exact intervals
+     as the original... no change in either quality or size", which drags in
+     notes the key does not have [corpus:iastate; corpus:promusicianhub]. Both
+     are music theory and the program refuses neither: `scaleStep` cannot leave
+     a key and is the tonal one; a fixed semitone shift is the real one, and
+     `noteFits` has been taught that a sequence licences its own chromaticism
+     (see the law).
+
+     HOW MANY, AND THEN THE BREAK. "Most sequences consist of only THREE TO FIVE
+     repetitions" [corpus:musicsc], and `003`'s example is tighter and says why:
+     the figure moves down "FOR TWO BARS, JUST ENOUGH TIME TO SET UP AN
+     EXPECTATION, and then sucker punches us with the sudden jump". So the bars
+     after the copies are NOT part of the pattern -- they are the material's own
+     notes, unchanged. The break is the point, and it is `006`'s rule of three
+     arriving at the same number from the other side.
+
+     IT APPLIES CLEANLY OR NOT AT ALL. A copy that would leave the instrument's
+     range or land on a seat another part has taken abandons the whole device
+     and the material returns as it was -- a constraint on the choice, never a
+     repair after it [no correcting passes]. */
+  const sequence = (rhythm, cs, cfg, acc) => {
+    if(!cfg) return rhythm;
+    const rh = rhythm.filter(n => n.pitch != null).slice().sort(byTime);
+    if(!rh.length) return rhythm;
+    const copies = Math.max(1, Math.min(4, cfg.copies == null ? 2 : cfg.copies));
+    /* ── THE MODEL IS THE FIRST BAR THAT IS ACTUALLY A FIGURE ───────────────
+       It was the first bar with any note in it, which on a sparse genre is one
+       note -- and one note is not a figure, so the device declined almost
+       everywhere: dungeon synth built a sequence in 1 material slot out of 120.
+       A model needs at least two notes to have a shape to move, and it needs
+       room for its copies AND for the bar that breaks the pattern, which is the
+       whole point of it [003]. So the first bar that satisfies both is the
+       model, rather than the first bar that exists. */
+    let bar0 = -1;
+    for(let b = rh[0].bar; b + copies < BARS; b++)
+      if(rh.filter(n => n.bar === b).length >= 2){ bar0 = b; break; }
+    if(bar0 < 0) return rhythm;
+    const model = rh.filter(n => n.bar === bar0);
+    const LO = playable(R.themeA)[0], HI = playable(R.themeA)[1];
+    const K = keyOf(cs), MD = modeOf(cs);
+    const real = cfg.kind === "real";
+    const stepBy = cfg.step == null ? -1 : cfg.step;    // scale steps, tonal
+    const semis  = cfg.semis == null ? -2 : cfg.semis;  // semitones, real. -2 = "down a whole step" [003]
+    const made = [];
+    for(let c = 1; c <= copies; c++){
+      for(const n of model){
+        const q = real ? n.pitch + semis * c
+                       : scaleStep(K, MD, n.pitch, stepBy * c);
+        if(q < LO || q > HI) return rhythm;
+        /* ── AND IT REFUSES ON THE BAR, NOT ONLY ON THE STEP ────────────────
+           The first version asked `res.has(bar, step, pitch)` -- the onset seat
+           -- and the seam check still threw "collision in Aseq at 3:4:71" on 4
+           of 200 lofi seeds. A reserved note SOUNDS THROUGH the steps after its
+           onset, so a copy can land in the middle of one without ever sharing
+           its first instant. Refusing the whole bar for that pitch is stricter
+           than the check that was catching it, which is the right way round:
+           the device declines to apply rather than negotiating with the law. */
+        if(acc && acc.some(a => a.bar === bar0 + c && a.pitch === q)) return rhythm;
+        made.push(Object.assign({}, n, { bar: bar0 + c, pitch: q, seq: !!real }));
+      }
+    }
+    /* the model stays, the copied bars are replaced, everything after the
+       copies is the material's own -- which is the break */
+    const keep = rhythm.filter(n => !(n.bar > bar0 && n.bar <= bar0 + copies));
+    /* ── AND THE BARS IT KEEPS HAVE TO BE LEGAL HERE TOO ────────────────────
+       The kept bars are the parent tune's, and the parent tune was written over
+       the parent's accompaniment. This material's accompaniment is the
+       RETURNING one -- a different comp in its last bar the moment the genre
+       declares a cadence -- so a bar this device merely passes through can land
+       on a seat that moved under it. Measured: "collision in Aseq at 3:4:71",
+       bar 3 every time, which is exactly the bar the cadence transforms.
+       The device declines rather than repairing: it is the last statement of
+       the material and there is no correcting pass to be had. */
+    for(const n of keep){
+      if(n.pitch == null) continue;
+      if(acc && acc.some(a => a.bar === n.bar && a.pitch === n.pitch &&
+                              a.step === n.step)) return rhythm;
+    }
+    return keep.concat(made).sort(byTime);
+  };
   const leadAdev = JOIN(twist(themeA.notes, varTail.notes, resDev, chords));
   /* and the same move for the chorus, against ITS accompaniment */
   /* AND ITS COUNTER IS IN THE RESERVE, not merely its band. Bdev keeps Bvar's
@@ -34229,6 +34377,26 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      not exist, and only clearAgainst below may move THE DRONE, never them. */
   const droneA = pin(buildDroneLane(chords, "A"), "drone", "A");
   const droneB = NEW_CHORUS ? pin(buildDroneLane(chorusChords, "B"), "drone", "B") : droneA;
+
+  /* ══ THE SEQUENCES, BUILT HERE BECAUSE THE GROUND HAS TO EXIST FIRST ═══════
+     A copy has to clear every pitched part of the material it lands in, and the
+     DRONE is one of them. Named eight lines above its own declaration the first
+     time, which `const` answers with a temporal-dead-zone throw -- and this one
+     threw LOUDLY, 800 of 800, because nothing here catches. The pad two hundred
+     lines up made the same mistake into a silence instead, which is why that
+     one cost a measurement to find and this one cost a run.
+
+     `sequence` hands back THE SAME ARRAY when the device does not apply -- no
+     genre declared it, the model was one note, a copy left the range or hit a
+     taken seat. An identity check is exact where comparing notes would be a
+     guess, and an empty lead drops the material out of the rotation instead of
+     letting it take a turn and change nothing. */
+  const seqAraw   = sequence(themeA.notes, chords, G.sequence,
+                             ostAvar.concat(bassAvar, keysAvar, keys2Avar, droneA));
+  const leadAseq  = seqAraw === themeA.notes ? [] : JOIN(seqAraw);
+  const seqBraw   = sequence(themeB.notes, chorusChords, G.sequence,
+                             ostB.concat(bassBvar, keysBvar, keys2B, counterBvar, droneB));
+  const leadBseq  = seqBraw === themeB.notes ? [] : JOIN(seqBraw);
   const droneC = pin(buildDroneLane(bridgeChords, "C"), "drone", "C");
   const droneAl    = LIFT ? pin(buildDroneLane(liftChords, "A"), "drone", "A") : droneA;
   const materials = {
@@ -34244,6 +34412,11 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        develops; changing the band as well would make it a different section
        rather than a restatement of this one. */
     Adev: { drums: drumsAvar, bass: bassAvar, keys: keysAvar, keys2: keys2Avar, lead: leadAdev, counter: [], ostinato: ostAvar, drone: droneA },
+    /* Aseq = the model stated, moved in steps, then broken. Only present when
+       the device actually applied -- `sequence` hands back the material
+       untouched when a copy will not fit, and an identical material is not a
+       third device, so it is not offered as one. */
+    Aseq: { drums: drumsAvar, bass: bassAvar, keys: keysAvar, keys2: keys2Avar, lead: leadAseq, counter: [], ostinato: ostAvar, drone: droneA },
     /* Bdev = twist(B): the chorus's second device, and the reason it exists is
        the same measurement. A chorus could only ever answer a vary demand with
        `Bvar`, so a form with four choruses played B, Bvar, Bvar, Bvar — and the
@@ -34253,6 +34426,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        is still a shadow of a redrawn tune, which is what Avar's own comment
        says to do. */
     Bdev: { drums: drumsBvar, bass: bassBvar, keys: keysBvar, keys2: keys2B, lead: leadBdev, counter: counterBvar, ostinato: ostB, drone: droneB },
+    Bseq: { drums: drumsBvar, bass: bassBvar, keys: keysBvar, keys2: keys2B, lead: leadBseq, counter: counterBvar, ostinato: ostB, drone: droneB },
     B:    { drums: drumsB, bass: bassB, keys: keysB, keys2: keys2B, lead: themeB.notes, counter: counterB, ostinato: ostB, drone: droneB },
     /* Bvar = vary(B) -- the chorus's rule-of-three answer. Same drums, bass,
        chords and pad as B; only the tune's second half is redrawn, so the hook
@@ -34488,8 +34662,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        whole reason this rule exists once instead of twice.
        When no cadence is declared the returning set IS the parent's set, by
        identity, so this costs those genres nothing. */
-    const ret = /(var|dev)$/.test(base);
-    base = base.replace(/(var|dev)+$/, "") || base;   // Bvar, Bdev, Adev -> B, B, A
+    const ret = /(var|dev|seq)$/.test(base);
+    base = base.replace(/(var|dev|seq)+$/, "") || base;   // Bvar, Bdev, Aseq -> B, B, A
     const letter = base === "C" ? "C" : base === "B" ? "B" : "A";
     return (ret && letter !== "C") ? letter + "ret" : letter;
   };
@@ -35212,10 +35386,43 @@ function makeArrangement(chart, form, materials){
            function could: an `instrumental` that plays A would have been handed
            the CHORUS's variant. The material the section was about to play is
            the only thing that knows which tune it is developing. */
+        /* ── AND THE THIRD DEVICE JOINS THE ROTATION ──────────────────────
+           `003` names three moves and the program now has all three, different
+           in KIND rather than in degree:
+
+             2nd hearing   Avar   the OPENING kept, the ENDING redrawn  (the answer)
+             3rd hearing   Adev   the RHYTHM kept, the NOTES redrawn    (the twist)
+             4th hearing   Aseq   the figure MOVED IN STEPS, then broken (the sequence)
+
+           Three devices rotating means a statement cannot equal either of the
+           two before it, where two devices could only guarantee one. `006`'s
+           ceiling is "more than two times is overusing it", and the rotation is
+           now wide enough to honour it on a form with five verses.
+
+           A device the genre did not declare, or one whose copies would not
+           fit, hands back the material unchanged -- and an unchanged material
+           is not a device, so it drops out of the rotation rather than taking a
+           turn and doing nothing. */
         const NTH = sec.occurrence || 2;
         const fam = String(material).charAt(0) === "B" ? "B" : "A";
-        const dev = fam + "dev", vary = fam + "var";
-        if(materials[vary]) material = ((NTH % 2 === 1) && materials[dev]) ? dev : vary;
+        const vary = fam + "var";
+        const spin = [vary, fam + "dev", fam + "seq"]
+                       .filter(k => materials[k] && materials[k].lead && materials[k].lead.length);
+        /* ── AND WHICH DEVICE TAKES WHICH TURN IS DRAWN, NOT FIXED ──────────
+           A fixed order put the third device on the FOURTH hearing, and a
+           fourth hearing is rare: measured over 40 records, lofi reaches
+           occurrence 4 five times. So the sequence was built and never played,
+           in 0 records of 60 -- a device that exists and cannot be heard.
+
+           The offset is drawn once per record on its own named stream, so the
+           three devices still rotate (no statement can equal either of the two
+           before it) and WHICH one opens the rotation varies between records.
+           Same principle as the drum arc: the table says how much, the draw
+           says which. The draw is unconditional, so a genre with two devices
+           computes the same rotation it always did [Law 3]. */
+        const spinFrom = Math.floor(stream(chart.seed, "devicespin")() * 3);
+        if(materials[vary] && spin.length)
+          material = spin[(NTH - 2 + spinFrom + spin.length * 2) % spin.length];
         if(sec.occurrence >= 3) stripHalf = true;
       }
     }

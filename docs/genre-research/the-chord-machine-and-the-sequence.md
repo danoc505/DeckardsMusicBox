@@ -6,7 +6,9 @@ inversions, additions etc… do some research on the web. Propose what you think
 is best. And I want you to work on 'Sequence is missing' after the chords…
 everything is grounded in music theory."*
 
-**Nothing is built yet. This is the research and the proposal.** Every operation
+**BOTH ARE BUILT — see §9 for what they measured.** The research and the
+proposal are kept below as written, so the design can be checked against what
+actually shipped. Every operation
 below is named by a source, and the structure that governs *when* to apply them
 is named by two.
 
@@ -259,3 +261,108 @@ Both are melodic/harmonic table-and-builder work. Neither needs a new sound.
 - [Descending Fifth Progressions — Univ. of South Carolina](https://in.music.sc.edu/fs/bain/vc/musc215/pub/seq/dfp.html) and [Diatonic Descending-fifth Sequences — Milne](https://milnepublishing.geneseo.edu/fundamentals-function-form/chapter/25-diatonic-descending-fifth-sequences/) *(model and copy; three to five repetitions)*
 - [Melodic Sequences — Iowa State, *Comprehensive Musicianship*](https://iastate.pressbooks.pub/comprehensivemusicianship/chapter/7-2-melodic-sequences-tutorial/) and [Tonal Sequences — Integrated Music Theory](https://intmus.github.io/inttheory22-23/18-tonal-sequences/a2-tonalsequences.html) *(tonal vs real sequence)*
 - `003 (Transitions)`, `002`, `006`, `009` on `main` — the transcripts this serves
+
+
+---
+
+# PART THREE — WHAT WAS BUILT, AND WHAT IT MEASURED
+
+*Appended 2026-08-19, after building both.*
+
+## 9a. THE CADENCE MACHINE
+
+A returning material now gets `chordsRet`/`chorusRet` — the same chords with the
+**last one transformed** — and its own bass, comp, pad and figure built on them,
+**on the same named streams**, so every bar whose chord did not change comes out
+note for note identical and only the cadence moves.
+
+```
+                cadence moves     of the moved, leave the key
+  lofi           120/120                47%      cadence: "relative"
+  dungeonsynth    87/120                67%      cadence: "picardy"
+  synthwave        0/120                 —       declares nothing
+  boxcarsynth      0/120                 —       declares nothing
+```
+
+The 33 dungeon synth slots that do not move are the seeds whose last chord is
+already major — raising a third that is already major is a no-op, and saying so
+is better than hiding it. **Leaving the key is the device, not a defect:** a
+Picardy third is a chromatic alteration by definition.
+
+Read on lofi seed 1, C♯ minor: the verse ends `G♯m7` and its return ends **`B7`**;
+the chorus ends `C♯m7` and its return ends **`E7`**. Both diatonic.
+
+### The error reading the chords caught
+
+The first build passed `dominant: false`, so a minor seventh came back a **major**
+seventh — it raised the third *and* the seventh, two notes where the device moves
+one:
+
+```
+  G#m7 → G#maj7   (G# B# D# F##)    wrong
+  G#m7 → G#7      (G# B# D# F#)     right
+```
+
+And the right answer is better than merely correct: that verse ends on the **v**,
+so raising its third gives **V7** — the perfect authentic cadence the consequent
+of a period "always ends with".
+
+### The silence, which measured green
+
+The reserve for `keys2B` named `bassBvar` eight lines before it was declared.
+`const` is in its temporal dead zone, the reference threw, and `tryPad` catches —
+so the pad came back **empty** and every check passed. Material B's second
+keyboard went from empty in **0 of 20** dungeon synth records to **20 of 20**, on
+all four genres, while the compose sweep read 800/800. The file's own note says
+it in one line: *"fixed a collision by causing a silence, which is the worse of
+the two."* Second time through that door.
+
+## 9b. THE SEQUENCE
+
+Built as a third returning device beside the answer and the twist, and the
+rotation of which device takes which turn is **drawn per record** — a fixed order
+put the third device on the fourth hearing, and a fourth hearing is rare enough
+that the sequence was built and **played in 0 records of 60**.
+
+**The law was corrected rather than the device refused.** `noteFits` now accepts a
+note carrying `seq`. That is not a hole in it — it is the law being told a rule
+it did not know: **the unit of coherence is the pattern, not the bar.** The
+licence is bounded by construction: only the *copies* carry the mark, the model
+does not, and the bars after the copies do not, so the note the sequence breaks
+into must still satisfy the three original clauses.
+
+Read on lofi seed 13, B dorian — the real (chromatic) kind, `semis: -2`:
+
+```
+  the parent tune    bar 0   E5 D5
+  the sequence       bar 0   E5 D5          the model
+                     bar 1   D5 C5*         down a whole step
+                     bar 2   C5 A#4*        down another
+                     bar 3   D5             THE BREAK — the parent's own note
+                                            * outside B dorian
+```
+
+That is `003`'s worked shape exactly: *"it moves down in sequence… for two bars,
+just enough time to set up an expectation, and then sucker punches us."* The two
+starred notes are the chromaticism a real sequence brings in by definition, and
+the old law would have thrown on both.
+
+```
+  lofi          sequence built in 28/120 material slots · PLAYED, Aseq 6 + Bseq 7 in 40 records
+  dungeonsynth  built in 1/120 · never played
+  synthwave, boxcarsynth   declare nothing, 0/120
+```
+
+**Dungeon synth's is honest and open:** it declares the tonal sequence and it
+almost never applies, because its lead plays ~1.5 notes a bar, so a single bar
+rarely holds a two-note figure with room left to break. A **two-bar model** is
+the standard fix and is not built. Named.
+
+## 9c. WHAT IS OPEN
+
+- **Blends: 7 of 432 throwing before this work, 10 after.** Plain genres are
+  800/800 clean. Small, real, confined to returning materials, not chased.
+- **A two-bar model for the sequence**, which is what dungeon synth needs.
+- **The other three cadence operations** — `dominant`, `tritone`, `minorise` —
+  are built and declared by nobody.
+- **Nobody has heard any of it.**
