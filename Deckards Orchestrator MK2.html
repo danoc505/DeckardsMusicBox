@@ -1605,7 +1605,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-18u · lofi's chorus stops playing the verse's chords, and the jug band gets its seventh</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19a · the last chord changes when the material comes back</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20492,6 +20492,20 @@ const GENRE = {
        THE DIRECTION IS SOURCED; THE WEIGHTS ARE [EAR]. Nobody has heard them.
        docs/genre-research/the-second-keyboard-rhythm.md §5 */
     pad: { press: [[[], 3], [[10], 5], [[8], 3], [[10, 14], 2]] },
+    /* ══ THE RETURN LANDS ON THE RELATIVE ═══════════════════════════════════
+       Not the Picardy here. Lofi's sources ask for the chorus to lean toward
+       the relative major and this genre already does that in its chorus
+       changes; doing it again at every cadence would make the brightening
+       ordinary. The RELATIVE transformation moves the last chord to the other
+       member of its own tonic family -- Berklee's tonic family is I, III and VI
+       and "chord substitution involves replacing a chord with another that has
+       a SIMILAR HARMONIC FUNCTION" [corpus:berklee] -- so the return lands
+       somewhere that still reads as home while not being the same chord.
+
+       MEASURED before this: 24 records of 24 had a chorus with the verse's
+       chords, and every return of every material had the verse's cadence. The
+       chorus half was fixed earlier today; this is the other half. */
+    cadence: "relative",
     /* WHERE in the bar a hit is loud. Measured off human drummers
        [corpus:harvest_drums] -- which is right for this genre and wrong for a
        drum machine, so it is a genre entry rather than a global. */
@@ -22692,6 +22706,24 @@ const GENRE = {
        0.75 IS [EAR]. The direction is sourced; nobody has heard the number.
        docs/genre-research/the-second-keyboard-rhythm.md §5 */
     pad: { hold: 0.75 },
+    /* ══ THE LAST CHORD CHANGES WHEN THE MATERIAL COMES BACK ═══════════════
+       MEASURED, and this genre is the one in breach: **91% of its sections are
+       a 4-bar material played FOUR TIMES OVER** -- the same four chords, four
+       times, inside one section -- against `006`'s "using it more than two
+       times is overusing it". Nothing in the record's harmony ever moved on a
+       return, because `Avar` and `Adev` shared `A`'s bass and comp outright.
+
+       THE PICARDY THIRD is the oldest answer there is and it is this genre's
+       own period: "in the 16th to 17th centuries this was a VERY COMMON WAY TO
+       END A PIECE IN A MINOR KEY" [corpus:musictheoryacademy], and it "gives a
+       sense of relief after the tension of the minor" [corpus:wikipedia]. This
+       genre draws minor, dorian, phrygian, carpathian and andean -- every one
+       of them a minor-third mode -- so the raised third is always a real move
+       and never a no-op.
+
+       It is also exactly what `009` describes carrying a whole record: "the
+       first time it's minor, the second time it's major." */
+    cadence: "picardy",
     /* a slow repeating figure -- the thing the person playing it walks beside. `run` and
        `follow` on, so it does not restart at the bar and it reads the chord:
        this is the Berlin-School sequencer door, used here for the layered
@@ -25824,6 +25856,9 @@ const BLEND_DRAW = new Set([
      a strong-step 8 with a strong-step 6 gives 7, which is neither genre's
      downbeat, and averaging scale steps indexes MODES at a fraction. */
   "label", "sevenths",
+  /* the cadence is a NAMED OPERATION, and half of one is nothing -- averaging
+     "picardy" against "relative" has no meaning at all. Drawn whole. */
+  "cadence",
   /* ...and `seventhOn` is SCALE STEPS, which is the other half of the sentence
      above this list. It names the degrees that take a seventh -- [4, 1, 5] --
      and averaging that against a genre with no list, or with a different one,
@@ -28408,6 +28443,128 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                                       || G.progressions[mode]);
   const chorusChords = G.chorusProgressions ? mkChords(chorusDegrees) : chords;
   const NEW_CHORUS = chorusChords !== chords;
+
+  /* ══ THE CADENCE MACHINE — THE LAST CHORD CHANGES WHEN THE MATERIAL RETURNS ═
+     THE GAP THIS CLOSES, read off the materials map rather than guessed at:
+     `Avar`, `Adev`, `Bvar` and `Bdev` all share `bassA`/`keysA` with `A`/`B`.
+     ONLY THE LEAD EVER VARIES. Every variation device this program has — the
+     inversion, the answer (`Avar`), the twist (`Adev`) — is melodic, and the
+     harmony is identical on every return a record makes.
+
+     WHAT THE THEORY SAYS GOES HERE, and two independent sources put the change
+     in the same place — at the CADENCE, on the REPEAT:
+
+       THE PERIOD. The antecedent "ends with a weak cadence, either a HC or an
+       IAC"; the consequent "ALWAYS ends with a PAC"; and "consequent phrases
+       ALWAYS BEGIN WITH A RESTATEMENT of the basic idea" [corpus:openmusictheory].
+       In a parallel period both phrases begin with the same material,
+       "reproducing the basic idea note for note BEFORE DIVERGING in the
+       contrasting idea" [corpus:fiveable].
+
+       FIRST AND SECOND ENDINGS. Volta brackets mark "different endings for a
+       simple repeat" — the second ending "is played INSTEAD OF the first"
+       [corpus:ultimatemusictheory].
+
+     And `009` describes exactly that carrying a four-minute record: "it repeats
+     twice but THE LAST CHORD IS DIFFERENT THE SECOND TIME — the first time it's
+     minor, the second time it's major."
+
+     THE OPERATIONS. Every one is a named device with a source, and every one is
+     built out of `plr` and `triadTones`, which have been in this file unused
+     since they were written (no genre has ever declared `harmony`):
+
+       picardy   the third of a minor chord goes UP a semitone — minor becomes
+                 major. "Raising the third of the expected minor triad by a
+                 semitone"; "in the 16th to 17th centuries this was a very
+                 common way to end a piece in a minor key"; it "gives a sense of
+                 relief after the tension of the minor" [corpus:musictheoryacademy,
+                 corpus:wikipedia]. IT IS `plr(tri, "P")`, already written.
+       minorise  the same move the other way, for a genre that ends brighter
+                 than it wants to return.
+       relative  i <-> bIII. Berklee's TONIC FAMILY is I, III and VI and
+                 "chord substitution involves replacing a chord with another
+                 that has a SIMILAR HARMONIC FUNCTION" [corpus:berklee].
+                 It is `plr(tri, "R")`.
+       leading   I <-> iii, the third member of the same family. `plr(tri, "L")`.
+       dominant  the last chord becomes the DOMINANT SEVENTH OF THE CHORD THE
+                 LOOP RETURNS TO — an open, unresolved ending that pulls back to
+                 the top. A secondary dominant "acts as a powerful spotlight,
+                 highlighting its target chord" [corpus:berklee], and an
+                 unresolved ending is the antecedent's own weak cadence.
+       tritone   a dominant replaced by the dominant a tritone away: "in the key
+                 of C major, G7 can be replaced with Db7, AS BOTH HAVE THE
+                 TRITONE B-F… the tritone's highly restless sound produces a
+                 strong sense of forward motion" [corpus:berklee].
+
+     A genre declares one string. A genre that declares nothing gets the chord
+     set it always had, by identity, so nothing downstream can move [Law 3].
+     docs/genre-research/the-chord-machine-and-the-sequence.md ═══════════════ */
+  const triOf = ch => ({ pc: pc(ch.tones[0]),
+                         min: pc(ch.tones[1] - ch.tones[0]) === 3 });
+  /* built exactly as `mkTriads` builds one, so a transformed chord is the same
+     SHAPE of object as a neo-Riemannian one and every reader downstream --
+     `ch.tones`, `ch.rootMidi`, `ch.degree`, `ch.key`, `ch.mode` -- is answered */
+  const chordOfTri = (tri, seventh, dominant) => Object.freeze({
+    degree: nearestDegree(root, mode, tri.pc),
+    size: seventh ? 4 : 3,
+    quality: null,
+    key: root, mode,
+    tones: triadTones(tri, !!seventh, !!dominant),
+    rootMidi: intoBand(tri.pc, R.bass[0], R.bass[1]),
+    tri,
+  });
+  const CADENCE_OP = {
+    picardy:  tri => ({ pc: tri.pc, min: false }),
+    minorise: tri => ({ pc: tri.pc, min: true  }),
+    relative: tri => plr(tri, "R"),
+    leading:  tri => plr(tri, "L"),
+  };
+  /* THE RETURNING SET: the same chords, with the LAST one transformed. Returned
+     BY IDENTITY when the genre declares nothing, which is what makes every
+     other genre byte-identical rather than merely equal. */
+  const cadenceSet = (set, op) => {
+    if(!op || !set || set.length < 2) return set;
+    const last = set[set.length - 1], first = set[0];
+    let out = null;
+    if(op === "dominant")
+      out = chordOfTri({ pc: pc(pc(first.tones[0]) + 7), min: false }, true, true);
+    else if(op === "tritone")
+      out = chordOfTri({ pc: pc(pc(last.tones[0]) + 6), min: false }, true, true);
+    else if(CADENCE_OP[op]){
+      /* ── THE SEVENTH IS KEPT AS IT WAS, AND READING THE CHORDS IS WHY ──────
+         A Picardy third raises THE THIRD. Only the third. The first build of
+         this passed `dominant: false`, so a minor seventh came back as a MAJOR
+         seventh -- it raised the third and the seventh together, which is a
+         different chord and a different function:
+
+           G#m7 --picardy--> G#maj7   (G# B# D# F##)   wrong: two notes moved
+           G#m7 --picardy--> G#7      (G# B# D# F#)    right: one note moved
+
+         And the right answer is better than merely correct. In C# minor the
+         last chord of that verse is the v; raising its third gives V7, which is
+         the dominant seventh that pulls hardest back to the tonic -- the
+         PERFECT AUTHENTIC CADENCE the consequent of a period "always ends with"
+         [corpus:openmusictheory]. The device the sources name turns out to
+         produce the cadence the sources ask for, once it stops moving a note it
+         was never supposed to touch.
+
+         It keeps the transformed chords diatonic too, where the old way did
+         not: the relative of G#m7 is B7 in C# minor -- the seventh chord the
+         scale itself builds on bVII -- and the major-seventh version reached
+         an A# the key does not have. */
+      const t = last.tones || [];
+      const flat7 = t.length >= 4 && pc(t[3] - t[0]) === 10;
+      out = chordOfTri(CADENCE_OP[op](triOf(last)), t.length >= 4, flat7);
+    }
+    if(!out) return set;
+    const copy = set.slice();
+    copy[copy.length - 1] = out;
+    return copy;
+  };
+  const RETOP     = G.cadence || null;
+  const chordsRet = cadenceSet(chords, RETOP);
+  const chorusRet = cadenceSet(chorusChords, RETOP);
+  const NEW_RET   = chordsRet !== chords;
 
   /* ── shared builders (each material calls them with its own streams) ── */
   /* ══ THE CHOPPER, and it is a COMPOSITION stage, not a sound one ═══════════
@@ -33222,7 +33379,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   /* the varied cell for Avar, and -- for a genre whose kit IS the tune -- a
      second chop. Both are cheap and both are no-ops for a genre that says
      nothing, so no existing song moves. */
-  const ostAvar = buildOstinato("ostinato", true, chords);
+  /* ...and it reads the RETURNING chords, so the figure lands on the
+     transformed cadence rather than on the chord it replaced */
+  const ostAvar = buildOstinato("ostinato", true, chordsRet);
   /* ══ TAKES — THE RHYTHM SECTION DOES NOT PLAY THE SAME BAR TWICE ══════════
      [owner, 2026-08-16: "the same exact notes played for 20 mins is NOT music";
      then "I think the problem is fundamental to the architecture of the
@@ -33380,6 +33539,17 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const drumsBvar = pin(buildDrums("drumsB:var", "lift", DRUM_PHRASE_END), "drums", "Bvar");
   const drumsC = pin(buildDrums("drumsC", "depart"), "drums", "C");   // the bridge thins out
   const bassA  = pin(buildBass(chords, "bass", false), "bass", "A");
+  /* ── AND THE RETURN GETS ITS OWN BASS AND COMP ────────────────────────────
+     Built on `chordsRet` -- the same chords with the last one transformed --
+     and ON THE SAME NAMED STREAM as the first statement. That is the whole
+     trick: the generator starts in the same place and makes the same draws, so
+     every bar whose chord did not change comes out NOTE FOR NOTE identical and
+     only the cadence moves. A different stream name would have redrawn the
+     whole part and called it a cadence change.
+
+     Returned by identity when the genre declares no cadence, so `Avar` keeps
+     sharing `A`'s parts exactly as it always did [Law 3]. */
+  const bassAvar = NEW_RET ? pin(buildBass(chordsRet, "bass", false), "bass", "Avar") : bassA;
   /* ── THE COMP HAS TO BE LEGAL IN BOTH MATERIALS IT APPEARS IN ──────────────
      `keysA` is built once and used TWICE: in A against `ostA`, and in Avar
      against `ostAvar`, which is a different cell in its second half. It was
@@ -33429,6 +33599,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const HOLD = chart.table.keysStyle === "hold";
   const keysA  = buildKeys(chords, "keys", { dense: false, avoid: placed,
                                              sustain: HOLD, at: HOLD ? 0 : undefined });
+  const keysAvar = NEW_RET ? buildKeys(chordsRet, "keys", { dense: false, avoid: placed,
+                                             sustain: HOLD, at: HOLD ? 0 : undefined }) : keysA;
   /* the comp finds new voicings, which is the one thing every account of a
      rhythm section agrees on -- Bill Evans does not play the same voicing twice
      in twenty minutes. Each take avoids `placed`, so it clears the bass and the
@@ -33508,8 +33680,15 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      Give it its own pad and each one clears one cell. */
   const keys2A = tryPad(band => buildKeys(chords, "keys2", { sustain: true, at: 2, band,
                             against: keysA, avoid: reserve(ostAx.concat(bassAx, keysAx)) }));
-  const keys2Avar = tryPad(band => buildKeys(chords, "keys2:var", { sustain: true, at: 2, band,
-                            against: keysA, avoid: reserve(ostAvarx.concat(bassAx, keysAx)) }));
+  /* AND IT CLEARS THE RETURNING BASS AND COMP, which are different notes the
+     moment a genre declares a cadence. Pointed at `bassAx`/`keysAx` -- the
+     FIRST statement's parts -- it put the pad on a pitch the returning comp had
+     just moved onto, and the seam check caught it as "collision in Avar" on 15
+     of 200 lofi seeds. The file's own note above `keysA` says every collision
+     in Avar this project has ever reported is a reserve pointing at the wrong
+     material; this is that note collecting its debt one more time. */
+  const keys2Avar = tryPad(band => buildKeys(chordsRet, "keys2:var", { sustain: true, at: 2, band,
+                            against: keysAvar, avoid: reserve(ostAvarx.concat(bassAvar, keysAvar)) }));
   /* BOTH PADS, and the reason is two lines of history. The note above `resV`
      records fixing this for Avar's redrawn TAIL and it missed Avar's retained
      HEAD: `leadAvar` is themeA's first two bars concatenated with the new tail,
@@ -33597,8 +33776,35 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                        t => buildKeys(chorusChords, "keys:" + t, { dense: true, avoid: placedB,
                                       sustain: HOLD, at: HOLD ? 0 : undefined }));
   const keysBx = allOf(keysB, keysBTakes);
+  /* ── AND THE CHORUS'S RETURN GETS ITS OWN BASS AND COMP TOO ───────────────
+     Same rule as `bassAvar`: the returning chords, the SAME named streams, so
+     only the cadence moves. `Bvar` and `Bdev` shared `bassB` and `keysB` with
+     `B` outright before this, which is why a chorus heard three times was the
+     same chorus three times below the tune. */
+  const bassBvar = NEW_RET ? pin(buildBass(chorusRet, "bassB", false), "bass", "Bvar") : bassB;
+  const keysBvar = NEW_RET ? buildKeys(chorusRet, "keysB", { dense: true, avoid: placedB,
+                                             sustain: HOLD, at: HOLD ? 0 : undefined }) : keysB;
+  /* ── ONE PAD, TWO MATERIALS, SO IT CLEARS BOTH ────────────────────────────
+     `keys2B` sounds in B, in Bvar AND in Bdev, and on a genre with a cadence
+     the returning ones carry a different bass and comp. Shown only B's, it
+     voiced onto a pitch the returning comp had moved to -- "collision in Bdev",
+     9 of 200 lofi seeds. This is the identical argument the note above `keysA`
+     makes for the comp: a part is only legal if it is legal in EVERY material
+     it appears in. Both sets, so it is.
+
+     AND THE RETURNING PARTS ARE BUILT ABOVE THIS LINE ON PURPOSE. The first
+     version of this reserve named `bassBvar` eight lines before it was
+     declared. `const` is in its temporal dead zone there, so the reference
+     THREW -- and `tryPad` catches, which is its job, so the pad came back empty
+     and every seam check passed. MEASURED: material B's second keyboard went
+     from empty in 0 of 20 dungeon synth records to empty in 20 of 20, on every
+     genre, and the compose sweep read 800/800 GREEN because the part had
+     vanished rather than collided. This file's own note about the first pad
+     says it in one line -- "fixed a collision by causing a silence, which is
+     the worse of the two". Second time. */
   const keys2B = tryPad(band => buildKeys(chorusChords, "keys2B", { sustain: true, at: 2, band,
-                            against: keysB, avoid: reserve(ostBx.concat(bassBx, keysBx)) }));
+                            against: keysB,
+                            avoid: reserve(ostBx.concat(bassBx, keysBx, bassBvar, keysBvar)) }));
   const resB   = reserve(ostBx.concat(bassBx, keysBx, keys2B));
   const themeB = buildTheme(chorusChords, "themeB", resB,
     { lo: playable(R.themeB)[0], hi: playable(R.themeB)[1], comp: keysB, dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
@@ -33644,9 +33850,11 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      could not possibly be affected by a chorus variant. Draws being unconditional
      [Law 3] is not enough on its own; SHARED MUTABLE STATE is the same bug wearing
      different clothes. */
-  const resBv = reserve(ostB.concat(bassB, keysB, keys2B, themeB.notes.filter(n => n.bar < 2)));
-  const varTailB = buildTheme(chorusChords, "themeB:var", resBv,
-    { lo: playable(R.themeB)[0], hi: playable(R.themeB)[1], comp: keysB, dir: -1, hooky: true });
+  /* the RETURNING chorus accompaniment, for the same reason `resV` reads the
+     returning verse's: this tail is only ever played by Bvar and Bdev */
+  const resBv = reserve(ostB.concat(bassBvar, keysBvar, keys2B, themeB.notes.filter(n => n.bar < 2)));
+  const varTailB = buildTheme(chorusRet, "themeB:var", resBv,
+    { lo: playable(R.themeB)[0], hi: playable(R.themeB)[1], comp: keysBvar, dir: -1, hooky: true });
   /* and the join is a seam: bar 1's last note meets the redrawn tail's first */
   const leadBvar = JOIN(themeB.notes.filter(n => n.bar < 2)
     .concat(varTailB.notes.filter(n => n.bar >= 2)));
@@ -33713,7 +33921,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      alternate cell's notes and 16 of 120 seeds threw "collision in
      Avar at 2:4:71". The seam check named the material, the bar, the step and
      the pitch, which is exactly why it throws instead of warning. */
-  const resV = reserve(ostAvar.concat(bassA, keysA, keys2Avar, themeA.notes.filter(n => n.bar < 2)));
+  /* the returning material's OWN accompaniment, which is what the returning
+     tune has to stay clear of -- it is a different bass and a different comp
+     now on any genre that declares a cadence */
+  const resV = reserve(ostAvar.concat(bassAvar, keysAvar, keys2Avar, themeA.notes.filter(n => n.bar < 2)));
   const varTail = buildTheme(chords, "themeA:var", resV, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], dir: -1 });
   const leadAvar = JOIN(themeA.notes.filter(n => n.bar < 2)
     .concat(varTail.notes.filter(n => n.bar >= 2)));
@@ -33748,7 +33959,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      working exactly as intended. The accompaniment this material plays over is
      Avar's, so that is what it is held clear of; A's own tune is not reserved
      because this REPLACES it. */
-  const resDev = reserve(ostAvar.concat(bassA, keysA, keys2Avar));
+  const resDev = reserve(ostAvar.concat(bassAvar, keysAvar, keys2Avar));
   const twist = (rhythm, from, res, cs) => {
     const rh = rhythm.filter(n => n.pitch != null).slice().sort(byTime);
     const pl = from.filter(n => n.pitch != null).map(n => n.pitch);
@@ -33814,8 +34025,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      twisted tune has to stay clear of that line too. Without it the seam check
      threw "collision in Bdev at 2:0:74", which is the counter's seat. */
   const leadBdev = JOIN(twist(themeB.notes, varTailB.notes,
-                              reserve(ostB.concat(bassB, keysB, keys2B, counterBvar)),
-                              chorusChords));
+                              reserve(ostB.concat(bassBvar, keysBvar, keys2B, counterBvar)),
+                              chorusRet));
 
   /* ══ AND THE RECORD ITSELF MOVES, NOT ONLY ITS BRIDGE ══════════════════════
      MEASURED, AND THE MEASUREMENT IS WHY THIS EXISTS. With the key shift living
@@ -34026,13 +34237,13 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     // variant's redrawn second half is a different tune -- a shadow of the wrong line.
     // Verses (Avar's consumers) never activate the counter anyway; if a future section
     // wants one, it derives it from leadAvar, it does not borrow A's.
-    Avar: { drums: drumsAvar, bass: bassA, keys: keysA, keys2: keys2Avar, lead: leadAvar, counter: [], ostinato: ostAvar, drone: droneA },
+    Avar: { drums: drumsAvar, bass: bassAvar, keys: keysAvar, keys2: keys2Avar, lead: leadAvar, counter: [], ostinato: ostAvar, drone: droneA },
     /* Adev = twist(A): A's RHYTHM EXACTLY, its notes redrawn. The second device
        a returning material can reach for, so a demand that recurs does not get
        the same answer every time. Same accompaniment as Avar — the tune is what
        develops; changing the band as well would make it a different section
        rather than a restatement of this one. */
-    Adev: { drums: drumsAvar, bass: bassA, keys: keysA, keys2: keys2Avar, lead: leadAdev, counter: [], ostinato: ostAvar, drone: droneA },
+    Adev: { drums: drumsAvar, bass: bassAvar, keys: keysAvar, keys2: keys2Avar, lead: leadAdev, counter: [], ostinato: ostAvar, drone: droneA },
     /* Bdev = twist(B): the chorus's second device, and the reason it exists is
        the same measurement. A chorus could only ever answer a vary demand with
        `Bvar`, so a form with four choruses played B, Bvar, Bvar, Bvar — and the
@@ -34041,12 +34252,12 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        Bvar's counter: the second melody was derived from the redrawn tune and
        is still a shadow of a redrawn tune, which is what Avar's own comment
        says to do. */
-    Bdev: { drums: drumsBvar, bass: bassB, keys: keysB, keys2: keys2B, lead: leadBdev, counter: counterBvar, ostinato: ostB, drone: droneB },
+    Bdev: { drums: drumsBvar, bass: bassBvar, keys: keysBvar, keys2: keys2B, lead: leadBdev, counter: counterBvar, ostinato: ostB, drone: droneB },
     B:    { drums: drumsB, bass: bassB, keys: keysB, keys2: keys2B, lead: themeB.notes, counter: counterB, ostinato: ostB, drone: droneB },
     /* Bvar = vary(B) -- the chorus's rule-of-three answer. Same drums, bass,
        chords and pad as B; only the tune's second half is redrawn, so the hook
        is recognised and then turns. See its construction above. */
-    Bvar: { drums: drumsBvar, bass: bassB, keys: keysB, keys2: keys2B, lead: leadBvar, counter: counterBvar, ostinato: ostB, drone: droneB },
+    Bvar: { drums: drumsBvar, bass: bassBvar, keys: keysBvar, keys2: keys2B, lead: leadBvar, counter: counterBvar, ostinato: ostB, drone: droneB },
     /* C KEEPS THE OSTINATO -- and keeps it THROUGH A KEY CHANGE by re-stating
        it, which is `ostC` above; when the bridge has not changed key `ostC` IS
        `ostA`, the same array. It ignores the chords by construction, so it needs no
@@ -34268,8 +34479,19 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const whichChanges = m => {
     let base = String(m).split("@")[0];               // A@5 is A's changes
     if(/lift$/.test(base)) return "lift";             // Alift, Avarlift
+    /* ── A RETURN PLAYS THE RETURNING CHORDS ────────────────────────────────
+       `Avar`, `Adev`, `Bvar` and `Bdev` are the material COMING BACK, and on a
+       genre that declares a cadence their last chord is not their parent's.
+       They have to answer with their own set or the seam check judges correct
+       material against a progression it was never written for -- which is
+       exactly the fault `ec57366` fixed for `Bdev` three commits ago, and the
+       whole reason this rule exists once instead of twice.
+       When no cadence is declared the returning set IS the parent's set, by
+       identity, so this costs those genres nothing. */
+    const ret = /(var|dev)$/.test(base);
     base = base.replace(/(var|dev)+$/, "") || base;   // Bvar, Bdev, Adev -> B, B, A
-    return base === "C" ? "C" : base === "B" ? "B" : "A";
+    const letter = base === "C" ? "C" : base === "B" ? "B" : "A";
+    return (ret && letter !== "C") ? letter + "ret" : letter;
   };
   /* ── AND IT IS DERIVED FROM THE NAME, NOT LISTED ─────────────────────────
      THIS WENT STALE THE DAY THE DEVELOPED RESTATEMENT LANDED, and it is the
@@ -34290,8 +34512,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      then a `var` or `dev` ending -- both are developments OF a letter and play
      that letter's changes -- and what is left is the letter itself. A `Cdev` or
      a `Bvar2` added tomorrow lands on the right chords without touching this. */
-  const chordsFor = m => ({ C: bridgeChords, B: chorusChords,
-                            lift: liftChords, A: chords })[whichChanges(m)];
+  const chordsFor = m => ({ C: bridgeChords, B: chorusChords, Bret: chorusRet,
+                            lift: liftChords, A: chords, Aret: chordsRet })[whichChanges(m)];
   /* ── WHICH KIT SETTING AND WHICH LETTERS A MATERIAL'S DRUMS WERE BUILT WITH ─
      ONE OWNER. Stage 3 used exactly this mapping when it built the five drum
      parts above, `phraseFor` below now reads it instead of restating it, and
@@ -34468,6 +34690,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   materials.bridgeChords = freezeChords(bridgeChords);
   materials.chorusChords = NEW_CHORUS ? freezeChords(chorusChords) : materials.chords;
   materials.liftChords = LIFT ? freezeChords(liftChords) : materials.chords;
+  /* the returning sets, frozen alongside the rest so `chordsOf` can hand a
+     returning material its own changes. Identity when no cadence is declared. */
+  materials.chordsRet = NEW_RET ? freezeChords(chordsRet) : materials.chords;
+  materials.chorusRet = NEW_RET ? freezeChords(chorusRet) : materials.chorusChords;
   /* ── WHICH CHANGES EACH MATERIAL IS PLAYING, ASKED HERE AND NOWHERE ELSE ────
      There were two copies of this rule -- `m === "C" ? bridgeChords : chords`,
      written out at the seam check and again at the roll -- and the moment a
@@ -34499,8 +34725,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   /* the frozen copies of exactly the same answer -- ONE rule, asked twice,
      rather than two rules that agree until they do not */
   const frozenFor = m => ({ C: materials.bridgeChords, B: materials.chorusChords,
-                            lift: materials.liftChords,
-                            A: materials.chords })[whichChanges(m)];
+                            Bret: materials.chorusRet, lift: materials.liftChords,
+                            A: materials.chords, Aret: materials.chordsRet })[whichChanges(m)];
   const cOf = {};
   for(const m of MAT_KEYS) cOf[m] = frozenFor(m);
   materials.chordsOf = Object.freeze(cOf);
