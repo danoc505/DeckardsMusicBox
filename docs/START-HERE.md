@@ -42,7 +42,7 @@
 > the file; nobody is working on it.
 >
 > The artifact is `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`
-> and it is build `2026-08-19j`. `harness/mk2_build.json` is the record.
+> and it is build `2026-08-19k`. `harness/mk2_build.json` is the record.
 
 
 *Everything below is verified at `2026-08-16j` unless it says otherwise (the

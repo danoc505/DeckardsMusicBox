@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19j · the empty, ungated — and it has a size now</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19k · the drone goes through the whole rack, at its own speeds</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -21148,9 +21148,29 @@ const GENRE = {
        are: a send that moves an eighth of its travel over eight bars is felt
        and not heard, and that is the whole register this genre works in. Half
        the lines get one, so two records are not the same desk. */
-    matrixRow: { chance: 0.50, bars: [[8, 3], [16, 2]], depth: [0.08, 0.18],
+    /*
+       ── AND THE PERIODS ARE PRIME, AND THE TWO AXES SHARE NONE ──────────────
+       [owner: "ALL the knobs automated at DIFFERENT levels, DIFFERENT speeds"]
+
+       These pools were 8/16/32/64 on both axes -- tidy powers of two, and the
+       same tidy powers on the row as on the column. MEASURED on the drone's
+       row: every one of its five crossings carried the identical 16, 32 and 64
+       bar lanes, so the whole row and the whole column moved in exact lockstep
+       and the "stack" was one movement wearing five names.
+
+       That is the lesson this repo already collected for the drone and did not
+       apply to the axes it built the next day: boxcar's train runs 23/31,
+       13/17, 19/29 bars at once, "coprime by choice", because two lanes return
+       to the same relative phase after LCM(a,b) bars and with distinct primes
+       that is a*b. 16 and 32 return after 32. 17 and 31 return after 527.
+
+       So the row pool and the column pool are PRIME and DISJOINT. A crossing
+       gets its row's speed and its column's speed and they are never the same
+       number, which is what makes an intersection sound like two things rather
+       than one louder thing. */
+    matrixRow: { chance: 0.50, bars: [[7, 3], [13, 2]], depth: [0.08, 0.18],
                  shape: "sin", reset: "phrase" },
-    matrixCol: { chance: 0.45, bars: [[8, 3], [16, 2]], depth: [0.10, 0.22],
+    matrixCol: { chance: 0.45, bars: [[11, 3], [17, 2]], depth: [0.10, 0.22],
                  shape: [["ramp", 3], ["tri", 2], ["fall", 1]], reset: "section" },
     /* the kit's own character. Tuned HIGH, short, soft and barely driven -- a
        muffled boom-bap kick, not a club kick. [corpus: Improv Machine BETA 0.1,
@@ -23454,7 +23474,46 @@ const GENRE = {
                 drum in a hall, which is the whole picture this genre is.
                 `world` and `rail` are not in this genre's palette. */
              feeds: ["keys", "lead", "bass", "drone", ["drums", 0.35]],
-             echoFeeds: ["keys", "lead", ["bass", 0.12]],
+             echoFeeds: ["keys", "lead", ["bass", 0.12], ["drone", 0.30]],
+             /* ══ THE DRONE GOES THROUGH THE WHOLE RACK ═══════════════════
+                [owner: "the drone's matrix should have ALL the knobs automated
+                at different levels, different speeds. YOU STACK A BUNCH OF FX
+                ON A DRONE AND IT THEN EVOLVES. Dungeon synth is about
+                DEGRADATION of the sound, the FX helps achieve that"]
+
+                MEASURED before this, all four genres: THE DRONE'S ROW WAS ONE
+                CROSSING WIDE. The Room open, the Echo opened only by a motion
+                lane, and Spring, Flange, DP/4 and Barberpole at 0.00 with no
+                lane at all -- four units the ground of the record never
+                touched. "You stack a bunch of FX on a drone", and the program
+                stacked one.
+
+                THE DIFFERENT LEVELS ARE THE POINT AND WERE NOT SAYABLE UNTIL
+                THIS SESSION. A crossing was 1 or 0, so "a bunch of FX at
+                different levels" was not a sentence this file could write --
+                every unit would have been at full or absent, which is a wash
+                and not a stack. It is a stack because the numbers differ.
+
+                AND THE DP/4 IS THE DEGRADATION, SOURCED RATHER THAN CHOSEN.
+                "Keep timbres slightly dated or lo-fi (e.g. 90s workstation
+                presets, BIT REDUCTION, light saturation) to evoke tape-era
+                character"; "embrace tasteful noise floor, tape wow/flutter, or
+                MILD DISTORTION to achieve a worn, archival feel"
+                [corpus:melodigging, dungeon synth]. Bit reduction IS the DP/4's
+                crusher and mild distortion IS its drive -- two algorithms this
+                rack has had since it landed that no genre had ever sent a
+                signal to. And the ground of the record is the right thing to
+                run them on: a degraded drone is a worn tape, while a degraded
+                lead is a broken instrument.
+
+                THE BARBERPOLE IS THE ONE REFUSAL. An endless rise under a
+                drone is a strong and specific illusion, and nothing in this
+                genre's sources asks for one -- that is synthwave's word. Taste
+                with no source is the mistake this file has spent three builds
+                naming. Left shut. */
+             springFeeds: [["drone", 0.20]],
+             flangeFeeds: [["drone", 0.26]],
+             dp4Feeds:    [["drone", 0.34]],
              random: 0, spread: 0.8, preDelay: 0.075,
              kitPan: { tom1: -0.22, tom2: 0.1, tom3: 0.24, snare: 0, kick: 0 } },
 
@@ -23477,9 +23536,29 @@ const GENRE = {
        all the way through all its connections" is a real gesture here rather
        than two cells moving. A 16-bar column cycle against this genre's 16-bar
        sections is exactly one swell a section. */
-    matrixRow: { chance: 0.70, bars: [[16, 2], [32, 3], [64, 2]], depth: [0.12, 0.28],
+    /*
+       ── AND THE PERIODS ARE PRIME, AND THE TWO AXES SHARE NONE ──────────────
+       [owner: "ALL the knobs automated at DIFFERENT levels, DIFFERENT speeds"]
+
+       These pools were 8/16/32/64 on both axes -- tidy powers of two, and the
+       same tidy powers on the row as on the column. MEASURED on the drone's
+       row: every one of its five crossings carried the identical 16, 32 and 64
+       bar lanes, so the whole row and the whole column moved in exact lockstep
+       and the "stack" was one movement wearing five names.
+
+       That is the lesson this repo already collected for the drone and did not
+       apply to the axes it built the next day: boxcar's train runs 23/31,
+       13/17, 19/29 bars at once, "coprime by choice", because two lanes return
+       to the same relative phase after LCM(a,b) bars and with distinct primes
+       that is a*b. 16 and 32 return after 32. 17 and 31 return after 527.
+
+       So the row pool and the column pool are PRIME and DISJOINT. A crossing
+       gets its row's speed and its column's speed and they are never the same
+       number, which is what makes an intersection sound like two things rather
+       than one louder thing. */
+    matrixRow: { chance: 0.70, bars: [[13, 2], [31, 3], [71, 2]], depth: [0.12, 0.28],
                  shape: "sin", reset: "phrase" },
-    matrixCol: { chance: 0.65, bars: [[16, 3], [32, 2]], depth: [0.18, 0.35],
+    matrixCol: { chance: 0.65, bars: [[19, 3], [43, 2]], depth: [0.18, 0.35],
                  shape: [["tri", 3], ["ramp", 2], ["fall", 1]], reset: "section" },
     /* the war drum's own voicing, TUNED TO THE ERANG PACK: the ten percussion
        samples the user landed on `main` put 63-97% of their energy below
@@ -23730,6 +23809,27 @@ const GENRE = {
                    genre ONLY, measured; every other genre byte-identical. */
                 counter: [["auto", 7], ["carnyx", 3]] },
     params: {
+      /* ── THE RACK THE DRONE IS RUNNING THROUGH ─────────────────────────────
+         The DP/4's four blocks are independent, so this genre uses TWO of them
+         and they are the two the sources name: bit reduction and mild
+         distortion [corpus:melodigging]. Block A is the crusher (algo 4),
+         block B the drive (algo 2).
+
+         AND `aLvl` DEFAULTS TO ZERO on every block, which is the second reason
+         this machine has never made a sound in this program -- a fed DP/4 with
+         its blocks at 0 is a silent DP/4. Set low here on purpose: this is a
+         WORN tape, not a broken one, and the sources' own word is "tasteful
+         noise floor ... MILD distortion". The levels ride below.
+
+         The flanger is voiced wide and slow: under a drone it is not a jet, it
+         is the sound moving very slightly against itself, which is what the
+         evolving-drone research calls beating. The spring is long, because a
+         tank under a cavern is a second, smaller room. [CHOSEN inside the
+         sources.] */
+      dp4:     { aAlgo: 4, aAmt: 0.30, aLvl: 0.26,
+                 bAlgo: 2, bAmt: 0.22, bLvl: 0.20 },
+      flange:  { rate: 0.05, depth: 0.48, fb: 0.30, mix: 0.42 },
+      spring:  { dwell: 3.2, tension: 0.58, tone: 2600 },
       /* ── THE SIZE OF THE DRUM LIVES HERE, not in `kick` above ───────────────
          `kick` is the acoustic kit's voicing and `soundOf` only hands it over
          when the kit is the machine playing -- the war drum reads NONE of it.
@@ -23968,6 +24068,50 @@ const GENRE = {
       },
     },
     motion: {
+      /* ══ EVERY KNOB ON THE DRONE'S ROW, AT ITS OWN SPEED ══════════════════
+         [owner: "ALL the knobs automated at different levels, different
+         speeds. You stack a bunch of FX on a drone and IT THEN EVOLVES"]
+
+         THE LEVELS ARE IN `space` AND THE SPEEDS ARE HERE. The matrix's own row
+         modulator already moves this whole row together -- that is what a row
+         axis IS, one gesture across one source -- and moving together is
+         exactly what a stack must NOT do if the point is that it evolves. So
+         each crossing gets a second lane of its own, and the periods are
+         PRIME AND DISTINCT: 37, 41, 43, 47 and 53 bars.
+
+         PRIME IS NOT DECORATION. Two lanes return to the same relative phase
+         after LCM(a,b) bars; with distinct primes that is a*b -- 37 x 53 is
+         1961 bars, which at this genre's tempo is over two hours. The
+         combination the person listening hears never repeats inside a record,
+         which is the whole definition the research collected: "several slow
+         LFOs at rates that do not line up", "you can't have enough LFOs and
+         random generators" for drones [corpus:modwiggler, corpus:modeaudio].
+         The boxcar's train already ran 23/31, 13/17, 19/29 for this reason;
+         the drone -- the one voice present for the whole record -- ran one
+         lane on one crossing.
+
+         AND THE DEGRADATION BUILDS INTO THE REST, WHICH IS THE OWNER'S OTHER
+         SENTENCE: "this is also why we added rests, so it can build up and then
+         do a quick rest, all in sync with the song". `gesture` with
+         `on: "empty"` has existed in this file for builds and NO GENRE HAS EVER
+         DECLARED IT -- measured, zero across four genres. It is the one motion
+         window that fires exactly where an empty fires, so the crusher climbs
+         across the bars into the empty and the empty is what it arrives at.
+         The build and the hole are one gesture, in the song's own time,
+         because they are keyed to the same flag. */
+      /* and the DP/4's own knobs move too, on two more primes -- an amount that
+         sits still is a setting, and this genre's subject is a tape that is
+         getting worse. `bAmt` is the drive's, on 59, so the two blocks of the
+         same box never breathe together either. */
+      dp4: {
+        aAmt: [{ kind: "lfo", bars: [[97, 1]], depth: [0.05, 0.12],
+                 shape: "sin", freePhase: true },
+               { kind: "apex", from: [-0.06, -0.02], to: [0.06, 0.14] }],
+        aLvl: [{ kind: "gesture", on: "empty", bars: 4,
+                 from: [0.00, 0.02], to: [0.10, 0.22], curve: "exp" }],
+        bAmt: [{ kind: "lfo", bars: [[101, 1]], depth: [0.04, 0.10],
+                 shape: "sin", freePhase: true }],
+      },
       /* ── NO NEW UNIT HERE, AND THAT IS THE RESEARCH RESULT ────────────────
          The other two focus genres each earned an effect this build -- lofi a
          phaser and a spring, boxcar a flanger -- and the honest answer for this
@@ -24374,6 +24518,25 @@ const GENRE = {
         low:  [{ kind: "section", by: { outro: [-0.14, -0.04] } }],
       },
       matrix: {
+        /* ── AND THESE FOUR LIVE IN THIS BLOCK, NOT IN A SECOND ONE ─────────
+           They were first written as their own `matrix: {...}` a few hundred
+           lines above, which is a DUPLICATE KEY IN AN OBJECT LITERAL: the later
+           one wins and the earlier one is discarded without a word. Measured
+           straight away -- droneSpring, droneFlange and droneDP4 came back
+           carrying only the matrix axes' own 16/32/64-bar lanes and none of the
+           primes declared for them. Nothing threw, nothing warned; the lanes
+           were simply not there. A silent overwrite in a table this size is the
+           "fixed it by causing a silence" shape this file has been bitten by
+           three times, in a fourth costume. */
+        droneSpring: [{ kind: "lfo", bars: [[61, 1]], depth: [0.05, 0.11],
+                        shape: "sin", freePhase: true }],
+        droneFlange: [{ kind: "lfo", bars: [[73, 1]], depth: [0.06, 0.13],
+                        shape: "tri", freePhase: true }],
+        droneDP4:    [{ kind: "lfo", bars: [[47, 1]], depth: [0.07, 0.16],
+                        shape: "sin", freePhase: true },
+                      /* the degradation climbs into the hole */
+                      { kind: "gesture", on: "empty", bars: 4,
+                        from: [0.00, 0.02], to: [0.16, 0.30], curve: "exp" }],
         /* the hall opens a step further every time a section returns -- 0.08-0.16
            on a 0-1 send, three times, which is the whole record moving from a
            room to a cavern without a note changing */
@@ -24421,9 +24584,19 @@ const GENRE = {
                     { kind: "occurrence", step: [0.06, 0.11], cap: 3 },
                     { kind: "lfo", bars: [[67, 2], [83, 1]], depth: [-0.06, -0.01],
                       shape: "sin", freePhase: true }],
+        /* ── AND THIS ONE ALREADY EXISTED, so its prime is ADDED to it rather
+           than declared a second time. Writing `droneEcho:` again inside this
+           same object is the duplicate-key silence twice over: the first
+           attempt lost droneSpring, droneFlange and droneDP4 to a second
+           `matrix:` block, and the second lost THIS lane to a second
+           `droneEcho:` inside the merged one. Both were caught by reading the
+           lanes back off the plan, and neither threw. Its 41 and 59 are already
+           two of the primes the stack wants; 37 joins them. */
         droneEcho: [{ kind: "arc", from: [0, 0.03], to: [0.10, 0.24], curve: "sCurve" },
                     { kind: "section", by: { bridge: [-0.10, -0.03] } },
                     { kind: "lfo", bars: [[41, 2], [59, 1]], depth: [0.02, 0.07],
+                      shape: "sin", freePhase: true },
+                    { kind: "lfo", bars: [[79, 1]], depth: [0.04, 0.10],
                       shape: "sin", freePhase: true }],
       },
     },
@@ -25669,7 +25842,20 @@ GENRE.boxcarsynth = {
               The kit stays nearly dry -- a boxcar rhythm is close-miked. */
            feeds: ["keys", "lead", "drone", ["world", 0.55], ["rail", 0.45],
                    ["drums", 0.12], ["bass", 0.08]],
-           echoFeeds: ["lead", ["rail", 0.22], ["keys", 0.10]],
+           /* ── AND THIS GENRE'S GROUND GOES THROUGH THE RACK TOO ───────────
+              Its drone reached the Room and nothing else. The dungeon synth
+              note explains the general case; the difference here is WHAT the
+              ground is. This one is the rail hum -- a vehicle's own noise,
+              heard across a distance -- so it takes the ECHO (distance) and the
+              SPRING (a small metal tank under a large metal thing), and NOT the
+              DP/4: nothing about a train is bit-reduced, and degradation is
+              dungeon synth's subject rather than this one's.
+
+              The flanger stays the RAIL row's, where the physics put it. The
+              hum is continuous and a ground reflection sweeps because the
+              source MOVES PAST; a drone that is always there has no pass. */
+           echoFeeds: ["lead", ["rail", 0.22], ["keys", 0.10], ["drone", 0.22]],
+           springFeeds: [["drone", 0.18]],
            /* ── AND THE TRAIN GOES PAST YOU ───────────────────────────────
               The plate above this row was lifted on physics: a vehicle passing
               over hard ground comb-filters itself through its own ground
@@ -25700,9 +25886,29 @@ GENRE.boxcarsynth = {
      opens across a section and lands wide at the arrival. The snap back at the
      reset is not a click: closing a send stops FEEDING the reverb, it does not
      cut the tail already ringing. */
-  matrixRow: { chance: 0.60, bars: [[16, 3], [32, 2]], depth: [0.10, 0.22],
+  /*
+     ── AND THE PERIODS ARE PRIME, AND THE TWO AXES SHARE NONE ──────────────
+     [owner: "ALL the knobs automated at DIFFERENT levels, DIFFERENT speeds"]
+
+     These pools were 8/16/32/64 on both axes -- tidy powers of two, and the
+     same tidy powers on the row as on the column. MEASURED on the drone's
+     row: every one of its five crossings carried the identical 16, 32 and 64
+     bar lanes, so the whole row and the whole column moved in exact lockstep
+     and the "stack" was one movement wearing five names.
+
+     That is the lesson this repo already collected for the drone and did not
+     apply to the axes it built the next day: boxcar's train runs 23/31,
+     13/17, 19/29 bars at once, "coprime by choice", because two lanes return
+     to the same relative phase after LCM(a,b) bars and with distinct primes
+     that is a*b. 16 and 32 return after 32. 17 and 31 return after 527.
+
+     So the row pool and the column pool are PRIME and DISJOINT. A crossing
+     gets its row's speed and its column's speed and they are never the same
+     number, which is what makes an intersection sound like two things rather
+     than one louder thing. */
+  matrixRow: { chance: 0.60, bars: [[17, 3], [37, 2]], depth: [0.10, 0.22],
                shape: "sin", reset: "phrase" },
-  matrixCol: { chance: 0.55, bars: [[8, 2], [16, 3], [32, 1]], depth: [0.14, 0.28],
+  matrixCol: { chance: 0.55, bars: [[11, 2], [23, 3], [53, 1]], depth: [0.14, 0.28],
                shape: [["ramp", 3], ["tri", 2], ["fall", 1]], reset: "section" },
   pressure: { depth: 0.4, amount: [0.2, 0.3], at: [0.3, 0.5], rise: [0.3, 0.5] },
   ribbon: { chance: 0 },
@@ -26041,6 +26247,19 @@ GENRE.boxcarsynth = {
        not declare starts shut, so its travel is upward. Which is the
        journey anyway: the road is open and the town closes in. */
     matrix: {
+      /* ── THE GROUND'S OWN SPEEDS, ONE PER CROSSING ───────────────────────
+         Distinct primes that nothing else on this drone uses, so no two of its
+         sends return to the same relative phase inside a record -- 29 x 59 is
+         1711 bars. Its Room lane and the two matrix axes are elsewhere in this
+         block and in the genre's `matrixRow`/`matrixCol`; these are the two new
+         crossings' own. [see the dungeon synth note for the argument] */
+      droneEcho:   [{ kind: "lfo", bars: [[29, 1]], depth: [0.04, 0.10],
+                      shape: "sin", freePhase: true },
+                    /* the hum swells into the hole, in the song's own time */
+                    { kind: "gesture", on: "empty", bars: 4,
+                      from: [0.00, 0.02], to: [0.10, 0.20], curve: "exp" }],
+      droneSpring: [{ kind: "lfo", bars: [[59, 1]], depth: [0.03, 0.08],
+                      shape: "tri", freePhase: true }],
       keysRoom: [{ kind: "section", by: { chorus: [-0.30, -0.12], outro: [-0.14, -0.05] } },
                  { kind: "lfo", bars: [[31, 2], [43, 1]], depth: [-0.10, -0.02],
                    shape: "sin", freePhase: true },
