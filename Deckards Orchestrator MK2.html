@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19m · the tape and the gramophone are on the matrix</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19n · the effects feed each other at last</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -21275,7 +21275,34 @@ const GENRE = {
                 Levels, not switches, because that is what the sentence
                 describes: a Rhodes THROUGH a phaser is still a Rhodes. At 1.0
                 the dry keyboard would be gone. [CHOSEN inside the source.] */
-             springFeeds: [["keys", 0.22]],
+             /* ── AN EFFECT FEEDING ANOTHER EFFECT, WHICH IS WHAT THE MATRIX IS FOR ──
+                [owner, asked twice: "isn't the point of the matrix mixer to be
+                able to create novel combinations and novel fx with the
+                rerouting?" and then "I still don't understand why you didn't
+                add the missing knobs so that the fx can feed into themselves"]
+
+                It is, and there was no reason. The FORWARD half of the lattice
+                -- echo into spring, room into flanger, spring into the crusher
+                -- has never been blind-plated: fourteen live, working crossings
+                that the grid has always had. Measured across four genres, the
+                number any of them opened was ZERO, for the whole life of the
+                file. I said it needed research and did other work instead.
+
+                (The BACKWARD half is different and was measured: a return
+                feeding a unit that comes before it closes a loop through the
+                audio graph, and the same song then renders differently every
+                time -- -38.5 dB against a -91 dB floor. Those fifteen stay
+                shut. Nothing here closes a loop; every one of these runs
+                forward along MATRIX.order, which is exactly why they were
+                never plated in the first place.)
+
+                Levels, not switches, and small ones: one effect into another at
+                full is a wash. */
+             /* Lofi's slap-back into the tank. This genre earned both units in
+                the same build ("a Fender Rhodes with a phaser effect and SPRING
+                REVERB"), and a delay into a spring is the oldest way anyone has
+                ever made a small room sound bigger than it is. */
+             springFeeds: [["keys", 0.22], ["echo", 0.22]],
              dp4Feeds:    [["keys", 0.30]],
              /* ══ AND THE TAPE, WHICH THIS GENRE IS MADE OF ═══════════════
                 This file describes lofi in its own words three times over --
@@ -23734,8 +23761,13 @@ const GENRE = {
                 with no source is the mistake this file has spent three builds
                 naming. Left shut. */
              springFeeds: [["drone", 0.20]],
-             flangeFeeds: [["drone", 0.26]],
-             dp4Feeds:    [["drone", 0.34]],
+             /* THE CAVERN'S OWN TAIL, PUT THROUGH THINGS. The room feeds the
+                flanger, so the reverb moves against itself instead of just
+                hanging; and the spring tank feeds the CRUSHER, so this genre's
+                degradation reaches the SPACE and not only the ground. A worn
+                tape does not stop being worn where the reverb starts. */
+             flangeFeeds: [["drone", 0.26], ["room", 0.20]],
+             dp4Feeds:    [["drone", 0.34], ["spring", 0.24]],
              /* THE OTHER HALF OF THE SOURCED SENTENCE. The bit reduction built
                 two days ago came from "90s workstation presets, bit reduction,
                 light saturation"; the same page's next line is "embrace
@@ -26137,7 +26169,10 @@ GENRE.boxcarsynth = {
               hum is continuous and a ground reflection sweeps because the
               source MOVES PAST; a drone that is always there has no pass. */
            echoFeeds: ["lead", ["rail", 0.22], ["keys", 0.10], ["drone", 0.22]],
-           springFeeds: [["drone", 0.18]],
+           /* The valley into a metal tank, and the far-off repeat sweeping
+              the way the pass does -- the flanger is this genre's doppler and
+              an echo of a whistle is a whistle that is still moving away. */
+           springFeeds: [["drone", 0.18], ["room", 0.18]],
            /* ── AND THE TRAIN GOES PAST YOU ───────────────────────────────
               The plate above this row was lifted on physics: a vehicle passing
               over hard ground comb-filters itself through its own ground
@@ -26148,7 +26183,7 @@ GENRE.boxcarsynth = {
               At 0.35, not 1.0: the sweep is ON the whistle and the wheels, not
               instead of them. A flanger at full mix is a jet; at a third it is
               a train going by. [CHOSEN inside the physics.] */
-           flangeFeeds: [["rail", 0.35]],
+           flangeFeeds: [["rail", 0.35], ["echo", 0.16]],
            random: 0, spread: 0.7, preDelay: 0.02 },
 
   /* ── THE MATRIX'S TWO AXES ─────────────────────────────────────────────────

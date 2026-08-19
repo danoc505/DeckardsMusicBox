@@ -198,3 +198,32 @@ builds ago.
 - `Boxcar Synth.html` — the medium rack, compared control for control and found already ported
 - `docs/genre-research/a-crossing-is-a-knob.md` — the levels this build's routing is written in
 - `docs/genre-research/boxcar-synth.md` §8 — the gramophone's own sourced band limits
+
+---
+
+## 9. POSTSCRIPT — the fourteen, opened
+
+*Asked twice, and the second time was the one that landed: "I still don't
+understand why you didn't add the missing knobs so that the fx can feed into
+themselves."*
+
+**There was no reason.** The forward half of the lattice was never plated —
+fourteen live, working crossings the grid has always had, opened by zero genres
+for the whole life of the file. I called it a research job and did other work.
+
+```
+  lofi          echo → spring   0.22    a slap-back into the tank
+  dungeonsynth  room → flange   0.20    the cavern's tail moving against itself
+                spring → DP/4   0.24    the degradation reaches the SPACE
+  boxcarsynth   room → spring   0.18    the valley into a metal tank
+                echo → flange   0.16    a whistle still moving away
+```
+
+Measured, dungeon synth seed 1 against the build before: **−19 to −25 dB below
+signal** — plainly audible — with RMS and peak identical to the decimal, so this
+one is colour and nothing else. 0 of 47 renders failed.
+
+The *backward* half stays shut, and that half does have a reason: a return
+feeding a unit earlier in the chain closes a loop through the audio graph, and
+the same song then renders differently every time (−38.5 dB against a −91 dB
+floor). Nothing opened here closes a loop.
