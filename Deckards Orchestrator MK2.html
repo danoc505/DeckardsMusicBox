@@ -27866,6 +27866,217 @@ GENRE.boxcarsynth = {
   },
 };
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   FANTASY SYNTH — a band of heroes goes out, fights the thing, and comes home
+   [owner, 2026-08-19: "copy dungeon synth as a new genre... more lively,
+   something that builds up to a larger conclusion, that tells a more exciting
+   story, a band of heroes explores then fights the monster. 20 mins broken
+   into 5 min sections, 15 mins in is the big fight and the last 5 mins are the
+   journey home. Lean on the principles of Modal Jazz. More drones. Tell a
+   story with the instruments each having a part."]
+
+   THE NAME IS NOT A COINAGE. "Fantasy synth" is a named subgenre and Erang is
+   credited as its pioneer -- "blends dungeon synth with heroic and adventurous
+   themes, building entire mythologies around his albums" -- and Erang's sample
+   packs are already this program's dungeon-synth palette. So the genre is
+   built out of the instruments the man who named it uses.
+   docs/genre-research/fantasy-synth.md
+
+   IT IS DECLARED AS A DIFFERENCE, NOT A COPY. Dungeon synth's table is 2,400
+   lines and most of it -- the war drums, the Erang shelves, the register
+   arithmetic, the balance measured off two practitioners' walkthroughs --
+   is right for this genre too. Copying it would duplicate every one of those
+   comments into a place where they no longer describe what the table says, and
+   this file has a name for a second copy: the one that goes stale. So what is
+   written here is the DELTA, and every key below is a place fantasy synth
+   disagrees with its parent. Nested tables are merged key by key so a
+   disagreement about one number does not silently discard the fifty around it.
+
+   AND NOTHING BELOW MOVES A NOTE IN ANY OTHER GENRE, because a genre is a
+   parameter table and no code under stage 1 names one [Law 4].
+   ═══════════════════════════════════════════════════════════════════════════ */
+GENRE.fantasysynth = (function(D){
+  const merge = (a, b) => Object.assign({}, a, b);
+  return merge(D, {
+  label: "fantasy synth",
+  /* ── LIVELIER, AND THE ARC DOES THE REST ────────────────────────────────
+     Dungeon synth is 52-78, the slowest in the file. This is a party on the
+     move rather than a place you are standing still in, so the band lifts to
+     84-108 -- a walking-to-marching pace, and inside the 106-130 gait window
+     the frame-drum sheet measured. The record then SPEEDS UP AND SLOWS DOWN
+     across its four movements, which is `form.tempoArc` below. [CHOSEN] */
+  tempo: [84, 108],
+  /* ── THE MODES ARE THE MOVEMENTS ───────────────────────────────────────
+     Modal jazz's first device is the mode change itself, and Holst is the
+     proof it carries a long form: seven movements, an hour, "no story line,
+     no overarching form... nothing but mood", held together by each movement
+     being unmistakably itself. The record's own mode is the one it sets out
+     in; the other three are declared per movement in `form.plan`.
+     Dorian and mixolydian lead here where dungeon synth leads with minor --
+     both have a MAJOR sixth, which is the difference between a cave and a
+     road. [corpus:melodigging for the mode family; the weighting CHOSEN] */
+  modes: [["dorian", 6], ["minor", 4], ["mixolydian", 3], ["phrygian", 2],
+          ["carpathian", 2]],
+  /* ── TWENTY MINUTES ────────────────────────────────────────────────────
+     Dungeon synth's [96, 5, 16] gives 96-160 bars, 10.7-12.8 min at 52-78.
+     Twenty minutes at a mean of 96 BPM is about 320 bars of 4/4, so the base
+     triples and the steps widen. The four movements then divide it. */
+  form: merge(D.form, {
+    target: [504, 3, 24],          // the plan plus an 8-bar intro and a 64-bar outro
+    /* THE OUTRO IS THE JOURNEY HOME, so it is four times the length of any
+       other section here and sixteen times dungeon synth's intro. */
+    lengths: { intro: 16, verse: 16, chorus: 16, bridge: 16,
+               instrumental: 16, outro: 64 },
+    /* ── THE FOUR MOVEMENTS ────────────────────────────────────────────────
+       Dungeon synth already had a named movement plan -- descend, halls,
+       deeper, return -- so this is that mechanism with the story the owner
+       asked for, and one thing it never had: A MODE OF ITS OWN PER MOVEMENT.
+
+       The bar shares put the fight at fifteen minutes of twenty. They are not
+       equal because the tempo arc is not flat: the fight runs fastest, so its
+       five minutes cost MORE BARS than the others' do. */
+    plan: [
+      /* ── AND THE POOLS ARE DISJOINT, WHICH IS NOT TIDINESS ────────────────
+         `tempoArc` is keyed on a section's FUNCTION, so a function appearing in
+         two movements carries one movement's speed into the other. Measured on
+         the first build of this table: `chorus` sat in both the fight's pool
+         and the journey home's, and the record's fastest bars came out at
+         40-60% through instead of at the fight. Each movement therefore owns
+         its functions outright, and `verse` -- the one that must appear in
+         three of them -- is the neutral one whose multiplier is ~1. */
+      /* ── AND THE BAR SHARES ARE NARROW, AND ARE NOT EQUAL ─────────────────
+         THE PROPORTIONS ARE THE STORY HERE, so the usual wide ranges do not
+         belong: `[64, 3, 16]` spans 64 to 112 bars, and a movement drawing high
+         while its neighbour draws low moves the fight by minutes. Measured on
+         the first build: the fight ended at 59% of the record and the journey
+         home took 41% of it. Two steps of eight, not three of sixteen.
+
+         AND THEY ARE UNEQUAL ON PURPOSE. Four equal FIVE-MINUTE movements are
+         not four equal BAR counts, because the tempo arc runs the fight half
+         again as fast as the walk home: at those multipliers -- about 0.96,
+         1.05, 1.38 and 0.92 -- bars of 72 / 88 / 120 / 76 come out at 23, 26,
+         26 and 25 per cent of the CLOCK. The fight has the most bars and the
+         same five minutes as everything else. */
+      /* ── THE INTRO AND THE OUTRO ARE NOT IN HERE, AND THAT IS THE LAW ─────
+         "Intro and outro stay OUTSIDE the plan: an intro can only be first and
+         an outro only last -- that is a hard law of the whole program, not a
+         phase." Naming them in a pool was the first build's mistake and the
+         section list showed it: an `intro` at 9% of the record and an `outro`
+         at 67% of it.
+
+         It turns out to be the better structure. THE JOURNEY HOME IS THE
+         OUTRO -- a genre may say how long its outro is, so a sixty-four bar
+         outro at a falling tempo IS the last five minutes, arriving by the one
+         mechanism that guarantees it comes last and comes once. */
+      { name: "setting out",  pool: ["verse"],
+        bars: [96, 2, 8], mode: "dorian" },
+      { name: "into the deep", pool: ["verse", "bridge"],
+        bars: [128, 2, 8], mode: "minor", endOn: "bridge" },
+      { name: "the fight",    pool: ["chorus", "instrumental"],
+        bars: [160, 2, 8], mode: "phrygian", endOn: "chorus" },
+      { name: "the long way home", pool: ["verse"],
+        bars: [40, 1, 8], mode: "mixolydian" },
+    ],
+    /* ── THE TEMPO ARC, AND THIS IS THE FIRST GENRE EVER TO DECLARE ONE ────
+       `form.tempoArc` has been built and unused since it was written. The
+       numbers are MULTIPLIERS and the map is normalised, so the arc
+       REDISTRIBUTES time and never adds any: twenty minutes stays twenty
+       minutes however steep this gets, and a faster movement simply covers
+       more bars inside its share.
+
+       Read as a journey: the intro sets out at four-fifths of cruise and
+       gathers; verses walk; the instrumental is the road quickening as the
+       thing ahead gets closer; the chorus IS the fight and runs half again as
+       fast as cruise; the outro is the walk home, slower than the setting out
+       because they are carrying something back. [CHOSEN] */
+    tempoArc: { by: { intro:        [0.76, 0.90],   // setting out
+                      verse:        [0.94, 1.02],   // the neutral one
+                      bridge:       [1.02, 1.22],   // into the deep: the climb
+                      instrumental: [1.28, 1.40],   // the fight
+                      chorus:       [1.36, 1.48],   // the fight, hardest
+                      outro:        [0.96, 0.78] }, // the long way home
+                ease: "cos" },
+    /* THE APEX MOVES TO THREE QUARTERS, because the fight is at fifteen
+       minutes of twenty and the arc is what decides how loud and how full the
+       record is at a given bar. Dungeon synth apexes at 0.62-0.74. */
+    arc: merge(D.form.arc, { apexAt: [0.73, 0.78], floor: [0.16, 0.28],
+                             tail: [0.42, 0.58] }),
+  }),
+  /* ── MIXOLYDIAN HAS TO HAVE CHANGES OF ITS OWN ─────────────────────────
+     The mode pool above names mixolydian and the inherited tables do not have
+     it: dungeon synth writes progressions for minor, dorian, carpathian,
+     andean and phrygian, because it is a cavern and mixolydian is a road. A
+     mode declared without changes throws -- `wpick(rngC, undefined)`, "pairs
+     is not iterable", one seed in twelve, within the hour of declaring it.
+     Caught by the seam and not by reasoning.
+
+     I-bVII IS THE MIXOLYDIAN SIGNATURE, the flat seventh being the one note
+     that separates it from the major scale, and it is also a STEP -- roots a
+     step apart share nothing, both voices must move, and that is where the
+     organum this genre inherited actually happens. So the mode that carries
+     the journey home is also the one that sounds most like parallel fifths.
+     Degrees, as everywhere: 0 is the tonic, 6 is the flat seventh. [CHOSEN,
+     inside the mode's own definition] */
+  progressions: merge(D.progressions, {
+    mixolydian: [
+      [[0, 0, 6, 6], 6],        // I-bVII: the signature, and a step
+      [[0, 6, 0, 6], 4],        // the same pair rocking -- a mixolydian shuttle
+      [[0, 0, 3, 3], 3],        // I-IV, two notes held
+      [[0, 0, 4, 4], 2],        // I-v, the minor dominant mixolydian actually has
+      [[0, 0, 0, 0], 1],        // no change at all
+    ],
+  }),
+  chorusProgressions: merge(D.chorusProgressions, {
+    mixolydian: [
+      [[0, 0, 6, 6], 5],
+      [[0, 3, 6, 3], 3],        // I-IV-bVII-IV, the whole mode in one line
+      [[0, 0, 5, 5], 2],
+    ],
+  }),
+  bridgeProgressions: merge(D.bridgeProgressions, {
+    /* the bridge leaves home, so it opens OFF the tonic like every other
+       bridge in this file */
+    mixolydian: [[[3, 3, 0, 0], 3], [[6, 6, 3, 3], 2]],
+  }),
+  /* ── THE HEROES GET HORNS ──────────────────────────────────────────────
+     Every one of these instruments is already built -- `horns` and `brass` on
+     the keys shelf, `carnyx`, `bassOboe` and `corAnglais` on the lead. What
+     was missing was a genre that draws them. Battle music "goes hand in hand"
+     with brass -- "stabs, rips, effects, and bold epic melodies on horns"
+     [corpus:professionalcomposers] -- and a horn call is the most legible
+     heroic gesture there is. Weighted BESIDE the Erang shelves rather than
+     instead of them, so a record is sometimes a brass band and sometimes the
+     pack, and neither is the default. */
+  machines: merge(D.machines, {
+    lead:  [["carnyx", 4], ["corAnglais", 3], ["bassOboe", 3], ["erangLead", 4],
+            ["bardFlute", 3], ["auto", 3]],
+    keys:  [["horns", 4], ["brass", 3], ["auto", 6]],
+  }),
+  /* ── THE DRONES ARE STACKED ────────────────────────────────────────────
+     [owner: "more drones... more at once, two or three stacked" and "drones
+     through more effects"] The lane emitted ONE note; `stack` makes it emit
+     several at once, in semitones above the drone's own pitch. 0-7-12 is the
+     open fifth and the octave -- the same 8/5 sonority the open-fifth cadence
+     lands on, held under the whole record. */
+  drone: merge(D.drone, { unit: 8, hold: 3, pedal: 0.85,
+                          stack: [0, 7, 12], continuous: true }),
+  /* THE BAND IS LOUDER AND MORE FORWARD THAN A CAVERN'S. The drone rises
+     because there are three of it now and it is the floor of the story; the
+     lead rises because this genre has a TUNE and dungeon synth has an
+     atmosphere. [CHOSEN] */
+  roleGain: merge(D.roleGain, { lead: 0.72, counter: 0.58, drone: 0.42,
+                                keys: 0.38, ostinato: 0.55 }),
+  /* the appetite for organum is a shade lower than the cavern's: this music
+     is heroic rather than archaic, and parallel fifths everywhere would make
+     it a ritual again */
+  parallels: 0.6,
+  /* open fifths stay, and the pedal goes UP -- a journey needs a home note to
+     come back to, and modal jazz's third device is exactly that: the pedal,
+     with the harmony moving above it [modal-jazz.md §2c, "Naima"] */
+  voicing: { open: 0.34, pedal: 0.75 },
+  });
+})(GENRE.dungeonsynth);
+
 
 /* ══ NOTES THAT LOST THEIR KEY IN THE CONVERSION ═══════════════════════════
    The merge is gone and these comments documented keys whose position moved
@@ -30865,7 +31076,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       }
       if(!hit) return ch;
       moved = true;
-      return Object.freeze(Object.assign({}, ch, { tones, quality, size: tones.length }));
+      /* `plain` is the chord BEFORE this pass, kept so a voicer that cannot
+         place the rewritten one can decline it and use what it came from */
+      return Object.freeze(Object.assign({}, ch, { tones, quality,
+                                                   size: tones.length, plain: ch }));
     });
     return moved ? out : set;          // identity when nothing fired
   };
@@ -30972,12 +31186,28 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     if(op === "open"){
       /* the chord's OWN fifth, not a forced +7 -- see the note above */
       const t0 = last.tones || [];
+      /* ── TWO NOTES, AND THIS IS THE SAME BUG IN A SECOND PLACE ───────────
+         This was written `[root, fifth, root + 12]` -- three tones carrying two
+         pitch classes -- on the same day the voicing pass was corrected FROM
+         exactly that TO `[root, fifth]`, for exactly the reason repeated here:
+         a three-note shape with two pitch classes has inversions that collapse
+         onto each other, and the keys voicer runs out of candidates.
+
+         MEASURED: dungeon synth threw on 0 of 32 seeds before this cadence
+         existed and 2 of 32 after, and A/B against the five changes that
+         shipped alongside it put the whole difference here. I fixed the defect
+         in one place, wrote a comment explaining it, and left it standing in
+         the other -- and then reported "0 of 16 threw", which was a window too
+         small to contain it.
+
+         `plain` rides along so the voicer can decline the cadence entirely on a
+         bar where even two notes will not fit. */
       if(t0.length >= 3 && pc(t0[2] - t0[0]) === 7)
         out = Object.freeze({
-          degree: last.degree, size: 3, quality: "open",
+          degree: last.degree, size: 2, quality: "open",
           key: last.key, mode: last.mode,
-          tones: [t0[0], t0[2], t0[0] + 12],
-          rootMidi: last.rootMidi, tri: triOf(last),
+          tones: [t0[0], t0[2]],
+          rootMidi: last.rootMidi, tri: triOf(last), plain: last,
         });
     }
     else if(op === "dominant")
@@ -33646,6 +33876,37 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         for(const cand of cands) for(const oct of [12, 24, -12])
           wider.push(cand.map(p => p + oct));
         score(wider);
+      }
+      /* ── AND THE VOICING TRANSFORM IS A PREFERENCE, SO IT MAY BE DECLINED ──
+         `voicing.open` and `voicing.pedal` rewrite a chord before it gets here
+         -- the third comes off, or the key's tonic is added -- and both change
+         how many DISTINCT PITCH CLASSES the voicer has to work with. Where the
+         band, the bass and the ostinato are tight, the rewritten chord can have
+         no legal voicing at all while the chord it came from has several.
+
+         MEASURED, and this is a regression I shipped and reported clean:
+         dungeon synth threw on 0 of 32 seeds before `voicing` existed and on 2
+         of 32 after it. I tested sixteen seeds, saw none, and wrote "0 of 16
+         threw". The window was too small to contain the fault.
+
+         So the transform declines here, the way its own pedal declines a
+         semitone clash and the way the Landini figure declines when there is no
+         room: the chord before the rewrite is tried, and the record gets a
+         plain triad on that bar rather than no record at all. It cannot loop --
+         `plain` is only ever the untransformed chord and never carries one of
+         its own. */
+      if(!voiced && ch.plain && ch.plain.tones !== ch.tones){
+        const pb = ch.plain.tones.map(t => intoBand(t, BAND[0], BAND[1]))
+                                 .sort((a, z) => a - z);
+        const alt = [];
+        for(let inv = 0; inv < pb.length; inv++){
+          const c0 = pb.map((p, i) => i < inv ? p + 12 : p).sort((a, z) => a - z);
+          for(const oct of [0, 12, -12]){
+            const c1 = c0.map(p => p + oct);
+            if(c1[0] >= BAND[0] && c1[c1.length - 1] <= BAND[1]) alt.push(c1);
+          }
+        }
+        score(alt);
       }
       if(!voiced) throw new Error("no keys voicing fits [" + BAND + "] clear of the bass and " +
                                  "ostinato on bar " + b);
