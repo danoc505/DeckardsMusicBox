@@ -418,3 +418,34 @@ corollary this one adds: **a measurement that agrees with you is the dangerous
 one.** The overlap figure told me what I wanted (the owner's ear was wrong, no
 work needed) and I stopped there. His ear was right both times: right that
 "stutter" was the wrong word, right that something was being re-articulated.
+
+### And making it one note exposed two bugs that had been hiding behind forty
+
+**"Now the drone makes zero noise."** Correct, and the cause is not the drone.
+
+**The live transport drops any event whose start time has passed.** That rule is
+right for a note — a drum hit at 4.0 s has no meaning at 4.5 s — and it silently
+ate the ground the hour the ground became one event. Playing the record from
+anywhere but its first second dropped the drone **for the whole rest of the
+record**. With a fresh note every 14.5 seconds you could never see it; starting
+anywhere picked one up within a few bars.
+
+**And the render harness did the same thing**, selecting excerpt events by their
+start time alone. So from that hour every section excerpt except the first had
+**no drone in it at all** — which means the null test that "proved" the fix was
+audible was measuring the drone's **absence**.
+
+*Third time this session that the measurement, not the program, was the thing at
+fault.*
+
+Both now ask a passed event one more question: **is it still sounding?** If its
+own duration covers this instant it starts here with the remainder of its life,
+which is what walking into a room where a note is already ringing sounds like.
+Only notes longer than the scheduler's own horizon can be caught this way, so
+nothing percussive is ever revived late.
+
+```
+  drone alone, rendered 240 s:  steady -25.7 dB throughout, no decay
+  full record vs the re-bowed build, drone present in both:
+      -4 to -22 dB of change, levels within 0.2 dB
+```

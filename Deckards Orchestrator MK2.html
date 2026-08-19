@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19r · the drone is one note now, not a bow stroke every 14 seconds</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19s · one drone, and a note still sounding is not a note that passed</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -20766,6 +20766,37 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
        between the read and the dispatch, and without it an on-time event at the
        boundary would be thrown away. ────────────────────────────────────────── */
     const LOOKAHEAD = 1.2, SLIP = 0.005;
+    /* ══ A NOTE THAT IS STILL SOUNDING IS NOT A NOTE THAT HAS PASSED ═════════
+       [owner: "now the drone makes zero noise"]
+
+       The rule above -- an event whose moment has gone is DROPPED -- is right
+       for a note, and it silently ate the drone the hour the drone became one.
+
+       A drum hit at 4.0 s has no meaning at 4.5 s and dropping it is correct.
+       A GROUND THAT STARTS AT ZERO AND LASTS TEN MINUTES HAS MEANING AT EVERY
+       INSTANT OF THOSE TEN MINUTES, and playing the record from anywhere but
+       its first second dropped it for the whole rest of the record. Before it
+       was made continuous, a fresh drone note arrived every 14.5 seconds, so
+       starting anywhere picked one up within a few bars and this fault could
+       not be seen. Making the ground one note is what exposed it -- the fix and
+       the bug arrived in the same build.
+
+       So a passed event is asked ONE more question: is it still sounding? If
+       its own duration covers this instant, it starts NOW with the remainder of
+       its life, which is what walking into a room where a note is already
+       ringing sounds like. Anything whose moment has genuinely gone is dropped
+       exactly as before.
+
+       The threshold is deliberate. Only a note LONGER THAN THE HORIZON can be
+       caught this way, so nothing percussive and nothing melodic is ever
+       resurrected late -- the shortest thing this can revive is 1.2 seconds
+       long and still has time left to run. */
+    const stillSounding = (ev, now) => {
+      const dur = ev.durSec || 0;
+      if(dur <= LOOKAHEAD) return 0;                 // short: it has genuinely gone
+      const left = (t0 + ev.tSec + dur) - now;
+      return left > LOOKAHEAD ? left : 0;            // how much of it is left
+    };
     const pump = () => {
       const now = ctx.currentTime, horizon = now + LOOKAHEAD;
       while(i < events.length && t0 + events[i].tSec < horizon){
@@ -20776,7 +20807,18 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
              never take the audio with it. */
           if(onEvent){ try { onEvent(events[i], at); } catch(e){} }
         }
-        else lateDropped++;
+        else {
+          const left = stillSounding(events[i], now);
+          if(left){
+            /* mid-flight: the same event, starting here, with what is left of
+               it. The voice sees an ordinary note and needs to know nothing. */
+            const mid = Object.freeze(Object.assign({}, events[i],
+                          { tSec: now - t0, durSec: left, midFlight: true }));
+            dispatch(liveGraph, mid, now + 0.02, liveHandles);
+            if(onEvent){ try { onEvent(mid, now + 0.02); } catch(e){} }
+          }
+          else lateDropped++;
+        }
         i++;
       }
       if(i >= events.length){ clearInterval(liveTimer); liveTimer = null; }

@@ -183,7 +183,21 @@ const PROBES = [
         /* the tape bed is ONE event spanning the whole song; re-base it so the
            excerpt carries the same patina a full render does */
         if (e.voice === 'tape') { ev.push(Object.assign({}, e, { tSec: 0, durSec: (t1 - t0) + tail })); continue; }
-        if (e.tSec >= t0 - 0.06 && e.tSec < t1) ev.push(Object.assign({}, e, { tSec: Math.max(0, e.tSec - t0) }));
+        if (e.tSec >= t0 - 0.06 && e.tSec < t1) { ev.push(Object.assign({}, e, { tSec: Math.max(0, e.tSec - t0) })); continue; }
+        /* ── AND A NOTE THAT IS STILL SOUNDING BELONGS IN THE EXCERPT ────────
+           This window took events by their START only, which is right for every
+           note that begins and ends inside a section and WRONG for a ground.
+           The drone became one continuous note per record on 2026-08-19, and
+           from that hour every excerpt except the first had no drone in it at
+           all -- so a null test of "the drone fix" was measuring the drone's
+           ABSENCE and reading it as a change in its character. Third time this
+           session a measurement, not the program, was the thing at fault.
+           An event whose own duration covers the start of this window is
+           included, beginning at zero with what is left of it -- which is what
+           you hear walking into a room where a note is already ringing. */
+        const dur = e.durSec || 0;
+        if (dur > 1 && e.tSec < t0 && e.tSec + dur > t0 + 0.25)
+          ev.push(Object.assign({}, e, { tSec: 0, durSec: e.tSec + dur - t0, midFlight: true }));
       }
       /* the plan and the song second this excerpt starts at, so the automation
          can be evaluated where the excerpt actually LIVES */
