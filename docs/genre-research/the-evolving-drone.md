@@ -449,3 +449,118 @@ nothing percussive is ever revived late.
   full record vs the re-bowed build, drone present in both:
       -4 to -22 dB of change, levels within 0.2 dB
 ```
+
+---
+
+## POSTSCRIPT, 2026-08-19 — "it sounds exactly the same. Like a resonating string"
+
+Two builds went out claiming to fix this and neither touched the thing that
+was making the noise. The owner was right both times.
+
+### What was actually sounding
+
+`V.dronebox` is two layers, not one: a stack of four detuned oscillators, and a
+**recorded hurdy-gurdy drone string** underneath it (`dronebox.strings`, which
+dungeon synth sets to 0.4). Rendered alone, 60 seconds, RMS in 120 ms bins:
+
+| render | RMS | envelope swing (p95/p05) | repeating at |
+|---|---|---|---|
+| the synthesised stack alone | −32.2 dB | **1.0 dB** | nothing |
+| the stack **plus** the gurdy string | −24.2 dB | **3.4 dB** | **5.28 s / 10.56 s** |
+
+The stack is a dead-steady ground. Everything the owner was hearing — the
+swelling, the scrape, the "bow being drawn across a stand-up bass" — was the
+sample, and the sample was **eight dB louder than the stack it is supposed to
+sit under**. It was not a layer. It was the drone.
+
+### Why it was eight dB hot
+
+```js
+const zTop = 0.5 * strings * lvl * (zM.pk || 1);      // no ev.gain
+```
+
+against the stack's
+
+```js
+const peak = LEVEL.drone * 1.15 * ev.gain * lvl;      // ev.gain
+```
+
+The drone note arrives at `gain 0.194`. Every other layer of the voice is
+scaled by the note's own gain; this one was not, so the quieter the record
+asked for the drone to be, the more completely the recording took it over.
+
+### Why it scraped
+
+`f0 / zM.root` with no bound. A dungeon-synth ground is around 35 Hz; the low
+gurdy string was recorded at 73.6. That is **0.47×** — the wheel's rasp comes
+out at half speed as a slow scrape, and the sustain loop stretches from 7.4 s
+to **15.7 s**. On a note that now runs the whole record, that is forty audible
+laps. `5.28 s` and `10.56 s` in the table above are that loop beating against
+itself.
+
+### What was done
+
+The owner's call, on being shown the above: *"If the hurdy is playing and it
+shouldnt be ill give you a simple solution DELETE it from the program gone
+done."*
+
+So it is gone. Removed in build `2026-08-19u`:
+
+* the strings layer inside `V.dronebox`;
+* the `dronebox.strings` control and its place in the panel's SWELL group;
+* `strings: 0.4` from the dungeon-synth table;
+* the `gurdyDrone` INSTRUMENT — the rival machine on the drone lane — and
+  `V.gurdyDrone` with it;
+* the `gdHi` / `gdLo` zones from `GURDY_INDEX`, so nothing in the program can
+  reach the recording at all.
+
+The melodic hurdy-gurdy (`gurdyMel`, the chien, the keybox) is untouched: it is
+an instrument the records play on the keys2 shelf, and it was never what was
+sounding on the drone.
+
+`dronebox.level` for dungeon synth goes 0.9 → 1.3 in the same build, because the
+sample had been carrying the ground and taking it out dropped the whole voice
+7 dB. The synthesised stack carries it now.
+
+Measured after, 60 s isolated, and in a real eight-bar dungeon-synth excerpt:
+
+| render | RMS | swing | repeating at |
+|---|---|---|---|
+| the drone, alone, 60 s | −29.0 dB | **1.2 dB** | **nothing** |
+| the drone inside the mix | −27.3 dB | 2.3 dB | **nothing the autocorrelator can find** |
+| the mix it sits in | −18.2 dB | — | — |
+
+It is one note held: four oscillators on just fifths, a breath under them, and
+a slow filter. Nothing in it is a recording of somebody else's instrument.
+
+**0 of 32 records changed a note** — four genres, eight seeds each, scores
+compared against the previous build. The gurdy drone machine was never picked
+by any rig (every rig names `dronebox` on the drone lane), so removing it could
+not shift a draw.
+
+### The measurement note, again, twice
+
+The first pass at this measured 25 ms envelope bins on a 34.65 Hz tone. A bin
+shorter than one cycle of the fundamental **aliases the fundamental**: 34.65 Hz
+sampled at 40 Hz reads as a 5.35 Hz "swell", and every variant showed the same
+0.18 s peak because every variant contained the same note. The whole first
+table was an artefact of the analyser.
+
+And the note-identity check above first reported **14 of 32 records changed**,
+which would have been a serious fault. It was `diff` on two piped harness runs,
+and the pipe was truncating each run at a different column. Compared as files,
+nothing changed at all.
+
+And a third, worse than either, in the same sitting. While checking this build
+for regressions the determinism pair came back at −31.7 dB instead of nulling,
+so I bisected it: rack off, feedback off, grid off, the whole DSP replaced by a
+passthrough, then by a counter, then the node unwired, then the node never
+constructed. Each variant, one pair of renders. Six confident conclusions, one
+of them flatly contradicting another — and then eight renders of the SAME
+unmodified build came back with **eight different hashes**. Every pair I had
+used as evidence was a coin toss. The bisect measured nothing.
+
+Three instruments at fault rather than the program, in one sitting. The rule
+holds and needs restating in a harder form: *a measurement is a program too,
+and it is the one nobody reviewed.* And its corollary, which is the one that
+would have saved all three: **run it twice before you believe it once.**
