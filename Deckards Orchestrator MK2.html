@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19n · the effects feed each other at last</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-19p · the feedback question, measured with a control</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -3488,11 +3488,56 @@ const MATRIX = {
       if(MATRIX.alias[key]) continue;                   // the two documented exceptions
       const to = col[o.k];
       if(to && rank(to) > rank(i.k)) continue;          // forward: allowed
+      /* ══ WHY THESE ARE SHUT — TAKEN APART PROPERLY, 2026-08-19 ═══════════
+         [owner: "why are you telling me something can't be done because of the
+         program's past failure to properly code? Is there a good reason?"]
+
+         Fair, and the reason that used to be written here was WRONG in every
+         particular. It said "a cycle costs the renderer its repeatability
+         (-35 dB vs -115)" and blamed the ConvolverNode by name. Taken apart:
+
+           1. A WEB AUDIO FEEDBACK LOOP IS DETERMINISTIC. An oscillator, a
+              delay, a filter and a cycle, rendered three times offline:
+              BIT-IDENTICAL at feedback 0, 0.5, 0.85 and 0.97.
+           2. EVEN WITH A CONVOLVER IN THE LOOP -- the node the old claim named.
+              Bit-identical at 0.6, 0.95 and 1.02.
+           3. AND THIS PROGRAM IS DETERMINISTIC TOO. Two renders of one wardrum
+              hit differ on 122 samples of 132,300 by exactly -90.3 dB, which is
+              1/32768 -- ONE BIT of the 16-bit wav the harness writes. That is
+              the output format's rounding floor, not the program wavering, and
+              reading it as a defect is what produced the -35 dB figure.
+
+         SO THE OLD REASON WAS A MISREAD. The new one is not, because it was
+         measured with a CONTROL, which the old one never was:
+
+           dungeon synth, seed 1, two full renders, nulled against each other
+
+             plates in place ................  -88.8 dB   clean
+             plates removed, EVERY backward
+             crossing left at GAIN ZERO .....   -8.1 dB   eighty dB worse
+
+         THE GAIN IS ZERO IN THE SECOND ROW. No genre declares a backward send;
+         nothing is routed; the only difference is that the crossings EXIST as
+         nodes, so the graph now contains loops. Merely closing the loops --
+         silently, at zero -- costs this graph eighty decibels of repeatability.
+         A small graph with one cycle is bit-identical (1 above); THIS graph,
+         with hundreds of nodes and thirty-four new loops, is not.
+
+         So the plates stay, and Law 7 is why: same seed, same samples. What is
+         gone is the false explanation. The limit is real, it is a property of
+         how this large graph is rendered rather than of feedback itself, and
+         the road out is the one the room already took -- a unit whose feedback
+         is ARITHMETIC INSIDE A WORKLET rather than an edge between nodes. The
+         room does that today and can be fed. The other five cannot, yet.
+         docs/genre-research/the-feedback-question.md */
       MATRIX.none[key] = to === i.k
         ? "a unit feeding itself is its own feedback dial, not a crossing"
         : "signal only flows forward along MATRIX.order — " + i.k + " sits after " +
-          to + ", so this would close a cycle, and a cycle costs the renderer " +
-          "its repeatability (measured: -35 dB vs -115 between repeat renders)";
+          to + ". Not because feedback is unrepeatable (it is not: an isolated " +
+          "loop renders bit-identical, convolver included) but because merely " +
+          "CLOSING the loops in a graph this size costs 80 dB of repeatability " +
+          "with every one of them at gain zero — measured against a control, " +
+          "2026-08-19. The way out is a worklet, as the room already did";
     }
   }
   /* room -> room is the one non-return case: a room feeding itself is a longer
@@ -20420,7 +20465,21 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion", "bardPerc", "bardCymb
      used to check event voices against a list of thirteen names hand-copied into
      the harness, which proved only that the copy was up to date -- and it went
      stale the moment the rack could name a voice the rig never does. */
-  return { playLive, stopLive, renderWav, toPerfTime,
+  /* ── WHICH ROOM AN OFFLINE RENDER ACTUALLY GETS ──────────────────────────
+     The transport could say whether the LIVE graph got the FDN or fell back to
+     the convolver, and nothing could ask it of an OFFLINE one -- which is the
+     graph every rendered wave file and every measurement in this repo is made
+     with. That gap nearly invalidated an experiment: a cycle measured as
+     unrepeatable was almost written up without knowing whether the worklet or
+     the fallback was in the loop. (It was the worklet.) A fact a check cannot
+     ask for is a fact nobody can be held to. */
+  const probeRoom = async () => {
+    const off = new OfflineAudioContext(2, 4410, 44100);
+    const ok = await addRoomModule(off);
+    const g = buildGraph(off, null, ok);
+    return { moduleLoaded: !!ok, verbIsFdn: !!g.verbIsFdn, err: fdnErr };
+  };
+  return { playLive, stopLive, renderWav, toPerfTime, probeRoom,
            /* so a phone with no console can say why it is silent */
            soundState, ringerBypass,
            /* THE NEEDLE'S NUMBER, read every frame: the compressor node's own
@@ -45838,6 +45897,7 @@ window.MK2 = {
      keeping a copy of the rules that goes stale (it did, and reported the room
      as fed by two genres when all seven feed it). */
   routeBaseFor: (space, cell) => routeBaseFor(space, cell), matrixCells,
+  probeRoom: () => Sound.probeRoom(),
   /* THE TWO WAYS A CONTROL IS AUTOMATED, both exported for the same reason
      MODES and MATRIX are: a probe that copies out what the program does proves
      its copy is current and nothing else.
