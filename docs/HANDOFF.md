@@ -135,7 +135,14 @@ rather than drawing a second.
 inheriting the record's. This is the same repair as item 4 and they should be
 done together.
 
-### 4. The legs mostly do not play their declared modes
+### 4. ~~The legs mostly do not play their declared modes~~ — FIXED `2026-08-20v`
+
+> The variant family came from the material name's first character, so `"C"` fell
+> through to `"A"`. Fixed. `into the deep` plays material C in 6 of 6 sections
+> (was 2), and its pitch classes went `G# A# F# D# E C# A B` → `G# F# E C# A` —
+> the A# was dorian's major sixth, imported from another leg's mode.
+> **But fixing it did NOT unlock items 3 and 6 as this file predicted:** the
+> hijacking was adding foreign colour, not harmony. Distinct chords unchanged.
 
 **Measured:** each leg declares a mode; most legs play the record's opening mode
 instead. The mode's characteristic note — the ♭2 in Phrygian, the ♯4 in Lydian,
@@ -165,7 +172,12 @@ the notes against the new chord set.
 the nearest chord tone. The machinery for "nearest chord tone" already exists in
 the voicer.
 
-### 6. The bass sometimes has two pitches
+### 6. ~~The bass sometimes has two pitches~~ — LARGELY FIXED `2026-08-20v`
+
+> Worse than stated: it was ONE pitch on seed 7. `bassRoles` + `bassRiff` now give
+> each act its own job. Seed 7: 1 pitch → 7, bars holding ≤1 pitch 100% → 28.3%.
+> The doom leg still pedals **by declaration**, which is what doom asks for.
+> Open: the fight gains rhythm and not pitch, because item 3 is still open.
 
 **Measured:** whole sections where the bass plays exactly 2 distinct pitches.
 
