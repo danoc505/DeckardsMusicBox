@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20n &middot; the fight phrases in seven while the kit phrases in four</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20p &middot; the band takes its hands off: the stop, which all four acts name and the file never had</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -25542,6 +25542,38 @@ GENRE.fantasysynth = (function(D){
                       "the long way home":   [0.96, 0.80],
                       outro:                 [0.78, 0.68] },
                 ease: "cos" },
+    /* ══ AND THE BAND TAKES ITS HANDS OFF ═══════════════════════════════════
+       The one device all four of this record's acts name independently:
+
+         doom           "strategic silences", "space and decay"
+         sludge         "dynamic drops to near-silence"
+         post-hardcore  "drop to near-silence before a climactic return"
+         mathcore       "strategic negative space: sudden silences and dropouts"
+
+       Three of the four say NEAR-silence, and doom pairs its silences with
+       "drone layers" in the same breath -- so the two slow legs `keep` the
+       drone and the hole is a decay rather than a cut. Mathcore says
+       "dropouts" and keeps nothing: the fight's stop is the whole band gone
+       for one bar, which is the sourced difference between the acts and not a
+       dial I turned for variety.
+
+       THE SHAPES FOLLOW THE SOURCES TOO. Mathcore's is "start-stop riffing" --
+       short and often, so one bar every ten to eighteen. Doom's and sludge's
+       are dynamic drops -- longer and rarer, two bars every twenty to forty.
+       The fight loses about 7% of its bars, the slow legs about 6% of theirs.
+
+       THE WALK HOME DECLARES NONE. It is already the quiet leg -- drone,
+       chords and the tune, with the drums, bass, second keyboard and ostinato
+       all dropped by `roles` -- and negative space inside near-silence is not
+       a device, it is a gap. Prog's contribution to that leg is its tempo and
+       its instruments.
+
+       [EAR for the intervals; the device, the near/total distinction and the
+       short/long split are all sourced.]
+       docs/genre-research/the-four-acts.md §5.4 ═══════════════════════════════ */
+    stop: { "setting out":   { every: [24, 40], len: 2, keep: ["drone"] },
+            "into the deep": { every: [20, 32], len: 2, keep: ["drone"] },
+            "the fight":     { every: [10, 18], len: 1, keep: [] } },
     /* THE APEX MOVES TO THREE QUARTERS, because the fight is at fifteen
        minutes of twenty and the arc is what decides how loud and how full the
        record is at a given bar. Dungeon synth apexes at 0.62-0.74. */
@@ -38356,6 +38388,10 @@ function makePerformance(chart, form, materials, sections){
   const STEPS = stepsOf(chart.table);
   const GR = chart.table.groove, TOUCH = chart.table.touch;
   const LEAN = GR.laneLean || {};
+  /* the genre's stop table, read once. Null for every genre that declares
+     none, which is the byte-identity gate for the whole device [see THE STOP
+     in the section loop below]. */
+  const FSTOP = (chart.table.form && chart.table.form.stop) || null;
   const ACC = chart.table.accent;
   const rngG = stream(chart.seed, "groove");
   const swingRatio = GR.swing[0] + rngG() * GR.swing[1];
@@ -39211,6 +39247,78 @@ function makePerformance(chart, form, materials, sections){
     return materials[priv] ? priv : base;
   };
   let fillNo = 0;                      // which fill this boundary gets
+  /* ══ THE STOP — WHERE THE BAND TAKES ITS HANDS OFF ═══════════════════════
+     FOUR independently-sourced genre descriptions name this device, which is as
+     strong a signal as this kind of research produces:
+
+       doom           "strategic silences", "space and decay"
+       sludge         "dynamic drops to near-silence"
+       post-hardcore  "drop to near-silence before a climactic return"
+       mathcore       "strategic negative space: sudden silences and dropouts"
+
+     And it is the direct answer to the record's worst measured fault: 6-8 note
+     attacks a second sustained across twenty minutes, on a record whose brief
+     is atmospheric.
+
+     THERE WAS NO BAR-LEVEL SILENCE IN THIS FILE. `gaps` is computed and spent
+     only on effects; `roles` drops a lane for a whole movement; `stripHalf`
+     takes the drums and bass out of half a section. Nothing could take the band
+     out for two bars and bring it back.
+
+     THIS IS NOT `stripHalf`, and the distinction is the one makeMaterials
+     argues at length. That comment is right that DELETION IS NOT DEVELOPMENT --
+     six of the seven classical ways to develop a motif change no notes at all,
+     and answering a vary demand by deleting half the tune "retains nothing". A
+     stop is not development. It is ARRANGEMENT: the material stays whole, and
+     what comes back after the hole is the entire figure rather than a thinned
+     one.
+
+     PLANNED PER MOVEMENT, NOT PER SECTION, and that was a measured correction
+     rather than a design. The first version spaced stops inside each section --
+     but sections here run 12-20 bars and mathcore's start-stop interval is 10
+     to 18, so almost every section drew a gap longer than itself and got
+     nothing. Measured: the fight took ONE silent bar in 444. A movement is the
+     span the source is describing, so the walk is over the movement's bars and
+     a section boundary is not a wall.
+
+     NEVER ON A SECTION'S FIRST BAR -- a stop on an arrival is not a stop, it is
+     a missing entrance.
+
+     NEAR-silence, not silence, for three of the four, so `keep` names the roles
+     that ride through. Doom pairs its silences with "drone layers" in the same
+     breath, so a drone holding under a stopped band is the sourced shape rather
+     than a softening of it. Mathcore says "dropouts" and keeps nothing.
+
+     ON ITS OWN NAMED SUBSTREAM per movement, so a genre that declares no `stop`
+     draws nothing and is byte-identical [Law 3, Law 7].
+     docs/genre-research/the-four-acts.md §5.4 ═══════════════════════════════ */
+  const STOPAT = new Map();                       // bar -> the roles that ride through
+  if(FSTOP){
+    const starts = new Set(sections.map(sc => sc.startBar));
+    const byMv = new Map();
+    for(const sc of sections){
+      const key = (sc.mv && FSTOP[sc.mv]) ? sc.mv : (FSTOP[sc.fn] ? sc.fn : null);
+      if(!key) continue;
+      if(!byMv.has(key)) byMv.set(key, []);
+      byMv.get(key).push(sc);
+    }
+    for(const [key, secs] of byMv){
+      const def = FSTOP[key], keep = new Set(def.keep || []);
+      const len = Math.max(1, def.len || 1), lo = def.every[0], hi = def.every[1];
+      const sr = stream(chart.seed, "stop:" + key);
+      const bars = [];
+      for(const sc of secs) for(let b = sc.startBar; b < sc.endBar; b++) bars.push(b);
+      bars.sort((a, z) => a - z);
+      let i = lo + Math.floor(sr() * (hi - lo + 1));
+      while(i + len <= bars.length){
+        for(let k = 0; k < len; k++){
+          const b = bars[i + k];
+          if(!starts.has(b)) STOPAT.set(b, keep);
+        }
+        i += len + lo + Math.floor(sr() * (hi - lo + 1));
+      }
+    }
+  }
   for(const sec of sections){
     const mat = materials[sec.material];
     const alt = materials[ALT_OF(sec.material)];
@@ -39310,6 +39418,11 @@ function makePerformance(chart, form, materials, sections){
           notes = FS[fillNo++ % FS.length];
         }
         if(sec.stripHalf && firstHalf && (role === "drums" || role === "bass")) continue;
+        /* the band's hands come off [see THE STOP above]. Nothing is shortened
+           and nothing is faded: notes already sounding ring out on their own
+           tails, which is what makes the hole read as space rather than as a
+           cut. */
+        { const keep = STOPAT.get(bar); if(keep && !keep.has(role)) continue; }
         /* THE BUILD, gated per bar. Stage 4 decided which bar this part arrives
            on; this is stage 5 obeying it, exactly the way it obeys `active` --
            selection upstream, no note edited here. */

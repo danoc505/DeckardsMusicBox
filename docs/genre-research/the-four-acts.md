@@ -381,10 +381,61 @@ same mechanism: the only moving part in that leg is the **melody**, and a
 phrase-length cycle on the lead is handoff item 7's territory, not this one.
 Left undone and named rather than quietly counted as delivered.
 
-### 4. THE STOP
+### 4. THE STOP — BUILT
 
-Four genres, one device, and the record's worst measured fault. Unchanged from
-the previous sheet's §7 except that it is now better supported.
+Four genres, one device, and the record's worst measured fault. There was **no
+bar-level silence anywhere in the file**: `gaps` is computed and spent only on
+effects, `roles` drops a lane for a whole movement, `stripHalf` takes drums and
+bass out of half a section. Nothing could take the band out for two bars and
+bring it back.
+
+**It is not `stripHalf`, and the distinction matters.** `makeMaterials` argues
+at length that *deletion is not development* — six of the seven classical ways
+to develop a motif change no notes at all, and answering a vary demand by
+deleting half the tune "retains nothing". That argument is right and it is about
+something else. A stop is **arrangement**: the material stays whole, and what
+comes back after the hole is the entire figure rather than a thinned one.
+
+**Planned per movement, not per section — a measured correction.** The first
+version spaced stops inside each section. Sections here run 12–20 bars and
+mathcore's start-stop interval is 10–18, so nearly every section drew a gap
+longer than itself and got nothing: **the fight took one silent bar in 444.** A
+movement is the span the sources are describing.
+
+**Near-silence, not silence**, for three of the four — so `keep` names the roles
+that ride through. Doom pairs its silences with "drone layers" in the same
+breath, so a drone holding under a stopped band is the sourced shape. Mathcore
+says "dropouts" and keeps nothing.
+
+| act | shape | keeps |
+|---|---|---|
+| setting out — doom | 2 bars every 24–40 | drone |
+| into the deep — sludge | 2 bars every 20–32 | drone |
+| the fight — mathcore | **1 bar every 10–18** | **nothing** |
+| the long way home — prog | *declares none* | — |
+
+#### MEASURED, SEEDS 1–3
+
+| act | playing bars | stopped bars | change |
+|---|---|---|---|
+| setting out | 15.98 attacks/bar | **0.64** | **−96%** |
+| into the deep | 9.25 | **0.26** | **−97%** |
+| the fight | 27.48 | **3.96** | **−86%** |
+
+Summed gain per bar falls from 6.30 → 0.13, 4.70 → 0.19 and 12.16 → 1.23.
+
+**The fight's residual 3.96 is not a leak.** It is sustain re-articulation of
+notes struck *before* the stop — a bowed instrument changing bow, a struck one
+re-sounding a held chord. That is the tail ringing through, which is what "space
+and decay" and "drops to *near*-silence" describe. Nothing is faded or
+shortened: the band simply does not start anything new.
+
+**The walk home declares none**, deliberately. It is already the quiet leg —
+drone, chords and tune, with drums, bass, second keyboard and ostinato all
+dropped by `roles`, measured at 3.44 attacks/bar against the fight's 27.48.
+Negative space inside near-silence is not a device, it is a gap.
+
+lofi, synthwave and dungeon synth declare no `stop` and are **byte-identical**.
 
 ---
 
