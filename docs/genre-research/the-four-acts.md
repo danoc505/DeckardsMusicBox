@@ -292,9 +292,50 @@ with a stated band, so those two stop being taste:
 | mathcore | — none stated | 115–123 | — |
 | prog | — none stated | ~70–87 | — |
 
-Only doom's leg actually needs to move, and `tempoArc` is normalised, so
-slowing it **speeds everything else up** by the same total. That is free
-contrast in the direction the request wants.
+Only doom's leg looked like it needed to move. That turned out to be wrong,
+and the arithmetic is worth writing down.
+
+#### THE ARC COULD NOT DO IT ALONE
+
+`tempoArc` is **normalised**: the mean seconds-per-bar is whatever the drawn
+tempo gives, so the genre's `tempo` is not any leg's cruise speed — it is the
+**harmonic mean of the whole record**. Whatever comes off the front is added to
+the peak.
+
+Two passes at the arc alone failed on exactly that. Slowing "setting out" to 68
+drove the fight to **122–144**, and `HARDCORE_FEET`'s sixteenth run at 144 is
+the "blast beats read as noise with this kit" line the previous sheet already
+drew. Working the harmonic mean by hand: with this bar distribution, a mean of
+99 admits **no** shape of arc that seats a 94-bar leg at 70 and leaves the fight
+playable.
+
+So the record's centre had to move, and on reflection it *should*: **a record
+whose first half is doom and sludge does not average 99 BPM.** `tempo:
+[92, 106]` → `[84, 96]`.
+
+#### MEASURED, SEVEN SEEDS, OFF THE CLOCK
+
+| act | sourced band | measured |
+|---|---|---|
+| setting out — **doom** | "around 40–80 BPM" | **65–81** |
+| into the deep — **sludge** | "roughly 60–110" | **84–109** |
+| the fight — **mathcore** | none stated | 109–133 |
+| the long way home — **prog** | none stated | 67–89 |
+
+Doom's leg runs to **81** on the fastest seed's last bars — one over the band's
+edge. Stated rather than tuned away. And the leg *ending* at doom's ceiling
+exactly where the sludge leg begins above it is the handover written in numbers.
+
+Time share came out even at 23% per act, which it was not before.
+
+**Mathcore is deliberately not given a faster fight.** Its own description is
+"rapid-fire shifts in meter, tempo, and texture", polymeter and "sudden stops" —
+the character is **fracture, not speed**. The fight lands within a couple of BPM
+of where it always was and takes its act from the devices instead.
+
+**Prog's leg is slower than it was** (72–93 → 67–89). "Contrasting tempos" asks
+for contrast, and the contrast that serves this leg is the job it already had:
+the motif fading into the atmosphere.
 
 ### 3. POLYMETER AT THE PEAK AND AT THE END
 

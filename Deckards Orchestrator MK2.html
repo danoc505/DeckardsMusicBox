@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20l &middot; four acts: the doom leg sags, the sludge leg drags against a steady kit, the fight snaps to the grid</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20m &middot; the four acts get their tempo bands: doom 65-81, sludge 84-109, and the record's centre comes down to meet them</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -25183,7 +25183,26 @@ GENRE.fantasysynth = (function(D){
      92-106 is still walking-to-marching and is still a real draw. Measured,
      same eight seeds: 18:53 to 21:20, mean 19:54. [CHOSEN, and the measurement
      is the reason] */
-  tempo: [92, 106],
+  /* ── AND THE RECORD'S CENTRE CAME DOWN WHEN THE FIRST HALF BECAME DOOM ──
+     This read [92, 106], drawn as feel. The arc is NORMALISED -- the mean
+     seconds per bar is whatever the drawn tempo gives -- so this number is not
+     the cruise speed of any one leg, it is the harmonic mean of the WHOLE
+     record. Which makes it the binding constraint the moment a leg is given a
+     sourced band to sit in, and it took two failed passes at the arc alone to
+     see that:
+
+       doom   "tempos typically sit around 40-80 BPM" [corpus:melodigging/doom-metal]
+       sludge "roughly 60-110 BPM"                    [corpus:melodigging/sludge-metal]
+
+     At a mean of 99 there is NO shape of arc that puts a 94-bar leg at 70 and
+     still leaves the fight somewhere this kit can articulate: whatever comes
+     off the front is added to the peak, and the first attempt drove the fight
+     to 144, where HARDCORE_FEET's sixteenth run is the "blast beats read as
+     noise with this kit" line the research already drew. The average had to
+     move, and it SHOULD move -- a record whose first half is doom and sludge
+     does not average 99 BPM.
+     docs/genre-research/the-four-acts.md §5.2 ── */
+  tempo: [84, 96],
   /* ── THE MODES ARE THE MOVEMENTS ───────────────────────────────────────
      Modal jazz's first device is the mode change itself, and Holst is the
      proof it carries a long form: seven movements, an hour, "no story line,
@@ -25484,30 +25503,44 @@ GENRE.fantasysynth = (function(D){
       { name: "the long way home", pool: ["verse", "instrumental"],
         bars: [72, 3, 8] },
     ],
-    /* ── THE TEMPO ARC, AND THIS IS THE FIRST GENRE EVER TO DECLARE ONE ────
-       `form.tempoArc` has been built and unused since it was written. The
-       numbers are MULTIPLIERS and the map is normalised, so the arc
+    /* ── THE TEMPO ARC, AND TWO OF ITS FOUR ACTS ARE SOURCED NOW ──────────
+       The numbers are MULTIPLIERS and the map is normalised, so the arc
        REDISTRIBUTES time and never adds any: twenty minutes stays twenty
-       minutes however steep this gets, and a faster movement simply covers
-       more bars inside its share.
+       minutes however steep this gets, and a faster movement simply covers more
+       bars inside its share.
 
-       Read as a journey: the intro sets out at four-fifths of cruise and
-       gathers; verses walk; the instrumental is the road quickening as the
-       thing ahead gets closer; the chorus IS the fight and runs half again as
-       fast as cruise; the outro is the walk home, slower than the setting out
-       because they are carrying something back. [CHOSEN] */
-    /* `verse` used to be described here as "the neutral one whose multiplier is
-       ~1", because it had to serve setting out AND the walk home at once. It
-       serves one movement now and gets that movement's own gait. */
-    /* KEYED ON THE MOVEMENTS, not on the section names, which is what lets the
-       legs share functions. `intro` and `outro` belong to no leg and are still
-       keyed by name -- the lookup takes the movement first and falls back. */
-    tempoArc: { by: { intro:                 [0.76, 0.90],   // before dawn
-                      "setting out":         [0.90, 1.02],   // a walk that quickens
-                      "into the deep":       [1.04, 1.24],   // the climb down
-                      "the fight":           [1.32, 1.46],   // hardest
-                      "the long way home":   [1.00, 0.82],   // easing off
-                      outro:                 [0.80, 0.70] }, // the last tag
+       They were [CHOSEN] as feel -- "a walk that quickens", "the climb down".
+       Two of the four acts now arrive with a stated band, so those two stop
+       being taste. Measured across seven seeds, off the clock rather than the
+       table:
+
+         setting out    DOOM      "around 40-80 BPM"   ->  65-81
+         into the deep  SLUDGE    "roughly 60-110"     ->  84-109
+         the fight      MATHCORE  no band stated       -> 109-133
+         the long way   PROG      no band stated       ->  67-89
+
+       Doom's leg runs to 81 on the fastest seed's last bars, one over the
+       band's edge. Stated rather than tuned away -- and the leg ENDING at
+       doom's ceiling exactly where the sludge leg begins above it is the
+       handover written in numbers.
+
+       MATHCORE IS NOT GIVEN A FASTER FIGHT, deliberately. Its own description
+       is "rapid-fire shifts in meter, tempo, and texture", polymeter and
+       "sudden stops" [corpus:melodigging/mathcore]: the character is FRACTURE,
+       not speed. The fight lands back within a couple of BPM of where it always
+       was and takes its act from the devices instead.
+
+       PROG'S LEG IS SLOWER THAN IT WAS (72-93 before). "Multi-section suites
+       with contrasting tempos" [corpus:melodigging/progressive-rock] asks for
+       contrast, and the contrast that serves this leg is the job it already
+       had: the motif fading into the atmosphere.
+       docs/genre-research/the-four-acts.md §5.2 ── */
+    tempoArc: { by: { intro:                 [0.74, 0.86],
+                      "setting out":         [0.78, 0.87],
+                      "into the deep":       [1.00, 1.18],
+                      "the fight":           [1.30, 1.44],
+                      "the long way home":   [0.96, 0.80],
+                      outro:                 [0.78, 0.68] },
                 ease: "cos" },
     /* THE APEX MOVES TO THREE QUARTERS, because the fight is at fifteen
        minutes of twenty and the arc is what decides how loud and how full the
