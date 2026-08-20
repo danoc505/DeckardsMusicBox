@@ -55,7 +55,7 @@ const OUT = process.argv[2] || path.join(ROOT, 'harness', 'audio_renders');
    their NOTES are lawful, which is a different claim from "they make sound".
    A genre whose new voice throws, or whose register lands a part inaudibly under
    the kick, fails here and nowhere else. */
-const SONGS = (process.argv[3] || '1:lofi:band,2:synthwave:neon,3:vgm:sega')
+const SONGS = (process.argv[3] || '1:lofi:band,2:synthwave:neon,3:dungeonsynth:citadel,4:fantasysynth:bastion')
   .split(',').map(spec => {
     const [seed, genre, rig] = spec.split(':');
     return { seed: Number(seed), genre, rig };
@@ -96,7 +96,7 @@ const PROBES = [
      One per genre, and they must NOT measure the same. */
   { name: 'kick_lofi',      voice: 'kick', role: 'drums', gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75, genre: 'lofi' },
   { name: 'kick_synthwave', voice: 'kick', role: 'drums', gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75, genre: 'synthwave' },
-  { name: 'kick_vgm',       voice: 'kick', role: 'drums', gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75, genre: 'vgm' },
+  { name: 'kick_dungeon',   voice: 'kick', role: 'drums', gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75, genre: 'dungeonsynth' },
   { name: 'snare_soft',  voice: 'snare',   role: 'drums',   gain: 0.25, durSec: 0.18, n: 4, spacing: 0.75 },
   { name: 'ghost',       voice: 'ghost',   role: 'drums',   gain: 0.95, durSec: 0.18, n: 4, spacing: 0.75 },
   /* the full tom kit, and the GATE. synthwave is the genre that opens the gate, so
