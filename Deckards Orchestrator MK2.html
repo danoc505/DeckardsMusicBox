@@ -28019,6 +28019,30 @@ GENRE.fantasysynth = (function(D){
     arc: merge(D.form.arc, { apexAt: [0.73, 0.78], floor: [0.16, 0.28],
                              tail: [0.42, 0.58] }),
   }),
+  /* ══ THE HERO'S THEME, THROUGH THE FOUR MOVEMENTS ════════════════════════
+     One tune, four states, and each operation is chosen for what the sources
+     say it MEANS rather than for variety:
+
+       setting out ....  stated WHOLE, in the record's own mode
+       into the deep ..  FRAGMENTED -- "by not completing the leitmotif you
+         communicate something about how that character is developing or
+         responding to events". He is struggling, and an unfinished tune is
+         how you say so.
+       the fight ......  DIMINISHED -- "a sense of urgency or excitement": the
+         same figure arriving at twice the rate
+       the journey home  AUGMENTED -- "a sense of grandeur or drama", and whole
+         again for the first time since the opening
+
+     And because each movement's chord set stands in its own mode, the tune is
+     transposed and modulated as well -- a seventh operation, for nothing.
+
+     IT LIVES HERE AND NOT ON DUNGEON SYNTH'S `theme`, which is where I wrote
+     it first: that block is the PARENT's, fantasy synth inherits it whole, and
+     the measurements came back right while dungeon synth's material C quietly
+     changed from two notes to eight. Caught by the note-identity check, which
+     is the only thing that could have caught it.
+     docs/genre-research/telling-a-story-with-instruments.md §1 */
+  theme: merge(D.theme, { story: { C: "fragment", B: "diminish", lift: "augment" } }),
   /* ── MIXOLYDIAN HAS TO HAVE CHANGES OF ITS OWN ─────────────────────────
      The mode pool above names mixolydian and the inherited tables do not have
      it: dungeon synth writes progressions for minor, dorian, carpathian,
@@ -35019,13 +35043,43 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         if(reserved.has(key(cp.bar, cp.step, cp.pitch))) continue;
         notes.push(cp); reserved.add(key(cp.bar, cp.step, cp.pitch));
       }
-    } else if(opts.augmentOf){
-      /* THE DEPARTURE'S TUNE: A's rhythm AUGMENTED -- every duration doubled, so
-         half the density at the same shape [research: augmentation is a
-         canonical derivation]. Pitches walk the new (bridge) changes. */
+    } else if(opts.augmentOf || opts.motifOf){
+      /* ══ THE THEME COMES BACK CHANGED, AND HOW IS A NAMED OPERATION ═════════
+         THE DEPARTURE'S TUNE was A's rhythm AUGMENTED -- every duration doubled,
+         so half the density at the same shape. That is one of a closed list, and
+         the list has been named since Liszt and Berlioz: transposition,
+         inversion, retrograde, augmentation, diminution, fragmentation. Each one
+         MEANS something, which is why they are worth having separately:
+
+           AUGMENTATION lengthens the theme -- "a sense of grandeur or drama"
+           DIMINUTION shortens it -- "a sense of urgency or excitement"
+           FRAGMENTATION plays only part of it, and this is the load-bearing one:
+             "by NOT COMPLETING the leitmotif, you communicate something about
+             how that character is developing or responding to events"
+
+         So a genre may now say which operation its theme takes in each chord
+         set, and a band of heroes can have its tune stated whole setting out,
+         broken in the deep, hurried at the fight and made grand coming home --
+         with the pitches walking each movement's own changes, which is
+         transposition-and-modulation, a seventh operation, for free.
+         docs/genre-research/telling-a-story-with-instruments.md §1
+
+         `augmentOf` is kept and means exactly what it meant: the same branch
+         with the operation named "augment". No genre that uses it moves. */
+      const M_SRC = opts.motifOf || opts.augmentOf;
+      const M_OP  = opts.motifOf ? (opts.motifOp || "augment") : "augment";
+      const M_SC  = M_OP === "augment" ? 2 : M_OP === "diminish" ? 0.5 : 1;
+      /* DIMINUTION RUNS OUT OF SOURCE, being half as long, so the figure comes
+         round twice inside the same loop -- which IS the urgency: the same tune
+         arriving at twice the rate. Fragmentation stops early and the rest of
+         the loop is silence, which is the whole point of it. */
+      const M_LIST = M_OP === "diminish" ? M_SRC.concat(M_SRC) : M_SRC;
+      const M_TAKE = M_OP === "fragment"
+        ? Math.max(2, Math.ceil(M_SRC.length * 0.45)) : M_LIST.length;
       let m = intoBand(degMidi(keyOf(chordSet), modeOf(chordSet), 9), LO, HI);
-      let t = 0;
-      for(const src of opts.augmentOf){
+      let t = 0, taken = 0;
+      for(const src of M_LIST){
+        if(taken++ >= M_TAKE) break;
         /* Augmentation is twice as long as its source, so it runs out of loop
            partway through: the tune it yields is A's OPENING, stretched to fill
            four bars. It used to clamp the overflow with Math.min(BARS-1, ...),
@@ -35033,7 +35087,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
            last quarter, landing on already-occupied slots and silently dropping
            6.4% of them at the reserved guard. A note past the end of the loop
            does not belong in the last bar; it does not exist. */
-        const at = t * 2;
+        const at = Math.round(t * M_SC);
         if(at >= BARS * STEPS) break;
         const st = at % STEPS, b = Math.floor(at / STEPS);
         t += src.dur;
@@ -35056,7 +35110,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           m = alt;
         }
         if(reserved.has(key(b, st, m))) continue;
-        notes.push({ bar: b, step: st, dur: Math.min(8, src.dur * 2), pitch: m, vel: 0.7, role: "lead" });
+        notes.push({ bar: b, step: st,
+                     dur: Math.max(1, Math.min(8, Math.round(src.dur * M_SC))),
+                     pitch: m, vel: 0.7, role: "lead" });
         reserved.add(key(b, st, m));
       }
     } else {
@@ -36809,6 +36865,18 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      A GENRE DECLARATION, not a new law, because it is a taste: lofi's verse
      wandering is lofi being lofi. A genre that says nothing is untouched and
      the snapshot proves it. */
+  /* ══ THE THEME'S JOURNEY, AS A GENRE DECLARES IT ═════════════════════════
+     `theme.story` names the operation the record's own tune takes in each
+     other chord set: { C: "fragment", B: "diminish", lift: "augment" }. The
+     tune is always A's -- one theme, walking the record -- and each movement's
+     chord set re-pitches it, which is the transposition-and-modulation half of
+     the same device.
+
+     A genre that says nothing gets what it always got: `themeC` augmented (the
+     one operation this file already had) and fresh draws elsewhere. */
+  const STORY = (G.theme && G.theme.story) || {};
+  const motif = (set, src) => STORY[set]
+    ? { motifOf: src, motifOp: STORY[set] } : null;
   const themeA = buildTheme(chords, "themeA", resA, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], comp: keysA, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1, hooky: !!(G.theme && G.theme.verseHook) });
   const counterA = deriveCounter(themeA.notes, resA, "counterA", chords, keysA);
   /* ── THE TUNE TOO, AND FEWER OF THEM ON PURPOSE ──────────────────────────
@@ -36913,7 +36981,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                             avoid: reserve(ostBx.concat(bassBx, keysBx, bassBvar, keysBvar)) }));
   const resB   = reserve(ostBx.concat(bassBx, keysBx, keys2B));
   const themeB = buildTheme(chorusChords, "themeB", resB,
-    { lo: playable(R.themeB)[0], hi: playable(R.themeB)[1], comp: keysB, dir: 1, hooky: true, moveBias: themeA.dna.map(mv => -mv) });
+    { lo: playable(R.themeB)[0], hi: playable(R.themeB)[1], comp: keysB, dir: 1,
+      hooky: !STORY.B, moveBias: themeA.dna.map(mv => -mv),
+      ...(motif("B", themeA.notes) || {}) });
   const counterB = deriveCounter(themeB.notes, resB, "counterB", chorusChords, keysB);
   const themeBTakes = takesOf("lead", "B", themeB.notes, t =>
     buildTheme(chorusChords, "themeB:" + t, resB,
@@ -37030,7 +37100,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const keys2C = tryPad(band => buildKeys(bridgeChords, "keys2C", { sustain: true, at: 2, band,
                             against: keysC, avoid: reserve(ostC.concat(bassCx, keysCx)) }));
   const resC   = reserve(ostC.concat(bassCx, keysCx, keys2C));
-  const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: playable(R.themeC)[0], hi: playable(R.themeC)[1], comp: keysC, augmentOf: themeA.notes });
+  const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: playable(R.themeC)[0], hi: playable(R.themeC)[1], comp: keysC,
+                                       ...(motif("C", themeA.notes) || { augmentOf: themeA.notes }) });
 
   /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
      the canonical rule-of-three answer at the material level ── */
@@ -37362,7 +37433,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      to be a fix that was made on one path and not carried to its copy. */
   const resAl      = reserve(ostAlx.concat(bassAlx, keysAlx, keys2Al, keys2Avarl));
   const themeAl    = LIFT ? buildTheme(liftChords, "themeA", resAl, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1],
-                              comp: keysAl, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1 }) : themeA;
+                              comp: keysAl, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1,
+                              ...(motif("lift", themeA.notes) || {}) }) : themeA;
   const counterAl  = LIFT ? deriveCounter(themeAl.notes, resAl, "counterA", liftChords, keysAl) : counterA;
   const themeAlTakes = LIFT ? takesOf("lead", "Alift", themeAl.notes, t =>
       buildTheme(liftChords, "themeA:" + t, resAl,
