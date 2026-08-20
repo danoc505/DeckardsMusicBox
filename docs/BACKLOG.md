@@ -1996,3 +1996,30 @@ its own is a matrix change (a row, five blind-plate decisions, and the genres
 that want it naming `counter` in `space.feeds`), not a table one — which is why
 the automation build stated the limitation instead of faking it with a lane that
 cannot do what its name says.
+
+## The atmosphere bed's distance cannot glide inside one bed (2026-08-20)
+
+`atmos.far` and `atmos.air` are `gesture` controls — read once through `P(...)`
+when the event starts. A bed is one long event, so the fx planner's `space` and
+`air` curves are sampled at the bed's onset and held for its whole length.
+
+Since beds are now dealt per movement, that is one distance per movement, which
+is a real improvement on the fixed number it replaced — but it is not what a
+continuous curve would give. Making it glide means riding the atmos voice's own
+gain and filter nodes the way `rideBus` rides a bus control, which is a graph
+change rather than a table one.
+
+## The fx planner's readings are per SECTION, not per bar
+
+`space`, `gaps`, `air` and `weight` are measured off the material a section
+plays, so they are flat inside a section and glided across the seam. A section
+whose second half is much busier than its first gets one number for both. Bar-
+level measurement is possible — the materials are indexed by bar — and would
+cost a loop rather than a mechanism.
+
+## `snap` is still undeclared by any genre
+
+The planner emits its cut as a rectangle folded into the curve rather than as a
+`snap` spec, because one mechanism was cheaper than two. `snap` therefore still
+has no user. Either give it one or fold it into the planner and delete it — a
+kind nobody declares is the same defect as a knob nobody rides.

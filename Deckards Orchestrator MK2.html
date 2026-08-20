@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20c · boxcar synth is deleted — the page was over its ceiling and eighty per cent of it is samples</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20d · the fx are planned off the track, the pack's pads play the drone, and the air changes with the movement</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -6647,6 +6647,42 @@ INSTRUMENTS.erangLead = {
   controls: erangControls(erangPatches("Lead"), "leads", ["Lead"]),
   panel: erangPanel("Erang — Leads", "the voice that carries the tune"),
 };
+/* ══ AND THE PACK'S PADS PLAY THE DRONE ═══════════════════════════════════
+   [owner, 2026-08-20: "we should be utilzing the pads in the pack for drones"]
+
+   MEASURED FIRST, because "we should be using X" deserves a count rather than
+   a shrug: the drone lane emitted 193 events across 96 records and EVERY ONE
+   of them was `dronebox`, the synth. The ten `Pad` samples were reachable only
+   as patches of the STRINGS shelf -- a keys machine -- so the one lane in this
+   program that holds a note for a whole record could not play the ten samples
+   in the pack that were recorded to be held.
+
+   IT IS NOT A NEW VOICE. `erangVoice` already loops a sample at its measured
+   loop points, and `drone` is already a rack slot, so this is one INSTRUMENTS
+   entry and one line of factory -- which is what that factory was for.
+
+   WHY A SAMPLED DRONE IS DIFFERENT FROM THE SYNTH ONE, and why both stay: the
+   dronebox is six detuned oscillators through a filter, so what it evolves BY
+   is beating and cutoff -- the eurorack answer this repo researched at length.
+   A recorded pad is a fixed spectrum with a real room already in it, so what
+   it evolves by is the RACK: the filter, the flanger and the tape are the only
+   things that can change it. Two different instruments for the same job, and a
+   genre draws between them.
+
+   AND THE ENVELOPE IS THE PAD'S. A drone note runs for sixteen bars or more,
+   so the attack is slow enough to be a swell rather than an entrance and the
+   release is long enough to overlap the next one -- which is the overlapping
+   the drone lane's `hold` was built for. BLOOM is on by default here and
+   nowhere else in the pack: the filter opening across a held note is the whole
+   Korg-M1 pad gesture the `bloom` control was added for, and a drone is the
+   one part long enough to hear it happen. */
+INSTRUMENTS.erangPad = {
+  slot: "drone", label: "Erang Pad",
+  family: "tape",
+  lanes: { drone: "erangPad" },
+  controls: erangControls(erangPatches("Pad"), "pads", ["Pad"]),
+  panel: erangPanel("Erang — Pads", "the held half of the pack, on the drone lane"),
+};
 /* ── WHAT A SINGLE RECORDING CANNOT DO ────────────────────────────────────
      This patch is ONE sample per pipe and a gain node. It has no velocity
      layers, no round robins and no recorded re-articulation, so playing the
@@ -7455,6 +7491,244 @@ function makeMotion(chart, form, sections, materials){
     }
   }
 
+  /* ══ THE FX PLANNER — AUTOMATION READ OFF THE TRACK, NOT OFF A TABLE ═══════
+     [owner, 2026-08-20: "why not build something that plans the fx for the
+     track itself instead of a blind baked in automation? Shouldn't the
+     automation be custom to the track based on whats going on in the track?"]
+
+     He is right, and the criticism lands hardest on the block I had just
+     written. `kind:"section"` says "in the bridge, open the echo" — which is a
+     statement about the FORM, made before a single note existed. Two records of
+     the same genre with wildly different arrangements got the identical
+     automation, because the table could not see either of them.
+
+     THIS READS THE ARRANGEMENT AND MEASURES IT. Six curves, one value per bar,
+     each derived from the notes that will actually be played and from the
+     section objects stage 4 already built. Nothing here names a genre [Law 4];
+     a genre declares only WHICH controls it lets the planner move and HOW FAR
+     they may travel, and the record decides where.
+
+       space   how much room this arrangement can AFFORD. Reverb on a full
+               arrangement is mud and on a sparse one it is the room itself --
+               the oldest rule in mixing, and it is a masking argument rather
+               than a taste: every source you add takes decibels of clarity off
+               every other one. Measured as 1 - (voices sounding, weighted by
+               how busy each is).
+       gaps    how much SILENCE there is for a delay to play in. "Delay
+               functions as a compositional tool that creates rhythm and melody
+               from single notes or short phrases" [corpus:attackmagazine dub
+               techno] -- it needs somewhere to put them. Measured as
+               1 - onsets per bar, normalised across the record.
+       energy  the record's own arc, which stage 4 already drew and which
+               everything else in this program already reads.
+       air     how HIGH the arrangement reaches. Opening a top shelf above the
+               highest note sounding adds hiss and nothing else; the number is
+               the pitch ceiling, normalised.
+       weight  how LOW and how hard it is: the pitch floor plus the drum level.
+       change  how different this section is from the one before it -- voices
+               in and out, a new material, a new mode. A colour that ARRIVES
+               with something is heard as belonging to it; the same colour
+               arriving on its own is a knob being turned.
+
+     AND THE CURVES ARE SMOOTHED ACROSS THE SEAM. A section boundary is a step,
+     and a step on a send is a click; two bars of glide either side is a fader
+     ride. The smoothing is arithmetic, so Law 10 holds and stage 6 still only
+     reads `mv.at[...]`.
+
+     WHAT THIS DOES NOT DO is replace the author. A `section` lane saying "the
+     room CLOSES for the fight" is a narrative decision and no measurement of a
+     track will ever produce it; a planner saying "this section is dense, pull
+     the room" is a mixing decision and no table can make it per record. Both
+     are declared, both compile to lanes on the same controls, and they SUM --
+     which is what an engineer riding a desk over an arrangement is doing. */
+  const FXP = G.fxPlan || null;
+  let fxCurves = null;
+  if(FXP && FXP.follow){
+    /* the roles a record can hold, so `space` is a fraction rather than a count
+       -- derived from what the sections actually name, never a written list */
+    const roleSet = {};
+    for(const s of sections) for(const r of (s.active || [])) roleSet[r] = 1;
+    const nRoles = Math.max(1, Object.keys(roleSet).length);
+    const MB = Math.max(1, materials.bars || 4);
+    /* ── ONSETS AND REGISTER, OFF THE NOTES THEMSELVES ────────────────────
+       The material a section plays is `s.material`, which is the key stage 4
+       stamped on it, so this is the same object stage 5 will hand to the
+       players. Counting it here is counting what will be heard. */
+    const measured = {};
+    const measure = key => {
+      if(measured[key]) return measured[key];
+      const M = materials[key];
+      const out = { on: {}, hi: -Infinity, lo: Infinity };
+      if(M) for(const r in M){
+        const arr = M[r];
+        if(!Array.isArray(arr)) continue;
+        out.on[r] = arr.length / MB;
+        for(const n of arr){
+          if(n.pitch == null) continue;
+          if(n.pitch > out.hi) out.hi = n.pitch;
+          if(n.pitch < out.lo) out.lo = n.pitch;
+        }
+      }
+      return (measured[key] = out);
+    };
+    const raw = { space: [], gaps: [], energy: [], air: [], weight: [], change: [] };
+    let prev = null;
+    const perSec = [];
+    for(const s of sections){
+      const m = measure(s.material);
+      const act = (s.active || []).filter(r => r !== "drums");
+      /* BUSY-WEIGHTED, not a headcount: a drone holding one note and an
+         ostinato running sixteenths are both "one voice" to a count and are
+         nothing alike to an ear. Each voice contributes its own onset rate,
+         capped at four a bar -- past that an ear stops counting notes and
+         starts hearing texture. */
+      let busy = 0, onsets = 0;
+      for(const r of act){
+        const o = m.on[r] || 0;
+        onsets += o;
+        busy += Math.min(1, o / 4);
+      }
+      /* the drums count toward fullness at the level the arrangement set them,
+         because a march at drumLevel 3 fills a mix and a brush at 0 does not */
+      busy += Math.min(1, (s.drumLevel || 0) / 3) * (act.length ? 1 : 0);
+      perSec.push({
+        s,
+        fill:   busy / nRoles,
+        onsets: onsets,
+        energy: s.energy == null ? 0.5 : s.energy,
+        hi:     m.hi === -Infinity ? null : m.hi,
+        lo:     m.lo ===  Infinity ? null : m.lo,
+        drum:   (s.drumLevel || 0) / 3,
+        mat:    s.material,
+        occ:    s.occurrence || 1,
+      });
+    }
+    /* normalise the two that are in absolute units, ACROSS THIS RECORD -- the
+       question a mix asks is never "is 7 notes a bar a lot" but "is this
+       section busier than the rest of this record" */
+    const span = (vals) => {
+      const ok = vals.filter(v => v != null && isFinite(v));
+      if(!ok.length) return [0, 1];
+      const lo = Math.min(...ok), hi = Math.max(...ok);
+      return [lo, hi > lo ? hi : lo + 1];
+    };
+    const oSpan = span(perSec.map(p => p.onsets));
+    const hSpan = span(perSec.map(p => p.hi));
+    const lSpan = span(perSec.map(p => p.lo));
+    const unit = (v, sp) => v == null ? 0.5 : Math.max(0, Math.min(1, (v - sp[0]) / (sp[1] - sp[0])));
+    for(let i = 0; i < perSec.length; i++){
+      const p = perSec[i], q = i > 0 ? perSec[i - 1] : null;
+      p.u = {
+        space:  Math.max(0, Math.min(1, 1 - p.fill)),
+        gaps:   1 - unit(p.onsets, oSpan),
+        energy: Math.max(0, Math.min(1, p.energy)),
+        air:    unit(p.hi, hSpan),
+        weight: (1 - unit(p.lo, lSpan)) * 0.6 + p.drum * 0.4,
+        change: !q ? 1 : Math.max(0, Math.min(1,
+          /* three things a listener can actually notice changing */
+          (p.mat !== q.mat ? 0.45 : 0) +
+          Math.min(0.35, Math.abs(p.fill - q.fill) * 1.6) +
+          (p.occ !== q.occ ? 0.20 : 0))),
+      };
+    }
+    /* ── AND THE CUT, WHICH IS AN ARRANGEMENT DECISION AND NOT A KNOB ──────
+       [owner: "What about the rack that cuts the fx?"]
+
+       The program HAS one -- `picks.mute.fx` empties the space outright -- but
+       that is a hand on the panel, not something the record ever does to
+       itself. The famous version of this move is Hawtin's: "I'd let all the
+       effects play, and then in one set INSTANTLY turn off the effects, and
+       then EIGHT BARS LATER turn them back on" [corpus:soundonsound Classic
+       Tracks], and the program grew a `snap` kind for it that no genre has ever
+       declared -- because no TABLE can know where a record earns it.
+
+       A planner can. The cut goes where the arrangement makes the biggest jump
+       into its own peak: find the section with the largest rise in `change`
+       whose energy is above the record's mean, and take the effects off the
+       bars leading INTO it. The silence is what makes the arrival land, which
+       is the same reason the empty exists on the note side. One cut a record,
+       at most -- twice is a gimmick and the sources say so about every effect
+       in this file. */
+    let cutAt = null;
+    if(FXP.cut){
+      const meanE = perSec.reduce((t, p) => t + p.u.energy, 0) / Math.max(1, perSec.length);
+      let best = -1;
+      for(let i = 1; i < perSec.length; i++){
+        const p = perSec[i];
+        if(p.u.energy <= meanE) continue;
+        const rise = p.u.change * (p.u.energy - meanE);
+        if(rise > best){ best = rise; cutAt = p.s.startBar; }
+      }
+    }
+    const cutBars = Math.max(1, Math.round(FXP.cut && FXP.cut.bars || 4));
+    /* ── PER BAR, THEN GLIDED ─────────────────────────────────────────────── */
+    const byBar = {};
+    for(const k in raw) byBar[k] = new Array(nBars).fill(0.5);
+    for(const p of perSec)
+      for(let b = p.s.startBar; b < p.s.endBar && b < nBars; b++)
+        for(const k in byBar) byBar[k][b] = p.u[k];
+    /* a two-bar box glide, run twice, which is a triangle -- the cheapest
+       smoothing that has no step in it and no overshoot */
+    const glide = arr => {
+      let a = arr;
+      for(let pass = 0; pass < 2; pass++){
+        const o = new Array(a.length);
+        for(let i = 0; i < a.length; i++){
+          const i0 = Math.max(0, i - 1), i1 = Math.min(a.length - 1, i + 1);
+          o[i] = (a[i0] + a[i] + a[i1]) / 3;
+        }
+        a = o;
+      }
+      return a;
+    };
+    fxCurves = {};
+    for(const k in byBar) fxCurves[k] = glide(byBar[k]);
+    fxCurves.__cutAt = cutAt;
+    fxCurves.__cutBars = cutBars;
+  }
+  /* ── AND WHAT IT DECIDED GOES ON THE PLAN, NOT ONLY INTO THE NUMBERS ──────
+     A probe that works out where the cut landed by looking for a dip in the
+     curve is a probe keeping its own copy of the rule, which is the mistake
+     this file has caught four times -- and it caught it a fifth time here, on
+     the first run: the threshold found dense sections and called them cuts. So
+     the planner SAYS what it did. The roll can draw it, a check can hold it to
+     "at most one a record", and nobody has to reverse-engineer a rectangle. */
+  const fxCut = (fxCurves && fxCurves.__cutAt != null)
+    ? Object.freeze({ bar: fxCurves.__cutAt, bars: fxCurves.__cutBars }) : null;
+  /* ── AND IT EXPANDS INTO ORDINARY LANES, LIKE THE STAGE DOES ──────────────
+     Same rule as `stage` above and for the same reason: one code path. Each
+     entry becomes a `curve` spec -- one value per sixteenth, resolved here
+     where the whole record is visible -- and the compile loop below treats it
+     like any other. `motionAt` already reads curves; nothing in stage 6 learns
+     that a planner exists.
+
+     APPENDED, NEVER PREPENDED. A spec's draws come from `motion:<key>:<i>`, so
+     adding one at the END of a key's list cannot move the stream position of a
+     spec the genre wrote by hand. */
+  if(fxCurves && FXP.follow){
+    const mx = Object.assign({}, MO.matrix || {});
+    for(const key in FXP.follow){
+      const spec = FXP.follow[key];
+      const src = fxCurves[spec.read];
+      if(!src) throw new Error("fxPlan reads a curve that does not exist: " +
+                               spec.read + " on " + key +
+                               " (have: " + Object.keys(fxCurves).filter(k => k[0] !== "_").join(", ") + ")");
+      const lo = spec.by[0], hi = spec.by[1];
+      const at = new Array(nBars * STEPS);
+      for(let b = 0; b < nBars; b++){
+        const v = lo + (hi - lo) * Math.max(0, Math.min(1, src[b]));
+        const cut = fxCurves.__cutAt != null && spec.cut !== false &&
+                    b >= fxCurves.__cutAt - fxCurves.__cutBars && b < fxCurves.__cutAt;
+        for(let s = 0; s < STEPS; s++) at[b * STEPS + s] = cut ? lo : v;
+      }
+      const [mm, kk] = key.split(".");
+      const one = { kind: "curve", at: Object.freeze(at) };
+      if(mm === "matrix"){ mx[kk] = (mx[kk] || []).concat([one]); }
+      else { MO[mm] = Object.assign({}, MO[mm]); MO[mm][kk] = (MO[mm][kk] || []).concat([one]); }
+    }
+    MO.matrix = mx;
+  }
+
   /* ══ AN LFO ON EACH AXIS OF THE MATRIX, WITH A RESET TRIGGER ══════════════
      [owner: "why not add and build into the matrix AT EACH ROW A LFO WITH A
      RESET TRIGGER so it can be automated and also reset with a trigger" — and
@@ -7731,6 +8005,14 @@ function makeMotion(chart, form, sections, materials){
           amt.push(hit < density ? size : 0);
         }
         out.push(Object.freeze({ kind: "plock", amt: Object.freeze(amt) }));
+      }
+      /* a CURVE arrives already resolved -- the fx planner is the only thing
+         that emits one, and it computed a value per sixteenth where the whole
+         arrangement was visible. It draws nothing, which is safe because this
+         spec owns its own substream and no other spec's position depends on
+         how many numbers are taken out of it. */
+      else if(sp.kind === "curve"){
+        out.push(Object.freeze({ kind: "curve", at: sp.at }));
       }
       else if(sp.kind === "section"){
         const by = {};
@@ -8113,6 +8395,10 @@ function makeMotion(chart, form, sections, materials){
                          /* form's arc, so an `apex` lane can follow the song's
                             own shape rather than the clock */
                          arc: form.arc || null,
+                         /* what the fx planner decided, said out loud -- see the
+                            note at `fxCut` above for why this is on the plan
+                            rather than left to be inferred from the curve */
+                         fxCut: fxCut,
                          lanes: Object.freeze(lanes) });
 }
 
@@ -12861,6 +13147,7 @@ function erangVoice(mach, fams, lanes){
 V.erangStrings = erangVoice("erangStrings", ["strings", "Pad"]);
 V.erangHarp    = erangVoice("erangHarp",    ["Key", "Plucked"]);
 V.erangLead    = erangVoice("erangLead",    ["Lead"]);
+V.erangPad     = erangVoice("erangPad",     ["Pad"]);
 /* ── THE BARD AND TROUBADOUR SHELVES ──────────────────────────────────────
    Three more samplers off the same factory and the same bank -- the whole
    cost of a new family is one line, which is what that factory was for.
@@ -25135,6 +25422,85 @@ GENRE.fantasysynth = (function(D){
                                          outro:  [-0.0008, -0.0002] } }],
     }),
   }),
+  /* ══ AND THE TRACK PLANS ITS OWN FX ══════════════════════════════════════
+     [owner: "why not build something that plans the fx for the track itself
+     instead of a blind baked in automation? Shouldn't the automation be custom
+     to the track based on whats going on in the track?"]
+
+     THE SECTION LANES ABOVE ARE THE STORY AND THIS IS THE MIX, and they are
+     different jobs. "The room CLOSES for the fight" is a narrative decision no
+     measurement will ever produce. "This section is dense, pull the room" is a
+     mixing decision no table can make per record -- and the table above made
+     the same one on every seed, because it could not see a single note.
+
+     So the genre declares only an APPETITE: which controls the planner may
+     move, which measured reading of the record drives each, and how far it may
+     travel. WHERE it happens is the record's business. Two seeds of this genre
+     now get genuinely different automation, because they have genuinely
+     different arrangements -- which is the whole of what was being asked for.
+
+     `by` is [at reading 0, at reading 1]. Read each line as a sentence:
+
+       keysRoom  read "space", by [-0.45, 0]   the fuller it gets, the drier
+       leadRoom  read "space", by [-0.50, 0]   and the tune dries hardest
+       echo.send read "gaps",  by [-0.05, 0.16] the delay plays in the holes
+       dp4.bLvl  read "energy",by [0, 0.22]    drive where the record is loud
+       desk.high read "air",   by [-2.5, 2.0]  no shelf above the top note
+       desk.low  read "weight",by [-1.0, 2.5]  weight where the record is low
+       flg.rate  read "change",by [0, 0.35]    a colour arrives WITH something
+
+     THE NUMBERS ARE SMALLER THAN THE STORY LANES' ON PURPOSE. These SUM with
+     them -- that is what an engineer riding a desk over a written arrangement
+     is doing -- and a planner that could swamp the author would be the same
+     mistake in the other direction. */
+  fxPlan: {
+    cut: { bars: 4 },
+    follow: {
+      "matrix.keysRoom": { read: "space",  by: [-0.45, 0.00] },
+      "matrix.leadRoom": { read: "space",  by: [-0.50, 0.00] },
+      "matrix.drumsRoom":{ read: "space",  by: [-0.12, 0.22] },
+      "matrix.droneRoom":{ read: "space",  by: [-0.30, 0.00] },
+      "matrix.keysEcho": { read: "gaps",   by: [-0.10, 0.26] },
+      "matrix.leadEcho": { read: "gaps",   by: [-0.30, 0.00] },
+      "echo.send":       { read: "gaps",   by: [-0.05, 0.16] },
+      "echo.fb":         { read: "gaps",   by: [-0.08, 0.18] },
+      "dp4.bLvl":        { read: "energy", by: [0.00, 0.22] },
+      "matrix.leadDP4":  { read: "energy", by: [0.00, 0.20] },
+      "desk.high":       { read: "air",    by: [-2.5, 2.0] },
+      "desk.low":        { read: "weight", by: [-1.0, 2.5] },
+      "flange.rate":     { read: "change", by: [0.00, 0.35] },
+      "matrix.leadFlange": { read: "change", by: [0.00, 0.18] },
+      /* the drone's own crossings are the record's floor and the cut must not
+         take the floor away -- `cut: false` keeps them out of the rectangle */
+      "matrix.droneEcho":{ read: "gaps",   by: [-0.10, 0.22], cut: false },
+      /* ── AND THE WORLD STEPS BACK WHEN THE BAND FILLS UP ─────────────────
+         `atmos.far` is how far away the place is, and it has been a fixed
+         number in every record this program has made. It should not be: the
+         air behind a five-piece at full tilt is not the air behind two
+         instruments on a road, and the difference is DISTANCE rather than
+         level -- a bed you can still hear but which has moved off is what an
+         arrangement opening up actually sounds like.
+
+         THESE ARE OFFSETS ON THE CONTROL'S BASE, NOT ABSOLUTE POSITIONS, and
+         the first version of these two lines forgot it: `by: [0.30, 0.75]` on
+         an `air` whose base is 0.5 asks for 0.80..1.25, so the knob sat pinned
+         at its ceiling for most of every record and the measurement said so
+         (air 1.00 on four beds out of five). Written as travel FROM the base:
+         far runs 0.85 down to 0.20, air 0.30 up to 0.75.
+
+         AND IT IS SAMPLED PER BED, NOT CONTINUOUSLY, because `far` and `air`
+         are `gesture` controls -- read once when the event starts, like every
+         other per-note knob in this program -- and a bed is one long event. So
+         the distance is decided once per bed, which since the beds are now
+         dealt per movement means once per movement. That is a real limit and
+         it is stated rather than papered over: making it glide inside a bed
+         means riding the atmos voice's own nodes, which is a graph change and
+         is in the backlog. One distance a movement is still four distances a
+         record against the one number it had before. */
+      "atmos.far":       { read: "space",  by: [0.50, -0.15], cut: false },
+      "atmos.air":       { read: "air",    by: [-0.20, 0.25], cut: false },
+    },
+  },
   /* ── AND THE BOXES START FROM NOTHING, WHICH IS HALF THE SCHEME ──────────
      Dungeon synth sets the crusher and the drive to a permanent low return --
      "a WORN tape, not a broken one" -- and that is right for a record about a
@@ -25152,6 +25518,19 @@ GENRE.fantasysynth = (function(D){
      this record's bands are moved BY the movements, and a table that has
      already spent the travel has none left. */
   params: merge(D.params, {
+    /* ── AND THIS BLOCK IS THE ONLY `params` IN THIS OBJECT ────────────────
+       The pad's envelope was first written as a SECOND `params:` key a hundred
+       lines up, which is a duplicate key in an object literal: the later one
+       wins and the earlier is discarded without a word. Caught in the same
+       session that found PLAY_FAMILY's unclosed comment, which is two silent
+       overwrites in one file in one day -- the shape is always "it parsed, it
+       ran, and half of what you wrote was never there". */
+    /* the pad's own envelope, on the one lane long enough to hear it: a swell
+       in rather than an entrance, a release that outlives the note so the
+       stack overlaps itself, and the filter blooming across the hold -- the
+       Korg-M1 pad gesture `bloom` was built for and which nothing had used. */
+    erangPad: { patch: "any", tune: 1, attack: 2.6, release: 5.2, tone: 0.62,
+                hit: 0.55, spot: 1, bloom: 0.72, bloomT: 7.5, pan: 0 },
     dp4:    { aAlgo: 4, aAmt: 0.34, aLvl: 0,
               bAlgo: 2, bAmt: 0.26, bLvl: 0,
               cAlgo: 3, cAmt: 0.30, cLvl: 0,
@@ -25214,6 +25593,16 @@ GENRE.fantasysynth = (function(D){
      a chase -- at a density that makes it a line. It arrives early because the
      monster is foreshadowed from the start, and it is barely thinned because
      the arc must not take one of the duellists away at the moment they fight. */
+  /* ── THE AIR CHANGES WITH THE MOVEMENT ─────────────────────────────────
+     [owner: "There is a bunch of sfx files in the errang files we should be
+     using"] Dungeon synth stands in one place and one bed is right for it.
+     This genre's whole form is a journey through four of them, so it takes
+     four beds and the arrangement deals them across the movements -- the road,
+     the descent, the fight and the walk home each get their own air. The
+     ACCENT rises with it: a one-shot held back for the climax is Belkin's
+     rule, and a record that travels earns one more often than a record that
+     sits. */
+  atmos: merge(D.atmos, { layers: 4, accent: 0.75, level: [0.030, 0.026] }),
   counter: merge(D.counter, { density: 0.8, answer: 0.9 }),
   /* AND THE TUNES ARE DENSER THAN A CAVERN'S. Dungeon synth writes one or two
      notes a bar because it is an atmosphere; this genre has a TUNE and two
@@ -25288,6 +25677,13 @@ GENRE.fantasysynth = (function(D){
     lead:  [["carnyx", 4], ["corAnglais", 3], ["bassOboe", 3], ["erangLead", 4],
             ["bardFlute", 3], ["auto", 3]],
     keys:  [["horns", 4], ["brass", 3], ["auto", 6]],
+    /* ── AND THE DRONE IS A DRAW NOW, NOT A FIXTURE ────────────────────────
+       The synth and the pack's pads are two different instruments for the same
+       job -- see INSTRUMENTS.erangPad. Weighted toward the synth because this
+       genre's drone is STACKED (0-7-12) and six detuned oscillators take a
+       stack better than one recording layered three times; the pad wins often
+       enough that it is a different record when it does. */
+    drone: [["dronebox", 6], ["erangPad", 4]],
   }),
   /* ── THE DRONES ARE STACKED ────────────────────────────────────────────
      [owner: "more drones... more at once, two or three stacked" and "drones
@@ -26439,7 +26835,34 @@ function makeChart(seed, rigChoice, genreChoice, picks, pins, edits, traitRoll, 
         ? hits[Math.min(hits.length - 1, Math.floor(accPick * hits.length))] : null;
       const accentGain = G.atmos.accentLevel
         ? G.atmos.accentLevel[0] + r() * G.atmos.accentLevel[1] : 0;
-      return Object.freeze({ bed, level, accent, accentGain });
+      /* ══ AND A RECORD MAY HAVE MORE THAN ONE AIR IN IT ═══════════════════
+         [owner, 2026-08-20: "There is a bunch of sfx files in the errang
+         files we should be using"]
+
+         MEASURED before changing anything, because "we should be using X"
+         deserves a count: the pack holds eight loopable beds and two one-shots,
+         and a record drew ONE bed and spent it under the whole thing. Ninety-six
+         records reached all ten sounds between them and no single record reached
+         more than two.
+
+         A place changes as you move through it, which is the whole premise of
+         a genre whose form is a journey: the air on the road is not the air
+         underground. So the chart draws a POOL and the arrangement decides
+         where each one sits -- the same division of labour the fx planner
+         uses, and for the same reason.
+
+         THE THREE EXTRA PICKS RUN WHATEVER THE TABLE SAYS [Law 3]. They are
+         drawn AFTER the five above, so every number already dealt keeps its
+         place and a genre that declares no `layers` is byte-identical -- which
+         is what the 24-record check on dungeon synth holds this to. */
+      const pool = [bed];
+      for(let i = 0; i < 3; i++){
+        const pick = beds[Math.min(beds.length - 1, Math.floor(r() * beds.length))];
+        if(pool.indexOf(pick) < 0) pool.push(pick);
+      }
+      const layers = Math.max(1, Math.min(pool.length, Math.round(G.atmos.layers || 1)));
+      return Object.freeze({ bed, level, accent, accentGain,
+                             pool: Object.freeze(pool.slice(0, layers)) });
     })(),
   };
   /* the requested length in bars, now that the tempo it depends on exists.
@@ -36690,9 +37113,70 @@ function makePerformance(chart, form, materials, sections){
      renamed from `route` to `trip` — the gate went stale in one rename, which
      is why the check exists. */
   if(chart.atmos && !chart.table.trip){
-    events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "atmos",
-                                role: roleOfBed(chart.atmos.bed), gain: chart.atmos.level,
-                                bed: chart.atmos.bed }));
+    /* ── AND THE AIR CHANGES WITH THE MOVEMENT ──────────────────────────────
+       One bed for the whole record is the right answer for a record that
+       stands in one place, and it is still what a genre gets if it says
+       nothing: a pool of one produces exactly the single full-length event
+       this line always emitted, to the sample.
+
+       WHERE A SECOND BED GOES IS THE ARRANGEMENT'S CALL, not a table's. The
+       pool is dealt across the section FUNCTIONS in order of first appearance,
+       so a record whose form is a journey changes air when it changes movement
+       and a record that is one long verse does not change at all -- neither
+       needs a genre to say which it is [Law 4].
+
+       ONE EVENT PER CONTIGUOUS RUN, so a bed that spans four sections is one
+       held loop and not four re-triggered ones -- the same rule the drone lane
+       learned when its stack re-attacked 252 times. */
+    const POOL = (chart.atmos.pool && chart.atmos.pool.length)
+               ? chart.atmos.pool : [chart.atmos.bed];
+    if(POOL.length < 2 || !sections.length){
+      events.push(Object.freeze({ tSec: 0, durSec: totalSec + 1.5, voice: "atmos",
+                                  role: roleOfBed(chart.atmos.bed), gain: chart.atmos.level,
+                                  bed: chart.atmos.bed }));
+    } else {
+      /* ── AND A BED HAS TO LAST LONG ENOUGH TO BE A PLACE ────────────────
+         The first version dealt the pool straight across the section functions
+         and MEASURED, seed 1: during the fight, where `chorus` and
+         `instrumental` alternate every sixteen bars, the air swapped every
+         THIRTY SECONDS -- 01, 05, 01, 05, 01, 05. That is not an atmosphere,
+         it is a fader being flapped, and it is the same blinking defect the
+         `chorus`-only fx lanes were caught by two builds ago wearing different
+         clothes.
+
+         The rule that fixes it is a statement about PLACES rather than about
+         form, so stage 5 may hold it [Law 4]: a place you are in lasts. A bed
+         holds for a minimum dwell and a function whose turn comes round again
+         inside that window does not get to change it. The dwell is derived
+         from the record -- its own length divided by twice the number of
+         layers, floored at sixteen bars -- so a two-minute record and a
+         twenty-minute one both change air a handful of times and neither has
+         to be told how long a minute is. */
+      const order = [];
+      for(const sc of sections) if(order.indexOf(sc.fn) < 0) order.push(sc.fn);
+      const wantOf = {};
+      order.forEach((fn, i) => { wantOf[fn] = i % POOL.length; });
+      const dwell = Math.max(16, Math.floor(form.nBars / (POOL.length * 2)));
+      let run = null, curIx = -1, sinceBar = 0;
+      const flush = () => {
+        if(!run) return;
+        events.push(Object.freeze({
+          tSec: run.a, durSec: Math.max(0.5, run.b - run.a) + 1.5, voice: "atmos",
+          role: roleOfBed(run.bed), gain: chart.atmos.level, bed: run.bed }));
+        run = null;
+      };
+      for(const sc of sections){
+        const want = wantOf[sc.fn];
+        if(curIx < 0 || (want !== curIx && sc.startBar - sinceBar >= dwell)){
+          curIx = want; sinceBar = sc.startBar;
+        }
+        const bd = POOL[curIx];
+        const a = CLK.at(sc.startBar, 0), b = CLK.at(sc.endBar, 0);
+        if(run && run.bed === bd) run.b = b;
+        else { flush(); run = { bed: bd, a, b }; }
+      }
+      flush();
+    }
     if(chart.atmos.accent){
       const pk = sections.find(s => s.peak);
       const m = ERANG.meta(chart.atmos.accent);
