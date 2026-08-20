@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20v &middot; the arc ramps once a movement, a leg keeps its own material, and the bass has a job in each act</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20w &middot; the bass obeys the rule of three, and sometimes it is the thing that does not move</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -26754,7 +26754,32 @@ GENRE.fantasysynth = (function(D){
      nobody publishes a weight table. */
   bassRiff: { bars: 2, notes: [4, 6], grid: 2, hold: 6, strong: [0, 8],
               anchor: [[0, 7], [4, 4]],
-              spice:  [[2, 3], [6, 3], [3, 2], [1, 1]] },
+              spice:  [[2, 3], [6, 3], [3, 2], [1, 1]],
+              /* half the materials build the figure on their own tonic and let
+                 the chords move over it -- a ground bass -- and half follow the
+                 harmony. See the note in the riff builder. [CHOSEN] */
+              ownLine: 0.5 },
+  /* ── AND THE BASS OBEYS THE RULE OF THREE ────────────────────────────────
+     [owner: "Bass also should adhere to the rule of three correct?"]
+
+     Yes, and it did not. A riff cell is drawn ONCE per material and repeated
+     for every bar of it, so a leg of sixty bars played one figure sixty times.
+     The tune has answered the rule of three since `Avar`/`Adev`/`Aseq`; the
+     bass had no equivalent, and the rhythm section is the half that is
+     supposed never to repeat -- "Nobody plays the same bar twice... Chambers
+     walks a new line every eight bars" is the argument `materialTakes` was
+     built on, and it was applied to the ostinato and never to the bass.
+
+     Three realisations, each a full legal figure drawn on its own named
+     substream, cycled by the occurrence counter `makePerformance` already
+     computes. Three rather than more because the count is capped by how many
+     times the record actually comes round, and because three is the rule.
+
+     A take that is not different is dropped by `takesOf` itself, so the doom
+     leg -- whose bass is a declared `drone` and has no second realisation to
+     give -- silently keeps its one and is unchanged. The rule applies where
+     there is something to vary. */
+  materialTakes: { bass: 3 },
   ostinato: merge(D.ostinato, {
     cellsAt: {
       B: [[[0, 4, 7, 4, 2, 4, 7], 5],      // seven against four
@@ -32143,6 +32168,35 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       /* every draw below runs a fixed number of times whatever it yields, and
          all of them run before a single note is placed [Law 3] */
       const want = F.notes[0] + Math.floor(rng() * (F.notes[1] - F.notes[0] + 1));
+      /* ══ AND SOMETIMES THE BASS IS THE THING THAT DOES NOT MOVE ════════════
+         [owner: "It shouldnt ONLY fallow the chord. It should also have its own
+         life at times. Some music is defined by the bass lines"]
+
+         The riff below is chord-relative: its degrees are added to `ch.degree`,
+         so the SHAPE repeats and the PITCHES follow the harmony. That is one of
+         the two things a repeating bass can be, and the comment under it admits
+         the sources never settled which -- it followed the acid builder's
+         precedent rather than a source.
+
+         The other thing is named, old and specific. A GROUND BASS, or basso
+         ostinato, is "a short, recurring melodic pattern in the bass part of a
+         composition that serves as THE PRINCIPAL STRUCTURAL ELEMENT", above
+         which "new melodies are improvised or composed"
+         [corpus:britannica/ground-bass]. The bass is the fixed thing and the
+         harmony is what moves -- the exact inversion of what this builder does
+         -- and it is the technique behind the chaconne and the passacaglia.
+         `bass-roles.md` §1 already carried the same distinction from the other
+         direction: a pedal is "always harmonic", an ostinato is "a motif or
+         phrase that's repeated as long as you like".
+
+         So `ownLine` is the chance that THIS material's figure is built on the
+         material's tonic and stays there while the chords move over it. Drawn
+         per material on its own named substream, unconditionally, so a genre
+         that declares nothing draws nothing and is byte-identical [Law 3,
+         Law 7]. It is a chance rather than a switch because the owner asked for
+         "its own life AT TIMES" -- a record where the bass never follows the
+         harmony is as one-sided as one where it always does. [CHOSEN: the odds] */
+      const GROUND = stream(chart.seed, "bassground:" + streamName)() < (F.ownLine || 0);
       const slots = [];
       for(let st = 0; st < LEN; st += F.grid) slots.push(st);
       /* WHICH SLOTS SOUND: one draw per slot, and the quietest `want` of them
@@ -32179,7 +32233,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           if(Math.floor(c.step / STEPS) !== b % F.bars) continue;
           const st = c.step % STEPS;
           notes.push({ bar: b, step: st, dur: c.dur,
-                       pitch: intoBand(degMidi(ch.key, ch.mode, ch.degree + c.deg),
+                       pitch: intoBand(degMidi(ch.key, ch.mode,
+                                              (GROUND ? 0 : ch.degree) + c.deg),
                                        R.bass[0], R.bass[1]),
                        vel: F.strong.includes(st) ? 0.92 : 0.76, role: "bass" });
         }
@@ -39579,7 +39634,26 @@ function makePerformance(chart, form, materials, sections){
 
            Only where stage 3 built takes -- one falsy lookup on every record in
            every other genre. */
-        const TKS = materials.takes && materials.takes[sec.material + "|" + role];
+        /* ── AND THE KEY HAS TO SURVIVE THE OCCURRENCE TAG ──────────────────
+           MEASURED: `materials.takes` is keyed on the BARE material name --
+           "B|bass", "C|bass" -- and `sec.material` carries the occurrence tag
+           the movement machinery gives it: "B@12", "C@6", "A@1". So this
+           lookup missed on 21 of the 22 material names in a fantasy synth
+           record and `materialTakes` composed three realisations of every part
+           that were never once played.
+
+           It is the mechanism this very comment calls "the answer to 'the same
+           exact notes played for 20 mins'", and it has been dead since
+           movements started tagging materials. Nobody caught it because the
+           only genre that ever declared `materialTakes` was deleted before the
+           tags existed -- dead config of the purest kind: built, declared, and
+           silently looked up under a name nothing is stored beside.
+
+           The tag is an occurrence counter, not a different material: `B@12`
+           IS `B`, played for the twelfth time. So the base name is what the
+           takes were stored under and what this asks for. */
+        const takeKey = String(sec.material).split("@")[0];
+        const TKS = materials.takes && materials.takes[takeKey + "|" + role];
         if(TKS && TKS.length > 1 && notes === mat[role])
           /* ── AND THE TAKE COUNTER IS THE RECORD'S, NOT THE SECTION'S ──────
              `cycle` resets at every section boundary, which is right for the
