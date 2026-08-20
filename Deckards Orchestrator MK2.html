@@ -29376,22 +29376,68 @@ function makeTempoMap(chart, sections, nBars){
   if(!A || !A.by || nBars < 1) return null;
   const EASE = A.ease === "lin" ? (u => u) : (u => 0.5 - 0.5 * Math.cos(Math.PI * u));
   const mult = new Array(nBars).fill(1);
+  /* ══ AND THE RAMP BELONGS TO THE MOVEMENT, NOT TO EACH OF ITS SECTIONS ═════
+     [owner, 2026-08-20: "should not the song be getting progressively faster,
+     then slowing down for the final act? Ive noticed it feel like it speeds up
+     but then slows down"]
+
+     It did, twenty-seven times. `span` was `s.endBar - s.startBar` -- the
+     SECTION's length -- so a movement's declared pair was re-run inside every
+     section of that leg and snapped back to its start at each boundary.
+     MEASURED, fantasy synth seed 1, before this:
+
+       setting out        70 ->  78   x5
+       into the deep      90 -> 106   x6
+       the fight         117 -> 129   x9
+       the long way home  86 ->  72   x6
+
+     The fight sped up and dropped back NINE times. `tempoArc.by` is keyed on
+     the MOVEMENT and the table beside it reads as a journey -- "the intro sets
+     out at four-fifths of cruise and gathers" -- so the section was never the
+     right span. The owner heard it before it was found.
+
+     CONSECUTIVE RUNS, not a group-by. Sections carrying the same key are
+     collected only while they are adjacent, so a function that recurs in a
+     LATER leg gets a ramp of its own instead of being merged with the earlier
+     one. Measured across seeds: movements are contiguous and no key appears in
+     more than one run, so this is the same six groups either way -- the run
+     rule is there to keep it true for a form that repeats a function.
+
+     `intro` and `outro` belong to no leg, are one section each, and are
+     therefore unchanged.
+
+     THE RUNTIME CANNOT MOVE, and that is arithmetic rather than luck: the
+     normalisation below sets k = inv/nBars and returns tempo*m*k, so the total
+     is sum(1/(tempo*m*k)) = nBars/tempo for ANY shape of m. Reshaping the ramp
+     cannot lengthen the record, so no bar budget needs rebalancing.
+
+     ⚠ IT DOES MOVE THINGS KEYED ON SECONDS. The war horn's `play.call` declares
+     `gap: 22` in seconds and the atmosphere beds are placed at `tSec`, so where
+     those land shifts with the curve. The NOTES do not: composition is in bars
+     and does not read the clock. ══════════════════════════════════════════ */
+  const runs = [];
   for(const s of sections){
+    const key = (s.mv || s.fn);
+    const last = runs[runs.length - 1];
+    if(last && last.key === key) last.endBar = s.endBar;
+    else runs.push({ key, mv: s.mv, fn: s.fn, startBar: s.startBar, endBar: s.endBar });
+  }
+  for(const L of runs){
     /* ── THE MOVEMENT IS ASKED FIRST ──────────────────────────────────────
        "Two sections with the same name are at different speeds if one is
        pulling out of a station and the other is braking into the next" -- the
        journey tempo below already knew this and the arc did not, so a genre
        wanting per-movement speed had to give every movement its own function
        and was capped at two sections a leg by the rule of three. It asks the
-       movement first now and falls back to the function, so a genre that names
-       no movements is bit-identical and one that does may repeat functions
-       across its legs. */
-    const pair = (s.mv && A.by[s.mv]) || A.by[s.fn];
+       movement first and falls back to the function, so a genre that names no
+       movements is bit-identical and one that does may repeat functions across
+       its legs. */
+    const pair = (L.mv && A.by[L.mv]) || A.by[L.fn];
     if(!pair) continue;
-    const span = Math.max(1, s.endBar - s.startBar);
-    for(let b = s.startBar; b < s.endBar && b < nBars; b++){
+    const span = Math.max(1, L.endBar - L.startBar);
+    for(let b = L.startBar; b < L.endBar && b < nBars; b++){
       if(b < 0) continue;
-      const u = (b - s.startBar) / span;
+      const u = (b - L.startBar) / span;
       mult[b] = pair[0] + (pair[1] - pair[0]) * EASE(u);
     }
   }
