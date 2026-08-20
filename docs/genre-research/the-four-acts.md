@@ -343,8 +343,43 @@ Asked for by mathcore *and* by prog, independently, in the same words:
 "polymeter". The previous sheet's §4.4 designs it — one lane on a cycle coprime
 with the bar — and its honest caveat carries over unchanged: **this is the safe
 half of the gist.** 7-against-4 gives the disorientation without the metric
-shift, and calling it "mathcore" or "prog" rather than "polymeter" would be
-overselling it.
+shift, and calling it "mathcore" rather than "polymeter" would be overselling
+it.
+
+#### IT WAS ALREADY HALF-BUILT, AND THE MISSING HALF WAS PER-LEG
+
+`buildOstinato` has done polymeter since the Berlin School work. `run: true`
+lets the cell index **cross the bar line** instead of restarting — "two
+individual sequencer parts play at odd lengths… each time playing different
+combinations of notes until they line up again" [corpus:modwiggler;
+corpus:ucapps MIDIbox tut4]. At `unit: 4` there are four slots a bar, so a
+cell's length **is** its cycle, and the parent's six-note cells already realign
+every three bars.
+
+What was missing: **one cell pool for the whole record**, so no leg could be
+more out of phase than another. `cellsAt` is a pool keyed on the **material** —
+the thing the builder actually knows, and what the movement table already routes
+each leg to. **The fight is the only movement standing in material B.**
+
+Measured, seeds 1–3, by instrumenting the draw:
+
+| material | cell length | realigns every |
+|---|---|---|
+| default (setting out, into the deep, the walk home) | 6 | 3 bars |
+| **B — the fight** | **7** | **7 bars** |
+
+lofi, synthwave and dungeon synth declare no `cellsAt` and are **byte-identical**
+— dungeon synth exercises the new `mat` argument on every record and falls
+through to `O.cells` unchanged.
+
+#### AND PROG'S POLYMETER HAS NOWHERE TO GO, WHICH IS WORTH SAYING
+
+The walk home's `roles` drops the ostinato outright — "the drums go. So does
+the bass, the second keyboard and the ostinato." What is left is drone, chords
+and the tune. So prog's "odd and mixed meters… and polymeter" cannot ride the
+same mechanism: the only moving part in that leg is the **melody**, and a
+phrase-length cycle on the lead is handoff item 7's territory, not this one.
+Left undone and named rather than quietly counted as delivered.
 
 ### 4. THE STOP
 

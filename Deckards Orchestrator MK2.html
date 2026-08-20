@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20m &middot; the four acts get their tempo bands: doom 65-81, sludge 84-109, and the record's centre comes down to meet them</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20n &middot; the fight phrases in seven while the kit phrases in four</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -26595,6 +26595,34 @@ GENRE.fantasysynth = (function(D){
                          ostinato: 0.028, lead: 0.018 },
     },
   }),
+  /* ══ THE FIGHT PHRASES IN SEVEN WHILE THE KIT PHRASES IN FOUR ═══════════
+     Mathcore at the peak, and it is the one device that survives the journey
+     from a genre with six distorted guitars to one with none: "guitars in 7
+     while drums phrase in 4", conflicting ratios "such as 3:2 or 5:4 over a
+     primary pulse" [corpus:melodigging/mathcore].
+
+     `unit: 4` gives four slots a bar and `run: true` lets the index cross the
+     bar line, so a cell's length IS its cycle in slots. The parent's six-note
+     cells realign every three bars, which is a lilt. Seven realigns every
+     SEVEN, five every five -- and neither ever lands twice in the same place
+     inside a bar until it comes round. The pulse does not move, the drums hold
+     the march, and the figure slides against it.
+
+     Only material B declares this, and only the fight stands in material B, so
+     the other three legs keep the parent's cells exactly. That is the point:
+     one leg is out of phase with itself and the three around it are not.
+
+     The degrees are the parent's own vocabulary (0, 2, 4, 7) rearranged, not
+     new intervals -- this is a rhythm change, and giving it new pitches too
+     would make it a different figure rather than the same figure displaced.
+     [EAR for the weights; the 7:4 and 5:4 ratios are the source's.] */
+  ostinato: merge(D.ostinato, {
+    cellsAt: {
+      B: [[[0, 4, 7, 4, 2, 4, 7], 5],      // seven against four
+          [[0, 2, 4, 7, 4, 2, 0], 3],      // seven, as an arch
+          [[0, 4, 7, 2, 4], 2]],           // five against four
+    },
+  }),
   pocket: [[[0, 4, 8, 12], 9],          // the walk. This is the march.
            [[0, 4, 8, 12, 14], 5],      // the walk with a pickup into the next
            [[0, 2, 4, 8, 10, 12], 3],   // the double-time walk, for the fight
@@ -34532,16 +34560,49 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     set.turn = 2 + Math.floor(rng() * 3);
     return set;
   })();
-  function buildOstinato(streamName, varyTail, chords){
+  function buildOstinato(streamName, varyTail, chords, mat){
     const O = G.ostinato;
     if(!O) return [];
     const rng = stream(chart.seed, streamName);
-    const cell = wpick(rng, O.cells);
+    /* ══ AND ONE MATERIAL MAY RUN A DIFFERENT CYCLE LENGTH FROM THE REST ═════
+       [owner, 2026-08-20: "...move to Mathcore at the peak..."]
+
+       Mathcore's disorientation is usually described as odd time signatures,
+       which this program cannot express. But the sources describe the MECHANISM
+       under it as polymeter -- "guitars in 7 while drums phrase in 4",
+       conflicting ratios "such as 3:2 or 5:4 over a primary pulse"
+       [corpus:melodigging/mathcore] -- and polymeter does not require anybody to
+       change signature. It requires ONE LANE TO REPEAT ON A CYCLE THAT DOES NOT
+       DIVIDE THE BAR.
+
+       THIS BUILDER ALREADY DOES THAT and has since the Berlin School work:
+       `run` lets the cell index RUN across the bar line instead of restarting,
+       which is the whole technique -- "two individual sequencer parts play at
+       odd lengths... each time playing different combinations of notes until
+       they line up again" [corpus:modwiggler; corpus:ucapps MIDIbox tut4]. At
+       `unit: 4` there are four slots a bar, so the parent's six-note cells
+       already realign every three bars.
+
+       What was missing is that the cell pool is one pool for the whole record,
+       so no leg can be MORE out of phase than another. `cellsAt` is a pool keyed
+       on the MATERIAL, which is the thing this builder actually knows and which
+       the movement table already routes each leg to -- the fight is the only
+       movement standing in material B. A genre that declares none, or a
+       material the table does not name, draws from `O.cells` exactly as before
+       and is byte-identical [Law 7].
+
+       Honest about what this is: 7-against-4 is POLYMETER, not mathcore's
+       metric SHIFT. It gives the disorientation without the violence of the
+       switch, and calling it "the safe half of the gist" is the research
+       sheet's own phrase rather than a hedge I am adding here.
+       docs/genre-research/the-four-acts.md §5.3 ═══════════════════════════════ */
+    const POOL = (O.cellsAt && mat && O.cellsAt[mat]) || O.cells;
+    const cell = wpick(rng, POOL);
     /* the ALTERNATE cell, drawn unconditionally whether or not it gets used
        [Law 7], and drawn from the cells that are NOT the one already chosen --
        an "alternate" that can come back identical is not one. */
     const pickAlt = rng();
-    const others = O.cells.filter(pr => pr[0] !== cell);
+    const others = POOL.filter(pr => pr[0] !== cell);
     const alt = others.length ? others[Math.floor(pickAlt * others.length) % others.length][0] : cell;
     const notes = [];
     /* ── MARBLES' T-SECTION AS THE FIGURE'S GATE ─────────────────────────────
@@ -35845,7 +35906,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      when they are not these are the same arrays A uses -- identity, not a
      copy, so nothing downstream can tell the difference. */
   const bassB = NEW_CHORUS ? pin(buildBass(chorusChords, "bassB", false), "bass", "B") : bassA;
-  const ostB  = NEW_CHORUS ? buildOstinato("ostinatoB", false, chorusChords) : ostA;
+  const ostB  = NEW_CHORUS ? buildOstinato("ostinatoB", false, chorusChords, "B") : ostA;
   /* the town's band takes too -- `keys` sounds in the chorus and the bridge as
      well as the verse, so takes on the A family alone left the wurly measured
      flat at 45 distinct bars whatever the record's length. A part is only as
@@ -35853,7 +35914,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const bassBTakes = NEW_CHORUS ? takesOf("bass", "B", bassB,
                        t => pin(buildBass(chorusChords, "bass:" + t, false), "bass", "B")) : bassATakes;
   const ostBTakes  = NEW_CHORUS ? takesOf("ostinato", "B", ostB,
-                       t => buildOstinato("ostinato:" + t, false, chorusChords)) : ostATakes;
+                       t => buildOstinato("ostinato:" + t, false, chorusChords, "B")) : ostATakes;
   const bassBx  = allOf(bassB, bassBTakes);
   const ostBx   = allOf(ostB, ostBTakes);
   /* ── THE CHORUS'S RETURNING BASS, HOISTED SO THE RESERVE BELOW CAN SEE IT ─
