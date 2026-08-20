@@ -11,6 +11,28 @@ a source. Items are grouped by what they cost, not by when they appeared.
 
 ---
 
+## 0ab. NAMED 2026-08-20 DURING THE HOUSE-CLEAN — five, measured
+
+| what | why it is open | what closes it |
+|---|---|---|
+| **The tempo arc is a sawtooth, not a journey** | `makeTempoMap` computes `u = (b - s.startBar) / span` where `span` is the **section's** length, so a movement's declared pair re-runs in every section of that leg. Measured, fantasy synth seed 1: `setting out` ramps 70→78 **five times**, `into the deep` 90→106 six times, `the fight` 117→129 **nine times**. The owner heard it before it was found — *"it feels like it speeds up but then slows down."* The table's own comment calls it "a journey". | `span` and `u` computed against the MOVEMENT's span (first bar of its first section to last bar of its last), so a leg ramps once. Small change; read the per-section bpm table before and after. Deferred out of the cleanup pass to keep that diff byte-identical. |
+| **40 sites still carry a bad global replace** | A find/replace put `the person playing it` where a noun used to be, and it was not one noun: most read as "the ear" (*"keep the ear off the kick"*, *"two things the ear can hear beating"*, in a function literally named `hear()`), but the blend and UI comments read as "the user" (*"a name the ___ could read"*). Six sibling sites that ate the word **ears** were fixed on 2026-08-20 — including a **misquotation of Sean Booth** under `[corpus:soundonsound]` and two broken `test/ears/LOG.md` paths. | Going through the 40 by hand. A blanket revert introduces fresh errors, which is why it was not done. |
+| **The patch knob is redundant on pitched Erang machines** | All twelve pass `erangControls(0, …)`, so the knob is `min:0, max:0` and never moved a note. Since 2026-08-20 the machine plays the row named after itself, so the knob decides nothing at all. It is drawn on twelve panels. | Either widen it to the family (`erangPatches(fam)` already does this for the drum kit's `pSet`) so it becomes a real patch selector, or take it off the pitched panels. Either is a UI change and needs its own before-and-after. |
+| **`mk2_score.js`'s banner is nondeterministic** | It draws its second seed with `Math.random()`, so the HEADER differs run to run even under `--seed`. It briefly read as a byte-identity failure on dungeonsynth seed 2 during the house-clean; the notes were identical. | Seed the draw, or print the drawn seed separately from the identity-bearing part of the header. Cosmetic, but it costs a false alarm every time somebody diffs the printout. |
+| **`harness/render_audio.js` needs Playwright and says so nowhere** | It renders through a real browser's Web Audio and `require`s `playwright`, which is in `package.json` but not installed by default; and it needs an **absolute** path in `MK2_HTML` or `page.goto` throws `ERR_INVALID_URL`. Both cost a failed run before the first render. | A line in its header, and a clearer error when `MK2_HTML` is relative. |
+
+**AND ONE THING THAT IS CLOSED, WITH ITS RESULT WRITTEN DOWN BECAUSE IT WAS THE
+OPPOSITE OF THE PREDICTION.** Six of twelve pitched Erang machines played
+another machine's recording (`patch: "any"` drawing inside a `[0,0]` range).
+Fixed 2026-08-20. It was predicted to be why the record has no weight. Rendered
+both ways, 28 excerpts, the truth is the reverse: the bug was **manufacturing**
+sub. Mean change after the fix — **40-120 Hz −1.77 dB, 1.5k-6k +2.06 dB**, level
+unchanged at −0.10. An octave-down sampler makes artificial bottom and smears
+the top off. The record's low end is now honestly thinner, and weight has to
+come from something that is actually declared.
+
+---
+
 ## 0aa. NAMED 2026-08-18 WHILE BUILDING THE PAD'S RHYTHM — three, measured
 
 | what | why it is open | what closes it |

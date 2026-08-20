@@ -1,5 +1,52 @@
 # Handoff — Deckard's Orchestrator MK2
 
+> ## ⚠ 2026-08-20 — READ THIS FIRST. THE BRANCH MOVED AND THREE ITEMS BELOW ARE NOW MEASURED.
+>
+> **The branch is `claude/orchestrator-mk2-handoff-e8475j`**, not
+> `claude/code-review-6jd9cz`. Everything below the line was written on the old
+> one and its head is stale.
+>
+> **THE PRINTOUT WAS NOT BEING READ, AND THAT IS THE LESSON OF THE SESSION.**
+> `mk2_score.js` was run some sixty times and grepped for exceptions. Reading it
+> shows the record's pitched parts are nearly static, and the summary line said
+> so all along:
+>
+> | | seed 1 | seed 7 |
+> |---|---|---|
+> | bass | **2 pitches** (C#2, G#2), 502 notes | **1 pitch** (F1), 222 notes |
+> | keys | **1 rhythm shape** for 194 bars | 1 shape for 146 bars |
+> | counter | **2 pitches**, 42 of 411 bars | — |
+>
+> The bass prints `\|*---------------\|` in 243 of 250 bars — one strike on beat
+> one, held sixteen steps. **Item 6 is worse than "sometimes two pitches": on
+> some seeds it is one.**
+>
+> **ITEMS 4 → 3 → 6 ARE ONE CAUSAL CHAIN, now demonstrated rather than
+> suspected.** `into the deep` declares material `C` and plays it in **2 of 6**
+> sections; `the long way home` declares `Alift` and gets **3 of 6**. The rest
+> are A-variants. So those legs stand in A's chord set, the record collapses to
+> few chords, and the bass — which follows roots — has almost no roots to follow.
+> Fix `vary` first and 3 and 6 move with it.
+>
+> **ITEM 7 CONFIRMED at 54.5%** of lead onsets on steps 0+8, seed 1, read off
+> the printout rather than quoted from the old evaluation.
+>
+> **ITEM 8 REFINED:** the counter is not silent. It plays **D4 and E4 only**, in
+> 42 of 411 bars. It is a two-note part, not an inaudible one.
+>
+> **AND THE THING TO DO BEFORE ANY OF IT:** `bassRoles` and `bassRiff` are built,
+> researched and declared by **no genre** (`BACKLOG.md` §0aa). The backlog's own
+> words: *"a part that pedals for nine minutes is pedalling by default rather
+> than by decision"*, and *"it is about variety of JOB, not notes per bar."*
+> Doom/sludge want the bass in unison with the riff, post-hardcore and prog want
+> a counterline — four movements, four jobs. **That is a table entry, not a
+> build.**
+>
+> New since this file was written: `docs/genre-research/the-four-acts.md`,
+> `the-comp-does-not-land-on-one.md`, and `BACKLOG.md` §0ab (five new measured
+> items, including a tempo-arc sawtooth the owner heard before it was found).
+
+
 **Branch: `claude/code-review-6jd9cz`** (tracking `origin/claude/code-review-6jd9cz`).
 Head is `f2292a7`. The artifact is
 `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`; republish
