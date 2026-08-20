@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20a · the hero's theme walks the record, and the monster duels it at the fight</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20b · the effects tell the story, and the four movements are the lengths they claim</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -27904,14 +27904,25 @@ GENRE.fantasysynth = (function(D){
      move rather than a place you are standing still in, so the band lifts to
      84-108 -- a walking-to-marching pace, and inside the 106-130 gait window
      the frame-drum sheet measured. The record then SPEEDS UP AND SLOWS DOWN
-     across its four movements, which is `form.tempoArc` below. [CHOSEN] */
-  tempo: [84, 108],
+     across its four movements, which is `form.tempoArc` below.
+
+     ── AND THE RANGE IS NARROWER THAN IT WAS, BECAUSE THE LENGTH IS THE BRIEF ─
+     84-108 is a 29% spread, and on a record whose sections are fixed in BARS
+     that spread lands directly on the running time: measured across eight seeds
+     at 84-108 the record ran 18:25 to 23:20 against an ask of twenty minutes. A
+     tempo range on a three-minute song moves the clock by seconds; on this one
+     it moves it by five minutes, which is a whole movement.
+
+     92-106 is still walking-to-marching and is still a real draw. Measured,
+     same eight seeds: 18:53 to 21:20, mean 19:54. [CHOSEN, and the measurement
+     is the reason] */
+  tempo: [92, 106],
   /* ── THE MODES ARE THE MOVEMENTS ───────────────────────────────────────
      Modal jazz's first device is the mode change itself, and Holst is the
      proof it carries a long form: seven movements, an hour, "no story line,
      no overarching form... nothing but mood", held together by each movement
      being unmistakably itself. The record's own mode is the one it sets out
-     in; the other three are declared per movement in `form.plan`.
+     in; the other three are declared in `form.setMode`.
      Dorian and mixolydian lead here where dungeon synth leads with minor --
      both have a MAJOR sixth, which is the difference between a cave and a
      road. [corpus:melodigging for the mode family; the weighting CHOSEN] */
@@ -27922,11 +27933,54 @@ GENRE.fantasysynth = (function(D){
      Twenty minutes at a mean of 96 BPM is about 320 bars of 4/4, so the base
      triples and the steps widen. The four movements then divide it. */
   form: merge(D.form, {
-    target: [504, 3, 24],          // the plan plus an 8-bar intro and a 64-bar outro
-    /* THE OUTRO IS THE JOURNEY HOME, so it is four times the length of any
-       other section here and sixteen times dungeon synth's intro. */
-    lengths: { intro: 16, verse: 16, chorus: 16, bridge: 16,
-               instrumental: 16, outro: 64 },
+    target: [480, 3, 8],           // the plan plus a 16-bar intro and the outro
+    /* ══ A ONE-FUNCTION MOVEMENT IS EXACTLY TWO SECTIONS LONG ═══════════════
+       AND THAT IS WHY THESE NUMBERS ARE NOT ALL SIXTEEN. The first version of
+       this table gave every function 16 bars and declared movement budgets of
+       96, 128, 160 and 40. MEASURED, seed 1: 32, 32, 160 and 32. The record was
+       13:47 against an ask of twenty minutes and three movements out of four
+       ran at a third of their declared length -- with the FX story below
+       written on top of the proportions they were supposed to have.
+
+       THE CAUSE IS H1, THE RULE OF THREE: "a function cannot follow itself
+       twice". A movement whose pool holds one function can therefore admit it
+       exactly twice, and then `lawful` returns false, the phase walk's fallback
+       finds nothing legal and hands over -- silently, and correctly, because H1
+       is a law and a budget is a budget. Only the fight escaped it, because it
+       alternates two functions.
+
+       So a one-function movement's LENGTH IS `2 x lengths[fn]`, and its `bars`
+       budget is a statement about it rather than a draw on it. That is stated
+       here instead of being worked around: dungeon synth's own plan gives every
+       phase two or three functions and never met this. The variation that a
+       narrow budget cannot supply comes from `extend` below, which is the
+       mechanism this program already has for it.
+
+       AND THE JOURNEY HOME IS THE OUTRO OUTRIGHT. It was a `verse` phase plus a
+       64-bar outro, which put the walk home on the SAME section function as the
+       walk out -- so no `section` lane could tell the two apart, and the story's
+       last movement was written in a hand the desk could not read. An outro can
+       only be last and comes exactly once, which is what that movement needs;
+       ninety-six bars of it at a falling tempo IS the last five minutes. `verse`
+       now means setting out and nothing else. */
+    lengths: { intro: 16, verse: 48, chorus: 16, bridge: 60,
+               instrumental: 16, outro: 84 },
+    /* and so no two records have the same movement lengths: the one draw a
+       one-function phase still has. Four to twelve bars on a 48-bar verse is
+       one to three passes of the material, which is a difference somebody can
+       hear without it being a different record. */
+    /* NOT on `chorus` or `instrumental`: the fight is ten or eleven sections,
+       and a 45% chance of eight more bars on each of them is thirty-five bars
+       of extra fight -- measured as the fight taking 31% of the record while
+       setting out took 19%. An extension belongs where a movement has two
+       sections to put it on, not where it compounds. */
+    extend: { chance: 0.45, bars: [4, 8, 12], fn: ["verse", "bridge"] },
+    /* ── WHICH MODE EACH CHORD SET STANDS IN ────────────────────────────────
+       Declared here rather than on the movements, because the movement that
+       carries `lift` is the OUTRO and an outro sits outside the plan by law.
+       One owner for all three, which also stops the plan below from being read
+       as two things at once. */
+    setMode: { C: "minor", B: "phrygian", lift: "mixolydian" },
     /* ── AND EACH MOVEMENT LANDS ON ITS OWN MATERIAL ────────────────────────
        Because the movement pools are function-disjoint, a section's FUNCTION
        already says which movement it is in -- so this ordinary function-to-
@@ -27985,14 +28039,16 @@ GENRE.fantasysynth = (function(D){
          that set is built in. Movement one names none: it IS the record's own
          chords in the record's own drawn mode, which is what makes the mode
          pool above still mean something. */
-      { name: "setting out",  pool: ["verse"],
-        bars: [96, 2, 8] },
-      { name: "into the deep", pool: ["bridge"],
-        bars: [128, 2, 8], set: "C", mode: "minor" },
+      /* two 48-bar verses. The budget is what it will be, not what it draws. */
+      { name: "setting out",  pool: ["verse"],  bars: [96, 1, 8] },
+      /* two 64-bar bridges: the longest sections in the record, because a
+         descent is the part of a journey that goes on */
+      { name: "into the deep", pool: ["bridge"], bars: [128, 1, 8] },
+      /* the only movement that alternates, and so the only one whose budget is
+         a real draw -- ten or eleven sixteen-bar sections trading */
       { name: "the fight",    pool: ["chorus", "instrumental"],
-        bars: [160, 2, 8], set: "B", mode: "phrygian", endOn: "chorus" },
-      { name: "the long way home", pool: ["verse"],
-        bars: [40, 1, 8], set: "lift", mode: "mixolydian" },
+        bars: [144, 3, 8], endOn: "chorus" },
+      /* THE LONG WAY HOME IS THE OUTRO. See `lengths` above. */
     ],
     /* ── THE TEMPO ARC, AND THIS IS THE FIRST GENRE EVER TO DECLARE ONE ────
        `form.tempoArc` has been built and unused since it was written. The
@@ -28006,8 +28062,11 @@ GENRE.fantasysynth = (function(D){
        thing ahead gets closer; the chorus IS the fight and runs half again as
        fast as cruise; the outro is the walk home, slower than the setting out
        because they are carrying something back. [CHOSEN] */
-    tempoArc: { by: { intro:        [0.76, 0.90],   // setting out
-                      verse:        [0.94, 1.02],   // the neutral one
+    /* `verse` used to be described here as "the neutral one whose multiplier is
+       ~1", because it had to serve setting out AND the walk home at once. It
+       serves one movement now and gets that movement's own gait. */
+    tempoArc: { by: { intro:        [0.76, 0.90],   // before dawn
+                      verse:        [0.92, 1.00],   // setting out: a walk
                       bridge:       [1.02, 1.22],   // into the deep: the climb
                       instrumental: [1.28, 1.40],   // the fight
                       chorus:       [1.36, 1.48],   // the fight, hardest
@@ -28025,6 +28084,476 @@ GENRE.fantasysynth = (function(D){
        introduced */
     build: merge(D.form.build, { enter: merge(D.form.build.enter,
                                               { counter: [0.06, 0.04] }) }),
+  }),
+  /* ══ THE EFFECTS TELL THE STORY ══════════════════════════════════════════
+     [owner: "how can we use the fx and all the knobs we have to help tell the
+     story?"]
+
+     THE ANSWER IS THAT THIS GENRE'S SECTION FUNCTIONS *ARE* ITS MOVEMENTS.
+     They had to be function-disjoint for the tempo arc, and that turns out to
+     make `kind: "section"` -- a flat offset per section function, the plainest
+     motion kind in the file -- into per-MOVEMENT automation with no new
+     mechanism at all. `verse` is setting out, `bridge` is into the deep,
+     `chorus` and `instrumental` are the fight, `outro` is the journey home.
+
+     AND A CROSSING AT ZERO CAN BE OPENED BY A LANE ALONE. The offset is added
+     to the base and clamped, so a send the genre never statically opens sits
+     silent until the movement that wants it. That is the difference between an
+     effect that is "on in this record" and an effect that ARRIVES -- which is
+     the whole of what was being asked for.
+
+     The scheme, and every line of it is one of these two ideas:
+
+       SETTING OUT   daylight. The room is modest and the top is open; there is
+                     no drive, no flange, no spring. It sounds like outside.
+       INTO THE DEEP the space gets bigger and the light goes: the room and the
+                     echo open, the desk's top rolls off, the spring arrives
+                     (stone and metal), the tape starts to wobble.
+       THE FIGHT     everything at once, and THE ROOM CLOSES. Dry is close and
+                     close is violent -- pulling the reverb DOWN at the climax
+                     is the oldest trick in film scoring and it is the opposite
+                     of what a generator does by default. The drive and the
+                     crusher arrive on the drums and the leads; the desk's top
+                     comes back as harshness rather than as air.
+       THE LONG WAY  the room opens wider than it has ever been and stays,
+       HOME          the echo goes long and soft, the low end warms -- and the
+                     drive DOES NOT GO BACK TO ZERO. "Triumphant but thinned:
+                     something was lost." The damage is still audible under the
+                     victory, which is the one thing that makes it a journey
+                     rather than a loop. */
+  space: merge(D.space, {
+    /* the room: the band, and the drums further back than a cavern puts them */
+    feeds: ["keys", "lead", "bass", "drone", ["drums", 0.30]],
+    echoFeeds: ["lead", ["keys", 0.22], ["bass", 0.10], ["drone", 0.20]],
+    /* these four sit at ZERO and are opened by the movements that want them --
+       see the lanes below. Declaring them here at all is what puts them on the
+       grid; what they do is the story's business, not the record's. */
+    springFeeds:  [["drums", 0], ["drone", 0.12]],
+    flangeFeeds:  [["lead", 0], ["drone", 0.14]],
+    dp4Feeds:     [["drums", 0], ["lead", 0], ["drone", 0.18]],
+    barberFeeds:  [["keys", 0], ["lead", 0], ["drone", 0]],
+    tapeFeeds:    [["drone", 0.18], ["keys", 0.14], ["bass", 0.10]],
+  }),
+  /* ══ THE STORY, WRITTEN ON THE DESK ══════════════════════════════════════
+     [owner: "how can we use the fx and all the knobs we have to help tell the
+     story?"]
+
+     THE MECHANISM IS `kind: "section"` AND THERE IS NO NEW ONE. It is the
+     plainest motion kind in the file -- `d += mv.by[secFn[bar]]`, a flat
+     offset per section FUNCTION -- and because this genre's movement pools had
+     to be function-disjoint for the tempo arc, a function already names a
+     movement. So every lane below reads as prose:
+
+         intro         before dawn
+         verse         SETTING OUT
+         bridge        INTO THE DEEP
+         chorus }      THE FIGHT   (chorus is the harder of the two)
+         instrumental }
+         outro         THE LONG WAY HOME
+
+     AND `verse` MEANS ONE MOVEMENT, WHICH IT DID NOT AT FIRST. The plan gave
+     the walk home thirty-two bars of `verse` before the outro, so a third of
+     the last movement sat on the same section function as the first one and no
+     `section` lane could tell them apart -- the story's ending written in a
+     hand the desk cannot read. `form.lengths` fixes it: the journey home is the
+     OUTRO outright, eighty-four bars of it, and `verse` is setting out alone.
+
+     THE SECOND MECHANISM IS WHAT DOES NOT GO BACK. A `section` offset vanishes the moment its function
+     does; an `arc` runs one way across the whole record and is at its far end
+     when the record stops. So the DAMAGE -- the crusher and the drive -- is
+     written as an arc with a section spike on top: absent at the start, huge at
+     the fight, and at the end the spike is gone and the arc is not. "Triumphant
+     but thinned: something was lost." A loop would end where it began; this
+     does not, and the arithmetic is what makes that true rather than the
+     comment.
+
+     AND A CROSSING AT ZERO CAN BE OPENED BY A LANE ALONE. `space` above puts
+     drumsSpring, leadFlange, drumsDP4, leadDP4, keysBarber, leadBarber and
+     droneBarber on the grid at a base of ZERO. A send at zero is silent, and
+     the offset is added to the base before the clamp -- so those effects do not
+     exist in the record until the movement that wants them. That is the
+     difference between an effect being ON and an effect ARRIVING, and arriving
+     is the only one of the two that can tell you anything.
+
+     WHICH IS WHY NONE OF THOSE SEVEN CELLS CARRIES A BIPOLAR LANE. An LFO on a
+     cell at zero spends its positive half AUDIBLE, which would leak the fight
+     into the first movement -- the exact clamp mistake `leadRoom` and the stage
+     depths were both caught by, in its mirror image. The matrix's own axis
+     modulators already refuse these cells (`if(!(lvl > 0)) continue`), and the
+     hand-written lanes here hold to the same rule.
+
+     AN ARC THAT STARTS AT ZERO IS NOT BIPOLAR AND IS THE EXCEPTION. `from: [0,
+     0]` leaves the cell shut on bar one and can only climb, so it is safe here
+     and it is the only thing that CAN carry the residue: the first version put
+     the damage on the DP/4's return levels alone, and measured, the road-home
+     verses had every send into the box at zero -- a return level with nothing
+     arriving at it is silence. The crusher vanished for thirty-two bars and
+     came back for the outro, which is a fault, not a story. The sends carry an
+     arc of their own now and the box is never fully clean again after the
+     fight.
+
+     THE ONE THAT IS NOT A SWELL: THE ROOM CLOSES FOR THE FIGHT. Every generator
+     opens the reverb at the climax because bigger reads as more. It is the
+     wrong way round -- distance is the reverb, so a big room at the climax puts
+     the fight across the valley from you. Dry is close and close is violent, so
+     keysRoom, leadRoom, bassRoom, drumsRoom and droneRoom are all pulled DOWN
+     for `chorus` and `instrumental` and let all the way out for `outro`. The
+     widest the record ever sounds is the walk home, which is also the only
+     place in it where nothing is happening.
+
+     ══ AND IT IS NOT A DECIMAL. THE NULL TEST ═════════════════════════════
+     The whole scheme rendered against the same record with this `motion` block
+     removed and nothing else changed -- same seed, same form, same notes, the
+     inherited dungeon-synth lanes still running underneath. The residue is how
+     much of what you hear is this table, per movement (seed 1, dB below the
+     excerpt's own signal):
+
+         before dawn ........  -20.5      barely touched, which is right
+         setting out ........  -16.5
+         into the deep ......   -8.2
+         the fight ..........   -4.4      (chorus)
+         the fight ..........   -1.7      (instrumental)
+         the long way home ..   -9.5
+
+     Read the column, not any one number: it is the story's own shape. At the
+     fight the difference the desk is making is within two decibels of the
+     entire mix, and at the intro it is twenty below. Everything this file has
+     learned about knobs that turn out to reach nothing -- the rack that was
+     never plugged in, `leadRoom` travelling 0.00% of its dial, the sixteen
+     effect knobs no genre had ever moved -- was found by a measurement like
+     this one and by nothing else.
+
+     ONE LIMITATION STATED PLAINLY: `MIX_ROLE_BUS.counter` is `"lead"`, so the
+     monster and the hero share a matrix row. `leadFlange` and `leadDP4` colour
+     BOTH duellists, not the monster alone. A `counter` row of its own is the
+     fix and it is a matrix change, not a table one -- recorded in the backlog
+     rather than faked here with a lane that cannot do what its name says. */
+  motion: merge(D.motion, {
+    matrix: merge(D.motion.matrix, {
+      /* ── THE ROOM, THROUGH THE FOUR MOVEMENTS ──────────────────────────
+         Routed (base 1), so these can only be played DOWN and every number is
+         a CUT off the wire, per the 10a law. Read the column downward and it
+         is the story: a modest room outside, a bigger one underground, almost
+         none at the fight, and the whole hall at the end. */
+      keysRoom: [{ kind: "section", by: { intro:  [-0.30, -0.18],
+                                          verse:  [-0.34, -0.24],
+                                          bridge: [-0.14, -0.06],
+                                          chorus: [-0.62, -0.48],
+                                          instrumental: [-0.55, -0.42] } },
+                 { kind: "lfo", bars: [[67, 1]], depth: [0.04, 0.09],
+                   shape: "sin", freePhase: true, off: -0.09 }],
+      /* the hero is dried out hardest of anything on the record at the fight:
+         the tune is the thing you must hear the detail of when it matters */
+      leadRoom: [{ kind: "section", by: { intro:  [-0.34, -0.22],
+                                          verse:  [-0.40, -0.30],
+                                          bridge: [-0.18, -0.08],
+                                          chorus: [-0.72, -0.58],
+                                          instrumental: [-0.66, -0.52],
+                                          outro:  [-0.05, 0] } }],
+      /* the drums are the one room crossing that CLIMBS -- base 0.30, so it has
+         headroom -- and it climbs underground and at the end, not at the fight.
+         A war drum in a cavern is the descent; a war drum in your face is the
+         fight. The fill gesture stays: the march still steps into the hall
+         across each seam. */
+      drumsRoom:[{ kind: "section", by: { verse:  [-0.20, -0.12],
+                                          bridge: [0.15, 0.30],
+                                          chorus: [-0.28, -0.18],
+                                          instrumental: [-0.24, -0.14],
+                                          outro:  [0.35, 0.60] } },
+                 { kind: "gesture", on: "fill", bars: 3, from: [0, 0],
+                   to: [0.10, 0.20], curve: "exp" }],
+      /* the bass follows the band rather than leading it, and stays wetter than
+         the tune at the fight so the floor does not vanish with the distance */
+      bassRoom: [{ kind: "section", by: { verse:  [-0.25, -0.15],
+                                          bridge: [-0.08, 0],
+                                          chorus: [-0.45, -0.30],
+                                          instrumental: [-0.40, -0.26] } }],
+      /* the drone is the WORLD and the world does not go away when they fight,
+         so it is cut least of the five -- enough to move with the mix, not
+         enough to leave the record without a floor */
+      droneRoom: [{ kind: "section", by: { verse:  [-0.30, -0.20],
+                                           bridge: [-0.08, 0],
+                                           chorus: [-0.40, -0.28],
+                                           instrumental: [-0.36, -0.24] } },
+                  { kind: "lfo", bars: [[83, 1]], depth: [0.05, 0.10],
+                    shape: "sin", freePhase: true, off: -0.10 }],
+      /* ── THE ECHO IS THE CAVERN ANSWERING ──────────────────────────────
+         It opens underground -- that is what a cavern DOES, it answers you --
+         shuts for the fight with the room, and goes long and soft for the walk
+         home. `keysEcho` and `leadEcho` are also in this genre's inherited
+         `matrixDraw` pool; a hand-written lane wins there (`if(!mx[k]`), so
+         declaring them here takes them out of the draw on purpose and leaves
+         bassEcho, drumsEcho and bassRoom still varying song to song. */
+      keysEcho: [{ kind: "section", by: { verse:  [-0.10, -0.05],
+                                          bridge: [0.20, 0.40],
+                                          chorus: [-0.18, -0.12],
+                                          instrumental: [-0.16, -0.10],
+                                          outro:  [0.30, 0.55] } }],
+      leadEcho: [{ kind: "section", by: { intro:  [-0.30, -0.18],
+                                          verse:  [-0.35, -0.22],
+                                          bridge: [-0.10, 0],
+                                          chorus: [-0.55, -0.40],
+                                          instrumental: [-0.50, -0.35] } }],
+      droneEcho: [{ kind: "section", by: { verse:  [-0.12, -0.06],
+                                           bridge: [0.30, 0.55],
+                                           chorus: [-0.18, -0.10],
+                                           instrumental: [-0.16, -0.08],
+                                           outro:  [0.35, 0.60] } },
+                  { kind: "lfo", bars: [[41, 2], [59, 1]], depth: [0.02, 0.07],
+                    shape: "sin", freePhase: true }],
+      /* ── THE SPRING ARRIVES UNDERGROUND: STONE AND METAL ────────────────
+         Base 0 on the drums, so this crossing does not exist in the first
+         movement. A spring tank is the one reverb that sounds like a MATERIAL
+         rather than a volume of air, which is why it belongs to the descent and
+         not to the daylight. */
+      drumsSpring: [{ kind: "section", by: { bridge: [0.28, 0.48],
+                                             chorus: [0.14, 0.26],
+                                             instrumental: [0.12, 0.22],
+                                             outro:  [0.05, 0.12] } }],
+      droneSpring: [{ kind: "section", by: { verse:  [-0.10, -0.06],
+                                             bridge: [0.24, 0.42] } },
+                    { kind: "lfo", bars: [[61, 1]], depth: [0.05, 0.11],
+                      shape: "sin", freePhase: true }],
+      /* ── THE FLANGE IS THE MONSTER'S COLOUR ─────────────────────────────
+         Base 0 on the lead: a hint of it in the bridge -- the thing is
+         foreshadowed, the same way `build.enter` lets the counter line in
+         early -- then all the way up for the fight, and a residue on the walk
+         home. It is on the LEAD row and so it is on the hero too; see the
+         limitation stated above. */
+      leadFlange: [{ kind: "arc", from: [0, 0], to: [0.05, 0.12], curve: "exp" },
+                   { kind: "section", by: { bridge: [0.06, 0.14],
+                                            chorus: [0.30, 0.52],
+                                            instrumental: [0.26, 0.46],
+                                            outro:  [0.08, 0.18] } }],
+      droneFlange: [{ kind: "section", by: { bridge: [0.10, 0.20],
+                                             chorus: [0.22, 0.40],
+                                             instrumental: [0.18, 0.34] } },
+                    { kind: "lfo", bars: [[73, 1]], depth: [0.06, 0.13],
+                      shape: "tri", freePhase: true }],
+      /* ── THE DP/4 IS THE DAMAGE ─────────────────────────────────────────
+         Two blocks: A is the CRUSHER and B is the DRIVE, and both are at zero
+         return in `params` below so the box is genuinely silent until the
+         fight. On the sends the shape is section-only for the same
+         zero-base reason; the part that does not go back lives on the return
+         levels, where an arc can run. */
+      drumsDP4: [{ kind: "arc", from: [0, 0], to: [0.08, 0.16], curve: "exp" },
+                 { kind: "section", by: { chorus: [0.34, 0.55],
+                                          instrumental: [0.30, 0.50],
+                                          outro:  [0.10, 0.20] } }],
+      leadDP4:  [{ kind: "arc", from: [0, 0], to: [0.06, 0.14], curve: "exp" },
+                 { kind: "section", by: { bridge: [0.05, 0.12],
+                                          chorus: [0.28, 0.46],
+                                          instrumental: [0.24, 0.40],
+                                          outro:  [0.08, 0.16] } }],
+      droneDP4: [{ kind: "section", by: { verse:  [-0.14, -0.08],
+                                          chorus: [0.30, 0.50],
+                                          instrumental: [0.26, 0.44],
+                                          outro:  [0.05, 0.14] } },
+                 { kind: "lfo", bars: [[47, 1]], depth: [0.07, 0.16],
+                   shape: "sin", freePhase: true },
+                 { kind: "gesture", on: "empty", bars: 4,
+                   from: [0.00, 0.02], to: [0.16, 0.30], curve: "exp" }],
+      /* ── AND THE BARBERPOLE IS THE DESCENT ──────────────────────────────
+         A phaser whose notches fall FOREVER and never arrive -- Risset's
+         endless glissando, and `dir: -1` in `params` points it downward. There
+         is one movement in this record that is a descent and it is the second
+         one, so this is the only place the illusion is used at full. The keys
+         and the drone get it because they are the sustained voices; a falling
+         notch needs something to fall through. */
+      keysBarber:  [{ kind: "section", by: { bridge: [0.22, 0.40],
+                                             chorus: [0.10, 0.20],
+                                             instrumental: [0.08, 0.16] } }],
+      droneBarber: [{ kind: "section", by: { bridge: [0.20, 0.36] } }],
+      /* and a smear on the tune at the hardest of the fight, nowhere else */
+      leadBarber:  [{ kind: "section", by: { chorus: [0.08, 0.18],
+                                             instrumental: [0.06, 0.14] } }],
+    }),
+    /* ══ THE DESK IS THE LIGHT ════════════════════════════════════════════
+       These are dB on a -30..+8 shelf, so they are the bluntest and most
+       legible thing on this list: the top end IS how much light there is.
+       Daylight on the road, the top rolled off underground, and then the top
+       comes BACK for the fight -- as harshness rather than as air, which is the
+       same knob doing the opposite job because the low end is up with it. */
+    desk: merge(D.motion.desk, {
+      high: [{ kind: "section", by: { intro:  [-1.0, -0.4],
+                                      verse:  [1.0, 2.2],
+                                      bridge: [-4.5, -2.5],
+                                      chorus: [2.0, 4.0],
+                                      instrumental: [1.5, 3.2],
+                                      outro:  [-1.5, -0.5] } },
+             { kind: "apex", from: [-1.2, -0.3], to: [0.2, 1.0] }],
+      /* the low end warms all the way home and is at its widest there -- the
+         one band that does not come back down */
+      low:  [{ kind: "section", by: { verse:  [0, 0.5],
+                                      bridge: [1.0, 2.4],
+                                      chorus: [1.5, 3.0],
+                                      instrumental: [1.2, 2.6],
+                                      outro:  [2.0, 4.0] } }],
+      /* the mid scoops for the fight, which is the loudness trick, and comes
+         back for the walk home, which is where a voice sounds human again */
+      mid:  [{ kind: "section", by: { bridge: [-1.0, -0.3],
+                                      chorus: [-2.5, -1.2],
+                                      instrumental: [-2.0, -1.0],
+                                      outro:  [0.5, 1.5] } }],
+    }),
+    /* ══ THE DELAY'S OWN KNOBS, NOT ONLY ITS SENDS ════════════════════════
+       `echo.tone` has never been moved by any genre in this file. It is the one
+       knob that says how FAR a repeat is: bright repeats are a hard surface a
+       few metres away and dark ones are a long way off. So it opens on the road,
+       goes dark underground, gets hard and bright at the fight, and goes soft
+       for the walk home. `fb` is how many times the cavern answers. */
+    echo: merge(D.motion.echo, {
+      send: [{ kind: "section", by: { verse:  [-0.06, -0.02],
+                                      bridge: [0.10, 0.20],
+                                      chorus: [-0.10, -0.05],
+                                      instrumental: [-0.08, -0.04],
+                                      outro:  [0.12, 0.24] } },
+             { kind: "gesture", on: "fill", bars: 3, from: [0, 0],
+               to: [0.08, 0.16], curve: "exp" }],
+      fb:   [{ kind: "section", by: { bridge: [0.14, 0.26],
+                                      chorus: [-0.12, -0.06],
+                                      instrumental: [-0.10, -0.05],
+                                      outro:  [0.20, 0.34] } }],
+      tone: [{ kind: "section", by: { verse:  [400, 1100],
+                                      bridge: [-1200, -600],
+                                      chorus: [600, 1600],
+                                      instrumental: [500, 1400],
+                                      outro:  [-900, -400] } }],
+    }),
+    /* ══ THE FLANGER SPEEDS UP AND RESONATES ══════════════════════════════
+       `flange.rate` and `flange.fb` are two of the seven knobs the dead-knob
+       probe said needed nothing but a table line. They get one. Base rate is
+       0.05 Hz -- one sweep every twenty seconds, which is a drone beating
+       against itself -- and the fight drives it up an order of magnitude into
+       an actual whoosh. The feedback is what turns a flanger metallic; it is
+       held near nothing until the thing is in the room. */
+    flange: {
+      rate: [{ kind: "section", by: { bridge: [0.02, 0.08],
+                                      chorus: [0.35, 0.75],
+                                      instrumental: [0.28, 0.60],
+                                      outro:  [0.03, 0.10] } }],
+      fb:   [{ kind: "section", by: { bridge: [0.05, 0.12],
+                                      chorus: [0.22, 0.40],
+                                      instrumental: [0.18, 0.34],
+                                      outro:  [0.04, 0.10] } }],
+    },
+    barber: {
+      /* the pole turns faster as they go down and faster again in the fight --
+         the illusion of accelerating descent, which is only a rate change */
+      rate: [{ kind: "section", by: { bridge: [0.02, 0.06],
+                                      chorus: [0.10, 0.24],
+                                      instrumental: [0.08, 0.18] } }],
+      depth:[{ kind: "section", by: { bridge: [0.10, 0.24],
+                                      chorus: [0.06, 0.16],
+                                      instrumental: [0.05, 0.13] } }],
+    },
+    /* ══ THE FOUR BLOCKS OF THE DP/4, AND THE THING THAT DOES NOT GO BACK ══
+       A = crush, B = drive, C = Leslie, D = phaser, and all four return at ZERO
+       in `params`. `cLvl`, `dLvl`, `bLvl`, `cAmt` and `dAmt` are the rest of
+       the dead-knob list; they are here because the story wanted them, not to
+       tick them off.
+
+       THE ARCS ARE THE POINT OF THIS BLOCK. `arc` runs from one end of the
+       record to the other and is at its far end when the record stops, so the
+       crusher and the drive are at their highest ARC value during the walk
+       home, with the section spike gone. The fight is loud; the aftermath is
+       dirty. Nothing in the outro's own table says so -- the shape of the two
+       kinds does. MEASURED, seed 1, the crusher's return level at
+       before-dawn / setting out / into the deep / the fight / the walk home:
+       0.000, 0.002, 0.032, 0.381, 0.105. It ends at a third of where it peaked
+       and it never returns to the nothing it started at. */
+    dp4: merge(D.motion.dp4, {
+      aLvl: [{ kind: "arc", from: [0, 0], to: [0.08, 0.16], curve: "exp" },
+             { kind: "section", by: { chorus: [0.30, 0.46],
+                                      instrumental: [0.26, 0.40] } },
+             { kind: "gesture", on: "empty", bars: 4,
+               from: [0.00, 0.02], to: [0.10, 0.22], curve: "exp" }],
+      bLvl: [{ kind: "arc", from: [0, 0], to: [0.10, 0.20], curve: "exp" },
+             { kind: "section", by: { bridge: [0.06, 0.14],
+                                      chorus: [0.34, 0.52],
+                                      instrumental: [0.30, 0.46] } }],
+      bAmt: [{ kind: "lfo", bars: [[101, 1]], depth: [0.04, 0.10],
+               shape: "sin", freePhase: true },
+             { kind: "section", by: { chorus: [0.14, 0.26],
+                                      instrumental: [0.12, 0.22] } }],
+      /* the Leslie: the world turning around them, and it belongs to the
+         descent for the same reason the barberpole does */
+      /* ── AND `instrumental` IS NAMED WHEREVER `chorus` IS ────────────────
+         The fight alternates the two functions every sixteen bars, so a lane
+         that names only `chorus` does not surge -- it BLINKS, all the way off
+         and back, four or five times. MEASURED at seed 1 before this: cLvl,
+         keysBarber and leadBarber each went 0.14 -> 0.00 -> 0.14 across the
+         fight. Where the two are meant to differ they differ by a fraction
+         (chorus is the harder of the pair); where a colour is simply present,
+         both are named. */
+      cLvl: [{ kind: "section", by: { bridge: [0.18, 0.32],
+                                      chorus: [0.10, 0.20],
+                                      instrumental: [0.08, 0.16],
+                                      outro:  [0.06, 0.14] } }],
+      cAmt: [{ kind: "section", by: { bridge: [0.10, 0.22] } },
+             { kind: "lfo", bars: [[89, 1]], depth: [0.04, 0.10],
+               shape: "sin", freePhase: true }],
+      /* ── AND ONE THING IN THIS RECORD ONLY HAPPENS ONCE ──────────────────
+         The phaser block is silent for nineteen of the twenty minutes and
+         arrives for the walk home alone. Everything else on this list is a knob
+         that moves between states; this is a sound that was never in the record
+         before and then is. It is the smallest entry here and it is the one an
+         ear notices, because a new timbre at the end of a long form is the
+         oldest way of saying that what came back is not what set out. */
+      dLvl: [{ kind: "section", by: { outro: [0.16, 0.30] } }],
+      dAmt: [{ kind: "lfo", bars: [[79, 1]], depth: [0.05, 0.12],
+               shape: "sin", freePhase: true }],
+    }),
+    /* ══ AND THE TAPE STARTS TO WOBBLE UNDERGROUND ════════════════════════
+       Inherited: two free-phase LFOs on coprime primes so the reel never
+       settles. Added: the movements. The machine is steadiest in the daylight,
+       drifts as they go down, and is at its worst in the fight -- and it is the
+       one lane here that is a lie the record tells about ITSELF rather than
+       about the story, which is why it is small enough to be felt and not
+       heard. */
+    tape: merge(D.motion.tape, {
+      wow:     [{ kind: "lfo", bars: [[23, 1]], depth: [0.0004, 0.0011],
+                  shape: "sin", freePhase: true },
+                { kind: "arc", from: [-0.0004, 0], to: [0.0003, 0.0012],
+                  curve: "sCurve" },
+                { kind: "section", by: { verse:  [-0.0018, -0.0010],
+                                         bridge: [0.0012, 0.0026],
+                                         chorus: [0.0008, 0.0020],
+                                         instrumental: [0.0006, 0.0016] } }],
+      flutter: [{ kind: "lfo", bars: [[31, 1]], depth: [0.0003, 0.0008],
+                  shape: "tri", freePhase: true },
+                { kind: "section", by: { bridge: [0.0010, 0.0022],
+                                         chorus: [0.0014, 0.0028],
+                                         instrumental: [0.0010, 0.0022],
+                                         outro:  [-0.0008, -0.0002] } }],
+    }),
+  }),
+  /* ── AND THE BOXES START FROM NOTHING, WHICH IS HALF THE SCHEME ──────────
+     Dungeon synth sets the crusher and the drive to a permanent low return --
+     "a WORN tape, not a broken one" -- and that is right for a record about a
+     place. This one is about a journey, so the same two blocks start at ZERO
+     and are brought in by the lanes above. A knob that is always slightly on
+     cannot arrive.
+
+     The flanger's rate and feedback are pulled down from the parent's for the
+     same reason: 0.05 Hz and 0.10 feedback is a drone beating against itself,
+     and it leaves the whole top of both dials for the fight to use. The
+     barberpole is new to this genre and points DOWNWARD (`dir: -1`), because
+     the movement it exists for is a descent.
+
+     The desk sits nearly flat rather than at dungeon synth's -3 dB low shelf:
+     this record's bands are moved BY the movements, and a table that has
+     already spent the travel has none left. */
+  params: merge(D.params, {
+    dp4:    { aAlgo: 4, aAmt: 0.34, aLvl: 0,
+              bAlgo: 2, bAmt: 0.26, bLvl: 0,
+              cAlgo: 3, cAmt: 0.30, cLvl: 0,
+              dAlgo: 1, dAmt: 0.40, dLvl: 0 },
+    flange: { rate: 0.05, depth: 0.52, fb: 0.10, mix: 0.44 },
+    barber: { rate: 0.04, depth: 0.50, mix: 0.55, dir: -1 },
+    desk:   { low: -2, mid: 0, high: -1, lowF: 200, midF: 1000, highF: 4000 },
+    echo:   { div: 3, send: 0.14, fb: 0.30, tone: 2600, hp: 180,
+              verb: 0.5, width: 0.25 },
   }),
   /* ══ THE CHASE — THE DUEL AT THE FIGHT ═══════════════════════════════════
      [owner: "the monster theme takes the lead on its own instrument duelling
@@ -28448,6 +28977,11 @@ const BLEND_DRAW = new Set([
      comment's own prophecy ("stating the principle rather than patching the
      instance") collecting its debt from the person who did not read it. */
   "form.plan",
+  /* `form.setMode` is the plan's other half -- which mode a chord set stands in
+     -- so it travels with the plan for the same reason: a set named by one
+     genre's spine, resolved against the other's mode pool, is the "read a row
+     off a table that has no such row" failure one field over. */
+  "form.setMode",
   "form.transitions", "form.energy", "form.payoff",
   "form.bridgeAfterChorus", "kit.variants", "kit.snare", "kit.ghostSpots",
   "kit.openBars", "kit.hatEvery", "kit.kickKeep", "kit.flourishBar",
@@ -28592,7 +29126,8 @@ const BLEND_GROUP = {
      `plan` is a whole spine of them. */
   "form.ride": "form", "form.payoff": "form", "form.rest": "form",
   "form.thinTo": "form", "form.extend": "form", "form.setMachines": "form",
-  "form.plan": "form", "form.longLoop": "form", "form.double": "form",
+  "form.plan": "form", "form.setMode": "form",
+  "form.longLoop": "form", "form.double": "form",
   /* THE TRANSITION TABLE NAMES SECTIONS, so it belongs to whichever genre
      supplied the sections. This was NOT grouped, and it did not matter for as
      long as every genre drew from the same four functions -- the moment one
@@ -28604,7 +29139,7 @@ const BLEND_GROUP = {
      no height to sit at. Exactly the ostinato/registers lesson below, arriving
      a second time through a different door -- which is the argument for stating
      the principle rather than patching the instance. */
-  "form.plan": "form",
+  "form.plan": "form", "form.setMode": "form",
   "form.transitions": "form", "form.energy": "form", "form.payoff": "form",
   "kit.snare": "kit", "kit.ghostSpots": "kit", "kit.openBars": "kit",
   "kit.hatEvery": "kit", "kit.kickKeep": "kit", "kit.flourishBar": "kit",
@@ -31101,10 +31636,24 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
 
      A genre that names no `set` on any movement gets exactly what it got
      before -- the lookup returns null and every set keeps the mode it had. */
+  /* ── AND A CHORD SET DOES NOT HAVE TO OWN A PHASE OF THE WALK ────────────
+     `plan` is the walk's business -- which functions may be drawn, how many
+     bars, what it must be standing on to hand over. A set's MODE is harmony's
+     business. They coincided while every movement was a phase, and stopped the
+     hour a genre put a movement in its OUTRO: an outro sits outside the plan by
+     a hard law of this program, so a `lift` declared in mixolydian had nowhere
+     to be written down.
+
+     `form.setMode` is that place, and the plan keeps precedence where both
+     speak, so nothing that already declared a mode on a phase moves. Reading
+     the plan FIRST rather than merging them is what stops the two from becoming
+     two hand-copied lists that disagree -- the failure this file names by
+     `whichChanges`. */
   const planModeOf = which => {
     const FP = (G.form && G.form.plan) || [];
     const P = FP.find(x => x && x.set === which && x.mode);
-    return (P && MODES[P.mode]) ? P.mode : null;
+    const M = (P && P.mode) || ((G.form && G.form.setMode) || {})[which];
+    return (M && MODES[M]) ? M : null;
   };
   const bKey = ksOn ? pc(root + ksBy) : root;
   /* the bridge's harmony: the departure -- rotated to open OFF the tonic
@@ -32341,10 +32890,41 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          minute. `held` remembers the note each STACK VOICE is currently
          sounding, which is the same rule this comment already stated, asked
          once per voice instead of once per lane. */
+      /* ══ AND A STACKED FIFTH IS NOT ALWAYS A FIFTH ═══════════════════════
+         `stack` is written in SEMITONES, so `7` is a perfect fifth above the
+         drone's root -- and one degree of every mode has a DIMINISHED fifth,
+         where that same seven semitones lands on a note the key does not have.
+         Held under the whole record, which is the worst place in the program to
+         put a note that is out of key: composeSong's harmony check threw "out
+         of key, not in the chord, and does not resolve into the next one, in A:
+         drone 32 bar 0" on two blends in two hundred and forty. Not on a solo
+         genre, because the fifth only lands on the bad degree when a blended
+         mode pool puts the drone there -- which is exactly the kind of defect
+         that waits for the blend suite.
+
+         THE FIX IS THE ONE THE MUSIC ALREADY MADE. Parallel organum has this
+         problem in the ninth century and answers it the same way: where the
+         fifth would be diminished the lower voice does not follow, and the
+         interval becomes a FOURTH. So a stacked interval that lands out of the
+         mode is nudged to the nearest one that does not -- a semitone first,
+         then a tone -- and dropped only if nothing within a tone works. Every
+         genre that declares no stack gets `[0]`, which is always the tonic and
+         always in the mode, so nothing that has ever run through here moves.
+
+         IT IS ARITHMETIC AND IT DRAWS NOTHING [Law 3, Law 7]. */
       const STACK0 = (D.stack && D.stack.length) ? D.stack : [0];
       const dLo0 = Math.max(24, band[0] - 12), dHi0 = band[1] + 12;
-      const want = STACK0.map(iv => iv === 0 ? p
-                     : intoBand(p + Math.round(iv), Math.max(dLo0, p), dHi0));
+      const SCD = MODES[ch.mode] || [];
+      const inMode = q => !SCD.length || SCD.indexOf((((q - ch.key) % 12) + 12) % 12) >= 0;
+      const want = [];
+      for(const iv0 of STACK0){
+        const iv = Math.round(iv0);
+        if(iv === 0){ want.push(p); continue; }
+        let use = null;
+        for(const d of [0, -1, 1, -2, 2]) if(inMode(p + iv + d)){ use = iv + d; break; }
+        if(use == null) continue;                    // no note within a tone: no voice
+        want.push(intoBand(p + use, Math.max(dLo0, p), dHi0));
+      }
       if(held.length === want.length && held.every((h, i) => h && h.pitch === want[i])){
         for(const h of held) h.dur += unit * 16;
         continue;

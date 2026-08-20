@@ -1964,3 +1964,35 @@ nobody builds on them:
 - **The field does not name the section's stage on the tube** — now that a
   stage is a thing, showing which one is running is small and obvious.
 - **`probe_wiring`'s table belongs on screen**, not only in a terminal.
+
+---
+
+## Out of key, blended harmony tables — 2 of 240 pairs (2026-08-20)
+
+Not a solo-genre failure: **0 of 160** solo records throw across five genres and
+32 seeds. Both survivors are blends, and both are the harmony check refusing a
+note:
+
+- `dungeonsynth:70 + boxcarsynth:30` seed 3 — `in C: lead 72 bar 6`
+- `boxcarsynth:50 + fantasysynth:50` seed 6 — `in Bdev: keys2 54 bar 7`
+
+The first predates fantasy synth. The second appeared when fantasy synth's
+section lengths changed and moved which bar the blend lands on — a reshuffle
+exposing the same latent defect, not a new one in kind.
+
+The shape to look for: a blend takes one genre's mode pool and the other's
+registers/progressions, and a voice ends up on a scale degree the merged table
+does not actually contain. The drone's own instance of this was fixed at
+`2026-08-20b` (a stacked fifth folded into the mode; see
+`docs/genre-research/fantasy-synth.md` §10) and the same treatment — *ask the
+mode before writing the note, do not assume the interval* — is probably the
+answer for `lead` and `keys2`.
+
+## Fantasy synth: the monster shares the hero's matrix row
+
+`MIX_ROLE_BUS.counter` is `"lead"`. The chase at the fight is two soloists
+trading, and `leadFlange` / `leadDP4` colour **both** of them. A `counter` row of
+its own is a matrix change (a row, five blind-plate decisions, and the genres
+that want it naming `counter` in `space.feeds`), not a table one — which is why
+the automation build stated the limitation instead of faking it with a lane that
+cannot do what its name says.
