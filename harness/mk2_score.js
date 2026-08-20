@@ -147,9 +147,16 @@ function score(M, opts){
   say("  " + band.join("   "));
   say("");
   say("  READ IT: one line a part, 16 sixteenths a bar. `*` is a strike, `-` is the");
-  say("  note still sounding, `.` is silence. The note names follow in the order");
-  say("  they are struck. A number in brackets is how many milliseconds a note sits");
-  say("  off its step — the groove, printed rather than hidden.");
+  say("  note still sounding, `.` is silence.");
+  say("");
+  say("  Then every note, in the order it is struck, as  NAME@step:length");
+  say("      A3@0:16    A3, struck on step 0, sounding sixteen sixteenths");
+  say("      E5@8:4     E5, struck on step 8, sounding four");
+  say("      C#2@0:24>  still sounding at the bar line — the grid stops, the note does not");
+  say("  A chord shares one grid row, so the step and the length are the only way");
+  say("  to see what each of its notes actually did. A number in brackets is how");
+  say("  many milliseconds the note sits off its step — the groove, printed rather");
+  say("  than hidden.");
   say("");
 
   let printedBars = 0, silentRun = 0;
@@ -193,13 +200,37 @@ function score(M, opts){
     for(const role of roles){
       const ns = byRole[role].slice().sort((a, z) => a.step - z.step);
       const grid = new Array(STEPS).fill(".");
+      /* ── EVERY NOTE PRINTS ITS OWN STEP AND ITS OWN LENGTH ────────────────
+         [owner: "You test better print note names and lengths so you can see
+         that song"]
+
+         The grid alone is lossy and it is lossy exactly where the music is
+         densest. One row is drawn per ROLE, so a chord collapses into it:
+         `keys |*---------------|  A3 D4 A3 D4` says four notes sounded and
+         says nothing about how long any of them lasted or whether they even
+         began together. A held bass and a stabbed one print the same row when
+         a longer part is sounding over them, because `-` is only written where
+         the cell was still `.`.
+
+         The length was already being computed here to draw the sustain and
+         then thrown away. It is now printed: `A3@0:16` is A3, struck on step
+         0, sounding sixteen sixteenths. A `>` means the note is still sounding
+         at the bar line -- the grid has to stop there and the note does not,
+         which is how a twelve-second sample or a drone reads as one event and
+         not as a bar of silence. */
+      const lenOf = p => Math.max(1, Math.round((p.e.durSec || 0) / clock.stepSec(bar)));
       for(const p of ns){
         grid[p.step] = "*";
-        const len = Math.max(1, Math.round((p.e.durSec || 0) / clock.stepSec(bar)));
+        const len = lenOf(p);
         for(let d = 1; d < len && p.step + d < STEPS; d++)
           if(grid[p.step + d] === ".") grid[p.step + d] = "-";
       }
-      const names = ns.map(p => nn(p.e.pitch) + (Math.abs(p.offMs) >= 12 ? `[${p.offMs > 0 ? "+" : ""}${p.offMs}]` : ""));
+      const names = ns.map(p => {
+        const len = lenOf(p);
+        const over = p.step + len > STEPS ? ">" : "";
+        return nn(p.e.pitch) + "@" + p.step + ":" + len + over +
+               (Math.abs(p.offMs) >= 12 ? `[${p.offMs > 0 ? "+" : ""}${p.offMs}]` : "");
+      });
       const voice = [...new Set(ns.map(p => p.e.voice))].join("/");
       say(`    ${role.padEnd(9)}${voice.padEnd(11)}|${grid.join("")}|  ${names.join(" ")}`);
     }
