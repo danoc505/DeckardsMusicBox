@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20k &middot; the comping hand stops landing on beat one: it pushes the chord over the bar line, and hesitates</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20l &middot; four acts: the doom leg sags, the sludge leg drags against a steady kit, the fight snaps to the grid</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -26497,6 +26497,71 @@ GENRE.fantasysynth = (function(D){
      one bar of drum. Nothing here is faster than an eighth.
 
      THE WALK HOME IS NOT HERE, and the reason is above the pools. */
+  /* ══ THE FOUR ACTS, AND HOW FAR BEHIND THE BEAT EACH ONE SITS ═══════════
+     [owner, 2026-08-20: "We want to incorporate the sound of Doom and Sludge
+     metal in the first half of the song, move to Mathcore at the peak and end
+     with Progrock"]
+
+     The legs already had four moods and two foot-vocabularies. This names what
+     the first three of them ARE, and the naming buys a number, because two of
+     these genres describe their feel as a time offset rather than as a sound.
+
+     WHY DOOM FIRST AND SLUDGE SECOND, rather than both spread across the half:
+     the ordering is sourced, not a preference. Sludge "combines doom metal and
+     hardcore punk", where doom "focuses on slower tempos without the
+     punk-influenced aggression characteristic of sludge"
+     [corpus:wikipedia/Doom metal]. Sludge is doom PLUS the thing the fight is
+     made of, so doom -> sludge -> mathcore is one continuous line of increasing
+     violence and putting doom second would run it backwards. The energy table
+     already climbs 0.60 -> 0.82 across these two legs; this says what the climb
+     is made of.
+
+     AND THE TWO LEGS DRAG DIFFERENTLY, which is the part I would have got wrong
+     by feel. The sources do not say the same thing twice:
+
+       doom    "Keep DRUMS behind the beat with heavy kick/snare emphasis"
+               [corpus:melodigging/doom-metal]
+       sludge  "RIFFS drag slightly behind the beat"
+               [corpus:melodigging/sludge-metal]
+
+     Different lanes. Doom puts the kit behind and the band plays with it --
+     the whole floor sags. Sludge holds the kit on the line and drags the
+     weight-bearing parts against it, which is a tension the first leg does not
+     have and is why the second one reads as more agitated at a similar tempo.
+
+     THE FIGHT DECLARES NOTHING, and that is the point rather than an omission:
+     mathcore wants "tight, articulate tones... fast-transient drum sounds"
+     [corpus:melodigging/mathcore]. It snaps to the grid, and it only reads as a
+     snap because the two legs before it did not. The drag is what makes the
+     snap land.
+
+     THE WALK HOME ALSO DECLARES NOTHING, and that one is a live question rather
+     than a decision I am confident in. A prog ending is usually a RESOLUTION,
+     which argues for the grid; a dragging outro is exhaustion. Left on the grid
+     and flagged in the sheet's §7.2 rather than chosen quietly.
+
+     THE NUMBERS ARE [EAR] AND THE CEILING IS NOT. lofi's own lane comment gives
+     it: "a full 32nd at this tempo is about 89 ms, which is further than a
+     whole genre should sit." These legs run 79-97 BPM, where a 32nd is 77-95
+     ms, so everything here is a third to a half of that -- far enough to be
+     felt as weight, not far enough to read as a mistake. Nobody has heard them.
+     docs/genre-research/the-four-acts.md §1, §5.1 ═══════════════════════════ */
+  groove: merge(D.groove, {
+    setLean: {
+      /* DOOM. The kit sags and the band sags with it. Snare furthest back --
+         "heavy kick/snare emphasis" is where the genre puts the weight, and a
+         backbeat that arrives late is the single most audible way to be slow
+         without changing tempo. */
+      "setting out":   { kick: 0.026, snare: 0.038, tom1: 0.030, tom2: 0.030,
+                         tom3: 0.030, hat: 0.022,
+                         bass: 0.030, keys: 0.024, keys2: 0.024 },
+      /* SLUDGE. The kit holds the line -- no drum lane named here at all --
+         and the weight drags against it. The bass furthest, which is also
+         where lofi put its own largest lean for a different reason. */
+      "into the deep": { bass: 0.042, keys: 0.032, keys2: 0.032,
+                         ostinato: 0.028, lead: 0.018 },
+    },
+  }),
   pocket: [[[0, 4, 8, 12], 9],          // the walk. This is the march.
            [[0, 4, 8, 12, 14], 5],      // the walk with a pickup into the next
            [[0, 2, 4, 8, 10, 12], 3],   // the double-time walk, for the fight
@@ -39055,6 +39120,46 @@ function makePerformance(chart, form, materials, sections){
   for(const sec of sections){
     const mat = materials[sec.material];
     const alt = materials[ALT_OF(sec.material)];
+    /* ══ HOW FAR BEHIND THE BEAT THIS MOVEMENT SITS ═══════════════════════════
+       [owner, 2026-08-20: "We want to incorporate the sound of Doom and Sludge
+       metal in the first half of the song, move to Mathcore at the peak and end
+       with Progrock"]
+
+       `laneLean` is a fixed per-lane offset in seconds -- built for Hawtin's
+       machine drift, declared by lofi and by nobody else, and constant for the
+       whole record. That last property is the whole problem with it here,
+       because DRAGGING IS THE THING THAT CHANGES between these four acts:
+
+         doom     "Keep drums behind the beat"        [corpus:melodigging/doom-metal]
+         sludge   riffs "drag slightly behind the beat" [corpus:melodigging/sludge-metal]
+         mathcore "tight, articulate tones... fast-transient drum sounds"
+                                                      [corpus:melodigging/mathcore]
+
+       Two genres name behind-the-beat as a defining feel and the act between
+       them names its opposite, so the arc is: the first half drags, the peak
+       snaps to the grid, and THE DRAG IS WHAT MAKES THE SNAP LAND. A record
+       with one lean everywhere cannot say any of that.
+
+       `setLean` is therefore the same mechanism keyed on the MOVEMENT, using
+       the `(sec.mv && X[sec.mv]) || X[sec.fn]` lookup that `material`, `roles`,
+       `energy`, `setMachines` and `tempoArc` all already use. Merged OVER the
+       genre-wide lean rather than replacing it, so a genre can set a house
+       offset and move one leg off it; a genre declaring no `setLean` gets the
+       identical object it always got and every existing record is untouched
+       [Law 7].
+
+       A LEAN IS IN SECONDS AND IS DIVIDED BY THE STEP LENGTH at the note, which
+       matters more here than it did for lofi: this genre's tempo arc spans
+       70-124 BPM, so a fixed millisecond offset is a bigger slice of a slow
+       bar than a fast one. That is correct and is the reason the field is in
+       seconds -- the hand is late by twelve milliseconds, not by a fraction of
+       a beat -- but it means the doom leg's drag reads as LESS of the bar than
+       the same number would at the fight, which is the opposite of what the
+       genre wants. So the doom and sludge numbers below are chosen against
+       their own legs' tempo, not against cruise.
+       docs/genre-research/the-four-acts.md §4, §5.1 ══════════════════════════ */
+    const SETLEAN = GR.setLean && ((sec.mv && GR.setLean[sec.mv]) || GR.setLean[sec.fn]);
+    const SLEAN = SETLEAN ? Object.assign({}, LEAN, SETLEAN) : LEAN;
     for(let bar = sec.startBar; bar < sec.endBar; bar++){
       const loopBar = (bar - sec.startBar) % materials.bars;
       const cycle = Math.floor((bar - sec.startBar) / materials.bars);
@@ -39163,6 +39268,33 @@ function makePerformance(chart, form, materials, sections){
              arithmetic is unchanged. */
           const SS = CLK.stepSec(bar);
           let micro = 0;
+          /* ── AND A PITCHED PART'S LANE IS ITS ROLE, WHICH THIS LINE DID
+             NOT KNOW ──────────────────────────────────────────────────────
+             This read `n.lane || ""`. Twelve lines below, the event is built
+             with `lane: n.lane || role` -- the SAME quantity, with a different
+             fallback, in one function. Only drum notes carry `n.lane` on the
+             material; every pitched part gets its lane at event time from its
+             role. So `LEAN[""]` was the lookup for every bass, keys, lead,
+             ostinato, drone and counter note in the program, and it is
+             undefined every time.
+
+             MEASURED, and it had a victim: lofi declares
+             `laneLean: { hat: 0.014, openhat: 0.014, bass: 0.030 }`, and its
+             own comment is explicit about which entry matters -- "the parts
+             that trail are the hats and the BASS -- the bass furthest",
+             reasoned from Ethan Hein bar by bar on Slum Village ("several of
+             those notes are an entire 32nd note late") and scaled back from 89
+             ms to 30 [corpus:ethanhein/get-dis-money]. The two hat entries
+             worked. The bass entry -- the sourced one, the one the whole
+             comment is about -- has never moved a note since the day it was
+             written.
+
+             Dead config, and of the worst shape: not a table nobody read, but
+             a table read through a fallback that could never match half its
+             keys. Fixing it CHANGES LOFI, deliberately -- it makes the genre do
+             what its own research says it does. Nothing else in the file
+             declares `laneLean`, so lofi is the only genre this moves.
+             docs/genre-research/the-four-acts.md §5.1 ── */
           const lane = n.lane || "";
           /* in dilla mode the kick/snare/ghost lanes live on their OWN early/late
              straight grids -- swinging their odd-step hits (fills, ghosts) mixed two
@@ -39186,7 +39318,39 @@ function makePerformance(chart, form, materials, sections){
              snareEarly and kickLate are the two special cases of it this file
              already had; this is the general form, and a genre that declares
              none pays nothing. [corpus:hawtin, MusicRadar 2016] */
-          if(LEAN[lane]) micro += LEAN[lane] / SS;
+          /* ── AND A PITCHED PART'S LANE IS ITS ROLE, WHICH THIS LOOKUP DID
+             NOT KNOW ──────────────────────────────────────────────────────
+             `lane` above falls back to `""`. Twelve lines below, the event is
+             built with `lane: n.lane || role` -- the SAME quantity, with a
+             different fallback, in one function. Only DRUM notes carry
+             `n.lane` on the material; every pitched part gets its lane at event
+             time from its role. So the lean asked `LEAN[""]` for every bass,
+             keys, lead, ostinato, drone and counter note in the program, and
+             that is undefined every time.
+
+             MEASURED, and it had a victim: lofi declares
+             `laneLean: { hat: 0.014, openhat: 0.014, bass: 0.030 }` and its own
+             comment is explicit about which entry carries the idea -- "the
+             parts that trail are the hats and the BASS -- the bass furthest",
+             reasoned bar by bar from Ethan Hein on Slum Village ("several of
+             those notes are an entire 32nd note late") and scaled back from 89
+             ms to 30 [corpus:ethanhein/get-dis-money]. The two hat entries
+             worked. The bass entry -- the sourced one, the one the whole
+             comment is about -- had never moved a note.
+
+             IT IS FIXED HERE AND NOT ON THE `lane` LINE ITSELF, and that
+             distinction cost a measurement to learn. Changing `lane` fixes this
+             too, and it also re-keys `stream(seed, "thin:...:" + lane)` and the
+             `slideSafe` set for every pitched note in the program -- so the
+             first attempt moved which notes SURVIVED THE ARC'S THINNING, not
+             just when they sounded. Measured on lofi seed 1: keys 484 -> 480,
+             lead 110 -> 114, with the bass shift correct at exactly +30.0 ms
+             underneath it. A timing repair had quietly become a composition
+             change. `lane` is a stream key as much as a name, so it is left
+             exactly as it was and only the lean asks the other question.
+             docs/genre-research/the-four-acts.md §5.1 ── */
+          const leanLane = n.lane || role;
+          if(SLEAN[leanLane]) micro += SLEAN[leanLane] / SS;
           if(lane === "snare" || lane === "ghost") micro += snareEarly;
           if(lane === "kick" && n.step > 0) micro += kickLate;
           /* ── JITTER IS A PLAYER'S HAND, AND A HAND HITS BOTH NOTES AT ONCE ──
