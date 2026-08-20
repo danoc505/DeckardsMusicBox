@@ -326,7 +326,27 @@ Doom's leg runs to **81** on the fastest seed's last bars — one over the band'
 edge. Stated rather than tuned away. And the leg *ending* at doom's ceiling
 exactly where the sludge leg begins above it is the handover written in numbers.
 
-Time share came out even at 23% per act, which it was not before.
+#### AND SLOWING THE RECORD MADE IT LONGER, WHICH I MISSED FIRST TIME
+
+The genre's own tempo comment warns about exactly this — "on a record whose
+sections are fixed in BARS that spread lands directly on the running time… it
+moves it by five minutes, which is a whole movement." I changed the tempo and
+did not re-measure the clock.
+
+Measured over ten seeds after the tempo drop: **19:22 – 23:43, mean 21:45**
+against an ask of twenty minutes. The length dial cannot catch it either —
+`chart.wantBars` is null unless a running time is asked for, so by default the
+record is however long the movement budgets and the tempo make it.
+
+`form.plan`'s bar budgets were cut to pay for it: 80/96/128/72 → 67/79/116/74.
+Re-measured, ten seeds: **18:24 – 20:57, mean 20:01** — tighter and better
+centred than the 18:53–21:20 the previous tempo was chosen for.
+
+**A tempo change in this genre is always two edits.**
+
+The four acts came out **4.6 / 4.5 / 4.6 / 4.5 minutes** — the evenest they have
+been, against 4.8 / 4.9 / 4.5 / 4.0 on the way through — with an intro and an
+outro tag either side making up the remaining ~1:50.
 
 **Mathcore is deliberately not given a faster fight.** Its own description is
 "rapid-fire shifts in meter, tempo, and texture", polymeter and "sudden stops" —

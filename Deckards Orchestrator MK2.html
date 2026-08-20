@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20q &middot; the walk home reaches further than the record does: sevenths, ninths and an eleventh on the way out</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20r &middot; the bars come back down to pay for the slower tempo: four acts of 4.5 minutes, twenty minutes again</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -25180,9 +25180,17 @@ GENRE.fantasysynth = (function(D){
      tempo range on a three-minute song moves the clock by seconds; on this one
      it moves it by five minutes, which is a whole movement.
 
-     92-106 is still walking-to-marching and is still a real draw. Measured,
-     same eight seeds: 18:53 to 21:20, mean 19:54. [CHOSEN, and the measurement
-     is the reason] */
+     92-106 was chosen on that measurement: same eight seeds, 18:53 to 21:20,
+     mean 19:54.
+
+     THAT WARNING THEN CAME TRUE ON THE NEXT CHANGE, which is why it is kept
+     above rather than tidied away. Dropping the band to 84-96 for the doom leg
+     did exactly what this paragraph says a tempo move does here: measured over
+     ten seeds the record went to 19:22-23:43, MEAN 21:45, an hour and three
+     quarters of extra music nobody asked for. The bar budgets in `form.plan`
+     had to come back down with it -- see the note there. Re-measured after
+     that: 18:24 to 20:57, mean 20:01, which is tighter and better centred than
+     the range this paragraph was written to defend. */
   /* ── AND THE RECORD'S CENTRE CAME DOWN WHEN THE FIRST HALF BECAME DOOM ──
      This read [92, 106], drawn as feel. The arc is NORMALISED -- the mean
      seconds per bar is whatever the drawn tempo gives -- so this number is not
@@ -25201,6 +25209,11 @@ GENRE.fantasysynth = (function(D){
      noise with this kit" line the research already drew. The average had to
      move, and it SHOULD move -- a record whose first half is doom and sludge
      does not average 99 BPM.
+
+     AND IT IS NOT FREE, exactly as the paragraph above warned: the sections are
+     fixed in BARS, so a slower record is a LONGER one. `form.plan`'s budgets
+     are cut to pay for this and the running time is measured back to 20:01
+     mean. A tempo change in this genre is always two edits.
      docs/genre-research/the-four-acts.md §5.2 ── */
   tempo: [84, 96],
   /* ── THE MODES ARE THE MOVEMENTS ───────────────────────────────────────
@@ -25432,9 +25445,23 @@ GENRE.fantasysynth = (function(D){
        deeper, return -- so this is that mechanism with the story the owner
        asked for, and one thing it never had: A MODE OF ITS OWN PER MOVEMENT.
 
-       The bar shares put the fight at fifteen minutes of twenty. They are not
-       equal because the tempo arc is not flat: the fight runs fastest, so its
-       five minutes cost MORE BARS than the others' do. */
+       The bar shares are not equal because the tempo arc is not flat: the
+       fight runs fastest, so its share of the clock costs MORE BARS than the
+       others' do, and the doom leg's costs fewer.
+
+       ── AND THEY WERE CUT WHEN THE TEMPO CAME DOWN ────────────────────────
+       These read 80 / 96 / 128 / 72. The sections here are fixed in BARS, so
+       dropping the genre's tempo to 84-96 for the doom leg made the record
+       LONGER by exactly the arithmetic the tempo comment warns about: measured
+       over ten seeds, 19:22 to 23:43, MEAN 21:45 against an ask of twenty
+       minutes. The length dial cannot catch it either -- `chart.wantBars` is
+       null unless a running time is asked for, so by default the record is
+       however long these budgets and this tempo make it.
+
+       Cut and re-measured, ten seeds: 18:24 to 20:57, MEAN 20:01, and the four
+       acts come out 4.6 / 4.5 / 4.6 / 4.5 minutes -- the evenest they have
+       been, against 4.8 / 4.9 / 4.5 / 4.0 on the way through. A tempo change in
+       this genre is always two edits. */
     plan: [
       /* ── AND THE POOLS ARE DISJOINT, WHICH IS NOT TIDINESS ────────────────
          `tempoArc` is keyed on a section's FUNCTION, so a function appearing in
@@ -25484,11 +25511,11 @@ GENRE.fantasysynth = (function(D){
          within a section of its number rather than being pinned to twice a
          length. */
       { name: "setting out",   pool: ["verse", "instrumental"],
-        bars: [80, 3, 8] },
+        bars: [67, 3, 8] },
       { name: "into the deep", pool: ["bridge", "verse"],
-        bars: [96, 3, 8], endOn: "bridge" },
+        bars: [79, 3, 8], endOn: "bridge" },
       { name: "the fight",     pool: ["chorus", "instrumental"],
-        bars: [128, 3, 8], endOn: "chorus" },
+        bars: [116, 3, 8], endOn: "chorus" },
       /* ── AND THE WALK HOME IS A LEG AGAIN, WHICH IT COULD NOT BE BEFORE ───
          It was the outro outright, for a good reason at the time: an outro can
          only be last and comes exactly once, and with `material` keyed on the
@@ -25501,7 +25528,7 @@ GENRE.fantasysynth = (function(D){
          in mixolydian, at a falling tempo -- the same material walking home,
          which is what the lift was built for. The outro shrinks to a tag. */
       { name: "the long way home", pool: ["verse", "instrumental"],
-        bars: [72, 3, 8] },
+        bars: [74, 3, 8] },
     ],
     /* ── THE TEMPO ARC, AND TWO OF ITS FOUR ACTS ARE SOURCED NOW ──────────
        The numbers are MULTIPLIERS and the map is normalised, so the arc
