@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20s &middot; a house-clean: 8 MiB of dead weight out, and the bank header stops describing a pack that is not there</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20t &middot; twelve instruments, one per recording, and this time it is true</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -13045,8 +13045,46 @@ function erangVoice(mach, fams, lanes){
       const setN = kitted(g) ? P(g, ev, g.drumMachine, "pSet", 0) : P(g, ev, mach, "set", 0);
       pick = ((li < 0 ? 0 : li) + Math.round(setN)) % list.length;
     } else {
-      pick = Math.max(0, Math.min(list.length - 1,
+      /* ══ A PITCHED MACHINE PLAYS ITS OWN RECORDING ═════════════════════════
+         The banner over INSTRUMENTS says "TWELVE INSTRUMENTS, ONE PER
+         RECORDING". It was not true, and this line is why.
+
+         `mach` was used ONLY as the panel key for the patch knob; the recording
+         came from `list[pick]`, where `list` is the family in bank order. Every
+         one of the twelve declares `patch: "any"`, which the file defines as
+         "draw evenly across the CONTROL'S OWN declared range" -- and all twelve
+         pass `erangControls(0, ...)`, so that range is `min:0, max:0`. `pick`
+         could only ever be 0, and every machine in a family played that
+         family's FIRST bank row.
+
+         MEASURED against the running program, six of twelve wrong:
+           erStringsMid, erStringsLow  ->  erStringsHi   (261.7 Hz)
+           erKeyMid,     erKeyHi       ->  erKeyLong     (524.8 Hz)
+           erLeadHi,     erLeadLow     ->  erLeadMid     (130.7 Hz)
+
+         AND THE TWO THAT HURT ARE THE LOW ONES. `erLeadLow` is fantasy synth's
+         heaviest drone option and `erStringsLow` is the walk home's pinned
+         drone; both declare C1 (32.7 Hz) and both were playing a C3 or C4
+         recording dragged down two to three octaves, formants and all. The
+         encoder's own NAME map says what they should be -- `Lead_07_C_Heavy
+         attack` "C1, hard front" and `strings_10_C` "C1" -- and the genre chose
+         `erLeadLow` for the drone on a measurement of audio that never played:
+         "erLeadLow carries 28.0% at 60-120 Hz".
+
+         The row named `mach` is the answer. The family list stays for the
+         length-fit fallback below, which is the one place another recording is
+         legitimately substituted. The patch read still RUNS unconditionally
+         [Law 3] so nothing downstream on that stream moves; its result is
+         simply not what picks the sample any more.
+
+         The knob itself is now redundant for a pitched machine and is left
+         alone rather than widened: `max: 0` means it never moved a note, so
+         removing or re-ranging it is a UI change with its own before-and-after
+         and does not belong in a defect fix. ══════════════════════════════ */
+      const byPatch = Math.max(0, Math.min(list.length - 1,
         Math.round(P(g, ev, mach, "patch", 0))));
+      const own = list.indexOf(mach);
+      pick = own >= 0 ? own : byPatch;
     }
     let name = list[pick];
     /* ══ AND A NOTE IS GIVEN A RECORDING LONG ENOUGH TO PLAY IT ═════════════
